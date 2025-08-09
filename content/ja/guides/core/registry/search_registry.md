@@ -1,5 +1,5 @@
 ---
-title: レジストリ項目を見つける
+title: Registry項目を見つける
 menu:
   default:
     identifier: ja-guides-core-registry-search_registry
@@ -7,26 +7,26 @@ menu:
 weight: 7
 ---
 
-[W&B レジストリアプリのグローバル検索バー]({{< relref path="./search_registry.md#search-for-registry-items" lang="ja" >}})を使用して、レジストリ、コレクション、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスを見つけます。W&B Python SDK を使用して、特定の条件に基づいて [レジストリ、コレクション、およびアーティファクトバージョンをフィルタリング]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ja" >}}) するために、MongoDBスタイルのクエリを使用することができます。
+[W&B Registry App のグローバル検索バー]({{< relref path="./search_registry.md#search-for-registry-items" lang="ja" >}}) を使って、Registry、コレクション、artifact バージョンのタグ、コレクションタグ、エイリアスを検索できます。W&B Python SDK では、MongoDB 形式のクエリを使って[Registry、コレクション、artifact バージョンをフィルタ]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ja" >}}) することもできます。
 
-表示権限がある項目のみが検索結果に表示されます。
+自分が閲覧権限を持つアイテムだけが検索結果に表示されます。
 
-## レジストリ項目の検索
+## Registryアイテムの検索
 
-レジストリ項目を検索するには:
+Registryアイテムを検索するには：
 
-1. W&B レジストリアプリに移動します。
-2. ページ上部の検索バーに検索語を指定します。Enter を押して検索します。
+1. W&B Registry App にアクセスします。
+2. ページ上部の検索バーに検索したいキーワードを入力し、Enter キーを押します。
 
-指定した語が既存のレジストリ、コレクション名、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスと一致する場合、検索バーの下に検索結果が表示されます。
+指定したキーワードが既存のRegistry、コレクション名、artifact バージョンタグ、コレクションタグ、エイリアスと一致する場合、検索結果が検索バーの下に表示されます。
 
-{{< img src="/images/registry/search_registry.gif" alt="レジストリ検索バーにテキストを入力してレジストリ項目をフィルタリングするユーザーの.gif" >}}
+{{< img src="/images/registry/search_registry.gif" alt="Searching within a Registry" >}}
 
-## MongoDBスタイルのクエリでレジストリ項目をクエリ
+## MongoDB形式のクエリでRegistryアイテムを検索
 
-[`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ja" >}}) と [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使用して、1つ以上の [MongoDBスタイルクエリ](https://www.mongodb.com/docs/compass/current/query/filter/) に基づいて、レジストリ、コレクション、およびアーティファクトバージョンをフィルタリングします。
+[`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ja" >}}) と [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使うことで、1つ以上の[MongoDB 形式のクエリ](https://www.mongodb.com/docs/compass/current/query/filter/)でRegistry、コレクション、artifact バージョンを柔軟に絞り込めます。
 
-以下の表は、フィルタリングしたい項目の種類に基づいて使用できるクエリの名前を示しています。
+下記の表は、各アイテムタイプごとに使用できるクエリ名の一覧です：
 
 | | クエリ名 |
 | ----- | ----- |
@@ -34,65 +34,66 @@ weight: 7
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
-以下のコード例は、一般的な検索シナリオを示しています。
+以下のコード例では、よくある検索シナリオを紹介します。
 
-`wandb.Api().registries()` メソッドを使用するには、まず W&B Python SDK （[`wandb`]({{< relref path="/ref/python/_index.md" lang="ja" >}})） ライブラリをインポートします。
+`wandb.Api().registries()` メソッドの利用には、まず W&B Python SDK（[`wandb`]({{< relref path="/ref/python/_index.md" lang="ja" >}})）ライブラリをインポートします。
+
 ```python
 import wandb
 
-# （オプション）読みやすさのために、wandb.Api() クラスのインスタンスを作成します。
+# （オプション）可読性向上のために wandb.Api() のインスタンスを生成
 api = wandb.Api()
 ```
 
-`model` という文字列を含むすべてのレジストリをフィルタリングします。
+`model` という文字列を含むすべてのRegistryをフィルタ：
 
 ```python
-# `model` という文字列を含むすべてのレジストリをフィルタリングします。
+# `model` という文字列を含む全てのRegistryをフィルタ
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# フィルタに一致するすべてのレジストリの反復可能なオブジェクトを返します
+# フィルタに一致する全てのRegistryがイテラブルで返る
 registries = api.registries(filter=registry_filters)
 ```
 
-レジストリに関係なく、コレクション名に `yolo` という文字列を含むすべてのコレクションをフィルタリングします。
+Registryを問わず、コレクション名に `yolo` を含むすべてのコレクションをフィルタ：
 
 ```python
-# レジストリに関係なく、コレクション名に 
-# `yolo` という文字列を含むすべてのコレクションをフィルタリングします。
+# Registryを問わず、コレクション名に `yolo` を含む
+# すべてのコレクションをフィルタ
 collection_filters = {
     "name": {"$regex": "yolo"}
 }
 
-# フィルタに一致するすべてのコレクションの反復可能なオブジェクトを返します
+# フィルタに一致する全てのコレクションがイテラブルで返る
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-レジストリに関係なく、コレクション名に `yolo` という文字列を含み、`cnn` というタグを持つすべてのコレクションをフィルタリングします。
+Registryを問わず、コレクション名に `yolo` を含み、タグとして `cnn` を持つすべてのコレクションをフィルタ：
 
 ```python
-# レジストリに関係なく、コレクション名に 
-# `yolo` という文字列を含み、`cnn` というタグを持つすべてのコレクションをフィルタリングします。
+# Registryを問わず、コレクション名に `yolo` を含み、
+# タグとして `cnn` を持つすべてのコレクションをフィルタ
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
 }
 
-# フィルタに一致するすべてのコレクションの反復可能なオブジェクトを返します
+# フィルタに一致する全てのコレクションがイテラブルで返る
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-`model` という文字列を含むすべてのアーティファクトバージョンを検索し、`image-classification` というタグまたは `latest` エイリアスを持っているもの：
+`model` という文字列を含み、タグ `image-classification` もしくは `production` エイリアスが付与された artifact バージョンをすべて取得：
 
 ```python
-# `model` という文字列を含むすべてのアーティファクトバージョンを検索し、
-# `image-classification` というタグまたは `latest` エイリアスを持っているもの。
+# `model` という文字列を含み、タグ `image-classification` または
+# `production` エイリアスが付与されたすべての artifact バージョンを検索
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 論理 $or 演算子を使用してアーティファクトバージョンをフィルタリングします
+# 論理 $or 演算子で artifact バージョンをフィルタ
 version_filters = {
     "$or": [
         {"tag": "image-classification"},
@@ -100,13 +101,13 @@ version_filters = {
     ]
 }
 
-# フィルタに一致するすべてのアーティファクトバージョンの反復可能なオブジェクトを返します
+# フィルタに一致するすべての artifact バージョンがイテラブルで返る
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-詳細については、MongoDB ドキュメントの [logical query operators](https://www.mongodb.com/docs/manual/reference/operator/query-logical/) を参照してください。
+[論理クエリ演算子についての詳細はMongoDBドキュメント](https://www.mongodb.com/docs/manual/reference/operator/query-logical/)を参照してください。
 
-前述のコードスニペット内の `artifacts` の反復可能なオブジェクトの各項目は、`Artifact` クラスのインスタンスです。つまり、各アーティファクトの属性（`name`、`collection`、`aliases`、`tags`、`created_at` など）にアクセスできます。
+先程のコードスニペット内の `artifacts` イテラブルの各アイテムは `Artifact` クラスのインスタンスであり、`name` や `collection`、`aliases`、`tags`、`created_at` など様々な属性にアクセスできます。
 
 ```python
 for art in artifacts:
@@ -116,24 +117,24 @@ for art in artifacts:
     print(f"tags attached to artifact: {art.tags}")
     print(f"artifact created at: {art.created_at}\n")
 ```
+artifact オブジェクトで利用可能な属性の一覧は [Artifacts Class]({{< relref path="/ref/python/sdk/classes/artifact/_index.md" lang="ja" >}}) をご覧ください。
 
-アーティファクトオブジェクトの属性の完全なリストについては、API Reference docs の [Artifacts Class]({{< relref path="/ref/python/artifact/_index.md" lang="ja" >}}) を参照してください。
 
-レジストリやコレクションに関係なく、2024-01-08 から 2025-03-04 の 13:10 UTC の間に作成されたすべてのアーティファクトバージョンをフィルタリングします。
+Registryやコレクションに依存せず、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての artifact バージョンをフィルタ：
 
 ```python
-# 2024-01-08 から 2025-03-04 の 13:10 UTC の間に作成された
-# すべてのアーティファクトバージョンを検索します。
+# 2024-01-08 から 2025-03-04 13:10 UTC の間に作成された
+# すべての artifact バージョンを検索
 
 artifact_filters = {
     "alias": "latest",
     "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
 }
 
-# フィルタに一致するすべてのアーティファクトバージョンの反復可能なオブジェクトを返します
+# フィルタに一致するすべての artifact バージョンがイテラブルで返る
 artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
-日付と時刻は `YYYY-MM-DD HH:MM:SS` の形式で指定します。日付のみでフィルタリングしたい場合は、時間、分、秒を省略することができます。
+日時は `YYYY-MM-DD HH:MM:SS` 形式で指定してください。日付のみでフィルタしたい場合、時・分・秒は省略できます。
 
-詳細は、MongoDB ドキュメントの [query comparisons](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/) を参照してください。
+[比較クエリについての詳細はMongoDBドキュメント](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/)をご覧ください。

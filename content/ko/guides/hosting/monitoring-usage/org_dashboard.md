@@ -1,64 +1,96 @@
 ---
-title: View organization dashboard
+title: 조직 활동 보기
 menu:
   default:
     identifier: ko-guides-hosting-monitoring-usage-org_dashboard
     parent: monitoring-and-usage
 ---
 
-{{% alert color="secondary" %}}
-Organization dashboard는 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 및 [자체 관리 인스턴스]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}})에서만 사용할 수 있습니다.
-{{% /alert %}}
+이 페이지에서는 W&B 조직 내에서 활동을 확인하는 다양한 방법을 안내합니다.
 
-## W&B의 조직 사용량 보기
-조직 대시보드를 사용하여 조직의 W&B 사용량에 대한 전체적인 보기를 얻을 수 있습니다. 대시보드는 탭별로 구성되어 있습니다.
+## 사용자 상태 및 활동 보기
 
-- **Users**: 이름, 이메일, Teams, 역할 및 마지막 활동을 포함하여 각 user에 대한 세부 정보를 나열합니다.
-- **Service accounts**: 서비스 계정에 대한 세부 정보를 나열하고 서비스 계정을 만들 수 있습니다.
-- **Activity**: 각 user의 활동에 대한 세부 정보를 나열합니다.
-- **Teams**: user 수 및 추적 시간을 포함하여 각 team에 대한 세부 정보를 나열하고 관리자가 team에 참여할 수 있도록 합니다.
-- **Billing**: 조직의 요금을 요약하고, 결제 Reports를 실행 및 내보낼 수 있으며, 라이선스 만료 시기와 같은 세부 정보를 보여줍니다.
-- **Settings**: 개인 정보 보호 및 인증과 관련된 사용자 정의 역할 및 설정을 구성할 수 있습니다.
+{{< tabpane text=true >}}
+{{% tab header="전용 / 자체 관리형" value="dedicated" %}}
+1. **Organization Dashboard**에 엑세스하려면 `https://<org-name>.io/org/dashboard/`로 이동하세요. `<org-name>`을 조직 이름으로 바꿔 입력합니다. 기본적으로 **Users** 탭이 열리며, 모든 사용자와 각 사용자에 대한 데이터가 표시됩니다.
+1. 사용자 상태로 리스트를 정렬하려면 **Last Active** 열 라벨을 클릭하세요. 각 사용자의 상태는 다음 중 하나입니다:
 
-## user 상태 보기
-**Users** 탭에는 모든 user와 각 user에 대한 데이터가 나열되어 있습니다. **Last Active** 열은 user가 초대를 수락했는지 여부와 user의 현재 상태를 보여줍니다.
+    * **Invite pending**: 관리자가 초대를 보냈으나 사용자가 아직 수락하지 않은 상태입니다.
+    * **Active**: 사용자가 초대를 수락하고 계정을 생성한 상태입니다.
+    * **-**: 이전에 활동적이었으나 최근 6개월 동안 활동하지 않은 사용자입니다.
+    * **Deactivated**: 관리자가 해당 사용자의 엑세스를 회수한 상태입니다.
+1. 특정 사용자의 최근 활동 세부 정보를 보려면 해당 사용자의 **Last Active** 필드 위에 마우스를 올려보세요. 툴팁이 나타나며, 사용자가 추가된 시기와 총 활동 일수를 알려줍니다.
 
-* **Invite pending**: 관리자가 초대를 보냈지만 user가 초대를 수락하지 않았습니다.
-* **Active**: user가 초대를 수락하고 계정을 만들었습니다.
-* **-**: user가 이전에 활성 상태였지만 지난 6개월 동안 활성 상태가 아닙니다.
-* **Deactivated**: 관리자가 user의 엑세스를 취소했습니다.
+    사용자가 _active_로 간주되는 경우는 다음과 같습니다:
+    - W&B에 로그인할 때
+    - W&B App의 어떤 페이지든 볼 때
+    - run을 로그할 때
+    - SDK로 experiment을 추적할 때
+    - W&B Server와 어떤 방식으로든 상호작용할 때
+{{% /tab %}}
 
-활동별로 user 목록을 정렬하려면 **Last Active** 열 머리글을 클릭합니다.
+{{% tab header="멀티테넌트 클라우드" value="saas" %}}
+1. [**Members** 페이지](https://wandb.ai/account-settings/wandb/members/)로 이동하세요. 이 페이지에서는 모든 사용자와 각 사용자에 대한 데이터를 확인할 수 있습니다.
+1. 사용자 상태로 리스트를 정렬하려면 **Last Active** 열 라벨을 클릭하세요. 각 사용자의 상태는 다음 중 하나입니다:
 
-## 조직에서 W&B를 사용하는 방법 보기 및 공유
-**Users** 탭에서 조직에서 W&B를 사용하는 방법에 대한 세부 정보를 CSV 형식으로 볼 수 있습니다.
+    * **Invite pending**: 관리자가 초대를 보냈으나 사용자가 아직 수락하지 않은 상태입니다.
+    * **Active**: 사용자가 초대를 수락하고 계정을 생성한 상태입니다.
+    * `-`: 이 하이픈은 사용자가 아직 이 조직 내에서 활동한 적이 없음을 의미합니다.
 
-1. **Invite new user** 버튼 옆에 있는 작업 `...` 메뉴를 클릭합니다.
-2. **Export as CSV**를 클릭합니다. 다운로드되는 CSV 파일에는 user 이름 및 이메일 어드레스, 마지막 활동 시간, 역할 등과 같은 조직의 각 user에 대한 세부 정보가 나열됩니다.
+    사용자가 _active_로 간주되는 경우는 조직 단위에서 _2025년 5월 8일 이후_ 감시 가능한 행동을 수행한 경우입니다. 전체 목록은 [Actions]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md#actions" lang="ko" >}})에서 확인할 수 있습니다.
+{{% /tab %}}
+{{< /tabpane >}}
 
-## user 활동 보기
-**Users** 탭의 **Last Active** 열을 사용하여 개별 user의 **Activity summary**를 가져옵니다.
+## 사용자 정보 내보내기
 
-1. **Last Active**별로 user 목록을 정렬하려면 열 이름을 클릭합니다.
-2. user의 마지막 활동에 대한 세부 정보를 보려면 user의 **Last Active** 필드 위에 마우스를 가져갑니다. user가 추가된 시기와 user가 총 며칠 동안 활성 상태였는지 보여주는 툴팁이 나타납니다.
+{{< tabpane text=true >}}
+{{% tab header="전용 또는 자체 관리형" value="dedicated" %}}
+**Users** 탭에서 조직이 W&B를 어떻게 사용하는지에 대한 세부 정보를 CSV 형식으로 내보낼 수 있습니다.
 
-다음과 같은 경우 user는 _active_ 상태입니다.
-- W&B에 로그인합니다.
-- W&B App에서 페이지를 봅니다.
-- Runs를 로그합니다.
-- SDK를 사용하여 experiment를 추적합니다.
-- 어떤 방식으로든 W&B Server와 상호 작용합니다.
+1. **Organization Dashboard**에서 `https://<org-name>.io/org/dashboard/`로 이동하세요. `<org-name>`을 조직 이름으로 바꿔 입력합니다. 기본적으로 **Users** 탭이 열립니다.
+1. **Invite new user user** 버튼 옆의 동작 `...` 메뉴를 클릭하세요.
+1. **Export as CSV**를 클릭하세요. 다운로드된 CSV 파일에는 각 사용자의 이름과 이메일 어드레스, 최근 활동 시각, 역할 등 조직 내 사용자에 관한 상세 정보가 포함됩니다.
+{{% /tab %}}
 
-## 시간 경과에 따른 활성 user 보기
-**Activity** 탭의 플롯을 사용하여 시간 경과에 따라 얼마나 많은 user가 활성 상태였는지에 대한 집계 보기를 얻을 수 있습니다.
+{{% tab header="멀티테넌트 클라우드" value="saas" %}}
+멀티테넌트 클라우드에서는 사용자 내보내기 기능을 제공하지 않습니다.
+{{% /tab %}}
+{{< /tabpane >}}
 
-1. **Activity** 탭을 클릭합니다.
-2. **Total active users** 플롯은 특정 기간 동안 얼마나 많은 user가 활성 상태였는지 보여줍니다 (기본값은 3개월).
-3. **Users active over time** 플롯은 특정 기간 동안 활성 user의 변동을 보여줍니다 (기본값은 6개월). 해당 날짜의 user 수를 보려면 포인트 위에 마우스를 가져갑니다.
+## 시간별 활동 보기
+이 섹션에서는 시간별 활동의 집계된 뷰를 확인하는 방법을 안내합니다.
 
-플롯의 기간을 변경하려면 드롭다운을 사용합니다. 다음을 선택할 수 있습니다.
-- Last 30 days
-- Last 3 months
-- Last 6 months
-- Last 12 months
-- All time
+{{< tabpane text=true >}}
+{{% tab header="전용 또는 자체 관리형" value="dedicated" %}}
+
+**Activity** 탭의 플롯을 사용해 일정 기간 동안 몇 명의 사용자가 활동했는지 집계 뷰를 볼 수 있습니다.
+
+1. **Organization Dashboard**에 엑세스하려면 `https://<org-name>.io/org/dashboard/`로 이동하세요. `<org-name>`을 조직 이름으로 바꿔 입력합니다.
+1. **Activity** 탭을 클릭하세요.
+1. **Total active users** 플롯은 일정 기간(기본 3개월) 동안 고유하게 활동한 사용자 수를 보여줍니다.
+1. **Users active over time** 플롯은 일정 기간(기본 6개월) 동안 활동한 사용자 수의 변동을 보여줍니다. 점 위에 마우스를 올려보면 해당 날짜의 사용자 수를 확인할 수 있습니다.
+
+플롯의 기간을 변경하려면 드롭다운을 사용하세요. 선택 가능한 옵션은 다음과 같습니다:
+- 최근 30일
+- 최근 3개월
+- 최근 6개월
+- 최근 12개월
+- 전체 기간
+
+{{% /tab %}}
+{{% tab header="멀티테넌트 클라우드" value="saas" %}}
+
+**Activity Dashboard**의 플롯을 사용해 시간에 따른 활동의 집계 뷰를 확인할 수 있습니다:
+
+1. 우측 상단의 사용자 프로필 아이콘을 클릭하세요.
+1. **Account** 아래에서 **Users**를 클릭하세요.
+1. 사용자 목록 위에 있는 Activity Panel을 확인하세요. 여기에는 다음이 표시됩니다:
+
+  - **Active user count** 배지는 일정 기간(기본 3개월) 동안 고유하게 활동한 사용자 수를 보여줍니다. 사용자가 _active_로 간주되는 경우는 조직 단위에서 감시 가능한 행동을 수행했을 때입니다. 전체 목록은 [Actions]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md#actions" lang="ko" >}})에서 확인할 수 있습니다.
+  - **Weekly active users** 플롯은 주별로 활동한 사용자 수를 보여줍니다.
+  - **Most active user** 리더보드는 해당 기간 동안 활동한 일수를 기준으로 가장 활동적인 상위 10명의 사용자를 나타내며, 각 사용자가 마지막으로 활동한 시점도 보여줍니다.
+
+1. 플롯이 보여주는 기간을 조정하려면 우측 상단의 날짜 선택기를 클릭하세요. 7일, 30일, 90일 중에서 선택할 수 있습니다. 기본값은 30일입니다. 모든 플롯은 동일한 기간을 공유하며 자동으로 업데이트됩니다.
+
+{{% /tab %}}
+{{< /tabpane >}}

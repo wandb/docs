@@ -1,31 +1,31 @@
 ---
-title: ジョブ入力を管理する
+title: ジョブ入力の管理
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-job-inputs
     parent: create-and-deploy-jobs
-url: /ja/guides/launch/job-inputs
+url: guides/launch/job-inputs
 ---
 
-Launch のコア体験は、ハイパーパラメーターやデータセットのような異なるジョブの入力を簡単に実験し、それらのジョブを適切なハードウェアにルーティングすることです。一度ジョブが作成されると、元の作成者以外のユーザーも W&B GUI または CLI を介してこれらの入力を調整できます。CLI または UI からジョブ入力を設定する方法については、[Enqueue jobs]({{< relref path="./add-job-to-queue.md" lang="ja" >}}) ガイドを参照してください。
+Launch のコア体験は、ハイパーパラメーターやデータセットなど、さまざまなジョブ入力を手軽に変更し、それらのジョブを適切なハードウェアに割り当てることです。一度ジョブが作成されると、元の作成者以外のユーザーも W&B GUI や CLI を通じてこれらの入力を調整できます。CLI や UI からジョブの入力値を設定する方法については、[ジョブをキューに追加]({{< relref path="./add-job-to-queue.md" lang="ja" >}})ガイドをご覧ください。
 
-このセクションでは、プログラム的にジョブの調整可能な入力を制御する方法を説明します。
+このセクションでは、ジョブの入力値をプログラム的に操作する方法について説明します。
 
-デフォルトでは、W&B ジョブは `Run.config` 全体をジョブの入力としてキャプチャしますが、Launch SDK は run config の選択したキーを制御したり、JSON または YAML ファイルを入力として指定するための機能を提供します。
+デフォルトでは、W&B ジョブは `Run.config` 全体をジョブの入力としてキャプチャしますが、Launch SDK を使うと run config の特定のキーだけを選択したり、JSON や YAML ファイルを入力として指定したりできる関数が提供されています。
 
 {{% alert %}}
-Launch SDK の関数は `wandb-core` を必要とします。詳細については、[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) を参照してください。
+Launch SDK の関数を使うには `wandb-core` が必要です。詳細は [`wandb-core` の README](https://github.com/wandb/wandb/blob/main/core/README.md) をご覧ください。
 {{% /alert %}}
 
 ## `Run` オブジェクトの再設定
 
-ジョブ内の `wandb.init` によって返される `Run` オブジェクトは、デフォルトで再設定可能です。Launch SDK は、ジョブの Launch 時に `Run.config` オブジェクトのどの部分が再設定可能かをカスタマイズする方法を提供します。
+ジョブ内で `wandb.init` が返す `Run` オブジェクトは、デフォルトで再設定可能です。Launch SDK を使うと、ジョブ起動時にどの `Run.config` オブジェクトの部分を再設定できるかをカスタマイズできます。
 
 ```python
 import wandb
 from wandb.sdk import launch
 
-# Launch SDK の使用に必要
+# Launch SDK の利用に必須
 wandb.require("core")
 
 config = {
@@ -46,24 +46,24 @@ with wandb.init(config=config):
         include=["trainer"], 
         exclude=["trainer.private"],
     )
-    # 等
+    # など
 ```
 
-関数 `launch.manage_wandb_config` は、`Run.config` オブジェクトに対する入力値をジョブに受け入れるように設定します。オプションの `include` および `exclude` オプションは、ネストされた config オブジェクト内のパスプレフィクスを取ります。例えば、ジョブがエンドユーザーに公開したくないオプションを持つライブラリを使用している場合に役立ちます。
+`launch.manage_wandb_config` 関数は、ジョブが `Run.config` オブジェクトに対して入力値を受け取れるよう設定します。オプションの `include` と `exclude` には、ネストされた設定オブジェクト内のパスのプレフィックスを渡せます。たとえば、特定のライブラリのオプションをエンドユーザーに公開したくない場合に便利です。
 
-`include` プレフィクスが提供されている場合、config 内で `include` プレフィクスと一致するパスのみが入力値を受け入れます。`exclude` プレフィクスが提供されている場合、`exclude` リストと一致するパスは入力値からフィルタリングされません。あるパスが `include` および `exclude` プレフィクスの両方に一致する場合、`exclude` プレフィクスが優先されます。
+`include` プレフィックスが指定された場合、そのプレフィックスに一致するパスのみが入力値を受け付けます。`exclude` プレフィックスが指定された場合は、該当するパスが入力値として除外されます。同じパスが `include` と `exclude` の両方に一致する場合は、`exclude` が優先されます。
 
-前述の例では、パス `["trainer.private"]` は `trainer` オブジェクトから `private` キーをフィルタリングし、パス `["trainer"]` は `trainer` オブジェクト下のすべてのキー以外をフィルタリングします。
+前述の例では、`["trainer.private"]` というパスで `trainer` オブジェクトの `private` キーを除外し、`["trainer"]` のパスで `trainer` オブジェクト配下以外のキーを除外します。
 
 {{% alert %}}
-名前に `.` を含むキーをフィルタリングするには、`\`-エスケープされた `.` を使用します。
+名前に `.` を含むキーを除外する場合は、`\` を使ってエスケープしてください。
 
-例えば、`r"trainer\.private"` は `trainer` オブジェクト下の `private` キーではなく `trainer.private` キーをフィルタリングします。
+例えば、`r"trainer\.private"` とすると、`trainer` オブジェクト内の `private` ではなく、`trainer.private` という名前のキーを除外します。
 
-上記の `r` プレフィクスは生文字列を示すことに注意してください。
+なお、上記で使っている `r` プレフィックスは Python の raw 文字列を表しています。
 {{% /alert %}}
 
-上記のコードがパッケージ化され、ジョブとして実行される場合、ジョブの入力タイプは次のようになります：
+このコードがパッケージ化されてジョブとして実行されると、ジョブの入力タイプは次のようになります：
 
 ```json
 {
@@ -76,38 +76,38 @@ with wandb.init(config=config):
 }
 ```
 
-W&B CLI または UI からジョブをローンチする際、ユーザーは 4 つの `trainer` パラメーターのみを上書きできます。
+W&B の CLI または UI からジョブを起動すると、ユーザーは `trainer` の4つのパラメータのみを上書きできます。
 
-### run config の入力へのアクセス
+### run config 入力値の取得
 
-run config の入力でローンチされたジョブは、`Run.config` を通じて入力値にアクセスできます。ジョブ コード内で `wandb.init` によって返された `Run` は、入力値を自動的に設定します。ジョブ コードのどこでも run config の入力値をロードするには、次を使用します：
-
+run config の入力値付きで起動されたジョブは、`Run.config` を通じて値にアクセスできます。ジョブコード内で `wandb.init` が返す `Run` には、入力値が自動でセットされています。ジョブ内の任意の場所で
 ```python
 from wandb.sdk import launch
 
 run_config_overrides = launch.load_wandb_config()
 ```
+のようにして run config の入力値を取得できます。
 
 ## ファイルの再設定
 
-Launch SDK はまた、ジョブ コードで設定ファイルに格納された入力値を管理する方法も提供します。これは、多くのディープラーニングや大規模な言語モデルのユースケースで一般的なパターンであり、例えばこの [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例やこの [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) などがあります。
+Launch SDK では、ジョブコード内の設定ファイルとして保存された入力値を管理する方法も提供しています。これは多くのディープラーニングや大規模言語モデルのユースケースでよく使われるパターンです（[torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例や [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) など）。
 
 {{% alert %}}
-[Sweeps on Launch]({{< relref path="../sweeps-on-launch.md" lang="ja" >}}) は、sweep パラメーターとしての設定ファイル入力の使用をサポートしていません。sweep パラメーターは `Run.config` オブジェクトで制御する必要があります。
+[Launch での Sweeps]({{< relref path="../sweeps-on-launch.md" lang="ja" >}}) では、設定ファイルの入力値をスイープパラメーターとして利用することはできません。スイープパラメーターは必ず `Run.config` オブジェクト経由で制御してください。
 {{% /alert %}}
 
-`launch.manage_config_file` 関数を使用して、設定ファイルを Launch ジョブの入力として追加し、ジョブをローンチする際に設定ファイル内の値の編集アクセスを提供します。
+`launch.manage_config_file` 関数を使うと、設定ファイルを Launch ジョブの入力として追加でき、ジョブ起動時にその設定ファイル内の値を編集できるようになります。
 
-デフォルトでは、`launch.manage_config_file` が使用されると run config 入力はキャプチャされません。`launch.manage_wandb_config` を呼び出すことで、この振る舞いを上書きします。
+デフォルトでは、`launch.manage_config_file` を使うと run config 入力値はキャプチャされません。`launch.manage_wandb_config` を呼び出すとこの振る舞いを上書きします。
 
-以下の例を考えてみましょう：
+例を見てみましょう：
 
 ```python
 import yaml
 import wandb
 from wandb.sdk import launch
 
-# Launch SDK の使用に必要
+# Launch SDK の利用に必須
 wandb.require("core")
 
 launch.manage_config_file("config.yaml")
@@ -116,11 +116,11 @@ with open("config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 with wandb.init(config=config):
-    # 等
+    # など
     pass
 ```
 
-コードが隣接するファイル `config.yaml` と一緒に実行されていると想像してください：
+このコードが、隣接する `config.yaml` ファイルとともに実行されたと仮定します。
 
 ```yaml
 learning_rate: 0.01
@@ -129,37 +129,35 @@ model: resnet
 dataset: cifar10
 ```
 
-`launch.manage_config_file` の呼び出しは、`config.yaml` ファイルをジョブの入力として追加し、W&B CLI または UI からローンチする際に再設定可能にします。
+`launch.manage_config_file` を呼ぶことで、`config.yaml` ファイルがジョブの入力として追加され、W&B CLI や UI から起動する際に再設定できるようになります。
 
-`launch.manage_wandb_config` と同じようにして、設定ファイルに対する許容入力キーをフィルタリングするために `include` と `exclude` のキーワード引数を使用できます。
+`include` および `exclude` キーワード引数は、`launch.manage_wandb_config` と同様に、設定ファイル内の入力キーを制限するために使えます。
 
-### 設定ファイルの入力へのアクセス
+### 設定ファイル入力値の取得
 
-Launch によって作成された run で `launch.manage_config_file` が呼び出されると、`launch` は設定ファイルの内容を入力値でパッチします。修正された設定ファイルはジョブ 環境で利用可能です。
-
-{{% alert color="secondary" %}}
-ジョブ コードで最初に設定ファイルを読み取る前に `launch.manage_config_file` を呼び出すことで、入力値が使用されることを確実にします。
-{{% /alert %}}
-
-
-### ジョブの launch ドロワー UI のカスタマイズ
-
-ジョブの入力スキーマを定義することで、ジョブをローンチするためのカスタム UI を作成できます。ジョブのスキーマを定義するには、`launch.manage_wandb_config` または `launch.manage_config_file` の呼び出しにそれを含めます。スキーマは、[JSON Schema](https://json-schema.org/understanding-json-schema/reference) の形での Python 辞書または Pydantic モデル クラスのいずれかです。
+Launch で作成した run で `launch.manage_config_file` を呼ぶと、`launch` が設定ファイルの内容を入力値でパッチします。このパッチ済みファイルはジョブの環境内で利用できます。
 
 {{% alert color="secondary" %}}
-ジョブ入力スキーマは入力を検証するために使用されません。それらは launch ドロワー内の UI を定義するためだけに使用されます。
+ジョブコード内で設定ファイルを読む前に `launch.manage_config_file` を必ず呼び、入力値が反映されるようにしてください。
 {{% /alert %}}
 
+### ジョブの launch drawer UI をカスタマイズ
+
+ジョブの入力用スキーマを定義することで、ジョブ起動時のカスタム UI を作成できます。スキーマは `launch.manage_wandb_config` または `launch.manage_config_file` を呼ぶ際に指定します。スキーマは [JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python dict または Pydantic モデルクラスで指定できます。
+
+{{% alert color="secondary" %}}
+ジョブ入力のスキーマは値のバリデーションには使われません。launch drawer 上の UI を定義するためだけに使用されます。
+{{% /alert %}}
 
 {{< tabpane text=true >}}
 {{% tab "JSON schema" %}}
-次の例は、以下のプロパティを持つスキーマを示しています：
+次の例では、以下のプロパティを定義したスキーマを示しています：
 
-- `seed`, 整数
-- `trainer`, いくつかのキーが指定された辞書：
-  - `trainer.learning_rate`, ゼロより大きくなければならない浮動小数点数
-  - `trainer.batch_size`, 16, 64, 256 のいずれかでなければならない整数
-  - `trainer.dataset`, `cifar10` または `cifar100` のいずれかでなければならない文字列
+- `seed`：整数
+- `trainer`：以下のキーを持つ辞書
+  - `trainer.learning_rate`：0より大きい float
+  - `trainer.batch_size`：16, 64, 256 のいずれかの整数
+  - `trainer.dataset`：`cifar10` または `cifar100` のいずれかの文字列
 
 ```python
 schema = {
@@ -167,7 +165,7 @@ schema = {
     "properties": {
         "seed": {
           "type": "integer"
-        },
+        }
         "trainer": {
             "type": "object",
             "properties": {
@@ -178,12 +176,12 @@ schema = {
                 },
                 "batch_size": {
                     "type": "integer",
-                    "description": "バッチごとのサンプル数",
+                    "description": "バッチあたりのサンプル数",
                     "enum": [16, 64, 256]
                 },
                 "dataset": {
                     "type": "string",
-                    "description": "使用するデータセットの名前",
+                    "description": "使用するデータセット名",
                     "enum": ["cifar10", "cifar100"]
                 }
             }
@@ -198,28 +196,28 @@ launch.manage_wandb_config(
 )
 ```
 
-一般的に、以下の JSON Schema 属性がサポートされています：
+一般的に、サポートされている JSON Schema 属性は次の通りです：
 
-| 属性 | 必須 |  注釈 |
+| 属性名 | 必須 | メモ |
 | --- | --- | --- |
-| `type` | Yes | `number`, `integer`, `string`, `object` のいずれかでなければなりません |
-| `title` | No | プロパティの表示名を上書きします |
-| `description` | No | プロパティのヘルプテキストを提供します |
-| `enum` | No | フリーフォームのテキスト入力の代わりにドロップダウン選択を作成します |
-| `minimum` | No | `type` が `number` または `integer` のときのみ許可されます |
-| `maximum` | No | `type` が `number` または `integer` のときのみ許可されます |
-| `exclusiveMinimum` | No | `type` が `number` または `integer` のときのみ許可されます |
-| `exclusiveMaximum` | No | `type` が `number` または `integer` のときのみ許可されます |
-| `properties` | No | `type` が `object` のとき、ネストされた設定を定義するために使用します |
+| `type` | Yes | `number`、`integer`、`string`、`object` のいずれか |
+| `title` | No | プロパティの表示名を上書き |
+| `description` | No | プロパティの補足テキスト |
+| `enum` | No | 自由記述のテキスト入力の代わりにプルダウン選択を作成 |
+| `minimum` | No | `type` が `number` または `integer` の場合にのみ許可 |
+| `maximum` | No | `type` が `number` または `integer` の場合にのみ許可 |
+| `exclusiveMinimum` | No | `type` が `number` または `integer` の場合にのみ許可 |
+| `exclusiveMaximum` | No | `type` が `number` または `integer` の場合にのみ許可 |
+| `properties` | No | `type` が `object` の場合、ネストされた設定を定義 |
 {{% /tab %}}
 {{% tab "Pydantic model" %}}
-次の例は、以下のプロパティを持つスキーマを示しています：
+次の例では、以下のプロパティを定義したスキーマを示しています：
 
-- `seed`, 整数
-- `trainer`, いくつかのサブ属性が指定されたスキーマ：
-  - `trainer.learning_rate`, ゼロより大きくなければならない浮動小数点数
-  - `trainer.batch_size`, 1 から 256 までの範囲でなければならない整数
-  - `trainer.dataset`, `cifar10` または `cifar100` のいずれかでなければならない文字列
+- `seed`：整数
+- `trainer`：以下のサブ属性を持つスキーマ
+  - `trainer.learning_rate`：0より大きい float
+  - `trainer.batch_size`：1～256 の範囲の整数
+  - `trainer.dataset`：`cifar10` または `cifar100` のいずれかの文字列
 
 ```python
 class DatasetEnum(str, Enum):
@@ -228,8 +226,8 @@ class DatasetEnum(str, Enum):
 
 class Trainer(BaseModel):
     learning_rate: float = Field(gt=0, description="モデルの学習率")
-    batch_size: int = Field(ge=1, le=256, description="バッチごとのサンプル数")
-    dataset: DatasetEnum = Field(title="Dataset", description="使用するデータセットの名前")
+    batch_size: int = Field(ge=1, le=256, description="バッチあたりのサンプル数")
+    dataset: DatasetEnum = Field(title="データセット", description="使用するデータセット名")
 
 class Schema(BaseModel):
     seed: int
@@ -242,7 +240,7 @@ launch.manage_wandb_config(
 )
 ```
 
-クラスのインスタンスを使用することもできます：
+クラスインスタンスも指定可能です：
 
 ```python
 t = Trainer(learning_rate=0.01, batch_size=32, dataset=DatasetEnum.cifar10)
@@ -256,6 +254,6 @@ launch.manage_wandb_config(
 {{% /tab %}}
 {{< /tabpane >}}
 
-ジョブ入力スキーマを追加すると、launch ドロワーに構造化されたフォームが作成され、ジョブのローンチが容易になります。
+ジョブ入力用スキーマを追加すると、launch drawer に構造化されたフォームが作成され、より手軽にジョブを起動できます。
 
-{{< img src="/images/launch/schema_overrides.png" alt="" >}}
+{{< img src="/images/launch/schema_overrides.png" alt="Job input schema form" >}}

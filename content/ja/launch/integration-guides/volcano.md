@@ -1,40 +1,40 @@
 ---
-title: Volcano でマルチノードジョブをローンチする
+title: Volcano でマルチノードジョブをローンンチする
 menu:
   launch:
     identifier: ja-launch-integration-guides-volcano
     parent: launch-integration-guides
-url: /ja/tutorials/volcano
+url: tutorials/volcano
 ---
 
-このチュートリアルでは、Kubernetes上でW&BとVolcanoを使用してマルチノードトレーニングのジョブをローンチするプロセスを説明します。
+このチュートリアルでは、W&B と Volcano を使って Kubernetes 上でマルチノードのトレーニングジョブをローンンチする方法を案内します。
 
 ## 概要
 
-このチュートリアルでは、W&B Launchを使用してKubernetes上でマルチノードジョブを実行する方法を学びます。私たちが従うステップは以下の通りです：
+このチュートリアルでは、W&B Launch を利用して Kubernetes 上でマルチノードジョブを実行する手順を学びます。流れは以下の通りです。
 
-- Weights & BiasesのアカウントとKubernetesクラスターを確認する。
-- Volcanoジョブ用のローンチキューを作成する。
-- KubernetesクラスターにLaunchエージェントをデプロイする。
-- 分散トレーニングジョブを作成する。
-- 分散トレーニングをローンチする。
+- W&B アカウントと Kubernetes クラスターを用意する
+- volcano ジョブ用の launch queue を作成する
+- Launch エージェントを Kubernetes クラスターにデプロイする
+- 分散トレーニングジョブを作成する
+- 分散トレーニングをローンンチする
 
 ## 必要条件
 
-開始する前に必要なもの：
+始める前に、以下が必要です。
 
-- Weights & Biasesアカウント
-- Kubernetesクラスター
+- W&B アカウント
+- Kubernetes クラスター
 
-## ローンチキューを作成する
+## launch queue の作成
 
-最初のステップはローンチキューを作成することです。[wandb.ai/launch](https://wandb.ai/launch)にアクセスし、画面の右上隅にある青い**Create a queue**ボタンを押します。右側からキュー作成ドロワーがスライドアウトします。エンティティを選択し、名前を入力し、キューのタイプとして**Kubernetes**を選択します。
+まず初めに launch queue を作成します。[wandb.ai/launch](https://wandb.ai/launch) へアクセスし、画面右上の青い **Create a queue** ボタンをクリックします。右側から queue 作成用のドロワーがスライドして開くので、Entity を選び、名前を入力し、queue のタイプとして **Kubernetes** を選択してください。
 
-設定セクションで、[volcanoのジョブ](https://volcano.sh/en/docs/vcjob/)のテンプレートを入力します。このキューからローンチされたすべてのrunはこのジョブ仕様を使用して作成されるため、ジョブをカスタマイズしたい場合はこの設定を変更できます。
+設定セクションでは、[volcano job](https://volcano.sh/en/docs/vcjob/) テンプレートを入力します。この queue からローンンチされるすべての run はこのジョブ定義で作成されるため、必要に応じて設定内容を調整してカスタマイズできます。
 
-この設定ブロックには、Kubernetesジョブ仕様、volcanoジョブ仕様、または他のカスタムリソース定義（CRD）をローンチするために使用することができます。[設定ブロック内のマクロ]({{< relref path="/launch/set-up-launch/" lang="ja" >}})を利用して、この仕様の内容を動的に設定することができます。
+この設定ブロックには Kubernetes job スペック、volcano job スペック、または他の任意のカスタムリソース定義（CRD）を指定できます。[設定ブロック内でマクロを利用することで]({{< relref path="/launch/set-up-launch/" lang="ja" >}})、この spec の内容を動的に制御できます。
 
-このチュートリアルでは、[volcanoのpytorchプラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md)を利用したマルチノードpytorchトレーニングの設定を使用します。以下の設定をYAMLまたはJSONとしてコピーして貼り付けることができます：
+本チュートリアルでは、[volcano の pytorch プラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md)を利用したマルチノード pytorch トレーニング用の設定例を使います。以下の設定を YAML または JSON 形式でコピー&ペーストしてください。
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
@@ -150,35 +150,35 @@ apiVersion: batch.volcano.sh/v1alpha1
 {{% /tab %}}
 {{< /tabpane >}}
 
-ドロワーの下部にある**Create queue**ボタンをクリックしてキューの作成を完了します。
+ドロワー下部の **Create queue** ボタンを押して queue の作成を完了します。
 
-## Volcanoをインストールする
+## Volcano のインストール
 
-KubernetesクラスターにVolcanoをインストールするには、[公式インストールガイド](https://volcano.sh/en/docs/installation/)に従ってください。
+Kubernetes クラスターに Volcano をインストールするには、[公式インストールガイド](https://volcano.sh/en/docs/installation/)の手順に従ってください。
 
-## ローンチエージェントをデプロイする
+## Launch エージェントのデプロイ
 
-キューを作成した後は、キューからジョブを引き出して実行するためにローンチエージェントをデプロイする必要があります。これを行う最も簡単な方法は、W&Bの公式`helm-charts`リポジトリから[`launch-agent`チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)を使用することです。READMEに記載された指示に従って、Kubernetesクラスターにチャートをインストールし、エージェントが先ほど作成したキューをポーリングするように設定してください。
+queue を作成したら、その queue からジョブを取得・実行するための launch エージェントをデプロイする必要があります。最も簡単な方法は、[W&B 公式の `helm-charts` リポジトリ内の `launch-agent` チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を利用することです。README の手順に従って Kubernetes クラスターにチャートをインストールし、エージェントが先ほど作成した queue をポーリングするように設定しましょう。
 
-## トレーニングジョブを作成する
+## トレーニングジョブの作成
 
-Volcanoのpytorchプラグインは、pytorch DPPが機能するために必要な環境変数（`MASTER_ADDR`、`RANK`、`WORLD_SIZE`など）を自動で設定します。ただし、pytorchコードがDDPを正しく使用している場合に限ります。カスタムのPythonコードでDDPを使用する方法の詳細については、[pytorchのドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)を参照してください。
+Volcano の pytorch プラグインでは、pytorch DDP 用に必要な環境変数（`MASTER_ADDR`, `RANK`, `WORLD_SIZE` など）が自動的に設定されます。あなたの pytorch コードで DDP を正しく利用していれば問題ありません。カスタム python コードでの DDP 利用方法については、[pytorch のドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)を参照してください。
 
 {{% alert %}}
-Volcanoのpytorchプラグインは、[PyTorch Lightning `Trainer`を使用したマルチノードトレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes)とも互換性があります。
+Volcano の pytorch プラグインは、[PyTorch Lightning の `Trainer` を使ったマルチノードトレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes)にも対応しています。
 {{% /alert %}}
 
-## ローンチ 🚀
+## Launch
 
-キューとクラスターのセットアップが完了したので、分散トレーニングを開始する時がきました。最初に、Volcanoのpytorchプラグインを使用してランダムデータ上でシンプルなマルチレイヤパーセプトロンをトレーニングする[a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)を使用します。このジョブのソースコードは[こちら](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test)で見つけることができます。
+queue とクラスターのセットアップが完了したので、いよいよ分散トレーニングをローンンチします。まずは、[このジョブ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)（volcano の pytorch プラグインを使ってランダムデータで多層パーセプトロンをトレーニングします）を使いましょう。ジョブのソースコードは[こちら](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test)で確認できます。
 
-このジョブをローンチするには、[ジョブのページ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)にアクセスし、画面の右上にある**Launch**ボタンをクリックします。ジョブをローンチするキューを選択するように促されます。
+ジョブをローンンチするには、[ジョブのページ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) にアクセスし、画面右上の **Launch** ボタンをクリックします。どの queue からローンンチするか選択を求められます。
 
-{{< img src="/images/launch/launching_multinode_job.png" alt="" >}}
+{{< img src="/images/launch/launching_multinode_job.png" alt="Multi-node job launch" >}}
 
-1. ジョブのパラメータを好きなように設定し、
-2. 先ほど作成したキューを選択します。
-3. **Resource config**セクションでVolcanoジョブを変更してジョブのパラメータを変更します。例えば、`worker`タスクの`replicas`フィールドを変更することによってワーカーの数を変更できます。
-4. **Launch**をクリック 🚀
+1. ジョブのパラメータを好きなように設定します。
+2. 先ほど作成した queue を選択します。
+3. **Resource config** セクション内の volcano ジョブを編集して、ジョブのパラメータを変更します。たとえば `worker` タスクの `replicas` を変更するとワーカー数を調整できます。
+4. **Launch** をクリックします。
 
-W&B UIからジョブの進捗をモニターし、必要に応じてジョブを停止できます。
+W&B の UI から進捗の監視や、必要に応じてジョブの停止も可能です。

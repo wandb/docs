@@ -1,5 +1,5 @@
 ---
-title: 3D 脳腫瘍セグメンテーション with MONAI
+title: MONAI を使用した 3D 脳腫瘍セグメンテーション
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-monai_3d_segmentation
@@ -9,27 +9,27 @@ weight: 10
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/monai/3d_brain_tumor_segmentation.ipynb" >}}
 
-このチュートリアルでは、[MONAI](https://github.com/Project-MONAI/MONAI)を使用して、マルチラベルの3D脳腫瘍セグメンテーションタスクのトレーニングワークフローを構築し、[Weights & Biases](https://wandb.ai/site)の実験管理とデータ可視化機能を使用する方法をデモンストレーションします。チュートリアルには以下の機能が含まれています。
+このチュートリアルでは、[MONAI](https://github.com/Project-MONAI/MONAI) を活用して、多ラベル3D脳腫瘍セグメンテーションタスクのトレーニングワークフローを構築し、[W&B](https://wandb.ai/site) の実験管理やデータ可視化機能を利用する方法を解説します。チュートリアルでは、以下の内容を扱います。
 
-1. Weights & Biasesのrunを初期化し、再現性を確保するためにrunに関連するすべての設定を同期。
-2. MONAIトランスフォームAPI：
-    1. 辞書形式のデータ用のMONAIトランスフォーム。
-    2. MONAIの`transforms` APIに従った新しいトランスフォームの定義方法。
-    3. データ拡張のための強度をランダムに調整する方法。
-3. データのロードと可視化：
-    1. メタデータで`Nifti`画像をロードし、画像のリストをロードしてスタック。
-    2. IOとトランスフォームをキャッシュしてトレーニングと検証を加速。
-    3. `wandb.Table`とWeights & Biasesでインタラクティブなセグメンテーションオーバーレイを用いてデータを可視化。
-4. 3D `SegResNet`モデルのトレーニング
-    1. MONAIの`networks`, `losses`, `metrics` APIsを使用。
-    2. PyTorchトレーニングループを使用して3D `SegResNet`モデルをトレーニング。
-    3. Weights & Biasesを使用してトレーニングの実験管理を追跡。
-    4. Weights & Biases上でモデルのチェックポイントをモデルアーティファクトとしてログとバージョン管理。
-5. `wandb.Table`とWeights & Biasesでインタラクティブなセグメンテーションオーバーレイを使用して、検証データセット上の予測を可視化して比較。
+1. W&B Run を初期化し、再現性のために run に紐づく全ての config を同期します。
+2. MONAI の transform API の利用例:
+   1. 辞書形式データの MONAI Transforms 利用例
+   2. MONAI の `transforms` API に従った新しい transform の定義方法
+   3. データ拡張のため、強度をランダムに調整する方法
+3. データのロードと可視化:
+   1. `Nifti` 画像とメタデータの読み込み、複数画像のロードとスタック
+   2. IOとtransformのキャッシュによるトレーニング・検証の高速化
+   3. `wandb.Table` と W&B のインタラクティブなセグメンテーションオーバーレイによるデータ可視化
+4. 3D `SegResNet` モデルのトレーニング
+   1. MONAI の `networks`, `losses`, `metrics` API 利用例
+   2. PyTorch トレーニングループによる 3D `SegResNet` モデルの学習
+   3. W&B を活用したトレーニング実験のトラッキング
+   4. モデルチェックポイントを W&B の model artifact として記録・バージョン管理
+5. `wandb.Table` とインタラクティブなセグメンテーションオーバーレイを用いた検証用データセットでの予測可視化と比較
 
 ## セットアップとインストール
 
-まず、MONAIとWeights & Biasesの最新バージョンをインストールします。
+まず、MONAI と W&B の最新版をインストールします。
 
 ```python
 !python -c "import monai" || pip install -q -U "monai[nibabel, tqdm]"
@@ -70,70 +70,65 @@ from monai.utils import set_determinism
 import torch
 ```
 
-次に、ColabインスタンスをW&Bで認証します。
+続いて、Colab インスタンスから W&B の利用認証を行います。
 
 ```python
 wandb.login()
 ```
 
-## W&B Runの初期化
+## W&B Run の初期化
 
-新しいW&B runを開始して実験を追跡します。
-
-```python
-wandb.init(project="monai-brain-tumor-segmentation")
-```
-
-適切な設定システムの使用は、再現性のある機械学習のための推奨されるベストプラクティスです。W&Bを使用して、各実験のハイパーパラメーターを追跡できます。
+新しい W&B Run を開始し、実験のトラッキングを開始します。再現性のある機械学習には適切な config システムの利用が推奨されています。W&B を使えば、各実験ごとのハイパーパラメーターも記録できます。
 
 ```python
-config = wandb.config
-config.seed = 0
-config.roi_size = [224, 224, 144]
-config.batch_size = 1
-config.num_workers = 4
-config.max_train_images_visualized = 20
-config.max_val_images_visualized = 20
-config.dice_loss_smoothen_numerator = 0
-config.dice_loss_smoothen_denominator = 1e-5
-config.dice_loss_squared_prediction = True
-config.dice_loss_target_onehot = False
-config.dice_loss_apply_sigmoid = True
-config.initial_learning_rate = 1e-4
-config.weight_decay = 1e-5
-config.max_train_epochs = 50
-config.validation_intervals = 1
-config.dataset_dir = "./dataset/"
-config.checkpoint_dir = "./checkpoints"
-config.inference_roi_size = (128, 128, 64)
-config.max_prediction_images_visualized = 20
+with wandb.init(project="monai-brain-tumor-segmentation") as run:
+
+    config = run.config
+    config.seed = 0
+    config.roi_size = [224, 224, 144]
+    config.batch_size = 1
+    config.num_workers = 4
+    config.max_train_images_visualized = 20
+    config.max_val_images_visualized = 20
+    config.dice_loss_smoothen_numerator = 0
+    config.dice_loss_smoothen_denominator = 1e-5
+    config.dice_loss_squared_prediction = True
+    config.dice_loss_target_onehot = False
+    config.dice_loss_apply_sigmoid = True
+    config.initial_learning_rate = 1e-4
+    config.weight_decay = 1e-5
+    config.max_train_epochs = 50
+    config.validation_intervals = 1
+    config.dataset_dir = "./dataset/"
+    config.checkpoint_dir = "./checkpoints"
+    config.inference_roi_size = (128, 128, 64)
+    config.max_prediction_images_visualized = 20
 ```
 
-また、ランダムシードを設定して、モジュールの決定的なトレーニングを有効または無効にする必要があります。
+また、ランダムシードを固定し、モジュールの決定論的な挙動を有効・無効化できます。
 
 ```python
 set_determinism(seed=config.seed)
 
-# ディレクトリを作成
+# ディレクトリの作成
 os.makedirs(config.dataset_dir, exist_ok=True)
 os.makedirs(config.checkpoint_dir, exist_ok=True)
 ```
 
 ## データのロードと変換
 
-ここでは、`monai.transforms` APIを使用して、マルチクラスラベルをワンホット形式でのマルチラベルセグメンテーションタスクに変換するカスタムトランスフォームを作成します。
+ここでは、`monai.transforms` API を使い、マルチクラスラベルを one-hot 形式のマルチラベルセグメンテーションタスクへ変換するカスタム transform を作成します。
 
 ```python
 class ConvertToMultiChannelBasedOnBratsClassesd(MapTransform):
     """
-    脳腫瘍クラスに基づいてラベルをマルチチャネルに変換します：
-    ラベル 1 は腫瘍周辺の浮腫
-    ラベル 2 はGD 増強腫瘍
-    ラベル 3 は壊死および非増強腫瘍コア
-    考えられるクラスはTC (腫瘍コア)、WT (全腫瘍)
-    ET (増強腫瘍)です。
+    brats クラスに基づいてラベルをマルチチャンネル化します:
+    label 1: 浮腫（peritumoral edema）
+    label 2: 増強腫瘍（GD-enhancing tumor）
+    label 3: 壊死/非増強腫瘍中核（necrotic/non-enhancing tumor core）
+    TC（腫瘍コア）・WT（全腫瘍）・ET（増強腫瘍）クラスを構成可能
 
-    参考：https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb
+    参考: https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb
 
     """
 
@@ -141,26 +136,26 @@ class ConvertToMultiChannelBasedOnBratsClassesd(MapTransform):
         d = dict(data)
         for key in self.keys:
             result = []
-            # label 2 と label 3 を組み合わせて TC を構築
+            # ラベル2とラベル3を結合してTCを作成
             result.append(torch.logical_or(d[key] == 2, d[key] == 3))
-            # label 1, 2 と 3 を組み合わせて WT を構築
+            # ラベル1,2,3を結合してWTを作成
             result.append(
                 torch.logical_or(
                     torch.logical_or(d[key] == 2, d[key] == 3), d[key] == 1
                 )
             )
-            # label 2 は ET
+            # ラベル2はET
             result.append(d[key] == 2)
             d[key] = torch.stack(result, axis=0).float()
         return d
 ```
 
-次に、トレーニングデータセットと検証データセット用にそれぞれトランスフォームを設定します。
+次に、トレーニング用・検証用データセットそれぞれに適用する transform を定義します。
 
 ```python
 train_transform = Compose(
     [
-        # 4つの Nifti 画像を読み込み、それらをスタック
+        # 4つの Nifti 画像を読み込み、結合
         LoadImaged(keys=["image", "label"]),
         EnsureChannelFirstd(keys="image"),
         EnsureTyped(keys=["image", "label"]),
@@ -199,11 +194,11 @@ val_transform = Compose(
 )
 ```
 
-### データセット
+### データセットについて
 
-この実験で使用されるデータセットは、http://medicaldecathlon.com/ から入手可能です。マルチモーダルおよびマルチサイトMRIデータ（FLAIR, T1w, T1gd, T2w）を使用して、膠芽腫、壊死/活動中の腫瘍、および浮腫をセグメント化します。データセットは750個の4Dボリューム（484 トレーニング + 266 テスト）で構成されています。
+この実験で使用するデータセットは http://medicaldecathlon.com/ から取得できます。複数モダリティ・複数施設のMRIデータ（FLAIR, T1w, T1gd, T2w）を用いてグリオーマの腫瘍・壊死部・浮腫領域をセグメント化します。データセットは 750 の4Dボリューム（学習用484 + テスト用266）です。
 
-`DecathlonDataset` を使用してデータセットを自動的にダウンロードし、抽出します。MONAI `CacheDataset` を継承し、`cache_num=N` を設定してトレーニングのために `N` アイテムをキャッシュし、メモリサイズに応じてデフォルト引数を使用して検証のためにすべてのアイテムをキャッシュできます。
+`DecathlonDataset` を用いることで、データセットを自動でダウンロード・展開できます。これは MONAI の `CacheDataset` を継承しているため、`cache_num=N` でN個をキャッシュさせたり、検証用にはデフォルト引数を利用し全部キャッシュするなど、メモリ状況に応じて制御できます。
 
 ```python
 train_dataset = DecathlonDataset(
@@ -227,14 +222,14 @@ val_dataset = DecathlonDataset(
 ```
 
 {{% alert %}}
-**注意:** `train_transform` を `train_dataset` に適用する代わりに、`val_transform` をトレーニングおよび検証データセットの両方に適用します。これは、トレーニングの前に、データセットの2つのスプリットからのサンプルを視覚化するためです。
+**注意:** `train_transform` を `train_dataset` に適用するのではなく、トレーニングと検証どちらのデータセットにも `val_transform` を使ってください。これは、実際のトレーニングに入る前に双方のスプリットデータのサンプルを可視化するためです。
 {{% /alert %}}
 
 ### データセットの可視化
 
-Weights & Biasesは画像、ビデオ、オーディオなどをサポートしています。リッチメディアをログに取り込み、結果を探索し、run、モデル、データセットを視覚的に比較できます。[セグメンテーションマスクオーバーレイシステム]({{< relref path="/guides/models/track/log/media/#image-overlays-in-tables" lang="ja" >}})を使用してデータボリュームを可視化します。 [テーブル]({{< relref path="/guides/models/tables/" lang="ja" >}})にセグメンテーションマスクをログに追加するには、テーブル内の各行に`wandb.Image` オブジェクトを提供する必要があります。
+W&B では画像、動画、音声など様々なリッチメディアで記録できます。これにより、結果の探索やrun・モデル・データセット間の視覚的な比較が可能です。[セグメンテーションマスクのオーバーレイ機能]({{< relref path="/guides/models/track/log/media/#image-overlays-in-tables" lang="ja" >}}) を用いて、データボリュームを直接可視化できます。[テーブル]({{< relref path="/guides/models/tables/" lang="ja" >}})でセグメンテーションマスクを記録する場合、各行ごとに `wandb.Image` オブジェクトを作成してください。
 
-次の擬似コードは、その例です。
+以下は疑似コードの例です。
 
 ```python
 table = wandb.Table(columns=["ID", "Image"])
@@ -250,10 +245,10 @@ for id, img, label in zip(ids, images, labels):
 
     table.add_data(id, img)
 
-wandb.log({"Table": table})
+run.log({"Table": table})
 ```
 
-次に、サンプル画像、ラベル、`wandb.Table` オブジェクトと関連するメタデータを受け取り、Weights & Biases ダッシュボードにログされるテーブルの行を埋めるユーティリティ関数を作成します。
+次に、サンプル画像とラベル、`wandb.Table` オブジェクト、および関連メタデータを受け取り、W&B ダッシュボードに記録するテーブルの行を埋めるユーティリティ関数を定義します。
 
 ```python
 def log_data_samples_into_tables(
@@ -293,7 +288,7 @@ def log_data_samples_into_tables(
     return table
 ```
 
-次に、`wandb.Table` オブジェクトと、それが含む列を定義し、データ可視化を使用してそれを埋めます。
+次に、`wandb.Table` オブジェクトと、そのカラム定義を記述します。これで可視化データをテーブルへ追加できます。
 
 ```python
 table = wandb.Table(
@@ -309,10 +304,10 @@ table = wandb.Table(
 )
 ```
 
-次に、それぞれ`train_dataset` と`val_dataset` をループして、データサンプルの可視化を生成し、ダッシュボードにログを取るためのテーブルの行を埋めます。
+続いて、`train_dataset` と `val_dataset` のサンプル画像群をループし、可視化を生成し、ダッシュボードへ記録するテーブルへ行を追加します。
 
 ```python
-# train_dataset の可視化を生成
+# train_dataset 用の可視化を生成
 max_samples = (
     min(config.max_train_images_visualized, len(train_dataset))
     if config.max_train_images_visualized > 0
@@ -334,7 +329,7 @@ for data_idx, sample in progress_bar:
         table=table,
     )
 
-# val_dataset の可視化を生成
+# val_dataset 用の可視化を生成
 max_samples = (
     min(config.max_val_images_visualized, len(val_dataset))
     if config.max_val_images_visualized > 0
@@ -356,35 +351,35 @@ for data_idx, sample in progress_bar:
         table=table,
     )
 
-# ダッシュボードにテーブルをログ
-wandb.log({"Tumor-Segmentation-Data": table})
+# テーブルをダッシュボードに記録
+run.log({"Tumor-Segmentation-Data": table})
 ```
 
-データはW&Bダッシュボード上でインタラクティブな表形式で表示されます。我々はデータボリュームの特定のスライスの各チャンネルを、各行の対応するセグメンテーションマスクと重ね合わせて見ることができます。テーブルのデータを論理的にフィルタリングして、特定の行に集中するために [Weave クエリ]({{< relref path="/guides/weave" lang="ja" >}}) を書くことができます。
+このデータは W&B ダッシュボード上でインタラクティブな表形式で表示されます。各行ごとに各チャネルの特定スライス画像と、そのセグメンテーションマスクがオーバーレイされています。テーブルデータを [Weave クエリ]({{< relref path="/guides/weave" lang="ja" >}}) でフィルタして、1行だけに着目することも可能です。
 
-| {{< img src="/images/tutorials/monai/viz-1.gif" alt="An example of logged table data." >}} | 
+| {{< img src="/images/tutorials/monai/viz-1.gif" alt="Logged table data" >}} | 
 |:--:| 
-| **ログされたテーブルデータの例。** |
+| **記録されたテーブルデータの一例** |
 
-画像を開き、インタラクティブなオーバーレイを使用して、各セグメンテーションマスクをどのように操作できるかを見てみてください。
+画像を開くと、各セグメンテーションマスクをインタラクティブなオーバーレイで操作できます。
 
-| {{< img src="/images/tutorials/monai/viz-2.gif" alt="An example of visualized segmentation maps." >}} | 
+| {{< img src="/images/tutorials/monai/viz-2.gif" alt="Segmentation maps" >}} | 
 |:--:| 
-| **セグメンテーションマップの可視化例。** |
+| **可視化されたセグメンテーションマップの例** |
 
 {{% alert %}}
-**注意:** データセットのラベルはクラス間で重ならないマスクで構成されています。オーバーレイはラベルをオーバーレイ内の個別のマスクとしてログします。
+**注意:** データセット内のラベルはクラス間で重なりがないようになっています。オーバーレイでは各クラスのマスクが個別マスクとして記録されます。
 {{% /alert %}}
 
 ### データのロード
 
-データセットからデータをロードするための PyTorch DataLoaders を作成します。 DataLoaders を作成する前に、`train_dataset` の `transform` を `train_transform` に設定して、トレーニング用のデータを前処理および変換します。
+データロード用の PyTorch DataLoader を作成します。事前に `train_dataset` の transform を `train_transform` に切り替えて、トレーニング用の前処理・変換を適用しておきます。
 
 ```python
-# トレーニングデータセットにtrain_transformsを適用
+# train_transforms を学習データセットに適用
 train_dataset.transform = train_transform
 
-# train_loaderを作成
+# train_loader 作成
 train_loader = DataLoader(
     train_dataset,
     batch_size=config.batch_size,
@@ -392,7 +387,7 @@ train_loader = DataLoader(
     num_workers=config.num_workers,
 )
 
-# val_loaderを作成
+# val_loader 作成
 val_loader = DataLoader(
     val_dataset,
     batch_size=config.batch_size,
@@ -401,14 +396,14 @@ val_loader = DataLoader(
 )
 ```
 
-## モデル、損失、およびオプティマイザーの作成
+## モデル、損失関数、オプティマイザーの作成
 
-このチュートリアルでは、 [3D MRI brain tumor segmentation using auto-encoder regularization](https://arxiv.org/pdf/1810.11654.pdf) に基づいた `SegResNet` モデルを作成します。`SegResNet` モデルは、 `monai.networks` API の一部として PyTorch モジュールとして実装されています。これはオプティマイザーと学習率スケジューラともに利用可能です。
+本チュートリアルでは論文 [3D MRI brain tumor segmentation using auto-encoder regularization](https://arxiv.org/pdf/1810.11654.pdf) を元にした `SegResNet` モデルを構築します。`SegResNet` モデルは `monai.networks` API で提供されている PyTorch モジュールで、オプティマイザーや学習率スケジューラーも一緒に定義します。
 
 ```python
 device = torch.device("cuda:0")
 
-# モデルの作成
+# モデル作成
 model = SegResNet(
     blocks_down=[1, 2, 2, 4],
     blocks_up=[1, 1, 1],
@@ -418,20 +413,20 @@ model = SegResNet(
     dropout_prob=0.2,
 ).to(device)
 
-# オプティマイザーの作成
+# オプティマイザー作成
 optimizer = torch.optim.Adam(
     model.parameters(),
     config.initial_learning_rate,
     weight_decay=config.weight_decay,
 )
 
-# 学習率スケジューラの作成
+# 学習率スケジューラー
 lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
     optimizer, T_max=config.max_train_epochs
 )
 ```
 
-損失を `monai.losses` API を使用してマルチラベル `DiceLoss` として定義し、それに対応するダイスメトリクスを `monai.metrics` API を使用して定義します。
+損失関数には `monai.losses` API の multi-label `DiceLoss`、評価メトリクスには `monai.metrics` API の各種 dice metrics を定義します。
 
 ```python
 loss_function = DiceLoss(
@@ -446,12 +441,12 @@ dice_metric = DiceMetric(include_background=True, reduction="mean")
 dice_metric_batch = DiceMetric(include_background=True, reduction="mean_batch")
 post_trans = Compose([Activations(sigmoid=True), AsDiscrete(threshold=0.5)])
 
-# 自動混合精度を使用してトレーニングを加速
+# 自動混合精度による高速化
 scaler = torch.cuda.amp.GradScaler()
 torch.backends.cudnn.benchmark = True
 ```
 
-混合精度推論のための小さなユーティリティを定義します。これはトレーニングプロセスの検証ステップおよびトレーニング後にモデルを実行したいときに役立ちます。
+混合精度推論用の小さなユーティリティも定義します。これは検証ステップや学習後の推論で利用します。
 
 ```python
 def inference(model, input):
@@ -470,15 +465,15 @@ def inference(model, input):
 
 ## トレーニングと検証
 
-トレーニングの前に、トレーニングと検証の実験管理を追跡するために `wandb.log()` でログを取るメトリクスプロパティを定義します。
+トレーニング前に、`run.log()` と連携させるための各種 metric を定義し、トレーニング・検証過程をトラッキングできるようにします。
 
 ```python
-wandb.define_metric("epoch/epoch_step")
-wandb.define_metric("epoch/*", step_metric="epoch/epoch_step")
-wandb.define_metric("batch/batch_step")
-wandb.define_metric("batch/*", step_metric="batch/batch_step")
-wandb.define_metric("validation/validation_step")
-wandb.define_metric("validation/*", step_metric="validation/validation_step")
+run.define_metric("epoch/epoch_step")
+run.define_metric("epoch/*", step_metric="epoch/epoch_step")
+run.define_metric("batch/batch_step")
+run.define_metric("batch/*", step_metric="batch/batch_step")
+run.define_metric("validation/validation_step")
+run.define_metric("validation/*", step_metric="validation/validation_step")
 
 batch_step = 0
 validation_step = 0
@@ -491,121 +486,133 @@ metric_values_enhanced_tumor = []
 ### 標準的な PyTorch トレーニングループの実行
 
 ```python
-# W&B アーティファクトオブジェクトを定義
-artifact = wandb.Artifact(
-    name=f"{wandb.run.id}-checkpoint", type="model"
-)
+with wandb.init(
+    project="monai-brain-tumor-segmentation",
+    config=config,
+    job_type="train",
+    reinit=True,
+) as run:
 
-epoch_progress_bar = tqdm(range(config.max_train_epochs), desc="Training:")
-
-for epoch in epoch_progress_bar:
-    model.train()
-    epoch_loss = 0
-
-    total_batch_steps = len(train_dataset) // train_loader.batch_size
-    batch_progress_bar = tqdm(train_loader, total=total_batch_steps, leave=False)
-    
-    # トレーニングステップ
-    for batch_data in batch_progress_bar:
-        inputs, labels = (
-            batch_data["image"].to(device),
-            batch_data["label"].to(device),
-        )
-        optimizer.zero_grad()
-        with torch.cuda.amp.autocast():
-            outputs = model(inputs)
-            loss = loss_function(outputs, labels)
-        scaler.scale(loss).backward()
-        scaler.step(optimizer)
-        scaler.update()
-        epoch_loss += loss.item()
-        batch_progress_bar.set_description(f"train_loss: {loss.item():.4f}:")
-        ## バッチ単位のトレーニング損失を W&B にログ
-        wandb.log({"batch/batch_step": batch_step, "batch/train_loss": loss.item()})
-        batch_step += 1
-
-    lr_scheduler.step()
-    epoch_loss /= total_batch_steps
-    ## エポック単位のトレーニング損失と学習率を W&B にログ
-    wandb.log(
-        {
-            "epoch/epoch_step": epoch,
-            "epoch/mean_train_loss": epoch_loss,
-            "epoch/learning_rate": lr_scheduler.get_last_lr()[0],
-        }
+    # W&B Artifact オブジェクトを定義
+    artifact = wandb.Artifact(
+        name=f"{run.id}-checkpoint", type="model"
     )
-    epoch_progress_bar.set_description(f"Training: train_loss: {epoch_loss:.4f}:")
 
-    # 検証とモデルのチェックポイントステップ
-    if (epoch + 1) % config.validation_intervals == 0:
-        model.eval()
-        with torch.no_grad():
-            for val_data in val_loader:
-                val_inputs, val_labels = (
-                    val_data["image"].to(device),
-                    val_data["label"].to(device),
-                )
-                val_outputs = inference(model, val_inputs)
-                val_outputs = [post_trans(i) for i in decollate_batch(val_outputs)]
-                dice_metric(y_pred=val_outputs, y=val_labels)
-                dice_metric_batch(y_pred=val_outputs, y=val_labels)
+    epoch_progress_bar = tqdm(range(config.max_train_epochs), desc="Training:")
 
-            metric_values.append(dice_metric.aggregate().item())
-            metric_batch = dice_metric_batch.aggregate()
-            metric_values_tumor_core.append(metric_batch[0].item())
-            metric_values_whole_tumor.append(metric_batch[1].item())
-            metric_values_enhanced_tumor.append(metric_batch[2].item())
-            dice_metric.reset()
-            dice_metric_batch.reset()
+    for epoch in epoch_progress_bar:
+        model.train()
+        epoch_loss = 0
 
-            checkpoint_path = os.path.join(config.checkpoint_dir, "model.pth")
-            torch.save(model.state_dict(), checkpoint_path)
-            
-            # W&Bアーティファクトを使用してモデルのチェックポイントをログとバージョン管理。
-            artifact.add_file(local_path=checkpoint_path)
-            wandb.log_artifact(artifact, aliases=[f"epoch_{epoch}"])
-
-            # W&Bダッシュボードに検証メトリクスをログ。
-            wandb.log(
-                {
-                    "validation/validation_step": validation_step,
-                    "validation/mean_dice": metric_values[-1],
-                    "validation/mean_dice_tumor_core": metric_values_tumor_core[-1],
-                    "validation/mean_dice_whole_tumor": metric_values_whole_tumor[-1],
-                    "validation/mean_dice_enhanced_tumor": metric_values_enhanced_tumor[-1],
-                }
+        total_batch_steps = len(train_dataset) // train_loader.batch_size
+        batch_progress_bar = tqdm(train_loader, total=total_batch_steps, leave=False)
+        
+        # トレーニングステップ
+        for batch_data in batch_progress_bar:
+            inputs, labels = (
+                batch_data["image"].to(device),
+                batch_data["label"].to(device),
             )
-            validation_step += 1
+            optimizer.zero_grad()
+            with torch.cuda.amp.autocast():
+                outputs = model(inputs)
+                loss = loss_function(outputs, labels)
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            epoch_loss += loss.item()
+            batch_progress_bar.set_description(f"train_loss: {loss.item():.4f}:")
+            ## バッチごとのトレーニング損失を W&B へ記録
+            run.log({"batch/batch_step": batch_step, "batch/train_loss": loss.item()})
+            batch_step += 1
+
+        lr_scheduler.step()
+        epoch_loss /= total_batch_steps
+        ## エポックごとのトレーニング損失と学習率を W&B へ記録
+        run.log(
+            {
+                "epoch/epoch_step": epoch,
+                "epoch/mean_train_loss": epoch_loss,
+                "epoch/learning_rate": lr_scheduler.get_last_lr()[0],
+            }
+        )
+        epoch_progress_bar.set_description(f"Training: train_loss: {epoch_loss:.4f}:")
+
+        # 検証・モデルチェックポイント保存ステップ
+        if (epoch + 1) % config.validation_intervals == 0:
+            model.eval()
+            with torch.no_grad():
+                for val_data in val_loader:
+                    val_inputs, val_labels = (
+                        val_data["image"].to(device),
+                        val_data["label"].to(device),
+                    )
+                    val_outputs = inference(model, val_inputs)
+                    val_outputs = [post_trans(i) for i in decollate_batch(val_outputs)]
+                    dice_metric(y_pred=val_outputs, y=val_labels)
+                    dice_metric_batch(y_pred=val_outputs, y=val_labels)
+
+                metric_values.append(dice_metric.aggregate().item())
+                metric_batch = dice_metric_batch.aggregate()
+                metric_values_tumor_core.append(metric_batch[0].item())
+                metric_values_whole_tumor.append(metric_batch[1].item())
+                metric_values_enhanced_tumor.append(metric_batch[2].item())
+                dice_metric.reset()
+                dice_metric_batch.reset()
+
+                checkpoint_path = os.path.join(config.checkpoint_dir, "model.pth")
+                torch.save(model.state_dict(), checkpoint_path)
+                
+                # モデルチェックポイントを W&B artifact で記録・バージョン管理
+                artifact.add_file(local_path=checkpoint_path)
+                run.log_artifact(artifact, aliases=[f"epoch_{epoch}"])
+
+                # 検証メトリクスを W&B ダッシュボードへ記録
+                run.log(
+                    {
+                        "validation/validation_step": validation_step,
+                        "validation/mean_dice": metric_values[-1],
+                        "validation/mean_dice_tumor_core": metric_values_tumor_core[-1],
+                        "validation/mean_dice_whole_tumor": metric_values_whole_tumor[-1],
+                        "validation/mean_dice_enhanced_tumor": metric_values_enhanced_tumor[-1],
+                    }
+                )
+                validation_step += 1
 
 
-# このアーティファクトがログを終了するのを待ちます。
-artifact.wait()
+    # artifact 記録完了まで待機
+    artifact.wait()
 ```
 
-コードを `wandb.log` で計装することで、トレーニングと検証プロセスに関連するメトリクスすべてを追跡するだけでなく、W&Bダッシュボード上のすべてのシステムメトリクス（この場合はCPUとGPU）も追跡できます。
+`wandb.log` の活用で、トレーニング・検証進行中の全メトリクスだけでなく、システムメトリクス（ここでは CPU や GPU 情報）も W&B ダッシュボードに自動記録されます。
 
-| {{< img src="/images/tutorials/monai/viz-3.gif" alt="An example of training and validation process tracking on W&B." >}} | 
+| {{< img src="/images/tutorials/monai/viz-3.gif" alt="Training and validation tracking" >}} | 
 |:--:| 
-| **W&Bでのトレーニングと検証プロセス追跡の例。** |
+| **トレーニング・検証プロセスの W&B トラッキング例** |
 
-W&Bの run ダッシュボードのアーティファクトタブに移動して、トレーニング中にログされたモデルチェックポイントアーティファクトの異なるバージョンにアクセスします。
+W&B Run ダッシュボードの Artifacts タブから、トレーニング中に記録された各モデルチェックポイントのバージョン管理一覧も閲覧できます。
 
-| {{< img src="/images/tutorials/monai/viz-4.gif" alt="An example of model checkpoints logging and versioning on W&B." >}} | 
+| {{< img src="/images/tutorials/monai/viz-4.gif" alt="Model checkpoints logging" >}} | 
 |:--:| 
-| **W&Bでのモデルチェックポイントのログとバージョン管理の例。** |
+| **W&B におけるモデルチェックポイントのロギングとバージョン管理例** |
 
 ## 推論
 
-アーティファクトインターフェースを使用して、このケースでは平均エポック単位のトレーニング損失が最良のモデルチェックポイントであるアーティファクトのバージョンを選択できます。アーティファクト全体のリネージを探索し、必要なバージョンを使用することもできます。
+Artifacts インターフェースから、最も性能の良かったモデル（ここでは平均エポック毎トレーニング損失が最小値のもの）を手軽に選択可能です。artifact の全リネージも探索でき、必要なバージョンを利用できます。
 
-| {{< img src="/images/tutorials/monai/viz-5.gif" alt="An example of model artifact tracking on W&B." >}} | 
+| {{< img src="/images/tutorials/monai/viz-5.gif" alt="Model artifact tracking" >}} | 
 |:--:| 
-| **W&Bでのモデルアーティファクト追跡の例。** |
+| **W&B 上のモデル artifact トラッキング例** |
 
-最良のエポック単位の平均トレーニング損失を持つモデルアーティファクトのバージョンをフェッチし、チェックポイントステート辞書をモデルにロードします。
+最も良い平均エポック損失で記録されたモデル artifact バージョンを取得し、チェックポイントファイルをモデルにロードします。
 
 ```python
-model_artifact = wandb.use_artifact(
+run = wandb.init(
+    project="monai-brain-tumor-segmentation",
+    job_type="inference",
+    reinit=True,
+)
+model_artifact = run.use_artifact(
     "geekyrakshit/monai-brain-tumor-segmentation/d5ex6n4a-checkpoint:v49",
     type="model",
 )
@@ -614,9 +621,9 @@ model.load_state_dict(torch.load(os.path.join(model_artifact_dir, "model.pth")))
 model.eval()
 ```
 
-### 予測の可視化と正解ラベルとの比較
+### 予測結果の可視化・正解ラベルとの比較
 
-予測されたセグメンテーションマスクと対応する正解のセグメンテーションマスクをインタラクティブなセグメンテーションマスクオーバーレイを使用して視覚化するためのユーティリティ関数を作成します。
+学習済みモデルの予測結果を可視化し、該当する正解セグメンテーションマスクとインタラクティブに比較するユーティリティ関数も用意します。
 
 ```python
 def log_predictions_into_tables(
@@ -678,10 +685,15 @@ def log_predictions_into_tables(
     return table
 ```
 
-予測結果を予測テーブルにログします。
+予測テーブルに予測結果を記録します。
 
 ```python
-# 予測テーブルを作成
+run = wandb.init(
+    project="monai-brain-tumor-segmentation",
+    job_type="inference",
+    reinit=True,
+)
+# 予測用テーブルを作成
 prediction_table = wandb.Table(
     columns=[
         "Split",
@@ -728,20 +740,20 @@ with torch.no_grad():
             table=prediction_table,
         )
 
-    wandb.log({"Predictions/Tumor-Segmentation-Data": prediction_table})
+    run.log({"Predictions/Tumor-Segmentation-Data": prediction_table})
 
 
 # 実験終了
-wandb.finish()
+run.finish()
 ```
 
-インタラクティブなセグメンテーションマスクオーバーレイを使用して、予測されたセグメンテーションマスクと各クラスの正解ラベルを分析および比較します。
+インタラクティブなセグメンテーションマスクオーバーレイを活用して、各クラスごとに予測マスクと正解ラベルを分析・比較できます。
 
-| {{< img src="/images/tutorials/monai/viz-6.gif" alt="An example of predictions and ground-truth visualization on W&B." >}} | 
+| {{< img src="/images/tutorials/monai/viz-6.gif" alt="Predictions and ground-truth" >}} | 
 |:--:| 
-| **W&Bでの予測と正解の可視化例。** |
+| **W&B 上での予測結果と正解ラベルの可視化例** |
 
-## 謝辞と追加リソース
+## 謝辞・参考リソース
 
-* [MONAI Tutorial: Brain tumor 3D segmentation with MONAI](https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb)
-* [WandB Report: Brain Tumor Segmentation using MONAI and WandB](https://wandb.ai/geekyrakshit/brain-tumor-segmentation/reports/Brain-Tumor-Segmentation-using-MONAI-and-WandB---Vmlldzo0MjUzODIw)
+* [MONAI チュートリアル: MONAI での脳腫瘍3Dセグメンテーション](https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb)
+* [WandB レポート: Brain Tumor Segmentation using MONAI and WandB](https://wandb.ai/geekyrakshit/brain-tumor-segmentation/reports/Brain-Tumor-Segmentation-using-MONAI-and-WandB---Vmlldzo0MjUzODIw)

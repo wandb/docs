@@ -1,14 +1,15 @@
 ---
-title: カスタムチャートプリセットを削除するにはどうすれば良いですか？
+title: カスタムチャートプリセットを削除するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-delete_custom_chart_preset
 support:
-  - charts
+- チャート
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-カスタムチャートエディタにアクセスします。現在選択されているチャートタイプをクリックすると、すべてのプリセットを表示するメニューが開きます。削除したいプリセットの上にマウスを置き、ゴミ箱アイコンをクリックします。
 
-{{< img src="/images/app_ui/delete_custome_chart_preset.gif" alt="" >}}
+カスタムチャートエディタにアクセスします。現在選択されているチャートタイプをクリックすると、すべてのプリセットが表示されるメニューが開きます。削除したいプリセットにカーソルを合わせ、ゴミ箱アイコンをクリックしてください。
+
+{{< img src="/images/app_ui/delete_custome_chart_preset.gif" alt="チャートプリセットの削除" >}}

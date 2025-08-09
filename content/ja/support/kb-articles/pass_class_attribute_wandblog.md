@@ -1,12 +1,13 @@
 ---
-title: wandb.log() に クラス属性 を渡した場合どうなりますか？
+title: wandb.Run.log() にクラス属性を渡すとどうなりますか？
 menu:
   support:
     identifier: ja-support-kb-articles-pass_class_attribute_wandblog
 support:
-  - experiments
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-クラス属性を `wandb.log()` に渡すことは避けてください。属性はネットワーク呼び出しが実行される前に変更される可能性があります。メトリクスをクラス属性として保存する場合は、 ログ に記録されたメトリクスが `wandb.log()` 呼び出し時の属性の値と一致するように、ディープコピーを使用してください。
+
+`wandb.Run.log()` にクラス属性を渡すのは避けてください。属性の内容はネットワーク呼び出し実行前に変更される可能性があります。メトリクスをクラス属性として保存している場合は、deep copy を使用して、`wandb.Run.log()` 呼び出し時点での属性の値がログされるようにしてください。

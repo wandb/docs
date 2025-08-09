@@ -1,18 +1,18 @@
 ---
-title: I converted my report to WYSIWYG but want to revert back to Markdown
+title: 리포트를 WYSIWYG로 변환했는데 다시 Markdown으로 되돌리고 싶어요
 menu:
   support:
     identifier: ko-support-kb-articles-convert_from_wysiwyg_markdown
 support:
-- reports
-- wysiwyg
+- 리포트
+- 위지위그
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-상단에 있는 메시지를 통해 리포트 변환이 이루어진 경우, 빨간색 "Revert" 버튼을 클릭하여 이전 상태로 복원하십시오. 변환 후 이루어진 변경 사항은 모두 손실됩니다.
+리포트 변환이 상단의 메시지를 통해 이루어진 경우, 빨간색 "Revert" 버튼을 클릭하면 이전 상태로 복원할 수 있습니다. 단, 변환 이후에 수정된 내용은 모두 사라집니다.
 
-단일 Markdown 블록이 변환된 경우, `cmd+z`를 사용하여 실행 취소하십시오.
+단일 Markdown 블록이 변환된 경우에는 `cmd+z`로 실행 취소할 수 있습니다.
 
-닫힌 세션으로 인해 되돌릴 수 없는 경우, 초안을 폐기하거나 마지막으로 저장된 버전에서 편집하는 것을 고려하십시오. 둘 다 작동하지 않으면 W&B 지원팀에 문의하십시오.
+세션이 종료되어 Revert 옵션을 사용할 수 없는 경우에는 초안을 폐기하거나 마지막으로 저장된 버전부터 편집하는 방법을 고려해 보세요. 이마저도 불가능하다면 W&B Support에 문의하세요.

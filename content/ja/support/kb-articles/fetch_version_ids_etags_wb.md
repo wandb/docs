@@ -4,16 +4,19 @@ menu:
   support:
     identifier: ja-support-kb-articles-fetch_version_ids_etags_wb
 support:
-  - artifacts
+- アーティファクト
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-W&Bでアーティファクト参照がログされ、バケットでバージョン管理が有効になっている場合、バージョンIDがAmazon S3 UIに表示されます。これらのバージョンIDとETagsをW&Bで取得するには、アーティファクトを取得し、対応するマニフェストエントリにアクセスします。例えば:
+
+W&B でアーティファクトリファレンスをログし、かつバケットでバージョン管理が有効になっている場合、Amazon S3 の UI でバージョン ID が表示されます。これらのバージョン ID や ETag を W&B で取得するには、アーティファクトをフェッチして該当するマニフェストエントリにアクセスします。例：
 
 ```python
 artifact = run.use_artifact("my_table:latest")
 for entry in artifact.manifest.entries.values():
+    # バージョンIDを取得
     versionID = entry.extra.get("versionID")
+    # ETagを取得
     etag = entry.extra.get("etag")
 ```

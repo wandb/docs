@@ -1,13 +1,13 @@
 ---
-title: How do I delete my organization account?
+title: 조직 계정을 어떻게 삭제하나요?
 menu:
   support:
     identifier: ko-support-kb-articles-delete_organization_account
 support:
-- administrator
+- 관리자
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-Organization 계정을 삭제하려면 다음 단계를 따르고, 지원팀 (support@wandb.com) 에 문의하십시오.
+조직 계정을 삭제하려면, 다음 단계를 따라 지원팀(support@wandb.com)에 문의해 주세요.

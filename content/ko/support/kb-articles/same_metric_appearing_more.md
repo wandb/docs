@@ -1,15 +1,15 @@
 ---
-title: Why is the same metric appearing more than once?
+title: 왜 동일한 metric 이 여러 번 나타나나요?
 menu:
   support:
     identifier: ko-support-kb-articles-same_metric_appearing_more
 support:
-- experiments
+- 실험
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-동일한 키로 다양한 데이터 유형을 로깅할 때 데이터베이스에서 분할합니다. 이렇게 하면 UI 드롭다운에 동일한 메트릭 이름의 항목이 여러 개 표시됩니다. 그룹화된 데이터 유형은 `number`, `string`, `bool`, `other`(주로 배열) 및 `Histogram` 또는 `Image`와 같은 모든 `wandb` 데이터 유형입니다. 이 문제를 방지하려면 키당 하나의 유형만 보내세요.
+동일한 키 아래에 다양한 데이터 유형을 로그할 경우, 데이터베이스에서 이를 분리하게 됩니다. 이로 인해 UI의 드롭다운 메뉴에 동일한 metric 이름이 여러 번 나타날 수 있습니다. 그룹화되는 데이터 유형에는 `number`, `string`, `bool`, `other`(주로 배열), 그리고 `wandb` 데이터 유형(예: `Histogram` 또는 `Image`)이 포함됩니다. 이러한 문제가 발생하지 않도록 하나의 키에는 한 가지 유형만 전송하세요.
 
-메트릭 이름은 대소문자를 구분하지 않습니다. `"My-Metric"` 및 `"my-metric"`과 같이 대소문자만 다른 이름은 사용하지 마세요.
+Metric 이름은 대소문자를 구분하지 않습니다. `"My-Metric"`과 `"my-metric"`처럼 대소문자만 다른 이름의 사용은 피하세요.

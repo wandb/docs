@@ -1,5 +1,5 @@
 ---
-title: Launch FAQ
+title: Launch 자주 묻는 질문(FAQ)
 cascade:
   toc_hide: true
 menu:

@@ -1,5 +1,5 @@
 ---
-title: 任意のライブラリに wandb を追加する
+title: どのライブラリにも wandb を追加する
 menu:
   default:
     identifier: ja-guides-integrations-add-wandb-to-any-library
@@ -7,33 +7,33 @@ menu:
 weight: 10
 ---
 
-## 任意のライブラリに wandb を追加する
+## 任意のライブラリに wandb を導入する
 
-このガイドでは、独自の Python ライブラリに W&B をインテグレーションするためのベストプラクティスを提供します。このことで、強力な実験管理、GPU およびシステム監視、モデルチェックポイントなどが利用可能になります。
+このガイドでは、ご自身の Python ライブラリに W&B を組み込んで、強力な実験管理、GPU やシステムのモニタリング、モデルのチェックポイント保存などを実現するためのベストプラクティスをご紹介します。
 
 {{% alert %}}
-W&B の使い方をまだ学んでいる場合は、読み進める前に [実験管理]({{< relref path="/guides/models/track" lang="ja" >}}) など、他の W&B ガイドを探索することをお勧めします。
+もしまだ W&B の使い方を学習中であれば、まずはこのドキュメント内の [実験管理]({{< relref path="/guides/models/track" lang="ja" >}}) などの他の W&B ガイドをご覧いただくことをおすすめします。
 {{% /alert %}}
 
-ここでは、作業しているコードベースが単一の Python トレーニングスクリプトや Jupyter ノートブックよりも複雑な場合のベストなヒントとベストプラクティスを紹介します。対象となるトピックは以下の通りです：
+ここでは、単一の Python トレーニングスクリプトや Jupyter ノートブックよりも複雑なコードベースを扱う場合のベストな方法やポイントを解説します。以下のトピックを取り上げます。
 
-* 設定要件
-* ユーザーログイン
+* セットアップ要件
+* ユーザーのログイン
 * wandb Run の開始
 * Run Config の定義
-* W&B へのログ記録
+* W&B へのログ
 * 分散トレーニング
-* モデルチェックポイントなど
+* モデルのチェックポイント保存など
 * ハイパーパラメータチューニング
 * 高度なインテグレーション
 
-### 設定要件
+### セットアップ要件
 
-始める前に、ライブラリの依存関係に W&B を必須にするかどうかを決めてください：
+まずは、あなたのライブラリに W&B をインストール時点で必須とするか、オプションにするかを決めてください。
 
 #### インストール時に W&B を必須にする
 
-W&B の Python ライブラリ（`wandb`）を `requirements.txt` ファイルなどに含めて依存関係ファイルに追加します：
+W&B の Python ライブラリ（`wandb`）を依存ファイルに追加します。例として `requirements.txt` ファイルの場合：
 
 ```python
 torch==1.8.0 
@@ -43,21 +43,21 @@ wandb==0.13.*
 
 #### インストール時に W&B をオプションにする
 
-W&B SDK（`wandb`）をオプションにする方法は2つあります：
+W&B SDK（`wandb`）をオプションとしたい場合、次のいずれかの方法が使えます。
 
-A. ユーザーが手動でインストールせずに `wandb` 機能を使用しようとしたときにエラーメッセージを表示してエラーを発生させる：
+A. `wandb` がインストールされていない状態で W&B の機能を使おうとしたユーザーに、適切なエラーメッセージを出してエラーを発生させる：
 
 ```python
 try: 
     import wandb 
 except ImportError: 
     raise ImportError(
-        "You are trying to use wandb which is not currently installed."
-        "Please install it using pip install wandb"
+        "wandb を使おうとしていますが、現在インストールされていません。"
+        "pip install wandb でインストールしてください"
     ) 
 ```
 
-B. Python パッケージをビルドする場合は `wandb` をオプションの依存関係として `pyproject.toml` ファイルに追加する：
+B. Python パッケージをビルドしている場合、`pyproject.toml` ファイルの optional dependency に `wandb` を追加：
 
 ```toml
 [project]
@@ -78,24 +78,24 @@ dev = [
 
 #### API キーの作成
 
-API キーはクライアントまたはマシンを W&B に認証するものです。ユーザープロフィールから API キーを生成できます。
+API キーは、クライアントやマシンを W&B へ認証するものです。ユーザープロフィールから API キーを生成できます。
 
 {{% alert %}}
-よりスムーズな方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして API キーを生成できます。表示された API キーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
+より簡単に API キーを作成したい場合は、[W&B の認証ページ](https://wandb.ai/authorize) から直接生成が可能です。表示された API キーをコピーして、パスワードマネージャなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. 右上隅のユーザープロフィールアイコンをクリックします。
-1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
-1. **Reveal** をクリックします。表示された API キーをコピーします。API キーを非表示にするには、ページをリロードします。
+1. 右上のユーザーアイコンをクリックします。
+1. **User Settings** を選び、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックして表示された API キーをコピーします。隠したい場合はページをリロードしてください。
 
 #### `wandb` ライブラリのインストールとログイン
 
-ローカルに `wandb` ライブラリをインストールしてログインします：
+`wandb` ライブラリをローカルにインストールし、ログインします：
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) にあなたの API キーを設定します。
+1. ご自身の API キーを `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})として設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -137,43 +137,41 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-ユーザーが上記のいずれの手順も行わずに初めて wandb を使用する場合、あなたのスクリプトが `wandb.init` を呼び出す際に自動的にログインを求められます。
+はじめて wandb を使うユーザーが上記いずれの手順も実行せずに script 内で `wandb.init` を呼び出すと、自動的にログインを促されます。
 
 ### Run の開始
 
-W&B Run は、W&B によってログ記録された計算の単位です。通常、トレーニング実験ごとに1つの W&B Run を関連付けます。
+W&B Run とは、W&B によって記録される計算実行の単位です。通常、1つのトレーニング実験につき1つの Run を紐付けます。
 
-以下のコードで W&B を初期化して Run を開始します：
+W&B を初期化し、Run を開始するには次のようにします：
 
 ```python
 run = wandb.init()
 ```
 
-オプションとして、プロジェクトの名前をつけることができます。また、コード内で `wandb_project` といったパラメータを使ってユーザーに設定してもらうこともできます。エンティティのパラメータについては `wandb_entity` などのユーザー名やチーム名を使用します：
+プロジェクト名なども指定できます。また、ユーザーやチーム名を entity パラメータとして扱うこともできます（例：`wandb_project` や `wandb_entity`）:
 
 ```python
 run = wandb.init(project=wandb_project, entity=wandb_entity)
 ```
 
-Run を終了するには `run.finish()` を呼び出す必要があります。次のように Run をコンテキストマネージャとして使うこともできます：
+Run を終了するには必ず `run.finish()` を呼び出してください。この処理がインテグレーションの設計に合う場合は、Run をコンテキストマネージャとして使うと便利です：
 
 ```python
-# このブロックが終了すると、自動的に run.finish() が呼び出されます。
-# 例外によって終了した場合、run.finish(exit_code=1) を使用して
-# Run を失敗とマークします。
+# このブロックを抜けると自動で run.finish() が呼ばれます。
+# 例外でブロックを抜けた場合は run.finish(exit_code=1) が使われ、
+# その Run が失敗扱いとなります。
 with wandb.init() as run:
     ...
 ```
 
-#### `wandb.init` を呼び出すタイミング？
+#### `wandb.init` をいつ呼ぶべきか？
 
-ライブラリは、W&B Run を可能な限り早く作成するべきです。なぜなら、コンソール出力に含まれるエラーメッセージなどの内容が W&B Run の一部としてログされ、デバッグが容易になるからです。
+W&B Run の生成はできるだけ早い段階で行いましょう。というのも、コンソールに出力される内容（エラーメッセージも含む）はすべて W&B Run の一部として記録されるためです。これによってデバッグも容易になります。
 
-#### `wandb` をオプション依存関係として使用する
+#### `wandb` をオプション依存にする方法
 
-ユーザーがライブラリを使うときに `wandb` をオプションにしたい場合、以下のいずれかの方法を使用できます：
-
-* 次のように `wandb` フラグを定義する：
+利用者が必ずしも `wandb` を必要としない場合、次のようなフラグを設けて切り替えたり：
 
 {{< tabpane text=true >}}
 
@@ -193,7 +191,7 @@ python train.py ... --use-wandb
 
 {{< /tabpane >}}
 
-* または、`wandb.init` で `wandb` を `disabled` に設定する：
+あるいは、`wandb.init` の `mode` を `disabled` にすることでログ送信を無効化できます:
 
 {{< tabpane text=true >}}
 
@@ -210,7 +208,7 @@ wandb.init(mode="disabled")
 export WANDB_MODE=disabled
 ```
 
-または
+もしくは
 
 ```bash
 wandb disabled
@@ -219,7 +217,7 @@ wandb disabled
 
 {{< /tabpane >}}
 
-* または、`wandb` をオフラインに設定します - これは wandb を実行はしますが、インターネットを介して W&B に通信を試みません：
+もしくは W&B をオフラインモードで使う方法もあります。この場合も wandb は動作しますが、インターネットを通じて W&B サーバーとは通信しません：
 
 {{< tabpane text=true >}}
 
@@ -245,40 +243,38 @@ wandb offline
 
 {{< /tabpane >}}
 
-### Run Config の定義
+### Run config の定義
+`wandb` の run config を使うことで、モデルやデータセットなど Run 作成時のメタデータを付加できます。これらの情報は実験ごとの差分を比較したり、主要な違いをすぐに理解するのに役立ちます。
 
-`wandb` の Run Config を使って、W&B Run を作成する際にモデルやデータセットに関するメタデータを提供できます。この情報を利用して、異なる実験を比較し、その主な違いをすばやく理解することができます。
+{{< img src="/images/integrations/integrations_add_any_lib_runs_page.png" alt="W&B Runs table" >}}
 
-{{< img src="/images/integrations/integrations_add_any_lib_runs_page.png" alt="W&B Runs テーブル" >}}
+典型的な config パラメータの例：
 
-ログ可能な一般的な設定パラメータには以下が含まれます：
+* モデル名、バージョン、アーキテクチャパラメータ など
+* データセット名、バージョン、学習/検証サンプル数 など
+* トレーニングパラメータ（学習率、バッチサイズ、オプティマイザーなど）
 
-* モデル名、バージョン、アーキテクチャパラメータなど
-* データセット名、バージョン、トレイン/バルの例数など
-* 学習パラメータ（学習率、バッチサイズ、オプティマイザーなど）
-
-以下のコードスニペットは設定をログする方法を示しています：
+config をログする例：
 
 ```python
 config = {"batch_size": 32, ...}
 wandb.init(..., config=config)
 ```
 
-#### Run Config の更新
-
-`run.config.update` を使用して設定を更新します。設定辞書の更新は、辞書が定義された後にパラメータが取得された場合に役立ちます。たとえば、モデルがインスタンス化された後にモデルのパラメータを追加したい場合などです。
+#### Run config の更新
+`wandb.Run.config.update` を使って config を後から更新することも可能です。たとえばモデルのインスタンス生成後に、そのパラメータを追加したい場合などに便利です。
 
 ```python
 run.config.update({"model_parameters": 3500})
 ```
 
-設定ファイルを定義する方法の詳細については、[実験を設定する]({{< relref path="/guides/models/track/config" lang="ja" >}})を参照してください。
+config ファイルの詳細については [実験の設定]({{< relref path="/guides/models/track/config" lang="ja" >}}) をご覧ください。
 
-### W&B へのログ記録
+### W&B へのログ
 
-#### メトリクスのログ記録
+#### メトリクスのログ
 
-キーがメトリクス名となる辞書を作成し、この辞書オブジェクトを [`run.log`]({{< relref path="/guides/models/track/log" lang="ja" >}}) に渡します：
+辞書型で各メトリクスのキーと値を設定し、それを [`run.log`]({{< relref path="/guides/models/track/log" lang="ja" >}}) に渡します：
 
 ```python
 for epoch in range(NUM_EPOCHS):
@@ -289,7 +285,7 @@ for epoch in range(NUM_EPOCHS):
         run.log(metrics)
 ```
 
-メトリクスが多い場合、メトリクス名にプレフィックスを使用して UI 上で自動的にグループ化することができます。例えば、`train/...` と `val/...` を使用することで、トレーニングや検証メトリクス、その他のメトリクスを分けたセクションが W&B ワークスペースに作られます：
+多くのメトリクスを記録する場合は、メトリクス名にプレフィックス（例：`train/...` や `val/...`）を使うことで UI 上でグルーピングできます。これによりトレーニングや検証、その他区分で W&B Workspace 内のメトリクスが整理されます。
 
 ```python
 metrics = {
@@ -301,28 +297,28 @@ metrics = {
 run.log(metrics)
 ```
 
-{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="2つの別々のセクションがあるW&Bワークスペース" >}}
+{{< img src="/images/integrations/integrations_add_any_lib_log.png" alt="W&B Workspace" >}}
 
-[`run.log` の詳細を学ぶ]({{< relref path="/guides/models/track/log" lang="ja" >}})。
+[`wandb.Run.log()` のリファレンス]({{< relref path="/guides/models/track/log" lang="ja" >}})も合わせてご覧ください。
 
-#### x軸の非整合を防ぐ
+#### x軸のズレを防ぐ
 
-同じトレーニングステップで `run.log` を複数回呼び出すと、wandb SDK は `run.log` を呼び出すたびに内部のステップカウンタを増加させます。このカウンタはトレーニングループ内のトレーニングステップと一致しないことがあります。
+同じトレーニングステップで `run.log` を複数回呼ぶ場合、wandb SDK の内部カウンターが自動でインクリメントされ、実際のトレーニングループのステップとズレる可能性があります。
 
-このような状況を避けるために、`wandb.init` を呼び出した直後に `run.define_metric` を使用して x 軸のステップを明示的に定義してください：
+この問題を避けるには、`wandb.init` 呼び出し直後に `run.define_metric` で x 軸となるステップを明示的に定義してください：
 
 ```python
 with wandb.init(...) as run:
     run.define_metric("*", step_metric="global_step")
 ```
 
-グロブパターンの `*` は、すべてのメトリクスがチャートの x 軸として `global_step` を使用することを意味します。特定のメトリクスのみを `global_step` に対してログする場合は、代わりにそれらを指定できます：
+`*` はすべてのメトリクスが `global_step` を x 軸に使うことを意味します。特定のメトリクスのみ `global_step` でログしたい場合はこのように指定します：
 
 ```python
 run.define_metric("train/loss", step_metric="global_step")
 ```
 
-その後、メトリクス、`step` メトリクス、および `global_step` を `run.log` を呼び出すたびにログします：
+その後は、`run.log` を呼ぶたびにメトリクスと一緒に `global_step` をログします：
 
 ```python
 for step, (input, ground_truth) in enumerate(data):
@@ -331,45 +327,45 @@ for step, (input, ground_truth) in enumerate(data):
     run.log({"global_step": step, "eval/loss": 0.2})
 ```
 
-独立したステップ変数にアクセスできない場合、たとえば「global_step」が検証ループ中に利用できない場合、 wandb は自動的に以前にログされた「global_step」 の値を使用します。この場合、メトリクスの初期値をログして、その値が必要なときに定義されるようにしてください。
+もし独立した step 変数（例えば検証ループ時の "global_step" など）が利用できない場合でも、wandb は直前に記録した値を自動的に参照します。そのため、最初のメトリクス値を必ずログして定義しておきましょう。
 
-#### 画像、テーブル、オーディオなどのログ記録
+#### 画像、テーブル、音声などをログする
 
-メトリクスに加えて、プロット、ヒストグラム、テーブル、テキスト、画像、動画、オーディオ、3D などのメディアをログすることができます。
+メトリクス以外にも、プロット・ヒストグラム・テーブル・テキスト・画像・動画・音声・3D など多様なデータをログできます。
 
-データをログする際の考慮事項には以下が含まれます：
+データを記録する際に考慮するポイント：
 
-* メトリクスはどのくらいの頻度でログされるべきか？ オプション化すべきか？
-* 視覚化に役立つデータの種類は何か？
-  * 画像の場合、サンプル予測、セグメンテーションマスクなどのログを記録して、時間の経過を見て進化を追うことができます。
-  * テキストの場合、後で検討できるサンプル予測のテーブルをログすることができます。
+* どの頻度でログするか？ オプションにすべきか？
+* どんなデータが可視化に役立つか？
+  * 画像なら、サンプル予測やセグメンテーションマスクなど、経時変化の見える化
+  * テキストなら、サンプル予測テーブルによる探索性の向上
 
-[メディア、オブジェクト、プロットなどのログ記録について詳しく学ぶ]({{< relref path="/guides/models/track/log" lang="ja" >}})。
+詳細は [ロギングガイド]({{< relref path="/guides/models/track/log" lang="ja" >}}) をご覧ください。
 
 ### 分散トレーニング
 
-分散環境をサポートするフレームワークでは、以下のワークフローのいずれかを適用することができます：
+分散環境をサポートするフレームワークでは、下記のいずれかのワークフローを適用できます。
 
-* 「メイン」のプロセスを検出し、そこでのみ `wandb` を使用してください。他のプロセスから必要なデータは最初にメインプロセスにルーティングされなければなりません（このワークフローが推奨されます）。
-* すべてのプロセスで `wandb` を呼び出し、それらすべてに同じ一意の `group` 名を与えて自動グループ化します。
+* 「メインプロセス」を検出し、`wandb` はそこでのみ使用。他のプロセスから必要なデータをメインへ受け渡して記録する（推奨）。
+* すべてのプロセスで `wandb` を呼び、同じ `group` 名で自動グルーピング。
 
-詳細については [分散トレーニング実験のログ記録]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) を参照してください。
+より詳しくは、[分散トレーニング実験のロギング]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}})をご覧ください。
 
-### モデルチェックポイントとその他のログ記録
+### モデルのチェックポイント保存など
 
-フレームワークがモデルまたはデータセットを使用または生成する場合、W&B Artifacts を通じて wandb で完全なトレース可能性を持ってそれらをログし、パイプライン全体を自動的に監視させることができます。
+フレームワークがモデルやデータセットを利用したり生成したりする場合、wandb でそれらも一緒に記録すれば、W&B Artifacts を通してパイプライン全体を追跡できます。
 
-{{< img src="/images/integrations/integrations_add_any_lib_dag.png" alt="W&B に保存されたデータセットとモデルチェックポイント" >}}
+{{< img src="/images/integrations/integrations_add_any_lib_dag.png" alt="Stored Datasets and Model Checkpoints in W&B" >}}
 
-Artifacts を使用しているとき、ユーザーに次のことを定義させることは有用ですが必須ではありません：
+Artifacts を使う際、ユーザーに次のような項目を定義させられると便利な場合があります（必須ではありません）：
 
-* モデルチェックポイントまたはデータセットをログする機能を有すること（任意にする場合）。
-* 使用されるアーティファクトのパス/参照を入力として使用する場合。たとえば、`user/project/artifact` のような指定。
-* Artifacts をログする頻度。
+* モデルのチェックポイントやデータセットのログの有無（オプションにしたい場合）
+* 入力として使用する artifact のパス/参照（例：`user/project/artifact`）
+* Artifacts の記録頻度
 
-#### モデルチェックポイントのログ記録
+#### モデルチェックポイントの保存
 
-モデルチェックポイントを W&B にログすることができます。ユニークな `wandb` Run ID を使用して出力モデルチェックポイントに名前を付け、Run 間でそれらを区別するのが有効です。また、有用なメタデータを追加することもできます。さらに、以下のようにモデルごとにエイリアスを追加することもできます：
+モデルチェックポイントも W&B へ記録可能です。Run ごとに一意な `wandb` の Run ID をファイル名等に使えば、Run 間での区別がしやすくなります。また、メタデータやエイリアスの追加もできます。
 
 ```python
 metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
@@ -379,19 +375,19 @@ artifact = wandb.Artifact(
                 metadata=metadata, 
                 type="model"
                 ) 
-artifact.add_dir("output_model") # モデルの重みが保存されているローカルディレクトリ
+artifact.add_dir("output_model") # モデルの重みが格納されているローカルディレクトリ
 
 aliases = ["best", "epoch_10"] 
 run.log_artifact(artifact, aliases=aliases)
 ```
 
-カスタムエイリアスの作成方法については [カスタムエイリアスを作成する]({{< relref path="/guides/core/artifacts/create-a-custom-alias/" lang="ja" >}}) を参照してください。
+カスタムエイリアスの作成例は [カスタムエイリアスを作成する]({{< relref path="/guides/core/artifacts/create-a-custom-alias/" lang="ja" >}})をご覧ください。
 
-Artifacts は任意の頻度で出力ログが可能（例えば、各エポックごと、各500ステップごとなど）であり、これらは自動的にバージョン管理されます。
+Artifacts の出力タイミング（例：各エポックごと、500ステップごと等）は自由で、自動でバージョン管理されます。
 
-#### 学習済みモデルまたはデータセットのログと追跡
+#### 学習済みモデルやデータセットの記録と追跡
 
-トレーニングの入力として使用されるアーティファクト（学習済みモデルやデータセットなど）をログすることができます。以下のスニペットでは、アーティファクトをログし、上記のグラフのように進行中の Run の入力として追加する方法を示しています。
+学習に使う入力（学習済みモデルやデータセットなど）を artifact として記録し、グラフ内で ongoing Run に入力として追加できます。
 
 ```python
 artifact_input_data = wandb.Artifact(name="flowers", type="dataset")
@@ -399,33 +395,33 @@ artifact_input_data.add_file("flowers.npy")
 run.use_artifact(artifact_input_data)
 ```
 
-#### アーティファクトをダウンロードする
+#### artifact のダウンロード
 
-アーティファクト（データセット、モデルなど）を再利用する場合、 `wandb` はローカルにコピー（およびキャッシュ）をダウンロードします：
+artifact（データセット・モデル等）の再利用時に、`wandb` がローカルにダウンロード（キャッシュ）します：
 
 ```python
 artifact = run.use_artifact("user/project/artifact:latest")
 local_path = artifact.download("./tmp")
 ```
 
-Artifacts は W&B の Artifacts セクションで見つかり、自動で生成されるエイリアス（`latest`, `v2`, `v3`）またはログ時に手動で生成されるエイリアス（`best_accuracy` など）で参照できます。
+Artifacts は W&B の Artifacts セクションで確認でき、`latest`、`v2`、`v3` や `best_accuracy` などのエイリアスで参照可能です。
 
-たとえば分散環境や単純な推論のために `wandb` Run（`wandb.init` を通して）を作成せずに Artifact をダウンロードしたい場合、代わりに [wandb API]({{< relref path="/ref/python/public-api" lang="ja" >}}) を使用してアーティファクトを参照できます：
+また、推論時や分散環境で `wandb` run を作成せず artifact だけダウンロードしたい場合は [wandb API]({{< relref path="/ref/python/public-api/index.md" lang="ja" >}}) を使います：
 
 ```python
 artifact = wandb.Api().artifact("user/project/artifact:latest")
 local_path = artifact.download()
 ```
 
-詳細については、[Artのダウンロードと使用]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact" lang="ja" >}})を参照してください。
+詳細情報は [Artifacts のダウンロードと利用]({{< relref path="/guides/core/artifacts/download-and-use-an-artifact" lang="ja" >}}) をご覧ください。
 
 ### ハイパーパラメータのチューニング
 
-ライブラリが W&B ハイパーパラメータチューニングを活用したい場合、[W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) もライブラリに追加できます。
+W&B のハイパーパラメータチューニングを活用したい場合は、[W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) をライブラリに組み込むこともできます。
 
-### 高度なインテグレーション
+### 高度なインテグレーション例
 
-以下のインテグレーションで高度な W&B インテグレーションがどのように見えるか見ることができます。ただし、ほとんどのインテグレーションはこれほど複雑ではありません：
+より高度な W&B インテグレーションの事例は下記をご覧ください。大半のケースではここまで複雑なものにはなりません。
 
 * [Hugging Face Transformers `WandbCallback`](https://github.com/huggingface/transformers/blob/49629e7ba8ef68476e08b671d6fc71288c2f16f1/src/transformers/integrations.py#L639)
 * [PyTorch Lightning `WandbLogger`](https://github.com/Lightning-AI/lightning/blob/18f7f2d3958fb60fcb17b4cb69594530e83c217f/src/pytorch_lightning/loggers/wandb.py#L53)

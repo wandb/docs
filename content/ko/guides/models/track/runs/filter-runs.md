@@ -1,63 +1,72 @@
 ---
-title: Filter and search runs
-description: 프로젝트 페이지에서 사이드바 및 테이블을 사용하는 방법
+title: run 필터 및 검색
+description: Projects 페이지에서 사이드바와 테이블을 사용하는 방법
 menu:
   default:
     identifier: ko-guides-models-track-runs-filter-runs
     parent: what-are-runs
 ---
 
-W&B에 기록된 run으로부터 얻은 통찰력을 프로젝트 페이지에서 활용하세요. **Workspace** 페이지와 **Runs** 페이지 모두에서 run을 필터링하고 검색할 수 있습니다.
+프로젝트 페이지를 활용하여 W&B에 로그된 run 에서 인사이트를 얻어보세요. **Workspace** 페이지와 **Runs** 페이지 모두에서 run 을 필터링하고 검색할 수 있습니다.
 
-## Run 필터링
+## run 필터링하기
 
-필터 버튼을 사용하여 상태, 태그 또는 기타 속성을 기준으로 run을 필터링합니다.
+run 의 상태, [태그]({{< relref path="#filter-runs-with-tags" lang="ko" >}}), [정규 표현식(RegEx)]({{< relref path="#filter-runs-with-regular-expressions-regex" lang="ko" >}}) 또는 기타 속성별로 필터 버튼을 통해 run 을 필터링할 수 있습니다.
 
-### 태그로 Run 필터링
+run 컬러를 편집, 랜덤화, 리셋하는 방법 등 자세한 내용은 [run 컬러 커스터마이즈]({{< relref path="guides/models/track/runs/run-colors" lang="ko" >}})를 참고하세요.
 
-필터 버튼을 사용하여 태그를 기준으로 run을 필터링합니다.
+### 태그로 run 필터링하기
 
-{{< img src="/images/app_ui/filter_runs.gif" alt="" >}}
+필터 버튼을 사용해 run 의 태그로 필터링할 수 있습니다.
 
-### 정규식으로 Run 필터링
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭하세요.
+2. run 테이블 상단에 위치한 깔때기 모양의 **Filter** 버튼을 선택하세요.
+3. 왼쪽에서 오른쪽 순으로 드롭다운 메뉴에서 `"Tags"`를 선택하고, 논리 연산자를 선택한 뒤 필터 검색 값을 입력하세요.
 
-정규식으로 원하는 결과를 얻을 수 없는 경우, [태그]({{< relref path="tags.md" lang="ko" >}})를 사용하여 Runs Table에서 run을 필터링할 수 있습니다. 태그는 run 생성 시 또는 완료 후에 추가할 수 있습니다. 태그가 run에 추가되면 아래 GIF와 같이 태그 필터를 추가할 수 있습니다.
+### 정규식으로 run 필터링하기
 
-{{< img src="/images/app_ui/tags.gif" alt="If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table" >}}
+정규식만으로 원하는 결과가 나오지 않으면, [태그]({{< relref path="tags.md" lang="ko" >}})를 활용하여 Runs Table에서 run 을 필터링할 수 있습니다. 태그는 run 생성 시 또는 run 이 종료된 후에도 추가할 수 있습니다. 특정 run 에 태그를 추가했다면, 아래 GIF와 같이 태그 필터를 적용할 수 있습니다.
 
-## Run 검색
+{{< img src="/images/app_ui/filter_runs.gif" alt="태그별 run 필터링" >}}
 
- regex 를 사용하여 지정한 정규식으로 run을 찾습니다. 검색 상자에 쿼리를 입력하면 Workspace의 그래프에서 보이는 run과 테이블의 행이 필터링됩니다.
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭하세요.
+2. run 테이블 상단의 검색 박스를 클릭하세요.
+3. **RegEx** 토글(.*)이 활성화되어 있는지 확인하세요(토글이 파란색이어야 합니다).
+4. 검색 박스에 원하는 정규 표현식을 입력하세요.
 
-## Run 그룹화
+## run 검색하기
 
-숨겨진 열을 포함하여 하나 이상의 열을 기준으로 run을 그룹화하려면 다음을 수행합니다.
+정규 표현식(RegEx)을 사용하여 지정한 패턴에 맞는 run 을 찾을 수 있습니다. 검색 박스에 쿼리를 입력하면 워크스페이스의 그래프와 테이블의 행 모두에서 볼 수 있는 run 이 필터링됩니다.
 
-1. 검색 상자 아래에 있는 줄이 그어진 종이 모양의 **Group** 버튼을 클릭합니다.
-2. 결과를 그룹화할 열을 하나 이상 선택합니다.
-3. 그룹화된 run 세트는 기본적으로 축소됩니다. 확장하려면 그룹 이름 옆에 있는 화살표를 클릭합니다.
+## run 그룹화하기
 
-## 최소값 및 최대값으로 Run 정렬
+하나 이상의 컬럼(숨겨진 컬럼 포함) 기준으로 run 을 그룹화할 수 있습니다.
 
-기록된 메트릭의 최소값 또는 최대값으로 run 테이블을 정렬합니다. 이는 가장 좋거나 가장 나쁜 기록 값을 보려는 경우에 특히 유용합니다.
+1. 검색 박스 바로 아래의 줄이 그어진 종이 모양의 **Group** 버튼을 클릭하세요.
+1. 결과를 그룹화할 하나 이상의 컬럼을 선택하세요.
+1. 그룹으로 묶인 run 세트는 기본적으로 접힌 상태입니다. 그룹 이름 옆의 화살표를 클릭하면 펼칠 수 있습니다.
 
-다음 단계에서는 기록된 최소값 또는 최대값을 기준으로 특정 메트릭으로 run 테이블을 정렬하는 방법을 설명합니다.
+## 최소/최대 값으로 run 정렬하기
 
-1. 정렬하려는 메트릭이 있는 열 위에 마우스 커서를 올립니다.
-2. 케밥 메뉴(세 개의 세로선)를 선택합니다.
-3. 드롭다운에서 **Show min** 또는 **Show max**를 선택합니다.
-4. 동일한 드롭다운에서 **Sort by asc** 또는 **Sort by desc**를 선택하여 각각 오름차순 또는 내림차순으로 정렬합니다.
+로그된 메트릭의 최소값 또는 최대값을 기준으로 run 테이블을 정렬할 수 있습니다. 가장 좋은(또는 나쁜) 값만 보고 싶을 때 매우 유용합니다.
 
-{{< img src="/images/app_ui/runs_min_max.gif" alt="" >}}
+다음 단계에 따라 특정 메트릭의 최소 또는 최대 기록 값 기반으로 run 테이블을 정렬할 수 있습니다:
 
-## Run에 대한 종료 시간 검색
+1. 정렬에 사용할 메트릭이 있는 컬럼 위에 마우스를 올려두세요.
+2. 세로로 세 줄이 있는 메뉴(케밥 메뉴)를 선택하세요.
+3. 드롭다운에서 **Show min** 또는 **Show max** 중 하나를 선택하세요.
+4. 같은 드롭다운에서 **Sort by asc** 또는 **Sort by desc**를 선택해 오름차순 또는 내림차순으로 정렬할 수 있습니다.
 
-클라이언트 프로세스에서 마지막 heartbeat를 기록하는 `End Time`이라는 열을 제공합니다. 이 필드는 기본적으로 숨겨져 있습니다.
+{{< img src="/images/app_ui/runs_min_max.gif" alt="최소/최대 값별 정렬" >}}
 
-{{< img src="/images/app_ui/search_run_endtime.png" alt="" >}}
+## run 의 종료 시간 검색
 
-## Run 테이블을 CSV로 내보내기
+클라이언트 프로세스에서 마지막 하트비트를 기록하는 `End Time` 이라는 컬럼을 제공합니다. 이 필드는 기본적으로 숨겨져 있습니다.
 
-다운로드 버튼을 사용하여 모든 run, 하이퍼파라미터 및 요약 메트릭 테이블을 CSV로 내보냅니다.
+{{< img src="/images/app_ui/search_run_endtime.png" alt="End Time 컬럼" >}}
 
-{{< img src="/images/app_ui/export_to_csv.gif" alt="" >}}
+## run 테이블을 CSV로 내보내기
+
+모든 run, 하이퍼파라미터, 요약 메트릭 테이블을 다운로드 버튼으로 CSV 파일로 내보낼 수 있습니다.
+
+{{< img src="/images/app_ui/export_to_csv.gif" alt="CSV 내보내기 미리보기 모달" >}}

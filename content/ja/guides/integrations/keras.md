@@ -11,40 +11,41 @@ weight: 160
 
 ## Keras コールバック
 
-W&B は Keras 用に3つのコールバックを提供しています。`wandb` v0.13.4から利用可能です。レガシーな `WandbCallback` は下にスクロールしてください。
+W&B には Keras 用の 3 つのコールバックが用意されています（`wandb` v0.13.4 から利用可能）。従来の `WandbCallback` については下の方に記載しています。
 
-- **`WandbMetricsLogger`** : このコールバックは [Experiment Tracking]({{< relref path="/guides/models/track" lang="ja" >}}) に使用します。トレーニングと検証のメトリクス、システムメトリクスを Weights and Biases にログします。
 
-- **`WandbModelCheckpoint`** : モデルのチェックポイントを Weights and Biases の [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) にログするためにこのコールバックを使用します。
+- **`WandbMetricsLogger`** : このコールバックは [実験管理]({{< relref path="/guides/models/track" lang="ja" >}}) 用に使います。トレーニング・検証メトリクスとシステムメトリクスを W&B に記録します。
 
-- **`WandbEvalCallback`**: このベースコールバックは、モデルの予測を Weights and Biases の [Tables]({{< relref path="/guides/models/tables/" lang="ja" >}}) にログして、インタラクティブな可視化を行います。
+- **`WandbModelCheckpoint`** : モデルのチェックポイントを W&B [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) に記録するためのコールバックです。
 
-これらの新しいコールバックは以下の特徴を持っています：
+- **`WandbEvalCallback`**: このベースコールバックは、モデルの予測を W&B [Tables]({{< relref path="/guides/models/tables/" lang="ja" >}}) に記録し、インタラクティブに可視化できます。
 
-* Keras のデザイン哲学に従います。
-* すべての機能に対して単一のコールバック (`WandbCallback`) を使用する際の認知負荷を減らします。
-* Keras ユーザーがコールバックをサブクラス化してニッチなユースケースをサポートできるように簡単に改修できます。
+新しいコールバックの特徴：
 
-## `WandbMetricsLogger` を使用して実験を追跡
+* Keras の設計思想に沿っています。
+* すべてを 1 つのコールバック（`WandbCallback`）で済ませる場合に比べ、使いやすさと認知負荷を低減します。
+* Keras ユーザーがサブクラス化して独自のユースケースにあわせて簡単にカスタマイズできます。
+
+## `WandbMetricsLogger` で実験管理
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" >}}
 
-`WandbMetricsLogger` は、`on_epoch_end` や `on_batch_end` などのコールバックメソッドが引数として取得する Keras の `logs` 辞書を自動的にログします。
+`WandbMetricsLogger` は、Keras のコールバックメソッド（`on_epoch_end`, `on_batch_end` など）が引数として受け取る `logs` 辞書を自動的に記録します。
 
-これにより次の項目が追跡されます：
+このコールバックで記録されるもの：
 
-* `model.compile` に定義されたトレーニングと検証のメトリクス。
-* システム (CPU/GPU/TPU) のメトリクス。
-* 学習率（固定値または学習率スケジューラ）。
+* `model.compile` で定義されたトレーニング・検証メトリクス
+* システム（CPU/GPU/TPU）メトリクス
+* 学習率（固定値もしくは学習率スケジューラのいずれにも対応）
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 
-# 新しい W&B run を初期化
+# 新規 W&B Run を初期化
 wandb.init(config={"bs": 12})
 
-# WandbMetricsLogger を model.fit に渡す
+# model.fit に WandbMetricsLogger を渡す
 model.fit(
     X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
 )
@@ -52,37 +53,38 @@ model.fit(
 
 ### `WandbMetricsLogger` リファレンス
 
-| パラメータ | 説明 |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `log_freq`            | (`epoch`, `batch`, または `int`): `epoch` の場合、各エポック終了時にメトリクスをログします。`batch` の場合、各バッチ終了時にメトリクスをログします。`int` の場合、その数のバッチ終了時にメトリクスをログします。デフォルトは `epoch`。 |
-| `initial_global_step` | (int): 初期エポックからトレーニングを再開し、かつ学習率スケジューラを使用する場合、学習率を正しくログするためにこの引数を使用します。step_size * initial_step として計算できます。デフォルトは 0。 |
 
-## `WandbModelCheckpoint` を使用してモデルをチェックポイント
+| パラメータ | 説明 | 
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `log_freq`            | (`epoch`, `batch`, または `int`): `epoch` の場合は各エポック終了時、`batch` の場合は各バッチ終了時にメトリクスを記録。数値を指定した場合はそのバッチ数ごとにログされます。デフォルトは `epoch`。                              |
+| `initial_global_step` | (int): 一部の初期エポックからトレーニング再開時、正しく学習率を記録するための引数。`step_size * initial_step` で計算できます。デフォルトは 0。 |
+
+## `WandbModelCheckpoint` でモデルのチェックポイントを記録
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
 
-`WandbModelCheckpoint` コールバックを使用して、Keras モデル (`SavedModel` 形式) またはモデルの重みを定期的に保存し、モデルのバージョン管理のために W&B アーティファクトとしてアップロードします。
+`WandbModelCheckpoint` コールバックを使うことで、Keras モデル（`SavedModel` 形式）や重みを定期的に保存し、W&B の `wandb.Artifact` としてアップロードしてモデルのバージョン管理ができます。
 
-このコールバックは [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) からサブクラス化されているため、チェックポイントのロジックは親コールバックによって処理されます。
+このコールバックは [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) から派生しており、チェックポイントの保存ロジックは親コールバックで管理されています。
 
-このコールバックが保存するもの：
+このコールバックで保存できるもの：
 
-* モニターに基づいて最高のパフォーマンスを達成したモデル。
-* パフォーマンスに関係なく各エポック終了時のモデル。
-* エポックまたは一定のトレーニングバッチ数後のモデル。
-* モデルの重みのみ、またはモデル全体。
-* `SavedModel` 形式または `.h5` 形式いずれかのモデル。
+* モニターしているメトリクスでベストなパフォーマンスを達成したモデル
+* パフォーマンスに関わらず全エポック終了時のモデル
+* エポックの最後／指定したバッチ数ごとに保存するモデル
+* モデル全体または重みのみ
+* `SavedModel` もしくは `.h5` 形式での保存
 
-このコールバックは `WandbMetricsLogger` と併用してください。
+`WandbMetricsLogger` と併用してください。
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
-# 新しい W&B run を初期化
+# 新規 W&B Run を初期化
 wandb.init(config={"bs": 12})
 
-# WandbModelCheckpoint を model.fit に渡す
+# model.fit に WandbModelCheckpoint を渡す
 model.fit(
     X_train,
     y_train,
@@ -98,19 +100,19 @@ model.fit(
 
 | パラメータ | 説明 | 
 | ------------------------- |  ---- | 
-| `filepath`   | (str): モードファイルを保存するパス。|  
-| `monitor`                 | (str): モニターするメトリクスの名前。 |
-| `verbose`                 | (int): 冗長モード。0 または 1。モード 0 は静かに動作し、モード 1 はコールバックがアクションをとるときにメッセージを表示します。 |
-| `save_best_only`          | (Boolean): `save_best_only=True` の場合、`monitor` と `mode` 属性で定義された要件に基づいて最新のモデルまたはベストとみなされるモデルのみを保存します。 |
-| `save_weights_only`       | (Boolean): `True` の場合、モデルの重みのみを保存します。 |
-| `mode`                    | (`auto`, `min`, or `max`): `val_acc` の場合は `max` に設定し、`val_loss` の場合は `min` に設定してください。  |
-| `save_freq`               | ("epoch" or int): `epoch` を使用する場合、コールバックは各エポック後にモデルを保存します。整数を使用する場合、指定されたバッチ数の終了時にモデルを保存します。`val_acc` や `val_loss` などの検証メトリクスを監視する場合、`save_freq` は "epoch" に設定する必要があります。 |
-| `options`                 | (str): `save_weights_only` が真の場合はオプションの `tf.train.CheckpointOptions` オブジェクト、`save_weights_only` が偽の場合はオプションの `tf.saved_model.SaveOptions` オブジェクト。    |
-| `initial_value_threshold` | (float): 監視するメトリクスの初期 "ベスト" 値。 |
+| `filepath`   | (str): モデルファイルを保存するパス |  
+| `monitor`                 | (str): モニター対象となるメトリクス名       |
+| `verbose`                 | (int): ログの出力モード。0 は停止、1 はコールバックが動作したときにメッセージを表示   |
+| `save_best_only`          | (Boolean): `True` の場合、`monitor` と `mode` で定義された条件で最新またはベストなモデルのみを保存   |
+| `save_weights_only`       | (Boolean): `True` の場合、モデルの重みのみを保存                             |
+| `mode`                    | (`auto`, `min`, `max`): `val_acc` の場合は `max`、`val_loss` の場合は `min` など                       |
+| `save_freq`               | ("epoch" または int): `epoch` なら各エポック後、数値ならそのバッチ数ごとにモデルを保存。`val_acc` や `val_loss` のような検証メトリクスをモニターする場合は必ず "epoch" を設定してください。   |
+| `options`                 | (str): `save_weights_only` が true の場合は `tf.train.CheckpointOptions`、false の場合は `tf.saved_model.SaveOptions` のオプションオブジェクト（任意）    |
+| `initial_value_threshold` | (float): 監視対象メトリクスの初期 "ベスト" 値を浮動小数点数で指定         |
 
-### N エポック後にチェックポイントをログ
+### N エポックごとにチェックポイントを記録
 
-デフォルト (`save_freq="epoch"`) では、コールバックは各エポック後にアーティファクトとしてチェックポイントを作成し、アップロードします。特定のバッチ数後にチェックポイントを作成するには、`save_freq` を整数に設定します。`N` エポック後にチェックポイントを作成するには、`train` データローダーの基数を計算し、それを `save_freq` に渡します。
+デフォルト（`save_freq="epoch"`）では、各エポック後にチェックポイントを作成しアーティファクトとしてアップロードします。特定のバッチ数ごとにチェックポイントを作成したい場合は `save_freq` を整数に設定してください。`N` エポックごとにチェックポイントを作成したい場合は、`train` データローダーの全件数を取得して `save_freq` に渡します。
 
 ```python
 WandbModelCheckpoint(
@@ -119,9 +121,9 @@ WandbModelCheckpoint(
 )
 ```
 
-### TPU アーキテクチャーで効率的にチェックポイントをログ
+### TPU アーキテクチャで効率良くチェックポイントを記録
 
-TPU 上でチェックポイントを作成する際に、`UnimplementedError: File system scheme '[local]' not implemented` エラーメッセージが発生することがあります。これは、モデルディレクトリー (`filepath`) がクラウドストレージバケットパス (`gs://bucket-name/...`) を使用しなければならないためであり、このバケットは TPU サーバーからアクセス可能でなければなりません。ただし、ローカルパスを使用してチェックポイントを行い、それを Artifacts としてアップロードすることは可能です。
+TPU 上でチェックポイントを作成する際に `UnimplementedError: File system scheme '[local]' not implemented` というエラーが発生することがあります。これはモデルディレクトリー（`filepath`）がクラウドストレージバケットパス（`gs://bucket-name/...`）である必要があり、そのバケットが TPU サーバーからアクセス可能でなければならないためです。ただし、一旦ローカルパスでチェックポイントを作成し、その後 Artifacts 経由でアップロードすることもできます。
 
 ```python
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
@@ -132,29 +134,28 @@ WandbModelCheckpoint(
 )
 ```
 
-## モデル予測を `WandbEvalCallback` で可視化
+## `WandbEvalCallback` でモデル予測を可視化
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" >}}
 
-`WandbEvalCallback` は、モデル予測のための Keras コールバックを主に構築するための抽象基底クラスであり、副次的にデータセットの可視化にも使われます。
+`WandbEvalCallback` は、主にモデル予測とデータセットの可視化のために設計された Keras コールバックの抽象基底クラスです。
 
-この抽象コールバックは、データセットやタスクに対してはアグノスティックです。これを使用するには、このベース `WandbEvalCallback` コールバッククラスを継承し、`add_ground_truth` と `add_model_prediction` メソッドを実装します。
+この抽象コールバックは、データセットやタスクに依存しません。使うためにはこのベースクラスを継承し、`add_ground_truth` と `add_model_prediction` メソッドを実装してください。
 
-`WandbEvalCallback` は、以下のメソッドを提供するユーティリティクラスです：
+`WandbEvalCallback` は以下のユーティリティ機能を提供します：
 
-* データと予測の `wandb.Table` インスタンスを作成します。
-* データと予測のテーブルを `wandb.Artifact` としてログします。
-* `on_train_begin` 時にデータテーブルをログします。
-* `on_epoch_end` 時に予測テーブルをログします。
+* データと予測の `wandb.Table` インスタンスを作成
+* データ・予測の Table を `wandb.Artifact` として記録
+* `on_train_begin` でデータテーブルをログ
+* `on_epoch_end` で予測テーブルをログ
 
-以下の例では、画像分類タスクのために `WandbClfEvalCallback` を使用しています。この例のコールバックは検証データ (`data_table`) を W&B にログし、推論を行い、各エポック終了時に予測 (`pred_table`) を W&B にログします。
+下記は画像分類タスク用に `WandbClfEvalCallback` を使う例です。このコールバックは検証データ（`data_table`）を W&B に記録し、推論を行いエポック終了ごとに予測結果（`pred_table`）を記録します。
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbEvalCallback
 
-
-# モデル予測可視化用コールバックを実装
+# モデル予測可視化用のコールバックを実装
 class WandbClfEvalCallback(WandbEvalCallback):
     def __init__(
         self, validation_data, data_table_columns, pred_table_columns, num_samples=100
@@ -184,13 +185,12 @@ class WandbClfEvalCallback(WandbEvalCallback):
                 pred,
             )
 
-
 # ...
 
-# 新しい W&B run を初期化
+# 新規 W&B Run を初期化
 wandb.init(config={"hyper": "parameter"})
 
-# コールバックを Model.fit に追加
+# Model.fit にコールバックを追加
 model.fit(
     X_train,
     y_train,
@@ -207,31 +207,31 @@ model.fit(
 ```
 
 {{% alert %}}
-W&B の [Artifact ページ]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph" lang="ja" >}}) には、デフォルトでテーブルログが含まれており、**Workspace** ページには含まれていません。
+W&B の [Artifact ページ]({{< relref path="/guides/core/artifacts/explore-and-traverse-an-artifact-graph" lang="ja" >}}) には Table ログがデフォルトで表示されます。**Workspace** ページではありません。
 {{% /alert %}}
 
 ### `WandbEvalCallback` リファレンス
 
-| パラメータ            | 説明                      |
+| パラメータ              | 説明                                      |
 | -------------------- | ------------------------------------------------ |
-| `data_table_columns` | (list) `data_table` の列名のリスト               |
-| `pred_table_columns` | (list) `pred_table` の列名のリスト               |
+| `data_table_columns` | (list) `data_table` のカラム名リスト |
+| `pred_table_columns` | (list) `pred_table` のカラム名リスト |
 
-### メモリ使用量の詳細
+### メモリフットプリントの詳細
 
-`data_table` は `on_train_begin` メソッドが呼び出されたときに W&B にログされます。一度 W&B アーティファクトとしてアップロードされると、`data_table_ref` クラス変数を使用してこのテーブルにアクセスすることができます。`data_table_ref` は 2D リストで、`self.data_table_ref[idx][n]` のようにインデックスを付けてアクセスできます。この例では、`idx` は行番号で、`n` は列番号です。
+`on_train_begin` が呼ばれたタイミングで `data_table` を W&B に記録します。アップロードが完了すると、このテーブルへの参照（`data_table_ref` クラス変数）を取得できます。`data_table_ref` は 2 次元リストで、`self.data_table_ref[idx][n]` の形でインデックスできます。`idx` は行番号、`n` は列番号です。例の使い方を参照してください。
 
 ### コールバックのカスタマイズ
 
-`on_train_begin` や `on_epoch_end` メソッドをオーバーライドして、より細かい制御を行うことができます。`N` バッチ後にサンプルをログしたい場合、`on_train_batch_end` メソッドを実装することができます。
+必要に応じて `on_train_begin` や `on_epoch_end` メソッドをオーバーライドして、より細かい制御が可能です。`N` バッチごとにサンプルを記録したい場合は `on_train_batch_end` メソッドを実装できます。
 
 {{% alert %}}
-💡 `WandbEvalCallback` を継承してモデル予測可視化のコールバックを実装している場合、何か明確にすべき点や修正が必要な場合は、問題を報告してお知らせください。[issue](https://github.com/wandb/wandb/issues) を開いてください。
+`WandbEvalCallback` を継承してモデル予測可視化用のコールバックを実装している際に、不明点や修正要望がある場合は [issue](https://github.com/wandb/wandb/issues) をオープンしてください。
 {{% /alert %}}
 
-## `WandbCallback` [レガシー]
+## `WandbCallback` 【レガシー】
 
-`WandbCallback` クラスを使用して、`model.fit` で追跡されるすべてのメトリクスと損失値を自動的に保存します。
+W&B ライブラリの `WandbCallback` クラスを使うと、`model.fit` で追跡された全メトリクスやロス値を自動で記録できます。
 
 ```python
 import wandb
@@ -239,73 +239,73 @@ from wandb.integration.keras import WandbCallback
 
 wandb.init(config={"hyper": "parameter"})
 
-...  # Keras でモデルをセットアップするためのコード
+...  # Keras でモデルのセットアップ
 
-# コールバックを model.fit に渡す
+# Callbacks に渡す
 model.fit(
     X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
 )
 ```
 
-短いビデオ [Get Started with Keras and Weights & Biases in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M) をご覧ください。
+[Get Started with Keras and W&B in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M)（1 分以内で始められる Keras × W&B の動画）もご覧ください。
 
-より詳細なビデオは [Integrate Weights & Biases with Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases) をご覧ください。[Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb) を確認できます。
+より詳しい動画は [Integrate W&B with Keras](https://www.youtube.com/watch?v=Bsudo7jbMow\&ab_channel=Weights%26Biases) をご確認ください。[Colab Jupyter Notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Keras_pipeline_with_Weights_and_Biases.ipynb) も用意されています。
 
 {{% alert %}}
-スクリプトを含む私たちの [example repo](https://github.com/wandb/examples) をご覧ください。ここには [Fashion MNISTの例](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) とそれが生成する [W&B ダッシュボード](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) があります。
+[example repo](https://github.com/wandb/examples) ではスクリプト例（[Fashion MNIST example](https://github.com/wandb/examples/blob/master/examples/keras/keras-cnn-fashion/train.py) など）や、その結果生成される [W&B ダッシュボード](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) も見られます。
 {{% /alert %}}
 
-`WandbCallback` クラスは、広範なロギング設定オプションをサポートしています：監視するメトリクスの指定、重みや勾配の追跡、トレーニングデータと検証データ上の予測のログなど。
+`WandbCallback` クラスは多様なロギング設定オプションに対応：モニタリングするメトリクス指定、重み・勾配の追跡、トレーニングデータと検証データでの予測ロギングなど。
 
-`keras.WandbCallback` の参考文献のドキュメントも確認してください。より詳細な情報があります。
+`keras.WandbCallback` の詳細はリファレンス文書をご覧ください。
 
-`WandbCallback` 
+`WandbCallback` の主な特徴：
 
-* Keras によって収集された任意のメトリクスの履歴データを自動的にログします：`keras_model.compile()` に渡された損失とその他の項目。
-* `monitor` と `mode` 属性によって定義された "最良" のトレーニングステップに関連付けられたサマリーメトリクスを設定します。これはデフォルトでは最小の `val_loss` を持つエポックとなります。`WandbCallback` はデフォルトで最も良い `epoch` に関連付けられたモデルを保存します。
-* 勾配とパラメータのヒストグラムをオプションでログします。
-* オプションで wandb に視覚化するためのトレーニングおよび検証データを保存します。
+* Keras で収集されたすべてのメトリクス（ロスや `keras_model.compile()` で指定したもの）を自動で記録
+* `monitor` と `mode` 属性で定義された「最も良い」トレーニングステップに紐付くサマリーメトリクスを設定（デフォルトは最小の `val_loss` を持つエポック、ベストな `epoch` のモデルが保存されます）
+* オプションで勾配やパラメータのヒストグラムも記録可能
+* オプションでトレーニング・検証データも wandb で可視化用に保存
 
 ### `WandbCallback` リファレンス
 
-| 引数                       |                                    |
-| -------------------------- | ------------------------------------------- |
-| `monitor`                  | (str) monitor するメトリックの名前。デフォルトは `val_loss`。                                                                   |
-| `mode`                     | (str) {`auto`, `min`, `max`} のいずれか。`min` - モニターが最小化されるときにモデルを保存 `max` - モニターが最大化されるときにモデルを保存 `auto` - モデル保存のタイミングを推測（デフォルト）。                                                                                                                                                |
-| `save_model`               | True - monitor が過去のすべてのエポックを上回った場合にモデルを保存 False - モデルを保存しない                                       |
-| `save_graph`               | (boolean) True の場合、wandb にモデルグラフを保存します（デフォルトは True）。                                                 |
-| `save_weights_only`        | (boolean) True の場合、モデルの重みのみを保存します（`model.save_weights(filepath)`）。そうでなければ、完全なモデルを保存します。   |
-| `log_weights`              | (boolean) True の場合、モデルのレイヤーの重みのヒストグラムを保存します。                                                 |
-| `log_gradients`            | (boolean) True の場合、トレーニング勾配のヒストグラムをログします                                                     |
-| `training_data`            | (tuple) `model.fit` に渡される `(X,y)` と同じ形式。勾配を計算するために必要で、`log_gradients` が True の場合必須です。       |
-| `validation_data`          | (tuple) `model.fit` に渡される `(X,y)` と同じ形式。Wandb が視覚化するためのデータセット。フィールドを設定すると、各エポックで wandb が少数の予測を行い、視覚化のための結果を保存します。          |
-| `generator`                | (generator) wandb が視覚化するための検証データを返すジェネレータ。このジェネレータはタプル `(X,y)` を返すべきです。`validate_data` またはジェネレータのいずれかをセットすることで、wandb は特定のデータ例を視覚化できます。     |
-| `validation_steps`         | (int) `validation_data` がジェネレータの場合、完全な検証セットのためにジェネレータを実行するステップ数。       |
-| `labels`                   | (list) wandb でデータを視覚化する場合、複数クラスの分類器を構築する際の数値出力を理解しやすい文字列に変換するラベルのリスト。バイナリ分類器の場合、2つのラベル [`label for false`, `label for true`] を渡すことができます。`validate_data` と `generator` の両方がfalseの場合は何も行いません。    |
-| `predictions`              | (int) 各エポックの視覚化のために行う予測の数。最大は 100 です。 |
-| `input_type`               | (string) 視覚化を助けるためのモデル入力の型。`image`、`images`、`segmentation_mask` のいずれか。  |
-| `output_type`              | (string) 視覚化を助けるためのモデル出力の型。`image`、`images`、`segmentation_mask` のいずれか。  |
-| `log_evaluation`           | (boolean) True の場合、各エポックで検証データとモデルの予測を含むテーブルを保存します。詳細は `validation_indexes`、`validation_row_processor`、`output_row_processor` を参照してください。     |
-| `class_colors`             | (\[float, float, float]) 入力または出力がセグメンテーションマスクの場合、各クラスのための RGB タプル（範囲 0-1）を含む配列。                  |
-| `log_batch_frequency`      | (integer) None の場合、コールバックは各エポックをログします。整数を設定する場合、コールバックは `log_batch_frequency` バッチごとにトレーニングメトリクスをログします。          |
-| `log_best_prefix`          | (string) None の場合、追加のサマリーメトリクスを保存しません。文字列が設定されている場合、プレフィックスとともに監視されたメトリクスとエポックを毎回保存し、サマリーメトリクスとして保存します。   |
-| `validation_indexes`       | (\[wandb.data_types._TableLinkMixin]) 各検証例に関連付けるインデックスキーの順序付きリスト。`log_evaluation` が True で `validation_indexes` を提供する場合、検証データのテーブルを作成しません。その代わり、各予測を `TableLinkMixin` で表される行に関連付けます。行のキーを取得するには、`Table.get_index()` を使用します。        |
-| `validation_row_processor` | (Callable) 検証データに適用される関数で、一般にデータを視覚化するのに使用します。関数には `ndx` (int) と `row` (dict) が渡されます。モデルに単一の入力がある場合、`row["input"]` はその行の入力データを含みます。そうでない場合、入力スロットの名前を含みます。`fit` フィット関数が単一のターゲットを取り込む場合、`row["target"]` はその行のターゲットデータを含みます。異なるアウトプットスロットの名前を含んでいます。たとえば、入力データが単一の配列で、そのデータをImageとして視覚化するためには、`lambda ndx, row: {"img": wandb.Image(row["input"])}` をプロセッサとして提供します。`log_evaluation` がFalseの場合や `validation_indexes` が存在する場合は無視されます。 |
-| `output_row_processor`     | (Callable) `validation_row_processor` と同様だが、モデルの出力に適用されます。`row["output"]` はモデルの出力結果を含みます。  |
-| `infer_missing_processors` | (Boolean) `validation_row_processor` と `output_row_processor` が欠落している場合にそれを推測するかどうかを決定します。デフォルトでは True。`labels` を提供すると、W&B は適切な場合に分類タイプのプロセッサを推測しようとします。  |
-| `log_evaluation_frequency` | (int) 評価結果の記録頻度を決定します。デフォルトは `0` で、トレーニングの終了時にのみログします。1に設定すると各エポックごとにログします。2ならば隔エポックでログします。`log_evaluation` が False のときには効果がありません。    |
+| 引数                         |                                    |
+| --------------------------- | ------------------------------------------- |
+| `monitor`                  | (str) モニターするメトリクス名。デフォルトは `val_loss`。 |
+| `mode`                     | (str) `{auto, min, max}` のいずれか。`min` - monitor が最小化されるとき保存、`max` - monitor が最大化されるとき保存、`auto` - 自動検出（デフォルト） |
+| `save_model`               | `True` で monitor が過去最高になったときにモデル保存、`False` で保存しない        |
+| `save_graph`               | (boolean) `True` でモデルグラフを wandb に保存（デフォルトは True）            |
+| `save_weights_only`        | (boolean) `True` なら重みのみを保存（`model.save_weights(filepath)`）、`False` ならモデル全体を保存      |
+| `log_weights`              | (boolean) `True` で各レイヤーの重みのヒストグラムを保存                    |
+| `log_gradients`            | (boolean) `True` でトレーニング勾配のヒストグラムを記録                    |
+| `training_data`            | (tuple) `model.fit` で渡す `(X,y)` と同じ形式。勾配計算のため必須――`log_gradients` が `True` の場合は必須         |
+| `validation_data`          | (tuple) `model.fit` で渡す `(X,y)` と同じ検証データ。これを指定すると各エポックごとに少数サンプルで予測してあとで可視化できるよう記録                    |
+| `generator`                | (generator) wandb で可視化する検証データを返すジェネレータ。`(X,y)` のタプルを返す必要あり。`validate_data` または generator のどちらかが設定されている必要があります         |
+| `validation_steps`         | (int) `validation_data` がジェネレータの場合、全検証セットをカバーするステップ数            |
+| `labels`                   | (list) データ可視化時に数値出力をわかりやすい文字列に変換するラベルリスト（多クラス分類用）。バイナリ分類なら `[False 用ラベル, True 用ラベル]`。`validate_data`・generator のいずれも設定がない場合は無効            |
+| `predictions`              | (int) 各エポックで可視化のために記録する予測サンプル数（最大 100）       |
+| `input_type`               | (string) 可視化時のモデル入力タイプ（`image`, `images`, `segmentation_mask` のいずれか）             |
+| `output_type`              | (string) 可視化時の出力タイプ（`image`, `images`, `segmentation_mask` のいずれか）                 |
+| `log_evaluation`           | (boolean) 各エポックごとに検証データとモデル予測の Table を保存するか。詳細は `validation_indexes`, `validation_row_processor`, `output_row_processor` を参照 |
+| `class_colors`             | ([float, float, float]) 入出力がセグメンテーションマスクの場合、各クラスの RGB タプル（0-1 範囲）のリスト    |
+| `log_batch_frequency`      | (integer) None ならエポックごと、整数を与えるとそのバッチ数ごとにトレーニングメトリクスを記録          |
+| `log_best_prefix`          | (string) None なら追加サマリーメトリクスなし。文字列指定時は prefix を付与して監視メトリクスやエポックをサマリーメトリクスに保存 |
+| `validation_indexes`       | ([wandb.data_types._TableLinkMixin]) 各検証サンプルに割り当てるインデックスキーの順序付きリスト。`log_evaluation=True` かつ指定時は Table を作らず、このキーで各予測を関連付ける。行キー取得は `Table.get_index()` を参照                 |
+| `validation_row_processor` | (Callable) 検証データに適用する関数。データ可視化によく使われ、引数は `ndx` (int) と `row` (dict)。入力が1つなら `row["input"]`，ターゲットが1つなら `row["target"]`。例えば画像として可視化したければ `lambda ndx, row: {"img": wandb.Image(row["input"])}` のように渡す。`log_evaluation=False` または `validation_indexes` がある場合は無効化される           |
+| `output_row_processor`     | (Callable) 検証データと同様だが、モデル出力の可視化用（`row["output"]` には出力結果が格納される）   |
+| `infer_missing_processors` | (Boolean) `validation_row_processor` や `output_row_processor` が未設定時は自動補完するか。デフォルト True、`labels` があれば分類用プロセッサも自動推定          |
+| `log_evaluation_frequency` | (int) 評価結果の記録頻度。デフォルトは `0`（トレーニング終了時のみ記録）、1 で毎エポックごと、2 で1つおきのエポックなど。`log_evaluation=False` の場合は意味なし        |
 
 ## よくある質問
 
-### `Keras` のマルチプロセッシングを `wandb` でどのように使用しますか？
+### `Keras` の multiprocessing を wandb と併用するには？
 
-`use_multiprocessing=True` を設定したときにこのエラーが発生する場合があります：
+`use_multiprocessing=True` を指定したとき、次のエラーが発生することがあります：
 
 ```python
 Error("You must call wandb.init() before wandb.config.batch_size")
 ```
 
-それを回避する方法：
+この問題を回避するには：
 
-1. `Sequence` クラスの構築時に、これを追加：`wandb.init(group='...')`。
-2. `main` で、`if __name__ == "__main__":` を使用して、スクリプトロジックの残りをその中に置くようにしてください。
+1. `Sequence` クラスのコンストラクタ内に `wandb.init(group='...')` を追加してください。
+2. `main` では `if __name__ == "__main__":` でガードし、その中にスクリプトの処理を記載してください。

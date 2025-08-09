@@ -1,5 +1,5 @@
 ---
-title: wandb online
+title: wandb 온라인
 menu:
   reference:
     identifier: ko-ref-cli-wandb-online

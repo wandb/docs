@@ -1,14 +1,14 @@
 ---
-title: How do I change my billing address?
+title: 결제 주소를 어떻게 변경하나요?
 menu:
   support:
     identifier: ko-support-kb-articles-change_billing_address
 support:
-- administrator
-- billing
+- 관리자
+- 결제
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-결제 어드레스를 변경하려면 지원팀(support@wandb.com)에 문의하세요.
+결제 주소를 변경하려면 지원팀(support@wandb.com)으로 문의해 주세요.

@@ -1,29 +1,30 @@
 ---
-title: サービスアカウントとは何か、それはなぜ役立つのか？
+title: サービスアカウントとは何か、そしてなぜ便利なのか？
 menu:
   support:
     identifier: ja-support-kb-articles-service_account_useful
 support:
-  - administrator
+- 管理者
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-サービスアカウント (エンタープライズ専用機能) は、人間ではないユーザーまたはマシンがチームや Projects 全体で一般的なタスクを自動化するためのもので、特定の人間ユーザーに特化しないタスクに使用されます。チーム内でサービスアカウントを作成し、その APIキー を使用してチーム内の Projects を読み書きすることができます。
 
-他にも、サービスアカウントは、wandb にログを記録する自動化されたジョブ、例えば定期的な再トレーニングやナイトリービルドなどを追跡するのに便利です。必要に応じて、これらの機械がローンチした Runs に `WANDB_USERNAME` や `WANDB_USER_EMAIL` などの [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) を関連付けることができます。
+サービスアカウント（エンタープライズ限定機能）は、人間ではない、もしくは機械によるユーザーを表します。これにより、チームや Projects 間で共通のタスクの自動化や、特定のユーザーに紐付かない作業の自動化が可能です。サービスアカウントは各チーム内で作成でき、その APIキー を使って、そのチーム内の Projects へ読み書きできます。
 
-[チームサービスアカウントの振る舞い]({{< relref path="/guides/models/app/settings-page/teams.md#team-service-account-behavior" lang="ja" >}}) を参照して詳細を確認してください。
+サービスアカウントは、例えば定期的な再トレーニングやナイトリービルドなど、自動で wandb へログを送信するジョブのトラッキングに役立ちます。必要に応じて、こうしたマシン起動の run に [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) `WANDB_USERNAME` または `WANDB_USER_EMAIL` を指定してユーザー名を紐付けることもできます。
 
-チームのサービスアカウントの APIキー は `<WANDB_HOST_URL>/<your-team-name>/service-accounts` で取得できます。また、チームの **Team settings** に移動して **Service Accounts** タブを参照することもできます。
+詳細は [Team Service Account の振る舞い]({{< relref path="/guides/models/app/settings-page/teams.md#team-service-account-behavior" lang="ja" >}}) をご覧ください。
 
-チームの新しいサービスアカウントを作成するには:
-* チームの **Service Accounts** タブで **+ 新しいサービスアカウント** ボタンを押します
-* **Name** フィールドで名前を指定します
-* 認証メソッドとして **Generate API key (Built-in)** を選択します
+チームのサービスアカウント用 APIキー は `<WANDB_HOST_URL>/<your-team-name>/service-accounts` で取得できます。または、チームの **Team settings** から **Service Accounts** タブに進んでください。
+
+新しくサービスアカウントを作成するには:
+* チームの **Service Accounts** タブ内で **+ New service account** ボタンを押します
+* **Name** 欄に名前を入力します
+* 認証方式で **Generate API key (Built-in)** を選択します
 * **Create** ボタンを押します
-* 新しく作成したサービスアカウントの **Copy API key** ボタンをクリックし、それを秘密の管理者や他の安全でアクセス可能な場所に保存します
+* 作成されたサービスアカウントの **Copy API key** ボタンをクリックし、そのキーをシークレットマネージャや安全かつ アクセス 可能な場所に保管してください
 
 {{% alert %}}
-**Built-in** サービスアカウントの他に、W&B は [SDK と CLI 用のアイデンティティフェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md#external-service-accounts" lang="ja" >}}) を使用した **外部サービスアカウント** もサポートしています。サービスアイデンティティを使用して W&B タスクを自動化したい場合は、JSON Web Tokens (JWT) を発行できるあなたのアイデンティティプロバイダで管理される外部サービスアカウントを使用してください。
+**Built-in** サービスアカウントに加えて、W&B は [SDK・CLI向けのアイデンティティフェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md#external-service-accounts" lang="ja" >}})を使った **External service accounts** にも対応しています。アイデンティティプロバイダで管理されていて、JSON Web Token (JWT) を発行できるサービスアイデンティティを使って W&B の作業を自動化したい場合は、External service accounts をご利用ください。
 {{% /alert %}}

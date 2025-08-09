@@ -1,5 +1,5 @@
 ---
-title: wandb agent
+title: wandb 에이전트
 menu:
   reference:
     identifier: ko-ref-cli-wandb-agent
@@ -7,16 +7,16 @@ menu:
 
 **사용법**
 
-`wandb agent [OPTIONS] SWEEP_ID`
+`wandb agent [옵션] SWEEP_ID`
 
 **요약**
 
-W&B 에이전트 실행
+W&B 에이전트를 실행합니다
 
 **옵션**
 
 | **옵션** | **설명** |
 | :--- | :--- |
-| `-p, --project` | 스윕에서 생성된 W&B run이 전송될 프로젝트 이름입니다. 프로젝트가 지정되지 않은 경우, run은 'Uncategorized'라는 프로젝트로 전송됩니다. |
-| `-e, --entity` | 스윕에서 생성된 W&B run을 전송할 사용자 이름 또는 팀 이름입니다. 지정하는 엔티티가 이미 존재하는지 확인하십시오. 엔티티를 지정하지 않으면, run은 기본 엔티티 (일반적으로 사용자 이름)로 전송됩니다. |
-| `--count` | 이 에이전트의 최대 run 횟수입니다. |
+| `-p, --project` | 스윕에서 생성된 W&B run 이 전송될 프로젝트 이름입니다. 프로젝트를 지정하지 않으면 run 은 'Uncategorized' 라는 프로젝트로 전송됩니다. |
+| `-e, --entity` | 스윕으로 생성된 W&B run 을 전송할 사용자명 또는 팀 이름입니다. 해당 entity 가 이미 존재하는지 확인하세요. 지정하지 않으면 기본 entity(보통 본인 사용자명)로 run 이 전송됩니다. |
+| `--count` | 이 에이전트로 실행할 run 의 최대 개수입니다. |

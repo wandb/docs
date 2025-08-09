@@ -1,53 +1,53 @@
 ---
-title: table
+title: 테이블
 menu:
   reference:
     identifier: ko-ref-query-panel-table
 ---
 
-## 연결 가능한 연산
+## 체이너블 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-asset의 _file_ 을 반환합니다.
+asset의 _파일_ 을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
-| `asset` | asset |
+| `asset` | 해당 asset |
 
 #### 반환 값
-asset의 _file_
+asset의 _파일_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-_table_ 의 행을 반환합니다.
+_table_의 행(row)들을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
-| `table` | _table_ |
+| `table` | _table_ 하나 |
 
 #### 반환 값
-_table_ 의 행
+_table_의 행(row) 목록
 
 
-## 목록 연산
+## 리스트 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-asset의 _file_ 을 반환합니다.
+asset의 _파일_ 을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
-| `asset` | asset |
+| `asset` | 해당 asset |
 
 #### 반환 값
-asset의 _file_
+asset의 _파일_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-_table_ 의 행을 반환합니다.
+_table_의 행(row)들을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
-| `table` | _table_ |
+| `table` | _table_ 하나 |
 
 #### 반환 값
-_table_ 의 행
+_table_의 행(row) 목록

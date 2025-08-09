@@ -7,14 +7,14 @@ menu:
 
 **사용법**
 
-`wandb status [OPTIONS]`
+`wandb status [옵션]`
 
 **요약**
 
-설정(configuration settings) 표시
+설정 설정을 표시합니다
 
 **옵션**
 
 | **옵션** | **설명** |
 | :--- | :--- |
-| `--settings / --no-settings` | 현재 설정(settings) 표시 |
+| `--settings / --no-settings` | 현재 설정을 표시합니다 |

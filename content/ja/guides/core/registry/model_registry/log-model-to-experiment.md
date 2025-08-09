@@ -1,6 +1,6 @@
 ---
-title: モデルを追跡する
-description: W&B Python SDK を使用して、モデル、モデルの依存関係、およびそのモデルに関連するその他の情報を追跡します。
+title: モデルをトラッキングする
+description: W&B Python SDK を使って、モデル、その依存関係、そしてそのモデルに関連するその他の情報をトラッキングしましょう。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-log-model-to-experiment
@@ -8,17 +8,17 @@ menu:
 weight: 3
 ---
 
-モデル、モデルの依存関係、およびそのモデルに関連するその他の情報を W&B Python SDK を使用して追跡します。
+W&B の Python SDK を使って、モデル、その依存関係、その他のモデルに関連する情報をトラッキングしましょう。
 
-内部的には、W&B は [モデルアーティファクト]({{< relref path="./model-management-concepts.md#model-artifact" lang="ja" >}}) のリネージを作成し、W&B アプリ UI で表示したり、W&B Python SDK を使用してプログラム的に確認することができます。詳細は [モデルリネージマップの作成]({{< relref path="./model-lineage.md" lang="ja" >}}) を参照してください。
+裏側では、W&B が [model artifact]({{< relref path="./model-management-concepts.md#model-artifact" lang="ja" >}}) のリネージを作成します。これは W&B App で、または W&B の Python SDK からプログラム的に確認できます。詳しくは [モデルリネージマップの作成]({{< relref path="./model-lineage.md" lang="ja" >}}) をご覧ください。
 
 ## モデルをログする方法
 
-`run.log_model` API を使用してモデルをログします。モデルファイルが保存されているパスを `path` パラメータに提供してください。このパスはローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの[リファレンス URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) のいずれかにすることができます。
+`run.log_model` API を使ってモデルをログできます。`path` パラメータにはモデルファイルが保存されているパスを指定します。パスにはローカルファイル、ディレクトリ、または `s3://bucket/path` のような外部バケットを示す [リファレンス URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) も指定できます。
 
-オプションでモデルアーティファクトの名前を `name` パラメータに指定できます。`name` が指定されていない場合、W&B は入力パスのベース名を実行 ID を前に付けたものとして使用します。
+オプションで `name` パラメータに model artifact の名前を設定できます。`name` を指定しない場合、W&B は入力パスのベース名に run ID を付与して名前を自動作成します。
 
-以下のコードスニペットをコピーして貼り付けてください。`<>` で囲まれた値をあなた自身のものに置き換えてください。
+以下のコードスニペットをコピー＆ペーストし、`<>` で囲まれた値はご自身のものに置き換えてください。
 
 ```python
 import wandb
@@ -26,15 +26,15 @@ import wandb
 # W&B run を初期化
 run = wandb.init(project="<project>", entity="<entity>")
 
-# モデルをログする
+# モデルをログ
 run.log_model(path="<path-to-model>", name="<name>")
 ```
 
 <details>
 
-<summary>例: Keras モデルを W&B にログする</summary>
+<summary>例：Keras モデルを W&B にログする</summary>
 
-以下のコード例は、畳み込みニューラルネットワーク (CNN) モデルを W&B にログする方法を示します。
+以下のコード例は、畳み込みニューラルネットワーク (CNN) モデルを W&B にログする方法を示しています。
 
 ```python
 import os
@@ -47,7 +47,7 @@ config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 # W&B run を初期化
 run = wandb.init(entity="charlie", project="mnist-project", config=config)
 
-# トレーニングアルゴリズム
+# トレーニング用アルゴリズム
 loss = run.config["loss"]
 optimizer = run.config["optimizer"]
 metrics = ["accuracy"]
@@ -75,10 +75,10 @@ local_filepath = "./"
 full_path = os.path.join(local_filepath, model_filename)
 model.save(filepath=full_path)
 
-# モデルをログする
+# モデルをログ
 run.log_model(path=full_path, name="MNIST")
 
-# W&B に対して明示的に run の終了を通知します。
+# W&B で run を明示的に終了
 run.finish()
 ```
 </details>

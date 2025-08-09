@@ -1,5 +1,5 @@
 ---
-title: wandb offline
+title: wandb 오프라인
 menu:
   reference:
     identifier: ko-ref-cli-wandb-offline
@@ -7,7 +7,7 @@ menu:
 
 **사용법**
 
-`wandb offline [OPTIONS]`
+`wandb offline [옵션]`
 
 **요약**
 

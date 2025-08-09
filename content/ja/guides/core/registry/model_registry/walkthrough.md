@@ -1,6 +1,6 @@
 ---
-title: 'Tutorial: W&B を使ったモデル管理'
-description: W&B を活用したモデル管理の使い方を学ぶ
+title: 'チュートリアル: W&B でモデル管理を行う'
+description: W&B を使った Model Management の方法を学ぶ
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-walkthrough
@@ -8,23 +8,23 @@ menu:
 weight: 1
 ---
 
-W&B にモデルをログする方法を示す次のウォークスルーに従ってください。このウォークスルーの終わりまでに次のことができるようになります：
+以下のウォークスルーでは、W&B にモデルをログする方法を紹介します。このウォークスルーを通して、次のことができるようになります。
 
-* MNIST データセットと Keras フレームワークを使用してモデルを作成およびトレーニングします。
-* トレーニングしたモデルを W&B プロジェクトにログします。
-* 作成したモデルの依存関係として使用したデータセットをマークします。
-* モデルを W&B Registry にリンクします。
-* レジストリにリンクしたモデルのパフォーマンスを評価します。
-* モデルバージョンをプロダクション用に準備完了としてマークします。
+* MNIST データセットと Keras フレームワークを使ってモデルを作成・トレーニングする
+* トレーニングしたモデルを W&B プロジェクトにログする
+* 利用したデータセットを作成したモデルの依存関係としてマークする
+* モデルを W&B Registry にリンクする
+* Registry にリンクしたモデルのパフォーマンスを評価する
+* モデルバージョンをプロダクション用としてマークする
 
 {{% alert %}}
-* このガイドで提示された順にコードスニペットをコピーしてください。
-* モデルレジストリに固有でないコードは折りたたみ可能なセルに隠されています。
+* このガイドで紹介している順番にコードスニペットをコピーしてご利用ください。
+* Model Registry 固有でないコードは折りたたみセル内に隠されています。
 {{% /alert %}}
 
 ## セットアップ
 
-始める前に、このウォークスルーに必要な Python の依存関係をインポートします：
+始める前に、このウォークスルーに必要な Python の依存ライブラリをインポートしてください。
 
 ```python
 import wandb
@@ -35,15 +35,16 @@ from wandb.integration.keras import WandbMetricsLogger
 from sklearn.model_selection import train_test_split
 ```
 
-`entity` 変数に W&B エンティティを指定します：
+W&B のエンティティを `entity` 変数に入力します。
 
 ```python
 entity = "<entity>"
 ```
 
-### データセット アーティファクトを作成する
+### データセット Artifact を作成する
 
-まず、データセットを作成します。次のコードスニペットは、MNIST データセットをダウンロードする関数を作成します：
+まず、データセットを作成します。以下のコードスニペットは、MNIST データセットをダウンロードする関数を作成します。
+
 ```python
 def generate_raw_data(train_size=6000):
     eval_size = int(train_size / 6)
@@ -62,11 +63,11 @@ def generate_raw_data(train_size=6000):
         y_eval[:eval_size],
     )
 
-# データセットを作成
+# データセットの作成
 (x_train, y_train), (x_eval, y_eval) = generate_raw_data()
 ```
 
-次に、データセットを W&B にアップロードします。これを行うには、[artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) オブジェクトを作成し、そのアーティファクトにデータセットを追加します。
+次に、データセットを W&B にアップロードします。そのためには、[artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) オブジェクトを作成し、その artifact にデータセットを追加します。
 
 ```python
 project = "model-registry-dev"
@@ -77,45 +78,46 @@ job_type = "build_dataset"
 # W&B run を初期化
 run = wandb.init(entity=entity, project=project, job_type=job_type)
 
-# トレーニングデータ用に W&B Table を作成
+# トレーニングデータ用の W&B Table を作成
 train_table = wandb.Table(data=[], columns=[])
 train_table.add_column("x_train", x_train)
 train_table.add_column("y_train", y_train)
 train_table.add_computed_columns(lambda ndx, row: {"img": wandb.Image(row["x_train"])})
 
-# 評価データ用に W&B Table を作成
+# 評価データ用の W&B Table を作成
 eval_table = wandb.Table(data=[], columns=[])
 eval_table.add_column("x_eval", x_eval)
 eval_table.add_column("y_eval", y_eval)
 eval_table.add_computed_columns(lambda ndx, row: {"img": wandb.Image(row["x_eval"])})
 
-# アーティファクトオブジェクトを作成
+# artifact オブジェクトを作成
 artifact_name = "{}_dataset".format(model_use_case_id)
 artifact = wandb.Artifact(name=artifact_name, type="dataset")
 
-# wandb.WBValue オブジェクトをアーティファクトに追加
+# wandb.WBValue オブジェクトを artifact に追加
 artifact.add(train_table, "train_table")
 artifact.add(eval_table, "eval_table")
 
-# アーティファクトに加えられた変更を永続化
+# artifact に加えた変更を保存
 artifact.save()
 
-# W&B にこの run が完了したことを知らせます
+# この run の終了を W&B に通知
 run.finish()
 ```
 
 {{% alert %}}
-アーティファクトにファイル（データセットなど）を保存することは、モデルの依存関係を追跡できるため、モデルをログに記録するという文脈で便利です。
+ファイル（データセットなど）を artifact に保存することは、モデルのログ時に依存関係を追跡できるため便利です。
 {{% /alert %}}
 
+
 ## モデルのトレーニング
-前のステップで作成したアーティファクトデータセットを使用してモデルをトレーニングします。
+前のステップで作成した artifact のデータセットを使ってモデルをトレーニングします。
 
-### データセットアーティファクトを run の入力として宣言
+### データセット Artifact を run の入力として宣言する
 
-前のステップで作成したデータセットアーティファクトを W&B run の入力として宣言します。これにより、特定のモデルをトレーニングするために使用されたデータセット（およびデータセットのバージョン）を追跡できるため、モデルをログに記録するという文脈で特に便利です。W&B は収集された情報を使用して、[lineage map]({{< relref path="./model-lineage.md" lang="ja" >}}) を作成します。
+前のステップで作成したデータセット artifact を、W&B run の入力として宣言します。artifact を run の入力として宣言することで、どのデータセット（およびそのバージョン）が特定のモデルの学習に使われたかをトラッキングできます。W&B はこの情報から [リネージマップ]({{< relref path="./model-lineage.md" lang="ja" >}}) を作成します。
 
-`use_artifact` API を使用して、データセットアーティファクトを run の入力として宣言し、アーティファクト自体を取得します。
+`use_artifact` API を利用し、データセット artifact を run の入力として宣言し、同時に artifact を取得できます。
 
 ```python
 job_type = "train_model"
@@ -129,28 +131,28 @@ config = {
 # W&B run を初期化
 run = wandb.init(project=project, job_type=job_type, config=config)
 
-# データセットアーティファクトを取得
+# データセット artifact を取得
 version = "latest"
 name = "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 artifact = run.use_artifact(artifact_or_name=name)
 
-# データフレームから特定のコンテンツを取得
+# データフレームから特定の内容を取得
 train_table = artifact.get("train_table")
 x_train = train_table.get_column("x_train", convert_to="numpy")
 y_train = train_table.get_column("y_train", convert_to="numpy")
 ```
 
-モデルの入力と出力を追跡する方法の詳細については、[Create model lineage]({{< relref path="./model-lineage.md" lang="ja" >}}) mapを参照してください。
+モデルの入出力をトラッキングする詳細については、[モデルリネージの作成]({{< relref path="./model-lineage.md" lang="ja" >}}) をご覧ください。
 
 ### モデルの定義とトレーニング
 
-このウォークスルーでは、Keras を使用して MNIST データセットから画像を分類するための 2D 畳み込みニューラルネットワーク (CNN) を定義します。
+このウォークスルーでは、Keras を用いて 2D 畳み込みニューラルネットワーク（CNN）を定義し、MNIST データセットの画像を分類します。
 
 <details>
-<summary>MNIST データに対する CNN のトレーニング</summary>
+<summary>MNIST データで CNN を学習する</summary>
 
 ```python
-# 設定辞書から値を取得して変数に格納（アクセスしやすくするため）
+# config 辞書から値を取り出して変数に格納
 num_classes = 10
 input_shape = (28, 28, 1)
 loss = "categorical_crossentropy"
@@ -160,7 +162,7 @@ batch_size = run.config["batch_size"]
 epochs = run.config["epochs"]
 validation_split = run.config["validation_split"]
 
-# モデルアーキテクチャを作成
+# モデルアーキテクチャの作成
 model = keras.Sequential(
     [
         layers.Input(shape=input_shape),
@@ -175,13 +177,13 @@ model = keras.Sequential(
 )
 model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# トレーニングデータのラベルを生成
+# トレーニングデータ用のラベルを生成
 y_train = keras.utils.to_categorical(y_train, num_classes)
 
-# トレーニングセットとテストセットを作成
+# トレーニングセットとテストセットの作成
 x_t, x_v, y_t, y_v = train_test_split(x_train, y_train, test_size=0.33)
 ```
-次に、モデルをトレーニングします：
+次に、モデルをトレーニングします。
 
 ```python
 # モデルをトレーニング
@@ -195,7 +197,7 @@ model.fit(
 )
 ```
 
-最後に、モデルをローカルマシンに保存します：
+最後に、モデルをローカルに保存します。
 
 ```python
 # モデルをローカルに保存
@@ -204,8 +206,10 @@ model.save(path)
 ```
 </details>
 
-## モデルを Model Registry にログし、リンクする
-[`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) API を使用して、一つまたは複数のファイルを W&B run にログし、それを [W&B Model Registry]({{< relref path="./" lang="ja" >}}) にリンクします。
+
+
+## モデルを Model Registry へログしてリンクする
+[`link_model`]({{< relref path="/ref/python/sdk/classes/run.md#link_model" lang="ja" >}}) API を使い、1つ以上のモデルファイルを W&B run にログし、[W&B Model Registry]({{< relref path="./" lang="ja" >}}) にリンクします。
 
 ```python
 path = "./model.h5"
@@ -215,25 +219,25 @@ run.link_model(path=path, registered_model_name=registered_model_name)
 run.finish()
 ```
 
-指定した名前の `registered-model-name` がまだ存在しない場合、W&B は登録されたモデルを作成します。
+指定した `registered-model-name` 名が未登録の場合、W&B が自動的に Registered Model を作成します。
 
-オプションのパラメータに関する詳細は、API リファレンスガイドの [`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) を参照してください。
+オプションのパラメータについては、API リファレンスガイドの [`link_model`]({{< relref path="/ref/python/sdk/classes/run.md#link_model" lang="ja" >}}) をご覧ください。
 
 ## モデルのパフォーマンスを評価する
-複数のモデルのパフォーマンスを評価するのは一般的な手法です。
+1つまたは複数のモデルのパフォーマンスを評価することは一般的です。
 
-まず、前のステップで W&B に保存された評価データセットアーティファクトを取得します。
+まず、前のステップで W&B に保存した評価用データセット artifact を取得します。
 
 ```python
 job_type = "evaluate_model"
 
-# 初期化
+# run を初期化
 run = wandb.init(project=project, entity=entity, job_type=job_type)
 
 model_use_case_id = "mnist"
 version = "latest"
 
-# データセットアーティファクトを取得し、それを依存関係としてマーク
+# データセット artifact を取得し、依存関係としてマーク
 artifact = run.use_artifact(
     "{}:{}".format("{}_dataset".format(model_use_case_id), version)
 )
@@ -244,17 +248,17 @@ x_eval = eval_table.get_column("x_eval", convert_to="numpy")
 y_eval = eval_table.get_column("y_eval", convert_to="numpy")
 ```
 
-評価したい W&B からの[モデルバージョン]({{< relref path="./model-management-concepts.md#model-version" lang="ja" >}}) をダウンロードします。`use_model` API を使用してモデルにアクセスし、ダウンロードします。
+W&B から評価したい[モデルバージョン]({{< relref path="./model-management-concepts.md#model-version" lang="ja" >}}) をダウンロードします。`use_model` API を使ってモデルへアクセス・ダウンロードできます。
 
 ```python
 alias = "latest"  # エイリアス
-name = "mnist_model"  # モデルアーティファクトの名前
+name = "mnist_model"  # モデル artifact の名前
 
-# モデルにアクセスしダウンロードします。ダウンロードされたアーティファクトへのパスを返します
+# モデルにアクセスし、ダウンロード。ダウンロードされた artifact のパスを返す
 downloaded_model_path = run.use_model(name=f"{name}:{alias}")
 ```
 
-Keras モデルをロードし、損失を計算します：
+Keras モデルを読み込み、損失値を計算します。
 
 ```python
 model = keras.models.load_model(downloaded_model_path)
@@ -264,29 +268,30 @@ y_eval = keras.utils.to_categorical(y_eval, 10)
 score = (loss, _)
 ```
 
-最後に、損失のメトリクスを W&B run にログします：
+最後に、この損失値メトリクスを W&B run にログします。
 
 ```python
-# メトリクス、画像、テーブル、または評価に役立つデータをログします。
+# # 評価に役立つメトリクス、画像、テーブル、その他のデータをログする
 run.log(data={"loss": (loss, _)})
 ```
 
-## モデルバージョンを昇格する
-[*モデルエイリアス*]({{< relref path="./model-management-concepts.md#model-alias" lang="ja" >}}) を使用して、機械学習ワークフローの次のステージに準備が整ったモデルバージョンをマークします。各登録済みモデルは 1 つまたは複数のモデルエイリアスを持つことができます。モデルエイリアスは、1 度に 1 つのモデルバージョンにのみ所属できます。
 
-例えば、モデルのパフォーマンスを評価した後、そのモデルがプロダクションの準備が整ったと確信したとします。モデルバージョンを昇格させるために、特定のモデルバージョンに `production` エイリアスを追加します。
+## モデルバージョンをプロモートする
+[*モデルエイリアス*]({{< relref path="./model-management-concepts.md#model-alias" lang="ja" >}}) で機械学習ワークフローの次のステージに進むモデルバージョンをマークします。1つの Registered Model には 1つ以上のモデルエイリアスが設定できます。モデルエイリアスは1度に1つのモデルバージョンにのみ所属できます。
+
+例えば、モデルのパフォーマンスを評価した後「このモデルはプロダクションに出せる」と判断した場合、そのバージョンへ `production` エイリアスを追加してプロモートします。
 
 {{% alert %}}
-`production` エイリアスは、モデルをプロダクション対応としてマークするために使用される最も一般的なエイリアスの 1 つです。
+`production` エイリアスは、プロダクション対応モデルを示す際によく使われます。
 {{% /alert %}}
 
-W&B アプリ UI を使用してインタラクティブに、または Python SDK を使用してプログラムでモデルバージョンにエイリアスを追加できます。次のステップは、W&B Model Registry App を使用してエイリアスを追加する方法を示しています：
+W&B アプリの UI から、または Python SDK からエイリアスをモデルバージョンに追加可能です。以下の手順は、W&B Model Registry アプリを利用してエイリアスを追加する方法です。
 
-1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) の Model Registry App に移動します。
-2. 登録されているモデルの名前の横にある **View details** をクリックします。
-3. **Versions** セクション内で、プロモーションしたいモデルバージョンの名前の横にある **View** ボタンをクリックします。
-4. **Aliases** フィールドの隣にあるプラスアイコン (**+**) をクリックします。
-5. 表示されるフィールドに `production` と入力します。
-6. キーボードの Enter キーを押します。
+1. [Model Registry アプリ](https://wandb.ai/registry/model) にアクセス
+2. Registered Model 名の横の **View details** をクリック
+3. **Versions** セクションでプロモートしたいモデルバージョン名の横にある **View** ボタンをクリック
+4. **Aliases** 欄の横にあるプラスアイコン（**+**）をクリック
+5. 表示されたフィールドに `production` と入力
+6. キーボードの Enter を押す
 
-{{< img src="/images/models/promote_model_production.gif" alt="" >}}
+{{< img src="/images/models/promote_model_production.gif" alt="プロダクション用モデルへプロモート" >}}

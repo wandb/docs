@@ -5,13 +5,13 @@ menu:
     identifier: ja-ref-cli-wandb-online
 ---
 
-**使い方**
+**使用方法**
 
 `wandb online [OPTIONS]`
 
 **概要**
 
-W&B 同期を有効にする
+W&B の同期を有効にします
 
 **オプション**
 

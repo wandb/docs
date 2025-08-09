@@ -9,35 +9,34 @@ weight: 470
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" >}}
 
-[Ultralytics' YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") モデルファミリーは、畳み込みニューラルネットワークを使用したリアルタイムのオブジェクト検出を、苦痛なく実現します。
+[Ultralytics の YOLOv5](https://ultralytics.com/yolo)（"You Only Look Once"）モデルファミリーは、畳み込みニューラルネットワークを使ってリアルタイムでオブジェクト検出を実現します。面倒な作業なしで使えるのも魅力です。
 
-[Weights & Biases](http://wandb.com) は YOLOv5 に直接インテグレーションされており、実験のメトリクス追跡、モデルとデータセットのバージョン管理、リッチなモデル予測の可視化などを提供します。**YOLO の実験を実行する前に `pip install` 一行を実行するだけで始められます。**
+[W&B](https://wandb.com) は YOLOv5 に直接インテグレーションされており、実験メトリクスのトラッキング、モデルやデータセットのバージョン管理、リッチなモデル予測の可視化など、さまざまな機能をサポートします。**YOLO 実験を始める前に `pip install` を一回実行するだけで、すぐに使い始められます。**
 
 {{% alert %}}
-すべての W&B ログ機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチGPUトレーニングと互換性があります。
+すべての W&B ログ機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチ GPU トレーニングでも利用できます。
 {{% /alert %}}
 
-## コア実験の追跡
-
-`wandb` をインストールするだけで、システムメトリクス、モデルメトリクス、インタラクティブな[ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})にログされるメディアといった、ビルトインの W&B [ログ機能]({{< relref path="/guides/models/track/log/" lang="ja" >}})が有効になります。
+## コア実験のトラッキング
+`wandb` をインストールするだけで、W&B の[ログ機能]({{< relref path="/guides/models/track/log/" lang="ja" >}})が有効になります。これにより、システムメトリクス・モデルメトリクス・メディアがインタラクティブな [Dashboards]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) に記録されます。
 
 ```python
 pip install wandb
 git clone https://github.com/ultralytics/yolov5.git
-python yolov5/train.py  # 小さなデータセットで小さなネットワークをトレーニングします
+python yolov5/train.py  # 小さなネットワークを小さなデータセットでトレーニング
 ```
 
-wandb によって標準出力に表示されるリンクをただフォローするだけです。
+実行後、wandb が標準出力に表示するリンクをクリックしてください。
 
-{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="これらのチャートおよびそれ以上。" >}}
+{{< img src="/images/integrations/yolov5_experiment_tracking.png" alt="このほかにもたくさんのチャートが表示されます。" >}}
 
 ## インテグレーションのカスタマイズ
 
-YOLO にいくつかの簡単なコマンドライン引数を渡すことで、さらに多くの W&B 機能を活用できます。
+YOLO のコマンドライン引数に少し手を加えるだけで、さらに多くの W&B 機能が利用可能です。
 
-* `--save_period` に数値を渡すと、W&B は各 `save_period` エポックの終わりに[モデルバージョン]({{< relref path="/guides/core/registry/" lang="ja" >}})を保存します。モデルバージョンにはモデルの重みが含まれ、検証セットで最もパフォーマンスの良いモデルにタグ付けされます。
-* `--upload_dataset` フラグをオンにすると、データセットがデータバージョン管理のためにアップロードされます。
-* `--bbox_interval` に数値を渡すと、[データ可視化]({{< relref path="../" lang="ja" >}})が有効になります。各 `bbox_interval` エポックの終わりに、モデルの出力が検証セットに対して W&B にアップロードされます。
+* `--save_period` に数値を指定すると、W&B は毎回 `save_period` エポックごとに [model version]({{< relref path="/guides/core/registry/" lang="ja" >}}) を保存します。モデルの重みも含まれ、検証セットで最も良いスコアのモデルにタグが付きます。
+* `--upload_dataset` フラグを追加すると、データセットのアップロードも行われ、データのバージョン管理ができます。
+* `--bbox_interval` に数値を指定すると、[data visualization]({{< relref path="../" lang="ja" >}}) 機能が有効になります。各 `bbox_interval` エポック終了時に、モデルの検証セットに対する出力が W&B へアップロードされます。
 
 {{< tabpane text=true >}}
 {{% tab header="Model Versioning Only" value="modelversioning" %}}
@@ -58,15 +57,15 @@ python yolov5/train.py --epochs 20 --save_period 1 \
 {{< /tabpane >}}
 
 {{% alert %}}
-すべての W&B アカウントには、データセットとモデル用に 100 GB の無料ストレージが付属しています。
+W&B アカウントには、データセットやモデル用に 100GB の無料ストレージが付いています。
 {{% /alert %}}
 
-これがどのように見えるかを示します。
+実際の画面イメージはこちら。
 
-{{< img src="/images/integrations/yolov5_model_versioning.png" alt="モデルバージョン管理: 最新かつベストなモデルバージョンが識別されます。" >}}
+{{< img src="/images/integrations/yolov5_model_versioning.png" alt="Model versioning" >}}
 
-{{< img src="/images/integrations/yolov5_data_visualization.png" alt="データ可視化: 入力画像とモデルの出力および例ごとのメトリクスを比較します。" >}}
+{{< img src="/images/integrations/yolov5_data_visualization.png" alt="Data visualization" >}}
 
 {{% alert %}}
-データとモデルのバージョン管理により、セットアップ不要で任意のデバイスから一時停止またはクラッシュした実験を再開できます。[詳細は Colab を確認してください](https://wandb.me/yolo-colab)。
+データとモデルのバージョン管理によって、一時停止した実験やクラッシュした実験も、どのデバイスからでもセットアップ不要ですぐに再開できます。詳しくは [Colab の例](https://wandb.me/yolo-colab) をご覧ください。
 {{% /alert %}}

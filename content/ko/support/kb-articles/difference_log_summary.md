@@ -1,19 +1,19 @@
 ---
-title: What is the difference between `.log()` and `.summary`?
+title: .log() 과 .summary 의 차이점은 무엇인가요?
 menu:
   support:
     identifier: ko-support-kb-articles-difference_log_summary
 support:
-- Charts
+- 차트
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-요약은 테이블에 표시되고, 로그는 향후 플롯을 위해 모든 값을 저장합니다.
+요약은 표에 표시되며, 로그는 모든 값을 저장해 추후 플로팅에 사용할 수 있습니다.
 
-예를 들어 정확도가 변경될 때마다 `wandb.log`를 호출합니다. 기본적으로 `wandb.log()`는 해당 메트릭에 대해 수동으로 설정하지 않는 한 요약 값을 업데이트합니다.
+예를 들어, 정확도가 변경될 때마다 `run.log()`를 호출하세요. 기본적으로 `run.log()`는 해당 metric의 값을 직접 설정하지 않는 한 summary 값도 함께 업데이트합니다.
 
-산점도 및 평행 좌표 플롯은 요약 값을 사용하는 반면, 선 플롯은 `.log`로 기록된 모든 값을 표시합니다.
+산점도와 병렬 좌표 플롯은 summary 값을 사용하고, 선형 플롯은 `run.log`로 기록된 모든 값을 보여줍니다.
 
-일부 사용자는 기록된 가장 최근의 정확도 대신 최적의 정확도를 반영하도록 요약을 수동으로 설정하는 것을 선호합니다.
+일부 사용자는 최근 로그된 정확도 대신 최적의 정확도를 반영하기 위해 summary를 직접 설정하는 것을 선호합니다.

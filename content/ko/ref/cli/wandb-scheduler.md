@@ -1,5 +1,5 @@
 ---
-title: wandb scheduler
+title: wandb 스케줄러
 menu:
   reference:
     identifier: ko-ref-cli-wandb-scheduler
@@ -11,7 +11,8 @@ menu:
 
 **요약**
 
-W&B Launch 스윕 스케줄러를 실행합니다 (실험적).
+W&B Launch 스윕 스케줄러 실행 (실험적 기능)
+
 
 **옵션**
 

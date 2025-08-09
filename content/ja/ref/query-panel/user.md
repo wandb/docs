@@ -5,7 +5,7 @@ menu:
     identifier: ja-ref-query-panel-user
 ---
 
-## Chainable Ops
+## チェイン可能な Ops
 <h3 id="user-username"><code>user-username</code></h3>
 
 [user](user.md) のユーザー名を返します。
@@ -15,10 +15,10 @@ menu:
 | `user` | [user](user.md) |
 
 #### 戻り値
-[user](user.md) のユーザー名
+[user](user.md) のユーザー名を返します。
 
 
-## List Ops
+## リスト Ops
 <h3 id="user-username"><code>user-username</code></h3>
 
 [user](user.md) のユーザー名を返します。
@@ -28,4 +28,4 @@ menu:
 | `user` | [user](user.md) |
 
 #### 戻り値
-[user](user.md) のユーザー名
+[user](user.md) のユーザー名を返します。

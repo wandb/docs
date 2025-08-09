@@ -1,6 +1,6 @@
 ---
-title: レポートをクローンしてエクスポートする
-description: W&B レポートを PDF または LaTeX としてエクスポートします。
+title: レポートをクローンおよびエクスポートする
+description: W&B レポートを PDF または LaTeX 形式でエクスポートする。
 menu:
   default:
     identifier: ja-guides-core-reports-clone-and-export-reports
@@ -8,37 +8,38 @@ menu:
 weight: 40
 ---
 
-## レポートをエクスポート
+{{% alert %}}
+W&B Report および Workspace API はパブリックプレビュー中です。
+{{% /alert %}}
 
-レポートを PDF または LaTeX としてエクスポートします。レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**Download** を選択し、PDF または LaTeX の出力形式を選択します。
+## レポートのエクスポート
 
-## レポートをクローン
+レポートを PDF または LaTeX 形式でエクスポートできます。レポート内でケバブアイコンを選択し、ドロップダウンメニューを開きます。**ダウンロード** を選び、PDF または LaTeX の出力形式を選択してください。
+
+## レポートのクローン
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**Clone this report** ボタンを選択します。モーダルでクローンされたレポートの保存先を選択します。**Clone report** を選択します。
+{{% tab header="W&B App" value="app" %}}
+レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**このレポートをクローン** ボタンを選択します。表示されるモーダルでクローン先を選択してください。**レポートをクローン** を押します。
 
-{{< img src="/images/reports/clone_reports.gif" alt="" >}}
+{{< img src="/images/reports/clone_reports.gif" alt="Cloning reports" >}}
 
-プロジェクトのテンプレートと形式を再利用するためにレポートをクローンします。チームのアカウント内でプロジェクトをクローンした場合、クローンされたプロジェクトはチームに表示されます。個人のアカウント内でプロジェクトをクローンした場合、そのプロジェクトはそのユーザーのみに表示されます。
+レポートをクローンすると、プロジェクトのテンプレートやフォーマットを再利用できます。チームアカウント内でプロジェクトをクローンすると、チームのメンバー全員がそのプロジェクトを閲覧できます。個人アカウント内でクローンした場合は、そのユーザーのみに表示されます。
 {{% /tab %}}
 
-{{% tab header="Python SDK" value="python"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
-
-
-
-テンプレートとして使用するために URL からレポートをロードします。
+Report の URL からテンプレートとして読み込むことができます。
 
 ```python
 report = wr.Report(
     project=PROJECT, title="Quickstart Report", description="That was easy!"
 )  # 作成
 report.save()  # 保存
-new_report = wr.Report.from_url(report.url)  # ロード
+new_report = wr.Report.from_url(report.url)  # 読み込み
 ```
 
-`new_report.blocks` 内のコンテンツを編集します。
+`new_report.blocks` 内の内容を編集します。
 
 ```python
 pg = wr.PanelGrid(
@@ -54,7 +55,7 @@ pg = wr.PanelGrid(
     ],
 )
 new_report.blocks = (
-    report.blocks[:1] + [wr.H1("Panel Grid Example"), pg] + report.blocks[1:]
+    report.blocks[:1] + [wr.H1("パネルグリッド例"), pg] + report.blocks[1:]
 )
 new_report.save()
 ```

@@ -1,6 +1,6 @@
 ---
-title: リネージ マップを作成および表示する
-description: W&B Registry でリネージ マップを作成する。
+title: リネージマップの作成と表示
+description: W&B Registry でリネージ マップを作成します。
 menu:
   default:
     identifier: ja-guides-core-registry-lineage
@@ -8,75 +8,78 @@ menu:
 weight: 8
 ---
 
-W&B レジストリ内のコレクションでは、ML 実験が使用するアーティファクトの履歴を確認することができます。この履歴は _リネージグラフ_ と呼ばれます。
+W&B Registry のコレクション内では、ML 実験で使用された Artifacts の履歴を確認できます。この履歴は「リネージグラフ」と呼ばれます。
 
 {{% pageinfo color="info" %}}
-コレクションの一部ではないアーティファクトに対しても、W&Bにログを記録したリネージグラフを表示することができます。
+また、コレクションに含まれていない Artifacts についても、W&B にログした場合はリネージグラフで確認できます。
 {{% /pageinfo %}}
 
-リネージグラフは、アーティファクトをログする特定の run を表示できます。さらに、リネージグラフはどの run がアーティファクトを入力として使用したかも表示できます。言い換えると、リネージグラフはrun の入力と出力を表示できます。
+リネージグラフでは、どの run が artifact をログしたかを特定できます。さらに、どの run がある artifact を入力として使用したかも表示されます。つまり、リネージグラフを使うことで、run の入力と出力のどちらも可視化できます。
 
-例えば、次の画像は ML 実験全体で作成および使用されたアーティファクトを示しています。
+たとえば、次の図は ML 実験全体で作成および使用された Artifacts を表しています。
 
-{{< img src="/images/registry/registry_lineage.png" alt="" >}}
+{{< img src="/images/registry/registry_lineage.png" alt="Registry lineage" >}}
 
-左から右に、画像は以下を示しています。
-1. 複数の runs が `split_zoo_dataset:v4` アーティファクトをログします。
-2. "rural-feather-20" run は `split_zoo_dataset:v4` アーティファクトをトレーニング用に使用します。
-3. "rural-feather-20" run の出力は `zoo-ylbchv20:v0` というモデルのアーティファクトです。
-4. "northern-lake-21" という run はモデルを評価するために `zoo-ylbchv20:v0` モデルアーティファクトを使用します。
+図の左から右にかけて、次の流れが示されています。
+1. 複数の run が `split_zoo_dataset:v4` artifact をログしています。
+2. "rural-feather-20" という run が、`split_zoo_dataset:v4` artifact をトレーニング用に利用しています。
+3. "rural-feather-20" run の出力として `zoo-ylbchv20:v0` というモデル artifact が生成されます。
+4. "northern-lake-21" run がこのモデル artifact `zoo-ylbchv20:v0` を使ってモデルを評価しています。
 
-## run の入力をトラックする
 
-`wandb.init.use_artifact` API を使用して、run の入力または依存関係としてアーティファクトをマークします。
+## run の入力をトラッキングする
 
-次のコードスニペットは、`use_artifact` の使用方法を示しています。山括弧 (`< >`) で囲まれた値をあなたの値に置き換えてください。
+artifact を run の入力または依存関係としてマークするには、`wandb.init.use_artifact` API を使用します。
+
+以下のコードスニペットは `use_artifact` の使い方を示しています。山括弧（`< >`）で囲まれた値はご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-# run を初期化する
+# run を初期化
 run = wandb.init(project="<project>", entity="<entity>")
 
-# アーティファクトを取得し、依存関係としてマークする
+# artifact を取得し、依存関係としてマーク
 artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
-## run の出力をトラックする
 
-作成したアーティファクトの出力を run の出力として宣言するには、([`wandb.init.log_artifact`]({{< relref path="/ref/python/run.md#log_artifact" lang="ja" >}})) を使用します。
+## run の出力をトラッキングする
 
-次のコードスニペットは、`wandb.init.log_artifact` API の使用方法を示しています。山括弧 (`< >`) で囲まれた値をあなたの値に置き換えるようにしてください。
+run の出力として artifact を宣言するには、([`wandb.init.log_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ja" >}})) を利用します。
+
+次のコードスニペットは `wandb.init.log_artifact` API の使い方です。山括弧（`< >`）で囲まれた値は必ずご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-# run を初期化する
+# run を初期化
 run = wandb.init(entity  "<entity>", project = "<project>",)
 artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
 artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
 
-# アーティファクトをログとして run の出力にする
+# run の出力として artifact をログ
 run.log_artifact(artifact_or_path = artifact)
 ```
 
-アーティファクトの作成に関する詳細については、[Create an artifact]({{< relref path="guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}) を参照してください。
+Artifacts の作成方法については、[アーティファクトの作成]({{< relref path="guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}) をご参照ください。
 
-## コレクション内のリネージグラフを表示する
 
-W&B レジストリ内のコレクションにリンクされたアーティファクトのリネージを表示します。
+## コレクション内でリネージグラフを表示する
 
-1. W&B レジストリに移動します。
-2. アーティファクトを含むコレクションを選択します。
-3. ドロップダウンから、リネージグラフを表示したいアーティファクトのバージョンをクリックします。
-4. 「Lineage」タブを選択します。
+W&B Registry のコレクションに紐づく artifact のリネージを確認できます。
 
-アーティファクトのリネージグラフのページに移動すると、そのリネージグラフ内の任意のノードに関する追加情報を表示できます。
+1. W&B Registry にアクセスします。
+2. Artifact を含むコレクションを選択します。
+3. ドロップダウンから、リネージグラフを見たい artifact のバージョンをクリックします。
+4. 「Lineage」タブを開きます。
 
-run ノードを選択して、その run の詳細（run の ID、run の名前、run の状態など）を表示します。例として、次の画像は `rural-feather-20` run に関する情報を示しています。
+artifact のリネージグラフページに移動したら、そのグラフ上の任意のノードに関する追加情報を確認できます。
 
-{{< img src="/images/registry/lineage_expanded_node.png" alt="" >}}
+run ノードを選択すると、その run の詳細（ID、名前、状態など）を確認できます。例として、次の図は `rural-feather-20` run の情報を表示しています。
 
-アーティファクトノードを選択して、そのアーティファクトの詳細（完全な名前、タイプ、作成時間、関連するエイリアスなど）を表示します。
+{{< img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node" >}}
 
-{{< img src="/images/registry/lineage_expanded_artifact_node.png" alt="" >}}
+artifact ノードを選択すると、その artifact の詳細（フルネーム、型、作成時刻、紐付けられたエイリアスなど）を表示します。
+
+{{< img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details" >}}

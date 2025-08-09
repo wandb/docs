@@ -1,16 +1,17 @@
 ---
-title: グリッド検索を再度実行できますか？
+title: グリッド検索を再実行できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-rerun_grid_search
 support:
-  - sweeps
-  - hyperparameter
-  - runs
+- スイープ
+- ハイパーパラメーター
+- runs
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-クラッシュのために一部の W&B Run の再実行が必要な場合、グリッド検索が完了したにもかかわらず、特定の W&B Run を削除して再実行します。その後、[スイープコントロールページ]({{< relref path="/guides/models/sweeps/sweeps-ui.md" lang="ja" >}})で **再開** ボタンを選択します。新しい Sweep ID を使用して新しい W&B スイープ エージェントを開始します。
 
-完了した W&B Run パラメータの組み合わせは再実行されません。
+グリッド検索が完了していても、一部の W&B Run がクラッシュなどで再実行が必要な場合、再実行したい特定の W&B Run を削除してください。その後、[sweep コントロールページ]({{< relref path="/guides/models/sweeps/sweeps-ui.md" lang="ja" >}})で **Resume** ボタンを選択します。新しい Sweep ID を使って新たに W&B Sweep agent を起動してください。
+
+すでに完了している W&B Run のパラメータの組み合わせは再実行されません。

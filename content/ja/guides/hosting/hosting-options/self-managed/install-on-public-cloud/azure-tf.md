@@ -1,6 +1,6 @@
 ---
-title: Azureで W&B プラットフォーム を展開する
-description: Azure で W&B サーバー をホスティングする。
+title: Azure で W&B プラットフォーム をデプロイする
+description: Azure で W&B サーバーをホスティングする
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-install-on-public-cloud-azure-tf
@@ -9,43 +9,45 @@ weight: 30
 ---
 
 {{% alert %}}
-W&B は、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) または [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) デプロイメント タイプのような完全に管理されたデプロイメント オプションをお勧めします。W&B の完全管理サービスは簡単で安全に使用でき、設定がほとんどまたは全く必要ありません。
+W&B では、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) や [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) などのフルマネージドなデプロイメントオプションを推奨しています。W&B のフルマネージドサービスは、シンプルかつセキュアに利用でき、設定も最小限もしくは不要です。
 {{% /alert %}}
 
-自己管理の W&B サーバーを選択した場合、W&B は [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) を使用して Azure 上でプラットフォームをデプロイすることをお勧めします。
+ご自身で W&B Server を管理する場合は、Azure 上でプラットフォームをデプロイするために [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) の利用を W&B は推奨します。
 
-このモジュールのドキュメントは詳細で、使用可能なオプションがすべて含まれています。本書では、一部のデプロイメント オプションについて説明します。
+このモジュールのドキュメントは非常に充実しており、利用可能な全てのオプションが記載されています。本ドキュメントでは主要なデプロイメントオプションについて解説します。
 
-開始する前に、Terraform の [State File](https://developer.hashicorp.com/terraform/language/state) を保存するために利用可能な [リモート バックエンド](https://developer.hashicorp.com/terraform/language/backend) のいずれかを選択することをお勧めします。
+開始前に、Terraform の [State File](https://developer.hashicorp.com/terraform/language/state) を保存するため、[リモートバックエンド](https://developer.hashicorp.com/terraform/language/backend)を選択することをおすすめします。
 
-State File は、アップグレードを展開したり、すべてのコンポーネントを再作成することなくデプロイメントの変更を行ったりするために必要なリソースです。
+State File は、デプロイメントのコンポーネントをすべて再作成せずにアップグレードや変更を行う際に必要なリソースです。
 
-Terraform モジュールは、次の「必須」コンポーネントをデプロイします。
+Terraform モジュールでは、以下の `必須` コンポーネントがデプロイされます：
 
-- Azure リソース グループ
-- Azure 仮想ネットワーク (VPC)
-- Azure MySQL Flexible サーバー
-- Azure ストレージ アカウント & Blob ストレージ
-- Azure Kubernetes サービス
-- Azure アプリケーション ゲートウェイ
+- Azure Resource Group
+- Azure Virtual Network (VPC)
+- Azure MySQL Flexible Server
+- Azure Storage Account & Blob Storage
+- Azure Kubernetes Service
+- Azure Application Gateway
 
-その他のデプロイメント オプションには、次のオプション コンポーネントが含まれる場合があります。
+その他のデプロイメントオプションとして、以下のオプションコンポーネントも追加できます：
 
 - Azure Cache for Redis
 - Azure Event Grid
 
-## **前提条件の権限**
+## **前提となる権限**
 
-AzureRM プロバイダーを設定する最も簡単な方法は [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) 経由ですが、[Azure サービス プリンシパル](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) を使用した自動化の場合も便利です。 使用される認証メソッドに関わらず、Terraform を実行するアカウントはイントロダクションで説明されているすべてのコンポーネントを作成できる必要があります。
+最も簡単な AzureRM プロバイダーの設定方法は [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) の利用ですが、自動化用途には [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) の利用も便利です。  
+どちらの認証方法を使用する場合でも、Terraform を実行するアカウントにはイントロダクションで記載した全コンポーネントを作成できる権限が必要です。
 
-## 一般的な手順
-このトピックの手順は、このドキュメントでカバーされているいずれのデプロイメント オプションにも共通しています。
+## 全体的なステップ
+本トピックのステップは、本ドキュメントで取り上げている全てのデプロイメントオプションに共通です。
 
 1. 開発環境を準備します。
-  * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールします。
-  * 使用するコードで Git リポジトリを作成することをお勧めしますが、ファイルをローカルに保持することもできます。
+  * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールします
+  * 利用するコードは Git リポジトリーで管理することを推奨しますが、ローカルファイルでも構いません。
 
-2. **`terraform.tfvars` ファイルを作成します** `tvfars` ファイルの内容はインストール タイプに応じてカスタマイズできますが、最低限の推奨事項は以下の例のようになります。
+2. **`terraform.tfvars` ファイルを作成**  
+   `tfvars` ファイルの内容はインストールタイプに応じてカスタマイズできますが、最低限おすすめの例は下記の通りです。
 
    ```bash
     namespace     = "wandb"
@@ -55,11 +57,13 @@ AzureRM プロバイダーを設定する最も簡単な方法は [Azure CLI](ht
     location      = "westeurope"
    ```
 
-   ここで定義されている変数は、デプロイメントの前に決定する必要があります。`namespace` 変数は、Terraform によって作成されるすべてのリソースの接頭辞となる文字列です。
+   ここで定義する変数は、デプロイメント前に決めておく必要があります。  
+   `namespace` 変数は、Terraform で作成される全リソースのプレフィックスに利用される文字列です。
 
-   `subdomain` と `domain` の組み合わせは、W&B が設定される FQDN を形成します。上記の例では、W&B の FQDN は `wandb-aws.wandb.ml` となり、FQDN レコードが作成される DNS `zone_id` が指定されます。
+   `subdomain` と `domain` を組み合わせることで、W&B が設定される FQDN となります。上記例だと、W&B の FQDN は `wandb-aws.wandb.ml`、該当 FQDN レコードが作成される DNS `zone_id` となります。
 
-3. **`versions.tf` ファイルを作成します** このファイルには、AWS に W&B をデプロイするのに必要な Terraform および Terraform プロバイダーのバージョンが含まれています。
+3. **`versions.tf` ファイルを作成**  
+   このファイルには、AWS 上で W&B をデプロイするために必要な Terraform とプロバイダーのバージョンを記載します。
   ```bash
   terraform {
     required_version = "~> 1.3"
@@ -73,45 +77,47 @@ AzureRM プロバイダーを設定する最も簡単な方法は [Azure CLI](ht
   }
   ```
 
-  AWS プロバイダーを設定するには、[Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) を参照してください。
+  AWS プロバイダーの設定方法は [Terraform 公式ドキュメント](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) をご確認ください。
 
-  また、**強く推奨される** のは、ドキュメントの冒頭で言及された [リモート バックエンド設定](https://developer.hashicorp.com/terraform/language/backend) を追加することです。
+  **オプションですが強く推奨** されるのは、本ドキュメント冒頭で紹介した [リモートバックエンドの設定](https://developer.hashicorp.com/terraform/language/backend) を追加することです。
 
-4. **ファイル** `variables.tf` を作成します。`terraform.tfvars` で構成されたすべてのオプションについて、Terraform は対応する変数宣言を必要とします。
+4. **`variables.tf` ファイルを作成**  
+   `terraform.tfvars` で設定する各オプションに対して、Terraform では対応する変数宣言が必要です。
 
   ```bash
     variable "namespace" {
       type        = string
-      description = "リソースの接頭辞に使用される文字列。"
+      description = "各リソースのプレフィックスに使われる文字列"
     }
 
     variable "location" {
       type        = string
-      description = "Azure リソース グループの場所"
+      description = "Azure Resource Group のロケーション"
     }
 
     variable "domain_name" {
       type        = string
-      description = "Weights & Biases UI へのアクセス用ドメイン。"
+      description = "Weights & Biases UI にアクセスするためのドメイン"
     }
 
     variable "subdomain" {
       type        = string
       default     = null
-      description = "Weights & Biases UI へのアクセス用サブドメイン。デフォルトは Route53 Route でレコードを作成します。"
+      description = "Weights & Biases UI にアクセスするためのサブドメイン。デフォルトでは Route53 上にレコードを作成します。"
     }
 
     variable "license" {
       type        = string
-      description = "あなたの wandb/local ライセンス"
+      description = "ご自身の wandb/local ライセンス"
     }
   ```
 
 ## 推奨デプロイメント
 
-これは、すべての「必須」コンポーネントを作成し、最新バージョンの `W&B` を `Kubernetes クラスター` にインストールする最も簡単なデプロイメント オプション設定です。
+この手順は全ての `必須` コンポーネントを作成し、`Kubernetes クラスター`上に最新バージョンの W&B をインストールする最もシンプルな構成です。
 
-1. **`main.tf` を作成します** `General Steps` で作成したファイルと同じディレクトリに、次の内容で `main.tf` ファイルを作成します：
+1. **`main.tf` を作成**  
+   `General Steps` で作成したファイルと同じディレクトリーで、下記内容で `main.tf` ファイルを作成します。
 
   ```bash
   provider "azurerm" {
@@ -134,7 +140,7 @@ AzureRM プロバイダーを設定する最も簡単な方法は [Azure CLI](ht
     }
   }
 
-  # 必要なすべてのサービスをスピンアップ
+  # 必要なサービスをすべて起動
   module "wandb" {
     source  = "wandb/wandb/azurerm"
     version = "~> 1.2"
@@ -161,21 +167,22 @@ AzureRM プロバイダーを設定する最も簡単な方法は [Azure CLI](ht
   }
   ```
 
-2. **W&B にデプロイ** W&B にデプロイするには、次のコマンドを実行します：
+2. **W&B へデプロイ**  
+   W&B をデプロイするには、下記のコマンドを実行します。
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## REDIS キャッシュを使用したデプロイメント
+## REDIS キャッシュを活用したデプロイメント
 
-別のデプロイメント オプションとして、`Redis` を使用して SQL クエリをキャッシュし、実験のメトリクスを読み込む際のアプリケーション応答を高速化します。
+別のデプロイメントオプションとして、`Redis` を使って SQL クエリのキャッシュやアプリケーションレスポンスの高速化が可能です（特に Experiments のメトリクス表示時）。
 
-キャッシュを有効にするには、`recommended deployment`({{< relref path="#recommended-deployment" lang="ja" >}}) で使用したのと同じ `main.tf` ファイルに `create_redis = true` オプションを追加する必要があります。
+キャッシュを有効にするには、[推奨デプロイメント]({{< relref path="#recommended-deployment" lang="ja" >}}) で使った `main.tf` ファイルに `create_redis = true` オプションを追加します。
 
 ```bash
-# 必要なすべてのサービスをスピンアップ
+# 必要なサービスをすべて起動
 module "wandb" {
   source  = "wandb/wandb/azurerm"
   version = "~> 1.2"
@@ -191,13 +198,14 @@ module "wandb" {
   [...]
 ```
 
-## 外部キューを使用したデプロイメント
+## 外部キューを利用したデプロイメント
 
-デプロイメント オプション 3 は、外部の `message broker` を有効にすることです。 これはオプションであり、W&B にはブローカーが組み込まれているため、パフォーマンスの向上はもたらされません。
+3つ目のオプションとして、外部の `メッセージブローカー` を有効にする方法があります。これは必須ではなく、W&B にはブローカーが組み込まれているため、パフォーマンス向上のメリットはありません。
 
-message broker を提供する Azure リソースは `Azure Event Grid` であり、有効にするには、`recommended deployment`({{< relref path="#recommended-deployment" lang="ja" >}}) で使用したのと同じ `main.tf` に `use_internal_queue = false` オプションを追加する必要があります。
+Azure でメッセージブローカーを提供するリソースは `Azure Event Grid` です。有効化するには、[推奨デプロイメント]({{< relref path="#recommended-deployment" lang="ja" >}}) で使った `main.tf` に `use_internal_queue = false` オプションを追加してください。
+
 ```bash
-# 必要なすべてのサービスをスピンアップ
+# 必要なサービスをすべて起動
 module "wandb" {
   source  = "wandb/wandb/azurerm"
   version = "~> 1.2"
@@ -209,12 +217,13 @@ module "wandb" {
   domain_name = var.domain_name
   subdomain   = var.subdomain
 
-  use_internal_queue       = false # Azure Event Grid を有効にする
+  use_internal_queue       = false # Azure Event Grid を有効化
   [...]
 }
 ```
 
-## その他のデプロイメント オプション
+## その他のデプロイメントオプション
 
-3 つのデプロイメント オプションすべてを組み合わせて、すべての構成を同じファイルに追加できます。
-[Teraform モジュール](https://github.com/wandb/terraform-azure-wandb) は、標準オプションや [recommended deployment]({{< relref path="#recommended-deployment" lang="ja" >}}) に見られる最小構成と組み合わせることができるいくつかのオプションを提供します。
+すべてのデプロイメントオプションは、同一ファイル内で組み合わせて設定可能です。  
+[Terraform モジュール](https://github.com/wandb/terraform-azure-wandb) には、標準及び最小限の設定以外にも、様々な組み合わせが可能なオプションが用意されています。  
+詳細は [推奨デプロイメント]({{< relref path="#recommended-deployment" lang="ja" >}}) をご確認ください。

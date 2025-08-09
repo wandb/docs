@@ -1,16 +1,16 @@
 ---
-title: How do I find an artifact from the best run in a sweep?
+title: 스윕에서 가장 성능이 좋은 run의 아티팩트를 어떻게 찾을 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-find_artifact_best_run_sweep
 support:
-- artifacts
+- 아티팩트
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-스윕에서 가장 성능이 좋은 run에서 아티팩트를 검색하려면 다음 코드를 사용하세요.
+스윕에서 가장 성능이 좋은 run 의 아티팩트를 가져오려면 다음 코드를 사용하세요.
 
 ```python
 api = wandb.Api()

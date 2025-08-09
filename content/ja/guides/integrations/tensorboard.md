@@ -10,92 +10,103 @@ weight: 430
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 
 {{% alert %}}
-W&B は、W&B マルチテナント SaaS のために埋め込まれた TensorBoard をサポートしています。
+W&B は、マルチテナント SaaS 環境で TensorBoard の埋め込みをサポートしています。
 {{% /alert %}}
 
-あなたの TensorBoard ログをクラウドにアップロードし、同僚やクラスメートと迅速に結果を共有し、分析を一元化された場所に保つことができます。
+TensorBoard のログをクラウドにアップロードし、同僚やクラスメートとすばやく結果を共有し、分析を 1 つの場所にまとめておくことができます。
 
-{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
+{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="TensorBoard インテグレーションコード" >}}
 
-## 始めましょう
+## はじめに
 
 ```python
 import wandb
 
-# `sync_tensorboard=True` で wandb run を開始
-wandb.init(project="my-project", sync_tensorboard=True)
+# `sync_tensorboard=True` で wandb run を開始する
+wandb.init(project="my-project", sync_tensorboard=True) as run:
+  # TensorBoard を使ったトレーニングコード
+  ...
 
-# TensorBoard を使用した トレーニング コード
-...
-
-# [オプション]wandb run を終了して tensorboard ログを W&B にアップロード（ノートブックの場合）
-wandb.finish()
 ```
 
-[例](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)を確認してください。
+[TensorBoard インテグレーションのサンプル run](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard) を確認してください。
 
-run が終了すると、W&B で TensorBoard イベントファイルに アクセス でき、W&B ネイティブチャートでメトリクスを視覚化できます。システムの CPU や GPU の利用状況、`git` の状態、run が使用したターミナルコマンドなどの追加情報と一緒に表示されます。
+run が終了すると、W&B 上で TensorBoard のイベントファイルにア クセスできるようになり、ネイティブな W&B チャートでメトリクスを可視化できます。他にも、システムの CPU や GPU 使用率、`git` の状態、run で使用したターミナルコマンドなども併せて確認できます。
 
 {{% alert %}}
-W&B はすべての バージョン の TensorFlow を使用した TensorBoard をサポートしています。また、W&B は TensorFlow 1.14 以上の バージョン で PyTorch および TensorBoardX もサポートしています。
+W&B は、すべての TensorFlow バージョンで TensorBoard をサポートしています。また、PyTorch および TensorBoardX では TensorBoard 1.14 以上に対応しています。
 {{% /alert %}}
 
 ## よくある質問
 
-### TensorBoard に ログ されていないメトリクスを W&B に ログ するにはどうすればよいですか？
+### TensorBoard に記録されていないメトリクスを W&B にログするには？
 
-TensorBoard にログされていないカスタムメトリクスを追加でログする必要がある場合、`wandb.log`をコード内で呼び出すことができます。`wandb.log({"custom": 0.8})`
+TensorBoard に記録されていないカスタムメトリクスを追加でログしたい場合は、コード内で `wandb.Run.log()` を呼び出します。  
+`run.log({"custom": 0.8})`
 
-Tensorboard を同期する際、`wandb.log` でステップ引数を設定することはできません。異なるステップ数を設定したい場合は、次のようにステップメトリクスを使ってメトリクスをログできます。
+TensorBoard 同期中は `run.log()` で step 引数をセットする機能は無効です。もし異なる step カウントを指定したい場合、次のように step メトリクスも併せてログできます。
 
-`wandb.log({"custom": 0.8, "global_step": global_step})`
+`run.log({"custom": 0.8, "global_step": global_step})`
 
-### `wandb` で Tensorboard を使用する場合、どのように設定すれば良いですか？
+### `wandb` と一緒に TensorBoard を使う場合の設定方法を教えてください
 
-TensorBoard のパッチに対する制御をもっと持ちたい場合、`wandb.init` に `sync_tensorboard=True` を渡す代わりに `wandb.tensorboard.patch` を呼び出すことができます。
+TensorBoard のパッチ適用方法をより細かく指定したい場合、`wandb.init` の `sync_tensorboard=True` の代わりに `wandb.tensorboard.patch` を呼び出すことができます。
 
 ```python
 import wandb
 
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
-wandb.init()
+run = wandb.init()
 
-# ノートブックの場合、wandb run を終了して tensorboard ログを W&B にアップロード
-wandb.finish()
+# ノートブック環境で実行している場合は run を終了して TensorBoard のログをアップロード
+run.finish()
 ```
 
-このメソッドに `tensorboard_x=False` を渡すことで、バニラ TensorBoard がパッチされるように確保できます。PyTorch で TensorBoard > 1.14 を使用している場合は、 `pytorch=True` を渡して確保することができます。これらのオプションは、インポートされたこれらのライブラリの バージョン に応じて、賢いデフォルトを持っています。
+vanilla の TensorBoard のみをパッチしたい場合は、このメソッドに `tensorboard_x=False` を渡してください。PyTorch 1.14 より新しいバージョンの TensorBoard を使い PyTorch と組み合わせる場合は、`pytorch=True` を指定することで適切なパッチが適用されます。これらのオプションは、読み込まれている各ライブラリのバージョンによってスマートにデフォルトが変わります。
 
-デフォルトでは、`tfevents` ファイルと `.pbtxt` ファイルを同期します。これによりあなたのために TensorBoard インスタンスをローンンチできるようになります。run ページには [TensorBoard タブ](https://www.wandb.com/articles/hosted-tensorboard) が表示されます。この振る舞いは、`wandb.tensorboard.patch` に `save=False` を渡すことで無効にできます。
+デフォルトでは `tfevents` ファイルと `.pbtxt` ファイルも同期対象です。これにより TensorBoard インスタンスを W&B が自動でローンチします。run ページには [TensorBoard タブ](https://www.wandb.com/articles/hosted-tensorboard) が表示されます。この振る舞いは `wandb.tensorboard.patch` に `save=False` を渡すことでオフにできます。
 
 ```python
 import wandb
 
-wandb.init()
+run = wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 
-# ノートブックの場合、wandb run を終了して tensorboard ログを W&B にアップロード
-wandb.finish()
+# ノートブック環境で実行している場合、run を終了して TensorBoard のログをアップロード
+run.finish()
 ```
 
 {{% alert color="secondary" %}}
-`tf.summary.create_file_writer` または `torch.utils.tensorboard` 経由で `SummaryWriter` を構築する**前**に、`wandb.init` または `wandb.tensorboard.patch` のいずれかを呼び出す必要があります。
+必ず `tf.summary.create_file_writer` を呼ぶ前、または `torch.utils.tensorboard` で `SummaryWriter` を作成する前に `wandb.init()` または `wandb.tensorboard.patch` を呼んでください。
 {{% /alert %}}
 
-### 過去の TensorBoard runs を同期するにはどうすればよいですか?
+### 過去の TensorBoard run を同期するには？
 
-ローカルに保存されている既存の `tfevents` ファイルを W&B にインポートしたい場合は、`wandb sync log_dir` を実行できます。ここで `log_dir` は `tfevents` ファイルを含むローカルディレクトリーです。
+すでにローカルに保存してある `tfevents` ファイルを W&B にインポートしたい場合は、`wandb sync log_dir` を実行してください。`log_dir` には `tfevents` ファイルが含まれるローカルディレクトリーのパスを指定します。
 
-### Google Colab や Jupyter を TensorBoard で使用するにはどうすればよいですか？
+### Google Colab や Jupyter で TensorBoard を使うには？
 
-Jupyter または Colab ノートブックでコードを実行する場合、トレーニングの終了時に `wandb.finish()` を呼び出してください。これにより wandb run は完了し、tensorboard ログを W&B にアップロードして視覚化できるようになります。 `.py` スクリプトを実行する場合、スクリプトが終了すると自動的に wandb も終了するため、これは必要ありません。
+Jupyter や Colabノートブック環境でコードを実行する場合は、トレーニング終了時に `wandb.Run.finish()` を呼ぶようにしてください。これにより wandb run が終了し、TensorBoard のログが W&B にアップロードされて可視化できるようになります。`.py` スクリプトの場合、スクリプト終了時に wandb が自動で終了処理をするため明示的な finish は不要です。
 
-ノートブック 環境 でシェル コマンド を実行するには、`!` を先頭に付ける必要があります。例：`!wandb sync directoryname`。
+ノートブック環境でシェルコマンドを実行するには、先頭に `!` を付けてください (例: `!wandb sync directoryname`)。
 
-### PyTorch を TensorBoard で使用するにはどうすればよいですか？
+### PyTorch で TensorBoard を利用するには？
 
-もし PyTorch の TensorBoard インテグレーションを使用している場合、PyTorch Profiler JSON ファイルを手動でアップロードする必要があります。
+PyTorch の TensorBoard インテグレーションを使用する場合、PyTorch Profiler の JSON ファイルは手動でアップロードする必要があるかもしれません。
 
 ```python
-wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    run.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```
+
+### クラウドに保存した tfevents ファイルも同期できますか？
+
+`wandb` 0.20.0 以降では、S3・GCS・Azure に保存されている `tfevents` ファイルの同期がサポートされています。それぞれのクラウドプロバイダーに対応したデフォルトの認証情報が使用され、対応するコマンドは次のとおりです。
+
+| クラウドプロバイダー | 認証コマンド                                     | ログディレクトリーの形式                |
+| ------------------- | ---------------------------------------------- | --------------------------------------- |
+| S3                  | `aws configure`                               | `s3://bucket/path/to/logs`              |
+| GCS                 | `gcloud auth application-default login`        | `gs://bucket/path/to/logs`              |
+| Azure               | `az login`[^1]                                | `az://account/container/path/to/logs`   |
+
+[^1]: `AZURE_STORAGE_ACCOUNT` と `AZURE_STORAGE_KEY` の環境変数も設定する必要があります。

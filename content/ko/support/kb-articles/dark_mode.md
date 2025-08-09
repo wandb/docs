@@ -1,17 +1,17 @@
 ---
-title: Is there a dark mode?
+title: 다크 모드가 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-dark_mode
 support:
-- workspaces
+- 워크스페이스
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-다크 모드는 베타 버전이며 엑세스성을 위해 최적화되지 않았습니다. 다크 모드를 활성화하는 방법:
+다크 모드는 베타 버전이며, 접근성에 최적화되어 있지 않습니다. 다크 모드를 활성화하려면 다음과 같이 하세요:
 
-1. [https://wandb.ai/settings](https://wandb.ai/settings)에서 계정 설정으로 이동합니다.
-2. **Public preview features** 섹션으로 스크롤합니다.
-3. **UI Display**에서 드롭다운 메뉴에서 **Dark mode**를 선택합니다.
+1. [W&B 계정 설정](https://wandb.ai/settings)으로 이동합니다.
+2. **공개 미리보기 기능** 섹션까지 스크롤합니다.
+3. **UI 표시**에서 드롭다운 목록에서 **다크 모드**를 선택하세요.

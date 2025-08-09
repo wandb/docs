@@ -1,24 +1,24 @@
 ---
-title: How can I resolve the Filestream rate limit exceeded error?
+title: Filestream 속도 제한 초과 오류를 어떻게 해결할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-filestream_rate_limit_exceeded_error
 support:
-- connectivity
-- outage
+- 연결성
+- 장애
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-Weights & Biases (W&B)에서 "Filestream 속도 제한 초과" 오류를 해결하려면 다음 단계를 따르세요.
+W&B에서 "Filestream rate limit exceeded" 오류를 해결하려면 다음 단계를 따라주세요:
 
-**로깅 최적화**:
-  - 로깅 빈도를 줄이거나 로그를 일괄 처리하여 API 요청을 줄입니다.
-  - 실험 시작 시간을 분산시켜 동시 API 요청을 피합니다.
+**로그 최적화**:
+  - 로그 빈도를 줄이거나 로그를 배치로 전송하여 API 요청 횟수를 감소시키세요.
+  - 여러 실험의 시작 시간을 서로 다르게 조정해 동시에 발생하는 API 요청을 피하세요.
 
-**서비스 중단 확인**:
-  - [W&B 상태 업데이트](https://status.wandb.com)를 확인하여 문제가 일시적인 서버 측 문제에서 발생하지 않았는지 확인합니다.
+**장애 여부 확인**:
+  - [W&B 상태 페이지](https://status.wandb.com)에서 임시 서버 측 문제로 인한 오류가 아닌지 확인하세요.
 
-**지원팀에 문의**:
-  - 실험 설정에 대한 자세한 내용을 첨부하여 W&B 지원팀(support@wandb.com)에 문의하여 속도 제한 증가를 요청합니다.
+**고객 지원 문의**:
+  - 실험 환경에 대한 상세 정보를 첨부해 W&B 지원팀(support@wandb.com)에 연락하여 할당량 상향을 요청하세요.

@@ -4,13 +4,14 @@ menu:
   support:
     identifier: ja-support-kb-articles-adding_multiple_authors_report
 support:
-  - reports
+- レポート
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-レポートにすべての貢献者を正確に記載するには、複数の著者を追加します。
 
-複数の著者を追加するには、著者の名前の横にある **+** アイコンをクリックします。これにより、レポートにアクセスできるすべてのユーザーが表示されたドロップダウンメニューが開きます。著者として追加したいユーザーを選択してください。
+レポートに複数の貢献者を正確にクレジットするには、著者を追加できます。
 
-{{< img src="/images/reports/reports_faq_add_multiple_reports.gif" alt="" >}}
+複数の著者を追加するには、著者名の横にある **+** アイコンをクリックしてください。すると、レポートにアクセスできるすべてのユーザーが表示されるドロップダウンメニューが開きます。著者として追加したいユーザーを選択してください。
+
+{{< img src="/images/reports/reports_faq_add_multiple_reports.gif" alt="複数のレポート著者を追加する" >}}
