@@ -8,7 +8,7 @@ weight: 5
 
 特定の [artifact バージョン]({{< relref path="guides/core/artifacts/create-a-new-artifact-version" lang="ja" >}}) を、1つまたは複数のエイリアスで参照できます。[W&B は自動的にエイリアスを割り当て]({{< relref path="aliases#default-aliases" lang="ja" >}}) 、同じ名前でリンクした各 artifact にエイリアスを付けます。また、[カスタムエイリアスを作成]({{< relref path="aliases#custom-aliases" lang="ja" >}}) して特定の artifact バージョンを参照することもできます。
 
-エイリアスは Registry UI 上で、そのエイリアス名が記載された四角い枠として表示されます。[エイリアスが保護されている場合]({{< relref path="aliases#protected-aliases" lang="ja" >}})、そのエイリアスは錠前アイコン付きのグレーの枠として表示されます。それ以外の場合、オレンジ色の枠となります。エイリアスはレジストリ間で共有されません。
+エイリアスは Registry UI 上で、そのエイリアス名が記載された四角い枠として表示されます。[エイリアスが保護されている場合]({{< relref path="aliases#protected-aliases" lang="ja" >}})、そのエイリアスは錠前アイコン付きのグレーの枠として表示されます。それ以外の場合、オレンジ色の枠となります。エイリアスはRegistry間で共有されません。
 
 {{% alert title="エイリアスとタグの使い分けについて" %}}
 エイリアスは、特定の artifact バージョンを参照したい場合に使います。1つのコレクション内のエイリアスは一意であり、同時に1つの artifact バージョンにしか割り当てられません。
@@ -34,7 +34,7 @@ W&B は、同じ名前で各 artifact バージョンに以下のエイリアス
 - モデルがどのデータセットで学習されたかを識別するために、`dataset_version_v0`、`dataset_version_v1`、`dataset_version_v2` のようなエイリアスを使用できます。
 - 最もパフォーマンスの良い artifact モデルのバージョンを追跡するために `best_model` エイリアスを使うのも良いでしょう。
 
-あるレジストリで [Member または Admin のレジストリロール]({{< relref path="guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) を持つユーザーであれば、リンク済み artifact へのカスタムエイリアスを追加・削除できます。必要に応じて [保護されたエイリアス]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) を設定することで、改変・削除から守りたい artifact バージョンを識別し、ラベル付けできます。
+あるRegistryで [Member または Admin のRegistryロール]({{< relref path="guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) を持つユーザーであれば、リンク済み artifact へのカスタムエイリアスを追加・削除できます。必要に応じて [保護されたエイリアス]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) を設定することで、改変・削除から守りたい artifact バージョンを識別し、ラベル付けできます。
 
 W&B Registry UI または Python SDK でカスタムエイリアスを作成できます。用途に合わせて、下記のタブから該当する手順を選んでください。
 
@@ -67,7 +67,7 @@ artifact = wandb.Artifact(name = "<name>", type = "<type>")
 # ローカルマシン上のファイルパスを指定
 artifact.add_file(local_path = "<local_path_to_artifact>")
 
-# この artifact をリンクするコレクションとレジストリを指定
+# この artifact をリンクするコレクションとRegistryを指定
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
@@ -86,7 +86,7 @@ run.link_artifact(
 ### 保護されたエイリアス
 [保護されたエイリアス]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) を使うことで、変更や削除を防ぎたい artifact バージョンをラベル付け・識別できます。たとえば、組織の機械学習本番パイプラインで利用中の artifact バージョンには `production` 保護エイリアスを指定することが推奨されます。
 
-[Registry 管理者]({{< relref path="/guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) や [サービスアカウント]({{< relref path="/support/kb-articles/service_account_useful" lang="ja" >}})（Admin ロール）であれば、保護エイリアスの作成や artifact バージョンへの追加・削除が可能です。Member や Viewer は保護バージョンのリンク解除や、そのバージョンを含むコレクションの削除はできません。詳細は [レジストリアクセスの設定]({{< relref path="/guides/core/registry/configure_registry.md" lang="ja" >}}) をご覧ください。
+[Registry 管理者]({{< relref path="/guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) や [サービスアカウント]({{< relref path="/support/kb-articles/service_account_useful" lang="ja" >}})（Admin ロール）であれば、保護エイリアスの作成や artifact バージョンへの追加・削除が可能です。Member や Viewer は保護バージョンのリンク解除や、そのバージョンを含むコレクションの削除はできません。詳細は [Registryアクセスの設定]({{< relref path="/guides/core/registry/configure_registry.md" lang="ja" >}}) をご覧ください。
 
 一般的な保護エイリアス例：
 
@@ -98,8 +98,8 @@ run.link_artifact(
 次の手順で W&B Registry UI から保護エイリアスの作成ができます。
 
 1. Registry アプリにアクセスします。
-2. 任意のレジストリを選択します。
-3. ページ右上の歯車ボタンを押してレジストリの設定を開きます。
+2. 任意のRegistryを選択します。
+3. ページ右上の歯車ボタンを押してRegistryの設定を開きます。
 4. **Protected Aliases** セクションで **+** ボタンをクリックし、1つ以上の保護エイリアスを追加します。
 
 作成後、各保護エイリアスは **Protected Aliases** セクションで、錠前アイコン付きのグレーの枠で表示されます。  
@@ -123,7 +123,7 @@ W&B Registry UI から artifact バージョンに保護エイリアスを追加
 1. W&B Registry App にアクセスします。
 2. ページ最上部の検索バーに検索したい語句を入力し、Enter キーを押します。
 
-入力した語句が既存のレジストリ、コレクション名、artifact バージョンのタグ、コレクションタグ、またはエイリアスと一致した場合、その結果が検索バー下に表示されます。
+入力した語句が既存のRegistry、コレクション名、artifact バージョンのタグ、コレクションタグ、またはエイリアスと一致した場合、その結果が検索バー下に表示されます。
 
 ## 例
 
@@ -131,7 +131,7 @@ W&B Registry UI から artifact バージョンに保護エイリアスを追加
 以下のコード例は [W&B Registry チュートリアル](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb) の続きです。以下のコードを利用するには、まず [Zoo データセットの取得と処理をノートブックの手順通りに実行](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a) してください。Zoo データセットが準備できたら、artifact バージョンの作成とカスタムエイリアスの追加が可能です。
 {{% /alert %}}
 
-以下のコードスニペットは、artifact バージョンの作成とカスタムエイリアスの追加方法を示したものです。この例では、[UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) の Zoo データセットと `Zoo_Classifier_Models` レジストリの `Model` コレクションを使用しています。
+以下のコードスニペットは、artifact バージョンの作成とカスタムエイリアスの追加方法を示したものです。この例では、[UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) の Zoo データセットと `Zoo_Classifier_Models` Registryの `Model` コレクションを使用しています。
 
 ```python
 import wandb
@@ -148,7 +148,7 @@ artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
 artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
 artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
 
-# この artifact をリンクするコレクションとレジストリを指定
+# この artifact をリンクするコレクションとRegistryを指定
 REGISTRY_NAME = "Model"
 COLLECTION_NAME = "Zoo_Classifier_Models"
 target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
@@ -164,4 +164,4 @@ run.link_artifact(
 
 1. まず、artifact オブジェクトを作成します（`wandb.Artifact()`）。
 2. 次に、2つの PyTorch tensor データセットを `wandb.Artifact.add_file()` で artifact オブジェクトに追加します。
-3. 最後に、`link_artifact()` を用いて artifact バージョンを `Zoo_Classifier_Models` レジストリ内の `Model` コレクションにリンクします。また、`aliases` パラメータに `production-us` と `production-eu` を渡すことで、2つのカスタムエイリアスも artifact バージョンへ追加されます。
+3. 最後に、`link_artifact()` を用いて artifact バージョンを `Zoo_Classifier_Models` Registry内の `Model` コレクションにリンクします。また、`aliases` パラメータに `production-us` と `production-eu` を渡すことで、2つのカスタムエイリアスも artifact バージョンへ追加されます。

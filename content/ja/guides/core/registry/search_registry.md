@@ -1,5 +1,5 @@
 ---
-title: レジストリ項目を見つける
+title: Registry項目を見つける
 menu:
   default:
     identifier: ja-guides-core-registry-search_registry
@@ -7,24 +7,24 @@ menu:
 weight: 7
 ---
 
-[W&B Registry App のグローバル検索バー]({{< relref path="./search_registry.md#search-for-registry-items" lang="ja" >}}) を使って、レジストリ、コレクション、artifact バージョンのタグ、コレクションタグ、エイリアスを検索できます。W&B Python SDK では、MongoDB 形式のクエリを使って[レジストリ、コレクション、artifact バージョンをフィルタ]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ja" >}}) することもできます。
+[W&B Registry App のグローバル検索バー]({{< relref path="./search_registry.md#search-for-registry-items" lang="ja" >}}) を使って、Registry、コレクション、artifact バージョンのタグ、コレクションタグ、エイリアスを検索できます。W&B Python SDK では、MongoDB 形式のクエリを使って[Registry、コレクション、artifact バージョンをフィルタ]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ja" >}}) することもできます。
 
 自分が閲覧権限を持つアイテムだけが検索結果に表示されます。
 
-## レジストリアイテムの検索
+## Registryアイテムの検索
 
-レジストリアイテムを検索するには：
+Registryアイテムを検索するには：
 
 1. W&B Registry App にアクセスします。
 2. ページ上部の検索バーに検索したいキーワードを入力し、Enter キーを押します。
 
-指定したキーワードが既存のレジストリ、コレクション名、artifact バージョンタグ、コレクションタグ、エイリアスと一致する場合、検索結果が検索バーの下に表示されます。
+指定したキーワードが既存のRegistry、コレクション名、artifact バージョンタグ、コレクションタグ、エイリアスと一致する場合、検索結果が検索バーの下に表示されます。
 
 {{< img src="/images/registry/search_registry.gif" alt="Searching within a Registry" >}}
 
-## MongoDB形式のクエリでレジストリアイテムを検索
+## MongoDB形式のクエリでRegistryアイテムを検索
 
-[`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ja" >}}) と [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使うことで、1つ以上の[MongoDB 形式のクエリ](https://www.mongodb.com/docs/compass/current/query/filter/)でレジストリ、コレクション、artifact バージョンを柔軟に絞り込めます。
+[`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ja" >}}) と [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使うことで、1つ以上の[MongoDB 形式のクエリ](https://www.mongodb.com/docs/compass/current/query/filter/)でRegistry、コレクション、artifact バージョンを柔軟に絞り込めます。
 
 下記の表は、各アイテムタイプごとに使用できるクエリ名の一覧です：
 
@@ -45,22 +45,22 @@ import wandb
 api = wandb.Api()
 ```
 
-`model` という文字列を含むすべてのレジストリをフィルタ：
+`model` という文字列を含むすべてのRegistryをフィルタ：
 
 ```python
-# `model` という文字列を含む全てのレジストリをフィルタ
+# `model` という文字列を含む全てのRegistryをフィルタ
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# フィルタに一致する全てのレジストリがイテラブルで返る
+# フィルタに一致する全てのRegistryがイテラブルで返る
 registries = api.registries(filter=registry_filters)
 ```
 
-レジストリを問わず、コレクション名に `yolo` を含むすべてのコレクションをフィルタ：
+Registryを問わず、コレクション名に `yolo` を含むすべてのコレクションをフィルタ：
 
 ```python
-# レジストリを問わず、コレクション名に `yolo` を含む
+# Registryを問わず、コレクション名に `yolo` を含む
 # すべてのコレクションをフィルタ
 collection_filters = {
     "name": {"$regex": "yolo"}
@@ -70,10 +70,10 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-レジストリを問わず、コレクション名に `yolo` を含み、タグとして `cnn` を持つすべてのコレクションをフィルタ：
+Registryを問わず、コレクション名に `yolo` を含み、タグとして `cnn` を持つすべてのコレクションをフィルタ：
 
 ```python
-# レジストリを問わず、コレクション名に `yolo` を含み、
+# Registryを問わず、コレクション名に `yolo` を含み、
 # タグとして `cnn` を持つすべてのコレクションをフィルタ
 collection_filters = {
     "name": {"$regex": "yolo"},
@@ -120,7 +120,7 @@ for art in artifacts:
 artifact オブジェクトで利用可能な属性の一覧は [Artifacts Class]({{< relref path="/ref/python/sdk/classes/artifact/_index.md" lang="ja" >}}) をご覧ください。
 
 
-レジストリやコレクションに依存せず、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての artifact バージョンをフィルタ：
+Registryやコレクションに依存せず、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての artifact バージョンをフィルタ：
 
 ```python
 # 2024-01-08 から 2025-03-04 13:10 UTC の間に作成された

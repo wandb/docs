@@ -1,5 +1,5 @@
 ---
-title: W&B コア
+title: W&B Core
 menu:
   default:
     identifier: ja-guides-core-_index

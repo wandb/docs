@@ -7,13 +7,13 @@ menu:
 weight: 4
 ---
 
-*コレクション* とは、レジストリ内で関連付けられた複数の artifact バージョンの集合です。各コレクションは、個別のタスクやユースケースを表現します。
+*コレクション* とは、Registry内で関連付けられた複数の artifact バージョンの集合です。各コレクションは、個別のタスクやユースケースを表現します。
 
-たとえば、コア Dataset レジストリ内には複数のコレクションを作成できます。各コレクションには、MNIST、CIFAR-10、ImageNet など、異なるデータセットが含まれます。
+たとえば、コア Dataset Registry内には複数のコレクションを作成できます。各コレクションには、MNIST、CIFAR-10、ImageNet など、異なるデータセットが含まれます。
 
-別の例として、「chatbot」というレジストリがあるとします。このレジストリにはモデル artifact 用のコレクション、データセット artifact 用のコレクション、ファインチューン済みモデル artifact 用のコレクションなどを持たせることができます。
+別の例として、「chatbot」というRegistryがあるとします。このRegistryにはモデル artifact 用のコレクション、データセット artifact 用のコレクション、ファインチューン済みモデル artifact 用のコレクションなどを持たせることができます。
 
-レジストリやそのコレクションをどのように整理するかは自由です。
+Registryやそのコレクションをどのように整理するかは自由です。
 
 {{% alert %}}
 W&B Model Registry に慣れている方は「registered models」という言葉をご存じかもしれません。Model Registry での registered models は、W&B Registry ではコレクションと呼ばれるようになりました。
@@ -49,7 +49,7 @@ artifact = wandb.Artifact(
 ```
 {{% /alert %}}
  
-コレクションを作成する際には、あらかじめ定義されている artifact タイプの中から選択できます。どの artifact タイプが利用できるかは、そのコレクションが属しているレジストリによって異なります。
+コレクションを作成する際には、あらかじめ定義されている artifact タイプの中から選択できます。どの artifact タイプが利用できるかは、そのコレクションが属しているRegistryによって異なります。
 
 artifact をコレクションにリンクしたり新たなコレクションを作成する前に、[そのコレクションが受け入れる artifact のタイプを確認してください]({{< relref path="#check-the-types-of-artifact-that-a-collection-accepts" lang="ja" >}})。
 
@@ -63,24 +63,24 @@ artifact をコレクションにリンクしたり新たなコレクション�
 
 {{< tabpane text=true >}}
   {{% tab header="W&B App" %}}
-受け入れ可能な artifact タイプは、ホームページのレジストリカードやレジストリの設定ページで確認できます。
+受け入れ可能な artifact タイプは、ホームページのRegistryカードやRegistryの設定ページで確認できます。
 
 まずは、W&B Registry App のホームページにアクセスしてください。
 
-Registry App のホームページでは、任意のレジストリカードまでスクロールすると、そのレジストリが受け入れる artifact タイプが灰色の横長の楕円で表示されています。
+Registry App のホームページでは、任意のRegistryカードまでスクロールすると、そのRegistryが受け入れる artifact タイプが灰色の横長の楕円で表示されています。
 
 {{< img src="/images/registry/artifact_types_model_card.png" alt="Artifact types selection" >}}
 
-例えば、上の画像では複数のレジストリカードが表示されています。**Model** レジストリカードには、**model** と **model-new** という2つの artifact タイプが表示されています。
+例えば、上の画像では複数のRegistryカードが表示されています。**Model** Registryカードには、**model** と **model-new** という2つの artifact タイプが表示されています。
 
-レジストリの設定ページで artifact タイプを確認するには：
+Registryの設定ページで artifact タイプを確認するには：
 
-1. 設定を確認したいレジストリカードをクリックします。
+1. 設定を確認したいRegistryカードをクリックします。
 2. 右上の歯車アイコンをクリックします。
 3. **Accepted artifact types** フィールドまでスクロールします。   
   {{% /tab %}}
   {{% tab header="Python SDK (Beta)" %}}
-W&B Python SDK を使えば、プログラムからレジストリが受け入れる artifact タイプを確認できます。
+W&B Python SDK を使えば、プログラムからRegistryが受け入れる artifact タイプを確認できます。
 
 ```python
 import wandb
@@ -100,17 +100,17 @@ print(artifact_type.name for artifact_type in artifact_types)
 
 ## コレクションを作成する
 
-コレクションは、インタラクティブまたはプログラム的にレジストリ内へ作成できます。一度作成すると、そのコレクションが受け入れられる artifact タイプは変更できません。
+コレクションは、インタラクティブまたはプログラム的にRegistry内へ作成できます。一度作成すると、そのコレクションが受け入れられる artifact タイプは変更できません。
 
 ### プログラムでコレクションを作成する
 
-`wandb.init.link_artifact()` メソッドを使って artifact をコレクションにリンクします。`target_path` フィールドには、レジストリ名とコレクション名を組み合わせた次の形式で指定します：
+`wandb.init.link_artifact()` メソッドを使って artifact をコレクションにリンクします。`target_path` フィールドには、Registry名とコレクション名を組み合わせた次の形式で指定します：
 
 ```python
 f"wandb-registry-{registry_name}/{collection_name}"
 ```
 
-ここで `registry_name` はレジストリ名、`collection_name` はコレクション名です。レジストリ名の前には必ず `wandb-registry-` プレフィックスを付けてください。
+ここで `registry_name` はRegistry名、`collection_name` はコレクション名です。Registry名の前には必ず `wandb-registry-` プレフィックスを付けてください。
 
 {{% alert %}}
 存在しないコレクションへ artifact をリンクしようとすると、W&B が自動的にコレクションを作成します。既存のコレクションを指定した場合は、そのコレクションに artifact がリンクされます。
@@ -142,13 +142,13 @@ run.finish()
 
 ### インタラクティブにコレクションを作成する
 
-W&B Registry App UI を使ってレジストリ内にコレクションを作成する手順は以下の通りです：
+W&B Registry App UI を使ってRegistry内にコレクションを作成する手順は以下の通りです：
 
 1. W&B App UI の **Registry** App に移動します。
-2. レジストリを選択します。
+2. Registryを選択します。
 3. 画面右上の **Create collection** ボタンをクリックします。
 4. **Name** フィールドにコレクション名を入力します。
-5. **Type** ドロップダウンからタイプを選びます。もしくは、レジストリでカスタム artifact タイプが許可されている場合は、受け入れる artifact タイプを設定してください。
+5. **Type** ドロップダウンからタイプを選びます。もしくは、Registryでカスタム artifact タイプが許可されている場合は、受け入れる artifact タイプを設定してください。
 6. 任意で、**Description** フィールドにコレクションの説明を追加します。
 7. 任意で、**Tags** フィールドにタグを追加します。
 8. **Link version** をクリックします。

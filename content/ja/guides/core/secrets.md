@@ -1,6 +1,6 @@
 ---
-title: シークレット
-description: W&B シークレットの概要、その仕組み、および開始方法について説明します。
+title: Secrets
+description: W&B Secretsの概要、その仕組み、および開始方法について説明します。
 menu:
   default:
     identifier: ja-guides-core-secrets

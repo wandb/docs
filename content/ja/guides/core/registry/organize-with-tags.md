@@ -9,7 +9,7 @@ menu:
 weight: 7
 ---
 
-コレクションやアーティファクトバージョンを整理するためにタグを作成し、コレクションやレジストリ内のアーティファクトバージョンへ追加しましょう。W&B App の UI または W&B Python SDK を使って、コレクションまたはアーティファクトバージョンにタグを追加、変更、表示、削除できます。
+コレクションやアーティファクトバージョンを整理するためにタグを作成し、コレクションやRegistry内のアーティファクトバージョンへ追加しましょう。W&B App の UI または W&B Python SDK を使って、コレクションまたはアーティファクトバージョンにタグを追加、変更、表示、削除できます。
 
 {{% alert title="タグとエイリアスの使い分け" %}}
 特定のアーティファクトバージョンを一意に参照する必要がある場合は、エイリアスを使用します。例えば、`production` や `latest` のようなエイリアスを使えば、`artifact_name:alias` が常に特定バージョンだけを指すようになります。
@@ -28,12 +28,12 @@ W&B App UI または Python SDK を使って、コレクションにタグを追
 W&B AppのUIでコレクションにタグを追加する方法:
 
 1. [W&B Registry App](https://wandb.ai/registry) にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. コレクション名の横にある **View details** をクリックします。
 4. コレクションカード内で、**Tags** フィールドの横にあるプラスアイコン（**+**）をクリックし、タグ名を入力します。
 5. キーボードで **Enter** キーを押します。
 
-{{< img src="/images/registry/add_tag_collection.gif" alt="レジストリコレクションへのタグ追加" >}}
+{{< img src="/images/registry/add_tag_collection.gif" alt="Registryコレクションへのタグ追加" >}}
 
 {{% /tab %}}
 {{% tab header="Python SDK" %}}
@@ -94,12 +94,12 @@ collection.tags.clear()
 W&B App UI を使って、コレクションに追加されたタグを確認できます。
 
 1. [W&B Registry App](https://wandb.ai/registry) にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. コレクション名の横にある **View details** をクリックします。
 
 コレクションに 1 つ以上のタグがある場合、コレクションカードの **Tags** フィールド横でそのタグを確認できます。
 
-{{< img src="/images/registry/tag_collection_selected.png" alt="選択されたタグがあるレジストリコレクション" >}}
+{{< img src="/images/registry/tag_collection_selected.png" alt="選択されたタグがあるRegistryコレクション" >}}
 
 コレクションに追加されたタグは、コレクション名の横にも表示されます。
 
@@ -113,7 +113,7 @@ W&B App UI を使って、コレクションに追加されたタグを確認で
 W&B App UI を使って、コレクションからタグを削除できます。
 
 1. [W&B Registry App](https://wandb.ai/registry) にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. コレクション名の横にある **View details** をクリックします。
 4. コレクションカード内で、削除したいタグ名にカーソルを合わせます。
 5. キャンセルボタン（**X** アイコン）をクリックします。
@@ -125,7 +125,7 @@ W&B App UI を使って、コレクションからタグを削除できます。
 {{< tabpane text=true >}}
 {{% tab header="W&B App" %}}
 1. https://wandb.ai/registry で W&B Registry にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. タグを追加したいコレクション名の横にある **View details** をクリックします。
 4. **Versions** までスクロールします。
 5. アーティファクトバージョンの横の **View** をクリックします。
@@ -215,13 +215,13 @@ artifact.tags.clear()
 
 ## アーティファクトバージョンのタグを表示する
 
-レジストリに紐づいたアーティファクトバージョンのタグを、W&B App UI または Python SDK で表示できます。
+Registryに紐づいたアーティファクトバージョンのタグを、W&B App UI または Python SDK で表示できます。
 
 {{< tabpane text=true >}}
 {{% tab header="W&B App" %}}
 
 1. [W&B Registry App](https://wandb.ai/registry) にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. タグを追加したいコレクション名の横にある **View details** をクリックします。
 4. **Versions** セクションまでスクロールします。
 
@@ -282,7 +282,7 @@ print(artifact.tags)
 ## アーティファクトバージョンからタグを削除する
 
 1. [W&B Registry App](https://wandb.ai/registry) にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. タグを追加したいコレクション名の横にある **View details** をクリックします。
 4. **Versions** までスクロールします。
 5. アーティファクトバージョンの横の **View** をクリックします。
@@ -294,7 +294,7 @@ print(artifact.tags)
 W&B App UI では、コレクションやアーティファクトバージョンに存在するタグを検索できます。
 
 1. [W&B Registry App](https://wandb.ai/registry) にアクセスします。
-2. 任意のレジストリカードをクリックします。
+2. 任意のRegistryカードをクリックします。
 3. 検索バーでタグ名を入力します。
 
 {{< img src="/images/registry/search_tags.gif" alt="タグ検索" >}}
