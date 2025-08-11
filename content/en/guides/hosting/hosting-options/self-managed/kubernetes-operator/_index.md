@@ -777,12 +777,16 @@ global:
       password: ""
 ```
 
-### Environment Variables
+### Environment variables
+Configure environment variables for W&B services:
+
 ```yaml
 global:
   extraEnv:
     GLOBAL_ENV: "example"
 ```
+
+You can reference environment variables in configuration values using `${VAR_NAME}` or `${env:VAR_NAME}` syntax. This is particularly useful for sensitive data like API keys or endpoints that vary by environment.
 
 ### Custom certificate authority
 `customCACerts` is a list and can take many certificates. Certificate authorities specified in `customCACerts` only apply to the W&B Server application.
@@ -888,6 +892,363 @@ app:
 ```
 
 The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
+
+### OpenTelemetry (OTEL) exporters
+
+Configure OpenTelemetry exporters to send telemetry data (traces, metrics, and logs) from your W&B deployment to external observability platforms like New Relic, Datadog, or other OTLP-compatible services.
+
+The OpenTelemetry Collector uses a pipeline architecture with receivers, processors, and exporters:
+- **Receivers** collect telemetry data from various sources.
+- **Processors** transform, filter, or enrich the data.
+- **Exporters** send the processed data to observability platforms.
+
+#### Basic configuration
+
+To enable OTEL and configure the OTLP HTTP exporter:
+
+```yaml
+otel:
+  enabled: true
+  daemonset:
+    config:
+      exporters:
+        otlphttp:
+          endpoint: "https://example.com:4318"  # Required - your OTEL collector endpoint
+          headers:
+            api-key: "<API-KEY>"  # Add any required authentication headers
+      service:
+        pipelines:
+          traces:
+            receivers: [otlp]
+            processors: [memory_limiter, batch]
+            exporters: [otlphttp]
+          metrics:
+            receivers: [otlp]
+            processors: [memory_limiter, batch]
+            exporters: [otlphttp]
+          logs:
+            receivers: [otlp]
+            processors: [memory_limiter, batch]
+            exporters: [otlphttp]
+```
+
+#### Use Kubernetes secrets for sensitive data
+
+For production deployments, use Kubernetes secrets to store sensitive information like API keys:
+
+```yaml
+otel:
+  enabled: true
+  daemonset:
+    config:
+      exporters:
+        otlphttp:
+          endpoint: "https://example.com:4318"
+          headers:
+            api-key: "${OTEL_API_KEY}"  # Reference environment variable
+    extraEnvs:
+      - name: OTEL_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: otel-secrets
+            key: api-key
+```
+
+{{% alert %}}
+Create the secret before deploying:
+```bash
+kubectl create secret generic otel-secrets \
+  --from-literal=api-key=<YOUR-API-KEY>
+```
+{{% /alert %}}
+
+#### Configure queue and retry behavior
+
+Configure queue and retry behavior for reliable data delivery:
+
+```yaml
+otel:
+  enabled: true
+  daemonset:
+    config:
+      exporters:
+        otlphttp:
+          endpoint: "https://example.com:4318"
+          headers:
+            api-key: "${OTEL_API_KEY}"
+          sending_queue:
+            enabled: true
+            num_consumers: 10      # Number of parallel workers sending data
+            queue_size: 1000       # Maximum number of batches in the queue
+          retry_on_failure:
+            enabled: true
+            initial_interval: 5s   # Time to wait before first retry
+            max_interval: 30s      # Maximum time between retries
+            max_elapsed_time: 300s # Maximum total time spent retrying
+```
+
+#### Configure processors
+
+Processors modify telemetry data between collection and export. Learn more about [OpenTelemetry processors](https://opentelemetry.io/docs/collector/transforming-telemetry/) and the [available processor types](https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor).
+
+```yaml
+otel:
+  enabled: true
+  daemonset:
+    config:
+      processors:
+        batch:
+          timeout: 5s                # Time to wait before sending a batch
+          send_batch_size: 10000     # Number of spans/metrics/logs per batch
+          send_batch_max_size: 20000 # Maximum batch size
+        memory_limiter:
+          check_interval: 5s         # How often to check memory usage
+          limit_percentage: 80       # Maximum memory usage as percentage of total
+          spike_limit_percentage: 25 # Tolerated spike in memory usage
+        k8sattributes:  # Enriches telemetry with Kubernetes metadata
+          extract:
+            metadata:
+              - k8s.namespace.name
+              - k8s.deployment.name
+              - k8s.pod.name
+              - k8s.node.name
+          filter:
+            node_from_env_var: K8S_NODE_NAME  # Only process data from pods on the same node
+          passthrough: false                 # If true, propagate trace context and headers without necessarily creating a new span for that specific HTTP operation
+          pod_association:
+            - sources:
+              - from: resource_attribute
+                name: k8s.pod.ip
+        attributes:
+          actions:
+            - action: upsert
+              key: environment
+              value: production
+            - action: upsert
+              key: service.name
+              value: wandb
+```
+
+#### Propagate contextual metadata using OpenTelemetry Baggage
+
+The [complete example]({{< relref "#complete-otel-example" >}}) includes a baggage processor that extracts baggage from incoming requests and adds them as attributes to telemetry data. [Baggage](https://opentelemetry.io/docs/concepts/signals/baggage/) allows you to propagate contextual metadata, like region, tenant ID, or deployment environment, across distributed systems.
+
+To use baggage in your application:
+
+1. **Set baggage in your application code**:
+   ```javascript
+   // Example: Setting baggage in JavaScript
+   const baggage = propagation.getBaggage(context.active());
+   baggage.setEntry("region", { value: "us-west-2" });
+   baggage.setEntry("user.tenant", { value: "customer-123" });
+   baggage.setEntry("deployment.environment", { value: "production" });
+   ```
+
+2. **The baggage processor will automatically**:
+   - Extract baggage values from incoming requests.
+   - Add them as attributes to traces, metrics, and logs.
+   - Make them available for filtering, grouping, and analysis in your observability platform.
+
+3. **Use baggage attributes in your observability platform**:
+   - Filter traces by region: `region="us-west-2"`
+   - Group metrics by tenant: `GROUP BY user.tenant`
+   - Alert on specific environments: `deployment.environment="production"`
+
+{{% alert %}}
+Baggage is propagated across service boundaries, making it ideal for passing context in microservices architectures. However, be mindful of the baggage size, which adds overhead to every request.
+{{% /alert %}}
+
+#### Configure separate endpoints
+
+You can optionally configure separate endpoints for different telemetry types:
+
+```yaml
+otel:
+  enabled: true
+  daemonset:
+    config:
+      exporters:
+        otlphttp:
+          endpoint: "https://example.com:4318"  # Default endpoint for all signals
+          traces_endpoint: "https://example.com:4318/v1/traces"   # Optional - specific traces endpoint
+          metrics_endpoint: "https://example.com:4318/v1/metrics"  # Optional - specific metrics endpoint
+          logs_endpoint: "https://example.com:4318/v1/logs"       # Optional - specific logs endpoint
+          headers:
+            api-key: "${OTEL_API_KEY}"
+          compression: gzip  # Compression method: gzip (default) or none
+          timeout: 30s       # Request timeout (default: 30s)
+```
+
+#### Platform-specific configurations
+
+Different observability platforms may require specific headers or endpoint formats:
+
+{{< tabpane text=true >}}
+{{% tab header="New Relic" %}}
+```yaml
+exporters:
+  otlphttp:
+    endpoint: "https://otlp.nr-data.net:4318"  # US datacenter
+    # endpoint: "https://otlp.eu01.nr-data.net:4318"  # EU datacenter
+    headers:
+      api-key: "${NEW_RELIC_LICENSE_KEY}"
+```
+{{% /tab %}}
+
+{{% tab header="Datadog" %}}
+While Datadog primarily uses its native exporter, it also supports OTLP ingestion:
+```yaml
+exporters:
+  otlphttp:
+    endpoint: "https://http-intake.logs.datadoghq.com:443"
+    headers:
+      DD-API-KEY: "${DATADOG_API_KEY}"
+      # Additional headers for routing
+      DD-APPLICATION-KEY: "${DATADOG_APP_KEY}"
+```
+{{% /tab %}}
+
+{{% tab header="Generic OTLP" %}}
+```yaml
+exporters:
+  otlphttp:
+    endpoint: "${COLLECTOR_ENDPOINT}"
+    headers:
+      authorization: "Bearer ${AUTH_TOKEN}"
+      x-custom-header: "custom-value"  # Any custom headers your collector requires
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+#### Complete production example {#complete-otel-example}
+
+This example shows a production-ready configuration with OTLP HTTP export, including all telemetry types.
+
+<details>
+<summary>Click to expand the complete example, which is lengthy.</summary>
+
+```yaml
+otel:
+  enabled: true
+  daemonset:
+    config:
+      processors:
+        batch:
+          timeout: 5s
+          send_batch_size: 10000
+        memory_limiter:
+          check_interval: 5s
+          limit_percentage: 80
+          spike_limit_percentage: 25
+        k8sattributes:  # Enriches telemetry with Kubernetes metadata
+          extract:
+            metadata:
+              - k8s.namespace.name
+              - k8s.deployment.name
+              - k8s.statefulset.name
+              - k8s.daemonset.name
+              - k8s.pod.name
+              - k8s.pod.uid
+              - k8s.node.name
+          filter:
+            node_from_env_var: K8S_NODE_NAME  # Only process data from pods on the same node
+          passthrough: false                  # If true, propagate trace context and headers without necessarily creating a new span for that specific HTTP operation
+          pod_association:
+            - sources:
+              - from: resource_attribute
+                name: k8s.pod.ip
+            - sources:
+              - from: resource_attribute
+                name: k8s.pod.uid
+        attributes:
+          actions:
+            - action: upsert
+              key: environment
+              value: production
+            - action: upsert
+              key: service.name
+              value: wandb
+        baggage:  # Extract baggage from incoming requests and add to telemetry
+          - key: region
+            from_attribute: baggage.region
+          - key: deployment.environment
+            from_attribute: baggage.deployment.environment
+          - key: user.tenant
+            from_attribute: baggage.user.tenant
+      exporters:
+        otlphttp:
+          endpoint: "${OTEL_ENDPOINT}"
+          headers:
+            api-key: "${OTEL_API_KEY}"
+          compression: gzip
+          timeout: 30s
+          sending_queue:
+            enabled: true
+            num_consumers: 10
+            queue_size: 1000
+          retry_on_failure:
+            enabled: true
+            initial_interval: 5s
+            max_interval: 30s
+            max_elapsed_time: 300s
+        prometheus:  # Keep local Prometheus for W&B console
+          endpoint: "0.0.0.0:9090"
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+              endpoint: "0.0.0.0:4317"
+            http:
+              endpoint: "0.0.0.0:4318"
+        hostmetrics:
+          collection_interval: 10s
+          scrapers:
+            cpu: {}
+            disk: {}
+            filesystem: {}
+            load: {}
+            memory: {}
+            network: {}
+        k8s_cluster:
+          collection_interval: 10s
+        kubeletstats:
+          collection_interval: 20s
+          auth_type: serviceAccount
+          endpoint: "https://${env:K8S_NODE_NAME}:10250"
+          insecure_skip_verify: true
+        filelog:
+          include:
+            - /var/log/pods/*/*/*.log
+          start_at: end
+      service:
+        pipelines:
+          traces:
+            receivers: [otlp]
+            processors: [memory_limiter, k8sattributes, attributes, baggage, batch]
+            exporters: [otlphttp]
+          metrics:
+            receivers: [hostmetrics, k8s_cluster, kubeletstats, otlp]
+            processors: [memory_limiter, k8sattributes, attributes, batch]
+            exporters: [otlphttp, prometheus]
+          logs:
+            receivers: [filelog, otlp]
+            processors: [memory_limiter, batch, k8sattributes]
+            exporters: [otlphttp]
+    extraEnvs:
+      - name: OTEL_ENDPOINT
+        valueFrom:
+          secretKeyRef:
+            name: otel-secrets
+            key: endpoint
+      - name: OTEL_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: otel-secrets
+            key: api-key
+```
+
+</detail>
+
 
 ## Configuration Reference for W&B Operator
 
