@@ -8,7 +8,7 @@ support:
 ---
 
 
-A **service account** (Enterprise-only feature) represents a non-human or machine user, which can automate common tasks across teams and projects or ones that are not specific to a particular human user. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
+A **service account** represents a non-human or machine identity, which can automate common tasks across teams and projects. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
 
 {{< readfile file="/content/en/_includes/service-account-benefits.md" >}}
 

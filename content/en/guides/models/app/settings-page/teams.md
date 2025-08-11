@@ -58,10 +58,10 @@ A team member can delete only runs they created. Suppose you have two members A 
 
 ### Service accounts
 
-In addition to user roles, teams can also use **service accounts** (Enterprise-only feature) for automation. Service accounts are not team roles, but rather non-human identities used for automated workflows. Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}) for detailed information.
+In addition to user roles, teams can also use **service accounts** for automation. Service accounts are not users, but rather non-human identities used for automated workflows. Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}) for detailed information.
 
 {{% alert %}}
-W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+W&B recommends assigning more than one admin in a team to ensure that admin operations can continue when the primary admin is not available.
 {{% /alert %}}
 
 ### Team settings

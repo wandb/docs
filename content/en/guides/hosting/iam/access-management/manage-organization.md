@@ -317,7 +317,7 @@ This table lists the roles you can assign to a member of a team:
 | Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to the [custom roles announcement](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
 
 {{% alert color="info" %}}
-Service accounts are not team roles, but rather non-human identities used for automation. **Service accounts** (Enterprise-only feature) provide API keys for automated workflows and do not consume user licenses. Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}) for comprehensive information about creating and managing service accounts.
+Service accounts are not users, but rather non-human identities used for automation. **Service accounts** provide API keys for automated workflows and do not consume user licenses. Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}) for comprehensive information about creating and managing service accounts.
 {{% /alert %}}
 
 {{% alert %}}
