@@ -1,6 +1,10 @@
-{Description of the change}
+Description
+-----------
+<!-- Description of the change -->
 
--- Remove this line and following from the merge commit message --
 
-{JIRA / GitHub issue, or remove this line}
-{Upstream code PR, or remove this line}
+Related issues
+-----------
+- Fixes DOCS-12345 <!-- JIRA issue, or remove this line -->
+- Fixes GitHub Issue 12345 <!-- GitHub issue, or remove this line -->
+
