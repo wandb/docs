@@ -45,7 +45,7 @@ Start a new run to track and log to W&B.
 
 In an ML training pipeline, you could add `wandb.init()` to the beginning of your training script as well as your evaluation script, and each piece would be tracked as a run in W&B. 
 
-`wandb.init()` spawns a new background process to log data to a run, and it also syncs data to https://wandb.ai by default, so you can see your results in real-time. When you're done logging data, call `wandb.finish()` to end the run. If you don't call `run.finish()`, the run will end when your script exits. 
+`wandb.init()` spawns a new background process to log data to a run, and it also syncs data to https://wandb.ai by default, so you can see your results in real-time. When you're done logging data, call `wandb.Run.finish()` to end the run. If you don't call `run.finish()`, the run will end when your script exits. 
 
 Run IDs must not contain any of the following special characters `/ \ # ? % :` 
 
@@ -94,6 +94,11 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
 
 
 
+**Returns:**
+ A `Run` object. 
+
+
+
 **Raises:**
  
  - `Error`:  If some unknown or internal error happened during the run  initialization. 
@@ -101,13 +106,6 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
  - `CommError`:  If there was a problem communicating with the WandB server. 
  - `UsageError`:  If the user provided invalid arguments. 
  - `KeyboardInterrupt`:  If user interrupts the run. 
-
-
-
-**Returns:**
- A `Run` object. 
-
-
 
 
 
