@@ -8,7 +8,7 @@ weight: 130
 ---
 [Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
-[Weights & Biases](https://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments.
+[W&B](https://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments.
 
 {{< img src="/images/integrations/hf-autotrain-1.png" alt="Experiment metrics logging" >}}
 
@@ -48,7 +48,7 @@ Hugging Face AutoTrain expects your CSV custom dataset to have a specific format
 
 ## Train using `autotrain`
 
-You can start training using the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [W&B run]({{< relref "/guides/models/track/runs/" >}}). 
+You can start training using the `autotrain` advanced from the command line or a notebook. Use the `--log` argument, or use `--log wandb` to log your results to a [W&B Run]({{< relref "/guides/models/track/runs/" >}}). 
 
 {{< tabpane text=true >}}
 

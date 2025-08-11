@@ -1,5 +1,5 @@
 ---
-title: What happens if I pass a class attribute into wandb.log()?
+title: What happens if I pass a class attribute into wandb.Run.log()?
 menu:
   support:
     identifier: ko-support-kb-articles-pass_class_attribute_wandblog

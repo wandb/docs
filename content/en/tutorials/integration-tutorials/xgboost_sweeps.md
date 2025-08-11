@@ -7,7 +7,7 @@ title: XGBoost Sweeps
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
@@ -19,7 +19,7 @@ Searching through high dimensional hyperparameter spaces to find the most perfor
 Hyperparameter sweeps provide an organized and efficient way to conduct a battle royale of models and crown a winner.
 They enable this by automatically searching through combinations of hyperparameter values to find the most optimal values.
 
-In this tutorial we'll see how you can run sophisticated hyperparameter sweeps on XGBoost models in 3 easy steps using Weights and Biases.
+In this tutorial we'll see how you can run sophisticated hyperparameter sweeps on XGBoost models in 3 easy steps using W&B.
 
 For a teaser, check out the plots below:
 
@@ -27,7 +27,7 @@ For a teaser, check out the plots below:
 
 ## Sweeps: An Overview
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
 
 1. **Define the sweep:** we do this by creating a dictionary-like object that specifies the sweep: which parameters to search through, which search strategy to use, which metric to optimize.
 
@@ -62,7 +62,7 @@ wandb.login()
 
 ## 1. Define the Sweep
 
-Weights & Biases sweeps give you powerful levers to configure your sweeps exactly how you want them, with just a few lines of code. The sweeps config can be defined as
+W&B sweeps give you powerful levers to configure your sweeps exactly how you want them, with just a few lines of code. The sweeps config can be defined as
 [a dictionary or a YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}).
 
 Let's walk through some of them together:
@@ -118,9 +118,9 @@ the function that takes in hyperparameter values and spits out metrics.
 
 We'll also need `wandb` to be integrated into our script.
 There's three main components:
-*   `wandb.init()`: Initialize a new W&B run. Each run is single execution of the training script.
-*   `wandb.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
-*   `wandb.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
+*   `wandb.init()`: Initialize a new W&B Run. Each run is single execution of the training script.
+*   `run.config`: Save all your hyperparameters in a config object. This lets you use [our app](https://wandb.ai) to sort and compare your runs by hyperparameter values.
+*   `run.log()`: Logs metrics and custom objects, such as images, videos, audio files, HTML, plots, or point clouds.
 
 We also need to download the data:
 
@@ -148,31 +148,31 @@ def train():
     "test_size": 0.33,
   }
 
-  wandb.init(config=config_defaults)  # defaults are over-ridden during the sweep
-  config = wandb.config
+  with wandb.init(config=config_defaults)  as run: # defaults are over-ridden during the sweep
+    config = run.config
 
-  # load data and split into predictors and targets
-  dataset = loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
-  X, Y = dataset[:, :8], dataset[:, 8]
+    # load data and split into predictors and targets
+    dataset = loadtxt("pima-indians-diabetes.data.csv", delimiter=",")
+    X, Y = dataset[:, :8], dataset[:, 8]
 
-  # split data into train and test sets
-  X_train, X_test, y_train, y_test = train_test_split(X, Y,
-                                                      test_size=config.test_size,
-                                                      random_state=config.seed)
+    # split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, Y,
+                                                        test_size=config.test_size,
+                                                        random_state=config.seed)
 
-  # fit model on train
-  model = XGBClassifier(booster=config.booster, max_depth=config.max_depth,
-                        learning_rate=config.learning_rate, subsample=config.subsample)
-  model.fit(X_train, y_train)
+    # fit model on train
+    model = XGBClassifier(booster=config.booster, max_depth=config.max_depth,
+                          learning_rate=config.learning_rate, subsample=config.subsample)
+    model.fit(X_train, y_train)
 
-  # make predictions on test
-  y_pred = model.predict(X_test)
-  predictions = [round(value) for value in y_pred]
+    # make predictions on test
+    y_pred = model.predict(X_test)
+    predictions = [round(value) for value in y_pred]
 
-  # evaluate predictions
-  accuracy = accuracy_score(y_test, predictions)
-  print(f"Accuracy: {accuracy:.0%}")
-  wandb.log({"accuracy": accuracy})
+    # evaluate predictions
+    accuracy = accuracy_score(y_test, predictions)
+    print(f"Accuracy: {accuracy:.0%}")
+    run.log({"accuracy": accuracy})
 ```
 
 ## 3. Run the Sweep with an agent
@@ -200,7 +200,7 @@ wandb.agent(sweep_id, train, count=25)
 
 Now that your sweep is finished, it's time to look at the results.
 
-Weights & Biases will generate a number of useful plots for you automatically.
+W&B will generate a number of useful plots for you automatically.
 
 ### Parallel coordinates plot
 

@@ -12,7 +12,7 @@ cascade:
 ---
 
 
-A *run* is a single unit of computation logged by W&B. You can think of a W&B run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
+A *run* is a single unit of computation logged by W&B. You can think of a W&B Run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
 
 Common patterns for initiating a run include, but are not limited to: 
 
@@ -23,15 +23,18 @@ Common patterns for initiating a run include, but are not limited to:
 * [Downloading a W&B Artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
-W&B stores runs that you create in [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace in the W&B App. You can access run properties programmatically with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/runs" >}}) object.
+W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/sdk/classes/run.md" >}}) object.
 
-Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
+Anything you log with `wandb.Run.log()` is recorded in that run.
 
 ```python
 import wandb
 
-run = wandb.init(entity="nico", project="awesome-project")
-run.log({"accuracy": 0.9, "loss": 0.1})
+entity = "nico"  # Replace with your W&B entity
+project = "awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
 The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
@@ -65,26 +68,24 @@ The URL W&B returns in the terminal to redirects you to the run's workspace in t
 Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
 
 ```python
-epochs = 10
-lr = 0.01
+import wandb
+import random
 
-run = wandb.init(
-    entity="nico",
-    project="awesome-project",
-    config={
-        "learning_rate": lr,
-        "epochs": epochs,
-    },
-)
+config = {
+    "epochs": 10,
+    "learning_rate": 0.01,
+}
 
-offset = random.random() / 5
-
-# simulating a training run
-for epoch in range(epochs):
-    acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
-    loss = 2**-epoch + random.random() / (epoch + 1) + offset
-    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    run.log({"accuracy": acc, "loss": loss})
+with wandb.init(project="awesome-project", config=config) as run:
+    print(f"lr: {config['learning_rate']}")
+      
+    # Simulating a training run
+    for epoch in range(config['epochs']):
+      offset = random.random() / 5
+      acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
+      loss = 2**-epoch + random.random() / (epoch + 1) + offset
+      print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+      run.log({"accuracy": acc, "loss": loss})
 ```
 
 This returns the following output:
@@ -108,25 +109,26 @@ wandb: 🚀 View run jolly-haze-4 at: https://wandb.ai/nico/awesome-project/runs
 wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 ```
 
-The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
+The training script calls `wandb.Run.log()` 10 times. Each time the script calls `wandb.Run.log()`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
 
-Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init()` method only once. 
 
 {{< img src="/images/runs/run_log_example_2.png" alt="Training run with logged metrics" >}}
 
 As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
 
 
-## Initialize a run
+## Initialize a W&B Run
 
-Initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B Run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", project="<project>")
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # Your code here
 ```
 
 When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
@@ -139,14 +141,14 @@ Each run in W&B has a [unique identifier known as a *run ID*]({{< relref "#uniqu
 
 Each run also has a human-readable, non-unique [run name]({{< relref "#name-your-run" >}}). You can specify a name for your run or let W&B randomly generate one for you. You can rename a run after initializing it.
 
-For example, consider the proceeding code snippet: 
+For example, consider the following code snippet:
 
 ```python title="basic.py"
 import wandb
 
 run = wandb.init(entity="wandbee", project="awesome-project")
 ```
-The code snippet produces the proceeding output:
+The code snippet produces the following output:
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -179,7 +181,7 @@ The proceeding table describes the possible states a run can be in:
 | ----- | ----- |
 | `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
 | `Failed` | Run ended with a non-zero exit status. | 
-| `Finished`| Run ended and fully synced data, or called `Run.finish()`. |
+| `Finished`| Run ended and fully synced data, or called `wandb.Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
 
@@ -190,9 +192,9 @@ Run IDs are unique identifiers for runs. By default, [W&B generates a random and
 
 ### Autogenerated run IDs
 
-If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App UI.
+If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App.
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
+1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within your project's workspace, select the **Runs** tab.
 4. Select the **Overview** tab.
@@ -205,7 +207,7 @@ For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
 
 ### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 ```python 
 import wandb
@@ -213,7 +215,7 @@ import wandb
 run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
 ```
 
-You can use a run's unique ID to directly navigate to the run's overview page in the W&B App UI. The proceeding cell shows the URL path for a specific run:
+You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:
 
 ```text title="W&B App URL for a specific run"
 https://wandb.ai/<entity>/<project>/<run-id>
@@ -230,13 +232,14 @@ By default, W&B generates a random run name when you initialize a new run. The n
 Use run names as a way to quickly identify a run in your project workspace.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
+with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
+    # Your code here
 ```
 
 ### Rename a run
@@ -290,7 +293,7 @@ wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other fil
 wandb: Find logs at: ./wandb/run-20241106_095857-o8sdbztv/logs
 ```
 
-Navigate to the W&B App UI to confirm the run is no longer active:
+Navigate to the W&B App to confirm the run is no longer active:
 
 1. Navigate to the project that your run was logging to.
 2. Select the name of the run. 
@@ -327,7 +330,7 @@ View a information about a specific run such as the state of the run, artifacts 
 
 To view a specific run:
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
+1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within the project sidebar, select the **Workspace** tab.
 4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
@@ -377,7 +380,7 @@ By default, long run names are truncated in the middle for readability. To custo
 1. Click the action `...` menu at the top of the list of runs.
 1. Set **Run name cropping** to crop the end, middle, or beginning.
 
-[Learn more about the **Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
+See the [**Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
 
 ### Overview tab
 Use the **Overview** tab to learn about specific run information in a project, such as:
@@ -385,7 +388,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Author**: The W&B entity that creates the run.
 * **Command**: The command that initializes the run.
 * **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
-* **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
+* **Tracked Hours**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting periods. This metric helps you understand the actual computational time spent on your run.
+* **Runtime**: Measures the total time from the start to the end of the run. It's the wall-clock time for the run, including any time where the run is paused or waiting for resources. This metric provides the complete elapsed time for your run.
 * **Git repository**: The git repository associated with the run. You must [enable git]({{< relref "/guides/models/app/settings-page/user-settings.md#personal-github-integration" >}}) to view this field.
 * **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
 * **Name**: The name of the run.
@@ -393,7 +397,6 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Python executable**: The command that starts the run.
 * **Python version**: Specifies the Python version that creates the run.
 * **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
-* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
 * **Start time**: The timestamp when you initialize the run.
 * **State**: The [state of the run]({{< relref "#run-states" >}}).
 * **System hardware**: The hardware W&B uses to compute the run.
@@ -404,8 +407,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
+* **Config**: List of config parameters saved with [`wandb.Run.config`]({{< relref "/guides/models/track/config.md" >}}).
+* **Summary**: List of summary parameters saved with [`wandb.Run.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged.
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 

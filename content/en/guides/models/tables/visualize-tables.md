@@ -76,7 +76,7 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 View how values you log to a table change throughout your runs with a step slider. Slide the step slider to view the values logged at different steps. For example, you can view how the loss, accuracy, or other metrics change after each run. 
 
-he slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.log()` in your code.
+The slider uses a key to determine the step value. The default key for the slider is `_step`, a special key that W&B automatically logs for you. The `_step` key is an integer that increments by 1 each time you call `wandb.Run.log()` in your code.
 
 To add a step slider to a W&B Table:
 
@@ -98,9 +98,9 @@ Within the W&B App UI you may notice duplicate values for multiple steps. This d
 
 The step key can be any numeric metric that you log in your runs as the step key, such as `epoch` or `global_step`. When you use a custom step key, W&B maps each value of that key to a step (`_step`) in the run.
 
-This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
+This table shows how a custom step key `epoch` maps to `_step` values for three different runs: `serene-sponge`, `lively-frog`, and `vague-cloud`. Each row represents a call to `wandb.Run.log()` at a particular `_step` in a run. The columns show the corresponding epoch values, if any, that were logged at those steps. Some `_step` values are omitted to save space.
 
-The first time `wandb.log` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
+The first time `wandb.Run.log()` was called, none of the runs logged an `epoch` value, so the table shows empty values for `epoch`. 
 
 | `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) |  serene-sponge (`epoch`) |
 | ------- | ------------- | ----------- | ----------- |
@@ -145,7 +145,7 @@ Log a table in an artifact for each meaningful step of training to analyze model
 
 {{< img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%" >}}
 
-For a more detailed walkthrough of visualizing predictions across training time, [see this report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
+For a more detailed walkthrough of visualizing predictions across training time, see the [predictions over time report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) and this interactive [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
 
 ### Compare tables across model variants
 

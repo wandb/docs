@@ -7,7 +7,7 @@ support:
 - connectivity
 - outage
 ---
-To resolve the "Filestream rate limit exceeded" error in Weights & Biases (W&B), follow these steps:
+To resolve the "Filestream rate limit exceeded" error in W&B, follow these steps:
 
 **Optimize logging**:
   - Reduce logging frequency or batch logs to decrease API requests.

@@ -15,7 +15,7 @@ DeepChecks helps you validate your machine learning models and data, such as ver
 
 ## Getting Started
 
-To use DeepChecks with Weights & Biases you will first need to sign up for a Weights & Biases account [here](https://wandb.ai/site).  With the Weights & Biases integration in DeepChecks you can quickly get started like so:
+To use DeepChecks with W&B you will first need to sign up for a [W&B account](https://wandb.ai/site). With the W&B integration in DeepChecks you can quickly get started like so:
 
 ```python
 import wandb
@@ -32,7 +32,7 @@ result = ModelErrorAnalysis()
 result.to_wandb()
 ```
 
-You can also log an entire DeepChecks test suite to Weights & Biases
+You can also log an entire DeepChecks test suite to W&B.
 
 ```python
 import wandb
@@ -52,8 +52,8 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
 
 ## Example
 
-[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and Weights & Biases.
+[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) shows off the power of using DeepChecks and W&B.
 
 {{< img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results" >}}
 
-Any questions or issues about this Weights & Biases integration? Open an issue in the [DeepChecks github repository](https://github.com/deepchecks/deepchecks) and we'll catch it and get you an answer :)
+Any questions or issues about this W&B integration? Open an issue in the [DeepChecks github repository](https://github.com/deepchecks/deepchecks) and we'll catch it and get you an answer.

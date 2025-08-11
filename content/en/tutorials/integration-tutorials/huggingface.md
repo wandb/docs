@@ -36,9 +36,9 @@ Here's an in depth look at how the integration works: [Hugging Face + W&B Report
 
 
 
-Install the Hugging Face and Weights & Biases libraries, and the GLUE dataset and training script for this tutorial.
+Install the Hugging Face and W&B libraries, and the GLUE dataset and training script for this tutorial.
 - [Hugging Face Transformers](https://github.com/huggingface/transformers): Natural language models and datasets
-- [Weights & Biases]({{< relref "/" >}}): Experiment tracking and visualization
+- [W&B]({{< relref "/" >}}): Experiment tracking and visualization
 - [GLUE dataset](https://gluebenchmark.com/): A language understanding benchmark dataset
 - [GLUE script](https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py): Model training script for sequence classification
 
@@ -66,7 +66,7 @@ import wandb
 wandb.login()
 ```
 
-Optionally, we can set environment variables to customize W&B logging. See [documentation]({{< relref "/guides/integrations/huggingface/" >}}).
+Optionally, we can set environment variables to customize W&B logging. See the [Hugging Face integration guide]({{< relref "/guides/integrations/huggingface/" >}}).
 
 
 ```python
@@ -75,7 +75,7 @@ Optionally, we can set environment variables to customize W&B logging. See [docu
 ```
 
 ## Train the model
-Next, call the downloaded training script [run_glue.py](https://huggingface.co/transformers/examples.html#glue) and see training automatically get tracked to the Weights & Biases dashboard. This script fine-tunes BERT on the Microsoft Research Paraphrase Corpus— pairs of sentences with human annotations indicating whether they are semantically equivalent.
+Next, call the downloaded training script [run_glue.py](https://huggingface.co/transformers/examples.html#glue) and see training automatically get tracked to the W&B dashboard. This script fine-tunes BERT on the Microsoft Research Paraphrase Corpus— pairs of sentences with human annotations indicating whether they are semantically equivalent.
 
 
 ```python
@@ -97,7 +97,7 @@ Next, call the downloaded training script [run_glue.py](https://huggingface.co/t
 ```
 
 ##  Visualize results in dashboard
-Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to see your results stream in live. The link to see your run in the browser will appear after all the dependencies are loaded. Look for the following output: "**wandb**: 🚀 View run at [URL to your unique run]"
+Click the link printed out above, or go to [wandb.ai](https://app.wandb.ai) to see your results stream in live. The link to see your run in the browser will appear after all the dependencies are loaded. Look for the following output: "**wandb**: View run at [URL to your unique run]"
 
 **Visualize Model Performance**
 It's easy to look across dozens of experiments, zoom in on interesting findings, and visualize highly dimensional data.
@@ -110,13 +110,12 @@ Here's an example comparing [BERT vs DistilBERT](https://app.wandb.ai/jack-morri
 {{< img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="BERT vs DistilBERT comparison" >}}
 
 ## Track key information effortlessly by default
-Weights & Biases saves a new run for each experiment. Here's the information that gets saved by default:
+W&B saves a new run for each experiment. Here's the information that gets saved by default:
 - **Hyperparameters**: Settings for your model are saved in Config
 - **Model Metrics**: Time series data of metrics streaming in are saved in Log
 - **Terminal Logs**: Command line outputs are saved and available in a tab
 - **System Metrics**: GPU and CPU utilization, memory, temperature etc.
 
 ## Learn more
-- [Documentation]({{< relref "/guides/integrations/huggingface" >}}): docs on the Weights & Biases and Hugging Face integration
-- [Videos](https://wandb.me/youtube): tutorials, interviews with practitioners, and more on our YouTube channel
-- Contact: Message us at contact@wandb.com with questions
+- [Hugging Face integration guide]({{< relref "/guides/integrations/huggingface" >}})
+- [Video walkthroughs on YouTube](http://wandb.me/youtube)

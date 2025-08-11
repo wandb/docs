@@ -75,7 +75,7 @@ A W&B admin can create automations in a project.
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
     1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
-    
+
     Click **Next step**.
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use. 
@@ -120,7 +120,8 @@ This section describes the variables you can use to construct your webhook's pay
 | `${entity_name}`              | The name of the entity or team that owns the mutation that triggered the action.
 | `${event_type}`               | The type of event that triggered the action. |
 | `${event_author}`             | The user that triggered the action. |
-| `${alias}`                    | Contains an artifact's alias if the automation is triggered by the **Adding a new alias to a version of an artifact** event. For other automations, this variable is blank. |
+| `${alias}`                    | Contains an artifact's alias if the automation is triggered by the **An artifact alias is added** event. For other automations, this variable is blank. |
+| `${tag}`                      | Contains an artifact's tags if the automation is triggered by the **An artifact tag is added** event. For other automations, this variable is blank. |
 | `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
 | `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
 | `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md/" >}}) representation of the artifact version that triggered the action. |
@@ -286,7 +287,7 @@ A team admin can test a webhook interactively with the W&B App UI.
 6. Click on **Test webhook**. Within the W&B App UI, W&B posts the response from your endpoint.
     {{< img src="/images/models/webhook_ui_testing.gif" alt="Demo of testing a webhook" >}}
 
-Watch the video [Testing Webhooks in Weights & Biases](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
+Watch the video [Testing Webhooks in W&B](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) for a demonstration.
 {{% /tab %}}
 
 {{% tab header="Bash script" value="bash"%}}

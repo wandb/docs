@@ -11,7 +11,7 @@ cascade:
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
-W&B Registry is a curated central repository of [artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+W&B Registry is a curated central repository of [W&B Artifact]({{< relref "/guides/core/artifacts/" >}}) versions within your organization. Users who [have permission]({{< relref "./configure_registry.md" >}}) within your organization can [download and use artifacts]({{< relref "./download_use_artifact.md" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
 You can use the Registry to [track artifact versions]({{< relref "./link_version.md" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref "/guides/core/automations/" >}}).
 
@@ -47,7 +47,7 @@ The term "link" refers to pointers that connect where W&B stores the artifact an
 
 As an example, the proceeding code example shows how to log and link a model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry]({{< relref "./registry_types.md" >}}):
 
-1. Initialize a W&B run.
+1. Initialize a W&B Run.
 2. Log the artifact to W&B.
 3. Specify the name of the collection and registry to link your artifact version to.
 4. Link the artifact to the collection.
@@ -58,7 +58,7 @@ Save this Python code to a script and run it. W&B Python SDK version 0.18.6 or n
 import wandb
 import random
 
-# Initialize a W&B run to track the artifact
+# Initialize a W&B Run to track the artifact
 run = wandb.init(project="registry_quickstart") 
 
 # Create a simulated model file so that you can log it
@@ -114,7 +114,7 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 Depending on your use case, explore the following resources to get started with the W&B Registry:
 
 * Check out the tutorial video:
-    * [Getting started with Registry from Weights & Biases](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+    * [Getting started with Registry from W&B](https://www.youtube.com/watch?v=p4XkVOsjIeM)
 * Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
     * Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
     * Automate your model management workflows using webhooks.

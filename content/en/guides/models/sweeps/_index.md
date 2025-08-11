@@ -34,7 +34,7 @@ wandb agent <sweep-ID>
 ```
 
 {{% alert %}}
-The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough]({{< relref "./walkthrough.md" >}}) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the [Sweeps walkthrough]({{< relref "./walkthrough.md" >}}) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 {{% /alert %}}
 
 

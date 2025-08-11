@@ -126,7 +126,7 @@ This is good practice.
 
 In order to log these datasets as Artifacts,
 we just need to
-1. create a `Run` with `wandb.init`, (L4)
+1. create a `Run` with `wandb.init()`, (L4)
 2. create an `Artifact` for the dataset (L10), and
 3. save and log the associated `file`s (L20, L23).
 
@@ -137,7 +137,7 @@ and then expand the sections afterwards for more details.
 ```python
 def load_and_log():
 
-    # 🚀 start a run, with a type to label it and a project it can call home
+    # Start a run, with a type to label it and a project it can call home
     with wandb.init(project="artifacts-example", job_type="load-data") as run:
         
         datasets = load()  # separate code for loading the datasets
@@ -162,7 +162,7 @@ def load_and_log():
 load_and_log()
 ```
 
-#### `wandb.init`
+#### `wandb.init()`
 
 
 When we make the `Run` that's going to produce the `Artifact`s,
@@ -172,7 +172,7 @@ Depending on your workflow,
 a project might be as big as `car-that-drives-itself`
 or as small as `iterative-architecture-experiment-117`.
 
-> **Rule of 👍**: if you can, keep all of the `Run`s that share `Artifact`s
+> **Best practice**: if you can, keep all of the `Run`s that share `Artifact`s
 inside a single project. This keeps things simple,
 but don't worry -- `Artifact`s are portable across projects.
 
@@ -180,7 +180,7 @@ To help keep track of all the different kinds of jobs you might run,
 it's useful to provide a `job_type` when making `Runs`.
 This keeps the graph of your Artifacts nice and tidy.
 
-> **Rule of 👍**: the `job_type` should be descriptive and correspond to a single step of your pipeline. Here, we separate out `load`ing data from `preprocess`ing data.
+> **Best practice**: the `job_type` should be descriptive and correspond to a single step of your pipeline. Here, we separate out `load`ing data from `preprocess`ing data.
 
 #### `wandb.Artifact`
 
@@ -189,20 +189,16 @@ To log something as an `Artifact`, we have to first make an `Artifact` object.
 
 Every `Artifact` has a `name` -- that's what the first argument sets.
 
-> **Rule of 👍**: the `name` should be descriptive, but easy to remember and type --
-we like to use names that are hyphen-separated and correspond to variable names in the code.
+> **Best practice**: the `name` should be descriptive, but easy to remember and type. We like to use names that are hyphen-separated and correspond to variable names in the code.
 
-It also has a `type`. Just like `job_type`s for `Run`s,
-this is used for organizing the graph of `Run`s and `Artifact`s.
+It also has a `type`. Just like `job_type`s for `Run`s, this is used for organizing the graph of `Run`s and `Artifact`s.
 
-> **Rule of 👍**: the `type` should be simple:
-more like `dataset` or `model`
-than `mnist-data-YYYYMMDD`.
+> **Best practice**: the `type` should be simple. Use something more like `dataset` or `model` than `mnist-data-YYYYMMDD`.
 
 You can also attach a `description` and some `metadata`, as a dictionary.
 The `metadata` just needs to be serializable to JSON.
 
-> **Rule of 👍**: the `metadata` should be as descriptive as possible.
+> **Best practice**: the `metadata` should be as descriptive as possible.
 
 #### `artifact.new_file` and `run.log_artifact`
 
@@ -212,7 +208,7 @@ You read that right: _files_ with an _s_.
 `Artifact`s are structured like directories,
 with files and sub-directories.
 
-> **Rule of 👍**: whenever it makes sense to do so, split the contents
+> **Best practice**: whenever it makes sense to do so, split the contents
 of an `Artifact` up into multiple files. This will help if it comes time to scale.
 
 We use the `new_file` method
@@ -327,7 +323,7 @@ steps = {"normalize": True,
 preprocess_and_log(steps)
 ```
 
-#### `run.use_artifact`
+#### `run.use_artifact()`
 
 These steps are simpler. The consumer just needs to know the `name` of the `Artifact`, plus a bit more.
 
@@ -340,7 +336,7 @@ Just like [Docker Hub](https://hub.docker.com/) tags,
 aliases are separated from names with `:`,
 so the `Artifact` we want is `mnist-raw:latest`.
 
-> **Rule of 👍**: Keep aliases short and sweet.
+> **Best practice**: Keep aliases short and sweet.
 Use custom `alias`es like `latest` or `best` when you want an `Artifact`
 that satisifies some property
 
@@ -443,7 +439,7 @@ class ConvNet(nn.Module):
 ```
 
 Here, we're using W&B to track the run,
-and so using the [`wandb.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)
+and so using the [`run.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)
 object to store all of the hyperparameters.
 
 The `dict`ionary version of that `config` object is a really useful piece of `metadata`, so make sure to include it.
@@ -452,7 +448,7 @@ The `dict`ionary version of that `config` object is a really useful piece of `me
 ```python
 def build_model_and_log(config):
     with wandb.init(project="artifacts-example", job_type="initialize", config=config) as run:
-        config = wandb.config
+        config = run.config
         
         model = ConvNet(**config)
 
@@ -465,7 +461,7 @@ def build_model_and_log(config):
         # ➕ another way to add a file to an Artifact
         model_artifact.add_file("initialized_model.pth")
 
-        wandb.save("initialized_model.pth")
+        run.save("initialized_model.pth")
 
         run.log_artifact(model_artifact)
 
@@ -479,7 +475,7 @@ model_config = {"hidden_layer_sizes": [32, 64],
 build_model_and_log(model_config)
 ```
 
-#### `artifact.add_file`
+#### `artifact.add_file()`
 
 
 Instead of simultaneously writing a `new_file` and adding it to the `Artifact`,
@@ -488,7 +484,7 @@ we can also write files in one step
 (here, `torch.save`)
 and then `add` them to the `Artifact` in another.
 
-> **Rule of 👍**: use `new_file` when you can, to prevent duplication.
+> **Best practice**: use `new_file` when you can, to prevent duplication.
 
 #### Use a Logged Model Artifact
 
@@ -503,6 +499,7 @@ For more details, check out our Colab on
 
 
 ```python
+import wandb
 import torch.nn.functional as F
 
 def train(model, train_loader, valid_loader, config):
@@ -555,8 +552,9 @@ def train_log(loss, example_ct, epoch):
     loss = float(loss)
 
     # where the magic happens
-    wandb.log({"epoch": epoch, "train/loss": loss}, step=example_ct)
-    print(f"Loss after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}")
+    with wandb.init(project="artifacts-example", job_type="train") as run:
+        run.log({"epoch": epoch, "train/loss": loss}, step=example_ct)
+        print(f"Loss after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}")
     
 
 def test_log(loss, accuracy, example_ct, epoch):
@@ -564,8 +562,9 @@ def test_log(loss, accuracy, example_ct, epoch):
     accuracy = float(accuracy)
 
     # where the magic happens
-    wandb.log({"epoch": epoch, "validation/loss": loss, "validation/accuracy": accuracy}, step=example_ct)
-    print(f"Loss/accuracy after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}/{accuracy:.3f}")
+    with wandb.init() as run:
+        run.log({"epoch": epoch, "validation/loss": loss, "validation/accuracy": accuracy}, step=example_ct)
+        print(f"Loss/accuracy after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}/{accuracy:.3f}")
 ```
 
 We'll run two separate `Artifact`-producing `Run`s this time.
@@ -635,7 +634,7 @@ from torch.utils.data import DataLoader
 def train_and_log(config):
 
     with wandb.init(project="artifacts-example", job_type="train", config=config) as run:
-        config = wandb.config
+        config = run.config
 
         data = run.use_artifact('mnist-preprocess:latest')
         data_dir = data.download()
@@ -665,7 +664,7 @@ def train_and_log(config):
 
         torch.save(model.state_dict(), "trained_model.pth")
         model_artifact.add_file("trained_model.pth")
-        wandb.save("trained_model.pth")
+        run.save("trained_model.pth")
 
         run.log_artifact(model_artifact)
 
@@ -694,7 +693,7 @@ def evaluate_and_log(config=None):
 
         run.summary.update({"loss": loss, "accuracy": accuracy})
 
-        wandb.log({"high-loss-examples":
+        run.log({"high-loss-examples":
             [wandb.Image(hard_example, caption=str(int(pred)) + "," +  str(int(label)))
              for hard_example, pred, label in zip(hardest_examples, preds, true_labels)]})
 ```

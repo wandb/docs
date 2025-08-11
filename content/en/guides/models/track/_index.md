@@ -14,7 +14,7 @@ cascade:
 
 Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) or export your data to Python for programmatic access using our [Public API]({{< relref "/ref/python/public-api/index.md" >}}). 
 
-Utilize W&B Integrations if you use popular frameworks such as [PyTorch]({{< relref "/guides/integrations/pytorch.md" >}}), [Keras]({{< relref "/guides/integrations/keras.md" >}}), or [Scikit]({{< relref "/guides/integrations/scikit.md" >}}). See our [Integration guides]({{< relref "/guides/integrations/" >}}) for a for a full list of integrations and information on how to add W&B to your code.
+Utilize W&B Integrations if you use popular frameworks such as [PyTorch]({{< relref "/guides/integrations/pytorch.md" >}}), [Keras]({{< relref "/guides/integrations/keras.md" >}}), or [Scikit]({{< relref "/guides/integrations/scikit.md" >}}). See our [Integration guides]({{< relref "/guides/integrations/" >}}) for a full list of integrations and information on how to add W&B to your code.
 
 {{< img src="/images/experiments/experiments_landing_page.png" alt="Experiments dashboard" >}}
 
@@ -23,9 +23,9 @@ The image above shows an example dashboard where you can view and compare metric
 ## How it works
 
 Track a machine learning experiment with a few lines of code:
-1. Create a [W&B run]({{< relref "/guides/models/track/runs/" >}}).
-2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`run.config`]({{< relref "./config.md" >}})).
-3. Log metrics ([`run.log()`]({{< relref "/guides/models/track/log/" >}})) over time in a training loop, such as accuracy and loss.
+1. Create a [W&B Run]({{< relref "/guides/models/track/runs/" >}}).
+2. Store a dictionary of hyperparameters, such as learning rate or model type, into your configuration ([`wandb.Run.config`]({{< relref "./config.md" >}})).
+3. Log metrics ([`wandb.Run.log()`]({{< relref "/guides/models/track/log/" >}})) over time in a training loop, such as accuracy and loss.
 4. Save outputs of a run, like the model weights or a table of predictions.
 
 The following code demonstrates a common W&B experiment tracking workflow:

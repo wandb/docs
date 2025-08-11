@@ -14,7 +14,7 @@ weight: 270
 
 PaddleDetection now includes a built-in W&B integration which logs all your training and validation metrics, as well as your model checkpoints and their corresponding metadata.
 
-The PaddleDetection `WandbLogger` logs your training and evaluation metrics to Weights & Biases as well as your model checkpoints while training.
+The PaddleDetection `WandbLogger` logs your training and evaluation metrics to W&B as well as your model checkpoints while training.
 
 [Read a W&B blog post](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) which illustrates how to integrate a YOLOX model with PaddleDetection on a subset of the `COCO2017` dataset.
 
@@ -23,7 +23,7 @@ The PaddleDetection `WandbLogger` logs your training and evaluation metrics to W
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -109,12 +109,12 @@ wandb:
   save_dir: ./logs
 ```
 
-When you run your `train.py` file, it generates a link to your W&B dashboard.
+When you run your `train.py` file, it generates a link to your W&B Dashboard.
 
-{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A Weights & Biases Dashboard" >}}
+{{< img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A W&B Dashboard" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
 ## Feedback or issues
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+If you have any feedback or issues about the W&B integration, open an issue on the [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
