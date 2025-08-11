@@ -15,7 +15,7 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 | Shortcut | Description |
 |----------|-------------|
 | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Undo a change you've made in the UI, such as a modification to the workspace or a panel. |
-| **Cmd+Y** (macOS) / **Ctrl+Y** (Windows/Linux) | Redo a change you previously undid in the workspace. |
+| **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | Redo a change you previously undid in the workspace. |
 
 ## Navigation
 
