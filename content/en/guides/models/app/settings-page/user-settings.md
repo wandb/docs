@@ -38,7 +38,7 @@ If you are a member of more than one team, the **Default team** section allows y
 
 Select a tab to continue.
 
-{{< tabpane >}}
+{{< tabpane text=true >}}
 {{% tab header="Multi-tenant Cloud" %}}
 Next to **Default location to create new projects in**, click thew drop-down, then select your default team.
 {{% /tab %}}
