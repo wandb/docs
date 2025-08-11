@@ -2,7 +2,7 @@
 description: Create a W&B Experiment.
 menu:
   default:
-    identifier: launch
+    identifier: create-an-experiment
     parent: experiments
 weight: 1
 title: Create an experiment
