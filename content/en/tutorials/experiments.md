@@ -43,32 +43,25 @@ wandb.login()
 
 Create, track, and visualize a machine learning experiment. To do this:
 
-1. Initialize a [W&B run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
+1. Initialize a [run]({{< relref "/guides/models/track/runs/" >}}) and pass in the hyperparameters you want to track.
 2. Within your training loop, log metrics such as the accuracy and loss.
 
 
-```
+
+```python
+import wandb
 import random
-import math
 
-# Launch 5 simulated experiments
-total_runs = 5
-for run in range(total_runs):
-  # 1️. Start a new run to track this script
-  wandb.init(
-      # Set the project where this run will be logged
-      project="basic-intro",
-      # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
-      name=f"experiment_{run}",
-      # Track hyperparameters and run metadata
-      config={
-      "learning_rate": 0.02,
-      "architecture": "CNN",
-      "dataset": "CIFAR-100",
-      "epochs": 10,
-      })
+project="basic-intro"
+config = {
+    "learning_rate": 0.02,
+    "architecture": "CNN",
+    "dataset": "CIFAR-100",
+    "epochs": 10,
+}
 
-  # This simple block simulates a training loop logging metrics
+with wandb.init(project=project, config=config) as run:
+  # This block simulates a training loop logging metrics
   epochs = 10
   offset = random.random() / 5
   for epoch in range(2, epochs):
@@ -76,13 +69,11 @@ for run in range(total_runs):
       loss = 2 ** -epoch + random.random() / epoch + offset
 
       # 2️. Log metrics from your script to W&B
-      wandb.log({"acc": acc, "loss": loss})
-
-  # Mark the run as finished
-  wandb.finish()
+      run.log({"acc": acc, "loss": loss})    
 ```
 
-View how your machine learning performed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs the show how 
+
+View how your machine learning performed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs that show how your model performed. 
 
 The following image shows what a dashboard can look like:
 
@@ -106,7 +97,7 @@ The following cell defines some useful functions that we will need to train our 
 
 
 ```python
-# @title
+import wandb
 import torch, torchvision
 import torch.nn as nn
 from torchvision.datasets import MNIST
@@ -193,7 +184,9 @@ def log_image_table(images, predicted, labels, probs):
         images.to("cpu"), predicted.to("cpu"), labels.to("cpu"), probs.to("cpu")
     ):
         table.add_data(wandb.Image(img[0].numpy() * 255), pred, targ, *prob.numpy())
-    wandb.log({"predictions_table": table}, commit=False)
+
+    with wandb.init() as run:
+        run.log({"predictions_table": table}, commit=False)
 ```
 
 ### Train your model and upload checkpoints
@@ -204,21 +197,22 @@ W&B also makes it easy to share your saved models and model checkpoints with oth
 
 
 ```python
-# Launch 3 experiments, trying different dropout rates
-for _ in range(3):
-    # initialise a wandb run
-    wandb.init(
-        project="pytorch-intro",
-        config={
-            "epochs": 5,
-            "batch_size": 128,
-            "lr": 1e-3,
-            "dropout": random.uniform(0.01, 0.80),
-        },
-    )
+import wandb
 
-    # Copy your config
-    config = wandb.config
+config = {
+    "epochs": 5,
+    "batch_size": 128,
+    "lr": 1e-3,
+    "dropout": random.uniform(0.01, 0.80),
+}
+
+project = "pytorch-intro"
+
+# initialise a wandb run
+with wandb.init(project=project, config=config) as run:
+
+    # Optionally copy your config
+    config = run.config
 
     # Get the data
     train_dl = get_dataloader(is_train=True, batch_size=config.batch_size)
@@ -256,7 +250,7 @@ for _ in range(3):
 
             if step + 1 < n_steps_per_epoch:
                 # Log train metrics to wandb
-                wandb.log(metrics)
+                run.log(metrics)
 
             step_ct += 1
 
@@ -266,14 +260,14 @@ for _ in range(3):
 
         # Log train and validation metrics to wandb
         val_metrics = {"val/val_loss": val_loss, "val/val_accuracy": accuracy}
-        wandb.log({**metrics, **val_metrics})
+        run.log({**metrics, **val_metrics})
 
         # Save the model checkpoint to wandb
         torch.save(model, "my_model.pt")
-        wandb.log_model(
+        run.log_model(
             "./my_model.pt",
             "my_mnist_model",
-            aliases=[f"epoch-{epoch+1}_dropout-{round(wandb.config.dropout, 4)}"],
+            aliases=[f"epoch-{epoch+1}_dropout-{round(run.config.dropout, 4)}"],
         )
 
         print(
@@ -281,10 +275,7 @@ for _ in range(3):
         )
 
     # If you had a test set, this is how you could log it as a Summary metric
-    wandb.summary["test_accuracy"] = 0.8
-
-    # Close your wandb run
-    wandb.finish()
+    run.summary["test_accuracy"] = 0.8
 ```
 
 You have now trained your first model using W&B. Click on one of the links above to see your metrics and see your saved model checkpoints in the Artifacts tab in the W&B App UI
@@ -296,45 +287,44 @@ Create a [W&B Alerts]({{< relref "/guides/models/track/runs/alert/" >}}) to send
 There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
 
 1) Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings)
-2) Add `wandb.alert()` to your code. For example:
+2) Add `run.alert()` to your code. For example:
 
 ```python
-wandb.alert(title="Low accuracy", text=f"Accuracy is below the acceptable threshold")
+run.alert(title="Low accuracy", text=f"Accuracy is below the acceptable threshold")
 ```
 
-The following cell shows a minimal example below to see how to use `wandb.alert`
+The following cell shows a minimal example below to see how to use `run.alert()`
 
 
 ```python
+import wandb
+
 # Start a wandb run
-wandb.init(project="pytorch-intro")
+with wandb.init(project="pytorch-intro") as run:
 
-# Simulating a model training loop
-acc_threshold = 0.3
-for training_step in range(1000):
+    # Simulating a model training loop
+    acc_threshold = 0.3
+    for training_step in range(1000):
 
-    # Generate a random number for accuracy
-    accuracy = round(random.random() + random.random(), 3)
-    print(f"Accuracy is: {accuracy}, {acc_threshold}")
+        # Generate a random number for accuracy
+        accuracy = round(random.random() + random.random(), 3)
+        print(f"Accuracy is: {accuracy}, {acc_threshold}")
 
-    # Log accuracy to wandb
-    wandb.log({"Accuracy": accuracy})
+        # Log accuracy to wandb
+        run.log({"Accuracy": accuracy})
 
-    # If the accuracy is below the threshold, fire a W&B Alert and stop the run
-    if accuracy <= acc_threshold:
-        # Send the wandb Alert
-        wandb.alert(
-            title="Low Accuracy",
-            text=f"Accuracy {accuracy} at step {training_step} is below the acceptable threshold, {acc_threshold}",
-        )
-        print("Alert triggered")
-        break
-
-# Mark the run as finished (useful in Jupyter notebooks)
-wandb.finish()
+        # If the accuracy is below the threshold, fire a W&B Alert and stop the run
+        if accuracy <= acc_threshold:
+            # Send the wandb Alert
+            run.alert(
+                title="Low Accuracy",
+                text=f"Accuracy {accuracy} at step {training_step} is below the acceptable threshold, {acc_threshold}",
+            )
+            print("Alert triggered")
+            break
 ```
 
-You can find the full docs for [W&B Alerts here]({{< relref "/guides/models/track/runs/alert" >}}).
+For more details, see the [W&B Alerts overview]({{< relref "/guides/models/track/runs/alert" >}}).
 
 ## Next steps
 The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:

@@ -12,21 +12,23 @@ Use custom charts to control the data you're loading in to a panel and its visua
 
 ## 1. Log data to W&B
 
-First, log data in your script. Use [wandb.config]({{< relref "/guides/models/track/config.md" >}}) for single points set at the beginning of training, like hyperparameters. Use [wandb.log()]({{< relref "/guides/models/track/log/" >}}) for multiple points over time, and log custom 2D arrays with `wandb.Table()`. We recommend logging up to 10,000 data points per logged key.
+First, log data in your script. Use [wandb.Run.config]({{< relref "/guides/models/track/config.md" >}}) for single points set at the beginning of training, like hyperparameters. Use [wandb.Run.log()]({{< relref "/guides/models/track/log/" >}}) for multiple points over time, and log custom 2D arrays with `wandb.Table()`. We recommend logging up to 10,000 data points per logged key.
 
 ```python
-# Logging a custom table of data
-my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
-wandb.log(
-  {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
-)
+with wandb.init() as run: 
+
+  # Logging a custom table of data
+  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
+  run.log(
+    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+  )
 ```
 
 [Try a quick example notebook](https://bit.ly/custom-charts-colab) to log the data tables, and in the next step we'll set up custom charts. See what the resulting charts look like in the [live report](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc).
 
 ## 2. Create a query
 
-Once you've logged data to visualize, go to your project page and click the **`+`** button to add a new panel, then select **Custom Chart**. You can follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
+Once you've logged data to visualize, go to your project page and click the **`+`** button to add a new panel, then select **Custom Chart**. You can follow along in the [custom charts demo workspace](https://app.wandb.ai/demo-team/custom-charts).
 
 {{< img src="/images/app_ui/create_a_query.png" alt="Blank custom chart" >}}
 
@@ -47,7 +49,7 @@ Now that the query is loading in these columns, they're available as options to 
 
 ## 3. Customize the chart
 
-Now that looks pretty good, but I'd like to switch from a scatter plot to a line plot. Click **Edit** to change the Vega spec for this built in chart. Follow along in [this workspace](https://app.wandb.ai/demo-team/custom-charts).
+Now that looks pretty good, but I'd like to switch from a scatter plot to a line plot. Click **Edit** to change the Vega spec for this built in chart. Follow along in the [custom charts demo workspace](https://app.wandb.ai/demo-team/custom-charts).
 
 {{< img src="/images/general/custom-charts-1.png" alt="Custom chart selection" >}}
 

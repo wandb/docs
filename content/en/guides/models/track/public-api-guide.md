@@ -148,7 +148,7 @@ importer.import_all(
 
 1. Sometimes when bulk importing (especially large artifacts), you can run into S3 rate limits. If you see `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, you can try spacing out imports by moving just a few namespaces at a time.
 2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
-3. System metrics and custom charts (not explicitly logged with `wandb.log`) are not imported
+3. System metrics and custom charts (not explicitly logged with `run.log`) are not imported
 
 -->
 
@@ -168,7 +168,7 @@ See the [Generated Reference Docs]({{< relref "/ref/python/public-api/" >}}) for
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -197,34 +197,37 @@ The most commonly used attributes of a run object are:
 | Attribute       | Meaning                                                                                                                                                                                                                                                                                                              |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `run.config`    | A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's inputs.                                                                                                    |
-| `run.history()` | A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.                                                                                                                                                                 |
-| `run.summary`   | A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's outputs. |
+| `run.history()` | A list of dictionaries meant to store values that change while the model is training such as loss. The command `run.log()` appends to this object.                                                                                                                                                                 |
+| `run.summary`   | A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `run.log()` sets the summary to the final value of a logged time series. The contents of the summary can also be set directly. Think of the summary as the run's outputs. |
 
 You can also modify or update the data of past runs. By default a single instance of an api object will cache all network requests. If your use case requires real time information in a running script, call `api.flush()` to get updated values.
 
-### Understanding the Different Attributes
+### Understanding different run attributes
 
-For the below run
+The following code snippet shows how to create a run, log some data, and then access the run's attributes:
 
 ```python
-n_epochs = 5
-config = {"n_epochs": n_epochs}
-run = wandb.init(project=project, config=config)
-for n in range(run.config.get("n_epochs")):
-    run.log(
-        {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
-    )
-run.finish()
+import wandb
+import random
+
+with wandb.init(project="public-api-example") as run:
+    n_epochs = 5
+    config = {"n_epochs": n_epochs}
+    run.config.update(config)
+    for n in range(run.config.get("n_epochs")):
+        run.log(
+            {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
+        )
 ```
 
-these are the different outputs for the above run object attributes
+The following sections describe the different outputs for the above run object attributes
 
-#### `run.config`
+##### `run.config`
 
 ```python
 {"n_epochs": 5}
 ```
-
+    
 #### `run.summary`
 
 ```python
@@ -275,6 +278,8 @@ runs_df = pd.DataFrame(
 )
 
 runs_df.to_csv("project.csv")
+
+run.finish()
 ```
     {{% /tab %}}
     {{% tab header="MongoDB Style" %}}
@@ -307,8 +312,8 @@ In the UI, click on a run and then click the Overview tab on the run page to see
 
 After calling `wandb.init()` you can access the random run ID or the human readable run name from your script like this:
 
-- Unique run ID (8 character hash): `wandb.run.id`
-- Random run name (human readable): `wandb.run.name`
+- Unique run ID (8 character hash): `run.id`
+- Random run name (human readable): `run.name`
 
 If you're thinking about ways to set useful identifiers for your runs, here's what we recommend:
 
@@ -325,7 +330,7 @@ Check out our [API examples]({{< relref "/ref/python/public-api/" >}}) for some 
 
 ### Read metrics from a run
 
-This example outputs timestamp and accuracy saved with `wandb.log({"accuracy": acc})` for a run saved to `"<entity>/<project>/<run_id>"`.
+This example outputs timestamp and accuracy saved with `run.log({"accuracy": acc})` for a run saved to `"<entity>/<project>/<run_id>"`.
 
 ```python
 import wandb

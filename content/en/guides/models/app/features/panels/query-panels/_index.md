@@ -21,7 +21,7 @@ Use query panels to query and interactively visualize your data.
 {{< img src="/images/weave/pretty_panel.png" alt="Query panel" >}}
 
 <!-- {{% alert %}}
-See [this report](https://wandb.me/keras-xla-benchmark) to see how this team used Weave Panels to visualize their benchmarks.
+See the [Keras XLA benchmark report](http://wandb.me/keras-xla-benchmark) to see how this team used query panels to visualize their benchmarks.
 {{% /alert %}} -->
 
 ## Create a query panel
@@ -64,7 +64,8 @@ Suppose you want to query a W&B Table. In your training code you log a table cal
 
 ```python
 import wandb
-wandb.log({"cifar10_sample_table":<MY_TABLE>})
+with wandb.init() as run:
+  run.log({"cifar10_sample_table":<MY_TABLE>})
 ```
 
 Within the query panel you can query your table with:
@@ -79,7 +80,7 @@ Breaking this down:
 * `summary` is an op which returns the Summary object for a Run. Ops are _mapped_, meaning this op is applied to each Run in the list, resulting in a list of Summary objects.
 * `["cifar10_sample_table"]` is a Pick op (denoted with brackets), with a parameter of `predictions`. Since Summary objects act like dictionaries or maps, this operation picks the `predictions` field off of each Summary object.
 
-To learn how to write your own queries interactively, see [this report](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
+To learn how to write your own queries interactively, see the [Query panel demo](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
 
 ### Configurations
 
@@ -147,15 +148,15 @@ Where:
 
 
 ## Runs object
-Use query panels to access the `runs` object. Run objects store records of your experiments. You can find more details about it in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) of the report but, as quick overview, `runs` object has available:
-* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's outputs.
-* `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.log()` appends to this object.
+Use query panels to access the `runs` object. Run objects store records of your experiments. You can find more details in [Accessing runs object](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) but, as quick overview, `runs` object has available:
+* `summary`: A dictionary of information that summarizes the run's results. This can be scalars like accuracy and loss, or large files. By default, `wandb.Run.log()` sets the summary to the final value of a logged time series. You can set the contents of the summary directly. Think of the summary as the run's outputs.
+* `history`: A list of dictionaries meant to store values that change while the model is training such as loss. The command `wandb.Run.log()` appends to this object.
 * `config`: A dictionary of the run's configuration information, such as the hyperparameters for a training run or the preprocessing methods for a run that creates a dataset Artifact. Think of these as the run's "inputs"
 {{< img src="/images/weave/weave_runs_object.png" alt="Runs object structure" >}}
 
 ## Access Artifacts
 
-Artifacts are a core concept in W&B. They are a versioned, named collection of files and directories. Use Artifacts to track model weights, datasets, and any other file or directory. Artifacts are stored in W&B and can be downloaded or used in other runs. You can find more details and examples in [this section](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) of the report. Artifacts are normally accessed from the `project` object:
+Artifacts are a core concept in W&B. They are a versioned, named collection of files and directories. Use Artifacts to track model weights, datasets, and any other file or directory. Artifacts are stored in W&B and can be downloaded or used in other runs. You can find more details and examples in [Accessing artifacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts). Artifacts are normally accessed from the `project` object:
 * `project.artifactVersion()`: returns the specific artifact version for a given name and version within a project
 * `project.artifact("")`: returns the artifact for a given name within a project. You can then use `.versions` to get a list of all versions of this artifact
 * `project.artifactType()`: returns the `artifactType` for a given name within a project. You can then use `.artifacts` to get a list of all artifacts with this type

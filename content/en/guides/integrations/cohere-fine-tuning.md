@@ -7,7 +7,7 @@ menu:
 title: Cohere fine-tuning
 weight: 40
 ---
-With Weights & Biases you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues. 
+With W&B you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues.
 
 This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) has a full example of how to kick off a fine-tuning run and you can find the [Cohere API docs here](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
 
@@ -60,4 +60,4 @@ In addition, you can rename your runs, add notes or create tags to group them.
 
 ## Resources
 
-* **[Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)**
+* [Cohere Fine-tuning Example](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)

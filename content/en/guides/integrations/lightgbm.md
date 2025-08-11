@@ -10,7 +10,7 @@ weight: 190
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" >}}
 
-The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of Weights & Biases to track large experiments, like hyperparameter sweeps.
+The `wandb` library includes a special callback for [LightGBM](https://lightgbm.readthedocs.io/en/latest/). It's also easy to use the generic logging features of W&B to track large experiments, like hyperparameter sweeps.
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
@@ -29,7 +29,7 @@ Looking for working code examples? Check out [our repository of examples on GitH
 
 ## Tuning your hyperparameters with Sweeps
 
-Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. Weights & Biases includes [Sweeps]({{< relref "/guides/models/sweeps/" >}}), a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
+Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. W&B [Sweeps]({{< relref "/guides/models/sweeps/" >}}) is a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
 To learn more about these tools and see an example of how to use Sweeps with XGBoost, check out this interactive Colab notebook.
 

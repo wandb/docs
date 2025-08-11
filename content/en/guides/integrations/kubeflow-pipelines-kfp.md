@@ -20,7 +20,7 @@ This feature was enabled in `wandb==0.12.11` and requires `kfp<2.0.0`
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -169,16 +169,17 @@ def train_model(
     test_dataloader_path: components.InputPath("dataloader"),
     model_path: components.OutputPath("pytorch_model"),
 ):
-    ...
-    for epoch in epochs:
-        for batch_idx, (data, target) in enumerate(train_dataloader):
-            ...
-            if batch_idx % log_interval == 0:
-                wandb.log(
-                    {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
-                )
+    with wandb.init() as run:
         ...
-        wandb.log_artifact(model_artifact)
+        for epoch in epochs:
+            for batch_idx, (data, target) in enumerate(train_dataloader):
+                ...
+                if batch_idx % log_interval == 0:
+                    run.log(
+                        {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                    )
+            ...
+            run.log_artifact(model_artifact)
 ```
 
 ### With implicit wandb integrations

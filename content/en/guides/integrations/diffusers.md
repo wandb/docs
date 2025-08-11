@@ -43,11 +43,11 @@ autolog(init=dict(project="diffusers_logging"))
         ```
 
 
-2. Use `autolog` to initialize a Weights & Biases run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+2. Use `autolog` to initialize a W&B Run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
     You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}).
 
-    When you call `autolog()`, it initializes a Weights & Biases run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+    When you call `autolog()`, it initializes a W&B Run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
     - Each pipeline call is tracked into its own [table]({{< relref "/guides/models/tables/" >}}) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
     - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
@@ -55,7 +55,7 @@ autolog(init=dict(project="diffusers_logging"))
     - The generated media for each pipeline call are also logged in [media panels]({{< relref "/guides/models/track/log/media" >}}) in the run.
 
     {{% alert %}}
-    You can find a list of supported pipeline calls [here](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, please open an issue on [https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues).
+    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
     {{% /alert %}}
 
 ## Examples
@@ -106,6 +106,8 @@ import wandb
 # import the autolog function
 from wandb.integration.diffusers import autolog
 
+run = wandb.init()
+
 # call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
 
@@ -128,7 +130,7 @@ images = pipeline(
 )
 
 # Finish the experiment
-wandb.finish()
+run.finish()
 ```
 {{% /tab %}}
 {{< /tabpane >}}
@@ -147,7 +149,7 @@ wandb.finish()
     {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="Experiment config logging" >}}
 
 {{% alert %}}
-You need to explicitly call [`wandb.finish()`]({{< relref "/ref/python/sdk/functions/finish.md" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`wandb.Run.finish()`]({{< relref "/ref/python/sdk/functions/finish.md" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
 ### Tracking multi-pipeline workflows
@@ -196,7 +198,7 @@ generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
 
 # Call WandB Autolog for Diffusers. This would automatically log
 # the prompts, generated images, pipeline architecture and all
-# associated experiment configs to Weights & Biases, thus making your
+# associated experiment configs to W&B, thus making your
 # image generation experiments easy to reproduce, share and analyze.
 autolog(init=dict(project="sdxl"))
 
@@ -227,6 +229,8 @@ from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipelin
 
 import wandb
 from wandb.integration.diffusers import autolog
+
+run = wandb.init()
 
 # initialize the SDXL base pipeline
 base_pipeline = StableDiffusionXLPipeline.from_pretrained(
@@ -259,7 +263,7 @@ generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
 
 # Call WandB Autolog for Diffusers. This would automatically log
 # the prompts, generated images, pipeline architecture and all
-# associated experiment configs to Weights & Biases, thus making your
+# associated experiment configs to W&B, thus making your
 # image generation experiments easy to reproduce, share and analyze.
 autolog(init=dict(project="sdxl"))
 
@@ -280,7 +284,7 @@ image = refiner_pipeline(
 ).images[0]
 
 # Finish the experiment
-wandb.finish()
+run.finish()
 ```
 
 {{% /tab %}}

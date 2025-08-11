@@ -23,17 +23,15 @@ Copy and paste the following code into a Jupyter Notebook or Python script:
 # Import the W&B Python Library and log into W&B
 import wandb
 
-wandb.login()
-
 # 1: Define objective/training function
 def objective(config):
     score = config.x**3 + config.y
     return score
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 
 # 2: Define the search space
 sweep_configuration = {
@@ -55,9 +53,9 @@ The following sections break down and explains each step in the code sample.
 
 
 ## Set up your training code
-Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
+Define a training function that takes in hyperparameter values from `wandb.Run.config` and uses them to train a model and return metrics.
 
-Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init`]({{< relref "/ref/python/sdk/functions/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
+Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
 
 {{% alert %}}
 Both the sweep and the run must be in the same project. Therefore, the name you provide when you initialize W&B must match the name of the project you provide when you initialize a sweep.
@@ -71,9 +69,9 @@ def objective(config):
 
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 ```
 
 ## Define the search space with a sweep configuration
@@ -119,7 +117,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
 ## Visualize results (optional)
 
-Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "/guides/models/app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}), and [more]({{< relref "/guides/models/app/features/panels/" >}}).
+Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "/guides/models/app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}), and [additional chart types]({{< relref "/guides/models/app/features/panels/" >}}).
 
 {{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example" >}}
 

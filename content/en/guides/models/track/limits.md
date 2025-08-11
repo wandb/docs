@@ -24,17 +24,16 @@ For faster performance, keep the total number of distinct metrics in a project u
 ```python
 import wandb
 
-run = wandb.init(project="my-project")
-
-run.log(
-    {
-        "a": 1,  # "a" is a distinct metric
-        "b": {
-            "c": "hello",  # "b.c" is a distinct metric
-            "d": [1, 2, 3],  # "b.d" is a distinct metric
-        },
-    }
-)
+with wandb.init() as run:
+    run.log(
+        {
+            "a": 1,  # "a" is a distinct metric
+            "b": {
+                "c": "hello",  # "b.c" is a distinct metric
+                "d": [1, 2, 3],  # "b.d" is a distinct metric
+            },
+        }
+    )
 ```
 
 {{% alert %}}
@@ -60,13 +59,19 @@ If your workspace suddenly slows down, check whether recent runs have unintentio
 Limit the size of a single logged value to under 1 MB and the total size of a single `run.log` call to under 25 MB. This limit does not apply to `wandb.Media` types like `wandb.Image`, `wandb.Audio`, etc.
 
 ```python
-#  not recommended
+import wandb
+
+run = wandb.init(project="wide-values")
+
+# not recommended
 run.log({"wide_key": range(10000000)})
 
-#  not recommended
-with f as open("large_file.json", "r"):
+# not recommended
+with open("large_file.json", "r") as f:
     large_data = json.load(f)
     run.log(large_data)
+
+run.finish()
 ```
 
 Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
@@ -84,42 +89,42 @@ Pick a logging frequency that is appropriate to the metric you are logging. As a
 - Histograms: <10,000 logged points per metric
 
 ```python
-# Training loop with 1m total steps
-for step in range(1000000):
-    #  not recommended
+import wandb
+
+with wandb.init(project="metric-frequency") as run:
+    # Not recommended
     run.log(
         {
-            "scalar": step,  # 100,000 scalars
+            "scalar": 1,  # 100,000 scalars
             "media": wandb.Image(...),  # 100,000 images
             "histogram": wandb.Histogram(...),  # 100,000 histograms
         }
     )
 
-    #  recommended
-    if step % 1000 == 0:
-        run.log(
-            {
-                "histogram": wandb.Histogram(...),  # 10,000 histograms
-            },
-            commit=False,
-        )
-    if step % 200 == 0:
-        run.log(
-            {
-                "media": wandb.Image(...),  # 50,000 images
-            },
-            commit=False,
-        )
-    if step % 100 == 0:
-        run.log(
-            {
-                "scalar": step,  # 100,000 scalars
-            },
-            commit=True,
-        )  # Commit batched, per-step metrics together
+    # Recommended
+    run.log(
+        {
+            "scalar": 1,  # 100,000 scalars
+        },
+        commit=True,
+    )  # Commit batched, per-step metrics together
+
+    run.log(
+        {
+            "media": wandb.Image(...),  # 50,000 images
+        },
+        commit=False,
+    )
+    
+    run.log(
+        {
+            "histogram": wandb.Histogram(...),  # 10,000 histograms
+        },
+        commit=False,
+    )
 ```
 
-<!-- Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}) for `run.log` for more details. -->
+<!-- Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) for `run.log` for more details. -->
 
 {{% alert %}}
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.
@@ -130,24 +135,33 @@ W&B continues to accept your logged data but pages may load more slowly if you e
 Limit the total size of your run config to less than 10 MB. Logging large values could slow down your project workspaces and runs table operations.
 
 ```python
-# recommended
-wandb.init(
+import wandb 
+
+# Recommended
+with wandb.init(
+    project="config-size",
     config={
         "lr": 0.1,
         "batch_size": 32,
         "epochs": 4,
     }
-)
+) as run:
+    # Your training code here
+    pass
 
-# not recommended
-wandb.init(
+# Not recommended
+with wandb.init(
+    project="config-size",
     config={
-        "steps": range(10000000),
+        "large_list": list(range(10000000)),  # Large list
+        "large_string": "a" * 10000000,  # Large string
     }
-)
+) as run:
+    # Your training code here
+    pass
 
-# not recommended
-with f as open("large_config.json", "r"):
+# Not recommended
+with open("large_config.json", "r") as f:
     large_config = json.load(f)
     wandb.init(config=large_config)
 ```
@@ -193,7 +207,7 @@ If you find you have too many sections and performance is slow, consider the wor
 
 When logging between 5000 and 100,000 metrics per run, W&B recommends using a [manual workspace]({{< relref "/guides/models/app/features/panels/#workspace-modes" >}}). In Manual mode, you can easily add and remove panels in bulk as you choose to explore different sets of metrics. With a more focused set of plots, the workspace loads faster. Metrics that are not plotted are still collected and stored as usual.
 
-To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. [Learn more about managing workspaces]({{< relref "/guides/models/app/features/panels/" >}}).
+To reset a workspace to manual mode, click the workspace's action `...` menu, then click **Reset workspace**. Resetting a workspace has no impact on stored metrics for runs. See [workspace panel management]({{< relref "/guides/models/app/features/panels/" >}}).
 
 ### File count
 
@@ -256,8 +270,18 @@ Exceeding the rate limit may delay `run.finish()` until the rate limit resets. T
   Minimize the frequency of logging metrics to conserve your quota. For example, you can modify your code to log metrics every five epochs instead of every epoch:
 
 ```python
-if epoch % 5 == 0:  # Log metrics every 5 epochs
-    run.log({"acc": accuracy, "loss": loss})
+import wandb
+import random
+
+with wandb.init(project="basic-intro") as run:
+    for epoch in range(10):
+        # Simulate training and evaluation
+        accuracy = 1 - 2 ** -epoch - random.random() / epoch
+        loss = 2 ** -epoch + random.random() / epoch
+
+        # Log metrics every 5 epochs
+        if epoch % 5 == 0:
+            run.log({"acc": accuracy, "loss": loss})
 ```
 
 - Manual data syncing: W&B store your run data locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`]({{< relref "/ref/cli/wandb-sync.md" >}}) reference.
