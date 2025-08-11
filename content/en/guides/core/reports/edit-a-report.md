@@ -204,7 +204,7 @@ To freeze a run set when viewing a report, click the snowflake icon in its panel
 
 Group runs in a run set programmatically with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
 
-You can group runs in a run set by config values, run metadata, summary metrics, or tags. The following table lists the available grouping methods and their descriptions:
+You can group runs in a run set by config values, run metadata, summary metrics, or tags. The following table lists the available grouping methods along with the available keys for that grouping method:
 
 | Grouping Method | Description |Available keys |
 | ---|------| --- |
@@ -220,16 +220,16 @@ You can group runs in a run set by config values, run metadata, summary metrics,
 
 ### Group runs by config values
 
-Group runs by config values to compare runs with similar configurations. Config values are parameters you specify in your run configuration `(wandb.init(config=))`.
+Group runs by config values to compare runs with similar configurations. Config values are parameters you specify in your run configuration `(wandb.init(config=))`. To group runs by config values, use the `config.<key>` syntax, where `<key>` is the name of the config value you want to group by. 
 
-To group runs by config values, use the `config.<key>` syntax, where `<key>` is the name of the config value you want to group by. For example, the following code snippet first initializes a run with a config value for `group`, then groups runs in a report based on the `group` config value.
+For example, the following code snippet first initializes a run with a config value for `group`, then groups runs in a report based on the `group` config value. Replace values for `<entity>` and `<project>` with your W&B entity and project names.
 
 ```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
-entity = "your_entity"
-project = "your_project"
+entity = "<entity>"
+project = "<project>"
 
 for group in ["control", "experiment_a", "experiment_b"]:
     for i in range(3):
@@ -252,7 +252,7 @@ runset = wr.Runset(
 )
 ```
 
-Continuing from the previous example, you can create a report with the grouped run set as follows:
+Continuing from the previous example, you can create a report with the grouped run set:
 
 ```python
 report = wr.Report(
@@ -272,7 +272,7 @@ report.save()
 
 ### Group runs by run metadata
 
-Group runs by a run's: name (`Name`), state (`State`), or job type (`JobType`). 
+Group runs by a run's name (`Name`), state (`State`), or job type (`JobType`). 
 
 Continuing from the previous example, you can group your runs by their name with the following code snippet:
 
@@ -302,8 +302,8 @@ For example, suppose you log a summary metric called `acc`:
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
-entity = "your_entity"
-project = "your_project"
+entity = "<entity>"
+project = "<project>"
 
 for group in ["control", "experiment_a", "experiment_b"]:
     for i in range(3):
@@ -329,7 +329,7 @@ runset = wr.Runset(
 
 ### Group runs by tags
 
-The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with the W&B App).
+The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run programmatically or with the W&B App.
 
 ```python
 runset = wr.Runset(
@@ -387,8 +387,8 @@ Within your Python script or notebook, you can then programmatically filter runs
 import wandb_workspaces.reports.v2 as wr
 
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Config('learning_rate') > 0.01"
 )
 ```
@@ -397,8 +397,8 @@ You can also filter by multiple config values with the `and` operator:
  
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
 )
 ```
@@ -407,8 +407,8 @@ Continuing from the previous example, you can create a report with the filtered 
 
 ```python
 report = wr.Report(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   title="My Report"
 )
 
@@ -455,8 +455,8 @@ When you create your report, you can filter runs by their display name. For exam
 
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Metric('displayName') in ['run1', 'run2', 'run3']"
 )
 ```
@@ -469,16 +469,16 @@ The following examples demonstrate how to filter a runset by the run's state (`f
 
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Metric('state') in ['finished']"
 )
 ```
 
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Metric('state') not in ['crashed']"
 )
 ```
@@ -490,16 +490,16 @@ The following examples demonstrate how to filter a run set by summary metrics. S
 
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="SummaryMetric('accuracy') > 0.9"
 )
 ```
 
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
 )
 ```
@@ -510,8 +510,8 @@ The following code snippet shows how to filter a runs set by its tags. Tags are 
 
 ```python
 runset = wr.Runset(
-  entity="your_entity",
-  project="your_project",
+  entity="<entity>",
+  project="<project>",
   filters="Tags('training') == 'training'"
 )
 ```
