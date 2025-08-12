@@ -63,9 +63,9 @@ To customize the default settings for all media panels in a section, overriding 
 1. Click **Media settings**.
 1. Within the drawer that appears, click the **Display**, **Layout**, or **Sync** tab to configure the default media settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
 
-    With the exception of the **Sync** tab, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}) for details about a setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
+Refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}) for details about a specific setting for **Display** or **Layout** media setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
 
-    When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
+When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
 
     1. Click the **Sync** tab.
     1. Turn on **Sync slider by key (Step)**.
@@ -76,9 +76,9 @@ To customize the default settings for all media panels in a workspace:
 1. Click **Media settings**.
 1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
 
-    With the exception of the **Sync** tab, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}) for details about a setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
+With the exception of the **Sync** tab, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}) for details about a setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
 
-    When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
+When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
 
     1. Click the **Sync** tab.
     1. Turn on **Sync slider by key (Step)**.
