@@ -14,7 +14,7 @@ A service account represents a non-human or machine user that can automatically 
 
 Service accounts provide a secure way to automate W&B workflows without using personal user credentials or hard-coded credentials. They can be created at two scopes:
 
-- **Organization-scoped**: Created by org admins, with access across all teams (not available in W&B Multi-tenant Cloud)
+- **Organization-scoped**: Created by org admins, with access across all teams.
 - **Team-scoped**: Created by team admins, with access limited to a specific team
 	
 A service account's API key allows the caller to read from or write to projects within the service account's scope. This enables centralized management of automated workflows for experiment tracking in W&B Models or logging traces in W&B Weave.
