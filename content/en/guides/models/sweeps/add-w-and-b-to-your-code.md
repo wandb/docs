@@ -46,7 +46,7 @@ def main():
 
         print("epoch: ", epoch)
         print("training accuracy:", train_acc, "training loss:", train_loss)
-        print("validation accuracy:", val_acc, "training loss:", val_loss)        
+        print("validation accuracy:", val_acc, "validation loss:", val_loss)        
 ```
 
 ### Training script with W&B Python SDK
@@ -65,7 +65,7 @@ create a W&B Sweep, we added the following to the code example:
 4. Use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run.md" >}}).
 5. (Optional) define values from `wandb.config` instead of defining hard coded values.
 6. Log the metric you want to optimize with [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
-7. Start the sweep with the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call. Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`). For more informationp, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
+7. Start the sweep with the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call. Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`). For more information, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
 
 
 ```python
@@ -281,10 +281,8 @@ def train():
 def main():
     with wandb.init(entity="<entity>", project="my-first-sweep") as run:
         val_loss, val_acc = train()
-        # Incorrect. You must explicitly access the
-        # key-value pair in the dictionary
-        # See next code block to see how to correctly log metrics
-        run.log({"val_loss": val_loss, "val_acc": val_acc})
+        # Incorrect example - does not explicitly access the key-value pair
+        run.log({"validation": {"loss": val_loss, "acc": val_acc}})
 
 sweep_configuration = {
     "method": "random",
@@ -311,6 +309,7 @@ import random
 
 
 def train():
+    epoch = 5  # Define epoch variable
     offset = random.random() / 5
     acc = 1 - 2**-epoch - random.random() / epoch - offset
     loss = 2**-epoch + random.random() / epoch + offset
