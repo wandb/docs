@@ -80,8 +80,8 @@ With the exception of the **Sync** tab, refer to [Configure a media panel]({{< r
 
 When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
 
-    1. Click the **Sync** tab.
-    1. Turn on **Sync slider by key (Step)**.
+1. Click the **Sync** tab.
+1. Turn on **Sync slider by key (Step)**.
 
 For details about each setting, refer to [Configure a media panel]({{< relref "#configure-a-media-panel" >}}).
 
