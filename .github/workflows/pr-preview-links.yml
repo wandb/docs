@@ -85,11 +85,11 @@ jobs:
             const deleted = splitList(process.env.DELETED);
 
             const allChanged = [...added, ...modified, ...deleted];
-const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
-if (!anyEligible) {
-  core.info('No relevant changes. Skipping comment.');
-  return;
-}
+            const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
+            if (!anyEligible) {
+              core.info('No relevant changes. Skipping comment.');
+              return;
+            }
 
             let pageMap = [];
             try {
@@ -102,16 +102,16 @@ if (!anyEligible) {
 
             // Build lookup: support keys with and without language prefix
             const byPath = new Map();
-for (const p of pageMap) {
-  const lang = p.lang || '';
-  const rel = p.path.replace(/^\/+/, '');
-  const key1 = rel; // relative to language contentDir
-  const key2 = path.posix.join('content', lang || '', rel).replace(/\\/g, '/');
-  const key3 = path.posix.join(lang || '', rel).replace(/\\/g, '/');
-  byPath.set(key1, p);
-  byPath.set(key2, p);
-  byPath.set(key3, p);
-}
+            for (const p of pageMap) {
+              const lang = p.lang || '';
+              const rel = p.path.replace(/^\/+/, '');
+              const key1 = rel; // relative to language contentDir
+              const key2 = path.posix.join('content', lang || '', rel).replace(/\\/g, '/');
+              const key3 = path.posix.join(lang || '', rel).replace(/\\/g, '/');
+              byPath.set(key1, p);
+              byPath.set(key2, p);
+              byPath.set(key3, p);
+            }
 
             // Find Cloudflare preview base URL from existing PR comments
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -142,22 +142,22 @@ for (const p of pageMap) {
             }
 
             function buildRows(files) {
-  return files.map(fp => {
-    if (fp.startsWith('content/')) {
-      const e = mapEntry(fp);
-      const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
-      const pathCell = '`' + e.path + '`';
-      return `| ${titleCell} | ${pathCell} |`;
-    }
-    // Static/assets: create direct preview links if base is known
-    const rel = fp.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
-    const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
-    const title = titleFromPath(fp);
-    const titleCell = href ? `[${title}](${href})` : title;
-    const pathCell = '`' + fp + '`';
-    return `| ${titleCell} | ${pathCell} |`;
-  });
-}
+              return files.map(fp => {
+                if (fp.startsWith('content/')) {
+                  const e = mapEntry(fp);
+                  const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                  const pathCell = '`' + e.path + '`';
+                  return `| ${titleCell} | ${pathCell} |`;
+                }
+                // Static/assets: create direct preview links if base is known
+                const rel = fp.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+                const title = titleFromPath(fp);
+                const titleCell = href ? `[${title}](${href})` : title;
+                const pathCell = '`' + fp + '`';
+                return `| ${titleCell} | ${pathCell} |`;
+              });
+            }
 
             const addedRows = buildRows(added);
             const modifiedRows = buildRows(modified);
