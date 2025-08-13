@@ -135,8 +135,8 @@ p, td, div, li, .lead
 
 .td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
 {
-    font-size: 14px; 
-    font-weight: $font-weight-bold;
+    font-size: 14px !important; 
+    font-weight: $font-weight-bold !important;
 }
 
 // Headings
@@ -1447,6 +1447,20 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
     background-color: transparent !important;
     border: 0px !important;
 }
+
+// Language selector dropdown: match left-hand navigation typography
+#td-section-nav > div > div > ul > li > a, #td-section-nav > div > div > a, #main_navbar > ul.navbar-nav.main-nav-right > li.nav-item.dropdown.d-none.d-lg-flex > div > a, #main_navbar > ul.navbar-nav.main-nav-right > li.nav-item.dropdown.d-none.d-lg-flex > div > ul > li > a {
+    font-family: $base-font !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+
+}
+
+#td-section-nav > div > div > a {
+    padding-left: 25px !important;
+    margin-bottom: 10px !important;
+}
+
 .gs-title b, .gs-title a, .gsc-cursor-page, .gsc-above-wrapper-area, .gcsc-find-more-on-google-query, .gcsc-find-more-on-google-magnifier {
     color: $link-primary !important;
     text-decoration: none !important;
