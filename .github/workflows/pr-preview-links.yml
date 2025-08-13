@@ -84,16 +84,16 @@ jobs:
 
             // Build lookup: support keys with and without language prefix
             const byPath = new Map();
-            for (const p of pageMap) {
-              const lang = p.lang || '';
-              const rel = p.path.replace(/^\/+/, '');
-              const key1 = rel; // relative to language contentDir
-              const key2 = path.posix.join('content', lang || '', rel).replace(/\/g, '/');
-              const key3 = path.posix.join(lang || '', rel).replace(/\/g, '/');
-              byPath.set(key1, p);
-              byPath.set(key2, p);
-              byPath.set(key3, p);
-            }
+for (const p of pageMap) {
+  const lang = p.lang || '';
+  const rel = p.path.replace(/^\/+/, '');
+  const key1 = rel; // relative to language contentDir
+  const key2 = path.posix.join('content', lang || '', rel).replace(/\\/g, '/');
+  const key3 = path.posix.join(lang || '', rel).replace(/\\/g, '/');
+  byPath.set(key1, p);
+  byPath.set(key2, p);
+  byPath.set(key3, p);
+}
 
             // Find Cloudflare preview base URL from existing PR comments
             const comments = await github.paginate(github.rest.issues.listComments, {
