@@ -1644,6 +1644,10 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
 
 // Ensure tables have enough space without removing all constraints
 .td-content {
+    // Limit content width for optimal readability
+    max-width: 75ch;
+    margin: 0; // Left-align the content
+    
     table {
         width: 100%;
         overflow-x: auto;
