@@ -105,9 +105,11 @@ jobs:
               if (hidden && hidden[1]) return sanitizeUrl(hidden[1]);
               return '';
             }
-            async function waitForCloudflareBranchUrl(maxAttempts = 12, delayMs = 10000) {
-              // Wait for 2 minutes total (12 attempts * 10 seconds = 120 seconds)
+            async function waitForCloudflareBranchUrl(maxAttempts = 10, delayMs = 30000) {
+              // Wait for 5 minutes total (10 attempts * 30 seconds = 300 seconds)
+              core.info(`Waiting up to ${maxAttempts * delayMs / 1000} seconds for Cloudflare Branch Preview URL...`);
               for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+                core.info(`Attempt ${attempt}/${maxAttempts}: Checking for Cloudflare comment...`);
                 const comments = await github.paginate(github.rest.issues.listComments, {
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -116,15 +118,28 @@ jobs:
                 });
                 for (const c of comments) {
                   const url = extractBranchPreviewUrl(c.body || '');
-                  if (url) return url;
+                  if (url) {
+                    core.info(`Found Branch Preview URL on attempt ${attempt}: ${url}`);
+                    return url;
+                  }
                 }
-                if (attempt < maxAttempts) await new Promise(r => setTimeout(r, delayMs));
+                if (attempt < maxAttempts) {
+                  core.info(`No Cloudflare comment found yet. Waiting ${delayMs / 1000} seconds before next check...`);
+                  await new Promise(r => setTimeout(r, delayMs));
+                }
               }
+              core.warning('Cloudflare Branch Preview URL not found after maximum wait time');
               return '';
             }
             let base = await waitForCloudflareBranchUrl();
-            if (!base) base = await fromOurExistingComment();
-            core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+            if (!base) {
+              core.info('No Branch Preview URL from Cloudflare comment. Checking our existing comment...');
+              base = await fromOurExistingComment();
+              if (base) {
+                core.info(`Found Branch Preview URL from our existing comment: ${base}`);
+              }
+            }
+            core.info(`Final Branch Preview URL: ${base || '(not found)'}`);
             core.setOutput('base', base);
 
       - name: Upsert PR comment with preview links
