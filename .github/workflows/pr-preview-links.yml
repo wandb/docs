@@ -87,7 +87,7 @@ jobs:
               return u.replace(/\/$/, '');
             }
             function extractBranchPreviewUrl(body) {
-              if (!/branch\s+preview\s*url/i.test(body || '')) return '';
+              if (!/branch\s+preview(\s+url)?/i.test(body || '')) return '';
               const m = (body || '').match(/https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/i);
               return m ? sanitizeUrl(m[0]) : '';
             }
@@ -125,6 +125,7 @@ jobs:
             }
             let base = await fromOurExistingComment();
             if (!base) base = await waitForCloudflareBranchUrl();
+            core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
             core.setOutput('base', base);
 
       - name: Upsert PR comment with preview links
@@ -271,6 +272,9 @@ jobs:
             const deletedRows = buildRows(deleted);
 
             const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
+            if (!previewBase) {
+              core.warning('Preview base URL was not found; links will stay unlinked until Cloudflare posts Branch Preview URL.');
+            }
             function section(title, rows) {
               if (rows.length === 0) return '';
               return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
