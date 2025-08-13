@@ -18,6 +18,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
       - name: Get Hugo version and setup
         run: |
           set -euo pipefail
@@ -26,10 +32,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ./hugo.deb
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          check-latest: true
+
       - name: Setup deps for build
         run: |
           set -euo pipefail
-          npm install
+          npm ci
           go mod download
           hugo mod get -u
 
