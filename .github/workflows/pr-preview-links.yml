@@ -1,0 +1,167 @@
+name: PR Preview Links
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  preview-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Get Hugo version and setup
+        run: |
+          set -euo pipefail
+          ver=$(grep 'HUGO_VERSION' wrangler.toml | awk -F '"' '{print $2}')
+          wget "https://github.com/gohugoio/hugo/releases/download/v${ver}/hugo_extended_${ver}_linux-amd64.deb" -O hugo.deb
+          sudo apt-get update
+          sudo apt-get install -y ./hugo.deb
+
+      - name: Setup deps for build
+        run: |
+          set -euo pipefail
+          npm install
+          go mod download
+          hugo mod get -u
+
+      - name: Get changed files
+        id: changed
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            content/**
+
+      - name: Build Hugo (generate pageurls)
+        if: steps.changed.outputs.any_changed == 'true'
+        run: |
+          hugo --minify
+          test -f public/pageurls.json && echo "Found pageurls.json" || (echo "Missing pageurls.json" && ls -la public || true)
+
+      - name: Upsert PR comment with preview links
+        if: steps.changed.outputs.any_changed == 'true'
+        uses: actions/github-script@v7
+        env:
+          ADDED: ${{ steps.changed.outputs.added_files }}
+          MODIFIED: ${{ steps.changed.outputs.modified_files }}
+          DELETED: ${{ steps.changed.outputs.deleted_files }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            function splitList(s) {
+              if (!s) return [];
+              return s.split('\n').map(x => x.trim()).filter(Boolean);
+            }
+
+            const added = splitList(process.env.ADDED);
+            const modified = splitList(process.env.MODIFIED);
+            const deleted = splitList(process.env.DELETED);
+
+            const allContentChanged = [...added, ...modified, ...deleted].filter(p => p.startsWith('content/'));
+            if (allContentChanged.length === 0) {
+              core.info('No content/ changes. Skipping comment.');
+              return;
+            }
+
+            let pageMap = [];
+            try {
+              const raw = fs.readFileSync('public/pageurls.json', 'utf8');
+              pageMap = JSON.parse(raw);
+            } catch (e) {
+              core.warning('Could not read public/pageurls.json. Proceeding with unlinked entries. ' + e.message);
+              pageMap = [];
+            }
+
+            // Build lookup: support keys with and without language prefix
+            const byPath = new Map();
+            for (const p of pageMap) {
+              const lang = p.lang || '';
+              const rel = p.path.replace(/^\/+/, '');
+              const key1 = rel; // relative to language contentDir
+              const key2 = path.posix.join('content', lang || '', rel).replace(/\/g, '/');
+              const key3 = path.posix.join(lang || '', rel).replace(/\/g, '/');
+              byPath.set(key1, p);
+              byPath.set(key2, p);
+              byPath.set(key3, p);
+            }
+
+            // Find Cloudflare preview base URL from existing PR comments
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            let previewBase = '';
+            for (const c of comments) {
+              const m = (c.body || '').match(/https?:\/\/[^\s]+pages\.dev\b[^\s]*/i);
+              if (m) { previewBase = m[0]; break; }
+            }
+
+            function mapEntry(filePath) {
+              const norm = filePath.replace(/\\/g, '/');
+              const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
+              if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
+              const rel = item.relPermalink || '';
+              const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+              const title = item.title || titleFromPath(norm);
+              return { title, rel, href, path: norm };
+            }
+
+            function titleFromPath(p) {
+              const base = path.posix.basename(p).replace(/\.(md|markdown)$/, '').replace(/^index$/, path.posix.basename(path.posix.dirname(p)) || 'index');
+              return base.replace(/[\-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+
+            function buildRows(files) {
+              return files.filter(p => p.startsWith('content/')).map(mapEntry).map(e => {
+                const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                const pathCell = '`' + e.path + '`';
+                return `| ${titleCell} | ${pathCell} |`;
+              });
+            }
+
+            const addedRows = buildRows(added);
+            const modifiedRows = buildRows(modified);
+            const deletedRows = buildRows(deleted);
+
+            const header = '<!-- docs-preview-links -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
+            function section(title, rows) {
+              if (rows.length === 0) return '';
+              return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
+            }
+
+            const body = [
+              header,
+              section('Added', addedRows),
+              section('Modified', modifiedRows),
+              section('Deleted', deletedRows),
+            ].join('');
+
+            // Upsert comment
+            const existing = comments.find(c => /<!-- docs-preview-links -->/.test(c.body || ''));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
