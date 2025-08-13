@@ -70,17 +70,13 @@ How you integrate W&B to your Python script or notebook depends on how you manag
 
 Add the following to your Python script:
 
-1. Import the W&B Python SDK (`wandb`).
-2. Create a dictionary object where the key-value pairs define a [sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}). The sweep configuration defines the hyperparameters you want W&B to explore on your behalf along with the metric you want to optimize. Continuing from the previous example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) are the hyperparameters to vary during each sweep. You want to maximize the accuracy of the validation score so you set `"goal": "maximize"` and the name of the variable you want to optimize for, in this case `val_acc` (`"name": "val_acc"`).
-3. Pass the sweep configuration dictionary to [`wandb.sweep()`]({{< relref "/ref/python/sdk/functions/sweep.md" >}}). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
-4. Use [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run.md" >}}).
-5. Log the metric you are optimizing for to W&B using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}). Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
-{{% alert %}}
-You must log the metric you define and are optimizing for in both your sweep configuration and with `wandb.Run.log()`. For example, if you define the metric to optimize as `val_acc`, you must log `val_acc`. If you do not log the metric, W&B does not know what to optimize for.
-{{% /alert %}}
-
-
-6. Start the sweep with [`wandb.agent()`]({{< relref "/ref/python/sdk/functions/agent.md" >}}). Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`). For more information, see [Start sweep agents]({{< relref "./start-sweep-agents.md" >}}).
+1. Create a dictionary object where the key-value pairs define a [sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}). The sweep configuration defines the hyperparameters you want W&B to explore on your behalf along with the metric you want to optimize. Continuing from the previous example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) are the hyperparameters to vary during each sweep. You want to maximize the accuracy of the validation score so you set `"goal": "maximize"` and the name of the variable you want to optimize for, in this case `val_acc` (`"name": "val_acc"`).
+2. Pass the sweep configuration dictionary to [`wandb.sweep()`]({{< relref "/ref/python/sdk/functions/sweep.md" >}}). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
+3. At the top of your script, import the W&B Python SDK (`wandb`).
+4. Within your `main` function, use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/classes/run.md" >}}). Pass the project name as a parameter to the `wandb.init()` method. If you do not pass a project name, W&B uses the default project name.
+5. Fetch the hyperparameter values from the `wandb.Run.config` object. This allows you to use the hyperparameter values defined in the sweep configuration dictionary instead of hard coded values.
+6. Log the metric you are optimizing for to W&B using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. For example, if you define the metric to optimize as `val_acc`, you must log `val_acc`. If you do not log the metric, W&B does not know what to optimize for. Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
+7. Start the sweep with [`wandb.agent()`]({{< relref "/ref/python/sdk/functions/agent.md" >}}). Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`).
 
 
 Putting this all together, your script might look simlar to the following:
@@ -89,6 +85,7 @@ Putting this all together, your script might look simlar to the following:
 import wandb # Import the W&B Python SDK
 import numpy as np
 import random
+import argparse
 
 def train_one_epoch(epoch, lr, batch_size):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
@@ -100,36 +97,13 @@ def evaluate_one_epoch(epoch):
     loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
 
-# Define a sweep config dictionary
-sweep_configuration = {
-    "method": "random",
-    "name": "sweep",
-    # Metric that you want to optimize
-    # For example, if you want to maximize validation
-    # accuracy set "goal": "maximize" and the name of the variable 
-    # you want to optimize for, in this case "val_acc"
-    "metric": {
-        "goal": "maximize", 
-        "name": "val_acc"
-        },
-    "parameters": {
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "lr": {"max": 0.1, "min": 0.0001},
-    },
-}
-
-def main():
-    # Initialize the sweep by passing in the config dictionary
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project=project)
-
-    # Start the sweep job
-    wandb.agent(sweep_id, function=main, count=4)
-
-    # Use the `with` context manager statement to automatically end the run.
-    with wandb.init() as run:
+def main(args=None):
+    # When called by sweep agent, args will be None,
+    # so we use the project from sweep config
+    project = args.project if args else None
+    
+    with wandb.init(project=project) as run:
         # Fetches the hyperparameter values from `wandb.Run.config` object
-        # instead of defining them explicitly
         lr = run.config["lr"]
         batch_size = run.config["batch_size"]
         epochs = run.config["epochs"]
@@ -138,7 +112,6 @@ def main():
         for epoch in np.arange(1, epochs):
             train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
             val_acc, val_loss = evaluate_one_epoch(epoch)
-
             run.log(
                 {
                     "epoch": epoch,
@@ -150,7 +123,34 @@ def main():
             )
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--project", type=str, default="sweep-example", help="W&B project name")
+    args = parser.parse_args()
+
+    # Define a sweep config dictionary
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        # Metric that you want to optimize
+        # For example, if you want to maximize validation
+        # accuracy set "goal": "maximize" and the name of the variable 
+        # you want to optimize for, in this case "val_acc"
+        "metric": {
+            "goal": "maximize",
+            "name": "val_acc"
+            },
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    # Initialize the sweep by passing in the config dictionary
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
+
+    # Start the sweep job
+    wandb.agent(sweep_id, function=main, count=4)
 ```
 
 
@@ -264,83 +264,34 @@ For more information, see [Start sweep jobs]({{< relref "./start-sweep-agents.md
 
 {{% /tab %}} {{< /tabpane >}}
 
-## Logging metrics to W&B in a sweep
 
-Log the sweep's metric to W&B explicitly. Do not log metrics for your sweep inside a subdirectory.
-
-### Correctly logging metrics to W&B in a sweep
-
-Explicitly access the key-value pair within the Python dictionary. For example, the following code specifies the key-value pair when you pass the dictionary to the `wandb.Run.log()` method:
-
-```python title="train.py"
-# Import the W&B Python Library and log into W&B
-import wandb
-import random
-
-def train():
-    epoch = 5  # Define epoch variable
-    offset = random.random() / 5
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset
-
-    return loss, acc
-
-def main():
-    with wandb.init(entity="<entity>", project="my-first-sweep") as run:
-        # Correct
-        run.log({"val_loss": val_loss, "val_acc": val_acc})
-
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "val_loss"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-wandb.agent(sweep_id, function=main, count=10)
-```
-
-### Incorrectly logging metrics to W&B in a sweep
-
-Consider the following pseudocode. A user wants to log the validation loss (`"val_loss": loss`). First they pass the values into a dictionary. However, the dictionary passed to `wandb.Run.log()` does not explicitly access the key-value pair in the dictionary. Instead, the user nests the dictionary inside another dictionary.
+{{% alert title="Logging metrics to W&B in a sweep"%}}
+You must log the metric you define and are optimizing for in both your sweep configuration and with `wandb.Run.log()`. For example, if you define the metric to optimize as `val_acc` within your sweep configuration, you must also log `val_acc` to W&B. If you do not log the metric, W&B does not know what to optimize for.
 
 ```python
-# Import the W&B Python Library and log into W&B
-import wandb
-import random
-
-def train():
-    # Simulate training and validation metrics
-    offset = random.random() / 5
-    epoch = 5  # Simulate an epoch value
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset
-    return loss, acc
-
-
-def main():
-    with wandb.init(entity="<entity>", project="my-first-sweep") as run:
-        val_loss, val_acc = train()
-        # Incorrect
-        run.log({"validation": {"loss": val_loss, "acc": val_acc}})
-
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "val_loss"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-# Initialize the sweep with the configuration dictionary
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-# Start the sweep job
-wandb.agent(sweep_id, function=main, count=10)
+with wandb.init() as run:
+    val_loss, val_acc = train()
+    run.log(
+        {
+            "val_loss": val_loss,
+            "val_acc": val_acc
+            }
+        )
 ```
 
+The following is an incorrect example of logging the metric to W&B. The metric that is optimized for in the sweep configuration is `val_acc`, but the code logs `val_acc` within a nested dictionary under the key `validation`. You must log the metric directly, not within a nested dictionary.
+
+```python
+with wandb.init() as run:
+    val_loss, val_acc = train()
+    run.log(
+        {
+            "validation": {
+                "val_loss": val_loss, 
+                "val_acc": val_acc
+                }
+            }
+        )
+```
+
+{{% /alert %}}
