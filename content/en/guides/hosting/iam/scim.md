@@ -48,7 +48,7 @@ Set the HTTP request's `Authorization` header to the string `Basic` followed by 
 ## User Management
 
 The SCIM user resource maps to W&B users. Use these endpoints to manage users in your organization.
-```
+
 ### Get User
 
 Retrieves information for a specific user in your organization.
