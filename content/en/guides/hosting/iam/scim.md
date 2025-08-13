@@ -117,6 +117,7 @@ The `/Users` endpoint supports filtering to search for specific users:
 ```bash
 GET /scim/Users?filter=userName eq "john.doe"
 GET /scim/Users?filter=emails.value eq "john@example.com"
+```
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users`
