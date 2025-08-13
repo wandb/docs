@@ -31,6 +31,10 @@ The chosen hosting option determines the value for the `<host-url>` placeholder 
 In addition, examples use user IDs such as `abc` and `def`. Real requests and responses have hashed values for user IDs.
 {{% /alert %}}
 
+## Code Examples
+
+For practical Python examples demonstrating how to interact with the SCIM API, visit our [SCIM examples repository](https://github.com/wandb/examples/tree/master/wandb-scim).
+
 ## Authentication
 
 Access to the SCIM API can be authenticated in two ways:
