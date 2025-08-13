@@ -127,26 +127,59 @@ jobs:
               issue_number: context.issue.number,
               per_page: 100,
             });
-            // Collect all pages.dev URLs from PR comments
-            const urls = [];
-            const urlRegex = /https?:\/\/[^\s]+pages\.dev\b[^\s)\]]*/ig;
-            for (const c of comments) {
-              const body = (c.body || '').replace(/[)>.,]+$/gm, '');
-              const matches = body.match(urlRegex) || [];
-              for (let u of matches) {
-                // decode simple HTML entities that sometimes appear in comments
-                u = u.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-                // strip trailing punctuation
-                u = u.replace(/[)\].,]+$/, '');
-                if (!urls.includes(u)) urls.push(u);
-              }
+            // Helpers to extract and sanitize pages.dev URLs
+            function htmlDecode(s) {
+              return s
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'");
             }
-            // Prefer branch URL that contains the sanitized branch name
+            function sanitizeUrl(u) {
+              if (!u) return '';
+              u = htmlDecode(u.trim());
+              // trim surrounding quotes or angle brackets
+              u = u.replace(/^['"<]+/, '').replace(/[>'"]+$/, '');
+              // cut at first disallowed delimiter if present
+              u = u.split(/[\s<>'"\]\)]/)[0];
+              try { u = decodeURI(u); } catch (e) {}
+              // remove trailing slash
+              return u.replace(/\/$/, '');
+            }
+            function extractUrls(body) {
+              const urls = [];
+              const regex = /https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/ig;
+              const matches = (body || '').match(regex) || [];
+              for (let m of matches) {
+                const clean = sanitizeUrl(m);
+                if (clean && !urls.includes(clean)) urls.push(clean);
+              }
+              return urls;
+            }
+
+            // Gather candidates and choose branch-preview when possible
             const branchName = (context.payload && context.payload.pull_request && context.payload.pull_request.head && context.payload.pull_request.head.ref) || '';
             const branchSan = branchName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            let previewBase = urls.find(u => u.toLowerCase().includes(branchSan)) || urls[0] || '';
-            // Ensure no trailing slash
-            if (previewBase) previewBase = previewBase.replace(/\/$/, '');
+
+            let previewBase = '';
+            let commitCandidate = '';
+            for (const c of comments) {
+              const body = c.body || '';
+              if (/branch\s+preview/i.test(body)) {
+                const urls = extractUrls(body);
+                if (urls.length) { previewBase = urls[0]; break; }
+              }
+              if (/commit\s+preview/i.test(body)) {
+                const urls = extractUrls(body);
+                if (urls.length && !commitCandidate) commitCandidate = urls[0];
+              }
+            }
+            if (!previewBase) {
+              // Fallback: any pages.dev in comments; prefer one containing branch name
+              const all = comments.flatMap(c => extractUrls(c.body || ''));
+              previewBase = all.find(u => u.toLowerCase().includes(branchSan)) || all[0] || commitCandidate || '';
+            }
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
@@ -190,7 +223,7 @@ jobs:
             const modifiedRows = buildRows(modified);
             const deletedRows = buildRows(deleted);
 
-            const header = '<!-- docs-preview-links -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: <${previewBase}>` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
+            const header = '<!-- docs-preview-links -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
             function section(title, rows) {
               if (rows.length === 0) return '';
               return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
