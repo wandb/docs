@@ -129,6 +129,10 @@ p, td, div, li, .lead
     }
 }
 
+#content-mobile {
+    max-height: 65px;
+}
+
 .td-sidebar-nav__section-title, .td-sidebar-nav__section without-child 
 {
     font-size: 14px; 
@@ -1361,6 +1365,80 @@ nav.foldable-nav .with-child, nav.foldable-nav .without-child {
                 padding-right: 3rem !important;
             }
         }
+    }
+}
+
+// Mobile spacing tweaks around the inline search bar at top of content
+@media (max-width: ($breakpoint-md - 1)) {
+    // Tighten the DocSearch trigger button spacing
+    .DocSearch-Button {
+        margin-top: 2px !important;
+        margin-bottom: 2px !important;
+    }
+
+    // Reduce spacing of the first content section that generally wraps the search
+    .container-fluid.td-default.td-outer > main > section:first-child,
+    .td-outer.td-default > main > section:first-child,
+    .td-outer > main > section:first-child {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        margin-top: 0 !important;
+        margin-bottom: 4px !important;
+    }
+
+    // Also tighten the inner container of that first section
+    .container-fluid.td-default.td-outer > main > section:first-child > .container,
+    .container-fluid.td-default.td-outer > main > section:first-child > .container-fluid,
+    .td-outer > main > section:first-child > .container,
+    .td-outer > main > section:first-child > .container-fluid {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    // Search wrapper and field
+    .td-search {
+        margin: 4px 0 !important;
+        padding: 0 !important;
+    }
+    .td-search__input, .td-search-input {
+        margin: 0 !important;
+    }
+
+    // Breadcrumb block directly under the search
+    nav[aria-label="breadcrumb"],
+    .breadcrumb {
+        margin-top: 4px !important;
+        margin-bottom: 6px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    // Ensure the mobile sidebar (hamburger menu) overlays breadcrumbs/content
+    // instead of visually overlapping with them.
+    .td-sidebar {
+        position: relative !important;
+        z-index: 1060 !important;
+    }
+
+    // Tighten the space before the main heading
+    .td-content h1 {
+        margin-top: 8px !important;
+    }
+
+    // Aggressively clamp large Bootstrap utility spacers within the first section
+    .td-outer > main > section:first-child {
+        .pt-5 { padding-top: 0.5rem !important; }
+        .pb-5 { padding-bottom: 0.5rem !important; }
+        .mt-5 { margin-top: 0.5rem !important; }
+        .mb-5 { margin-bottom: 0.5rem !important; }
+        .my-5 { margin-top: 0.5rem !important; margin-bottom: 0.5rem !important; }
+        .py-5 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+        .pt-4 { padding-top: 0.5rem !important; }
+        .pb-4 { padding-bottom: 0.5rem !important; }
+        .mt-4 { margin-top: 0.5rem !important; }
+        .mb-4 { margin-bottom: 0.5rem !important; }
+        .my-4 { margin-top: 0.5rem !important; margin-bottom: 0.5rem !important; }
+        .py-4 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
     }
 }
 
