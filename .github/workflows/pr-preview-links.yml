@@ -164,21 +164,34 @@ jobs:
 
             let previewBase = '';
             let commitCandidate = '';
+            let suffix = '';
             for (const c of comments) {
               const body = c.body || '';
-              if (/branch\s+preview/i.test(body)) {
-                const urls = extractUrls(body);
-                if (urls.length) { previewBase = urls[0]; break; }
+              const urls = extractUrls(body);
+              if (!suffix && urls.length) {
+                try {
+                  const h = new URL(urls[0]).hostname.split('.');
+                  // Take site + pages.dev (last 3 parts)
+                  suffix = h.slice(-3).join('.');
+                } catch (e) {}
               }
-              if (/commit\s+preview/i.test(body)) {
-                const urls = extractUrls(body);
-                if (urls.length && !commitCandidate) commitCandidate = urls[0];
+              if (/branch\s+preview/i.test(body) && urls.length) {
+                previewBase = urls[0];
               }
+              if (/commit\s+preview/i.test(body) && urls.length && !commitCandidate) {
+                commitCandidate = urls[0];
+              }
+            }
+            if (!previewBase && suffix && branchSan) {
+              previewBase = `https://${branchSan}.${suffix}`;
             }
             if (!previewBase) {
               // Fallback: any pages.dev in comments; prefer one containing branch name
               const all = comments.flatMap(c => extractUrls(c.body || ''));
-              previewBase = all.find(u => u.toLowerCase().includes(branchSan)) || all[0] || commitCandidate || '';
+              if (!suffix && all.length) {
+                try { const h = new URL(all[0]).hostname.split('.'); suffix = h.slice(-3).join('.'); } catch (e) {}
+              }
+              previewBase = all.find(u => u.toLowerCase().includes(branchSan)) || (suffix && branchSan ? `https://${branchSan}.${suffix}` : '') || all[0] || commitCandidate || '';
             }
 
             function mapEntry(filePath) {
