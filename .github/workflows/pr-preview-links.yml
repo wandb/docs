@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: npm
 
       - name: Get Hugo version and setup
         run: |
@@ -41,7 +40,7 @@ jobs:
       - name: Setup deps for build
         run: |
           set -euo pipefail
-          npm ci
+          npm install
           go mod download
           hugo mod get -u
 
