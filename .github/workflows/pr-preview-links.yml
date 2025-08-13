@@ -76,7 +76,11 @@ jobs:
 
             function splitList(s) {
               if (!s) return [];
-              return s.split('\n').map(x => x.trim()).filter(Boolean);
+              // Support newline, comma, or space separated outputs
+              return s
+                .split(/\r?\n|,|\s+/)
+                .map(x => x.trim())
+                .filter(Boolean);
             }
 
             const added = splitList(process.env.ADDED);
@@ -103,13 +107,17 @@ jobs:
             const byPath = new Map();
             for (const p of pageMap) {
               const lang = p.lang || '';
-              const rel = p.path.replace(/^\/+/, '');
-              const key1 = rel; // relative to language contentDir
-              const key2 = path.posix.join('content', lang || '', rel).replace(/\\/g, '/');
-              const key3 = path.posix.join(lang || '', rel).replace(/\\/g, '/');
-              byPath.set(key1, p);
-              byPath.set(key2, p);
-              byPath.set(key3, p);
+              const rel = (p.path || '').replace(/^\/+/, '').replace(/\\/g, '/');
+              const withLang = lang && !rel.startsWith(lang + '/') ? `${lang}/${rel}` : rel;
+              const withoutLang = lang && rel.startsWith(lang + '/') ? rel.slice(lang.length + 1) : rel;
+              const keys = new Set([
+                rel,
+                withLang,
+                withoutLang,
+                path.posix.join('content', withLang),
+                path.posix.join('content', withoutLang),
+              ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
+              for (const k of keys) byPath.set(k, p);
             }
 
             // Find Cloudflare preview base URL from existing PR comments
@@ -120,10 +128,16 @@ jobs:
               per_page: 100,
             });
             let previewBase = '';
+            let branchBase = '';
             for (const c of comments) {
-              const m = (c.body || '').match(/https?:\/\/[^\s]+pages\.dev\b[^\s]*/i);
-              if (m) { previewBase = m[0]; break; }
+              const body = c.body || '';
+              const commitMatch = body.match(/https?:\/\/[^\s]+pages\.dev\b[^\s]*/i);
+              const branchMatch = body.match(/Branch Preview:\s*(https?:\/\/[^\s]+pages\.dev\b[^\s]*)/i);
+              if (branchMatch && branchMatch[1]) branchBase = branchMatch[1];
+              if (commitMatch && !previewBase) previewBase = commitMatch[0];
             }
+            // Prefer branch base if available
+            previewBase = branchBase || previewBase;
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
@@ -136,7 +150,10 @@ jobs:
             }
 
             function titleFromPath(p) {
-              const base = path.posix.basename(p).replace(/\.(md|markdown)$/, '').replace(/^index$/, path.posix.basename(path.posix.dirname(p)) || 'index');
+              const stem = p.replace(/^content\//, '').replace(/\.(md|markdown)$/, '');
+              const parts = stem.split('/');
+              const last = parts[parts.length - 1];
+              const base = last === 'index' ? (parts[parts.length - 2] || 'index') : last;
               return base.replace(/[\-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
             }
 
