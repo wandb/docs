@@ -86,7 +86,28 @@ jobs:
               try { u = decodeURI(u); } catch (e) {}
               return u.replace(/\/$/, '');
             }
-            async function findBranchPreviewUrl(maxAttempts = 18, delayMs = 10000) {
+            function extractBranchPreviewUrl(body) {
+              if (!/branch\s+preview\s*url/i.test(body || '')) return '';
+              const m = (body || '').match(/https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/i);
+              return m ? sanitizeUrl(m[0]) : '';
+            }
+            async function fromOurExistingComment() {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              });
+              const ours = comments.find(c => /<!-- docs-preview-links -->/i.test(c.body || ''));
+              if (!ours) return '';
+              const body = ours.body || '';
+              const hidden = body.match(/<!--\s*preview-base:\s*([^>]+?)\s*-->/i);
+              if (hidden && hidden[1]) return sanitizeUrl(hidden[1]);
+              const line = body.match(/Base preview:\s*(https?:\/\/[^\s'"<>]+)/i);
+              if (line && line[1]) return sanitizeUrl(line[1]);
+              return '';
+            }
+            async function waitForCloudflareBranchUrl(maxAttempts = 60, delayMs = 10000) {
               for (let attempt = 1; attempt <= maxAttempts; attempt++) {
                 const comments = await github.paginate(github.rest.issues.listComments, {
                   owner: context.repo.owner,
@@ -95,19 +116,15 @@ jobs:
                   per_page: 100,
                 });
                 for (const c of comments) {
-                  const body = c.body || '';
-                  if (/branch\s+preview/i.test(body)) {
-                    const m = body.match(/https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/i);
-                    if (m) return sanitizeUrl(m[0]);
-                  }
+                  const url = extractBranchPreviewUrl(c.body || '');
+                  if (url) return url;
                 }
-                if (attempt < maxAttempts) {
-                  await new Promise(r => setTimeout(r, delayMs));
-                }
+                if (attempt < maxAttempts) await new Promise(r => setTimeout(r, delayMs));
               }
               return '';
             }
-            const base = await findBranchPreviewUrl();
+            let base = await fromOurExistingComment();
+            if (!base) base = await waitForCloudflareBranchUrl();
             core.setOutput('base', base);
 
       - name: Upsert PR comment with preview links
@@ -253,7 +270,7 @@ jobs:
             const modifiedRows = buildRows(modified);
             const deletedRows = buildRows(deleted);
 
-            const header = '<!-- docs-preview-links -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
+            const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
             function section(title, rows) {
               if (rows.length === 0) return '';
               return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
