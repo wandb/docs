@@ -137,6 +137,23 @@ Hit `CTRL+C` in the terminal that is showing `hugo` activity to interrupt the se
 
 Style overrides are in `/assets/scss/_variables_project.scss`. Here we can override all the styles that ship with the Docsy theme. O
 
+## Using the Chat Widget
+
+To use the chat widget (`static/chat-widget.js` and `static/chat-widget.css`):
+
+- Ensure both files are included in your HTML page.
+- The widget communicates with a backend service. By default, it connects to `http://localhost:8018/docs-agent`.
+    - To use a different backend URL or port, set `window.DOCS_AGENT_BACKEND_URL` before loading the widget script:
+      
+      ```html
+      <script>
+        window.DOCS_AGENT_BACKEND_URL = 'http://your-backend-host:your-port/your-endpoint';
+      </script>
+      <script src="static/chat-widget.js"></script>
+      <link rel="stylesheet" href="static/chat-widget.css">
+      ```
+- The chat widget will use this URL for all requests.
+
 ## Troubleshooting
 
 As you run the website locally, you may run into the following error:
