@@ -1717,7 +1717,6 @@ body > div.container-fluid.td-default.td-outer > main > section > div > h2 {
         // Slightly increase main content width without overflowing
         main.col-xl-8 {
             flex: 0 0 auto;
-            width: 70% !important; // Modest increase from 66.67% 
         }
         
         // Slightly reduce right sidebar (TOC) width to compensate
