@@ -12,6 +12,8 @@ permissions:
 jobs:
   preview-links:
     runs-on: ubuntu-latest
+    env:
+      CF_PAGES_SUFFIX: docodile.pages.dev
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -158,41 +160,12 @@ jobs:
               return urls;
             }
 
-            // Gather candidates and choose branch-preview when possible
+            // Compose branch preview base similar to scripts/production.sh
             const branchName = (context.payload && context.payload.pull_request && context.payload.pull_request.head && context.payload.pull_request.head.ref) || '';
             const branchSan = branchName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-            let previewBase = '';
-            let commitCandidate = '';
-            let suffix = '';
-            for (const c of comments) {
-              const body = c.body || '';
-              const urls = extractUrls(body);
-              if (!suffix && urls.length) {
-                try {
-                  const h = new URL(urls[0]).hostname.split('.');
-                  // Take site + pages.dev (last 3 parts)
-                  suffix = h.slice(-3).join('.');
-                } catch (e) {}
-              }
-              if (/branch\s+preview/i.test(body) && urls.length) {
-                previewBase = urls[0];
-              }
-              if (/commit\s+preview/i.test(body) && urls.length && !commitCandidate) {
-                commitCandidate = urls[0];
-              }
-            }
-            if (!previewBase && suffix && branchSan) {
-              previewBase = `https://${branchSan}.${suffix}`;
-            }
-            if (!previewBase) {
-              // Fallback: any pages.dev in comments; prefer one containing branch name
-              const all = comments.flatMap(c => extractUrls(c.body || ''));
-              if (!suffix && all.length) {
-                try { const h = new URL(all[0]).hostname.split('.'); suffix = h.slice(-3).join('.'); } catch (e) {}
-              }
-              previewBase = all.find(u => u.toLowerCase().includes(branchSan)) || (suffix && branchSan ? `https://${branchSan}.${suffix}` : '') || all[0] || commitCandidate || '';
-            }
+            const suffix = process.env.CF_PAGES_SUFFIX || 'pages.dev';
+            const previewBase = branchSan ? `https://${branchSan}.${suffix}` : '';
+            core.info(`Preview base: ${previewBase}`);
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
