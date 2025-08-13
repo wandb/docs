@@ -242,8 +242,8 @@ Customize metrics logged with `wandb.Run.log()`.
  - `step_metric`:  The name of another metric to serve as the X-axis  for this metric in automatically generated charts. 
  - `step_sync`:  Automatically insert the last value of step_metric into  `wandb.Run.log()` if it is not provided explicitly. Defaults to True  if step_metric is specified. 
  - `hidden`:  Hide this metric from automatic plots. 
- - `summary`:  Specify aggregate metrics added to summary.  Supported aggregations include "min", "max", "mean", "last",  "best", "copy" and "none". "best" is used together with the  goal parameter. "none" prevents a summary from being generated.  "copy" is deprecated and should not be used. 
- - `goal`:  Specify how to interpret the "best" summary type.  Supported options are "minimize" and "maximize". 
+ - `summary`:  Specify aggregate metrics added to summary.  Supported aggregations include "min", "max", "mean", "last",  "first", "best", "copy" and "none". "none" prevents a summary  from being generated. "best" is used together with the goal  parameter, "best" is deprecated and should not be used, use  "min" or "max" instead. "copy" is deprecated and should not be  used. 
+ - `goal`:  Specify how to interpret the "best" summary type.  Supported options are "minimize" and "maximize". "goal" is  deprecated and should not be used, use "min" or "max" instead. 
  - `overwrite`:  If false, then this call is merged with previous  `define_metric` calls for the same metric by using their  values for any unspecified parameters. If true, then  unspecified parameters overwrite values specified by  previous calls. 
 
 
@@ -680,8 +680,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102da5f30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103b4c5e0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102e65f30>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103c0c5e0>
 ) → Artifact | None
 ```
 
