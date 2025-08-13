@@ -103,8 +103,6 @@ jobs:
               const body = ours.body || '';
               const hidden = body.match(/<!--\s*preview-base:\s*([^>]+?)\s*-->/i);
               if (hidden && hidden[1]) return sanitizeUrl(hidden[1]);
-              const line = body.match(/Base preview:\s*(https?:\/\/[^\s'"<>]+)/i);
-              if (line && line[1]) return sanitizeUrl(line[1]);
               return '';
             }
             async function waitForCloudflareBranchUrl(maxAttempts = 60, delayMs = 10000) {
@@ -123,8 +121,8 @@ jobs:
               }
               return '';
             }
-            let base = await fromOurExistingComment();
-            if (!base) base = await waitForCloudflareBranchUrl();
+            let base = await waitForCloudflareBranchUrl();
+            if (!base) base = await fromOurExistingComment();
             core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
             core.setOutput('base', base);
 
@@ -227,6 +225,9 @@ jobs:
 
             // Use Branch Preview URL extracted from Cloudflare comment
             const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
+            if (!previewBase) {
+              core.warning('No Branch Preview URL found yet; leaving links unlinked rather than using commit URL.');
+            }
             core.info(`Preview base: ${previewBase || '(not found yet)'}`);
 
             function mapEntry(filePath) {
