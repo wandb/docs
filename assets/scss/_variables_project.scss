@@ -146,27 +146,21 @@ h1, h2, h3, h4, h5, h6 {
 // Heading sizes
 h1, .td-content h1 { 
     font-size: 32px !important;
-    font-weight: $font-weight-bold !important;
 }
 h2, .td-content h2 { 
     font-size: 24px !important;
-    font-weight: $font-weight-bold !important;
 }
 h3, .td-content h3 { 
     font-size: 20px !important;
-    font-weight: $font-weight-bold !important;
 }
 h4, .td-content h4 { 
-    font-size: 16px !important;
-    font-weight: $font-weight-bold !important;
+    font-size: 18px !important;
 }
 h5, .td-content h5 {
-    font-size: 14px !important;
-    font-weight: $font-weight-bold !important;
+    font-size: 17px !important;
 }
 h6, .td-content h6 {
-    font-size: 12px !important;
-    font-weight: $font-weight-bold !important;
+    font-size: 16px !important;
 }
 
 // Lead paragraph
@@ -271,13 +265,13 @@ $breakpoint-xl: 1200px;   // Large desktop
 
                         &:hover {
                             text-decoration: none !important;
-                            background-color: rgba($moon-300, 0.2) !important;
+                            background-color: rgba($moon-300, 0.3) !important;
                             transform: translateY(-2px);
                         }
 
                         &.active {
                             color: $link-primary !important;
-                            background-color: rgba($moon-300, 0.2) !important;
+                            background-color: rgba($moon-300, 0.4) !important;
                             font-weight: $font-weight-regular !important;
                         }
                     }
@@ -439,10 +433,12 @@ $breakpoint-xl: 1200px;   // Large desktop
                         
                         &:hover {
                             color: $teal-500 !important;
+                            background-color: rgba($moon-700, 0.5) !important;
                         }
                         
                         &.active {
                             color: $teal-500 !important;
+                            background-color: $dark-bg-secondary !important;
                         }
                     }
                 }
@@ -482,8 +478,8 @@ $breakpoint-xl: 1200px;   // Large desktop
 
 // headings use WandB serif font
 h1, h2, h3, h4, h5, h6 {
-    font-weight: $font-weight-regular !important;
     color: $text-primary;
+    font-weight: $font-weight-bold !important;
 }
 
 .td-sidebar-nav-active-item {
@@ -517,7 +513,7 @@ h1, h2, h3, h4, h5, h6 {
 .breadcrumb-item.active::after { 
   content: ""; 
   position: absolute; 
-  background-color: $bg-tertiary; 
+  background-color: rgba($moon-300, 0.4); 
   border-radius: 15px;
   /* Much tighter positioning */
   top: 0em;
@@ -561,12 +557,11 @@ ul.foldable, .card {
 // Table of Contents Component
 #TableOfContents {
     font-family: $base-font;
-    font-size: 13px !important;
     a{
         margin: 0px !important;
         padding: 8px !important;
         font-weight: 500 !important;
-        font-size: 13px !important;
+        font-size: 12px !important;
     }
     // List styles
     ul { 
@@ -574,7 +569,6 @@ ul.foldable, .card {
         li {
             padding: 0px !important; 
             line-height: 14px;
-            font-size: 13px !important;
             a {
                 transition: all .2s ease-in;
             }
@@ -875,6 +869,18 @@ ul {
 // Add border radius to all images, code blocks and alerts
 img, pre, .highlight, .code-toolbar, .alert {
   border-radius: $border-radius-medium !important;
+}
+
+// Inline code styles
+code:not(pre code) {
+  background-color: rgba($moon-300, 0.4) !important;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.875em;
+  
+  [data-bs-theme=dark] & {
+    background-color: $dark-bg-secondary !important;
+  }
 }
 
 // Style images and iframes consistently
@@ -1179,8 +1185,11 @@ div.td-page-meta__lastmod {
 
     // Base link styles
     a {
+        span {
+            font-weight: 500 !important;
+        }
         color: $text-secondary !important;
-        font-weight: $font-weight-regular;
+        
         text-decoration: none !important;
         transition: all 0.2s ease-in-out !important;
 
