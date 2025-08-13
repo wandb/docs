@@ -127,17 +127,26 @@ jobs:
               issue_number: context.issue.number,
               per_page: 100,
             });
-            let previewBase = '';
-            let branchBase = '';
+            // Collect all pages.dev URLs from PR comments
+            const urls = [];
+            const urlRegex = /https?:\/\/[^\s]+pages\.dev\b[^\s)\]]*/ig;
             for (const c of comments) {
-              const body = c.body || '';
-              const commitMatch = body.match(/https?:\/\/[^\s]+pages\.dev\b[^\s]*/i);
-              const branchMatch = body.match(/Branch Preview:\s*(https?:\/\/[^\s]+pages\.dev\b[^\s]*)/i);
-              if (branchMatch && branchMatch[1]) branchBase = branchMatch[1];
-              if (commitMatch && !previewBase) previewBase = commitMatch[0];
+              const body = (c.body || '').replace(/[)>.,]+$/gm, '');
+              const matches = body.match(urlRegex) || [];
+              for (let u of matches) {
+                // decode simple HTML entities that sometimes appear in comments
+                u = u.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+                // strip trailing punctuation
+                u = u.replace(/[)\].,]+$/, '');
+                if (!urls.includes(u)) urls.push(u);
+              }
             }
-            // Prefer branch base if available
-            previewBase = branchBase || previewBase;
+            // Prefer branch URL that contains the sanitized branch name
+            const branchName = (context.payload && context.payload.pull_request && context.payload.pull_request.head && context.payload.pull_request.head.ref) || '';
+            const branchSan = branchName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            let previewBase = urls.find(u => u.toLowerCase().includes(branchSan)) || urls[0] || '';
+            // Ensure no trailing slash
+            if (previewBase) previewBase = previewBase.replace(/\/$/, '');
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
@@ -166,8 +175,10 @@ jobs:
                   return `| ${titleCell} | ${pathCell} |`;
                 }
                 // Static/assets: create direct preview links if base is known
+                // Only link common web assets; skip JSON, map files, etc.
+                const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(fp);
                 const rel = fp.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
-                const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+                const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
                 const title = titleFromPath(fp);
                 const titleCell = href ? `[${title}](${href})` : title;
                 const pathCell = '`' + fp + '`';
@@ -179,7 +190,7 @@ jobs:
             const modifiedRows = buildRows(modified);
             const deletedRows = buildRows(deleted);
 
-            const header = '<!-- docs-preview-links -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
+            const header = '<!-- docs-preview-links -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: <${previewBase}>` : '\n\n(Links will activate after Cloudflare Pages finishes deploying)');
             function section(title, rows) {
               if (rows.length === 0) return '';
               return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
