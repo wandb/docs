@@ -87,9 +87,8 @@ jobs:
               return u.replace(/\/$/, '');
             }
             function extractBranchPreviewUrl(body) {
-              if (!/branch\s+preview(\s+url)?/i.test(body || '')) return '';
-              const m = (body || '').match(/https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/i);
-              return m ? sanitizeUrl(m[0]) : '';
+              const m = (body || '').match(/Branch\s+Preview\s+URL:\s*<a[^>]+href=['"]([^'"<>]+pages\.dev)[^>]*>/i);
+              return m ? sanitizeUrl(m[1]) : '';
             }
             async function fromOurExistingComment() {
               const comments = await github.paginate(github.rest.issues.listComments, {
