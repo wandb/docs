@@ -8,7 +8,7 @@ weight: 130
 ---
 [Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) is a no-code tool for training state-of-the-art models for Natural Language Processing (NLP) tasks, for Computer Vision (CV) tasks, and for Speech tasks and even for Tabular tasks.
 
-[W&B](https://wandb.com/) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments.
+[W&B](https://www.wandb.com) is directly integrated into Hugging Face AutoTrain, providing experiment tracking and config management. It's as easy as using a single parameter in the CLI command for your experiments.
 
 {{< img src="/images/integrations/hf-autotrain-1.png" alt="Experiment metrics logging" >}}
 

@@ -434,7 +434,7 @@ The previous code snippet saves the loss and accuracy to the run's history and u
 
 Visualize logged data in a workspace at [wandb.ai](https://wandb.ai), or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting) of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with the [Public API](https://docs.wandb.ai/guides/track/public-api-guide). 
 
-Logged values don't have to be scalars. You can log any [W&B supported Data Type](https://docs.wandb.ai/ref/python/data-types/) such as images, audio, video, and more. For example, you can use `wandb.Table` to log structured data. See [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) tutorial for more details. 
+Logged values don't have to be scalars. You can log any [W&B supported Data Type](https://docs.wandb.ai/ref/python/sdk/data-types/) such as images, audio, video, and more. For example, you can use `wandb.Table` to log structured data. See [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) tutorial for more details. 
 
 W&B organizes metrics with a forward slash (`/`) in their name into sections named using the text before the final slash. For example, the following results in two sections named "train" and "validate": 
 

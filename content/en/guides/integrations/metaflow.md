@@ -9,7 +9,7 @@ weight: 200
 ---
 ## Overview
 
-[Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.com) for creating and running ML workflows.
+[Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.medium.com) for creating and running ML workflows.
 
 This integration lets users apply decorators to Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics) to automatically log parameters and artifacts to W&B.
 

@@ -9,7 +9,7 @@ weight: 1
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
-[Weights & Biases](https://wandb.com) を使用して、機械学習の実験管理、データセットのバージョン管理、およびプロジェクトのコラボレーションを行います。
+[Weights & Biases](https://www.wandb.com) を使用して、機械学習の実験管理、データセットのバージョン管理、およびプロジェクトのコラボレーションを行います。
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 

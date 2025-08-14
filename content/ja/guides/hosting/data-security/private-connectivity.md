@@ -17,7 +17,7 @@ weight: 4
 
 * AWS で [AWS Privatelink](https://aws.amazon.com/privatelink/) を使用
 * GCP で [GCP Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
-* Azure で [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
+* Azure で [Azure Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview) を使用
 
 一度有効にすると、W&B はインスタンス用のプライベートエンドポイントサービスを作成し、接続するための関連する DNS URI を提供します。それにより、クラウドアカウント内にプライベートエンドポイントを作成し、関連するトラフィックをプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC または VNet 内で動作する AI トレーニングワークロードに対して、設定が容易です。ユーザーブラウザから W&B アプリ UI へのトラフィックに対しても同じメカニズムを使用するには、企業ネットワークからクラウドアカウント内のプライベートエンドポイントへの適切な DNS ベースのルーティングを設定する必要があります。
 

@@ -9,7 +9,7 @@ weight: 1
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
-기계 학습 실험 추적, 데이터셋 버전 관리 및 프로젝트 협업을 위해 [Weights & Biases](https://wandb.com)를 사용하세요.
+기계 학습 실험 추적, 데이터셋 버전 관리 및 프로젝트 협업을 위해 [Weights & Biases](https://www.wandb.com)를 사용하세요.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
