@@ -558,8 +558,7 @@
 # Guides app pages that don't exist - redirect to main app section
 /guides/app/pages/run-page/ /guides/app/ 301
 /guides/app/pages/run-page /guides/app/ 301
-/guides/app/pages/project-page/ /guides/app/ 301 
-/guides/app/pages/project-page /guides/app/ 301
+/guides/app/pages/project-page/ /guides/app/ 301
 /guides/app/settings-page/ /guides/app/ 301
 /guides/app/settings-page /guides/app/ 301
 /guides/app/settings-page/user-settings /guides/app/ 301
@@ -573,14 +572,7 @@
 /ja/guides/app/pages/ /ja/guides/app/ 301
 /ko/guides/app/pages/ /ko/guides/app/ 301
 
-# Additional artifacts paths
-/artifacts/api /ref/python/public-api/api#artifact/ 301
-
-# Library path with trailing slash
-/library/cli/ /ref/cli/ 301
-
 # More python data-types with trailing slashes (specific before wildcards)
-/ref/python/data-types/boundingboxes2d/ /ref/python/sdk/data-types/ 301
 /ref/python/data-types/object3d/ /ref/python/sdk/data-types/ 301
 /ref/python/data-types/plotly/ /ref/python/sdk/data-types/ 301
 /ref/python/data-types/histogram/ /ref/python/sdk/data-types/ 301
@@ -590,12 +582,9 @@
 /ref/python/data-types/video/ /ref/python/sdk/data-types/video/ 301
 /ref/python/data-types/html/ /ref/python/sdk/data-types/html/ 301
 /ref/python/data-types/molecule/ /ref/python/sdk/data-types/molecule/ 301
-/ref/python/data-types/imagemask/ /ref/python/sdk/data-types/ 301
-/ref/python/data-types/graph/ /ref/python/sdk/data-types/ 301
 
 # More guides/track/advanced paths
 /guides/track/advanced/save-restore /guides/artifacts/ 301
-/guides/track/advanced/resuming /guides/runs/resuming/ 301
 
 # Technical FAQ paths
 /guides/technical-faq/ /support/index_technical_faq/ 301
@@ -604,9 +593,6 @@
 /guides/technical-faq/setup /support/index_technical_faq/ 301
 /guides/technical-faq/troubleshooting /support/index_technical_faq/ 301
 /guides/technical-faq/admin /support/index_technical_faq/ 301
-
-# More hosting paths that might be missing
-/guides/hosting/basic-setup /guides/hosting/self-managed/basic-setup/ 301
 
 # Platform/Registry/Models paths
 /guides/platform /guides/ 301
@@ -621,11 +607,6 @@
 /guides/launch/getting-started /launch/ 301
 /guides/launch/setup-launch /launch/set-up-launch/ 301
 /guides/launch/setup-launch/ /launch/set-up-launch/ 301
-
-# URLs with specific query parameters (Cloudflare doesn't auto-handle these)
-/ref/app/features/custom-charts?q=vega /guides/app/features/custom-charts/ 301
-/guides/sweeps/quickstart?ref=https://githubhelp.com /guides/sweeps/quickstart/ 301
-/guides/sweeps/quickstart?ref=hackernoon.com /guides/sweeps/quickstart/ 301
 
 # More specific artifact paths
 /artifacts /guides/artifacts/ 301
