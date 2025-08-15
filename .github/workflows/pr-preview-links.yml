@@ -265,12 +265,19 @@ jobs:
             }
 
             let pageMap = [];
-            try {
-              const raw = fs.readFileSync('public/pageurls.json', 'utf8');
-              pageMap = JSON.parse(raw);
-            } catch (e) {
-              core.warning('Could not read public/pageurls.json. Proceeding with unlinked entries. ' + e.message);
-              pageMap = [];
+            
+            // Load pageurls.json for all languages
+            const languages = ['', 'ja', 'ko']; // '' for English (root)
+            for (const lang of languages) {
+              const pageurlsPath = lang ? `public/${lang}/pageurls.json` : 'public/pageurls.json';
+              try {
+                const raw = fs.readFileSync(pageurlsPath, 'utf8');
+                const langPages = JSON.parse(raw);
+                pageMap = pageMap.concat(langPages);
+                core.info(`Loaded ${langPages.length} pages from ${pageurlsPath}`);
+              } catch (e) {
+                core.warning(`Could not read ${pageurlsPath}. ${e.message}`);
+              }
             }
 
             // Build lookup: support keys with and without language prefix
