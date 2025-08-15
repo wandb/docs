@@ -226,7 +226,7 @@ To deploy the W&B platform, the Kubernetes Operator uses the values from your CR
 
 Replace all tags/versions with the versions that are available in your internal registry.
 
-For more information, see the [W&B Operator Configuration reference]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" >}}) and the [example `wandb.yaml` file](https://github.com/wandb/helm-charts/blob/main/charts/operator/crds/wandb.yaml) in the Helm chart repository.
+For more information, see the [W&B Operator configuration reference]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" >}}).
 
 ## Step 7: Deploy the W&B platform
 
