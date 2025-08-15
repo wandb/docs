@@ -292,7 +292,7 @@
 /library/public-api-guide/ /ref/python/public-api/api/ 301
 /library/python/config/ /ref/python/ 301
 /library/python/log/ /ref/python/sdk/log/ 301
-/library/reference/data_types/ /ref/python/data-types/ 301
+/library/reference/data_types/ /ref/python/sdk/data-types/ 301
 /library/restore/ /ref/python/ 301
 /library/resuming/ /guides/runs/resuming/ 301
 /library/save/ /ref/python/public-api/run#save/ 301
@@ -301,7 +301,7 @@
 /library/sweeps/local-controller/ /guides/sweeps/local-controller/ 301
 /library/sweeps/python-api/ /ref/python/public-api/sweep/ 301
 /library/sweeps/ /ref/python/sdk/functions/sweep 301
-/library/tables/ /ref/python/data-types/table/ 301
+/library/tables/ /ref/python/sdk/data-types/table/ 301
 /library/technical-faq/ /guides/hosting/faq/ 301
 /library/wandb.alert/ /ref/python/ 301
 /library/wandb.init/ /ref/python/sdk/functions/init/ 301
@@ -346,7 +346,7 @@
 /ref/app/pages/ /guides/app/pages/ 301
 /ref/app/ /guides/app/ 301
 /ref/cli/wandb-server-start/ /ref/cli/wandb-server/ 301
-/ref/data_types/ /ref/python/data-types/ 301
+/ref/data_types/ /ref/python/sdk/data-types/ 301
 /ref/export-api/examples/ /ref/python/public-api/ 301
 /ref/history/ / 301
 /ref/init-1 /ref/python/sdk/functions/init/ 301
@@ -355,7 +355,7 @@
 /ref/java/ /ref/ 301
 /ref/public-api/ /ref/python/public-api/api/ 301
 /ref/python/config/ /ref/python/ 301
-/ref/python/data_types/ /ref/python/data-types/ 301
+/ref/python/data_types/ /ref/python/sdk/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
 /ref/python/ini/ /ref/python/sdk/functions/init/ 301
 /ref/python/inittorch.view_as_real/ /ref/python/sdk/functions/init/ 301
@@ -419,9 +419,9 @@
 /zh/ / 301
 
 <!-- lazydocs migration -->
-/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
-/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
-/ref/python/data-types/graph/ /ref/python/data-types/ 301
+/ref/python/data-types/boundingboxes2d/ /ref/python/sdk/data-types/ 301
+/ref/python/data-types/imagemask/ /ref/python/sdk/data-types/image/ 301
+/ref/python/data-types/graph/ /ref/python/sdk/data-types/ 301
 /ref/python/agent/ /ref/python/sdk/functions/agent/ 301
 /ref/python/artifact/ /ref/python/sdk/classes/artifact/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
@@ -434,6 +434,90 @@
 /ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
 /ref/python/watch/ /ref/python/sdk/ 301
 <!-- END lazydocs migration -->
+
+## New redirect rules based on 404 analysis
+
+## Python data-types subdirectory redirects - special cases (static)
+/ref/python/data-types/boundingboxes2d /ref/python/sdk/data-types/ 301
+/ref/python/data-types/graph /ref/python/sdk/data-types/ 301
+/ref/python/data-types/histogram /ref/python/sdk/custom-charts/histogram/ 301
+/ref/python/data-types/imagemask /ref/python/sdk/data-types/image/ 301
+/ref/python/data-types/wbtracetree /ref/python/sdk/data-types/ 301
+
+## Python public-api subdirectory redirects - special case (static)
+/ref/python/public-api/artifact/* /ref/python/public-api/api#artifact/ 301
+
+## Keras integrations redirects  
+/ref/python/integrations/keras/* /ref/python/ 301
+/ref/python/integrations/wandbtracer/* /ref/python/ 301
+/ref/python/integrations/sklearn/* /guides/integrations/scikit/ 301
+
+## Support index redirects - special cases with transformations (static)
+/support/index_crashing and hanging runs /support/crashing-and-hanging-runs/ 301
+/support/index_environment variables /support/environment-variables/ 301
+/support/index_team management /support/team-management/ 301
+/support/index_team-management /support/team-management/ 301
+/support/index_user management /support/user-management/ 301
+
+## Library paths redirects
+/library/cli/ /ref/cli/ 301
+/library/environment-variables/ /guides/track/environment-variables/ 301
+/library/grouping/ /guides/runs/grouping/ 301
+/library/init/ /ref/python/sdk/functions/init/ 301
+/library/integrations/jax/ /guides/integrations/ 301
+/library/log/ /ref/python/sdk/ 301
+/library/public-api-guide/ /ref/python/public-api/api/ 301
+/library/python/log/ /ref/python/sdk/ 301
+/library/resuming/ /guides/runs/resuming/ 301
+/library/save/ /ref/python/public-api/run#save/ 301
+/library/track/ /guides/track/ 301
+
+## Self-hosted paths redirects
+/self-hosted/* /guides/hosting/:splat 301
+
+## Guides data-and-model-versioning redirects
+/guides/data-and-model-versioning/* /guides/artifacts/ 301
+
+## Launch FAQ redirect
+/guides/launch/launch-faqs/* /support/index_launch/ 301
+
+## Legacy language variant redirects
+/v/es/* / 301
+/v/ko/* /ko/guides/ 301
+/v/ch/* / 301
+
+## Language-specific ref/weave redirects
+## Japanese weave redirects
+/ja/ref/weave/* /ja/guides/ 301
+## Korean weave redirects  
+/ko/ref/weave/* /ko/guides/ 301
+
+## Java redirects
+/java/* /ref/ 301
+
+## Print pages (internal documentation)
+/_print/* / 301
+
+## Include files (internal)
+/_includes/* / 301
+
+## Other specific paths
+/about/ / 301
+/app/ /guides/app/ 301
+/changes/ /ref/release-notes/ 301
+/guides/integrat/ /guides/integrations/ 301
+/guides/datasets-and-predictions/ /guides/integrations/mmdetection#visualize-dataset-and-model-prediction/ 301
+/guides/slope/ / 301
+/sweeps/python-api/ /ref/python/public-api/sweep/ 301
+
+## Release notes archived redirects
+/ref/release-notes/archived/* /ref/release-notes/releases/archived/:splat 301
+
+## Fix for double slashes in paths
+/guides/app/features/app/features/panels/parallel-coordinates/ /guides/app/features/panels/parallel-coordinates/ 301
+
+## Pages gradient panel
+/guides/app/pages/gradient-panel/* /guides/app/pages/ 301
 
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
@@ -466,3 +550,15 @@
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
 /ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
 /ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+
+## Dynamic redirects with placeholders (should come after static redirects)
+## Python data-types pattern-based redirects
+/ref/python/data-types/:datatype /ref/python/sdk/data-types/:datatype/ 301
+/ref/python/data-types/* /ref/python/sdk/data-types/ 301
+## Python public-api catch-all
+/ref/python/public-api/* /ref/python/public-api/api/ 301
+## Support index pattern-based redirects
+/support/index_:category /support/:category/ 301
+## Tags pattern-based redirects
+/tags/:category /support/:category/ 301
+/tags/* /support/ 301
