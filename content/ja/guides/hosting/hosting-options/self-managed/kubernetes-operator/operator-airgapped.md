@@ -81,9 +81,9 @@ wsm list
 W&B イメージ:
   wandb/local:0.62.2
   redis:7.2
-  quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
-  quay.io/prometheus/prometheus:v2.47.0
-  otel/opentelemetry-collector-contrib:0.97.0
+  quay.io/prometheus-operator/prometheus-config-reloader:v0.67
+  quay.io/prometheus/prometheus:v2.47
+  otel/opentelemetry-collector-contrib:0.97
   wandb/console:2.13.1
 ここに W&B をデプロイするために必要なイメージがあります。これらのイメージが内部コンテナレジストリーで利用可能であることを確認し、`values.yaml` を適切に更新してください。
 ```
@@ -103,10 +103,10 @@ wsm download
 wandb Helm chart のダウンロード
 ✓ wandb/controller:1.16.1
 ✓ redis:7.2
-✓ otel/opentelemetry-collector-contrib:0.97.0
-✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
+✓ otel/opentelemetry-collector-contrib:0.97
+✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67
 ✓ wandb/console:2.13.1
-✓ quay.io/prometheus/prometheus:v2.47.0
+✓ quay.io/prometheus/prometheus:v2.47
 
   完了! 7 パッケージがインストールされました。
 ```

@@ -81,9 +81,9 @@ Operator Images:
 W&B Images:
   wandb/local:0.62.2
   redis:7.2
-  quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
-  quay.io/prometheus/prometheus:v2.47.0
-  otel/opentelemetry-collector-contrib:0.97.0
+  quay.io/prometheus-operator/prometheus-config-reloader:v0.67
+  quay.io/prometheus/prometheus:v2.47
+  otel/opentelemetry-collector-contrib:0.97
   wandb/console:2.13.1
 다음은 W&B를 배포하는 데 필요한 이미지입니다. 이러한 이미지가 내부 컨테이너 레지스트리에서 사용 가능한지 확인하고 values.yaml을 적절하게 업데이트하십시오.
 ```
@@ -103,10 +103,10 @@ Downloading operator helm chart
 Downloading wandb helm chart
 ✓ wandb/controller:1.16.1
 ✓ redis:7.2
-✓ otel/opentelemetry-collector-contrib:0.97.0
-✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
+✓ otel/opentelemetry-collector-contrib:0.97
+✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67
 ✓ wandb/console:2.13.1
-✓ quay.io/prometheus/prometheus:v2.47.0
+✓ quay.io/prometheus/prometheus:v2.47
 
   Done! Installed 7 packages.
 ```
