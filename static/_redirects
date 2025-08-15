@@ -518,13 +518,13 @@
 /artifacts/api /ref/python/public-api/api#artifact/ 301
 
 # Python ref paths
-/ref/python/run /ref/python/public-api/run/ 301
+/ref/python/run /ref/python/sdk/classes/run/ 301
 /ref/python/save /ref/python/public-api/run#save/ 301
 /ref/python/watch /ref/python/sdk/functions/watch/ 301
 /ref/python/login /ref/python/sdk/functions/login/ 301
-/ref/python/artifact /ref/python/public-api/artifact/ 301
+/ref/python/artifact /ref/python/sdk/classes/artifact/ 301
 /ref/python/agent /ref/python/sdk/functions/agent/ 301
-/ref/python/sweep /ref/python/public-api/sweep/ 301
+/ref/python/sweep /ref/python/sdk/functions/sweep/ 301
 /ref/python/finish /ref/python/sdk/functions/finish/ 301
 /ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
 /ref/release-notes/releases/ /ref/release-notes/ 301
@@ -566,16 +566,15 @@
 
 # Additional guides paths that don't exist
 /guides/app/pages/ /guides/app/ 301
-/guides/app/pages /guides/app/ 301
 
 # Japanese/Korean app pages
 /ja/guides/app/pages/ /ja/guides/app/ 301
 /ko/guides/app/pages/ /ko/guides/app/ 301
 
 # More python data-types with trailing slashes (specific before wildcards)
-/ref/python/data-types/object3d/ /ref/python/sdk/data-types/ 301
-/ref/python/data-types/plotly/ /ref/python/sdk/data-types/ 301
-/ref/python/data-types/histogram/ /ref/python/sdk/data-types/ 301
+/ref/python/data-types/object3d/ /ref/python/sdk/data-types/object3d/ 301
+/ref/python/data-types/plotly/ /ref/python/sdk/data-types/plotly/ 301
+/ref/python/data-types/histogram/ /ref/python/sdk/custom-charts/histogram/ 301
 /ref/python/data-types/table/ /ref/python/sdk/data-types/table/ 301
 /ref/python/data-types/image/ /ref/python/sdk/data-types/image/ 301
 /ref/python/data-types/audio/ /ref/python/sdk/data-types/audio/ 301
@@ -587,12 +586,7 @@
 /guides/track/advanced/save-restore /guides/artifacts/ 301
 
 # Technical FAQ paths
-/guides/technical-faq/ /support/index_technical_faq/ 301
-/guides/technical-faq/general /support/index_technical_faq/ 301
-/guides/technical-faq/metrics-and-performance /support/index_technical_faq/ 301
-/guides/technical-faq/setup /support/index_technical_faq/ 301
-/guides/technical-faq/troubleshooting /support/index_technical_faq/ 301
-/guides/technical-faq/admin /support/index_technical_faq/ 301
+/guides/technical-faq/* /support/ 301
 
 # Platform/Registry/Models paths
 /guides/platform /guides/ 301
@@ -685,9 +679,7 @@
 
 ## Dynamic redirects with wildcards (should come after static redirects)
 ## Python data-types catch-all
-/ref/python/data-types/* /ref/python/sdk/data-types/ 301
-## Python public-api catch-all
-/ref/python/public-api/* /ref/python/public-api/api/ 301
+/ref/python/data-types/ /ref/python/sdk/data-types/ 301
 ## Support index catch-all
 /support/index_* /support/ 301
 ## Tags catch-all
