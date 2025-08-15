@@ -64,13 +64,13 @@ The `--gpus` flag of the `docker run` command allows you to specify GPUs that ar
 {{% alert %}}
 * Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) to use GPUs within a Docker container.
 * If you build images from a code or artifact-sourced job, you can override the base image used by the [agent]({{< relref "#configure-a-launch-agent-on-a-local-machine" >}}) to include the NVIDIA Container Toolkit.
-  For example, within your launch queue, you can override the base image to `tensorflow/tensorflow:latest-gpu`:
+  For example, within your launch queue, you can override the base image to `tensorflow/tensorflow:2.16-gpu`:
 
   ```json
   {
     "builder": {
       "accelerator": {
-        "base_image": "tensorflow/tensorflow:latest-gpu"
+        "base_image": "tensorflow/tensorflow:2.16-gpu"
       }
     }
   }

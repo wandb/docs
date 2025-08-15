@@ -13,7 +13,7 @@ GPU를 사용하는 TensorFlow 작업의 경우, 컨테이너 빌드를 위한 �
     "gpus": "all",
     "builder": {
         "accelerator": {
-            "base_image": "tensorflow/tensorflow:latest-gpu"
+            "base_image": "tensorflow/tensorflow:2.16-gpu"
         }
     }
 }

@@ -143,6 +143,8 @@ agent:
   # W&B API key.
   apiKey: ''
   # Container image to use for the agent.
+  # Note: Consider pinning to a specific version for production use
+  # instead of using :latest to ensure consistency
   image: wandb/launch-agent:latest
   # Image pull policy for agent image.
   imagePullPolicy: Always

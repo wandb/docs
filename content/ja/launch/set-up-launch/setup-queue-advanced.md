@@ -91,7 +91,7 @@ StoppingCondition:
 
 TensorFlow が GPU を適切に利用することを確認してください。これを達成するために、キューリソース設定の `builder.accelerator.base_image` キーで Docker イメージとそのイメージタグを指定します。
 
-例えば、`tensorflow/tensorflow:latest-gpu` ベースイメージは、TensorFlow が GPU を適切に使用することを保証します。これはキュー設定でリソース設定を使用して設定できます。
+例えば、`tensorflow/tensorflow:2.16-gpu` ベースイメージは、TensorFlow が GPU を適切に使用することを保証します。これはキュー設定でリソース設定を使用して設定できます。
 
 以下の JSON スニペットは、キュー設定で TensorFlow ベースイメージを指定する方法を示しています：
 
@@ -99,7 +99,7 @@ TensorFlow が GPU を適切に利用することを確認してください。�
 {
     "builder": {
         "accelerator": {
-            "base_image": "tensorflow/tensorflow:latest-gpu"
+            "base_image": "tensorflow/tensorflow:2.16-gpu"
         }
     }
 }

@@ -13,7 +13,7 @@ For TensorFlow jobs using GPUs, specify a custom base image for the container bu
     "gpus": "all",
     "builder": {
         "accelerator": {
-            "base_image": "tensorflow/tensorflow:latest-gpu"
+            "base_image": "tensorflow/tensorflow:2.16-gpu"
         }
     }
 }

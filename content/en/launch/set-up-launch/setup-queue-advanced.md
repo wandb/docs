@@ -95,7 +95,7 @@ This accelerator base image must satisfy the following requirements:
 
 Ensure TensorFlow properly utilizes your GPU. To accomplish this, specify a Docker image and its image tag for the `builder.accelerator.base_image` key in the queue resource configuration.
 
-For example, the `tensorflow/tensorflow:latest-gpu` base image ensures TensorFlow properly uses your GPU. This can be configured using the resource configuration in the queue.
+For example, the `tensorflow/tensorflow:2.16-gpu` base image ensures TensorFlow properly uses your GPU. This can be configured using the resource configuration in the queue.
 
 The following JSON snippet demonstrates how to specify the TensorFlow base image in your queue config:
 
@@ -103,7 +103,7 @@ The following JSON snippet demonstrates how to specify the TensorFlow base image
 {
     "builder": {
         "accelerator": {
-            "base_image": "tensorflow/tensorflow:latest-gpu"
+            "base_image": "tensorflow/tensorflow:2.16-gpu"
         }
     }
 }

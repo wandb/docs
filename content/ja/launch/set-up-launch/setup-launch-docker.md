@@ -61,13 +61,13 @@ docker run \
 {{% alert %}}
 * Dockerコンテナ内でGPUを使用するには、[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) をインストールしてください。
 * コードやアーティファクトをソースとするジョブからイメージをビルドする場合、NVIDIA Container Toolkitを含めるために[エージェント]({{< relref path="#configure-a-launch-agent-on-a-local-machine" lang="ja" >}})でベースイメージをオーバーライドできます。
-  例えば、キュー内でベースイメージを `tensorflow/tensorflow:latest-gpu` にオーバーライドできます：
+  例えば、キュー内でベースイメージを `tensorflow/tensorflow:2.16-gpu` にオーバーライドできます：
 
   ```json
   {
     "builder": {
       "accelerator": {
-        "base_image": "tensorflow/tensorflow:latest-gpu"
+        "base_image": "tensorflow/tensorflow:2.16-gpu"
       }
     }
   }

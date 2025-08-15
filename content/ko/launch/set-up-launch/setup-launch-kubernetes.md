@@ -143,6 +143,8 @@ agent:
   # W&B API 키.
   apiKey: ''
   # agent에 사용할 컨테이너 이미지.
+  # 참고: 프로덕션 환경에서는 일관성을 위해 :latest 대신
+  # 특정 버전으로 고정하는 것을 고려하세요
   image: wandb/launch-agent:latest
   # agent 이미지에 대한 이미지 풀 정책.
   imagePullPolicy: Always
