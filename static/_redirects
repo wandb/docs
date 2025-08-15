@@ -437,29 +437,22 @@
 
 ## New redirect rules based on 404 analysis
 
-## Python data-types subdirectory redirects - special cases (static)
+## Static redirects (must come before dynamic redirects for performance)
+## Python data-types subdirectory redirects - special cases
 /ref/python/data-types/boundingboxes2d /ref/python/sdk/data-types/ 301
 /ref/python/data-types/graph /ref/python/sdk/data-types/ 301
 /ref/python/data-types/histogram /ref/python/sdk/custom-charts/histogram/ 301
 /ref/python/data-types/imagemask /ref/python/sdk/data-types/image/ 301
 /ref/python/data-types/wbtracetree /ref/python/sdk/data-types/ 301
 
-## Python public-api subdirectory redirects - special case (static)
-/ref/python/public-api/artifact/* /ref/python/public-api/api#artifact/ 301
-
-## Keras integrations redirects  
-/ref/python/integrations/keras/* /ref/python/ 301
-/ref/python/integrations/wandbtracer/* /ref/python/ 301
-/ref/python/integrations/sklearn/* /guides/integrations/scikit/ 301
-
-## Support index redirects - special cases with transformations (static)
-"/support/index_crashing and hanging runs" /support/crashing-and-hanging-runs/ 301
-"/support/index_environment variables" /support/environment-variables/ 301
-"/support/index_team management" /support/team-management/ 301
+## Support index redirects - special cases with transformations
+/support/index_crashing%20and%20hanging%20runs /support/crashing-and-hanging-runs/ 301
+/support/index_environment%20variables /support/environment-variables/ 301
+/support/index_team%20management /support/team-management/ 301
 /support/index_team-management /support/team-management/ 301
-"/support/index_user management" /support/user-management/ 301
+/support/index_user%20management /support/user-management/ 301
 
-## Static redirects (moved here for better performance)
+## Additional static redirects from 404 analysis
 /library/integrations/jax/ /guides/integrations/ 301
 /library/track/ /guides/track/ 301
 /about/ / 301
@@ -470,6 +463,15 @@
 /ref/release-notes/releases/ /ref/release-notes/ 301
 /ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
 /ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+
+## Dynamic redirects with wildcards and splats
+## Keras integrations redirects  
+/ref/python/integrations/keras/* /ref/python/ 301
+/ref/python/integrations/wandbtracer/* /ref/python/ 301
+/ref/python/integrations/sklearn/* /guides/integrations/scikit/ 301
+
+## Python public-api subdirectory redirects - wildcard
+/ref/python/public-api/artifact/* /ref/python/public-api/api#artifact/ 301
 
 
 ## Self-hosted paths redirects
@@ -492,21 +494,6 @@
 ## Korean weave redirects  
 /ko/ref/weave/* /ko/guides/ 301
 
-## Java redirects
-/java/* /ref/ 301
-
-## Print pages (internal documentation)
-/_print/* / 301
-
-## Include files (internal)
-/_includes/* / 301
-
-## Release notes archived redirects
-/ref/release-notes/archived/* /ref/release-notes/releases/archived/:splat 301
-
-## Pages gradient panel
-/guides/app/pages/gradient-panel/* /guides/app/pages/ 301
-
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
 # If both are used, :splat resolves to exactly what * matches
@@ -527,6 +514,13 @@
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
 /ref/python/launch-library/* /launch-library/:splat 301
 /ref/python/integrations/*  /ref/python/:splat 301
+
+## Other dynamic redirects
+/ref/release-notes/archived/* /ref/release-notes/releases/archived/:splat 301
+/guides/app/pages/gradient-panel/* /guides/app/pages/ 301
+/java/* /ref/ 301
+/_print/* / 301
+/_includes/* / 301
 
 ## Release notes
 /ref/release-notes/releases/* /ref/releases/:splat 301
