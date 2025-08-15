@@ -462,6 +462,70 @@
 /changes/ /ref/release-notes/ 301
 /guides/integrat/ /guides/integrations/ 301
 /guides/slope/ / 301
+
+## More static redirects from 404 analysis batch 2
+# Support index specific redirects
+/support/index_wysiwyg /support/wysiwyg/ 301
+/support/index_outage /support/outage/ 301
+/support/index_security /support/security/ 301
+/support/index_reports /support/reports/ 301
+/support/index_reports/ /support/reports/ 301
+
+# Library paths
+/library/save /ref/python/public-api/run#save/ 301
+/library/public-api-guide /ref/python/public-api/api/ 301
+
+# Sweeps paths
+/sweeps /guides/sweeps/ 301
+/sweeps/quickstart /guides/sweeps/quickstart/ 301
+/sweeps/existing-project /guides/sweeps/existing/ 301
+/sweeps/faq /support/index_sweeps/ 301
+
+# More guides paths
+/guides/data-vis/tables /guides/models/tables/ 301
+/guides/data-vis/log-tables /guides/models/tables/ 301
+/guides/models/model-management-concepts /guides/core/registry/ 301
+/guides/models/automation /guides/core/automations/ 301
+/guides/artifacts/references /guides/artifacts/ 301
+/artifacts/references /guides/artifacts/ 301
+/guides/self-hosted/setup/configuration /guides/hosting/configuration/ 301
+/guides/hosting/basic-setup /guides/hosting/self-managed/basic-setup/ 301
+/guides/hosting/self-managed/basic-setup/ /guides/hosting/self-managed/basic-setup/ 301
+/guides/self-hosted/setup/dedicated-cloud /guides/hosting/setup/dedicated-cloud/ 301
+/guides/track/advanced/resuming /guides/runs/resuming/ 301
+/guides/track/advanced/distributed-training /guides/runs/track-advanced/ 301
+/guides/launch/launch-jobs /launch/create-and-deploy-jobs/create-a-job/ 301
+/guides/launch/sagemaker /launch/integration-guides/sagemaker/ 301
+/guides/launch/integrations /launch/integration-guides/ 301
+/guides/app/pages/project-page /guides/app/pages/project-page/ 301
+/guides/app/features/panels/query-panel/embedding-projector /guides/app/features/panels/weave/embedding-projector/ 301
+/guides/app/settings-page/user-settings/ /guides/app/settings-page/user-settings/ 301
+
+# More ref/app paths
+/ref/app /guides/app/ 301
+/ref/app/features/panels/bar-plot /guides/app/features/panels/bar-plot/ 301
+/ref/app/features/panels/parallel-coordinates /guides/app/features/panels/parallel-coordinates/ 301
+/ref/app/features/panels/parameter-importance /guides/app/features/panels/parameter-importance/ 301
+/ref/app/features/panels/weave /guides/app/features/panels/weave/ 301
+/ref/app/features/panels/weave/embedding-projector /guides/app/features/panels/weave/embedding-projector/ 301
+/ref/app/features/custom-charts /guides/app/features/custom-charts/ 301
+/ref/app/features/tags /guides/app/features/tags/ 301
+/ref/app/pages/workspaces /guides/track/workspaces/ 301
+
+# API paths
+/ref/api /ref/python/public-api/api/ 301
+/api /ref/python/public-api/api/ 301
+/artifacts/api /ref/python/public-api/api#artifact/ 301
+
+# Python ref paths
+/ref/python/run /ref/python/public-api/run/ 301
+/ref/python/save /ref/python/public-api/run#save/ 301
+/ref/python/watch /ref/python/sdk/functions/watch/ 301
+/ref/python/login /ref/python/sdk/functions/login/ 301
+/ref/python/artifact /ref/python/public-api/artifact/ 301
+/ref/python/agent /ref/python/sdk/functions/agent/ 301
+/ref/python/sweep /ref/python/public-api/sweep/ 301
+/ref/python/finish /ref/python/sdk/functions/finish/ 301
 /ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
 /ref/release-notes/releases/ /ref/release-notes/ 301
 /ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
@@ -532,8 +596,36 @@
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
 
+## More language-specific paths (before dynamic rules)
+# Japanese specific redirects
+/ja/guides/app/features/teams /ja/guides/app/features/teams/ 301
+/ja/guides/app/pages/workspaces /ja/guides/track/workspaces/ 301
+/ja/guides/app/features/teams/ /ja/guides/app/features/teams/ 301
+/ja/guides/app/pages/workspaces/ /ja/guides/track/workspaces/ 301
+
+# Korean specific redirects  
+/ko/guides/track/launch /ko/launch/ 301
+/v/ko/ref/run/config /ko/ref/python/run/ 301
+
+# Edge cases
+/guides/data-vis/tables)です）。 /guides/models/tables/ 301
+/guides/artifacts/meow /guides/artifacts/ 301
+
+# More specific support paths
+/support/permissions_agent_require_kubernetes /support/agent-require-kubernetes/ 301
+/support/permissions_agent_require_kubernetes/ /support/agent-require-kubernetes/ 301
+/support/secrets_jobsautomations_instance_api_key_wish_directly_visible /support/secrets-api-key/ 301
+/support/index_launch/ /support/launch/ 301
+
+# App path
+/app /guides/app/ 301
+
 ## Dynamic redirects with wildcards (should come after static redirects)
 ## Python data-types catch-all
 /ref/python/data-types/* /ref/python/sdk/data-types/ 301
 ## Python public-api catch-all
 /ref/python/public-api/* /ref/python/public-api/api/ 301
+## Support index catch-all
+/support/index_* /support/ 301
+## Tags catch-all
+/tags/* /support/ 301
