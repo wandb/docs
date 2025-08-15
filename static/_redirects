@@ -529,14 +529,8 @@
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
 
-## Dynamic redirects with placeholders (should come after static redirects)
-## Python data-types pattern-based redirects
-/ref/python/data-types/:datatype /ref/python/sdk/data-types/:datatype/ 301
+## Dynamic redirects with wildcards (should come after static redirects)
+## Python data-types catch-all
 /ref/python/data-types/* /ref/python/sdk/data-types/ 301
 ## Python public-api catch-all
 /ref/python/public-api/* /ref/python/public-api/api/ 301
-## Support index pattern-based redirects
-/support/index_:category /support/:category/ 301
-## Tags pattern-based redirects
-/tags/:category /support/:category/ 301
-/tags/* /support/ 301
