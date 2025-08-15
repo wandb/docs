@@ -453,6 +453,9 @@
 /support/index_user%20management /support/user-management/ 301
 
 ## Additional static redirects from 404 analysis
+/ref/app/pages/run-page /guides/app/pages/run-page/ 301
+/guides/artifacts/quickstart /guides/artifacts/artifacts-walkthrough/ 301
+/guides/app/settings-page/emails/ /guides/app/settings-page/ 301
 /library/integrations/jax/ /guides/integrations/ 301
 /library/track/ /guides/track/ 301
 /about/ / 301
