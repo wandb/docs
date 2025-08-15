@@ -146,6 +146,7 @@ outputs:
     - HTML
     - llms
     - llms-full
+    - pageurls
 
 outputFormats:
   llms:
@@ -156,6 +157,11 @@ outputFormats:
     mediaType: "text/plain"
     baseName: "llms-full"
     isPlainText: true
+  pageurls:
+    mediaType: "application/json"
+    baseName: "pageurls"
+    isPlainText: true
+    suffix: "json"
 
 services:
   googleAnalytics:
