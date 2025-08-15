@@ -418,7 +418,7 @@
 /weave/prod-mon/ /guides/core/ 301
 /zh/ / 301
 
-<!-- lazydocs migration -->
+# lazydocs migration
 /ref/python/data-types/boundingboxes2d/ /ref/python/sdk/data-types/ 301
 /ref/python/data-types/imagemask/ /ref/python/sdk/data-types/image/ 301
 /ref/python/data-types/graph/ /ref/python/sdk/data-types/ 301
@@ -433,7 +433,7 @@
 /ref/python/save/ /ref/python/sdk/ 301
 /ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
 /ref/python/watch/ /ref/python/sdk/ 301
-<!-- END lazydocs migration -->
+# END lazydocs migration
 
 ## New redirect rules based on 404 analysis
 
@@ -453,24 +453,24 @@
 /ref/python/integrations/sklearn/* /guides/integrations/scikit/ 301
 
 ## Support index redirects - special cases with transformations (static)
-/support/index_crashing and hanging runs /support/crashing-and-hanging-runs/ 301
-/support/index_environment variables /support/environment-variables/ 301
-/support/index_team management /support/team-management/ 301
+"/support/index_crashing and hanging runs" /support/crashing-and-hanging-runs/ 301
+"/support/index_environment variables" /support/environment-variables/ 301
+"/support/index_team management" /support/team-management/ 301
 /support/index_team-management /support/team-management/ 301
-/support/index_user management /support/user-management/ 301
+"/support/index_user management" /support/user-management/ 301
 
-## Library paths redirects
-/library/cli/ /ref/cli/ 301
-/library/environment-variables/ /guides/track/environment-variables/ 301
-/library/grouping/ /guides/runs/grouping/ 301
-/library/init/ /ref/python/sdk/functions/init/ 301
+## Static redirects (moved here for better performance)
 /library/integrations/jax/ /guides/integrations/ 301
-/library/log/ /ref/python/sdk/ 301
-/library/public-api-guide/ /ref/python/public-api/api/ 301
-/library/python/log/ /ref/python/sdk/ 301
-/library/resuming/ /guides/runs/resuming/ 301
-/library/save/ /ref/python/public-api/run#save/ 301
 /library/track/ /guides/track/ 301
+/about/ / 301
+/changes/ /ref/release-notes/ 301
+/guides/integrat/ /guides/integrations/ 301
+/guides/slope/ / 301
+/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
+/ref/release-notes/releases/ /ref/release-notes/ 301
+/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
+/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+
 
 ## Self-hosted paths redirects
 /self-hosted/* /guides/hosting/:splat 301
@@ -501,20 +501,8 @@
 ## Include files (internal)
 /_includes/* / 301
 
-## Other specific paths
-/about/ / 301
-/app/ /guides/app/ 301
-/changes/ /ref/release-notes/ 301
-/guides/integrat/ /guides/integrations/ 301
-/guides/datasets-and-predictions/ /guides/integrations/mmdetection#visualize-dataset-and-model-prediction/ 301
-/guides/slope/ / 301
-/sweeps/python-api/ /ref/python/public-api/sweep/ 301
-
 ## Release notes archived redirects
 /ref/release-notes/archived/* /ref/release-notes/releases/archived/:splat 301
-
-## Fix for double slashes in paths
-/guides/app/features/app/features/panels/parallel-coordinates/ /guides/app/features/panels/parallel-coordinates/ 301
 
 ## Pages gradient panel
 /guides/app/pages/gradient-panel/* /guides/app/pages/ 301
@@ -543,13 +531,9 @@
 ## Release notes
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
-/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
-/ref/release-notes/releases/ /ref/release-notes/ 301
 ### EOL releases: Use splats when possible
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
-/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
-/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
 
 ## Dynamic redirects with placeholders (should come after static redirects)
 ## Python data-types pattern-based redirects
