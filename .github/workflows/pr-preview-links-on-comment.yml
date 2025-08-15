@@ -364,7 +364,7 @@ jobs:
                   const currentBody = pr.data.body || '';
                   const commentUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/pull/${context.issue.number}#issuecomment-${existing.id}`;
                   const linkMarker = '<!-- preview-links-comment -->';
-                  const linkText = `\n\n${linkMarker}\n📄 **[View preview links for changed pages](${commentUrl})**`;
+                  const linkText = `\n\n${linkMarker}\n\n📄 **[View preview links for changed content](${commentUrl})**`;
                   
                   // Only add if not already present
                   if (!currentBody.includes(linkMarker)) {
