@@ -1,16 +1,18 @@
 ---
-title: 自分の sweep ログを保存するディレクトリーをローカルに変更するにはどうすればいいですか？
+title: sweep のログをローカルで保存するディレクトリーを変更するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_directory_sweep_logs_locally
 support:
-  - sweeps
+- スイープ
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-W&B run のデータのログディレクトリーを設定するには、環境変数 `WANDB_DIR` を設定します。例えば：
+
+W&B の run データのログディレクトリーは、環境変数 `WANDB_DIR` を設定することで指定できます。例えば:
 
 ```python
+# ログディレクトリーを設定
 os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
 ```

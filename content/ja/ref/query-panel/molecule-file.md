@@ -5,26 +5,27 @@ menu:
     identifier: ja-ref-query-panel-molecule-file
 ---
 
-## Chainable Ops
+## チェーン可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-アセットの _file_ を返します
+asset の _ファイル_ を返します
 
 | 引数 |  |
 | :--- | :--- |
-| `asset` | アセット |
+| `asset` | asset |
 
 #### 戻り値
-アセットの _file_
+asset の _ファイル_
 
-## List Ops
+
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-アセットの _file_ を返します
+asset の _ファイル_ を返します
 
 | 引数 |  |
 | :--- | :--- |
-| `asset` | アセット |
+| `asset` | asset |
 
 #### 戻り値
-アセットの _file_ 
+asset の _ファイル_

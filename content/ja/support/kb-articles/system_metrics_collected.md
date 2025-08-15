@@ -4,9 +4,10 @@ menu:
   support:
     identifier: ja-support-kb-articles-system_metrics_collected
 support:
-  - metrics
+- メトリクス
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-メトリクスはデフォルトで 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com にメールしてください。
+
+メトリクスはデフォルトで 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com までご連絡ください。

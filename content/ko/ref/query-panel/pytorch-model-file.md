@@ -5,26 +5,27 @@ menu:
     identifier: ko-ref-query-panel-pytorch-model-file
 ---
 
-## 연결 가능한 Op
+## 체이너블 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-에셋의 _파일_ 을 반환합니다.
+asset의 _파일_ 을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
-| `asset` | 에셋 |
+| `asset` | asset |
 
 #### 반환 값
-에셋의 _파일_
+asset의 _파일_
 
-## 목록 Op
+
+## 리스트 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-에셋의 _파일_ 을 반환합니다.
+asset의 _파일_ 을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
-| `asset` | 에셋 |
+| `asset` | asset |
 
 #### 반환 값
-에셋의 _파일_
+asset의 _파일_

@@ -5,30 +5,32 @@ menu:
     identifier: ja-ref-cli-wandb-job-wandb-job-create
 ---
 
-**使用方法**
+**使い方**
 
 `wandb job create [OPTIONS] {git|code|image} PATH`
 
 **概要**
 
-wandb run を使用せずにソースからジョブを作成します。
+wandb run を行わずに、ソースから job を作成します。
 
-ジョブには、git、code、または image の3種類があります。
+Jobs は git、code、image のいずれかのタイプになります。
 
-git: パス内またはメインの Python 実行可能ファイルを指すエントリポイントを明示的に指定した git ソースです。code: requirements.txt ファイルを含むコードパスです。image: Docker イメージです。
+git: エントリポイントがパス内にあるか、または明示的に指定されている Git ソース。メインの Python 実行ファイルを指します。  
+code: requirements.txt ファイルを含むコードのパス。  
+image: docker イメージ。
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | ジョブをリストするプロジェクトを指定します。 |
-| `-e, --entity` | ジョブが属するエンティティ |
-| `-n, --name` | ジョブの名前 |
-| `-d, --description` | ジョブの説明 |
-| `-a, --alias` | ジョブのエイリアス |
-| `--entry-point` | スクリプトのエントリポイントで、実行可能ファイルとエントリポイントファイルを含みます。code または repo ジョブでは必須です。--build-context が提供されている場合、エントリポイントコマンド内のパスはビルドコンテキストに対して相対的なものになります。 |
-| `-g, --git-hash` | git ジョブのソースとして使用するコミット参照 |
-| `-r, --runtime` | ジョブを実行する Python ランタイム |
-| `-b, --build-context` | ジョブのソースコードのルートからビルドコンテキストへのパスです。提供されている場合、これが Dockerfile とエントリポイントのベースパスとして使用されます。 |
-| `--base-image` | ジョブに使用するベースイメージ。image ジョブとは互換性がありません。 |
-| `--dockerfile` | ジョブの Dockerfile へのパス。--build-context が提供されている場合、Dockerfile のパスはビルドコンテキストに対して相対的になります。 |
+| `-p, --project` | Jobs を一覧表示したい Project を指定します。 |
+| `-e, --entity` | Jobs が属している Entity を指定します。|
+| `-n, --name` | Job の名前を指定します。|
+| `-d, --description` | Job の説明を入力します。|
+| `-a, --alias` | Job のエイリアスを指定します。|
+| `--entry-point` | スクリプトのエントリポイント（実行ファイルとエントリポイントファイルを含みます）。code または repo ジョブには必須です。--build-context が指定された場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。|
+| `-g, --git-hash` | git ジョブのソースとして使用するコミットリファレンスを指定します。|
+| `-r, --runtime` | Job を実行する Python ランタイムを指定します。|
+| `-b, --build-context` | Job ソースコードのルートからビルドコンテキストへのパスを指定します。指定した場合、このパスが Dockerfile やエントリポイントの基準パスとして使われます。|
+| `--base-image` | Job で使用するベースイメージを指定します。image ジョブとは併用できません。|
+| `--dockerfile` | Job 用の Dockerfile のパスを指定します。--build-context が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。|

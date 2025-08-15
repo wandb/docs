@@ -1,5 +1,5 @@
 ---
-title: ジョブを作成してデプロイする
+title: ジョブの作成とデプロイ
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-_index

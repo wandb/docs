@@ -1,13 +1,14 @@
 ---
-title: サブスクリプションをキャンセルするにはどうすればいいですか？
+title: サブスクリプションを解約するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-cancel_subscription
 support:
-  - administrator
+- 管理者
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-- サポートチーム (support@wandb.com) に連絡してください。
-- 組織名、アカウントに関連付けられたメール、およびユーザー名を提供してください。
+
+- サポートチーム（support@wandb.com）にご連絡ください。
+- 組織名、アカウントに紐づくメールアドレス、ユーザー名をお知らせください。

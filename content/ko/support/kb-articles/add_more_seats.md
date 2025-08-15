@@ -4,14 +4,14 @@ menu:
   support:
     identifier: ko-support-kb-articles-add_more_seats
 support:
-- administrator
-- user management
+- 관리자
+- user 관리
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-계정에 더 많은 자리를 추가하려면 다음 단계를 따르세요.
+To add seats to your account, follow these steps.
 
-- 계정 담당자 또는 지원팀 (support@wandb.com) 에 문의하여 지원을 받으세요.
-- 조직 이름과 원하는 자리 수를 알려주세요.
+- Contact your Account Executive or support team (support@wandb.com) for assistance.
+- Provide your organization name and the desired number of seats.

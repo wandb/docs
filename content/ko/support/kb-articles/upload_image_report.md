@@ -1,15 +1,15 @@
 ---
-title: Upload an image to a report
+title: 리포트에 이미지를 업로드하기
 menu:
   support:
     identifier: ko-support-kb-articles-upload_image_report
 support:
-- reports
+- 리포트
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-새로운 줄에서 `/`를 누르고 이미지 옵션으로 스크롤한 다음 이미지를 리포트에 끌어다 놓습니다.
+새 줄에서 `/`를 입력한 후, 이미지 옵션까지 스크롤하고 리포트에 이미지를 드래그 앤 드롭하세요.
 
-{{< img src="/images/reports/add_an_image.gif" alt="" >}}
+{{< img src="/images/reports/add_an_image.gif" alt="리포트에 이미지 추가하기" >}}

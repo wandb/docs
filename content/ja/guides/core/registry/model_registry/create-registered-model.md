@@ -1,6 +1,6 @@
 ---
 title: 登録済みモデルを作成する
-description: モデル作成のタスクのために、すべての候補モデルを保持する Registered Model を作成します。
+description: 登録済みモデルを作成し、モデリングタスクの候補モデルをすべてまとめましょう。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-create-registered-model
@@ -8,13 +8,13 @@ menu:
 weight: 4
 ---
 
-[registered model]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}}) を作成し、モデリングタスクのすべての候補モデルを保持します。モデルレジストリ内でインタラクティブに、または Python SDK を使用してプログラム的に registered model を作成できます。
+[**registered model**]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}}) を作成して、モデリングタスクの候補モデルをまとめましょう。registered model は Model Registry 内で対話的に作成することも、Python SDK を使ってプログラムから作成することもできます。
 
-## プログラムで registered model を作成する
+## プログラムから registered model を作成する
 
-W&B Python SDK を使用してモデルを登録します。registered model が存在しない場合、W&B は自動的に registered model を作成します。
+W&B Python SDK を使用して model を登録できます。指定した registered model が存在しない場合、W&B が自動的に registered model を作成します。
 
-`<>` で囲まれた他の値をあなた自身のもので置き換えてください:
+`<>` で囲まれた値は、ご自身の設定に置き換えてください。
 
 ```python
 import wandb
@@ -24,26 +24,26 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-`registered_model_name` に指定した名前は [Model Registry App](https://wandb.ai/registry/model) に表示される名前です。
+`registered_model_name` で指定する名前は [Model Registry App](https://wandb.ai/registry/model) に表示されます。
 
-## インタラクティブに registered model を作成する
+## 対話的に registered model を作成する
 
-[Model Registry App](https://wandb.ai/registry/model) でインタラクティブに registered model を作成します。
+[Model Registry App](https://wandb.ai/registry/model) で対話的に registered model を作成します。
 
-1. Model Registry App に移動します: [https://wandb.ai/registry/model](https://wandb.ai/registry/model)。
-{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
-2. Model Registry ページの右上にある **New registered model** ボタンをクリックします。
-{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="" >}}
-3. 表示されたパネルから、registered model が属するエンティティを **Owning Entity** ドロップダウンから選択します。
-{{< img src="/images/models/create_registered_model_3.png" alt="" >}}
-4. **Name** フィールドにモデルの名前を入力します。 
-5. **Type** ドロップダウンから、registered model とリンクするアーティファクトのタイプを選択します。
-6. (オプション) **Description** フィールドにモデルについての説明を追加します。
-7. (オプション) **Tags** フィールドに1つ以上のタグを追加します。
+1. [Model Registry App](https://wandb.ai/registry/model) にアクセスします。
+{{< img src="/images/models/create_registered_model_1.png" alt="Model Registry のトップページ" >}}
+2. Model Registry ページ右上にある **New registered model** ボタンをクリックします。
+{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="New registered model ボタン" >}}
+3. 表示されたパネルで、**Owning Entity** のドロップダウンから registered model を紐付けたい Entity を選択します。
+{{< img src="/images/models/create_registered_model_3.png" alt="モデル作成フォーム" >}}
+4. **Name** 欄に model の名前を入力します。
+5. **Type** のドロップダウンから、registered model にリンクしたいアーティファクトの種類を選びます。
+6. （任意）**Description** 欄に model について説明を記入します。
+7. （任意）**Tags** 欄に 1 つ以上のタグを追加できます。
 8. **Register model** をクリックします。
 
 {{% alert %}}
-モデルをモデルレジストリに手動でリンクすることは、一度だけのモデルに便利です。しかし、[プログラムでモデルバージョンをモデルレジストリにリンクする]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}})こともよくあります。
+model を model registry に手動でリンクするのは、単発のモデル管理には便利です。ただし、多くの場合は [プログラムから model バージョンを model registry にリンクする]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}}) 方法が役立ちます。
 
-例えば、毎晩のジョブがあるとします。毎晩作成されるモデルを手動でリンクするのは面倒です。代わりに、モデルを評価し、そのモデルがパフォーマンスを改善した場合にそのモデルを W&B Python SDK を使用してモデルレジストリにリンクするスクリプトを作成することができます。
+たとえば、毎晩自動で実行するジョブがある場合、毎晩作成される model を都度手動でリンクするのは手間です。代わりに、model の評価とパフォーマンス向上時のみ model registry へリンクするスクリプトを作成し、W&B Python SDK で自動化するのが便利です。
 {{% /alert %}}

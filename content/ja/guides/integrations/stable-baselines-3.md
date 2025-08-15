@@ -1,6 +1,6 @@
 ---
 title: Stable Baselines 3
-description: W&B を Stable Baseline 3 と統合する方法。
+description: W&B を Stable Baseline 3 と統合する方法
 menu:
   default:
     identifier: ja-guides-integrations-stable-baselines-3
@@ -8,17 +8,17 @@ menu:
 weight: 420
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) は、PyTorch による強化学習アルゴリズムの信頼性のある実装セットです。W&B の SB3 インテグレーション:
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3)（SB3）は、PyTorch で実装された信頼性の高い強化学習アルゴリズムのセットです。W&B の SB3 インテグレーションは以下の機能を提供します:
 
 * 損失やエピソードごとのリターンなどのメトリクスを記録します。
-* ゲームをプレイするエージェントのビデオをアップロードします。
-* トレーニング済みモデルを保存します。
+* エージェントがゲームをプレイしている動画をアップロードします。
+* 学習済みモデルを保存します。
 * モデルのハイパーパラメーターをログします。
-* モデルの勾配ヒストグラムをログします。
+* モデルの勾配ヒストグラムを記録します。
 
-W&B を用いた SB3 トレーニング run の[例](https://wandb.ai/wandb/sb3/runs/1jyr6z10)をレビューしてください。
+[SB3 のトレーニング run の例](https://wandb.ai/wandb/sb3/runs/1jyr6z10) をご覧ください。
 
-## SB3 実験をログする
+## SB3 実験管理をログする
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -26,20 +26,20 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-{{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
+{{< img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 training with W&B" >}}
 
-## WandbCallback 引数
+## WandbCallback の引数
 
-| 引数 | 使用法 |
+| 引数 | 用途 |
 | :--- | :--- |
-| `verbose` | sb3 出力の詳細度 |
-| `model_save_path` | モデルが保存されるフォルダーへのパス。デフォルト値は `None` で、モデルはログされません。 |
+| `verbose` | sb3 の出力の詳細レベル |
+| `model_save_path` | モデルを保存するフォルダのパス。デフォルト値は `None` なのでモデルは保存されません |
 | `model_save_freq` | モデルを保存する頻度 |
-| `gradient_save_freq` | 勾配をログする頻度。デフォルト値は 0 で、勾配はログされません。 |
+| `gradient_save_freq` | 勾配をログする頻度。デフォルト値は 0 で、勾配は記録されません |
 
 ## 基本的な例
 
-W&B SB3 インテグレーションは、TensorBoard から出力されたログを使用してメトリクスをログします。
+W&B の SB3 インテグレーションは、TensorBoard のログ出力を利用してメトリクスを記録します。
 
 ```python
 import gym
@@ -59,14 +59,14 @@ run = wandb.init(
     project="sb3",
     config=config,
     sync_tensorboard=True,  # sb3 の tensorboard メトリクスを自動アップロード
-    monitor_gym=True,  # ゲームをプレイするエージェントのビデオを自動アップロード
+    monitor_gym=True,  # エージェントのプレイ動画を自動アップロード
     save_code=True,  # オプション
 )
 
 
 def make_env():
     env = gym.make(config["env_name"])
-    env = Monitor(env)  # リターンなどの統計を記録
+    env = Monitor(env)  # リターンなどの統計情報を記録
     return env
 
 

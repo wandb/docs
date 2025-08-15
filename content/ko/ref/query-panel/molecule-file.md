@@ -1,14 +1,16 @@
 ---
-title: molecule-file
+title: 'molecule-file
+
+  '
 menu:
   reference:
     identifier: ko-ref-query-panel-molecule-file
 ---
 
-## 연결 가능한 Ops
+## 체이너블 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-asset의 _파일_ 을 반환합니다.
+해당 asset의 _파일_ 을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |
@@ -18,10 +20,10 @@ asset의 _파일_ 을 반환합니다.
 asset의 _파일_
 
 
-## 목록 Ops
+## 리스트 연산
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-asset의 _파일_ 을 반환합니다.
+해당 asset의 _파일_ 을 반환합니다.
 
 | 인수 |  |
 | :--- | :--- |

@@ -1,5 +1,5 @@
 ---
-title: Keras tables
+title: Keras 테이블
 menu:
   tutorials:
     identifier: ko-tutorials-integration-tutorials-keras_tables
@@ -7,15 +7,15 @@ menu:
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" >}}
-Weights & Biases를 사용하여 기계 학습 실험 추적, 데이터셋 버전 관리 및 프로젝트 협업을 수행하세요.
+W&B를 사용하여 기계학습 실험 추적, 데이터셋 버전 관리, 프로젝트 협업을 손쉽게 할 수 있습니다.
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="W&B 사용의 이점" >}}
 
-이 Colab 노트북은 모델 예측 시각화 및 데이터셋 시각화를 위한 유용한 콜백을 구축하기 위해 상속될 수 있는 추상 콜백인 `WandbEvalCallback`을 소개합니다.
+이 Colab 노트북에서는 `WandbEvalCallback`을 소개합니다. 이는 추상 콜백으로, 모델 예측값 시각화 및 데이터셋 시각화에 유용한 콜백을 확장하여 만들 수 있습니다. 
 
-## 설정 및 설치
+## 셋업 및 설치
 
-먼저, Weights & Biases의 최신 버전을 설치해 보겠습니다. 그런 다음 이 Colab 인스턴스를 인증하여 W&B를 사용합니다.
+먼저, W&B의 최신 버전을 설치합시다. 이후 이 colab 인스턴스에서 W&B를 사용할 수 있도록 인증 과정을 진행합니다.
 
 ```shell
 pip install -qq -U wandb
@@ -29,14 +29,14 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases 관련 import
+# W&B 관련 라이브러리 임포트
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 from wandb.integration.keras import WandbModelCheckpoint
 from wandb.integration.keras import WandbEvalCallback
 ```
 
-W&B를 처음 사용하거나 로그인하지 않은 경우, `wandb.login()`을 실행한 후 나타나는 링크를 통해 가입/로그인 페이지로 이동합니다. 몇 번의 클릭만으로 [무료 계정](https://wandb.ai/signup)에 가입할 수 있습니다.
+W&B를 처음 사용하거나 아직 로그인하지 않은 경우, `wandb.login()` 실행 이후 나타나는 링크를 클릭하면 회원가입/로그인 페이지로 이동합니다. [무료 계정](https://wandb.ai/signup) 가입은 클릭 몇 번이면 끝납니다.
 
 ```python
 wandb.login()
@@ -44,7 +44,7 @@ wandb.login()
 
 ## 하이퍼파라미터
 
-재현 가능한 기계 학습을 위해서는 적절한 구성 시스템을 사용하는 것이 좋습니다. W&B를 사용하여 모든 실험에 대한 하이퍼파라미터를 추적할 수 있습니다. 이 Colab에서는 간단한 Python `dict`를 구성 시스템으로 사용합니다.
+재현 가능한 기계학습을 위해 올바른 config 시스템을 사용하는 것이 권장됩니다. W&B를 사용하면 각 실험의 하이퍼파라미터를 추적할 수 있습니다. 이 colab에서는 간단한 Python `dict`로 config를 관리합니다.
 
 ```python
 configs = dict(
@@ -61,7 +61,7 @@ configs = dict(
 
 ## 데이터셋
 
-이 Colab에서는 TensorFlow 데이터셋 카탈로그의 [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) 데이터셋을 사용합니다. TensorFlow/Keras를 사용하여 간단한 이미지 분류 파이프라인을 구축하는 것을 목표로 합니다.
+이 colab에서는 TensorFlow Dataset 카탈로그의 [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) 데이터셋을 사용할 예정입니다. TensorFlow/Keras를 활용해 간단한 이미지 분류 파이프라인을 만들어볼 것입니다.
 
 ```python
 train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
@@ -70,18 +70,16 @@ train_ds, valid_ds = tfds.load("fashion_mnist", split=["train", "test"])
 ```
 AUTOTUNE = tf.data.AUTOTUNE
 
-
 def parse_data(example):
-    # 이미지 가져오기
+    # 이미지 추출
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # 레이블 가져오기
+    # 라벨 추출
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
     return image, label
-
 
 def get_dataloader(ds, configs, dataloader_type="train"):
     dataloader = ds.map(parse_data, num_parallel_calls=AUTOTUNE)
@@ -146,24 +144,24 @@ model.compile(
 
 ## `WandbEvalCallback`
 
-`WandbEvalCallback`은 주로 모델 예측 시각화를 위해, 부차적으로는 데이터셋 시각화를 위해 Keras 콜백을 구축하는 추상 기본 클래스입니다.
+`WandbEvalCallback`은 주로 모델 예측값 시각화, 그 다음으로 데이터셋 시각화를 위한 Keras 콜백을 만들기 위한 추상 베이스 클래스입니다.
 
-이는 데이터셋 및 작업에 구애받지 않는 추상 콜백입니다. 이를 사용하려면 이 기본 콜백 클래스에서 상속하고 `add_ground_truth` 및 `add_model_prediction` 메소드를 구현합니다.
+이 콜백은 데이터셋과 태스크에 상관없이 사용할 수 있는 추상 콜백입니다. 사용하려면 이 베이스 콜백을 상속해서 `add_ground_truth`와 `add_model_prediction` 메소드를 구현하면 됩니다.
 
-`WandbEvalCallback`은 다음과 같은 유용한 메소드를 제공하는 유틸리티 클래스입니다.
+`WandbEvalCallback`은 다음과 같은 유용한 메소드들을 제공합니다:
 
-- 데이터 및 예측 `wandb.Table` 인스턴스 생성,
-- 데이터 및 예측 Tables를 `wandb.Artifact`로 기록,
-- 데이터 테이블을 `on_train_begin`에 기록,
-- 예측 테이블을 `on_epoch_end`에 기록.
+- 데이터 및 예측값을 가진 `wandb.Table` 객체 생성
+- 데이터와 예측값 Table을 `wandb.Artifact`로 로그
+- `on_train_begin`에서 데이터 테이블 로그
+- `on_epoch_end`에서 예측값 테이블 로그
 
-예를 들어, 아래에 이미지 분류 작업을 위한 `WandbClfEvalCallback`을 구현했습니다. 이 예제 콜백은 다음과 같습니다.
-- 검증 데이터(`data_table`)를 W&B에 기록,
-- 모든 에포크 종료 시 추론을 수행하고 예측(`pred_table`)을 W&B에 기록.
+예시로, 아래에 이미지 분류 태스크를 위한 `WandbClfEvalCallback` 구현이 있습니다. 이 콜백은
+- 검증 데이터를 W&B에 로그(`data_table`)
+- 추론을 수행하고 매 에포크 종료 시 예측값을 W&B에 로그(`pred_table`)
 
-## 메모리 공간을 줄이는 방법
+## 메모리 사용량이 어떻게 줄어드는가
 
-`on_train_begin` 메소드가 호출될 때 `data_table`을 W&B에 기록합니다. W&B Artifact로 업로드되면 `data_table_ref` 클래스 변수를 사용하여 엑세스할 수 있는 이 테이블에 대한 참조를 얻습니다. `data_table_ref`는 `self.data_table_ref[idx][n]`과 같이 인덱싱할 수 있는 2D 목록입니다. 여기서 `idx`는 행 번호이고 `n`은 열 번호입니다. 아래 예에서 사용법을 살펴보겠습니다.
+`on_train_begin` 메소드가 호출될 때, `data_table`을 W&B에 로그합니다. W&B Artifact로 업로드되면 이 테이블에 대한 참조를 받아와 `data_table_ref` 클래스 변수로 엑세스할 수 있습니다. `data_table_ref`는 2차원 리스트이며, `self.data_table_ref[idx][n]`처럼 인덱싱 할 수 있습니다 (`idx`는 행 번호, `n`은 열 번호). 아래 예제에서 어떻게 사용하는지 확인해보세요.
 
 ```python
 class WandbClfEvalCallback(WandbEvalCallback):
@@ -179,7 +177,7 @@ class WandbClfEvalCallback(WandbEvalCallback):
             self.data_table.add_data(idx, wandb.Image(image), np.argmax(label, axis=-1))
 
     def add_model_predictions(self, epoch, logs=None):
-        # 예측값 가져오기
+        # 예측 결과 가져오기
         preds = self._inference()
         table_idxs = self.data_table_ref.get_index()
 
@@ -206,7 +204,7 @@ class WandbClfEvalCallback(WandbEvalCallback):
 ## 학습
 
 ```python
-# W&B run 초기화
+# W&B Run 초기화
 run = wandb.init(project="intro-keras", config=configs)
 
 # 모델 학습
@@ -220,10 +218,10 @@ model.fit(
             validloader,
             data_table_columns=["idx", "image", "ground_truth"],
             pred_table_columns=["epoch", "idx", "image", "ground_truth", "prediction"],
-        ),  # 여기에서 WandbEvalCallback 사용에 주목하세요.
+        ),  # 여기서 WandbEvalCallback이 사용됨을 참고하세요
     ],
 )
 
-# W&B run 닫기
+# W&B Run 종료
 run.finish()
 ```

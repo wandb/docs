@@ -1,14 +1,13 @@
 ---
-title: What if I want to integrate W&B into my project, but I don't want to upload
-  any images or media?
+title: W&B를 내 프로젝트에 통합하고 싶지만, 이미지나 미디어는 업로드하고 싶지 않을 때는 어떻게 하나요?
 menu:
   support:
     identifier: ko-support-kb-articles-integrate_wb_project_dont_upload_any_images_media
 support:
-- experiments
+- 실험
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-W&B는 업로드를 위해 파일 또는 데이터의 명시적 사양을 허용하여 스칼라만 로그하는 프로젝트를 지원합니다. 이미지를 사용하지 않고 로깅을 보여주는 이 [PyTorch 예제](http://wandb.me/pytorch-colab) 를 참조하세요.
+W&B는 스칼라만 로그하는 Projects 도 지원하며, 업로드할 파일이나 데이터를 명시적으로 지정할 수 있습니다. 이미지를 사용하지 않고 로그하는 방법에 대해서는 [PyTorch 예제](https://wandb.me/pytorch-colab)를 참고하세요.

@@ -1,14 +1,14 @@
 ---
-title: Is it possible to change the username?
+title: 사용자 이름을 변경할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-change_username
 support:
-- administrator
-- user management
+- 관리자
+- User 관리
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-계정을 생성한 후 사용자 이름을 변경하는 것은 불가능합니다. 대신 원하는 사용자 이름으로 새 계정을 만드세요.
+Once you create an account, you cannot change your username. Please create a new account with your desired username.

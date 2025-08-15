@@ -1,6 +1,6 @@
 ---
 title: Databricks
-description: W&B を Databricks と統合する方法。
+description: W&B を Databricks と統合する方法
 menu:
   default:
     identifier: ja-guides-integrations-databricks
@@ -8,38 +8,38 @@ menu:
 weight: 50
 ---
 
-W&B は、Databricks 環境での W&B Jupyter ノートブック体験をカスタマイズすることにより、[Databricks](https://www.databricks.com/) と統合します。
+W&B は、Databricks 環境で W&B Jupyter ノートブックの体験をカスタマイズすることで [Databricks](https://www.databricks.com/) と統合します。
 
 ## Databricks の設定
 
 1. クラスターに wandb をインストール
 
-    クラスター設定に移動し、クラスターを選択し、**Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択してパッケージ `wandb` を追加します。
+    クラスターの設定画面に移動し、対象クラスターを選択して **Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択し、`wandb` パッケージを追加してください。
 
 2. 認証の設定
 
-    あなたの W&B アカウントを認証するために、ノートブックが照会できる Databricks シークレットを追加することができます。
+    W&B アカウントを認証するには、Databricks シークレットを追加し、ノートブックから参照できるようにします。
 
     ```bash
     # databricks cli をインストール
     pip install databricks-cli
 
-    # databricks UIからトークンを生成
+    # databricks の UI でトークンを生成
     databricks configure --token
 
-    # 2つのコマンドのいずれかでスコープを作成します（databricksでセキュリティ機能が有効かどうかによります）：
-    # セキュリティ追加機能あり
+    # 以下のいずれかのコマンドでスコープを作成（databricks のセキュリティ機能有無に応じて選択）
+    # セキュリティアドオンありの場合
     databricks secrets create-scope --scope wandb
-    # セキュリティ追加機能なし
+    # セキュリティアドオンなしの場合
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # こちらから api_key を追加します: https://app.wandb.ai/authorize
+    # https://app.wandb.ai/authorize から取得した api_key を追加
     databricks secrets put --scope wandb --key api_key
     ```
 
 ## 例
 
-### 簡単な例
+### シンプルな例
 
 ```python
 import os
@@ -48,18 +48,18 @@ import wandb
 api_key = dbutils.secrets.get("wandb", "api_key")
 wandb.login(key=api_key)
 
-wandb.init()
-wandb.log({"foo": 1})
+with wandb.init() as run:
+    run.log({"foo": 1})
 ```
 
 ### Sweeps
 
-ノートブックが wandb.sweep() または wandb.agent() を使用しようとする際に必要な設定（暫定的）です。
+wandb.sweep() や wandb.agent() をノートブックで使う際に（暫定的に）必要な設定:
 
 ```python
 import os
 
-# これらは将来的には不要になります
+# 今後不要となる予定の設定です
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

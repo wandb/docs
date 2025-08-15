@@ -4,15 +4,17 @@ menu:
   support:
     identifier: ja-support-kb-articles-switch_accounts_same_machine
 support:
-  - environment variables
+- 環境変数
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-2つの W&B アカウントを同じマシンから管理するには、両方の API キーをファイルに保存します。以下のコードをリポジトリで使用し、キーを安全に切り替えることで、秘密キーがソース管理にチェックインされるのを防ぎます。
+
+同じマシンで２つの W&B アカウントを管理するには、両方のAPIキーをファイルに保存してください。リポジトリで以下のコードを使うと、キーを安全に切り替えられ、秘密のキーがソース管理に誤って含まれることを防げます。
 
 ```python
-# キーを切り替えるコード例
+# もし"~/keys.json"が存在すれば
 if os.path.exists("~/keys.json"):
+    # "work_account"用のAPIキーを環境変数に設定
     os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```

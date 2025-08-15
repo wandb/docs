@@ -1,13 +1,14 @@
 ---
-title: '"Group" 機能を使用せずに run をグループ化できますか？'
+title: 「グループ」機能を使わずに run をまとめることはできますか？
 menu:
   support:
     identifier: ja-support-kb-articles-group_runs_without_group_feature
 support:
-  - workspaces
-  - runs
+- ワークスペース
+- run
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-はい、tags やカスタムメタデータを使用して runs を分類することもできます。これは、プロジェクトの Workspace および Runs ビューで利用可能な `Group` ボタンを使用して行えます。
+
+はい、タグやカスタムメタデータを使って run を分類することも可能です。これは Workspace および Project の Runs ビューで利用可能な `Group` ボタンを使用して行うことができます。

@@ -1,5 +1,5 @@
 ---
-title: wandb ベータ版
+title: wandb ベータ
 menu:
   reference:
     identifier: ja-ref-cli-wandb-beta-_index
@@ -7,7 +7,7 @@ menu:
 
 **使い方**
 
-`wandb beta [OPTIONS] COMMAND [ARGS]...`
+`wandb beta [OPTIONS] コマンド [arg]...`
 
 **概要**
 

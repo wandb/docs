@@ -7,15 +7,15 @@ menu:
 
 **사용법**
 
-`wandb job list [OPTIONS]`
+`wandb job list [옵션]`
 
 **요약**
 
-프로젝트의 jobs 목록을 표시합니다.
+프로젝트의 Job 목록을 확인합니다
 
 **옵션**
 
 | **옵션** | **설명** |
 | :--- | :--- |
-| `-p, --project` | jobs 목록을 표시할 프로젝트입니다. |
-| `-e, --entity` | jobs이 속한 엔티티입니다. |
+| `-p, --project` | Job 을 조회할 프로젝트를 지정합니다. |
+| `-e, --entity` | Job 이 속한 Entity 를 지정합니다. |

@@ -7,36 +7,36 @@ menu:
 weight: 310
 ---
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) または PyG は、最も人気のある幾何学的ディープラーニングのためのライブラリの1つであり、W&B はそれと非常に良く連携し、グラフの可視化と実験の追跡を行うことができます。
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) または PyGは、幾何学的ディープラーニング向けの最も人気なライブラリの一つであり、W&B との相性が非常に良く、グラフの可視化や実験管理に活用できます。
 
-PyTorch Geometric をインストールした後、以下の手順に従ってください。
+PyTorch Geometric のインストール後、次の手順で始めましょう。
 
-## サインアップとAPI キーの作成
+## サインアップとAPIキーの作成
 
-APIキーは、あなたのマシンをW&Bに認証します。APIキーはユーザープロフィールから生成できます。
+APIキーは、あなたのマシンを W&B に認証するためのものです。APIキーはユーザープロフィールから発行できます。
 
 {{% alert %}}
-よりスムーズな方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize)に直接アクセスしてAPIキーを生成することができます。表示されるAPIキーをコピーし、パスワード管理ツールなどの安全な場所に保存してください。
+より簡単な方法として、[W&B認証ページ](https://wandb.ai/authorize) に直接アクセスしてAPIキーを発行できます。表示されたAPIキーをコピーし、パスワードマネージャ等の安全な場所に保存してください。
 {{% /alert %}}
 
 1. 右上のユーザープロフィールアイコンをクリックします。
-2. **ユーザー設定**を選択し、**API キー**セクションまでスクロールします。
-3. **Reveal** をクリックします。表示されたAPIキーをコピーします。APIキーを隠すには、ページをリロードしてください。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+3. **Reveal** をクリックして表示されたAPIキーをコピーします。APIキーを非表示にしたい場合は、ページを再読み込みしてください。
 
-## `wandb` ライブラリのインストールとログイン
+## `wandb`ライブラリのインストールとログイン
 
-`wandb` ライブラリをローカルにインストールし、ログインするには:
+ローカル環境に`wandb`ライブラリをインストールし、ログインする手順です。
 
 {{< tabpane text=true >}}
 {{% tab header="Command Line" value="cli" %}}
 
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をAPIキーに設定します。
+1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) にAPIキーを設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. `wandb` ライブラリをインストールし、ログインします。
+2. `wandb`ライブラリをインストールし、ログインします。
 
     ```shell
     pip install wandb
@@ -70,42 +70,41 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## グラフの可視化
+## グラフを可視化する
 
-入力グラフの詳細（エッジ数、ノード数など）を保存できます。W&B は plotly グラフと HTML パネルのログ記録をサポートしているため、グラフのために作成したあらゆる可視化を W&B にログすることができます。
+入力グラフのエッジ数やノード数などの詳細情報も保存できます。W&B では plotly チャートやHTMLパネルのログが可能なので、作成したグラフの可視化もW&Bに記録できます。
 
-### PyVis を使用する
+### PyVis の利用
 
-以下のスニペットは、PyVis と HTML を使ってそれを行う方法を示しています。
+以下のスニペットは、PyVis とHTMLを使ってグラフを可視化する方法の例です。
 
 ```python
 from pyvis.network import Network
 import wandb
 
-wandb.init(project=’graph_vis’)
-net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
+with wandb.init(project=’graph_vis’) as run:
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
-# PyG グラフから PyVis ネットワークへのエッジを追加
-for e in tqdm(g.edge_index.T):
-    src = e[0].item()
-    dst = e[1].item()
+    # PyGグラフのエッジをPyVisネットワークに追加
+    for e in tqdm(g.edge_index.T):
+        src = e[0].item()
+        dst = e[1].item()
 
-    net.add_node(dst)
-    net.add_node(src)
-    
-    net.add_edge(src, dst, value=0.1)
+        net.add_node(dst)
+        net.add_node(src)
+        
+        net.add_edge(src, dst, value=0.1)
 
-# PyVisの可視化をHTMLファイルに保存
-net.show("graph.html")
-wandb.log({"eda/graph": wandb.Html("graph.html")})
-wandb.finish()
+    # PyVisの可視化をHTMLファイルとして保存
+    net.show("graph.html")
+    run.log({"eda/graph": wandb.Html("graph.html")})
 ```
 
-{{< img src="/images/integrations/pyg_graph_wandb.png" alt="この画像は、インタラクティブな HTML 可視化として入力グラフを示しています。" >}}
+{{< img src="/images/integrations/pyg_graph_wandb.png" alt="インタラクティブなグラフ可視化" >}}
 
-### Plotly を使用する
+### Plotly の利用
 
-Plotly を使用してグラフの可視化を作成するには、まず PyG グラフを networkx オブジェクトに変換する必要があります。その後、ノードとエッジのために Plotly スキャッタープロットを作成する必要があります。このタスクには以下のスニペットが使用できます。
+plotly でグラフ可視化を行うには、まずPyGのグラフをnetworkxオブジェクトに変換します。その後、ノードとエッジそれぞれ用にPlotlyの散布図を作成します。下記のスニペットはその一例です。
 
 ```python
 def create_vis(graph):
@@ -150,29 +149,29 @@ def create_vis(graph):
     return fig
 
 
-wandb.init(project=’visualize_graph’)
-wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
-wandb.finish()
+with wandb.init(project=’visualize_graph’) as run:
+    run.log({‘graph’: wandb.Plotly(create_vis(graph))})
 ```
 
-{{< img src="/images/integrations/pyg_graph_plotly.png" alt="この視覚化結果は、例の関数を使用して作成され、W&B テーブル内に記録されました。" >}}
+{{< img src="/images/integrations/pyg_graph_plotly.png" alt="サンプル関数で作成し、W&B Tableに記録した可視化例" >}}
 
-## メトリクスのログ化
+## メトリクスのログ
 
-損失関数、精度などのメトリクスを含む実験を追跡するためにW&Bを使用することができます。トレーニングループに次の行を追加してください：
+W&Bを利用すれば、損失関数、精度などのメトリクスや、Experimentsのトラッキングも可能です。以下の行をトレーニングループに追加しましょう。
 
 ```python
-wandb.log({
-	‘train/loss’: training_loss,
-	‘train/acc’: training_acc,
-	‘val/loss’: validation_loss,
-	‘val/acc’: validation_acc
-})
+with wandb.init(project="my_project", entity="my_entity") as run:
+    run.log({
+        'train/loss': training_loss,
+        'train/acc': training_acc,
+        'val/loss': validation_loss,
+        'val/acc': validation_acc
+        })
 ```
 
-{{< img src="/images/integrations/pyg_metrics.png" alt="W&Bからのプロットが、異なるK値に対するエポックごとのhits@Kメトリクスの変化を示しています。" >}}
+{{< img src="/images/integrations/pyg_metrics.png" alt="エポック毎のhits@Kメトリクス" >}}
 
-## その他のリソース
+## その他リソース
 
 - [Recommending Amazon Products using Graph Neural Networks in PyTorch Geometric](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
 - [Point Cloud Classification using PyTorch Geometric](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)

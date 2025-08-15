@@ -1,5 +1,5 @@
 ---
-title: Data security
+title: 데이터 보안
 menu:
   default:
     identifier: ko-guides-hosting-data-security-_index

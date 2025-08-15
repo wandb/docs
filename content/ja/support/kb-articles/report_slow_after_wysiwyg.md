@@ -1,13 +1,14 @@
 ---
-title: レポートは WYSIWYG に変更した後、動作が遅くなりました。
+title: WYSIWYG に変更した後、私のレポートの動作が遅くなっています
 menu:
   support:
     identifier: ja-support-kb-articles-report_slow_after_wysiwyg
 support:
-  - reports
-  - wysiwyg
+- レポート
+- WYSIWYG
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-古いハードウェアや非常に大きなレポートでは、パフォーマンスの問題が発生する可能性があります。これを緩和するために、現在使用していないレポートのセクションを折りたたんでください。
+
+古いハードウェアや非常に大きなレポートではパフォーマンスの問題が発生することがあります。これを軽減するために、現在使用していないレポートのセクションを折りたたんでください。

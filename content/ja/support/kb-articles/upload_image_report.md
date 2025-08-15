@@ -4,11 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-upload_image_report
 support:
-  - reports
+- レポート
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-新しい行で「/」キーを押し、Image オプションまでスクロールして、画像を レポート にドラッグ＆ドロップします。
 
-{{< img src="/images/reports/add_an_image.gif" alt="" >}}
+新しい行で `/` を押し、Image オプションまでスクロールし、レポートに画像をドラッグ＆ドロップしてください。
+
+{{< img src="/images/reports/add_an_image.gif" alt="レポートに画像を追加する" >}}

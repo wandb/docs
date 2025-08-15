@@ -1,5 +1,5 @@
 ---
-title: Tune hyperparameters with sweeps
+title: 스윕으로 하이퍼파라미터 튜닝하기
 menu:
   tutorials:
     identifier: ko-tutorials-sweeps
@@ -9,29 +9,29 @@ weight: 3
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W&B.ipynb" >}}
 
-원하는 메트릭(예: 모델 정확도)을 충족하는 머신 러닝 모델을 찾는 것은 일반적으로 여러 번의 반복이 필요한 중복적인 작업입니다. 설상가상으로, 주어진 트레이닝 run에 어떤 하이퍼파라미터 조합을 사용해야 할지 명확하지 않을 수도 있습니다.
+원하는 메트릭(예: 모델 정확도)을 충족하는 기계학습 모델을 찾는 과정은 여러 번 반복해야 하는 지루한 작업일 때가 많습니다. 상황에 따라서는 트레이닝 run 에 사용할 하이퍼파라미터 조합이 무엇인지조차 불확실할 수 있습니다.
 
-Weights & Biases Sweeps를 사용하여 학습 속도, 배치 크기, 숨겨진 레이어 수, 옵티마이저 유형 등과 같은 하이퍼파라미터 값의 조합을 자동으로 검색하여 원하는 메트릭을 기반으로 모델을 최적화하는 조직적이고 효율적인 방법을 만드십시오.
+W&B Sweeps를 활용하면 학습률, 배치 크기, 히든 레이어 수, 옵티마이저 타입 등 다양한 하이퍼파라미터 값의 조합을 자동으로 탐색하면서, 원하는 메트릭 기준으로 모델이 잘 동작하는 값들을 쉽게 찾을 수 있습니다.
 
-이 튜토리얼에서는 W&B PyTorch 인테그레이션을 사용하여 하이퍼파라미터 검색을 만듭니다. [비디오 튜토리얼](http://wandb.me/sweeps-video)을 따라하십시오.
+이 튜토리얼에서는 W&B PyTorch 인테그레이션과 함께 하이퍼파라미터 탐색을 만들어볼 것입니다. [영상 튜토리얼](https://wandb.me/sweeps-video)을 참고해 따라해보세요.
 
-{{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-1.png" alt="하이퍼파라미터 스윕 결과" >}}
 
 ## Sweeps: 개요
 
-Weights & Biases를 사용하여 하이퍼파라미터 스윕을 실행하는 것은 매우 쉽습니다. 간단한 3단계만 거치면 됩니다.
+W&B로 하이퍼파라미터 스윕을 실행하는 과정은 매우 간단합니다. 아래 3단계만 따르세요:
 
-1. **스윕 정의:** 검색할 파라미터, 검색 전략, 최적화 메트릭 등을 지정하는 사전 또는 [YAML 파일]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ko" >}})을 만들어 이를 수행합니다.
+1. **스윕 정의:** 사전(dictionary) 또는 [YAML 파일]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ko" >}})을 만들어 탐색할 파라미터, 탐색 방식, 최적화 메트릭 등을 지정합니다.
 
-2. **스윕 초기화:** 한 줄의 코드로 스윕을 초기화하고 스윕 구성 사전을 전달합니다.
-`sweep_id = wandb.sweep(sweep_config)`
+2. **스윕 초기화:** 코드 한 줄로 스윕을 초기화하고, 스윕 구성을 담은 사전을 전달합니다:
+   `sweep_id = wandb.sweep(sweep_config)`
 
-3. **스윕 에이전트 실행:** 또한 한 줄의 코드로 수행되며 `wandb.agent()`를 호출하고 모델 아키텍처를 정의하고 트레이닝하는 함수와 함께 실행할 `sweep_id`를 전달합니다.
-`wandb.agent(sweep_id, function=train)`
+3. **스윕 에이전트 실행:** 역시 코드 한 줄로 `wandb.agent()`를 호출해 `sweep_id`와, 모델 아키텍처를 정의하고 학습시키는 함수를 전달해 실행합니다:
+   `wandb.agent(sweep_id, function=train)`
 
-## 시작하기 전에
+## 시작 전 준비하기
 
-W&B를 설치하고 W&B Python SDK를 노트북으로 가져옵니다.
+W&B를 설치하고, Python SDK를 노트북에 임포트합니다:
 
 1. `!pip install`로 설치:
 
@@ -39,34 +39,34 @@ W&B를 설치하고 W&B Python SDK를 노트북으로 가져옵니다.
 !pip install wandb -Uq
 ```
 
-2. W&B 가져오기:
+2. W&B 임포트:
 
 ```
 import wandb
 ```
 
-3. W&B에 로그인하고 메시지가 표시되면 API 키를 제공합니다.
+3. W&B에 로그인하고 API 키를 입력:
 
 ```
 wandb.login()
 ```
 
-## 1단계: 스윕 정의
+## Step 1️: 스윕 정의하기
 
-W&B Sweep은 수많은 하이퍼파라미터 값을 시도하는 전략과 해당 값을 평가하는 코드를 결합합니다.
-스윕을 시작하기 전에 _스윕 구성_으로 스윕 전략을 정의해야 합니다.
+W&B Sweep은 다양한 하이퍼파라미터 값을 탐색하는 전략과, 이를 평가하는 코드가 결합된 것입니다.
+스윕을 시작하기 전, _스윕 구성(sweep configuration)_ 을 정의해야 합니다.
 
 {{% alert %}}
-Jupyter Notebook에서 스윕을 시작하는 경우 스윕에 대해 생성하는 스윕 구성은 중첩된 사전 형식이어야 합니다.
+Jupyter Notebook에서 스윕을 시작하려면, 반드시 중첩된 사전(nested dictionary) 형식으로 스윕 구성을 작성해야 합니다.
 
-커맨드라인 내에서 스윕을 실행하는 경우 [YAML 파일]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ko" >}})로 스윕 구성을 지정해야 합니다.
+커맨드라인에서 스윕을 실행할 경우, [YAML 파일]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ko" >}})로 스윕 구성을 지정해야 합니다.
 {{% /alert %}}
 
-### 검색 방법 선택
+### 탐색 방식 선택
 
-먼저 구성 사전 내에서 하이퍼파라미터 검색 방법을 지정합니다. [선택할 수 있는 세 가지 하이퍼파라미터 검색 전략(Grid, Random, 베이지안 탐색)이 있습니다]({{< relref path="/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/#method" lang="ko" >}}).
+먼저, 스윕 구성 사전에 하이퍼파라미터 탐색 방식을 지정합니다. [그리드, 랜덤, 베이지안 탐색 세 가지 방법 중 선택 가능합니다]({{< relref path="/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/#method" lang="ko" >}}).
 
-이 튜토리얼에서는 랜덤 검색을 사용합니다. 노트북 내에서 사전을 만들고 `method` 키에 대해 `random`을 지정합니다.
+이 튜토리얼에서는 랜덤 검색 방식을 사용합니다. 노트북에서 사전을 만들고, `method` 키에 `random`을 지정하세요.
 
 ```
 sweep_config = {
@@ -74,7 +74,7 @@ sweep_config = {
     }
 ```
 
-최적화할 메트릭을 지정합니다. 랜덤 검색 방법을 사용하는 스윕의 경우 메트릭과 목표를 지정할 필요가 없습니다. 그러나 나중에 참조할 수 있으므로 스윕 목표를 추적하는 것이 좋습니다.
+최적화할 메트릭을 지정합니다. 랜덤 탐색 방식을 사용할 때는 메트릭과 목표(goal)를 꼭 지정할 필요는 없지만, 나중을 대비해 목표를 명시해두는 것이 좋습니다.
 
 ```
 metric = {
@@ -85,15 +85,15 @@ metric = {
 sweep_config['metric'] = metric
 ```
 
-### 검색할 하이퍼파라미터 지정
+### 탐색할 하이퍼파라미터 지정하기
 
-이제 스윕 구성에 검색 방법이 지정되었으므로 검색할 하이퍼파라미터를 지정합니다.
+이제 스윕 구성에 탐색 방식을 지정했으니, 탐색할 하이퍼파라미터들을 추가합니다.
 
-이를 위해 `parameter` 키에 하나 이상의 하이퍼파라미터 이름을 지정하고 `value` 키에 하나 이상의 하이퍼파라미터 값을 지정합니다.
+`parameter` 키에 하이퍼파라미터 이름을, `value` 혹은 `values` 키에 탐색할 값들을 나열합니다.
 
-지정된 하이퍼파라미터에 대해 검색하는 값은 조사하는 하이퍼파라미터의 유형에 따라 다릅니다.
+어떤 하이퍼파라미터를 실험하는지에 따라 탐색할 값의 종류가 달라집니다.
 
-예를 들어, 머신 러닝 옵티마이저를 선택하는 경우 Adam 옵티마이저 및 확률적 그레이디언트 하강과 같이 하나 이상의 유한 옵티마이저 이름을 지정해야 합니다.
+예를 들어, 기계학습 옵티마이저를 탐색하려면, Adam 옵티마이저나 확률적 경사 하강법(sgd) 등 유한한 옵션 중에서 선택할 수 있습니다.
 
 ```
 parameters_dict = {
@@ -111,7 +111,7 @@ parameters_dict = {
 sweep_config['parameters'] = parameters_dict
 ```
 
-때로는 하이퍼파라미터를 추적하되 해당 값을 변경하지 않으려는 경우가 있습니다. 이 경우 하이퍼파라미터를 스윕 구성에 추가하고 사용하려는 정확한 값을 지정합니다. 예를 들어, 다음 코드 셀에서 `epochs`는 1로 설정됩니다.
+가끔 하이퍼파라미터를 추적은 하고 싶지만 값을 바꾸고 싶지 않을 때가 있습니다. 이 경우, 스윕 구성에 해당 하이퍼파라미터를 추가하고 사용할 값을 그대로 명시하면 됩니다. 아래 코드는 `epochs`를 1로 고정합니다.
 
 ```
 parameters_dict.update({
@@ -120,24 +120,22 @@ parameters_dict.update({
     })
 ```
 
-`random` 검색의 경우
-파라미터의 모든 `values`는 지정된 run에서 선택될 가능성이 동일합니다.
+`random` 탐색의 경우,
+각 파라미터 `values`의 값들이 run 에서 똑같은 확률로 선택됩니다.
 
-또는
-명명된 `distribution`과
-평균 `mu`와 `normal` 분포의 표준 편차 `sigma`와 같은 파라미터를 지정할 수 있습니다.
+또는,
+특정한 분포(distribution)와 파라미터(예: normal 분포의 평균 mu, 표준편차 sigma 등)를 지정할 수도 있습니다.
 
 ```
 parameters_dict.update({
     'learning_rate': {
-        # 0과 0.1 사이의 플랫 분포
+        # 0~0.1 사이에서 균일하게 값 샘플링
         'distribution': 'uniform',
         'min': 0,
         'max': 0.1
       },
     'batch_size': {
-        # 32에서 256 사이의 정수
-        # 균등하게 분포된 로그 사용
+        # 32~256 사이의 정수, 로그 스케일로 균등 분포
         'distribution': 'q_log_uniform_values',
         'q': 8,
         'min': 32,
@@ -146,61 +144,61 @@ parameters_dict.update({
     })
 ```
 
-완료되면 `sweep_config`는
-시도하는 데 관심 있는 `parameters`와
-시도하는 데 사용할 `method`를 정확히 지정하는 중첩된 사전입니다.
+완성된 `sweep_config`는
+우리가 시도해볼 `parameters`와 사용할 `method`가
+중첩된 사전 형태로 정의되어 있습니다.
 
-스윕 구성이 어떻게 보이는지 살펴봅시다.
+아래처럼 스윕 구성이 어떻게 생겼는지 확인할 수 있습니다:
 
 ```
 import pprint
 pprint.pprint(sweep_config)
 ```
 
-전체 구성 옵션 목록은 [스윕 구성 옵션]({{< relref path="/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" lang="ko" >}})을 참조하십시오.
+자세한 구성 옵션은 [스윕 구성 옵션]({{< relref path="/guides/models/sweeps/define-sweep-configuration/sweep-config-keys/" lang="ko" >}})에서 확인하세요.
 
 {{% alert %}}
-잠재적으로 무한한 옵션이 있는 하이퍼파라미터의 경우
-일반적으로 몇 가지 선택한 `values`를 시도하는 것이 좋습니다. 예를 들어, 앞의 스윕 구성에는 `layer_size` 및 `dropout` 파라미터 키에 대해 지정된 유한 값 목록이 있습니다.
+무한에 가까운 옵션이 있는 하이퍼파라미터의 경우,
+몇 가지 `values`만 선택하는 것이 보통 더 효율적입니다. 위 예시에서처럼 `layer_size`와 `dropout` 파라미터는 유한한 값 리스트를 지정했습니다.
 {{% /alert %}}
 
-## 2단계: 스윕 초기화
+## Step 2️: 스윕 초기화하기
 
-검색 전략을 정의했으면 이제 이를 구현할 항목을 설정할 차례입니다.
+탐색 전략을 정의했다면, 이제 이를 실제로 구현할 차례입니다.
 
-W&B는 스윕 컨트롤러를 사용하여 클라우드 또는 로컬에서 하나 이상의 머신에서 스윕을 관리합니다. 이 튜토리얼에서는 W&B에서 관리하는 스윕 컨트롤러를 사용합니다.
+W&B는 Sweep Controller를 사용해 클라우드 또는 로컬, 여러 머신에서 스윕을 관리합니다. 이 튜토리얼에서는 W&B에서 관리하는 sweep controller를 사용합니다.
 
-스윕 컨트롤러는 스윕을 관리하지만 실제로 스윕을 실행하는 구성 요소를 _스윕 에이전트_라고 합니다.
+Sweep Controller가 스윕을 관리하는 동안, 실제로 스윕을 실행하는 컴포넌트는 _스윕 에이전트_입니다.
 
 {{% alert %}}
-기본적으로 스윕 컨트롤러 구성 요소는 W&B 서버에서 시작되고 스윕을 생성하는 구성 요소인 스윕 에이전트는 로컬 머신에서 활성화됩니다.
+기본적으로, Sweep Controller 컴포넌트는 W&B 서버에서, 스윕 에이전트(실제 스윕 실행)는 사용자의 로컬 머신에서 시작됩니다.
 {{% /alert %}}
 
-노트북 내에서 `wandb.sweep` 메서드를 사용하여 스윕 컨트롤러를 활성화할 수 있습니다. 이전에 정의한 스윕 구성 사전을 `sweep_config` 필드에 전달합니다.
+노트북 내에서 `wandb.sweep` 메소드로 sweep controller를 활성화할 수 있습니다. 앞서 정의한 sweep 구성 사전을 `sweep_config` 파라미터에 전달해주세요:
 
 ```
 sweep_id = wandb.sweep(sweep_config, project="pytorch-sweeps-demo")
 ```
 
-`wandb.sweep` 함수는 나중에 스윕을 활성화하는 데 사용할 `sweep_id`를 반환합니다.
+`wandb.sweep` 함수는 추후 스윕 실행에 사용할 `sweep_id`를 반환합니다.
 
 {{% alert %}}
-커맨드라인에서 이 함수는 다음으로 대체됩니다.
+커맨드라인에서는 다음 python 코드로 기능을 대체합니다.
 ```python
 wandb sweep config.yaml
 ```
 {{% /alert %}}
 
-터미널에서 W&B Sweeps를 만드는 방법에 대한 자세한 내용은 [W&B Sweep 연습]({{< relref path="/guides/models/sweeps/walkthrough" lang="ko" >}})을 참조하십시오.
+터미널에서 W&B Sweep을 생성하는 방법의 자세한 설명은 [W&B Sweep 워크스루]({{< relref path="/guides/models/sweeps/walkthrough" lang="ko" >}})를 참고하세요.
 
-## 3단계: 머신 러닝 코드 정의
+## Step 3: 기계학습 코드 작성
 
-스윕을 실행하기 전에
-시도하려는 하이퍼파라미터 값을 사용하는 트레이닝 절차를 정의합니다. W&B Sweeps를 트레이닝 코드에 통합하는 핵심은 각 트레이닝 실험에 대해 트레이닝 논리가 스윕 구성에 정의된 하이퍼파라미터 값에 엑세스할 수 있는지 확인하는 것입니다.
+스윕을 실행하기 전에,
+실험에 사용할 하이퍼파라미터 값을 받아서 트레이닝하는 학습 함수를 정의합니다. W&B Sweeps와 학습 코드를 연동하는 핵심은, 매 실험마다 스윕 구성에 명시된 하이퍼파라미터 값을 트레이닝 로직이 엑세스할 수 있게 하는 것입니다.
 
-진행 중인 코드 예제에서 도우미 함수 `build_dataset`, `build_network`, `build_optimizer` 및 `train_epoch`는 스윕 하이퍼파라미터 구성 사전에 엑세스합니다.
+아래 예시에서는 보조 함수(`build_dataset`, `build_network`, `build_optimizer`, `train_epoch`)가 스윕 하이퍼파라미터 구성 사전을 사용합니다.
 
-노트북에서 진행 중인 머신 러닝 트레이닝 코드를 실행합니다. 이 함수는 PyTorch에서 기본 완전 연결 신경망을 정의합니다.
+노트북에서 아래 기계학습 트레이닝 코드를 실행해보세요. 이 함수들은 PyTorch로 기본적인 완전연결 신경망을 정의합니다.
 
 ```python
 import torch
@@ -212,11 +210,11 @@ from torchvision import datasets, transforms
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train(config=None):
-    # Initialize a new wandb run
-    with wandb.init(config=config):
-        # If called by wandb.agent, as below,
-        # this config will be set by Sweep Controller
-        config = wandb.config
+    # 새로운 wandb run을 초기화합니다
+    with wandb.init(config=config) as run:
+        # 아래와 같이 wandb.agent가 호출하면,
+        # 이 config는 Sweep Controller에 의해 설정됩니다
+        config = run.config
 
         loader = build_dataset(config.batch_size)
         network = build_network(config.fc_layer_size, config.dropout)
@@ -224,17 +222,18 @@ def train(config=None):
 
         for epoch in range(config.epochs):
             avg_loss = train_epoch(network, loader, optimizer)
-            wandb.log({"loss": avg_loss, "epoch": epoch})           
+            run.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
-`train` 함수 내에서 다음 W&B Python SDK 메서드를 확인할 수 있습니다.
-* [`wandb.init()`]({{< relref path="/ref/python/init" lang="ko" >}}): 새 W&B run을 초기화합니다. 각 run은 트레이닝 함수를 한 번 실행하는 것입니다.
-* [`wandb.config`]({{< relref path="/guides/models/track/config" lang="ko" >}}): 실험하려는 하이퍼파라미터로 스윕 구성을 전달합니다.
-* [`wandb.log()`]({{< relref path="/ref/python/log" lang="ko" >}}): 각 에포크에 대한 트레이닝 손실을 기록합니다.
+위 `train` 함수에는 다음과 같은 W&B Python SDK 메소드들이 등장합니다.
+* [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init/" lang="ko" >}}): 새로운 W&B Run을 초기화합니다. 각 run은 학습 함수의 한 번 실행을 의미합니다.
+* [`run.config`]({{< relref path="/guides/models/track/config" lang="ko" >}}): 실험할 하이퍼파라미터가 담긴 스윕 구성을 전달받습니다.
+* [`run.log()`]({{< relref path="/ref/python/sdk/classes/run/#method-runlog" lang="ko" >}}): 각 에포크의 트레이닝 loss를 기록합니다.
 
-진행 중인 셀은 네 가지 함수 `build_dataset`, `build_network`, `build_optimizer` 및 `train_epoch`를 정의합니다.
-이러한 함수는 기본 PyTorch 파이프라인의 표준 부분이며
-해당 구현은 W&B의 사용에 영향을 받지 않습니다.
+아래 코드는 네 가지 함수를 정의합니다:
+`build_dataset`, `build_network`, `build_optimizer`, `train_epoch`.
+이 함수들은 표준적인 PyTorch 파이프라인에 속하는 것으로,
+W&B와는 독립적으로 구현됩니다.
 
 ```python
 def build_dataset(batch_size):
@@ -242,7 +241,7 @@ def build_dataset(batch_size):
     transform = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize((0.1307,), (0.3081,))])
-    # download MNIST training dataset
+    # MNIST 트레이닝 데이터셋 다운로드
     dataset = datasets.MNIST(".", train=True, download=True,
                              transform=transform)
     sub_dataset = torch.utils.data.Subset(
@@ -253,7 +252,7 @@ def build_dataset(batch_size):
 
 
 def build_network(fc_layer_size, dropout):
-    network = nn.Sequential(  # fully connected, single hidden layer
+    network = nn.Sequential(  # 완전 연결, 단일 히든 레이어
         nn.Flatten(),
         nn.Linear(784, fc_layer_size), nn.ReLU(),
         nn.Dropout(dropout),
@@ -275,67 +274,69 @@ def build_optimizer(network, optimizer, learning_rate):
 
 def train_epoch(network, loader, optimizer):
     cumu_loss = 0
-    for _, (data, target) in enumerate(loader):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
 
-        # ➡ Forward pass
-        loss = F.nll_loss(network(data), target)
-        cumu_loss += loss.item()
+    with wandb.init() as run:
+        for _, (data, target) in enumerate(loader):
+            data, target = data.to(device), target.to(device)
+            optimizer.zero_grad()
 
-        # ⬅ Backward pass + weight update
-        loss.backward()
-        optimizer.step()
+            # ➡ forward 패스
+            loss = F.nll_loss(network(data), target)
+            cumu_loss += loss.item()
 
-        wandb.log({"batch loss": loss.item()})
+            # ⬅ backward 패스 + 가중치 업데이트
+            loss.backward()
+            optimizer.step()
+
+            run.log({"batch loss": loss.item()})
 
     return cumu_loss / len(loader)
 ```
 
-PyTorch로 W&B를 계측하는 방법에 대한 자세한 내용은 [이 Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)을 참조하십시오.
+PyTorch와 함께 W&B를 연동하는 자세한 방법은 [이 Colab 문서](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb)를 참고하세요.
 
-## 4단계: 스윕 에이전트 활성화
-이제 스윕 구성이 정의되었고 해당 하이퍼파라미터를 대화형으로 활용할 수 있는 트레이닝 스크립트가 있으므로 스윕 에이전트를 활성화할 준비가 되었습니다. 스윕 에이전트는 스윕 구성에 정의된 하이퍼파라미터 값 집합으로 실험을 실행하는 역할을 합니다.
+## Step 4: 스윕 에이전트 실행
 
-`wandb.agent` 메서드로 스윕 에이전트를 만듭니다. 다음을 제공합니다.
-1. 에이전트가 속한 스윕(`sweep_id`)
-2. 스윕이 실행해야 하는 함수. 이 예제에서는 스윕이 `train` 함수를 사용합니다.
-3. (선택 사항) 스윕 컨트롤러에 요청할 구성 수(`count`)
+이제 스윕 구성도 정의했고, 하이퍼파라미터를 실험에 사용할 수 있는 트레이닝 스크립트도 작성했으니, 스윕 에이전트를 실행해봅시다. 스윕 에이전트는 스윕 구성에서 정의한 하이퍼파라미터 값 조합으로 실험을 반복 실행하는 역할을 합니다.
+
+`wandb.agent` 메소드로 스윕 에이전트를 생성합니다. 다음의 인자가 필요합니다.
+1. 에이전트가 소속된 sweep (`sweep_id`)
+2. sweep에서 반복 실행할 함수. 여기서는 `train` 함수가 대상입니다.
+3. (선택) sweep controller로부터 받을 config 개수(`count`)
 
 {{% alert %}}
-동일한 `sweep_id`로 여러 스윕 에이전트를 시작할 수 있습니다
-다른 컴퓨팅 리소스에서. 스윕 컨트롤러는 정의한 스윕 구성에 따라 함께 작동하는지 확인합니다.
+동일한 `sweep_id`로 여러 대의 컴퓨팅 자원에서 스윕 에이전트를 동시에 실행할 수 있습니다. Sweep Controller가 스윕 구성에 맞게 전체 작업을 조율합니다.
 {{% /alert %}}
 
-진행 중인 셀은 트레이닝 함수(`train`)를 5번 실행하는 스윕 에이전트를 활성화합니다.
+아래 코드는 트레이닝 함수(`train`)를 5회 실행하는 스윕 에이전트를 활성화합니다:
 
 ```python
 wandb.agent(sweep_id, train, count=5)
 ```
 
 {{% alert %}}
-스윕 구성에 `random` 검색 방법이 지정되었으므로 스윕 컨트롤러는 무작위로 생성된 하이퍼파라미터 값을 제공합니다.
+스윕 구성에서 `random` 탐색 방식을 지정했으므로, 스윕 컨트롤러가 임의로 생성한 하이퍼파라미터 값을 제공합니다.
 {{% /alert %}}
 
-터미널에서 W&B Sweeps를 만드는 방법에 대한 자세한 내용은 [W&B Sweep 연습]({{< relref path="/guides/models/sweeps/walkthrough" lang="ko" >}})을 참조하십시오.
+터미널에서 W&B Sweep을 만드는 법은 [W&B Sweep 워크스루]({{< relref path="/guides/models/sweeps/walkthrough" lang="ko" >}})를 참고하세요.
 
 ## 스윕 결과 시각화
 
-### 병렬 좌표 플롯
-이 플롯은 하이퍼파라미터 값을 모델 메트릭에 매핑합니다. 최고의 모델 성능으로 이어진 하이퍼파라미터 조합을 파악하는 데 유용합니다.
+### Parallel Coordinates Plot
+이 플롯은 하이퍼파라미터 값을 모델 메트릭에 매핑합니다. 최적의 모델 성능을 보인 하이퍼파라미터 조합을 찾는 데 유용합니다.
 
-{{< img src="/images/tutorials/sweeps-2.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-2.png" alt="스윕 에이전트 실행 결과" >}}
 
-### 하이퍼파라미터 중요도 플롯
-하이퍼파라미터 중요도 플롯은 메트릭의 가장 적합한 예측 변수인 하이퍼파라미터를 나타냅니다.
-기능 중요도(랜덤 포레스트 모델에서)와 상관 관계(암시적으로 선형 모델)를 보고합니다.
+### Hyperparameter Importance Plot
+하이퍼파라미터 중요도 플롯은 어떤 하이퍼파라미터가 메트릭의 예측에 가장 큰 영향을 미쳤는지 시각적으로 보여줍니다.
+(랜덤 포레스트 모델의 feature 중요도와 상관계수 - 선형관계 기준 - 를 함께 제공합니다.)
 
-{{< img src="/images/tutorials/sweeps-3.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-3.png" alt="W&B 스윕 대시보드" >}}
 
-이러한 시각화는 가장 중요한 파라미터(및 값 범위)에 집중하여 추가 탐색할 가치가 있으므로 비싼 하이퍼파라미터 최적화를 실행하는 데 시간과 리소스를 절약하는 데 도움이 될 수 있습니다.
+이런 시각화는 가장 중요한 파라미터(및 값 범위)에 집중해 리소스를 절약하고, 의미 있는 추가 실험 설계에도 도움이 됩니다.
 
-## W&B Sweeps에 대해 자세히 알아보기
+## W&B Sweeps 더 알아보기
 
-간단한 트레이닝 스크립트와 [몇 가지 스윕 구성 방식](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion)을 만들어 사용해 볼 수 있습니다. 이러한 방식을 사용해 보시기 바랍니다.
+간단한 트레이닝 스크립트와 [스윕 구성 샘플](https://github.com/wandb/examples/tree/master/examples/keras/keras-cnn-fashion)을 만들어두었으니 부담 없이 실험해보세요!
 
-해당 리포지토리에는 [베이지안 Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla) 및 [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla)와 같은 고급 스윕 기능을 사용해 보는 데 도움이 되는 예제도 있습니다.
+해당 저장소에는 [Bayesian Hyperband](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/us0ifmrf?workspace=user-lavanyashukla), [Hyperopt](https://app.wandb.ai/wandb/examples-keras-cnn-fashion/sweeps/xbs2wm5e?workspace=user-lavanyashukla) 등 더 수준 높은 스윕 예제도 포함되어 있습니다.

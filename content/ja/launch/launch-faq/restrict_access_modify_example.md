@@ -1,9 +1,9 @@
 ---
-title: 管理者はどのユーザーが修正アクセスを持つかをどのように制限できますか？
+title: 管理者はどのようにして、どのユーザーが編集アクセス権を持つかを制限できますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-restrict_access_modify_example
     parent: launch-faq
 ---
 
-アクセスを制御するために、チームの管理者でないユーザー向けに特定のキューのフィールドを [queue config templates]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ja" >}}) を通じて設定します。チーム管理者は、非管理者ユーザーがどのフィールドを閲覧できるかを定義し、編集の制限を設定します。キューを作成または編集する能力を持っているのはチーム管理者のみです。
+[queue config templates]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ja" >}}) を使って、チーム管理者以外のユーザーによる特定のキュー項目へのアクセスを制御できます。チーム管理者は、管理者以外のユーザーが閲覧できる項目や編集の制限を設定できます。キューの作成や編集はチーム管理者のみが行えます。

@@ -1,15 +1,16 @@
 ---
-title: 継続的なインテグレーションや内部ツールによってローンンチされた run をどのようにログしますか？
+title: 継続的インテグレーションや社内ツールでローンチされた run をログするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_automated_runs_service_account
 support:
-  - runs
-  - logs
+- run
+- ログ
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-W&B にログを記録する自動テストや内部ツールをローンチするには、チーム設定ページで **Service Account** を作成します。このアクションにより、継続的インテグレーションを通じて実行されるものを含む自動化されたジョブのためのサービス API キーの使用が可能になります。サービスアカウントジョブを特定のユーザーに帰属させるには、`WANDB_USERNAME` または `WANDB_USER_EMAIL` 環境変数を設定します。
 
-{{< img src="/images/track/common_questions_automate_runs.png" alt="自動化されたジョブのためにチーム設定ページでサービスアカウントを作成する" >}}
+自動テストや W&B へのログを行う内部ツールを起動するには、チームの設定ページで **Service Account** を作成してください。この操作により、継続的インテグレーションなどで動作する自動ジョブ用にサービス用の APIキー を利用できるようになります。Service Account のジョブを特定のユーザーに紐付けるには、`WANDB_USERNAME` または `WANDB_USER_EMAIL` の環境変数を設定してください。
+
+{{< img src="/images/track/common_questions_automate_runs.png" alt="Service Account の作成" >}}

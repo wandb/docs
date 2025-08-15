@@ -1,5 +1,5 @@
 ---
-title: wandb artifact cache
+title: wandb 아티팩트 캐시
 menu:
   reference:
     identifier: ko-ref-cli-wandb-artifact-wandb-artifact-cache-_index
@@ -11,7 +11,7 @@ menu:
 
 **요약**
 
-아티팩트 캐시와 상호 작용하기 위한 코맨드
+artifact 캐시와 상호작용하는 코맨드입니다
 
 
 **옵션**
@@ -24,4 +24,4 @@ menu:
 
 | **코맨드** | **설명** |
 | :--- | :--- |
-| cleanup | 아티팩트 캐시에서 덜 자주 사용되는 파일을 정리합니다 |
+| cleanup | Artifacts 캐시에서 자주 사용되지 않는 파일을 정리합니다 |

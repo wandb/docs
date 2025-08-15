@@ -4,9 +4,10 @@ menu:
   support:
     identifier: ja-support-kb-articles-delete_organization_account
 support:
-  - administrator
+- 管理者
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-組織アカウントを削除するには、以下の手順に従い、サポートチーム（support@wandb.com）に連絡してください。
+
+組織アカウントを削除するには、以下の手順に従い、サポートチーム（support@wandb.com）にご連絡ください。

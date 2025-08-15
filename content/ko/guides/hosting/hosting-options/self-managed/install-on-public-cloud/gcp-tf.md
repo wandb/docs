@@ -1,6 +1,6 @@
 ---
-title: Deploy W&B Platform on GCP
-description: GCP에서 W&B 서버 호스팅하기.
+title: GCP 에 W&B 플랫폼 배포하기
+description: GCP에서 W&B 서버 호스팅하기
 menu:
   default:
     identifier: ko-guides-hosting-hosting-options-self-managed-install-on-public-cloud-gcp-tf
@@ -9,18 +9,18 @@ weight: 20
 ---
 
 {{% alert %}}
-Weights & Biases 에서는 [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) 또는 [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ko" >}}) 배포 유형과 같은 완전 관리형 배포 옵션을 권장합니다. Weights & Biases 완전 관리형 서비스는 사용하기 간편하고 안전하며, 필요한 설정이 최소화되어 있습니다.
+W&B는 [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ko" >}}) 또는 [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ko" >}})와 같은 완전 관리형 배포 옵션을 권장합니다. W&B 완전 관리형 서비스는 최소 또는 별도의 설정 없이 간편하고 안전하게 사용할 수 있습니다.
 {{% /alert %}}
 
-W&B Server를 자체 관리하기로 결정했다면, GCP에 플랫폼을 배포하기 위해 [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest)을 사용하는 것이 좋습니다.
+직접 W&B Server를 운영하기로 결정하셨다면, GCP에 플랫폼을 배포하기 위해 [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest)을 사용하는 것을 권장드립니다.
 
-모듈 문서는 광범위하며 사용 가능한 모든 옵션이 포함되어 있습니다.
+이 모듈의 문서는 매우 상세하며, 사용할 수 있는 모든 옵션이 포함되어 있습니다.
 
-시작하기 전에 Terraform에서 사용 가능한 [원격 백엔드](https://developer.hashicorp.com/terraform/language/backend/remote) 중 하나를 선택하여 [State File](https://developer.hashicorp.com/terraform/language/state)을 저장하는 것이 좋습니다.
+시작하기 전에, Terraform의 [원격 백엔드](https://developer.hashicorp.com/terraform/language/backend/remote) 중 하나를 선택하여 [State File](https://developer.hashicorp.com/terraform/language/state)을 저장하는 것을 추천합니다.
 
-State File은 모든 구성 요소를 다시 만들지 않고도 업그레이드를 롤아웃하거나 배포를 변경하는 데 필요한 리소스입니다.
+State File은 배포 시 모든 컴포넌트를 다시 생성하지 않고, 업그레이드나 변경사항을 적용할 때 반드시 필요한 리소스입니다.
 
-Terraform Module은 다음과 같은 `필수` 구성 요소를 배포합니다.
+Terraform 모듈은 다음의 `필수` 컴포넌트들을 자동으로 배포합니다:
 
 - VPC
 - Cloud SQL for MySQL
@@ -29,28 +29,28 @@ Terraform Module은 다음과 같은 `필수` 구성 요소를 배포합니다.
 - KMS Crypto Key
 - Load Balancer
 
-다른 배포 옵션에는 다음과 같은 선택적 구성 요소가 포함될 수도 있습니다.
+다른 옵션을 추가할 경우, 다음과 같은 선택적 컴포넌트도 포함될 수 있습니다:
 
-- Redis용 메모리 저장소
+- Redis용 Memory store
 - Pub/Sub 메시지 시스템
 
-## 사전 필수 권한
+## 사전 요구 권한
 
-terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 역할을 가지고 있어야 합니다.
+Terraform을 실행할 계정이 사용할 GCP 프로젝트에서 `roles/owner` 역할을 가지고 있어야 합니다.
 
-## 일반적인 단계
+## 일반 절차
 
-이 항목의 단계는 이 문서에서 다루는 모든 배포 옵션에 공통적입니다.
+이 항목의 모든 단계는 본 문서에서 소개하는 어떤 배포 방식에도 공통적으로 적용됩니다.
 
 1. 개발 환경을 준비합니다.
-   - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)을 설치합니다.
-   - 사용할 코드로 Git 저장소를 만드는 것이 좋지만, 파일을 로컬에 보관할 수도 있습니다.
-   - [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트를 만듭니다.
-   - GCP로 인증합니다 ([gcloud 설치](https://cloud.google.com/sdk/docs/install)되었는지 확인).
+   - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) 설치
+   - 사용할 코드를 관리할 Git 저장소 생성을 권장하지만, 파일을 로컬에만 보관해도 됩니다.
+   - [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트 생성
+   - GCP에 인증 (사전에 [gcloud 설치](https://cloud.google.com/sdk/docs/install) 필요)
      `gcloud auth application-default login`
-2. `terraform.tfvars` 파일을 만듭니다.
+2. `terraform.tfvars` 파일을 생성합니다.
 
-   `tvfars` 파일 내용은 설치 유형에 따라 사용자 정의할 수 있지만, 최소 권장 사항은 아래 예제와 같습니다.
+   `tfvars` 파일의 내용은 설치 형태에 따라 맞춤 구성할 수 있습니다. 최소 권장 내용은 아래와 같습니다.
 
    ```bash
    project_id  = "wandb-project"
@@ -62,13 +62,13 @@ terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 
    domain_name = "wandb.ml"
    ```
 
-   여기에 정의된 변수는 배포 전에 결정해야 합니다. `namespace` 변수는 Terraform에서 생성된 모든 리소스의 접두사가 되는 문자열입니다.
+   여기 정의된 변수들은 배포 전 결정되어야 합니다. `namespace` 변수는 Terraform이 생성하는 모든 리소스 이름 앞에 붙는 문자열입니다.
 
-   `subdomain`과 `domain`의 조합은 Weights & Biases가 구성될 FQDN을 형성합니다. 위의 예에서 Weights & Biases FQDN은 `wandb-gcp.wandb.ml`입니다.
+   `subdomain`과 `domain` 조합으로 W&B가 설정될 FQDN이 만들어집니다. 위의 예시에서는 W&B FQDN이 `wandb-gcp.wandb.ml`이 됩니다.
 
-3. `variables.tf` 파일을 만듭니다.
+3. `variables.tf` 파일을 생성합니다.
 
-   `terraform.tfvars`에서 구성된 모든 옵션에 대해 Terraform은 해당 변수 선언이 필요합니다.
+   `terraform.tfvars`에 정의된 각 옵션은 Terraform에 변수 선언이 필요합니다.
 
    ```
    variable "project_id" {
@@ -88,17 +88,17 @@ terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 
 
    variable "namespace" {
      type        = string
-     description = "리소스에 사용되는 네임스페이스 접두사"
+     description = "Namespace prefix used for resources"
    }
 
    variable "domain_name" {
      type        = string
-     description = "Weights & Biases UI에 엑세스하기 위한 도메인 이름입니다."
+     description = "Domain name for accessing the Weights & Biases UI."
    }
 
    variable "subdomain" {
      type        = string
-     description = "Weights & Biases UI에 엑세스하기 위한 하위 도메인입니다."
+     description = "Subdomain for access the Weights & Biases UI."
    }
 
    variable "license" {
@@ -107,13 +107,13 @@ terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 
    }
    ```
 
-## 배포 - 권장 (~20분)
+## 배포 - 권장 방식 (~20분 소요)
 
-이는 모든 `필수` 구성 요소를 만들고 `Kubernetes Cluster`에 최신 버전의 `W&B`를 설치하는 가장 간단한 배포 옵션 구성입니다.
+가장 단순한 구성의 배포 옵션으로 모든 `필수` 컴포넌트 생성과 `Kubernetes Cluster`에 최신 버전의 `W&B` 설치를 포함합니다.
 
-1. `main.tf`를 만듭니다.
+1. `main.tf` 파일을 만듭니다.
 
-   [일반적인 단계]({{< relref path="#general-steps" lang="ko" >}})에서 파일을 만든 동일한 디렉토리에 다음 내용으로 `main.tf` 파일을 만듭니다.
+   [일반 절차]({{< relref path="#general-steps" lang="ko" >}})에서 생성한 파일들과 동일한 디렉토리에, 아래와 같이 `main.tf` 파일을 생성하세요:
 
    ```
    provider "google" {
@@ -136,7 +136,7 @@ terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 
      token                  = data.google_client_config.current.access_token
    }
 
-   # Spin up all required services
+   # 필요한 모든 서비스 생성
    module "wandb" {
      source  = "wandb/wandb/google"
      version = "~> 5.0"
@@ -147,7 +147,7 @@ terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 
      subdomain   = var.subdomain
    }
 
-   # You'll want to update your DNS with the provisioned IP address
+   # 프로비저닝된 IP 어드레스로 DNS를 업데이트하세요
    output "url" {
      value = module.wandb.url
    }
@@ -161,20 +161,20 @@ terraform을 실행할 계정은 사용된 GCP 프로젝트에서 `roles/owner` 
    }
    ```
 
-2. W&B를 배포합니다.
+2. W&B 배포
 
-   W&B를 배포하려면 다음 코맨드를 실행합니다.
+   W&B를 배포하려면, 다음 명령어를 실행하세요:
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## REDIS Cache를 사용한 배포
+## REDIS Cache를 활용한 배포
 
-또 다른 배포 옵션은 `Redis`를 사용하여 SQL 쿼리를 캐시하고 Experiments에 대한 메트릭 로드 시 애플리케이션 응답 속도를 높이는 것입니다.
+SQL 쿼리를 캐시하여 실험 메트릭 로딩 시 애플리케이션 응답 속도를 향상시키기 위한 추가 배포 옵션입니다.
 
-캐시를 활성화하려면 권장되는 [배포 옵션 섹션]({{< relref path="#deployment---recommended-20-mins" lang="ko" >}})에 지정된 동일한 `main.tf` 파일에 옵션 `create_redis = true`를 추가해야 합니다.
+`create_redis = true` 옵션을 [권장 배포 방식]({{< relref path="#deployment---recommended-20-mins" lang="ko" >}})에 설명된 `main.tf` 파일에 추가하면 캐시 기능을 활성화할 수 있습니다.
 
 ```
 [...]
@@ -188,7 +188,7 @@ module "wandb" {
   domain_name  = var.domain_name
   subdomain    = var.subdomain
   allowed_inbound_cidrs = ["*"]
-  #Enable Redis
+  # Redis 활성화
   create_redis = true
 
 }
@@ -197,9 +197,9 @@ module "wandb" {
 
 ## 외부 큐를 사용한 배포
 
-배포 옵션 3은 외부 `message broker`를 활성화하는 것으로 구성됩니다. W&B는 broker가 내장되어 있으므로 선택 사항입니다. 이 옵션은 성능 향상을 제공하지 않습니다.
+세 번째 배포 옵션은 외부 `message broker` 활성화입니다. 이는 선택 사항으로 W&B가 기본적으로 내장 브로커를 제공하기 때문에 성능 향상과는 무관합니다.
 
-메시지 broker를 제공하는 GCP 리소스는 `Pub/Sub`이며, 이를 활성화하려면 권장되는 [배포 옵션 섹션]({{< relref path="#deployment---recommended-20-mins" lang="ko" >}})에 지정된 동일한 `main.tf`에 옵션 `use_internal_queue = false`를 추가해야 합니다.
+GCP에서 메시지 브로커 리소스는 `Pub/Sub`이며, 이를 사용하려면 권장 [배포 옵션]({{< relref path="#deployment---recommended-20-mins" lang="ko" >}})에서 설명한 동일한 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요.
 
 ```
 [...]
@@ -213,7 +213,7 @@ module "wandb" {
   domain_name        = var.domain_name
   subdomain          = var.subdomain
   allowed_inbound_cidrs = ["*"]
-  #Create and use Pub/Sub
+  # Pub/Sub 생성 및 사용
   use_internal_queue = false
 
 }
@@ -222,44 +222,48 @@ module "wandb" {
 
 ```
 
-## 기타 배포 옵션
+## 추가 배포 옵션
 
-동일한 파일에 모든 구성을 추가하여 세 가지 배포 옵션을 모두 결합할 수 있습니다.
-[Terraform Module](https://github.com/wandb/terraform-google-wandb)은 `배포 - 권장`에서 찾은 표준 옵션 및 최소 구성과 함께 결합할 수 있는 여러 옵션을 제공합니다.
+세 가지 배포 옵션을 모두 결합하여 하나의 파일에 구성 추가가 가능합니다.
+[Terraform Module](https://github.com/wandb/terraform-google-wandb)은 여러 다양한 옵션을 제공하며, 표준 및 최소 구성과 함께 조합할 수 있습니다.
 
-## 수동 구성
 
-GCP Storage 버킷을 W&B의 파일 스토리지 백엔드로 사용하려면 다음을 만들어야 합니다.
 
-* [PubSub Topic 및 Subscription]({{< relref path="#create-pubsub-topic-and-subscription" lang="ko" >}})
-* [Storage Bucket]({{< relref path="#create-storage-bucket" lang="ko" >}})
-* [PubSub Notification]({{< relref path="#create-pubsub-notification" lang="ko" >}})
 
-### PubSub Topic 및 Subscription 만들기
+## 수동 설정
 
-PubSub 토픽 및 구독을 만들려면 아래 절차를 따르십시오.
+GCP Storage bucket을 W&B의 파일 스토리지 백엔드로 사용하려면 다음을 생성해야 합니다:
 
-1. GCP Console 내에서 Pub/Sub 서비스로 이동합니다.
-2. **토픽 만들기**를 선택하고 토픽 이름을 입력합니다.
-3. 페이지 하단에서 **구독 만들기**를 선택합니다. **전달 유형**이 **Pull**로 설정되어 있는지 확인합니다.
-4. **만들기**를 클릭합니다.
+* [PubSub Topic 및 Subscription 생성]({{< relref path="#create-pubsub-topic-and-subscription" lang="ko" >}})
+* [Storage Bucket 생성]({{< relref path="#create-storage-bucket" lang="ko" >}})
+* [PubSub Notification 생성]({{< relref path="#create-pubsub-notification" lang="ko" >}})
 
-인스턴스를 실행하는 서비스 계정 또는 계정이 이 구독에 대해 `pubsub.admin` 역할을 가지고 있는지 확인합니다. 자세한 내용은 https://cloud.google.com/pubsub/docs/access-control#console을 참조하십시오.
 
-### Storage Bucket 만들기
+### PubSub Topic 및 Subscription 생성
+
+아래 절차대로 PubSub 토픽 및 구독을 생성합니다.
+
+1. GCP 콘솔에서 Pub/Sub 서비스로 이동합니다.
+2. **Create Topic**을 선택하고 토픽 이름을 입력합니다.
+3. 페이지 하단에서 **Create subscription**을 선택합니다. **Delivery Type**은 반드시 **Pull**로 설정해야 합니다.
+4. **Create**를 클릭합니다.
+
+인스턴스가 실행되는 서비스 계정 또는 계정에 이 subscription에 대한 `pubsub.admin` 역할이 부여되어야 합니다. 자세한 내용은 https://cloud.google.com/pubsub/docs/access-control#console 을 참고하세요.
+
+### Storage Bucket 생성
 
 1. **Cloud Storage Buckets** 페이지로 이동합니다.
-2. **버킷 만들기**를 선택하고 버킷 이름을 입력합니다. **Standard** [스토리지 클래스](https://cloud.google.com/storage/docs/storage-classes)를 선택해야 합니다.
+2. **Create bucket**을 선택 후 이름을 입력합니다. [스토리지 클래스](https://cloud.google.com/storage/docs/storage-classes) 중 반드시 **Standard**를 선택하세요.
 
-인스턴스를 실행하는 서비스 계정 또는 계정이 다음을 모두 가지고 있는지 확인합니다.
-* 이전 단계에서 만든 버킷에 대한 엑세스 권한
-* 이 버킷에 대한 `storage.objectAdmin` 역할 자세한 내용은 https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add를 참조하십시오.
+인스턴스가 실행되는 서비스 계정 혹은 계정에는 다음 권한이 필요합니다:
+* 방금 만든 버킷에 대한 엑세스 권한
+* 해당 버킷에 대해 `storage.objectAdmin` 역할 (https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add)
 
 {{% alert %}}
-인스턴스는 서명된 파일 URL을 만들기 위해 GCP에서 `iam.serviceAccounts.signBlob` 권한도 필요합니다. 인스턴스가 실행되는 서비스 계정 또는 IAM 멤버에 `Service Account Token Creator` 역할을 추가하여 권한을 활성화합니다.
+서명된 파일 URL 생성을 위해 인스턴스에 GCP의 `iam.serviceAccounts.signBlob` 권한이 필요합니다. 서비스 계정 또는 인스턴스가 실행 중인 IAM 멤버에 `Service Account Token Creator` 역할을 추가하세요. 
 {{% /alert %}}
 
-3. CORS 엑세스를 활성화합니다. 이는 커맨드라인을 사용해서만 수행할 수 있습니다. 먼저 다음 CORS 구성으로 JSON 파일을 만듭니다.
+3. CORS 엑세스를 활성화합니다. 이는 커맨드라인에서만 가능합니다. 먼저 아래와 같이 CORS 설정이 지정된 JSON 파일을 생성하세요.
 
 ```
 cors:
@@ -273,50 +277,50 @@ cors:
    - Content-Type
 ```
 
-origin 값의 체계, 호스트 및 포트가 정확히 일치해야 합니다.
+origin에 대한 scheme, host, 포트는 실제 값과 정확히 일치해야 합니다.
 
-4. `gcloud`가 설치되어 있고 올바른 GCP 프로젝트에 로그인되어 있는지 확인합니다.
-5. 다음을 실행합니다.
+4. `gcloud`가 설치되어 있고, 올바른 GCP 프로젝트에 로그인되어 있는지 확인하십시오.
+5. 그리고 다음을 실행하세요:
 
 ```bash
 gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 ```
 
-### PubSub Notification 만들기
-커맨드라인에서 아래 절차에 따라 Storage Bucket에서 Pub/Sub 토픽으로의 알림 스트림을 만듭니다.
+### PubSub Notification 생성
+아래 절차대로 Storage Bucket에서 Pub/Sub 토픽으로 알림 스트림을 커맨드라인에서 생성하세요.
 
 {{% alert %}}
-CLI를 사용하여 알림 스트림을 만들어야 합니다. `gcloud`가 설치되어 있는지 확인합니다.
+CLI를 사용해서만 알림 스트림을 만들 수 있습니다. `gcloud`가 반드시 설치되어 있어야 합니다.
 {{% /alert %}}
 
 1. GCP 프로젝트에 로그인합니다.
-2. 터미널에서 다음을 실행합니다.
+2. 터미널에서 다음을 실행하세요:
 
 ```bash
-gcloud pubsub topics list  # 참조용 토픽 이름 나열
-gcloud storage ls          # 참조용 버킷 이름 나열
+gcloud pubsub topics list  # 참고용 토픽 이름 목록 확인
+gcloud storage ls          # 참고용 버킷 목록 확인
 
-# 버킷 알림 만들기
+# 버킷의 알림 생성
 gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NAME>
 ```
 
-[자세한 참조는 Cloud Storage 웹사이트에서 확인할 수 있습니다.](https://cloud.google.com/storage/docs/reporting-changes)
+[더 자세한 내용은 Cloud Storage 공식 문서를 참고하세요.](https://cloud.google.com/storage/docs/reporting-changes)
 
-### W&B 서버 구성
+### W&B 서버 설정
 
-1. 마지막으로 `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`에서 W&B `System Connections` 페이지로 이동합니다.
-2. `Google Cloud Storage (gcs)` 제공자를 선택합니다.
-3. GCS 버킷 이름을 제공합니다.
+1. 마지막 단계로, W&B의 `System Connections` 페이지(`http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`)로 이동합니다.
+2. provider에서 `Google Cloud Storage (gcs)`를 선택합니다.
+3. GCS bucket 이름을 입력하세요.
 
-{{< img src="/images/hosting/configure_file_store_gcp.png" alt="" >}}
+{{< img src="/images/hosting/configure_file_store_gcp.png" alt="GCP 파일 저장소 설정" >}}
 
-4. **설정 업데이트**를 눌러 새 설정을 적용합니다.
+4. **Update settings**를 눌러 변경 사항을 적용하세요.
 
 ## W&B Server 업그레이드
 
-W&B를 업데이트하려면 여기에 설명된 단계를 따르십시오.
+아래 절차에 따라 W&B를 업데이트할 수 있습니다.
 
-1. `wandb_app` 모듈의 구성에 `wandb_version`을 추가합니다. 업그레이드할 W&B 버전을 제공합니다. 예를 들어, 다음 줄은 W&B 버전 `0.48.1`을 지정합니다.
+1. `wandb_app` 모듈의 설정에 `wandb_version`을 추가하고, 업그레이드할 W&B 버전을 지정합니다. 예를 들어, 아래와 같이 W&B 버전 `0.58.1`을 명시할 수 있습니다.
 
   ```
   module "wandb_app" {
@@ -328,7 +332,7 @@ W&B를 업데이트하려면 여기에 설명된 단계를 따르십시오.
   ```
 
   {{% alert %}}
-  또는 `wandb_version`을 `terraform.tfvars`에 추가하고 동일한 이름으로 변수를 만들고 리터럴 값 대신 `var.wandb_version`을 사용할 수 있습니다.
+  또는, `wandb_version`을 `terraform.tfvars`에 추가하여 동일한 이름으로 변수를 생성한 다음, 리터럴 값 대신 `var.wandb_version`을 사용할 수도 있습니다.
   {{% /alert %}}
 
-2. 구성을 업데이트한 후 [배포 옵션 섹션]({{< relref path="#deployment---recommended-20-mins" lang="ko" >}})에 설명된 단계를 완료합니다.
+2. 구성 수정 후에는 [배포 옵션]({{< relref path="#deployment---recommended-20-mins" lang="ko" >}})에서 안내된 절차를 그대로 따라 실행하세요.

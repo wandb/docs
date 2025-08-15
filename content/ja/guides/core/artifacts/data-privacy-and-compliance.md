@@ -1,30 +1,31 @@
 ---
-title: アーティファクトのデータプライバシーとコンプライアンス
-description: デフォルトで W&B ファイルが保存される場所を学びましょう。機密情報の保存方法について探索します。
+title: Artifact データのプライバシーとコンプライアンス
+description: W&B ファイルのデフォルト保存場所について学びましょう。センシティブな情報の保存方法や管理方法も紹介します。
 menu:
   default:
     identifier: ja-guides-core-artifacts-data-privacy-and-compliance
     parent: artifacts
 ---
 
-ファイルは、Artifacts をログするときに W&B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存中および転送中の両方で暗号化されます。Artifact ファイルは、対応するプロジェクトへのアクセス権を持つユーザーにのみ表示されます。
+ファイルは Artifacts をログすると、W&B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存時と転送時の両方で暗号化されています。Artifact ファイルは、対応する Project へのアクセス権を持つユーザーのみが閲覧できます。
 
-{{< img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバー図" >}}
+{{< img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバーダイアグラム" >}}
 
-アーティファクトのバージョンを削除すると、そのバージョンはデータベースでソフト削除としてマークされ、ストレージコストからも除外されます。アーティファクト全体を削除すると、それは完全削除のためにキューに入れられ、その内容はすべて W&B バケットから削除されます。ファイル削除に関する特定のニーズがある場合は、[Customer Support](mailto:support@wandb.com) にお問い合わせください。
+Artifact のバージョンを削除すると、当社のデータベースでソフト削除としてマークされ、ストレージコストから除外されます。Artifact 全体を削除すると、完全削除のキューに入り、その中身もすべて W&B バケットから削除されます。ファイル削除に関し特別なニーズがある場合は、[カスタマーサポート](mailto:support@wandb.com)までご連絡ください。
 
-マルチテナント環境に存在できない機密データセットには、クラウドバケットに接続されたプライベート W&B サーバーまたは _reference artifacts_ を使用することができます。Reference artifacts は、ファイル内容を W&B に送信せずに、プライベートバケットへの参照を追跡します。Reference artifacts は、バケットやサーバー上のファイルへのリンクを維持します。つまり、W&B はファイルそのものではなく、ファイルに関連するメタデータのみを追跡します。
+マルチテナント環境に置けない機密性の高い Dataset に対しては、クラウドバケットと接続したプライベートな W&B サーバーや、_reference artifacts_ を使うことができます。Reference artifacts は、ファイルの内容を W&B に送信せず、プライベートバケットへの参照のみを追跡します。Reference artifacts は、あなたのバケットやサーバー上のファイルへのリンクを保持します。つまり、W&B が保持するのはファイルに関するメタデータのみで、本体ファイル自体は保存しません。
 
-{{< img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウド図" >}}
+{{< img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウドダイアグラム" >}}
 
-リファレンスアーティファクトは、通常のアーティファクトを作成する方法と似ています。
+Reference artifact は、通常の artifact を作成するのとほぼ同じ方法で作成できます。
 
 ```python
 import wandb
 
 run = wandb.init()
 artifact = wandb.Artifact("animals", type="dataset")
+# ファイル参照を追加
 artifact.add_reference("s3://my-bucket/animals")
 ```
 
-代替案については、[contact@wandb.com](mailto:contact@wandb.com) にお問い合わせいただき、プライベートクラウドおよびオンプレミスのインストールについてご相談ください。
+その他の選択肢については、プライベートクラウドやオンプレミスでの導入について [contact@wandb.com](mailto:contact@wandb.com) へお問い合わせください。
