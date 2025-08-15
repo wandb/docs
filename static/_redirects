@@ -101,7 +101,7 @@
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
 /guides/app/settings-page/intro/ /guides/app/settings-page/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
-/guides/artifacts/api/ /ref/python/public-api/api#artifact/ 301
+/guides/artifacts/api/ /ref/python/public-api/artifacts/ 301
 /guides/artifacts/artifacts-core-concepts/ /guides/artifacts/ 301
 /guides/artifacts/artifacts-faqs/ /support/index_artifacts/ 301
 /guides/artifacts/dataset-versioning/ /guides/artifacts/ 301
@@ -217,7 +217,7 @@
 /guides/sweeps/configuration/ /guides/sweeps/define-sweep-configuration/ 301
 /guides/sweeps/faq/ /support/index_sweeps/ 301
 /guides/sweeps/parallelize-agent/ /guides/sweeps/parallelize-agents/ 301
-/guides/sweeps/python-api/ /ref/python/public-api/api/ 301
+/guides/sweeps/python-api/ /ref/python/public-api/sweeps/ 301
 /guides/tables/log-tables/ /guides/track/log/log-tables/ 301
 /guides/technical-faq/admin/ /support/index_administrator/ 301
 /guides/technical-faq/general/ /support/index/ 301
@@ -272,7 +272,7 @@
 /library/advanced/limits/ /guides/track/limits/ 301
 /library/advanced/resuming/ /guides/runs/resuming/ 301
 /library/agents/ /ref/python/sdk/functions/agent/ 301
-/library/api/examples/ /ref/python/public-api/api/ 301
+/library/api/examples/ /ref/python/python_api_walkthrough/ 301
 /library/api/ /ref/python/public-api/api/ 301
 /library/cli/ /ref/cli/ 301
 /library/config/ /ref/weave/run#run-config/ 301
@@ -295,7 +295,7 @@
 /library/reference/data_types/ /ref/python/sdk/data-types/ 301
 /library/restore/ /ref/python/ 301
 /library/resuming/ /guides/runs/resuming/ 301
-/library/save/ /ref/python/public-api/run#save/ 301
+/library/save/ /ref/python/public-api/runs/#method-runsave 301
 /library/security https://security.wandb.ai/ 301
 /library/sweeps/configuration/ /ref/python/sdk/functions/sweep/ 301
 /library/sweeps/local-controller/ /guides/sweeps/local-controller/ 301
@@ -430,7 +430,7 @@
 /ref/python/log/ /ref/python/sdk/ 301
 /ref/python/login/ /ref/python/sdk/functions/login/ 301
 /ref/python/run/ /ref/python/sdk/classes/run/ 301
-/ref/python/save/ /ref/python/sdk/ 301
+/ref/python/save/ /ref/python/public-api/runs/#method-runsave 301
 /ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
 /ref/python/watch/ /ref/python/sdk/ 301
 # END lazydocs migration
@@ -515,7 +515,7 @@
 # API paths
 /ref/api /ref/python/public-api/api/ 301
 /api /ref/python/public-api/api/ 301
-/artifacts/api /ref/python/public-api/api#artifact/ 301
+/artifacts/api /ref/python/sdk/classes/artifact/ 301
 
 # Python ref paths
 /ref/python/run /ref/python/sdk/classes/run/ 301
@@ -619,7 +619,7 @@
 /ref/python/integrations/sklearn/* /guides/integrations/scikit/ 301
 
 ## Python public-api subdirectory redirects - wildcard
-/ref/python/public-api/artifact/* /ref/python/public-api/api#artifact/ 301
+/ref/python/public-api/artifact/* /ref/python/public-api/artifacts/ 301
 
 
 ## Self-hosted paths redirects
