@@ -9,7 +9,7 @@ weight: 1
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
-[Weights & Biases](https://www.wandb.com) を使用して、機械学習の実験管理、データセットのバージョン管理、およびプロジェクトのコラボレーションを行います。
+[Weights & Biases](https://www.wandb.ai) を使用して、機械学習の実験管理、データセットのバージョン管理、およびプロジェクトのコラボレーションを行います。
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
 
@@ -353,7 +353,7 @@ def train_log(loss, example_ct, epoch):
 もはやどの `.h5` や `.pb` がどのトレーニングrunに対応しているのかを見失うことはありません。
 
 モデルの保存、バージョン管理、配布のための、高度な `wandb` 機能については、
-[Artifacts ツール](https://www.wandb.com/artifacts)をご覧ください。
+[Artifacts ツール](https://www.wandb.ai/artifacts)をご覧ください。
 
 ```python
 def test(model, test_loader):

@@ -53,7 +53,7 @@ W&B can connect to the following storage providers:
 - [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) is a high-performance, S3-compatible object storage service optimized for AI workloads.
 - [Amazon S3](https://aws.amazon.com/s3/) is an object storage service offering industry-leading scalability, data availability, security, and performance.
 - [Google Cloud Storage](https://cloud.google.com/storage) is a managed service for storing unstructured data at scale.
-- [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview) is a cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
+- [Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-overview) is a cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
 - S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
 
 The following table shows the availability of BYOB at each scope for each W&B deployment type.

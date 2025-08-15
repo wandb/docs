@@ -17,7 +17,7 @@ Secure private connectivity is available on Dedicated Cloud instances on AWS, GC
 
 * Using [AWS Privatelink](https://aws.amazon.com/privatelink/) on AWS
 * Using [GCP Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) on GCP
-* Using [Azure Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview) on Azure
+* Using [Azure Private Link](https://learn.microsoft.com/azure/private-link/private-link-overview) on Azure
 
 Once enabled, W&B creates a private endpoint service for your instance and provides you the relevant DNS URI to connect to. With that, you can create private endpoints in your cloud accounts that can route the relevant traffic to the private endpoint service. Private endpoints are easier to setup for your AI training workloads running within your cloud VPC or VNet. To use the same mechanism for traffic from your user browsers to the W&B app UI, you must configure appropriate DNS based routing from your corporate network to the private endpoints in your cloud accounts.
 
