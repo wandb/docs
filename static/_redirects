@@ -612,6 +612,9 @@
 # Guides slope path (edge case)
 /guides/slope /guides/ 301
 
+# Python data-types (without wildcard)
+/ref/python/data-types/ /ref/python/sdk/data-types/ 301
+
 ## Dynamic redirects with wildcards and splats
 ## Keras integrations redirects  
 /ref/python/integrations/keras/* /ref/python/ 301
@@ -678,8 +681,6 @@
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
 
 ## Dynamic redirects with wildcards (should come after static redirects)
-## Python data-types catch-all
-/ref/python/data-types/ /ref/python/sdk/data-types/ 301
 ## Support index catch-all
 /support/index_* /support/ 301
 ## Tags catch-all
