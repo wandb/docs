@@ -30,7 +30,7 @@ Kubernetes アプリケーションをデプロイするために使用してい
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
-* [`docker.io/bitnami/redis`](https://hub.docker.com/r/bitnami/redis)
+* [`redis`](https://hub.docker.com/_/redis)
 * [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
 * [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
@@ -80,10 +80,10 @@ wsm list
   wandb/controller:1.16.1
 W&B イメージ:
   wandb/local:0.62.2
-  docker.io/bitnami/redis:7.2.4-debian-12-r9
-  quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
-  quay.io/prometheus/prometheus:v2.47.0
-  otel/opentelemetry-collector-contrib:0.97.0
+  redis:7.2
+  quay.io/prometheus-operator/prometheus-config-reloader:v0.67
+  quay.io/prometheus/prometheus:v2.47
+  otel/opentelemetry-collector-contrib:0.97
   wandb/console:2.13.1
 ここに W&B をデプロイするために必要なイメージがあります。これらのイメージが内部コンテナレジストリーで利用可能であることを確認し、`values.yaml` を適切に更新してください。
 ```
@@ -102,11 +102,11 @@ wsm download
 オペレーター Helm chart のダウンロード
 wandb Helm chart のダウンロード
 ✓ wandb/controller:1.16.1
-✓ docker.io/bitnami/redis:7.2.4-debian-12-r9
-✓ otel/opentelemetry-collector-contrib:0.97.0
-✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
+✓ redis:7.2
+✓ otel/opentelemetry-collector-contrib:0.97
+✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67
 ✓ wandb/console:2.13.1
-✓ quay.io/prometheus/prometheus:v2.47.0
+✓ quay.io/prometheus/prometheus:v2.47
 
   完了! 7 パッケージがインストールされました。
 ```

@@ -91,7 +91,7 @@ Launch를 사용하여 가속기 환경에서 실행되는 이미지를 빌드�
 
 TensorFlow가 GPU를 제대로 활용하는지 확인합니다. 이를 위해 Queue 리소스 구성에서 `builder.accelerator.base_image` 키에 대한 Docker 이미지와 해당 이미지 태그를 지정합니다.
 
-예를 들어 `tensorflow/tensorflow:latest-gpu` 기본 이미지는 TensorFlow가 GPU를 제대로 사용하는지 확인합니다. 이는 Queue의 리소스 구성을 사용하여 구성할 수 있습니다.
+예를 들어 `tensorflow/tensorflow:2.16-gpu` 기본 이미지는 TensorFlow가 GPU를 제대로 사용하는지 확인합니다. 이는 Queue의 리소스 구성을 사용하여 구성할 수 있습니다.
 
 다음 JSON 스니펫은 Queue Config에서 TensorFlow 기본 이미지를 지정하는 방법을 보여줍니다.
 
@@ -99,7 +99,7 @@ TensorFlow가 GPU를 제대로 활용하는지 확인합니다. 이를 위해 Qu
 {
     "builder": {
         "accelerator": {
-            "base_image": "tensorflow/tensorflow:latest-gpu"
+            "base_image": "tensorflow/tensorflow:2.16-gpu"
         }
     }
 }

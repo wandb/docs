@@ -61,13 +61,13 @@ Docker는 값이 할당되지 않은 환경 변수를 Launch 에이전트 환경
 {{% alert %}}
 * Docker 컨테이너 내에서 GPU를 사용하려면 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)를 설치하세요.
 * 코드 또는 아티팩트 소스 작업에서 이미지를 빌드하는 경우 [에이전트]({{< relref path="#configure-a-launch-agent-on-a-local-machine" lang="ko" >}})에서 사용하는 기본 이미지를 재정의하여 NVIDIA Container Toolkit을 포함할 수 있습니다.
-  예를 들어, Launch 대기열 내에서 기본 이미지를 `tensorflow/tensorflow:latest-gpu`로 재정의할 수 있습니다.
+  예를 들어, Launch 대기열 내에서 기본 이미지를 `tensorflow/tensorflow:2.16-gpu`로 재정의할 수 있습니다.
 
   ```json
   {
     "builder": {
       "accelerator": {
-        "base_image": "tensorflow/tensorflow:latest-gpu"
+        "base_image": "tensorflow/tensorflow:2.16-gpu"
       }
     }
   }
