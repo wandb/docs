@@ -48,7 +48,7 @@ jobs:
 
       - name: Get changed files
         id: changed
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v46
         with:
           files: |
             content/**
@@ -361,7 +361,6 @@ jobs:
             // Function to find pages that use a specific include
             function findPagesUsingInclude(includePath) {
               const includeFileName = includePath.split('/').pop();
-              const includeRef = `/_includes/${includeFileName}`;
               const pagesUsingInclude = [];
               
               // Search through all pages in pageMap
@@ -372,9 +371,20 @@ jobs:
                     const contentPath = path.join('content', page.lang || 'en', page.path);
                     if (fs.existsSync(contentPath)) {
                       const content = fs.readFileSync(contentPath, 'utf8');
-                      // Check for both readfile syntaxes
-                      const pattern1 = new RegExp(`\\{\\{%\\s*readfile\\s+["']${includeRef}["']\\s*%\\}\\}`, 'i');
-                      const pattern2 = new RegExp(`\\{\\{<\\s*readfile\\s+file=["']${includeRef}["']\\s*>\\}\\}`, 'i');
+                      
+                      // Check for usage of the include file with various path formats
+                      // The include might be referenced as:
+                      // - /_includes/filename.md
+                      // - /content/en/_includes/filename.md
+                      // - /content/<lang>/_includes/filename.md
+                      const escapedFileName = includeFileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                      
+                      // Pattern to match any path ending with /_includes/filename
+                      const includePattern = `[^"']*\\/_includes\\/${escapedFileName}`;
+                      
+                      // Check for both readfile syntaxes with flexible path matching
+                      const pattern1 = new RegExp(`\\{\\{%\\s*readfile\\s+(?:file=)?["'](${includePattern})["']\\s*%\\}\\}`, 'i');
+                      const pattern2 = new RegExp(`\\{\\{<\\s*readfile\\s+file=["'](${includePattern})["']\\s*>\\}\\}`, 'i');
                       
                       if (pattern1.test(content) || pattern2.test(content)) {
                         pagesUsingInclude.push(page);
