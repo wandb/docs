@@ -45,8 +45,5 @@
   "prettier": {
     "proseWrap": "always",
     "singleQuote": true
-  },
-  "dependencies": {
-    "prod": "^1.0.0"
   }
 }
