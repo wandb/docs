@@ -266,8 +266,25 @@ jobs:
 
             let pageMap = [];
             
-            // Load pageurls.json for all languages
-            const languages = ['', 'ja', 'ko']; // '' for English (root)
+            // Detect languages by scanning public/ for pageurls.json
+            function detectLanguagesFromPublic() {
+              const detected = new Set();
+              try {
+                if (fs.existsSync('public/pageurls.json')) detected.add('');
+                const entries = fs.readdirSync('public', { withFileTypes: true });
+                for (const ent of entries) {
+                  if (ent.isDirectory()) {
+                    const candidate = path.posix.join('public', ent.name, 'pageurls.json');
+                    if (fs.existsSync(candidate)) detected.add(ent.name);
+                  }
+                }
+              } catch (e) {
+                core.warning(`Could not scan public/ for languages: ${e.message}`);
+              }
+              return Array.from(detected);
+            }
+
+            const languages = detectLanguagesFromPublic();
             for (const lang of languages) {
               const pageurlsPath = lang ? `public/${lang}/pageurls.json` : 'public/pageurls.json';
               try {
