@@ -39,3 +39,8 @@ translate_dev/
 chatgpt*yar
 package-lock.json
 .vale.ini.swp
+
+# Redirect sanitizer cache
+.cache/
+.cache/*.sqlite
+.cache/*.db
