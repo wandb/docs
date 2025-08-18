@@ -28,7 +28,7 @@ W&B stores runs that you create into [*projects*]({{< relref "/guides/models/tra
 Anything you log with `wandb.Run.log()` is recorded in that run.
 
 {{ %alert% }}
-Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. If you are not sure what your entity is, you can find it in the URL of your W&B App workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
+Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. You can find it in the URL of your W&B App workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
 {{ /%alert% }}
 
 ```python
