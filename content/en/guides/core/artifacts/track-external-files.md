@@ -72,7 +72,7 @@ run.finish()
 Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph" >}}), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
 
 {{% alert %}}
-W&B Artifacts support any Amazon S3 compatible interface, including MinIO. The scripts described below work as-is with MinIO, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your MinIO server.
+W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave Storage and MinIO. The scripts described below work as-is with both providers, when you set the `AWS_S3_ENDPOINT_URL` environment variable to point at your CoreWeave Storage or MinIO server.
 {{% /alert %}}
 
 {{% alert color="secondary" %}}
