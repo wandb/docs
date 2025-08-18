@@ -204,14 +204,13 @@ To freeze a run set when viewing a report, click the snowflake icon in its panel
 
 Group runs in a run set programmatically with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
 
-You can group runs in a run set by config values, run metadata, summary metrics, or tags. The following table lists the available grouping methods along with the available keys for that grouping method:
+You can group runs in a run set by config values, run metadata or summary metrics. The following table lists the available grouping methods along with the available keys for that grouping method:
 
 | Grouping Method | Description |Available keys |
 | ---|------| --- |
 | Config values| Group runs by config values | Values specified in config parameter in `wandb.init(config=)` |
 | Run metadata| Group runs by run metadata | `State`, `Name`, `JobType` |
 | Summary metrics| Group runs by summary metrics | Values you log to a run with `wandb.Run.log()` |
-| Tags| Group runs by tags | `Tags` |
 
 <!-- Key differences between grouping runs in a report and grouping runs in a workspace:
 1. String paths vs objects: Reports use string paths like `"config.group"` instead of type objects like `ws.Config("group")`.
@@ -284,10 +283,10 @@ runset = wr.Runset(
 )
 ```
 
+{{% alert %}}
 The name of the run is the name you specify in the `wandb.init(name=)` parameter. If you do not specify a name, W&B generates a random name for the run.
 
-{{% alert %}}
-You can find the name of the run in the Overview page of a run in the W&B App or programmatically with `Api.runs().run.name`.
+You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
 {{% /alert %}}
 
 ### Group runs by summary metrics
@@ -327,18 +326,6 @@ runset = wr.Runset(
 )
 ```
 
-### Group runs by tags
-
-The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run programmatically or with the W&B App.
-
-```python
-runset = wr.Runset(
-  project=project,
-  entity=entity,
-  groupby=["Tags"]  # Group by run tags
-)
-```
-
 ## Filter a run set programmatically
 
 Programmatically filter run sets and add them to a report with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
@@ -360,7 +347,7 @@ Where `key` is the name of the filter, `operation` is a comparison operator (e.g
 
 Once you have defined your filters, you can create a report and pass the filtered run sets to `wr.PanelGrid(runsets=)`. See the **Report and Workspace API** tabs throughout this page for more information on how to add various elements to a report programmatically.
 
-The following examples demonstrate how to filter run sets in a report.
+The following examples demonstrate how to filter run sets in a report. Replace values enclosed in `<>` with your own values.
 
 ### Config filters
 
