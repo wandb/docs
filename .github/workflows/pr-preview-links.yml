@@ -271,20 +271,28 @@ jobs:
               const detected = new Set();
               try {
                 if (fs.existsSync('public/pageurls.json')) detected.add('');
-                const entries = fs.readdirSync('public', { withFileTypes: true });
-                for (const ent of entries) {
-                  if (ent.isDirectory()) {
-                    const candidate = path.posix.join('public', ent.name, 'pageurls.json');
-                    if (fs.existsSync(candidate)) detected.add(ent.name);
+              } catch (e) {
+                core.warning(`Root pageurls existence check failed: ${e.message}`);
+              }
+              try {
+                if (fs.existsSync('public')) {
+                  const entries = fs.readdirSync('public', { withFileTypes: true });
+                  for (const ent of entries) {
+                    if (ent.isDirectory()) {
+                      const candidate = path.posix.join('public', ent.name, 'pageurls.json');
+                      if (fs.existsSync(candidate)) detected.add(ent.name);
+                    }
                   }
                 }
               } catch (e) {
                 core.warning(`Could not scan public/ for languages: ${e.message}`);
               }
+              if (detected.size === 0) detected.add('');
               return Array.from(detected);
             }
 
             const languages = detectLanguagesFromPublic();
+            core.info(`Detected languages for pageurls: ${languages.join(', ') || '(none)'}`);
             for (const lang of languages) {
               const pageurlsPath = lang ? `public/${lang}/pageurls.json` : 'public/pageurls.json';
               try {
