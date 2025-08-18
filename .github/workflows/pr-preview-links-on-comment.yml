@@ -212,6 +212,10 @@ jobs:
                 const langPages = JSON.parse(raw);
                 pageMap = pageMap.concat(langPages);
                 core.info(`Loaded ${langPages.length} pages from ${pageurlsPath}`);
+                // Debug: Log sample entries to understand structure
+                if (langPages.length > 0) {
+                  core.info(`Sample entry from ${pageurlsPath}: ${JSON.stringify(langPages[0])}`);
+                }
               } catch (e) {
                 core.warning(`Could not read ${pageurlsPath}. ${e.message}`);
               }
@@ -233,6 +237,9 @@ jobs:
               ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
               for (const k of keys) byPath.set(k, p);
             }
+            
+            core.info(`Total entries in lookup map: ${byPath.size}`);
+            core.info(`Languages found: ${Array.from(new Set(pageMap.map(p => p.lang || 'unknown'))).join(', ')}`);
 
             const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
             core.info(`Using Branch Preview URL: ${previewBase}`);
@@ -240,6 +247,13 @@ jobs:
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
               const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
+              
+              // Debug logging
+              if (!item) {
+                core.info(`No mapping found for: ${norm}`);
+                core.info(`Available keys containing '${norm.split('/').pop()}': ${Array.from(byPath.keys()).filter(k => k.includes(norm.split('/').pop())).join(', ')}`);
+              }
+              
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
               const rel = item.relPermalink || '';
               const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
