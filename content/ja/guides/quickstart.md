@@ -123,3 +123,5 @@ W&B エコシステムのさらなる機能を探求しましょう:
 4. [W&B Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) を使用してハイパーパラメーター検索を自動化し、モデルを最適化します。
 5. [中央ダッシュボード]({{< relref path="/guides/models/tables/" lang="ja" >}}) でランを分析し、モデルの予測を可視化し、洞察を共有します。
 6. [W&B AI Academy](https://wandb.ai/site/courses/) を訪れて、ハンズオンのコースを通じて LLMs、MLOps、W&B Models について学びましょう。
+
+<!-- テスト用の変更：ローカライズされたコンテンツの修正でプレビューリンクが生成されることを確認 -->
