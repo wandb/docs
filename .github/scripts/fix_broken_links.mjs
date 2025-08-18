@@ -156,7 +156,25 @@ async function tryAutoFix(url) {
 	return { fixed: false };
 }
 
+function isGeneratedRefDoc(filePath) {
+	// Check if file is in generated reference documentation directories
+	// These are auto-generated and should not be auto-fixed
+	const generatedPaths = [
+		'/ref/js/',
+		'/ref/python/'
+	];
+	
+	const normalizedPath = filePath.replace(/\\/g, '/');
+	return generatedPaths.some(genPath => normalizedPath.includes(genPath));
+}
+
 function replaceInFile(filePath, replacements) {
+	// Skip generated reference documentation
+	if (isGeneratedRefDoc(filePath)) {
+		log(`Skipping generated reference doc: ${filePath}`);
+		return false;
+	}
+	
 	let content = fs.readFileSync(filePath, 'utf8');
 	let changed = false;
 	for (const [from, to] of replacements) {
