@@ -267,35 +267,31 @@ jobs:
             let pageMap = [];
             
             // Detect languages by scanning public/ for pageurls.json
-            function detectLanguagesFromPublic() {
-              const detected = new Set();
-              try {
-                if (fs.existsSync('public/pageurls.json')) detected.add('');
-              } catch (e) {
-                core.warning(`Root pageurls existence check failed: ${e.message}`);
-              }
-              try {
-                if (fs.existsSync('public')) {
-                  const entries = fs.readdirSync('public', { withFileTypes: true });
-                  for (const ent of entries) {
-                    if (ent.isDirectory()) {
-                      const candidate = path.posix.join('public', ent.name, 'pageurls.json');
-                      if (fs.existsSync(candidate)) detected.add(ent.name);
-                    }
+            // Build candidate pageurls.json paths by scanning public/
+            const candidatePaths = new Set();
+            try {
+              if (fs.existsSync('public/pageurls.json')) candidatePaths.add('public/pageurls.json');
+            } catch (e) {
+              core.warning(`Root pageurls existence check failed: ${e.message}`);
+            }
+            try {
+              if (fs.existsSync('public')) {
+                const entries = fs.readdirSync('public', { withFileTypes: true });
+                for (const ent of entries) {
+                  if (ent.isDirectory()) {
+                    candidatePaths.add(path.posix.join('public', ent.name, 'pageurls.json'));
+                    candidatePaths.add(path.posix.join('public', ent.name, 'index.pageurls.json'));
                   }
                 }
-              } catch (e) {
-                core.warning(`Could not scan public/ for languages: ${e.message}`);
               }
-              if (detected.size === 0) detected.add('');
-              return Array.from(detected);
+            } catch (e) {
+              core.warning(`Could not scan public/ for languages: ${e.message}`);
             }
 
-            const languages = detectLanguagesFromPublic();
-            core.info(`Detected languages for pageurls: ${languages.join(', ') || '(none)'}`);
-            for (const lang of languages) {
-              const pageurlsPath = lang ? `public/${lang}/pageurls.json` : 'public/pageurls.json';
+            core.info(`Attempting to load page maps from: ${Array.from(candidatePaths).join(', ') || '(none)'}`);
+            for (const pageurlsPath of candidatePaths) {
               try {
+                if (!fs.existsSync(pageurlsPath)) continue;
                 const raw = fs.readFileSync(pageurlsPath, 'utf8');
                 const langPages = JSON.parse(raw);
                 pageMap = pageMap.concat(langPages);
