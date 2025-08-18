@@ -24,6 +24,8 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          # Explicitly checkout the PR head to ensure new files are included
+          ref: ${{ github.event.issue.pull_request && format('refs/pull/{0}/merge', github.event.issue.number) || github.ref }}
           
       - name: Get PR details
         id: pr
@@ -83,6 +85,10 @@ jobs:
         run: |
           hugo --minify
           test -f public/pageurls.json && echo "Found pageurls.json" || (echo "Missing pageurls.json" && ls -la public || true)
+          # Debug: Check if our test files exist in the working directory
+          echo "Checking for test files:"
+          ls -la content/ja/testing/ || echo "No ja/testing directory"
+          ls -la content/ko/testing/ || echo "No ko/testing directory"
 
       - name: Extract Branch Preview URL
         id: extract-url
