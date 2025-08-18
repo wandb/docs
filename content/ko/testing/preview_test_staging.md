@@ -1,6 +1,10 @@
 ---
 title: 스테이징 브랜치에서의 미리보기 테스트
 type: docs
+url: /ko/testing/:filename
+menu:
+  testing:
+    identifier: ko-testing-preview_test_staging
 ---
 
 # 미리보기 링크 생성 테스트 (스테이징)

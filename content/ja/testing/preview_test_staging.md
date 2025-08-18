@@ -1,6 +1,10 @@
 ---
 title: ステージングブランチでのプレビューテスト
 type: docs
+url: /ja/testing/:filename
+menu:
+  testing:
+    identifier: ja-testing-preview_test_staging
 ---
 
 # プレビューリンク生成テスト（ステージング）
