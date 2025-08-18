@@ -183,12 +183,38 @@ jobs:
             }
 
             let pageMap = [];
+            // Build candidate pageurls.json paths by scanning public/
+            const candidatePaths = new Set();
             try {
-              const raw = fs.readFileSync('public/pageurls.json', 'utf8');
-              pageMap = JSON.parse(raw);
+              if (fs.existsSync('public/pageurls.json')) candidatePaths.add('public/pageurls.json');
             } catch (e) {
-              core.warning('Could not read public/pageurls.json. Proceeding with unlinked entries. ' + e.message);
-              pageMap = [];
+              core.warning(`Root pageurls existence check failed: ${e.message}`);
+            }
+            try {
+              if (fs.existsSync('public')) {
+                const entries = fs.readdirSync('public', { withFileTypes: true });
+                for (const ent of entries) {
+                  if (ent.isDirectory()) {
+                    candidatePaths.add(path.posix.join('public', ent.name, 'pageurls.json'));
+                    candidatePaths.add(path.posix.join('public', ent.name, 'index.pageurls.json'));
+                  }
+                }
+              }
+            } catch (e) {
+              core.warning(`Could not scan public/ for languages: ${e.message}`);
+            }
+
+            core.info(`Attempting to load page maps from: ${Array.from(candidatePaths).join(', ') || '(none)'}`);
+            for (const pageurlsPath of candidatePaths) {
+              try {
+                if (!fs.existsSync(pageurlsPath)) continue;
+                const raw = fs.readFileSync(pageurlsPath, 'utf8');
+                const langPages = JSON.parse(raw);
+                pageMap = pageMap.concat(langPages);
+                core.info(`Loaded ${langPages.length} pages from ${pageurlsPath}`);
+              } catch (e) {
+                core.warning(`Could not read ${pageurlsPath}. ${e.message}`);
+              }
             }
 
             // Build lookup: support keys with and without language prefix
