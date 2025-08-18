@@ -239,14 +239,30 @@ jobs:
 
             const allChanged = [...added, ...modified, ...deleted];
             const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
+            function hasPreviewLinks(body) {
+              return /https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/i.test(body || '');
+            }
             if (!anyEligible) {
-              core.info('No relevant content changes. Updating comment to reflect this.');
+              core.info('No relevant content changes. Considering comment update.');
               
-              // Update the comment to show no content changes
+              // Update the comment to show no content changes only if a preview comment doesn't already contain links
               const commentId = process.env.COMMENT_ID;
               if (!commentId) {
                 core.error('No comment ID found');
                 return;
+              }
+              try {
+                const existing = await github.rest.issues.getComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: parseInt(commentId),
+                });
+                if (hasPreviewLinks(existing.data.body || '')) {
+                  core.info('Existing comment already has preview links; skipping no-changes update.');
+                  return;
+                }
+              } catch (e) {
+                core.warning('Could not fetch existing comment: ' + e.message);
               }
               
               const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
@@ -477,21 +493,36 @@ jobs:
               section('Deleted', deletedRows),
             ].join('');
 
-            // Update the existing comment
+            // Update the existing comment, but avoid overwriting existing links with an unlinked body
             const commentId = process.env.COMMENT_ID;
             if (!commentId) {
               core.error('No comment ID found');
               return;
             }
-            
-            await github.rest.issues.updateComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: parseInt(commentId),
-              body,
-            });
-            
-            core.info(`Updated preview comment ${commentId} with ${added.length + modified.length + deleted.length} changed files`);
+            try {
+              const existing = await github.rest.issues.getComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: parseInt(commentId),
+              });
+              const existingBody = existing.data.body || '';
+              const newBodyHasLinks = hasPreviewLinks(body);
+              const existingHasLinks = hasPreviewLinks(existingBody);
+              const previewBaseCurrent = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
+              if (!previewBaseCurrent && existingHasLinks && !newBodyHasLinks) {
+                core.info('Existing comment contains preview links and new body has none; skipping update to avoid removing links.');
+              } else {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: parseInt(commentId),
+                  body,
+                });
+                core.info(`Updated preview comment ${commentId} with ${added.length + modified.length + deleted.length} changed files`);
+              }
+            } catch (e) {
+              core.warning('Could not safely update comment: ' + e.message);
+            }
             
             // Add link to PR description if we have preview links and this is the first time
             if (previewBase && added.length + modified.length > 0) {
