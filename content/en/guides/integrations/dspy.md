@@ -5,7 +5,7 @@ menu:
     identifier: dspy
     parent: integrations
 title: DSPy Program Optimization
-weight: 500
+weight: 80
 ---
 
 
@@ -118,6 +118,30 @@ Running this program will give you both a W&B run URL and a Weave URL. In W&B vi
     {{< img src="/images/integrations/dspy_run_page.png" alt="Cohere fine-tuning dashboard" >}}
 
 For more on tracing, evaluation, and optimization with DSPy in Weave, see the [Weave DSPy guide](https://weave-docs.wandb.ai/guides/integrations/dspy).
+
+### Log predictions to W&B Tables with `log_results`
+
+Enable per-evaluation prediction logging by constructing the callback with `log_results=True`. After each evaluation step, the callback logs an immutable W&B Table keyed as `predictions_{step}` with columns such as `example`, `prediction`, and `is_correct`. These Tables let you filter, sort, and inspect individual examples across evaluation runs.
+
+```python
+from wandb.integration.dspy import WandbDSPyCallback
+
+# Enable logging of prediction tables (default)
+cb = WandbDSPyCallback(log_results=True)
+dspy.settings.callbacks.append(cb)
+
+# ... run your optimizer/compile, e.g., optimizer.compile(...)
+
+# To disable prediction table logging:
+# dspy.settings.callbacks.append(WandbDSPyCallback(log_results=False))
+```
+
+Where to find the data in W&B:
+- In your run page, look for new Table panels named like `predictions_0`, `predictions_1`, etc.
+- Open a panel to explore rows, expand nested fields, and filter by `is_correct` to debug failure cases.
+- Use the project workspace to compare tables across runs.
+
+Learn more about W&B Tables: [Tables guide](../models/tables/visualize-tables.md) and [Tutorial: Log tables, visualize and query data](../../tutorials/tables.md).
 
 ### Save and version your DSPy program
 
