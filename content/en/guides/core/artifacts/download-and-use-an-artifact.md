@@ -24,8 +24,6 @@ artifact.add_reference("s3://my-bucket/model.h5", checksum=True)
 # This artifact cannot be downloaded
 artifact.add_reference("s3://my-bucket/model.h5", checksum=False)
 ```
-
-Setting `checksum=True` enables W&B to track file checksums and metadata, making the artifact downloadable. While `checksum=False` speeds up artifact creation, it prevents downloading and skips iterating through reference directories.
 {{% /alert %}}
 
 
