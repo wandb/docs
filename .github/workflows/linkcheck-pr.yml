@@ -1,0 +1,87 @@
+name: Lychee check and auto-fix PRs
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 0 1 * *" # In UTC, currently 12:05 AM on the 1st of each month
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create lychee output directory
+        run: mkdir -p lychee
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: "--accept 200,429,403 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress --format json 'content/**/*.md' 'content/**/*.html' 'https://docs.wandb.ai/guides/' 'https://docs.wandb.ai/ref/' 'https://docs.wandb.ai/tutorials/' 'https://docs.wandb.ai/support/'"
+          output: "./lychee/out.json"
+          fail: false
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Setup Python
+        if: steps.lychee.outputs.exit_code != 0
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Process lychee output
+        if: steps.lychee.outputs.exit_code != 0
+        run: |
+          python3 scripts/process_lychee_output.py lychee/out.json .github/lychee-report.md
+          
+      - name: Auto-fix redirectable links
+        if: steps.lychee.outputs.exit_code != 0
+        id: autofix
+        run: |
+          python3 scripts/auto_fix_links.py lychee/out.json
+          
+          # Check if any fixes were made
+          if [ -f "lychee-fixes-summary.md" ]; then
+            echo "fixes_applied=true" >> $GITHUB_OUTPUT
+            # Combine the fixes summary with the report for PR body
+            echo "## Automated Link Fixes" > lychee-pr-body.md
+            echo "" >> lychee-pr-body.md
+            cat lychee-fixes-summary.md >> lychee-pr-body.md
+            echo "" >> lychee-pr-body.md
+            echo "---" >> lychee-pr-body.md
+            echo "" >> lychee-pr-body.md
+            cat .github/lychee-report.md >> lychee-pr-body.md
+          else
+            echo "fixes_applied=false" >> $GITHUB_OUTPUT
+            cp .github/lychee-report.md lychee-pr-body.md
+          fi
+
+      - name: Create Pull Request
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'docs: fix broken links (automated)'
+          title: 'docs: fix broken links (automated)'
+          body-path: lychee-pr-body.md
+          branch: chore/fix-broken-links-${{ github.run_number }}
+          delete-branch: true
+          labels: |
+            documentation
+            automated pr
+          assignees: |
+            ${{ github.actor }}
+
+      - name: Create Issue if PR creation fails
+        if: failure() && steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Link Checker Report - Manual Review Required
+          content-filepath: ./.github/lychee-report.md
+          labels: report, automated issue, needs-review
