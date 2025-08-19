@@ -56,7 +56,7 @@ To configure the layout of a section, click its gear icon, then click **Display 
 
 ## View a panel in full-screen mode
 
-In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
+In full-screen mode, the run selector displays and panels use full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
 
 To view a panel in full-screen mode:
 
@@ -65,7 +65,7 @@ To view a panel in full-screen mode:
     {{< img src="/images/app_ui/panel_fullscreen.png" alt="Full-screen panel" >}}
 1. When you [share the panel]({{< relref "#share-a-panel" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
 
-To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page. To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
 
 ## Add panels
 
