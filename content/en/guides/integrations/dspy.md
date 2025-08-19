@@ -118,3 +118,29 @@ Running this program will give you both a W&B run URL and a Weave URL. In W&B vi
     {{< img src="/images/integrations/dspy_run_page.png" alt="Cohere fine-tuning dashboard" >}}
 
 For more on tracing, evaluation, and optimization with DSPy in Weave, see the [Weave DSPy guide](https://weave-docs.wandb.ai/guides/integrations/dspy).
+
+### Save and version your DSPy program
+
+Use the callback to persist your best program to a W&B Model Artifact. You can save either the full program (architecture + state) or state-only.
+
+```python
+from wandb.integration.dspy import WandbDSPyCallback
+
+# Keep a handle to the callback so you can call `log_best_model`
+cb = WandbDSPyCallback()
+dspy.settings.callbacks.append(cb)
+
+# ... run your optimization to obtain `optimized_module` ...
+
+# 1) Whole-program save (recommended for portability)
+cb.log_best_model(optimized_module, save_program=True)
+
+# 2) State-only save to JSON
+cb.log_best_model(optimized_module, save_program=False, choice="json")
+
+# 3) State-only save to PKL
+cb.log_best_model(optimized_module, save_program=False, choice="pkl")
+
+# Optional: customize artifact aliases
+cb.log_best_model(optimized_module, save_program=True, aliases=("best", "latest", "v1"))
+```
