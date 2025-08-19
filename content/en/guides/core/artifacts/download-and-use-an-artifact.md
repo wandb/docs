@@ -15,7 +15,7 @@ Team members with view-only seats cannot download artifacts.
 {{% /alert %}}
 
 {{% alert color="warning" %}}
-Artifacts created with reference URIs using `checksum=False` cannot be downloaded. When you add a reference to an artifact using `artifact.add_reference(..., checksum=False)`, W&B only stores the URI reference without the checksums. To ensure your artifacts can be downloaded, use `checksum=True` (the default) when adding references:
+Artifacts created with reference URIs using `checksum=False` cannot be downloaded. To ensure your artifacts can be downloaded, use `checksum=True` (the default) when adding references:
 
 ```python
 # This artifact can be downloaded

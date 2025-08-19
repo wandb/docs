@@ -174,7 +174,7 @@ artifact.add_reference(uri="uri", name="optional-name")
 ```
 
 {{% alert color="warning" %}}
-**Important**: If you set `checksum=False` when adding a reference, the artifact cannot be downloaded later. Only use `checksum=False` when you need to track reference URIs without downloading capability. For downloadable artifacts, always use `checksum=True` (the default).
+If you set `checksum=False` when adding a reference, the artifact cannot be downloaded later. Only use `checksum=False` when you need to track reference URIs without downloading capability. For downloadable artifacts, always use `checksum=True` (the default).
 {{% /alert %}}
 
 Artifacts currently support the following URI schemes:
