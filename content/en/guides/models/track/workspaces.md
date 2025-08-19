@@ -156,7 +156,7 @@ pip install wandb wandb-workspaces
 
 
 ```python
-import wandb_workspaces.reports.v2 as wr
+import wandb_workspaces.reports.v2 as ws
 
 workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
 workspace.save()
