@@ -1,5 +1,5 @@
 ---
-title: 레지스트리
+title: Registry
 cascade:
 - url: guides/core/registry/:filename
 menu:

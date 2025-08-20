@@ -1,6 +1,6 @@
 ---
 title: Reports
-description: 기계학습 프로젝트를 위한 프로젝트 관리 및 협업 툴
+description: 기계학습 project를 위한 project 관리 및 협업 툴
 cascade:
 - url: guides/reports/:filename
 menu:

@@ -1,5 +1,5 @@
 ---
-title: 레지스트리 아이템 찾기
+title: Registry 아이템 찾기
 menu:
   default:
     identifier: ko-guides-core-registry-search_registry

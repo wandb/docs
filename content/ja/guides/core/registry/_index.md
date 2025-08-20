@@ -19,7 +19,7 @@ Registry を利用することで、[Artifact のバージョン管理]({{< relr
 まとめると、W&B Registry を使ってできることは次のとおりです：
 
 - 機械学習タスクを満たした Artifact バージョンを他のユーザーに[プロモートする]({{< relref path="./link_version.md" lang="ja" >}})
-- [タグで Artifact を整理]({{< relref path="./organize-with-tags.md" lang="ja" >}})し、必要なものを簡単に見つけたり参照したりできる
+- [tagで Artifact を整理]({{< relref path="./organize-with-tags.md" lang="ja" >}})し、必要なものを簡単に見つけたり参照したりできる
 - [Artifact のリネージ]({{< relref path="/guides/core/registry/lineage.md" lang="ja" >}})の追跡や変更履歴の監査
 - [モデル CI/CD などの下流プロセスを自動化する]({{< relref path="/guides/core/automations/" lang="ja" >}})
 - 各 Registry への[アクセス制限を管理]({{< relref path="./configure_registry.md" lang="ja" >}})できる

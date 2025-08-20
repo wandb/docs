@@ -1,5 +1,5 @@
 ---
-title: 웹훅 automation 생성하기
+title: Webhook Automation 생성하기
 menu:
   default:
     identifier: ko-guides-core-automations-create-automations-webhook
@@ -11,7 +11,7 @@ weight: 3
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-이 페이지에서는 webhook [automation]({{< relref path="/guides/core/automations/" lang="ko" >}}> )을 생성하는 방법을 안내합니다. Slack automation을 생성하려면 [Slack automation 생성하기]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ko" >}}) 문서를 참고하세요.
+이 페이지에서는 webhook [automation]({{< relref path="/guides/core/automations/" lang="ko" >}})을 생성하는 방법을 안내합니다. Slack automation을 생성하려면 [Slack automation 생성하기]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ko" >}}) 문서를 참고하세요.
 
 웹훅 automation을 생성하는 기본적인 단계는 아래와 같습니다.
 1. 필요하다면 automation에서 사용하는 민감한 문자열(예: 엑세스 토큰, 비밀번호, 또는 SSH 키)마다 [W&B secret 생성]({{< relref path="/guides/core/secrets.md" lang="ko" >}})을 합니다. Secret은 **Team Settings**에서 정의됩니다.

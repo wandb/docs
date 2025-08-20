@@ -1,6 +1,6 @@
 ---
-title: '튜토리얼: Datasets 아티팩트 생성, 추적, 그리고 사용하기'
-description: Artifacts 퀵스타트에서는 W&B와 함께 Datasets 아티팩트를 생성하고, 추적하며, 사용하는 방법을 안내합니다.
+title: '튜토리얼: Datasets artifact 생성, 추적, 그리고 사용하기'
+description: Artifacts 퀵스타트에서는 W&B와 함께 Datasets artifact를 생성하고, 추적하며, 사용하는 방법을 안내합니다.
 displayed_sidebar: default
 menu:
   default:
@@ -21,7 +21,7 @@ wandb.login()
 
 ## 2. Run 초기화
 
-[`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}) API를 사용하여 W&B Run 을 시작하고 데이터 로그 및 동기화의 백그라운드 프로세스를 만듭니다. 프로젝트 이름과 작업 유형(job_type)을 지정해 주세요.
+[`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ko" >}}) API를 사용하여 W&B Run 을 시작하고 데이터 로그 및 동기화의 백그라운드 프로세스를 만듭니다. project 이름과 작업 유형(job_type)을 지정해 주세요.
 
 ```python
 # W&B Run 생성 예시. Dataset artifact 를 만들 예정이므로 job_type을 'dataset'으로 설정합니다.
