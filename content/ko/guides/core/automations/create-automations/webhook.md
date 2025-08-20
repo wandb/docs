@@ -1,5 +1,5 @@
 ---
-title: 웹훅 자동화 만들기
+title: 웹훅 automation 생성하기
 menu:
   default:
     identifier: ko-guides-core-automations-create-automations-webhook
@@ -185,9 +185,9 @@ ${entity_name} --> "<entity>"
 
 - repository dispatch에 대한 자세한 정보는 [GitHub Marketplace 공식 문서](https://github.com/marketplace/actions/repository-dispatch)를 참고하세요.
 
-- 모델 평가와 배포 자동화에 대한 가이드는 다음 동영상을 참고하세요: [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases), [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases)
+- 모델 평가와 배포 automation에 대한 가이드는 다음 동영상을 참고하세요: [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases), [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases)
 
-- Model CI 자동화에 활용된 예시를 [W&B report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)에서 확인할 수 있습니다. [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook)를 참고해 Modal Labs webhook으로 Model CI를 구현하는 방법도 살펴보세요.
+- Model CI automation에 활용된 예시를 [W&B report](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)에서 확인할 수 있습니다. [GitHub repository](https://github.com/hamelsmu/wandb-modal-webhook)를 참고해 Modal Labs webhook으로 Model CI를 구현하는 방법도 살펴보세요.
 
 {{% /tab %}}
 
