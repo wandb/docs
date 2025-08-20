@@ -96,22 +96,42 @@ jobs:
       - name: Apply auto-fixes and generate report
         id: fix
         run: |
-          set -euo pipefail
-          node .github/scripts/fix_broken_links.mjs || true
+          echo "Running fix_broken_links.mjs..."
+          node .github/scripts/fix_broken_links.mjs || echo "Script exited with code $?"
           
-          # Check if there are any changes to commit
-          if [[ -n $(git status --porcelain) ]]; then
+          # Check if there are any changes to commit (including the report)
+          echo "Checking for changes..."
+          # First check for any markdown file changes
+          MD_CHANGES=$(git status --porcelain -- '*.md' '*.html' || echo "")
+          # Then check if report exists (it might be a new file)
+          if [[ -f .github/lychee-report.md ]] || [[ -n "$MD_CHANGES" ]]; then
             echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Found changes in files or report exists"
+            # If report exists but isn't tracked, add it
+            if [[ -f .github/lychee-report.md ]]; then
+              git add .github/lychee-report.md || true
+            fi
           else
             echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
           fi
           
           # Check if report exists
+          echo "Checking for report..."
           if [[ -f .github/lychee-report.md ]]; then
             echo "has_report=true" >> $GITHUB_OUTPUT
+            echo "Report file exists"
           else
             echo "has_report=false" >> $GITHUB_OUTPUT
+            echo "No report file found"
           fi
+          
+          # Debug output
+          echo "Current directory: $(pwd)"
+          echo "Git status:"
+          git status --short || true
+          echo "Files in .github:"
+          ls -la .github/ || true
 
       - name: Create Pull Request with fixes
         id: cpr
@@ -129,6 +149,10 @@ jobs:
             Please review the comments and report for follow-up.
           branch: chore/fix-broken-links-${{ github.run_id }}
           delete-branch: true
+          add-paths: |
+            content/**/*.md
+            content/**/*.html
+            .github/lychee-report.md
 
       - name: Comment manual follow-ups on PR
         if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
