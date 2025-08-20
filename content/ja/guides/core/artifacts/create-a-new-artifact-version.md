@@ -101,7 +101,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### Run 3
+#### Run 3:
 
 Run 1 と Run 2 の完了後に実行する必要があります。`finish_artifact` を呼ぶ Run もファイルを artifact に含められますが、含める必要はありません。
 
