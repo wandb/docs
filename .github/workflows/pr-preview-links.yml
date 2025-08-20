@@ -2,7 +2,7 @@ name: PR Preview Links
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -344,11 +344,47 @@ jobs:
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
-              const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
+              let item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
+              
+              // Debug logging for specific files
+              if (norm.includes('public-api/_index.md')) {
+                core.info(`Mapping ${norm}:`);
+                core.info(`  Direct lookup: ${byPath.has(norm)}`);
+                core.info(`  Without content prefix: ${byPath.has(norm.replace(/^content\//, ''))}`);
+                
+                // Try various path formats
+                const attempts = [
+                  norm,
+                  norm.replace(/^content\//, ''),
+                  'en/' + norm.replace(/^content\/en\//, ''),
+                  norm.replace(/^content\/en\//, ''),
+                  'ref/python/public-api/index.md',
+                  'ref/python/public-api/_index.md',
+                  'en/ref/python/public-api/_index.md'
+                ];
+                
+                for (const attempt of attempts) {
+                  if (byPath.has(attempt)) {
+                    core.info(`  Found with key: ${attempt}`);
+                    item = byPath.get(attempt);
+                    core.info(`  Title from pageMap: ${item.title}`);
+                    break;
+                  }
+                }
+                
+                if (!item) {
+                  core.info('  Available keys containing "public-api":');
+                  for (const [key, value] of byPath.entries()) {
+                    if (key.includes('public-api')) {
+                      core.info(`    ${key} => ${value.title}`);
+                    }
+                  }
+                }
+              }
+              
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
               const rel = item.relPermalink || '';
               const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
-              // Always use the actual title from pageMap if available
               const title = item.title || titleFromPath(norm);
               return { title, rel, href, path: norm };
             }
