@@ -1,7 +1,5 @@
 ---
-title: 'MMEngine
-
-  '
+title: MMEngine
 menu:
   default:
     identifier: ja-guides-integrations-mmengine

@@ -1,9 +1,10 @@
 ---
-title: Pytorch torchtune
+description: W&B を PyTorch torchtune と統合する方法
 menu:
   default:
     identifier: ja-guides-integrations-torchtune
     parent: integrations
+title: Pytorch torchtune
 weight: 320
 ---
 

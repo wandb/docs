@@ -79,7 +79,7 @@ artifact.save()
 
 以下は例です。異なる run（**Run 1**, **Run 2**, **Run 3** とラベル付け）のそれぞれが、`upsert_artifact` を使って同じ artifact に異なる画像ファイルを追加しています。
 
-#### Run 1:
+Run 1:
 
 ```python
 with wandb.init() as run:
@@ -90,7 +90,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### Run 2:
+Run 2:
 
 ```python
 with wandb.init() as run:
@@ -101,7 +101,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### Run 3:
+Run 3:
 
 Run 1 と Run 2 の完了後に実行する必要があります。`finish_artifact` を呼ぶ Run もファイルを artifact に含められますが、含める必要はありません。
 

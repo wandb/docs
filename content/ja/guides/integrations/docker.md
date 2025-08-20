@@ -1,10 +1,10 @@
 ---
-title: Docker
 description: W&B を Docker と統合する方法
 menu:
   default:
     identifier: ja-guides-integrations-docker
     parent: integrations
+title: Docker
 weight: 80
 ---
 
