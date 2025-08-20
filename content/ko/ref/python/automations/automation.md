@@ -1,5 +1,5 @@
 ---
-title: 자동화
+title: Automation
 data_type_classification: class
 menu:
   reference:

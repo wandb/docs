@@ -21,7 +21,7 @@ weight: 3
 * [Overview]({{< relref path="project-page.md#overview-tab" lang="ko" >}}): 프로젝트의 스냅샷
 * [Workspace]({{< relref path="project-page.md#workspace-tab" lang="ko" >}}): 개인 시각화 샌드박스
 * [Runs]({{< relref path="#runs-tab" lang="ko" >}}): 이 프로젝트의 모든 run 목록이 나열된 테이블
-* [Automations]({{< relref path="#automations-tab" lang="ko" >}}): 프로젝트에 설정된 자동화 목록
+* [Automations]({{< relref path="#automations-tab" lang="ko" >}}): 프로젝트에 설정된 Automation 목록
 * [Sweeps]({{< relref path="project-page.md#sweeps-tab" lang="ko" >}}): 자동화된 탐색 및 최적화
 * [Reports]({{< relref path="project-page.md#reports-tab" lang="ko" >}}): 노트, run, 그래프의 저장된 스냅샷
 * [Artifacts]({{< relref path="#artifacts-tab" lang="ko" >}}): 모든 run과 해당 run에 연결된 Artifacts
@@ -170,7 +170,7 @@ Runs 탭에서 커스터마이즈한 설정은 [Workspace 탭]({{< relref path="
 
 
 ## Automations 탭
-Artifacts 버전 관리를 위한 후속 작업을 자동화할 수 있습니다. 자동화 생성을 위해 트리거 이벤트와 작업을 정의하면 됩니다. 작업에는 웹훅 호출, W&B job 실행 등이 포함됩니다. 자세한 내용은 [Automations]({{< relref path="/guides/core/automations/" lang="ko" >}}) 가이드를 참고하세요.
+Artifacts 버전 관리를 위한 후속 작업을 자동화할 수 있습니다. Automation 생성을 위해 트리거 이벤트와 작업을 정의하면 됩니다. 작업에는 웹훅 호출, W&B job 실행 등이 포함됩니다. 자세한 내용은 [Automations]({{< relref path="/guides/core/automations/" lang="ko" >}}) 가이드를 참고하세요.
 
 {{< img src="/images/app_ui/automations_tab.png" alt="Automation tab" >}}
 

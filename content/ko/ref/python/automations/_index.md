@@ -1,5 +1,5 @@
 ---
-title: 자동화
+title: Automation
 menu:
   reference:
     identifier: ko-ref-python-automations-_index
