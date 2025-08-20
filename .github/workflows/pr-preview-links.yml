@@ -342,13 +342,46 @@ jobs:
             }
             core.info(`Preview base: ${previewBase || '(not found yet)'}`);
 
+            // Function to extract title from markdown file's front matter
+            function extractTitleFromMarkdown(filePath) {
+              try {
+                const content = fs.readFileSync(filePath, 'utf8');
+                // Match YAML front matter
+                const frontMatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---/);
+                if (frontMatterMatch) {
+                  const frontMatter = frontMatterMatch[1];
+                  // Extract title from front matter
+                  const titleMatch = frontMatter.match(/^\s*title:\s*(.+)$/m);
+                  if (titleMatch) {
+                    // Remove quotes if present
+                    return titleMatch[1].replace(/^["']|["']$/g, '').trim();
+                  }
+                }
+              } catch (e) {
+                // File doesn't exist or can't be read
+              }
+              return null;
+            }
+
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
               const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
-              if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
-              const rel = item.relPermalink || '';
+              
+              // Try to get title from pageurls.json first
+              let title = item?.title;
+              
+              // If no title or item found, try to extract from the markdown file
+              if (!title && filePath.endsWith('.md')) {
+                title = extractTitleFromMarkdown(filePath);
+              }
+              
+              // Fall back to titleFromPath if still no title
+              if (!title) {
+                title = titleFromPath(norm);
+              }
+              
+              const rel = item?.relPermalink || '';
               const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
-              const title = item.title || titleFromPath(norm);
               return { title, rel, href, path: norm };
             }
 
