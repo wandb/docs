@@ -69,6 +69,18 @@ function parseLychee(json) {
 			const sources = (arr || []).map(s => ({ file: s.input || s.file || s.source || 'unknown', line: s.line || 0 }));
 			broken.push({ url, sources });
 		}
+	} else if (json.error_map && typeof json.error_map === 'object') {
+		// Handle newer lychee output format
+		for (const [file, errors] of Object.entries(json.error_map)) {
+			for (const error of errors) {
+				if (error.url && error.status && error.status.code !== 200) {
+					broken.push({ 
+						url: error.url, 
+						sources: [{ file, line: 0 }]
+					});
+				}
+			}
+		}
 	} else if (json.responses && Array.isArray(json.responses)) {
 		for (const r of json.responses) {
 			const status = r.status?.toString() || '';
