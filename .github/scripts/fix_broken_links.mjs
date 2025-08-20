@@ -29,7 +29,7 @@ function normalizeUrl(u) {
 	try {
 		const url = new URL(u);
 		return url.toString();
-	} catch {
+	} catch (e) {
 		return u;
 	}
 }
@@ -112,7 +112,7 @@ async function probeRedirect(url) {
 	} catch (e) {
 		return { ok: false, finalUrl: url, error: String(e) };
 	} finally {
-		for (const c of controllers) try { c.abort(); } catch {}
+		for (const c of controllers) try { c.abort(); } catch (e) {}
 	}
 }
 
@@ -143,7 +143,7 @@ function candidateVariants(url) {
 			u.hostname = 'www.' + u.hostname;
 			variants.push(u.toString());
 		}
-	} catch {
+	} catch (e) {
 		// ignore parse errors
 	}
 	return unique(variants).filter(v => v !== url);
@@ -228,7 +228,7 @@ function generateFromCandidates(fromUrl) {
 			withSlash.pathname = withSlash.pathname + '/';
 			set.add(withSlash.toString());
 		}
-	} catch {}
+	} catch (e) {}
 	return Array.from(set);
 }
 
