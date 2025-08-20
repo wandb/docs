@@ -1,5 +1,5 @@
 ---
-title: Webhook Automation 생성하기
+title: 웹훅 automation 생성하기
 menu:
   default:
     identifier: ko-guides-core-automations-create-automations-webhook

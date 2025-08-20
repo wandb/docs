@@ -1,5 +1,5 @@
 ---
-title: Slack Automation 만들기
+title: Slack automation 만들기
 menu:
   default:
     identifier: ko-guides-core-automations-create-automations-slack
@@ -11,7 +11,7 @@ weight: 1
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-이 페이지에서는 Slack [automation]({{< relref path="/guides/core/automations/" lang="ko" >}})을 만드는 방법을 안내합니다. 웹훅 automation을 만들고 싶다면 [웹훅 automation 생성]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ko" >}}) 가이드를 참고하세요.
+이 페이지에서는 Slack [automation]({{< relref path="/guides/core/automations/" lang="ko" >}})을 만드는 방법을 안내합니다. 웹훅 automation을 만들고 싶다면 [웹훅 automation 생성하기]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ko" >}}) 가이드를 참고하세요.
 
 간략하게, Slack automation을 만들려면 다음 단계로 진행합니다:
 1. [Slack 인테그레이션 추가]({{< relref path="#add-a-slack-integration" lang="ko" >}}): W&B 에서 해당 Slack 인스턴스와 채널에 게시할 수 있도록 권한을 부여합니다.

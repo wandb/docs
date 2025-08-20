@@ -11,7 +11,7 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-automation는 특정 project 또는 Registry 내에서 이벤트가 발생할 때 시작될 수 있습니다. 이 페이지에서는 각 범위에서 automation를 트리거할 수 있는 이벤트들을 설명합니다. automation에 대해 더 알고 싶다면 [automation 개요]({{< relref path="/guides/core/automations/" lang="ko" >}}) 또는 [automation 생성하기]({{< relref path="create-automations/" lang="ko" >}})를 참고하세요.
+Automation은 특정 프로젝트 또는 Registry 내에서 이벤트가 발생할 때 시작될 수 있습니다. 이 페이지에서는 각 범위에서 automation를 트리거할 수 있는 이벤트들을 설명합니다. Automation에 대해 더 알고 싶다면 [Automation 개요]({{< relref path="/guides/core/automations/" lang="ko" >}}) 또는 [Automation 생성하기]({{< relref path="create-automations/" lang="ko" >}})를 참고하세요.
 
 ## Registry
 이 섹션에서는 [Registry]({{< relref path="/guides/core/registry/" lang="ko" >}})에서 automation를 위한 범위와 이벤트에 대해 설명합니다.
@@ -21,7 +21,7 @@ automation는 특정 project 또는 Registry 내에서 이벤트가 발생할 �
 
 ![Registry Automations 탭에서 automation가 보이는 스크린샷](/images/automations/registry_automations_tab.png)
 
-[automation 생성하기]({{< relref path="create-automations/" lang="ko" >}})에 대해 더 알아보세요.
+[Automation 생성하기]({{< relref path="create-automations/" lang="ko" >}})에 대해 더 알아보세요.
 
 ### 범위
 Registry automation는 다음과 같은 범위에서 생성할 수 있습니다:
@@ -41,7 +41,7 @@ Registry automation는 다음과 같은 이벤트를 감지할 수 있습니다:
 
 ![Project Automations 탭에서 automation가 보이는 스크린샷](/images/automations/project_automations_tab.png)
 
-[automation 생성하기]({{< relref path="create-automations/" lang="ko" >}})에 대해 더 알아보세요.
+[Automation 생성하기]({{< relref path="create-automations/" lang="ko" >}})에 대해 더 알아보세요.
 
 ### 범위
 Project automation는 다음과 같은 범위에서 생성할 수 있습니다:
@@ -56,7 +56,7 @@ Project automation는 다음과 같은 범위에서 생성할 수 있습니다:
 - **artifact tag가 추가됨**: project 또는 collection 내 artifact 버전에 특정 tag가 붙을 때 워크플로우의 특정 단계를 트리거할 수 있습니다. 예를 들어, artifact 버전에 "europe" tag가 추가되면 지역별 워크플로우를 실행할 수 있습니다. artifact tag는 그룹화 및 필터링 용도로 사용되며, 하나의 tag로 여러 artifact 버전에 동시 적용될 수 있습니다.
 
 ### Run 이벤트
-automation는 [run의 상태]({{< relref path="/guides/models/track/runs/#run-states" lang="ko" >}}) 변화나 [메트릭 값]({{< relref path="/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" lang="ko" >}}) 변화에 따라 트리거될 수 있습니다.
+Automation은 [run의 상태]({{< relref path="/guides/models/track/runs/#run-states" lang="ko" >}}) 변화나 [메트릭 값]({{< relref path="/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" lang="ko" >}}) 변화에 따라 트리거될 수 있습니다.
 
 #### Run 상태 변화
 {{% alert %}}
@@ -107,7 +107,7 @@ run 메트릭 automation를 설정할 때는, 지정한 임계값과 메트릭�
 
 현재 구간과 이전 구간은 연속적이며 서로 겹치지 않습니다.
 
-automation를 만들 때는 다음과 같이 설정합니다:
+Automation을 만들 때는 다음과 같이 설정합니다:
 1. 현재 구간의 값 개수 (기본값 10)
 1. 이전 구간의 값 개수 (기본값 50)
 1. 상대값(**Relative**, 기본값) 또는 절대값(Absolute) 중 평가 방식
@@ -130,4 +130,4 @@ automation를 만들 때는 다음과 같이 설정합니다:
 
 ## 다음 단계
 - [Slack automation 생성하기]({{< relref path="create-automations/slack.md" lang="ko" >}})
-- [webhook automation 생성하기]({{< relref path="create-automations/webhook.md" lang="ko" >}})
+- [웹훅 automation 생성하기]({{< relref path="create-automations/webhook.md" lang="ko" >}})

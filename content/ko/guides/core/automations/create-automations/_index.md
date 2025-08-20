@@ -1,5 +1,5 @@
 ---
-title: Automation 생성
+title: Automation 생성하기
 menu:
   default:
     identifier: ko-guides-core-automations-create-automations-_index
