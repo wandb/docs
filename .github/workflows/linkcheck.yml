@@ -9,26 +9,76 @@ jobs:
   linkChecker:
     runs-on: ubuntu-latest
     permissions:
-      issues: write # required for peter-evans/create-issue-from-file
+      contents: write
+      pull-requests: write
     steps:
       # check URLs with Lychee
       - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Ensure lychee output dir
+        run: mkdir -p lychee
 
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: "--accept 200,429,403 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress 'content/**/*.md' 'content/**/*.html' 'https://docs.wandb.ai/guides/' 'https://docs.wandb.ai/ref/' 'https://docs.wandb.ai/tutorials/' 'https://docs.wandb.ai/support/'"
+          args: "--accept 200,429,403 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' --scheme https --scheme http --max-concurrency 5 --max-retries 1 --retry-wait-time 2 --verbose --no-progress --require-https 'content/**/*.md' 'content/**/*.html' 'https://docs.wandb.ai/guides/' 'https://docs.wandb.ai/ref/' 'https://docs.wandb.ai/tutorials/' 'https://docs.wandb.ai/support/'"
+          output: ./lychee/out.json
+          format: json
           fail: false
         env:
           # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Create Issue From File
-        if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@v5
+      - name: Apply auto-fixes and generate report
+        id: fix
+        run: |
+          set -euo pipefail
+          node .github/scripts/fix_broken_links.mjs || true
+
+      - name: Create Pull Request with fixes
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
         with:
-          title: Link Checker Report
-          content-filepath: ./lychee/out.md
-          labels: report, automated issue
+          commit-message: "docs: fix broken links (automated)"
+          title: "docs: fix broken links (automated)"
+          body: |
+            This PR was created automatically from the scheduled link check.
+
+            - Auto-fixed redirectable links where possible
+            - Generated a report with any remaining links requiring manual review at `.github/lychee-report.md`
+
+            Please review the comments and report for follow-up.
+          branch: chore/fix-broken-links-${{ github.run_id }}
+          delete-branch: true
+
+      - name: Comment manual follow-ups on PR
+        if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = '.github/lychee-report.md';
+            let body = '';
+            if (fs.existsSync(path)) {
+              const md = fs.readFileSync(path, 'utf8');
+              const section = md.split('\n').slice(0, 400).join('\n');
+              body = `Broken links requiring manual follow-up (truncated if long):\n\n${section}`;
+            } else {
+              body = 'No manual follow-ups detected.';
+            }
+            const prNumber = Number('${{ steps.cpr.outputs.pull-request-number || 0 }}');
+            if (prNumber > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body,
+              });
+            }
