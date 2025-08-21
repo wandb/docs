@@ -35,7 +35,7 @@ In addition, examples use user IDs such as `abc` and `def`. Real requests and re
 
 ## Authentication
 
-Choose between personal user authentication and service account authentication based on the differences below.
+Choose to authenticate using a user identity or a service account, after reviewing the key differences.
 
 ### Key differences
 - Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
