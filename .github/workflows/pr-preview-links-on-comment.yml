@@ -1,0 +1,463 @@
+name: PR Preview Links - Update on Cloudflare Comment
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  update-preview-links:
+    # Only run on PR comments from Cloudflare bot
+    if: |
+      github.event.issue.pull_request && 
+      contains(github.event.comment.user.login, 'cloudflare') &&
+      contains(github.event.comment.body, 'Branch Preview URL')
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+
+          
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            core.setOutput('head_sha', pr.data.head.sha);
+            core.setOutput('base_sha', pr.data.base.sha);
+            
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Get Hugo version and setup
+        run: |
+          set -euo pipefail
+          ver=$(grep 'HUGO_VERSION' wrangler.toml | awk -F '"' '{print $2}')
+          wget "https://github.com/gohugoio/hugo/releases/download/v${ver}/hugo_extended_${ver}_linux-amd64.deb" -O hugo.deb
+          sudo apt-get update
+          sudo apt-get install -y ./hugo.deb
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          check-latest: true
+
+      - name: Setup deps for build
+        run: |
+          set -euo pipefail
+          npm install
+          go mod download
+          hugo mod get -u
+
+      - name: Get changed files
+        id: changed
+        uses: tj-actions/changed-files@v46
+        with:
+          base_sha: ${{ steps.pr.outputs.base_sha }}
+          sha: ${{ steps.pr.outputs.head_sha }}
+          files: |
+            content/**
+            static/**
+            assets/**
+            layouts/**
+            i18n/**
+            configs/**
+
+      - name: Build Hugo (generate pageurls)
+        if: steps.changed.outputs.any_changed == 'true'
+        run: |
+          hugo --minify
+          test -f public/pageurls.json && echo "Found pageurls.json" || (echo "Missing pageurls.json" && ls -la public || true)
+
+
+      - name: Extract Branch Preview URL
+        id: extract-url
+        uses: actions/github-script@v7
+        with:
+          script: |
+            function sanitizeUrl(u) {
+              if (!u) return '';
+              u = u.trim().replace(/^['"<]+/, '').replace(/[>'"]+$/, '');
+              u = u.split(/[\s<>'"\]\)]/)[0];
+              try { u = decodeURI(u); } catch (e) {}
+              return u.replace(/\/$/, '');
+            }
+            
+            function extractBranchPreviewUrl(body) {
+              const patterns = [
+                // Table format with anchor tag (what Cloudflare actually uses)
+                /Branch\s+Preview\s+URL:<\/strong><\/td><td>[\s\S]*?<a[^>]+href=['"]([^'"<>]+pages\.dev[^'"<>]*)['"]/i,
+                // Try anchor tag format on same line
+                /Branch\s+Preview\s+URL:\s*<a[^>]+href=['"]([^'"<>]+pages\.dev[^'"<>]*)['"]/i,
+                // Try plain URL format
+                /Branch\s+Preview\s+URL:\s*<?(?:https?:\/\/)?([^\s<>]+pages\.dev[^\s<>]*)/i
+              ];
+              
+              for (const pattern of patterns) {
+                const m = (body || '').match(pattern);
+                if (m && m[1]) {
+                  const url = m[1];
+                  if (!url.startsWith('http')) {
+                    return sanitizeUrl('https://' + url);
+                  }
+                  return sanitizeUrl(url);
+                }
+              }
+              return '';
+            }
+            
+            const branchUrl = extractBranchPreviewUrl(context.payload.comment.body);
+            core.info(`Extracted Branch Preview URL: ${branchUrl}`);
+            core.setOutput('branch_url', branchUrl);
+
+      - name: Update PR comment with preview links
+        if: steps.changed.outputs.any_changed == 'true' && steps.extract-url.outputs.branch_url
+        uses: actions/github-script@v7
+        env:
+          ADDED: ${{ steps.changed.outputs.added_files }}
+          MODIFIED: ${{ steps.changed.outputs.modified_files }}
+          DELETED: ${{ steps.changed.outputs.deleted_files }}
+          PREVIEW_BASE: ${{ steps.extract-url.outputs.branch_url }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            function splitList(s) {
+              if (!s) return [];
+              return s
+                .split(/\r?\n|,|\s+/)
+                .map(x => x.trim())
+                .filter(Boolean);
+            }
+
+            const added = splitList(process.env.ADDED);
+            const modified = splitList(process.env.MODIFIED);
+            const deleted = splitList(process.env.DELETED);
+
+            const allChanged = [...added, ...modified, ...deleted];
+            const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
+            
+            // Handle case where there are no content changes
+            if (!anyEligible) {
+              core.info('No relevant content changes. Updating comment to reflect this.');
+              
+              const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
+              const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + previewBase + ' -->\n**PR Preview: Changed content**';
+              const body = header + '\n\nNo documentation content changes in this PR.';
+              
+              // Find and update our existing comment
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              });
+              
+              const existing = comments.find(c => /<!-- docs-preview-links -->/.test(c.body || ''));
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existing.id,
+                  body,
+                });
+                core.info('Updated existing preview links comment to show no content changes');
+              }
+              
+              return;
+            }
+
+            let pageMap = [];
+            // Build candidate pageurls.json paths by scanning public/
+            const candidatePaths = new Set();
+            try {
+              if (fs.existsSync('public/pageurls.json')) candidatePaths.add('public/pageurls.json');
+            } catch (e) {
+              core.warning(`Root pageurls existence check failed: ${e.message}`);
+            }
+            try {
+              if (fs.existsSync('public')) {
+                const entries = fs.readdirSync('public', { withFileTypes: true });
+                for (const ent of entries) {
+                  if (ent.isDirectory()) {
+                    candidatePaths.add(path.posix.join('public', ent.name, 'pageurls.json'));
+                    candidatePaths.add(path.posix.join('public', ent.name, 'index.pageurls.json'));
+                  }
+                }
+              }
+            } catch (e) {
+              core.warning(`Could not scan public/ for languages: ${e.message}`);
+            }
+
+            core.info(`Attempting to load page maps from: ${Array.from(candidatePaths).join(', ') || '(none)'}`);
+            for (const pageurlsPath of candidatePaths) {
+              try {
+                if (!fs.existsSync(pageurlsPath)) continue;
+                const raw = fs.readFileSync(pageurlsPath, 'utf8');
+                const langPages = JSON.parse(raw);
+                pageMap = pageMap.concat(langPages);
+                core.info(`Loaded ${langPages.length} pages from ${pageurlsPath}`);
+
+              } catch (e) {
+                core.warning(`Could not read ${pageurlsPath}. ${e.message}`);
+              }
+            }
+
+            // Build lookup: support keys with and without language prefix
+            const byPath = new Map();
+            for (const p of pageMap) {
+              const lang = p.lang || 'en'; // Default to 'en' if no lang specified
+              const rel = (p.path || '').replace(/^\/+/, '').replace(/\\/g, '/');
+              const withLang = lang && !rel.startsWith(lang + '/') ? `${lang}/${rel}` : rel;
+              const withoutLang = lang && rel.startsWith(lang + '/') ? rel.slice(lang.length + 1) : rel;
+              const keys = new Set([
+                rel,
+                withLang,
+                withoutLang,
+                path.posix.join('content', withLang),
+                path.posix.join('content', withoutLang),
+                path.posix.join('content', rel),
+                // Add explicit handling for language in path
+                path.posix.join('content', lang, rel),
+                path.posix.join('content', lang, withoutLang),
+                // Add .md extension variations for content files
+                rel.endsWith('.md') ? rel : rel + '.md',
+                withLang.endsWith('.md') ? withLang : withLang + '.md',
+                withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md',
+                path.posix.join('content', lang, rel.endsWith('.md') ? rel : rel + '.md'),
+                path.posix.join('content', lang, withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+                path.posix.join('content', withLang.endsWith('.md') ? withLang : withLang + '.md'),
+                path.posix.join('content', withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+              ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
+              
+              // Debug log for new pages
+              if (p.path && p.path.includes('dspy')) {
+                core.info(`Debug: Page ${p.path} (lang: ${lang}) has keys: ${Array.from(keys).join(', ')}`);
+              }
+              
+              for (const k of keys) byPath.set(k, p);
+            }
+
+
+            const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
+            core.info(`Using Branch Preview URL: ${previewBase}`);
+
+            function mapEntry(filePath) {
+              const norm = filePath.replace(/\\/g, '/');
+              
+              // Try multiple variations to find the item
+              let item = byPath.get(norm);
+              if (!item) item = byPath.get(norm.replace(/^content\//, ''));
+              if (!item) item = byPath.get(norm.replace(/\.md$/, ''));
+              if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
+              
+              // Debug log for unmatched files
+              if (!item && norm.includes('dspy')) {
+                core.info(`Debug: Could not find mapping for ${norm}`);
+                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+              }
+              
+              if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
+              const rel = item.relPermalink || '';
+              const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+              const title = item.title || titleFromPath(norm);
+              return { title, rel, href, path: norm };
+            }
+
+            function titleFromPath(p) {
+              const stem = p.replace(/^content\//, '').replace(/\.(md|markdown)$/, '');
+              const parts = stem.split('/');
+              const last = parts[parts.length - 1];
+              const base = last === 'index' ? (parts[parts.length - 2] || 'index') : last;
+              return base.replace(/[\-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+
+            // Function to check if a file is an include
+            function isIncludeFile(filePath) {
+              return /^content\/[^\/]+\/_includes\//.test(filePath);
+            }
+            
+            // Function to find pages that use a specific include
+            function findPagesUsingInclude(includePath) {
+              const includeFileName = includePath.split('/').pop();
+              const pagesUsingInclude = [];
+              
+              // Search through all pages in pageMap
+              for (const page of pageMap) {
+                if (page.path && page.path.endsWith('.md')) {
+                  try {
+                    // Construct the correct file path: content/<lang>/<page.path>
+                    const contentPath = path.join('content', page.lang || 'en', page.path);
+                    if (fs.existsSync(contentPath)) {
+                      const content = fs.readFileSync(contentPath, 'utf8');
+                      
+                      // Check for usage of the include file with various path formats
+                      // The include might be referenced as:
+                      // - /_includes/filename.md
+                      // - /content/en/_includes/filename.md
+                      // - /content/<lang>/_includes/filename.md
+                      const escapedFileName = includeFileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                      
+                      // Pattern to match any path ending with /_includes/filename
+                      const includePattern = `[^"']*\\/_includes\\/${escapedFileName}`;
+                      
+                      // Check for both readfile syntaxes with flexible path matching
+                      const pattern1 = new RegExp(`\\{\\{%\\s*readfile\\s+(?:file=)?["'](${includePattern})["']\\s*%\\}\\}`, 'i');
+                      const pattern2 = new RegExp(`\\{\\{<\\s*readfile\\s+file=["'](${includePattern})["']\\s*>\\}\\}`, 'i');
+                      
+                      if (pattern1.test(content) || pattern2.test(content)) {
+                        pagesUsingInclude.push(page);
+                      }
+                    }
+                  } catch (e) {
+                    // Skip if file can't be read
+                  }
+                }
+              }
+              
+              return pagesUsingInclude;
+            }
+
+            function buildRows(files) {
+              const rows = [];
+              
+              for (const fp of files) {
+                if (fp.startsWith('content/')) {
+                  // Check if this is an include file
+                  if (isIncludeFile(fp)) {
+                    // Use just the filename for includes
+                    const filename = fp.split('/').pop();
+                    
+                    // Find pages that use this include
+                    const dependentPages = findPagesUsingInclude(fp);
+                    
+                    // Build the title cell with filename and dependent pages
+                    let titleCell = `\`${filename}\``;
+                    if (dependentPages.length > 0) {
+                      // Add dependent pages as a nested list
+                      const pageLinks = dependentPages.map(page => {
+                        const href = previewBase ? (previewBase + page.relPermalink) : '';
+                        const linkText = page.title || titleFromPath(page.path);
+                        return href ? `[${linkText}](${href})` : linkText;
+                      });
+                      
+                      const dependentList = pageLinks.map(link => `<br>↳ ${link}`).join('');
+                      titleCell += `:${dependentList}`;
+                    }
+                    
+                    rows.push(`| ${titleCell} | \`${fp}\` |`);
+                  } else {
+                    // Regular content file
+                    const e = mapEntry(fp);
+                    const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                    const pathCell = '`' + e.path + '`';
+                    rows.push(`| ${titleCell} | ${pathCell} |`);
+                  }
+                } else {
+                  // Static/assets: create direct preview links if base is known
+                  // Only link common web assets; skip JSON, map files, etc.
+                  const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(fp);
+                  const rel = fp.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const title = titleFromPath(fp);
+                  const titleCell = href ? `[${title}](${href})` : title;
+                  const pathCell = '`' + fp + '`';
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                }
+              }
+              
+              return rows;
+            }
+
+            const addedRows = buildRows(added);
+            const modifiedRows = buildRows(modified);
+            const deletedRows = buildRows(deleted);
+
+            const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + previewBase + ' -->\n**PR Preview: Changed content**\n\nBase preview: ' + previewBase;
+            
+            function section(title, rows) {
+              if (rows.length === 0) return '';
+              return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
+            }
+
+            const body = [
+              header,
+              section('Added', addedRows),
+              section('Modified', modifiedRows),
+              section('Deleted', deletedRows),
+            ].join('');
+
+            // Find and update our existing comment
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            
+            const existing = comments.find(c => /<!-- docs-preview-links -->/.test(c.body || ''));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+              core.info('Updated existing preview links comment');
+              
+              // Add link to PR description if we have preview links
+              if (added.length + modified.length > 0) {
+                try {
+                  const pr = await github.rest.pulls.get({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: context.issue.number,
+                  });
+                  
+                  const currentBody = pr.data.body || '';
+                  const commentUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/pull/${context.issue.number}#issuecomment-${existing.id}`;
+                  const linkMarker = '<!-- preview-links-comment -->';
+                  const linkText = `\n\n${linkMarker}\n\n📄 **[View preview links for changed content](${commentUrl})**`;
+                  
+                  // Only add if not already present
+                  if (!currentBody.includes(linkMarker)) {
+                    await github.rest.pulls.update({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      pull_number: context.issue.number,
+                      body: currentBody + linkText,
+                    });
+                    core.info('Added preview link to PR description');
+                  }
+                } catch (e) {
+                  core.warning(`Could not update PR description: ${e.message}`);
+                }
+              }
+            } else {
+              // This shouldn't happen since main workflow creates comment first
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+              core.info('Created new preview links comment');
+            }
