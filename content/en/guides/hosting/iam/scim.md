@@ -26,7 +26,7 @@ For practical Python examples demonstrating how to interact with the SCIM API, v
 - **Service Account Authentication**: Organization service accounts can access the API
 
 {{% alert %}}
-If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**. The setting is named **Default API organization**.
+If you are an admin of multiple Enterprise [Multi-tenant SaaS]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**, then check the setting **Default API organization**.
 
 The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
 
