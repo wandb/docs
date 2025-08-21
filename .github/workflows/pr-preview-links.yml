@@ -216,9 +216,11 @@ jobs:
               core.warning('Branch Preview URL not found within 2 minutes. Links will be added when Cloudflare comment triggers update workflow.');
               return '';
             }
-            let base = await waitForCloudflareBranchUrl();
-            if (!base) base = await fromOurExistingComment();
-            core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+            // TEMPORARY: Use mock preview URL for testing path matching logic
+            // let base = await waitForCloudflareBranchUrl();
+            // if (!base) base = await fromOurExistingComment();
+            let base = 'https://test-preview.pages.dev';
+            core.info(`Using mock preview URL for testing: ${base}`);
             core.setOutput('base', base);
 
       - name: Update PR comment with preview links
@@ -557,7 +559,7 @@ jobs:
             const modifiedRows = buildRows(modifiedInfo.files);
             const deletedRows = buildRows(deletedInfo.files);
 
-            const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n⏳ *Links will be added automatically when Cloudflare Pages finishes deploying (typically 2-5 minutes)*');
+            const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase} (MOCK URL FOR TESTING)` : '\n\n⏳ *Links will be added automatically when Cloudflare Pages finishes deploying (typically 2-5 minutes)*');
             if (!previewBase) {
               core.info('Preview base URL not available yet. Comment will be automatically updated when Cloudflare posts the Branch Preview URL.');
             }
