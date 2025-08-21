@@ -56,7 +56,7 @@ Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ### Service accounts
 Use an organization-scoped service account for automation or integrations. Construct the HTTP `Authorization` header as `Basic <base64(:API-KEY)>` (note the leading colon and empty username). Find service account API keys in the organization dashboard under the **Service account** tab. Refer to [Organization-scoped service accounts]({{< relref "/guides/hosting/iam/authentication/service-accounts.md/#organization-scoped-service-accounts" >}}).
 
-Example: to authorize with API key `sa-p@55w0rd`:
+For example, authorize with API key `sa-p@55w0rd`:
 ```bash
 Authorization: Basic OnNhLXBANTV3MHJk
 ```
