@@ -1631,7 +1631,7 @@ W&B maintains two separate SCIM API implementations, and the features differ bet
 | User deactivation/reactivation | - | &check; |
 | Multiple emails per user | &check; | - |
 
-### Limitations
+## Limitations
 
 - **Maximum results**: 9999 items per request
 - **Single-tenant environments**: Only support one email per user
