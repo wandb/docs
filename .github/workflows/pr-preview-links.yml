@@ -61,8 +61,19 @@ jobs:
       - name: Build Hugo (generate pageurls)
         if: steps.changed.outputs.any_changed == 'true'
         run: |
+          # Debug: Check what ref we're building
+          echo "Current branch: $(git branch --show-current)"
+          echo "HEAD commit: $(git rev-parse HEAD)"
+          echo "PR head SHA: ${{ github.event.pull_request.head.sha }}"
+          
           hugo --minify
           test -f public/pageurls.json && echo "Found pageurls.json" || (echo "Missing pageurls.json" && ls -la public || true)
+          
+          # Debug: Check a specific file's title in the generated JSON
+          if [ -f public/pageurls.json ]; then
+            echo "Checking for public-api entries in pageurls.json:"
+            jq '.[] | select(.path | contains("public-api"))' public/pageurls.json || true
+          fi
 
       - name: Create or find preview comment
         if: steps.changed.outputs.any_changed == 'true'
@@ -283,17 +294,37 @@ jobs:
             // Build lookup: support keys with and without language prefix
             const byPath = new Map();
             for (const p of pageMap) {
-              const lang = p.lang || '';
+              const lang = p.lang || 'en'; // Default to 'en' if no lang specified
               const rel = (p.path || '').replace(/^\/+/, '').replace(/\\/g, '/');
               const withLang = lang && !rel.startsWith(lang + '/') ? `${lang}/${rel}` : rel;
               const withoutLang = lang && rel.startsWith(lang + '/') ? rel.slice(lang.length + 1) : rel;
+              
+              // Create all possible key variations
               const keys = new Set([
                 rel,
                 withLang,
                 withoutLang,
                 path.posix.join('content', withLang),
                 path.posix.join('content', withoutLang),
+                path.posix.join('content', rel),
+                // Add explicit handling for language in path
+                path.posix.join('content', lang, rel),
+                path.posix.join('content', lang, withoutLang),
+                // Add .md extension variations for content files
+                rel.endsWith('.md') ? rel : rel + '.md',
+                withLang.endsWith('.md') ? withLang : withLang + '.md',
+                withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md',
+                path.posix.join('content', lang, rel.endsWith('.md') ? rel : rel + '.md'),
+                path.posix.join('content', lang, withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+                path.posix.join('content', withLang.endsWith('.md') ? withLang : withLang + '.md'),
+                path.posix.join('content', withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
               ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
+              
+              // Debug log for new pages
+              if (p.path && p.path.includes('dspy')) {
+                core.info(`Debug: Page ${p.path} (lang: ${lang}) has keys: ${Array.from(keys).join(', ')}`);
+              }
+              
               for (const k of keys) byPath.set(k, p);
             }
 
@@ -344,7 +375,19 @@ jobs:
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
-              const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
+              
+              // Try multiple variations to find the item
+              let item = byPath.get(norm);
+              if (!item) item = byPath.get(norm.replace(/^content\//, ''));
+              if (!item) item = byPath.get(norm.replace(/\.md$/, ''));
+              if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
+              
+              // Debug log for unmatched files
+              if (!item && norm.includes('dspy')) {
+                core.info(`Debug: Could not find mapping for ${norm}`);
+                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+              }
+              
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
               const rel = item.relPermalink || '';
               const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
@@ -457,25 +500,91 @@ jobs:
               return rows;
             }
 
-            const addedRows = buildRows(added);
-            const modifiedRows = buildRows(modified);
-            const deletedRows = buildRows(deleted);
+            // Calculate file sizes/changes for sorting by delta
+            function getFileStats(files) {
+              const { execSync } = require('child_process');
+              return files.map(fp => {
+                let size = 0;
+                try {
+                  // Use git to get the number of changed lines
+                  // For added files, count all lines; for modified, count insertions + deletions
+                  const diffStat = execSync(`git diff --numstat origin/${{ github.base_ref }}...HEAD -- "${fp}" 2>/dev/null || echo "0 0 ${fp}"`, { encoding: 'utf8' }).trim();
+                  const parts = diffStat.split(/\s+/);
+                  if (parts.length >= 2) {
+                    const insertions = parseInt(parts[0]) || 0;
+                    const deletions = parseInt(parts[1]) || 0;
+                    size = insertions + deletions;
+                  }
+                } catch (e) {
+                  // If git diff fails, try file size as fallback
+                  try {
+                    if (fs.existsSync(fp)) {
+                      const stats = fs.statSync(fp);
+                      size = stats.size;
+                    }
+                  } catch (e2) {
+                    // Ignore errors
+                  }
+                }
+                return { path: fp, size };
+              });
+            }
+
+            // Sort files by size (as a proxy for change delta) and limit to maxRows
+            function limitAndSortFiles(files, maxRows = 20) {
+              if (files.length <= maxRows) {
+                return { files: files.sort(), truncated: false };
+              }
+              
+              // Get file stats and sort by size descending
+              const stats = getFileStats(files);
+              stats.sort((a, b) => b.size - a.size);
+              
+              // Take top maxRows files
+              const topFiles = stats.slice(0, maxRows).map(s => s.path);
+              // Sort alphabetically for consistent display
+              topFiles.sort();
+              
+              return { files: topFiles, truncated: true, total: files.length };
+            }
+
+            const MAX_ROWS_PER_TABLE = 20;
+            const addedInfo = limitAndSortFiles(added, MAX_ROWS_PER_TABLE);
+            const modifiedInfo = limitAndSortFiles(modified, MAX_ROWS_PER_TABLE);
+            const deletedInfo = limitAndSortFiles(deleted, MAX_ROWS_PER_TABLE);
+
+            const addedRows = buildRows(addedInfo.files);
+            const modifiedRows = buildRows(modifiedInfo.files);
+            const deletedRows = buildRows(deletedInfo.files);
 
             const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n⏳ *Links will be added automatically when Cloudflare Pages finishes deploying (typically 2-5 minutes)*');
             if (!previewBase) {
               core.info('Preview base URL not available yet. Comment will be automatically updated when Cloudflare posts the Branch Preview URL.');
             }
-            function section(title, rows) {
-              if (rows.length === 0) return '';
-              return `\n\n### ${title}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
+            
+            function section(title, rows, info) {
+              if (rows.length === 0 && !info.truncated) return '';
+              
+              let sectionTitle = title;
+              if (info.truncated) {
+                sectionTitle += ` (showing ${rows.length} of ${info.total} files with largest changes)`;
+              }
+              
+              return `\n\n### ${sectionTitle}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
             }
 
             const body = [
               header,
-              section('Added', addedRows),
-              section('Modified', modifiedRows),
-              section('Deleted', deletedRows),
+              section('Added', addedRows, addedInfo),
+              section('Modified', modifiedRows, modifiedInfo),
+              section('Deleted', deletedRows, deletedInfo),
             ].join('');
+            
+            // Check if body exceeds GitHub's limit
+            const MAX_COMMENT_SIZE = 65536;
+            if (body.length > MAX_COMMENT_SIZE) {
+              core.warning(`Preview comment size (${body.length}) exceeds GitHub's limit (${MAX_COMMENT_SIZE}). This should not happen with row limits in place.`);
+            }
 
             // Update the existing comment
             const commentId = process.env.COMMENT_ID;
