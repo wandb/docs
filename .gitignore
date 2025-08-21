@@ -39,3 +39,6 @@ translate_dev/
 chatgpt*yar
 package-lock.json
 .vale.ini.swp
+
+# Link checker output
+lychee/
