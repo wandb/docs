@@ -15,6 +15,8 @@ Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3
 
 The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams.
 
+W&B's SCIM API is compatible with major identity providers including Okta, enabling automated user provisioning and deprovisioning. For SSO configuration with Okta and other identity providers, see the [SSO documentation]({{< relref "/guides/hosting/iam/authentication/sso.md" >}}).
+
 For practical Python examples demonstrating how to interact with the SCIM API, visit our [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
 
 ### Supported Features
