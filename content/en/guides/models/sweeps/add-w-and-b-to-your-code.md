@@ -265,7 +265,7 @@ For more information, see [Start sweep jobs]({{< relref "./start-sweep-agents.md
 {{% /tab %}} {{< /tabpane >}}
 
 
-{{% alert title="Logging metrics to W&B in a sweep"%}}
+{{% alert title="Logging metrics to W&B in a sweep" %}}
 You must log the metric you define and are optimizing for in both your sweep configuration and with `wandb.Run.log()`. For example, if you define the metric to optimize as `val_acc` within your sweep configuration, you must also log `val_acc` to W&B. If you do not log the metric, W&B does not know what to optimize for.
 
 ```python
