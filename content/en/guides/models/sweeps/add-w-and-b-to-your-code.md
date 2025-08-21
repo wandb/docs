@@ -16,7 +16,7 @@ Suppose you have a Python script that trains a model (see below). Your goal is t
 
 In your Python script, you define two functions: `train_one_epoch` and `evaluate_one_epoch`. The `train_one_epoch` function simulates training for one epoch and returns the training accuracy and loss. The `evaluate_one_epoch` function simulates evaluating the model on the validation data set and returns the validation accuracy and loss.
 
-You define a configuration dictionary (`config`) that contains hyperparameter values such as the learning rate (`lr`), batch size (`batch_size`), and number of epochs (`epochs`). The values in the configuration dictionary are used to control the training process. 
+You define a configuration dictionary (`config`) that contains hyperparameter values such as the learning rate (`lr`), batch size (`batch_size`), and number of epochs (`epochs`). The values in the configuration dictionary control the training process. 
 
 Next you define a function called `main` that mimics a typical training loop. For each epoch, the accuracy and loss is computed on the training and validation data sets.
 
