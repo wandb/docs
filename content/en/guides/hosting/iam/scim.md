@@ -520,7 +520,7 @@ Deactivates a user in your organization.
 | `value` | object | Yes | Object with `{"active": false}` |
 
 {{% alert %}}
-User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
+User deactivation and reactivation operations are not supported in [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
 {{% /alert %}}
 
 #### Example
