@@ -7,7 +7,7 @@ description: >
 
 W&B Inference provides access to several open-source foundation models. Each model has different strengths and use cases.
 
-## Model comparison
+## Model catalog
 
 | Model | Model ID (for API usage) | Type | Context Window | Parameters | Description |
 |-------|--------------------------|------|----------------|------------|-------------|
