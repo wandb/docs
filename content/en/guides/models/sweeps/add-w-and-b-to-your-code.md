@@ -8,7 +8,7 @@ title: Add W&B (wandb) to your code
 weight: 2
 ---
 
-This guide provides recommendations on how to add W&B Python APIs to your Python script or notebook.
+This guide provides recommendations on how to integrate W&B into your Python training script or notebook.
 
 ## Original training script
 
