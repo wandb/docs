@@ -28,6 +28,10 @@ As a first step, an organization admin must set up a federation between your W&B
 
 W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/oidc-configuration`, and try to find the JSON Web Key Set (JWKS) at a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
 
+:::note
+The discovery endpoint path `/.well-known/oidc-configuration` is currently not configurable. Your identity provider must expose the OIDC discovery document at this exact path. If your IdP uses a different path (such as `/.well-known/openid-configuration`), please contact W&B support to discuss alternative solutions.
+:::
+
 ## Using the JWT to access W&B
 
 Once a JWT issuer has been setup for your W&B organization, users can start accessing the relevant W&B projects using JWTs issued by that identity provider. The mechanism for using JWTs is as follows:

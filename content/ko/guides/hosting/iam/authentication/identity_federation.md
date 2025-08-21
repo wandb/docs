@@ -28,6 +28,10 @@ W&B SDK를 통해 조직의 자격 증명을 사용하여 로그인하려면 아
 
 W&B는 자동으로 `${ISSUER_URL}/.well-known/oidc-configuration` 경로에서 OIDC 검색 문서를 찾고 검색 문서의 관련 URL에서 JSON Web Key Set (JWKS)을 찾으려고 시도합니다. JWKS는 JWT가 관련 아이덴티티 공급자에 의해 발급되었는지 확인하기 위해 JWT의 실시간 유효성 검사에 사용됩니다.
 
+:::note
+검색 엔드포인트 경로 `/.well-known/oidc-configuration`는 현재 구성할 수 없습니다. 아이덴티티 공급자는 이 정확한 경로에서 OIDC 검색 문서를 노출해야 합니다. IdP가 다른 경로(예: `/.well-known/openid-configuration`)를 사용하는 경우 대체 솔루션에 대해 W&B 지원팀에 문의하십시오.
+:::
+
 ## JWT를 사용하여 W&B에 엑세스
 
 W&B 조직에 대해 JWT 발급자가 설정되면 사용자는 해당 아이덴티티 공급자가 발급한 JWT를 사용하여 관련 W&B 프로젝트에 엑세스할 수 있습니다. JWT를 사용하는 메커니즘은 다음과 같습니다.
