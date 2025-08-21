@@ -224,7 +224,7 @@ jobs:
             // Build lookup: support keys with and without language prefix
             const byPath = new Map();
             for (const p of pageMap) {
-              const lang = p.lang || '';
+              const lang = p.lang || 'en'; // Default to 'en' if no lang specified
               const rel = (p.path || '').replace(/^\/+/, '').replace(/\\/g, '/');
               const withLang = lang && !rel.startsWith(lang + '/') ? `${lang}/${rel}` : rel;
               const withoutLang = lang && rel.startsWith(lang + '/') ? rel.slice(lang.length + 1) : rel;
@@ -234,7 +234,25 @@ jobs:
                 withoutLang,
                 path.posix.join('content', withLang),
                 path.posix.join('content', withoutLang),
+                path.posix.join('content', rel),
+                // Add explicit handling for language in path
+                path.posix.join('content', lang, rel),
+                path.posix.join('content', lang, withoutLang),
+                // Add .md extension variations for content files
+                rel.endsWith('.md') ? rel : rel + '.md',
+                withLang.endsWith('.md') ? withLang : withLang + '.md',
+                withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md',
+                path.posix.join('content', lang, rel.endsWith('.md') ? rel : rel + '.md'),
+                path.posix.join('content', lang, withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+                path.posix.join('content', withLang.endsWith('.md') ? withLang : withLang + '.md'),
+                path.posix.join('content', withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
               ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
+              
+              // Debug log for new pages
+              if (p.path && p.path.includes('dspy')) {
+                core.info(`Debug: Page ${p.path} (lang: ${lang}) has keys: ${Array.from(keys).join(', ')}`);
+              }
+              
               for (const k of keys) byPath.set(k, p);
             }
 
@@ -244,8 +262,19 @@ jobs:
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
-              const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
-
+              
+              // Try multiple variations to find the item
+              let item = byPath.get(norm);
+              if (!item) item = byPath.get(norm.replace(/^content\//, ''));
+              if (!item) item = byPath.get(norm.replace(/\.md$/, ''));
+              if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
+              
+              // Debug log for unmatched files
+              if (!item && norm.includes('dspy')) {
+                core.info(`Debug: Could not find mapping for ${norm}`);
+                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+              }
+              
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
               const rel = item.relPermalink || '';
               const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
