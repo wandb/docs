@@ -79,7 +79,7 @@ Add the following to your Python script:
 7. Start the sweep with [`wandb.agent()`]({{< relref "/ref/python/sdk/functions/agent.md" >}}). Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`).
 
 
-Putting this all together, your script might look simlar to the following:
+Putting this all together, your script might look similar to the following:
 
 ```python
 import wandb # Import the W&B Python SDK
