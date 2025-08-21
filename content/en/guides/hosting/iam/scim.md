@@ -48,7 +48,7 @@ Choose between personal user authentication and service account authentication b
 ### Users
 Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
 
-Example: to authorize as `demo:p@55w0rd`:
+For example, authorize as `demo:p@55w0rd`:
 ```bash
 Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ```
