@@ -13,9 +13,9 @@ Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3
 
 ## Overview
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams. 
+The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams.
 
-The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `/Groups` endpoints with a subset of the fields found in the [RFC7643 protocol](https://www.rfc-editor.org/rfc/rfc7643) and [RFC7644 protocol](https://www.rfc-editor.org/rfc/rfc7644) for SCIM 2.0. It additionally includes the `/Roles` endpoints which are not part of the official SCIM schema. W&B adds the `/Roles` endpoints to support automated management of custom roles in W&B organizations.
+For practical Python examples demonstrating how to interact with the SCIM API, visit our [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
 
 ### Supported Features
 - **Filtering**: The API supports filtering for `/Users` and `/Groups` endpoints
@@ -24,36 +24,46 @@ The SCIM API is accessible at `<host-url>/scim/` and supports the `/Users` and `
 - **Service Account Authentication**: Organization service accounts can access the API
 
 {{% alert %}}
-If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where SCIM API requests are sent. Click your profile image, then click **User Settings**. The setting is named **Default API organization**. This is required for all hosting options, including [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), [Self-managed instances]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}), and [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}). In SaaS Cloud, the organization admin must configure the default organization in user settings to ensure that the SCIM API requests go to the right organization.
+If you are an admin of multiple Enterprise [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**. The setting is named **Default API organization**.
 
 The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
 
 In addition, examples use user IDs such as `abc` and `def`. Real requests and responses have hashed values for user IDs.
 {{% /alert %}}
 
-## Code Examples
-
-For practical Python examples demonstrating how to interact with the SCIM API, visit our [SCIM examples repository](https://github.com/wandb/examples/tree/master/wandb-scim).
-
 ## Authentication
 
-Access to the SCIM API can be authenticated in two ways:
+Choose between personal user authentication and service account authentication based on the differences below.
+
+### Key differences
+- Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
+- Credentials: Users send username and API key; service accounts send only an API key (no username).
+- Authorization header payload: Users encode `username:API-KEY`; service accounts encode `:API-KEY` (leading colon).
+- Scope and permissions: Both require admin privileges; service accounts are organization-scoped and headless, providing clearer audit trails for automation.
+- Where to get credentials: Users copy their API key from User Settings; service account keys are in the organization’s Service account tab.
+- SaaS Cloud org targeting: For multi-org admins, set the Default API organization to ensure requests affect the intended org.
 
 ### Users
+Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
 
-An organization or instance admin can use basic authentication with their API key to access the SCIM API. Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
+Example: to authorize as `demo:p@55w0rd`:
+```bash
+Authorization: Basic ZGVtbzpwQDU1dzByZA==
+```
 
 ### Service accounts
+Use an organization-scoped service account for automation or integrations. Construct the HTTP `Authorization` header as `Basic <base64(:API-KEY)>` (note the leading colon and empty username). Find service account API keys in the organization dashboard under the **Service account** tab. Refer to [Organization-scoped service accounts]({{< relref "/guides/hosting/iam/authentication/service-accounts.md/#organization-scoped-service-accounts" >}}).
 
-An organization service account with the `admin` role can access the SCIM API. The username is left blank and only the API key is used. Find the API key for service accounts in the **Service account** tab in the organization dashboard. Refer to [Organization-scoped service accounts]({{< relref "/guides/hosting/iam/authentication/service-accounts.md/#organization-scoped-service-accounts" >}}).
+Example: to authorize with API key `sa-p@55w0rd`:
+```bash
+Authorization: Basic OnNhLXBANTV3MHJk
+```
 
-Set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `:API-KEY` (notice the colon at the beginning with no username). For example, to authorize with only an API key such as `sa-p@55w0rd`, set the header to: `Authorization: Basic OnNhLXBANTV3MHJk`.
-
-## User Management
+## User management
 
 The SCIM user resource maps to W&B users. Use these endpoints to manage users in your organization.
 
-### Get User
+### Get user
 
 Retrieves information for a specific user in your organization.
 
@@ -64,7 +74,7 @@ Retrieves information for a specific user in your organization.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user |
+| `id` | string | Yes | The unique ID of the user |
 
 #### Example
 
@@ -84,7 +94,7 @@ GET /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -105,15 +115,14 @@ GET /scim/Users/abc
 {{% /tab %}}
 {{< /tabpane >}}
 
-### List Users
+### List users
 
 Retrieves a list of all users in your organization.
 
-#### Filtering Users
+#### Filter users
 
-The `/Users` endpoint supports filtering to search for specific users:
+The `/Users` endpoint supports filtering users by username or email:
 
-##### Supported Filters
 - `userName eq "value"` - Filter by username
 - `emails.value eq "value"` - Filter by email address
 
@@ -147,7 +156,7 @@ GET /scim/Users
             "active": true,
             "displayName": "Dev User 1",
             "emails": {
-                "Value": "dev-user1@test.com",
+                "Value": "dev-user1@example.com",
                 "Display": "",
                 "Type": "",
                 "Primary": true
@@ -187,8 +196,8 @@ Creates a new user in your organization.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| emails | array | Yes | Array of email objects. Must include a primary email |
-| userName | string | Yes | The username for the new user |
+| `emails` | array | Yes | Array of email objects. Must include a primary email |
+| `userName` | string | Yes | The username for the new user |
 
 #### Example
 
@@ -206,7 +215,7 @@ POST /scim/Users
     "emails": [
         {
             "primary": true,
-            "value": "dev-user2@test.com"
+            "value": "dev-user2@example.com"
         }
     ],
     "userName": "dev-user2"
@@ -227,7 +236,7 @@ POST /scim/Users
     "emails": [
         {
             "primary": true,
-            "value": "dev-user2@test.com"
+            "value": "dev-user2@example.com"
         }
     ],
     "userName": "dev-user2",
@@ -252,7 +261,7 @@ POST /scim/Users
     "active": true,
     "displayName": "Dev User 2",
     "emails": {
-        "Value": "dev-user2@test.com",
+        "Value": "dev-user2@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -280,7 +289,7 @@ POST /scim/Users
     "active": true,
     "displayName": "Dev User 2",
     "emails": {
-        "Value": "dev-user2@test.com",
+        "Value": "dev-user2@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -330,7 +339,7 @@ Fully deletes a user from your organization.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user to delete |
+| `id` | string | Yes | The unique ID of the user to delete |
 
 #### Example
 
@@ -351,9 +360,9 @@ DELETE /scim/Users/abc
 To temporarily deactivate the user, refer to [Deactivate user](#deactivate-user) API which uses the `PATCH` endpoint.
 {{% /alert %}}
 
-### Update User Email (Single Tennant instances only)
-
-Updates a user's primary email address. This operation is only available in self-managed single-tenant deployments.
+### Update user email
+Updates a user's primary email address.
+**Not supported for Multi-tenant Cloud**, where a user's account is not managed by the organization.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -362,10 +371,10 @@ Updates a user's primary email address. This operation is only available in self
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user |
-| op | string | Yes | Must be "replace" |
-| path | string | Yes | Must be "emails" |
-| value | array | Yes | Array with new email object |
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `replace` |
+| `path` | string | Yes | `emails` |
+| `value` | array | Yes | Array with new email object |
 
 #### Example
 
@@ -424,9 +433,10 @@ PATCH /scim/Users/abc
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Update User Display Name (Self-managed instances only)
+### Update user display name
 
-Updates a user's display name. This operation is only available in self-managed single-tenant deployments.
+Updates a user's display name.
+**Not supported for Multi-tenant Cloud**, where a user's account is not managed by the organization.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -435,10 +445,10 @@ Updates a user's display name. This operation is only available in self-managed 
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user |
-| op | string | Yes | Must be "replace" |
-| path | string | Yes | Must be "displayName" |
-| value | string | Yes | New display name |
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `replace` |
+| `path` | string | Yes | `displayName` |
+| `value` | string | Yes | New display name |
 
 #### Example
 
@@ -471,7 +481,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "John Doe",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -479,9 +489,9 @@ PATCH /scim/Users/abc
     "id": "abc",
     "meta": {
         "resourceType": "User",
-        "created": "2023-10-01T00:00:00Z",
-        "lastModified": "2023-10-01T00:00:00Z",
-        "location": "Users/abc"
+        "created": "2025-7-01T00:00:00Z",
+        "lastModified": "2025-7-01T00:00:00Z",
+        "location": "users/dev-user1"
     },
     "schemas": [
         "urn:ietf:params:scim:schemas:core:2.0:User"
@@ -492,9 +502,9 @@ PATCH /scim/Users/abc
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Deactivate User
+### Deactivate user
 
-Temporarily deactivates a user in your organization.
+Deactivates a user in your organization.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -503,9 +513,9 @@ Temporarily deactivates a user in your organization.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user to deactivate |
-| op | string | Yes | Must be "replace" |
-| value | object | Yes | Object with `{"active": false}` |
+| `id` | string | Yes | The unique ID of the user to deactivate |
+| `op` | string | Yes | `replace` |
+| `value` | object | Yes | Object with `{"active": false}` |
 
 {{% alert %}}
 User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
@@ -541,7 +551,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -573,9 +583,9 @@ Reactivates a previously deactivated user in your organization.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user to reactivate |
-| op | string | Yes | Must be "replace" |
-| value | object | Yes | Object with `{"active": true}` |
+| `id` | string | Yes | The unique ID of the user to reactivate |
+| `op` | string | Yes | `replace` |
+| `value` | object | Yes | Object with `{"active": true}` |
 
 {{% alert %}}
 User deactivation and reactivation operations are not supported in [SaaS Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}).
@@ -611,7 +621,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -643,10 +653,10 @@ Assigns an organization-level role to a user.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user |
-| op | string | Yes | Must be "replace" |
-| path | string | Yes | Must be "organizationRole" |
-| value | string | Yes | Role name ("admin" or "member") |
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `replace` |
+| `path` | string | Yes | `organizationRole` |
+| `value` | string | Yes | Role name (`admin` or `member`) |
 
 {{% alert %}}
 The `viewer` role is deprecated and can no longer be set in the UI. W&B assigns the `member` role to a user if you attempt to assign the `viewer` role using SCIM. The user is automatically provisioned with Models and Weave seats if possible. Otherwise, a `Seat limit reached` error is logged. For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
@@ -683,7 +693,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -722,10 +732,10 @@ Assigns a team-level role to a user.
 #### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | string | Yes | The unique ID of the user |
-| op | string | Yes | Must be "replace" |
-| path | string | Yes | Must be "teamRoles" |
-| value | array | Yes | Array of objects with `teamName` and `roleName` |
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `replace` |
+| `path` | string | Yes | `teamRoles` |
+| `value` | array | Yes | Array of objects with `teamName` and `roleName` |
 
 #### Example
 
@@ -763,7 +773,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -793,11 +803,11 @@ PATCH /scim/Users/abc
 
 ## Group resource
 
-The SCIM group resource maps to W&B teams, that is, when you create a SCIM group in a W&B deployment, it creates a W&B team. Same applies to other group endpoints.
+When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team.
 
 ### Service Accounts
 
-When a team is created via SCIM, all organization-level service accounts are automatically added as members of the team. This ensures service accounts maintain access to team resources.
+When a W&B Team is created using SCIM, all organization-level service accounts are automatically added to the team, to maintain the service account's access to team resources.
 
 ### Filtering Groups
 
@@ -830,7 +840,7 @@ GET /scim/Groups/ghi
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": [
         {
@@ -873,7 +883,7 @@ GET /scim/Groups
 {
     "Resources": [
         {
-            "displayName": "wandb-devs",
+            "displayName": "acme-devs",
             "id": "ghi",
             "members": [
                 {
@@ -912,8 +922,8 @@ GET /scim/Groups
 
 | Field | Type | Required |
 | --- | --- | --- |
-| displayName | String | Yes |
-| members | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
+| `displayName` | String | Yes |
+| `members` | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
 - **Request Example**:
 
 Creating a team called `wandb-support` with `dev-user2` as its member.
@@ -1001,7 +1011,7 @@ PUT /scim/Groups/{team_id}
 ```json
 {
     "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
     "members": [
         {
             "value": "{user_id_1}"
@@ -1020,7 +1030,7 @@ PUT /scim/Groups/{team_id}
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": [
         {
@@ -1052,7 +1062,7 @@ PUT /scim/Groups/{team_id}
 
 **Adding a user to a team**
 
-Adding `dev-user2` to `wandb-devs`:
+Adding `dev-user2` to `acme-devs`:
 
 {{< tabpane text=true >}}
 {{% tab header="Request" %}}
@@ -1084,7 +1094,7 @@ PATCH /scim/Groups/{team_id}
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": [
         {
@@ -1116,7 +1126,7 @@ PATCH /scim/Groups/{team_id}
 
 **Removing a specific user from a team**
 
-Removing `dev-user2` from `wandb-devs`:
+Removing `dev-user2` from `acme-devs`:
 
 {{< tabpane text=true >}}
 {{% tab header="Request" %}}
@@ -1143,13 +1153,11 @@ PATCH /scim/Groups/{team_id}
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": [
         {
             "Value": "abc",
-            "Ref": "",
-            "Type": "",
             "Display": "dev-user1"
         }
     ],
@@ -1169,7 +1177,7 @@ PATCH /scim/Groups/{team_id}
 
 **Removing all users from a team**
 
-Removing all users from `wandb-devs`:
+Removing all users from `acme-devs`:
 
 {{< tabpane text=true >}}
 {{% tab header="Request" %}}
@@ -1196,7 +1204,7 @@ PATCH /scim/Groups/{team_id}
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": null,
     "meta": {
@@ -1363,10 +1371,10 @@ GET /scim/Roles
 
 | Field | Type | Required |
 | --- | --- | --- |
-| name | String | Name of the custom role |
-| description | String | Description of the custom role |
-| permissions | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
-| inheritedFrom | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
+| `name` | String | Name of the custom role |
+| `description` | String | Description of the custom role |
+| `permissions` | Object array | Array of permission objects where each object includes a `name` string field that has value of the form `w&bobject:operation`. For example, a permission object for delete operation on W&B runs would have `name` as `run:delete`. |
+| `inheritedFrom` | String | The predefined role which the custom role would inherit from. It can either be `member` or `viewer`. |
 - **Request Example**:
 
 ```bash
@@ -1467,7 +1475,7 @@ Returns the updated role with new permissions added.
 {{% /tab %}}
 {{< /tabpane >}}
 
-#### Remove permissions from role
+#### Remove a permission from a role
 
 - **Endpoint**: **`<host-url>/scim/Roles/{id}`**
 - **Method**: PATCH
@@ -1488,7 +1496,7 @@ PATCH /scim/Roles/{role_id}
             "path": "permissions",
             "value": [
                 {
-                    "name": "project:delete"
+                    "name": "project:update"
                 }
             ]
         }
@@ -1563,14 +1571,16 @@ DELETE /scim/Roles/abc
 
 The SCIM API supports ETags for conditional updates to prevent concurrent modification conflicts. ETags are returned in the `ETag` response header and the `meta.version` field.
 
-#### Using ETags
+#### ETags
+
+To use Etags:
 
 1. **Get current ETag**: When you GET a resource, note the ETag header in the response
 2. **Conditional update**: Include the ETag in the `If-Match` header when updating
 
-#### Example with ETag
+#### Example
 
-```bash
+```
 # Get user and note ETag
 GET /scim/Users/abc
 # Response includes: ETag: W/"xyz123"
@@ -1591,64 +1601,35 @@ If-Match: W/"xyz123"
 }
 ```
 
-If the resource has been modified since you retrieved it, the server will return a `412 Precondition Failed` error.
+A `412 Precondition Failed` error response indicates that the resources has been modified since you retrieved it.
 
-### Multi-tenant SCIM Extensions
-
-For SaaS Cloud deployments, the API supports additional schema extensions for team management during user creation:
-
-#### Schema Extension
-- **Schema ID**: `urn:ietf:params:scim:schemas:extension:teams:2.0:User`
-- **Purpose**: Assign users to teams during creation
-
-#### Example: Create user with team assignment (SaaS multi-tenant only)
-
-```json
-{
-    "schemas": [
-        "urn:ietf:params:scim:schemas:core:2.0:User",
-        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
-    ],
-    "emails": [
-        {
-            "primary": true,
-            "value": "newuser@example.com"
-        }
-    ],
-    "userName": "newuser",
-    "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
-        "teams": ["engineering", "ml-team"]
-    }
-}
-```
-
-### Error Handling
+### Error handling
 
 The SCIM API returns standard SCIM error responses:
 
 | Status Code | Description |
 |-------------|-------------|
-| 200 | Success |
-| 201 | Created |
-| 204 | No Content (successful deletion) |
-| 400 | Bad Request - Invalid parameters or request body |
-| 401 | Unauthorized - Authentication failed |
-| 403 | Forbidden - Insufficient permissions |
-| 404 | Not Found - Resource does not exist |
-| 409 | Conflict - Resource already exists |
-| 412 | Precondition Failed - ETag mismatch |
-| 500 | Internal Server Error |
+| `200` | Success |
+| `201` | Created |
+| `204` | No Content (successful deletion) |
+| `400` | Bad Request - Invalid parameters or request body |
+| `401` | Unauthorized - Authentication failed |
+| `403` | Forbidden - Insufficient permissions |
+| `404` | Not Found - Resource does not exist |
+| `409` | Conflict - Resource already exists |
+| `412` | Precondition Failed - ETag mismatch |
+| `500` | Internal Server Error |
 
-### Implementation Differences
+### Implementation differences per deployment type
 
 W&B maintains two separate SCIM API implementations, and the features differ between them:
 
-| Feature | SaaS Multi-tenant | Self-managed Single-tenant |
-|---------|-------------------|---------------------------|
-| Update user email | ❌ Not supported | ✅ Supported |
-| Update user display name | ❌ Not supported | ✅ Supported |
-| User deactivation/reactivation | ❌ Not supported | ✅ Supported |
-| Multiple emails per user | ✅ Supported | ❌ Single email only |
+| Feature | Dedicated Cloud | Self-Managed |
+|---------|-------------------|------------|
+| Update user email | - | &check; |
+| Update user display name | - | &check; |
+| User deactivation/reactivation | - | &check; |
+| Multiple emails per user | &check; | - |
 
 ### Limitations
 
