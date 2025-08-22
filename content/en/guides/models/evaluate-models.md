@@ -9,7 +9,7 @@ menu:
 
 ## Evaluate models with Weave
 
-[W&B Weave](https://weave-docs.wandb.ai/) is a purpose-built toolkit for evaluating LLMs and GenAI applications. It provides comprehensive evaluation capabilities including scorers, judges, and detailed tracing to help you understand and improve model performance. Weave integrates seamlessly with W&B Models, allowing you to evaluate models stored in your Model Registry.
+[W&B Weave](https://weave-docs.wandb.ai/) is a purpose-built toolkit for evaluating LLMs and GenAI applications. It provides comprehensive evaluation capabilities including scorers, judges, and detailed tracing to help you understand and improve model performance. Weave integrates with W&B Models, allowing you to evaluate models stored in your Model Registry.
 
 {{< img src="/images/weave/evals.png" alt="Weave evaluation dashboard showing model performance metrics and traces" >}}
 
