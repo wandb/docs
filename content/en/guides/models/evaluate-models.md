@@ -69,7 +69,7 @@ evaluation = weave.Evaluation(
 results = await evaluation.evaluate(model)
 ```
 
-### Integrating Weave evaluations with W&B Models
+### Integrate Weave evaluations with W&B Models
 
 The [Models and Weave Integration Demo](https://weave-docs.wandb.ai/reference/gen_notebooks/Models_and_Weave_Integration_Demo) shows the complete workflow for:
 
