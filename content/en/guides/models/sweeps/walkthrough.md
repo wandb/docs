@@ -19,7 +19,7 @@ This page shows how to define, initialize, and run a sweep. There are four main 
 
 Copy and paste the following code into a Jupyter Notebook or Python script:
 
-```python 
+```python
 # Import the W&B Python Library and log into W&B
 import wandb
 
@@ -28,25 +28,26 @@ def objective(config):
     score = config.x**3 + config.y
     return score
 
-def main():
+def train():
     with wandb.init(project="my-first-sweep") as run:
         score = objective(run.config)
         run.log({"score": score})
 
-# 2: Define the search space
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "score"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
+if __name__ == '__main__':
+    # 2: Define the search space
+    sweep_configuration = {
+        "method": "random",
+        "metric": {"goal": "minimize", "name": "score"},
+        "parameters": {
+            "x": {"max": 0.1, "min": 0.01},
+            "y": {"values": [1, 3, 7]},
+        },
+    }
 
-# 3: Start the sweep
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+    # 3: Start the sweep
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
-wandb.agent(sweep_id, function=main, count=10)
+    wandb.agent(sweep_id, function=train, count=10)
 ```
 
 The following sections break down and explains each step in the code sample.
@@ -68,7 +69,7 @@ def objective(config):
     return score
 
 
-def main():
+def train():
     with wandb.init(project="my-first-sweep") as run:
         score = objective(run.config)
         run.log({"score": score})
@@ -84,15 +85,16 @@ W&B minimizes the metric specified in the `metric` key when `"goal": "minimize"`
 
 
 ```python
-# 2: Define the search space
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "score"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
+if __name__ == '__main__':
+    # 2: Define the search space
+    sweep_configuration = {
+        "method": "random",
+        "metric": {"goal": "minimize", "name": "score"},
+        "parameters": {
+            "x": {"max": 0.1, "min": 0.01},
+            "y": {"values": [1, 3, 7]},
+        },
+    }
 ```
 
 ## Initialize the Sweep
@@ -102,7 +104,7 @@ W&B uses a _Sweep Controller_ to manage sweeps on the cloud (standard), locally 
 A sweep identification number is returned when you initialize a sweep:
 
 ```python
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
 For more information about initializing sweeps, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
@@ -112,7 +114,7 @@ For more information about initializing sweeps, see [Initialize sweeps]({{< relr
 Use the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call to start a sweep.
 
 ```python
-wandb.agent(sweep_id, function=main, count=10)
+    wandb.agent(sweep_id, function=train, count=10)
 ```
 
 ## Visualize results (optional)

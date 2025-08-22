@@ -17,7 +17,7 @@ weight: 1
 
 以下のコードを Jupyter ノートブックまたは Python スクリプトにコピーして貼り付けてください。
 
-```python 
+```python
 # W&B Python ライブラリをインポートして W&B にログインする
 import wandb
 
@@ -28,25 +28,26 @@ def objective(config):
     score = config.x**3 + config.y
     return score
 
-def main():
+def train():
     wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
     wandb.log({"score": score})
 
-# 2: 探索空間を定義する
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "score"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
+if __name__ == '__main__':
+    # 2: 探索空間を定義する
+    sweep_configuration = {
+        "method": "random",
+        "metric": {"goal": "minimize", "name": "score"},
+        "parameters": {
+            "x": {"max": 0.1, "min": 0.01},
+            "y": {"values": [1, 3, 7]},
+        },
+    }
 
-# 3: スイープを開始する
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+    # 3: スイープを開始する
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
-wandb.agent(sweep_id, function=main, count=10)
+    wandb.agent(sweep_id, function=train, count=10)
 ```
 
 以下のセクションでは、そのコードサンプルの各ステップを分解し、説明します。
@@ -68,7 +69,7 @@ def objective(config):
     return score
 
 
-def main():
+def train():
     wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
     wandb.log({"score": score})
@@ -83,15 +84,16 @@ def main():
 W&Bは、`"goal": "minimize"`が関連付けられているときに `metric` キーで指定されたメトリクスを最小化します。この場合、W&Bはメトリクス `score`（`"name": "score"`）を最小化するように最適化します。
 
 ```python
-# 2: 探索空間を定義する
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "score"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
+if __name__ == '__main__':
+    # 2: 探索空間を定義する
+    sweep_configuration = {
+        "method": "random",
+        "metric": {"goal": "minimize", "name": "score"},
+        "parameters": {
+            "x": {"max": 0.1, "min": 0.01},
+            "y": {"values": [1, 3, 7]},
+        },
+    }
 ```
 
 ## スイープを初期化する
@@ -101,7 +103,7 @@ W&Bは、クラウド（標準）またはローカル（ローカル）で複�
 スイープを初期化すると、スイープ識別番号が返されます。
 
 ```python
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
 スイープの初期化に関する詳細は、[スイープを初期化する]({{< relref path="./initialize-sweeps.md" lang="ja" >}})を参照してください。
@@ -111,7 +113,7 @@ sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 スイープを開始するには、[`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}}) APIコールを使用します。
 
 ```python
-wandb.agent(sweep_id, function=main, count=10)
+    wandb.agent(sweep_id, function=train, count=10)
 ```
 
 ## 結果を視覚化する（オプション）
