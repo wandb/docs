@@ -103,9 +103,9 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ``` 
 
-## Image Normalization
+## Image normalization
 
-When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. This normalization is designed to handle common image data formats and ensure proper display.
+When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. This normalization is designed to handle and ensure proper display of common image formats.
 
 ### When Normalization is Applied
 
@@ -188,14 +188,14 @@ tensor_0_1 = torch.rand(3, 64, 64)
 image = wandb.Image(tensor_0_1, normalize=False, caption="Normalization disabled")
 ```
 
-### Best Practices
+### Recommendations
 
 1. **For consistent results**: Pre-process your data to the expected [0, 255] range before logging
 2. **To avoid normalization**: Convert tensors to PIL Images using `PILImage.fromarray()`
 3. **For debugging**: Use `normalize=False` to see the raw values (they will be clipped to [0, 255])
 4. **For precise control**: Use PIL Images when you need exact pixel values
 
-### Common Pitfalls
+### Troubleshooting
 
 - **Unexpected brightness**: If your tensor values are in [0, 1] range, they will be multiplied by 255, making the image much brighter
 - **Data loss**: Values outside the [0, 255] range will be clipped, potentially losing information
