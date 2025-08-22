@@ -107,7 +107,7 @@ with wandb.init() as run:
 
 When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. This normalization is designed to handle and ensure proper display of common image formats.
 
-### When Normalization is Applied
+### When normalization is applied
 
 Normalization is applied to:
 - **PyTorch tensors** (format: `(channel, height, width)`)
@@ -117,7 +117,7 @@ Normalization is **NOT** applied to:
 - **PIL Images** (passed as-is)
 - **File paths** (loaded as-is)
 
-### Normalization Algorithm
+### Normalization algorithm
 
 The normalization algorithm automatically detects the input range and applies the appropriate transformation:
 
@@ -136,7 +136,7 @@ The normalization algorithm automatically detects the input range and applies th
    normalized_data = data.clip(0, 255).astype(np.uint8)
    ```
 
-### Examples of Normalization Effects
+### Examples of normalization effects
 
 **Example 1: [0, 1] range data**
 ```python
