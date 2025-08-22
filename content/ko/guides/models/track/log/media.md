@@ -53,7 +53,7 @@ images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
 wandb.log({"examples": images})
 ```
 
-마지막 차원이 1이면 이미지가 회색조, 3이면 RGB, 4이면 RGBA라고 가정합니다. 배열에 float가 포함된 경우 정규화 알고리즘을 사용하여 자동으로 `0`과 `255` 사이의 정수로 변환합니다. PyTorch 텐서와 NumPy 배열에서 정규화가 어떻게 작동하는지에 대한 자세한 정보는 Image 참조 문서를 참조하세요. 이미지를 다르게 정규화하려면 [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)를 수동으로 지정하거나 이 패널의 "PIL 이미지 로깅" 탭에 설명된 대로 [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)를 제공하면 됩니다.
+마지막 차원이 1이면 이미지가 회색조, 3이면 RGB, 4이면 RGBA라고 가정합니다. 배열에 float가 포함된 경우 정규화 알고리즘을 사용하여 자동으로 `0`과 `255` 사이의 정수로 변환합니다. PyTorch 텐서와 NumPy 배열에서 정규화가 어떻게 작동하는지에 대한 자세한 정보는 [Image 참조 문서의 이미지 정규화 섹션]({{< relref "/ref/python/data-types/image.md#image-normalization" >}})을 참조하세요. 이미지를 다르게 정규화하려면 [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)를 수동으로 지정하거나 이 패널의 "PIL 이미지 로깅" 탭에 설명된 대로 [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)를 제공하면 됩니다.
    {{% /tab %}}
    {{% tab header="PIL 이미지 로깅" %}}
 배열을 이미지로 변환하는 것을 완벽하게 제어하려면 [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)를 직접 구성하여 제공합니다.

@@ -49,7 +49,7 @@ for batch_idx, (data, target) in enumerate(train_loader):
 
 ## 画像とメディアのログ
 
-画像データを持つ PyTorch `Tensors` を [`wandb.Image`]({{< relref path="/ref/python/data-types/image.md" lang="ja" >}}) に渡すことができ、[`torchvision`](https://pytorch.org/vision/stable/index.html) のユーティリティが自動的に画像に変換します。
+画像データを持つ PyTorch `Tensors` を [`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) に渡すことができ、[`torchvision`](https://pytorch.org/vision/stable/index.html) のユーティリティが自動的に画像に変換します。
 
 ```python
 images_t = ...  # PyTorch Tensors として画像を生成またはロードする

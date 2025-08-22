@@ -49,7 +49,7 @@ gradient, metrics 및 그래프는 순방향 _및_ 역방향 패스 후에 `wand
 
 ## 이미지 및 미디어 로그
 
-이미지 데이터가 포함된 PyTorch `Tensors`를 [`wandb.Image`]({{< relref path="/ref/python/data-types/image.md" lang="ko" >}})로 전달할 수 있으며, [`torchvision`](https://pytorch.org/vision/stable/index.html)의 유틸리티가 자동으로 이미지를 변환하는 데 사용됩니다.
+이미지 데이터가 포함된 PyTorch `Tensors`를 [`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}})로 전달할 수 있으며, [`torchvision`](https://pytorch.org/vision/stable/index.html)의 유틸리티가 자동으로 이미지를 변환하는 데 사용됩니다.
 
 ```python
 images_t = ...  # generate or load images as PyTorch Tensors
