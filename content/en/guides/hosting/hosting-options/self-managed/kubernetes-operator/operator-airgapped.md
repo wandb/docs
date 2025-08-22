@@ -26,20 +26,26 @@ Before starting, make sure your environment meets the following requirements:
 
 ## Step 2: Prepare internal container registry
 
-Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry:
+Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry.
+
+If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow these instructions to [install W&B's WSM tool](#install-wsm) and use it to prepare the container repository.
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
-* [`docker.io/bitnami/redis`](https://hub.docker.com/r/bitnami/redis)
+* [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis).
+
+  {{% alert %}}
+  W&B is currently testing the [`docker.io//bitnamisecure/redis`](https://app-catalog.vmware.com/bitnami/apps/8b68d0f6-8fb6-4a99-accd-83e4f343522f) image, which is not yet supported.
+  {{% /alert %}}
 * [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
 * [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
 
-These images are critical for the successful deployment of W&B components. W&B recommends that you use WSM to prepare the container registry. 
+These images are critical for the successful deployment of W&B components. W&B recommends that you either follow your organization's own processes for managing your container registry, or that you use [WSM](#install-wsm) to prepare it. 
 
-If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow the proceeding section to use a called WSM to prepare the container repository.
+You are responsible for tracking the Operator's requirements and for checking for and downloading image upgrades regularly.
 
-You are responsible for tracking the Operator's requirements and for checking for and downloading image upgrades, either by [using WSM]({{< relref "#list-images-and-their-versions" >}}) or by using your organization's own processes.
+In production, W&B recommends against using the built-in MySQL and Redis services, which are provided for convenience during testing and early development. Instead, W&B recommends that your your deployment uses external MySQL and Redis deployments that meet your organization's requirements for high availability, disaster recovery, security, and performance.
 
 ### Install WSM
 
