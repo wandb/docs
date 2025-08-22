@@ -52,7 +52,7 @@ images = wandb.Image(image_array, caption="Top: Output, Bottom: Input")
 wandb.log({"examples": images})
 ```
 
-最後の次元が1の場合はグレースケール、3の場合はRGB、4の場合はRGBAと仮定します。配列が浮動小数点数を含む場合、それらを`0`から`255`の整数に変換します。異なる方法で画像を正規化したい場合は、[`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)を手動で指定するか、`"Logging PIL Images"`タブで説明されているように、単に[`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)を提供することができます。
+最後の次元が1の場合はグレースケール、3の場合はRGB、4の場合はRGBAと仮定します。配列が浮動小数点数を含む場合、正規化アルゴリズムを使用して自動的に`0`から`255`の整数に変換します。PyTorchテンソルとNumPy配列での正規化の動作についての詳細は、[Imageリファレンスの画像正規化セクション]({{< relref path="/ref/python/sdk/data-types/image.md#image-normalization" lang="ja" >}})を参照してください。異なる方法で画像を正規化したい場合は、[`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes)を手動で指定するか、`"Logging PIL Images"`タブで説明されているように、単に[`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)を提供することができます。
    {{% /tab %}}
    {{% tab header="PIL Imagesをログする" %}}
 配列から画像への変換を完全に制御するために、[`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html)を自分で構築し、直接提供してください。
