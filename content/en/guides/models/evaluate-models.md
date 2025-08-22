@@ -78,7 +78,7 @@ The [Models and Weave Integration Demo](https://weave-docs.wandb.ai/reference/ge
 3. **Logging results back to W&B**: Connect evaluation metrics to your model runs
 4. **Versioning evaluated models**: Save improved models back to the Registry
 
-Example of logging evaluation results to both Weave and W&B Models:
+Log evaluation results to both Weave and W&B Models:
 
 ```python
 # Run evaluation with W&B tracking
