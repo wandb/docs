@@ -21,7 +21,7 @@ menu:
 * **Detailed Tracing**: Debug model behavior with complete input/output traces
 * **Cost Tracking**: Monitor API costs and token usage across evaluations
 
-### Getting started: Evaluate a model from W&B Models Registry
+### Getting started: Evaluate a model from W&B Registry
 
 This example shows how to download a model from W&B Models Registry and evaluate it using Weave:
 
