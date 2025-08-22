@@ -23,7 +23,7 @@ menu:
 
 ### Getting started: Evaluate a model from W&B Registry
 
-This example shows how to download a model from W&B Models Registry and evaluate it using Weave:
+Download a model from W&B Models Registry and evaluate it using Weave:
 
 ```python
 import weave
