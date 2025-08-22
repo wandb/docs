@@ -69,7 +69,10 @@ run = wandb.init(project="artifacts-example", job_type="job-type")
 run.log_artifact(artifact)
 ```
 
-You can optionally construct an artifact outside of a W&B run. For more information, see [Track external files]({{< relref "./track-external-files.md" >}}).
+{{% alert title="When to use Artifact.save() or wandb.Run.log_artifact()"  %}}
+- Use `Artifact.save()` to update an existing artifact without creating a new run.
+- Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
+{{% /alert %}}
 
 {{% alert color="secondary" %}}
 Calls to `log_artifact` are performed asynchronously for performant uploads. This can cause surprising behavior when logging artifacts in a loop. For example:
