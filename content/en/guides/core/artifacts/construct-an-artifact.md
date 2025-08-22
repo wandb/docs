@@ -70,8 +70,8 @@ run.log_artifact(artifact)
 ```
 
 {{% alert title="When to use Artifact.save() or wandb.Run.log_artifact()"  %}}
-
-Use `Artifact.save()` when you want to update an existing artifact without creating a new run. Use `wandb.Run.log_artifact()` when you want to create a new artifact and associate it with a specific run.
+- Use `Artifact.save()` to update an existing artifact without creating a new run.
+- Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
 {{% /alert %}}
 
 {{% alert color="secondary" %}}
