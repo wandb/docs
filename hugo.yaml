@@ -170,11 +170,11 @@ services:
     Limit: 20
 
 params:
-  #search:
-  #  algolia:
-  #    appId: 2D210VB5MP
-  #    apiKey: 730cfa02025b8ba2e95d4c33b1e38cc7
-  #    indexName: docodile
+  search:
+    algolia:
+      appId: 6HH47A49YJ
+      apiKey: 0da7cc190b89e8fc19c3cd846a3e17fc
+      indexName: wandbdocs
 
   privacy_policy: https://wandb.ai/site/privacy/
 
@@ -217,9 +217,6 @@ params:
   # Uncomment this if your GitHub repo does not have "main" as the default branch,
   # or specify a new value if you want to reference another branch in your GitHub links
   github_branch: main
-
-  # Google Custom Search Engine ID. Remove or comment out to disable search.
-  gcs_engine_id: 674c0c3807d874d09
 
   # Enable Lunr.js offline search
   offlineSearch: false
