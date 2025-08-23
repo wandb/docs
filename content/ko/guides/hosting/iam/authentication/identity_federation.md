@@ -26,7 +26,7 @@ W&B SDK를 통해 조직의 자격 증명을 사용하여 로그인하려면 아
 * **인증** 옵션에서 `JWT 발급자 설정`을 누릅니다.
 * 텍스트 상자에 JWT 발급자 URL을 추가하고 `만들기`를 누릅니다.
 
-W&B는 자동으로 `${ISSUER_URL}/.well-known/oidc-configuration` 경로에서 OIDC 검색 문서를 찾고 검색 문서의 관련 URL에서 JSON Web Key Set (JWKS)을 찾으려고 시도합니다. JWKS는 JWT가 관련 아이덴티티 공급자에 의해 발급되었는지 확인하기 위해 JWT의 실시간 유효성 검사에 사용됩니다.
+W&B는 자동으로 `${ISSUER_URL}/.well-known/openid-configuration` 경로에서 OIDC 검색 문서를 찾고 검색 문서의 관련 URL에서 JSON Web Key Set (JWKS)을 찾으려고 시도합니다. JWKS는 JWT가 관련 아이덴티티 공급자에 의해 발급되었는지 확인하기 위해 JWT의 실시간 유효성 검사에 사용됩니다.
 
 ## JWT를 사용하여 W&B에 엑세스
 
