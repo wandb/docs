@@ -536,6 +536,46 @@ Once a run with a specific ID is deleted, its ID may not be used again. Trying t
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
 {{% /alert %}}
 
+### Run deletion workflow
+
+The following diagram illustrates the complete run deletion process, including the handling of associated artifacts and Model Registry links:
+
+```mermaid
+graph TB
+    Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
+    
+    RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
+    
+    DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
+    
+    DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
+    
+    CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
+    
+    HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
+    HasRegistry -->|No| DirectDelete
+    
+    RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
+    
+    ConfirmRegistry -->|No| DeleteRunOnly
+    ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
+    
+    DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
+
+{{% alert title="Important" %}}
+When you delete a run and choose to delete associated artifacts, the artifacts are permanently removed and can't be recovered, even if the run is restored later. This includes models linked to the Model Registry.
+{{% /alert %}}
+
 ## Organize runs 
 
 This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.

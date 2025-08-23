@@ -10,7 +10,43 @@ title: Delete an artifact
 
 Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
-The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
+
+## Artifact garbage collection workflow
+
+The following diagram illustrates the complete artifact garbage collection process:
+
+```mermaid
+graph TB
+    Start([Artifact Deletion Initiated]) --> DeleteMethod{Deletion Method}
+    
+    DeleteMethod -->|UI| UIDelete[Delete via W&B App UI]
+    DeleteMethod -->|SDK| SDKDelete[Delete via W&B SDK]
+    DeleteMethod -->|TTL| TTLDelete[TTL Policy Expires]
+    
+    UIDelete --> SoftDelete[Artifact Marked as<br/>'Soft Delete']
+    SDKDelete --> SoftDelete
+    TTLDelete --> SoftDelete
+    
+    SoftDelete --> GCWait[(Wait for<br/>Garbage Collection<br/>Process)]
+    
+    GCWait --> GCRun[Garbage Collection<br/>Process Runs<br/><br/>- Reviews all soft-deleted artifacts<br/>- Checks file dependencies]
+    
+    GCRun --> CheckUsage{Are files used by<br/>other artifact versions?}
+    
+    CheckUsage -->|Yes| KeepFiles[Files Kept in Storage<br/><br/>- Artifact marked deleted<br/>- Files remain for other versions]
+    CheckUsage -->|No| DeleteFiles[Files Deleted from Storage<br/><br/>- Artifact fully removed<br/>- Storage space reclaimed]
+    
+    KeepFiles --> End([End])
+    DeleteFiles --> End
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style SoftDelete fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style GCRun fill:#f3e5f5,stroke:#333,stroke-width:2px,color:#000
+    style KeepFiles fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style DeleteFiles fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
+``` 
 
 The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy]({{< relref "./ttl.md" >}}).
 
