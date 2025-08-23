@@ -30,7 +30,7 @@ Before proceeding with the deployment, you must ensure that the following contai
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
-* [`docker.io/bitnami/redis`](https://hub.docker.com/r/bitnami/redis)
+* [`redis`](https://hub.docker.com/_/redis)
 * [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
 * [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
@@ -80,10 +80,10 @@ Operator Images:
   wandb/controller:1.16.1
 W&B Images:
   wandb/local:0.62.2
-  docker.io/bitnami/redis:7.2.4-debian-12-r9
-  quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
-  quay.io/prometheus/prometheus:v2.47.0
-  otel/opentelemetry-collector-contrib:0.97.0
+  redis:7.2
+  quay.io/prometheus-operator/prometheus-config-reloader:v0.67
+  quay.io/prometheus/prometheus:v2.47
+  otel/opentelemetry-collector-contrib:0.97
   wandb/console:2.13.1
 Here are the images required to deploy W&B. Ensure these images are available in your internal container registry and update the values.yaml accordingly.
 ```
@@ -102,11 +102,11 @@ The output looks similar to the following:
 Downloading operator helm chart
 Downloading wandb helm chart
 ✓ wandb/controller:1.16.1
-✓ docker.io/bitnami/redis:7.2.4-debian-12-r9
-✓ otel/opentelemetry-collector-contrib:0.97.0
-✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
+✓ redis:7.2
+✓ otel/opentelemetry-collector-contrib:0.97
+✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67
 ✓ wandb/console:2.13.1
-✓ quay.io/prometheus/prometheus:v2.47.0
+✓ quay.io/prometheus/prometheus:v2.47
 
   Done! Installed 7 packages.
 ```
@@ -226,7 +226,7 @@ To deploy the W&B platform, the Kubernetes Operator uses the values from your CR
 
 Replace all tags/versions with the versions that are available in your internal registry.
 
-More information on creating the preceding configuration file can be found [here]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" >}}). 
+For more information, see the [W&B Operator Configuration reference]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" >}}) and the [example `wandb.yaml` file](https://github.com/wandb/helm-charts/blob/main/charts/operator/crds/wandb.yaml) in the Helm chart repository.
 
 ## Step 7: Deploy the W&B platform
 
