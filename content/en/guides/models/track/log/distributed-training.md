@@ -100,6 +100,51 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
+### Organize distributed runs with `job_type`
+
+When running distributed training with multiple processes, you can use `job_type` to distinguish between different types of nodes and create cleaner workspaces. This approach helps you organize your runs and filter out noise from worker nodes.
+
+To organize your distributed training runs:
+
+1. Set `job_type` for different node types to categorize your nodes based on their function:
+
+   ```python
+   # Main coordinating node
+   wandb.init(
+       project="distributed-training",
+       group="experiment_1",
+       job_type="main"
+   )
+
+   # Reporting worker nodes
+   wandb.init(
+       project="distributed-training", 
+       group="experiment_1",
+       job_type="worker"
+   )
+   ```
+1. Create filtered views in your workspace to organize your runs:
+
+   - **Default view**: Filter out worker nodes to reduce noise
+     - Use filter: `job_type != "worker"`
+     - Shows only your reporting nodes
+
+   - **Debug view**: Focus on worker nodes for troubleshooting
+     - Use filter: `job_type == "worker" && state NOT IN ["running", "finished"]`
+     - Shows only worker nodes that have crashed or are in error states
+
+   - **All nodes view**: See everything together
+     - No filter (or `job_type IN ["main", "worker"]`)
+     - Useful for comprehensive monitoring
+
+1. Organize your workspaces for different use cases:
+
+   - **Main workspace**: Shows only `job_type="main"` runs for high-level experiment tracking.
+   - **Debug workspace**: Shows only `job_type="worker"` runs with `state != "finished"` for troubleshooting.
+   - **Overview workspace**: Shows all runs grouped by `group` to see the complete experiment.
+
+This approach gives you clean workspaces that emulate single-run behavior while maintaining visibility into all your distributed processes when needed.
+
 ### Track all processes to a single run
 
 {{% alert color="secondary"  %}}
