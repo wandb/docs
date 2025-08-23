@@ -101,7 +101,7 @@
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
 /guides/app/settings-page/intro/ /guides/app/settings-page/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
-/guides/artifacts/api/ /ref/python/public-api/api#artifact/ 301
+/guides/artifacts/api/ /ref/python/public-api/artifacts/ 301
 /guides/artifacts/artifacts-core-concepts/ /guides/artifacts/ 301
 /guides/artifacts/artifacts-faqs/ /support/index_artifacts/ 301
 /guides/artifacts/dataset-versioning/ /guides/artifacts/ 301
@@ -217,7 +217,7 @@
 /guides/sweeps/configuration/ /guides/sweeps/define-sweep-configuration/ 301
 /guides/sweeps/faq/ /support/index_sweeps/ 301
 /guides/sweeps/parallelize-agent/ /guides/sweeps/parallelize-agents/ 301
-/guides/sweeps/python-api/ /ref/python/public-api/api/ 301
+/guides/sweeps/python-api/ /ref/python/public-api/sweeps/ 301
 /guides/tables/log-tables/ /guides/track/log/log-tables/ 301
 /guides/technical-faq/admin/ /support/index_administrator/ 301
 /guides/technical-faq/general/ /support/index/ 301
@@ -272,7 +272,7 @@
 /library/advanced/limits/ /guides/track/limits/ 301
 /library/advanced/resuming/ /guides/runs/resuming/ 301
 /library/agents/ /ref/python/sdk/functions/agent/ 301
-/library/api/examples/ /ref/python/public-api/api/ 301
+/library/api/examples/ /ref/python/python_api_walkthrough/ 301
 /library/api/ /ref/python/public-api/api/ 301
 /library/cli/ /ref/cli/ 301
 /library/config/ /ref/weave/run#run-config/ 301
@@ -292,16 +292,16 @@
 /library/public-api-guide/ /ref/python/public-api/api/ 301
 /library/python/config/ /ref/python/ 301
 /library/python/log/ /ref/python/sdk/log/ 301
-/library/reference/data_types/ /ref/python/data-types/ 301
+/library/reference/data_types/ /ref/python/sdk/data-types/ 301
 /library/restore/ /ref/python/ 301
 /library/resuming/ /guides/runs/resuming/ 301
-/library/save/ /ref/python/public-api/run#save/ 301
+/library/save/ /ref/python/public-api/runs/#method-runsave 301
 /library/security https://security.wandb.ai/ 301
 /library/sweeps/configuration/ /ref/python/sdk/functions/sweep/ 301
 /library/sweeps/local-controller/ /guides/sweeps/local-controller/ 301
 /library/sweeps/python-api/ /ref/python/public-api/sweep/ 301
 /library/sweeps/ /ref/python/sdk/functions/sweep 301
-/library/tables/ /ref/python/data-types/table/ 301
+/library/tables/ /ref/python/sdk/data-types/table/ 301
 /library/technical-faq/ /guides/hosting/faq/ 301
 /library/wandb.alert/ /ref/python/ 301
 /library/wandb.init/ /ref/python/sdk/functions/init/ 301
@@ -346,7 +346,7 @@
 /ref/app/pages/ /guides/app/pages/ 301
 /ref/app/ /guides/app/ 301
 /ref/cli/wandb-server-start/ /ref/cli/wandb-server/ 301
-/ref/data_types/ /ref/python/data-types/ 301
+/ref/data_types/ /ref/python/sdk/data-types/ 301
 /ref/export-api/examples/ /ref/python/public-api/ 301
 /ref/history/ / 301
 /ref/init-1 /ref/python/sdk/functions/init/ 301
@@ -355,7 +355,7 @@
 /ref/java/ /ref/ 301
 /ref/public-api/ /ref/python/public-api/api/ 301
 /ref/python/config/ /ref/python/ 301
-/ref/python/data_types/ /ref/python/data-types/ 301
+/ref/python/data_types/ /ref/python/sdk/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
 /ref/python/ini/ /ref/python/sdk/functions/init/ 301
 /ref/python/inittorch.view_as_real/ /ref/python/sdk/functions/init/ 301
@@ -418,10 +418,10 @@
 /weave/prod-mon/ /guides/core/ 301
 /zh/ / 301
 
-<!-- lazydocs migration -->
-/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
-/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
-/ref/python/data-types/graph/ /ref/python/data-types/ 301
+# lazydocs migration
+/ref/python/data-types/boundingboxes2d/ /ref/python/sdk/data-types/ 301
+/ref/python/data-types/imagemask/ /ref/python/sdk/data-types/image/ 301
+/ref/python/data-types/graph/ /ref/python/sdk/data-types/ 301
 /ref/python/agent/ /ref/python/sdk/functions/agent/ 301
 /ref/python/artifact/ /ref/python/sdk/classes/artifact/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
@@ -430,10 +430,220 @@
 /ref/python/log/ /ref/python/sdk/ 301
 /ref/python/login/ /ref/python/sdk/functions/login/ 301
 /ref/python/run/ /ref/python/sdk/classes/run/ 301
-/ref/python/save/ /ref/python/sdk/ 301
+/ref/python/save/ /ref/python/public-api/runs/#method-runsave 301
 /ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
 /ref/python/watch/ /ref/python/sdk/ 301
-<!-- END lazydocs migration -->
+# END lazydocs migration
+
+## New redirect rules based on 404 analysis
+
+## Static redirects (must come before dynamic redirects for performance)
+## Python data-types subdirectory redirects - special cases
+/ref/python/data-types/boundingboxes2d /ref/python/sdk/data-types/ 301
+/ref/python/data-types/graph /ref/python/sdk/data-types/ 301
+/ref/python/data-types/histogram /ref/python/sdk/custom-charts/histogram/ 301
+/ref/python/data-types/imagemask /ref/python/sdk/data-types/image/ 301
+/ref/python/data-types/wbtracetree /ref/python/sdk/data-types/ 301
+
+## Support index redirects - special cases with transformations
+/support/index_crashing%20and%20hanging%20runs /support/crashing-and-hanging-runs/ 301
+/support/index_environment%20variables /support/environment-variables/ 301
+/support/index_team%20management /support/team-management/ 301
+/support/index_team-management /support/team-management/ 301
+/support/index_user%20management /support/user-management/ 301
+
+## Additional static redirects from 404 analysis
+/ref/app/pages/run-page /guides/app/pages/run-page/ 301
+/guides/artifacts/quickstart /guides/artifacts/artifacts-walkthrough/ 301
+/guides/app/settings-page/emails/ /guides/app/settings-page/ 301
+/library/integrations/jax/ /guides/integrations/ 301
+/library/track/ /guides/track/ 301
+/about/ / 301
+/changes/ /ref/release-notes/ 301
+/guides/integrat/ /guides/integrations/ 301
+/guides/slope/ / 301
+
+## More static redirects from 404 analysis batch 2
+# Support index specific redirects
+/support/index_wysiwyg /support/wysiwyg/ 301
+/support/index_outage /support/outage/ 301
+/support/index_security /support/security/ 301
+/support/index_reports /support/reports/ 301
+/support/index_reports/ /support/reports/ 301
+
+# Library paths
+/library/save /ref/python/public-api/run#save/ 301
+/library/public-api-guide /ref/python/public-api/api/ 301
+
+# Sweeps paths
+/sweeps /guides/sweeps/ 301
+/sweeps/quickstart /guides/sweeps/quickstart/ 301
+/sweeps/existing-project /guides/sweeps/existing/ 301
+/sweeps/faq /support/index_sweeps/ 301
+
+# More guides paths
+/guides/data-vis/tables /guides/models/tables/ 301
+/guides/data-vis/log-tables /guides/models/tables/ 301
+/guides/models/model-management-concepts /guides/core/registry/ 301
+/guides/models/automation /guides/core/automations/ 301
+/guides/artifacts/references /guides/artifacts/ 301
+/artifacts/references /guides/artifacts/ 301
+/guides/self-hosted/setup/configuration /guides/hosting/configuration/ 301
+/guides/hosting/basic-setup /guides/hosting/self-managed/basic-setup/ 301
+/guides/hosting/self-managed/basic-setup/ /guides/hosting/self-managed/basic-setup/ 301
+/guides/self-hosted/setup/dedicated-cloud /guides/hosting/setup/dedicated-cloud/ 301
+/guides/track/advanced/resuming /guides/runs/resuming/ 301
+/guides/track/advanced/distributed-training /guides/runs/track-advanced/ 301
+/guides/launch/launch-jobs /launch/create-and-deploy-jobs/create-a-job/ 301
+/guides/launch/sagemaker /launch/integration-guides/sagemaker/ 301
+/guides/launch/integrations /launch/integration-guides/ 301
+/guides/app/pages/project-page /guides/app/pages/project-page/ 301
+/guides/app/features/panels/query-panel/embedding-projector /guides/app/features/panels/weave/embedding-projector/ 301
+/guides/app/settings-page/user-settings/ /guides/app/settings-page/user-settings/ 301
+
+# More ref/app paths
+/ref/app /guides/app/ 301
+/ref/app/features/panels/bar-plot /guides/app/features/panels/bar-plot/ 301
+/ref/app/features/panels/parallel-coordinates /guides/app/features/panels/parallel-coordinates/ 301
+/ref/app/features/panels/parameter-importance /guides/app/features/panels/parameter-importance/ 301
+/ref/app/features/panels/weave /guides/app/features/panels/weave/ 301
+/ref/app/features/panels/weave/embedding-projector /guides/app/features/panels/weave/embedding-projector/ 301
+/ref/app/features/custom-charts /guides/app/features/custom-charts/ 301
+/ref/app/features/tags /guides/app/features/tags/ 301
+/ref/app/pages/workspaces /guides/track/workspaces/ 301
+
+# API paths
+/ref/api /ref/python/public-api/api/ 301
+/api /ref/python/public-api/api/ 301
+/artifacts/api /ref/python/sdk/classes/artifact/ 301
+
+# Python ref paths
+/ref/python/run /ref/python/sdk/classes/run/ 301
+/ref/python/save /ref/python/public-api/run#save/ 301
+/ref/python/watch /ref/python/sdk/functions/watch/ 301
+/ref/python/login /ref/python/sdk/functions/login/ 301
+/ref/python/artifact /ref/python/sdk/classes/artifact/ 301
+/ref/python/agent /ref/python/sdk/functions/agent/ 301
+/ref/python/sweep /ref/python/sdk/functions/sweep/ 301
+/ref/python/finish /ref/python/sdk/functions/finish/ 301
+/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
+/ref/release-notes/releases/ /ref/release-notes/ 301
+/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
+/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+
+## More language-specific paths (static, must come before dynamic rules)
+# Japanese specific redirects
+/ja/guides/app/features/teams /ja/guides/app/features/teams/ 301
+/ja/guides/app/pages/workspaces /ja/guides/track/workspaces/ 301
+
+/ja/guides/app/pages/workspaces/ /ja/guides/track/workspaces/ 301
+
+# Korean specific redirects  
+/ko/guides/track/launch /ko/launch/ 301
+/v/ko/ref/run/config /ko/ref/python/run/ 301
+
+# Edge cases
+/guides/data-vis/tables)です）。 /guides/models/tables/ 301
+/guides/artifacts/meow /guides/artifacts/ 301
+
+# More specific support paths
+/support/permissions_agent_require_kubernetes /support/agent-require-kubernetes/ 301
+/support/permissions_agent_require_kubernetes/ /support/agent-require-kubernetes/ 301
+/support/secrets_jobsautomations_instance_api_key_wish_directly_visible /support/secrets-api-key/ 301
+/support/index_launch/ /support/launch/ 301
+
+# App path
+/app /guides/app/ 301
+
+# Guides app pages that don't exist - redirect to main app section
+/guides/app/pages/run-page/ /guides/app/ 301
+/guides/app/pages/run-page /guides/app/ 301
+/guides/app/pages/project-page/ /guides/app/ 301
+/guides/app/settings-page/ /guides/app/ 301
+/guides/app/settings-page /guides/app/ 301
+/guides/app/settings-page/user-settings /guides/app/ 301
+/guides/app/settings-page/team-settings /guides/app/ 301
+
+# Additional guides paths that don't exist
+/guides/app/pages/ /guides/app/ 301
+
+# Japanese/Korean app pages
+/ja/guides/app/pages/ /ja/guides/app/ 301
+/ko/guides/app/pages/ /ko/guides/app/ 301
+
+# More python data-types with trailing slashes (specific before wildcards)
+/ref/python/data-types/object3d/ /ref/python/sdk/data-types/object3d/ 301
+/ref/python/data-types/plotly/ /ref/python/sdk/data-types/plotly/ 301
+/ref/python/data-types/histogram/ /ref/python/sdk/custom-charts/histogram/ 301
+/ref/python/data-types/table/ /ref/python/sdk/data-types/table/ 301
+/ref/python/data-types/image/ /ref/python/sdk/data-types/image/ 301
+/ref/python/data-types/audio/ /ref/python/sdk/data-types/audio/ 301
+/ref/python/data-types/video/ /ref/python/sdk/data-types/video/ 301
+/ref/python/data-types/html/ /ref/python/sdk/data-types/html/ 301
+/ref/python/data-types/molecule/ /ref/python/sdk/data-types/molecule/ 301
+
+# More guides/track/advanced paths
+/guides/track/advanced/save-restore /guides/artifacts/ 301
+
+# Technical FAQ paths
+/guides/technical-faq/* /support/ 301
+
+# Platform/Registry/Models paths
+/guides/platform /guides/ 301
+/guides/registry /guides/core/registry/ 301
+/guides/model_registry /guides/core/registry/model_registry/ 301
+
+# Report paths
+/reports /guides/reports/ 301
+
+# Launch-specific paths
+/guides/launch/launch-faqs /launch/launch-faq/ 301
+/guides/launch/getting-started /launch/ 301
+/guides/launch/setup-launch /launch/set-up-launch/ 301
+/guides/launch/setup-launch/ /launch/set-up-launch/ 301
+
+# More specific artifact paths
+/artifacts /guides/artifacts/ 301
+/guides/artifacts/artifacts-core-concepts /guides/artifacts/ 301
+
+# Inference path
+/guides/inference /guides/weave/ 301
+
+# Guides slope path (edge case)
+/guides/slope /guides/ 301
+
+# Python data-types (without wildcard)
+/ref/python/data-types/ /ref/python/sdk/data-types/ 301
+
+## Dynamic redirects with wildcards and splats
+## Keras integrations redirects  
+/ref/python/integrations/keras/* /ref/python/ 301
+/ref/python/integrations/wandbtracer/* /ref/python/ 301
+/ref/python/integrations/sklearn/* /guides/integrations/scikit/ 301
+
+## Python public-api subdirectory redirects - wildcard
+/ref/python/public-api/artifact/* /ref/python/public-api/artifacts/ 301
+
+
+## Self-hosted paths redirects
+/self-hosted/* /guides/hosting/:splat 301
+
+## Guides data-and-model-versioning redirects
+/guides/data-and-model-versioning/* /guides/artifacts/ 301
+
+## Launch FAQ redirect
+/guides/launch/launch-faqs/* /support/index_launch/ 301
+
+## Legacy language variant redirects
+/v/es/* / 301
+/v/ko/* /ko/guides/ 301
+/v/ch/* / 301
+
+## Language-specific ref/weave redirects
+## Japanese weave redirects
+/ja/ref/weave/* /ja/guides/ 301
+## Korean weave redirects  
+/ko/ref/weave/* /ko/guides/ 301
 
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
@@ -456,13 +666,22 @@
 /ref/python/launch-library/* /launch-library/:splat 301
 /ref/python/integrations/*  /ref/python/:splat 301
 
+## Other dynamic redirects
+/ref/release-notes/archived/* /ref/release-notes/releases/archived/:splat 301
+/guides/app/pages/gradient-panel/* /guides/app/pages/ 301
+/java/* /ref/ 301
+/_print/* / 301
+/_includes/* / 301
+
 ## Release notes
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
-/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
-/ref/release-notes/releases/ /ref/release-notes/ 301
 ### EOL releases: Use splats when possible
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
-/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
-/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+
+## Dynamic redirects with wildcards (should come after static redirects)
+## Support index catch-all
+/support/index_* /support/ 301
+## Tags catch-all
+/tags/* /support/ 301
