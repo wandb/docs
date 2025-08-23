@@ -1,5 +1,5 @@
 ---
-title: データセキュリティ
+title: データのセキュリティ
 menu:
   default:
     identifier: ja-guides-hosting-data-security-_index

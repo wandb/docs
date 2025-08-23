@@ -1,6 +1,6 @@
 ---
-title: ログ テーブル
-description: W&B でテーブルをログします。
+title: テーブルをログする
+description: W&B でテーブルをログする
 menu:
   default:
     identifier: ja-guides-models-track-log-log-tables
@@ -8,34 +8,34 @@ menu:
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
-`wandb.Table` を使って、データをログに記録し W&B で視覚化・クエリできるようにします。このガイドでは次のことを学びます：
+`wandb.Table` を使うと、データをログして W&B 上で可視化・クエリできます。このガイドでは、以下の使い方を学びます:
 
-1. [テーブルを作成する]({{< relref path="./log-tables.md#create-tables" lang="ja" >}})
-2. [データを追加する]({{< relref path="./log-tables.md#add-data" lang="ja" >}})
-3. [データを取得する]({{< relref path="./log-tables.md#retrieve-data" lang="ja" >}})
-4. [テーブルを保存する]({{< relref path="./log-tables.md#save-tables" lang="ja" >}})
+1. [テーブルの作成]({{< relref path="./log-tables.md#create-tables" lang="ja" >}})
+2. [データの追加]({{< relref path="./log-tables.md#add-data" lang="ja" >}})
+3. [データの取得]({{< relref path="./log-tables.md#retrieve-data" lang="ja" >}})
+4. [テーブルの保存]({{< relref path="./log-tables.md#save-tables" lang="ja" >}})
 
-## テーブルを作成する
+## テーブルの作成
 
-Table（テーブル）を定義するには、各データ行に表示したい列を指定します。各行はトレーニングデータセットの単一の項目、トレーニング中の特定のステップやエポック、テスト項目でのモデルの予測、モデルが生成したオブジェクトなどです。各列には固定の型があり、数値、テキスト、ブール値、画像、ビデオ、オーディオなどがあります。あらかじめ型を指定する必要はありません。各列に名前を付け、その型のデータのみをその列のインデックスに渡してください。より詳細な例については、[このレポート](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table) を参照してください。
+Table を定義するには、各データ行で見たいカラム（列）を指定します。各行は、例えばトレーニングデータセット内のひとつのアイテム、トレーニング中のあるステップやエポック、モデルがテストアイテムに対して出力した予測、モデルが生成したオブジェクト などが該当します。各カラムには「数値」「テキスト」「ブール値」「画像」「動画」「音声」など固定の型があり、事前に型を指定する必要はありません。カラムごとに名前をつけ、そのカラムインデックスには必ず適切な型のデータのみ渡すようにしましょう。より詳しい例は、[W&B Tables ガイド](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table) をご覧ください。
 
-`wandb.Table` コンストラクタを次の2つの方法のいずれかで使用します：
+`wandb.Table` コンストラクタは以下の2通りで利用可能です。
 
-1. **行のリスト:** 名前付きの列とデータの行をログに記録します。例えば、次のコードスニペットは 2 行 3 列のテーブルを生成します：
+1. **リスト形式の行:** カラム名とデータの行（リスト）を渡してテーブルを作成、たとえば以下のコードスニペットでは2行3列のテーブルを生成します:
 
 ```python
 wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
 ```
 
-2. **Pandas DataFrame:** `wandb.Table(dataframe=my_df)` を使用して DataFrame をログに記録します。列の名前は DataFrame から抽出されます。
+2. **Pandas DataFrame:** `wandb.Table(dataframe=my_df)` で DataFrame をログできます。カラム名は DataFrame から自動的に取得されます。
 
-#### 既存の配列またはデータフレームから
+#### 既存の配列や DataFrame から作成
 
 ```python
-# モデルが4つの画像で予測を返したと仮定します
-# 次のフィールドが利用可能です:
+# モデルが4枚の画像に対して予測を返したと仮定します
+# 以下のフィールドを持っています:
 # - 画像ID
-# - 画像ピクセル（wandb.Image() でラップ）
+# - 画像ピクセル情報 (wandb.Image() でラップ)
 # - モデルの予測ラベル
 # - 正解ラベル
 my_data = [
@@ -45,161 +45,171 @@ my_data = [
     [3, wandb.Image("img_3.jpg"), 1, 1],
 ]
 
-# 対応する列で wandb.Table() を作成
+# 対応するカラムで wandb.Table() を作成
 columns = ["id", "image", "prediction", "truth"]
 test_table = wandb.Table(data=my_data, columns=columns)
 ```
 
-## データを追加する
+## データの追加
 
-Tables は可変です。スクリプトが実行中に最大 200,000 行までテーブルにデータを追加できます。テーブルにデータを追加する方法は2つあります：
+テーブルはミュータブル（可変）です。スクリプトの実行途中で最大20万行までデータを追加できます。テーブルへの追加方法は2通りです。
 
-1. **行を追加する**: `table.add_data("3a", "3b", "3c")`。新しい行はリストとして表現されないことに注意してください。行がリスト形式の場合は `*` を使ってリストを位置引数に展開します: `table.add_data(*my_row_list)`。行にはテーブルの列数と同じ数のエントリが含まれている必要があります。
-2. **列を追加する**: `table.add_column(name="col_name", data=col_data)`。`col_data` の長さは現在のテーブルの行数と同じである必要があります。ここで `col_data` はリストデータや NumPy NDArray でも構いません。
+1. **行の追加:** `table.add_data("3a", "3b", "3c")` のように追加できます。新しい行はリストではなく引数として渡す点に注意しましょう。リスト形式の場合、 `*` を使いリストを引数へ展開できます: `table.add_data(*my_row_list)` 。行内の要素数はテーブルのカラム数と一致している必要があります。
+2. **カラムの追加:** `table.add_column(name="col_name", data=col_data)` で追加します。`col_data` はテーブルの現在の行数と同じ長さでなければなりません。`col_data` にはリストや NumPy の NDArray も利用可能です。
 
-### データを段階的に追加する
+### データを段階的に追加
 
-このコードサンプルは、次第に W&B テーブルを作成し、データを追加する方法を示しています。信頼度スコアを含む事前定義された列でテーブルを定義し、推論中に行ごとにデータを追加します。また、[run を再開するときにテーブルにデータを段階的に追加]({{< relref path="#adding-data-to-resumed-runs" lang="ja" >}})することもできます。
+以下のサンプルコードでは、事前に決めたカラムを使って W&B テーブルを作成し、全ラベルの信頼度（スコア）も含めて推論の都度1行ずつ追加していきます。 [run を再開した際のテーブルへのデータ追加はこちら]({{< relref path="#adding-data-to-resumed-runs" lang="ja" >}}) も参照ください。
 
 ```python
-# 各ラベルの信頼度スコアを含むテーブルの列を定義
+# ラベルごとの信頼度スコアを含むカラムを定義
 columns = ["id", "image", "guess", "truth"]
-for digit in range(10):  # 各数字 (0-9) に対する信頼度スコア列を追加
+for digit in range(10):  # 各数字(0-9)の信頼度カラムを追加
     columns.append(f"score_{digit}")
 
-# 定義された列でテーブルを初期化
+# 定義したカラムでテーブルを初期化
 test_table = wandb.Table(columns=columns)
 
-# テストデータセットを通過し、データを行ごとにテーブルに追加
-# 各行は画像 ID、画像、予測されたラベル、正解ラベル、信頼度スコアを含みます
+# テストデータセットをイテレートし、1行ずつテーブルに追加
+# 各行は画像ID・画像・予測ラベル・正解ラベル・信頼度スコアを含む
 for img_id, img in enumerate(mnist_test_data):
     true_label = mnist_test_data_labels[img_id]  # 正解ラベル
     guess_label = my_model.predict(img)  # 予測ラベル
     test_table.add_data(
         img_id, wandb.Image(img), guess_label, true_label
-    )  # テーブルに行データを追加
+    )  # データ行をテーブルへ追加
 ```
 
-#### Run を再開した際にデータを追加
+#### 再開 run でのデータ追加
 
-再開した Run において、既存のテーブルをアーティファクトから読み込み、最後のデータ行を取得して、更新されたメトリクスを追加することで W&B テーブルを段階的に更新できます。次に、互換性を保つためにテーブルを再初期化し、更新されたバージョンを W&B に再度ログに記録します。
+既存のテーブルを Artifact からロードし、最後のデータ行を取得してメトリクスを追加し、互換性のためテーブルを再初期化後、更新したバージョンを再び W&B にログすることで、再開した run で W&B テーブルを段階的にアップデートできます。
 
 ```python
-# アーティファクトから既存のテーブルを読み込む
-best_checkpt_table = wandb.use_artifact(table_tag).get(table_name)
+import wandb
 
-# 再開のためにテーブルの最後のデータ行を取得
-best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
+# run を初期化
+with wandb.init(project="my_project") as run:
 
-# 必要に応じて最高のメトリクスを更新
+    # Artifact から既存のテーブルを読み込み
+    best_checkpt_table = run.use_artifact(table_tag).get(table_name)
 
-# テーブルに更新されたデータを追加
-best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+    # テーブル末尾の行を取得（再開用）
+    best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
 
-# 更新されたデータでテーブルを再初期化し、互換性を確保
-best_checkpt_table = wandb.Table(
-    columns=["col1", "col2", "col3"], data=best_checkpt_table.data
-)
+    # 必要に応じてメトリクスを更新
 
-# 更新されたテーブルを Weights & Biases にログする
-wandb.log({table_name: best_checkpt_table})
+    # テーブルへ更新したデータを追加
+    best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+
+    # 互換性のためデータを用いてテーブルを再初期化
+    best_checkpt_table = wandb.Table(
+        columns=["col1", "col2", "col3"], data=best_checkpt_table.data
+    )
+
+    # run の初期化
+    run = wandb.init()
+
+    # 更新されたテーブルを W&B にログ
+    run.log({table_name: best_checkpt_table})
 ```
 
-## データを取得する
+## データ取得
 
-データが Table にあるとき、列または行ごとにアクセスできます：
+Table にデータを保存したら、カラムごとや行ごとにアクセスできます。
 
-1. **行イテレータ**: ユーザーは Table の行イテレータを利用して、`for ndx, row in table.iterrows(): ...` のようにデータの行を効率的に反復処理できます。
-2. **列を取得する**: ユーザーは `table.get_column("col_name")` を使用してデータの列を取得できます。`convert_to="numpy"` を渡すと、列を NumPy のプリミティブ NDArray に変換できます。これは、列に `wandb.Image` などのメディアタイプが含まれている場合に、基になるデータに直接アクセスするのに便利です。
+1. **行イテレータ:** Table の row イテレータ（`for ndx, row in table.iterrows(): ...` など）でデータ行を効率的にイテレートできます。
+2. **カラム取得:** `table.get_column("col_name")` で任意のカラムデータを取得可能です。引数 `convert_to="numpy"` を指定すると NumPy NDArray のプリミティブ配列に変換できます。カラム内が `wandb.Image` などメディア型の場合も、この方法で生データに直接アクセスできます。
 
-## テーブルを保存する
+## テーブル保存
 
-スクリプトでモデルの予測のテーブルなどのデータを生成した後、それを W&B に保存して結果をリアルタイムで視覚化します。
+例えばモデルの予測結果など、スクリプト内で生成したテーブルを W&B に保存することで、リアルタイムに可視化できます。
 
-### Run にテーブルをログする
+### run へのテーブルのログ
 
-`wandb.log()` を使用してテーブルを Run に保存します：
+`wandb.Run.log()` を使って作成したテーブルを run に保存します。
 
 ```python
-run = wandb.init()
-my_table = wandb.Table(columns=["a", "b"], data=[["1a", "1b"], ["2a", "2b"]])
-run.log({"table_key": my_table})
+with wandb.init() as run:
+    my_table = wandb.Table(columns=["a", "b"], data=[["1a", "1b"], ["2a", "2b"]])
+    run.log({"table_key": my_table})
 ```
 
-同じキーにテーブルがログに記録されるたびに、新しいバージョンのテーブルが作成され、バックエンドに保存されます。これにより、複数のトレーニングステップにわたって同じテーブルをログに記録し、モデルの予測がどのように向上するかを確認したり、異なる Run 間でテーブルを比較したりすることができます。同じテーブルに最大 200,000 行までログに記録できます。
+同じキーでテーブルをログするたびに新しいバージョンがバックエンドに保存されます。これにより、複数のトレーニングステップで同じテーブルを記録して、モデル予測の改善を時系列で追跡したり、異なる run 間でテーブルを比較することも可能です（同じキーであれば問題ありません）。20万行までログできます。
 
 {{% alert %}}
-200,000 行以上をログに記録するには、以下のように制限をオーバーライドできます：
+20万行以上をログしたい場合は、下記のように上限値を上書きできます。
 
 `wandb.Table.MAX_ARTIFACT_ROWS = X`
 
-ただし、これにより UI でのクエリの速度低下などのパフォーマンス問題が発生する可能性があります。
+ただし、UI でのクエリ速度低下などパフォーマンスが劣化する可能性があります。
 {{% /alert %}}
 
-### プログラムによるテーブルへのアクセス
+### プログラムからのテーブルアクセス
 
-バックエンドでは、Tables は Artifacts として保存されています。特定のバージョンにアクセスする場合は、artifact API を使用して行うことができます：
+バックエンドでは Tables は Artifacts として保存されます。特定バージョンの Table をアクセスしたい場合は Artifact API を利用できます。
 
 ```python
 with wandb.init() as run:
     my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
 ```
 
-Artifacts の詳細については、デベロッパーガイドの [Artifacts チャプター]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) を参照してください。
+Artifacts についての詳細は、Developer Guide の [Artifacts Chapter]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) を参照ください。
 
-### テーブルを視覚化する
+### テーブルの可視化
 
-この方法でログに記録されたテーブルは、Run ページと Project ページの両方でワークスペースに表示されます。詳細については、[テーブルの視覚化と分析]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ja" >}}) を参照してください。
+この方法でログされたテーブルは、Workspace 上の Run Page や Project Page で閲覧できます。詳細は [テーブルの可視化と分析]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ja" >}}) をご覧ください。
 
-## アーティファクトテーブル
+## Artifact テーブル
 
-`artifact.add()` を使用して、テーブルをワークスペースの代わりに Run の Artifacts セクションにログします。これは、データセットを1回ログに記録し、今後の Run のために参照したい場合に役立ちます。
+`artifact.add()` を使って、テーブルを run の Workspace ではなく Artifacts セクションにログできます。例えば一度だけ保存し、今後の run で再利用したいデータセットがある場合などに便利です。
 
 ```python
-run = wandb.init(project="my_project")
-# 各重要なステップのために wandb Artifact を作成
-test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
+with wandb.init(project="my_project") as run:
+    # 重要なステップごとに wandb Artifact を作成
+    test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
 
-# [上記のように予測データを構築]
-test_table = wandb.Table(data=data, columns=columns)
-test_predictions.add(test_table, "my_test_key")
-run.log_artifact(test_predictions)
+    # [上記のように predictions 用のデータを作成]
+    test_table = wandb.Table(data=data, columns=columns)
+    test_predictions.add(test_table, "my_test_key")
+    run.log_artifact(test_predictions)
 ```
 
-画像データを使用した `artifact.add()` の詳細な例については、この Colab を参照してください: [画像データを使った artifact.add() の詳細な例](http://wandb.me/dsviz-nature-colab) また [Artifacts と Tables を使ったバージョン管理と重複排除データの例](http://wandb.me/TBV-Dedup) に関してはこのレポートを参照してください。
+画像データを例にした `artifact.add()` の詳しい使い方は [この Colab](https://wandb.me/dsviz-nature-colab) を、Artifacts と Tables を活用して [表データのバージョン管理・重複排除する事例レポート](https://wandb.me/TBV-Dedup) も参照してください。
 
-### アーティファクトテーブルを結合する
+### Artifact テーブルの join
 
-`wandb.JoinedTable(table_1, table_2, join_key)` を使用して、ローカルに構築したテーブルや他のアーティファクトから取得したテーブルを結合できます。
+`wandb.JoinedTable(table_1, table_2, join_key)` を使い、ローカルで作成したテーブルや他 Artifact から取得したテーブルを join（結合）できます。
 
-| 引数      | 説明                                                                                                             |
-| --------- | ----------------------------------------------------------------------------------------------------------------- |
-| table_1  | (str, `wandb.Table`, ArtifactEntry) アーティファクト内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
-| table_2  | (str, `wandb.Table`, ArtifactEntry) アーティファクト内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
-| join_key | (str, [str, str]) 結合を行うキーまたはキーのリスト                                                                |
+| 引数      | 説明                                                                                                        |
+| --------- | ---------------------------------------------------------------------------------------------------------- |
+| table_1  | (str, `wandb.Table`, ArtifactEntry) Artifact 内の `wandb.Table` のパス/テーブルオブジェクト/ArtifactEntry  |
+| table_2  | (str, `wandb.Table`, ArtifactEntry) Artifact 内の `wandb.Table` のパス/テーブルオブジェクト/ArtifactEntry  |
+| join_key | (str, [str, str]) 結合時のキー                                                                             |
 
-以前にアーティファクトコンテキストでログに記録した2つのテーブルを結合するには、アーティファクトからそれらを取得し、新しいテーブルに結合した結果を格納します。この例では、`'original_songs'` という名前のオリジナルの曲のテーブルと `'synth_songs'` という名前の同じ曲の合成バージョンのテーブルを結合する方法を示しています。以下のコード例は 2 つのテーブルを `"song_id"` で結合し、結果のテーブルを新しい W&B テーブルとしてアップロードします：
+Artifact 内に既にログした2つの Tables を join して新しい Table を作成する場合、Artifact から取り出して join し、その結果をあらたな W&B Table としてアップロードできます。
+
+例として、 `'original_songs'` という元楽曲の Table と、同じ楽曲を合成した `'synth_songs'` テーブルを `"song_id"` で join して、新たなテーブルを作成・アップロードするコード例を示します。
 
 ```python
 import wandb
 
-run = wandb.init(project="my_project")
+with wandb.init(project="my_project") as run:
 
-# オリジナルの曲のテーブルを取得
-orig_songs = run.use_artifact("original_songs:latest")
-orig_table = orig_songs.get("original_samples")
+    # 元楽曲のテーブルを取得
+    orig_songs = run.use_artifact("original_songs:latest")
+    orig_table = orig_songs.get("original_samples")
 
-# 合成曲のテーブルを取得
-synth_songs = run.use_artifact("synth_songs:latest")
-synth_table = synth_songs.get("synth_samples")
+    # 合成楽曲のテーブルを取得
+    synth_songs = run.use_artifact("synth_songs:latest")
+    synth_table = synth_songs.get("synth_samples")
 
-# "song_id" でテーブルを結合
-join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
-join_at = wandb.Artifact("synth_summary", "analysis")
+    # "song_id" でテーブルを join
+    join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
+    join_at = wandb.Artifact("synth_summary", "analysis")
 
-# テーブルをアーティファクトに追加し W&B にログする
-join_at.add(join_table, "synth_explore")
-run.log_artifact(join_at)
+    # Artifact にテーブルを追加し、W&B へログ
+    join_at.add(join_table, "synth_explore")
+    run.log_artifact(join_at)
 ```
 
-このチュートリアルを[読む](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)と、異なるアーティファクトオブジェクトに保存された 2 つのテーブルを組み合わせる方法の例が示されています。
+異なる Artifact オブジェクトに格納された2つのテーブルを結合する事例は [このチュートリアル](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) も参考にしてください。

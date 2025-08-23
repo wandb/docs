@@ -1,14 +1,14 @@
 ---
-title: Can W&B team members see my data?
+title: W&B 팀 멤버가 내 데이터를 볼 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-wandb_see_data
 support:
-- privacy
-- security
+- 프라이버시
+- 보안
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-W&B의 주요 엔지니어와 지원 스태프는 디버깅 목적으로 사용자 권한 하에 기록된 값에 엑세스합니다. 모든 데이터 저장소는 저장 시 데이터를 암호화하고, 감사 로그는 엑세스를 기록합니다. W&B 직원의 완벽한 데이터 보안을 위해 자체 호스팅 솔루션을 라이선스하여 자체 인프라 내에서 W&B 서버를 실행하십시오.
+W&B의 주요 엔지니어와 지원 인력은 사용자 허가 하에 디버깅 목적으로 로그된 값을 엑세스할 수 있습니다. 모든 데이터 저장소는 데이터가 저장될 때 암호화되며, 감사 로그를 통해 엑세스 기록이 남습니다. W&B 직원에게서 완벽한 데이터 보안을 원한다면, 자체 관리형 솔루션 라이선스를 구매하여 귀하의 인프라 내에서 W&B 서버를 직접 운영할 수 있습니다.

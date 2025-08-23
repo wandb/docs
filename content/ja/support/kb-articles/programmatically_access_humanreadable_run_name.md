@@ -1,19 +1,21 @@
 ---
-title: 人間が読みやすい Run 名をプログラムで取得するにはどうすればいいですか？
+title: プログラムから人が読める run 名にアクセスするにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-programmatically_access_humanreadable_run_name
 support:
-  - experiments
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`.name` 属性は、[`wandb.Run`]({{< relref path="/ref/python/run.md" lang="ja" >}}) から以下のようにアクセスできます:
+
+`.name` 属性は、[`wandb.Run`]({{< relref path="/ref/python/sdk/classes/run" lang="ja" >}}) から次のようにアクセスできます。
 
 ```python
 import wandb
 
-wandb.init()
-run_name = wandb.run.name
+with wandb.init() as run:
+   run_name = run.name
+   print(f"人間が読める run の名前は: {run_name}")
 ```

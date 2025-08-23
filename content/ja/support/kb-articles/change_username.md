@@ -4,10 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-change_username
 support:
-  - administrator
-  - user management
+- 管理者
+- ユーザー管理
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-アカウント作成後、ユーザー名を変更することはできません。代わりに、希望のユーザー名で新しいアカウントを作成してください。
+
+アカウント作成後にユーザー名を変更することはできません。希望するユーザー名で新しいアカウントを作成してください。

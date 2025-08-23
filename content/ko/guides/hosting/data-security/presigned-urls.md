@@ -1,5 +1,5 @@
 ---
-title: Access BYOB using pre-signed URLs
+title: 미리 서명된 URL을 사용하여 BYOB 엑세스하기
 menu:
   default:
     identifier: ko-guides-hosting-data-security-presigned-urls
@@ -7,28 +7,56 @@ menu:
 weight: 2
 ---
 
-W&B는 AI 워크로드 또는 사용자 브라우저에서 blob storage에 대한 엑세스를 간소화하기 위해 사전 서명된 URL을 사용합니다. 사전 서명된 URL에 대한 기본 정보는 [AWS S3용 사전 서명된 URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html), [Google Cloud Storage용 서명된 URL](https://cloud.google.com/storage/docs/access-control/signed-urls) 및 [Azure Blob Storage용 공유 엑세스 서명](https://learn.microsoft.com/azure/storage/common/storage-sas-overview)을 참조하십시오.
+W&B는 AI 워크로드나 사용자 브라우저가 blob 스토리지에 쉽게 엑세스할 수 있도록 pre-signed URL을 사용합니다. pre-signed URL에 대한 기본적인 정보는 아래 클라우드 제공업체의 문서를 참고해 주세요.
 
-필요한 경우 네트워크 내의 AI 워크로드 또는 사용자 브라우저 클라이언트가 W&B Platform에서 사전 서명된 URL을 요청합니다. 그러면 W&B Platform은 관련 blob storage에 엑세스하여 필요한 권한으로 사전 서명된 URL을 생성하고 클라이언트에 다시 반환합니다. 그런 다음 클라이언트는 사전 서명된 URL을 사용하여 오브젝트 업로드 또는 검색 작업을 위해 blob storage에 엑세스합니다. 오브젝트 다운로드를 위한 URL 만료 시간은 1시간이고, 일부 대형 오브젝트는 청크 단위로 업로드하는 데 더 많은 시간이 필요할 수 있으므로 오브젝트 업로드는 24시간입니다.
+- [AWS S3의 Pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html) — S3-compatible 스토리지(예: [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage))에도 적용됩니다.
+- [Google Cloud Storage의 Signed URLs](https://cloud.google.com/storage/docs/access-control/signed-urls)
+- [Azure Blob Storage의 Shared Access Signature](https://learn.microsoft.com/azure/storage/common/storage-sas-overview)
+
+작동 방식:
+1. 필요할 때, 네트워크 내의 AI 워크로드 또는 사용자 브라우저 클라이언트가 W&B에 pre-signed URL을 요청합니다.
+1. W&B는 해당 요청을 받아 blob 스토리지에 엑세스하여, 필요한 권한이 설정된 pre-signed URL을 생성합니다.
+1. W&B는 클라이언트에게 pre-signed URL을 반환합니다.
+1. 클라이언트는 이 pre-signed URL을 사용해 blob 스토리지에 읽기 또는 쓰기 작업을 수행합니다.
+
+pre-signed URL의 만료 시간은 다음과 같습니다:
+- **읽기**: 1시간
+- **쓰기**: 24시간 (대용량 오브젝트를 여러 번에 나눠 업로드할 수 있도록 더 긴 시간이 부여됨)
 
 ## 팀 레벨 엑세스 제어
 
-각 사전 서명된 URL은 W&B platform의 [팀 레벨 엑세스 제어]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ko" >}})를 기반으로 특정 버킷으로 제한됩니다. 사용자가 [보안 스토리지 커넥터]({{< relref path="./secure-storage-connector.md" lang="ko" >}})를 사용하여 blob storage 버킷에 매핑된 팀에 속하고 해당 사용자만 해당 팀에 속한 경우, 해당 요청에 대해 생성된 사전 서명된 URL은 다른 팀에 매핑된 blob storage 버킷에 엑세스할 수 있는 권한이 없습니다.
+각 pre-signed URL은 W&B 플랫폼의 [팀 레벨 엑세스 제어]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ko" >}})를 기반으로 특정 버킷에만 제한됩니다. 사용자가 [secure storage connector]({{< relref path="./secure-storage-connector.md" lang="ko" >}})를 통해 스토리지 버킷과 매핑된 팀의 일부이고, 해당 사용자가 그 팀에만 속해 있다면, 해당 사용자의 요청으로 생성된 pre-signed URL에는 다른 팀에 매핑된 스토리지 버킷에 접근할 권한이 부여되지 않습니다.
 
 {{% alert %}}
-W&B는 사용자를 자신이 속해야 하는 팀에만 추가할 것을 권장합니다.
+W&B에서는 사용자를 꼭 필요한 팀에만 추가하는 것을 권장합니다.
 {{% /alert %}}
 
 ## 네트워크 제한
+W&B는 IAM 정책을 활용해, pre-signed URL을 통한 외부 스토리지 접근이 네트워크별로 제한되도록 설정할 것을 권장합니다. 이를 통해 AI 워크로드가 실행되는 네트워크나, 사용자 기기를 대표하는 게이트웨이 IP 주소에서만 W&B 전용 버킷에 접근하도록 할 수 있습니다.
 
-W&B는 버킷에 대한 IAM 정책 기반 제한을 사용하여 사전 서명된 URL을 사용하여 blob storage에 엑세스할 수 있는 네트워크를 제한하는 것이 좋습니다.
-
-AWS의 경우 [VPC 또는 IP 어드레스 기반 네트워크 제한](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities)을 사용할 수 있습니다. 이렇게 하면 W&B 특정 버킷이 AI 워크로드가 실행 중인 네트워크 또는 사용자가 W&B UI를 사용하여 Artifacts에 엑세스하는 경우 사용자 머신에 매핑되는 게이트웨이 IP 어드레스에서만 엑세스할 수 있습니다.
+- CoreWeave AI Object Storage의 정책은 CoreWeave 문서 내 [Bucket 정책 레퍼런스](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition)를 참고하세요.
+- AWS S3, 또는 자체 구축한 MiniIO 등 S3-compatible 스토리지의 경우 [S3 사용자 가이드](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities), [MinIO 문서](https://github.com/minio/minio) 또는 기타 S3-compatible 스토리지 공급업체 문서를 참고하세요.
 
 ## 감사 로그
 
-W&B는 blob storage 특정 감사 로그 외에도 [W&B 감사 로그]({{< relref path="../monitoring-usage/audit-logging.md" lang="ko" >}})를 사용하는 것이 좋습니다. 후자의 경우 [AWS S3 엑세스 로그](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html), [Google Cloud Storage 감사 로그](https://cloud.google.com/storage/docs/audit-logging) 및 [Azure blob storage 모니터링](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)을 참조하십시오. 관리 및 보안 팀은 감사 로그를 사용하여 W&B 제품에서 어떤 사용자가 무엇을 하고 있는지 추적하고 특정 사용자에 대한 일부 작업을 제한해야 한다고 판단되면 필요한 조치를 취할 수 있습니다.
+W&B에서는 [W&B 감사 로그]({{< relref path="../monitoring-usage/audit-logging.md" lang="ko" >}})와 blob 스토리지 전용 감사 로그의 병행 사용을 권장합니다. 각 클라우드 제공업체별 blob 스토리지 감사 로그는 아래를 참고하세요.
+- [CoreWeave 감사 로그](https://docs.coreweave.com/docs/products/storage/object-storage/concepts/audit-logging#audit-logging-policies)
+- [AWS S3 엑세스 로그](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)
+- [Google Cloud Storage 감사 로그](https://cloud.google.com/storage/docs/audit-logging)
+- [Azure blob storage 모니터링](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)
+
+관리자 및 보안 팀은 감사 로그를 활용하여, W&B에서 어떤 사용자가 어떤 활동을 했는지 추적할 수 있습니다. 필요할 경우 특정 사용자의 작업을 제한하는 조치도 취할 수 있습니다.
 
 {{% alert %}}
-사전 서명된 URL은 W&B에서 지원되는 유일한 blob storage 엑세스 메커니즘입니다. W&B는 위험 감수 성향에 따라 위에 나열된 보안 제어 중 일부 또는 전부를 구성할 것을 권장합니다.
+Pre-signed URL은 W&B에서 지원하는 유일한 blob 스토리지 엑세스 방식입니다. 조직의 정책에 따라 위에서 안내한 보안 제어 항목 중 일부 또는 전부를 적용하기를 권장합니다.
 {{% /alert %}}
+
+## pre-signed URL을 요청한 사용자 확인 방법
+W&B가 pre-signed URL을 반환할 때, URL 내 쿼리 파라미터로 요청자의 사용자명이 포함됩니다.
+
+| 스토리지 제공업체                 | Signed URL 쿼리 파라미터 |
+|-----------------------------|------------------|
+| CoreWeave AI Object Storage | `X-User`         |
+| AWS S3 storage              | `X-User`         |
+| Google Cloud storage        | `X-User`         |
+| Azure blob storage          | `scid`           |

@@ -1,6 +1,6 @@
 ---
-title: Log tables
-description: W&B로 테이블을 로그합니다.
+title: 테이블 로그
+description: W&B로 테이블을 로그하세요.
 menu:
   default:
     identifier: ko-guides-models-track-log-log-tables
@@ -8,36 +8,36 @@ menu:
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
-`wandb.Table`을 사용하여 데이터를 기록하고 Weights & Biases로 시각화하고 쿼리합니다. 이 가이드에서는 다음 방법을 배울 수 있습니다.
+`wandb.Table`을 사용해 데이터를 기록하고 시각화 및 쿼리를 W&B에서 해보세요. 이 가이드에서는 다음과 같은 내용을 다룹니다:
 
-1. [테이블 만들기]({{< relref path="./log-tables.md#create-tables" lang="ko" >}})
-2. [데이터 추가]({{< relref path="./log-tables.md#add-data" lang="ko" >}})
-3. [데이터 검색]({{< relref path="./log-tables.md#retrieve-data" lang="ko" >}})
-4. [테이블 저장]({{< relref path="./log-tables.md#save-tables" lang="ko" >}})
+1. [테이블 생성하기]({{< relref path="./log-tables.md#create-tables" lang="ko" >}})
+2. [데이터 추가하기]({{< relref path="./log-tables.md#add-data" lang="ko" >}})
+3. [데이터 불러오기]({{< relref path="./log-tables.md#retrieve-data" lang="ko" >}})
+4. [테이블 저장하기]({{< relref path="./log-tables.md#save-tables" lang="ko" >}})
 
-## 테이블 만들기
+## 테이블 생성하기
 
-테이블을 정의하려면 데이터의 각 행에 대해 보려는 열을 지정합니다. 각 행은 트레이닝 데이터셋의 단일 항목, 트레이닝 중의 특정 단계 또는 에포크, 테스트 항목에 대한 모델의 예측값, 모델에서 생성된 오브젝트 등이 될 수 있습니다. 각 열에는 숫자, 텍스트, 부울, 이미지, 비디오, 오디오 등 고정된 유형이 있습니다. 유형을 미리 지정할 필요는 없습니다. 각 열에 이름을 지정하고 해당 유형의 데이터만 해당 열 인덱스로 전달해야 합니다. 더 자세한 예는 [이 리포트](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table)를 참조하십시오.
+Table을 정의하려면 각 데이터 행에 보고 싶은 컬럼을 지정하세요. 각 행은 트레이닝 데이터셋 안의 한 아이템, 트레이닝 중의 특정 step이나 epoch, 테스트 데이터에 대해 모델이 내린 예측값, 모델이 생성한 오브젝트 등일 수 있습니다. 각 컬럼은 고정 타입(숫자, 텍스트, 불리언, 이미지, 비디오, 오디오 등)을 갖습니다. 타입을 미리 지정할 필요는 없습니다. 각 컬럼에 이름을 주고, 해당 컬럼 인덱스에는 그 타입에 맞는 데이터만 전달하면 됩니다. 더 자세한 예시는 [W&B Tables 가이드](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table)를 참고하세요.
 
-다음 두 가지 방법 중 하나로 `wandb.Table` 생성자를 사용합니다.
+`wandb.Table` 생성자는 두 가지 방법 중 하나로 사용할 수 있습니다:
 
-1. **행 목록:** 이름이 지정된 열과 데이터 행을 기록합니다. 예를 들어 다음 코드 조각은 두 개의 행과 세 개의 열이 있는 테이블을 생성합니다.
+1. **행 리스트로 생성:** 이름이 지정된 컬럼과 행 데이터를 기록합니다. 예를 들어, 아래 코드조각은 두 행, 세 컬럼의 테이블을 생성합니다:
 
 ```python
 wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
 ```
 
+2. **Pandas DataFrame 사용:** `wandb.Table(dataframe=my_df)`을 통해 DataFrame을 테이블로 기록합니다. 컬럼 이름은 DataFrame에서 추출됩니다.
 
-2. **Pandas DataFrame:** `wandb.Table(dataframe=my_df)`를 사용하여 DataFrame을 기록합니다. 열 이름은 DataFrame에서 추출됩니다.
-
-#### 기존 배열 또는 데이터 프레임에서
+#### 기존 array 혹은 dataframe에서 생성
 
 ```python
-# 모델이 다음 필드를 사용할 수 있는 네 개의 이미지에 대한 예측을 반환했다고 가정합니다.
-# - 이미지 ID
-# - wandb.Image()로 래핑된 이미지 픽셀
+# 모델이 네 장의 이미지에 대한 예측값을 반환했다고 가정합시다.
+# 다음과 같은 값들이 있습니다:
+# - 이미지 id
+# - 이미지 원본(픽셀값), wandb.Image()로 래핑됨
 # - 모델의 예측 레이블
-# - 그라운드 트루스 레이블
+# - 그라운드 트루스(정답) 레이블
 my_data = [
     [0, wandb.Image("img_0.jpg"), 0, 0],
     [1, wandb.Image("img_1.jpg"), 8, 0],
@@ -45,163 +45,170 @@ my_data = [
     [3, wandb.Image("img_3.jpg"), 1, 1],
 ]
 
-# 해당 열이 있는 wandb.Table() 생성
+# 해당 컬럼에 맞춰 wandb.Table() 생성
 columns = ["id", "image", "prediction", "truth"]
 test_table = wandb.Table(data=my_data, columns=columns)
 ```
 
-## 데이터 추가
+## 데이터 추가하기
 
-테이블은 변경 가능합니다. 스크립트가 실행될 때 테이블에 최대 200,000개의 행까지 더 많은 데이터를 추가할 수 있습니다. 테이블에 데이터를 추가하는 방법에는 두 가지가 있습니다.
+Tables는 변경이 가능합니다. 스크립트가 실행되는 동안 최대 20만 행까지 데이터를 추가할 수 있습니다. 테이블에 데이터를 추가하는 방법은 두 가지가 있습니다:
 
-1. **행 추가**: `table.add_data("3a", "3b", "3c")`. 새 행은 목록으로 표시되지 않습니다. 행이 목록 형식인 경우 별표 표기법 `*`을 사용하여 목록을 위치 인수로 확장합니다. `table.add_data(*my_row_list)`. 행에는 테이블의 열 수와 동일한 수의 항목이 포함되어야 합니다.
-2. **열 추가**: `table.add_column(name="col_name", data=col_data)`. `col_data`의 길이는 테이블의 현재 행 수와 같아야 합니다. 여기서 `col_data`는 목록 데이터 또는 NumPy NDArray일 수 있습니다.
+1. **행 추가:** `table.add_data("3a", "3b", "3c")`처럼 사용합니다. 새로운 행을 리스트 형태로 넘기지 않습니다. 만약 리스트 형식의 행이 있다면, star notation `*`을 써서 각각의 값을 인자로 확장할 수 있습니다: `table.add_data(*my_row_list)`. 행의 항목 수는 테이블의 컬럼 수와 같아야 합니다.
+2. **컬럼 추가:** `table.add_column(name="col_name", data=col_data)`를 사용합니다. `col_data`의 길이는 테이블의 현재 행 개수와 같아야 합니다. 여기서 `col_data`는 list 혹은 NumPy NDArray가 될 수 있습니다.
 
-### 점진적으로 데이터 추가
+### 데이터 점진적으로 추가하기
 
-이 코드 샘플은 W&B 테이블을 점진적으로 생성하고 채우는 방법을 보여줍니다. 가능한 모든 레이블에 대한 신뢰도 점수를 포함하여 미리 정의된 열로 테이블을 정의하고 추론 중에 행별로 데이터를 추가합니다. [run을 재개할 때 테이블에 점진적으로 데이터를 추가]( {{< relref path="#adding-data-to-resumed-runs" lang="ko" >}})할 수도 있습니다.
+아래 예시는 Table을 정의하고 데이터(특정 라벨에 대한 confidence score 포함)를 예측 시점마다 한 행씩 추가하는 방법을 보여줍니다. 또한 [Resumed Run에서 테이블에 데이터를 점진적으로 추가]({{< relref path="#adding-data-to-resumed-runs" lang="ko" >}})할 수도 있습니다.
 
 ```python
-# 각 레이블에 대한 신뢰도 점수를 포함하여 테이블의 열을 정의합니다.
+# 각 라벨별 confidence score를 포함한 컬럼 정의
 columns = ["id", "image", "guess", "truth"]
-for digit in range(10):  # 각 숫자(0-9)에 대한 신뢰도 점수 열을 추가합니다.
+for digit in range(10):  # 각 digit(0~9)에 대해 score 컬럼 추가
     columns.append(f"score_{digit}")
 
-# 정의된 열로 테이블을 초기화합니다.
+# 정의한 컬럼으로 테이블 초기화
 test_table = wandb.Table(columns=columns)
 
-# 테스트 데이터셋을 반복하고 데이터를 행별로 테이블에 추가합니다.
-# 각 행에는 이미지 ID, 이미지, 예측 레이블, 트루 레이블 및 신뢰도 점수가 포함됩니다.
+# 테스트 데이터셋을 순회하며 데이터를 한 행씩 추가
 for img_id, img in enumerate(mnist_test_data):
-    true_label = mnist_test_data_labels[img_id]  # 그라운드 트루스 레이블
-    guess_label = my_model.predict(img)  # 예측 레이블
+    true_label = mnist_test_data_labels[img_id]  # 그라운드 트루스(정답) 라벨
+    guess_label = my_model.predict(img)  # 예측 라벨
     test_table.add_data(
         img_id, wandb.Image(img), guess_label, true_label
-    )  # 테이블에 행 데이터를 추가합니다.
+    )  # 새 행을 테이블에 추가
 ```
 
-#### 재개된 run에 데이터 추가
+#### 재시작된 Run에서 데이터 추가
 
-아티팩트에서 기존 테이블을 로드하고, 데이터의 마지막 행을 검색하고, 업데이트된 메트릭을 추가하여 재개된 run에서 W&B 테이블을 점진적으로 업데이트할 수 있습니다. 그런 다음 호환성을 위해 테이블을 다시 초기화하고 업데이트된 버전을 W&B에 다시 기록합니다.
+아티팩트에서 기존 테이블을 불러온 후 마지막 행을 가져와 메트릭을 업데이트한 다음, 호환성 유지를 위해 테이블을 재초기화하여 W&B에 다시 기록할 수 있습니다.
 
 ```python
-# 아티팩트에서 기존 테이블을 로드합니다.
-best_checkpt_table = wandb.use_artifact(table_tag).get(table_name)
+import wandb
 
-# 재개를 위해 테이블에서 데이터의 마지막 행을 가져옵니다.
-best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
+# Run을 시작합니다.
+with wandb.init(project="my_project") as run:
 
-# 필요에 따라 최상의 메트릭을 업데이트합니다.
+    # 아티팩트에서 기존 테이블 불러오기
+    best_checkpt_table = run.use_artifact(table_tag).get(table_name)
 
-# 업데이트된 데이터를 테이블에 추가합니다.
-best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+    # 테이블에서 마지막 행 데이터를 가져옵니다
+    best_iter, best_metric_max, best_metric_min = best_checkpt_table.data[-1]
 
-# 호환성을 보장하기 위해 업데이트된 데이터로 테이블을 다시 초기화합니다.
-best_checkpt_table = wandb.Table(
-    columns=["col1", "col2", "col3"], data=best_checkpt_table.data
-)
+    # 필요에 따라 best metric을 업데이트
 
-# 업데이트된 테이블을 Weights & Biases에 기록합니다.
-wandb.log({table_name: best_checkpt_table})
+    # 업데이트된 데이터를 테이블에 추가
+    best_checkpt_table.add_data(best_iter, best_metric_max, best_metric_min)
+
+    # 호환성 유지를 위해 데이터를 사용해 테이블 재초기화
+    best_checkpt_table = wandb.Table(
+        columns=["col1", "col2", "col3"], data=best_checkpt_table.data
+    )
+
+    # Run을 다시 초기화
+    run = wandb.init()
+
+    # 업데이트된 테이블을 W&B에 기록
+    run.log({table_name: best_checkpt_table})
 ```
 
-## 데이터 검색
+## 데이터 불러오기
 
-데이터가 테이블에 있으면 열 또는 행별로 엑세스합니다.
+Table에 기록된 데이터는 컬럼 또는 행 단위로 엑세스할 수 있습니다:
 
-1. **행 반복기**: 사용자는 `for ndx, row in table.iterrows(): ...`와 같은 테이블의 행 반복기를 사용하여 데이터의 행을 효율적으로 반복할 수 있습니다.
-2. **열 가져오기**: 사용자는 `table.get_column("col_name")`을 사용하여 데이터 열을 검색할 수 있습니다. 편의를 위해 사용자는 `convert_to="numpy"`를 전달하여 열을 기본 요소의 NumPy NDArray로 변환할 수 있습니다. 이는 열에 기본 데이터에 직접 엑세스할 수 있도록 `wandb.Image`와 같은 미디어 유형이 포함된 경우에 유용합니다.
+1. **행 반복자(Row Iterator):** `for ndx, row in table.iterrows(): ...` 과 같이 Table의 row iterator를 사용해 효율적으로 반복할 수 있습니다.
+2. **컬럼 가져오기:** `table.get_column("col_name")`로 데이터 컬럼을 가져옵니다. `convert_to="numpy"` 옵션으로 컬럼을 NumPy NDArray로 변환할 수도 있습니다. 컬럼에 `wandb.Image` 등 미디어 타입이 들어 있을 경우 원본 데이터 접근에 유용합니다.
 
-## 테이블 저장
+## 테이블 저장하기
 
-예를 들어 모델 예측 테이블과 같이 스크립트에서 데이터 테이블을 생성한 후 결과를 라이브로 시각화하기 위해 W&B에 저장합니다.
+예를 들어, 모델 예측값 테이블을 스크립트에서 생성했다면 결과를 W&B에 저장해 즉시 시각화할 수 있습니다.
 
-### 테이블을 run에 기록
+### run에 테이블 기록하기
 
-`wandb.log()`를 사용하여 다음과 같이 테이블을 run에 저장합니다.
+`wandb.Run.log()`를 사용해 테이블을 run에 기록할 수 있습니다:
 
 ```python
-run = wandb.init()
-my_table = wandb.Table(columns=["a", "b"], data=[["1a", "1b"], ["2a", "2b"]])
-run.log({"table_key": my_table})
+with wandb.init() as run:
+    my_table = wandb.Table(columns=["a", "b"], data=[["1a", "1b"], ["2a", "2b"]])
+    run.log({"table_key": my_table})
 ```
 
-테이블이 동일한 키에 기록될 때마다 테이블의 새 버전이 생성되어 백엔드에 저장됩니다. 즉, 모델 예측이 시간이 지남에 따라 어떻게 향상되는지 확인하기 위해 여러 트레이닝 단계에서 동일한 테이블을 기록하거나 동일한 키에 기록되는 한 다른 run에서 테이블을 비교할 수 있습니다. 최대 200,000개의 행을 기록할 수 있습니다.
+동일한 키로 테이블을 여러번 기록하면, 각 기록 시마다 새 버전의 테이블이 생성되어 백엔드에 저장됩니다. 이를 통해 여러 트레이닝 step에 걸쳐 예측값 변화 추이를 확인하거나, 서로 다른 run의 테이블을 비교할 수 있습니다(같은 키로 기록한 경우). 한번에 최대 20만 행까지 기록할 수 있습니다.
 
 {{% alert %}}
-200,000개 이상의 행을 기록하려면 다음을 사용하여 제한을 재정의할 수 있습니다.
+20만 행(200,000 rows) 이상을 기록하려면, 다음과 같이 제한을 변경할 수 있습니다:
 
 `wandb.Table.MAX_ARTIFACT_ROWS = X`
 
-그러나 이렇게 하면 UI에서 쿼리 속도 저하와 같은 성능 문제가 발생할 수 있습니다.
+단, 이 경우 UI에서 쿼리가 느려지는 등 성능 이슈가 발생할 수 있습니다.
 {{% /alert %}}
 
-### 프로그래밍 방식으로 테이블 엑세스
+### 프로그래밍 방식으로 테이블 엑세스하기
 
-백엔드에서 테이블은 Artifacts로 유지됩니다. 특정 버전에 엑세스하려면 아티팩트 API를 사용하여 엑세스할 수 있습니다.
+백엔드에서 Table은 Artifacts로 저장됩니다. 특정 버전에 엑세스하려면 artifact API를 사용하세요:
 
 ```python
 with wandb.init() as run:
     my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
 ```
 
-Artifacts에 대한 자세한 내용은 개발자 가이드의 [Artifacts 챕터]({{< relref path="/guides/core/artifacts/" lang="ko" >}})를 참조하십시오.
+Artifacts에 관한 더 자세한 사항은 개발자 가이드의 [Artifacts 챕터]({{< relref path="/guides/core/artifacts/" lang="ko" >}})를 참고하세요.
 
 ### 테이블 시각화
 
-이러한 방식으로 기록된 테이블은 Run 페이지와 Project 페이지 모두의 Workspace에 표시됩니다. 자세한 내용은 [테이블 시각화 및 분석]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ko" >}})을 참조하십시오.
+이 방식으로 기록된 테이블은 Run Page와 Project Page 등 Workspace에서 확인할 수 있습니다. 자세한 내용은 [테이블 시각화 및 분석]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ko" >}})을 참고하세요.
 
-## 아티팩트 테이블
+## Artifact Tables
 
-`artifact.add()`를 사용하여 워크스페이스 대신 run의 Artifacts 섹션에 테이블을 기록합니다. 이는 한 번 기록한 다음 향후 run에 참조할 데이터셋이 있는 경우에 유용할 수 있습니다.
+`artifact.add()`를 사용하면 테이블을 Run의 Artifacts 섹션에 기록할 수 있습니다(Workspace가 아님). 데이터셋을 한 번만 기록하고, 이후 여러 Run에서 참고하고 싶을 때 유용합니다.
 
 ```python
-run = wandb.init(project="my_project")
-# 각 의미 있는 단계에 대한 wandb Artifact 생성
-test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
+with wandb.init(project="my_project") as run:
+    # 각 의미 있는 스텝마다 wandb Artifact 생성
+    test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
 
-# [위와 같이 예측 데이터 빌드]
-test_table = wandb.Table(data=data, columns=columns)
-test_predictions.add(test_table, "my_test_key")
-run.log_artifact(test_predictions)
+    # 위에서와 같이 예측 데이터 준비
+    test_table = wandb.Table(data=data, columns=columns)
+    test_predictions.add(test_table, "my_test_key")
+    run.log_artifact(test_predictions)
 ```
 
-이미지 데이터와 함께 `artifact.add()`의 [자세한 예](http://wandb.me/dsviz-nature-colab)는 이 Colab을 참조하고, Artifacts 및 Tables를 사용하여 [테이블 형식 데이터의 버전 제어 및 중복 제거](http://wandb.me/TBV-Dedup)하는 방법의 예는 이 리포트를 참조하십시오.
+이미지 데이터를 artifact.add()로 기록하는 [상세 예시는 이 Colab](https://wandb.me/dsviz-nature-colab)에서, Artifacts와 Tables를 통한 [테이블 데이터의 버전 관리와 중복 제거](https://wandb.me/TBV-Dedup) 예시는 이 Report에서 확인할 수 있습니다.
 
-### 아티팩트 테이블 결합
+### Artifact 테이블 조인(Join)
 
-`wandb.JoinedTable(table_1, table_2, join_key)`를 사용하여 로컬에서 구성한 테이블 또는 다른 아티팩트에서 검색한 테이블을 결합할 수 있습니다.
+로컬에서 생성한 Table이나, 다른 artifact에서 불러온 Table을 `wandb.JoinedTable(table_1, table_2, join_key)`를 통해 조인할 수 있습니다.
 
-| 인수       | 설명                                                                                                                    |
-| --------- | --------------------------------------------------------------------------------------------------------------------- |
-| table_1  | (str, `wandb.Table`, ArtifactEntry) 아티팩트의 `wandb.Table` 경로, 테이블 오브젝트 또는 ArtifactEntry |
-| table_2  | (str, `wandb.Table`, ArtifactEntry) 아티팩트의 `wandb.Table` 경로, 테이블 오브젝트 또는 ArtifactEntry |
-| join_key | (str, [str, str]) 결합을 수행할 키                                                                                              |
+| 인수(Args)  |  설명                                                                                                  |
+| --------- | ------------------------------------------------------------------------------------------------------ |
+| table_1  | (str, `wandb.Table`, ArtifactEntry) artifact 내 table 경로, table 오브젝트, 혹은 ArtifactEntry               |
+| table_2  | (str, `wandb.Table`, ArtifactEntry) artifact 내 table 경로, table 오브젝트, 혹은 ArtifactEntry               |
+| join_key | (str, [str, str]) 조인 기준이 되는 키 (하나 또는 여러 개)                                                  |
 
-아티팩트 컨텍스트에서 이전에 기록한 두 개의 테이블을 결합하려면 아티팩트에서 가져와 결과를 새 테이블로 결합합니다.
+Artifact에 기록해둔 두 Table을 조인하려면, 각각 Artifact에서 꺼내온 뒤, 조인 결과를 새 Table로 만들어 기록하면 됩니다.
 
-예를 들어 `'original_songs'`라는 원본 노래의 테이블 하나와 동일한 노래의 합성 버전의 또 다른 테이블인 `'synth_songs'`를 읽는 방법을 보여줍니다. 다음 코드 예제는 `"song_id"`에서 두 테이블을 결합하고 결과 테이블을 새 W&B 테이블로 업로드합니다.
+예를 들어, 다음 코드는 원본 곡들의 Table('original_songs')과 해당 곡의 합성 버전을 보관한 Table('synth_songs')을 `"song_id"`를 기준으로 조인한 후, 결과를 새로운 W&B Table로 업로드합니다:
 
 ```python
 import wandb
 
-run = wandb.init(project="my_project")
+with wandb.init(project="my_project") as run:
 
-# 원본 노래 테이블 가져오기
-orig_songs = run.use_artifact("original_songs:latest")
-orig_table = orig_songs.get("original_samples")
+    # 원본 곡 테이블 불러오기
+    orig_songs = run.use_artifact("original_songs:latest")
+    orig_table = orig_songs.get("original_samples")
 
-# 합성 노래 테이블 가져오기
-synth_songs = run.use_artifact("synth_songs:latest")
-synth_table = synth_songs.get("synth_samples")
+    # 합성 곡 테이블 불러오기
+    synth_songs = run.use_artifact("synth_songs:latest")
+    synth_table = synth_songs.get("synth_samples")
 
-# "song_id"에서 테이블 결합
-join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
-join_at = wandb.Artifact("synth_summary", "analysis")
+    # "song_id" 컬럼으로 조인하기
+    join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
+    join_at = wandb.Artifact("synth_summary", "analysis")
 
-# 아티팩트에 테이블을 추가하고 W&B에 기록
-join_at.add(join_table, "synth_explore")
-run.log_artifact(join_at)
+    # 조인 테이블을 artifact에 추가하고 W&B에 기록
+    join_at.add(join_table, "synth_explore")
+    run.log_artifact(join_at)
 ```
 
-서로 다른 Artifact 오브젝트에 저장된 두 개의 이전에 저장된 테이블을 결합하는 방법의 예는 [이 튜토리얼](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)을 참조하십시오.
+[이 튜토리얼](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)을 참고하면 서로 다른 Artifact에 저장된 두 Table을 합치는 방법을 자세하게 배울 수 있습니다.

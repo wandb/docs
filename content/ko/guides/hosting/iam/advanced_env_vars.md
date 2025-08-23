@@ -1,26 +1,27 @@
 ---
-title: Advanced IAM configuration
+title: 고급 IAM 설정
 menu:
   default:
     identifier: ko-guides-hosting-iam-advanced_env_vars
     parent: identity-and-access-management-iam
 ---
 
-기본적인 [환경 변수]({{< relref path="../env-vars.md" lang="ko" >}}) 외에도, 환경 변수를 사용하여 [전용 클라우드]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [자체 관리]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스에 대한 IAM 옵션을 구성할 수 있습니다.
+기본 [환경 변수]({{< relref path="../env-vars.md" lang="ko" >}}) 외에도, [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ko" >}}) 또는 [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ko" >}}) 인스턴스의 IAM 옵션을 구성하기 위해 환경 변수를 사용할 수 있습니다.
 
-IAM 요구 사항에 따라 인스턴스에 대해 다음 환경 변수 중 하나를 선택하십시오.
+IAM 요구사항에 따라 아래 환경 변수 중에서 인스턴스에 맞는 것을 선택해 설정하세요.
 
 | 환경 변수 | 설명 |
 |----------------------|-------------|
-| DISABLE_SSO_PROVISIONING | W&B 인스턴스에서 사용자 자동 프로비저닝을 끄려면 이 값을 `true`로 설정하십시오. |
-| SESSION_LENGTH | 기본 사용자 세션 만료 시간을 변경하려면 이 변수를 원하는 시간 수로 설정하십시오. 예를 들어 세션 만료 시간을 24시간으로 구성하려면 SESSION_LENGTH를 `24`로 설정하십시오. 기본값은 720시간입니다. |
-| GORILLA_ENABLE_SSO_GROUP_CLAIMS | OIDC 기반 SSO를 사용하는 경우 이 변수를 `true`로 설정하여 OIDC 그룹을 기반으로 인스턴스에서 W&B team 멤버십을 자동화하십시오. 사용자 OIDC 토큰에 `groups` 클레임을 추가하십시오. 각 항목이 사용자가 속해야 하는 W&B team의 이름인 문자열 배열이어야 합니다. 배열에는 사용자가 속한 모든 team이 포함되어야 합니다. |
-| GORILLA_LDAP_GROUP_SYNC | LDAP 기반 SSO를 사용하는 경우 이 값을 `true`로 설정하여 LDAP 그룹을 기반으로 인스턴스에서 W&B team 멤버십을 자동화하십시오. |
-| GORILLA_OIDC_CUSTOM_SCOPES | OIDC 기반 SSO를 사용하는 경우 W&B 인스턴스가 ID 공급자에게 요청해야 하는 추가 [scopes](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes)를 지정할 수 있습니다. W&B는 이러한 사용자 정의 scopes로 인해 SSO 기능을 변경하지 않습니다. |
-| GORILLA_USE_IDENTIFIER_CLAIMS | OIDC 기반 SSO를 사용하는 경우 이 변수를 `true`로 설정하여 ID 공급자의 특정 OIDC 클레임을 사용하여 사용자의 사용자 이름과 전체 이름을 적용하십시오. 설정된 경우 `preferred_username` 및 `name` OIDC 클레임에서 적용된 사용자 이름과 전체 이름을 구성해야 합니다. 사용자 이름은 영숫자 문자와 특수 문자(밑줄 및 하이픈)만 포함할 수 있습니다. |
-| GORILLA_DISABLE_PERSONAL_ENTITY | W&B 인스턴스에서 개인 user projects를 끄려면 이 값을 `true`로 설정하십시오. 설정된 경우 users는 개인 Entities에서 새 개인 projects를 만들 수 없으며 기존 개인 projects에 대한 쓰기가 꺼집니다. |
-| GORILLA_DISABLE_ADMIN_TEAM_ACCESS | Organization 또는 Instance Admins가 W&B team에 자체 가입하거나 추가하는 것을 제한하려면 이 값을 `true`로 설정하여 Data & AI 담당자만 team 내의 projects에 액세스할 수 있도록 합니다. |
+| `DISABLE_SSO_PROVISIONING` | 이 값을 `true`로 설정하면 W&B 인스턴스에서 사용자 자동 프로비저닝이 비활성화됩니다. |
+| `SESSION_LENGTH` | 기본 사용자 세션 만료 시간을 변경하려면, 이 변수를 원하는 시간(시간 단위)으로 설정하세요. 예를 들어, SESSION_LENGTH를 `24`로 설정하면 세션 만료 시간이 24시간으로 변경됩니다. 기본 값은 720시간입니다. |
+| `GORILLA_ENABLE_SSO_GROUP_CLAIMS` | OIDC 기반 SSO를 사용하는 경우, 이 변수를 `true`로 설정하면 OIDC 그룹에 따라 W&B 팀 멤버십이 자동으로 부여됩니다. 사용자 OIDC 토큰에 `groups` 클레임을 추가해야 하며, 각 항목이 사용자가 소속되어야 하는 W&B 팀의 이름인 문자열 배열이어야 합니다. 배열에는 사용자가 속한 모든 팀이 포함되어야 합니다. |
+| `GORILLA_LDAP_GROUP_SYNC` | LDAP 기반 SSO를 사용하는 경우, 이 값을 `true`로 설정하면 LDAP 그룹에 따라 W&B 팀 멤버십이 자동으로 관리됩니다. |
+| `GORILLA_OIDC_CUSTOM_SCOPES` | OIDC 기반 SSO를 사용하는 경우, [scope](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes)를 추가로 지정하여 W&B 인스턴스가 아이덴티티 프로바이더에 요청하는 권한을 확장할 수 있습니다. 이 커스텀 scope들은 SSO 기능에는 아무런 영향도 주지 않습니다. |
+| `GORILLA_USE_IDENTIFIER_CLAIMS` | OIDC 기반 SSO를 사용하는 경우, 이 변수를 `true`로 설정하면 아이덴티티 프로바이더의 특정 OIDC 클레임을 사용해 사용자 이름과 전체 이름이 강제 적용됩니다. 설정 시 `preferred_username` 및 `name` OIDC 클레임에 각각 사용자 이름과 전체 이름이 들어가야 합니다. 사용자 이름에는 영숫자, 밑줄, 하이픈만 사용할 수 있습니다. |
+| `GORILLA_DISABLE_PERSONAL_ENTITY` | true로 설정하면 [personal entities]({{< relref path="/support/kb-articles/difference_team_entity_user_entity_mean_me.md" lang="ko" >}})가 비활성화됩니다. 새로운 personal projects 생성 및 기존 personal projects에 쓰기를 막을 수 있습니다. |
+| `GORILLA_DISABLE_ADMIN_TEAM_ACCESS` | 이 값을 `true`로 설정하면 조직 또는 인스턴스 Admin이 스스로 W&B 팀에 가입하거나 본인을 추가하는 것을 제한합니다. 이를 통해 팀 내 프로젝트에 데이터 및 AI 담당자만 엑세스하도록 할 수 있습니다. |
+| `WANDB_IDENTITY_TOKEN_FILE`        | [Identity federation]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ko" >}})의 경우, JWT(Java Web Token)가 저장되는 로컬 디렉토리의 절대 경로를 지정합니다. |
 
 {{% alert color="secondary" %}}
-W&B는 `GORILLA_DISABLE_ADMIN_TEAM_ACCESS`와 같은 일부 설정을 활성화하기 전에 주의를 기울이고 모든 의미를 이해할 것을 권장합니다. 질문이 있는 경우 W&B team에 문의하십시오.
+일부 설정(`GORILLA_DISABLE_ADMIN_TEAM_ACCESS` 등)을 활성화하기 전에 반드시 유의 사항을 숙지하고 신중하게 결정하는 것이 좋습니다. 궁금한 점이 있으면 언제든 W&B 팀에 문의하세요.
 {{% /alert %}}

@@ -1,57 +1,59 @@
 ---
-title: Dedicated Cloud
+title: 전용 클라우드
 menu:
   default:
     identifier: ko-guides-hosting-hosting-options-dedicated_cloud-_index
     parent: deployment-options
-url: /ko/guides//hosting/hosting-options/dedicated_cloud
+url: guides/hosting/hosting-options/dedicated_cloud
 ---
 
-## 전용 클라우드 (싱글 테넌트 SaaS) 사용
+## W&B Dedicated Cloud 를 통한 싱글 테넌트 SaaS 활용
 
-W&B 전용 클라우드는 W&B의 AWS, GCP 또는 Azure 클라우드 계정에 배포된 싱글 테넌트, 완전 관리형 플랫폼입니다. 각 전용 클라우드 인스턴스는 다른 W&B 전용 클라우드 인스턴스와 격리된 자체 네트워크, 컴퓨팅 및 스토리지를 가지고 있습니다. W&B 특정 메타데이터 및 데이터는 격리된 클라우드 스토리지에 저장되고 격리된 클라우드 컴퓨팅 서비스를 사용하여 처리됩니다.
+W&B Dedicated Cloud 는 W&B 가 AWS, GCP, 또는 Azure 클라우드 계정에 배포하는 싱글 테넌트, 완전 관리형 플랫폼입니다. 각각의 Dedicated Cloud 인스턴스는 다른 W&B Dedicated Cloud 인스턴스들과 분리된 네트워크, 컴퓨트, 스토리지를 가집니다. W&B 관련 메타데이터와 데이터는 격리된 클라우드 스토리지에 저장되며, 격리된 클라우드 컴퓨트 서비스로 처리됩니다.
 
-W&B 전용 클라우드는 [각 클라우드 공급자에 대해 여러 글로벌 지역에서 사용 가능]({{< relref path="./dedicated_regions.md" lang="ko" >}})합니다.
+W&B Dedicated Cloud 는 [각 클라우드 제공업체별 다양한 글로벌 리전]({{< relref path="./dedicated_regions.md" lang="ko" >}})에서 사용할 수 있습니다.
 
 ## 데이터 보안
 
-[보안 스토리지 커넥터]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ko" >}})를 사용하여 모델, 데이터셋 등과 같은 파일을 저장하기 위해 [인스턴스 및 Teams 수준]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ko" >}})에서 자체 버킷(BYOB)을 가져올 수 있습니다.
+[Secure storage connector]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ko" >}})를 이용해 [인스턴스 및 팀 단위]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ko" >}})로 직접 버킷(BYOB: Bring Your Own Bucket)을 설정하여 모델, Datasets 등 다양한 파일을 저장할 수 있습니다.
 
-W&B 멀티 테넌트 클라우드와 유사하게 여러 Teams에 대해 단일 버킷을 구성하거나 다른 Teams에 대해 별도의 버킷을 사용할 수 있습니다. Team에 대해 보안 스토리지 커넥터를 구성하지 않으면 해당 데이터는 인스턴스 수준 버킷에 저장됩니다.
+W&B Multi-tenant Cloud 와 유사하게, 여러 팀이 하나의 버킷을 공유하거나 팀별로 분리된 버킷을 사용할 수 있습니다. 팀에 Secure storage connector 를 설정하지 않으면, 해당 데이터는 인스턴스 레벨 버킷에 저장됩니다.
 
-{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
+{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="Dedicated Cloud architecture diagram" >}}
 
-보안 스토리지 커넥터를 사용한 BYOB 외에도 [IP 허용 목록]({{< relref path="/guides/hosting/data-security/ip-allowlisting.md" lang="ko" >}})을 활용하여 신뢰할 수 있는 네트워크 위치에서만 전용 클라우드 인스턴스에 대한 엑세스를 제한할 수 있습니다.
+Secure storage connector 기반 BYOB 뿐 아니라, [IP allowlisting]({{< relref path="/guides/hosting/data-security/ip-allowlisting.md" lang="ko" >}})을 활용하여 신뢰할 수 있는 네트워크 위치에서만 Dedicated Cloud 인스턴스에 엑세스하도록 제한할 수 있습니다.
 
-[클라우드 공급자의 보안 연결 솔루션]({{< relref path="/guides/hosting/data-security/private-connectivity.md" lang="ko" >}})을 사용하여 전용 클라우드 인스턴스에 비공개로 연결할 수도 있습니다.
+[클라우드 제공업체의 보안 연결 솔루션]({{< relref path="/guides/hosting/data-security/private-connectivity.md" lang="ko" >}})을 이용해 Dedicated Cloud 인스턴스에 프라이빗하게 연결할 수 있습니다.
 
-## ID 및 엑세스 관리 (IAM)
+배포가 조직의 정책 및 필요 시 [STIG(Sercurity Technical Implementation Guidelines)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)를 준수하는지 확인하는 것은 사용자 책임입니다.
 
-W&B Organization에서 보안 인증 및 효과적인 권한 부여를 위해 ID 및 엑세스 관리 기능을 사용하십시오. 전용 클라우드 인스턴스의 IAM에 사용할 수 있는 기능은 다음과 같습니다.
+## Identity and access management (IAM)
 
-* [OpenID Connect (OIDC)를 사용하는 SSO]({{< relref path="/guides/hosting/iam/authentication/sso.md" lang="ko" >}}) 또는 [LDAP]({{< relref path="/guides/hosting/iam/authentication/ldap.md" lang="ko" >}})를 사용하여 인증합니다.
-* 조직 범위 및 Team 내에서 [적절한 User 역할 구성]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ko" >}})합니다.
-* W&B project의 범위를 정의하여 [제한된 Projects]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ko" >}})를 통해 누가 W&B runs를 보고, 편집하고, 제출할 수 있는지 제한합니다.
-* [ID 페더레이션]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ko" >}})으로 JSON 웹 토큰을 활용하여 W&B API에 엑세스합니다.
+W&B Organization 내에서 안전한 인증과 효과적인 권한 부여를 위해 아이덴티티 및 엑세스 관리(IAM) 기능을 제공합니다. Dedicated Cloud 인스턴스에서 제공되는 IAM 기능은 다음과 같습니다.
+
+* [OpenID Connect(OIDC)로 SSO]({{< relref path="/guides/hosting/iam/authentication/sso.md" lang="ko" >}}) 또는 [LDAP]({{< relref path="/guides/hosting/iam/authentication/ldap.md" lang="ko" >}})로 인증합니다.
+* 조직 단위와 팀 내에서 [사용자 역할을 적절히 설정]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ko" >}})합니다.
+* [Restricted Projects]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ko" >}})로 W&B Project 의 접근 범위를 정의하고, 누구에게 조회·수정·run 제출 권한이 있는지 제한할 수 있습니다.
+* [Identity federation]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ko" >}})을 통해 JSON Web Token 을 사용해 W&B API 에 엑세스할 수 있습니다.
 
 ## 모니터링
 
-[감사 로그]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md" lang="ko" >}})를 사용하여 Team 내의 User 활동을 추적하고 엔터프라이즈 거버넌스 요구 사항을 준수하십시오. 또한 [W&B Organization 대시보드]({{< relref path="/guides/hosting/monitoring-usage/org_dashboard.md" lang="ko" >}})에서 전용 클라우드 인스턴스의 조직 사용량을 볼 수 있습니다.
+[Audit logs]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md" lang="ko" >}})을 활용해 팀 내 사용자 활동을 추적하고, 엔터프라이즈 거버넌스 요구사항을 충족할 수 있습니다. 또한 Dedicated Cloud 인스턴스 내 [W&B Organization Dashboard]({{< relref path="/guides/hosting/monitoring-usage/org_dashboard.md" lang="ko" >}})에서 조직의 사용량을 확인할 수 있습니다.
 
-## 유지 관리
+## 유지보수
 
-W&B 멀티 테넌트 클라우드와 유사하게 전용 클라우드를 사용하면 W&B 플랫폼을 프로비저닝하고 유지 관리하는 오버헤드 및 비용이 발생하지 않습니다.
+W&B Multi-tenant Cloud 와 마찬가지로, Dedicated Cloud 에서는 W&B 플랫폼을 설정하고 유지하는 데의 시간과 비용 부담이 발생하지 않습니다.
 
-W&B가 전용 클라우드에서 업데이트를 관리하는 방법을 이해하려면 [서버 릴리스 프로세스]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ko" >}})를 참조하십시오.
+Dedicated Cloud 업데이트 관리 방식은 [서버 릴리즈 프로세스]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ko" >}})를 참고하세요.
 
-## 규정 준수
+## 컴플라이언스
 
-W&B 전용 클라우드에 대한 보안 제어는 내부 및 외부에서 주기적으로 감사됩니다. 제품 평가를 위한 보안 및 규정 준수 문서를 요청하려면 [W&B 보안 포털](https://security.wandb.ai/)을 참조하십시오.
+W&B Dedicated Cloud 에 대한 보안 통제는 내부·외부 감사를 통해 주기적으로 검증받습니다. 보안 및 컴플라이언스 문서가 필요할 경우 [W&B Security Portal](https://security.wandb.ai/)을 방문해 요청할 수 있습니다.
 
 ## 마이그레이션 옵션
 
-[자체 관리 인스턴스]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ko" >}}) 또는 [멀티 테넌트 클라우드]({{< relref path="../saas_cloud.md" lang="ko" >}})에서 전용 클라우드로의 마이그레이션이 지원됩니다.
+[Self-Managed instance]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ko" >}}) 또는 [Multi-tenant Cloud]({{< relref path="../saas_cloud.md" lang="ko" >}})에서 Dedicated Cloud 로의 마이그레이션도 지원되며, 특정 한계 및 마이그레이션 관련 제약이 적용될 수 있습니다.
 
 ## 다음 단계
 
-전용 클라우드 사용에 관심이 있으시면 [이 양식](https://wandb.ai/site/for-enterprise/dedicated-saas-trial)을 제출하십시오.
+Dedicated Cloud 사용에 관심이 있다면 [이 양식](https://wandb.ai/site/for-enterprise/dedicated-saas-trial)을 제출해 주세요.

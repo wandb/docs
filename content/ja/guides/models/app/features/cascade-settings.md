@@ -1,117 +1,127 @@
 ---
-title: ワークスペース、セクション、パネル設定を管理する
+title: ワークスペース、セクション、およびパネルの設定を管理する
 menu:
   default:
     identifier: ja-guides-models-app-features-cascade-settings
     parent: w-b-app-ui-reference
-url: /ja/guides/app/features/cascade-settings
+url: guides/app/features/cascade-settings
 ---
 
-Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [ワークスペース設定]({{< relref path="#workspace-settings" lang="ja" >}}) は、ワークスペース全体に適用されます。[セクション設定]({{< relref path="#section-settings" lang="ja" >}}) は、セクション内のすべてのパネルに適用されます。[パネル設定]({{< relref path="#panel-settings" lang="ja" >}}) は、個々のパネルに適用されます。
+ワークスペースページ内には、ワークスペース、セクション、パネルの3つの異なる設定レベルがあります。[Workspace 設定]({{< relref path="#workspace-settings" lang="ja" >}}) はワークスペース全体に適用されます。[Section 設定]({{< relref path="#section-settings" lang="ja" >}}) はセクション内のすべてのパネルに適用されます。[Panel 設定]({{< relref path="#panel-settings" lang="ja" >}}) は個々のパネルに適用されます。
 
-## ワークスペース設定
+## Workspace 設定
 
-ワークスペース設定は、すべてのセクションとそれらのセクション内のすべてのパネルに適用されます。編集できるワークスペース設定は次の2種類です: [**Workspace layout**]({{< relref path="#workspace-layout-options" lang="ja" >}}) と [**Line plots**]({{< relref path="#line-plots-options" lang="ja" >}})。**Workspace layouts** はワークスペースの構造を決定し、**Line plots** 設定はワークスペース内のラインプロットのデフォルト設定を制御します。
+Workspace 設定は、すべてのセクションおよびそこに含まれるすべてのパネルに適用されます。編集できる Workspace 設定は [Workspace レイアウト]({{< relref path="#workspace-layout-options" lang="ja" >}}) と [Line plots]({{< relref path="#line-plots-options" lang="ja" >}}) の2種類です。**Workspace レイアウト**はワークスペースの構造を決定し、**Line plots** 設定はワークスペース内でのラインプロットのデフォルト設定を制御します。
 
-このワークスペースの全体的な構造に適用される設定を編集するには:
+ワークスペースの全体構成に影響する設定を編集するには：
 
-1. プロジェクトワークスペースに移動します。
-2. **New report** ボタンの横にある歯車のアイコンをクリックして、ワークスペース設定を表示します。
-3. ワークスペースのレイアウトを変更するには **Workspace layout** を選択するか、ワークスペース内のラインプロットのデフォルト設定を設定するには **Line plots** を選択します。
-{{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
-
-### ワークスペースレイアウトオプション
-
-ワークスペースのレイアウトを設定して、ワークスペースの全体的な構造を定義します。これには、セクションのロジックとパネルの配置が含まれます。
-
-{{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
-
-ワークスペースレイアウトオプションページでは、ワークスペースがパネルを自動か手動で生成するかが表示されます。ワークスペースのパネル生成モードを調整するには、[Panels]({{< relref path="panels/" lang="ja" >}}) を参照してください。
-
-この表は、各ワークスペースのレイアウトオプションについて説明しています。
-
-| ワークスペース設定 | 説明 |
-| ----- | ----- |
-| **検索中に空のセクションを非表示** | パネルを検索するときにパネルを含まないセクションを非表示にします。 |
-| **パネルをアルファベット順に並べ替え** | ワークスペース内のパネルをアルファベット順に並べ替えます。 |
-| **セクションの組織化** | 既存のすべてのセクションとパネルを削除し、新しいセクション名で再配置します。また、新しく配置されたセクションを最初または最後のプレフィックスでグループ化します。 |
+1. 利用中のプロジェクト ワークスペースに移動します。
+2. **New report** ボタンの隣にあるギアアイコンをクリックして Workspace 設定を開きます。
+3. **Workspace layout** でワークスペースのレイアウトを変更、または **Line plots** で Line plot のデフォルト設定を編集します。
+{{< img src="/images/app_ui/workspace_settings.png" alt="Workspace 設定のギアアイコン" >}}
 
 {{% alert %}}
-W&B は、最後のプレフィックスでグループ化するのではなく、最初のプレフィックスでセクションをグループ化することをお勧めします。最初のプレフィックスでグループ化することで、セクション数が少なくなり、パフォーマンスが向上します。
+ワークスペースをカスタマイズした後、_workspace templates_ を使えば同じ設定で新しいワークスペースを素早く作成できます。詳しくは [Workspace templates]({{< relref path="/guides/models/track/workspaces.md#workspace-templates" lang="ja" >}}) をご覧ください。
 {{% /alert %}}
 
-### ラインプロットオプション
+### Workspace レイアウト オプション
 
-ワークスペースの**Line plots**設定を変更して、ラインプロットのグローバルデフォルトとカスタムルールを設定します。
+ワークスペースのレイアウトを設定することで、ワークスペース全体の構造を定義できます。ここにはセクションの分割方法やパネルの並べ方が含まれます。
 
-{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_layout_settings.png" alt="Workspace レイアウトオプション" >}}
 
-**Line plots** 設定内で編集できる主要な設定は2つあります: **Data** と **Display preferences**。**Data** タブには次の設定が含まれています:
+Workspace レイアウトオプションのページでは、パネルが自動生成か手動生成かが表示されます。パネル生成モードを調整したい場合は [Panels]({{< relref path="panels/" lang="ja" >}}) をご参照ください。
 
-| ラインプロット設定 | 説明 |
+各 Workspace レイアウトオプションの説明は以下の通りです。
+
+| Workspace 設定 | 説明 |
 | ----- | ----- |
-| **X軸** | ラインプロットのx軸のスケール。x軸はデフォルトで **Step** に設定されています。x軸オプションのリストは次の表を参照してください。 |
-| **範囲** | x軸に表示する最小値と最大値の設定。 |
-| **平滑化** | ラインプロットの平滑化を変更します。平滑化の詳細については、[Smooth line plots]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ja" >}}) を参照してください。 |
-| **異常値** | 異常値を除外するためにプロットの最小スケールと最大スケールを再設定します。 |
-| **ポイント集計方法** | Data Visualization の精度とパフォーマンスを向上させます。詳細については、[Point aggregation]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ja" >}}) を参照してください。 |
-| **最大の runs またはグループの数** | ラインプロットに表示する最大の runs またはグループ数を制限します。 |
+| **検索時に空のセクションを非表示** | パネルが含まれていないセクションをパネル検索時に非表示にします。|
+| **パネルをアルファベット順にソート** | ワークスペース内のパネルをアルファベット順に並べます。|
+| **セクションの整理** | 既存のすべてのセクションとパネルを削除し、新しいセクション名で再構成します。新しいセクションは先頭または末尾のプレフィックスでグループ化されます。|
 
-**Step** 以外にも、x軸には他のオプションがあります:
+{{% alert %}}
+W&B では、セクションのグループ化は末尾のプレフィックスよりも先頭のプレフィックスで行うことを推奨しています。先頭プレフィックスでのグループ化はより少ないセクション数となり、パフォーマンスの向上につながります。
+{{% /alert %}}
 
-| X軸オプション | 説明 |
+### Line plots オプション
+
+**Line plots** の workspace 設定を変更することで、そのワークスペース内のラインプロットのグローバルデフォルトやカスタムルールを設定できます。
+
+{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="Line plot 設定" >}}
+
+**Line plots** 設定内で主に編集できるのは **Data** と **Display preferences** の2つです。**Data** タブには次のような設定があります：
+
+| Line plot 設定 | 説明 |
+| ----- | ----- |
+| **X 軸** | ラインプロットの x 軸のスケール。デフォルトは **Step** になっています。x 軸オプション一覧は次の表を参照してください。|
+| **範囲** | x軸に表示する最小値・最大値の設定。|
+| **スムージング** | ラインプロットのスムージングの調整。[Smooth line plots]({{< relref path="/guides/models/app/features/panels/line-plot/smoothing.md" lang="ja" >}}) を参照してください。|
+| **外れ値** | デフォルトのプロットの最小・最大スケールから外れ値を除外します。|
+| **ポイント集約メソッド** | データ可視化の精度とパフォーマンスを向上させます。[Point aggregation]({{< relref path="/guides/models/app/features/panels/line-plot/sampling.md" lang="ja" >}}) をご参照ください。|
+| **最大表示 run またはグループ数** | ラインプロット上に表示する run やグループの最大数を制限します。|
+
+**Step** 以外にも、x 軸には以下のオプションがあります：
+
+| X 軸オプション | 説明 |
 | ------------- | ----------- |
-| **相対時間 (Wall)** | プロセスが開始してからのタイムスタンプ。例えば、run を開始して次の日にその run を再開したとします。その場合、記録されたポイントは24時間後です。|
-| **相対時間 (Process)** | 実行中のプロセス内のタイムスタンプ。例えば、run を開始して10秒間続け、その後次の日に再開したとします。その場合、記録されたポイントは10秒です。|
-| **ウォールタイム** | グラフで最初の run が開始してから経過した時間（分）。|
-| **Step** | `wandb.log()` を呼び出すたびに増加します。|
+| **Relative Time (Wall)**| プロセス開始からの経過時刻（タイムスタンプ）。例：run を開始し、翌日再開して何かをログすると24時間と記録されます。|
+| **Relative Time (Process)** | 実行中プロセス内の経過時刻。例：run を始めて10秒間続ける、翌日再開しても記録は10秒のままです。|
+| **Wall Time** | グラフ上で最初の run 開始からの経過分数。|
+| **Step** | `wandb.Run.log()` を呼び出すたびにインクリメントされます。|
+
+
 
 {{% alert %}}
-個別のラインプロットを編集する方法については、ラインプロット内の[Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}})を参照してください。
+個別のラインプロットの編集方法については、Line plots ガイドの [ラインパネル設定の編集]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}}) をご参照ください。
 {{% /alert %}}
 
-**Display preferences** タブ内で、以下の設定を切り替えることができます:
 
-| ディスプレイ設定 | 説明 |
+**Display preferences** タブ内では、下記の設定を切り替えることができます：
+
+| 表示設定 | 説明 |
 | ----- | ----- |
-| **すべてのパネルから凡例を削除** | パネルの凡例を削除します |
-| **ツールチップ内でカラード run 名を表示** | ツールチップ内で run をカラードテキストとして表示します |
-| **コンパニオンチャートツールチップで、ハイライトされた run のみを表示** | チャートツールチップ内でハイライトされた run のみを表示します |
-| **ツールチップ内に表示される run の数** | ツールチップ内で表示される run の数を表示します |
-| **プライマリチャートのツールチップにフル run 名を表示**| チャートツールチップで run のフルネームを表示します |
+| **全パネルの凡例を削除** | パネルの凡例を非表示にします |
+| **ツールチップに run 名をカラー表示** | ツールチップ内で run 名を色付きテキストで表示します |
+| **強調表示した run のみツールチップに表示** | チャートのツールチップにはハイライトした run のみ表示 |
+| **ツールチップに表示する run 数** | ツールチップ内で表示する run の数を設定 |
+| **メインチャートのツールチップで run 名をフル表示**| チャートツールチップに run のフルネームを表示 |
 
-## セクション設定
 
-セクション設定は、そのセクション内のすべてのパネルに適用されます。ワークスペースセクション内では、パネルをソートしたり、並べ替えたり、セクション名を変更したりできます。
 
-セクション設定を変更するには、セクションの右上隅にある3つの水平ドット (**...**) を選択します。
 
-{{< img src="/images/app_ui/section_settings.png" alt="" >}}
+## Section 設定
 
-ドロップダウンから、セクション全体に適用される次の設定を編集できます:
+Section 設定は、そのセクション内のすべてのパネルに適用されます。ワークスペースのセクション内では、パネルの並べ替えや入れ替え、セクション名の変更が可能です。
 
-| セクション設定 | 説明 |
+Section 設定は、セクション右上の3つのドット（**...**）を選択して編集します。
+
+{{< img src="/images/app_ui/section_settings.png" alt="Section 設定メニュー" >}}
+
+ドロップダウンメニューからセクション全体に適用される以下の設定が編集できます：
+
+| Section 設定 | 説明 |
 | ----- | ----- |
-| **セクションの名前を変更** | セクションの名前を変更します |
-| **パネルを A-Z に並べ替え** | セクション内のパネルをアルファベット順に並べ替えます |
-| **パネルを並べ替え** | セクション内でパネルを手動で並べ替えるために、パネルを選択してドラッグします |
+| **セクション名の変更** | セクションの名前を変更します |
+| **パネルをA～Z順でソート** | セクション内のパネルをアルファベット順に並べ替え |
+| **パネルの入れ替え** | セクション内のパネルをドラッグ＆ドロップで順序変更 |
 
-以下のアニメーションは、セクション内でパネルを並べ替える方法を示しています:
+下記のアニメーションは、セクション内のパネル入れ替えの例です：
 
-{{< img src="/images/app_ui/rearrange_panels.gif" alt="" >}}
+{{< img src="/images/app_ui/rearrange_panels.gif" alt="パネルの入れ替え" >}}
 
 {{% alert %}}
-この表で説明されている設定に加えて、ワークスペースでのセクションの表示方法も編集できます。たとえば、**Add section below**、**Add section above**、**Delete section**、**Add section to report** などです。
+上記設定のほかにも、**Add section below**、**Add section above**、**Delete section**、**Add section to report** など、ワークスペースでのセクション表示のカスタマイズも可能です。
 {{% /alert %}}
 
-## パネル設定
+## Panel 設定
 
-個々のパネルの設定をカスタマイズして、同じプロットで複数のラインを比較したり、カスタム軸を計算したり、ラベルを変更したりすることができます。パネルの設定を編集するには:
+個々のパネルごとに、複数のラインの比較・カスタム軸の計算・ラベル名変更など様々な設定が行えます。パネルの設定を編集するには：
 
-1. 編集したいパネルにマウスを乗せます。
-2. 現れる鉛筆アイコンを選択します。
-{{< img src="/images/app_ui/panel_settings.png" alt="" >}}
-3. 表示されたモーダル内で、パネルのデータ、ディスプレイの設定などに関連する設定を編集できます。
-{{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
+1. 編集したいパネルにマウスカーソルを合わせます。
+2. 表示される鉛筆アイコンをクリックします。
+{{< img src="/images/app_ui/panel_settings.png" alt="パネルの編集アイコン" >}}
+3. 表示されたモーダル内で、パネルのデータや表示設定などを編集できます。
+{{< img src="/images/app_ui/panel_settings_modal.png" alt="パネル設定モーダル" >}}
 
-パネルに適用できる設定の完全なリストについては、[Edit line panel settings]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}}) を参照してください。
+パネルで利用可能な設定の詳細は [ラインパネル設定の編集]({{< relref path="/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" lang="ja" >}}) をご覧ください。

@@ -1,13 +1,13 @@
 ---
-title: How do I kill a job with wandb?
+title: wandb 로 작업을 중지하려면 어떻게 해야 하나요?
 menu:
   support:
     identifier: ko-support-kb-articles-kill_job_wandb
 support:
-- crashing and hanging runs
+- 크래시나 멈춤이 발생한 runs
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-키보드에서 `Ctrl+D`를 눌러 W&B로 계측된 스크립트를 중지합니다.
+키보드에서 `Ctrl+D` 를 눌러 W&B 가 적용된 스크립트를 중지할 수 있습니다.

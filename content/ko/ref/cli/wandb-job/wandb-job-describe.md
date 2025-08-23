@@ -11,7 +11,9 @@ menu:
 
 **요약**
 
-Launch job에 대해 설명합니다. entity/project/job-name:alias-or-version 형식으로 Launch job을 제공하세요.
+Launch job 을 설명합니다. launch job 은 다음 형식으로 입력합니다:
+entity/project/job-name:alias-or-version
+
 
 **옵션**
 

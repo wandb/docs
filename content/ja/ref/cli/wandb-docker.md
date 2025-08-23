@@ -5,32 +5,39 @@ menu:
     identifier: ja-ref-cli-wandb-docker
 ---
 
-**Usage**
+**使い方**
 
 `wandb docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]`
 
-**Summary**
+**概要**
 
-docker コンテナ内でコードを実行します。
+あなたのコードを docker コンテナで実行します。
 
-W&B docker を使用すると、コードを docker イメージ内で実行し、wandb が適切に設定されていることを確認します。WANDB_DOCKER と WANDB_API_KEY の環境変数をコンテナに追加し、既定では現在のディレクトリーを /app にマウントします。`docker run` の画像名が宣言される前に追加されるその他の args を渡すことができます。指定されない場合は、デフォルトのイメージを選択します：
+W&B docker を使うと、wandb が設定された状態で docker イメージ内でコードを実行できます。自動的に `WANDB_DOCKER` と `WANDB_API_KEY` の環境変数をコンテナに追加し、現在のディレクトリーをデフォルトで /app にマウントします。追加で arg を渡すことができ、これらはイメージ名の前に `docker run` に追加されます。イメージ名を指定しない場合はデフォルトイメージを選びます。
 
-sh wandb docker -v /mnt/dataset:/app/data wandb docker gcr.io/kubeflow-
-images-public/tensorflow-1.12.0-notebook-cpu:v0.4.0 --jupyter wandb docker
-wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"
+```sh
+# データセットをマウントして docker コンテナを起動
+wandb docker -v /mnt/dataset:/app/data
 
-デフォルトでは、wandb の存在を確認し、存在しない場合はインストールするために entrypoint をオーバーライドします。--jupyter フラグを渡すと、jupyter がインストールされ、ポート 8888 で jupyter lab が開始されます。システム上で nvidia-docker を検出した場合、nvidia ランタイムを使用します。既存の docker run コマンドに環境変数を設定するだけでよければ、wandb docker-run コマンドを参照してください。
+# jupyter を使った docker イメージを起動
+wandb docker gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-cpu:v0.4.0 --jupyter
 
-**Options**
+# keras-gpu イメージでスクリプトを実行
+wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"
+```
 
-| **Option** | **Description** |
+デフォルトでは wandb の存在を確認し、未インストールの場合は自動でインストールするため entrypoint を上書きします。`--jupyter` フラグを指定すると、jupyter をインストールし、ポート 8888 で jupyter lab を開始します。システム上で nvidia-docker を検出した場合、自動的に nvidia runtime を利用します。既存の docker run コマンドに対して wandb が環境変数だけを設定したい場合は、`wandb docker-run` コマンドをご利用ください。
+
+**オプション**
+
+| **オプション** | **説明** |
 | :--- | :--- |
-| `--nvidia / --no-nvidia` | nvidia ランタイムを使用します。nvidia-docker が存在する場合、デフォルトで nvidia が使用されます |
-| `--digest` | イメージのダイジェストを出力して終了します |
-| `--jupyter / --no-jupyter` | コンテナ内で jupyter lab を実行します |
-| `--dir` | コンテナ内にコードをマウントするディレクトリー |
-| `--no-dir` | 現在のディレクトリーをマウントしません |
-| `--shell` | コンテナを開始するシェル |
-| `--port` | jupyter をバインドするホストポート |
-| `--cmd` | コンテナ内で実行するコマンド |
-| `--no-tty` | コマンドを tty なしで実行します |
+| `--nvidia / --no-nvidia` | nvidia runtime を使用します。nvidia-docker が存在する場合はデフォルトで有効です。 |
+| `--digest` | イメージのダイジェストを出力して終了します。 |
+| `--jupyter / --no-jupyter` | コンテナ内で jupyter lab を実行します。 |
+| `--dir` | コンテナ内でコードをマウントするディレクトリーを指定します。 |
+| `--no-dir` | 現在のディレクトリーをマウントしません。 |
+| `--shell` | コンテナ起動時に使用するシェルを指定します。 |
+| `--port` | jupyter をバインドするホストのポート番号を指定します。 |
+| `--cmd` | コンテナ内で実行するコマンドを指定します。 |
+| `--no-tty` | tty なしでコマンドを実行します。 |

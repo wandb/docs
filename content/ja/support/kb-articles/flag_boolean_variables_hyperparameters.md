@@ -1,12 +1,13 @@
 ---
-title: ブール変数をハイパーパラメーターとしてフラグを立てることはできますか？
+title: ブール変数をハイパーパラメーターとしてフラグ付けできますか？
 menu:
   support:
     identifier: ja-support-kb-articles-flag_boolean_variables_hyperparameters
 support:
-  - sweeps
+- スイープ
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-設定のコマンドセクションでハイパーパラメーターをブールフラグとして渡すには、`${args_no_boolean_flags}` マクロを使用します。このマクロは、ブールパラメータを自動的にフラグとして含めます。もし `param` が `True` の場合、コマンドは `--param` を受け取ります。`param` が `False` の場合、フラグは省略されます。
+
+コマンドの設定セクションで `${args_no_boolean_flags}` マクロを使用すると、ハイパーパラメーターをブール型フラグとして渡すことができます。このマクロは、ブール型のパラメータを自動的にフラグとして追加します。`param` が `True` の場合、コマンドには `--param` が渡されます。`param` が `False` の場合は、そのフラグは省略されます。

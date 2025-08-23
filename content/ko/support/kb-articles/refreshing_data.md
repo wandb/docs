@@ -1,14 +1,14 @@
 ---
-title: Refreshing data
+title: 데이터 새로 고침
 menu:
   support:
     identifier: ko-support-kb-articles-refreshing_data
 support:
-- reports
-- workspaces
+- 리포트
+- 워크스페이스
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-워크스페이스는 업데이트된 데이터를 자동으로 로드합니다. 자동 새로 고침은 리포트에 적용되지 않습니다. 리포트 데이터를 새로 고치려면 페이지를 새로 고쳐야 합니다.
+워크스페이스는 자동으로 최신 데이터로 업데이트됩니다. 자동 새로고침은 Reports 에는 적용되지 않습니다. 리포트 데이터를 새로 고치려면 페이지를 다시 로드하세요.

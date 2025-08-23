@@ -4,11 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-embedding_reports
 support:
-  - reports
+- レポート
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-あなたのレポートを埋め込むことで共有できます。レポートの右上にある **Share** ボタンをクリックし、ポップアップウィンドウの下部から埋め込みコードをコピーします。
 
-{{< img src="/images/reports/emgedding_reports.gif" alt="" >}}
+レポートを埋め込んで共有することができます。 レポートの右上にある **Share** ボタンをクリックし、表示されたポップアップウィンドウの下部から埋め込み用のコードをコピーしてください。
+
+{{< img src="/images/reports/emgedding_reports.gif" alt="レポートの埋め込み" >}}

@@ -7,15 +7,15 @@ menu:
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
-Weights & Biases を使用して機械学習の実験管理、データセットのバージョン管理、プロジェクトのコラボレーションを行いましょう。
+W&B を使って機械学習の実験管理、データセットのバージョン管理、プロジェクトでの協業を始めましょう。
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="W&Bを使うメリット" >}}
 
-この Colab ノートブックは `WandbModelCheckpoint` コールバックを紹介します。このコールバックを使用して、モデルのチェックポイントを Weights & Biases [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) にログします。
+この Colabノートブック では `WandbModelCheckpoint` コールバックを紹介します。このコールバックを使うことで、モデルのチェックポイントを W&B [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) に記録できます。
 
 ## セットアップとインストール
 
-まず、最新バージョンの Weights & Biases をインストールします。次に、この colab インスタンスを認証して W&B を使用します。
+まず、W&B の最新版をインストールしましょう。そのうえで、この colab インスタンスを認証して W&B を使えるようにします。
 
 ```python
 !pip install -qq -U wandb
@@ -28,13 +28,13 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights & Biases に関連するインポート
+# W&B 関連のインポート
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 from wandb.integration.keras import WandbModelCheckpoint
 ```
 
-もし初めて W&B を使用するか、ログインしていない場合、`wandb.login()` を実行した後に表示されるリンクをクリックするとサインアップ/ログインページに移動します。[無料アカウント](https://wandb.ai/signup) の登録は数回のクリックで簡単に行えます。
+初めて W&B を使う場合や、まだログインしていない場合は、`wandb.login()` 実行後に現れるリンクからサインアップ／ログインページへ進めます。[無料アカウント](https://wandb.ai/signup)の作成は数クリックで完了します。
 
 ```python
 wandb.login()
@@ -42,7 +42,7 @@ wandb.login()
 
 ## ハイパーパラメーター
 
-適切なコンフィグシステムの使用は、再現性のある機械学習のベストプラクティスとして推奨されます。各実験のハイパーパラメーターを W&B を使用して管理できます。この colab では、コンフィグシステムとしてシンプルな Python の `dict` を使用します。
+再現性の高い機械学習のためには、適切な設定管理システムを利用することが推奨されています。W&B を使うことで、各実験ごとにハイパーパラメーターを管理できます。このノートブックでは、単純な Python の `dict` を設定システムとして利用します。
 
 ```python
 configs = dict(
@@ -59,7 +59,7 @@ configs = dict(
 
 ## データセット
 
-この colab では、 TensorFlow データセットカタログから [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) データセットを使用します。TensorFlow/Keras でシンプルな画像分類パイプラインを構築することを目指します。
+このノートブックでは、TensorFlow Dataset カタログから [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) データセットを使用します。TensorFlow/Keras を用いたシンプルな画像分類パイプラインを作成します。
 
 ```python
 train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])
@@ -69,11 +69,11 @@ train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])
 AUTOTUNE = tf.data.AUTOTUNE
 
 def parse_data(example):
-    # 画像を取得
+    # 画像の取得
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # ラベルを取得
+    # ラベルの取得
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
@@ -133,26 +133,26 @@ model.compile(
 )
 ```
 
-## トレーニング
+## 学習
 
 ```python
-# W&B の run を初期化
+# W&B の Run を初期化
 run = wandb.init(
     project = "intro-keras",
     config = configs
 )
 
-# モデルをトレーニング
+# モデルの学習
 model.fit(
     trainloader,
     epochs = configs["epochs"],
     validation_data = validloader,
     callbacks = [
         WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/") # ここで WandbModelCheckpoint を使用しています
+        WandbModelCheckpoint(filepath="models/") # ここで WandbModelCheckpoint を使用
     ]
 )
 
-# W&B の run を終了
+# W&B の Run を終了
 run.finish()
 ```

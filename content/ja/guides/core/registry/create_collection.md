@@ -1,5 +1,5 @@
 ---
-title: コレクションを作成する
+title: Collectionを作成する
 menu:
   default:
     identifier: ja-guides-core-registry-create_collection
@@ -7,80 +7,80 @@ menu:
 weight: 4
 ---
 
-A *collection* とは、レジストリ内でリンクされたアーティファクト バージョンのセットです。それぞれのコレクションは、個別のタスクやユースケースを表します。
+*collection* とは、Registry内で関連付けられた複数の artifact バージョンの集合です。各collectionは、個別のタスクやユースケースを表現します。
 
-例えば、コアデータセット レジストリ内に複数のコレクションを持つことができます。それぞれのコレクションには、MNIST、CIFAR-10、ImageNet などの異なるデータセットが含まれます。
+たとえば、コア Dataset Registry内には複数のcollectionを作成できます。各collectionには、MNIST、CIFAR-10、ImageNet など、異なるデータセットが含まれます。
 
-別の例として、「chatbot」と呼ばれるレジストリがあり、そこにはモデル アーティファクトのコレクション、データセット アーティファクトのコレクション、およびファインチューンされたモデル アーティファクトのコレクションがあります。
+別の例として、「chatbot」というRegistryがあるとします。このRegistryにはモデル artifact 用のcollection、データセット artifact 用のcollection、ファインチューン済みモデル artifact 用のcollectionなどを持たせることができます。
 
-レジストリとそのコレクションの整理方法は、あなた次第です。
+Registryやそのcollectionをどのように整理するかは自由です。
 
 {{% alert %}}
-W&B モデルレジストリに精通している場合は、登録されたモデルについても知識があるかもしれません。モデルレジストリ内の登録されたモデルは、今後は W&B レジストリのコレクションと呼ばれます。
+W&B Model Registry に慣れている方は「registered models」という言葉をご存じかもしれません。Model Registry での registered models は、W&B Registry ではcollectionと呼ばれるようになりました。
 {{% /alert %}}
 
-## コレクションのタイプ
+## collectionの種類
 
-それぞれのコレクションは、一種類だけの*アーティファクトのタイプ*を受け入れます。指定したタイプは、組織の他のメンバーと一緒にそのコレクションにリンクできるアーティファクトの種類を制限します。
+各collectionが受け入れられる artifact の *タイプ* は 1 つだけです。指定したタイプによって、そのcollectionにどのような artifact を自分やチームのメンバーが追加できるかが制限されます。
 
 {{% alert %}}
-アーティファクトのタイプは、プログラミング言語、例えば Python のデータタイプに似ています。この類推では、コレクションは文字列、整数、または浮動小数点数を格納できますが、これらのデータタイプの混合はできません。
+artifact のタイプは、Python などのプログラミング言語のデータ型のようなものと考えると分かりやすいです。たとえばcollectionが文字列や整数、浮動小数点数のいずれかを保存できても、これらを混ぜて保存することはできません。
 {{% /alert %}}
 
-例えば、「データセット」アーティファクトタイプを受け入れるコレクションを作成したとします。これにより、「データセット」タイプを持つ将来のアーティファクト バージョンのみをこのコレクションにリンクできます。同様に、「モデル」タイプのアーティファクトは、モデルアーティファクトタイプのみを受け入れるコレクションにのみリンクできます。
+例えば、「dataset」タイプの artifact を受け入れるcollectionを作成した場合、そのcollectionには今後「dataset」タイプの artifact だけを追加できます。同様に、「model」タイプのcollectionには「model」タイプの artifact しか追加できません。
 
 {{% alert %}}
-アーティファクトのタイプは、そのアーティファクト オブジェクトを作成するときに指定します。`wandb.Artifact()` 内の `type` フィールドに注意してください。
+artifact を作成する際に type（タイプ）を指定します。`wandb.Artifact()` の `type` フィールドに注目してください。
 
 ```python
 import wandb
 
-# Run を初期化
+# run を初期化
 run = wandb.init(
   entity = "<team_entity>",
   project = "<project>"
   )
 
-# アーティファクトオブジェクトを作成
+# artifact オブジェクトを作成
 artifact = wandb.Artifact(
     name="<artifact_name>", 
     type="<artifact_type>"
     )
 ```
 {{% /alert %}}
+ 
+collectionを作成する際には、あらかじめ定義されている artifact タイプの中から選択できます。どの artifact タイプが利用できるかは、そのcollectionが属しているRegistryによって異なります。
 
-コレクションを作成するとき、事前に定義されたアーティファクト タイプのリストから選択できます。使用可能なアーティファクト タイプは、そのコレクションが所属するレジストリによります。
+artifact をcollectionにリンクしたり新たなcollectionを作成する前に、[そのcollectionが受け入れる artifact のタイプを確認してください]({{< relref path="#check-the-types-of-artifact-that-a-collection-accepts" lang="ja" >}})。
 
-アーティファクトをコレクションにリンクしたり新しいコレクションを作成する前に、[そのコレクションが受け入れるアーティファクトのタイプを調査してください]({{< relref path="#check-the-types-of-artifact-that-a-collection-accepts" lang="ja" >}})。
+### collectionが受け入れる artifact タイプを確認する
 
-### コレクションが受け入れるアーティファクトのタイプを確認する
-
-コレクションにリンクする前に、コレクションが受け入れるアーティファクトタイプを確認してください。W&B Python SDK を使用してプログラム的に、もしくは W&B アプリを使用してインタラクティブに、コレクションが受け入れるアーティファクトタイプを確認することができます。
+collectionにリンクする前に、そのcollectionが受け入れる artifact タイプを確認しましょう。artifact タイプは W&B Python SDK を使ってプログラム的に、もしくは W&B App でインタラクティブに確認できます。
 
 {{% alert %}}
-そのアーティファクト タイプを受け入れないコレクションにアーティファクトをリンクしようとすると、エラーメッセージが表示されます。
+collectionが受け入れない artifact タイプをリンクしようとすると、エラーメッセージが表示されます。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
   {{% tab header="W&B App" %}}
-ホームページまたはレジストリの設定ページで、受け入れられるアーティファクトタイプをレジストリカードで見つけることができます。
+受け入れ可能な artifact タイプは、ホームページのRegistryカードやRegistryの設定ページで確認できます。
 
-どちらのメソッドでも、まず W&B レジストリ アプリに移動します。
+まずは、W&B Registry App のホームページにアクセスしてください。
 
-レジストリ アプリのホームページでは、そのレジストリのレジストリ カードにスクロールして、受け入れられたアーティファクト タイプを表示できます。レジストリカード内の灰色の水平オーバルには、レジストリが受け入れるアーティファクト タイプが記載されています。
+Registry App のホームページでは、任意のRegistryカードまでスクロールすると、そのRegistryが受け入れる artifact タイプが灰色の横長の楕円で表示されています。
 
-{{< img src="/images/registry/artifact_types_model_card.png" alt="" >}}
+{{< img src="/images/registry/artifact_types_model_card.png" alt="Artifact types selection" >}}
 
-例えば、前の図はレジストリ アプリのホームページに複数のレジストリ カードを示しています。**Model**レジストリカード内で、2つのアーティファクトタイプ: **model** と **model-new** を見ることができます。
+例えば、上の画像では複数のRegistryカードが表示されています。**Model** Registryカードには、**model** と **model-new** という2つの artifact タイプが表示されています。
 
-レジストリの設定ページで受け入れられたアーティファクト タイプを表示するには:
+Registryの設定ページで artifact タイプを確認するには：
 
-1. 設定を表示するレジストリカードをクリックします。
-2. 右上のギアアイコンをクリックします。
-3. **受け入れられたアーティファクト タイプ** フィールドまでスクロールします。   
+1. 設定を確認したいRegistryカードをクリックします。
+2. 右上の歯車アイコンをクリックします。
+3. **Accepted artifact types** フィールドまでスクロールします。   
   {{% /tab %}}
   {{% tab header="Python SDK (Beta)" %}}
-W&B Python SDK を使用して、レジストリが受け入れるアーティファクト タイプをプログラム的に表示します。
+W&B Python SDK を使えば、プログラムからRegistryが受け入れる artifact タイプを確認できます。
 
 ```python
 import wandb
@@ -91,40 +91,40 @@ print(artifact_type.name for artifact_type in artifact_types)
 ```
 
 {{% alert %}}
-実験やアーティファクトの追跡をせず、W&B API に問い合わせるだけの場合は、実行を初期化する必要がないため、後述のコードスニペットで実行を初期化しないことに注意してください。
+このコードスニペットでは run の初期化は不要です。W&B の API にクエリを送るだけの場合、run の作成や実験のトラッキング、artifact の作成などは必要ありません。
 {{% /alert %}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
-コレクションが受け入れるアーティファクトのタイプを知ったら、[コレクションを作成します]({{< relref path="#create-a-collection" lang="ja" >}})。
+collectionがどのタイプの artifact を受け入れるか分かったら、[collectionを作成]({{< relref path="#create-a-collection" lang="ja" >}})できます。
 
-## コレクションを作成する
+## collectionを作成する
 
-レジストリ内でインタラクティブまたはプログラムでコレクションを作成します。コレクションを作成した後、そのコレクションが受け入れるアーティファクトのタイプを変更することはできません。
+collectionは、インタラクティブまたはプログラム的にRegistry内へ作成できます。一度作成すると、そのcollectionが受け入れられる artifact タイプは変更できません。
 
-### プログラム的にコレクションを作成する
+### プログラムでcollectionを作成する
 
-`wandb.init.link_artifact()` メソッドを使用して、アーティファクトをコレクションにリンクします。`target_path` フィールドに、次の形式のパスとしてコレクションとレジストリの両方を指定します。
+`wandb.init.link_artifact()` メソッドを使って artifact をcollectionにリンクします。`target_path` フィールドには、Registry名とcollection名を組み合わせた次の形式で指定します：
 
 ```python
 f"wandb-registry-{registry_name}/{collection_name}"
 ```
 
-ここで、`registry_name` はレジストリの名前で、`collection_name` はコレクションの名前です。必ずレジストリ名の前に `wandb-registry-` プレフィックスを追加してください。
+ここで `registry_name` はRegistry名、`collection_name` はcollection名です。Registry名の前には必ず `wandb-registry-` プレフィックスを付けてください。
 
 {{% alert %}}
-存在しないコレクションにアーティファクトをリンクしようとすると、W&B は自動的にコレクションを作成します。存在するコレクションを指定した場合、W&B はそのアーティファクトを既存のコレクションにリンクします。
+存在しないcollectionへ artifact をリンクしようとすると、W&B が自動的にcollectionを作成します。既存のcollectionを指定した場合は、そのcollectionに artifact がリンクされます。
 {{% /alert %}}
 
-次のコードスニペットは、プログラムでコレクションを作成する方法を示しています。他の `<>` で囲まれた値を必ず自分の値で置き換えてください。
+以下のコードスニペットは、プログラム的にcollectionを作成する手順例です。`<>` で囲まれている部分はご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-# Run を初期化
+# run を初期化
 run = wandb.init(entity = "<team_entity>", project = "<project>")
 
-# アーティファクトオブジェクトを作成
+# artifact オブジェクトを作成
 artifact = wandb.Artifact(
   name = "<artifact_name>",
   type = "<artifact_type>"
@@ -134,27 +134,27 @@ registry_name = "<registry_name>"
 collection_name = "<collection_name>"
 target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-# アーティファクトをコレクションにリンク
+# artifact をcollectionにリンク
 run.link_artifact(artifact = artifact, target_path = target_path)
 
 run.finish()
 ```
 
-### インタラクティブにコレクションを作成する
+### インタラクティブにcollectionを作成する
 
-以下のステップで、W&B レジストリ アプリ UI を使用してレジストリ内にコレクションを作成する方法を説明します。
+W&B Registry App UI を使ってRegistry内にcollectionを作成する手順は以下の通りです：
 
-1. W&B アプリ UI の **Registry** アプリに移動します。
-2. レジストリを選択します。
-3. 右上の **Create collection** ボタンをクリックします。
-4. **Name** フィールドにコレクションの名前を入力します。
-5. **Type** ドロップダウンからタイプを選択します。または、レジストリがカスタムアーティファクトタイプを有効にしている場合は、このコレクションが受け入れる1つ以上のアーティファクトタイプを提供します。
-6. オプションで、**Description** フィールドにコレクションの説明を追加します。
-7. オプションで、**Tags** フィールドに1つ以上のタグを追加します。
+1. W&B App UI の **Registry** App に移動します。
+2. Registryを選択します。
+3. 画面右上の **Create collection** ボタンをクリックします。
+4. **Name** フィールドにcollection名を入力します。
+5. **Type** ドロップダウンからタイプを選びます。もしくは、Registryでカスタム artifact タイプが許可されている場合は、受け入れる artifact タイプを設定してください。
+6. 任意で、**Description** フィールドにcollectionの説明を追加します。
+7. 任意で、**Tags** フィールドにtagを追加します。
 8. **Link version** をクリックします。
-9. **Project** ドロップダウンから、アーティファクトが保存されているプロジェクトを選択します。
-10. **Artifact** コレクションのドロップダウンからアーティファクトを選択します。
-11. **Version** ドロップダウンから、コレクションにリンクしたいアーティファクトバージョンを選択します。
+9. **Project** ドロップダウンから artifact が保存されているプロジェクトを選択します。
+10. **Artifact collection** ドロップダウンから目的の artifact を選択します。
+11. **Version** ドロップダウンからcollectionにリンクしたい artifact バージョンを選びます。
 12. **Create collection** ボタンをクリックします。
 
-{{< img src="/images/registry/create_collection.gif" alt="" >}}
+{{< img src="/images/registry/create_collection.gif" alt="Create a new collection" >}}

@@ -1,20 +1,21 @@
 ---
-title: 削除された run をどのように復元できますか？
+title: 削除された run を復元する方法はありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-recover_deleted_runs
 support:
-  - runs
+- run
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-削除された run を復元するには、次の手順を完了してください：
 
-- プロジェクトの概要ページに移動します。
-- 右上の 3 つの点をクリックします。
-- **最近削除された run を復元** を選択します。
+削除した run を復元するには、以下の手順を実行してください。
 
-**注意**：
-- 過去 7 日以内に削除された run のみ復元できます。
-- 復元がオプションでない場合は、W&B API を使用してログを手動でアップロードできます。
+- Project Overview ページに移動します。
+- 右上の三点リーダーをクリックします。
+- **Undelete recently deleted runs** を選択します。
+
+**注意**:
+- 復元できるのは、過去7日以内に削除された run のみです。
+- 復元ができない場合は、W&B API を使って手動でログをアップロードできます。

@@ -1,60 +1,60 @@
 ---
-title: 'チュートリアル: プロジェクトから sweep ジョブを作成する'
-description: 既存の W&B プロジェクトから sweep ジョブを作成する方法に関するチュートリアル。
+title: チュートリアル：Project から sweep ジョブを作成する
+description: 既存の W&B プロジェクトから sweep ジョブを作成する方法のチュートリアル。
 menu:
   default:
     identifier: ja-guides-models-sweeps-existing-project
     parent: sweeps
 ---
 
-このチュートリアルでは、既存の W&B プロジェクトからスイープジョブを作成する方法を説明します。PyTorch の畳み込みニューラルネットワークを用いて画像を分類するために [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) を使用します。必要なコードとデータセットは、W&B のリポジトリにあります：[https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+このチュートリアルでは、既存の W&B Project から sweep ジョブを作成する方法を解説します。PyTorch の畳み込みニューラルネットワーク（CNN）を使って [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) の画像分類を行います。必要なコードとデータセットは [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) にあります。
 
-この [W&B ダッシュボード](https://app.wandb.ai/carey/pytorch-cnn-fashion) で結果を探索してください。
+結果はこの [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion) で確認できます。
 
-## 1. プロジェクトを作成する
+## 1. Project の作成
 
-最初にベースラインを作成します。W&B の GitHub リポジトリから PyTorch MNIST データセットの例モデルをダウンロードします。次に、モデルをトレーニングします。そのトレーニングスクリプトは `examples/pytorch/pytorch-cnn-fashion` ディレクトリーにあります。
+まずはベースラインを作成しましょう。W&B examples の GitHub リポジトリから PyTorch MNIST データセットのモデル例をダウンロードし、モデルをトレーニングします。トレーニングスクリプトは `examples/pytorch/pytorch-cnn-fashion` ディレクトリー内にあります。
 
-1. このリポジトリをクローンします `git clone https://github.com/wandb/examples.git`
-2. この例を開きます `cd examples/pytorch/pytorch-cnn-fashion`
-3. run を手動で実行します `python train.py`
+1. リポジトリをクローン： `git clone https://github.com/wandb/examples.git`
+2. この例に移動： `cd examples/pytorch/pytorch-cnn-fashion`
+3. 手動で run を実行： `python train.py`
 
-オプションとして、W&B アプリ UI ダッシュボードで例を探索します。
+オプションとして、W&B App UI のダッシュボードで例の Project の動作を確認できます。
 
-[例のプロジェクトページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+[Project ページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
-## 2. スイープを作成する
+## 2. sweep の作成
 
-あなたのプロジェクトページから、サイドバーの [Sweep tab]({{< relref path="./sweeps-ui.md" lang="ja" >}}) を開き、**Create Sweep** を選択します。
+Project ページからサイドバーの [Sweep タブ]({{< relref path="./sweeps-ui.md" lang="ja" >}}) を開き、**Create Sweep** を選択します。
 
-{{< img src="/images/sweeps/sweep1.png" alt="" >}}
+{{< img src="/images/sweeps/sweep1.png" alt="Sweep overview" >}}
 
-自動生成された設定は、完了した run に基づいてスイープする値を推測します。試したいハイパーパラメーターの範囲を指定するために設定を編集します。スイープをローンチすると、ホストされた W&B スイープサーバー上で新しいプロセスが開始されます。この集中サービスは、トレーニングジョブを実行しているエージェント（機械）を調整します。
+自動生成された設定では、これまでに完了した run に基づき、 sweep する値が推測されます。設定を編集し、試したいハイパーパラメータの範囲を指定しましょう。sweep をローンチすると、W&B のホストされた sweep サーバー上で新しいプロセスが開始されます。この中央サービスがトレーニングジョブを実行するエージェント（agent）たちを調整します。
 
-{{< img src="/images/sweeps/sweep2.png" alt="" >}}
+{{< img src="/images/sweeps/sweep2.png" alt="Sweep configuration" >}}
 
-## 3. エージェントをローンチする
+## 3. agent のローンチ
 
-次に、ローカルでエージェントをローンチします。作業を分散してスイープジョブをより早く終わらせたい場合は、最大20のエージェントを異なるマシンで並行してローンチすることができます。エージェントは、次に試すパラメータのセットを出力します。
+次に、ローカルで agent をローンチします。作業を分散してより早く sweep ジョブを完了したい場合、最大20台まで異なるマシンで並列に agent をローンチできます。agent は次に試すパラメータのセットを表示します。
 
-{{< img src="/images/sweeps/sweep3.png" alt="" >}}
+{{< img src="/images/sweeps/sweep3.png" alt="Launch agents" >}}
 
-これで、スイープを実行しています。以下の画像は、例のスイープジョブが実行されているときのダッシュボードがどのように見えるかを示しています。[例のプロジェクトページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+これで sweep が実行中になります。下の画像は例として sweep ジョブが実行されている際のダッシュボードの様子です。[Project ページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
-{{< img src="/images/sweeps/sweep4.png" alt="" >}}
+{{< img src="/images/sweeps/sweep4.png" alt="Sweep dashboard" >}}
 
-## 既存の run で新しいスイープをシードする
+## 既存の run から新しい sweep を seed する
 
-以前にログした既存の run を使用して新しいスイープをローンチします。
+これまでにログした既存の run を使って新しい sweep を開始できます。
 
-1. プロジェクトテーブルを開きます。
-2. 表の左側のチェックボックスを使用して使用したい run を選択します。
-3. 新しいスイープを作成するためにドロップダウンをクリックします。
+1. Project テーブルを開きます。
+2. テーブル左側のチェックボックスで使いたい run を選択します。
+3. ドロップダウンメニューから新しい sweep の作成をクリックします。
 
-スイープはサーバー上に設定されます。run を開始するために、1つ以上のエージェントをローンチするだけです。
+これで sweep がサーバー上にセットされます。あとは一つ以上の agent をローンチして run の実行をスタートするだけです。
 
-{{< img src="/images/sweeps/tutorial_sweep_runs.png" alt="" >}}
+{{< img src="/images/sweeps/tutorial_sweep_runs.png" alt="Seed sweep from runs" >}}
 
 {{% alert %}}
-新しいスイープをベイジアンスイープとして開始すると、選択した run はガウスプロセスにもシードされます。
+新しい sweep をベイズ型 sweep として開始した場合、選択した run もガウス過程の seed として利用されます。
 {{% /alert %}}

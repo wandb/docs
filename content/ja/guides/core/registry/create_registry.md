@@ -1,5 +1,5 @@
 ---
-title: カスタムレジストリを作成する
+title: カスタムRegistryを作成する
 menu:
   default:
     identifier: ja-guides-core-registry-create_registry
@@ -7,62 +7,65 @@ menu:
 weight: 2
 ---
 
-カスタムレジストリは、使用できるアーティファクトタイプに関して柔軟性とコントロールを提供し、レジストリの公開範囲を制限することができるなどの機能があります。
+カスタムRegistryを使うことで、利用可能な artifact の種類を柔軟に制御でき、Registryの公開範囲の制限なども行えます。
 
 {{% pageinfo color="info" %}}
-コアとカスタムレジストリの完全な比較は、[Registry types]({{< relref path="registry_types.md#summary" lang="ja" >}})の概要表をご覧ください。
+コアRegistryとカスタムRegistryの違いについては、[Registryタイプのまとめ]({{< relref path="registry_types.md#summary" lang="ja" >}})の表をご覧ください。
 {{% /pageinfo %}}
 
-## カスタムレジストリを作成する
 
-カスタムレジストリを作成するには:
-1. https://wandb.ai/registry/ の **Registry** アプリに移動します。
+## カスタムRegistryの作成
+
+カスタムRegistryを作成するには:
+
+1. https://wandb.ai/registry/ の **Registry** アプリにアクセスします。
 2. **Custom registry** 内で、**Create registry** ボタンをクリックします。
-3. **Name** フィールドにレジストリの名前を入力します。
-4. 必要に応じてレジストリの説明を提供します。
-5. **Registry visibility** ドロップダウンからレジストリを閲覧できる人を選択します。レジストリの公開範囲オプションの詳細については、[Registry visibility types]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}})をご覧ください。
-6. **All types** または **Specify types** を **Accepted artifacts type** ドロップダウンから選択します。
-7. （**Specify types** を選択した場合）レジストリが受け入れる1つ以上のアーティファクトタイプを追加します。
+3. **Name** フィールドに、Registryの名前を入力します。
+4. 必要に応じて、Registryの説明を入力します。
+5. **Registry visibility** ドロップダウンから、Registryを閲覧できるユーザーを選びます。Registryの公開範囲については[Registry公開範囲の種類]({{< relref path="./configure_registry.md#registry-visibility-types" lang="ja" >}})をご参照ください。
+6. **Accepted artifacts type** ドロップダウンから、**All types** または **Specify types** を選択します。
+7. （**Specify types** を選択した場合）Registryで受け入れる artifact の種類を1つ以上追加します。
 8. **Create registry** ボタンをクリックします。
 
 {{% alert %}}
-アーティファクトタイプは、一旦レジストリの設定に保存されるとそのレジストリから削除することはできません。
+artifact の種類は、一度Registryの設定に保存すると後から削除できません。
 {{% /alert %}}
 
-たとえば、以下の画像はユーザーが作成しようとしている `Fine_Tuned_Models` というカスタムレジストリを示しています。このレジストリは、手動でレジストリに追加されたメンバーのみに**制限**されています。
+例えば、次の画像は、`Fine_Tuned_Models` というカスタムRegistryを作成しようとしている例です。このRegistryは**Restricted**（制限付き）で、手動で追加されたメンバーだけが利用できます。
 
-{{< img src="/images/registry/create_registry.gif" alt="" >}}
+{{< img src="/images/registry/create_registry.gif" alt="Creating a new registry" >}}
 
-## 公開範囲タイプ
+## 公開範囲の種類
 
-レジストリの*公開範囲*は、誰がそのレジストリにアクセスできるかを決定します。カスタムレジストリの公開範囲を制限すると、指定されたメンバーのみがそのレジストリにアクセスできるようにするのに役立ちます。
+Registryの *公開範囲* は、そのRegistryに誰がアクセスできるかを決定します。公開範囲を制限することで、特定のメンバーのみがアクセスできるようにできます。
 
-カスタムレジストリには2つの公開範囲オプションがあります:
+カスタムRegistryの公開範囲オプションは2つあります:
 
 | 公開範囲 | 説明 |
 | --- | --- | 
-| Restricted   | 招待された組織メンバーのみがレジストリにアクセスできます。| 
-| Organization | 組織内の全員がレジストリにアクセスできます。|
+| Restricted（制限付き）   | 招待された組織メンバーのみがRegistryにアクセス可能です。| 
+| Organization（組織全体） | 組織内の全員がRegistryにアクセスできます。 |
 
-チーム管理者またはレジストリ管理者は、カスタムレジストリの公開範囲を設定できます。
+チーム管理者またはRegistry管理者が、カスタムRegistryの公開範囲を設定できます。
 
-Restricted公開範囲でカスタムレジストリを作成したユーザーは、自動的にそのレジストリの管理者として登録されます。
+**Restricted** な公開範囲でカスタムRegistryを作成した場合、作成者は自動的にそのRegistryの管理者として追加されます。
 
-## カスタムレジストリの公開範囲を設定する
 
-チーム管理者またはレジストリ管理者は、カスタムレジストリの作成時または作成後に公開範囲を設定することができます。
+## カスタムRegistryの公開範囲を設定する
 
-既存のカスタムレジストリの公開範囲を制限するには:
+チーム管理者またはRegistry管理者は、カスタムRegistryの作成時や作成後に、その公開範囲を指定できます。
 
-1. https://wandb.ai/registry/ の **Registry** アプリに移動します。
-2. 任意のレジストリを選択します。
-3. 右上隅の歯車アイコンをクリックします。
-4. **Registry visibility** ドロップダウンから、希望するレジストリの公開範囲を選択します。
-5. **Restricted visibility** を選択した場合:
-   1. このレジストリにアクセスを許可したい組織のメンバーを追加します。 **Registry members and roles** セクションまでスクロールし、**Add member** ボタンをクリックします。
-   2. **Member** フィールドに追加したいメンバーのメールまたはユーザー名を入力します。
+既存のカスタムRegistryの公開範囲を制限するには:
+
+1. https://wandb.ai/registry/ の **Registry** アプリにアクセスします。
+2. 対象のRegistryを選択します。
+3. 右上の歯車アイコンをクリックします。
+4. **Registry visibility** ドロップダウンから、希望する公開範囲を選択します。
+5. **Restricted visibility** を選択した場合は、以下の手順に従います:
+   1. Registryにアクセスさせたい組織メンバーを追加します。**Registry members and roles** セクションまでスクロールし、**Add member** ボタンをクリックします。
+   2. **Member** フィールドに、追加するメンバーのメールアドレスまたはユーザー名を入力します。
    3. **Add new member** をクリックします。
 
-{{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
+{{< img src="/images/registry/change_registry_visibility.gif" alt="Changing registry visibility settings from private to public or team-restricted access" >}}
 
-チーム管理者がそれを作成する際に、カスタムレジストリの公開範囲をどのように設定するかに関する詳細は [Create a custom registry]({{< relref path="./create_registry.md#create-a-custom-registry" lang="ja" >}}) を参照してください。
+チーム管理者がカスタムRegistryを作成する際の公開範囲の設定方法については、[カスタムRegistryの作成]({{< relref path="./create_registry.md#create-a-custom-registry" lang="ja" >}})をご覧ください。

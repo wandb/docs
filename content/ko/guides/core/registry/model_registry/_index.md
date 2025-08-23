@@ -1,79 +1,80 @@
 ---
-title: Model registry
-description: 트레이닝부터 프로덕션까지 모델 생명주기를 관리하는 모델 레지스트리
+title: 모델 레지스트리
+description: 모델 레지스트리를 통해 트레이닝부터 프로덕션까지 모델 라이프사이클을 관리하세요
 cascade:
-- url: /ko/guides//core/registry/model_registry/:filename
+- url: guides/core/registry/model_registry/:filename
 menu:
   default:
     identifier: ko-guides-core-registry-model_registry-_index
     parent: registry
-url: /ko/guides//core/registry/model_registry
+url: guides/core/registry/model_registry
 weight: 9
 ---
 
 {{% alert %}}
-W&B는 결국 W&B Model Registry에 대한 지원을 중단할 예정입니다. 사용자는 대신 모델 아티팩트 버전을 연결하고 공유하기 위해 [W&B Registry]({{< relref path="/guides/core/registry/" lang="ko" >}})를 사용하는 것이 좋습니다. W&B Registry는 기존 W&B Model Registry의 기능을 확장합니다. W&B Registry에 대한 자세한 내용은 [Registry 문서]({{< relref path="/guides/core/registry/" lang="ko" >}})를 참조하세요.
+W&B는 앞으로 W&B Model Registry 지원을 종료할 예정입니다. 사용자는 모델 아티팩트 버전의 연결 및 공유를 위해 [W&B Registry]({{< relref path="/guides/core/registry/" lang="ko" >}}) 사용을 권장합니다. W&B Registry는 기존 W&B Model Registry의 기능을 확장합니다. W&B Registry에 대한 자세한 내용은 [Registry docs]({{< relref path="/guides/core/registry/" lang="ko" >}})를 참고하세요.
 
-W&B는 기존 Model Registry에 연결된 기존 모델 아티팩트를 가까운 시일 내에 새로운 W&B Registry로 마이그레이션할 예정입니다. 마이그레이션 프로세스에 대한 자세한 내용은 [기존 Model Registry에서 마이그레이션]({{< relref path="/guides/core/registry/model_registry_eol.md" lang="ko" >}})을 참조하세요.
+W&B는 곧 기존 Model Registry에 연결된 모델 아티팩트들을 새로운 W&B Registry로 이전할 예정입니다. 마이그레이션 과정에 대한 자세한 내용은 [Migrating from legacy Model Registry]({{< relref path="/guides/core/registry/model_registry_eol.md" lang="ko" >}})를 참고하세요.
 {{% /alert %}}
 
-W&B Model Registry는 팀의 트레이닝된 모델을 보관하는 곳으로, ML 전문가가 프로덕션 후보를 게시하여 다운스트림 팀과 이해 관계자가 사용할 수 있습니다. 스테이징된/후보 모델을 보관하고 스테이징과 관련된 워크플로우를 관리하는 데 사용됩니다.
+W&B Model Registry는 팀의 트레이닝된 모델을 보관하는 곳으로, ML 실무자들이 프로덕션 후보 모델을 게시하여 다른 팀이나 이해관계자들이 활용할 수 있도록 도와줍니다. 또한 staged/candidate 모델을 보관하고, staging과 관련된 워크플로우를 효율적으로 관리할 수 있습니다.
 
-{{< img src="/images/models/model_reg_landing_page.png" alt="" >}}
+{{< img src="/images/models/model_reg_landing_page.png" alt="Model Registry" >}}
 
-W&B Model Registry를 사용하면 다음을 수행할 수 있습니다.
+W&B Model Registry를 활용하면 다음과 같은 작업이 가능합니다:
 
-* [각 기계 학습 작업에 대해 가장 적합한 모델 버전을 북마크합니다.]({{< relref path="./link-model-version.md" lang="ko" >}})
-* 다운스트림 프로세스 및 모델 CI/CD를 [자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})합니다.
-* 모델 버전을 ML 라이프사이클(스테이징에서 프로덕션)을 거쳐 이동합니다.
-* 모델의 계보를 추적하고 프로덕션 모델에 대한 변경 이력을 감사합니다.
+* [각 기계학습 태스크별로 최고의 모델 버전을 북마크할 수 있습니다.]({{< relref path="./link-model-version.md" lang="ko" >}})
+* [자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})를 통해 다운스트림 프로세스와 모델 CI/CD를 연동할 수 있습니다.
+* 모델 버전을 staging에서 프로덕션까지 ML 라이프사이클에 따라 관리할 수 있습니다.
+* 모델의 계보를 추적하고, 프로덕션 모델에 대한 변경 이력을 감사할 수 있습니다.
 
-{{< img src="/images/models/models_landing_page.png" alt="" >}}
+{{< img src="/images/models/models_landing_page.png" alt="Models overview" >}}
 
 ## 작동 방식
-몇 가지 간단한 단계를 통해 스테이징된 모델을 추적하고 관리합니다.
+아주 간단한 단계만으로 staged 모델을 추적하고 관리할 수 있습니다.
 
-1. **모델 버전 로깅**: 트레이닝 스크립트에서 몇 줄의 코드를 추가하여 모델 파일을 아티팩트 로 W&B에 저장합니다.
-2. **성능 비교**: 라이브 차트를 확인하여 모델 트레이닝 및 유효성 검사에서 메트릭 과 샘플 예측값을 비교합니다. 어떤 모델 버전이 가장 성능이 좋았는지 식별합니다.
-3. **레지스트리에 연결**: Python에서 프로그래밍 방식으로 또는 W&B UI에서 대화식으로 등록된 모델에 연결하여 최상의 모델 버전을 북마크합니다.
+1. **모델 버전 로그**: 트레이닝 스크립트에 몇 줄의 코드만 추가하면 모델 파일을 W&B 아티팩트로 저장할 수 있습니다.
+2. **성능 비교**: 라이브 차트를 보며 모델 트레이닝/검증 결과의 메트릭과 예측값을 비교할 수 있습니다. 어떤 모델 버전이 가장 성능이 좋은지도 손쉽게 확인할 수 있습니다.
+3. **Registry에 연결**: 가장 뛰어난 모델 버전을 registered model에 연결하여 북마크할 수 있습니다. 이 과정은 Python 코드로도, 혹은 W&B UI에서 직접 할 수도 있습니다.
 
-다음 코드 조각은 모델을 Model Registry에 로깅하고 연결하는 방법을 보여줍니다.
+다음 코드조각은 모델을 Model Registry에 로그하고 연결하는 방법을 보여줍니다:
 
 ```python
 import wandb
 import random
 
-# Start a new W&B run
+# 새로운 W&B run 시작
 run = wandb.init(project="models_quickstart")
 
-# Simulate logging model metrics
+# 모델 메트릭 기록 예시
 run.log({"acc": random.random()})
 
-# Create a simulated model file
+# 예시 모델 파일 생성
 with open("my_model.h5", "w") as f:
     f.write("Model: " + str(random.random()))
 
-# Log and link the model to the Model Registry
+# 모델을 Model Registry에 로그 및 연결
 run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 
 run.finish()
 ```
 
-4. **모델 전환을 CI/CD 워크플로우에 연결**: 웹훅을 사용하여 워크플로우 단계를 통해 후보 모델을 전환하고 [다운스트림 작업 자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})합니다.
+4. **모델 전이와 CI/CD 워크플로우 연결**: 후보 모델을 워크플로우 스테이지별로 전이시키고, [다운스트림 작업을 자동화]({{< relref path="/guides/core/automations/" lang="ko" >}})하는 Webhook을 연동할 수 있습니다.
+
 
 ## 시작 방법
-유스 케이스에 따라 다음 리소스를 탐색하여 W&B Models를 시작하십시오.
+유스 케이스에 맞게 W&B Models를 시작하려면 다음 리소스를 참고하세요:
 
-* 2부작 비디오 시리즈를 확인하세요.
-  1. [모델 로깅 및 등록](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
-  2. Model Registry에서 [모델 사용 및 다운스트림 프로세스 자동화](https://www.youtube.com/watch?v=8PFCrDSeHzw).
-* W&B Python SDK 코맨드에 대한 단계별 개요는 [모델 둘러보기]({{< relref path="./walkthrough.md" lang="ko" >}})를 읽어보세요. 이를 통해 데이터셋 아티팩트 를 생성, 추적 및 사용할 수 있습니다.
-* 다음에 대해 알아보세요.
-   * [보호된 모델 및 엑세스 제어]({{< relref path="./access_controls.md" lang="ko" >}}).
-   * [레지스트리를 CI/CD 프로세스에 연결하는 방법]({{< relref path="/guides/core/automations/" lang="ko" >}}).
-   * 새 모델 버전이 등록된 모델에 연결되면 [Slack 알림]({{< relref path="./notifications.md" lang="ko" >}})을 설정합니다.
-* Model Registry가 ML 워크플로우에 어떻게 적합하고 모델 관리에 사용하는 이점에 대한 [이] (https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) 리포트 를 검토합니다.
-* W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) 코스를 수강하고 다음 방법을 배우세요.
-  * W&B Model Registry를 사용하여 모델을 관리 및 버전 관리하고, 계보를 추적하고, 다양한 라이프사이클 단계를 거쳐 모델을 승격합니다.
-  * 웹훅을 사용하여 모델 관리 워크플로우를 자동화합니다.
-  * 모델 평가, 모니터링 및 배포를 위해 Model Registry가 모델 개발 라이프사이클의 외부 ML 시스템 및 툴 과 어떻게 통합되는지 확인하세요.
+* 2부 영상 시리즈를 확인하세요:
+  1. [모델 로깅 및 등록하기](https://www.youtube.com/watch?si=MV7nc6v-pYwDyS-3&v=ZYipBwBeSKE&feature=youtu.be)
+  2. Model Registry 내 [모델 활용 및 다운스트림 자동화](https://www.youtube.com/watch?v=8PFCrDSeHzw)
+* [models walkthrough]({{< relref path="./walkthrough.md" lang="ko" >}})를 읽고, W&B Python SDK 명령어를 활용해 데이터셋 아티팩트를 만들고, 추적하고, 사용하는 방법을 단계별로 따라 해보세요.
+* 다음 주제도 함께 알아보세요:
+   * [Protected models 및 엑세스 제어]({{< relref path="./access_controls.md" lang="ko" >}})
+   * [Registry를 CI/CD 프로세스에 연결하는 방법]({{< relref path="/guides/core/automations/" lang="ko" >}})
+   * registered model에 새로운 모델 버전이 연결될 때 [Slack 알림 설정하기]({{< relref path="./notifications.md" lang="ko" >}})
+* [What is an ML Model Registry?](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx)를 읽고, Model Registry를 ML 워크플로우에 어떻게 통합할 수 있을지 알아보세요.
+* W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) 코스를 수강해보세요. 이 코스에서는 다음을 배울 수 있습니다:
+  * W&B Model Registry로 모델을 관리 및 버전 관리하고, 계보 추적, 라이프사이클 단계별 모델 승격을 할 수 있습니다.
+  * Webhook을 활용해 모델 관리 워크플로우를 자동화할 수 있습니다.
+  * Model Registry를 외부 ML 시스템 및 도구와 연동하여 모델 평가, 모니터링, 배포 등의 모델 개발 라이프사이클 전체에서 어떻게 활용하는지 확인할 수 있습니다.

@@ -1,5 +1,5 @@
 ---
-title: クエリ式言語
+title: クエリエクスプレッション言語
 cascade:
   menu:
     reference:
@@ -10,8 +10,8 @@ menu:
     parent: reference
 ---
 
-クエリエクスプレッションを使用して、Runs と Projects にまたがるデータを選択および集計します。
-[クエリパネル]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}})についてさらに学びましょう。
+クエリ式を使用して、Runs や Projects 間でデータを選択・集約できます。  
+[クエリパネルについて詳しくはこちら]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}})。
 
 ## データ型
 

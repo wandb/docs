@@ -1,14 +1,13 @@
 ---
-title: Who can create a team? Who can add or delete people from a team? Who can delete
-  projects?
+title: 누가 팀을 만들 수 있나요? 누가 팀에 사람을 추가하거나 삭제할 수 있나요? 누가 Projects 를 삭제할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-create_team_add_delete_people_team
 support:
-- team management
+- 팀 관리
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-역할 및 권한에 대한 자세한 내용은 다음 링크를 참조하세요. [Team Roles and Permissions]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ko" >}}).
+자세한 역할과 권한에 대해서는 다음 링크를 참고하세요: [Team Roles and Permissions]({{< relref path="/guides/models/app/settings-page/teams.md#team-roles-and-permissions" lang="ko" >}}).

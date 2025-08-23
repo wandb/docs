@@ -1,26 +1,27 @@
 ---
-title: Can I log metrics on two different time scales?
+title: 두 가지 다른 시간 척도에서 메트릭을 로그할 수 있나요?
 menu:
   support:
     identifier: ko-support-kb-articles-log_metrics_two_different_time_scales_example_log_training
 support:
-- experiments
-- metrics
+- 실험
+- 메트릭
 toc_hide: true
 type: docs
-url: /ko/support/:filename
+url: /support/:filename
 ---
 
-예를 들어, 배치 당 트레이닝 정확도 와 에포크 당 검증 정확도 를 로그하고 싶다고 가정해 보겠습니다.
+예를 들어, 저는 배치마다 트레이닝 정확도, 에포크마다 검증 정확도를 로그로 남기고 싶습니다.
 
-예, 메트릭 과 함께 `batch` 및 `epoch`와 같은 인덱스를 로그합니다. 한 단계에서 `wandb.log({'train_accuracy': 0.9, 'batch': 200})`을 사용하고 다른 단계에서 `wandb.log({'val_accuracy': 0.8, 'epoch': 4})`을 사용합니다. UI에서 원하는 값을 각 차트의 x축으로 설정합니다. 특정 인덱스에 대한 기본 x축을 설정하려면 [Run.define_metric()]({{< relref path="/ref/python/run.md#define_metric" lang="ko" >}})을 사용하세요. 제공된 예제의 경우 다음 코드를 사용하세요.
+네, `batch`와 `epoch` 같은 인덱스를 메트릭과 함께 로그하세요. 한 단계에서는 `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})`를, 또 다른 단계에서는 `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})`를 사용하면 됩니다. UI에서 원하는 값을 각 차트의 x축으로 설정하세요. 특정 인덱스에 대해 기본 x축을 지정하려면 [Run.define_metric()]({{< relref path="/ref/python/sdk/classes/run#define_metric" lang="ko" >}})을 사용하세요. 아래는 예시에 해당하는 코드입니다:
 
 ```python
-wandb.init()
+import wandb
 
-wandb.define_metric("batch")
-wandb.define_metric("epoch")
+with wandb.init() as run:
+   run.define_metric("batch")
+   run.define_metric("epoch")
 
-wandb.define_metric("train_accuracy", step_metric="batch")
-wandb.define_metric("val_accuracy", step_metric="epoch")
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
 ```

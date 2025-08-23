@@ -11,7 +11,7 @@ menu:
 
 **概要**
 
-W&B ローンンチ sweep スケジューラーを実行する（実験的）
+W&B Launch Sweep Scheduler を実行します（実験的機能）
 
 
 **オプション**

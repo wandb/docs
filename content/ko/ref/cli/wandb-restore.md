@@ -11,14 +11,13 @@ menu:
 
 **요약**
 
-run에 대한 코드, config, Docker 상태 복원
-
+해당 run의 코드, config, 도커 상태를 복원합니다
 
 **옵션**
 
 | **옵션** | **설명** |
 | :--- | :--- |
-| `--no-git` | Git 상태를 복원하지 않습니다. |
-| `--branch / --no-branch` | branch를 만들지 분리된 checkout을 할지 여부 |
-| `-p, --project` | 업로드하려는 project입니다. |
-| `-e, --entity` | 목록의 범위를 지정할 entity입니다. |
+| `--no-git` | git 상태를 복원하지 않습니다 |
+| `--branch / --no-branch` | 브랜치를 생성할지 아니면 분리된 상태로 체크아웃할지 여부 |
+| `-p, --project` | 업로드할 프로젝트 지정 |
+| `-e, --entity` | 조회할 Entity 범위 지정 |

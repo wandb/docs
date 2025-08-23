@@ -1,85 +1,85 @@
 ---
-title: 例 テーブル
-description: W&B テーブル の例
+title: Tablesの例
+description: W&B Tables の例
 menu:
   default:
     identifier: ja-guides-models-tables-tables-gallery
     parent: tables
 ---
 
-以下のセクションでは、テーブルの使用方法の一部を紹介します。
+以下のセクションでは、Tableのいくつかの活用方法を紹介します。
 
-### データを表示する
+### データの閲覧
 
-モデルのトレーニングまたは評価中にメトリクスやリッチメディアをログに記録し、それをクラウドに同期された永続的なデータベース、または[ホスティングインスタンス]({{< relref path="/guides/hosting" lang="ja" >}})で結果を視覚化します。
+モデルのトレーニングや評価時にメトリクスやリッチメディアをログとして記録し、その結果をクラウドや [ホスティングインスタンス]({{< relref path="/guides/hosting" lang="ja" >}}) に同期された永続的なデータベースで可視化できます。
 
-{{< img src="/images/data_vis/tables_see_data.png" alt="例を閲覧し、データのカウントと分布を検証する" max-width="90%" >}}
+{{< img src="/images/data_vis/tables_see_data.png" alt="データ閲覧Table" max-width="90%" >}}
 
-たとえば、このテーブルをご覧ください。[写真データセットのバランスの取れた分割](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json)を示しています。
+たとえば、[写真データセットのラベルの分布](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json) をTableで確認できます。
 
-### データを対話的に探索する
+### データをインタラクティブに探索
 
-テーブルを表示、ソート、フィルタ、グループ化、結合、クエリして、データとモデルのパフォーマンスを理解します。静的ファイルを閲覧したり、分析スクリプトを再実行する必要はありません。
+Tableの閲覧、ソート、フィルタ、グループ化、結合、クエリで、データやモデルパフォーマンスを直感的に把握できます。静的ファイルを探したり分析スクリプトを再実行したりする必要はありません。
 
-{{< img src="/images/data_vis/explore_data.png" alt="オリジナルの曲とその合成バージョン（ティンバー転送）を聴く" max-width="90%" >}}
+{{< img src="/images/data_vis/explore_data.png" alt="音声比較" max-width="90%">}}
 
-たとえば、このレポートをご覧ください。[スタイルが転送されたオーディオ](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)について。
+[スタイル変換音声](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) のレポートをご確認ください。
 
-### モデルバージョンを比較する
+### モデルバージョンの比較
 
-異なるトレーニングエポック、データセット、ハイパーパラメーターの選択、モデルアーキテクチャーなど、さまざまな結果を迅速に比較します。
+異なるトレーニングエポック、データセット、ハイパーパラメータ設定、モデルアーキテクチャなど、さまざまな条件で結果を素早く比較できます。
 
-{{< img src="/images/data_vis/compare_model_versions.png" alt="細かな違いを確認: 左のモデルは赤い歩道を検出し、右のモデルは検出しない。" max-width="90%" >}}
+{{< img src="/images/data_vis/compare_model_versions.png" alt="モデル比較" max-width="90%">}}
 
-たとえば、このテーブルを確認してください。[同じテスト画像で2つのモデルを比較](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob)しています。
+たとえば、[同じテスト画像に対する2つのモデルの比較Table](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob) をご確認ください。
 
-### すべての詳細を追跡し、大局を把握する
+### 細部まで追跡し、全体像を把握
 
-特定のステップでの特定の予測を視覚化するためにズームインします。ズームアウトして集計統計を確認し、エラーのパターンを識別し、改善の機会を理解します。このツールは、単一のモデルトレーニングからのステップを比較したり、異なるモデルバージョンの結果を比較するために使用されます。
+特定ステップでの予測をピンポイントで可視化できます。また、全体的な統計や誤りの傾向を特定して改善のヒントを探ることも可能です。1つのモデルのトレーニング中ステップ比較にも、異なるモデルバージョン間の比較にも、このツールが使えます。
 
-{{< img src="/images/data_vis/track_details.png" alt="" >}}
+{{< img src="/images/data_vis/track_details.png" alt="実験詳細のトラッキング" >}}
 
-たとえば、[1回とその後5回のエポック後のMNISTデータセットでの結果を分析](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)する例のテーブルをご覧ください。
+たとえば、[MNISTデータセットを1エポック後と5エポック後で分析するサンプルTable](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec) をご確認ください。
 
-## W&B Tablesを使用したプロジェクトの例
-以下では、W&B Tablesを使用した実際のW&Bプロジェクトの例を紹介します。
+## W&B Tables活用プロジェクト例
+以下は、W&B Tablesを活用している実際のW&B Projectsの例です。
 
 ### 画像分類
 
-[このレポート](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)を読み、[このcolab](https://wandb.me/dsviz-nature-colab)に従うか、この[アーティファクトコンテキスト](https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json)を探り、CNNが[iNaturalist](https://www.inaturalist.org/pages/developers)の写真から10種類の生物（植物、鳥、昆虫など）を識別する方法を見てみてください。
+[Visualize Data for Image Classification](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA) や[data visualization nature Colab](https://wandb.me/dsviz-nature-colab) を試す、[artifacts context]、(https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json) を確認することで、CNNが [iNaturalist](https://www.inaturalist.org/pages/developers) の写真から10種類の生物（植物、鳥、昆虫など）を識別する様子を確認できます。
 
-{{< img src="/images/data_vis/image_classification.png" alt="2つの異なるモデルの予測に対する真のラベルの分布を比較する。" max-width="90%" >}}
+{{< img src="/images/data_vis/image_classification.png" alt="2つの異なるモデルの予測で真のラベル分布を比較。" max-width="90%">}}
 
-### オーディオ
+### 音声
 
-ティンバー転送に関する[このレポート](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)でオーディオテーブルと対話します。録音されたクジラの歌と同じメロディをバイオリンやトランペットのような楽器で合成したバージョンを比較できます。この[colab](http://wandb.me/audio-transfer)で自分の曲を録音し、その合成バージョンをW&Bで探索することもできます。
+[Whale2Song - W&B Tables for Audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM) で音声をTableで管理する例を確認できます。録音したクジラの鳴き声と、バイオリンやトランペットなどの楽器で合成した同じメロディの音声を比較することが可能です。さらに、独自の曲を録音し、その合成バージョンをW&Bで [audio transfer Colab](http://wandb.me/audio-transfer) を使って探索できます。
 
-{{< img src="/images/data_vis/audio.png" alt="" max-width="90%">}}
+{{< img src="/images/data_vis/audio.png" alt="音声Table例" max-width="90%">}}
 
 ### テキスト
 
-トレーニングデータや生成された出力からテキストサンプルを閲覧し、関連するフィールドで動的にグループ化し、モデルバリエーションや実験設定に合わせて評価を整えます。Markdownとしてテキストをレンダリングするか、ビジュアル差分モードを使用してテキストを比較します。[このレポート](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY)でシェイクスピアを生成するためのシンプルな文字ベースのRNNを探ります。
+トレーニングデータや生成出力のテキストサンプルを閲覧し、関連フィールドで動的にグループ化し、モデルバリアントや実験設定を横断して評価を揃えられます。テキストをMarkdownで表示したり、ビジュアル差分モードで比較したりできます。文字ベースRNNの例として [Shakespeare text generation report](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY) を参照してください。
 
-{{< img src="/images/data_vis/shakesamples.png" alt="隠れ層のサイズを倍増させると、より創造的なプロンプトの完了が得られる。" max-width="90%">}}
+{{< img src="/images/data_vis/shakesamples.png" alt="隠れ層のサイズを倍にすると、より創造的なプロンプト補完が得られます。" max-width="90%">}}
 
 ### ビデオ
 
-モデルを理解するためにトレーニング中にログに記録されたビデオを閲覧および集約します。ここに、RLエージェントが[副作用を最小化](https://wandb.ai/stacey/saferlife/artifacts/video/videos_append-spawn/c1f92c6e27fa0725c154/files/video_examples.table.json)しようとするための[SafeLife ベンチマーク](https://wandb.ai/safelife/v1dot2/benchmark)を使用した初期の例があります。
+トレーニング中にログされたビデオを閲覧・集約して、モデルの理解に役立てます。これは、RLエージェントが [副作用の最小化](https://wandb.ai/stacey/saferlife/artifacts/video/videos_append-spawn/c1f92c6e27fa0725c154/files/video_examples.table.json) を目指す [SafeLifeベンチマーク](https://wandb.ai/safelife/v1dot2/benchmark) を使った初期事例です。
 
-{{< img src="/images/data_vis/video.png" alt="数少ない成功したエージェントを簡単に閲覧する" max-width="90%">}}
+{{< img src="/images/data_vis/video.png" alt="成功したエージェントの例を簡単に閲覧" max-width="90%">}}
 
 ### 表形式データ
 
-バージョン管理とデータの重複排除を使用して[表形式データを分割および前処理する](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1)方法に関するレポートを参照してください。
+バージョン管理や重複排除を含めた[表形式データの分割と前処理方法のレポート](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) をご確認ください。
 
-{{< img src="/images/data_vis/tabs.png" alt="Tables and Artifactsが連携してバージョンコントロール、ラベル付け、データセットの重複排除を行う" max-width="90%">}}
+{{< img src="/images/data_vis/tabs.png" alt="TablesとArtifactsによるワークフロー" max-width="90%">}}
 
-### モデルバリエーションの比較（セマンティックセグメンテーション）
+### モデルバリアントの比較（セマンティックセグメンテーション）
 
-セマンティックセグメンテーションのためのTablesをログに記録し、さまざまなモデルを比較する[対話型ノートブック](https://wandb.me/dsviz-cars-demo)と[ライブ例](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json)です。この[Table](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json)で自分のクエリを試してみてください。
+セマンティックセグメンテーションでのTablesのログ例とモデル比較を掲載した [インタラクティブノートブック](https://wandb.me/dsviz-cars-demo) や [ライブ例](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#a57f8e412329727038c2$eval_Ada) があります。[このTable](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json) でクエリを実際に試せます。
 
-{{< img src="/images/data_vis/comparing_model_variants.png" alt="同じテストセットに対する2つのモデル間で最高の予測を見つける" max-width="90%" >}}
+{{< img src="/images/data_vis/comparing_model_variants.png" alt="同じテストセットで2つのモデル間の最良予測を発見" max-width="90%" >}}
 
-### トレーニング時間の改善を分析する
+### トレーニング時間による改善の分析
 
-[予測を時間にわたって視覚化する方法についての詳細なレポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)と、付随する[対話型ノートブック](https://wandb.me/dsviz-mnist-colab)です。
+[時間経過ごとの予測可視化レポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) と [インタラクティブノートブック](https://wandb.me/dsviz-mnist-colab) で詳細を解説しています。

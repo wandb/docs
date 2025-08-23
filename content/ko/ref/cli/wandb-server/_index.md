@@ -1,5 +1,5 @@
 ---
-title: wandb server
+title: wandb 서버
 menu:
   reference:
     identifier: ko-ref-cli-wandb-server-_index
@@ -7,11 +7,11 @@ menu:
 
 **사용법**
 
-`wandb server [OPTIONS] COMMAND [ARGS]...`
+`wandb server [옵션] 코맨드 [ARG]...`
 
 **요약**
 
-로컬 W&B 서버를 운영하기 위한 코맨드
+로컬 W&B 서버를 운영하기 위한 코맨드입니다.
 
 **옵션**
 
@@ -22,5 +22,5 @@ menu:
 
 | **코맨드** | **설명** |
 | :--- | :--- |
-| start | 로컬 W&B 서버 시작 |
-| stop | 로컬 W&B 서버 중지 |
+| start | 로컬 W&B 서버를 시작합니다 |
+| stop | 로컬 W&B 서버를 중지합니다 |

@@ -1,6 +1,6 @@
 ---
-title: データ ガバナンスとアクセス コントロールを管理する
-description: モデルレジストリのロールベース アクセス制御 (RBAC) を使用して、誰が保護されたエイリアスを更新できるかを制御します。
+title: データガバナンスとアクセス制御を管理する
+description: モデルレジストリのロールベース アクセス制御（RBAC）を使用して、保護されたエイリアスを更新できるユーザーを管理します。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-access_controls
@@ -8,30 +8,30 @@ menu:
 weight: 10
 ---
 
-*保護されたエイリアス* を使用して、モデル開発パイプラインの主要なステージを表現します。*モデルレジストリ管理者* のみが保護されたエイリアスを追加、変更、または削除できます。モデルレジストリ管理者は保護されたエイリアスを定義し、使用することができます。W&B は非管理ユーザーがモデルバージョンから保護されたエイリアスを追加または削除することをブロックします。
+*保護されたエイリアス* を使って、モデル開発パイプラインの主要なステージを表現しましょう。*Model Registry Administrators* のみが、保護されたエイリアスの追加・編集・削除を行うことができます。モデルレジストリ管理者は、保護されたエイリアスを定義・利用できます。W&B は管理者以外のユーザーによるモデルバージョンへの保護されたエイリアスの追加や削除をブロックします。
 
 {{% alert %}}
-チーム管理者または現在のレジストリ管理者のみがレジストリ管理者のリストを管理できます。
+Team 管理者または現在のレジストリ管理者のみが、レジストリ管理者のリストを管理できます。
 {{% /alert %}}
 
-例えば、`staging` と `production` を保護されたエイリアスとして設定したとします。チームのどのメンバーも新しいモデルバージョンを追加できますが、`staging` または `production` エイリアスを追加できるのは管理者のみです。
+例えば、`staging` や `production` を保護されたエイリアスとして設定した場合、チームのメンバーは誰でも新しいモデルバージョンを追加できます。しかし、`staging` や `production` エイリアスの追加は管理者のみが可能です。
 
-## アクセス制御の設定
 
-次の手順で、チームのモデルレジストリに対するアクセス制御を設定します。
+## アクセス制御の設定方法
+以下の手順で、チームのモデルレジストリに対するアクセス制御を設定します。
 
-1. W&B モデルレジストリアプリケーションに移動します：[https://wandb.ai/registry/model](https://wandb.ai/registry/model)
-2. ページ右上のギアボタンを選択します。
-{{< img src="/images/models/rbac_gear_button.png" alt="" >}}
+1. [W&B Model Registry アプリ](https://wandb.ai/registry/model)にアクセスします。
+2. ページ右上にある歯車ボタンを選択します。
+{{< img src="/images/models/rbac_gear_button.png" alt="レジストリ設定の歯車" >}}
 3. **Manage registry admins** ボタンを選択します。
-4. **Members** タブ内で、モデルバージョンから保護されたエイリアスを追加および削除するアクセス権を付与したいユーザーを選択します。
-{{< img src="/images/models/access_controls_admins.gif" alt="" >}}
+4. **Members** タブで、モデルバージョンの保護されたエイリアスの追加や削除権限を与えたいユーザーを選択します。
+{{< img src="/images/models/access_controls_admins.gif" alt="レジストリ管理者の管理" >}}
 
-## 保護されたエイリアスの追加
 
-1. W&B モデルレジストリアプリケーションに移動します：[https://wandb.ai/registry/model](https://wandb.ai/registry/model)
-2. ページ右上のギアボタンを選択します。
-{{< img src="/images/models/rbac_gear_button.png" alt="" >}}
-3. **Protected Aliases** セクションまでスクロールダウンします。
-4. プラスアイコン (**+**) をクリックして新しいエイリアスを追加します。
-{{< img src="/images/models/access_controls_add_protected_aliases.gif" alt="" >}}
+## 保護されたエイリアスの追加方法
+1. [W&B Model Registry アプリ](https://wandb.ai/registry/model)にアクセスします。
+2. ページ右上にある歯車ボタンを選択します。
+{{< img src="/images/models/rbac_gear_button.png" alt="レジストリ設定の歯車ボタン" >}}
+3. **Protected Aliases** セクションまでスクロールします。
+4. プラスアイコン（**+**）をクリックして、新しいエイリアスを追加します。
+{{< img src="/images/models/access_controls_add_protected_aliases.gif" alt="保護されたエイリアスの追加" >}}

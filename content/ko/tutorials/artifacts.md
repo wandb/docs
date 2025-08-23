@@ -1,5 +1,5 @@
 ---
-title: Track models and datasets
+title: 모델과 데이터셋 추적하기
 menu:
   tutorials:
     identifier: ko-tutorials-artifacts
@@ -7,66 +7,60 @@ weight: 4
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-artifacts/Pipeline_Versioning_with_W&B_Artifacts.ipynb" >}}
-이 노트북에서는 W&B Artifacts 를 사용하여 ML experiment 파이프라인을 추적하는 방법을 보여드리겠습니다.
+이 노트북에서는 W&B Artifacts 를 사용해 ML 실험 파이프라인을 추적하는 방법을 보여드릴게요.
 
-[비디오 튜토리얼](http://tiny.cc/wb-artifacts-video)을 따라해보세요.
+[비디오 튜토리얼](https://tiny.cc/wb-artifacts-video)도 함께 참고해주세요.
 
-## Artifacts 에 대하여
+## 아티팩트(Artifacts)란?
 
-그리스의 [암포라](https://en.wikipedia.org/wiki/Amphora) 와 같이,
-아티팩트는 프로세스의 결과물인 생산된 오브젝트입니다.
-ML에서 가장 중요한 아티팩트는 _데이터셋_ 과 _모델_ 입니다.
+아티팩트(artifact)는 그리스의 [앰포라](https://en.wikipedia.org/wiki/Amphora)처럼 어떤 프로세스의 결과물, 즉 생성된 오브젝트입니다.  
+ML에서 가장 중요한 artifact 는 _데이터셋_ 과 _모델_ 입니다.
 
-그리고 [코로나도의 십자가](https://indianajones.fandom.com/wiki/Cross_of_Coronado) 와 마찬가지로, 이러한 중요한 아티팩트는 박물관에 있어야 합니다.
-즉, 카탈로그화 및 구성되어야 합니다.
-그래야 여러분, 여러분의 팀, 그리고 더 나아가 ML 커뮤니티가 그것들로부터 배울 수 있습니다.
-결국, 트레이닝을 추적하지 않는 사람들은 그것을 반복할 수 밖에 없습니다.
+그리고, [코로나도의 십자가](https://indianajones.fandom.com/wiki/Cross_of_Coronado)처럼 이러한 중요한 artifact 들은 마치 박물관에 소장되어야 합니다.  
+즉, 여러분과 팀, 전체 ML 커뮤니티가 이로부터 더 많은 것을 배울 수 있도록 잘 정리하고 관리해야 합니다.  
+트레이닝 과정을 추적하지 않으면, 같은 실수를 반복하기 마련이니까요!
 
-Artifacts API를 사용하면 W&B `Run` 의 결과물로 `Artifact` 를 기록하거나, 다음 다이어그램과 같이 `Run` 에 대한 입력으로 `Artifact` 를 사용할 수 있습니다.
-여기서 트레이닝 run 은 데이터셋을 가져와 모델을 생성합니다.
+Artifiacts API를 활용하면, W&B의 `Run`에서 생성된 결과물을 `Artifact`로 기록할 수 있고, 다른 `Run`에서 입력값으로 해당 `Artifact`를 사용할 수도 있습니다.  
+아래 다이어그램처럼, 트레이닝 run 이 데이터셋을 입력 받아 모델을 생성하는 형태입니다.
+ 
+ {{< img src="/images/tutorials/artifacts-diagram.png" alt="Artifacts workflow diagram" >}}
 
- {{< img src="/images/tutorials/artifacts-diagram.png" alt="" >}}
+하나의 run에서 나온 output을 다른 run에서 input으로 사용할 수 있기 때문에, `Artifact`와 `Run`은 함께 방향성 있는 그래프(양분 [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph))를 형성하게 됩니다.  
+노드는 각각 `Artifact`와 `Run`이고, 화살표로 어떤 `Run`이 어떤 `Artifact`를 생성/소비하는지 표현합니다.
 
-하나의 run 이 다른 run 의 출력을 입력으로 사용할 수 있기 때문에, `Artifact` 와 `Run` 은 함께 방향 그래프를 형성합니다. ( `Artifact` 와 `Run` 에 대한 노드가 있는 이분 [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) )
-그리고 `Run` 을 소비하거나 생성하는 `Artifact` 에 연결하는 화살표가 있습니다.
-
-## Artifacts 를 사용하여 모델 과 데이터셋 추적하기
+## Artifacts로 모델과 데이터셋을 추적하기
 
 ### 설치 및 임포트
 
-Artifacts 는 `0.9.2` 버전부터 Python 라이브러리의 일부입니다.
+Artifacts 는 wandb Python 라이브러리의 `0.9.2` 버전부터 지원됩니다.
 
-ML Python 스택의 대부분과 마찬가지로 `pip` 를 통해 사용할 수 있습니다.
-
+주요 ML Python 생태계와 같이, `pip`로 설치할 수 있습니다.
 
 ```python
-# Compatible with wandb version 0.9.2+
+# wandb 0.9.2+ 버전에서 동작합니다
 !pip install wandb -qqq
 !apt install tree
 ```
-
 
 ```python
 import os
 import wandb
 ```
 
-### 데이터셋 기록하기
+### 데이터셋 기록(Log a Dataset)
 
-먼저 몇 가지 Artifacts 를 정의해 보겠습니다.
+이제 Artifacts 를 정의해봅시다.
 
-이 예제는 이 PyTorch 를 기반으로 합니다.
-["Basic MNIST Example"](https://github.com/pytorch/examples/tree/master/mnist/),
-그러나 [TensorFlow](http://wandb.me/artifacts-colab) 또는 다른 프레임워크에서,
-또는 순수 Python 에서도 쉽게 수행할 수 있습니다.
+아래 예제는 PyTorch의
+["Basic MNIST Example"](https://github.com/pytorch/examples/tree/master/mnist/) 를 기반으로 합니다.  
+물론 [TensorFlow](https://wandb.me/artifacts-colab)나 다른 프레임워크 또는 pure Python 으로도 적용 가능합니다.
 
-`Dataset` 부터 시작하겠습니다.
-- 파라미터를 선택하기 위한 `train` 트레이닝 세트,
-- 하이퍼파라미터를 선택하기 위한 `validation` 검증 세트,
-- 최종 모델을 평가하기 위한 `test` 테스트 세트
+데이터셋을 먼저 준비합니다:
+- 파라미터(모델 파라미터) 선택에 사용하는 `train` 세트,
+- 하이퍼파라미터를 위해 사용하는 `validation` 세트,
+- 최종 모델 평가에 사용하는 `test` 세트
 
-아래의 첫 번째 셀은 이러한 세 가지 데이터셋을 정의합니다.
-
+아래 첫 번째 셀에서 이 세 가지 데이터셋을 정의합니다.
 
 ```python
 import random 
@@ -76,34 +70,34 @@ import torchvision
 from torch.utils.data import TensorDataset
 from tqdm.auto import tqdm
 
-# Ensure deterministic behavior
+# 일관된 결과를 위해 결정론적으로 만듦
 torch.backends.cudnn.deterministic = True
 random.seed(0)
 torch.manual_seed(0)
 torch.cuda.manual_seed_all(0)
 
-# Device configuration
+# 디바이스 설정
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-# Data parameters
+# 데이터 파라미터
 num_classes = 10
 input_shape = (1, 28, 28)
 
-# drop slow mirror from list of MNIST mirrors
+# MNIST 미러 사이트 중 느린 곳 제외
 torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.MNIST.mirrors
                                       if not mirror.startswith("http://yann.lecun.com")]
 
 def load(train_size=50_000):
     """
-    # Load the data
+    # 데이터 로드
     """
 
-    # the data, split between train and test sets
+    # train/test 세트로 데이터 분할
     train = torchvision.datasets.MNIST("./", train=True, download=True)
     test = torchvision.datasets.MNIST("./", train=False, download=True)
     (x_train, y_train), (x_test, y_test) = (train.data, train.targets), (test.data, test.targets)
 
-    # split off a validation set for hyperparameter tuning
+    # 하이퍼파라미터 튜닝을 위해 validation 세트 분리
     x_train, x_val = x_train[:train_size], x_train[train_size:]
     y_train, y_val = y_train[:train_size], y_train[train_size:]
 
@@ -116,34 +110,30 @@ def load(train_size=50_000):
     return datasets
 ```
 
-이것은 이 예제에서 반복되는 패턴을 설정합니다.
-Artifact 로 데이터를 기록하는 코드는
-해당 데이터를 생성하는 코드 주위에 래핑됩니다.
-이 경우 데이터를 `load` 하는 코드는
-데이터를 `load_and_log` 하는 코드와 분리됩니다.
+이제 '데이터를 기록하는 코드'는 '데이터를 생성하는 코드'를 감싸는 형태가 됩니다.  
+즉, 데이터를 `load`하는 코드는 따로 분리하고,  
+이를 기록하는 `load_and_log` 함수는 그 바깥에서 데이터를 받아 기록합니다.
 
-이것은 좋은 방법입니다.
+이 방식이 좋은 습관입니다.
 
-이러한 데이터셋을 Artifacts 로 기록하려면
-다음이 필요합니다.
-1. `wandb.init` 으로 `Run` 을 생성하고 (L4)
-2. 데이터셋에 대한 `Artifact` 를 생성하고 (L10),
-3. 관련 `file` 을 저장하고 기록합니다 (L20, L23).
+이제 이 데이터셋들을 Artifacts 로 기록하려면,
+1.  `wandb.init()`로 `Run`을 생성하고 (L4)
+2.  데이터셋을 위한 `Artifact`를 만들고 (L10)
+3.  연관된 파일을 저장하고 기록합니다 (L20, L23)
 
-아래 코드 셀의 예제를 확인하고
-자세한 내용은 나중에 섹션을 확장하십시오.
-
+아래 예제 코드를 보고,  
+더 자세한 설명은 다음 섹션들을 펼쳐보세요.
 
 ```python
 def load_and_log():
 
-    # 🚀 start a run, with a type to label it and a project it can call home
+    # Run 생성, 타입(job_type) 지정 및 프로젝트 설정
     with wandb.init(project="artifacts-example", job_type="load-data") as run:
         
-        datasets = load()  # separate code for loading the datasets
+        datasets = load()  # 데이터셋 로드
         names = ["training", "validation", "test"]
 
-        # 🏺 create our Artifact
+        # 🏺 Artifact 생성
         raw_data = wandb.Artifact(
             "mnist-raw", type="dataset",
             description="Raw MNIST dataset, split into train/val/test",
@@ -151,125 +141,123 @@ def load_and_log():
                       "sizes": [len(dataset) for dataset in datasets]})
 
         for name, data in zip(names, datasets):
-            # 🐣 Store a new file in the artifact, and write something into its contents.
+            # 🐣 Artifact에 새 파일을 저장하고, 내용을 쓴다.
             with raw_data.new_file(name + ".pt", mode="wb") as file:
                 x, y = data.tensors
                 torch.save((x, y), file)
 
-        # ✍️ Save the artifact to W&B.
+        # ✍️ Artifact를 W&B에 저장
         run.log_artifact(raw_data)
 
 load_and_log()
 ```
 
-#### `wandb.init`
+#### `wandb.init()`
 
+`Artifact`를 생성할 `Run`을 시작할 때는  
+어떤 `project`에 소속될 건지 지정해야 합니다.
 
-`Artifact` 를 생성할 `Run` 을 만들 때,
-어떤 `project` 에 속하는지 명시해야 합니다.
+워크플로우에 따라  
+프로젝트의 범위는 'car-that-drives-itself'처럼 크거나  
+'iterative-architecture-experiment-117'처럼 작을 수 있습니다.
 
-워크플로우에 따라
-프로젝트는 `car-that-drives-itself` 만큼 클 수도 있고
-`iterative-architecture-experiment-117` 만큼 작을 수도 있습니다.
+> **베스트 프랙티스**: 같은 `Artifact`를 공유하는 모든 `Run`은 한 프로젝트에 두세요. 관리가 쉬워집니다.  
+> 하지만 `Artifact`는 프로젝트 간 이동도 가능하니 너무 걱정하지 마세요.
 
-> **👍 규칙**: 가능하다면 `Artifact` 를 공유하는 모든 `Run` 을
-단일 프로젝트 안에 보관하십시오. 이렇게 하면 간단하게 유지되지만
-걱정하지 마십시오. `Artifact` 는 프로젝트 간에 이동할 수 있습니다.
+여러 종류의 작업을 구분해서 추적할 수 있도록,  
+`Run`을 만들 때 `job_type`을 지정하는 것이 좋습니다.  
+이렇게 하면 Artifacts 그래프가 군더더기 없이 깔끔해집니다.
 
-실행할 수 있는 모든 종류의 작업을 추적하는 데 도움이 되도록
-`Runs` 를 만들 때 `job_type` 을 제공하는 것이 유용합니다.
-이렇게 하면 Artifacts 그래프가 깔끔하게 유지됩니다.
-
-> **👍 규칙**: `job_type` 은 설명적이어야 하며 파이프라인의 단일 단계에 해당해야 합니다. 여기서는 데이터를 `load` 하는 것과 데이터를 `preprocess` 하는 것을 분리합니다.
+> **베스트 프랙티스**: `job_type`은 파이프라인의 단계를 잘 설명하고, 한 단계만 나타내도록 작성하세요.  
+> 여기서는 데이터를 `load`하는 것과 `preprocess`하는 것을 분리합니다.
 
 #### `wandb.Artifact`
 
+무언가를 `Artifact`로 기록하려면  
+우선 `Artifact` 오브젝트를 생성해야 합니다.
 
-무언가를 `Artifact` 로 기록하려면 먼저 `Artifact` 오브젝트를 만들어야 합니다.
+모든 `Artifact`는 `name`을 가집니다 — 첫 번째 인수가 그 역할을 합니다.
 
-모든 `Artifact` 에는 `name` 이 있습니다. 이것이 첫 번째 인수를 설정하는 것입니다.
+> **베스트 프랙티스**: `name`은 직관적이고 타이핑하기 편하도록 하이픈(-)으로 구분하며, 코드 내 변수명과 대응되면 좋습니다.
 
-> **👍 규칙**: `name` 은 설명적이어야 하지만 기억하고 입력하기 쉬워야 합니다.
-코드에서 하이픈으로 구분되고 변수 이름에 해당하는 이름을 사용하는 것을 좋아합니다.
+그리고 `type`도 지정해야 합니다.  
+`Run`의 `job_type`처럼,  
+전체 실험의 `Run`과 `Artifact` 그래프를 구조화하는 데 쓰입니다.
 
-또한 `type` 이 있습니다. `Run` 에 대한 `job_type` 과 마찬가지로
-이것은 `Run` 과 `Artifact` 의 그래프를 구성하는 데 사용됩니다.
+> **베스트 프랙티스**: `type`은 간단하게!  
+> `dataset`이나 `model`처럼 명확하게 작성하고,  
+> `mnist-data-YYYYMMDD`처럼 너무 구체적이지 않아도 좋습니다.
 
-> **👍 규칙**: `type` 은 간단해야 합니다.
-`mnist-data-YYYYMMDD` 보다
-`dataset` 또는 `model` 과 같아야 합니다.
+`description`과 추가적인 `metadata`도 딕셔너리로 달 수 있습니다.  
+여기서 `metadata`는 JSON으로 직렬화 가능한 값이면 됩니다.
 
-`description` 과 일부 `metadata` 를 사전으로 첨부할 수도 있습니다.
-`metadata` 는 JSON 으로 직렬화할 수 있어야 합니다.
+> **베스트 프랙티스**: `metadata`에는 가능한 한 자세한 정보를 넣으세요.
 
-> **👍 규칙**: `metadata` 는 가능한 한 설명적이어야 합니다.
+#### `artifact.new_file` 및 `run.log_artifact()`
 
-#### `artifact.new_file` 및 `run.log_artifact`
+`Artifact` 오브젝트를 만들었으면, 여기에 파일을 추가해야 합니다.
 
-`Artifact` 오브젝트를 만들었으면 파일을 추가해야 합니다.
+정확히 말씀드리면, _파일들_ 입니다.  
+`Artifact`는 디렉토리처럼 구조화되어 있고  
+여러 파일과 서브디렉토리를 담을 수 있습니다.
 
-제대로 읽으셨습니다. _files_ 입니다.
-`Artifact` 는 디렉토리와 같이 구성되어 있으며
-파일과 하위 디렉토리가 있습니다.
+> **베스트 프랙티스**: 가능하다면 `Artifact` 내용을 여러 파일로 나눠 관리하세요.  
+> 확장성을 위해 권장합니다.
 
-> **👍 규칙**: 그렇게 하는 것이 합리적일 때마다 내용을
-`Artifact` 에서 여러 파일로 분할하십시오. 이렇게 하면 확장할 때 도움이 됩니다.
+`new_file` 메소드는 파일 작성과 동시에  
+Artifact 에 파일을 부착합니다.  
+아래에 나오는 `add_file` 메소드는 두 단계를 나눠서 처리합니다.
 
-`new_file` 메소드를 사용합니다.
-파일을 동시에 쓰고 `Artifact` 에 첨부합니다.
-아래에서는 `add_file` 메소드를 사용합니다.
-이 두 단계를 분리합니다.
+모든 파일을 추가했다면, 마지막으로 [wandb.ai](https://wandb.ai) 에 `log_artifact` 합니다.
 
-모든 파일을 추가했으면 [wandb.ai](https://wandb.ai) 에 `log_artifact` 해야 합니다.
+실행 결과를 보면,  
+`Run` 페이지로 연결되는 URL이 나오고  
+여기서 기록된 `Artifact`도 확인할 수 있습니다.
 
-출력에 일부 URL 이 나타나는 것을 알 수 있습니다.
-Run 페이지에 대한 URL 을 포함합니다.
-거기에서 기록된 `Artifact` 를 포함하여 `Run` 의 결과를 볼 수 있습니다.
+아래에서 Run 페이지의 다른 영역도 활용하는 예시를 소개합니다.
 
-아래에서 Run 페이지의 다른 구성 요소를 더 잘 활용하는 몇 가지 예를 볼 수 있습니다.
+### 기록된 Dataset Artifact 활용하기
 
-### 기록된 데이터셋 Artifact 사용
+W&B의 `Artifact`는 박물관에 전시된 것과 달리  
+_실제로 사용_하기 위해 만들어진 것입니다.  
+저장만 하는 게 아니라 직접 활용할 수 있어요.
 
-박물관의 Artifact 와 달리 W&B 의 `Artifact` 는
-단순히 저장되는 것이 아니라 _사용_ 되도록 설계되었습니다.
+아래 셀에서는 파이프라인의 한 단계로  
+raw 데이터셋을 입력받아 이를  
+전처리(`preprocess`)해서 올바른 형태로 변경합니다.
 
-그것이 어떻게 보이는지 살펴 보겠습니다.
-
-아래 셀은 원시 데이터셋을 가져오는 파이프라인 단계를 정의합니다.
-이를 사용하여 `정규화` 되고 올바르게 형성된 `preprocess` 된 데이터셋을 생성합니다.
-
-다시 말하지만 코드의 핵심인 `preprocess` 를 `wandb` 와 인터페이스하는 코드와 분리했습니다.
-
+마찬가지로, 핵심 구현 함수 `preprocess`와  
+wandb 인터페이스를 위한 코드를 분리하는 패턴을 사용합니다.
 
 ```python
 def preprocess(dataset, normalize=True, expand_dims=True):
     """
-    ## Prepare the data
+    ## 데이터 준비
     """
     x, y = dataset.tensors
 
     if normalize:
-        # Scale images to the [0, 1] range
+        # 이미지를 [0, 1] 범위로 스케일 조정
         x = x.type(torch.float32) / 255
 
     if expand_dims:
-        # Make sure images have shape (1, 28, 28)
+        # 이미지 모양을 (1, 28, 28)로 맞추기
         x = torch.unsqueeze(x, 1)
     
     return TensorDataset(x, y)
 ```
 
-이제 `wandb.Artifact` 로깅으로 이 `preprocess` 단계를 계측하는 코드입니다.
+이번엔 이 `preprocess` 단계를 wandb.Artifact 로 기록하는 코드입니다.
 
-아래 예제는 `Artifact` 를 `use` 하고
-새로운 기능이며,
-`log` 합니다.
-마지막 단계와 동일합니다.
-`Artifact` 는 `Run` 의 입력과 출력 모두입니다.
+아래 코드는  
+기존 단계와 달리  
+`Artifact`를 `use`해서 입력으로 쓰고,  
+(`use`는 새 기능!)  
+`log`하는 부분은 이전 단계와 같습니다.  
+즉, `Artifact`는 `Run`의 입력도 될 수 있고 출력도 될 수 있습니다.
 
-새로운 `job_type` 인 `preprocess-data` 를 사용합니다.
-이것이 이전 작업과는 다른 종류의 작업임을 분명히 하기 위해서입니다.
-
+여기서는 새로운 `job_type`인 `preprocess-data`를 사용해  
+이 단계가 이전과 다르다는 걸 분명히 합니다.
 
 ```python
 def preprocess_and_log(steps):
@@ -281,10 +269,10 @@ def preprocess_and_log(steps):
             description="Preprocessed MNIST dataset",
             metadata=steps)
          
-        # ✔️ declare which artifact we'll be using
+        # ✔️ 사용할 artifact를 명시적으로 선언
         raw_data_artifact = run.use_artifact('mnist-raw:latest')
 
-        # 📥 if need be, download the artifact
+        # 📥 필요시 artifact를 다운로드
         raw_dataset = raw_data_artifact.download()
         
         for split in ["training", "validation", "test"]:
@@ -305,17 +293,17 @@ def read(data_dir, split):
     return TensorDataset(x, y)
 ```
 
-여기서 주목해야 할 점은 전처리 `steps` 가
-`metadata` 로 `preprocessed_data` 와 함께 저장된다는 것입니다.
+여기서 주목할 점:  
+전처리 `steps`가  
+`preprocessed_data`의 `metadata`로 함께 저장됩니다.
 
-experiment 를 재현 가능하게 만들려고 하는 경우
-많은 메타데이터를 캡처하는 것이 좋습니다.
+실험을 재현(reproducible)하게 만들고 싶다면,  
+메타데이터를 최대한 꼼꼼히 기록하세요.
 
-또한 데이터셋이 "`large artifact`" 임에도 불구하고
-`download` 단계는 1 초 이내에 완료됩니다.
+또한, 우리의 데이터셋이 꽤 "큰 artifact"임에도 불구하고,  
+`download` 단계가 1초도 채 걸리지 않습니다.
 
-자세한 내용은 아래의 마크다운 셀을 확장하십시오.
-
+아래 마크다운 셀을 펼쳐서 자세한 내용을 확인해보세요.
 
 ```python
 steps = {"normalize": True,
@@ -324,37 +312,37 @@ steps = {"normalize": True,
 preprocess_and_log(steps)
 ```
 
-#### `run.use_artifact`
+#### `run.use_artifact()`
 
-이러한 단계는 더 간단합니다. 소비자는 `Artifact` 의 `name` 과 약간 더 많은 것을 알아야 합니다.
+여기서는 간단하게 사용할 수 있습니다.  
+사용자는 `Artifact`의 `name`, 그리고 약간의 부가 정보를 알면 됩니다.
 
-그 "약간 더 많은 것" 은 원하는 특정 버전의 `Artifact` 의 `alias` 입니다.
+바로 그 부가 정보가 바로 버전을 선택할 때 사용하는 `alias` 입니다.
 
-기본적으로 마지막으로 업로드된 버전에는 `latest` 라는 태그가 지정됩니다.
-그렇지 않으면 `v0` / `v1` 등으로 이전 버전을 선택하거나
-`best` 또는 `jit-script` 와 같은 사용자 정의 에일리어스를 제공할 수 있습니다.
-[Docker Hub](https://hub.docker.com/) 태그와 마찬가지로
-에일리어스는 `:` 로 이름과 구분되므로
-원하는 `Artifact` 는 `mnist-raw:latest` 입니다.
+기본적으로, 마지막으로 업로드된 버전은 `latest`로 태그됩니다.  
+아니면 `v0`, `v1` 등으로 이전 버전을 선택할 수도 있고,  
+`best`, `jit-script`와 같이 직접 에일리어스(alias)를 지정해줄 수도 있습니다.  
+[Docker Hub](https://hub.docker.com/)의 태그와 마찬가지로,  
+이름과 alias는 `:`로 구분합니다.  
+즉, 우리가 원하는 `Artifact`는 `mnist-raw:latest`가 됩니다.
 
-> **👍 규칙**: 에일리어스를 짧고 간단하게 유지하십시오.
-일부 속성을 충족하는 `Artifact` 를 원할 때
-`latest` 또는 `best` 와 같은 사용자 정의 `alias` 를 사용하십시오.
+> **베스트 프랙티스**: 에일리어스는 짧고 기억하기 쉽도록 하세요.  
+> `latest`나 `best`처럼 커스텀 alias로 특성을 바로 알 수 있게 하는 게 좋습니다.
 
 #### `artifact.download`
 
-이제 `download` 호출에 대해 걱정할 수도 있습니다.
-다른 복사본을 다운로드하면 메모리 부담이 두 배가 되지 않습니까?
+`download` 호출이 걱정되실 수도 있겠죠.  
+"파일을 한 번 더 다운로드하면 메모리 부담이 커지지 않을까?"
 
-걱정하지 마십시오. 실제로 다운로드하기 전에
-올바른 버전을 로컬에서 사용할 수 있는지 확인합니다.
-이것은 [토렌트](https://en.wikipedia.org/wiki/Torrent_file) 와 [`git` 를 사용한 버전 관리](https://blog.thoughtram.io/git/2014/11/18/the-anatomy-of-a-git-commit.html) 의 기본이 되는 동일한 기술을 사용합니다. 해싱.
+걱정하지 마세요! 다운로드 전에  
+해당 버전이 이미 로컬에 있는지 먼저 체크합니다.  
+이는 [토렌트](https://en.wikipedia.org/wiki/Torrent_file)나  
+[git 버전 관리](https://blog.thoughtram.io/git/2014/11/18/the-anatomy-of-a-git-commit.html)에서 사용되는 해시 기술을 활용합니다.
 
-`Artifact` 가 생성되고 기록되면
-작업 디렉토리의 `artifacts` 라는 폴더가
-각 `Artifact` 에 대해 하나씩 하위 디렉토리로 채워지기 시작합니다.
-`!tree artifacts` 로 내용을 확인하세요.
-
+Artifact가 생성되고 기록될 때마다  
+작업 디렉토리에 `artifacts` 폴더가 생기고  
+각 Artifact마다 하위 폴더가 채워집니다.  
+아래 명령어로 구조를 살펴볼 수 있어요:
 
 ```python
 !tree artifacts
@@ -362,34 +350,34 @@ preprocess_and_log(steps)
 
 #### Artifacts 페이지
 
-이제 `Artifact` 를 기록하고 사용했으므로
-Run 페이지에서 Artifacts 탭을 확인해 보겠습니다.
+이제 Artifact를 기록하고 사용했으니,  
+Run 페이지의 Artifacts 탭을 확인해봅시다.
 
-`wandb` 출력에서 Run 페이지 URL 로 이동합니다.
-왼쪽 사이드바에서 "Artifacts" 탭을 선택합니다.
-(하키 퍽 세 개가 서로 쌓여 있는 것처럼 보이는 데이터베이스 아이콘이 있는 탭입니다).
+wandb 출력에서 Run 페이지 URL로 이동해  
+왼쪽 사이드바에서 "Artifacts" 탭을 선택하세요  
+(데이터베이스 아이콘, 즉 하키 퍽 3개가 쌓인 모양입니다).
 
-**입력 Artifacts** 테이블 또는
-**출력 Artifacts** 테이블에서 행을 클릭한 다음
-`Artifact` 에 대해 기록된 모든 내용을 보려면
-탭 (**개요**, **메타데이터**) 를 확인하십시오.
+**Input Artifacts** 테이블이나 **Output Artifacts** 테이블에서  
+행을 클릭해보면  
+(**Overview**, **Metadata**) 탭에서 Artifact에 기록된  
+모든 정보를 확인할 수 있습니다.
 
-특히 **그래프 보기** 가 마음에 듭니다.
-기본적으로 `Artifact` 의 `type` 과
-`Run` 의 `job_type` 이 두 가지 유형의 노드로 있는 그래프를 보여줍니다.
-소비 및 생산을 나타내는 화살표가 있습니다.
+특히 **Graph View**를 추천합니다.  
+기본적으로  
+Artifact의 `type`과
+Run의 `job_type`이 노드가 되고,  
+소비와 생성 관계가 화살표로 나타납니다.
 
-### 모델 기록하기
+### 모델 기록(Log a Model)
 
-API 가 `Artifact` 에 어떻게 작용하는지 알 수 있을 만큼 충분하지만
-이 예제를 파이프라인의 끝까지 따라가면
-`Artifact` 가 ML 워크플로우를 어떻게 개선할 수 있는지 알 수 있습니다.
+여기까지가 Artifact API의 기본 원리이지만,  
+마지막 단계까지 파이프라인을 따라가면서  
+어떻게 ML 워크플로우를 개선할 수 있는지 보여드릴게요.
 
-여기 첫 번째 셀은 PyTorch 에서 DNN `model` 을 빌드합니다. 매우 간단한 ConvNet 입니다.
+아래 셀에서는 PyTorch로 심플한 ConvNet 구조의 DNN 모델을 만듭니다.
 
-먼저 `model` 을 초기화하기만 하고 트레이닝하지는 않습니다.
-이렇게 하면 다른 모든 것을 일정하게 유지하면서 트레이닝을 반복할 수 있습니다.
-
+우선 모델을 초기화만 하고 학습은 하지 않겠습니다.  
+이렇게 하면 트레이닝을 여러 번 반복해도 나머지는 동일하게 유지할 수 있습니다.
 
 ```python
 from math import floor
@@ -436,17 +424,18 @@ class ConvNet(nn.Module):
         return x
 ```
 
-여기서는 W&B 를 사용하여 run 을 추적하고 있습니다.
-따라서 [`wandb.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)
-오브젝트를 사용하여 모든 하이퍼파라미터를 저장합니다.
+여기서는 W&B로 run을 추적합니다.  
+그래서 모든 하이퍼파라미터를  
+[`run.config`](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-config/Configs_in_W%26B.ipynb)  
+오브젝트에 저장합니다.
 
-해당 `config` 오브젝트의 `dict` 사전 버전은 매우 유용한 `metadata` 이므로 반드시 포함하십시오.
-
+이 config 오브젝트의 `dict` 버전은  
+메타데이터로서 유용하게 쓰이니 꼭 포함하세요.
 
 ```python
 def build_model_and_log(config):
     with wandb.init(project="artifacts-example", job_type="initialize", config=config) as run:
-        config = wandb.config
+        config = run.config
         
         model = ConvNet(**config)
 
@@ -456,10 +445,10 @@ def build_model_and_log(config):
             metadata=dict(config))
 
         torch.save(model.state_dict(), "initialized_model.pth")
-        # ➕ another way to add a file to an Artifact
+        # ➕ Artifact에 파일을 추가하는 또다른 방법
         model_artifact.add_file("initialized_model.pth")
 
-        wandb.save("initialized_model.pth")
+        run.save("initialized_model.pth")
 
         run.log_artifact(model_artifact)
 
@@ -473,30 +462,28 @@ model_config = {"hidden_layer_sizes": [32, 64],
 build_model_and_log(model_config)
 ```
 
-#### `artifact.add_file`
+#### `artifact.add_file()`
 
+데이터셋 기록 예제에서는  
+`new_file`로 파일 작성과 동시에 Artifact 등록을 했지만,  
+여기서는 파일을 먼저 저장(`torch.save`)하고  
+그 다음 `add_file`로 Artifact에 추가하는 방식을 사용했습니다.
 
-데이터셋 로깅 예제에서와 같이
-`new_file` 을 동시에 작성하고 `Artifact` 에 추가하는 대신
-한 단계로 파일을 작성할 수도 있습니다.
-(여기서는 `torch.save` )
-그런 다음 다른 단계에서 `Artifact` 에 `add` 합니다.
+> **베스트 프랙티스**: 중복 저장을 막으려면 `new_file`을 권장합니다.
 
-> **👍 규칙**: 중복을 방지하기 위해 가능하면 `new_file` 을 사용하십시오.
+#### 기록된 모델 Artifact 사용하기
 
-#### 기록된 모델 Artifact 사용
+데이터셋처럼  
+`use_artifact`를 통해  
+`initialized_model`도 다른 Run에서 사용할 수 있습니다.
 
-`dataset` 에서 `use_artifact` 를 호출할 수 있는 것과 마찬가지로
-`initialized_model` 에서 호출하여
-다른 `Run` 에서 사용할 수 있습니다.
+이번에는 모델을 `train`해보겠습니다.
 
-이번에는 `model` 을 `train` 해 보겠습니다.
-
-자세한 내용은 다음 Colab 을 확인하십시오.
-[PyTorch 로 W&B 계측](http://wandb.me/pytorch-colab).
-
+더 자세한 정보는  
+[PyTorch + W&B 연동 Colab](https://wandb.me/pytorch-colab)을 참고하세요.
 
 ```python
+import wandb
 import torch.nn.functional as F
 
 def train(model, train_loader, valid_loader, config):
@@ -521,7 +508,7 @@ def train(model, train_loader, valid_loader, config):
                 
                 train_log(loss, example_ct, epoch)
 
-        # evaluate the model on the validation set at each epoch
+        # 매 epoch 마다 validation 세트로 모델 평가
         loss, accuracy = test(model, valid_loader)  
         test_log(loss, accuracy, example_ct, epoch)
 
@@ -534,8 +521,8 @@ def test(model, test_loader):
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.cross_entropy(output, target, reduction='sum')  # sum up batch loss
-            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            test_loss += F.cross_entropy(output, target, reduction='sum')  # 배치 손실 합
+            pred = output.argmax(dim=1, keepdim=True)  # 예측 결과
             correct += pred.eq(target.view_as(pred)).sum()
 
     test_loss /= len(test_loader.dataset)
@@ -548,36 +535,39 @@ def test(model, test_loader):
 def train_log(loss, example_ct, epoch):
     loss = float(loss)
 
-    # where the magic happens
-    wandb.log({"epoch": epoch, "train/loss": loss}, step=example_ct)
-    print(f"Loss after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}")
+    # magic이 일어나는 곳
+    with wandb.init(project="artifacts-example", job_type="train") as run:
+        run.log({"epoch": epoch, "train/loss": loss}, step=example_ct)
+        print(f"Loss after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}")
     
 
 def test_log(loss, accuracy, example_ct, epoch):
     loss = float(loss)
     accuracy = float(accuracy)
 
-    # where the magic happens
-    wandb.log({"epoch": epoch, "validation/loss": loss, "validation/accuracy": accuracy}, step=example_ct)
-    print(f"Loss/accuracy after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}/{accuracy:.3f}")
+    # magic이 일어나는 곳
+    with wandb.init() as run:
+        run.log({"epoch": epoch, "validation/loss": loss, "validation/accuracy": accuracy}, step=example_ct)
+        print(f"Loss/accuracy after " + str(example_ct).zfill(5) + f" examples: {loss:.3f}/{accuracy:.3f}")
 ```
 
-이번에는 두 개의 개별 `Artifact` 생성 `Run` 을 실행합니다.
+이번엔 두 개의 `Artifact`를 생성하는 Run을 따로 사용합니다.
 
-첫 번째가 `model` 트레이닝을 마치면
-`second` 는 `trained-model` `Artifact` 를 소비합니다.
-`test_dataset` 에서 성능을 `evaluate` 합니다.
+첫 번째 Run에서 모델 트레이닝을 끝내면,  
+두 번째 Run에서는  
+`trained-model` Artifact를 받아  
+테스트 데이터셋에서 평가합니다.
 
-또한 네트워크가 가장 혼란스러워하는 32 개의 예를 가져옵니다.
-`categorical_crossentropy` 가 가장 높은 예입니다.
+또한, 네트워크가 가장 많이 헷갈린  
+즉, `categorical_crossentropy`가 가장 컸던 32개의 예제를 뽑아봅니다.
 
-이것은 데이터셋과 모델의 문제를 진단하는 좋은 방법입니다.
-
+이 방법은 데이터와 모델의 문제를  
+진단하기에 매우 유용합니다.
 
 ```python
 def evaluate(model, test_loader):
     """
-    ## Evaluate the trained model
+    ## 훈련된 모델 평가
     """
 
     loss, accuracy = test(model, test_loader)
@@ -590,7 +580,7 @@ def get_hardest_k_examples(model, testing_set, k=32):
 
     loader = DataLoader(testing_set, 1, shuffle=False)
 
-    # get the losses and predictions for each item in the dataset
+    # 데이터셋의 각 항목에 대해 loss와 예측값 계산
     losses = None
     predictions = None
     with torch.no_grad():
@@ -617,11 +607,9 @@ def get_hardest_k_examples(model, testing_set, k=32):
     return highest_k_losses, hardest_k_examples, true_labels, predicted_labels
 ```
 
-이러한 로깅 기능은 새로운 `Artifact` 기능을 추가하지 않으므로
-주석을 달지 않겠습니다.
-`Artifact` 를 `use` 하고 `download` 하고
-`log` 하고 있습니다.
-
+여기서의 로깅 함수는 특별한 Artifact 기능을 더하지는 않습니다.  
+단순히 `use`, `download`,  
+그리고 `log`만 할 뿐입니다.
 
 ```python
 from torch.utils.data import DataLoader
@@ -629,7 +617,7 @@ from torch.utils.data import DataLoader
 def train_and_log(config):
 
     with wandb.init(project="artifacts-example", job_type="train", config=config) as run:
-        config = wandb.config
+        config = run.config
 
         data = run.use_artifact('mnist-preprocess:latest')
         data_dir = data.download()
@@ -659,7 +647,7 @@ def train_and_log(config):
 
         torch.save(model.state_dict(), "trained_model.pth")
         model_artifact.add_file("trained_model.pth")
-        wandb.save("trained_model.pth")
+        run.save("trained_model.pth")
 
         run.log_artifact(model_artifact)
 
@@ -688,11 +676,10 @@ def evaluate_and_log(config=None):
 
         run.summary.update({"loss": loss, "accuracy": accuracy})
 
-        wandb.log({"high-loss-examples":
+        run.log({"high-loss-examples":
             [wandb.Image(hard_example, caption=str(int(pred)) + "," +  str(int(label)))
              for hard_example, pred, label in zip(hardest_examples, preds, true_labels)]})
 ```
-
 
 ```python
 train_config = {"batch_size": 128,

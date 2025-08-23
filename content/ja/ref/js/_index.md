@@ -1,36 +1,36 @@
 ---
 title: JavaScript ライブラリ
-description: TypeScript、Node、最新のWebブラウザー向けの W&B SDK
+description: TypeScript、Node、および最新の Web ブラウザ向けの W&B SDK
 menu:
   reference:
     identifier: ja-ref-js-_index
 ---
 
-似たように、Pythonライブラリと同様に、JavaScript/TypeScriptにおいても実験管理をトラッキングするためのクライアントを提供しています。
+Python ライブラリと同様に、JavaScript/TypeScript でも実験管理を行うためのクライアントを提供しています。
 
-- Nodeサーバーからメトリクスをログし、それをW&B上のインタラクティブなプロットで表示
-- インタラクティブなトレースを用いてLLMアプリケーションのデバッグ
-- [LangChain.js](https://github.com/hwchase17/langchainjs) の使用デバッグ
+- Node サーバーからメトリクスをログし、W&B でインタラクティブなプロットとして表示できます
+- インタラクティブなトレースで LLM アプリケーションのデバッグができます
+- [LangChain.js](https://github.com/hwchase17/langchainjs) の利用をデバッグできます
 
-このライブラリはNodeおよびモダンなJSランタイムに対応しています。
+このライブラリは Node および最新の JS ランタイムに対応しています。
 
-JavaScriptクライアントのソースコードは[Githubリポジトリ](https://github.com/wandb/wandb-js)で見つけることができます。
+JavaScript クライアントのソースコードは [Github リポジトリ](https://github.com/wandb/wandb-js) で公開されています。
 
 {{% alert %}}
-私たちのJavaScriptインテグレーションはまだBeta版です。問題が発生した場合は知らせてください。
+JavaScript インテグレーションは現在ベータ版です。不具合があればご連絡ください。
 {{% /alert %}}
 
-### インストール
+## インストール
 
 ```shell
 npm install @wandb/sdk
-# あるいは ...
+# または ...
 yarn add @wandb/sdk
 ```
 
-### 使用法
+## 使い方
 
-TypeScript/ESM:
+### TypeScript/ESM:
 
 ```typescript
 import wandb from '@wandb/sdk'
@@ -46,44 +46,42 @@ await track()
 ```
 
 {{% alert color="secondary" %}}
-全てのAPIコールを非同期で処理するために、別のMessageChannelを生成します。これにより、`await wandb.finish()`を呼ばないとスクリプトが停止します。
+すべての API コールを非同期で処理するために、別の MessageChannel を生成しています。 `await wandb.finish()` を呼び出さない場合、スクリプトが終了しなくなりますのでご注意ください。
 {{% /alert %}}
 
-Node/CommonJS:
+### Node/CommonJS:
 
 ```javascript
 const wandb = require('@wandb/sdk').default;
 ```
 
-現在、Python SDKで見つかる多くの機能が不足していますが、基本的なログ機能は利用可能です。[Tables]({{< relref path="/guides/models/tables/?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme" lang="ja" >}})など、追加の機能をすぐに追加予定です。
+現時点では Python SDK に比べると多くの機能が未実装ですが、基本的なログ機能は利用できます。[Tables]({{< relref path="/guides/models/tables/?utm_source=github&utm_medium=code&utm_campaign=wandb&utm_content=readme" lang="ja" >}}) など、今後さらに多くの機能を追加予定です。
 
-### 認証と設定
+## 認証と設定
 
-Node環境では`process.env.WANDB_API_KEY`を探し、TTYがある場合は入力を促します。非Node環境では`sessionStorage.getItem("WANDB_API_KEY")`を探します。追加の設定は[こちら](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts)で確認できます。
+Node 環境では `process.env.WANDB_API_KEY` を参照し、TTY があれば入力を促します。Node 以外の環境では `sessionStorage.getItem("WANDB_API_KEY")` を参照します。その他の設定については [こちら](https://github.com/wandb/wandb-js/blob/main/src/sdk/lib/config.ts) をご覧ください。
 
-# インテグレーション
+## インテグレーション
 
-私たちの[Pythonインテグレーション]({{< relref path="/guides/integrations/" lang="ja" >}})はコミュニティで広く利用されており、より多くのJavaScriptインテグレーションを構築し、LLMアプリビルダーが任意のツールを活用できるようにすることを希望しています。
+[Python統合]({{< relref path="/guides/integrations/" lang="ja" >}}) はコミュニティで広く利用されています。これから LLM アプリの開発者が自由にツールを選択できるよう、JavaScript インテグレーションも強化していきます。
 
-もし追加のインテグレーションのリクエストがあれば、リクエストの詳細と共にissueを開くことをお勧めします。
+追加してほしいインテグレーションがあれば、お気軽にリクエストの詳細を添えて Issue を作成してください。
 
-## LangChain.js
+## LangChain.js
 
-このライブラリは、LLMアプリケーションを構築するための人気のライブラリである[LangChain.js](https://github.com/hwchase17/langchainjs) バージョン >= 0.0.75 に統合されています。
-
-### 使用法
+このライブラリは、LLM アプリ開発で人気の [LangChain.js](https://github.com/hwchase17/langchainjs) （バージョン >= 0.0.75）と連携します。
 
 ```typescript
 import {WandbTracer} from '@wandb/sdk/integrations/langchain';
 
 const wbTracer = await WandbTracer.init({project: 'langchain-test'});
-// Langchainのワークロードを実行...
+// langchain のワークロードを実行...
 chain.call({input: "My prompt"}, wbTracer)
 await WandbTracer.finish();
 ```
 
 {{% alert color="secondary" %}}
-全てのAPIコールを非同期で処理するために、別のMessageChannelを生成します。これにより、`await WandbTracer.finish()`を呼ばないとスクリプトが停止します。
+すべての API コールを非同期で処理するために、別の MessageChannel を生成しています。 `await WandbTracer.finish()` を呼び出さないと、スクリプトが終了しない場合があります。
 {{% /alert %}}
 
-より詳細な例については[こちらのテスト](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts)をご覧ください。
+より詳しい例は [こちらのテスト](https://github.com/wandb/wandb-js/blob/main/src/sdk/integrations/langchain/langchain.test.ts) をご覧ください。

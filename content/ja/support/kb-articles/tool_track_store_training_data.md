@@ -4,9 +4,10 @@ menu:
   support:
     identifier: ja-support-kb-articles-tool_track_store_training_data
 support:
-  - experiments
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`wandb.config.update(...)` に SHA または一意の識別子を渡して、データセットをトレーニング run と関連付けます。W&B は、ローカルファイル名で `wandb.save` が呼び出されない限りデータを保存しません。
+
+SHA または一意の識別子を `wandb.Run.config.update(...)` に渡すことで、データセットをトレーニング run と関連付けることができます。W&B は、ローカルファイル名とともに `wandb.Run.save()` が呼ばれない限り、データは保存しません。
