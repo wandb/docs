@@ -22,12 +22,12 @@ The following guide describes how to format your sweep configuration. See [Sweep
 
 ## Basic structure
 
-Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures. 
+Both sweep configuration format options (YAML and Python dictionary) utilize key-value pairs and nested structures.
 
-Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`]({{< relref "./sweep-config-keys.md" >}}) key), the parameters to search through ([`parameters`]({{< relref "./sweep-config-keys.md#parameters" >}}) key), the methodology to search the parameter space ([`method`]({{< relref "./sweep-config-keys.md#method" >}}) key), and more. 
+Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`]({{< relref "./sweep-config-keys.md" >}}) key), the parameters to search through ([`parameters`]({{< relref "./sweep-config-keys.md#parameters" >}}) key), the methodology to search the parameter space ([`method`]({{< relref "./sweep-config-keys.md#method" >}}) key), and more.
 
 
-For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
+For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`.
 
 
 {{< tabpane  text=true >}}
@@ -54,7 +54,7 @@ parameters:
 ```
   {{% /tab %}}
   {{% tab header="Python script or notebook" %}}
-Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or notebook. 
+Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or notebook.
 
 The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
 
@@ -70,12 +70,12 @@ sweep_configuration = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}
 
 
-Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters]({{< relref "./sweep-config-keys.md#parameters" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}). 
+Within the top level `parameters` key, the following keys are nested: `learning_rate`, `batch_size`, `epoch`, and `optimizer`. For each of the nested keys you specify, you can provide one or more values, a distribution, a probability, and more. For more information, see the [parameters]({{< relref "./sweep-config-keys.md#parameters" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}).
 
 
 ## Double nested parameters
@@ -86,9 +86,9 @@ Specify a probability distribution for your random variables if you use a Bayesi
 
 1. Create a top level `parameters` key in your sweep config.
 2. Within the `parameters`key, nest the following:
-   1. Specify the name of hyperparameter you want to optimize. 
+   1. Specify the name of hyperparameter you want to optimize.
    2. Specify the distribution you want to use for the `distribution` key. Nest the `distribution` key-value pair underneath the hyperparameter name.
-   3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.  
+   3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.
       1. (Optional) Use an additional parameters key under the top level parameter name to delineate a nested parameter.
 
 <!-- For example, the proceeding code snippets show a sweep config both in a YAML config file and a Python script.   -->
@@ -104,24 +104,25 @@ Nested parameters defined in sweep configuration overwrite keys specified in a W
 For example, suppose you initialize a W&B run with the following configuration in a `train.py` Python script (see Lines 1-2). Next, you define a sweep configuration in a dictionary called `sweep_configuration` (see Lines 4-13). You then pass the sweep config dictionary to `wandb.sweep` to initialize a sweep config (see Line 16).
 
 
-```python title="train.py" 
-def main():
+```python title="train.py"
+def train():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 
 
-sweep_configuration = {
-    "top_level_param": 0,
-    "nested_param": {
-        "learning_rate": 0.01,
-        "double_nested_param": {"x": 0.9, "y": 0.8},
-    },
-}
+if __name__ == '__main__':
+    sweep_configuration = {
+        "top_level_param": 0,
+        "nested_param": {
+            "learning_rate": 0.01,
+            "double_nested_param": {"x": 0.9, "y": 0.8},
+        },
+    }
 
-# Initialize sweep by passing in config.
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+    # Initialize sweep by passing in config.
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 
-# Start sweep job.
-wandb.agent(sweep_id, function=main, count=4)
+    # Start sweep job.
+    wandb.agent(sweep_id, function=train, count=4)
 ```
 The `nested_param.manual_key` that is passed when the W&B run is initialized is not accessible. The `wandb.Run.config` only possess the key-value pairs that are defined in the sweep configuration dictionary.
 {{% /alert %}}
@@ -137,18 +138,18 @@ program: <insert>
 method: <insert>
 parameter:
   hyperparameter_name0:
-    value: 0  
-  hyperparameter_name1: 
+    value: 0
+  hyperparameter_name1:
     values: [0, 0, 0]
-  hyperparameter_name: 
+  hyperparameter_name:
     distribution: <insert>
     value: <insert>
-  hyperparameter_name2:  
+  hyperparameter_name2:
     distribution: <insert>
     min: <insert>
     max: <insert>
     q: <insert>
-  hyperparameter_name3: 
+  hyperparameter_name3:
     distribution: <insert>
     values:
       - <list_of_values>
@@ -163,7 +164,7 @@ command:
 - ${Command macro}
 - ${Command macro}
 - ${Command macro}
-- ${Command macro}      
+- ${Command macro}
 ```
 
 To express a numeric value using scientific notation, add the YAML `!!float` operator, which casts the value to a floating point number. For example, `min: !!float 1e-5`. See [Command example]({{< relref "#command-example" >}}).
@@ -173,7 +174,7 @@ To express a numeric value using scientific notation, add the YAML `!!float` ope
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
 
-```yaml title="config.yaml" 
+```yaml title="config.yaml"
 program: train.py
 method: random
 metric:
@@ -182,14 +183,14 @@ metric:
 parameters:
   batch_size:
     distribution: q_log_uniform_values
-    max: 256 
+    max: 256
     min: 32
     q: 8
-  dropout: 
+  dropout:
     values: [0.3, 0.4, 0.5]
   epochs:
     value: 1
-  fc_layer_size: 
+  fc_layer_size:
     values: [128, 256, 512]
   learning_rate:
     distribution: uniform
@@ -202,7 +203,7 @@ parameters:
   {{% /tab %}}
   {{% tab header="Python script or notebook" %}}
 
-```python title="train.py" 
+```python title="train.py"
 sweep_config = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "loss"},
@@ -220,7 +221,7 @@ sweep_config = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```  
+```
 
   {{% /tab %}}
 {{< /tabpane >}}
@@ -264,7 +265,7 @@ The proceeding tabs show how to specify either a minimum or maximum number of it
 {{< tabpane  text=true >}}
   {{% tab header="Maximum number of iterations" %}}
 
-The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.  
+The brackets for this example are: `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, which equals `[3, 9, 27, 81]`.
 
 ```yaml
 early_terminate:
@@ -275,7 +276,7 @@ early_terminate:
   {{% /tab %}}
   {{% tab header="Minimum number of iterations" %}}
 
-The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`. 
+The brackets for this example are `[27/eta, 27/eta/eta]`, which equals `[9, 3]`.
 
 ```yaml
 early_terminate:
@@ -314,10 +315,10 @@ command:
   - "--optimizer=${optimizer}"
   - "--test=True"
 ```
-The associated Python script (`run.py`) can then parse these command line arguments using the `argparse` module. 
+The associated Python script (`run.py`) can then parse these command line arguments using the `argparse` module.
 
 ```python title="run.py"
-# run.py  
+# run.py
 import wandb
 import argparse
 
@@ -332,13 +333,13 @@ with wandb.init('test-project') as run:
     run.log({'validation_loss':1})
 ```
 
-See the [Command macros]({{< relref "./sweep-config-keys.md#command-macros" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) for a list of pre-defined macros you can use in your sweep configuration. 
+See the [Command macros]({{< relref "./sweep-config-keys.md#command-macros" >}}) section in [Sweep configuration options]({{< relref "./sweep-config-keys.md" >}}) for a list of pre-defined macros you can use in your sweep configuration.
 
 #### Boolean arguments
 
 The `argparse` module does not support boolean arguments by default. To define a boolean argument, you can use the [`action`](https://docs.python.org/3/library/argparse.html#action) parameter or use a custom function to convert the string representation of the boolean value to a boolean type.
 
-As an example, you can use the following code snippet to define a boolean argument. Pass `store_true` or `store_false` as an argument to `ArgumentParser`. 
+As an example, you can use the following code snippet to define a boolean argument. Pass `store_true` or `store_false` as an argument to `ArgumentParser`.
 
 ```python
 import wandb
@@ -351,7 +352,7 @@ args = parser.parse_args()
 args.test  # This will be True if --test is passed, otherwise False
 ```
 
-You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value. 
+You can also define a custom function to convert the string representation of the boolean value to a boolean type. For example, the following code snippet defines the `str2bool` function, which converts a string to a boolean value.
 
 ```python
 def str2bool(v: str) -> bool:
@@ -362,8 +363,3 @@ def str2bool(v: str) -> bool:
       return v
   return v.lower() in ('yes', 'true', 't', '1')
 ```
-
-
-
-
-

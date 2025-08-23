@@ -67,7 +67,7 @@ sweep_configuration = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -91,24 +91,25 @@ sweep_configuration = {
 
 예를 들어, `train.py` Python 스크립트에서 다음 구성으로 W&B run을 초기화한다고 가정합니다 (1-2행 참조). 다음으로 `sweep_configuration`이라는 dictionary에 스윕 구성을 정의합니다 (4-13행 참조). 그런 다음 스윕 구성 dictionary를 `wandb.sweep`에 전달하여 스윕 구성을 초기화합니다 (16행 참조).
 
-```python title="train.py" 
-def main():
+```python title="train.py"
+def train():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 
 
-sweep_configuration = {
-    "top_level_param": 0,
-    "nested_param": {
-        "learning_rate": 0.01,
-        "double_nested_param": {"x": 0.9, "y": 0.8},
-    },
-}
+if __name__ == '__main__':
+    sweep_configuration = {
+        "top_level_param": 0,
+        "nested_param": {
+            "learning_rate": 0.01,
+            "double_nested_param": {"x": 0.9, "y": 0.8},
+        },
+    }
 
-# Initialize sweep by passing in config.
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+    # Initialize sweep by passing in config.
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 
-# Start sweep job.
-wandb.agent(sweep_id, function=main, count=4)
+    # Start sweep job.
+    wandb.agent(sweep_id, function=train, count=4)
 ```
 W&B run이 초기화될 때 전달되는 `nested_param.manual_key`에는 액세스할 수 없습니다. `run.config`는 스윕 구성 dictionary에 정의된 키-값 쌍만 보유합니다.
 {{% /alert %}}
@@ -122,18 +123,18 @@ program: <insert>
 method: <insert>
 parameter:
   hyperparameter_name0:
-    value: 0  
-  hyperparameter_name1: 
+    value: 0
+  hyperparameter_name1:
     values: [0, 0, 0]
-  hyperparameter_name: 
+  hyperparameter_name:
     distribution: <insert>
     value: <insert>
-  hyperparameter_name2:  
+  hyperparameter_name2:
     distribution: <insert>
     min: <insert>
     max: <insert>
     q: <insert>
-  hyperparameter_name3: 
+  hyperparameter_name3:
     distribution: <insert>
     values:
       - <list_of_values>
@@ -148,7 +149,7 @@ command:
 - ${Command macro}
 - ${Command macro}
 - ${Command macro}
-- ${Command macro}      
+- ${Command macro}
 ```
 
 ## 스윕 구성 예제
@@ -156,7 +157,7 @@ command:
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
 
-```yaml title="config.yaml" 
+```yaml title="config.yaml"
 program: train.py
 method: random
 metric:
@@ -165,14 +166,14 @@ metric:
 parameters:
   batch_size:
     distribution: q_log_uniform_values
-    max: 256 
+    max: 256
     min: 32
     q: 8
-  dropout: 
+  dropout:
     values: [0.3, 0.4, 0.5]
   epochs:
     value: 1
-  fc_layer_size: 
+  fc_layer_size:
     values: [128, 256, 512]
   learning_rate:
     distribution: uniform
@@ -185,7 +186,7 @@ parameters:
   {{% /tab %}}
   {{% tab header="Python script or Jupyter notebook" %}}
 
-```python title="train.py" 
+```python title="train.py"
 sweep_config = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "loss"},
@@ -203,7 +204,7 @@ sweep_config = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```  
+```
 
   {{% /tab %}}
 {{< /tabpane >}}
@@ -298,7 +299,7 @@ command:
 
 ```bash
 /usr/bin/env python train.py --param1=value1 --param2=value2
-```  
+```
 
   {{% /tab %}}
   {{% tab header="Windows" %}}
@@ -306,7 +307,7 @@ command:
 ```bash
 python train.py --param1=value1 --param2=value2
 
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -350,7 +351,7 @@ command:
   - ${env}
   - ${interpreter}
   - ${program}
-```  
+```
 
   {{% /tab %}}
   {{% tab header="Hydra" %}}
