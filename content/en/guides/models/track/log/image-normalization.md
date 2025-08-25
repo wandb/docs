@@ -19,20 +19,20 @@ When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values
 
 The normalization algorithm automatically detects the input range and applies the appropriate transformation:
 
-1. **If data is in range [0, 1]**: Values are multiplied by 255 and converted to uint8
-   ```python
-   normalized_data = (data * 255).astype(np.uint8)
-   ```
+- **If data is in range [0, 1]**: Values are multiplied by 255 and converted to uint8
+  ```python
+  normalized_data = (data * 255).astype(np.uint8)
+  ```
 
-2. **If data is in range [-1, 1]**: Values are rescaled to [0, 255] using:
-   ```python
-   normalized_data = (255 * 0.5 * (data + 1)).astype(np.uint8)
-   ```
+- **If data is in range [-1, 1]**: Values are rescaled to [0, 255] using:
+  ```python
+  normalized_data = (255 * 0.5 * (data + 1)).astype(np.uint8)
+  ```
 
-3. **For any other range**: Values are clipped to [0, 255] and converted to uint8
-   ```python
-   normalized_data = data.clip(0, 255).astype(np.uint8)
-   ```
+- **For any other range**: Values are clipped to [0, 255] and converted to uint8
+  ```python
+  normalized_data = data.clip(0, 255).astype(np.uint8)
+  ```
 
 ## Examples of normalization effects
 
