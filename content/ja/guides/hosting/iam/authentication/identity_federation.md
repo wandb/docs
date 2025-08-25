@@ -26,7 +26,7 @@ W&B SDKを使用して、組織の資格情報を使用したサインインに�
 * **Authentication** オプションで `Set up JWT Issuer` をクリックします。
 * テキストボックスにJWTイシュアのURLを追加し、`Create` を押します。
 
-W&Bは、`${ISSUER_URL}/.well-known/oidc-configuration` パスでOIDCディスカバリードキュメントを自動的に探し、ディスカバリードキュメント内の関連URLでJSON Web Key Set (JWKS) を見つけようとします。JWKSは、JWTが関連するアイデンティティプロバイダーによって発行されたものであることを確認するために使用されるリアルタイム検証に利用されます。
+W&Bは、`${ISSUER_URL}/.well-known/openid-configuration` パスでOIDCディスカバリードキュメントを自動的に探し、ディスカバリードキュメント内の関連URLでJSON Web Key Set (JWKS) を見つけようとします。JWKSは、JWTが関連するアイデンティティプロバイダーによって発行されたものであることを確認するために使用されるリアルタイム検証に利用されます。
 
 ## W&BへのJWTを使用
 
