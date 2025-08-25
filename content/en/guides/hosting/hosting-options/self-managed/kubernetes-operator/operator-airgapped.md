@@ -35,7 +35,7 @@ If your organization already uses an internal container registry, you can add th
 * [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis).
 
   {{% alert %}}
-  W&B is currently testing the [`docker.io//bitnamisecure/redis`](https://app-catalog.vmware.com/bitnami/apps/8b68d0f6-8fb6-4a99-accd-83e4f343522f) image, which is not yet supported.
+  W&B is currently testing the [`docker.io/bitnamisecure/redis`](https://app-catalog.vmware.com/bitnami/apps/8b68d0f6-8fb6-4a99-accd-83e4f343522f) image, which is not yet supported.
   {{% /alert %}}
 * [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
 * [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
