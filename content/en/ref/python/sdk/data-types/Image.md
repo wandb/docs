@@ -105,22 +105,7 @@ with wandb.init() as run:
 
 ## Image normalization
 
-When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. 
-
-**Normalization is applied to:**
-- PyTorch tensors (format: `(channel, height, width)`)
-- NumPy arrays (format: `(height, width, channel)`)
-
-**Normalization is NOT applied to:**
-- PIL Images (passed as-is)
-- File paths (loaded as-is)
-
-**Normalization algorithm:**
-- [0, 1] range: values are multiplied by 255
-- [-1, 1] range: values are rescaled using `255 * 0.5 * (data + 1)`
-- Other ranges: values are clipped to [0, 255]
-
-For detailed examples and best practices, see the [Image normalization section]({{< relref "/guides/models/track/log/media.md#image-normalization" >}}) in the media logging guide.
+When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. For detailed information about normalization behavior, examples, and best practices, see the [Image Normalization Guide]({{< relref "/guides/models/track/log/image-normalization.md" >}}).
 
 ---
 
