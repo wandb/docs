@@ -58,7 +58,7 @@ with wandb.init(project="image-log-example") as run:
     run.log({"examples": images})
 ```
 
-The system assumes the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, the system automatically normalizes them to integers between `0` and `255`. For detailed information about normalization with PyTorch tensors and NumPy arrays, see the [Image Normalization Guide]({{< relref "/guides/models/track/log/image-normalization.md" >}}). To normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab.   
+W&B assumes the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, W&B automatically normalizes them to integers between `0` and `255`. For detailed information about normalization with PyTorch tensors and NumPy arrays, see the [Image normalization guide]({{< relref "/guides/models/track/log/image-normalization.md" >}}). To normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab.   
    {{% /tab %}}
    {{% tab header="Logging PIL Images" %}}
 For full control over the conversion of arrays to images, construct the [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) yourself and provide it directly.

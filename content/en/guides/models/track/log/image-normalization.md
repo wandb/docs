@@ -116,9 +116,11 @@ image = wandb.Image(tensor_0_1, normalize=False, caption="Normalization disabled
 ### Use automatic normalization when:
 - You want consistent behavior across different input types
 - Your data is in standard ranges ([0, 1] or [-1, 1])
-- You want the system to handle the conversion automatically
+- You want W&B to handle the conversion automatically
 
-## Best practices
+## Troubleshooting
+
+### Best practices
 
 1. **For consistent results**: Pre-process your data to the expected [0, 255] range before logging
 2. **To avoid normalization**: Convert tensors to PIL Images using `PILImage.fromarray()`
@@ -128,11 +130,11 @@ image = wandb.Image(tensor_0_1, normalize=False, caption="Normalization disabled
 6. **For natural-looking images**: Use [0, 1] normalization or preprocess to [0, 255] range
 7. **For custom processing**: Use PIL conversion when you need to apply filters or adjustments
 
-## Common issues
+### Common issues and solutions
 
-- **Unexpected brightness**: If your tensor values are in [0, 1] range, they will be multiplied by 255, making the image much brighter
-- **Data loss**: Values outside the [0, 255] range will be clipped, potentially losing information
-- **Inconsistent behavior**: Different input types (tensor vs PIL vs file path) may produce different results
+- **Unexpected brightness**: If your tensor values are in [0, 1] range, they will be multiplied by 255, making the image much brighter. **Solution**: Preprocess to [0, 255] range or use PIL conversion.
+- **Data loss**: Values outside the [0, 255] range will be clipped, potentially losing information. **Solution**: Check your data range and preprocess appropriately.
+- **Inconsistent behavior**: Different input types (tensor vs PIL vs file path) may produce different results. **Solution**: Use consistent input types or understand the normalization behavior for each type.
 
 ## Testing your code
 
