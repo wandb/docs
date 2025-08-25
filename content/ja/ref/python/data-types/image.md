@@ -30,11 +30,11 @@ Image(
 
 注意 : `wandb.Image` として `torch.Tensor` をログする際、画像は正規化されます。画像を正規化したくない場合は、テンソルを PIL Image に変換してください。
 
-## 画像の正規化
+画像の正規化
 
 PyTorch テンソルや NumPy 配列を `wandb.Image` に渡すと、`normalize=False` を設定しない限り、ピクセル値は自動的に [0, 255] の範囲に正規化されます。この正規化は、一般的な画像データ形式を処理し、適切な表示を確保するために設計されています。
 
-### 正規化が適用される場合
+正規化が適用される場合
 
 正規化は以下に適用されます：
 - **PyTorch テンソル** (形式: `(channel, height, width)`)
@@ -44,7 +44,7 @@ PyTorch テンソルや NumPy 配列を `wandb.Image` に渡すと、`normalize=
 - **PIL 画像** (そのまま渡される)
 - **ファイルパス** (そのまま読み込まれる)
 
-### 正規化アルゴリズム
+正規化アルゴリズム
 
 正規化アルゴリズムは入力範囲を自動的に検出し、適切な変換を適用します：
 
@@ -63,7 +63,7 @@ PyTorch テンソルや NumPy 配列を `wandb.Image` に渡すと、`normalize=
    normalized_data = data.clip(0, 255).astype(np.uint8)
    ```
 
-### 正規化効果の例
+正規化効果の例
 
 **例1: [0, 1] 範囲のデータ**
 ```python
@@ -115,22 +115,22 @@ tensor_0_1 = torch.rand(3, 64, 64)
 image = wandb.Image(tensor_0_1, normalize=False, caption="正規化無効")
 ```
 
-### ベストプラクティス
+ベストプラクティス
 
 1. **一貫した結果のため**: ログする前にデータを期待される [0, 255] 範囲に前処理する
 2. **正規化を回避するため**: `PILImage.fromarray()` を使用してテンソルをPIL画像に変換する
 3. **デバッグのため**: `normalize=False` を使用して生の値を確認する（[0, 255] にクリップされる）
 4. **精密な制御のため**: 正確なピクセル値が必要な場合はPIL画像を使用する
 
-### よくある落とし穴
+よくある落とし穴
 
 - **予期しない明度**: テンソル値が [0, 1] 範囲にある場合、255倍されるため画像が非常に明るくなる
 - **データ損失**: [0, 255] 範囲外の値はクリップされ、情報が失われる可能性がある
 - **一貫性のない動作**: 異なる入力タイプ（テンソル vs PIL vs ファイルパス）で異なる結果が得られる可能性がある
 
-#### 例:
+例:
 
-### numpy 配列から wandb.Image を作成
+numpy 配列から wandb.Image を作成
 
 ```python
 import numpy as np
@@ -145,7 +145,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### PILImage から wandb.Image を作成
+PILImage から wandb.Image を作成
 
 ```python
 import numpy as np
@@ -164,7 +164,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-### .png (デフォルト) ではなく .jpg をログ
+.png (デフォルト) ではなく .jpg をログ
 
 ```python
 import numpy as np
@@ -184,7 +184,7 @@ with wandb.init() as run:
 
 ## メソッド
 
-### `all_boxes`
+`all_boxes`
 
 [View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L610-L631)
 
@@ -198,7 +198,7 @@ all_boxes(
 ) -> Union[List[Optional[dict]], bool]
 ```
 
-### `all_captions`
+`all_captions`
 
 [View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L633-L637)
 
@@ -209,7 +209,7 @@ all_captions(
 ) -> Union[bool, Sequence[Optional[str]]]
 ```
 
-### `all_masks`
+`all_masks`
 
 [View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L587-L608)
 
@@ -223,7 +223,7 @@ all_masks(
 ) -> Union[List[Optional[dict]], bool]
 ```
 
-### `guess_mode`
+`guess_mode`
 
 [View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L474-L486)
 
@@ -235,7 +235,7 @@ guess_mode(
 
 np.array が表している画像の種類を推測します。
 
-### `to_uint8`
+`to_uint8`
 
 [View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L488-L511)
 
