@@ -9,10 +9,10 @@ data_type_classification: class
 
 
 
-## <kbd>class</kbd> `Image`
+<kbd>class</kbd> `Image`
 A class for logging images to W&B. 
 
-### <kbd>method</kbd> `Image.__init__`
+<kbd>method</kbd> `Image.__init__`
 
 ```python
 __init__(
@@ -103,13 +103,13 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ``` 
 
-## Image normalization
+Image normalization
 
 When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. For detailed information about normalization behavior, examples, and best practices, see the [Image Normalization Guide]({{< relref "/guides/models/track/log/image-normalization.md" >}}).
 
 ---
 
-### <kbd>property</kbd> Image.image
+<kbd>property</kbd> Image.image
 
 
 
