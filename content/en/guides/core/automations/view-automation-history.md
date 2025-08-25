@@ -66,6 +66,9 @@ You can view automation history from multiple locations in the W&B interface:
 ### From the automation details page
 
 When viewing an individual automation:
+
+<!-- TODO: Add screenshot of automation history tab -->
+
 1. The **History** tab displays a chronological list of all executions
 2. Each execution entry in the list shows:
    - **Timestamp**: Exact date and time (e.g., "Dec 15, 2024 3:45:22 PM UTC")
@@ -78,6 +81,7 @@ When viewing an individual automation:
    - **Action type**: Icon indicating Slack notification or webhook
 
 3. The list includes pagination controls at the bottom for navigating through large histories
+4. The history updates in real-time - new executions appear automatically without needing to refresh the page
 
 ## Understanding execution details
 
@@ -105,7 +109,7 @@ For successful executions, the details panel displays:
 For failed executions, the error details panel includes:
 - **Error summary**: High-level description (e.g., "Connection timeout", "Authentication failed")
 - **Detailed error message**: 
-  ```
+  ```text
   Error: Failed to connect to webhook endpoint
   URL: https://api.example.com/webhook
   Status: 502 Bad Gateway
@@ -164,6 +168,8 @@ The search bar supports multiple search patterns:
 - `status:failed error:401` - Failed executions with authentication errors
 - `trigger:"run metric" metric:loss` - Metric-triggered automations for loss values
 - `artifact:"production-model" last 7 days` - Recent executions for production model
+- `webhook:https://api.example.com` - Executions calling a specific webhook endpoint
+- `duration:>10s` - Automations taking longer than 10 seconds
 
 ## Common use cases
 
@@ -188,7 +194,7 @@ The search bar supports multiple search patterns:
    - **Connection timeout**: 
      - Verify the endpoint is accessible
      - Check firewall rules if using private endpoints
-     - Consider increasing timeout in webhook configuration
+     - Consider increasing timeout in webhook configuration (Edit automation > Advanced settings > Request timeout)
    
    **Payload formatting**:
    - **400 Bad Request**: 
@@ -231,13 +237,13 @@ To export automation history for compliance or analysis:
 5. The export will be downloaded to your browser's default download location
 
 **CSV export includes**:
-- Execution ID
-- Timestamp (UTC)
-- Status
-- Trigger type and details
-- Duration
-- Error message (if applicable)
-- User who triggered (for manual triggers)
+- Execution ID (e.g., `exec_1234567890`)
+- Timestamp (UTC) (e.g., `2024-01-15T14:30:00Z`)
+- Status (e.g., `Success`, `Failed`, `Cancelled`)
+- Trigger type and details (e.g., `artifact_alias_added: model-v2`)
+- Duration (e.g., `2.3s`)
+- Error message (if applicable) (e.g., `Connection timeout after 30s`)
+- User who triggered (for manual triggers) (e.g., `user@example.com`)
 
 ## Troubleshooting
 

@@ -1,5 +1,5 @@
 ---
-title: View an automation's history
+title: 자동화 기록 보기
 menu:
   default:
     identifier: ko-guides-core-automations-view-automation-history
