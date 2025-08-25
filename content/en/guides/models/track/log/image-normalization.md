@@ -3,9 +3,8 @@ title: "Image Normalization Guide"
 description: "Learn how wandb.Image handles normalization for different input types and how to control this behavior"
 ---
 
-# Image Normalization Guide
 
-When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. This guide explains how normalization works and how to control it.
+When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. This guide explains how image normalization works and how to control it.
 
 ## When normalization is applied
 
@@ -71,7 +70,8 @@ image = wandb.Image(tensor_neg1_1, caption="Normalized from [-1,1] range")
 
 This "stretches" the visual range, making differences between pixel values more pronounced. This is particularly useful for highlighting subtle patterns in machine learning data, but if you want less contrast, consider preprocessing your data to a [0, 1] range before logging.
 
-### Example 3: Avoiding normalization with PIL Images
+### Example 3: Avoid normalization with PIL Images
+Normalization is not applied to PIL Images.
 
 ```python
 import torch
@@ -87,6 +87,7 @@ image = wandb.Image(pil_image, caption="No normalization applied")
 ```
 
 ### Example 4: Using normalize=False
+To explicitly turn off image normalization without converting the image, set `normalize=False`.
 
 ```python
 import torch
