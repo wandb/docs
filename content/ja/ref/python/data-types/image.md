@@ -182,7 +182,7 @@ with wandb.init() as run:
 | Attributes |  |
 | :--- | :--- |
 
-## メソッド
+メソッド
 
 `all_boxes`
 

@@ -182,7 +182,7 @@ with wandb.init() as run:
 | 속성 |  |
 | :--- | :--- |
 
-## Methods
+Methods
 
 `all_boxes`
 
