@@ -8,13 +8,12 @@ When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values
 
 ## When normalization is applied
 
-Normalization is applied to:
-- **PyTorch tensors** (format: `(channel, height, width)`)
-- **NumPy arrays** (format: `(height, width, channel)`)
-
-Normalization is **NOT** applied to:
-- **PIL Images** (passed as-is)
-- **File paths** (loaded as-is)
+| Input Type | Format | Normalization Applied | Notes |
+|------------|--------|----------------------|-------|
+| **PyTorch tensors** | `(channel, height, width)` | ✅ Yes | Automatically normalized to [0, 255] range |
+| **NumPy arrays** | `(height, width, channel)` | ✅ Yes | Automatically normalized to [0, 255] range |
+| **PIL Images** | PIL Image object | ❌ No | Passed as-is without modification |
+| **File paths** | String path to image file | ❌ No | Loaded as-is without modification |
 
 ## Normalization algorithm
 
