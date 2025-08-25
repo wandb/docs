@@ -64,6 +64,13 @@ tensor_neg1_1 = torch.rand(3, 64, 64) * 2 - 1  # Random values between -1 and 1
 image = wandb.Image(tensor_neg1_1, caption="Normalized from [-1,1] range")
 ```
 
+**Note on visual contrast**: The [-1, 1] normalization creates higher visual contrast compared to [0, 1] normalization. This is because:
+- Negative values (like -0.8) become very dark (around 25)
+- Positive values (like 0.8) become very bright (around 230)
+- Values near 0 become mid-gray (127.5)
+
+This "stretches" the visual range, making differences between pixel values more pronounced. This is particularly useful for highlighting subtle patterns in machine learning data, but if you want less contrast, consider preprocessing your data to a [0, 1] range before logging.
+
 ### Example 3: Avoiding normalization with PIL Images
 
 ```python
@@ -92,12 +99,34 @@ tensor_0_1 = torch.rand(3, 64, 64)
 image = wandb.Image(tensor_0_1, normalize=False, caption="Normalization disabled")
 ```
 
+## When to use different approaches
+
+### Use PIL conversion when:
+- You want complete control over pixel values
+- You need custom preprocessing (filters, brightness adjustments, etc.)
+- You want to use PIL's image processing capabilities
+- You're debugging and want to see exact values being logged
+
+### Use normalize=False when:
+- You want to see raw tensor values as they are
+- Your data is already in the correct range (like [0, 255] integers)
+- You're debugging normalization issues
+- Quick testing without additional processing steps
+
+### Use automatic normalization when:
+- You want consistent behavior across different input types
+- Your data is in standard ranges ([0, 1] or [-1, 1])
+- You want the system to handle the conversion automatically
+
 ## Best practices
 
 1. **For consistent results**: Pre-process your data to the expected [0, 255] range before logging
 2. **To avoid normalization**: Convert tensors to PIL Images using `PILImage.fromarray()`
 3. **For debugging**: Use `normalize=False` to see the raw values (they will be clipped to [0, 255])
 4. **For precise control**: Use PIL Images when you need exact pixel values
+5. **For highlighting subtle patterns**: Use [-1, 1] normalization to increase visual contrast
+6. **For natural-looking images**: Use [0, 1] normalization or preprocess to [0, 255] range
+7. **For custom processing**: Use PIL conversion when you need to apply filters or adjustments
 
 ## Common issues
 
