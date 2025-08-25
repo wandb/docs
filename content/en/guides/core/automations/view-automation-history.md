@@ -21,25 +21,44 @@ Automation history provides a comprehensive log of all automation executions, in
 - **Action details**: Information about what action was performed (Slack notification sent, webhook called, etc.)
 - **Error messages**: Detailed error information if the automation failed
 
+### Execution statuses
+
+Automations can have one of the following statuses:
+
+| Status | Icon | Description |
+|--------|------|-------------|
+| **Success** | ✅ Green checkmark | The automation completed successfully and the action was performed |
+| **Failed** | ❌ Red X | The automation encountered an error and could not complete |
+| **In Progress** | 🔄 Spinning icon | The automation is currently executing |
+| **Cancelled** | ⏹️ Gray square | The automation was manually stopped before completion |
+| **Skipped** | ⏭️ Gray forward | The automation was triggered but skipped due to conditions not being met |
+
 ## Access automation history
 
-You can view automation history from multiple locations:
+You can view automation history from multiple locations in the W&B interface:
 
 ### From the Automations tab
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
-1. Navigate to your registry and click the **Automations** tab
-2. Find the automation you want to investigate
-3. Click on the automation name to view its details
-4. Select the **History** tab to see all past executions
+1. Navigate to your registry by clicking on **Model Registry** in the left sidebar
+2. Select your registry from the list
+3. Click the **Automations** tab in the registry view
+4. In the automations list, locate the automation you want to investigate
+5. Click on the automation name (displayed as a blue link) to open its details page
+6. Select the **History** tab from the automation details page navigation
+7. The history view will display all past executions in reverse chronological order (most recent first)
 
 {{% /tab %}}
 {{% tab "Project" %}}
-1. Navigate to your project and click the **Automations** tab
-2. Find the automation you want to investigate
-3. Click on the automation name to view its details
-4. Select the **History** tab to see all past executions
+1. Navigate to your project from the W&B home page or by using the project selector
+2. Click the **Automations** tab in the project navigation bar (located alongside Overview, Workspace, Runs, etc.)
+3. In the automations list, find the automation you want to investigate
+   - Use the search bar to filter by automation name
+   - Sort by last triggered date to find recently active automations
+4. Click on the automation name (displayed as a blue link) to open its details page
+5. Select the **History** tab from the tabs displayed (Configuration, History, etc.)
+6. The history view will show all executions for this specific automation
 
 {{% /tab %}}
 {{< /tabpane >}}
@@ -48,59 +67,138 @@ You can view automation history from multiple locations:
 
 When viewing an individual automation:
 1. The **History** tab displays a chronological list of all executions
-2. Each entry shows:
-   - Execution date and time
-   - Triggering event details
-   - Status indicator (success, failure, or in progress)
-   - Duration of execution
+2. Each execution entry in the list shows:
+   - **Timestamp**: Exact date and time (e.g., "Dec 15, 2024 3:45:22 PM UTC")
+   - **Status icon**: 
+     - ✅ Green checkmark for successful executions
+     - ❌ Red X for failed executions
+     - 🔄 Spinning icon for in-progress executions
+   - **Trigger details**: Brief description (e.g., "Artifact version 'v1.2.3' added to collection")
+   - **Duration**: Execution time (e.g., "2.3s" or "1m 45s")
+   - **Action type**: Icon indicating Slack notification or webhook
+
+3. The list includes pagination controls at the bottom for navigating through large histories
 
 ## Understanding execution details
 
-Click on any execution entry to view detailed information:
+Click on any execution entry in the history list to open a detailed view panel:
 
 ### Successful executions
-For successful executions, you'll see:
-- The exact trigger that initiated the automation
-- The payload or message that was sent
-- Confirmation of successful delivery
-- Response details (for webhook automations)
+For successful executions, the details panel displays:
+- **Trigger information**: 
+  - Event type (e.g., "Artifact alias added")
+  - Source details (artifact name, version, user who triggered)
+  - Exact timestamp with timezone
+- **Payload sent**: 
+  - For Slack: The formatted message content
+  - For webhooks: The complete JSON payload (with sensitive values masked)
+- **Delivery confirmation**: 
+  - HTTP status code (e.g., "200 OK")
+  - Response time in milliseconds
+  - For Slack: Channel and thread information
+- **Response data** (webhook automations only):
+  - Response headers
+  - Response body (truncated if large)
+  - Any returned job IDs or reference numbers
 
 ### Failed executions
-For failed executions, the details include:
-- The error message explaining why the automation failed
-- The stage at which the failure occurred
-- Debugging information to help resolve the issue
-- Options to retry the automation (if applicable)
+For failed executions, the error details panel includes:
+- **Error summary**: High-level description (e.g., "Connection timeout", "Authentication failed")
+- **Detailed error message**: 
+  ```
+  Error: Failed to connect to webhook endpoint
+  URL: https://api.example.com/webhook
+  Status: 502 Bad Gateway
+  Response: "upstream server temporarily unavailable"
+  ```
+- **Failure stage**: Where in the process it failed:
+  - "Pre-validation" - Failed before sending
+  - "Connection" - Network or DNS issues
+  - "Authentication" - Invalid credentials or tokens
+  - "Processing" - Remote server rejected the request
+- **Debugging information**:
+  - Request headers sent
+  - Curl command equivalent for testing
+  - Suggested fixes based on error type
+- **Retry options**:
+  - "Retry Now" button (if automation is still valid)
+  - "Edit and Retry" to modify payload before retrying
 
 ## Filter and search history
 
-The automation history interface provides several ways to find specific executions:
+The automation history interface provides powerful filtering and search capabilities located at the top of the history list:
 
-### Filter by status
-- **All**: View all executions
-- **Successful**: Show only successful executions
-- **Failed**: Show only failed executions
-- **In Progress**: Show currently running automations
+### Status filter dropdown
+Click the **Status** dropdown to filter executions:
+- **All statuses** (default): Shows every execution
+- **Successful**: Shows only executions with green checkmarks
+- **Failed**: Shows only executions with red X marks
+- **In Progress**: Shows currently running executions
+- **Cancelled**: Shows manually stopped executions
 
-### Filter by date range
-- Use the date picker to select a specific time period
-- Options include: Last 24 hours, Last 7 days, Last 30 days, or custom range
+The filter updates the list in real-time, and the count badge shows matching results (e.g., "Failed (23)")
 
-### Search functionality
-- Search by trigger event details
-- Search by error messages
-- Search by artifact names or aliases
+### Date range picker
+Click the **calendar icon** to open the date range selector:
+- **Quick ranges** (buttons at the top):
+  - Last 24 hours
+  - Last 7 days
+  - Last 30 days
+  - Last 90 days
+- **Custom range**: 
+  - Select start and end dates from the calendar
+  - Time selection available for precision
+  - Timezone selector (defaults to browser timezone)
+
+### Search bar
+The search bar supports multiple search patterns:
+- **Basic search**: Type any text to search across all execution data
+- **Advanced search operators**:
+  - `status:failed` - Find failed executions
+  - `trigger:"artifact alias"` - Find specific trigger types
+  - `error:timeout` - Search within error messages
+  - `artifact:model-v2` - Find executions related to specific artifacts
+  - `user:jane@company.com` - Find executions triggered by specific users
+
+**Search examples**:
+- `status:failed error:401` - Failed executions with authentication errors
+- `trigger:"run metric" metric:loss` - Metric-triggered automations for loss values
+- `artifact:"production-model" last 7 days` - Recent executions for production model
 
 ## Common use cases
 
 ### Debugging failed automations
-1. Filter the history to show only failed executions
-2. Click on a failed execution to see the error details
-3. Use the error information to:
-   - Fix webhook endpoint issues
-   - Update authentication credentials
-   - Resolve network connectivity problems
-   - Correct payload formatting errors
+1. Filter the history to show only failed executions using the status dropdown
+2. Click on a failed execution to open the error details panel
+3. Review the error information to identify the issue:
+   
+   **Common webhook endpoint issues**:
+   - **404 Not Found**: Verify the webhook URL is correct
+   - **500 Internal Server Error**: Check with the webhook service provider
+   - **SSL Certificate Error**: Ensure valid HTTPS certificates
+   
+   **Authentication problems**:
+   - **401 Unauthorized**: 
+     - Navigate to Team Settings > Secrets
+     - Update the secret value used by the automation
+     - Test with the "Test webhook" button
+   - **403 Forbidden**: Check API permissions and scope
+   
+   **Network connectivity**:
+   - **Connection timeout**: 
+     - Verify the endpoint is accessible
+     - Check firewall rules if using private endpoints
+     - Consider increasing timeout in webhook configuration
+   
+   **Payload formatting**:
+   - **400 Bad Request**: 
+     - Review the JSON syntax in the payload template
+     - Ensure all required fields are included
+     - Check data types match the endpoint's expectations
+
+4. After fixing the issue:
+   - Use "Retry Now" to test the fix immediately
+   - Monitor the next scheduled execution
 
 ### Verifying automation triggers
 1. Check the history to confirm an automation was triggered by a specific event
@@ -112,20 +210,67 @@ The automation history interface provides several ways to find specific executio
 2. Track which users' actions triggered automations
 3. Monitor the overall health and reliability of your automation workflows
 
-## History retention
+## History retention and data export
 
-- Automation history is retained for 90 days by default
-- Failed executions may include additional diagnostic information for troubleshooting
-- History data can be exported for long-term storage if needed
+### Retention policy
+- **Standard retention**: 90 days of execution history
+- **Extended retention**: Available for Enterprise plans (configurable up to 365 days)
+- **Failed execution details**: Retained with full error logs and request/response data
+- **Successful execution summaries**: Retained with essential details (payload details may be truncated after 30 days)
+
+### Exporting history data
+To export automation history for compliance or analysis:
+
+1. Click the **Export** button (download icon) at the top of the history list
+2. Select export format:
+   - **CSV**: Tabular format with key fields
+   - **JSON**: Complete execution details including payloads
+   - **PDF**: Formatted report for documentation
+3. Choose the date range to export
+4. Click **Generate Export**
+5. The export will be downloaded to your browser's default download location
+
+**CSV export includes**:
+- Execution ID
+- Timestamp (UTC)
+- Status
+- Trigger type and details
+- Duration
+- Error message (if applicable)
+- User who triggered (for manual triggers)
 
 ## Troubleshooting
 
 ### Automation not appearing in history
 If an expected automation execution doesn't appear:
-- Verify the trigger event actually occurred
-- Check that the automation is enabled
-- Ensure the event matches the automation's filter criteria
-- Review any conditional logic in the automation configuration
+
+1. **Verify the trigger event occurred**:
+   - For artifact events: Check the artifact's version history
+   - For run metrics: Confirm the run logged the expected metric values
+   - For aliases/tags: Verify they were actually applied
+
+2. **Check automation status**:
+   - Look for a "Disabled" badge on the automation list
+   - Disabled automations show a gray toggle switch
+   - Re-enable via the automation's configuration page
+
+3. **Review filter criteria**:
+   - Open the automation's configuration
+   - Check the "Filters" section:
+     - Artifact name patterns (regex)
+     - Collection restrictions
+     - User filters
+   - Test your event against the filter using the "Test filters" tool
+
+4. **Inspect conditional logic**:
+   - Advanced automations may have "Only if" conditions
+   - Example: "Only trigger if artifact size > 100MB"
+   - Check if your event met all conditions
+
+5. **Timing considerations**:
+   - History may have a 1-2 minute delay
+   - Refresh the page if viewing immediately after trigger
+   - Check the "Last checked" timestamp at the top of the history
 
 ### Missing execution details
 Some execution details may be limited if:
@@ -135,10 +280,30 @@ Some execution details may be limited if:
 
 ## Best practices
 
-1. **Regular monitoring**: Check automation history periodically to ensure workflows are running as expected
-2. **Set up alerts**: Configure notifications for failed automations to address issues quickly
-3. **Document patterns**: Note common failure patterns to improve automation reliability
-4. **Test automations**: Use the history to verify new automations are working correctly before relying on them for critical workflows
+1. **Regular monitoring**: 
+   - Set a weekly reminder to review automation histories
+   - Focus on automations critical to your workflow
+   - Look for patterns in execution times and success rates
+
+2. **Set up alerts**: 
+   - Configure email notifications for automation failures in Team Settings
+   - Create a dedicated Slack channel for automation alerts
+   - Use webhook automations to trigger PagerDuty for critical failures
+
+3. **Document patterns**: 
+   - Keep a runbook of common errors and their solutions
+   - Document which external services each webhook depends on
+   - Note any time-based patterns (e.g., failures during maintenance windows)
+
+4. **Test automations**: 
+   - Use test artifacts/events before enabling for production
+   - Verify the first few executions after creation
+   - Test webhook endpoints independently using the provided curl commands
+
+5. **Performance optimization**:
+   - Monitor execution duration trends
+   - Investigate automations taking longer than 30 seconds
+   - Consider breaking complex automations into smaller, focused ones
 
 ## Next steps
 - Learn about [automation events]({{< relref "/guides/core/automations/automation-events.md" >}}) that can trigger automations
