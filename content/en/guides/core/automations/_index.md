@@ -46,5 +46,6 @@ To [create an automation]({{< relref "create-automations/" >}}), you:
 
 ## Next steps
 - [Create an automation]({{< relref "create-automations/" >}}).
+- [View an automation's history]({{< relref "view-automation-history.md" >}}) to track executions and debug issues.
 - Learn about [Automation events and scopes]({{< relref "automation-events.md" >}}).
 - [Create a secret]({{< relref "/guides/core/secrets.md" >}}).

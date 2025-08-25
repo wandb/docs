@@ -47,6 +47,7 @@ For details, refer to:
 View and manage automations from a project or registry's **Automations** tab.
 
 - To view an automation's details, click its name.
+- To view an automation's execution history, click its name and select the **History** tab. See [View an automation's history]({{< relref "/guides/core/automations/view-automation-history.md" >}}) for details.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**.
 
