@@ -1,4 +1,3 @@
-# .pre-commit-config.yaml
 repos:
 # Out of the box pre-commit hook
 -   repo: https://github.com/pre-commit/pre-commit-hooks
