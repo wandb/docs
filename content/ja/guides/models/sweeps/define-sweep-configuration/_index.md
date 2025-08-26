@@ -67,7 +67,7 @@ sweep_configuration = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```
+```  
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -91,25 +91,24 @@ Sweep configurations はネストされたパラメータをサポートしま�
 
 例として、次の設定で `train.py` Python スクリプト（行1-2で確認可能）で W&B run を初期化するとします。次に、`sweep_configuration`（行4-13）の辞書でスイープ設定を定義します。その後、スイープ設定辞書を `wandb.sweep` に渡してスイープ設定を初期化します（行16を確認）。
 
-```python title="train.py"
-def train():
+```python title="train.py" 
+def main():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 
 
-if __name__ == '__main__':
-    sweep_configuration = {
-        "top_level_param": 0,
-        "nested_param": {
-            "learning_rate": 0.01,
-            "double_nested_param": {"x": 0.9, "y": 0.8},
-        },
-    }
+sweep_configuration = {
+    "top_level_param": 0,
+    "nested_param": {
+        "learning_rate": 0.01,
+        "double_nested_param": {"x": 0.9, "y": 0.8},
+    },
+}
 
-    # Initialize sweep by passing in config.
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+# Initialize sweep by passing in config.
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 
-    # Start sweep job.
-    wandb.agent(sweep_id, function=train, count=4)
+# Start sweep job.
+wandb.agent(sweep_id, function=main, count=4)
 ```
 W&B run が初期化されたときに渡された `nested_param.manual_key` はアクセスできません。`run.config` は、スイープ設定辞書で定義されたキーと値のペアのみを持っています。
 {{% /alert %}}
@@ -123,18 +122,18 @@ program: <insert>
 method: <insert>
 parameter:
   hyperparameter_name0:
-    value: 0
-  hyperparameter_name1:
+    value: 0  
+  hyperparameter_name1: 
     values: [0, 0, 0]
-  hyperparameter_name:
+  hyperparameter_name: 
     distribution: <insert>
     value: <insert>
-  hyperparameter_name2:
+  hyperparameter_name2:  
     distribution: <insert>
     min: <insert>
     max: <insert>
     q: <insert>
-  hyperparameter_name3:
+  hyperparameter_name3: 
     distribution: <insert>
     values:
       - <list_of_values>
@@ -149,7 +148,7 @@ command:
 - ${Command macro}
 - ${Command macro}
 - ${Command macro}
-- ${Command macro}
+- ${Command macro}      
 ```
 
 ## Sweep configuration の例
@@ -157,7 +156,7 @@ command:
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
 
-```yaml title="config.yaml"
+```yaml title="config.yaml" 
 program: train.py
 method: random
 metric:
@@ -166,14 +165,14 @@ metric:
 parameters:
   batch_size:
     distribution: q_log_uniform_values
-    max: 256
+    max: 256 
     min: 32
     q: 8
-  dropout:
+  dropout: 
     values: [0.3, 0.4, 0.5]
   epochs:
     value: 1
-  fc_layer_size:
+  fc_layer_size: 
     values: [128, 256, 512]
   learning_rate:
     distribution: uniform
@@ -186,7 +185,7 @@ parameters:
   {{% /tab %}}
   {{% tab header="Python スクリプトまたは Jupyter ノートブック" %}}
 
-```python title="train.py"
+```python title="train.py" 
 sweep_config = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "loss"},
@@ -204,7 +203,7 @@ sweep_config = {
         "optimizer": {"values": ["adam", "sgd"]},
     },
 }
-```
+```  
 
   {{% /tab %}}
 {{< /tabpane >}}
@@ -299,7 +298,7 @@ command:
 
 ```bash
 /usr/bin/env python train.py --param1=value1 --param2=value2
-```
+```  
 
   {{% /tab %}}
   {{% tab header="Windows" %}}
@@ -307,7 +306,7 @@ command:
 ```bash
 python train.py --param1=value1 --param2=value2
 
-```
+```  
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -340,7 +339,7 @@ command:
   - "your-training-config.json"
   - ${args}
 ```
-
+  
   {{% /tab %}}
   {{% tab header="引数を省略" %}}
 
@@ -351,7 +350,7 @@ command:
   - ${env}
   - ${interpreter}
   - ${program}
-```
+```  
 
   {{% /tab %}}
   {{% tab header="Hydra" %}}

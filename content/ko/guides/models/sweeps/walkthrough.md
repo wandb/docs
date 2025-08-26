@@ -28,26 +28,25 @@ def objective(config):
     score = config.x**3 + config.y
     return score
 
-def train():
+def main():
     wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
     wandb.log({"score": score})
 
-if __name__ == '__main__':
-    # 2: 검색 공간 정의
-    sweep_configuration = {
-        "method": "random",
-        "metric": {"goal": "minimize", "name": "score"},
-        "parameters": {
-            "x": {"max": 0.1, "min": 0.01},
-            "y": {"values": [1, 3, 7]},
-        },
-    }
+# 2: 검색 공간 정의
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "score"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
 
 # 3: 스윕 시작
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
-wandb.agent(sweep_id, function=train, count=10)
+wandb.agent(sweep_id, function=main, count=10)
 ```
 
 다음 섹션에서는 코드 샘플의 각 단계를 분석하고 설명합니다.
@@ -68,7 +67,7 @@ def objective(config):
     return score
 
 
-def train():
+def main():
     wandb.init(project="my-first-sweep")
     score = objective(wandb.config)
     wandb.log({"score": score})
@@ -83,16 +82,15 @@ def train():
 W&B는 `metric` 키에 `“goal": "minimize"`가 연결되어 있을 때 지정된 메트릭을 최소화합니다. 이 경우 W&B는 메트릭 `score`(`"name": "score"`)를 최소화하도록 최적화합니다.
 
 ```python
-if __name__ == '__main__':
-    # 2: 검색 공간 정의
-    sweep_configuration = {
-        "method": "random",
-        "metric": {"goal": "minimize", "name": "score"},
-        "parameters": {
-            "x": {"max": 0.1, "min": 0.01},
-            "y": {"values": [1, 3, 7]},
-        },
-    }
+# 2: 검색 공간 정의
+sweep_configuration = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "score"},
+    "parameters": {
+        "x": {"max": 0.1, "min": 0.01},
+        "y": {"values": [1, 3, 7]},
+    },
+}
 ```
 
 ## 스윕 초기화
@@ -102,7 +100,7 @@ W&B는 클라우드(표준), 로컬(로컬)에서 하나 이상의 머신에서 
 스윕을 초기화하면 스윕 식별 번호가 반환됩니다.
 
 ```python
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
+sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
 스윕 초기화에 대한 자세한 내용은 [스윕 초기화]({{< relref path="./initialize-sweeps.md" lang="ko" >}})을 참조하세요.
@@ -112,7 +110,7 @@ W&B는 클라우드(표준), 로컬(로컬)에서 하나 이상의 머신에서 
 [`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ko" >}}) API 호출을 사용하여 스윕을 시작합니다.
 
 ```python
-    wandb.agent(sweep_id, function=train, count=10)
+wandb.agent(sweep_id, function=main, count=10)
 ```
 
 ## 결과 시각화 (선택 사항)
