@@ -102,7 +102,7 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 
 ### Organize distributed runs with `job_type`
 
-When running distributed training with multiple processes, you can use `job_type` to distinguish between different types of nodes and create cleaner workspaces. This approach helps you organize your runs and filter out noise from worker nodes.
+When running distributed training with multiple processes, you can specify the `job_type` in your [`wandb_init()`]({{< relref "/ref/python/sdk/functions/init/" >}}) invocation to distinguish between different types of nodes. Then you can create saved views to help you organize your runs and filter out noise from worker nodes.
 
 To organize your distributed training runs:
 
@@ -123,20 +123,21 @@ To organize your distributed training runs:
        job_type="worker"
    )
    ```
-1. Create filtered views in your workspace to organize your runs:
+1. Create [saved views]({{< relref "/guides/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. First, filter and group your runs to show a subset of runs, then click the **...** action menu at the top right and click **Save as new view**. For example, you could create the following saved views:
 
    - **Default view**: Filter out worker nodes to reduce noise
-     - Use filter: `job_type != "worker"`
+     - Click **Filter**, then set **Job Type** to `worker`.
      - Shows only your reporting nodes
 
    - **Debug view**: Focus on worker nodes for troubleshooting
-     - Use filter: `job_type == "worker" && state NOT IN ["running", "finished"]`
+     - Click **Filter**, then set **Job Type** `==` `worker` and set **State** to  `IN` `crashed`.
      - Shows only worker nodes that have crashed or are in error states
 
    - **All nodes view**: See everything together
-     - No filter (or `job_type IN ["main", "worker"]`)
+     - No filter
      - Useful for comprehensive monitoring
 
+To open a saved view, click **Workspaces** in the sidebar, then click the menu. Workspaces appear at the top of the list and saved views appear at the bottom.
 1. Organize your workspaces for different use cases:
 
    - **Main workspace**: Shows only `job_type="main"` runs for high-level experiment tracking.
