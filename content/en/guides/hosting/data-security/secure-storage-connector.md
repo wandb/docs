@@ -137,7 +137,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
           "arn:aws:s3:::<cw-bucket>"
         ],
         "Principal": {
-          "CW": "arn:aws:iam::wandb:static/wandb-integration"
+          "CW": "arn:aws:iam::wandb:static/wandb-integration-public"
         },
         "Condition": {
           "StringLike": {
