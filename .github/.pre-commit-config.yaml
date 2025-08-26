@@ -1,8 +1,14 @@
 # .pre-commit-config.yaml
 repos:
+# Out of the box pre-commit hook
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0  # Use the ref you want to point at
+    hooks:
+    -   id: detect-private-key
+# Yelps version of key detection
 -   repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
     -   id: detect-secrets-hook
         args: ['--baseline', '.secrets.baseline']
-        exclude: package.lock.json
+        exclude: package.lock.json    
