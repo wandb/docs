@@ -8,13 +8,13 @@ support:
 ---
 
 
-A service account (Enterprise-only feature) represents a non-human or machine user, which can automate common tasks across teams and projects or ones that are not specific to a particular human user. You can create a service account within a team and use its API key to read from and write to projects within that team.
+A **service account** represents a non-human or machine identity, which can automate common tasks across teams and projects. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
+
+{{< readfile file="/content/en/_includes/service-account-benefits.md" >}}
 
 Among other things, service accounts are useful for tracking automated jobs logged to wandb, like periodic retraining, nightly builds, and so on. If you'd like, you can associate a username with one of these machine-launched runs with the [environment variables]({{< relref "/guides/models/track/environment-variables.md" >}}) `WANDB_USERNAME` or `WANDB_USER_EMAIL`.
 
-
-
-Refer to [Team Service Account Behavior]({{< relref "/guides/models/app/settings-page/teams.md#team-service-account-behavior" >}}) for more information.
+For comprehensive information about service accounts, including best practices and detailed setup instructions, refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}). For information about how service accounts behave in team contexts, refer to [Team Service Account Behavior]({{< relref "/guides/models/app/settings-page/teams.md#team-service-account-behavior" >}}).
 
 You can get the API key for a service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab. 
 

@@ -65,7 +65,7 @@ configs = dict(
 
 ## Dataset
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
+In this colab, we will be using [Fashion-MNIST](https://www.tensorflow.org/datasets/catalog/fashion_mnist) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
 
 
 ```python
