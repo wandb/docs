@@ -19,7 +19,7 @@ This page shows how to define, initialize, and run a sweep. There are four main 
 
 Copy and paste the following code into a Jupyter Notebook or Python script:
 
-```python 
+```python
 # Import the W&B Python Library and log into W&B
 import wandb
 
@@ -115,6 +115,19 @@ Use the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
+{{% alert color="secondary" %}}
+**Multiprocessing**: If your training code is using the `multiprocessing` library (or `pytorch.multiprocessing`), you need to guard your `wandb.sweep()` and `wandb.agent()` calls with:
+
+```python
+if __name__ == '__main__':
+```
+
+so spawned worker processes don't try to run it.
+
+More docs in: [Python `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods), [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild)
+{{% /alert %}}
+
+
 ## Visualize results (optional)
 
 Open your project to see your live results in the W&B App dashboard. With just a few clicks, construct rich, interactive charts like [parallel coordinates plots]({{< relref "/guides/models/app/features/panels/parallel-coordinates.md" >}}),[ parameter importance analyzes]({{< relref "/guides/models/app/features/panels/parameter-importance.md" >}}), and [additional chart types]({{< relref "/guides/models/app/features/panels/" >}}).
@@ -126,5 +139,3 @@ For more information about how to visualize results, see [Visualize sweep result
 ## Stop the agent (optional)
 
 In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
-
-```

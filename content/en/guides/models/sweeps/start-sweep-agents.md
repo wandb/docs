@@ -41,6 +41,19 @@ Use the W&B Python SDK library to start a sweep. Provide the sweep ID that was r
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
 ```
+
+{{% alert color="secondary" %}}
+**Multiprocessing**: If your training code is using the `multiprocessing` library (or `pytorch.multiprocessing`), you need to guard your `wandb.sweep()` and `wandb.agent()` calls with:
+
+```python
+if __name__ == '__main__':
+```
+
+so spawned worker processes don't try to run it.
+
+More docs in: [Python `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods), [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild)
+{{% /alert %}}
+
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -71,7 +84,7 @@ wandb.agent(sweep_id, count=count)
 
 {{% alert color="secondary" %}}
 If you start a new run after the sweep agent has finished, within the same script or notebook, then you should call `wandb.teardown()` before starting the new run.
-{{% /alert %}}  
+{{% /alert %}}
   {{% /tab %}}
   {{% tab header="CLI" %}}
 First, initialize your sweep with the [`wandb sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command. For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
@@ -86,6 +99,6 @@ Pass an integer value to the count flag to set the maximum number of runs to try
 NUM=10
 SWEEPID="dtzl1o7u"
 wandb agent --count $NUM $SWEEPID
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}
