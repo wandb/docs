@@ -123,7 +123,7 @@ To organize your distributed training runs:
        job_type="worker"
    )
    ```
-1. Create [saved views]({{< relref "/guides/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. First, filter and group your runs to show a subset of runs, then click the **...** action menu at the top right and click **Save as new view**. For example, you could create the following saved views:
+1. Create [saved views]({{< relref "/guides/models/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. First, filter and group your runs to show a subset of runs, then click the **...** action menu at the top right and click **Save as new view**. For example, you could create the following saved views:
 
    - **Default view**: Filter out worker nodes to reduce noise
      - Click **Filter**, then set **Job Type** to `worker`.
