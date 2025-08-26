@@ -57,17 +57,14 @@ Consider the following when you deploy a self-managed MySQL database:
 - **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
 ### Redis
-W&B requires Redis as a job queuing and data caching layer. This is to support the various microservices that run as part of the application.
+W&B depends on a single-node Redis 7.x deployment to handle job queuing and data caching used by W&B's components. For convenience during testing and development of proofs of concept, W&B Self-Managed includes a local Redis deployment that is not appropriate for production deployments.
 
-Currently W&B only supports connecting to a single node Redis deployment running on version 7.x.
-
-This deployment can be deployed in one of the following:
+W&B can connect to a Redis instance in the following environments:
 
 - [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
 - [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
 - [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
 - Redis deployment hosted in your cloud or on-premise infrastructure
-
 
 ### Object storage
 W&B requires object storage with pre-signed URL and CORS support, deployed in one of:
