@@ -109,22 +109,23 @@ For more information about initializing sweeps, see [Initialize sweeps]({{< relr
 
 ## Start the Sweep
 
-Use the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call to start a sweep.
+Use the [`wandb.agent()`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call to start a sweep.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-{{% alert color="secondary" %}}
-**Multiprocessing**: If your training code is using the `multiprocessing` library (or `pytorch.multiprocessing`), you need to guard your `wandb.sweep()` and `wandb.agent()` calls with:
+{{% alert color="secondary" title="Multiprocessing" %}}
+You must wrap your `wandb.agent()` and `wandb.sweep()` calls with `if __name__ == '__main__':` if you use Python standard library's `multiprocessing` or PyTorch's `pytorch.multiprocessing` package. For example:
 
 ```python
 if __name__ == '__main__':
+    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
 ```
 
-so spawned worker processes don't try to run it.
+Wrapping your code with this convention ensures that it is only executed when the script is run directly, and not when it is imported as a module in a worker process.
 
-More docs in: [Python `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods), [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild)
+See [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) or [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) for more information about multiprocessing. See https://realpython.com/if-name-main-python/ for information about the `if __name__ == '__main__':` convention.
 {{% /alert %}}
 
 
