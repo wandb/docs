@@ -31,6 +31,8 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 - [Tables]({{< relref "/guides/models/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
 
+**[W&B Inference]({{< relref "/guides/inference/" >}})** is a set of tools for accessing open-source foundation models through W&B Weave and an OpenAI-compatible API.
+
 {{% alert %}}
 Learn about recent releases in the [W&B release notes]({{< relref "/ref/release-notes/" >}}).
 {{% /alert %}}
