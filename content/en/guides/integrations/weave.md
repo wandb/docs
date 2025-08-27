@@ -8,7 +8,10 @@ title: Weave
 weight: 245
 ---
 
-Use the W&B Weave integration to automatically initialize Weave whenever you start a W&B run. As long as you call `wandb.init()` and import `weave` in your process, Weave will auto-initialize and begin capturing traces with zero additional setup.
+Use the W&B Weave integration to automatically initialize Weave whenever you
+start a W&B run. As long as you call `wandb.init()` and import `weave` in your
+process, Weave will auto-initialize and begin capturing traces with zero
+additional setup.
 
 [Learn more about Weave here](https://weave-docs.wandb.ai/)!
 
@@ -32,6 +35,37 @@ wandb.init(project="weave-demo")
 
 # Weave is now auto-initialized and ready to capture traces.
 # Use your code as usual; traces will be associated with this W&B run.
+```
+
+## Start tracking LLM workflows
+
+Weave automatically tracks LLM calls by patching popular LLM libraries like OpenAI, Anthropic, and Gemini. Simply call your LLM as you normally would, and Weave will automatically track the call.
+
+```python
+from openai import OpenAI
+
+client = OpenAI()
+
+# Weave will automatically track this call
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "What is the capital of France?"}]
+)
+```
+
+You can also use Weave to track arbitrary python functions by decorating them with `@weave.op`.
+
+```python
+import weave
+
+# Weave will automatically track this call
+@weave.op
+def agent_step(**kwargs):
+    ...
+
+# Weave will not track this call
+def internal_step(**kwargs):
+    ...
 ```
 
 ## View your traces
