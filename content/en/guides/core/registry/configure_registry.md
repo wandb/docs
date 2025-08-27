@@ -39,62 +39,95 @@ A registry admin can remove individual users or entire teams from a registry. To
 Removing a user from a team also removes that user's access to the registry.
 {{% /alert %}}
 
-## Registry roles
+### Change the owner
 
-Each user in a registry has a *registry role*, which determines what they can do in that registry. 
+A Registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
 
-W&B automatically assigns a default registry role to a user or team when they are added to a registry. 
+To change the owner:
+1. Navigate to the Registry at https://wandb.ai/registry/.
+2. Select the registry you want to configure.
+3. Click the gear icon on the upper right hand corner.
+4. Scroll to the **Registry members and roles** section.
+5. Hover over the row for a member.
+6. Click the **...** action menu at the end of the row, then click **Make owner**.
 
-| Entity | Default registry role |
-| ----- | ----- |
-| Team | Viewer |
-| User (non admin) | Viewer |
-| Org admin | Admin |
 
+## Configure Registry roles
+
+This section shows how to configure roles for Registry members. For more information about Registry roles, including the cabilities of each role, order of precedence, defaults, and more, see [Details about Registry roles](#details-about-registry-roles).
+
+1. Navigate to the Registry at https://wandb.ai/registry/.
+2. Select the registry you want to configure.
+3. Click the gear icon on the upper right hand corner.
+4. Scroll to the **Registry members and roles** section.
+5. Within the **Member** field, search for the user or team you want to edit permissions for.
+6. In the **Registry role** column, click the user's role. 
+7. From the dropdown, select the role you want to assign to the user.
+
+## Details about Registry roles
+
+There are two different types of roles in W&B: [Team roles]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) and [Registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}). Your role in a team has no impact or relationship to your role in any registry.
+
+The following sections give more information about Registry roles.
+
+### Default roles
+W&B automatically assigns a default **registry role** to a user or team when they are added to a registry. This role determines what they can do in that registry. 
+
+| Entity | Dedicated Cloud or Self-Managed<br />Default registry role | Multi-tenant Cloud<br />Default registry role |
+| ----- | ----- | ----- |
+| Team | Viewer | Restricted Viewer |
+| Member (non admin) | Viewer | Restricted Viewer |
+| Org admin | Admin | Admin |
 
 A registry admin can assign or modify roles for users and teams in a registry.
 See [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}) for more information.
 
-{{% alert title="W&B role types" %}}
-There are two different types of roles in W&B: [Team roles]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) and [Registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}).
+{{% alert title="Restricted Viewer role availability" %}}
+The **Restricted Viewer** role is currently available only in Multi-Tenant Cloud organizations by invitation only. To request access, or to express interest in the feature on Dedicated Cloud or Self-Managed, [contact support](mailto:support@wandb.ai).
 
-Your role in a team has no impact or relationship to your role in any registry.
+This role provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources.
+
+**Key differences from Viewer role:**
+- Can view artifact metadata and collection details.
+- Cannot download artifact files or access file contents.
+- Cannot use artifacts with `use_artifact()` in the W&B SDK.
+- Cannot add or remove aliases or tags from artifacts.
+- Cannot create, edit, or delete collections, automations, or other registry resources.
 {{% /alert %}}
 
+### Role permissions
+The following table lists each Registry role, along with the permissions provided by each role:
 
-The proceeding table lists the different roles a user can have and their permissions:
+| Permission                                                     | Permission Group | Restricted Viewer<br />(Multi-tenant Cloud, by invitation) | Viewer | Member | Admin | 
+|--------------------------------------------------------------- |------------------|-------------------|--------|--------|-------|
+| View a collection's details                                    | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| View a linked artifact's details                               | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| Usage: Consume an artifact in a registry with use_artifact     | Read             |                   |   ✓    |   ✓    |   ✓   |
+| Download a linked artifact                                     | Read             |                   |   ✓    |   ✓    |   ✓   |
+| Download files from an artifact's file viewer                  | Read             |                   |   ✓    |   ✓    |   ✓   |
+| Search a registry                                              | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| View a registry's settings and user list                       | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| Create a new automation for a collection                       | Create           |                   |        |   ✓    |   ✓   |
+| Turn on Slack notifications for new version being added        | Create           |                   |        |   ✓    |   ✓   |
+| Create a new collection                                        | Create           |                   |        |   ✓    |   ✓   |
+| Create a new custom registry                                   | Create           |                   |        |   ✓    |   ✓   |
+| Edit collection card (description)                             | Update           |                   |        |   ✓    |   ✓   |
+| Edit linked artifact description                               | Update           |                   |        |   ✓    |   ✓   |
+| Add or delete a collection's tag                               | Update           |                   |        |   ✓    |   ✓   |
+| Add or delete an alias from a linked artifact                  | Update           |                   |        |   ✓    |   ✓   |
+| Link a new artifact                                            | Update           |                   |        |   ✓    |   ✓   |
+| Edit allowed types list for a registry                         | Update           |                   |        |   ✓    |   ✓   |
+| Edit custom registry name                                      | Update           |                   |        |   ✓    |   ✓   |
+| Delete a collection                                            | Delete           |                   |        |   ✓    |   ✓   |
+| Delete an automation                                           | Delete           |                   |        |   ✓    |   ✓   |
+| Unlink an artifact from a registry                             | Delete           |                   |        |   ✓    |   ✓   |
+| Edit accepted artifact types for a registry                    | Admin            |                   |        |        |   ✓   |
+| Change registry visibility (Organization or Restricted)        | Admin            |                   |        |        |   ✓   |
+| Add users to a registry                                        | Admin            |                   |        |        |   ✓   |
+| Assign or change a user's role in a registry                   | Admin            |                   |        |        |   ✓   |
 
 
-| Permission                                                     | Permission Group | Viewer | Member | Admin | 
-|--------------------------------------------------------------- |------------------|--------|--------|-------|
-| View a collection’s details                                    | Read             |   X    |   X    |   X   |
-| View a linked artifact’s details                               | Read             |   X    |   X    |   X   |
-| Usage: Consume an artifact in a registry with use_artifact     | Read             |   X    |   X    |   X   |
-| Download a linked artifact                                     | Read             |   X    |   X    |   X   |
-| Download files from an artifact’s file viewer                  | Read             |   X    |   X    |   X   |
-| Search a registry                                              | Read             |   X    |   X    |   X   |
-| View a registry’s settings and user list                       | Read             |   X    |   X    |   X   |
-| Create a new automation for a collection                       | Create           |        |   X    |   X   |
-| Turn on Slack notifications for new version being added        | Create           |        |   X    |   X   |
-| Create a new collection                                        | Create           |        |   X    |   X   |
-| Create a new custom registry                                   | Create           |        |   X    |   X   |
-| Edit collection card (description)                             | Update           |        |   X    |   X   |
-| Edit linked artifact description                               | Update           |        |   X    |   X   |
-| Add or delete a collection’s tag                               | Update           |        |   X    |   X   |
-| Add or delete an alias from a linked artifact                  | Update           |        |   X    |   X   |
-| Link a new artifact                                            | Update           |        |   X    |   X   |
-| Edit allowed types list for a registry                         | Update           |        |   X    |   X   |
-| Edit custom registry name                                      | Update           |        |   X    |   X   |
-| Delete a collection                                            | Delete           |        |   X    |   X   |
-| Delete an automation                                           | Delete           |        |   X    |   X   |
-| Unlink an artifact from a registry                             | Delete           |        |   X    |   X   |
-| Edit accepted artifact types for a registry                    | Admin            |        |        |   X   |
-| Change registry visibility (Organization or Restricted)        | Admin            |        |        |   X   |
-| Add users to a registry                                        | Admin            |        |        |   X   |
-| Assign or change a user's role in a registry                   | Admin            |        |        |   X   |
-
-
-### Inherited permissions
+### Inherited permissions and precedence
 
 A user's permission in a registry depends on the highest level of privilege assigned to that user, whether individually or by team membership.
 
@@ -107,8 +140,11 @@ The proceeding table demonstrates the highest level of permission in the event o
 | Team registry role | Individual registry role | Inherited registry role |
 | ------ | ------ | ------ | 
 | Viewer | Viewer | Viewer |
+| Viewer | Restricted Viewer | Viewer |
 | Member | Viewer | Member |
-| Admin  | Viewer | Admin  | 
+| Member | Restricted Viewer | Member |
+| Admin  | Viewer | Admin  |
+| Admin  | Restricted Viewer | Admin  | 
 
 If there is a conflict, W&B displays the highest level of permissions next to the name of the user.
 
@@ -117,11 +153,29 @@ For example, in the proceeding image Alex inherits **Member** role privileges be
 {{< img src="/images/registry/role_conflict.png" alt="Registry role conflict resolution" >}}
 
 
-## Configure registry roles
-1. Navigate to the Registry at https://wandb.ai/registry/.
-2. Select the registry you want to configure.
-3. Click the gear icon on the upper right hand corner.
-4. Scroll to the **Registry members and roles** section.
-5. Within the **Member** field, search for the user or team you want to edit permissions for.
-6. In the **Registry role** column, click the user's role. 
-7. From the dropdown, select the role you want to assign to the user.
+### SDK compatibility
+
+{{% alert title="SDK version requirement" %}}
+To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, SDK commands will result in permission errors.
+{{% /alert %}}
+
+When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
+
+- **`use_artifact()`**: Not available. Results in permission errors.
+- **`artifact.download()`**: Not available. Results in permission errors.
+- **`artifact.files()`**: Available for viewing artifact directory structure and artifact metadata only.
+- **`artifact.file()`**: Available for viewing artifact metadata only.
+- **`artifact.get()`**: Available for viewing artifact metadata only.
+- **`artifact.get_path()`**: Available for viewing artifact metadata only.
+- **`artifact.get_entry()`**: Available for viewing artifact metadata only.
+- **`artifact.json_encode()`**: Available for viewing artifact metadata only.
+- **`artifact.verify()`**: Available for viewing artifact metadata only.
+
+### Cross-registry permissions
+
+A user can have different roles in different registries. For example, a user can be a **Restricted Viewer** in Registry A but a **Viewer** in Registry B. In this case:
+
+- The same artifact linked to both registries will have different access levels
+- In Registry A, the user is a **Restricted Viewer** and cannot download files or use the artifact
+- In Registry B, the user is a **Viewer** and can download files and use the artifact
+- In other words, access is determined by the registry in which the artifact is accessed

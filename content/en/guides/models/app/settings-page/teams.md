@@ -67,7 +67,7 @@ W&B recommends assigning more than one admin in a team to ensure that admin oper
 ### Team settings
 Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within W&B.
 
-| Permissions         | View-Only | Team Member | Team Admin | 
+| Permissions         | **View-Only** | **Team Member** | **Team Admin** | 
 | ------------------- | --------- | ----------- | ---------- |
 | Add team members    |           |             |     X      |
 | Remove team members |           |             |     X      |
@@ -76,14 +76,18 @@ Team settings allow you to manage the settings for your team and its members. Wi
 ### Registry
 The proceeding table lists permissions that apply to all projects across a given team.
 
-| Permissions                | View-Only | Team Member | Registry Admin | Team Admin | 
-| ---------------------------| --------- | ----------- | -------------- | ---------- |
-| Add aliases                |           | X           | X              | X |
-| Add models to the registry |           | X           | X              | X |
-| View models in the registry| X         | X           | X              | X |
-| Download models             | X         | X           | X              | X |
-|Add or remove Registry Admins  |           |             | X              | X | 
-|Add or remove Protected Aliases|           |             | X              |   | 
+| Permissions                | View-Only | Team Member | Restricted Viewer | Registry Admin | Team Admin | 
+| ---------------------------| --------- | ----------- | ----------------- | -------------- | ---------- |
+| Add aliases                |           | X           |                   | X              | X |
+| Add models to the registry |           | X           |                   | X              | X |
+| View models in the registry| X         | X           | X                 | X              | X |
+| Download models             | X         | X           |                   | X              | X |
+|Add or remove Registry Admins  |           |             |                   | X              | X | 
+|Add or remove Protected Aliases|           |             |                   | X              |   | 
+
+{{% alert title="Restricted Viewer role" %}}
+The **Restricted Viewer** role is available only in Registry contexts and provides read-only access to registry content without the ability to download files or use artifacts. For more details, see [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}).
+{{% /alert %}}
 
 For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/core/registry/model_registry/access_controls.md" >}}).
 
