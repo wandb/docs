@@ -57,7 +57,7 @@ Consider the following when you deploy a self-managed MySQL database:
 - **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
 ### Redis
-W&B depends on a single-node Redis 7.x deployment to handle job queuing and data caching used by W&B's components. For convenience during testing and development of proofs of concept, W&B Self-Managed includes a local Redis deployment that is not appropriate for production deployments.
+W&B depends on a single-node Redis 7.x deployment used by W&B's components for job queuing and data caching. For convenience during testing and development of proofs of concept, W&B Self-Managed includes a local Redis deployment that is not appropriate for production deployments.
 
 W&B can connect to a Redis instance in the following environments:
 
