@@ -42,8 +42,11 @@ wandb.init(project="weave-demo")
 Weave automatically tracks LLM calls by patching popular LLM libraries like OpenAI, Anthropic, and Gemini. Simply call your LLM as you normally would, and Weave will automatically track the call.
 
 ```python
+import wandb
+import weave
 from openai import OpenAI
 
+wandb.init(project="weave-demo")
 client = OpenAI()
 
 # Weave will automatically track this call
@@ -56,16 +59,24 @@ response = client.chat.completions.create(
 You can also use Weave to track arbitrary python functions by decorating them with `@weave.op`.
 
 ```python
+import wandb
 import weave
 
-# Weave will automatically track this call
+wandb.init(project="weave-demo")
+
 @weave.op
 def agent_step(**kwargs):
     ...
 
-# Weave will not track this call
 def internal_step(**kwargs):
     ...
+
+
+# Weave will automatically track this call
+agent_step()
+
+# Weave will not track this call
+internal_step()
 ```
 
 ## View your traces
