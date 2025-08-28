@@ -126,31 +126,16 @@ The following table lists each Registry role, along with the permissions provide
 | Assign or change a user's role in a registry                   | Admin            |                   |        |        |   ✓   |
 
 
-### Inherited permissions and precedence
+### Effective (inherited) Registry role
+When viewing the registry's membership list, the W&B App shows each user's effective registry role next to the role dropdown in their row.
 
-A user's permission in a registry depends on the highest level of privilege assigned to that user, whether individually or by team membership.
+{{< img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role" >}}
 
-For example, suppose a registry admin adds a user called Nico to Registry A and assigns them a **Viewer** registry role. A registry admin then adds a team called Foundation Model Team to Registry A and assigns Foundation Model Team a **Member** registry role.
+A user's effective (inherited) role in a particular registry matches their _highest_ role among their role in the organization, the registry, and the team that owns the registry, whether inherited or explicitly assigned. For example:
 
-Nico is a member of the Foundation Model Team, which is a **Member** of the Registry. Because **Member** has more permission than **Viewer**, W&B grants Nico the **Member** role.
-
-The proceeding table demonstrates the highest level of permission in the event of a conflict between a user's individual registry role and the registry role of a team they are a member of:
-
-| Team registry role | Individual registry role | Inherited registry role |
-| ------ | ------ | ------ | 
-| Viewer | Viewer | Viewer |
-| Viewer | Restricted Viewer | Viewer |
-| Member | Viewer | Member |
-| Member | Restricted Viewer | Member |
-| Admin  | Viewer | Admin  |
-| Admin  | Restricted Viewer | Admin  | 
-
-If there is a conflict, W&B displays the highest level of permissions next to the name of the user.
-
-For example, in the proceeding image Alex inherits **Member** role privileges because they are a member of the `smle-reg-team-1` team.
-
-{{< img src="/images/registry/role_conflict.png" alt="Registry role conflict resolution" >}}
-
+- A team **Admin** or organization **Admin** with the **Viewer** role in a particular registry owned by the team is effectively an **Admin** of the registry.
+- A registry **Viewer** with the **Member** role in the team is effectively a **Member** of the registry.
+- A team **Viewer** with the **Member** role in a particular registry is effectively a **Member** of the registry.
 
 ### SDK compatibility
 
