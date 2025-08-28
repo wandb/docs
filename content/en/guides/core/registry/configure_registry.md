@@ -66,20 +66,22 @@ This section shows how to configure roles for Registry members. For more informa
 
 ## Details about Registry roles
 
-There are two different types of roles in W&B: [Team roles]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) and [Registry roles]({{< relref "configure_registry.md#configure-registry-roles" >}}). Your role in a team has no impact or relationship to your role in any registry.
-
 The following sections give more information about Registry roles.
+
+{{% alert %}}
+Your [role in a team]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) has no impact or relationship to your role in any registry.
+{{% /alert %}}
 
 ### Default roles
 W&B automatically assigns a default **registry role** to a user or team when they are added to a registry. This role determines what they can do in that registry. 
 
-| Entity | Dedicated Cloud or Self-Managed<br />Default registry role | Multi-tenant Cloud<br />Default registry role |
-| ----- | ----- | ----- |
-| Team | Viewer | Restricted Viewer |
-| Member (non admin) | Viewer | Restricted Viewer |
-| Org admin | Admin | Admin |
+| Entity                                 | Default registry role<br />(Dedicated Cloud / Self-Managed) | Default registry role<br />(Multi-tenant Cloud) |
+|----------------------------------------|-------------------------------------------------------------|-------------------------------------------------|
+| Team                                   | Viewer                                                      | Restricted Viewer                               |
+| User or service account (non admin)    | Viewer                                                      | Restricted Viewer                               |
+| Org admin                              | Admin                                                       | Admin                                           |
 
-A registry admin can assign or modify roles for users and teams in a registry.
+A registry admin can assign or modify roles for users and teams in the registry.
 See [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}) for more information.
 
 {{% alert title="Restricted Viewer role availability" %}}
@@ -87,12 +89,9 @@ The **Restricted Viewer** role is currently available only in Multi-Tenant Cloud
 
 This role provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources.
 
-**Key differences from Viewer role:**
-- Can view artifact metadata and collection details.
+Unlike a **Viewer**, a **Restricted Viewer**:
 - Cannot download artifact files or access file contents.
-- Cannot use artifacts with `use_artifact()` in the W&B SDK.
-- Cannot add or remove aliases or tags from artifacts.
-- Cannot create, edit, or delete collections, automations, or other registry resources.
+- Cannot use artifacts with use_artifact() in the W&B SDK.
 {{% /alert %}}
 
 ### Role permissions
@@ -161,15 +160,17 @@ To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use 
 
 When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
 
-- **`use_artifact()`**: Not available. Results in permission errors.
-- **`artifact.download()`**: Not available. Results in permission errors.
-- **`artifact.files()`**: Available for viewing artifact directory structure and artifact metadata only.
-- **`artifact.file()`**: Available for viewing artifact metadata only.
-- **`artifact.get()`**: Available for viewing artifact metadata only.
-- **`artifact.get_path()`**: Available for viewing artifact metadata only.
-- **`artifact.get_entry()`**: Available for viewing artifact metadata only.
-- **`artifact.json_encode()`**: Available for viewing artifact metadata only.
-- **`artifact.verify()`**: Available for viewing artifact metadata only.
+The following functions are not available and result in permission errors:
+- `run.use_artifact()`
+- `artifact.download()`
+- `artifact.file()`
+- `artifact.files()`
+
+The following functions are limited to artifact metadata:
+- `artifact.get_entry()`
+- `artifact.get_path()`
+- `artifact.get()`
+- `artifact.verify()`
 
 ### Cross-registry permissions
 

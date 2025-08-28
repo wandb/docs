@@ -32,7 +32,6 @@ Create one or more custom aliases for a specific artifact versions based on your
 - You might use a `best_model` alias to keep track of the best performing artifact model version.
 
 Any user with a [**Member** or **Admin** registry role]({{< relref "guides/core/registry/configure_registry/#registry-roles" >}}) on a registry can add or remove a custom alias from a linked artifact in that registry. Users with the **Restricted Viewer** or **Viewer** roles cannot add or remove aliases.
-[Protected aliases]({{< relref "aliases/#protected-aliases" >}}) provide a way to label and identify which artifact versions to protect from modification or deletion.
 
 {{% alert %}}
 [Protected aliases]({{< relref "aliases/#protected-aliases" >}}) provide a way to label and identify which artifact versions to protect from modification or deletion.
@@ -90,7 +89,7 @@ run.link_artifact(
 ### Protected aliases
 Use a [protected alias]({{< relref "aliases/#protected-aliases" >}}) to both label and identify artifact versions that should not be modified or deleted. For example, consider using a `production` protected alias to label and identify artifact versions that are in used in your organization's machine learning production pipeline.
 
-[Registry admins]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) and [service accounts]({{< relref "/support/kb-articles/service_account_useful" >}}) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. **Members** and **Viewers** cannot unlink a protected version or delete a collection that contains a protected . See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for details.
+[Registry admin]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) users and [service accounts]({{< relref "/support/kb-articles/service_account_useful" >}}) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. Users and service accounts with **Member**, **Viewer**, and **Restricted Viewer** roles cannot unlink a protected version or delete a collection that contains a protected alias. See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for details.
 
 Common protected aliases include:
 
