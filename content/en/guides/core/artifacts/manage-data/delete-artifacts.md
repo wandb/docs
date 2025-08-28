@@ -54,6 +54,10 @@ The sections in this page describe how to delete specific artifact versions, how
 Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
 {{% /alert %}}
 
+{{% alert %}}
+Deleting an entity, project, or artifact collection will also trigger the artifact deletion process described on this page. When deleting a run, if you choose to delete associated artifacts, those artifacts will follow the same soft-delete and garbage collection workflow.
+{{% /alert %}}
+
 ### Delete an artifact version
 
 To delete an artifact version:
@@ -63,7 +67,7 @@ To delete an artifact version:
 3. On the right hand side of the workspace, select the kebab dropdown.
 4. Choose Delete.
 
-An artifact version can also be deleted programatically via the [delete()]({{< relref "/ref/python/sdk/classes/artifact.md#delete" >}}) method. See the examples below. 
+An artifact version can also be deleted programmatically via the [delete()]({{< relref "/ref/python/sdk/classes/artifact.md#delete" >}}) method. See the examples below. 
 
 ### Delete multiple artifact versions with aliases
 
@@ -106,6 +110,18 @@ for artifact_version in runs.logged_artifacts():
     if artifact_version.name[-2:] == "v3" or artifact_version.name[-2:] == "v4":
         artifact.delete(delete_aliases=True)
 ```
+
+### Protected aliases and deletion permissions
+
+Artifacts with protected aliases have special deletion restrictions. [Protected aliases]({{< relref "/guides/core/registry/model_registry/access_controls.md" >}}) are aliases in the Model Registry that registry admins can set to prevent unauthorized deletion.
+
+{{% alert %}}
+**Important considerations for protected aliases:**
+- Artifacts with protected aliases cannot be deleted by non-registry admins
+- Within a registry, registry admins can unlink protected artifact versions and delete collections/registries that contain protected aliases
+- For source artifacts: if a source artifact is linked to a registry with a protected alias, it cannot be deleted by any user
+- Registry admins can remove the protected aliases from source artifacts and then delete them
+{{% /alert %}}
 
 ### Delete all versions of an artifact that do not have an alias
 

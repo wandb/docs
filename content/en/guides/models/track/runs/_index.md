@@ -587,7 +587,7 @@ Each run in W&B can be categorized by **group** and a **job type**:
 - **Group**: a broad category for the experiment, used to organize and filter runs.
 - **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
 
-The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colorts to represent the amount of data used:
+The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colors to represent the amount of data used:
 
 - **Yellow to dark green** indicate increasing amounts of data for the baseline model.
 - **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.
