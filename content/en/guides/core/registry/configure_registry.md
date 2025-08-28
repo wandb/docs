@@ -79,7 +79,10 @@ W&B automatically assigns a default **registry role** to a user or team when the
 |----------------------------------------|-------------------------------------------------------------|-------------------------------------------------|
 | Team                                   | Viewer                                                      | Restricted Viewer                               |
 | User or service account (non admin)    | Viewer                                                      | Restricted Viewer                               |
+| Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>  | Member<sup><a href="#service_account_footnote">1</a></sup> |
 | Org admin                              | Admin                                                       | Admin                                           |
+
+<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles.
 
 A registry admin can assign or modify roles for users and teams in the registry.
 See [Configure user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}) for more information.
@@ -146,16 +149,16 @@ To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use 
 When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
 
 The following functions are not available and result in permission errors:
-- `run.use_artifact()`
-- `artifact.download()`
-- `artifact.file()`
-- `artifact.files()`
+- [`Run.use_artifact()`]({{< relref "/ref/python/sdk/classes/run/#method-runuse_artifact" >}})
+- [`Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactdownload" >}})
+- [`Artifact.file()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfile" >}})
+- [`Artifact.files()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfiles" >}})
 
 The following functions are limited to artifact metadata:
-- `artifact.get_entry()`
-- `artifact.get_path()`
-- `artifact.get()`
-- `artifact.verify()`
+- [`Artifact.get_entry()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_entry" >}})
+- [`Artifact.get_path()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_path" >}})
+- [`Artifact.get()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget" >}})
+- [`Artifact.verify()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactverify" >}})
 
 ### Cross-registry permissions
 
