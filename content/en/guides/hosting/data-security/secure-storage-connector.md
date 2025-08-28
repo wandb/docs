@@ -115,117 +115,70 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ]
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+
 1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs]({{< relref "./presigned-urls.md" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
 
-    **Multi-tenant Cloud**: 
+        ```json
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+          {
+            "Sid": "AllowWandbUser",
+            "Action": [
+              "s3:GetObject*",
+              "s3:GetEncryptionConfiguration",
+              "s3:ListBucket",
+              "s3:ListBucketMultipartUploads",
+              "s3:ListBucketVersions",
+              "s3:AbortMultipartUpload",
+              "s3:DeleteObject",
+              "s3:PutObject",
+              "s3:GetBucketCORS",
+              "s3:GetBucketLocation",
+              "s3:GetBucketVersioning"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+              "arn:aws:s3:::<cw-bucket>/*",
+              "arn:aws:s3:::<cw-bucket>"
+            ],
+            "Principal": {
+              "CW": "arn:aws:iam::wandb:static/wandb-integration-public"
+            },
+            "Condition": {
+              "StringLike": {
+                "wandb:OrgID": [
+                  "<wb-org-id>"
+                ]
+              }
+            }
+          },
+          {
+            "Sid": "AllowUsersInOrg",
+            "Action": "s3:*",
+            "Effect": "Allow",
+            "Resource": [
+              "arn:aws:s3:::<cw-bucket>",
+              "arn:aws:s3:::<cw-bucket>/*"
+            ],
+            "Principal": {
+              "CW": "arn:aws:iam::<cw-storage-org-id>:*"
+            }
+          }]
+        }
+
+        ```
+        Replace `<wandb_bucket>` and `<cw-storage-org-id>` accordingly.
+
+        If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<wb-org-id>` with the corresponding value:
+
+        * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), replace `<wb-org-id>` with the organization ID you found previously.
+        * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<wb-org-id>` with the customer namespace you found previously.
+
+        The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
+
+        Next, [configure W&B]({{< relref "#configure-byob" >}}).
     
-    Replace `<cw-bucket>` with the CoreWeave bucket name and replace `<wb-org-id>` with the W&B organization ID you obtained in step 1.
-
-    ```json
-    {
-      "Version": "2012-10-17",
-      "Statement": [
-      {
-        "Sid": "AllowWandbUser",
-        "Action": [
-          "s3:GetObject*",
-          "s3:GetEncryptionConfiguration",
-          "s3:ListBucket",
-          "s3:ListBucketMultipartUploads",
-          "s3:ListBucketVersions",
-          "s3:AbortMultipartUpload",
-          "s3:DeleteObject",
-          "s3:PutObject",
-          "s3:GetBucketCORS",
-          "s3:GetBucketLocation",
-          "s3:GetBucketVersioning"
-        ],
-        "Effect": "Allow",
-        "Resource": [
-          "arn:aws:s3:::<cw-bucket>/*",
-          "arn:aws:s3:::<cw-bucket>"
-        ],
-        "Principal": {
-          "CW": "arn:aws:iam::wandb:static/wandb-integration-public"
-        },
-        "Condition": {
-          "StringLike": {
-            "wandb:OrgID": [
-              "<wb-org-id>"
-            ]
-          }
-        }
-      },
-      {
-        "Sid": "AllowUsersInOrg",
-        "Action": "s3:*",
-        "Effect": "Allow",
-        "Resource": [
-          "arn:aws:s3:::<cw-bucket>",
-          "arn:aws:s3:::<cw-bucket>/*"
-        ],
-        "Principal": {
-          "CW": "arn:aws:iam::<cw-storage-org-id>:*"
-        }
-      }]
-    }
-    ```
-
-    **Dedicated Cloud** / **Self-Managed**:
-    
-    Replace `<cw-bucket>` with the CoreWeave bucket name and replace `<customer-namespace>` with the Customer Namespace value you obtained in step 2.
-
-    ```json
-    {
-      "Version": "2012-10-17",
-      "Statement": [
-      {
-        "Sid": "AllowWandbUser",
-        "Action": [
-          "s3:GetObject*",
-          "s3:GetEncryptionConfiguration",
-          "s3:ListBucket",
-          "s3:ListBucketMultipartUploads",
-          "s3:ListBucketVersions",
-          "s3:AbortMultipartUpload",
-          "s3:DeleteObject",
-          "s3:PutObject",
-          "s3:GetBucketCORS",
-          "s3:GetBucketLocation",
-          "s3:GetBucketVersioning"
-        ],
-        "Effect": "Allow",
-        "Resource": [
-          "arn:aws:s3:::<cw-bucket>/*",
-          "arn:aws:s3:::<cw-bucket>"
-        ],
-        "Principal": {
-          "CW": "arn:aws:iam::wandb:static/wandb-integration"
-        },
-        "Condition": {
-          "StringLike": {
-            "wandb:CustomerNamespace": [
-              "<customer-namespace>"
-            ]
-          }
-        }
-      },
-      {
-        "Sid": "AllowUsersInOrg",
-        "Action": "s3:*",
-        "Effect": "Allow",
-        "Resource": [
-          "arn:aws:s3:::<cw-bucket>",
-          "arn:aws:s3:::<cw-bucket>/*"
-        ],
-        "Principal": {
-          "CW": "arn:aws:iam::<cw-storage-org-id>:*"
-        }
-      }]
-    }
-    ```
-
-    The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
 
 {{% /tab %}}
 {{% tab header="AWS" value="aws" %}}
