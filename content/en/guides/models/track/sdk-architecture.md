@@ -1,26 +1,26 @@
 ---
-description: Understanding W&B SDK's event-driven architecture and logging performance
+description: Understanding W&B SDK's event-driven architecture and how it handles logging internally
 menu:
   default:
     identifier: sdk-architecture
     parent: experiments
-title: SDK architecture and performance
+title: SDK architecture
 weight: 16
 ---
 
-This guide explains how the W&B SDK handles logging internally, including its event-driven architecture, performance characteristics, and best practices for CPU/GPU synchronization.
+This guide explains how the W&B SDK handles logging internally through its event-driven architecture.
 
 ## Overview
 
-The W&B SDK uses an event-driven architecture with performance in mind that minimizes impact on your training loops. Here's what you need to know:
+The W&B SDK uses an event-driven architecture designed to minimize impact on your training loops:
 
 - **Non-blocking operations**: W&B operates in a separate process with non-blocking function calls
 - **Asynchronous data handling**: The SDK buffers logging data and sends it asynchronously to avoid blocking your training
-- **Minimal overhead**: Under normal usage (logging less than once per second), W&B adds minimal overhead to your training
+- **Background synchronization**: A dedicated service handles uploading data to W&B servers without interrupting your code
 
 ## Event-driven architecture
 
-### How W&B handles logging
+### How W&B Handles Logging
 
 When you call `wandb.log()`, here's what happens under the hood:
 
@@ -36,218 +36,127 @@ wandb.log({"loss": 0.5, "accuracy": 0.92})
 
 ### Architecture diagram
 
+The following diagram illustrates the flow of data through W&B's event-driven architecture:
+
 ```mermaid
 flowchart TD
-    A["Your Training Script"] 
-    B["Memory Buffer"]
-    C["Local Files<br/>(wandb directory)"]
-    D["wandb-service<br/>(background process)"]
-    E["W&B Servers"]
+    A[Your Training Script] 
+    B[Memory Buffer]
+    C[Local Files<br/>wandb directory]
+    D[wandb-service<br/>background process]
+    E[W&B Servers]
     
-    A -->|"wandb.log()"| B
-    B -->|"periodic flush"| C
-    C -->|"async upload"| D
-    D -->|"network sync"| E
+    A -->|wandb.log()| B
+    B -->|periodic flush| C
+    C -->|async upload| D
+    D -->|network sync| E
+    
+    classDef scriptNode fill:#ff99ff,stroke:#333,stroke-width:2px
+    classDef serviceNode fill:#9999ff,stroke:#333,stroke-width:2px
+    classDef serverNode fill:#99ff99,stroke:#333,stroke-width:2px
+    classDef storageNode fill:#e8e8e8,stroke:#333,stroke-width:2px
+    
+    class A scriptNode
+    class B,C storageNode
+    class D serviceNode
+    class E serverNode
 ```
 
-## CPU and GPU synchronization
+### Key components
 
-### The challenge
+#### Memory buffer
+- Stores metrics temporarily in RAM
+- Minimizes disk I/O operations
+- Automatically manages size to prevent memory issues
 
-When training on GPU devices, you often want to log metrics without forcing CPU-GPU synchronization. Forcing the CPU to wait for GPU computations can slow down training.
+#### Local files
+- Persistent storage in the `wandb` directory
+- Ensures data isn't lost even if the process crashes
+- Allows resuming uploads after network failures
 
-### How W&B solves this
+#### wandb-service Process
+- Runs independently from your training script
+- Handles all network communication
+- Implements retry logic with exponential back-off
+- Manages authentication and API interactions
 
-W&B's architecture avoids most synchronization issues:
+#### Network layer
+- Uploads data in batches for efficiency
+- Compresses data before transmission
+- Handles connection failures
+- Supports offline mode with automatic sync when reconnected
+
+## Process isolation
+
+W&B achieves true non-blocking behavior through process isolation:
 
 ```python
-# Good: This doesn't block on GPU computation
-loss = model(x)  # GPU operation
-wandb.log({"loss": loss})  # Returns immediately
+# Main training process
+import wandb
 
-# The actual value is only read when needed
+wandb.init(project="my-project")
+
+# This spawns a separate wandb-service process
+# Your training continues without waiting
+
+for epoch in range(epochs):
+    # Training logic here
+    loss = train_step()
+    
+    # This immediately returns - data is passed to wandb-service
+    wandb.log({"loss": loss})
 ```
 
-If you're logging high-frequency GPU data, consider these patterns:
+The `wandb-service` process handles:
+- File system operations
+- Network requests
+- Data compression
+- Error handling and retries
 
-### Pattern 1: Batch logging
+## Data flow example
 
-Instead of logging every step, accumulate metrics and log periodically:
-
-```python
-losses = []
-for batch_idx, (x, y) in enumerate(dataloader):
-    x, y = x.to(device), y.to(device)
-    y_pred = model(x)
-    loss = criterion(y_pred, y)
-    
-    # Accumulate without forcing synchronization
-    losses.append(loss)
-    
-    # Log every N batches
-    if batch_idx % log_interval == 0:
-        # This forces synchronization only every N batches
-        wandb.log({
-            "loss": torch.stack(losses).mean().item(),
-            "batch": batch_idx
-        })
-        losses = []
-    
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-```
-
-### Pattern 2: Deferred logging
-
-For truly asynchronous logging, defer metric computation:
+Here's a practical example showing the complete data flow:
 
 ```python
-# Store references without forcing computation
-gpu_metrics = []
-
-for batch_idx, (x, y) in enumerate(dataloader):
-    x, y = x.to(device), y.to(device)
-    y_pred = model(x)
-    loss = criterion(y_pred, y)
-    
-    # Store the tensor reference (no sync)
-    gpu_metrics.append({
-        "batch": batch_idx,
-        "loss": loss.detach()  # Detach from computation graph
-    })
-    
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-
-# After epoch, log all metrics at once
-for metric in gpu_metrics:
-    wandb.log({
-        "loss": metric["loss"].item(),  # CPU sync happens here
-        "batch": metric["batch"]
-    })
-```
-
-## Performance guidelines
-
-### What you should know
-
-1. **Logging Frequency**: W&B handles logging rates up to a few times per second efficiently. For higher frequencies, batch your metrics.
-
-2. **Data Size**: Each log call should contain at most a few megabytes of data. Sample or summarize large tensors.
-
-3. **Network Failures**: W&B handles network issues with exponential back-off and retry logic. Network issues won't interrupt your training.
-
-### What not to worry about
-
-1. **Network Latency**: Uploads happen in a background process and won't block training
-2. **Disk I/O**: W&B uses efficient buffering to reduce disk operations  
-3. **Server Availability**: Local logging continues even if servers are unavailable
-4. **Memory Usage**: W&B automatically manages buffer sizes to prevent memory issues
-
-### What to watch for
-
-1. **Excessive Logging Frequency**:
-   ```python
-   # Bad: Logging too frequently
-   for i in range(1000):
-       wandb.log({"metric": i})  # Don't do this in a tight loop
-   
-   # Good: Batch your logging
-   metrics = []
-   for i in range(1000):
-       metrics.append(i)
-   wandb.log({"metrics": metrics})
-   ```
-
-2. **Large Data Volumes**:
-   ```python
-   # Bad: Logging large tensors directly
-   wandb.log({"huge_tensor": model.state_dict()})  # Don't log entire models
-   
-   # Good: Log summaries or samples
-   wandb.log({"weight_norm": compute_weight_norm(model)})
-   ```
-
-3. **Forced Synchronization**:
-   ```python
-   # Bad: Forces GPU-CPU sync every iteration
-   for batch in dataloader:
-       loss = model(batch)
-       wandb.log({"loss": loss.item()})  # .item() forces sync
-   
-   # Good: Log less frequently
-   if step % 100 == 0:
-       wandb.log({"loss": loss.item()})
-   ```
-
-## Best practices
-
-### 1. Log strategically
-
-```python
-# Log important metrics every N steps
-if step % args.log_interval == 0:
-    wandb.log({
-        "train/loss": loss.item(),
-        "train/accuracy": accuracy,
-        "train/learning_rate": scheduler.get_last_lr()[0],
-        "train/epoch": epoch,
-    })
-```
-
-### 2. Use histograms for distributions
-
-Instead of logging individual values, use histograms:
-
-```python
-# Instead of logging each gradient
-wandb.log({"gradients": wandb.Histogram(gradients)})
-```
-
-### 3. Profile your logging
-
-If you're concerned about performance, profile your logging:
-
-```python
+import wandb
 import time
 
-# Measure logging overhead
-start = time.time()
-wandb.log({"metric": value})
-log_time = time.time() - start
+# Initialize W&B - spawns background process
+run = wandb.init(project="architecture-demo")
 
-if log_time > 0.001:  # If logging takes more than 1ms
-    print(f"Warning: Logging took {log_time:.3f}s")
+# Simulate training loop
+for step in range(100):
+    # Your computation (e.g., neural network forward pass)
+    loss = 0.5 - (step * 0.001)  # Simulated decreasing loss
+    accuracy = 0.6 + (step * 0.002)  # Simulated increasing accuracy
+    
+    # Log metrics - returns immediately
+    start_time = time.time()
+    wandb.log({
+        "loss": loss,
+        "accuracy": accuracy,
+        "step": step
+    })
+    log_time = time.time() - start_time
+    
+    print(f"Logging took {log_time*1000:.2f}ms")  # Typically < 1ms
+    
+    # Continue with training - no waiting for uploads
+    time.sleep(0.1)  # Simulate training time
+
+wandb.finish()
 ```
 
-### 4. Use tables for structured data
+## Benefits of the architecture
 
-For complex data, use W&B Tables which optimize for performance:
+1. **Performance**: Training loops aren't blocked by I/O operations
+2. **Reliability**: Local storage ensures no data loss
+3. **Scalability**: Can handle high-frequency logging through buffering
+4. **Flexibility**: Works seamlessly in various environments (local, cloud, clusters)
+5. **Resilience**: Continues logging even during network outages
 
-```python
-# Log predictions efficiently
-if epoch % val_interval == 0:
-    table = wandb.Table(columns=["image", "prediction", "truth"])
-    for img, pred, truth in val_samples:
-        table.add_data(wandb.Image(img), pred, truth)
-    wandb.log({"predictions": table})
-```
+## Related resources
 
-## Summary
-
-The W&B SDK has minimal impact on your training performance:
-
-- **Event-driven architecture** ensures non-blocking operations
-- **Background syncing** handles network communication without blocking training  
-- **Smart buffering** manages memory and disk I/O efficiently
-- **Graceful degradation** continues local logging even during network issues
-
-For optimal performance:
-- Log at reasonable frequencies (< few times per second)
-- Batch high-frequency metrics
-- Avoid forcing GPU-CPU synchronization when not needed
-- Use W&B's specialized data types (Histogram, Table, Image) for complex data
-
-The SDK handles the complexity of distributed logging so you can focus on your experiments without worrying about logging infrastructure.
+- [SDK Performance Guidelines]({{< relref "./sdk-performance.md" >}}) - Best practices for optimal logging performance
+- [Configuration Reference]({{< relref "./config.md" >}}) - Detailed configuration options
+- [W&B API Reference]({{< relref "/ref/python/sdk/functions/init.md" >}}) - Complete API documentation

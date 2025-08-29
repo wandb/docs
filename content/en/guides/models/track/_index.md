@@ -66,6 +66,8 @@ Depending on your use case, explore the following resources to get started with 
 
 For best practices and tips for experiments and logging, see [Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging).
 
-## Understanding SDK architecture
+## Understanding SDK Architecture
 
-To learn more about how W&B's SDK handles logging internally, including performance considerations and GPU/CPU synchronization, see [SDK Architecture and Performance]({{< relref "./sdk-architecture.md" >}}).
+To learn more about how W&B's SDK works internally:
+- [SDK Architecture]({{< relref "./sdk-architecture.md" >}}) - Understanding the event-driven architecture and data flow
+- [SDK Performance]({{< relref "./sdk-performance.md" >}}) - Performance guidelines, GPU/CPU synchronization, and best practices
