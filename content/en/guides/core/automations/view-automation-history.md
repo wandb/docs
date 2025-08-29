@@ -84,7 +84,6 @@ A successful execution shows:
   - HTTP status code (e.g., "200 OK")
   - For Slack: Channel and thread information
 - **Response data** (webhook automations only):
-  - Response headers
   - Full response body.
 Request and response headers are omitted.
 
@@ -98,13 +97,6 @@ A failed execution shows:
   Status: 502 Bad Gateway
   Response: "upstream server temporarily unavailable"
   ```
-- **Failure stage**: Where in the process it failed:
-  - "Pre-validation" - Failed before sending
-  - "Connection" - Network or DNS issues
-  - "Authentication" - Invalid credentials or tokens
-  - "Processing" - Remote server rejected the request
-- **Debugging information**:
-  - Request headers sent
 
 #### Skipped or cancelled executions
 Skipped or cancelled executions show details about why it was skipped or who cancelled it.
