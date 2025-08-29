@@ -39,7 +39,7 @@ A registry admin can remove individual users or entire teams from a registry. To
 Removing a user from a team also removes that user's access to the registry.
 {{% /alert %}}
 
-### Change the owner
+### Change the owner of a registry
 
 A Registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
 
@@ -129,12 +129,12 @@ The following table lists each Registry role, along with the permissions provide
 | Assign or change a user's role in a registry                   | Admin            |                   |        |        |   ✓   |
 
 
-### Effective (inherited) Registry role
+### Inherited Registry role
 When viewing the registry's membership list, the W&B App shows each user's effective registry role next to the role dropdown in their row.
 
 {{< img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role" >}}
 
-A user's effective (inherited) role in a particular registry matches their _highest_ role among their role in the organization, the registry, and the team that owns the registry, whether inherited or explicitly assigned. For example:
+A user's effective role in a particular registry matches their _highest_ role among their role in the organization, the registry, and the team that owns the registry, whether inherited or explicitly assigned. For example:
 
 - A team **Admin** or organization **Admin** with the **Viewer** role in a particular registry owned by the team is effectively an **Admin** of the registry.
 - A registry **Viewer** with the **Member** role in the team is effectively a **Member** of the registry.
@@ -143,18 +143,18 @@ A user's effective (inherited) role in a particular registry matches their _high
 ### SDK compatibility
 
 {{% alert title="SDK version requirement" %}}
-To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, SDK commands will result in permission errors.
+To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, some SDK commands will result in permission errors.
 {{% /alert %}}
 
 When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
 
-The following functions are not available and result in permission errors:
+The following methods are not available and result in permission errors:
 - [`Run.use_artifact()`]({{< relref "/ref/python/sdk/classes/run/#method-runuse_artifact" >}})
 - [`Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactdownload" >}})
 - [`Artifact.file()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfile" >}})
 - [`Artifact.files()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfiles" >}})
 
-The following functions are limited to artifact metadata:
+The following methods are limited to artifact metadata:
 - [`Artifact.get_entry()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_entry" >}})
 - [`Artifact.get_path()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_path" >}})
 - [`Artifact.get()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget" >}})
