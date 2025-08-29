@@ -103,7 +103,6 @@ Skipped or cancelled executions show details about why it was skipped or who can
 
 ## Filter and search automation history
 
-This section shows various ways to filter and search for automation executions.
 
 
 If you have a large number of automations or executions:
