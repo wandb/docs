@@ -9,7 +9,7 @@ url: guides/registry
 cascade:
 - url: guides/registry/:filename
 aliases:
-- /guides/core/registry
+- /guides/core/registry/
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
