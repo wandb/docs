@@ -14,12 +14,12 @@ This page describes how to view and understand the execution history of your W&B
 
 ## Overview
 
-Each execution of an automation generates a comprehensive log entry that includes:
+Each executed automation generates a record that includes:
 - **Execution timestamp**: When the automation was triggered.
-- **Trigger event**: The specific event that caused the automation to run.
+- **Triggering event**: The specific event triggered the automation.
 - **Status**: The execution's status. See [Execution status](#execution-status).
 - **Action details**: Information about what action was performed, such as notifying a Slack channel or running a webhook.
-- **Error messages**: Detailed error information for a failed automation.
+- **Result details**: Additional information, if any, about the final outcome of executing the automation, including the error for a failed execution.
 
 ## View automation history
 
@@ -29,7 +29,7 @@ You can view automation history from multiple locations in the W&B interface:
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
-1. Navigate to your registry by clicking on **Model Registry** in the left sidebar.
+1. Navigate to your registry by clicking on **Registry** in the left sidebar.
 1. Select your registry from the list.
 1. Click **Automations** tab to view the registry's automations. In each row, the **Last execution** column shows when the automation last executed.
 1. In the **Automations history** tab, view all executions of the registry's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
@@ -67,11 +67,9 @@ Click any automation execution entry to view detailed information. The details s
 
 | Status | Icon | Description |
 |--------|------|-------------|
-| **Success** | ✅ | A green checkmark indicates that the automation completed successfully and the action was performed |
-| **Failed** | ❌ | A red X indicates that the automation encountered an error and could not complete. |
-| **In Progress** | 🔄 Spinning icon | A spinning arrow icon indicates that the automation is running. |
-| **Cancelled** | ⏹️ Gray square icon | A gray square icon indicates that the automation was manually stopped before completion. |
-| **Skipped** | ⏭️ Gray forward arrow icon | A gray forward arrow icon indicates that the automation was triggered but subsequently skipped because its conditions were not met. |
+| **Finished** | ✅ | A green checkmark indicates that the automation completed successfully. |
+| **Failed** | ❌ | A red X indicates that the automation terminated unsuccessfully for any reason. |
+| **Pending** | 🔄 Spinning icon | A spinning arrow icon indicates that the automation is running. |
 
 #### Successful executions
 A successful execution shows:
@@ -81,15 +79,14 @@ A successful execution shows:
   - Exact timestamp with timezone
 - **Payload sent**:
   - For Slack: The formatted message content
-  - For webhooks: The complete JSON payload (with sensitive values masked)
+  - For webhooks: The complete JSON payload. No values are masked.
 - **Delivery confirmation**:
   - HTTP status code (e.g., "200 OK")
-  - Response time in milliseconds
   - For Slack: Channel and thread information
 - **Response data** (webhook automations only):
   - Response headers
-  - Response body (truncated if large)
-  - Any returned job IDs or reference numbers
+  - Full response body.
+Request and response headers are omitted.
 
 #### Failed executions
 A failed execution shows:
@@ -108,11 +105,6 @@ A failed execution shows:
   - "Processing" - Remote server rejected the request
 - **Debugging information**:
   - Request headers sent
-  - Curl command equivalent for testing
-  - Suggested fixes based on error type
-- **Retry options**:
-  - "Retry Now" button (if automation is still valid)
-  - "Edit and Retry" to modify payload before retrying
 
 #### Skipped or cancelled executions
 Skipped or cancelled executions show details about why it was skipped or who cancelled it.
@@ -121,41 +113,10 @@ Skipped or cancelled executions show details about why it was skipped or who can
 
 This section shows various ways to filter and search for automation executions.
 
-### Status filter dropdown
-Click the **Status** dropdown to filter executions:
-- **All statuses** (default): Shows every execution
-- **Successful**: Shows only executions with green checkmarks
-- **Failed**: Shows only executions with red X marks
-- **In Progress**: Shows currently running executions
-- **Cancelled**: Shows manually stopped executions
 
-The filter updates the list in real-time, and the count badge shows the number of matching executions.
-
-### Date range picker
-Click the calendar icon to open the date range selector:
-- **Quick ranges** (buttons at the top):
-  - Last 24 hours
-  - Last 7 days
-  - Last 30 days
-  - Last 90 days
-- **Custom range**:
-  - Select start and end dates from the calendar
-  - Time selection available for precision
-  - Timezone selector (defaults to browser timezone)
-
-### Search bar
-The search bar supports both basic text search across all execution data and advanced search using operators. For example:
-
-- `status:failed`: Find failed executions.
-- `status:failed error:401`: Find failed executions with authentication errors.
-- `trigger:"artifact alias"`: Find executions that match a trigger.
-- `trigger:"run metric" metric:loss`: Find automations triggered by a given run metric's value.
-- `webhook:https://api.example.com`: Find executions that called a specific webhook endpoint.
-- `duration:>10s`: Find executions that took longer than 10 seconds.
-- `error:timeout`: Find matching error messages.
-- `artifact:model-v2`: Find executions that relate to s specific artifact.
-- `artifact:"production-model" last 7 days`: Find recent executions that relate to a specific artifact.
-- `user:jane@company.com`: Find executions triggered by specific users.
+If you have a large number of automations or executions:
+- Use the search bar to filter or search for automations by name.
+- Click a column name to sort by that column. Click a second time to reverse the sort order.
 
 
 ## Common use cases
@@ -203,36 +164,7 @@ The search bar supports both basic text search across all execution data and adv
 1. Track which user and action triggered a given automation.
 1. Monitor the overall health and reliability of your automation workflows.
 
-## Retention policy
-- **Standard retention**: 90 days of execution history.
-- **Extended retention**: Up to 365 days of execution history for Enterprise plans. Contact [support](mailto:support@wandb.ai) or your account team to express interest.
 
-During the retention period for an organization, the following details are kept:
-- **Failed execution details**: Full error logs and request/response data.
-- **Successful execution summaries**: Essential details. Payload details may be truncated after 30 days.
-
-## Export automation data
-TODO: Verify. I can't find this UI anywhere.
-
-This section shows how to export automation history for compliance or analysis.
-
-1. Click the **Export** button (download icon) at the top of the history list.
-1. Select export format:
-   - **CSV**: Tabular format with key fields.
-   - **JSON**: Complete execution details including payloads.
-   - **PDF**: Formatted report for documentation.
-1. Choose the date range to export.
-1. Click **Generate Export**.
-1. The export will be downloaded to your browser's default download location.
-
-**CSV export includes**:
-- Execution ID (e.g., `exec_1234567890`)
-- Timestamp (UTC) (e.g., `2024-01-15T14:30:00Z`)
-- Status (e.g., `Success`, `Failed`, `Cancelled`)
-- Trigger type and details (e.g., `artifact_alias_added: model-v2`)
-- Duration (e.g., `2.3s`)
-- Error message (if applicable) (e.g., `Connection timeout after 30s`)
-- User who triggered (for manual triggers) (e.g., `user@example.com`)
 
 ## Troubleshooting
 
