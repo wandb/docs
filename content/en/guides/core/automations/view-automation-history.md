@@ -102,9 +102,6 @@ A failed execution shows:
 Skipped or cancelled executions show details about why it was skipped or who cancelled it.
 
 ## Filter and search automation history
-
-
-
 If you have a large number of automations or executions:
 - Use the search bar to filter or search for automations by name.
 - Click a column name to sort by that column. Click a second time to reverse the sort order.
