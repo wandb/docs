@@ -171,7 +171,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
 1. In the bucket policy, replace placeholders:
     - `<wandb_bucket>`: your bucket name.
-    - `<cw-wandb-principal>`:
+    - `<wb-cw-principal>`:
       - **Multi-tenant Cloud**: `arn:aws:iam::wandb:static/wandb-integration-public`
       - **Dedicated Cloud** or **Self-Managed**: `arn:aws:iam::wandb:static/wandb-integration-public`
     - `<wb-org-id>`:
