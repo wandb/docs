@@ -173,7 +173,10 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
         If you are using [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) or [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<wb-org-id>` with the corresponding value:
 
         * For [Multi-tenant Cloud]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}), replace `<wb-org-id>` with the organization ID you found previously.
-        * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<wb-org-id>` with the customer namespace you found previously.
+        * For [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}), replace `<wb-org-id>` with the customer namespace you found previously, then contact [support](mailto:support@wandb.ai) to complete additional steps.
+        * For [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed/">}}):
+          1. Replace `<wb-org-id>` with the customer namespace you found previously.
+          1. Before continuing, update your W&B deployment to set the environment variable `GORILLA_SUPPORTED_FILE_STORES` to the exact string `cw://` and restart W&B. Otherwise, CoreWeave will not appear as an option when you configure team storage.
 
         The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
 
