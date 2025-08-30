@@ -1,5 +1,5 @@
 ---
-title: Query API
+title: Public API
 module: wandb.apis.public
 weight: 90
 ---

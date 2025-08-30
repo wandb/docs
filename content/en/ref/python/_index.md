@@ -9,7 +9,7 @@ title: Python Library v(0.21.1)
         {{< /card >}}
     {{< card >}}
             <a href="/ref/python/public-api">
-            <h2 className="card-title">Query API</h2></a>
+            <h2 className="card-title">Public API</h2></a>
             <p className="card-content">Query and analyze data logged to W&B.</p>
         
         {{< /card >}}
