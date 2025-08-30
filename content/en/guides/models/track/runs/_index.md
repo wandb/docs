@@ -348,25 +348,29 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Customize how runs are displayed
-This section shows how to customize how runs are displayed in your project's **Workspace** and **Runs** tab, which share the same display configuration.
+This section shows how to customize how runs are displayed in your project's Workspace and Runs table.
 
 {{% alert %}}
 A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
 {{% /alert %}}
 
+#### Add or remove columns
 
-To customize which columns are visible:
-1. In the project sidebar, navigate to the **Runs** tab.
+To customize which columns are visible in the Runs table or Workspace:
+1. In the project sidebar, navigate to the **Runs** tab or the **Workspace** tab.
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-  
     You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
 1. Click **Done** to close the column browser.
+
+#### Sort runs by column
 
 To sort the list of runs by any visible column:
 
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Sort ascending** or **Sort descending**.
+
+#### Pin columns
 
 Pinned columns are shown on the right-hand side. Unpinned columns are shown on the left-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
 
@@ -379,12 +383,12 @@ To unpin a column:
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Unpin column**.
 
+#### Customize run name truncation
+
 By default, long run names are truncated in the middle for readability. To customize the truncation of run names:
 
 1. Click the action `...` menu at the top of the list of runs.
 1. Set **Run name cropping** to crop the end, middle, or beginning.
-
-See the [**Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
 
 ### Overview tab
 Use the **Overview** tab to learn about specific run information in a project, such as:
