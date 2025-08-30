@@ -100,6 +100,52 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
+### Organize distributed runs with `job_type`
+
+When running distributed training with multiple processes, you can specify the `job_type` in your [`wandb_init()`]({{< relref "/ref/python/sdk/functions/init/" >}}) invocation to distinguish between different types of nodes. Then you can create saved views to help you organize your runs and filter out noise from worker nodes.
+
+To organize your distributed training runs:
+
+1. Set `job_type` for different node types to categorize your nodes based on their function:
+
+   ```python
+   # Main coordinating node
+   wandb.init(
+       project="distributed-training",
+       group="experiment_1",
+       job_type="main"
+   )
+
+   # Reporting worker nodes
+   wandb.init(
+       project="distributed-training", 
+       group="experiment_1",
+       job_type="worker"
+   )
+   ```
+1. Create [saved views]({{< relref "/guides/models/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. First, filter and group your runs to show a subset of runs, then click the **...** action menu at the top right and click **Save as new view**. For example, you could create the following saved views:
+
+   - **Default view**: Filter out worker nodes to reduce noise
+     - Click **Filter**, then set **Job Type** to `worker`.
+     - Shows only your reporting nodes
+
+   - **Debug view**: Focus on worker nodes for troubleshooting
+     - Click **Filter**, then set **Job Type** `==` `worker` and set **State** to  `IN` `crashed`.
+     - Shows only worker nodes that have crashed or are in error states
+
+   - **All nodes view**: See everything together
+     - No filter
+     - Useful for comprehensive monitoring
+
+To open a saved view, click **Workspaces** in the sidebar, then click the menu. Workspaces appear at the top of the list and saved views appear at the bottom.
+1. Organize your workspaces for different use cases:
+
+   - **Main workspace**: Shows only `job_type="main"` runs for high-level experiment tracking.
+   - **Debug workspace**: Shows only `job_type="worker"` runs with `state != "finished"` for troubleshooting.
+   - **Overview workspace**: Shows all runs grouped by `group` to see the complete experiment.
+
+This approach gives you clean workspaces that emulate single-run behavior while maintaining visibility into all your distributed processes when needed.
+
 ### Track all processes to a single run
 
 {{% alert color="secondary"  %}}
