@@ -20,6 +20,11 @@
 ##   but preserve subfolder structure
 # /app/features/* /guides/runs/:splat   
 
+# Consistent URLs
+/guides/models/tables/* /guides/tables/:splat
+/guides/core/automations/* /guides/automations/:splat
+/guides/core/registry/* /guides/registry/:splat
+
 ## Individual page rules
 /app/features/alerts/ /guides/runs/alert/ 301
 /app/features/custom-charts/walkthrough/ /guides/app/features/custom-charts/walkthrough/ 301

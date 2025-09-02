@@ -16,7 +16,7 @@ This module provides classes for interacting with W&B artifacts and their collec
 
 
 ## <kbd>class</kbd> `ArtifactTypes`
-An iterable collection of artifact types for a specific project. 
+An lazy iterator of `ArtifactType` objects for a specific project. 
 
 
 ## <kbd>class</kbd> `ArtifactType`
