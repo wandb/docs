@@ -102,7 +102,7 @@ The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see
 
 ### Organize distributed runs with `job_type`
 
-When running distributed training with multiple processes, you can specify the `job_type` in your [`wandb_init()`]({{< relref "/ref/python/sdk/functions/init/" >}}) invocation to distinguish between different types of nodes. Then you can create saved views to help you organize your runs and filter out noise from worker nodes.
+Specify the `job_type` in your [`wandb_init()`]({{< relref "/ref/python/sdk/functions/init/" >}}) invocation to distinguish between different types of nodes. Then you can create saved views to help you organize your runs and filter out noise from worker nodes.
 
 To organize your distributed training runs:
 
