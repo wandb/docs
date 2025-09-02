@@ -217,9 +217,9 @@ jobs:
               core.warning('Branch Preview URL not found within 2 minutes. Links will be added when Cloudflare comment triggers update workflow.');
               return '';
             }
-            let base = await waitForCloudflareBranchUrl();
-            if (!base) base = await fromOurExistingComment();
-            core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+            // TEMPORARY: Hardcode the preview base from PR #1580
+            let base = 'https://docs-1688-docs-1512.docodile.pages.dev';
+            core.info(`Branch Preview URL hardcoded: ${base}`);
             core.setOutput('base', base);
 
       - name: Update PR comment with preview links
