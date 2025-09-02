@@ -88,6 +88,13 @@ Returns the viewer object.
 
 
 
+**Raises:**
+ 
+ - `ValueError`:  If viewer data is not able to be fetched from W&B. 
+ - `requests.RequestException`:  If an error occurs while making the graphql request. 
+
+
+
 ---
 
 ### <kbd>method</kbd> `Api.artifact`
@@ -989,7 +996,7 @@ registries(
 ) → Registries
 ```
 
-Returns a Registry iterator. 
+Returns a lazy iterator of `Registry` objects. 
 
 Use the iterator to search and filter registries, collections, or artifact versions across your organization's registry. 
 
@@ -998,12 +1005,12 @@ Use the iterator to search and filter registries, collections, or artifact versi
 **Args:**
  
  - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
- - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the registry iterator.  Fields available to filter for collections are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
 
 
 
 **Returns:**
- A registry iterator. 
+ A lazy iterator of `Registry` objects. 
 
 
 
@@ -1095,7 +1102,7 @@ Note: `wandb.Api.reports()` API is in beta and will likely change in future rele
 
 **Args:**
  
- - `path`:  The path to project the report resides in. Specify the  entity that created the project as a prefix followed by a  forward slash. 
+ - `path`:  The path to the project the report resides in. Specify the  entity that created the project as a prefix followed by a  forward slash. 
  - `name`:  Name of the report requested. 
  - `per_page`:  Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason to  change this. 
 
@@ -1160,7 +1167,7 @@ runs(
 )
 ```
 
-Return a set of runs from a project that match the filters provided. 
+Returns a `Runs` object, which lazily iterates over `Run` objects. 
 
 Fields you can filter by include: 
 - `createdAt`: The timestamp when the run was created. (in ISO 8601 format, e.g. "2023-01-01T12:00:00Z") 
@@ -1202,7 +1209,7 @@ For more complex filtering, you can use MongoDB query operators. For details, se
  - `path`:  (str) path to project, should be in the form: "entity/project" 
  - `filters`:  (dict) queries for specific runs using the MongoDB query language.  You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. 
  - `For example`:  `{"config.experiment_name": "foo"}` would find runs with a config entry  of experiment name set to "foo" 
- - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending.  If you prepend order with a - order is descending (default).  The default order is run.created_at from oldest to newest. 
+ - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
  - `per_page`:  (int) Sets the page size for query pagination. 
  - `include_sweeps`:  (bool) Whether to include the sweep runs in the results. 
 
