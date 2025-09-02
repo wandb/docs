@@ -15,11 +15,11 @@ menu:
 
 ### Key features for model evaluation
 
-* **Scorers and Judges**: Pre-built and custom evaluation metrics for accuracy, relevance, coherence, and more
-* **Evaluation Datasets**: Structured test sets with ground truth for systematic evaluation
-* **Model Versioning**: Track and compare different versions of your models
-* **Detailed Tracing**: Debug model behavior with complete input/output traces
-* **Cost Tracking**: Monitor API costs and token usage across evaluations
+* **Scorers and judges**: Pre-built and custom evaluation metrics for accuracy, relevance, coherence, and more
+* **Evaluation datasets**: Structured test sets with ground truth for systematic evaluation
+* **Model versioning**: Track and compare different versions of your models
+* **Detailed tracing**: Debug model behavior with complete input/output traces
+* **Cost tracking**: Monitor API costs and token usage across evaluations
 
 ### Getting started: Evaluate a model from W&B Registry
 
@@ -73,10 +73,10 @@ results = await evaluation.evaluate(model)
 
 The [Models and Weave Integration Demo](https://weave-docs.wandb.ai/reference/gen_notebooks/Models_and_Weave_Integration_Demo) shows the complete workflow for:
 
-1. **Loading models from Registry**: Download fine-tuned models stored in W&B Models Registry
-2. **Creating evaluation pipelines**: Build comprehensive evaluations with custom scorers
-3. **Logging results back to W&B**: Connect evaluation metrics to your model runs
-4. **Versioning evaluated models**: Save improved models back to the Registry
+1. **Load models from Registry**: Download fine-tuned models stored in W&B Models Registry
+2. **Create evaluation pipelines**: Build comprehensive evaluations with custom scorers
+3. **Log results back to W&B**: Connect evaluation metrics to your model runs
+4. **Version evaluated models**: Save improved models back to the Registry
 
 Log evaluation results to both Weave and W&B Models:
 
@@ -92,7 +92,7 @@ wandb.run.config.update({
 })
 ```
 
-### Advanced evaluation features
+### Advanced Weave features
 
 #### Custom scorers and judges
 Create sophisticated evaluation metrics tailored to your use case:
@@ -167,7 +167,7 @@ for idx, (input_data, label) in enumerate(test_dataset):
 run.log({"evaluation_results": eval_table})
 ```
 
-### Advanced evaluation workflows
+### Advanced table workflows
 
 #### Compare multiple models
 Log evaluation tables from different models to the same key for direct comparison:
