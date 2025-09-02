@@ -1,0 +1,48 @@
+diff --git a/.github/workflows/pr-preview-links-on-comment.yml b/.github/workflows/pr-preview-links-on-comment.yml
+index 67ce39aa..7c0a1993 100644
+--- a/.github/workflows/pr-preview-links-on-comment.yml
++++ b/.github/workflows/pr-preview-links-on-comment.yml
+@@ -180,7 +180,8 @@ jobs:
+             if (!anyEligible) {
+               core.info('No relevant content changes. Updating comment to reflect this.');
+               
+-              const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
++              // TEMPORARY: Hardcode the preview base from PR #1580 to test the fix
++              const previewBase = 'https://docs-1688-docs-1512.docodile.pages.dev';
+               const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + previewBase + ' -->\n**PR Preview: Changed content**';
+               const body = header + '\n\nNo documentation content changes in this PR.';
+               
+@@ -278,7 +279,8 @@ jobs:
+             }
+ 
+ 
+-            const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
++            // TEMPORARY: Hardcode the preview base from PR #1580 to test the fix
++            const previewBase = 'https://docs-1688-docs-1512.docodile.pages.dev';
+             core.info(`Using Branch Preview URL: ${previewBase}`);
+ 
+             function mapEntry(filePath) {
+diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
+index e76e096d..e0c4c648 100644
+--- a/.github/workflows/pr-preview-links.yml
++++ b/.github/workflows/pr-preview-links.yml
+@@ -281,7 +281,8 @@ jobs:
+                 return;
+               }
+               
+-              const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
++              // TEMPORARY: Hardcode the preview base from PR #1580 to test the fix
++            const previewBase = 'https://docs-1688-docs-1512.docodile.pages.dev';
+               const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**';
+               const body = header + '\n\nNo documentation content changes in this PR.';
+               
+@@ -388,7 +389,8 @@ jobs:
+             }
+ 
+             // Use Branch Preview URL extracted from Cloudflare comment
+-            const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
++            // TEMPORARY: Hardcode the preview base from PR #1580 to test the fix
++            const previewBase = 'https://docs-1688-docs-1512.docodile.pages.dev';
+             if (!previewBase) {
+               core.warning('No Branch Preview URL found yet; leaving links unlinked rather than using commit URL.');
+             }
