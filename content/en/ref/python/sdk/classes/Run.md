@@ -338,7 +338,7 @@ link_artifact(
     artifact: 'Artifact',
     target_path: 'str',
     aliases: 'list[str] | None' = None
-) → Artifact | None
+) → Artifact
 ```
 
 Link the given artifact to a portfolio (a promoted collection of artifacts). 
@@ -356,7 +356,7 @@ Linked artifacts are visible in the UI for the specified portfolio.
 
 
 **Returns:**
- The linked artifact if linking was successful, otherwise None. 
+ The linked artifact. 
 
 ---
 
@@ -680,8 +680,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102e65f30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103c0c5e0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x107349360>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x107f2e290>
 ) → Artifact | None
 ```
 
