@@ -130,7 +130,7 @@ The following table lists each Registry role, along with the permissions provide
 
 
 ### Inherited Registry role
-When viewing the registry's membership list, the W&B App shows each user's effective registry role next to the role dropdown in their row.
+The registry's membership list shows each user's inherited (effective) registry role (in light gray) next to the role dropdown in their row.
 
 {{< img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role" >}}
 
