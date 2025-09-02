@@ -98,9 +98,6 @@ A failed execution shows:
   Response: "upstream server temporarily unavailable"
   ```
 
-#### Skipped or cancelled executions
-Skipped or cancelled executions show details about why it was skipped or who cancelled it.
-
 ## Filter and search automation history
 If you have a large number of automations or executions:
 - Use the search bar to filter or search for automations by name.
