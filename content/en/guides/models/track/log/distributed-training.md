@@ -110,18 +110,12 @@ To organize your distributed training runs:
 
    ```python
    # Main coordinating node
-   wandb.init(
-       project="distributed-training",
-       group="experiment_1",
-       job_type="main"
-   )
+   with wandb.init(project="distributed-training", group="experiment_1",job_type="main") as run:
+        # Training code
 
    # Reporting worker nodes
-   wandb.init(
-       project="distributed-training", 
-       group="experiment_1",
-       job_type="worker"
-   )
+   with wandb.init(project="distributed-training", group="experiment_1", job_type="worker") as run:
+        # Training code
    ```
 1. Create [saved views]({{< relref "/guides/models/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. First, filter and group your runs to show a subset of runs, then click the **...** action menu at the top right and click **Save as new view**. For example, you could create the following saved views:
 
