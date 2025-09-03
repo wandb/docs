@@ -8,7 +8,7 @@ title: Fork a run
 ---
 
 {{% alert color="secondary" %}}
-The ability to fork a run is available **only** for new projects in Multi-tenant SaaS Cloud. To enable it for an existing project, or to express interest in the feature for self-hosted or Dedicated Cloud, contact [W&B Support](mailto:support@wandb.com).
+The ability to fork a run is available **only** for Teams or Enterprise in Multi-tenant SaaS Cloud. To enable it for another project, or to express interest in the feature for self-hosted or Dedicated Cloud, contact [W&B Support](mailto:support@wandb.com).
 {{% /alert %}}
 
 Use `fork_from` when you initialize a run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
