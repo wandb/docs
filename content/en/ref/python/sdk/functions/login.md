@@ -13,7 +13,7 @@ data_type_classification: function
 
 ```python
 login(
-    anonymous: Optional[Literal['allow', 'must', 'never']] = None,
+    anonymous: Optional[Literal['must', 'allow', 'never']] = None,
     key: Optional[str] = None,
     relogin: Optional[bool] = None,
     host: Optional[str] = None,
