@@ -170,7 +170,7 @@ jobs:
             }
 
             // Filter out renamed files from added and deleted arrays to avoid duplication
-            const addedFiltered = added.filter(f => !renamed.includes(f));
+            const addedFiltered = added.filter(f => !Array.from(renamedMapping.values()).includes(f));
             const deletedFiltered = deleted.filter(f => !Array.from(renamedMapping.keys()).includes(f));
 
             const allChanged = [...addedFiltered, ...modified, ...deletedFiltered, ...renamed];
