@@ -31,7 +31,7 @@ This page shows how to deploy W&B in a cluster deployed in a public cloud or in 
 {{% /alert %}}
 
 
-See [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
+See the [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
 
 If necessary, Install `kubectl` and configure it with the correct Kubernetes cluster context.
 
