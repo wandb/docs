@@ -754,7 +754,7 @@ Returns the artifact encoded to the JSON format.
 ### <kbd>method</kbd> `Artifact.link`
 
 ```python
-link(target_path: 'str', aliases: 'list[str] | None' = None) → Artifact | None
+link(target_path: 'str', aliases: 'list[str] | None' = None) → Artifact
 ```
 
 Link this artifact to a portfolio (a promoted collection of artifacts). 
@@ -775,7 +775,7 @@ Link this artifact to a portfolio (a promoted collection of artifacts).
 
 
 **Returns:**
- The linked artifact if linking was successful, otherwise None. 
+ The linked artifact. 
 
 ---
 
