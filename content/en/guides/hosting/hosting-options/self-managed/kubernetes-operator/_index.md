@@ -47,7 +47,7 @@ W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes 
 To deploy W&B Server, you can use Terraform to deploy the Helm chart, or you can use Helm directly. Select a tab to continue.
 
 {{< tabpane text=true >}}
-  {{% tab header="Deploy with Terraform" value="deploy-with-terraform" %}}
+  {{% tab header="Terraform" %}}
 This section shows how to use Terraform to deploy W&B to your own infrastructure, such as a datacenter, using Terraform. To deploy to your own AWS, Azure, or GCP tenant instead, refer to [Deploy W&B with W&B Cloud Terraform modules]({{< relref "#deploy-wb-with-wb-cloud-terraform-modules" >}}).
 
 This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
@@ -106,7 +106,7 @@ This integration ensures that W&B Kubernetes Operator is ready to use for your i
 
 For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
   {{% /tab %}}
-  {{% tab header="Deploy with Helm" value="deploy-with-helm" %}}
+  {{% tab header="Helm" %}}
 Follow these seteps to install the W&B Operator with Helm and then use the Operator to deploy W&B Server.
 
 ### Install the W&B Operator {#install-wb-operator-helm}
@@ -146,22 +146,8 @@ After [installing and starting the Kubernetes Operator]({{< relref "#install-the
 1. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation]({{< relref "#verify-the-installation" >}}).
   {{% /tab %}}
 {{< /tabpane >}}
-### Use Helm
-W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
 
-Follow those steps to install the W&B Kubernetes Operator and deploy W&B with Helm.
-
-#### Install the Operator with Helm
-
-
-You can now use the Operator to [deploy W&B]({{< relref "#deploy-wb-server" >}}).
-
-#### Deploy W&B Server with Helm
-
-### Use Terraform
-
-
-### Verify the installation
+## Verify the installation
 
 To verify the installation, W&B recommends using the [W&B CLI]({{< relref "/ref/cli/" >}}). The verify command executes several tests that verify all components and configurations. 
 
@@ -243,6 +229,38 @@ This section describes how to update the W&B Kubernetes operator.
 * See the instructions [here]({{< relref "#migrate-self-managed-instances-to-wb-operator" >}}) if you use a Helm chart that does not use the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
 {{% /alert %}}
 
+Select a tab to continue.
+
+{{< tabpane text=true >}}
+  {{% tab header="Terraform" %}}
+To update the W&B Kubernetes operator using Terraform:
+
+1. Update the `operator_chart_version` variable in your Terraform configuration to the desired version. To use the latest version:
+    ```hcl
+    module "wandb" {
+      source  = "wandb/wandb/helm"
+      version = "~> 1.0"
+      
+      operator_chart_version = "latest"
+      # ... other configuration ...
+    }
+    ```
+
+2. Run Terraform commands to apply the update:
+    ```shell
+    terraform init -upgrade
+    terraform plan
+    terraform apply
+    ```
+
+The Terraform module will automatically update the operator Helm release to the specified version while preserving your existing configuration.
+
+{{% alert title="Note" %}}
+If you're using a specific version instead of "latest", check the [W&B Helm Charts repository](https://github.com/wandb/helm-charts/tree/main/charts/operator) for available versions.
+{{% /alert %}}
+  {{% /tab %}}
+  
+  {{% tab header="Helm" %}}
 Copy and paste the code snippets below into your terminal. 
 
 1. First, update the repo with [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/):
@@ -254,51 +272,75 @@ Copy and paste the code snippets below into your terminal.
     ```shell
     helm upgrade operator wandb/operator -n wandb-cr --reuse-values
     ```
+  {{% /tab %}}
+{{< /tabpane >}}
 
-## Update the W&B Server application
+{{% alert %}}
 You no longer need to update W&B Server application if you use the W&B Kubernetes operator.
 
 The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
+{{% /alert %}}
 
 
 ## Migrate Self-Managed instances to W&B Operator
-The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
+The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. 
 
 {{% alert %}}
 The W&B Operator is the default and recommended installation method for W&B Server. Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions.
 {{% /alert %}}
 
-- If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
-  - [AWS]({{< relref "#migrate-to-operator-based-aws-terraform-modules" >}})
-  - [GCP]({{< relref "#migrate-to-operator-based-gcp-terraform-modules" >}})
-  - [Azure]({{< relref "#migrate-to-operator-based-azure-terraform-modules" >}})
-- If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here]({{< relref "#migrate-to-operator-based-helm-chart" >}}).
-- If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here]({{< relref "#migrate-to-operator-based-terraform-helm-chart" >}}).
-- If you created the Kubernetes resources with manifests,  continue [here]({{< relref "#migrate-to-operator-based-helm-chart" >}}).
+Select a tab to continue.
 
+{{< tabpane text=true >}}
+  {{% tab header="Terraform" %}}
+This section covers migration deployments using:
+- W&B Cloud Terraform Modules (AWS, GCP, Azure)
+- W&B Non-Operator Helm chart deployed with Terraform
 
-### Migrate to Operator-based AWS Terraform Modules
+### Self-Managed Terraform deployments without the Kubernetes operator{#migrate-non-operator-terraform}
 
-For a detailed description of the migration process,  continue [here]({{< relref "../install-on-public-cloud/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" >}}).
+For a detailed description of the migration process, see the [AWS Terraform deployment guide]({{< relref "../install-on-public-cloud/aws-tf.md#migrate-to-operator-based-aws-terraform-modules" >}}).
 
-### Migrate to Operator-based GCP Terraform Modules
+#### Migrate to Operator-based GCP Terraform Modules
 
-Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+Contact [support](mailto:support@wandb.com) or your W&B account team for details or assistance.
 
+#### Migrate to Operator-based Azure Terraform Modules
 
-### Migrate to Operator-based Azure Terraform Modules
+Contact [support](mailto:support@wandb.com) or your W&B account team for details or assistance.
 
-Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
+### Self-managed Terraform deployments without Helm
 
-### Migrate to Operator-based Helm chart
+Follow these steps to migrate to the Operator-based Terraform Helm module:
+
+1. **Prepare Terraform config**: Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here]({{< relref "#deploy-wb-with-helm-terraform-module" >}}). Set the same variables as before. Do not change `.tfvars` file if you have one.
+
+2. **Execute Terraform run**: Execute terraform commands:
+    ```shell
+    terraform init
+    terraform plan
+    terraform apply
+    ```
+
+3. **Verify the installation**: Make sure that everything works by following the steps in [Verify the installation]({{< relref "#verify-the-installation" >}}).
+
+4. **Remove old installation**: The Terraform apply should handle the migration automatically, replacing the old resources with the new operator-based ones.
+  {{% /tab %}}
+  
+  {{% tab header="Helm" %}}
+This section covers migration for:
+- Deployments that use Helm but do not use the W&B Operator.
+- Kubernetes manifest deployments.
+
+### Self-Managed Helm deployments without the Kubernetes operator  {#migrate-non-operator-helm}
 
 Follow these steps to migrate to the Operator-based Helm chart:
 
-1. Get the current W&B configuration. If W&B was deployed with an non-operator-based version of the Helm chart,  export the values like this:
+1. Get the current W&B configuration. If W&B was deployed with an non-operator-based version of the Helm chart, export the values like this:
     ```shell
     helm get values wandb
     ```
-    If W&B was deployed with Kubernetes manifests,  export the values like this:
+    If W&B was deployed with Kubernetes manifests, export the values like this:
     ```shell
     kubectl get deployment wandb -o yaml
     ```
@@ -327,17 +369,8 @@ Follow these steps to migrate to the Operator-based Helm chart:
 7. Verify the installation. Make sure that everything works by following the steps in [Verify the installation]({{< relref "#verify-the-installation" >}}).
 
 8. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
-
-### Migrate to Operator-based Terraform Helm chart
-
-Follow these steps to migrate to the Operator-based Helm chart:
-
-
-1. Prepare Terraform config. Replace the Terraform code from the old deployment in your Terraform config with the one that is described [here]({{< relref "#deploy-wb-with-helm-terraform-module" >}}). Set the same variables as before. Do not change .tfvars file if you have one.
-2. Execute Terraform run. Execute terraform init, plan and apply
-3. Verify the installation. Make sure that everything works by following the steps in [Verify the installation]({{< relref "#verify-the-installation" >}}).
-4. Remove to old installation. Uninstall the old helm chart or delete the resources that were created with manifests.
-
+  {{% /tab %}}
+{{< /tabpane >}}
 
 
 ## Configuration Reference for W&B Server
