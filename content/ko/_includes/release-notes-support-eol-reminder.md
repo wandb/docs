@@ -1,0 +1,3 @@
+A W&B Server release is supported for 12 months from its initial release date. As a reminder, customers using [Self-managed](/guides/hosting/hosting-options/self-managed/) are responsible to upgrade to a [supported release](/ref/releases-notes/) in time to maintain support.
+
+Refer to [Release policies and processes](/ref/release-notes/release-policies/). For assistance or questions, contact [support](mailto:support@wandb.com).

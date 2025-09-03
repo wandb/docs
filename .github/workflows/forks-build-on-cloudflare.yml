@@ -1,0 +1,228 @@
+name: PR Deploy to Cloudflare Pages
+
+on:
+  pull_request_target:  # Use pull_request_target instead of pull_request for fork security
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy-pr:
+    name: Deploy PR to Cloudflare Pages
+    runs-on: ubuntu-latest
+    
+    # Only run on PRs from forks
+    # GitHub context: https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    
+    steps:
+      # Note: When using pull_request_target, this step is important for security
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}  # Checkout the PR's head
+          fetch-depth: 0  # Required for Cloudflare Pages to have complete Git history
+      
+      # Setup Node.js for PostCSS
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Check if this is a Hugo site
+      - name: Check for Hugo
+        id: check-hugo
+        run: |
+          if [ -f "config.toml" ] || [ -f "config.yaml" ] || [ -f "config.json" ] || [ -f "hugo.yaml" ] || [ -f "hugo.toml" ] || [ -f "hugo.json" ] || [ -d "themes" ]; then
+            echo "is_hugo=true" >> $GITHUB_OUTPUT
+            echo "✅ Detected Hugo site"
+          else
+            echo "is_hugo=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Not a Hugo site"
+          fi
+      
+      # Install PostCSS and other dependencies for Hugo
+      - name: Install PostCSS and dependencies
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        run: |
+          # Create package.json if it doesn't exist
+          if [ ! -f "package.json" ]; then
+            echo '{"name":"hugo-build","version":"1.0.0","private":true}' > package.json
+          fi
+          
+          # Install both globally and locally to ensure modules are found
+          npm install -g postcss postcss-cli
+          npm install --save-dev autoprefixer postcss postcss-cli
+          
+          # Create postcss.config.js if it doesn't exist
+          if [ ! -f "postcss.config.js" ]; then
+            echo 'module.exports = {plugins: {autoprefixer: {}}}' > postcss.config.js
+          fi
+          
+          echo "Installed PostCSS and dependencies:"
+          postcss --version
+          echo "Node modules directory:"
+          ls -la node_modules
+      
+      # Install Hugo if needed
+      - name: Setup Hugo
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+      
+      # Build Hugo site
+      - name: Build with Hugo
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        run: hugo --minify
+        
+      # Check build output
+      - name: Verify Hugo output
+        if: steps.check-hugo.outputs.is_hugo == 'true'
+        run: |
+          if [ -d "public" ]; then
+            echo "✅ Hugo generated 'public' directory"
+            echo "Contents of public directory:"
+            ls -la public
+          else
+            echo "❌ Hugo did not generate 'public' directory"
+          fi
+      
+      # Debug directory structure
+      - name: Debug directory structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          echo "--------------------"
+          
+          if [ -d "public" ]; then
+            echo "✅ Found 'public' directory (Hugo output)"
+            echo "deploy_dir=public" >> $GITHUB_OUTPUT
+          elif [ -d "dist" ]; then
+            echo "✅ Found 'dist' directory"
+            echo "deploy_dir=dist" >> $GITHUB_OUTPUT
+          elif [ -d "build" ]; then
+            echo "✅ Found 'build' directory"
+            echo "deploy_dir=build" >> $GITHUB_OUTPUT
+          elif [ -d "_site" ]; then
+            echo "✅ Found '_site' directory"
+            echo "deploy_dir=_site" >> $GITHUB_OUTPUT
+          else
+            # Create a directory with a simple index.html if none exists
+            mkdir -p _preview
+            echo "<html><body><h1>PR Preview</h1><p>This is a preview of PR #${{ github.event.pull_request.number }} from ${{ github.event.pull_request.head.label }}</p></body></html>" > _preview/index.html
+            echo "deploy_dir=_preview" >> $GITHUB_OUTPUT
+            echo "Created fallback _preview directory with placeholder content"
+          fi
+      
+      # Set directory for deployment
+      - name: Set deployment directory
+        id: deploy-dir
+        run: |
+          if [ -d "public" ]; then
+            echo "dir=public" >> $GITHUB_OUTPUT
+          elif [ -d "dist" ]; then
+            echo "dir=dist" >> $GITHUB_OUTPUT
+          elif [ -d "build" ]; then
+            echo "dir=build" >> $GITHUB_OUTPUT
+          elif [ -d "_site" ]; then
+            echo "dir=_site" >> $GITHUB_OUTPUT
+          else
+            # Create a directory with a simple index.html if none exists
+            mkdir -p _preview
+            echo "<html><body><h1>PR Preview</h1><p>This is a preview of PR #${{ github.event.pull_request.number }} from ${{ github.event.pull_request.head.label }}</p></body></html>" > _preview/index.html
+            echo "dir=_preview" >> $GITHUB_OUTPUT
+            echo "Created fallback _preview directory with placeholder content"
+          fi
+          
+          echo "Will deploy from directory: $(cat $GITHUB_OUTPUT | grep dir | cut -d= -f2)"
+      
+      # Get timestamp for build
+      - name: Get current timestamp
+        id: timestamp
+        run: echo "timestamp=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+      
+      # Deploy to Cloudflare Pages using wrangler directly
+      - name: Deploy to Cloudflare Pages
+        id: cloudflare-deployment
+        continue-on-error: true  # Continue workflow even if deployment fails
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Install Wrangler
+          npm install -g wrangler
+          
+          # Deploy to Cloudflare Pages using the newer 'deploy' command
+          OUTPUT=$(wrangler pages deploy "${{ steps.deploy-dir.outputs.dir || 'public' }}" \
+            --project-name="${{ secrets.CLOUDFLARE_PROJECT_NAME }}" \
+            --branch="${{ github.head_ref || github.ref_name }}" \
+            --commit-hash="${{ github.event.pull_request.head.sha }}" \
+            --commit-message="${{ github.event.pull_request.title }}" \
+            --commit-dirty=true)
+          
+          # Extract the deployment URL from the output
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -o 'https://[^ ]*' | head -1)
+          
+          # Print the output and URL for debugging
+          echo "$OUTPUT"
+          echo "Extracted URL: $DEPLOYMENT_URL"
+          
+          # Set the URL as an output
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+      
+      # Create or update PR comment with deployment info using GitHub CLI
+      - name: Create or update comment with gh CLI
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          DEPLOYMENT_URL: ${{ steps.cloudflare-deployment.outputs.url }}
+          TIMESTAMP: ${{ steps.timestamp.outputs.timestamp }}
+          SHORT_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PR_LABEL: ${{ github.event.pull_request.head.label }}
+        run: |
+          # Determine comment content based on deployment success
+          if [ -n "$DEPLOYMENT_URL" ]; then
+            TITLE="🚀 PR Preview deployed successfully!"
+            URL_LINE="📝 Preview URL: $DEPLOYMENT_URL"
+          else
+            TITLE="❌ PR Preview deployment failed!"
+            URL_LINE="⚠️ The build for Cloudflare Pages failed to complete."
+          fi
+          
+          # Create a temporary file for the comment body
+          COMMENT_FILE=$(mktemp)
+          cat > "$COMMENT_FILE" << EOF
+          $TITLE
+          
+          $URL_LINE
+          
+          ✅ Last built: $TIMESTAMP
+          📌 Commit: ${SHORT_SHA:0:7}
+          🔍 [View build details]($RUN_URL)
+          
+          This preview was automatically generated from fork PR \`$PR_LABEL\`.
+          EOF
+          
+          # List comments to find any existing deployment comment
+          COMMENTS_FILE=$(mktemp)
+          gh api repos/$REPO/issues/$PR_NUMBER/comments > "$COMMENTS_FILE"
+          
+          # Search for an existing bot comment that mentions PR Preview
+          COMMENT_ID=$(jq -r '.[] | select(.user.login=="github-actions[bot]" and (.body | contains("PR Preview"))) | .id' "$COMMENTS_FILE")
+          
+          if [ -n "$COMMENT_ID" ]; then
+            # Update existing comment
+            echo "Updating existing comment ID: $COMMENT_ID"
+            gh api --method PATCH repos/$REPO/issues/comments/$COMMENT_ID -f body="$(cat $COMMENT_FILE)"
+          else
+            # Create new comment
+            echo "Creating new comment"
+            gh api repos/$REPO/issues/$PR_NUMBER/comments -f body="$(cat $COMMENT_FILE)"
+          fi
+          
+          # Clean up temp files
+          rm -f "$COMMENT_FILE" "$COMMENTS_FILE"

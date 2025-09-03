@@ -1,0 +1,17 @@
+# Logs:
+debug: false  # Debug mode
+weave_project: "gpt-translate"  # Weave project
+silence_openai: true  # Silence OpenAI logger
+
+# Translation:
+language: "ja"  # Language to translate to
+config_folder: "./configs"  # Config folder
+max_concurrent_calls: 7  # Max number of concurrent calls to OpenAI
+
+# Model:
+model: "gpt-4o"
+temperature: 1.0
+max_tokens: 4096
+
+# Evaluation:
+eval_dataset: "Translation-ja:latest"  # the Weave dataset name to evaluate
