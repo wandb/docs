@@ -42,6 +42,9 @@ Each project contains the following tabs:
 
 {{< img src="/images/track/overview_tab_image.png" alt="Project overview tab" >}}
 
+To change a project's privacy from the **Overview** tab:
+
+{{% readfile file="/content/en/_includes/project-visibility-settings.md" %}}
 
 ## Workspace tab
 
