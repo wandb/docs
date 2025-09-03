@@ -79,6 +79,7 @@ jobs:
             layouts/**
             i18n/**
             configs/**
+          include_all_old_new_renamed_files: true
 
       - name: Build Hugo (generate pageurls)
         if: steps.changed.outputs.any_changed == 'true'
@@ -134,6 +135,8 @@ jobs:
           ADDED: ${{ steps.changed.outputs.added_files }}
           MODIFIED: ${{ steps.changed.outputs.modified_files }}
           DELETED: ${{ steps.changed.outputs.deleted_files }}
+          RENAMED: ${{ steps.changed.outputs.renamed_files }}
+          RENAMED_PAIRS: ${{ steps.changed.outputs.all_old_new_renamed_files }}
           PREVIEW_BASE: ${{ steps.extract-url.outputs.branch_url }}
         with:
           script: |
@@ -151,8 +154,26 @@ jobs:
             const added = splitList(process.env.ADDED);
             const modified = splitList(process.env.MODIFIED);
             const deleted = splitList(process.env.DELETED);
+            const renamed = splitList(process.env.RENAMED);
+            const renamedPairs = splitList(process.env.RENAMED_PAIRS);
 
-            const allChanged = [...added, ...modified, ...deleted];
+            // Process renamed files - tj-actions outputs them as "old_path new_path" pairs
+            const renamedFiles = [];
+            const renamedMapping = new Map(); // old path -> new path
+            for (let i = 0; i < renamedPairs.length; i += 2) {
+              if (i + 1 < renamedPairs.length) {
+                const oldPath = renamedPairs[i];
+                const newPath = renamedPairs[i + 1];
+                renamedMapping.set(oldPath, newPath);
+                renamedFiles.push({ old: oldPath, new: newPath });
+              }
+            }
+
+            // Filter out renamed files from added and deleted arrays to avoid duplication
+            const addedFiltered = added.filter(f => !Array.from(renamedMapping.values()).includes(f));
+            const deletedFiltered = deleted.filter(f => !Array.from(renamedMapping.keys()).includes(f));
+
+            const allChanged = [...addedFiltered, ...modified, ...deletedFiltered, ...renamed];
             const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
             
             // Handle case where there are no content changes
@@ -387,9 +408,38 @@ jobs:
               return rows;
             }
 
-            const addedRows = buildRows(added);
+            function buildRenamedRows(renamedFiles) {
+              const rows = [];
+              
+              for (const rename of renamedFiles) {
+                const oldPath = rename.old;
+                const newPath = rename.new;
+                
+                if (newPath.startsWith('content/')) {
+                  // Map the new path to get the preview link
+                  const e = mapEntry(newPath);
+                  const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                } else {
+                  // Static/assets: create direct preview links if base is known
+                  const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(newPath);
+                  const rel = newPath.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const title = titleFromPath(newPath);
+                  const titleCell = href ? `[${title}](${href})` : title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                }
+              }
+              
+              return rows;
+            }
+
+            const addedRows = buildRows(addedFiltered);
             const modifiedRows = buildRows(modified);
-            const deletedRows = buildRows(deleted);
+            const deletedRows = buildRows(deletedFiltered);
+            const renamedRows = buildRenamedRows(renamedFiles);
 
             const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + previewBase + ' -->\n**PR Preview: Changed content**\n\nBase preview: ' + previewBase;
             
@@ -400,6 +450,7 @@ jobs:
 
             const body = [
               header,
+              section('Renamed/Moved', renamedRows),
               section('Added', addedRows),
               section('Modified', modifiedRows),
               section('Deleted', deletedRows),
