@@ -46,7 +46,7 @@ You can create a custom alias with the W&B Registry or the Python SDK. Based on 
 {{% /tab %}}
 
 {{% tab header="Python SDK" value="python" %}}
-When you link an artifact version to a collection with the Python SDK you can optionally provide a list of one or more aliases as an argument to the `alias` parameter in [`link_artifact()`]({{< relref "/ref/python/run/#link_artifact" >}}). W&B creates an alias ([non protected alias]({{< relref "#custom-aliases" >}})) for you if the alias you provide does not already exist.
+When you link an artifact version to a collection with the Python SDK you can optionally provide a list of one or more aliases as an argument to the `alias` parameter in [`link_artifact()`]({{< relref "/ref/python/sdk/classes/run.md/#link_artifact" >}}). W&B creates an alias ([non protected alias]({{< relref "#custom-aliases" >}})) for you if the alias you provide does not already exist.
 
 The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace values within `<>` with your own:
 
@@ -84,7 +84,7 @@ run.link_artifact(
 ### Protected aliases
 Use a [protected alias]({{< relref "aliases/#protected-aliases" >}}) to both label and identify artifact versions that should not be modified or deleted. For example, consider using a `production` protected alias to label and identify artifact versions that are in used in your organization's machine learning production pipeline.
 
-Only [registry admins]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) can create protected aliases and add or remove protected aliases from an artifact version. Members and Viewers cannot unlink a protected version or delete a collection that contains a protected . See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for details.
+[Registry admins]({{< relref "/guides/core/registry/configure_registry/#registry-roles" >}}) and [service accounts]({{< relref "/support/kb-articles/service_account_useful" >}}) with the Admin role can create protected aliases and add or remove protected aliases from an artifact version. Members and Viewers cannot unlink a protected version or delete a collection that contains a protected . See [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}) for details.
 
 Common protected aliases include:
 

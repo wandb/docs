@@ -64,7 +64,7 @@ wandb.login()
 
 ## Start a run and track hyperparameters
 
-In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref "/ref/python/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
+In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref "/ref/python/sdk/classes/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
 
 ```python
 run = wandb.init(
@@ -83,34 +83,30 @@ A [run]({{< relref "/guides/models/track/runs/" >}}) serves as the core element 
 This mock training script logs simulated accuracy and loss metrics to W&B:
 
 ```python
-# train.py
 import wandb
 import random
 
 wandb.login()
 
-epochs = 10
-lr = 0.01
+# Project that the run is recorded to
+project = "my-awesome-project"
 
-run = wandb.init(
-    project="my-awesome-project",    # Specify your project
-    config={                         # Track hyperparameters and metadata
-        "learning_rate": lr,
-        "epochs": epochs,
-    },
-)
+# Dictionary with hyperparameters
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
 
-offset = random.random() / 5
-print(f"lr: {lr}")
-
-# Simulate a training run
-for epoch in range(2, epochs):
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset
-    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    wandb.log({"accuracy": acc, "loss": loss})
-
-# run.log_code()
+with wandb.init(project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # Simulate a training run
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
 ```
 
 Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
@@ -127,4 +123,4 @@ Explore more features of the W&B ecosystem:
 4. Automate hyperparameter searches and optimize models with [W&B Sweeps]({{< relref "/guides/models/sweeps/" >}}).
 5. Analyze runs, visualize model predictions, and share insights on a [central dashboard]({{< relref "/guides/models/tables/" >}}).
 6. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses.
-7. Visit the [official W&B Weave documentation](https://weave-docs.wandb.ai/) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 
+7. Visit [weave-docs.wandb.ai](https://weave-docs.wandb.ai/) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 

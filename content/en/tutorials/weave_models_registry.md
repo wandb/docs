@@ -15,7 +15,7 @@ This notebook shows how to use W&B Weave together with W&B Models. Specifically,
 
 Find the public workspace for both W&B Models and W&B Weave [here](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations).
 
-{{< img src="/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" >}}
+{{< img src="/images/tutorials/weave_models_workflow.jpg"  alt="W&B" >}}
 
 The workflow covers the following steps:
 
@@ -159,7 +159,7 @@ Building a RAG app from a fine-tuned chat model can provide several advantages, 
 
 Now retrieve the [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) (you can fetch the weave ref for the current `RagModel` from the use tab as shown in the image below) from the existing Weave project and exchange the `ChatModel` to the new one. There is no need to change or re-create any of the other components (VDB, prompts, etc.)!
 
-<img src="/images/tutorials/weave-ref-1.png"  alt="Weights & Biases" />
+{{< img src="/images/tutorials/weave-ref-1.png" alt="Weave UI 'Use' tab with reference code" >}}
 
 ```bash
 pip install litellm faiss-gpu
@@ -180,7 +180,7 @@ await RagModel.predict("When was the first conference on climate change?")
 Finally, evaluate the new `RagModel` on the existing `weave.Evaluation`. To make the integration as easy as possible, include the following changes. 
 
 From a Models perspective:
-- Getting the model from the registry creates a new `wandb.run` which is part of the E2E lineage of the chat model
+- Getting the model from the registry creates a new `run` object which is part of the E2E lineage of the chat model
 - Add the Trace ID (with current eval ID) to the run config so that the model team can click the link to go to the corresponding Weave page
 
 From a Weave perspective:
@@ -192,7 +192,9 @@ From a Weave perspective:
 WEAVE_EVAL = "weave:///wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 
-with weave.attributes({"wandb-run-id": wandb.run.id}):
+run = wandb.init()
+
+with weave.attributes({"wandb-run-id": run.id}):
     # use .call attribute to retrieve both the result and the call in order to save eval trace to Models
     summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, ` RagModel `)
 ```

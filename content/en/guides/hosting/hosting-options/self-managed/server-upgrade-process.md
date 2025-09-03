@@ -1,6 +1,5 @@
 ---
-description: Guide for updating W&B (Weights & Biases) version and license across
-  different installation methods.
+description: Guide for updating W&B version and license across different installation methods.
 menu:
   default:
     identifier: server-upgrade-process

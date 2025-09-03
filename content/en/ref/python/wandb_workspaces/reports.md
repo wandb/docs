@@ -5,7 +5,9 @@ title: Reports
 
 <!-- markdownlint-turnedoff -->
 
-
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
 
 # <kbd>module</kbd> `wandb_workspaces.reports.v2`
 Python library for programmatically working with W&B Reports API. 
@@ -187,7 +189,7 @@ A panel object that compares the code between two different runs.
 
 
 ## <kbd>class</kbd> `Config`
-Metrics logged to a run's config object. Config objects are commonly logged using `run.config[name] = ...` or passing a config as a dictionary of key-value pairs, where the key is the name of the metric and the value is the value of that metric. 
+Metrics logged to a run's config object. Config objects are commonly logged using `wandb.Run.config[name] = ...` or passing a config as a dictionary of key-value pairs, where the key is the name of the metric and the value is the value of that metric. 
 
 
 

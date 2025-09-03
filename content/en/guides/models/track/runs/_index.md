@@ -12,7 +12,7 @@ cascade:
 ---
 
 
-A *run* is a single unit of computation logged by W&B. You can think of a W&B run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
+A *run* is a single unit of computation logged by W&B. You can think of a W&B Run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
 
 Common patterns for initiating a run include, but are not limited to: 
 
@@ -23,15 +23,22 @@ Common patterns for initiating a run include, but are not limited to:
 * [Downloading a W&B Artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
-W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App UI. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/public-api/run.md" >}}) object.
+W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/sdk/classes/run.md" >}}) object.
 
-Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
+Anything you log with `wandb.Run.log()` is recorded in that run.
+
+{{ %alert% }}
+Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. You can find it in the URL of your W&B App workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
+{{ /%alert% }}
 
 ```python
 import wandb
 
-run = wandb.init(entity="nico", project="awesome-project")
-run.log({"accuracy": 0.9, "loss": 0.1})
+entity = "nico"  # Replace with your W&B entity
+project = "awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
 The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
@@ -60,31 +67,29 @@ wandb: Find logs at: ./wandb/run-20241105_111006-1jx1ud12/logs
 
 The URL W&B returns in the terminal to redirects you to the run's workspace in the W&B App UI. Note that the panels generated in the workspace corresponds to the single point.
 
-{{< img src="/images/runs/single-run-call.png" alt="" >}}
+{{< img src="/images/runs/single-run-call.png" alt="Single run workspace" >}}
 
 Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
 
 ```python
-epochs = 10
-lr = 0.01
+import wandb
+import random
 
-run = wandb.init(
-    entity="nico",
-    project="awesome-project",
-    config={
-        "learning_rate": lr,
-        "epochs": epochs,
-    },
-)
+config = {
+    "epochs": 10,
+    "learning_rate": 0.01,
+}
 
-offset = random.random() / 5
-
-# simulating a training run
-for epoch in range(epochs):
-    acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
-    loss = 2**-epoch + random.random() / (epoch + 1) + offset
-    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    run.log({"accuracy": acc, "loss": loss})
+with wandb.init(project="awesome-project", config=config) as run:
+    print(f"lr: {config['learning_rate']}")
+      
+    # Simulating a training run
+    for epoch in range(config['epochs']):
+      offset = random.random() / 5
+      acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
+      loss = 2**-epoch + random.random() / (epoch + 1) + offset
+      print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+      run.log({"accuracy": acc, "loss": loss})
 ```
 
 This returns the following output:
@@ -108,25 +113,26 @@ wandb: 🚀 View run jolly-haze-4 at: https://wandb.ai/nico/awesome-project/runs
 wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 ```
 
-The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
+The training script calls `wandb.Run.log()` 10 times. Each time the script calls `wandb.Run.log()`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
 
-Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init()` method only once. 
 
-{{< img src="/images/runs/run_log_example_2.png" alt="" >}}
+{{< img src="/images/runs/run_log_example_2.png" alt="Training run with logged metrics" >}}
 
 As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W&B explores a hyperparameter search space that you specify. W&B implements each new hyperparameter combination that the sweep creates as a unique run.
 
 
-## Initialize a run
+## Initialize a W&B Run
 
-Initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B Run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", project="<project>")
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # Your code here
 ```
 
 When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
@@ -139,14 +145,14 @@ Each run in W&B has a [unique identifier known as a *run ID*]({{< relref "#uniqu
 
 Each run also has a human-readable, non-unique [run name]({{< relref "#name-your-run" >}}). You can specify a name for your run or let W&B randomly generate one for you. You can rename a run after initializing it.
 
-For example, consider the proceeding code snippet: 
+For example, consider the following code snippet:
 
 ```python title="basic.py"
 import wandb
 
 run = wandb.init(entity="wandbee", project="awesome-project")
 ```
-The code snippet produces the proceeding output:
+The code snippet produces the following output:
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -179,7 +185,7 @@ The proceeding table describes the possible states a run can be in:
 | ----- | ----- |
 | `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
 | `Failed` | Run ended with a non-zero exit status. | 
-| `Finished`| Run ended and fully synced data, or called `Run.finish()`. |
+| `Finished`| Run ended and fully synced data, or called `wandb.Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
 
@@ -190,9 +196,9 @@ Run IDs are unique identifiers for runs. By default, [W&B generates a random and
 
 ### Autogenerated run IDs
 
-If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App UI.
+If you do not specify a run ID when you initialize a run, W&B generates a random run ID for you. You can find the unique ID of a run in the W&B App.
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
+1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within your project's workspace, select the **Runs** tab.
 4. Select the **Overview** tab.
@@ -201,11 +207,11 @@ W&B displays the unique run ID in the **Run path** field. The run path consists 
 
 For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
-{{< img src="/images/runs/unique-run-id.png" alt="" >}}
+{{< img src="/images/runs/unique-run-id.png" alt="Run ID location" >}}
 
 
 ### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init`]({{< relref "/ref/python/init.md" >}}) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 ```python 
 import wandb
@@ -213,7 +219,7 @@ import wandb
 run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
 ```
 
-You can use a run's unique ID to directly navigate to the run's overview page in the W&B App UI. The proceeding cell shows the URL path for a specific run:
+You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:
 
 ```text title="W&B App URL for a specific run"
 https://wandb.ai/<entity>/<project>/<run-id>
@@ -230,13 +236,14 @@ By default, W&B generates a random run name when you initialize a new run. The n
 Use run names as a way to quickly identify a run in your project workspace.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init`]({{< relref "/ref/python/init.md" >}}) method. 
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
 
 
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
+with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
+    # Your code here
 ```
 
 ### Rename a run
@@ -290,7 +297,7 @@ wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other fil
 wandb: Find logs at: ./wandb/run-20241106_095857-o8sdbztv/logs
 ```
 
-Navigate to the W&B App UI to confirm the run is no longer active:
+Navigate to the W&B App to confirm the run is no longer active:
 
 1. Navigate to the project that your run was logging to.
 2. Select the name of the run. 
@@ -301,7 +308,7 @@ Navigate to the W&B App UI to confirm the run is no longer active:
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
-{{< img src="/images/runs/stop-run-terminal.png" alt="" >}}  
+{{< img src="/images/runs/stop-run-terminal.png" alt="Run stopped via terminal" >}}  
   {{% /tab %}}
   {{% tab header="W&B App" %}}
 
@@ -309,11 +316,11 @@ Next to the **State** field, the run's state changes from `running` to `Killed`.
 2. Select the run you want to stop within the run selector.
 3. Choose the **Overview** tab from the project sidebar.
 4. Select the top button next to the **State** field.
-{{< img src="/images/runs/stop-run-manual.png" alt="" >}}
+{{< img src="/images/runs/stop-run-manual.png" alt="Manual run stop button" >}}
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
-{{< img src="/images/runs/stop-run-manual-status.png" alt="" >}}  
+{{< img src="/images/runs/stop-run-manual-status.png" alt="Run status after manual stop" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -323,11 +330,11 @@ See [State fields]({{< relref "#run-states" >}}) for a full list of possible run
 
 View a information about a specific run such as the state of the run, artifacts logged to the run, log files recorded during the run, and more. 
 
-{{< img src="/images/runs/demo-project.gif" alt="" >}}
+{{< img src="/images/runs/demo-project.gif" alt="Project navigation demo" >}}
 
 To view a specific run:
 
-1. Navigate to the W&B App UI at [https://wandb.ai/home](https://wandb.ai/home).
+1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within the project sidebar, select the **Workspace** tab.
 4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
@@ -341,9 +348,15 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Customize how runs are displayed
-You can customize how runs are displayed in your project from the **Workspace** or **Runs** tabs. Both tabs use the same display configuration.
+This section shows how to customize how runs are displayed in your project's **Workspace** and **Runs** tab, which share the same display configuration.
+
+{{% alert %}}
+A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+{{% /alert %}}
+
 
 To customize which columns are visible:
+1. In the project sidebar, navigate to the **Runs** tab.
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
   
@@ -355,16 +368,23 @@ To sort the list of runs by any visible column:
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Sort ascending** or **Sort descending**.
 
-Pinned columns are shown on the right-hand side. To pin or unpin a column:
+Pinned columns are shown on the right-hand side. Unpinned columns are shown on the left-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+
+To pin a column:
+1. In the project sidebar, navigate to the **Runs** tab.
+1. Click **Pin column**.
+
+To unpin a column:
+1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
 1. Hover over the column name, then click its action `...` menu.
-1. Click **Pin column** or **Unpin column**.
+1. Click **Unpin column**.
 
 By default, long run names are truncated in the middle for readability. To customize the truncation of run names:
 
 1. Click the action `...` menu at the top of the list of runs.
 1. Set **Run name cropping** to crop the end, middle, or beginning.
 
-[Learn more about the **Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
+See the [**Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
 
 ### Overview tab
 Use the **Overview** tab to learn about specific run information in a project, such as:
@@ -372,7 +392,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Author**: The W&B entity that creates the run.
 * **Command**: The command that initializes the run.
 * **Description**: A description of the run that you provided. This field is empty if you do not specify a description when you create the run. You can add a description to a run with the W&B App UI or programmatically with the Python SDK.
-* **Duration**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting.
+* **Tracked Hours**: The amount of time the run is actively computing or logging data, excluding any pauses or waiting periods. This metric helps you understand the actual computational time spent on your run.
+* **Runtime**: Measures the total time from the start to the end of the run. It's the wall-clock time for the run, including any time where the run is paused or waiting for resources. This metric provides the complete elapsed time for your run.
 * **Git repository**: The git repository associated with the run. You must [enable git]({{< relref "/guides/models/app/settings-page/user-settings.md#personal-github-integration" >}}) to view this field.
 * **Host name**: Where W&B computes the run. W&B displays the name of your machine if you initialize the run locally on your machine.
 * **Name**: The name of the run.
@@ -380,7 +401,6 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **Python executable**: The command that starts the run.
 * **Python version**: Specifies the Python version that creates the run.
 * **Run path**: Identifies the unique run identifier in the form `entity/project/run-ID`.
-* **Runtime**: Measures the total time from the start to the end of the run. It’s the wall-clock time for the run. Runtime includes any time where the run is paused or waiting for resources, while duration does not.
 * **Start time**: The timestamp when you initialize the run.
 * **State**: The [state of the run]({{< relref "#run-states" >}}).
 * **System hardware**: The hardware W&B uses to compute the run.
@@ -391,8 +411,8 @@ Use the **Overview** tab to learn about specific run information in a project, s
 W&B stores the proceeding information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
-* **Config**: List of config parameters saved with [`wandb.config`]({{< relref "/guides/models/track/config.md" >}}).
-* **Summary**: List of summary parameters saved with [`wandb.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged. 
+* **Config**: List of config parameters saved with [`wandb.Run.config`]({{< relref "/guides/models/track/config.md" >}}).
+* **Summary**: List of summary parameters saved with [`wandb.Run.log()`]({{< relref "/guides/models/track/log/" >}}). By default, W&B sets this value to the last value logged.
 
 {{< img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab" >}}
 
@@ -401,7 +421,7 @@ View an example project overview [here](https://wandb.ai/stacey/deep-drive/overv
 ### Workspace tab
 Use the Workspace tab to view, search, group, and arrange visualizations such as autogenerated and custom plots, system metrics, and more. 
 
-{{< img src="/images/app_ui/wandb-run-page-workspace-tab.png" alt="" >}}
+{{< img src="/images/app_ui/wandb-run-page-workspace-tab.png" alt="Run workspace tab" >}}
 
 View an example project workspace [here](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey)
 
@@ -409,7 +429,7 @@ View an example project workspace [here](https://wandb.ai/stacey/deep-drive/work
 <!-- Keep this in sync with /guide/models/track/project-page.md -->
 Use the Runs tab to filter, group, and sort your runs.
 
-{{< img src="/images/runs/run-table-example.png" alt="" >}}
+{{< img src="/images/runs/run-table-example.png" alt="Runs table" >}}
 
 <!-- [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) -->
 
@@ -440,14 +460,14 @@ Sort all rows in a Table by the value in a given column.
 2. Select on the kebab menu (three vertical dots).
 3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
 
-{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="See the digits for which the model most confidently guessed '0'." >}}
+{{< img src="/images/data_vis/data_vis_sort_kebob.png" alt="Confident predictions" >}}
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.   
    {{% /tab %}}
    {{% tab header="Filter" %}}
 Filter all rows by an expression with the **Filter** button above the dashboard. 
 
-{{< img src="/images/data_vis/filter.png" alt="See only examples which the model gets wrong." >}}
+{{< img src="/images/data_vis/filter.png" alt="Incorrect predictions filter" >}}
 
 Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
 
@@ -458,13 +478,13 @@ Select **Add filter** to add one or more filters to your rows. Three dropdown me
 
 The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
-{{< img src="/images/data_vis/filter_example.png" alt="" >}}
+{{< img src="/images/data_vis/filter_example.png" alt="Run filtering example" >}}
 The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.   
    {{% /tab %}}
    {{% tab header="Group" %}}
 Group all rows by the value in a particular column with the **Group by** button above the dashboard. 
 
-{{< img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s." >}}
+{{< img src="/images/data_vis/group.png" alt="Error distribution analysis" >}}
 
 By default, this turns other numeric columns into histograms that each show the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data. 
 
@@ -480,21 +500,21 @@ The **Log tab** shows output printed on the command line such as the standard ou
 
 Choose the **Download** button in the upper right hand corner to download the log file.
 
-{{< img src="/images/app_ui/wandb_run_page_log_tab.png" alt="" >}}
+{{< img src="/images/app_ui/wandb_run_page_log_tab.png" alt="Run logs tab" >}}
 
 View an example logs tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
 
 ### Files tab
 Use the **Files tab** to view files associated with a specific run such as model checkpoints, validation set examples, and more
 
-{{< img src="/images/app_ui/wandb_run_page_files_tab.png" alt="" >}}
+{{< img src="/images/app_ui/wandb_run_page_files_tab.png" alt="Run files tab" >}}
 
 View an example files tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images).
 
 ### Artifacts tab
 The **Artifacts** tab lists the input and output [artifacts]({{< relref "/guides/core/artifacts/" >}}) for the specified run.
 
-{{< img src="/images/app_ui/artifacts_tab.png" alt="" >}}
+{{< img src="/images/app_ui/artifacts_tab.png" alt="Run artifacts tab" >}}
 
 View [example artifact graphs]({{< relref "/guides/core/artifacts/explore-and-traverse-an-artifact-graph.md" >}}).
 
@@ -516,6 +536,46 @@ Once a run with a specific ID is deleted, its ID may not be used again. Trying t
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
 {{% /alert %}}
 
+### Run deletion workflow
+
+The following diagram illustrates the complete run deletion process, including the handling of associated artifacts and Model Registry links:
+
+```mermaid
+graph TB
+    Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
+    
+    RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
+    
+    DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
+    
+    DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
+    
+    CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
+    
+    HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
+    HasRegistry -->|No| DirectDelete
+    
+    RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
+    
+    ConfirmRegistry -->|No| DeleteRunOnly
+    ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
+    
+    DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
+
+{{% alert title="Important" %}}
+When you delete a run and choose to delete associated artifacts, the artifacts are permanently removed and can't be recovered, even if the run is restored later. This includes models linked to the Model Registry.
+{{% /alert %}}
+
 ## Organize runs 
 
 This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
@@ -527,7 +587,7 @@ Each run in W&B can be categorized by **group** and a **job type**:
 - **Group**: a broad category for the experiment, used to organize and filter runs.
 - **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
 
-The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colorts to represent the amount of data used:
+The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colors to represent the amount of data used:
 
 - **Yellow to dark green** indicate increasing amounts of data for the baseline model.
 - **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.

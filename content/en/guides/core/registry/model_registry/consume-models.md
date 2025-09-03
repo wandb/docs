@@ -35,7 +35,7 @@ Reference a model version with one of following formats listed:
 * `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
 * `alias` - Specify the custom alias that you and your team assigned to your model version
 
-See [`use_model`]({{< relref "/ref/python/run.md#use_model" >}}) in the API Reference guide for more information on possible parameters and return type.
+See [`use_model`]({{< relref "/ref/python/sdk/classes/run.md#use_model" >}}) in the API Reference guide for more information on possible parameters and return type.
 
 <details>
 <summary>Example: Download and use a logged model</summary>
@@ -81,15 +81,15 @@ Reference a model version with one of following formats listed:
 * `v#` - Use `v0`, `v1`, `v2`, and so on to fetch a specific version in the Registered Model
 * `alias` - Specify the custom alias that you and your team assigned to your model version
 
-See [`use_model`]({{< relref "/ref/python/run.md#use_model" >}}) in the API Reference guide for more information on possible parameters and return type.  
+See [`use_model`]({{< relref "/ref/python/sdk/classes/run.md#use_model" >}}) in the API Reference guide for parameters and return type.  
   {{% /tab %}}
   {{% tab header="W&B App" %}}
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
 2. Select **View details** next to the name of the registered model that contains the model you want to download.
 3. Within the Versions section, select the View button next to the model version you want to download.
 4. Select the **Files** tab. 
 5. Click on the download button next to the model file you want to download. 
-{{< img src="/images/models/download_model_ui.gif" alt="" >}}  
+{{< img src="/images/models/download_model_ui.gif" alt="Download model from UI" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 

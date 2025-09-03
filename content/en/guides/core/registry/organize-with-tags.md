@@ -27,13 +27,13 @@ Use the W&B App UI or Python SDK to add a tag to a collection:
 
 Use the W&B App UI to add a tag to a collection:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the [W&B Registry App](https://wandb.ai/registry).
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 4. Within the collection card, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 5. Press **Enter** on your keyboard
 
-{{< img src="/images/registry/add_tag_collection.gif" alt="" >}}
+{{< img src="/images/registry/add_tag_collection.gif" alt="Adding tags to a Registry collection" >}}
 
 {{% /tab %}}
 {{% tab header="Python SDK" %}}
@@ -93,26 +93,26 @@ collection.tags.clear()
 
 Use the W&B App UI to view tags added to a collection:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the [W&B Registry App](https://wandb.ai/registry).
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 
 If a collection has one or more tags, you can view those tags within the collection card next to the **Tags** field.
 
-{{< img src="/images/registry/tag_collection_selected.png" alt="" >}}
+{{< img src="/images/registry/tag_collection_selected.png" alt="Registry collection with selected tags" >}}
 
 Tags added to a collection also appear next to the name of that collection.
 
 For example, in the proceeding image, a tag called "tag1" was added to the "zoo-dataset-tensors" collection.
 
-{{< img src="/images/registry/tag_collection.png" alt="" >}}
+{{< img src="/images/registry/tag_collection.png" alt="Tag management" >}}
 
 
 ## Remove a tag from a collection
 
 Use the W&B App UI to remove a tag from a collection:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the [W&B Registry App](https://wandb.ai/registry).
 2. Click on a registry card
 3. Click **View details** next to the name of a collection
 4. Within the collection card, hover your mouse over the name of the tag you want to remove
@@ -132,7 +132,7 @@ Add a tag to an artifact version linked to a collection with the W&B App UI or w
 6. Within the **Version** tab, click on the plus icon (**+**) next to the **Tags** field and type in the name of the tag
 7. Press **Enter** on your keyboard
 
-{{< img src="/images/registry/add_tag_linked_artifact_version.gif" alt="" >}}
+{{< img src="/images/registry/add_tag_linked_artifact_version.gif" alt="Adding tags to artifact versions" >}}
 
 {{% /tab %}}
 {{% tab header="Python SDK" %}}
@@ -221,14 +221,14 @@ View tags that belong to an artifact version that is linked to a registry with t
 {{< tabpane text=true >}}
 {{% tab header="W&B App" %}}
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the [W&B Registry App](https://wandb.ai/registry).
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
 4. Scroll down to **Versions** section
 
 If an artifact version has one or more tags, you can view those tags within the **Tags** column.
 
-{{< img src="/images/registry/tag_artifact_version.png" alt="" >}}
+{{< img src="/images/registry/tag_artifact_version.png" alt="Artifact version with tags" >}}
 
 {{% /tab %}}
 {{% tab header="Python SDK" %}}
@@ -282,7 +282,7 @@ print(artifact.tags)
 
 ## Remove a tag from an artifact version
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the [W&B Registry App](https://wandb.ai/registry).
 2. Click on a registry card
 3. Click **View details** next to the name of the collection you want to add a tag to
 4. Scroll down to **Versions**
@@ -294,11 +294,11 @@ print(artifact.tags)
 
 Use the W&B App UI to search existing tags in collections and artifact versions:
 
-1. Navigate to the W&B Registry at https://wandb.ai/registry
+1. Navigate to the [W&B Registry App](https://wandb.ai/registry).
 2. Click on a registry card
-3. Within the search bar, type in the name of a tag
+3. Within the search bar, type in the name of a tag.
 
-{{< img src="/images/registry/search_tags.gif" alt="" >}}
+{{< img src="/images/registry/search_tags.gif" alt="Tag-based search" >}}
 
 
 ## Find artifact versions with a specific tag

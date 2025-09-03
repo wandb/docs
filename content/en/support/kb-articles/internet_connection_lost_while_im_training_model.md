@@ -5,6 +5,7 @@ toc_hide: true
 type: docs
 support:
    - environment variables
+   - outage
 ---
 If the library cannot connect to the internet, it enters a retry loop and continues to attempt to stream metrics until the network is restored. The program continues to run during this time.
 

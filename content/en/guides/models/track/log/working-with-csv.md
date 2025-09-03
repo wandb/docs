@@ -99,7 +99,7 @@ run.finish()
 ## Import and log your CSV of Experiments
 
 <!-- {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
-The below table becomes this Weights & Biases Dashboard after conversion
+The below table becomes this W&B Dashboard after conversion
 {% endembed %} -->
 
 In some cases, you might have your experiment details in a CSV file. Common details found in such CSV files include:
@@ -157,21 +157,21 @@ for i, row in loaded_experiment_df.iterrows():
 ```
 
 
-2. Next,  start a new W&B Run to track and log to W&B with [`wandb.init()`]({{< relref "/ref/python/init.md" >}}):
+2. Next, start a new W&B Run to track and log to W&B with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}):
 
-```python
-run = wandb.init(
-    project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
-)
-```
+    ```python
+    run = wandb.init(
+        project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
+    )
+    ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/log.md" >}}) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) command to accomplish this:
 
 ```python
 run.log({key: val})
 ```
 
-You can optionally log a final summary metric to define the outcome of the run. Use the W&B  [`define_metric`]({{< relref "/ref/python/run.md#define_metric" >}}) API to accomplish this. In this example case, we will add the summary metrics to our run with `run.summary.update()`:
+You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`]({{< relref "/ref/python/sdk/classes/run#define_metric" >}}) API. This example adds the summary metrics to our run with `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)

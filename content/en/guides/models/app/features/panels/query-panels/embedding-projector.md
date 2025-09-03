@@ -8,7 +8,7 @@ menu:
 title: Embed objects
 ---
 
-{{< img src="/images/weave/embedding_projector.png" alt="" >}}
+{{< img src="/images/weave/embedding_projector.png" alt="Embedding projector" >}}
 
 [Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) are used to represent objects (people, images, posts, words, etc...) with a list of numbers - sometimes referred to as a _vector_. In machine learning and data science use cases, embeddings can be generated using a variety of approaches across a range of applications. This page assumes the reader is familiar with embeddings and is interested in visually analyzing them inside of W&B.
 
@@ -24,22 +24,22 @@ W&B allows you to log embeddings using the `wandb.Table` class. Consider the fol
 ```python
 import wandb
 
-wandb.init(project="embedding_tutorial")
-embeddings = [
-    # D1   D2   D3   D4   D5
-    [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
-    [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
-    [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
-]
-wandb.log(
-    {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
-)
-wandb.finish()
+with wandb.init(project="embedding_tutorial") as run:
+  embeddings = [
+      # D1   D2   D3   D4   D5
+      [0.2, 0.4, 0.1, 0.7, 0.5],  # embedding 1
+      [0.3, 0.1, 0.9, 0.2, 0.7],  # embedding 2
+      [0.4, 0.5, 0.2, 0.2, 0.1],  # embedding 3
+  ]
+  run.log(
+      {"embeddings": wandb.Table(columns=["D1", "D2", "D3", "D4", "D5"], data=embeddings)}
+  )
+  run.finish()
 ```
 
 After running the above code, the W&B dashboard will have a new Table containing your data. You can select `2D Projection` from the upper right panel selector to plot the embeddings in 2 dimensions. Smart default will be automatically selected, which can be easily overridden in the configuration menu accessed by clicking the gear icon. In this example, we automatically use all 5 available numeric dimensions.
 
-{{< img src="/images/app_ui/weave_hello_world.png" alt="" >}}
+{{< img src="/images/app_ui/weave_hello_world.png" alt="2D projection example" >}}
 
 ### Digits MNIST
 
@@ -49,31 +49,30 @@ While the above example shows the basic mechanics of logging embeddings, typical
 import wandb
 from sklearn.datasets import load_digits
 
-wandb.init(project="embedding_tutorial")
+with wandb.init(project="embedding_tutorial") as run:
 
-# Load the dataset
-ds = load_digits(as_frame=True)
-df = ds.data
+  # Load the dataset
+  ds = load_digits(as_frame=True)
+  df = ds.data
 
-# Create a "target" column
-df["target"] = ds.target.astype(str)
-cols = df.columns.tolist()
-df = df[cols[-1:] + cols[:-1]]
+  # Create a "target" column
+  df["target"] = ds.target.astype(str)
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
 
-# Create an "image" column
-df["image"] = df.apply(
-    lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
-)
-cols = df.columns.tolist()
-df = df[cols[-1:] + cols[:-1]]
+  # Create an "image" column
+  df["image"] = df.apply(
+      lambda row: wandb.Image(row[1:].values.reshape(8, 8) / 16.0), axis=1
+  )
+  cols = df.columns.tolist()
+  df = df[cols[-1:] + cols[:-1]]
 
-wandb.log({"digits": df})
-wandb.finish()
+  run.log({"digits": df})
 ```
 
-After running the above code, again we are presented with a Table in the UI. By selecting `2D Projection` we can configure the definition of the embedding, coloring, algorithm (PCA, UMAP, t-SNE), algorithm parameters, and even overlay (in this case we show the image when hovering over a point). In this particular case, these are all "smart defaults" and you should see something very similar with a single click on `2D Projection`. ([Click here to interact](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney) with this example).
+After running the above code, again we are presented with a Table in the UI. By selecting `2D Projection` we can configure the definition of the embedding, coloring, algorithm (PCA, UMAP, t-SNE), algorithm parameters, and even overlay (in this case we show the image when hovering over a point). In this particular case, these are all "smart defaults" and you should see something very similar with a single click on `2D Projection`. ([Interact with this embedding tutorial example](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney)).
 
-{{< img src="/images/weave/embedding_projector.png" alt="" >}}
+{{< img src="/images/weave/embedding_projector.png" alt="MNIST digits projection" >}}
 
 ## Logging Options
 
@@ -82,8 +81,8 @@ You can log embeddings in a number of different formats:
 1. **Single Embedding Column:** Often your data is already in a "matrix"-like format. In this case, you can create a single embedding column - where the data type of the cell values can be `list[int]`, `list[float]`, or `np.ndarray`.
 2. **Multiple Numeric Columns:** In the above two examples, we use this approach and create a column for each dimension. We currently accept python `int` or `float` for the cells.
 
-{{< img src="/images/weave/logging_options.png" alt="Single Embedding Column" >}}
-{{< img src="/images/weave/logging_option_image_right.png" alt="Many Numeric Columns" >}}
+{{< img src="/images/weave/logging_options.png" alt="Single embedding column" >}}
+{{< img src="/images/weave/logging_option_image_right.png" alt="Multiple numeric columns" >}}
 
 Furthermore, just like all tables, you have many options regarding how to construct the table:
 
@@ -97,8 +96,8 @@ Furthermore, just like all tables, you have many options regarding how to constr
 
 After selecting `2D Projection`, you can click the gear icon to edit the rendering settings. In addition to selecting the intended columns (see above), you can select an algorithm of interest (along with the desired parameters). Below you can see the parameters for UMAP and t-SNE respectively.
 
-{{< img src="/images/weave/plotting_options_left.png" alt="" >}} 
-{{< img src="/images/weave/plotting_options_right.png" alt="" >}}
+{{< img src="/images/weave/plotting_options_left.png" alt="UMAP parameters" >}} 
+{{< img src="/images/weave/plotting_options_right.png" alt="t-SNE parameters" >}}
 
 {{% alert %}}
 Note: we currently downsample to a random subset of 1000 rows and 50 dimensions for all three algorithms.

@@ -8,7 +8,7 @@ support:
 ---
 * **No persistent data**: Runs save for 7 days in an anonymous account. Claim anonymous run data by saving it to a real account.
 
-{{< img src="/images/app_ui/anon_mode_no_data.png" alt="" >}}
+{{< img src="/images/app_ui/anon_mode_no_data.png" alt="Anonymous mode interface" >}}
 
 * **No artifact logging**: A warning appears on the command line when attempting to log an artifact to an anonymous run:
     ```bash

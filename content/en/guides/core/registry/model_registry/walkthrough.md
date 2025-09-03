@@ -210,7 +210,7 @@ model.save(path)
 
 
 ## Log and link a model to the Model Registry
-Use the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}).
+Use the [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) API to log model one ore more files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}).
 
 ```python
 path = "./model.h5"
@@ -222,7 +222,8 @@ run.finish()
 
 W&B creates a registered model for you if the name you specify for `registered-model-name` does not already exist. 
 
-See [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) in the API Reference guide for more information on optional parameters.
+See [`link_model`]({{< relref "/ref/python/sdk/classes/run.md#link_model" >}}) in the API Reference guide for optional parameters.
+
 ## Evaluate the performance of a model
 It is common practice to evaluate the performance of a one or more models. 
 
@@ -288,7 +289,7 @@ The `production` alias is one of the most common aliases used to mark a model as
 You can add an alias to a model version interactively with the W&B App UI or programmatically with the Python SDK. The following steps show how to add an alias with the W&B Model Registry App:
 
 
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
 2. Click **View details** next to the name of your registered model.
 3. Within the **Versions** section, click the **View** button next to the name of the model version you want to promote. 
 4. Next to the **Aliases** field, click the plus icon (**+**). 
@@ -296,4 +297,4 @@ You can add an alias to a model version interactively with the W&B App UI or pro
 6. Press Enter on your keyboard.
 
 
-{{< img src="/images/models/promote_model_production.gif" alt="" >}}
+{{< img src="/images/models/promote_model_production.gif" alt="Promote model to production" >}}

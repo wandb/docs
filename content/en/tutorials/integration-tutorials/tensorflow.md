@@ -10,7 +10,7 @@ weight: 4
 
 ## What this notebook covers
 
-* Easy integration of Weights and Biases with your TensorFlow pipeline for experiment tracking.
+* Easy integration of W&B with your TensorFlow pipeline for experiment tracking.
 * Computing metrics with `keras.metrics`
 * Using `wandb.log` to log those metrics in your custom training loop.
 
@@ -120,6 +120,16 @@ def train(
     log_step=200,
     val_log_step=50,
 ):
+    run = wandb.init(
+        project="my-tf-integration",
+        config={
+            "epochs": epochs,
+            "log_step": log_step,
+            "val_log_step": val_log_step,
+            "architecture": "MLP",
+            "dataset": "MNIST",
+        },
+    )
     for epoch in range(epochs):
         print("\nStart of epoch %d" % (epoch,))
 
@@ -156,8 +166,8 @@ def train(
         train_acc_metric.reset_states()
         val_acc_metric.reset_states()
 
-        # ⭐: log metrics using wandb.log
-        wandb.log(
+        # Log metrics using run.log()
+        run.log(
             {
                 "epochs": epoch,
                 "loss": np.mean(train_loss),
@@ -166,16 +176,17 @@ def train(
                 "val_acc": float(val_acc),
             }
         )
+    run.finish()
 ```
 
 ## Run Training
 
-### Call `wandb.init` to start a run
+### Call `wandb.init()` to start a run
 
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
 
-[Check out the official documentation]({{< relref "/ref/python/init" >}})
+[Check out the official documentation]({{< relref "/ref/python/sdk/functions/init" >}})
 
 ```python
 # initialize wandb with your project name and optionally with configuration.
@@ -222,17 +233,17 @@ run.finish()  # In Jupyter/Colab, let us know you're finished!
 
 ### Visualize Results
 
-Click on the [**run page**]({{< relref "/guides/models/track/runs/#view-logged-runs" >}}) link above to see your live results.
+Click on the [run page]({{< relref "/guides/models/track/runs/#view-logged-runs" >}}) link above to see your live results.
 
 ## Sweep 101
 
-Use Weights & Biases Sweeps to automate hyperparameter optimization and explore the space of possible models.
+Use W&B Sweeps to automate hyperparameter optimization and explore the space of possible models.
 
-## [Check out Hyperparameter Optimization in TensorFlow using W&B Sweeps](http://wandb.me/tf-sweeps-colab)
+Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/tf-sweeps-colab)
 
 ### Benefits of using W&B Sweeps
 
-* **Quick setup**: With just a few lines of code you can run W&B sweeps.
+* **Quick setup**: With just a few lines of code you can run W&B Sweeps.
 * **Transparent**: We cite all the algorithms we're using, and [our code is open source](https://github.com/wandb/sweeps).
 * **Powerful**: Our sweeps are completely customizable and configurable. You can launch a sweep across dozens of machines, and it's just as easy as starting a sweep on your laptop.
 
@@ -240,7 +251,7 @@ Use Weights & Biases Sweeps to automate hyperparameter optimization and explore 
 
 ## Example Gallery
 
-See examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc)
+Explore examples of projects tracked and visualized with W&B in our gallery of examples, [Fully Connected →](https://wandb.me/fc).
 
 ## Best Practices
 1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`

@@ -7,6 +7,10 @@ title: Programmatic Workspaces
 weight: 5
 ---
 
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
+
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
 Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
 
@@ -20,7 +24,7 @@ In this tutorial you will see how to use `wandb-workspaces` to create and custom
 
 
 {{% alert %}}
-Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
+Programmatic interaction with workspaces is currently supported for [Saved workspaces views]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
 {{% /alert %}}
 
 ## 1. Install and import dependencies
@@ -51,7 +55,7 @@ Note: You can load an existing workspace using its unique `Saved view` URL. See 
 
 
 ```python
-# Initialize Weights & Biases and Login
+# Initialize W&B and Login
 wandb.login()
 
 # Function to create a new project and log sample data
@@ -61,7 +65,7 @@ def create_project_and_log_data():
     # Initialize a run to log some sample data
     with wandb.init(project=project, name="sample_run") as run:
         for step in range(100):
-            wandb.log({
+            run.log({
                 "Step": step,
                 "val_loss": 1.0 / (step + 1),
                 "val_accuracy": step / 100.0,
@@ -218,7 +222,7 @@ Note that you are now viewing a different saved view called "An example workspac
 ## Customize runs
 The following code cells show you how to filter, change the color, group, and sort runs programmatically. 
 
-In each example, the general workflow is to specify the desired customization as an argument to the appropiate parameter in `ws.RunsetSettings`.
+In each example, the general workflow is to specify the desired customization as an argument to the appropriate parameter in `ws.RunsetSettings`.
 
 ### Filter runs
 You can create filters with python expressions and metrics you log with `wandb.log` or that are logged automatically as part of the run such as **Created Timestamp**.  You can also reference filters by how they appear in the W&B App UI such as the **Name**, **Tags**, or **ID**.
@@ -370,7 +374,7 @@ def sorting_example(entity: str, project: str) -> None:
 sorting_example(entity, project)
 ```
 
-## 4. Putting it all together: comprehenive example
+## 4. Putting it all together: comprehensive example
 
 This example demonstrates how to create a comprehensive workspace, configure its settings, and add panels to sections:
 

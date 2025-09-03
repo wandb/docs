@@ -9,25 +9,26 @@ url: guides/app/features/cascade-settings
 
 Within a given workspace page there are three different setting levels: workspaces, sections, and panels. [Workspace settings]({{< relref "#workspace-settings" >}}) apply to the entire workspace. [Section settings]({{< relref "#section-settings" >}}) apply to all panels within a section. [Panel settings]({{< relref "#panel-settings" >}}) apply to individual panels. 
 
-
-
-
 ## Workspace settings
 
-Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [**Workspace layout**]({{< relref "#workspace-layout-options" >}}) and [**Line plots**]({{< relref "#line-plots-options" >}}). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.
+Workspace settings apply to all sections and all panels within those sections. You can edit two types of workspace settings: [Workspace layout]({{< relref "#workspace-layout-options" >}}) and [Line plots]({{< relref "#line-plots-options" >}}). **Workspace layouts** determine the structure of the workspace, while **Line plots** settings control the default settings for line plots in the workspace.ne plots** settings control the default settings for line plots in the workspace.
 
 To edit settings that apply to the overall structure of this workspace:
 
 1. Navigate to your project workspace.
 2. Click the gear icon next to the **New report** button to view the workspace settings.
 3. Choose **Workspace layout** to change the workspace's layout, or choose **Line plots** to configure default settings for line plots in the workspace.
-{{< img src="/images/app_ui/workspace_settings.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_settings.png" alt="Workspace settings gear icon" >}}
+
+{{% alert %}}
+After customizing your workspace, you can use _workspace templates_ to quickly create new workspaces with the same settings. Refer to [Workspace templates]({{< relref "/guides/models/track/workspaces.md#workspace-templates" >}}).
+{{% /alert %}}
 
 ### Workspace layout options
 
 Configure a workspaces layout to define the overall structure of the workspace. This includes sectioning logic and panel organization. 
 
-{{< img src="/images/app_ui/workspace_layout_settings.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_layout_settings.png" alt="Workspace layout options" >}}
 
 The workspace layout options page shows whether the workspace generates panels automatically or manually. To adjust a workspace's panel generation mode, refer to [Panels]({{< relref "panels/" >}}).
 
@@ -46,7 +47,7 @@ W&B suggests that you organize sections by grouping the first prefix rather than
 ### Line plots options
 Set global defaults and custom rules for line plots in a workspace by modifying the **Line plots** workspace settings.
 
-{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="" >}}
+{{< img src="/images/app_ui/workspace_settings_line_plots.png" alt="Line plot settings" >}}
 
 You can edit two main settings within **Line plots** settings: **Data** and **Display preferences**. The **Data** tab contains the following settings:
 
@@ -67,7 +68,7 @@ In addition to **Step**, there are other options for the x-axis:
 | **Relative Time (Wall)**| Timestamp since the process starts. For example, suppose start a run and resume that run the next day. If you then log something, the recorded point is 24 hours.|
 | **Relative Time (Process)** | Timestamp inside the running process. For example, suppose you start a run and let it continue for 10 seconds. The next day you resume that run. The point is recorded as 10 seconds. |
 | **Wall Time** | Minutes elapsed since the start of the first run on the graph. |
-| **Step** | Increments each time you call `wandb.log()`.|
+| **Step** | Increments each time you call `wandb.Run.log()`.|
 
 
 
@@ -95,7 +96,7 @@ Section settings apply to all panels within that section. Within a workspace sec
 
 Modify section settings by selecting the three horizontal dots (**...**) in the upper right corner of a section.
 
-{{< img src="/images/app_ui/section_settings.png" alt="" >}}
+{{< img src="/images/app_ui/section_settings.png" alt="Section settings menu" >}}
 
 From the dropdown, you can edit the following settings that apply to the entire section:
 
@@ -107,7 +108,7 @@ From the dropdown, you can edit the following settings that apply to the entire 
 
 The proceeding animation demonstrates how to rearrange panels within a section:
 
-{{< img src="/images/app_ui/rearrange_panels.gif" alt="" >}}
+{{< img src="/images/app_ui/rearrange_panels.gif" alt="Rearranging panels" >}}
 
 {{% alert %}}
 In addition to the settings described in the preceding table, you can also edit how sections appear in your workspaces such as **Add section below**, **Add section above**, **Delete section**, and **Add section to report**. 
@@ -119,8 +120,8 @@ Customize an individual panel's settings to compare multiple lines on the same p
 
 1. Hover your mouse over the panel you want to edit. 
 2. Select the pencil icon that appears.
-{{< img src="/images/app_ui/panel_settings.png" alt="" >}}
+{{< img src="/images/app_ui/panel_settings.png" alt="Panel edit icon" >}}
 3. Within the modal that appears, you can edit settings related to the panel's data, display preferences, and more.
-{{< img src="/images/app_ui/panel_settings_modal.png" alt="" >}}
+{{< img src="/images/app_ui/panel_settings_modal.png" alt="Panel settings modal" >}}
 
 For a complete list of settings you can apply to a panel, see [Edit line panel settings]({{< relref "/guides/models/app/features/panels/line-plot/#edit-line-panel-settings" >}}).

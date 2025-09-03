@@ -146,6 +146,7 @@ outputs:
     - HTML
     - llms
     - llms-full
+    - pageurls
 
 outputFormats:
   llms:
@@ -156,10 +157,15 @@ outputFormats:
     mediaType: "text/plain"
     baseName: "llms-full"
     isPlainText: true
+  pageurls:
+    mediaType: "application/json"
+    baseName: "pageurls"
+    isPlainText: true
+    suffix: "json"
 
 services:
   googleAnalytics:
-    id: GTM-5BL5RTH
+    id: G-5JYCHZZP7K
   RSS:
     Limit: 20
 
@@ -167,7 +173,7 @@ params:
   #search:
   #  algolia:
   #    appId: 2D210VB5MP
-  #    apiKey: 730cfa02025b8ba2e95d4c33b1e38cc7
+  #    apiKey: redacted 
   #    indexName: docodile
 
   privacy_policy: https://wandb.ai/site/privacy/

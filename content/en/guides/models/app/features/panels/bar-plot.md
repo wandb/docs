@@ -8,13 +8,13 @@ title: Bar plots
 weight: 20
 ---
 
-A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with **wandb.log()** when all logged values are of length one.
+A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with `wandb.Run.log()` when all logged values are of length one.
 
 {{< img src="/images/app_ui/bar_plot.png" alt="Plotting Box and horizontal Bar plots in W&B" >}}
 
 Customize with chart settings to limit max runs to show, group runs by any config and rename labels.
 
-{{< img src="/images/app_ui/bar_plot_custom.png" alt="" >}}
+{{< img src="/images/app_ui/bar_plot_custom.png" alt="Customized bar plot" >}}
 
 ## Customize bar plots
 

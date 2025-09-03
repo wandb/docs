@@ -56,20 +56,19 @@ from ultralytics import YOLO
 Initialize the `YOLO` model of your choice, and invoke the `add_wandb_callback` function on it before performing inference with the model. This ensures that when you perform training, fine-tuning, validation, or inference, it automatically saves the experiment logs and the images, overlaid with both ground-truth and the respective prediction results using the [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) on W&B along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
-# Initialize YOLO Model
-model = YOLO("yolov8n.pt")
+with wandb.init(project="ultralytics", job_type="train") as run:
 
-# Add W&B callback for Ultralytics
-add_wandb_callback(model, enable_model_checkpointing=True)
+    # Initialize YOLO Model
+    model = YOLO("yolov8n.pt")
 
-# Train/fine-tune your model
-# At the end of each epoch, predictions on validation batches are logged
-# to a W&B table with insightful and interactive overlays for
-# computer vision tasks
-model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
+    # Add W&B callback for Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
 
-# Finish the W&B run
-wandb.finish()
+    # Train/fine-tune your model
+    # At the end of each epoch, predictions on validation batches are logged
+    # to a W&B table with insightful and interactive overlays for
+    # computer vision tasks
+    model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
 ```
 
 Here's how experiments tracked using W&B for an Ultralytics training or fine-tuning workflow looks like:
@@ -86,7 +85,7 @@ Here's how epoch-wise validation results are visualized using a [W&B Table]({{< 
 
 This section demonstrates a typical workflow of using an [Ultralytics](https://docs.ultralytics.com/modes/predict/) model for inference and visualizing the results using [W&B](https://wandb.ai/site).
 
-You can try out the code in Google Colab: [Open in Colab](http://wandb.me/ultralytics-inference).
+You can try out the code in Google Colab: [Open in Colab](https://wandb.me/ultralytics-inference).
 
 You can also check out about the integration in this report: [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 
@@ -108,35 +107,27 @@ Download a few images to test the integration on. You can use still images, vide
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img5.png
 ```
 
-Next, initialize a W&B [run]({{< relref "/guides/models/track/runs/" >}}) using `wandb.init`.
+Initialize a W&B [run]({{< relref "/guides/models/track/runs/" >}}) using `wandb.init()`. Next, Initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
 
 ```python
-# Initialize W&B run
-wandb.init(project="ultralytics", job_type="inference")
-```
+# Initialize W&B Run
+with wandb.init(project="ultralytics", job_type="inference") as run:
+    # Initialize YOLO Model
+    model = YOLO("yolov8n.pt")
 
-Next, initialize your desired `YOLO` model and invoke the `add_wandb_callback` function on it before you perform inference with the model. This ensures that when you perform inference, it automatically logs the images overlaid with your [interactive overlays for computer vision tasks]({{< relref "/guides/models/track/log/media#image-overlays-in-tables" >}}) along with additional insights in a [`wandb.Table`]({{< relref "/guides/models/tables/" >}}).
+    # Add W&B callback for Ultralytics
+    add_wandb_callback(model, enable_model_checkpointing=True)
 
-```python
-# Initialize YOLO Model
-model = YOLO("yolov8n.pt")
-
-# Add W&B callback for Ultralytics
-add_wandb_callback(model, enable_model_checkpointing=True)
-
-# Perform prediction which automatically logs to a W&B Table
-# with interactive overlays for bounding boxes, segmentation masks
-model(
-    [
-        "./assets/img1.jpeg",
-        "./assets/img3.png",
-        "./assets/img4.jpeg",
-        "./assets/img5.jpeg",
-    ]
-)
-
-# Finish the W&B run
-wandb.finish()
+    # Perform prediction which automatically logs to a W&B Table
+    # with interactive overlays for bounding boxes, segmentation masks
+    model(
+        [
+            "./assets/img1.jpeg",
+            "./assets/img3.png",
+            "./assets/img4.jpeg",
+            "./assets/img5.jpeg",
+        ]
+    )
 ```
 
 You do not need to explicitly initialize a run using `wandb.init()` in case of a training or fine-tuning workflow. However, if the code involves only prediction, you must explicitly create a run.
@@ -145,9 +136,9 @@ Here's how the interactive bbox overlay looks:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"  ><a href="//imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
-You can fine more information on the W&B image overlays [here]({{< relref "/guides/models/track/log/media.md#image-overlays" >}}).
+For more details, see the [W&B image overlays guide]({{< relref "/guides/models/track/log/media.md#image-overlays" >}}).
 
 ## More resources
 
-* [Supercharging Ultralytics with Weights & Biases](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+* [Supercharging Ultralytics with W&B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
 * [Object Detection using YOLOv8: An End-to-End Workflow](https://wandb.ai/reviewco/object-detection-bdd/reports/Object-Detection-using-YOLOv8-An-End-to-End-Workflow--Vmlldzo1NTAyMDQ1)

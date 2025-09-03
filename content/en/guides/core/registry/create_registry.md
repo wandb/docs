@@ -32,7 +32,7 @@ An artifact type cannot be removed from a registry once it is saved in the regis
 
 For example, the proceeding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
 
-{{< img src="/images/registry/create_registry.gif" alt="" >}}
+{{< img src="/images/registry/create_registry.gif" alt="Creating a new registry" >}}
 
 ## Visibility types
 
@@ -65,7 +65,7 @@ To restrict the visibility of an existing custom registry:
    2. Within the **Member** field, add the email or username of the member you want to add.
    3. Click **Add new member**.
 
-{{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
+{{< img src="/images/registry/change_registry_visibility.gif" alt="Changing registry visibility settings from private to public or team-restricted access" >}}
 
 See [Create a custom registry]({{< relref "./create_registry.md#create-a-custom-registry" >}}) for more information on how assign the visibility of a custom registry when a team administrator creates it.
 

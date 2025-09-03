@@ -10,12 +10,52 @@ title: Delete an artifact
 
 Delete artifacts interactively with the App UI or programmatically with the W&B SDK. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. 
 
-The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions. 
+The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
+
+## Artifact garbage collection workflow
+
+The following diagram illustrates the complete artifact garbage collection process:
+
+```mermaid
+graph TB
+    Start([Artifact Deletion Initiated]) --> DeleteMethod{Deletion Method}
+    
+    DeleteMethod -->|UI| UIDelete[Delete via W&B App UI]
+    DeleteMethod -->|SDK| SDKDelete[Delete via W&B SDK]
+    DeleteMethod -->|TTL| TTLDelete[TTL Policy Expires]
+    
+    UIDelete --> SoftDelete[Artifact Marked as<br/>'Soft Delete']
+    SDKDelete --> SoftDelete
+    TTLDelete --> SoftDelete
+    
+    SoftDelete --> GCWait[(Wait for<br/>Garbage Collection<br/>Process)]
+    
+    GCWait --> GCRun[Garbage Collection<br/>Process Runs<br/><br/>- Reviews all soft-deleted artifacts<br/>- Checks file dependencies]
+    
+    GCRun --> CheckUsage{Are files used by<br/>other artifact versions?}
+    
+    CheckUsage -->|Yes| KeepFiles[Files Kept in Storage<br/><br/>- Artifact marked deleted<br/>- Files remain for other versions]
+    CheckUsage -->|No| DeleteFiles[Files Deleted from Storage<br/><br/>- Artifact fully removed<br/>- Storage space reclaimed]
+    
+    KeepFiles --> End([End])
+    DeleteFiles --> End
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style SoftDelete fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style GCRun fill:#f3e5f5,stroke:#333,stroke-width:2px,color:#000
+    style KeepFiles fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style DeleteFiles fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
+``` 
 
 The sections in this page describe how to delete specific artifact versions, how to delete an artifact collection, how to delete artifacts with and without aliases, and more. You can schedule when artifacts are deleted from W&B with TTL policies. For more information, see [Manage data retention with Artifact TTL policy]({{< relref "./ttl.md" >}}).
 
 {{% alert %}}
 Artifacts that are scheduled for deletion with a TTL policy, deleted with the W&B SDK, or deleted with the W&B App UI are first soft-deleted. Artifacts that are soft deleted undergo garbage collection before they are hard-deleted.
+{{% /alert %}}
+
+{{% alert %}}
+Deleting an entity, project, or artifact collection will also trigger the artifact deletion process described on this page. When deleting a run, if you choose to delete associated artifacts, those artifacts will follow the same soft-delete and garbage collection workflow.
 {{% /alert %}}
 
 ### Delete an artifact version
@@ -27,7 +67,7 @@ To delete an artifact version:
 3. On the right hand side of the workspace, select the kebab dropdown.
 4. Choose Delete.
 
-An artifact version can also be deleted programatically via the [delete()]({{< relref "/ref/python/artifact#delete" >}}) method. See the examples below. 
+An artifact version can also be deleted programmatically via the [delete()]({{< relref "/ref/python/sdk/classes/artifact.md#delete" >}}) method. See the examples below. 
 
 ### Delete multiple artifact versions with aliases
 
@@ -71,6 +111,18 @@ for artifact_version in runs.logged_artifacts():
         artifact.delete(delete_aliases=True)
 ```
 
+### Protected aliases and deletion permissions
+
+Artifacts with protected aliases have special deletion restrictions. [Protected aliases]({{< relref "/guides/core/registry/model_registry/access_controls.md" >}}) are aliases in the Model Registry that registry admins can set to prevent unauthorized deletion.
+
+{{% alert %}}
+**Important considerations for protected aliases:**
+- Artifacts with protected aliases cannot be deleted by non-registry admins
+- Within a registry, registry admins can unlink protected artifact versions and delete collections/registries that contain protected aliases
+- For source artifacts: if a source artifact is linked to a registry with a protected alias, it cannot be deleted by any user
+- Registry admins can remove the protected aliases from source artifacts and then delete them
+{{% /alert %}}
+
 ### Delete all versions of an artifact that do not have an alias
 
 The following code snippet demonstrates how to delete all versions of an artifact that do not have an alias. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively. Replace the `<>` with the name of your artifact:
@@ -98,7 +150,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact collection programmatically with the [delete()]({{< relref "/ref/python/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+You can also delete artifact collection programmatically with the [delete()]({{< relref "/ref/python/sdk/classes/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb

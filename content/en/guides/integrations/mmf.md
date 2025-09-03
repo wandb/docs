@@ -8,7 +8,7 @@ title: MMF
 weight: 220
 ---
 
-The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable Weights & Biases to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
+The `WandbLogger` class in [Meta AI's MMF](https://github.com/facebookresearch/mmf) library will enable W&B to log the training/validation metrics, system (GPU and CPU) metrics, model checkpoints and configuration parameters.
 
 ## Current features
 
@@ -44,9 +44,7 @@ training:
         # Turn on model checkpointing, saving checkpoints to W&B Artifacts
         log_model_checkpoint: true
         
-        # Additional argument values that you want to pass to wandb.init(). 
-        # Check out the documentation at /ref/python/init
-        # to see what arguments are available, such as:
+        # Additional argument values that you want to pass to wandb.init() such as:
         # job_type: 'train'
         # tags: ['tag1', 'tag2']
         

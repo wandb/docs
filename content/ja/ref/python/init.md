@@ -109,7 +109,7 @@ with wandb.init(config=config) as run:
 
 | 戻り値 |  |
 | :--- | :--- |
-|  現在のRunのハンドルである`Run`オブジェクト。このオブジェクトを使用して、データをログしたり、ファイルを保存したり、Runを終了するなどの操作を行うことができます。[Run API](https://docs.wandb.ai/ref/python/run)の詳細をご覧ください。 |
+|  現在のRunのハンドルである`Run`オブジェクト。このオブジェクトを使用して、データをログしたり、ファイルを保存したり、Runを終了するなどの操作を行うことができます。[Run API](https://docs.wandb.ai/ref/python/sdk/classes/run/)の詳細をご覧ください。 |
 
 | 例外 |  |
 | :--- | :--- |

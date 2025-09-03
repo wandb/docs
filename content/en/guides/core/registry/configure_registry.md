@@ -22,7 +22,7 @@ Registry admins can add individual users or entire teams to a registry. To add a
 5. Specify one or more user names, emails, or the team names to the **Include users and teams** field.
 6. Click **Add access**.
 
-{{< img src="/images/registry/add_team_registry.gif" alt="Animation of using the UI to add teams and individual users to a registry" >}}
+{{< img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry" >}}
 
 Learn more about [configuring user roles in a registry]({{< relref "configure_registry.md#configure-registry-roles" >}}), or [Registry role permissions]({{< relref "configure_registry.md#registry-role-permissions" >}}) . 
 
@@ -114,7 +114,7 @@ If there is a conflict, W&B displays the highest level of permissions next to th
 
 For example, in the proceeding image Alex inherits **Member** role privileges because they are a member of the `smle-reg-team-1` team.
 
-{{< img src="/images/registry/role_conflict.png" alt="A user inherits a Member role because they are part of a team." >}}
+{{< img src="/images/registry/role_conflict.png" alt="Registry role conflict resolution" >}}
 
 
 ## Configure registry roles

@@ -1,0 +1,684 @@
+name: PR Preview Links
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  preview-links:
+    runs-on: ubuntu-latest
+    env:
+      CF_PAGES_SUFFIX: docodile.pages.dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Get Hugo version and setup
+        run: |
+          set -euo pipefail
+          ver=$(grep 'HUGO_VERSION' wrangler.toml | awk -F '"' '{print $2}')
+          wget "https://github.com/gohugoio/hugo/releases/download/v${ver}/hugo_extended_${ver}_linux-amd64.deb" -O hugo.deb
+          sudo apt-get update
+          sudo apt-get install -y ./hugo.deb
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          check-latest: true
+
+      - name: Setup deps for build
+        run: |
+          set -euo pipefail
+          npm install
+          go mod download
+          hugo mod get -u
+
+      - name: Get changed files
+        id: changed
+        uses: tj-actions/changed-files@v46
+        with:
+          files: |
+            content/**
+            static/**
+            assets/**
+            layouts/**
+            i18n/**
+            configs/**
+          include_all_old_new_renamed_files: true
+
+      - name: Build Hugo (generate pageurls)
+        if: steps.changed.outputs.any_changed == 'true'
+        run: |
+          # Debug: Check what ref we're building
+          echo "Current branch: $(git branch --show-current)"
+          echo "HEAD commit: $(git rev-parse HEAD)"
+          echo "PR head SHA: ${{ github.event.pull_request.head.sha }}"
+          
+          hugo --minify
+          test -f public/pageurls.json && echo "Found pageurls.json" || (echo "Missing pageurls.json" && ls -la public || true)
+          
+          # Debug: Check a specific file's title in the generated JSON
+          if [ -f public/pageurls.json ]; then
+            echo "Checking for public-api entries in pageurls.json:"
+            jq '.[] | select(.path | contains("public-api"))' public/pageurls.json || true
+          fi
+
+      - name: Create or find preview comment
+        if: steps.changed.outputs.any_changed == 'true'
+        id: find-comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // First, check if our comment already exists
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            
+            const existingComment = comments.find(c => /<!-- docs-preview-links -->/.test(c.body || ''));
+            if (existingComment) {
+              core.info(`Found existing preview comment: ${existingComment.id}`);
+              core.setOutput('comment_id', existingComment.id);
+              core.setOutput('comment_exists', 'true');
+            } else {
+              // Create placeholder comment immediately
+              const placeholderBody = `<!-- docs-preview-links -->\n<!-- preview-base:  -->\n**PR Preview: Changed content**\n\n⏳ *Generating preview links...*\n\n<sub>This comment will be automatically updated when file changes are detected and Cloudflare Pages finishes deploying.</sub>`;
+              
+              const newComment = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: placeholderBody,
+              });
+              
+              core.info(`Created placeholder preview comment: ${newComment.data.id}`);
+              core.setOutput('comment_id', newComment.data.id);
+              core.setOutput('comment_exists', 'false');
+            }
+            
+      - name: Find Cloudflare Branch Preview URL
+        if: steps.changed.outputs.any_changed == 'true'
+        id: find-preview
+        uses: actions/github-script@v7
+        with:
+          script: |
+            function htmlDecode(s) {
+              return (s || '')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'");
+            }
+            function sanitizeUrl(u) {
+              if (!u) return '';
+              u = htmlDecode(u.trim());
+              u = u.replace(/^['"<]+/, '').replace(/[>'"]+$/, '');
+              u = u.split(/[\s<>'"\]\)]/)[0];
+              try { u = decodeURI(u); } catch (e) {}
+              return u.replace(/\/$/, '');
+            }
+            function extractBranchPreviewUrl(body) {
+              // Look for "Branch Preview URL:" followed by a URL
+              // In Cloudflare's table format, it's split across table cells
+              const patterns = [
+                // Table format with anchor tag (what Cloudflare actually uses)
+                // Matches across multiple lines in a table cell
+                /Branch\s+Preview\s+URL:<\/strong><\/td><td>[\s\S]*?<a[^>]+href=['"]([^'"<>]+pages\.dev[^'"<>]*)['"]/i,
+                // Try anchor tag format on same line
+                /Branch\s+Preview\s+URL:\s*<a[^>]+href=['"]([^'"<>]+pages\.dev[^'"<>]*)['"]/i,
+                // Try markdown link format
+                /Branch\s+Preview\s+URL:\s*\[.*?\]\(([^)]+pages\.dev[^)]*)\)/i,
+                // Try plain URL format (with or without angle brackets)
+                /Branch\s+Preview\s+URL:\s*<?(?:https?:\/\/)?([^\s<>]+pages\.dev[^\s<>]*)/i
+              ];
+              
+              for (const pattern of patterns) {
+                const m = (body || '').match(pattern);
+                if (m && m[1]) {
+                  const url = m[1];
+                  // Make sure we have the full URL including https://
+                  if (!url.startsWith('http')) {
+                    return sanitizeUrl('https://' + url);
+                  }
+                  return sanitizeUrl(url);
+                }
+              }
+              return '';
+            }
+            async function fromOurExistingComment() {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              });
+              const ours = comments.find(c => /<!-- docs-preview-links -->/i.test(c.body || ''));
+              if (!ours) return '';
+              const body = ours.body || '';
+              const hidden = body.match(/<!--\s*preview-base:\s*([^>]+?)\s*-->/i);
+              if (hidden && hidden[1]) return sanitizeUrl(hidden[1]);
+              return '';
+            }
+            async function waitForCloudflareBranchUrl(maxWaitMs = 120000) { // Max 2 minutes
+              const startTime = Date.now();
+              let delayMs = 5000; // Start with 5 seconds
+              let attempt = 0;
+              
+              while (Date.now() - startTime < maxWaitMs) {
+                attempt++;
+                const comments = await github.paginate(github.rest.issues.listComments, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  per_page: 100,
+                });
+                
+                for (const c of comments) {
+                  // Check if this is a Cloudflare comment
+                  if (c.user && c.user.login && c.user.login.includes('cloudflare') && c.body && c.body.includes('pages.dev')) {
+                    core.info(`Found Cloudflare comment from ${c.user.login}`);
+                    const url = extractBranchPreviewUrl(c.body || '');
+                    if (url) {
+                      core.info(`Successfully extracted Branch Preview URL: ${url}`);
+                      return url;
+                    } else if (c.body.includes('Branch Preview URL')) {
+                      core.info('Branch Preview URL field found but URL not yet populated');
+                    }
+                  }
+                }
+                
+                const elapsed = Math.round((Date.now() - startTime) / 1000);
+                const remaining = Math.round((maxWaitMs - (Date.now() - startTime)) / 1000);
+                
+                if (Date.now() - startTime + delayMs < maxWaitMs) {
+                  core.info(`Attempt ${attempt}: Branch Preview URL not found yet (${elapsed}s elapsed, ${remaining}s remaining)`);
+                  await new Promise(r => setTimeout(r, delayMs));
+                  // Exponential backoff: increase delay but cap at 20 seconds
+                  delayMs = Math.min(delayMs * 1.5, 20000);
+                }
+              }
+              
+              core.warning('Branch Preview URL not found within 2 minutes. Links will be added when Cloudflare comment triggers update workflow.');
+              return '';
+            }
+            let base = await waitForCloudflareBranchUrl();
+            if (!base) base = await fromOurExistingComment();
+            core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+            core.setOutput('base', base);
+
+      - name: Update PR comment with preview links
+        if: steps.changed.outputs.any_changed == 'true'
+        uses: actions/github-script@v7
+        env:
+          ADDED: ${{ steps.changed.outputs.added_files }}
+          MODIFIED: ${{ steps.changed.outputs.modified_files }}
+          DELETED: ${{ steps.changed.outputs.deleted_files }}
+          RENAMED: ${{ steps.changed.outputs.renamed_files }}
+          RENAMED_PAIRS: ${{ steps.changed.outputs.all_old_new_renamed_files }}
+          PREVIEW_BASE: ${{ steps.find-preview.outputs.base }}
+          COMMENT_ID: ${{ steps.find-comment.outputs.comment_id }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            function splitList(s) {
+              if (!s) return [];
+              // Support newline, comma, or space separated outputs
+              return s
+                .split(/\r?\n|,|\s+/)
+                .map(x => x.trim())
+                .filter(Boolean);
+            }
+
+            const added = splitList(process.env.ADDED);
+            const modified = splitList(process.env.MODIFIED);
+            const deleted = splitList(process.env.DELETED);
+            const renamed = splitList(process.env.RENAMED);
+            const renamedPairs = splitList(process.env.RENAMED_PAIRS);
+
+            // Process renamed files - tj-actions outputs them as "old_path new_path" pairs
+            const renamedFiles = [];
+            const renamedMapping = new Map(); // old path -> new path
+            for (let i = 0; i < renamedPairs.length; i += 2) {
+              if (i + 1 < renamedPairs.length) {
+                const oldPath = renamedPairs[i];
+                const newPath = renamedPairs[i + 1];
+                renamedMapping.set(oldPath, newPath);
+                renamedFiles.push({ old: oldPath, new: newPath });
+              }
+            }
+
+            // Filter out renamed files from added and deleted arrays to avoid duplication
+            const addedFiltered = added.filter(f => !Array.from(renamedMapping.values()).includes(f));
+            const deletedFiltered = deleted.filter(f => !Array.from(renamedMapping.keys()).includes(f));
+
+            const allChanged = [...addedFiltered, ...modified, ...deletedFiltered, ...renamed];
+            const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
+            if (!anyEligible) {
+              core.info('No relevant content changes. Updating comment to reflect this.');
+              
+              // Update the comment to show no content changes
+              const commentId = process.env.COMMENT_ID;
+              if (!commentId) {
+                core.error('No comment ID found');
+                return;
+              }
+              
+              const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
+              const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**';
+              const body = header + '\n\nNo documentation content changes in this PR.';
+              
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: parseInt(commentId),
+                body,
+              });
+              
+              core.info('Updated preview comment to show no content changes');
+              return;
+            }
+
+            let pageMap = [];
+            
+            // Load pageurls.json for all languages
+            const languages = ['', 'ja', 'ko']; // '' for English (root)
+            for (const lang of languages) {
+              const pageurlsPath = lang ? `public/${lang}/pageurls.json` : 'public/pageurls.json';
+              try {
+                const raw = fs.readFileSync(pageurlsPath, 'utf8');
+                const langPages = JSON.parse(raw);
+                pageMap = pageMap.concat(langPages);
+                core.info(`Loaded ${langPages.length} pages from ${pageurlsPath}`);
+              } catch (e) {
+                core.warning(`Could not read ${pageurlsPath}. ${e.message}`);
+              }
+            }
+
+            // Build lookup: support keys with and without language prefix
+            const byPath = new Map();
+            for (const p of pageMap) {
+              const lang = p.lang || 'en'; // Default to 'en' if no lang specified
+              const rel = (p.path || '').replace(/^\/+/, '').replace(/\\/g, '/');
+              const withLang = lang && !rel.startsWith(lang + '/') ? `${lang}/${rel}` : rel;
+              const withoutLang = lang && rel.startsWith(lang + '/') ? rel.slice(lang.length + 1) : rel;
+              
+              // Create all possible key variations
+              const keys = new Set([
+                rel,
+                withLang,
+                withoutLang,
+                path.posix.join('content', withLang),
+                path.posix.join('content', withoutLang),
+                path.posix.join('content', rel),
+                // Add explicit handling for language in path
+                path.posix.join('content', lang, rel),
+                path.posix.join('content', lang, withoutLang),
+                // Add .md extension variations for content files
+                rel.endsWith('.md') ? rel : rel + '.md',
+                withLang.endsWith('.md') ? withLang : withLang + '.md',
+                withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md',
+                path.posix.join('content', lang, rel.endsWith('.md') ? rel : rel + '.md'),
+                path.posix.join('content', lang, withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+                path.posix.join('content', withLang.endsWith('.md') ? withLang : withLang + '.md'),
+                path.posix.join('content', withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+              ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
+              
+              // Debug log for new pages
+              if (p.path && p.path.includes('dspy')) {
+                core.info(`Debug: Page ${p.path} (lang: ${lang}) has keys: ${Array.from(keys).join(', ')}`);
+              }
+              
+              for (const k of keys) byPath.set(k, p);
+            }
+
+            // Find Cloudflare preview base URL from existing PR comments
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            // Helpers to extract and sanitize pages.dev URLs
+            function htmlDecode(s) {
+              return s
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'");
+            }
+            function sanitizeUrl(u) {
+              if (!u) return '';
+              u = htmlDecode(u.trim());
+              // trim surrounding quotes or angle brackets
+              u = u.replace(/^['"<]+/, '').replace(/[>'"]+$/, '');
+              // cut at first disallowed delimiter if present
+              u = u.split(/[\s<>'"\]\)]/)[0];
+              try { u = decodeURI(u); } catch (e) {}
+              // remove trailing slash
+              return u.replace(/\/$/, '');
+            }
+            function extractUrls(body) {
+              const urls = [];
+              const regex = /https?:\/\/[^\s'"<>]+pages\.dev[^\s'"<>]*/ig;
+              const matches = (body || '').match(regex) || [];
+              for (let m of matches) {
+                const clean = sanitizeUrl(m);
+                if (clean && !urls.includes(clean)) urls.push(clean);
+              }
+              return urls;
+            }
+
+            // Use Branch Preview URL extracted from Cloudflare comment
+            const previewBase = (process.env.PREVIEW_BASE || '').replace(/\/$/, '');
+            if (!previewBase) {
+              core.warning('No Branch Preview URL found yet; leaving links unlinked rather than using commit URL.');
+            }
+            core.info(`Preview base: ${previewBase || '(not found yet)'}`);
+
+            function mapEntry(filePath) {
+              const norm = filePath.replace(/\\/g, '/');
+              
+              // Try multiple variations to find the item
+              let item = byPath.get(norm);
+              if (!item) item = byPath.get(norm.replace(/^content\//, ''));
+              if (!item) item = byPath.get(norm.replace(/\.md$/, ''));
+              if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
+              
+              // Debug log for unmatched files
+              if (!item && norm.includes('dspy')) {
+                core.info(`Debug: Could not find mapping for ${norm}`);
+                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+              }
+              
+              if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
+              const rel = item.relPermalink || '';
+              const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+              const title = item.title || titleFromPath(norm);
+              return { title, rel, href, path: norm };
+            }
+
+            function titleFromPath(p) {
+              const stem = p.replace(/^content\//, '').replace(/\.(md|markdown)$/, '');
+              const parts = stem.split('/');
+              const last = parts[parts.length - 1];
+              const base = last === 'index' ? (parts[parts.length - 2] || 'index') : last;
+              return base.replace(/[\-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+
+            // Function to check if a file is an include
+            function isIncludeFile(filePath) {
+              return /^content\/[^\/]+\/_includes\//.test(filePath);
+            }
+            
+            // Function to find pages that use a specific include
+            function findPagesUsingInclude(includePath) {
+              const includeFileName = includePath.split('/').pop();
+              const pagesUsingInclude = [];
+              
+              // Search through all pages in pageMap
+              for (const page of pageMap) {
+                if (page.path && page.path.endsWith('.md')) {
+                  try {
+                    // Construct the correct file path: content/<lang>/<page.path>
+                    const contentPath = path.join('content', page.lang || 'en', page.path);
+                    if (fs.existsSync(contentPath)) {
+                      const content = fs.readFileSync(contentPath, 'utf8');
+                      
+                      // Check for usage of the include file with various path formats
+                      // The include might be referenced as:
+                      // - /_includes/filename.md
+                      // - /content/en/_includes/filename.md
+                      // - /content/<lang>/_includes/filename.md
+                      const escapedFileName = includeFileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                      
+                      // Pattern to match any path ending with /_includes/filename
+                      const includePattern = `[^"']*\\/_includes\\/${escapedFileName}`;
+                      
+                      // Check for both readfile syntaxes with flexible path matching
+                      const pattern1 = new RegExp(`\\{\\{%\\s*readfile\\s+(?:file=)?["'](${includePattern})["']\\s*%\\}\\}`, 'i');
+                      const pattern2 = new RegExp(`\\{\\{<\\s*readfile\\s+file=["'](${includePattern})["']\\s*>\\}\\}`, 'i');
+                      
+                      if (pattern1.test(content) || pattern2.test(content)) {
+                        pagesUsingInclude.push(page);
+                      }
+                    }
+                  } catch (e) {
+                    // Skip if file can't be read
+                  }
+                }
+              }
+              
+              return pagesUsingInclude;
+            }
+
+            function buildRows(files) {
+              const rows = [];
+              
+              for (const fp of files) {
+                if (fp.startsWith('content/')) {
+                  // Check if this is an include file
+                  if (isIncludeFile(fp)) {
+                    // Use just the filename for includes
+                    const filename = fp.split('/').pop();
+                    
+                    // Find pages that use this include
+                    const dependentPages = findPagesUsingInclude(fp);
+                    
+                    // Build the title cell with filename and dependent pages
+                    let titleCell = `\`${filename}\``;
+                    if (dependentPages.length > 0) {
+                      // Add dependent pages as a nested list
+                      const pageLinks = dependentPages.map(page => {
+                        const href = previewBase ? (previewBase + page.relPermalink) : '';
+                        const linkText = page.title || titleFromPath(page.path);
+                        return href ? `[${linkText}](${href})` : linkText;
+                      });
+                      
+                      const dependentList = pageLinks.map(link => `<br>↳ ${link}`).join('');
+                      titleCell += `:${dependentList}`;
+                    }
+                    
+                    rows.push(`| ${titleCell} | \`${fp}\` |`);
+                  } else {
+                    // Regular content file
+                    const e = mapEntry(fp);
+                    const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                    const pathCell = '`' + e.path + '`';
+                    rows.push(`| ${titleCell} | ${pathCell} |`);
+                  }
+                } else {
+                  // Static/assets: create direct preview links if base is known
+                  // Only link common web assets; skip JSON, map files, etc.
+                  const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(fp);
+                  const rel = fp.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const title = titleFromPath(fp);
+                  const titleCell = href ? `[${title}](${href})` : title;
+                  const pathCell = '`' + fp + '`';
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                }
+              }
+              
+              return rows;
+            }
+
+            // Calculate file sizes/changes for sorting by delta
+            function getFileStats(files) {
+              const { execSync } = require('child_process');
+              return files.map(fp => {
+                let size = 0;
+                try {
+                  // Use git to get the number of changed lines
+                  // For added files, count all lines; for modified, count insertions + deletions
+                  const diffStat = execSync(`git diff --numstat origin/${{ github.base_ref }}...HEAD -- "${fp}" 2>/dev/null || echo "0 0 ${fp}"`, { encoding: 'utf8' }).trim();
+                  const parts = diffStat.split(/\s+/);
+                  if (parts.length >= 2) {
+                    const insertions = parseInt(parts[0]) || 0;
+                    const deletions = parseInt(parts[1]) || 0;
+                    size = insertions + deletions;
+                  }
+                } catch (e) {
+                  // If git diff fails, try file size as fallback
+                  try {
+                    if (fs.existsSync(fp)) {
+                      const stats = fs.statSync(fp);
+                      size = stats.size;
+                    }
+                  } catch (e2) {
+                    // Ignore errors
+                  }
+                }
+                return { path: fp, size };
+              });
+            }
+
+            // Sort files by size (as a proxy for change delta) and limit to maxRows
+            function limitAndSortFiles(files, maxRows = 20) {
+              if (files.length <= maxRows) {
+                return { files: files.sort(), truncated: false };
+              }
+              
+              // Get file stats and sort by size descending
+              const stats = getFileStats(files);
+              stats.sort((a, b) => b.size - a.size);
+              
+              // Take top maxRows files
+              const topFiles = stats.slice(0, maxRows).map(s => s.path);
+              // Sort alphabetically for consistent display
+              topFiles.sort();
+              
+              return { files: topFiles, truncated: true, total: files.length };
+            }
+
+            function buildRenamedRows(renamedFiles) {
+              const rows = [];
+              
+              for (const rename of renamedFiles) {
+                const oldPath = rename.old;
+                const newPath = rename.new;
+                
+                if (newPath.startsWith('content/')) {
+                  // Map the new path to get the preview link
+                  const e = mapEntry(newPath);
+                  const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                } else {
+                  // Static/assets: create direct preview links if base is known
+                  const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(newPath);
+                  const rel = newPath.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const title = titleFromPath(newPath);
+                  const titleCell = href ? `[${title}](${href})` : title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                }
+              }
+              
+              return rows;
+            }
+
+            const MAX_ROWS_PER_TABLE = 20;
+            const addedInfo = limitAndSortFiles(addedFiltered, MAX_ROWS_PER_TABLE);
+            const modifiedInfo = limitAndSortFiles(modified, MAX_ROWS_PER_TABLE);
+            const deletedInfo = limitAndSortFiles(deletedFiltered, MAX_ROWS_PER_TABLE);
+            const renamedInfo = { files: renamedFiles.slice(0, MAX_ROWS_PER_TABLE), truncated: renamedFiles.length > MAX_ROWS_PER_TABLE, total: renamedFiles.length };
+
+            const addedRows = buildRows(addedInfo.files);
+            const modifiedRows = buildRows(modifiedInfo.files);
+            const deletedRows = buildRows(deletedInfo.files);
+            const renamedRows = buildRenamedRows(renamedInfo.files);
+
+            const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n⏳ *Links will be added automatically when Cloudflare Pages finishes deploying (typically 2-5 minutes)*');
+            if (!previewBase) {
+              core.info('Preview base URL not available yet. Comment will be automatically updated when Cloudflare posts the Branch Preview URL.');
+            }
+            
+            function section(title, rows, info) {
+              if (rows.length === 0 && !info.truncated) return '';
+              
+              let sectionTitle = title;
+              if (info.truncated) {
+                sectionTitle += ` (showing ${rows.length} of ${info.total} files with largest changes)`;
+              }
+              
+              return `\n\n### ${sectionTitle}\n\n| Title | Path |\n| --- | --- |\n${rows.join('\n')}`;
+            }
+
+            const body = [
+              header,
+              section('Renamed/Moved', renamedRows, renamedInfo),
+              section('Added', addedRows, addedInfo),
+              section('Modified', modifiedRows, modifiedInfo),
+              section('Deleted', deletedRows, deletedInfo),
+            ].join('');
+            
+            // Check if body exceeds GitHub's limit
+            const MAX_COMMENT_SIZE = 65536;
+            if (body.length > MAX_COMMENT_SIZE) {
+              core.warning(`Preview comment size (${body.length}) exceeds GitHub's limit (${MAX_COMMENT_SIZE}). This should not happen with row limits in place.`);
+            }
+
+            // Update the existing comment
+            const commentId = process.env.COMMENT_ID;
+            if (!commentId) {
+              core.error('No comment ID found');
+              return;
+            }
+            
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: parseInt(commentId),
+              body,
+            });
+            
+            core.info(`Updated preview comment ${commentId} with ${addedFiltered.length + modified.length + deletedFiltered.length + renamedFiles.length} changed files`);
+            
+            // Add link to PR description if we have preview links and this is the first time
+            if (previewBase && (addedFiltered.length + modified.length + renamedFiles.length) > 0) {
+              try {
+                const pr = await github.rest.pulls.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.issue.number,
+                });
+                
+                const currentBody = pr.data.body || '';
+                const commentUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/pull/${context.issue.number}#issuecomment-${commentId}`;
+                const linkMarker = '<!-- preview-links-comment -->';
+                const linkText = `\n\n${linkMarker}\n📄 **[View preview links for changed pages](${commentUrl})**`;
+                
+                // Only add if not already present
+                if (!currentBody.includes(linkMarker)) {
+                  await github.rest.pulls.update({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: context.issue.number,
+                    body: currentBody + linkText,
+                  });
+                  core.info('Added preview link to PR description');
+                }
+              } catch (e) {
+                core.warning(`Could not update PR description: ${e.message}`);
+              }
+            }

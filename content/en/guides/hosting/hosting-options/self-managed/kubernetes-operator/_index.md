@@ -31,7 +31,7 @@ This page shows how to deploy W&B in a cluster deployed in a public cloud or in 
 {{% /alert %}}
 
 
-See ) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
 
 If necessary, Install `kubectl` and configure it with the correct Kubernetes cluster context.
 
@@ -162,7 +162,6 @@ You can now use the Operator to [deploy W&B]({{< relref "#deploy-wb-server" >}})
 ### Use Terraform
 
 
-
 ### Verify the installation
 
 To verify the installation, W&B recommends using the [W&B CLI]({{< relref "/ref/cli/" >}}). The verify command executes several tests that verify all components and configurations. 
@@ -218,7 +217,7 @@ There are two ways to log in to the management console:
 1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
-    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="System console access" >}}
 {{% /tab %}}
 
 {{% tab header="Option 2" value="option2"%}}
@@ -227,7 +226,7 @@ W&B recommends you access the console using the following steps only if Option 1
 {{% /alert %}}
 
 1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
-    {{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_directly.png" alt="Direct system console access" >}}
 2. Retrieve the password from the Kubernetes secret that the installation generates:
     ```shell
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d

@@ -269,7 +269,7 @@ Use your organization's dashboard to create a team:
 
 1. Navigate to https://wandb.ai/home.
 2. Select **Create a team to collaborate** on the left navigation panel underneath **Teams**.
-{{< img src="/images/hosting/create_new_team.png" alt="" >}}
+{{< img src="/images/hosting/create_new_team.png" alt="Create new team" >}}
 3. Provide a name for your team in the **Team name** field in the modal that appears. 
 4. Choose a storage type. 
 5. Select the **Create team** button.
@@ -284,7 +284,7 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 
 1. Navigate to `https://wandb.ai/<team-name>`.
 2. Select **Team settings** in the global navigation on the left side of the dashboard.
-{{< img src="/images/hosting/team_settings.png" alt="" >}}
+{{< img src="/images/hosting/team_settings.png" alt="Team settings" >}}
 3. Select the **Users** tab.
 4. Choose on **Invite a new user**.
 5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles]({{< relref "#assign-or-update-a-team-members-role" >}}).
@@ -311,11 +311,14 @@ This table lists the roles you can assign to a member of a team:
 
 | Role   |   Definition   |
 |-----------|---------------------------|
-| admin    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
+| Admin    | A user who can add and remove other users in the team, change user roles, and configure team settings.   |
 | Member    | A regular user of a team, invited by email or their organization-level username by the team admin. A member user cannot invite other users to the team.  |
 | View-Only (Enterprise-only feature) | A view-only user of a team, invited by email or their organization-level username by the team admin. A view-only user only has read access to the team and its contents.  |
-| Service (Enterprise-only feature)   | A service worker or service account is an API key that is useful for utilizing W&B with your run automation tools. If you use an API key from a service account for your team, ensure to set the environment variable `WANDB_USERNAME`  to correctly attribute runs to the appropriate user. |
-| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [this article](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
+| Custom Roles (Enterprise-only feature)   | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to the [custom roles announcement](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details. |
+
+{{% alert color="info" %}}
+Service accounts are not users, but rather non-human identities used for automation. **Service accounts** provide API keys for automated workflows and do not consume user licenses. Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}) for comprehensive information about creating and managing service accounts.
+{{% /alert %}}
 
 {{% alert %}}
 Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.

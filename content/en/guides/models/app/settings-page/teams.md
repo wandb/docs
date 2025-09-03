@@ -1,6 +1,5 @@
 ---
-description: Collaborate with your colleagues, share results, and track all the experiments
-  across your team
+description: Collaborate with your colleagues, share results, and track all the experiments across your team.
 menu:
   default:
     identifier: teams
@@ -17,11 +16,11 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 * **Catch regressions** and immediately get alerted when performance drops.
 * **Benchmark model performance** and compare model versions.
 
-{{< img src="/images/app_ui/teams_overview.webp" alt="" >}}
+{{< img src="/images/app_ui/teams_overview.webp" alt="Teams workspace overview" >}}
 
 ## Create a collaborative team
 
-1. [**Sign up or log in**](https://app.wandb.ai/login?signup=true) to your free W&B account.
+1. [Sign up or log in](https://app.wandb.ai/login?signup=true) to your free W&B account.
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
 4. To configure your team, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
@@ -52,14 +51,17 @@ Select a team role when you invite colleagues to join a team. There are followin
 
 - **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
 - **Member**: A regular member of the team. By default, only an admin can invite a team member. To change this behavior, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
-
-A team member can delete only runs they created. Suppose you have two members A and B. Member B moves a run from team B's project to a different project owned by Member A. Member A cannot delete the run Member B moved to Member A's project. An admin can manage runs and sweep runs created by any team member.
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs.
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
-- **Service accounts (Enterprise-only feature)**: Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}).
+
+A team member can delete only runs they created. Suppose you have two members A and B. Member B moves a run from team B's project to a different project owned by Member A. Member A cannot delete the run Member B moved to Member A's project. An admin can manage runs and sweep runs created by any team member.
+
+### Service accounts
+
+In addition to user roles, teams can also use **service accounts** for automation. Service accounts are not users, but rather non-human identities used for automated workflows. Refer to [Use service accounts to automate workflows]({{< relref "/guides/hosting/iam/authentication/service-accounts.md" >}}) for detailed information.
 
 {{% alert %}}
-W&B recommends to have more than one admin in a team. It is a best practice to ensure that admin operations can continue when the primary admin is not available.
+W&B recommends assigning more than one admin in a team to ensure that admin operations can continue when the primary admin is not available.
 {{% /alert %}}
 
 ### Team settings
@@ -83,7 +85,7 @@ The proceeding table lists permissions that apply to all projects across a given
 |Add or remove Registry Admins  |           |             | X              | X | 
 |Add or remove Protected Aliases|           |             | X              |   | 
 
-For more details about protected aliases, refer to [Registry Access Controls]({{< relref "/guides/core/registry/model_registry/access_controls.md" >}}).
+For more details about protected aliases, refer to [Configure registry access]({{< relref "/guides/core/registry/configure_registry.md" >}}).
 
 ### Reports
 Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
@@ -135,7 +137,7 @@ Use system permissions to create and manage teams and their members and to adjus
 
 ## Team trials
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "/ref/python/public-api/" >}}).
+See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "/ref/python/public-api/index.md" >}}).
 
 ## Privacy settings
 

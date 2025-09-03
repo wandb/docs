@@ -41,6 +41,20 @@ Use the W&B Python SDK library to start a sweep. Provide the sweep ID that was r
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
 ```
+
+{{% alert color="secondary" title="Multiprocessing" %}}
+You must wrap your `wandb.agent()` and `wandb.sweep()` calls with `if __name__ == '__main__':` if you use Python standard library's `multiprocessing` or PyTorch's `pytorch.multiprocessing` package. For example:
+
+```python
+if __name__ == '__main__':
+    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+```
+
+Wrapping your code with this convention ensures that it is only executed when the script is run directly, and not when it is imported as a module in a worker process.
+
+See [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) or [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) for more information about multiprocessing. See https://realpython.com/if-name-main-python/ for information about the `if __name__ == '__main__':` convention.
+{{% /alert %}}
+
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -52,7 +66,7 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
 Random and Bayesian searches will run forever. You must stop the process from the command line, within your python script, or the [Sweeps UI]({{< relref "./visualize-sweep-results.md" >}}).
 {{% /alert %}}
 
-Optionally specify the number of W&B Runs a Sweep agent should try. The following code snippets demonstrate how to set a maximum number of [W&B Runs]({{< relref "/ref/python/run.md" >}}) with the CLI and within a Jupyter Notebook, Python script.
+Optionally specify the number of W&B Runs a Sweep agent should try. The following code snippets demonstrate how to set a maximum number of [W&B Runs]({{< relref "/ref/python/sdk/classes/run.md" >}}) with the CLI and within a Jupyter Notebook, Python script.
 
 {{< tabpane text=true >}}
   {{% tab header="Python script or notebook" %}}
@@ -71,7 +85,7 @@ wandb.agent(sweep_id, count=count)
 
 {{% alert color="secondary" %}}
 If you start a new run after the sweep agent has finished, within the same script or notebook, then you should call `wandb.teardown()` before starting the new run.
-{{% /alert %}}  
+{{% /alert %}}
   {{% /tab %}}
   {{% tab header="CLI" %}}
 First, initialize your sweep with the [`wandb sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command. For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
@@ -86,6 +100,6 @@ Pass an integer value to the count flag to set the maximum number of runs to try
 NUM=10
 SWEEPID="dtzl1o7u"
 wandb agent --count $NUM $SWEEPID
-```  
+```
   {{% /tab %}}
 {{< /tabpane >}}

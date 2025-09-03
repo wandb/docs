@@ -8,7 +8,7 @@ weight: 210
 ---
 MMEngine by [OpenMMLab](https://github.com/open-mmlab) is a foundational library for training deep learning models based on PyTorch. MMEngine implements a next-generation training architecture for the OpenMMLab algorithm library, providing a unified execution foundation for over 30 algorithm libraries within OpenMMLab. Its core components include the training engine, evaluation engine, and module management.
 
-[Weights and Biases](https://wandb.ai/site) is directly integrated into MMEngine through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that can be used to
+[W&B](https://wandb.ai/site) is directly integrated into MMEngine through a dedicated [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) that can be used to
 - log training and evaluation metrics.
 - log and manage experiment configs.
 - log additional records such as graph, images, scalars, etc.
@@ -81,7 +81,7 @@ This section demonstrates a typical workflow using `WandbVisBackend` using [`mme
     ```
 
     {{% alert %}}
-    You pass a dictionary of arguments for [W&B run initialization]({{< relref "/ref/python/init" >}}) input parameters to `init_kwargs`.
+    You pass a dictionary of arguments for [W&B run initialization]({{< relref "/ref/python/sdk/functions/init.md" >}}) input parameters to `init_kwargs`.
     {{% /alert %}}
 
 2. Initialize a `runner` with the `visualizer`, and call `runner.train()`.
