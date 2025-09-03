@@ -40,7 +40,6 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 |----------|-------------|
 | **Up Arrow / Down Arrow** | Navigate through search results in the quick search dialog. |
 | **Enter** | Select the highlighted search result or submit a search query. |
-| **Esc** | Close the quick search dialog or exit search mode. |
 
 ## Reports
 
