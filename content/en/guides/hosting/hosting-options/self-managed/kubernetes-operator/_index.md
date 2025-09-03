@@ -31,7 +31,7 @@ This page shows how to deploy W&B in a cluster deployed in a public cloud or in 
 {{% /alert %}}
 
 
-See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
 
 If necessary, Install `kubectl` and configure it with the correct Kubernetes cluster context.
 
@@ -109,6 +109,7 @@ For a detailed description on how to use these modules, refer to this [section](
   {{% /tab %}}
   {{% tab header="Deploy with Helm" value="deploy-with-helm" %}}
 Follow these seteps to install the W&B Operator with Helm and then use the Operator to deploy W&B Server.
+
 ### Install the W&B Operator {#install-wb-operator-helm}
 To install and start the Kubernetes Operator with Helm:
 
@@ -157,7 +158,6 @@ Follow those steps to install the W&B Kubernetes Operator and deploy W&B with He
 You can now use the Operator to [deploy W&B]({{< relref "#deploy-wb-server" >}}).
 
 #### Deploy W&B Server with Helm
-
 
 ### Use Terraform
 
