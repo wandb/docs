@@ -11,10 +11,10 @@ url: guides/hosting/operator
 
 Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of the operator as a smart assistant for your W&B instance.
 
-The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
+The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B uses a Kubernetes operator.
 
 {{% alert %}}
-W&B uses the operator to deploy and manage Dedicated cloud instances on AWS, GCP and Azure public clouds.
+W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds.
 {{% /alert %}}
 
 For more information about Kubernetes operators, see [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) in the Kubernetes documentation. For more details about the design of the W&B Kubernetes Operator, refer to [Appendix: Conceptual details]({{< relref "#appendix-conceptual-details" >}}).
@@ -38,7 +38,7 @@ If necessary, Install `kubectl` and configure it with the correct Kubernetes clu
 ### Air-gapped installations
 
 ## Deploy W&B Server application
-This section describes different ways to use the W&B Kubernets Operator to deploy W&B.
+This section describes different ways to use the W&B Kubernetes Operator to deploy W&B.
 {{% alert %}}
 The W&B Operator is the default and recommended installation method for W&B Server.
 {{% /alert %}}
@@ -87,7 +87,7 @@ module "wandb" {
 
 Note that the configuration options are the same as described in [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
 
-To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedicated cloud” installations for customers,  follow those links:
+To see how W&B themselves use the Helm Terraform module to deploy "Dedicated Cloud" installations for customers, follow these links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
 - [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
@@ -108,7 +108,7 @@ This integration ensures that W&B Kubernetes Operator is ready to use for your i
 For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
   {{% /tab %}}
   {{% tab header="Deploy with Helm" value="deploy-with-helm" %}}
-Follow these seteps to install the W&B Operator with Helm and then use the Operator to deploy W&B Server.
+Follow these steps to install the W&B Operator with Helm and then use the Operator to deploy W&B Server.
 ### Install the W&B Operator {#install-wb-operator-helm}
 To install and start the Kubernetes Operator with Helm:
 
@@ -978,7 +978,7 @@ kubectl get ingressclass
 
 ## Appendix: Conceptual details
 
-This section provides more details about the design of the W&B Kubernetse operator.
+This section provides more details about the design of the W&B Kubernetes operator.
 
 ### Reasons for the architecture shift
 Historically, the W&B application was deployed as a single deployment and pod within a Kubernetes Cluster or a single Docker container. W&B has, and continues to recommend, to externalize the Database and Object Store. Externalizing the Database and Object store decouples the application's state.
