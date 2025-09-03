@@ -31,7 +31,7 @@ This page shows how to deploy W&B in a cluster deployed in a public cloud or in 
 {{% /alert %}}
 
 
-See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a Self-Managed installation.
 
 If necessary, Install `kubectl` and configure it with the correct Kubernetes cluster context.
 
@@ -241,7 +241,7 @@ This section describes how to update the W&B Kubernetes operator.
 
 {{% alert %}}
 * Updating the W&B Kubernetes operator does not update the W&B server application.
-* See the instructions [here]({{< relref "#migrate-self-managed-instances-to-wb-operator" >}}) if you use a Helm chart that does not user the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
+* See the instructions [here]({{< relref "#migrate-self-managed-instances-to-wb-operator" >}}) if you use a Helm chart that does not use the W&B Kubernetes operator before you follow the proceeding instructions to update the W&B operator.
 {{% /alert %}}
 
 Copy and paste the code snippets below into your terminal. 
@@ -262,7 +262,7 @@ You no longer need to update W&B Server application if you use the W&B Kubernete
 The operator automatically updates your W&B Server application when a new version of the software of W&B is released.
 
 
-## Migrate self-managed instances to W&B Operator
+## Migrate Self-Managed instances to W&B Operator
 The proceeding section describe how to migrate from self-managing your own W&B Server installation to using the W&B Operator to do this for you. The migration process depends on how you installed W&B Server:
 
 {{% alert %}}

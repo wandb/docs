@@ -105,10 +105,10 @@ For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/b
 ## Advanced: Update with admin UI {#update-with-admin-ui}
 
 {{% alert %}}
-This section is provided for historical purposes. Self-hosted Docker installations are no longer supported. Refer to [Supported deployment mechanisms]({{< relref "#supported-deployment-mechanisms" >}}).
+This section is provided for historical purposes. Self-Managed Docker installations are no longer supported. Refer to [Supported deployment mechanisms]({{< relref "#supported-deployment-mechanisms" >}}).
 {{% /alert %}}
 
-This method works only for updating licenses that are not set with an environment variable in the W&B server container, typically in self-hosted Docker installations.
+This method works only for updating licenses that are not set with an environment variable in the W&B server container, typically in Self-Managed Docker installations.
 
 1. Obtain a new license from the [W&B Deployment Page](https://deploy.wandb.ai/), ensuring it matches the correct organization and deployment ID for the deployment you are looking to upgrade.
 1. Access the W&B Admin UI at `<host-url>/system-settings`.
