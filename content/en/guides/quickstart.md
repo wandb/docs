@@ -78,36 +78,7 @@ A [run]({{< relref "/guides/models/track/runs/" >}}) serves as the core element 
 
 This mock training script logs simulated accuracy and loss metrics to W&B:
 
-<<<<<<< HEAD:content/guides/quickstart.md
 {{< code language="python" source="/code_examples/snippets/quickstart.snippet.all.py" >}}
-=======
-```python
-import wandb
-import random
-
-wandb.login()
-
-# Project that the run is recorded to
-project = "my-awesome-project"
-
-# Dictionary with hyperparameters
-config = {
-    'epochs' : 10,
-    'lr' : 0.01
-}
-
-with wandb.init(project=project, config=config) as run:
-    offset = random.random() / 5
-    print(f"lr: {config['lr']}")
-    
-    # Simulate a training run
-    for epoch in range(2, config['epochs']):
-        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
-        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
-        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
-        run.log({"accuracy": acc, "loss": loss})
-```
->>>>>>> main:content/en/guides/quickstart.md
 
 Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
