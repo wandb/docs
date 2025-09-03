@@ -79,6 +79,7 @@ jobs:
             layouts/**
             i18n/**
             configs/**
+          include_all_old_new_renamed_files: true
 
       - name: Build Hugo (generate pageurls)
         if: steps.changed.outputs.any_changed == 'true'
@@ -134,6 +135,8 @@ jobs:
           ADDED: ${{ steps.changed.outputs.added_files }}
           MODIFIED: ${{ steps.changed.outputs.modified_files }}
           DELETED: ${{ steps.changed.outputs.deleted_files }}
+          RENAMED: ${{ steps.changed.outputs.renamed_files }}
+          RENAMED_PAIRS: ${{ steps.changed.outputs.all_old_new_renamed_files }}
           PREVIEW_BASE: ${{ steps.extract-url.outputs.branch_url }}
         with:
           script: |
@@ -151,8 +154,26 @@ jobs:
             const added = splitList(process.env.ADDED);
             const modified = splitList(process.env.MODIFIED);
             const deleted = splitList(process.env.DELETED);
+            const renamed = splitList(process.env.RENAMED);
+            const renamedPairs = splitList(process.env.RENAMED_PAIRS);
 
-            const allChanged = [...added, ...modified, ...deleted];
+            // Process renamed files - tj-actions outputs them as "old_path new_path" pairs
+            const renamedFiles = [];
+            const renamedMapping = new Map(); // old path -> new path
+            for (let i = 0; i < renamedPairs.length; i += 2) {
+              if (i + 1 < renamedPairs.length) {
+                const oldPath = renamedPairs[i];
+                const newPath = renamedPairs[i + 1];
+                renamedMapping.set(oldPath, newPath);
+                renamedFiles.push({ old: oldPath, new: newPath });
+              }
+            }
+
+            // Filter out renamed files from added and deleted arrays to avoid duplication
+            const addedFiltered = added.filter(f => !Array.from(renamedMapping.values()).includes(f));
+            const deletedFiltered = deleted.filter(f => !Array.from(renamedMapping.keys()).includes(f));
+
+            const allChanged = [...addedFiltered, ...modified, ...deletedFiltered, ...renamed];
             const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
             
             // Handle case where there are no content changes
@@ -224,7 +245,7 @@ jobs:
             // Build lookup: support keys with and without language prefix
             const byPath = new Map();
             for (const p of pageMap) {
-              const lang = p.lang || '';
+              const lang = p.lang || 'en'; // Default to 'en' if no lang specified
               const rel = (p.path || '').replace(/^\/+/, '').replace(/\\/g, '/');
               const withLang = lang && !rel.startsWith(lang + '/') ? `${lang}/${rel}` : rel;
               const withoutLang = lang && rel.startsWith(lang + '/') ? rel.slice(lang.length + 1) : rel;
@@ -234,7 +255,25 @@ jobs:
                 withoutLang,
                 path.posix.join('content', withLang),
                 path.posix.join('content', withoutLang),
+                path.posix.join('content', rel),
+                // Add explicit handling for language in path
+                path.posix.join('content', lang, rel),
+                path.posix.join('content', lang, withoutLang),
+                // Add .md extension variations for content files
+                rel.endsWith('.md') ? rel : rel + '.md',
+                withLang.endsWith('.md') ? withLang : withLang + '.md',
+                withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md',
+                path.posix.join('content', lang, rel.endsWith('.md') ? rel : rel + '.md'),
+                path.posix.join('content', lang, withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+                path.posix.join('content', withLang.endsWith('.md') ? withLang : withLang + '.md'),
+                path.posix.join('content', withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
               ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
+              
+              // Debug log for new pages
+              if (p.path && p.path.includes('dspy')) {
+                core.info(`Debug: Page ${p.path} (lang: ${lang}) has keys: ${Array.from(keys).join(', ')}`);
+              }
+              
               for (const k of keys) byPath.set(k, p);
             }
 
@@ -244,8 +283,19 @@ jobs:
 
             function mapEntry(filePath) {
               const norm = filePath.replace(/\\/g, '/');
-              const item = byPath.get(norm) || byPath.get(norm.replace(/^content\//, ''));
-
+              
+              // Try multiple variations to find the item
+              let item = byPath.get(norm);
+              if (!item) item = byPath.get(norm.replace(/^content\//, ''));
+              if (!item) item = byPath.get(norm.replace(/\.md$/, ''));
+              if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
+              
+              // Debug log for unmatched files
+              if (!item && norm.includes('dspy')) {
+                core.info(`Debug: Could not find mapping for ${norm}`);
+                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+              }
+              
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
               const rel = item.relPermalink || '';
               const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
@@ -358,9 +408,38 @@ jobs:
               return rows;
             }
 
-            const addedRows = buildRows(added);
+            function buildRenamedRows(renamedFiles) {
+              const rows = [];
+              
+              for (const rename of renamedFiles) {
+                const oldPath = rename.old;
+                const newPath = rename.new;
+                
+                if (newPath.startsWith('content/')) {
+                  // Map the new path to get the preview link
+                  const e = mapEntry(newPath);
+                  const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                } else {
+                  // Static/assets: create direct preview links if base is known
+                  const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(newPath);
+                  const rel = newPath.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const title = titleFromPath(newPath);
+                  const titleCell = href ? `[${title}](${href})` : title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                }
+              }
+              
+              return rows;
+            }
+
+            const addedRows = buildRows(addedFiltered);
             const modifiedRows = buildRows(modified);
-            const deletedRows = buildRows(deleted);
+            const deletedRows = buildRows(deletedFiltered);
+            const renamedRows = buildRenamedRows(renamedFiles);
 
             const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + previewBase + ' -->\n**PR Preview: Changed content**\n\nBase preview: ' + previewBase;
             
@@ -371,6 +450,7 @@ jobs:
 
             const body = [
               header,
+              section('Renamed/Moved', renamedRows),
               section('Added', addedRows),
               section('Modified', modifiedRows),
               section('Deleted', deletedRows),

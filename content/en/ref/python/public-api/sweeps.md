@@ -40,6 +40,62 @@ print(f"Metrics: {best_run.summary}")
 
 > This module is part of the W&B Public API and provides read-only access to sweep data. For creating and controlling sweeps, use the wandb.sweep() and wandb.agent() functions from the main wandb package. 
 
+## <kbd>class</kbd> `Sweeps`
+A lazy iterator over a collection of `Sweep` objects. 
+
+
+
+**Examples:**
+ ```python
+from wandb.apis.public import Api
+
+sweeps = Api().project(name="project_name", entity="entity").sweeps()
+
+# Iterate over sweeps and print details
+for sweep in sweeps:
+     print(f"Sweep name: {sweep.name}")
+     print(f"Sweep ID: {sweep.id}")
+     print(f"Sweep URL: {sweep.url}")
+     print("----------")
+``` 
+
+### <kbd>method</kbd> `Sweeps.__init__`
+
+```python
+__init__(
+    client: wandb.apis.public.api.RetryingClient,
+    entity: str,
+    project: str,
+    per_page: int = 50
+) → Sweeps
+```
+
+An iterable collection of `Sweep` objects. 
+
+
+
+**Args:**
+ 
+ - `client`:  The API client used to query W&B. 
+ - `entity`:  The entity which owns the sweeps. 
+ - `project`:  The project which contains the sweeps. 
+ - `per_page`:  The number of sweeps to fetch per request to the API. 
+
+
+---
+
+
+### <kbd>property</kbd> Sweeps.length
+
+
+
+
+
+---
+
+
+
+
 ## <kbd>class</kbd> `Sweep`
 The set of runs associated with the sweep. 
 
@@ -89,7 +145,9 @@ Return the number of expected runs in the sweep or None for infinite runs.
 
 The name of the sweep. 
 
-If the sweep has a name, it will be returned. Otherwise, the sweep ID will be returned. 
+Returns the first name that exists in the following priority order: 
+
+1. User-edited display name 2. Name configured at creation time 3. Sweep ID 
 
 ---
 
@@ -137,17 +195,29 @@ Return the best run sorted by the metric defined in config or the order passed i
 
 ```python
 get(
-    client,
-    entity=None,
-    project=None,
-    sid=None,
-    order=None,
-    query=None,
+    client: 'RetryingClient',
+    entity: Optional[str] = None,
+    project: Optional[str] = None,
+    sid: Optional[str] = None,
+    order: Optional[str] = None,
+    query: Optional[str] = None,
     **kwargs
 )
 ```
 
 Execute a query against the cloud backend. 
+
+
+
+**Args:**
+ 
+ - `client`:  The client to use to execute the query. 
+ - `entity`:  The entity (username or team) that owns the project. 
+ - `project`:  The name of the project to fetch sweep from. 
+ - `sid`:  The sweep ID to query. 
+ - `order`:  The order in which the sweep's runs are returned. 
+ - `query`:  The query to use to execute the query. 
+ - `**kwargs`:  Additional keyword arguments to pass to the query. 
 
 ---
 

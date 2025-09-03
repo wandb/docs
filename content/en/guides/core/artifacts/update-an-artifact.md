@@ -10,6 +10,11 @@ weight: 4
 
 Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
 
+{{% alert title="When to use Artifact.save() or wandb.Run.log_artifact()"  %}}
+- Use `Artifact.save()` to update an existing artifact without creating a new run.
+- Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
+{{% /alert %}}
+
 Use the W&B Public API ([`wandb.Api`]({{< relref "/ref/python/public-api/api.md" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md" >}})) to update an artifact during a run.
 
 {{% alert color="secondary" %}}

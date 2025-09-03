@@ -46,7 +46,9 @@ for run in runs:
 > This module is part of the W&B Public API and provides read/write access to run data. For logging new runs, use the wandb.init() function from the main wandb package. 
 
 ## <kbd>class</kbd> `Runs`
-An iterable collection of runs associated with a project and optional filter. 
+A lazy iterator of `Run` objects associated with a project and optional filter. 
+
+Runs are retrieved in pages from the W&B server as needed. 
 
 This is generally used indirectly using the `Api.runs` namespace. 
 
@@ -58,7 +60,7 @@ This is generally used indirectly using the `Api.runs` namespace.
  - `entity`:  (str) The entity (username or team) that owns the project. 
  - `project`:  (str) The name of the project to fetch runs from. 
  - `filters`:  (Optional[Dict[str, Any]]) A dictionary of filters to apply  to the runs query. 
- - `order`:  (Optional[str]) The order of the runs, can be "asc" or "desc"  Defaults to "desc". 
+ - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
  - `per_page`:  (int) The number of runs to fetch per request (default is 50). 
  - `include_sweeps`:  (bool) Whether to include sweep information in the  runs. Defaults to True. 
 
@@ -104,12 +106,12 @@ histories_df = runs.histories(
 ```python
 __init__(
     client: 'RetryingClient',
-    entity: str,
-    project: str,
-    filters: Optional[Dict[str, Any]] = None,
-    order: Optional[str] = None,
-    per_page: int = 50,
-    include_sweeps: bool = True
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True
 )
 ```
 
@@ -135,11 +137,11 @@ __init__(
 
 ```python
 histories(
-    samples: int = 500,
-    keys: Optional[List[str]] = None,
-    x_axis: str = '_step',
-    format: Literal['default', 'pandas', 'polars'] = 'default',
-    stream: Literal['default', 'system'] = 'default'
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    format: "Literal['default', 'pandas', 'polars']" = 'default',
+    stream: "Literal['default', 'system']" = 'default'
 )
 ```
 
@@ -207,11 +209,11 @@ A single run associated with an entity and project.
 ```python
 __init__(
     client: 'RetryingClient',
-    entity: str,
-    project: str,
-    run_id: str,
-    attrs: Optional[Mapping] = None,
-    include_sweeps: bool = True
+    entity: 'str',
+    project: 'str',
+    run_id: 'str',
+    attrs: 'Mapping | None' = None,
+    include_sweeps: 'bool' = True
 )
 ```
 
@@ -299,11 +301,11 @@ This API is deprecated. Use `entity` instead.
 
 ```python
 create(
-    api,
-    run_id=None,
-    project=None,
-    entity=None,
-    state: Literal['running', 'pending'] = 'running'
+    api: 'public.Api',
+    run_id: 'str | None' = None,
+    project: 'str | None' = None,
+    entity: 'str | None' = None,
+    state: "Literal['running', 'pending']" = 'running'
 )
 ```
 
@@ -351,16 +353,23 @@ Return the path of a file with a given name in the artifact.
 ### <kbd>method</kbd> `Run.files`
 
 ```python
-files(names=None, per_page=50)
+files(
+    names: 'list[str] | None' = None,
+    pattern: 'str | None' = None,
+    per_page: 'int' = 50
+)
 ```
 
-Return a file path for each file named. 
+Returns a `Files` object for all files in the run which match the given criteria. 
+
+You can specify a list of exact file names to match, or a pattern to match against. If both are provided, the pattern will be ignored. 
 
 
 
 **Args:**
  
  - `names` (list):  names of the requested files, if empty returns all files 
+ - `pattern` (str, optional):  Pattern to match when returning files from W&B.  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
  - `per_page` (int):  number of results per page. 
 
 
@@ -416,8 +425,8 @@ load(force=False)
 ```python
 log_artifact(
     artifact: 'wandb.Artifact',
-    aliases: Optional[Collection[str]] = None,
-    tags: Optional[Collection[str]] = None
+    aliases: 'Collection[str] | None' = None,
+    tags: 'Collection[str] | None' = None
 )
 ```
 
@@ -441,7 +450,7 @@ Declare an artifact as output of a run.
 ### <kbd>method</kbd> `Run.logged_artifacts`
 
 ```python
-logged_artifacts(per_page: int = 100) → RunArtifacts
+logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
 Fetches all artifacts logged by this run. 
@@ -597,7 +606,7 @@ Declare an artifact as an input to a run.
 ### <kbd>method</kbd> `Run.used_artifacts`
 
 ```python
-used_artifacts(per_page: int = 100) → RunArtifacts
+used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
 Fetches artifacts explicitly used by this run. 
