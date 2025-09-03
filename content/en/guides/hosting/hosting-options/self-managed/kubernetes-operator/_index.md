@@ -35,7 +35,6 @@ See [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a det
 
 If necessary, Install `kubectl` and configure it with the correct Kubernetes cluster context.
 
-### Air-gapped installations
 
 ## Deploy W&B Server application
 This section describes different ways to use the W&B Kubernetes Operator to deploy W&B.
@@ -87,7 +86,7 @@ module "wandb" {
 
 Note that the configuration options are the same as described in [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
 
-To see how W&B themselves use the Helm Terraform module to deploy "Dedicated Cloud" installations for customers, follow these links:
+To see how W&B themselves use the Helm Terraform module to deploy Dedicated Cloud installations for customers, follow these links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
 - [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
