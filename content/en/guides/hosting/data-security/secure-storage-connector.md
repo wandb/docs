@@ -565,7 +565,7 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 
 - **Connection errors**
   - Verify that your W&B instance can connect to CoreWeave network endpoints.
-  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while ~`cw://cwobject.com/bucket-name/`~ is not.
+  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while `cw://cwobject.com/bucket-name/` is not.
   - Bucket names must not contain underscores (`_`) or other characters incompatible with DNS rules.
   - Bucket names must be globally unique among CoreWeave locations.
   - Bucket names must not begin with `cw-` or `vip-`, which are reserved prefixes.
