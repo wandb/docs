@@ -31,7 +31,7 @@ Create one or more custom aliases for a specific artifact versions based on your
 - You might use aliases such as `dataset_version_v0`, `dataset_version_v1`, and `dataset_version_v2` to identify which dataset a model was trained on.
 - You might use a `best_model` alias to keep track of the best performing artifact model version.
 
-Any user with a [**Member** or **Admin** registry role]({{< relref "guides/core/registry/configure_registry/#registry-roles" >}}) on a registry can add or remove a custom alias from a linked artifact in that registry. Users with the **Restricted Viewer** or **Viewer** roles cannot add or remove aliases.
+Any user with a [**Member** or **Admin** registry role]({{< relref "guides/core/registry/configure_registry/#registry-roles" >}}) on a registry can add or remove a custom alias from a linked artifact in that registry. Users with the [**Restricted Viewer** or **Viewer** roles]({{< relref "guides/core/registry/configure_registry/#registry-roles" >}}) cannot add or remove aliases.
 
 {{% alert %}}
 [Protected aliases]({{< relref "aliases/#protected-aliases" >}}) provide a way to label and identify which artifact versions to protect from modification or deletion.
