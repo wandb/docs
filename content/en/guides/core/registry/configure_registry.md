@@ -15,7 +15,7 @@ A registry admin can [configure registry roles]({{< relref "configure_registry.m
 
 Registry admins can add individual users or entire teams to a registry. To add a user or team to a registry:
 
-1. Navigate to the Registry at https://wandb.ai/registry/.
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select the registry you want to add a user or team to.
 3. Click on the gear icon on the upper right hand corner to access the registry settings.
 4. In the **Registry access** section, click **Add access**.
@@ -29,7 +29,7 @@ Learn more about [configuring user roles in a registry]({{< relref "configure_re
 ### Remove a user or team
 A registry admin can remove individual users or entire teams from a registry. To remove a user or team from a registry:
 
-1. Navigate to the Registry at https://wandb.ai/registry/.
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select the registry you want to remove a user from.
 3. Click on the gear icon on the upper right hand corner to access the registry settings.
 4. Navigate to the **Registry access** section and type in the username, email, or team you want to remove.
@@ -44,7 +44,7 @@ Removing a user from a team also removes that user's access to the registry.
 A Registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
 
 To change the owner:
-1. Navigate to the Registry at https://wandb.ai/registry/.
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select the registry you want to configure.
 3. Click the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section.
@@ -56,7 +56,7 @@ To change the owner:
 
 This section shows how to configure roles for Registry members. For more information about Registry roles, including the cabilities of each role, order of precedence, defaults, and more, see [Details about Registry roles](#details-about-registry-roles).
 
-1. Navigate to the Registry at https://wandb.ai/registry/.
+1. Navigate to the **Registry** App in the W&B App UI.
 2. Select the registry you want to configure.
 3. Click the gear icon on the upper right hand corner.
 4. Scroll to the **Registry members and roles** section.
