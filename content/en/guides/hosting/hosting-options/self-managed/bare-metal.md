@@ -25,12 +25,6 @@ Before you start deploying W&B, refer to the [reference architecture]({{< relref
 W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
 {{% /alert %}}
 
-There are a number of enterprise services that make operating a scalable MySQL database simpler. W&B recommends looking into one of the following solutions:
-
-[Percona Server for MySQL](https://www.percona.com/software/mysql-database/percona-server)
-
-[MySQL Operator for Kubernetes](https://github.com/mysql/mysql-operator)
-
 Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
 ```

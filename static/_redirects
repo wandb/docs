@@ -20,6 +20,11 @@
 ##   but preserve subfolder structure
 # /app/features/* /guides/runs/:splat   
 
+# Consistent URLs
+/guides/models/tables/* /guides/tables/:splat
+/guides/core/automations/* /guides/automations/:splat
+/guides/core/registry/* /guides/registry/:splat
+
 ## Individual page rules
 /app/features/alerts/ /guides/runs/alert/ 301
 /app/features/custom-charts/walkthrough/ /guides/app/features/custom-charts/walkthrough/ 301
@@ -464,5 +469,4 @@
 ### EOL releases: Use splats when possible
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
-/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
-/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+/ref/release-notes/0.5*/ /ref/release-notes/releases/archived/0.56:splat 301
