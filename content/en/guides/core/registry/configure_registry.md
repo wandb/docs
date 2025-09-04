@@ -41,7 +41,7 @@ Removing a user from a team also removes that user's access to the registry.
 
 ### Change the owner of a registry
 
-A Registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
+A registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
 
 To change the owner:
 1. Navigate to the **Registry** App in the W&B App UI.
