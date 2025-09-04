@@ -6,6 +6,7 @@ menu:
     parent: registry
 title: Model registry
 weight: 9
+url: /guides/registry/model_registry
 ---
 
 {{% alert %}}
