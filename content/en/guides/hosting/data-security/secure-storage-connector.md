@@ -89,8 +89,8 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
 1. <a id="coreweave-customer-namespace"></a>**Dedicated Cloud** / **Self-Managed**: Obtain your customer namespace, which is required for your bucket policy.
     1. In the W&B App, click your user profile icon, then click **System Console**.
     1. Click the **Authentication** tab.
-    1. At the bottom of the page, copy the value for **Customer Namespace**.
-    1. Keep this value for configuring the bucket policy. You can close the System Console.
+    1. At the bottom of the page, copy the value for **Customer Namespace**. Keep this value for configuring the bucket policy. 
+    1. You can close the System Console.
 1. In CoreWeave, create the bucket with a name of your choice in your preferred CoreWeave availability zone. Optionally create a folder for W&B to use as a sub-path for all W&B files. Make a note of the bucket name, availability zone, API access key, secret key, and sub-path.
 1. Set the following Cross-origin resource sharing (CORS) policy for the bucket:
     ```json
@@ -541,10 +541,10 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
         - **Name**: For all providers except Azure, enter the bucket name. For Azure, this is the container name.
         - **Path** (optional): Enter a sub-path to use within the bucket.
     1. Provide additional connection settings for the chosen cloud provider:
-        - **CoreWeave**: No additional settings required.
-        - **AWS**: Optionally provide a **KMS key ARN** for encryption.
-        - **GCP**: No additional settings required.
-        - **Azure**: 
+        - CoreWeave: No additional settings required.
+        - AWS: Optionally provide a **KMS key ARN** for encryption.
+        - GCP: No additional settings required.
+        - Azure: 
             - **Account name** (required): The Azure storage account name.
             - **Tenant ID** (optional): The Azure Active Directory tenant ID.
             - **Managed Identity Client ID** (optional): The client ID for managed identity authentication.
