@@ -9,21 +9,33 @@ title: Semantic run plot legends
 
 Create visually meaningful line plots and plot legends by color-coding your W&B runs based on metrics or configuration parameters. Identify patterns and trends across experiments by coloring runs according to their performance metrics (highest, lowest, or latest values). W&B automatically groups your runs into color-coded buckets based on the values of your selected parameter.
 
-Navigate to your workspace's settings page to configure metric or configuration-based colors for runs:
+To use metric or configuration-based colors for your runs, you need to configure two settings:
 
-1. Navigate to your W&B project.
-2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon in the top right corner.
-4. From the drawer, select **Runs** then select **Key-based colors**.
-    - From the **Key** dropdown, select the metric you want to use for assigning colors to runs.
-    - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
-    - Choose from one of the five available continuous color palettes, including colorblind-safe options.
-    - Set the the number of buckets to a value from 2 to 8.
+### Enable key-based colors
+
+1. Navigate to your W&B project
+2. Select the **Workspace** tab from the project sidebar
+3. Click on the **Settings** icon in the top right corner
+4. From the drawer, select **Runs**
+5. In the **Run colors** section, select **Key-based colors**
+6. Configure the following options:
+    - From the **Key** dropdown, select the metric you want to use for assigning colors to runs
+    - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs
+    - Set the number of buckets to a value from 2 to 8
+
+### Choose a color palette
+
+While still in the Runs settings:
+
+1. In the **Color palette** section, choose from:
+    - **Default**: Standard color palette
+    - **Colorblind-safe (deuteranomaly)**: Optimized for red-green color blindness
+    - **Colorblind-safe (all other forms)**: Optimized for other forms of color vision deficiency
 
 The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
 
 {{% alert %}}
-**New in W&B 0.73**: Five new continuous color palettes are now available for metric-based coloring, including options optimized for colorblind accessibility. These palettes provide smooth gradients that remain distinguishable for users with various forms of color vision deficiency.
+**New in W&B 0.73**: New continuous color palettes are now available for metric-based coloring, including options optimized for colorblind accessibility. These palettes provide smooth gradients that remain distinguishable for users with various forms of color vision deficiency.
 {{% /alert %}}
 
 ## Set a metric
