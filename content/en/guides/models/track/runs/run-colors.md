@@ -7,11 +7,33 @@ menu:
 title: Customize run colors
 ---
 
-W&B automatically assigns a color to each run that you create in your project. You can change the default color of a run to help you visually distinguish it from other runs in the table and graphs. Reset your project workspace to restore the default colors for all runs in the table.
+W&B automatically assigns a color to each run that you create in your project. You can customize these colors to help you visually distinguish runs in tables and graphs. Run colors are locally scoped—on the project page, custom colors apply only to your own workspace. In reports, custom colors for runs apply only at the section level.
 
-Run colors are locally scoped. On the project page, custom colors apply only to your own workspace. In reports, custom colors for runs apply only at the section level. You can visualize the same run in different sections, which can use different custom colors per section.
+## Choose a color palette
 
-## Edit default run colors
+W&B provides several predefined color palettes to suit different needs and preferences. You can select a palette that works best for your team and use case.
+
+### How to select a color palette
+
+1. Navigate to your W&B project
+2. Click on the **Workspace** tab from the project sidebar
+3. Click the **Settings** icon in the top right corner
+4. Select **Runs** from the settings drawer
+5. In the **Color palette** section, choose from the available options
+
+### Available color palettes
+
+W&B offers three color palette options:
+
+- **Default**: The standard W&B color palette with a vibrant range of colors
+- **Colorblind-safe (deuteranomaly)**: Optimized for red-green color blindness, the most common form affecting approximately 6% of males
+- **Colorblind-safe (all other forms)**: Optimized for protanopia, tritanopia, and other forms of color vision deficiency
+
+The colorblind-safe palettes use carefully selected colors that remain distinguishable across different types of color vision deficiency while maintaining visual appeal for users with typical color vision.
+
+## Edit individual run colors
+
+You can manually change the color of specific runs to customize your visualization further.
 
 1. Click the **Runs** tab from the project sidebar.
 2. Click the dot color next to the run name in the **Name** column.
@@ -27,15 +49,10 @@ To randomize the colors of all runs in the table:
 2. Hover over the **Name** column header, click the three horizontal dots (**...**), and select **Randomize run colors** from the dropdown menu.
 
 {{% alert %}}
-The option to randomize run colors is available only after modify the run's table in some way, such as by sorting, filtering, searching, or grouping.
+The option to randomize run colors is available only after modifying the run's table in some way, such as by sorting, filtering, searching, or grouping.
 {{% /alert %}}
 
-
 ## Reset run colors
-
-<!-- {{% alert %}}
-The option to randomize run colors is only available if there are at least two runs in the table or selector, and you have made some kind of modification to the view (sorting, filtering, searching, or grouping).
-{{% /alert %}} -->
 
 To restore the default colors for all runs in the table:
 
@@ -44,30 +61,7 @@ To restore the default colors for all runs in the table:
 
 {{< img src="/images/runs/reset-run-colors.png" alt="Reset run colors in project workspace">}}
 
-## Colorblind-safe palettes
-
-W&B now offers two colorblind-safe color palettes to improve accessibility and ensure that your experiments are easily distinguishable by all team members, including those with color vision deficiency.
-
-### Enabling colorblind-safe palettes
-
-To use the colorblind-safe palettes in your workspace:
-
-1. Navigate to your W&B project
-2. Click on the **Workspace** tab from the project sidebar
-3. Click the **Settings** icon (⚙️) in the top right corner
-4. Select **Runs** from the settings drawer
-5. In the **Color Palette** section, choose one of the two colorblind-safe palettes
-
-### Available colorblind-safe palettes
-
-W&B provides two carefully designed colorblind-safe palettes:
-
-- **Colorblind-Safe Palette 1**: Optimized for deuteranopia (red-green color blindness), the most common form of color vision deficiency
-- **Colorblind-Safe Palette 2**: Optimized for protanopia and tritanopia, providing maximum contrast for other forms of color blindness
-
-Both palettes use colors that are distinguishable across different types of color vision deficiency while maintaining visual appeal for users with typical color vision.
-
-### Benefits for accessibility
+## Accessibility benefits
 
 Using colorblind-safe palettes provides several important benefits:
 
@@ -76,4 +70,11 @@ Using colorblind-safe palettes provides several important benefits:
 - **Professional presentation**: Makes your dashboards and reports accessible for presentations and publications
 - **Inclusive design**: Demonstrates commitment to accessibility, benefiting approximately 8% of men and 0.5% of women who have some form of color vision deficiency
 
-The colorblind-safe palettes work seamlessly with all W&B visualization features, including line plots, scatter plots, parallel coordinates plots, and run tables.
+The selected color palette applies to all W&B visualization features, including line plots, scatter plots, parallel coordinates plots, and run tables.
+
+## Color options for grouped runs
+
+When using the **Run colors** setting, you have two options:
+
+- **Original project colors**: Uses the default color assignment for runs
+- **Key-based colors**: Colors runs based on metric or configuration values (see [Semantic run plot legends]({{< relref "color-code-runs" >}}) for details)

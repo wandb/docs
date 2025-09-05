@@ -13,7 +13,7 @@ Navigate to your workspace's settings page to configure metric or configuration-
 
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon (⚙️) in the top right corner.
+3. Click on the **Settings** icon in the top right corner.
 4. From the drawer, select **Runs** then select **Key-based colors**.
     - From the **Key** dropdown, select the metric you want to use for assigning colors to runs.
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
