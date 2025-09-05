@@ -25,9 +25,11 @@ To use metric or configuration-based colors for your runs, you need to configure
 
 ### Choose a color palette
 
-While still in the Runs settings:
-
-1. In the **Color palette** section, choose from:
+1. Navigate to your W&B project
+2. Select the **Workspace** tab from the project sidebar
+3. Click on the **Settings** icon in the top right corner
+4. From the drawer, select **Runs**
+5. In the **Color palette** section, choose from:
     - **Default**: Standard color palette
     - **Colorblind-safe (deuteranomaly)**: Optimized for red-green color blindness
     - **Colorblind-safe (all other forms)**: Optimized for other forms of color vision deficiency
