@@ -1,0 +1,15 @@
+**Valid metric names:**
+```python
+with wandb.init() as run:
+  run.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+  run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+```
+
+**Invalid metric names (avoid these):**
+```python
+with wandb.init() as run:
+  run.log({"acc,val": 0.9})  # Contains comma
+  run.log({"loss-train": 0.1})  # Contains hyphen
+  run.log({"test acc": 0.95})  # Contains space
+  run.log({"5_fold_cv": 0.8})  # Starts with number
+```
