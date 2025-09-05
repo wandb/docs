@@ -17,6 +17,15 @@ Use W&B with DSPy to track and optimize your language model programs. W&B comple
 
 For comprehensive observability when optimizing DSPy modules, enable the integration in both W&B and Weave.
 
+{{< alert title="Note" color="info" >}}
+As of `wandb==0.21.2` and `weave==0.52.5`, Weave initializes automatically when used with W&B:
+
+- If `weave` is imported and then `wandb.init()` is called (script case)
+- If `wandb.init()` was called and then `weave` is imported later (notebook/Jupyter case)
+
+No explicit `weave.init(...)` call is required.
+{{< /alert >}}
+
 ## Install and authenticate
 
 Install the required libraries and authenticate with W&B:
@@ -80,9 +89,8 @@ import weave
 import wandb
 from wandb.integration.dspy import WandbDSPyCallback
 
-# Initialize W&B and Weave
+# Initialize W&B (importing weave is sufficient; no explicit weave.init needed)
 project_name = "dspy-optimization"
-weave.init(project_name)
 wandb.init(project=project_name)
 
 # Add W&B callback to DSPy
@@ -174,10 +182,10 @@ optimized_program = optimizer.compile(program, trainset=train_data)
 callback.log_best_model(optimized_program, save_program=True)
 
 # 2. State only as JSON - lighter weight, human-readable
-callback.log_best_model(optimized_program, save_program=False, choice="json")
+callback.log_best_model(optimized_program, save_program=False, filetype="json")
 
 # 3. State only as pickle - preserves Python objects
-callback.log_best_model(optimized_program, save_program=False, choice="pkl")
+callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
 
 # Add custom aliases for versioning
 callback.log_best_model(
