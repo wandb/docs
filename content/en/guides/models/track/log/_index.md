@@ -86,13 +86,13 @@ Avoid naming metrics with invalid characters (such as commas, spaces, or special
 2. **View multiple metrics on one chart**: Log multiple metrics in the same call. For example:
     ```python
     with wandb.init() as run:
-      wandb.log({"acc": 0.9, "loss": 0.1})
+      run.log({"acc": 0.9, "loss": 0.1})
     ```
     You can then plot both metrics in the UI.
 3. **Customize the x-axis**: Add a custom x-axis to the same log call to visualize your metrics against a different axis in the W&B dashboard. For example:
     ```python
     with wandb.init() as run:
-      Run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})
+      run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})
     ```
     To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/sdk/classes/run.md#define_metric" >}}).
 4. **Log rich media and charts**: `wandb.Run.log()` supports the logging of a wide variety of data types, from [media like images and videos]({{< relref "./media.md" >}}) to [tables]({{< relref "./log-tables.md" >}}) and [charts]({{< relref "/guides/models/app/features/custom-charts/" >}}).
