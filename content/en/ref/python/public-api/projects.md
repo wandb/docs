@@ -45,7 +45,7 @@ for project in projects:
 > This module is part of the W&B Public API and provides methods to access and manage projects. For creating new projects, use wandb.init() with a new project name. 
 
 ## <kbd>class</kbd> `Projects`
-An iterable collection of `Project` objects. 
+An lazy iterator of `Project` objects. 
 
 An iterable interface to access projects created and saved by the entity. 
 
@@ -172,10 +172,21 @@ Returns all artifact types associated with this project.
 ### <kbd>method</kbd> `Project.sweeps`
 
 ```python
-sweeps()
+sweeps(per_page=50)
 ```
 
-Fetches all sweeps associated with the project. 
+Return a paginated collection of sweeps in this project. 
+
+
+
+**Args:**
+ 
+ - `per_page`:  The number of sweeps to fetch per request to the API. 
+
+
+
+**Returns:**
+ A `Sweeps` object, which is an iterable collection of `Sweep` objects. 
 
 ---
 

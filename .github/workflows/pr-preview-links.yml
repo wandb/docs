@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
 
@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install -y ./hugo.deb
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
           check-latest: true
@@ -57,6 +57,7 @@ jobs:
             layouts/**
             i18n/**
             configs/**
+          include_all_old_new_renamed_files: true
 
       - name: Build Hugo (generate pageurls)
         if: steps.changed.outputs.any_changed == 'true'
@@ -228,6 +229,8 @@ jobs:
           ADDED: ${{ steps.changed.outputs.added_files }}
           MODIFIED: ${{ steps.changed.outputs.modified_files }}
           DELETED: ${{ steps.changed.outputs.deleted_files }}
+          RENAMED: ${{ steps.changed.outputs.renamed_files }}
+          RENAMED_PAIRS: ${{ steps.changed.outputs.all_old_new_renamed_files }}
           PREVIEW_BASE: ${{ steps.find-preview.outputs.base }}
           COMMENT_ID: ${{ steps.find-comment.outputs.comment_id }}
         with:
@@ -247,8 +250,26 @@ jobs:
             const added = splitList(process.env.ADDED);
             const modified = splitList(process.env.MODIFIED);
             const deleted = splitList(process.env.DELETED);
+            const renamed = splitList(process.env.RENAMED);
+            const renamedPairs = splitList(process.env.RENAMED_PAIRS);
 
-            const allChanged = [...added, ...modified, ...deleted];
+            // Process renamed files - tj-actions outputs them as "old_path new_path" pairs
+            const renamedFiles = [];
+            const renamedMapping = new Map(); // old path -> new path
+            for (let i = 0; i < renamedPairs.length; i += 2) {
+              if (i + 1 < renamedPairs.length) {
+                const oldPath = renamedPairs[i];
+                const newPath = renamedPairs[i + 1];
+                renamedMapping.set(oldPath, newPath);
+                renamedFiles.push({ old: oldPath, new: newPath });
+              }
+            }
+
+            // Filter out renamed files from added and deleted arrays to avoid duplication
+            const addedFiltered = added.filter(f => !Array.from(renamedMapping.values()).includes(f));
+            const deletedFiltered = deleted.filter(f => !Array.from(renamedMapping.keys()).includes(f));
+
+            const allChanged = [...addedFiltered, ...modified, ...deletedFiltered, ...renamed];
             const anyEligible = allChanged.some(p => /^(content|static|assets)\//.test(p));
             if (!anyEligible) {
               core.info('No relevant content changes. Updating comment to reflect this.');
@@ -548,14 +569,44 @@ jobs:
               return { files: topFiles, truncated: true, total: files.length };
             }
 
+            function buildRenamedRows(renamedFiles) {
+              const rows = [];
+              
+              for (const rename of renamedFiles) {
+                const oldPath = rename.old;
+                const newPath = rename.new;
+                
+                if (newPath.startsWith('content/')) {
+                  // Map the new path to get the preview link
+                  const e = mapEntry(newPath);
+                  const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                } else {
+                  // Static/assets: create direct preview links if base is known
+                  const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(newPath);
+                  const rel = newPath.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
+                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const title = titleFromPath(newPath);
+                  const titleCell = href ? `[${title}](${href})` : title;
+                  const pathCell = `\`${oldPath}\` → \`${newPath}\``;
+                  rows.push(`| ${titleCell} | ${pathCell} |`);
+                }
+              }
+              
+              return rows;
+            }
+
             const MAX_ROWS_PER_TABLE = 20;
-            const addedInfo = limitAndSortFiles(added, MAX_ROWS_PER_TABLE);
+            const addedInfo = limitAndSortFiles(addedFiltered, MAX_ROWS_PER_TABLE);
             const modifiedInfo = limitAndSortFiles(modified, MAX_ROWS_PER_TABLE);
-            const deletedInfo = limitAndSortFiles(deleted, MAX_ROWS_PER_TABLE);
+            const deletedInfo = limitAndSortFiles(deletedFiltered, MAX_ROWS_PER_TABLE);
+            const renamedInfo = { files: renamedFiles.slice(0, MAX_ROWS_PER_TABLE), truncated: renamedFiles.length > MAX_ROWS_PER_TABLE, total: renamedFiles.length };
 
             const addedRows = buildRows(addedInfo.files);
             const modifiedRows = buildRows(modifiedInfo.files);
             const deletedRows = buildRows(deletedInfo.files);
+            const renamedRows = buildRenamedRows(renamedInfo.files);
 
             const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n⏳ *Links will be added automatically when Cloudflare Pages finishes deploying (typically 2-5 minutes)*');
             if (!previewBase) {
@@ -575,6 +626,7 @@ jobs:
 
             const body = [
               header,
+              section('Renamed/Moved', renamedRows, renamedInfo),
               section('Added', addedRows, addedInfo),
               section('Modified', modifiedRows, modifiedInfo),
               section('Deleted', deletedRows, deletedInfo),
@@ -600,10 +652,10 @@ jobs:
               body,
             });
             
-            core.info(`Updated preview comment ${commentId} with ${added.length + modified.length + deleted.length} changed files`);
+            core.info(`Updated preview comment ${commentId} with ${addedFiltered.length + modified.length + deletedFiltered.length + renamedFiles.length} changed files`);
             
             // Add link to PR description if we have preview links and this is the first time
-            if (previewBase && added.length + modified.length > 0) {
+            if (previewBase && (addedFiltered.length + modified.length + renamedFiles.length) > 0) {
               try {
                 const pr = await github.rest.pulls.get({
                   owner: context.repo.owner,
