@@ -642,7 +642,7 @@ Colab のビデオチュートリアルに従うことができます。[こち�
 
 ### 追加のコードなしでインテグレーションがログする内容は？
 
-モデルのチェックポイントを W&B に保存し、今後のRunsで使用するために閲覧またはダウンロードできるようにします。また、GPU使用量やネットワークI/Oなどの[システムメトリクス](/ref/system-metrics)、ハードウェア情報やOS情報などの環境情報、gitコミットやdiffパッチ、ノートブックコンテンツやセッション履歴を含む[コードの状態]({{< relref path="/guides/models/app/features/panels/code.md" lang="ja" >}})、標準出力に印刷されるものをキャプチャします。
+モデルのチェックポイントを W&B に保存し、今後のRunsで使用するために閲覧またはダウンロードできるようにします。また、GPU使用量やネットワークI/Oなどの[システムメトリクス]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ja" >}})、ハードウェア情報やOS情報などの環境情報、gitコミットやdiffパッチ、ノートブックコンテンツやセッション履歴を含む[コードの状態]({{< relref path="/guides/models/app/features/panels/code.md" lang="ja" >}})、標準出力に印刷されるものをキャプチャします。
 
 ### トレーニングセットアップで `wandb.run` を使用する必要がある場合はどうすればいいですか？
 
