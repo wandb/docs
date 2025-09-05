@@ -17,9 +17,14 @@ Navigate to your workspace's settings page to configure metric or configuration-
 4. From the drawer, select **Runs** then select **Key-based colors**.
     - From the **Key** dropdown, select the metric you want to use for assigning colors to runs.
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
+    - Choose from one of the five available continuous color palettes, including colorblind-safe options.
     - Set the the number of buckets to a value from 2 to 8.
 
 The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
+
+{{% alert %}}
+**New in W&B 0.73**: Five new continuous color palettes are now available for metric-based coloring, including options optimized for colorblind accessibility. These palettes provide smooth gradients that remain distinguishable for users with various forms of color vision deficiency.
+{{% /alert %}}
 
 ## Set a metric
 

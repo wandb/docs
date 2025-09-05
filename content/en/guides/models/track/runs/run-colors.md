@@ -43,3 +43,37 @@ To restore the default colors for all runs in the table:
 2. Hover over the **Name** column header, click the three horizontal dots (**...**), and select **Reset colors** from the dropdown menu.
 
 {{< img src="/images/runs/reset-run-colors.png" alt="Reset run colors in project workspace">}}
+
+## Colorblind-safe palettes
+
+W&B now offers two colorblind-safe color palettes to improve accessibility and ensure that your experiments are easily distinguishable by all team members, including those with color vision deficiency.
+
+### Enabling colorblind-safe palettes
+
+To use the colorblind-safe palettes in your workspace:
+
+1. Navigate to your W&B project
+2. Click on the **Workspace** tab from the project sidebar
+3. Click the **Settings** icon (⚙️) in the top right corner
+4. Select **Runs** from the settings drawer
+5. In the **Color Palette** section, choose one of the two colorblind-safe palettes
+
+### Available colorblind-safe palettes
+
+W&B provides two carefully designed colorblind-safe palettes:
+
+- **Colorblind-Safe Palette 1**: Optimized for deuteranopia (red-green color blindness), the most common form of color vision deficiency
+- **Colorblind-Safe Palette 2**: Optimized for protanopia and tritanopia, providing maximum contrast for other forms of color blindness
+
+Both palettes use colors that are distinguishable across different types of color vision deficiency while maintaining visual appeal for users with typical color vision.
+
+### Benefits for accessibility
+
+Using colorblind-safe palettes provides several important benefits:
+
+- **Improved team collaboration**: Ensures all team members can effectively analyze and discuss experiment results, regardless of color vision abilities
+- **Better visual distinction**: Colors are selected to maximize contrast and distinguishability, even on different monitor types and lighting conditions
+- **Professional presentation**: Makes your dashboards and reports accessible for presentations and publications
+- **Inclusive design**: Demonstrates commitment to accessibility, benefiting approximately 8% of men and 0.5% of women who have some form of color vision deficiency
+
+The colorblind-safe palettes work seamlessly with all W&B visualization features, including line plots, scatter plots, parallel coordinates plots, and run tables.
