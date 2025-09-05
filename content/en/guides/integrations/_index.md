@@ -14,17 +14,20 @@ no_list: true
 
 {{% cardpane %}}
 {{% card header="**Keras**" %}}
-<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/keras'" style="cursor: pointer;">
-<img src="/img/Keras_logo.svg" alt="Keras logo" width="160" style="padding-left: 15%;"/></div>
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/keras'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/Keras_logo.svg" alt="Keras logo" width="120"/></div>
 {{% /card %}}
-{{% card header="**PyTorch**" %}}<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/pytorch'" style="cursor: pointer;">
-<img src="/img/Pytorch-svgrepo-com.svg" alt="PyTorch logo" width="120" style="padding-left: 15%;" /></div>
+{{% card header="**PyTorch**" %}}
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/pytorch'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/Pytorch-svgrepo-com.svg" alt="PyTorch logo" width="100"/></div>
 {{% /card %}}
-{{% card header="**Hugging Face**" %}}<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/hugging-face'" style="cursor: pointer;">
-<img src="/img/hf-logo.svg" alt="Hugging Face logo" width="120" style="padding-left: 15%;" /></div>
+{{% card header="**Hugging Face**" %}}
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/hugging-face'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/hf-logo.svg" alt="Hugging Face logo" width="100"/></div>
 {{% /card %}}
-{{% card header="**Open AI**" %}}<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/openai'" style="cursor: pointer;">
-<img src="/img/OpenAI-black-monoblossom.svg" alt="Open AI logo" width="160" style="padding-left: 15%;" /></div>
+{{% card header="**Open AI**" %}}
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/openai'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/OpenAI-black-monoblossom.svg" alt="Open AI logo" width="120"/></div>
 {{% /card %}}
 
 {{% /cardpane %}}
@@ -33,17 +36,20 @@ no_list: true
 <!-- Row two -->
 
 {{% cardpane %}}
-{{% card header="**Amazon SageMaker**" %}}<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/sagemaker'" style="cursor: pointer;">
-<img src="/img/SageMaker.svg" alt="SageMaker logo" width="120" style="padding-left: 15%;" /></div>
+{{% card header="**Amazon SageMaker**" %}}
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/sagemaker'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/SageMaker.svg" alt="SageMaker logo" width="100"/></div>
 {{% /card %}}
-{{% card header="**Scikit-Learn**" %}}<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/sklearn'" style="cursor: pointer;">
-<img src="/img/Scikit_learn_logo_small.svg" alt="Scikit Learn logo" width="120" style="padding-left: 15%;" /></div>
+{{% card header="**Scikit-Learn**" %}}
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/sklearn'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/Scikit_learn_logo_small.svg" alt="Scikit Learn logo" width="100"/></div>
 {{% /card %}}
-{{% card header="**SpaCy**" %}}<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/spacy'" style="cursor: pointer;">
-<img src="/img/SpaCy_logo.svg" alt="SpaCy logo" width="160" style="padding-left: 15%;" /></div>
+{{% card header="**SpaCy**" %}}
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/spacy'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/SpaCy_logo.svg" alt="SpaCy logo" width="120"/></div>
 {{% /card %}}
 {{% card header="**Keras**" %}}
-<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/keras'" style="cursor: pointer;">
-<img src="/img/Keras_logo.svg" alt="Keras logo" width="160" style="padding-left: 15%;"/></div>
+<div onclick="window.location.href='https://wandb.ai/fully-connected/blog/keras'" style="cursor: pointer; display: flex; justify-content: center; align-items: center; height: 120px;">
+<img src="/img/Keras_logo.svg" alt="Keras logo" width="120"/></div>
 {{% /card %}}
 {{% /cardpane %}}
