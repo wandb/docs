@@ -1,275 +1,282 @@
-# Weights & Biases Documentation
+[bep]: https://github.com/bep
+[bugs]: https://github.com/gohugoio/hugo/issues?q=is%3Aopen+is%3Aissue+label%3ABug
+[contributing]: CONTRIBUTING.md
+[create a proposal]: https://github.com/gohugoio/hugo/issues/new?labels=Proposal%2C+NeedsTriage&template=feature_request.md
+[documentation repository]: https://github.com/gohugoio/hugoDocs
+[documentation]: https://gohugo.io/documentation
+[dragonfly bsd, freebsd, netbsd, and openbsd]: https://gohugo.io/installation/bsd
+[features]: https://gohugo.io/about/features/
+[forum]: https://discourse.gohugo.io
+[friends]: https://github.com/gohugoio/hugo/graphs/contributors
+[go]: https://go.dev/
+[hugo modules]: https://gohugo.io/hugo-modules/
+[installation]: https://gohugo.io/installation
+[issue queue]: https://github.com/gohugoio/hugo/issues
+[linux]: https://gohugo.io/installation/linux
+[macos]: https://gohugo.io/installation/macos
+[prebuilt binary]: https://github.com/gohugoio/hugo/releases/latest
+[requesting help]: https://discourse.gohugo.io/t/requesting-help/9132
+[spf13]: https://github.com/spf13
+[static site generator]: https://en.wikipedia.org/wiki/Static_site_generator
+[support]: https://discourse.gohugo.io
+[themes]: https://themes.gohugo.io/
+[website]: https://gohugo.io
+[windows]: https://gohugo.io/installation/windows
 
-The Weights & Biases Docs ([https://docs.wandb.ai/](https://docs.wandb.ai/)) is built using Docsy, a technical documentation theme for Hugo, a static website generator. The high level overview of the doc writing process is:
+<a href="https://gohugo.io/"><img src="https://raw.githubusercontent.com/gohugoio/gohugoioTheme/master/static/images/hugo-logo-wide.svg?sanitize=true" alt="Hugo" width="565"></a>
 
-1. Edit the desired files
-2. Create a pull request proposing your changes
-3. Confirm changes don’t break the docs, which will be tested by CI
-4. Respond to feedback from the W&B docs team and CI checks
+A fast and flexible static site generator built with love by [bep], [spf13], and [friends] in [Go].
 
-After this, someone from the docs team will merge the PR and it will go live in a matter of minutes!
+---
 
-## Quickstart
+[![GoDoc](https://godoc.org/github.com/gohugoio/hugo?status.svg)](https://godoc.org/github.com/gohugoio/hugo)
+[![Tests on Linux, MacOS and Windows](https://github.com/gohugoio/hugo/workflows/Test/badge.svg)](https://github.com/gohugoio/hugo/actions?query=workflow%3ATest)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gohugoio/hugo)](https://goreportcard.com/report/github.com/gohugoio/hugo)
 
-This section shows how to edit a page or report a bug from within your browser without cloning the repository or installing anything locally. To edit multiple files or build the documentation locally, refer to the [Prerequisites](#prerequisites) and the following sections.
+[Website] | [Installation] | [Documentation] | [Support] | [Contributing] | <a rel="me" href="https://fosstodon.org/@gohugoio">Mastodon</a>
 
-### Edit a page
+## Overview
 
-1. To edit a page you're reading on docs.wandb.com, scroll to the bottom of the page and click **Edit page** to open the Markdown file in the GitHub editor.
+Hugo is a [static site generator] written in [Go], optimized for speed and designed for flexibility. With its advanced templating system and fast asset pipelines, Hugo renders a complete site in seconds, often less.
 
-   To edit a page from https://github.com/wandb/docs, browse to or search for the page, then click the pencil icon to open the Markdown file in the GitHub editor.
-1. Edit the page, then click **Commit changes**. In the dialog, choose to create a new branch, then specify:
-  - A name for the branch
-  - A commit message that describes the change. By default, this becomes the pull request title.
-  - An optional extended descrption. By default, this becomes the pull request body.
-1. Click **Propose change**. A new branch is created with the commit you just created. A new dialog opens where you can create a pull request.
-1. Optionally edit the pull request's title and description. Markdown is allowed. You can refer to a PR or issue by number or URL, and you can refer to a JIRA issue by its ID.
-1. Click **Create pull request**. A member of @docs-team reviews your changes, provides feedback, and works with you to merge the change.
+Due to its flexible framework, multilingual support, and powerful taxonomy system, Hugo is widely used to create:
 
-### Report a bug
+- Corporate, government, nonprofit, education, news, event, and project sites
+- Documentation sites
+- Image portfolios
+- Landing pages
+- Business, professional, and personal blogs
+- Resumes and CVs
 
-If you work for Weights & Biases, file a doc JIRA, using this template: https://wandb.atlassian.net/secure/CreateIssueDetails!init.jspa?priority=3&pid=10026&issuetype=10047.
+Use Hugo's embedded web server during development to instantly see changes to content, structure, behavior, and presentation. Then deploy the site to your host, or push changes to your Git provider for automated builds and deployment.
 
+Hugo's fast asset pipelines include:
 
-To report a bug on a page you're reading on docs.wandb.com:
-1. Scroll to the bottom of the page and click **Report issue**.
-1. Provide a title and optionally edit the description, then click **Create**.
+- Image processing &ndash; Convert, resize, crop, rotate, adjust colors, apply filters, overlay text and images, and extract EXIF data
+- JavaScript bundling &ndash; Transpile TypeScript and JSX to JavaScript, bundle, tree shake, minify, create source maps, and perform SRI hashing.
+- Sass processing &ndash; Transpile Sass to CSS, bundle, tree shake, minify, create source maps, perform SRI hashing, and integrate with PostCSS
+- Tailwind CSS processing &ndash; Compile Tailwind CSS utility classes into standard CSS, bundle, tree shake, optimize, minify, perform SRI hashing, and integrate with PostCSS
 
-To report a bug from https://github.com/wandb/docs:
-1. Click the **Issues** tab.
-1. Click **New issue**. Optionally select a template, then click **Create**.
-1. Provide a title and a description. If applicable, include the URL of the page with the bug. Click **Create**.
+And with [Hugo Modules], you can share content, assets, data, translations, themes, templates, and configuration with other projects via public or private Git repositories.
 
-## Prerequisites
+See the [features] section of the documentation for a comprehensive summary of Hugo's capabilities.
 
-A current version of NodeJS is required; ideally, something newer than version 20. If you still need to use an old version of node for other projects, we suggest using `nvm` and setting up version 20 using that, which you can swap into with the `use` command:
+## Sponsors
 
-```
-nvm install 20
-nvm use 20
-```
+<p>&nbsp;</p>
+<p float="left">
+  <a href="https://www.linode.com/?utm_campaign=hugosponsor&utm_medium=banner&utm_source=hugogithub" target="_blank"><img src="https://raw.githubusercontent.com/gohugoio/hugoDocs/master/assets/images/sponsors/linode-logo_standard_light_medium.png" width="200" alt="Linode"></a>
+&nbsp;&nbsp;&nbsp;
+  <a href="https://www.jetbrains.com/go/?utm_source=OSS&utm_medium=referral&utm_campaign=hugo" target="_blank"><img src="https://raw.githubusercontent.com/gohugoio/hugoDocs/master/assets/images/sponsors/goland.svg" width="200" alt="The complete IDE crafted for professional Go developers."></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://pinme.eth.limo/?s=hugo" target="_blank"><img src="https://raw.githubusercontent.com/gohugoio/hugoDocs/master/assets/images/sponsors/logo-pinme.svg" width="200" alt="PinMe."></a>
+</p>
 
-### macOS
+## Editions
 
-After cloning this repo, `cd` into your local clone directory and these commands:
+Hugo is available in three editions: standard, extended, and extended/deploy. While the standard edition provides core functionality, the extended and extended/deploy editions offer advanced features.
 
-```
-brew install go
-brew install hugo
-brew install npm
-npm install
-hugo mod get -u
-```
+Feature|extended edition|extended/deploy edition
+:--|:-:|:-:
+Encode to the WebP format when [processing images]. You can decode WebP images with any edition.|:heavy_check_mark:|:heavy_check_mark:
+[Transpile Sass to CSS] using the embedded LibSass transpiler. You can use the [Dart Sass] transpiler with any edition.|:heavy_check_mark:|:heavy_check_mark:
+Deploy your site directly to a Google Cloud Storage bucket, an AWS S3 bucket, or an Azure Storage container. See&nbsp;[details].|:x:|:heavy_check_mark:
 
-The last lines critical, as it downloads Hugo, the [Docsy](https://docsy.dev) module for Hugo, and the dependencies of each.
+[dart sass]: https://gohugo.io/functions/css/sass/#dart-sass
+[processing images]: https://gohugo.io/content-management/image-processing/
+[transpile sass to css]: https://gohugo.io/functions/css/sass/
+[details]: https://gohugo.io/hosting-and-deployment/hugo-deploy/
 
-## Running the website locally
+Unless your specific deployment needs require the extended/deploy edition, we recommend the extended edition.
 
-```bash
-hugo server
-```
+## Installation
 
-## Exiting `hugo server`
+Install Hugo from a [prebuilt binary], package manager, or package repository. Please see the installation instructions for your operating system:
 
-Hit `CTRL+C` in the terminal that is showing `hugo` activity to interrupt the server and exit to the terminal prompt.
+- [macOS]
+- [Linux]
+- [Windows]
+- [DragonFly BSD, FreeBSD, NetBSD, and OpenBSD]
 
-## Hugo and Docsy shortcodes
+## Build from source
 
-- We use Docsy's `alert` shortcode for admonitions. The alert `color` determines the admonition type. Refer to [alerts](https://www.docsy.dev/docs/adding-content/shortcodes/#alert) for details. Examples:
-    ```markdown
-    {{% alert %}}
-    Only **public** reports are viewable when embedded.
-    {{% /alert %}}
-    ```
-    ```markdown
-    {{% alert title="Undo changes to your workspace" %}}
-    Select the undo button (arrow that points left) to undo any unwanted changes.
-    {{% /alert %}}
-    ```
-    ```markdown
-    {{% alert title="Warning" color="warning" %}}
-    This is a warning.
-    {{% /alert %}}
-    ```
-- We use Docsy's `tabpane` and `tab` shortcodes for tabbed content. Refer to [tabpane](https://www.docsy.dev/docs/adding-content/shortcodes/#tabpane) for details. Example:
-    ```markdown
-    {{< tabpane text=true >}}
-      {{% tab header="GitHub repository dispatch" value="github" %}}
-        ... Markdown contents ...
-      {{% /tab %}}
+Prerequisites to build Hugo from source:
 
-      {{% tab header="Microsoft Teams notification" value="microsoft"%}}
-        ... Markdown contents ...
-      {{% /tab %}}
-    {{< /tabpane >}}
-    ```
-- We use a custom `img` shortcode for images. It is implemented in `layouts/shortcodes/img.html`.  Examples:
-    ```markdown
-    {{< img src="/images/app_ui/automated_workspace.svg" >}}
-    ```
-    ```markdown
-    {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" >}}
-    ```
-    ```markdown
-    {{< img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px" >}}
-    ```
-    ```markdown
-    {{< img src="/images/app_ui/demo_make_a_custom_chart_bar_chart.gif" alt="Creating a custom bar chart showing accuracy across runs in a project" max-width="90%" >}}
-    ```
-- We use a custom `ctabutton` shortcode to link to Colab notebooks. It is implemented in `layouts/shortcodes/cta-button.html`. Examples:
-    ```markdown
-    {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb" >}}
-    ```
-- We use a custom `prism` shortcode to load titled code examples from `static/` within the docs repo. Example for a file stored in `static/webhook_test.sh`:
-    ```markdown
-    {{< prism file="/webhook_test.sh" title="webhook_test.sh">}}{{< /prism >}}
-    ```
-- We are _experimenting_ with using `readfile` for includes. If you run into issues, report it in a Github issue.
+- Standard edition: Go 1.23.0 or later
+- Extended edition: Go 1.23.0 or later, and GCC
+- Extended/deploy edition: Go 1.23.0 or later, and GCC
 
-    Add a Markdown file with no front matter to `content/_includes/`. Subdirectories are supported. Include the file using the [`readfile`](https://www.docsy.dev/docs/adding-content/shortcodes/#reuse-documentation) shortcode. For example:
-    ```markdown
-    {{< readfile file="/_includes/enterprise-only.md" >}}
-    ```
+Build the standard edition:
 
-    - If you change an include, the `hugo serve` incremental build does not pick up the change. Stop and restart `hugo serve`.
-    - Hugo and Docsy shortcodes are **not** supported inside the include file.
-## Editing style
-
-Style overrides are in `/assets/scss/_variables_project.scss`. Here we can override all the styles that ship with the Docsy theme. O
-
-## Troubleshooting
-
-As you run the website locally, you may run into the following error:
-
-```console
-$ hugo server
-WARN 2023/06/27 16:59:06 Module "project" is not compatible with this Hugo version; run "hugo mod graph" for more information.
-Start building sites …
-hugo v0.101.0-466fa43c16709b4483689930a4f9ac8add5c9f66+extended windows/amd64 BuildDate=2022-06-16T07:09:16Z VendorInfo=gohugoio
-Error: Error building site: "C:\Users\foo\path\to\docsy-example\content\en\_index.md:5:1": failed to extract shortcode: template for shortcode "blocks/cover" not found
-Built in 27 ms
+```text
+go install github.com/gohugoio/hugo@latest
 ```
 
-This error occurs if you are running an outdated version of Hugo. As of docsy theme version `v0.7.0`, hugo version `0.110.0` or higher is required.
-See this [section](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/#install-hugo) of the user guide for instructions on how to install Hugo.
+Build the extended edition:
 
-Or you may be confronted with the following error:
-
-```console
-$ hugo server
-
-INFO 2021/01/21 21:07:55 Using config file:
-Building sites … INFO 2021/01/21 21:07:55 syncing static files to /
-Built in 288 ms
-Error: Error building site: TOCSS: failed to transform "scss/main.scss" (text/x-scss): resource "scss/scss/main.scss_9fadf33d895a46083cdd64396b57ef68" not found in file cache
+```text
+CGO_ENABLED=1 go install -tags extended github.com/gohugoio/hugo@latest
 ```
 
-This error occurs if you have not installed the extended version of Hugo.
-See this [section](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/#install-hugo) of the user guide for instructions on how to install Hugo.
+Build the extended/deploy edition:
 
-Or you may encounter the following error:
-
-```console
-$ hugo server
-
-Error: failed to download modules: binary with name "go" not found
+```text
+CGO_ENABLED=1 go install -tags extended,withdeploy github.com/gohugoio/hugo@latest
 ```
 
-This error occurs if you have not installed the `go` programming language on your system.
-See this [section](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/#install-go-language) of the user guide for instructions on how to install `go`.
+## Star History
 
+[![Star History Chart](https://api.star-history.com/svg?repos=gohugoio/hugo&type=Timeline)](https://star-history.com/#gohugoio/hugo&Timeline)
 
-[alternate dashboard]: https://app.netlify.com/sites/goldydocs/deploys
-[deploys]: https://app.netlify.com/sites/docsy-example/deploys
-[Docsy user guide]: https://docsy.dev/docs
-[Docsy]: https://github.com/google/docsy
-[example.docsy.dev]: https://example.docsy.dev
-[Hugo theme module]: https://gohugo.io/hugo-modules/use-modules/#use-a-module-for-a-theme
-[Netlify]: https://netlify.com
-[Docker Compose documentation]: https://docs.docker.com/compose/gettingstarted/
+## Documentation
 
+Hugo's [documentation] includes installation instructions, a quick start guide, conceptual explanations, reference information, and examples.
 
-## How to edit the docs locally
+Please submit documentation issues and pull requests to the [documentation repository].
 
-1. Navigate to your local clone this repo and pull the latest changes from main:
+## Support
 
-```bash
-git pull origin main
+Please **do not use the issue queue** for questions or troubleshooting. Unless you are certain that your issue is a software defect, use the [forum].
+
+Hugo’s [forum] is an active community of users and developers who answer questions, share knowledge, and provide examples. A quick search of over 20,000 topics will often answer your question. Please be sure to read about [requesting help] before asking your first question.
+
+## Contributing
+
+You can contribute to the Hugo project by:
+
+- Answering questions on the [forum]
+- Improving the [documentation]
+- Monitoring the [issue queue]
+- Creating or improving [themes]
+- Squashing [bugs]
+
+Please submit documentation issues and pull requests to the [documentation repository].
+
+If you have an idea for an enhancement or new feature, create a new topic on the [forum] in the "Feature" category. This will help you to:
+
+- Determine if the capability already exists
+- Measure interest
+- Refine the concept
+
+If there is sufficient interest, [create a proposal]. Do not submit a pull request until the project lead accepts the proposal.
+
+For a complete guide to contributing to Hugo, see the [Contribution Guide](CONTRIBUTING.md).
+
+## Dependencies
+
+Hugo stands on the shoulders of great open source libraries. Run `hugo env --logLevel info` to display a list of dependencies.
+
+<details>
+<summary>See current dependencies</summary>
+
+```text
+github.com/BurntSushi/locker="v0.0.0-20171006230638-a6e239ea1c69"
+github.com/PuerkitoBio/goquery="v1.10.1"
+github.com/alecthomas/chroma/v2="v2.15.0"
+github.com/andybalholm/cascadia="v1.3.3"
+github.com/armon/go-radix="v1.0.1-0.20221118154546-54df44f2176c"
+github.com/bep/clocks="v0.5.0"
+github.com/bep/debounce="v1.2.0"
+github.com/bep/gitmap="v1.6.0"
+github.com/bep/goat="v0.5.0"
+github.com/bep/godartsass/v2="v2.3.2"
+github.com/bep/golibsass="v1.2.0"
+github.com/bep/gowebp="v0.3.0"
+github.com/bep/imagemeta="v0.8.4"
+github.com/bep/lazycache="v0.7.0"
+github.com/bep/logg="v0.4.0"
+github.com/bep/mclib="v1.20400.20402"
+github.com/bep/overlayfs="v0.9.2"
+github.com/bep/simplecobra="v0.5.0"
+github.com/bep/tmc="v0.5.1"
+github.com/cespare/xxhash/v2="v2.3.0"
+github.com/clbanning/mxj/v2="v2.7.0"
+github.com/cpuguy83/go-md2man/v2="v2.0.4"
+github.com/disintegration/gift="v1.2.1"
+github.com/dlclark/regexp2="v1.11.5"
+github.com/dop251/goja="v0.0.0-20250125213203-5ef83b82af17"
+github.com/evanw/esbuild="v0.24.2"
+github.com/fatih/color="v1.18.0"
+github.com/frankban/quicktest="v1.14.6"
+github.com/fsnotify/fsnotify="v1.8.0"
+github.com/getkin/kin-openapi="v0.129.0"
+github.com/ghodss/yaml="v1.0.0"
+github.com/go-openapi/jsonpointer="v0.21.0"
+github.com/go-openapi/swag="v0.23.0"
+github.com/go-sourcemap/sourcemap="v2.1.4+incompatible"
+github.com/gobuffalo/flect="v1.0.3"
+github.com/gobwas/glob="v0.2.3"
+github.com/gohugoio/go-i18n/v2="v2.1.3-0.20230805085216-e63c13218d0e"
+github.com/gohugoio/hashstructure="v0.5.0"
+github.com/gohugoio/httpcache="v0.7.0"
+github.com/gohugoio/hugo-goldmark-extensions/extras="v0.2.0"
+github.com/gohugoio/hugo-goldmark-extensions/passthrough="v0.3.0"
+github.com/gohugoio/locales="v0.14.0"
+github.com/gohugoio/localescompressed="v1.0.1"
+github.com/golang/freetype="v0.0.0-20170609003504-e2365dfdc4a0"
+github.com/google/go-cmp="v0.6.0"
+github.com/google/pprof="v0.0.0-20250208200701-d0013a598941"
+github.com/gorilla/websocket="v1.5.3"
+github.com/hairyhenderson/go-codeowners="v0.7.0"
+github.com/hashicorp/golang-lru/v2="v2.0.7"
+github.com/jdkato/prose="v1.2.1"
+github.com/josharian/intern="v1.0.0"
+github.com/kr/pretty="v0.3.1"
+github.com/kr/text="v0.2.0"
+github.com/kyokomi/emoji/v2="v2.2.13"
+github.com/lucasb-eyer/go-colorful="v1.2.0"
+github.com/mailru/easyjson="v0.7.7"
+github.com/makeworld-the-better-one/dither/v2="v2.4.0"
+github.com/marekm4/color-extractor="v1.2.1"
+github.com/mattn/go-colorable="v0.1.13"
+github.com/mattn/go-isatty="v0.0.20"
+github.com/mattn/go-runewidth="v0.0.9"
+github.com/mazznoer/csscolorparser="v0.1.5"
+github.com/mitchellh/mapstructure="v1.5.1-0.20231216201459-8508981c8b6c"
+github.com/mohae/deepcopy="v0.0.0-20170929034955-c48cc78d4826"
+github.com/muesli/smartcrop="v0.3.0"
+github.com/niklasfasching/go-org="v1.7.0"
+github.com/oasdiff/yaml3="v0.0.0-20241210130736-a94c01f36349"
+github.com/oasdiff/yaml="v0.0.0-20241210131133-6b86fb107d80"
+github.com/olekukonko/tablewriter="v0.0.5"
+github.com/pbnjay/memory="v0.0.0-20210728143218-7b4eea64cf58"
+github.com/pelletier/go-toml/v2="v2.2.3"
+github.com/perimeterx/marshmallow="v1.1.5"
+github.com/pkg/browser="v0.0.0-20240102092130-5ac0b6a4141c"
+github.com/pkg/errors="v0.9.1"
+github.com/rivo/uniseg="v0.4.7"
+github.com/rogpeppe/go-internal="v1.13.1"
+github.com/russross/blackfriday/v2="v2.1.0"
+github.com/sass/libsass="3.6.6"
+github.com/spf13/afero="v1.11.0"
+github.com/spf13/cast="v1.7.1"
+github.com/spf13/cobra="v1.8.1"
+github.com/spf13/fsync="v0.10.1"
+github.com/spf13/pflag="v1.0.6"
+github.com/tdewolff/minify/v2="v2.20.37"
+github.com/tdewolff/parse/v2="v2.7.15"
+github.com/tetratelabs/wazero="v1.8.2"
+github.com/webmproject/libwebp="v1.3.2"
+github.com/yuin/goldmark-emoji="v1.0.4"
+github.com/yuin/goldmark="v1.7.8"
+go.uber.org/automaxprocs="v1.5.3"
+golang.org/x/crypto="v0.33.0"
+golang.org/x/exp="v0.0.0-20250210185358-939b2ce775ac"
+golang.org/x/image="v0.24.0"
+golang.org/x/mod="v0.23.0"
+golang.org/x/net="v0.35.0"
+golang.org/x/sync="v0.11.0"
+golang.org/x/sys="v0.30.0"
+golang.org/x/text="v0.22.0"
+golang.org/x/tools="v0.30.0"
+golang.org/x/xerrors="v0.0.0-20240903120638-7835f813f4da"
+gonum.org/v1/plot="v0.15.0"
+google.golang.org/protobuf="v1.36.5"
+gopkg.in/yaml.v2="v2.4.0"
+gopkg.in/yaml.v3="v3.0.1"
+oss.terrastruct.com/d2="v0.6.9"
+oss.terrastruct.com/util-go="v0.0.0-20241005222610-44c011a04896"
+rsc.io/qr="v0.2.0"
+software.sslmate.com/src/go-pkcs12="v0.2.0"
 ```
-
-2. Create a feature branch off of `main`.
-
-```bash
-git checkout -b <your-feature-branch>
-```
-
-3. After installing the prerequsites documented above, start a local preview of the docs.
-
-```bash
-hugo server
-```
-
-This will return the localhost URL and port number where you can preview your changes to the docs as you make them (e.g. `https://localhost:1313`).
-
-4. Make your changes on the new branch.
-5. Check your changes are rendered correctly. Any time you save a file, the preview should automatically update.
-7. Commit the changes to the branch.
-
-```bash
-git add .
-git commit -m 'Useful commit message.'
-```
-
-8. Push the branch to GitHub.
-
-```bash
-git push origin <your-feature-branch>
-```
-
-9. Open a pull request from the new branch to the original repo.
-
-
-## What files do I edit?
-
-There are two types of docs in our Docs site: Developer Guide and the API Reference Guide.
-
-### Developer Guide
-
-All markdown files for the [W&B Developer Guide](https://docs.wandb.ai/) are stored in:
-
-```bash
-content/guides/
-```
-
-The PR you create will get reviewed and (if approved) merged by the Docs Team.
-
-### API Reference Guide
-
-All markdown files for the [W&B API Reference Guide](https://docs.wandb.ai/ref) are stored in:
-
-```bash
-content/ref
-```
-
-The markdown files are generated from docstrings in https://github.com/wandb/wandb. Modify the docstring from the appropriate Python Class, function, or CLI definition to update the public-facing documentation API.
-
-Once you are done, create a pull request from https://github.com/wandb/wandb. The PR you create will get reviewed and (if approved) merged by the SDK Team. The Docs are updated when the W&B SDK Team makes an W&BSDK Release. SDK Releases occur about every 2-4 weeks.
-
-## License
-
-The source for this documentation is offered under the Apache 2.0 license. 
-
-## Notices
-
-- [LICENSE](LICENSE)
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- [CONTRIBUTING.md](CONTRIBUTING.md)
-- [SECURITY.md](SECURITY.md)
-- [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)
-
-## Attributions
-
-- This project uses Docsy, a Hugo theme by Google. [License](https://github.com/google/docsy/blob/main/LICENSE)
-- A dependency of Docsy is the `caniuse-lite` package, offered under CC-BY-4.0. [License](https://github.com/browserslist/caniuse-lite/blob/main/LICENSE)
-- Another dependency of Docsy is Font Awesome Free, offered under the CC-BY-4.0, SIL OFL 1.1, and MIT licenses. [License notice](https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
-- This site is built using Hugo, a static site generator. [License](https://github.com/gohugoio/hugo/blob/master/LICENSE)
+</details>
