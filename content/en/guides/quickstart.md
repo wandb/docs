@@ -40,14 +40,18 @@ To authenticate your machine with W&B, generate an API key from your user profil
 
 {{% tab header="Python" value="python" %}}
 
+Navigate to your terminal and run the following command:
 ```bash
 pip install wandb
 ```
-```python
-import wandb
 
-wandb.login()
-```
+Within your Python script, import the `wandb` library:
+
+{{< code language="python" source="/code_examples/snippets/quickstart.snippet.import.py" >}}
+
+Next, log in to W&B using the `wandb.login()` method:
+
+{{< code language="python" source="/code_examples/snippets/quickstart.snippet.login.py" >}}
 
 {{% /tab %}}
 
@@ -66,15 +70,7 @@ wandb.login()
 
 In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref "/ref/python/sdk/classes/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
 
-```python
-run = wandb.init(
-    project="my-awesome-project",  # Specify your project
-    config={                        # Track hyperparameters and metadata
-        "learning_rate": 0.01,
-        "epochs": 10,
-    },
-)
-```
+{{< code language="python" source="/code_examples/snippets/quickstart.snippet.init.py" >}}
 
 A [run]({{< relref "/guides/models/track/runs/" >}}) serves as the core element of W&B, used to [track metrics]({{< relref "/guides/models/track/" >}}), [create logs]({{< relref "/guides/models/track/log/" >}}), and more.
 
@@ -82,32 +78,7 @@ A [run]({{< relref "/guides/models/track/runs/" >}}) serves as the core element 
 
 This mock training script logs simulated accuracy and loss metrics to W&B:
 
-```python
-import wandb
-import random
-
-wandb.login()
-
-# Project that the run is recorded to
-project = "my-awesome-project"
-
-# Dictionary with hyperparameters
-config = {
-    'epochs' : 10,
-    'lr' : 0.01
-}
-
-with wandb.init(project=project, config=config) as run:
-    offset = random.random() / 5
-    print(f"lr: {config['lr']}")
-    
-    # Simulate a training run
-    for epoch in range(2, config['epochs']):
-        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
-        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
-        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
-        run.log({"accuracy": acc, "loss": loss})
-```
+{{< code language="python" source="/code_examples/snippets/quickstart.snippet.all.py" >}}
 
 Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
