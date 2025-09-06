@@ -1,6 +1,6 @@
 ---
 title: "W&B Inference"
-weight: 8
+weight: 4
 description: >
   Access open-source foundation models through W&B Weave and an OpenAI-compatible API
 ---
