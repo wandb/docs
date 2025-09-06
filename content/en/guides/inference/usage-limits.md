@@ -16,7 +16,7 @@ For detailed model pricing information, visit [W&B Inference pricing](https://wa
 
 W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Enterprise availability may vary. When credits run out:
 
-- **Free accounts** must upgrade to a paid plan to continue using W&B Inference. [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
+- **Free accounts** must activate a pay-as-you-go inference (under the **Billing** tab), or upgrade to a paid plan to continue using W&B Inference. [Activate pay-as-you-go or upgrade](https://wandb.ai/subscriptions)
 - **Pro plan users** are billed for overages monthly, based on [model-specific pricing](https://wandb.ai/site/pricing/inference)
 - **Enterprise accounts** should contact their account executive
 

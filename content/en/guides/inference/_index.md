@@ -53,8 +53,8 @@ print(response.choices[0].message.content)
 {{< alert title="Important" color="warning" >}}
 W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Availability may vary for Enterprise accounts. When credits run out:
 
-- **Free users** must upgrade to a paid plan to continue using Inference.  
-  [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
+- **Free users** must activate a pay-as-you-go inference subscription or upgrade to a paid plan to continue using W&B Inference.  
+  [Activate pay-as-you-go or upgrade](https://wandb.ai/subscriptions)
 - **Pro users** are billed monthly for usage beyond free credits, up to a default cap of $6,000/month. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
 - **Enterprise usage** is capped at $700,000/year. Your account executive handles billing and limit increases. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
 
