@@ -79,7 +79,7 @@ jobs:
       - name: Create or find preview comment
         if: steps.changed.outputs.any_changed == 'true'
         id: find-comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // First, check if our comment already exists
@@ -114,7 +114,7 @@ jobs:
       - name: Find Cloudflare Branch Preview URL
         if: steps.changed.outputs.any_changed == 'true'
         id: find-preview
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             function htmlDecode(s) {
@@ -224,7 +224,7 @@ jobs:
 
       - name: Update PR comment with preview links
         if: steps.changed.outputs.any_changed == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           ADDED: ${{ steps.changed.outputs.added_files }}
           MODIFIED: ${{ steps.changed.outputs.modified_files }}
