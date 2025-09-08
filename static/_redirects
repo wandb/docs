@@ -41,7 +41,7 @@
 /app/features/panels/ /guides/app/features/panels/ 301
 /app/features/sidebar/ /guides/app/features/runs-table#add-sidebar-columns/ 301
 /app/features/sweeps/ /guides/sweeps/ 301
-/app/features/system-metrics/ /guides/app/features/system-metrics/ 301
+/app/features/system-metrics/ /guides/models/system-metrics/ 301
 /app/features/tags/ /guides/app/features/tags/ 301
 /app/features/teams/ /guides/app/features/teams/ 301
 /app/features/ /guides/models/ 301
@@ -162,7 +162,7 @@
 /guides/hosting/slack-alerts/ /guides/hosting/monitoring-usage/slack-alerts/ 301
 /guides/hosting/sso/ /guides/hosting/iam/sso/ 301
 /guides/hosting/system-admin/ /guides/hosting/ 301
-/guides/models/app/settings-page/system-metrics/ /ref/system-metrics/ 301
+/guides/models/app/settings-page/system-metrics/ /guides/models/system-metrics/ 301
 /guides/integrations/boosting/ /guides/integrations/ 301
 /guides/integrations/fastai/v2/ /guides/integrations/fastai/ 301
 /guides/integrations/jax/ /guides/integrations/ 301
@@ -337,7 +337,7 @@
 /ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/weave/embedding-projector/ 301
 /ref/app/features/runs-table/ /guides/app/features/runs-table/ 301
 /ref/app/features/sweeps/ /guides/sweeps/ 301
-/ref/app/features/system-metrics/ /guides/app/features/system-metrics/ 301
+/ref/app/features/system-metrics/ /guides/models/system-metrics/ 301
 /ref/app/features/tags/ /guides/app/features/tags/ 301
 /ref/app/features/teams/ /guides/app/features/teams/ 301
 /ref/app/features/ /guides/app/features/ 301
