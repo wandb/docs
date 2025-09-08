@@ -162,6 +162,7 @@
 /guides/hosting/slack-alerts/ /guides/hosting/monitoring-usage/slack-alerts/ 301
 /guides/hosting/sso/ /guides/hosting/iam/sso/ 301
 /guides/hosting/system-admin/ /guides/hosting/ 301
+/guides/models/app/settings-page/system-metrics/ /ref/system-metrics/ 301
 /guides/integrations/boosting/ /guides/integrations/ 301
 /guides/integrations/fastai/v2/ /guides/integrations/fastai/ 301
 /guides/integrations/jax/ /guides/integrations/ 301
