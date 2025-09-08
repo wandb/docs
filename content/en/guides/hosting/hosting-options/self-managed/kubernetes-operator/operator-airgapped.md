@@ -197,8 +197,6 @@ spec:
         password: password
         port: 3306
         user: wandb
-      extraEnv:
-        ENABLE_REGISTRY_UI: 'true'
     
     # If install: true, Helm installs a MySQL database for the deployment to use. Set to `false` to use your own external MySQL deployment.
     mysql:
