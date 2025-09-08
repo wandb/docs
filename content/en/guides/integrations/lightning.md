@@ -644,7 +644,7 @@ The core integration is based on the [Lightning `loggers` API](https://pytorch-l
 
 ### What does the integration log without any additional code?
 
-We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}), like GPU usage and network I/O, environment information, like hardware and OS information, [code state]({{< relref "/guides/models/app/features/panels/code.md" >}}) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
+We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics]({{< relref "/ref/system-metrics.md" >}}), like GPU usage and network I/O, environment information, like hardware and OS information, [code state]({{< relref "/guides/models/app/features/panels/code.md" >}}) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
 
 ### What if I need to use `wandb.run` in my training setup?
 
