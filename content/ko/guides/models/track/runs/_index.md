@@ -409,7 +409,7 @@ Runs 탭을 사용자 지정하면 사용자 지정이 [Workspace 탭]({{< relre
 ### System 탭
 **System 탭**은 CPU 사용률, 시스템 메모리, 디스크 I/O, 네트워크 트래픽, GPU 사용률 등과 같은 특정 run에 대해 추적된 시스템 메트릭을 보여줍니다.
 
-W&B가 추적하는 시스템 메트릭의 전체 목록은 [시스템 메트릭]({{< relref path="/guides/models/app/settings-page/system-metrics.md" lang="ko" >}})을 참조하십시오.
+W&B가 추적하는 시스템 메트릭의 전체 목록은 [시스템 메트릭](/ref/system-metrics)을 참조하십시오.
 
 {{< img src="/images/app_ui/wandb_system_utilization.png" alt="" >}}
 
