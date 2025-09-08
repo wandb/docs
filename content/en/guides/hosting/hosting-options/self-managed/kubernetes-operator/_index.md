@@ -379,7 +379,7 @@ This section describes the configuration options for W&B Server application. The
 
 The documentation has two lists of environment variables: [basic]({{< relref "/guides/hosting/env-vars.md" >}}) and [advanced]({{< relref "/guides/hosting/iam/advanced_env_vars.md" >}}). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
 
-The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
+This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -404,10 +404,10 @@ spec:
         <redacted>
 ```
 
-Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml), and change only those values you need to override.
+Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml). **Change only those values you need to override**.
 
 ### Complete example 
-This is an example configuration that uses GCP Kubernetes with GCP Ingress and GCS (GCP Object storage):
+This example configuration deploys W&B to GCP Anthos using Google Cloud Storage:
 
 ```yaml
 apiVersion: apps.wandb.com/v1
