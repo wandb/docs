@@ -24,7 +24,7 @@ To authenticate your machine with W&B, you must first generate an API key at htt
 Install the W&B Report and Workspaces library.
 
 ```
-pip install wandb_workspaces
+pip install wandb-workspaces
 ```
 
 ### Import W&B Python SDK:
