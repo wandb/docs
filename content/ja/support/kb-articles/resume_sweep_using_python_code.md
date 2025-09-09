@@ -1,16 +1,17 @@
 ---
-title: Python コードを使って sweep を再開するにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-resume_sweep_using_python_code
 support:
-  - sweeps
-  - python
+- sweeps
+- python
+title: How can I resume a sweep using Python code?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。
+
+To resume a sweep, pass the `sweep_id` to the `wandb.agent()` function. 
 
 ```python
 import wandb
@@ -18,7 +19,7 @@ import wandb
 sweep_id = "your_sweep_id"
 
 def train():
-    # トレーニングコードはこちら
+    # Training code here
     pass
 
 wandb.agent(sweep_id=sweep_id, function=train)

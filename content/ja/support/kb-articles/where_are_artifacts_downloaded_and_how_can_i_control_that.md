@@ -1,29 +1,27 @@
 ---
-title: アーティファクトはどこにダウンロードされ、どうやってそれを制御できますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-where_are_artifacts_downloaded_and_how_can_i_control_that
+    identifier: ja-support-kb-articles-where_are_artifacts_downloaded_and_how_can_i_control_that
 support:
-  - artifacts
-  - environment variables
+- artifacts
+- environment variables
+title: Where are artifacts downloaded, and how can I control that?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-デフォルトでは、Artifacts は `artifacts/` フォルダにダウンロードされます。場所を変更するには次のようにします。
 
-- [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) に渡します:
+By default, artifacts download to the `artifacts/` folder. To change the location:
+
+- Pass it to [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}):
 
     ```python
-    # ダウンロードのためのパスを指定します
     wandb.Artifact().download(root="<path_to_download>")
     ```
 
-- `WANDB_ARTIFACT_DIR` [環境変数]({{< relref path="guides/models/track/environment-variables.md" lang="ja" >}}) を設定します:
+- Set the `WANDB_ARTIFACT_DIR` [environment variable]({{< relref path="guides/models/track/environment-variables.md" lang="ja" >}}):
 
     ```python
-    # 環境変数を設定します
     import os
     os.environ["WANDB_ARTIFACT_DIR"] = "<path_to_download>"
     ```

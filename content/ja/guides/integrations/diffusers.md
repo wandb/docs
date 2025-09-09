@@ -1,69 +1,69 @@
 ---
-title: Hugging Face Diffusers
 menu:
   default:
     identifier: ja-guides-integrations-diffusers
     parent: integrations
+title: Hugging Face Diffusers
 weight: 120
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
 
-[Hugging Face Diffusers](https://huggingface.co/docs/diffusers) は、画像、オーディオ、さらには分子の3D構造を生成するための最先端の学習済み拡散モデルのためのライブラリです。W&B インテグレーションは、柔軟な実験管理、メディア可視化、パイプライン アーキテクチャー、および設定管理をインタラクティブで集中化されたダッシュボードに追加し、使いやすさを損ないません。
+[Hugging Face Diffusers](https://huggingface.co/docs/diffusers) is the go-to library for state-of-the-art pre-trained diffusion models for generating images, audio, and even 3D structures of molecules. The W&B integration adds rich, flexible experiment tracking, media visualization, pipeline architecture, and configuration management to interactive centralized dashboards without compromising that ease of use.
 
-## たった2行で次世代のログ
+## Next-level logging in just two lines
 
-実験に関連するすべてのプロンプト、ネガティブプロンプト、生成されたメディア、および設定を、たった2行のコードを含めるだけでログできます。ログを始めるためのコードはこちらの2行です:
+Log all the prompts, negative prompts, generated media, and configs associated with your experiment by simply including 2 lines of code. Here are the 2 lines of code to begin logging:
 
 ```python
-# autolog 関数をインポート
+# import the autolog function
 from wandb.integration.diffusers import autolog
 
-# パイプラインを呼び出す前に autolog を呼ぶ
+# call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
+| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="Experiment results logging" >}} | 
 |:--:| 
-| **実験の結果がどのようにログされるかの例です。** |
+| **An example of how the results of your experiment are logged.** |
 
-## 始め方
+## Get started
 
-1. `diffusers`, `transformers`, `accelerate`, および `wandb` をインストールします。
+1. Install `diffusers`, `transformers`, `accelerate`, and `wandb`.
 
-    - コマンドライン:
+    - Command line:
 
         ```shell
         pip install --upgrade diffusers transformers accelerate wandb
         ```
 
-    - ノートブック:
+    - Notebook:
 
         ```bash
         !pip install --upgrade diffusers transformers accelerate wandb
         ```
 
 
-2. `autolog` を使用して Weights & Biases の run を初期化し、[すべてのサポートされているパイプライン呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)からの入出力を自動的に追跡します。
+2. Use `autolog` to initialize a W&B Run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    `init` パラメータを持つ `autolog()` 関数を呼び出すことができ、このパラメータは [`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}}) によって要求されるパラメータの辞書が受け入れられます。
+    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}).
 
-    `autolog()` を呼び出すと、Weights & Biases の run が初期化され、[すべてのサポートされているパイプライン呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)からの入力と出力が自動的に追跡されます。
+    When you call `autolog()`, it initializes a W&B Run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    - 各パイプライン呼び出しはその run のワークスペース内の独自の [table]({{< relref path="/guides/models/tables/" lang="ja" >}}) に追跡され、パイプライン呼び出しに関連する設定はその run のワークフローリストに追加されます。
-    - プロンプト、ネガティブプロンプト、生成されたメディアは [`wandb.Table`]({{< relref path="/guides/models/tables/" lang="ja" >}}) にログされます。
-    - シードやパイプライン アーキテクチャーを含む実験に関連するすべての他の設定は、その run の設定セクションに保存されます。
-    - 各パイプライン呼び出しの生成されたメディアは run の [media panels]({{< relref path="/guides/models/track/log/media" lang="ja" >}}) にもログされます。
+    - Each pipeline call is tracked into its own [table]({{< relref path="/guides/models/tables/" lang="ja" >}}) in the workspace, and the configs associated with the pipeline call is appended to the list of workflows in the configs for that run.
+    - The prompts, negative prompts, and the generated media are logged in a [`wandb.Table`]({{< relref path="/guides/models/tables/" lang="ja" >}}).
+    - All other configs associated with the experiment including seed and the pipeline architecture are stored in the config section for the run.
+    - The generated media for each pipeline call are also logged in [media panels]({{< relref path="/guides/models/track/log/media" lang="ja" >}}) in the run.
 
     {{% alert %}}
-    サポートされているパイプライン呼び出しのリストは[こちら](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)から見つけることができます。このインテグレーションの新機能をリクエストしたり、関連するバグを報告したりする場合は、[https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues)で問題をオープンしてください。
+    You can find a [list of supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). In case, you want to request a new feature of this integration or report a bug associated with it, open an issue on the [W&B GitHub issues page](https://github.com/wandb/wandb/issues).
     {{% /alert %}}
 
-## 例
+## Examples
 
 ### Autologging
 
-ここでは、autolog の動作を示す簡単なエンドツーエンドの例を示します。
+Here is a brief end-to-end example of the autolog in action:
 
 {{< tabpane text=true >}}
 {{% tab header="Script" value="script" %}}
@@ -71,23 +71,23 @@ autolog(init=dict(project="diffusers_logging"))
 import torch
 from diffusers import DiffusionPipeline
 
-# autolog 関数をインポート
+# import the autolog function
 from wandb.integration.diffusers import autolog
 
-# パイプラインを呼び出す前に autolog を呼ぶ
+# call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
 
-# 拡散パイプラインを初期化
+# Initialize the diffusion pipeline
 pipeline = DiffusionPipeline.from_pretrained(
     "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
 ).to("cuda")
 
-# プロンプト、ネガティブプロンプト、種を定義
+# Define the prompts, negative prompts, and seed.
 prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
 negative_prompt = ["ugly, deformed", "ugly, deformed"]
 generator = torch.Generator(device="cpu").manual_seed(10)
 
-# パイプラインを呼び出して画像を生成
+# call the pipeline to generate the images
 images = pipeline(
     prompt,
     negative_prompt=negative_prompt,
@@ -104,23 +104,25 @@ from diffusers import DiffusionPipeline
 
 import wandb
 
-# autolog 関数をインポート
+# import the autolog function
 from wandb.integration.diffusers import autolog
 
-# パイプラインを呼び出す前に autolog を呼ぶ
+run = wandb.init()
+
+# call the autolog before calling the pipeline
 autolog(init=dict(project="diffusers_logging"))
 
-# 拡散パイプラインを初期化
+# Initialize the diffusion pipeline
 pipeline = DiffusionPipeline.from_pretrained(
     "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
 ).to("cuda")
 
-# プロンプト、ネガティブプロンプト、種を定義
+# Define the prompts, negative prompts, and seed.
 prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
 negative_prompt = ["ugly, deformed", "ugly, deformed"]
 generator = torch.Generator(device="cpu").manual_seed(10)
 
-# パイプラインを呼び出して画像を生成
+# call the pipeline to generate the images
 images = pipeline(
     prompt,
     negative_prompt=negative_prompt,
@@ -128,31 +130,32 @@ images = pipeline(
     generator=generator,
 )
 
-# 実験を終了
-wandb.finish()
+# Finish the experiment
+run.finish()
 ```
 {{% /tab %}}
 {{< /tabpane >}}
 
-- 単一の実験の結果:
 
-    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
+- The results of a single experiment:
 
-- 複数の実験の結果:
+    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="Experiment results logging" >}}
 
-    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
+- The results of multiple experiments:
 
-- 実験の設定:
+    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="Experiment results logging" >}}
 
-    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
+- The config of an experiment:
+
+    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="Experiment config logging" >}}
 
 {{% alert %}}
-パイプラインを呼び出した後、IPython ノートブック環境でコードを実行する際には [`wandb.finish()`]({{< relref path="/ref/python/finish" lang="ja" >}})を明示的に呼び出す必要があります。Python スクリプトを実行する際は必要ありません。
+You need to explicitly call [`wandb.Run.finish()`]({{< relref path="/ref/python/sdk/functions/finish.md" lang="ja" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
-### マルチパイプライン ワークフローの追跡
+### Tracking multi-pipeline workflows
 
-このセクションでは、[`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) で生成された潜在変数が対応するリファイナーによって調整される、典型的な[Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) ワークフローを使用した autolog のデモンストレーションを行います。
+This section demonstrates the autolog with a typical [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) workflow, in which the latents generated by the [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) is refined by the corresponding refiner.
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/sdxl-diffusers.ipynb" >}}
 
@@ -165,7 +168,7 @@ import torch
 from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
 from wandb.integration.diffusers import autolog
 
-# SDXL ベース パイプラインを初期化
+# initialize the SDXL base pipeline
 base_pipeline = StableDiffusionXLPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0",
     torch_dtype=torch.float16,
@@ -174,7 +177,7 @@ base_pipeline = StableDiffusionXLPipeline.from_pretrained(
 )
 base_pipeline.enable_model_cpu_offload()
 
-# SDXL リファイナー パイプラインを初期化
+# initialize the SDXL refiner pipeline
 refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-refiner-1.0",
     text_encoder_2=base_pipeline.text_encoder_2,
@@ -186,21 +189,21 @@ refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
 refiner_pipeline.enable_model_cpu_offload()
 
 prompt = "a photo of an astronaut riding a horse on mars"
-negative_prompt = "static,	frame,	painting,	illustration,	sd character,	low quality,	low resolution,	greyscale,	monochrome,	nose,	cropped,	lowres,	jpeg artifacts,	deformed iris,	deformed pupils,	bad eyes,	semi-realistic worst quality,	bad lips,	deformed mouth,	deformed face,	deformed fingers,	deformed toes	standing still,	posing"
+negative_prompt = "static, frame, painting, illustration, sd character, low quality, low resolution, greyscale, monochrome, nose, cropped, lowres, jpeg artifacts, deformed iris, deformed pupils, bad eyes, semi-realistic worst quality, bad lips, deformed mouth, deformed face, deformed fingers, deformed toes standing still, posing"
 
-# 乱数を制御することで実験を再現可能にします。
-# シードは自動的に WandB にログされます。
+# Make the experiment reproducible by controlling randomness.
+# The seed would be automatically logged to WandB.
 seed = 42
 generator_base = torch.Generator(device="cuda").manual_seed(seed)
 generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
 
-# WandB Autolog を Diffusers に呼び出します。これにより、
-# プロンプト、生成された画像、パイプライン アーキテクチャー、すべての
-# 関連する実験設定が Weights & Biases に自動的にログされ、
-# 画像生成実験を簡単に再現、共有、分析できるようになります。
+# Call WandB Autolog for Diffusers. This would automatically log
+# the prompts, generated images, pipeline architecture and all
+# associated experiment configs to W&B, thus making your
+# image generation experiments easy to reproduce, share and analyze.
 autolog(init=dict(project="sdxl"))
 
-# ベースパイプラインを呼び出して潜在変数を生成
+# Call the base pipeline to generate the latents
 image = base_pipeline(
     prompt=prompt,
     negative_prompt=negative_prompt,
@@ -208,7 +211,7 @@ image = base_pipeline(
     generator=generator_base,
 ).images[0]
 
-# リファイナーパイプラインを呼び出して調整された画像を生成
+# Call the refiner pipeline to generate the refined image
 image = refiner_pipeline(
     prompt=prompt,
     negative_prompt=negative_prompt,
@@ -228,7 +231,9 @@ from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipelin
 import wandb
 from wandb.integration.diffusers import autolog
 
-# SDXL ベース パイプラインを初期化
+run = wandb.init()
+
+# initialize the SDXL base pipeline
 base_pipeline = StableDiffusionXLPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0",
     torch_dtype=torch.float16,
@@ -237,7 +242,7 @@ base_pipeline = StableDiffusionXLPipeline.from_pretrained(
 )
 base_pipeline.enable_model_cpu_offload()
 
-# SDXL リファイナー パイプラインを初期化
+# initialize the SDXL refiner pipeline
 refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-refiner-1.0",
     text_encoder_2=base_pipeline.text_encoder_2,
@@ -249,21 +254,21 @@ refiner_pipeline = StableDiffusionXLImg2ImgPipeline.from_pretrained(
 refiner_pipeline.enable_model_cpu_offload()
 
 prompt = "a photo of an astronaut riding a horse on mars"
-negative_prompt = "static,	frame,	painting,	illustration,	sd character,	low quality,	low resolution,	greyscale,	monochrome,	nose,	cropped,	lowres,	jpeg artifacts,	deformed iris,	deformed pupils,	bad eyes,	semi-realistic worst quality,	bad lips,	deformed mouth,	deformed face,	deformed fingers,	deformed toes	standing still,	posing"
+negative_prompt = "static, frame, painting, illustration, sd character, low quality, low resolution, greyscale, monochrome, nose, cropped, lowres, jpeg artifacts, deformed iris, deformed pupils, bad eyes, semi-realistic worst quality, bad lips, deformed mouth, deformed face, deformed fingers, deformed toes standing still, posing"
 
-# 乱数を制御することで実験を再現可能にします。
-# シードは自動的に WandB にログされます。
+# Make the experiment reproducible by controlling randomness.
+# The seed would be automatically logged to WandB.
 seed = 42
 generator_base = torch.Generator(device="cuda").manual_seed(seed)
 generator_refiner = torch.Generator(device="cuda").manual_seed(seed)
 
-# WandB Autolog を Diffusers に呼び出します。これにより、
-# プロンプト、生成された画像、パイプライン アーキテクチャー、すべての
-# 関連する実験設定が Weights & Biases に自動的にログされ、
-# 画像生成実験を簡単に再現、共有、分析できるようになります。
+# Call WandB Autolog for Diffusers. This would automatically log
+# the prompts, generated images, pipeline architecture and all
+# associated experiment configs to W&B, thus making your
+# image generation experiments easy to reproduce, share and analyze.
 autolog(init=dict(project="sdxl"))
 
-# ベースパイプラインを呼び出して潜在変数を生成
+# Call the base pipeline to generate the latents
 image = base_pipeline(
     prompt=prompt,
     negative_prompt=negative_prompt,
@@ -271,7 +276,7 @@ image = base_pipeline(
     generator=generator_base,
 ).images[0]
 
-# リファイナーパイプラインを呼び出して調整された画像を生成
+# Call the refiner pipeline to generate the refined image
 image = refiner_pipeline(
     prompt=prompt,
     negative_prompt=negative_prompt,
@@ -279,18 +284,18 @@ image = refiner_pipeline(
     generator=generator_refiner,
 ).images[0]
 
-# 実験を終了
-wandb.finish()
+# Finish the experiment
+run.finish()
 ```
 
 {{% /tab %}}
 
 {{< /tabpane >}}
 
-- Stable Diffusion XL + Refiner の実験の例:
-    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
+- Example of a Stable Diffisuion XL + Refiner experiment:
+    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="Stable Diffusion XL experiment tracking" >}}
 
-## 追加リソース
+## More resources
 
 * [A Guide to Prompt Engineering for Stable Diffusion](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
 * [PIXART-α: A Diffusion Transformer Model for Text-to-Image Generation](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)

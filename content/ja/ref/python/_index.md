@@ -1,48 +1,35 @@
 ---
-title: Python ライブラリ
 menu:
   reference:
     identifier: ja-ref-python-_index
+title: Python Library v(0.21.3)
+weight: 1
 ---
 
-wandb を使用して機械学習の作業を追跡します。
-
-モデルをトレーニングおよびファインチューンし、実験からプロダクションに至るまでモデルを管理します。
-
-ガイドや例については、https://docs.wandb.ai をご覧ください。
-
-スクリプトやインタラクティブなノートブックについては、https://github.com/wandb/examples をご覧ください。
-
-リファレンスドキュメントについては、https://docs.wandb.com/ref/python をご覧ください。
-
-## クラス
-
-[`class Artifact`](./artifact.md): データセットおよびモデルのバージョン管理のための柔軟で軽量な構成要素。
-
-[`class Run`](./run.md): wandb によってログされる計算の単位。通常、これは機械学習の実験です。
-
-## 関数
-
-[`agent(...)`](./agent.md): 一つ以上の sweep agent を開始します。
-
-[`controller(...)`](./controller.md): パブリックな sweep コントローラのコンストラクタです。
-
-[`finish(...)`](./finish.md): run を終了し、残りのデータをアップロードします。
-
-[`init(...)`](./init.md): 新しい run を開始して W&B へ追跡しログします。
-
-[`log(...)`](./log.md): run のデータをアップロードします。
-
-[`login(...)`](./login.md): W&B ログイン資格情報を設定します。
-
-[`save(...)`](./save.md): 一つ以上のファイルを W&B に同期します。
-
-[`sweep(...)`](./sweep.md): ハイパーパラメーター探索を初期化します。
-
-[`watch(...)`](./watch.md): 指定された PyTorch のモデルにフックし、勾配とモデルの計算グラフを監視します。
-
-| その他のメンバー |  |
-| :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.19.8'` |
-|  `config`<a id="config"></a> |   |
-|  `summary`<a id="summary"></a> |   |
+{{< cardpane >}}
+    {{< card >}}
+            <a href="/ref/python/python_api_walkthrough">
+            <h2 className="card-title">API Walkthrough</h2></a>
+            <p className="card-content">Learn when and how to use different W&B APIs in your machine learning workflows.</p>
+        {{< /card >}}
+    {{< card >}}
+            <a href="/ref/python/public-api">
+            <h2 className="card-title">Query API</h2></a>
+            <p className="card-content">Query and analyze data logged to W&B.</p>
+        
+        {{< /card >}}
+{{< /cardpane >}}
+{{< cardpane >}}
+    {{< card >}}
+            <a href="/ref/python/automations">
+            <h2 className="card-title">Automations</h2></a>
+            <p className="card-content">Automate your W&B workflows.</p>
+        
+        {{< /card >}}
+    {{< card >}}
+        <a href="/ref/python/sdk">
+        <h2 className="card-title">Python Reference</h2></a>
+        <p className="card-content">Train and fine-tune models, manage models from experimentation to production.</p>
+    
+    {{< /card >}}
+{{< /cardpane >}}

@@ -1,16 +1,17 @@
 ---
-title: レポートに複数の著者を追加する
 menu:
   support:
     identifier: ja-support-kb-articles-adding_multiple_authors_report
 support:
-  - reports
+- reports
+title: Adding multiple authors to a report
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-レポートにすべての貢献者を正確に記載するには、複数の著者を追加します。
 
-複数の著者を追加するには、著者の名前の横にある **+** アイコンをクリックします。これにより、レポートにアクセスできるすべてのユーザーが表示されたドロップダウンメニューが開きます。著者として追加したいユーザーを選択してください。
+Accurately credit all contributors in your report by adding multiple authors.
 
-{{< img src="/images/reports/reports_faq_add_multiple_reports.gif" alt="" >}}
+To add multiple authors, click on the **+** icon next to the name of the author. This will open a drop-down menu with all the users who have access to the report. Select the users you want to add as authors.
+
+{{< img src="/images/reports/reports_faq_add_multiple_reports.gif" alt="Adding multiple report authors" >}}

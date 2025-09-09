@@ -1,36 +1,31 @@
 ---
-title: W&B プラットフォームをオンプレミスで展開する
-description: オンプレミス インフラストラクチャーでの W&B Server のホスティング
+description: Hosting W&B Server on on-premises infrastructure
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-bare-metal
     parent: self-managed
+title: Deploy W&B Platform On-premises
 weight: 5
 ---
 
 {{% alert %}}
-W&B は、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) や [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) のような完全管理されたデプロイメントオプションを推奨しています。W&B の完全管理サービスは、シンプルで安全に使用でき、ほとんど設定が不要です。
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) or [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 {{% /alert %}}
 
-関連する質問については、W&B セールスチームにお問い合わせください: [contact@wandb.com](mailto:contact@wandb.com).
 
-## インフラストラクチャーガイドライン
+Reach out to the W&B Sales Team for related question: [contact@wandb.com](mailto:contact@wandb.com).
 
-W&B のデプロイメントを開始する前に、特にインフラストラクチャー要件を確認するために、[リファレンスアーキテクチャー]({{< relref path="ref-arch.md#infrastructure-requirements" lang="ja" >}})を参照してください。
+## Infrastructure guidelines
 
-## MySQL データベース
+Before you start deploying W&B, refer to the [reference architecture]({{< relref path="ref-arch.md#infrastructure-requirements" lang="ja" >}}), especially the infrastructure requirements.
+
+## MySQL database
 
 {{% alert color="secondary" %}}
-W&B は MySQL 5.7 の使用を推奨しません。MySQL 5.7 を使用している場合は、最新バージョンの W&B Server との互換性を最大限にするために MySQL 8 へ移行してください。W&B Server は現在、`MySQL 8` バージョン `8.0.28` 以降のみをサポートしています。
+W&B does not recommend using MySQL 5.7. If you are using MySQL 5.7, migrate to MySQL 8 for best compatibility with latest versions of W&B Server. The W&B Server currently only supports `MySQL 8` versions `8.0.28` and above.
 {{% /alert %}}
 
-スケーラブルな MySQL データベースの運用を簡素化するエンタープライズサービスがいくつかあります。W&B は次のソリューションのいずれかを検討することを推奨します:
-
-[https://www.percona.com/software/mysql-database/percona-server](https://www.percona.com/software/mysql-database/percona-server)
-
-[https://github.com/mysql/mysql-operator](https://github.com/mysql/mysql-operator)
-
-以下の条件を満たすようにしてください。W&B Server MySQL 8.0 を実行する場合、または MySQL 5.7 から 8.0 へのアップグレード時に以下を行います:
+Satisfy the conditions below if you run W&B Server MySQL 8.0 or when you upgrade from MySQL 5.7 to 8.0:
 
 ```
 binlog_format = 'ROW'
@@ -40,11 +35,12 @@ innodb_flush_log_at_trx_commit = 1
 binlog_row_image = 'MINIMAL'
 ```
 
-MySQL 8.0 で `sort_buffer_size` の扱いにいくつか変更があったため、デフォルトの値である `262144` から `sort_buffer_size` パラメータを更新する必要があるかもしれません。W&B と MySQL が効率よく連携することを保証するために、値を `67108864` (64MiB) に設定することを推奨します。MySQL はこの設定を v8.0.28 からサポートしています。
+Due to some changes in the way that MySQL 8.0 handles `sort_buffer_size`, you might need to update the `sort_buffer_size` parameter from its default value of `262144`. The recommendation is to set the value to `67108864` (64MiB) to ensure that MySQL works efficiently with W&B. MySQL supports this configuration starting with v8.0.28.
 
-### データベースに関する考慮事項
+### Database considerations
 
-次の SQL クエリを使用してデータベースとユーザーを作成します。`SOME_PASSWORD` を希望のパスワードに置き換えてください:
+
+Create a database and a user with the following SQL query. Replace `SOME_PASSWORD` with password of your choice:
 
 ```sql
 CREATE USER 'wandb_local'@'%' IDENTIFIED BY 'SOME_PASSWORD';
@@ -53,12 +49,13 @@ GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
 {{% alert %}}
-これは SSL 証明書が信頼されている場合にのみ機能します。W&B は自己署名証明書をサポートしていません。
+This works only if the SSL certificate is trusted. W&B does not support self-signed certificates.
 {{% /alert %}}
 
-### パラメータグループ設定
 
-データベースのパフォーマンスを最適化するために、次のパラメータグループが設定されていることを確認してください:
+### Parameter group configuration
+
+Ensure that the following parameter groups are set to tune the database performance:
 
 ```
 binlog_format = 'ROW'
@@ -69,11 +66,10 @@ binlog_row_image = 'MINIMAL'
 sort_buffer_size = 67108864
 ```
 
-## オブジェクトストレージ
+## Object storage
+The object store can be externally hosted on a [Minio cluster](https://min.io/docs/minio/kubernetes/upstream/index.html), or any Amazon S3 compatible object store that has support for signed URLs. Run the [following script](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) to check if your object store supports signed URLs.
 
-オブジェクトストアは、[Minio クラスター](https://min.io/docs/minio/kubernetes/upstream/index.html) または署名付き URL をサポートする Amazon S3 互換のオブジェクトストアでホストできます。[次のスクリプト](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b) を実行して、オブジェクトストアが署名付き URL をサポートしているか確認してください。
-
-さらに、次の CORS ポリシーをオブジェクトストアに適用する必要があります。
+Additionally, the following CORS policy needs to be applied to the object store.
 
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -88,65 +84,65 @@ sort_buffer_size = 67108864
 </CORSConfiguration>
 ```
 
-Amazon S3 互換のオブジェクトストアに接続する際、自分の資格情報を接続文字列で指定できます。たとえば、次のように指定します:
+You can specify your credentials in a connection string when you connect to an Amazon S3 compatible object store. For example, you can specify the following: 
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 ```
 
-オブジェクトストア用の信頼された SSL 証明書を設定している場合、W&B が TLS 経由でのみ接続するように指示することもできます。それには、URL に `tls` クエリパラメータを追加します。たとえば、次の URL 例は、Amazon S3 URI に TLS クエリパラメータを追加する方法を示しています:
+You can optionally tell W&B to only connect over TLS if you configure a trusted SSL certificate for your object store. To do so, add the `tls` query parameter to the URL. For example, the following URL example demonstrates how to add the TLS query parameter to an Amazon S3 URI:
 
 ```yaml
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
 {{% alert color="secondary" %}}
-これは SSL 証明書が信頼されている場合にのみ機能します。W&B は自己署名証明書をサポートしていません。
+This works only if the SSL certificate is trusted. W&B does not support self-signed certificates.
 {{% /alert %}}
 
-サードパーティのオブジェクトストアを使用している場合、`BUCKET_QUEUE` を `internal://` に設定します。これにより、外部の SQS キューやそれに相当するものに依存せずに、W&B サーバーがすべてのオブジェクト通知を内部で管理できるようになります。
+Set `BUCKET_QUEUE` to `internal://` if you use third-party object stores. This tells the W&B server to manage all object notifications internally instead of depending on an external SQS queue or equivalent.
 
-独自のオブジェクトストアを運用する際に考慮すべき最も重要なことは次のとおりです:
+The most important things to consider when running your own object store are:
 
-1. **ストレージ容量とパフォーマンス**。磁気ディスクを使用しても構いませんが、これらのディスクの容量を監視している必要があります。平均的な W&B の使用量は 10 ギガバイトから 100 ギガバイトに達します。大量使用はペタバイトのストレージ消費を引き起こす可能性があります。
-2. **フォールトトレランス**。最低限、オブジェクトを保存する物理ディスクは RAID アレイにあるべきです。minio を使用する場合は、[分散モード](https://min.io/docs/minio/kubernetes/upstream/operations/concepts/availability-and-resiliency.html#distributed-minio-deployments) での実行を検討してください。
-3. **可用性**。ストレージが利用可能であることを確認するために監視を設定する必要があります。
+1. **Storage capacity and performance**. It's fine to use magnetic disks, but you should be monitoring the capacity of these disks. Average W&B usage results in 10's to 100's of Gigabytes. Heavy usage could result in Petabytes of storage consumption.
+2. **Fault tolerance.** At a minimum, the physical disk storing the objects should be on a RAID array. If you use minio, consider running it in [distributed mode](https://min.io/docs/minio/kubernetes/upstream/operations/concepts/availability-and-resiliency.html#distributed-minio-deployments).
+3. **Availability.** Monitoring should be configured to ensure the storage is available.
 
-独自のオブジェクトストレージサービスを運用するためのエンタープライズ代替策は多数存在します:
+There are many enterprise alternatives to running your own object storage service such as:
 
-1. [https://aws.amazon.com/s3/outposts/](https://aws.amazon.com/s3/outposts/)
-2. [https://www.netapp.com/data-storage/storagegrid/](https://www.netapp.com/data-storage/storagegrid/)
+1. [Amazon S3 on Outposts](https://aws.amazon.com/s3/outposts/)
+2. [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)
 
-### MinIO 設定
+### MinIO set up
 
-minio を使用する場合、次のコマンドを実行してバケットを作成できます。
+If you use minio, you can run the following commands to create a bucket.
 
 ```bash
 mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
 mc mb --region=us-east1 local/local-files
 ```
 
-## W&B Server アプリケーションを Kubernetes にデプロイ
+## Deploy W&B Server application to Kubernetes
 
-公式の W&B Helm チャートを使用することが推奨されるインストール方法です。[こちらのセクション]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#deploy-wb-with-helm-cli" lang="ja" >}})に従って W&B Server アプリケーションをデプロイしてください。
+The recommended installation method is with the official W&B Helm chart. Follow the [Helm CLI deployment section]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#deploy-wb-with-helm-cli" lang="ja" >}}) to deploy the W&B Server application.
 
 ### OpenShift
 
-W&B は、[OpenShift Kubernetes クラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift) 内からの運用をサポートしています。
+W&B supports operating from within an [OpenShift Kubernetes cluster](https://www.redhat.com/en/technologies/cloud-computing/openshift). 
 
 {{% alert %}}
-W&B は公式の W&B Helm チャートでのインストールをお勧めします。
+W&B recommends you install with the official W&B Helm chart. 
 {{% /alert %}}
 
-#### コンテナを非特権ユーザーとして実行
+#### Run the container as an un-privileged user
 
-デフォルトでは、コンテナは `$UID` 999 を使用します。オーケストレーターが非ルートユーザーでのコンテナ実行を要求する場合、`$UID` >= 100000 そして `$GID` を 0 に指定します。
+By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
 
 {{% alert %}}
-W&B はファイルシステム権限が正しく機能するためにルートグループ (`$GID=0`) として開始する必要があります。
+W&B  must start as the root group (`$GID=0`) for file system permissions to function properly.
 {{% /alert %}}
 
-Kubernetes のセキュリティコンテキストの例は次のようになります:
+An example security context for Kubernetes looks similar to the following:
 
 ```
 spec:
@@ -155,29 +151,30 @@ spec:
     runAsGroup: 0
 ```
 
-## ネットワーキング
+## Networking
 
-### ロードバランサー
+### Load balancer
 
-適切なネットワーク境界でネットワークリクエストを停止するロードバランサーを実行します。
+Run a load balancer that stop network requests at the appropriate network boundary. 
 
-一般的なロードバランサーには以下があります:
+Common load balancers include:
 1. [Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)
 2. [Istio](https://istio.io)
 3. [Caddy](https://caddyserver.com)
 4. [Cloudflare](https://www.cloudflare.com/load-balancing/)
 5. [Apache](https://www.apache.org)
-6. [HAProxy](http://www.haproxy.org)
+6. [HAProxy](https://www.haproxy.org)
 
-機械学習のペイロードを実行するために使用されるすべてのマシンと、Web ブラウザを介してサービスにアクセスするために使用されるデバイスがこのエンドポイントと通信できることを確認してください。
+Ensure that all machines used to execute machine learning payloads, and the devices used to access the service through web browsers, can communicate to this endpoint. 
+
 
 ### SSL / TLS
 
-W&B Server は SSL を停止しません。信頼されたネットワーク内での SSL 通信がセキュリティポリシーで求められている場合、Istio や [サイドカーコンテナ](https://istio.io/latest/docs/reference/config/networking/sidecar/) などのツールを使用してください。ロードバランサー自体は有効な証明書で SSL を終了させる必要があります。自己署名証明書はサポートされておらず、ユーザーに多くの問題を引き起こします。可能であれば、[Let's Encrypt](https://letsencrypt.org) のようなサービスを使用してロードバランサーに信頼された証明書を提供することは素晴らしい方法です。Caddy や Cloudflare のようなサービスは SSL を自動的に管理します。
+W&B Server does not stop SSL. If your security policies require SSL communication within your trusted networks consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/). The load balancer itself should terminate SSL with a valid certificate. Using self-signed certificates is not supported and will cause a number of challenges for users. If possible using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provided trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
 
-### nginx 設定の例
+### Example nginx configuration
 
-以下は、nginx をリバースプロキシとして使用する例の設定です。
+The following is an example configuration using nginx as a reverse proxy.
 
 ```nginx
 events {}
@@ -240,9 +237,9 @@ http {
 }
 ```
 
-## インストールの確認
+## Verify your installation
 
-W&B Server が正しく設定されていることを確認してください。次のコマンドをターミナルで実行します:
+Very your W&B Server is configured properly. Run the following commands in your terminal:
 
 ```bash
 pip install wandb
@@ -250,7 +247,7 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb verify
 ```
 
-開始時に W&B Server にヒットするエラーを表示するためにログファイルを確認してください。次のコマンドを実行します:
+Check log files to view any errors the W&B Server hits at startup. Run the following commands:
 
 {{< tabpane text=true >}}
 {{% tab header="Docker" value="docker" %}}
@@ -267,4 +264,5 @@ kubectl logs wandb-XXXXX-XXXXX
 {{% /tab %}}
 {{< /tabpane >}}
 
-エラーが発生した場合は W&B サポートにお問い合わせください。
+
+Contact W&B Support if you encounter errors.

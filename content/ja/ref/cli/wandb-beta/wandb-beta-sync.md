@@ -1,29 +1,30 @@
 ---
-title: wandb ベータ 同期
 menu:
   reference:
     identifier: ja-ref-cli-wandb-beta-wandb-beta-sync
+title: wandb beta sync
 ---
 
-**使用法**
+**Usage**
 
 `wandb beta sync [OPTIONS] WANDB_DIR`
 
-**概要**
+**Summary**
 
-トレーニング run を W&B にアップロードします
+Upload a training run to W&B
 
-**オプション**
 
-| **オプション** | **説明** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |
-| `--id` | アップロードしたい run です。 |
-| `-p, --project` | アップロードしたい project です。 |
-| `-e, --entity` | スコープにする entity です。 |
-| `--skip-console` | コンソールログをスキップします |
-| `--append` | run を追加します |
-| `-i, --include` | 含めるためのグロブ。複数回使用可能です。 |
-| `-e, --exclude` | 除外するためのグロブ。複数回使用可能です。 |
-| `--mark-synced / --no-mark-synced` | run を同期済みとしてマークします |
-| `--skip-synced / --no-skip-synced` | 同期済みの run をスキップします |
-| `--dry-run` | 何もアップロードせずにドライ run を実行します。 |
+| `--id` | The run you want to upload to. |
+| `-p, --project` | The project you want to upload to. |
+| `-e, --entity` | The entity to scope to. |
+| `--skip-console` | Skip console logs |
+| `--append` | Append run |
+| `-i, --include` | Glob to include. Can be used multiple times. |
+| `-e, --exclude` | Glob to exclude. Can be used multiple times. |
+| `--mark-synced / --no-mark-synced` | Mark runs as synced |
+| `--skip-synced / --no-skip-synced` | Skip synced runs |
+| `--dry-run` | Perform a dry run without uploading   anything. |

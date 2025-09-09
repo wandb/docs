@@ -1,45 +1,45 @@
 ---
-title: Databricks
-description: W&B を Databricks と統合する方法。
+description: How to integrate W&B with Databricks.
 menu:
   default:
     identifier: ja-guides-integrations-databricks
     parent: integrations
+title: Databricks
 weight: 50
 ---
 
-W&B は、Databricks 環境での W&B Jupyter ノートブック体験をカスタマイズすることにより、[Databricks](https://www.databricks.com/) と統合します。
+W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
 
-## Databricks の設定
+## Configure Databricks
 
-1. クラスターに wandb をインストール
+1. Install wandb in the cluster
 
-    クラスター設定に移動し、クラスターを選択し、**Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択してパッケージ `wandb` を追加します。
+    Navigate to your cluster configuration, choose your cluster, click **Libraries**. Click **Install New**, choose **PyPI**, and add the package `wandb`.
 
-2. 認証の設定
+2. Set up authentication
 
-    あなたの W&B アカウントを認証するために、ノートブックが照会できる Databricks シークレットを追加することができます。
+    To authenticate your W&B account you can add a Databricks secret which your notebooks can query.
 
     ```bash
-    # databricks cli をインストール
+    # install databricks cli
     pip install databricks-cli
 
-    # databricks UIからトークンを生成
+    # Generate a token from databricks UI
     databricks configure --token
 
-    # 2つのコマンドのいずれかでスコープを作成します（databricksでセキュリティ機能が有効かどうかによります）：
-    # セキュリティ追加機能あり
+    # Create a scope with one of the two commands (depending if you have security features enabled on databricks):
+    # with security add-on
     databricks secrets create-scope --scope wandb
-    # セキュリティ追加機能なし
+    # without security add-on
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # こちらから api_key を追加します: https://app.wandb.ai/authorize
+    # Add your api_key from: https://app.wandb.ai/authorize
     databricks secrets put --scope wandb --key api_key
     ```
 
-## 例
+## Examples
 
-### 簡単な例
+### Simple example
 
 ```python
 import os
@@ -48,18 +48,18 @@ import wandb
 api_key = dbutils.secrets.get("wandb", "api_key")
 wandb.login(key=api_key)
 
-wandb.init()
-wandb.log({"foo": 1})
+with wandb.init() as run:
+    run.log({"foo": 1})
 ```
 
 ### Sweeps
 
-ノートブックが wandb.sweep() または wandb.agent() を使用しようとする際に必要な設定（暫定的）です。
+Setup required (temporary) for notebooks attempting to use wandb.sweep() or wandb.agent():
 
 ```python
 import os
 
-# これらは将来的には不要になります
+# These will not be necessary in the future
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```

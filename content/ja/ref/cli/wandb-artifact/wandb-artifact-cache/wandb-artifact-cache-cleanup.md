@@ -1,21 +1,21 @@
 ---
-title: wandb アーティファクト cache cleanup
 menu:
   reference:
     identifier: ja-ref-cli-wandb-artifact-wandb-artifact-cache-wandb-artifact-cache-cleanup
+title: wandb artifact cache cleanup
 ---
 
-**使用方法**
+**Usage**
 
 `wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
 
-**概要**
+**Summary**
 
-Artifactsのキャッシュから、使用頻度の低いファイルをクリーンアップします
+Clean up less frequently used files from the artifacts cache
 
 
-**オプション**
+**Options**
 
-| **オプション** | **説明** |
+| **Option** | **Description** |
 | :--- | :--- |
-| `--remove-temp / --no-remove-temp` | 一時ファイルを削除します |
+| `--remove-temp / --no-remove-temp` | Remove temp files |

@@ -1,14 +1,17 @@
 ---
-title: 何百万ものステップを W&B にログするとどうなりますか？ブラウザ上ではどのようにレンダリングされますか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_millions_steps_wb_rendered_browser
 support:
-  - experiments
+- experiments
+title: What happens when I log millions of steps to W&B? How is that rendered in the
+  browser?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-グラフに送信されるポイントの数は、UI の読み込み時間に影響を与えます。1,000 ポイントを超えるラインでは、バックエンドがデータを 1,000 ポイントにサンプリングしてからブラウザに送信します。このサンプリングは非決定論的であり、ページを更新するたびに異なるサンプルポイントとなります。
 
-1 メトリクスあたり 10,000 ポイント未満のログを記録してください。1 行に 100 万ポイントを超えてログを記録すると、ページの読み込み時間が大幅に増加します。この [Colab](http://wandb.me/log-hf-colab) で、正確性を犠牲にせずにログのフットプリントを最小化するための戦略を探ってください。500 列以上の config とサマリーメトリクスがある場合、テーブルに表示されるのは 500 列のみです。
+The number of points sent affects the loading time of graphs in the UI. For lines exceeding 1,000 points, the backend samples the data down to 1,000 points before sending it to the browser. This sampling is nondeterministic, resulting in different sampled points upon page refresh.
+
+
+Log fewer than 10,000 points per metric. Logging over 1 million points in a line significantly increases page load time. Explore strategies to minimize logging footprint without sacrificing accuracy in this [Colab](https://wandb.me/log-hf-colab). With more than 500 columns of config and summary metrics, only 500 display in the table.

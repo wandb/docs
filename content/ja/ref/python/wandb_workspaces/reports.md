@@ -1,14 +1,20 @@
 ---
-title: レポート
 menu:
   reference:
     identifier: ja-ref-python-wandb_workspaces-reports
+title: Reports
 ---
 
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py" >}}
 
+<!-- markdownlint-turnedoff -->
+
+{{% alert %}}
+W&B Report and Workspace API is in Public Preview.
+{{% /alert %}}
+
 # <kbd>module</kbd> `wandb_workspaces.reports.v2`
-プログラムで W&B レポート API を操作するための Python ライブラリ。
+Python library for programmatically working with W&B Reports API. 
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -35,105 +41,194 @@ report.save()
 
 ---
 
+
+
 ## <kbd>class</kbd> `BarPlot`
-2Dバープロットを表示するパネルオブジェクト。
+A panel object that shows a 2D bar plot. 
+
+
 
 **Attributes:**
  
-- `title` (Optional[str]): プロットの上部に表示されるテキスト。
-- `metrics` (LList[MetricType]): orientation Literal["v", "h"]: バープロットの向き。垂直 ("v") または水平 ("h") を選択します。デフォルトは水平 ("h")。
-- `range_x` (Tuple[float | None, float | None]): x軸の範囲を指定するタプル。
-- `title_x` (Optional[str]): x軸のラベル。
-- `title_y` (Optional[str]): y軸のラベル。
-- `groupby` (Optional[str]): W&Bプロジェクトにログされたメトリクスに基づいて run をグループ化します。このレポートは情報を取得します。
-- `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには `mean`, `min`, `max`, `median`, `sum`, `samples`, または `None` が含まれます。
-- `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには `minmax`, `stddev`, `stderr`, `none`, `samples`, または `None` が含まれます。
-- `max_runs_to_show` (Optional[int]): プロットに表示する最大 run 数。
-- `max_bars_to_show` (Optional[int]): バープロットに表示する最大バー数。
-- `custom_expressions` (Optional[LList[str]]): バープロットで使用されるカスタム式のリスト。
-- `legend_template` (Optional[str]): 凡例のテンプレート。
-- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
-- `line_titles` (Optional[dict]): ラインのタイトル。キーがライン名で、値がタイトルです。
-- `line_colors` (Optional[dict]): ラインの色。キーがライン名で、値が色です。
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `metrics` (LList[MetricType]): orientation Literal["v", "h"]: The orientation of the bar plot. Set to either vertical ("v") or horizontal ("h"). Defaults to horizontal ("h"). 
+ - `range_x` (Tuple[float | None, float | None]): Tuple that specifies the range of the x-axis. 
+ - `title_x` (Optional[str]): The label of the x-axis. 
+ - `title_y` (Optional[str]): The label of the y-axis. 
+ - `groupby` (Optional[str]): Group runs based on a metric logged to your W&B project that the report pulls information from. 
+ - `groupby_aggfunc` (Optional[GroupAgg]): Aggregate runs with specified function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]): Group runs based on a range. Options include `minmax`, `stddev`, `stderr`, `none`, =`samples`, or `None`. 
+ - `max_runs_to_show` (Optional[int]): The maximum number of runs to show on the plot. 
+ - `max_bars_to_show` (Optional[int]): The maximum number of bars to show on the bar plot. 
+ - `custom_expressions` (Optional[LList[str]]): A list of custom expressions to be used in the bar plot. 
+ - `legend_template` (Optional[str]): The template for the legend. 
+ - `font_size` ( Optional[FontSize]): The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `line_titles` (Optional[dict]): The titles of the lines. The keys are the line names and the values are the titles. 
+ - `line_colors` (Optional[dict]): The colors of the lines. The keys are the line names and the values are the colors. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `BlockQuote`
-引用されたテキストのブロック。
+A block of quoted text. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the block quote. 
 
-- `text` (str): 引用ブロックのテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CalloutBlock`
-強調されたテキストのブロック。
+A block of callout text. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The callout text. 
 
-- `text` (str): 強調テキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CheckedList`
-チェックボックス付きの項目リスト。`CheckedListItem` を `CheckedList` 内に1つ以上追加します。
+A list of items with checkboxes. Add one or more `CheckedListItem` within `CheckedList`. 
+
+
 
 **Attributes:**
+ 
+ - `items` (LList[CheckedListItem]): A list of one or more `CheckedListItem` objects. 
 
-- `items` (LList[CheckedListItem]): `CheckedListItem` オブジェクトのリスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CheckedListItem`
-チェックボックス付きのリストアイテム。`CheckedList` 内に1つ以上の `CheckedListItem` を追加します。
+A list item with a checkbox. Add one or more `CheckedListItem` within `CheckedList`. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the list item. 
+ - `checked` (bool): Whether the checkbox is checked. By default, set to `False`. 
 
-- `text` (str): リストアイテムのテキスト。
-- `checked` (bool): チェックボックスがチェックされているかどうか。デフォルトは `False`。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CodeBlock`
-コードのブロック。
+A block of code. 
+
+
 
 **Attributes:**
+ 
+ - `code` (str): The code in the block. 
+ - `language` (Optional[Language]): The language of the code. Language specified is used for syntax highlighting. By default, set to `python`. Options include `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml`. 
 
-- `code` (str): ブロック内のコード。
-- `language` (Optional[Language]): コードの言語。指定された言語は構文強調表示に使われます。デフォルトは `python`。オプションには `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml` が含まれます。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CodeComparer`
-異なる2つの run 間のコードを比較するパネルオブジェクト。
+A panel object that compares the code between two different runs. 
+
+
 
 **Attributes:**
+ 
+ - `diff` `(Literal['split', 'unified'])`: How to display code differences. Options include `split` and `unified`. 
 
-- `diff` (Literal['split', 'unified']): コードの差異を表示する方法。オプションには `split` と `unified` が含まれます。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Config`
-run の設定オブジェクトにログされたメトリクス。設定オブジェクトは通常、`run.config[name] = ...` を使用するか、キーと値のペアを持つ設定として渡されてログされます。ここでキーがメトリクスの名前、値がメトリクスの値です。
+Metrics logged to a run's config object. Config objects are commonly logged using `wandb.Run.config[name] = ...` or passing a config as a dictionary of key-value pairs, where the key is the name of the metric and the value is the value of that metric. 
+
+
 
 **Attributes:**
+ 
+ - `name` (str): The name of the metric. 
 
-- `name` (str): メトリクスの名前。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `CustomChart`
-カスタムチャートを表示するパネル。チャートは Weave クエリによって定義されます。
+A panel that shows a custom chart. The chart is defined by a weave query. 
+
+
 
 **Attributes:**
+ 
+ - `query` (dict): The query that defines the custom chart. The key is the name of the field, and the value is the query. 
+ - `chart_name` (str): The title of the custom chart. 
+ - `chart_fields` (dict): Key-value pairs that define the axis of the plot. Where the key is the label, and the value is the metric. 
+ - `chart_strings` (dict): Key-value pairs that define the strings in the chart. 
 
-- `query` (dict): カスタムチャートを定義するクエリ。キーがフィールドの名前で、値がクエリです。
-- `chart_name` (str): カスタムチャートのタイトル。
-- `chart_fields` (dict): プロットの軸を定義するキーと値のペア。ここでキーはラベル、値はメトリクスです。
-- `chart_strings` (dict): チャート内の文字列を定義するキーと値のペア。
+
+
 
 ---
+
+
 
 ### <kbd>classmethod</kbd> `from_table`
 
@@ -145,338 +240,641 @@ from_table(
 )
 ```
 
-テーブルからカスタムチャートを作成します。
+Create a custom chart from a table. 
+
+
 
 **Arguments:**
+ 
+ - `table_name` (str): The name of the table. 
+ - `chart_fields` (dict): The fields to display in the chart. 
+ - `chart_strings` (dict): The strings to display in the chart. 
 
-- `table_name` (str): テーブルの名前。
-- `chart_fields` (dict): チャートに表示するフィールド。
-- `chart_strings` (dict): チャートに表示する文字列。
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Gallery`
-レポートと URL のギャラリーをレンダリングするブロック。
+A block that renders a gallery of reports and URLs. 
+
+
 
 **Attributes:**
+ 
+ - `items` (List[Union[`GalleryReport`, `GalleryURL`]]): A list of `GalleryReport` and `GalleryURL` objects. 
 
-- `items` (List[Union[`GalleryReport`, `GalleryURL`]]): `GalleryReport` と `GalleryURL` オブジェクトのリスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `GalleryReport`
-ギャラリー内のレポートへの参照。
+A reference to a report in the gallery. 
+
+
 
 **Attributes:**
+ 
+ - `report_id` (str): The ID of the report. 
 
-- `report_id` (str): レポートの ID。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `GalleryURL`
-外部リソースへの URL。
+A URL to an external resource. 
+
+
 
 **Attributes:**
+ 
+ - `url` (str): The URL of the resource. 
+ - `title` (Optional[str]): The title of the resource. 
+ - `description` (Optional[str]): The description of the resource. 
+ - `image_url` (Optional[str]): The URL of an image to display. 
 
-- `url` (str): リソースの URL。
-- `title` (Optional[str]): リソースのタイトル。
-- `description` (Optional[str]): リソースの説明。
-- `image_url` (Optional[str]): 表示する画像の URL。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `GradientPoint`
-勾配内の点。
+A point in a gradient. 
+
+
 
 **Attributes:**
+ 
+ - `color`: The color of the point. 
+ - `offset`: The position of the point in the gradient. The value should be between 0 and 100. 
 
-- `color`: 点の色。
-- `offset`: 勾配内の点の位置。値は 0 から 100 の範囲であるべきです。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `H1`
-指定されたテキストを持つ H1 ヘッディング。
+An H1 heading with the text specified. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the heading. 
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): The blocks to show when the heading is collapsed. 
 
-- `text` (str): ヘッディングのテキスト。
-- `collapsed_blocks` (Optional[LList["BlockTypes"]]): ヘッディングを折りたたんだときに表示されるブロック。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `H2`
-指定されたテキストを持つ H2 ヘッディング。
+An H2 heading with the text specified. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the heading. 
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): One or more blocks to show when the heading is collapsed. 
 
-- `text` (str): ヘッディングのテキスト。
-- `collapsed_blocks` (Optional[LList["BlockTypes"]]): ヘッディングを折りたたんだときに表示される1つ以上のブロック。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `H3`
-指定されたテキストを持つ H3 ヘッディング。
+An H3 heading with the text specified. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the heading. 
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): One or more blocks to show when the heading is collapsed. 
 
-- `text` (str): ヘッディングのテキスト。
-- `collapsed_blocks` (Optional[LList["BlockTypes"]]): ヘッディングを折りたたんだときに表示される1つ以上のブロック。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Heading`
 
+
+
+
+
+
+
+
+
+
 ---
+
+
 
 ## <kbd>class</kbd> `HorizontalRule`
-HTML の水平ライン。
+HTML horizontal line. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Image`
-画像をレンダリングするブロック。
+A block that renders an image. 
+
+
 
 **Attributes:**
+ 
+ - `url` (str): The URL of the image. 
+ - `caption` (str): The caption of the image. Caption appears underneath the image. 
 
-- `url` (str): 画像の URL。
-- `caption` (str): 画像のキャプション。キャプションは画像の下に表示されます。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `InlineCode`
-インラインコード。コードの後に改行文字を加えません。
+Inline code. Does not add newline character after code. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The code you want to appear in the report. 
 
-- `text` (str): レポートに表示したいコード。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `InlineLatex`
-インライン LaTeX マークダウン。LaTeX マークダウンの後に改行文字を加えません。
+Inline LaTeX markdown. Does not add newline character after the LaTeX markdown. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): LaTeX markdown you want to appear in the report. 
 
-- `text` (str): レポートに表示したい LaTeX マークダウン。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `LatexBlock`
-LaTeX テキストのブロック。
+A block of LaTeX text. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The LaTeX text. 
 
-- `text` (str): LaTeX テキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Layout`
-レポート内のパネルのレイアウト。パネルのサイズと位置を調整します。
+The layout of a panel in a report. Adjusts the size and position of the panel. 
+
+
 
 **Attributes:**
+ 
+ - `x` (int): The x position of the panel. 
+ - `y` (int): The y position of the panel. 
+ - `w` (int): The width of the panel. 
+ - `h` (int): The height of the panel. 
 
-- `x` (int): パネルの x 位置。
-- `y` (int): パネルの y 位置。
-- `w` (int): パネルの幅。
-- `h` (int): パネルの高さ。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `LinePlot`
-2D ラインプロットを持つパネルオブジェクト。
+A panel object with 2D line plots. 
+
+
 
 **Attributes:**
+ 
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `x` (Optional[MetricType]): The name of a metric logged to your W&B project that the report pulls information from. The metric specified is used for the x-axis. 
+ - `y` (LList[MetricType]): One or more metrics logged to your W&B project that the report pulls information from. The metric specified is used for the y-axis. 
+ - `range_x` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the x-axis. 
+ - `range_y` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the y-axis. 
+ - `log_x` (Optional[bool]): Plots the x-coordinates using a base-10 logarithmic scale. 
+ - `log_y` (Optional[bool]): Plots the y-coordinates using a base-10 logarithmic scale. 
+ - `title_x` (Optional[str]): The label of the x-axis. 
+ - `title_y` (Optional[str]): The label of the y-axis. 
+ - `ignore_outliers` (Optional[bool]): If set to `True`, do not plot outliers. 
+ - `groupby` (Optional[str]): Group runs based on a metric logged to your W&B project that the report pulls information from. 
+ - `groupby_aggfunc` (Optional[GroupAgg]): Aggregate runs with specified function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]): Group runs based on a range. Options include `minmax`, `stddev`, `stderr`, `none`, `samples`, or `None`. 
+ - `smoothing_factor` (Optional[float]): The smoothing factor to apply to the smoothing type. Accepted values range between 0 and 1. 
+ - `smoothing_type Optional[SmoothingType]`: Apply a filter based on the specified distribution. Options include `exponentialTimeWeighted`, `exponential`, `gaussian`, `average`, or `none`. 
+ - `smoothing_show_original` (Optional[bool]): If set to `True`, show the original data. 
+ - `max_runs_to_show` (Optional[int]): The maximum number of runs to show on the line plot. 
+ - `custom_expressions` (Optional[LList[str]]): Custom expressions to apply to the data. 
+ - `plot_type Optional[LinePlotStyle]`: The type of line plot to generate. Options include `line`, `stacked-area`, or `pct-area`. 
+ - `font_size Optional[FontSize]`: The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `legend_position Optional[LegendPosition]`: Where to place the legend. Options include `north`, `south`, `east`, `west`, or `None`. 
+ - `legend_template` (Optional[str]): The template for the legend. 
+ - `aggregate` (Optional[bool]): If set to `True`, aggregate the data. 
+ - `xaxis_expression` (Optional[str]): The expression for the x-axis. 
+ - `legend_fields` (Optional[LList[str]]): The fields to include in the legend. 
 
-- `title` (Optional[str]): プロットの上部に表示されるテキスト。
-- `x` (Optional[MetricType]): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。指定されたメトリクスは x 軸に使用されます。
-- `y` (LList[MetricType]): W&B プロジェクトにログされた1つ以上のメトリクス。このレポートは情報を取得します。指定されたメトリクスは y 軸に使用されます。
-- `range_x` (Tuple[float | None, float | None]): x軸の範囲を指定するタプル。
-- `range_y` (Tuple[float | None, float | None]): y軸の範囲を指定するタプル。
-- `log_x` (Optional[bool]): x 座標を底 10 の対数スケールでプロットします。
-- `log_y` (Optional[bool]): y 座標を底 10 の対数スケールでプロットします。
-- `title_x` (Optional[str]): x軸のラベル。
-- `title_y` (Optional[str]): y軸のラベル。
-- `ignore_outliers` (Optional[bool]): `True` に設定すると、外れ値をプロットしません。
-- `groupby` (Optional[str]): W&B プロジェクトにログされたメトリクスに基づいて run をグループ化します。このレポートは情報を取得します。
-- `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには `mean`, `min`, `max`, `median`, `sum`, `samples`, または `None` が含まれます。
-- `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには `minmax`, `stddev`, `stderr`, `none`, `samples`, または `None` が含まれます。
-- `smoothing_factor` (Optional[float]): 平滑化タイプに適用する平滑化係数。許容する値は 0 から 1 の範囲です。
-- `smoothing_type` (Optional[SmoothingType]): 指定された分布に基づいてフィルターを適用します。オプションには `exponentialTimeWeighted`, `exponential`, `gaussian`, `average`, または `none` が含まれます。
-- `smoothing_show_original` (Optional[bool]): `True` に設定すると、元のデータを表示します。
-- `max_runs_to_show` (Optional[int]): ラインプロットに表示する最大 run 数。
-- `custom_expressions` (Optional[LList[str]]): データに適用するカスタム式。
-- `plot_type` (Optional[LinePlotStyle]): 生成するラインプロットのタイプ。オプションには `line`, `stacked-area`, または `pct-area` が含まれます。
-- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
-- `legend_position` (Optional[LegendPosition]): 凡例を配置する場所。オプションには `north`, `south`, `east`, `west`, または `None` が含まれます。
-- `legend_template` (Optional[str]): 凡例のテンプレート。
-- `aggregate` (Optional[bool]): `True` に設定すると、データを集計します。
-- `xaxis_expression` (Optional[str]): x軸の表現。
-- `legend_fields` (Optional[LList[str]]): 凡例に含めるフィールド。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Link`
-URL へのリンク。
+A link to a URL. 
+
+
 
 **Attributes:**
+ 
+ - `text` (Union[str, TextWithInlineComments]): The text of the link. 
+ - `url` (str): The URL the link points to. 
 
-- `text` (Union[str, TextWithInlineComments]): リンクのテキスト。
-- `url` (str): リンクが指す URL。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `MarkdownBlock`
-マークダウンテキストのブロック。一般的なマークダウンサクジを使用してテキストを書くのに便利です。
+A block of markdown text. Useful if you want to write text that uses common markdown syntax. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The markdown text. 
 
-- `text` (str): マークダウンテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `MarkdownPanel`
-マークダウンをレンダリングするパネル。
+A panel that renders markdown. 
+
+
 
 **Attributes:**
+ 
+ - `markdown` (str): The text you want to appear in the markdown panel. 
 
-- `markdown` (str): マークダウンパネルに表示したいテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `MediaBrowser`
-メディアファイルをグリッドレイアウトで表示するパネル。
+A panel that displays media files in a grid layout. 
+
+
 
 **Attributes:**
+ 
+ - `num_columns` (Optional[int]): The number of columns in the grid. 
+ - `media_keys` (LList[str]): A list of media keys that correspond to the media files. 
 
-- `num_columns` (Optional[int]): グリッドの列数。
-- `media_keys` (LList[str]): メディアファイルに対応するメディアキーのリスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Metric`
-プロジェクトにログされたメトリクスをレポートに表示する。
+A metric to display in a report that is logged in your project. 
+
+
 
 **Attributes:**
+ 
+ - `name` (str): The name of the metric. 
 
-- `name` (str): メトリクスの名前。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `OrderBy`
-並び替えに使用するメトリクス。
+A metric to order by. 
+
+
 
 **Attributes:**
+ 
+ - `name` (str): The name of the metric. 
+ - `ascending` (bool): Whether to sort in ascending order. By default set to `False`. 
 
-- `name` (str): メトリクスの名前。
-- `ascending` (bool): 昇順にソートするかどうか。デフォルトは `False` に設定されています。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `OrderedList`
-番号付きリストの項目リスト。
+A list of items in a numbered list. 
+
+
 
 **Attributes:**
+ 
+ - `items` (LList[str]): A list of one or more `OrderedListItem` objects. 
 
-- `items` (LList[str]): `OrderedListItem` オブジェクトのリスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `OrderedListItem`
-順序付きリストの項目。
+A list item in an ordered list. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the list item. 
 
-- `text` (str): リストアイテムのテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `P`
-テキストの段落。
+A paragraph of text. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the paragraph. 
 
-- `text` (str): 段落のテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Panel`
-パネルグリッドで可視化を表示するパネル。
+A panel that displays a visualization in a panel grid. 
+
+
 
 **Attributes:**
+ 
+ - `layout` (Layout): A `Layout` object. 
 
-- `layout` (Layout): `Layout` オブジェクト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `PanelGrid`
-runset とパネルで構成されるグリッド。runset とパネルはそれぞれ `Runset` と `Panel` オブジェクトで追加します。
+A grid that consists of runsets and panels. Add runsets and panels with `Runset` and `Panel` objects, respectively. 
 
-**利用可能なパネル:**
+Available panels include: `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`. 
 
-- `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`
+
+
+
 
 **Attributes:**
+ 
+ - `runsets` (LList["Runset"]): A list of one or more `Runset` objects. 
+ - `panels` (LList["PanelTypes"]): A list of one or more `Panel` objects. 
+ - `active_runset` (int): The number of runs you want to display within a runset. By default, it is set to 0. 
+ - `custom_run_colors` (dict): Key-value pairs where the key is the name of a run and the value is a color specified by a hexadecimal value. 
 
-- `runsets` (LList["Runset"]): `Runset` オブジェクトのリスト。
-- `panels` (LList["PanelTypes"]): `Panel` オブジェクトのリスト。
-- `active_runset` (int): runset 内で表示したい run の数。デフォルトは 0 に設定されています。
-- `custom_run_colors` (dict): run の名前をキーに指定し、16進値の色を値として指定するキーと値のペア。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
-並列座標プロットを表示するパネルオブジェクト。
+A panel object that shows a parallel coordinates plot. 
+
+
 
 **Attributes:**
+ 
+ - `columns` (LList[ParallelCoordinatesPlotColumn]): A list of one or more `ParallelCoordinatesPlotColumn` objects. 
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `gradient` (Optional[LList[GradientPoint]]): A list of gradient points. 
+ - `font_size` (Optional[FontSize]): The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
 
-- `columns` (LList[ParallelCoordinatesPlotColumn]): `ParallelCoordinatesPlotColumn` オブジェクトのリスト。
-- `title` (Optional[str]): プロットの上部に表示されるテキスト。
-- `gradient` (Optional[LList[GradientPoint]]): 勾配ポイントのリスト。
-- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
-並列座標プロット内の列。指定された `metric` の順序が並列軸 (x軸) の順序を決定します。
+A column within a parallel coordinates plot. The order of `metric`s specified determine the order of the parallel axis (x-axis) in the parallel coordinates plot. 
+
+
 
 **Attributes:**
+ 
+ - `metric` (str | Config | SummaryMetric): The name of the metric logged to your W&B project that the report pulls information from. 
+ - `display_name` (Optional[str]): The name of the metric 
+ - `inverted` (Optional[bool]): Whether to invert the metric. 
+ - `log` (Optional[bool]): Whether to apply a log transformation to the metric. 
 
-- `metric` (str | Config | SummaryMetric): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。
-- `display_name` (Optional[str]): メトリクスの表示名。
-- `inverted` (Optional[bool]): メトリクスを反転するかどうか。
-- `log` (Optional[bool]): メトリクスに対数変換を適用するかどうか。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
-各ハイパーパラメーターが選択されたメトリクスの予測にどれほど重要かを示すパネル。
+A panel that shows how important each hyperparameter is in predicting the chosen metric. 
+
+
 
 **Attributes:**
+ 
+ - `with_respect_to` (str): The metric you want to compare the parameter importance against. Common metrics might include the loss, accuracy, and so forth. The metric you specify must be logged within the project that the report pulls information from. 
 
-- `with_respect_to` (str): パラメータの重要度を比較したいメトリクス。一般的なメトリクスにはロス、精度などが含まれます。指定されたメトリクスはプロジェクト内でログされる必要があります。このレポートは情報を取得します。
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `Report`
-W&B レポートを表すオブジェクト。返されたオブジェクトの `blocks` 属性を使用してレポートをカスタマイズします。レポートオブジェクトは自動的に保存されません。`save()` メソッドを使用して変更を保存してください。
+An object that represents a W&B Report. Use the returned object's `blocks` attribute to customize your report. Report objects do not automatically save. Use the `save()` method to persists changes. 
+
+
 
 **Attributes:**
+ 
+ - `project` (str): The name of the W&B project you want to load in. The project specified appears in the report's URL. 
+ - `entity` (str): The W&B entity that owns the report. The entity appears in the report's URL. 
+ - `title` (str): The title of the report. The title appears at the top of the report as an H1 heading. 
+ - `description` (str): A description of the report. The description appears underneath the report's title. 
+ - `blocks` (LList[BlockTypes]): A list of one or more HTML tags, plots, grids, runsets, and more. 
+ - `width` (Literal['readable', 'fixed', 'fluid']): The width of the report. Options include 'readable', 'fixed', 'fluid'. 
 
-- `project` (str): 読み込む W&B プロジェクトの名前。指定されたプロジェクトはレポートの URL に表示されます。
-- `entity` (str): レポートを所有する W&B エンティティ。エンティティはレポートの URL に表示されます。
-- `title` (str): レポートのタイトル。タイトルはレポートのトップに H1 ヘッディングとして表示されます。
-- `description` (str): レポートの説明。説明はレポートのタイトルの下に表示されます。
-- `blocks` (LList[BlockTypes]): HTML タグ、プロット、グリッド、runset などのリスト。
-- `width` (Literal['readable', 'fixed', 'fluid']): レポートの幅。オプションには 'readable', 'fixed', 'fluid' が含まれます。
 
 ---
 
 #### <kbd>property</kbd> url
 
-レポートがホストされている URL。レポート URL は `https://wandb.ai/{entity}/{project_name}/reports/` で構成されます。ここで `{entity}` と `{project_name}` はそれぞれレポートが所属するエンティティとプロジェクトの名前です。
+The URL where the report is hosted. The report URL consists of `https://wandb.ai/{entity}/{project_name}/reports/`. Where `{entity}` and `{project_name}` consists of the entity that the report belongs to and the name of the project, respectively. 
+
+
 
 ---
+
+
 
 ### <kbd>classmethod</kbd> `from_url`
 
@@ -484,14 +882,18 @@ W&B レポートを表すオブジェクト。返されたオブジェクトの 
 from_url(url: str, as_model: bool = False)
 ```
 
-現在の環境にレポートを読み込みます。レポートがホストされている URL を渡します。
+Load in the report into current environment. Pass in the URL where the report is hosted. 
+
+
 
 **Arguments:**
-
-- `url` (str): レポートがホストされている URL。
-- `as_model` (bool): `True` に設定すると、レポートオブジェクトの代わりにモデルオブジェクトが返されます。デフォルトは `False` に設定されています。
+ 
+ - `url` (str): The URL where the report is hosted. 
+ - `as_model` (bool): If True, return the model object instead of the Report object. By default, set to `False`. 
 
 ---
+
+
 
 ### <kbd>method</kbd> `save`
 
@@ -499,9 +901,11 @@ from_url(url: str, as_model: bool = False)
 save(draft: bool = False, clone: bool = False)
 ```
 
-レポートオブジェクトに加えた変更を保存します。
+Persists changes made to a report object. 
 
 ---
+
+
 
 ### <kbd>method</kbd> `to_html`
 
@@ -509,270 +913,487 @@ save(draft: bool = False, clone: bool = False)
 to_html(height: int = 1024, hidden: bool = False) → str
 ```
 
-このレポートを表示する iframe を含む HTML を生成します。通常、Python ノートブック内で使用されます。
+Generate HTML containing an iframe displaying this report. Commonly used to within a Python notebook. 
+
+
 
 **Arguments:**
-
-- `height` (int): iframe の高さ。
-- `hidden` (bool): `True` に設定すると、iframe を非表示にします。デフォルトは `False` に設定されています。
+ 
+ - `height` (int): Height of the iframe. 
+ - `hidden` (bool): If True, hide the iframe. Default set to `False`.
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunComparer`
-プロジェクトから引き出された情報で、異なる run 間のメトリクスを比較するパネル。
+A panel that compares metrics across different runs from the project the report pulls information from. 
+
+
 
 **Attributes:**
+ 
+ - `diff_only` `(Optional[Literal["split", True]])`: Display only the difference across runs in a project. You can toggle this feature on and off in the W&B Report UI. 
 
-- `diff_only` (Optional[Literal["split", True]]): プロジェクト内の run 間の差異のみを表示します。W&B レポート UI ではこの機能のオン/オフを切り替えることができます。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Runset`
-パネルグリッドに表示する run のセット。
+A set of runs to display in a panel grid. 
+
+
 
 **Attributes:**
+ 
+ - `entity` (str): An entity that owns or has the correct permissions to the project where the runs are stored. 
+ - `project` (str): The name of the project were the runs are stored. 
+ - `name` (str): The name of the run set. Set to `Run set` by default. 
+ - `query` (str): A query string to filter runs. 
+ - `filters` (Optional[str]): A filter string to filter runs. 
+ - `groupby` (LList[str]): A list of metric names to group by. 
+ - `order` (LList[OrderBy]): A list of `OrderBy` objects to order by. 
+ - `custom_run_colors` (LList[OrderBy]): A dictionary mapping run IDs to colors. 
 
-- `entity` (str): run が保存されているプロジェクトを所有したり、正しい権限を持つエンティティ。
-- `project` (str): run が保存されているプロジェクトの名前。
-- `name` (str): run セットの名前。デフォルトで `Run set` に設定されています。
-- `query` (str): run をフィルタリングするためのクエリ文字列。
-- `filters` (Optional[str]): run をフィルタリングするためのフィルタ文字列。
-- `groupby` (LList[str]): グループ化するメトリクス名のリスト。
-- `order` (LList[OrderBy]): ソートするための `OrderBy` オブジェクトのリスト。
-- `custom_run_colors` (LList[OrderBy]): run ID を色にマッピングする辞書。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunsetGroup`
-runset のグループを表示する UI エレメント。
+UI element that shows a group of runsets. 
+
+
 
 **Attributes:**
+ 
+ - `runset_name` (str): The name of the runset. 
+ - `keys` (Tuple[RunsetGroupKey, ...]): The keys to group by. Pass in one or more `RunsetGroupKey` objects to group by. 
 
-- `runset_name` (str): runset の名前。
-- `keys` (Tuple[RunsetGroupKey, ...]): グループ化するためのキー。グループ化するために1つ以上の `RunsetGroupKey` オブジェクトを渡します。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunsetGroupKey`
-メトリクスタイプと値によって runset をグループ化します。`RunsetGroup` の一部として動作します。メトリクスタイプとグループ化する値をキーと値のペアとして指定します。
+Groups runsets by a metric type and value. Part of a `RunsetGroup`. Specify the metric type and value to group by as key-value pairs. 
+
+
 
 **Attributes:**
+ 
+ - `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): The metric type to group by. 
+ - `value` (str): The value of the metric to group by. 
 
-- `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): グループ化するメトリクスタイプ。
-- `value` (str): グループ化するメトリクスの値。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ScalarChart`
-スカラーグラフを表示するパネルオブジェクト。
+A panel object that shows a scalar chart. 
+
+
 
 **Attributes:**
+ 
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `metric` (MetricType): The name of a metric logged to your W&B project that the report pulls information from. 
+ - `groupby_aggfunc` (Optional[GroupAgg]): Aggregate runs with specified function. Options include `mean`, `min`, `max`, `median`, `sum`, `samples`, or `None`. 
+ - `groupby_rangefunc` (Optional[GroupArea]): Group runs based on a range. Options include `minmax`, `stddev`, `stderr`, `none`, `samples`, or `None`. 
+ - `custom_expressions` (Optional[LList[str]]): A list of custom expressions to be used in the scalar chart. 
+ - `legend_template` (Optional[str]): The template for the legend. 
+ - `font_size Optional[FontSize]`: The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
 
-- `title` (Optional[str]): プロットの上部に表示されるテキスト。
-- `metric` (MetricType): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。
-- `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには `mean`, `min`, `max`, `median`, `sum`, `samples`, または `None` が含まれます。
-- `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには `minmax`, `stddev`, `stderr`, `none`, `samples`, または `None` が含まれます。
-- `custom_expressions` (Optional[LList[str]]): スカラーチャートで使用されるカスタム式のリスト。
-- `legend_template` (Optional[str]): 凡例のテンプレート。
-- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `ScatterPlot`
-2D または 3D 散布図を表示するパネルオブジェクト。
+A panel object that shows a 2D or 3D scatter plot. 
+
+
 
 **Arguments:**
+ 
+ - `title` (Optional[str]): The text that appears at the top of the plot. 
+ - `x Optional[SummaryOrConfigOnlyMetric]`: The name of a metric logged to your W&B project that the report pulls information from. The metric specified is used for the x-axis. 
+ - `y Optional[SummaryOrConfigOnlyMetric]`: One or more metrics logged to your W&B project that the report pulls information from. Metrics specified are plotted within the y-axis. z Optional[SummaryOrConfigOnlyMetric]: 
+ - `range_x` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the x-axis. 
+ - `range_y` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the y-axis. 
+ - `range_z` (Tuple[float | `None`, float | `None`]): Tuple that specifies the range of the z-axis. 
+ - `log_x` (Optional[bool]): Plots the x-coordinates using a base-10 logarithmic scale. 
+ - `log_y` (Optional[bool]): Plots the y-coordinates using a base-10 logarithmic scale. 
+ - `log_z` (Optional[bool]): Plots the z-coordinates using a base-10 logarithmic scale. 
+ - `running_ymin` (Optional[bool]): Apply a moving average or rolling mean. 
+ - `running_ymax` (Optional[bool]): Apply a moving average or rolling mean. 
+ - `running_ymean` (Optional[bool]): Apply a moving average or rolling mean. 
+ - `legend_template` (Optional[str]): A string that specifies the format of the legend. 
+ - `gradient` (Optional[LList[GradientPoint]]): A list of gradient points that specify the color gradient of the plot. 
+ - `font_size` (Optional[FontSize]): The size of the line plot's font. Options include `small`, `medium`, `large`, `auto`, or `None`. 
+ - `regression` (Optional[bool]): If `True`, a regression line is plotted on the scatter plot. 
 
-- `title` (Optional[str]): プロットの上部に表示されるテキスト。
-- `x` (Optional[SummaryOrConfigOnlyMetric]): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。指定されたメトリクスは x 軸に使用されます。
-- `y` (Optional[SummaryOrConfigOnlyMetric]): W&B プロジェクトにログされた1つ以上のメトリクス。このレポートは情報を取得します。指定されたメトリクスは y 軸にプロットされます。
-- `range_x` (Tuple[float | None, float | None]): x軸の範囲を指定するタプル。
-- `range_y` (Tuple[float | None, float | None]): y軸の範囲を指定するタプル。
-- `log_x` (Optional[bool]): x 座標を底 10 の対数スケールでプロットします。
-- `log_y` (Optional[bool]): y 座標を底 10 の対数スケールでプロットします。
-- `legend_template` (Optional[str]): 凡例の形式を指定する文字列。
-- `gradient` (Optional[LList[GradientPoint]]): プロットの色勾配を指定する勾配ポイントのリスト。
-- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
-- `regression` (Optional[bool]): `True` に設定すると、散布図に回帰直線をプロットします。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `SoundCloud`
-SoundCloud プレーヤーをレンダリングするブロック。
+A block that renders a SoundCloud player. 
+
+
 
 **Attributes:**
+ 
+ - `html` (str): The HTML code to embed the SoundCloud player. 
 
-- `html` (str): SoundCloud プレーヤーを埋め込むための HTML コード。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Spotify`
-Spotify プレーヤーをレンダリングするブロック。
+A block that renders a Spotify player. 
+
+
 
 **Attributes:**
+ 
+ - `spotify_id` (str): The Spotify ID of the track or playlist. 
 
-- `spotify_id` (str): トラックまたはプレイリストの Spotify ID。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `SummaryMetric`
-レポート内に表示するサマリメトリクス。
+A summary metric to display in a report. 
+
+
 
 **Attributes:**
+ 
+ - `name` (str): The name of the metric. 
 
-- `name` (str): メトリクスの名前。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `TableOfContents`
-H1, H2, H3 の HTML ブロックを使用して指定されたセクションとサブセクションのリストを含むブロック。
+A block that contains a list of sections and subsections using H1, H2, and H3 HTML blocks specified in a report. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `TextWithInlineComments`
-インラインコメント付きのテキストブロック。
+A block of text with inline comments. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the block. 
 
-- `text` (str): テキストブロックのテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Twitter`
-Twitter フィードを表示するブロック。
+A block that displays a Twitter feed. 
+
+
 
 **Attributes:**
+ 
+ - `html` (str): The HTML code to display the Twitter feed. 
 
-- `html` (str): Twitter フィードを表示するための HTML コード。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `UnorderedList`
-箇条書きリストの項目リスト。
+A list of items in a bulleted list. 
+
+
 
 **Attributes:**
+ 
+ - `items` (LList[str]): A list of one or more `UnorderedListItem` objects. 
 
-- `items` (LList[str]): `UnorderedListItem` オブジェクトのリスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `UnorderedListItem`
-順序のないリストの項目。
+A list item in an unordered list. 
+
+
 
 **Attributes:**
+ 
+ - `text` (str): The text of the list item. 
 
-- `text` (str): リストアイテムのテキスト。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Video`
-ビデオをレンダリングするブロック。
+A block that renders a video. 
+
+
 
 **Attributes:**
+ 
+ - `url` (str): The URL of the video. 
 
-- `url` (str): ビデオの URL。
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeaveBlockArtifact`
-W&B にログされたアーティファクトを示すブロック。クエリは次の形式を取ります。
+A block that shows an artifact logged to W&B. The query takes the form of 
 
 ```python
 project('entity', 'project').artifact('artifact-name')
-```
+``` 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
+ 
+ - `entity` (str): The entity that owns or has the appropriate permissions to the project where the artifact is stored. 
+ - `project` (str): The project where the artifact is stored. 
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: The tab to display in the artifact panel. 
 
-- `entity` (str): アーティファクトが保存されているプロジェクトを所有するか、適切な権限を持つエンティティ。
-- `project` (str): アーティファクトが保存されているプロジェクト。
-- `artifact` (str): 取得するアーティファクトの名前。
-- `tab` (Literal["overview", "metadata", "usage", "files", "lineage"]): アーティファクトパネルに表示するタブ。
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
-バージョン化されたファイルを W&B アーティファクトにログしたことを示すブロック。クエリは次の形式を取ります。
+A block that shows a versioned file logged to a W&B artifact. The query takes the form of 
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
-```
+``` 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
+ 
+ - `entity` (str): The entity that owns or has the appropriate permissions to the project where the artifact is stored. 
+ - `project` (str): The project where the artifact is stored. 
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `version` (str): The version of the artifact to retrieve. 
+ - `file` (str): The name of the file stored in the artifact to retrieve. 
 
-- `entity` (str): アーティファクトが保存されているプロジェクトを所有するか、適切な権限を持つエンティティ。
-- `project` (str): アーティファクトが保存されているプロジェクト。
-- `artifact` (str): 取得するアーティファクトの名前。
-- `version` (str): 取得するアーティファクトのバージョン。
-- `file` (str): 取得するアーティファクト内に保存されているファイルの名前。
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
-W&B にログされた W&B テーブル、pandas DataFrame、プロット、またはその他の値を表示するブロック。クエリは次の形式を取ります。
+A block that shows a W&B Table, pandas DataFrame, plot, or other value logged to W&B. The query takes the form of 
 
 ```python
 project('entity', 'project').runs.summary['value']
-```
+``` 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
+ 
+ - `entity` (str): The entity that owns or has the appropriate permissions to the project where the values are logged. 
+ - `project` (str): The project where the value is logged in. 
+ - `table_name` (str): The name of the table, DataFrame, plot, or value. 
 
-- `entity` (str): 値がログされたプロジェクトを所有するか、適切な権限を持つエンティティ。
-- `project` (str): 値がログされたプロジェクト。
-- `table_name` (str): テーブル、DataFrame、プロット、または値の名前。
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `WeavePanel`
-クエリを使用してカスタムコンテンツを表示するための空のクエリパネル。
+An empty query panel that can be used to display custom content using queries. 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `WeavePanelArtifact`
-W&B にログされたアーティファクトを示すパネル。
+A panel that shows an artifact logged to W&B. 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
+ 
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: The tab to display in the artifact panel. 
 
-- `artifact` (str): 取得するアーティファクトの名前。
-- `tab` (Literal["overview", "metadata", "usage", "files", "lineage"]): アーティファクトパネルに表示するタブ。
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
-バージョンのあるファイルを W&B アーティファクトにログしたことを示すパネル。
+A panel that shows a versioned file logged to a W&B artifact. 
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
-```
+``` 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
+ 
+ - `artifact` (str): The name of the artifact to retrieve. 
+ - `version` (str): The version of the artifact to retrieve. 
+ - `file` (str): The name of the file stored in the artifact to retrieve. 
 
-- `artifact` (str): 取得するアーティファクトの名前。
-- `version` (str): 取得するアーティファクトのバージョン。
-- `file` (str): 取得するアーティファクト内に保存されているファイルの名前。
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
-W&B にログされた W&B テーブル、pandas DataFrame、プロット、またはその他の値を表示するパネル。クエリは次の形式を取ります。
+A panel that shows a W&B Table, pandas DataFrame, plot, or other value logged to W&B. The query takes the form of 
 
 ```python
 runs.summary['value']
-```
+``` 
 
-API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
+The term "Weave" in the API name does not refer to the W&B Weave toolkit used for tracking and evaluating LLM. 
+
+
 
 **Attributes:**
-
-- `table_name` (str): テーブル、DataFrame、プロット、または値の名前。
+ 
+ - `table_name` (str): The name of the table, DataFrame, plot, or value.

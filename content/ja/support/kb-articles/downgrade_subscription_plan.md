@@ -1,13 +1,14 @@
 ---
-title: サブスクリプションプランをダウングレードするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-downgrade_subscription_plan
 support:
-  - billing
-  - administrator
+- billing
+- administrator
+title: How do I downgrade my subscription plan?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-サブスクリプションプランをダウングレードするには、current プランの詳細と希望プランを support@wandb.com のサポートチームにお問い合わせください。
+
+To downgrade a subscription plan, contact the support team at support@wandb.com with your current plan details and the desired plan.

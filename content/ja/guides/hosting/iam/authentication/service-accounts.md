@@ -1,65 +1,129 @@
 ---
-title: ワークフローを自動化するためにサービスアカウントを使用する
-description: 組織およびチームスコープのサービスアカウントを使用して、自動または非対話型のワークフローを管理する
+description: Manage automated or non-interactive workflows using org and team scoped
+  service accounts
 displayed_sidebar: default
 menu:
   default:
     identifier: ja-guides-hosting-iam-authentication-service-accounts
+title: Use service accounts to automate workflows
 ---
 
-サービスアカウントは、チーム内のプロジェクト全体または複数チームにわたって、一般的なタスクを自動で実行できる人間でない（または機械の）ユーザーを表します。
+A service account represents a non-human or machine user that can automatically perform common tasks across projects within a team or across teams. Service accounts are ideal for CI/CD pipelines, automated training jobs, and other machine-to-machine workflows.
 
-- 組織の管理者は、組織のスコープでサービスアカウントを作成することができます。
-- チームの管理者は、そのチームのスコープでサービスアカウントを作成することができます。
+## Key benefits
 
-サービスアカウントの APIキー により、呼び出し元はサービスアカウントのスコープ内のプロジェクトを読み書きできます。
+{{< readfile file="/content/en/_includes/service-account-benefits.md" >}}
 
-サービスアカウントは、W&B Modelsの実験管理を自動化したり、W&B Weaveのトレースをログ記録したりするために、複数のユーザーやチームによるワークフローを集中管理することを可能にします。また、`WANDB_USERNAME`または`WANDB_USER_EMAIL`の[環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})を使用することにより、サービスアカウントで管理されているワークフローに人間ユーザーのアイデンティティを関連付けるオプションもあります。
+## Overview
 
-{{% alert %}}
-サービスアカウントは [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})、エンタープライズライセンスのある [セルフマネージド・インスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}})、および [SaaSクラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) のエンタープライズアカウントで利用可能です。
-{{% /alert %}}
+Service accounts provide a secure way to automate W&B workflows without using personal user credentials or hard-coded credentials. They can be created at two scopes:
 
-## 組織スコープのサービスアカウント
+- **Organization-scoped**: Created by org admins, with access across all teams.
+- **Team-scoped**: Created by team admins, with access limited to a specific team
+	
+A service account's API key allows the caller to read from or write to projects within the service account's scope. This enables centralized management of automated workflows for experiment tracking in W&B Models or logging traces in W&B Weave.
 
-組織スコープのサービスアカウントは、チームに関係なく、組織内のすべてのプロジェクトを読み書きする権限を持ちます。ただし、[制限付きプロジェクト]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}})は例外です。制限付きプロジェクトにアクセスする前に、そのプロジェクトの管理者は明示的にサービスアカウントをプロジェクトに追加する必要があります。
-
-組織管理者は、組織またはアカウントダッシュボードの **Service Accounts** タブから組織スコープのサービスアカウントの APIキー を取得できます。
-
-新しい組織スコープのサービスアカウントを作成するには：
-
-* 組織ダッシュボードの **Service Accounts** タブで **New service account** ボタンをクリックします。
-* **Name** を入力します。
-* サービスアカウントのデフォルトチームを選択します。
-* **Create** をクリックします。
-* 新しく作成されたサービスアカウントの横で **Copy API key** をクリックします。
-* コピーした APIキー を秘密管理マネージャーまたは他の安全でアクセス可能な場所に保存します。
+Service accounts are particularly useful for:
+- **CI/CD pipelines**: Automatically log model training runs from GitHub Actions, GitLab CI, or Jenkins
+- **Scheduled jobs**: Nightly model retraining, periodic evaluation runs, or data validation workflows
+- **Production monitoring**: Log inference metrics and model performance from production systems
+- **Jupyter notebooks**: Shared notebooks in JupyterHub or Google Colab environments
+- **Kubernetes jobs**: Automated workflows running in K8s clusters
+- **Airflow/Prefect/Dagster**: ML pipeline orchestration tools
 
 {{% alert %}}
-組織スコープのサービスアカウントはデフォルトのチームが必要ですが、それでも組織内のすべてのチームが所有する非制限プロジェクトにアクセスできます。これは、 `WANDB_ENTITY` 変数が モデルトレーニング や生成AIアプリの環境に設定されていない場合に、ワークロードが失敗するのを防ぐのに役立ちます。異なるチームのプロジェクトに組織スコープのサービスアカウントを使用するには、そのチームに `WANDB_ENTITY` 環境変数を設定する必要があります。
+Service accounts are available on [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), [Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) with an enterprise license, and enterprise accounts in [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}).
 {{% /alert %}}
 
-## チームスコープのサービスアカウント
+## Organization-scoped service accounts
 
-チームスコープのサービスアカウントは、そのチーム内のすべてのプロジェクトを読み書きできますが、そのチーム内の[制限付きプロジェクト]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}})は除きます。制限付きプロジェクトにアクセスする前に、そのプロジェクトの管理者は明示的にサービスアカウントをプロジェクトに追加する必要があります。
+Service accounts scoped to an organization have permissions to read and write in all projects in the organization, regardless of the team, with the exception of [restricted projects]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}}). Before an organization-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
 
-チームの管理者として、 `<WANDB_HOST_URL>/<your-team-name>/service-accounts` でチームスコープのサービスアカウントの APIキー を取得できます。あるいは、チームの **Team settings** で **Service Accounts** タブを参照してください。
+An organization admin can obtain the API key for an organization-scoped service account from the **Service Accounts** tab of the organization or account dashboard.
 
-チーム用の新しいチームスコープのサービスアカウントを作成するには：
+To create a new organization-scoped service account:
 
-* チームの **Service Accounts** タブで **New service account** ボタンをクリックします。
-* **Name** を入力します。
-* 認証メソッドとして **Generate API key (Built-in)** を選択します。
-* **Create** をクリックします。
-* 新しく作成されたサービスアカウントの横で **Copy API key** をクリックします。
-* コピーした APIキー を秘密管理マネージャーまたは他の安全でアクセス可能な場所に保存します。
+* Click **New service account** button in the **Service Accounts** tab of your organization dashboard.
+* Enter a **Name**.
+* Select a default team for the service account.
+* Click **Create**.
+* Next to the newly created service account, click **Copy API key**.
+* Store the copied API key in a secret manager or another secure but accessible location.
 
-チームスコープのサービスアカウントを使用する モデルトレーニング や生成AIアプリの環境でチームを設定しないと、モデルのrunやweaveトレースがサービスアカウントの親チーム内の指定されたプロジェクトにログ記録されます。このようなシナリオでは、参照されているユーザーがサービスアカウントの親チームの一部でない限り、`WANDB_USERNAME` または `WANDB_USER_EMAIL` 変数を使用したユーザー帰属は _機能しません_。
+{{% alert %}}
+An organization-scoped service account requires a default team, even though it has access to non-restricted projects owned by all teams within the organization. This helps to prevent a workload from failing if the `WANDB_ENTITY` variable is not set in the environment for your model training or generative AI app. To use an organization-scoped service account for a project in a different team, you must set the `WANDB_ENTITY` environment variable to that team.
+{{% /alert %}}
+
+## Team-scoped service accounts
+
+A team-scoped service account can read and write in all projects within its team, except to [restricted projects]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}}) in that team. Before a team-scoped service account can access a restricted project, an admin of that project must explicitly add the service account to the project.
+
+As a team admin, you can get the API key for a team-scoped service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab.
+
+To create a new team scoped service account for your team:
+
+* Click **New service account** button in the **Service Accounts** tab of your team.
+* Enter a **Name**.
+* Select **Generate API key (Built-in)** as the authentication method.
+* Click **Create**.
+* Next to the newly created service account, click **Copy API key**.
+* Store the copied API key in a secret manager or another secure but accessible location.
+
+If you do not configure a team in your model training or generative AI app environment that uses a team-scoped service account, the model runs or weave traces log to the named project within the service account's parent team. In such a scenario, user attribution using the `WANDB_USERNAME` or `WANDB_USER_EMAIL` variables _do not work_ unless the referenced user is part of the service account's parent team.
 
 {{% alert color="warning" %}}
-チームスコープのサービスアカウントは、親チームとは異なるチーム内の [チームスコープか制限スコープのプロジェクト]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}}) に runをログ記録することはできませんが、他のチーム内の公開範囲プロジェクトには runをログ記録できます。
+A team-scoped service account cannot log runs to a [team or restricted-scoped project]({{< relref path="../access-management/restricted-projects.md#visibility-scopes" lang="ja" >}}) in a team different from its parent team, but it can log runs to an open visibility project within another team.
 {{% /alert %}}
 
-### 外部サービスアカウント
+### External service accounts
 
-**Built-in** サービスアカウントに加えて、W&B は [アイデンティティのフェデレーション]({{< relref path="./identity_federation.md#external-service-accounts" lang="ja" >}}) を使用して、JSON Web Tokens (JWTs) を発行できるアイデンティティプロバイダー (IdPs) とともに、W&B SDK と CLI を用いたチームスコープの **外部サービスアカウント** もサポートしています。
+In addition to built-in service accounts, W&B also supports team-scoped external service accounts with the W&B SDK and CLI using [Identity federation]({{< relref path="./identity_federation.md#external-service-accounts" lang="ja" >}}) with identity providers (IdPs) that can issue JSON Web Tokens (JWTs).
+
+## Best practices
+
+Follow these recommendations to ensure secure and efficient use of service accounts in your organization:
+
+- **Use a secrets manager**: Store service account API keys in a secure secrets management system (e.g., AWS Secrets Manager, HashiCorp Vault, Azure Key Vault) rather than in plain text configuration files.
+
+- **Principle of least privilege**: Create team-scoped service accounts when possible, rather than organization-scoped accounts, to limit access to only necessary projects.
+
+- **Unique service accounts per use case**: Create separate service accounts for different automation workflows (e.g., one for CI/CD, another for scheduled retraining) to improve auditability and enable granular access control.
+
+- **Regular audits**: Periodically review active service accounts and remove those no longer in use. Check the audit logs to monitor service account activity.
+
+- **Secure API key handling**: 
+  - Never commit API keys to version control
+  - Use environment variables to pass keys to applications
+  - Rotate keys if they are accidentally exposed
+
+- **Naming conventions**: Use descriptive names that indicate the service account's purpose:
+  - Good: `ci-model-training`, `nightly-eval-pipeline`, `prod-inference-monitor`
+  - Avoid: `service-account-1`, `test-sa`, `temp`
+
+- **User attribution**: When multiple team members use the same automation workflow, set `WANDB_USERNAME` or `WANDB_USER_EMAIL` to track who triggered each run:
+  ```bash
+  export WANDB_API_KEY="<service_account_key>"
+  export WANDB_USERNAME="john.doe@company.com"
+  ```
+
+- **Environment configuration**: For team-scoped service accounts, always set the `WANDB_ENTITY` to ensure runs log to the correct team:
+  ```bash
+  export WANDB_ENTITY="ml-team"
+  export WANDB_PROJECT="production-models"
+  ```
+
+- **Error handling**: Implement proper error handling and alerts for failed authentication to quickly identify issues with service account credentials.
+
+- **Documentation**: Maintain documentation of:
+  - Which service accounts exist and their purposes
+  - Which systems/workflows use each service account
+  - Contact information for the team responsible for each account
+
+## Troubleshooting
+
+Common issues and solutions:
+
+- **"Unauthorized" errors**: Verify the API key is correctly set and the service account has access to the target project
+- **Runs not appearing**: Check that `WANDB_ENTITY` is set to the correct team name
+- **User attribution not working**: Ensure the user specified in `WANDB_USERNAME` is a member of the team
+- **Access denied to restricted projects**: Explicitly add the service account to the restricted project's access list

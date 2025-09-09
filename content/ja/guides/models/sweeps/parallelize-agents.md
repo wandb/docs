@@ -1,35 +1,36 @@
 ---
-title: エージェントの並列化
-description: マルチコアまたはマルチGPUマシンでW&B sweep agentを並列化します。
+description: Parallelize W&B Sweep agents on multi-core or multi-GPU machine.
 menu:
   default:
     identifier: ja-guides-models-sweeps-parallelize-agents
     parent: sweeps
+title: Parallelize agents
 weight: 6
 ---
 
-W&B スイープエージェントをマルチコアまたはマルチ GPU マシンで並列化しましょう。始める前に、W&B スイープが初期化されていることを確認してください。W&B スイープの初期化方法についての詳細は、[Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}})をご覧ください。
+Parallelize your W&B Sweep agents on a multi-core or multi-GPU machine. Before you get started, ensure you have initialized your W&B Sweep. For more information on how to initialize a W&B Sweep, see [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}).
 
-### マルチ CPU マシンで並列化
+### Parallelize on a multi-CPU machine
 
-ユースケースに応じて、以下のタブを参照し、CLI や Jupyter ノートブック内で W&B スイープエージェントを並列化する方法を学びましょう。
+Depending on your use case, explore the proceeding tabs to learn how to parallelize W&B Sweep agents using the CLI or within a Jupyter Notebook.
+
 
 {{< tabpane text=true >}}
   {{% tab header="CLI" %}}
-[`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}}) コマンドを使用して、ターミナルで W&B スイープエージェントを複数の CPU に渡って並列化します。[sweep を初期化したとき]({{< relref path="./initialize-sweeps.md" lang="ja" >}})に返されたスイープ ID を提供してください。
+Use the [`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}}) command to parallelize your sweep agent across multiple CPUs with the terminal. Provide the sweep ID that was returned when you [initialized the sweep]({{< relref path="./initialize-sweeps.md" lang="ja" >}}). 
 
-1. ローカルマシンで複数のターミナルウィンドウを開きます。
-2. 以下のコードスニペットをコピーして貼り付け、`sweep_id` をあなたのスイープ ID に置き換えます:
+1. Open more than one terminal window on your local machine.
+2. Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
 
 ```bash
 wandb agent sweep_id
 ```  
   {{% /tab %}}
   {{% tab header="Jupyter Notebook" %}}
-W&B Python SDK ライブラリを使用して、Jupyter ノートブック内で W&B スイープエージェントを複数の CPU に渡って並列化します。[sweep を初期化したとき]({{< relref path="./initialize-sweeps.md" lang="ja" >}})に返されたスイープ ID を確認してください。さらに、スイープが実行する関数の名前を `function` パラメータに提供します。
+Use the W&B Python SDK library to parallelize your W&B Sweep agent across multiple CPUs within Jupyter Notebooks. Ensure you have the sweep ID that was returned when you [initialized the sweep]({{< relref path="./initialize-sweeps.md" lang="ja" >}}).  In addition, provide the name of the function the sweep will execute for the `function` parameter:
 
-1. 複数の Jupyter ノートブックを開きます。
-2. 複数の Jupyter ノートブックに W&B スイープ ID をコピーして貼り付け、W&B スイープを並列化します。例えば、`sweep_id` という変数にスイープ ID が保存されていて、関数の名前が `function_name` である場合、以下のコードスニペットを複数の Jupyter ノートブックに貼り付けることができます:
+1. Open more than one Jupyter Notebook.
+2. Copy and past the W&B Sweep ID on multiple Jupyter Notebooks to parallelize a W&B Sweep. For example, you can paste the following code snippet on multiple jupyter notebooks to paralleliz your sweep if you have the sweep ID stored in a variable called `sweep_id` and the name of the function is `function_name`: 
 
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
@@ -37,24 +38,26 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
   {{% /tab %}}
 {{< /tabpane >}}
 
-### マルチ GPU マシンで並列化
 
-CUDA Toolkit を使用して、ターミナルで W&B スイープエージェントを複数の GPU に渡って並列化するための手順に従ってください。
 
-1. ローカルマシンで複数のターミナルウィンドウを開きます。
-2. W&B スイープジョブを開始するときに `CUDA_VISIBLE_DEVICES` を使用して使用する GPU インスタンスを指定します（[`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}})）。`CUDA_VISIBLE_DEVICES` に使用する GPU インスタンスに対応する整数値を割り当てます。
+### Parallelize on a multi-GPU machine
 
-例えば、ローカルマシンに 2 つの NVIDIA GPU があると仮定します。ターミナルウィンドウを開き、`CUDA_VISIBLE_DEVICES` を `0`（`CUDA_VISIBLE_DEVICES=0`）に設定します。以下の例で、`sweep_ID` を初期化したときに返された W&B スイープ ID に置き換えます:
+Follow the procedure outlined to parallelize your W&B Sweep agent across multiple GPUs with a terminal using CUDA Toolkit:
 
-ターミナル 1
+1. Open more than one terminal window on your local machine.
+2. Specify the GPU instance to use with `CUDA_VISIBLE_DEVICES` when you start a W&B Sweep job ([`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}})). Assign `CUDA_VISIBLE_DEVICES` an integer value corresponding to the GPU instance to use.
+
+For example, suppose you have two NVIDIA GPUs on your local machine. Open a terminal window and set `CUDA_VISIBLE_DEVICES` to `0` (`CUDA_VISIBLE_DEVICES=0`). Replace `sweep_ID` in the proceeding example with the W&B Sweep ID that is returned when you initialized a W&B Sweep:
+
+Terminal 1
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
 ```
 
-2 番目のターミナルウィンドウを開きます。`CUDA_VISIBLE_DEVICES` を `1`（`CUDA_VISIBLE_DEVICES=1`）に設定します。次のコードスニペットで言及された `sweep_ID` に同じ W&B スイープ ID を貼り付けます:
+Open a second terminal window. Set `CUDA_VISIBLE_DEVICES` to `1` (`CUDA_VISIBLE_DEVICES=1`). Paste the same W&B Sweep ID for the `sweep_ID` mentioned in the proceeding code snippet:
 
-ターミナル 2
+Terminal 2
 
 ```bash
 CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID

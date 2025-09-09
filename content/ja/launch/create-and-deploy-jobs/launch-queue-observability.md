@@ -1,83 +1,89 @@
 ---
-title: ローンンチキューを監視する
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-launch-queue-observability
     parent: create-and-deploy-jobs
-url: /ja/guides/launch/launch-queue-observability
+title: Monitor launch queue
+url: guides/launch/launch-queue-observability
 ---
 
-Use the interactive **キュー監視ダッシュボード** を使用して、launch キューが混雑しているかアイドル状態かを表示し、実行中のワークロードを視覚化し、非効率なジョブを見つけます。launch キューのダッシュボードは、計算ハードウェアやクラウドリソースを効果的に使用しているかどうかを判断するのに特に役立ちます。
+Use the interactive **Queue monitoring dashboard** to view when a launch queue is in heavy use or idle, visualize workloads that are running, and spot inefficient jobs. The launch queue dashboard is especially useful for deciding whether or not you are effectively using your compute hardware or cloud resources.
 
-詳細な分析を行うには、ページから W&B の実験管理ワークスペースや Datadog、NVIDIA Base Command、クラウドコンソールなどの外部インフラストラクチャーモニタリングプロバイダーへのリンクを利用します。
-
-{{% alert %}}
-キュー監視ダッシュボードは、現在 W&B マルチテナントクラウドデプロイメントオプションでのみ利用可能です。
-{{% /alert %}}
-
-## ダッシュボードとプロット
-**Monitor** タブを使用して、過去 7 日間に発生したキューの活動を表示します。左側のパネルを使用して、時間範囲、グループ化、およびフィルターを制御します。
-
-ダッシュボードには、パフォーマンスと効率性に関するよくある質問に対する答えが表示されるいくつかのプロットが含まれています。以下のセクションでは、キューダッシュボードの UI 要素について説明します。
-
-### ジョブステータス
-**ジョブステータス** プロットは、各時間間隔において何件のジョブが実行中、保留中、キュー中、または完了済みであるかを示します。この **ジョブステータス** プロットを使用して、キューのアイドル期間を特定します。
-
-{{< img src="/images/launch/launch_obs_jobstatus.png" alt="" >}}
-
-例えば、固定リソース (たとえば、DGX BasePod) を持っているとします。固定リソースを使用しているキューがアイドル状態であることを観察した場合、低優先度の先取可能 launch ジョブ (例えば Sweeps) を実行する機会があるかもしれません。
-
-一方、クラウドリソースを使用しており、定期的な活動の急増を観察した場合、それは特定の時間帯にリソースを予約してお金を節約する機会を示すかもしれません。
-
-プロットの右側には、[launch ジョブのステータス]({{< relref path="./launch-view-jobs.md#check-the-status-of-a-job" lang="ja" >}}) を示す色が表示されるキーがあります。
+For deeper analysis, the page links to the W&B experiment tracking workspace and to external infrastructure monitoring providers like Datadog, NVIDIA Base Command, or cloud consoles.
 
 {{% alert %}}
-`Queued` 項目は、ワークロードを他のキューにシフトする機会を示すかもしれません。失敗の急増は、launch ジョブの設定で助けが必要なユーザーを特定するのに役立ちます。
+Queue monitoring dashboards are currently available only in the W&B Multi-tenant Cloud deployment option.
 {{% /alert %}}
 
-### キュー時間
+## Dashboard and plots
+Use the **Monitor** tab to view the activity of a queue that occurred during the last seven days. Use the left panel to control time ranges, grouping, and filters.
 
-**キュー時間** プロットは、特定の日付または時間範囲で launch ジョブがキュー上にあった時間（秒数）を表示します。
+The dashboard contains a number of plots answering common questions about performance and efficiency. The proceeding sections describe UI elements of queue dashboards.
 
-{{< img src="/images/launch/launch_obs_queuedtime.png" alt="" >}}
+### Job status
+The **Job status** plot shows how many jobs are running, pending, queued, or completed in each time interval. Use the **Job status** plot for identifying periods of idleness in the queue. 
 
-x 軸は指定した時間枠を、y 軸は launch ジョブが launch キュー上にあった時間（秒数）を示します。例えば、ある日に 10 件の launch ジョブがキューに入っていると仮定します。それら 10 件の launch ジョブがそれぞれ平均 60 秒待機する場合、**キュー時間** プロットは 600 秒を表示します。
+{{< img src="/images/launch/launch_obs_jobstatus.png" alt="Job status timeline" >}}
+
+For example, suppose you have a fixed resource (such as DGX BasePod). If you observe an idle queue with the fixed resource, this might suggest an opportunity to run lower-priority pre-emptible launch jobs such as sweeps.
+
+On the other hand, suppose you use a cloud resource and you see periodic bursts of activity. Periodic bursts of activity might suggest an opportunity to save money by reserving resources for particular times.
+
+To the right of the plot is a key that shows which colors represent the [status of a launch job]({{< relref path="./launch-view-jobs.md#check-the-status-of-a-job" lang="ja" >}}).
 
 {{% alert %}}
-**キュー時間** プロットを使用して、キュー時間が長いことに苦しむユーザーを特定します。
+`Queued` items might indicate opportunities to shift workloads to other queues. A spike in failures can identify users who might need help with their launch job setup.
 {{% /alert %}}
 
-左バーの `Grouping` コントロールを使用して、各ジョブの色をカスタマイズします。
+<!-- Select a range to show more details in the plot below, or Zoom to filter the entire page. -->
 
-特に、ユーザーとジョブが限られたキュー容量にどの程度影響を受けているかを特定するのに役立ちます。
+### Queued time
 
-### ジョブ実行
+The **Queued time** plots shows the amount of time (in seconds) that a launch job was on a queue for a given date or time range. 
 
-{{< img src="/images/launch/launch_obs_jobruns2.png" alt="" >}}
+{{< img src="/images/launch/launch_obs_queuedtime.png" alt="Queued time metrics" >}}
 
-このプロットは、指定した期間に実行されたジョブの開始と終了を、各 run ごとに異なる色で示しています。これにより、指定した時間にキューがどのワークロードを処理していたかを一目で確認できます。
+The x-axis shows a time frame that you specify and the y-axis shows the time (in seconds) a launch job was on a launch queue. For example, suppose on a given day there are 10 launch jobs queued. The **Queue time** plot shows 600 seconds if those 10 launch jobs wait an average of 60 seconds each.
 
-パネルの右下にある Select ツールを使用して、ジョブをブラシオーバーして下のテーブルに詳細を表示します。
+{{% alert %}}
+Use the **Queued time** plot to identify users affected by long queue times. 
+{{% /alert %}}
 
-### CPU と GPU の使用
-**ジョブによる GPU の使用**、**ジョブによる CPU の使用**、**ジョブによる GPU メモリ**、**ジョブによるシステムメモリ** を使用して、launch ジョブの効率性を確認します。
+Customize the color of each job with the `Grouping` control in the left bar.
 
-{{< img src="/images/launch/launch_obs_gpu.png" alt="" >}}
+which can be particularly helpful for identifying which users and jobs are feeling the pain of scarce queue capacity.
 
-例えば、**ジョブによる GPU メモリ** を使用して、W&B run が完了するのに長い時間を要し、CPU コアの使用率が低かったかどうかを確認できます。
+### Job runs
 
-各プロットの x 軸は W&B run （launch ジョブによって作成された） の期間を秒単位で示しています。データポイントにマウスを重ねて、W&B run の情報（run ID、run の属するプロジェクト、W&B run を作成した launch ジョブなど）を確認します。
+{{< img src="/images/launch/launch_obs_jobruns2.png" alt="Job runs timeline" >}}
 
-### エラー
 
-**エラーパネル** は、特定の launch キューで発生したエラーを表示します。より具体的には、エラーパネルはエラーが発生したタイムスタンプ、エラーが発生した launch ジョブの名前、および作成されたエラーメッセージを示します。デフォルトでは、エラーは最新のものから古いものの順に並べられます。
+This plot shows the start and end of every job executed in a time period, with distinct colors for each run. This makes it easy to see at a glance what workloads the queue was processing at a given time.  
 
-{{< img src="/images/launch/launch_obs_errors.png" alt="" >}}
+Use the Select tool in the bottom right of the panel to brush over jobs to populate details in the table below.
 
-**エラーパネル** を使用してユーザーを特定し、ブロックを解除します。
 
-## 外部リンク
 
-キューの可観測性ダッシュボードのビューはすべてのキュータイプで一貫していますが、多くの場合、環境固有のモニタに直接ジャンプすることが有用です。これを達成するために、コンソールからキューの可観測性ダッシュボードに直接リンクを追加します。
+### CPU and GPU usage
+Use the **GPU use by a job**, **CPU use by a job**, **GPU memory by job**, and **System memory by job** to view the efficiency of your launch jobs. 
 
-ページの下部で `Manage Links` をクリックしてパネルを開きます。必要なページの完全な URL を追加します。次にラベルを追加します。追加したリンクは **External Links** セクションに表示されます。
+{{< img src="/images/launch/launch_obs_gpu.png" alt="GPU usage metrics" >}}
+
+
+For example, you can use the **GPU memory by job** to view if a W&B run took a long time to complete and whether or not it used a low percentage of its CPU cores.
+
+The x-axis of each plot shows the duration of a W&B run (created by a launch job) in seconds. Hover your mouse over a data point to view information about a W&B run such as the run ID, the project the run belongs to, the launch job that created the W&B run and more.
+
+### Errors
+
+The **Errors** panel shows errors that occurred on a given launch queue. More specifically, the Errors panel shows a timestamp of when the error occurred, the name of the launch job where the error comes from, and the error message that was created. By default, errors are ordered from latest to oldest. 
+
+{{< img src="/images/launch/launch_obs_errors.png" alt="Error logs panel" >}}
+
+Use the **Errors** panel to identify and unblock users. 
+
+## External links
+
+The queue observability dashboard's view is consistent across all queue types, but in many cases, it can be useful to jump directly into environment-specific monitors. To accomplish this, add a link from the console directly from the queue observability dashboard.
+
+At the bottom of the page, click `Manage Links` to open a panel. Add the full URL of the page you want. Next, add a label. Links that you add appear in the **External Links** section.

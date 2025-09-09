@@ -1,144 +1,138 @@
 ---
-title: チームを管理する
-description: チーム全体で同僚と共同作業を行い、結果を共有し、すべての実験を追跡します。
+description: Collaborate with your colleagues, share results, and track all the experiments
+  across your team.
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-teams
     parent: settings
+title: Manage teams
 weight: 50
 ---
 
-W&B Teams を使用して、あなたの ML チームのための中心的なワークスペースを作り、モデルをより迅速に構築しましょう。
+Use W&B Teams as a central workspace for your ML team to build better models faster.
 
-* **チームが試した全ての実験管理を追跡**し、作業の重複を防ぎます。
-* **以前にトレーニングしたモデルを保存し再現**します。
-* **進捗や成果を上司やコラボレーターと共有**します。
-* **リグレッションをキャッチ**し、パフォーマンスが低下したときにすぐに通知を受け取ります。
-* **モデルの性能をベンチマーク**し、モデルのバージョンを比較します。
+* **Track all the experiments** your team has tried so you never duplicate work.
+* **Save and reproduce** previously trained models.
+* **Share progress** and results with your boss and collaborators.
+* **Catch regressions** and immediately get alerted when performance drops.
+* **Benchmark model performance** and compare model versions.
 
-{{< img src="/images/app_ui/teams_overview.webp" alt="" >}}
+{{< img src="/images/app_ui/teams_overview.webp" alt="Teams workspace overview" >}}
 
-## 協力的なチームを作成する
+## Create a collaborative team
 
-1. [**サインアップまたはログイン**](https://app.wandb.ai/login?signup=true)して、無料の W&B アカウントを取得します。
-2. ナビゲーションバーで **チームを招待** をクリックします。
-3. チームを作成し、コラボレーターを招待します。
-4. チームの設定については、[チーム設定の管理]({{< relref path="team-settings.md#privacy" lang="ja" >}})を参照してください。
-
-{{% alert %}}
-**注意**: 組織の管理者のみが新しいチームを作成できます。
-{{% /alert %}}
-
-## チームプロフィールを作成する
-
-あなたのチームのプロフィールページをカスタマイズして、イントロダクションを示したり、公開されているまたはチームメンバーに表示されるレポートやプロジェクトを見せることができます。レポート、プロジェクト、外部リンクを提示します。
-
-* **最良の研究を強調表示**し、訪問者にあなたの最良の公開レポートを見せる
-* **最もアクティブなプロジェクトを披露**し、チームメイトがそれらを見つけやすくする
-* あなたの会社や研究室のウェブサイトや公開した論文への外部リンクを追加することで **コラボレーターを見つける**
-
-## チームメンバーを削除する
-
-チーム管理者はチーム設定ページを開き、去るメンバーの名前の横にある削除ボタンをクリックします。チームにログされている run はユーザーが去った後も留まります。
-
-## チームの役割と権限を管理する
-
-同僚をチームに招待するときにチームの役割を選択します。以下のチームの役割オプションがあります：
-
-- **管理者**: チーム管理者は他の管理者やチームメンバーを追加および削除できます。すべてのプロジェクトを変更する権限と完全な削除権限を持っています。これには、run、プロジェクト、Artifacts、スイープの削除が含まれますが、これに限定されません。
-- **メンバー**: チームの通常のメンバーです。デフォルトでは、管理者のみがチームメンバーを招待できます。この振る舞いを変更するには、[チーム設定の管理]({{< relref path="team-settings.md#privacy" lang="ja" >}})を参照してください。
-
-チームメンバーは自分が作成した run のみを削除できます。メンバー A と B がいるとします。メンバー B が team B のプロジェクトからメンバー A が所有する別のプロジェクトに run を移動します。メンバー A は、メンバー B がメンバー A のプロジェクトに移動した run を削除できません。管理者は、チームメンバーによって作成された run およびスイープ run を管理できます。
-- **閲覧のみ (エンタープライズ限定機能)**: 閲覧のみのメンバーは、run、レポート、ワークスペースのようなチーム内のアセットを閲覧できます。彼らはレポートを追跡し、コメントを残すことができますが、プロジェクト概要、レポート、run を作成、編集、または削除することはできません。
-- **カスタム役割 (エンタープライズ限定機能)**: カスタム役割は、組織管理者が **閲覧のみ** または **メンバー** のいずれかの役割に基づいて新しい役割を作成し、より詳細なアクセス制御を実現するための追加の権限と共にそれを構成させます。その後、チーム管理者がそれぞれのチームのユーザーにこれらのカスタム役割を割り当てることができます。詳細については、[Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) を参照してください。
-- **サービスアカウント (エンタープライズ限定機能)**: [Use service accounts to automate workflows]({{< relref path="/guides/hosting/iam/authentication/service-accounts.md" lang="ja" >}}) を参照してください。
+1. [Sign up or log in](https://app.wandb.ai/login?signup=true) to your free W&B account.
+2. Click **Invite Team** in the navigation bar.
+3. Create your team and invite collaborators.
+4. To configure your team, refer to [Manage team settings]({{< relref path="team-settings.md#privacy" lang="ja" >}}).
 
 {{% alert %}}
-W&B は、チームに複数の管理者を持つことをお勧めします。主要な管理者が不在のときに管理操作を継続できることを保証するためのベストプラクティスです。
+**Note**: Only the admin of an organization can create a new team.
 {{% /alert %}}
 
-### チーム設定
-チーム設定では、チームとそのメンバーのための設定を管理できます。これらの特権により、W&B 内でチームを効果的に監督および整理できます。
+## Create a team profile
 
-| 権限                         | 閲覧のみ | チームメンバー | チーム管理者 | 
-| --------------------------- | -------- | ------------- | ------------ |
-| チームメンバーを追加         |          |               |     X        |
-| チームメンバーを削除         |          |               |     X        |
-| チーム設定を管理             |          |               |     X        |
+You can customize your team's profile page to show an introduction and showcase reports and projects that are visible to the public or team members. Present reports, projects, and external links.
 
-### レジストリ
-以下の表は、特定のチーム全体で適用されるすべてのプロジェクトに関連する権限を示しています。
+* **Highlight your best research** to visitors by showcasing your best public reports
+* **Showcase the most active projects** to make it easier for teammates to find them
+* **Find collaborators** by adding external links to your company or research lab's website and any papers you've published
 
-| 権限                           | 閲覧のみ | チームメンバー | レジストリ管理者 | チーム管理者 | 
-| ----------------------------- | -------- | ------------- | ---------------- | ------------ |
-| エイリアスを追加する           |          | X             | X                | X            |
-| モデルをレジストリに追加する   |          | X             | X                | X            |
-| レジストリ内のモデルを閲覧する | X        | X             | X                | X            |
-| モデルをダウンロードする       | X        | X             | X                | X            |
-| レジストリ管理者を追加または削除する |          |               | X                | X            |
-| 保護されたエイリアスを追加または削除する |          |               | X                |              |
+<!-- To do: show team profiles -->
 
-保護されたエイリアスの詳細については、[レジストリアクセス制御]({{< relref path="/guides/core/registry/model_registry/access_controls.md" lang="ja" >}}) を参照してください。
+<!-- To do: show how to remove team members -->
 
-### レポート
-レポート権限は、レポートの作成、閲覧、編集へのアクセスを許可します。以下の表は、特定のチーム全体でのすべてのレポートに適用される権限を列挙しています。
+## Remove team members
 
-| 権限             | 閲覧のみ | チームメンバー                                       | チーム管理者 | 
-| ---------------- | -------- | --------------------------------------------------- | ------------ |
-| レポートを閲覧する | X        | X                                                   | X            |
-| レポートを作成する |          | X                                                   | X            |
-| レポートを編集する |          | X (チームメンバーは自分のレポートのみ編集できます) | X            |
-| レポートを削除する |          | X (チームメンバーは自分のレポートのみ編集できます) | X            |
+Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs logged to the team remain after a user leaves.
 
-### 実験管理
-以下の表は、特定のチーム全体でのすべての実験に適用される権限を示しています。
 
-| 権限                                                                                           | 閲覧のみ | チームメンバー | チーム管理者 | 
-| --------------------------------------------------------------------------------------------- | -------- | ------------- | ------------ |
-| 実験のメタデータを閲覧する（履歴メトリクス、システムメトリクス、ファイル、およびログを含む） | X        | X             | X            |
-| 実験パネルとワークスペースを編集する                                                          |          | X             | X            |
-| 実験をログする                                                                                |          | X             | X            |
-| 実験を削除する                                                                                |          | X (チームメンバーは自分が作成した実験のみ削除できます) |  X    |
-| 実験を停止する                                                                                |          | X (チームメンバーは自分が作成した実験のみ停止できます) |  X    |
+## Manage team roles and permissions
+Select a team role when you invite colleagues to join a team. There are following team role options:
+
+- **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
+- **Member**: A regular member of the team. By default, only an admin can invite a team member. To change this behavior, refer to [Manage team settings]({{< relref path="team-settings.md#privacy" lang="ja" >}}).
+- **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs.
+- **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
+
+A team member can delete only runs they created. Suppose you have two members A and B. Member B moves a run from team B's project to a different project owned by Member A. Member A cannot delete the run Member B moved to Member A's project. An admin can manage runs and sweep runs created by any team member.
+
+### Service accounts
+
+In addition to user roles, teams can also use **service accounts** for automation. Service accounts are not users, but rather non-human identities used for automated workflows. Refer to [Use service accounts to automate workflows]({{< relref path="/guides/hosting/iam/authentication/service-accounts.md" lang="ja" >}}) for detailed information.
+
+{{% alert %}}
+W&B recommends assigning more than one admin in a team to ensure that admin operations can continue when the primary admin is not available.
+{{% /alert %}}
+
+### Team settings
+Team settings allow you to manage the settings for your team and its members. With these privileges, you can effectively oversee and organize your team within W&B.
+
+| Permissions         | View-Only | Team Member | Team Admin | 
+| ------------------- | --------- | ----------- | ---------- |
+| Add team members    |           |             |     X      |
+| Remove team members |           |             |     X      |
+| Manage team settings|           |             |     X      |
+
+### Reports
+Report permissions grant access to create, view, and edit reports. The proceeding table lists permissions that apply to all reports across a given team.
+
+| Permissions   | View-Only | Team Member                                     | Team Admin | 
+| -----------   | --------- | ----------------------------------------------- | ---------- |
+|View reports   | X         | X                                               | X          |
+|Create reports |           | X                                               | X          |
+|Edit reports   |           | X (team members can only edit their own reports)| X          |
+|Delete reports |           | X (team members can only edit their own reports)| X          |
+
+### Experiments
+The proceeding table lists permissions that apply to all experiments across a given team.
+
+| Permissions | View-Only | Team Member | Team Admin | 
+| ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
+| View experiment metadata (includes history metrics, system metrics, files, and logs) | X         | X           | X          |
+| Edit experiment panels and workspaces                                                |           | X           | X          |
+| Log experiments                                                                      |           | X           | X          |
+| Delete experiments                                                                   |           | X (team members can only delete experiments they created) |  X  |
+|Stop experiments                                                                      |           | X (team members can only stop experiments they created)   |  X  |
 
 ### Artifacts
-以下の表は、特定のチーム全体でのすべてのアーティファクトに適用される権限を示しています。
+The proceeding table lists permissions that apply to all artifacts across a given team.
 
-| 権限                | 閲覧のみ | チームメンバー | チーム管理者 | 
-| ------------------- | -------- | ------------- | ------------ |
-| アーティファクトを閲覧する | X        | X             | X            |
-| アーティファクトを作成する |          | X             | X            |
-| アーティファクトを削除する |          | X             | X            |
-| メタデータを編集する      |          | X             | X            |
-| エイリアスを編集する      |          | X             | X            |
-| エイリアスを削除する      |          | X             | X            |
-| アーティファクトをダウンロードする |          | X            | X            |
+| Permissions      | View-Only | Team Member | Team Admin | 
+| ---------------- | --------- | ----------- | ---------- |
+| View artifacts   | X         | X           | X          |
+| Create artifacts |           | X           | X          |
+| Delete artifacts |           | X           | X          |
+| Edit metadata    |           | X           | X          |
+| Edit aliases     |           | X           | X          |
+| Delete aliases   |           | X           | X          |
+| Download artifact|           | X           | X          |
 
-### システム設定 (W&B サーバーのみ)
-システム権限を使用して、チームとそのメンバーを作成および管理し、システム設定を調整します。これらの特権により、W&B インスタンスを効果的に管理および維持することができます。
+### System settings (W&B Server only)
+Use system permissions to create and manage teams and their members and to adjust system settings. These privileges enable you to effectively administer and maintain the W&B instance.
 
-| 権限                      | 閲覧のみ | チームメンバー | チーム管理者 | システム管理者 | 
-| ------------------------- | -------- | ------------- | ------------ | -------------- |
-| システム設定を設定する    |          |               |              | X              |
-| チームを作成/削除する     |          |               |              | X              |
+| Permissions              | View-Only | Team Member | Team Admin | System Admin | 
+| ------------------------ | --------- | ----------- | ---------- | ------------ |
+| Configure system settings|           |             |            | X            |
+| Create/delete teams      |           |             |            | X            |
 
-### チームサービスアカウントの振る舞い
+### Team service account behavior
 
-* トレーニング環境でチームを設定すると、そのチームからのサービスアカウントを使用して、そのチーム内のプライベートまたはパブリックプロジェクトに run をログすることができます。さらに、環境内に **WANDB_USERNAME** または **WANDB_USER_EMAIL** 変数が存在し、参照されるユーザーがそのチームのメンバーである場合、その run をそのユーザーに割り当てることができます。
-* トレーニング環境でチームを **設定せず**、サービスアカウントを使用する場合、サービスアカウントの親チーム内の指定されたプロジェクトに run をログします。この場合も、環境内に **WANDB_USERNAME** または **WANDB_USER_EMAIL** 変数が存在し、参照されるユーザーがサービスアカウントの親チームのメンバーである場合、その run をそのユーザーに割り当てることができます。
-* サービスアカウントは親チームとは異なるチーム内のプライベートプロジェクトに run をログすることはできません。サービスアカウントは、プロジェクトが `Open` プロジェクトの可視性に設定されている場合にのみプロジェクトにログできます。
+* When you configure a team in your training environment, you can use a service account from that team to log runs in either of private or public projects within that team. Additionally, you can attribute those runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable exists in your environment and the referenced user is part of that team.
+* When you **do not** configure a team in your training environment and use a service account, the runs log to the named project within that service account's parent team. In this case as well, you can attribute the runs to a user if **WANDB_USERNAME** or **WANDB_USER_EMAIL** variable exists in your environment and the referenced user is part of the service account's parent team.
+* A service account can not log runs to a private project in a team different from its parent team. A service account can log to runs to project only if the project is set to `Open` project visibility.
 
-## チームトライアル
+## Team trials
 
-W&B プランの詳細については、[価格ページ](https://wandb.ai/site/pricing)を参照してください。ダッシュボード UI または [Export API]({{< relref path="/ref/python/public-api/" lang="ja" >}}) を利用して、いつでもすべてのデータをダウンロードできます。
+See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref path="/ref/python/public-api/index.md" lang="ja" >}}).
 
-## プライバシー設定
+## Privacy settings
 
-チーム設定ページで、すべてのチームプロジェクトのプライバシー設定を見ることができます：
+You can see the privacy settings of all team projects on the team settings page:
 `app.wandb.ai/teams/your-team-name`
 
-## 高度な設定
+## Advanced configuration
 
-### 安全なストレージコネクタ
+### Secure storage connector
 
-チームレベルの安全なストレージコネクタにより、チームは自分たちのクラウドストレージバケットを W&B とともに使用できます。これは、非常に機密性の高いデータまたは厳しいコンプライアンス要件を持つチームにとって、データアクセス制御およびデータ分離を向上させます。[安全なストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) を参照してください。
+The team-level secure storage connector allows teams to use their own cloud storage bucket with W&B. This provides greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements. Refer to [Secure Storage Connector]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) for more information.

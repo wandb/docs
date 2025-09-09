@@ -1,19 +1,20 @@
 ---
-title: wandb オンライン
 menu:
   reference:
     identifier: ja-ref-cli-wandb-online
+title: wandb online
 ---
 
-**使い方**
+**Usage**
 
 `wandb online [OPTIONS]`
 
-**概要**
+**Summary**
 
-W&B 同期を有効にする
+Enable W&B sync
 
-**オプション**
 
-| **オプション** | **説明** |
+**Options**
+
+| **Option** | **Description** |
 | :--- | :--- |

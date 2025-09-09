@@ -1,18 +1,18 @@
 ---
-title: 同じマシンでアカウントを切り替えるにはどうすればいいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-switch_accounts_same_machine
 support:
-  - environment variables
+- environment variables
+title: How do I switch between accounts on the same machine?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-2つの W&B アカウントを同じマシンから管理するには、両方の API キーをファイルに保存します。以下のコードをリポジトリで使用し、キーを安全に切り替えることで、秘密キーがソース管理にチェックインされるのを防ぎます。
+
+To manage two W&B accounts from the same machine, store both API keys in a file. Use the following code in your repositories to switch between keys securely, preventing secret keys from being checked into source control.
 
 ```python
-# キーを切り替えるコード例
 if os.path.exists("~/keys.json"):
     os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```

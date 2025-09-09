@@ -1,56 +1,95 @@
 ---
-title: ログ軸をカスタマイズする
 menu:
   default:
     identifier: ja-guides-models-track-log-customize-logging-axes
     parent: log-objects-and-media
+title: Customize log axes
 ---
 
-`define_metric` を使用して**カスタム x 軸**を設定します。 カスタム x 軸は、トレーニング中に過去の異なるタイムステップに非同期でログを記録する必要がある場合に便利です。たとえば、RL ではエピソードごとの報酬やステップごとの報酬を追跡する場合に役立ちます。
+Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `wandb.Run.log()` API call. 
 
-[Google Colab で `define_metric` を試す →](http://wandb.me/define-metric-colab)
-
-### 軸をカスタマイズする
-
-デフォルトでは、すべてのメトリクスは同じ x 軸に対してログが記録されます。これは、 W&B 内部の `step` です。時には、以前のステップにログを記録したい場合や、別の x 軸を使用したい場合があります。
-
-以下は、デフォルトのステップの代わりにカスタムの x 軸メトリクスを設定する例です。
+For example, the following script has a `for` loop that iterates 10 times. In each iteration, the script logs a metric called `validation_loss` and increments the step number by 1.
 
 ```python
 import wandb
 
-wandb.init()
-# カスタム x 軸メトリクスを定義
-wandb.define_metric("custom_step")
-# どのメトリクスがそれに対してプロットされるかを定義
-wandb.define_metric("validation_loss", step_metric="custom_step")
-
-for i in range(10):
+with wandb.init() as run:
+  # range function creates a sequence of numbers from 0 to 9
+  for i in range(10):
     log_dict = {
-        "train_loss": 1 / (i + 1),
-        "custom_step": i**2,
-        "validation_loss": 1 / (i + 1),
+        "validation_loss": 1/(i+1)   
     }
-    wandb.log(log_dict)
+    run.log(log_dict)
 ```
 
-x 軸はグロブを使用して設定することもできます。現在、文字列のプレフィックスを持つグロブのみが使用可能です。次の例では、プレフィックス `"train/"` を持つすべてのログされたメトリクスを、x 軸 `"train/step"` にプロットします:
+In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `wandb.Run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
+
+{{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis." >}}
+
+In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`]({{< relref path="/ref/python/sdk/classes/run/#define_metric" lang="ja" >}}) method to use any metric you log  as a custom x-axis.
+
+Specify the metric that you want to appear as the y-axis with the `name` parameter. The `step_metric` parameter specifies the metric you want to use as the x-axis. When you log a custom metric, specify a value for both the x-axis and the y-axis as key-value pairs in a dictionary. 
+
+Copy and paste the following code snippet to set a custom x-axis metric. Replace the values within `<>` with your own values:
 
 ```python
 import wandb
 
-wandb.init()
-# カスタム x 軸メトリクスを定義
-wandb.define_metric("train/step")
-# 他のすべての train/ メトリクスをこのステップに使用するように設定
-wandb.define_metric("train/*", step_metric="train/step")
+custom_step = "<custom_step>"  # Name of custom x-axis
+metric_name = "<metric>"  # Name of y-axis metric
 
-for i in range(10):
-    log_dict = {
-        "train/step": 2**i,  # W&B 内部ステップと指数的な成長
-        "train/loss": 1 / (i + 1),  # x 軸は train/step
-        "train/accuracy": 1 - (1 / (1 + i)),  # x 軸は train/step
-        "val/loss": 1 / (1 + i),  # x 軸は内部 wandb ステップ
-    }
-    wandb.log(log_dict)
+with wandb.init() as run:
+    # Specify the step metric (x-axis) and the metric to log against it (y-axis)
+    run.define_metric(step_metric = custom_step, name = metric_name)
+
+    for i in range(10):
+        log_dict = {
+            custom_step : int,  # Value of x-axis
+            metric_name : int,  # Value of y-axis
+        }
+        run.log(log_dict)
 ```
+
+As an example, the following code snippet creates a custom x-axis called `x_axis_squared`. The value of the custom x-axis is the square of the for loop index `i` (`i**2`). The y-axis consists of mock values for validation loss (`"validation_loss"`) using Python's built-in `random` module: 
+
+```python
+import wandb
+import random
+
+with wandb.init() as run:
+    run.define_metric(step_metric = "x_axis_squared", name = "validation_loss")
+
+    for i in range(10):
+        log_dict = {
+            "x_axis_squared": i**2,
+            "validation_loss": random.random(),
+        }
+        run.log(log_dict)
+```
+
+The following image shows the resulting plot in the W&B App UI. The `validation_loss` metric is plotted against the custom x-axis `x_axis_squared`, which is the square of the for loop index `i`. Note that the x-axis values are `0, 1, 4, 9, 16, 25, 36, 49, 64, 81`, which correspond to the squares of `0, 1, 2, ..., 9` respectively.
+
+{{< img src="/images/experiments/custom_x_axes.png" alt="Line plot panel that uses a custom x axis. Values are logged to W&B as the square of the loop number." >}}
+
+You can set a custom x-axis for multiple metrics using `globs` with string prefixes. As an example, the following code snippet plots logged metrics with the prefix `train/*` to the x-axis `train/step`:
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+    # set all other train/ metrics to use this step
+    run.define_metric("train/*", step_metric="train/step")
+
+    for i in range(10):
+        log_dict = {
+            "train/step": 2**i,  # exponential growth w/ internal W&B step
+            "train/loss": 1 / (i + 1),  # x-axis is train/step
+            "train/accuracy": 1 - (1 / (1 + i)),  # x-axis is train/step
+            "val/loss": 1 / (1 + i),  # x-axis is internal wandb step
+        }
+        run.log(log_dict)
+```
+
+
+<!-- [Try `define_metric` in Google Colab](https://wandb.me/define-metric-colab). -->

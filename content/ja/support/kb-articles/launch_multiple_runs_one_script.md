@@ -1,37 +1,69 @@
 ---
-title: 1 つのスクリプトから複数の run をどうやってローンチしますか？
 menu:
   support:
     identifier: ja-support-kb-articles-launch_multiple_runs_one_script
 support:
-  - experiments
+- experiments
+title: How do I launch multiple runs from one script?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`wandb.init` と `run.finish()` を使用して、単一のスクリプト内で複数の run をログする方法:
 
-1. `run = wandb.init(reinit=True)` を使用して、run の再初期化を許可します。
-2. 各 run の最後に `run.finish()` を呼び出して、ログを完了します。
+Finish previous runs before starting new runs to log multiple runs within
+a single script.
 
-```python
-import wandb
-
-for x in range(10):
-    run = wandb.init(reinit=True)
-    for y in range(100):
-        wandb.log({"metric": x + y})
-    run.finish()
-```
-
-または、Python のコンテキストマネージャを利用して自動的にログを完了します:
+The recommended way to do this is by using `wandb.init()` as a context manager
+because this finishes the run and marks it as failed if your script raises an
+exception:
 
 ```python
 import wandb
 
 for x in range(10):
-    run = wandb.init(reinit=True)
-    with run:
+    with wandb.init() as run:
         for y in range(100):
             run.log({"metric": x + y})
 ```
+
+You can also call `run.finish()` explicitly:
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+## Multiple active runs
+
+Starting with wandb 0.19.10, you can set the `reinit` setting to `"create_new"`
+to create multiple simultaneously active runs.
+
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+See [Multiple runs per process]({{< relref path="guides/models/track/runs/multiple-runs-per-process.md" lang="ja" >}})
+for more information about `reinit="create_new"`, including caveats about W&B
+integrations.

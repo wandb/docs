@@ -1,45 +1,46 @@
 ---
-title: すべてのハイパーパラメーターの値を W&B Sweep の一部として提供する必要がありますか。デフォルト値を設定できますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
+    identifier: ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
 support:
-  - sweeps
+- sweeps
+title: Do I need to provide values for all hyperparameters as part of the W&B Sweep.
+  Can I set defaults?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-ハイパーパラメーターの名前と値にアクセスするには、辞書のように振る舞う `wandb.config` を使って、sweep configuration から取得します。
 
-sweep の外で run を行う場合、`wandb.config` の値を設定するには、辞書を `wandb.init` の `config` 引数に渡します。sweep では、`wandb.init` に提供される任意の設定がデフォルト値として機能し、sweep がそれを上書きできます。
+Access hyperparameter names and values from the sweep configuration using `(run.config())`, which acts like a dictionary.
 
-明示的な振る舞いには `config.setdefaults` を使用します。以下のコードスニペットは両方のメソッドを示しています：
+For runs outside a sweep, set `wandb.Run.config()` values by passing a dictionary to the `config` argument in `wandb.init()`. In a sweep, any configuration supplied to `wandb.init()` serves as a default value, which the sweep can override.
+
+Use `rwandb.Run.config.setdefaults()` for explicit behavior. The following code snippets illustrate both methods:
 
 {{< tabpane text=true >}}
 {{% tab "wandb.init()" %}}
 ```python
-# ハイパーパラメーターのデフォルト値を設定
+# Set default values for hyperparameters
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始し、デフォルトを指定
-# sweep がこれを上書きできます
+# Start a run and provide defaults
+# that a sweep can override
 with wandb.init(config=config_defaults) as run:
-    # トレーニングコードをここに追加
+    # Add training code here
     ...
 ```
 {{% /tab %}}
 {{% tab "config.setdefaults()" %}}
 ```python
-# ハイパーパラメーターのデフォルト値を設定
+# Set default values for hyperparameters
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始
+# Start a run
 with wandb.init() as run:
-    # sweep によって設定されていない値を更新
+    # Update any values not set by the sweep
     run.config.setdefaults(config_defaults)
 
-    # トレーニングコードをここに追加
+    # Add training code here
 ```
 {{% /tab %}}
 {{< /tabpane >}}

@@ -1,28 +1,29 @@
 ---
-title: ノートブックのクエリに失敗しましたというエラーはどのように対処しますか？
 menu:
   support:
     identifier: ja-support-kb-articles-query_notebook_failed
 support:
-  - notebooks
-  - environment variables
+- notebooks
+- environment variables
+title: How do I handle the 'Failed to query for notebook' error?
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` というエラーメッセージが表示された場合は、環境変数を設定することで解決できます。これを達成するための複数のメソッドがあります:
+
+If you encounter the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` resolve it by setting the environment variable. Multiple methods accomplish this:
 
 {{< tabpane text=true >}}
 {{% tab "Notebook" %}}
 ```python
-%env "WANDB_NOTEBOOK_NAME" "ノートブック名はこちら"
+%env "WANDB_NOTEBOOK_NAME" "notebook name here"
 ```
 {{% /tab %}}
 {{% tab "Python" %}}
 ```python
 import os
 
-os.environ["WANDB_NOTEBOOK_NAME"] = "ノートブック名はこちら"
+os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
 ```
 {{% /tab %}}
 {{< /tabpane >}}

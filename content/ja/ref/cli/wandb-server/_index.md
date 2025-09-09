@@ -1,28 +1,28 @@
 ---
-title: wandb サーバー
 menu:
   reference:
     identifier: ja-ref-cli-wandb-server-_index
+title: wandb server
 ---
 
-**使用方法**
+**Usage**
 
 `wandb server [OPTIONS] COMMAND [ARGS]...`
 
-**概要**
+**Summary**
 
-ローカル W&B サーバーを操作するためのコマンド
+Commands for operating a local W&B server
 
 
-**オプション**
+**Options**
 
-| **オプション** | **説明** |
+| **Option** | **Description** |
 | :--- | :--- |
 
 
-**コマンド**
+**Commands**
 
-| **コマンド** | **説明** |
+| **Command** | **Description** |
 | :--- | :--- |
-| start | ローカル W&B サーバーを開始する |
-| stop | ローカル W&B サーバーを停止する |
+| start | Start a local W&B server |
+| stop | Stop a local W&B server |

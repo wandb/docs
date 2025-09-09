@@ -1,31 +1,31 @@
 ---
-title: object3D-ファイル
 menu:
   reference:
     identifier: ja-ref-query-panel-object-3-d-file
+title: object3D-file
 ---
 
 ## Chainable Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-アセットの*ファイル*を返します
+Returns the _file_ of the asset
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `asset` | アセット |
+| `asset` | The asset |
 
-#### 戻り値
-アセットの*ファイル*
+#### Return Value
+The _file_ of the asset
 
 
 ## List Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-アセットの*ファイル*を返します
+Returns the _file_ of the asset
 
-| 引数 |  |
+| Argument |  |
 | :--- | :--- |
-| `asset` | アセット |
+| `asset` | The asset |
 
-#### 戻り値
-アセットの*ファイル*
+#### Return Value
+The _file_ of the asset

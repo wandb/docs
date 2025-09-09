@@ -1,127 +1,193 @@
 ---
-title: 独自の バケット を持ち込む (BYOB)
 menu:
   default:
     identifier: ja-guides-hosting-data-security-secure-storage-connector
     parent: data-security
+title: Bring your own bucket (BYOB)
 weight: 1
 ---
 
-自分のバケットを持ち込む (BYOB) を使用することで、W&B Artifacts やその他の機密性の高いデータを、自分のクラウドやオンプレミスのインフラストラクチャーに保存することができます。[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})または[SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}})の場合、バケットに保存したデータは W&B が管理するインフラストラクチャーにコピーされません。
+## Overview
+Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), data that you store in your bucket is not copied to the W&B managed infrastructure.
 
 {{% alert %}}
-* W&B SDK / CLI / UI とあなたのバケットとの通信は、[事前署名URL]({{< relref path="./presigned-urls.md" lang="ja" >}})を使用して行われます。
-* W&B はガベージコレクションプロセスを使用して W&B Artifacts を削除します。詳細は[Artifacts の削除]({{< relref path="/guides/core/artifacts/manage-data/delete-artifacts.md" lang="ja" >}})をご覧ください。
-* バケットを設定する際にサブパスを指定することができ、これにより W&B がバケットのルートフォルダにファイルを保存しないようにできます。これにより、組織のバケットガバナンスポリシーによりよく適合するのに役立つかもしれません。
+* Communication between W&B SDK / CLI / UI and your buckets occurs using [pre-signed URLs]({{< relref path="./presigned-urls.md" lang="ja" >}}).
+* W&B uses a garbage collection process to delete W&B Artifacts. For more information, see [Deleting Artifacts]({{< relref path="/guides/core/artifacts/manage-data/delete-artifacts.md" lang="ja" >}}).
+* You can specify a sub-path when configuring a bucket, to ensure that W&B does not store any files in a folder at the root of the bucket. It can help you better conform to your organzation's bucket governance policy.
 {{% /alert %}}
 
-## 中央データベースとバケットに保存されるデータ
+### Data stored in the central database vs buckets
+When using BYOB functionality, certain types of data will be stored in the W&B central database, and other types will be stored in your bucket. 
 
-BYOB 機能を使用すると、データの一部は W&B の中央データベースに保存され、その他のデータは自分のバケットに保存されます。
-
-### データベース
-
-- ユーザー、チーム、Artifacts、Experiments、および Projects のメタデータ
+#### Database
+- Metadata for users, teams, artifacts, experiments, and projects
 - Reports
-- 実験ログ
-- システムメトリクス
+- Experiment logs
+- System metrics
+- Console logs
 
-## バケット
+#### Buckets
+- Experiment files and metrics
+- Artifact files
+- Media files
+- Run files
+- Exported history metrics and system events in Parquet format
 
-- 実験ファイルとメトリクス
-- Artifact ファイル
-- メディアファイル
-- Run ファイル
+### Bucket scopes
+There are two scopes you can configure your storage bucket to:
 
-## 設定オプション
-ストレージバケットを設定するには、*インスタンスレベル*または*チームレベル*の二つのスコープがあります。
+| Scope          | Description |
+|----------------|-------------|
+| Instance level | In [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) and [Self-Managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}), any user with the required permissions within your organization or instance can access files stored in your instance's storage bucket. Not applicable to [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}). |
+| Team level     | If a W&B Team is configured to use a Team level storage bucket, team members can access files stored in it. Team level storage buckets allow greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.<br><br>Team level storage can help different business units or departments sharing an instance to efficiently use the infrastructure and administrative resources. It can also allow separate project teams to manage AI workflows for separate customer engagements. Available for all deployment types. You configure team level BYOB when setting up the team. |
 
-- インスタンスレベル: 組織内で関連権限を持つユーザーがインスタンスレベルのストレージバケットに保存されたファイルにアクセスできます。
-- チームレベル: W&B チームのメンバーは、チームレベルで設定されたバケットに保存されたファイルにアクセスできます。チームレベルのストレージバケットは、機密性の高いデータや厳しいコンプライアンス要件を持つチームに対してより厳格なデータ アクセス制御とデータの分離を提供します。
+This flexible design allows for many different storage topologies, depending on your organization's needs. For example:
+- The same bucket can be used for the instance and one or more teams.
+- Each team can use a separate bucket, some teams can choose to write to the instance bucket, or multiple teams can share a bucket by writing to subpaths.
+- Buckets for different teams can be hosted in different cloud infrastructure environments or regions, and can be managed by different storage admin teams.
 
-バケットをインスタンスレベルで設定し、組織内の1つ以上のチームでそれぞれ設定することができます。
+For example, suppose you have a team called Kappa in your organization. Your organization (and Team Kappa) use the Instance level storage bucket by default. Next, you create a team called Omega. When you create Team Omega, you configure a Team level storage bucket for that team. Files generated by Team Omega are not accessible by Team Kappa. However, files created by Team Kappa are accessible by Team Omega. If you want to isolate data for Team Kappa, you must configure a Team level storage bucket for them as well.
 
-たとえば、組織内に Kappa というチームがあるとします。あなたの組織 (およびチーム Kappa) は、デフォルトでインスタンスレベルのストレージバケットを使用します。次に Omega というチームを作成します。チーム Omega を作成する際に、そのチームのためのチームレベルのストレージバケットを設定することができます。チーム Omega によって生成されたファイルはチーム Kappa によってアクセスすることはできません。ただし、チーム Kappa によって作成されたファイルはチーム Omega によってアクセスすることができます。チーム Kappa のデータを分離したい場合は、彼らのためにチームレベルのストレージバケットを設定する必要があります。
+### Availability matrix
+W&B can connect to the following storage providers:
+- [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) is a high-performance, S3-compatible object storage service optimized for AI workloads.
+- [Amazon S3](https://aws.amazon.com/s3/) is an object storage service offering industry-leading scalability, data availability, security, and performance.
+- [Google Cloud Storage](https://cloud.google.com/storage) is a managed service for storing unstructured data at scale.
+- [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs) is a cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
+- S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
 
-{{% alert %}}
-チームレベルのストレージバケットは、特に異なる事業部門や部門がインスタンスを共有してインフラストラクチャーや管理資源を効果的に利用するため、[セルフマネージド]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスにも同じ恩恵を提供します。これは、別々のプロジェクトチームが別々の顧客向けの AI ワークフローを管理する企業にも適用されます。
-{{% /alert %}}
+The following table shows the availability of BYOB at each scope for each W&B deployment type.
 
-## 利用可能性マトリックス
-以下の表は、異なる W&B サーバーデプロイメントタイプでの BYOB の利用可能性を示しています。 `X`は、そのデプロイメントタイプで機能が利用可能であることを示します。
+| W&B deployment type        | Instance level   | Team level | Additional information |
+|----------------------------|------------------|------------|------------------------|
+| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
+| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, and Microsoft Azure Blob Storage. |
+| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
 
-| W&B サーバーデプロイメントタイプ | インスタンスレベル | チームレベル | 追加情報 |
-|----------------------------|--------------------|----------------|------------------------|
-| 専用クラウド | X | X | Amazon Web Services、Google Cloud Platform、Microsoft Azure のいずれでもインスタンスとチームレベルの BYOB が利用可能です。チームレベルの BYOB については、クラウドネイティブのストレージバケットに同じクラウドまたは別のクラウド、またはあなたのクラウドやオンプレミスのインフラストラクチャーにホストされた [MinIO](https://github.com/minio/minio) のような S3 互換の安全なストレージにも接続できます。 |
-| SaaS クラウド | 該当なし | X | チームレベルの BYOB は Amazon Web Services および Google Cloud Platform のみで利用可能です。W&B は Microsoft Azure のデフォルトで唯一のストレージバケットを完全に管理しています。 |
-| セルフマネージド | X | X | インスタンスレベルの BYOB がデフォルトです。なぜなら、インスタンスは完全にあなたによって管理が行われるためです。もしあなたのセルフマネージドインスタンスがクラウドにある場合、チームレベルの BYOB のために同じまたは別のクラウドにクラウドネイティブのストレージバケットに接続できます。また、インスタンスまたはチームレベルの BYOB のいずれかに [MinIO](https://github.com/minio/minio) のような S3 互換の安全なストレージを使用することもできます。|
+The following sections guide you through the process of setting up BYOB.
 
-{{% alert color="secondary" %}}
-専用クラウドまたはセルフマネージドインスタンスの場合、インスタンスレベルまたはチームレベルのストレージバケットを一度設定すると、そのスコープのストレージバケットを変更したり再設定したりすることはできません。それにはデータを別のバケットに移行したり、主な製品ストレージの関連する参照をリマップしたりすることができないことも含まれます。W&B では、インスタンスおよびチームレベルのいずれかのスコープのストレージバケットを設定する前に、ストレージバケットのレイアウトを注意深く計画することをお勧めします。質問がある場合は、W&B チームにご連絡ください。
-{{% /alert %}}
+## Provision your bucket {#provision-your-bucket}
 
-## チームレベル BYOB のためのクロスクラウドまたは S3 互換ストレージ
-
-[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [セルフマネージド]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスにおいて、別のクラウドのクラウドネイティブのストレージバケットまたは [MinIO](https://github.com/minio/minio) のような S3 互換のストレージバケットに接続して、チームレベル BYOB を利用することができます。
-
-クロスクラウドまたは S3 互換のストレージの利用を有効にするには、次のフォーマットのいずれかを使用してストレージバケットを指定し、W&B インスタンス用の`GORILLA_SUPPORTED_FILE_STORES` 環境変数を設定します。
-
-<details>
-<summary>専用クラウドまたはセルフマネージドインスタンスでチームレベル BYOB のために S3 互換のストレージを設定する</summary>
-
-次のフォーマットを使用してパスを指定します：
-
-```text
-s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>?tls=true
-```
-`region`パラメータは必須です。ただし、W&B インスタンスが AWS 内にあり、W&B インスタンスノードで設定されている`AWS_REGION` が S3 互換ストレージ用に設定されたリージョンと一致している場合を除きます。
-
-</details>
-<details>
-<summary>専用クラウドまたはセルフマネージドインスタンスでチームレベル BYOB のためにクロスクラウドネイティブストレージを設定する</summary>
-
-W&B インスタンスとストレージバケットの場所に特有のフォーマットでパスを指定します：
-
-GCP または Azure にある W&B インスタンスから AWS にあるバケットへ：
-```text
-s3://<accessKey>:<secretAccessKey>@<s3_regional_url_endpoint>/<bucketName>
-```
-
-GCP または AWS にある W&B インスタンスから Azure にあるバケットへ：
-```text
-az://:<urlEncodedAccessKey>@<storageAccountName>/<containerName>
-```
-
-AWS または Azure にある W&B インスタンスから GCP にあるバケットへ：
-```text
-gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
-```
-
-</details>
-
-{{% alert %}}
-チームレベル BYOB 用の S3 互換ストレージへの接続は [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では利用できません。また、[SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) の場合、チームレベル BYOB 用の AWS バケットへの接続はクロスクラウドで行われます。これは、そのインスタンスが GCP に存在するためです。そのクロスクラウドの接続は、以前説明した専用クラウドやセルフマネージドインスタンスのようにアクセキーおよび環境変数ベースのメカニズムを使用しません。
-{{% /alert %}}
-
-詳しくは support@wandb.com までお問い合わせください。
-
-## W&B プラットフォームと同じクラウドのクラウドストレージ
-
-ユースケースに基づいて、チームまたはインスタンスレベルにストレージバケットを設定します。ストレージバケットが調達または設定される方法は、それがどのレベルで設定されているかにかかわらず同じです。ただし、Azure のアクセスメカニズムに不一致があります。 
-
-{{% alert %}}
-W&B は、ストレージバケットをプロビジョニングするために W&B が管理する Terraform モジュールを使用して、必要なアクセスメカニズムと関連する IAM 権限と共に使用することをお勧めします：
-
-* [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
-* [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
-* Azure - [インスタンスレベル BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob) または [チームレベル BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector)
-{{% /alert %}}
+After [verifying availability]({{< relref path="#availability-matrix" lang="ja" >}}), you are ready to provision your storage bucket, including its access policy and CORS. Select a tab to continue.
 
 {{< tabpane text=true >}}
-{{% tab header="AWS" value="aws" %}}
-1. KMS キーのプロビジョニング
+{{% tab header="CoreWeave" value="coreweave" %}}
+<a id="coreweave-requirements"></a>**Requirements**:
+- **Multi-tenant Cloud**, or
+- **Dedicated Cloud** v0.73.0 or above, or
+- **Self-Managed** v0.73.0 or above deployed with v0.33.14+ of the Helm chart
+- A CoreWeave account with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
+- Your W&B instance must be able to connect to CoreWeave network endpoints.
 
-    W&B では、S3 バケット上のデータを暗号化および復号化するために KMS キーをプロビジョニングする必要があります。キーの使用タイプは `ENCRYPT_DECRYPT` である必要があります。キーに次のポリシーを割り当てます：
+For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-bucket) in the CoreWeave documentation.
+
+1. <a id="coreweave-org-id"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
+    1. Log in to the [W&B App](https://wandb.ai/).
+    1. In the left navigation, click **Create a new team**.
+    1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
+    1. Leave this page open. You will use it to [configure W&B]({{< relref path="#configure-byob" lang="ja" >}}).
+1. <a id="coreweave-customer-namespace"></a>**Dedicated Cloud** / **Self-Managed**: Obtain your customer namespace, which is required for your bucket policy.
+    1. In the W&B App, click your user profile icon, then click **System Console**.
+    1. Click the **Authentication** tab.
+    1. At the bottom of the page, copy the value for **Customer Namespace**. Keep this value for configuring the bucket policy. 
+    1. You can close the System Console.
+1. In CoreWeave, create the bucket with a name of your choice in your preferred CoreWeave availability zone. Optionally create a folder for W&B to use as a sub-path for all W&B files. Make a note of the bucket name, availability zone, API access key, secret key, and sub-path.
+1. Set the following Cross-origin resource sharing (CORS) policy for the bucket:
+    ```json
+    [
+      {
+        "AllowedHeaders": [
+          "*"
+        ],
+        "AllowedMethods": [
+          "GET",
+          "HEAD",
+          "PUT"
+        ],
+        "AllowedOrigins": [
+          "*"
+        ],
+        "ExposeHeaders": [
+          "ETag"
+        ],
+        "MaxAgeSeconds": 3000
+      }
+    ]
+    ```
+    CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+
+1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs]({{< relref path="./presigned-urls.md" lang="ja" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
+
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+      {
+        "Sid": "AllowWandbUser",
+        "Action": [
+          "s3:GetObject*",
+          "s3:GetEncryptionConfiguration",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:AbortMultipartUpload",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:GetBucketCORS",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning"
+        ],
+        "Effect": "Allow",
+        "Resource": [
+          "arn:aws:s3:::<cw-bucket>/*",
+          "arn:aws:s3:::<cw-bucket>"
+        ],
+        "Principal": {
+          "CW": "arn:aws:iam::wandb:static/<wb-cw-principal>"
+        },
+        "Condition": {
+          "StringLike": {
+            "wandb:OrgID": [
+              "<wb-org-id>"
+            ]
+          }
+        }
+      },
+      {
+        "Sid": "AllowUsersInOrg",
+        "Action": "s3:*",
+        "Effect": "Allow",
+        "Resource": [
+          "arn:aws:s3:::<cw-bucket>",
+          "arn:aws:s3:::<cw-bucket>/*"
+        ],
+        "Principal": {
+          "CW": "arn:aws:iam::<cw-storage-org-id>:*"
+        }
+      }]
+    }
+    ```
+
+    The clause beginning with `"Sid": "AllowUsersInOrg"` grants users in your organization direct access to the bucket. If you don't need this ability, you can omit the clause from your policy.
+1. In the bucket policy, replace placeholders:
+    - `<cw-bucket>`: your bucket name.
+    - `<cw-wandb-principal>`:
+      - **Multi-tenant Cloud**: `arn:aws:iam::wandb:static/wandb-integration-public`
+      - **Dedicated Cloud** or **Self-Managed**: `arn:aws:iam::wandb:static/wandb-integration`
+    - `<wb-org-id>`:
+      - **Multi-tenant Cloud**: The organization ID from [Step 1]({{< relref path="#coreweave-org-id" lang="ja" >}}).
+      - **Dedicated Cloud** or **Self-Managed**: The customer namespace from [Step 2]({{< relref path="#coreweave-customer-namespace" lang="ja" >}}).
+1. **Dedicated Cloud**: Contact [support](mailto:support@wandb.ai) to complete additional steps.
+1. **Self-Managed**: Update your W&B deployment to set the environment variable `GORILLA_SUPPORTED_FILE_STORES` to the exact string `cw://` and restart W&B. Otherwise, CoreWeave will not appear as an option when you configure team storage.
+
+Next, [configure W&B]({{< relref path="#configure-byob" lang="ja" >}}).
+
+{{% /tab %}}
+{{% tab header="AWS" value="aws" %}}
+For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) in the AWS documentation.
+1. Provision the KMS Key.
+
+    W&B requires you to provision a KMS Key to encrypt and decrypt the data on the S3 bucket. The key usage type must be `ENCRYPT_DECRYPT`. Assign the following policy to the key:
 
     ```json
     {
@@ -151,47 +217,46 @@ W&B は、ストレージバケットをプロビジョニングするために 
     }
     ```
 
-    `<Your_Account_Id>` および `<aws_kms_key.key.arn>` を適宜置き換えてください。
+    Replace `<Your_Account_Id>` and `<aws_kms_key.key.arn>` accordingly.
 
-    [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) または [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) を使用している場合は、`<aws_principal_and_role_arn>` を次の値で置き換えてください：
+    If you are using [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) or [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), replace `<aws_principal_and_role_arn>` with the corresponding value:
 
-    * [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) の場合: `arn:aws:iam::725579432336:role/WandbIntegration`
-    * [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) の場合: `arn:aws:iam::830241207209:root`
+    * For [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}): `arn:aws:iam::725579432336:role/WandbIntegration`
+    * For [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}): `arn:aws:iam::830241207209:root`
 
-    このポリシーは、AWS アカウントに対してキーへの完全なアクセス権を与え、W&B プラットフォームをホスティングする AWS アカウントに必要な権限も割り当てます。KMS キーの ARN を記録してください。
+    This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Keep a record of the KMS Key ARN.
 
-2. S3 バケットのプロビジョニング
+1. Provision the S3 Bucket.
 
-    AWS アカウントに S3 バケットをプロビジョニングするために、以下の手順に従ってください：
+    Follow these steps to provision the S3 bucket in your AWS account:
 
-    1. お好みの名前で S3 バケットを作成します。必要に応じてフォルダーを作成し、サブパスとして設定して W&B のすべてのファイルを保存します。
-    2. バケットのバージョニングを有効にします。
-    3. 前のステップで生成した KMS キーを使用して、サーバー側の暗号化を有効にします。
-    4. 以下のポリシーで CORS を設定します：
+    1. Create the S3 bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
+    1. Enable server side encryption, using the KMS key from the previous step.
+    1. Configure CORS with the following policy:
 
         ```json
         [
-            {
-                "AllowedHeaders": [
-                    "*"
-                ],
-                "AllowedMethods": [
-                    "GET",
-                    "HEAD",
-                    "PUT"
-                ],
-                "AllowedOrigins": [
-                    "*"
-                ],
-                "ExposeHeaders": [
-                    "ETag"
-                ],
-                "MaxAgeSeconds": 3600
-            }
+          {
+              "AllowedHeaders": [
+                  "*"
+              ],
+              "AllowedMethods": [
+                  "GET",
+                  "HEAD",
+                  "PUT"
+              ],
+              "AllowedOrigins": [
+                  "*"
+              ],
+              "ExposeHeaders": [
+                  "ETag"
+              ],
+              "MaxAgeSeconds": 3000
+          }
         ]
         ```
-
-    5. W&B プラットフォームのホスティング先の AWS アカウントに必要な S3 権限を付与します。これにより、AI ワークロードがクラウドインフラストラクチャーやユーザーブラウザーでバケットにアクセスするための[事前署名された URL]({{< relref path="./presigned-urls.md" lang="ja" >}})が生成されます。
+        {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html), you may lose the ability to read the history of some runs.{{% /alert %}}
+    1. Grant the required S3 permissions to the AWS account hosting the W&B Platform, which requires these permissions to generate [pre-signed URLs]({{< relref path="./presigned-urls.md" lang="ja" >}}) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket.
 
         ```json
         {
@@ -224,128 +289,295 @@ W&B は、ストレージバケットをプロビジョニングするために 
         }
         ```
 
-        `<wandb_bucket>` を適宜置き換え、バケット名を記録してください。もし専用クラウドを使用している場合、インスタンスレベルの BYOB の場合は W&B チームとバケット名を共有してください。どのデプロイメントタイプにおいてもチームレベルの BYOB の場合、[チーム作成時にバケットを設定してください]({{< relref path="#configure-byob-in-wb" lang="ja" >}})。
+        Replace `<wandb_bucket>` accordingly and keep a record of the bucket name. Next, [configure W&B]({{< relref path="#configure-byob" lang="ja" >}}).
 
-        [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) または [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) を使用している場合、`<aws_principal_and_role_arn>` を次の値で置き換えてください。
+        If you are using [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) or [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), replace `<aws_principal_and_role_arn>` with the corresponding value.
 
-        * [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}): `arn:aws:iam::725579432336:role/WandbIntegration`
-        * [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}): `arn:aws:iam::830241207209:root`
+        * For [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}): `arn:aws:iam::725579432336:role/WandbIntegration`
+        * For [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}): `arn:aws:iam::830241207209:root`
   
-  詳細については、[AWS セルフマネージドホスティングガイド]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" lang="ja" >}})をご覧ください。
+For more details, see the [AWS self-managed hosting guide]({{< relref path="/guides/hosting/hosting-options/self-managed/install-on-public-cloud/aws-tf.md" lang="ja" >}}).
+
 {{% /tab %}}
-
 {{% tab header="GCP" value="gcp"%}}
-1. GCS バケットのプロビジョニング
+For details, see [Create a bucket](https://cloud.google.com/storage/docs/creating-buckets) in the GCP documentation.
+1. Provision the GCS bucket.
 
-    GCP プロジェクト内で GCS バケットをプロビジョニングするために、以下の手順に従います：
+    Follow these steps to provision the GCS bucket in your GCP project:
 
-    1. 好みの名前で GCS バケットを作成します。必要に応じてフォルダーを作成し、サブパスとして設定して W&B のすべてのファイルを保存します。
-    2. ソフト削除を有効にします。
-    3. オブジェクトのバージョニングを有効にします。
-    4. 暗号化タイプを `Google-managed` に設定します。
-    5. UI では不可能なので、`gsutil` を用いて CORS ポリシーを設定します。
+    1. Create the GCS bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
+    1. Set encryption type to `Google-managed`.
+    1. Set the CORS policy with `gsutil`. This is not possible in the UI.
 
-      1. `cors-policy.json` という名前のファイルをローカルに作成します。
-      2. ファイルに以下の CORS ポリシーをコピーして保存します。
+       1. Create a file called `cors-policy.json` locally.
+       1. Copy the following CORS policy into the file and save it.
 
-          ```json
-          [
-          {
-            "origin": ["*"],
-            "responseHeader": ["Content-Type"],
-            "exposeHeaders": ["ETag"],
-            "method": ["GET", "HEAD", "PUT"],
-            "maxAgeSeconds": 3600
-          }
-          ]
-          ```
+           ```json
+           [
+             {
+               "origin": ["*"],
+               "responseHeader": ["Content-Type"],
+               "exposeHeaders": ["ETag"],
+               "method": ["GET", "HEAD", "PUT"],
+               "maxAgeSeconds": 3000
+             }
+           ]
+           ```
 
-      3. `<bucket_name>` を正しいバケット名で置き換えて `gsutil` を実行します。
+          {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://cloud.google.com/storage/docs/lifecycle), you may lose the ability to read the history of some runs.{{% /alert %}}
+
+      1. Replace `<bucket_name>` with the correct bucket name and run `gsutil`.
 
           ```bash
           gsutil cors set cors-policy.json gs://<bucket_name>
           ```
 
-      4. バケットのポリシーを確認します。`<bucket_name>` を正しいバケット名で置き換えます。
+      1. Verify the bucket's policy. Replace `<bucket_name>` with the correct bucket name.
         
           ```bash
           gsutil cors get gs://<bucket_name>
           ```
 
-2. [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) または [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) を使用している場合、W&B プラットフォームにリンクされた GCP サービスアカウントに `Storage Admin` ロールを付与します：
+1. If you are using [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) or [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), grant the `storage.admin` role to the GCP service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
 
-    * [SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) の場合、アカウントは: `wandb-integration@wandb-production.iam.gserviceaccount.com`
-    * [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) の場合、アカウントは: `deploy@wandb-production.iam.gserviceaccount.com`
+    * For [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
+    * For [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
 
-    バケット名を記録してください。専用クラウドを使用している場合、インスタンスレベルの BYOB ではバケット名を W&B チームと共有してください。どのデプロイメントタイプにおいてもチームレベルの BYOB の場合、[チーム作成時にバケットを設定してください]({{< relref path="#configure-byob-in-wb" lang="ja" >}})。
+    Keep a record of the bucket name. Next, [configure W&B for BYOB]({{< relref path="#configure-byob" lang="ja" >}}).
 {{% /tab %}}
 
-{{% tab header="Azure" value="azure"%}}
-1. Azure Blob Storage のプロビジョニング
+{{% tab header="Azure" value="azure" %}}
+For details, see [Create a blob storage container](https://learn.microsoft.com/en-us/azure/storage/blobs/blob-containers-portal) in the Azure documentation.
 
-    インスタンスレベルの BYOB の場合、[この Terraform モジュール](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob)を使用していない場合は、以下のステップに従って Azure サブスクリプション内で Azure Blob Storage バケットをプロビジョニングします：
+**Instance level BYOB**:
 
-    * 好みの名前でバケットを作成します。必要に応じてフォルダーを作成し、サブパスとして設定して W&B のすべてのファイルを保存します。
-    * ブロブとコンテナのソフト削除を有効にします。
-    * バージョニングを有効にします。
-    * バケットに CORS ポリシーを設定します。
+1. Provision the Azure Blob Storage container.
 
-      CORS ポリシーを UI を通じて設定するには、 Blob ストレージに移動し、`Settings/Resource Sharing (CORS)` までスクロールダウンして、以下を設定します：
+    If you're not using [this Terraform module](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), follow the steps below to provision an Azure Blob Storage container in your Azure subscription:
 
-      | パラメータ | 値 |
-      | --- | --- |
-      | Allowed Origins | `*`  |
-      | Allowed Methods | `GET`, `HEAD`, `PUT` |
-      | Allowed Headers | `*` |
-      | Exposed Headers | `*` |
-      | Max Age | `3600` |
+    1. Create a container with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
+    1. Configure the CORS policy on the container.
 
-2. ストレージ アカウント アクセス キーを生成し、ストレージ アカウント名と共に記録します。専用クラウドを使用している場合、ストレージ アカウント名とアクセス キーを安全な共有方法で W&B チームと共有します。
+        To set the CORS policy through the UI go to the blob storage, scroll down to `Settings/Resource Sharing (CORS)` and then set the following:
 
-    チームレベルの BYOB の場合、W&B は[Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector)を使用して、必要なアクセスメカニズムと権限と共に Azure Blob Storage バケットをプロビジョニングすることをお勧めします。専用クラウドを使用する場合、インスタンスのための OIDC 発行者 URL を提供します。バケットを設定する際に必要な詳細をメモしてください： 
+        | Parameter | Value |
+        | --- | --- |
+        | Allowed Origins | `*`  |
+        | Allowed Methods | `GET`, `HEAD`, `PUT` |
+        | Allowed Headers | `*` |
+        | Exposed Headers | `*` |
+        | Max Age | `3000` |
 
-    * ストレージ アカウント名
-    * ストレージ コンテナ名
-    * マネージドアイデンティティ クライアント ID
-    * Azure テナント ID
+        {{% alert %}}If data in your bucket expires due to an [object lifecycle management policy](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal), you may lose the ability to read the history of some runs.{{% /alert %}}
+
+1. Generate a storage account access key and make a note of its name and the storage account name. If you are using [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), share the storage account name and access key with your W&B team using a secure sharing mechanism.
+
+**Team level BYOB**:
+
+W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) to provision the Azure Blob Storage container along with the necessary access mechanism and permissions. If you use [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}), provide the OIDC issuer URL for your instance. Make a note of the following details:
+
+* Storage account name
+* Storage container name
+* Managed identity client id
+* Azure tenant id
+
+{{% /tab %}}
+{{% tab header="S3-compatible" value="s3-compatible" %}}
+Create your S3-compatible bucket. Make a note of:
+- Access key
+- Secret access key
+- URL endpoint
+- Bucket name
+- Folder path, if applicable.
+- Region
+
 {{% /tab %}}
 {{< /tabpane >}}
 
-## W&B での BYOB の設定
+Next, [determine the storage address]({{< relref path="#determine-the-storage-address" lang="ja" >}}).
+
+## Determine the storage address  {#determine-the-storage-address}
+This section explains the syntax to use to connect a W&B Team to a BYOB storage bucket. In the examples, replace placeholder values between angle brackets (`<>`) with your bucket's details.
+Select a tab for detailed instructions.
 
 {{< tabpane text=true >}}
+{{% tab header="CoreWeave" value="coreweave" %}}
+This section is relevant only for team level BYOB on **Dedicated Cloud** or **Self-Managed**. For instance level BYOB or for Multi-tenant Cloud, you are ready to [Configure W&B]({{< relref path="#configure-byob" lang="ja" >}}).
 
-{{% tab header="チームレベル" value="team" %}}
-{{% alert %}}
-別のクラウドのクラウドネイティブのストレージバケットに接続している場合、または[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [セルフマネージド]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスでチームレベル BYOB のために [MinIO](https://github.com/minio/minio) のような S3 互換のストレージバケットに接続している場合、[チームレベル BYOB のためのクロスクラウドまたは S3 互換ストレージ]({{< relref path="#cross-cloud-or-s3-compatible-storage-for-team-level-byob" lang="ja" >}}) を参照してください。そのような場合、W&B インスタンス用の `GORILLA_SUPPORTED_FILE_STORES` 環境変数を使用してストレージバケットを指定し、それをチーム用に設定する前に以下の手順に従ってください。
-{{% /alert %}}
+Determine the full bucket path using the following format. Replace placeholders between angle brackets (`<>`) with the bucket's values.
 
-{{% alert %}}
-[セキュアストレージコネクターが動作しているビデオデモンストレーション](https://www.youtube.com/watch?v=uda6jIx6n5o) (9 分) を視聴してください。
-{{% /alert %}}
+**Bucket format**:
+```none
+cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
+```
 
-W&B チーム作成時にチームレベルでストレージバケットを設定するには：
-
-1. **チーム名** フィールドにチーム名を入力します。 
-2. **ストレージタイプ** オプションとして **外部ストレージ** を選択します。
-3. ドロップダウンから **新しいバケット** を選択するか、既存のバケットを選択します。
-
-    複数の W&B チームが同じクラウドストレージバケットを使用できます。これを有効にするには、ドロップダウンから既存のクラウドストレージバケットを選択してください。
-
-4. **クラウドプロバイダー** ドロップダウンからクラウドプロバイダーを選択します。
-5. **名前** フィールドにストレージバケットの名前を入力します。Azure で [専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [セルフマネージド]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスを持っている場合は、**アカウント名** および **コンテナ名** の値を入力してください。
-6. (オプション) バケットのサブパスをオプションの **パス** フィールドに入力します。そうすることで、W&B がバケットのルートにあるフォルダにファイルを保存しないようにすることができます。
-7. (AWS バケットを使用する場合はオプション) **KMSキーARN** フィールドに暗号化キーの ARN を入力します。
-8. (Azure バケットを使用する場合はオプション) **テナントID** および **マネージド アイデンティティ クライアント ID** の値を入力します。
-9. ([SaaS クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}})でオプション) チームの作成時にオプションでチームメンバーを招待します。
-10. **チームを作成** ボタンを押します。
-
-{{< img src="/images/hosting/prod_setup_secure_storage.png" alt="" >}}
-
-バケットにアクセスする際や設定が無効な場合、ページの下部にエラーや警告が表示されます。
+  The `cwobject.com` HTTPS endpoint is supported. TLS 1.3 is required. Contact [support](mailto:support@wandb.com) to express interest in other CoreWeave endpoints.
 {{% /tab %}}
+{{% tab header="AWS" value="aws" %}}
+**Bucket format**:
+```text
+s3://<accessKey>:<secretAccessKey>@<s3_regional_url_endpoint>/<bucketName>?region=<region>
+```
+In the address, the `region` parameter is mandatory unless both your W&B instance and your storage bucket are deployed AWS, and the W&B instance's `AWS_REGION` matches the bucket's AWS S3 region.
+{{% /tab %}}
+{{% tab header="GCP" value="gcp" %}}
+**Bucket format**:
+```text
+gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
+```
+{{% /tab %}}
+{{% tab header="Azure" value="azure" %}}
+**Bucket format**:
+```text
+az://:<urlEncodedAccessKey>@<storageAccountName>/<containerName>
+```
+{{% /tab %}}
+{{% tab header="S3-compatible" value="s3-compatible" %}}
+**Bucket format**:
+```text
+s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>&tls=true
+```
+In the address, the `region` parameter is mandatory.
 
-{{% tab header="インスタンスレベル" value="instance"%}}
-専用クラウドまたはセルフマネージドインスタンスのインスタンスレベル BYOB を設定するには、support@wandb.com まで W&B サポートにお問い合わせください。
+{{% alert %}}
+This section is for S3-compatible storage buckets that are not hosted in S3, like [MinIO](https://github.com/minio/minio) hosted on your premises. For storage buckets hosted in AWS S3, see the **AWS** tab instead.
+
+For Cloud-native storage buckets with an optional S3-compatible mode, use the Cloud-native protocol specifier when possible. For example, use `cw://` for a CoreWeave bucket, rather than `s3://`.
+{{% /alert %}}
 {{% /tab %}}
 {{< /tabpane >}}
+
+After determining the storage address, you are ready to [configure team level BYOB]({{< relref path="#configure-team-level-byob" lang="ja" >}}).
+
+## Configure W&B  {#configure-byob}
+After you [provision your bucket]({{< relref path="#provision-your-bucket" lang="ja" >}}) and [determine its address](#determine-the-storage-address), you are ready to configure BYOB at the [instance level]({{< relref path="#instance-level-byob" lang="ja" >}}) or [team level]({{< relref path="#team-level-byob" lang="ja" >}}).
+
+{{% alert color="secondary" %}}
+Plan your storage bucket layout carefully. After you configure a storage bucket for W&B, migrating its data to another bucket is complex and requires the assistance of W&B. This applies to storage for Dedicated Cloud and Self-Managed, as well as team-level storage for Multi-tenant Cloud. For questions, contact [support](mailto:support@wandb.com).
+{{% /alert %}}
+
+### Instance level BYOB
+
+{{% alert %}}
+For CoreWeave AI Object Storage at the instance level, contact [W&B support](mailto:support@wandb.com) instead of following these instructions. Self-service configuration is not yet supported.
+{{% /alert %}}
+
+For **Dedicated Cloud**: Share the bucket details with your W&B team, who will configure your Dedicated Cloud instance.
+
+For **Self-Managed**, you can configure instance level BYOB using the W&B App:
+1. Log in to W&B as a user with the `admin` role.
+1. Click the user icon at the top, then click **System Console**.
+1. Go to **Settings** > **System Connections**.
+1. In the **Bucket Storage** section, ensure the identity in the **Identity** field is granted access to the new bucket.
+1. Select the **Provider**.
+1. Enter the **Bucket Name**.
+1. Optionally, enter the **Path** to use in the new bucket.
+1. Click **Save**
+
+{{% alert %}}
+For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
+
+* [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
+* [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
+* Azure - [Instance level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob) or [Team level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector)
+{{% /alert %}}
+
+### Team level BYOB
+
+You can configure team level BYOB while creating a team using the W&B App. You have two options:
+- **Use an existing bucket**: You'll need to [determine the storage location](#determine-the-storage-address) for your bucket first.
+- **Create a new bucket** (Multi-tenant Cloud only): W&B can automatically create a bucket in your cloud provider when you create the team. This is supported for CoreWeave, AWS, GCP, and Azure.
+
+{{% alert %}}
+- After a team is created, its storage cannot be changed.
+- For Instance level BYOB, refer to [Instance level BYOB]({{< relref path="#instance-level-byob" lang="ja" >}}) instead.
+- If you plan to configure CoreWeave storage for the team, review the [CoreWeave requirements](#coreweave-requirements) and contact [support](mailto:support@wandb.com) to verify that your bucket is configured correctly in CoreWeave and to validate your team's configuration, since the storage details cannot be changed after the team is created.
+{{% /alert %}}
+
+Select your deployment type to continue.
+
+{{< tabpane text=true >}}
+{{% tab header="Dedicated Cloud / Self-Hosted" value="dedicated" %}}
+
+1. **Dedicated Cloud**: You **must** provide the bucket path to your account team so that they can add it to your instance's supported file stores before following the rest of these steps to use the storage bucket for a team.
+1. **Self-Managed**: You **must** add the bucket path to your the `GORILLA_SUPPORTED_FILE_STORES` environment variable and then restart W&B before following the rest of these steps to use the storage bucket for a team.
+1. Log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
+1. Provide a name for the team.
+1. Set **Storage Type** to **External storage**.
+
+    {{% alert %}}To use the instance level storage for team storage (regardless of whether it is internal or external), leave **Storage Type** set to **Internal**, even if the instance level bucket is configured for BYOB. To use separate external storage for the team, set **Storage Type** for the team to **External** and configure the bucket details in the next step.{{% /alert %}}
+
+1. Click **Bucket location**.
+1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
+
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
+    
+    If the cloud provider is not listed, ensure that you have followed step 1 to add the bucket path to the supported file stores for your instance. If the storage provider is still not listed, [contact support](mailto:support@wandb.ai) for assistance.
+1. Specify the bucket details.
+    - For **CoreWeave**, provide only the bucket name.
+    - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+    - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
+    - Optionally, provide additional connection settings:
+      - If applicable, set **Path** to the bucket sub-path.
+      - **CoreWeave**: No additional connection settings required.
+      - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
+      - **GCP**: No additional connection settings required.
+      - **Azure**: Specify values for **Tenant ID** and **Managed Identity Client ID**. These fields are mandatory unless you configured the connection string with `GORILLA_SUPPORTED_FILE_STORES`.
+1. Click **Create team**.
+
+If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
+
+{{% /tab %}}
+{{% tab header="Multi-tenant Cloud" value="multi-tenant" %}}
+
+1. Switch to the browser window where you previously began to create the new team to find the W&B organization ID previously. Otherwise, log in to W&B as a user with the `admin` role, click the icon at the top left to open the left navigation, then click **Create a team to collaborate**.
+1. Provide a name for the team.
+1. Set **Storage Type** to **External storage**.
+1. Click **Bucket location**.
+1. To use an existing bucket, select it from the list.
+1. To create a new bucket, click **Add bucket** at the bottom, then:
+    1. Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
+    1. Enter the bucket details:
+        - **Name**: For all providers except Azure, enter the bucket name. For Azure, this is the container name.
+        - **Path** (optional): Enter a sub-path to use within the bucket.
+    1. Provide additional connection settings for the chosen cloud provider:
+        - CoreWeave: No additional settings required.
+        - AWS: Optionally provide a **KMS key ARN** for encryption.
+        - GCP: No additional settings required.
+        - Azure: 
+            - **Account name** (required): The Azure storage account name.
+            - **Tenant ID** (optional): The Azure Active Directory tenant ID.
+            - **Managed Identity Client ID** (optional): The client ID for managed identity authentication.
+    
+    {{% alert %}}When you click **Create team**, W&B will automatically create the bucket in your cloud provider with the specified configuration.{{% /alert %}}
+
+1. Invite members to the team. In **Invite team members**, specify a comma-separated list of email addresses. Otherwise, you can invite members to the team after it is created.
+1. Click **Create team**.
+
+If W&B encounters errors accessing the bucket or detects invalid settings, an error or warning displays at the bottom of the page. Otherwise, the team is created.
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+## Troubleshooting
+<details open>
+<summary>Connecting to CoreWeave AI Object Storage</summary>
+
+- **Connection errors**
+  - Verify that your W&B instance can connect to CoreWeave network endpoints.
+  - CoreWeave uses virtual-hosted style paths, where the bucket name is a subdomain at the beginning of the path. For example: `cw://bucket-name.cwobject.com` is correct, while `cw://cwobject.com/bucket-name/` is not.
+  - Bucket names must not contain underscores (`_`) or other characters incompatible with DNS rules.
+  - Bucket names must be globally unique among CoreWeave locations.
+  - Bucket names must not begin with `cw-` or `vip-`, which are reserved prefixes.
+- **CORS validation failures**
+  - A CORS policy is required. CoreWeave is S3-compatible; for details about CORS, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
+  - `AllowedMethods` must include methods `GET`, `PUT`, and `HEAD`.
+  - `ExposeHeaders` must include `ETag.
+  - W&B front-end domains must be included in the CORS policy's `AllowedOrigins`. The example CORS policies provided on this page include all domains using `*`.
+- **LOTA endpoint issues**
+  - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
+- **Access key and permission errors**
+  - Verify that your CoreWeave API Access Key is not expired.
+  - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.
+
+</details>

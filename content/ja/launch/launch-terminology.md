@@ -1,59 +1,59 @@
 ---
-title: ローンチの用語と概念
 menu:
   launch:
     identifier: ja-launch-launch-terminology
     parent: launch
-url: /ja/guides/launch/launch-terminology
+title: Launch terms and concepts
+url: guides/launch/launch-terminology
 weight: 2
 ---
 
-W&B ローンンチを使用すると、[ジョブ]({{< relref path="#launch-job" lang="ja" >}})を[キュー]({{< relref path="#launch-queue" lang="ja" >}})に追加して run を作成します。ジョブは W&B と組み合わせた Python スクリプトです。キューは、[ターゲットリソース]({{< relref path="#target-resources" lang="ja" >}})で実行するジョブのリストを保持します。[エージェント]({{< relref path="#launch-agent" lang="ja" >}})はキューからジョブを取り出し、ターゲットリソース上でジョブを実行します。W&B はローンンチジョブを W&B が [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) をトラッキングするのと同様にトラッキングします。
+With W&B Launch, you enqueue [jobs]({{< relref path="#launch-job" lang="ja" >}}) onto [queues]({{< relref path="#launch-queue" lang="ja" >}}) to create runs. Jobs are python scripts instrumented with W&B. Queues hold a list of jobs to execute on a [target resource]({{< relref path="#target-resources" lang="ja" >}}). [Agents]({{< relref path="#launch-agent" lang="ja" >}}) pull jobs from queues and execute the jobs on target resources. W&B tracks launch jobs similarly to how W&B tracks [runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}).
 
-### ローンンチジョブ
-ローンンチジョブは、完了するタスクを表す特定の種類の [W&B Artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) です。例えば、一般的なローンンチジョブには、モデルのトレーニングやモデルの評価トリガーがあります。ジョブ定義には以下が含まれます：
+### Launch job
+A launch job is a specific type of [W&B Artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) that represents a task to complete. For example, common launch jobs include training a model or triggering a model evaluation. Job definitions include:
 
-- Pythonコードやその他のファイルアセット、少なくとも1つの実行可能なエントリポイントを含む。
-- 入力（設定パラメータ）および出力（ログされたメトリクス）に関する情報。
-- 環境に関する情報。（例えば、`requirements.txt`、ベースの `Dockerfile`）。
+- Python code and other file assets, including at least one runnable entrypoint.
+- Information about the input (config parameter) and output (metrics logged).
+- Information about the environment. (for example, `requirements.txt`, base `Dockerfile`).
 
-ジョブ定義には3つの主要な種類があります：
+There are three main kinds of job definitions:
 
 | Job types | Definition | How to run this job type | 
 | ---------- | --------- | -------------- |
-|アーティファクトベース（またはコードベース）のジョブ| コードや他のアセットが W&B アーティファクトとして保存される。| アーティファクトベースのジョブを実行するには、ローンンチエージェントがビルダーで設定されている必要があります。 |
-|Git ベースのジョブ| コードや他のアセットが git リポジトリの特定のコミット、ブランチ、またはタグからクローンされる。| Git ベースのジョブを実行するには、ローンンチエージェントがビルダーと git リポジトリの資格情報で設定されている必要があります。 |
-|イメージベースのジョブ| コードや他のアセットが Docker イメージに組み込まれている。| イメージベースのジョブを実行するには、ローンンチエージェントがイメージリポジトリの資格情報で設定されている必要があるかもしれません。 | 
+|Artifact-based (or code-based) jobs| Code and other assets are saved as a W&B artifact.| To run artifact-based jobs, Launch agent must be configured with a builder. |
+|Git-based jobs|  Code and other assets are cloned from a certain commit, branch, or tag in a git repository. | To run git-based jobs, Launch agent must be configured with a builder and git repository credentials. |
+|Image-based jobs|Code and other assets are baked into a Docker image. | To run image-based jobs, Launch agent might need to be configured with image repository credentials. | 
 
 {{% alert %}}
-ローンンチジョブは、モデルのトレーニングに関連しないアクティビティも実行可能です。例えば、モデルを Triton 推論サーバーにデプロイするなど。ただし、すべてのジョブは `wandb.init` を呼び出して正常に完了する必要があります。これにより、W&B ワークスペース内でトラッキング目的の run が作成されます。
+While Launch jobs can perform activities not related to model training--for example, deploy a model to a Triton inference server--all jobs must call `wandb.init` to complete successfully. This creates a run for tracking purposes in a W&B workspace.
 {{% /alert %}}
 
-作成したジョブは、プロジェクトワークスペースの `Jobs` タブの W&B アプリで見つけることができます。そこから、ジョブを設定して様々な [ターゲットリソース]({{< relref path="#launch-queue" lang="ja" >}}) で実行するための [launch queue]({{< relref path="#target-resources" lang="ja" >}}) に送信できます。
+Find jobs you created in the W&B App under the `Jobs` tab of your project workspace. From there, jobs can be configured and sent to a [launch queue]({{< relref path="#launch-queue" lang="ja" >}}) to be executed on a variety of [target resources]({{< relref path="#target-resources" lang="ja" >}}).
 
 ### Launch queue
-ローンンチ*キュー*は、特定のターゲットリソースで実行するジョブの順序付けられたリストです。ローンンチキューは先入れ先出し (FIFO) です。持てるキューの数に実質的な制限はありませんが、1 つのターゲットリソースごとに 1 つのキューが理想的です。ジョブは W&B アプリ UI、W&B CLI または Python SDK を使用してエンキューできます。1 つまたは複数のローンンチエージェントを設定して、キューからアイテムを引き出し、それをキューのターゲットリソースで実行することができます。
+Launch *queues* are ordered lists of jobs to execute on a specific target resource. Launch queues are first-in, first-out. (FIFO). There is no practical limit to the number of queues you can have, but a good guideline is one queue per target resource. Jobs can be enqueued with the W&B App UI, W&B CLI or Python SDK. You can then configure one or more Launch agents to pull items from the queue and execute them on the queue's target resource.
 
 ### Target resources
-ローンンチキューがジョブを実行するために設定された計算環境を*ターゲットリソース*と呼びます。
+The compute environment that a Launch queue is configured to execute jobs on is called the *target resource*.
 
-W&B ローンンチは以下のターゲットリソースをサポートしています：
+W&B Launch supports the following target resources:
 
 - [Docker]({{< relref path="/launch/set-up-launch/setup-launch-docker.md" lang="ja" >}})
 - [Kubernetes]({{< relref path="/launch/set-up-launch/setup-launch-kubernetes.md" lang="ja" >}})
 - [AWS SageMaker]({{< relref path="/launch/set-up-launch/setup-launch-sagemaker.md" lang="ja" >}})
 - [GCP Vertex]({{< relref path="/launch/set-up-launch/setup-vertex.md" lang="ja" >}})
 
-各ターゲットリソースは、*リソース設定*と呼ばれる異なる設定パラメータを受け入れます。リソース設定は各ローンンチキューによって定義されるデフォルト値を持ちますが、各ジョブによって個別に上書きすることができます。各ターゲットリソースの詳細については、ドキュメントを参照してください。
+Each target resource accepts a different set of configuration parameters called *resource configurations*. Resource configurations take on default values defined by each Launch queue, but can be overridden independently by each job. See the documentation for each target resource for more details.
 
 ### Launch agent
-ローンンチエージェントは、ジョブを実行するためにローンンチキューを定期的にチェックする軽量で持続的なプログラムです。ローンンチエージェントがジョブを受け取ると、まずジョブ定義からイメージをビルドまたはプルし、それをターゲットリソースで実行します。
+Launch agents are lightweight, persistent programs that periodically check Launch queues for jobs to execute. When a launch agent receives a job, it first builds or pulls the image from the job definition then runs it on the target resource.
 
-1 つのエージェントは複数のキューをポーリングすることができますが、エージェントはポーリングするキューのバックするターゲットリソースすべてをサポートするように正しく設定されている必要があります。
+One agent may poll multiple queues, however the agent must be configured properly to support all of the backing target resources for each queue it is polling.
 
 ### Launch agent environment
-エージェント環境は、ローンンチエージェントが実行され、ジョブのポーリングを行う環境です。
+The agent environment is the environment where a launch agent is running, polling for jobs.
 
 {{% alert %}}
-エージェントのランタイム環境はキューのターゲットリソースとは独立しています。言い換えれば、エージェントが必要なターゲットリソースにアクセスできるように十分な設定がされていれば、どこにでもデプロイすることができます。
+The agent's runtime environment is independent of a queue's target resource. In other words, agents can be deployed anywhere as long as they are configured sufficiently to access the required target resources.
 {{% /alert %}}

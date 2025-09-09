@@ -1,40 +1,40 @@
 ---
-title: 散布図
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-scatter-plot
     parent: panels
+title: Scatter plots
 weight: 40
 ---
 
-このページでは、W&B で散布図を使用する方法を示します。
+This page shows how to use scatter plots in W&B.
 
-## ユースケース
+## Use case 
 
-散布図を使用して、複数の runs を比較し、実験のパフォーマンスを視覚化します。
+Use scatter plots to compare multiple runs and visualize the performance of an experiment:
 
-- 最小値、最大値、および平均値のプロットラインを表示する。
-- メタデータのツールチップをカスタマイズする。
-- ポイントの色を制御する。
-- 軸の範囲を調整する。
-- 軸に対して対数スケールを使用する。
+- Plot lines for minimum, maximum, and average values.
+- Customize metadata tooltips.
+- Control point colors.
+- Adjust axis ranges.
+- Use a log scale for the axes.
 
-## 例
+## Example
 
-次の例では、異なるモデルの数週間にわたる実験による検証精度を表示する散布図を示しています。ツールチップには、バッチサイズ、ドロップアウト、および軸の値が含まれています。また、検証精度のランニング平均を示す線も表示されます。
+The following example shows a scatter plot displaying validation accuracy for different models over several weeks of experimentation. The tooltip includes batch size, dropout, and axis values. A line also shows the running average of validation accuracy. 
 
-[ライブ例を見る →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
+[See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
-{{< img src="/images/general/scatter-plots-1.png" alt="数週間にわたる実験による異なるモデルの検証精度の例" >}}
+{{< img src="/images/general/scatter-plots-1.png" alt="Validation accuracy scatter plot" >}}
 
-## 散布図を作成する
+## Create a scatter plot
 
-W&B UI で散布図を作成するには：
+To create a scatter plot in the W&B UI:
 
-1. **Workspaces** タブに移動します。
-2. **Charts** パネルで、アクションメニュー `...` をクリックします。
-3. ポップアップメニューから、**Add panels** を選択します。
-4. **Add panels** メニューで、**Scatter plot** を選択します。
-5. プロットしたいデータを表示するために `x` および `y` 軸を設定します。必要に応じて、軸の最大および最小範囲を設定するか、`z` 軸を追加してください。
-6. **Apply** をクリックして散布図を作成します。
-7. 新しい散布図を Charts パネルで確認します。
+1. Navigate to the **Workspaces** tab.
+2. In the **Charts** panel, click the action menu `...`.
+3. From the pop-up menu, select **Add panels**.
+4. In the **Add panels** menu, select **Scatter plot**.
+5. Set the `x` and `y` axes to plot the data you want to view. Optionally, set maximum and minimum ranges for your axes or add a `z` axis.
+6. Click **Apply** to create the scatter plot.
+7. View the new scatter plot in the Charts panel.

@@ -1,101 +1,111 @@
 ---
-title: TensorBoard
 menu:
   default:
     identifier: ja-guides-integrations-tensorboard
     parent: integrations
+title: TensorBoard
 weight: 430
 ---
 
 {{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" >}}
 
 {{% alert %}}
-W&B は、W&B マルチテナント SaaS のために埋め込まれた TensorBoard をサポートしています。
+W&B support embedded TensorBoard for W&B Multi-tenant SaaS.
 {{% /alert %}}
 
-あなたの TensorBoard ログをクラウドにアップロードし、同僚やクラスメートと迅速に結果を共有し、分析を一元化された場所に保つことができます。
+Upload your TensorBoard logs to the cloud, quickly share your results among colleagues and classmates and keep your analysis in one centralized location.
 
-{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="" >}}
+{{< img src="/images/integrations/tensorboard_oneline_code.webp" alt="TensorBoard integration code" >}}
 
-## 始めましょう
+## Get started
 
 ```python
 import wandb
 
-# `sync_tensorboard=True` で wandb run を開始
-wandb.init(project="my-project", sync_tensorboard=True)
+# Start a wandb run with `sync_tensorboard=True`
+wandb.init(project="my-project", sync_tensorboard=True) as run:
+  # Your training code using TensorBoard
+  ...
 
-# TensorBoard を使用した トレーニング コード
-...
-
-# [オプション]wandb run を終了して tensorboard ログを W&B にアップロード（ノートブックの場合）
-wandb.finish()
 ```
 
-[例](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard)を確認してください。
+Review an [example TensorBoard integration run](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard).
 
-run が終了すると、W&B で TensorBoard イベントファイルに アクセス でき、W&B ネイティブチャートでメトリクスを視覚化できます。システムの CPU や GPU の利用状況、`git` の状態、run が使用したターミナルコマンドなどの追加情報と一緒に表示されます。
+Once your run finishes, you can access your TensorBoard event files in W&B and you can visualize your metrics in native W&B charts, together with additional useful information like the system's CPU or GPU utilization, the `git` state, the terminal command the run used, and more.
 
 {{% alert %}}
-W&B はすべての バージョン の TensorFlow を使用した TensorBoard をサポートしています。また、W&B は TensorFlow 1.14 以上の バージョン で PyTorch および TensorBoardX もサポートしています。
+W&B supports TensorBoard with all versions of TensorFlow. W&B also supports TensorBoard 1.14 and higher with PyTorch as well as TensorBoardX.
 {{% /alert %}}
 
-## よくある質問
+## Frequently asked questions
 
-### TensorBoard に ログ されていないメトリクスを W&B に ログ するにはどうすればよいですか？
+### How can I log metrics to W&B that aren't logged to TensorBoard?
 
-TensorBoard にログされていないカスタムメトリクスを追加でログする必要がある場合、`wandb.log`をコード内で呼び出すことができます。`wandb.log({"custom": 0.8})`
+If you need to log additional custom metrics that aren't being logged to TensorBoard, you can call `wandb.Run.log()` in your code `run.log({"custom": 0.8})`
 
-Tensorboard を同期する際、`wandb.log` でステップ引数を設定することはできません。異なるステップ数を設定したい場合は、次のようにステップメトリクスを使ってメトリクスをログできます。
+Setting the step argument in `run.log()` is turned off when syncing Tensorboard. If you'd like to set a different step count, you can log the metrics with a step metric as:
 
-`wandb.log({"custom": 0.8, "global_step": global_step})`
+`run.log({"custom": 0.8, "global_step": global_step})`
 
-### `wandb` で Tensorboard を使用する場合、どのように設定すれば良いですか？
+### How do I configure Tensorboard when I'm using it with `wandb`?
 
-TensorBoard のパッチに対する制御をもっと持ちたい場合、`wandb.init` に `sync_tensorboard=True` を渡す代わりに `wandb.tensorboard.patch` を呼び出すことができます。
+If you want more control over how TensorBoard is patched you can call `wandb.tensorboard.patch` instead of passing `sync_tensorboard=True` to `wandb.init`.
 
 ```python
 import wandb
 
 wandb.tensorboard.patch(root_logdir="<logging_directory>")
-wandb.init()
+run = wandb.init()
 
-# ノートブックの場合、wandb run を終了して tensorboard ログを W&B にアップロード
-wandb.finish()
+# Finish the wandb run to upload the tensorboard logs to W&B (if running in Notebook)
+run.finish()
 ```
 
-このメソッドに `tensorboard_x=False` を渡すことで、バニラ TensorBoard がパッチされるように確保できます。PyTorch で TensorBoard > 1.14 を使用している場合は、 `pytorch=True` を渡して確保することができます。これらのオプションは、インポートされたこれらのライブラリの バージョン に応じて、賢いデフォルトを持っています。
+You can pass `tensorboard_x=False` to this method to ensure vanilla TensorBoard is patched, if you're using TensorBoard > 1.14 with PyTorch you can pass `pytorch=True` to ensure it's patched. Both of these options have smart defaults depending on what versions of these libraries have been imported.
 
-デフォルトでは、`tfevents` ファイルと `.pbtxt` ファイルを同期します。これによりあなたのために TensorBoard インスタンスをローンンチできるようになります。run ページには [TensorBoard タブ](https://www.wandb.com/articles/hosted-tensorboard) が表示されます。この振る舞いは、`wandb.tensorboard.patch` に `save=False` を渡すことで無効にできます。
+By default, we also sync the `tfevents` files and any `.pbtxt` files. This enables us to launch a TensorBoard instance on your behalf. You will see a [TensorBoard tab](https://www.wandb.com/articles/hosted-tensorboard) on the run page. This behavior can be turned off by passing `save=False` to `wandb.tensorboard.patch`
 
 ```python
 import wandb
 
-wandb.init()
+run = wandb.init()
 wandb.tensorboard.patch(save=False, tensorboard_x=True)
 
-# ノートブックの場合、wandb run を終了して tensorboard ログを W&B にアップロード
-wandb.finish()
+# If running in a notebook, finish the wandb run to upload the tensorboard logs to W&B
+run.finish()
 ```
 
 {{% alert color="secondary" %}}
-`tf.summary.create_file_writer` または `torch.utils.tensorboard` 経由で `SummaryWriter` を構築する**前**に、`wandb.init` または `wandb.tensorboard.patch` のいずれかを呼び出す必要があります。
+You must call either `wandb.init()` or `wandb.tensorboard.patch` **before** calling `tf.summary.create_file_writer` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 {{% /alert %}}
 
-### 過去の TensorBoard runs を同期するにはどうすればよいですか?
+### How do I sync historical TensorBoard runs?
 
-ローカルに保存されている既存の `tfevents` ファイルを W&B にインポートしたい場合は、`wandb sync log_dir` を実行できます。ここで `log_dir` は `tfevents` ファイルを含むローカルディレクトリーです。
+If you have existing `tfevents` files stored locally and you would like to import them into W&B, you can run `wandb sync log_dir`, where `log_dir` is a local directory containing the `tfevents` files.
 
-### Google Colab や Jupyter を TensorBoard で使用するにはどうすればよいですか？
+### How do I use Google Colab or Jupyter with TensorBoard?
 
-Jupyter または Colab ノートブックでコードを実行する場合、トレーニングの終了時に `wandb.finish()` を呼び出してください。これにより wandb run は完了し、tensorboard ログを W&B にアップロードして視覚化できるようになります。 `.py` スクリプトを実行する場合、スクリプトが終了すると自動的に wandb も終了するため、これは必要ありません。
+If running your code in a Jupyter or Colab notebook, make sure to call `wandb.Run.finish()` and the end of your training. This will finish the wandb run and upload the tensorboard logs to W&B so they can be visualized. This is not necessary when running a `.py` script as wandb finishes automatically when a script finishes.
 
-ノートブック 環境 でシェル コマンド を実行するには、`!` を先頭に付ける必要があります。例：`!wandb sync directoryname`。
+To run shell commands in a notebook environment, you must prepend a `!`, as in `!wandb sync directoryname`.
 
-### PyTorch を TensorBoard で使用するにはどうすればよいですか？
+### How do I use PyTorch with TensorBoard?
 
-もし PyTorch の TensorBoard インテグレーションを使用している場合、PyTorch Profiler JSON ファイルを手動でアップロードする必要があります。
+If you use PyTorch's TensorBoard integration, you may need to manually upload the PyTorch Profiler JSON file.
 
 ```python
-wandb.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    run.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
 ```
+
+### Can I sync tfevents files stored in the cloud?
+
+`wandb` 0.20.0 and above supports syncing `tfevents` files stored in S3, GCS or Azure. `wandb` uses the default credentials for each cloud provider, corresponding to the commands in the following table:
+
+| Cloud provider | Credentials                             | Logging directory format              |
+| -------------- | --------------------------------------- | ------------------------------------- |
+| S3             | `aws configure`                         | `s3://bucket/path/to/logs`            |
+| GCS            | `gcloud auth application-default login` | `gs://bucket/path/to/logs`            |
+| Azure          | `az login`[^1]                          | `az://account/container/path/to/logs` |
+
+[^1]: You must also set the `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_KEY` environment variables.
