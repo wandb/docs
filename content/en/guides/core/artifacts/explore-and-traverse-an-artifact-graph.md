@@ -57,7 +57,7 @@ Clicking on a node opens a preview with an overview of the node. Clicking on the
 {{< img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster" >}}
 
 ## Use the API to track lineage
-You can also navigate a graph using the [W&B API]({{< relref "/ref/python/public-api/api.md" >}}). 
+You can also navigate a graph using the [W&B API]({{< relref "/ref/python/sdk/public-api/api.md" >}}). 
 
 Create an artifact. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
 

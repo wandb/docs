@@ -161,7 +161,7 @@ Use the Public API to export or update data that you have saved to W&B. Before u
 - **Export Data**: Pull down a dataframe for custom analysis in a Jupyter Notebook. Once you have explored the data, you can sync your findings by creating a new analysis run and logging results, for example: `wandb.init(job_type="analysis")`
 - **Update Existing Runs**: You can update the data logged in association with a W&B run. For example, you might want to update the config of a set of runs to include additional information, like the architecture or a hyperparameter that wasn't originally logged.
 
-See the [Generated Reference Docs]({{< relref "/ref/python/public-api/" >}}) for details on available functions.
+See the [Generated Reference Docs]({{< relref "/ref/python/sdk/public-api/" >}}) for details on available functions.
 
 ### Create an API key
 
@@ -243,7 +243,7 @@ The following sections describe the different outputs for the above run object a
 
 ### Sampling
 
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference]({{< relref "/ref/python/public-api" >}}).
+The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference]({{< relref "/ref/python/sdk/public-api" >}}).
 
 ### Querying Multiple Runs
 
@@ -326,7 +326,7 @@ If you're thinking about ways to set useful identifiers for your runs, here's wh
 
 ### Export data to visualize in matplotlib or seaborn
 
-Check out our [API examples]({{< relref "/ref/python/public-api/" >}}) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
+Check out our [API examples]({{< relref "/ref/python/sdk/public-api/" >}}) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
 
 ### Read metrics from a run
 

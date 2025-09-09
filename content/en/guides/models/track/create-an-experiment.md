@@ -8,7 +8,7 @@ weight: 1
 title: Create an experiment
 ---
 
-Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API]({{< relref "/ref/python/public-api/" >}}).
+Use the W&B Python SDK to track machine learning experiments. You can then review the results in an interactive dashboard or export your data to Python for programmatic access with the [W&B Public API]({{< relref "/ref/python/sdk/public-api/" >}}).
 
 This guide describes how to use W&B building blocks to create a W&B Experiment. 
 

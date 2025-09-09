@@ -17,7 +17,7 @@ Team members with view-only seats cannot download artifacts.
 
 ### Download and use an artifact stored on W&B
 
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`]({{< relref "/ref/python/public-api/api.md" >}})) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide]({{< relref "/ref/python/public-api/index.md" >}}).
+Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`]({{< relref "/ref/python/sdk/public-api/api.md" >}})) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide]({{< relref "/ref/python/sdk/public-api/index.md" >}}).
 
 {{< tabpane text=true >}}
   {{% tab header="During a run" %}}

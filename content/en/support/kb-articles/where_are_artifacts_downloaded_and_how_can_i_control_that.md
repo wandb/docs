@@ -10,7 +10,7 @@ support:
 
 By default, artifacts download to the `artifacts/` folder. To change the location:
 
-- Pass it to [`wandb.Artifact().download`]({{< relref "/ref/python/public-api/api.md" >}}):
+- Pass it to [`wandb.Artifact().download`]({{< relref "/ref/python/sdk/public-api/api.md" >}}):
 
     ```python
     wandb.Artifact().download(root="<path_to_download>")

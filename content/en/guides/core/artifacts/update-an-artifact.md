@@ -15,7 +15,7 @@ Pass desired values to update the `description`, `metadata`, and `alias` of an a
 - Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
 {{% /alert %}}
 
-Use the W&B Public API ([`wandb.Api`]({{< relref "/ref/python/public-api/api.md" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref "/ref/python/sdk/artifact.md" >}})) to update an artifact during a run.
+Use the W&B Public API ([`wandb.Api`]({{< relref "/ref/python/sdk/public-api/api.md" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref "/ref/python/sdk/artifact.md" >}})) to update an artifact during a run.
 
 {{% alert color="secondary" %}}
 You can not update the alias of artifact linked to a model in Model Registry.
@@ -81,7 +81,7 @@ artifact.name = "<new-collection-name>"
 artifact.description = "<This is where you'd describe the purpose of your collection.>"
 artifact.save()
 ```
-For more information, see the [Artifacts Collection]({{< relref "/ref/python/public-api/api.md" >}}) reference.
+For more information, see the [Artifacts Collection]({{< relref "/ref/python/sdk/public-api/api.md" >}}) reference.
   {{% /tab %}}
 {{% /tabpane %}}
 

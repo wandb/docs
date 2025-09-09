@@ -25,7 +25,7 @@ Search results appear below the search bar if the term you specify matches an ex
 
 ## Query registry items with MongoDB-style queries
 
-Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
+Use the [`wandb.Api().registries()`]({{< relref "/ref/python/sdk/public-api/api.md#registries" >}}) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
 
 The following table lists query names you can use based on the type of item you want to filter:
 

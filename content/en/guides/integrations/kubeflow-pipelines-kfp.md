@@ -141,7 +141,7 @@ The web app UI has the same content as the `Visualizations` tab in Kubeflow Pipe
 
 ### Via the Public API (for programmatic access)
 
-* For programmatic access, [see our Public API]({{< relref "/ref/python/public-api/index.md" >}}).
+* For programmatic access, [see our Public API]({{< relref "/ref/python/sdk/public-api/index.md" >}}).
 
 ### Concept mapping from Kubeflow Pipelines to W&B
 

@@ -7,7 +7,7 @@ support:
   - experiments
 ---
 
-The Files tab shows a maximum of 10,000 files. To download all files, use the [public API]({{< relref "/ref/python/public-api/api.md" >}}):
+The Files tab shows a maximum of 10,000 files. To download all files, use the [public API]({{< relref "/ref/python/sdk/public-api/api.md" >}}):
 
 ```python
 import wandb
