@@ -4,7 +4,7 @@ menu:
   reference:
     identifier: system-metrics
     parent: reference
-title: System metrics
+title: System Metrics
 weight: 50
 ---
 
