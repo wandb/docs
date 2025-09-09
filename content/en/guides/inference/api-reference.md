@@ -25,7 +25,7 @@ To use this endpoint, you need:
 - A W&B account with Inference credits
 - A valid W&B API key
 
-If you belong to more than one team or want to attribute your usage to a project you will also need team and project IDs. In code samples, these appear as `<your-team>/<your-project>`. Your default entity and the project name "inference" will be used if unspecified.
+If you belong to more than one team or want to attribute your usage to a project you will also need team and project IDs. In code samples, these appear as `<your-team>/<your-project>`. Your default entity and the project name `inference` will be used if unspecified.
 {{< /alert >}}
 
 ## Available methods
