@@ -7,7 +7,7 @@ menu:
 title: PaddleOCR
 weight: 280
 ---
-[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a Weights & Biases integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a W&B integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
 
 ## Example Blog & Colab
 
@@ -100,7 +100,7 @@ The yaml file is then provided as an argument to the [training script](https://g
 python tools/train.py -c config.yml
 ```
 
-Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
+Once you run your `train.py` file with W&B turned on, a link will be generated to bring you to your W&B dashboard:
 
 {{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard" >}}
 
@@ -110,4 +110,4 @@ Once you run your `train.py` file with Weights & Biases turned on, a link will b
 
 ## Feedback or issues
 
-If you have any feedback or issues about the Weights & Biases integration, open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+If you have any feedback or issues about the W&B integration, open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

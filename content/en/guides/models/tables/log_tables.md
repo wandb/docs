@@ -25,20 +25,17 @@ The following example shows how to create and log a table with two columns, `a` 
 import wandb
 
 # Start a new run
-run = wandb.init(project="table-demo")
+with wandb.init(project="table-demo") as run:
 
-# Create a table object with two columns and two rows of data
-my_table = wandb.Table(
-    columns=["a", "b"],
-    data=[["a1", "b1"], ["a2", "b2"]],
-    log_mode="IMMUTABLE"
-    )
+    # Create a table object with two columns and two rows of data
+    my_table = wandb.Table(
+        columns=["a", "b"],
+        data=[["a1", "b1"], ["a2", "b2"]],
+        log_mode="IMMUTABLE"
+        )
 
-# Log the table to W&B
-run.log({"Table Name": my_table})
-
-# Finish the run
-run.finish()
+    # Log the table to W&B
+    run.log({"Table Name": my_table})
 ```
 
 ## Logging modes
@@ -73,34 +70,32 @@ The following example uses a placeholder function `load_eval_data()` to load dat
 import wandb
 import numpy as np
 
-run = wandb.init(project="mutable-table-demo")
+with wandb.init(project="mutable-table-demo") as run:
 
-# Create a table object with MUTABLE logging mode
-table = wandb.Table(columns=["input", "label", "prediction"],
-                    log_mode="MUTABLE")
+    # Create a table object with MUTABLE logging mode
+    table = wandb.Table(columns=["input", "label", "prediction"],
+                        log_mode="MUTABLE")
 
-# Load data and make predictions
-inputs, labels = load_eval_data() # Placeholder function
-raw_preds = model.predict(inputs) # Placeholder function
+    # Load data and make predictions
+    inputs, labels = load_eval_data() # Placeholder function
+    raw_preds = model.predict(inputs) # Placeholder function
 
-for inp, label, pred in zip(inputs, labels, raw_preds):
-    table.add_data(inp, label, pred)
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
 
-# Step 1: Log initial data 
-wandb.log({"eval_table": table})  # Log initial table
+    # Step 1: Log initial data 
+    run.log({"eval_table": table})  # Log initial table
 
-# Step 2: Add confidence scores (e.g. max softmax)
-confidences = np.max(raw_preds, axis=1)
-table.add_column("confidence", confidences)
-run.log({"eval_table": table})  # Add confidence info
+    # Step 2: Add confidence scores (e.g. max softmax)
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # Add confidence info
 
-# Step 3: Add post-processed predictions
-# (e.g., thresholded or smoothed outputs)
-post_preds = (confidences > 0.7).astype(int)
-table.add_column("final_prediction", post_preds)
-wandb.log({"eval_table": table})  # Final update with another column
-
-run.finish()
+    # Step 3: Add post-processed predictions
+    # (e.g., thresholded or smoothed outputs)
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})  # Final update with another column
 ```
 
 If you only want to add new batches of rows (no columns) incrementally like in a training loop, consider using [`INCREMENTAL` mode]({{< relref "#INCREMENTAL-mode" >}}) instead.
@@ -122,29 +117,27 @@ The following example uses a placeholder function `get_training_batch()` to load
 ```python
 import wandb
 
-run = wandb.init(project="incremental-table-demo")
+with wandb.init(project="incremental-table-demo") as run:
 
-# Create a table with INCREMENTAL logging mode
-table = wandb.Table(columns=["step", "input", "label", "prediction"],
-                    log_mode="INCREMENTAL")
+    # Create a table with INCREMENTAL logging mode
+    table = wandb.Table(columns=["step", "input", "label", "prediction"],
+                        log_mode="INCREMENTAL")
 
-# Training loop
-for step in range(get_num_batches()): # Placeholder function
-    # Load batch data
-    inputs, labels = get_training_batch(step) # Placeholder function
+    # Training loop
+    for step in range(get_num_batches()): # Placeholder function
+        # Load batch data
+        inputs, labels = get_training_batch(step) # Placeholder function
 
-    # Train and predict
-    train_model_on_batch(inputs, labels) # Placeholder function
-    predictions = predict_on_batch(inputs) # Placeholder function
+        # Train and predict
+        train_model_on_batch(inputs, labels) # Placeholder function
+        predictions = predict_on_batch(inputs) # Placeholder function
 
-    # Add batch data to table
-    for input_item, label, prediction in zip(inputs, labels, predictions):
-        table.add_data(step, input_item, label, prediction)
+        # Add batch data to table
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
 
-    # Log the table incrementally
-    wandb.log({"training_table": table}, step=step)
-
-run.finish()
+        # Log the table incrementally
+        run.log({"training_table": table}, step=step)
 ```
 
 Incremental logging is generally more computationally efficient than logging a new table each time (`log_mode=MUTABLE`). However, the W&B App may not render all rows in the table if you log a large number of increments. If your goal is to update and view your table data while your run is ongoing and to have all the data available for analysis, consider using two tables. One with `INCREMENTAL` log mode and one with `IMMUTABLE` log mode. 
@@ -154,31 +147,29 @@ The following example shows how to combine `INCREMENTAL` and `IMMUTABLE` logging
 ```python
 import wandb
 
-run = wandb.init(project="combined-logging-example")
+with wandb.init(project="combined-logging-example") as run:
 
-# Create an incremental table for efficient updates during training
-incr_table = wandb.Table(columns=["step", "input", "prediction", "label"],
-                         log_mode="INCREMENTAL")
+    # Create an incremental table for efficient updates during training
+    incr_table = wandb.Table(columns=["step", "input", "prediction", "label"],
+                            log_mode="INCREMENTAL")
 
-# Training loop
-for step in range(get_num_batches()):
-    # Process batch
-    inputs, labels = get_training_batch(step)
-    predictions = model.predict(inputs)
+    # Training loop
+    for step in range(get_num_batches()):
+        # Process batch
+        inputs, labels = get_training_batch(step)
+        predictions = model.predict(inputs)
 
-    # Add data to incremental table
-    for inp, pred, label in zip(inputs, predictions, labels):
-        incr_table.add_data(step, inp, pred, label)
+        # Add data to incremental table
+        for inp, pred, label in zip(inputs, predictions, labels):
+            incr_table.add_data(step, inp, pred, label)
 
-    # Log the incremental update (suffix with -incr to distinguish from final table)
-    run.log({"table-incr": incr_table}, step=step)
+        # Log the incremental update (suffix with -incr to distinguish from final table)
+        run.log({"table-incr": incr_table}, step=step)
 
-# At the end of training, create a complete immutable table with all data
-# Using the default IMMUTABLE mode to preserve the complete dataset
-final_table = wandb.Table(columns=incr_table.columns, data=incr_table.data, log_mode="IMMUTABLE")
-run.log({"table": final_table})
-
-run.finish()
+    # At the end of training, create a complete immutable table with all data
+    # Using the default IMMUTABLE mode to preserve the complete dataset
+    final_table = wandb.Table(columns=incr_table.columns, data=incr_table.data, log_mode="IMMUTABLE")
+    run.log({"table": final_table})
 ```
 
 In this example, the `incr_table` is logged incrementally (with `log_mode="INCREMENTAL"`) during training. This allows you to log and view updates to the table as new data is processed. At the end of training, an immutable table (`final_table`) is created with all data from the incremental table. The immutable table is logged to preserve the complete dataset for further analysis and it enables you to view all rows in the W&B App. 
@@ -191,30 +182,28 @@ In this example, the `incr_table` is logged incrementally (with `log_mode="INCRE
 import wandb
 import numpy as np
 
-run = wandb.init(project="mutable-logging")
+with wandb.init(project="mutable-logging") as run:
 
-# Step 1: Log initial predictions
-table = wandb.Table(columns=["input", "label", "prediction"], log_mode="MUTABLE")
-inputs, labels = load_eval_data()
-raw_preds = model.predict(inputs)
+    # Step 1: Log initial predictions
+    table = wandb.Table(columns=["input", "label", "prediction"], log_mode="MUTABLE")
+    inputs, labels = load_eval_data()
+    raw_preds = model.predict(inputs)
 
-for inp, label, pred in zip(inputs, labels, raw_preds):
-    table.add_data(inp, label, pred)
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
 
-run.log({"eval_table": table})  # Log raw predictions
+    run.log({"eval_table": table})  # Log raw predictions
 
-# Step 2: Add confidence scores (e.g. max softmax)
-confidences = np.max(raw_preds, axis=1)
-table.add_column("confidence", confidences)
-run.log({"eval_table": table})  # Add confidence info
+    # Step 2: Add confidence scores (e.g. max softmax)
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # Add confidence info
 
-# Step 3: Add post-processed predictions
-# (e.g., thresholded or smoothed outputs)
-post_preds = (confidences > 0.7).astype(int)
-table.add_column("final_prediction", post_preds)
-run.log({"eval_table": table})  # Final
-
-run.finish()
+    # Step 3: Add post-processed predictions
+    # (e.g., thresholded or smoothed outputs)
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})
 ```
 
 ### Resuming runs with INCREMENTAL tables
@@ -239,7 +228,7 @@ resumed_run.finish()
 ```
 
 {{% alert %}}
-Increments are logged to a new table if you turn off summaries on a key used for the incremental table using `wandb.define_metric("<table_key>", summary="none")` or `wandb.define_metric("*", summary="none")`.
+Increments are logged to a new table if you turn off summaries on a key used for the incremental table using `wandb.Run.define_metric("<table_key>", summary="none")` or `wandb.Run.define_metric("*", summary="none")`.
 {{% /alert %}}
 
 
@@ -247,27 +236,26 @@ Increments are logged to a new table if you turn off summaries on a key used for
 
 ```python
 
-run = wandb.init(project="batch-training-incremental")
+with wandb.init(project="batch-training-incremental") as run:
 
-# Create an incremental table
-table = wandb.Table(columns=["step", "input", "label", "prediction"], log_mode="INCREMENTAL")
+    # Create an incremental table
+    table = wandb.Table(columns=["step", "input", "label", "prediction"], log_mode="INCREMENTAL")
 
-# Simulated training loop
-for step in range(get_num_batches()):
-    # Load batch data
-    inputs, labels = get_training_batch(step)
+    # Simulated training loop
+    for step in range(get_num_batches()):
+        # Load batch data
+        inputs, labels = get_training_batch(step)
 
-    # Train the model on this batch
-    train_model_on_batch(inputs, labels)
+        # Train the model on this batch
+        train_model_on_batch(inputs, labels)
 
-    # Run model inference
-    predictions = predict_on_batch(inputs)
+        # Run model inference
+        predictions = predict_on_batch(inputs)
 
-    # Add data to the table
-    for input_item, label, prediction in zip(inputs, labels, predictions):
-        table.add_data(step, input_item, label, prediction)
+        # Add data to the table
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
 
-    # Log the current state of the table incrementally
-    run.log({"training_table": table}, step=step)
-
-run.finish()
+        # Log the current state of the table incrementally
+        run.log({"training_table": table}, step=step)
+```

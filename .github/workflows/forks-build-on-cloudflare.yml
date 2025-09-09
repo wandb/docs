@@ -16,14 +16,14 @@ jobs:
     steps:
       # Note: When using pull_request_target, this step is important for security
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # Checkout the PR's head
           fetch-depth: 0  # Required for Cloudflare Pages to have complete Git history
       
       # Setup Node.js for PostCSS
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '20'
 

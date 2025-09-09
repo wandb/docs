@@ -12,7 +12,7 @@ This tutorial will guide you through the process of launching multinode training
 
 In this tutorial, you will learn how to use W&B Launch to run multinode jobs on Kubernetes. The steps we will follow are:
 
-- Ensure that you have a Weights & Biases account and a Kubernetes cluster.
+- Ensure that you have a W&B account and a Kubernetes cluster.
 - Create a launch queue for our volcano jobs.
 - Deploy a Launch agent into our kubernetes cluster.
 - Create a distributed training job.
@@ -22,7 +22,7 @@ In this tutorial, you will learn how to use W&B Launch to run multinode jobs on 
 
 Before you get started, you will need:
 
-- A Weights & Biases account
+- A W&B account
 - A Kubernetes cluster
 
 ## Create a launch queue
@@ -168,7 +168,7 @@ Volcano's pytorch plugin automatically configures the necessary environment vari
 Volcano's pytorch plugin is also compatible with [multinode training via the PyTorch Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes).
 {{% /alert %}}
 
-## Launch 🚀
+## Launch
 
 Now that our queue and cluster are set up, it's time to launch some distributed training. To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
 
@@ -179,6 +179,6 @@ To launch this job, head to the [job's page](https://wandb.ai/wandb/multinodetes
 1. Set the jobs parameters however you like,
 2. Select the queue you created earlier.
 3. Modify the volcano job in the **Resource config** section to modify the parameters of your job. For example, you can change the number of workers by changing the `replicas` field in the `worker` task.
-4. Click **Launch** 🚀
+4. Click **Launch**.
 
 You can monitor the progress and if necessary stop your job from the W&B UI.

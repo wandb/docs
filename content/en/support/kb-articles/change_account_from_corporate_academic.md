@@ -8,7 +8,7 @@ support:
 - academic
 - user management
 ---
-To change an account from corporate to academic in Weights & Biases, follow these steps:
+To change an account from corporate to academic in W&B, follow these steps:
 
 1. **Link your academic email**:
    - Access account settings.

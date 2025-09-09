@@ -5,9 +5,11 @@ menu:
     parent: core
 title: Registry
 weight: 3
-url: guides/core/registry
+url: guides/registry
 cascade:
-- url: guides/core/registry/:filename
+- url: guides/registry/:filename
+aliases:
+- /guides/core/registry/
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
@@ -114,7 +116,7 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 Depending on your use case, explore the following resources to get started with the W&B Registry:
 
 * Check out the tutorial video:
-    * [Getting started with Registry from Weights & Biases](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+    * [Getting started with Registry from W&B](https://www.youtube.com/watch?v=p4XkVOsjIeM)
 * Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
     * Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
     * Automate your model management workflows using webhooks.

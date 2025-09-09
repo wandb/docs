@@ -16,7 +16,7 @@ Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new ru
 
 For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
+You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
 
 There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
@@ -242,8 +242,8 @@ Customize metrics logged with `wandb.Run.log()`.
  - `step_metric`:  The name of another metric to serve as the X-axis  for this metric in automatically generated charts. 
  - `step_sync`:  Automatically insert the last value of step_metric into  `wandb.Run.log()` if it is not provided explicitly. Defaults to True  if step_metric is specified. 
  - `hidden`:  Hide this metric from automatic plots. 
- - `summary`:  Specify aggregate metrics added to summary.  Supported aggregations include "min", "max", "mean", "last",  "best", "copy" and "none". "best" is used together with the  goal parameter. "none" prevents a summary from being generated.  "copy" is deprecated and should not be used. 
- - `goal`:  Specify how to interpret the "best" summary type.  Supported options are "minimize" and "maximize". 
+ - `summary`:  Specify aggregate metrics added to summary.  Supported aggregations include "min", "max", "mean", "last",  "first", "best", "copy" and "none". "none" prevents a summary  from being generated. "best" is used together with the goal  parameter, "best" is deprecated and should not be used, use  "min" or "max" instead. "copy" is deprecated and should not be  used. 
+ - `goal`:  Specify how to interpret the "best" summary type.  Supported options are "minimize" and "maximize". "goal" is  deprecated and should not be used, use "min" or "max" instead. 
  - `overwrite`:  If false, then this call is merged with previous  `define_metric` calls for the same metric by using their  values for any unspecified parameters. If true, then  unspecified parameters overwrite values specified by  previous calls. 
 
 
@@ -338,7 +338,7 @@ link_artifact(
     artifact: 'Artifact',
     target_path: 'str',
     aliases: 'list[str] | None' = None
-) → Artifact | None
+) → Artifact
 ```
 
 Link the given artifact to a portfolio (a promoted collection of artifacts). 
@@ -356,7 +356,7 @@ Linked artifacts are visible in the UI for the specified portfolio.
 
 
 **Returns:**
- The linked artifact if linking was successful, otherwise None. 
+ The linked artifact. 
 
 ---
 
@@ -680,8 +680,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102da5f30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103b4c5e0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10342a8c0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1050f4ee0>
 ) → Artifact | None
 ```
 

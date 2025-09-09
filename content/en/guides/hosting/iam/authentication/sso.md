@@ -87,7 +87,7 @@ Follow the procedure below to set up Okta for authorization:
     {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="OIDC Single-Page Application selection" >}}
 
 5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
-    - App integration name, for example "Weights & Biases"
+    - App integration name, for example "W&B"
     - Grant type: Select both **Authorization Code** and **Implicit (hybrid)**
     - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
     - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout
@@ -201,6 +201,13 @@ The System Console is the successor to the System Settings page. It is available
 4. Click on **Save**.
 
 5. Log out and then log back in, this time using the IdP login screen.
+
+## Find your customer namespace
+
+Before you can configure team-level BYOB with CoreWeave storage on W&B Dedicated Cloud or Self-Managed, you need to obtain your organization's **Customer Namespace**. You can view and copy it from the bottom of the **Authentication** tab.
+
+For detailed instructions on configuring CoreWeave storage with your Customer Namespace, see [CoreWeave requirements for Dedicated Cloud / Self-Managed]({{< relref "/guides/hosting/data-security/secure-storage-connector#coreweave-customer-namespace" >}}).
+
 {{% /tab %}}
 {{% tab header="System settings" value="settings" %}}
 1. Sign in to your Weights&Biases instance. 

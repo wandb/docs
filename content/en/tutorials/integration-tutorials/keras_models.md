@@ -7,15 +7,15 @@ title: Keras models
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
-Use Weights & Biases for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
-This Colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to Weight and Biases [Artifacts]({{< relref "/guides/core/artifacts/" >}}).
+This Colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to W&B [Artifacts]({{< relref "/guides/core/artifacts/" >}}).
 
 ## Setup and Installation
 
-First, let us install the latest version of Weights and Biases. We will then authenticate this colab instance to use W&B.
+First, let us install the latest version of W&B. We will then authenticate this colab instance to use W&B.
 
 
 ```python
@@ -30,7 +30,7 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# Weights and Biases related imports
+# W&B related imports
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 from wandb.integration.keras import WandbModelCheckpoint
@@ -63,7 +63,7 @@ configs = dict(
 
 ## Dataset
 
-In this colab, we will be using [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
+In this colab, we will be using [Fashion-MNIST](https://www.tensorflow.org/datasets/catalog/fashion_mnist) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
 
 
 ```python
@@ -149,7 +149,7 @@ model.compile(
 
 
 ```python
-# Initialize a W&B run
+# Initialize a W&B Run
 run = wandb.init(
     project = "intro-keras",
     config = configs
@@ -166,6 +166,6 @@ model.fit(
     ]
 )
 
-# Close the W&B run
+# Close the W&B Run
 run.finish()
 ```

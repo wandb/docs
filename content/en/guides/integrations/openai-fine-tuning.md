@@ -15,7 +15,7 @@ Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration t
 See the [OpenAI documentation](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) for a list of models that you can fine tune.
 {{% /alert %}}
 
-See the [Weights and Biases Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) section in the OpenAI documentation for supplemental information on how to integrate W&B with OpenAI for fine-tuning.
+See the [W&B Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) section in the OpenAI documentation for supplemental information on how to integrate W&B with OpenAI for fine-tuning.
 
 
 ## Install or update OpenAI Python API
@@ -80,7 +80,7 @@ WandbLogger.sync(
 | fine_tune_job_id         | This is the OpenAI Fine-Tune ID which you get when you create your fine-tune job using `client.fine_tuning.jobs.create`. If this argument is None (default), all the OpenAI fine-tune jobs that haven't already been synced will be synced to W&B.                                                                                        |
 | openai_client            | Pass an initialized OpenAI client to `sync`. If no client is provided, one is initialized by the logger itself. By default it is None.                |
 | num_fine_tunes           | If no ID is provided, then all the unsynced fine-tunes will be logged to W&B. This argument allows you to select the number of recent fine-tunes to sync. If num_fine_tunes is 5, it selects the 5 most recent fine-tunes.                                                  |
-| project                  | Weights and Biases project name where your fine-tune metrics, models, data, etc. will be logged. By default, the project name is "OpenAI-Fine-Tune." |
+| project                  | W&B project name where your fine-tune metrics, models, data, etc. will be logged. By default, the project name is "OpenAI-Fine-Tune." |
 | entity                   | W&B Username or team name where you're sending runs. By default, your default entity is used, which is usually your username. |
 | overwrite                | Forces logging and overwrite existing wandb run of the same fine-tune job. By default this is False.                                                |
 | wait_for_job_success     | Once an OpenAI fine-tuning job is started it usually takes a bit of time. To ensure that your metrics are logged to W&B as soon as the fine-tune job is finished, this setting will check every 60 seconds for the status of the fine-tune job to change to `succeeded`. Once the fine-tune job is detected as being successful, the metrics will be synced automatically to W&B. Set to True by default.                                                    |
@@ -136,9 +136,10 @@ Fine-tuned model ID is logged to W&B as artifacts (`model_metadata.json`) as wel
 
 ```python
 import wandb
-
-ft_artifact = wandb.run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
-artifact_dir = artifact.download()
+    
+with wandb.init(project="OpenAI-Fine-Tune", entity="YOUR_TEAM_NAME") as run:
+    ft_artifact = run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
+    artifact_dir = ft_artifact.download()
 ```
 
 where `VERSION` is either:
@@ -164,7 +165,7 @@ WandbLogger.sync(
 
 The training and validation data are logged automatically to W&B as artifacts. The metadata including the ID for the fine-tuned model is also logged as artifacts.
 
-You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.log`, etc. This will allow complete traceability of your data and models.
+You can always control the pipeline using low level wandb APIs like `wandb.Artifact`, `wandb.Run.log`, etc. This will allow complete traceability of your data and models.
 
 {{< img src="/images/integrations/open_ai_faq_can_track.png" alt="OpenAI tracking FAQ" >}}
 

@@ -86,6 +86,8 @@ Attributes:
 
 - launch_config_path (Optional): Path to the launch configuration file.
 - login_timeout (Optional): Time in seconds to wait for login operations before timing out.
+- max_end_of_run_history_metrics (int): Maximum number of history sparklines to display at the end of a run.
+- max_end_of_run_summary_metrics (int): Maximum number of summary metrics to display at the end of a run.
 - mode (Literal): The operating mode for W&B logging and synchronization.
 - notebook_name (Optional): Name of the notebook if running in a Jupyter-like environment.
 - organization (Optional): The W&B organization.
@@ -156,6 +158,11 @@ Attributes:
 - username (Optional): Username.
 
 
+- x_disable_meta (bool): Flag to disable the collection of system metadata.
+- x_disable_stats (bool): Flag to disable the collection of system metrics.
+
+
+- x_extra_http_headers (Optional): Additional headers to add to all outgoing HTTP requests.
 
 
 
@@ -178,24 +185,25 @@ Attributes:
 
 
 
+- x_label (Optional): Label to assign to system metrics and console logs collected for the run.
+    This is used to group data by on the frontend and can be used to distinguish data
+    from different processes in a distributed training job.
 
 
 
 
+- x_primary (bool): Determines whether to save internal wandb files and metadata.
+    In a distributed setting, this is useful for avoiding file overwrites
+    from secondary processes when only system metrics and logs are needed,
+    as the primary process handles the main logging.
 
 
+- x_save_requirements (bool): Flag to save the requirements file.
+- x_server_side_derived_summary (bool): Flag to delegate automatic computation of summary from history to the server.
+    This does not disable user-provided summary updates.
 
 
-
-
-
-
-
-
-
-
-
-
+- x_service_wait (float): Time in seconds to wait for the wandb-core internal service to start.
 - x_skip_transaction_log (bool): Whether to skip saving the run events to the transaction log.
     This is only relevant for online runs. Can be used to reduce the amount of
     data written to disk.
@@ -205,21 +213,32 @@ Attributes:
 
 
 
+- x_stats_cpu_count (Optional): System CPU count.
+    If set, overrides the auto-detected value in the run metadata.
+- x_stats_cpu_logical_count (Optional): Logical CPU count.
+    If set, overrides the auto-detected value in the run metadata.
 
-
-
-
-
-
-
+- x_stats_disk_paths (Optional): System paths to monitor for disk usage.
+- x_stats_gpu_count (Optional): GPU device count.
+    If set, overrides the auto-detected value in the run metadata.
+- x_stats_gpu_device_ids (Optional): GPU device indices to monitor.
+    If not set, the system monitor captures metrics for all GPUs.
+    Assumes 0-based indexing matching CUDA/ROCm device enumeration.
+- x_stats_gpu_type (Optional): GPU device type.
+    If set, overrides the auto-detected value in the run metadata.
 
 - x_stats_open_metrics_endpoints (Optional): OpenMetrics `/metrics` endpoints to monitor for system metrics.
 - x_stats_open_metrics_filters (Union): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
     Supports two formats:
     - {"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}
     - ("metric regex pattern 1", "metric regex pattern 2", ...)
+- x_stats_open_metrics_http_headers (Optional): HTTP headers to add to OpenMetrics requests.
 
+- x_stats_sampling_interval (float): Sampling interval for the system monitor in seconds.
+- x_stats_track_process_tree (bool): Monitor the entire process tree for resource usage, starting from `x_stats_pid`.
+    When `True`, the system monitor aggregates the RSS, CPU%, and thread count
+    from the process with PID `x_stats_pid` and all of its descendants.
+    This can have a performance overhead and is disabled by default.
 
-
-
-
+- x_update_finish_state (bool): Flag to indicate whether this process can update the run's final state on the server.
+    Set to False in distributed training when only the main process should determine the final state.

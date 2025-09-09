@@ -26,7 +26,7 @@ init(
     allow_val_change: 'bool | None' = None,
     group: 'str | None' = None,
     job_type: 'str | None' = None,
-    mode: "Literal['online', 'offline', 'disabled'] | None" = None,
+    mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
     force: 'bool | None' = None,
     anonymous: "Literal['never', 'allow', 'must'] | None" = None,
     reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
@@ -45,7 +45,7 @@ Start a new run to track and log to W&B.
 
 In an ML training pipeline, you could add `wandb.init()` to the beginning of your training script as well as your evaluation script, and each piece would be tracked as a run in W&B. 
 
-`wandb.init()` spawns a new background process to log data to a run, and it also syncs data to https://wandb.ai by default, so you can see your results in real-time. When you're done logging data, call `wandb.finish()` to end the run. If you don't call `run.finish()`, the run will end when your script exits. 
+`wandb.init()` spawns a new background process to log data to a run, and it also syncs data to https://wandb.ai by default, so you can see your results in real-time. When you're done logging data, call `wandb.Run.finish()` to end the run. If you don't call `run.finish()`, the run will end when your script exits. 
 
 Run IDs must not contain any of the following special characters `/ \ # ? % :` 
 
@@ -70,6 +70,7 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
     - `"online"` (default): Enables live syncing with W&B when a network  connection is available, with real-time updates to visualizations. 
     - `"offline"`: Suitable for air-gapped or offline environments; data  is saved locally and can be synced later. Ensure the run folder  is preserved to enable future syncing. 
     - `"disabled"`: Disables all W&B functionality, making the run’s methods  no-ops. Typically used in testing to bypass W&B operations. 
+    - `"shared"`: (This is an experimental feature). Allows multiple processes,  possibly on different machines, to simultaneously log to the same run.  In this approach you use a primary node and one or more worker nodes  to log data to the same run. Within the primary node you  initialize a run. For each worker node, initialize a run  using the run ID used by the primary node. 
  - `force`:  Determines if a W&B login is required to run the script. If `True`,  the user must be logged in to W&B; otherwise, the script will not  proceed. If `False` (default), the script can proceed without a login,  switching to offline mode if the user is not logged in. 
  - `anonymous`:  Specifies the level of control over anonymous data logging.  Available options are: 
     - `"never"` (default): Requires you to link your W&B account before  tracking the run. This prevents unintentional creation of anonymous  runs by ensuring each run is associated with an account. 
@@ -94,6 +95,11 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
 
 
 
+**Returns:**
+ A `Run` object. 
+
+
+
 **Raises:**
  
  - `Error`:  If some unknown or internal error happened during the run  initialization. 
@@ -101,13 +107,6 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
  - `CommError`:  If there was a problem communicating with the WandB server. 
  - `UsageError`:  If the user provided invalid arguments. 
  - `KeyboardInterrupt`:  If user interrupts the run. 
-
-
-
-**Returns:**
- A `Run` object. 
-
-
 
 
 

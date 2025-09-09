@@ -8,13 +8,13 @@ weight: 1
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
 
-Use [Weights & Biases](https://wandb.com) for machine learning experiment tracking, dataset versioning, and project collaboration.
+Use [W&B](https://wandb.ai) for machine learning experiment tracking, dataset versioning, and project collaboration.
 
 {{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
 
 ## What this notebook covers
 
-We show you how to integrate Weights & Biases with your PyTorch code to add experiment tracking to your pipeline.
+We show you how to integrate W&B with your PyTorch code to add experiment tracking to your pipeline.
 
 {{< img src="/images/tutorials/pytorch.png" alt="PyTorch and W&B integration diagram" >}}
 
@@ -23,25 +23,25 @@ We show you how to integrate Weights & Biases with your PyTorch code to add expe
 import wandb
 
 # start a new experiment
-wandb.init(project="new-sota-model")
+with wandb.init(project="new-sota-model") as run:
+ 
+    # capture a dictionary of hyperparameters with config
+    run.config = {"learning_rate": 0.001, "epochs": 100, "batch_size": 128}
 
-# capture a dictionary of hyperparameters with config
-wandb.config = {"learning_rate": 0.001, "epochs": 100, "batch_size": 128}
+    # set up model and data
+    model, dataloader = get_model(), get_data()
 
-# set up model and data
-model, dataloader = get_model(), get_data()
+    # optional: track gradients
+    run.watch(model)
 
-# optional: track gradients
-wandb.watch(model)
+    for batch in dataloader:
+    metrics = model.training_step()
+    # log metrics inside your training loop to visualize model performance
+    run.log(metrics)
 
-for batch in dataloader:
-  metrics = model.training_step()
-  # log metrics inside your training loop to visualize model performance
-  wandb.log(metrics)
-
-# optional: save model at the end
-model.to_onnx()
-wandb.save("model.onnx")
+    # optional: save model at the end
+    model.to_onnx()
+    run.save("model.onnx")
 ```
 
 Follow along with a [video tutorial](https://wandb.me/pytorch-video).
@@ -148,19 +148,19 @@ We'll implement these functions below.
 def model_pipeline(hyperparameters):
 
     # tell wandb to get started
-    with wandb.init(project="pytorch-demo", config=hyperparameters):
-      # access all HPs through wandb.config, so logging matches execution.
-      config = wandb.config
+    with wandb.init(project="pytorch-demo", config=hyperparameters) as run:
+        # access all HPs through run.config, so logging matches execution.
+        config = run.config
 
-      # make the model, data, and optimization problem
-      model, train_loader, test_loader, criterion, optimizer = make(config)
-      print(model)
+        # make the model, data, and optimization problem
+        model, train_loader, test_loader, criterion, optimizer = make(config)
+        print(model)
 
-      # and use them to train the model
-      train(model, train_loader, criterion, optimizer, config)
+        # and use them to train the model
+        train(model, train_loader, criterion, optimizer, config)
 
-      # and test its final performance
-      test(model, test_loader)
+        # and test its final performance
+        test(model, test_loader)
 
     return model
 ```
@@ -176,7 +176,7 @@ so you'll always know what hyperparameter values
 you set your experiment to use.
 
 To ensure the values you chose and logged are always the ones that get used
-in your model, we recommend using the `wandb.config` copy of your object.
+in your model, we recommend using the `run.config` copy of your object.
 Check the definition of `make` below to see some examples.
 
 > *Side Note*: We take care to run our code in separate processes,
@@ -277,9 +277,9 @@ Moving on in our `model_pipeline`, it's time to specify how we `train`.
 
 Two `wandb` functions come into play here: `watch` and `log`.
 
-## Track gradients with `wandb.watch` and everything else with `wandb.log`
+## Track gradients with `run.watch()` and everything else with `run.log()`
 
-`wandb.watch` will log the gradients and the parameters of your model,
+`run.watch` will log the gradients and the parameters of your model,
 every `log_freq` steps of training.
 
 All you need to do is call it before you start training.
@@ -293,7 +293,8 @@ and applying our `optimizer`.
 ```python
 def train(model, loader, criterion, optimizer, config):
     # Tell wandb to watch what the model gets up to: gradients, weights, and more.
-    wandb.watch(model, criterion, log="all", log_freq=10)
+    run = wandb.init(project="pytorch-demo", config=config)
+    run.watch(model, criterion, log="all", log_freq=10)
 
     # Run training and track with wandb
     total_batches = len(loader) * config.epochs
@@ -330,9 +331,9 @@ def train_batch(images, labels, model, optimizer, criterion):
 
 The only difference is in the logging code:
 where previously you might have reported metrics by printing to the terminal,
-now you pass the same information to `wandb.log`.
+now you pass the same information to `run.log()`.
 
-`wandb.log` expects a dictionary with strings as keys.
+`run.log()` expects a dictionary with strings as keys.
 These strings identify the objects being logged, which make up the values.
 You can also optionally log which `step` of training you're on.
 
@@ -343,9 +344,11 @@ but you can use raw steps or batch count. For longer training runs, it can also 
 
 ```python
 def train_log(loss, example_ct, epoch):
-    # Where the magic happens
-    wandb.log({"epoch": epoch, "loss": loss}, step=example_ct)
-    print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
+    with wandb.init(project="pytorch-demo") as run:
+        # Log the loss and epoch number
+        # This is where we log the metrics to W&B
+        run.log({"epoch": epoch, "loss": loss}, step=example_ct)
+        print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
 ### Define Testing Logic
@@ -356,14 +359,14 @@ or apply it to some hand-curated examples.
 
 
 
-## (Optional) Call `wandb.save`
+## (Optional) Call `run.save()`
 
 This is also a great time to save the model's architecture
 and final parameters to disk.
 For maximum compatibility, we'll `export` our model in the
 [Open Neural Network eXchange (ONNX) format](https://onnx.ai/).
 
-Passing that filename to `wandb.save` ensures that the model parameters
+Passing that filename to `run.save()` ensures that the model parameters
 are saved to W&B's servers: no more losing track of which `.h5` or `.pb`
 corresponds to which training runs.
 
@@ -375,24 +378,25 @@ models, check out our [Artifacts tools](https://www.wandb.com/artifacts).
 def test(model, test_loader):
     model.eval()
 
-    # Run the model on some test examples
-    with torch.no_grad():
-        correct, total = 0, 0
-        for images, labels in test_loader:
-            images, labels = images.to(device), labels.to(device)
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
+    with wandb.init(project="pytorch-demo") as run:
+        # Run the model on some test examples
+        with torch.no_grad():
+            correct, total = 0, 0
+            for images, labels in test_loader:
+                images, labels = images.to(device), labels.to(device)
+                outputs = model(images)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
 
-        print(f"Accuracy of the model on the {total} " +
-              f"test images: {correct / total:%}")
-        
-        wandb.log({"test_accuracy": correct / total})
+            print(f"Accuracy of the model on the {total} " +
+                f"test images: {correct / total:%}")
+            
+            run.log({"test_accuracy": correct / total})
 
-    # Save the model in the exchangeable ONNX format
-    torch.onnx.export(model, images, "model.onnx")
-    wandb.save("model.onnx")
+        # Save the model in the exchangeable ONNX format
+        torch.onnx.export(model, images, "model.onnx")
+        run.save("model.onnx")
 ```
 
 ### Run training and watch your metrics live on wandb.ai
@@ -428,11 +432,11 @@ We only looked at a single set of hyperparameters in this example.
 But an important part of most ML workflows is iterating over
 a number of hyperparameters.
 
-You can use Weights & Biases Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
+You can use W&B Sweeps to automate hyperparameter testing and explore the space of possible models and optimization strategies.
 
 Check out a [Colab notebook demonstrating hyperparameter optimization using W&B Sweeps](https://wandb.me/sweeps-colab).
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
 
 1. **Define the sweep:** We do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 

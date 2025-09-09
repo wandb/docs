@@ -13,5 +13,5 @@ data_type_classification: module
 W&B Public API for Automation objects. 
 
 ## <kbd>class</kbd> `Automations`
-An iterable collection of `Automation` objects. 
+An lazy iterator of `Automation` objects. 
 
