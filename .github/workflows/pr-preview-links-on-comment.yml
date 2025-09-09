@@ -124,6 +124,14 @@ jobs:
               return '';
             }
             
+            // TEMPORARY OVERRIDE FOR TESTING - Remove before production
+            const testingOverride = 'https://1607.docs-14y.pages.dev';
+            if (testingOverride) {
+              core.warning(`Using temporary testing override URL: ${testingOverride}`);
+              core.setOutput('branch_url', testingOverride);
+              return;
+            }
+            
             const branchUrl = extractBranchPreviewUrl(context.payload.comment.body);
             core.info(`Extracted Branch Preview URL: ${branchUrl}`);
             core.setOutput('branch_url', branchUrl);

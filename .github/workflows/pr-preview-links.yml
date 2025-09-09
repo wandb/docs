@@ -217,6 +217,14 @@ jobs:
               core.warning('Branch Preview URL not found within 2 minutes. Links will be added when Cloudflare comment triggers update workflow.');
               return '';
             }
+            // TEMPORARY OVERRIDE FOR TESTING - Remove before production
+            const testingOverride = 'https://1607.docs-14y.pages.dev';
+            if (testingOverride) {
+              core.warning(`Using temporary testing override URL: ${testingOverride}`);
+              core.setOutput('base', testingOverride);
+              return;
+            }
+            
             let base = await waitForCloudflareBranchUrl();
             if (!base) base = await fromOurExistingComment();
             core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
