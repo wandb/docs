@@ -367,9 +367,10 @@
 /ref/python/inittorch.view_as_real/ /ref/python/sdk/functions/init/ 301
 /ref/python/integrations/sklearn/ /guides/integrations/scikit/ 301
 /ref/python/join/ /ref/python/ 301
-/ref/python/sdk/public-api/queuedrun/ /ref/python/init/ 301
-/ref/python/sdk/public-api/runqueue/ /ref/python/init/ 301
-/ref/python/sdk/public-api/job/ /ref/python/init/ 301
+/ref/python/public-api/queuedrun/ /ref/python/init/ 301
+/ref/python/public-api/runqueue/ /ref/python/init/ 301
+/ref/python/public-api/job/ /ref/python/init/ 301
+/ref/python/python_api_walkthrough/ /guides/models_quickstart/ 301
 /ref/python/README/ /ref/python/ 301
 /ref/python/wandb.ai/settings/ /ref/python/ 301
 /ref/README/ /ref/ 301
