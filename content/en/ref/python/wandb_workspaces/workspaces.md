@@ -115,7 +115,7 @@ Panel layout settings for a section, typically seen at the top right of the sect
 
 **Attributes:**
  
- - `layout` `(Literal[`standard`])`: The layout of panels in the section. Only `standard` grid layout is supported. 
+ - `layout` `(Literal[`standard`])`: The layout of panels in the section. {{% alert %}}Only `standard` grid layout is supported for workspaces. If you specify `custom` grid mode, `standard` grid mode is actually used.{{% /alert %}}
  - `columns` (int): The number of columns in the layout. Default is 3. 
  - `rows` (int): The number of rows in the layout. Default is 2. 
 
@@ -255,8 +255,3 @@ Settings applied here can be overrided by more granular Section and Panel settin
  - `point_visualization_method` `(Literal[`line`, `point`, `line_point`])`: The visualization method for points. 
  - `panel_search_query` (str): The query for the panel search bar (can be a regex expression). 
  - `auto_expand_panel_search_results` (bool): Whether to auto expand the panel search results. 
-
-
-
-
-
