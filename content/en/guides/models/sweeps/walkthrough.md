@@ -19,11 +19,9 @@ This page shows how to define, initialize, and run a sweep. There are four main 
 
 Copy and paste the following code into a Jupyter Notebook or Python script:
 
-```python 
+```python
 # Import the W&B Python Library and log into W&B
 import wandb
-
-wandb.login()
 
 # 1: Define objective/training function
 def objective(config):
@@ -31,9 +29,9 @@ def objective(config):
     return score
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 
 # 2: Define the search space
 sweep_configuration = {
@@ -55,7 +53,7 @@ The following sections break down and explains each step in the code sample.
 
 
 ## Set up your training code
-Define a training function that takes in hyperparameter values from `wandb.config` and uses them to train a model and return metrics.
+Define a training function that takes in hyperparameter values from `wandb.Run.config` and uses them to train a model and return metrics.
 
 Optionally provide the name of the project where you want the output of the W&B Run to be stored (project parameter in [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}})). If the project is not specified, the run is put in an "Uncategorized" project.
 
@@ -71,9 +69,9 @@ def objective(config):
 
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 ```
 
 ## Define the search space with a sweep configuration
@@ -111,11 +109,25 @@ For more information about initializing sweeps, see [Initialize sweeps]({{< relr
 
 ## Start the Sweep
 
-Use the [`wandb.agent`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call to start a sweep.
+Use the [`wandb.agent()`]({{< relref "/ref/python/sdk/functions/agent.md" >}}) API call to start a sweep.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
+
+{{% alert color="secondary" title="Multiprocessing" %}}
+You must wrap your `wandb.agent()` and `wandb.sweep()` calls with `if __name__ == '__main__':` if you use Python standard library's `multiprocessing` or PyTorch's `pytorch.multiprocessing` package. For example:
+
+```python
+if __name__ == '__main__':
+    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+```
+
+Wrapping your code with this convention ensures that it is only executed when the script is run directly, and not when it is imported as a module in a worker process.
+
+See [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) or [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) for more information about multiprocessing. See https://realpython.com/if-name-main-python/ for information about the `if __name__ == '__main__':` convention.
+{{% /alert %}}
+
 
 ## Visualize results (optional)
 
@@ -128,5 +140,3 @@ For more information about how to visualize results, see [Visualize sweep result
 ## Stop the agent (optional)
 
 In the terminal, press `Ctrl+C` to stop the current run. Press it again to terminate the agent.
-
-```

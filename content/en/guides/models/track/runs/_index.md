@@ -25,13 +25,20 @@ Common patterns for initiating a run include, but are not limited to:
 
 W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/sdk/classes/run.md" >}}) object.
 
-Anything you log with `run.log` is recorded in that run. Consider the proceeding code snippet.
+Anything you log with `wandb.Run.log()` is recorded in that run.
+
+{{ %alert% }}
+Pass your W&B entity to the `entity` variable in the code snippets below if you want to follow along. Your entity is your W&B username or team name. You can find it in the URL of your W&B App workspace. For example, if your workspace URL is `https://wandb.ai/nico/awesome-project`, then your entity is `nico`.
+{{ /%alert% }}
 
 ```python
 import wandb
 
-run = wandb.init(entity="nico", project="awesome-project")
-run.log({"accuracy": 0.9, "loss": 0.1})
+entity = "nico"  # Replace with your W&B entity
+project = "awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
 The first line imports the W&B Python SDK. The second line initializes a run in the project `awesome-project` under the entity `nico`. The third line logs the accuracy and loss of the model to that run.
@@ -65,26 +72,24 @@ The URL W&B returns in the terminal to redirects you to the run's workspace in t
 Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
 
 ```python
-epochs = 10
-lr = 0.01
+import wandb
+import random
 
-run = wandb.init(
-    entity="nico",
-    project="awesome-project",
-    config={
-        "learning_rate": lr,
-        "epochs": epochs,
-    },
-)
+config = {
+    "epochs": 10,
+    "learning_rate": 0.01,
+}
 
-offset = random.random() / 5
-
-# simulating a training run
-for epoch in range(epochs):
-    acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
-    loss = 2**-epoch + random.random() / (epoch + 1) + offset
-    print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
-    run.log({"accuracy": acc, "loss": loss})
+with wandb.init(project="awesome-project", config=config) as run:
+    print(f"lr: {config['learning_rate']}")
+      
+    # Simulating a training run
+    for epoch in range(config['epochs']):
+      offset = random.random() / 5
+      acc = 1 - 2**-epoch - random.random() / (epoch + 1) - offset
+      loss = 2**-epoch + random.random() / (epoch + 1) + offset
+      print(f"epoch={epoch}, accuracy={acc}, loss={loss}")
+      run.log({"accuracy": acc, "loss": loss})
 ```
 
 This returns the following output:
@@ -108,9 +113,9 @@ wandb: 🚀 View run jolly-haze-4 at: https://wandb.ai/nico/awesome-project/runs
 wandb: Find logs at: wandb/run-20241105_111816-pdo5110r/logs
 ```
 
-The training script calls `run.log` 10 times. Each time the script calls `run.log`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
+The training script calls `wandb.Run.log()` 10 times. Each time the script calls `wandb.Run.log()`, W&B logs the accuracy and loss for that epoch. Selecting the URL that W&B prints from the preceding output, directs you to the run's workspace in the W&B App UI.
 
-Note that W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init` method only once. 
+W&B captures the simulated training loop within a single run called `jolly-haze-4`. This is because the script calls `wandb.init()` method only once. 
 
 {{< img src="/images/runs/run_log_example_2.png" alt="Training run with logged metrics" >}}
 
@@ -126,7 +131,8 @@ Ensure to replace values enclosed in angle brackets (`< >`) with your own values
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", project="<project>")
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # Your code here
 ```
 
 When you initialize a run, W&B logs your run to the project you specify for the project field (`wandb.init(project="<project>"`). W&B creates a new project if the project does not already exist. If the project already exists, W&B stores the run in that project.
@@ -139,14 +145,14 @@ Each run in W&B has a [unique identifier known as a *run ID*]({{< relref "#uniqu
 
 Each run also has a human-readable, non-unique [run name]({{< relref "#name-your-run" >}}). You can specify a name for your run or let W&B randomly generate one for you. You can rename a run after initializing it.
 
-For example, consider the proceeding code snippet: 
+For example, consider the following code snippet:
 
 ```python title="basic.py"
 import wandb
 
 run = wandb.init(entity="wandbee", project="awesome-project")
 ```
-The code snippet produces the proceeding output:
+The code snippet produces the following output:
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -179,7 +185,7 @@ The proceeding table describes the possible states a run can be in:
 | ----- | ----- |
 | `Crashed` | Run stopped sending heartbeats in the internal process, which can happen if the machine crashes. | 
 | `Failed` | Run ended with a non-zero exit status. | 
-| `Finished`| Run ended and fully synced data, or called `Run.finish()`. |
+| `Finished`| Run ended and fully synced data, or called `wandb.Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
 
@@ -236,7 +242,8 @@ You can specify a name for your run by passing the `name` parameter to the [`wan
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", name="<run-name>")
+with wandb.init(entity="<project>", project="<project>", name="<run-name>") as run:
+    # Your code here
 ```
 
 ### Rename a run
@@ -341,27 +348,31 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Customize how runs are displayed
-This section shows how to customize how runs are displayed in your project's **Workspace** and **Runs** tab, which share the same display configuration.
+This section shows how to customize how runs are displayed in your project's workspace and runs table.
 
 {{% alert %}}
 A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
 {{% /alert %}}
 
+#### Add or remove columns
 
-To customize which columns are visible:
-1. In the project sidebar, navigate to the **Runs** tab.
+To customize which columns are visible in the Runs table or Workspace:
+1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-  
     You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
 1. Click **Done** to close the column browser.
+
+#### Sort runs by column
 
 To sort the list of runs by any visible column:
 
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Sort ascending** or **Sort descending**.
 
-Pinned columns are shown on the right-hand side. Unpinned columns are shown on the left-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+#### Pin columns
+
+Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
 
 To pin a column:
 1. In the project sidebar, navigate to the **Runs** tab.
@@ -372,12 +383,12 @@ To unpin a column:
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Unpin column**.
 
+#### Customize run name truncation
+
 By default, long run names are truncated in the middle for readability. To customize the truncation of run names:
 
 1. Click the action `...` menu at the top of the list of runs.
 1. Set **Run name cropping** to crop the end, middle, or beginning.
-
-See the [**Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
 
 ### Overview tab
 Use the **Overview** tab to learn about specific run information in a project, such as:
@@ -529,6 +540,46 @@ Once a run with a specific ID is deleted, its ID may not be used again. Trying t
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
 {{% /alert %}}
 
+### Run deletion workflow
+
+The following diagram illustrates the complete run deletion process, including the handling of associated artifacts and Model Registry links:
+
+```mermaid
+graph TB
+    Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
+    
+    RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
+    
+    DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
+    
+    DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
+    
+    CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
+    
+    HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
+    HasRegistry -->|No| DirectDelete
+    
+    RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
+    
+    ConfirmRegistry -->|No| DeleteRunOnly
+    ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
+    
+    DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
+
+{{% alert title="Important" %}}
+When you delete a run and choose to delete associated artifacts, the artifacts are permanently removed and can't be recovered, even if the run is restored later. This includes models linked to the Model Registry.
+{{% /alert %}}
+
 ## Organize runs 
 
 This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
@@ -540,7 +591,7 @@ Each run in W&B can be categorized by **group** and a **job type**:
 - **Group**: a broad category for the experiment, used to organize and filter runs.
 - **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
 
-The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colorts to represent the amount of data used:
+The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colors to represent the amount of data used:
 
 - **Yellow to dark green** indicate increasing amounts of data for the baseline model.
 - **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.

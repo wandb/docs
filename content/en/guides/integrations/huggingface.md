@@ -183,7 +183,7 @@ Using TensorFlow? Just swap the PyTorch `Trainer` for the TensorFlow `TFTrainer`
 ### Turn on model checkpointing 
 
 
-Using [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the Weights & Biases [Registry]({{< relref "/guides/core/registry/" >}}). Using Registry, you can register models to explore and evaluate them, prepare them for staging, or deploy them in your production environment.
+Using [Artifacts]({{< relref "/guides/core/artifacts/" >}}), you can store up to 100GB of models and datasets for free and then use the W&B [Registry]({{< relref "/guides/core/registry/" >}}). Using Registry, you can register models to explore and evaluate them, prepare them for staging, or deploy them in your production environment.
 
 To log your Hugging Face model checkpoints to Artifacts, set the `WANDB_LOG_MODEL` environment variable to _one_ of:
 
@@ -250,14 +250,15 @@ See the [Custom logging section]({{< relref "#custom-logging-log-and-view-evalua
 
 If your training is encapsulated in a Python script, the W&B run will end when your script finishes.
 
-If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `wandb.finish()`.
+If you are using a Jupyter or Google Colab notebook, you'll need to tell us when you're done with training by calling `run.finish()`.
 
 ```python
+run = wandb.init()
 trainer.train()  # start training and logging to W&B
 
 # post-training analysis, testing, other logged code
 
-wandb.finish()
+run.finish()
 ```
 
 ### Visualize your results

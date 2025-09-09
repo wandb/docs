@@ -1,0 +1,89 @@
+---
+description: How to use install and configure Weave to capture data and metrics about your LLM workflows.
+title: Use Weave in your W&B runs
+weight: 100
+---
+
+Integrating Weave with your W&B runs gives you a complete picture of how your LLM workflows behave. While W&B tracks experiments, metrics, and artifacts, Weave adds visibility into the step-by-step execution of your models by capturing prompts, responses, tool calls, latencies, and token usage automatically. By importing `weave` alongside `wandb.init()`, you can start collecting traces with no extra setup. This makes it easy to debug and measure the performance of your agents over time in the W&B dashboard.
+
+See the [Weave's documentation](https://weave-docs.wandb.ai/) to learn more about capturing traces and how you can start evaluating your LLM's responses.
+
+## Install Weave
+
+To install Weave, run:
+
+```bash
+pip install wandb weave
+```
+
+## Auto-initialize Weave with W&B
+
+Once you've installed Weave, import it and initialize a W&B run. No additional configuration is required to initialize Weave.
+
+```python
+import wandb
+import weave
+
+wandb.init(project="weave-demo")
+
+# Weave is now auto-initialized and ready to capture traces.
+# Use your code as usual; traces are associated with this W&B run.
+```
+
+## Start tracking LLM workflows
+
+Weave automatically tracks LLM calls by patching popular LLM libraries like OpenAI, Anthropic, and Gemini. This means that you can call your LLM as you normally would, and Weave will automatically track the call.
+
+For example, the following code snippet makes a basic call to OpenAI and Weave captures a trace without any additional configuration:
+
+```python
+import wandb
+import weave
+from openai import OpenAI
+
+wandb.init(project="weave-demo")
+client = OpenAI()
+
+# Weave will automatically track this call
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "What is the capital of France?"}]
+)
+```
+
+You can also use Weave to track arbitrary Python functions by decorating them with `@weave.op`, like this:
+
+```python
+import wandb
+import weave
+
+wandb.init(project="weave-demo")
+
+@weave.op
+def agent_step(**kwargs):
+    ...
+
+def internal_step(**kwargs):
+    ...
+
+
+# Weave automatically tracks this call
+agent_step()
+
+# Weave does not track this call
+internal_step()
+```
+
+This allows you to capture data about functions that handle things like retrieval, scoring, or data preprocessing so you can see how non-LLM steps contribute to your agent’s overall behavior.
+
+## View your traces
+
+After running your code, `wandb.init()` returns several links to the W&B dashboard. The link to your trace looks similar to this:
+
+```shell
+weave: Logged in as Weights & Biases user: example-user.
+weave: View Weave data at https://wandb.ai/wandb/your-project/weave
+weave: 🍩 https://wandb.ai/wandb/your-project/r/call/0198f4f7-2869-7694-ab8d-3d602de64377
+```
+
+Open the link in a browser to view the trace in the dashboard. You can explore dashboard to see the various metrics and data collected during the trace, and share the results with your team.

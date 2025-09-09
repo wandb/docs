@@ -10,6 +10,9 @@ support:
 To log specific metrics in each batch and standardize plots, log the desired x-axis values alongside the metrics. In the custom plots, click edit and select a custom x-axis.
 
 ```python
-wandb.log({"batch": batch_idx, "loss": 0.3})
-wandb.log({"epoch": epoch, "val_acc": 0.94})
+import wandb
+
+with wandb.init() as run:
+    run.log({"batch": batch_idx, "loss": 0.3})
+    run.log({"epoch": epoch, "val_acc": 0.94})
 ```

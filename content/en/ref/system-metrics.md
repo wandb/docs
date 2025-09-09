@@ -1,11 +1,11 @@
 ---
 description: Metrics automatically logged by W&B.
 menu:
-  default:
+  reference:
     identifier: system-metrics
-    parent: settings
-title: System metrics
-weight: 70
+    parent: reference
+title: System Metrics
+weight: 50
 ---
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.
@@ -147,35 +147,35 @@ W&B assigns a `gpu.{gpu_index}.powerPercent` tag to this metric.
 ### GPU SM Clock Speed 
 Represents the clock speed of the Streaming Multiprocessor (SM) on the GPU in MHz. This metric is indicative of the processing speed within the GPU cores responsible for computation tasks.
 
-W&B assigns a `gpu.{gpu_index}.smClock` tag to this metric.
+W&B assigns a `gpu.{gpu_index}.smClock` tag to this metric.
 
 ### GPU Memory Clock Speed
 Represents the clock speed of the GPU memory in MHz, which influences the rate of data transfer between the GPU memory and processing cores.
 
-W&B assigns a `gpu.{gpu_index}.memoryClock` tag to this metric.
+W&B assigns a `gpu.{gpu_index}.memoryClock` tag to this metric.
 
 ### GPU Graphics Clock Speed 
 
 Represents the base clock speed for graphics rendering operations on the GPU, expressed in MHz. This metric often reflects performance during visualization or rendering tasks.
 
-W&B assigns a `gpu.{gpu_index}.graphicsClock` tag to this metric.
+W&B assigns a `gpu.{gpu_index}.graphicsClock` tag to this metric.
 
 ### GPU Corrected Memory Errors
 
 Tracks the count of memory errors on the GPU that W&B automatically corrects by error-checking protocols, indicating recoverable hardware issues.
 
-W&B assigns a `gpu.{gpu_index}.correctedMemoryErrors` tag to this metric.
+W&B assigns a `gpu.{gpu_index}.correctedMemoryErrors` tag to this metric.
 
 ### GPU Uncorrected Memory Errors
 Tracks the count of memory errors on the GPU that W&B uncorrected, indicating non-recoverable errors which can impact processing reliability.
 
-W&B assigns a `gpu.{gpu_index}.unCorrectedMemoryErrors` tag to this metric.
+W&B assigns a `gpu.{gpu_index}.unCorrectedMemoryErrors` tag to this metric.
 
 ### GPU Encoder Utilization
 
 Represents the percentage utilization of the GPU's video encoder, indicating its load when encoding tasks (for example, video rendering) are running.
 
-W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
+W&B assigns a `gpu.{gpu_index}.encoderUtilization` tag to this metric.
 
 <!-- New section -->
 ## AMD GPU

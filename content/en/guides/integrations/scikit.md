@@ -76,16 +76,16 @@ wandb.login()
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn")
+wandb.init(project="visualize-sklearn") as run:
 
-y_pred = clf.predict(X_test)
-accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
+  y_pred = clf.predict(X_test)
+  accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
 
-# If logging metrics over time, then use wandb.log
-wandb.log({"accuracy": accuracy})
+  # If logging metrics over time, then use run.log
+  run.log({"accuracy": accuracy})
 
-# OR to log a final metric at the end of training you can also use wandb.summary
-wandb.summary["accuracy"] = accuracy
+  # OR to log a final metric at the end of training you can also use run.summary
+  run.summary["accuracy"] = accuracy
 ```
 
 ### Make plots
@@ -95,7 +95,7 @@ wandb.summary["accuracy"] = accuracy
 ```python
 import wandb
 
-wandb.init(project="visualize-sklearn")
+run = wandb.init(project="visualize-sklearn")
 ```
 
 #### Step 2: Visualize plots
@@ -135,11 +135,13 @@ wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="
 wandb.sklearn.plot_clusterer(
     kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
 )
+
+run.finish()
 ```
 
 #### Existing Matplotlib plots
 
-Plots created on Matplotlib can also be logged on W&B dashboard. To do that, it is first required to install `plotly`.
+Plots created on Matplotlib can also be logged on W&B Dashboard. To do that, it is first required to install `plotly`.
 
 ```bash
 pip install plotly
@@ -151,13 +153,13 @@ Finally, the plots can be logged on W&B's dashboard as follows:
 import matplotlib.pyplot as plt
 import wandb
 
-wandb.init(project="visualize-sklearn")
+with wandb.init(project="visualize-sklearn") as run:
 
-# do all the plt.plot(), plt.scatter(), etc. here.
-# ...
+  # do all the plt.plot(), plt.scatter(), etc. here.
+  # ...
 
-# instead of doing plt.show() do:
-wandb.log({"plot": plt})
+  # instead of doing plt.show() do:
+  run.log({"plot": plt})
 ```
 
 ## Supported plots

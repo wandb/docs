@@ -13,7 +13,7 @@ data_type_classification: function
 
 ```python
 login(
-    anonymous: Optional[Literal['allow', 'must', 'never']] = None,
+    anonymous: Optional[Literal['must', 'allow', 'never']] = None,
     key: Optional[str] = None,
     relogin: Optional[bool] = None,
     host: Optional[str] = None,
@@ -32,7 +32,7 @@ By default, this will only store credentials locally without verifying them with
 
 **Args:**
  
- - `anonymous`:  Set to "must", "allow", or "never".  If set to "must", always log a user in anonymously. If set to  "allow", only create an anonymous user if the user  isn't already logged in. If set to "never", never log a  user anonymously. Default set to "never". 
+ - `anonymous`:  Set to "must", "allow", or "never".  If set to "must", always log a user in anonymously. If set to  "allow", only create an anonymous user if the user  isn't already logged in. If set to "never", never log a  user anonymously. Default set to "never". Defaults to `None`. 
  - `key`:  The API key to use. 
  - `relogin`:  If true, will re-prompt for API key. 
  - `host`:  The host to connect to. 
