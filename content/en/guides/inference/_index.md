@@ -1,6 +1,6 @@
 ---
 title: "W&B Inference"
-weight: 8
+weight: 5
 description: >
   Access open-source foundation models through W&B Weave and an OpenAI-compatible API
 ---
@@ -22,11 +22,11 @@ import openai
 client = openai.OpenAI(
     # The custom base URL points to W&B Inference
     base_url='https://api.inference.wandb.ai/v1',
-    
+
     # Get your API key from https://wandb.ai/authorize
     api_key="<your-api-key>",
-    
-    # Team and project are required for usage tracking
+
+    # Optional: Team and project for usage tracking
     project="<your-team>/<your-project>",
 )
 
@@ -53,7 +53,7 @@ print(response.choices[0].message.content)
 {{< alert title="Important" color="warning" >}}
 W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Availability may vary for Enterprise accounts. When credits run out:
 
-- **Free users** must upgrade to a paid plan to continue using Inference.  
+- **Free users** must upgrade to a paid plan to continue using Inference.
   [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
 - **Pro users** are billed monthly for usage beyond free credits, up to a default cap of $6,000/month. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})
 - **Enterprise usage** is capped at $700,000/year. Your account executive handles billing and limit increases. See [Account tiers and default usage caps]({{< relref "usage-limits#account-tiers-and-default-usage-caps" >}})

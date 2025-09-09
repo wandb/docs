@@ -37,7 +37,7 @@ client = openai.OpenAI(
     # Get your API key from https://wandb.ai/authorize
     api_key="<your-api-key>",
 
-    # Required for W&B inference usage tracking
+    # Optional: Team and project for usage tracking
     project="wandb/inference-demo",
 )
 
@@ -97,7 +97,7 @@ class WBInferenceModel(weave.Model):
             base_url="https://api.inference.wandb.ai/v1",
             # Get your API key from https://wandb.ai/authorize
             api_key="<your-api-key>",
-            # Required for W&B inference usage tracking
+            # Optional: Team and project for usage tracking
             project="<your-team>/<your-project>",
         )
         resp = client.chat.completions.create(
@@ -153,4 +153,4 @@ After running this code, go to your W&B account at [https://wandb.ai/](https://w
 ## Next steps
 
 - Explore the [API reference]({{< relref "api-reference" >}}) for all available methods
-- Try models in the [UI]({{< relref "ui-guide" >}}) 
+- Try models in the [UI]({{< relref "ui-guide" >}})
