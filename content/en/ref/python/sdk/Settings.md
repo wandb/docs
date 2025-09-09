@@ -2,6 +2,7 @@
 title: Settings
 object_type: python_sdk_actions
 data_type_classification: class
+weight: 7
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py >}}

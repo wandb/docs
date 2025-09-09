@@ -1,7 +1,7 @@
 ---
 title: Public API
 module: wandb.apis.public
-weight: 90
+weight: 3
 ---
 The W&B Public API, accessible at `wandb.apis.public`, allows you to query and analyze data logged to W&B.
 

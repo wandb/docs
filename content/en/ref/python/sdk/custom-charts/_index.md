@@ -1,6 +1,6 @@
 ---
 title: Custom Charts
 module: wandb.plot
-weight: 80
+weight: 5
 ---
 Create custom charts and visualizations.

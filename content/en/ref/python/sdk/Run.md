@@ -2,6 +2,7 @@
 title: Run
 object_type: python_sdk_actions
 data_type_classification: class
+weight: 6
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}

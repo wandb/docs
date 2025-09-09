@@ -1,7 +1,7 @@
 ---
 title: Python SDK
 module: 
-weight: 10
+weight: 2
 ---
 The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune models, and manage models from experimentation to production. 
 

@@ -4,8 +4,8 @@ menu:
   reference:
     identifier: system-metrics
     parent: reference
-title: System Metrics
-weight: 50
+title: System Metrics Reference
+weight: 999
 ---
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.
