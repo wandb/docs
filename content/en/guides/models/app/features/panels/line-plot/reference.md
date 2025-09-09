@@ -93,7 +93,7 @@ Expressions support the following operators:
 - Expressions do not support functions like `log()` or`sqrt()`.
 
 ### Examples
-These examples illustrate some ways to use expressions in charts. For even more examples, refer to a [Colab notebook demo of chart expressions](https://raw.githubusercontent.com/wandb/examples/0151359bdede604088074b9817788fb87607f636/colabs/chart_expressions/chart_expressions_demo.ipynb). <!-- Temporarily points to the raw file inside the upstream PR -->
+These examples illustrate some ways to use expressions in charts. For even more examples, refer to a [Colab notebook demo of chart expressions](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/chart_expressions/chart_expressions_demo.ipynb).
 
 #### Error rate from accuracy
 Convert a 0.95 accuracy into a 0.05 error rate:
