@@ -1,0 +1,52 @@
+From 63dd9f872d3bb5d67fb7f8c8e88c890dd9b690f5 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Tue, 9 Sep 2025 00:22:31 +0000
+Subject: [PATCH] Add temporary Cloudflare preview URL override for testing
+
+TEMPORARY: Using PR #1607's preview URL since Cloudflare doesn't build in forks
+This should only be applied to fork's main branch for testing
+---
+ .github/workflows/pr-preview-links-on-comment.yml | 8 ++++++++
+ .github/workflows/pr-preview-links.yml            | 8 ++++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/.github/workflows/pr-preview-links-on-comment.yml b/.github/workflows/pr-preview-links-on-comment.yml
+index 69c70f6f..a07e0e48 100644
+--- a/.github/workflows/pr-preview-links-on-comment.yml
++++ b/.github/workflows/pr-preview-links-on-comment.yml
+@@ -125,6 +125,14 @@ jobs:
+               return '';
+             }
+             
++            // TEMPORARY OVERRIDE FOR TESTING - Remove before production
++            const testingOverride = 'https://1607.docs-14y.pages.dev';
++            if (testingOverride) {
++              core.warning(`Using temporary testing override URL: ${testingOverride}`);
++              core.setOutput('branch_url', testingOverride);
++              return;
++            }
++            
+             const branchUrl = extractBranchPreviewUrl(context.payload.comment.body);
+             core.info(`Extracted Branch Preview URL: ${branchUrl}`);
+             core.setOutput('branch_url', branchUrl);
+diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
+index 3ec72cb9..2cd5b54f 100644
+--- a/.github/workflows/pr-preview-links.yml
++++ b/.github/workflows/pr-preview-links.yml
+@@ -218,6 +218,14 @@ jobs:
+               core.warning('Branch Preview URL not found within 2 minutes. Links will be added when Cloudflare comment triggers update workflow.');
+               return '';
+             }
++            // TEMPORARY OVERRIDE FOR TESTING - Remove before production
++            const testingOverride = 'https://1607.docs-14y.pages.dev';
++            if (testingOverride) {
++              core.warning(`Using temporary testing override URL: ${testingOverride}`);
++              core.setOutput('base', testingOverride);
++              return;
++            }
++            
+             let base = await waitForCloudflareBranchUrl();
+             if (!base) base = await fromOurExistingComment();
+             core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+-- 
+2.48.1
