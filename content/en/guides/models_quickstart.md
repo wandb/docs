@@ -5,11 +5,11 @@ weight: 2
 
 Learn when and how to use W&B to track, share, and manage model artifacts in your machine learning workflows. This page covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
 
-W&B offers the following APIs:
+This tutorial uses the following:
 
-* [W&B Python SDK]({{< relref "/ref/python/sdk" >}}) (`wandb.sdk`): Log and monitor experiments during training.
-* [W&B Public API]({{< relref "/ref/python/sdk/public-api" >}}) (`wandb.apis.public`): Query and analyze logged experiment data.
-* [W&B Reports and Workspaces API]({{< relref "/ref/python/wandb_workspaces" >}}) (`wandb.wandb-workspaces`): Create reports to summarize findings.
+* [W&B Python SDK]({{< relref "/ref/python/sdk" >}}) (`wandb.sdk`): to log and monitor experiments during training.
+* [W&B Public API]({{< relref "/ref/python/sdk/public-api" >}}) (`wandb.apis.public`): to query and analyze logged experiment data.
+* [W&B Reports and Workspaces API]({{< relref "/ref/python/wandb_workspaces" >}}) (`wandb.wandb-workspaces`): to create a report to summarize findings.
 
 ## Sign up and create an API key
 To authenticate your machine with W&B, you must first generate an API key at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
@@ -101,6 +101,17 @@ The key takeaways from the previous code block are:
 Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.Run.use_artifact()`]({{< relref "/ref/python/sdk/run/#method-runuse_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.Run.use_artifact()` serves two key purposes:
 * Retrieves the artifact object from your project.
 * Marks the artifact as an input to the run, ensuring reproducibility and traceability. See [Create and view lineage map]({{< relref "/guides/core/registry/lineage/" >}}) for details.
+
+## View the training data in the dashboard
+
+Log in to your account at https://wandb.ai/login
+
+Under **Projects** you should see `my-awesome-project` (or whatever you used as a project name above). Click this to enter the workspace for your project. 
+
+From here, you can see details about every run you've done. In this screenshot, the code was re-run several times, generating a number of runs, each of which is given a randomly-generated name. 
+
+{{< img "/images/quickstart/quickstart_image.png" >}}
+
 
 ## Publish the model to the Model registry
 
