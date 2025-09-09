@@ -68,7 +68,7 @@ import wandb_workspaces.workspaces as ws
 
 # Create a workspace
 ws.Workspace(
-     entity="<TEAM_ENTITY>", # entity that owns the workspace
+     entity="<team_entity>", # entity that owns the workspace
      project="<project_name>", # project that the workspace is associated with
      sections=[
          ws.Section(
