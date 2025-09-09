@@ -106,7 +106,7 @@ Based on your deployment type, satisfy the following conditions to enable W&B Re
 | ----- | ----- |
 | Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
 | Dedicated Cloud | Contact your account team to enable W&B Registry for your deployment. |
-| Self-Managed | For Server v0.70.0 or newer, no action required. For Server v0.59.2 or newer, set the environment variable `ENABLE_REGISTRY_UI` to `true`. Refer to [Configure environment variables]({{< relref "/guides/hosting/env-vars.md" >}}). |
+| Self-Managed | For Server v0.70.0 or newer, no action required. For older supported Server versions, set the environment variable `ENABLE_REGISTRY_UI` to `true`. Refer to [Configure environment variables]({{< relref "/guides/hosting/env-vars.md" >}}). |
 
 
 ## Resources to get started
