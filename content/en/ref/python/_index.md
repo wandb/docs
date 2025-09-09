@@ -1,5 +1,5 @@
 ---
-title: Python Library v(0.21.3)
+title: Python Library 0.21.3
 weight: 1
 no_list: true
 ---
