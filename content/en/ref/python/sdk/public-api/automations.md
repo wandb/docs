@@ -1,8 +1,9 @@
 ---
-title: automations
+title: Automations
 object_type: public_apis_namespace
 data_type_classification: module
 ---
+> Training and fine-tuning models is done elsewhere in [the W&B Python SDK]({{< relref "/ref/python/sdk" >}}), not the Public API.
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/automations.py >}}
 

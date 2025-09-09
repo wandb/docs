@@ -13,6 +13,34 @@ The W&B Reports and Workspaces API, accessible at `wandb_workspaces`, allows you
 W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
+## Installation and setup
+
+### Sign up and create an API key
+
+To authenticate your machine with W&B, you must first generate an API key at https://wandb.ai/authorize.
+
+### Install and import packages
+
+Install the W&B Report and Workspaces library.
+
+```
+pip install wandb-workspaces
+```
+
+### Import W&B Python SDK:
+
+```python
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr 
+```
+
+Specify the entity of your team in the following code block:
+
+```python
+TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
+PROJECT = "my-awesome-project"
+```
+
 ## Classes
 
 [`reports`](./reports.md)

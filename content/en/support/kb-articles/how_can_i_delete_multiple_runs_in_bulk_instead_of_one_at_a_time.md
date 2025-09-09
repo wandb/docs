@@ -8,7 +8,7 @@ support:
   - runs
 ---
 
-Use the [public API]({{< relref "/ref/python/public-api/api.md" >}}) to delete multiple runs in a single operation:
+Use the [public API]({{< relref "/ref/python/sdk/public-api/api.md" >}}) to delete multiple runs in a single operation:
 
 ```python
 import wandb

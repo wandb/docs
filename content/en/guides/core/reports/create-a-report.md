@@ -51,7 +51,7 @@ Create a report programmatically:
     import wandb
     import wandb_workspaces.reports.v2 as wr
     ```       
-3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref "/ref/python/public-api/api.md#reports" >}})). Specify a name for the project.   
+3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref "/ref/python/sdk/public-api/api.md#reports" >}})). Specify a name for the project.   
     ```python
     report = wr.Report(project="report_standard")
     ```  

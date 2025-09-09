@@ -19,7 +19,7 @@ For distributed training experiments, you can either track each process separate
 
 You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
 
-There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
+There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/sdk/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
 
 
