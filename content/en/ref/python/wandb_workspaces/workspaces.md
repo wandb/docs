@@ -115,7 +115,7 @@ Panel layout settings for a section, typically seen at the top right of the sect
 
 **Attributes:**
  
- - `layout` `(Literal[`standard`])`: The layout of panels in the section. {{% alert %}}Only `standard` grid layout is supported for workspaces. If you specify `custom` grid mode, `standard` grid mode is actually used.{{% /alert %}}
+ - `layout` `(Literal[`standard`])`: The layout of panels in the section. The layout of panels in the section. Only `standard` grid layout is supported. If you specify `custom`, `standard` grid mode is actually used.
  - `columns` (int): The number of columns in the layout. Default is 3. 
  - `rows` (int): The number of rows in the layout. Default is 2. 
 
