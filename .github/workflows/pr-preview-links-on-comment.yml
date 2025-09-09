@@ -20,13 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-
-          
       - name: Get PR details
         id: pr
         uses: actions/github-script@v7
@@ -39,6 +32,12 @@ jobs:
             });
             core.setOutput('head_sha', pr.data.head.sha);
             core.setOutput('base_sha', pr.data.base.sha);
+            
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ steps.pr.outputs.head_sha }}
             
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -84,9 +83,6 @@ jobs:
       - name: Build Hugo (generate pageurls)
         if: steps.changed.outputs.any_changed == 'true'
         run: |
-          # Checkout the PR branch to get all changes including new files
-          git checkout ${{ steps.pr.outputs.head_sha }}
-          
           hugo --minify
           test -f public/pageurls.json && echo "Found pageurls.json" || (echo "Missing pageurls.json" && ls -la public || true)
 
@@ -297,9 +293,33 @@ jobs:
               if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
               
               // Debug log for unmatched files
-              if (!item && norm.includes('dspy')) {
+              if (!item) {
                 core.info(`Debug: Could not find mapping for ${norm}`);
-                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+                // For new files, construct the URL based on the file path
+                if (norm.startsWith('content/') && norm.endsWith('.md')) {
+                  // Extract language and path
+                  const pathParts = norm.replace(/^content\//, '').replace(/\.md$/, '').split('/');
+                  let lang = 'en';
+                  let urlPath = pathParts.join('/');
+                  
+                  // Check if first part is a language code
+                  if (['en', 'ja', 'ko'].includes(pathParts[0])) {
+                    lang = pathParts[0];
+                    urlPath = pathParts.slice(1).join('/');
+                  }
+                  
+                  // Handle _index.md files
+                  if (urlPath.endsWith('/_index') || urlPath === '_index') {
+                    urlPath = urlPath.replace(/\/_index$/, '').replace(/^_index$/, '');
+                  }
+                  
+                  // Construct the URL
+                  const rel = lang === 'en' ? `/${urlPath}/` : `/${lang}/${urlPath}/`;
+                  const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+                  
+                  core.info(`Debug: Constructed URL for new file ${norm}: ${href}`);
+                  return { title: titleFromPath(norm), rel, href, path: norm };
+                }
               }
               
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
