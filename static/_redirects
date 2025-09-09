@@ -370,6 +370,7 @@
 /ref/python/public-api/queuedrun/ /ref/python/init/ 301
 /ref/python/public-api/runqueue/ /ref/python/init/ 301
 /ref/python/public-api/job/ /ref/python/init/ 301
+/ref/python/python_api_walkthrough/ /ref/python/ 301
 /ref/python/README/ /ref/python/ 301
 /ref/python/wandb.ai/settings/ /ref/python/ 301
 /ref/README/ /ref/ 301
