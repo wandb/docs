@@ -165,13 +165,13 @@ for i, row in loaded_experiment_df.iterrows():
     )
     ```
 
-As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) command to accomplish this:
+As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`]({{< relref "/ref/python/sdk/run/#method-runlog" >}}) command to accomplish this:
 
 ```python
 run.log({key: val})
 ```
 
-You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`]({{< relref "/ref/python/sdk/classes/run#define_metric" >}}) API. This example adds the summary metrics to our run with `run.summary.update()`:
+You can optionally log a final summary metric to define the outcome of the run using the [`define_metric`]({{< relref "/ref/python/sdk/run#define_metric" >}}) API. This example adds the summary metrics to our run with `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)

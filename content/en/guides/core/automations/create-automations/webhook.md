@@ -124,7 +124,7 @@ This section describes the variables you can use to construct your webhook's pay
 | `${tag}`                      | Contains an artifact's tags if the automation is triggered by the **An artifact tag is added** event. For other automations, this variable is blank. |
 | `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
 | `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
-| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md/" >}}) representation of the artifact version that triggered the action. |
+| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/sdk/artifact.md/" >}}) representation of the artifact version that triggered the action. |
 | `${artifact_version_string}` | The `string` representation of the artifact version that triggered the action. |
 | `${ACCESS_TOKEN}` | The value of the access token configured in the [webhook]({{< relref "#create-a-webhook" >}}), if an access token is configured. The access token is automatically passed in the `Authorization: Bearer` HTTP header. |
 | `${SECRET_NAME}` | If configured, the value of a secret configured in the [webhook]({{< relref "#create-a-webhook" >}}). Replace `SECRET_NAME` with the name of the secret. |

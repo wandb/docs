@@ -149,16 +149,16 @@ To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use 
 When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
 
 The following methods are not available and result in permission errors:
-- [`Run.use_artifact()`]({{< relref "/ref/python/sdk/classes/run/#method-runuse_artifact" >}})
-- [`Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactdownload" >}})
-- [`Artifact.file()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfile" >}})
-- [`Artifact.files()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfiles" >}})
+- [`Run.use_artifact()`]({{< relref "/ref/python/sdk/run/#method-runuse_artifact" >}})
+- [`Artifact.download()`]({{< relref "/ref/python/sdk/artifact/#method-artifactdownload" >}})
+- [`Artifact.file()`]({{< relref "/ref/python/sdk/artifact/#method-artifactfile" >}})
+- [`Artifact.files()`]({{< relref "/ref/python/sdk/artifact/#method-artifactfiles" >}})
 
 The following methods are limited to artifact metadata:
-- [`Artifact.get_entry()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_entry" >}})
-- [`Artifact.get_path()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_path" >}})
-- [`Artifact.get()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget" >}})
-- [`Artifact.verify()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactverify" >}})
+- [`Artifact.get_entry()`]({{< relref "/ref/python/sdk/artifact/#method-artifactget_entry" >}})
+- [`Artifact.get_path()`]({{< relref "/ref/python/sdk/artifact/#method-artifactget_path" >}})
+- [`Artifact.get()`]({{< relref "/ref/python/sdk/artifact/#method-artifactget" >}})
+- [`Artifact.verify()`]({{< relref "/ref/python/sdk/artifact/#method-artifactverify" >}})
 
 ### Cross-registry permissions
 

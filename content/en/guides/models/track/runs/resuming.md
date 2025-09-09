@@ -121,7 +121,7 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 ## Resume preemptible Sweeps runs
 Automatically requeue interrupted [sweep]({{< relref "/guides/models/sweeps/" >}}) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
 
-Use the [`mark_preempting`]({{< relref "/ref/python/sdk/classes/run#mark_preempting" >}}) function to automatically requeue interrupted sweep runs. For example:
+Use the [`mark_preempting`]({{< relref "/ref/python/sdk/run#mark_preempting" >}}) function to automatically requeue interrupted sweep runs. For example:
 
 ```python
 run = wandb.init()  # Initialize a run

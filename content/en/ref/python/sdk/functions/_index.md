@@ -1,6 +1,6 @@
 ---
-title: Functions
+title: Global Functions
 module: 
-weight: 20
+weight: 1
 ---
 

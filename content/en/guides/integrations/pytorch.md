@@ -18,7 +18,7 @@ You can also see our [example repo](https://github.com/wandb/examples) for scrip
 
 ## Log gradients with `run.watch`
 
-To automatically log gradients, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runwatch" >}}) and pass in your PyTorch model.
+To automatically log gradients, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/run.md/#method-runwatch" >}}) and pass in your PyTorch model.
 
 ```python
 import wandb
@@ -40,7 +40,7 @@ with wandb.init(config=args) as run:
             run.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/classes/run/#method-runwatch" >}}) on each model separately.
+If you need to track multiple models in the same script, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/run/#method-runwatch" >}}) on each model separately.
 
 {{% alert color="secondary" %}}
 Gradients, metrics, and the graph won't be logged until `wandb.Run.log()` is called after a forward _and_ backward pass.

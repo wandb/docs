@@ -22,7 +22,7 @@ To construct and log a new Table, you will use:
 - [`wandb.Table()`]({{< relref "/ref/python/sdk/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of each row.
-- [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}): Log the table to save it to W&B.
+- [`wandb.Run.log()`]({{< relref "/ref/python/sdk/run.md/#method-runlog" >}}): Log the table to save it to W&B.
 
 Here's an example:
 ```python
