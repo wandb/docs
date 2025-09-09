@@ -1,45 +1,43 @@
 ---
+title: TensorFlow Sweeps
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-tensorflow_sweeps
     parent: integration-tutorials
-title: TensorFlow Sweeps
 weight: 5
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" >}}
-Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
+W&B を使って、機械学習の実験管理、データセットのバージョン管理、プロジェクトでの共同作業を行いましょう。
+{{< img src="/images/tutorials/huggingface-why.png" alt="W&B を使う利点" >}}
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
+W&B Sweeps を使ってハイパーパラメーター最適化を自動化し、インタラクティブなダッシュボードでモデルの可能性を探索しましょう:
+{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="TensorFlow のハイパーパラメーター探索の結果" >}}
 
-Use W&B Sweeps to automate hyperparameter optimization and explore model possibilities with interactive dashboards:
+## なぜ Sweeps を使うのか
 
-{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="TensorFlow hyperparameter sweep results" >}}
+* **すぐに始められる**: 数行のコードで W&B Sweeps を実行できます。
+* **透明性**: 使用したアルゴリズムをすべてプロジェクトで明記し、[コードはオープンソース](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py)です。
+* **強力**: Sweeps は柔軟にカスタマイズでき、複数マシンやノート PC でも簡単に動かせます。
 
-## Why use sweeps
+詳しくは [Sweeps 概要]({{< relref path="/guides/models/sweeps/" lang="ja" >}})を参照してください。
 
-* **Quick setup**: Run W&B sweeps with a few lines of code.
-* **Transparent**: The project cites all algorithms used, and the [code is open source](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py).
-* **Powerful**: Sweeps provide customization options and can run on multiple machines or a laptop with ease.
+## このノートブックで扱う内容
 
-For more information, see the [Sweeps overview]({{< relref path="/guides/models/sweeps/" lang="ja" >}}).
+* W&B Sweep と TensorFlow のカスタムトレーニングループを始める手順。
+* 画像分類タスクの最適なハイパーパラメーターの見つけ方。
 
-## What this notebook covers
+**注**: _Step_ で始まるセクションは、ハイパーパラメーター探索を実行するために必要なコードを示します。残りの部分はシンプルな例のセットアップです。
 
-* Steps to start with W&B Sweep and a custom training loop in TensorFlow.
-* Finding best hyperparameters for image classification tasks.
+## インストール、インポート、ログイン
 
-**Note**: Sections starting with _Step_ show necessary code to perform a hyperparameter sweep. The rest sets up a simple example.
-
-## Install, import, and log in
-
-### Install W&B
+### W&B をインストール
 
 ```bash
 pip install wandb
 ```
 
-### Import W&B and log in
+### W&B をインポートしてログイン
 
 ```python
 import tqdm
@@ -61,13 +59,13 @@ wandb.login()
 ```
 
 {{< alert >}}
-If you are new to W&B or not logged in, the link after running `wandb.login()` directs to the sign-up/login page.
+W&B が初めて、または未ログインの場合は、`wandb.login()` 実行後のリンクからサインアップ／ログインページへ移動します。
 {{< /alert >}}
 
-## Prepare dataset
+## データセットを準備する
 
 ```python
-# Prepare the training dataset
+# トレーニングデータセットを準備する
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
 x_train = x_train / 255.0
@@ -76,7 +74,7 @@ x_train = np.reshape(x_train, (-1, 784))
 x_test = np.reshape(x_test, (-1, 784))
 ```
 
-## Build a classifier MLP
+## 分類器 MLP を構築する
 
 ```python
 def Model():
@@ -109,7 +107,7 @@ def test_step(x, y, model, loss_fn, val_acc_metric):
     return loss_value
 ```
 
-## Write a training loop
+## トレーニングループを書く
 
 ```python
 def train(
@@ -141,7 +139,7 @@ def train(
         train_loss = []
         val_loss = []
 
-        # Iterate over the batches of the dataset
+        # データセットのバッチを繰り返し処理する
         for step, (x_batch_train, y_batch_train) in tqdm.tqdm(
             enumerate(train_dataset), total=len(train_dataset)
         ):
@@ -155,25 +153,25 @@ def train(
             )
             train_loss.append(float(loss_value))
 
-        # Run a validation loop at the end of each epoch
+        # 各エポックの終わりに検証ループを実行する
         for step, (x_batch_val, y_batch_val) in enumerate(val_dataset):
             val_loss_value = test_step(
                 x_batch_val, y_batch_val, model, loss_fn, val_acc_metric
             )
             val_loss.append(float(val_loss_value))
 
-        # Display metrics at the end of each epoch
+        # 各エポックの終わりにメトリクスを表示する
         train_acc = train_acc_metric.result()
         print("Training acc over epoch: %.4f" % (float(train_acc),))
 
         val_acc = val_acc_metric.result()
         print("Validation acc: %.4f" % (float(val_acc),))
 
-        # Reset metrics at the end of each epoch
+        # 各エポックの終わりにメトリクスをリセットする
         train_acc_metric.reset_states()
         val_acc_metric.reset_states()
 
-        # 3. Log metrics using run.log()
+        # 3. run.log() を使ってメトリクスをログする
         run.log(
             {
                 "epochs": epoch,
@@ -186,15 +184,15 @@ def train(
     run.finish()
 ```
 
-## Configure the sweep
+## Sweep を設定する
 
-Steps to configure the sweep:
-* Define the hyperparameters to optimize
-* Choose the optimization method: `random`, `grid`, or `bayes`
-* Set a goal and metric for `bayes`, like minimizing `val_loss`
-* Use `hyperband` for early termination of performing runs
+Sweep を設定する手順:
+* 最適化するハイパーパラメーターを定義する
+* 最適化メソッドを選ぶ: `random`、`grid`、または `bayes`
+* `bayes` の場合は `val_loss` を最小化するなどのゴールとメトリクスを設定する
+* 実行中の run の早期終了に `hyperband` を使う
 
-See more in the [sweep configuration guide]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}}).
+詳しくは [sweep configuration ガイド]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}})を参照してください。
 
 ```python
 sweep_config = {
@@ -208,26 +206,25 @@ sweep_config = {
 }
 ```
 
-## Wrap the training loop
+## トレーニングループをラップする
 
-Create a function, like `sweep_train`,
-which uses `run.config()` to set hyperparameters before calling `train`.
+`run.config()` を使って `train` を呼び出す前にハイパーパラメーターを設定する関数（例: `sweep_train`）を作成します。
 
 ```python
 def sweep_train(config_defaults=None):
-    # Set default values
+    # 既定値を設定する
     config_defaults = {"batch_size": 64, "learning_rate": 0.01}
-    # Initialize wandb with a sample project name
-    run = wandb.init(config=config_defaults)  # this gets over-written in the Sweep
+    # サンプルのプロジェクト名で wandb を初期化する
+    run = wandb.init(config=config_defaults)  # これは Sweep で上書きされる
 
-    # Specify the other hyperparameters to the configuration, if any
+    # 必要に応じて他のハイパーパラメーターを設定に指定する
     run.config.epochs = 2
     run.config.log_step = 20
     run.config.val_log_step = 50
     run.config.architecture_name = "MLP"
     run.config.dataset_name = "MNIST"
 
-    # build input pipeline using tf.data
+    # tf.data を使って入力パイプラインを構築する
     train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
     train_dataset = (
         train_dataset.shuffle(buffer_size=1024)
@@ -240,15 +237,15 @@ def sweep_train(config_defaults=None):
         buffer_size=tf.data.AUTOTUNE
     )
 
-    # initialize model
+    # モデルを初期化する
     model = Model()
 
-    # Instantiate an optimizer to train the model.
+    # モデルを学習させるためのオプティマイザーを作成する
     optimizer = keras.optimizers.SGD(learning_rate=run.config.learning_rate)
-    # Instantiate a loss function.
+    # 損失関数を作成する
     loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
-    # Prepare the metrics.
+    # メトリクスを用意する
     train_acc_metric = keras.metrics.SparseCategoricalAccuracy()
     val_acc_metric = keras.metrics.SparseCategoricalAccuracy()
 
@@ -267,35 +264,34 @@ def sweep_train(config_defaults=None):
     run.finish()
 ```
 
-## Initialize sweep and run personal digital assistant
+## Sweep を初期化してエージェントを実行する
 
 ```python
 sweep_id = wandb.sweep(sweep_config, project="sweeps-tensorflow")
 ```
 
-Limit the number of runs with the `count` parameter. Set to 10 for quick execution. Increase as needed.
+`count` パラメータで run の数を制限します。手早く実行するには 10 に設定し、必要に応じて増やしてください。
 
 ```python
 wandb.agent(sweep_id, function=sweep_train, count=10)
 ```
 
-## Visualize results
+## 結果を可視化する
 
-Click on the **Sweep URL** link preceding to view live results.
+直前に表示される **Sweep URL** をクリックすると、ライブの結果を確認できます。
 
+## 例のギャラリー
 
-## Example gallery
+W&B でトラッキングと可視化を行っているプロジェクトを [Gallery](https://app.wandb.ai/gallery) で探索しましょう。
 
-Explore projects tracked and visualized with W&B in the [Gallery](https://app.wandb.ai/gallery).
+## ベストプラクティス
+1. **Projects**: 複数の run を 1 つの Project にログして比較する。`wandb.init(project="project-name")`
+2. **グループ**: 複数プロセスやクロスバリデーションの分割ごとに、それぞれを run としてログし、グループ化する。`wandb.init(group='experiment-1')`
+3. **タグ**: ベースラインやプロダクションのモデルを追跡するためにタグを使う。
+4. **ノート**: テーブルにノートを入力して、run 間の変更を追跡する。
+5. **Reports**: Reports を進捗メモ、同僚との共有、ML プロジェクトのダッシュボードやスナップショットの作成に活用する。
 
-## Best practices
-1. **Projects**: Log multiple runs to a project to compare them. `wandb.init(project="project-name")`
-2. **Groups**: Log each process as a run for multiple processes or cross-validation folds, and group them. `wandb.init(group='experiment-1')`
-3. **Tags**: Use tags to track your baseline or production model.
-4. **Notes**: Enter notes in the table to track changes between runs.
-5. **Reports**: Use reports for progress notes, sharing with colleagues, and creating ML project dashboards and snapshots.
-
-## Advanced setup
-1. [Environment variables]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): Set API keys for training on a managed cluster.
-2. [Offline mode]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}})
-3. [On-prem]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): Install W&B in a private cloud or air-gapped servers in your infrastructure. Local installations suit academics and enterprise teams.
+## 高度なセットアップ
+1. [環境変数]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): マネージドなクラスターでのトレーニング用に API キーを設定する。
+2. [オフラインモード]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}})
+3. [オンプレミス]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): 自社のインフラで、プライベートクラウドやエアギャップ環境のサーバーに W&B をインストールする。ローカルインストールは研究者やエンタープライズチームに適している。

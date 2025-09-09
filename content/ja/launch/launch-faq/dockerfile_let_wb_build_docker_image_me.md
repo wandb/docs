@@ -1,40 +1,40 @@
 ---
+title: Dockerfile を指定して、W&B に Docker イメージのビルドを任せられますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-dockerfile_let_wb_build_docker_image_me
     parent: launch-faq
-title: Can I specify a Dockerfile and let W&B build a Docker image for me?
 ---
 
-This feature suits projects with stable requirements but frequently changing codebases.
+この機能は、要件は安定しているが コードベース が頻繁に変わる プロジェクト に適しています。
 
 {{% alert color="secondary" %}}
-Format your Dockerfile to use mounts. For further details, visit the [Mounts documentation on the Docker Docs website](https://docs.docker.com/build/guide/mounts/).
+Dockerfile をマウントを利用するように記述してください。詳細は、[Docker Docs ウェブサイトの Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)を参照してください。
 {{% /alert %}}
 
-After configuring the Dockerfile, specify it in one of three ways to W&B:
+Dockerfile を設定したら、W&B への指定方法は次の 3 通りです:
 
-* Use Dockerfile.wandb
-* Use W&B CLI
-* Use W&B App
+* Dockerfile.wandb を使う
+* W&B CLI を使う
+* W&B App を使う
 
 {{< tabpane text=true >}}
 {{% tab "Dockerfile.wandb" %}}
-Include a `Dockerfile.wandb` file in the same directory as the W&B run's entrypoint. W&B utilizes this file instead of the built-in Dockerfile. 
+W&B の run の エントリポイントと同じ ディレクトリーに `Dockerfile.wandb` ファイルを配置してください。W&B は組み込みの Dockerfile の代わりにこのファイルを使用します。 
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
-Use the `--dockerfile` flag with the `wandb launch` command to queue a job:
+`wandb launch` コマンドで `--dockerfile` フラグを使って ジョブ をキューに追加します:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
 {{% /tab %}}
 {{% tab "W&B app" %}}
-When adding a job to a queue in the W&B App, provide the Dockerfile path in the **Overrides** section. Enter it as a key-value pair with `"dockerfile"` as the key and the path to the Dockerfile as the value.
+W&B App でキューに ジョブ を追加する際、Dockerfile のパスを **Overrides** セクションで指定します。キーと 値 のペアとして入力し、キーは `"dockerfile"`、値は Dockerfile へのパスにします。
 
-The following JSON demonstrates how to include a Dockerfile in a local directory:
+次の JSON は、ローカル ディレクトリーにある Dockerfile を含める方法を示しています:
 
-```json title="Launch job W&B App"
+```json title="W&B App の Launch ジョブ"
 {
   "args": [],
   "run_config": {

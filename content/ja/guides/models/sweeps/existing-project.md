@@ -1,60 +1,60 @@
 ---
-description: Tutorial on how to create sweep jobs from a pre-existing W&B project.
+title: 'チュートリアル: Project から sweep ジョブを作成する'
+description: 'チュートリアル: 既存の W&B Project から sweep ジョブを作成する方法。'
 menu:
   default:
     identifier: ja-guides-models-sweeps-existing-project
     parent: sweeps
-title: 'Tutorial: Create sweep job from project'
 ---
 
-This tutorial explains how to create sweep jobs from a pre-existing W&B project. We will use the [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) to train a PyTorch convolutional neural network how to classify images. The required code an dataset is located in the [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+このチュートリアルでは、既存の W&B Project から sweep ジョブを作成する方法を説明します。PyTorch の畳み込みニューラルネットワークを使って、[Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) で画像の分類を学習させます。必要なコードとデータセットは [W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) にあります。
 
-Explore the results in this [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion).
+結果はこの [W&B Dashboard](https://app.wandb.ai/carey/pytorch-cnn-fashion) で確認できます。
 
 ## 1. Create a project
 
-First, create a baseline. Download the PyTorch MNIST dataset example model from W&B examples GitHub repository. Next, train the model. The training script is within the `examples/pytorch/pytorch-cnn-fashion` directory.
+まずベースラインを作成します。W&B examples の GitHub リポジトリーから PyTorch の MNIST データセット用サンプルモデルをダウンロードし、続いてモデルをトレーニングします。トレーニングスクリプトは `examples/pytorch/pytorch-cnn-fashion` ディレクトリーにあります。
 
-1. Clone this repo `git clone https://github.com/wandb/examples.git`
-2. Open this example `cd examples/pytorch/pytorch-cnn-fashion`
-3. Run a run manually `python train.py`
+1. このリポジトリーをクローン `git clone https://github.com/wandb/examples.git`
+2. このサンプルを開く `cd examples/pytorch/pytorch-cnn-fashion`
+3. 手動で Run を実行する `python train.py`
 
-Optionally explore the example appear in the W&B App UI dashboard.
+必要に応じて、この例を W&B App の UI ダッシュボードで確認できます。
 
-[View an example project page →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+[サンプルの Project ページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
 ## 2. Create a sweep
 
-From your project page, open the [Sweep tab]({{< relref path="./sweeps-ui.md" lang="ja" >}}) in the sidebar and select **Create Sweep**.
+Project ページから、サイドバーの [Sweep タブ]({{< relref path="./sweeps-ui.md" lang="ja" >}}) を開き、**Create Sweep** を選択します。
 
-{{< img src="/images/sweeps/sweep1.png" alt="Sweep overview" >}}
+{{< img src="/images/sweeps/sweep1.png" alt="sweep の概要" >}}
 
-The auto-generated configuration guesses values to sweep over based on the runs you have completed. Edit the configuration to specify what ranges of hyperparameters you want to try. When you launch the sweep, it starts a new process on the hosted W&B sweep server. This centralized service coordinates the agents— the machines that are running the training jobs.
+自動生成された設定は、完了済みの Runs に基づいて sweep 対象とする値を推測します。試したいハイパーパラメーターの範囲を指定するように設定を編集してください。sweep を開始すると、ホストされた W&B の sweep server 上で新しいプロセスが起動します。この集中管理されたサービスが、トレーニングジョブを実行するマシンであるエージェントを調整します。
 
-{{< img src="/images/sweeps/sweep2.png" alt="Sweep configuration" >}}
+{{< img src="/images/sweeps/sweep2.png" alt="sweep の設定" >}}
 
 ## 3. Launch agents
 
-Next, launch an agent locally. You can launch up to 20 agents on different machines in parallel if you want to distribute the work and finish the sweep job more quickly. The agent will print out the set of parameters it’s trying next.
+次に、ローカルでエージェントを起動します。作業を分散して sweep ジョブをより早く終わらせたい場合は、最大 20 個のエージェントを異なるマシンで並行起動できます。エージェントは、次に試すパラメータのセットを出力します。
 
-{{< img src="/images/sweeps/sweep3.png" alt="Launch agents" >}}
+{{< img src="/images/sweeps/sweep3.png" alt="エージェントを起動" >}}
 
-Now you're running a sweep. The following image demonstrates what the dashboard looks like as the example sweep job is running. [View an example project page →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+これで sweep が実行中です。以下の画像は、このサンプルの sweep ジョブを実行中のダッシュボードの様子です。[サンプルの Project ページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
-{{< img src="/images/sweeps/sweep4.png" alt="Sweep dashboard" >}}
+{{< img src="/images/sweeps/sweep4.png" alt="sweep のダッシュボード" >}}
 
 ## Seed a new sweep with existing runs
 
-Launch a new sweep using existing runs that you've previously logged.
+以前にログした既存の Runs を使って新しい sweep を開始します。
 
-1. Open your project table.
-2. Select the runs you want to use with checkboxes on the left side of the table.
-3. Click the dropdown to create a new sweep.
+1. Project のテーブルを開きます。
+2. テーブル左側のチェックボックスで使用したい Runs を選択します。
+3. ドロップダウンをクリックして新しい sweep を作成します。
 
-Your sweep will now be set up on our server. All you need to do is launch one or more agents to start running runs.
+sweep は当社のサーバー上にセットアップされます。あとは 1 つ以上のエージェントを起動して Runs の実行を開始するだけです。
 
-{{< img src="/images/sweeps/tutorial_sweep_runs.png" alt="Seed sweep from runs" >}}
+{{< img src="/images/sweeps/tutorial_sweep_runs.png" alt="Runs から sweep をシードする" >}}
 
 {{% alert %}}
-If you kick off the new sweep as a bayesian sweep, the selected runs will also seed the Gaussian Process.
+新しい sweep を Bayesian sweep として開始すると、選択した Runs はガウス過程のシードにもなります。
 {{% /alert %}}

@@ -1,28 +1,28 @@
 ---
-description: Visualize metrics, customize axes, and compare categorical data as bars.
+title: 棒グラフ
+description: メトリクスを可視化し、軸をカスタマイズし、カテゴリカル データをバーで比較します。
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-bar-plot
     parent: panels
-title: Bar plots
 weight: 20
 ---
 
-A bar plot presents categorical data with rectangular bars which can be plotted vertically or horizontally. Bar plots show up by default with `wandb.Run.log()` when all logged values are of length one.
+棒グラフは、縦または横に描画できる長方形のバーでカテゴリ データを表現します。すべてのログした値が長さ 1 の場合、`wandb.Run.log()` でデフォルトで棒グラフが表示されます。
 
-{{< img src="/images/app_ui/bar_plot.png" alt="Plotting Box and horizontal Bar plots in W&B" >}}
+{{< img src="/images/app_ui/bar_plot.png" alt="W&B で Box と 横向きの Bar プロットを描画" >}}
 
-Customize with chart settings to limit max runs to show, group runs by any config and rename labels.
+チャートの 設定 でカスタマイズできます。表示する runs の最大数を制限したり、任意の config で runs をグループ化したり、ラベル名を変更できます。
 
-{{< img src="/images/app_ui/bar_plot_custom.png" alt="Customized bar plot" >}}
+{{< img src="/images/app_ui/bar_plot_custom.png" alt="カスタマイズした棒グラフ" >}}
 
-## Customize bar plots
+## 棒グラフをカスタマイズ
 
-You can also create **Box** or **Violin** Plots to combine many summary statistics into one chart type**.**
+**Box** や **Violin** プロットを作成して、多くの要約統計を 1 つのチャート タイプにまとめることもできます**。**
 
-1. Group runs via runs table.
-2. Click 'Add panel' in the workspace.
-3. Add a standard 'Bar Chart' and select the metric to plot.
-4. Under the 'Grouping' tab, pick 'box plot' or 'Violin', etc. to plot either of these styles.
+1. runs テーブルで runs をグループ化します。
+2. workspace で 'Add panel' をクリックします。
+3. 標準の 'Bar Chart' を追加し、プロットする指標を選択します。
+4. 'Grouping' タブで、'box plot' や 'Violin' などを選択して、これらのスタイルでプロットします。
 
-{{< img src="/images/app_ui/bar_plots.gif" alt="Customize Bar Plots" >}}
+{{< img src="/images/app_ui/bar_plots.gif" alt="棒グラフをカスタマイズ" >}}

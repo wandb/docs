@@ -1,60 +1,60 @@
 ---
-description: How to integrate W&B with Skorch.
+title: Skorch
+description: W&B を Skorch と連携する方法。
 menu:
   default:
     identifier: ja-guides-integrations-skorch
     parent: integrations
-title: Skorch
 weight: 400
 ---
 
-You can use W&B with Skorch to automatically log the model with the best performance, along with all model performance metrics, the model topology and compute resources after each epoch. Every file saved in `wandb_run.dir` is automatically logged to W&B.
+W&B を Skorch と併用することで、各エポックの後にベストパフォーマンスのモデルを自動でログでき、あわせてモデルのパフォーマンス メトリクス全体、モデルのトポロジー、計算リソースも記録できます。`wandb_run.dir` に保存されたファイルはすべて、W&B に自動でログされます。
 
-See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
+[サンプル Run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13) を参照してください。
 
-## Parameters
+## パラメータ
 
-| Parameter | Type | Description |
+| パラメータ | 型 | 説明 |
 | :--- | :--- | :--- |
-| `wandb_run` | `wandb.wandb_run`. Run | wandb run used to log data. |
-|`save_model` | bool (default=True)| Whether to save a checkpoint of the best model and upload it to your Run on W&B.|
-|`keys_ignored`| str or list of str (default=None) | Key or list of keys that should not be logged to tensorboard. Note that in addition to the keys provided by the user, keys such as those starting with `event_` or ending on `_best` are ignored by default.|
+| `wandb_run` | `wandb.wandb_run`. Run | データをログするために使用する wandb の Run。 |
+|`save_model` | bool（デフォルト=True）| ベストモデルのチェックポイントを保存し、W&B 上のあなたの Run にアップロードするかどうか。|
+|`keys_ignored`| str または str のリスト（デフォルト=None） | TensorBoard にログしないキー、またはキーのリスト。ユーザーが指定したキーに加えて、`event_` で始まるものや `_best` で終わるものなどのキーは、デフォルトで無視されます。|
 
-## Example Code
+## サンプルコード
 
-We've created a few examples for you to see how the integration works:
+インテグレーションの動作を確認できるよう、いくつかの例を用意しました:
 
-* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): A simple demo to try the integration
-* [A step by step guide](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): to tracking your Skorch model performance
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): インテグレーションを試すためのシンプルなデモ
+* [ステップバイステップ ガイド](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): Skorch モデルのパフォーマンスをトラッキングするため
 
 ```python
-# Install wandb
+# wandb をインストール
 ... pip install wandb
 
 import wandb
 from skorch.callbacks import WandbLogger
 
-# Create a wandb Run
+# wandb の Run を作成
 wandb_run = wandb.init()
-# Alternative: Create a wandb Run without a W&B account
+# 代替案: W&B アカウントなしで wandb の Run を作成
 wandb_run = wandb.init(anonymous="allow")
 
-# Log hyper-parameters (optional)
+# ハイパーパラメータをログ（任意）
 wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
 
 net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
 net.fit(X, y)
 ```
 
-## Method reference
+## メソッド リファレンス
 
-| Method | Description |
+| メソッド | 説明 |
 | :--- | :--- |
-| `initialize`\(\) | \(Re-\)Set the initial state of the callback. |
-| `on_batch_begin`\(net\[, X, y, training\]\) | Called at the beginning of each batch. |
-| `on_batch_end`\(net\[, X, y, training\]\) | Called at the end of each batch. |
-| `on_epoch_begin`\(net\[, dataset_train, …\]\) | Called at the beginning of each epoch. |
-| `on_epoch_end`\(net, \*\*kwargs\) | Log values from the last history step and save best model |
-| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | Called once per batch after gradients have been computed but before an update step was performed. |
-| `on_train_begin`\(net, \*\*kwargs\) | Log model topology and add a hook for gradients |
-| `on_train_end`\(net\[, X, y\]\) | Called at the end of training. |
+| `initialize`() | コールバックの初期状態を（再）設定します。 |
+| `on_batch_begin`(net[, X, y, training]) | 各バッチの開始時に呼び出されます。 |
+| `on_batch_end`(net[, X, y, training]) | 各バッチの終了時に呼び出されます。 |
+| `on_epoch_begin`(net[, dataset_train, …]) | 各エポックの開始時に呼び出されます。 |
+| `on_epoch_end`(net, **kwargs) | 最後の履歴ステップから値をログし、ベストモデルを保存します。 |
+| `on_grad_computed`(net, named_parameters[, X, …]) | 勾配が計算された後、更新ステップの前に、バッチごとに 1 回呼び出されます。 |
+| `on_train_begin`(net, **kwargs) | モデルのトポロジーをログし、勾配用のフックを追加します。 |
+| `on_train_end`(net[, X, y]) | トレーニングの終了時に呼び出されます。 |

@@ -1,19 +1,19 @@
 ---
-description: How to integrate W&B with PyTorch Ignite.
+title: PyTorch Ignite
+description: W&B を PyTorch Ignite と連携する方法。
 menu:
   default:
     identifier: ja-guides-integrations-ignite
     parent: integrations
-title: PyTorch Ignite
 weight: 330
 ---
 
-* See the resulting visualizations in this [example W&B report →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)
-* Try running the code yourself in this [example hosted notebook →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr)
+* この [W&B Reports の例 →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg) で生成された可視化を確認してください
+* この [ホストされたノートブックの例 →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr) で自分でコードを実行してみてください
 
-Ignite supports W&B handler to log metrics, model/optimizer parameters, gradients during training and validation. It can also be used to log model checkpoints to the W&B cloud. This class is also a wrapper for the wandb module. This means that you can call any wandb function using this wrapper. See examples on how to save model parameters and gradients.
+Ignite は W&B ハンドラーをサポートしており、トレーニング と 検証のあいだにメトリクス、モデル／オプティマイザーのパラメータ、勾配をログできます。さらに、モデルのチェックポイントを W&B クラウドにログすることも可能です。このクラスは wandb モジュールのラッパーでもあるため、このラッパー経由で任意の wandb 関数を呼び出せます。モデルのパラメータや勾配を保存する方法の例も参照してください。
 
-## Basic setup
+## 基本セットアップ
 
 ```python
 from argparse import ArgumentParser
@@ -62,12 +62,12 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 ```
 
-Using `WandBLogger` in ignite is a modular process. First, you create a `WandBLogger` object. Next, you attach it to a trainer or evaluator to automatically log the metrics. This example shows:
+Ignite で `WandBLogger` を使う手順はモジュール化されています。まず `WandBLogger` オブジェクトを作成し、次にトレーナーまたはエバリュエーターにアタッチしてメトリクスを自動でログします。この例では以下を行います。
 
-* Logs training loss, attached to the trainer object.
-* Logs validation loss, attached to the evaluator.
-* Logs optional Parameters, such as learning rate.
-* Watches the model.
+* トレーナー オブジェクトにアタッチしてトレーニング損失をログします。
+* エバリュエーターにアタッチして検証損失をログします。
+* 学習率などの任意のパラメータをログします。
+* モデルを watch します。
 
 ```python
 from ignite.contrib.handlers.wandb_logger import *
@@ -91,7 +91,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
         initial=0, leave=False, total=len(train_loader),
         desc=desc.format(0)
     )
-    #WandBlogger Object Creation
+    # WandBlogger オブジェクトの作成
     wandb_logger = WandBLogger(
     project="pytorch-ignite-integration",
     name="cnn-mnist",
@@ -118,13 +118,13 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     trainer,
     event_name=Events.ITERATION_STARTED,
     optimizer=optimizer,
-    param_name='lr'  # optional
+    param_name='lr'  # 任意
     )
 
     wandb_logger.watch(model)
 ```
 
-You can optionally utilize ignite `EVENTS` to log the metrics directly to the terminal
+任意で Ignite の `EVENTS` を使い、メトリクスをターミナルに直接ログすることもできます。
 
 ```python
     @trainer.on(Events.ITERATION_COMPLETED(every=log_interval))
@@ -179,14 +179,14 @@ if __name__ == "__main__":
     run(args.batch_size, args.val_batch_size, args.epochs, args.lr, args.momentum, args.log_interval)
 ```
 
-This code generates these visualizations::
+このコードは次の可視化を生成します。:
 
-{{< img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite training dashboard" >}}
+{{< img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite のトレーニング ダッシュボード" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-2.png" alt="PyTorch Ignite performance" >}}
+{{< img src="/images/integrations/pytorch-ignite-2.png" alt="PyTorch Ignite のパフォーマンス" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite hyperparameter tuning results" >}}
+{{< img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite のハイパーパラメータチューニング結果" >}}
 
-{{< img src="/images/integrations/pytorch-ignite-4.png" alt="PyTorch Ignite model comparison dashboard" >}}
+{{< img src="/images/integrations/pytorch-ignite-4.png" alt="PyTorch Ignite のモデル比較のダッシュボード" >}}
 
-Refer  to the [Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) for more details.
+詳しくは [Ignite のドキュメント](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) を参照してください。

@@ -1,47 +1,47 @@
 ---
+title: W&B Inference でレート制限エラー (429) が発生するのはなぜですか？
 menu:
   support:
     identifier: ja-support-kb-articles-inference_rate_limit_429_error
 support:
-- inference
-title: Why am I getting rate limit errors (429) with W&B Inference?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Rate limit errors (429) occur when you exceed concurrency limits or run out of credits.
+Rate limit エラー (429) は、同時実行制限を超えるか、クレジットを使い切ったときに発生します。
 
-## Types of 429 errors
+## 429 エラーの種類
 
-### Concurrency limit reached
-**Error:** "Concurrency limit reached for requests"
+### 同時実行上限に到達
+**エラー:** "Concurrency limit reached for requests"
 
-**Solution:**
-- Reduce the number of parallel requests
-- Add delays between requests
-- Implement exponential backoff
-- Note: Rate limits apply per W&B project
+**解決策:**
+- 並列リクエストの数を減らす
+- リクエスト間に遅延を入れる
+- 指数バックオフを実装する
+- 注意: レート制限は W&B Projects 単位で適用されます
 
-### Quota exceeded
-**Error:** "You exceeded your current quota, please check your plan and billing details"
+### クォータ超過
+**エラー:** "You exceeded your current quota, please check your plan and billing details"
 
-**Solution:**
-- Check your credit balance in the W&B Billing page
-- Purchase more credits or upgrade your plan
-- Request a limit increase from support
+**解決策:**
+- W&B Billing ページでクレジット残高を確認する
+- クレジットを追加購入するか、プランをアップグレードする
+- サポートに上限引き上げを依頼する
 
-### Personal account limitation
-**Error:** "W&B Inference isn't available for personal accounts"
+### 個人アカウントの制限
+**エラー:** "W&B Inference isn't available for personal accounts"
 
-**Solution:**
-- Switch to a non-personal account
-- Create a Team to access W&B Inference
-- Personal entities were deprecated in May 2024
+**解決策:**
+- 個人以外のアカウントに切り替える
+- W&B Inference にアクセスするには Team を作成する
+- Personal Entities は 2024 年 5 月に非推奨になりました
 
-## Best practices to avoid rate limits
+## レート制限を回避するためのベストプラクティス
 
-1. **Implement retry logic with exponential backoff:**
+1. **指数バックオフ付きのリトライロジックを実装する:**
    ```python
    import time
    
@@ -56,13 +56,13 @@ Rate limit errors (429) occur when you exceed concurrency limits or run out of c
                    raise
    ```
 
-2. **Use batch processing instead of parallel requests**
+2. **並列リクエストの代わりにバッチプロセッシングを使用する**
 
-3. **Monitor your usage in the W&B Billing page**
+3. **W&B Billing ページで使用量を監視する**
 
-## Default spending caps
+## デフォルトの支出上限
 
-- **Pro accounts:** $6,000/month
-- **Enterprise accounts:** $700,000/year
+- **Pro アカウント:** 月 $6,000
+- **Enterprise アカウント:** 年 $700,000
 
-Contact your account executive or support to adjust limits.
+上限の調整が必要な場合は、営業担当者またはサポートにお問い合わせください。

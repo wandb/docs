@@ -1,53 +1,53 @@
 ---
+title: 表
 menu:
   reference:
     identifier: ja-ref-query-panel-table
-title: table
 ---
 
-## Chainable Ops
+## チェイン可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _file_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-Returns the rows of a _table_
+_テーブル_ の行を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `table` | A _table_ |
+| `table` | _テーブル_ |
 
-#### Return Value
-The rows of the _table_
+#### 戻り値
+_テーブル_ の行
 
 
-## List Ops
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
-Returns the _file_ of the asset
+アセットの _file_ を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
+| `asset` | アセット |
 
-#### Return Value
-The _file_ of the asset
+#### 戻り値
+アセットの _file_
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-Returns the rows of a _table_
+_テーブル_ の行を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `table` | A _table_ |
+| `table` | _テーブル_ |
 
-#### Return Value
-The rows of the _table_
+#### 戻り値
+_テーブル_ の行

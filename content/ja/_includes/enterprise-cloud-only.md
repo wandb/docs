@@ -1,5 +1,1 @@
----
-{}
----
-
-This feature requires a [Pro or Enterprise plan](https://wandb.ai/site/pricing/).
+この機能を使用するには、[Pro または Enterprise プラン](https://wandb.ai/site/pricing/)が必要です。

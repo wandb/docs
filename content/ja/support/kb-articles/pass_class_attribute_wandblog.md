@@ -1,13 +1,13 @@
 ---
+title: wandb.Run.log() に クラス属性 を渡すとどうなりますか？
 menu:
   support:
     identifier: ja-support-kb-articles-pass_class_attribute_wandblog
 support:
 - experiments
-title: What happens if I pass a class attribute into wandb.Run.log()?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Avoid passing class attributes into `wandb.Run.log()`. Attributes may change before the network call executes. When storing metrics as class attributes, use a deep copy to ensure the logged metric matches the attribute's value at the time of the `wandb.Run.log()` call.
+クラス属性を `wandb.Run.log()` に渡すのは避けてください。属性はネットワーク呼び出しが実行される前に変更される可能性があります。メトリクスをクラス属性として保持する場合は、`wandb.Run.log()` 呼び出し時点での属性の値とログされたメトリクスが一致するように、ディープコピーを使用してください。

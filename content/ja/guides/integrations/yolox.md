@@ -1,41 +1,41 @@
 ---
-description: How to integrate W&B with YOLOX.
+title: YOLOX
+description: W&B と YOLOX の連携方法。
 menu:
   default:
     identifier: ja-guides-integrations-yolox
     parent: integrations
-title: YOLOX
 weight: 490
 ---
 
-[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) is an anchor-free version of YOLO with strong performance for object detection. You can use the YOLOX W&B integration to turn on logging of metrics related to training, validation, and the system, and you can interactively validate predictions with a single command-line argument.
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) は、オブジェクト検出で高い性能を発揮する YOLO の anchor-free 版です。YOLOX の W&B インテグレーションを使うと、トレーニング、検証、システムに関するメトリクスのログ記録を有効化でき、単一の コマンドライン 引数で 予測 を対話的に検証できます。
 
-## Sign up and create an API key
+## サインアップして APIキー を作成
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+APIキー は、あなたのマシンを W&B に認証します。APIキー は ユーザープロファイル から生成できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+よりスムーズに進めるには、[W&B authorization page](https://wandb.ai/authorize) に直接アクセスして APIキー を生成できます。表示された APIキー をコピーし、パスワードマネージャーなどの安全な場所に保存してください。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 画面右上のユーザープロファイルアイコンをクリックします。
+1. **User Settings** を選び、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックします。表示された APIキー をコピーします。APIキー を隠すにはページを再読み込みします。
 
-## Install the `wandb` library and log in
+## `wandb` ライブラリをインストールしてログイン
 
-To install the `wandb` library locally and log in:
+ローカルに `wandb` ライブラリをインストールしてログインするには:
 
 {{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) にあなたの APIキー を設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
+1. `wandb` ライブラリをインストールしてログインします。
 
 
 
@@ -59,7 +59,7 @@ wandb.login()
 
 {{% /tab %}}
 
-{{% tab header="Python notebook" value="python" %}}
+{{% tab header="Python ノートブック" value="python" %}}
 
 ```notebook
 !pip install wandb
@@ -71,17 +71,17 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Log metrics
+## メトリクスをログに記録
 
-Use the `--logger wandb` command line argument to turn on logging with wandb. Optionally you can also pass all of the arguments that [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) expects; prepend each argument with `wandb-`.
+`--logger wandb` コマンドライン 引数を使って、wandb でのログ記録を有効にします。必要に応じて、[`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) が受け付けるすべての 引数 も渡せます。その際は各 引数 の先頭に `wandb-` を付けてください。
 
-`num_eval_imges` controls the number of validation set images and predictions that are  logged to W&B tables for model evaluation.
+`num_eval_imges` は、モデルの評価 のために W&B Tables にログされる 検証セット の画像と 予測 の数を制御します。
 
 ```shell
-# login to wandb
+# wandb にログイン
 wandb login
 
-# call your yolox training script with the `wandb` logger argument
+# `wandb` ロガー引数を付けて YOLOX のトレーニングスクリプトを実行
 python tools/train.py .... --logger wandb \
                 wandb-project <project-name> \
                 wandb-entity <entity>
@@ -92,10 +92,10 @@ python tools/train.py .... --logger wandb \
                 wandb-log_checkpoints <bool>
 ```
 
-## Example
+## 例
 
-[Example dashboard with YOLOX training and validation metrics ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+[YOLOX のトレーニングと検証メトリクスのダッシュボード例 ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
 
-{{< img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard" >}}
+{{< img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX のトレーニング ダッシュボード" >}}
 
-Any questions or issues about this W&B integration? Open an issue in the [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX).
+この W&B インテグレーションに関する質問や問題は、[YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX) で Issue をオープンしてください。

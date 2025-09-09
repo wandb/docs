@@ -1,38 +1,37 @@
 ---
+title: アイデンティティおよびアクセス管理 (IAM)
 cascade:
 - url: guides/hosting/iam/:filename
 menu:
   default:
     identifier: ja-guides-hosting-iam-_index
     parent: w-b-platform
-title: Identity and access management (IAM)
 url: guides/hosting/iam/org_team_struct
 weight: 2
 ---
 
-W&B Platform has three IAM scopes within W&B: [Organizations]({{< relref path="#organization" lang="ja" >}}), [Teams]({{< relref path="#team" lang="ja" >}}), and [Projects]({{< relref path="#project" lang="ja" >}}).
+W&B プラットフォームには、W&B 内に [Organizations]({{< relref path="#organization" lang="ja" >}})、[Teams]({{< relref path="#team" lang="ja" >}})、および [Projects]({{< relref path="#project" lang="ja" >}}) という 3 つの IAM スコープがあります。
 
 ## Organization
 
-An *Organization* is the root scope in your W&B account or instance. All actions in your account or instance take place within the context of that root scope, including managing users, managing teams, managing projects within teams, tracking usage and more.
+*Organization* は、W&B アカウントまたはインスタンスにおけるルート スコープです。アカウントまたはインスタンス内のすべてのアクションは、ユーザー管理、Teams 管理、Team 内の Projects 管理、使用状況の追跡など、このルート スコープのコンテキスト内で実行されます。
 
-If you are using [Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}), you may have more than one organization where each may correspond to a business unit, a personal user, a joint partnership with another business and more.
+[マルチテナント クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) を使用している場合、複数の Organization を持つことができます。各 Organization は、事業単位、個人のユーザー、他社とのパートナーシップなどに対応する場合があります。
 
-If you are using [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or a [Self-managed instance]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}), it corresponds to one organization. Your company may have more than one of Dedicated Cloud or Self-managed instances to map to different business units or departments, though that is strictly an optional way to manage AI practioners across your businesses or departments.
+[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed インスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) を使用している場合は、1 つの Organization に対応します。貴社では、異なる事業単位や部門にマッピングする目的で、複数の専用クラウド または Self-managed インスタンスを運用することもできますが、これは会社や部門全体の AI 実務者を管理するための必須要件ではありません。
 
-For more information, see [Manage organizations]({{< relref path="./access-management/manage-organization.md" lang="ja" >}}).
+詳細については、[Organization を管理する]({{< relref path="./access-management/manage-organization.md" lang="ja" >}}) を参照してください。
 
 ## Team
 
-A *Team* is a subscope within a organization, that may map to a business unit / function, department, or a project team in your company. You may have more than one team in your organization depending on your deployment type and pricing plan.
+*Team* は、Organization 内のサブスコープであり、会社の事業単位 / 機能、部門、またはプロジェクト チームにマッピングできます。デプロイメント タイプと料金プランによって、Organization 内に複数の Team を持つことができます。
 
-AI projects are organized within the context of a team. The access control within a team is governed by team admins, who may or may not be admins at the parent organization level.
+AI Projects は Team のコンテキスト内で整理されます。Team 内のアクセス制御は Team 管理者によって管理され、これらの管理者は親 Organization レベルの管理者である場合とそうでない場合があります。
 
-For more information, see [Add and manage teams]({{< relref path="./access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}).
+詳細については、[Team を追加および管理する]({{< relref path="./access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) を参照してください。
 
 ## Project
 
-A *Project* is a subscope within a team, that maps to an actual AI project with specific intended outcomes. You may have more than one project within a team. Each project has a visibility mode which determines who can access it.
+*Project* は、Team 内のサブスコープであり、特定の意図された成果を持つ実際の AI プロジェクトにマッピングされます。1 つの Team 内に複数の Project を持つことができます。各 Project には公開範囲モードがあり、これによって誰がアクセスできるかが決まります。
 
-
-Every project is comprised of [Workspaces]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) and [Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}), and is linked to relevant [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}), [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}), and [Automations]({{< relref path="/guides/core/automations/" lang="ja" >}}).
+すべての Project は [Workspaces]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) と [Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}) で構成され、関連する [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}})、[Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}})、および [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}}) にリンクされています。

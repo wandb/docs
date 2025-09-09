@@ -1,21 +1,21 @@
 ---
+title: W&B コア
 menu:
   default:
     identifier: ja-guides-core-_index
 no_list: true
-title: W&B Core
 weight: 5
 ---
 
-W&B Core is the foundational framework supporting [W&B Models]({{< relref path="/guides/models/" lang="ja" >}}) and [W&B Weave]({{< relref path="/guides/weave/" lang="ja" >}}), and is itself supported by the [W&B Platform]({{< relref path="/guides/hosting/" lang="ja" >}}). 
+W&B Core は、[W&B Models]({{< relref path="/guides/models/" lang="ja" >}}) と [W&B Weave]({{< relref path="/guides/weave/" lang="ja" >}}) を支える基盤フレームワークで、その土台は [W&B Platform]({{< relref path="/guides/hosting/" lang="ja" >}}) によって提供されています。
 
-{{< img src="/images/general/core.png" alt="W&B Core framework diagram" >}}
+{{< img src="/images/general/core.png" alt="W&B Core のフレームワーク図" >}}
 
-W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
+W&B Core は、ML ライフサイクル全体にわたって機能を提供します。W&B Core を使用すると、次のことができます。
 
-- [Version and manage ML]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) pipelines with full lineage tracing for easy auditing and reproducibility.
-- Explore and evaluate data and metrics using [interactive, configurable visualizations]({{< relref path="/guides/models/tables/" lang="ja" >}}).
-- [Document and share]({{< relref path="/guides/core/reports/" lang="ja" >}}) insights across the entire organization by generating live reports in digestible, visual formats that are easily understood by non-technical stakeholders.
-- [Query and create visualizations of your data]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}}) that serve your custom needs.
-- [Protect sensitive strings using secrets]({{< relref path="/guides/core/secrets.md" lang="ja" >}}).
-- Configure automations that trigger key workflows for [model CI/CD]({{< relref path="/guides/core/automations/" lang="ja" >}}).
+- [ML パイプラインをバージョン管理し、管理する]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) ことで、完全なリネージ追跡により監査と再現性を容易にします。
+- [インタラクティブで構成可能な可視化]({{< relref path="/guides/models/tables/" lang="ja" >}}) を使用して、データとメトリクスを探索し、評価します。
+- 非技術系の関係者にもわかりやすいビジュアル形式のライブ Reports を生成し、組織全体でインサイトを [文書化し、共有します]({{< relref path="/guides/core/reports/" lang="ja" >}})。
+- カスタム ニーズに合わせて、[データのクエリと可視化を作成します]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}})。
+- [シークレットを使用して機密性の高い文字列を保護します]({{< relref path="/guides/core/secrets.md" lang="ja" >}})。
+- [モデル CI/CD]({{< relref path="/guides/core/automations/" lang="ja" >}}) のための主要なワークフローをトリガーするオートメーションを構成します。

@@ -1,10 +1,6 @@
----
-{}
----
-
-Key benefits of service accounts:
-- **No license consumption**: Service accounts do not consume user seats or licenses
-- **Dedicated API keys**: Secure credentials for automated workflows
-- **User attribution**: Optionally attribute automated runs to human users
-- **Enterprise-ready**: Built for production automation at scale
-- **Delegated operations**: Service accounts operate on behalf of the user or organization that creates them
+サービスアカウントの主な利点：
+- **ライセンス消費なし**: サービスアカウントはユーザーシートやライセンスを消費しません。
+- **専用 API キー**: 自動化されたワークフローのための安全な認証情報
+- **ユーザーアトリビューション**: 必要に応じて、自動化した run を人間のユーザーに帰属させることができます。
+- **エンタープライズ対応**: 大規模な本番自動化のために構築されています。
+- **委任された操作**: サービスアカウントは、作成したユーザーまたは組織の代理として機能します。

@@ -1,24 +1,22 @@
 ---
+title: タグを使って runs にラベルを追加する
 menu:
   default:
     identifier: ja-guides-models-track-runs-tags
     parent: what-are-runs
-title: Add labels to runs with tags
 ---
 
-Add tags to label runs with particular features that might not be obvious from the logged metrics or artifact data. 
+ログした メトリクス や Artifacts の データ からは分かりにくい特性で run をラベル付けするために、タグを追加します。
+例えば、その run の モデル が `in_production` である、run が `preemptible` である、その run が `baseline` を表す、などを示すタグを追加できます。
 
-For example, you can add a tag to a run to indicated that run's model is `in_production`, that run is `preemptible`, this run represents the `baseline`, and so forth.
+## 1 つ以上の run に タグを追加する
 
-## Add tags to one or more runs
-
-Programmatically or interactively add tags to your runs.
-
-Based on your use case, select the tab below that best fits your needs:
+プログラムから、または対話的に run に タグを追加できます。
+ユースケース に応じて、適切なタブを選択してください:
 
 {{< tabpane text=true >}}
     {{% tab header="W&B Python SDK" %}}
-You can add tags to a run when it is created: 
+run 作成時に タグを追加できます:
 
 ```python
 import wandb
@@ -30,7 +28,7 @@ run = wandb.init(
 )
 ```
 
-You can also update the tags after you initialize a run. For example, the proceeding code snippet shows how to update a tag if a particular metrics crosses a pre-defined threshold:
+run を初期化した後に タグを更新することもできます。例えば、次の コードスニペット は、特定の メトリクス があらかじめ定義したしきい値を超えた場合に タグを更新する方法を示します:
 
 ```python
 import wandb
@@ -41,63 +39,61 @@ run = wandb.init(
   tags=["debug"]
   )
 
-# python logic to train model
+# モデル学習のための Python ロジック
 
 if current_loss < threshold:
     run.tags = run.tags + ("release_candidate",)
 ```    
     {{% /tab %}}
     {{% tab header="Public API" %}}
-After you create a run, you can update tags using [the Public API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}}). For example:
+run を作成した後、[the Public API]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}}) を使って タグを更新できます。例えば:
 
 ```python
 run = wandb.Api().run("{entity}/{project}/{run-id}")
-run.tags.append("tag1")  # you can choose tags based on run data here
+run.tags.append("tag1")  # ここで run の データ に基づいて タグを選べます
 run.update()
 ```    
     {{% /tab %}}
     {{% tab header="Project page" %}}
-This method is best suited to tagging large numbers of runs with the same tag or tags.
+この方法は、多数の run に 同じ タグを付けるのに適しています。
 
-1. Navigate to your project workspace.
-2. Select **Runs** in the from the project sidebar.
-3. Select one or more runs from the table.
-4. Once you select one or more runs, select the **Tag** button above the table.
-5. Type the tag you want to add and select the **Create new tag** checkbox to add the tag.    
+1. プロジェクトの Workspace に移動します。
+2. プロジェクトのサイドバーで **Runs** を選択します。
+3. テーブルから 1 つ以上の run を選択します。
+4. run を選択したら、テーブル上部の **Tag** ボタンを選択します。
+5. 追加したい タグ を入力し、**Create new tag** チェックボックスを選択して タグ を追加します。    
     {{% /tab %}}
     {{% tab header="Run page" %}}
-This method is best suited to applying a tag or tags to a single run manually.
+この方法は、単一の run に 手動で タグを付与するのに適しています。
 
-1. Navigate to your project workspace.
-2. Select a run from the list of runs within your project's workspace.
-1. Select **Overview** from the project sidebar.
-2. Select the gray plus icon (**+**) button next to **Tags**.
-3. Type a tag you want to add and select **Add** below the text box to add a new tag.    
+1. プロジェクトの Workspace に移動します。
+2. プロジェクトの Workspace 内の run 一覧から run を 1 つ選択します。
+1. プロジェクトのサイドバーで **Overview** を選択します。
+2. **Tags** の横にある灰色のプラス アイコン（**+**）ボタンを選択します。
+3. 追加したい タグ を入力し、テキストボックスの下にある **Add** を選択して新しい タグ を追加します。    
     {{% /tab %}}
 {{< /tabpane >}}
 
+## 1 つ以上の run から タグ を削除する
 
-
-## Remove tags from one or more runs
-
-Tags can also be removed from runs with the W&B App UI.
+W&B アプリの UI からも、run から タグ を削除できます。
 
 {{< tabpane text=true >}}
 {{% tab header="Project page"%}}
-This method is best suited to removing tags from a large numbers of runs.
+この方法は、多数の run から タグ を一括で削除するのに適しています。
 
-1. In the Run sidebar of the project, select the table icon in the upper-right. This will expand the sidebar into the full runs table.
-2. Hover over a run in the table to see a checkbox on the left or look in the header row for a checkbox to select all runs.
-3. Select the checkbox to enable bulk actions. 
-4. Select the runs you want to remove tags.
-5. Select the **Tag** button above the rows of runs.
-6. Select the checkbox next to a tag to remove it from the run.
+1. プロジェクトの Run サイドバーで、右上のテーブル アイコンを選択します。サイドバーが展開され、完全な **Runs** テーブルが表示されます。
+2. テーブル内の run にカーソルを合わせると左側にチェックボックスが表示されます。すべての run を選択するには、ヘッダー行のチェックボックスを使用します。
+3. チェックボックスを選択して一括操作を有効にします。 
+4. タグ を削除したい run を選択します。
+5. run の行の上にある **Tag** ボタンを選択します。
+6. 削除したい タグ の横にあるチェックボックスを選択して、run から削除します。
 
 {{% /tab %}}
 {{% tab header="Run page"%}}
 
-1. In the left sidebar of the Run page, select the top **Overview** tab. The tags on the run are visible here.
-2. Hover over a tag and select the "x" to remove it from the run.
+1. Run ページ左側のサイドバーで、一番上の **Overview** タブを選択します。ここに、その run の タグ が表示されます。
+2. タグ にカーソルを合わせ、"x" を選択して run から削除します。
 
 {{% /tab %}}
 {{< /tabpane >}}

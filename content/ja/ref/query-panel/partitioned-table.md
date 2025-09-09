@@ -1,53 +1,37 @@
 ---
+title: パーティション化されたテーブル
 menu:
   reference:
     identifier: ja-ref-query-panel-partitioned-table
-title: partitioned-table
 ---
 
-## Chainable Ops
+## チェーン可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
-
-Returns the _file_ of the asset
-
-| Argument |  |
+アセットの _ファイル_ を返します
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
-
-#### Return Value
-The _file_ of the asset
-
+| `asset` | アセット |
+#### 戻り値
+アセットの _ファイル_
 <h3 id="partitionedtable-file"><code>partitionedtable-file</code></h3>
-
-Returns the _file_ of a _partitioned-table_
-
-| Argument |  |
+_パーティション テーブル_ の _ファイル_ を返します
+| 引数 |  |
 | :--- | :--- |
-| `partitionedTable` | The _partitioned-table_ |
-
-#### Return Value
-_file_ of the _partitioned-table_
-
+| `partitionedTable` | _パーティション テーブル_ |
+#### 戻り値
+_パーティション テーブル_ の _ファイル_
 <h3 id="partitionedtable-rows"><code>partitionedtable-rows</code></h3>
-
-Returns the rows of a _partitioned-table_
-
-| Argument |  |
+_パーティション テーブル_ の行を返します
+| 引数 |  |
 | :--- | :--- |
-| `partitionedTable` | The _partitioned-table_ to get rows from |
-
-#### Return Value
-Rows of the _partitioned-table_
-
-
-## List Ops
+| `partitionedTable` | 行を取得する _パーティション テーブル_ |
+#### 戻り値
+_パーティション テーブル_ の行
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
-
-Returns the _file_ of the asset
-
-| Argument |  |
+アセットの _ファイル_ を返します
+| 引数 |  |
 | :--- | :--- |
-| `asset` | The asset |
-
-#### Return Value
-The _file_ of the asset
+| `asset` | アセット |
+#### 戻り値
+アセットの _ファイル_

@@ -1,17 +1,16 @@
 ---
+title: '`AttributeError: module ''wandb'' has no attribute ...` のようなエラーをどのように解決できますか？'
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_resolve_the_attributeerror_module_wandb_has_no_attribute
 support:
-- crashing and hanging runs
-title: 'How can I fix an error like `AttributeError: module ''wandb'' has no attribute
-  ...`?'
+- run のクラッシュやハング
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If you encounter an error like `AttributeError: module 'wandb' has no attribute 'init'` or `AttributeError: module 'wandb' has no attribute 'login'` when importing `wandb` in Python, `wandb` is not installed or the installation is corrupted, but a `wandb` directory exists in the current working directory. To fix this error, uninstall `wandb`, delete the directory, then install `wandb`:
+Python で `wandb` をインポートした際に `AttributeError: module 'wandb' has no attribute 'init'` や `AttributeError: module 'wandb' has no attribute 'login'` のようなエラーが発生する場合、`wandb` がインストールされていないかインストールが破損している一方で、現在の作業ディレクトリーに `wandb` ディレクトリーが存在している可能性があります。このエラーを解消するには、`wandb` をアンインストールし、そのディレクトリーを削除してから `wandb` をインストールしてください:
 
 ```bash
 pip uninstall wandb; rm -rI wandb; pip install wandb

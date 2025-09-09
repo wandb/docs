@@ -1,4 +1,5 @@
 ---
+title: クエリ式言語
 cascade:
   menu:
     reference:
@@ -7,14 +8,13 @@ menu:
   reference:
     identifier: ja-ref-query-panel-_index
     parent: reference
-title: Query Expression Language
 weight: 4
 ---
 
-Use the query expressions to select and aggregate data across runs and projects. 
-Learn more about [query panels]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}}).
+クエリ式を使って、runs と projects をまたいでデータを選択・集約します。
+詳しくは [クエリ パネル]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}}) を参照してください。
 
-## Data Types
+## データ型
 
 * [artifact](./artifact.md)
 * [artifactType](./artifact-type.md)

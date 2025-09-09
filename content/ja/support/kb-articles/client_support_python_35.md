@@ -1,13 +1,13 @@
 ---
+title: W&B クライアントは Python 3.5 をサポートしていますか？
 menu:
   support:
     identifier: ja-support-kb-articles-client_support_python_35
 support:
 - python
-title: Does the W&B client support Python 3.5?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-The W&B client library supported Python 3.5 until version 0.11. Support for Python 3.5 ended with version 0.12, which aligns with its end of life. For more details, visit [version 0.12 release notes](https://github.com/wandb/wandb/releases/tag/v0.12.0).
+W&B のクライアント ライブラリは Python 3.5 を バージョン 0.11 までサポートしていました。Python 3.5 のサポートは バージョン 0.12 で終了し、これは Python 3.5 の EOL に合わせたものです。詳細は、[バージョン 0.12 のリリースノート](https://github.com/wandb/wandb/releases/tag/v0.12.0)をご覧ください。

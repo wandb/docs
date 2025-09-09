@@ -1,97 +1,96 @@
 ---
+title: 折れ線グラフのリファレンス
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-line-plot-reference
     parent: line-plot
-title: Line plot reference
 weight: 10
 ---
 
-## X-Axis
+## X 軸
 
-{{< img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis" >}}
+{{< img src="/images/app_ui/reference_x_axis.png" alt="X 軸の選択" >}}
 
-You can set the x-axis of a line plot to any value that you have logged with W&B.log as long as it's always logged as a number.
+折れ線プロットの X 軸は、W&B.log で記録した値のうち、常に数値として記録されているものなら任意に設定できます。
 
-## Y-Axis variables
+## Y 軸の変数
 
-You can set the y-axis variables to any value you have logged with wandb.log as long as you were logging numbers, arrays of numbers or a histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
-
-{{% alert %}}
-You can change the color of your y axis lines by changing the color of the run in the runs table.
-{{% /alert %}}
-
-## X range and Y range
-
-You can change the maximum and minimum values of X and Y for the plot.
-
-X range default is from the smallest value of your x-axis to the largest.
-
-Y range default is from the smallest value of your metrics and zero to the largest value of your metrics.
-
-## Max runs/groups
-
-By default you will only plot 10 runs or groups of runs. The runs will be taken from the top of your runs table or run set, so if you sort your runs table or run set you can change the runs that are shown.
+Y 軸の変数は、wandb.log で記録した値のうち、数値、数値の配列、または数値のヒストグラムであれば任意に設定できます。ある変数について 1500 点を超えるデータを記録した場合、W&B が 1500 点までにサンプリング（間引き）します。
 
 {{% alert %}}
-A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+runs テーブルで run の色を変更すると、Y 軸の線の色も変更できます。
 {{% /alert %}}
 
-## Legend
+## X 範囲と Y 範囲
 
-You can control the legend of your chart to show for any run any config value that you logged and meta data from the runs such as the created at time or the user who created the run.
+プロットの X と Y の最大値・最小値を変更できます。
 
-Example:
+X のデフォルト範囲は、X 軸の最小値から最大値までです。
 
-`${run:displayName} - ${config:dropout}` will make the legend name for each run something like `royal-sweep - 0.5` where `royal-sweep` is the run name and `0.5` is the config parameter named `dropout`.
+Y のデフォルト範囲は、メトリクスの最小値と 0 のうち小さい方から、メトリクスの最大値までです。
 
-You can set value inside`[[ ]]` to display point specific values in the crosshair when hovering over a chart. For example `\[\[ $x: $y ($original) ]]` would display something like "2: 3 (2.9)"
+## run / グループの最大数
 
-Supported values inside `[[ ]]` are as follows:
+既定では 10 件の run または run のグループのみをプロットします。表示される run は runs テーブルまたは run セットの先頭から取得されるため、それらを並べ替えることで表示される run を変更できます。
 
-| Value         | Meaning                                    |
-| ------------  | ------------------------------------------ |
-| `${x}`        | X value                                    |
-| `${y}`        | Y value (Including smoothing adjustment)   |
-| `${original}` | Y value not including smoothing adjustment |
-| `${mean}`     | Mean of grouped runs                       |
-| `${stddev}`   | Standard Deviation of grouped runs         |
-| `${min}`      | Min of grouped runs                        |
-| `${max}`      | Max of grouped runs                        |
-| `${percent}`  | Percent of total (for stacked area charts) |
+{{% alert %}}
+Workspace では、設定に関わらず最大 1000 件の run までしか表示できません。
+{{% /alert %}}
 
-## Grouping
+## 凡例
 
-You can aggregate all of the runs by turning on grouping, or group over an individual variable. You can also turn on grouping by grouping inside the table and the groups will automatically populate into the graph.
+チャートの凡例には、各 run に対して、記録した任意の config の値や、作成日時やその run を作成したユーザーなど、run のメタデータを表示するよう制御できます。
 
-## Smoothing
+例:
 
-You can set the [smoothing coefficient]({{< relref path="/support/kb-articles/formula_smoothing_algorithm.md" lang="ja" >}}) to be between 0 and 1 where 0 is no smoothing and 1 is maximum smoothing.
+`${run:displayName} - ${config:dropout}` は、各 run の凡例名を `royal-sweep - 0.5` のようにします。ここで `royal-sweep` は run 名、`0.5` は `dropout` という名前の config パラメータです。
 
+チャート上にカーソルを重ねた際、クロスヘア内に点ごとの値を表示するには、`[[ ]]` の中に値を設定できます。例えば `\[\[ $x: $y ($original) ]]` は "2: 3 (2.9)" のように表示します。
 
-## Ignore outliers
+`[[ ]]` に指定できる値は次のとおりです:
 
-Rescale the plot to exclude outliers from the default plot min and max scale. The setting's impact on the plot depends on the plot's sampling mode.
+| 値            | 意味                                        |
+| ------------- | ------------------------------------------- |
+| `${x}`        | X 値                                        |
+| `${y}`        | Y 値（スムージング調整を含む）              |
+| `${original}` | スムージング調整を含まない Y 値             |
+| `${mean}`     | グループ化した run の平均                   |
+| `${stddev}`   | グループ化した run の標準偏差               |
+| `${min}`      | グループ化した run の最小                   |
+| `${max}`      | グループ化した run の最大                   |
+| `${percent}`  | 総量に対する割合（積み上げ面プロット用）     |
 
-- For plots that use [random sampling mode]({{< relref path="sampling.md#random-sampling" lang="ja" >}}), when you enable **Ignore outliers**, only points from 5% to 95% are shown. When outliers are shown, they are not formatted differently from other points.
-- For plots that use [full fidelity mode]({{< relref path="sampling.md#full-fidelity" lang="ja" >}}), all points are always shown, condensed down to the last value in each bucket. When **Ignore outliers** is enabled, the minimum and maximum bounds of each bucket are shaded. Otherwise, no area is shaded.
+## グルーピング
 
-## Expression
+グルーピングを有効にすると、すべての run を集約したり、個別の変数でグループ化したりできます。テーブル内でグループ化を有効にすると、そのグループが自動的にグラフに反映されます。
 
-Expression lets you plot values derived from metrics like 1-accuracy. It currently only works if you are plotting a single metric. You can do simple arithmetic expressions, +, -, \*, / and % as well as \*\* for powers.
+## スムージング
 
-## Plot style
+[スムージング係数]({{< relref path="/support/kb-articles/formula_smoothing_algorithm.md" lang="ja" >}}) を 0 から 1 の間で設定できます。0 はスムージングなし、1 は最大スムージングです。
 
-Select a style for your line plot.
+## 外れ値を無視
 
-**Line plot:**
+既定のプロットの最小・最大スケールから外れ値を除外するようにプロットをリスケールします。この設定がプロットに与える影響は、プロットのサンプリングモードに依存します。
 
-{{< img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot style" >}}
+- [ランダム サンプリング モード]({{< relref path="sampling.md#random-sampling" lang="ja" >}}) を使うプロットでは、**Ignore outliers** を有効にすると 5% から 95% の点だけが表示されます。外れ値が表示される場合でも、他の点と見分けがつくような特別な書式は適用されません。
+- [フル フィデリティ モード]({{< relref path="sampling.md#full-fidelity" lang="ja" >}}) を使うプロットでは、常にすべての点が表示され、各バケットの最後の値に凝縮されます。**Ignore outliers** を有効にすると、各バケットの最小値と最大値の範囲がシェーディングされます。無効の場合はシェーディングはありません。
 
-**Area plot:**
+## 式
 
-{{< img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot style" >}}
+式を使うと、1 - accuracy のようにメトリクスから導出した値をプロットできます。現在は単一のメトリクスをプロットしている場合にのみ機能します。四則演算の式（+, -, \*, /, %）や、べき乗のための \*\* が使用できます。
 
-**Percentage area plot:**
+## プロットのスタイル
 
-{{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style" >}}
+折れ線プロットのスタイルを選択します。
+
+**折れ線プロット:**
+
+{{< img src="/images/app_ui/plot_style_line_plot.png" alt="折れ線プロットのスタイル" >}}
+
+**面積プロット:**
+
+{{< img src="/images/app_ui/plot_style_area_plot.png" alt="面積プロットのスタイル" >}}
+
+**割合面積プロット:**
+
+{{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="割合プロットのスタイル" >}}

@@ -1,59 +1,57 @@
 ---
-description: 'Understand pricing, usage limits, and account restrictions for W&B Inference
-
-  '
+title: 利用情報と制限
+description: W&B Inference の 料金、利用制限、アカウント制限について理解する
 linkTitle: Usage & Limits
 menu:
   default:
     identifier: ja-guides-inference-usage-limits
-title: Usage Information and Limits
 weight: 20
 ---
 
-Learn about pricing, limits, and other important usage information before using W&B Inference.
+W&B Inference を利用する前に、料金、制限、その他の重要な利用情報をご確認ください。
 
-## Pricing
+## 料金
 
-For detailed model pricing information, visit [W&B Inference pricing](https://wandb.ai/site/pricing/inference).
+モデルの料金の詳細は [W&B Inference pricing](https://wandb.ai/site/pricing/inference) を参照してください。
 
-## Purchase more credits
+## クレジットの追加購入
 
-W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Enterprise availability may vary. When credits run out:
+W&B Inference のクレジットは、期間限定で Free、Pro、Academic の各プランに付属します。Enterprise での提供状況は異なる場合があります。クレジットを使い切った場合は、次のとおりです:
 
-- **Free accounts** must upgrade to a paid plan to continue using W&B Inference. [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
-- **Pro plan users** are billed for overages monthly, based on [model-specific pricing](https://wandb.ai/site/pricing/inference)
-- **Enterprise accounts** should contact their account executive
+- **Free アカウント** は W&B Inference を継続利用するには有料プランにアップグレードする必要があります。 [Pro または Enterprise にアップグレード](https://wandb.ai/subscriptions)
+- **Pro プランのユーザー** は、[モデルごとの料金](https://wandb.ai/site/pricing/inference) に基づき、超過分が毎月請求されます
+- **Enterprise アカウント** はアカウント担当に連絡してください
 
-## Account tiers and default usage caps
+## アカウント階層とデフォルトの利用上限
 
-Each account tier has a default spending cap to help manage costs and prevent unexpected charges. W&B requires prepayment for paid Inference access.
+各アカウント階層には、コスト管理と予期せぬ請求の防止のためのデフォルトの支出上限が設定されています。有料の W&B Inference アクセスには前払いが必要です。
 
-Some users may need to change their cap. Contact your account executive or support to adjust your limit.
+一部の ユーザー は上限の変更が必要な場合があります。上限の調整はアカウント担当またはサポートにご連絡ください。
 
-| Account Tier | Default Cap | How to Change Limit |
+| アカウント階層 | デフォルト上限 | 上限の変更方法 |
 |--------------|-------------|---------------------|
-| Pro | $6,000/month | Contact your account executive or support for manual review |
-| Enterprise | $700,000/year | Contact your account executive or support for manual review |
+| Pro | $6,000/month | 手動審査のためアカウント担当またはサポートに連絡 |
+| Enterprise | $700,000/year | 手動審査のためアカウント担当またはサポートに連絡 |
 
-## Concurrency limits
+## 同時実行の制限
 
-If you exceed the rate limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests. For detailed troubleshooting, see [W&B Inference support articles](/support/inference/).
+レート制限を超えると、API は `429 Concurrency limit reached for requests` を返します。 このエラーを解消するには、同時リクエスト数を減らしてください。詳細なトラブルシューティングは [W&B Inference のサポート記事](/support/inference/) を参照してください。
 
-W&B applies rate limits per W&B project. For example, if you have 3 projects in a team, each project has its own rate limit quota.
+W&B は W&B の各 Project ごとにレート制限を適用します。たとえば Team に Project が 3 つある場合、各 Project に独自のレート制限のクォータが設定されます。
 
-## Personal entities unsupported
+## Personal entities は非対応
 
-{{< alert title="Note" >}}
-Personal entities were deprecated in May 2024, so this only applies to legacy accounts.
+{{< alert title="注意" >}}
+Personal entities は 2024 年 5 月に廃止されたため、これはレガシー アカウントのみに該当します。
 {{< /alert >}}
 
-Personal accounts (personal entities) don't support W&B Inference. To access W&B Inference, switch to a non-personal account by creating a Team.
+個人アカウント（personal entities）では W&B Inference は利用できません。W&B Inference に アクセス するには、Team を作成して非個人アカウントに切り替えてください。
 
-## Geographic restrictions
+## 地理的な制限
 
-The Inference service is only available from supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
+W&B Inference サービスは、対応している地域からのみ利用できます。詳細は [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) を参照してください。
 
-## Next steps
+## 次のステップ
 
-- Review the [prerequisites]({{< relref path="prerequisites" lang="ja" >}}) before getting started
-- See [available models]({{< relref path="models" lang="ja" >}}) and their specific costs
+- 開始前に [前提条件]({{< relref path="prerequisites" lang="ja" >}}) を確認する
+- [利用可能なモデル]({{< relref path="models" lang="ja" >}}) とそれぞれのコストを確認する

@@ -1,37 +1,36 @@
 ---
+title: Launch キューの設定
 menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-queue-advanced
     parent: set-up-launch
-title: Configure launch queue
 url: guides/launch/setup-queue-advanced
 ---
 
-The following page describes how to configure launch queue options.
+このページでは、Launch キューのオプションを設定する方法を説明します。
 
-## Set up queue config templates
-Administer and manage guardrails on compute consumption with Queue Config Templates. Set defaults, minimums, and maximum values for fields such as memory consumption, GPU, and runtime duration.
+## キュー設定テンプレートをセットアップする
+Queue Config Templates を使って、計算リソース消費に対するガードレールを管理・運用できます。メモリ使用量、GPU、実行時間などのフィールドに対して、デフォルト値、最小値、最大値を設定できます。
 
-After you configure a queue with config templates, members of your team can alter fields you defined only within the specified range you defined.
+キューに設定テンプレートを設定すると、チームメンバーは指定した範囲内でのみ、あなたが定義したフィールドを変更できます。
 
-### Configure queue template
-You can configure a queue template on an existing queue or create a new queue.  
+### キューテンプレートを設定する
+既存のキューにテンプレートを設定することも、新しいキューを作成して設定することもできます。  
 
-1. Navigate to the [W&B Launch App](https://wandb.ai/launch).
-2. Select **View queue** next to the name of the queue you want to add a template to.
-3. Select the **Config** tab. This will show information about your queue such as when the queue was created, the queue config, and existing launch-time overrides.
-4. Navigate to the **Queue config** section.
-5. Identify the config key-values you want to create a template for. 
-6. Replace the value in the config with a template field. Template fields take the form of `{{variable-name}}`. 
-7. Click on the **Parse configuration** button. When you parse your configuration, W&B will automatically create tiles below the queue config for each template you created.
-8. For each tile generated, you must first specify the data type (string, integer, or float) the queue config can allow. To do this, select the data type from the **Type** dropdown menu.
-9. Based on your data type, complete the fields that appear within each tile.
-10. Click on **Save config**.
+1. [W&B Launch App](https://wandb.ai/launch) に移動します。
+2. テンプレートを追加したいキュー名の横にある **View queue** を選択します。
+3. **Config** タブを選択します。ここにはキューの作成日時、キューの設定、既存の起動時オーバーライドなど、キューに関する情報が表示されます。
+4. **Queue config** セクションに移動します。
+5. テンプレートを作成したい設定のキーと値を特定します。
+6. 設定内の値をテンプレートフィールドに置き換えます。テンプレートフィールドは `{{variable-name}}` の形式を取ります。
+7. **Parse configuration** ボタンをクリックします。設定をパースすると、作成した各テンプレートに対応するタイルがキュー設定の下に自動的に作成されます。
+8. 生成された各タイルについて、まずキュー設定で許可するデータ型 (string、integer、float) を指定する必要があります。**Type** ドロップダウンメニューからデータ型を選択してください。
+9. 選択したデータ型に基づいて、各タイル内に表示されるフィールドを入力します。
+10. **Save config** をクリックします。
 
+たとえば、チームが使用できる AWS インスタンスを制限するテンプレートを作成したいとします。テンプレートフィールドを追加する前のキュー設定は次のようになります:
 
-For example, suppose you want to create a template that limits which AWS instances your team can use. Before you add a template field, your queue config might look something similar to:
-
-```yaml title="launch config"
+```yaml title="Launch 設定"
 RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
 ResourceConfig:
   InstanceType: ml.m4.xlarge
@@ -43,9 +42,9 @@ StoppingCondition:
   MaxRuntimeInSeconds: 3600
 ```
 
-When you add a template field for the `InstanceType`, your config will look like:
+`InstanceType` にテンプレートフィールドを追加すると、設定は次のようになります:
 
-```yaml title="launch config"
+```yaml title="Launch 設定"
 RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
 ResourceConfig:
   InstanceType: "{{aws_instance}}"
@@ -57,49 +56,46 @@ StoppingCondition:
   MaxRuntimeInSeconds: 3600
 ```
 
+次に **Parse configuration** をクリックします。**Queue config** の下に `aws-instance` とラベル付けされた新しいタイルが表示されます。
 
-Next, you click on **Parse configuration**. A new tile labeled `aws-instance` will appear underneath the **Queue config**. 
+そこから **Type** ドロップダウンでデータ型として String を選択します。すると、ユーザーが選択できる値を指定するためのフィールドが表示されます。たとえば、次の画像ではチームの管理者が、ユーザーが選択できる 2 種類の AWS インスタンスタイプ (`ml.m4.xlarge` と `ml.p3.xlarge`) を設定しています:
 
-From there, you select String as the datatype from the **Type** dropdown. This will populate fields where you can specify values a user can choose from. For example, in the following image the admin of the team configured two different AWS instance types that users can choose from (`ml.m4.xlarge` and `ml.p3.xlarge`):
+{{< img src="/images/launch/aws_template_example.png" alt="AWS CloudFormation テンプレート" >}}
 
-{{< img src="/images/launch/aws_template_example.png" alt="AWS CloudFormation template" >}}
+## Launch ジョブを動的に設定する
+キュー設定は、エージェントがキューからジョブをデキューする際に評価されるマクロを使って動的に設定できます。使用できるマクロは次のとおりです:
 
-
-
-## Dynamically configure launch jobs
-Queue configs can be dynamically configured using macros that are evaluated when the agent dequeues a job from the queue. You can set the following macros:
-
-| Macro             | Description                                           |
-|-------------------|-------------------------------------------------------|
-| `${project_name}` | The name of the project the run is being launched to. |
-| `${entity_name}`  | The owner of the project the run being launched to.   |
-| `${run_id}`       | The id of the run being launched.                     |
-| `${run_name}`     | The name of the run that is launching.                |
-| `${image_uri}`    | The URI of the container image for this run.          |
+| マクロ              | 説明                                            |
+|-------------------|-------------------------------------------------|
+| `${project_name}` | run が起動される project の名前。               |
+| `${entity_name}`  | run が起動される project の所有者。             |
+| `${run_id}`       | 起動される run の ID。                          |
+| `${run_name}`     | 起動中の run の名前。                            |
+| `${image_uri}`    | この run 用コンテナイメージの URI。              |
 
 {{% alert %}}
-Any custom macro not listed in the preceding table (for example `${MY_ENV_VAR}`), is substituted with an environment variable from the agent's environment.
+上の表にないカスタムマクロ (たとえば `${MY_ENV_VAR}`) は、エージェントの環境から同名の環境変数で置き換えられます。
 {{% /alert %}}
 
-## Use the launch agent to build images that execute on accelerators (GPUs)
-You might need to specify an accelerator base image if you use launch to build images that are executed in an accelerator environment.
+## アクセラレータ (GPU) 上で実行するイメージをビルドするために Launch エージェントを使う
+アクセラレータ環境で実行されるイメージを Launch でビルドする場合、アクセラレータ用のベースイメージを指定する必要があることがあります。
 
-This accelerator base image must satisfy the following requirements:
+このアクセラレータ用ベースイメージは、次の要件を満たす必要があります:
 
-- Debian compatibility (the Launch Dockerfile uses apt-get to fetch python)
-- Compatibility CPU & GPU hardware instruction set (Make sure your CUDA version is supported by the GPU you intend on using)
-- Compatibility between the accelerator version you provide and the packages installed in your ML algorithm
-- Packages installed that require extra steps for setting up compatibility with hardware
+- Debian 互換性 (Launch Dockerfile は apt-get を使って Python を取得します)
+- CPU と GPU のハードウェア命令セットとの互換性 (使用する GPU が該当の CUDA バージョンをサポートしていることを確認してください)
+- 提供するアクセラレータのバージョンと、ML アルゴリズムで使用するパッケージとの互換性
+- ハードウェアとの互換性を確保するための追加設定が必要なパッケージがインストールされていること
 
-### How to use GPUs with TensorFlow
+### TensorFlow で GPU を使う方法
 
-Ensure TensorFlow properly utilizes your GPU. To accomplish this, specify a Docker image and its image tag for the `builder.accelerator.base_image` key in the queue resource configuration.
+TensorFlow が GPU を適切に活用するようにします。そのために、キューのリソース設定で `builder.accelerator.base_image` キーに対して Docker イメージとそのイメージタグを指定します。
 
-For example, the `tensorflow/tensorflow:latest-gpu` base image ensures TensorFlow properly uses your GPU. This can be configured using the resource configuration in the queue.
+たとえば、`tensorflow/tensorflow:latest-gpu` ベースイメージを指定すると、TensorFlow が GPU を適切に使用します。これはキューのリソース設定で構成できます。
 
-The following JSON snippet demonstrates how to specify the TensorFlow base image in your queue config:
+次の JSON スニペットは、キュー設定で TensorFlow のベースイメージを指定する方法を示しています:
 
-```json title="Queue config"
+```json title="Queue 設定"
 {
     "builder": {
         "accelerator": {

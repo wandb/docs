@@ -1,23 +1,23 @@
 ---
+title: wandb agent
 menu:
   reference:
     identifier: ja-ref-cli-wandb-agent
-title: wandb agent
 ---
 
-**Usage**
+**使い方**
 
 `wandb agent [OPTIONS] SWEEP_ID`
 
-**Summary**
+**概要**
 
-Run the W&B agent
+W&B エージェントを実行します。
 
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --project` | The name of the project where W&B runs created from the   sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'. |
-| `-e, --entity` | The username or team name where you want to send W&B   runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity,   the run will be sent to your default entity, which is usually your username. |
-| `--count` | The max number of runs for this agent. |
+| `-p, --project` | sweep で作成された W&B の run の送信先にする Project 名です。Project を指定しない場合、run は 'Uncategorized' というラベルの Project に送信されます。 |
+| `-e, --entity` | sweep によって作成された W&B の run の送信先にする、ユーザー名または Team 名です。指定した Entity が既に存在していることを確認してください。Entity を指定しない場合、run はあなたのデフォルトの Entity（通常はあなたのユーザー名）に送信されます。 |
+| `--count` | この エージェント が実行する run の最大数です。 |

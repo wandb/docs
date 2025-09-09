@@ -1,98 +1,97 @@
 ---
-description: Manage your profile information, account defaults, alerts, participation
-  in beta products, GitHub integration, storage usage, account activation, and create
-  teams in your user settings.
+title: ユーザー設定を管理する
+description: ユーザー設定で、プロフィール情報、アカウントのデフォルト、アラート、ベータ版プロダクトへの参加、GitHub インテグレーション、ストレージ使用量、アカウントの有効化を管理し、Teams
+  を作成できます。
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-user-settings
     parent: settings
-title: Manage user settings
 weight: 10
 ---
 
-Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
+ユーザー プロファイル ページに移動し、右上のユーザー アイコンを選択します。ドロップダウンから **Settings** を選びます。
 
-## Profile
+## プロフィール
 
-Within the **Profile** section you can manage and modify your account name and institution. You can optionally add a biography, location, link to a personal or your institution’s website, and upload a profile image.
+**Profile** セクションでは、アカウント名や所属を管理・変更できます。任意で自己紹介文、所在地、個人または所属先のウェブサイトへのリンク、プロフィール画像のアップロードを追加できます。
 
-## Edit your intro
+## イントロダクションを編集
 
-To edit your intro, click **Edit** at the top of your profile. The WYSIWYG editor that opens supports Markdown.
-1. To edit a line, click it. To save time, you can type `/` and choose Markdown from the list.
-1. Use an item's drag handles to move it.
-1. To delete a block, click the drag handle, then click **Delete**.
-1. To save your changes, click **Save**.
+イントロダクションを編集するには、プロフィール上部の **Edit** をクリックします。開いた WYSIWYG エディタは Markdown をサポートしています。
+1. 行を編集するには、その行をクリックします。手早く操作したい場合は `/` と入力し、リストから Markdown を選びます。
+1. アイテムのドラッグ ハンドルを使って移動できます。
+1. ブロックを削除するには、ドラッグ ハンドルをクリックしてから **Delete** をクリックします。
+1. 変更を保存するには **Save** をクリックします。
 
-### Add social badges
+### ソーシャル バッジを追加
 
-To add a follow badge for the `@weights_biases` account on X, you could add a Markdown-style link with an HTML `<img>` tag that points to the badge image:
+X の `@weights_biases` アカウントのフォローバッジを追加するには、バッジ画像を指す HTML の `<img>` タグを含む、Markdown 形式のリンクを追加できます。
 
 ```markdown
 [![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
 ```
-In an `<img>` tag, you can specify `width`, `height`, or both. If you specify only one of them, the image's proportions are maintained.
+`<img>` タグでは `width`、`height`、またはその両方を指定できます。どちらか一方のみを指定した場合は、画像の縦横比は維持されます。
 
 ## Default team
-If you are a member of more than one team, the **Default team** section allows you to configure the default team to use when a run or a Weave trace does not specify a team. If you are a member of only one team, that team is the default and this section does not appear.
+複数の team のメンバーである場合、**Default team** セクションで、run や Weave のトレースで team が指定されていないときに使用する既定の team を設定できます。1 つの team のみのメンバーである場合、その team が既定となり、このセクションは表示されません。
 
-Select a tab to continue.
+続行するにはタブを選択してください。
 
 {{< tabpane text=true >}}
 {{% tab header="Multi-tenant Cloud" %}}
-Next to **Default location to create new projects in**, click thew drop-down, then select your default team.
+**Default location to create new projects in** の横にあるドロップダウンをクリックし、既定の team を選択します。
 {{% /tab %}}
 {{% tab header="Dedicated Cloud / Self-Managed" %}}
-1. Next to **Default location to create new projects in**, click thew drop-down, then select your default team or your personal entity.
-1. (**Optional**) If an admin has turned on public projects in in **Account** > **Settings** > **Privacy**, configure the default visibility for your new projects. Click the button next to **Default project privacy in your personal account**, then select **Private** (the default) or **Public**.
-1. (**Optional**) If an admin has turned on [default saving and diffing code]({{< relref path="/guides/models/app/features/panels/code.md" lang="ja" >}}) in **Account** > **Settings** > **Privacy**, to turn it on for your runs, click **Enable code saving in your personal account**.
+1. **Default location to create new projects in** の横にあるドロップダウンをクリックし、既定の team または個人の entity を選択します。
+1. （任意）管理者が **Account** > **Settings** > **Privacy** で public projects を有効にしている場合は、新しい projects の既定の “公開範囲” を設定します。**Default project privacy in your personal account** の横にあるボタンをクリックし、**Private**（既定）または **Public** を選択します。
+1. （任意）管理者が **Account** > **Settings** > **Privacy** で[コードの既定の保存と差分]({{< relref path="/guides/models/app/features/panels/code.md" lang="ja" >}})を有効にしている場合、run でも有効にするには **Enable code saving in your personal account** をクリックします。
 {{% /tab %}}
 {{< /tabpane >}}
 
 {{% alert %}}
-To specify the default team when you’re running a script in an automated environment, you can specify the default location using the `WANDB_ENTITY` [environment variable]({{< relref path="https://docs.wandb.ai/guides/models/track/environment-variables.md" lang="ja" >}}).
+自動化された 環境 でスクリプトを実行する際に既定の team を指定するには、`WANDB_ENTITY` [環境 変数]({{< relref path="https://docs.wandb.ai/guides/models/track/environment-variables.md" lang="ja" >}})で既定の場所を指定できます。
 {{% /alert %}}
 
 ## Teams
-The **Teams** section lists all of your teams.
+**Teams** セクションには、あなたのすべての team が一覧表示されます。
 
-1. Click a team name to go to the team page.
-1. If you have permission to join additional teams, click **View teams** next to **We found teams for you to join**.
-1. Optionally, turn on **Hide teams in public profile**.
+1. team 名をクリックすると、その team のページに移動します。
+1. 追加の team に参加する権限がある場合は、**We found teams for you to join** の横にある **View teams** をクリックします。
+1. 必要に応じて **Hide teams in public profile** をオンにします。
 
 {{% alert %}}
-To create or manage a team, see [Manage teams]({{< relref path="/guides/models/app/settings-page/teams/" lang="ja" >}}).
+team の作成や管理については、[Teams を管理する]({{< relref path="/guides/models/app/settings-page/teams/" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
-## Beta features
+## ベータ機能
 
-Within the **Beta Features** section you can optionally enable fun add-ons and sneak previews of new products in development. Select the toggle switch next to the beta feature you want to enable.
+**Beta Features** セクションでは、開発中の新機能のプレビューや便利なアドオンを任意で有効化できます。有効にしたいベータ機能のトグル スイッチを選択します。
 
-## Alerts
+## アラート
 
-Get notified when your runs crash, finish, or set custom alerts with [wandb.Run.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}). Receive notifications either through Email or Slack. Toggle the switch next to the event type you want to receive alerts from.
+run がクラッシュしたとき、完了したとき、または [wandb.Run.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) でカスタム アラートを設定したときに通知を受け取ります。通知は Email または Slack で受信できます。受け取りたいイベントの横にあるスイッチを切り替えてください。
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: notification if a run has failed to finish.
+* **Runs finished**: Weights and Biases の run が正常に完了したかどうか。
+* **Run crashed**: run が完了せずに失敗した場合の通知。
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.Run.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}).
+アラートの設定と管理の詳細は、[wandb.Run.alert() でアラートを送信]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}})を参照してください。
 
-## Personal GitHub integration
+## 個人 GitHub インテグレーション
 
-Connect a personal Github account. To connect a Github account:
+個人の GitHub アカウントを接続します。接続手順:
 
-1. Select the **Connect Github** button. This will redirect you to an open authorization (OAuth) page.
-2. Select the organization to grant access in the **Organization access** section.
-3. Select **Authorize** **wandb**.
+1. **Connect Github** ボタンを選択します。OAuth（オープン認可）のページにリダイレクトされます。
+2. **Organization access** セクションで、アクセスを許可する組織を選択します。
+3. **Authorize** **wandb** を選択します。
 
-## Delete your account
+## アカウントを削除する
 
-Select the **Delete Account** button to delete your account.
+アカウントを削除するには **Delete Account** ボタンを選択します。
 
 {{% alert color="secondary" %}}
-Account deletion can not be reversed.
+アカウントの削除は元に戻せません。
 {{% /alert %}}
 
-## Storage
+## ストレージ
 
-The **Storage** section describes the total memory usage the your account has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+**Storage** セクションには、あなたのアカウントが Weights and Biases の サーバー 上で消費した合計ストレージ使用量が表示されます。既定のストレージ プランは 100GB です。ストレージと料金の詳細は、[料金](https://wandb.ai/site/pricing) ページをご覧ください。

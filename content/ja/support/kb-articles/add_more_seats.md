@@ -1,17 +1,17 @@
 ---
+title: シートを追加する方法はありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-add_more_seats
 support:
-- administrator
-- user management
-title: Is there a way to add more seats?
+- 管理者
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To add more seats to an account, follow these steps:
+アカウント にシートを追加するには、次の手順に従ってください:
 
-- Contact the Account Executive or support team (support@wandb.com) for assistance.
-- Provide the organization name and the desired number of seats.
+- Account Executive または サポートチーム (support@wandb.com) に連絡してください。
+- 組織名 と 希望するシート数 をお知らせください。

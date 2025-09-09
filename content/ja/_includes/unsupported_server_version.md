@@ -1,7 +1,3 @@
----
-{}
----
+このリリースはサポート対象外です。メジャーリリースとそのパッチは、初回リリース日から 12 ヶ月間サポートされます。
 
-This release is no longer supported. A major release and its patches are supported for 12 months from the initial release date.
-
-Customers using [Self-managed](/guides/hosting/hosting-options/self-managed/) are responsible to upgrade to a [supported release](/ref/releases-notes/) in time to maintain support. For assistance or questions, contact [support](mailto:support@wandb.com).
+[セルフマネージド](/guides/hosting/hosting-options/self-managed/) をご利用のお客様は、サポートを維持するために、期限内に [サポートされているリリース](/ref/releases-notes/) へアップグレードする責任があります。ご不明点や支援が必要な場合は、[サポート](mailto:support@wandb.com) までお問い合わせください。

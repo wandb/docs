@@ -1,10 +1,10 @@
 ---
+title: 画像
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Image
 object_type: python_sdk_data_type
-title: Image
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py >}}
@@ -12,10 +12,10 @@ title: Image
 
 
 
-## <kbd>class</kbd> `Image`
-A class for logging images to W&B. 
+## <kbd>クラス</kbd> `Image`
+W&B に画像をログするためのクラス。 
 
-### <kbd>method</kbd> `Image.__init__`
+### <kbd>メソッド</kbd> `Image.__init__`
 
 ```python
 __init__(
@@ -31,31 +31,31 @@ __init__(
 ) → None
 ```
 
-Initialize a `wandb.Image` object. 
+`wandb.Image` オブジェクトを初期化します。 
 
 
 
-**Args:**
+**引数:**
  
- - `data_or_path`:  Accepts NumPy array/pytorch tensor of image data,  a PIL image object, or a path to an image file. If a NumPy  array or pytorch tensor is provided,  the image data will be saved to the given file type.  If the values are not in the range [0, 255] or all values are in the range [0, 1],  the image pixel values will be normalized to the range [0, 255]  unless `normalize` is set to False. 
-    - pytorch tensor should be in the format (channel, height, width) 
-    - NumPy array should be in the format (height, width, channel) 
- - `mode`:  The PIL mode for an image. Most common are "L", "RGB", 
+ - `data_or_path`:  画像データの NumPy 配列 / pytorch テンソル、PIL 画像オブジェクト、または画像ファイルへのパスを受け取ります。NumPy 配列または pytorch テンソルが与えられた場合、画像データは指定されたファイル形式で保存されます。値が [0, 255] の範囲にない、またはすべての値が [0, 1] の範囲にある場合、`normalize` が False に設定されていない限り、画素値は [0, 255] の範囲に正規化されます。 
+    - pytorch テンソルは (channel, height, width) の形式である必要があります 
+    - NumPy 配列は (height, width, channel) の形式である必要があります 
+ - `mode`:  画像の PIL モード。よく使われるのは "L", "RGB", 
  - `"RGBA". Full explanation at https`: //pillow.readthedocs.io/en/stable/handbook/concepts.html#modes 
- - `caption`:  Label for display of image. 
- - `grouping`:  The grouping number for the image. 
- - `classes`:  A list of class information for the image,  used for labeling bounding boxes, and image masks. 
- - `boxes`:  A dictionary containing bounding box information for the image. 
+ - `caption`:  画像の表示用ラベル。 
+ - `grouping`:  この画像のグルーピング番号。 
+ - `classes`:  画像のクラス情報のリストで、バウンディングボックスや画像マスクのラベル付けに使用します。 
+ - `boxes`:  画像のバウンディングボックス情報を含む 辞書。 
  - `see`:  https://docs.wandb.ai/ref/python/data-types/boundingboxes2d/ 
- - `masks`:  A dictionary containing mask information for the image. 
+ - `masks`:  画像のマスク情報を含む 辞書。 
  - `see`:  https://docs.wandb.ai/ref/python/data-types/imagemask/ 
- - `file_type`:  The file type to save the image as.  This parameter has no effect if data_or_path is a path to an image file. 
- - `normalize`:  If True, normalize the image pixel values to fall within the range of [0, 255].  Normalize is only applied if data_or_path is a numpy array or pytorch tensor. 
+ - `file_type`:  画像を保存するファイル形式。`data_or_path` が画像ファイルへのパスである場合、このパラメータは効果がありません。 
+ - `normalize`:  True の場合、画像の画素値を [0, 255] の範囲に正規化します。正規化は、`data_or_path` が numpy 配列または pytorch テンソルの場合にのみ適用されます。 
 
 
 
-**Examples:**
- Create a wandb.Image from a numpy array 
+**例:**
+ NumPy 配列から wandb.Image を作成 
 
 ```python
 import numpy as np
@@ -70,7 +70,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ``` 
 
-Create a wandb.Image from a PILImage 
+PILImage から wandb.Image を作成 
 
 ```python
 import numpy as np
@@ -89,7 +89,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ``` 
 
-Log .jpg rather than .png (default) 
+デフォルトの .png ではなく .jpg でログ 
 
 ```python
 import numpy as np
@@ -109,7 +109,7 @@ with wandb.init() as run:
 
 ---
 
-### <kbd>property</kbd> Image.image
+### <kbd>プロパティ</kbd> Image.image
 
 
 

@@ -1,15 +1,15 @@
 ---
+title: run に関連付けられている git commit を保存するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_git_commit_associated_run
 support:
 - experiments
-title: How can I save the git commit associated with my run?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-When `wandb.init` is invoked, the system automatically collects git information, including the remote repository link and the SHA of the latest commit. This information appears on the [run page]({{< relref path="/guides/models/track/runs/#view-logged-runs" lang="ja" >}}). Ensure the current working directory when executing the script is within a git-managed folder to view this information.
+`wandb.init` を呼び出すと、システムはリモートリポジトリーのリンクや最新コミットの SHA などの git の情報を自動的に収集します。この情報は [run ページ]({{< relref path="/guides/models/track/runs/#view-logged-runs" lang="ja" >}}) に表示されます。この情報を表示するには、スクリプトを実行する際の作業ディレクトリーが git 管理下にあることを確認してください。
 
-The git commit and the command used to run the experiment remain visible to the user but are hidden from external users. In public projects, these details remain private.
+git のコミットと実験の実行に用いた コマンドは ユーザーには表示されますが、外部の ユーザーからは非表示です。public Projects でも、これらの詳細は非公開のままです。

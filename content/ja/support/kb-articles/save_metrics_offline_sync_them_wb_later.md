@@ -1,25 +1,25 @@
 ---
+title: メトリクスをオフラインで保存して、後で W&B に同期することはできますか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_metrics_offline_sync_them_wb_later
 support:
-- experiments
-- environment variables
-- metrics
-title: Is it possible to save metrics offline and sync them to W&B later?
+- 実験管理
+- 環境変数
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-By default, `wandb.init` starts a process that syncs metrics in real time to the cloud. For offline use, set two environment variables to enable offline mode and sync later.
+デフォルトでは、`wandb.init` は メトリクス をリアルタイムに クラウド へ同期する プロセス を開始します。オフラインで使う場合は、オフライン モード を有効にして後で同期できるよう、2 つの 環境変数 を設定します。
 
-Set the following environment variables:
+次の 環境変数 を設定してください:
 
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings).
-2. `WANDB_MODE="offline"`.
+1. `WANDB_API_KEY=$KEY`。ここで、`$KEY` は [設定ページ](https://app.wandb.ai/settings) の APIキー です。
+2. `WANDB_MODE="offline"`。
 
-Here is an example of implementing this in a script:
+これを スクリプト で実装する例は次のとおりです:
 
 ```python
 import wandb
@@ -41,14 +41,14 @@ with wandb.init(project="offline-demo") as run:
         run.log({"accuracy": i})
 ```
 
-Sample terminal output is shown below:
+以下はサンプルの ターミナル 出力です:
 
-{{< img src="/images/experiments/sample_terminal_output.png" alt="Offline mode terminal output" >}}
+{{< img src="/images/experiments/sample_terminal_output.png" alt="オフライン モードのターミナル出力" >}}
 
-After completing work, run the following command to sync data to the cloud:
+作業が完了したら、次の コマンド を実行して データ を クラウド に同期します:
 
 ```shell
 wandb sync wandb/dryrun-folder-name
 ```
 
-{{< img src="/images/experiments/sample_terminal_output_cloud.png" alt="Cloud sync terminal output" >}}
+{{< img src="/images/experiments/sample_terminal_output_cloud.png" alt="クラウド 同期のターミナル出力" >}}

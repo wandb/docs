@@ -1,170 +1,156 @@
 ---
+title: Artifacts のバージョンをレジストリにリンクする
 menu:
   default:
     identifier: ja-guides-core-registry-link_version
     parent: registry
-title: Link an artifact version to a registry
 weight: 5
 ---
 
-Link artifact versions to a collection to make them available to other members in your organization. 
+Artifacts のバージョンをコレクションにリンクすることで、組織内の他のメンバーが利用できるようになります。
 
-When you link an artifact to a registry, this "publishes" that artifact to that registry. Any user that has access to that registry can access the linked artifact versions in the collection.
+アーティファクト を registry にリンクすると、そのアーティファクト が registry に「公開」されます。その registry へのアクセス権を持つユーザーは誰でも、コレクション内のリンクされたアーティファクト のバージョンにアクセスできます。
 
-In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to a shared organization level scope.
+言い換えれば、アーティファクト を registry コレクションにリンクすることで、そのアーティファクト のバージョンはプライベートなプロジェクト レベルのスコープから、共有の組織レベルのスコープへと移行します。
 
 {{% alert %}}
-The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}})), or log an artifact ([`wandb.init.log_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ja" >}})), you specify a type for the `type` parameter. 
-<!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
+「type」という用語は、アーティファクト オブジェクトの type を指します。アーティファクト オブジェクトを作成する際 ([`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}})) や、アーティファクト をログする際 ([`wandb.init.log_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ja" >}})) に、`type` パラメータに type を指定します。
 {{% /alert %}}
 
-## Link an artifact to a collection
+## アーティファクト をコレクションにリンクする
 
-Link an artifact version to a collection interactively or programmatically. 
+アーティファクト のバージョンは、対話的またはプログラムでコレクションにリンクできます。
 
 {{% alert %}}
-Before you link an artifact to a registry, check the types of artifacts that collection permits. For more information about collection types, see "Collection types" within [Create a collection]({{< relref path="./create_collection.md" lang="ja" >}}).
+アーティファクト を registry にリンクする前に、そのコレクションが許可するアーティファクト の type を確認してください。コレクションの type の詳細については、[コレクションの作成]({{< relref path="./create_collection.md" lang="ja" >}}) 内の「コレクションの type」を参照してください。
 {{% /alert %}}
 
-Based on your use case, follow the instructions described in the tabs below to link an artifact version.
+ユースケースに応じて、以下のタブで説明されている手順に従ってアーティファクト のバージョンをリンクしてください。
 
 {{% alert %}}
-If an artifact version logs metrics (such as by using `run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the artifact's page. Refer to [View linked artifacts in a registry]({{< relref path="#view-linked-artifacts-in-a-registry" lang="ja" >}}).
+アーティファクト のバージョンがメトリクスをログする場合 (`run.log_artifact()` を使用するなど)、そのバージョンの詳細ページからメトリクスを表示でき、アーティファクト のページからアーティファクト のバージョン間でメトリクスを比較できます。[registry でリンクされたアーティファクト を表示する]({{< relref path="#view-linked-artifacts-in-a-registry" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
   {{% tab header="Python SDK" %}}
 {{% alert %}}
-Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
+[バージョンをリンクするデモンストレーションビデオ](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8分) をご覧ください。
 {{% /alert %}}
 
-Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref path="/ref/python/sdk/classes/run.md#link_artifact" lang="ja" >}}).
+[`wandb.init.Run.link_artifact()`]({{< relref path="/ref/python/sdk/classes/run.md#link_artifact" lang="ja" >}}) を使用して、アーティファクト のバージョンをコレクションにプログラムでリンクします。
 
 {{% alert %}}
-Before you link an artifact to a collection, ensure that the registry that the collection belongs to already exists. To check that the registry exists, navigate to the Registry app on the W&B App UI and search for the name of the registry.
+アーティファクト をコレクションにリンクする前に、そのコレクションが属する registry が既に存在することを確認してください。registry の存在を確認するには、W&B App UI の Registry App に移動し、registry の名前を検索してください。
 {{% /alert %}}
 
-Use the `target_path` parameter to specify the collection and registry you want to link the artifact version to. The target path consists of the prefix "wandb-registry", the name of the registry, and the name of the collection separated by a forward slashes:
+`target_path` パラメータを使用して、アーティファクト のバージョンをリンクしたいコレクションと registry を指定します。target path は、プレフィックス「wandb-registry」、registry の名前、およびコレクションの名前をスラッシュで区切ったものです。
 
 ```text
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
 ```
 
-Copy and paste the code snippet below to link an artifact version to a collection within an existing registry. Replace values enclosed in `<>` with your own:
+既存の registry 内のコレクションにアーティファクト のバージョンをリンクするには、以下のコードスニペットをコピーして貼り付けます。`< >` で囲まれた値はご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-# Initialize a run
+# run を初期化します
 run = wandb.init(
   entity = "<team_entity>",
   project = "<project_name>"
 )
 
-# Create an artifact object
-# The type parameter specifies both the type of the 
-# artifact object and the collection type
+# アーティファクト オブジェクトを作成します
+# type パラメータは、
+# アーティファクト オブジェクトの type とコレクションの type の両方を指定します。
 artifact = wandb.Artifact(name = "<name>", type = "<type>")
 
-# Add the file to the artifact object. 
-# Specify the path to the file on your local machine.
+# ファイルを アーティファクト オブジェクトに追加します。
+# ローカルマシン上のファイルのパスを指定します。
 artifact.add_file(local_path = "<local_path_to_artifact>")
 
-# Specify the collection and registry to link the artifact to
+# アーティファクト をリンクするコレクションと registry を指定します。
 REGISTRY_NAME = "<registry_name>"  
 COLLECTION_NAME = "<collection_name>"
 target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-# Link the artifact to the collection
+# アーティファクト をコレクションにリンクします
 run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 {{% alert %}}
-If you want to link an artifact version to the Model registry or the Dataset registry, set the artifact type to `"model"` or `"dataset"`, respectively.
+アーティファクト のバージョンをモデルレジストリ または データセット レジストリにリンクしたい場合は、アーティファクト の type をそれぞれ `"model"` または `"dataset"` に設定してください。
 {{% /alert %}}
 
   {{% /tab %}}
   {{% tab header="Registry App" %}}
-1. Navigate to the Registry App.
-    {{< img src="/images/registry/navigate_to_registry_app.png" alt="Registry App navigation" >}}
-2. Hover your mouse next to the name of the collection you want to link an artifact version to.
-3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
-4. From the dropdown, select **Link new version**.
-5. From the sidebar that appears, select the name of a team from the **Team** dropdown.
-5. From the **Project** dropdown, select the name of the project that contains your artifact. 
-6. From the **Artifact** dropdown, select the name of the artifact. 
-7. From the **Version** dropdown, select the artifact version you want to link to the collection.
+1. Registry App に移動します。
+    {{< img src="/images/registry/navigate_to_registry_app.png" alt="Registry App のナビゲーション" >}}
+2. アーティファクト のバージョンをリンクしたいコレクション名の横にマウスを合わせます。
+3. 「**View details**」の横にあるミートボールメニューアイコン (3つの水平な点) を選択します。
+4. ドロップダウンから「**Link new version**」を選択します。
+5. 表示されるサイドバーから、「**Team**」ドロップダウンからチーム名を選択します。
+6. 「**Project**」ドロップダウンから、アーティファクト を含むプロジェクト の名前を選択します。
+7. 「**Artifact**」ドロップダウンから、アーティファクト の名前を選択します。
+8. 「**Version**」ドロップダウンから、コレクションにリンクしたいアーティファクト のバージョンを選択します。
 
-<!-- TO DO insert gif -->  
   {{% /tab %}}
   {{% tab header="Artifact browser" %}}
-1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
-2. Select the Artifacts icon on the left sidebar.
-3. Click on the artifact version you want to link to your registry.
-4. Within the **Version overview** section, click the **Link to registry** button.
-5. From the modal that appears on the right of the screen, select an artifact from the **Select a register model** menu dropdown. 
-6. Click **Next step**.
-7. (Optional) Select an alias from the **Aliases** dropdown. 
-8. Click **Link to registry**. 
+1. W&B App で プロジェクト の Artifact browser に移動します: `https://wandb.ai/<entity>/<project>/artifacts`
+2. 左サイドバーの Artifacts アイコンを選択します。
+3. registry にリンクしたいアーティファクト のバージョンをクリックします。
+4. 「**Version overview**」セクション内で、「**Link to registry**」ボタンをクリックします。
+5. 画面右に表示されるモーダルから、「**Select a register model**」メニュードロップダウンからアーティファクト を選択します。
+6. 「**Next step**」をクリックします。
+7. (オプション) 「**Aliases**」ドロップダウンからエイリアスを選択します。
+8. 「**Link to registry**」をクリックします。
 
-<!-- Update this gif -->
-<!-- {{< img src="/images/models/manual_linking.gif" alt="" >}} -->  
   {{% /tab %}}
 {{< /tabpane >}}
 
+リンクされたアーティファクト のメタデータ、バージョンデータ、使用状況、リネージ情報などを Registry App で表示します。
 
+## registry でリンクされたアーティファクト を表示する
 
-<!-- {{% alert title="Linked vs source artifact versions" %}}
-* Source version: the artifact version inside a team's project that is logged to a [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}).
-* Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
-{{% /alert %}}
- -->
+Registry App で、メタデータ、リネージ、使用状況情報など、リンクされたアーティファクト に関する情報を表示します。
 
-View a linked artifact's metadata, version data, usage, lineage information and more in the Registry App.
+1. Registry App に移動します。
+2. アーティファクト をリンクした registry の名前を選択します。
+3. コレクションの名前を選択します。
+4. コレクションのアーティファクト がメトリクスをログする場合、「**Show metrics**」をクリックしてバージョン間でメトリクスを比較します。
+5. アーティファクト のバージョンリストから、アクセスしたいバージョンを選択します。バージョン番号は、リンクされた各アーティファクト のバージョンに `v0` から順に割り当てられます。
+6. アーティファクト のバージョンの詳細を表示するには、そのバージョンをクリックします。このページのタブから、そのバージョンのメタデータ (ログされたメトリクスを含む)、リネージ、および使用状況情報を表示できます。
 
-## View linked artifacts in a registry
+「**Version**」タブ内の「**Full Name**」フィールドに注目してください。リンクされたアーティファクト のフルネームは、registry、コレクション名、およびアーティファクト のバージョンのエイリアスまたはインデックスで構成されます。
 
-View information about linked artifacts such as metadata, lineage, and usage information in the Registry App.
-
-1. Navigate to the Registry App.
-2. Select the name of the registry that you linked the artifact to.
-3. Select the name of the collection.
-4. If the collection's artifacts log metrics, compare metrics across versions by clicking **Show metrics**.
-4. From the list of artifact versions, select the version you want to access. Version numbers are incrementally assigned to each linked artifact version starting with `v0`.
-5. To view details about an artifact version, click the version. From the tabs in this page, you can view that version's metadata (including logged metrics), lineage, and usage information.
-
-Make note of the **Full Name** field within the **Version** tab. The full name of a linked artifact consists of the registry, collection name, and the alias or index of the artifact version.
-
-```text title="Full name of a linked artifact"
+```text title="リンクされたアーティファクト のフルネーム"
 wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 ```
 
-You need the full name of a linked artifact to access the artifact version programmatically.
+リンクされたアーティファクト のフルネームは、アーティファクト のバージョンにプログラムでアクセスするために必要です。
 
-## Troubleshooting 
+## トラブルシューティング
 
-Below are some common things to double check if you are not able to link an artifact. 
+アーティファクト をリンクできない場合に再確認すべき一般的な事項を以下に示します。
 
-### Logging artifacts from a personal account
+### 個人アカウントからのアーティファクト のログ
 
-Artifacts logged to W&B with a personal entity can not be linked to the registry. Make sure that you log artifacts using a team entity within your organization. Only artifacts logged within an organization's team can be linked to the organization's registry. 
-
+個人の entity で W&B にログされた Artifacts は registry にリンクできません。組織内のチーム entity を使用して Artifacts をログしていることを確認してください。組織のチーム内でログされた Artifacts のみが、組織の registry にリンクできます。
 
 {{% alert title="" %}}
-Ensure that you log an artifact with a team entity if you want to link that artifact to a registry.
+アーティファクト を registry にリンクしたい場合は、チーム entity でアーティファクト をログしていることを確認してください。
 {{% /alert %}}
 
+#### チームの entity を見つける
 
-#### Find your team entity
+W&B は、チームの名前をチームの entity として使用します。たとえば、チーム名が **team-awesome** の場合、チームの entity は `team-awesome` です。
 
-W&B uses the name of your team as the team's entity. For example, if your team is called **team-awesome**, your team entity is `team-awesome`.
+チームの名前は、以下の方法で確認できます。
 
-You can confirm the name of your team by:
+1. チームの W&B プロフィールページに移動します。
+2. サイトの URL をコピーします。`https://wandb.ai/<team>` の形式です。ここで `<team>` はチームの名前とチームの entity の両方です。
 
-1. Navigate to your team's W&B profile page.
-2. Copy the site's URL. It has the form of `https://wandb.ai/<team>`. Where `<team>` is the both the name of your team and the team's entity.
-
-#### Log from a team entity
-1. Specify the team as the entity when you initialize a run with [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity.
+#### チーム entity からログする
+1. [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) で run を初期化する際に、チームを entity として指定します。run を初期化する際に `entity` を指定しない場合、run はデフォルトの entity を使用しますが、これはチームの entity である場合とそうでない場合があります。
 
   ```python 
   import wandb   
@@ -175,45 +161,45 @@ You can confirm the name of your team by:
     )
   ```
 
-2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with:
+2. run.log_artifact を使用するか、Artifact オブジェクトを作成してそれにファイルを追加することで、アーティファクト を run にログします。
 
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
     ```
-    To log artifacts, see [Construct artifacts]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}).
-3. If an artifact is logged to your personal entity, you will need to re-log it to an entity within your organization.
+    Artifacts をログするには、[アーティファクト の構築]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}) を参照してください。
+3. アーティファクト が個人の entity にログされている場合、組織内の entity に再ログする必要があります。
 
-### Confirm the path of a registry in the W&B App UI
+### W&B App UI で registry のパスを確認する
 
-There are two ways to confirm the path of a registry with the UI: create an empty collection and view the collection details or copy and paste the autogenerated code on the collection's homepage.
+UI で registry のパスを確認する方法は 2 つあります。空のコレクションを作成してコレクションの詳細を表示するか、コレクションのホームページで自動生成されたコードをコピー＆ペーストする方法です。
 
-#### Copy and paste autogenerated code
+#### 自動生成されたコードをコピー＆ペーストする
 
-1. Navigate to the Registry app at https://wandb.ai/registry/.
-2. Click the registry you want to link an artifact to.
-3. At the top of the page, you will see an autogenerated code block. 
-4. Copy and paste this into your code, ensure to replace the last part of the path with the name of your collection.
+1. Registry app (https://wandb.ai/registry/) に移動します。
+2. アーティファクト をリンクしたい registry をクリックします。
+3. ページの上部に、自動生成されたコードブロックが表示されます。
+4. これをコードにコピー＆ペーストし、パスの最後の部分をコレクションの名前に置き換えてください。
 
-{{< img src="/images/registry/get_autogenerated_code.gif" alt="Auto-generated code snippet" >}}
+{{< img src="/images/registry/get_autogenerated_code.gif" alt="自動生成されたコードスニペット" >}}
 
-#### Create an empty collection
+#### 空のコレクションを作成する
 
-1. Navigate to the Registry app at https://wandb.ai/registry/.
-2. Click the registry you want to link an artifact to.
-4. Click on the empty collection. If an empty collection does not exist, create a new collection.
-5. Within the code snippet that appears, identify the `target_path` field within `.link_artifact()`.
-6. (Optional) Delete the collection.
+1. Registry app (https://wandb.ai/registry/) に移動します。
+2. アーティファクト をリンクしたい registry をクリックします。
+3. 空のコレクションをクリックします。空のコレクションが存在しない場合は、新しいコレクションを作成します。
+4. 表示されるコードスニペット内で、`.link_artifact()` 内の `target_path` フィールドを特定します。
+5. (オプション) コレクションを削除します。
 
-{{< img src="/images/registry/check_empty_collection.gif" alt="Create an empty collection" >}}
+{{< img src="/images/registry/check_empty_collection.gif" alt="空のコレクションを作成する" >}}
 
-For example, after completing the steps outlined, you find the code block with the `target_path` parameter:
+たとえば、上記の手順を完了した後、`target_path` パラメータを含むコードブロックが見つかります。
 
 ```python
 target_path = 
       "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
 ```
 
-Breaking this down into its components, you can see what you will need to use to create the path to link your artifact programmatically:
+これを構成要素に分解すると、アーティファクト をプログラムでリンクするためのパスを作成するために必要なものがわかります。
 
 ```python
 ORG_ENTITY_NAME = "smle-registries-bug-bash"
@@ -222,5 +208,5 @@ COLLECTION_NAME = "raw_images"
 ```
 
 {{% alert %}}
-Ensure that you replace the name of the collection from the temporary collection with the name of the collection that you want to link your artifact to.
+一時的なコレクションの名前を、アーティファクト をリンクしたいコレクションの名前に置き換えていることを確認してください。
 {{% /alert %}}

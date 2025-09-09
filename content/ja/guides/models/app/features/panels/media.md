@@ -1,95 +1,95 @@
 ---
+title: メディア パネル
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-media
     parent: panels
-title: Media panels
 weight: 50
 ---
 
-A media panel visualizes [logged keys for media objects]({{< relref path="/guides/models/track/log/media.md" lang="ja" >}}), including 3D objects, audio, images, video, or point clouds. This page shows how to add and manage media panels in a workspace.
+メディアパネルは、3D オブジェクト、音声、画像、動画、点群などの [メディア オブジェクトのログされたキー]({{< relref path="/guides/models/track/log/media.md" lang="ja" >}}) を可視化します。このページでは、Workspace でメディアパネルを追加・管理する方法を説明します。
 
-{{< img src="/images/app_ui/demo-media-panel.png" alt="Demo of a media panel" >}}
+{{< img src="/images/app_ui/demo-media-panel.png" alt="メディアパネルのデモ" >}}
 
-## Add a media panel
-To add a media panel for a logged key using the default configuration, use Quick Add. You can add a media panel globally or to a specific section.
+## メディアパネルを追加する
+デフォルトの設定でログされたキーのメディアパネルを追加するには、Quick Add を使います。メディアパネルはグローバルにも、特定のセクションにも追加できます。
 
-1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
-1. In the list of available panels, find the key for the panel, then click **Add**. Repeat this step for each media panel you want to add, then click the **X** at the top right to close the **Quick Add** list.
-1. Optionally, [configure the panel]({{< relref path="#configure-a-media-panel" lang="ja" >}}).
+1. グローバル: パネル検索フィールド付近のコントロールバーで **Add panels** をクリックします。
+1. セクション: セクションのアクションメニュー `...` をクリックし、**Add panels** をクリックします。
+1. 利用可能なパネル一覧で、そのパネルのキーを見つけて **Add** をクリックします。追加したいメディアパネルごとにこの手順を繰り返し、右上の **X** をクリックして **Quick Add** の一覧を閉じます。
+1. 必要に応じて、[パネルを設定]({{< relref path="#configure-a-media-panel" lang="ja" >}}) します。
 
-You can add a media panel globally or to a specific section:
-1. **Global**: Click **Add panels** in the control bar near the panel search field.
-1. **Section**: Click the section's action `...` menu, then click **Add panels**.
-1. Click the **Media** section to expand it.
-1. Select the type of media the panel visualizes, 3d objects, images, video, or audio. The panel configuration screen displays. Configure the panel, then click **Apply**. Refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ja" >}}).
+メディアパネルはグローバルにも、特定のセクションにも追加できます:
+1. グローバル: パネル検索フィールド付近のコントロールバーで **Add panels** をクリックします。
+1. セクション: セクションのアクションメニュー `...` をクリックし、**Add panels** をクリックします。
+1. **Media** セクションをクリックして展開します。
+1. パネルが可視化するメディアの種類 (3D オブジェクト、画像、動画、音声) を選択します。パネルの設定画面が表示されます。パネルを設定して **Apply** をクリックします。詳細は [メディアパネルを設定する]({{< relref path="#configure-a-media-panel" lang="ja" >}}) を参照してください。
 
-## Configure a media panel
-Panels for all media types have the same options.
+## メディアパネルを設定する
+すべてのメディアタイプで同じオプションがあります。
 
-When you add a media panel manually, its configuration page opens after you select the type of media. To update the configuration for an existing panel, hover over the panel, then click the gear icon that appears at the top right. This section describes the settings available in each tab.
+メディアパネルを手動で追加すると、メディアの種類を選択したあとに設定ページが開きます。既存のパネルの設定を更新するには、パネルにカーソルを合わせ、右上に表示される歯車アイコンをクリックします。このセクションでは、各タブで利用できる設定を説明します。
 
 ### Overlays
-This tab appears for images and point clouds logged with segmentation masks or bounding boxes.
-- Search and filter overlays by name.
-- Customize overlay colors.
+このタブは、セグメンテーションマスクやバウンディングボックス付きでログされた画像および点群に表示されます。
+- オーバーレイを名前で検索・フィルタリングします。
+- オーバーレイの色をカスタマイズします。
 
 ### Display
-Customize the panel's overall appearance and behavior.
-- Configure the panel's title.
-- Select the media keys to visualize.
-- Customize the panel's slider and playback behavior.
-  - Configure the slider key, which defaults to **Step**.
-  - Set **Stride length** to the number of steps to advance for each click of the slider.
-  - Turn on or off **Snap to existing step**. If it is turned on, the stepper advances to the next existing step after **Stride length**. Otherwise, it advances by **Stride length** even if that does not align with an existing step.
-- **Images**: Turn on or off smoothing.
-- **3d objects**: Configure the background color and point color.
+パネルの全体的な外観と振る舞いをカスタマイズします。
+- パネルのタイトルを設定します。
+- 可視化するメディアキーを選択します。
+- パネルのスライダーと再生の振る舞いをカスタマイズします。
+  - スライダーのキーを設定します (デフォルトは **Step** )。
+  - スライダーを 1 回クリックするごとに進めるステップ数を **Stride length** に設定します。
+  - **Snap to existing step** のオン/オフを切り替えます。オンの場合、**Stride length** のあとに次の既存ステップへ進みます。オフの場合、既存のステップに揃わなくても **Stride length** 分だけ進みます。
+- **Images**: スムージングのオン/オフを切り替えます。
+- **3D オブジェクト**: 背景色と点の色を設定します。
 
 ### Layout
-Customize the display of the panel's individual items.
-- Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
-  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
-- Optionally limit the **Max runs to include** in the panel.
-- Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- **Images and videos**: Turn on or off display of full-size media.
-- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
-- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
+パネルの各アイテムの表示をカスタマイズします。
+- **Grid mode** のオン/オフを切り替えます。
+  - オンの場合、各アイテムの上にプロットするカスタムの X 軸、Y 軸を選べます。各行に複数のアイテムが表示され、表示する行数を制限できます。
+  - オフの場合、パネルのコンテンツに使う列数をカスタマイズでき、コンテンツ (デフォルトは **Run** ) を設定できます。
+- パネルに含める **Max runs to include** を任意で制限します。
+- run ごとに含めるメディアアイテム数を制限する **Media display limit** を任意で指定します。
+- **Images と Videos**: フルサイズメディアの表示のオン/オフを切り替えます。
+- **Images**: **Fit media** がオンのとき、パネルのサイズに合うようメディアをリサイズします。
+- **Point clouds**: 既定の左手系ではなく、点のプロットに右手系を任意で有効化できます。
 
-### All media panels in a section
-To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
-1. Click the section's gear icon to open its settings.
-1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display**, **Layout**, or **Sync** tab to configure the default media settings for the section. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the section's current media panels.
+### セクション内のすべてのメディアパネル
+セクション内のすべてのメディアパネルのデフォルト設定をカスタマイズし、Workspace のメディア設定を上書きするには:
+1. セクションの歯車アイコンをクリックして設定を開きます。
+1. **Media settings** をクリックします。
+1. 表示されるドロワー内で **Display**、**Layout**、または **Sync** タブをクリックして、そのセクションのデフォルトのメディア設定を行います。画像、動画、音声、3D オブジェクトの設定が可能です。表示される設定は、そのセクションの現在のメディアパネルに依存します。
 
-Refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ja" >}}) for details about a specific setting for **Display** or **Layout** media setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
+**Display** または **Layout** の各設定の詳細は、[メディアパネルを設定する]({{< relref path="#configure-a-media-panel" lang="ja" >}}) を参照してください。**Sync** タブは個々のメディアパネルではなく、セクションまたは Workspace レベルでのみ利用可能です。
 
-When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
+**Step slider syncing** をオンにすると、同じステップスライダーを持つそのセクションのメディアパネル同士が同期されます。ステップスライダーの同期を有効にするには:
 
-    1. Click the **Sync** tab.
-    1. Turn on **Sync slider by key (Step)**.
+    1. **Sync** タブをクリックします。
+    1. **Sync slider by key (Step)** をオンにします。
 
-### All media panels in a workspace 
-To customize the default settings for all media panels in a workspace:
-1. Click the workspace's settings, which has a gear with the label **Settings**.
-1. Click **Media settings**.
-1. Within the drawer that appears, click the **Display** or **Layout** tab to configure the default media settings for the workspace. You can configure settings for images, videos, audio, and 3d objects. The settings that appear depend on the workspace's current media panels.
+### Workspace 内のすべてのメディアパネル
+Workspace のすべてのメディアパネルのデフォルト設定をカスタマイズするには:
+1. 歯車と **Settings** のラベルが付いた Workspace の設定をクリックします。
+1. **Media settings** をクリックします。
+1. 表示されるドロワー内で **Display** または **Layout** タブをクリックして、Workspace のデフォルトのメディア設定を行います。画像、動画、音声、3D オブジェクトの設定が可能です。表示される設定は、Workspace の現在のメディアパネルに依存します。
 
-With the exception of the **Sync** tab, refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ja" >}}) for details about a setting. The **Sync** tab is available only at the section or workspace level, not for individual media panels.
+**Sync** タブを除き、各設定の詳細は [メディアパネルを設定する]({{< relref path="#configure-a-media-panel" lang="ja" >}}) を参照してください。**Sync** タブは個々のメディアパネルではなく、セクションまたは Workspace レベルでのみ利用可能です。
 
-When **Step slider syncing** is turned on, the section's media panels with the same step slider are kept in sync. To turn on step slider syncing:
+**Step slider syncing** をオンにすると、同じステップスライダーを持つそのセクションのメディアパネル同士が同期されます。ステップスライダーの同期を有効にするには:
 
-1. Click the **Sync** tab.
-1. Turn on **Sync slider by key (Step)**.
+1. **Sync** タブをクリックします。
+1. **Sync slider by key (Step)** をオンにします。
 
-For details about each setting, refer to [Configure a media panel]({{< relref path="#configure-a-media-panel" lang="ja" >}}).
+各設定の詳細は、[メディアパネルを設定する]({{< relref path="#configure-a-media-panel" lang="ja" >}}) を参照してください。
 
-## Interact with a media panel
-- Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
-- To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
-- To move a media panel's step slider, use **CMD + left or right arrow key** (macOS) or **Ctrl + left or right arrow key** (Windows / Linux). If **Sync slider by key (Step)** is turned on for the section or workspace, moving the step slider in one media panel also moves the step slider in other media panels with the same step slider key.
-- Use the stepper at the top of a media panel to step through media runs. To move the step slider, use the UI controls or 
-- To configure a media panel, hover over it and click the gear icon at the top.
-- For an image that was logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
-- For an image or point cloud that was logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
+## メディアパネルを操作する
+- メディアパネルをクリックすると全画面表示になります。パネル上部の矢印ボタンで全画面表示を終了します。
+- 全画面表示を維持したままセクション内のパネルを移動するには、パネル下部の **Previous** と **Next** ボタン、または左右の矢印キーを使います。
+- メディアパネルのステップスライダーを動かすには、**CMD + 左右矢印キー** (macOS) または **Ctrl + 左右矢印キー** (Windows / Linux) を使います。セクションまたは Workspace で **Sync slider by key (Step)** がオンの場合、あるメディアパネルのステップスライダーを動かすと、同じステップスライダー キーを持つ他のメディアパネルのスライダーも同様に動きます。
+- メディアパネル上部のステッパーを使って、メディアの run をステップ送りできます。ステップスライダーを動かすには、UI コントロールを使うか
+- メディアパネルを設定するには、パネルにカーソルを合わせて上部の歯車アイコンをクリックします。
+- セグメンテーションマスク付きでログされた画像では、見た目をカスタマイズしたり、個別にオン/オフを切り替えられます。パネルにカーソルを合わせ、下側の歯車アイコンをクリックします。
+- バウンディングボックス付きでログされた画像または点群でも、見た目をカスタマイズしたり、個別にオン/オフを切り替えられます。パネルにカーソルを合わせ、下側の歯車アイコンをクリックします。

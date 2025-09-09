@@ -1,22 +1,22 @@
 ---
+title: 匿名ユーザーが利用できない機能は何ですか？
 menu:
   support:
     identifier: ja-support-kb-articles-anon_users_unavailable_features
 support:
-- anonymous
-title: What are features that are not available to anonymous users?
+- 匿名
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-* **No persistent data**: Runs save for 7 days in an anonymous account. Claim anonymous run data by saving it to a real account.
+* **永続的なデータはありません**: 匿名 アカウント では Runs は 7 日間だけ保存されます。匿名 run の データ は、実際の アカウント に保存することで引き継げます。
 
-{{< img src="/images/app_ui/anon_mode_no_data.png" alt="Anonymous mode interface" >}}
+{{< img src="/images/app_ui/anon_mode_no_data.png" alt="匿名モードのインターフェース" >}}
 
-* **No artifact logging**: A warning appears on the command line when attempting to log an artifact to an anonymous run:
+* **Artifacts の ログはできません**: 匿名 run に Artifacts を ログ しようとすると、コマンドラインに警告が表示されます:
     ```bash
     wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
     ```
 
-* **No profile or settings pages**: The UI does not include certain pages, as they are only useful for real accounts.
+* **プロフィールや設定ページはありません**: UI には一部のページが含まれていません。これらは実際の アカウント でのみ有用なためです。

@@ -1,14 +1,14 @@
 ---
+title: 以前のステップのログを上書きするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_overwrite_the_logs_from_previous_steps
 support:
-- logs
-- metrics
-title: How can I overwrite the logs from previous steps?
+- ログ
+- メトリクス
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To overwrite logs from previous steps, use [forking]({{< relref path="guides/models/track/runs/forking.md" lang="ja" >}}) and [rewind]({{< relref path="guides/models/track/runs/rewind.md" lang="ja" >}}).
+前のステップのログを上書きするには、[フォーキング]({{< relref path="guides/models/track/runs/forking.md" lang="ja" >}}) と [リワインド]({{< relref path="guides/models/track/runs/rewind.md" lang="ja" >}}) を使用します。

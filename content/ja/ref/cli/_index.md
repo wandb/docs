@@ -1,49 +1,49 @@
 ---
+title: コマンドライン インターフェース
 menu:
   reference:
     identifier: ja-ref-cli-_index
-title: Command Line Interface
 weight: 2
 ---
 
-**Usage**
+**使い方**
 
 `wandb [OPTIONS] COMMAND [ARGS]...`
 
 
 
-**Options**
+**オプション**
 
 | **Option** | **Description** |
 | :--- | :--- |
-| `--version` | Show the version and exit. |
+| `--version` | バージョンを表示して終了します。 |
 
 
-**Commands**
+**コマンド**
 
 | **Command** | **Description** |
 | :--- | :--- |
-| agent | Run the W&B agent |
-| artifact | Commands for interacting with artifacts |
-| beta | Beta versions of wandb CLI commands. |
-| controller | Run the W&B local sweep controller |
-| disabled | Disable W&B. |
-| docker | Run your code in a docker container. |
-| docker-run | Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER... |
-| enabled | Enable W&B. |
-| init | Configure a directory with Weights & Biases |
-| job | Commands for managing and viewing W&B jobs |
-| launch | Launch or queue a W&B Job. |
-| launch-agent | Run a W&B launch agent. |
-| launch-sweep | Run a W&B launch sweep (Experimental). |
-| login | Login to Weights & Biases |
-| offline | Disable W&B sync |
-| online | Enable W&B sync |
-| pull | Pull files from Weights & Biases |
-| restore | Restore code, config and docker state for a run |
-| scheduler | Run a W&B launch sweep scheduler (Experimental) |
-| server | Commands for operating a local W&B server |
-| status | Show configuration settings |
-| sweep | Initialize a hyperparameter sweep. |
-| sync | Upload an offline training directory to W&B |
-| verify | Verify your local instance |
+| agent | W&B エージェントを実行します |
+| artifact | artifacts とやり取りするためのコマンド |
+| beta | wandb CLI コマンドのベータ版。 |
+| controller | W&B のローカル sweep コントローラを実行します |
+| disabled | W&B を無効化します。 |
+| docker | docker コンテナでコードを実行します。 |
+| docker-run | `docker run` をラップし、WANDB_API_KEY と WANDB_DOCKER... を追加します。 |
+| enabled | W&B を有効化します。 |
+| init | Weights & Biases 用にディレクトリーを設定します |
+| job | W&B ジョブの管理と表示のためのコマンド |
+| launch | W&B Job を Launch する、またはキューに入れます。 |
+| launch-agent | W&B Launch エージェントを実行します。 |
+| launch-sweep | W&B Launch sweep を実行します（実験的）。 |
+| login | Weights & Biases にログインします |
+| offline | W&B の同期を無効化します |
+| online | W&B の同期を有効化します |
+| pull | Weights & Biases からファイルを取得します |
+| restore | run のためのコード、設定、docker の状態を復元します |
+| scheduler | W&B Launch sweep スケジューラを実行します（実験的） |
+| server | ローカルの W&B サーバーを操作するためのコマンド |
+| status | 設定を表示します |
+| sweep | ハイパーパラメーター sweep を初期化します。 |
+| sync | オフラインのトレーニングディレクトリーを W&B にアップロードします |
+| verify | ローカル インスタンスを検証します |

@@ -1,27 +1,26 @@
 ---
+title: MetricChangeFilter
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-automations-metricchangefilter
 object_type: automations_namespace
-title: MetricChangeFilter
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py >}}
 
 
 
-Defines a filter that compares a change in a run metric against a user-defined threshold.
+run メトリクスの変化をユーザー定義のしきい値と比較するフィルターを定義します。
 
-The change is calculated over "tumbling" windows, i.e. the difference
-between the current window and the non-overlapping prior window.
+この変化は "tumbling" ウィンドウ、すなわち現在のウィンドウと重なりのない直前のウィンドウとの差分として計算されます。
 
-Attributes:
-- agg (Optional): Aggregate operation, if any, to apply over the window size.
-- change_dir (ChangeDir): No description provided.
-- change_type (ChangeType): No description provided.
-- name (str): Name of the observed metric.
-- prior_window (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
-    If omitted, defaults to the size of the current window.
-- threshold (Union): Threshold value to compare against.
-- window (int): Size of the window over which the metric is aggregated (ignored if `agg is None`).
+属性:
+- agg (Optional): ウィンドウ サイズに対して適用する集約処理（ある場合）。
+- change_dir (ChangeDir): 説明はありません。
+- change_type (ChangeType): 説明はありません。
+- name (str): 監視対象のメトリクス名。
+- prior_window (int): メトリクスを集約する直前ウィンドウのサイズ（`agg is None` の場合は無視されます）。
+    省略時は現在のウィンドウのサイズがデフォルトになります。
+- threshold (Union): 比較対象となるしきい値。
+- window (int): メトリクスを集約するウィンドウのサイズ（`agg is None` の場合は無視されます）。

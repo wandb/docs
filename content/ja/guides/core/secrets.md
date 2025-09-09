@@ -1,59 +1,46 @@
 ---
-description: Overview of W&B secrets, how they work, and how to get started using
-  them.
+title: シークレット
+description: W&B Secrets の概要、その仕組み、および利用開始方法。
 menu:
   default:
     identifier: ja-guides-core-secrets
     parent: core
-title: Secrets
 url: guides/secrets
 weight: 1
 ---
 
-W&B Secret Manager allows you to securely and centrally store, manage, and inject _secrets_, which are sensitive strings such as access tokens, bearer tokens, API keys, or passwords. W&B Secret Manager removes the need to add sensitive strings directly to your code or when configuring a webhook's header or [payload]({{< relref path="/guides/core/automations/" lang="ja" >}}).
-
-Secrets are stored and managed in each team's Secret Manager, in the **Team secrets** section of the [team settings]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}}).
-
+W&B Secret Manager を使用すると、アクセストークン、ベアラートークン、API キー、パスワードなどの機密文字列である _シークレット_ を安全かつ一元的に保存、管理、注入できます。W&B Secret Manager を使用すると、コードに直接機密文字列を追加したり、Webhook のヘッダーや [ペイロード]({{< relref path="/guides/core/automations/" lang="ja" >}}) を設定したりする必要がなくなります。
+シークレットは、各チームの Secret Manager 内で、[チーム設定]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}}) の **チームシークレット** セクションに保存、管理されます。
 {{% alert %}}
-* Only W&B Admins can create, edit, or delete a secret.
-* Secrets are included as a core part of W&B, including in [W&B Server deployments]({{< relref path="/guides/hosting/" lang="ja" >}}) that you host in Azure, GCP, or AWS. Connect with your W&B account team to discuss how you can use secrets in W&B if you use a different deployment type.
-* In W&B Server, you are responsible for configuring security measures that satisfy your security needs. 
-
-  - W&B strongly recommends that you store secrets in a W&B instance of a cloud provider's secrets manager provided by AWS, GCP, or Azure, which are configured with advanced security capabilities.
-
-  - W&B recommends against using a Kubernetes cluster as the backend of your secrets store unless you are unable to use a W&B instance of a cloud secrets manager (AWS, GCP, or Azure), and you understand how to prevent security vulnerabilities that can occur if you use a cluster.
+* W&B 管理者のみがシークレットを作成、編集、または削除できます。
+* シークレットは、Azure、GCP、または AWS でホストする [W&B Server のデプロイメント]({{< relref path="/guides/hosting/" lang="ja" >}}) を含め、W&B のコア機能の一部です。異なるデプロイメントタイプを使用している場合は、W&B でシークレットをどのように利用できるかについて W&B のアカウントチームにご相談ください。
+* W&B Server では、セキュリティ要件を満たすための対策を設定する責任があります。
+  - W&B は、高度なセキュリティ機能で構成された AWS、GCP、または Azure が提供するクラウドプロバイダーのシークレットマネージャー上の W&B インスタンスにシークレットを保存することを強く推奨します。
+  - W&B は、クラウドシークレットマネージャー (AWS、GCP、または Azure) 上の W&B インスタンスを使用できない場合や、クラスター利用時に発生し得るセキュリティ脆弱性の対策を理解していない限り、Kubernetes クラスターをシークレットストアのバックエンドとして使用することは推奨しません。
 {{% /alert %}}
-
-## Add a secret
-To add a secret:
-
-1. If the receiving service requires it to authenticate incoming webhooks, generate the required token or API key. If necessary, save the sensitive string securely, such as in a password manager.
-1. Log in to W&B and go to the team's **Settings** page.
-1. In the **Team Secrets** section, click **New secret**.
-1. Using letters, numbers, and underscores (`_`), provide a name for the secret.
-1. Paste the sensitive string into the **Secret** field.
-1. Click **Add secret**.
-
-Specify the secrets you want to use for your webhook automation when you configure the webhook. See the [Configure a webhook]({{< relref path="#configure-a-webhook" lang="ja" >}}) section for more information. 
-
+## シークレットの追加
+シークレットを追加するには：
+1. 受信サービスが着信 Webhook を認証するために必要な場合は、必要なトークンまたは API キーを生成します。必要に応じて、パスワードマネージャーなどに機密文字列を安全に保管します。
+2. W&B にログインし、チームの **設定** ページに移動します。
+3. **チームシークレット** セクションで、**新しいシークレット** をクリックします。
+4. 文字、数字、アンダースコア (`_`) を使用して、シークレット名を指定します。
+5. 機密文字列を **シークレット** フィールドに貼り付けます。
+6. **シークレットを追加** をクリックします。
+Webhook を設定する際に、Webhook オートメーションで使用するシークレットを指定します。詳細については、[Webhook を設定する]({{< relref path="#configure-a-webhook" lang="ja" >}}) セクションを参照してください。
 {{% alert %}}
-Once you create a secret, you can access that secret in a [webhook automation's payload]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}}) using the format `${SECRET_NAME}`.
+シークレットを作成すると、`${SECRET_NAME}` の形式を使用して、[Webhook オートメーションのペイロード]({{< relref path="/guides/core/automations/create-automations/webhook.md" lang="ja" >}}) でそのシークレットにアクセスできます。
 {{% /alert %}}
-
-## Rotate a secret
-To rotate a secret and update its value:
-1. Click the pencil icon in the secret's row to open the secret's details.
-1. Set **Secret** to the new value. Optionally click **Reveal secret** to verify the new value.
-1. Click **Add secret**. The secret's value updates and no longer resolves to the previous value.
-
+## シークレットのローテーション
+シークレットをローテーションしてその値を更新するには：
+1. シークレットの行にある鉛筆アイコンをクリックして、シークレットの詳細を開きます。
+2. **シークレット** を新しい値に設定します。必要に応じて **シークレットを表示** をクリックして、新しい値を確認できます。
+3. **シークレットを追加** をクリックします。シークレットの値が更新され、以前の値は解決されなくなります。
 {{% alert %}}
-After a secret is created or updated, you can no longer reveal its current value. Instead, rotate the secret to a new value.
+シークレットが作成または更新されると、現在の値を表示することはできません。必要に応じて、シークレットを新しい値にローテーションしてください。
 {{% /alert %}}
-
-## Delete a secret
-To delete a secret:
-1. Click the trash icon in the secret's row.
-1. Read the confirmation dialog, then click **Delete**. The secret is deleted immediately and permanently.
-
-## Manage access to secrets
-A team's automations can use the team's secrets. Before you remove a secret, update or remove automations that use it so they don't stop working.
+## シークレットの削除
+シークレットを削除するには：
+1. シークレットの行にあるゴミ箱アイコンをクリックします。
+2. 確認ダイアログを読み、**削除** をクリックします。シークレットはすぐに完全に削除されます。
+## シークレットへのアクセスを管理
+チームのオートメーションは、チームのシークレットを使用できます。シークレットを削除する前に、それを使用しているオートメーションを更新または削除して、動作が停止しないようにしてください。

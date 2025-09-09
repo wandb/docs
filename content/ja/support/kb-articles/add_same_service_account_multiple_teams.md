@@ -1,14 +1,14 @@
 ---
+title: 同じ service account を複数の Teams に追加できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-add_same_service_account_multiple_teams
 support:
-- administrator
-- team management
-title: Is it possible to add the same service account to multiple teams?
+- 管理者
+- Team 管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-A service account cannot be added to multiple teams in W&B. Each service account is tied to a specific team.
+1 つのサービス アカウントを W&B の複数の Teams に追加することはできません。各サービス アカウントは特定の Team に紐づけられています。

@@ -1,39 +1,39 @@
 ---
+title: NVIDIA NeMo 推論マイクロサービスのデプロイジョブ
 menu:
   launch:
     identifier: ja-launch-integration-guides-nim
     parent: launch-integration-guides
-title: NVIDIA NeMo Inference Microservice Deploy Job
 url: guides/integrations/nim
 ---
 
-Deploy a model artifact from W&B to a NVIDIA NeMo Inference Microservice. To do this, use W&B Launch. W&B Launch converts model artifacts to NVIDIA NeMo Model and deploys to a running NIM/Triton server.
+W&B から NVIDIA NeMo Inference Microservice へモデル Artifact をデプロイします。これには W&B Launch を使用します。W&B Launch は model Artifacts を NVIDIA NeMo モデルに変換し、稼働中の NIM/Triton サーバーにデプロイします。
 
-W&B Launch currently accepts the following compatible model types:
+W&B Launch は現在、以下の互換モデルを受け付けています:
 
 1. [Llama2](https://llama.meta.com/llama2/)
 2. [StarCoder](https://github.com/bigcode-project/starcoder)
-3. NV-GPT (coming soon)
+3. NV-GPT（近日対応）
 
 {{% alert %}}
-Deployment time varies by model and machine type. The base Llama2-7b config takes about 1 minute on GCP's `a2-ultragpu-1g`.
+デプロイ時間はモデルとマシンの種類によって異なります。ベースの Llama2-7b 設定では、GCP の `a2-ultragpu-1g` で約 1 分です。
 {{% /alert %}}
 
-## Quickstart
+## クイックスタート
 
-1. [Create a launch queue]({{< relref path="../create-and-deploy-jobs/add-job-to-queue.md" lang="ja" >}}) if you don't have one already. See an example queue config below.
+1. まだない場合は [Launch キューを作成]({{< relref path="../create-and-deploy-jobs/add-job-to-queue.md" lang="ja" >}}) してください。以下はキュー設定の例です。
 
    ```yaml
    net: host
-   gpus: all # can be a specific set of GPUs or `all` to use everything
-   runtime: nvidia # also requires nvidia container runtime
+   gpus: all # 特定の GPU セットを指定するか、すべてを使う場合は `all`
+   runtime: nvidia # NVIDIA コンテナ ランタイムも必要
    volume:
      - model-store:/model-store/
    ```
 
    {{< img src="/images/integrations/nim1.png" alt="image" >}}
 
-2. Create this job in your project:
+2. あなたの Project で次のジョブを作成します:
 
    ```bash
    wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
@@ -44,12 +44,12 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
       git https://github.com/wandb/launch-jobs
    ```
 
-3. Launch an agent on your GPU machine:
+3. GPU マシンでエージェントを起動します:
    ```bash
    wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
    ```
-4. Submit the deployment launch job with your desired configs from the [Launch UI](https://wandb.ai/launch)
-   1. You can also submit via the CLI:
+4. [Launch UI](https://wandb.ai/launch) から、希望する設定でデプロイ用の Launch ジョブを送信します。
+   1. CLI から送信することもできます:
       ```bash
       wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
         -e $ENTITY \
@@ -58,9 +58,9 @@ Deployment time varies by model and machine type. The base Llama2-7b config take
         -c $CONFIG_JSON_FNAME
       ```
       {{< img src="/images/integrations/nim2.png" alt="image" >}}
-5. You can track the deployment process in the Launch UI.
+5. Launch UI でデプロイの進行状況を追跡できます。
    {{< img src="/images/integrations/nim3.png" alt="image" >}}
-6. Once complete, you can immediately curl the endpoint to test the model. The model name is always `ensemble`.
+6. 完了したら、エンドポイントに curl してすぐにモデルをテストできます。モデル名は常に `ensemble` です。
    ```bash
     #!/bin/bash
     curl -X POST "http://0.0.0.0:9999/v1/completions" \

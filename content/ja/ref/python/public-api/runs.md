@@ -1,10 +1,10 @@
 ---
+title: runs
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-runs
 object_type: public_apis_namespace
-title: runs
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py >}}
@@ -13,68 +13,68 @@ title: runs
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Runs. 
+W&B の Runs 向け Public API。 
 
-This module provides classes for interacting with W&B runs and their associated data. 
+このモジュールは、W&B の run とその関連 データ に対して操作するためのクラスを提供します。 
 
 
 
-**Example:**
+**例:**
  ```python
 from wandb.apis.public import Api
 
-# Get runs matching filters
+# フィルターに一致する run を取得
 runs = Api().runs(
      path="entity/project", filters={"state": "finished", "config.batch_size": 32}
 )
 
-# Access run data
+# run データへアクセス
 for run in runs:
      print(f"Run: {run.name}")
      print(f"Config: {run.config}")
      print(f"Metrics: {run.summary}")
 
-     # Get history with pandas
+     # pandas で履歴を取得
      history_df = run.history(keys=["loss", "accuracy"], pandas=True)
 
-     # Work with artifacts
+     # Artifacts を扱う
      for artifact in run.logged_artifacts():
          print(f"Artifact: {artifact.name}")
 ``` 
 
 
 
-**Note:**
+**注記:**
 
-> This module is part of the W&B Public API and provides read/write access to run data. For logging new runs, use the wandb.init() function from the main wandb package. 
+> このモジュールは W&B Public API の一部で、run データへの読み書き アクセス を提供します。新しい run を ログ する場合は、メインの wandb パッケージにある wandb.init() 関数を使用してください。 
 
 ## <kbd>class</kbd> `Runs`
-A lazy iterator of `Run` objects associated with a project and optional filter. 
+project と任意のフィルターに関連付けられた `Run` オブジェクトの遅延イテレーター。 
 
-Runs are retrieved in pages from the W&B server as needed. 
+必要に応じて W&B サーバー からページ単位で Runs が取得されます。 
 
-This is generally used indirectly using the `Api.runs` namespace. 
+通常は `Api.runs` 名前空間を通じて間接的に使用します。 
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  (`wandb.apis.public.RetryingClient`) The API client to use  for requests. 
- - `entity`:  (str) The entity (username or team) that owns the project. 
- - `project`:  (str) The name of the project to fetch runs from. 
- - `filters`:  (Optional[Dict[str, Any]]) A dictionary of filters to apply  to the runs query. 
- - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
- - `per_page`:  (int) The number of runs to fetch per request (default is 50). 
- - `include_sweeps`:  (bool) Whether to include sweep information in the  runs. Defaults to True. 
+ - `client`:  (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。 
+ - `entity`:  (str) project を所有する entity（ユーザー名または team）。 
+ - `project`:  (str) run を取得する対象の project 名。 
+ - `filters`:  (Optional[Dict[str, Any]]) run クエリに適用するフィルターの 辞書。 
+ - `order`:  (str) 並び順。`created_at`、`heartbeat_at`、`config.*.value`、`summary_metrics.*` を指定できます。先頭に + を付けると昇順（デフォルト）、- を付けると降順。デフォルトは古い順の run.created_at。 
+ - `per_page`:  (int) 1 リクエストで取得する run 数（デフォルト 50）。 
+ - `include_sweeps`:  (bool) Runs に Sweep 情報を含めるかどうか。デフォルトは True。 
 
 
 
-**Examples:**
+**例:**
  ```python
 from wandb.apis.public.runs import Runs
 from wandb.apis.public import Api
 
-# Get all runs from a project that satisfy the filters
+# フィルターを満たす project 内のすべての run を取得
 filters = {"state": "finished", "config.optimizer": "adam"}
 
 runs = Api().runs(
@@ -84,7 +84,7 @@ runs = Api().runs(
     filters=filters,
 )
 
-# Iterate over runs and print details
+# run を反復し詳細を表示
 for run in runs:
     print(f"Run name: {run.name}")
     print(f"Run ID: {run.id}")
@@ -95,12 +95,12 @@ for run in runs:
     print(f"Run history (samples=5): {run.history(samples=5)}")
     print("----------")
 
-# Get histories for all runs with specific metrics
+# 特定のメトリクスについて全 run の履歴を取得
 histories_df = runs.histories(
-    samples=100,  # Number of samples per run
-    keys=["loss", "accuracy"],  # Metrics to fetch
-    x_axis="_step",  # X-axis metric
-    format="pandas",  # Return as pandas DataFrame
+    samples=100,  # 各 run のサンプル数
+    keys=["loss", "accuracy"],  # 取得するメトリクス
+    x_axis="_step",  # X 軸に使うメトリクス
+    format="pandas",  # pandas DataFrame で返す
 )
 ``` 
 
@@ -148,64 +148,64 @@ histories(
 )
 ```
 
-Return sampled history metrics for all runs that fit the filters conditions. 
+フィルター条件に合致するすべての run について、サンプリングされた履歴メトリクスを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `samples`:  The number of samples to return per run 
- - `keys`:  Only return metrics for specific keys 
- - `x_axis`:  Use this metric as the xAxis defaults to _step 
- - `format`:  Format to return data in, options are "default", "pandas",  "polars" 
- - `stream`:  "default" for metrics, "system" for machine metrics 
+ - `samples`:  各 run で返すサンプル数 
+ - `keys`:  特定の キー のメトリクスのみを返す 
+ - `x_axis`:  このメトリクスを xAxis に使用（デフォルトは _step） 
+ - `format`:  返却形式。"default"、"pandas"、"polars" から選択 
+ - `stream`:  メトリクスには "default"、マシンメトリクスには "system" 
 
-**Returns:**
+**戻り値:**
  
- - `pandas.DataFrame`:  If `format="pandas"`, returns a `pandas.DataFrame`  of history metrics. 
- - `polars.DataFrame`:  If `format="polars"`, returns a `polars.DataFrame`  of history metrics. 
- - `list of dicts`:  If `format="default"`, returns a list of dicts  containing history metrics with a `run_id` key. 
+ - `pandas.DataFrame`:  `format="pandas"` の場合、履歴メトリクスの `pandas.DataFrame`。 
+ - `polars.DataFrame`:  `format="polars"` の場合、履歴メトリクスの `polars.DataFrame`。 
+ - `list of dicts`:  `format="default"` の場合、`run_id` キー を含む履歴メトリクスの dict のリスト。 
 
 
 ---
 
 ## <kbd>class</kbd> `Run`
-A single run associated with an entity and project. 
+entity と project に関連付けられた 1 つの run。 
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The W&B API client. 
- - `entity`:  The entity associated with the run. 
- - `project`:  The project associated with the run. 
- - `run_id`:  The unique identifier for the run. 
- - `attrs`:  The attributes of the run. 
- - `include_sweeps`:  Whether to include sweeps in the run. 
+ - `client`:  W&B API クライアント。 
+ - `entity`:  run に関連付けられた entity。 
+ - `project`:  run に関連付けられた project。 
+ - `run_id`:  run の一意な識別子。 
+ - `attrs`:  run の属性。 
+ - `include_sweeps`:  この run に Sweeps を含めるかどうか。 
 
 
 
-**Attributes:**
+**属性:**
  
- - `tags` ([str]):  a list of tags associated with the run 
- - `url` (str):  the url of this run 
- - `id` (str):  unique identifier for the run (defaults to eight characters) 
- - `name` (str):  the name of the run 
- - `state` (str):  one of: running, finished, crashed, killed, preempting, preempted 
- - `config` (dict):  a dict of hyperparameters associated with the run 
- - `created_at` (str):  ISO timestamp when the run was started 
- - `system_metrics` (dict):  the latest system metrics recorded for the run 
- - `summary` (dict):  A mutable dict-like property that holds the current summary.  Calling update will persist any changes. 
- - `project` (str):  the project associated with the run 
- - `entity` (str):  the name of the entity associated with the run 
- - `project_internal_id` (int):  the internal id of the project 
- - `user` (str):  the name of the user who created the run 
- - `path` (str):  Unique identifier [entity]/[project]/[run_id] 
- - `notes` (str):  Notes about the run 
- - `read_only` (boolean):  Whether the run is editable 
- - `history_keys` (str):  Keys of the history metrics that have been logged 
+ - `tags` ([str]):  run に関連付けられたタグのリスト 
+ - `url` (str):  この run の URL 
+ - `id` (str):  run の一意な識別子（デフォルトでは 8 文字） 
+ - `name` (str):  run の名前 
+ - `state` (str):  次のいずれか: running, finished, crashed, killed, preempting, preempted 
+ - `config` (dict):  run に関連する ハイパーパラメーター の 辞書 
+ - `created_at` (str):  run が開始された時刻の ISO タイムスタンプ 
+ - `system_metrics` (dict):  run で最後に記録された システム メトリクス 
+ - `summary` (dict):  現在のサマリーを保持する変更可能な 辞書 風プロパティ。update を呼び出すと変更が永続化されます。 
+ - `project` (str):  run に関連付けられた project 
+ - `entity` (str):  run に関連付けられた entity の名前 
+ - `project_internal_id` (int):  project の内部 id 
+ - `user` (str):  run を作成した User の名前 
+ - `path` (str):  一意の識別子 [entity]/[project]/[run_id] 
+ - `notes` (str):  run に関するメモ 
+ - `read_only` (boolean):  run が編集可能かどうか 
+ - `history_keys` (str):  ログ 済みの履歴メトリクスの キー 
  - `with `wandb.log({key`:  value})` 
- - `metadata` (str):  Metadata about the run from wandb-metadata.json 
+ - `metadata` (str):  wandb-metadata.json からの run に関する メタデータ 
 
 ### <kbd>method</kbd> `Run.__init__`
 
@@ -220,81 +220,81 @@ __init__(
 )
 ```
 
-Initialize a Run object. 
+Run オブジェクトを初期化します。 
 
-Run is always initialized by calling api.runs() where api is an instance of wandb.Api. 
+Run は常に、wandb.Api のインスタンスである api から api.runs() を呼び出すことで初期化されます。 
 
 
 ---
 
 ### <kbd>property</kbd> Run.entity
 
-The entity associated with the run. 
+run に関連付けられた entity。 
 
 ---
 
 ### <kbd>property</kbd> Run.id
 
-The unique identifier for the run. 
+run の一意な識別子。 
 
 ---
 
 
 ### <kbd>property</kbd> Run.lastHistoryStep
 
-Returns the last step logged in the run's history. 
+run の履歴で最後に記録された step を返します。 
 
 ---
 
 ### <kbd>property</kbd> Run.metadata
 
-Metadata about the run from wandb-metadata.json. 
+wandb-metadata.json にある run の メタデータ。 
 
-Metadata includes the run's description, tags, start time, memory usage and more. 
+この メタデータ には、run の説明、タグ、開始時刻、メモリ使用量などが含まれます。 
 
 ---
 
 ### <kbd>property</kbd> Run.name
 
-The name of the run. 
+run の名前。 
 
 ---
 
 ### <kbd>property</kbd> Run.path
 
-The path of the run. The path is a list containing the entity, project, and run_id. 
+run のパス。entity、project、run_id を含むリストです。 
 
 ---
 
 ### <kbd>property</kbd> Run.state
 
-The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
+run の状態。Finished、Failed、Crashed、Running のいずれか。 
 
 ---
 
 ### <kbd>property</kbd> Run.storage_id
 
-The unique storage identifier for the run. 
+run の一意なストレージ識別子。 
 
 ---
 
 ### <kbd>property</kbd> Run.summary
 
-A mutable dict-like property that holds summary values associated with the run. 
+run に関連付けられたサマリー値を保持する、変更可能な 辞書 風プロパティ。 
 
 ---
 
 ### <kbd>property</kbd> Run.url
 
-The URL of the run. 
+run の URL。 
 
-The run URL is generated from the entity, project, and run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`. 
+run の URL は entity、project、run_id から生成されます。SaaS の利用者の場合、形式は `https://wandb.ai/entity/project/run_id` になります。 
 
 ---
 
 ### <kbd>property</kbd> Run.username
 
-This API is deprecated. Use `entity` instead. 
+この API は非推奨です。代わりに `entity` を使用してください。 
 
 
 
@@ -312,7 +312,7 @@ create(
 )
 ```
 
-Create a run for the given project. 
+指定した project に run を作成します。 
 
 ---
 
@@ -322,13 +322,13 @@ Create a run for the given project.
 delete(delete_artifacts=False)
 ```
 
-Delete the given run from the wandb backend. 
+指定した run を W&B バックエンドから削除します。 
 
 
 
-**Args:**
+**引数:**
  
- - `delete_artifacts` (bool, optional):  Whether to delete the artifacts  associated with the run. 
+ - `delete_artifacts` (bool, optional):  run に関連付けられた Artifacts を削除するかどうか。 
 
 ---
 
@@ -338,18 +338,18 @@ Delete the given run from the wandb backend.
 file(name)
 ```
 
-Return the path of a file with a given name in the artifact. 
+Artifact 内で指定した名前のファイルのパスを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name` (str):  name of requested file. 
+ - `name` (str):  取得したいファイル名。 
 
 
 
-**Returns:**
- A `File` matching the name argument. 
+**戻り値:**
+ name 引数 に一致する `File`。 
 
 ---
 
@@ -363,22 +363,22 @@ files(
 )
 ```
 
-Returns a `Files` object for all files in the run which match the given criteria. 
+条件に一致する、この run 内のすべてのファイルに対する `Files` オブジェクトを返します。 
 
-You can specify a list of exact file names to match, or a pattern to match against. If both are provided, the pattern will be ignored. 
+一致させたいファイル名のリスト、またはパターンを指定できます。両方を指定した場合、pattern は無視されます。 
 
 
 
-**Args:**
+**引数:**
  
- - `names` (list):  names of the requested files, if empty returns all files 
- - `pattern` (str, optional):  Pattern to match when returning files from W&B.  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
- - `per_page` (int):  number of results per page. 
+ - `names` (list):  取得したいファイル名。空ならすべてのファイルを返す 
+ - `pattern` (str, optional):  W&B からファイルを返す際に使用するパターン。MySQL の LIKE 構文を使用します。例えば .json で終わるすべてのファイルにマッチさせるには "%.json"。names と pattern の両方を指定すると ValueError が送出されます。 
+ - `per_page` (int):  1 ページあたりの結果数。 
 
 
 
-**Returns:**
- A `Files` object, which is an iterator over `File` objects. 
+**戻り値:**
+ `File` オブジェクトを反復する `Files` オブジェクト。 
 
 ---
 
@@ -388,26 +388,26 @@ You can specify a list of exact file names to match, or a pattern to match again
 history(samples=500, keys=None, x_axis='_step', pandas=True, stream='default')
 ```
 
-Return sampled history metrics for a run. 
+1 つの run に対してサンプリングされた履歴メトリクスを返します。 
 
-This is simpler and faster if you are ok with the history records being sampled. 
+履歴レコードがサンプリングされていても問題なければ、こちらのほうがシンプルかつ高速です。 
 
 
 
-**Args:**
+**引数:**
  
- - `samples `:  (int, optional) The number of samples to return 
- - `pandas `:  (bool, optional) Return a pandas dataframe 
- - `keys `:  (list, optional) Only return metrics for specific keys 
- - `x_axis `:  (str, optional) Use this metric as the xAxis defaults to _step 
- - `stream `:  (str, optional) "default" for metrics, "system" for machine metrics 
+ - `samples `:  (int, optional) 返すサンプル数 
+ - `pandas `:  (bool, optional) pandas DataFrame を返すかどうか 
+ - `keys `:  (list, optional) 特定の キー のメトリクスのみを返す 
+ - `x_axis `:  (str, optional) このメトリクスを xAxis に使用（デフォルトは _step） 
+ - `stream `:  (str, optional) メトリクスには "default"、マシンメトリクスには "system" 
 
 
 
-**Returns:**
+**戻り値:**
  
- - `pandas.DataFrame`:  If pandas=True returns a `pandas.DataFrame` of history  metrics. 
- - `list of dicts`:  If pandas=False returns a list of dicts of history metrics. 
+ - `pandas.DataFrame`:  pandas=True の場合、履歴メトリクスの `pandas.DataFrame`。 
+ - `list of dicts`:  pandas=False の場合、履歴メトリクスの dict のリスト。 
 
 ---
 
@@ -433,20 +433,20 @@ log_artifact(
 )
 ```
 
-Declare an artifact as output of a run. 
+Artifact を run の出力として宣言します。 
 
 
 
-**Args:**
+**引数:**
  
- - `artifact` (`Artifact`):  An artifact returned from  `wandb.Api().artifact(name)`. 
- - `aliases` (list, optional):  Aliases to apply to this artifact. 
- - `tags`:  (list, optional) Tags to apply to this artifact, if any. 
+ - `artifact` (`Artifact`):  `wandb.Api().artifact(name)` から返された Artifact。 
+ - `aliases` (list, optional):  この Artifact に適用するエイリアス。 
+ - `tags`:  (list, optional) この Artifact に適用するタグ（任意）。 
 
 
 
-**Returns:**
- A `Artifact` object. 
+**戻り値:**
+ `Artifact` オブジェクト。 
 
 ---
 
@@ -456,24 +456,24 @@ Declare an artifact as output of a run.
 logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
-Fetches all artifacts logged by this run. 
+この run によって ログ されたすべての Artifacts を取得します。 
 
-Retrieves all output artifacts that were logged during the run. Returns a paginated result that can be iterated over or collected into a single list. 
+run 中に ログ されたすべての出力 Artifact を取得します。反復可能なページネーション結果として返され、イテレーションまたは単一のリストに収集できます。 
 
 
 
-**Args:**
+**引数:**
  
- - `per_page`:  Number of artifacts to fetch per API request. 
+ - `per_page`:  1 回の API リクエストで取得する Artifact 数。 
 
 
 
-**Returns:**
- An iterable collection of all Artifact objects logged as outputs during this run. 
+**戻り値:**
+ この run で出力として ログ されたすべての Artifact オブジェクトの反復可能コレクション。 
 
 
 
-**Example:**
+**例:**
  ```python
 import wandb
 import tempfile
@@ -503,7 +503,7 @@ for logged_artifact in finished_run.logged_artifacts():
 save()
 ```
 
-Persist changes to the run object to the W&B backend. 
+run オブジェクトへの変更を W&B バックエンドに永続化します。 
 
 ---
 
@@ -513,26 +513,26 @@ Persist changes to the run object to the W&B backend.
 scan_history(keys=None, page_size=1000, min_step=None, max_step=None)
 ```
 
-Returns an iterable collection of all history records for a run. 
+1 つの run について、すべての履歴レコードを反復可能コレクションとして返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `keys` ([str], optional):  only fetch these keys, and only fetch rows that have all of keys defined. 
- - `page_size` (int, optional):  size of pages to fetch from the api. 
- - `min_step` (int, optional):  the minimum number of pages to scan at a time. 
- - `max_step` (int, optional):  the maximum number of pages to scan at a time. 
+ - `keys` ([str], optional):  これらの キー のみを取得し、かつすべての キー が定義された行のみを取得。 
+ - `page_size` (int, optional):  API から取得するページのサイズ。 
+ - `min_step` (int, optional):  一度にスキャンする最小ステップ数。 
+ - `max_step` (int, optional):  一度にスキャンする最大ステップ数。 
 
 
 
-**Returns:**
- An iterable collection over history records (dict). 
+**戻り値:**
+ 履歴レコード（dict）に対する反復可能コレクション。 
 
 
 
-**Example:**
- Export all the loss values for an example run 
+**例:**
+ サンプル run の loss 値をすべてエクスポートします。 
 
 ```python
 run = api.run("entity/project-name/run-id")
@@ -548,7 +548,7 @@ losses = [row["Loss"] for row in history]
 to_html(height=420, hidden=False)
 ```
 
-Generate HTML containing an iframe displaying this run. 
+この run を表示する iframe を含む HTML を生成します。 
 
 ---
 
@@ -558,7 +558,7 @@ Generate HTML containing an iframe displaying this run.
 update()
 ```
 
-Persist changes to the run object to the wandb backend. 
+run オブジェクトへの変更を W&B バックエンドに永続化します。 
 
 ---
 
@@ -568,19 +568,19 @@ Persist changes to the run object to the wandb backend.
 upload_file(path, root='.')
 ```
 
-Upload a local file to W&B, associating it with this run. 
+ローカルファイルを W&B にアップロードし、この run に関連付けます。 
 
 
 
-**Args:**
+**引数:**
  
- - `path` (str):  Path to the file to upload. Can be absolute or relative. 
- - `root` (str):  The root path to save the file relative to. For example,  if you want to have the file saved in the run as "my_dir/file.txt"  and you're currently in "my_dir" you would set root to "../".  Defaults to current directory ("."). 
+ - `path` (str):  アップロードするファイルのパス。絶対パスまたは相対パスを指定可能。 
+ - `root` (str):  ファイルを保存する際の基準パス。例えば、run 内で "my_dir/file.txt" として保存したく、現在の作業ディレクトリーが "my_dir" の場合は "../" を指定します。デフォルトは現在のディレクトリー（"."）。 
 
 
 
-**Returns:**
- A `File` object representing the uploaded file. 
+**戻り値:**
+ アップロードされたファイルを表す `File` オブジェクト。 
 
 ---
 
@@ -590,19 +590,19 @@ Upload a local file to W&B, associating it with this run.
 use_artifact(artifact, use_as=None)
 ```
 
-Declare an artifact as an input to a run. 
+Artifact を run の入力として宣言します。 
 
 
 
-**Args:**
+**引数:**
  
- - `artifact` (`Artifact`):  An artifact returned from  `wandb.Api().artifact(name)` 
- - `use_as` (string, optional):  A string identifying  how the artifact is used in the script. Used  to easily differentiate artifacts used in a  run, when using the beta wandb launch  feature's artifact swapping functionality. 
+ - `artifact` (`Artifact`):  `wandb.Api().artifact(name)` から返された Artifact 
+ - `use_as` (string, optional):  スクリプト内で Artifact をどのように使用するかを識別する文字列。ベータ版の wandb Launch 機能の Artifact スワップ機能を使用する際、run で使用した Artifact を簡単に区別するために使われます。 
 
 
 
-**Returns:**
- An `Artifact` object. 
+**戻り値:**
+ `Artifact` オブジェクト。 
 
 ---
 
@@ -612,24 +612,24 @@ Declare an artifact as an input to a run.
 used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
-Fetches artifacts explicitly used by this run. 
+この run で明示的に使用された Artifacts を取得します。 
 
-Retrieves only the input artifacts that were explicitly declared as used during the run, typically via `run.use_artifact()`. Returns a paginated result that can be iterated over or collected into a single list. 
+通常は `run.use_artifact()` を通じて run 中に明示的に入力として宣言された Artifact のみを取得します。反復可能なページネーション結果として返され、イテレーションまたは単一のリストに収集できます。 
 
 
 
-**Args:**
+**引数:**
  
- - `per_page`:  Number of artifacts to fetch per API request. 
+ - `per_page`:  1 回の API リクエストで取得する Artifact 数。 
 
 
 
-**Returns:**
- An iterable collection of Artifact objects explicitly used as inputs in this run. 
+**戻り値:**
+ この run で入力として明示的に使用された Artifact オブジェクトの反復可能コレクション。 
 
 
 
-**Example:**
+**例:**
  ```python
 import wandb
 
@@ -652,4 +652,4 @@ test_artifact
 wait_until_finished()
 ```
 
-Check the state of the run until it is finished.
+run が終了するまで状態を確認します。

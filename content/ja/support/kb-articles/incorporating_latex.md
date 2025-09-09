@@ -1,15 +1,15 @@
 ---
+title: LaTeX の組み込み
 menu:
   support:
     identifier: ja-support-kb-articles-incorporating_latex
 support:
-- reports
-title: Incorporating LaTeX
+- レポート
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-LaTeX integrates seamlessly into reports. To add LaTeX, create a new report and begin typing in the rich text area to write notes and save custom visualizations and tables.
+LaTeX は Reports にシームレスに統合されています。LaTeX を追加するには、新しい Report を作成し、リッチテキストエリアで入力を開始して、メモを書き、カスタムの可視化やテーブルを保存します。
 
-On a new line, press `/` and navigate to the inline equations tab to insert LaTeX content.
+新しい行で、 `/` を押してインライン数式タブに移動し、LaTeX コンテンツを挿入します。

@@ -1,26 +1,26 @@
 ---
+title: W&B アプリの UI
 aliases:
 - /guides/models/app/features
 menu:
   default:
     identifier: ja-guides-models-app-_index
     parent: models
-title: W&B App UI
 url: guides/app
 ---
 
-This section provides details to help you use the W&B App UI. Manage workspaces, teams, and registries, visualize and observe experiments, create panels and reports, configure automations, and more.
+このセクションでは、W&B App の UI の使い方に役立つ詳細を紹介します。Workspaces や Teams、レジストリの管理、Experiments の可視化と観察、パネルや Reports の作成、オートメーションの設定などが行えます。
 
-Access the W&B App in a web browser. 
+W&B App には Web ブラウザから アクセス できます。
 
-- A W&B Multi-tenant deployment is accessible on the public web at https://wandb.ai/.
-- A W&B Dedicated Cloud deployment is accessible at the domain you configured when you signed up for W&B Dedicated Cloud. An admin user can update the domain in the W&B Management Console. Click on the icon in the top right corner and then click **System console**.
-- A W&B Self-Managed deployment is accessible at the hostname you configured when you deployed W&B. For example, if you deploy using Helm, the hostname is configured in `values.global.host`. An admin user can update the domain in the W&B Management Console. Click on the icon in the top right corner and then click **System console**.
+- W&B の Multi-tenant デプロイメントは、パブリック Web 上の https://wandb.ai/ から アクセス できます。
+- W&B 専用クラウド デプロイメントは、W&B Dedicated Cloud にサインアップした際に設定したドメインで アクセス できます。ドメインは管理者 ユーザー が W&B Management Console で更新できます。右上のアイコンをクリックし、**System console** をクリックします。
+- W&B Self-Managed デプロイメントは、W&B をデプロイした際に設定したホスト名で アクセス できます。たとえば Helm でデプロイする場合、ホスト名は `values.global.host` で設定します。ドメインは管理者 ユーザー が W&B Management Console で更新できます。右上のアイコンをクリックし、**System console** をクリックします。
 
-Learn more:
+詳しくは次を参照してください:
 
-- [Track experiments]({{< relref path="/guides/models/track/" lang="ja" >}}) using runs or sweeps.
-- [Configure deployment settings]({{< relref path="settings-page/" lang="ja" >}}) and [defaults]({{< relref path="features/cascade-settings.md" lang="ja" >}}).
-- [Add panels]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}}) to visualize your experiments, such as line plots, bar plots, media panels, query panels, and tables.
-- [Add custom charts]({{< relref path="/guides/models/app/features/custom-charts/" lang="ja" >}}).
-- [Create and share reports]({{< relref path="/guides/core/reports/" lang="ja" >}}).
+- [Experiments をトラッキング]({{< relref path="/guides/models/track/" lang="ja" >}})。Runs または Sweeps を使用します。
+- [デプロイメントの 設定 を構成]({{< relref path="settings-page/" lang="ja" >}}) と [デフォルト]({{< relref path="features/cascade-settings.md" lang="ja" >}})。
+- [パネルを追加]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}})して Experiments を可視化します。例: 折れ線プロット、棒グラフ、メディア パネル、クエリ パネル、Tables。
+- [カスタム チャートを追加]({{< relref path="/guides/models/app/features/custom-charts/" lang="ja" >}})。
+- [Reports を作成して共有]({{< relref path="/guides/core/reports/" lang="ja" >}})。

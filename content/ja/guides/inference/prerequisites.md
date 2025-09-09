@@ -1,56 +1,54 @@
 ---
-description: 'Set up your environment to use W&B Inference
-
-  '
+title: 前提条件
+description: W&B Inference を使用するための 環境 をセットアップする
 linkTitle: Prerequisites
 menu:
   default:
     identifier: ja-guides-inference-prerequisites
-title: Prerequisites
 weight: 1
 ---
 
-Complete these steps before using the W&B Inference service through the API or UI.
+API または UI を通じて W&B Inference サービスを使用する前に、次の手順を完了してください。
 
-{{< alert title="Tip" >}}
-Before starting, review the [usage information and limits]({{< relref path="usage-limits" lang="ja" >}}) to understand costs and restrictions.
+{{< alert title="ヒント" >}}
+始める前に、費用と制限を把握するために [使用量と制限]({{< relref path="usage-limits" lang="ja" >}}) を確認してください。
 {{< /alert >}}
 
-## Set up your W&B account and project
+## W&B アカウントと Project を設定する
 
-You need these items to access W&B Inference:
+W&B Inference に アクセス するには、次が必要です:
 
-1. **A W&B account**  
-   Sign up at [W&B](https://app.wandb.ai/login?signup=true)
+1. **W&B アカウント**  
+   登録は [W&B](https://app.wandb.ai/login?signup=true) から
 
-2. **A W&B API key**  
-   Get your API key at [https://wandb.ai/authorize](https://wandb.ai/authorize)
+2. **W&B APIキー**  
+   APIキーは [https://wandb.ai/authorize](https://wandb.ai/authorize) から取得できます
 
-3. **A W&B project**  
-   Create a project in your W&B account to track usage
+3. **W&B Project**  
+   使用状況を追跡するため、W&B アカウントで Project を作成してください
 
-## Set up your environment (Python)
+## 環境を設定する (Python)
 
-To use the Inference API with Python, you also need to:
+Python で Inference API を使用するには、次も必要です:
 
-1. Complete the general requirements above
+1. 上記の一般的な前提条件を満たす
 
-2. Install the required libraries:
+2. 必要な ライブラリ をインストールする:
 
    ```bash
    pip install openai weave
    ```
 
-{{< alert title="Note" >}}
-The `weave` library is optional but recommended. It lets you trace your LLM applications. Learn more in the [Weave Quickstart]({{< relref path="../quickstart" lang="ja" >}}).
+{{< alert title="注意" >}}
+`weave` ライブラリは任意ですが、推奨します。LLM アプリケーションをトレースできます。詳細は [Weave クイックスタート]({{< relref path="../quickstart" lang="ja" >}}) を参照してください。
 
-See [usage examples]({{< relref path="examples" lang="ja" >}}) for code samples using W&B Inference with Weave.
+Weave と併用した W&B Inference のコード サンプルは、[使用例]({{< relref path="examples" lang="ja" >}}) を参照してください。
 {{< /alert >}}
 
-## Next steps
+## 次のステップ
 
-After completing the prerequisites:
+前提条件を満たしたら:
 
-- Check the [API reference]({{< relref path="api-reference" lang="ja" >}}) to learn about available endpoints
-- Try the [usage examples]({{< relref path="examples" lang="ja" >}}) to see the service in action
-- Use the [UI guide]({{< relref path="ui-guide" lang="ja" >}}) to access models through the web interface
+- 利用可能なエンドポイントについては [API リファレンス]({{< relref path="api-reference" lang="ja" >}}) を確認してください
+- サービスの動作は [使用例]({{< relref path="examples" lang="ja" >}}) を試して確認してください
+- Web インターフェースから Models に アクセス するには、[UI ガイド]({{< relref path="ui-guide" lang="ja" >}}) を参照してください

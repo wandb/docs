@@ -1,16 +1,16 @@
 ---
+title: Artifacts を複数のアーキテクチャーおよび Runs で使用するには？
 menu:
   support:
     identifier: ja-support-kb-articles-artifacts_multiple_architectures_runs
 support:
 - artifacts
-title: Using artifacts with multiple architectures and runs?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-There are various methods to version a model. Artifacts provide a tool for model versioning tailored to specific needs. A common approach for projects that explore multiple model architectures involves separating artifacts by architecture. Consider the following steps:
+モデルをバージョン管理する方法はさまざまです。Artifacts は、ニーズに合わせたモデルのバージョン管理のためのツールを提供します。複数のモデル アーキテクチャーを検討するプロジェクトでは、アーキテクチャーごとにアーティファクトを分けるのが一般的です。次の手順を検討してください:
 
-1. Create a new artifact for each distinct model architecture. Use the `metadata` attribute of artifacts to provide detailed descriptions of the architecture, similar to the use of `config` for a run.
-2. For each model, log checkpoints periodically with `log_artifact`. W&B builds a history of these checkpoints, labeling the most recent one with the `latest` alias. Refer to the latest checkpoint for any model architecture using `architecture-name:latest`.
+1. それぞれの異なるモデル アーキテクチャーごとに新しいアーティファクトを作成します。run での `config` の使い方と同様に、アーティファクトの `metadata` 属性を使ってアーキテクチャーの詳細な説明を付与します。
+2. 各モデルについて、`log_artifact` で定期的にチェックポイントをログします。W&B はこれらのチェックポイントの履歴を構築し、最新のものに `latest` のエイリアスを付けます。`architecture-name:latest` を使って、任意のモデル アーキテクチャーの最新チェックポイントを参照できます。

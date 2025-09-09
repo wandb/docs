@@ -1,85 +1,85 @@
 ---
+title: Artifacts のバージョンをエイリアスで参照する
 menu:
   default:
     identifier: ja-guides-core-registry-aliases
-title: Reference an artifact version with aliases
 weight: 5
 ---
 
-Reference a specific [artifact version]({{< relref path="guides/core/artifacts/create-a-new-artifact-version" lang="ja" >}}) with one or more aliases. [W&B automatically assigns aliases]({{< relref path="aliases#default-aliases" lang="ja" >}}) to each artifact you link with the same name. You can also [create one or more custom aliases]({{< relref path="aliases#custom-aliases" lang="ja" >}}) to reference a specific artifact version.
+特定の [アーティファクトのバージョン]({{< relref path="guides/core/artifacts/create-a-new-artifact-version" lang="ja" >}}) を1つ以上のエイリアスで参照します。[W&B は、同じ名前でリンクする各アーティファクトに自動的にエイリアスを割り当てます]({{< relref path="aliases#default-aliases" lang="ja" >}})。また、特定のアーティファクトのバージョンを参照するために、[1つ以上のカスタムエイリアスを作成する]({{< relref path="aliases#custom-aliases" lang="ja" >}}) こともできます。
 
-Aliases appear as rectangles with the name of that alias in the rectangle in the Registry UI. If an [alias is protected]({{< relref path="aliases#protected-aliases" lang="ja" >}}), it appears as a gray rectangle with a lock icon. Otherwise, the alias appears as an orange rectangle. Aliases are not shared across registries.
+エイリアスは、Registry UI に、エイリアス名が記載された長方形として表示されます。エイリアスが [保護されている]({{< relref path="aliases#protected-aliases" lang="ja" >}}) 場合、ロックアイコンが付いた灰色の長方形として表示されます。それ以外の場合、エイリアスはオレンジ色の長方形として表示されます。エイリアスは、複数のレジストリ間で共有されません。
 
-{{% alert title="When to use an alias versus using a tag" %}}
-Use an alias to reference a specific artifact version. Each alias within a collection is unique. Only one artifact version can have a specific alias at a time.
+{{% alert title="エイリアスとタグの使い分け" %}}
+特定のアーティファクトのバージョンを参照するには、エイリアスを使用します。コレクション内の各エイリアスは一意です。特定のエイリアスを持てるアーティファクトのバージョンは、一度に1つだけです。
 
-Use tags to organize and group artifact versions or collections based on a common theme. Multiple artifact versions and collections can share the same tag.
+タグは、共通のテーマに基づいてアーティファクトのバージョンやコレクションを整理し、グループ化するために使用します。複数のアーティファクトのバージョンやコレクションが同じタグを共有できます。
 {{% /alert %}}
 
-When you add an alias to an artifact version, you can optionally start a [Registry automation]({{< relref path="/guides/core/automations/automation-events/#registry" lang="ja" >}}) to notify a Slack channel or trigger a webhook.
+アーティファクトのバージョンにエイリアスを追加する際、オプションで [Registry automation]({{< relref path="/guides/core/automations/automation-events/#registry" lang="ja" >}}) を開始して、Slack チャンネルに通知したり、Webhook をトリガーしたりできます。
 
-## Default aliases
+## デフォルトのエイリアス
 
-W&B automatically assigns the following aliases to each artifact version you link with the same name:
+W&B は、同じ名前でリンクする各アーティファクトのバージョンに、以下のエイリアスを自動的に割り当てます。
 
-* The `latest` alias to the most recent artifact version you link to a collection.
-* A unique version number. W&B counts each artifact version (zero indexing) you link. W&B uses the count number to assign a unique version number to that artifact.
+* コレクションにリンクする最も新しいアーティファクトのバージョンには、`latest` エイリアスを割り当てます。
+* 一意のバージョン番号。W&B は、リンクする各アーティファクトのバージョンを（ゼロから数えて）カウントします。W&B は、そのカウント番号を使用して、そのアーティファクトに一意のバージョン番号を割り当てます。
 
-For example, if you link an artifact named `zoo_model` three times, W&B creates three aliases `v0`, `v1`, and `v2` respectively. `v2` also has the `latest` alias.
+例えば、`zoo_model` という名前のアーティファクトを3回リンクした場合、W&B はそれぞれ `v0`、`v1`、`v2` の3つのエイリアスを作成します。`v2` は `latest` エイリアスも持ちます。
 
-## Custom aliases
+## カスタムエイリアス
 
-Create one or more custom aliases for a specific artifact versions based on your unique use case. For example:
+独自のユースケースに基づいて、特定のアーティファクトのバージョンに1つ以上のカスタムエイリアスを作成します。例：
 
-- You might use aliases such as `dataset_version_v0`, `dataset_version_v1`, and `dataset_version_v2` to identify which dataset a model was trained on.
-- You might use a `best_model` alias to keep track of the best performing artifact model version.
+- `dataset_version_v0`、`dataset_version_v1`、`dataset_version_v2` のようなエイリアスを使用して、モデルがどのデータセットで学習されたかを識別することができます。
+- `best_model` エイリアスを使用して、最もパフォーマンスの高いアーティファクトのモデルのバージョンを追跡することができます。
 
-Any user with a [**Member** or **Admin** registry role]({{< relref path="guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) on a registry can add or remove a custom alias from a linked artifact in that registry. Users with the [**Restricted Viewer** or **Viewer** roles]({{< relref path="guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) cannot add or remove aliases.
+レジストリ上の [**Member** または **Admin** レジストリロール]({{< relref path="guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) を持つユーザーは、そのレジストリでリンクされたアーティファクトからカスタムエイリアスを追加または削除できます。[**Restricted Viewer** または **Viewer** ロール]({{< relref path="guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) を持つユーザーは、エイリアスを追加または削除できません。
 
 {{% alert %}}
-[Protected aliases]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) provide a way to label and identify which artifact versions to protect from modification or deletion.
+[保護されたエイリアス]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) は、変更または削除から保護すべきアーティファクトのバージョンをラベル付けし、識別する方法を提供します。
 {{% /alert %}}
 
-
-You can create a custom alias with the W&B Registry or the Python SDK. Based on your use case, click on a tab below that best fits your needs.
+カスタムエイリアスは、W&B Registry または Python SDK を使用して作成できます。ユースケースに応じて、以下でニーズに最も合ったタブをクリックしてください。
 
 {{< tabpane text=true >}}
 {{% tab header="W&B Registry" value="app" %}}
 
-1. Navigate to the W&B Registry.
-2. Click the **View details** button in a collection.
-3. Within the **Versions** section, click the **View** button for a specific artifact version.
-4. Click the **+** button to add one or more aliases next to the **Aliases** field.
+1. W&B Registry に移動します。
+2. コレクション内の **View details** ボタンをクリックします。
+3. **Versions** セクションで、特定のアーティファクトのバージョンに対する **View** ボタンをクリックします。
+4. **Aliases** フィールドの横にある **+** ボタンをクリックして、1つ以上のエイリアスを追加します。
 
 {{% /tab %}}
 
 {{% tab header="Python SDK" value="python" %}}
-When you link an artifact version to a collection with the Python SDK you can optionally provide a list of one or more aliases as an argument to the `alias` parameter in [`link_artifact()`]({{< relref path="/ref/python/sdk/classes/run.md/#link_artifact" lang="ja" >}}). W&B creates an alias ([non protected alias]({{< relref path="#custom-aliases" lang="ja" >}})) for you if the alias you provide does not already exist.
+Python SDK を使用してアーティファクトのバージョンをコレクションにリンクする際、オプションで1つ以上のエイリアスのリストを [`link_artifact()`]({{< relref path="/ref/python/sdk/classes/run.md/#link_artifact" lang="ja" >}}) の `alias` パラメータへの引数として提供できます。提供されたエイリアスがまだ存在しない場合、W&B はエイリアス（[保護されていないエイリアス]({{< relref path="#custom-aliases" lang="ja" >}})）を作成します。
 
-The following code snippet demonstrates how to link an artifact version to a collection and add aliases to that artifact version with the Python SDK. Replace values within `<>` with your own:
+以下のコードスニペットは、Python SDK を使用してアーティファクトのバージョンをコレクションにリンクし、そのアーティファクトのバージョンにエイリアスを追加する方法を示しています。 `<>` 内の値を独自の値に置き換えてください。
 
 ```python
 import wandb
 
-# Initialize a run
+# run を初期化する
 run = wandb.init(entity = "<team_entity>", project = "<project_name>")
 
-# Create an artifact object
-# The type parameter specifies both the type of the 
-# artifact object and the collection type
+# アーティファクトオブジェクトを作成する
+# type パラメータは、
+# アーティファクトオブジェクトのタイプとコレクションタイプ
+# の両方を指定します。
 artifact = wandb.Artifact(name = "<name>", type = "<type>")
 
-# Add the file to the artifact object. 
-# Specify the path to the file on your local machine.
+# ファイルをアーティファクトオブジェクトに追加する。
+# ローカルマシン上のファイルへのパスを指定する。
 artifact.add_file(local_path = "<local_path_to_artifact>")
 
-# Specify the collection and registry to link the artifact to
+# アーティファクトをリンクするコレクションとレジストリを指定する
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-# Link the artifact version to the collection
-# Add one or more aliases to this artifact version
+# アーティファクトのバージョンをコレクションにリンクする
+# このアーティファクトのバージョンに1つ以上のエイリアスを追加する
 run.link_artifact(
     artifact = artifact, 
     target_path = target_path, 
@@ -89,79 +89,80 @@ run.link_artifact(
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Protected aliases
-Use a [protected alias]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) to both label and identify artifact versions that should not be modified or deleted. For example, consider using a `production` protected alias to label and identify artifact versions that are in used in your organization's machine learning production pipeline.
+### 保護されたエイリアス
+[保護されたエイリアス]({{< relref path="aliases/#protected-aliases" lang="ja" >}}) を使用して、変更または削除すべきではないアーティファクトのバージョンにラベルを付け、識別します。例えば、`production` 保護エイリアスを使用して、組織の機械学習プロダクションパイプラインで使用されているアーティファクトのバージョンをラベル付けし、識別することを検討してください。
 
-[Registry admin]({{< relref path="/guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) users and [service accounts]({{< relref path="/support/kb-articles/service_account_useful" lang="ja" >}}) with the **Admin** role can create protected aliases and add or remove protected aliases from an artifact version. Users and service accounts with **Member**, **Viewer**, and **Restricted Viewer** roles cannot unlink a protected version or delete a collection that contains a protected alias. See [Configure registry access]({{< relref path="/guides/core/registry/configure_registry.md" lang="ja" >}}) for details.
+**Admin** ロールを持つ [Registry admin]({{< relref path="/guides/core/registry/configure_registry/#registry-roles" lang="ja" >}}) ユーザーおよび [サービスアカウント]({{< relref path="/support/kb-articles/service_account_useful" lang="ja" >}}) は、保護されたエイリアスを作成し、アーティファクトのバージョンから保護されたエイリアスを追加または削除できます。**Member**、**Viewer**、**Restricted Viewer** ロールを持つユーザーおよびサービスアカウントは、保護されたバージョンをリンク解除したり、保護されたエイリアスを含むコレクションを削除したりすることはできません。詳細については、[レジストリへのアクセス設定]({{< relref path="/guides/core/registry/configure_registry.md" lang="ja" >}}) を参照してください。
 
-Common protected aliases include:
+一般的な保護されたエイリアスには、以下が含まれます。
 
-- **Production**: The artifact version is ready for production use.
-- **Staging**: The artifact version is ready for testing.
+- **Production**: そのアーティファクトのバージョンは、プロダクション環境での使用準備ができています。
+- **Staging**: そのアーティファクトのバージョンは、テストの準備ができています。
 
-#### Create a protected alias
+#### 保護されたエイリアスを作成する
 
-The following steps describe how to create a protected alias in the W&B Registry UI:
+以下の手順は、W&B Registry UI で保護されたエイリアスを作成する方法を示しています。
 
-1. Navigate to the Registry App.
-2. Select a registry.
-3. Click the gear button on the top right of the page to view the registry's settings.
-4. Within the **Protected Aliases** section, click the **+** button to add one or more protected aliases.
+1. Registry App に移動します。
+2. レジストリを選択します。
+3. ページ右上の歯車ボタンをクリックして、レジストリの設定を表示します。
+4. **Protected Aliases** セクションで、**+** ボタンをクリックして1つ以上の保護されたエイリアスを追加します。
 
-After creation, each protected alias appears as a gray rectangle with a lock icon in the **Protected Aliases** section.  
-
-{{% alert %}}
-Unlike custom aliases that are not protected, creating protected aliases is available exclusively in the W&B Registry UI and not programmatically with the Python SDK. To add a protected alias to an artifact version, you can use the W&B Registry UI or the Python SDK.
-{{% /alert %}}
-
-The following steps describe how to add a protected alias to an artifact version with the W&B Registry UI:
-
-1. Navigate to the W&B Registry.
-2. Click the **View details** button in a collection.
-3. Within the **Versions** section, select the **View** button for a specific artifact version.
-4. Click the **+** button to add one or more protected aliases next to the **Aliases** field.
-
-After a protected alias is created, an admin can add it to an artifact version programmatically with the Python SDK. See the W&B Registry and Python SDK tabs in [Create a custom alias](#custom-aliases) section above for an example on how to add a protected alias to an artifact version.
-
-## Find existing aliases
-You can find existing aliases with the [global search bar in the W&B Registry]({{< relref path="/guides/core/registry/search_registry/#search-for-registry-items" lang="ja" >}}). To find a protected alias:
-
-1. Navigate to the W&B Registry App.
-2. Specify the search term in the search bar at the top of the page. Press Enter to search.
-
-Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
-
-## Example
+作成後、各保護されたエイリアスは、**Protected Aliases** セクションにロックアイコンが付いた灰色の長方形として表示されます。
 
 {{% alert %}}
-The following code example is a continuation of [the W&B Registry Tutorial](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb). To use the following code, you must first [retrieve and process the Zoo dataset as described in the notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a). Once you have the Zoo dataset, you can create an artifact version and add custom aliases to it.
+保護されていないカスタムエイリアスとは異なり、保護されたエイリアスの作成は W&B Registry UI でのみ利用可能であり、Python SDK を使用してプログラムで作成することはできません。アーティファクトのバージョンに保護されたエイリアスを追加するには、W&B Registry UI または Python SDK を使用できます。
 {{% /alert %}}
 
-The following code snippet shows how to create an artifact version and add custom aliases to it. The example uses the Zoo dataset from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) and the `Model` collection in the `Zoo_Classifier_Models` registry. 
+以下の手順は、W&B Registry UI を使用してアーティファクトのバージョンに保護されたエイリアスを追加する方法を示しています。
+
+1. W&B Registry に移動します。
+2. コレクション内の **View details** ボタンをクリックします。
+3. **Versions** セクションで、特定のアーティファクトのバージョンに対する **View** ボタンを選択します。
+4. **Aliases** フィールドの横にある **+** ボタンをクリックして、1つ以上の保護されたエイリアスを追加します。
+
+保護されたエイリアスが作成された後、管理者は Python SDK を使用してプログラムでそれをアーティファクトのバージョンに追加できます。アーティファクトのバージョンに保護されたエイリアスを追加する方法の例については、上記の [カスタムエイリアスを作成する](#custom-aliases) セクションにある W&B Registry および Python SDK タブを参照してください。
+
+## 既存のエイリアスを見つける
+既存のエイリアスは、[W&B Registry のグローバル検索バー]({{< relref path="/guides/core/registry/search_registry/#search-for-registry-items" lang="ja" >}}) で見つけることができます。保護されたエイリアスを見つけるには：
+
+1. W&B Registry App に移動します。
+2. ページ上部の検索バーに検索語を入力します。Enter キーを押して検索します。
+
+指定した検索語が既存のレジストリ、コレクション名、アーティファクトのバージョンタグ、コレクションタグ、またはエイリアスと一致する場合、検索結果は検索バーの下に表示されます。
+
+## 例
+
+{{% alert %}}
+以下のコード例は、[W&B Registry チュートリアル](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb) の続きです。以下のコードを使用するには、まず [ノートブックで説明されているように Zoo データセットを取得して処理する](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a) 必要があります。Zoo データセットを入手したら、アーティファクトのバージョンを作成し、それにカスタムエイリアスを追加できます。
+{{% /alert %}}
+
+以下のコードスニペットは、アーティファクトのバージョンを作成し、それにカスタムエイリアスを追加する方法を示しています。この例では、[UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) の Zoo データセットと、`Zoo_Classifier_Models` レジストリの `Model` コレクションを使用しています。
 
 ```python
 import wandb
 
-# Initialize a run
+# run を初期化する
 run = wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment")
 
-# Create an artifact object
-# The type parameter specifies both the type of the 
-# artifact object and the collection type
+# アーティファクトオブジェクトを作成する
+# type パラメータは、
+# アーティファクトオブジェクトのタイプとコレクションタイプ
+# の両方を指定します。
 artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
 
-# Add the file to the artifact object. 
-# Specify the path to the file on your local machine.
+# ファイルをアーティファクトオブジェクトに追加する。
+# ローカルマシン上のファイルへのパスを指定する。
 artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
 artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
 
-# Specify the collection and registry to link the artifact to
+# アーティファクトをリンクするコレクションとレジストリを指定する
 REGISTRY_NAME = "Model"
 COLLECTION_NAME = "Zoo_Classifier_Models"
 target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-# Link the artifact version to the collection
-# Add one or more aliases to this artifact version
+# アーティファクトのバージョンをコレクションにリンクする
+# このアーティファクトのバージョンに1つ以上のエイリアスを追加する
 run.link_artifact(
     artifact = artifact,
     target_path = target_path,
@@ -169,6 +170,6 @@ run.link_artifact(
     )
 ```
 
-1. First, you create an artifact object (`wandb.Artifact()`).
-2. Next, you add two dataset PyTorch tensors to the artifact object with `wandb.Artifact.add_file()`. 
-3. Lastly, you link the artifact version to the `Model` collection in the `Zoo_Classifier_Models` registry with `link_artifact()`. You also add two custom aliases to the artifact version by passing  `production-us` and `production-eu` as arguments to the `aliases` parameter.
+1. まず、アーティファクトオブジェクト（`wandb.Artifact()`）を作成します。
+2. 次に、`wandb.Artifact.add_file()` を使用して、2つのデータセット PyTorch テンソルをアーティファクトオブジェクトに追加します。
+3. 最後に、`link_artifact()` を使用して、アーティファクトのバージョンを `Zoo_Classifier_Models` レジストリの `Model` コレクションにリンクします。また、`aliases` パラメータに `production-us` と `production-eu` を引数として渡すことで、2つのカスタムエイリアスをアーティファクトのバージョンに追加します。

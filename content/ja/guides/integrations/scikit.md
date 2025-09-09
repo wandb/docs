@@ -1,42 +1,42 @@
 ---
+title: Scikit-Learn
 menu:
   default:
     identifier: ja-guides-integrations-scikit
     parent: integrations
-title: Scikit-Learn
 weight: 380
 ---
 
-You can use wandb to visualize and compare your scikit-learn models' performance with just a few lines of code. [Try an example →](https://wandb.me/scikit-colab)
+数行のコードだけで、wandb を使って scikit-learn のモデルのパフォーマンスを可視化・比較できます。 [Try an example →](https://wandb.me/scikit-colab)
 
-## Get started
+## はじめに
 
-### Sign up and create an API key
+### サインアップして API キーを作成
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+API キーは、あなたのマシンを W&B に対して認証します。API キーはユーザー プロフィールから発行できます。
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+よりスムーズに行うには、[W&B authorization page](https://wandb.ai/authorize) に直接アクセスして API キーを発行してください。表示された API キーをコピーし、パスワード マネージャーなどの安全な場所に保存します。
 {{% /alert %}}
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+1. 右上のユーザー プロフィール アイコンをクリックします。
+1. **User Settings** を選び、**API Keys** セクションまでスクロールします。
+1. **Reveal** をクリックします。表示された API キーをコピーします。API キーを非表示にするにはページを再読み込みしてください.
 
-### Install the `wandb` library and log in
+### `wandb` ライブラリをインストールしてログイン
 
-To install the `wandb` library locally and log in:
+ローカルに `wandb` ライブラリをインストールしてログインするには:
 
 {{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
-1. Set the `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) to your API key.
+1. `WANDB_API_KEY` [environment variable]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) にあなたの API キーを設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
     ```
 
-1. Install the `wandb` library and log in.
+1. `wandb` ライブラリをインストールしてログインします。
 
 
 
@@ -60,7 +60,7 @@ wandb.login()
 
 {{% /tab %}}
 
-{{% tab header="Python notebook" value="notebook" %}}
+{{% tab header="Python ノートブック" value="notebook" %}}
 
 ```notebook
 !pip install wandb
@@ -72,7 +72,7 @@ wandb.login()
 {{% /tab %}}
 {{< /tabpane >}}
 
-### Log metrics
+### メトリクスをログする
 
 ```python
 import wandb
@@ -82,16 +82,16 @@ wandb.init(project="visualize-sklearn") as run:
   y_pred = clf.predict(X_test)
   accuracy = sklearn.metrics.accuracy_score(y_true, y_pred)
 
-  # If logging metrics over time, then use run.log
+  # 時系列でメトリクスを記録する場合は run.log を使います
   run.log({"accuracy": accuracy})
 
-  # OR to log a final metric at the end of training you can also use run.summary
+  # あるいは、トレーニングの最後に最終メトリクスだけを記録するなら run.summary も使えます
   run.summary["accuracy"] = accuracy
 ```
 
-### Make plots
+### プロットを作成
 
-#### Step 1: Import wandb and initialize a new run
+#### ステップ 1: wandb をインポートして新しい run を初期化
 
 ```python
 import wandb
@@ -99,23 +99,23 @@ import wandb
 run = wandb.init(project="visualize-sklearn")
 ```
 
-#### Step 2: Visualize plots
+#### ステップ 2: プロットを可視化
 
-#### Individual plots
+#### 個別プロット
 
-After training a model and making predictions you can then generate plots in wandb to analyze your predictions. See the **Supported Plots** section below for a full list of supported charts.
+モデルをトレーニングして予測を作成したら、wandb で予測を分析するためのプロットを生成できます。対応しているチャートの一覧は下の「Supported Plots」セクションをご覧ください。
 
 ```python
-# Visualize single plot
+# 単一のプロットを可視化
 wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)
 ```
 
-#### All plots
+#### すべてのプロット
 
-W&B has functions such as `plot_classifier` that will plot several relevant plots:
+W&B には、`plot_classifier` のように複数の関連プロットをまとめて描画する関数があります:
 
 ```python
-# Visualize all classifier plots
+# 分類器のプロットをすべて可視化
 wandb.sklearn.plot_classifier(
     clf,
     X_train,
@@ -129,10 +129,10 @@ wandb.sklearn.plot_classifier(
     feature_names=None,
 )
 
-# All regression plots
+# 回帰のプロットをすべて
 wandb.sklearn.plot_regressor(reg, X_train, X_test, y_train, y_test, model_name="Ridge")
 
-# All clustering plots
+# クラスタリングのプロットをすべて
 wandb.sklearn.plot_clusterer(
     kmeans, X_train, cluster_labels, labels=None, model_name="KMeans"
 )
@@ -140,15 +140,15 @@ wandb.sklearn.plot_clusterer(
 run.finish()
 ```
 
-#### Existing Matplotlib plots
+#### 既存の Matplotlib プロット
 
-Plots created on Matplotlib can also be logged on W&B Dashboard. To do that, it is first required to install `plotly`.
+Matplotlib で作成したプロットも W&B のダッシュボードにログできます。そのためには、まず `plotly` をインストールする必要があります。
 
 ```bash
 pip install plotly
 ```
 
-Finally, the plots can be logged on W&B's dashboard as follows:
+最後に、次のようにプロットを W&B のダッシュボードにログできます:
 
 ```python
 import matplotlib.pyplot as plt
@@ -156,175 +156,175 @@ import wandb
 
 with wandb.init(project="visualize-sklearn") as run:
 
-  # do all the plt.plot(), plt.scatter(), etc. here.
+  # ここで plt.plot() や plt.scatter() などを実行します。
   # ...
 
-  # instead of doing plt.show() do:
+  # plt.show() の代わりに次を実行します:
   run.log({"plot": plt})
 ```
 
-## Supported plots
+## 対応しているプロット
 
-### Learning curve
+### 学習曲線
 
-{{< img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn learning curve" >}}
+{{< img src="/images/integrations/scikit_learning_curve.png" alt="Scikit-learn の学習曲線" >}}
 
-Trains model on datasets of varying lengths and generates a plot of cross validated scores vs dataset size, for both training and test sets.
+さまざまな長さのデータセットでモデルをトレーニングし、トレーニング セットとテストセットの両方について、交差検証スコアをデータセット サイズに対してプロットします。
 
 `wandb.sklearn.plot_learning_curve(model, X, y)`
 
-* model (clf or reg): Takes in a fitted regressor or classifier.
-* X (arr): Dataset features.
-* y (arr): Dataset labels.
+* model (clf or reg): 学習済みの回帰器または分類器を受け取ります。
+* X (arr): データセットの特徴量。
+* y (arr): データセットのラベル。
 
 ### ROC
 
-{{< img src="/images/integrations/scikit_roc.png" alt="Scikit-learn ROC curve" >}}
+{{< img src="/images/integrations/scikit_roc.png" alt="Scikit-learn の ROC 曲線" >}}
 
-ROC curves plot true positive rate (y-axis) vs false positive rate (x-axis). The ideal score is a TPR = 1 and FPR = 0, which is the point on the top left. Typically we calculate the area under the ROC curve (AUC-ROC), and the greater the AUC-ROC the better.
+ROC 曲線は真陽性率 (y 軸) と偽陽性率 (x 軸) をプロットします。理想的なスコアは TPR = 1、FPR = 0 で、左上の点になります。一般に ROC 曲線下面積 (AUC-ROC) を計算し、AUC-ROC が大きいほど良いとされます。
 
 `wandb.sklearn.plot_roc(y_true, y_probas, labels)`
 
-* y_true (arr): Test set labels.
-* y_probas (arr): Test set predicted probabilities.
-* labels (list): Named labels for target variable (y).
+* y_true (arr): テストセットのラベル。
+* y_probas (arr): テストセットの予測確率。
+* labels (list): 目的変数 (y) のラベル名。
 
-### Class proportions
+### クラス比率
 
-{{< img src="/images/integrations/scikic_class_props.png" alt="Scikit-learn classification properties" >}}
+{{< img src="/images/integrations/scikic_class_props.png" alt="Scikit-learn のクラス比率" >}}
 
-Plots the distribution of target classes in training and test sets. Useful for detecting imbalanced classes and ensuring that one class doesn't have a disproportionate influence on the model.
+トレーニング セットとテストセットにおける目的クラスの分布をプロットします。不均衡データの検出や、特定のクラスがモデルに過度の影響を与えていないかの確認に役立ちます。
 
 `wandb.sklearn.plot_class_proportions(y_train, y_test, ['dog', 'cat', 'owl'])`
 
-* y_train (arr): Training set labels.
-* y_test (arr): Test set labels.
-* labels (list): Named labels for target variable (y).
+* y_train (arr): トレーニング セットのラベル。
+* y_test (arr): テストセットのラベル。
+* labels (list): 目的変数 (y) のラベル名。
 
 ### Precision recall curve
 
-{{< img src="/images/integrations/scikit_precision_recall.png" alt="Scikit-learn precision-recall curve" >}}
+{{< img src="/images/integrations/scikit_precision_recall.png" alt="Scikit-learn の Precision-Recall 曲線" >}}
 
-Computes the tradeoff between precision and recall for different thresholds. A high area under the curve represents both high recall and high precision, where high precision relates to a low false positive rate, and high recall relates to a low false negative rate.
+さまざまな閾値に対する precision と recall のトレードオフを計算します。曲線下面積が大きいほど、high recall かつ high precision であることを示します。high precision は偽陽性率が低いこと、high recall は偽陰性率が低いことに対応します。
 
-High scores for both show that the classifier is returning accurate results (high precision), as well as returning a majority of all positive results (high recall). PR curve is useful when the classes are very imbalanced.
+両方が高いということは、分類器が正確な結果 (高い precision) を返しつつ、陽性の大半 (高い recall) も取りこぼしていないことを意味します。PR 曲線は、クラスが非常に不均衡なときに有用です。
 
 `wandb.sklearn.plot_precision_recall(y_true, y_probas, labels)`
 
-* y_true (arr): Test set labels.
-* y_probas (arr): Test set predicted probabilities.
-* labels (list): Named labels for target variable (y).
+* y_true (arr): テストセットのラベル。
+* y_probas (arr): テストセットの予測確率。
+* labels (list): 目的変数 (y) のラベル名。
 
-### Feature importances
+### 特徴量の重要度
 
-{{< img src="/images/integrations/scikit_feature_importances.png" alt="Scikit-learn feature importance chart" >}}
+{{< img src="/images/integrations/scikit_feature_importances.png" alt="Scikit-learn の特徴量重要度チャート" >}}
 
-Evaluates and plots the importance of each feature for the classification task. Only works with classifiers that have a `feature_importances_` attribute, like trees.
+分類タスクにおける各特徴量の重要度を評価してプロットします。木系モデルのように `feature_importances_` 属性を持つ分類器でのみ動作します。
 
 `wandb.sklearn.plot_feature_importances(model, ['width', 'height, 'length'])`
 
-* model (clf): Takes in a fitted classifier.
-* feature_names (list): Names for features. Makes plots easier to read by replacing feature indexes with corresponding names.
+* model (clf): 学習済みの分類器を受け取ります。
+* feature_names (list): 特徴量名。インデックスを名前に置き換えることでプロットの可読性が向上します。
 
-### Calibration curve
+### キャリブレーション曲線
 
-{{< img src="/images/integrations/scikit_calibration_curve.png" alt="Scikit-learn calibration curve" >}}
+{{< img src="/images/integrations/scikit_calibration_curve.png" alt="Scikit-learn のキャリブレーション曲線" >}}
 
-Plots how well calibrated the predicted probabilities of a classifier are and how to calibrate an uncalibrated classifier. Compares estimated predicted probabilities by a baseline logistic regression model, the model passed as an argument, and by both its isotonic calibration and sigmoid calibrations.
+分類器の予測確率がどれだけ校正されているか、また未校正の分類器をどのように校正するかをプロットします。ベースラインのロジスティック回帰モデル、引数として渡したモデル、およびそのアイソトニック キャリブレーションとシグモイド キャリブレーションによる推定予測確率を比較します。
 
-The closer the calibration curves are to a diagonal the better. A transposed sigmoid like curve represents an overfitted classifier, while a sigmoid like curve represents an underfitted classifier. By training isotonic and sigmoid calibrations of the model and comparing their curves we can figure out whether the model is over or underfitting and if so which calibration (sigmoid or isotonic) might help fix this.
+キャリブレーション曲線が対角線に近いほど良好です。転置したシグモイドのような曲線は過学習した分類器を、シグモイドのような曲線は学習不足の分類器を表します。モデルのアイソトニック版とシグモイド版を学習して曲線を比較することで、モデルが過学習か学習不足か、そしてどちらのキャリブレーション (シグモイドまたはアイソトニック) が有効かを判断できます。
 
-For more details, check out [sklearn's docs](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html).
+詳細は [sklearn's docs](https://scikit-learn.org/stable/auto_examples/calibration/plot_calibration_curve.html) を参照してください。
 
 `wandb.sklearn.plot_calibration_curve(clf, X, y, 'RandomForestClassifier')`
 
-* model (clf): Takes in a fitted classifier.
-* X (arr): Training set features.
-* y (arr): Training set labels.
-* model_name (str): Model name. Defaults to 'Classifier'
+* model (clf): 学習済みの分類器を受け取ります。
+* X (arr): トレーニング セットの特徴量。
+* y (arr): トレーニング セットのラベル。
+* model_name (str): モデル名。既定は 'Classifier'。
 
-### Confusion matrix
+### 混同行列
 
-{{< img src="/images/integrations/scikit_confusion_matrix.png" alt="Scikit-learn confusion matrix" >}}
+{{< img src="/images/integrations/scikit_confusion_matrix.png" alt="Scikit-learn の混同行列" >}}
 
-Computes the confusion matrix to evaluate the accuracy of a classification. It's useful for assessing the quality of model predictions and finding patterns in the predictions the model gets wrong. The diagonal represents the predictions the model got right, such as where the actual label is equal to the predicted label.
+分類の精度を評価するために混同行列を計算します。モデルの予測の質を評価し、誤分類のパターンを見つけるのに役立ちます。対角成分はモデルが正しく予測したもの (実ラベルと予測ラベルが一致) を表します。
 
 `wandb.sklearn.plot_confusion_matrix(y_true, y_pred, labels)`
 
-* y_true (arr): Test set labels.
-* y_pred (arr): Test set predicted labels.
-* labels (list): Named labels for target variable (y).
+* y_true (arr): テストセットのラベル。
+* y_pred (arr): テストセットの予測ラベル。
+* labels (list): 目的変数 (y) のラベル名。
 
-### Summary metrics
+### 集約メトリクス
 
-{{< img src="/images/integrations/scikit_summary_metrics.png" alt="Scikit-learn summary metrics" >}}
+{{< img src="/images/integrations/scikit_summary_metrics.png" alt="Scikit-learn のサマリーメトリクス" >}}
 
-- Calculates summary metrics for classification, such as `mse`, `mae`, and `r2` score.
-- Calculates summary metrics for regression, such as `f1`, accuracy, precision, and recall.
+- 分類に対するサマリーメトリクスを計算します。例: `mse`、`mae`、`r2` スコア。
+- 回帰に対するサマリーメトリクスを計算します。例: `f1`、accuracy、precision、recall。
 
 `wandb.sklearn.plot_summary_metrics(model, X_train, y_train, X_test, y_test)`
 
-* model (clf or reg): Takes in a fitted regressor or classifier.
-* X (arr): Training set features.
-* y (arr): Training set labels.
-  * X_test (arr): Test set features.
-* y_test (arr): Test set labels.
+* model (clf or reg): 学習済みの回帰器または分類器を受け取ります。
+* X (arr): トレーニング セットの特徴量。
+* y (arr): トレーニング セットのラベル。
+  * X_test (arr): テストセットの特徴量。
+* y_test (arr): テストセットのラベル。
 
-### Elbow plot
+### エルボープロット
 
-{{< img src="/images/integrations/scikit_elbow_plot.png" alt="Scikit-learn elbow plot" >}}
+{{< img src="/images/integrations/scikit_elbow_plot.png" alt="Scikit-learn のエルボープロット" >}}
 
-Measures and plots the percentage of variance explained as a function of the number of clusters, along with training times. Useful in picking the optimal number of clusters.
+クラスター数に対する説明分散率とトレーニング時間を測定・プロットします。最適なクラスター数の選択に役立ちます。
 
 `wandb.sklearn.plot_elbow_curve(model, X_train)`
 
-* model (clusterer): Takes in a fitted clusterer.
-* X (arr): Training set features.
+* model (clusterer): 学習済みのクラスタラーを受け取ります。
+* X (arr): トレーニング セットの特徴量。
 
-### Silhouette plot
+### シルエットプロット
 
-{{< img src="/images/integrations/scikit_silhouette_plot.png" alt="Scikit-learn silhouette plot" >}}
+{{< img src="/images/integrations/scikit_silhouette_plot.png" alt="Scikit-learn のシルエットプロット" >}}
 
-Measures & plots how close each point in one cluster is to points in the neighboring clusters. The thickness of the clusters corresponds to the cluster size. The vertical line represents the average silhouette score of all the points.
+あるクラスター内の各点が隣接クラスターの点とどれだけ近いかを測定・プロットします。クラスターの厚みはクラスター サイズに対応します。縦線は全サンプルの平均シルエットスコアを表します。
 
-Silhouette coefficients near +1 indicate that the sample is far away from the neighboring clusters. A value of 0 indicates that the sample is on or very close to the decision boundary between two neighboring clusters and negative values indicate that those samples might have been assigned to the wrong cluster.
+シルエット係数が +1 に近いほど、そのサンプルは隣接クラスターから十分に離れています。0 は 2 つの隣接クラスターの決定境界上またはごく近くにあることを示し、負の値は誤ったクラスターに割り当てられた可能性を示します。
 
-In general we want all silhouette cluster scores to be above average (past the red line) and as close to 1 as possible. We also prefer cluster sizes that reflect the underlying patterns in the data.
+一般に、すべてのクラスターのシルエットスコアが平均より高く (赤い線より右) なり、できるだけ 1 に近いことが望ましいです。また、データの基礎的なパターンを反映したクラスター サイズが好まれます。
 
 `wandb.sklearn.plot_silhouette(model, X_train, ['spam', 'not spam'])`
 
-* model (clusterer): Takes in a fitted clusterer.
-* X (arr): Training set features.
-  * cluster_labels (list): Names for cluster labels. Makes plots easier to read by replacing cluster indexes with corresponding names.
+* model (clusterer): 学習済みのクラスタラーを受け取ります。
+* X (arr): トレーニング セットの特徴量。
+  * cluster_labels (list): クラスター ラベル名。インデックスを名前に置き換えることでプロットの可読性が向上します。
 
-### Outlier candidates plot
+### 外れ値候補プロット
 
-{{< img src="/images/integrations/scikit_outlier_plot.png" alt="Scikit-learn outlier plot" >}}
+{{< img src="/images/integrations/scikit_outlier_plot.png" alt="Scikit-learn の外れ値プロット" >}}
 
-Measures a datapoint's influence on regression model via cook's distance. Instances with heavily skewed influences could potentially be outliers. Useful for outlier detection.
+Cook の距離を使って、各データ点が回帰モデルに与える影響を測定します。影響度が極端に偏っているサンプルは外れ値の可能性があります。外れ値検出に有用です。
 
 `wandb.sklearn.plot_outlier_candidates(model, X, y)`
 
-* model (regressor): Takes in a fitted classifier.
-* X (arr): Training set features.
-* y (arr): Training set labels.
+* model (regressor): 学習済みの分類器を受け取ります。
+* X (arr): トレーニング セットの特徴量。
+* y (arr): トレーニング セットのラベル。
 
-### Residuals plot
+### 残差プロット
 
-{{< img src="/images/integrations/scikit_residuals_plot.png" alt="Scikit-learn residuals plot" >}}
+{{< img src="/images/integrations/scikit_residuals_plot.png" alt="Scikit-learn の残差プロット" >}}
 
-Measures and plots the predicted target values (y-axis) vs the difference between actual and predicted target values (x-axis), as well as the distribution of the residual error.
+予測されたターゲット値 (y 軸) と、実測値と予測値の差 (x 軸) をプロットし、残差誤差の分布も示します。
 
-Generally, the residuals of a well-fit model should be randomly distributed because good models will account for most phenomena in a data set, except for random error.
+一般に、当てはまりの良いモデルの残差はランダムに分布します。良いモデルは、ランダム誤差を除くほとんどの現象をデータセット内で説明できるためです。
 
 `wandb.sklearn.plot_residuals(model, X, y)`
 
-* model (regressor): Takes in a fitted classifier.
-* X (arr): Training set features.
-*   y (arr): Training set labels.
+* model (regressor): 学習済みの分類器を受け取ります。
+* X (arr): トレーニング セットの特徴量。
+*   y (arr): トレーニング セットのラベル。
 
-    If you have any questions, we'd love to answer them in our [slack community](https://wandb.me/slack).
+    ご不明な点があれば、ぜひ私たちの [slack community](https://wandb.me/slack) でご質問ください。
 
-## Example
+## 例
 
-* [Run in colab](https://wandb.me/scikit-colab): A simple notebook to get you started.
+* [Run in colab](https://wandb.me/scikit-colab): すぐに始められるシンプルなノートブック。

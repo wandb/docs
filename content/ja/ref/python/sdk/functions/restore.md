@@ -1,10 +1,10 @@
 ---
+title: restore()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-restore
 object_type: python_sdk_actions
-title: restore()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}
@@ -23,27 +23,27 @@ restore(
 ) → None | TextIO
 ```
 
-Download the specified file from cloud storage. 
+指定したファイルをクラウド ストレージからダウンロードします。 
 
-File is placed into the current directory or run directory. By default, will only download the file if it doesn't already exist. 
+ファイルはカレント ディレクトリー、または run ディレクトリーに配置されます。デフォルトでは、ローカルに存在しない場合のみダウンロードします。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of the file. 
- - `run_path`:  Optional path to a run to pull files from, i.e. `username/project_name/run_id`  if wandb.init has not been called, this is required. 
- - `replace`:  Whether to download the file even if it already exists locally 
- - `root`:  The directory to download the file to.  Defaults to the current  directory or the run directory if wandb.init was called. 
+ - `name`:  ファイル名。 
+ - `run_path`:  ファイルを取得する対象の run への任意のパス。例: `username/project_name/run_id`。wandb.init が呼び出されていない場合は必須。 
+ - `replace`:  ローカルに既に存在する場合でもファイルをダウンロードするかどうか。 
+ - `root`:  ファイルのダウンロード先ディレクトリー。デフォルトはカレント ディレクトリー、または wandb.init が呼び出されている場合は run ディレクトリー。 
 
 
 
-**Returns:**
- None if it can't find the file, otherwise a file object open for reading. 
+**戻り値:**
+ ファイルが見つからない場合は None、見つかった場合は読み取り用に開かれたファイル オブジェクト。 
 
 
 
-**Raises:**
+**例外:**
  
- - `CommError`:  If W&B can't connect to the W&B backend. 
- - `ValueError`:  If the file is not found or can't find run_path.
+ - `CommError`:  W&B が W&B バックエンドに接続できない場合。 
+ - `ValueError`:  ファイルが見つからない、または run_path を見つけられない場合。

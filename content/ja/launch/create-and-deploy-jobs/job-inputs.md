@@ -1,33 +1,31 @@
 ---
+title: ジョブの入力を管理する
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-job-inputs
     parent: create-and-deploy-jobs
-title: Manage job inputs
 url: guides/launch/job-inputs
 ---
 
-The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs]({{< relref path="./add-job-to-queue.md" lang="ja" >}}) guide.
+Launch のコア体験は、ハイパーパラメーターや Datasets のようなさまざまなジョブ入力を手軽に試し、これらのジョブを適切なハードウェアへルーティングすることです。ジョブが作成されると、元の作者以外のユーザーも W&B の GUI や CLI からこれらの入力を調整できます。CLI または UI から起動する際にジョブ入力をどう設定するかは、[ジョブをキューに追加]({{< relref path="./add-job-to-queue.md" lang="ja" >}}) ガイドを参照してください。
 
-This section describes how to programmatically control the inputs that can be tweaked for a job.
+このセクションでは、ジョブで調整可能な入力をプログラム的に制御する方法を説明します。
 
-By default, W&B jobs capture the entire `Run.config` as the inputs to a job, but the Launch SDK provides a function to control select keys in the run config or to specify JSON or YAML files as inputs.
-
+デフォルトでは、W&B のジョブはジョブの入力として `Run.config` 全体を取得しますが、Launch SDK は run config の特定のキーだけを制御したり、JSON または YAML ファイルを入力として指定したりするための関数を提供します。
 
 {{% alert %}}
-Launch SDK functions require `wandb-core`. See the [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) for more information.
+Launch SDK の関数を使うには `wandb-core` が必要です。詳しくは [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README.md) を参照してください。
 {{% /alert %}}
 
-## Reconfigure the `Run` object
+## `Run` オブジェクトを再設定する
 
-The `Run` object returned by `wandb.init` in a job can be reconfigured, by default. The Launch SDK provides a way to customize what parts of the `Run.config` object can be reconfigured when launching the job.
-
+ジョブ内で `wandb.init` が返す `Run` オブジェクトは、デフォルトで再設定できます。Launch SDK は、ジョブを起動する際に `Run.config` オブジェクトのどの部分を再設定可能にするかをカスタマイズする方法を提供します。
 
 ```python
 import wandb
 from wandb.sdk import launch
 
-# Required for launch sdk use.
+# Launch SDK を使うために必要です。
 wandb.require("core")
 
 config = {
@@ -49,24 +47,24 @@ with wandb.init(config=config):
         include=["trainer"], 
         exclude=["trainer.private"],
     )
-    # Etc.
+    # など
 ```
 
-The function `launch.manage_wandb_config` configures the job to accept input values for the `Run.config` object. The optional `include` and `exclude` options take path prefixes within the nested config object. This can be useful if, for example, a job uses a library whose options you don't want to expose to end users. 
+`launch.manage_wandb_config` 関数は、`Run.config` オブジェクトに対する入力値をジョブが受け付けるように設定します。任意の `include` と `exclude` オプションは、入れ子になった config オブジェクト内のパス接頭辞を受け取ります。たとえば、ジョブがエンドユーザーに公開したくないオプションを持つライブラリを使っている場合に便利です。
 
-If `include` prefixes are provided, only paths within the config that match an `include` prefix will accept input values. If `exclude` prefixes are provided, no paths that match the `exclude` list will be filtered out of the input values. If a path matches both an `include` and an `exclude` prefix, the `exclude` prefix will take precedence.
+`include` の接頭辞を指定すると、config 内で `include` の接頭辞に一致するパスのみが入力値を受け付けます。`exclude` の接頭辞を指定すると、`exclude` のリストに一致するパスは入力値から除外されます。あるパスが `include` と `exclude` の両方の接頭辞に一致する場合は、`exclude` の方が優先されます。
 
-In the preceding example, the path `["trainer.private"]` will filter out the `private` key from the `trainer` object, and the path `["trainer"]` will filter out all keys not under the `trainer` object.
+上の例では、パス `["trainer.private"]` によって `trainer` オブジェクトから `private` キーが除外され、パス `["trainer"]` によって `trainer` 配下以外のすべてのキーが除外されます。
 
 {{% alert %}}
-Use a `\`-escaped `.` to filter out keys with a `.` in their name. 
+名前に `.` を含むキーをフィルタリングするには、` \ ` でエスケープした `.` を使用してください。
 
-For example, `r"trainer\.private"` filters out the `trainer.private` key rather than the `private` key under the `trainer` object.
+たとえば、`r"trainer\.private"` は、`trainer` オブジェクト配下の `private` キーではなく、`trainer.private` というキー自体を除外します。
 
-Note that the `r` prefix above denotes a raw string.
+なお、上記の `r` 接頭辞は raw 文字列を表します。
 {{% /alert %}}
 
-If the code above is packaged and run as a job, the input types of the job will be:
+上記のコードをパッケージ化してジョブとして実行すると、ジョブの入力タイプは次のようになります。
 
 ```json
 {
@@ -79,38 +77,37 @@ If the code above is packaged and run as a job, the input types of the job will 
 }
 ```
 
-When launching the job from the W&B CLI or UI, the user will be able to override only the four `trainer` parameters.
+W&B の CLI または UI からジョブを起動する際、ユーザーが上書きできるのは `trainer` の 4 つのパラメータだけです。
 
-### Access run config inputs
+### Run config 入力にアクセスする
 
-Jobs launched with run config inputs can access the input values through the `Run.config`. The `Run` returned by `wandb.init` in the job code will have the input values automatically set. Use 
+Run config 入力付きで起動したジョブは、`Run.config` を通じて入力値にアクセスできます。ジョブコード内で `wandb.init` が返す `Run` には、入力値が自動的に設定されています。ジョブコードのどこからでも run config の入力値を読み込むには、次を使用してください。
 ```python
 from wandb.sdk import launch
 
 run_config_overrides = launch.load_wandb_config()
 ```
-to load the run config input values anywhere in the job code.
 
-## Reconfigure a file
+## ファイルを再設定する
 
-The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) example or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
+Launch SDK は、ジョブコード内の config ファイルに保存された入力値を管理する方法も提供します。これは多くのディープラーニングや大規模言語モデルのユースケースで一般的なパターンで、たとえばこの [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例や、この [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) などがあります。
 
 {{% alert %}}
-[Sweeps on Launch]({{< relref path="../sweeps-on-launch.md" lang="ja" >}}) does not support the use of config file inputs as sweep parameters. Sweep parameters must be controlled through the `Run.config` object.
+[Sweeps on Launch]({{< relref path="../sweeps-on-launch.md" lang="ja" >}}) は、config ファイル入力を sweep パラメータとして使用することをサポートしていません。sweep パラメータは `Run.config` オブジェクトで制御する必要があります。
 {{% /alert %}}
 
-The `launch.manage_config_file` function can be used to add a config file as an input to the Launch job, giving you access to edit values within the config file when launching the job.
+`launch.manage_config_file` 関数を使うと、Launch のジョブに config ファイルを入力として追加でき、ジョブを起動する際にそのファイル内の値を編集できます。
 
-By default, no run config inputs will be captured if `launch.manage_config_file` is used. Calling `launch.manage_wandb_config` overrides this behavior.
+デフォルトでは、`launch.manage_config_file` を使用すると run config の入力は取得されません。`launch.manage_wandb_config` を呼び出すと、この挙動を上書きします。
 
-Consider the following example:
+次の例を考えてみましょう。
 
 ```python
 import yaml
 import wandb
 from wandb.sdk import launch
 
-# Required for launch sdk use.
+# Launch SDK を使うために必要です。
 wandb.require("core")
 
 launch.manage_config_file("config.yaml")
@@ -119,11 +116,11 @@ with open("config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 with wandb.init(config=config):
-    # Etc.
+    # など
     pass
 ```
 
-Imagine the code is run with an adjacent file `config.yaml`:
+隣接する `config.yaml` ファイルとともにコードを実行すると仮定します。
 
 ```yaml
 learning_rate: 0.01
@@ -132,38 +129,35 @@ model: resnet
 dataset: cifar10
 ```
 
-The call to `launch.manage_config_file` will add the `config.yaml` file as an input to the job, making it reconfigurable when launching from the W&B CLI or UI. 
+`launch.manage_config_file` の呼び出しによって、`config.yaml` ファイルがジョブの入力として追加され、W&B の CLI や UI から起動するときに再設定可能になります。
 
-The `include` and `exclude` keyword arugments may be used to filter the acceptable input keys for the config file in the same way as `launch.manage_wandb_config`.
+`include` と `exclude` のキーワード引数を使って、`launch.manage_wandb_config` と同様の方法で、その config ファイルに対して許可される入力キーをフィルタリングできます。
 
+### config ファイル入力にアクセスする
 
-### Access config file inputs
-
-When `launch.manage_config_file` is called in a run created by Launch, `launch` patches the contents of the config file with the input values. The patched config file is available in the job environment.
-
-{{% alert color="secondary" %}}
-Call `launch.manage_config_file` before reading the config file in the job code to ensure input values are used.
-{{% /alert %}}
-
-
-### Customize a job's launch drawer UI
-
-Defining a schema for a job's inputs allows you to create a custom UI for launching the job. To define a job's schema, include it in the call to `launch.manage_wandb_config` or `launch.manage_config_file`. The schema can either be a python dict in the form of a [JSON Schema](https://json-schema.org/understanding-json-schema/reference) or a Pydantic model class.
+Launch によって作成された run で `launch.manage_config_file` が呼び出されると、`launch` は入力値で config ファイルの内容をパッチします。パッチ済みの config ファイルはジョブの環境内で利用できます。
 
 {{% alert color="secondary" %}}
-Job input schemas are not used to validate inputs. They are only used to define the UI in the launch drawer.
+入力値が確実に使用されるよう、ジョブコードで config ファイルを読む前に `launch.manage_config_file` を呼び出してください。
 {{% /alert %}}
 
+### ジョブの Launch drawer UI をカスタマイズする
+
+ジョブの入力に対してスキーマを定義すると、ジョブを起動するためのカスタム UI を作成できます。ジョブのスキーマを定義するには、`launch.manage_wandb_config` または `launch.manage_config_file` の呼び出しに含めます。スキーマは、[JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python 辞書、または Pydantic のモデルクラスのいずれかです。
+
+{{% alert color="secondary" %}}
+ジョブ入力スキーマは入力のバリデーションには使用されません。Launch の drawer 内の UI を定義するためだけに使用されます。
+{{% /alert %}}
 
 {{< tabpane text=true >}}
-{{% tab "JSON schema" %}}
-The following example shows a schema with these properties:
+{{% tab "JSON Schema" %}}
+次の例は、以下のプロパティを持つスキーマを示します。
 
-- `seed`, an integer
-- `trainer`, a dictionary with some keys specified:
-  - `trainer.learning_rate`, a float that must be greater than zero
-  - `trainer.batch_size`, an integer that must be either 16, 64, or 256
-  - `trainer.dataset`, a string that must be either `cifar10` or `cifar100`
+- `seed`: 整数
+- `trainer`: 次のキーが指定された辞書
+  - `trainer.learning_rate`: 0 より大きい必要がある浮動小数
+  - `trainer.batch_size`: 16、64、または 256 のいずれかである必要がある整数
+  - `trainer.dataset`: `cifar10` または `cifar100` のいずれかである必要がある文字列
 
 ```python
 schema = {
@@ -202,28 +196,28 @@ launch.manage_wandb_config(
 )
 ```
 
-In general, the following JSON Schema attributes are supported:
+一般に、次の JSON Schema 属性がサポートされています。
 
-| Attribute | Required |  Notes |
+| Attribute | Required | Notes |
 | --- | --- | --- |
-| `type` | Yes | Must be one of `number`, `integer`, `string`, or `object` |
-| `title` | No | Overrides the property's display name |
-| `description` | No | Gives the property helper text |
-| `enum` | No | Creates a dropdown select instead of a freeform text entry |
-| `minimum` | No | Allowed only if `type` is `number` or `integer` |
-| `maximum` | No | Allowed only if `type` is `number` or `integer` |
-| `exclusiveMinimum` | No | Allowed only if `type` is `number` or `integer` |
-| `exclusiveMaximum` | No | Allowed only if `type` is `number` or `integer` |
-| `properties` | No | If `type` is `object`, used to define nested configurations |
+| `type` | Yes | `number`、`integer`、`string`、`object` のいずれかである必要があります |
+| `title` | No | プロパティの表示名を上書きします |
+| `description` | No | プロパティの補足テキストを表示します |
+| `enum` | No | 自由入力ではなくプルダウン選択を作成します |
+| `minimum` | No | `type` が `number` または `integer` の場合のみ使用可能 |
+| `maximum` | No | `type` が `number` または `integer` の場合のみ使用可能 |
+| `exclusiveMinimum` | No | `type` が `number` または `integer` の場合のみ使用可能 |
+| `exclusiveMaximum` | No | `type` が `number` または `integer` の場合のみ使用可能 |
+| `properties` | No | `type` が `object` の場合、入れ子の設定を定義するために使用します |
 {{% /tab %}}
-{{% tab "Pydantic model" %}}
-The following example shows a schema with these properties:
+{{% tab "Pydantic モデル" %}}
+次の例は、以下のプロパティを持つスキーマを示します。
 
-- `seed`, an integer
-- `trainer`, a schema with some sub-attributes specified:
-  - `trainer.learning_rate`, a float that must be greater than zero
-  - `trainer.batch_size`, an integer that must be between 1 and 256, inclusive
-  - `trainer.dataset`, a string that must be either `cifar10` or `cifar100`
+- `seed`: 整数
+- `trainer`: 次のサブ属性が指定されたスキーマ
+  - `trainer.learning_rate`: 0 より大きい必要がある浮動小数
+  - `trainer.batch_size`: 1 以上 256 以下である必要がある整数
+  - `trainer.dataset`: `cifar10` または `cifar100` のいずれかである必要がある文字列
 
 ```python
 class DatasetEnum(str, Enum):
@@ -246,7 +240,7 @@ launch.manage_wandb_config(
 )
 ```
 
-You can also use an instance of the class:
+クラスのインスタンスを使うこともできます。
 
 ```python
 t = Trainer(learning_rate=0.01, batch_size=32, dataset=DatasetEnum.cifar10)
@@ -260,6 +254,6 @@ launch.manage_wandb_config(
 {{% /tab %}}
 {{< /tabpane >}}
 
-Adding a job input schema will create a structured form in the launch drawer, making it easier to launch the job.
+ジョブ入力スキーマを追加すると、Launch の drawer に構造化フォームが作成され、ジョブを簡単に起動できるようになります。
 
-{{< img src="/images/launch/schema_overrides.png" alt="Job input schema form" >}}
+{{< img src="/images/launch/schema_overrides.png" alt="ジョブ入力スキーマのフォーム" >}}

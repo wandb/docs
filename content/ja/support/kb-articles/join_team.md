@@ -1,17 +1,16 @@
 ---
+title: W&B の Team に追加してもらうにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-join_team
 support:
-- administrator
-- team management
-title: How do I get added to a team on W&B?
+- 管理者
+- Teams の管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To join a team, follow these steps:
-
-- Contact a team admin or someone with administrative privileges to request an invite.
-- Check your email for the invitation, and follow the instructions to join the team.
+Team に参加するには、次の手順に従ってください:
+- 招待を依頼するには、Team の管理者または管理者権限を持つユーザーに連絡してください。
+- 招待メールを確認し、案内に従って Team に参加してください。

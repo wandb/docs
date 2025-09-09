@@ -1,23 +1,23 @@
 ---
+title: アカウントを持っていない人は run の結果をどうやって見られますか？
 menu:
   support:
     identifier: ja-support-kb-articles-run_results_anonymous_mode
 support:
-- anonymous
-title: How does someone without an account see run results?
+- 匿名
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If someone runs the script with `anonymous="allow"`:
+`anonymous="allow"` を指定して スクリプト を実行した場合:
 
-1. **Auto-create temporary account**: W&B checks for a signed-in account. If none exists, W&B creates a new anonymous account and saves the API key for that session.
-2. **Log results quickly**: Users can repeatedly run the script and instantly view results in the W&B dashboard. These unclaimed anonymous runs remain available for 7 days.
-3. **Claim data when it's useful**: Once a user identifies valuable results in W&B, they can click a button in the banner at the top of the page to save their run data to a real account. Without claiming, the run data deletes after 7 days.
+1. **一時アカウントを自動作成**: W&B はサインイン済みアカウントを確認します。存在しない場合は、新しい匿名アカウントを作成し、そのセッション用の APIキー を保存します。
+2. **結果をすばやく記録**: ユーザー は スクリプト を繰り返し実行し、W&B ダッシュボード で 結果 を即座に確認できます。未取得の匿名 run は 7 日間利用可能です。
+3. **必要になったらデータを引き継ぐ**: ユーザー が W&B で価値のある 結果 を見つけたら、ページ上部のバナーにあるボタンをクリックして、その run の データ を本アカウントに保存できます。取得しない場合、run の データ は 7 日後に削除されます。
 
 {{% alert color="secondary" %}}
-**Anonymous run links are sensitive**. These links permit anyone to view and claim experiment results for 7 days, so share links only with trusted individuals. For publicly sharing results while hiding the author's identity, contact support@wandb.com for assistance.
+**匿名 run のリンクは取り扱い注意です**。これらのリンクは、誰でも 7 日間 実験の 結果 を閲覧し取得できるため、信頼できる相手にのみ共有してください。作者の身元を隠したまま 結果 を公開共有したい場合は、support@wandb.com までお問い合わせください。
 {{% /alert %}}
 
-When a W&B user finds and runs the script, their results log correctly to their account, just like a normal run.
+W&B の ユーザー がその スクリプト を見つけて実行した場合、通常の run と同様に、その 結果 は正しく自分のアカウントにログされます。

@@ -1,11 +1,10 @@
 ---
-description: 'Find answers to common W&B Inference questions
-
-  '
+title: サポート
+description: W&B Inference に関するよくある質問の回答を見つける
 menu:
   default:
     identifier: ja-guides-inference-support
-title: Support
 url: /support/inference/
 weight: 80
 ---
+

@@ -1,72 +1,70 @@
 ---
-description: Manage a team's members, avatar, alerts, and privacy settings with the
-  Team Settings page.
+title: Team 設定を管理
+description: Team Settings ページで、チームのメンバー、アバター、アラート、プライバシー設定を管理します。
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-team-settings
     parent: settings
-title: Manage team settings
 weight: 30
 ---
 
-# Team settings
+# Team の設定
 
-Change your team's settings, including members, avatar, alerts, privacy, and usage. Organization admins and team admins can view and edit a team's settings.
+メンバー、アバター、アラート、プライバシー、使用状況など、Team の設定を変更できます。組織の管理者と Team 管理者は、Team の設定を表示および編集できます。
 
 {{% alert %}}
-Only Administration account types can change team settings or remove a member from a team.
+Team の設定を変更したり、Team からメンバーを削除できるのは、管理者アカウント種別のみです。
 {{% /alert %}}
 
+## メンバー
+Members セクションには、保留中の招待と、招待を受け入れて Team に参加したメンバーの一覧が表示されます。各メンバーには、氏名、ユーザー名、メール、Team ロールに加えて、Organization から継承される Models と W&B Weave へのアクセス権限が表示されます。標準の Team ロールは **Admin**、**Member**、**View-only** です。組織で [カスタム ロール]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#create-custom-roles" lang="ja" >}}) を作成している場合は、カスタム ロールを割り当てられます。
 
-## Members
-The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member's name, username, email, team role, as well as their access privileges to Models and W&B Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#create-custom-roles" lang="ja" >}}), you can assign a custom role instead.
+Team の作成方法、Team の管理、メンバーシップやロールの管理については、[Teams を追加・管理する]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) を参照してください。新しいメンバーを誰が招待できるかや、その他のプライバシー設定を構成するには、[Privacy]({{< relref path="#privacy" lang="ja" >}}) を参照してください。
 
-See [Add and Manage teams]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) for information on how to create a team, manage teams, and manage team membership and roles. To configure who can invite new members and configure other privacy settings for the team, refer to [Privacy]({{< relref path="#privacy" lang="ja" >}}).
+## アバター
 
-## Avatar
+**Avatar** セクションに移動して画像をアップロードし、アバターを設定します。
 
-Set an avatar by navigating to the **Avatar** section and uploading an image.
+1. **Update Avatar** を選択すると、ファイル ダイアログが表示されます。
+2. ファイル ダイアログで使用する画像を選択します。
 
-1. Select the **Update Avatar** to prompt a file dialog to appear.
-2. From the file dialog, choose the image you want to use.
+## アラート
 
-## Alerts
+Runs がクラッシュまたは完了したとき、あるいはカスタム アラートを設定して、Team に通知できます。アラートはメールまたは Slack で受け取れます。
 
-Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+受け取りたいイベント タイプの横にあるスイッチを切り替えます。Weights and Biases は既定で次のイベント タイプを提供します:
 
-Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+* **Runs finished**: Weights and Biases の Run が正常に完了したかどうか。
+* **Run crashed**: Run が完了せずにクラッシュした場合。
 
-* **Runs finished**: whether a Weights and Biases run successfully finished.
-* **Run crashed**: if a run has failed to finish.
+アラートの設定と管理の詳細は、[wandb.Run.alert() でアラートを送信]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を参照してください。
 
-For more information about how to set up and manage alerts, see [Send alerts with `wandb.Run.alert()`]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}).
-
-## Slack notifications
-Configure Slack destinations where your team's [automations]({{< relref path="/guides/core/automations/" lang="ja" >}}) can send notifications when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}).
+## Slack 通知
+Registry や project でイベントが発生したとき (たとえば新しい artifact が作成された場合や、Run のメトリクスが定義済みのしきい値を満たした場合など) に、Team の [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}}) が通知を送信する Slack 宛先を設定します。詳しくは [Slack オートメーションを作成]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}) を参照してください。
 
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-only.md" >}}
 {{% /pageinfo %}}
 
 ## Webhooks
-Configure webhooks that your team's [automations]({{< relref path="/guides/core/automations/" lang="ja" >}}) can run when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a webhook automation]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}).
+Registry や project でイベントが発生したとき (たとえば新しい artifact が作成された場合や、Run のメトリクスが定義済みのしきい値を満たした場合など) に、Team の [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}}) が実行する Webhook を設定します。詳しくは [Webhook オートメーションを作成]({{< relref path="/guides/core/automations/create-automations/slack.md" lang="ja" >}}) を参照してください。
 
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-only.md" >}}
 {{% /pageinfo %}}
 
-## Privacy
+## プライバシー
 
-Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting.
+**Privacy** セクションに移動してプライバシー設定を変更します。プライバシー設定を変更できるのは組織の管理者のみです。
 
-- Turn off the ability to make future projects public or to share reports publicly.
-- Allow any team member to invite other members, rather than only team admins.
-- Manage whether code saving is turned on by default.
+- 今後 Projects を公開したり、Reports を一般公開で共有したりできないようにします。
+- Team 管理者だけでなく、任意の Team メンバーが他のメンバーを招待できるようにします。
+- コード保存を既定で有効にするかどうかを管理します。
 
-## Usage
+## 使用状況
 
-The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+**Usage** セクションでは、Team が Weights and Biases のサーバー上で消費したメモリ総量が示されます。既定のストレージ プランは 100GB です。ストレージと料金の詳細は、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
 
-## Storage
+## ストレージ
 
-The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector]({{< relref path="teams.md#secure-storage-connector" lang="ja" >}}) or check out our [W&B Server]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) docs if you are self-hosting.
+**Storage** セクションでは、Team のデータに使用されているクラウド ストレージ バケットの設定について説明します。詳しくは [Secure Storage Connector]({{< relref path="teams.md#secure-storage-connector" lang="ja" >}}) を参照するか、セルフホスティングしている場合は [W&B Server]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) のドキュメントをご覧ください。

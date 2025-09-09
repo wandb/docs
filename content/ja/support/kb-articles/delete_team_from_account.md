@@ -1,17 +1,17 @@
 ---
+title: 自分のアカウントから team を削除するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-delete_team_from_account
 support:
-- administrator
-- team management
-title: How do I delete a team from my account?
+- 管理者
+- チーム管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To delete a team from an account:
+アカウントから Team を削除するには:
 
-- Access team settings as an admin.
-- Click the **Delete** button at the bottom of the page.
+- 管理者として Team 設定にアクセスします。
+- ページ下部の **Delete** ボタンをクリックします。

@@ -1,36 +1,36 @@
 ---
+title: W&B Inference での サーバー エラー (500、503) はどのように対処すればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-inference_server_errors_500_503
 support:
-- inference
-title: How do I fix server errors (500, 503) with W&B Inference?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Server errors indicate temporary issues with the W&B Inference service.
+サーバー エラーは W&B Inference サービスに一時的な問題が発生していることを示します。
 
-## Error types
+## エラーの種類
 
 ### 500 - Internal Server Error
-**Message:** "The server had an error while processing your request"
+**メッセージ:** "The server had an error while processing your request"
 
-This is a temporary internal error on the server side.
+これはサーバー 側の一時的な内部エラーです。
 
 ### 503 - Service Overloaded
-**Message:** "The engine is currently overloaded, please try again later"
+**メッセージ:** "The engine is currently overloaded, please try again later"
 
-The service is experiencing high traffic.
+サービスでトラフィックが増加しています。
 
-## How to handle server errors
+## サーバー エラーの対処方法
 
-1. **Wait before retrying**
-   - 500 errors: Wait 30-60 seconds
-   - 503 errors: Wait 60-120 seconds
+1. **再試行の前に待機する**
+   - 500 エラー: 30〜60 秒待つ
+   - 503 エラー: 60〜120 秒待つ
 
-2. **Use exponential backoff**
+2. **指数バックオフを使う**
    ```python
    import time
    import openai
@@ -53,19 +53,19 @@ The service is experiencing high traffic.
                    raise
    ```
 
-3. **Set appropriate timeouts**
-   - Increase timeout values for your HTTP client
-   - Consider async operations for better handling
+3. **適切なタイムアウトを設定する**
+   - HTTP クライアントのタイムアウト値を増やす
+   - より良いハンドリングのために非同期処理を検討する
 
-## When to contact support
+## サポートに連絡するタイミング
 
-Contact support if:
-- Errors persist for more than 10 minutes
-- You see patterns of failures at specific times
-- Error messages contain additional details
+次の場合はサポートに連絡してください:
+- エラーが 10 分以上継続する
+- 特定の時間帯に失敗のパターンが見られる
+- エラー メッセージに追加の詳細が含まれている
 
-Provide:
-- Error messages and codes
-- Time when errors occurred
-- Your code snippet (remove API keys)
-- W&B entity and project names
+次を提供してください:
+- エラー メッセージとコード
+- エラーが発生した時刻
+- あなたのコードスニペット（API キーを削除）
+- W&B の entity と project 名

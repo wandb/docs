@@ -1,10 +1,10 @@
 ---
+title: アーティファクト
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-artifacts
 object_type: public_apis_namespace
-title: artifacts
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py >}}
@@ -12,92 +12,92 @@ title: artifacts
 
 
 
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Artifact objects. 
+# <kbd>モジュール</kbd> `wandb.apis.public`
+W&B の Artifact オブジェクト向け Public API。 
 
-This module provides classes for interacting with W&B artifacts and their collections. 
-
-
-## <kbd>class</kbd> `ArtifactTypes`
-An lazy iterator of `ArtifactType` objects for a specific project. 
+このモジュールは、W&B の Artifacts およびそのコレクションを操作するためのクラスを提供します。 
 
 
-## <kbd>class</kbd> `ArtifactType`
-An artifact object that satisfies query based on the specified type. 
+## <kbd>クラス</kbd> `ArtifactTypes`
+特定の project 向け `ArtifactType` オブジェクトの遅延イテレーター。 
+
+
+## <kbd>クラス</kbd> `ArtifactType`
+指定されたタイプに基づくクエリを満たす Artifact オブジェクト。 
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact types. 
- - `type_name`:  The name of the artifact type. 
- - `attrs`:  Optional mapping of attributes to initialize the artifact type. If not provided,  the object will load its attributes from W&B upon initialization. 
+ - `client`:  W&B にクエリする際に使用するクライアントインスタンス。 
+ - `entity`:  project の所有者である entity（user または team）。 
+ - `project`:  Artifact Type を検索する対象の project 名。 
+ - `type_name`:  Artifact Type の名前。 
+ - `attrs`:  Artifact Type を初期化するための属性マッピング（任意）。指定しない場合、初期化時に W&B から属性を読み込みます。 
 
 
-### <kbd>property</kbd> ArtifactType.id
+### <kbd>プロパティ</kbd> ArtifactType.id
 
-The unique identifier of the artifact type. 
-
----
-
-### <kbd>property</kbd> ArtifactType.name
-
-The name of the artifact type. 
-
-
+Artifact Type の一意の識別子。 
 
 ---
 
-### <kbd>method</kbd> `ArtifactType.collection`
+### <kbd>プロパティ</kbd> ArtifactType.name
+
+Artifact Type の名前。 
+
+
+
+---
+
+### <kbd>メソッド</kbd> `ArtifactType.collection`
 
 ```python
 collection(name: 'str') → ArtifactCollection
 ```
 
-Get a specific artifact collection by name. 
+指定した名前の artifact コレクションを取得します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name` (str):  The name of the artifact collection to retrieve. 
+ - `name` (str):  取得する artifact コレクション名。 
 
 ---
 
-### <kbd>method</kbd> `ArtifactType.collections`
+### <kbd>メソッド</kbd> `ArtifactType.collections`
 
 ```python
 collections(per_page: 'int' = 50) → ArtifactCollections
 ```
 
-Get all artifact collections associated with this artifact type. 
+この Artifact Type に関連付けられたすべての artifact コレクションを取得します。 
 
 
 
-**Args:**
+**引数:**
  
- - `per_page` (int):  The number of artifact collections to fetch per page.  Default is 50. 
+ - `per_page` (int):  1 ページあたりにフェッチする artifact コレクション数。デフォルトは 50。 
 
 ---
 
 
-## <kbd>class</kbd> `ArtifactCollections`
-Artifact collections of a specific type in a project. 
+## <kbd>クラス</kbd> `ArtifactCollections`
+project 内の特定タイプの artifact コレクション。 
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact collections. 
- - `type_name`:  The name of the artifact type for which to fetch collections. 
- - `per_page`:  The number of artifact collections to fetch per page. Default is 50. 
+ - `client`:  W&B にクエリする際に使用するクライアントインスタンス。 
+ - `entity`:  project の所有者である entity（user または team）。 
+ - `project`:  artifact コレクションを検索する対象の project 名。 
+ - `type_name`:  コレクションを取得する対象の Artifact Type 名。 
+ - `per_page`:  1 ページあたりにフェッチする artifact コレクション数。デフォルトは 50。 
 
 
-### <kbd>property</kbd> ArtifactCollections.length
+### <kbd>プロパティ</kbd> ArtifactCollections.length
 
 
 
@@ -108,153 +108,139 @@ Artifact collections of a specific type in a project.
 
 
 
-## <kbd>class</kbd> `ArtifactCollection`
-An artifact collection that represents a group of related artifacts. 
+## <kbd>クラス</kbd> `ArtifactCollection`
+関連する Artifacts のグループを表す artifact コレクション。 
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifact collections. 
- - `name`:  The name of the artifact collection. 
- - `type`:  The type of the artifact collection (e.g., "dataset", "model"). 
- - `organization`:  Optional organization name if applicable. 
- - `attrs`:  Optional mapping of attributes to initialize the artifact collection.  If not provided, the object will load its attributes from W&B upon  initialization. 
+ - `client`:  W&B にクエリする際に使用するクライアントインスタンス。 
+ - `entity`:  project の所有者である entity（user または team）。 
+ - `project`:  artifact コレクションを検索する対象の project 名。 
+ - `name`:  artifact コレクションの名前。 
+ - `type`:  artifact コレクションのタイプ（例: "dataset", "model"）。 
+ - `organization`:  該当する場合の組織名（任意）。 
+ - `attrs`:  artifact コレクションを初期化するための属性マッピング（任意）。指定しない場合、初期化時に W&B から属性を読み込みます。 
 
 
-### <kbd>property</kbd> ArtifactCollection.aliases
+### <kbd>プロパティ</kbd> ArtifactCollection.aliases
 
-Artifact Collection Aliases. 
-
----
-
-### <kbd>property</kbd> ArtifactCollection.created_at
-
-The creation date of the artifact collection. 
+Artifact Collection のエイリアス。 
 
 ---
 
-### <kbd>property</kbd> ArtifactCollection.description
+### <kbd>プロパティ</kbd> ArtifactCollection.created_at
 
-A description of the artifact collection. 
-
----
-
-### <kbd>property</kbd> ArtifactCollection.id
-
-The unique identifier of the artifact collection. 
+artifact コレクションの作成日時。 
 
 ---
 
-### <kbd>property</kbd> ArtifactCollection.name
+### <kbd>プロパティ</kbd> ArtifactCollection.description
 
-The name of the artifact collection. 
-
----
-
-### <kbd>property</kbd> ArtifactCollection.tags
-
-The tags associated with the artifact collection. 
+artifact コレクションの説明。 
 
 ---
 
-### <kbd>property</kbd> ArtifactCollection.type
+### <kbd>プロパティ</kbd> ArtifactCollection.id
 
-Returns the type of the artifact collection. 
+artifact コレクションの一意の識別子。 
+
+---
+
+### <kbd>プロパティ</kbd> ArtifactCollection.name
+
+artifact コレクションの名前。 
+
+---
+
+### <kbd>プロパティ</kbd> ArtifactCollection.tags
+
+artifact コレクションに関連付けられたタグ。 
+
+---
+
+### <kbd>プロパティ</kbd> ArtifactCollection.type
+
+artifact コレクションのタイプを返します。 
 
 
 
 ---
 
-### <kbd>method</kbd> `ArtifactCollection.artifacts`
+### <kbd>メソッド</kbd> `ArtifactCollection.artifacts`
 
 ```python
 artifacts(per_page: 'int' = 50) → Artifacts
 ```
 
-Get all artifacts in the collection. 
+コレクション内のすべての Artifacts を取得します。 
 
 ---
 
-### <kbd>method</kbd> `ArtifactCollection.change_type`
+### <kbd>メソッド</kbd> `ArtifactCollection.change_type`
 
 ```python
 change_type(new_type: 'str') → None
 ```
 
-Deprecated, change type directly with `save` instead. 
+非推奨。代わりに `save` でタイプを直接変更してください。 
 
 ---
 
-### <kbd>method</kbd> `ArtifactCollection.delete`
+### <kbd>メソッド</kbd> `ArtifactCollection.delete`
 
 ```python
 delete() → None
 ```
 
-Delete the entire artifact collection. 
+artifact コレクション全体を削除します。 
 
 ---
 
-### <kbd>method</kbd> `ArtifactCollection.is_sequence`
+### <kbd>メソッド</kbd> `ArtifactCollection.is_sequence`
 
 ```python
 is_sequence() → bool
 ```
 
-Return whether the artifact collection is a sequence. 
+artifact コレクションがシーケンスかどうかを返します。 
 
 ---
 
 
-### <kbd>method</kbd> `ArtifactCollection.save`
+### <kbd>メソッド</kbd> `ArtifactCollection.save`
 
 ```python
 save() → None
 ```
 
-Persist any changes made to the artifact collection. 
+artifact コレクションに加えた変更を永続化します。 
 
 
 ---
 
-## <kbd>class</kbd> `Artifacts`
-An iterable collection of artifact versions associated with a project. 
+## <kbd>クラス</kbd> `Artifacts`
+project に関連付けられた artifact バージョンのイテラブルなコレクション。 
 
-Optionally pass in filters to narrow down the results based on specific criteria. 
+任意でフィルターを指定して、特定の条件に基づいて結果を絞り込めます。 
 
 
 
-**Args:**
+**引数:**
  
- - `client`:  The client instance to use for querying W&B. 
- - `entity`:  The entity (user or team) that owns the project. 
- - `project`:  The name of the project to query for artifacts. 
- - `collection_name`:  The name of the artifact collection to query. 
- - `type`:  The type of the artifacts to query. Common examples include  "dataset" or "model". 
- - `filters`:  Optional mapping of filters to apply to the query. 
- - `order`:  Optional string to specify the order of the results. 
- - `per_page`:  The number of artifact versions to fetch per page. Default is 50. 
- - `tags`:  Optional string or list of strings to filter artifacts by tags. 
+ - `client`:  W&B にクエリする際に使用するクライアントインスタンス。 
+ - `entity`:  project の所有者である entity（user または team）。 
+ - `project`:  Artifacts を検索する対象の project 名。 
+ - `collection_name`:  クエリ対象の artifact コレクション名。 
+ - `type`:  クエリする Artifacts のタイプ。一般的な例としては "dataset" や "model" があります。 
+ - `filters`:  クエリに適用するフィルターのマッピング（任意）。 
+ - `order`:  結果の並び順を指定する文字列（任意）。 
+ - `per_page`:  1 ページあたりにフェッチする artifact バージョン数。デフォルトは 50。 
+ - `tags`:  タグで Artifacts をフィルタリングするための文字列または文字列のリスト（任意）。 
 
 
-### <kbd>property</kbd> Artifacts.length
-
-
-
-
-
----
-
-
-
-## <kbd>class</kbd> `RunArtifacts`
-An iterable collection of artifacts associated with a specific run. 
-
-
-### <kbd>property</kbd> RunArtifacts.length
+### <kbd>プロパティ</kbd> Artifacts.length
 
 
 
@@ -264,11 +250,11 @@ An iterable collection of artifacts associated with a specific run.
 
 
 
-## <kbd>class</kbd> `ArtifactFiles`
-A paginator for files in an artifact. 
+## <kbd>クラス</kbd> `RunArtifacts`
+特定の run に関連付けられた Artifacts のイテラブルなコレクション。 
 
 
-### <kbd>property</kbd> ArtifactFiles.length
+### <kbd>プロパティ</kbd> RunArtifacts.length
 
 
 
@@ -277,9 +263,23 @@ A paginator for files in an artifact.
 ---
 
 
-### <kbd>property</kbd> ArtifactFiles.path
 
-Returns the path of the artifact. 
+## <kbd>クラス</kbd> `ArtifactFiles`
+Artifact 内のファイルのページネーター。 
+
+
+### <kbd>プロパティ</kbd> ArtifactFiles.length
+
+
+
+
+
+---
+
+
+### <kbd>プロパティ</kbd> ArtifactFiles.path
+
+Artifact のパスを返します。 
 
 
 

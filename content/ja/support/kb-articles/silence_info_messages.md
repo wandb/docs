@@ -1,23 +1,22 @@
 ---
+title: W&B の 情報メッセージを抑制するには？
 menu:
   support:
     identifier: ja-support-kb-articles-silence_info_messages
 support:
-- notebooks
-- environment variables
-title: How do I silence W&B info messages?
+- ノートブック
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To suppress log messages in your notebook such as this:
+ノートブック で、次のような ログ メッセージを抑制するには:
 
 ```
 INFO SenderThread:11484 [sender.py:finish():979]
 ``` 
-
-Set the log level to `logging.ERROR` to only show errors, suppressing output of info-level log output.
+エラーだけを表示し、INFO レベルの ログ 出力を抑制するには、ログ レベルを `logging.ERROR` に設定します。
 
 ```python
 import logging
@@ -26,10 +25,10 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-To significantly reduce log output, set `WANDB_QUIET` environment variable to `True`. To turn off log output completely, set the `WANDB_SILENT` environment variable to `True`. In a notebook, set `WANDB_QUIET` or `WANDB_SILENT` before running `wandb.login`:
+ログ 出力を大幅に減らすには、`WANDB_QUIET` 環境変数を `True` に設定します。ログ 出力を完全にオフにするには、`WANDB_SILENT` 環境変数を `True` に設定します。ノートブック では、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定します:
 
 {{< tabpane text=true langEqualsHeader=true >}}
-{{% tab "Notebook" %}}
+{{% tab "ノートブック" %}}
 ```python
 %env WANDB_SILENT=True
 ```

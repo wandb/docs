@@ -1,18 +1,18 @@
 ---
-description: Create custom aliases for W&B Artifacts.
+title: Artifacts のエイリアスを作成する
+description: W&B Artifacts のカスタムエイリアスを作成します。
 menu:
   default:
     identifier: ja-guides-core-artifacts-create-a-custom-alias
     parent: artifacts
-title: Create an artifact alias
 weight: 5
 ---
 
-Use aliases as pointers to specific versions. By default, `Run.log_artifact` adds the `latest` alias to the logged version.
+エイリアスは特定のバージョンを指すポインタです。デフォルトでは、`Run.log_artifact` は ログに記録したバージョンに `latest` エイリアスを追加します。
 
-An artifact version `v0` is created and attached to your artifact when you log an artifact for the first time. W&B checksums the contents when you log again to the same artifact. If the artifact changed, W&B saves a new version `v1`.
+初めて Artifact をログに記録すると、バージョン `v0` が作成されてその Artifact に付与されます。同じ Artifact を再度ログに記録すると、W&B はコンテンツのチェックサムを計算します。内容が変更されていれば、W&B は新しいバージョン `v1` を保存します。
 
-For example, if you want your training script to pull the most recent version of a dataset, specify `latest` when you use that artifact. The proceeding code example demonstrates how to download a recent dataset artifact named `bike-dataset` that has an alias, `latest`:
+例えば、トレーニングスクリプトで最新の Dataset を取得したい場合は、その Artifact を使用する際に `latest` を指定します。次のコード例は、`bike-dataset` という名前の Dataset Artifact の最新バージョン（エイリアス `latest`）をダウンロードする方法を示しています。
 
 ```python
 import wandb
@@ -24,7 +24,7 @@ artifact = run.use_artifact("bike-dataset:latest")
 artifact.download()
 ```
 
-You can also apply a custom alias to an artifact version. For example, if you want to mark that model checkpoint is the best on the metric AP-50, you could add the string `'best-ap50'` as an alias when you log the model artifact.
+Artifact のバージョンにカスタムエイリアスを付けることもできます。例えば、Model のチェックポイントが AP-50 メトリックで最良であることを示したい場合、Model の Artifact をログに記録するときに `'best-ap50'` というエイリアスを追加できます。
 
 ```python
 artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")

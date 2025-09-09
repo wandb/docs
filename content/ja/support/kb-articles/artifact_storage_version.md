@@ -1,37 +1,30 @@
 ---
+title: 各 Artifact のバージョンはどれくらいのストレージを使用しますか？
 menu:
   support:
     identifier: ja-support-kb-articles-artifact_storage_version
 support:
 - artifacts
-- storage
-title: How much storage does each artifact version use?
+- ストレージ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Only files that change between two artifact versions incur storage costs.
-
-{{< img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact deduplication" >}}
-
-Consider an image artifact named `animals` that contains two image files, `cat.png` and `dog.png`:
-
+2 つの artifact バージョン間で変更されたファイルのみがストレージ費用の対象になります。
+{{< img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact の重複排除" >}}
+`cat.png` と `dog.png` の 2 つの画像ファイルを含む、`animals` という名前の画像 artifact を考えます:
 ```
 images
-|-- cat.png (2MB) # Added in `v0`
-|-- dog.png (1MB) # Added in `v0`
+|-- cat.png (2MB) # `v0` で追加
+|-- dog.png (1MB) # `v0` で追加
 ```
-
-This artifact receives version `v0`.
-
-When adding a new image, `rat.png`, a new artifact version, `v1`, is created with the following contents:
-
+この artifact には バージョン `v0` が割り当てられます。
+新しい画像 `rat.png` を追加すると、新しい artifact バージョン `v1` が次の内容で作成されます:
 ```
 images
-|-- cat.png (2MB) # Added in `v0`
-|-- dog.png (1MB) # Added in `v0`
-|-- rat.png (3MB) # Added in `v1`
+|-- cat.png (2MB) # `v0` で追加
+|-- dog.png (1MB) # `v0` で追加
+|-- rat.png (3MB) # `v1` で追加
 ```
-
-Version `v1` tracks a total of 6MB, but occupies only 3MB of space since it shares the remaining 3MB with `v0`. Deleting `v1` reclaims the 3MB of storage associated with `rat.png`. Deleting `v0` transfers the storage costs of `cat.png` and `dog.png` to `v1`, increasing its storage size to 6MB.
+バージョン `v1` は合計 6MB を追跡しますが、残りの 3MB を `v0` と共有するため、実際に占有する容量は 3MB のみです。`v1` を削除すると、`rat.png` に関連する 3MB のストレージが解放されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストは `v1` に引き継がれ、`v1` のストレージサイズは 6MB に増加します。

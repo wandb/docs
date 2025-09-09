@@ -1,10 +1,10 @@
 ---
+title: plot_table()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-plot_table
 object_type: python_sdk_custom_charts
-title: plot_table()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py >}}
@@ -12,7 +12,7 @@ title: plot_table()
 
 
 
-### <kbd>function</kbd> `plot_table`
+### <kbd>関数</kbd> `plot_table`
 
 ```python
 plot_table(
@@ -24,37 +24,37 @@ plot_table(
 ) → CustomChart
 ```
 
-Creates a custom charts using a Vega-Lite specification and a `wandb.Table`. 
+Vega-Lite 仕様と `wandb.Table` を使ってカスタム チャートを作成します。
 
-This function creates a custom chart based on a Vega-Lite specification and a data table represented by a `wandb.Table` object. The specification needs to be predefined and stored in the W&B backend. The function returns a custom chart object that can be logged to W&B using `wandb.Run.log()`. 
+この関数は、Vega-Lite 仕様と、`wandb.Table` オブジェクトで表されるデータ テーブルに基づいてカスタム チャートを作成します。仕様はあらかじめ定義され、W&B バックエンドに保存されている必要があります。関数は、`wandb.Run.log()` を使って W&B にログできるカスタム チャート オブジェクトを返します。
 
 
 
-**Args:**
+**引数:**
  
- - `vega_spec_name`:  The name or identifier of the Vega-Lite spec  that defines the visualization structure. 
- - `data_table`:  A `wandb.Table` object containing the data to be  visualized. 
- - `fields`:  A mapping between the fields in the Vega-Lite spec and the  corresponding columns in the data table to be visualized. 
- - `string_fields`:  A dictionary for providing values for any string constants  required by the custom visualization. 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+ - `vega_spec_name`:  可視化の構造を定義する Vega-Lite 仕様の名前または識別子。 
+ - `data_table`:  可視化するデータを含む `wandb.Table` オブジェクト。 
+ - `fields`:  Vega-Lite 仕様のフィールドと、可視化するデータ テーブルの対応する列とのマッピング。 
+ - `string_fields`:  カスタム可視化で必要な文字列定数に値を与えるための 辞書。 
+ - `split_table`:  テーブルを W&B の UI で別セクションに分割するかどうか。`True` の場合、テーブルは "Custom Chart Tables" というセクションに表示されます。デフォルトは `False` です。 
 
 
 
-**Returns:**
+**戻り値:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass the chart object as argument to `wandb.Run.log()`. 
+ - `CustomChart`:  W&B にログできるカスタム チャート オブジェクト。チャートをログするには、チャート オブジェクトを `wandb.Run.log()` の引数として渡します。 
 
 
 
-**Raises:**
+**例外:**
  
- - `wandb.Error`:  If `data_table` is not a `wandb.Table` object. 
+ - `wandb.Error`:  `data_table` が `wandb.Table` オブジェクトではない場合。 
 
 
 
-**Example:**
+**例:**
  ```python
-# Create a custom chart using a Vega-Lite spec and the data table.
+# Vega-Lite 仕様とデータ テーブルを使ってカスタム チャートを作成します。
 import wandb
 
 data = [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
@@ -62,9 +62,9 @@ table = wandb.Table(data=data, columns=["x", "y"])
 fields = {"x": "x", "y": "y", "title": "MY TITLE"}
 
 with wandb.init() as run:
-    # Training code goes here
+    # トレーニング コードはここに書きます
 
-    # Create a custom title with `string_fields`.
+    # `string_fields` でカスタム タイトルを作成します。
     my_custom_chart = wandb.plot_table(
          vega_spec_name="wandb/line/v0",
          data_table=table,

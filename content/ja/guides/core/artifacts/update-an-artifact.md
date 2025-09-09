@@ -1,43 +1,36 @@
 ---
-description: Update an existing Artifact inside and outside of a W&B Run.
+title: Artifacts を更新する
+description: W&B Run の内外で既存の Artifact を更新します。
 menu:
   default:
     identifier: ja-guides-core-artifacts-update-an-artifact
     parent: artifacts
-title: Update an artifact
 weight: 4
 ---
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
-
-{{% alert title="When to use Artifact.save() or wandb.Run.log_artifact()"  %}}
-- Use `Artifact.save()` to update an existing artifact without creating a new run.
-- Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
+`description`、`metadata`、`alias` を更新するために必要な値をアーティファクトに渡します。`save()` メソッドを呼び出して、W&B サーバー上のアーティファクトを更新します。アーティファクトは W&B Run 中に更新することも、Run の外部で更新することもできます。
+{{% alert title="Artifact.save() または wandb.Run.log_artifact() を使用するタイミング" %}}
+- 既存のアーティファクトを新しい run を作成せずに更新するには `Artifact.save()` を使用します。
+- 新しいアーティファクトを作成し、特定の run に関連付けるには `wandb.Run.log_artifact()` を使用します。
 {{% /alert %}}
-
-Use the W&B Public API ([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}})) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}})) to update an artifact during a run.
-
+run の外部でアーティファクトを更新するには W&B Public API ([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}})) を使用します。run 中にアーティファクトを更新するには Artifact API ([`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}})) を使用します。
 {{% alert color="secondary" %}}
-You can not update the alias of artifact linked to a model in Model Registry.
+Model Registry のモデルにリンクされているアーティファクトの alias は更新できません。
 {{% /alert %}}
-
 {{< tabpane text=true >}}
-  {{% tab header="During a run" %}}
-
-The proceeding code example demonstrates how to update the description of an artifact using the [`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}}) API:
-
+  {{% tab header="run 中" %}}
+以下のコード例は、[`wandb.Artifact`]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}}) API を使用してアーティファクトの description を更新する方法を示しています。
 ```python
 import wandb
 
-run = wandb.init(project="<example>")
-artifact = run.use_artifact("<artifact-name>:<alias>")
-artifact.description = "<description>"
+run = wandb.init(project="<例>")
+artifact = run.use_artifact("<アーティファクト名>:<エイリアス>")
+artifact.description = "<説明>"
 artifact.save()
-```  
+```
   {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
-The proceeding code example demonstrates how to update the description of an artifact using the `wandb.Api` API:
-
+  {{% tab header="run の外部" %}}
+以下のコード例は、`wandb.Api` API を使用してアーティファクトの description を更新する方法を示しています。
 ```python
 import wandb
 
@@ -45,42 +38,40 @@ api = wandb.Api()
 
 artifact = api.artifact("entity/project/artifact:alias")
 
-# Update the description
+# description を更新
 artifact.description = "My new description"
 
-# Selectively update metadata keys
+# メタデータキーを選択的に更新
 artifact.metadata["oldKey"] = "new value"
 
-# Replace the metadata entirely
+# メタデータを完全に置き換える
 artifact.metadata = {"newKey": "new value"}
 
-# Add an alias
+# エイリアスを追加
 artifact.aliases.append("best")
 
-# Remove an alias
+# エイリアスを削除
 artifact.aliases.remove("latest")
 
-# Completely replace the aliases
+# エイリアスを完全に置き換える
 artifact.aliases = ["replaced"]
 
-# Persist all artifact modifications
+# すべてのアーティファクトの変更を永続化
 artifact.save()
 ```
-
-For more information, see the Weights and Biases [Artifact API]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}}).  
+詳細については、Weights and Biases の [Artifact API]({{< relref path="/ref/python/sdk/classes/artifact.md" lang="ja" >}}) を参照してください。
   {{% /tab %}}
-  {{% tab header="With collections" %}}
-You can also update an Artifact collection in the same way as a singular artifact:
-
+  {{% tab header="コレクションを使用する場合" %}}
+単一のアーティファクトと同様に、Artifact コレクションも更新できます。
 ```python
 import wandb
-run = wandb.init(project="<example>")
+run = wandb.init(project="<例>")
 api = wandb.Api()
-artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
-artifact.name = "<new-collection-name>"
-artifact.description = "<This is where you'd describe the purpose of your collection.>"
+artifact = api.artifact_collection(type="<タイプ名>", collection="<コレクション名>")
+artifact.name = "<新しいコレクション名>"
+artifact.description = "<ここにコレクションの目的を記述します。>"
 artifact.save()
 ```
-For more information, see the [Artifacts Collection]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) reference.
+詳細については、[Artifacts コレクション]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) のリファレンスを参照してください。
   {{% /tab %}}
 {{% /tabpane %}}

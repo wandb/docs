@@ -1,9 +1,9 @@
 ---
+title: 管理者は、変更のアクセス権を持てるユーザーをどのように制限できますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-restrict_access_modify_example
     parent: launch-faq
-title: How can admins restrict which users have modify access?
 ---
 
-Control access to certain queue fields for users who are not team administrators through [queue config templates]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ja" >}}). Team administrators define which fields non-admin users can view, and set the editing limits. Only team administrators have the ability to create or edit queues.
+チーム管理者ではないユーザー向けに、[キュー設定テンプレート]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ja" >}}) を使って、特定のキューのフィールドへのアクセスを制御します。チーム管理者は、非管理者ユーザーが閲覧できるフィールドを定義し、編集の制限を設定します。キューの作成や編集ができるのは、チーム管理者のみです。

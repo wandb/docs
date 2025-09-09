@@ -1,65 +1,65 @@
 ---
+title: リリースのポリシーとプロセス
+description: W&B サーバーのリリース プロセス
 date: 2025-05-01
-description: Release process for W&B Server
 menu:
   default:
     identifier: server-release-process
     parent: w-b-platform
   reference:
     identifier: ja-ref-release-notes-release-policies
-title: Release policies and processes
 weight: 20
 ---
 
-This page gives details about W&B Server releases and W&B's release policies. This page relates to [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) and [Self-Managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) deployments. To learn more about an individual W&B Server release, refer to [W&B release notes]({{< relref path="/ref/release-notes/" lang="ja" >}}).
+このページでは、W&B サーバーのリリースおよび W&B のリリースポリシーについて詳しく説明します。このページは [W&B 専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) と [自己管理型]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) のデプロイメントに関するものです。個別の W&B サーバー リリースの詳細については、[W&B リリースノート]({{< relref path="/ref/release-notes/" lang="ja" >}}) を参照してください。
 
-W&B fully manages [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) and the details in this page do not apply.
+W&B は [W&B マルチテナント クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) を完全に管理しており、このページの内容は適用されません。
 
-## Release support and end of life policy
-W&B supports a major W&B Server release for 12 months from its initial release date.
-- **Dedicated Cloud** instances are automatically updated to maintain support.
-- Customers with **Self-managed** instances are responsible for upgrading in time to maintain support. Avoid staying on an unsupported version.
+## リリースサポートとサポート終了 (EOL) ポリシー
+W&B は、W&B サーバーのメジャーリリースを初回リリース日から 12 か月間サポートします。
+- サポートを維持するため、**専用クラウド** のインスタンスは自動的に更新されます。
+- **自己管理型** のインスタンスをご利用のお客様は、サポートを維持するために期限内にアップグレードする責任があります。サポート対象外のバージョンに留まらないでください。
 
   {{% alert %}}
-  W&B strongly recommends customers with **Self-managed** instances to update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes.
+  W&B は、**自己管理型** のインスタンスをご利用のお客様に対し、少なくとも四半期に一度は最新リリースへデプロイメントを更新し、サポートの維持および最新の機能、パフォーマンス改善、修正を受け取ることを強く推奨します。
   {{% /alert %}}
 
-## Release types and frequencies
-- **Major releases** are produced monthly, and may include new features, enhancements, performance improvements, medium and low severity bug fixes, and deprecations. An example of a major release is `0.68.0`.
-- **Patch releases** within a major version are produced as needed, and include critical and high severity bug fixes. An example of a patch release is `0.67.1`.
+## リリースの種類と頻度
+- **メジャーリリース** は月次で提供され、新機能、機能拡張、パフォーマンス改善、中〜低重大度のバグ修正、非推奨化を含む場合があります。メジャーリリースの例: `0.68.0`。
+- **パッチリリース** はメジャー バージョン内で必要に応じて提供され、クリティカルおよび高重大度のバグ修正を含みます。パッチリリースの例: `0.67.1`。
 
-## Release rollout
-1. After testing and validation are complete, a release is first rolled out to all **Dedicated Cloud** instances to keep them fully updated.
-1. After additional observation, the release is published, and **Self-managed** deployments can upgrade to it on their own schedule, and are responsible for upgrading in time to comply with the [Release support and End of Life (EOL) policy]({{< relref path="#release-support-and-end-of-life-policy" lang="ja" >}}). Learn more about [upgrading W&B Server]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}).
+## ロールアウト
+1. テストと検証が完了すると、まずすべての **専用クラウド** インスタンスにロールアウトされ、常に最新の状態が保たれます。
+1. 追加の観察期間を経てリリースが公開され、**自己管理型** のデプロイメントは自身のスケジュールでアップグレードできます。ただし、[リリースサポートとサポート終了 (EOL) ポリシー]({{< relref path="#release-support-and-end-of-life-policy" lang="ja" >}}) に準拠するため、期限内にアップグレードする責任があります。詳しくは [W&B サーバーのアップグレード]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}) を参照してください。
 
-## Downtime during upgrades
-- When a **Dedicated Cloud** instance is upgraded, downtime is generally not expected, but may occur in certain situations:
-  - If a new feature or enhancement requires changes to the underlying infrastructure, such as compute, storage or network.
-  - To roll out a critical infrastructure change such as a security fix.
-  - If the instance's current version has reached its [End of Life (EOL)]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}) and is upgraded by W&B to maintain support.
-- For **Self-managed** deployments, the customer is responsible for implementing a rolling update process that meets their service level objectives (SLOs), such as by [running W&B Server on Kubernetes]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}).
+## アップグレード時のダウンタイム
+- **専用クラウド** のインスタンスをアップグレードしても、通常はダウンタイムは発生しませんが、次のような場合には発生することがあります:
+  - 新機能や機能拡張により、コンピュート、ストレージ、ネットワークなど基盤となるインフラストラクチャーの変更が必要な場合。
+  - セキュリティ修正など、重要なインフラストラクチャー変更を展開する場合。
+  - インスタンスの現在のバージョンが [サポート終了 (EOL)]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}) に達しており、サポート維持のために W&B によりアップグレードされる場合。
+- **自己管理型** のデプロイメントでは、[Kubernetes 上で W&B サーバーを実行]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) するなどして、サービスレベル目標 (SLO) を満たすローリングアップデートのプロセスを実装する責任はお客様にあります。
 
-## Feature availability
-After installing or upgrading, certain features may not be immediately available.
+## 機能の提供状況
+インストールまたはアップグレード後、一部の機能はすぐには利用できない場合があります。
 
-### Enterprise features
-An Enterprise license includes support for important security capabilities and other enterprise-friendly functionality. Some advanced features require an Enterprise license.
+### エンタープライズ機能
+エンタープライズ ライセンスには、重要なセキュリティ機能やエンタープライズ向けの各種機能のサポートが含まれます。高度な機能の一部は、エンタープライズ ライセンスが必要です。
 
-- **Dedicated Cloud** includes an Enterprise license and no action is required.
-- On **Self-managed** deployments, features that require an Enterprise license are not available until it is set. To learn more or obtain an Enterprise license, refer to [Obtain your W&B Server license]({{< relref path="/guides/hosting/hosting-options/self-managed.md#obtain-your-wb-server-license" lang="ja" >}}).
+- **専用クラウド** にはエンタープライズ ライセンスが含まれており、対応は不要です。
+- **自己管理型** のデプロイメントでは、エンタープライズ ライセンスが設定されるまで、当該ライセンスを必要とする機能は利用できません。詳しく知る、またはエンタープライズ ライセンスを取得するには、[W&B サーバー ライセンスの取得]({{< relref path="/guides/hosting/hosting-options/self-managed.md#obtain-your-wb-server-license" lang="ja" >}}) を参照してください。
 
-### Private preview and opt-in features
-Most features are available immediately after installing or upgrading W&B Server. The W&B team must enable certain features before you can use them in your instance.
+### プライベート プレビューとオプトイン機能
+ほとんどの機能は、W&B サーバーをインストールまたはアップグレードするとすぐに利用可能です。特定の機能については、インスタンスで利用する前に W&B チームによる有効化が必要です。
 
 {{% alert color="warning" %}}
-Any feature in a preview phase is subject to change. A preview feature is not guaranteed to become generally available.
+プレビュー段階の機能は変更される可能性があります。プレビュー機能が一般提供されることは保証されません。
 {{% /alert %}}
 
-- **Private preview**: W&B invites design partners and early adopters to test these features and provide feedback. Private preview features are not recommended for production environments.
+- **プライベート プレビュー**: W&B はデザインパートナーやアーリーアダプターを招待し、これらの機能をテストしてフィードバックを提供してもらいます。プライベート プレビューの機能はプロダクション 環境での利用は推奨されません。
 
-    The W&B team must enable a private preview feature for your instance before you can use it. Public documentation is not available; instructions are provided directly. Interfaces and APIs may change, and the feature may not be fully implemented.
-- **Public preview**: Contact W&B to opt in to a public preview to try it out before it is generally available.
+    プライベート プレビューの機能を利用するには、事前に W&B チームがお客様のインスタンスでその機能を有効化する必要があります。公開ドキュメントは提供されず、手順は直接ご案内します。インターフェースや API は変更される場合があり、機能が完全に実装されていない可能性もあります。
+- **パブリック プレビュー**: 一般提供前に試用したい場合は、W&B に連絡してパブリック プレビューにオプトインしてください。
 
-    The W&B team must enable a public preview feature before you can use it in your instance. Documentation may not be complete, interfaces and APIs may change, and the feature may not be fully implemented.
+    パブリック プレビューの機能をインスタンスで使用するには、事前に W&B チームによる有効化が必要です。ドキュメントが未完成の場合があり、インターフェースや API は変更される可能性があり、機能が完全に実装されていない場合もあります。
 
-To learn more about an individual W&B Server release, including any limitations, refer to [W&B Release notes]({{< relref path="/ref/release-notes/" lang="ja" >}}).
+各 W&B サーバー リリースの詳細（制限事項を含む）については、[W&B リリースノート]({{< relref path="/ref/release-notes/" lang="ja" >}}) を参照してください。

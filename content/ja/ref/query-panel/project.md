@@ -1,171 +1,171 @@
 ---
+title: プロジェクト
 menu:
   reference:
     identifier: ja-ref-query-panel-project
-title: project
 ---
 
-## Chainable Ops
+## チェーン可能な Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](artifact.md) for a given name within a [project](project.md)
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト](artifact.md) を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifact](artifact.md) |
+| `project` | [プロジェクト](project.md) |
+| `artifactName` | [アーティファクト](artifact.md) の名前 |
 
-#### Return Value
-The [artifact](artifact.md) for a given name within a [project](project.md)
+#### 戻り値
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト](artifact.md)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-Returns the [artifactType](artifact-type.md for a given name within a [project](project.md)
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト タイプ](artifact-type.md for a given name within a [project](project.md)
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactType` | The name of the [artifactType](artifact-type.md |
+| `project` | [プロジェクト](project.md) |
+| `artifactType` | [アーティファクト タイプ](artifact-type.md の名前 |
 
-#### Return Value
-The [artifactType](artifact-type.md for a given name within a [project](project.md)
+#### 戻り値
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト タイプ](artifact-type.md
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-Returns the [artifactTypes](artifact-type.md for a [project](project.md)
+[プロジェクト](project.md) の [アーティファクト タイプ](artifact-type.md
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The [artifactTypes](artifact-type.md for a [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の [アーティファクト タイプ](artifact-type.md
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-Returns the [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
+指定した [プロジェクト](project.md) 内で、指定した名前とバージョンの [アーティファクト バージョン](artifact-version.md
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifactVersion](artifact-version.md |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](artifact-version.md |
+| `project` | [プロジェクト](project.md) |
+| `artifactName` | [アーティファクト バージョン](artifact-version.md の名前 |
+| `artifactVersionAlias` | [アーティファクト バージョン](artifact-version.md のバージョン エイリアス |
 
-#### Return Value
-The [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
+#### 戻り値
+指定した [プロジェクト](project.md) 内で、指定した名前とバージョンの [アーティファクト バージョン](artifact-version.md
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-Returns the creation time of the [project](project.md)
+[プロジェクト](project.md) の作成時刻を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The creation time of the [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の作成時刻
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-Returns the name of the [project](project.md)
+[プロジェクト](project.md) の名前を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The name of the [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の名前
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-Returns the [runs](run.md) from a [project](project.md)
+[プロジェクト](project.md) の [runs](run.md) を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The [runs](run.md) from a [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の [runs](run.md)
 
 
-## List Ops
+## リスト Ops
 <h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](artifact.md) for a given name within a [project](project.md)
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト](artifact.md) を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifact](artifact.md) |
+| `project` | [プロジェクト](project.md) |
+| `artifactName` | [アーティファクト](artifact.md) の名前 |
 
-#### Return Value
-The [artifact](artifact.md) for a given name within a [project](project.md)
+#### 戻り値
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト](artifact.md)
 
 <h3 id="project-artifactType"><code>project-artifactType</code></h3>
 
-Returns the [artifactType](artifact-type.md for a given name within a [project](project.md)
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト タイプ](artifact-type.md for a given name within a [project](project.md)
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactType` | The name of the [artifactType](artifact-type.md |
+| `project` | [プロジェクト](project.md) |
+| `artifactType` | [アーティファクト タイプ](artifact-type.md の名前 |
 
-#### Return Value
-The [artifactType](artifact-type.md for a given name within a [project](project.md)
+#### 戻り値
+指定した [プロジェクト](project.md) 内で、指定した名前の [アーティファクト タイプ](artifact-type.md
 
 <h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
 
-Returns the [artifactTypes](artifact-type.md for a [project](project.md)
+[プロジェクト](project.md) の [アーティファクト タイプ](artifact-type.md
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The [artifactTypes](artifact-type.md for a [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の [アーティファクト タイプ](artifact-type.md
 
 <h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
 
-Returns the [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
+指定した [プロジェクト](project.md) 内で、指定した名前とバージョンの [アーティファクト バージョン](artifact-version.md
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifactVersion](artifact-version.md |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](artifact-version.md |
+| `project` | [プロジェクト](project.md) |
+| `artifactName` | [アーティファクト バージョン](artifact-version.md の名前 |
+| `artifactVersionAlias` | [アーティファクト バージョン](artifact-version.md のバージョン エイリアス |
 
-#### Return Value
-The [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
+#### 戻り値
+指定した [プロジェクト](project.md) 内で、指定した名前とバージョンの [アーティファクト バージョン](artifact-version.md
 
 <h3 id="project-createdAt"><code>project-createdAt</code></h3>
 
-Returns the creation time of the [project](project.md)
+[プロジェクト](project.md) の作成時刻を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The creation time of the [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の作成時刻
 
 <h3 id="project-name"><code>project-name</code></h3>
 
-Returns the name of the [project](project.md)
+[プロジェクト](project.md) の名前を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The name of the [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の名前
 
 <h3 id="project-runs"><code>project-runs</code></h3>
 
-Returns the [runs](run.md) from a [project](project.md)
+[プロジェクト](project.md) の [runs](run.md) を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
+| `project` | [プロジェクト](project.md) |
 
-#### Return Value
-The [runs](run.md) from a [project](project.md)
+#### 戻り値
+[プロジェクト](project.md) の [runs](run.md)

@@ -1,20 +1,20 @@
 ---
+title: 「Failed to query for notebook」 エラーはどう対処すればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-query_notebook_failed
 support:
-- notebooks
-- environment variables
-title: How do I handle the 'Failed to query for notebook' error?
+- ノートブック
+- 環境変数
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If you encounter the error message `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` resolve it by setting the environment variable. Multiple methods accomplish this:
+エラーメッセージ "Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable," が表示された場合は、環境変数を設定して解決してください。複数の方法があります:
 
 {{< tabpane text=true >}}
-{{% tab "Notebook" %}}
+{{% tab "ノートブック" %}}
 ```python
 %env "WANDB_NOTEBOOK_NAME" "notebook name here"
 ```

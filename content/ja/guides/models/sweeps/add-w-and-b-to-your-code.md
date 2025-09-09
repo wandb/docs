@@ -1,27 +1,27 @@
 ---
-description: Add W&B to your Python code script or Jupyter Notebook.
+title: コードに W&B （wandb）を追加する
+description: W&B を Python のコード（スクリプト）または Jupyter ノートブックに追加します。
 menu:
   default:
     identifier: ja-guides-models-sweeps-add-w-and-b-to-your-code
     parent: sweeps
-title: Add W&B (wandb) to your code
 weight: 2
 ---
 
-This guide provides recommendations on how to integrate W&B into your Python training script or notebook.
+このガイドでは、Python の トレーニングスクリプト または ノートブック に W&B を統合する方法の推奨事項を紹介します。
 
-## Original training script
+## 元の トレーニングスクリプト
 
-Suppose you have a Python script that trains a model (see below). Your goal is to find the hyperparameters that maxmimizes the validation accuracy(`val_acc`).
+以下のように モデル を学習する Python スクリプトがあるとします。目標は、検証精度（`val_acc`）を最大化する ハイパーパラメーター を見つけることです。
 
-In your Python script, you define two functions: `train_one_epoch` and `evaluate_one_epoch`. The `train_one_epoch` function simulates training for one epoch and returns the training accuracy and loss. The `evaluate_one_epoch` function simulates evaluating the model on the validation data set and returns the validation accuracy and loss.
+Python スクリプトでは、`train_one_epoch` と `evaluate_one_epoch` の 2 つの関数を定義します。`train_one_epoch` は 1 エポック分の トレーニング をシミュレートし、学習時の精度と損失を返します。`evaluate_one_epoch` は 検証 データセット 上で モデル を評価することをシミュレートし、検証時の精度と損失を返します。
 
-You define a configuration dictionary (`config`) that contains hyperparameter values such as the learning rate (`lr`), batch size (`batch_size`), and number of epochs (`epochs`). The values in the configuration dictionary control the training process. 
+学習率（`lr`）、バッチサイズ（`batch_size`）、エポック数（`epochs`）といった ハイパーパラメーター の 値 を含む 設定 用の 辞書（`config`）を定義します。設定 辞書の 値 が トレーニング プロセス を制御します。
 
-Next you define a function called `main` that mimics a typical training loop. For each epoch, the accuracy and loss is computed on the training and validation data sets.
+続いて、典型的な学習ループを模した `main` 関数を定義します。各 エポック ごとに、学習および検証 データセット で精度と損失を計算します。
 
 {{< alert >}}
-This code is a mock training script. It does not train a model, but simulates the training process by generating random accuracy and loss values. The purpose of this code is to demonstrate how to integrate W&B into your training script.
+この コード はモックの トレーニングスクリプト です。実際に モデル を学習するのではなく、精度と損失の ランダム な 値 を生成して学習プロセスをシミュレートします。この コード の目的は、W&B を トレーニングスクリプト に統合する方法を示すことです。
 {{< /alert >}}
 
 ```python
@@ -58,31 +58,29 @@ if __name__ == "__main__":
     main()
 ```
 
-In the next section, you will add W&B to your Python script to track hyperparameters and metrics during training. You want to use W&B to find the best hyperparameters that maximize the validation accuracy (`val_acc`).
+次のセクションでは、トレーニング 中に ハイパーパラメーター と メトリクス を追跡できるよう、Python スクリプト に W&B を追加します。W&B を使って、検証精度（`val_acc`）を最大化する最適な ハイパーパラメーター を見つけます。
 
+## W&B Python SDK を用いた トレーニングスクリプト
 
-## Training script with W&B Python SDK
-
-How you integrate W&B to your Python script or notebook depends on how you manage sweeps. You can start a sweep job within a Python notebook or script or from the command line.
+Python スクリプト や ノートブック への W&B の統合方法は、Sweeps の管理方法によって異なります。Python の ノートブック や スクリプト から、あるいは コマンドライン から sweep ジョブを開始できます。
 
 {{< tabpane text=true >}}
-{{% tab header="Python script or notebook" %}} 
+{{% tab header="Python スクリプト または ノートブック" %}} 
 
-Add the following to your Python script:
+Python スクリプト に以下を追加します。
 
-1. Create a dictionary object where the key-value pairs define a [sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}). The sweep configuration defines the hyperparameters you want W&B to explore on your behalf along with the metric you want to optimize. Continuing from the previous example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) are the hyperparameters to vary during each sweep. You want to maximize the accuracy of the validation score so you set `"goal": "maximize"` and the name of the variable you want to optimize for, in this case `val_acc` (`"name": "val_acc"`).
-2. Pass the sweep configuration dictionary to [`wandb.sweep()`]({{< relref path="/ref/python/sdk/functions/sweep.md" lang="ja" >}}). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}).
-3. At the top of your script, import the W&B Python SDK (`wandb`).
-4. Within your `main` function, use the [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref path="/ref/python/sdk/classes/run.md" lang="ja" >}}). Pass the project name as a parameter to the `wandb.init()` method. If you do not pass a project name, W&B uses the default project name.
-5. Fetch the hyperparameter values from the `wandb.Run.config` object. This allows you to use the hyperparameter values defined in the sweep configuration dictionary instead of hard coded values.
-6. Log the metric you are optimizing for to W&B using [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}). You must log the metric defined in your configuration. For example, if you define the metric to optimize as `val_acc`, you must log `val_acc`. If you do not log the metric, W&B does not know what to optimize for. Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
-7. Start the sweep with [`wandb.agent()`]({{< relref path="/ref/python/sdk/functions/agent.md" lang="ja" >}}). Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`).
+1. キーと 値 の組で [sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}) を定義する 辞書 オブジェクトを作成します。sweep configuration には、W&B に探索してほしい ハイパーパラメーター と、最適化したい メトリクス を指定します。前節の例を踏まえると、バッチサイズ（`batch_size`）、エポック（`epochs`）、学習率（`lr`）を各 sweep で変化させる ハイパーパラメーター とします。検証スコアの精度を最大化したいので、`"goal": "maximize"` を設定し、最適化対象の 変数 名（この例では `val_acc`、すなわち `"name": "val_acc"`）を指定します。
+2. sweep configuration の 辞書 を [`wandb.sweep()`]({{< relref path="/ref/python/sdk/functions/sweep.md" lang="ja" >}}) に渡します。これにより sweep が初期化され、sweep ID（`sweep_id`）が返されます。詳細は [Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}) を参照してください。
+3. スクリプト の先頭で W&B Python SDK（`wandb`）をインポートします。
+4. `main` 関数内で、[`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) API を使って、[W&B Run]({{< relref path="/ref/python/sdk/classes/run.md" lang="ja" >}}) として データ を同期・ログするバックグラウンド プロセスを生成します。`wandb.init()` メソッドには パラメータ として Project 名を渡してください。Project 名を渡さない場合、W&B はデフォルトの Project 名を使用します。
+5. `wandb.Run.config` オブジェクトから ハイパーパラメーター の 値 を取得します。これにより、ハードコードした 値 の代わりに sweep configuration の 辞書 で定義した 値 を使用できます。
+6. 最適化対象の メトリクス を [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}) を使って W&B に ログ します。設定 で定義した メトリクス を必ず ログ してください。たとえば最適化する メトリクス を `val_acc` と定義した場合、`val_acc` を ログ する必要があります。メトリクス を ログ しないと、W&B は何を最適化すべきかを認識できません。設定 辞書（この例では `sweep_configuration`）内で、`val_acc` の 値 を最大化するように sweep を定義します。
+7. [`wandb.agent()`]({{< relref path="/ref/python/sdk/functions/agent.md" lang="ja" >}}) で sweep を開始します。sweep ID、sweep が実行する関数名（`function=main`）、試行する run の最大数（`count=4`）を指定します。
 
-
-Putting this all together, your script might look similar to the following:
+これらをすべて組み合わせると、スクリプト は次のようになります。
 
 ```python
-import wandb # Import the W&B Python SDK
+import wandb # W&B Python SDK をインポート
 import numpy as np
 import random
 import argparse
@@ -98,17 +96,17 @@ def evaluate_one_epoch(epoch):
     return acc, loss
 
 def main(args=None):
-    # When called by sweep agent, args will be None,
-    # so we use the project from sweep config
+    # sweep agent から呼ばれるときは args は None
+    # そのため Project は sweep の config から取得する
     project = args.project if args else None
     
     with wandb.init(project=project) as run:
-        # Fetches the hyperparameter values from `wandb.Run.config` object
+        # `wandb.Run.config` オブジェクトから ハイパーパラメーター を取得
         lr = run.config["lr"]
         batch_size = run.config["batch_size"]
         epochs = run.config["epochs"]
 
-        # Execute the training loop and log the performance values to W&B
+        # 学習ループを実行し、性能値を W&B に ログ する
         for epoch in np.arange(1, epochs):
             train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
             val_acc, val_loss = evaluate_one_epoch(epoch)
@@ -117,7 +115,7 @@ def main(args=None):
                     "epoch": epoch,
                     "train_acc": train_acc,
                     "train_loss": train_loss,
-                    "val_acc": val_acc, # Metric optimized
+                    "val_acc": val_acc, # 最適化するメトリクス
                     "val_loss": val_loss,
                 }
             )
@@ -127,14 +125,13 @@ if __name__ == "__main__":
     parser.add_argument("--project", type=str, default="sweep-example", help="W&B project name")
     args = parser.parse_args()
 
-    # Define a sweep config dictionary
+    # sweep config の 辞書 を定義
     sweep_configuration = {
         "method": "random",
         "name": "sweep",
-        # Metric that you want to optimize
-        # For example, if you want to maximize validation
-        # accuracy set "goal": "maximize" and the name of the variable 
-        # you want to optimize for, in this case "val_acc"
+        # 最適化したいメトリクス
+        # 例えば、検証精度を最大化したいなら
+        # "goal": "maximize" と、最適化対象の 変数 名（この場合は "val_acc"）を指定
         "metric": {
             "goal": "maximize",
             "name": "val_acc"
@@ -146,21 +143,16 @@ if __name__ == "__main__":
         },
     }
 
-    # Initialize the sweep by passing in the config dictionary
+    # 設定 辞書 を渡して sweep を初期化
     sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
 
-    # Start the sweep job
+    # sweep ジョブを開始
     wandb.agent(sweep_id, function=main, count=4)
 ```
 
-
-
 {{% /tab %}} {{% tab header="CLI" %}}
 
-Create a YAML configuration file with your sweep configuration. The
-configuration file contains the hyperparameters you want the sweep to explore. In
-the following example, the batch size (`batch_size`), epochs (`epochs`), and
-the learning rate (`lr`) hyperparameters are varied during each sweep.
+sweep configuration を記述した YAML 設定ファイルを作成します。設定ファイルには、sweep が探索する ハイパーパラメーター を含めます。次の例では、各 sweep で バッチサイズ（`batch_size`）、エポック（`epochs`）、学習率（`lr`）の ハイパーパラメーター を変化させます。
 
 ```yaml
 # config.yaml
@@ -180,18 +172,17 @@ parameters:
     values: [5, 10, 15]
 ```
 
-For more information on how to create a W&B Sweep configuration, see [Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}).
+W&B の Sweep 設定の作成方法については、[Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}) を参照してください。
 
-You must provide the name of your Python script for the `program` key
-in your YAML file.
+YAML ファイルの `program` キーには、Python スクリプト の名前を指定する必要があります。
 
-Next, add the following to the code example:
+次に、以下を コード 例に追加します。
 
-1. Import the W&B Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
-2. Read in the configuration file.
-3. Use the [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref path="/ref/python/sdk/classes/run.md" lang="ja" >}}). Pass the config object to the config parameter.
-4. Define hyperparameter values from `wandb.Run.config` instead of using hard coded values.
-5. Log the metric you want to optimize with [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) you define the sweep to maximize the `val_acc` value.
+1. W&B Python SDK（`wandb`）と PyYAML（`yaml`）をインポートします。PyYAML は YAML 設定ファイルの読み込みに使用します。
+2. 設定ファイルを読み込みます。
+3. [`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) API を使って、[W&B Run]({{< relref path="/ref/python/sdk/classes/run.md" lang="ja" >}}) として データ を同期・ログするバックグラウンド プロセスを生成します。config パラメータに config オブジェクトを渡します。
+4. ハードコードした 値 の代わりに、`wandb.Run.config` から ハイパーパラメーター を取得して使用します。
+5. [`wandb.Run.log()`]({{< relref path="/ref/python/sdk/classes/run.md/#method-runlog" lang="ja" >}}) で、最適化したい メトリクス を ログ します。設定 で定義した メトリクス は必ず ログ してください。設定 辞書（この例では `sweep_configuration`）では、`val_acc` の 値 を最大化するように sweep を定義しています。
 
 ```python
 import wandb
@@ -213,7 +204,7 @@ def evaluate_one_epoch(epoch):
 
 
 def main():
-    # Set up your default hyperparameters
+    # 既定の ハイパーパラメーター を設定
     with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
@@ -231,42 +222,37 @@ def main():
                 }
             )
 
-# Call the main function.
+# main 関数を呼び出す
 main()
 ```
 
-In your CLI, set a maximum number of runs for the sweep
-agent to try. This is optional. This example we set the
-maximum number to 5.
+CLI で、sweep agent が試行する run の最大数を設定します。これは任意です。この例では最大数を 5 に設定します。
 
 ```bash
 NUM=5
 ```
 
-Next, initialize the sweep with the [`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ja" >}}) command. Provide the name of the YAML file. Optionally provide the name of the project for the project flag (`--project`):
+次に、[`wandb sweep`]({{< relref path="/ref/cli/wandb-sweep.md" lang="ja" >}}) コマンドで sweep を初期化します。YAML ファイル名を指定し、任意で Project 名を `--project` フラグで指定します。
 
 ```bash
 wandb sweep --project sweep-demo-cli config.yaml
 ```
 
-This returns a sweep ID. For more information on how to initialize sweeps, see
-[Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}).
+これにより sweep ID が返されます。sweep の初期化方法については、[Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}) を参照してください。
 
-Copy the sweep ID and replace `sweepID` in the following code snippet to start
-the sweep job with the [`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}})
-command:
+返ってきた sweep ID をコピーし、次の コードスニペット の `sweepID` を置き換えて、[`wandb agent`]({{< relref path="/ref/cli/wandb-agent.md" lang="ja" >}}) コマンドで sweep ジョブを開始します。
 
 ```bash
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-For more information, see [Start sweep jobs]({{< relref path="./start-sweep-agents.md" lang="ja" >}}).
+詳細は [Start sweep jobs]({{< relref path="./start-sweep-agents.md" lang="ja" >}}) を参照してください。
 
 {{% /tab %}} {{< /tabpane >}}
 
 
-{{% alert title="Logging metrics to W&B in a sweep" %}}
-You must log the metric you define and are optimizing for in both your sweep configuration and with `wandb.Run.log()`. For example, if you define the metric to optimize as `val_acc` within your sweep configuration, you must also log `val_acc` to W&B. If you do not log the metric, W&B does not know what to optimize for.
+{{% alert title="Sweep で W&B にメトリクスを ログ する際の注意" %}}
+sweep configuration と `wandb.Run.log()` の両方で、定義して最適化対象としている メトリクス を必ず ログ してください。例えば sweep configuration 内で最適化する メトリクス を `val_acc` と定義した場合、W&B にも `val_acc` を ログ する必要があります。メトリクス を ログ しないと、W&B は何を最適化すべきかを認識できません。
 
 ```python
 with wandb.init() as run:
@@ -279,7 +265,7 @@ with wandb.init() as run:
         )
 ```
 
-The following is an incorrect example of logging the metric to W&B. The metric that is optimized for in the sweep configuration is `val_acc`, but the code logs `val_acc` within a nested dictionary under the key `validation`. You must log the metric directly, not within a nested dictionary.
+次は W&B へのメトリクスの ログ の誤った例です。sweep configuration で最適化対象は `val_acc` ですが、この コード は `val_acc` を `validation` という キー の下の入れ子の 辞書 に ログ しています。メトリクス は入れ子ではなく、直接 ログ する必要があります。
 
 ```python
 with wandb.init() as run:

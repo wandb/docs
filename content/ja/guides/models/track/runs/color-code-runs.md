@@ -1,42 +1,42 @@
 ---
-description: Create semantic legends for charts
+title: セマンティックな run プロットの凡例
+description: チャート用のセマンティックな凡例を作成する
 menu:
   default:
     identifier: ja-guides-models-track-runs-color-code-runs
     parent: what-are-runs
-title: Semantic run plot legends
 ---
 
-Create visually meaningful line plots and plot legends by color-coding your W&B runs based on metrics or configuration parameters. Identify patterns and trends across experiments by coloring runs according to their performance metrics (highest, lowest, or latest values). W&B automatically groups your runs into color-coded buckets based on the values of your selected parameter.
+メトリクスや設定パラメータに基づいて W&B の Runs を色分けし、意味のある折れ線プロットと凡例を作成できます。パフォーマンスのメトリクス（最大、最小、最新の値）で Runs を色分けすることで、experiments 全体のパターンやトレンドを見つけやすくなります。W&B は選択したパラメータの値に基づき、Runs を色分けされたバケットに自動でグループ化します。
 
-Navigate to your workspace's settings page to configure metric or configuration-based colors for runs:
+Workspace の設定ページに移動して、Runs の色をメトリクスまたは設定ベースで設定します:
 
-1. Navigate to your W&B project.
-2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon (⚙️) in the top right corner.
-4. From the drawer, select **Runs** then select **Key-based colors**.
-    - From the **Key** dropdown, select the metric you want to use for assigning colors to runs.
-    - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
-    - Set the the number of buckets to a value from 2 to 8.
+1. W&B の project に移動します。
+2. project のサイドバーから **Workspace** タブを選択します。
+3. 右上の **Settings** アイコン (⚙️) をクリックします。
+4. ドロワーで **Runs** を選び、続いて **Key-based colors** を選択します。
+    - **Key** ドロップダウンから、Runs の色分けに使うメトリクスを選びます。
+    - **Y value** ドロップダウンから、Runs の色分けに使う y 値を選びます。
+    - バケットの数を 2 から 8 の間で設定します。
 
-The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
+以下では、メトリクスと y 値の設定方法、そして Runs の色分けに使うバケットのカスタマイズ方法を説明します。
 
-## Set a metric
+## メトリクスを設定する
 
-The metric options in your **Key** dropdown are derived from the key-value pairs [you log to W&B]({{< relref path="guides/models/track/runs/color-code-runs/#custom-metrics" lang="ja" >}}) and [default metrics]({{< relref path="guides/models/track/runs/color-code-runs/#default-metrics" lang="ja" >}}) defined by W&B.
+**Key** ドロップダウンに表示されるメトリクスの候補は、[W&B にログした内容]({{< relref path="guides/models/track/runs/color-code-runs/#custom-metrics" lang="ja" >}}) と、W&B が定義する [既定のメトリクス]({{< relref path="guides/models/track/runs/color-code-runs/#default-metrics" lang="ja" >}}) に基づきます。
 
-### Default metrics
+### 既定のメトリクス
 
-* `Relative Time (Process)`: The relative time of the run, measured in seconds since the start of the run.
-* `Relative Time (Wall)`: The relative time of the run, measured in seconds since the start of the run, adjusted for wall clock time.
-* `Wall Time`: The wall clock time of the run, measured in seconds since the epoch.
-* `Step`: The step number of the run, which is typically used to track the progress of training or evaluation.
+* `Relative Time (Process)`: run の相対時間。run の開始からの経過秒数。
+* `Relative Time (Wall)`: run の相対時間。run の開始からの経過秒数（ウォールクロック時間で補正）。
+* `Wall Time`: run のウォールクロック時刻。エポックからの秒数。
+* `Step`: run のステップ番号。通常はトレーニングや評価の進捗トラッキングに用います。
 
-### Custom metrics
+### カスタムメトリクス
 
-Color runs and create meaningful plot legends based on custom metrics logged by your training or evaluation scripts. Custom metrics are logged as key-value pairs, where the key is the name of the metric and the value is the metric value.
+トレーニングや評価のスクリプトがログするカスタムメトリクスに基づいて Runs を色分けし、意味のある凡例を作成できます。カスタムメトリクスはキーと値のペアとしてログされ、キーはメトリクス名、値はそのメトリクスの値です。
 
-For example, the following code snippet logs accuracy (`"acc"` key) and loss (`"loss"` key) during a training loop:
+例えば、次のコードスニペットはトレーニングループ中に精度（"acc" キー）と損失（"loss" キー）をログします:
 
 ```python
 import wandb
@@ -45,21 +45,21 @@ import random
 epochs = 10
 
 with wandb.init(project="basic-intro") as run:
-  # Block simulates a training loop logging metrics
+  # メトリクスをログするトレーニングループを模したブロック
   offset = random.random() / 5
   for epoch in range(2, epochs):
       acc = 1 - 2 ** -epoch - random.random() / epoch - offset
       loss = 2 ** -epoch + random.random() / epoch + offset
 
-      # Log metrics from your script to W&B
+      # スクリプトから W&B にメトリクスをログする
       run.log({"acc": acc, "loss": loss})
 ```
 
-Within the **Key** dropdown, both `"acc"` and `"loss"` are available options.
+**Key** ドロップダウンには、"acc" と "loss" の両方が選択肢として表示されます。
 
-## Set a configuration key
+## 設定キーを選ぶ
 
-The configuration options in your **Key** dropdown are derived from the key-value pairs you pass to the `config` parameter when you initialize a W&B run. Configuration keys are typically used to log hyperparameters or other settings used in your training or evaluation scripts.
+**Key** ドロップダウンに表示される設定の候補は、W&B の run を初期化するときに `config` パラメータへ渡したキーと値のペアから取得されます。設定キーは、ハイパーパラメーターやトレーニング/評価スクリプトで使用するその他の設定をログするために使われます。
 
 ```python
 import wandb
@@ -71,42 +71,42 @@ config = {
 }
 
 with wandb.init(project="basic-intro", config=config) as run:
-  # Your training code here
+  # ここにトレーニングのコードを書く
   pass
 ```
 
-Within the **Key** dropdown, `"learning_rate"`, `"batch_size"`, and `"optimizer"` are available options.
+**Key** ドロップダウンには、"learning_rate"、"batch_size"、"optimizer" が選択肢として表示されます。
 
-## Set a y value
+## y 値を設定する
 
-You can choose from the following options:
+次のいずれかを選べます:
 
-- **Latest**: Determine color based on Y value at last logged step for each line.
-- **Max**: Color based on highest Y value logged against the metric.
-- **Min**: Color based on lowest Y value logged against the metric.
+- **Latest**: 各線の最後にログされたステップ時点の Y 値で色を決めます。
+- **Max**: そのメトリクスでログされた最大の Y 値で色を決めます。
+- **Min**: そのメトリクスでログされた最小の Y 値で色を決めます。
 
-## Customize buckets
+## バケットをカスタマイズする
 
-Buckets are ranges of values that W&B uses to categorize runs based on the metric or configuration key you select. Buckets are evenly distributed across the range of values for the specified metric or configuration key and each bucket is assigned a unique color. Runs that fall within that bucket's range are displayed in that color. 
+バケットは、選択したメトリクスまたは設定キーに基づいて Runs を分類するために W&B が用いる値の範囲です。指定したメトリクスまたは設定キーの値の範囲全体を均等に分割し、各バケットに固有の色が割り当てられます。各バケットの範囲に入る Runs は、その色で表示されます。
 
-Consider the following:
+次の例を考えます:
 
-{{< img src="/images/track/color-coding-runs.png" alt="Color coded runs" >}}
+{{< img src="/images/track/color-coding-runs.png" alt="色分けされた Runs" >}}
 
-- **Key** is set to `"Accuracy"` (abbreviated as `"acc"`).
-- **Y value** is set to `"Max"`
+- **Key** は "Accuracy"（略して "acc"）に設定されています。
+- **Y value** は "Max" に設定されています。
 
-With this configuration, W&B colors each run based on their accuracy values. The colors vary from a light yellow color to a deep color. Lighter colors represent lower accuracy values, while deeper colors represent higher accuracy values.
+この設定では、W&B は各 run をその精度の値に基づいて色分けします。色は淡い黄色から濃い色までグラデーションになります。色が淡いほど精度が低く、濃いほど精度が高いことを表します。
 
-Six buckets are defined for the metric, with each bucket representing a range of accuracy values. Within the **Buckets** section, the following range of buckets are defined:
+このメトリクスには 6 個のバケットが定義されており、それぞれが精度の値の範囲を表します。**Buckets** セクションには、次のバケット範囲が定義されています:
 
-- Bucket 1: (Min - 0.7629)
-- Bucket 2: (0.7629 - 0.7824)
-- Bucket 3: (0.7824 - 0.8019)
-- Bucket 4: (0.8019 - 0.8214)
-- Bucket 5: (0.8214 - 0.8409)
-- Bucket 6: (0.8409 - Max)
+- バケット 1: (Min - 0.7629)
+- バケット 2: (0.7629 - 0.7824)
+- バケット 3: (0.7824 - 0.8019)
+- バケット 4: (0.8019 - 0.8214)
+- バケット 5: (0.8214 - 0.8409)
+- バケット 6: (0.8409 - Max)
 
-In the line plot below, the run with the highest accuracy (0.8232) is colored in a deep purple (Bucket 5), while the run with the lowest accuracy (0.7684) is colored in a light orange (Bucket 2). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance. 
+下の折れ線プロットでは、最も精度が高い run（0.8232）は濃い紫（バケット 5）、最も精度が低い run（0.7684）は淡いオレンジ（バケット 2）で表示されています。その他の Runs も精度の値に基づいて色分けされ、色のグラデーションが相対的なパフォーマンスを示します。
 
-{{< img src="/images/track/color-code-runs-plot.png" alt="Color coded runs plot" >}}
+{{< img src="/images/track/color-code-runs-plot.png" alt="色分けされた Runs のプロット" >}}

@@ -1,113 +1,110 @@
 ---
-description: Manage project access using visibility scopes and project-level roles
+title: Projects の アクセス制御を管理する
+description: 公開範囲スコープと Project レベルのロールで Project へのアクセスを管理する
 menu:
   default:
     identifier: ja-guides-hosting-iam-access-management-restricted-projects
     parent: access-management
-title: Manage access control for projects
 ---
 
-Define the scope of a W&B project to limit who can view, edit, and submit W&B runs to it. 
-
-You can use a combination of a couple of controls to configure the access level for any project within a W&B team. **Visibility scope** is the higher-level mechanism. Use that to control which groups of users can view or submit runs in a project. For a project with _Team_ or _Restricted_ visibility scope, you can then use **Project level roles** to control the level of access that each user has within the project.
+W&B Project のスコープを定義して、その Project を誰が閲覧・編集し、W&B Runs を送信できるかを制限します。
+W&B の Team 内のあらゆる Project について、いくつかのコントロールを組み合わせて アクセス レベルを設定できます。**Visibility scope** は上位の仕組みで、どの Users グループがその Project を閲覧できるか、Runs を送信できるかを制御します。Project の公開範囲が _Team_ または _Restricted_ の 場合は、**Project level roles** を使って、各 User がその Project 内で持つ アクセス レベルを制御できます。
 
 {{% alert %}}
-The owner of a project, a team admin, or an organization admin can set or edit a project's visibility.
+Project のオーナー、Team 管理者、または組織の管理者が、その Project の公開範囲を設定・編集できます。
 {{% /alert %}}
 
-## Visibility scopes
+## Visibility scope（公開範囲）
 
-There are four project visibility scopes you can choose from. In order of most public to most private, they are: 
+選べる Project の Visibility scope は 4 種類あります。公開度が高い順に次のとおりです: 
 
-
-| Scope | Description | 
+| Scope | 説明 | 
 | ----- | ----- |
-| Open |Anyone who knows about the project can view it and submit runs or reports.|
-| Public |Anyone who knows about the project can view it. Only your team can submit runs or reports.|
-| Team | Only members of the parent team can view the project and submit runs or reports. Anyone outside the team can not access the project. |
-| Restricted| Only invited members from the parent team can view the project and submit runs or reports.|
-
-
-{{% alert %}}
-Set a project's scope to **Restricted** if you would like to collaborate on workflows related to sensitive or confidential data. When you create a restricted project within a team, you can invite or add specific members from the team to collaborate on relevant experiments, artifacts, reports, and so forth. 
-
-Unlike other project scopes, all members of a team do not get implicit access to a restricted project. At the same time, team admins can join restricted projects if needed.
-{{% /alert %}}
-
-### Set visibility scope on a new or existing project
-
-Set a project's visibility scope when you create a project or when editing it later.
+| Open |Project について知っている人なら誰でも閲覧でき、Runs や Reports を送信できます。|
+| Public |Project について知っている人なら誰でも閲覧できます。Runs や Reports を送信できるのはあなたの Team のみです。|
+| Team | 親 Team のメンバーだけがその Project を閲覧し、Runs や Reports を送信できます。Team の外部の人はその Project に アクセス できません。 |
+| Restricted| 親 Team から招待されたメンバーだけが、その Project を閲覧し、Runs や Reports を送信できます。|
 
 {{% alert %}}
-* Only the owner of the project or a team admin can set or edit its visibility scope.
-* When a team admin enables **Make all future team projects private (public sharing not allowed)** within a team's privacy setting, that turns off **Open** and **Public** project visibility scopes for that team. In this case, your team can only use **Team** and **Restricted** scopes.
+機微または機密の データ に関わるワークフローで共同作業する場合は、Project の scope を **Restricted** に設定してください。Team 内に Restricted Project を作成した場合、Team の特定メンバーだけを招待・追加して、関連する experiments、artifacts、reports などでコラボレーションできます。
+
+他の scope と異なり、Team の全メンバーが自動的に Restricted Project へ アクセス できるわけではありません。一方で、必要に応じて Team 管理者は Restricted Project に参加できます。
 {{% /alert %}}
 
-#### Set visibility scope when you create a new project
+### 新規または既存の Project に Visibility scope を設定する
 
-1. Navigate to your W&B organization on SaaS Cloud, Dedicated Cloud, or Self-managed instance.
-2. Click the **Create a new project** button in the left hand sidebar's **My projects** section. Alternatively, navigate to the **Projects** tab of your team and click the **Create new project** button in the upper right hand corner.
-3. After selecting the parent team and entering the name of the project, select the desired scope from the **Project Visibility** dropdown.
-{{< img src="/images/hosting/restricted_project_add_new.gif" alt="Creating restricted project" >}}
-
-Complete the following step if you select **Restricted** visibility. 
-
-4. Provide names of one or more W&B team members in the **Invite team members** field. Add only those members who are essential to collaborate on the project.
-{{< img src="/images/hosting/restricted_project_2.png" alt="Restricted project configuration" >}}
+Project を作成するとき、または後から編集するときに、その Project の Visibility scope を設定します。
 
 {{% alert %}}
-You can add or remove members in a restricted project later, from its **Users** tab.
+* Project のオーナーまたは Team 管理者のみが、その Visibility scope を設定・編集できます。
+* Team のプライバシー設定で **Make all future team projects private (public sharing not allowed)** を有効にすると、その Team では **Open** と **Public** の Project Visibility scope が無効になります。この場合、使用できるのは **Team** と **Restricted** のみです。
 {{% /alert %}}
 
-#### Edit visibility scope of an existing project
+#### 新しい Project を作成するときに Visibility scope を設定する
 
-1. Navigate to your W&B Project.
-2. Select the **Overview** tab on the left column.
-3. Click the **Edit Project Details** button on the upper right corner.  
-4. From the **Project Visibility** dropdown, select the desired scope.
-{{< img src="/images/hosting/restricted_project_edit.gif" alt="Editing restricted project settings" >}}
+1. SaaS Cloud、Dedicated Cloud、または Self-managed インスタンス上の W&B の組織に移動します。
+2. 左側サイドバーの **My projects** セクションで **Create a new project** ボタンをクリックします。あるいは、Team の **Projects** タブに移動し、右上の **Create new project** ボタンをクリックします。
+3. 親 Team を選択し Project 名を入力したら、**Project Visibility** のドロップダウンから希望の scope を選びます。
+{{< img src="/images/hosting/restricted_project_add_new.gif" alt="Restricted Project の作成" >}}
 
-Complete the following step if you select **Restricted** visibility. 
+Visibility で **Restricted** を選んだ場合は、次の手順も実施します。
 
-5. Go to the **Users** tab in the project, and click **Add user** button to invite specific users to the restricted project.
+4. **Invite team members** フィールドに、1 人以上の W&B Team メンバーの名前を入力します。Project で共同作業が必要なメンバーのみを追加してください。
+{{< img src="/images/hosting/restricted_project_2.png" alt="Restricted Project の設定" >}}
+
+{{% alert %}}
+Restricted Project では後から **Users** タブでメンバーを追加・削除できます。
+{{% /alert %}}
+
+#### 既存の Project の Visibility scope を編集する
+
+1. 対象の W&B Project に移動します。
+2. 左側のカラムで **Overview** タブを選択します。
+3. 右上の **Edit Project Details** ボタンをクリックします。  
+4. **Project Visibility** のドロップダウンから希望の scope を選びます。
+{{< img src="/images/hosting/restricted_project_edit.gif" alt="Restricted Project の設定を編集" >}}
+
+Visibility で **Restricted** を選んだ場合は、次の手順も実施します。
+
+5. Project の **Users** タブに移動し、**Add user** ボタンをクリックして、特定の Users を Restricted Project に招待します。
 
 {{% alert color="secondary" %}}
-* All members of a team lose access to a project if you change its visibility scope from **Team** to **Restricted**, unless you invite the required team members to the project.
-* All members of a team get access to a project if you change its visibility scope from **Restricted** to **Team**.
-* If you remove a team member from the user list for a restricted project, they lose access to that project.
+* Visibility scope を **Team** から **Restricted** に変更すると、必要な Team メンバーを Project に招待しない限り、その Team の全メンバーはその Project への アクセス を失います。
+* Visibility scope を **Restricted** から **Team** に変更すると、その Team の全メンバーがその Project に アクセス できるようになります。
+* Restricted Project の **Users** リストから Team メンバーを削除すると、そのメンバーはその Project への アクセス を失います。
 {{% /alert %}}
 
-### Other key things to note for restricted scope
+### Restricted scope に関するその他のポイント
 
-* If you want to use a team-level service account in a restricted project, you should invite or add that specifically to the project. Otherwise a team-level service account can not access a restricted project by default.
-* You can not move runs from a restricted project, but you can move runs from a non-restricted project to a restricted one.
-* You can convert the visibility of a restricted project to only **Team** scope, irrespective of the team privacy setting **Make all future team projects private (public sharing not allowed)**.
-* If the owner of a restricted project is not part of the parent team anymore, the team admin should change the owner to ensure seamless operations in the project.
+* Restricted Project で Team レベルのサービス アカウントを使う場合は、そのアカウントを Project に個別に招待または追加してください。そうしない限り、Team レベルのサービス アカウントは既定では Restricted Project に アクセス できません。
+* Restricted Project から Runs を移動することはできませんが、非 Restricted の Project から Restricted Project へ Runs を移動することはできます。
+* Team のプライバシー設定 **Make all future team projects private (public sharing not allowed)** に関わらず、Restricted Project の可視性は **Team** scope にのみ変更できます。
+* Restricted Project のオーナーが親 Team に所属していない場合は、Project の円滑な運用のために Team 管理者がオーナーを変更してください。
 
-## Project level roles
+## Project レベルのロール
 
-For the _Team_ or _Restricted_ scoped projects in your team, you can assign a specific role to a user, which could be different from that user's team level role. For example, if a user has _Member_ role at the team level, you can assign the _View-Only_, or _Admin_, or any available custom role to that user within a _Team_ or _Restricted_ scope project in that team.
+Team 内の _Team_ または _Restricted_ scope の Project では、User に特定のロールを割り当てられます。これはその User の Team レベルのロールと異なる場合があります。たとえば、ある User が Team レベルで _Member_ ロールの場合でも、その Team の _Team_ または _Restricted_ scope の Project 内では、その User に _View-Only_ や _Admin_、その他の利用可能なカスタム ロールを割り当てられます。
 
 {{% alert %}}
-Project level roles are in preview on SaaS Cloud, Dedicated Cloud, and Self-managed instances.
+Project レベルのロールは、SaaS Cloud、Dedicated Cloud、および Self-managed インスタンスでプレビュー提供中です。
 {{% /alert %}}
 
-### Assign project level role to a user
+### User に Project レベルのロールを割り当てる
 
-1. Navigate to your W&B Project.
-2. Select the **Overview** tab on the left column.
-3. Go to the **Users** tab in the project.
-4. Click the currently assigned role for the pertinent user in the **Project Role** field, which should open up a dropdown listing the other available roles.
-5. Select another role from the dropdown. It should save instantly.
+1. 対象の W&B Project に移動します。
+2. 左側のカラムで **Overview** タブを選択します。
+3. Project の **Users** タブに移動します。
+4. 該当する User の **Project Role** 欄に表示されている現在のロールをクリックすると、他に選べるロールがドロップダウンで表示されます。
+5. ドロップダウンから別のロールを選びます。選択は即座に保存されます。
 
 {{% alert %}}
-When you change the project level role for a user to be different from their team level role, the project level role includes a **\*** to indicate the difference.
+ある User の Project レベルのロールを Team レベルのロールと異なるものに変更すると、その Project レベルのロールには差異を示すために **\*** が付きます。
 {{% /alert %}}
 
-### Other key things to note for project level roles
+### Project レベルのロールに関するその他のポイント
 
-* By default, project level roles for all users in a _team_ or _restricted_ scoped project **inherit** their respective team level roles.
-* You **can not** change the project level role of a user who has _View-only_ role at the team level.
-* If the project level role for a user within a particular project **is same as** the team level role, and at some point if a team admin changes the team level role, the relevant project role is automatically changed to track the team level role.
-* If you change the project level role for a user within a particular project such that **it is different from** the team level role, and at some point if a team admin changes the team level role, the relevant project level role remains as is.
-* If you remove a user from a _restricted_ project when their project level role was different from the team level role, and if you then add the user back to the project after some time, they would inherit the team level role due to the default behavior. If needed, you would need to change the project level role again to be different from the team level role.
+* 既定では、 _team_ または _restricted_ scope の Project にいるすべての Users の Project レベルのロールは、それぞれの Team レベルのロールを継承します。
+* Team レベルで _View-only_ ロールの User の Project レベルのロールは変更できません。
+* 特定の Project 内で、ある User の Project レベルのロールが Team レベルのロールと同一であり、その後に Team 管理者が Team レベルのロールを変更した場合、該当する Project のロールは Team レベルのロールに追従して自動的に変更されます。
+* 特定の Project 内で、ある User の Project レベルのロールを Team レベルのロールと異なるものに変更した場合、その後に Team 管理者が Team レベルのロールを変更しても、該当する Project レベルのロールはそのまま維持されます。
+* ある User の Project レベルのロールが Team レベルのロールと異なる状態で、その User を _restricted_ Project から削除し、後で再度その Project に追加した場合、既定の挙動により Team レベルのロールが継承されます。必要に応じて、再度 Project レベルのロールを Team レベルと異なるものに変更してください。

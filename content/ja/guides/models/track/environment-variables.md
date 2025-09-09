@@ -1,82 +1,82 @@
 ---
-description: Set W&B environment variables.
+title: 環境変数
+description: W&B の 環境 変数を設定する。
 menu:
   default:
     identifier: ja-guides-models-track-environment-variables
     parent: experiments
-title: Environment variables
 weight: 9
 ---
 
-When you're running a script in an automated environment, you can control W&B with environment variables set before the script runs or within the script.
+自動化された環境でスクリプトを実行する場合、スクリプトの実行前またはスクリプト内で設定した環境変数で W&B を制御できます。
 
 ```bash
-# This is secret and shouldn't be checked into version control
+# これは秘密なので、バージョン管理にコミットしないでください
 WANDB_API_KEY=$YOUR_API_KEY
-# Name and notes optional
+# 名前とノートは任意
 WANDB_NAME="My first run"
 WANDB_NOTES="Smaller learning rate, more regularization."
 ```
 
 ```bash
-# Only needed if you don't check in the wandb/settings file
+# wandb/settings ファイルをチェックインしない場合にのみ必要です
 WANDB_ENTITY=$username
 WANDB_PROJECT=$project
 ```
 
 ```python
-# If you don't want your script to sync to the cloud
+# スクリプトをクラウドと同期したくない場合
 os.environ["WANDB_MODE"] = "offline"
 
-# Add sweep ID tracking to Run objects and related classes
+# Sweep ID のトラッキングを Run オブジェクトおよび関連クラスに追加
 os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
 
-## Optional environment variables
+## オプションの環境変数
 
-Use these optional environment variables to do things like set up authentication on remote machines.
+これらのオプションの環境変数を使って、リモートマシンでの認証設定などを行えます。
 
 | Variable name | Usage |
 | --------------------------- | ---------- |
-| `WANDB_ANONYMOUS` | Set this to `allow`, `never`, or `must` to let users create anonymous runs with secret urls. |
-| `WANDB_API_KEY` | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings).  This must be set if `wandb login` hasn't been run on the remote machine.               |
-| `WANDB_BASE_URL` | If you're using [wandb/local]({{< relref path="/guides/hosting/" lang="ja" >}}) you should set this environment variable to `http://YOUR_IP:YOUR_PORT` |
-| `WANDB_CACHE_DIR` | This defaults to \~/.cache/wandb, you can override this location with this environment variable |
-| `WANDB_CONFIG_DIR` | This defaults to \~/.config/wandb, you can override this location with this environment variable |
-| `WANDB_CONFIG_PATHS` | Comma separated list of yaml files to load into wandb.config. See [config]({{< relref path="./config.md#file-based-configs" lang="ja" >}}). |
-| `WANDB_CONSOLE` | Set this to "off" to disable stdout / stderr logging. This defaults to "on" in environments that support it. |
-| `WANDB_DATA_DIR` | Where to upload staging artifacts. The default location depends on your platform, because it uses the value of `user_data_dir` from the `platformdirs` Python package. Make sure this directory exists and the running user has permission to write to it. |
-| `WANDB_DIR` | Where to store all generated files. If unset, defaults to the `wandb` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of downloaded artifacts, which you can set using the `WANDB_ARTIFACT_DIR` environment variable. |
-| `WANDB_ARTIFACT_DIR` | Where to store all downloaded artifacts. If unset, defaults to the `artifacts` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of generated metadata files, which you can set using the `WANDB_DIR` environment variable. |
-| `WANDB_DISABLE_GIT` | Prevent wandb from probing for a git repository and capturing the latest commit / diff. |
-| `WANDB_DISABLE_CODE` | Set this to true to prevent wandb from saving notebooks or git diffs. We'll still save the current commit if we're in a git repo. |
-| `WANDB_DOCKER` | Set this to a docker image digest to enable restoring of runs. This is set automatically with the wandb docker command. You can obtain an image digest by running `wandb docker my/image/name:tag --digest` |
-| `WANDB_ENTITY` | The entity associated with your run. If you have run `wandb init` in the directory of your training script, it will create a directory named _wandb_ and will save a default entity which can be checked into source control. If you don't want to create that file or want to override the file you can use the environmental variable. |
-| `WANDB_ERROR_REPORTING` | Set this to false to prevent wandb from logging fatal errors to its error tracking system. |
-| `WANDB_HOST` | Set this to the hostname you want to see in the wandb interface if you don't want to use the system provided hostname |
-| `WANDB_IGNORE_GLOBS` | Set this to a comma separated list of file globs to ignore. These files will not be synced to the cloud. |
-| `WANDB_JOB_NAME` | Specify a name for any jobs created by `wandb`. |
-| `WANDB_JOB_TYPE` | Specify the job type, like "training" or "evaluation" to indicate different types of runs. See [grouping]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) for more info. |
-| `WANDB_MODE` | If you set this to "offline" wandb will save your run metadata locally and not sync to the server. If you set this to `disabled` wandb will turn off completely. |
-| `WANDB_NAME` | The human-readable name of your run. If not set it will be randomly generated for you |
-| `WANDB_NOTEBOOK_NAME` | If you're running in jupyter you can set the name of the notebook with this variable. We attempt to auto detect this. |
-| `WANDB_NOTES` | Longer notes about your run. Markdown is allowed and you can edit this later in the UI. |
-| `WANDB_PROJECT` | The project associated with your run. This can also be set with `wandb init`, but the environmental variable will override the value. |
-| `WANDB_RESUME` | By default this is set to _never_. If set to _auto_ wandb will automatically resume failed runs. If set to _must_ forces the run to exist on startup. If you want to always generate your own unique ids, set this to _allow_ and always set `WANDB_RUN_ID`. |
-| `WANDB_RUN_GROUP` | Specify the experiment name to automatically group runs together. See [grouping]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) for more info. |
-| `WANDB_RUN_ID` | Set this to a globally unique string (per project) corresponding to a single run of your script. It must be no longer than 64 characters. All non-word characters will be converted to dashes. This can be used to resume an existing run in cases of failure. |
-| `WANDB_QUIET` | Set this to `true` to limit statements logged to standard output to critical statements only. If this is set all logs will be written to `$WANDB_DIR/debug.log`. |
-| `WANDB_SILENT` | Set this to `true` to silence wandb log statements. This is useful for scripted commands. If this is set all logs will be written to `$WANDB_DIR/debug.log`. |
-| `WANDB_SHOW_RUN` | Set this to `true` to automatically open a browser with the run url if your operating system supports it. |
-| `WANDB_SWEEP_ID` | Add sweep ID tracking to `Run` objects and related classes, and display in the UI. |
-| `WANDB_TAGS` | A comma separated list of tags to be applied to the run. |
-| `WANDB_USERNAME` | The username of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team. |
-| `WANDB_USER_EMAIL` | The email of a member of your team associated with the run. This can be used along with a service account API key to enable attribution of automated runs to members of your team. |
+| `WANDB_ANONYMOUS` | `allow`、`never`、`must` のいずれかを指定すると、ユーザーが秘密の URL で匿名の Runs を作成できるように制御できます。 |
+| `WANDB_API_KEY` | アカウントに紐づく認証キーを設定します。キーは [your settings page](https://app.wandb.ai/settings) で確認できます。リモートマシンで `wandb login` を実行していない場合は必須です。 |
+| `WANDB_BASE_URL` | [wandb/local]({{< relref path="/guides/hosting/" lang="ja" >}}) を使っている場合は、この環境変数を `http://YOUR_IP:YOUR_PORT` に設定してください。 |
+| `WANDB_CACHE_DIR` | 既定は \~/.cache/wandb です。この環境変数で場所を上書きできます。 |
+| `WANDB_CONFIG_DIR` | 既定は \~/.config/wandb です。この環境変数で場所を上書きできます。 |
+| `WANDB_CONFIG_PATHS` | wandb.config に読み込む YAML ファイルのカンマ区切りリスト。詳しくは [config]({{< relref path="./config.md#file-based-configs" lang="ja" >}}) を参照してください。 |
+| `WANDB_CONSOLE` | "off" に設定すると stdout / stderr のロギングを無効化します。対応する環境では既定は "on" です。 |
+| `WANDB_DATA_DIR` | ステージングした Artifacts をアップロードする場所。既定の場所は使用しているプラットフォームに依存し、`platformdirs` Python パッケージの `user_data_dir` の値を使います。ディレクトリーが存在し、実行ユーザーが書き込み可能であることを確認してください。 |
+| `WANDB_DIR` | 生成されたすべてのファイルを保存する場所。未設定の場合、トレーニングスクリプトからの相対パスで `wandb` ディレクトリーが既定になります。ディレクトリーが存在し、実行ユーザーが書き込み可能であることを確認してください。これはダウンロードした Artifacts の場所は制御しません。Artifacts の保存先は `WANDB_ARTIFACT_DIR` 環境変数で設定できます。 |
+| `WANDB_ARTIFACT_DIR` | ダウンロードしたすべての Artifacts を保存する場所。未設定の場合、トレーニングスクリプトからの相対パスで `artifacts` ディレクトリーが既定になります。ディレクトリーが存在し、実行ユーザーが書き込み可能であることを確認してください。これは生成されたメタデータファイルの場所は制御しません。メタデータの保存先は `WANDB_DIR` 環境変数で設定できます。 |
+| `WANDB_DISABLE_GIT` | wandb が Git リポジトリを探索して最新のコミット / diff を取得するのを防ぎます。 |
+| `WANDB_DISABLE_CODE` | true に設定すると、wandb がノートブックや Git の diff を保存しないようにします。Git リポジトリ内にいる場合は現在のコミットは引き続き保存されます。 |
+| `WANDB_DOCKER` | Runs の復元を有効化するために、Docker イメージのダイジェストを設定します。これは wandb の docker コマンドで自動設定されます。イメージのダイジェストは `wandb docker my/image/name:tag --digest` の実行で取得できます。 |
+| `WANDB_ENTITY` | Run に関連付けられた Entity。トレーニングスクリプトのディレクトリーで `wandb init` を実行すると、_wandb_ というディレクトリーが作成され、デフォルトの Entity が保存されます（ソース管理にチェックイン可能）。そのファイルを作成したくない、または値を上書きしたい場合はこの環境変数を使用できます。 |
+| `WANDB_ERROR_REPORTING` | false に設定すると、wandb が致命的エラーをエラー追跡システムにログしないようにします。 |
+| `WANDB_HOST` | システム提供のホスト名を使いたくない場合に、wandb のインターフェースに表示したいホスト名を設定します。 |
+| `WANDB_IGNORE_GLOBS` | 無視するファイルの glob をカンマ区切りで指定します。これらのファイルはクラウドへ同期されません。 |
+| `WANDB_JOB_NAME` | `wandb` が作成するあらゆるジョブの名前を指定します。 |
+| `WANDB_JOB_TYPE` | "training" や "evaluation" など、Run の種類を示すジョブタイプを指定します。詳しくは [グループ化]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) を参照してください。 |
+| `WANDB_MODE` | "offline" に設定すると、wandb は Run のメタデータをローカルに保存し、サーバーに同期しません。`disabled` に設定すると wandb を完全に無効化します。 |
+| `WANDB_NAME` | Run のわかりやすい名前。未設定の場合はランダムに生成されます。 |
+| `WANDB_NOTEBOOK_NAME` | Jupyter で実行している場合、この変数でノートブック名を設定できます。自動検出も試みます。 |
+| `WANDB_NOTES` | Run に関する詳細なノート。Markdown が使用でき、後で UI から編集できます。 |
+| `WANDB_PROJECT` | Run に関連付けられた Project。これは `wandb init` でも設定できますが、環境変数が値を上書きします。 |
+| `WANDB_RESUME` | 既定では _never_。_auto_ に設定すると、wandb は失敗した Runs を自動で再開します。_must_ に設定すると、起動時に Run の存在を強制します。常に独自の一意な ID を生成したい場合は _allow_ に設定し、常に `WANDB_RUN_ID` を設定してください。 |
+| `WANDB_RUN_GROUP` | Runs を自動的にまとめるための Experiment 名を指定します。詳しくは [グループ化]({{< relref path="/guides/models/track/runs/grouping.md" lang="ja" >}}) を参照してください。 |
+| `WANDB_RUN_ID` | スクリプトの単一の Run に対応する、（Project ごとに）グローバルに一意な文字列を設定します。64 文字以内である必要があります。単語文字以外のすべての文字はダッシュに変換されます。失敗時に既存の Run を再開する用途に使えます。 |
+| `WANDB_QUIET` | `true` に設定すると、標準出力に出すメッセージを重要なもののみに制限します。設定時はすべてのログが `$WANDB_DIR/debug.log` に書き出されます。 |
+| `WANDB_SILENT` | `true` に設定すると、wandb のログメッセージを出力しません。スクリプト化したコマンドに便利です。設定時はすべてのログが `$WANDB_DIR/debug.log` に書き出されます。 |
+| `WANDB_SHOW_RUN` | `true` に設定すると、OS が対応している場合に Run の URL を自動的にブラウザーで開きます。 |
+| `WANDB_SWEEP_ID` | Run オブジェクトおよび関連クラスに Sweep ID のトラッキングを追加し、UI に表示します。 |
+| `WANDB_TAGS` | Run に付与するタグのカンマ区切りリスト。 |
+| `WANDB_USERNAME` | Run に関連付けられたチームメンバーのユーザー名。サービスアカウントの API キーと併用して、自動化された Runs をチームメンバーに帰属させることができます。 |
+| `WANDB_USER_EMAIL` | Run に関連付けられたチームメンバーのメールアドレス。サービスアカウントの API キーと併用して、自動化された Runs をチームメンバーに帰属させることができます。 |
 
-## Singularity environments
+## Singularity 環境
 
-If you're running containers in [Singularity](https://singularity.lbl.gov/index.html) you can pass environment variables by pre-pending the above variables with `SINGULARITYENV_`. More details about Singularity environment variables can be found [here](https://singularity.lbl.gov/docs-environment-metadata#environment).
+[Singularity](https://singularity.lbl.gov/index.html) でコンテナを実行する場合は、上記の変数名の前に `SINGULARITYENV_` を付けることで環境変数を渡せます。Singularity の環境変数に関する詳細は[こちら](https://singularity.lbl.gov/docs-environment-metadata#environment)を参照してください。
 
-## Running on AWS
+## AWS での実行
 
-If you're running batch jobs in AWS, it's easy to authenticate your machines with your W&B credentials. Get your API key from your [settings page](https://app.wandb.ai/settings), and set the `WANDB_API_KEY` environment variable in the [AWS batch job spec](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters).
+AWS でバッチジョブを実行する場合、W&B の認証情報でマシンを簡単に認証できます。[settings page](https://app.wandb.ai/settings) から API キーを取得し、[AWS batch job spec](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters) で `WANDB_API_KEY` 環境変数を設定してください。

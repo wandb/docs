@@ -1,16 +1,16 @@
 ---
+title: プロジェクトの公開設定はどのように変更できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-project_make_public
 support:
-- privacy
+- プライバシー
 - projects
-title: How can I change the privacy of my project?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To change a project's privacy (visibility):
+Project のプライバシー（可視性）を変更するには:
 
 {{% readfile file="/content/en/_includes/project-visibility-settings.md" %}}

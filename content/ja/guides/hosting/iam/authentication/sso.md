@@ -1,180 +1,180 @@
 ---
+title: OIDC を使用した SSO の設定
 menu:
   default:
     identifier: ja-guides-hosting-iam-authentication-sso
     parent: authentication
-title: Configure SSO with OIDC
 ---
 
-W&B Server's support for OpenID Connect (OIDC) compatible identity providers allows for management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, and Entra.
+W&B Server の OpenID Connect (OIDC) 互換アイデンティティプロバイダー対応により、Okta、Keycloak、Auth0、Google、Entra などの外部 IdP を通じてユーザーのアイデンティティとグループメンバーシップを管理できます。
 
 ## OpenID Connect (OIDC)
 
-W&B Server supports the following OIDC authentication flows for integrating with external Identity Providers (IdPs).
-1. Implicit Flow with Form Post 
-2. Authorization Code Flow with Proof Key for Code Exchange (PKCE)
+W&B Server は、外部 IdP（Identity Provider）とのインテグレーションのために、次の OIDC 認証フローをサポートします。
+1. Implicit Flow（Form Post）
+2. Authorization Code フロー（Proof Key for Code Exchange: PKCE）
 
-These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
+これらのフローはユーザーを認証し、W&B Server がアクセス制御を行うために必要なアイデンティティ情報（ID トークンの形式）を提供します。
 
-The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B Server uses this token to authenticate the user and map them to appropriate roles or groups in the system.
+ID トークンは JWT で、ユーザーの氏名、ユーザー名、メール、グループメンバーシップなどのアイデンティティ情報が含まれます。W&B Server はこのトークンを用いてユーザーを認証し、システム内の適切なロールやグループにマッピングします。
 
-In the context of W&B Server, access tokens authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
+W&B Server の文脈では、アクセストークンはユーザーに代わって API へのリクエストを許可しますが、W&B Server の主な関心はユーザー認証とアイデンティティであるため、必要なのは ID トークンのみです。
 
-You can use environment variables to [configure IAM options]({{< relref path="../advanced_env_vars.md" lang="ja" >}}) for your [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) instance.
+環境変数を使って、[IAM オプションを設定]({{< relref path="../advanced_env_vars.md" lang="ja" >}}) し、[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [セルフマネージド]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスに適用できます。
 
-To assist with configuring Identity Providers for [Dedicated cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
+[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [セルフマネージド]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) の W&B Server インストールで IdP を設定する際は、以下の IdP ごとのガイドラインに従ってください。SaaS 版の W&B をお使いの場合は、組織向けに Auth0 テナントを設定する支援について [support@wandb.com](mailto:support@wandb.com) までお問い合わせください。
 
 {{< tabpane text=true >}}
 {{% tab header="Cognito" value="cognito" %}}
-Follow the procedure below to set up AWS Cognito for authorization: 
+以下の手順で AWS Cognito による認可を設定します。 
 
-1. First, sign in to your AWS account and navigate to the [AWS Cognito](https://aws.amazon.com/cognito/) App.
+1. まず AWS アカウントにサインインし、[AWS Cognito](https://aws.amazon.com/cognito/) アプリに移動します。
 
-    {{< img src="/images/hosting/setup_aws_cognito.png" alt="AWS Cognito setup" >}}
+    {{< img src="/images/hosting/setup_aws_cognito.png" alt="AWS Cognito のセットアップ" >}}
 
-2. Provide an allowed callback URL to configure the application in your IdP:
-     * Add `http(s)://YOUR-W&B-HOST/oidc/callback` as the callback URL. Replace `YOUR-W&B-HOST` with your W&B host path.
+2. IdP 側のアプリケーション設定として、許可するコールバック URL を指定します。
+     * コールバック URL として `http(s)://YOUR-W&B-HOST/oidc/callback` を追加します。`YOUR-W&B-HOST` はお使いの W&B ホスト名に置き換えてください。
 
-3. If your IdP supports universal logout, set the Logout URL to `http(s)://YOUR-W&B-HOST`. Replace `YOUR-W&B-HOST` with your W&B host path.
+3. IdP がユニバーサルログアウトをサポートしている場合、Logout URL を `http(s)://YOUR-W&B-HOST` に設定します。`YOUR-W&B-HOST` はお使いの W&B ホスト名に置き換えてください。
 
-    For example, if your application was running at `https://wandb.mycompany.com`, you would replace `YOUR-W&B-HOST` with `wandb.mycompany.com`.
+    たとえば、アプリケーションが `https://wandb.mycompany.com` で動作している場合、`YOUR-W&B-HOST` は `wandb.mycompany.com` に置き換えます。
 
-    The image below demonstrates how to provide allowed callback and sign-out URLs in AWS Cognito.
+    下の画像は、AWS Cognito で許可されたコールバック URL とサインアウト URL を指定する方法を示しています。
 
-    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="Host configuration" >}}
+    {{< img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="ホストの設定" >}}
 
 
-    _wandb/local_ uses the [`implicit` grant with the `form_post` response type](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) by default. 
+    _wandb/local_ はデフォルトで、[`implicit` グラント（`form_post` レスポンスタイプ）](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post) を使用します。 
 
-    You can also configure _wandb/local_ to perform an `authorization_code` grant that uses the [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) flow. 
+    また、_wandb/local_ を [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/) を用いる `authorization_code` グラントで動作するように設定することもできます。 
 
-4. Select one or more OAuth grant types to configure how AWS Cognito delivers tokens to your app.
-5. W&B requires specific OpenID Connect (OIDC) scopes. Select the following from AWS Cognito App:
+4. OAuth のグラントタイプを 1 つ以上選択し、AWS Cognito がアプリにトークンを配布する方法を設定します。
+5. W&B には特定の OpenID Connect (OIDC) スコープが必要です。AWS Cognito アプリで次を選択します。
     * "openid" 
     * "profile"
     * "email"
 
-    For example, your AWS Cognito App UI should look similar to the following image:
+    たとえば、AWS Cognito アプリの UI は次の画像のようになります。
 
-    {{< img src="/images/hosting/setup_aws_required_fields.png" alt="Required fields" >}}
+    {{< img src="/images/hosting/setup_aws_required_fields.png" alt="必須フィールド" >}}
 
-    Select the **Auth Method** in the settings page or set the OIDC_AUTH_METHOD environment variable to tell _wandb/local_ which grant to.
+    設定ページで **Auth Method** を選択するか、環境変数 OIDC_AUTH_METHOD を設定して、_wandb/local_ に使用するグラントを指定します。
 
-    You must set the Auth Method to `pkce`.
+    Auth Method は `pkce` に設定してください。
 
-6. You need a Client ID and the URL of your OIDC issuer. The OpenID discovery document must be available at `$OIDC_ISSUER/.well-known/openid-configuration` 
+6. Client ID と OIDC Issuer の URL が必要です。OpenID のディスカバリドキュメントは `$OIDC_ISSUER/.well-known/openid-configuration` で取得できる必要があります。 
 
-    For example, , you can generate your issuer URL by appending your User Pool ID to the Cognito IdP URL from the **App Integration** tab within the **User Pools** section:
+    たとえば、**User Pools** セクションの **App Integration** タブにある Cognito IdP の URL に User Pool ID を付加して Issuer URL を生成できます。
 
-    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="AWS Cognito issuer URL" >}}
+    {{< img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="AWS Cognito の Issuer URL" >}}
 
-    Do not use the "Cognito domain" for the IDP URL. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
+    IdP の URL に「Cognito domain」を使用しないでください。Cognito のディスカバリドキュメントは `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID` にあります。
 
 {{% /tab %}}
 
 {{% tab header="Okta" value="okta"%}}
-Follow the procedure below to set up Okta for authorization: 
+以下の手順で Okta による認可を設定します。 
 
-1. Log in to the [Okta Portal](https://login.okta.com/). 
+1. [Okta Portal](https://login.okta.com/) にログインします。 
 
-2. On the left side, select **Applications** and then **Applications** again.
-    {{< img src="/images/hosting/okta_select_applications.png" alt="Okta Applications menu" >}}
+2. 左側で **Applications**、続いて **Applications** を選択します。
+    {{< img src="/images/hosting/okta_select_applications.png" alt="Okta の Applications メニュー" >}}
 
-3. Click on "Create App integration."
-    {{< img src="/images/hosting/okta_create_new_app_integration.png" alt="Create App integration button" >}}
+3. "Create App integration" をクリックします。
+    {{< img src="/images/hosting/okta_create_new_app_integration.png" alt="Create App integration ボタン" >}}
 
-4. On the screen named "Create a new app integration," select **OIDC - OpenID Connect** and **Single-Page Application**. Then click "Next."
-    {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="OIDC Single-Page Application selection" >}}
+4. "Create a new app integration" 画面で **OIDC - OpenID Connect** と **Single-Page Application** を選択し、"Next" をクリックします。
+    {{< img src="/images/hosting/okta_create_a_new_app_integration.png" alt="OIDC Single-Page Application の選択" >}}
 
-5. On the screen named "New Single-Page App Integration," fill out the values as follows and click **Save**:
-    - App integration name, for example "W&B"
-    - Grant type: Select both **Authorization Code** and **Implicit (hybrid)**
+5. "New Single-Page App Integration" 画面で次のように入力し、**Save** をクリックします。
+    - App integration name（例: "W&B"）
+    - Grant type: **Authorization Code** と **Implicit (hybrid)** の両方を選択
     - Sign-in redirect URIs: https://YOUR_W_AND_B_URL/oidc/callback
     - Sign-out redirect URIs: https://YOUR_W_AND_B_URL/logout
-    - Assignments: Select **Skip group assignment for now**
-    {{< img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Single-Page App configuration" >}}
+    - Assignments: **Skip group assignment for now** を選択
+    {{< img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Single-Page App の設定" >}}
 
-6. On the overview screen of the Okta application that you just created, make note of the **Client ID** under **Client Credentials** under the **General** tab:
-    {{< img src="/images/hosting/okta_make_note_of_client_id.png" alt="Okta Client ID location" >}}
+6. 作成した Okta アプリの概要画面で、**General** タブの **Client Credentials** の下にある **Client ID** を控えます。
+    {{< img src="/images/hosting/okta_make_note_of_client_id.png" alt="Okta の Client ID の場所" >}}
 
-7. To identify the Okta OIDC Issuer URL, select **Settings** and then **Account** on the left side.
-    The Okta UI shows the company name under **Organization Contact**.
-    {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="Okta organization settings" >}}
+7. Okta の OIDC Issuer URL を確認するには、左側で **Settings**、続いて **Account** を選択します。
+    Okta の UI では **Organization Contact** の下に会社名が表示されます。
+    {{< img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="Okta の組織設定" >}}
 
-The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
+OIDC Issuer URL は次の形式です: `https://COMPANY.okta.com`。COMPANY を該当する値に置き換え、控えておきます。
 {{% /tab %}}
 
 {{% tab header="Entra" value="entra"%}}
-1. Log in to the [Azure Portal](https://portal.azure.com/).
+1. [Azure Portal](https://portal.azure.com/) にログインします。
 
-2. Select "Microsoft Entra ID" service.
-    {{< img src="/images/hosting/entra_select_entra_service.png" alt="Microsoft Entra ID service" >}}
+2. "Microsoft Entra ID" サービスを選択します。
+    {{< img src="/images/hosting/entra_select_entra_service.png" alt="Microsoft Entra ID サービス" >}}
 
-3. On the left side, select "App registrations."
-    {{< img src="/images/hosting/entra_app_registrations.png" alt="App registrations menu" >}}
+3. 左側で "App registrations" を選択します。
+    {{< img src="/images/hosting/entra_app_registrations.png" alt="App registrations メニュー" >}}
 
-4. On the top, click "New registration."
-    {{< img src="/images/hosting/entra_new_app_registration.png" alt="New registration button" >}}
+4. 上部の "New registration" をクリックします。
+    {{< img src="/images/hosting/entra_new_app_registration.png" alt="New registration ボタン" >}}
 
-    On the screen named "Register an application," fill out the values as follows:
-    {{< img src="/images/hosting/entra_register_an_application.png" alt="Application registration form" >}}
+    "Register an application" 画面で次のように入力します。
+    {{< img src="/images/hosting/entra_register_an_application.png" alt="アプリケーション登録フォーム" >}}
 
-    - Specify a name, for example "Weights and Biases application"
-    - By default the selected account type is: "Accounts in this organizational directory only (Default Directory only - Single tenant)." Modify if you need to.
-    - Configure Redirect URI as type **Web** with value: `https://YOUR_W_AND_B_URL/oidc/callback`
-    - Click "Register."
+    - 名前を指定します（例: "Weights and Biases application"）。
+    - 既定のアカウントタイプは「Accounts in this organizational directory only (Default Directory only - Single tenant)」です。必要に応じて変更します。
+    - Redirect URI は種類を **Web**、値を `https://YOUR_W_AND_B_URL/oidc/callback` に設定します。
+    - "Register" をクリックします。
 
-    - Make a note of the "Application (client) ID" and "Directory (tenant) ID." 
+    - "Application (client) ID" と "Directory (tenant) ID" を控えます。 
 
-      {{< img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs" >}}
+      {{< img src="/images/hosting/entra_app_overview_make_note.png" alt="Application と Directory の ID" >}}
 
 
-5. On the left side, click **Authentication**.
-    {{< img src="/images/hosting/entra_select_authentication.png" alt="Authentication menu" >}}
+5. 左側で **Authentication** をクリックします。
+    {{< img src="/images/hosting/entra_select_authentication.png" alt="Authentication メニュー" >}}
 
-    - Under **Front-channel logout URL**, specify: `https://YOUR_W_AND_B_URL/logout`
-    - Click "Save."
+    - **Front-channel logout URL** に `https://YOUR_W_AND_B_URL/logout` を指定します。
+    - "Save" をクリックします。
 
       {{< img src="/images/hosting/entra_logout_url.png" alt="Front-channel logout URL" >}}
 
 
-6. On the left side, click "Certificates & secrets."
-    {{< img src="/images/hosting/entra_select_certificates_secrets.png" alt="Certificates & secrets menu" >}}
+6. 左側で "Certificates & secrets" をクリックします。
+    {{< img src="/images/hosting/entra_select_certificates_secrets.png" alt="Certificates & secrets メニュー" >}}
 
-    - Click "Client secrets" and then click "New client secret."
-      {{< img src="/images/hosting/entra_new_secret.png" alt="New client secret button" >}}
+    - "Client secrets" をクリックし、"New client secret" をクリックします。
+      {{< img src="/images/hosting/entra_new_secret.png" alt="New client secret ボタン" >}}
 
-      On the screen named "Add a client secret," fill out the values as follows:
-      {{< img src="/images/hosting/entra_add_new_client_secret.png" alt="Client secret configuration" >}}
+      "Add a client secret" 画面で次のように入力します。
+      {{< img src="/images/hosting/entra_add_new_client_secret.png" alt="Client secret の設定" >}}
 
-      - Enter a description, for example "wandb"
-      - Leave "Expires" as is or change if you have to.
-      - Click "Add."
+      - 説明を入力します（例: "wandb"）。
+      - "Expires" はそのまま、必要に応じて変更します。
+      - "Add" をクリックします。
 
 
-    - Make a note of the "Value" of the secret. There is no need for the "Secret ID."
-    {{< img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value" >}}
+    - シークレットの "Value" を控えます。"Secret ID" は不要です。
+    {{< img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret の値" >}}
 
-You should now have made notes of three values:
+控えておく値は次の 3 つです。
 - OIDC Client ID
 - OIDC Client Secret
-- Tenant ID is needed for the OIDC Issuer URL
+- OIDC Issuer URL に必要な Tenant ID
 
-The OIDC issuer URL has the following format: `https://login.microsoftonline.com/${TenantID}/v2.0`
+OIDC Issuer URL は次の形式です: `https://login.microsoftonline.com/${TenantID}/v2.0`
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Set up SSO on the W&B Server
+## W&B Server で SSO を設定する
 
-To set up SSO, you need administrator privileges and the following information:
+SSO を設定するには管理者権限と以下の情報が必要です。
 - OIDC Client ID
-- OIDC Auth method (`implicit` or `pkce`)
+- OIDC Auth method（`implicit` または `pkce`）
 - OIDC Issuer URL
-- OIDC Client Secret (optional; depends on how you have setup your IdP) 
+- OIDC Client Secret（任意。使用する IdP の設定に依存）
 
-If your IdP requires a OIDC Client Secret, specify it by passing the [environment variables]({{< relref path="/guides/hosting/env-vars.md" lang="ja" >}}) `OIDC_CLIENT_SECRET`.
-- In the UI, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `OIDC_CLIENT_SECRET` to the `extraENV` section as shown below.
-- In Helm, configure `values.global.extraEnv` as shown below.
+IdP が OIDC Client Secret を必要とする場合は、[環境変数]({{< relref path="/guides/hosting/env-vars.md" lang="ja" >}}) `OIDC_CLIENT_SECRET` を指定してください。
+- UI では、**System Console** > **Settings** > **Advanced** > **User Spec** に移動し、下記のように `extraENV` セクションへ `OIDC_CLIENT_SECRET` を追加します。
+- Helm の場合は、下記のように `values.global.extraEnv` を設定します。
 
 ```yaml
 values:
@@ -184,51 +184,51 @@ values:
 ```
 
 {{% alert %}}
-If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+SSO を設定した後にインスタンスへログインできなくなった場合は、`LOCAL_RESTORE=true` の環境変数を設定してインスタンスを再起動できます。これによりコンテナのログに一時パスワードが出力され、SSO が無効化されます。SSO の問題を解決したら、この環境変数を削除して SSO を再度有効化してください。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
 {{% tab header="System Console" value="console" %}}
-The System Console is the successor to the System Settings page. It is available with the [W&B Kubernetes Operator]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) based deployment.
+System Console は System Settings ページの後継であり、[W&B Kubernetes Operator]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/" lang="ja" >}}) ベースのデプロイメントで利用できます。
 
-1. Refer to [Access the W&B Management Console]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#access-the-wb-management-console" lang="ja" >}}).
+1. [W&B Management Console にアクセス]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#access-the-wb-management-console" lang="ja" >}}) を参照します。
 
-2. Navigate to **Settings**, then **Authentication**. Select **OIDC** in the **Type** dropdown.
-    {{< img src="/images/hosting/sso_configure_via_console.png" alt="System Console OIDC configuration" >}}
+2. **Settings** に進み、**Authentication** を選択します。**Type** のドロップダウンで **OIDC** を選びます。
+    {{< img src="/images/hosting/sso_configure_via_console.png" alt="System Console の OIDC 設定" >}}
 
-3. Enter the values.
+3. 値を入力します。
 
-4. Click on **Save**.
+4. **Save** をクリックします。
 
-5. Log out and then log back in, this time using the IdP login screen.
+5. 一度ログアウトし、IdP のログイン画面を使用して再度ログインします。
 
-## Find your customer namespace
+## Customer Namespace を確認する
 
-Before you can configure team-level BYOB with CoreWeave storage on W&B Dedicated Cloud or Self-Managed, you need to obtain your organization's **Customer Namespace**. You can view and copy it from the bottom of the **Authentication** tab.
+W&B 専用クラウドまたは セルフマネージド 環境で、CoreWeave ストレージを用いたチーム単位の BYOB を設定する前に、組織の **Customer Namespace** を取得する必要があります。**Authentication** タブの下部で確認・コピーできます。
 
-For detailed instructions on configuring CoreWeave storage with your Customer Namespace, see [CoreWeave requirements for Dedicated Cloud / Self-Managed]({{< relref path="/guides/hosting/data-security/secure-storage-connector#coreweave-customer-namespace" lang="ja" >}}).
+Customer Namespace を使って CoreWeave ストレージを設定する手順の詳細は、[専用クラウド / セルフマネージド 向けの CoreWeave 要件]({{< relref path="/guides/hosting/data-security/secure-storage-connector#coreweave-customer-namespace" lang="ja" >}}) を参照してください。
 
 {{% /tab %}}
 {{% tab header="System settings" value="settings" %}}
-1. Sign in to your Weights&Biases instance. 
-2. Navigate to the W&B App. 
+1. Weights & Biases インスタンスにサインインします。 
+2. W&B App に移動します。 
 
-    {{< img src="/images/hosting/system_settings.png" alt="W&B App navigation" >}}
+    {{< img src="/images/hosting/system_settings.png" alt="W&B App へのナビゲーション" >}}
 
-3. From the dropdown, select **System Settings**:
+3. ドロップダウンから **System Settings** を選択します。
 
-    {{< img src="/images/hosting/system_settings_select_settings.png" alt="System Settings dropdown" >}}
+    {{< img src="/images/hosting/system_settings_select_settings.png" alt="System Settings のドロップダウン" >}}
 
-4. Enter your Issuer, Client ID, and Authentication Method. 
-5. Select **Update settings**.
+4. Issuer、Client ID、Authentication Method を入力します。 
+5. **Update settings** を選択します。
 
-{{< img src="/images/hosting/system_settings_select_update.png" alt="Update settings button" >}}
+{{< img src="/images/hosting/system_settings_select_update.png" alt="Update settings ボタン" >}}
 {{% /tab %}}
 {{< /tabpane >}}
 
 {{% alert %}}
-If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and turn off SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
+SSO を設定した後にインスタンスへログインできない場合は、`LOCAL_RESTORE=true` の環境変数を設定してインスタンスを再起動できます。これによりコンテナのログに一時パスワードが出力され、SSO がオフになります。SSO の問題を解決したら、この環境変数を削除して SSO を再度有効化してください。
 {{% /alert %}}
 
 ## Security Assertion Markup Language (SAML)
-W&B Server does not support SAML.
+W&B Server は SAML をサポートしていません。

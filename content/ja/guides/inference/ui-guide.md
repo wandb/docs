@@ -1,94 +1,92 @@
 ---
-description: 'Access W&B Inference models through the web interface
-
-  '
+title: UI ガイド
+description: Web インターフェースから W&B Inference の モデル に アクセスする
 menu:
   default:
     identifier: ja-guides-inference-ui-guide
-title: UI Guide
 weight: 60
 ---
 
-Learn how to use the W&B Inference service through the web UI. Before using the UI, complete the [prerequisites]({{< relref path="prerequisites" lang="ja" >}}).
+Web UI から W&B Inference サービスを使う方法を説明します。UI を使い始める前に、[前提条件]({{< relref path="prerequisites" lang="ja" >}}) を完了してください。
 
-## Access the Inference service
+## Inference サービスへの アクセス
 
-You can access the Inference service from three places:
+Inference サービスには、次の 3 つの場所から アクセスできます:
 
-### Direct link
+### 直接リンク
 
-Go to [https://wandb.ai/inference](https://wandb.ai/inference).
+[https://wandb.ai/inference](https://wandb.ai/inference) にアクセスします。
 
-### From the Inference tab
+### Inference タブから
 
-1. Go to your W&B account at [https://wandb.ai/](https://wandb.ai/)
-2. Select **Inference** from the left sidebar
-3. A page displays with available models and model information
+1. [https://wandb.ai/](https://wandb.ai/) のご自身の W&B アカウントにアクセスします
+2. 左サイドバーから **Inference** を選択します
+3. 利用可能な モデル と モデル 情報が表示されます
 
-{{< img src="/images/inference/inference-playground-single.png" alt="Using an Inference model in the Playground" >}}
+{{< img src="/images/inference/inference-playground-single.png" alt="Playground で Inference モデル を使う" >}}
 
-### From the Playground tab
+### Playground タブから
 
-1. Select **Playground** from the left sidebar. The Playground chat UI appears
-2. Hover over **W&B Inference** in the LLM dropdown list. A dropdown with available models appears on the right
-3. From the models dropdown, you can:
-   - Click any model name to [try it in the Playground](#try-a-model-in-the-playground)
-   - [Compare multiple models](#compare-multiple-models)
+1. 左サイドバーから **Playground** を選択します。Playground のチャット UI が表示されます
+2. LLM のドロップダウンリストで **W&B Inference** にカーソルを合わせます。右側に利用可能な モデル のドロップダウンが表示されます
+3. モデル のドロップダウンから、次の操作ができます:
+   - 任意の モデル 名をクリックして、[Playground で試す](#try-a-model-in-the-playground)
+   - [複数の モデル を比較する](#compare-multiple-models)
 
-{{< img src="/images/inference/inference-playground.png" alt="The Inference models dropdown in Playground" >}}
+{{< img src="/images/inference/inference-playground.png" alt="Playground の Inference モデル ドロップダウン" >}}
 
-## Try a model in the Playground
+## Playground で モデル を試す
 
-After [selecting a model](#access-the-inference-service), you can test it in the Playground. Available actions include:
+[モデル を選択](#access-the-inference-service) したら、Playground で試せます。できることは次のとおりです:
 
-- [Customize model settings and parameters](https://weave-docs.wandb.ai/guides/tools/playground#customize-settings)
-- [Add, retry, edit, and delete messages](https://weave-docs.wandb.ai/guides/tools/playground#message-controls)
-- [Save and reuse a model with custom settings](https://weave-docs.wandb.ai/guides/tools/playground#saved-models)
-- [Compare multiple models](#compare-multiple-models)
+- [モデル の 設定 と パラメータ をカスタマイズ](https://weave-docs.wandb.ai/guides/tools/playground#customize-settings)
+- [メッセージの追加、再試行、編集、削除](https://weave-docs.wandb.ai/guides/tools/playground#message-controls)
+- [カスタム 設定 の モデル を保存して再利用](https://weave-docs.wandb.ai/guides/tools/playground#saved-models)
+- [複数の モデル を比較する](#compare-multiple-models)
 
-## Compare multiple models
+## 複数の モデル を比較する
 
-You can compare Inference models side by side in the Playground. Access the Compare view from two places:
+Playground で Inference モデル を並べて比較できます。Compare ビューには 2 つの場所から アクセスできます:
 
-### From the Inference tab
+### Inference タブから
 
-1. Select **Inference** from the left sidebar. The available models page appears
-2. Click anywhere on a model card (except the model name) to select it. The card border turns blue
-3. Repeat for each model you want to compare
-4. Click **Compare N models in the Playground** on any selected card. `N` shows the number of models selected
-5. The comparison view opens
+1. 左サイドバーから **Inference** を選択します。利用可能な モデル のページが表示されます
+2. モデル カード上の任意の場所（モデル 名以外）をクリックして選択します。カードの枠が青になります
+3. 比較したい モデル ごとに繰り返します
+4. 選択したいずれかのカードで **Compare N models in the Playground** をクリックします。`N` は選択した モデル の数です
+5. 比較ビューが開きます
 
-Now you can compare models and use all features from [Try a model in the Playground](#try-a-model-in-the-playground).
+これで モデル を比較でき、[Playground で モデル を試す](#try-a-model-in-the-playground) のすべての機能を使えます。
 
-{{< img src="/images/inference/inference-playground-compare.png" alt="Select multiple models to compare in Playground" >}}
+{{< img src="/images/inference/inference-playground-compare.png" alt="Playground で比較する モデル を複数選択" >}}
 
-### From the Playground tab
+### Playground タブから
 
-1. Select **Playground** from the left sidebar. The Playground chat UI appears
-2. Hover over **W&B Inference** in the LLM dropdown list. The models dropdown appears on the right
-3. Select **Compare** from the dropdown. The **Inference** tab appears
-4. Click anywhere on a model card (except the model name) to select it. The card border turns blue
-5. Repeat for each model you want to compare
-6. Click **Compare N models in the Playground** on any selected card. The comparison view opens
+1. 左サイドバーから **Playground** を選択します。Playground のチャット UI が表示されます
+2. LLM のドロップダウンリストで **W&B Inference** にカーソルを合わせます。右側に モデル のドロップダウンが表示されます
+3. ドロップダウンから **Compare** を選択します。**Inference** タブが表示されます
+4. モデル カード上の任意の場所（モデル 名以外）をクリックして選択します。カードの枠が青になります
+5. 比較したい モデル ごとに繰り返します
+6. 選択したいずれかのカードで **Compare N models in the Playground** をクリックします。比較ビューが開きます
 
-Now you can compare models and use all features from [Try a model in the Playground](#try-a-model-in-the-playground).
+これで モデル を比較でき、[Playground で モデル を試す](#try-a-model-in-the-playground) のすべての機能を使えます。
 
-## View billing and usage information
+## 請求と使用状況の 情報 を表示する
 
-Organization admins can track credit balance, usage history, and upcoming bills from the W&B UI:
+組織の管理者は、W&B の UI からクレジット残高、使用履歴、今後の請求を確認できます:
 
-1. Go to the W&B **Billing** page in the UI
-2. Find the Inference billing information card in the bottom right corner
-3. From here you can:
-   - Click **View usage** to see your usage over time
-   - View upcoming inference charges (for paid plans)
+1. UI の W&B **Billing** ページに アクセスします
+2. 右下隅にある Inference の請求 情報 カードを探します
+3. ここから次のことができます:
+   - **View usage** をクリックして、使用状況の推移を確認
+   - 今後の Inference の課金額を表示（有料プランの場合）
 
-{{< alert title="Tip" >}}
-Visit the [Inference pricing page](https://wandb.ai/site/pricing/inference) for per-model pricing details.
+{{< alert title="ヒント" >}}
+モデル ごとの料金の詳細は、[Inference の料金ページ](https://wandb.ai/site/pricing/inference) を参照してください。
 {{< /alert >}}
 
-## Next steps
+## 次のステップ
 
-- Review [available models]({{< relref path="models" lang="ja" >}}) to find the best one for your needs
-- Try the [API]({{< relref path="api-reference" lang="ja" >}}) for programmatic access
-- See [usage examples]({{< relref path="examples" lang="ja" >}}) for code samples
+- ニーズに合った最適なものを見つけるために、[利用可能な モデル]({{< relref path="models" lang="ja" >}}) を確認
+- プログラムからの アクセス には [API]({{< relref path="api-reference" lang="ja" >}}) をお試しください
+- コード サンプルは [使用例]({{< relref path="examples" lang="ja" >}}) を参照してください

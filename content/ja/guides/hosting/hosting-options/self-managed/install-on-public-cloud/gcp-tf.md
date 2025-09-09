@@ -1,27 +1,26 @@
 ---
-description: Hosting W&B Server on GCP.
+title: W&B プラットフォームを GCP にデプロイする
+description: GCP 上で W&B サーバーをホストする。
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-install-on-public-cloud-gcp-tf
     parent: install-on-public-cloud
-title: Deploy W&B Platform on GCP
 weight: 20
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) or [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B は、[W&B マルチテナント クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) や [W&B 専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) のようなフルマネージドなデプロイメントを推奨しています。W&B のフルマネージド サービスは、設定が最小限または不要で、簡単かつ安全にご利用いただけます。
 {{% /alert %}}
 
+W&B Server をセルフマネージドで運用する場合は、GCP 上にプラットフォームをデプロイするために [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) の使用を推奨します。
 
-If you've determined to self-managed W&B Server, W&B recommends using the [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on GCP.
+このモジュールのドキュメントには、利用可能なすべてのオプションが詳しく記載されています。
 
-The module documentation is extensive and contains all available options that can be used.
+開始前に、Terraform の [remote backends](https://developer.hashicorp.com/terraform/language/backend/remote) のいずれかを選択し、[State File](https://developer.hashicorp.com/terraform/language/state) を保存することを推奨します。
 
-Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend/remote) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+State File は、すべてのコンポーネントを作り直すことなく、アップグレードの展開やデプロイメントの変更を行うために必要なリソースです。
 
-The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
-
-The Terraform Module will deploy the following `mandatory` components:
+Terraform Module は次の「必須」コンポーネントをデプロイします:
 
 - VPC
 - Cloud SQL for MySQL
@@ -30,28 +29,28 @@ The Terraform Module will deploy the following `mandatory` components:
 - KMS Crypto Key
 - Load Balancer
 
-Other deployment options can also include the following optional components:
+その他のデプロイメントでは、次の任意コンポーネントも含められます:
 
-- Memory store for Redis
-- Pub/Sub messages system
+- MemoryStore for Redis
+- Pub/Sub メッセージ システム
 
-## Pre-requisite permissions
+## 前提となる権限
 
-The account that will run the terraform need to have the role `roles/owner` in the GCP project used.
+Terraform を実行するアカウントには、対象の GCP プロジェクトで `roles/owner` ロールが必要です。
 
-## General steps
+## 全体の手順 {#general-steps}
 
-The steps on this topic are common for any deployment option covered by this documentation.
+このトピックの手順は、本ドキュメントで扱うすべてのデプロイメント オプションで共通です。
 
-1. Prepare the development environment.
-   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
-   - Create a project in [Google Cloud Console](https://console.cloud.google.com/)
-   - Authenticate with GCP (make sure to [install gcloud](https://cloud.google.com/sdk/docs/install) before)
+1. 開発環境を準備します。
+   - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストール
+   - 使用するコードを保存する Git リポジトリの作成を推奨しますが、ローカルにファイルを置いても構いません。
+   - [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作成
+   - GCP に認証します（事前に [gcloud をインストール](https://cloud.google.com/sdk/docs/install) しておいてください）
      `gcloud auth application-default login`
-2. Create the `terraform.tfvars` file.
+2. `terraform.tfvars` ファイルを作成します。
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   `tvfars` ファイルの内容はインストール種別に応じてカスタマイズできますが、最小構成の例は以下のとおりです。
 
    ```bash
    project_id  = "wandb-project"
@@ -63,14 +62,13 @@ The steps on this topic are common for any deployment option covered by this doc
    domain_name = "wandb.ml"
    ```
 
-   The variables defined here need to be decided before the deployment because. The `namespace` variable will be a string that will prefix all resources created by Terraform.
+   ここで定義する変数はデプロイ前に決めておく必要があります。`namespace` 変数は、Terraform が作成するすべてのリソースに付与される接頭辞となる文字列です。
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-gcp.wandb.ml`
+   `subdomain` と `domain` の組み合わせが、W&B を設定する FQDN になります。上記の例では、W&B の FQDN は `wandb-gcp.wandb.ml` です。
 
+3. `variables.tf` ファイルを作成します。
 
-3. Create the file `variables.tf`
-
-   For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
+   `terraform.tfvars` で設定した各オプションには、対応する変数宣言が Terraform に必要です。
 
    ```
    variable "project_id" {
@@ -109,13 +107,13 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-## Deployment - Recommended (~20 mins)
+## デプロイメント - 推奨（約 20 分） {#deployment---recommended-20-mins}
 
-This is the most straightforward deployment option configuration that will create all `Mandatory` components and install in the `Kubernetes Cluster` the latest version of `W&B`.
+これは最もシンプルなデプロイメント構成で、すべての「必須」コンポーネントを作成し、`Kubernetes Cluster` に最新の `W&B` をインストールします。
 
-1. Create the `main.tf`
+1. `main.tf` を作成
 
-   In the same directory where you created the files in the [General Steps]({{< relref path="#general-steps" lang="ja" >}}), create a file `main.tf` with the following content:
+   [全体の手順]({{< relref path="#general-steps" lang="ja" >}}) で作成したのと同じディレクトリーに、以下の内容で `main.tf` ファイルを作成します。
 
    ```
    provider "google" {
@@ -138,7 +136,7 @@ This is the most straightforward deployment option configuration that will creat
      token                  = data.google_client_config.current.access_token
    }
 
-   # Spin up all required services
+   # 必要なサービスをすべて起動
    module "wandb" {
      source  = "wandb/wandb/google"
      version = "~> 5.0"
@@ -149,7 +147,7 @@ This is the most straightforward deployment option configuration that will creat
      subdomain   = var.subdomain
    }
 
-   # You'll want to update your DNS with the provisioned IP address
+   # 付与された IP アドレスで DNS を更新してください
    output "url" {
      value = module.wandb.url
    }
@@ -163,20 +161,20 @@ This is the most straightforward deployment option configuration that will creat
    }
    ```
 
-2. Deploy W&B
+2. W&B をデプロイ
 
-   To deploy W&B, execute the following commands:
+   W&B をデプロイするには、次のコマンドを実行します。
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## Deployment with REDIS Cache
+## REDIS キャッシュを使ったデプロイメント
 
-Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
+別のデプロイメント オプションとして、`Redis` を用いて SQL クエリをキャッシュし、Experiments のメトリクスを読み込む際のアプリケーションの応答を高速化できます。
 
-You need to add the option `create_redis = true` to the same `main.tf` file specified in the recommended [Deployment option section]({{< relref path="#deployment---recommended-20-mins" lang="ja" >}}) to enable the cache.
+キャッシュを有効にするには、推奨の [デプロイメント オプション]({{< relref path="#deployment---recommended-20-mins" lang="ja" >}}) で示したのと同じ `main.tf` に `create_redis = true` オプションを追加します。
 
 ```
 [...]
@@ -190,18 +188,18 @@ module "wandb" {
   domain_name  = var.domain_name
   subdomain    = var.subdomain
   allowed_inbound_cidrs = ["*"]
-  #Enable Redis
+  # Redis を有効化
   create_redis = true
 
 }
 [...]
 ```
 
-## Deployment with External Queue
+## 外部キューを使ったデプロイメント
 
-Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
+デプロイメント オプション 3 は、外部の `message broker` を有効にする構成です。W&B には組み込みのブローカーがあるため任意であり、このオプションによるパフォーマンス向上はありません。
 
-The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section]({{< relref path="#deployment---recommended-20-mins" lang="ja" >}})
+メッセージ ブローカーを提供する GCP のリソースは `Pub/Sub` です。これを有効にするには、推奨の [デプロイメント オプション]({{< relref path="#deployment---recommended-20-mins" lang="ja" >}}) と同じ `main.tf` に `use_internal_queue = false` を追加します。
 
 ```
 [...]
@@ -215,7 +213,7 @@ module "wandb" {
   domain_name        = var.domain_name
   subdomain          = var.subdomain
   allowed_inbound_cidrs = ["*"]
-  #Create and use Pub/Sub
+  # Pub/Sub を作成して使用する
   use_internal_queue = false
 
 }
@@ -224,47 +222,44 @@ module "wandb" {
 
 ```
 
-## Other deployment options
+## その他のデプロイメント オプション
 
-You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-google-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
+3 つのデプロイメント オプションは、同じファイルに設定を追加することで組み合わせて利用できます。
+[Terraform Module](https://github.com/wandb/terraform-google-wandb) には、標準オプションや「デプロイメント - 推奨」の最小構成と組み合わせ可能な、いくつかの追加オプションが用意されています。
 
-<!-- ## Upgrades (coming soon) -->
+## 手動設定
 
-## Manual configuration
+W&B のファイル ストレージのバックエンドとして GCP Storage のバケットを使用するには、以下を作成する必要があります:
 
-To use a GCP Storage bucket as a file storage backend for W&B, you will need to create a:
+* [Pub/Sub トピックとサブスクリプション]({{< relref path="#create-pubsub-topic-and-subscription" lang="ja" >}})
+* [Storage バケット]({{< relref path="#create-storage-bucket" lang="ja" >}})
+* [Pub/Sub 通知]({{< relref path="#create-pubsub-notification" lang="ja" >}})
 
-* [PubSub Topic and Subscription]({{< relref path="#create-pubsub-topic-and-subscription" lang="ja" >}})
-* [Storage Bucket]({{< relref path="#create-storage-bucket" lang="ja" >}})
-* [PubSub Notification]({{< relref path="#create-pubsub-notification" lang="ja" >}})
+### Pub/Sub トピックとサブスクリプションを作成 {#create-pubsub-topic-and-subscription}
 
+以下の手順に従って、Pub/Sub のトピックとサブスクリプションを作成します。
 
-### Create PubSub Topic and Subscription
+1. GCP Console 内の Pub/Sub サービスに移動します。
+2. **Create Topic** を選択し、トピック名を指定します。
+3. ページ下部で **Create subscription** を選択します。**Delivery Type** は **Pull** に設定してください。
+4. **Create** をクリックします。
 
-Follow the procedure below to create a PubSub topic and subscription:
+インスタンスが実行されているサービス アカウントまたはアカウントに、このサブスクリプションに対する `pubsub.admin` ロールが付与されていることを確認してください。詳細は https://cloud.google.com/pubsub/docs/access-control#console を参照してください。
 
-1. Navigate to the Pub/Sub service within the GCP Console 
-2. Select **Create Topic** and provide a name for your topic. 
-3. At the bottom of the page, select **Create subscription**. Ensure **Delivery Type** is set to **Pull**.
-4. Click **Create**.
+### Storage バケットを作成 {#create-storage-bucket}
 
-Make sure the service account or account that your instance is running has the `pubsub.admin` role on this subscription. For details, see https://cloud.google.com/pubsub/docs/access-control#console.
+1. **Cloud Storage Buckets** ページに移動します。
+2. **Create bucket** を選択し、バケット名を指定します。**Standard** の [storage class](https://cloud.google.com/storage/docs/storage-classes) を選択してください。
 
-### Create Storage Bucket
-
-1. Navigate to the **Cloud Storage Buckets** page.
-2. Select **Create bucket** and provide a name for your bucket. Ensure you choose a **Standard** [storage class](https://cloud.google.com/storage/docs/storage-classes). 
-
-Ensure that the service account or account that your instance is running has both:
-* access to the bucket you created in the previous step
-* `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
+インスタンスが実行されているサービス アカウントまたはアカウントに、以下の権限があることを確認してください:
+* 直前の手順で作成したバケットへのアクセス
+* このバケットに対する `storage.objectAdmin` ロール。詳細は https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add を参照してください。
 
 {{% alert %}}
-Your instance also needs the `iam.serviceAccounts.signBlob` permission in GCP to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
+署名付きファイル URL を作成するには、インスタンスに GCP の `iam.serviceAccounts.signBlob` 権限が必要です。権限を有効にするには、インスタンスが実行されているサービス アカウントまたは IAM メンバーに `Service Account Token Creator` ロールを付与してください。
 {{% /alert %}}
 
-3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
+3. CORS アクセスを有効にします。これはコマンドラインからのみ実行できます。まず、以下の CORS 設定で JSON ファイルを作成します。
 
 ```
 cors:
@@ -278,50 +273,50 @@ cors:
    - Content-Type
 ```
 
-Note that the scheme, host, and port of the values for the origin must match exactly. 
+origin の値のスキーム、ホスト、ポートは完全に一致している必要があります。
 
-4. Make sure you have `gcloud` installed, and logged into the correct GCP Project. 
-5. Next, run the following:
+4. `gcloud` がインストールされ、正しい GCP プロジェクトにログインしていることを確認します。
+5. 次に、以下を実行します。
 
 ```bash
 gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 ```
 
-### Create PubSub Notification
-Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic. 
+### Pub/Sub 通知を作成 {#create-pubsub-notification}
+コマンドラインで以下の手順に従い、Storage バケットから Pub/Sub トピックへの通知ストリームを作成します。
 
 {{% alert %}}
-You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.
+通知ストリームの作成は CLI を使用する必要があります。`gcloud` がインストールされていることを確認してください。
 {{% /alert %}}
 
-1. Log into your GCP Project.
-2. Run the following in your terminal:
+1. GCP プロジェクトにログインします。
+2. ターミナルで以下を実行します。
 
 ```bash
-gcloud pubsub topics list  # list names of topics for reference
-gcloud storage ls          # list names of buckets for reference
+gcloud pubsub topics list  # 参照用にトピック名を一覧表示
+gcloud storage ls          # 参照用にバケット名を一覧表示
 
-# create bucket notification
+# バケット通知を作成
 gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NAME>
 ```
 
-[Further reference is available on the Cloud Storage website.](https://cloud.google.com/storage/docs/reporting-changes)
+[Cloud Storage サイトに詳細なリファレンスがあります。](https://cloud.google.com/storage/docs/reporting-changes)
 
-### Configure W&B server
+### W&B サーバーを設定
 
-1. Finally, navigate to the W&B `System Connections` page at `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`. 
-2. Select the provider `Google Cloud Storage (gcs)`, 
-3. Provide the name of the GCS bucket
+1. 最後に、W&B の `System Connections` ページ `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system` に移動します。
+2. プロバイダーに `Google Cloud Storage (gcs)` を選択します。
+3. GCS バケット名を入力します。
 
-{{< img src="/images/hosting/configure_file_store_gcp.png" alt="GCP file storage configuration" >}}
+{{< img src="/images/hosting/configure_file_store_gcp.png" alt="GCP ファイル ストレージの設定" >}}
 
-4. Press **Update settings** to apply the new settings.
+4. **Update settings** を押して、新しい設定を適用します。
 
-## Upgrade W&B Server
+## W&B Server をアップグレード
 
-Follow the steps outlined here to update W&B:
+W&B を更新するには、以下の手順に従ってください。
 
-1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+1. `wandb_app` モジュールの設定に `wandb_version` を追加し、アップグレード先の W&B のバージョンを指定します。例えば、次の行は W&B バージョン `0.48.1` を指定しています:
 
   ```
   module "wandb_app" {
@@ -333,7 +328,7 @@ Follow the steps outlined here to update W&B:
   ```
 
   {{% alert %}}
-  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  代わりに、`terraform.tfvars` に `wandb_version` を追加し、同名の変数を作成して、リテラル値の代わりに `var.wandb_version` を使用することもできます。
   {{% /alert %}}
 
-2. After you update your configuration, complete the steps described in the [Deployment option section]({{< relref path="#deployment---recommended-20-mins" lang="ja" >}}).
+2. 設定を更新したら、[デプロイメント オプション]({{< relref path="#deployment---recommended-20-mins" lang="ja" >}}) に記載の手順を実行します。

@@ -1,24 +1,24 @@
 ---
-description: Hosting W&B Server on AWS.
+title: W&B プラットフォームを AWS 上にデプロイ
+description: AWS で W&B サーバーをホストする。
 menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-install-on-public-cloud-aws-tf
     parent: install-on-public-cloud
-title: Deploy W&B Platform on AWS
 weight: 10
 ---
 
 {{% alert %}}
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) or [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B は、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) や [W&B 専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) といったフルマネージドなデプロイメント オプションを推奨します。W&B のフルマネージド サービスは、設定が最小限または不要で、シンプルかつセキュアに利用できます。
 {{% /alert %}}
 
-W&B recommends using the [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) to deploy the platform on AWS. 
+W&B は、AWS 上にプラットフォームをデプロイする際に [W&B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) の利用を推奨します。
 
-Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state).
+開始前に、Terraform の [State File](https://developer.hashicorp.com/terraform/language/state) を保存するために、Terraform で利用可能な [remote backends](https://developer.hashicorp.com/terraform/language/backend) のいずれかを選択することをおすすめします。
 
-The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
+State ファイルは、すべてのコンポーネントを作り直すことなく、アップグレードやデプロイメントの変更を行うために必要なリソースです。
 
-The Terraform Module deploys the following `mandatory` components:
+Terraform Module は、以下の「必須」コンポーネントをデプロイします:
 
 - Load Balancer
 - AWS Identity & Access Management (IAM)
@@ -31,25 +31,25 @@ The Terraform Module deploys the following `mandatory` components:
 - Amazon Elastic Load Balancing (ALB)
 - Amazon Secrets Manager
 
-Other deployment options can also include the following optional components:
+その他のデプロイメント オプションでは、以下のオプション コンポーネントも含められます:
 
 - Elastic Cache for Redis
 - SQS
 
-## Pre-requisite permissions
+## 事前必要な権限
 
-The account that runs Terraform needs to be able to create all components described in the Introduction and permission to create **IAM Policies** and **IAM Roles** and assign roles to resources.
+Terraform を実行するアカウントには、イントロダクションに記載したすべてのコンポーネントを作成できること、ならびに **IAM Policies** と **IAM Roles** を作成し、ロールをリソースに割り当てる権限が必要です。
 
-## General steps
+## 一般的な手順
 
-The steps on this topic are common for any deployment option covered by this documentation.
+ここで説明する手順は、このドキュメントで扱うすべてのデプロイメント オプションに共通です。
 
-1. Prepare the development environment.
-   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - W&B recommend creating a Git repository for version control.
-2. Create the `terraform.tfvars` file.
+1. 開発環境を準備します。
+   - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストール
+   - バージョン管理のために Git リポジトリを作成することを W&B は推奨します。
+2. `terraform.tfvars` ファイルを作成します。
 
-   The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
+   `tvfars` ファイルの内容はインストール形態に応じてカスタマイズできますが、最小限の推奨値は以下の例のようになります。
 
    ```bash
    namespace                  = "wandb"
@@ -62,16 +62,15 @@ The steps on this topic are common for any deployment option covered by this doc
    eks_cluster_version        = "1.29"
    ```
 
-   Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
+   デプロイ前に `tvfars` ファイルで変数を定義してください。`namespace` 変数は、Terraform が作成するすべてのリソースのプレフィックスに使われる文字列です。
 
+   `subdomain` と `domain` の組み合わせが、W&B を設定する FQDN を構成します。上記の例では、W&B の FQDN は `wandb-aws.wandb.ml` となり、この FQDN レコードが作成される DNS の `zone_id` を指定します。
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+   `allowed_inbound_cidr` と `allowed_inbound_ipv6_cidr` も設定が必要です。このモジュールでは必須入力です。以下の例では、W&B インストールへの アクセス を任意の送信元から許可しています。
 
-   Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
+3. `versions.tf` ファイルを作成します。
 
-3. Create the file `versions.tf`
-
-   This file will contain the Terraform and Terraform provider versions required to deploy W&B in AWS
+   このファイルには、AWS に W&B をデプロイするのに必要な Terraform および Terraform provider の バージョン を記述します。
 
    ```bash
    provider "aws" {
@@ -88,13 +87,13 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-   Refer to the [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) to configure the AWS provider.
+   AWS プロバイダーの設定については [Terraform Official Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) を参照してください。
 
-   Optionally, but highly recommended, add the [remote backend configuration](https://developer.hashicorp.com/terraform/language/backend) mentioned at the beginning of this documentation.
+   任意ですが強く推奨されます。ドキュメント冒頭で触れた [remote backend の設定](https://developer.hashicorp.com/terraform/language/backend) を追加してください。
 
-4. Create the file `variables.tf`
+4. `variables.tf` ファイルを作成します。
 
-   For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
+   `terraform.tfvars` で設定する各オプションに対応する変数宣言が Terraform には必要です。
 
    ```
    variable "namespace" {
@@ -141,13 +140,13 @@ The steps on this topic are common for any deployment option covered by this doc
    }
    ```
 
-## Recommended deployment option
+## 推奨デプロイメント オプション
 
-This is the most straightforward deployment option configuration that creates all `Mandatory` components and installs in the `Kubernetes Cluster` the latest version of `W&B`.
+これは最もシンプルな構成で、すべての「必須」コンポーネントを作成し、`Kubernetes Cluster` に最新の `W&B` をインストールします。
 
-1. Create the `main.tf`
+1. `main.tf` を作成します
 
-   In the same directory where you created the files in the `General Steps`, create a file `main.tf` with the following content:
+   「一般的な手順」で作成したファイルと同じディレクトリーに、以下の内容で `main.tf` を作成します:
 
    ```
    module "wandb_infra" {
@@ -201,20 +200,20 @@ This is the most straightforward deployment option configuration that creates al
     }
    ```
 
-2. Deploy W&B
+2. W&B をデプロイします
 
-   To deploy W&B, execute the following commands:
+   W&B をデプロイするには、以下の コマンド を実行します:
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## Enable REDIS
+## Redis を有効化
 
-Another deployment option uses `Redis` to cache the SQL queries and speed up the application response when loading the metrics for the experiments.
+別のデプロイメント オプションとして、`Redis` を使って SQL クエリをキャッシュし、実験の メトリクス を読み込む際のアプリケーション応答を高速化できます。
 
-You need to add the option `create_elasticache_subnet = true` to the same `main.tf` file described in the [Recommended deployment]({{< relref path="#recommended-deployment-option" lang="ja" >}}) section to enable the cache.
+キャッシュを有効にするには、[推奨デプロイメント]({{< relref path="#recommended-deployment-option" lang="ja" >}}) セクションで説明したのと同じ `main.tf` にオプション `create_elasticache_subnet = true` を追加します。
 
 ```
 module "wandb_infra" {
@@ -230,11 +229,11 @@ module "wandb_infra" {
 [...]
 ```
 
-## Enable message broker (queue)
+## メッセージ ブローカー（キュー）を有効化
 
-Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
+デプロイメント オプション 3 は、外部の `message broker` を有効にする構成です。W&B にはブローカーが同梱されているため任意であり、このオプションによる性能向上はありません。
 
-The AWS resource that provides the message broker is the `SQS`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` described in the [Recommended deployment]({{< relref path="#recommended-deployment-option" lang="ja" >}}) section.
+メッセージ ブローカーを提供する AWS リソースは `SQS` です。有効化するには、[推奨デプロイメント]({{< relref path="#recommended-deployment-option" lang="ja" >}}) セクションで説明したのと同じ `main.tf` に `use_internal_queue = false` オプションを追加します。
 
 ```
 module "wandb_infra" {
@@ -251,34 +250,33 @@ module "wandb_infra" {
 }
 ```
 
-## Other deployment options
+## その他のデプロイメント オプション
 
-You can combine all three deployment options adding all configurations to the same file.
-The [Terraform Module](https://github.com/wandb/terraform-aws-wandb) provides several options that can be combined along with the standard options and the minimal configuration found in `Deployment - Recommended`
+3 つのデプロイメント オプションは、同じファイルにすべての設定を追加することで組み合わせ可能です。
+[Terraform Module](https://github.com/wandb/terraform-aws-wandb) には、標準オプションや「Deployment - Recommended」の最小構成と組み合わせられる複数のオプションが用意されています。
 
-## Manual configuration
+## マニュアル設定
 
-To use an Amazon S3 bucket as a file storage backend for W&B, you will need to:
+W&B のファイル ストレージ バックエンドとして Amazon S3 バケットを使用するには、以下が必要です:
 
-* [Create an Amazon S3 Bucket and Bucket Notifications]({{< relref path="#create-an-s3-bucket-and-bucket-notifications" lang="ja" >}})
-* [Create SQS Queue]({{< relref path="#create-an-sqs-queue" lang="ja" >}})
-* [Grant Permissions to Node Running W&B]({{< relref path="#grant-permissions-to-node-that-runs-wb" lang="ja" >}})
+* [Amazon S3 Bucket と Bucket Notifications を作成]({{< relref path="#create-an-s3-bucket-and-bucket-notifications" lang="ja" >}})
+* [SQS Queue を作成]({{< relref path="#create-an-sqs-queue" lang="ja" >}})
+* [W&B を実行するノードに権限を付与]({{< relref path="#grant-permissions-to-node-that-runs-wb" lang="ja" >}})
 
+バケットを作成し、そのバケットからのオブジェクト作成通知を受け取るように設定された SQS キューも作成します。インスタンスには、このキューから読み取る権限が必要です。
 
- you'll need to create a bucket, along with an SQS queue configured to receive object creation notifications from that bucket. Your instance will need permissions to read from this queue.
+### S3 バケットと Bucket Notifications の作成
 
-### Create an S3 Bucket and Bucket Notifications
+以下の手順に従って Amazon S3 バケットを作成し、バケット通知を有効にします。
 
-Follow the procedure bellow to create an Amazon S3 bucket and enable bucket notifications.
+1. AWS コンソールで Amazon S3 に移動します。
+2. **Create bucket** を選択します。
+3. **Advanced settings** 内の **Events** セクションで **Add notification** を選択します。
+4. すべてのオブジェクト作成イベントが、事前に設定した SQS Queue に送信されるように構成します。
 
-1. Navigate to Amazon S3 in the AWS Console.
-2. Select **Create bucket**.
-3. Within the **Advanced settings**, select **Add notification** within the **Events** section.
-4. Configure all object creation events to be sent to the SQS Queue you configured earlier.
+{{< img src="/images/hosting/s3-notification.png" alt="エンタープライズ ファイル ストレージ 設定" >}}
 
-{{< img src="/images/hosting/s3-notification.png" alt="Enterprise file storage settings" >}}
-
-Enable CORS access. Your CORS configuration should look like the following:
+CORS アクセス を有効にします。CORS 設定は以下のようになります:
 
 ```markup
 <?xml version="1.0" encoding="UTF-8"?>
@@ -292,21 +290,21 @@ Enable CORS access. Your CORS configuration should look like the following:
 </CORSConfiguration>
 ```
 
-### Create an SQS Queue
+### SQS Queue の作成
 
-Follow the procedure below to create an SQS Queue:
+以下の手順で SQS Queue を作成します:
 
-1. Navigate to Amazon SQS in the AWS Console.
-2. Select **Create queue**.
-3. From the **Details** section, select a **Standard** queue type.
-4. Within the Access policy section, add permission to the following principals:
+1. AWS コンソールで Amazon SQS に移動します。
+2. **Create queue** を選択します。
+3. **Details** セクションで **Standard** キュータイプを選択します。
+4. Access policy セクションで、以下のプリンシパルに対する権限を追加します:
 * `SendMessage`
 * `ReceiveMessage`
 * `ChangeMessageVisibility`
 * `DeleteMessage`
 * `GetQueueUrl`
 
-Optionally add an advanced access policy in the **Access Policy** section. For example, the policy for accessing Amazon SQS with a statement is as follows:
+任意で、**Access Policy** セクションに高度な アクセス ポリシーを追加できます。たとえば、以下はステートメントで Amazon SQS に アクセス するためのポリシー例です:
 
 ```json
 {
@@ -325,9 +323,9 @@ Optionally add an advanced access policy in the **Access Policy** section. For e
 }
 ```
 
-### Grant permissions to node that runs W&B
+### W&B を実行するノードに権限を付与
 
-The node where W&B server is running must be configured to permit access to Amazon S3 and Amazon SQS. Depending on the type of server deployment you have opted for, you may need to add the following policy statements to your node role:
+W&B サーバー が動作するノードには、Amazon S3 と Amazon SQS への アクセス を許可する設定が必要です。選択したサーバー デプロイメントの種類に応じて、ノード ロールに以下のポリシー ステートメントを追加する必要がある場合があります:
 
 ```json
 {
@@ -350,25 +348,25 @@ The node where W&B server is running must be configured to permit access to Amaz
 }
 ```
 
-### Configure W&B server
-Finally, configure your W&B Server.
+### W&B サーバーを設定
+最後に、W&B Server を設定します。
 
-1. Navigate to the W&B settings page at `http(s)://YOUR-W&B-SERVER-HOST/system-admin`. 
-2. Enable the ***Use an external file storage backend* option
-3. Provide information about your Amazon S3 bucket, region, and Amazon SQS queue in the following format:
+1. `http(s)://YOUR-W&B-SERVER-HOST/system-admin` の W&B 設定 ページに移動します。
+2. ***外部ファイル ストレージ バックエンドを使用する* オプション** を有効にします。
+3. 次の形式で Amazon S3 バケット、リージョン、Amazon SQS キューの情報を入力します:
 * **File Storage Bucket**: `s3://<bucket-name>`
 * **File Storage Region (AWS only)**: `<region>`
 * **Notification Subscription**: `sqs://<queue-name>`
 
-{{< img src="/images/hosting/configure_file_store.png" alt="AWS file storage configuration" >}}
+{{< img src="/images/hosting/configure_file_store.png" alt="AWS ファイル ストレージ 設定" >}}
 
-4. Select **Update settings** to apply the new settings.
+4. **Update settings** を選択して新しい 設定 を適用します。
 
-## Upgrade your W&B version
+## W&B の バージョン をアップグレード
 
-Follow the steps outlined here to update W&B:
+以下の手順に従って W&B をアップデートします:
 
-1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+1. `wandb_app` モジュールの 設定 に `wandb_version` を追加し、アップグレード先の W&B の バージョン を指定します。たとえば、次の行は W&B バージョン `0.48.1` を指定しています:
 
   ```
   module "wandb_app" {
@@ -380,23 +378,23 @@ Follow the steps outlined here to update W&B:
   ```
 
   {{% alert %}}
-  Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
+  もしくは、`terraform.tfvars` に `wandb_version` を追加し、同名の変数を作成して、リテラル値の代わりに `var.wandb_version` を使用することもできます。
   {{% /alert %}}
 
-2. After you update your configuration, complete the steps described in the [Recommended deployment section]({{< relref path="#recommended-deployment-option" lang="ja" >}}).
+2. 設定 を更新したら、[推奨デプロイメント セクション]({{< relref path="#recommended-deployment-option" lang="ja" >}}) に記載の手順を実施します。
 
-## Migrate to operator-based AWS Terraform modules
+## operator ベースの AWS Terraform モジュールへ移行
 
-This section details the steps required to upgrade from _pre-operator_ to  _post-operator_ environments using the [terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) module.
+このセクションでは、[terraform-aws-wandb](https://registry.terraform.io/modules/wandb/wandb/aws/latest) モジュールを使用して、_pre-operator_ 環境から _post-operator_ 環境へアップグレードするための手順を説明します。
 
 {{% alert %}}
-The transition to a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) pattern is necessary for the W&B architecture. See the [architecture shift explanation]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#reasons-for-the-architecture-shift" lang="ja" >}}) for a detailed explanation.
+W&B の アーキテクチャー には、Kubernetes の [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) パターンへの移行が必要です。詳細は、[アーキテクチャー変更の説明]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#reasons-for-the-architecture-shift" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
 
-### Before and after architecture
+### 変更前後の アーキテクチャー
 
-Previously, the W&B architecture used:
+以前の W&B の アーキテクチャー では、次のようにして:
 
 ```hcl
 module "wandb_infra" {
@@ -406,11 +404,11 @@ module "wandb_infra" {
 }
 ```
 
-to control the infrastructure:
+インフラストラクチャー を制御し、
 
 {{< img src="/images/hosting/pre-operator-infra.svg" alt="pre-operator-infra" >}}
 
-and this module to deploy the W&B Server:
+W&B Server のデプロイには次のモジュールを使用していました:
 
 ```hcl
 module "wandb_app" {
@@ -421,7 +419,7 @@ module "wandb_app" {
 
 {{< img src="/images/hosting/pre-operator-k8s.svg" alt="pre-operator-k8s" >}}
 
-Post-transition, the architecture uses:
+移行後の アーキテクチャー では、次のようにします:
 
 ```hcl
 module "wandb_infra" {
@@ -431,34 +429,34 @@ module "wandb_infra" {
 }
 ```
 
-to manage both the installation of infrastructure and the W&B Server to the Kubernetes cluster, thus eliminating the need for the `module "wandb_app"` in `post-operator.tf`.
+これにより、Kubernetes クラスターへの インフラストラクチャー のインストールと W&B Server の両方を管理できるため、`post-operator.tf` での `module "wandb_app"` が不要になります。
 
 {{< img src="/images/hosting/post-operator-k8s.svg" alt="post-operator-k8s" >}}
 
-This architectural shift enables additional features (like OpenTelemetry, Prometheus, HPAs, Kafka, and image updates) without requiring manual Terraform operations by SRE/Infrastructure teams.
+この アーキテクチャー変更 により、SRE/インフラ チームが手動の Terraform オペレーションを行わずに、OpenTelemetry、Prometheus、HPA、Kafka、イメージ更新などの追加機能を利用できるようになります。
 
-To commence with a base installation of the W&B Pre-Operator, ensure that `post-operator.tf` has a `.disabled` file extension and `pre-operator.tf` is active (that does not have a `.disabled` extension). Those files can be found [here](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration).
+W&B Pre-Operator のベース インストールから開始するには、`post-operator.tf` に `.disabled` というファイル拡張子が付いており、`pre-operator.tf` が有効（`.disabled` 拡張子が付いていない）であることを確認してください。これらのファイルは[ここ](https://github.com/wandb/terraform-aws-wandb/tree/main/docs/operator-migration)にあります。
 
-### Prerequisites
+### 前提条件
 
-Before initiating the migration process, ensure the following prerequisites are met:
+移行を開始する前に、以下の前提条件を満たしていることを確認してください:
 
-- **Egress**: The deployment can't be airgapped. It needs access to [deploy.wandb.ai](https://deploy.wandb.ai) to get the latest spec for the **_Release Channel_**.
-- **AWS Credentials**: Proper AWS credentials configured to interact with your AWS resources.
-- **Terraform Installed**: The latest version of Terraform should be installed on your system.
-- **Route53 Hosted Zone**: An existing Route53 hosted zone corresponding to the domain under which the application will be served.
-- **Pre-Operator Terraform Files**: Ensure `pre-operator.tf` and associated variable files like `pre-operator.tfvars` are correctly set up.
+- **Egress**: デプロイメントはエアギャップでは動作しません。**_Release Channel_** の最新仕様を取得するために [deploy.wandb.ai](https://deploy.wandb.ai) への アクセス が必要です。
+- **AWS Credentials**: AWS リソースに対して適切な AWS クレデンシャルが設定されていること。
+- **Terraform Installed**: 最新 バージョン の Terraform がシステムにインストールされていること。
+- **Route53 Hosted Zone**: アプリケーションを配信するドメインに対応する既存の Route53 ホストゾーンがあること。
+- **Pre-Operator Terraform Files**: `pre-operator.tf` と `pre-operator.tfvars` などの関連変数ファイルが正しく設定されていること。
 
-### Pre-Operator set up
+### Pre-Operator セットアップ
 
-Execute the following Terraform commands to initialize and apply the configuration for the Pre-Operator setup:
+Pre-Operator セットアップの構成を初期化・適用するには、以下の Terraform コマンドを実行します:
 
 ```bash
 terraform init -upgrade
 terraform apply -var-file=./pre-operator.tfvars
 ```
 
-`pre-operator.tf` should look something like this:
+`pre-operator.tf` は次のようになります:
 
 ```ini
 namespace     = "operator-upgrade"
@@ -469,7 +467,7 @@ wandb_license = "ey..."
 wandb_version = "0.51.2"
 ```
 
-The `pre-operator.tf` configuration calls two modules:
+`pre-operator.tf` の構成では、2 つのモジュールを呼び出します:
 
 ```hcl
 module "wandb_infra" {
@@ -479,7 +477,7 @@ module "wandb_infra" {
 }
 ```
 
-This module spins up the infrastructure.
+このモジュールは インフラストラクチャー を起動します。
 
 ```hcl
 module "wandb_app" {
@@ -488,33 +486,33 @@ module "wandb_app" {
 }
 ```
 
-This module deploys the application.
+このモジュールは アプリケーション をデプロイします。
 
-### Post-Operator Setup
+### Post-Operator セットアップ
 
-Make sure that `pre-operator.tf` has a `.disabled` extension, and `post-operator.tf` is active.
+`pre-operator.tf` に `.disabled` 拡張子が付いており、`post-operator.tf` が有効であることを確認します。
 
-The `post-operator.tfvars` includes additional variables:
+`post-operator.tfvars` には以下の追加変数が含まれます:
 
 ```ini
 ...
-# wandb_version = "0.51.2" is now managed via the Release Channel or set in the User Spec.
+# wandb_version = "0.51.2" は、Release Channel 経由で管理されるか、User Spec で設定されます。
 
-# Required Operator Variables for Upgrade:
+# アップグレードに必要な Operator 変数:
 size                 = "small"
 enable_dummy_dns     = true
 enable_operator_alb  = true
 custom_domain_filter = "sandbox-aws.wandb.ml"
 ```
 
-Run the following commands to initialize and apply the Post-Operator configuration:
+以下の コマンド を実行して Post-Operator 構成を初期化・適用します:
 
 ```bash
 terraform init -upgrade
 terraform apply -var-file=./post-operator.tfvars
 ```
 
-The plan and apply steps will update the following resources:
+plan と apply のステップでは、以下のリソースが更新されます:
 
 ```yaml
 actions:
@@ -582,11 +580,11 @@ actions:
     - aws_eks_node_group.workers["primary"]
 ```
 
-You should see something like this:
+次のような出力が表示されます:
 
 {{< img src="/images/hosting/post-operator-apply.png" alt="post-operator-apply" >}}
 
-Note that in `post-operator.tf`, there is a single:
+`post-operator.tf` には、次の 1 つだけが含まれている点に注意してください:
 
 ```hcl
 module "wandb_infra" {
@@ -596,13 +594,13 @@ module "wandb_infra" {
 }
 ```
 
-#### Changes in the post-operator configuration:
+#### post-operator 構成での変更点:
 
-1. **Update Required Providers**: Change `required_providers.aws.version` from `3.6` to `4.0` for provider compatibility.
-2. **DNS and Load Balancer Configuration**: Integrate `enable_dummy_dns` and `enable_operator_alb` to manage DNS records and AWS Load Balancer setup through an Ingress.
-3. **License and Size Configuration**: Transfer the `license` and `size` parameters directly to the `wandb_infra` module to match new operational requirements.
-4. **Custom Domain Handling**: If necessary, use `custom_domain_filter` to troubleshoot DNS issues by checking the External DNS pod logs within the `kube-system` namespace.
-5. **Helm Provider Configuration**: Enable and configure the Helm provider to manage Kubernetes resources effectively:
+1. **Required Providers の更新**: プロバイダー互換性のために `required_providers.aws.version` を `3.6` から `4.0` に変更します。
+2. **DNS と Load Balancer の構成**: `enable_dummy_dns` と `enable_operator_alb` を統合し、Ingress を通じて DNS レコードと AWS Load Balancer の設定を管理します。
+3. **ライセンスとサイズの構成**: 新しい運用要件に合わせて、`license` と `size` パラメータを `wandb_infra` モジュールに直接渡します。
+4. **カスタム ドメインの取り扱い**: 必要に応じて、`kube-system` ネームスペース内の External DNS ポッドの ログ を確認して DNS の問題をトラブルシュートするために `custom_domain_filter` を使用します。
+5. **Helm プロバイダーの構成**: Kubernetes リソースを効果的に管理できるよう、Helm プロバイダーを有効化・構成します:
 
 ```hcl
 provider "helm" {
@@ -619,4 +617,4 @@ provider "helm" {
 }
 ```
 
-This comprehensive setup ensures a smooth transition from the Pre-Operator to the Post-Operator configuration, leveraging new efficiencies and capabilities enabled by the operator model.
+この包括的なセットアップにより、Pre-Operator から Post-Operator 構成へのスムーズな移行が可能となり、operator モデルによってもたらされる新たな効率性と機能を活用できます。

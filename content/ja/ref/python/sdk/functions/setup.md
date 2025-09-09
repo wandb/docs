@@ -1,10 +1,10 @@
 ---
+title: setup()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-setup
 object_type: python_sdk_actions
-title: setup()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py >}}
@@ -18,25 +18,25 @@ title: setup()
 setup(settings: 'Settings | None' = None) → _WandbSetup
 ```
 
-Prepares W&B for use in the current process and its children. 
+現在の プロセス と その 子プロセス で W&B を 使えるように 準備します。
 
-You can usually ignore this as it is implicitly called by `wandb.init()`. 
+通常は `wandb.init()` によって 暗黙に 呼び出されるため、明示的に 呼ぶ必要は ありません。
 
-When using wandb in multiple processes, calling `wandb.setup()` in the parent process before starting child processes may improve performance and resource utilization. 
+wandb を 複数の プロセスで 使用する場合、子プロセス を 開始する前に 親プロセス で `wandb.setup()` を 呼び出すと、パフォーマンス や リソース の 利用効率 が 向上することが あります。
 
-Note that `wandb.setup()` modifies `os.environ`, and it is important that child processes inherit the modified environment variables. 
+`wandb.setup()` は `os.environ` を 変更するため、子プロセス が 変更後の 環境変数 を 継承することが 重要です。
 
-See also `wandb.teardown()`. 
+`wandb.teardown()` も 参照してください。
 
 
 
-**Args:**
+**引数:**
  
- - `settings`:  Configuration settings to apply globally. These can be  overridden by subsequent `wandb.init()` calls. 
+ - `settings`:  グローバルに 適用する 設定。これは、その後の `wandb.init()` の 呼び出しで 上書きできます。 
 
 
 
-**Example:**
+**例:**
  ```python
 import multiprocessing
 
@@ -45,31 +45,31 @@ import wandb
 
 def run_experiment(params):
     with wandb.init(config=params):
-         # Run experiment
+         # 実験を実行
          pass
 
 
 if __name__ == "__main__":
-    # Start backend and set global config
+    # バックエンドを起動し、グローバルな設定を適用
     wandb.setup(settings={"project": "my_project"})
 
-    # Define experiment parameters
+    # 実験のパラメータを定義
     experiment_params = [
          {"learning_rate": 0.01, "epochs": 10},
          {"learning_rate": 0.001, "epochs": 20},
     ]
 
-    # Start multiple processes, each running a separate experiment
+    # 複数のプロセスを開始し、各プロセスで個別の実験を実行
     processes = []
     for params in experiment_params:
          p = multiprocessing.Process(target=run_experiment, args=(params,))
          p.start()
          processes.append(p)
 
-    # Wait for all processes to complete
+    # すべてのプロセスの完了を待機
     for p in processes:
          p.join()
 
-    # Optional: Explicitly shut down the backend
+    # 任意: バックエンドを明示的にシャットダウン
     wandb.teardown()
 ```

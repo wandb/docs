@@ -1,10 +1,10 @@
 ---
+title: controller()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-controller
 object_type: python_sdk_actions
-title: controller()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py >}}
@@ -12,7 +12,7 @@ title: controller()
 
 
 
-### <kbd>function</kbd> `controller`
+### <kbd>関数</kbd> `controller`
 
 ```python
 controller(
@@ -22,11 +22,11 @@ controller(
 ) → _WandbController
 ```
 
-Public sweep controller constructor. 
+sweep コントローラの公開コンストラクタです。 
 
 
 
-**Examples:**
+**例:**
  ```python
 import wandb
 

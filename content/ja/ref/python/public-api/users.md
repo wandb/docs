@@ -1,10 +1,10 @@
 ---
+title: ユーザー
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-users
 object_type: public_apis_namespace
-title: users
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py >}}
@@ -13,37 +13,37 @@ title: users
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for managing users and API keys. 
+ユーザーと APIキー を管理するための W&B Public API。 
 
-This module provides classes for managing W&B users and their API keys. 
+このモジュールは、W&B のユーザーおよびその APIキー を管理するためのクラスを提供します。 
 
 
 
 **Note:**
 
-> This module is part of the W&B Public API and provides methods to manage users and their authentication. Some operations require admin privileges. 
+> このモジュールは W&B Public API の一部で、ユーザーとその認証を管理するメソッドを提供します。操作によっては管理者権限が必要です。 
 
 
 
 ---
 
 ## <kbd>class</kbd> `User`
-A class representing a W&B user with authentication and management capabilities. 
+認証および管理機能を備えた W&B のユーザーを表すクラス。 
 
-This class provides methods to manage W&B users, including creating users, managing API keys, and accessing team memberships. It inherits from Attrs to handle user attributes. 
+ユーザーの作成、APIキー の管理、チーム メンバーシップへのアクセスなど、W&B ユーザーを管理するためのメソッドを提供します。ユーザーの属性を扱うために Attrs を継承しています。 
 
 
 
 **Args:**
  
- - `client`:  (`wandb.apis.internal.Api`) The client instance to use 
- - `attrs`:  (dict) The user attributes 
+ - `client`:  (`wandb.apis.internal.Api`) 使用するクライアント インスタンス 
+ - `attrs`:  (dict) ユーザー属性 
 
 
 
 **Note:**
 
-> Some operations require admin privileges 
+> 一部の操作には管理者権限が必要です 
 
 ### <kbd>method</kbd> `User.__init__`
 
@@ -60,31 +60,31 @@ __init__(client, attrs)
 
 ### <kbd>property</kbd> User.api_keys
 
-List of API key names associated with the user. 
+ユーザーに関連付けられた APIキー の名前一覧。 
 
 
 
 **Returns:**
  
- - `list[str]`:  Names of API keys associated with the user. Empty list if user  has no API keys or if API key data hasn't been loaded. 
+ - `list[str]`:  ユーザーに関連付けられた APIキー の名前。ユーザーに APIキー がない、または APIキー のデータが読み込まれていない場合は空リスト。 
 
 ---
 
 ### <kbd>property</kbd> User.teams
 
-List of team names that the user is a member of. 
+ユーザーが所属するチーム名の一覧。 
 
 
 
 **Returns:**
  
- - `list` (list):  Names of teams the user belongs to. Empty list if user has no  team memberships or if teams data hasn't been loaded. 
+ - `list` (list):  ユーザーが所属するチーム名。ユーザーにチームのメンバーシップがない、またはチームのデータが読み込まれていない場合は空リスト。 
 
 ---
 
 ### <kbd>property</kbd> User.user_api
 
-An instance of the api using credentials from the user. 
+このユーザーの認証情報を用いる API インスタンス。 
 
 
 
@@ -96,20 +96,20 @@ An instance of the api using credentials from the user.
 create(api, email, admin=False)
 ```
 
-Create a new user. 
+新しいユーザーを作成します。 
 
 
 
 **Args:**
  
- - `api` (`Api`):  The api instance to use 
- - `email` (str):  The name of the team 
- - `admin` (bool):  Whether this user should be a global instance admin 
+ - `api` (`Api`):  使用する API インスタンス 
+ - `email` (str):  チームの名前 
+ - `admin` (bool):  このユーザーをグローバル インスタンスの管理者にするかどうか 
 
 
 
 **Returns:**
- A `User` object 
+ `User` オブジェクト 
 
 ---
 
@@ -119,23 +119,23 @@ Create a new user.
 delete_api_key(api_key)
 ```
 
-Delete a user's api key. 
+ユーザーの APIキー を削除します。 
 
 
 
 **Args:**
  
- - `api_key` (str):  The name of the API key to delete. This should be  one of the names returned by the `api_keys` property. 
+ - `api_key` (str):  削除する APIキー の名前。これは `api_keys` プロパティ が返す名前のいずれかである必要があります。 
 
 
 
 **Returns:**
- Boolean indicating success 
+ 成功を示すブール値 
 
 
 
 **Raises:**
- ValueError if the api_key couldn't be found 
+ api_key が見つからない場合は ValueError 
 
 ---
 
@@ -145,15 +145,16 @@ Delete a user's api key.
 generate_api_key(description=None)
 ```
 
-Generate a new api key. 
+新しい APIキー を生成します。 
 
 
 
 **Args:**
  
- - `description` (str, optional):  A description for the new API key. This can be  used to identify the purpose of the API key. 
+ - `description` (str, optional):  新しい APIキー の説明。APIキー の用途の識別に使用できます。 
 
 
 
 **Returns:**
- The new api key, or None on failure
+ 新しい APIキー。失敗した場合は None。
+```

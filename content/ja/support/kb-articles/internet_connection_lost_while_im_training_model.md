@@ -1,16 +1,16 @@
 ---
+title: モデルをトレーニング中にインターネット接続が切れた場合はどうなりますか？
 menu:
   support:
     identifier: ja-support-kb-articles-internet_connection_lost_while_im_training_model
 support:
-- environment variables
-- outage
-title: What happens if internet connection is lost while I'm training a model?
+- 環境変数
+- 障害
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If the library cannot connect to the internet, it enters a retry loop and continues to attempt to stream metrics until the network is restored. The program continues to run during this time.
+ライブラリ がインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスをストリーミングし続けます。この間もプログラムは実行し続けます。
 
-To run on a machine without internet, set `WANDB_MODE=offline`. This configuration stores metrics locally on the hard drive. Later, call `wandb sync DIRECTORY` to stream the data to the server.
+インターネットに接続できないマシンで実行するには、`WANDB_MODE=offline` を設定します。この 設定 はメトリクスをハードドライブ上にローカル保存します。後で、`wandb sync DIRECTORY` を実行して、データを サーバー にストリーミングします。

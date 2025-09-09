@@ -1,171 +1,136 @@
 ---
+title: 設定
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-classes-Settings
 object_type: python_sdk_actions
-title: Settings
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py >}}
 
 
 
-Settings for the W&B SDK.
+W&B SDK の 設定。
 
-This class manages configuration settings for the W&B SDK,
-ensuring type safety and validation of all settings. Settings are accessible
-as attributes and can be initialized programmatically, through environment
-variables (`WANDB_ prefix`), and with configuration files.
+このクラスは W&B SDK の 設定 を 管理し、すべての 設定 に 対して 型 安全性 と 検証 を 保証します。 設定 は 属性 として アクセス でき、プログラムからの 初期化、環境 変数（`WANDB_ prefix`）、および 設定 ファイルに よる 初期化 に 対応します。
 
-The settings are organized into three categories:
-1. Public settings: Core configuration options that users can safely modify to customize
-   W&B's behavior for their specific needs.
-2. Internal settings: Settings prefixed with 'x_' that handle low-level SDK behavior.
-   These settings are primarily for internal use and debugging. While they can be modified,
-   they are not considered part of the public API and may change without notice in future
-   versions.
-3. Computed settings: Read-only settings that are automatically derived from other settings or
-   the environment.
+設定 は 次の 3 つの カテゴリ に 整理されています:
+1. Public settings: ユーザー が 自身の ニーズ に 合わせて 安全に 変更 できる 中核的な 設定。W&B の 振る舞い を カスタマイズ できます。
+2. Internal settings: 'x_' で 始まる、低レベルな SDK の 振る舞い を 扱う 設定。主に 内部 利用 と デバッグ を 想定しています。変更 は 可能ですが、公開 API の 一部 では なく、将来 の バージョン で 予告 なく 変更 される 場合 があります。
+3. Computed settings: 他の 設定 や 環境 から 自動的に 算出 される 読み取り専用 の 設定。
 
 Attributes:
-- allow_offline_artifacts (bool): Flag to allow table artifacts to be synced in offline mode.
-    To revert to the old behavior, set this to False.
-- allow_val_change (bool): Flag to allow modification of `Config` values after they've been set.
-- anonymous (Optional): Controls anonymous data logging.
-    Possible values are:
-    - "never": requires you to link your W&B account before
-    tracking the run, so you don't accidentally create an anonymous
-    run.
-    - "allow": lets a logged-in user track runs with their account, but
-    lets someone who is running the script without a W&B account see
-    the charts in the UI.
-    - "must": sends the run to an anonymous account instead of to a
-    signed-up user account.
-- api_key (Optional): The W&B API key.
-- azure_account_url_to_access_key (Optional): Mapping of Azure account URLs to their corresponding access keys for Azure integration.
-- base_url (str): The URL of the W&B backend for data synchronization.
-- code_dir (Optional): Directory containing the code to be tracked by W&B.
-- config_paths (Optional): Paths to files to load configuration from into the `Config` object.
-- console (Literal): The type of console capture to be applied.
-    Possible values are:
-    "auto" - Automatically selects the console capture method based on the
-    system environment and settings.
-    "off" - Disables console capture.
-    "redirect" - Redirects low-level file descriptors for capturing output.
-    "wrap" - Overrides the write methods of sys.stdout/sys.stderr. Will be
-    mapped to either "wrap_raw" or "wrap_emu" based on the state of the system.
-    "wrap_raw" - Same as "wrap" but captures raw output directly instead of
-    through an emulator. Derived from the `wrap` setting and should not be set manually.
-    "wrap_emu" - Same as "wrap" but captures output through an emulator.
-    Derived from the `wrap` setting and should not be set manually.
-- console_multipart (bool): Whether to produce multipart console log files.
-- credentials_file (str): Path to file for writing temporary access tokens.
-- disable_code (bool): Whether to disable capturing the code.
-- disable_git (bool): Whether to disable capturing the git state.
-- disable_job_creation (bool): Whether to disable the creation of a job artifact for W&B Launch.
-- docker (Optional): The Docker image used to execute the script.
-- email (Optional): The email address of the user.
-- entity (Optional): The W&B entity, such as a user or a team.
-- force (bool): Whether to pass the `force` flag to `wandb.login()`.
-- fork_from (Optional): Specifies a point in a previous execution of a run to fork from.
-    The point is defined by the run ID, a metric, and its value.
-    Currently, only the metric '_step' is supported.
-- git_commit (Optional): The git commit hash to associate with the run.
-- git_remote (str): The git remote to associate with the run.
-- git_remote_url (Optional): The URL of the git remote repository.
-- git_root (Optional): Root directory of the git repository.
+- allow_offline_artifacts (bool): オフライン モード で table artifacts を 同期 できる ように する フラグ。従来 の 振る舞い に 戻すには False に 設定 します。
+- allow_val_change (bool): いったん 設定 された `Config` の 値 を 変更 できる ように する フラグ。
+- anonymous (Optional): 匿名 データ ログ の 制御。
+    取りうる 値:
+    - "never": run を 追跡 する 前 に W&B アカウント の リンク を 必須 に し、誤って 匿名 run を 作成 しない ように します。
+    - "allow": ログイン 済み ユーザー は 自分の アカウント で run を 追跡 できますが、W&B アカウント なし で スクリプト を 実行 している 人 も UI で チャート を 閲覧 できます。
+    - "must": サインアップ 済み の ユーザー アカウント では なく、匿名 アカウント に run を 送信 します。
+- api_key (Optional): W&B の API キー。
+- azure_account_url_to_access_key (Optional): Azure の アカウント URL と アクセス キー の 対応 マップ（Azure インテグレーション 用）。
+- base_url (str): データ 同期 の ための W&B バックエンド の URL。
+- code_dir (Optional): W&B が 追跡 する コード を 含む ディレクトリー。
+- config_paths (Optional): `Config` オブジェクト に 読み込む 設定 ファイル の パス。
+- console (Literal): 適用 する コンソール キャプチャ の 種類。
+    取りうる 値:
+    "auto" - システム の 環境 と 設定 に 基づいて コンソール キャプチャ 方法 を 自動 選択。
+    "off" - コンソール キャプチャ を 無効化。
+    "redirect" - 出力 を 取得 する ため 低レベル の ファイル ディスクリプタ を リダイレクト。
+    "wrap" - sys.stdout/sys.stderr の write メソッド を オーバーライド。システム 状態 に 応じて "wrap_raw" または "wrap_emu" に マップ されます。
+    "wrap_raw" - "wrap" と 同様 ですが、エミュレータ を 介さず 生 の 出力 を 直接 取得。`wrap` 設定 から 派生 し、手動 設定 は 非推奨。
+    "wrap_emu" - "wrap" と 同様 ですが、エミュレータ を 通じて 出力 を 取得。`wrap` 設定 から 派生 し、手動 設定 は 非推奨。
+- console_multipart (bool): マルチパート 形式 の コンソール ログ ファイル を 生成 する か どうか。
+- credentials_file (str): 一時的な アクセス トークン を 書き込む ファイル の パス。
+- disable_code (bool): コード の 取得 を 無効化 する か どうか。
+- disable_git (bool): git 状態 の 取得 を 無効化 する か どうか。
+- disable_job_creation (bool): W&B Launch の job artifact 作成 を 無効化 する か どうか。
+- docker (Optional): スクリプト を 実行 する Docker イメージ。
+- email (Optional): ユーザー の メール アドレス。
+- entity (Optional): W&B の Entity（例: Users や Teams）。
+- force (bool): `wandb.login()` に `force` フラグ を 渡す か どうか。
+- fork_from (Optional): 以前 の run 実行 の ある 時点 から 分岐 する 場所 を 指定。run ID、メトリクス、および その 値 で 定義 します。現時点 では メトリクス '_step' のみ サポート。
+- git_commit (Optional): run に 関連付ける git の コミット ハッシュ。
+- git_remote (str): run に 関連付ける git リモート。
+- git_remote_url (Optional): git リモート リポジトリ の URL。
+- git_root (Optional): git リポジトリ の ルート ディレクトリー。
 
-- host (Optional): Hostname of the machine running the script.
-- http_proxy (Optional): Custom proxy servers for http requests to W&B.
-- https_proxy (Optional): Custom proxy servers for https requests to W&B.
-- identity_token_file (Optional): Path to file containing an identity token (JWT) for authentication.
-- ignore_globs (Sequence): Unix glob patterns relative to `files_dir` specifying files to exclude from upload.
-- init_timeout (float): Time in seconds to wait for the `wandb.init` call to complete before timing out.
-- insecure_disable_ssl (bool): Whether to insecurely disable SSL verification.
-- job_name (Optional): Name of the Launch job running the script.
-- job_source (Optional): Source type for Launch.
-- label_disable (bool): Whether to disable automatic labeling features.
+- host (Optional): スクリプト を 実行 している マシン の ホスト名。
+- http_proxy (Optional): W&B への http リクエスト 用 の カスタム プロキシ サーバー。
+- https_proxy (Optional): W&B への https リクエスト 用 の カスタム プロキシ サーバー。
+- identity_token_file (Optional): 認証 用 の アイデンティティ トークン（JWT）を 含む ファイル への パス。
+- ignore_globs (Sequence): アップロード から 除外 する ファイル を 指定 する、`files_dir` 基準 の Unix グロブ パターン。
+- init_timeout (float): タイムアウト 前 に `wandb.init` 呼び出し が 完了 する まで 待機 する 秒数。
+- insecure_disable_ssl (bool): SSL 検証 を 安全 で ない 形 で 無効化 する か どうか。
+- job_name (Optional): スクリプト を 実行 している Launch ジョブ 名。
+- job_source (Optional): Launch の ソース 種別。
+- label_disable (bool): 自動 ラベリング 機能 を 無効化 する か どうか。
 
-- launch_config_path (Optional): Path to the launch configuration file.
-- login_timeout (Optional): Time in seconds to wait for login operations before timing out.
-- max_end_of_run_history_metrics (int): Maximum number of history sparklines to display at the end of a run.
-- max_end_of_run_summary_metrics (int): Maximum number of summary metrics to display at the end of a run.
-- mode (Literal): The operating mode for W&B logging and synchronization.
-- notebook_name (Optional): Name of the notebook if running in a Jupyter-like environment.
-- organization (Optional): The W&B organization.
-- program (Optional): Path to the script that created the run, if available.
-- program_abspath (Optional): The absolute path from the root repository directory to the script that
-    created the run.
-    Root repository directory is defined as the directory containing the
-    .git directory, if it exists. Otherwise, it's the current working directory.
-- program_relpath (Optional): The relative path to the script that created the run.
-- project (Optional): The W&B project ID.
-- quiet (bool): Flag to suppress non-essential output.
-- reinit (Union): What to do when `wandb.init()` is called while a run is active.
+- launch_config_path (Optional): Launch 設定 ファイル への パス。
+- login_timeout (Optional): ログイン 操作 の タイムアウト 秒数。
+- max_end_of_run_history_metrics (int): run 終了 時 に 表示 する History スパークライン の 最大 件数。
+- max_end_of_run_summary_metrics (int): run 終了 時 に 表示 する Summary メトリクス の 最大 件数。
+- mode (Literal): W&B の ログ と 同期 の 動作 モード。
+- notebook_name (Optional): Jupyter 互換 の 環境 で 実行 している 場合 の ノートブック 名。
+- organization (Optional): W&B の 組織。
+- program (Optional): 可能 な 場合、run を 作成 した スクリプト の パス。
+- program_abspath (Optional): run を 作成 した スクリプト への、リポジトリ ルート ディレクトリー からの 絶対 パス。
+    リポジトリ の ルート ディレクトリー は、.git ディレクトリー を 含む ディレクトリー が あれば それ を、なければ 現在 の 作業 ディレクトリー を 指します。
+- program_relpath (Optional): run を 作成 した スクリプト への 相対 パス。
+- project (Optional): W&B の Project ID。
+- quiet (bool): 本質的 で ない 出力 を 抑制 する フラグ。
+- reinit (Union): run が アクティブ な 間 に `wandb.init()` が 呼ばれた とき の 振る舞い。
     Options:
-    - "default": Use "finish_previous" in notebooks and "return_previous"
-    otherwise.
-    - "return_previous": Return the most recently created run
-    that is not yet finished. This does not update `wandb.run`; see
-    the "create_new" option.
-    - "finish_previous": Finish all active runs, then return a new run.
-    - "create_new": Create a new run without modifying other active runs.
-    Does not update `wandb.run` and top-level functions like `wandb.log`.
-    Because of this, some older integrations that rely on the global run
-    will not work.
-    Can also be a boolean, but this is deprecated. False is the same as
-    "return_previous", and True is the same as "finish_previous".
-- relogin (bool): Flag to force a new login attempt.
-- resume (Optional): Specifies the resume behavior for the run.
+    - "default": ノートブック では "finish_previous"、それ以外 では "return_previous" を 使用。
+    - "return_previous": まだ 終了 していない 最新 の run を 返します。`wandb.run` は 更新 されません。"create_new" オプション を 参照。
+    - "finish_previous": すべて の アクティブ な run を 終了 してから、新しい run を 返します。
+    - "create_new": 他 の アクティブ な run を 変更 せず 新しい run を 作成。`wandb.run` や `wandb.log` など の トップレベル 関数 は 更新 されません。このため、グローバル run に 依存 する 旧来 の 一部 の インテグレーション は 動作 しません。
+    なお、bool も 指定 可能 ですが 非推奨。False は "return_previous"、True は "finish_previous" と 同義 です。
+- relogin (bool): 新たな ログイン を 強制 する フラグ。
+- resume (Optional): run の レジューム 振る舞い。
     Options:
-    - "must": Resumes from an existing run with the same ID. If no such run exists,
-    it will result in failure.
-    - "allow": Attempts to resume from an existing run with the same ID. If none is
-    found, a new run will be created.
-    - "never": Always starts a new run. If a run with the same ID already exists,
-    it will result in failure.
-    - "auto": Automatically resumes from the most recent failed run on the same
-    machine.
-- resume_from (Optional): Specifies a point in a previous execution of a run to resume from.
-    The point is defined by the run ID, a metric, and its value.
-    Currently, only the metric '_step' is supported.
+    - "must": 同じ ID の 既存 の run から レジューム。存在 しない 場合 は 失敗。
+    - "allow": 同じ ID の 既存 の run が あれば レジューム。なければ 新規 run を 作成。
+    - "never": 常に 新規 run を 開始。同じ ID の run が すでに ある 場合 は 失敗。
+    - "auto": 同一 マシン 上 の 直近 の 失敗 した run から 自動 レジューム。
+- resume_from (Optional): 以前 の run 実行 の ある 時点 から レジューム する 場所 を 指定。run ID、メトリクス、および その 値 で 定義。現時点 では メトリクス '_step' のみ サポート。
 
-- root_dir (str): The root directory to use as the base for all run-related paths.
-    In particular, this is used to derive the wandb directory and the run directory.
-- run_group (Optional): Group identifier for related runs.
-    Used for grouping runs in the UI.
-- run_id (Optional): The ID of the run.
-- run_job_type (Optional): Type of job being run (e.g., training, evaluation).
-- run_name (Optional): Human-readable name for the run.
-- run_notes (Optional): Additional notes or description for the run.
-- run_tags (Optional): Tags to associate with the run for organization and filtering.
-- sagemaker_disable (bool): Flag to disable SageMaker-specific functionality.
-- save_code (Optional): Whether to save the code associated with the run.
-- settings_system (Optional): Path to the system-wide settings file.
+- root_dir (str): すべて の run 関連 パス の 基準 として 使用 する ルート ディレクトリー。
+    特に、wandb ディレクトリー と run ディレクトリー の 算出 に 使用 されます。
+- run_group (Optional): 関連 する run の グループ 識別子。
+    UI 上 で の グルーピング に 使用 されます。
+- run_id (Optional): run の ID。
+- run_job_type (Optional): 実行 中 の ジョブ の 種別（例: トレーニング、評価）。
+- run_name (Optional): 人間 が 読みやすい run 名。
+- run_notes (Optional): run に 関する 追加 ノート / 説明。
+- run_tags (Optional): 整理 や フィルタリング の ため に run に 付与 する タグ。
+- sagemaker_disable (bool): SageMaker 固有 機能 を 無効化 する フラグ。
+- save_code (Optional): run に 関連する コード を 保存 する か どうか。
+- settings_system (Optional): システム 全体 の 設定 ファイル への パス。
 
 
-- show_errors (bool): Whether to display error messages.
-- show_info (bool): Whether to display informational messages.
-- show_warnings (bool): Whether to display warning messages.
-- silent (bool): Flag to suppress all output.
+- show_errors (bool): エラー メッセージ を 表示 する か どうか。
+- show_info (bool): 情報 メッセージ を 表示 する か どうか。
+- show_warnings (bool): 警告 メッセージ を 表示 する か どうか。
+- silent (bool): すべて の 出力 を 抑制 する フラグ。
 
-- strict (Optional): Whether to enable strict mode for validation and error checking.
-- summary_timeout (int): Time in seconds to wait for summary operations before timing out.
+- strict (Optional): 検証 と エラー チェック の 厳格 モード を 有効化 する か どうか。
+- summary_timeout (int): Summary 処理 の タイムアウト 秒数。
 
-- sweep_id (Optional): Identifier of the sweep this run belongs to.
-- sweep_param_path (Optional): Path to the sweep parameters configuration.
-- symlink (bool): Whether to use symlinks (True by default except on Windows).
-- sync_tensorboard (Optional): Whether to synchronize TensorBoard logs with W&B.
-- table_raise_on_max_row_limit_exceeded (bool): Whether to raise an exception when table row limits are exceeded.
-- username (Optional): Username.
-
-
-- x_disable_meta (bool): Flag to disable the collection of system metadata.
-- x_disable_stats (bool): Flag to disable the collection of system metrics.
+- sweep_id (Optional): この run が 属する sweep の 識別子。
+- sweep_param_path (Optional): sweep パラメータ の 設定 への パス。
+- symlink (bool): symlink を 使用 する か どうか（Windows 以外 では 既定 で True）。
+- sync_tensorboard (Optional): TensorBoard の ログ を W&B と 同期 する か どうか。
+- table_raise_on_max_row_limit_exceeded (bool): テーブル の 行 制限 を 超えた とき に 例外 を 送出 する か どうか。
+- username (Optional): ユーザー名。
 
 
-- x_extra_http_headers (Optional): Additional headers to add to all outgoing HTTP requests.
+- x_disable_meta (bool): システム メタデータ の 収集 を 無効化 する フラグ。
+- x_disable_stats (bool): システム メトリクス の 収集 を 無効化 する フラグ。
+
+
+- x_extra_http_headers (Optional): 送信 する すべて の HTTP リクエスト に 追加 する ヘッダー。
 
 
 
@@ -188,60 +153,54 @@ Attributes:
 
 
 
-- x_label (Optional): Label to assign to system metrics and console logs collected for the run.
-    This is used to group data by on the frontend and can be used to distinguish data
-    from different processes in a distributed training job.
+- x_label (Optional): run の ため に 収集 された システム メトリクス と コンソール ログ に 付与 する ラベル。
+    フロントエンド で の グルーピング に 使用 され、分散 トレーニング ジョブ における 異なる プロセス の データ を 識別 する の に 役立ちます。
 
 
 
 
-- x_primary (bool): Determines whether to save internal wandb files and metadata.
-    In a distributed setting, this is useful for avoiding file overwrites
-    from secondary processes when only system metrics and logs are needed,
-    as the primary process handles the main logging.
+- x_primary (bool): 内部の wandb ファイル と メタデータ を 保存 する か どうか。
+    分散 環境 では、メイン の ログ を 担当 する プロセス 以外 では システム メトリクス と ログ のみ が 必要 な 場合 に、ファイル の 上書き を 回避 する の に 有用 です。
 
 
-- x_save_requirements (bool): Flag to save the requirements file.
-- x_server_side_derived_summary (bool): Flag to delegate automatic computation of summary from history to the server.
-    This does not disable user-provided summary updates.
+- x_save_requirements (bool): requirements ファイル を 保存 する フラグ。
+- x_server_side_derived_summary (bool): History から Summary を 自動 計算 する 処理 を サーバー に 委譲 する フラグ。
+    これは ユーザー による Summary の 更新 を 無効化 する もの では ありません。
 
 
-- x_service_wait (float): Time in seconds to wait for the wandb-core internal service to start.
-- x_skip_transaction_log (bool): Whether to skip saving the run events to the transaction log.
-    This is only relevant for online runs. Can be used to reduce the amount of
-    data written to disk.
-    Should be used with caution, as it removes the gurantees about
-    recoverability.
+- x_service_wait (float): wandb-core 内部 サービス の 起動 を 待機 する 秒数。
+- x_skip_transaction_log (bool): トランザクション ログ への run イベント の 保存 を スキップ する か どうか。
+    これは オンライン run にのみ 関係 します。ディスク に 書き込む データ 量 を 減らす ため に 使用 できます。
+    ただし、復元 性能 に 関する 保証 が なくなる ため 注意 が 必要 です。
 
 
 
 
-- x_stats_cpu_count (Optional): System CPU count.
-    If set, overrides the auto-detected value in the run metadata.
-- x_stats_cpu_logical_count (Optional): Logical CPU count.
-    If set, overrides the auto-detected value in the run metadata.
+- x_stats_cpu_count (Optional): システム の CPU コア 数。
+    設定 すると、run メタデータ の 自動 検出 値 を 上書き します。
+- x_stats_cpu_logical_count (Optional): 論理 CPU 数。
+    設定 すると、run メタデータ の 自動 検出 値 を 上書き します。
 
-- x_stats_disk_paths (Optional): System paths to monitor for disk usage.
-- x_stats_gpu_count (Optional): GPU device count.
-    If set, overrides the auto-detected value in the run metadata.
-- x_stats_gpu_device_ids (Optional): GPU device indices to monitor.
-    If not set, the system monitor captures metrics for all GPUs.
-    Assumes 0-based indexing matching CUDA/ROCm device enumeration.
-- x_stats_gpu_type (Optional): GPU device type.
-    If set, overrides the auto-detected value in the run metadata.
+- x_stats_disk_paths (Optional): ディスク 使用量 を 監視 する システム パス。
+- x_stats_gpu_count (Optional): GPU デバイス 数。
+    設定 すると、run メタデータ の 自動 検出 値 を 上書き します。
+- x_stats_gpu_device_ids (Optional): 監視 対象 の GPU デバイス インデックス。
+    未設定 の 場合、システム モニタ は すべて の GPU の メトリクス を 取得 します。
+    CUDA/ROCm の デバイス 列挙 に 合わせた 0 始まり の インデックス を 想定。
+- x_stats_gpu_type (Optional): GPU デバイス の 種類。
+    設定 すると、run メタデータ の 自動 検出 値 を 上書き します。
 
-- x_stats_open_metrics_endpoints (Optional): OpenMetrics `/metrics` endpoints to monitor for system metrics.
-- x_stats_open_metrics_filters (Union): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
-    Supports two formats:
+- x_stats_open_metrics_endpoints (Optional): システム メトリクス 取得 用 の OpenMetrics `/metrics` エンドポイント。
+- x_stats_open_metrics_filters (Union): OpenMetrics `/metrics` エンドポイント から 収集 した メトリクス に 適用 する フィルター。
+    2 つ の 形式 を サポート:
     - {"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}
     - ("metric regex pattern 1", "metric regex pattern 2", ...)
-- x_stats_open_metrics_http_headers (Optional): HTTP headers to add to OpenMetrics requests.
+- x_stats_open_metrics_http_headers (Optional): OpenMetrics への リクエスト に 追加 する HTTP ヘッダー。
 
-- x_stats_sampling_interval (float): Sampling interval for the system monitor in seconds.
-- x_stats_track_process_tree (bool): Monitor the entire process tree for resource usage, starting from `x_stats_pid`.
-    When `True`, the system monitor aggregates the RSS, CPU%, and thread count
-    from the process with PID `x_stats_pid` and all of its descendants.
-    This can have a performance overhead and is disabled by default.
+- x_stats_sampling_interval (float): システム モニタ の サンプリング 間隔（秒）。
+- x_stats_track_process_tree (bool): `x_stats_pid` を 起点 に、プロセス ツリー 全体 の リソース 使用量 を 監視。
+    `True` の 場合、`x_stats_pid` の プロセス と その すべて の 子孫 プロセス の RSS、CPU%、スレッド 数 を 集計 します。
+    オーバーヘッド が 発生 する 可能性 が ある ため、既定 では 無効 です。
 
-- x_update_finish_state (bool): Flag to indicate whether this process can update the run's final state on the server.
-    Set to False in distributed training when only the main process should determine the final state.
+- x_update_finish_state (bool): この プロセス が サーバー 上 の run の 最終 状態 を 更新 できる か を 示す フラグ。
+    分散 トレーニング では、最終 状態 を メイン プロセス のみ が 決定 すべき 場合 に False に 設定 します。

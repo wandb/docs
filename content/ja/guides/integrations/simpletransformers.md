@@ -1,52 +1,52 @@
 ---
-description: How to integrate W&B with the Transformers library by Hugging Face.
+title: Simple Transformers
+description: Hugging Face の Transformers ライブラリ と W&B を統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-simpletransformers
     parent: integrations
-title: Simple Transformers
 weight: 390
 ---
 
-This library is based on the Transformers library by Hugging Face. Simple Transformers lets you quickly train and evaluate Transformer models. Only 3 lines of code are needed to initialize a model, train the model, and evaluate a model. It supports Sequence Classification, Token Classification \(NER\),Question Answering,Language Model Fine-Tuning, Language Model Training, Language Generation, T5 Model, Seq2Seq Tasks , Multi-Modal Classification and Conversational AI.
+このライブラリは Hugging Face の Transformers ライブラリに基づいています。Simple Transformers を使うと、Transformer モデルを素早くトレーニングして評価できます。モデルの初期化、トレーニング、評価まで、必要なのはたった 3 行のコードです。対応タスクは、Sequence Classification、Token Classification（NER）、Question Answering、Language Model Fine-Tuning、Language Model Training、Language Generation、T5 モデル、Seq2Seq タスク、マルチモーダル分類、そして対話型 AI です。
 
-To use W&B for visualizing model training. To use this, set a project name for W&B in the `wandb_project` attribute of the `args` dictionary. This logs all hyperparameter values, training losses, and evaluation metrics to the given project.
+W&B を使ってモデルトレーニングを可視化できます。この機能を使うには、`args` 辞書の `wandb_project` 属性に W&B の Project 名を設定してください。これにより、すべてのハイパーパラメーターの値、トレーニング損失、評価メトリクスが指定の Project にログされます。
 
 ```python
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
 ```
 
-Any additional arguments that go into `wandb.init` can be passed as `wandb_kwargs`.
+`wandb.init` に渡す追加の引数は、`wandb_kwargs` として指定できます。
 
 ## Structure
 
-The library is designed to have a separate class for every NLP task. The classes that provide similar functionality are grouped together.
+このライブラリは、NLP の各タスクごとに個別のクラスを持つ設計になっています。類似の機能を提供するクラスはグループ化されています。
 
-* `simpletransformers.classification` - Includes all Classification models.
+* `simpletransformers.classification` - すべての分類モデルを含みます。
   * `ClassificationModel`
   * `MultiLabelClassificationModel`
-* `simpletransformers.ner` - Includes all Named Entity Recognition models.
+* `simpletransformers.ner` - すべての固有表現抽出（NER）モデルを含みます。
   * `NERModel`
-* `simpletransformers.question_answering` - Includes all Question Answering models.
+* `simpletransformers.question_answering` - すべての質問応答モデルを含みます。
   * `QuestionAnsweringModel`
 
-Here are some minimal examples
+最小限の例をいくつか紹介します。
 
-## MultiLabel Classification
+## マルチラベル分類
 
 ```text
   model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
     args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
                 'wandb_project': "simpletransformers"},
   )
-   # Train the model
+   # モデルをトレーニング
   model.train_model(train_df)
 
-  # Evaluate the model
+  # モデルを評価
   result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 ```
 
-## Question Answering
+## 質問応答
 
 ```text
   train_args = {
@@ -65,8 +65,7 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-
-SimpleTransformers provides classes as well as training scripts for all common natural language tasks. Here is the complete list of global arguments that are supported by the library, with their default arguments.
+SimpleTransformers は、一般的な自然言語タスク向けにクラスとトレーニングスクリプトの両方を提供しています。以下は、このライブラリでサポートされるグローバル引数の完全な一覧と、そのデフォルト値です。
 
 ```text
 global_args = {
@@ -123,6 +122,6 @@ global_args = {
 }
 ```
 
-Refer to [simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) for more detailed documentation.
+詳しいドキュメントは [simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) を参照してください。
 
-Checkout [this W&B report](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) that covers training transformers on some the most popular GLUE benchmark datasets. [Try it out yourself on colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).
+GLUE ベンチマークの人気データセットでの Transformer トレーニングを取り上げた [this W&B report](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) をチェックしてください。[Try it out yourself on colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing) もどうぞ。

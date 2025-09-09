@@ -1,21 +1,21 @@
 ---
+title: 新しい自動化
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-automations-newautomation
 object_type: automations_namespace
-title: NewAutomation
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py >}}
 
 
 
-A new automation to be created.
+新しく作成するオートメーション。
 
-Attributes:
-- action (Optional): The action that will execute when this automation is triggered.
-- description (Optional): An optional description of this automation.
-- enabled (Optional): Whether this automation is enabled.  Only enabled automations will trigger.
-- event (Optional): The event that will trigger this automation.
-- name (Optional): The name of this automation.
+属性:
+- action (任意): このオートメーションがトリガーされたときに実行されるアクション。
+- description (任意): このオートメーションの説明。
+- enabled (任意): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+- event (任意): このオートメーションをトリガーするイベント。
+- name (任意): このオートメーションの名前。

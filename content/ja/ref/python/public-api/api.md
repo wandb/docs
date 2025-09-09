@@ -1,10 +1,10 @@
 ---
+title: API
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-api
 object_type: public_apis_namespace
-title: api
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py >}}
@@ -13,24 +13,24 @@ title: api
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-Use the Public API to export or update data that you have saved to W&B. 
+W&B に保存したデータをエクスポートまたは更新するには Public API を使用します。 
 
-Before using this API, you'll want to log data from your script — check the [Quickstart](https://docs.wandb.ai/quickstart) for more details. 
+この API を使う前に、まずスクリプトからデータをログしてください。詳しくは [クイックスタート](https://docs.wandb.ai/quickstart) を参照してください。 
 
-You might use the Public API to 
- - update metadata or metrics for an experiment after it has been completed, 
- - pull down your results as a dataframe for post-hoc analysis in a Jupyter notebook, or 
- - check your saved model artifacts for those tagged as `ready-to-deploy`. 
+Public API の用途例: 
+ - 実験が完了した後に、その実験のメタデータやメトリクスを更新する 
+ - 結果をデータフレームとして取得し、Jupyter ノートブックで事後分析を行う 
+ - 保存済みのモデル アーティファクトのうち、`ready-to-deploy` タグが付いたものを確認する 
 
-For more on using the Public API, check out [our guide](https://docs.wandb.com/guides/track/public-api-guide). 
+Public API の使い方の詳細は [こちらのガイド](https://docs.wandb.com/guides/track/public-api-guide) を参照してください。 
 
 
 ## <kbd>class</kbd> `Api`
-Used for querying the W&B server. 
+W&B サーバーにクエリを投げるために使用します。 
 
 
 
-**Examples:**
+**例:**
  ```python
 import wandb
 
@@ -47,54 +47,54 @@ __init__(
 ) → None
 ```
 
-Initialize the API. 
+API を初期化します。 
 
 
 
-**Args:**
+**引数:**
  
- - `overrides`:  You can set `base_url` if you are 
+ - `overrides`:  `base_url` を設定できます 
  - `using a W&B server other than `https`: //api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`. 
- - `timeout`:  HTTP timeout in seconds for API requests. If not  specified, the default timeout will be used. 
- - `api_key`:  API key to use for authentication. If not provided,  the API key from the current environment or configuration will be used. 
+ - `timeout`:  API リクエストの HTTP タイムアウト（秒）。未指定の場合はデフォルトのタイムアウトが使われます。 
+ - `api_key`:  認証に使用する APIキー。未指定の場合、現在の 環境または設定から APIキー が使用されます。 
 
 
 ---
 
 ### <kbd>property</kbd> Api.api_key
 
-Returns W&B API key. 
+W&B の APIキー を返します。 
 
 ---
 
 ### <kbd>property</kbd> Api.client
 
-Returns the client object. 
+クライアント オブジェクトを返します。 
 
 ---
 
 ### <kbd>property</kbd> Api.default_entity
 
-Returns the default W&B entity. 
+デフォルトの W&B entity を返します。 
 
 ---
 
 ### <kbd>property</kbd> Api.user_agent
 
-Returns W&B public user agent. 
+W&B Public ユーザーエージェントを返します。 
 
 ---
 
 ### <kbd>property</kbd> Api.viewer
 
-Returns the viewer object. 
+viewer オブジェクトを返します。 
 
 
 
-**Raises:**
+**発生しうる例外:**
  
- - `ValueError`:  If viewer data is not able to be fetched from W&B. 
- - `requests.RequestException`:  If an error occurs while making the graphql request. 
+ - `ValueError`:  W&B から viewer データを取得できない場合。 
+ - `requests.RequestException`:  GraphQL リクエストの実行中にエラーが発生した場合。 
 
 
 
@@ -106,45 +106,45 @@ Returns the viewer object.
 artifact(name: str, type: Optional[str] = None)
 ```
 
-Returns a single artifact. 
+単一のアーティファクトを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The artifact's name. The name of an artifact resembles a  filepath that consists, at a minimum, the name of the project  the artifact was logged to, the name of the artifact, and the  artifact's version or alias. Optionally append the entity that  logged the artifact as a prefix followed by a forward slash.  If no entity is specified in the name, the Run or API  setting's entity is used. 
- - `type`:  The type of artifact to fetch. 
+ - `name`:  アーティファクトの名前。アーティファクトの名前はファイルパスに似ており、少なくとも アーティファクトがログされた project 名、アーティファクト名、アーティファクトの バージョンまたはエイリアス から構成されます。先頭に entity をスラッシュ区切りで付けることもできます。name に entity を指定しない場合は、Run または API の設定で指定された entity が使用されます。 
+ - `type`:  取得するアーティファクトのタイプ。 
 
 
 
-**Returns:**
- An `Artifact` object. 
+**戻り値:**
+ `Artifact` オブジェクト。 
 
 
 
-**Raises:**
+**発生しうる例外:**
  
- - `ValueError`:  If the artifact name is not specified. 
- - `ValueError`:  If the artifact type is specified but does not  match the type of the fetched artifact. 
+ - `ValueError`:  アーティファクト名が指定されていない場合。 
+ - `ValueError`:  アーティファクトタイプが指定されているが、取得したアーティファクトのタイプと一致しない場合。 
 
 
 
-**Examples:**
- In the proceeding code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
+**例:**
+ 以下のコードスニペット中の "entity"、"project"、"artifact"、"version"、"alias" は、それぞれあなたの W&B entity、アーティファクトが存在する project 名、アーティファクト名、アーティファクトのバージョンのプレースホルダーです。 
 
 ```python
 import wandb
 
-# Specify the project, artifact's name, and the artifact's alias
+# project、アーティファクト名、アーティファクトのエイリアスを指定
 wandb.Api().artifact(name="project/artifact:alias")
 
-# Specify the project, artifact's name, and a specific artifact version
+# project、アーティファクト名、特定のアーティファクトバージョンを指定
 wandb.Api().artifact(name="project/artifact:version")
 
-# Specify the entity, project, artifact's name, and the artifact's alias
+# entity、project、アーティファクト名、アーティファクトのエイリアスを指定
 wandb.Api().artifact(name="entity/project/artifact:alias")
 
-# Specify the entity, project, artifact's name, and a specific artifact version
+# entity、project、アーティファクト名、特定のアーティファクトバージョンを指定
 wandb.Api().artifact(name="entity/project/artifact:version")
 ``` 
 
@@ -152,7 +152,7 @@ wandb.Api().artifact(name="entity/project/artifact:version")
 
 **Note:**
 
-> This method is intended for external use only. Do not call `api.artifact()` within the wandb repository code. 
+> このメソッドは外部からの使用のみを意図しています。wandb リポジトリーのコード内で `api.artifact()` を呼び出さないでください。 
 
 ---
 
@@ -162,26 +162,26 @@ wandb.Api().artifact(name="entity/project/artifact:version")
 artifact_collection(type_name: str, name: str) → public.ArtifactCollection
 ```
 
-Returns a single artifact collection by type. 
+タイプで 1 つのアーティファクトコレクションを返します。 
 
-You can use the returned `ArtifactCollection` object to retrieve information about specific artifacts in that collection, and more. 
+返された `ArtifactCollection` オブジェクトを使うと、そのコレクション内の特定のアーティファクトに関する情報取得などができます。 
 
 
 
-**Args:**
+**引数:**
  
- - `type_name`:  The type of artifact collection to fetch. 
- - `name`:  An artifact collection name. Optionally append the entity  that logged the artifact as a prefix followed by a forward  slash. 
+ - `type_name`:  取得するアーティファクトコレクションのタイプ。 
+ - `name`:  アーティファクトコレクション名。先頭に アーティファクトをログした entity をスラッシュ区切りで付けることもできます。 
 
 
 
-**Returns:**
- An `ArtifactCollection` object. 
+**戻り値:**
+ `ArtifactCollection` オブジェクト。 
 
 
 
-**Examples:**
- In the proceeding code snippet "type", "entity", "project", and "artifact_name" are placeholders for the collection type, your W&B entity, name of the project the artifact is in, and the name of the artifact, respectively. 
+**例:**
+ 以下のコードスニペット中の "type"、"entity"、"project"、"artifact_name" は、コレクションタイプ、あなたの W&B entity、アーティファクトがある project 名、アーティファクト名のプレースホルダーです。 
 
 ```python
 import wandb
@@ -190,10 +190,10 @@ collections = wandb.Api().artifact_collection(
     type_name="type", name="entity/project/artifact_name"
 )
 
-# Get the first artifact in the collection
+# コレクションの最初のアーティファクトを取得
 artifact_example = collections.artifacts()[0]
 
-# Download the contents of the artifact to the specified root directory.
+# 指定したルートディレクトリーにアーティファクトの内容をダウンロード
 artifact_example.download()
 ``` 
 
@@ -205,24 +205,24 @@ artifact_example.download()
 artifact_collection_exists(name: str, type: str) → bool
 ```
 
-Whether an artifact collection exists within a specified project and entity. 
+指定した project と entity 内にアーティファクトコレクションが存在するかどうか。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  An artifact collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. If entity or project is not specified,  infer the collection from the override params if they exist.  Otherwise, entity is pulled from the user settings and project  will default to "uncategorized". 
- - `type`:  The type of artifact collection. 
+ - `name`:  アーティファクトコレクション名。先頭に アーティファクトをログした entity をスラッシュ区切りで付けることもできます。entity または project が指定されていない場合、存在すれば override パラメータからコレクションを推測します。そうでなければ entity はユーザー設定から取得され、project は "uncategorized" がデフォルトになります。 
+ - `type`:  アーティファクトコレクションのタイプ。 
 
 
 
-**Returns:**
- True if the artifact collection exists, False otherwise. 
+**戻り値:**
+ コレクションが存在すれば True、存在しなければ False。 
 
 
 
-**Examples:**
- In the proceeding code snippet "type", and "collection_name" refer to the type of the artifact collection and the name of the collection, respectively. 
+**例:**
+ 以下のコードスニペット中の "type" と "collection_name" は、それぞれアーティファクトコレクションのタイプとコレクション名を指します。 
 
 ```python
 import wandb
@@ -242,20 +242,20 @@ artifact_collections(
 ) → public.ArtifactCollections
 ```
 
-Returns a collection of matching artifact collections. 
+条件に合うアーティファクトコレクションの集合を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `project_name`:  The name of the project to filter on. 
- - `type_name`:  The name of the artifact type to filter on. 
- - `per_page`:  Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `project_name`:  フィルタ対象の project 名。 
+ - `type_name`:  フィルタ対象のアーティファクトタイプ名。 
+ - `per_page`:  クエリのページネーションにおけるページサイズを設定します。None の場合はデフォルトサイズ。通常これを変更する必要はありません。 
 
 
 
-**Returns:**
- An iterable `ArtifactCollections` object. 
+**戻り値:**
+ 反復可能な `ArtifactCollections` オブジェクト。 
 
 ---
 
@@ -265,24 +265,24 @@ Returns a collection of matching artifact collections.
 artifact_exists(name: str, type: Optional[str] = None) → bool
 ```
 
-Whether an artifact version exists within the specified project and entity. 
+指定した project と entity 内に、アーティファクトのバージョンが存在するかどうか。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of artifact. Add the artifact's entity and project  as a prefix. Append the version or the alias of the artifact  with a colon. If the entity or project is not specified,  W&B uses override parameters if populated. Otherwise, the  entity is pulled from the user settings and the project is  set to "Uncategorized". 
- - `type`:  The type of artifact. 
+ - `name`:  アーティファクトの名前。先頭にアーティファクトの entity と project を付けてください。末尾にコロンで区切ってアーティファクトのバージョンまたはエイリアスを付けます。entity または project が指定されていない場合、W&B は override パラメータがあればそれを使用します。なければ entity はユーザー設定から取得され、project は "Uncategorized" に設定されます。 
+ - `type`:  アーティファクトのタイプ。 
 
 
 
-**Returns:**
- True if the artifact version exists, False otherwise. 
+**戻り値:**
+ バージョンが存在すれば True、存在しなければ False。 
 
 
 
-**Examples:**
- In the proceeding code snippets "entity", "project", "artifact", "version", and "alias" are placeholders for your W&B entity, name of the project the artifact is in, the name of the artifact, and artifact's version, respectively. 
+**例:**
+ 以下のコードスニペット中の "entity"、"project"、"artifact"、"version"、"alias" は、それぞれあなたの W&B entity、アーティファクトがある project 名、アーティファクト名、アーティファクトのバージョンのプレースホルダーです。 
 
 ```python
 import wandb
@@ -302,19 +302,19 @@ artifact_type(
 ) → public.ArtifactType
 ```
 
-Returns the matching `ArtifactType`. 
+一致する `ArtifactType` を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `type_name`:  The name of the artifact type to retrieve. 
- - `project`:  If given, a project name or path to filter on. 
+ - `type_name`:  取得するアーティファクトタイプ名。 
+ - `project`:  指定した場合、フィルタ対象の project 名またはパス。 
 
 
 
-**Returns:**
- An `ArtifactType` object. 
+**戻り値:**
+ `ArtifactType` オブジェクト。 
 
 ---
 
@@ -324,18 +324,18 @@ Returns the matching `ArtifactType`.
 artifact_types(project: Optional[str] = None) → public.ArtifactTypes
 ```
 
-Returns a collection of matching artifact types. 
+条件に合うアーティファクトタイプの集合を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `project`:  The project name or path to filter on. 
+ - `project`:  フィルタ対象の project 名またはパス。 
 
 
 
-**Returns:**
- An iterable `ArtifactTypes` object. 
+**戻り値:**
+ 反復可能な `ArtifactTypes` オブジェクト。 
 
 ---
 
@@ -345,7 +345,7 @@ Returns a collection of matching artifact types.
 artifact_versions(type_name, name, per_page=50)
 ```
 
-Deprecated. Use `Api.artifacts(type_name, name)` method instead. 
+非推奨。代わりに `Api.artifacts(type_name, name)` メソッドを使用してください。 
 
 ---
 
@@ -360,22 +360,22 @@ artifacts(
 ) → public.Artifacts
 ```
 
-Return an `Artifacts` collection. 
+`Artifacts` コレクションを返します。 
 
 
 
-**Args:**
- type_name: The type of artifacts to fetch. name: The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. per_page: Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason  to change this. tags: Only return artifacts with all of these tags. 
+**引数:**
+ type_name: 取得するアーティファクトのタイプ。 name: アーティファクトのコレクション名。先頭に アーティファクトをログした entity をスラッシュ区切りで付けることもできます。 per_page: クエリのページネーションにおけるページサイズを設定します。`None` の場合はデフォルトサイズ。通常これを変更する必要はありません。 tags: 指定したすべてのタグを持つアーティファクトのみ返します。 
 
 
 
-**Returns:**
-  An iterable `Artifacts` object. 
+**戻り値:**
+  反復可能な `Artifacts` オブジェクト。 
 
 
 
-**Examples:**
- In the proceeding code snippet, "type", "entity", "project", and "artifact_name" are placeholders for the artifact type, W&B entity, name of the project the artifact was logged to, and the name of the artifact, respectively. 
+**例:**
+ 以下のコードスニペット中の "type"、"entity"、"project"、"artifact_name" は、それぞれアーティファクトタイプ、W&B entity、アーティファクトがログされた project 名、アーティファクト名のプレースホルダーです。 
 
 ```python
 import wandb
@@ -391,25 +391,25 @@ wandb.Api().artifacts(type_name="type", name="entity/project/artifact_name")
 automation(name: str, entity: Optional[str] = None) → Automation
 ```
 
-Returns the only Automation matching the parameters. 
+指定したパラメータに一致するただ 1 つの オートメーション を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of the automation to fetch. 
- - `entity`:  The entity to fetch the automation for. 
+ - `name`:  取得するオートメーションの名前。 
+ - `entity`:  そのオートメーションを取得する対象の entity。 
 
 
 
-**Raises:**
+**発生しうる例外:**
  
- - `ValueError`:  If zero or multiple Automations match the search criteria. 
+ - `ValueError`:  検索条件に一致する オートメーション が 0 件または複数件の場合。 
 
 
 
-**Examples:**
- Get an existing automation named "my-automation": 
+**例:**
+ "my-automation" という既存のオートメーションを取得: 
 
 ```python
 import wandb
@@ -418,7 +418,7 @@ api = wandb.Api()
 automation = api.automation(name="my-automation")
 ``` 
 
-Get an existing automation named "other-automation", from the entity "my-team": 
+entity "my-team" にある "other-automation" という既存のオートメーションを取得: 
 
 ```python
 automation = api.automation(name="other-automation", entity="my-team")
@@ -436,27 +436,27 @@ automations(
 ) → Iterator[ForwardRef('Automation')]
 ```
 
-Returns an iterator over all Automations that match the given parameters. 
+指定したパラメータに一致するすべての オートメーション に対するイテレーターを返します。 
 
-If no parameters are provided, the returned iterator will contain all Automations that the user has access to. 
+パラメータを指定しない場合、返されるイテレーターには ユーザー がアクセスできるすべての オートメーション が含まれます。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  The entity to fetch the automations for. 
- - `name`:  The name of the automation to fetch. 
- - `per_page`:  The number of automations to fetch per page.  Defaults to 50.  Usually there is no reason to change this. 
+ - `entity`:  オートメーションを取得する対象の entity。 
+ - `name`:  取得するオートメーションの名前。 
+ - `per_page`:  1 ページあたりに取得するオートメーション数。デフォルトは 50。通常これを変更する必要はありません。 
 
 
 
-**Returns:**
- A list of automations. 
+**戻り値:**
+ オートメーションのリスト。 
 
 
 
-**Examples:**
- Fetch all existing automations for the entity "my-team": 
+**例:**
+ entity "my-team" の既存のオートメーションをすべて取得: 
 
 ```python
 import wandb
@@ -477,28 +477,28 @@ create_automation(
 ) → Automation
 ```
 
-Create a new Automation. 
+新しい オートメーション を作成します。 
 
 
 
-**Args:**
-  obj:  The automation to create.  fetch_existing:  If True, and a conflicting automation already exists, attempt  to fetch the existing automation instead of raising an error.  **kwargs:  Any additional values to assign to the automation before  creating it.  If given, these will override any values that may  already be set on the automation: 
-        - `name`: The name of the automation. 
-        - `description`: The description of the automation. 
-        - `enabled`: Whether the automation is enabled. 
-        - `scope`: The scope of the automation. 
-        - `event`: The event that triggers the automation. 
-        - `action`: The action that is triggered by the automation. 
+**引数:**
+  obj:  作成するオートメーション。  fetch_existing:  True の場合、競合するオートメーションがすでに存在すれば エラーを出さずに既存のオートメーションを取得することを試みます。  **kwargs:  作成前にオートメーションへ追加で設定する値。 指定した場合、すでに設定済みの値よりも優先されます: 
+        - `name`: オートメーションの名前 
+        - `description`: オートメーションの説明 
+        - `enabled`: オートメーションを有効にするかどうか 
+        - `scope`: オートメーションのスコープ 
+        - `event`: オートメーションをトリガーするイベント 
+        - `action`: オートメーションでトリガーされるアクション 
 
 
 
-**Returns:**
-  The saved Automation. 
+**戻り値:**
+  保存された Automation。 
 
 
 
-**Examples:**
- Create a new automation named "my-automation" that sends a Slack notification when a run within a specific project logs a metric exceeding a custom threshold: 
+**例:**
+ 特定の project 内の run が、指定したしきい値を超えるメトリクをログしたときに Slack 通知を送る "my-automation" という新しいオートメーションを作成: 
 
 ```python
 import wandb
@@ -508,7 +508,7 @@ api = wandb.Api()
 
 project = api.project("my-project", entity="my-team")
 
-# Use the first Slack integration for the team
+# チームの 1 つ目の Slack インテグレーションを使用
 slack_hook = next(api.slack_integrations(entity="my-team"))
 
 event = OnRunMetric(
@@ -539,42 +539,42 @@ create_custom_chart(
 ) → str
 ```
 
-Create a custom chart preset and return its id. 
+カスタムチャートのプリセットを作成し、その ID を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  The entity (user or team) that owns the chart 
- - `name`:  Unique identifier for the chart preset 
- - `display_name`:  Human-readable name shown in the UI 
- - `spec_type`:  Type of specification. Must be "vega2" for Vega-Lite v2 specifications. 
- - `access`:  Access level for the chart: 
-        - "private": Chart is only accessible to the entity that created it 
-        - "public": Chart is publicly accessible 
- - `spec`:  The Vega/Vega-Lite specification as a dictionary or JSON string 
+ - `entity`:  チャートの所有者（ユーザーまたは team） 
+ - `name`:  チャートプリセットの一意な識別子 
+ - `display_name`:  UI に表示される人間が読みやすい名前 
+ - `spec_type`:  仕様のタイプ。Vega-Lite v2 の仕様には "vega2" を指定します。 
+ - `access`:  チャートの アクセス レベル: 
+        - "private": チャートの作成者の entity のみアクセス可能 
+        - "public": 公開アクセス可能 
+ - `spec`:  Vega/Vega-Lite の仕様（辞書または JSON 文字列） 
 
 
 
-**Returns:**
- The ID of the created chart preset in the format "entity/name" 
+**戻り値:**
+ 作成されたチャートプリセットの ID（"entity/name" の形式） 
 
 
 
-**Raises:**
+**発生しうる例外:**
  
- - `wandb.Error`:  If chart creation fails 
- - `UnsupportedError`:  If the server doesn't support custom charts 
+ - `wandb.Error`:  チャートの作成に失敗した場合 
+ - `UnsupportedError`:  サーバーがカスタムチャートをサポートしていない場合 
 
 
 
-**Example:**
+**例:**
  ```python
     import wandb
 
     api = wandb.Api()
 
-    # Define a simple bar chart specification
+    # シンプルな棒グラフ仕様を定義
     vega_spec = {
          "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
          "mark": "bar",
@@ -585,7 +585,7 @@ Create a custom chart preset and return its id.
          },
     }
 
-    # Create the custom chart
+    # カスタムチャートを作成
     chart_id = api.create_custom_chart(
          entity="my-team",
          name="my-bar-chart",
@@ -595,7 +595,7 @@ Create a custom chart preset and return its id.
          spec=vega_spec,
     )
 
-    # Use with wandb.plot_table()
+    # wandb.plot_table() と併用
     chart = wandb.plot_table(
          vega_spec_name=chart_id,
          data_table=my_table,
@@ -611,14 +611,14 @@ Create a custom chart preset and return its id.
 create_project(name: str, entity: str) → None
 ```
 
-Create a new project. 
+新しい project を作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of the new project. 
- - `entity`:  The entity of the new project. 
+ - `name`:  新しい project の名前。 
+ - `entity`:  新しい project の entity。 
 
 ---
 
@@ -634,29 +634,29 @@ create_registry(
 ) → Registry
 ```
 
-Create a new registry. 
+新しいレジストリを作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of the registry. Name must be unique within the organization. 
- - `visibility`:  The visibility of the registry. 
- - `organization`:  Anyone in the organization can view this registry. You can  edit their roles later from the settings in the UI. 
- - `restricted`:  Only invited members via the UI can access this registry.  Public sharing is disabled. 
- - `organization`:  The organization of the registry.  If no organization is set in the settings, the organization will be  fetched from the entity if the entity only belongs to one organization. 
- - `description`:  The description of the registry. 
- - `artifact_types`:  The accepted artifact types of the registry. A type is no 
+ - `name`:  レジストリ名。組織内で一意である必要があります。 
+ - `visibility`:  レジストリの “公開範囲”。 
+ - `organization`:  組織のメンバーであれば誰でもこのレジストリを閲覧できます。後で UI の設定からロールを編集できます。 
+ - `restricted`:  UI から招待されたメンバーのみがこのレジストリに アクセス できます。公開共有は無効です。 
+ - `organization`:  レジストリの所属組織。設定で organization が未設定の場合、entity が 1 つの organization にのみ属していればそこから取得されます。 
+ - `description`:  レジストリの説明。 
+ - `artifact_types`:  レジストリで受け付けるアーティファクトタイプ。タイプは 
  - `more than 128 characters and do not include characters `/` or ``: `. If not specified, all types are accepted. Allowed types added to the registry cannot be removed later. 
 
 
 
-**Returns:**
- A registry object. 
+**戻り値:**
+ レジストリ オブジェクト。 
 
 
 
-**Examples:**
+**例:**
  ```python
 import wandb
 
@@ -682,20 +682,20 @@ create_run(
 ) → public.Run
 ```
 
-Create a new run. 
+新しい run を作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `run_id`:  The ID to assign to the run. If not specified, W&B  creates a random ID. 
- - `project`:  The project where to log the run to. If no project is specified,  log the run to a project called "Uncategorized". 
- - `entity`:  The entity that owns the project. If no entity is  specified, log the run to the default entity. 
+ - `run_id`:  run に割り当てる ID。未指定の場合、W&B がランダムな ID を作成します。 
+ - `project`:  run をログする project。未指定の場合、"Uncategorized" という project にログされます。 
+ - `entity`:  project の所有 entity。未指定の場合、デフォルトの entity にログされます。 
 
 
 
-**Returns:**
- The newly created `Run`. 
+**戻り値:**
+ 新しく作成された `Run`。 
 
 ---
 
@@ -712,28 +712,28 @@ create_run_queue(
 ) → public.RunQueue
 ```
 
-Create a new run queue in W&B Launch. 
+W&B Launch に新しい run キューを作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  Name of the queue to create 
- - `type`:  Type of resource to be used for the queue. One of  "local-container", "local-process", "kubernetes","sagemaker",  or "gcp-vertex". 
- - `entity`:  Name of the entity to create the queue. If `None`, use  the configured or default entity. 
- - `prioritization_mode`:  Version of prioritization to use.  Either "V0" or `None`. 
- - `config`:  Default resource configuration to be used for the queue.  Use handlebars (eg. `{{var}}`) to specify template variables. 
- - `template_variables`:  A dictionary of template variable schemas to  use with the config. 
+ - `name`:  作成するキューの名前 
+ - `type`:  キューで使用するリソースタイプ。"local-container"、"local-process"、"kubernetes"、"sagemaker"、"gcp-vertex" のいずれか。 
+ - `entity`:  キューを作成する entity 名。`None` の場合は、設定済みまたはデフォルトの entity を使用します。 
+ - `prioritization_mode`:  優先度付けのバージョン。"V0" か `None`。 
+ - `config`:  キューで使用するデフォルトのリソース設定。テンプレート変数の指定にはハンドルバー（例: `{{var}}`）を使用します。 
+ - `template_variables`:  config と併せて使うテンプレート変数スキーマの辞書。 
 
 
 
-**Returns:**
- The newly created `RunQueue`. 
+**戻り値:**
+ 新しく作成された `RunQueue`。 
 
 
 
-**Raises:**
- `ValueError` if any of the parameters are invalid `wandb.Error` on wandb API errors 
+**発生しうる例外:**
+ パラメータが無効な場合は `ValueError`、wandb API エラーが発生した場合は `wandb.Error`。 
 
 ---
 
@@ -743,19 +743,19 @@ Create a new run queue in W&B Launch.
 create_team(team: str, admin_username: Optional[str] = None) → public.Team
 ```
 
-Create a new team. 
+新しい team を作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `team`:  The name of the team 
- - `admin_username`:  Username of the admin user of the team.  Defaults to the current user. 
+ - `team`:  team の名前 
+ - `admin_username`:  team の管理者ユーザー名。デフォルトは現在のユーザー。 
 
 
 
-**Returns:**
- A `Team` object. 
+**戻り値:**
+ `Team` オブジェクト。 
 
 ---
 
@@ -765,19 +765,19 @@ Create a new team.
 create_user(email: str, admin: Optional[bool] = False)
 ```
 
-Create a new user. 
+新しいユーザーを作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `email`:  The email address of the user. 
- - `admin`:  Set user as a global instance administrator. 
+ - `email`:  ユーザーのメールアドレス。 
+ - `admin`:  ユーザーをグローバルなインスタンス管理者に設定。 
 
 
 
-**Returns:**
- A `User` object. 
+**戻り値:**
+ `User` オブジェクト。 
 
 ---
 
@@ -787,18 +787,18 @@ Create a new user.
 delete_automation(obj: Union[ForwardRef('Automation'), str]) → Literal[True]
 ```
 
-Delete an automation. 
+オートメーションを削除します。 
 
 
 
-**Args:**
+**引数:**
  
- - `obj`:  The automation to delete, or its ID. 
+ - `obj`:  削除するオートメーション、またはその ID。 
 
 
 
-**Returns:**
- True if the automation was deleted successfully. 
+**戻り値:**
+ オートメーションが正常に削除された場合は True。 
 
 ---
 
@@ -808,9 +808,9 @@ Delete an automation.
 flush()
 ```
 
-Flush the local cache. 
+ローカルキャッシュをフラッシュします。 
 
-The api object keeps a local cache of runs, so if the state of the run may change while executing your script you must clear the local cache with `api.flush()` to get the latest values associated with the run. 
+api オブジェクトは run のローカルキャッシュを保持します。そのため、スクリプトの実行中に run の状態が変わる可能性がある場合、最新の値を取得するには `api.flush()` でローカルキャッシュをクリアしてください。 
 
 ---
 
@@ -820,28 +820,28 @@ The api object keeps a local cache of runs, so if the state of the run may chang
 from_path(path: str)
 ```
 
-Return a run, sweep, project or report from a path. 
+パスから run、sweep、project、またはレポートを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `path`:  The path to the project, run, sweep or report 
+ - `path`:  project、run、sweep、またはレポートへのパス 
 
 
 
-**Returns:**
- A `Project`, `Run`, `Sweep`, or `BetaReport` instance. 
+**戻り値:**
+ `Project`、`Run`、`Sweep`、または `BetaReport` インスタンス。 
 
 
 
-**Raises:**
- `wandb.Error` if path is invalid or the object doesn't exist. 
+**発生しうる例外:**
+ パスが無効、または対象オブジェクトが存在しない場合は `wandb.Error`。 
 
 
 
-**Examples:**
- In the proceeding code snippets "project", "team", "run_id", "sweep_id", and "report_name" are placeholders for the project, team, run ID, sweep ID, and the name of a specific report, respectively. 
+**例:**
+ 以下のコードスニペット中の "project"、"team"、"run_id"、"sweep_id"、"report_name" は、それぞれ project、team、run ID、sweep ID、特定のレポート名のプレースホルダーです。 
 
 ```python
 import wandb
@@ -866,20 +866,20 @@ integrations(
 ) → Iterator[ForwardRef('Integration')]
 ```
 
-Return an iterator of all integrations for an entity. 
+指定した entity のすべてのインテグレーションに対するイテレーターを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  The entity (e.g. team name) for which to  fetch integrations.  If not provided, the user's default entity  will be used. 
- - `per_page`:  Number of integrations to fetch per page.  Defaults to 50.  Usually there is no reason to change this. 
+ - `entity`:  インテグレーションを取得する対象の entity（例: team 名）。未指定の場合はユーザーのデフォルト entity が使用されます。 
+ - `per_page`:  1 ページあたりに取得するインテグレーション数。デフォルトは 50。通常これを変更する必要はありません。 
 
 
 
-**Yields:**
+**返すもの:**
  
- - `Iterator[SlackIntegration | WebhookIntegration]`:  An iterator of any supported integrations. 
+ - `Iterator[SlackIntegration | WebhookIntegration]`:  サポートされているインテグレーションのイテレーター。 
 
 ---
 
@@ -889,19 +889,19 @@ Return an iterator of all integrations for an entity.
 job(name: Optional[str], path: Optional[str] = None) → public.Job
 ```
 
-Return a `Job` object. 
+`Job` オブジェクトを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of the job. 
- - `path`:  The root path to download the job artifact. 
+ - `name`:  ジョブの名前。 
+ - `path`:  ジョブのアーティファクトをダウンロードするルートパス。 
 
 
 
-**Returns:**
- A `Job` object. 
+**戻り値:**
+ `Job` オブジェクト。 
 
 ---
 
@@ -911,19 +911,19 @@ Return a `Job` object.
 list_jobs(entity: str, project: str) → List[Dict[str, Any]]
 ```
 
-Return a list of jobs, if any, for the given entity and project. 
+指定した entity と project に対して、存在すればジョブのリストを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  The entity for the listed jobs. 
- - `project`:  The project for the listed jobs. 
+ - `entity`:  一覧表示するジョブの entity。 
+ - `project`:  一覧表示するジョブの project。 
 
 
 
-**Returns:**
- A list of matching jobs. 
+**戻り値:**
+ 条件に一致するジョブのリスト。 
 
 ---
 
@@ -933,19 +933,19 @@ Return a list of jobs, if any, for the given entity and project.
 project(name: str, entity: Optional[str] = None) → public.Project
 ```
 
-Return the `Project` with the given name (and entity, if given). 
+指定した名前（および entity 指定時はその entity）の `Project` を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The project name. 
- - `entity`:  Name of the entity requested.  If None, will fall back to the  default entity passed to `Api`.  If no default entity, will  raise a `ValueError`. 
+ - `name`:  project 名。 
+ - `entity`:  リクエスト対象の entity 名。None の場合は `Api` に渡されたデフォルトの entity を使用します。デフォルト entity がなければ `ValueError` を送出します。 
 
 
 
-**Returns:**
- A `Project` object. 
+**戻り値:**
+ `Project` オブジェクト。 
 
 ---
 
@@ -955,19 +955,19 @@ Return the `Project` with the given name (and entity, if given).
 projects(entity: Optional[str] = None, per_page: int = 200) → public.Projects
 ```
 
-Get projects for a given entity. 
+指定した entity の projects を取得します。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  Name of the entity requested.  If None, will fall back to  the default entity passed to `Api`.  If no default entity,  will raise a `ValueError`. 
- - `per_page`:  Sets the page size for query pagination. If set to `None`,  use the default size. Usually there is no reason to change this. 
+ - `entity`:  リクエスト対象の entity 名。None の場合は `Api` に渡されたデフォルトの entity を使用します。デフォルト entity がなければ `ValueError` を送出します。 
+ - `per_page`:  クエリのページネーションにおけるページサイズを設定します。`None` の場合はデフォルトサイズ。通常これを変更する必要はありません。 
 
 
 
-**Returns:**
- A `Projects` object which is an iterable collection of `Project`objects. 
+**戻り値:**
+ `Project` オブジェクトの反復可能なコレクションである `Projects` オブジェクト。 
 
 ---
 
@@ -984,9 +984,9 @@ queued_run(
 )
 ```
 
-Return a single queued run based on the path. 
+指定したパスに基づいて 1 つのキューイングされた run を返します。 
 
-Parses paths of the form `entity/project/queue_id/run_queue_item_id`. 
+`entity/project/queue_id/run_queue_item_id` 形式のパスをパースします。 
 
 ---
 
@@ -999,41 +999,41 @@ registries(
 ) → Registries
 ```
 
-Returns a lazy iterator of `Registry` objects. 
+`Registry` オブジェクトの遅延イテレーターを返します。 
 
-Use the iterator to search and filter registries, collections, or artifact versions across your organization's registry. 
+このイテレーターを使って、組織のレジストリ、コレクション、またはアーティファクトのバージョンを検索・フィルタできます。 
 
 
 
-**Args:**
+**引数:**
  
- - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
- - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `organization`:  （str, 省略可）取得するレジストリの組織。未指定の場合はユーザー設定の organization が使用されます。 
+ - `filter`:  （dict, 省略可）遅延レジストリ イテレーター内の各オブジェクトに適用する MongoDB 形式のフィルタ。 レジストリでフィルタ可能なフィールド: `name`, `description`, `created_at`, `updated_at`。 コレクションでフィルタ可能なフィールド: `name`, `tag`, `description`, `created_at`, `updated_at`。 バージョンでフィルタ可能なフィールド: `tag`, `alias`, `created_at`, `updated_at`, `metadata`。 
 
 
 
-**Returns:**
- A lazy iterator of `Registry` objects. 
+**戻り値:**
+ `Registry` オブジェクトの遅延イテレーター。 
 
 
 
-**Examples:**
- Find all registries with the names that contain "model" 
+**例:**
+ 名前に "model" を含むすべてのレジストリを検索 
 
 ```python
 import wandb
 
-api = wandb.Api()  # specify an org if your entity belongs to multiple orgs
+api = wandb.Api()  # entity が複数の org に属する場合は org を指定してください
 api.registries(filter={"name": {"$regex": "model"}})
 ``` 
 
-Find all collections in the registries with the name "my_collection" and the tag "my_tag" 
+名前が "my_collection"、タグが "my_tag" のコレクションを含むレジストリを検索 
 
 ```python
 api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
 ``` 
 
-Find all artifact versions in the registries with a collection name that contains "my_collection" and a version that has the alias "best" 
+コレクション名に "my_collection" を含み、エイリアス "best" を持つバージョンを含むアーティファクトバージョンをすべて検索 
 
 ```python
 api.registries().collections(
@@ -1041,7 +1041,7 @@ api.registries().collections(
 ).versions(filter={"alias": "best"})
 ``` 
 
-Find all artifact versions in the registries that contain "model" and have the tag "prod" or alias "best" 
+"model" を含み、タグが "prod" またはエイリアスが "best" のアーティファクトバージョンをすべて検索 
 
 ```python
 api.registries(filter={"name": {"$regex": "model"}}).versions(
@@ -1057,24 +1057,24 @@ api.registries(filter={"name": {"$regex": "model"}}).versions(
 registry(name: str, organization: Optional[str] = None) → Registry
 ```
 
-Return a registry given a registry name. 
+レジストリ名を指定してレジストリを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  The name of the registry. This is without the `wandb-registry-`  prefix. 
- - `organization`:  The organization of the registry.  If no organization is set in the settings, the organization will be  fetched from the entity if the entity only belongs to one  organization. 
+ - `name`:  レジストリの名前。`wandb-registry-` プレフィックスは含みません。 
+ - `organization`:  レジストリの所属組織。設定で organization が未設定の場合、entity が 1 つの organization にのみ属していればそこから取得されます。 
 
 
 
-**Returns:**
- A registry object. 
+**戻り値:**
+ レジストリ オブジェクト。 
 
 
 
-**Examples:**
- Fetch and update a registry 
+**例:**
+ レジストリの取得と更新 
 
 ```python
 import wandb
@@ -1097,26 +1097,26 @@ reports(
 ) → public.Reports
 ```
 
-Get reports for a given project path. 
+指定した project パスのレポートを取得します。 
 
-Note: `wandb.Api.reports()` API is in beta and will likely change in future releases. 
+注意: `wandb.Api.reports()` API はベータ版であり、今後のリリースで変更される可能性があります。 
 
 
 
-**Args:**
+**引数:**
  
- - `path`:  The path to the project the report resides in. Specify the  entity that created the project as a prefix followed by a  forward slash. 
- - `name`:  Name of the report requested. 
- - `per_page`:  Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason to  change this. 
+ - `path`:  レポートが存在する project へのパス。先頭に、その project を作成した entity をスラッシュ区切りで付けます。 
+ - `name`:  取得するレポート名。 
+ - `per_page`:  クエリのページネーションにおけるページサイズを設定します。`None` の場合はデフォルトサイズ。通常これを変更する必要はありません。 
 
 
 
-**Returns:**
- A `Reports` object which is an iterable collection of  `BetaReport` objects. 
+**戻り値:**
+ `BetaReport` オブジェクトの反復可能なコレクションである `Reports` オブジェクト。 
 
 
 
-**Examples:**
+**例:**
  ```python
 import wandb
 
@@ -1131,18 +1131,18 @@ wandb.Api.reports("entity/project")
 run(path='')
 ```
 
-Return a single run by parsing path in the form `entity/project/run_id`. 
+`entity/project/run_id` 形式のパスをパースして、単一の run を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `path`:  Path to run in the form `entity/project/run_id`.  If `api.entity` is set, this can be in the form `project/run_id`  and if `api.project` is set this can just be the run_id. 
+ - `path`:  `entity/project/run_id` 形式の run へのパス。`api.entity` が設定されている場合は `project/run_id`、`api.project` が設定されている場合は run_id のみでも可。 
 
 
 
-**Returns:**
- A `Run` object. 
+**戻り値:**
+ `Run` オブジェクト。 
 
 ---
 
@@ -1152,9 +1152,9 @@ Return a single run by parsing path in the form `entity/project/run_id`.
 run_queue(entity: str, name: str)
 ```
 
-Return the named `RunQueue` for entity. 
+指定した entity の、名前付き `RunQueue` を返します。 
 
-See `Api.create_run_queue` for more information on how to create a run queue. 
+run キューの作成方法は `Api.create_run_queue` を参照してください。 
 
 ---
 
@@ -1170,23 +1170,23 @@ runs(
 )
 ```
 
-Returns a `Runs` object, which lazily iterates over `Run` objects. 
+`Run` オブジェクトを遅延的に反復処理する `Runs` オブジェクトを返します。 
 
-Fields you can filter by include: 
-- `createdAt`: The timestamp when the run was created. (in ISO 8601 format, e.g. "2023-01-01T12:00:00Z") 
-- `displayName`: The human-readable display name of the run. (e.g. "eager-fox-1") 
-- `duration`: The total runtime of the run in seconds. 
-- `group`: The group name used to organize related runs together. 
-- `host`: The hostname where the run was executed. 
-- `jobType`: The type of job or purpose of the run. 
-- `name`: The unique identifier of the run. (e.g. "a1b2cdef") 
-- `state`: The current state of the run. 
-- `tags`: The tags associated with the run. 
-- `username`: The username of the user who initiated the run 
+フィルタできるフィールド: 
+- `createdAt`: run が作成されたタイムスタンプ（ISO 8601 形式。例: "2023-01-01T12:00:00Z"） 
+- `displayName`: run の人間が読める表示名（例: "eager-fox-1"） 
+- `duration`: run の総実行時間（秒） 
+- `group`: 関連する run をまとめるためのグループ名 
+- `host`: run が実行されたホスト名 
+- `jobType`: run のジョブタイプまたは目的 
+- `name`: run の一意識別子（例: "a1b2cdef"） 
+- `state`: run の現在の状態 
+- `tags`: run に関連付けられたタグ 
+- `username`: run を開始したユーザーのユーザー名 
 
-Additionally, you can filter by items in the run config or summary metrics. Such as `config.experiment_name`, `summary_metrics.loss`, etc. 
+run の config や summary metrics の項目でもフィルタできます。例: `config.experiment_name`、`summary_metrics.loss` など。 
 
-For more complex filtering, you can use MongoDB query operators. For details, see: https://docs.mongodb.com/manual/reference/operator/query The following operations are supported: 
+より複雑なフィルタには MongoDB のクエリ演算子を使用できます。詳細: https://docs.mongodb.com/manual/reference/operator/query サポートされる演算子: 
 - `$and` 
 - `$or` 
 - `$nor` 
@@ -1207,30 +1207,30 @@ For more complex filtering, you can use MongoDB query operators. For details, se
 
 
 
-**Args:**
+**引数:**
  
- - `path`:  (str) path to project, should be in the form: "entity/project" 
- - `filters`:  (dict) queries for specific runs using the MongoDB query language.  You can filter by run properties such as config.key, summary_metrics.key, state, entity, createdAt, etc. 
- - `For example`:  `{"config.experiment_name": "foo"}` would find runs with a config entry  of experiment name set to "foo" 
- - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
- - `per_page`:  (int) Sets the page size for query pagination. 
- - `include_sweeps`:  (bool) Whether to include the sweep runs in the results. 
+ - `path`:  （str）project へのパス。"entity/project" の形式 
+ - `filters`:  （dict）MongoDB のクエリ言語で、特定の run を検索します。config.key、summary_metrics.key、state、entity、createdAt などの run プロパティでフィルタ可能です。 
+ - `For example`:  `{"config.experiment_name": "foo"}` は、config の experiment_name が "foo" に設定された run を見つけます 
+ - `order`:  （str）`created_at`、`heartbeat_at`、`config.*.value`、`summary_metrics.*` を指定可能。先頭に + を付けると昇順（デフォルト）、- を付けると降順。デフォルト順序は run.created_at の古い順から新しい順。 
+ - `per_page`:  （int）クエリのページネーションにおけるページサイズ。 
+ - `include_sweeps`:  （bool）結果に sweep の run を含めるかどうか。 
 
 
 
-**Returns:**
- A `Runs` object, which is an iterable collection of `Run` objects. 
+**戻り値:**
+ `Run` オブジェクトの反復可能なコレクションである `Runs` オブジェクト。 
 
 
 
-**Examples:**
+**例:**
  ```python
-# Find runs in project where config.experiment_name has been set to "foo"
+# config.experiment_name が "foo" に設定された run を project から検索
 api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
 ``` 
 
 ```python
-# Find runs in project where config.experiment_name has been set to "foo" or "bar"
+# config.experiment_name が "foo" または "bar" の run を project から検索
 api.runs(
     path="my_entity/project",
     filters={
@@ -1243,8 +1243,8 @@ api.runs(
 ``` 
 
 ```python
-# Find runs in project where config.experiment_name matches a regex
-# (anchors are not supported)
+# config.experiment_name が正規表現にマッチする run を project から検索
+# （アンカーは未サポート）
 api.runs(
     path="my_entity/project",
     filters={"config.experiment_name": {"$regex": "b.*"}},
@@ -1252,15 +1252,15 @@ api.runs(
 ``` 
 
 ```python
-# Find runs in project where the run name matches a regex
-# (anchors are not supported)
+# run 名が正規表現にマッチする run を project から検索
+# （アンカーは未サポート）
 api.runs(
     path="my_entity/project", filters={"display_name": {"$regex": "^foo.*"}}
 )
 ``` 
 
 ```python
-# Find runs in project sorted by ascending loss
+# 損失の昇順でソートして run を検索
 api.runs(path="my_entity/project", order="+summary_metrics.loss")
 ``` 
 
@@ -1275,25 +1275,25 @@ slack_integrations(
 ) → Iterator[ForwardRef('SlackIntegration')]
 ```
 
-Returns an iterator of Slack integrations for an entity. 
+指定した entity の Slack インテグレーションのイテレーターを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  The entity (e.g. team name) for which to  fetch integrations.  If not provided, the user's default entity  will be used. 
- - `per_page`:  Number of integrations to fetch per page.  Defaults to 50.  Usually there is no reason to change this. 
+ - `entity`:  インテグレーションを取得する対象の entity（例: team 名）。未指定の場合はユーザーのデフォルト entity が使用されます。 
+ - `per_page`:  1 ページあたりに取得するインテグレーション数。デフォルトは 50。通常これを変更する必要はありません。 
 
 
 
-**Yields:**
+**返すもの:**
  
- - `Iterator[SlackIntegration]`:  An iterator of Slack integrations. 
+ - `Iterator[SlackIntegration]`:  Slack インテグレーションのイテレーター。 
 
 
 
-**Examples:**
- Get all registered Slack integrations for the team "my-team": 
+**例:**
+ team "my-team" に登録されている Slack インテグレーションをすべて取得: 
 
 ```python
 import wandb
@@ -1302,7 +1302,7 @@ api = wandb.Api()
 slack_integrations = api.slack_integrations(entity="my-team")
 ``` 
 
-Find only Slack integrations that post to channel names starting with "team-alerts-": 
+チャンネル名が "team-alerts-" で始まるものだけに絞り込み: 
 
 ```python
 slack_integrations = api.slack_integrations(entity="my-team")
@@ -1321,18 +1321,18 @@ team_alert_integrations = [
 sweep(path='')
 ```
 
-Return a sweep by parsing path in the form `entity/project/sweep_id`. 
+`entity/project/sweep_id` 形式のパスをパースして sweep を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `path`:  Path to sweep in the form entity/project/sweep_id.  If `api.entity` is set, this can be in the form  project/sweep_id and if `api.project` is set  this can just be the sweep_id. 
+ - `path`:  entity/project/sweep_id 形式の sweep へのパス。`api.entity` が設定されている場合は project/sweep_id、`api.project` が設定されている場合は sweep_id のみでも可。 
 
 
 
-**Returns:**
- A `Sweep` object. 
+**戻り値:**
+ `Sweep` オブジェクト。 
 
 ---
 
@@ -1342,7 +1342,7 @@ Return a sweep by parsing path in the form `entity/project/sweep_id`.
 sync_tensorboard(root_dir, run_id=None, project=None, entity=None)
 ```
 
-Sync a local directory containing tfevent files to wandb. 
+tfevent ファイルを含むローカルディレクトリーを wandb と同期します。 
 
 ---
 
@@ -1352,18 +1352,18 @@ Sync a local directory containing tfevent files to wandb.
 team(team: str) → public.Team
 ```
 
-Return the matching `Team` with the given name. 
+指定した名前に一致する `Team` を返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `team`:  The name of the team. 
+ - `team`:  team の名前。 
 
 
 
-**Returns:**
- A `Team` object. 
+**戻り値:**
+ `Team` オブジェクト。 
 
 ---
 
@@ -1377,29 +1377,29 @@ update_automation(
 ) → Automation
 ```
 
-Update an existing automation. 
+既存のオートメーションを更新します。 
 
 
 
-**Args:**
+**引数:**
  
- - `obj`:  The automation to update.  Must be an existing automation. create_missing (bool):  If True, and the automation does not exist, create it. **kwargs:  Any additional values to assign to the automation before  updating it.  If given, these will override any values that may  already be set on the automation: 
-        - `name`: The name of the automation. 
-        - `description`: The description of the automation. 
-        - `enabled`: Whether the automation is enabled. 
-        - `scope`: The scope of the automation. 
-        - `event`: The event that triggers the automation. 
-        - `action`: The action that is triggered by the automation. 
+ - `obj`:  更新するオートメーション。既存のオートメーションである必要があります。 create_missing (bool):  True の場合、オートメーションが存在しなければ作成します。 **kwargs:  更新前にオートメーションへ追加で設定する値。 指定した場合、すでに設定済みの値よりも優先されます: 
+        - `name`: オートメーションの名前 
+        - `description`: オートメーションの説明 
+        - `enabled`: オートメーションを有効にするかどうか 
+        - `scope`: オートメーションのスコープ 
+        - `event`: オートメーションをトリガーするイベント 
+        - `action`: オートメーションでトリガーされるアクション 
 
 
 
-**Returns:**
- The updated automation. 
+**戻り値:**
+ 更新されたオートメーション。 
 
 
 
-**Examples:**
- Disable and edit the description of an existing automation ("my-automation"): 
+**例:**
+ 既存のオートメーション（"my-automation"）を無効化し、説明を編集: 
 
 ```python
 import wandb
@@ -1413,7 +1413,7 @@ automation.description = "Kept for reference, but no longer used."
 updated_automation = api.update_automation(automation)
 ``` 
 
-OR 
+または 
 
 ```python
 import wandb
@@ -1445,29 +1445,29 @@ upsert_run_queue(
 )
 ```
 
-Upsert a run queue in W&B Launch. 
+W&B Launch に run キューをアップサートします。 
 
 
 
-**Args:**
+**引数:**
  
- - `name`:  Name of the queue to create 
- - `entity`:  Optional name of the entity to create the queue. If `None`,  use the configured or default entity. 
- - `resource_config`:  Optional default resource configuration to be used  for the queue. Use handlebars (eg. `{{var}}`) to specify  template variables. 
- - `resource_type`:  Type of resource to be used for the queue. One of  "local-container", "local-process", "kubernetes", "sagemaker",  or "gcp-vertex". 
- - `template_variables`:  A dictionary of template variable schemas to  be used with the config. 
- - `external_links`:  Optional dictionary of external links to be used  with the queue. 
- - `prioritization_mode`:  Optional version of prioritization to use.  Either "V0" or None 
+ - `name`:  作成するキューの名前 
+ - `entity`:  省略可。キューを作成する entity 名。`None` の場合は、設定済みまたはデフォルトの entity を使用します。 
+ - `resource_config`:  省略可。キューで使用するデフォルトのリソース設定。テンプレート変数の指定にはハンドルバー（例: `{{var}}`）を使用します。 
+ - `resource_type`:  キューで使用するリソースタイプ。"local-container"、"local-process"、"kubernetes"、"sagemaker"、"gcp-vertex" のいずれか。 
+ - `template_variables`:  config と併せて使うテンプレート変数スキーマの辞書。 
+ - `external_links`:  省略可。キューで使用する外部リンクの辞書。 
+ - `prioritization_mode`:  省略可。優先度付けのバージョン。"V0" または None。 
 
 
 
-**Returns:**
- The upserted `RunQueue`. 
+**戻り値:**
+ アップサートされた `RunQueue`。 
 
 
 
-**Raises:**
- ValueError if any of the parameters are invalid wandb.Error on wandb API errors 
+**発生しうる例外:**
+ パラメータが無効な場合は ValueError、wandb API エラーが発生した場合は wandb.Error。 
 
 ---
 
@@ -1477,20 +1477,20 @@ Upsert a run queue in W&B Launch.
 user(username_or_email: str) → Optional[ForwardRef('public.User')]
 ```
 
-Return a user from a username or email address. 
+ユーザー名またはメールアドレスからユーザーを返します。 
 
-This function only works for local administrators. Use `api.viewer`  to get your own user object. 
+この関数はローカル管理者にのみ有効です。自分自身のユーザーオブジェクトを取得するには `api.viewer` を使用してください。 
 
 
 
-**Args:**
+**引数:**
  
- - `username_or_email`:  The username or email address of the user. 
+ - `username_or_email`:  ユーザーのユーザー名またはメールアドレス。 
 
 
 
-**Returns:**
- A `User` object or None if a user is not found. 
+**戻り値:**
+ `User` オブジェクト、またはユーザーが見つからない場合は None。 
 
 ---
 
@@ -1500,20 +1500,20 @@ This function only works for local administrators. Use `api.viewer`  to get your
 users(username_or_email: str) → List[ForwardRef('public.User')]
 ```
 
-Return all users from a partial username or email address query. 
+部分一致のユーザー名またはメールアドレスのクエリから、すべてのユーザーを返します。 
 
-This function only works for local administrators. Use `api.viewer`  to get your own user object. 
+この関数はローカル管理者にのみ有効です。自分自身のユーザーオブジェクトを取得するには `api.viewer` を使用してください。 
 
 
 
-**Args:**
+**引数:**
  
- - `username_or_email`:  The prefix or suffix of the user you want to find. 
+ - `username_or_email`:  目的のユーザーを見つけるためのプレフィックスまたはサフィックス。 
 
 
 
-**Returns:**
- An array of `User` objects. 
+**戻り値:**
+ `User` オブジェクトの配列。 
 
 ---
 
@@ -1526,25 +1526,25 @@ webhook_integrations(
 ) → Iterator[ForwardRef('WebhookIntegration')]
 ```
 
-Returns an iterator of webhook integrations for an entity. 
+指定した entity の Webhook インテグレーションのイテレーターを返します。 
 
 
 
-**Args:**
+**引数:**
  
- - `entity`:  The entity (e.g. team name) for which to  fetch integrations.  If not provided, the user's default entity  will be used. 
- - `per_page`:  Number of integrations to fetch per page.  Defaults to 50.  Usually there is no reason to change this. 
+ - `entity`:  インテグレーションを取得する対象の entity（例: team 名）。未指定の場合はユーザーのデフォルト entity が使用されます。 
+ - `per_page`:  1 ページあたりに取得するインテグレーション数。デフォルトは 50。通常これを変更する必要はありません。 
 
 
 
-**Yields:**
+**返すもの:**
  
- - `Iterator[WebhookIntegration]`:  An iterator of webhook integrations. 
+ - `Iterator[WebhookIntegration]`:  Webhook インテグレーションのイテレーター。 
 
 
 
-**Examples:**
- Get all registered webhook integrations for the team "my-team": 
+**例:**
+ team "my-team" に登録されている Webhook インテグレーションをすべて取得: 
 
 ```python
 import wandb
@@ -1553,7 +1553,7 @@ api = wandb.Api()
 webhook_integrations = api.webhook_integrations(entity="my-team")
 ``` 
 
-Find only webhook integrations that post requests to "https://my-fake-url.com": 
+"https://my-fake-url.com" にリクエストを送る Webhook インテグレーションだけを抽出: 
 
 ```python
 webhook_integrations = api.webhook_integrations(entity="my-team")

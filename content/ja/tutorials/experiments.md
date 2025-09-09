@@ -1,8 +1,8 @@
 ---
+title: 実験を追跡する
 menu:
   tutorials:
     identifier: ja-tutorials-experiments
-title: Track experiments
 weight: 1
 ---
 
@@ -10,13 +10,13 @@ weight: 1
     colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_&_Biases.ipynb" 
 >}}
 
-Use [W&B](https://wandb.ai/site) for machine learning experiment tracking, model checkpointing, collaboration with your team and more. 
+[W&B](https://wandb.ai/site) を使うと、機械学習の 実験管理、モデル チェックポイントの保存、チームでのコラボレーションなどが行えます。 
 
-In this notebook, you will create and track a machine learning experiment using a simple PyTorch model. By the end of the notebook, you will have an interactive project dashboard that you can share and customize with other members of your team. [View an example dashboard here](https://wandb.ai/wandb/wandb_example).
+このノートブックでは、シンプルな PyTorch モデルを使って機械学習の 実験を作成し、追跡します。ノートブックを終える頃には、チームのメンバーと共有・カスタマイズできるインタラクティブな W&B Project ダッシュボードが手に入ります。[サンプルのダッシュボードはこちら](https://wandb.ai/wandb/wandb_example).
 
-## Prerequisites
+## 前提条件
 
-Install the W&B Python SDK and log in:
+W&B の Python SDK をインストールしてログインします:
 
 
 ```shell
@@ -25,12 +25,12 @@ Install the W&B Python SDK and log in:
 
 
 ```python
-# Log in to your W&B account
+# W&B アカウントにログイン
 import wandb
 import random
 import math
 
-# Use wandb-core, temporary for wandb's new backend
+# wandb の新しいバックエンド用に一時的に wandb-core を使用
 wandb.require("core")
 ```
 
@@ -39,12 +39,12 @@ wandb.require("core")
 wandb.login()
 ```
 
-## Simulate and track a machine learning experiment with W&B
+## W&B で機械学習の 実験をシミュレートして追跡する
 
-Create, track, and visualize a machine learning experiment. To do this:
+機械学習の 実験を作成・追跡・可視化します。手順は次のとおりです:
 
-1. Initialize a [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) and pass in the hyperparameters you want to track.
-2. Within your training loop, log metrics such as the accuracy and loss.
+1. [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を初期化し、追跡したい ハイパーパラメーター を渡します。
+2. トレーニングループ内で、精度や損失などの メトリクス をログします。
 
 
 
@@ -61,39 +61,33 @@ config = {
 }
 
 with wandb.init(project=project, config=config) as run:
-  # This block simulates a training loop logging metrics
+  # このブロックはメトリクスをログするトレーニングループをシミュレートします
   epochs = 10
   offset = random.random() / 5
   for epoch in range(2, epochs):
       acc = 1 - 2 ** -epoch - random.random() / epoch - offset
       loss = 2 ** -epoch + random.random() / epoch + offset
 
-      # 2️. Log metrics from your script to W&B
+      # 2. スクリプトから W&B へメトリクスをログします
       run.log({"acc": acc, "loss": loss})    
 ```
 
+W&B Project で機械学習の実行結果を確認しましょう。前のセルに出力された URL をコピー＆ペーストします。URL は、モデルの挙動を示すグラフを含むダッシュボードがある W&B Project へリダイレクトします。 
 
-View how your machine learning performed in your W&B project. Copy and paste the URL link that is printed from the previous cell. The URL will redirect you to a W&B project that contains a dashboard showing graphs that show how your model performed. 
+以下はダッシュボードの例です:
 
-The following image shows what a dashboard can look like:
+{{< img src="/images/tutorials/experiments-1.png" alt="W&B 実験管理ダッシュボード" >}}
 
-{{< img src="/images/tutorials/experiments-1.png" alt="W&B experiment tracking dashboard" >}}
+擬似的な機械学習のトレーニングループに W&B を組み込む方法がわかったので、基本的な PyTorch ニューラルネットワークで 実験を追跡してみましょう。次のコードは、後で組織内の他のチームと共有できるよう、モデルの チェックポイント も W&B にアップロードします。
 
-Now that we know how to integrate W&B into a pseudo machine learning training loop, let's track a machine learning experiment using a basic PyTorch neural network. The following code will also upload model checkpoints to W&B that you can then share with other teams in your organization.
+## PyTorch で機械学習の 実験を追跡する
 
-## Track a machine learning experiment using PyTorch
+次のコードセルでは、シンプルな MNIST 分類器を定義して学習します。トレーニング中、W&B が URL を出力します。Project ページのリンクをクリックすると、結果がリアルタイムで W&B Project にストリーミングされる様子を確認できます。
 
-The following code cell defines and trains a simple MNIST classifier. During training, you will see W&B prints out URLs. Click on the project page link to see your results stream in live to a W&B project.
+W&B の run は自動的に [メトリクス]({{< relref path="/guides/models/track/runs/#workspace-tab" lang="ja" >}})、システム情報、[ハイパーパラメーター]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}})、[ターミナル出力]({{< relref path="/guides/models/track/runs/#logs-tab" lang="ja" >}}) をログし、モデルの入力と出力を含む [インタラクティブなテーブル]({{< relref path="/guides/models/tables/" lang="ja" >}}) が表示されます。 
 
-W&B runs automatically log [metrics]({{< relref path="/guides/models/track/runs/#workspace-tab" lang="ja" >}}),
-system information,
-[hyperparameters]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}}),
-[terminal output]({{< relref path="/guides/models/track/runs/#logs-tab" lang="ja" >}}) and
-you'll see an [interactive table]({{< relref path="/guides/models/tables/" lang="ja" >}})
-with model inputs and outputs. 
-
-### Set up PyTorch Dataloader
-The following cell defines some useful functions that we will need to train our machine learning model. The functions themselves are not unique to W&B so we'll not cover them in detail here. See the PyTorch documentation for more information on how to define [forward and backward training loop](https://pytorch.org/tutorials/beginner/nn_tutorial.html), how to use [PyTorch DataLoaders](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) to load data in for training, and how define PyTorch models using the [`torch.nn.Sequential` Class](https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html). 
+### PyTorch DataLoader をセットアップする
+次のセルでは、機械学習の モデルを学習するために必要ないくつかの便利な関数を定義します。これらの関数は W&B 固有ではないため、ここでは詳しくは扱いません。詳細は PyTorch のドキュメントを参照してください。具体的には、[forward および backward のトレーニングループ](https://pytorch.org/tutorials/beginner/nn_tutorial.html)、トレーニング用に データ を読み込むための [PyTorch DataLoader](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) の使い方、[`torch.nn.Sequential` クラス](https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html) を使って PyTorch の モデル を定義する方法などです。 
 
 
 ```python
@@ -154,29 +148,29 @@ def validate_model(model, valid_dl, loss_func, log_images=False, batch_idx=0):
             outputs = model(images)
             val_loss += loss_func(outputs, labels) * labels.size(0)
 
-            # Compute accuracy and accumulate
+            # 精度を計算して累積します
             _, predicted = torch.max(outputs.data, 1)
             correct += (predicted == labels).sum().item()
 
-            # Log one batch of images to the dashboard, always same batch_idx.
+            # ダッシュボードに 1 バッチ分の画像をログします。常に同じ batch_idx を使用します。
             if i == batch_idx and log_images:
                 log_image_table(images, predicted, labels, outputs.softmax(dim=1))
     return val_loss / len(valid_dl.dataset), correct / len(valid_dl.dataset)
 ```
 
-### Create a table to compare the predicted values versus the true value
+### 予測値と正解値を比較するテーブルを作成する
 
-The following cell is unique to W&B, so let's go over it.
+次のセルは W&B 特有の処理なので、説明します。
 
-In the cell we define a function called `log_image_table`. Though technically, optional, this function creates a W&B Table object. We will use the table object to create a table that shows what the model predicted for each image. 
+このセルでは `log_image_table` という関数を定義します。技術的には任意ですが、この関数は W&B の Table オブジェクトを作成します。このテーブル オブジェクトを使って、各画像に対するモデルの予測を表示するテーブルを作成します。 
 
-More specifically, each row will consists of the image fed to the model, along with predicted value and the actual value (label). 
+具体的には、各行にはモデルに入力した画像、予測値、実際の 値（ラベル）が含まれます。 
 
 
 ```python
 def log_image_table(images, predicted, labels, probs):
     "Log a wandb.Table with (img, pred, target, scores)"
-    # Create a wandb Table to log images, labels and predictions to
+    # 画像・ラベル・予測を記録するための wandb Table を作成します
     table = wandb.Table(
         columns=["image", "pred", "target"] + [f"score_{i}" for i in range(10)]
     )
@@ -189,11 +183,11 @@ def log_image_table(images, predicted, labels, probs):
         run.log({"predictions_table": table}, commit=False)
 ```
 
-### Train your model and upload checkpoints
+### モデルを学習して チェックポイント をアップロードする
 
-The following code trains and saves model checkpoints to your project. Use model checkpoints like you normally would to assess how the model performed during training. 
+次のコードは モデルを学習し、Project に モデルの チェックポイント を保存します。通常どおり、トレーニング中のモデルの挙動を評価するために チェックポイント を活用してください。 
 
-W&B also makes it easy to share your saved models and model checkpoints with other members of your team or organization. To learn how to share your model and model checkpoints with members outside of your team, see [W&B Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}).
+また W&B なら、保存した モデルや モデルの チェックポイント をチームや組織の他のメンバーと簡単に共有できます。チーム外のメンバーと共有する方法は [W&B Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) を参照してください。
 
 
 ```python
@@ -208,25 +202,25 @@ config = {
 
 project = "pytorch-intro"
 
-# initialise a wandb run
+# wandb の run を初期化します
 with wandb.init(project=project, config=config) as run:
 
-    # Optionally copy your config
+    # 必要に応じて config をコピーします
     config = run.config
 
-    # Get the data
+    # データを取得します
     train_dl = get_dataloader(is_train=True, batch_size=config.batch_size)
     valid_dl = get_dataloader(is_train=False, batch_size=2 * config.batch_size)
     n_steps_per_epoch = math.ceil(len(train_dl.dataset) / config.batch_size)
 
-    # A simple MLP model
+    # シンプルな MLP モデル
     model = get_model(config.dropout)
 
-    # Make the loss and optimizer
+    # 損失関数と オプティマイザー を用意します
     loss_func = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
 
-    # Training
+    # トレーニング
     example_ct = 0
     step_ct = 0
     for epoch in range(config.epochs):
@@ -249,7 +243,7 @@ with wandb.init(project=project, config=config) as run:
             }
 
             if step + 1 < n_steps_per_epoch:
-                # Log train metrics to wandb
+                # 学習のメトリクスを wandb にログします
                 run.log(metrics)
 
             step_ct += 1
@@ -258,11 +252,11 @@ with wandb.init(project=project, config=config) as run:
             model, valid_dl, loss_func, log_images=(epoch == (config.epochs - 1))
         )
 
-        # Log train and validation metrics to wandb
+        # 学習および検証のメトリクスを wandb にログします
         val_metrics = {"val/val_loss": val_loss, "val/val_accuracy": accuracy}
         run.log({**metrics, **val_metrics})
 
-        # Save the model checkpoint to wandb
+        # モデルの チェックポイント を wandb に保存します
         torch.save(model, "my_model.pt")
         run.log_model(
             "./my_model.pt",
@@ -274,48 +268,48 @@ with wandb.init(project=project, config=config) as run:
             f"Epoch: {epoch+1}, Train Loss: {train_loss:.3f}, Valid Loss: {val_loss:3f}, Accuracy: {accuracy:.2f}"
         )
 
-    # If you had a test set, this is how you could log it as a Summary metric
+    # テストセット がある場合は、次のように Summary メトリクスとしてログできます
     run.summary["test_accuracy"] = 0.8
 ```
 
-You have now trained your first model using W&B. Click on one of the links above to see your metrics and see your saved model checkpoints in the Artifacts tab in the W&B App UI
+これで W&B を使って最初の モデル を学習できました。上のいずれかのリンクをクリックすると、メトリクスを確認でき、W&B App の UI にある Artifacts タブで保存済みの モデル チェックポイントも確認できます。
 
-## (Optional) Set up a W&B Alert
+## （任意）W&B Alert を設定する
 
-Create a [W&B Alerts]({{< relref path="/guides/models/track/runs/alert/" lang="ja" >}}) to send alerts to your Slack or email from your Python code. 
+[W&B Alerts]({{< relref path="/guides/models/track/runs/alert/" lang="ja" >}}) を作成して、Python コードから Slack またはメールに通知を送信します。 
 
-There are 2 steps to follow the first time you'd like to send a Slack or email alert, triggered from your code:
+コードからトリガーされる Slack またはメールのアラートを初めて送るときは、次の 2 ステップが必要です:
 
-1) Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings)
-2) Add `run.alert()` to your code. For example:
+1) W&B の [User Settings](https://wandb.ai/settings) で Alerts を有効にする
+2) コードに `run.alert()` を追加する。例:
 
 ```python
 run.alert(title="Low accuracy", text=f"Accuracy is below the acceptable threshold")
 ```
 
-The following cell shows a minimal example below to see how to use `run.alert()`
+以下のセルは、`run.alert()` の使い方を確認できる最小例です。
 
 
 ```python
 import wandb
 
-# Start a wandb run
+# wandb の run を開始します
 with wandb.init(project="pytorch-intro") as run:
 
-    # Simulating a model training loop
+    # モデルのトレーニングループをシミュレートします
     acc_threshold = 0.3
     for training_step in range(1000):
 
-        # Generate a random number for accuracy
+        # 精度の疑似値を生成します
         accuracy = round(random.random() + random.random(), 3)
         print(f"Accuracy is: {accuracy}, {acc_threshold}")
 
-        # Log accuracy to wandb
+        # 精度を wandb にログします
         run.log({"Accuracy": accuracy})
 
-        # If the accuracy is below the threshold, fire a W&B Alert and stop the run
+        # 精度がしきい値を下回ったら W&B Alert を送信し、run を停止します
         if accuracy <= acc_threshold:
-            # Send the wandb Alert
+            # wandb の Alert を送信します
             run.alert(
                 title="Low Accuracy",
                 text=f"Accuracy {accuracy} at step {training_step} is below the acceptable threshold, {acc_threshold}",
@@ -324,8 +318,8 @@ with wandb.init(project="pytorch-intro") as run:
             break
 ```
 
-For more details, see the [W&B Alerts overview]({{< relref path="/guides/models/track/runs/alert" lang="ja" >}}).
+詳細は [W&B Alerts の概要]({{< relref path="/guides/models/track/runs/alert" lang="ja" >}}) を参照してください。
 
-## Next steps
-The next tutorial you will learn how to do hyperparameter optimization using W&B Sweeps:
-[Hyperparameters sweeps using PyTorch](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb)
+## 次のステップ
+次のチュートリアルでは、W&B Sweeps を使った ハイパーパラメーター 最適化を学びます:
+[PyTorch を使ったハイパーパラメーター Sweeps](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb)

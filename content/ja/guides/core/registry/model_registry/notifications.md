@@ -1,33 +1,29 @@
 ---
-description: Get Slack notifications when a new model version is linked to the model
-  registry.
+title: アラートと通知を作成する
+description: 新しい Model バージョンが Model Registry にリンクされたときに Slack 通知を受け取ります。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-notifications
     parent: model-registry
-title: Create alerts and notifications
 weight: 9
 ---
 
-<!-- # Notifications for new model versions -->
-Receive Slack notifications when a new model version is linked to the model registry. 
+新しいモデルバージョンがモデルレジストリにリンクされたときに、Slack 通知を受け取れるように設定します。
 
+1. [W&B モデルレジストリ アプリ](https://wandb.ai/registry/model)に移動します。
+2. 通知を受け取りたい Registered Model を選択します。
+3. **Connect Slack** ボタンをクリックします。
+    {{< img src="/images/models/connect_to_slack.png" alt="Slack に接続" >}}
+4. OAuth ページに表示される手順に従い、Slack ワークスペースで W&B を有効にします。
 
-1. Navigate to the [W&B Model Registry app](https://wandb.ai/registry/model).
-2. Select the registered model you want to receive notifications from.
-3. Click on the **Connect Slack** button.
-    {{< img src="/images/models/connect_to_slack.png" alt="Connect to Slack" >}}
-4. Follow the instructions to enable W&B in your Slack workspace that appear on the OAuth page.
-
-
-Once you have configured Slack notifications for your team, you can pick and choose registered models to get notifications from. 
+Teams の Slack 通知を設定すると、通知を受け取りたい Registered Model を自由に選択できます。
 
 {{% alert %}}
-A toggle that reads **New model version linked to...** appears instead of a **Connect Slack** button if you have Slack notifications configured for your team.
+Teams の Slack 通知が設定されている場合、**Connect Slack** ボタンの代わりに、**New model version linked to...** と表示されたトグルが表示されます。
 {{% /alert %}}
 
-The screenshot below shows a FMNIST classifier registered model that has Slack notifications. 
+以下のスクリーンショットは、Slack 通知が設定された FMNIST 分類器の Registered Model を示しています。
 
-{{< img src="/images/models/conect_to_slack_fmnist.png" alt="Slack notification example" >}}
+{{< img src="/images/models/conect_to_slack_fmnist.png" alt="Slack 通知の例" >}}
 
-A message is automatically posted to the connected Slack channel each time a new model version is linked to the FMNIST classifier registered model.
+新しいモデルバージョンが FMNIST 分類器の Registered Model にリンクされるたびに、接続された Slack チャンネルにメッセージが自動的に投稿されます。

@@ -1,40 +1,40 @@
 ---
+title: 散布図
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-scatter-plot
     parent: panels
-title: Scatter plots
 weight: 40
 ---
 
-This page shows how to use scatter plots in W&B.
+このページでは、W&B で散布図を使う方法を説明します。
 
-## Use case 
+## ユースケース 
 
-Use scatter plots to compare multiple runs and visualize the performance of an experiment:
+散布図を使うと、複数の Runs を比較し、実験のパフォーマンスを可視化できます。
 
-- Plot lines for minimum, maximum, and average values.
-- Customize metadata tooltips.
-- Control point colors.
-- Adjust axis ranges.
-- Use a log scale for the axes.
+- 最小・最大・平均の値のラインをプロットする。
+- メタデータのツールチップをカスタマイズする。
+- ポイントの色を制御する。
+- 軸の範囲を調整する。
+- 軸を対数スケールにする。
 
-## Example
+## 例
 
-The following example shows a scatter plot displaying validation accuracy for different models over several weeks of experimentation. The tooltip includes batch size, dropout, and axis values. A line also shows the running average of validation accuracy. 
+次の例は、数週間にわたる実験で、異なる モデル の検証精度を表示する散布図です。ツールチップには バッチサイズ、ドロップアウト、各軸の値が含まれます。さらに、検証精度の移動平均を示すラインも表示します。 
 
-[See a live example →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
+[ライブ例を見る →](https://app.wandb.ai/l2k2/l2k/reports?view=carey%2FScatter%20Plot)
 
-{{< img src="/images/general/scatter-plots-1.png" alt="Validation accuracy scatter plot" >}}
+{{< img src="/images/general/scatter-plots-1.png" alt="検証精度の散布図" >}}
 
-## Create a scatter plot
+## 散布図を作成する
 
-To create a scatter plot in the W&B UI:
+W&B の UI で散布図を作成するには:
 
-1. Navigate to the **Workspaces** tab.
-2. In the **Charts** panel, click the action menu `...`.
-3. From the pop-up menu, select **Add panels**.
-4. In the **Add panels** menu, select **Scatter plot**.
-5. Set the `x` and `y` axes to plot the data you want to view. Optionally, set maximum and minimum ranges for your axes or add a `z` axis.
-6. Click **Apply** to create the scatter plot.
-7. View the new scatter plot in the Charts panel.
+1. **Workspaces** タブに移動します。
+2. **Charts** パネルで、アクションメニュー `...` をクリックします。
+3. ポップアップメニューから **Add panels** を選択します。
+4. **Add panels** メニューで **Scatter plot** を選択します。
+5. 表示したいデータをプロットするために `x` と `y` の各軸を設定します。必要に応じて、軸の最大・最小範囲を設定するか、`z` 軸を追加します。
+6. **Apply** をクリックして散布図を作成します。
+7. Charts パネルで新しい散布図を表示します。

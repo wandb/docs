@@ -1,4 +1,5 @@
 ---
+title: レジストリ
 aliases:
 - /guides/core/registry/
 cascade:
@@ -7,138 +8,129 @@ menu:
   default:
     identifier: ja-guides-core-registry-_index
     parent: core
-title: Registry
 url: guides/registry
 weight: 3
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
 
-W&B Registry is a curated central repository of [W&B Artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) versions within your organization. Users who [have permission]({{< relref path="./configure_registry.md" lang="ja" >}}) within your organization can [download and use artifacts]({{< relref path="./download_use_artifact.md" lang="ja" >}}), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+W&B Registry は、組織内の [W&B Artifact]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) バージョンをキュレートした中央リポジトリです。組織内で [権限を持つ]({{< relref path="./configure_registry.md" lang="ja" >}}) ユーザーは、所属チームに関係なく、すべてのアーティファクトの [ダウンロードと使用]({{< relref path="./download_use_artifact.md" lang="ja" >}})、共有、ライフサイクル管理を共同で行うことができます。
 
-You can use the Registry to [track artifact versions]({{< relref path="./link_version.md" lang="ja" >}}), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD]({{< relref path="/guides/core/automations/" lang="ja" >}}).
+Registry を使用して、[アーティファクトのバージョンを追跡]({{< relref path="./link_version.md" lang="ja" >}}) し、アーティファクトの使用履歴と変更履歴を監査し、アーティファクトのガバナンスとコンプライアンスを確保し、[モデル CI/CD などのダウンストリーム プロセスを自動化]({{< relref path="/guides/core/automations/" lang="ja" >}}) できます。
 
-In summary, use W&B Registry to:
+要するに、W&B Registry は次の目的で使用します。
 
-- [Promote]({{< relref path="./link_version.md" lang="ja" >}}) artifact versions that satisfy a machine learning task to other users in your organization.
-- Organize [artifacts with tags]({{< relref path="./organize-with-tags.md" lang="ja" >}}) so that you can find or reference specific artifacts.
-- Track an [artifact’s lineage]({{< relref path="/guides/core/registry/lineage.md" lang="ja" >}}) and audit the history of changes.
-- [Automate]({{< relref path="/guides/core/automations/" lang="ja" >}}) downstream processes such as model CI/CD.
-- [Limit who in your organization]({{< relref path="./configure_registry.md" lang="ja" >}}) can access artifacts in each registry.
-
-<!-- - Quickly find or reference important artifacts with a unique identifier known as aliases.-->
+- 機械学習タスクを満たすアーティファクト バージョンを組織内の他のユーザーに [プロモート]({{< relref path="./link_version.md" lang="ja" >}}) します。
+- 特定のアーティファクトを検索または参照できるように、[タグを使用してアーティファクトを整理]({{< relref path="./organize-with-tags.md" lang="ja" >}}) します。
+- [アーティファクトのリネージを追跡]({{< relref path="/guides/core/registry/lineage.md" lang="ja" >}}) し、変更履歴を監査します。
+- モデル CI/CD などのダウンストリーム プロセスを [自動化]({{< relref path="/guides/core/automations/" lang="ja" >}}) します。
+- 各レジストリでアーティファクトにアクセスできる [組織内のユーザーを制限]({{< relref path="./configure_registry.md" lang="ja" >}}) します。
 
 {{< img src="/images/registry/registry_landing_page.png" alt="W&B Registry" >}}
 
-The preceding image shows the Registry App with "Model" and "Dataset" core registries along with custom registries.
+上記の画像は、「Model」および「Dataset」コア レジストリとカスタム レジストリを備えた Registry アプリを示しています。
 
+## 基本を学ぶ
+各組織には最初に、モデルおよびデータセットのアーティファクトを整理するために使用できる「**Models**」と「**Datasets**」という 2 つのレジストリが含まれています。組織のニーズに基づいて、[他のアーティファクト タイプを整理するための追加のレジストリ]({{< relref path="./registry_types.md" lang="ja" >}}) を作成できます。
 
-## Learn the basics
-Each organization initially contains two registries that you can use to organize your model and dataset artifacts called **Models** and **Datasets**, respectively. You can create [additional registries to organize other artifact types based on your organization's needs]({{< relref path="./registry_types.md" lang="ja" >}}). 
-
-Each [registry]({{< relref path="./configure_registry.md" lang="ja" >}}) consists of one or more [collections]({{< relref path="./create_collection.md" lang="ja" >}}). Each collection represents a distinct task or use case.
+各 [レジストリ]({{< relref path="./configure_registry.md" lang="ja" >}}) は、1 つ以上の [コレクション]({{< relref path="./create_collection.md" lang="ja" >}}) で構成されます。各コレクションは、個別のタスクまたはユースケースを表します。
 
 {{< img src="/images/registry/homepage_registry.png" alt="W&B Registry" >}}
 
-To add an artifact to a registry, you first log a [specific artifact version to W&B]({{< relref path="/guides/core/artifacts/create-a-new-artifact-version.md" lang="ja" >}}). Each time you log an artifact, W&B automatically assigns a version to that artifact. Artifact versions use 0 indexing, so the first version is `v0`, the second version is `v1`, and so on. 
+レジストリにアーティファクトを追加するには、まず [特定のアーティファクト バージョンを W&B にログ]({{< relref path="/guides/core/artifacts/create-a-new-artifact-version.md" lang="ja" >}}) します。アーティファクトをログするたびに、W&B はそのアーティファクトにバージョンを自動的に割り当てます。アーティファクトのバージョンは 0 から始まるインデックスを使用するため、最初のバージョンは `v0`、2 番目のバージョンは `v1` となります。
 
-Once you log an artifact to W&B, you can then link that specific artifact version to a collection in the registry. 
+アーティファクトを W&B にログすると、その特定のアーティファクト バージョンをレジストリ内のコレクションにリンクできます。
 
 {{% alert %}}
-The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
+「リンク」という用語は、W&B がアーティファクトを保存する場所と、レジストリでアーティファクトにアクセスできる場所を接続するポインタを指します。アーティファクトをコレクションにリンクしても、W&B はアーティファクトを複製しません。
 {{% /alert %}}
 
-As an example, the proceeding code example shows how to log and link a model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry]({{< relref path="./registry_types.md" lang="ja" >}}):
+例として、以下のコード例は、「my_model.txt」というモデル アーティファクトを [コア レジストリ]({{< relref path="./registry_types.md" lang="ja" >}}) の「first-collection」という名前のコレクションにログしてリンクする方法を示しています。
 
-1. Initialize a W&B Run.
-2. Log the artifact to W&B.
-3. Specify the name of the collection and registry to link your artifact version to.
-4. Link the artifact to the collection.
+1. W&B Run を初期化します。
+2. アーティファクトを W&B にログします。
+3. アーティファクト バージョンをリンクするコレクションとレジストリの名前を指定します。
+4. アーティファクトをコレクションにリンクします。
 
-Save this Python code to a script and run it. W&B Python SDK version 0.18.6 or newer is required.
+この Python コードをスクリプトとして保存し、実行します。W&B Python SDK バージョン 0.18.6 以降が必要です。
 
 ```python title="hello_collection.py"
 import wandb
 import random
 
-# Initialize a W&B Run to track the artifact
+# アーティファクトを追跡するために W&B Run を初期化
 run = wandb.init(project="registry_quickstart") 
 
-# Create a simulated model file so that you can log it
+# ログできるようにモデルファイルをダミーで作成
 with open("my_model.txt", "w") as f:
    f.write("Model: " + str(random.random()))
 
-# Log the artifact to W&B
+# アーティファクトを W&B にログする
 logged_artifact = run.log_artifact(
     artifact_or_path="./my_model.txt", 
     name="gemma-finetuned", 
-    type="model" # Specifies artifact type
+    type="model" # アーティファクトの種類を指定
 )
 
-# Specify the name of the collection and registry
-# you want to publish the artifact to
+# コレクション名とレジストリ名を指定
+# アーティファクトを公開したい対象
 COLLECTION_NAME = "first-collection"
 REGISTRY_NAME = "model"
 
-# Link the artifact to the registry
+# アーティファクトをレジストリにリンクする
 run.link_artifact(
     artifact=logged_artifact, 
     target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 )
 ```
 
-W&B automatically creates a collection for you if the collection you specify in the returned run object's `link_artifact(target_path = "")` method does not exist within the registry you specify.
+指定したレジストリ内に、返された run オブジェクトの `link_artifact(target_path = "")` メソッドで指定したコレクションが存在しない場合、W&B は自動的にそのコレクションを作成します。
 
 {{% alert %}}
-The URL that your terminal prints directs you to the project where W&B stores your artifact. 
+ターミナルに表示される URL は、W&B がアーティファクトを保存するプロジェクトに移動します。
 {{% /alert %}}
 
-Navigate to the Registry App to view artifact versions that you and other members of your organization publish. To do so, first navigate to W&B. Select **Registry** in the left sidebar below **Applications**. Select the "Model" registry. Within the registry, you should see the "first-collection" collection with your linked artifact version.
+Registry アプリに移動して、あなたや組織の他のメンバーが公開したアーティファクト バージョンを表示します。これを行うには、まず W&B に移動します。「**Applications**」の下にある左側のサイドバーで「**Registry**」を選択します。「Model」レジストリを選択します。レジストリ内に、リンクされたアーティファクト バージョンを持つ「first-collection」コレクションが表示されるはずです。
 
-Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions.
+アーティファクト バージョンをレジストリ内のコレクションにリンクすると、組織のメンバーは適切な権限を持っている場合、そのアーティファクト バージョンを表示、ダウンロード、管理し、ダウンストリームのオートメーションを作成することができます。
 
 {{% alert %}}
-If an artifact version logs metrics (such as by using `run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the collection's page. Refer to [View linked artifacts in a registry]({{< relref path="link_version.md#view-linked-artifacts-in-a-registry" lang="ja" >}}).
+アーティファクト バージョンがメトリクスをログしている場合 (例: `run.log_artifact()` を使用している場合)、そのバージョンの詳細ページからメトリクスを表示でき、コレクションのページからアーティファクト バージョン間でメトリクスを比較できます。[レジストリ内のリンクされたアーティファクトを表示する]({{< relref path="link_version.md#view-linked-artifacts-in-a-registry" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
-## Enable W&B Registry
+## W&B Registry を有効にする
 
-Based on your deployment type, satisfy the following conditions to enable W&B Registry:
+デプロイメント タイプに基づいて、W&B Registry を有効にするには、次の条件を満たしてください。
 
-| Deployment type | How to enable |
+| デプロイメント タイプ | 有効化の方法 |
 | ----- | ----- |
-| Multi-tenant Cloud | No action required. W&B Registry is available on the W&B App. |
-| Dedicated Cloud | Contact your account team to enable W&B Registry for your deployment. |
-| Self-Managed | Set the environment variable `ENABLE_REGISTRY_UI` to `true`. Refer to [Configure environment variables]({{< relref path="/guides/hosting/env-vars.md" lang="ja" >}}). Requires Server v0.59.2 or newer. |
+| Multi-tenant Cloud | アクションは不要です。W&B Registry は W&B アプリで利用できます。 |
+| Dedicated Cloud | デプロイメントで W&B Registry を有効にするには、アカウント チームにお問い合わせください。 |
+| Self-Managed | 環境変数 `ENABLE_REGISTRY_UI` を `true` に設定します。[環境変数の設定]({{< relref path="/guides/hosting/env-vars.md" lang="ja" >}}) を参照してください。Server v0.59.2 以降が必要です。 |
 
+## 開始するためのリソース
 
-## Resources to get started
+ユースケースに応じて、W&B Registry の開始に役立つ次のリソースを確認してください。
 
-Depending on your use case, explore the following resources to get started with the W&B Registry:
-
-* Check out the tutorial video:
+* チュートリアル ビデオをご覧ください。
     * [Getting started with Registry from W&B](https://www.youtube.com/watch?v=p4XkVOsjIeM)
-* Take the W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
-    * Use W&B Registry to manage and version your artifacts, track lineage, and promote models through different lifecycle stages.
-    * Automate your model management workflows using webhooks.
-    * Integrate the registry with external ML systems and tools for model evaluation, monitoring, and deployment.
+* W&B の [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) コースを受講して、次の方法を学びましょう。
+    * W&B Registry を使用して、アーティファクトの管理とバージョン管理、リネージの追跡、異なるライフサイクル段階でのモデルのプロモートを行います。
+    * Webhook を使用して、モデル管理ワークフローを自動化します。
+    * レジストリを外部の ML システムやツールと統合し、モデルの評価、監視、デプロイメントを行います。
 
+## 旧モデルレジストリから W&B Registry への移行
 
+旧モデルレジストリは廃止予定であり、正確な日付はまだ決定されていません。旧モデルレジストリを廃止する前に、W&B は旧モデルレジストリのコンテンツを W&B Registry に移行します。
 
-## Migrate from the legacy Model Registry to W&B Registry
+旧モデルレジストリから W&B Registry への移行プロセスについては、[旧モデルレジストリからの移行]({{< relref path="./model_registry_eol.md" lang="ja" >}}) を参照してください。
 
-The legacy Model Registry is scheduled for deprecation with the exact date not yet decided. Before deprecating the legacy Model Registry, W&B will migrate the contents of the legacy Model Registry to the W&B Registry. 
-
-
-See [Migrating from legacy Model Registry]({{< relref path="./model_registry_eol.md" lang="ja" >}}) for more information about the migration process from the legacy Model Registry to W&B Registry.
-
-Until the migration occurs, W&B supports both the legacy Model Registry and the new Registry. 
+移行が完了するまで、W&B は旧モデルレジストリと新しい Registry の両方をサポートします。
 
 {{% alert %}}
-To view the legacy Model Registry, navigate to the Model Registry in the W&B App. A banner appears at the top of the page that enables you to use the legacy Model Registry App UI.
+旧モデルレジストリを表示するには、W&B アプリで Model Registry に移動します。ページの上部に、旧モデルレジストリ アプリ UI を使用できるバナーが表示されます。
 
 {{< img src="/images/registry/nav_to_old_model_reg.gif" alt="Legacy Model Registry UI" >}}
 {{% /alert %}}
 
-
-Reach out to support@wandb.com with any questions or to speak to the W&B Product Team about any concerns about the migration.
+移行に関するご質問や懸念事項については、support@wandb.com までお問い合わせいただくか、W&B 製品チームにご相談ください。

@@ -1,9 +1,9 @@
 ---
+title: 誰がキューにプッシュできるかをどのように制御できますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-control_push_queue
     parent: launch-faq
-title: How do I control who can push to a queue?
 ---
 
-Queues are specific to a user team. Define the owning entity during queue creation. To restrict access, modify team membership.
+Queues は ユーザーの Team に固有です。Queue の作成時に、所有する Entity を指定します。アクセスを制限するには、Team のメンバーシップを変更します。

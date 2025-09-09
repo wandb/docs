@@ -1,13 +1,13 @@
 ---
+title: 自分では run に名前を付けていません。run の名前はどこから来ているのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-didnt_name_run_run_name_coming
 support:
-- experiments
-title: I didn't name my run. Where is the run name coming from?
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-If a run is not explicitly named, W&B assigns a random name to identify it in your project. Examples of random names are `pleasant-flower-4` and `misunderstood-glade-2.
+run に明示的な名前を付けない場合、W&B はそれをプロジェクト内で識別するためのランダムな名前を割り当てます。ランダム名の例は `pleasant-flower-4` と `misunderstood-glade-2` です。

@@ -1,23 +1,22 @@
 ---
+title: wandb server start
 menu:
   reference:
     identifier: ja-ref-cli-wandb-server-wandb-server-start
-title: wandb server start
 ---
 
-**Usage**
+**使い方**
 
 `wandb server start [OPTIONS]`
 
-**Summary**
+**概要**
 
-Start a local W&B server
+ローカルの W&B サーバーを起動する
 
+**オプション**
 
-**Options**
-
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |
-| `-p, --port` | The host port to bind W&B server on |
-| `-e, --env` | Env vars to pass to wandb/local |
-| `--daemon / --no-daemon` | Run or don't run in daemon mode |
+| `-p, --port` | W&B サーバーをバインドするホストのポート |
+| `-e, --env` | wandb/local に渡す環境変数 |
+| `--daemon / --no-daemon` | デーモンモードで実行する／しない |

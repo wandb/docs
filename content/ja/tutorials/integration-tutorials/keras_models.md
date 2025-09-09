@@ -1,21 +1,21 @@
 ---
+title: Keras モデル
 menu:
   tutorials:
     identifier: ja-tutorials-integration-tutorials-keras_models
     parent: integration-tutorials
-title: Keras models
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
-Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
+W&B を使って 機械学習 の 実験管理、データセットの バージョン管理、プロジェクトでのコラボレーションを行いましょう。
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B" >}}
+{{< img src="/images/tutorials/huggingface-why.png" alt="W&B を使う利点" >}}
 
-This Colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to W&B [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}).
+この Colab ノートブックでは、`WandbModelCheckpoint` コールバックを紹介します。このコールバックを使うと、モデルの チェックポイント を W&B の [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) にログできます。
 
-## Setup and Installation
+## セットアップとインストール
 
-First, let us install the latest version of W&B. We will then authenticate this colab instance to use W&B.
+まず、W&B の最新バージョンをインストールします。続いて、この Colab インスタンスを W&B で認証します。
 
 
 ```python
@@ -30,22 +30,22 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 import tensorflow_datasets as tfds
 
-# W&B related imports
+# W&B 関連のインポート
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
 from wandb.integration.keras import WandbModelCheckpoint
 ```
 
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
+初めて W&B を使う場合や未ログインの場合は、`wandb.login()` を実行すると表示されるリンクからサインアップ/ログイン ページに移動します。数回のクリックで [無料アカウント](https://wandb.ai/signup) に登録できます。
 
 
 ```python
 wandb.login()
 ```
 
-## Hyperparameters
+## ハイパーパラメーター
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
+適切な config システムを使うことは、再現性の高い 機械学習 のための推奨ベストプラクティスです。W&B を使えば、各 実験 のハイパーパラメーターを追跡できます。この Colab では、シンプルな Python の `dict` を config システムとして使います。
 
 
 ```python
@@ -61,9 +61,9 @@ configs = dict(
 )
 ```
 
-## Dataset
+## データセット
 
-In this colab, we will be using [Fashion-MNIST](https://www.tensorflow.org/datasets/catalog/fashion_mnist) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
+この Colab では、TensorFlow Datasets カタログの [Fashion-MNIST](https://www.tensorflow.org/datasets/catalog/fashion_mnist) データセットを使用します。TensorFlow/Keras を使ってシンプルな 画像分類 パイプラインを構築します。
 
 
 ```python
@@ -76,11 +76,11 @@ AUTOTUNE = tf.data.AUTOTUNE
 
 
 def parse_data(example):
-    # Get image
+    # 画像を取得
     image = example["image"]
     # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
-    # Get label
+    # ラベルを取得
     label = example["label"]
     label = tf.one_hot(label, depth=configs["num_classes"])
 
@@ -108,7 +108,7 @@ trainloader = get_dataloader(train_ds, configs)
 validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
 ```
 
-## Model
+## モデル
 
 
 ```python
@@ -134,7 +134,7 @@ model = get_model(configs)
 model.summary()
 ```
 
-## Compile Model
+## モデルのコンパイル
 
 
 ```python
@@ -145,27 +145,27 @@ model.compile(
 )
 ```
 
-## Train
+## 学習
 
 
 ```python
-# Initialize a W&B Run
+# W&B の Run を初期化
 run = wandb.init(
     project = "intro-keras",
     config = configs
 )
 
-# Train your model
+# モデルを学習
 model.fit(
     trainloader,
     epochs = configs["epochs"],
     validation_data = validloader,
     callbacks = [
         WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/") # Notice the use of WandbModelCheckpoint here
+        WandbModelCheckpoint(filepath="models/") # ここで WandbModelCheckpoint を使っている点に注目
     ]
 )
 
-# Close the W&B Run
+# W&B の Run を終了
 run.finish()
 ```

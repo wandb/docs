@@ -1,10 +1,10 @@
 ---
+title: login()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-functions-login
 object_type: python_sdk_actions
-title: login()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py >}}
@@ -12,7 +12,7 @@ title: login()
 
 
 
-### <kbd>function</kbd> `login`
+### <kbd>関数</kbd> `login`
 
 ```python
 login(
@@ -27,34 +27,32 @@ login(
 ) → bool
 ```
 
-Set up W&B login credentials. 
+W&B のログイン認証情報を設定します。
 
-By default, this will only store credentials locally without verifying them with the W&B server. To verify credentials, pass `verify=True`. 
+既定では、W&B サーバーでの検証を行わずに認証情報をローカルにのみ保存します。認証情報を検証するには、`verify=True` を渡してください。
 
 
 
-**Args:**
+**引数:**
  
- - `anonymous`:  Set to "must", "allow", or "never".  If set to "must", always log a user in anonymously. If set to  "allow", only create an anonymous user if the user  isn't already logged in. If set to "never", never log a  user anonymously. Default set to "never". Defaults to `None`. 
- - `key`:  The API key to use. 
- - `relogin`:  If true, will re-prompt for API key. 
- - `host`:  The host to connect to. 
- - `force`:  If true, will force a relogin. 
- - `timeout`:  Number of seconds to wait for user input. 
- - `verify`:  Verify the credentials with the W&B server. 
- - `referrer`:  The referrer to use in the URL login request. 
+ - `anonymous`: "must"、"allow"、"never" のいずれかを指定します。 "must" の場合は常に匿名でユーザーをログインさせます。 "allow" の場合は、ユーザーが未ログインのときのみ匿名ユーザーを作成します。 "never" の場合は、匿名でユーザーをログインさせません。デフォルトは "never"。既定値は `None`。 
+ - `key`: 使用する APIキー。 
+ - `relogin`: true の場合、APIキー の入力を再度促します。 
+ - `host`: 接続先のホスト。 
+ - `force`: true の場合、再ログインを強制します。 
+ - `timeout`: ユーザー入力を待機する秒数。 
+ - `verify`: W&B サーバーで認証情報を検証します。 
+ - `referrer`: URL ログインリクエストで使用するリファラ。 
 
 
 
-
-
-**Returns:**
+**戻り値:**
  
- - `bool`:  If `key` is configured. 
+ - `bool`: `key` が設定されていれば true。 
 
 
 
-**Raises:**
+**例外:**
  
- - `AuthenticationError`:  If `api_key` fails verification with the server. 
- - `UsageError`:  If `api_key` cannot be configured and no tty.
+ - `AuthenticationError`: `api_key` のサーバーでの検証に失敗した場合。 
+ - `UsageError`: `api_key` を設定できず、かつ tty がない場合。

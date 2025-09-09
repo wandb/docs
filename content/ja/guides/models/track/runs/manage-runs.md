@@ -1,41 +1,41 @@
 ---
+title: runs を移動
 menu:
   default:
     identifier: ja-guides-models-track-runs-manage-runs
     parent: what-are-runs
-title: Move runs
 ---
 
-This page shows how to move a run from one project to another, into or out of a team, or from one team to another. You must have access to the run at its current and new locations.
+このページでは、run をある project から別の project へ、team の内外へ、またはある team から別の team へ移動する方法を説明します。現在の場所と移動先の両方でその run への アクセス 権が必要です。
 
 {{% alert %}}
-When you move a run, historical artifacts associated with it are not moved. To move an artifact manually, you can use the [`wandb artifact get`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-get/" lang="ja" >}}) SDK command or the [`Api.artifact` API]({{< relref path="/ref/python/public-api/api/#artifact" lang="ja" >}}) to download the artifact, then use [`wandb artifact put`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-put/" lang="ja" >}}) or the `Api.artifact` API to upload it to the run's new location.
+run を移動しても、関連する過去の Artifacts は移動されません。Artifact を手動で移動するには、[`wandb artifact get`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-get/" lang="ja" >}}) SDK のコマンドまたは [`Api.artifact` API]({{< relref path="/ref/python/public-api/api/#artifact" lang="ja" >}}) を使用して Artifact をダウンロードし、[`wandb artifact put`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-put/" lang="ja" >}}) もしくは `Api.artifact` API を使用して run の新しい場所にアップロードします。
 {{% /alert %}}
 
-To customize the **Runs** tab, refer to [Project page]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}).
+Runs タブをカスタマイズするには、[Project page]({{< relref path="/guides/models/track/project-page.md#runs-tab" lang="ja" >}}) を参照してください。
 
-If you group runs into experiments, refer to [Set a group in the UI]({{< relref path="grouping.md#set-a-group-in-the-ui" lang="ja" >}}).
+runs を experiments にグループ化している場合は、[Set a group in the UI]({{< relref path="grouping.md#set-a-group-in-the-ui" lang="ja" >}}) を参照してください。
 
-## Move runs between your projects
+## 自分の projects 間で runs を移動する
 
-To move runs from one project to another:
+runs をある project から別の project に移動するには:
 
-1. Navigate to the project that contains the runs you want to move.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to move.
-4. Choose the **Move** button above the table.
-5. Select the destination project from the dropdown.
+1. 移動したい runs を含む project に移動します。
+2. project のサイドバーから Runs タブを選択します。
+3. 移動したい runs の横にあるチェックボックスを選択します。
+4. テーブル上部の Move ボタンを選択します。
+5. ドロップダウンから移動先の project を選択します.
 
-{{< img src="/images/app_ui/howto_move_runs.gif" alt="Demo of moving a run between projects" >}}
+{{< img src="/images/app_ui/howto_move_runs.gif" alt="projects 間で run を移動するデモ" >}}
 
-## Move runs to a team
+## runs を team に移動する
 
-Move runs to a team you are a member of:
+あなたがメンバーである team に runs を移動するには:
 
-1. Navigate to the project that contains the runs you want to move.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to move.
-4. Choose the **Move** button above the table.
-5. Select the destination team and project from the dropdown.
+1. 移動したい runs を含む project に移動します。
+2. project のサイドバーから Runs タブを選択します。
+3. 移動したい runs の横にあるチェックボックスを選択します。
+4. テーブル上部の Move ボタンを選択します。
+5. ドロップダウンから移動先の team と project を選択します。
 
-{{< img src="/images/app_ui/demo_move_runs.gif" alt="Demo of moving a run to a team" >}}
+{{< img src="/images/app_ui/demo_move_runs.gif" alt="run を team に移動するデモ" >}}

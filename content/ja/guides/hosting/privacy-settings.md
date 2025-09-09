@@ -1,44 +1,44 @@
 ---
+title: プライバシー設定を行う
 menu:
   default:
     identifier: ja-guides-hosting-privacy-settings
     parent: w-b-platform
-title: Configure privacy settings
 weight: 4
 ---
 
-Organization and Team admins can configure a set of privacy settings at the organization and team scopes respectively. When configured at the organization scope, organization admins enforce those settings for all teams in that organization.
+組織管理者とチーム管理者は、それぞれ組織スコープとチームスコープでプライバシー設定のセットを設定できます。組織スコープで設定された場合、組織管理者はその組織のすべてのチームに対してそれらの設定を強制します。
 
 {{% alert %}}
-W&B recommends organization admins to enforce a privacy setting only after communicating that in advance to all team admins and users in their organization. This is to avoid unexpected changes in their workflows.
+W&B は、組織管理者がプライバシー設定を強制する際は、事前に組織内のすべてのチーム管理者と ユーザー に周知したうえで実施することを推奨します。これは、ワークフロー に予期しない変更が生じるのを避けるためです。
 {{% /alert %}}
 
-## Configure privacy settings for a team
+## チームのプライバシー設定を行う
 
-Team admins can configure privacy settings for their respective teams from within the `Privacy` section of the team **Settings** tab. Each setting is configurable as long as it's not enforced at the organization scope:
+チーム管理者は、チームの **Settings** タブ内にある `Privacy` セクションから、各チームのプライバシー設定を設定できます。組織スコープで強制されていない限り、各設定は変更可能です:
 
-* Hide this team from all non-members
-* Make all future team projects private (public sharing not allowed)
-* Allow any team member to invite other members (not just admins)
-* Turn off public sharing to outside of team for reports in private projects. This turns off existing magic links.
-* Allow users with matching organization email domain to join this team.
-    * This setting is applicable only to [SaaS Cloud]({{< relref path="./hosting-options/saas_cloud.md" lang="ja" >}}). It's not available in [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) instances.
-* Enable code saving by default.
+* このチームをメンバー以外のすべての ユーザー から非表示にする
+* 今後作成されるチームの projects をすべて非公開にする（公開共有は不可）
+* チームメンバー であれば誰でも他のメンバーを招待できるようにする（管理者のみではなく）
+* 非公開 projects 内の Reports に対するチーム外への公開共有を無効にする。これにより既存のマジックリンクも無効になります。
+* 組織のメールドメインが一致する ユーザー がこのチームに参加できるようにする。
+    * この設定は [SaaS Cloud]({{< relref path="./hosting-options/saas_cloud.md" lang="ja" >}}) にのみ適用されます。[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) や [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) インスタンスでは利用できません。
+* デフォルトで コード の保存を有効にする。
 
-## Enforce privacy settings for all teams
+## すべてのチームにプライバシー設定を強制する
 
-Organization admins can enforce privacy settings for all teams in their organization from within the `Privacy` section of the **Settings** tab in the account or organization dashboard. If organization admins enforce a setting, team admins are not allowed to configure that within their respective teams.
+組織管理者は、アカウントまたは組織の ダッシュボード の **Settings** タブにある `Privacy` セクションから、組織内のすべてのチームに対してプライバシー設定を強制できます。組織管理者がある設定を強制すると、チーム管理者は自分のチーム内ではその設定を変更できなくなります。
 
-* Enforce team visibility restrictions
-    * Enable this option to hide all teams from non-members
-* Enforce privacy for future projects
-    * Enable this option to enforce all future projects in all teams to be private or [restricted]({{< relref path="./iam/access-management/restricted-projects.md" lang="ja" >}})
-* Enforce invitation control
-    * Enable this option to prevent non-admins from inviting members to any team
-* Enforce report sharing control
-    * Enable this option to turn off public sharing of reports in private projects and deactivate existing magic links
-* Enforce team self joining restrictions
-    * Enable this option to restrict users with matching organization email domain from self-joining any team
-    * This setting is applicable only to [SaaS Cloud]({{< relref path="./hosting-options/saas_cloud.md" lang="ja" >}}). It's not available in [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) or [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) instances.
-* Enforce default code saving restrictions
-    * Enable this option to turn off code saving by default for all teams
+* チームの表示制限を強制する
+    * このオプションを有効にすると、すべてのチームをメンバー以外の ユーザー から非表示にします
+* 将来の projects のプライバシーを強制する
+    * このオプションを有効にすると、すべてのチームで今後作成される projects を非公開または [制限付き]({{< relref path="./iam/access-management/restricted-projects.md" lang="ja" >}}) に強制します
+* 招待の管理を強制する
+    * このオプションを有効にすると、管理者以外がどのチームにもメンバーを招待できないようにします
+* Reports の共有制御を強制する
+    * このオプションを有効にすると、非公開 projects 内の Reports の公開共有を無効にし、既存のマジックリンクを無効化します
+* チームへの自己参加の制限を強制する
+    * このオプションを有効にすると、組織のメールドメインが一致する ユーザー が任意のチームへ自己参加することを制限します
+    * この設定は [SaaS Cloud]({{< relref path="./hosting-options/saas_cloud.md" lang="ja" >}}) にのみ適用されます。[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) や [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) インスタンスでは利用できません。
+* コード保存のデフォルト制限を強制する
+    * このオプションを有効にすると、すべてのチームでデフォルトの コード 保存をオフにします

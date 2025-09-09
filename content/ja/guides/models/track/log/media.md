@@ -1,51 +1,51 @@
 ---
-description: Log rich media, from 3D point clouds and molecules to HTML and histograms
+title: メディアとオブジェクトのログ
+description: 3D 点群や分子から HTML やヒストグラムまで、リッチメディアをログ
 menu:
   default:
     identifier: ja-guides-models-track-log-media
     parent: log-objects-and-media
-title: Log media and objects
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" >}}
 
-We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
+画像、動画、オーディオなどをサポートしています。リッチメディアをログして 結果を探索し、Runs、Models、Datasets を視覚的に比較しましょう。以下でサンプルや手順の ガイド を紹介します。
 
 {{% alert %}}
-For details, see the [Data types reference]({{< relref path="/ref/python/sdk/data-types/" lang="ja" >}}).
+詳しくは、[Data types reference]({{< relref path="/ref/python/sdk/data-types/" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
 {{% alert %}}
-For more details, check out a [demo report about visualize model predictions](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) or watch a [video walkthrough](https://www.youtube.com/watch?v=96MxRvx15Ts).
+さらに詳しく知りたい場合は、[モデルの予測を可視化する デモ Report](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) をチェックするか、[動画ガイド](https://www.youtube.com/watch?v=96MxRvx15Ts) をご覧ください。
 {{% /alert %}}
 
-## Pre-requisites
-In order to log media objects with the W&B SDK, you may need to install additional dependencies.
-You can install these dependencies by running the following command:
+## 前提条件
+W&B SDK でメディア オブジェクトをログするには、追加の依存関係が必要になる場合があります。
+次のコマンドでインストールできます:
 
 ```bash
 pip install wandb[media]
 ```
 
-## Images
+## 画像
 
-Log images to track inputs, outputs, filter weights, activations, and more.
+画像をログして、入力、出力、フィルターの重み、活性化などを追跡します。
 
-{{< img src="/images/track/log_images.png" alt="Autoencoder inputs and outputs" >}}
+{{< img src="/images/track/log_images.png" alt="オートエンコーダーの 入力と出力" >}}
 
-Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem. 
+画像は NumPy 配列、PIL 画像、またはファイルシステムから直接ログできます。
 
-Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+各ステップで画像をログするたびに、UI に表示できるよう保存します。画像 パネルを展開し、ステップ スライダーを使って異なるステップの画像を確認できます。これにより、トレーニング中に Model の出力がどのように変化するかを簡単に比較できます。
 
 {{% alert %}}
-It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
+トレーニング時のログ処理や、結果閲覧時の画像読み込みがボトルネックになるのを防ぐため、1 ステップあたり 50 枚未満の画像をログすることを推奨します。
 {{% /alert %}}
 
 {{< tabpane text=true >}}
-   {{% tab header="Logging arrays as Images" %}}
-Provide arrays directly when constructing images manually, such as by using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid).
+   {{% tab header="配列を画像としてログする" %}}
+`torchvision` の [`make_grid`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid) などを使って手動で画像を作る際、配列をそのまま渡せます。
 
-Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
+配列は [Pillow](https://pillow.readthedocs.io/en/stable/index.html) によって PNG に変換されます。
 
 ```python
 import wandb
@@ -57,29 +57,29 @@ with wandb.init(project="image-log-example") as run:
     run.log({"examples": images})
 ```
 
-We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.   
+最後の次元が 1 ならグレースケール、3 なら RGB、4 なら RGBA の画像として扱います。配列が float を含む場合は、`0`〜`255` の整数に変換します。異なる正規化を行いたい場合は、[`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) を手動で指定するか、このパネルの「PIL 画像をログする」タブで説明しているように [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) を直接渡してください。   
    {{% /tab %}}
-   {{% tab header="Logging PIL Images" %}}
-For full control over the conversion of arrays to images, construct the [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) yourself and provide it directly.
+   {{% tab header="PIL 画像をログする" %}}
+配列から画像への変換を細かく制御したい場合は、[`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) を自分で作成して直接渡します。
 
 ```python
 from PIL import Image
 
 with wandb.init(project="") as run:
-    # Create a PIL image from a NumPy array
+    # NumPy 配列から PIL 画像を作成
     image = Image.fromarray(image_array)
 
-    # Optionally, convert to RGB if needed
+    # 必要に応じて RGB に変換
     if image.mode != "RGB":
         image = image.convert("RGB")
 
-    # Log the image
+    # 画像をログ
     run.log({"example": wandb.Image(image, caption="My Image")})
 ```
 
    {{% /tab %}}
-   {{% tab header="Logging Images from Files" %}}
-For even more control, create images however you like, save them to disk, and provide a filepath.
+   {{% tab header="ファイルから画像をログする" %}}
+さらに細かく制御したい場合は、任意の方法で画像を作成してディスクに保存し、ファイルパスを渡します。
 
 ```python
 import wandb
@@ -97,27 +97,27 @@ with wandb.init(project="") as run:
 {{< /tabpane >}}
 
 
-## Image overlays
+## 画像オーバーレイ
 
 
 {{< tabpane text=true >}}
-   {{% tab header="Segmentation Masks" %}}
-Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
+   {{% tab header="セマンティックセグメンテーション マスク" %}}
+セマンティックセグメンテーション マスクをログし、W&B の UI 上で不透明度の変更、時間変化の確認などの操作ができます。
 
-{{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing" >}}
+{{< img src="/images/track/semantic_segmentation.gif" alt="インタラクティブな マスク表示" >}}
 
-To log an overlay, provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
+オーバーレイをログするには、`wandb.Image` の `masks` キーワード引数に、以下の キー と 値 を持つ 辞書 を渡します:
 
-* one of two keys representing the image mask:
-  * `"mask_data"`: a 2D NumPy array containing an integer class label for each pixel
-  * `"path"`: (string) a path to a saved image mask file
-* `"class_labels"`: (optional) a dictionary mapping the integer class labels in the image mask to their readable class names
+* 画像マスクを表す次のいずれかのキー
+  * `"mask_data"`: 各ピクセルの整数クラスラベルを含む 2D NumPy 配列
+  * `"path"`: （文字列）保存済みの画像マスク ファイルへのパス
+* `"class_labels"`: （任意）画像マスク内の整数クラスラベルを、人が読めるクラス名に対応付ける 辞書
 
-To log multiple masks, log a mask dictionary with multiple keys, as in the code snippet below.
+複数のマスクをログするには、以下の コードスニペット のように、複数のキーを持つマスク 辞書 をログします。
 
-[See a live example](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
+[ライブ例を見る](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
 
-[Sample code](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix_P4J)
+[サンプルコード](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix_P4J)
 
 ```python
 mask_data = np.array([[1, 2, 2, ..., 2, 2, 1], ...])
@@ -136,30 +136,30 @@ mask_img = wandb.Image(
 )
 ```
 
-Segmentation masks for a key are defined at each step (each call to `run.log()`). 
-- If steps provide different values for the same mask key, only the most recent value for the key is applied to the image.
-- If steps provide different mask keys, all values for each key are shown, but only those defined in the step being viewed are applied to the image. Toggling the visibility of masks not defined in the step do not change the image.
+各キーに対するセグメンテーション マスクは、各ステップ（`run.log()` の各呼び出し）で定義されます。
+- 同じマスク キーに対してステップごとに異なる値を提供した場合、画像に適用されるのはそのキーの最新の値のみです。
+- ステップごとに異なるマスク キーを提供した場合、各キーの値はすべて表示されますが、表示中のステップで定義されたマスクのみが画像に適用されます。表示中のステップで定義されていないマスクの表示切り替えは、画像を変更しません。
    {{% /tab %}}
-    {{% tab header="Bounding Boxes" %}}
-Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
+    {{% tab header="バウンディング ボックス" %}}
+画像にバウンディング ボックスをログし、フィルターやトグルを使って UI 上で異なるボックス集合を動的に可視化できます。
 
-{{< img src="/images/track/bb-docs.jpeg" alt="Bounding box example" >}}
+{{< img src="/images/track/bb-docs.jpeg" alt="バウンディング ボックスの例" >}}
 
-[See a live example](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
+[ライブ例を見る](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
-To log a bounding box, you'll need to provide a dictionary with the following keys and values to the boxes keyword argument of `wandb.Image`:
+バウンディング ボックスをログするには、`wandb.Image` の boxes キーワード引数に、以下の キー と 値 を持つ 辞書 を渡します:
 
-* `box_data`: a list of dictionaries, one for each box. The box dictionary format is described below.
-  * `position`: a dictionary representing the position and size of the box in one of two formats, as described below. Boxes need not all use the same format.
-    * _Option 1:_ `{"minX", "maxX", "minY", "maxY"}`. Provide a set of coordinates defining the upper and lower bounds of each box dimension.
-    * _Option 2:_ `{"middle", "width", "height"}`. Provide a set of coordinates specifying the `middle` coordinates as `[x,y]`, and `width` and `height` as scalars.
-  * `class_id`: an integer representing the class identity of the box. See `class_labels` key below.
-  * `scores`: a dictionary of string labels and numeric values for scores. Can be used for filtering boxes in the UI.
-  * `domain`: specify the units/format of the box coordinates. **Set this to "pixel"** if the box coordinates are expressed in pixel space, such as integers within the bounds of the image dimensions. By default, the domain is assumed to be a fraction/percentage of the image, expressed as a floating point number between 0 and 1.
-  * `box_caption`: (optional) a string to be displayed as the label text on this box
-* `class_labels`: (optional) A dictionary mapping `class_id`s to strings. By default we will generate class labels `class_0`, `class_1`, etc.
+* `box_data`: 各ボックスにつき 1 つの辞書からなるリスト。ボックス辞書の形式は以下のとおりです。
+  * `position`: ボックスの位置とサイズを表す辞書。以下のいずれかの形式で指定します。すべてのボックスが同じ形式である必要はありません。
+    * オプション 1: `{"minX", "maxX", "minY", "maxY"}`。各次元の上下限となる座標を指定します。
+    * オプション 2: `{"middle", "width", "height"}`。`middle` を `[x,y]` の座標で、`width` と `height` をスカラーで指定します。
+  * `class_id`: ボックスのクラス ID を表す整数。下記の `class_labels` キーを参照。
+  * `scores`: スコア用の文字列ラベルと数値の辞書。UI でのボックスのフィルタリングに使えます。
+  * `domain`: ボックス座標の単位/形式を指定します。ボックス座標が画像内のピクセル空間（画像サイズの範囲内の整数など）で表されている場合は、必ず "pixel" を設定してください。デフォルトでは、座標は画像に対する割合（0〜1 の浮動小数点）と見なされます。
+  * `box_caption`: （任意）このボックスに表示するラベル文字列
+* `class_labels`: （任意）`class_id` を文字列に対応付ける 辞書。指定がない場合は `class_0`、`class_1` のように自動生成します。
 
-Check out this example:
+例をご覧ください:
 
 ```python
 import wandb
@@ -177,26 +177,26 @@ img = wandb.Image(
         "predictions": {
             "box_data": [
                 {
-                    # one box expressed in the default relative/fractional domain
+                    # 既定の相対（割合）ドメインで表した 1 つ目のボックス
                     "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
                     "class_id": 2,
                     "box_caption": class_id_to_label[2],
                     "scores": {"acc": 0.1, "loss": 1.2},
-                    # another box expressed in the pixel domain
-                    # (for illustration purposes only, all boxes are likely
-                    # to be in the same domain/format)
+                    # ピクセル ドメインで表した別のボックス
+                    # （説明のため。実際にはすべてのボックスが
+                    # 同じドメイン/形式であることが多い）
                     "position": {"middle": [150, 20], "width": 68, "height": 112},
                     "domain": "pixel",
                     "class_id": 3,
                     "box_caption": "a building",
                     "scores": {"acc": 0.5, "loss": 0.7},
                     # ...
-                    # Log as many boxes an as needed
+                    # 必要な数だけボックスをログできます
                 }
             ],
             "class_labels": class_id_to_label,
         },
-        # Log each meaningful group of boxes with a unique key name
+        # 意味のあるボックス群ごとに一意のキー名でログ
         "ground_truth": {
             # ...
         },
@@ -211,15 +211,15 @@ with wandb.init(project="my_project") as run:
 
 
 
-## Image overlays in Tables
+## テーブルでの 画像オーバーレイ
 
 {{< tabpane text=true >}}
-   {{% tab header="Segmentation Masks" %}}
-{{< img src="/images/track/Segmentation_Masks.gif" alt="Interactive Segmentation Masks in Tables" >}}
+   {{% tab header="セマンティックセグメンテーション マスク" %}}
+{{< img src="/images/track/Segmentation_Masks.gif" alt="テーブルでの インタラクティブな セマンティックセグメンテーション マスク" >}}
 
-To log Segmentation Masks in tables, you will need to provide a `wandb.Image` object for each row in the table.
+テーブルで セマンティックセグメンテーション マスクをログするには、テーブルの各行に `wandb.Image` オブジェクトを用意します。
 
-An example is provided in the Code snippet below:
+以下の コードスニペット に例を示します:
 
 ```python
 table = wandb.Table(columns=["ID", "Image"])
@@ -239,12 +239,12 @@ with wandb.init(project="my_project") as run:
     run.log({"Table": table})
 ```   
    {{% /tab %}}
-   {{% tab header="Bounding Boxes" %}}
-{{< img src="/images/track/Bounding_Boxes.gif" alt="Interactive Bounding Boxes in Tables" >}}
+   {{% tab header="バウンディング ボックス" %}}
+{{< img src="/images/track/Bounding_Boxes.gif" alt="テーブルでの インタラクティブな バウンディング ボックス" >}}
 
-To log Images with Bounding Boxes in tables, you will need to provide a `wandb.Image` object for each row in the table.
+テーブルで バウンディング ボックス付きの画像をログするには、テーブルの各行に `wandb.Image` オブジェクトを用意します。
 
-An example is provided in the code snippet below:
+以下の コードスニペット に例を示します:
 
 ```python
 table = wandb.Table(columns=["ID", "Image"])
@@ -278,22 +278,22 @@ for id, img, boxes in zip(ids, images, boxes_set):
 
 
 
-## Histograms
+## ヒストグラム
 
 {{< tabpane text=true >}}
-   {{% tab header="Basic Histogram Logging" %}}
-If a sequence of numbers, such as a list, array, or tensor, is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. All arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
+   {{% tab header="基本的なヒストグラムのログ" %}}
+最初の引数として数値列（list、配列、テンソル など）を渡すと、`np.histogram` を呼び出して自動的にヒストグラムを作成します。すべての配列/テンソルはフラット化されます。任意の `num_bins` キーワード引数で既定のビン数 `64` を上書きできます。サポートされる最大ビン数は `512` です。
 
-In the UI, histograms are plotted with the training step on the x-axis, the metric value on the y-axis, and the count represented by color, to ease comparison of histograms logged throughout training. See the "Histograms in Summary" tab of this panel for details on logging one-off histograms.
+UI では、ヒストグラムは x 軸にトレーニング ステップ、y 軸にメトリクス値、色でカウントを表し、トレーニング全体でログされたヒストグラムの比較を容易にします。単発のヒストグラムをログする方法は、このパネルの「サマリーのヒストグラム」タブを参照してください。
 
 ```python
 run.log({"gradients": wandb.Histogram(grads)})
 ```
 
-{{< img src="/images/track/histograms.png" alt="GAN discriminator gradients" >}}   
+{{< img src="/images/track/histograms.png" alt="GAN 識別器の 勾配" >}}   
    {{% /tab %}}
-   {{% tab header="Flexible Histogram Logging" %}}
-If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
+   {{% tab header="柔軟なヒストグラムのログ" %}}
+より細かく制御したい場合は、自分で `np.histogram` を呼び、返り値のタプルを `np_histogram` キーワード引数に渡します。
 
 ```python
 np_hist_grads = np.histogram(grads, density=True, range=(0.0, 1.0))
@@ -304,11 +304,11 @@ run.log({"gradients": wandb.Histogram(np_hist_grads)})
 
 
 
-If histograms are in your summary they will appear on the Overview tab of the [Run Page]({{< relref path="/guides/models/track/runs/" lang="ja" >}}). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
+ヒストグラムが summary にある場合は、[Run Page]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) の Overviewタブ に表示されます。history にある場合は、Charts タブに時間軸でビンのヒートマップを描画します。
 
-## 3D visualizations
+## 3D 可視化
 
-Log 3D point clouds and Lidar scenes with bounding boxes. Pass in a NumPy array containing coordinates and colors for the points to render. 
+3D 点群や Lidar シーンをバウンディング ボックス付きでログできます。レンダリングする点の座標と色を含む NumPy 配列を渡してください。
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
@@ -317,28 +317,28 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
 {{% alert %}}
-The W&B UI truncates the data at 300,000 points.
+W&B の UI は 300,000 点で データを切り捨てます。
 {{% /alert %}}
 
-#### NumPy array formats
+#### NumPy 配列フォーマット
 
-Three different formats of NumPy arrays are supported for flexible color schemes.
+柔軟な配色のために、3 種類の NumPy 配列形式をサポートします。
 
 * `[[x, y, z], ...]` `nx3`
-* `[[x, y, z, c], ...]` `nx4` `| c is a category` in the range `[1, 14]` (Useful for segmentation)
-* `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b` are values in the range `[0,255]`for red, green, and blue color channels.
+* `[[x, y, z, c], ...]` `nx4` `| c はカテゴリ` `[1, 14]` の範囲（セグメンテーションに便利）
+* `[[x, y, z, r, g, b], ...]` `nx6 | r,g,b` は `[0,255]` の範囲の赤、緑、青の各チャンネル値
 
-#### Python object
+#### Python オブジェクト
 
-Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref path="/ref/python/sdk/data-types/Object3D/#from_point_cloud" lang="ja" >}}).
+このスキーマを用いれば、Python オブジェクトを定義し、[`from_point_cloud` メソッド]({{< relref path="/ref/python/sdk/data-types/Object3D/#from_point_cloud" lang="ja" >}}) に渡せます。
 
-* `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above]({{< relref path="#python-object" lang="ja" >}}).
-* `boxes` is a NumPy array of python dictionaries with three attributes:
-  * `corners`- a list of eight corners
-  * `label`- a string representing the label to be rendered on the box (Optional)
-  * `color`- rgb values representing the color of the box
-  * `score` - a numeric value that will be displayed on the bounding box that can be used to filter the bounding boxes shown (for example, to only show bounding boxes where `score` > `0.75`). (Optional)
-* `type` is a string representing the scene type to render. Currently the only supported value is `lidar/beta`
+* `points` は、レンダリングする点の座標と色を含む NumPy 配列です（[上で示したシンプルな点群レンダラーと同じ形式]({{< relref path="#python-object" lang="ja" >}})）。
+* `boxes` は、3 つの属性を持つ Python 辞書の NumPy 配列です:
+  * `corners` - 8 つのコーナーのリスト
+  * `label` - ボックスに表示するラベル文字列（任意）
+  * `color` - ボックスの色を表す rgb 値
+  * `score` - バウンディング ボックスに表示され、表示するボックスのフィルタに使える数値（例: `score` > `0.75` のボックスのみを表示）。任意
+* `type` はレンダリングするシーンタイプを表す文字列です。現在サポートされている値は `lidar/beta` のみです。
 
 ```python
 point_list = [
@@ -372,22 +372,22 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
                 [ 2603.3178766284827, 772.8726736494882, -19.66876480228866 ],
                 [ 2604.8684867834395, 771.4313904894723, -19.66876480228866 ]
         ],
-         "color": [0, 0, 255], # color in RGB of the bounding box
-         "label": "car", # string displayed on the bounding box
-         "score": 0.6 # numeric displayed on the bounding box
+         "color": [0, 0, 255], # バウンディング ボックスの RGB 色
+         "label": "car", # バウンディング ボックスに表示する文字列
+         "score": 0.6 # バウンディング ボックスに表示する数値
      }],
      vectors = [
-        {"start": [0, 0, 0], "end": [0.1, 0.2, 0.5], "color": [255, 0, 0]}, # color is optional
+        {"start": [0, 0, 0], "end": [0.1, 0.2, 0.5], "color": [255, 0, 0]}, # color は任意
      ],
      point_cloud_type = "lidar/beta",
 )})
 ```
 
-When viewing a point cloud, you can hold control and use the mouse to move around inside the space.
+点群を表示する際は、Ctrl を押しながらマウスで空間内を移動できます。
 
-#### Point cloud files
+#### 点群ファイル
 
-You can use [the `from_file` method]({{< relref path="/ref/python/sdk/data-types/Object3D/#from_file" lang="ja" >}}) to load in a JSON file full of point cloud data.
+[`from_file` メソッド]({{< relref path="/ref/python/sdk/data-types/Object3D/#from_file" lang="ja" >}}) を使って、点群データを含む JSON ファイルを読み込めます。
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -395,7 +395,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
 )})
 ```
 
-An example of how to format the point cloud data is shown below. 
+点群データのフォーマット例は以下のとおりです。
 
 ```json
 {
@@ -481,9 +481,9 @@ An example of how to format the point cloud data is shown below.
     "type": "lidar/beta"
 }
 ```
-#### NumPy arrays
+#### NumPy 配列
 
-Using [the same array formats defined above]({{< relref path="#numpy-array-formats" lang="ja" >}}), you can use `numpy` arrays directly with [the `from_numpy` method]({{< relref path="/ref/python/sdk/data-types/Object3D/#from_numpy" lang="ja" >}}) to define a point cloud.
+[上で定義したのと同じ配列形式]({{< relref path="#numpy-array-formats" lang="ja" >}})を使い、[`from_numpy` メソッド]({{< relref path="/ref/python/sdk/data-types/Object3D/#from_numpy" lang="ja" >}})で `numpy` 配列から直接点群を定義できます。
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -535,9 +535,9 @@ run.log({"my_cloud_from_numpy_rgb": wandb.Object3D.from_numpy(
 run.log({"protein": wandb.Molecule("6lu7.pdb")})
 ```
 
-Log molecular data in any of 10 file types:`pdb`, `pqr`, `mmcif`, `mcif`, `cif`, `sdf`, `sd`, `gro`, `mol2`, or `mmtf.`
+分子データは次の 10 種類のファイル形式でログできます: `pdb`、`pqr`、`mmcif`、`mcif`、`cif`、`sdf`、`sd`、`gro`、`mol2`、`mmtf`。
 
-W&B also supports logging molecular data from SMILES strings, [`rdkit`](https://www.rdkit.org/docs/index.html) `mol` files, and `rdkit.Chem.rdchem.Mol` objects.
+W&B はまた、SMILES 文字列、[`rdkit`](https://www.rdkit.org/docs/index.html) の `mol` ファイル、`rdkit.Chem.rdchem.Mol` オブジェクトからの分子データのログもサポートしています。
 
 ```python
 resveratrol = rdkit.Chem.MolFromSmiles("Oc1ccc(cc1)C=Cc1cc(O)cc(c1)O")
@@ -551,37 +551,37 @@ run.log(
 )
 ```
 
-When your run finishes, you'll be able to interact with 3D visualizations of your molecules in the UI.
+run が終了すると、UI 上で分子の 3D 可視化を操作できるようになります。
 
-[See a live example using AlphaFold](https://wandb.me/alphafold-workspace)
+[AlphaFold を用いたライブ例を見る](https://wandb.me/alphafold-workspace)
 
-{{< img src="/images/track/docs-molecule.png" alt="Molecule structure" >}}
+{{< img src="/images/track/docs-molecule.png" alt="分子構造" >}}
   </TabItem>
 </Tabs>
 
-### PNG image
+### PNG 画像
 
-[`wandb.Image`]({{< relref path="/ref/python/sdk/data-types/image.md" lang="ja" >}}) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
+[`wandb.Image`]({{< relref path="/ref/python/sdk/data-types/image.md" lang="ja" >}}) は、`numpy` 配列や `PILImage` のインスタンスを既定で PNG に変換します。
 
 ```python
 run.log({"example": wandb.Image(...)})
-# Or multiple images
+# 複数画像のログ
 run.log({"example": [wandb.Image(...) for img in images]})
 ```
 
-### Video
+### 動画
 
-Videos are logged using the [`wandb.Video`]({{< relref path="/ref/python/sdk/data-types/Video" lang="ja" >}}) data type:
+動画は [`wandb.Video`]({{< relref path="/ref/python/sdk/data-types/Video" lang="ja" >}}) データ型でログします:
 
 ```python
 run.log({"example": wandb.Video("myvideo.mp4")})
 ```
 
-Now you can view videos in the media browser. Go to your project workspace, run workspace, or report and click **Add visualization** to add a rich media panel.
+これでメディア ブラウザーで動画を見られます。project workspace、run workspace、または report に移動し、**Add visualization** をクリックしてリッチメディア パネルを追加します。
 
-## 2D view of a molecule
+## 分子の 2D 表示
 
-You can log a 2D view of a molecule using the [`wandb.Image`]({{< relref path="/ref/python/sdk/data-types/image.md" lang="ja" >}}) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
+[`wandb.Image`]({{< relref path="/ref/python/sdk/data-types/image.md" lang="ja" >}}) データ型と [`rdkit`](https://www.rdkit.org/docs/index.html) を使って、分子の 2D 表示をログできます:
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -593,56 +593,56 @@ run.log({"acetic_acid": wandb.Image(pil_image)})
 ```
 
 
-## Other media
+## その他のメディア
 
-W&B also supports logging of a variety of other media types.
+W&B は、他のさまざまなメディアタイプのログもサポートしています。
 
-### Audio
+### オーディオ
 
 ```python
 run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-A maximum of 100 audio clips can be logged per step. For more usage information, see [`audio-file`]({{< relref path="/ref/query-panel/audio-file.md" lang="ja" >}}).
+1 ステップあたり最大 100 本のオーディオ クリップをログできます。使い方の詳細は [`audio-file`]({{< relref path="/ref/query-panel/audio-file.md" lang="ja" >}}) を参照してください。
 
-### Video
+### 動画
 
 ```python
 run.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
-If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
+numpy 配列を渡した場合、次元の順序は 時間、チャネル、幅、高さ と見なします。既定では 4 fps の GIF を作成します（numpy オブジェクトを渡す場合は、[`ffmpeg`](https://www.ffmpeg.org) と Python ライブラリの [`moviepy`](https://pypi.org/project/moviepy/) が必要です）。サポートされる形式は `"gif"`、`"mp4"`、`"webm"`、`"ogg"` です。文字列を `wandb.Video` に渡した場合は、アップロード前にそのファイルの存在とサポート対象形式であることを確認します。`BytesIO` オブジェクトを渡すと、指定した形式の拡張子を持つ一時ファイルを作成します。
 
-On the W&B [Run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) and [Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) Pages, you will see your videos in the Media section.
+W&B の [Run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) ページ と [Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}}) ページ の Media セクションに動画が表示されます。
 
-For more usage information, see [`video-file`]({{< relref path="/ref/query-panel/video-file" lang="ja" >}}).
+使い方の詳細は [`video-file`]({{< relref path="/ref/query-panel/video-file" lang="ja" >}}) を参照してください。
 
-### Text
+### テキスト
 
-Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
+`wandb.Table` を使って テーブル にテキストをログし、UI に表示できます。既定の列ヘッダーは `["Input", "Output", "Expected"]` です。UI パフォーマンス最適化のため、既定の最大行数は 10,000 に設定されていますが、`wandb.Table.MAX_ROWS = {DESIRED_MAX}` で明示的に上書きできます。
 
 ```python
 with wandb.init(project="my_project") as run:
     columns = ["Text", "Predicted Sentiment", "True Sentiment"]
-    # Method 1
+    # 方法 1
     data = [["I love my phone", "1", "1"], ["My phone sucks", "0", "-1"]]
     table = wandb.Table(data=data, columns=columns)
     run.log({"examples": table})
 
-    # Method 2
+    # 方法 2
     table = wandb.Table(columns=columns)
     table.add_data("I love my phone", "1", "1")
     table.add_data("My phone sucks", "0", "-1")
     run.log({"examples": table})
 ```
 
-You can also pass a pandas `DataFrame` object.
+pandas の `DataFrame` オブジェクトを渡すこともできます。
 
 ```python
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-For more usage information, see [`string`]({{< relref path="/ref/query-panel/" lang="ja" >}}).
+使い方の詳細は [`string`]({{< relref path="/ref/query-panel/" lang="ja" >}}) を参照してください。
 
 ### HTML
 
@@ -651,10 +651,10 @@ run.log({"custom_file": wandb.Html(open("some.html"))})
 run.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-Custom HTML can be logged at any key, and this exposes an HTML panel on the run page. By default, we inject default styles; you can turn off default styles by passing `inject=False`.
+任意のキーでカスタム HTML をログでき、Run ページに HTML パネルが表示されます。既定では標準のスタイルを注入します。`inject=False` を渡すと標準スタイルの注入をオフにできます。
 
 ```python
 run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-For more usage information, see [`html-file`]({{< relref path="/ref/query-panel/html-file" lang="ja" >}}).
+使い方の詳細は [`html-file`]({{< relref path="/ref/query-panel/html-file" lang="ja" >}}) を参照してください。

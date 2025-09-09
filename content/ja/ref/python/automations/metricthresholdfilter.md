@@ -1,21 +1,21 @@
 ---
+title: MetricThresholdFilter
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-automations-metricthresholdfilter
 object_type: automations_namespace
-title: MetricThresholdFilter
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py >}}
 
 
 
-Defines a filter that compares a run metric against a user-defined threshold value.
+ユーザー定義のしきい値に対して run メトリクスを比較するフィルターを定義します。
 
-Attributes:
-- agg (Optional): Aggregate operation, if any, to apply over the window size.
-- cmp (Literal): Comparison operator used to compare the metric value (left) vs. the threshold value (right).
-- name (str): Name of the observed metric.
-- threshold (Union): Threshold value to compare against.
-- window (int): Size of the window over which the metric is aggregated (ignored if `agg is None`).
+属性:
+- agg (Optional): ウィンドウのサイズ全体に適用する集約処理（ある場合）。
+- cmp (Literal): メトリクスの値（左）としきい値（右）を比較するために使われる比較演算子。
+- name (str): 観測対象のメトリクス名。
+- threshold (Union): 比較対象のしきい値。
+- window (int): メトリクスを集約するウィンドウのサイズ（ `agg is None` の場合は無視されます）。

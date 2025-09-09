@@ -1,19 +1,19 @@
 ---
+title: 学生としてアカデミックプランを利用できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-academic_plan_student
 support:
-- administrator
-- academic
-- user management
-title: Can I get an academic plan as a student?
+- 管理者
+- 学術
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Students can apply for an academic plan by following these steps:
+学生は、以下の手順でアカデミック プランを申請できます:
 
-- Visit [the Pricing page on the wandb.com](https://wandb.ai/site/pricing).
-- Apply for the academic plan.
-- Alternatively, start with a 30-day trial and convert it to an academic plan by visiting the [W&B academic application page](https://wandb.ai/academic_application).
+- [wandb.com の Pricing ページ](https://wandb.ai/site/pricing) にアクセスします。
+- アカデミック プランを申請します。
+- または、30 日間のトライアルを開始し、[W&B アカデミック 申請ページ](https://wandb.ai/academic_application) にアクセスしてアカデミック プランに切り替えます。

@@ -1,10 +1,10 @@
 ---
+title: インテグレーション
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-integrations
 object_type: public_apis_namespace
-title: integrations
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/integrations.py >}}
@@ -12,15 +12,15 @@ title: integrations
 
 
 
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for integrations. 
+# <kbd>モジュール</kbd> `wandb.apis.public`
+W&B の インテグレーション向けの 公開 API です。 
 
-This module provides classes for interacting with W&B integrations. 
+このモジュールは W&B の インテグレーション とやり取りするためのクラスを提供します。 
 
-## <kbd>class</kbd> `Integrations`
-An lazy iterator of `Integration` objects. 
+## <kbd>クラス</kbd> `Integrations`
+`Integration` オブジェクトの遅延イテレータです。 
 
-### <kbd>method</kbd> `Integrations.__init__`
+### <kbd>メソッド</kbd> `Integrations.__init__`
 
 ```python
 __init__(client: '_Client', variables: 'dict[str, Any]', per_page: 'int' = 50)
@@ -35,13 +35,13 @@ __init__(client: '_Client', variables: 'dict[str, Any]', per_page: 'int' = 50)
 
 
 
-### <kbd>method</kbd> `Integrations.convert_objects`
+### <kbd>メソッド</kbd> `Integrations.convert_objects`
 
 ```python
 convert_objects() → Iterable[Integration]
 ```
 
-Parse the page data into a list of integrations. 
+ページのデータを解析して、インテグレーションのリストに変換します。 
 
 
 ---

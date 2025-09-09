@@ -1,21 +1,18 @@
 ---
+title: 1 つのスクリプトから複数の run をローンンチするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-launch_multiple_runs_one_script
 support:
-- experiments
-title: How do I launch multiple runs from one script?
+- 実験管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Finish previous runs before starting new runs to log multiple runs within
-a single script.
+新しい run を開始する前に前の run を終了して、1 つの スクリプト 内で複数の runs を ログ してください。
 
-The recommended way to do this is by using `wandb.init()` as a context manager
-because this finishes the run and marks it as failed if your script raises an
-exception:
+これを行う推奨方法は、`wandb.init()` を コンテキストマネージャー として使うことです。こうすると、スクリプトが例外を送出した場合にその run を終了し、失敗としてマークします:
 
 ```python
 import wandb
@@ -26,7 +23,7 @@ for x in range(10):
             run.log({"metric": x + y})
 ```
 
-You can also call `run.finish()` explicitly:
+`run.finish()` を明示的に呼ぶこともできます:
 
 ```python
 import wandb
@@ -46,11 +43,9 @@ for x in range(10):
         run.finish()
 ```
 
-## Multiple active runs
+## 複数のアクティブな runs
 
-Starting with wandb 0.19.10, you can set the `reinit` setting to `"create_new"`
-to create multiple simultaneously active runs.
-
+wandb 0.19.10 以降では、同時にアクティブな複数の runs を作成するために、`reinit` 設定を `"create_new"` に設定できます。
 
 ```python
 import wandb
@@ -64,6 +59,4 @@ with wandb.init(reinit="create_new") as tracking_run:
             tracking_run.log({"x": x})
 ```
 
-See [Multiple runs per process]({{< relref path="guides/models/track/runs/multiple-runs-per-process.md" lang="ja" >}})
-for more information about `reinit="create_new"`, including caveats about W&B
-integrations.
+`reinit="create_new"` に関する詳細 (W&B インテグレーション における注意点を含む) については、[プロセス ごとの複数の runs]({{< relref path="guides/models/track/runs/multiple-runs-per-process.md" lang="ja" >}}) を参照してください。

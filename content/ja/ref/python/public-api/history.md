@@ -1,10 +1,10 @@
 ---
+title: 履歴
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-history
 object_type: public_apis_namespace
-title: history
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/history.py >}}
@@ -12,16 +12,16 @@ title: history
 
 
 
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Run History. 
+# <kbd>モジュール</kbd> `wandb.apis.public`
+Run 履歴向けの W&B Public API。
 
-This module provides classes for efficiently scanning and sampling run history data. 
+このモジュールは、run 履歴データを効率的にスキャンし、サンプリングするためのクラスを提供します。
 
 
 
-**Note:**
+**注記:**
 
-> This module is part of the W&B Public API and provides methods to access run history data. It handles pagination automatically and offers both complete and sampled access to metrics logged during training runs. 
+> このモジュールは W&B の Public API の一部で、run 履歴データへのアクセスを提供するメソッドを備えています。ページネーションを自動で処理し、トレーニング run 中にログされたメトリクスに対して、全件アクセスとサンプルアクセスの両方を提供します。
 
 
 

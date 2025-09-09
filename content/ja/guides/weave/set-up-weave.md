@@ -1,28 +1,27 @@
 ---
-description: How to use install and configure Weave to capture data and metrics about
-  your LLM workflows.
+title: W&B runs で Weave を使用する
+description: Weave を インストール して 設定 し、LLM ワークフロー に関する データ と メトリクス を 記録 する 方法。
 menu:
   default:
     identifier: ja-guides-weave-set-up-weave
-title: Use Weave in your W&B runs
 weight: 100
 ---
 
-Integrating Weave with your W&B runs gives you a complete picture of how your LLM workflows behave. While W&B tracks experiments, metrics, and artifacts, Weave adds visibility into the step-by-step execution of your models by capturing prompts, responses, tool calls, latencies, and token usage automatically. By importing `weave` alongside `wandb.init()`, you can start collecting traces with no extra setup. This makes it easy to debug and measure the performance of your agents over time in the W&B dashboard.
+Weave を W&B の run と統合すると、LLM ワークフローの振る舞いを全体像として把握できます。W&B が experiments、メトリクス、artifacts を追跡する一方で、Weave はプロンプト、レスポンス、ツール呼び出し、レイテンシ、トークン使用量を自動的に取得して、モデルのステップごとの実行に可視性を加えます。`wandb.init()` と並べて `weave` をインポートするだけで、追加のセットアップなしにトレースの収集を開始できます。これにより、W&B のダッシュボード上で、時間の経過に伴うエージェントのパフォーマンスをデバッグおよび計測しやすくなります。
 
-See the [Weave's documentation](https://weave-docs.wandb.ai/) to learn more about capturing traces and how you can start evaluating your LLM's responses.
+トレースの取得方法や LLM の応答評価の始め方については、[Weave のドキュメント](https://weave-docs.wandb.ai/)をご覧ください。
 
-## Install Weave
+## Weave をインストール
 
-To install Weave, run:
+Weave をインストールするには、次を実行します:
 
 ```bash
 pip install wandb weave
 ```
 
-## Auto-initialize Weave with W&B
+## W&B と一緒に Weave を自動初期化する
 
-Once you've installed Weave, import it and initialize a W&B run. No additional configuration is required to initialize Weave.
+Weave をインストールしたら、インポートして W&B の run を初期化します。Weave を初期化するために追加の設定は不要です。
 
 ```python
 import wandb
@@ -30,15 +29,15 @@ import weave
 
 wandb.init(project="weave-demo")
 
-# Weave is now auto-initialized and ready to capture traces.
-# Use your code as usual; traces are associated with this W&B run.
+# Weave は自動初期化され、トレースを取得する準備ができました。
+# いつもどおりにコードを使えば、トレースはこの W&B の run に関連付けられます。
 ```
 
-## Start tracking LLM workflows
+## LLM ワークフローの追跡を開始する
 
-Weave automatically tracks LLM calls by patching popular LLM libraries like OpenAI, Anthropic, and Gemini. This means that you can call your LLM as you normally would, and Weave will automatically track the call.
+Weave は、OpenAI、Anthropic、Gemini などの一般的な LLM ライブラリをパッチして、LLM 呼び出しを自動追跡します。つまり、普段どおりに LLM を呼び出すだけで、Weave がその呼び出しを自動で追跡します。
 
-For example, the following code snippet makes a basic call to OpenAI and Weave captures a trace without any additional configuration:
+例えば、次のコードスニペットは OpenAI への基本的な呼び出しを行い、追加の設定なしで Weave がトレースを取得します:
 
 ```python
 import wandb
@@ -48,14 +47,14 @@ from openai import OpenAI
 wandb.init(project="weave-demo")
 client = OpenAI()
 
-# Weave will automatically track this call
+# Weave はこの呼び出しを自動で追跡します
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": "What is the capital of France?"}]
 )
 ```
 
-You can also use Weave to track arbitrary Python functions by decorating them with `@weave.op`, like this:
+また、次のように `@weave.op` でデコレートすることで、任意の Python 関数を Weave で追跡できます:
 
 ```python
 import wandb
@@ -71,18 +70,18 @@ def internal_step(**kwargs):
     ...
 
 
-# Weave automatically tracks this call
+# Weave はこの呼び出しを自動で追跡します
 agent_step()
 
-# Weave does not track this call
+# Weave はこの呼び出しを追跡しません
 internal_step()
 ```
 
-This allows you to capture data about functions that handle things like retrieval, scoring, or data preprocessing so you can see how non-LLM steps contribute to your agent’s overall behavior.
+これにより、検索、スコアリング、データ前処理などを担う関数のデータを取得でき、LLM 以外のステップがエージェントの全体的な振る舞いにどのように寄与しているかを確認できます。
 
-## View your traces
+## トレースを表示する
 
-After running your code, `wandb.init()` returns several links to the W&B dashboard. The link to your trace looks similar to this:
+コードの実行後、`wandb.init()` は W&B のダッシュボードへの複数のリンクを返します。トレースへのリンクは次のような形式です:
 
 ```shell
 weave: Logged in as Weights & Biases user: example-user.
@@ -90,4 +89,4 @@ weave: View Weave data at https://wandb.ai/wandb/your-project/weave
 weave: 🍩 https://wandb.ai/wandb/your-project/r/call/0198f4f7-2869-7694-ab8d-3d602de64377
 ```
 
-Open the link in a browser to view the trace in the dashboard. You can explore dashboard to see the various metrics and data collected during the trace, and share the results with your team.
+ブラウザでリンクを開くと、ダッシュボードでトレースを確認できます。ダッシュボードを探索してトレース中に収集された各種メトリクスやデータを確認し、チームと結果を共有できます。

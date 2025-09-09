@@ -1,37 +1,37 @@
 ---
-description: Collaborate and share W&B Reports with peers, co-workers, and your team.
+title: Reports で共同作業する
+description: W&B Reports を同僚やコラボレーター、チームと共同で作成・共有しましょう。
 menu:
   default:
     identifier: ja-guides-core-reports-collaborate-on-reports
     parent: reports
-title: Collaborate on reports
 weight: 30
 ---
 
-This page describes various ways to collaborate on reports with your team.
+このページでは、Teams と Reports を使って共同作業するさまざまな方法について説明します。
 
-## Share a report
-When viewing a report, click **Share**, then:
-- To share a link to the report with an email address or a username, click **Invite**. Enter an email address or username, select **Can view** or **Can edit**, then click **Invite**. If you share by email, the email address does not need to be a member of your organization or team.
-- To generate a sharing link instead, click **Share**. Adjust the permissions for the link, then click **Copy report link**. Share the link with the member.
+## Report を共有する
+Report を表示しているときに、**Share** をクリックして、次のいずれかを行います。
+- メールアドレスまたはユーザー名で Report へのリンクを共有するには、**Invite** をクリックします。メールアドレスまたはユーザー名を入力し、**Can view** または **Can edit** を選択して、**Invite** をクリックします。メールで共有する場合、そのメールアドレスの相手が組織または Teams のメンバーである必要はありません。
+- 共有リンクを生成するには、**Share** をクリックします。リンクの権限を調整し、**Copy report link** をクリックします。そのリンクをメンバーと共有します。
 
-When viewing the report, click a panel to open it in full-screen mode. If you copy the URL from the browser and share it with another user, when they access the link the panel will open directly in full-screen mode.
+Report を表示しているときに、パネルをクリックするとフルスクリーンモードで開きます。ブラウザから URL をコピーして別のユーザーと共有すると、そのユーザーがリンクにアクセスしたときに、パネルが直接フルスクリーンモードで開きます。
 
-## Edit a report
-When any team member clicks the **Edit** button to begin editing the report, a draft is automatically saved. Select **Save to report** to publish your changes.
+## Report を編集する
+チームメンバーの誰かが **Edit** をクリックして Report の編集を開始すると、ドラフトが自動保存されます。変更を公開するには、**Save to report** を選択します。
 
-If an edit conflict occurs, such as when two team members edit the report at once, a warning notification helps you to resolve any conflicts.
+2 人のチームメンバーが同時に Report を編集するなど、編集の競合が発生した場合は、警告が表示され、解決を支援します。
 
-{{< img src="/images/reports/share-report.gif" alt="Report sharing modal for a report in a 'Public' project" max-width="90%">}}
+{{< img src="/images/reports/share-report.gif" alt="Public Projects 内の Report の共有モーダル" max-width="90%">}}
 
-## Comment on reports
-Click **Comment** to leave a comment on a report.
+## Reports にコメントする
+Report にコメントを残すには、**Comment** をクリックします。
 
-To comment directly on a panel, hover over the panel, then click the comment button, which looks like a speech bubble.
+パネルに直接コメントするには、パネルにカーソルを合わせ、吹き出しのようなコメントボタンをクリックします。
 
-{{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="Adding a comment to a panel" >}}
+{{< img src="/images/reports/demo_comment_on_panels_in_reports.gif" alt="パネルにコメントを追加する" >}}
 
-## Star a report
-If your team has a large number of reports, click **Star** at the top of a report to add it to your favorites. When viewing your team's list of reports, click the star in a report's row to add it to your favorites. Starred reports appear at the top of the list.
+## Report をスターする
+Teams に多数の Reports がある場合、Report の上部にある **Star** をクリックしてお気に入りに追加します。Teams の Reports リストを表示しているときに、Report の行にあるスターをクリックしてお気に入りに追加します。スター付きの Reports はリストの最上部に表示されます。
 
-From the list of reports, you can see how many members have starred each report to gauge its relative popularity.
+Reports のリストから、各 Report をスターしたメンバー数を確認して、相対的な人気度を把握できます。

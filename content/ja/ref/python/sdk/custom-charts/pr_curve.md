@@ -1,10 +1,10 @@
 ---
+title: pr_curve()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-pr_curve
 object_type: python_sdk_custom_charts
-title: pr_curve()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py >}}
@@ -26,33 +26,33 @@ pr_curve(
 ) → CustomChart
 ```
 
-Constructs a Precision-Recall (PR) curve. 
+PR 曲線を作成します。
 
-The Precision-Recall curve is particularly useful for evaluating classifiers on imbalanced datasets. A high area under the PR curve signifies both high precision (a low false positive rate) and high recall (a low false negative rate). The curve provides insights into the balance between false positives and false negatives at various threshold levels, aiding in the assessment of a model's performance. 
+PR 曲線は、不均衡なデータセットで分類器を評価する際に特に有用です。PR 曲線下の面積が大きいほど、適合率が高い（偽陽性率が低い）かつ再現率も高い（偽陰性率が低い）ことを意味します。さまざまな閾値レベルにおける偽陽性と偽陰性のバランスに関する洞察を与え、モデルの性能評価に役立ちます。
 
 
 
 **Args:**
  
- - `y_true`:  True binary labels. The shape should be (`num_samples`,). 
- - `y_probas`:  Predicted scores or probabilities for each class.  These can be probability estimates, confidence scores, or non-thresholded  decision values. The shape should be (`num_samples`, `num_classes`). 
- - `labels`:  Optional list of class names to replace  numeric values in `y_true` for easier plot interpretation.  For example, `labels = ['dog', 'cat', 'owl']` will replace 0 with  'dog', 1 with 'cat', and 2 with 'owl' in the plot. If not provided,  numeric values from `y_true` will be used. 
- - `classes_to_plot`:  Optional list of unique class values from  y_true to be included in the plot. If not specified, all unique  classes in y_true will be plotted. 
- - `interp_size`:  Number of points to interpolate recall values. The  recall values will be fixed to `interp_size` uniformly distributed  points in the range [0, 1], and the precision will be interpolated  accordingly. 
- - `title`:  Title of the plot. Defaults to "Precision-Recall Curve". 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+ - `y_true`:  真の 2 値ラベル。形状は (`num_samples`,)。 
+ - `y_probas`:  各クラスに対する予測スコアまたは確率。確率推定、信頼度スコア、またはしきい値を設けない決定関数の値を指定できます。形状は (`num_samples`, `num_classes`)。 
+ - `labels`:  プロットを解釈しやすくするために、`y_true` の数値を置き換えるクラス名の任意リスト。たとえば、`labels = ['dog', 'cat', 'owl']` とすると、プロット内で 0 が 'dog'、1 が 'cat'、2 が 'owl' に置き換えられます。指定しない場合は `y_true` の数値がそのまま使われます。 
+ - `classes_to_plot`:  プロットに含める `y_true` のユニークなクラス値の任意リスト。指定しない場合は、`y_true` に存在するすべてのユニーククラスがプロットされます。 
+ - `interp_size`:  再現率を補間する点の数。[0, 1] の範囲に一様に分布する `interp_size` 個の点に再現率を固定し、それに合わせて適合率を補間します。 
+ - `title`:  プロットのタイトル。デフォルトは "Precision-Recall Curve"。 
+ - `split_table`:  W&B UI でテーブルを別セクションに分けるかどうか。`True` の場合、"Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False`。 
 
 
 
 **Returns:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  W&B にログできるカスタムチャートのオブジェクト。チャートをログするには、`wandb.log()` に渡します。 
 
 
 
 **Raises:**
  
- - `wandb.Error`:  If NumPy, pandas, or scikit-learn is not installed. 
+ - `wandb.Error`:  NumPy、pandas、scikit-learn がインストールされていない場合。 
 
 
 
@@ -64,17 +64,17 @@ The Precision-Recall curve is particularly useful for evaluating classifiers on 
 ```python
 import wandb
 
-# Example for spam detection (binary classification)
-y_true = [0, 1, 1, 0, 1]  # 0 = not spam, 1 = spam
+# スパム検出の例（2 値分類）
+y_true = [0, 1, 1, 0, 1]  # 0 = 非スパム、1 = スパム
 y_probas = [
-    [0.9, 0.1],  # Predicted probabilities for the first sample (not spam)
-    [0.2, 0.8],  # Second sample (spam), and so on
+    [0.9, 0.1],  # 1 件目のサンプルに対する予測確率（非スパム）
+    [0.2, 0.8],  # 2 件目（スパム）、以降も同様
     [0.1, 0.9],
     [0.8, 0.2],
     [0.3, 0.7],
 ]
 
-labels = ["not spam", "spam"]  # Optional class names for readability
+labels = ["not spam", "spam"]  # 可読性のための任意のクラス名
 
 with wandb.init(project="spam-detection") as run:
     pr_curve = wandb.plot.pr_curve(

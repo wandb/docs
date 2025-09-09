@@ -1,14 +1,14 @@
 ---
+title: ユーザー名を変更できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_username
 support:
-- administrator
-- user management
-title: Is it possible to change the username?
+- 管理者
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Changing the username after account creation is not possible. Create a new account with the desired username instead.
+アカウント作成後に ユーザー名 を変更することはできません。希望する ユーザー名 で新しいアカウントを作成してください。

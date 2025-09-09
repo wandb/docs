@@ -1,17 +1,17 @@
 ---
+title: システム メトリクス の ログ 頻度を変更するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_reduce_how_frequently_to_log_system_metrics
 support:
-- metrics
+- メトリクス
 - runs
-title: How can I change how frequently to log system metrics?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To configure the frequency to log [system metrics]({{< relref path="/ref/system-metrics.md" lang="ja" >}}), set `_stats_sampling_interval` to a number of seconds, expressed as a float. Default: `10.0`.
+システム メトリクスを ログ する頻度を 設定 するには、`_stats_sampling_interval` に秒数（浮動小数点数）を指定します。デフォルト: `10.0`。
 
 ```python
 wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))

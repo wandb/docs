@@ -1,10 +1,10 @@
 ---
+title: teams
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-teams
 object_type: public_apis_namespace
-title: teams
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py >}}
@@ -13,30 +13,30 @@ title: teams
 
 
 # <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for managing teams and team members. 
+Teams と チームメンバーを管理するための W&B Public API。 
 
-This module provides classes for managing W&B teams and their members. 
+このモジュールは、W&B の Teams とそのメンバーを管理するためのクラスを提供します。 
 
 
 
-**Note:**
+**注意:**
 
-> This module is part of the W&B Public API and provides methods to manage teams and their members. Team management operations require appropriate permissions. 
+> このモジュールは W&B Public API の一部であり、Teams とそのメンバーを管理するためのメソッドを提供します。Team の管理操作には適切な権限が必要です。 
 
 
 
 ---
 
 ## <kbd>class</kbd> `Member`
-A member of a team. 
+Team のメンバー。 
 
 
 
-**Args:**
+**引数:**
  
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
- - `team` (str):  The name of the team this member belongs to 
- - `attrs` (dict):  The member attributes 
+ - `client` (`wandb.apis.internal.Api`):  使用するクライアント インスタンス 
+ - `team` (str):  このメンバーが所属する Team の名前 
+ - `attrs` (dict):  メンバーの属性 
 
 ### <kbd>method</kbd> `Member.__init__`
 
@@ -59,34 +59,34 @@ __init__(client, team, attrs)
 delete()
 ```
 
-Remove a member from a team. 
+Team からメンバーを削除します。 
 
 
 
-**Returns:**
-  Boolean indicating success 
+**戻り値:**
+  成功したかどうかを示すブール値 
 
 
 ---
 
 ## <kbd>class</kbd> `Team`
-A class that represents a W&B team. 
+W&B の Team を表すクラス。 
 
-This class provides methods to manage W&B teams, including creating teams, inviting members, and managing service accounts. It inherits from Attrs to handle team attributes. 
+このクラスは、Teams の作成、メンバーの招待、サービス アカウントの管理など、W&B の Teams を管理するためのメソッドを提供します。Team の属性を扱うために Attrs を継承しています。 
 
 
 
-**Args:**
+**引数:**
  
- - `client` (`wandb.apis.public.Api`):  The api instance to use 
- - `name` (str):  The name of the team 
- - `attrs` (dict):  Optional dictionary of team attributes 
+ - `client` (`wandb.apis.public.Api`):  使用する API インスタンス 
+ - `name` (str):  Team の名前 
+ - `attrs` (dict):  省略可能な Team 属性の辞書 
 
 
 
-**Note:**
+**注意:**
 
-> Team management requires appropriate permissions. 
+> Team の管理には適切な権限が必要です。 
 
 ### <kbd>method</kbd> `Team.__init__`
 
@@ -109,20 +109,20 @@ __init__(client, name, attrs=None)
 create(api, team, admin_username=None)
 ```
 
-Create a new team. 
+新しい Team を作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `api`:  (`Api`) The api instance to use 
- - `team`:  (str) The name of the team 
- - `admin_username`:  (str) optional username of the admin user of the team, defaults to the current user. 
+ - `api`:  (`Api`) 使用する API インスタンス 
+ - `team`:  (str) Team の名前 
+ - `admin_username`:  (str) Team の管理者ユーザーのユーザー名 (任意)。既定は現在のユーザーです。 
 
 
 
-**Returns:**
- A `Team` object 
+**戻り値:**
+ `Team` オブジェクト 
 
 ---
 
@@ -132,18 +132,18 @@ Create a new team.
 create_service_account(description)
 ```
 
-Create a service account for the team. 
+Team 用のサービス アカウントを作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `description`:  (str) A description for this service account 
+ - `description`:  (str) このサービス アカウントの説明 
 
 
 
-**Returns:**
- The service account `Member` object, or None on failure 
+**戻り値:**
+ サービス アカウントの `Member` オブジェクト。失敗した場合は None。 
 
 ---
 
@@ -153,18 +153,18 @@ Create a service account for the team.
 invite(username_or_email, admin=False)
 ```
 
-Invite a user to a team. 
+ユーザーを Team に招待します。 
 
 
 
-**Args:**
+**引数:**
  
- - `username_or_email`:  (str) The username or email address of the user  you want to invite. 
- - `admin`:  (bool) Whether to make this user a team admin.  Defaults to `False`. 
+ - `username_or_email`:  (str) 招待したいユーザーのユーザー名またはメールアドレス。 
+ - `admin`:  (bool) このユーザーを Team の管理者にするかどうか。既定は `False`。 
 
 
 
-**Returns:**
- `True` on success, `False` if user was already invited or didn't exist. 
+**戻り値:**
+ 成功した場合は `True`、すでに招待済み、または存在しないユーザーの場合は `False`。 
 
 ---

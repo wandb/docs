@@ -1,14 +1,14 @@
 ---
+title: アクセスをローテーションまたは取り消すにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-rotate_revoke_access
 support:
-- administrator
-- security
-title: How can I rotate or revoke access?
+- 管理者
+- セキュリティ
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Personal and service account keys can be rotated or revoked. Create a new API key or service account user, then reconfigure scripts to use the new key. After reconfiguration, remove the old API key from your profile or team.
+個人用および Service Account のキーはローテーションや取り消しが可能です。新しい APIキー または Service Account ユーザー を作成し、スクリプトが新しいキーを使うように再設定してください。再設定後は、プロフィールまたは Team から古い APIキー を削除してください。

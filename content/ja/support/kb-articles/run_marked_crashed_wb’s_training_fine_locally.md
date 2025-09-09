@@ -1,13 +1,13 @@
 ---
+title: ローカルでは問題なくトレーニングできているのに、W&B で run がクラッシュとしてマークされるのはなぜですか？
 menu:
   support:
     identifier: ja-support-kb-articles-run_marked_crashed_wb’s_training_fine_locally
 support:
-- crashing and hanging runs
-title: Why is a run marked crashed in W&B when it’s training fine locally?
+- クラッシュやハングする runs
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-This indicates a connection problem. If the server loses internet access and data stops syncing to W&B, the system marks the run as crashed after a brief retry period.
+これは接続に問題があることを示しています。サーバーがインターネット アクセスを失い、データの W&B への同期が停止すると、短い再試行期間の後、システムは run をクラッシュとしてマークします。

@@ -1,14 +1,14 @@
 ---
+title: 同じグループ内の各 run の色を変更するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-group_runs_custom_meter
 support:
 - runs
 - workspaces
-title: How can I change the colors of each run in the same group?
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-Changing the colors of individual runs within a group is not possible. All runs in the same group share a common color.
+グループ内の個々の runs の色を変更することはできません。同じグループ内の runs はすべて同じ色を共有します。

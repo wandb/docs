@@ -1,20 +1,19 @@
 ---
-description: Create a registered model to hold all the candidate models for your modeling
-  tasks.
+title: Registered Models を作成する
+description: モデリングタスクのすべての候補モデルを管理するために、Registered Model を作成します。
 menu:
   default:
     identifier: ja-guides-core-registry-model_registry-create-registered-model
     parent: model-registry
-title: Create a registered model
 weight: 4
 ---
 
-Create a [registered model]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}}) to hold all the candidate models for your modeling tasks. You can create a registered model interactively within the Model Registry or programmatically with the Python SDK.
+モデリング タスクのすべての候補モデルを保持する [Registered Model]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}}) を作成します。Registered Model は、モデルレジストリ内でインタラクティブに作成することも、W&B Python SDK を使用してプログラムで作成することもできます。
 
-## Programmatically create registered a model
-Programmatically register a model with the W&B Python SDK. W&B automatically creates a registered model for you if the registered model doesn't exist.
+## プログラムで Registered Model を作成する
+W&B Python SDK を使用してプログラムでモデルを登録します。Registered Model が存在しない場合、W&B は自動的に Registered Model を作成します。
 
-Ensure to replace other the values enclosed in `<>` with your own:
+`<` `>` で囲まれた他の値を自分の値に置き換えてください:
 
 ```python
 import wandb
@@ -24,26 +23,25 @@ run.link_model(path="<path-to-model>", registered_model_name="<registered-model-
 run.finish()
 ```
 
-The name you provide for `registered_model_name` is the name that appears in the [Model Registry App](https://wandb.ai/registry/model).
+`registered_model_name` に指定した名前は、[Model Registry App](https://wandb.ai/registry/model) に表示される名前です。
 
-## Interactively create a registered model
-Interactively create a registered model within the [Model Registry App](https://wandb.ai/registry/model).
+## インタラクティブに Registered Model を作成する
+[Model Registry App](https://wandb.ai/registry/model) 内でインタラクティブに Registered Model を作成します。
 
-1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
-{{< img src="/images/models/create_registered_model_1.png" alt="Model Registry landing page" >}}
-2. Click the **New registered model** button located in the top right of the Model Registry page.
-{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="New registered model button" >}}
-3. From the panel that appears, select the entity you want the registered model to belong to from the **Owning Entity** dropdown.
-{{< img src="/images/models/create_registered_model_3.png" alt="Model creation form" >}}
-4. Provide a name for your model in the **Name** field. 
-5. From the **Type** dropdown, select the type of artifacts to link to the registered model.
-6. (Optional) Add a description about your model in the **Description** field. 
-7. (Optional) Within the **Tags** field, add one or more tags. 
-8. Click **Register model**.
-
+1. [Model Registry App](https://wandb.ai/registry/model) に移動します。
+{{< img src="/images/models/create_registered_model_1.png" alt="モデルレジストリのランディングページ" >}}
+2. Model Registry ページの右上にある **New Registered Model** ボタンをクリックします。
+{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="New Registered Model ボタン" >}}
+3. 表示されるパネルから、**Owning Entity** ドロップダウンで Registered Model を所属させたい Entities を選択します。
+{{< img src="/images/models/create_registered_model_3.png" alt="モデル作成フォーム" >}}
+4. **Name** フィールドに Registered Model の名前を入力します。
+5. **Type** ドロップダウンから、Registered Model にリンクする Artifacts のタイプを選択します。
+6. (オプション) **Description** フィールドに Registered Model の説明を追加します。
+7. (オプション) **Tags** フィールドに 1 つ以上のタグを追加します。
+8. **Register model** をクリックします。
 
 {{% alert %}}
-Manual linking a model to the model registry is useful for one-off models. However, it is often useful to [programmatically link model versions to the model registry]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}}).
+モデルをモデルレジストリに手動でリンクすることは、使い捨てのモデルには役立ちます。ただし、[モデルのバージョンをモデルレジストリにプログラムでリンクする]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}}) こともよくあります。
 
-For example, suppose you have a nightly job. It is tedious to manually link a model created each night. Instead, you could create a script that evaluates the model, and if the model improves in performance, link that model to the model registry with the W&B Python SDK.
+たとえば夜間ジョブがあるとします。毎晩作成されるモデルを手動でリンクするのは面倒です。代わりに、モデルを評価するスクリプトを作成し、モデルのパフォーマンスが向上した場合、そのモデルを W&B Python SDK でモデルレジストリにリンクできます。
 {{% /alert %}}

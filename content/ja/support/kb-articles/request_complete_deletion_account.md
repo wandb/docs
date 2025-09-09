@@ -1,13 +1,13 @@
 ---
+title: W&B アカウントの完全削除をリクエストするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-request_complete_deletion_account
 support:
-- user management
-title: How do I request the complete deletion of my W&B account?
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To delete a W&B account, navigate to the **User settings** page, scroll to the bottom, and click the **Delete Account** button.
+W&B アカウントを削除するには、**ユーザー設定** ページに移動し、ページの最下部までスクロールして、**Delete Account** ボタンをクリックします。

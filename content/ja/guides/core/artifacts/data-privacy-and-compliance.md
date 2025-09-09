@@ -1,24 +1,23 @@
 ---
-description: Learn where W&B files are stored by default. Explore how to save, store
-  sensitive information.
+title: Artifacts データのプライバシーとコンプライアンス
+description: W&B のファイルがデフォルトでどこに保存されるかを確認し、シークレットの保存方法を学びます。
 menu:
   default:
     identifier: ja-guides-core-artifacts-data-privacy-and-compliance
     parent: artifacts
-title: Artifact data privacy and compliance
 ---
 
-Files are uploaded to Google Cloud bucket managed by W&B when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
+Artifacts をログすると、W&B が管理する Google Cloud バケットにファイルがアップロードされます。バケット内のコンテンツは、保管時と転送時の両方で暗号化されます。Artifact のファイルは、対応する Project へのアクセス権を持つ Users のみが閲覧できます。
 
-{{< img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B Client Server diagram" >}}
+{{< img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバー図" >}}
 
-When you delete a version of an artifact, it is marked for soft deletion in our database and removed from your storage cost. When you delete an entire artifact, it is queued for permanently deletion and all of its contents are removed from the W&B bucket. If you have specific needs around file deletion please reach out to [Customer Support](mailto:support@wandb.com).
+Artifact のバージョンを削除すると、データベース内で論理削除としてマークされ、ストレージコストから除外されます。Artifact 全体を削除すると、完全削除のキューに入れられ、そのすべてのコンテンツが W&B バケットから削除されます。ファイル削除に関して特定の要件がある場合は、[カスタマーサポート](mailto:support@wandb.com) にお問い合わせください。
 
-For sensitive datasets that cannot reside in a multi-tenant environment, you can use either a private W&B server connected to your cloud bucket or _reference artifacts_. Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. In other words, W&B only keeps track of the metadata associated with the files and not the files themselves.
+マルチテナント環境に置くことができない機密性の高いデータセットの場合、クラウド バケットに接続されたプライベート W&B サーバー、または _参照 Artifacts_ を使用できます。参照 Artifacts は、ファイルのコンテンツを W&B に送信することなく、プライベート バケットへの参照を追跡します。参照 Artifacts は、ご自身のバケットまたはサーバー上のファイルへのリンクを維持します。つまり、W&B はファイル自体ではなく、ファイルに関連付けられたメタデータのみを追跡します。
 
-{{< img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B Client Server Cloud diagram" >}}
+{{< img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウド図" >}}
 
-Create a reference artifact similar to how you create a non reference artifact:
+非参照の Artifact の作成方法と同様に、参照 Artifact を作成します。
 
 ```python
 import wandb
@@ -28,4 +27,4 @@ artifact = wandb.Artifact("animals", type="dataset")
 artifact.add_reference("s3://my-bucket/animals")
 ```
 
-For alternatives, contact us at [contact@wandb.com](mailto:contact@wandb.com) to talk about private cloud and on-premises installations.
+代替案については、[contact@wandb.com](mailto:contact@wandb.com) までお問い合わせください。プライベートクラウドおよびオンプレミスのインストールについてご相談いただけます。

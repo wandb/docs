@@ -1,41 +1,40 @@
 ---
+title: Volcano でマルチノード ジョブを Launch する
 menu:
   launch:
     identifier: ja-launch-integration-guides-volcano
     parent: launch-integration-guides
-title: Launch multinode jobs with Volcano
 url: tutorials/volcano
 ---
 
-This tutorial will guide you through the process of launching multinode training jobs with W&B and Volcano on Kubernetes.
+このチュートリアルでは、Kubernetes 上で W&B と Volcano を使ってマルチノードのトレーニング ジョブを起動する手順を説明します。
 
-## Overview
+## 概要
 
-In this tutorial, you will learn how to use W&B Launch to run multinode jobs on Kubernetes. The steps we will follow are:
+このチュートリアルでは、W&B Launch を使って Kubernetes 上でマルチノード ジョブを実行する方法を学びます。進める手順は次のとおりです。
 
-- Ensure that you have a W&B account and a Kubernetes cluster.
-- Create a launch queue for our volcano jobs.
-- Deploy a Launch agent into our kubernetes cluster.
-- Create a distributed training job.
-- Launch our distributed training.
+- W&B アカウントと Kubernetes クラスターを用意していることを確認する。
+- Volcano ジョブ用の Launch queue を作成する。
+- Kubernetes クラスターに Launch agent をデプロイする。
+- 分散トレーニング ジョブを作成する。
+- 分散トレーニングを Launch する。
 
-## Prerequisites
+## 前提条件
 
-Before you get started, you will need:
+開始する前に、以下が必要です。
 
-- A W&B account
-- A Kubernetes cluster
+- W&B アカウント
+- Kubernetes クラスター
 
-## Create a launch queue
+## Launch queue を作成する
 
-The first step is to create a launch queue. Head to [wandb.ai/launch](https://wandb.ai/launch) and in the top right corner of your screen, hit the blue **Create a queue** button. A queue creation drawer will slide out from the right side of your screen. Select an entity, enter a name, and select **Kubernetes** as the type for your queue.
+最初のステップは Launch queue を作成することです。[wandb.ai/launch](https://wandb.ai/launch) にアクセスし、画面右上の青い **Create a queue** ボタンをクリックします。画面右側からキュー作成用のドロワーが開きます。Entity を選び、名前を入力し、タイプとして **Kubernetes** を選択します。
 
-In the configuration section, we will enter a [volcano job](https://volcano.sh/en/docs/vcjob/) template. Any runs launched from this queue will be created using this job specification, so you can modify this configuration as needed to customize your jobs.
+設定セクションには、[volcano job](https://volcano.sh/en/docs/vcjob/) のテンプレートを入力します。この queue から Launch された Runs は、このジョブ仕様に基づいて作成されます。必要に応じてこの設定を変更して、ジョブをカスタマイズできます。
 
-This configuration block can accept a Kubernetes job specification, volcano job specification, or any other custom resource definition (CRD) that you are interested in launching. You can make use of [macros in the configuration block]({{< relref path="/launch/set-up-launch/" lang="ja" >}}) to dynamically set the contents of this spec.
+この設定ブロックには、Kubernetes の Job specification、Volcano の Job specification、または起動したい任意の CRD を記述できます。仕様の内容を動的に設定するために [設定ブロックのマクロ]({{< relref path="/launch/set-up-launch/" lang="ja" >}}) を利用できます。
 
-
-In this tutorial, we will use a configuration for multinode pytorch training that makes use of [volcano's pytorch plugin](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md). You can copy and paste the following config as YAML or JSON:
+このチュートリアルでは、[Volcano の PyTorch プラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md) を使ったマルチノード PyTorch トレーニング用の設定を使用します。以下の設定を YAML または JSON としてコピー＆ペーストできます。
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
@@ -151,35 +150,35 @@ apiVersion: batch.volcano.sh/v1alpha1
 {{% /tab %}}
 {{< /tabpane >}}
 
-Click the **Create queue** button at the bottom of the drawer to finish creating your queue.
+ドロワーの一番下にある **Create queue** をクリックして、queue の作成を完了します。
 
-## Install Volcano
+## Volcano をインストールする
 
-To install Volcano in your Kubernetes cluster, you can follow the [official installation guide](https://volcano.sh/en/docs/installation/).
+Kubernetes クラスターに Volcano をインストールするには、[公式インストール ガイド](https://volcano.sh/en/docs/installation/) に従ってください。
 
-## Deploy your launch agent
+## Launch agent をデプロイする
 
-Now that you have created a queue, you will need to deploy a launch agent to pull and execute jobs from the queue. The easiest way to do this is with the [`launch-agent` chart from W&B's official `helm-charts` repository](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent). Follow the instructions in the README to install the chart into your Kubernetes cluster, and be sure to configure the agent to poll the queue you created earlier.
+queue を作成したら、queue からジョブを取得して実行するために Launch agent をデプロイする必要があります。最も簡単な方法は、W&B 公式の `helm-charts` リポジトリにある [`launch-agent` チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使うことです。README の手順に従ってチャートを Kubernetes クラスターにインストールし、先ほど作成した queue をポーリングするように agent を設定してください。
 
-## Create a training job
+## トレーニング ジョブを作成する
 
-Volcano's pytorch plugin automatically configures the necessary environment variables for pytorch DPP to work, such as `MASTER_ADDR`, `RANK`, and `WORLD_SIZE`, as long as your pytorch code uses DDP correctly. Refer to [pytorch's documentation](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) for more details on how to use DDP in your custom python code.
+Volcano の PyTorch プラグインは、あなたの PyTorch コードが正しく DDP を使っていれば、`MASTER_ADDR`、`RANK`、`WORLD_SIZE` など PyTorch DDP に必要な環境変数を自動的に設定します。カスタムの Python コードで DDP を使用する方法の詳細は、[PyTorch のドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)を参照してください。
 
 {{% alert %}}
-Volcano's pytorch plugin is also compatible with [multinode training via the PyTorch Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes).
+Volcano の PyTorch プラグインは、[PyTorch Lightning の `Trainer` によるマルチノード トレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes) とも互換性があります。
 {{% /alert %}}
 
 ## Launch
 
-Now that our queue and cluster are set up, it's time to launch some distributed training. To start off with we will use [a job](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) trains a simple multi-layer perceptron on random data using volcano's pytorch plugin. You can find the source code for the job [here](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test).
+queue とクラスターの準備ができたので、分散トレーニングを Launch してみましょう。まずは、Volcano の PyTorch プラグインを使い、ランダムなデータに対して単純な多層パーセプトロンを学習させる [ジョブ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) を使います。ジョブのソースコードは [こちら](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test) にあります。
 
-To launch this job, head to the [job's page](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) and click the **Launch** button in the top right corner of the screen. You will be prompted to select a queue to launch the job from.
+このジョブを Launch するには、[ジョブのページ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest) にアクセスし、画面右上の **Launch** ボタンをクリックします。どの queue からジョブを Launch するかの選択を求められます。
 
-{{< img src="/images/launch/launching_multinode_job.png" alt="Multi-node job launch" >}}
+{{< img src="/images/launch/launching_multinode_job.png" alt="マルチノード ジョブの Launch" >}}
 
-1. Set the jobs parameters however you like,
-2. Select the queue you created earlier.
-3. Modify the volcano job in the **Resource config** section to modify the parameters of your job. For example, you can change the number of workers by changing the `replicas` field in the `worker` task.
-4. Click **Launch**.
+1. ジョブのパラメータを任意に設定します。
+2. 先ほど作成した queue を選択します。
+3. **Resource config** セクションの Volcano ジョブを編集して、ジョブのパラメータを変更します。例えば、`worker` タスクの `replicas` フィールドを変更すると worker の数を変えられます。
+4. **Launch** をクリックします。
 
-You can monitor the progress and if necessary stop your job from the W&B UI.
+進捗の監視や、必要に応じたジョブの停止は、W&B の UI から行えます。

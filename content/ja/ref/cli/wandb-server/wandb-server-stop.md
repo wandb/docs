@@ -1,20 +1,20 @@
 ---
+title: wandb server stop
 menu:
   reference:
     identifier: ja-ref-cli-wandb-server-wandb-server-stop
-title: wandb server stop
 ---
 
-**Usage**
+**使用方法**
 
 `wandb server stop [OPTIONS]`
 
-**Summary**
+**概要**
 
-Stop a local W&B server
+ローカルの W&B サーバーを停止します
 
 
-**Options**
+**オプション**
 
-| **Option** | **Description** |
+| **オプション** | **説明** |
 | :--- | :--- |

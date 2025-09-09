@@ -1,55 +1,49 @@
 ---
-description: 'Complete API reference for W&B Inference service
-
-  '
+title: API リファレンス
+description: W&B Inference Service の完全な API リファレンス
 linkTitle: API Reference
 menu:
   default:
     identifier: ja-guides-inference-api-reference
-title: API Reference
 weight: 40
 ---
 
-Learn how to use the W&B Inference API to access foundation models programmatically.
-
-{{< alert title="Tip" >}}
-Having trouble with API errors? See [W&B Inference support articles](/support/inference/) for solutions.
+W&B Inference API を使用して、プログラムから基盤モデルにアクセスする方法を学びます。
+{{< alert title="ヒント" >}}
+API エラーでお困りですか？ 解決策については、[W&B Inference サポート記事](/support/inference/)をご覧ください。
 {{< /alert >}}
 
-## Endpoint
+## エンドポイント
 
-Access the Inference service at:
-
+Inference サービスには次の URL でアクセスできます。
 ```plaintext
 https://api.inference.wandb.ai/v1
 ```
+{{< alert title="重要" >}}
+このエンドポイントを使用するには、以下が必要です。
+- Inference クレジットを持つ W&B アカウント
+- 有効な W&B API キー
+- W&B の Entity と Project
 
-{{< alert title="Important" >}}
-To use this endpoint, you need:
-- A W&B account with Inference credits
-- A valid W&B API key
-- A W&B entity (team) and project
-
-In code samples, these appear as `<your-team>/<your-project>`.
+コードサンプルでは、これらは `<your-team>/<your-project>` のように表示されます。
 {{< /alert >}}
 
-## Available methods
+## 利用可能なメソッド
 
-The Inference API supports these methods:
+Inference API は次のメソッドをサポートしています。
 
-### Chat completions
+### チャット補完
 
-Create a chat completion using the `/chat/completions` endpoint. This endpoint follows the OpenAI format for sending messages and receiving responses.
+`/chat/completions` エンドポイントを使用して、チャット補完を作成します。このエンドポイントは、OpenAI のメッセージ送信・受信形式に従います。
 
-To create a chat completion, provide:
-- The Inference service base URL: `https://api.inference.wandb.ai/v1`
-- Your W&B API key: `<your-api-key>`
-- Your W&B entity and project: `<your-team>/<your-project>`
-- A model ID from the [available models]({{< relref path="models" lang="ja" >}})
+チャット補完を作成するには、以下を指定します。
+- Inference サービスのベース URL: `https://api.inference.wandb.ai/v1`
+- W&B API キー: `<your-api-key>`
+- W&B の Entity と Project: `<your-team>/<your-project>`
+- [利用可能な Models]({{< relref path="models" lang="ja" >}}) からの Model ID
 
 {{< tabpane text=true >}}
 {{% tab header="Bash" value="bash" %}}
-
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -63,26 +57,24 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
     ]
   }'
 ```
-
 {{% /tab %}}
 {{% tab header="Python" value="python" %}}
-
 ```python
 import openai
 
 client = openai.OpenAI(
-    # The custom base URL points to W&B Inference
+    # カスタムベース URL は W&B Inference を指します
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
-    # Consider setting it in the environment as OPENAI_API_KEY instead for safety
+    # API キーは https://wandb.ai/authorize から取得してください
+    # 安全のため、代わりに環境変数 OPENAI_API_KEY として設定することを検討してください
     api_key="<your-api-key>",
 
-    # Team and project are required for usage tracking
+    # Entity と Project は使用状況のトラッキングに必要です
     project="<your-team>/<your-project>",
 )
 
-# Replace <model-id> with any model ID from the available models list
+# <model-id> を利用可能なモデルリストから任意のモデル ID に置き換えてください
 response = client.chat.completions.create(
     model="<model-id>",
     messages=[
@@ -93,27 +85,23 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
-
 {{% /tab %}}
 {{< /tabpane >}}
 
-### List supported models
+### サポートされている Models をリスト表示
 
-Get all available models and their IDs. Use this to select models dynamically or check what's available.
+利用可能なすべての Models とその ID を取得します。これを使用して、Models を動的に選択したり、利用可能なものを確認したりできます。
 
 {{< tabpane text=true >}}
 {{% tab header="Bash" value="bash" %}}
-
 ```bash
 curl https://api.inference.wandb.ai/v1/models \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <your-api-key>" \
   -H "OpenAI-Project: <your-team>/<your-project>" 
 ```
-
 {{% /tab %}}
 {{% tab header="Python" value="python" %}}
-
 ```python
 import openai
 
@@ -128,14 +116,12 @@ response = client.models.list()
 for model in response.data:
     print(model.id)
 ```
-
 {{% /tab %}}
 {{< /tabpane >}}
 
-## Response format
+## レスポンス形式
 
-The API returns responses in OpenAI-compatible format:
-
+API は OpenAI 互換の形式でレスポンスを返します。
 ```json
 {
   "id": "chatcmpl-...",
@@ -160,7 +146,7 @@ The API returns responses in OpenAI-compatible format:
 }
 ```
 
-## Next steps
+## 次のステップ
 
-- Try the [usage examples]({{< relref path="examples" lang="ja" >}}) to see the API in action
-- Explore models in the [UI]({{< relref path="ui-guide" lang="ja" >}})
+- [使用例]({{< relref path="examples" lang="ja" >}}) を試して、API の動作を確認します
+- [UI]({{< relref path="ui-guide" lang="ja" >}}) で Models を探索します

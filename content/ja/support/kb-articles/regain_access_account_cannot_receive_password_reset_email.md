@@ -1,19 +1,18 @@
 ---
+title: パスワード再設定メールを受信できない場合、アカウントへの アクセス を取り戻すにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-regain_access_account_cannot_receive_password_reset_email
 support:
-- user management
-title: How can I regain access to my account if I cannot receive a password reset
-  email?
+- ユーザー管理
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-To regain access to an account when unable to receive a password reset email:
+パスワード リセットのメールを受け取れない場合にアカウントへのアクセスを取り戻すには:
 
-1. **Check Spam or Junk Folders:** Ensure the email is not filtered there.
-2. **Verify Email:** Confirm the correct email associated with the account.
-3. **Check for SSO Options:** Use services like "Sign in with Google" if available.
-4. **Contact Support:** If issues persist, reach out to support (support@wandb.com) and provide your username and email for assistance.
+1. **迷惑メール フォルダやゴミ箱を確認:** メールがそちらに振り分けられていないか確認してください。
+2. **メールアドレスを確認:** アカウントに紐づく正しいメールアドレスか確認してください。
+3. **SSO のオプションを確認:** 利用可能であれば "Sign in with Google" などのサービスを使用してください。
+4. **サポートに連絡:** 問題が解決しない場合は support (support@wandb.com) に連絡し、ユーザー名とメールアドレスをお知らせください。

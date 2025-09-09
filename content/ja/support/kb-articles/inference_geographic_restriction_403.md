@@ -1,37 +1,37 @@
 ---
+title: なぜ W&B Inference では、私の国または地域がサポートされていないと表示されるのですか？
 menu:
   support:
     identifier: ja-support-kb-articles-inference_geographic_restriction_403
 support:
-- inference
-title: Why does W&B Inference say my country or region is not supported?
+- 推論
 toc_hide: true
 type: docs
 url: /support/:filename
 ---
 
-A 403 error with the message "Country, region, or territory not supported" means you're accessing W&B Inference from an unsupported location.
+"Country, region, or territory not supported" と表示される 403 エラーは、サポート対象外の場所から W&B Inference に アクセスしていることを意味します。
 
-## Why this happens
+## このエラーが発生する理由
 
-W&B Inference has geographic restrictions due to compliance and regulatory requirements. The service is only accessible from supported geographic locations.
+W&B Inference にはコンプライアンスや規制上の要件により地理的な制限があります。サービスはサポート対象の地域からのみ アクセスできます。
 
-## What you can do
+## 対処方法
 
-1. **Check the Terms of Service**
-   - Review the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) for the current list of supported locations
+1. **利用規約を確認する**
+   - 現在のサポート対象地域の一覧は [利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) を確認
 
-2. **Use from a supported location**
-   - Access the service when in a supported country or region
-   - Consider using your organization's resources in supported locations
+2. **サポート対象の場所から利用する**
+   - サポート対象の国や地域にいるときにサービスに アクセスする
+   - 組織がサポート対象地域に持つリソースの利用を検討する
 
-3. **Contact your account team**
-   - Enterprise customers can discuss options with their account executive
-   - Some organizations may have special arrangements
+3. **アカウント担当に連絡する**
+   - エンタープライズのお客様は担当営業と対応策を相談可能
+   - 一部の組織には特別な取り決めがある場合がある
 
-## Error details
+## エラーの詳細
 
-When you see this error:
+このエラーが表示された場合:
 ```
 {
   "error": {
@@ -41,4 +41,4 @@ When you see this error:
 }
 ```
 
-This is determined by your IP address location at the time of the API request.
+これは API リクエスト時点の IP アドレスの位置情報によって判定されます。

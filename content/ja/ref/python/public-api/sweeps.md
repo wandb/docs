@@ -1,10 +1,10 @@
 ---
+title: sweeps
 data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-sweeps
 object_type: public_apis_namespace
-title: sweeps
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py >}}
@@ -15,7 +15,7 @@ title: sweeps
 # <kbd>module</kbd> `wandb.apis.public`
 W&B Public API for Sweeps. 
 
-This module provides classes for interacting with W&B hyperparameter optimization sweeps. 
+このモジュールは、W&B のハイパーパラメーター最適化 Sweeps と対話するためのクラスを提供します。 
 
 
 
@@ -23,15 +23,15 @@ This module provides classes for interacting with W&B hyperparameter optimizatio
  ```python
 from wandb.apis.public import Api
 
-# Get a specific sweep
+# 特定の sweep を取得
 sweep = Api().sweep("entity/project/sweep_id")
 
-# Access sweep properties
+# sweep のプロパティにアクセス
 print(f"Sweep: {sweep.name}")
 print(f"State: {sweep.state}")
 print(f"Best Loss: {sweep.best_loss}")
 
-# Get best performing run
+# 最良の run を取得
 best_run = sweep.best_run()
 print(f"Best Run: {best_run.name}")
 print(f"Metrics: {best_run.summary}")
@@ -41,10 +41,10 @@ print(f"Metrics: {best_run.summary}")
 
 **Note:**
 
-> This module is part of the W&B Public API and provides read-only access to sweep data. For creating and controlling sweeps, use the wandb.sweep() and wandb.agent() functions from the main wandb package. 
+> このモジュールは W&B Public API の一部で、sweep データへの読み取り専用のアクセスを提供します。sweep の作成や制御には、メインの wandb パッケージにある wandb.sweep() と wandb.agent() を使用してください。 
 
 ## <kbd>class</kbd> `Sweeps`
-A lazy iterator over a collection of `Sweep` objects. 
+`Sweep` オブジェクトのコレクションに対する遅延イテレーター。 
 
 
 
@@ -54,7 +54,7 @@ from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# Iterate over sweeps and print details
+# sweep を反復して詳細を出力
 for sweep in sweeps:
      print(f"Sweep name: {sweep.name}")
      print(f"Sweep ID: {sweep.id}")
@@ -73,16 +73,16 @@ __init__(
 ) → Sweeps
 ```
 
-An iterable collection of `Sweep` objects. 
+`Sweep` オブジェクトの反復可能なコレクション。 
 
 
 
 **Args:**
  
- - `client`:  The API client used to query W&B. 
- - `entity`:  The entity which owns the sweeps. 
- - `project`:  The project which contains the sweeps. 
- - `per_page`:  The number of sweeps to fetch per request to the API. 
+ - `client`:  W&B にクエリを送るための API クライアント。 
+ - `entity`:  Sweeps を所有する entity。 
+ - `project`:  Sweeps を含むプロジェクト。 
+ - `per_page`:  API へのリクエストごとに取得する sweep の件数。 
 
 
 ---
@@ -100,18 +100,18 @@ An iterable collection of `Sweep` objects.
 
 
 ## <kbd>class</kbd> `Sweep`
-The set of runs associated with the sweep. 
+sweep に関連付けられた run の集合。 
 
 
 
 **Attributes:**
  
- - `runs` (Runs):  List of runs 
+ - `runs` (Runs):  run のリスト 
  - `id` (str):  Sweep ID 
- - `project` (str):  The name of the project the sweep belongs to 
- - `config` (dict):  Dictionary containing the sweep configuration 
- - `state` (str):  The state of the sweep. Can be "Finished", "Failed",  "Crashed", or "Running". 
- - `expected_run_count` (int):  The number of expected runs for the sweep 
+ - `project` (str):  sweep が属するプロジェクト名 
+ - `config` (dict):  sweep configuration を含む辞書 
+ - `state` (str):  sweep の状態。"Finished"、"Failed"、"Crashed"、"Running" のいずれか。 
+ - `expected_run_count` (int):  sweep に対して期待される run の数 
 
 ### <kbd>method</kbd> `Sweep.__init__`
 
@@ -128,57 +128,57 @@ __init__(client, entity, project, sweep_id, attrs=None)
 
 ### <kbd>property</kbd> Sweep.config
 
-The sweep configuration used for the sweep. 
+sweep で使用される sweep configuration。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.entity
 
-The entity associated with the sweep. 
+sweep に関連付けられている entity。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.expected_run_count
 
-Return the number of expected runs in the sweep or None for infinite runs. 
+sweep における期待される run の数を返します。無限の run の場合は None。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.name
 
-The name of the sweep. 
+sweep の名前。 
 
-Returns the first name that exists in the following priority order: 
+次の優先順位で、最初に存在する名前を返します: 
 
-1. User-edited display name 2. Name configured at creation time 3. Sweep ID 
+1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. Sweep ID 
 
 ---
 
 ### <kbd>property</kbd> Sweep.order
 
-Return the order key for the sweep. 
+sweep の order キーを返します。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.path
 
-Returns the path of the project. 
+プロジェクトのパスを返します。 
 
-The path is a list containing the entity, project name, and sweep ID. 
+パスは entity、プロジェクト名、sweep ID からなるリストです。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.url
 
-The URL of the sweep. 
+sweep の URL。 
 
-The sweep URL is generated from the entity, project, the term "sweeps", and the sweep ID.run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/sweeps/sweeps_ID`. 
+sweep の URL は entity、project、語句 "sweeps"、そして sweep ID.run_id から生成されます。SaaS ユーザーの場合は `https://wandb.ai/entity/project/sweeps/sweeps_ID` の形式になります。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.username
 
-Deprecated. Use `Sweep.entity` instead. 
+非推奨です。代わりに `Sweep.entity` を使用してください。 
 
 
 
@@ -190,7 +190,7 @@ Deprecated. Use `Sweep.entity` instead.
 best_run(order=None)
 ```
 
-Return the best run sorted by the metric defined in config or the order passed in. 
+config で定義されたメトリクス、または指定した order に従って並べ替えた最良の run を返します。 
 
 ---
 
@@ -208,19 +208,19 @@ get(
 )
 ```
 
-Execute a query against the cloud backend. 
+クラウド バックエンドに対してクエリを実行します。 
 
 
 
 **Args:**
  
- - `client`:  The client to use to execute the query. 
- - `entity`:  The entity (username or team) that owns the project. 
- - `project`:  The name of the project to fetch sweep from. 
- - `sid`:  The sweep ID to query. 
- - `order`:  The order in which the sweep's runs are returned. 
- - `query`:  The query to use to execute the query. 
- - `**kwargs`:  Additional keyword arguments to pass to the query. 
+ - `client`:  クエリの実行に使用するクライアント。 
+ - `entity`:  プロジェクトの所有者 (ユーザー名またはチーム)。 
+ - `project`:  sweep を取得するプロジェクト名。 
+ - `sid`:  クエリ対象の sweep ID。 
+ - `order`:  sweep の run を返す順序。 
+ - `query`:  実行に使用するクエリ。 
+ - `**kwargs`:  クエリに渡す追加のキーワード引数。 
 
 ---
 
@@ -231,4 +231,4 @@ Execute a query against the cloud backend.
 to_html(height=420, hidden=False)
 ```
 
-Generate HTML containing an iframe displaying this sweep.
+この sweep を表示する iframe を含む HTML を生成します。

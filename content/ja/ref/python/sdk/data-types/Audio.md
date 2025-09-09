@@ -1,10 +1,10 @@
 ---
+title: オーディオ
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Audio
 object_type: python_sdk_data_type
-title: Audio
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py >}}
@@ -12,10 +12,10 @@ title: Audio
 
 
 
-## <kbd>class</kbd> `Audio`
-W&B class for audio clips. 
+## <kbd>クラス</kbd> `Audio`
+W&B の音声クリップ用クラスです。 
 
-### <kbd>method</kbd> `Audio.__init__`
+### <kbd>メソッド</kbd> `Audio.__init__`
 
 ```python
 __init__(
@@ -25,15 +25,15 @@ __init__(
 )
 ```
 
-Accept a path to an audio file or a numpy array of audio data. 
+音声ファイルへのパス、または音声データの NumPy 配列を受け取ります。 
 
 
 
 **Args:**
  
- - `data_or_path`:  A path to an audio file or a NumPy array of audio data. 
- - `sample_rate`:  Sample rate, required when passing in raw NumPy array of audio data. 
- - `caption`:  Caption to display with audio. 
+ - `data_or_path`:  音声ファイルへのパス、または音声データの NumPy 配列。 
+ - `sample_rate`:  サンプル レート。音声データの生の NumPy 配列を渡す場合は必須です。 
+ - `caption`:  音声と一緒に表示するキャプション。 
 
 
 
@@ -42,24 +42,24 @@ Accept a path to an audio file or a numpy array of audio data.
 
 
 
-### <kbd>classmethod</kbd> `Audio.durations`
+### <kbd>クラス メソッド</kbd> `Audio.durations`
 
 ```python
 durations(audio_list)
 ```
 
-Calculate the duration of the audio files. 
+音声ファイルの再生時間を計算します。 
 
 ---
 
 
 
-### <kbd>classmethod</kbd> `Audio.sample_rates`
+### <kbd>クラス メソッド</kbd> `Audio.sample_rates`
 
 ```python
 sample_rates(audio_list)
 ```
 
-Get sample rates of the audio files. 
+音声ファイルのサンプル レートを取得します。 
 
 ---

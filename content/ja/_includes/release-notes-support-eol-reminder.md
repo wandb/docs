@@ -1,7 +1,2 @@
----
-{}
----
-
-A W&B Server release is supported for 12 months from its initial release date. As a reminder, customers using [Self-managed](/guides/hosting/hosting-options/self-managed/) are responsible to upgrade to a [supported release](/ref/releases-notes/) in time to maintain support.
-
-Refer to [Release policies and processes](/ref/release-notes/release-policies/). For assistance or questions, contact [support](mailto:support@wandb.com).
+W&B サーバー のリリースは、初回リリース日から12ヶ月間サポートされます。なお、[Self-managed](/guides/hosting/hosting-options/self-managed/) をご利用のお客様は、サポートを継続するために、期限内に[サポートされているリリース](/ref/releases-notes/) にアップグレードする責任があります。
+[リリース ポリシーとプロセス](/ref/release-notes/release-policies/) を参照してください。サポートやご質問については、[サポート](mailto:support@wandb.com) にお問い合わせください。

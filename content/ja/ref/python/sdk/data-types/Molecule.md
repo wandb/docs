@@ -1,10 +1,10 @@
 ---
+title: 分子
 data_type_classification: class
 menu:
   reference:
     identifier: ja-ref-python-sdk-data-types-Molecule
 object_type: python_sdk_data_type
-title: Molecule
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py >}}
@@ -13,9 +13,9 @@ title: Molecule
 
 
 ## <kbd>class</kbd> `Molecule`
-W&B class for 3D Molecular data. 
+W&B の 3D 分子データ用クラス。
 
-### <kbd>method</kbd> `Molecule.__init__`
+### <kbd>メソッド</kbd> `Molecule.__init__`
 
 ```python
 __init__(
@@ -25,14 +25,14 @@ __init__(
 ) → None
 ```
 
-Initialize a Molecule object. 
+Molecule オブジェクトを初期化します。
 
 
 
 **Args:**
  
- - `data_or_path`:  Molecule can be initialized from a file name or an io object. 
- - `caption`:  Caption associated with the molecule for display. 
+ - `data_or_path`:  ファイル名または io オブジェクトから Molecule を初期化できます。 
+ - `caption`:  表示用に分子に関連付けるキャプション。 
 
 
 

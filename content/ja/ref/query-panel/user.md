@@ -1,31 +1,31 @@
 ---
+title: ユーザー
 menu:
   reference:
     identifier: ja-ref-query-panel-user
-title: user
 ---
 
-## Chainable Ops
+## チェーン可能な操作
 <h3 id="user-username"><code>user-username</code></h3>
 
-Returns the username of the [user](user.md)
+[ユーザー](user.md) のユーザー名を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `user` | A [user](user.md) |
+| `user` | [ユーザー](user.md) |
 
-#### Return Value
-The username of the [user](user.md)
+#### 戻り値
+[ユーザー](user.md) のユーザー名
 
 
-## List Ops
+## リスト操作
 <h3 id="user-username"><code>user-username</code></h3>
 
-Returns the username of the [user](user.md)
+[ユーザー](user.md) のユーザー名を返します
 
-| Argument |  |
+| 引数 |  |
 | :--- | :--- |
-| `user` | A [user](user.md) |
+| `user` | [ユーザー](user.md) |
 
-#### Return Value
-The username of the [user](user.md)
+#### 戻り値
+[ユーザー](user.md) のユーザー名

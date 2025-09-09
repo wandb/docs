@@ -1,87 +1,75 @@
 ---
-description: Create a lineage map in the W&B Registry.
+title: リネージ マップの作成と表示
+description: W&B Registry でリネージマップを作成します。
 menu:
   default:
     identifier: ja-guides-core-registry-lineage
     parent: registry
-title: Create and view lineage maps
 weight: 8
 ---
 
-Within a collection in the W&B Registry, you can view a history of the artifacts that an ML experiment uses. This history is called a _lineage graph_.
-
+W&B Registry のコレクションでは、ML experiment で使用される Artifacts の履歴を表示できます。この履歴は _lineage graph_ と呼ばれます。
 {{% pageinfo color="info" %}}
-You can also view lineage graphs for artifacts you log to W&B that are not part of a collection.
+コレクションの一部ではない、W&B にログされた Artifacts の lineage graph も表示できます。
 {{% /pageinfo %}}
 
-Lineage graphs can show the specific run that logs an artifact. In addition, lineage graphs can also show which run used an artifact as an input. In other words, lineage graphs can show the input and output of a run. 
+Lineage graph は、Artifact をログした特定の Run を表示できます。さらに、どの Run が Artifact を入力として使用したかも表示できます。つまり、Lineage graph は Run の入力と出力の両方を可視化します。
 
+例えば、次の画像は、ML experiment 全体で作成され使用された Artifacts を示しています。
+{{< img src="/images/registry/registry_lineage.png" alt="Registry のリネージ" >}}
 
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+左から右へ、画像は以下を示します。
+1. 複数の Runs が `split_zoo_dataset:v4` Artifact をログします。
+2. 「rural-feather-20」Run は、`split_zoo_dataset:v4` Artifact をトレーニングに使用します。
+3. 「rural-feather-20」Run の出力は、`zoo-ylbchv20:v0` という名前の Model Artifact です。
+4. 「northern-lake-21」という名前の Run は、`zoo-ylbchv20:v0` Model Artifact を使用して Model を評価します。
 
-{{< img src="/images/registry/registry_lineage.png" alt="Registry lineage" >}}
+## Run の入力を追跡する
 
-From left to right, the image shows:
-1. Multiple runs log the `split_zoo_dataset:v4` artifact.
-2. The "rural-feather-20" run uses the `split_zoo_dataset:v4` artifact for training.
-3. The output of the "rural-feather-20" run is a model artifact called `zoo-ylbchv20:v0`.
-4. A run called "northern-lake-21" uses the model artifact `zoo-ylbchv20:v0` to evaluate the model.
+`wandb.init.use_artifact` API を使用して、Artifact を Run の入力または依存関係としてマークします。
 
-
-## Track the input of a run
-
-Mark an artifact as an input or dependency of a run with the `wandb.init.use_artifact` API.
-
-The proceeding code snippet shows how to use the `use_artifact`. Replace values enclosed in angle brackets (`< >`) with your values:
-
+次のコードスニペットは、`use_artifact` の使用方法を示しています。山括弧 (`< >`) で囲まれた値をご自身の値に置き換えてください。
 ```python
 import wandb
 
-# Initialize a run
+# Run を初期化
 run = wandb.init(project="<project>", entity="<entity>")
 
-# Get artifact, mark it as a dependency
+# Artifact を取得し、依存関係としてマーク
 artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
+## Run の出力を追跡する
 
-## Track the output of a run
+Run の出力として Artifact を宣言するには、([`wandb.init.log_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ja" >}})) を使用します。
 
-Use ([`wandb.init.log_artifact`]({{< relref path="/ref/python/sdk/classes/run.md#log_artifact" lang="ja" >}})) to declare an artifact as an output of a run.
-
-The proceeding code snippet shows how to use the `wandb.init.log_artifact` API. Ensure to replace values enclosed in angle brackets (`< >`) with your values:
-
+次のコードスニペットは、`wandb.init.log_artifact` API の使用方法を示しています。山括弧 (`< >`) で囲まれた値をご自身の値に置き換えてください。
 ```python
 import wandb
 
-# Initialize a run
+# Run を初期化
 run = wandb.init(entity  "<entity>", project = "<project>",)
 artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
 artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
 
-# Log the artifact as an output of the run
+# Artifact を Run の出力としてログ
 run.log_artifact(artifact_or_path = artifact)
 ```
 
-For more information on about creating artifacts, see [Create an artifact]({{< relref path="guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}).
+Artifacts の作成に関する詳細については、[Artifact を作成する]({{< relref path="guides/core/artifacts/construct-an-artifact.md" lang="ja" >}}) を参照してください。
 
+## コレクション内の lineage graph を表示する
 
-## View lineage graphs in a collection
+W&B Registry のコレクションにリンクされている Artifact のリネージを表示します。
+1. W&B Registry に移動します。
+2. Artifact を含むコレクションを選択します。
+3. ドロップダウンから、lineage graph を表示したい Artifact のバージョンをクリックします。
+4. 「Lineage」タブを選択します。
 
-View the lineage of an artifact linked to a collection in the W&B Registry.
+Artifact の lineage graph ページに入ると、その lineage graph 内の任意のノードに関する追加情報を表示できます。
 
-1. Navigate to the W&B Registry.
-2. Select the collection that contains the artifact.
-3. From the dropdown, click the artifact version you want to view its lineage graph.
-4. Select the "Lineage" tab.
+Run ノードを選択すると、その Run の ID、Run の名前、Run のステータスなどの詳細を表示できます。例として、次の画像は `rural-feather-20` Run に関する情報を示しています。
+{{< img src="/images/registry/lineage_expanded_node.png" alt="展開されたリネージ ノード" >}}
 
-
-Once you are in an artifact's lineage graph page, you can view additional information about any node in that lineage graph. 
- 
-Select a run node to view that run's details, such as the run's ID, the run's name, the run's state, and more. As an example, the proceeding image shows information about the `rural-feather-20` run:
-
-{{< img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node" >}}
-
-Select an artifact node to view that artifact's details, such as its full name, type, creation time, and associated aliases.
-
-{{< img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details" >}}
+Artifact ノードを選択すると、その Artifact の詳細（完全な名前、タイプ、作成時刻、関連するエイリアス など）を表示できます。
+{{< img src="/images/registry/lineage_expanded_artifact_node.png" alt="展開された Artifact ノードの詳細" >}}

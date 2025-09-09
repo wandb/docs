@@ -1,10 +1,10 @@
 ---
+title: line()
 data_type_classification: function
 menu:
   reference:
     identifier: ja-ref-python-sdk-custom-charts-line
 object_type: python_sdk_custom_charts
-title: line()
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/line.py >}}
@@ -12,7 +12,7 @@ title: line()
 
 
 
-### <kbd>function</kbd> `line`
+### <kbd>関数</kbd> `line`
 
 ```python
 line(
@@ -25,28 +25,28 @@ line(
 ) → CustomChart
 ```
 
-Constructs a customizable line chart. 
+カスタマイズ可能な折れ線グラフを作成します。 
 
 
 
-**Args:**
+**引数:**
  
- - `table`:   The table containing data for the chart. 
- - `x`:  Column name for the x-axis values. 
- - `y`:  Column name for the y-axis values. 
- - `stroke`:  Column name to differentiate line strokes (e.g., for  grouping lines). 
- - `title`:  Title of the chart. 
- - `split_table`:  Whether the table should be split into a separate section  in the W&B UI. If `True`, the table will be displayed in a section named  "Custom Chart Tables". Default is `False`. 
+ - `table`:   チャート用のデータを含むテーブル。 
+ - `x`:  x 軸の値の列名。 
+ - `y`:  y 軸の値の列名。 
+ - `stroke`:  線を区別するための列名（例: 線のグループ化）。 
+ - `title`:  チャートのタイトル。 
+ - `split_table`:  W&B の UI でテーブルを別セクションに分けて表示するかどうか。`True` の場合、"Custom Chart Tables" というセクションに表示されます。デフォルトは `False`。 
 
 
 
-**Returns:**
+**戻り値:**
  
- - `CustomChart`:  A custom chart object that can be logged to W&B. To log the  chart, pass it to `wandb.log()`. 
+ - `CustomChart`:  W&B にログできるカスタムチャートのオブジェクト。チャートをログするには、`wandb.log()` に渡します。 
 
 
 
-**Example:**
+**例:**
  
 
 ```python
@@ -54,26 +54,26 @@ import math
 import random
 import wandb
 
-# Create multiple series of data with different patterns
+# 異なるパターンの複数の系列データを作成
 data = []
 for i in range(100):
-     # Series 1: Sinusoidal pattern with random noise
+     # 系列 1: ランダムなノイズを加えた正弦波パターン
      data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
-     # Series 2: Cosine pattern with random noise
+     # 系列 2: ランダムなノイズを加えた余弦波パターン
      data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
-     # Series 3: Linear increase with random noise
+     # 系列 3: ランダムなノイズを加えた線形増加
      data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
 
-# Define the columns for the table
+# テーブルの列を定義
 table = wandb.Table(data=data, columns=["step", "value", "series"])
 
-# Initialize wandb run and log the line chart
+# wandb run を初期化し、折れ線グラフをログする
 with wandb.init(project="line_chart_example") as run:
      line_chart = wandb.plot.line(
          table=table,
          x="step",
          y="value",
-         stroke="series",  # Group by the "series" column
+         stroke="series",  # 「series」列でグループ化
          title="Multi-Series Line Plot",
      )
      run.log({"line-chart": line_chart})

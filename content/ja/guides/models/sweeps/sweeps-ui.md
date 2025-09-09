@@ -1,10 +1,10 @@
 ---
-description: Describes the different components of the Sweeps UI.
+title: Sweeps UI
+description: Sweeps UI のさまざまなコンポーネントについて説明します。
 menu:
   default:
     identifier: ja-guides-models-sweeps-sweeps-ui
     parent: sweeps
-title: Sweeps UI
 ---
 
-The state (**State**), creation time (**Created**), the entity that started the sweep (**Creator**), the number of runs completed (**Run count**), and the time it took to compute the sweep (**Compute time**) are displayed in the Sweeps UI. The expected number of runs a sweep will create (**Est. Runs**) is provided when you do a grid search over a discrete search space. You can also click on a sweep to pause, resume, stop, or kill the sweep from the interface.
+状態（**State**）、作成時刻（**Created**）、sweep を開始した Entity（**Creator**）、完了した Runs の数（**Run count**）、および sweep の計算に要した時間（**Compute time**）は、Sweeps UI に表示されます。離散的な探索空間に対して グリッド検索 を行う場合には、sweep が作成する想定の Runs の数（**Est. Runs**）も表示されます。インターフェースからは、sweep をクリックして一時停止、再開、停止、または強制終了することもできます。

@@ -1,19 +1,19 @@
 ---
-description: How to integrate W&B for Catalyst, a Pytorch framework.
+title: Catalyst
+description: PyTorch フレームワークである Catalyst に W&B を統合する方法。
 menu:
   default:
     identifier: ja-guides-integrations-catalyst
     parent: integrations
-title: Catalyst
 weight: 30
 ---
 
-[Catalyst](https://github.com/catalyst-team/catalyst) is a PyTorch framework for deep learning R&D that focuses on reproducibility, rapid experimentation, and codebase reuse so you can create something new.
+[Catalyst](https://github.com/catalyst-team/catalyst) は PyTorch フレームワークで、ディープラーニング R&D における再現性、迅速な実験、コードベースの再利用に重点を置き、新しいものを生み出せるようにします。
 
-Catalyst includes a W&B integration for logging parameters, metrics, images, and other artifacts.
+Catalyst には、パラメータ、メトリクス、画像、その他の Artifacts をログする W&B インテグレーションが含まれています。
 
-Check out their [documentation of the integration](https://catalyst-team.github.io/catalyst/api/loggers.html#catalyst.loggers.wandb.WandbLogger), which includes examples using Python and Hydra.
+Python と Hydra を使った例を含む、[インテグレーションのドキュメント](https://catalyst-team.github.io/catalyst/api/loggers.html#catalyst.loggers.wandb.WandbLogger) を参照してください。
 
-## Interactive Example
+## インタラクティブな例
 
-Run an [example colab](https://colab.research.google.com/drive/1PD0LnXiADCtt4mu7bzv7VfQkFXVrPxJq?usp=sharing) to see Catalyst and W&B integration in action.
+Catalyst と W&B のインテグレーションが動作する様子を見るには、[サンプルの Colab](https://colab.research.google.com/drive/1PD0LnXiADCtt4mu7bzv7VfQkFXVrPxJq?usp=sharing) を実行してください。

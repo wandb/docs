@@ -1,45 +1,43 @@
 ---
-description: null
+title: run の色をカスタマイズ
 menu:
   default:
     identifier: ja-guides-models-track-runs-run-colors
     parent: Customize run colors
-title: Customize run colors
 ---
 
-W&B automatically assigns a color to each run that you create in your project. You can change the default color of a run to help you visually distinguish it from other runs in the table and graphs. Reset your project workspace to restore the default colors for all runs in the table.
+W&B は、あなたの project で作成する各 run に自動で色を割り当てます。テーブルやグラフで他の run と視覚的に区別しやすくするために、run のデフォルトの色を変更できます。project の Workspace をリセットすると、テーブル内のすべての run のデフォルトの色が復元されます。
 
-Run colors are locally scoped. On the project page, custom colors apply only to your own workspace. In reports, custom colors for runs apply only at the section level. You can visualize the same run in different sections, which can use different custom colors per section.
+run の色はローカルスコープです。project ページでは、カスタム色は自分の Workspace にのみ適用されます。Reports では、run のカスタム色はセクション単位でのみ適用されます。同じ run を複数のセクションで可視化でき、セクションごとに異なるカスタム色を使えます。
 
-## Edit default run colors
+## デフォルトの run の色を編集
 
-1. Click the **Runs** tab from the project sidebar.
-2. Click the dot color next to the run name in the **Name** column.
-3. Select a color from the color palette or the color picker, or enter a hex code.
+1. project サイドバーから **Runs** タブをクリックします。
+2. **Name** 列で run 名の隣にあるドットの色をクリックします。
+3. カラーパレットまたはカラーピッカーから色を選ぶか、16 進数コードを入力します。
 
-{{< img src="/images/runs/run-color-palette.png" alt="Edit default run color in project workspace">}}
+{{< img src="/images/runs/run-color-palette.png" alt="project の Workspace でデフォルトの run の色を編集">}}
 
-## Randomize run colors
+## run の色をランダム化
 
-To randomize the colors of all runs in the table:
+テーブル内のすべての run の色をランダム化するには:
 
-1. Click the **Runs** tab from the project sidebar.
-2. Hover over the **Name** column header, click the three horizontal dots (**...**), and select **Randomize run colors** from the dropdown menu.
+1. project サイドバーから **Runs** タブをクリックします。
+2. **Name** 列ヘッダーにカーソルを合わせ、三点リーダー（**...**）をクリックし、ドロップダウンメニューから **Randomize run colors** を選択します。
 
 {{% alert %}}
-The option to randomize run colors is available only after modify the run's table in some way, such as by sorting, filtering, searching, or grouping.
+run の色をランダム化するオプションは、並べ替え、フィルタ、検索、グループ化などで run のテーブルを何らかの形で変更した後にのみ利用できます。
 {{% /alert %}}
 
 
-## Reset run colors
+## run の色をリセット
 
-<!-- {{% alert %}}
-The option to randomize run colors is only available if there are at least two runs in the table or selector, and you have made some kind of modification to the view (sorting, filtering, searching, or grouping).
-{{% /alert %}} -->
 
-To restore the default colors for all runs in the table:
 
-1. Click the **Runs** tab from the project sidebar.
-2. Hover over the **Name** column header, click the three horizontal dots (**...**), and select **Reset colors** from the dropdown menu.
 
-{{< img src="/images/runs/reset-run-colors.png" alt="Reset run colors in project workspace">}}
+テーブル内のすべての run のデフォルトの色を復元するには:
+
+1. project サイドバーから **Runs** タブをクリックします。
+2. **Name** 列ヘッダーにカーソルを合わせ、三点リーダー（**...**）をクリックし、ドロップダウンメニューから **Reset colors** を選択します。
+
+{{< img src="/images/runs/reset-run-colors.png" alt="project の Workspace で run の色をリセット">}}

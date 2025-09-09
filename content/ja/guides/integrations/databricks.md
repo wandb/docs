@@ -1,45 +1,45 @@
 ---
-description: How to integrate W&B with Databricks.
+title: Databricks
+description: W&B と Databricks を連携する方法
 menu:
   default:
     identifier: ja-guides-integrations-databricks
     parent: integrations
-title: Databricks
 weight: 50
 ---
 
-W&B integrates with [Databricks](https://www.databricks.com/) by customizing the W&B Jupyter notebook experience in the Databricks environment.
+W&B は、Databricks 環境内で W&B の Jupyter Notebook 体験をカスタマイズすることで、[Databricks](https://www.databricks.com/) と統合します。
 
-## Configure Databricks
+## Databricks の設定
 
-1. Install wandb in the cluster
+1. クラスターに wandb をインストール
 
-    Navigate to your cluster configuration, choose your cluster, click **Libraries**. Click **Install New**, choose **PyPI**, and add the package `wandb`.
+    クラスターの設定に移動し、クラスターを選択し、**Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択して、パッケージ `wandb` を追加します。
 
-2. Set up authentication
+2. 認証を設定
 
-    To authenticate your W&B account you can add a Databricks secret which your notebooks can query.
+    W&B アカウントを認証するには、ノートブックから参照できる Databricks シークレットを追加します。
 
     ```bash
-    # install databricks cli
+    # Databricks CLI をインストール
     pip install databricks-cli
 
-    # Generate a token from databricks UI
+    # Databricks UI からトークンを生成
     databricks configure --token
 
-    # Create a scope with one of the two commands (depending if you have security features enabled on databricks):
-    # with security add-on
+    # (Databricks でセキュリティ機能が有効かどうかに応じて) 以下のいずれかのコマンドでスコープを作成:
+    # セキュリティ アドオンを使用する場合
     databricks secrets create-scope --scope wandb
-    # without security add-on
+    # セキュリティ アドオンを使用しない場合
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # Add your api_key from: https://app.wandb.ai/authorize
+    # https://app.wandb.ai/authorize で取得した api_key を追加
     databricks secrets put --scope wandb --key api_key
     ```
 
-## Examples
+## 例
 
-### Simple example
+### 簡単な例
 
 ```python
 import os
@@ -54,12 +54,12 @@ with wandb.init() as run:
 
 ### Sweeps
 
-Setup required (temporary) for notebooks attempting to use wandb.sweep() or wandb.agent():
+`wandb.sweep()` または `wandb.agent()` を使うノートブックで必要な (一時的な) 設定:
 
 ```python
 import os
 
-# These will not be necessary in the future
+# これらは将来的に不要になります
 os.environ["WANDB_ENTITY"] = "my-entity"
 os.environ["WANDB_PROJECT"] = "my-project-that-exists"
 ```
