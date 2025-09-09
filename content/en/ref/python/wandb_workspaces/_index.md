@@ -30,7 +30,8 @@ pip install wandb-workspaces
 ### Import W&B Python SDK:
 
 ```python
-import wandb_workspaces
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr 
 ```
 
 Specify the entity of your team in the following code block:
