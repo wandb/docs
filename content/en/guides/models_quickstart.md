@@ -8,7 +8,7 @@ Learn when and how to use W&B to track, share, and manage model artifacts in you
 W&B offers the following APIs:
 
 * [W&B Python SDK]({{< relref "/ref/python/sdk" >}}) (`wandb.sdk`): Log and monitor experiments during training.
-* [W&B Public API]({{< relref "/ref/python/public-api" >}}) (`wandb.apis.public`): Query and analyze logged experiment data.
+* [W&B Public API]({{< relref "/ref/python/sdk/public-api" >}}) (`wandb.apis.public`): Query and analyze logged experiment data.
 * [W&B Reports and Workspaces API]({{< relref "/ref/python/wandb_workspaces" >}}) (`wandb.wandb-workspaces`): Create reports to summarize findings.
 
 ## Sign up and create an API key
@@ -203,7 +203,7 @@ report.save()
 For more information on how to create a report programmatically or how to create a report interactively with the W&B App, see [Create a report]({{< relref "/guides/core/reports/create-a-report.md" >}}) in the W&B Docs Developer guide. 
 
 ## Query the registry
-Use the [W&B Public APIs]({{< relref "/ref/python/public-api/_index.md" >}}) to query, analyze, and manage historical data from W&B. This can be useful for tracking the lineage of artifacts, comparing different versions, and analyzing the performance of models over time.
+Use the [W&B Public APIs]({{< relref "/ref/python/sdk/public-api/_index.md" >}}) to query, analyze, and manage historical data from W&B. This can be useful for tracking the lineage of artifacts, comparing different versions, and analyzing the performance of models over time.
 
 The following code block demonstrates how to query the Model registry for all artifacts in a specific collection. It retrieves the collection and iterates through its versions, printing out the name and version of each artifact.
 
