@@ -2,6 +2,7 @@
 title: Automations
 module: wandb.automations
 weight: 4
+no_list: true
 ---
 
 The W&B Automations API enables programmatic creation and management of automated workflows that respond to events in your ML pipeline. Configure actions to trigger when specific conditions are met, such as model performance thresholds or artifact creation.
@@ -38,67 +39,37 @@ The W&B Automations API enables programmatic creation and management of automate
 | [`MetricThresholdFilter`](./metricthresholdfilter/) | Filter runs based on metric value comparisons against thresholds. |
 | [`MetricChangeFilter`](./metricchangefilter/) | Filter runs based on metric value changes over time. |
 
-## Configuration
-
-### Setting Up Integrations
-
-```python
-# Configure Slack integration
-from wandb.automations import SlackIntegration
-
-slack = SlackIntegration(
-    webhook_url="https://hooks.slack.com/services/..."
-)
-
-# Use in notification action
-notification = SendNotification.from_integration(
-    integration=slack,
-    title="<ML Alert>",
-    text="<Training completed>",
-    level="<INFO>"
-)
-```
 
 ## Example Usage
 
+The following example creates an automation that sends a Slack notification whenever a metric called `custom-metric` exceeds 10. `custom-metric` is expected to be logged during training using `wandb.Run.log({"custom-metric": value })`.
+
 ```python
 import wandb
-from wandb.automations import OnRunMetric, SendNotification, MetricThresholdFilter
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
 
-# Create an automation that alerts when accuracy exceeds 0.95
-automation = OnRunMetric(
-    filter=MetricThresholdFilter(
-        name="accuracy",
-        cmp=">",
-        threshold=0.95
-    ),
-    scope="entity/project"
-).then(
-    SendNotification(
-        title="High Accuracy Achieved",
-        message="Model accuracy exceeded 95%",
-        severity="INFO"
-    )
+api = wandb.Api()
+
+project = api.project("<my-project>", entity="<my-team>")
+
+# Use the first Slack integration for the team
+slack_hook = next(api.slack_integrations(entity="<my-team>"))
+
+# Create a trigger event
+event = OnRunMetric(
+     scope=project,
+     filter=RunEvent.metric("custom-metric") > 10,
 )
 
-# Save the automation
-automation.save(name="accuracy-alert", enabled=True)
+# Create an action that responds to the event
+action = SendNotification.from_integration(slack_hook)
 
-# Create an automation for artifact creation
-artifact_automation = OnCreateArtifact(
-    scope="entity/project/artifact-collection"
-).then(
-    SendWebhook.from_integration(
-        integration=webhook_integration,
-        payload={"event": "new_artifact", "collection": "models"}
-    )
-)
-
-# Save with description
-artifact_automation.save(
-    name="model-webhook",
-    description="Notify external service on new model creation",
-    enabled=True
+# Create the automation
+automation = api.create_automation(
+     event >> action,
+     name="my-automation",
+     description="Send a Slack message whenever 'custom-metric' exceeds 10.",
 )
 ```
 
+For more information about using the Automations API, see the [Automations Guide]({{< relref "/guides/core/automations" >}}).
