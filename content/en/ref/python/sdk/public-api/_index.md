@@ -75,44 +75,58 @@ api = Api()
 
 ## Example Usage
 
+
+### Download an Artifact by name and alias
+
+The following example shows how to retrieve an artifact logged to W&B by its name and alias, and then download its contents.
+
 ```python
-from wandb.apis.public import Api
+import wandb
 
-# Initialize the API client
-api = Api()
-
-# Query runs with filters
-runs = api.runs(
-    path="entity/project",
-    filters={"state": "finished", "config.learning_rate": {"$gte": 0.001}}
-)
-
-# Analyze run metrics
-for run in runs:
-    print(f"Run: {run.name}")
-    print(f"Final accuracy: {run.summary.get('accuracy')}")
-    
-    # Get detailed history
-    history = run.history(keys=["loss", "accuracy"])
-    
-    # Update run metadata
-    run.tags.append("reviewed")
-    run.update()
-
-# Access artifacts
-artifact = api.artifact("entity/project/model:v1")
-artifact_dir = artifact.download()
-
-# Query sweep results
-sweep = api.sweep("entity/project/sweep_id")
-best_run = sweep.best_run()
-print(f"Best parameters: {best_run.config}")
-
-# Export data as DataFrame
-import pandas as pd
-runs_df = pd.DataFrame([
-    {**run.config, **run.summary} 
-    for run in runs
-])
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
 ```
 
+### Download an Artifact from a registry
+
+The following example shows how to retrieve a linked artifact from a W&B Registry
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# Fetch the artifact
+fetched_artifact = api.artifact(name = artifact_name)
+
+# Download artifact. Returns path to downloaded contents
+downloaded_path = fetched_artifact.download()
+```
+
+### Query W&B Registry 
+
+Use Mongo-like filters to query W&B Registries, Collections, and Artifacts. The following example demonstrates how to filter collections by name using a regular expression.
+
+```python
+import wandb
+
+# Initialize wandb API
+api = wandb.Api()
+
+# Filter all collections, independent of registry, that 
+# contains the string `yolo` in the collection name
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# Returns an iterable of all collections that match the filters
+collections = api.registries().collections(filter=collection_filters)
+```
+
+For more information on how to query a registry, collection, or artifact, see the [Find registry items](/guides/registry/search-registry).
