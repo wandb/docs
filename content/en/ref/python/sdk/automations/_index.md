@@ -6,11 +6,6 @@ weight: 4
 
 The W&B Automations API enables programmatic creation and management of automated workflows that respond to events in your ML pipeline. Configure actions to trigger when specific conditions are met, such as model performance thresholds or artifact creation.
 
-## Overview
-
-Automations in W&B (`wandb.automations`) provide event-driven workflow automation for ML operations. Define triggers based on run metrics, artifact events, or other conditions, and specify actions such as sending notifications or webhooks. Automations execute automatically when their trigger conditions are satisfied, enabling responsive ML pipelines without manual intervention.
-
-## Available Components
 
 ### Core Classes
 
@@ -43,29 +38,6 @@ Automations in W&B (`wandb.automations`) provide event-driven workflow automatio
 | [`MetricThresholdFilter`](./metricthresholdfilter/) | Filter runs based on metric value comparisons against thresholds. |
 | [`MetricChangeFilter`](./metricchangefilter/) | Filter runs based on metric value changes over time. |
 
-
-## Common Use Cases
-
-### Model Performance Monitoring
-- Alert when model accuracy drops below a threshold
-- Notify team when training loss plateaus
-- Trigger retraining pipelines based on performance metrics
-
-### Artifact Management
-- Send notifications when new model versions are created
-- Trigger deployment workflows when artifacts are tagged
-- Automate downstream processing when datasets are updated
-
-### Experiment Tracking
-- Alert on failed or crashed runs
-- Notify when long-running experiments complete
-- Send daily summaries of experiment metrics
-
-### Integration Workflows
-- Update external tracking systems via webhooks
-- Sync model registry with deployment platforms
-- Trigger CI/CD pipelines based on W&B events
-
 ## Configuration
 
 ### Setting Up Integrations
@@ -86,32 +58,6 @@ notification = SendNotification.from_integration(
     level="INFO"
 )
 ```
-
-### Filter Operators
-
-Metric filters support standard comparison operators:
-- `">"`: Greater than
-- `"<"`: Less than
-- `">="`: Greater than or equal
-- `"<="`: Less than or equal
-- `"=="`: Equal to
-- `"!="`: Not equal to
-
-### Aggregation Options
-
-For metric filters with windows:
-- `"min"`: Minimum value in window
-- `"max"`: Maximum value in window
-- `"mean"`: Average value in window
-- `"sum"`: Sum of values in window
-
-## Usage Notes
-
-- Automations require appropriate permissions in the target project or organization
-- Rate limits apply to action executions (notifications, webhooks)
-- Filters are evaluated on the W&B backend, not locally
-- Disabled automations remain saved but do not trigger
-- Test automations with `DoNothing` action before deploying
 
 ## Example Usage
 
