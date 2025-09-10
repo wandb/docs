@@ -5,13 +5,10 @@ weight: 6
 no_list: true
 ---
 
-The W&B Public API provides programmatic access to query, export, and update data stored in W&B. Use this API for post-hoc analysis, data export, and programmatic management of runs, artifacts, and sweeps.
+The W&B Public API provides programmatic access to query, export, and update data stored in W&B. Use this API for post-hoc analysis, data export, and programmatic management of runs, artifacts, and sweeps. While the main SDK handles real-time logging during training, the Public API enables you to retrieve historical data, update metadata, manage artifacts, and perform analysis on completed experiments. Access is provided through the main `Api` class which serves as the entry point to all functionality.
 
 > Training and fine-tuning models is done elsewhere in [the W&B Python SDK]({{< relref "/ref/python/sdk" >}}), not the Public API.
 
-## Overview
-
-The Public API (`wandb.apis.public`) is designed for querying and managing data after it has been logged to W&B. While the main SDK handles real-time logging during training, the Public API enables you to retrieve historical data, update metadata, manage artifacts, and perform analysis on completed experiments. Access is provided through the main `Api` class which serves as the entry point to all functionality.
 
 ## Available Components
 
