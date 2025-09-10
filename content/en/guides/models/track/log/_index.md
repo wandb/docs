@@ -95,7 +95,7 @@ Avoid naming metrics with invalid characters (such as commas, spaces, or special
     with wandb.init() as run:
       run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})
     ```
-    To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/sdk/classes/run.md#define_metric" >}}).
+    To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/sdk/run.md#define_metric" >}}).
 
 4. **Log rich media and charts**: `wandb.Run.log()` supports the logging of a wide variety of data types, from [media like images and videos]({{< relref "./media.md" >}}) to [tables]({{< relref "./log-tables.md" >}}) and [charts]({{< relref "/guides/models/app/features/custom-charts/" >}}).
 

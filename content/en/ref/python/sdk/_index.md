@@ -25,11 +25,13 @@ pip install wandb
 
 ```python
 import wandb
-```
 
-Specify the entity of your team in the following code block:
+# Specify your team entity
+entity = "<team_entity>"
 
-```python
-TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
-PROJECT = "my-awesome-project"
-```
+# Project that the run is recorded to
+project = "my-awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": .90, "loss": .10})
+````
