@@ -61,8 +61,10 @@ The following table shows the availability of BYOB at each scope for each W&B de
 | W&B deployment type        | Instance level   | Team level | Additional information |
 |----------------------------|------------------|------------|------------------------|
 | Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
-| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and GCP Storage. |
+| Multi-tenant Cloud         | Not Applicable   | &check;<sup><a href="#footnote_1">1</a></sup> | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and GCP Storage. |
 | Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
+
+<sup><a id="footnote_1">1</a>.</sup> Microsoft Azure Blob Storage is not supported for team level BYOB on Multi-tenant Cloud.
 
 The following sections guide you through the process of setting up BYOB.
 
