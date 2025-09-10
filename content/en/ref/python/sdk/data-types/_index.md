@@ -2,6 +2,7 @@
 title: Data Types
 module: wandb.sdk.data_types
 weight: 2
+no_list: true
 ---
 
 The W&B Python SDK includes data types for logging various forms of media and structured data. 

@@ -2,6 +2,7 @@
 title: Global Functions
 module: 
 weight: 1
+no_list: true
 ---
 
 The W&B Python SDK provides a set of global functions that serve as the primary entry points for interacting with the platform. These functions are called directly on the `wandb` module and form the foundation of most W&B workflows.
