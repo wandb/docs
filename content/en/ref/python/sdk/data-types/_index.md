@@ -26,39 +26,38 @@ Data Types in W&B are classes that wrap media and structured data for logging to
 
 ## Getting Started
 
-Example usage of W&B Data Types:
+Using `Image` Data Type to log an image:
 
 ```python
 import wandb
-import numpy as np
-from PIL import Image as PILImage
+import matplotlib.pyplot as plt
 
-# Initialize a run
-wandb.init(project="data-types-demo")
+# Generate an image for demonstration purposes
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
 
-# Log an image with annotations
-image = wandb.Image(
-    PILImage.open("sample.jpg"),
-    caption="Model prediction",
-    boxes={
-        "predictions": {
-            "box_data": [{"position": {"minX": 10, "minY": 20, "maxX": 100, "maxY": 150},
-                         "class_id": 1, "scores": {"confidence": 0.95}}]
-        }
-    }
-)
-wandb.log({"annotated_image": image})
+# Initialize a new run
+with wandb.init(project="awesome-project") as run:
 
-# Create and log a table with mixed media
-table = wandb.Table(columns=["id", "image", "prediction", "confidence"])
-table.add_data("sample_1", wandb.Image("img1.jpg"), "cat", 0.95)
-table.add_data("sample_2", wandb.Image("img2.jpg"), "dog", 0.87)
-wandb.log({"results_table": table})
-
-# Log 3D point cloud data
-point_cloud = np.random.rand(1000, 3)  # 1000 points in 3D space
-wandb.log({"point_cloud": wandb.Object3D(point_cloud)})
-
-wandb.finish()
+    # Log the image
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
 ```
 
+Using a `Table` Data Type to log a table with mixed text and labels:
+
+```python
+import wandb
+
+# Initialize a new run
+with wandb.init(project="visualize-predictions", name="tables") as run:
+
+    # Create tabular data, using a list of lists
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
+
+    # Create tabular data, using `wandb.Table.add_data()` method
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```
