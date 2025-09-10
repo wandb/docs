@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -79,7 +80,7 @@ jobs:
       - name: Create or find preview comment
         if: steps.changed.outputs.any_changed == 'true'
         id: find-comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // First, check if our comment already exists
@@ -114,7 +115,7 @@ jobs:
       - name: Find Cloudflare Branch Preview URL
         if: steps.changed.outputs.any_changed == 'true'
         id: find-preview
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             function htmlDecode(s) {
@@ -224,7 +225,7 @@ jobs:
 
       - name: Update PR comment with preview links
         if: steps.changed.outputs.any_changed == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           ADDED: ${{ steps.changed.outputs.added_files }}
           MODIFIED: ${{ steps.changed.outputs.modified_files }}
@@ -339,6 +340,9 @@ jobs:
                 path.posix.join('content', lang, withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
                 path.posix.join('content', withLang.endsWith('.md') ? withLang : withLang + '.md'),
                 path.posix.join('content', withoutLang.endsWith('.md') ? withoutLang : withoutLang + '.md'),
+                // Special handling for index files
+                path.posix.join('content', lang, '_index.md'),
+                path.posix.join('content', lang, 'index.md'),
               ].filter(Boolean).map(k => k.replace(/\\/g, '/')));
               
               // Debug log for new pages
@@ -404,9 +408,33 @@ jobs:
               if (!item) item = byPath.get(norm.replace(/^content\//, '').replace(/\.md$/, ''));
               
               // Debug log for unmatched files
-              if (!item && norm.includes('dspy')) {
+              if (!item) {
                 core.info(`Debug: Could not find mapping for ${norm}`);
-                core.info(`Debug: Available keys containing 'dspy': ${Array.from(byPath.keys()).filter(k => k.includes('dspy')).join(', ')}`);
+                // For new files, construct the URL based on the file path
+                if (norm.startsWith('content/') && norm.endsWith('.md')) {
+                  // Extract language and path
+                  const pathParts = norm.replace(/^content\//, '').replace(/\.md$/, '').split('/');
+                  let lang = 'en';
+                  let urlPath = pathParts.join('/');
+                  
+                  // Check if first part is a language code
+                  if (['en', 'ja', 'ko'].includes(pathParts[0])) {
+                    lang = pathParts[0];
+                    urlPath = pathParts.slice(1).join('/');
+                  }
+                  
+                  // Handle _index.md files
+                  if (urlPath.endsWith('/_index') || urlPath === '_index') {
+                    urlPath = urlPath.replace(/\/_index$/, '').replace(/^_index$/, '');
+                  }
+                  
+                  // Construct the URL
+                  const rel = lang === 'en' ? `/${urlPath}/` : `/${lang}/${urlPath}/`;
+                  const href = previewBase ? (previewBase.replace(/\/$/, '') + rel) : '';
+                  
+                  core.info(`Debug: Constructed URL for new file ${norm}: ${href}`);
+                  return { title: titleFromPath(norm), rel, href, path: norm };
+                }
               }
               
               if (!item) return { title: titleFromPath(norm), rel: '', href: '', path: norm };
@@ -438,8 +466,12 @@ jobs:
               for (const page of pageMap) {
                 if (page.path && page.path.endsWith('.md')) {
                   try {
-                    // Construct the correct file path: content/<lang>/<page.path>
-                    const contentPath = path.join('content', page.lang || 'en', page.path);
+                    // Construct the correct file path
+                    // page.path might already include content/ prefix, so handle both cases
+                    let contentPath = page.path;
+                    if (!contentPath.startsWith('content/')) {
+                      contentPath = path.join('content', page.lang || 'en', page.path);
+                    }
                     if (fs.existsSync(contentPath)) {
                       const content = fs.readFileSync(contentPath, 'utf8');
                       
@@ -470,7 +502,7 @@ jobs:
               return pagesUsingInclude;
             }
 
-            function buildRows(files) {
+            function buildRows(files, isDeleted = false) {
               const rows = [];
               
               for (const fp of files) {
@@ -501,7 +533,8 @@ jobs:
                   } else {
                     // Regular content file
                     const e = mapEntry(fp);
-                    const titleCell = e.href ? `[${e.title}](${e.href})` : e.title;
+                    // Don't create links for deleted files
+                    const titleCell = (e.href && !isDeleted) ? `[${e.title}](${e.href})` : e.title;
                     const pathCell = '`' + e.path + '`';
                     rows.push(`| ${titleCell} | ${pathCell} |`);
                   }
@@ -510,7 +543,7 @@ jobs:
                   // Only link common web assets; skip JSON, map files, etc.
                   const isLinkableAsset = /\.(png|jpe?g|gif|webp|svg|css|js|ico|txt|pdf|mp4|webm)$/i.test(fp);
                   const rel = fp.replace(/^static\//, '/').replace(/^assets\//, '/assets/');
-                  const href = (previewBase && isLinkableAsset) ? (previewBase + rel) : '';
+                  const href = (previewBase && isLinkableAsset && !isDeleted) ? (previewBase + rel) : '';
                   const title = titleFromPath(fp);
                   const titleCell = href ? `[${title}](${href})` : title;
                   const pathCell = '`' + fp + '`';
@@ -605,7 +638,7 @@ jobs:
 
             const addedRows = buildRows(addedInfo.files);
             const modifiedRows = buildRows(modifiedInfo.files);
-            const deletedRows = buildRows(deletedInfo.files);
+            const deletedRows = buildRows(deletedInfo.files, true); // Pass true for deleted files
             const renamedRows = buildRenamedRows(renamedInfo.files);
 
             const header = '<!-- docs-preview-links -->\n<!-- preview-base: ' + (previewBase || '') + ' -->\n**PR Preview: Changed content**' + (previewBase ? `\n\nBase preview: ${previewBase}` : '\n\n⏳ *Links will be added automatically when Cloudflare Pages finishes deploying (typically 2-5 minutes)*');
