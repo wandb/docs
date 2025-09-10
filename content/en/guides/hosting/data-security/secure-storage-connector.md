@@ -61,7 +61,7 @@ The following table shows the availability of BYOB at each scope for each W&B de
 | W&B deployment type        | Instance level   | Team level | Additional information |
 |----------------------------|------------------|------------|------------------------|
 | Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
-| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, and Microsoft Azure Blob Storage. |
+| Multi-tenant Cloud         | Not Applicable   | &check;    | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and GCP Storage. |
 | Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
 
 The following sections guide you through the process of setting up BYOB.
@@ -486,7 +486,7 @@ For Self-Managed, W&B recommends using the Terraform module managed by W&B to pr
 
 You can configure team level BYOB while creating a team using the W&B App. You have two options:
 - **Use an existing bucket**: You'll need to [determine the storage location](#determine-the-storage-address) for your bucket first.
-- **Create a new bucket** (Multi-tenant Cloud only): W&B can automatically create a bucket in your cloud provider when you create the team. This is supported for CoreWeave, AWS, GCP, and Azure.
+- **Create a new bucket** (Multi-tenant Cloud only): W&B can automatically create a bucket in your cloud provider when you create the team. This is supported for CoreWeave, AWS, and GCP.
 
 {{% alert %}}
 - After a team is created, its storage cannot be changed.
@@ -536,18 +536,14 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list.
 1. To create a new bucket, click **Add bucket** at the bottom, then:
-    1. Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
+    1. Click **Cloud provider** and select **CoreWeave**, **AWS**, or **GCP**.
     1. Enter the bucket details:
-        - **Name**: For all providers except Azure, enter the bucket name. For Azure, this is the container name.
+        - **Name**: Enter the bucket name.
         - **Path** (optional): Enter a sub-path to use within the bucket.
     1. Provide additional connection settings for the chosen cloud provider:
         - CoreWeave: No additional settings required.
         - AWS: Optionally provide a **KMS key ARN** for encryption.
         - GCP: No additional settings required.
-        - Azure: 
-            - **Account name** (required): The Azure storage account name.
-            - **Tenant ID** (optional): The Azure Active Directory tenant ID.
-            - **Managed Identity Client ID** (optional): The client ID for managed identity authentication.
     
     {{% alert %}}When you click **Create team**, W&B will automatically create the bucket in your cloud provider with the specified configuration.{{% /alert %}}
 
