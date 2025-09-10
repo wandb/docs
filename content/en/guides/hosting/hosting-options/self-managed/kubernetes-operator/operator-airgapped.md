@@ -26,20 +26,22 @@ Before starting, make sure your environment meets the following requirements:
 
 ## Step 2: Prepare internal container registry
 
-Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry:
+Before proceeding with the deployment, you must ensure that the following container images are available in your internal container registry. These images are critical for the successful deployment of W&B components. W&B recommends that you either follow your organization's own processes for managing your container registry, or that you use [WSM](#install-wsm) to prepare it.
+
+You are responsible for tracking the W&B Operator's requirements, as well as checking for and applying updated images regularly.
+
+### Core W&B component containers
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
-* [`docker.io/bitnami/redis`](https://hub.docker.com/r/bitnami/redis)
-* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
-* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
-* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
 
-These images are critical for the successful deployment of W&B components. W&B recommends that you use WSM to prepare the container registry. 
+### Dependencies
 
-If your organization already uses an internal container registry, you can add the images to it. Otherwise, follow the proceeding section to use a called WSM to prepare the container repository.
+* [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis): W&B depends on a single-node Redis 7.x deployment to handle job queuing and data caching used by W&B's components. For convenience during testing and development of proofs of concept, W&B Self-Managed deploys a local Redis deployment that is not appropriate for production deployments. To use the local Redis deployment, ensure that this image is available in your container registry.
+* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib): W&B depends on the OpenTelemetry agent to collect metrics and logs from resources at the Kubernetes layer for display in W&B.
+* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus): W&B depends on Prometheus to capture metrics from various components for display in W&B.
+* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader): A required dependency of Prometheus.
 
-You are responsible for tracking the Operator's requirements and for checking for and downloading image upgrades, either by [using WSM]({{< relref "#list-images-and-their-versions" >}}) or by using your organization's own processes.
 
 ### Install WSM
 
@@ -80,12 +82,11 @@ Operator Images:
   wandb/controller:1.16.1
 W&B Images:
   wandb/local:0.62.2
-  docker.io/bitnami/redis:7.2.4-debian-12-r9
+  docker.io/bitnamilegacy/redis:7.2.4-debian-12-r9
   quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
   quay.io/prometheus/prometheus:v2.47.0
   otel/opentelemetry-collector-contrib:0.97.0
   wandb/console:2.13.1
-Here are the images required to deploy W&B. Ensure these images are available in your internal container registry and update the values.yaml accordingly.
 ```
 
 ### Download images
@@ -102,7 +103,7 @@ The output looks similar to the following:
 Downloading operator helm chart
 Downloading wandb helm chart
 ✓ wandb/controller:1.16.1
-✓ docker.io/bitnami/redis:7.2.4-debian-12-r9
+✓ docker.io/bitnamilegacy/redis:7.2.4-debian-12-r9
 ✓ otel/opentelemetry-collector-contrib:0.97.0
 ✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
 ✓ wandb/console:2.13.1
@@ -115,8 +116,7 @@ WSM downloads a `.tgz` archive for each image to the `bundle` directory.
 
 ## Step 3: Prepare internal Helm chart repository
 
-Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. The WSM tool introduced in the last step can also download the Helm charts. Alternatively, download them here:
-
+Along with the container images, you also must ensure that the following Helm charts are available in your internal Helm Chart repository. The WSM tool can download the Helm charts, or you can download them manually from:
 
 - [W&B Operator](https://github.com/wandb/helm-charts/tree/main/charts/operator)
 - [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
@@ -226,7 +226,6 @@ To deploy the W&B platform, the Kubernetes Operator uses the values from your CR
 
 Replace all tags/versions with the versions that are available in your internal registry.
 
-More information on creating the preceding configuration file can be found [here]({{< relref "/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" >}}). 
 
 ## Step 7: Deploy the W&B platform
 

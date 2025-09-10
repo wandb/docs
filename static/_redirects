@@ -162,6 +162,7 @@
 /guides/hosting/slack-alerts/ /guides/hosting/monitoring-usage/slack-alerts/ 301
 /guides/hosting/sso/ /guides/hosting/iam/sso/ 301
 /guides/hosting/system-admin/ /guides/hosting/ 301
+/guides/models/app/settings-page/system-metrics/ /ref/system-metrics/ 301
 /guides/integrations/boosting/ /guides/integrations/ 301
 /guides/integrations/fastai/v2/ /guides/integrations/fastai/ 301
 /guides/integrations/jax/ /guides/integrations/ 301
@@ -469,5 +470,4 @@
 ### EOL releases: Use splats when possible
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
-/ref/release-notes/0.56.0/ /ref/release-notes/releases/archived/0.56.0/ 301
-/ref/release-notes/0.57.2/ /ref/release-notes/releases/archived/0.57.2/ 301
+/ref/release-notes/0.5*/ /ref/release-notes/releases/archived/0.56:splat 301

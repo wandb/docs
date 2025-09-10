@@ -1,6 +1,6 @@
 ---
 title: "W&B Inference"
-weight: 8
+weight: 5
 description: >
   Access open-source foundation models through W&B Weave and an OpenAI-compatible API
 ---
@@ -22,11 +22,11 @@ import openai
 client = openai.OpenAI(
     # The custom base URL points to W&B Inference
     base_url='https://api.inference.wandb.ai/v1',
-    
+
     # Get your API key from https://wandb.ai/authorize
     api_key="<your-api-key>",
-    
-    # Team and project are required for usage tracking
+
+    # Optional: Team and project for usage tracking
     project="<your-team>/<your-project>",
 )
 
