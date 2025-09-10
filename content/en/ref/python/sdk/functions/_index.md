@@ -26,7 +26,8 @@ Global functions in W&B are top-level functions that you call directly, such as 
 
 ## Getting Started
 
-The most common workflow begins with authentication and run initialization:
+The most common workflow begins with authenticating with W&B, initializing a run, and logging values (such as accuracy and loss) from your training loop:
+
 
 ```python
 import wandb
@@ -34,20 +35,20 @@ import wandb
 # Authenticate with W&B
 wandb.login()
 
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# Project where logs
+project = "my-awesome-project"
+
 # Start a new run
-run = wandb.init(
-    project="my-awesome-project",
-    config={
-        "learning_rate": 0.01,
-        "epochs": 10,
-    }
-)
-
-# Your training code here...
-
-# Finish the run
-wandb.finish()
-```
+with wandb.init(project=project, config=config) as run:
+   # Your training code here...
+   
+   # Log values to W&B
+   run.log({"accuracy": acc, "loss": loss})
 
 ## Key Concepts
 
