@@ -27,6 +27,40 @@ The settings are organized into three categories:
 3. Computed settings: Read-only settings that are automatically derived from other settings or
    the environment.
 
+**Example:**
+
+Tracking multiple processes to a single run
+```python
+import wandb
+
+# Initialize a run in the primary node
+run = wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="rank_0",
+        mode="shared",
+        x_primary=True,
+        x_stats_gpu_device_ids=[0, 1], # Only track metrics for GPU 0 and 1
+        )
+)
+
+# Note the run ID of the primary node.
+# Each worker node needs this run ID.
+run_id = run.id
+
+# Initialize a run in a worker node using the run ID of the primary node
+run = wandb.init(
+    settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
+    id=run_id,
+)
+
+# Initialize a run in a worker node using the run ID of the primary node
+run = wandb.init(
+    settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
+    id=run_id,
+)
+```
 
 **Args:**
  
