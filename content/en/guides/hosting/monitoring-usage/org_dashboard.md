@@ -11,7 +11,7 @@ This page describes how to monitor activity in your W&B organization. Select you
 ## View user status and activity 
 
 {{< tabpane text=true >}}
-{{% tab header="Self-Managed" value="dedicated" %}}
+{{% tab header="Dedicated Cloud / Self-Managed" value="dedicated" %}}
 1. Navigate to the **Organization Dashboard** at `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name. The **Users** tab opens by default and lists every user in the organization.
 2. To sort the list by user status, click the **Last Active** column header. Each user's status is one of the following:
    * **Invite pending** – an invitation was sent but not yet accepted.
@@ -41,7 +41,7 @@ A user is _active_ if they perform any auditable action scoped to the organizati
 
 ## View activity over time  {#view-activity-over-time-dedicated}
 {{< tabpane text=true >}}
-{{% tab header="Self-Managed" value="dedicated" %}}
+{{% tab header="Dedicated Cloud / Self-Managed" value="dedicated" %}}
 Use the **Activity** tab to see how many users have been active during a given period.
 
 1. Open the **Organization Dashboard** (`https://<org-name>.io/org/dashboard/`).
@@ -67,7 +67,7 @@ Use the **Activity Dashboard** to view aggregate activity.
 
 ## Export user details
 {{< tabpane text=true >}}
-{{% tab header="Self-Managed" value="dedicated" %}}
+{{% tab header="Dedicated Cloud / Self-Managed" value="dedicated" %}}
 From the **Users** tab you can download a CSV that lists each user's details (user name, email address, last-active time, roles, and more).
 
 1. In the **Users** tab, click the **…** actions menu next to **Invite new user**.
