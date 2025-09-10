@@ -5,10 +5,6 @@ weight: 2
 no_list: true
 ---
 
-The W&B Python SDK includes data types for logging various forms of media and structured data. 
-
-## Overview
-
 Data Types in W&B are classes that wrap media and structured data for logging to runs. They include visualization components in the W&B UI and handle data serialization, storage, and retrieval.
 
 ## Available Data Types
