@@ -91,38 +91,41 @@ from wandb.integration.dspy import WandbDSPyCallback
 
 # Initialize W&B (importing weave is sufficient; no explicit weave.init needed)
 project_name = "dspy-optimization"
-wandb.init(project=project_name)
+with wandb.init(project=project_name) as run:
+    # Add W&B callback to DSPy
+    dspy.settings.callbacks.append(
+        WandbDSPyCallback(run=run)
+    )
 
-# Add W&B callback to DSPy
-dspy.settings.callbacks.append(WandbDSPyCallback())
+    # Configure language models
+    teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
+    student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
+    dspy.configure(lm=student_lm)
 
-# Configure language models
-teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
-student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
-dspy.configure(lm=student_lm)
+    # Load dataset and define program
+    dataset = MATH(subset='algebra')
+    program = dspy.ChainOfThought("question -> answer")
 
-# Load dataset and define program
-dataset = MATH(subset='algebra')
-program = dspy.ChainOfThought("question -> answer")
+    # Configure and run optimizer
+    optimizer = dspy.MIPROv2(
+        metric=dataset.metric,
+        auto="light",
+        num_threads=24,
+        teacher_settings=dict(lm=teacher_lm),
+        prompt_model=student_lm
+    )
 
-# Configure and run optimizer
-optimizer = dspy.MIPROv2(
-    metric=dataset.metric,
-    auto="light",
-    num_threads=24,
-    teacher_settings=dict(lm=teacher_lm),
-    prompt_model=student_lm
-)
-
-optimized_program = optimizer.compile(
-    program,
-    trainset=dataset.train,
-    max_bootstrapped_demos=2,
-    max_labeled_demos=2
-)
+    optimized_program = optimizer.compile(
+        program,
+        trainset=dataset.train,
+        max_bootstrapped_demos=2,
+        max_labeled_demos=2
+    )
 ```
 
 After running this code, you receive both a W&B Run URL and a Weave URL. W&B displays evaluation metrics over time, along with Tables that show the evolution of program signatures. The run's **Overview** tab includes links to Weave traces for detailed inspection.
+
+If a `run` object is not passed to `WandbDSPyCallback`, the global `run` object is used.
 
 {{< img src="/images/integrations/dspy_run_page.png" alt="DSPy optimization run in W&B" >}}
 
