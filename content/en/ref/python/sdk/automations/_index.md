@@ -53,9 +53,9 @@ slack = SlackIntegration(
 # Use in notification action
 notification = SendNotification.from_integration(
     integration=slack,
-    title="ML Alert",
-    text="Training completed",
-    level="INFO"
+    title="<ML Alert>",
+    text="<Training completed>",
+    level="<INFO>"
 )
 ```
 
@@ -64,9 +64,6 @@ notification = SendNotification.from_integration(
 ```python
 import wandb
 from wandb.automations import OnRunMetric, SendNotification, MetricThresholdFilter
-
-# Initialize W&B
-wandb.login()
 
 # Create an automation that alerts when accuracy exceeds 0.95
 automation = OnRunMetric(
@@ -103,15 +100,5 @@ artifact_automation.save(
     description="Notify external service on new model creation",
     enabled=True
 )
-
-# Query existing automations
-from wandb.apis.public import Api
-api = Api()
-automations = api.project("entity/project").automations()
-
-for auto in automations:
-    print(f"Automation: {auto.name}")
-    print(f"Enabled: {auto.enabled}")
-    print(f"Event: {auto.event}")
 ```
 
