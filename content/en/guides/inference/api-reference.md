@@ -43,23 +43,6 @@ To create a chat completion, provide:
 - A model ID from the [available models]({{< relref "models" >}})
 
 {{< tabpane text=true >}}
-{{% tab header="Bash" value="bash" %}}
-
-```bash
-curl https://api.inference.wandb.ai/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>" \
-  -d '{
-    "model": "<model-id>",
-    "messages": [
-      { "role": "system", "content": "You are a helpful assistant." },
-      { "role": "user", "content": "Tell me a joke." }
-    ]
-  }'
-```
-
-{{% /tab %}}
 {{% tab header="Python" value="python" %}}
 
 ```python
@@ -87,6 +70,23 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
+```
+
+{{% /tab %}}
+{{% tab header="Bash" value="bash" %}}
+
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>" \
+  -d '{
+    "model": "<model-id>",
+    "messages": [
+      { "role": "system", "content": "You are a helpful assistant." },
+      { "role": "user", "content": "Tell me a joke." }
+    ]
+  }'
 ```
 
 {{% /tab %}}
@@ -125,16 +125,6 @@ The API returns responses in OpenAI-compatible format:
 Get all available models and their IDs. Use this to select models dynamically or check what's available.
 
 {{< tabpane text=true >}}
-{{% tab header="Bash" value="bash" %}}
-
-```bash
-curl https://api.inference.wandb.ai/v1/models \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>"
-```
-
-{{% /tab %}}
 {{% tab header="Python" value="python" %}}
 
 ```python
@@ -150,6 +140,16 @@ response = client.models.list()
 
 for model in response.data:
     print(model.id)
+```
+
+{{% /tab %}}
+{{% tab header="Bash" value="bash" %}}
+
+```bash
+curl https://api.inference.wandb.ai/v1/models \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
 ```
 
 {{% /tab %}}
