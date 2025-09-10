@@ -2,6 +2,7 @@
 title: Public API
 module: wandb.apis.public
 weight: 6
+no_list: true
 ---
 
 The W&B Public API provides programmatic access to query, export, and update data stored in W&B. Use this API for post-hoc analysis, data export, and programmatic management of runs, artifacts, and sweeps.
