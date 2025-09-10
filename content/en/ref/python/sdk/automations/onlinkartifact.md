@@ -8,15 +8,25 @@ data_type_classification: class
 
 
 
+## <kbd>class</kbd> `OnLinkArtifact`
 A new artifact is linked to a collection.
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event.
 
-### <kbd>method</kbd> `then`
+**Args:**
+ 
+ - `event_type` (Literal[LINK_ARTIFACT]): 
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): The scope of the event.
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, Dict[str, Any], FilterExpr]): Additional condition(s), if any, that must be met for this event to trigger an automation.
+
+**Returns:**
+ An `OnLinkArtifact` object.
+
+### <kbd>method</kbd> `OnLinkArtifact.__init__`
+
 ```python
-then(self, action: 'InputAction') -> 'NewAutomation'
+__init__(
+    event_type: 'Literal[LINK_ARTIFACT]' = LINK_ARTIFACT,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | dict[str, Any] | FilterExpr' = And([])
+) → None
 ```
-Define a new Automation in which this event triggers the given action.

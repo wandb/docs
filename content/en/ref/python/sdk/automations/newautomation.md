@@ -8,11 +8,33 @@ data_type_classification: class
 
 
 
+## <kbd>class</kbd> `NewAutomation`
 A new automation to be created.
 
-Attributes:
-- action (Optional): The action that will execute when this automation is triggered.
-- description (Optional): An optional description of this automation.
-- enabled (Optional): Whether this automation is enabled.  Only enabled automations will trigger.
-- event (Optional): The event that will trigger this automation.
-- name (Optional): The name of this automation.
+
+**Args:**
+ 
+ - `name` (Optional[str]): The name of this automation.
+ - `description` (Optional[str]): An optional description of this automation.
+ - `enabled` (Optional[bool]): Whether this automation is enabled.  Only enabled automations will trigger.
+ - `event` (Optional[Annotated]): The event that will trigger this automation.
+ - `action` (Optional[Annotated]): The action that will execute when this automation is triggered.
+
+**Returns:**
+ An `NewAutomation` object.
+
+### <kbd>method</kbd> `NewAutomation.__init__`
+
+```python
+__init__(
+    name: 'str | None' = None,
+    description: 'str | None' = None,
+    enabled: 'bool | None' = None,
+    event: 'Annotated | None' = None,
+    action: 'Annotated | None' = None
+) → None
+```
+
+### <kbd>property</kbd> `NewAutomation.scope`
+
+The scope in which the triggering event must occur.
