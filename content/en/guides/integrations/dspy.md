@@ -125,7 +125,7 @@ with wandb.init(project=project_name) as run:
 
 After running this code, you receive both a W&B Run URL and a Weave URL. W&B displays evaluation metrics over time, along with Tables that show the evolution of program signatures. The run's **Overview** tab includes links to Weave traces for detailed inspection.
 
-If `run` object is not passed to `WandbDSPyCallback`, the global wandb `run` object will be used.
+If a `run` object is not passed to `WandbDSPyCallback`, the global `run` object is used.
 
 {{< img src="/images/integrations/dspy_run_page.png" alt="DSPy optimization run in W&B" >}}
 
