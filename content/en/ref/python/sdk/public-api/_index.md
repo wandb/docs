@@ -7,8 +7,7 @@ no_list: true
 
 The W&B Public API provides programmatic access to query, export, and update data stored in W&B. Use this API for post-hoc analysis, data export, and programmatic management of runs, artifacts, and sweeps. While the main SDK handles real-time logging during training, the Public API enables you to retrieve historical data, update metadata, manage artifacts, and perform analysis on completed experiments. Access is provided through the main `Api` class which serves as the entry point to all functionality.
 
-> Training and fine-tuning models is done elsewhere in [the W&B Python SDK]({{< relref "/ref/python/sdk" >}}), not the Public API.
-
+> Use the Public API for querying and managing data after it has been logged to W&B.
 
 ## Available Components
 
@@ -49,27 +48,26 @@ The W&B Public API provides programmatic access to query, export, and update dat
 - Export hyperparameter search results
 - Analyze parameter importance
 
-## Usage Notes
-
-- **Read-Only vs. Write Operations**: Most API operations are read-only; write operations are limited to metadata updates
-- **Pagination**: Large result sets are automatically paginated for efficient data retrieval
-- **Filtering**: Use MongoDB-style query filters for precise data selection
-- **Lazy Loading**: Data is fetched on-demand to minimize API calls and memory usage
-- **Authentication**: Uses the same authentication as the main W&B SDK
-
 ## Authentication
 
-The Public API uses the same authentication mechanism as the W&B SDK:
+The Public API uses the same authentication mechanism as the Python SDK. You can authenticate in several ways:
+
+Use the `WANDB_API_KEY` environment variable to set your API key:
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+Pass the API key directly when initializing the `Api` class:
 
 ```python
-# Option 1: Set environment variable
-# export WANDB_API_KEY=your_api_key
-
-# Option 2: Pass API key directly
 api = Api(api_key="your_api_key")
+```
 
-# Option 3: Use wandb login
+Or use `wandb.login()` to authenticate the current session:
+```python
 import wandb
+
 wandb.login()
 api = Api()
 ```

@@ -21,6 +21,19 @@ Custom Charts in W&B (`wandb.plot`) are visualization functions that create inte
 | [`line_series()`](./line_series/) | Plot multiple line series on a single chart. |
 | [`plot_table()`](./plot_table/) | Create custom charts using Vega-Lite specifications. |
 
+## Common Use Cases
+
+### Model Evaluation
+- **Classification**: `confusion_matrix()`, `roc_curve()`, and `pr_curve()` for classifier evaluation
+- **Regression**: `scatter()` for prediction vs. actual plots and `histogram()` for residual analysis
+
+### Training Monitoring
+- **Learning Curves**: `line()` or `line_series()` for tracking metrics over epochs
+- **Hyperparameter Comparison**: `bar()` charts for comparing configurations
+
+### Data Analysis
+- **Distribution Analysis**: `histogram()` for feature distributions
+- **Correlation Analysis**: `scatter()` plots for variable relationships
 
 ## Getting Started
 
