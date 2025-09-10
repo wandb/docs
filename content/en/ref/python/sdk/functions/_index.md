@@ -28,7 +28,6 @@ Global functions in W&B are top-level functions that you call directly, such as 
 
 The most common workflow begins with authenticating with W&B, initializing a run, and logging values (such as accuracy and loss) from your training loop:
 
-
 ```python
 import wandb
 
@@ -49,12 +48,12 @@ with wandb.init(project=project, config=config) as run:
    
    # Log values to W&B
    run.log({"accuracy": acc, "loss": loss})
+```
 
-## Key Concepts
+The previous code example demonstrates the following key concepts:
 
-- **Runs**: The fundamental unit of tracking in W&B, representing a single execution of your code
 - **Authentication**: Required to sync data with the W&B platform
 - **Configuration**: Store hyperparameters and metadata for your experiments
-- **Sweeps**: Automated hyperparameter optimization across multiple runs
+- **[Runs](/guides/runs)**: The fundamental unit of tracking in W&B. Log metrics, artifacts, and more to runs.
 
 For detailed information about each function, click on the function names above to view their complete documentation, including parameters, examples, and usage patterns.
