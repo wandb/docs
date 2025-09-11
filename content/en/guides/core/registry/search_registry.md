@@ -25,7 +25,7 @@ Search results appear below the search bar if the term you specify matches an ex
 
 ## Query registry items with MongoDB-style queries
 
-Use the [`wandb.Api().registries()`]({{< relref "/ref/python/sdk/public-api/api.md#registries" >}}) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
+Use the [`wandb.Api().registries()`]({{< relref "/ref/python/public-api/api.md#registries" >}}) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
 
 The following table lists query names you can use based on the type of item you want to filter:
 
@@ -117,7 +117,7 @@ for art in artifacts:
     print(f"tags attached to artifact: {art.tags}")
     print(f"artifact created at: {art.created_at}\n")
 ```
-For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/sdk/experiments/artifact/_index.md" >}}) in the API Reference docs. 
+For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/experiments/artifact/_index.md" >}}) in the API Reference docs. 
 
 
 Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:

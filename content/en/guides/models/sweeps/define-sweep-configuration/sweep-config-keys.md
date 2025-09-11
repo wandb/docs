@@ -159,7 +159,7 @@ Specify either `min_iter` or `max_iter` to create a bracket schedule.
 
 
 {{% alert %}}
-Hyperband checks which [runs]({{< relref "/ref/python/sdk/experiments/run.md" >}}) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
+Hyperband checks which [runs]({{< relref "/ref/python/experiments/run.md" >}}) to end once every few minutes. The end run timestamp might differ from the specified brackets if your run or iteration are short.
 {{% /alert %}}
 
 ## `command` 

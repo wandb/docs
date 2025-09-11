@@ -1,18 +1,37 @@
 ---
-title: Python Library 0.21.3
-weight: 1
-no_list: true
+title: Python SDK 0.21.3
+module: 
+weight: 2
 ---
+The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune models, and manage models from experimentation to production. 
 
-{{< card >}}
-<a href="/ref/python/sdk">
-<h2 className="card-title">Python SDK</h2></a>
-<p className="card-content">Train and fine-tune models, manage models from experimentation to production.</p>
-{{< /card >}}
-<p/>
-{{< card >}}
-<a href="/ref/python/wandb_workspaces">
-<h2 className="card-title">Reports and Workspaces API</h2></a>
-<p className="card-content">Create reports to summarize findings.</p>
-{{< /card >}}
+> After performing your training and fine-tuning operations with this SDK, you can use [the Public API]({{< relref "/ref/python/public-api" >}}) to query and analyze the data that was logged, and [the Reports and Workspaces API]({{< relref "/ref/wandb_workspaces" >}}) to generate a web-publishable [report]({{< relref "/guides/core/reports" >}}) summarizing your work.
 
+## Installation and setup
+
+### Sign up and create an API key
+
+To authenticate your machine with W&B, you must first generate an API key at https://wandb.ai/authorize.
+
+### Install and import packages
+
+Install the W&B library.
+
+```
+pip install wandb
+```
+
+### Import W&B Python SDK:
+
+```python
+import wandb
+
+# Specify your team entity
+entity = "<team_entity>"
+
+# Project that the run is recorded to
+project = "my-awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+````

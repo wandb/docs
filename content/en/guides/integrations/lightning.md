@@ -327,7 +327,7 @@ for epoch in range(num_epochs):
 
 ## Log the min/max of a metric
 
-Using wandb's [`define_metric`]({{< relref "/ref/python/sdk/experiments/run.md#define_metric" >}}) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here]({{< relref "/ref/python/sdk/experiments/run.md#define_metric" >}}) and the [guide here]({{< relref "/guides/models/track/log/customize-logging-axes" >}}) for more.
+Using wandb's [`define_metric`]({{< relref "/ref/python/experiments/run.md#define_metric" >}}) function you can define whether you'd like your W&B summary metric to display the min, max, mean or best value for that metric. If `define`_`metric` _ isn't used, then the last value logged with appear in your summary metrics. See the `define_metric` [reference docs here]({{< relref "/ref/python/experiments/run.md#define_metric" >}}) and the [guide here]({{< relref "/guides/models/track/log/customize-logging-axes" >}}) for more.
 
 To tell W&B to keep track of the max validation accuracy in the W&B summary metric, call `wandb.define_metric` only once, at the beginning of training:
 
@@ -644,7 +644,7 @@ The core integration is based on the [Lightning `loggers` API](https://pytorch-l
 
 ### What does the integration log without any additional code?
 
-We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics]({{< relref "/ref/python/system-metrics.md" >}}), like GPU usage and network I/O, environment information, like hardware and OS information, [code state]({{< relref "/guides/models/app/features/panels/code.md" >}}) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
+We'll save your model checkpoints to W&B, where you can view them or download them for use in future runs. We'll also capture [system metrics]({{< relref "/ref/python/experiments/system-metrics.md" >}}), like GPU usage and network I/O, environment information, like hardware and OS information, [code state]({{< relref "/guides/models/app/features/panels/code.md" >}}) (including git commit and diff patch, notebook contents and session history), and anything printed to the standard out.
 
 ### What if I need to use `wandb.run` in my training setup?
 

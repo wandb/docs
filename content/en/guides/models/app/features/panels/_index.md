@@ -10,7 +10,7 @@ cascade:
 - url: guides/app/features/panels/:filename
 ---
 
-Use workspace panel visualizations to explore your [logged data]({{< relref "/ref/python/sdk/experiments/run.md/#method-runlog" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
+Use workspace panel visualizations to explore your [logged data]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
 
 ## Workspace modes
 

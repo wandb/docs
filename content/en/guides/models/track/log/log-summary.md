@@ -25,7 +25,7 @@ with wandb.init(config=args) as run:
           best_accuracy = test_accuracy
 ```
 
-You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref "/ref/python/sdk/public-api/" >}}) to update the summary attribute:
+You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update the summary attribute:
 
 ```python
 api = wandb.Api()

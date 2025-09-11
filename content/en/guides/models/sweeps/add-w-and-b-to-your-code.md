@@ -71,12 +71,12 @@ How you integrate W&B to your Python script or notebook depends on how you manag
 Add the following to your Python script:
 
 1. Create a dictionary object where the key-value pairs define a [sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}). The sweep configuration defines the hyperparameters you want W&B to explore on your behalf along with the metric you want to optimize. Continuing from the previous example, the batch size (`batch_size`), epochs (`epochs`), and the learning rate (`lr`) are the hyperparameters to vary during each sweep. You want to maximize the accuracy of the validation score so you set `"goal": "maximize"` and the name of the variable you want to optimize for, in this case `val_acc` (`"name": "val_acc"`).
-2. Pass the sweep configuration dictionary to [`wandb.sweep()`]({{< relref "/ref/python/sdk/functions/sweep.md" >}}). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
+2. Pass the sweep configuration dictionary to [`wandb.sweep()`]({{< relref "/ref/python/functions/sweep.md" >}}). This initializes the sweep and returns a sweep ID (`sweep_id`). For more information, see [Initialize sweeps]({{< relref "./initialize-sweeps.md" >}}).
 3. At the top of your script, import the W&B Python SDK (`wandb`).
-4. Within your `main` function, use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/experiments/run.md" >}}). Pass the project name as a parameter to the `wandb.init()` method. If you do not pass a project name, W&B uses the default project name.
+4. Within your `main` function, use the [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/experiments/run.md" >}}). Pass the project name as a parameter to the `wandb.init()` method. If you do not pass a project name, W&B uses the default project name.
 5. Fetch the hyperparameter values from the `wandb.Run.config` object. This allows you to use the hyperparameter values defined in the sweep configuration dictionary instead of hard coded values.
-6. Log the metric you are optimizing for to W&B using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/experiments/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. For example, if you define the metric to optimize as `val_acc`, you must log `val_acc`. If you do not log the metric, W&B does not know what to optimize for. Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
-7. Start the sweep with [`wandb.agent()`]({{< relref "/ref/python/sdk/functions/agent.md" >}}). Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`).
+6. Log the metric you are optimizing for to W&B using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. For example, if you define the metric to optimize as `val_acc`, you must log `val_acc`. If you do not log the metric, W&B does not know what to optimize for. Within the configuration dictionary (`sweep_configuration` in this example), you define the sweep to maximize the `val_acc` value.
+7. Start the sweep with [`wandb.agent()`]({{< relref "/ref/python/functions/agent.md" >}}). Provide the sweep ID and the name of the function the sweep will execute (`function=main`), and specify the maximum number of runs to try to four (`count=4`).
 
 
 Putting this all together, your script might look similar to the following:
@@ -189,9 +189,9 @@ Next, add the following to the code example:
 
 1. Import the W&B Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
 2. Read in the configuration file.
-3. Use the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/sdk/experiments/run.md" >}}). Pass the config object to the config parameter.
+3. Use the [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}) API to generate a background process to sync and log data as a [W&B Run]({{< relref "/ref/python/experiments/run.md" >}}). Pass the config object to the config parameter.
 4. Define hyperparameter values from `wandb.Run.config` instead of using hard coded values.
-5. Log the metric you want to optimize with [`wandb.Run.log()`]({{< relref "/ref/python/sdk/experiments/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) you define the sweep to maximize the `val_acc` value.
+5. Log the metric you want to optimize with [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) you define the sweep to maximize the `val_acc` value.
 
 ```python
 import wandb

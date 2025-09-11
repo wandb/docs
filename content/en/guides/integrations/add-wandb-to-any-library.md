@@ -409,7 +409,7 @@ local_path = artifact.download("./tmp")
 
 Artifacts can be found in the Artifacts section of W&B and can be referenced with aliases generated automatically (`latest`, `v2`, `v3`) or manually when logging (`best_accuracy`, etc.).
 
-To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API]({{< relref "/ref/python/sdk/public-api/index.md" >}}):
+To download an Artifact without creating a `wandb` run (through `wandb.init`), for example in distributed environments or for simple inference, you can instead reference the artifact with the [wandb API]({{< relref "/ref/python/public-api/index.md" >}}):
 
 ```python
 artifact = wandb.Api().artifact("user/project/artifact:latest")

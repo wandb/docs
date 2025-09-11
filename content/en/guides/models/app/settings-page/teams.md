@@ -123,7 +123,7 @@ Use system permissions to create and manage teams and their members and to adjus
 
 ## Team trials
 
-See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "/ref/python/sdk/public-api/index.md" >}}).
+See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "/ref/python/public-api/index.md" >}}).
 
 ## Privacy settings
 

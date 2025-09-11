@@ -81,7 +81,7 @@ This section demonstrates a typical workflow using `WandbVisBackend` using [`mme
     ```
 
     {{% alert %}}
-    You pass a dictionary of arguments for [W&B run initialization]({{< relref "/ref/python/sdk/functions/init.md" >}}) input parameters to `init_kwargs`.
+    You pass a dictionary of arguments for [W&B run initialization]({{< relref "/ref/python/functions/init.md" >}}) input parameters to `init_kwargs`.
     {{% /alert %}}
 
 2. Initialize a `runner` with the `visualizer`, and call `runner.train()`.

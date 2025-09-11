@@ -46,7 +46,7 @@ Interactively or programmatically add a description to a collection with the W&B
   {{% /tab %}}
   {{% tab header="Python SDK" %}}
 
-Use the [`wandb.Api().artifact_collection()`]({{< relref "/ref/python/sdk/public-api/api.md#artifact_collection" >}}) method to access a collection's description. Use the returned object's `description` property to add, or update, a description to the collection.
+Use the [`wandb.Api().artifact_collection()`]({{< relref "/ref/python/public-api/api.md#artifact_collection" >}}) method to access a collection's description. Use the returned object's `description` property to add, or update, a description to the collection.
 
 Specify the collection's type for the `type_name` parameter and the collection's full name for the `name` parameter. A collection's name consists of the prefix “wandb-registry”, the name of the registry, and the name of the collection separated by a forward slashes:
 
