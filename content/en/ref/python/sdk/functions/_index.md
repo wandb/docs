@@ -2,11 +2,8 @@
 title: Global Functions
 module: 
 weight: 1
+no_list: true
 ---
-
-The W&B Python SDK provides a set of global functions that serve as the primary entry points for interacting with the platform. These functions are called directly on the `wandb` module and form the foundation of most W&B workflows.
-
-## Overview
 
 Global functions in W&B are top-level functions that you call directly, such as `wandb.init()` or `wandb.login()`. Unlike methods that belong to specific classes, these functions provide direct access to W&B's core functionality without needing to instantiate objects first.
 
@@ -26,7 +23,7 @@ Global functions in W&B are top-level functions that you call directly, such as 
 
 ## Getting Started
 
-The most common workflow begins with authenticating with W&B, initializing a run, and logging values (such as accuracy and loss) from your training loop:
+The most common workflow begins with authenticating with W&B, initializing a run, and logging values (such as accuracy and loss) from your training loop. The following example demonstrates this workflow:
 
 ```python
 import wandb
@@ -34,15 +31,16 @@ import wandb
 # Authenticate with W&B
 wandb.login()
 
+# Hyperparameters and metadata
 config = {
    "learning_rate": 0.01,
    "epochs": 10,
 }
 
-# Project where logs
+# Project that the run is recorded to
 project = "my-awesome-project"
 
-# Start a new run
+# Initialize a new run
 with wandb.init(project=project, config=config) as run:
    # Your training code here...
    
@@ -55,5 +53,3 @@ The previous code example demonstrates the following key concepts:
 - **Authentication**: Required to sync data with the W&B platform
 - **Configuration**: Store hyperparameters and metadata for your experiments
 - **[Runs](/guides/runs)**: The fundamental unit of tracking in W&B. Log metrics, artifacts, and more to runs.
-
-For detailed information about each function, click on the function names above to view their complete documentation, including parameters, examples, and usage patterns.

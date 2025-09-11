@@ -2,15 +2,11 @@
 title: Automations
 module: wandb.automations
 weight: 4
+no_list: true
 ---
 
 The W&B Automations API enables programmatic creation and management of automated workflows that respond to events in your ML pipeline. Configure actions to trigger when specific conditions are met, such as model performance thresholds or artifact creation.
 
-## Overview
-
-Automations in W&B (`wandb.automations`) provide event-driven workflow automation for ML operations. Define triggers based on run metrics, artifact events, or other conditions, and specify actions such as sending notifications or webhooks. Automations execute automatically when their trigger conditions are satisfied, enabling responsive ML pipelines without manual intervention.
-
-## Available Components
 
 ### Core Classes
 
@@ -43,7 +39,6 @@ Automations in W&B (`wandb.automations`) provide event-driven workflow automatio
 | [`MetricThresholdFilter`](./metricthresholdfilter/) | Filter runs based on metric value comparisons against thresholds. |
 | [`MetricChangeFilter`](./metricchangefilter/) | Filter runs based on metric value changes over time. |
 
-
 ## Common Use Cases
 
 ### Model Performance Monitoring
@@ -66,106 +61,36 @@ Automations in W&B (`wandb.automations`) provide event-driven workflow automatio
 - Sync model registry with deployment platforms
 - Trigger CI/CD pipelines based on W&B events
 
-## Configuration
-
-### Setting Up Integrations
-
-```python
-# Configure Slack integration
-from wandb.automations import SlackIntegration
-
-slack = SlackIntegration(
-    webhook_url="https://hooks.slack.com/services/..."
-)
-
-# Use in notification action
-notification = SendNotification.from_integration(
-    integration=slack,
-    title="ML Alert",
-    text="Training completed",
-    level="INFO"
-)
-```
-
-### Filter Operators
-
-Metric filters support standard comparison operators:
-- `">"`: Greater than
-- `"<"`: Less than
-- `">="`: Greater than or equal
-- `"<="`: Less than or equal
-- `"=="`: Equal to
-- `"!="`: Not equal to
-
-### Aggregation Options
-
-For metric filters with windows:
-- `"min"`: Minimum value in window
-- `"max"`: Maximum value in window
-- `"mean"`: Average value in window
-- `"sum"`: Sum of values in window
-
-## Usage Notes
-
-- Automations require appropriate permissions in the target project or organization
-- Rate limits apply to action executions (notifications, webhooks)
-- Filters are evaluated on the W&B backend, not locally
-- Disabled automations remain saved but do not trigger
-- Test automations with `DoNothing` action before deploying
-
 ## Example Usage
+
+The following example creates an automation that sends a Slack notification whenever a metric called `custom-metric` exceeds 10. `custom-metric` is expected to be logged during training using `wandb.Run.log({"custom-metric": value })`.
 
 ```python
 import wandb
-from wandb.automations import OnRunMetric, SendNotification, MetricThresholdFilter
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
 
-# Initialize W&B
-wandb.login()
+api = wandb.Api()
 
-# Create an automation that alerts when accuracy exceeds 0.95
-automation = OnRunMetric(
-    filter=MetricThresholdFilter(
-        name="accuracy",
-        cmp=">",
-        threshold=0.95
-    ),
-    scope="entity/project"
-).then(
-    SendNotification(
-        title="High Accuracy Achieved",
-        message="Model accuracy exceeded 95%",
-        severity="INFO"
-    )
+project = api.project("<my-project>", entity="<my-team>")
+
+# Use the first Slack integration for the team
+slack_hook = next(api.slack_integrations(entity="<my-team>"))
+
+# Create a trigger event
+event = OnRunMetric(
+     scope=project,
+     filter=RunEvent.metric("custom-metric") > 10,
 )
 
-# Save the automation
-automation.save(name="accuracy-alert", enabled=True)
+# Create an action that responds to the event
+action = SendNotification.from_integration(slack_hook)
 
-# Create an automation for artifact creation
-artifact_automation = OnCreateArtifact(
-    scope="entity/project/artifact-collection"
-).then(
-    SendWebhook.from_integration(
-        integration=webhook_integration,
-        payload={"event": "new_artifact", "collection": "models"}
-    )
+# Create the automation
+automation = api.create_automation(
+     event >> action,
+     name="my-automation",
+     description="Send a Slack message whenever 'custom-metric' exceeds 10.",
 )
-
-# Save with description
-artifact_automation.save(
-    name="model-webhook",
-    description="Notify external service on new model creation",
-    enabled=True
-)
-
-# Query existing automations
-from wandb.apis.public import Api
-api = Api()
-automations = api.project("entity/project").automations()
-
-for auto in automations:
-    print(f"Automation: {auto.name}")
-    print(f"Enabled: {auto.enabled}")
-    print(f"Event: {auto.event}")
 ```
 
+For more information about using the Automations API, see the [Automations Guide]({{< relref "/guides/core/automations" >}}).
