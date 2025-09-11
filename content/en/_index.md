@@ -64,49 +64,6 @@ Use [W&B Inference]({{< relref "/guides/inference/" >}}) to access leading open-
 {{< /cardpane >}}
 </div>
 
-<div class="bottom-row-cards">
-{{< cardpane >}}
-{{% card %}}<div onclick="window.location.href='/guides/core/'" style="cursor: pointer; padding-left: 20px">
-<h2>Core Components</h2>
-
-Both W&B products share common components that enable and accelerate your AI/ML engineering work. 
-
-- [Registry]({{< relref "/guides/core/registry/" >}})
-- [Artifacts]({{< relref "/guides/core/artifacts/" >}})
-- [Reports]({{< relref "/guides/core/reports/" >}})
-- [Automations]({{< relref "/guides/core/automations/" >}})
-- [Secrets]({{< relref "/guides/core/secrets.md" >}})
-
-</div>{{% /card %}}
-{{% card %}}<div onclick="window.location.href='/guides/hosting'" style="cursor: pointer;padding-left:20px;">
-
-<h2>Platform</h2>
-
-The Weights & Biases platform can be accessed through our SaaS offering or deployed on-premise, and it provides IAM, security, monitoring, and privacy features.
-
-- [Deployment Options]({{< relref "/guides/hosting/hosting-options/" >}})
-- [Identity and access management (IAM)]({{< relref "/guides/hosting/iam/" >}})
-- [Data Security]({{< relref "/guides/hosting/data-security/" >}})
-- [Privacy settings]({{< relref "/guides/hosting/privacy-settings/" >}})
-- [Monitoring and Usage]({{< relref "/guides/hosting/monitoring-usage/" >}})
-
-</div>{{% /card %}}
-{{% card %}}<div onclick="window.location.href='/support/'" style="cursor: pointer;padding-left:20px;">
-
-<h2>Support</h2>
-
-Get help with any aspect of the Weights & Biases platform. Find answers to common questions, troubleshooting guides, and ways to contact our support team.
-
-- [Knowledge Base Articles]({{< relref "/support/" >}})
-- [Community Forum](https://wandb.ai/community)
-- [Discord Server](https://discord.com/invite/RgB8CPk2ce)
-- [Contact Support](https://wandb.ai/site/contact/)
-
-</div>{{% /card %}}
-{{< /cardpane >}}
-</div>
-
-
 <!-- End max-width constraing -->
 </div>
 <!-- HTML override just for landing page -->
