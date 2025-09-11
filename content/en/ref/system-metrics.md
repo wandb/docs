@@ -4,11 +4,8 @@ menu:
   reference:
     identifier: system-metrics
     parent: reference
-title: System Metrics Reference
-weight: 999
-aliases:
-- /guides/models/app/settings-page/system-metrics/
-- /guides/ref/system-metrics
+title: System Metrics
+weight: 50
 ---
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.
