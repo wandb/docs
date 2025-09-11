@@ -2,10 +2,6 @@
 title: Run
 object_type: python_sdk_actions
 data_type_classification: class
-weight: 6
-aliases:
-- /ref/python/sdk/run
-- /ref/python/sdk/classes/run
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}
@@ -20,9 +16,9 @@ Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new ru
 
 For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
+You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
 
-There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/sdk/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
+There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
 
 
@@ -50,24 +46,40 @@ with wandb.init(entity="entity", project="project") as run:
 
 Config object associated with this run. 
 
+
+
+**Returns:**
+ - `wandb_config.Config`: The config property value.
 ---
 
 ### <kbd>property</kbd> Run.config_static
 
 Static config object associated with this run. 
 
+
+
+**Returns:**
+ - `wandb_config.ConfigStatic`: The config_static property value.
 ---
 
 ### <kbd>property</kbd> Run.dir
 
 The directory where files associated with the run are saved. 
 
+
+
+**Returns:**
+ - `str`: The dir property value.
 ---
 
 ### <kbd>property</kbd> Run.disabled
 
 True if the run is disabled, False otherwise. 
 
+
+
+**Returns:**
+ - `bool`: The disabled property value.
 ---
 
 ### <kbd>property</kbd> Run.entity
@@ -76,6 +88,10 @@ The name of the W&B entity associated with the run.
 
 Entity can be a username or the name of a team or organization. 
 
+
+
+**Returns:**
+ - `str`: The entity property value.
 ---
 
 ### <kbd>property</kbd> Run.group
@@ -86,12 +102,20 @@ Grouping runs together allows related experiments to be organized and visualized
 
 In shared mode, where all processes share the same run object, setting a group is usually unnecessary, since there is only one run and no grouping is required. 
 
+
+
+**Returns:**
+ - `str`: The group property value.
 ---
 
 ### <kbd>property</kbd> Run.id
 
 Identifier for this run. 
 
+
+
+**Returns:**
+ - `str`: The id property value.
 ---
 
 ### <kbd>property</kbd> Run.job_type
@@ -102,6 +126,10 @@ View a run's job type in the run's Overview page in the W&B App.
 
 You can use this to categorize runs by their job type, such as "training", "evaluation", or "inference". This is useful for organizing and filtering runs in the W&B UI, especially when you have multiple runs with different job types in the same project. For more information, see [Organize runs](https://docs.wandb.ai/guides/runs/#organize-runs). 
 
+
+
+**Returns:**
+ - `str`: The job_type property value.
 ---
 
 ### <kbd>property</kbd> Run.name
@@ -110,6 +138,10 @@ Display name of the run.
 
 Display names are not guaranteed to be unique and may be descriptive. By default, they are randomly generated. 
 
+
+
+**Returns:**
+ - `str | None`: The name property value.
 ---
 
 ### <kbd>property</kbd> Run.notes
@@ -118,12 +150,20 @@ Notes associated with the run, if there are any.
 
 Notes can be a multiline string and can also use markdown and latex equations inside `$$`, like `$x + 3$`. 
 
+
+
+**Returns:**
+ - `str | None`: The notes property value.
 ---
 
 ### <kbd>property</kbd> Run.offline
 
 True if the run is offline, False otherwise. 
 
+
+
+**Returns:**
+ - `bool`: The offline property value.
 ---
 
 ### <kbd>property</kbd> Run.path
@@ -132,12 +172,20 @@ Path to the run.
 
 Run paths include entity, project, and run ID, in the format `entity/project/run_id`. 
 
+
+
+**Returns:**
+ - `str`: The path property value.
 ---
 
 ### <kbd>property</kbd> Run.project
 
 Name of the W&B project associated with the run. 
 
+
+
+**Returns:**
+ - `str`: The project property value.
 ---
 
 ### <kbd>property</kbd> Run.project_url
@@ -146,24 +194,40 @@ URL of the W&B project associated with the run, if there is one.
 
 Offline runs do not have a project URL. 
 
+
+
+**Returns:**
+ - `str | None`: The project_url property value.
 ---
 
 ### <kbd>property</kbd> Run.resumed
 
 True if the run was resumed, False otherwise. 
 
+
+
+**Returns:**
+ - `bool`: The resumed property value.
 ---
 
 ### <kbd>property</kbd> Run.settings
 
 A frozen copy of run's Settings object. 
 
+
+
+**Returns:**
+ - `Settings`: The settings property value.
 ---
 
 ### <kbd>property</kbd> Run.start_time
 
 Unix timestamp (in seconds) of when the run started. 
 
+
+
+**Returns:**
+ - `float`: The start_time property value.
 ---
 
 
@@ -172,6 +236,10 @@ Unix timestamp (in seconds) of when the run started.
 
 Identifier for the sweep associated with the run, if there is one. 
 
+
+
+**Returns:**
+ - `str | None`: The sweep_id property value.
 ---
 
 ### <kbd>property</kbd> Run.sweep_url
@@ -180,12 +248,20 @@ URL of the sweep associated with the run, if there is one.
 
 Offline runs do not have a sweep URL. 
 
+
+
+**Returns:**
+ - `str | None`: The sweep_url property value.
 ---
 
 ### <kbd>property</kbd> Run.tags
 
 Tags associated with the run, if there are any. 
 
+
+
+**Returns:**
+ - `tuple | None`: The tags property value.
 ---
 
 ### <kbd>property</kbd> Run.url
@@ -196,6 +272,10 @@ Offline runs will not have a url.
 
 
 
+
+
+**Returns:**
+ - `str | None`: The url property value.
 ---
 
 ### <kbd>method</kbd> `Run.alert`
@@ -684,8 +764,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10342a8c0>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1050f4ee0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x105f25750>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x106a92710>
 ) → Artifact | None
 ```
 

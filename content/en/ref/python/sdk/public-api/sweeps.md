@@ -1,9 +1,8 @@
 ---
-title: Sweeps
+title: sweeps
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py >}}
 
@@ -71,9 +70,13 @@ __init__(
 ) → Sweeps
 ```
 
-An iterable collection of `Sweep` objects. 
+An iterable collection of `Sweep` objects.
 
+### <kbd>method</kbd> `Sweep.__init__`
 
+```python
+__init__(client, entity, project, sweep_id, attrs=None)
+```
 
 **Args:**
  
@@ -111,11 +114,6 @@ The set of runs associated with the sweep.
  - `state` (str):  The state of the sweep. Can be "Finished", "Failed",  "Crashed", or "Running". 
  - `expected_run_count` (int):  The number of expected runs for the sweep 
 
-### <kbd>method</kbd> `Sweep.__init__`
-
-```python
-__init__(client, entity, project, sweep_id, attrs=None)
-```
 
 
 

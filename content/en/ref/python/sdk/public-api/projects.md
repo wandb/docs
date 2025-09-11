@@ -1,9 +1,8 @@
 ---
-title: Projects
+title: projects
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py >}}
 
@@ -48,9 +47,17 @@ for project in projects:
 ## <kbd>class</kbd> `Projects`
 An lazy iterator of `Project` objects. 
 
-An iterable interface to access projects created and saved by the entity. 
+An iterable interface to access projects created and saved by the entity.
 
+### <kbd>method</kbd> `Projects.__init__`
 
+```python
+__init__(
+    client: wandb.apis.public.api.RetryingClient,
+    entity: str,
+    per_page: int = 50
+) → Projects
+```
 
 **Args:**
  
@@ -75,15 +82,6 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ``` 
 
-### <kbd>method</kbd> `Projects.__init__`
-
-```python
-__init__(
-    client: wandb.apis.public.api.RetryingClient,
-    entity: str,
-    per_page: int = 50
-) → Projects
-```
 
 An iterable collection of `Project` objects. 
 
@@ -103,15 +101,7 @@ An iterable collection of `Project` objects.
 
 
 ## <kbd>class</kbd> `Project`
-A project is a namespace for runs. 
-
-
-
-**Args:**
- 
- - `client`:  W&B API client instance. 
- - `name` (str):  The name of the project. 
- - `entity` (str):  The entity name that owns the project. 
+A project is a namespace for runs.
 
 ### <kbd>method</kbd> `Project.__init__`
 
@@ -123,6 +113,13 @@ __init__(
     attrs: dict
 ) → Project
 ```
+
+**Args:**
+ 
+ - `client`:  W&B API client instance. 
+ - `name` (str):  The name of the project. 
+ - `entity` (str):  The entity name that owns the project. 
+
 
 A single project associated with an entity. 
 

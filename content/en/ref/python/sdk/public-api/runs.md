@@ -1,9 +1,8 @@
 ---
-title: Runs
+title: runs
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py >}}
 
@@ -51,9 +50,21 @@ A lazy iterator of `Run` objects associated with a project and optional filter.
 
 Runs are retrieved in pages from the W&B server as needed. 
 
-This is generally used indirectly using the `Api.runs` namespace. 
+This is generally used indirectly using the `Api.runs` namespace.
 
+### <kbd>method</kbd> `Runs.__init__`
 
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True
+)
+```
 
 **Args:**
  
@@ -102,19 +113,6 @@ histories_df = runs.histories(
 )
 ``` 
 
-### <kbd>method</kbd> `Runs.__init__`
-
-```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    filters: 'dict[str, Any] | None' = None,
-    order: 'str' = '+created_at',
-    per_page: 'int' = 50,
-    include_sweeps: 'bool' = True
-)
-```
 
 
 
@@ -168,9 +166,20 @@ Return sampled history metrics for all runs that fit the filters conditions.
 ---
 
 ## <kbd>class</kbd> `Run`
-A single run associated with an entity and project. 
+A single run associated with an entity and project.
 
+### <kbd>method</kbd> `Run.__init__`
 
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    run_id: 'str',
+    attrs: 'Mapping | None' = None,
+    include_sweeps: 'bool' = True
+)
+```
 
 **Args:**
  
@@ -205,18 +214,6 @@ A single run associated with an entity and project.
  - `with `wandb.log({key`:  value})` 
  - `metadata` (str):  Metadata about the run from wandb-metadata.json 
 
-### <kbd>method</kbd> `Run.__init__`
-
-```python
-__init__(
-    client: 'RetryingClient',
-    entity: 'str',
-    project: 'str',
-    run_id: 'str',
-    attrs: 'Mapping | None' = None,
-    include_sweeps: 'bool' = True
-)
-```
 
 Initialize a Run object. 
 

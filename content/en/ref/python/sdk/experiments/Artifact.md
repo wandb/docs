@@ -2,10 +2,6 @@
 title: Artifact
 object_type: python_sdk_actions
 data_type_classification: class
-weight: 3
-aliases:
-- /ref/python/sdk/artifact
-- /ref/python/sdk/classes/artifact
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py >}}
@@ -16,9 +12,20 @@ aliases:
 ## <kbd>class</kbd> `Artifact`
 Flexible and lightweight building block for dataset and model versioning. 
 
-Construct an empty W&B Artifact. Populate an artifacts contents with methods that begin with `add`. Once the artifact has all the desired files, you can call `run.log_artifact()` to log it. 
+Construct an empty W&B Artifact. Populate an artifacts contents with methods that begin with `add`. Once the artifact has all the desired files, you can call `run.log_artifact()` to log it.
 
+### <kbd>method</kbd> `Artifact.__init__`
 
+```python
+__init__(
+    name: 'str',
+    type: 'str',
+    description: 'str | None' = None,
+    metadata: 'dict[str, Any] | None' = None,
+    incremental: 'bool' = False,
+    use_as: 'str | None' = None
+) → None
+```
 
 **Args:**
  
@@ -35,18 +42,6 @@ Construct an empty W&B Artifact. Populate an artifacts contents with methods tha
 **Returns:**
  An `Artifact` object. 
 
-### <kbd>method</kbd> `Artifact.__init__`
-
-```python
-__init__(
-    name: 'str',
-    type: 'str',
-    description: 'str | None' = None,
-    metadata: 'dict[str, Any] | None' = None,
-    incremental: 'bool' = False,
-    use_as: 'str | None' = None
-) → None
-```
 
 
 
@@ -63,6 +58,10 @@ identifying "nicknames" assigned to an artifact version.
 
 Aliases are mutable references that you can programmatically reference. Change an artifact's alias with the W&B App UI or programmatically. See [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) for more information. 
 
+
+
+**Returns:**
+ - `list[str]`: The aliases property value.
 ---
 
 ### <kbd>property</kbd> Artifact.collection
@@ -71,24 +70,40 @@ The collection this artifact was retrieved from.
 
 A collection is an ordered group of artifact versions. If this artifact was retrieved from a portfolio / linked collection, that collection will be returned rather than the collection that an artifact version originated from. The collection that an artifact originates from is known as the source sequence. 
 
+
+
+**Returns:**
+ - `ArtifactCollection`: The collection property value.
 ---
 
 ### <kbd>property</kbd> Artifact.commit_hash
 
 The hash returned when this artifact was committed. 
 
+
+
+**Returns:**
+ - `str`: The commit_hash property value.
 ---
 
 ### <kbd>property</kbd> Artifact.created_at
 
 Timestamp when the artifact was created. 
 
+
+
+**Returns:**
+ - `str`: The created_at property value.
 ---
 
 ### <kbd>property</kbd> Artifact.description
 
 A description of the artifact. 
 
+
+
+**Returns:**
+ - `str | None`: The description property value.
 ---
 
 ### <kbd>property</kbd> Artifact.digest
@@ -97,6 +112,10 @@ The logical digest of the artifact.
 
 The digest is the checksum of the artifact's contents. If an artifact has the same digest as the current `latest` version, then `log_artifact` is a no-op. 
 
+
+
+**Returns:**
+ - `str`: The digest property value.
 ---
 
 
@@ -106,12 +125,20 @@ The name of the entity that the artifact collection belongs to.
 
 If the artifact is a link, the entity will be the entity of the linked artifact. 
 
+
+
+**Returns:**
+ - `str`: The entity property value.
 ---
 
 ### <kbd>property</kbd> Artifact.file_count
 
 The number of files (including references). 
 
+
+
+**Returns:**
+ - `int`: The file_count property value.
 ---
 
 ### <kbd>property</kbd> Artifact.history_step
@@ -131,12 +158,20 @@ if run and (artifact.history_step is not None):
      )
 ``` 
 
+
+
+**Returns:**
+ - `int | None`: The history_step property value.
 ---
 
 ### <kbd>property</kbd> Artifact.id
 
 The artifact's ID. 
 
+
+
+**Returns:**
+ - `str | None`: The id property value.
 ---
 
 
@@ -146,6 +181,10 @@ Boolean flag indicating if the artifact is a link artifact.
 
 True: The artifact is a link artifact to a source artifact. False: The artifact is a source artifact. 
 
+
+
+**Returns:**
+ - `bool`: The is_link property value.
 ---
 
 ### <kbd>property</kbd> Artifact.linked_artifacts
@@ -154,6 +193,10 @@ Returns a list of all the linked artifacts of a source artifact.
 
 If the artifact is a link artifact (`artifact.is_link == True`), it will return an empty list. Limited to 500 results. 
 
+
+
+**Returns:**
+ - `list[Artifact]`: The linked_artifacts property value.
 ---
 
 ### <kbd>property</kbd> Artifact.manifest
@@ -162,6 +205,10 @@ The artifact's manifest.
 
 The manifest lists all of its contents, and can't be changed once the artifact has been logged. 
 
+
+
+**Returns:**
+ - `ArtifactManifest`: The manifest property value.
 ---
 
 ### <kbd>property</kbd> Artifact.metadata
@@ -170,6 +217,10 @@ User-defined artifact metadata.
 
 Structured data associated with the artifact. 
 
+
+
+**Returns:**
+ - `dict`: The metadata property value.
 ---
 
 ### <kbd>property</kbd> Artifact.name
@@ -178,6 +229,10 @@ The artifact name and version of the artifact.
 
 A string with the format `{collection}:{alias}`. If fetched before an artifact is logged/saved, the name won't contain the alias. If the artifact is a link, the name will be the name of the linked artifact. 
 
+
+
+**Returns:**
+ - `str`: The name property value.
 ---
 
 ### <kbd>property</kbd> Artifact.project
@@ -186,6 +241,10 @@ The name of the project that the artifact collection belongs to.
 
 If the artifact is a link, the project will be the project of the linked artifact. 
 
+
+
+**Returns:**
+ - `str`: The project property value.
 ---
 
 ### <kbd>property</kbd> Artifact.qualified_name
@@ -194,6 +253,10 @@ The entity/project/name of the artifact.
 
 If the artifact is a link, the qualified name will be the qualified name of the linked artifact path. 
 
+
+
+**Returns:**
+ - `str`: The qualified_name property value.
 ---
 
 ### <kbd>property</kbd> Artifact.size
@@ -202,6 +265,10 @@ The total size of the artifact in bytes.
 
 Includes any references tracked by this artifact. 
 
+
+
+**Returns:**
+ - `int`: The size property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_artifact
@@ -210,6 +277,10 @@ Returns the source artifact. The source artifact is the original logged artifact
 
 If the artifact itself is a source artifact (`artifact.is_link == False`), it will return itself. 
 
+
+
+**Returns:**
+ - `Artifact`: The source_artifact property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_collection
@@ -218,12 +289,20 @@ The artifact's source collection.
 
 The source collection is the collection that the artifact was logged from. 
 
+
+
+**Returns:**
+ - `ArtifactCollection`: The source_collection property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_entity
 
 The name of the entity of the source artifact. 
 
+
+
+**Returns:**
+ - `str`: The source_entity property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_name
@@ -232,18 +311,30 @@ The artifact name and version of the source artifact.
 
 A string with the format `{source_collection}:{alias}`. Before the artifact is saved, contains only the name since the version is not yet known. 
 
+
+
+**Returns:**
+ - `str`: The source_name property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_project
 
 The name of the project of the source artifact. 
 
+
+
+**Returns:**
+ - `str`: The source_project property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_qualified_name
 
 The source_entity/source_project/source_name of the source artifact. 
 
+
+
+**Returns:**
+ - `str`: The source_qualified_name property value.
 ---
 
 ### <kbd>property</kbd> Artifact.source_version
@@ -252,18 +343,30 @@ The source artifact's version.
 
 A string with the format `v{number}`. 
 
+
+
+**Returns:**
+ - `str`: The source_version property value.
 ---
 
 ### <kbd>property</kbd> Artifact.state
 
 The status of the artifact. One of: "PENDING", "COMMITTED", or "DELETED". 
 
+
+
+**Returns:**
+ - `str`: The state property value.
 ---
 
 ### <kbd>property</kbd> Artifact.tags
 
 List of one or more tags assigned to this artifact version. 
 
+
+
+**Returns:**
+ - `list[str]`: The tags property value.
 ---
 
 ### <kbd>property</kbd> Artifact.ttl
@@ -278,18 +381,30 @@ Artifacts are deleted shortly after a TTL policy's duration passes. If set to `N
  
  - `ArtifactNotLoggedError`:  Unable to fetch inherited TTL if the artifact has not been logged or saved. 
 
+
+
+**Returns:**
+ - `timedelta | None`: The ttl property value.
 ---
 
 ### <kbd>property</kbd> Artifact.type
 
 The artifact's type. Common types include `dataset` or `model`. 
 
+
+
+**Returns:**
+ - `str`: The type property value.
 ---
 
 ### <kbd>property</kbd> Artifact.updated_at
 
 The time when the artifact was last updated. 
 
+
+
+**Returns:**
+ - `str`: The updated_at property value.
 ---
 
 ### <kbd>property</kbd> Artifact.url
@@ -302,12 +417,20 @@ Constructs the URL of the artifact.
  
  - `str`:  The URL of the artifact. 
 
+
+
+**Returns:**
+ - `str`: The url property value.
 ---
 
 ### <kbd>property</kbd> Artifact.use_as
 
 Deprecated. 
 
+
+
+**Returns:**
+ - `str | None`: The use_as property value.
 ---
 
 ### <kbd>property</kbd> Artifact.version
@@ -318,6 +441,10 @@ A string with the format `v{number}`. If the artifact is a link artifact, the ve
 
 
 
+
+
+**Returns:**
+ - `str`: The version property value.
 ---
 
 ### <kbd>method</kbd> `Artifact.add`

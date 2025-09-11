@@ -2,9 +2,6 @@
 title: Settings
 object_type: python_sdk_actions
 data_type_classification: class
-aliases:
-- /ref/python/sdk/settings
-- /ref/python/sdk/classes/settings
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py >}}
@@ -156,7 +153,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 82266,
+    x_stats_pid: 'int' = 58871,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -462,11 +459,17 @@ validate_skip_transaction_log() → None
 
 The URL to the Colab notebook, if running in Colab.
 
+**Returns:**
+ - `Optional[str]`: The colab_url property value.
+
 ### <kbd>property</kbd> `Settings.deployment`
 
 ### <kbd>property</kbd> `Settings.files_dir`
 
 Absolute path to the local directory where the run's files are stored.
+
+**Returns:**
+ - `str`: The files_dir property value.
 
 ### <kbd>property</kbd> `Settings.is_local`
 
@@ -474,65 +477,113 @@ Absolute path to the local directory where the run's files are stored.
 
 The directory for storing log files.
 
+**Returns:**
+ - `str`: The log_dir property value.
+
 ### <kbd>property</kbd> `Settings.log_internal`
 
 The path to the file to use for internal logs.
+
+**Returns:**
+ - `str`: The log_internal property value.
 
 ### <kbd>property</kbd> `Settings.log_symlink_internal`
 
 The path to the symlink to the internal log file of the most recent run.
 
+**Returns:**
+ - `str`: The log_symlink_internal property value.
+
 ### <kbd>property</kbd> `Settings.log_symlink_user`
 
 The path to the symlink to the user-process log file of the most recent run.
+
+**Returns:**
+ - `str`: The log_symlink_user property value.
 
 ### <kbd>property</kbd> `Settings.log_user`
 
 The path to the file to use for user-process logs.
 
+**Returns:**
+ - `str`: The log_user property value.
+
 ### <kbd>property</kbd> `Settings.project_url`
 
 The W&B URL where the project can be viewed.
+
+**Returns:**
+ - `str`: The project_url property value.
 
 ### <kbd>property</kbd> `Settings.resume_fname`
 
 The path to the resume file.
 
+**Returns:**
+ - `str`: The resume_fname property value.
+
 ### <kbd>property</kbd> `Settings.run_mode`
 
 The mode of the run. Can be either "run" or "offline-run".
+
+**Returns:**
+ - `Literal['run', 'offline-run']`: The run_mode property value.
 
 ### <kbd>property</kbd> `Settings.run_url`
 
 The W&B URL where the run can be viewed.
 
+**Returns:**
+ - `str`: The run_url property value.
+
 ### <kbd>property</kbd> `Settings.settings_workspace`
 
 The path to the workspace settings file.
+
+**Returns:**
+ - `str`: The settings_workspace property value.
 
 ### <kbd>property</kbd> `Settings.sweep_url`
 
 The W&B URL where the sweep can be viewed.
 
+**Returns:**
+ - `str`: The sweep_url property value.
+
 ### <kbd>property</kbd> `Settings.sync_dir`
 
 The directory for storing the run's files.
+
+**Returns:**
+ - `str`: The sync_dir property value.
 
 ### <kbd>property</kbd> `Settings.sync_file`
 
 Path to the append-only binary transaction log file.
 
+**Returns:**
+ - `str`: The sync_file property value.
+
 ### <kbd>property</kbd> `Settings.sync_symlink_latest`
 
 Path to the symlink to the most recent run's transaction log file.
+
+**Returns:**
+ - `str`: The sync_symlink_latest property value.
 
 ### <kbd>property</kbd> `Settings.timespec`
 
 The time specification for the run.
 
+**Returns:**
+ - `str`: The timespec property value.
+
 ### <kbd>property</kbd> `Settings.wandb_dir`
 
 Full path to the wandb directory.
+
+**Returns:**
+ - `str`: The wandb_dir property value.
 
 ### <kbd>method</kbd> `Settings.update_from_system_config_file`
 

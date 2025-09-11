@@ -38,3 +38,6 @@ __init__(
 ### <kbd>property</kbd> `NewAutomation.scope`
 
 The scope in which the triggering event must occur.
+
+**Returns:**
+ - `Optional[AutomationScope]`: The scope property value.
