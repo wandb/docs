@@ -5,7 +5,7 @@ weight: 5
 no_list: true
 ---
 
-Custom Charts in W&B (`wandb.plot`) are visualization functions that create interactive visualizations that integrate with the W&B UI. These functions handle common ML visualization requirements such as confusion matrices, ROC curves, and distribution plots. Custom charts can also be created using Vega-Lite specifications.
+Custom charts in W&B are programmable through a group of functions in the `wandb.plot` namespace. These functions create interactive visualizations in W&B project dashboards, and support common ML visualizations such as confusion matrices, ROC curves, and distribution plots. 
 
 ## Available Chart Functions
 
