@@ -1,5 +1,5 @@
 ---
-title: users
+title: Users
 object_type: public_apis_namespace
 data_type_classification: module
 ---

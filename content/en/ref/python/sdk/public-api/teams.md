@@ -1,5 +1,5 @@
 ---
-title: teams
+title: Teams
 object_type: public_apis_namespace
 data_type_classification: module
 ---

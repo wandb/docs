@@ -1,5 +1,5 @@
 ---
-title: artifacts
+title: Artifacts
 object_type: public_apis_namespace
 data_type_classification: module
 ---
