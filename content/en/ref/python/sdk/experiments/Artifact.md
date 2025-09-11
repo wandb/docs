@@ -2,6 +2,10 @@
 title: Artifact
 object_type: python_sdk_actions
 data_type_classification: class
+weight: 3
+aliases:
+- /ref/python/sdk/artifact
+- /ref/python/sdk/classes/artifact
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/artifacts/artifact.py >}}
