@@ -3,7 +3,6 @@ title: Artifacts
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py >}}
 

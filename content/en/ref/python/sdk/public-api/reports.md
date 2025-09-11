@@ -3,7 +3,6 @@ title: Reports
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py >}}
 
@@ -20,9 +19,13 @@ This module provides classes for interacting with W&B reports and managing repor
 ---
 
 ## <kbd>class</kbd> `Reports`
-Reports is a lazy iterator of `BetaReport` objects. 
+Reports is a lazy iterator of `BetaReport` objects.
 
+### <kbd>method</kbd> `Reports.__init__`
 
+```python
+__init__(client, project, name=None, entity=None, per_page=50)
+```
 
 **Args:**
  
@@ -32,11 +35,6 @@ Reports is a lazy iterator of `BetaReport` objects.
  - `entity` (str, optional):  The entity name for the project. Defaults to  the project entity. 
  - `per_page` (int):  Number of reports to fetch per page (default is 50). 
 
-### <kbd>method</kbd> `Reports.__init__`
-
-```python
-__init__(client, project, name=None, entity=None, per_page=50)
-```
 
 
 

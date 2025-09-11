@@ -3,7 +3,6 @@ title: Users
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py >}}
 
@@ -28,9 +27,13 @@ This module provides classes for managing W&B users and their API keys.
 ## <kbd>class</kbd> `User`
 A class representing a W&B user with authentication and management capabilities. 
 
-This class provides methods to manage W&B users, including creating users, managing API keys, and accessing team memberships. It inherits from Attrs to handle user attributes. 
+This class provides methods to manage W&B users, including creating users, managing API keys, and accessing team memberships. It inherits from Attrs to handle user attributes.
 
+### <kbd>method</kbd> `User.__init__`
 
+```python
+__init__(client, attrs)
+```
 
 **Args:**
  
@@ -43,11 +46,6 @@ This class provides methods to manage W&B users, including creating users, manag
 
 > Some operations require admin privileges 
 
-### <kbd>method</kbd> `User.__init__`
-
-```python
-__init__(client, attrs)
-```
 
 
 

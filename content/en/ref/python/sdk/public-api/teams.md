@@ -3,7 +3,6 @@ title: Teams
 object_type: public_apis_namespace
 data_type_classification: module
 ---
-{{< readfile file="/_includes/public-api-use.md" >}}
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py >}}
 
@@ -26,9 +25,13 @@ This module provides classes for managing W&B teams and their members.
 ---
 
 ## <kbd>class</kbd> `Member`
-A member of a team. 
+A member of a team.
 
+### <kbd>method</kbd> `Member.__init__`
 
+```python
+__init__(client, team, attrs)
+```
 
 **Args:**
  
@@ -36,11 +39,6 @@ A member of a team.
  - `team` (str):  The name of the team this member belongs to 
  - `attrs` (dict):  The member attributes 
 
-### <kbd>method</kbd> `Member.__init__`
-
-```python
-__init__(client, team, attrs)
-```
 
 
 
@@ -70,9 +68,13 @@ Remove a member from a team.
 ## <kbd>class</kbd> `Team`
 A class that represents a W&B team. 
 
-This class provides methods to manage W&B teams, including creating teams, inviting members, and managing service accounts. It inherits from Attrs to handle team attributes. 
+This class provides methods to manage W&B teams, including creating teams, inviting members, and managing service accounts. It inherits from Attrs to handle team attributes.
 
+### <kbd>method</kbd> `Team.__init__`
 
+```python
+__init__(client, name, attrs=None)
+```
 
 **Args:**
  
@@ -86,11 +88,6 @@ This class provides methods to manage W&B teams, including creating teams, invit
 
 > Team management requires appropriate permissions. 
 
-### <kbd>method</kbd> `Team.__init__`
-
-```python
-__init__(client, name, attrs=None)
-```
 
 
 
