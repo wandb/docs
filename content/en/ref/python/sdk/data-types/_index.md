@@ -21,9 +21,9 @@ Data Types in W&B are classes that wrap media and structured data for logging to
 | [`Molecule`](./Molecule/) | Log molecular structures for computational chemistry. |
 | [`Box3D`](./box3d/) | Track 3D bounding boxes for 3D object detection. |
 
-## Getting Started
+## Examples
 
-Using `Image` Data Type to log an image:
+This example uses an `Image`:
 
 ```python
 import wandb
@@ -40,7 +40,7 @@ with wandb.init(project="awesome-project") as run:
     run.log({"img": [wandb.Image(im, caption="Cafe")]})
 ```
 
-Using a `Table` Data Type to log a table with mixed text and labels:
+This example uses a `Table` to log a table with mixed text and labels:
 
 ```python
 import wandb

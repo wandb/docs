@@ -29,7 +29,7 @@ run = wandb.init(project="artifacts-example", job_type="upload-dataset")
 
 ## 3. Create an artifact object
 
-Create an artifact object with the [`wandb.Artifact()`]({{< relref "/ref/python/sdk/artifact.md" >}}) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
+Create an artifact object with the [`wandb.Artifact()`]({{< relref "/ref/python/sdk/experiments/artifact.md" >}}) API. Provide a name for the artifact and a description of the file type for the `name` and `type` parameters, respectively.
 
 For example, the following code snippet demonstrates how to create an artifact called `‘bicycle-dataset’` with a `‘dataset’` label:
 
@@ -67,8 +67,8 @@ A `'latest'` alias is created by default when you log an artifact. For more info
 The following code example demonstrates the steps you can take to use an artifact you have logged and saved to the W&B servers.
 
 1. First, initialize a new run object with **`wandb.init()`.**
-2. Second, use the run objects [`use_artifact()`]({{< relref "/ref/python/sdk/run.md#use_artifact" >}}) method to tell W&B what artifact to use. This returns an artifact object.
-3. Third, use the artifacts [`download()`]({{< relref "/ref/python/sdk/artifact.md#download" >}}) method to download the contents of the artifact.
+2. Second, use the run objects [`use_artifact()`]({{< relref "/ref/python/sdk/experiments/run.md#use_artifact" >}}) method to tell W&B what artifact to use. This returns an artifact object.
+3. Third, use the artifacts [`download()`]({{< relref "/ref/python/sdk/experiments/artifact.md#download" >}}) method to download the contents of the artifact.
 
 ```python
 # Create a W&B Run. Here we specify 'training' for 'type'

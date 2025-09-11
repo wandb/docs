@@ -37,7 +37,7 @@ with wandb.init(
     ...
 ```
 
-`wandb.init()` returns a [Run]({{< relref "/ref/python/sdk/run" >}}) object.
+`wandb.init()` returns a [Run]({{< relref "/ref/python/sdk/experiments/run" >}}) object.
 
 {{% alert %}}
 Note: Runs are added to pre-existing projects if that project already exists when you call `wandb.init()`. For example, if you already have a project called `“cat-classification”`, that project will continue to exist and not be deleted. Instead, a new run is added to that project.
@@ -57,7 +57,7 @@ with wandb.init(
 For more information on how to configure an experiment, see [Configure Experiments]({{< relref "./config.md" >}}).
 
 ### Log metrics inside your training loop
-Call [`run.log()`]({{< relref "/ref/python/sdk/run/#method-runlog" >}}) to log metrics about each training step such as accuracy and loss.
+Call [`run.log()`]({{< relref "/ref/python/sdk/experiments/run/#method-runlog" >}}) to log metrics about each training step such as accuracy and loss.
 
 ```python
 model, dataloader = get_model(), get_data()

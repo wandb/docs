@@ -41,7 +41,7 @@ PROJECT = "my-awesome-project"
 
 The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
 
-Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/sdk/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/sdk/artifact.md#add_file" >}}).
+Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/experiments/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/sdk/experiments/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/sdk/experiments/artifact.md#add_file" >}}).
 
 ```python
 import random # For simulating data
@@ -98,7 +98,7 @@ The key takeaways from the previous code block are:
 * Use `wandb.Run.log()` to log metrics during training.
 * Use `wandb.Artifact` to save models (datasets, and so forth) as an artifact to your W&B project.
 
-Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.Run.use_artifact()`]({{< relref "/ref/python/sdk/run/#method-runuse_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.Run.use_artifact()` serves two key purposes:
+Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.Run.use_artifact()`]({{< relref "/ref/python/sdk/experiments/run/#method-runuse_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.Run.use_artifact()` serves two key purposes:
 * Retrieves the artifact object from your project.
 * Marks the artifact as an input to the run, ensuring reproducibility and traceability. See [Create and view lineage map]({{< relref "/guides/core/registry/lineage/" >}}) for details.
 
@@ -141,7 +141,7 @@ For additional information on how to link artifacts to a registry, see [Link art
 
 ## Retrieve model artifact from registry for inference
 
-To use a model for inference, use `wandb.Run.use_artifact()` to retrieve the published artifact from the registry. This returns an artifact object that you can then use [`wandb.Artifact.download()`]({{< relref "/ref/python/sdk/artifact/#method-artifactdownload" >}}) to download the artifact to a local file.
+To use a model for inference, use `wandb.Run.use_artifact()` to retrieve the published artifact from the registry. This returns an artifact object that you can then use [`wandb.Artifact.download()`]({{< relref "/ref/python/sdk/experiments/artifact/#method-artifactdownload" >}}) to download the artifact to a local file.
 
 ```python
 REGISTRY_NAME = "Model"  # Name of the registry in W&B

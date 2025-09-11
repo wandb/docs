@@ -375,7 +375,7 @@
 /ref/python/wandb.ai/settings/ /ref/python/ 301
 /ref/README/ /ref/ 301
 # RN redirects at the bottom of this file
-/ref/run/summary/ /ref/python/sdk/run/ 301
+/ref/run/summary/ /ref/python/sdk/experiments/run/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
 /ref/weave/README/ /ref/weave/ 301
 /reports/ /guides/reports/create-a-report/ 301
@@ -430,13 +430,13 @@
 /ref/python/data-types/imagemask/ /ref/python/data-types/ 301
 /ref/python/data-types/graph/ /ref/python/data-types/ 301
 /ref/python/agent/ /ref/python/sdk/functions/agent/ 301
-/ref/python/artifact/ /ref/python/sdk/artifact/ 301
+/ref/python/artifact/ /ref/python/sdk/experiments/artifact/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
 /ref/python/finish/ /ref/python/sdk/functions/finish/ 301
 /ref/python/init/ /ref/python/sdk/functions/init/ 301
 /ref/python/log/ /ref/python/sdk/ 301
 /ref/python/login/ /ref/python/sdk/functions/login/ 301
-/ref/python/run/ /ref/python/sdk/run/ 301
+/ref/python/run/ /ref/python/sdk/experiments/run/ 301
 /ref/python/save/ /ref/python/sdk/ 301
 /ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
 /ref/python/watch/ /ref/python/sdk/ 301

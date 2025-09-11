@@ -24,7 +24,7 @@ Explore the code behind these examples in the W&B GitHub examples repository [he
 
 This section describes how to track values and metrics available to your rank 0 process. Use this approach to track only metrics that are available from a single process. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
 
-Within the rank 0 process, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) and log experiments ([`wandb.log`]({{< relref "/ref/python/sdk/run/#method-runlog" >}})) to that run.
+Within the rank 0 process, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) and log experiments ([`wandb.log`]({{< relref "/ref/python/sdk/experiments/run/#method-runlog" >}})) to that run.
 
 The following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates one way to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
 

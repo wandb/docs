@@ -21,9 +21,9 @@ Global functions in W&B are top-level functions that you call directly, such as 
 | [`controller()`](./controller/) | Manage and control sweep agents and their execution. |
 | [`restore()`](./restore/) | Restore a previous run or experiment state for resuming work. |
 
-## Getting Started
+## Example
 
-The most common workflow begins with authenticating with W&B, initializing a run, and logging values (such as accuracy and loss) from your training loop. The following example demonstrates this workflow:
+The most common workflow begins with authenticating with W&B, initializing a run, and logging values (such as accuracy and loss) from your training loop. The first steps are to import `wandb` and use the global functions `login()` and `init()`:
 
 ```python
 import wandb
@@ -45,11 +45,5 @@ with wandb.init(project=project, config=config) as run:
    # Your training code here...
    
    # Log values to W&B
-   run.log({"accuracy": acc, "loss": loss})
+   run.log({"accuracy": 0.9, "loss": 0.1})
 ```
-
-The previous code example demonstrates the following key concepts:
-
-- **Authentication**: Required to sync data with the W&B platform
-- **Configuration**: Store hyperparameters and metadata for your experiments
-- **[Runs](/guides/runs)**: The fundamental unit of tracking in W&B. Log metrics, artifacts, and more to runs.

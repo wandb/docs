@@ -1,6 +1,5 @@
 ---
 title: Reports and Workspaces API
-no_list: true
 weight: 9
 ---
 
@@ -86,10 +85,3 @@ workspace.save()
 ```
 
 See the [Workspace API Quickstart](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) Google Colab for an end to end example.
-
-## Classes
-
-[`reports`](./reports.md)
-
-[`workspaces`](./workspaces.md)
-

@@ -33,5 +33,5 @@ entity = "<team_entity>"
 project = "my-awesome-project"
 
 with wandb.init(entity=entity, project=project) as run:
-   run.log({"accuracy": .90, "loss": .10})
+   run.log({"accuracy": 0.9, "loss": 0.1})
 ````

@@ -14,7 +14,7 @@ When you link an artifact to a registry, this "publishes" that artifact to that 
 In other words, linking an artifact to a registry collection brings that artifact version from a private, project-level scope, to a shared organization level scope.
 
 {{% alert %}}
-The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`]({{< relref "/ref/python/sdk/artifact.md" >}})), or log an artifact ([`wandb.init.log_artifact`]({{< relref "/ref/python/sdk/run.md#log_artifact" >}})), you specify a type for the `type` parameter. 
+The term "type" refers to the artifact object's type. When you create an artifact object ([`wandb.Artifact`]({{< relref "/ref/python/sdk/experiments/artifact.md" >}})), or log an artifact ([`wandb.init.log_artifact`]({{< relref "/ref/python/sdk/experiments/run.md#log_artifact" >}})), you specify a type for the `type` parameter. 
 <!-- If you are familiar with Python, you can think of artifact types in W&B as having similar functions as Python data types.  -->
 {{% /alert %}}
 
@@ -38,7 +38,7 @@ If an artifact version logs metrics (such as by using `run.log_artifact()`), you
 Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
 {{% /alert %}}
 
-Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/sdk/run.md#link_artifact" >}}).
+Programmatically link an artifact version to a collection with [`wandb.init.Run.link_artifact()`]({{< relref "/ref/python/sdk/experiments/run.md#link_artifact" >}}).
 
 {{% alert %}}
 Before you link an artifact to a collection, ensure that the registry that the collection belongs to already exists. To check that the registry exists, navigate to the Registry app on the W&B App UI and search for the name of the registry.

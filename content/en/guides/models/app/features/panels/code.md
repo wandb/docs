@@ -32,7 +32,7 @@ import wandb
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-This captures all python source code files in the current directory and all subdirectories as an [artifact]({{< relref "/ref/python/sdk/artifact.md" >}}). For more control over the types and locations of source code files that are saved, see the [reference docs]({{< relref "/ref/python/sdk/run.md#log_code" >}}).
+This captures all python source code files in the current directory and all subdirectories as an [artifact]({{< relref "/ref/python/sdk/experiments/artifact.md" >}}). For more control over the types and locations of source code files that are saved, see the [reference docs]({{< relref "/ref/python/sdk/experiments/run.md#log_code" >}}).
 
 ### Set code saving in the UI
 

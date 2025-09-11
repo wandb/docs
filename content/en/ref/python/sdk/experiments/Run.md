@@ -3,6 +3,9 @@ title: Run
 object_type: python_sdk_actions
 data_type_classification: class
 weight: 6
+aliases:
+- /ref/python/sdk/run
+- /ref/python/sdk/classes/run
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}

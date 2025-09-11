@@ -422,7 +422,7 @@ run.log(
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-[define_metric](https://docs.wandb.ai/ref/python/sdk/run/#method-rundefine_metric)も参照してください。
+[define_metric](https://docs.wandb.ai/ref/python/sdk/experiments/run/#method-rundefine_metric)も参照してください。
 
 `step`および`commit`パラメータを使用して、同じステップにログを記録するために複数の`log`呼び出しを使用することができます。
 以下はすべて同等です：

@@ -109,7 +109,7 @@ with wandb.init(config=config) as run:
 
 | 반환 |  |
 | :--- | :--- |
-|  현재 run에 대한 핸들인 `Run` 오브젝트입니다. 이 오브젝트를 사용하여 데이터 로깅, 파일 저장 및 run 완료와 같은 작업을 수행합니다. 자세한 내용은 [Run API](https://docs.wandb.ai/ref/python/sdk/run/)를 참조하십시오. |
+|  현재 run에 대한 핸들인 `Run` 오브젝트입니다. 이 오브젝트를 사용하여 데이터 로깅, 파일 저장 및 run 완료와 같은 작업을 수행합니다. 자세한 내용은 [Run API](https://docs.wandb.ai/ref/python/sdk/experiments/run/)를 참조하십시오. |
 
 | 발생 |  |
 | :--- | :--- |
