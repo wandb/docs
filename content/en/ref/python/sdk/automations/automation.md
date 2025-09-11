@@ -8,12 +8,39 @@ data_type_classification: class
 
 
 
+## <kbd>class</kbd> `Automation`
 A local instance of a saved W&B automation.
 
-Attributes:
-- action (Union): The action that will execute when this automation is triggered.
-- description (Optional): An optional description of this automation.
-- enabled (bool): Whether this automation is enabled.  Only enabled automations will trigger.
-- event (SavedEvent): The event that will trigger this automation.
-- name (str): The name of this automation.
-- scope (Union): The scope in which the triggering event must occur.
+
+### <kbd>method</kbd> `Automation.__init__`
+
+```python
+__init__(
+    typename__: 'Literal['Trigger']' = 'Trigger',
+    id: 'str',
+    created_at: 'datetime',
+    updated_at: 'datetime | None' = None,
+    name: 'str',
+    description: 'str | None',
+    enabled: 'bool',
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    event: 'SavedEvent',
+    action: 'SavedLaunchJobAction | SavedNotificationAction | SavedWebhookAction | SavedNoOpAction'
+) → None
+```
+
+**Args:**
+ 
+ - `typename__` (Literal['Trigger']): 
+ - `id` (str): 
+ - `created_at` (datetime): The date and time when this automation was created.
+ - `updated_at` (Optional[datetime]): The date and time when this automation was last updated, if applicable.
+ - `name` (str): The name of this automation.
+ - `description` (Optional[str]): An optional description of this automation.
+ - `enabled` (bool): Whether this automation is enabled.  Only enabled automations will trigger.
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): The scope in which the triggering event must occur.
+ - `event` (SavedEvent): The event that will trigger this automation.
+ - `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): The action that will execute when this automation is triggered.
+
+**Returns:**
+ An `Automation` object.
