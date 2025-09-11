@@ -9,10 +9,28 @@ Choose the product for which you need documentation.
 
 <div class="top-row-cards">
 {{< cardpane >}}
+{{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
+
+<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
+{{< img src="/icons/wandb-gold.svg" width="40" height="60" >}}
+</div>
+<h2>W&B Models</h2>
+
+### Develop AI models
+
+Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
+
+- [Introduction]({{< relref "/guides/" >}})
+- [Quickstart]({{< relref "/guides/quickstart/" >}})
+- [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
+- [Online Course](https://wandb.ai/site/courses/101/)
+
+</div>{{% /card %}}
+
 {{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/weave-logo.svg" alt="W&B Weave logo" width="50" height="50"/>
+{{< img src="/icons/Name=Weave, Mode=Dark.svg" width="60" height="60" >}}
 </div>
 <h2>W&B Weave</h2>
 
@@ -27,27 +45,11 @@ Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. 
 - [Use Weave in your W&B runs]({{< relref "/guides/weave/set-up-weave" >}})
 
 </div>{{% /card %}}
-{{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
 
-<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/wandb-gold.svg" alt="W&B Models logo" width="40" height="40"/>
-</div>
-<h2>W&B Models</h2>
-
-### Develop AI models
-
-Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
-
-- [Introduction]({{< relref "/guides/" >}})
-- [Quickstart]({{< relref "/guides/quickstart/" >}})
-- [YouTube Tutorial](https://www.youtube.com/watch?v=tHAFujRhZLA)
-- [Online Course](https://wandb.ai/site/courses/101/)
-
-</div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides/inference/'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/wandb-gold.svg" alt="W&B Inference logo" width="40" height="40"/>
+{{< img src="/icons/Name=Inference, Mode=Dark.svg" width="60" height="60" >}}
 </div>
 <h2>W&B Inference</h2>
 
