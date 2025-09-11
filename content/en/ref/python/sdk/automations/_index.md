@@ -39,6 +39,27 @@ The W&B Automations API enables programmatic creation and management of automate
 | [`MetricThresholdFilter`](./metricthresholdfilter/) | Filter runs based on metric value comparisons against thresholds. |
 | [`MetricChangeFilter`](./metricchangefilter/) | Filter runs based on metric value changes over time. |
 
+## Common Use Cases
+
+### Model Performance Monitoring
+- Alert when model accuracy drops below a threshold
+- Notify team when training loss plateaus
+- Trigger retraining pipelines based on performance metrics
+
+### Artifact Management
+- Send notifications when new model versions are created
+- Trigger deployment workflows when artifacts are tagged
+- Automate downstream processing when datasets are updated
+
+### Experiment Tracking
+- Alert on failed or crashed runs
+- Notify when long-running experiments complete
+- Send daily summaries of experiment metrics
+
+### Integration Workflows
+- Update external tracking systems via webhooks
+- Sync model registry with deployment platforms
+- Trigger CI/CD pipelines based on W&B events
 
 ## Example Usage
 

@@ -26,6 +26,7 @@ Custom Charts in W&B (`wandb.plot`) are visualization functions that create inte
 ### Model Evaluation
 - **Classification**: `confusion_matrix()`, `roc_curve()`, and `pr_curve()` for classifier evaluation
 - **Regression**: `scatter()` for prediction vs. actual plots and `histogram()` for residual analysis
+- **Vega-Lite Charts**: `plot_table()` for domain-specific visualizations
 
 ### Training Monitoring
 - **Learning Curves**: `line()` or `line_series()` for tracking metrics over epochs
