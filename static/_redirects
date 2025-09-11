@@ -379,10 +379,7 @@
 /ref/python/public-api/job/ /ref/python/init/ 301
 /ref/python/public-api/queuedrun/ /ref/python/init/ 301
 /ref/python/public-api/runqueue/ /ref/python/init/ 301
-/ref/python/public-api/job/ /ref/python/functions/init/ 301
 /ref/python/python_api_walkthrough/ /guides/models_quickstart/ 301
-/ref/python/README/ /ref/python/ 301
-/ref/README/ /ref/ 301
 # RN redirects at the bottom of this file
 /ref/run/summary/ /ref/python/experiments/run/ 301
 /ref/python/run/ /ref/python/experiments/run/ 301
@@ -420,7 +417,6 @@
 /sweeps/overview/add-to-existing/ /guides/sweeps/add-w-and-b-to-your-code/ 301
 /sweeps/overview/getting-started/ /guides/sweeps/walkthrough/ 301
 /sweeps/overview/quickstart/ /guides/sweeps/walkthrough/ 301
-/sweeps/overview/ /guides/sweeps/ 301
 /sweeps/python/ /guides/sweeps/ 301
 /sweeps/python-api/ /ref/python/public-api/sweep/ 301
 /sweeps/quickstart/ /guides/sweeps/walkthrough/ 301
@@ -441,21 +437,6 @@
 /weave/prod-mon/ /guides/core/ 301
 /weave/streamtable/ /guides/app/features/panels/query-panels/ 301
 /zh/ / 301
-
-/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
-/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
-/ref/python/data-types/graph/ /ref/python/data-types/ 301
-/ref/python/agent/ /ref/python/functions/agent/ 301
-/ref/python/artifact/ /ref/python/experiments/artifact/ 301
-/ref/python/controller/ /ref/python/functions/controller/ 301
-/ref/python/finish/ /ref/python/functions/finish/ 301
-/ref/python/init/ /ref/python/functions/init/ 301
-/ref/python/log/ /ref/python/ 301
-/ref/python/login/ /ref/python/functions/login/ 301
-/ref/python/run/ /ref/python/experiments/run/ 301
-/ref/python/save/ /ref/python/ 301
-/ref/python/sweep/ /ref/python/functions/sweep/ 301
-/ref/python/watch/ /ref/python/ 301
 
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
