@@ -12,7 +12,7 @@ Choose the product for which you need documentation.
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-{{< img src="/icons/wandb-gold.svg" width="40" height="60" >}}
+{{< img src="/icons/Name=Models, Mode=Dark.svg" width="60" height="60" >}}
 </div>
 <h2>W&B Models</h2>
 
