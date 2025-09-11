@@ -1,6 +1,6 @@
 
 # Blank lines and comments are allowed.
-# 
+#
 # Within each section (individual rules, then splats), sort entries
 # alphabetically by left-hand side. First match wins.
 #
@@ -9,64 +9,61 @@
 # Examples
 #
 # Note: Trailing slashes are required on both sides of individual
-#       rules to allow URLs with or without trailing slashes to redirect. 
+#       rules to allow URLs with or without trailing slashes to redirect.
 #       Splats with a * or :splat don't need trailing slashes.
 #
-## Redirect one page to another page 
-# /app/features/alerts/ /guides/runs/alerts/ 301 
+## Redirect one page to another page
+# /app/features/alerts/ /guides/runs/alerts/ 301
 ## Redirect all descendants to another single page
 # /app/features/* /guides/runs/ 301
 ## Recursively redirect one directory's descendants to a new directory
 ##   but preserve subfolder structure
-# /app/features/* /guides/runs/:splat   
+# /app/features/* /guides/runs/:splat
 
 # Consistent URLs
-/guides/models/tables/* /guides/tables/:splat
-/guides/core/automations/* /guides/automations/:splat
-/guides/core/registry/* /guides/registry/:splat
 
-## Individual page rules
+## Static redirects (exact paths)
+/app/ /guides/app/ 301
+/app/features/ /guides/models/ 301
 /app/features/alerts/ /guides/runs/alert/ 301
-/app/features/custom-charts/walkthrough/ /guides/app/features/custom-charts/walkthrough/ 301
-/app/features/custom-charts/ /guides/app/features/custom-charts/ 301
 /app/features/custom-charts-beta/ /guides/app/features/custom-charts-beta/ 301
+/app/features/custom-charts/ /guides/app/features/custom-charts/ 301
+/app/features/custom-charts/walkthrough/ /guides/app/features/custom-charts/walkthrough/ 301
 /app/features/notes/ /guides/app/features/notes/ 301
+/app/features/panels/ /guides/app/features/panels/ 301
 /app/features/panels/code/ /guides/app/features/panels/code/ 301
+/app/features/panels/compare-metrics/ /guides/app/features/panels/ 301
 /app/features/panels/compare-metrics/reference/ /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart/ 301
 /app/features/panels/compare-metrics/smoothing/ /guides/app/features/panels/compare-metrics/smoothing/ 301
-/app/features/panels/compare-metrics/ /guides/app/features/panels/ 301
 /app/features/panels/parameter-importance/ /guides/app/features/panels/parameter-importance/ 301
 /app/features/panels/run-colors/ /guides/app/features/panels/run-colors/ 301
 /app/features/panels/weave/ /guides/app/features/panels/weave/ 301
-/app/features/panels/ /guides/app/features/panels/ 301
 /app/features/sidebar/ /guides/app/features/runs-table#add-sidebar-columns/ 301
 /app/features/sweeps/ /guides/sweeps/ 301
 /app/features/system-metrics/ /guides/app/features/system-metrics/ 301
 /app/features/tags/ /guides/app/features/tags/ 301
 /app/features/teams/ /guides/app/features/teams/ 301
-/app/features/ /guides/models/ 301
 /app/pages/project-page/ /guides/app/pages/project-page/ 301
 /app/panels/parameter-importance/ /guides/app/features/panels/parameter-importance/ 301
 /app/visualizations/ /guides/app/ 301
-/app/ /guides/app/ 301
+/artifacts/ /guides/artifacts/ 301
 /artifacts/api/ /ref/python/artifact/ 301
 /artifacts/dataset-versioning/ /guides/artifacts/create-a-new-artifact-version/ 301
 /artifacts/overview/ /guides/artifacts/ 301
 /artifacts/references/ /guides/artifacts/track-external-files/ 301
-/artifacts/ /guides/artifacts/ 301
 /authenticate/ / 301
 /authorize/ / 301
 /classes/ / 301
 /cli/ /ref/cli/ 301
 /cn/ / 301
+/company https://wandb.ai/site/company/ 301
 /company/academics https://wandb.ai/site/research/ 301
 /company/beginner-faq/ /support/ 301
-/company/classes/talks/ / 301
 /company/classes/ / 301
+/company/classes/talks/ / 301
 /company/company-faq/ /support/ 301
 /company/data-and-privacy https://security.wandb.ai/ 301
 /company/getting-help/ / 301
-/company https://wandb.ai/site/company/ 301
 /data-vis/log-tables/ /guides/track/log/log-tables/ 301
 /datasets-and-predictions/ /guides/integrations/mmdetection#visualize-dataset-and-model-prediction/ 301
 /define-sweep-configuration/ /guides/sweeps/define-sweep-configuration/ 301
@@ -87,31 +84,31 @@
 /frameworks/keras/ /guides/integrations/keras/ 301
 /frameworks/pytorch/ /guides/integrations/pytorch/ 301
 /getting-started/ /quickstart/ 301
-/guides/app/settings-page/team-settings/ /guides/app/settings-page/team-settings/ 301
+/guides/app/features/ /guides/models/ 301
 /guides/app/features/app/features/panels/parallel-coordinates/ /guides/app/features/app/features/panels/parallel-coordinates/ 301
-/guides/app/features/panels/compare-metrics/reference/ /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart/ 301
 /guides/app/features/panels/compare-metrics/ /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart/ 301
+/guides/app/features/panels/compare-metrics/reference/ /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart/ 301
 /guides/app/features/panels/panels/ /guides/app/features/panels/ 301
 /guides/app/features/panels/query-panel/ /guides/app/features/panels/query-panels/ 301
 /guides/app/features/panels/run-colors/ /guides/runs/filter-runs/ 301
-/guides/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/query-panels/embedding-projector/ 301
 /guides/app/features/panels/weave/ /guides/app/features/panels/query-panels/ 301
-/guides/app/features/ /guides/models/ 301
+/guides/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/query-panels/embedding-projector/ 301
 /guides/app/intro/ /guides/app/features/panels/ 301
 /guides/app/pages/guides/app/settings-page/ /guides/app/pages/ 301
 /guides/app/pages/intro/ /guides/app/pages/ 301
+/guides/app/pages/settings-page/ /guides/app/settings-page/ 301
 /guides/app/pages/settings-page/team-settings/ /guides/app/pages/settings-page/team-settings/ 301
 /guides/app/pages/settings-page/user-settings/ /guides/app/pages/settings-page/user-settings/ 301
-/guides/app/pages/settings-page/ /guides/app/settings-page/ 301
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
 /guides/app/settings-page/intro/ /guides/app/settings-page/ 301
+/guides/app/settings-page/team-settings/ /guides/app/settings-page/team-settings/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
 /guides/artifacts/api/ /ref/python/sdk/public-api/api#artifact/ 301
 /guides/artifacts/artifacts-core-concepts/ /guides/artifacts/ 301
 /guides/artifacts/artifacts-faqs/ /support/index_artifacts/ 301
 /guides/artifacts/dataset-versioning/ /guides/artifacts/ 301
-/guides/artifacts/project-scoped-automations/ /guides/core/automations/ 301
 /guides/artifacts/model-versioning/ /guides/core/registry/ 301
+/guides/artifacts/project-scoped-automations/ /guides/core/automations/ 301
 /guides/artifacts/quickstart/ /guides/artifacts/artifacts-walkthrough/ 301
 /guides/artifacts/references/ /guides/artifacts/ 301
 /guides/artifacts/using-artifacts/ /guides/artifacts/download-and-use-an-artifact/ 301
@@ -119,21 +116,21 @@
 /guides/config/ /guides/sweeps/define-sweep-configuration/ 301
 /guides/configurations/ /guides/track/config/ 301
 /guides/core/registry/model_registry/model-registry-automations/ /guides/core/automations/ 301
+/guides/data-and-model-versioning/ / 301
 /guides/data-and-model-versioning/dataset-versioning/ /guides/artifacts/ 301
 /guides/data-and-model-versioning/intro/ / 301
 /guides/data-and-model-versioning/model-versioning/ /guides/core/registry/ 301
-/guides/data-and-model-versioning/ / 301
-/guides/data_types/ /ref/python/data-types/ 301
 /guides/data-vis/log-tables/ /guides/track/log/log-tables/ 301
-/guides/data-vis/tables/ /guides/models/tables/ 301
 /guides/data-vis/tables-quickstart/ /guides/models/tables/tables-walkthrough/ 301
+/guides/data-vis/tables/ /guides/models/tables/ 301
+/guides/data_types/ /ref/python/data-types/ 301
 /guides/datasets-and-predictions/ / 301
 /guides/experiments/track/ /guides/track/ 301
 /guides/hosting/audit-logging/ /guides/hosting/monitoring-usage/audit-logging/ 301
 /guides/hosting/basic-setup/ /guides/hosting/how-to-guides/basic-setup/ 301
+/guides/hosting/hosting-options/ /guides/hosting/ 301
 /guides/hosting/hosting-options/intro/ /guides/hosting/ 301
 /guides/hosting/hosting-options/wb-managed/ /guides/hosting/ 301
-/guides/hosting/hosting-options/ /guides/hosting/ 301
 /guides/hosting/hosting-upgrade/ /guides/hosting/ 301
 /guides/hosting/how-to-guides/aws-tf/ /guides/hosting/self-managed/aws-tf/ 301
 /guides/hosting/how-to-guides/azure-tf/ /guides/hosting/self-managed/azure-tf/ 301
@@ -156,13 +153,12 @@
 /guides/hosting/scim/ /guides/hosting/iam/scim/ 301
 /guides/hosting/secure-storage-connector/ /guides/hosting/data-security/secure-storage-connector/ 301
 /guides/hosting/server-release-process/ /release-notes/release-policies/ 301
+/guides/hosting/setup/ /guides/hosting/ 301
 /guides/hosting/setup/configuration/ /guides/hosting/ 301
 /guides/hosting/setup/intro/ /guides/hosting/ 301
-/guides/hosting/setup/ /guides/hosting/ 301
 /guides/hosting/slack-alerts/ /guides/hosting/monitoring-usage/slack-alerts/ 301
 /guides/hosting/sso/ /guides/hosting/iam/sso/ 301
 /guides/hosting/system-admin/ /guides/hosting/ 301
-/guides/models/app/settings-page/system-metrics/ /ref/system-metrics/ 301
 /guides/integrations/boosting/ /guides/integrations/ 301
 /guides/integrations/fastai/v2/ /guides/integrations/fastai/ 301
 /guides/integrations/jax/ /guides/integrations/ 301
@@ -182,8 +178,8 @@
 /guides/launch/create-queue/ /guides/launch/setup-queue-advanced/ 301
 /guides/launch/docker/ /guides/launch/setup-launch-docker/ 301
 /guides/launch/getting-started/ /guides/launch/walkthrough/ 301
-/guides/launch/integrations/sagemaker/ /guides/launch/ 301
 /guides/launch/integrations/ /guides/launch/ 301
+/guides/launch/integrations/sagemaker/ /guides/launch/ 301
 /guides/launch/kubernetes/ /guides/launch/setup-launch-kubernetes/ 301
 /guides/launch/launch-jobs/ /guides/launch/add-job-to-queue/ 301
 /guides/launch/prerequisites/ /guides/launch/getting-started/ 301
@@ -191,16 +187,17 @@
 /guides/launch/sagemaker/ /guides/launch/setup-launch-sagemaker/ 301
 /guides/launch/vertex/ /guides/launch/setup-vertex/ 301
 /guides/manage-runs/ /guides/runs/manage-runs/ 301
+/guides/model_registry/ /guides/core/registry/ 301
+/guides/model_registry/model-registry-automations/ /guides/core/automations/ 301
+/guides/model_registry/quickstart/ /guides/core/registry/model_registry/walkthrough/ 301
 /guides/models/access_controls/ /guides/core/registry/model_registry/access_controls/ 301
+/guides/models/app/settings-page/system-metrics/ /ref/system-metrics/ 301
 /guides/models/automation/ /guides/core/registry/ 301
 /guides/models/automations/registry-automations/ /guides/core/automations/ 301
 /guides/models/model-management-concepts/ /guides/core/registry/model_registry/model-management-concepts/ 301
 /guides/models/model_tags/ /guides/core/registry/model_registry/model_tags/ 301
 /guides/models/notifications/ /guides/core/registry/model_registry/notifications/ 301
 /guides/models/walkthrough/ /guides/model_registry/walkthrough/ 301
-/guides/model_registry/model-registry-automations/ /guides/core/automations/ 301
-/guides/model_registry/ /guides/core/registry/ 301
-/guides/model_registry/quickstart/ /guides/core/registry/model_registry/walkthrough/ 301
 /guides/platform/ /guides/core/ 301
 /guides/projects/campaigns/ / 301
 /guides/projects/sharing-and-visibility/ / 301
@@ -209,16 +206,16 @@
 /guides/reports/reports-faq/ /support/index_reports/ 301
 /guides/reports/reports-walkthrough/ /guides/reports/ 301
 /guides/run/grouping/ /guides/runs/grouping/ 301
+/guides/self-hosted/ /guides/hosting/hosting-options/self-managed/ 301
 /guides/self-hosted/configuration/ /guides/hosting/env-vars/ 301
-/guides/self-hosted/local/ /guides/hosting/hosting-options/self-managed/ 301
 /guides/self-hosted/local-common-questions/ /guides/hosting/ 301
+/guides/self-hosted/local/ /guides/hosting/hosting-options/self-managed/ 301
+/guides/self-hosted/setup/ /guides/hosting/setup/ 301
 /guides/self-hosted/setup/configuration/ /guides/hosting/ 301
 /guides/self-hosted/setup/dedicated-cloud/ /guides/hosting/hosting-options/wb-managed/ 301
 /guides/self-hosted/setup/on-premise-baremetal/ /guides/hosting/hosting-options/self-managed#on-prem-bare-metal/ 301
 /guides/self-hosted/setup/private-cloud/ /guides/hosting/hosting-options/dedicated_cloud/ 301
-/guides/self-hosted/setup/ /guides/hosting/setup/ 301
 /guides/self-hosted/system-admin/ /guides/hosting/ 301
-/guides/self-hosted/ /guides/hosting/hosting-options/self-managed/ 301
 /guides/sweeps/advanced-sweeps/ray-tune/ /guides/integrations/ray-tune/ 301
 /guides/sweeps/configuration/ /guides/sweeps/define-sweep-configuration/ 301
 /guides/sweeps/faq/ /support/index_sweeps/ 301
@@ -230,18 +227,18 @@
 /guides/technical-faq/metrics-and-performance/ /support/index_metrics/ 301
 /guides/technical-faq/setup/ /support/index/ 301
 /guides/technical-faq/troubleshooting/ /support/index/ 301
+/guides/track/advanced/ /guides/track/ 301
 /guides/track/advanced/alert/ /guides/runs/alert/ 301
 /guides/track/advanced/customizing-runs/ /guides/runs/ 301
 /guides/track/advanced/distributed-training/ /guides/track/log/distributed-training/ 301
 /guides/track/advanced/environment-variables/ /guides/track/environment-variables/ 301
 /guides/track/advanced/grouping/ /guides/runs/grouping/ 301
 /guides/track/advanced/init/ /guides/track/ 301
-/guides/track/advanced/integrations/google-colab/ /guides/track/jupyter/ 301
 /guides/track/advanced/integrations/ /guides/track/ 301
+/guides/track/advanced/integrations/google-colab/ /guides/track/jupyter/ 301
 /guides/track/advanced/offline/ /guides/track/ 301
 /guides/track/advanced/resuming/ /guides/runs/resuming/ 301
 /guides/track/advanced/save-restore/ /guides/track/save-restore/ 301
-/guides/track/advanced/ /guides/track/ 301
 /guides/track/alert/ /guides/runs/alert/ 301
 /guides/track/app/ /guides/track/workspaces/ 301
 /guides/track/colab/ /guides/track/jupyter/ 301
@@ -264,8 +261,8 @@
 /guides/track/tracking-faq/ /support/index_experiments/ 301
 /guides/troubleshooting/network/ /guides/technical-faq/ 301
 /home/ / 301
-/hosting/setup/ /hosting/ 301
 /hosting/ /guides/hosting/ 301
+/hosting/setup/ /hosting/ 301
 /huggingface/ /guides/integrations/huggingface/ 301
 /integrations/jupyter.html /guides/track/jupyter/ 301
 /integrations/lightning%3E%60_ /guides/integrations/lightning/ 301
@@ -273,6 +270,7 @@
 /java/ /ref/ 301
 /jp/ /ja/guides/ 301
 /ko/ /ko/guides/ 301
+/library/ /ref/python/ 301
 /library/advanced/environment-variables/ /guides/track/environment-variables/ 301
 /library/advanced/grouping/ /guides/runs/grouping/ 301
 /library/advanced/limits/ /guides/track/limits/ 301
@@ -293,9 +291,9 @@
 /library/integrations/cpp/ /guides/integrations/ 301
 /library/integrations/pytorch-lightning/ /guides/integrations/lightning/ 301
 /library/log/ /ref/python/sdk/log/ 301
-/library/plots/heatmap/ /guides/track/log/media/ 301
 /library/plots/ /guides/app/ 301
 /library/public-api-guide/ /ref/python/sdk/public-api/api/ 301
+/library/plots/heatmap/ /guides/track/log/media/ 301
 /library/python/config/ /ref/python/ 301
 /library/python/log/ /ref/python/sdk/log/ 301
 /library/reference/data_types/ /ref/python/data-types/ 301
@@ -303,22 +301,24 @@
 /library/resuming/ /guides/runs/resuming/ 301
 /library/save/ /ref/python/sdk/public-api/run#save/ 301
 /library/security https://security.wandb.ai/ 301
+/library/sweeps/ /ref/python/sdk/functions/sweep 301
 /library/sweeps/configuration/ /ref/python/sdk/functions/sweep/ 301
 /library/sweeps/local-controller/ /guides/sweeps/local-controller/ 301
 /library/sweeps/python-api/ /ref/python/sdk/public-api/sweep/ 301
-/library/sweeps/ /ref/python/sdk/functions/sweep 301
 /library/tables/ /ref/python/data-types/table/ 301
 /library/technical-faq/ /guides/hosting/faq/ 301
 /library/wandb.alert/ /ref/python/ 301
 /library/wandb.init/ /ref/python/sdk/functions/init/ 301
 /library/wandb.save/ /ref/python/ 301
-/library/ /ref/python/ 301
 /python/ /ref/python/ 301
 /quickstar/ /quickstart/ 301
 /quickstart/korea/ /ko/quickstart/ 301
 /quickstart/korean/ /ko/quickstart/ 301
 /ref/api/public-methods/ /ref/python/sdk/public-api/ 301
+/ref/README/ /ref/ 301
+/ref/app/ /guides/app/ 301
 /ref/app/feature/ /guides/app/features/ 301
+/ref/app/features/ /guides/app/features/ 301
 /ref/app/features/alerts/ /guides/app/ 301
 /ref/app/features/anon/ /guides/app/features/anon/ 301
 /ref/app/features/custom-charts/ /guides/app/features/custom-charts/ 301
@@ -340,42 +340,58 @@
 /ref/app/features/system-metrics/ /guides/app/features/system-metrics/ 301
 /ref/app/features/tags/ /guides/app/features/tags/ 301
 /ref/app/features/teams/ /guides/app/features/teams/ 301
-/ref/app/features/ /guides/app/features/ 301
+/ref/app/pages/ /guides/app/pages/ 301
 /ref/app/pages/gradient-panel/ /guides/app/pages/gradient-panel/ 301
 /ref/app/pages/project-page/ /guides/app/pages/project-page/ 301
 /ref/app/pages/run-page/ /guides/app/pages/run-page/ 301
+/ref/app/pages/settings-page/ /guides/app/settings-page/ 301
 /ref/app/pages/settings-page/emails/ /guides/app/settings-page/emails/ 301
 /ref/app/pages/settings-page/team-settings/ /guides/app/settings-page/team-settings/ 301
 /ref/app/pages/settings-page/user-settings/ /guides/app/settings-page/user-settings/ 301
-/ref/app/pages/settings-page/ /guides/app/settings-page/ 301
 /ref/app/pages/workspaces/ /guides/track/workspaces/ 301
-/ref/app/pages/ /guides/app/pages/ 301
-/ref/app/ /guides/app/ 301
 /ref/cli/wandb-server-start/ /ref/cli/wandb-server/ 301
 /ref/data_types/ /ref/python/data-types/ 301
 /ref/export-api/examples/ /ref/python/sdk/public-api/ 301
 /ref/history/ / 301
 /ref/init-1 /ref/python/sdk/functions/init/ 301
-/ref/java/wandbrun/ /ref/ 301
-/ref/java/wandbrun-builder/ /ref/ 301
 /ref/java/ /ref/ 301
 /ref/public-api/ /ref/python/sdk/public-api/api/ 301
+/ref/java/wandbrun-builder/ /ref/ 301
+/ref/java/wandbrun/ /ref/ 301
+/ref/python/README/ /ref/python/ 301
+/ref/python/agent/ /ref/python/sdk/functions/agent/ 301
+/ref/python/artifact/ /ref/python/sdk/classes/artifact/ 301
 /ref/python/config/ /ref/python/ 301
+/ref/python/controller/ /ref/python/sdk/functions/controller/ 301
+/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
+/ref/python/data-types/graph/ /ref/python/data-types/ 301
+/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
 /ref/python/data_types/ /ref/python/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
+/ref/python/finish/ /ref/python/sdk/functions/finish/ 301
 /ref/python/ini/ /ref/python/sdk/functions/init/ 301
+/ref/python/init/ /ref/python/sdk/functions/init/ 301
 /ref/python/inittorch.view_as_real/ /ref/python/sdk/functions/init/ 301
 /ref/python/integrations/sklearn/ /guides/integrations/scikit/ 301
 /ref/python/join/ /ref/python/ 301
+/ref/python/log/ /ref/python/sdk/ 301
+/ref/python/login/ /ref/python/sdk/functions/login/ 301
+/ref/python/public-api/job/ /ref/python/init/ 301
 /ref/python/public-api/queuedrun/ /ref/python/init/ 301
 /ref/python/public-api/runqueue/ /ref/python/init/ 301
-/ref/python/public-api/job/ /ref/python/init/ 301
+/ref/python/public-api/job/ /ref/python/functions/init/ 301
 /ref/python/python_api_walkthrough/ /guides/models_quickstart/ 301
 /ref/python/README/ /ref/python/ 301
-/ref/python/wandb.ai/settings/ /ref/python/ 301
 /ref/README/ /ref/ 301
 # RN redirects at the bottom of this file
 /ref/run/summary/ /ref/python/sdk/experiments/run/ 301
+/ref/python/run/ /ref/python/sdk/experiments/run/ 301
+/ref/python/save/ /ref/python/sdk/ 301
+/ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
+/ref/python/wandb.ai/settings/ /ref/python/sdk/experiments/settings/ 301
+/ref/python/watch/ /ref/python/sdk/ 301
+/ref/release-notes/releases/ /ref/release-notes/ 301
+/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
 /ref/weave/README/ /ref/weave/ 301
 /reports/ /guides/reports/create-a-report/ 301
@@ -383,22 +399,24 @@
 /runner/ / 301
 /scikit/ /guides/integrations/scikit/ 301
 /search.json/ / 301
+/self-hosted/ /guides/hosting/ 301
 /self-hosted/configuration/ /guides/hosting/ 301
+/self-hosted/local%EF%BC%8C/ /guides/hosting/ 301
 /self-hosted/local-common-questions/ /guides/hosting/ 301
 /self-hosted/local/ /guides/hosting/basic-setup/ 301
-/self-hosted/local%EF%BC%8C/ /guides/hosting/ 301
 /self-hosted/run-docker-server/ /guides/hosting/ 301
-/self-hosted/setup/on-premise-baremetal/ /guides/hosting/hosting-options/self-managed/ 301
 /self-hosted/setup/ /guides/hosting/setup/ 301
-/self-hosted/ /guides/hosting/ 301
+/self-hosted/setup/on-premise-baremetal/ /guides/hosting/hosting-options/self-managed/ 301
 /self-hoted/local/ /guides/hosting/ 301
 /site/ / 301
 /start/windows/ /guides/hosting/ 301
+/sweeps/ /guides/sweeps/ 301
 /sweeps/add-to-existing/ /guides/sweeps/add-w-and-b-to-your-code/ 301
 /sweeps/configuration/ /guides/sweeps/define-sweep-configuration/ 301
 /sweeps/early-stopping/ /guides/sweeps/define-sweep-configuration/ 301
 /sweeps/existing-project/ /guides/sweeps/existing-project/ 301
 /sweeps/faq/ /guides/sweeps/faq/ 301
+/sweeps/overview/ /guides/sweeps/ 301
 /sweeps/overview/add-to-existing/ /guides/sweeps/add-w-and-b-to-your-code/ 301
 /sweeps/overview/getting-started/ /guides/sweeps/walkthrough/ 301
 /sweeps/overview/quickstart/ /guides/sweeps/walkthrough/ 301
@@ -409,23 +427,21 @@
 /sweeps/ray-tune/ /guides/integrations/ray-tune/ 301
 /sweeps/sweeps-examples/ /guides/sweeps/ 301
 /sweeps/visualize-sweep-results/ /guides/sweeps/visualize-sweep-results/ 301
-/sweeps/ /guides/sweeps/ 301
 /teams/ /guides/app/features/teams/ 301
+/tutorials/Workspace_tutorial/ /tutorials/workspaces/ 301
 /tutorials/lightgbm/ /tutorials/ 301
 /tutorials/prompts/ /tutorials/ 301
-/tutorials/Workspace_tutorial/ /tutorials/workspaces/ 301
 /tutorials/xgboost/ /tutorials/ 301
 /v/ / 301
 /wandb/config/ /ref/python/sdk/functions/init/ 301
 /wandb/init/ /ref/python/sdk/functions/init/ 301
 /wandb/log/ /ref/python/sdk/log/ 301
-/weave/boards/ /guides/app/features/panels/query-panels/ 301
-/weave/streamtable/ /guides/app/features/panels/query-panels/ 301
 /weave/ /guides/app/features/panels/query-panels/ 301
+/weave/boards/ /guides/app/features/panels/query-panels/ 301
 /weave/prod-mon/ /guides/core/ 301
+/weave/streamtable/ /guides/app/features/panels/query-panels/ 301
 /zh/ / 301
 
-<!-- lazydocs migration -->
 /ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
 /ref/python/data-types/imagemask/ /ref/python/data-types/ 301
 /ref/python/data-types/graph/ /ref/python/data-types/ 301
@@ -440,35 +456,34 @@
 /ref/python/save/ /ref/python/sdk/ 301
 /ref/python/sweep/ /ref/python/sdk/functions/sweep/ 301
 /ref/python/watch/ /ref/python/sdk/ 301
-<!-- END lazydocs migration -->
 
 ## Splat rules
 # Splats are supported on both source (*) and destination (:splat)
 # If both are used, :splat resolves to exactly what * matches
 # If one side doesn't have a splat, it needs a trailing /.
+## Dynamic redirects (with wildcards and splats)
+# Note: Dynamic redirects must come after static redirects
 /data-vis/* /guides/models/tables/ 301
+/guides/core/automations/* /guides/automations/:splat
+/guides/core/registry/* /guides/registry/:splat
 /guides/core/tables/* /guides/models/tables/:splat 301
 /guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/prompts/* /guides/ 301
+/guides/model_registry/* /guides/core/registry/model_registry/:splat 301
 /guides/models/automation/* /guides/core/automations/:splat 301
 /guides/models/automations/* /guides/core/automations/:splat 301
 /guides/models/registry/* /guides/core/registry/:splat 301
-/guides/model_registry/* /guides/core/registry/model_registry/:splat 301
+/guides/models/tables/* /guides/tables/:splat
 /guides/registry/* /guides/core/registry/:splat 301
 /guides/tables/* /guides/models/tables/:splat 301
 /integrations/* /guides/integrations/:splat 301
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
-/ref/python/launch-library/* /launch-library/:splat 301
 /ref/python/integrations/*  /ref/python/:splat 301
-
-## Release notes
-/ref/release-notes/releases/* /ref/releases/:splat 301
-/ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
-/ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
-/ref/release-notes/releases/ /ref/release-notes/ 301
-### EOL releases: Use splats when possible
+/ref/python/launch-library/* /launch-library/:splat 301
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
 /ref/release-notes/0.5*/ /ref/release-notes/releases/archived/0.56:splat 301
+/ref/release-notes/releases/* /ref/releases/:splat 301
+/ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
