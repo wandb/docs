@@ -19,7 +19,6 @@ Data Types in W&B are classes that wrap media and structured data for logging to
 | [`Html`](./Html/) | Embed custom HTML content. |
 | [`Object3D`](./Object3D/) | Visualize 3D point clouds and meshes. |
 | [`Molecule`](./Molecule/) | Log molecular structures for computational chemistry. |
-| [`Box3D`](./box3d/) | Track 3D bounding boxes for 3D object detection. |
 
 ## Examples
 
