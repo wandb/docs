@@ -8,17 +8,39 @@ data_type_classification: class
 
 
 
+## <kbd>class</kbd> `MetricChangeFilter`
 Defines a filter that compares a change in a run metric against a user-defined threshold.
 
 The change is calculated over "tumbling" windows, i.e. the difference
 between the current window and the non-overlapping prior window.
 
-Attributes:
-- agg (Optional): Aggregate operation, if any, to apply over the window size.
-- change_dir (ChangeDir): No description provided.
-- change_type (ChangeType): No description provided.
-- name (str): Name of the observed metric.
-- prior_window (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
-    If omitted, defaults to the size of the current window.
-- threshold (Union): Threshold value to compare against.
-- window (int): Size of the window over which the metric is aggregated (ignored if `agg is None`).
+
+### <kbd>method</kbd> `MetricChangeFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'None' = None,
+    threshold: 'Annotated | Annotated',
+    prior_window: 'int' = None,
+    change_type: 'ChangeType',
+    change_dir: 'ChangeDir'
+) → None
+```
+
+**Args:**
+ 
+ - `name` (str): 
+ - `agg` (Optional[Agg]): 
+ - `window` (int): 
+ - `cmp` (None): Ignored.
+ - `threshold` (Union[Annotated, Annotated]): 
+ - `prior_window` (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
+   If omitted, defaults to the size of the current window.
+ - `change_type` (ChangeType): 
+ - `change_dir` (ChangeDir): 
+
+**Returns:**
+ An `MetricChangeFilter` object.

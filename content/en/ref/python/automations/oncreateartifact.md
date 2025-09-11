@@ -8,15 +8,25 @@ data_type_classification: class
 
 
 
+## <kbd>class</kbd> `OnCreateArtifact`
 A new artifact is created.
 
-Attributes:
-- event_type (Literal): No description provided.
-- filter (Union): Additional condition(s), if any, that must be met for this event to trigger an automation.
-- scope (Union): The scope of the event: only artifact collections are valid scopes for this event.
 
-### <kbd>method</kbd> `then`
+### <kbd>method</kbd> `OnCreateArtifact.__init__`
+
 ```python
-then(self, action: 'InputAction') -> 'NewAutomation'
+__init__(
+    event_type: 'Literal[CREATE_ARTIFACT]' = CREATE_ARTIFACT,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | dict[str, Any] | FilterExpr' = And([])
+) → None
 ```
-Define a new Automation in which this event triggers the given action.
+
+**Args:**
+ 
+ - `event_type` (Literal[CREATE_ARTIFACT]): 
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope]): The scope of the event: only artifact collections are valid scopes for this event.
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, Dict[str, Any], FilterExpr]): Additional condition(s), if any, that must be met for this event to trigger an automation.
+
+**Returns:**
+ An `OnCreateArtifact` object.

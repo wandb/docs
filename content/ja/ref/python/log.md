@@ -26,7 +26,7 @@ log(
 
 [wandb.ai](https://wandb.ai) のワークスペースでログデータを視覚化するか、W&B アプリの[セルフホストインスタンス](https://docs.wandb.ai/guides/hosting)でローカルに視覚化するか、または [API](https://docs.wandb.ai/guides/track/public-api-guide) を使用してローカルでデータをエクスポートして視覚化および探索します。
 
-ログされた値はスカラーである必要はありません。任意の wandb オブジェクトのログがサポートされています。たとえば、`run.log({"example": wandb.Image("myimage.jpg")})` は例の画像をログし、W&B UI で美しく表示されます。サポートされるすべての異なるタイプについては、[参照ドキュメント](https://docs.wandb.ai/ref/python/sdk/data-types/)または [ロギングのガイド](https://docs.wandb.ai/guides/track/log)をチェックしてみてください。3D 分子構造やセグメンテーションマスクから PR 曲線やヒストグラムまでの例を見ることができます。構造化データをログするには `wandb.Table` を使用できます。詳細は[テーブルのロギングガイド](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)を参照してください。
+ログされた値はスカラーである必要はありません。任意の wandb オブジェクトのログがサポートされています。たとえば、`run.log({"example": wandb.Image("myimage.jpg")})` は例の画像をログし、W&B UI で美しく表示されます。サポートされるすべての異なるタイプについては、[参照ドキュメント](https://docs.wandb.ai/ref/python/data-types/)または [ロギングのガイド](https://docs.wandb.ai/guides/track/log)をチェックしてみてください。3D 分子構造やセグメンテーションマスクから PR 曲線やヒストグラムまでの例を見ることができます。構造化データをログするには `wandb.Table` を使用できます。詳細は[テーブルのロギングガイド](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)を参照してください。
 
 W&B UI は、名前にフォワードスラッシュ (`/`) が含まれるメトリクスを、最後のスラッシュの前のテキストを使用して名前付けされたセクションに整理します。たとえば、次の例では、「train」と「validate」という2つのセクションが作成されます：
 
@@ -56,7 +56,7 @@ run.log(
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-[define_metric](https://docs.wandb.ai/ref/python/sdk/classes/run/#method-rundefine_metric) も参照してください。
+[define_metric](https://docs.wandb.ai/ref/python/experiments/run/#method-rundefine_metric) も参照してください。
 
 `step` と `commit` パラメータを使用して、同じステップにログするために複数の `log` 呼び出しを使用することができます。以下の例はすべて同等です：
 
