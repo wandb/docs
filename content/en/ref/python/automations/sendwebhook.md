@@ -1,21 +1,29 @@
 ---
 title: SendWebhook
-object_type: automations_namespace
-data_type_classification: class
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py >}}
-
-
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/automations/actions.py#L167-L189 >}}
 
 Defines an automation action that sends a webhook request.
 
-Attributes:
-- action_type (Literal): The kind of action to be triggered.
-- request_payload (Optional): The payload, possibly with template variables, to send in the webhook request.
+| Attributes |  |
+| :--- | :--- |
+|  `request_payload` |  The payload, possibly with template variables, to send in the webhook request. |
+|  `action_type` |  The kind of action to be triggered. |
 
-### <kbd>method</kbd> `from_integration`
+## Methods
+
+### `from_integration`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/automations/actions.py#L181-L189)
+
 ```python
-from_integration(cls, integration: 'WebhookIntegration', *, payload: 'Optional[SerializedToJson[dict[str, Any]]]' = None) -> 'Self'
+@classmethod
+from_integration(
+    integration: WebhookIntegration,
+    *,
+    payload: Optional[SerializedToJson[dict[str, Any]]] = None
+) -> Self
 ```
+
 Define a webhook action that sends to the given (webhook) integration.
