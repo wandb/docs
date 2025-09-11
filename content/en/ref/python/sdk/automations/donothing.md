@@ -12,15 +12,6 @@ data_type_classification: class
 Defines an automation action that intentionally does nothing.
 
 
-**Args:**
- 
- - `no_op` (bool): Placeholder field which exists only to satisfy backend schema requirements.
-   There should never be a need to set this field explicitly, as its value is ignored.
- - `action_type` (Literal[NO_OP]): 
-
-**Returns:**
- An `DoNothing` object.
-
 ### <kbd>method</kbd> `DoNothing.__init__`
 
 ```python
@@ -29,3 +20,12 @@ __init__(
     action_type: 'Literal[NO_OP]' = NO_OP
 ) → None
 ```
+
+**Args:**
+ 
+ - `no_op` (bool): Placeholder field which exists only to satisfy backend schema requirements.
+   There should never be a need to set this field explicitly, as its value is ignored.
+ - `action_type` (Literal[NO_OP]): 
+
+**Returns:**
+ An `DoNothing` object.

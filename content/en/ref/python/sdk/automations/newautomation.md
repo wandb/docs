@@ -12,17 +12,6 @@ data_type_classification: class
 A new automation to be created.
 
 
-**Args:**
- 
- - `name` (Optional[str]): The name of this automation.
- - `description` (Optional[str]): An optional description of this automation.
- - `enabled` (Optional[bool]): Whether this automation is enabled.  Only enabled automations will trigger.
- - `event` (Optional[Annotated]): The event that will trigger this automation.
- - `action` (Optional[Annotated]): The action that will execute when this automation is triggered.
-
-**Returns:**
- An `NewAutomation` object.
-
 ### <kbd>method</kbd> `NewAutomation.__init__`
 
 ```python
@@ -34,6 +23,17 @@ __init__(
     action: 'Annotated | None' = None
 ) → None
 ```
+
+**Args:**
+ 
+ - `name` (Optional[str]): The name of this automation.
+ - `description` (Optional[str]): An optional description of this automation.
+ - `enabled` (Optional[bool]): Whether this automation is enabled.  Only enabled automations will trigger.
+ - `event` (Optional[Annotated]): The event that will trigger this automation.
+ - `action` (Optional[Annotated]): The action that will execute when this automation is triggered.
+
+**Returns:**
+ An `NewAutomation` object.
 
 ### <kbd>property</kbd> `NewAutomation.scope`
 

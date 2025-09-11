@@ -12,17 +12,6 @@ data_type_classification: class
 Defines an automation action that sends a (Slack) notification.
 
 
-**Args:**
- 
- - `integration_id` (str): The ID of the Slack integration that will be used to send the notification.
- - `title` (str): The title of the sent notification.
- - `message` (str): The message body of the sent notification.
- - `severity` (AlertSeverity): The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
- - `action_type` (Literal[NOTIFICATION]): 
-
-**Returns:**
- An `SendNotification` object.
-
 ### <kbd>method</kbd> `SendNotification.__init__`
 
 ```python
@@ -34,6 +23,17 @@ __init__(
     action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
 ) → None
 ```
+
+**Args:**
+ 
+ - `integration_id` (str): The ID of the Slack integration that will be used to send the notification.
+ - `title` (str): The title of the sent notification.
+ - `message` (str): The message body of the sent notification.
+ - `severity` (AlertSeverity): The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
+ - `action_type` (Literal[NOTIFICATION]): 
+
+**Returns:**
+ An `SendNotification` object.
 
 ### <kbd>classmethod</kbd> `SendNotification.from_integration`
 

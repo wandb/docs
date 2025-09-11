@@ -12,15 +12,6 @@ data_type_classification: class
 Defines an automation action that sends a webhook request.
 
 
-**Args:**
- 
- - `integration_id` (str): The ID of the webhook integration that will be used to send the request.
- - `request_payload` (Optional[Annotated]): The payload, possibly with template variables, to send in the webhook request.
- - `action_type` (Literal[GENERIC_WEBHOOK]): 
-
-**Returns:**
- An `SendWebhook` object.
-
 ### <kbd>method</kbd> `SendWebhook.__init__`
 
 ```python
@@ -30,6 +21,15 @@ __init__(
     action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
 ) → None
 ```
+
+**Args:**
+ 
+ - `integration_id` (str): The ID of the webhook integration that will be used to send the request.
+ - `request_payload` (Optional[Annotated]): The payload, possibly with template variables, to send in the webhook request.
+ - `action_type` (Literal[GENERIC_WEBHOOK]): 
+
+**Returns:**
+ An `SendWebhook` object.
 
 ### <kbd>classmethod</kbd> `SendWebhook.from_integration`
 

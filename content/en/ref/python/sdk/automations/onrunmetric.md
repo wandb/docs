@@ -12,15 +12,6 @@ data_type_classification: class
 A run metric satisfies a user-defined condition.
 
 
-**Args:**
- 
- - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE]): 
- - `scope` (ProjectScope): The scope of the event: only projects are valid scopes for this event.
- - `filter` (RunMetricFilter): Run and/or metric condition(s) that must be satisfied for this event to trigger an automation.
-
-**Returns:**
- An `OnRunMetric` object.
-
 ### <kbd>method</kbd> `OnRunMetric.__init__`
 
 ```python
@@ -30,3 +21,12 @@ __init__(
     filter: 'RunMetricFilter'
 ) → None
 ```
+
+**Args:**
+ 
+ - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE]): 
+ - `scope` (ProjectScope): The scope of the event: only projects are valid scopes for this event.
+ - `filter` (RunMetricFilter): Run and/or metric condition(s) that must be satisfied for this event to trigger an automation.
+
+**Returns:**
+ An `OnRunMetric` object.

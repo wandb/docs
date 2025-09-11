@@ -15,21 +15,6 @@ The change is calculated over "tumbling" windows, i.e. the difference
 between the current window and the non-overlapping prior window.
 
 
-**Args:**
- 
- - `name` (str): 
- - `agg` (Optional[Agg]): 
- - `window` (int): 
- - `cmp` (None): Ignored.
- - `threshold` (Union[Annotated, Annotated]): 
- - `prior_window` (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
-   If omitted, defaults to the size of the current window.
- - `change_type` (ChangeType): 
- - `change_dir` (ChangeDir): 
-
-**Returns:**
- An `MetricChangeFilter` object.
-
 ### <kbd>method</kbd> `MetricChangeFilter.__init__`
 
 ```python
@@ -44,3 +29,18 @@ __init__(
     change_dir: 'ChangeDir'
 ) → None
 ```
+
+**Args:**
+ 
+ - `name` (str): 
+ - `agg` (Optional[Agg]): 
+ - `window` (int): 
+ - `cmp` (None): Ignored.
+ - `threshold` (Union[Annotated, Annotated]): 
+ - `prior_window` (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
+   If omitted, defaults to the size of the current window.
+ - `change_type` (ChangeType): 
+ - `change_dir` (ChangeDir): 
+
+**Returns:**
+ An `MetricChangeFilter` object.
