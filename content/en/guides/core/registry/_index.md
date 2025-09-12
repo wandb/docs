@@ -5,8 +5,8 @@ menu:
     parent: core
 title: Registry
 weight: 3
-url: guides/registry	
-cascade:	
+url: guides/registry
+cascade:
 - url: guides/registry/:filename
 ---
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" >}}
