@@ -17,6 +17,15 @@ Use W&B with DSPy to track and optimize your language model programs. W&B comple
 
 For comprehensive observability when optimizing DSPy modules, enable the integration in both W&B and Weave.
 
+{{< alert title="Note" color="info" >}}
+As of `wandb==0.21.2` and `weave==0.52.5`, Weave initializes automatically when used with W&B:
+
+- If `weave` is imported and then `wandb.init()` is called (script case)
+- If `wandb.init()` was called and then `weave` is imported later (notebook/Jupyter case)
+
+No explicit `weave.init(...)` call is required.
+{{< /alert >}}
+
 ## Install and authenticate
 
 Install the required libraries and authenticate with W&B:
@@ -80,41 +89,43 @@ import weave
 import wandb
 from wandb.integration.dspy import WandbDSPyCallback
 
-# Initialize W&B and Weave
+# Initialize W&B (importing weave is sufficient; no explicit weave.init needed)
 project_name = "dspy-optimization"
-weave.init(project_name)
-wandb.init(project=project_name)
+with wandb.init(project=project_name) as run:
+    # Add W&B callback to DSPy
+    dspy.settings.callbacks.append(
+        WandbDSPyCallback(run=run)
+    )
 
-# Add W&B callback to DSPy
-dspy.settings.callbacks.append(WandbDSPyCallback())
+    # Configure language models
+    teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
+    student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
+    dspy.configure(lm=student_lm)
 
-# Configure language models
-teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
-student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
-dspy.configure(lm=student_lm)
+    # Load dataset and define program
+    dataset = MATH(subset='algebra')
+    program = dspy.ChainOfThought("question -> answer")
 
-# Load dataset and define program
-dataset = MATH(subset='algebra')
-program = dspy.ChainOfThought("question -> answer")
+    # Configure and run optimizer
+    optimizer = dspy.MIPROv2(
+        metric=dataset.metric,
+        auto="light",
+        num_threads=24,
+        teacher_settings=dict(lm=teacher_lm),
+        prompt_model=student_lm
+    )
 
-# Configure and run optimizer
-optimizer = dspy.MIPROv2(
-    metric=dataset.metric,
-    auto="light",
-    num_threads=24,
-    teacher_settings=dict(lm=teacher_lm),
-    prompt_model=student_lm
-)
-
-optimized_program = optimizer.compile(
-    program,
-    trainset=dataset.train,
-    max_bootstrapped_demos=2,
-    max_labeled_demos=2
-)
+    optimized_program = optimizer.compile(
+        program,
+        trainset=dataset.train,
+        max_bootstrapped_demos=2,
+        max_labeled_demos=2
+    )
 ```
 
 After running this code, you receive both a W&B Run URL and a Weave URL. W&B displays evaluation metrics over time, along with Tables that show the evolution of program signatures. The run's **Overview** tab includes links to Weave traces for detailed inspection.
+
+If a `run` object is not passed to `WandbDSPyCallback`, the global `run` object is used.
 
 {{< img src="/images/integrations/dspy_run_page.png" alt="DSPy optimization run in W&B" >}}
 
@@ -174,10 +185,10 @@ optimized_program = optimizer.compile(program, trainset=train_data)
 callback.log_best_model(optimized_program, save_program=True)
 
 # 2. State only as JSON - lighter weight, human-readable
-callback.log_best_model(optimized_program, save_program=False, choice="json")
+callback.log_best_model(optimized_program, save_program=False, filetype="json")
 
 # 3. State only as pickle - preserves Python objects
-callback.log_best_model(optimized_program, save_program=False, choice="pkl")
+callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
 
 # Add custom aliases for versioning
 callback.log_best_model(

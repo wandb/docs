@@ -5,6 +5,11 @@ menu:
     parent: core
 title: Automations
 weight: 4
+url: guides/automations
+cascade:
+- url: guides/automations/:filename
+aliases:
+- /guides/core/automations/
 ---
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}

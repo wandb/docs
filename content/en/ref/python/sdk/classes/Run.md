@@ -16,7 +16,7 @@ Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new ru
 
 For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/launch) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
+You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
 
 There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
@@ -338,7 +338,7 @@ link_artifact(
     artifact: 'Artifact',
     target_path: 'str',
     aliases: 'list[str] | None' = None
-) → Artifact | None
+) → Artifact
 ```
 
 Link the given artifact to a portfolio (a promoted collection of artifacts). 
@@ -356,7 +356,7 @@ Linked artifacts are visible in the UI for the specified portfolio.
 
 
 **Returns:**
- The linked artifact if linking was successful, otherwise None. 
+ The linked artifact. 
 
 ---
 
@@ -680,8 +680,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x102e65f30>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x103c0c5e0>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x10342a8c0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x1050f4ee0>
 ) → Artifact | None
 ```
 

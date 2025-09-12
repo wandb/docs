@@ -348,27 +348,31 @@ https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
 
 ### Customize how runs are displayed
-This section shows how to customize how runs are displayed in your project's **Workspace** and **Runs** tab, which share the same display configuration.
+This section shows how to customize how runs are displayed in your project's workspace and runs table.
 
 {{% alert %}}
 A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
 {{% /alert %}}
 
+#### Add or remove columns
 
-To customize which columns are visible:
-1. In the project sidebar, navigate to the **Runs** tab.
+To customize which columns are visible in the Runs table or Workspace:
+1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
 1. Above the list of runs, click **Columns**.
 1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-  
     You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
 1. Click **Done** to close the column browser.
+
+#### Sort runs by column
 
 To sort the list of runs by any visible column:
 
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Sort ascending** or **Sort descending**.
 
-Pinned columns are shown on the right-hand side. Unpinned columns are shown on the left-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+#### Pin columns
+
+Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
 
 To pin a column:
 1. In the project sidebar, navigate to the **Runs** tab.
@@ -379,12 +383,12 @@ To unpin a column:
 1. Hover over the column name, then click its action `...` menu.
 1. Click **Unpin column**.
 
+#### Customize run name truncation
+
 By default, long run names are truncated in the middle for readability. To customize the truncation of run names:
 
 1. Click the action `...` menu at the top of the list of runs.
 1. Set **Run name cropping** to crop the end, middle, or beginning.
-
-See the [**Runs** tab]({{< relref "/guides/models/track/project-page.md#runs-tab" >}}).
 
 ### Overview tab
 Use the **Overview** tab to learn about specific run information in a project, such as:
@@ -536,6 +540,46 @@ Once a run with a specific ID is deleted, its ID may not be used again. Trying t
 For projects that contain a large number of runs, you can use either the search bar to filter runs you want to delete using Regex or the filter button to filter runs based on their status, tags, or other properties. 
 {{% /alert %}}
 
+### Run deletion workflow
+
+The following diagram illustrates the complete run deletion process, including the handling of associated artifacts and Model Registry links:
+
+```mermaid
+graph TB
+    Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
+    
+    RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
+    
+    DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
+    
+    DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
+    
+    CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
+    
+    HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
+    HasRegistry -->|No| DirectDelete
+    
+    RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
+    
+    ConfirmRegistry -->|No| DeleteRunOnly
+    ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
+    
+    DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
+
+{{% alert title="Important" %}}
+When you delete a run and choose to delete associated artifacts, the artifacts are permanently removed and can't be recovered, even if the run is restored later. This includes models linked to the Model Registry.
+{{% /alert %}}
+
 ## Organize runs 
 
 This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
@@ -547,7 +591,7 @@ Each run in W&B can be categorized by **group** and a **job type**:
 - **Group**: a broad category for the experiment, used to organize and filter runs.
 - **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
 
-The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colorts to represent the amount of data used:
+The proceeding [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colors to represent the amount of data used:
 
 - **Yellow to dark green** indicate increasing amounts of data for the baseline model.
 - **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.

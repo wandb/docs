@@ -15,9 +15,7 @@ W&B Public API for integrations.
 This module provides classes for interacting with W&B integrations. 
 
 ## <kbd>class</kbd> `Integrations`
-
-
-
+An lazy iterator of `Integration` objects. 
 
 ### <kbd>method</kbd> `Integrations.__init__`
 

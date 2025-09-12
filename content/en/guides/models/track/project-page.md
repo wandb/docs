@@ -42,6 +42,9 @@ Each project contains the following tabs:
 
 {{< img src="/images/track/overview_tab_image.png" alt="Project overview tab" >}}
 
+To change a project's privacy from the **Overview** tab:
+
+{{% readfile file="/content/en/_includes/project-visibility-settings.md" %}}
 
 ## Workspace tab
 
@@ -75,8 +78,6 @@ Click the section dropdown menu and click "Add section" to create a new section 
 
 Each section has options in the upper right corner:
 
-* **Switch to custom layout**: The custom layout allows you to resize panels individually.
-* **Switch to standard layout**: The standard layout lets you resize all panels in the section at once, and gives you pagination.
 * **Add section**: Add a section above or below from the dropdown menu, or click the button at the bottom of the page to add a new section.
 * **Rename section**: Change the title for your section.
 * **Export section to report**: Save this section of panels to a new report.
@@ -93,8 +94,7 @@ Drag and drop panels to reorder and organize into sections. You can also click t
 
 ### Resize panels
 
-* **Standard layout**: All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
-* **Custom layout**: All panels are sized individually, and there are no pages.
+All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
 
 {{< img src="/images/app_ui/resize-panel.gif" alt="Resizing panels" >}}
 
