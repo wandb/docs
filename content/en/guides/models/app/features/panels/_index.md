@@ -4,7 +4,7 @@ menu:
     identifier: intro_panels
     parent: w-b-app-ui-reference
 title: Panels
-weight: 1
+weight: 2
 url: guides/app/features/panels
 cascade:
 - url: guides/app/features/panels/:filename
@@ -197,16 +197,7 @@ To add a new section before or after an existing section, you can instead click 
 ### Manage a section's panels
 Sections with a large number of panels are paginated by default. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
 
-{{% alert %}}
-The **Custom grid** layout will soon be removed. W&B suggests that you no longer use Custom grid layouts. Consider updating your workspace from **Custom grid** to **Standard grid**.
-
-When the **Custom grid** layout is removed, workspaces will be updated to use the **Standard grid** layout, which will no longer be configurable.
-{{% /alert %}}
-
-1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
-1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size.
-  - If a section uses the **Standard grid**, resizing one panel resizes all panels in the section.
-  - If a section uses the **Custom grid**, you can customize the size of each panel separately.
+1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size. Resizing one panel resizes all panels in the section.
 1. If a section is paginated, you can customize the number of panels to show on a page:
   1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
   1. Choose how many panels to show per page, up to 100.
