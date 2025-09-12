@@ -117,8 +117,8 @@
 /guides/data-and-model-versioning/intro/ / 301
 /guides/data-and-model-versioning/model-versioning/ /guides/core/registry/ 301
 /guides/data-vis/log-tables/ /guides/track/log/log-tables/ 301
-/guides/data-vis/tables-quickstart/ /guides/models/tables/tables-walkthrough/ 301
-/guides/data-vis/tables/ /guides/models/tables/ 301
+/guides/data-vis/tables-quickstart/ /guides/tables/tables-walkthrough/ 301
+/guides/data-vis/tables/ /guides/tables/ 301
 /guides/data_types/ /ref/python/data-types/ 301
 /guides/datasets-and-predictions/ / 301
 /guides/experiments/track/ /guides/track/ 301
@@ -436,15 +436,16 @@
 
 ## Dynamic redirects (with wildcards and splats)
 # Note: Dynamic redirects must come after static redirects
-/data-vis/* /guides/models/tables/ 301
+/data-vis/* /guides/tables/ 301
 /guides/core/automations/* /guides/automations/:splat 301
-/guides/core/tables/* /guides/models/tables/:splat 301
+/guides/core/tables/* /guides/tables/:splat 301
 /guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/prompts/* /guides/ 301
 /guides/model_registry/* /guides/core/registry/model_registry/:splat 301
 /guides/models/automation/* /guides/core/automations/:splat 301
 /guides/models/automations/* /guides/core/automations/:splat 301
 /guides/models/registry/* /guides/core/registry/:splat 301
+/guides/models/tables/* /guides/tables/:splat 301
 /integrations/* /guides/integrations/:splat 301
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
