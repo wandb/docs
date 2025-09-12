@@ -3,7 +3,7 @@ menu:
   default:
     identifier: w-b-platform
 title: W&B Platform
-weight: 6
+weight: 7
 no_list: true
 ---
 W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Core]({{< relref "/guides/core" >}}), [Models]({{< relref "/guides/models/" >}}) and [Weave]({{< relref "/guides/weave/" >}}). 

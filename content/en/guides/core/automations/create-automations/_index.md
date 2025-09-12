@@ -5,9 +5,9 @@ menu:
     parent: automations
 title: Create an automation
 weight: 1
-url: /guides/automations/create-automations/
+url: guides/automations/create-automations
 cascade:
-- url: /guides/automations/create-automations/:filename
+- url: guides/automations/create-automations/:filename
 ---
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
