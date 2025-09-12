@@ -79,7 +79,7 @@ W&B requires object storage with pre-signed URL and CORS support, deployed in on
 | Software     | Minimum version                              |
 | ------------ | -------------------------------------------- |
 | Kubernetes   | v1.29                                        |
-| MySQL        | v8.0.0, "General Availability" releases only |
+| MySQL        | v8.0.x, where "x" is 28 or greater |
 | Redis        | v7.x                                         |
 
 ### Networking
