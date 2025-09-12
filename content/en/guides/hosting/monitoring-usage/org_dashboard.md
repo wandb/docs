@@ -6,7 +6,7 @@ menu:
 title: View organization activity
 ---
 
-This page describes how to monitor activity in your W&B organization. Select your deployment type to continue.
+This page describes how to view activity in your W&B organization. Select your deployment type to continue.
 
 ## View user status and activity 
 
@@ -15,7 +15,7 @@ This page describes how to monitor activity in your W&B organization. Select you
 1. Navigate to the **Organization Dashboard** at `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name. The **Users** tab opens by default and lists every user in the organization.
 2. To sort the list by user status, click the **Last Active** column header. Each user's status is one of the following:
    * **Invite pending** – an invitation was sent but not yet accepted.
-   * **Active** – the user accepted the invitation and has signed in at least once.
+   * **A timestamp** – the user accepted the invitation and has signed in at least once. The timestamp indicates the most recent activity.
    * **–** – the user was previously active but has not been active in the last six months.
    * **Deactivated** – an admin revoked the user's access.
 3. Hover over a user's **Last Active** field to see the date the user was added and their total active days.
@@ -31,7 +31,6 @@ A user is _active_ if they:
 {{% tab header="Multi-tenant Cloud" value="saas" %}}
 1. Open the [**Members** page](https://wandb.ai/account-settings/wandb/members/). The table lists every user in your organization.
 2. Click the **Last Active** column header to sort by user status. Each user's status is one of the following:
-   * **Invite pending** – an invitation was sent but not yet accepted.
    * **Active** – the user accepted the invitation and has signed in at least once.
    * **–** – the user has not yet been active within the organization.
 
@@ -66,18 +65,19 @@ Use the **Activity Dashboard** to view aggregate activity.
 {{< /tabpane >}}
 
 ## Export user details
+
+From the **Users** tab you can download a CSV that lists each user's details (user name, email address, last-active time, roles, and more).
+
 {{< tabpane text=true >}}
 {{% tab header="Dedicated Cloud / Self-Managed" value="dedicated" %}}
-From the **Users** tab you can download a CSV that lists each user's details (user name, email address, last-active time, roles, and more).
 
 1. In the **Users** tab, click the **…** actions menu next to **Invite new user**.
 2. Click **Export as CSV**.
 {{% /tab %}}
 
 {{% tab header="Multi-tenant Cloud" value="saas" %}}
-You can export the table of users to CSV.
 
-1. On the **Members** page, click the **…** actions menu in the upper-right corner.
+1. In the **Users** tab, click the **…** actions menu in the upper-right corner.
 2. Select **Export as CSV** to download the file.
 {{% /tab %}}
 {{< /tabpane >}}
