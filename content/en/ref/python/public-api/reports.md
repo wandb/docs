@@ -1,212 +1,78 @@
 ---
-title: reports
-object_type: public_apis_namespace
-data_type_classification: module
+title: Reports
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/public/reports.py#L21-L138 >}}
 
+Reports is a lazy iterator of `BetaReport` objects.
 
+| Args |  |
+| :--- | :--- |
+|  client (`wandb.apis.internal.Api`): The API client instance to use. project (`wandb.sdk.internal.Project`): The project to fetch reports from. name (str, optional): The name of the report to filter by. If `None`, fetches all reports. entity (str, optional): The entity name for the project. Defaults to the project entity. per_page (int): Number of reports to fetch per page (default is 50). |
 
+| Attributes |  |
+| :--- | :--- |
+|  `cursor` |  Returns the cursor position for pagination of file results. <!-- lazydoc-ignore: internal --> |
+|  `more` |  Returns whether there are more files to fetch. <!-- lazydoc-ignore: internal --> |
 
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for Report objects. 
+## Methods
 
-This module provides classes for interacting with W&B reports and managing report-related data. 
+### `convert_objects`
 
-
-
----
-
-## <kbd>class</kbd> `Reports`
-Reports is a lazy iterator of `BetaReport` objects. 
-
-
-
-**Args:**
- 
- - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
- - `project` (`wandb.sdk.internal.Project`):  The project to fetch reports from. 
- - `name` (str, optional):  The name of the report to filter by. If `None`,  fetches all reports. 
- - `entity` (str, optional):  The entity name for the project. Defaults to  the project entity. 
- - `per_page` (int):  Number of reports to fetch per page (default is 50). 
-
-### <kbd>method</kbd> `Reports.__init__`
-
-```python
-__init__(client, project, name=None, entity=None, per_page=50)
-```
-
-
-
-
-
-
----
-
-
-### <kbd>property</kbd> Reports.length
-
-
-
-
-
----
-
-
-### <kbd>method</kbd> `Reports.convert_objects`
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/public/reports.py#L121-L135)
 
 ```python
 convert_objects()
 ```
 
-Converts GraphQL edges to File objects. 
+Converts GraphQL edges to File objects.
 
----
+### `next`
 
-### <kbd>method</kbd> `Reports.update_variables`
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/paginator.py#L102-L109)
+
+```python
+next() -> T
+```
+
+Return the next item from the iterator. When exhausted, raise StopIteration
+
+### `update_variables`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/public/reports.py#L115-L119)
 
 ```python
 update_variables()
 ```
 
-Updates the GraphQL query variables for pagination. 
+Updates the GraphQL query variables for pagination.
 
+### `__getitem__`
 
----
-
-## <kbd>class</kbd> `BetaReport`
-BetaReport is a class associated with reports created in W&B. 
-
-Provides access to report attributes (name, description, user, spec, timestamps) and methods for retrieving associated runs, sections, and for rendering the report as HTML. 
-
-
-
-**Attributes:**
- 
- - `id` (string):  Unique identifier of the report. 
- - `display_name` (string):  Human-readable display name of the report. 
- - `name` (string):  The name of the report. Use `display_name` for a more user-friendly name. 
- - `description` (string):  Description of the report. 
- - `user` (User):  Dictionary containing user info (username, email) who  created the report. 
- - `spec` (dict):  The spec of the report. 
- - `url` (string):  The URL of the report. 
- - `updated_at` (string):  Timestamp of last update. 
- - `created_at` (string):  Timestamp when the report was created. 
-
-### <kbd>method</kbd> `BetaReport.__init__`
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/paginator.py#L95-L100)
 
 ```python
-__init__(client, attrs, entity=None, project=None)
+__getitem__(
+    index: (int | slice)
+) -> (T | list[T])
 ```
 
+### `__iter__`
 
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.created_at
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.description
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.display_name
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.id
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.name
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.sections
-
-Get the panel sections (groups) from the report. 
-
----
-
-### <kbd>property</kbd> BetaReport.spec
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.updated_at
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.url
-
-
-
-
-
----
-
-### <kbd>property</kbd> BetaReport.user
-
-
-
-
-
-
-
----
-
-### <kbd>method</kbd> `BetaReport.runs`
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/paginator.py#L50-L52)
 
 ```python
-runs(section, per_page=50, only_selected=True)
+__iter__() -> Iterator[T]
 ```
 
-Get runs associated with a section of the report. 
+### `__len__`
 
----
-
-### <kbd>method</kbd> `BetaReport.to_html`
+[View source](https://www.github.com/wandb/wandb/tree/v0.21.4/wandb/apis/paginator.py#L128-L133)
 
 ```python
-to_html(height=1024, hidden=False)
+__len__() -> int
 ```
 
-Generate HTML containing an iframe displaying this report. 
-
-
----
-
-
-
+| Class Variables |  |
+| :--- | :--- |
+|  `QUERY`<a id="QUERY"></a> |   |
