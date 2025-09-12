@@ -85,7 +85,6 @@
 /frameworks/pytorch/ /guides/integrations/pytorch/ 301
 /getting-started/ /quickstart/ 301
 /guides/app/features/ /guides/models/ 301
-/guides/app/features/app/features/panels/parallel-coordinates/ /guides/app/features/app/features/panels/parallel-coordinates/ 301
 /guides/app/features/panels/compare-metrics/ /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart/ 301
 /guides/app/features/panels/compare-metrics/reference/ /guides/app/features/panels/line-plot#compare-two-metrics-on-one-chart/ 301
 /guides/app/features/panels/panels/ /guides/app/features/panels/ 301
@@ -97,11 +96,8 @@
 /guides/app/pages/guides/app/settings-page/ /guides/app/pages/ 301
 /guides/app/pages/intro/ /guides/app/pages/ 301
 /guides/app/pages/settings-page/ /guides/app/settings-page/ 301
-/guides/app/pages/settings-page/team-settings/ /guides/app/pages/settings-page/team-settings/ 301
-/guides/app/pages/settings-page/user-settings/ /guides/app/pages/settings-page/user-settings/ 301
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
 /guides/app/settings-page/intro/ /guides/app/settings-page/ 301
-/guides/app/settings-page/team-settings/ /guides/app/settings-page/team-settings/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
 /guides/artifacts/api/ /ref/python/public-api/api#artifact/ 301
 /guides/artifacts/artifacts-core-concepts/ /guides/artifacts/ 301
@@ -314,9 +310,9 @@
 /quickstar/ /quickstart/ 301
 /quickstart/korea/ /ko/quickstart/ 301
 /quickstart/korean/ /ko/quickstart/ 301
-/ref/README/ /ref/ 301
 /ref/api/public-methods/ /ref/python/public-api/ 301
 /ref/app/ /guides/app/ 301
+/ref/README/ /ref/ 301
 /ref/app/feature/ /guides/app/features/ 301
 /ref/app/features/ /guides/app/features/ 301
 /ref/app/features/alerts/ /guides/app/ 301
@@ -358,9 +354,9 @@
 /ref/java/wandbrun-builder/ /ref/ 301
 /ref/java/wandbrun/ /ref/ 301
 /ref/public-api/ /ref/python/public-api/api/ 301
-/ref/python/README/ /ref/python/ 301
 /ref/python/agent/ /ref/python/sdk/functions/agent/ 301
 /ref/python/artifact/ /ref/python/sdk/classes/artifact/ 301
+/ref/python/README/ /ref/python/ 301
 /ref/python/config/ /ref/python/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
 /ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
@@ -422,9 +418,9 @@
 /sweeps/sweeps-examples/ /guides/sweeps/ 301
 /sweeps/visualize-sweep-results/ /guides/sweeps/visualize-sweep-results/ 301
 /teams/ /guides/app/features/teams/ 301
-/tutorials/Workspace_tutorial/ /tutorials/workspaces/ 301
 /tutorials/lightgbm/ /tutorials/ 301
 /tutorials/prompts/ /tutorials/ 301
+/tutorials/Workspace_tutorial/ /tutorials/workspaces/ 301
 /tutorials/xgboost/ /tutorials/ 301
 /v/ / 301
 /wandb/config/ /ref/python/sdk/functions/init/ 301
@@ -442,7 +438,6 @@
 # Note: Dynamic redirects must come after static redirects
 /data-vis/* /guides/models/tables/ 301
 /guides/core/automations/* /guides/automations/:splat
-/guides/core/registry/* /guides/registry/:splat
 /guides/core/tables/* /guides/models/tables/:splat 301
 /guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/prompts/* /guides/ 301
@@ -450,9 +445,6 @@
 /guides/models/automation/* /guides/core/automations/:splat 301
 /guides/models/automations/* /guides/core/automations/:splat 301
 /guides/models/registry/* /guides/core/registry/:splat 301
-/guides/models/tables/* /guides/tables/:splat
-/guides/registry/* /guides/core/registry/:splat 301
-/guides/tables/* /guides/models/tables/:splat 301
 /integrations/* /guides/integrations/:splat 301
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
