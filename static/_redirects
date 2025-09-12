@@ -438,7 +438,6 @@
 # Note: Dynamic redirects must come after static redirects
 /data-vis/* /guides/models/tables/ 301
 /guides/core/automations/* /guides/automations/:splat
-/guides/registry/* /guides/core/registry/:splat 301
 /guides/core/tables/* /guides/models/tables/:splat 301
 /guides/integrations/other/* /guides/integrations/:splat 301
 /guides/integrations/prompts/* /guides/ 301
