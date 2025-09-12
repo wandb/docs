@@ -81,3 +81,17 @@ From the **Users** tab you can download a CSV that lists each user's details (us
 2. Select **Export as CSV** to download the file.
 {{% /tab %}}
 {{< /tabpane >}}
+
+The CSV export uses the comma (`,`) as the separator, encloses strings in double quotes, and includes a header row that defines these columns:
+
+- `"Name"`
+- `"Username"`
+- `"Last active"`
+- `"Role"`
+- `"Email"`
+- `"Teams"`
+- `"Status"`
+- `"Number of Reports"`
+- `"Number of Runs"`
+- `"Number of active days"`
+- `"Models Seat"`
