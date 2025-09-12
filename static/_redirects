@@ -446,7 +446,6 @@
 /guides/models/automation/* /guides/core/automations/:splat 301
 /guides/models/automations/* /guides/core/automations/:splat 301
 /guides/models/registry/* /guides/core/registry/:splat 301
-/guides/tables/* /guides/models/tables/:splat 301
 /integrations/* /guides/integrations/:splat 301
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
