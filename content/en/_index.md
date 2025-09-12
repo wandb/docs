@@ -9,27 +9,10 @@ Choose the product for which you need documentation.
 
 <div class="top-row-cards">
 {{< cardpane >}}
-{{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
-
-<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/weave-logo.svg" alt="W&B Weave logo" width="50" height="50"/>
-</div>
-<h2>W&B Weave</h2>
-
-### Use AI models in your app
-
-Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
-
-- [Introduction](https://weave-docs.wandb.ai/)
-- [Quickstart](https://weave-docs.wandb.ai/quickstart)
-- [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
-- [Try the Playground](https://weave-docs.wandb.ai/guides/tools/playground/)
-
-</div>{{% /card %}}
 {{% card %}}<div onclick="window.location.href='/guides'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/wandb-gold.svg" alt="W&B Models logo" width="40" height="40"/>
+{{< img src="/icons/Name=Models, Mode=Dark.svg" width="60" height="60" >}}
 </div>
 <h2>W&B Models</h2>
 
@@ -43,10 +26,30 @@ Use [W&B Models]({{< relref "/guides/" >}}) to manage AI model development. Feat
 - [Online Course](https://wandb.ai/site/courses/101/)
 
 </div>{{% /card %}}
+
+{{% card %}}<div onclick="window.location.href='https://weave-docs.wandb.ai'" style="cursor: pointer;">
+
+<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
+{{< img src="/icons/Name=Weave, Mode=Dark.svg" width="60" height="60" >}}
+</div>
+<h2>W&B Weave</h2>
+
+### Use AI models in your app
+
+Use [W&B Weave](https://weave-docs.wandb.ai/) to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
+
+- [Introduction](https://weave-docs.wandb.ai/)
+- [Quickstart](https://weave-docs.wandb.ai/quickstart)
+- [YouTube Demo](https://www.youtube.com/watch?v=IQcGGNLN3zo)
+- [Try the Playground](https://weave-docs.wandb.ai/guides/tools/playground/)
+- [Use Weave in your W&B runs]({{< relref "/guides/weave/set-up-weave" >}})
+
+</div>{{% /card %}}
+
 {{% card %}}<div onclick="window.location.href='/guides/inference/'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-<img src="/img/wandb-gold.svg" alt="W&B Inference logo" width="40" height="40"/>
+{{< img src="/icons/Name=Inference, Mode=Dark.svg" width="60" height="60" >}}
 </div>
 <h2>W&B Inference</h2>
 
@@ -62,49 +65,6 @@ Use [W&B Inference]({{< relref "/guides/inference/" >}}) to access leading open-
 </div>{{% /card %}}
 {{< /cardpane >}}
 </div>
-
-<div class="bottom-row-cards">
-{{< cardpane >}}
-{{% card %}}<div onclick="window.location.href='/guides/core/'" style="cursor: pointer; padding-left: 20px">
-<h2>Core Components</h2>
-
-Both W&B products share common components that enable and accelerate your AI/ML engineering work. 
-
-- [Registry]({{< relref "/guides/core/registry/" >}})
-- [Artifacts]({{< relref "/guides/core/artifacts/" >}})
-- [Reports]({{< relref "/guides/core/reports/" >}})
-- [Automations]({{< relref "/guides/core/automations/" >}})
-- [Secrets]({{< relref "/guides/core/secrets.md" >}})
-
-</div>{{% /card %}}
-{{% card %}}<div onclick="window.location.href='/guides/hosting'" style="cursor: pointer;padding-left:20px;">
-
-<h2>Platform</h2>
-
-The Weights & Biases platform can be accessed through our SaaS offering or deployed on-premise, and it provides IAM, security, monitoring, and privacy features.
-
-- [Deployment Options]({{< relref "/guides/hosting/hosting-options/" >}})
-- [Identity and access management (IAM)]({{< relref "/guides/hosting/iam/" >}})
-- [Data Security]({{< relref "/guides/hosting/data-security/" >}})
-- [Privacy settings]({{< relref "/guides/hosting/privacy-settings/" >}})
-- [Monitoring and Usage]({{< relref "/guides/hosting/monitoring-usage/" >}})
-
-</div>{{% /card %}}
-{{% card %}}<div onclick="window.location.href='/support/'" style="cursor: pointer;padding-left:20px;">
-
-<h2>Support</h2>
-
-Get help with any aspect of the Weights & Biases platform. Find answers to common questions, troubleshooting guides, and ways to contact our support team.
-
-- [Knowledge Base Articles]({{< relref "/support/" >}})
-- [Community Forum](https://wandb.ai/community)
-- [Discord Server](https://discord.com/invite/RgB8CPk2ce)
-- [Contact Support](https://wandb.ai/site/contact/)
-
-</div>{{% /card %}}
-{{< /cardpane >}}
-</div>
-
 
 <!-- End max-width constraing -->
 </div>

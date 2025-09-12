@@ -1,0 +1,3 @@
+* **Allowed characters**: Letters (A-Z, a-z), digits (0-9), and underscores (_)
+* **Starting character**: Names must start with a letter or underscore
+* **Pattern**: Metric names should match `/^[_a-zA-Z][_a-zA-Z0-9]*$/`

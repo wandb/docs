@@ -7,7 +7,7 @@ title: Automations
 weight: 4
 url: guides/automations
 cascade:
-- url: guides/:filename
+- url: guides/automations/:filename
 aliases:
 - /guides/core/automations/
 ---
