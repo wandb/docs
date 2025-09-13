@@ -393,6 +393,7 @@
                         "group": "Custom charts",
                         "pages": [
                           "models/app/features/custom-charts",
+                          "models/app/features/custom-charts/query-syntax",
                           "models/app/features/custom-charts/walkthrough"
                         ]
                       },
