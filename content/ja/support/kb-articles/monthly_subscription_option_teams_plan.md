@@ -1,14 +1,15 @@
 ---
-title: チームプランに月額サブスクリプションオプションはありますか？
+title: Teams プランに月額払いのオプションはありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-monthly_subscription_option_teams_plan
 support:
-  - administrator
-  - billing
-  - team management
+- 管理者
+- 請求
+- Teams の管理
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-Teams プランには月額サブスクリプションのオプションはありません。このサブスクリプションは年単位で請求されます。
+
+Teams プランでは、月額サブスクリプションのオプションを提供していません。このサブスクリプションは年額で請求されます。

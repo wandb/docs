@@ -1,9 +1,9 @@
 ---
-title: キューにプッシュできる人をどのように制御しますか？
+title: 誰がキューにプッシュできるかをどのように制御できますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-control_push_queue
     parent: launch-faq
 ---
 
-キューはユーザー チームに特有です。 キュー作成時に所有するエンティティを定義します。 アクセスを制限するには、チームメンバーシップを変更します。
+Queues は ユーザーの Team に固有です。Queue の作成時に、所有する Entity を指定します。アクセスを制限するには、Team のメンバーシップを変更します。

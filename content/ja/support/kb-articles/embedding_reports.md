@@ -1,14 +1,14 @@
 ---
-title: レポートの埋め込み
+title: Reports の埋め込み
 menu:
   support:
     identifier: ja-support-kb-articles-embedding_reports
 support:
-  - reports
+- レポート
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-あなたのレポートを埋め込むことで共有できます。レポートの右上にある **Share** ボタンをクリックし、ポップアップウィンドウの下部から埋め込みコードをコピーします。
 
-{{< img src="/images/reports/emgedding_reports.gif" alt="" >}}
+自分の Reports は、埋め込んで共有できます。自分の Reports の右上にある **Share** ボタンをクリックし、ポップアップウィンドウ下部に表示される埋め込みコードをコピーします。
+{{< img src="/images/reports/emgedding_reports.gif" alt="Reports を埋め込む" >}}

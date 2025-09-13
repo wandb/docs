@@ -1,12 +1,13 @@
 ---
-title: ユーザー アカウントを削除するにはどうすればよいですか？
+title: 自分のユーザーアカウントを削除するには？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_delete_my_user_account
 support:
-  - user management
+- ユーザー管理
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-アカウントを削除するには、[ユーザー設定]({{< relref path="/guides/models/app/settings-page/user-settings.md#delete-your-account" lang="ja" >}})で **アカウントを削除** をクリックします。この操作は取り消し不可能で、直ちに有効となります。
+
+[ユーザー 設定]({{< relref path="/guides/models/app/settings-page/user-settings.md#delete-your-account" lang="ja" >}}) の **Delete account** をクリックして、ユーザー アカウントを削除します。なお、この操作は元に戻せず、即座に有効になります。

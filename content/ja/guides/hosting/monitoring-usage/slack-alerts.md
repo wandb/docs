@@ -1,62 +1,62 @@
 ---
-title: Slack アラートの設定
+title: Slack アラートを設定
 menu:
   default:
     identifier: ja-guides-hosting-monitoring-usage-slack-alerts
     parent: monitoring-and-usage
 ---
 
-Integrate W&B Server with [Slack](https://slack.com/).
+W&B サーバーを [Slack](https://slack.com/) と連携する。
 {{% alert %}}
-W&B 専用クラウドデプロイメントでの Slack アラートの設定を示した[ビデオを見る](https://www.youtube.com/watch?v=JmvKb-7u-oU) (6 分)。
+[W&B 専用クラウド デプロイメントでの Slack アラートの設定手順を紹介する動画](https://www.youtube.com/watch?v=JmvKb-7u-oU) をご覧ください（6 分）。
 {{% /alert %}}
 
 ## Slack アプリケーションを作成する
 
-以下の手順に従って Slack アプリケーションを作成してください。
+以下の手順に従って Slack アプリケーションを作成します。
 
 1. https://api.slack.com/apps にアクセスし、**Create an App** を選択します。
 
-    {{< img src="/images/hosting/create_an_app.png" alt="" >}}
+    {{< img src="/images/hosting/create_an_app.png" alt="Create an App ボタン" >}}
 
 2. **App Name** フィールドにアプリの名前を入力します。
-3. アプリを開発したい Slack ワークスペースを選択します。アラートに使用する予定のワークスペースと同じワークスペースを使用していることを確認してください。
+3. アプリを開発する Slack ワークスペースを選択します。アラートに使用するワークスペースと同じ Slack ワークスペースを選んでください。
 
-    {{< img src="/images/hosting/name_app_workspace.png" alt="" >}}
+    {{< img src="/images/hosting/name_app_workspace.png" alt="アプリ名とワークスペースの選択" >}}
 
 ## Slack アプリケーションを設定する
 
-1. 左側のサイドバーで **OAth & Permissions** を選択します。
+1. 左側のサイドバーで **OAuth & Permissions** を選択します。
 
-    {{< img src="/images/hosting/add_an_oath.png" alt="" >}}
+    {{< img src="/images/hosting/add_an_oath.png" alt="OAuth & Permissions メニュー" >}}
 
-2. Scopes セクションで、ボットに **incoming_webhook** スコープを追加します。スコープは、アプリに開発ワークスペースでのアクションを実行する権限を与えます。
+2. Scopes セクションで、ボットに **incoming_webhook** スコープを付与します。スコープは、開発用ワークスペースでアプリが操作を行うための権限です。
 
-    Bot の OAuth スコープについての詳細は、Slack API ドキュメントの「Understanding OAuth scopes for Bots」チュートリアルを参照してください。
+    Bots の OAuth スコープの詳細は、Slack API ドキュメントの「Understanding OAuth scopes for Bots」チュートリアルを参照してください。
 
-    {{< img src="/images/hosting/save_urls.png" alt="" >}}
+    {{< img src="/images/hosting/save_urls.png" alt="Bot トークンのスコープ" >}}
 
-3. W&B インストールを指すようにリダイレクト URL を設定します。ローカルシステム設定で指定されたホスト URL と同じ URL を使用してください。インスタンスへの異なる DNS マッピングを持つ場合は、複数の URL を指定できます。
+3. Redirect URL を W&B のインストール先を指すように設定します。ローカルのシステム設定でホスト URL に設定したものと同じ URL を使用してください。インスタンスに対して異なる DNS マッピングがある場合は、複数の URL を指定できます。
 
-    {{< img src="/images/hosting/redirect_urls.png" alt="" >}}
+    {{< img src="/images/hosting/redirect_urls.png" alt="Redirect URLs の設定" >}}
 
 4. **Save URLs** を選択します。
-5. **Restrict API Token Usage** で、オプションとして W&B インスタンスの IP または IP 範囲を許可リストに指定できます。許可された IP アドレスの制限は、Slack アプリケーションのセキュリティをより強化します。
+5. 必要に応じて、**Restrict API Token Usage** で IP 範囲を指定し、W&B インスタンスの IP または IP 範囲を許可リストに追加します。許可する IP アドレスを制限することで、Slack アプリケーションのセキュリティをさらに高められます。
 
-## Slack アプリケーションを W&B に登録する
+## W&B に Slack アプリケーションを登録する
 
-1. W&B インスタンスの **System Settings** または **System Console** ページに移動します。デプロイメントに応じて異なります。
+1. デプロイメントに応じて、W&B インスタンスの **System Settings** または **System Console** ページに移動します。
 
-2. 使用している System ページに応じて、以下のオプションのいずれかを実行します：
+2. 表示しているシステムのページに応じて、以下のいずれかの手順に従います:
 
-    - **System Console** にいる場合: **Settings** から **Notifications** に進みます。
+    - **System Console** の場合: **Settings** に移動し、続いて **Notifications** を開きます
 
-      {{< img src="/images/hosting/register_slack_app_console.png" alt="" >}}
+      {{< img src="/images/hosting/register_slack_app_console.png" alt="System Console の通知" >}}
 
-    - **System Settings** にいる場合: カスタム Slack アプリケーションを有効にするために **Enable a custom Slack application to dispatch alerts** をトグルします。
+    - **System Settings** の場合: **Enable a custom Slack application to dispatch alerts** を切り替えて、カスタム Slack アプリケーションを有効にします
 
-      {{< img src="/images/hosting/register_slack_app.png" alt="" >}}
+      {{< img src="/images/hosting/register_slack_app.png" alt="Slack アプリケーションの有効化トグル" >}}
 
-3. **Slack client ID** と **Slack secret** を入力し、**Save** をクリックします。設定の基本情報でアプリケーションのクライアント ID とシークレットを見つけることができます。
+3. **Slack client ID** と **Slack secret** を入力し、**Save** をクリックします。クライアント ID とシークレットは、Settings の Basic Information で確認できます。
 
-4. W&B アプリケーションで Slack インテグレーションを設定して、すべてが正常に動作していることを確認します。
+4. W&B アプリで Slack インテグレーションを設定し、正しく動作することを確認します。

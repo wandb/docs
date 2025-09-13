@@ -1,37 +1,37 @@
 ---
-title: アイデンティティとアクセス管理 (IAM)
+title: アイデンティティおよびアクセス管理 (IAM)
 cascade:
-- url: /ja/guides/hosting/iam/:filename
+- url: guides/hosting/iam/:filename
 menu:
   default:
     identifier: ja-guides-hosting-iam-_index
     parent: w-b-platform
-url: /ja/guides/hosting/iam/org_team_struct
+url: guides/hosting/iam/org_team_struct
 weight: 2
 ---
 
-W&B プラットフォームには、W&B 内での 3 つの IAM スコープがあります: [Organizations]({{< relref path="#organization" lang="ja" >}})、[Teams]({{< relref path="#team" lang="ja" >}})、および [Projects]({{< relref path="#project" lang="ja" >}})。
+W&B プラットフォームには、W&B 内に [Organizations]({{< relref path="#organization" lang="ja" >}})、[Teams]({{< relref path="#team" lang="ja" >}})、および [Projects]({{< relref path="#project" lang="ja" >}}) という 3 つの IAM スコープがあります。
 
 ## Organization
 
-*Organization* は、あなたの W&B アカウントまたはインスタンスのルートスコープです。ユーザー管理、チーム管理、チーム内のプロジェクト管理、使用状況の追跡など、アカウントまたはインスタンス内のすべてのアクションは、このルートスコープのコンテキスト内で行われます。
+*Organization* は、W&B アカウントまたはインスタンスにおけるルート スコープです。アカウントまたはインスタンス内のすべてのアクションは、ユーザー管理、Teams 管理、Team 内の Projects 管理、使用状況の追跡など、このルート スコープのコンテキスト内で実行されます。
 
-[Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) を使用している場合、複数の組織を持っている可能性があります。それぞれが事業部門、個人のユーザー、他社との共同パートナーシップなどに対応する場合があります。
+[マルチテナント クラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) を使用している場合、複数の Organization を持つことができます。各 Organization は、事業単位、個人のユーザー、他社とのパートナーシップなどに対応する場合があります。
 
-[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed instance]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) を使用している場合、それは1つの組織に対応しています。あなたの会社は、異なる事業部門または部門に対応するために Dedicated Cloud または Self-managed インスタンスを複数持つことができますが、それは業務や部門全体にわたる AI 実践者を管理するためのオプションの方法に過ぎません。
+[専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed インスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) を使用している場合は、1 つの Organization に対応します。貴社では、異なる事業単位や部門にマッピングする目的で、複数の専用クラウド または Self-managed インスタンスを運用することもできますが、これは会社や部門全体の AI 実務者を管理するための必須要件ではありません。
 
-詳細については、[Manage organizations]({{< relref path="./access-management/manage-organization.md" lang="ja" >}}) を参照してください。
+詳細については、[Organization を管理する]({{< relref path="./access-management/manage-organization.md" lang="ja" >}}) を参照してください。
 
 ## Team
 
-*Team* は、組織内のサブスコープであり、事業部門、機能、部門、または会社内のプロジェクトチームに対応する場合があります。デプロイメントタイプと価格プランに応じて、組織内に複数のチームを持つことができます。
+*Team* は、Organization 内のサブスコープであり、会社の事業単位 / 機能、部門、またはプロジェクト チームにマッピングできます。デプロイメント タイプと料金プランによって、Organization 内に複数の Team を持つことができます。
 
-AI プロジェクトはチームのコンテキスト内で編成されます。チーム内のアクセス制御は、親組織レベルで管理者であるかどうかに関係なく、チーム管理者によって管理されます。
+AI Projects は Team のコンテキスト内で整理されます。Team 内のアクセス制御は Team 管理者によって管理され、これらの管理者は親 Organization レベルの管理者である場合とそうでない場合があります。
 
-詳細については、[Add and manage teams]({{< relref path="./access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) を参照してください。
+詳細については、[Team を追加および管理する]({{< relref path="./access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) を参照してください。
 
 ## Project
 
-*Project* は、特定の目標を持つ実際の AI プロジェクトに対応するチーム内のサブスコープです。チーム内に複数のプロジェクトを持つことができます。各プロジェクトには、誰がプロジェクトにアクセスできるかを決定する公開範囲モードがあります。
+*Project* は、Team 内のサブスコープであり、特定の意図された成果を持つ実際の AI プロジェクトにマッピングされます。1 つの Team 内に複数の Project を持つことができます。各 Project には公開範囲モードがあり、これによって誰がアクセスできるかが決まります。
 
-各プロジェクトは、[Workspaces]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) と [Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}) で構成され、関連する [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}})、[Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}})、および [Automations]({{< relref path="/guides/core/automations/" lang="ja" >}}) とリンクされています。
+すべての Project は [Workspaces]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) と [Reports]({{< relref path="/guides/core/reports/" lang="ja" >}}) で構成され、関連する [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}})、[Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}})、および [オートメーション]({{< relref path="/guides/core/automations/" lang="ja" >}}) にリンクされています。

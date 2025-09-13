@@ -1,6 +1,7 @@
 ---
 title: ユーザー設定を管理する
-description: プロフィール情報、アカウントのデフォルト設定、アラート、ベータ版製品への参加、GitHub インテグレーション、ストレージ使用量、アカウントの有効化、チームの作成をユーザー設定で管理します。
+description: ユーザー設定で、プロフィール情報、アカウントのデフォルト、アラート、ベータ版プロダクトへの参加、GitHub インテグレーション、ストレージ使用量、アカウントの有効化を管理し、Teams
+  を作成できます。
 menu:
   default:
     identifier: ja-guides-models-app-settings-page-user-settings
@@ -8,64 +9,84 @@ menu:
 weight: 10
 ---
 
-ナビゲートして、 ユーザープロフィールページに移動し、右上のユーザーアイコンを選択します。 ドロップダウンメニューから、**Settings** を選択します。
+ユーザー プロファイル ページに移動し、右上のユーザー アイコンを選択します。ドロップダウンから **Settings** を選びます。
 
-## Profile
+## プロフィール
 
-**Profile** セクションでは、アカウント名と所属機関を管理および変更できます。オプションで、経歴、所在地、個人や所属機関のウェブサイトのリンクを追加したり、プロフィール画像をアップロードしたりできます。
+**Profile** セクションでは、アカウント名や所属を管理・変更できます。任意で自己紹介文、所在地、個人または所属先のウェブサイトへのリンク、プロフィール画像のアップロードを追加できます。
 
-## イントロの編集
+## イントロダクションを編集
 
-イントロを編集するには、プロフィールの上部にある **Edit** をクリックします。 開く WYSIWYG エディターは Markdown をサポートしています。
-1. 行を編集するには、それをクリックします。 時間を短縮するために、`/` を入力し、リストから Markdown を選択できます。
-1. アイテムのドラッグハンドルを使って移動します。
-1. ブロックを削除するには、ドラッグハンドルをクリックしてから **Delete** をクリックします。
-1. 変更を保存するには、**Save** をクリックします。
+イントロダクションを編集するには、プロフィール上部の **Edit** をクリックします。開いた WYSIWYG エディタは Markdown をサポートしています。
+1. 行を編集するには、その行をクリックします。手早く操作したい場合は `/` と入力し、リストから Markdown を選びます。
+1. アイテムのドラッグ ハンドルを使って移動できます。
+1. ブロックを削除するには、ドラッグ ハンドルをクリックしてから **Delete** をクリックします。
+1. 変更を保存するには **Save** をクリックします。
 
-### SNS バッジの追加
+### ソーシャル バッジを追加
 
-`@weights_biases` アカウントのフォローバッジを X に追加するには、HTML の `<img>` タグを含む Markdown スタイルのリンクを追加します。そのバッジ画像にリンクさせます。
+X の `@weights_biases` アカウントのフォローバッジを追加するには、バッジ画像を指す HTML の `<img>` タグを含む、Markdown 形式のリンクを追加できます。
 
-[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases" >](https://x.com/intent/follow?screen_name=weights_biases)
+```markdown
+[![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
+```
+`<img>` タグでは `width`、`height`、またはその両方を指定できます。どちらか一方のみを指定した場合は、画像の縦横比は維持されます。
 
-`<img>` タグでは、`width`、`height`、またはその両方を指定できます。どちらか一方だけを指定すると、画像の比率は維持されます。
+## Default team
+複数の team のメンバーである場合、**Default team** セクションで、run や Weave のトレースで team が指定されていないときに使用する既定の team を設定できます。1 つの team のみのメンバーである場合、その team が既定となり、このセクションは表示されません。
 
-## Teams
+続行するにはタブを選択してください。
 
-**Team** セクションで新しいチームを作成します。 新しいチームを作成するには、**New team** ボタンを選択し、次の情報を提供します。
-
-* **Team name** - チームの名前。チーム名はユニークでなければなりません。チーム名は変更できません。
-* **Team type** - **Work** または **Academic** ボタンを選択します。
-* **Company/Organization** - チームの会社または組織の名前を提供します。 ドロップダウンメニューから会社または組織を選択します。 オプションで新しい組織を提供することもできます。
+{{< tabpane text=true >}}
+{{% tab header="Multi-tenant Cloud" %}}
+**Default location to create new projects in** の横にあるドロップダウンをクリックし、既定の team を選択します。
+{{% /tab %}}
+{{% tab header="Dedicated Cloud / Self-Managed" %}}
+1. **Default location to create new projects in** の横にあるドロップダウンをクリックし、既定の team または個人の entity を選択します。
+1. （任意）管理者が **Account** > **Settings** > **Privacy** で public projects を有効にしている場合は、新しい projects の既定の “公開範囲” を設定します。**Default project privacy in your personal account** の横にあるボタンをクリックし、**Private**（既定）または **Public** を選択します。
+1. （任意）管理者が **Account** > **Settings** > **Privacy** で[コードの既定の保存と差分]({{< relref path="/guides/models/app/features/panels/code.md" lang="ja" >}})を有効にしている場合、run でも有効にするには **Enable code saving in your personal account** をクリックします。
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
-管理者アカウントのみがチームを作成できます。
+自動化された 環境 でスクリプトを実行する際に既定の team を指定するには、`WANDB_ENTITY` [環境 変数]({{< relref path="https://docs.wandb.ai/guides/models/track/environment-variables.md" lang="ja" >}})で既定の場所を指定できます。
+{{% /alert %}}
+
+## Teams
+**Teams** セクションには、あなたのすべての team が一覧表示されます。
+
+1. team 名をクリックすると、その team のページに移動します。
+1. 追加の team に参加する権限がある場合は、**We found teams for you to join** の横にある **View teams** をクリックします。
+1. 必要に応じて **Hide teams in public profile** をオンにします。
+
+{{% alert %}}
+team の作成や管理については、[Teams を管理する]({{< relref path="/guides/models/app/settings-page/teams/" lang="ja" >}})を参照してください。
 {{% /alert %}}
 
 ## ベータ機能
 
-**Beta Features** セクションでは、開発中の新製品の楽しいアドオンやプレビューをオプションで有効にできます。有効にしたいベータ機能の横にある切り替えスイッチを選択します。
+**Beta Features** セクションでは、開発中の新機能のプレビューや便利なアドオンを任意で有効化できます。有効にしたいベータ機能のトグル スイッチを選択します。
 
 ## アラート
 
-Runs がクラッシュしたり、終了したり、カスタムアラートを設定した際に通知を受け取ります。[wandb.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を使用して電子メールまたは Slack 経由で通知を受け取ります。受け取りたいアラートイベントタイプの横にあるスイッチを切り替えます。
+run がクラッシュしたとき、完了したとき、または [wandb.Run.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) でカスタム アラートを設定したときに通知を受け取ります。通知は Email または Slack で受信できます。受け取りたいイベントの横にあるスイッチを切り替えてください。
 
 * **Runs finished**: Weights and Biases の run が正常に完了したかどうか。
-* **Run crashed**: run が終了しなかった場合の通知。
+* **Run crashed**: run が完了せずに失敗した場合の通知。
 
-アラートの設定と管理方法の詳細については、[Send alerts with wandb.alert]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を参照してください。
+アラートの設定と管理の詳細は、[wandb.Run.alert() でアラートを送信]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}})を参照してください。
 
 ## 個人 GitHub インテグレーション
 
-個人の Github アカウントを接続します。 Github アカウントを接続するには：
+個人の GitHub アカウントを接続します。接続手順:
 
-1. **Connect Github** ボタンを選択します。これにより、オープン認証（OAuth）ページにリダイレクトされます。
-2. **Organization access** セクションでアクセスを許可する組織を選択します。
+1. **Connect Github** ボタンを選択します。OAuth（オープン認可）のページにリダイレクトされます。
+2. **Organization access** セクションで、アクセスを許可する組織を選択します。
 3. **Authorize** **wandb** を選択します。
 
-## アカウントの削除
+## アカウントを削除する
 
-アカウントを削除するには、**Delete Account** ボタンを選択します。
+アカウントを削除するには **Delete Account** ボタンを選択します。
 
 {{% alert color="secondary" %}}
 アカウントの削除は元に戻せません。
@@ -73,4 +94,4 @@ Runs がクラッシュしたり、終了したり、カスタムアラートを
 
 ## ストレージ
 
-**Storage** セクションでは、Weights and Biases サーバーにおけるアカウントの総メモリ使用量について説明しています。 デフォルトのストレージプランは 100GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページをご覧ください。
+**Storage** セクションには、あなたのアカウントが Weights and Biases の サーバー 上で消費した合計ストレージ使用量が表示されます。既定のストレージ プランは 100GB です。ストレージと料金の詳細は、[料金](https://wandb.ai/site/pricing) ページをご覧ください。

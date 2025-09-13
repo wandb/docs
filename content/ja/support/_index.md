@@ -5,60 +5,63 @@ menu:
     identifier: ja-support-_index
 ---
 
-{{< banner title="どのようにお手伝いできますか?" background="/images/support/support_banner.png" >}}
+{{< banner title="どのようにお手伝いできますか？" background="/images/support/support_banner.png" >}}
 サポート記事、製品ドキュメント、<br>
-そして W&B コミュニティからのヘルプを検索してください。
+W&B コミュニティからヘルプを検索してください。
 {{< /banner >}}
 
 ## 注目の記事
 
-以下は全てのカテゴリーで最もよくある質問です。
+すべてのカテゴリでよく寄せられる質問をまとめました。
 
-* [`wandb.init` をトレーニング プロセスにどう影響させますか？]({{< relref path="/support/kb-articles/wandbinit_training_process.md" lang="ja" >}})
-* [スイープでカスタム CLI コマンドを使用するにはどうすればよいですか？]({{< relref path="/support/kb-articles/custom_cli_commands_sweeps.md" lang="ja" >}})
-* [メトリクスをオフラインで保存して、後で W&B に同期することは可能ですか？]({{< relref path="/support/kb-articles/same_metric_appearing_more.md" lang="ja" >}})
-* [トレーニング コードで run の名前を設定するにはどうすればよいですか？]({{< relref path="/support/kb-articles/configure_name_run_training_code.md" lang="ja" >}})
+* [`wandb.init` はトレーニング プロセスにどのような影響がありますか？]({{< relref path="/support/kb-articles/wandbinit_training_process.md" lang="ja" >}})
+* [Sweeps でカスタム CLI コマンドを使うには？]({{< relref path="/support/kb-articles/custom_cli_commands_sweeps.md" lang="ja" >}})
+* [メトリクスをオフラインで保存し、後から W&B に同期することは可能ですか？]({{< relref path="/support/kb-articles/same_metric_appearing_more.md" lang="ja" >}})
+* [トレーニング コードで run の名前を設定するには？]({{< relref path="/support/kb-articles/configure_name_run_training_code.md" lang="ja" >}})
 
-探しているものが見つからない場合は、以下の[人気のカテゴリー]({{< relref path="#popular-categories" lang="ja" >}})を参照するか、カテゴリーに基づいて記事を検索してください。
 
-## 人気のカテゴリー
+お探しの情報が見つからない場合は、以下の[人気のカテゴリ]({{< relref path="#popular-categories" lang="ja" >}})を閲覧するか、カテゴリ別に記事を検索してください。
 
-カテゴリー別に記事を参照してください。
+## 人気のカテゴリ
+
+カテゴリ別に記事を閲覧します。
 
 {{< cardpane >}}
   {{< card >}}
-    <a href="/ja/support/experiments/">
-      <h2 className="card-title">実験管理</h2>
-      <p className="card-content">機械学習の実験を追跡、視覚化、比較します</p>
+    <a href="/support/experiments">
+      <h2 className="card-title">Experiments</h2>
+    </a>
+    <p className="card-content">機械学習の実験を追跡・可視化し、比較します</p>
     </a>
   {{< /card >}}
   {{< card >}}
-    <a href="/ja/support/artifacts/">
-      <h2 className="card-title">アーティファクト</h2>
-      <p className="card-content">データセット、モデル、その他の機械学習アーティファクトをバージョン管理して追跡します</p>
+    <a href="/support/artifacts">
+      <h2 className="card-title">Artifacts</h2>
     </a>
+    <p className="card-content">データセットやモデルなどの機械学習アーティファクトをバージョン管理し、追跡します</p>
   {{< /card >}}
 {{< /cardpane >}}
 {{< cardpane >}}
   {{< card >}}
-    <a href="/ja/support/reports/">
-      <h2 className="card-title">レポート</h2>
-      <p className="card-content">インタラクティブでコラボレーション可能なレポートを作成して作業を共有します</p>
+    <a href="/support/reports">
+      <h2 className="card-title">Reports</h2>
     </a>
+    <p className="card-content">作業を共有するための、インタラクティブで共同編集可能なレポートを作成します</p>
   {{< /card >}}
   {{< card >}}
-    <a href="/ja/support/sweeps">
+    <a href="/support/sweeps">
       <h2 className="card-title">Sweeps</h2>
-      <p className="card-content">ハイパーパラメーター検索を自動化します</p>
     </a>
+    <p className="card-content">ハイパーパラメーター探索を自動化します</p>
   {{< /card >}}
 {{< /cardpane >}}
+
 
 {{< card >}}
   <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-    {{< img src="/images/support/callout-icon.svg" alt="Callout Icon" width="32" height="32" >}}
+    {{< img src="/images/support/callout-icon.svg" alt="コールアウト アイコン" width="32" height="32" >}}
   </div>
-  <h2>それでも探しているものが見つからないですか？</h2>
+  <h2>まだお探しの情報が見つかりませんか？</h2>
   <a href="mailto:support@wandb.com" className="contact-us-button">
     サポートに連絡
   </a>

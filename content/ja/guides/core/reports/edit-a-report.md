@@ -1,6 +1,6 @@
 ---
-title: レポートを編集する
-description: App UI を使用してインタラクティブに、または W&B SDK を使用してプログラムで レポート を編集します。
+title: Report を編集する
+description: App UI で対話的に、または W&B SDK を使ってプログラムからレポートを編集できます。
 menu:
   default:
     identifier: ja-guides-core-reports-edit-a-report
@@ -8,39 +8,47 @@ menu:
 weight: 20
 ---
 
-レポートを App UI でインタラクティブに、または W&B SDK を使ってプログラムで編集します。
+{{% alert %}}
+W&B Report and Workspace API はパブリックプレビューです。
+{{% /alert %}}
 
-Reports は _ブロック_ で構成されます。ブロックはレポートの本体を構成します。これらのブロック内でテキスト、画像、組み込みの可視化、実験と run のプロット、パネルグリッドを追加できます。
+report は W&B App の UI で対話的に、または W&B SDK でプログラムから編集できます。
 
-_パネルグリッド_ は、パネルと _run セット_ を保持する特定の種類のブロックです。Run セットは W&B のプロジェクトにログされる run のコレクションです。パネルは run セット データの可視化を行います。
+Reports は _blocks_ から構成されます。blocks は report の本文を形作ります。各 block には、テキストや画像、埋め込みの可視化、Experiments や run のプロット、パネルグリッドを追加できます。
+
+_パネルグリッド_ はパネルと _run set_ を保持する特別な種類の block です。run set は W&B の project にログされた runs の集合です。パネルは run set のデータを可視化したものです。
+
 
 {{% alert %}}
-[プログラム ワークスペースのチュートリアル]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) を参照して、保存済みワークスペースビューを作成およびカスタマイズするステップバイステップの例を見てみましょう。
+保存済みの Workspace ビューを作成・カスタマイズする手順は、[Programmatic Workspaces チュートリアル]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) を参照してください。
 {{% /alert %}}
 
 {{% alert %}}
-プログラムでレポートを編集する場合は、W&B Python SDK に加えて `wandb-workspaces` をインストールしてください：
+レポートをプログラムから編集する場合は、W&B Python SDK に加えて W&B Report and Workspace API `wandb-workspaces` がインストールされていることを確認してください:
 
+```pip
 pip install wandb wandb-workspaces
+```
 {{% /alert %}}
 
 ## プロットを追加する
 
-各パネルグリッドには一連の run セットと一連のパネルがあります。このセクションの下部にある run セットで、グリッド内のパネルに表示されるデータを制御します。異なる run セットからデータを取得するチャートを追加する場合は、新しいパネルグリッドを作成してください。
+各パネルグリッドは run set の集合とパネルの集合を持ちます。セクション下部の run set が、そのグリッド内のパネルに表示されるデータを制御します。別の runs の集合からデータを取得するチャートを追加したい場合は、新しいパネルグリッドを作成してください。
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 
-レポートにスラッシュ（`/`）を入力して、ドロップダウンメニューを表示します。**Add panel** を選択してパネルを追加します。W&B でサポートされている任意のパネルを追加できます。例えば、ラインプロット、散布図や並行座標チャートなどです。
+report 内でスラッシュ（`/`）を入力するとドロップダウンメニューが表示されます。そこから **Add panel** を選んでパネルを追加します。折れ線、散布図、パラレルコーディネートなど、W&B がサポートしている任意のパネルを追加できます。
 
-{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
+{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="レポートにチャートを追加" >}}
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
-SDK を使用してプログラムでレポートにプロットを追加します。`PanelGrid` Public API クラスの `panels` パラメータに、1つ以上のプロットまたはチャートのオブジェクトのリストを渡します。対応する Python クラスを使用してプロットまたはチャートのオブジェクトを作成します。
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
+SDK を使ってプログラムからレポートにプロットを追加します。`PanelGrid` Public API クラスの `panels` パラメータに、1 つ以上のプロットまたはチャートオブジェクトのリストを渡します。各プロットやチャートのオブジェクトは対応する Python クラスで作成します。
 
-以下の例では、ラインプロットと散布図の作成方法を示しています。
+以下の例では、折れ線プロットと散布図の作成方法を示します。
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -61,33 +69,45 @@ blocks = [
 
 report.blocks = blocks
 report.save()
+```
 
-プログラムでレポートに追加できるプロットやチャートの詳細については、`wr.panels` を参照してください。
+レポートにプログラムから追加できるプロットやチャートの詳細は `wr.panels` を参照してください。
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 
-## Run セットを追加する
+## run set を追加する
 
-App UI または W&B SDK を使用して、プロジェクトから run セットを追加します。
+run set は W&B App の UI から対話的に、または W&B SDK から追加できます。
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 
-レポートにスラッシュ（`/`）を入力して、ドロップダウンメニューを表示します。ドロップダウンから Panel Grid を選択します。これにより、レポートが作成されたプロジェクトから自動的に run セットがインポートされます。
+report 内でスラッシュ（`/`）を入力するとドロップダウンメニューが表示されます。ドロップダウンから **Panel Grid** を選びます。これにより、その report が作成された project から自動的に run set が取り込まれます。
+
+パネルを report にインポートすると、run 名は project から継承されます。必要に応じて report 内で読者に文脈を与えるために [run の名前を変更]({{< relref path="/guides/models/track/runs/#rename-a-run" lang="ja" >}}) できます。run の名前変更は個々のパネルの中だけで行われます。同じ report 内でそのパネルをクローンした場合は、クローンしたパネルでも run 名が変更されます。
+
+1. report 内で鉛筆アイコンをクリックしてレポートエディタを開きます。
+1. run set で、名前を変更したい run を探します。report 名の上にカーソルを置き、縦三点リーダーをクリックします。次のいずれかを選び、フォームを送信します。
+
+    - **Rename run for project**: project 全体でその run の名前を変更します。新しいランダム名を生成するには、フィールドを空のままにします。
+    - **Rename run for panel grid**: その report の中だけで run 名を変更し、他のコンテキストでは既存の名前を保持します。新しいランダム名の生成はサポートしていません。
+
+1. **Publish report** をクリックします。
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk"%}}
+{{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
-`wr.Runset()` および `wr.PanelGrid` クラスを使用してプロジェクトから run セットを追加します。以下の手順で run セットの追加方法を示します：
+`wr.Runset()` と `wr.PanelGrid` クラスを使って project から run set を追加します。以下は run set を追加する手順です:
 
-1. `wr.Runset()` オブジェクト インスタンスを作成します。プロジェクト パラメータのために、run セットを含むプロジェクトの名前を指定し、エンティティ パラメータのためにプロジェクトを所有するエンティティを指定します。
-2. `wr.PanelGrid()` オブジェクト インスタンスを作成します。1つ以上の runset オブジェクトを `runsets` パラメータに渡します。
-3. 1つ以上の `wr.PanelGrid()` オブジェクト インスタンスをリストに保存します。
-4. パネルグリッド インスタンスのリストを使用して、レポート インスタンス ブロック属性を更新します。
+1. `wr.Runset()` のオブジェクトを作成します。project パラメータには run set を含む project 名を、entity パラメータにはその project を所有する entity 名を指定します。
+2. `wr.PanelGrid()` のオブジェクトを作成します。`run sets` パラメータに 1 つ以上の run set オブジェクトのリストを渡します。
+3. 1 つ以上の `wr.PanelGrid()` オブジェクトをリストに格納します。
+4. report インスタンスの blocks 属性に、そのパネルグリッドのリストを設定します。
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -103,9 +123,11 @@ panel_grids = wr.PanelGrid(
 
 report.blocks = [panel_grids]
 report.save()
+```
 
-ひとつの SDK 呼び出しで run セットとパネルを追加することもできます：
+1 回の呼び出しで run set とパネルを同時に追加することもできます:
 
+```python
 import wandb
 
 report = wr.Report(
@@ -162,38 +184,341 @@ panel_grids = wr.PanelGrid(
 
 report.blocks = [panel_grids]
 report.save()
+``` 
 
 {{% /tab %}}
 {{< /tabpane >}}
 
 
-## Run セットをフリーズする
+## run set を固定する
 
-レポートはプロジェクトから最新のデータを表示するために run セットを自動的に更新します。しかし、レポート内の run セットを保持するには、その run セットを*フリーズ* することができます。Run セットをフリーズすると、特定の時点のレポート内の run セットの状態が保持されます。
+report は project の最新データを表示するように run set を自動更新します。report 内の run set をある時点の状態のまま残したい場合は、その run set を「固定（freeze）」できます。run set を固定すると、その時点での run set の状態を report 内に保存します。
 
-レポートを表示する際に run セットをフリーズするには、**Filter** ボタンの近くにあるスノーフレーク アイコンをクリックします。
+report を表示中に run set を固定するには、パネルグリッドの **Filter** ボタン近くにある雪の結晶アイコンをクリックします。
 
-{{< img src="/images/reports/freeze_runset.png" alt="" >}}
+{{< img src="/images/reports/freeze_runset.png" alt="Runset を固定するボタン" >}}
 
-## コード ブロックを追加する
+## プログラムから run set をグループ化する
 
-レポートにコードブロックを App UI でインタラクティブに、または W&B SDK で追加します。
+[Workspace and Reports API]({{< relref path="/ref/python/wandb_workspaces/reports" lang="ja" >}}) を使って、プログラムから run set 内の runs をグループ化できます。
+
+run set 内の runs は、config 値、run メタデータ、またはサマリーメトリクスでグループ化できます。以下の表に、利用可能なグルーピング方法と、その際に利用可能なキーを示します:
+
+| グルーピング方法 | 説明 | 利用可能なキー |
+| ---|------| --- |
+| Config values| config 値で runs をグループ化 | `wandb.init(config=)` の config パラメータで指定した値 |
+| Run metadata| run のメタデータで runs をグループ化 | `State`, `Name`, `JobType` |
+| Summary metrics| サマリーメトリクスで runs をグループ化 | `wandb.Run.log()` で run にログした値 |
+
+
+
+
+### config 値でグループ化する
+
+似た設定の runs を比較するために、config 値でグループ化します。config 値は run の設定（`wandb.init(config=)`）で指定するパラメータです。config 値でグループ化するには、`config.<key>` の構文を使います。ここで `<key>` はグループ化対象の config 名です。 
+
+例えば、次のコードスニペットでは、まず `group` の config 値で run を初期化し、その後 report 内で `group` の config 値に基づいて runs をグループ化します。`<entity>` と `<project>` はあなたの W&B の entity と project 名に置き換えてください。
+
+```python
+import wandb
+import wandb_workspaces.reports.v2 as wr
+
+entity = "<entity>"
+project = "<project>"
+
+for group in ["control", "experiment_a", "experiment_b"]:
+    for i in range(3):
+        with wandb.init(entity=entity, project=project, group=group, config={"group": group, "run": i}, name=f"{group}_run_{i}") as run:
+            # 簡単なトレーニングのシミュレーション
+            for step in range(100):
+                run.log({
+                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                    "loss": 1.0 - (step / 100) * 0.5
+                })
+```
+
+Python のスクリプトやノートブック内で、`config.group` の値で runs をグループ化できます:
+
+```python
+runset = wr.Runset(
+  project=project,
+  entity=entity,
+  groupby=["config.group"]  # "group" の config 値でグループ化
+)
+```
+
+続けて、グループ化した run set を用いて report を作成できます:
+
+```python
+report = wr.Report(
+  entity=entity,
+  project=project,
+  title="Grouped Runs Example",
+)
+
+report.blocks = [
+  wr.PanelGrid(
+      runsets=[runset],
+          )
+      ]
+
+report.save()
+```
+
+### run メタデータでグループ化する
+
+run の名前（`Name`）、状態（`State`）、ジョブタイプ（`JobType`）で runs をグループ化できます。 
+
+上の例に続けて、次のコードスニペットで run 名でグループ化できます:
+
+```python
+runset = wr.Runset(
+  project=project,
+  entity=entity,
+  groupby=["Name"]  # run 名でグループ化
+)
+```
+
+{{% alert %}}
+run の名前は `wandb.init(name=)` パラメータで指定した名前です。名前を指定しなかった場合、W&B がランダムな名前を生成します。
+
+run の名前は W&B App の run の **Overview** ページ、またはプログラムから `Api.runs().run.name` で確認できます。
+{{% /alert %}}
+
+### サマリーメトリクスでグループ化する
+
+以下の例は、サマリーメトリクスで runs をグループ化する方法を示します。サマリーメトリクスは `wandb.Run.log()` で run にログした値です。run をログした後は、W&B App の run の **Overview** ページ内 **Summary** セクションでサマリーメトリクス名を確認できます。
+
+サマリーメトリクスでグループ化する構文は `summary.<key>` です。ここで `<key>` はグループ化対象のサマリーメトリクス名です。 
+
+例えば、`acc` というサマリーメトリクスをログしたとします:
+
+```python
+import wandb
+import wandb_workspaces.reports.v2 as wr
+
+entity = "<entity>"
+project = "<project>"
+
+for group in ["control", "experiment_a", "experiment_b"]:
+    for i in range(3):
+        with wandb.init(entity=entity, project=project, group=group, config={"group": group, "run": i}, name=f"{group}_run_{i}") as run:
+            # 簡単なトレーニングのシミュレーション
+            for step in range(100):
+                run.log({
+                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                    "loss": 1.0 - (step / 100) * 0.5
+                })
+
+```
+
+その後、`summary.acc` で runs をグループ化できます:
+
+```python
+runset = wr.Runset(
+  project=project,
+  entity=entity,
+  groupby=["summary.acc"]  # サマリーの値でグループ化 
+)
+```
+
+## プログラムから run set をフィルタする
+
+[Workspace and Reports API]({{< relref path="/ref/python/wandb_workspaces/reports" lang="ja" >}}) を使って、プログラムから run set をフィルタし、report に追加できます。
+
+一般的なフィルタ式の構文は次のとおりです:
+
+```text
+Filter('key') operation <value>
+```
+
+ここで `key` はフィルタ名、`operation` は比較演算子（例: `>`, `<`, `==`, `in`, `not in`, `or`, `and`）、`<value>` は比較対象の値です。`Filter` は適用したいフィルタの種類のプレースホルダーです。利用可能なフィルタと説明は以下のとおりです:
+
+| フィルタ | 説明 | 利用可能なキー |
+| ---|---| --- |
+|`Config('key')` | config 値でフィルタ | `wandb.init(config=)` の `config` パラメータで指定した値 |
+|`SummaryMetric('key')` | サマリーメトリクスでフィルタ | `wandb.Run.log()` で run にログした値 |
+|`Tags('key')` | タグでフィルタ | run に（プログラムから、または W&B App で）追加したタグの値 |
+|`Metric('key')` | run のプロパティでフィルタ | `tags`, `state`, `displayName`, `jobType` |
+
+フィルタを定義したら、`wr.PanelGrid(runsets=)` にフィルタ済みの run set を渡して report を作成できます。本ページの各所にある **Report and Workspace API** タブで、プログラムからレポートにさまざまな要素を追加する方法を参照してください。
+
+以下の例は、report 内で run set をフィルタする方法を示します。`<>` で囲まれた値は適宜置き換えてください。
+
+### Config フィルタ
+
+run set を 1 つ以上の config 値でフィルタします。config 値は run の設定（`wandb.init(config=)`）で指定するパラメータです。
+
+例えば、次のコードスニペットでは、まず `learning_rate` と `batch_size` の config 値で run を初期化し、その後 `learning_rate` の config 値に基づいて report 内の runs をフィルタします。
+
+```python
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+}
+
+with wandb.init(project="<project>", entity="<entity>", config=config) as run:
+    # ここにトレーニングコードを記述
+    pass
+```
+
+Python のスクリプトやノートブック内で、学習率が `0.01` より大きい runs をプログラムからフィルタできます。
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Config('learning_rate') > 0.01"
+)
+```
+
+`and` 演算子を使って複数の config 値でフィルタすることもできます:
+ 
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
+)
+```
+
+前の例に続けて、次のようにフィルタ済みの run set を使って report を作成できます:
+
+```python
+report = wr.Report(
+  entity="<entity>",
+  project="<project>",
+  title="My Report"
+)
+
+report.blocks = [
+  wr.PanelGrid(
+      runsets=[runset],
+      panels=[
+          wr.LinePlot(
+              x="Step",
+              y=["accuracy"],
+          )
+      ]
+  )
+]
+
+report.save()
+```
+
+### Metric フィルタ
+
+run のタグ（`tags`）、run の状態（`state`）、run 名（`displayName`）、ジョブタイプ（`jobType`）で run set をフィルタします。
+
+{{% alert %}}
+`Metric` フィルタは異なる構文を取ります。値の集合はリストとして渡します。
+
+```text
+Metric('key') operation [<value>]
+```
+{{% /alert %}}
+
+例えば、次の Python スニペットは 3 つの run を作成し、それぞれに名前を割り当てます:
+
+```python
+import wandb
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    for i in range(3):
+        run.name = f"run{i+1}"
+        # ここにトレーニングコードを記述
+        pass
+```
+
+report を作成する際に、表示名で runs をフィルタできます。例えば、`run1`、`run2`、`run3` という名前の runs をフィルタするには、次のコードを使います:
+
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Metric('displayName') in ['run1', 'run2', 'run3']"
+)
+```
+
+{{% alert %}}
+run の名前は W&B App の run の **Overview** ページ、またはプログラムから `Api.runs().run.name` で確認できます。
+{{% /alert %}}
+
+以下は run の状態（`finished`、`crashed`、`running`）で run set をフィルタする例です:
+
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Metric('state') in ['finished']"
+)
+```
+
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Metric('state') not in ['crashed']"
+)
+```
+
+
+### SummaryMetric フィルタ
+
+以下はサマリーメトリクスで run set をフィルタする例です。サマリーメトリクスは `wandb.Run.log()` で run にログした値です。run をログした後は、W&B App の run の **Overview** ページ内 **Summary** セクションでサマリーメトリクス名を確認できます。
+
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="SummaryMetric('accuracy') > 0.9"
+)
+```
+
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
+)
+```
+
+### Tags フィルタ
+
+次のコードスニペットは、タグで run set をフィルタする方法を示します。タグは（プログラムから、または W&B App で）run に追加する値です。
+
+```python
+runset = wr.Runset(
+  entity="<entity>",
+  project="<project>",
+  filters="Tags('training') == 'training'"
+)
+```
+
+## コードブロックを追加する
+
+コードブロックは W&B App の UI から、または W&B SDK を使って report に追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-レポートにスラッシュ（`/`）を入力して、ドロップダウン メニューを表示します。ドロップダウンから **Code** を選択します。
+report 内でスラッシュ（`/`）を入力するとドロップダウンメニューが表示されます。ドロップダウンから **Code** を選びます。
 
-コード ブロックの右側にあるプログラミング言語の名前を選択すると、ドロップダウンが展開されます。利用可能なプログラミング言語の構文を選択してください。Javascript、Python、CSS、JSON、HTML、Markdown、YAML から選べます。
+コードブロック右側のプログラミング言語名を選択します。ドロップダウンが開くので、シンタックスハイライトする言語を選びます。JavaScript、Python、CSS、JSON、HTML、Markdown、YAML から選択できます。
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-`wr.CodeBlock` クラスを使用してコード ブロックをプログラムで作成します。言語とコードにそれぞれ表示したい言語名とコードを指定します。
+`wr.CodeBlock` クラスを使って、プログラムからコードブロックを作成します。language と code パラメータに、それぞれ言語名と言語に対応したコードを指定します。
 
-たとえば、以下の例では、YAML ファイルのリストを示しています。
+例えば、次の例は YAML ファイルのリストを示します:
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -206,48 +531,56 @@ report.blocks = [
 ]
 
 report.save()
+```
 
-これにより、次のようなコードブロックがレンダリングされます：
+これは次のようなコードブロックとして表示されます:
 
+```yaml
 this:
 - is
 - a
 cool:
 - yaml
 - file
+```
 
-以下の例では、Python コードブロックを示しています：
+次の例は Python のコードブロックです:
 
+```python
 report = wr.Report(project="report-editing")
 
 
 report.blocks = [wr.CodeBlock(code=["Hello, World!"], language="python")]
 
 report.save()
+```
 
-これにより、次のようなコードブロックがレンダリングされます：
+これは次のようなコードブロックとして表示されます:
 
+```md
 Hello, World!
+```
 
 {{% /tab %}}
 
 {{% /tabpane %}}
 
-## マークダウンを追加する
+## Markdown を追加する
 
-レポートにマークダウンを App UI でインタラクティブに、または W&B SDK で追加します。
+Markdown は W&B App の UI から、または W&B SDK を使って report に追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-レポートにスラッシュ（`/`）を入力して、ドロップダウン メニューを表示します。ドロップダウンから **Markdown** を選択します。
+report 内でスラッシュ（`/`）を入力するとドロップダウンメニューが表示されます。ドロップダウンから **Markdown** を選びます。
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-`wandb.apis.reports.MarkdownBlock` クラスを使用して、プログラムでマークダウンブロックを作成します。`text` パラメータに文字列を渡します：
+`wandb.apis.reports.MarkdownBlock` クラスを使って、プログラムから markdown ブロックを作成します。`text` パラメータに文字列を渡します:
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -256,30 +589,33 @@ report = wr.Report(project="report-editing")
 report.blocks = [
     wr.MarkdownBlock(text="Markdown cell with *italics* and **bold** and $e=mc^2$")
 ]
+```
 
-これにより、次のようなマークダウン ブロックがレンダリングされます：
+これは次のような markdown ブロックとして表示されます:
 
-{{< img src="/images/reports/markdown.png" alt="" >}}
+{{< img src="/images/reports/markdown.png" alt="Markdown ブロックのレンダリング" >}}
 
 {{% /tab %}}
 
 {{% /tabpane %}}
 
-## HTML要素を追加する
 
-レポートに HTML 要素を App UI でインタラクティブに、または W&B SDK で追加します。
+## HTML 要素を追加する
+
+HTML 要素は W&B App の UI から、または W&B SDK を使って report に追加できます。
 
 {{< tabpane text=true >}}
 {{% tab header="App UI" value="app" %}}
 
-レポートにスラッシュ（`/`）を入力して、ドロップダウン メニューを表示します。ドロップダウンからテキスト ブロックの種類を選択します。例として、H2 見出しブロックを作成するには、`Heading 2` のオプションを選択します。
+report 内でスラッシュ（`/`）を入力するとドロップダウンメニューが表示されます。ドロップダウンからテキストブロックの種類を選択します。例えば、H2 の見出しブロックを作成するには、`Heading 2` を選びます。
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-1つ以上の HTML 要素のリストを `wandb.apis.reports.blocks` 属性に渡します。以下の例では、H1、H2、および無順リストを作成する方法を示しています：
+`wandb.apis.reports.blocks` 属性に 1 つ以上の HTML 要素のリストを渡します。以下は H1、H2、箇条書きを作成する例です:
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -292,10 +628,12 @@ report.blocks = [
 ]
 
 report.save()
+```
 
-これにより、次のような HTML 要素がレンダリングされます：
+これは次のように HTML 要素として表示されます:
 
-{{< img src="/images/reports/render_html.png" alt="" >}}
+
+{{< img src="/images/reports/render_html.png" alt="HTML 要素のレンダリング" >}}
 
 {{% /tab %}}
 
@@ -303,37 +641,38 @@ report.save()
 
 ## リッチメディアリンクを埋め込む
 
-レポート内にリッチメディアを App UI で、または W&B SDK で埋め込みます。
+W&B App の UI から、または W&B SDK を使って、report にリッチメディアを埋め込めます。
 
 {{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+{{% tab header="W&B App" value="app" %}}
 
-URL をレポートにコピーアンドペーストして、リッチメディアをレポート内に埋め込みます。以下のアニメーションは、Twitter、YouTube、および SoundCloud からの URL をコピーアンドペーストする方法を示しています。
+URL を report にコピー＆ペーストすると、リッチメディアを埋め込めます。以下のアニメーションは、Twitter、YouTube、SoundCloud から URL をコピー＆ペーストする手順を示します。
 
 ### Twitter
 
-レポートにツイートリンク URL をコピーして貼り付け、ツイートをレポート内に表示します。
+Tweet のリンク URL を report に貼り付けると、report 内でその Tweet を表示できます。
 
-{{< img src="/images/reports/twitter.gif" alt="" >}}
+{{< img src="/images/reports/twitter.gif" alt="Twitter コンテンツの埋め込み" >}}
 
-### YouTube
+### Youtube
 
-レポート内にビデオを埋め込むために YouTube ビデオ URL リンクをコピーアンドペーストします。
+YouTube の動画 URL を貼り付けると、report に動画を埋め込めます。
 
-{{< img src="/images/reports/youtube.gif" alt="" >}}
+{{< img src="/images/reports/youtube.gif" alt="YouTube 動画の埋め込み" >}}
 
 ### SoundCloud
 
-SoundCloud のリンクをコピーアンドペーストして、オーディオファイルをレポート内に埋め込みます。
+SoundCloud のリンクを貼り付けると、report に音声ファイルを埋め込めます。
 
-{{< img src="/images/reports/soundcloud.gif" alt="" >}}
+{{< img src="/images/reports/soundcloud.gif" alt="SoundCloud オーディオの埋め込み" >}}
 
 {{% /tab %}}
 
-{{% tab header="Workspaces API" value="sdk" %}}
+{{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-1 つ以上の埋め込みメディア オブジェクトのリストを `wandb.apis.reports.blocks` 属性に渡します。以下の例では、ビデオと Twitter メディアをレポートに埋め込む方法を示しています：
+`wandb.apis.reports.blocks` 属性に 1 つ以上の埋め込みメディアオブジェクトのリストを渡します。以下は、動画と Twitter のメディアを report に埋め込む例です:
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -342,10 +681,11 @@ report = wr.Report(project="report-editing")
 report.blocks = [
     wr.Video(url="https://www.youtube.com/embed/6riDJMI-Y8U"),
     wr.Twitter(
-        embed_html='<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The voice of an angel, truly. <a href="https://x.com/hashtag/MassEffect?src=hash&amp;ref_src=twsrc%5Etfw">#MassEffect</a> <a href="https://x.com/masseffect/status/1428748886655569924">pic.twitter.com/nMev97Uw7F</a></p>&mdash; Mass Effect (@masseffect) <a href="https://x.com/masseffect/status/1428748886655569924?ref_src=twsrc%5Etfw">August 20, 2021</a></blockquote>\n'
+        embed_html='<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The voice of an angel, truly. <a href="https://twitter.com/hashtag/MassEffect?src=hash&amp;ref_src=twsrc%5Etfw">#MassEffect</a> <a href="https://t.co/nMev97Uw7F">pic.twitter.com/nMev97Uw7F</a></p>&mdash; Mass Effect (@masseffect) <a href="https://twitter.com/masseffect/status/1428748886655569924?ref_src=twsrc%5Etfw">August 20, 2021</a></blockquote>\n'
     ),
 ]
 report.save()
+```
 
 {{% /tab %}}
 
@@ -353,25 +693,25 @@ report.save()
 
 ## パネルグリッドの複製と削除
 
-再利用したいレイアウトがある場合は、パネルグリッドを選択してコピー＆ペーストすることで、同じレポート内に複製したり、別のレポートに貼り付けることができます。
+再利用したいレイアウトがある場合は、パネルグリッドを選択してコピー＆ペーストすることで、同じ report 内に複製したり、別の report に貼り付けることができます。
 
-パネルグリッドセクション全体を強調表示するには、右上隅のドラッグハンドルを選択します。パネルグリッド、テキスト、見出しなど、レポート内の領域をクリックしてドラッグして強調表示および選択します。
+右上のドラッグハンドルを選択して、パネルグリッド全体のセクションをハイライトします。クリック＆ドラッグで、パネルグリッド、テキスト、見出しなど、report 内の領域をハイライトして選択できます。
 
-{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="" >}}
+{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="パネルグリッドのコピー" >}}
 
-パネルグリッドを選択し、キーボードで `delete` を押してパネルグリッドを削除します。
+パネルグリッドを選択した状態で、キーボードの `delete` を押すと削除できます。
 
-{{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
+{{< img src="/images/reports/delete_panel_grid.gif" alt="パネルグリッドの削除" >}}
 
-## レポート内のヘッダーを折りたたんで整理する
+## Reports を整理するために見出しを折りたたむ
 
-テキストブロック内のコンテンツを非表示にするために、レポート内のヘッダーを折りたたみます。レポートが読み込まれると、展開されているヘッダーのみがコンテンツを表示します。レポート内でヘッダーを折りたたむことで、コンテンツを整理し、過剰なデータの読み込みを防ぐことができます。以下の gif はその手順を示しています。
+Report 内の見出しを折りたたむと、テキストブロック内のコンテンツを非表示にできます。report の読み込み時には、展開されている見出しだけがコンテンツを表示します。report の見出しを折りたたむことで、コンテンツを整理し、不要なデータの読み込みを防げます。以下の GIF に手順を示します。
 
-{{< img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report." >}}
+{{< img src="/images/reports/collapse_headers.gif" alt="report 内で見出しを折りたたむ" >}}
 
-## 複数次元の関係を可視化する
+## 多次元にわたる関係を可視化する
 
-複数次元の関係を効果的に可視化するために、変数の 1 つを示すためにカラーバリエーションを使用します。これにより明瞭さが向上し、パターンが解釈しやすくなります。
+多次元にわたる関係を効果的に可視化するには、変数の 1 つを色のグラデーションで表現します。視認性が高まり、パターンを解釈しやすくなります。
 
-1. カラーグラデーションで表現する変数を選択します（例: 罰金スコア、学習率など）。これにより、罰金（色）がトレーニング時間 (x 軸) を経て報酬/副作用 (y 軸) とどのように相互作用するかをより明確に理解できます。
-2. 主要なトレンドを強調します。特定の run グループにカーソルを合わせると、それが可視化で強調表示されます。
+1. 色のグラデーションで表現する変数（例: 罰則スコア、学習率 など）を選びます。これにより、トレーニング時間（x 軸）に対して、報酬/副作用（y 軸）と罰則（色）がどのように相互作用するかをより明確に理解できます。
+2. 主要なトレンドを強調します。特定の run のグループにカーソルを合わせると、可視化内でそれらがハイライト表示されます。

@@ -1,15 +1,16 @@
 ---
-title: 既存の run に Artifacts をログするにはどうすればよいですか？
+title: 既存の run にアーティファクトをログするにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-log_artifact_existing_run
 support:
-  - artifacts
+- artifacts
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-時々、以前にログを記録した run の出力としてアーティファクトをマークする必要があります。この場合、古い run を再初期化し、新しいアーティファクトを次のようにログします:
+
+場合によっては、以前にログした run の出力としてアーティファクトを指定する必要があります。この場合は、古い run を再初期化し、次のように新しいアーティファクトをログします:
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:

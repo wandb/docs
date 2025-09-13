@@ -5,14 +5,15 @@ menu:
     identifier: ja-ref-cli-wandb-job-wandb-job-describe
 ---
 
-**使用方法**
+**使い方**
 
 `wandb job describe [OPTIONS] JOB`
 
 **概要**
 
-ローンンチ ジョブについて説明します。次の形式でローンンチ ジョブを指定してください。
+Launch ジョブの詳細を表示します。Launch ジョブは次の形式で指定します:
 entity/project/job-name:alias-or-version
+
 
 **オプション**
 

@@ -1,5 +1,5 @@
 ---
-title: wandb disabled
+title: wandb は無効化されています
 menu:
   reference:
     identifier: ja-ref-cli-wandb-disabled
@@ -11,7 +11,8 @@ menu:
 
 **概要**
 
-W&B を無効化します。
+W&B を無効にします。
+
 
 **オプション**
 

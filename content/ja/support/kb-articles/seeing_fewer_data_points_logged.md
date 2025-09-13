@@ -1,39 +1,45 @@
 ---
-title: なぜログされたデータポイントが少なく表示されるのですか？
+title: ログした数より少ないデータポイントしか表示されないのはなぜですか？
 menu:
   support:
     identifier: ja-support-kb-articles-seeing_fewer_data_points_logged
 support:
-  - experiments
-  - metrics
+- 実験管理
+- メトリクス
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-メトリクスを `Step` 以外の X 軸に対して視覚化する場合、データポイントが少なくなることがあります。メトリクスは同じ `Step` でログする必要があり、同期を維持します。同じ `Step` でログされるメトリクスのみが、サンプル間の補間中にサンプリングされます。
+
+`Step` 以外の X 軸でメトリクスを可視化すると、表示されるデータポイントが少なくなる場合があります。メトリクスは同期を保つため、同じ `Step` でログする必要があります。サンプル間を補間する際には、同じ `Step` でログされたメトリクスだけがサンプリングされます。
 
 **ガイドライン**
 
-メトリクスを単一の `log()` 呼び出しにバンドルします。例えば、以下のようにするのではなく:
+メトリクスは 1 回の `log()` 呼び出しにまとめてください。例えば、次のようにする代わりに:
 
 ```python
-wandb.log({"Precision": precision})
-...
-wandb.log({"Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
 ```
 
-以下のようにします:
+次のようにします:
 
 ```python
-wandb.log({"Precision": precision, "Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
 ```
 
-ステップパラメータを手動で制御する場合、コード内でメトリクスを次のように同期させます:
+step パラメータを手動で制御する場合は、次のようにコード内でメトリクスを同期させてください:
 
 ```python
-wandb.log({"Precision": precision}, step=step)
-...
-wandb.log({"Recall": recall}, step=step)
+with wandb.init() as run:
+    step = 100  # step の例となる値
+    # Precision と Recall を同じ step でログする
+    run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-メトリクスを同じステップでログし、同時にサンプリングするために、両方の `log()` 呼び出しで `step` 値が同じままであることを確認してください。`step` 値は各呼び出しで単調に増加する必要があります。そうでない場合、`step` 値は無視されます。
+メトリクスを同じ step にまとめてログし、同時にサンプリングさせるには、両方の `log()` 呼び出しで `step` の値が同じであることを確認してください。`step` の値は各呼び出しで単調増加する必要があります。そうでない場合、`step` の値は無視されます。

@@ -1,45 +1,45 @@
 ---
-title: すべてのハイパーパラメーターの値を W&B Sweep の一部として提供する必要がありますか。デフォルト値を設定できますか？
+title: W&B Sweep で、すべてのハイパーパラメーターの値を指定する必要がありますか？デフォルト値を設定できますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
+    identifier: ja-support-kb-articles-need_provide_values_all_hyperparameters_part_wb_sweep_set
 support:
-  - sweeps
+- sweeps
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-ハイパーパラメーターの名前と値にアクセスするには、辞書のように振る舞う `wandb.config` を使って、sweep configuration から取得します。
 
-sweep の外で run を行う場合、`wandb.config` の値を設定するには、辞書を `wandb.init` の `config` 引数に渡します。sweep では、`wandb.init` に提供される任意の設定がデフォルト値として機能し、sweep がそれを上書きできます。
+sweep configuration に含まれるハイパーパラメーター名と値には、辞書のように振る舞う `(run.config())` を使ってアクセスできます。
 
-明示的な振る舞いには `config.setdefaults` を使用します。以下のコードスニペットは両方のメソッドを示しています：
+sweep の外側の run では、`wandb.Run.config()` の値を `wandb.init()` の `config` 引数に辞書を渡して設定します。sweep の中では、`wandb.init()` に渡した任意の設定はデフォルト値として扱われ、sweep がそれを上書きできます。
+
+明示的な振る舞いが必要な場合は `rwandb.Run.config.setdefaults()` を使用します。次のコードスニペットは両方の方法を示します:
 
 {{< tabpane text=true >}}
 {{% tab "wandb.init()" %}}
 ```python
-# ハイパーパラメーターのデフォルト値を設定
+# ハイパーパラメーターのデフォルト値を設定します
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始し、デフォルトを指定
-# sweep がこれを上書きできます
+# run を開始し、デフォルトを指定します
+# sweep が上書き可能
 with wandb.init(config=config_defaults) as run:
-    # トレーニングコードをここに追加
+    # ここにトレーニング コードを追加します
     ...
 ```
 {{% /tab %}}
 {{% tab "config.setdefaults()" %}}
 ```python
-# ハイパーパラメーターのデフォルト値を設定
+# ハイパーパラメーターのデフォルト値を設定します
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始
+# run を開始します
 with wandb.init() as run:
-    # sweep によって設定されていない値を更新
+    # sweep で設定されていない値を更新します
     run.config.setdefaults(config_defaults)
 
-    # トレーニングコードをここに追加
+    # ここにトレーニング コードを追加します
 ```
 {{% /tab %}}
 {{< /tabpane >}}

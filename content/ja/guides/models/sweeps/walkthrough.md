@@ -1,6 +1,6 @@
 ---
-title: 'チュートリアル: Sweep を定義、初期化、実行する'
-description: スイープ クイックスタートでは、スイープを定義、初期化、実行する方法を示します。主な手順は4つあります。
+title: 'チュートリアル: sweep を定義・初期化・実行する'
+description: Sweeps クイックスタート は、sweep を定義し、初期化し、実行する方法を説明します。主な手順は 4 つあります。
 menu:
   default:
     identifier: ja-guides-models-sweeps-walkthrough
@@ -8,32 +8,30 @@ menu:
 weight: 1
 ---
 
-このページでは、スイープを定義、初期化、および実行する方法を示します。主に4つのステップがあります。
+このページでは、sweep を定義・初期化して実行する方法を説明します。主なステップは 4 つあります:
 
-1. [トレーニングコードをセットアップする]({{< relref path="#set-up-your-training-code" lang="ja" >}})
-2. [スイープ設定で探索空間を定義する]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ja" >}})
-3. [スイープを初期化する]({{< relref path="#initialize-the-sweep" lang="ja" >}})
-4. [スイープエージェントを開始する]({{< relref path="#start-the-sweep" lang="ja" >}})
+1. [トレーニング用のコードを準備する]({{< relref path="#set-up-your-training-code" lang="ja" >}})
+2. [sweep configuration で探索空間を定義する]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ja" >}})
+3. [sweep を初期化する]({{< relref path="#initialize-the-sweep" lang="ja" >}})
+4. [sweep agent を開始する]({{< relref path="#start-the-sweep" lang="ja" >}})
 
-以下のコードを Jupyter ノートブックまたは Python スクリプトにコピーして貼り付けてください。
+次の コード を Jupyter Notebook または Python スクリプトにコピー & ペーストしてください:
 
-```python 
-# W&B Python ライブラリをインポートして W&B にログインする
+```python
+# W&B の Python ライブラリをインポートし、W&B にログイン
 import wandb
 
-wandb.login()
-
-# 1: 目的/トレーニング関数を定義する
+# 1: 目的/トレーニング関数を定義
 def objective(config):
     score = config.x**3 + config.y
     return score
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 
-# 2: 探索空間を定義する
+# 2: 探索空間を定義
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -43,47 +41,46 @@ sweep_configuration = {
     },
 }
 
-# 3: スイープを開始する
+# 3: sweep を開始
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-以下のセクションでは、そのコードサンプルの各ステップを分解し、説明します。
+以下のセクションで、サンプル コード の各ステップを解説します。
 
-## トレーニングコードをセットアップする
+## トレーニング用のコードを準備する
+`wandb.Run.config` から ハイパーパラメーター の 値 を受け取り、それを使って モデル を学習し、メトリクス を返す トレーニング関数 を定義します。
 
-`wandb.config` からハイパーパラメーターの値を取り込み、それを使用してモデルをトレーニングし、メトリクスを返すトレーニング関数を定義します。
-
-オプションとして、W&B Run の出力を保存したいプロジェクトの名前（[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}})内のproject パラメータ）を指定します。プロジェクトが指定されていない場合、Run は「Uncategorized」プロジェクトに入ります。
+必要に応じて、W&B の Run の出力を保存したい project 名を指定します（[`wandb.init()`]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) の project パラメータ）。project を指定しない場合、run は "Uncategorized" project に配置されます。
 
 {{% alert %}}
-スイープとrunは同じプロジェクト内にある必要があります。したがって、W&Bを初期化するときに指定する名前は、スイープを初期化するときに指定するプロジェクトの名前と一致する必要があります。
+sweep と run は同じ project に属している必要があります。したがって、W&B を初期化するときに指定する名前は、sweep を初期化するときに指定する project 名と一致していなければなりません。
 {{% /alert %}}
 
 ```python
-# 1: 目的/トレーニング関数を定義する
+# 1: 目的/トレーニング関数を定義
 def objective(config):
     score = config.x**3 + config.y
     return score
 
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 ```
 
-## スイープ設定で探索空間を定義する
+## sweep configuration で探索空間を定義する
 
-探索するハイパーパラメーターを辞書で指定します。設定オプションについては、[スイープ設定を定義する]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}})を参照してください。
+スイープ対象の ハイパーパラメーター を 辞書 に指定します。利用可能な 設定 オプションは、[Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}) を参照してください。
 
-次の例では、ランダム検索（`'method':'random'`）を使用するスイープ設定を示しています。スイープは、バッチサイズ、エポック、および学習率の設定にリストされているランダムな値を無作為に選択します。
+次の例は、ランダム検索（`'method':'random'`）を使う sweep configuration を示しています。sweep は、設定に記載された バッチサイズ、エポック、学習率 の 値 からランダムに組み合わせを選びます。
 
-W&Bは、`"goal": "minimize"`が関連付けられているときに `metric` キーで指定されたメトリクスを最小化します。この場合、W&Bはメトリクス `score`（`"name": "score"`）を最小化するように最適化します。
+`"goal": "minimize"` が指定されている場合、W&B は `metric` キーで指定されたメトリクスを最小化します。この例では、`"name": "score"` により、メトリクス `score` の最小化が最適化目標になります。
 
 ```python
-# 2: 探索空間を定義する
+# 2: 探索空間を定義
 sweep_configuration = {
     "method": "random",
     "metric": {"goal": "minimize", "name": "score"},
@@ -94,34 +91,47 @@ sweep_configuration = {
 }
 ```
 
-## スイープを初期化する
+## Sweep を初期化する
 
-W&Bは、クラウド（標準）またはローカル（ローカル）で複数のマシンを横断してスイープを管理するために、_Sweep Controller_ を使用します。Sweep Controller についての詳細は、[ローカルで探索と停止のアルゴリズムを確認する]({{< relref path="./local-controller.md" lang="ja" >}})を参照してください。
+W&B は _Sweep Controller_ を使って、クラウド（standard）や 1 台以上のマシンにまたがるローカル（local）で sweeps を管理します。_Sweep Controller_ について詳しくは、[Search and stop algorithms locally]({{< relref path="./local-controller.md" lang="ja" >}}) を参照してください。
 
-スイープを初期化すると、スイープ識別番号が返されます。
+sweep を初期化すると、識別番号が返されます:
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-スイープの初期化に関する詳細は、[スイープを初期化する]({{< relref path="./initialize-sweeps.md" lang="ja" >}})を参照してください。
+sweep の初期化について詳しくは、[Initialize sweeps]({{< relref path="./initialize-sweeps.md" lang="ja" >}}) を参照してください。
 
-## スイープを開始する
+## Sweep を開始する
 
-スイープを開始するには、[`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}}) APIコールを使用します。
+sweep を開始するには、[`wandb.agent()`]({{< relref path="/ref/python/sdk/functions/agent.md" lang="ja" >}}) API を呼び出します。
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-## 結果を視覚化する（オプション）
+{{% alert color="secondary" title="マルチプロセッシング" %}}
+Python 標準ライブラリの `multiprocessing` や PyTorch の `pytorch.multiprocessing` パッケージを使う場合は、`wandb.agent()` と `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` で囲む必要があります。例えば次のようにします:
 
-プロジェクトを開くと、W&Bアプリダッシュボードでライブ結果を確認できます。数回のクリックで豊富なインタラクティブグラフを構築します。例えば、[並列座標プロット]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ja" >}})、[パラメータの重要度解析]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ja" >}})、および[その他]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}})です。
+```python
+if __name__ == '__main__':
+    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+```
 
-{{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps ダッシュボード例" >}}
+この慣習で コード をラップすると、スクリプトが直接実行されたときにのみ実行され、ワーカープロセスでモジュールとしてインポートされたときには実行されないことが保証されます。
 
-結果の視覚化方法に関する詳細は、[スイープ結果を視覚化する]({{< relref path="./visualize-sweep-results.md" lang="ja" >}})を参照してください。サンプルのダッシュボードについては、この[スイーププロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)を参照してください。
+マルチプロセッシングの詳細は、[Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) や [PyTorch `multiprocessing`](https://pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` の慣習については https://realpython.com/if-name-main-python/ を参照してください。
+{{% /alert %}}
 
-## エージェントを停止する（オプション）
+## 結果を可視化する (任意)
 
-ターミナルで `Ctrl+C` を押して、現在のランを停止します。もう一度押すと、エージェントが終了します。
+project を開くと、W&B App の ダッシュボード でライブの 結果 を確認できます。数クリックで、[parallel coordinates plots]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ja" >}})、[parameter importance の分析]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ja" >}})、[他のグラフ種類]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}}) など、豊富で インタラクティブな グラフ を作成できます。
+
+{{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard の例" >}}
+
+可視化の詳しい方法は、[Visualize sweep results]({{< relref path="./visualize-sweep-results.md" lang="ja" >}}) を参照してください。ダッシュボードの例は、このサンプル [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3) をご覧ください。
+
+## エージェントを停止する (任意)
+
+ターミナルで `Ctrl+C` を押すと現在の run が停止します。もう一度押すと エージェント を終了します。

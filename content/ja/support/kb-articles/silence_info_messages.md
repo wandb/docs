@@ -1,22 +1,22 @@
 ---
-title: W&B の情報メッセージを消音するにはどうすればいいですか？
+title: W&B の 情報メッセージを抑制するには？
 menu:
   support:
     identifier: ja-support-kb-articles-silence_info_messages
 support:
-  - notebooks
-  - environment variables
+- ノートブック
+- 環境変数
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-ノートブックで次のようなログメッセージを抑制するには:
+
+ノートブック で、次のような ログ メッセージを抑制するには:
 
 ```
 INFO SenderThread:11484 [sender.py:finish():979]
-```
-
-ログレベルを `logging.ERROR` に設定してエラーのみを表示し、情報レベルのログ出力を抑制します。
+``` 
+エラーだけを表示し、INFO レベルの ログ 出力を抑制するには、ログ レベルを `logging.ERROR` に設定します。
 
 ```python
 import logging
@@ -25,7 +25,7 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-ログ出力を完全にオフにするには、`WANDB_SILENT` 環境変数を設定します。これは `wandb.login` を実行する前にノートブックセル内で行う必要があります。
+ログ 出力を大幅に減らすには、`WANDB_QUIET` 環境変数を `True` に設定します。ログ 出力を完全にオフにするには、`WANDB_SILENT` 環境変数を `True` に設定します。ノートブック では、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定します:
 
 {{< tabpane text=true langEqualsHeader=true >}}
 {{% tab "ノートブック" %}}

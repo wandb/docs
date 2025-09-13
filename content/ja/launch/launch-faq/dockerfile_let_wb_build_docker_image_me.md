@@ -1,40 +1,40 @@
 ---
-title: W&B に Dockerfile を指定して、Docker イメージを作成してもらうことはできますか？
+title: Dockerfile を指定して、W&B に Docker イメージのビルドを任せられますか？
 menu:
   launch:
     identifier: ja-launch-launch-faq-dockerfile_let_wb_build_docker_image_me
     parent: launch-faq
 ---
 
-この機能は、要件が安定しているがコードベースが頻繁に変化するプロジェクトに適しています。
+この機能は、要件は安定しているが コードベース が頻繁に変わる プロジェクト に適しています。
 
 {{% alert color="secondary" %}}
-Dockerfile をマウントとして使用するようにフォーマットしてください。詳細は、[Docker Docs の Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)をご覧ください。
+Dockerfile をマウントを利用するように記述してください。詳細は、[Docker Docs ウェブサイトの Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)を参照してください。
 {{% /alert %}}
 
-Dockerfile を設定した後、W&B に指定する方法は次の3つです:
+Dockerfile を設定したら、W&B への指定方法は次の 3 通りです:
 
-* Dockerfile.wandb を使用する
-* W&B CLI を使用する
-* W&B App を使用する
+* Dockerfile.wandb を使う
+* W&B CLI を使う
+* W&B App を使う
 
 {{< tabpane text=true >}}
 {{% tab "Dockerfile.wandb" %}}
-W&B run のエントリポイントと同じディレクトリーに `Dockerfile.wandb` ファイルを含めます。W&B はこのファイルを組み込みの Dockerfile ではなく使用します。
+W&B の run の エントリポイントと同じ ディレクトリーに `Dockerfile.wandb` ファイルを配置してください。W&B は組み込みの Dockerfile の代わりにこのファイルを使用します。 
 {{% /tab %}}
 {{% tab "W&B CLI" %}}
-`wandb launch` コマンドに `--dockerfile` フラグを使用してジョブをキューに追加します:
+`wandb launch` コマンドで `--dockerfile` フラグを使って ジョブ をキューに追加します:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
 {{% /tab %}}
 {{% tab "W&B app" %}}
-W&B App でジョブをキューに追加する際、**Overrides** セクションで Dockerfile のパスを指定します。それをキーと値のペアとして入力し、キーを `"dockerfile"`、値を Dockerfile のパスとします。
+W&B App でキューに ジョブ を追加する際、Dockerfile のパスを **Overrides** セクションで指定します。キーと 値 のペアとして入力し、キーは `"dockerfile"`、値は Dockerfile へのパスにします。
 
-次の JSON は、ローカルディレクトリーに Dockerfile を含む方法を示しています:
+次の JSON は、ローカル ディレクトリーにある Dockerfile を含める方法を示しています:
 
-```json title="Launch job W&B App"
+```json title="W&B App の Launch ジョブ"
 {
   "args": [],
   "run_config": {

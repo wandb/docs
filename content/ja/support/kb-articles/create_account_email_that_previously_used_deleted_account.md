@@ -1,13 +1,13 @@
 ---
-title: 削除されたアカウントで以前使用したメールアドレスを使用して、新しいアカウントを作成することは可能ですか？
+title: 以前に削除されたアカウントで使用していたメールアドレスを使って、新しいアカウントを作成できますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-create_account_email_that_previously_used_deleted_account
+    identifier: ja-support-kb-articles-create_account_email_that_previously_used_deleted_account
 support:
-  - user management
+- ユーザー管理
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-新しいアカウントは、削除されたアカウントに以前関連付けられていたメールを使用することができます。
+
+新規アカウントは、削除されたアカウントに以前関連付けられていたメールアドレスを使用できます。

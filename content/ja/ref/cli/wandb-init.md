@@ -5,19 +5,19 @@ menu:
     identifier: ja-ref-cli-wandb-init
 ---
 
-**使用法**
+**使用方法**
 
 `wandb init [OPTIONS]`
 
 **概要**
 
-Weights & Biases でディレクトリーを設定
+Weights & Biases 用にディレクトリーを設定します
 
 **オプション**
 
 | **オプション** | **説明** |
 | :--- | :--- |
 | `-p, --project` | 使用するプロジェクト。 |
-| `-e, --entity` | プロジェクトを範囲指定するためのエンティティ。 |
-| `--reset` | 設定をリセット |
-| `-m, --mode` | "online"、"offline" または "disabled" を指定可能。デフォルトは online。 |
+| `-e, --entity` | プロジェクトを紐付けるエンティティ。 |
+| `--reset` | 設定をリセットします。 |
+| `-m, --mode` | "online"、"offline"、または "disabled" にできます。デフォルトは online です。 |

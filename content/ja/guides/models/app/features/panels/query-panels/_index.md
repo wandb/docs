@@ -1,156 +1,161 @@
 ---
-title: クエリパネル
-description: このページの一部の機能はベータ版であり、機能フラグの後ろに隠れています。関連するすべての機能をアンロックするには、プロフィールページの自己紹介に
-  `weave-plot` を追加してください。
+title: クエリ パネル
+description: このページの一部の機能はベータ版で、機能フラグの有効化が必要です。プロフィールページの bio に `weave-plot` を追加すると、関連するすべての機能が利用可能になります。
 cascade:
-- url: /ja/guides/app/features/panels/query-panels/:filename
+- url: guides/app/features/panels/query-panels/:filename
 menu:
   default:
     identifier: ja-guides-models-app-features-panels-query-panels-_index
     parent: panels
-url: /ja/guides/app/features/panels/query-panels
+url: guides/app/features/panels/query-panels
 ---
 
 {{% alert %}}
-W&B Weaveをお探しですか？W&Bの生成AIアプリケーション構築のためのツール群ですか？weaveのドキュメントはここで見つけることができます: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge).
+W&B の Weave をお探しですか？ Generative AI アプリケーション構築のための W&B のツール群です。ドキュメントはこちら: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs&utm_medium=docs&utm_campaign=weave-nudge).
 {{% /alert %}}
 
-クエリパネルを使用してデータをクエリし、インタラクティブに視覚化します。
+Query パネルを使って、データをクエリし、インタラクティブに可視化します。
 
-{{< img src="/images/weave/pretty_panel.png" alt="" >}}
+{{< img src="/images/weave/pretty_panel.png" alt="Query パネル" >}}
 
-## クエリパネルを作成する
 
-ワークスペースまたはレポート内にクエリを追加します。
+
+
+## Query パネルを作成する
+
+Workspace や Report にクエリを追加します。
 
 {{< tabpane text=true >}}
-{{% tab header="Project workspace" value="workspace" %}}
+{{% tab header="Project Workspace" value="workspace" %}}
 
-  1. プロジェクトのワークスペースに移動します。
-  2. 右上のコーナーにある `Add panel` をクリックします。
+  1. 対象の Project の Workspace に移動します。 
+  2. 右上の `Add panel` をクリックします。
   3. ドロップダウンから `Query panel` を選択します。
-  {{< img src="/images/weave/add_weave_panel_workspace.png" alt="" >}}
+  {{< img src="/images/weave/add_weave_panel_workspace.png" alt="Add panel のドロップダウン" >}}
 
 {{% /tab %}}
 
 {{% tab header="W&B Report" value="report" %}}
 
-`/Query panel` と入力して選択します。
+「/Query panel」と入力して選択します。
 
-{{< img src="/images/weave/add_weave_panel_report_1.png" alt="" >}}
+{{< img src="/images/weave/add_weave_panel_report_1.png" alt="Query panel のオプション" >}}
 
-または、一連の Runs とクエリを関連付けることができます。
-1. レポート内で、`/Panel grid` と入力して選択します。
+別の方法として、クエリを複数の run に関連付けることもできます:
+1. Report 内で「/Panel grid」と入力して選択します。
 2. `Add panel` ボタンをクリックします。
 3. ドロップダウンから `Query panel` を選択します。
 
 {{% /tab %}}
 {{< /tabpane >}}
+  
 
-## クエリコンポーネント
+## クエリ コンポーネント
 
 ### 式
 
-クエリ式を使用して、W&Bに保存されたデータ、例えば Runs、Artifacts、Models、Tables などをクエリします。
+クエリ式を使って、W&B に保存されているデータ（run、Artifacts、モデル、テーブル など）をクエリできます。 
 
 #### 例: テーブルをクエリする
-W&B Tableをクエリしたいとします。トレーニングコード内で `"cifar10_sample_table"` という名前のテーブルをログします:
+W&B Table をクエリしたいとします。トレーニング コードで "cifar10_sample_table" というテーブルをログしています:
 
 ```python
 import wandb
-wandb.log({"cifar10_sample_table":<MY_TABLE>})
+with wandb.init() as run:
+  run.log({"cifar10_sample_table":<MY_TABLE>})
 ```
 
-クエリパネル内でテーブルをクエリするには次のようにします:
+Query パネル内では、次のようにテーブルをクエリできます:
 ```python
 runs.summary["cifar10_sample_table"]
 ```
-{{< img src="/images/weave/basic_weave_expression.png" alt="" >}}
+{{< img src="/images/weave/basic_weave_expression.png" alt="テーブルのクエリ式" >}}
 
-これを分解すると:
+内訳:
 
-* `runs` は、ワークスペースに Query Panel があるときに自動的に Query Panel Expressions に注入される変数です。その値は、その特定のワークスペースに表示される Runs のリストです。[Run内の利用可能な異なる属性についてはこちらをお読みください]({{< relref path="../../../../track/public-api-guide.md#understanding-the-different-attributes" lang="ja" >}})。
-* `summary` は、Run の Summary オブジェクトを返す操作です。Opsは _マップされる_ ため、この操作はリスト内の各 Run に適用され、その結果として Summary オブジェクトのリストが生成されます。
-* `["cifar10_sample_table"]` は Pick 操作（角括弧で示され）、`predictions` というパラメータを持ちます。Summary オブジェクトは辞書またはマップのように動作するため、この操作は各 Summary オブジェクトから `predictions` フィールドを選択します。
+* `runs` は、Workspace 上の Query パネルでクエリ式に自動注入される変数です。その「値」は、その Workspace で表示可能な run のリストです。[Run 内で利用可能なさまざまな属性についてはこちらを参照]({{< relref path="../../../../track/public-api-guide.md#understanding-the-different-attributes" lang="ja" >}})。
+* `summary` は、ある Run の Summary オブジェクトを返す op です。Ops は _mapped_ であり、この op はリスト内の各 Run に適用され、その結果 Summary オブジェクトのリストが得られます。
+* `["cifar10_sample_table"]` は Pick op（角括弧で表記）で、引数は `predictions` です。Summary オブジェクトは辞書（map）のように扱えるため、この操作は各 Summary オブジェクトから `predictions` フィールドを取り出します。
 
-インタラクティブに独自のクエリの書き方を学ぶには、[こちらのレポート](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)を参照してください。
+インタラクティブに独自のクエリを書く方法は、[Query panel のデモ](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)をご覧ください。
 
 ### 設定
 
-パネルの左上コーナーにあるギアアイコンを選択してクエリ設定を展開します。これにより、ユーザーはパネルのタイプと結果パネルのパラメータを設定できます。
+パネル左上の歯車アイコンを選ぶと、クエリの設定を展開できます。これにより、パネルの種類や結果パネルのパラメータを設定できます。
 
-{{< img src="/images/weave/weave_panel_config.png" alt="" >}}
+{{< img src="/images/weave/weave_panel_config.png" alt="パネルの設定メニュー" >}}
 
 ### 結果パネル
 
-最後に、クエリ結果パネルは、選択したクエリパネル、設定によって設定された構成に基づいて、データをインタラクティブに表示する形式でクエリ式の結果をレンダリングします。次の画像は、同じデータのテーブルとプロットを示しています。
+最後に、クエリ結果パネルは、選択した Query パネルと設定内容にもとづいてクエリ式の結果をレンダリングし、データをインタラクティブに表示します。以下は同じデータを Table と Plot で表示した例です。
 
-{{< img src="/images/weave/result_panel_table.png" alt="" >}}
+{{< img src="/images/weave/result_panel_table.png" alt="テーブルの結果パネル" >}}
 
-{{< img src="/images/weave/result_panel_plot.png" alt="" >}}
+{{< img src="/images/weave/result_panel_plot.png" alt="プロットの結果パネル" >}}
 
 ## 基本操作
-次に、クエリパネル内で行える一般的な操作を示します。
-### ソート
-列オプションからソートします:
-{{< img src="/images/weave/weave_sort.png" alt="" >}}
+Query パネル内でよく使う操作は次のとおりです。
+### Sort
+列のオプションからソートできます:
+{{< img src="/images/weave/weave_sort.png" alt="列のソート オプション" >}}
 
-### フィルター
-クエリ内で直接、または左上隅のフィルターボタンを使用してフィルターできます（2枚目の画像）。
-{{< img src="/images/weave/weave_filter_1.png" alt="" >}}
-{{< img src="/images/weave/weave_filter_2.png" alt="" >}}
+### Filter
+クエリ内で直接フィルターするか、左上のフィルター ボタン（2 枚目の画像）を使っても構いません。
+{{< img src="/images/weave/weave_filter_1.png" alt="クエリのフィルター構文" >}}
+{{< img src="/images/weave/weave_filter_2.png" alt="フィルター ボタン" >}}
 
-### マップ
-マップ操作はリストを反復し、データ内の各要素に関数を適用します。これは、パネルクエリを使用して直接行うことも、列オプションから新しい列を挿入することによって行うこともできます。
-{{< img src="/images/weave/weave_map.png" alt="" >}}
-{{< img src="/images/weave/weave_map.gif" alt="" >}}
+### Map
+Map 操作は、リストを走査して各要素に関数を適用します。パネルのクエリで直接実行することも、列のオプションから新しい列を挿入して実行することもできます。
+{{< img src="/images/weave/weave_map.png" alt="Map 操作のクエリ" >}}
+{{< img src="/images/weave/weave_map.gif" alt="Map 列の挿入" >}}
 
-### グループ化
-クエリを使用してまたは列オプションからグループ化できます。
-{{< img src="/images/weave/weave_groupby.png" alt="" >}}
-{{< img src="/images/weave/weave_groupby.gif" alt="" >}}
+### Groupby
+groupby は、クエリで行うことも、列のオプションから行うこともできます。
+{{< img src="/images/weave/weave_groupby.png" alt="Group by のクエリ" >}}
+{{< img src="/images/weave/weave_groupby.gif" alt="Group by の列オプション" >}}
 
-### 連結
-連結操作により、2つのテーブルを連結し、パネル設定から連結または結合できます。
-{{< img src="/images/weave/weave_concat.gif" alt="" >}}
+### Concat
+concat 操作では 2 つのテーブルを連結できます。連結や結合はパネルの設定からも実行できます。
+{{< img src="/images/weave/weave_concat.gif" alt="テーブルの連結" >}}
 
-### 結合
-クエリ内でテーブルを直接結合することも可能です。次のクエリ式を考えてみてください:
+### Join
+クエリ内でテーブルを直接結合することも可能です。次のクエリ式を考えてみましょう:
 ```python
 project("luis_team_test", "weave_example_queries").runs.summary["short_table_0"].table.rows.concat.join(\
 project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"].table.rows.concat,\
 (row) => row["Label"],(row) => row["Label"], "Table1", "Table2",\
 "false", "false")
 ```
-{{< img src="/images/weave/weave_join.png" alt="" >}}
+{{< img src="/images/weave/weave_join.png" alt="テーブルの結合操作" >}}
 
-左のテーブルは次のように生成されます:
+左側のテーブルは次の式で生成しています:
 ```python
 project("luis_team_test", "weave_example_queries").\
 runs.summary["short_table_0"].table.rows.concat.join
 ```
-右のテーブルは次のように生成されます:
+右側のテーブルは次の式で生成しています:
 ```python
 project("luis_team_test", "weave_example_queries").\
 runs.summary["short_table_1"].table.rows.concat
 ```
-ここで:
-* `(row) => row["Label"]` は各テーブルのセレクタであり、結合する列を決定します
-* `"Table1"` と `"Table2"` は、結合された各テーブルの名前です
-* `true` と `false` は、左および右の内/外部結合設定です
+Where:
+* `(row) => row["Label"]` は各テーブルのセレクターで、どの列を結合キーにするかを指定します
+* `"Table1"` と `"Table2"` は、結合後に各テーブルを表す名前です
+* `true` と `false` は、left / right の inner / outer 結合設定に対応します
 
-## Runsオブジェクト
-クエリパネルを使用して `runs` オブジェクトにアクセスします。Runオブジェクトは、実験の記録を保存します。詳細については、[こちらのレポート](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object)のセクションを参照してくださいが、簡単な概要として、`runs` オブジェクトには以下が含まれます:
-* `summary`: Runの結果を要約する情報の辞書です。精度や損失のようなスカラーや、大きなファイルを含むことができます。デフォルトでは、`wandb.log()`は記録された時系列の最終的な値をsummaryに設定します。直接summaryの内容を設定することもできます。summaryはRunの出力と考えてください。
-* `history`: モデルがトレーニング中に変化する値を格納するための辞書のリストです。コマンド `wandb.log()` はこのオブジェクトに追加します。
-* `config`: Runの設定情報を含む辞書で、トレーニングランのハイパーパラメーターやデータセットアーティファクトを作成するランの前処理方法などが含まれます。これらはRunの「入力」として考えてください。
-{{< img src="/images/weave/weave_runs_object.png" alt="" >}}
 
-## Artifactsにアクセスする
+## Runs オブジェクト
+Query パネルを使って `runs` オブジェクトにアクセスできます。Run オブジェクトは実験の記録を保存します。詳細は [Accessing Runs object](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object) を参照してください。概要として、`runs` オブジェクトには次が利用できます:
+* `summary`: run の結果を要約する情報の辞書。精度や損失のようなスカラーや、大きなファイルを含むこともあります。デフォルトでは、`wandb.Run.log()` はログされた時系列の最終値を summary に設定します。summary の内容は直接設定することもできます。summary は run の出力だと考えてください。
+* `history`: モデルのトレーニング中に変化する値（損失など）を保存するための辞書のリスト。`wandb.Run.log()` はこのオブジェクトに追記します。
+* `config`: run の設定情報（トレーニング run のハイパーパラメーターや、データセット Artifact を作成する run の前処理メソッドなど）の辞書。run の「入力」に相当します。
+{{< img src="/images/weave/weave_runs_object.png" alt="Runs オブジェクトの構造" >}}
 
-Artifacts は W&B の中核概念です。これは、バージョン管理された名前付きファイルやディレクトリーのコレクションです。Artifacts を使用して、モデルの重み、データセット、およびその他のファイルやディレクトリーを追跡します。Artifacts は W&B に保存され、他の runs でダウンロードまたは使用できます。詳細と例は、[こちらのセクション](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)のレポートで確認できます。Artifacts は通常、`project` オブジェクトからアクセスします:
-* `project.artifactVersion()`: プロジェクト内の特定の名前とバージョンのアーティファクトバージョンを返します
-* `project.artifact("")`: プロジェクト内の特定の名前のアーティファクトを返します。その後、`.versions` を使用してこのアーティファクトのすべてのバージョンのリストを取得できます
-* `project.artifactType()`: プロジェクト内の特定の名前の `artifactType` を返します。その後、`.artifacts` を使用して、このタイプを持つすべてのアーティファクトのリストを取得できます
-* `project.artifactTypes`: プロジェクト内のすべてのアーティファクトタイプのリストを返します
-{{< img src="/images/weave/weave_artifacts.png" alt="" >}}
+## Artifacts にアクセス
+
+Artifacts は W&B の中核概念です。バージョン管理された、名前付きのファイルやディレクトリーのコレクションです。Artifacts を使って、モデルの重み、データセット、その他のファイルやディレクトリーを追跡できます。Artifacts は W&B に保存され、ダウンロードしたり、他の run で利用したりできます。詳細と例は [Accessing Artifacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) を参照してください。Artifacts は通常 `project` オブジェクトからアクセスします:
+* `project.artifactVersion()`: Project 内で、指定した名前とバージョンに対応する特定の Artifact バージョンを返します
+* `project.artifact("")`: Project 内で、指定した名前の Artifact を返します。続いて `.versions` を使うと、その Artifact のすべてのバージョン一覧を取得できます
+* `project.artifactType()`: Project 内で、指定した名前の `artifactType` を返します。続いて `.artifacts` を使うと、そのタイプの Artifact 一覧を取得できます
+* `project.artifactTypes`: その Project 配下のすべての Artifact タイプの一覧を返します
+{{< img src="/images/weave/weave_artifacts.png" alt="Artifact へのアクセス方法" >}}

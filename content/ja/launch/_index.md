@@ -1,6 +1,6 @@
 ---
-title: ローンンチ
-description: ML ジョブを簡単にスケールし、管理するには W&B Launch を使用します。
+title: Launch
+description: W&B Launch を使って ML ジョブを簡単にスケールし、管理できます。
 cascade:
   menu:
     launch:
@@ -10,6 +10,6 @@ menu:
   launch:
     identifier: ja-launch-_index
 type: docs
-url: /ja/guides/launch
+url: guides/launch
 ---
 

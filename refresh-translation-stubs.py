@@ -1,7 +1,32 @@
+# uv pip install simple-parsing python-frontmatter
+#
+# uv run refresh-translation-stubs.py ja
+
 import os
 import shutil
 import re
+from dataclasses import dataclass
 import frontmatter
+import simple_parsing as sp
+
+
+ITEMS_TO_COPY = [
+    'content/en/guides',
+    'content/en/launch',
+    'content/en/launch-library',
+    'content/en/ref',
+    'content/en/support',
+    'content/en/tutorials',
+    'content/en/_includes',
+    'content/en/_index.md',
+    'content/en/search.md'
+]
+
+@dataclass
+class Config:
+    languages_to_copy: list[str] = sp.field(default_factory=lambda: ['ja'], positional=True)
+    items_to_copy: list[str] = sp.field(default_factory=lambda: ITEMS_TO_COPY)
+
 
 def clean_directory(directory):
     """Remove directory if it exists and create it fresh."""
@@ -117,16 +142,8 @@ def copy_and_process_directory(src, dest, subdirectory):
             ensure_directory_exists(dest_path)
             shutil.copy2(src_path, dest_path)
 
-def process_language(subdirectory):
+def process_language(subdirectory, items_to_copy):
     """Process all content for a specific language subdirectory."""
-    items_to_copy = [
-        'content/guides',
-        'content/launch',
-        'content/ref',
-        'content/support',
-        'content/tutorials',
-        'content/_index.md'
-    ]
     
     # Clean and create target directory
     clean_directory(subdirectory)
@@ -135,26 +152,27 @@ def process_language(subdirectory):
     for item in items_to_copy:
         src_path = item
         # Remove 'content/' from the source path when constructing destination
-        dest_path = os.path.join(subdirectory, item.replace('content/', '', 1))
+        dest_path = os.path.join(subdirectory, item.replace('content/en/', '', 1))
         
         if os.path.isdir(src_path):
             copy_and_process_directory(src_path, dest_path, subdirectory)
         elif src_path.endswith('.md'):
             process_markdown_file(src_path, dest_path, subdirectory)
 
-def main():
+def main(languages_to_copy: list[str], items_to_copy: list[str]):
     # List of target language directories
-    language_dirs = ['content/ja', 'content/ko']
+    language_dirs = [f'content/{lang}' for lang in languages_to_copy]
     
     print("Starting i18n seed process...")
     
     # Process each language
     for lang_dir in language_dirs:
         print(f"\nProcessing {lang_dir}...")
-        process_language(lang_dir)
+        process_language(lang_dir, items_to_copy)
         print(f"Completed processing {lang_dir}")
     
     print("\ni18n re-seed process complete!")
 
 if __name__ == "__main__":
-    main()
+    config = sp.parse(Config)
+    main(config.languages_to_copy, config.items_to_copy)

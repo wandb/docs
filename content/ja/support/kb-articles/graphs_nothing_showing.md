@@ -4,9 +4,10 @@ menu:
   support:
     identifier: ja-support-kb-articles-graphs_nothing_showing
 support:
-  - experiments
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-"まだ可視化データがログされていません" というメッセージが表示される場合、スクリプトが最初の `wandb.log` 呼び出しを実行していないことを意味します。この状況は、run がステップを完了するのに長い時間がかかる場合に発生することがあります。データのログを迅速化するために、エポックの終わりだけでなく エポックごとに複数回ログを行ってください。
+
+「No visualization data logged yet」というメッセージが表示される場合、スクリプトが最初の `wandb.log` の呼び出しを実行していません。この状況は、 run がステップを完了するのに時間がかかっているときに発生することがあります。データのログを早めるには、最後に 1 回だけではなく、エポックごとに複数回ログしてください。

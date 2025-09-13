@@ -1,27 +1,24 @@
 ---
-title: ファイルタブに表示されないファイルを見るにはどうすればよいですか？
+title: Files タブに表示されないファイルを表示するにはどうすればよいですか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-how_can_i_see_files_that_do_not_appear_in_the_files_tab
+    identifier: ja-support-kb-articles-how_can_i_see_files_that_do_not_appear_in_the_files_tab
 support:
-  - experiments
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-Files タブは最大 10,000 個のファイルを表示します。すべてのファイルをダウンロードするには、[パブリック API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) を使用します。
+
+Files タブには、最大 10,000 個のファイルが表示されます。すべてのファイルをダウンロードするには、[公開 API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) を使用してください:
 
 ```python
 import wandb
 
-# APIを使用してエンティティ、プロジェクト、およびrunを取得
 api = wandb.Api()
 run = api.run('<entity>/<project>/<run_id>')
-# 特定のファイルをダウンロード
 run.file('<file>').download()
 
-# 条件に応じたファイルをダウンロード
 for f in run.files():
     if <condition>:
         f.download()

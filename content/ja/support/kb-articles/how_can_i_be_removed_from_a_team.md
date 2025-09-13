@@ -1,13 +1,14 @@
 ---
-title: チームから外れるにはどうすればいいですか？
+title: 自分を Team から削除してもらうにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-how_can_i_be_removed_from_a_team
 support:
-  - administrator
-  - team management
+- 管理者
+- Teams の 管理
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-チームの 管理者は、チーム 設定の **Users** タブから [チームからあなたを削除する]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}}) ことができます。
+
+Team の管理者は、Team の設定の **Users** タブから [Team からあなたを削除]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ja" >}}) できます。

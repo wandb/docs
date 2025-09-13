@@ -8,10 +8,11 @@ menu:
   reference:
     identifier: ja-ref-query-panel-_index
     parent: reference
+weight: 4
 ---
 
-クエリエクスプレッションを使用して、Runs と Projects にまたがるデータを選択および集計します。
-[クエリパネル]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}})についてさらに学びましょう。
+クエリ式を使って、runs と projects をまたいでデータを選択・集約します。
+詳しくは [クエリ パネル]({{< relref path="/guides/models/app/features/panels/query-panels/" lang="ja" >}}) を参照してください。
 
 ## データ型
 

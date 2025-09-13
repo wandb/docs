@@ -1,22 +1,23 @@
 ---
-title: アカウントを法人から学術用に変更するにはどうすれば良いですか？
+title: 企業アカウントからアカデミックアカウントに変更するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-change_account_from_corporate_academic
 support:
-  - administrator
-  - academic
-  - user management
+- 管理者
+- アカデミック
+- ユーザー管理
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-Weights & Biases でアカウントを企業用から学術用に変更するには、次の手順に従ってください。
 
-1. **学術用メールをリンクする**:
-   - アカウント設定に アクセス します。
-   - 学術用メールを追加し、プライマリメールとして設定します。
+W&B でアカウントをコーポレートからアカデミックに変更するには、次の手順に従ってください:
 
-2. **学術プランに応募する**:
-   - [https://wandb.ai/academic_application](https://wandb.ai/academic_application) にある学術応募ページを訪問します。
-   - 応募用紙を送信し、レビューを受けます。
+1. **学術機関のメールアドレスをリンクする**:
+   - アカウント設定にアクセスします。
+   - 学術機関のメールアドレスを追加し、プライマリメールとして設定します。
+
+2. **アカデミックプランに申し込む**:
+   - [W&B のアカデミックアプリケーションページ](https://wandb.ai/academic_application) を参照します。
+   - 審査のために申請を送信します。

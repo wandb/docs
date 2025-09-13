@@ -8,17 +8,17 @@ menu:
 weight: 420
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) は、PyTorch による強化学習アルゴリズムの信頼性のある実装セットです。W&B の SB3 インテグレーション:
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) は、PyTorch で実装された信頼性の高い強化学習アルゴリズム群です。W&B の SB3 インテグレーションは次のことができます:
 
 * 損失やエピソードごとのリターンなどのメトリクスを記録します。
-* ゲームをプレイするエージェントのビデオをアップロードします。
-* トレーニング済みモデルを保存します。
+* エージェントがゲームをプレイする動画をアップロードします。
+* 学習済みのモデルを保存します。
 * モデルのハイパーパラメーターをログします。
 * モデルの勾配ヒストグラムをログします。
 
-W&B を用いた SB3 トレーニング run の[例](https://wandb.ai/wandb/sb3/runs/1jyr6z10)をレビューしてください。
+[例として SB3 のトレーニング run](https://wandb.ai/wandb/sb3/runs/1jyr6z10) を確認してください。
 
-## SB3 実験をログする
+## SB3 の実験をログに記録する
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -26,20 +26,20 @@ from wandb.integration.sb3 import WandbCallback
 model.learn(..., callback=WandbCallback())
 ```
 
-{{< img src="/images/integrations/stable_baselines_demo.gif" alt="" >}}
+{{< img src="/images/integrations/stable_baselines_demo.gif" alt="W&B と併用した Stable Baselines 3 のトレーニング" >}}
 
-## WandbCallback 引数
+## WandbCallback の引数
 
 | 引数 | 使用法 |
 | :--- | :--- |
-| `verbose` | sb3 出力の詳細度 |
-| `model_save_path` | モデルが保存されるフォルダーへのパス。デフォルト値は `None` で、モデルはログされません。 |
+| `verbose` | SB3 の出力の詳細度 |
+| `model_save_path` | モデルを保存するフォルダへのパス。デフォルトの値は `None` なのでモデルはログされません |
 | `model_save_freq` | モデルを保存する頻度 |
-| `gradient_save_freq` | 勾配をログする頻度。デフォルト値は 0 で、勾配はログされません。 |
+| `gradient_save_freq` | 勾配をログする頻度。デフォルトの値は 0 なので勾配はログされません |
 
-## 基本的な例
+## 基本例
 
-W&B SB3 インテグレーションは、TensorBoard から出力されたログを使用してメトリクスをログします。
+W&B の SB3 インテグレーションは、TensorBoard のログ出力を使ってメトリクスをログします。
 
 ```python
 import gym
@@ -58,9 +58,9 @@ config = {
 run = wandb.init(
     project="sb3",
     config=config,
-    sync_tensorboard=True,  # sb3 の tensorboard メトリクスを自動アップロード
-    monitor_gym=True,  # ゲームをプレイするエージェントのビデオを自動アップロード
-    save_code=True,  # オプション
+    sync_tensorboard=True,  # SB3 の TensorBoard メトリクスを自動アップロード
+    monitor_gym=True,  # エージェントがゲームをプレイする動画を自動アップロード
+    save_code=True,  # 任意
 )
 
 

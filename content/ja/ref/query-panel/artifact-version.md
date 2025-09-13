@@ -1,21 +1,21 @@
 ---
-title: artifact バージョン
+title: artifactVersion
 menu:
   reference:
     identifier: ja-ref-query-panel-artifact-version
 ---
 
-## Chainable Ops
+## チェーン可能な Ops
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 
-[artifactVersion](artifact-version.md) のエイリアスを返します
+[artifactVersion](artifact-version.md) の エイリアス を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) のエイリアス
+[artifactVersion](artifact-version.md) の エイリアス
 
 <h3 id="artifactVersion-createdAt"><code>artifactVersion-createdAt</code></h3>
 
@@ -30,26 +30,26 @@ menu:
 
 <h3 id="artifactVersion-file"><code>artifactVersion-file</code></h3>
 
-指定されたパスの [artifactVersion](artifact-version.md) の_ファイル_を返します
+指定されたパスに対する [artifactVersion](artifact-version.md) の _ファイル_ を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
-| `path` | _ファイル_のパス |
+| `path` | _ファイル_ の パス |
 
 #### 戻り値
-指定されたパスの [artifactVersion](artifact-version.md) の_ファイル_
+指定されたパスに対する [artifactVersion](artifact-version.md) の _ファイル_
 
 <h3 id="artifactVersion-files"><code>artifactVersion-files</code></h3>
 
-[artifactVersion](artifact-version.md) の_ファイル_の_リスト_を返します
+[artifactVersion](artifact-version.md) の _ファイル_ の _リスト_ を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) の_ファイル_の_リスト_
+[artifactVersion](artifact-version.md) の _ファイル_ の _リスト_
 
 <h3 id="artifactVersion-link"><code>artifactVersion-link</code></h3>
 
@@ -64,47 +64,47 @@ menu:
 
 <h3 id="artifactVersion-metadata"><code>artifactVersion-metadata</code></h3>
 
-[artifactVersion](artifact-version.md) のメタデータ辞書を返します
+[artifactVersion](artifact-version.md) の メタデータ の 辞書を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) のメタデータ辞書
+[artifactVersion](artifact-version.md) の メタデータ の 辞書
 
 <h3 id="artifactVersion-name"><code>artifactVersion-name</code></h3>
 
-[artifactVersion](artifact-version.md) の名前を返します
+[artifactVersion](artifact-version.md) の 名前を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) の名前
+[artifactVersion](artifact-version.md) の 名前
 
 <h3 id="artifactVersion-size"><code>artifactVersion-size</code></h3>
 
-[artifactVersion](artifact-version.md) のサイズを返します
+[artifactVersion](artifact-version.md) の サイズを返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) のサイズ
+[artifactVersion](artifact-version.md) の サイズ
 
 <h3 id="artifactVersion-usedBy"><code>artifactVersion-usedBy</code></h3>
 
-[artifactVersion](artifact-version.md) を使用する [runs](run.md) を返します
+[artifactVersion](artifact-version.md) を使用している [runs](run.md) を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) を使用する [runs](run.md)
+[artifactVersion](artifact-version.md) を使用している [runs](run.md)
 
 <h3 id="artifactVersion-versionId"><code>artifactVersion-versionId</code></h3>
 
@@ -118,17 +118,17 @@ menu:
 [artifactVersion](artifact-version.md) の versionId
 
 
-## List Ops
+## リスト Ops
 <h3 id="artifactVersion-aliases"><code>artifactVersion-aliases</code></h3>
 
-[artifactVersion](artifact-version.md) のエイリアスを返します
+[artifactVersion](artifact-version.md) の エイリアス を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) のエイリアス
+[artifactVersion](artifact-version.md) の エイリアス
 
 <h3 id="artifactVersion-createdAt"><code>artifactVersion-createdAt</code></h3>
 
@@ -143,26 +143,26 @@ menu:
 
 <h3 id="artifactVersion-file"><code>artifactVersion-file</code></h3>
 
-指定されたパスの [artifactVersion](artifact-version.md) の_ファイル_を返します
+指定されたパスに対する [artifactVersion](artifact-version.md) の _ファイル_ を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
-| `path` | _ファイル_のパス |
+| `path` | _ファイル_ の パス |
 
 #### 戻り値
-指定されたパスの [artifactVersion](artifact-version.md) の_ファイル_
+指定されたパスに対する [artifactVersion](artifact-version.md) の _ファイル_
 
 <h3 id="artifactVersion-files"><code>artifactVersion-files</code></h3>
 
-[artifactVersion](artifact-version.md) の_ファイル_の_リスト_を返します
+[artifactVersion](artifact-version.md) の _ファイル_ の _リスト_ を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) の_ファイル_の_リスト_
+[artifactVersion](artifact-version.md) の _ファイル_ の _リスト_
 
 <h3 id="artifactVersion-link"><code>artifactVersion-link</code></h3>
 
@@ -177,47 +177,47 @@ menu:
 
 <h3 id="artifactVersion-metadata"><code>artifactVersion-metadata</code></h3>
 
-[artifactVersion](artifact-version.md) のメタデータ辞書を返します
+[artifactVersion](artifact-version.md) の メタデータ の 辞書を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) のメタデータ辞書
+[artifactVersion](artifact-version.md) の メタデータ の 辞書
 
 <h3 id="artifactVersion-name"><code>artifactVersion-name</code></h3>
 
-[artifactVersion](artifact-version.md) の名前を返します
+[artifactVersion](artifact-version.md) の 名前を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) の名前
+[artifactVersion](artifact-version.md) の 名前
 
 <h3 id="artifactVersion-size"><code>artifactVersion-size</code></h3>
 
-[artifactVersion](artifact-version.md) のサイズを返します
+[artifactVersion](artifact-version.md) の サイズを返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) のサイズ
+[artifactVersion](artifact-version.md) の サイズ
 
 <h3 id="artifactVersion-usedBy"><code>artifactVersion-usedBy</code></h3>
 
-[artifactVersion](artifact-version.md) を使用する [runs](run.md) を返します
+[artifactVersion](artifact-version.md) を使用している [runs](run.md) を返します
 
 | 引数 |  |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](artifact-version.md) |
 
 #### 戻り値
-[artifactVersion](artifact-version.md) を使用する [runs](run.md)
+[artifactVersion](artifact-version.md) を使用している [runs](run.md)
 
 <h3 id="artifactVersion-versionId"><code>artifactVersion-versionId</code></h3>
 

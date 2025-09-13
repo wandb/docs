@@ -1,5 +1,5 @@
 ---
-title: ワークスペース
+title: Workspaces
 menu:
   reference:
     identifier: ja-ref-python-wandb_workspaces-workspaces
@@ -7,18 +7,26 @@ menu:
 
 {{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py" >}}
 
+
+
+
+{{% alert %}}
+W&B Report と Workspace API はパブリックプレビューです。
+{{% /alert %}}
+
+
 # <kbd>module</kbd> `wandb_workspaces.workspaces`
-プログラムで W&B Workspace API を操作するための Python ライブラリ。
+W&B Workspace API をプログラムから操作するための Python ライブラリ。 
 
 ```python
 # インポート方法
 import wandb_workspaces.workspaces as ws
 
-# ワークスペースを作成する例
+# Workspace を作成する例
 ws.Workspace(
      name="Example W&B Workspace",
-     entity="entity", # ワークスペースを所有する entity
-     project="project", # ワークスペースが関連付けられている project
+     entity="entity", # Workspace の所有者となる Entity
+     project="project", # Workspace が紐づく Project
      sections=[
          ws.Section(
              name="Validation Metrics",
@@ -36,88 +44,147 @@ workspace.save()
 
 ---
 
+
+
 ## <kbd>class</kbd> `RunSettings`
-runset （左側のバー）内の run の設定。
+runset（左側バー）内の run の設定。 
+
+
 
 **属性:**
  
- - `color` (str): UI での run の色。hex (#ff0000), css color (red), または rgb (rgb(255, 0, 0)) を指定できる。
- - `disabled` (bool): run が非アクティブであるかどうか（UI で目が閉じている）。デフォルトは `False` に設定されている。
+ - `color` (str): UI における run の色。hex（#ff0000）、CSS カラー（red）、または RGB（rgb(255, 0, 0)）が使用可能。 
+ - `disabled` (bool): run を非表示（UI の目アイコンが閉じた状態）にするかどうか。デフォルトは `False`。 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `RunsetSettings`
-ワークスペース内の runset（run を含む左側のバー）の設定。
+Workspace 内の runset（左側の Runs を含むバー）の設定。 
+
+
 
 **属性:**
  
- - `query` (str): runset をフィルターするためのクエリ（regex 式である可能性あり、次のパラメータを参照）。 
- - `regex_query` (bool): 上記のクエリが regex 式であるかどうかを制御する。デフォルトは `False` に設定されている。 
- - `filters` `(LList[expr.FilterExpr])`: runset に適用するフィルターのリスト。フィルターは AND で結合される。フィルターの作成については FilterExpr を参照。 
- - `groupby` `(LList[expr.MetricType])`: runset でグループ化するメトリクスのリスト。 `Metric`, `Summary`, `Config`, `Tags`, または `KeysInfo` に設定。 
- - `order` `(LList[expr.Ordering])`: runset に適用するメトリクスと順序のリスト。 
- - `run_settings` `(Dict[str, RunSettings])`: run の設定の辞書。キーは run の ID で、値は RunSettings オブジェクト。
+ - `query` (str): runset を絞り込むためのクエリ（正規表現を使用可能。次のパラメータ参照）。 
+ - `regex_query` (bool): 上記の `query` を正規表現として扱うかどうか。デフォルトは `False`。 
+ - `filters` `(LList[expr.FilterExpr])`: runset に適用するフィルターのリスト。フィルターは AND で結合されます。FilterExpr を参照。 
+ - `groupby` `(LList[expr.MetricType])`: runset でグループ化に使うメトリクスのリスト。`Metric`、`Summary`、`Config`、`Tags`、`KeysInfo` のいずれか。 
+ - `order` `(LList[expr.Ordering])`: runset に適用するメトリクスと並び順のリスト。 
+ - `run_settings` `(Dict[str, RunSettings])`: run の設定の辞書。キーは run の ID、値は RunSettings オブジェクト。 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `Section`
-ワークスペース内のセクションを表す。
+Workspace 内のセクションを表します。 
+
+
 
 **属性:**
  
- - `name` (str): セクションの名前またはタイトル。
- - `panels` `(LList[PanelTypes])`: セクション内のパネルの順序付きリスト。デフォルトでは、最初が左上で最後が右下。
- - `is_open` (bool): セクションが開いているか閉じているか。デフォルトは閉じている。
- - `layout_settings` `(Literal[`standard`, `custom`])`: セクション内のパネルレイアウトの設定。
- - `panel_settings`: セクション内のすべてのパネルに適用されるパネルレベルの設定。 `WorkspaceSettings` の `Section` に似ている。
+ - `name` (str): セクションの名前/タイトル。 
+ - `panels` `(LList[PanelTypes])`: セクション内のパネルの順序付きリスト。デフォルトでは、先頭が左上、末尾が右下。 
+ - `is_open` (bool): セクションが開いているかどうか。デフォルトは閉じています。 
+ - `layout_settings` `(Literal[`standard`, `custom`])`: セクション内のパネル レイアウトの設定。 
+ - `panel_settings`: セクション内のすべてのパネルに適用されるパネル レベルの設定。`Section` に対する `WorkspaceSettings` に類似。 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `SectionLayoutSettings`
-セクションのパネルレイアウト設定。通常、W&B App Workspace UI のセクションの右上に表示される。
+セクション用のパネル レイアウト設定。W&B アプリの Workspace UI のセクション右上に表示される項目です。 
+
+
 
 **属性:**
  
- - `layout` `(Literal[`standard`, `custom`])`: セクション内のパネルのレイアウト。 `standard` はデフォルトのグリッドレイアウトに従い、`custom` は個々のパネル設定で制御されるカスタムレイアウトを許可する。
- - `columns` (int): 標準レイアウトの場合、レイアウト内の列数。デフォルトは 3。
- - `rows` (int): 標準レイアウトの場合、レイアウト内の行数。デフォルトは 2。
+ - `layout` `(Literal[`standard`, `custom`])`: セクション内のパネルのレイアウト。`standard` はデフォルトのグリッド レイアウト、`custom` は各パネルの設定で制御されるパネル個別のレイアウトを許可します。 
+ - `columns` (int): standard レイアウトでの列数。デフォルトは 3。 
+ - `rows` (int): standard レイアウトでの行数。デフォルトは 2。 
+
+
+
+
+
+
 
 ---
+
+
 
 ## <kbd>class</kbd> `SectionPanelSettings`
-セクションのパネル設定。セクションの `WorkspaceSettings` に似ている。
+セクション用のパネル設定。セクションに対する `WorkspaceSettings` に類似。 
 
-ここで適用される設定は、より詳細なパネル設定で上書きされることがある。優先順位は: Section < Panel。
+ここでの設定は、より粒度の細かいパネルの設定で上書きされます。優先度は Section < Panel。 
+
+
 
 **属性:**
  
- - `x_axis` (str): X 軸メトリック名の設定。デフォルトでは `Step` に設定。
- - `x_min Optional[float]`: X 軸の最小値。
- - `x_max Optional[float]`: X 軸の最大値。
- - `smoothing_type` (Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none']): すべてのパネルに適用されるスムージングタイプ。
- - `smoothing_weight` (int): すべてのパネルに適用されるスムージングウエイト。
+ - `x_axis` (str): X 軸のメトリクス名の設定。デフォルトは `Step`。 
+ - `x_min Optional[float]`: X 軸の最小値。 
+ - `x_max Optional[float]`: X 軸の最大値。 
+ - `smoothing_type` (Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none']): すべてのパネルに適用されるスムージング種別。 
+ - `smoothing_weight` (int): すべてのパネルに適用されるスムージングの重み。 
+
+
+
+
+
+
 
 ---
 
+
+
 ## <kbd>class</kbd> `Workspace`
-W&B ワークスペースを表し、セクション、設定、run セットの構成を含む。
+セクション、設定、runset の構成を含む W&B Workspace を表します。 
+
+
 
 **属性:**
  
- - `entity` (str): このワークスペースが保存される entity（通常、ユーザーまたはチーム名）。
- - `project` (str): このワークスペースが保存されるプロジェクト。
- - `name`: ワークスペースの名前。
- - `sections` `(LList[Section])`: ワークスペース内のセクションの順序付きリスト。最初のセクションはワークスペースの上部にある。
- - `settings` `(WorkspaceSettings)`: ワークスペースの設定。通常、UI のワークスペースの上部に表示される。
- - `runset_settings` `(RunsetSettings)`: ワークスペース内の run セット（run を含む左側のバー）の設定。
+ - `entity` (str): この Workspace を保存する Entity（通常は User または Team の名前）。 
+ - `project` (str): この Workspace を保存する Project。 
+ - `name`: Workspace の名前。 
+ - `sections` `(LList[Section])`: Workspace 内のセクションの順序付きリスト。最初のセクションは Workspace の最上部に表示されます。 
+ - `settings` `(WorkspaceSettings)`: Workspace 用の設定。通常は UI の Workspace 上部に表示されます。 
+ - `runset_settings` `(RunsetSettings)`: Workspace の runset（Runs を含む左側バー）の設定。 
+
 
 ---
 
 #### <kbd>property</kbd> url
 
-W&B アプリ内のワークスペースへの URL。
+W&B アプリ内の Workspace への URL。 
+
+
 
 ---
+
+
 
 ### <kbd>classmethod</kbd> `from_url`
 
@@ -125,9 +192,11 @@ W&B アプリ内のワークスペースへの URL。
 from_url(url: str)
 ```
 
-URL からワークスペースを取得。
+URL から Workspace を取得します。 
 
 ---
+
+
 
 ### <kbd>method</kbd> `save`
 
@@ -135,13 +204,17 @@ URL からワークスペースを取得。
 save()
 ```
 
-現在のワークスペースを W&B に保存。
+現在の Workspace を W&B に保存します。 
+
+
 
 **戻り値:**
  
- - `Workspace`: 保存された内部名と ID を持つ更新されたワークスペース。
+ - `Workspace`: 保存済みの内部名と ID を持つ、更新された Workspace。 
 
 ---
+
+
 
 ### <kbd>method</kbd> `save_as_new_view`
 
@@ -149,35 +222,41 @@ save()
 save_as_new_view()
 ```
 
-現在のワークスペースを W&B に新しいビューとして保存。
+現在の Workspace を新しいビューとして W&B に保存します。 
+
+
 
 **戻り値:**
  
- - `Workspace`: 保存された内部名と ID を持つ更新されたワークスペース。
+ - `Workspace`: 保存済みの内部名と ID を持つ、更新された Workspace。
 
 ---
 
+
+
 ## <kbd>class</kbd> `WorkspaceSettings`
-ワークスペースの設定。通常、UI のワークスペースの上部に表示される。
+Workspace 用の設定。通常は UI の Workspace 上部に表示されます。 
 
-このオブジェクトには、x 軸、スムージング、外れ値、パネル、ツールチップ、run、パネルクエリバーの設定が含まれる。
+このオブジェクトには、X 軸、スムージング、外れ値、パネル、ツールチップ、Runs、パネルのクエリ バーに関する設定が含まれます。 
 
-ここで適用される設定は、より詳細なセクションおよびパネル設定で上書きされることがある。優先順位は: Workspace < Section < Panel。
+ここでの設定は、より粒度の細かい Section および Panel の設定で上書きされます。優先度は Workspace < Section < Panel 
+
+
 
 **属性:**
  
- - `x_axis` (str): X 軸メトリック名の設定。
- - `x_min` `(Optional[float])`: X 軸の最小値。
- - `x_max` `(Optional[float])`: X 軸の最大値。
- - `smoothing_type` `(Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none'])`: すべてのパネルに適用されるスムージングタイプ。
- - `smoothing_weight` (int): すべてのパネルに適用されるスムージングウエイト。
- - `ignore_outliers` (bool): すべてのパネルで外れ値を無視する。
- - `sort_panels_alphabetically` (bool): すべてのセクションでパネルをアルファベット順にソート。
- - `group_by_prefix` `(Literal[`first`, `last`])`: 最初または最大最後までのプレフィックスでパネルをグループ化する（first または last）。デフォルトは last に設定。
- - `remove_legends_from_panels` (bool): すべてのパネルから凡例を削除。
- - `tooltip_number_of_runs` `(Literal[`default`, `all`, `none`])`: ツールチップに表示する run の数。
- - `tooltip_color_run_names` (bool): ツールチップで run 名を run セットに合わせて色付けするかどうか（True）あるいはしないか（False）。デフォルトは True に設定。
- - `max_runs` (int): パネルごとに表示される run の最大数（run セットの最初の 10 件の run になる）。
- - `point_visualization_method` `(Literal[`line`, `point`, `line_point`])`: 点の可視化メソッド。
- - `panel_search_query` (str): パネル検索バーのクエリ（正規表現式である可能性あり）。
- - `auto_expand_panel_search_results` (bool): パネル検索結果を自動拡張するかどうか。
+ - `x_axis` (str): X 軸のメトリクス名の設定。 
+ - `x_min` `(Optional[float])`: X 軸の最小値。 
+ - `x_max` `(Optional[float])`: X 軸の最大値。 
+ - `smoothing_type` `(Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none'])`: すべてのパネルに適用されるスムージング種別。 
+ - `smoothing_weight` (int): すべてのパネルに適用されるスムージングの重み。 
+ - `ignore_outliers` (bool): すべてのパネルで外れ値を無視。 
+ - `sort_panels_alphabetically` (bool): すべてのセクションでパネルをアルファベット順にソート。 
+ - `group_by_prefix` `(Literal[`first`, `last`])`: プレフィックスの先頭または末尾でパネルをグループ化（`first` または `last`）。デフォルトは `last`。 
+ - `remove_legends_from_panels` (bool): すべてのパネルから凡例を削除。 
+ - `tooltip_number_of_runs` `(Literal[`default`, `all`, `none`])`: ツールチップに表示する run の数。 
+ - `tooltip_color_run_names` (bool): ツールチップ内の run 名を runset に合わせた色で表示するかどうか（`True`）、しないか（`False`）。デフォルトは `True`。 
+ - `max_runs` (int): パネルごとに表示する run の最大数（runset の先頭 10 個の run が対象）。 
+ - `point_visualization_method` `(Literal[`line`, `point`, `line_point`])`: ポイントの可視化方法。 
+ - `panel_search_query` (str): パネル検索バーのクエリ（正規表現可）。 
+ - `auto_expand_panel_search_results` (bool): パネル検索結果を自動展開するかどうか。

@@ -4,11 +4,12 @@ menu:
   support:
     identifier: ja-support-kb-articles-incorporating_latex
 support:
-  - reports
+- レポート
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-レポートに LaTeX をシームレスに統合できます。LaTeX を追加するには、新しいレポートを作成し、リッチテキストエリアにコメントを書き始め、カスタム可視化とテーブルを保存します。
 
-新しい行で「/」を押して、LaTeX コンテンツを挿入するためにインライン方程式タブに移動します。
+LaTeX は Reports にシームレスに統合されています。LaTeX を追加するには、新しい Report を作成し、リッチテキストエリアで入力を開始して、メモを書き、カスタムの可視化やテーブルを保存します。
+
+新しい行で、 `/` を押してインライン数式タブに移動し、LaTeX コンテンツを挿入します。
