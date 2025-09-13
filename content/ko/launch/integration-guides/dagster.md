@@ -182,7 +182,7 @@ def create_dataset():
 W&B는 여러 Pickle 기반 직렬화 모듈을 지원합니다 ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)). [ONNX](https://onnx.ai/) 또는 [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language)과 같은 고급 직렬화를 사용할 수도 있습니다. 자세한 내용은 [직렬화]({{< relref path="#serialization-configuration" lang="ko" >}}) 섹션을 참조하십시오.
 {{% /tab %}}
 {{% tab "W&B Object" %}}
-모든 기본 W&B 오브젝트 (예: [Table]({{< relref path="/ref/python/data-types/table.md" lang="ko" >}}), [Image]({{< relref path="/ref/python/data-types/image.md" lang="ko" >}}) 또는 [Graph]({{< relref path="/ref/python/data-types/graph.md" lang="ko" >}}))가 통합에서 생성된 Artifact에 추가됩니다. 다음은 Table을 사용하는 예입니다.
+모든 기본 W&B 오브젝트 (예: [Table]({{< relref path="/ref/python/data-types/table.md" lang="ko" >}}), [Image]({{< relref "/ref/python/data-types/image.md" >}}) 또는 [Graph]({{< relref path="/ref/python/data-types/graph.md" lang="ko" >}}))가 통합에서 생성된 Artifact에 추가됩니다. 다음은 Table을 사용하는 예입니다.
 
 ```python
 import wandb

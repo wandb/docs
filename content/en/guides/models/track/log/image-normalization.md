@@ -1,0 +1,141 @@
+---
+title: "Image Normalization Guide"
+description: "Learn how wandb.Image handles normalization for different input types and how to control this behavior"
+---
+
+
+When you pass PyTorch tensors or NumPy arrays to `wandb.Image`, the pixel values are automatically normalized to the range [0, 255] unless you set `normalize=False`. This guide explains how image normalization works and how to control it.
+
+## When normalization is applied
+
+| Input Type | Format | Normalization Applied | Notes |
+|------------|--------|----------------------|-------|
+| **PyTorch tensors** | `(channel, height, width)` | ✅ Yes | Automatically normalized to [0, 255] range |
+| **NumPy arrays** | `(height, width, channel)` | ✅ Yes | Automatically normalized to [0, 255] range |
+| **PIL Images** | PIL Image object | ❌ No | Passed as-is without modification |
+| **File paths** | String path to image file | ❌ No | Loaded as-is without modification |
+
+## Normalization algorithm
+
+The normalization algorithm automatically detects the input range and applies the appropriate transformation:
+
+- **If data is in range [0, 1]**: Values are multiplied by 255 and converted to uint8
+  ```python
+  normalized_data = (data * 255).astype(np.uint8)
+  ```
+
+- **If data is in range [-1, 1]**: Values are rescaled to [0, 255] using:
+  ```python
+  normalized_data = (255 * 0.5 * (data + 1)).astype(np.uint8)
+  ```
+
+- **For any other range**: Values are clipped to [0, 255] and converted to uint8
+  ```python
+  normalized_data = data.clip(0, 255).astype(np.uint8)
+  ```
+
+## Examples of normalization effects
+
+### Example 1: [0, 1] range data
+
+```python
+import torch
+import wandb
+
+# Create tensor with values in [0, 1] range
+tensor_0_1 = torch.rand(3, 64, 64)  # Random values between 0 and 1
+
+# This will multiply all values by 255
+image = wandb.Image(tensor_0_1, caption="Normalized from [0,1] range")
+```
+
+### Example 2: [-1, 1] range data
+
+```python
+import torch
+import wandb
+
+# Create tensor with values in [-1, 1] range
+tensor_neg1_1 = torch.rand(3, 64, 64) * 2 - 1  # Random values between -1 and 1
+
+# This will rescale: -1 → 0, 0 → 127.5, 1 → 255
+image = wandb.Image(tensor_neg1_1, caption="Normalized from [-1,1] range")
+```
+
+**Note on visual contrast**: The [-1, 1] normalization creates higher visual contrast compared to [0, 1] normalization. This is because:
+- Negative values (like -0.8) become very dark (around 25)
+- Positive values (like 0.8) become very bright (around 230)
+- Values near 0 become mid-gray (127.5)
+
+This "stretches" the visual range, making differences between pixel values more pronounced. This is particularly useful for highlighting subtle patterns in machine learning data, but if you want less contrast, consider preprocessing your data to a [0, 1] range before logging.
+
+### Example 3: Avoid normalization with PIL Images
+Normalization is not applied to PIL Images.
+
+```python
+import torch
+from PIL import Image as PILImage
+import wandb
+
+# Create tensor with values in [0, 1] range
+tensor_0_1 = torch.rand(3, 64, 64)
+
+# Convert to PIL Image to avoid normalization
+pil_image = PILImage.fromarray((tensor_0_1.permute(1, 2, 0).numpy() * 255).astype('uint8'))
+image = wandb.Image(pil_image, caption="No normalization applied")
+```
+
+### Example 4: Using normalize=False
+To explicitly turn off image normalization without converting the image, set `normalize=False`.
+
+```python
+import torch
+import wandb
+
+# Create tensor with values in [0, 1] range
+tensor_0_1 = torch.rand(3, 64, 64)
+
+# Disable normalization - values will be clipped to [0, 255]
+image = wandb.Image(tensor_0_1, normalize=False, caption="Normalization disabled")
+```
+
+## When to use different approaches
+
+### Use PIL conversion when:
+- You want complete control over pixel values
+- You need custom preprocessing (filters, brightness adjustments, etc.)
+- You want to use PIL's image processing capabilities
+- You're debugging and want to see exact values being logged
+
+### Use normalize=False when:
+- You want to see raw tensor values as they are
+- Your data is already in the correct range (like [0, 255] integers)
+- You're debugging normalization issues
+- Quick testing without additional processing steps
+
+### Use automatic normalization when:
+- You want consistent behavior across different input types
+- Your data is in standard ranges ([0, 1] or [-1, 1])
+- You want W&B to handle the conversion automatically
+
+## Troubleshooting
+
+### Best practices
+
+1. **For consistent results**: Pre-process your data to the expected [0, 255] range before logging
+2. **To avoid normalization**: Convert tensors to PIL Images using `PILImage.fromarray()`
+3. **For debugging**: Use `normalize=False` to see the raw values (they will be clipped to [0, 255])
+4. **For precise control**: Use PIL Images when you need exact pixel values
+5. **For highlighting subtle patterns**: Use [-1, 1] normalization to increase visual contrast
+6. **For natural-looking images**: Use [0, 1] normalization or preprocess to [0, 255] range
+7. **For custom processing**: Use PIL conversion when you need to apply filters or adjustments
+
+### Common issues and solutions
+
+- **Unexpected brightness**: If your tensor values are in [0, 1] range, they will be multiplied by 255, making the image much brighter. **Solution**: Preprocess to [0, 255] range or use PIL conversion.
+- **Data loss**: Values outside the [0, 255] range will be clipped, potentially losing information. **Solution**: Check your data range and preprocess appropriately.
+- **Inconsistent behavior**: Different input types (tensor vs PIL vs file path) may produce different results. **Solution**: Use consistent input types or understand the normalization behavior for each type.
+
+## Testing your code
+
+You can test the normalization behavior using our [Image Normalization Demo Notebook](https://github.com/wandb/wandb/blob/main/wandb_image_normalization_demo.ipynb) which demonstrates all the examples above with visual output. 
