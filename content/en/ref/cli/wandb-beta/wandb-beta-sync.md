@@ -2,29 +2,31 @@
 title: wandb beta sync
 ---
 
-**Usage**
-
-`wandb beta sync [OPTIONS] WANDB_DIR`
-
-**Summary**
-
 Upload a training run to W&B
 
+## Usage
 
-**Options**
+```bash
+wandb sync WANDB_DIR [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `WANDB_DIR` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
 | `--id` | The run you want to upload to. |
-| `-p, --project` | The project you want to upload to. |
-| `-e, --entity` | The entity to scope to. |
-| `--skip-console` | Skip console logs |
-| `--append` | Append run |
-| `-i, --include` | Glob to include. Can be used multiple times. |
-| `-e, --exclude` | Glob to exclude. Can be used multiple times. |
-| `--mark-synced / --no-mark-synced` | Mark runs as synced |
-| `--skip-synced / --no-skip-synced` | Skip synced runs |
-| `--dry-run` | Perform a dry run without uploading   anything. |
-
-
-
+| `--project`, `-p` | The project you want to upload to. |
+| `--entity`, `-e` | The entity to scope to. |
+| `--skip-console` | Skip console logs (default: False) |
+| `--append` | Append run (default: False) |
+| `--include`, `-i` | Glob to include. Can be used multiple times. |
+| `--exclude`, `-e` | Glob to exclude. Can be used multiple times. |
+| `--mark-synced` | Mark runs as synced (default: True) |
+| `--skip-synced` | Skip synced runs (default: True) |
+| `--dry-run` | Perform a dry run without uploading anything. (default: False) |

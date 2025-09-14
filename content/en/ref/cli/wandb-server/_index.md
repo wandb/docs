@@ -1,26 +1,19 @@
 ---
 title: wandb server
+no_list: true
 ---
-
-**Usage**
-
-`wandb server [OPTIONS] COMMAND [ARGS]...`
-
-**Summary**
 
 Commands for operating a local W&B server
 
+## Usage
 
-**Options**
+```bash
+wandb server COMMAND [ARGS]...
+```
 
-| **Option** | **Description** |
+## Commands
+
+| Command | Description |
 | :--- | :--- |
-
-
-**Commands**
-
-| **Command** | **Description** |
-| :--- | :--- |
-| start | Start a local W&B server |
-| stop | Stop a local W&B server |
-
+| [start]({{< relref "wandb-server-start" >}}) | Start a local W&B server |
+| [stop]({{< relref "wandb-server-stop" >}}) | Stop a local W&B server |

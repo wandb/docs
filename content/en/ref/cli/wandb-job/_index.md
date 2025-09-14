@@ -1,27 +1,20 @@
 ---
 title: wandb job
+no_list: true
 ---
-
-**Usage**
-
-`wandb job [OPTIONS] COMMAND [ARGS]...`
-
-**Summary**
 
 Commands for managing and viewing W&B jobs
 
+## Usage
 
-**Options**
+```bash
+wandb job COMMAND [ARGS]...
+```
 
-| **Option** | **Description** |
+## Commands
+
+| Command | Description |
 | :--- | :--- |
-
-
-**Commands**
-
-| **Command** | **Description** |
-| :--- | :--- |
-| create | Create a job from a source, without a wandb run. |
-| describe | Describe a launch job. |
-| list | List jobs in a project |
-
+| [create]({{< relref "wandb-job-create" >}}) | Create a job from a source, without a wandb run. |
+| [describe]({{< relref "wandb-job-describe" >}}) | Describe a launch job. |
+| [list]({{< relref "wandb-job-list" >}}) | List jobs in a project |

@@ -1,25 +1,18 @@
 ---
 title: wandb artifact cache
+no_list: true
 ---
-
-**Usage**
-
-`wandb artifact cache [OPTIONS] COMMAND [ARGS]...`
-
-**Summary**
 
 Commands for interacting with the artifact cache
 
+## Usage
 
-**Options**
+```bash
+wandb artifact cache COMMAND [ARGS]...
+```
 
-| **Option** | **Description** |
+## Commands
+
+| Command | Description |
 | :--- | :--- |
-
-
-**Commands**
-
-| **Command** | **Description** |
-| :--- | :--- |
-| cleanup | Clean up less frequently used files from the artifacts cache |
-
+| [cleanup]({{< relref "wandb-artifact-cache-cleanup" >}}) | Clean up less frequently used files from the artifacts cache |

@@ -1,25 +1,18 @@
 ---
 title: wandb beta
+no_list: true
 ---
-
-**Usage**
-
-`wandb beta [OPTIONS] COMMAND [ARGS]...`
-
-**Summary**
 
 Beta versions of wandb CLI commands. Requires wandb-core.
 
+## Usage
 
-**Options**
+```bash
+wandb beta COMMAND [ARGS]...
+```
 
-| **Option** | **Description** |
+## Commands
+
+| Command | Description |
 | :--- | :--- |
-
-
-**Commands**
-
-| **Command** | **Description** |
-| :--- | :--- |
-| sync | Upload a training run to W&B |
-
+| [sync]({{< relref "wandb-beta-sync" >}}) | Upload a training run to W&B |
