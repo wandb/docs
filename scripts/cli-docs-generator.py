@@ -22,8 +22,6 @@ Requirements:
     - wandb package must be installed (pip install wandb)
     - Must be run from the project root directory
 
-Author: Generated automatically
-Date: 2024
 """
 
 import os
