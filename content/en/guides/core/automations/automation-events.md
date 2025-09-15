@@ -80,7 +80,7 @@ You can create a run metrics automation from the project's **Automations** tab o
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
-Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+Optionally, you can further limit the runs that can trigger an automation by filtering by the user that created the run or by the run's name.
 
 ##### Threshold
 For **Run metrics threshold met** events, you configure:
@@ -122,7 +122,11 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify a run filter.
+- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify one or more run filters:
+  - **Filter to one user's runs**: Include only runs created by the specified user.
+  - **Filter on run name**: Include only runs whose names match the given regular expression.
+
+  For details, see [Create automations]({{< relref "/guides/core/automations/create-automations/" >}}).
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24 hour period, a particular automation can fire at most once per run.

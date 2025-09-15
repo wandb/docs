@@ -74,6 +74,11 @@ A W&B admin can create automations in a project.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
+    1. For automations triggered by a run, optionally specify one or more run filters.
+
+        - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
+        - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
+
     1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
 
     Click **Next step**.
