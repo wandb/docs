@@ -255,6 +255,15 @@ The markdown files are generated from docstrings in https://github.com/wandb/wan
 
 Once you are done, create a pull request from https://github.com/wandb/wandb. The PR you create will get reviewed and (if approved) merged by the SDK Team. The Docs are updated when the W&B SDK Team makes an W&BSDK Release. SDK Releases occur about every 2-4 weeks.
 
+## AI resources
+
+The `.ai/` directory contains resources specifically designed for AI agents working with this repository. These include:
+
+- **[Runbooks](.ai/runbooks/)**: Step-by-step instructions for complex, recurring tasks (e.g., testing GitHub Actions changes)
+- **[Style guide](.ai/style-guide.md)**: Quick reference for AI agents on wandb/docs style conventions
+
+If you're using an AI agent to help with documentation tasks, provide these resources as context to ensure consistent, high-quality contributions. See the [.ai/README.md](.ai/README.md) for more details.
+
 ## License
 
 The source for this documentation is offered under the Apache 2.0 license. 
