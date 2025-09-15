@@ -8,10 +8,6 @@ description: >
 
 Learn how to use the W&B Inference API to access foundation models programmatically.
 
-{{< alert title="Tip" >}}
-Having trouble with API errors? See [W&B Inference support articles](/support/inference/) for solutions.
-{{< /alert >}}
-
 ## Endpoint
 
 Access the Inference service at:
@@ -43,23 +39,6 @@ To create a chat completion, provide:
 - A model ID from the [available models]({{< relref "models" >}})
 
 {{< tabpane text=true >}}
-{{% tab header="Bash" value="bash" %}}
-
-```bash
-curl https://api.inference.wandb.ai/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>" \
-  -d '{
-    "model": "<model-id>",
-    "messages": [
-      { "role": "system", "content": "You are a helpful assistant." },
-      { "role": "user", "content": "Tell me a joke." }
-    ]
-  }'
-```
-
-{{% /tab %}}
 {{% tab header="Python" value="python" %}}
 
 ```python
@@ -87,6 +66,23 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
+```
+
+{{% /tab %}}
+{{% tab header="Bash" value="bash" %}}
+
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>" \
+  -d '{
+    "model": "<model-id>",
+    "messages": [
+      { "role": "system", "content": "You are a helpful assistant." },
+      { "role": "user", "content": "Tell me a joke." }
+    ]
+  }'
 ```
 
 {{% /tab %}}
@@ -125,16 +121,6 @@ The API returns responses in OpenAI-compatible format:
 Get all available models and their IDs. Use this to select models dynamically or check what's available.
 
 {{< tabpane text=true >}}
-{{% tab header="Bash" value="bash" %}}
-
-```bash
-curl https://api.inference.wandb.ai/v1/models \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-api-key>" \
-  -H "OpenAI-Project: <your-team>/<your-project>"
-```
-
-{{% /tab %}}
 {{% tab header="Python" value="python" %}}
 
 ```python
@@ -150,6 +136,16 @@ response = client.models.list()
 
 for model in response.data:
     print(model.id)
+```
+
+{{% /tab %}}
+{{% tab header="Bash" value="bash" %}}
+
+```bash
+curl https://api.inference.wandb.ai/v1/models \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
 ```
 
 {{% /tab %}}
@@ -181,6 +177,20 @@ The API returns responses in OpenAI-compatible format:
   ]
 }
 ```
+
+## API errors
+
+The following table lists common API errors you might encounter:
+
+| Error Code | Message | Cause | Solution |
+| ---------- | ------- | ----- | -------- |
+| 401 | Authentication failed | Your authentication credentials are incorrect or your W&B project entity and/or name are incorrect. | Ensure you're using the correct API key and that your W&B project name and entity are correct. |
+| 403 | Country, region, or territory not supported | Accessing the API from an unsupported location. | Please see [Geographic restrictions]({{< relref "usage-limits#geographic-restrictions" >}}) |
+| 429 | Concurrency limit reached for requests | Too many concurrent requests. | Reduce the number of concurrent requests or increase your limits. For more information, see [Usage information and limits]({{< relref "usage-limits" >}}). |
+| 429 | You exceeded your current quota, please check your plan and billing details | Out of credits or reached monthly spending cap. | Get more credits or increase your limits. For more information, see [Usage information and limits]({{< relref "usage-limits" >}}). |
+| 429 | W&B Inference isn't available for personal accounts. Please switch to a non-personal account to access W&B Inference | The user is on a personal account, which doesn't have access to W&B Inference. | Switch to a non-personal account. If one isn't available, create a Team to create a non-personal account. For more information, see [Personal entities unsupported]({{< relref "usage-limits#personal-entities-unsupported" >}}). |
+| 500 | The server had an error while processing your request | Internal server error. | Retry after a brief wait and contact support if it persists. |
+| 503 | The engine is currently overloaded, please try again later | Server is experiencing high traffic. | Retry your request after a short delay. |
 
 ## Next steps
 
