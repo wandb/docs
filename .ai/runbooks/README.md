@@ -39,7 +39,14 @@ Tests changes to GitHub Actions workflows using a fork, particularly for workflo
 
 ## Creating New Runbooks
 
-When creating a new runbook:
+### Best Practice: Agent-First Authoring
+The most effective runbooks are often created by having an AI agent write the first draft immediately after completing a complex task together. At the end of any challenging interactive task, consider asking your agent:
+
+> "Based on what we just did together, please create a runbook that would help another agent perform this same task in the future. Include all the context, gotchas, and workarounds we discovered."
+
+This captures the knowledge while it's fresh and ensures nothing important is forgotten.
+
+### When creating a new runbook:
 
 1. **Use the template structure**:
    - Agent Prerequisites

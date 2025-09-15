@@ -50,11 +50,13 @@ Repository-specific context that helps AI agents understand:
 
 ## Best Practices
 
-1. **Specificity**: Be explicit about every step, assumption, and requirement
-2. **Adaptability**: Include variations for common scenarios
-3. **Safety**: Always include cleanup steps and error handling
-4. **Testing**: Verify runbooks work with multiple AI providers
-5. **Maintenance**: Update runbooks when workflows or tools change
+1. **Capture knowledge immediately**: After completing any complex task with an AI agent, ask them to draft a runbook while the details are fresh
+2. **Specificity**: Be explicit about every step, assumption, and requirement
+3. **Adaptability**: Include variations for common scenarios
+4. **Safety**: Always include cleanup steps and error handling
+5. **Testing**: Verify runbooks work with multiple AI providers
+6. **Maintenance**: Update runbooks when workflows or tools change
+7. **Iterative improvement**: Have agents review and improve existing runbooks based on their experience
 
 ## Contributing
 
