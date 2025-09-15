@@ -163,8 +163,8 @@ def train(
         print("Validation acc: %.4f" % (float(val_acc),))
 
         # Reset metrics at the end of each epoch
-        train_acc_metric.reset_states()
-        val_acc_metric.reset_states()
+        train_acc_metric.reset_state()
+        val_acc_metric.reset_state()
 
         # Log metrics using run.log()
         run.log(
