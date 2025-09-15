@@ -54,7 +54,12 @@ A Registry admin can create automations in that registry. Registry automations a
 1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
 
     To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for.
+
+    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+
+    Click **Next step**.
+
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use.
 1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
@@ -74,14 +79,15 @@ A W&B admin can create automations in a project.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
-    1. For automations triggered by a run, optionally specify one or more run filters.
+        1. For automations triggered by a run, optionally specify one or more run filters.
 
-        - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
-        - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
+            - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
+            - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
 
-    1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
+        1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
 
-    Click **Next step**.
+        Click **Next step**.
+
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use. 
 1. If your webhook requires a payload, construct it and paste it into the **Payload** field. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
