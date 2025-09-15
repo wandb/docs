@@ -1,0 +1,201 @@
+From 879253ea95dd784a56e525a40d8a64075b15d863 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 15 Sep 2025 19:15:30 +0000
+Subject: [PATCH 1/4] chore(deps): bump tj-actions/changed-files from v46 to
+ v47
+
+Upgrades tj-actions/changed-files action in PR preview workflows.
+This is a test of the Dependabot PR #1647 changes.
+---
+ .github/workflows/pr-preview-links-on-comment.yml | 2 +-
+ .github/workflows/pr-preview-links.yml            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.github/workflows/pr-preview-links-on-comment.yml b/.github/workflows/pr-preview-links-on-comment.yml
+index 72ea624..3d06f18 100644
+--- a/.github/workflows/pr-preview-links-on-comment.yml
++++ b/.github/workflows/pr-preview-links-on-comment.yml
+@@ -67,7 +67,7 @@ jobs:
+ 
+       - name: Get changed files
+         id: changed
+-        uses: tj-actions/changed-files@v46
++        uses: tj-actions/changed-files@v47
+         with:
+           base_sha: ${{ steps.pr.outputs.base_sha }}
+           sha: ${{ steps.pr.outputs.head_sha }}
+diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
+index be8b092..8436a45 100644
+--- a/.github/workflows/pr-preview-links.yml
++++ b/.github/workflows/pr-preview-links.yml
+@@ -49,7 +49,7 @@ jobs:
+ 
+       - name: Get changed files
+         id: changed
+-        uses: tj-actions/changed-files@v46
++        uses: tj-actions/changed-files@v47
+         with:
+           files: |
+             content/**
+-- 
+2.48.1
+
+
+From ca22e3b29f71c7ab4edb6a0df0223a5925aaecfd Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 15 Sep 2025 19:17:57 +0000
+Subject: [PATCH 2/4] Checkpoint before follow-up message
+
+Co-authored-by: matt.linville <matt.linville@wandb.com>
+---
+ .github/workflows/pr-preview-links.yml |  8 ++++++
+ dependabot-v47-upgrade.patch           | 40 ++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 dependabot-v47-upgrade.patch
+
+diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
+index 8436a45..5589e6f 100644
+--- a/.github/workflows/pr-preview-links.yml
++++ b/.github/workflows/pr-preview-links.yml
+@@ -220,6 +220,14 @@ jobs:
+             }
+             let base = await waitForCloudflareBranchUrl();
+             if (!base) base = await fromOurExistingComment();
++            
++            // TEMPORARY OVERRIDE FOR FORK TESTING
++            // Since Cloudflare won't run on forks, use a hardcoded URL
++            if (!base && context.repo.owner === 'mdlinville') {
++              base = 'https://docs.wandb.ai';
++              core.warning('Using temporary override URL for fork testing');
++            }
++            
+             core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+             core.setOutput('base', base);
+ 
+diff --git a/dependabot-v47-upgrade.patch b/dependabot-v47-upgrade.patch
+new file mode 100644
+index 0000000..4e2868a
+--- /dev/null
++++ b/dependabot-v47-upgrade.patch
+@@ -0,0 +1,40 @@
++From 12ea7b4795174228a52557c5dbc4ae1f25bebfb3 Mon Sep 17 00:00:00 2001
++From: Cursor Agent <cursoragent@cursor.com>
++Date: Mon, 15 Sep 2025 19:15:30 +0000
++Subject: [PATCH] Checkpoint before follow-up message
++
++Co-authored-by: matt.linville <matt.linville@wandb.com>
++---
++ .github/workflows/pr-preview-links-on-comment.yml | 2 +-
++ .github/workflows/pr-preview-links.yml            | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/.github/workflows/pr-preview-links-on-comment.yml b/.github/workflows/pr-preview-links-on-comment.yml
++index 72ea624..3d06f18 100644
++--- a/.github/workflows/pr-preview-links-on-comment.yml
+++++ b/.github/workflows/pr-preview-links-on-comment.yml
++@@ -67,7 +67,7 @@ jobs:
++ 
++       - name: Get changed files
++         id: changed
++-        uses: tj-actions/changed-files@v46
+++        uses: tj-actions/changed-files@v47
++         with:
++           base_sha: ${{ steps.pr.outputs.base_sha }}
++           sha: ${{ steps.pr.outputs.head_sha }}
++diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
++index be8b092..8436a45 100644
++--- a/.github/workflows/pr-preview-links.yml
+++++ b/.github/workflows/pr-preview-links.yml
++@@ -49,7 +49,7 @@ jobs:
++ 
++       - name: Get changed files
++         id: changed
++-        uses: tj-actions/changed-files@v46
+++        uses: tj-actions/changed-files@v47
++         with:
++           files: |
++             content/**
++-- 
++2.48.1
++
+-- 
+2.48.1
+
+
+From 0158d721c635e8580457bc9402131c6795ac1399 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 15 Sep 2025 19:19:31 +0000
+Subject: [PATCH 3/4] test: Add temporary Cloudflare URL override for fork
+ testing
+
+- Add fallback to main.docodile.pages.dev when testing in mdlinville fork
+- This allows testing the PR preview workflows without Cloudflare builds
+---
+ .github/workflows/pr-preview-links-on-comment.yml | 10 +++++++++-
+ .github/workflows/pr-preview-links.yml            |  5 +++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/.github/workflows/pr-preview-links-on-comment.yml b/.github/workflows/pr-preview-links-on-comment.yml
+index 3d06f18..2296e1f 100644
+--- a/.github/workflows/pr-preview-links-on-comment.yml
++++ b/.github/workflows/pr-preview-links-on-comment.yml
+@@ -123,7 +123,15 @@ jobs:
+               return '';
+             }
+             
+-            const branchUrl = extractBranchPreviewUrl(context.payload.comment.body);
++            let branchUrl = extractBranchPreviewUrl(context.payload.comment.body);
++            
++            // TEMPORARY OVERRIDE FOR FORK TESTING
++            // Since Cloudflare won't run on forks, use a hardcoded URL
++            if (!branchUrl && context.repo.owner === 'mdlinville') {
++              branchUrl = 'https://main.docodile.pages.dev';
++              core.warning('Using temporary override URL for fork testing: ' + branchUrl);
++            }
++            
+             core.info(`Extracted Branch Preview URL: ${branchUrl}`);
+             core.setOutput('branch_url', branchUrl);
+ 
+diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
+index 5589e6f..a6ddbb8 100644
+--- a/.github/workflows/pr-preview-links.yml
++++ b/.github/workflows/pr-preview-links.yml
+@@ -224,8 +224,9 @@ jobs:
+             // TEMPORARY OVERRIDE FOR FORK TESTING
+             // Since Cloudflare won't run on forks, use a hardcoded URL
+             if (!base && context.repo.owner === 'mdlinville') {
+-              base = 'https://docs.wandb.ai';
+-              core.warning('Using temporary override URL for fork testing');
++              // Use main branch preview URL as a fallback for testing
++              base = 'https://main.docodile.pages.dev';
++              core.warning('Using temporary override URL for fork testing: ' + base);
+             }
+             
+             core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
+-- 
+2.48.1
+
+
+From 233dc3e27c03df7608d17e1a3617801523f93936 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 15 Sep 2025 19:20:06 +0000
+Subject: [PATCH 4/4] test: Add test content change for PR preview verification
+
+---
+ content/en/guides/quickstart.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/content/en/guides/quickstart.md b/content/en/guides/quickstart.md
+index 254b526..5e498eb 100644
+--- a/content/en/guides/quickstart.md
++++ b/content/en/guides/quickstart.md
+@@ -1,5 +1,5 @@
+ ---
+-description: W&B Quickstart
++description: W&B Quickstart - Test change for Dependabot PR #1647 verification
+ menu:
+   default:
+     identifier: quickstart_models
+-- 
+2.48.1
+
