@@ -4,7 +4,7 @@ This directory contains resources, prompts, and tools designed to help AI agents
 
 ## Directory Structure
 
-### `/runbooks`
+### `runbooks/`
 Standardized, task-specific instructions for AI agents performing complex operations in this repository. These runbooks ensure consistent, reliable execution of recurring tasks.
 
 **Example tasks:**
@@ -16,19 +16,19 @@ See [runbooks/README.md](./runbooks/README.md) for detailed information.
 
 ### Future Directories (Planned)
 
-#### `/prompts`
+#### `prompts/`
 System prompts and context for different types of AI interactions:
 - Documentation writing guidelines
 - Code review standards
 - Style and tone specifications
 
-#### `/tools`
+#### `tools/`
 Scripts and utilities that AI agents can use:
 - Validation scripts
 - Automation helpers
 - Analysis tools
 
-#### `/context`
+#### `context/`
 Repository-specific context that helps AI agents understand:
 - Architecture decisions
 - Historical context
