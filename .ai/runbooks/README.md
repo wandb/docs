@@ -64,6 +64,11 @@ When creating a new runbook:
    - Note any ambiguities or missing steps
    - Iterate until the process is smooth
 
+5. **Get an agent review**:
+   - Ask an AI agent to review the runbook for agent-friendliness
+   - Example prompt: "Please review this runbook and suggest improvements to make it more useful for AI agents. Focus on clarity, completeness, and removing ambiguity."
+   - Incorporate the suggested improvements
+
 ## Contributing
 
 To add or improve runbooks:

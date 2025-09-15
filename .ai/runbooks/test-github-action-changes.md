@@ -77,6 +77,9 @@ if (!base && context.repo.owner === '<username>') {  // Replace <username> with 
 }
 ```
 
+**Pro tip**: Before finalizing any runbook, ask an AI agent to review it with a prompt like:
+> "Please review this runbook and suggest improvements to make it more useful for AI agents. Focus on clarity, completeness, and removing ambiguity."
+
 For `pr-preview-links-on-comment.yml`, after the URL extraction (around line ~126):
 ```javascript
 // TEMPORARY OVERRIDE FOR FORK TESTING
