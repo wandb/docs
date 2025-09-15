@@ -22,9 +22,17 @@ This document provides style guidance for AI agents creating or editing content 
   - ❌ "Integrating With GitHub Actions"
 
 ### Product names
-- W&B (not Weights & Biases in running text)
-- Weave (when referring to the product)
-- Keep consistent with existing documentation
+- **Company name**: W&B (not Weights & Biases in running text)
+- **First mention pattern**: Use "W&B [Product]" on first mention in a page, then drop "W&B" for subsequent mentions
+- **Capitalization patterns**:
+  - Products that remain capitalized: W&B Weave → Weave, W&B Models → Models, W&B Launch → Launch
+  - Products that become lowercase: W&B Run → run, W&B Sweep → sweep
+  - Special case: W&B artifact (lowercase even on first mention due to API object naming)
+- **General rule**: Check existing content for the established pattern - consistency matters more than guessing
+- **Examples**:
+  - "Configure W&B Automations to monitor your runs. Automations can send alerts..."
+  - "Create a W&B Run to track your experiment. The run will capture..."
+  - "W&B artifact versioning helps manage datasets. Each artifact can..."
 
 ### Voice and tone
 - Direct and concise
