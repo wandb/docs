@@ -224,8 +224,9 @@ jobs:
             // TEMPORARY OVERRIDE FOR FORK TESTING
             // Since Cloudflare won't run on forks, use a hardcoded URL
             if (!base && context.repo.owner === 'mdlinville') {
-              base = 'https://docs.wandb.ai';
-              core.warning('Using temporary override URL for fork testing');
+              // Use main branch preview URL as a fallback for testing
+              base = 'https://main.docodile.pages.dev';
+              core.warning('Using temporary override URL for fork testing: ' + base);
             }
             
             core.info(`Branch Preview URL found: ${base || '(not yet)'}`);
