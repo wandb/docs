@@ -1,0 +1,40 @@
+From 12ea7b4795174228a52557c5dbc4ae1f25bebfb3 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Mon, 15 Sep 2025 19:15:30 +0000
+Subject: [PATCH] Checkpoint before follow-up message
+
+Co-authored-by: matt.linville <matt.linville@wandb.com>
+---
+ .github/workflows/pr-preview-links-on-comment.yml | 2 +-
+ .github/workflows/pr-preview-links.yml            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.github/workflows/pr-preview-links-on-comment.yml b/.github/workflows/pr-preview-links-on-comment.yml
+index 72ea624..3d06f18 100644
+--- a/.github/workflows/pr-preview-links-on-comment.yml
++++ b/.github/workflows/pr-preview-links-on-comment.yml
+@@ -67,7 +67,7 @@ jobs:
+ 
+       - name: Get changed files
+         id: changed
+-        uses: tj-actions/changed-files@v46
++        uses: tj-actions/changed-files@v47
+         with:
+           base_sha: ${{ steps.pr.outputs.base_sha }}
+           sha: ${{ steps.pr.outputs.head_sha }}
+diff --git a/.github/workflows/pr-preview-links.yml b/.github/workflows/pr-preview-links.yml
+index be8b092..8436a45 100644
+--- a/.github/workflows/pr-preview-links.yml
++++ b/.github/workflows/pr-preview-links.yml
+@@ -49,7 +49,7 @@ jobs:
+ 
+       - name: Get changed files
+         id: changed
+-        uses: tj-actions/changed-files@v46
++        uses: tj-actions/changed-files@v47
+         with:
+           files: |
+             content/**
+-- 
+2.48.1
+
