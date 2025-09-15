@@ -1,5 +1,11 @@
 # Agent Prompt: Testing GitHub Actions Changes in wandb/docs
 
+## Agent Prerequisites
+Before starting, gather this information from the user:
+1. **GitHub username** - Needed to identify their fork
+2. **Fork status** - Confirm they have a fork of wandb/docs that can be used for testing
+3. **Test scope** - What specific changes are being tested (dependency upgrade, functionality change, etc.)
+
 ## Task Overview
 Test changes to GitHub Actions workflows in the wandb/docs repository, particularly the PR preview link generation workflows that depend on Cloudflare Pages deployments.
 
@@ -9,11 +15,14 @@ Test changes to GitHub Actions workflows in the wandb/docs repository, particula
 
 ### Repository Setup
 - **Main repository**: `wandb/docs` (origin)
-- **Fork for testing**: `<username>/docs` (fork remote)
+- **Fork for testing**: `<username>/docs` (fork remote) - Agent should ask user for their fork username
 - **Important**: GitHub Actions in PRs always run from the base branch (main), not from the PR branch
 - **Cloudflare limitation**: Cloudflare Pages only builds for the main wandb/docs repository, not for forks
 
-These instructions assume that you are using a fork that doesn't contain real work in `main`. An agent can have trouble committing to a fork, so the agent may need to temporarily push a branch to the main repo so the human can push the same branch to the fork.
+**Agent Note**: You'll need to:
+1. Ask the user for their GitHub username to identify their fork
+2. Verify they have a fork of wandb/docs that can be used for testing
+3. If you can't push to the fork directly, create a temporary branch in wandb/docs for the user to push from
 
 ### Key Workflows
 1. `.github/workflows/pr-preview-links.yml` - Runs on PR open/sync
@@ -30,11 +39,14 @@ To test workflow changes, you must:
 
 ### 1. Initial Setup
 ```bash
+# First, ask the user for their GitHub username
+# Example: "What is your GitHub username for the fork we'll use for testing?"
+
 # Ensure you have both remotes configured
-git remote -v  # Should show 'origin' (wandb/docs) and 'fork' (mdlinville/docs)
+git remote -v  # Should show 'origin' (wandb/docs) and 'fork' (<username>/docs)
 
 # If fork remote is missing:
-git remote add fork https://github.com/<username>/docs.git
+git remote add fork https://github.com/<username>/docs.git  # Replace <username> with actual username
 ```
 
 ### 2. Prepare Test Branch
@@ -59,7 +71,7 @@ For `pr-preview-links.yml`, after the URL extraction logic (around line ~220):
 ```javascript
 // TEMPORARY OVERRIDE FOR FORK TESTING
 // Since Cloudflare won't run on forks, use a hardcoded URL
-if (!base && context.repo.owner === 'mdlinville') {
+if (!base && context.repo.owner === '<username>') {  // Replace <username> with actual fork owner
   base = 'https://main.docodile.pages.dev';
   core.warning('Using temporary override URL for fork testing: ' + base);
 }
@@ -69,7 +81,7 @@ For `pr-preview-links-on-comment.yml`, after the URL extraction (around line ~12
 ```javascript
 // TEMPORARY OVERRIDE FOR FORK TESTING
 // Since Cloudflare won't run on forks, use a hardcoded URL
-if (!branchUrl && context.repo.owner === 'mdlinville') {
+if (!branchUrl && context.repo.owner === '<username>') {  // Replace <username> with actual fork owner
   branchUrl = 'https://main.docodile.pages.dev';
   core.warning('Using temporary override URL for fork testing: ' + branchUrl);
 }
@@ -88,7 +100,16 @@ git commit -m "test: [Description of what you're testing]
 git push fork HEAD:main --force-with-lease
 ```
 
-Agents: If you can't push to the fork yourself, give the human the command to push from your temporary branch in `wandb/docs` to the fork, then give them the URL to create the PR in the fork. At the end of this runbook, don't forget to prompt them to remove the temporary branch from `wandb/docs`.
+**Agent Instructions for Fork Access**:
+If you can't push to the fork directly:
+1. Create a temporary branch in wandb/docs with the changes
+2. Provide the user with this command:
+   ```bash
+   git fetch origin temp-branch-name
+   git push fork origin/temp-branch-name:main --force
+   ```
+3. Guide them to create the PR at: `https://github.com/<username>/docs/compare/main...test-pr-[description]`
+4. Remember to delete the temporary branch from wandb/docs after testing
 
 
 ### 6. Create Test PR
@@ -155,14 +176,16 @@ git branch -D test-[description]-[date] test-pr-[description]
 
 ## Testing Checklist
 
+- [ ] Asked user for their GitHub username and fork details
 - [ ] Both remotes (origin and fork) are configured
 - [ ] Workflow changes applied to both relevant files
-- [ ] Cloudflare URL override added with fork owner check
-- [ ] Changes pushed to fork's main branch
+- [ ] Cloudflare URL override added with correct username in owner check
+- [ ] Changes pushed to fork's main branch (directly or via user)
 - [ ] Test PR created with content changes
 - [ ] Preview comment generated successfully
 - [ ] No errors in GitHub Actions logs
 - [ ] Fork's main branch reset after testing
+- [ ] Temporary branches cleaned up from wandb/docs (if created)
 
 ## Notes
 - The Cloudflare preview domain is `docodile.pages.dev`
