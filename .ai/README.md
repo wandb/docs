@@ -1,8 +1,8 @@
-# AI Resources for wandb/docs
+# AI resources for wandb/docs
 
 This directory contains resources, prompts, and tools designed to help AI agents work effectively with the wandb/docs repository.
 
-## Directory Structure
+## Directory structure
 
 ### `runbooks/`
 Standardized, task-specific instructions for AI agents performing complex operations in this repository. These runbooks ensure consistent, reliable execution of recurring tasks.
@@ -14,7 +14,7 @@ Standardized, task-specific instructions for AI agents performing complex operat
 
 See [runbooks/README.md](./runbooks/README.md) for detailed information.
 
-### Future Directories (Planned)
+### Future directories (planned)
 
 #### `prompts/`
 System prompts and context for different types of AI interactions:
@@ -34,21 +34,21 @@ Repository-specific context that helps AI agents understand:
 - Historical context
 - Domain-specific knowledge
 
-## Usage Guidelines
+## Usage guidelines
 
-### For Repository Maintainers
+### For repository maintainers
 1. Keep runbooks up-to-date as processes change
 2. Test runbooks regularly with AI agents
 3. Document any repository-specific quirks or constraints
 4. Version control all AI resources alongside code
 
-### For AI Agent Users
+### For AI agent users
 1. Always check for relevant runbooks before starting complex tasks
 2. Provide runbooks as context to your AI agent
 3. Report issues or ambiguities in runbooks
 4. Contribute improvements based on your experience
 
-## Best Practices
+## Best practices
 
 1. **Capture knowledge immediately**: After completing any complex task with an AI agent, ask them to draft a runbook while the details are fresh
 2. **Specificity**: Be explicit about every step, assumption, and requirement
@@ -68,7 +68,7 @@ When adding AI resources:
 4. Update relevant README files
 5. Consider security implications of any shared context
 
-## Security Notes
+## Security notes
 
 - Never include sensitive information (API keys, passwords, etc.)
 - Be cautious about exposing internal URLs or infrastructure details

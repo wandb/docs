@@ -1,43 +1,43 @@
-# Agent Prompt: Testing GitHub Actions Changes in wandb/docs
+# Agent prompt: Testing GitHub Actions changes in wandb/docs
 
-## Agent Prerequisites
+## Agent prerequisites
 Before starting, gather this information from the user:
 1. **GitHub username** - Needed to identify their fork
 2. **Fork status** - Confirm they have a fork of wandb/docs that can be used for testing
 3. **Test scope** - What specific changes are being tested (dependency upgrade, functionality change, etc.)
 
-## Task Overview
+## Task overview
 Test changes to GitHub Actions workflows in the wandb/docs repository, particularly the PR preview link generation workflows that depend on Cloudflare Pages deployments.
 
 > **Note**: If you are testing changes to an action that doesn't depend on Cloudflare, adjust your interpretation of this runbook accordingly.
 
-## Context and Constraints
+## Context and constraints
 
-### Repository Setup
+### Repository setup
 - **Main repository**: `wandb/docs` (origin)
 - **Fork for testing**: `<username>/docs` (fork remote) - Agent should ask user for their fork username
 - **Important**: GitHub Actions in PRs always run from the base branch (main), not from the PR branch
 - **Cloudflare limitation**: Cloudflare Pages only builds for the main wandb/docs repository, not for forks
 
-**Agent Note**: You'll need to:
+**Agent note**: You'll need to:
 1. Ask the user for their GitHub username to identify their fork
 2. Verify they have a fork of wandb/docs that can be used for testing
 3. If you can't push to the fork directly, create a temporary branch in wandb/docs for the user to push from
 
-### Key Workflows
+### Key workflows
 1. `.github/workflows/pr-preview-links.yml` - Runs on PR open/sync
 2. `.github/workflows/pr-preview-links-on-comment.yml` - Triggered by Cloudflare comments
 
-### Testing Requirements
+### Testing requirements
 To test workflow changes, you must:
 1. Sync the fork's `main` with the main repo's `main`, throwing away all temporary commits.
 2. Apply changes to the fork's main branch (not just a feature branch)
 2. Override Cloudflare URLs since they won't generate for forks
 3. Create a test PR with content changes to trigger the workflows
 
-## Step-by-Step Testing Process
+## Step-by-step testing process
 
-### 1. Initial Setup
+### 1. Initial setup
 ```bash
 # First, ask the user for their GitHub username
 # Example: "What is your GitHub username for the fork we'll use for testing?"
@@ -49,7 +49,7 @@ git remote -v  # Should show 'origin' (wandb/docs) and 'fork' (<username>/docs)
 git remote add fork https://github.com/<username>/docs.git  # Replace <username> with actual username
 ```
 
-### 2. Prepare Test Branch
+### 2. Prepare test branch
 ```bash
 # Start from latest main
 git checkout main
@@ -59,12 +59,12 @@ git pull origin main
 git checkout -b test-[description]-[date]
 ```
 
-### 3. Apply Workflow Changes
+### 3. Apply workflow changes
 Make your changes to the workflow files. For dependency upgrades:
 - Update version numbers in `uses:` statements
 - Check both workflow files if the dependency is used in multiple places
 
-### 4. Add Cloudflare URL Override
+### 4. Add Cloudflare URL override
 Since Cloudflare won't build for forks, add this override to BOTH workflow files:
 
 For `pr-preview-links.yml`, after the URL extraction logic (around line ~220):
@@ -90,7 +90,7 @@ if (!branchUrl && context.repo.owner === '<username>') {  // Replace <username> 
 }
 ```
 
-### 5. Commit and Push to Fork's Main
+### 5. Commit and push to fork's main
 ```bash
 # Commit all changes
 git add -A
@@ -103,7 +103,7 @@ git commit -m "test: [Description of what you're testing]
 git push fork HEAD:main --force-with-lease
 ```
 
-**Agent Instructions for Fork Access**:
+**Agent instructions for fork access**:
 If you can't push to the fork directly:
 1. Create a temporary branch in wandb/docs with the changes
 2. Provide the user with this command:
@@ -115,7 +115,7 @@ If you can't push to the fork directly:
 4. Remember to delete the temporary branch from wandb/docs after testing
 
 
-### 6. Create Test PR
+### 6. Create test PR
 ```bash
 # Create new branch from the updated fork main
 git checkout -b test-pr-[description]
@@ -131,7 +131,7 @@ git push fork test-pr-[description]
 
 Then create PR via GitHub UI from `<username>:test-pr-[description]` to `<username>:main`
 
-### 7. Monitor and Verify
+### 7. Monitor and verify
 
 Expected behavior:
 1. GitHub Actions bot creates initial comment with "Generating preview links..."
@@ -159,7 +159,7 @@ git push fork main --force
 git branch -D test-[description]-[date] test-pr-[description]
 ```
 
-## Common Issues and Solutions
+## Common issues and solutions
 
 ### Issue: Permission denied when pushing to fork
 - The GitHub token might be read-only
@@ -177,7 +177,7 @@ git branch -D test-[description]-[date] test-pr-[description]
 - Ensure content changes are in tracked directories (content/, static/, assets/, etc.)
 - Check the `files:` filter in the workflow configuration
 
-## Testing Checklist
+## Testing checklist
 
 - [ ] Asked user for their GitHub username and fork details
 - [ ] Both remotes (origin and fork) are configured

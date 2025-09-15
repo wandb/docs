@@ -1,8 +1,8 @@
-# AI Agent Runbooks
+# AI agent runbooks
 
 This directory contains standardized runbooks (task-specific prompts) for AI agents working with the wandb/docs repository.
 
-## What are AI Runbooks?
+## What are AI runbooks?
 
 AI runbooks are detailed, step-by-step instructions designed to help AI agents perform complex, recurring tasks consistently and correctly. They include:
 
@@ -12,7 +12,7 @@ AI runbooks are detailed, step-by-step instructions designed to help AI agents p
 - **Common issues and solutions**
 - **Cleanup instructions**
 
-## Available Runbooks
+## Available runbooks
 
 ### [test-github-action-changes.md](./test-github-action-changes.md)
 Tests changes to GitHub Actions workflows using a fork, particularly for workflows that depend on Cloudflare Pages deployments.
@@ -22,31 +22,31 @@ Tests changes to GitHub Actions workflows using a fork, particularly for workflo
 - Verifying workflow functionality changes
 - Debugging GitHub Actions issues
 
-## How to Use These Runbooks
+## How to use these runbooks
 
-### For Humans
+### For humans
 1. Provide the runbook to your AI agent as context
 2. Answer any prerequisite questions the agent asks
 3. Follow along as the agent executes the steps
 4. Complete any manual steps the agent cannot perform
 
-### For AI Agents
+### For AI agents
 1. Read the entire runbook before starting
 2. Gather all prerequisites from the user
 3. Follow the steps exactly, adapting only where explicitly noted
 4. Ask for clarification if any step is unclear
 5. Clean up all temporary resources after completion
 
-## Creating New Runbooks
+## Creating new runbooks
 
-### Best Practice: Agent-First Authoring
+### Best practice: Agent-first authoring
 The most effective runbooks are often created by having an AI agent write the first draft immediately after completing a complex task together. At the end of any challenging interactive task, consider asking your agent:
 
 > "Based on what we just did together, please create a runbook that would help another agent perform this same task in the future. Include all the context, gotchas, and workarounds we discovered."
 
 This captures the knowledge while it's fresh and ensures nothing important is forgotten.
 
-### When creating a new runbook:
+### When creating a new runbook
 
 1. **Use the template structure**:
    - Agent Prerequisites
