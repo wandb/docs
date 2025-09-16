@@ -1,5 +1,9 @@
 # Agent prompt: Testing GitHub Actions changes in wandb/docs
 
+## Requirements
+- **W&B employee access**: You must be a W&B employee with access to internal W&B systems.
+- **GitHub fork**: A personal fork of wandb/docs for testing workflow changes.
+
 ## Agent prerequisites
 Before starting, gather this information from the user:
 1. **GitHub username** - Needed to identify their fork
@@ -129,7 +133,7 @@ git commit -m "test: Add content change to trigger PR preview"
 git push fork test-pr-[description]
 ```
 
-Then create PR via GitHub UI from `<username>:test-pr-[description]` to `<username>:main`
+Then create PR through GitHub UI from `<username>:test-pr-[description]` to `<username>:main`
 
 ### 7. Monitor and verify
 
@@ -183,7 +187,7 @@ git branch -D test-[description]-[date] test-pr-[description]
 - [ ] Both remotes (origin and fork) are configured
 - [ ] Workflow changes applied to both relevant files
 - [ ] Cloudflare URL override added with correct username in owner check
-- [ ] Changes pushed to fork's main branch (directly or via user)
+- [ ] Changes pushed to fork's main branch (directly or through user)
 - [ ] Test PR created with content changes
 - [ ] Preview comment generated successfully
 - [ ] No errors in GitHub Actions logs

@@ -2,7 +2,17 @@
 
 This directory contains resources, prompts, and tools designed to help AI agents work effectively with the wandb/docs repository.
 
+## Getting started
+
+Start by reading the [system prompt](./system-prompt.md) to understand your role as a member of the W&B docs team.
+
 ## Directory structure
+
+### `system-prompt.md`
+The foundational context for AI agents joining the W&B docs team. Defines your role, responsibilities, and key principles for creating documentation.
+
+### `style-guide.md`
+Comprehensive style guide for W&B documentation. Covers formatting, punctuation, code examples, and W&B-specific conventions.
 
 ### `runbooks/`
 Standardized, task-specific instructions for AI agents performing complex operations in this repository. These runbooks ensure consistent, reliable execution of recurring tasks.
@@ -47,6 +57,51 @@ Repository-specific context that helps AI agents understand:
 2. Provide runbooks as context to your AI agent
 3. Report issues or ambiguities in runbooks
 4. Contribute improvements based on your experience
+
+## Collaboration guidelines
+
+When working with human and AI teammates on documentation changes:
+
+### Before creating a PR
+- **Feature branches**: Push feature branches to collaborate with others before opening a PR.
+- **Branch naming**: Use descriptive names that indicate the purpose (for example, `fix/broken-links-automation-guide`).
+
+### Creating pull requests
+1. **Start with draft PRs**: Create a draft pull request initially. This won't request reviews and can't be merged accidentally.
+2. **Wait for tests**: Ensure all PR tests pass before marking as ready for review.
+3. **Coordinate with humans**: The human coordinating the work should verify the changes meet requirements before marking the PR ready for review. A human should ultimately merge a PR, not an agent.
+
+### PR titles and descriptions
+- **Be meaningful but concise**: Write clear titles that describe what changed.
+- **Link relevant context**: Include:
+  - JIRA IDs (for example, `DOCS-1234`)
+  - GitHub issue IDs (for example, `#456`)
+  - Related PRs for additional context
+- **Add before/after comparison**: When applicable, include:
+  - Links to the current live documentation
+  - Links to the PR's HTML preview showing the changes
+  - Brief description of what changed and why
+
+### Example PR description
+```
+## Description
+
+Updates AI agent style guide to improve accessibility and code quality.
+
+The style guide now provides clearer guidance for AI agents creating documentation:
+- Added accessibility guidelines (no emojis)
+- Added code example best practices  
+- Created runbook template
+
+### Before/After
+- Live docs: https://docs.wandb.ai/guides/ai-resources
+- PR preview: https://preview-12345.pages.dev/guides/ai-resources
+
+## Related issues
+
+- Fixes DOCS-1234
+- Related to #456
+```
 
 ## Best practices
 

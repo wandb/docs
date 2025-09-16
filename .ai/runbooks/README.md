@@ -18,9 +18,12 @@ AI runbooks are detailed, step-by-step instructions designed to help AI agents p
 Tests changes to GitHub Actions workflows using a fork, particularly for workflows that depend on Cloudflare Pages deployments.
 
 **Use cases:**
-- Testing dependency upgrades (e.g., Dependabot PRs)
+- Testing dependency upgrades (for example, Dependabot PRs)
 - Verifying workflow functionality changes
 - Debugging GitHub Actions issues
+
+### [TEMPLATE.md](./TEMPLATE.md)
+A template for creating new runbooks. Copy this file and fill in the sections to create standardized, AI-friendly runbooks.
 
 ## How to use these runbooks
 
@@ -48,7 +51,10 @@ This captures the knowledge while it's fresh and ensures nothing important is fo
 
 ### When creating a new runbook
 
-1. **Use the template structure**:
+1. **Start with the template**: Copy [TEMPLATE.md](./TEMPLATE.md) as a starting point for consistency
+
+2. **Follow the template structure**:
+   - Requirements
    - Agent Prerequisites
    - Task Overview
    - Context and Constraints
@@ -56,22 +62,22 @@ This captures the knowledge while it's fresh and ensures nothing important is fo
    - Common Issues and Solutions
    - Cleanup Instructions
 
-2. **Make it agent-friendly**:
+3. **Make it agent-friendly**:
    - Use placeholders like `<username>` that agents should replace
    - Include explicit instructions for what agents should ask users
    - Provide fallback procedures when agents lack permissions
 
-3. **Include all necessary context**:
+4. **Include all necessary context**:
    - Repository-specific constraints
    - Tool-specific limitations
    - Security considerations
 
-4. **Test the runbook**:
+5. **Test the runbook**:
    - Have an AI agent follow it exactly
    - Note any ambiguities or missing steps
    - Iterate until the process is smooth
 
-5. **Get an agent review**:
+6. **Get an agent review**:
    - Ask an AI agent to review the runbook for agent-friendliness
    - Example prompt: "Please review this runbook and suggest improvements to make it more useful for AI agents. Focus on clarity, completeness, and removing ambiguity."
    - Incorporate the suggested improvements

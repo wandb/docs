@@ -9,8 +9,6 @@ weight: 9
 url: guides/registry/model_registry
 cascade:
 - url: guides/registry/model_registry/:filename
-aliases:
-- /guides/core/registry/model_registry
 ---
 
 {{% alert %}}
