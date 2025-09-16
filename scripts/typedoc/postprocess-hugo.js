@@ -519,7 +519,7 @@ function addTypeLinksInTables(content, filePath) {
   if (filePath.includes('/operations/')) {
     Object.entries(typeLinks).forEach(([typeName, linkedType]) => {
       // Match type in return position of function signatures: ): TypeName
-      const returnPattern = new RegExp(`\\): ${typeName}(\n|\s|$)`, 'g');
+      const returnPattern = new RegExp(`\\): ${typeName}(\\n|\\s|$)`, 'g');
       content = content.replace(returnPattern, `): ${linkedType}$1`);
       
       // Match type with union: TypeName | undefined
