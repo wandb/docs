@@ -1,6 +1,6 @@
 ---
 title: Operations
-description: Operations for querying and manipulating W&B data
+description: Functions and operations for querying and manipulating W&B data in the Query Expression Language.
 menu:
   reference:
     parent: query-panel-new
@@ -10,11 +10,8 @@ cascade:
   menu:
     reference:
       parent: query-panel-new-operations
+no_list: true
 ---
-
-# Operations
-
-Functions and operations for querying and manipulating W&B data in the Query Expression Language.
 
 ## Available Operations
 

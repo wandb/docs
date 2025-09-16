@@ -118,11 +118,16 @@ Functions for querying and manipulating W&B data:
 
 ## [Data Types](data-types/)
 Core type definitions:
-- [Run](data-types/run.md) - Experiment runs
-- [Artifact](data-types/artifact.md) - Versioned files
-- [ConfigDict](data-types/configdict.md) - Configuration
-- [SummaryDict](data-types/summarydict.md) - Metrics summary
-- [And more...](data-types/)
+- [Run](data-types/run.md) - Experiment runs with metadata and metrics
+- [Artifact](data-types/artifact.md) - Versioned files and directories
+- [ArtifactType](data-types/artifacttype.md) - Artifact type definitions
+- [ArtifactVersion](data-types/artifactversion.md) - Specific artifact versions
+- [ConfigDict](data-types/configdict.md) - Configuration parameters
+- [SummaryDict](data-types/summarydict.md) - Summary metrics from runs
+- [Table](data-types/table.md) - Tabular data structure
+- [User](data-types/user.md) - User account information
+- [Project](data-types/project.md) - Project metadata
+- [Entity](data-types/entity.md) - Team or user organization
 
 ## Common Patterns
 
