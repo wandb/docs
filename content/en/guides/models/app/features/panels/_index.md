@@ -4,7 +4,7 @@ menu:
     identifier: intro_panels
     parent: w-b-app-ui-reference
 title: Panels
-weight: 1
+weight: 2
 url: guides/app/features/panels
 cascade:
 - url: guides/app/features/panels/:filename
