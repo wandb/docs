@@ -84,7 +84,7 @@ A W&B admin can create automations in a project.
             - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
             - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
 
-        1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
+        1. To create an automation scoped only to a specific collection, optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
 
         Click **Next step**.
 
