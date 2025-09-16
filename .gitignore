@@ -6,6 +6,7 @@
 /build
 /public
 /resources
+/scripts/core
 
 # Generated files
 .docusaurus

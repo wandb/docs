@@ -12,7 +12,7 @@ menu:
 私たちは画像、ビデオ、音声などをサポートしています。リッチメディアをログして、結果を探索し、Run、Models、Datasetsを視覚的に比較しましょう。例やハウツーガイドは以下をご覧ください。
 
 {{% alert %}}
-メディアタイプの参考ドキュメントをお探しですか？この[ページ]({{< relref path="/ref/python/data-types/" lang="ja" >}})が必要です。
+メディアタイプの参考ドキュメントをお探しですか？この[ページ]({{< relref "/ref/python/data-types/" >}})が必要です。
 {{% /alert %}}
 
 {{% alert %}}
@@ -333,7 +333,7 @@ W&B UIはデータを30万ポイントに制限します。
 
 #### Pythonオブジェクト
 
-このスキーマを使用して、Pythonオブジェクトを定義し、以下に示すように [the `from_point_cloud` method]({{< relref path="/ref/python/data-types/object3d/#from_point_cloud" lang="ja" >}}) に渡すことができます。
+このスキーマを使用して、Pythonオブジェクトを定義し、以下に示すように [the `from_point_cloud` method]({{< relref "/ref/python/data-types/object3d/#from_point_cloud" >}}) に渡すことができます。
 
 * `points`は、[単純なポイントクラウドレンダラーで上記に示されたのと同じフォーマットを使用してレンダリングするポイントの座標と色を含むNumPy配列です]({{< relref path="#python-object" lang="ja" >}})。
 * `boxes`は3つの属性を持つPython辞書のNumPy配列です：
@@ -390,7 +390,7 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
 
 #### ポイントクラウドファイル
 
-[the `from_file` method]({{< relref path="/ref/python/data-types/object3d/#from_file" lang="ja" >}}) を使用して、ポイントクラウドデータが満載のJSONファイルをロードできます。
+[the `from_file` method]({{< relref "/ref/python/data-types/object3d/#from_file" >}}) を使用して、ポイントクラウドデータが満載のJSONファイルをロードできます。
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -486,7 +486,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
 ```
 #### NumPy配列
 
-[上記で定義された配列フォーマット]({{< relref path="#numpy-array-formats" lang="ja" >}})を使用して、`numpy`配列を直接 [the `from_numpy` method]({{< relref path="/ref/python/data-types/object3d/#from_numpy" lang="ja" >}}) でポイントクラウドを定義できます。
+[上記で定義された配列フォーマット]({{< relref path="#numpy-array-formats" lang="ja" >}})を使用して、`numpy`配列を直接 [the `from_numpy` method]({{< relref "/ref/python/data-types/object3d/#from_numpy" >}}) でポイントクラウドを定義できます。
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -564,7 +564,7 @@ runが終了すると、UIで分子の3D可視化と対話できるようにな�
 
 ### PNG 画像
 
-[`wandb.Image`]({{< relref path="/ref/python/data-types/image.md" lang="ja" >}})は`numpy`配列や`PILImage`のインスタンスをデフォルトでPNGに変換します。
+[`wandb.Image`]({{< relref "/ref/python/data-types/image" >}})は`numpy`配列や`PILImage`のインスタンスをデフォルトでPNGに変換します。
 
 ```python
 wandb.log({"example": wandb.Image(...)})
@@ -574,7 +574,7 @@ wandb.log({"example": [wandb.Image(...) for img in images]})
 
 ### ビデオ
 
-ビデオは[`wandb.Video`]({{< relref path="/ref/python/data-types/video.md" lang="ja" >}}) データ型を使用してログします：
+ビデオは[`wandb.Video`]({{< relref "/ref/python/data-types/video" >}}) データ型を使用してログします：
 
 ```python
 wandb.log({"example": wandb.Video("myvideo.mp4")})
@@ -584,7 +584,7 @@ wandb.log({"example": wandb.Video("myvideo.mp4")})
 
 ## 分子の2Dビュー
 
-[`wandb.Image`]({{< relref path="/ref/python/data-types/image.md" lang="ja" >}})データ型と[`rdkit`](https://www.rdkit.org/docs/index.html)を使用して分子の2Dビューをログできます:
+[`wandb.Image`]({{< relref "/ref/python/data-types/image" >}})データ型と[`rdkit`](https://www.rdkit.org/docs/index.html)を使用して分子の2Dビューをログできます:
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -606,7 +606,7 @@ W&Bは、さまざまな他のメディアタイプのログもサポートし�
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-1ステップあたりの最大100のオーディオクリップをログできます。詳細な使い方については、[`audio-file`]({{< relref path="/ref/query-panel/audio-file.md" lang="ja" >}})を参照してください。
+1ステップあたりの最大100のオーディオクリップをログできます。詳細な使い方については、[`wandb.Audio`]({{< relref "/ref/python/data-types/audio" >}})を参照してください。
 
 ### ビデオ
 
@@ -618,7 +618,7 @@ numpy配列が供給された場合、時間、チャンネル、幅、高さの
 
 W&Bの[Run]({{< relref path="/guides/models/track/runs/" lang="ja" >}})と[Project]({{< relref path="/guides/models/track/project-page.md" lang="ja" >}})ページで、メディアセクションにビデオが表示されます。
 
-詳細な使い方については、[`video-file`]({{< relref path="/ref/query-panel/video-file" lang="ja" >}})を参照してください。
+詳細な使い方については、[`wandb.Video`]({{< relref "/ref/python/data-types/video" >}})を参照してください。
 
 ### テキスト
 
@@ -644,7 +644,7 @@ wandb.log({"examples": table})
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-詳細な使い方については、[`string`]({{< relref path="/ref/query-panel/" lang="ja" >}})を参照してください。
+詳細な使い方については、[`wandb.Table`]({{< relref "/ref/python/data-types/table" >}})を参照してください。
 
 ### HTML
 
@@ -659,4 +659,4 @@ wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-詳細な使い方については、[`html-file`]({{< relref path="/ref/query-panel/html-file" lang="ja" >}})を参照してください。
+詳細な使い方については、[`wandb.Html`]({{< relref "/ref/python/data-types/html" >}})を参照してください。
