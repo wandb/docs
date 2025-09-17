@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ko-guides-models-app-_index
     parent: models
-url: /ko/guides//app
+url: guides/app
 ---
 
 

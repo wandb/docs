@@ -4,7 +4,7 @@ menu:
   default:
     identifier: ja-guides-models-app-_index
     parent: models
-url: /ja/guides/app
+url: guides/app
 ---
 
 
