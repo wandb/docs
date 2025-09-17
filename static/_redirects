@@ -363,9 +363,9 @@
 /ref/python/README/ /ref/python/ 301
 /ref/python/config/ /ref/python/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
-/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
+/ref/python/data-types/boundingboxes2d/ /guides/track/log/media/#image-overlays 301
 /ref/python/data-types/graph/ /ref/python/data-types/ 301
-/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
+/ref/python/data-types/imagemask/ /guides/track/log/media/#image-overlays 301
 /ref/python/data_types/ /ref/python/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
 /ref/python/finish/ /ref/python/sdk/functions/finish/ 301
