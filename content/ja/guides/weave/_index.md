@@ -6,24 +6,29 @@ menu:
 weight: 4
 ---
 
-{{< cta-button colabLink="http://wandb.me/weave_colab" >}}
-
-Weave は、LLM アプリケーションを追跡および評価するための軽量ツールキットです。W&B Weave を使って、LLM の実行フローを視覚化および検査し、LLM の入力と出力を分析し、中間結果を表示し、プロンプトと LLM チェーン設定を安全に保存および管理できます。
-
-{{< img src="/images/weave/weave-hero.png" alt="" >}}
-
-W&B Weave を使用すると、次のことが可能です：
-* 言語モデルの入力、出力、およびトレースをログし、デバッグ
-* 言語モデルのユースケースに対する厳密な、比較可能な評価を構築
-* 実験から評価、プロダクションまでの LLM ワークフローで生成されたすべての情報を整理
-
 {{% alert %}}
-Weave のドキュメントをお探しですか？[W&B Weave Docs](https://weave-docs.wandb.ai/) をご覧ください。
+公式の Weave ドキュメントをお探しですか？ [weave-docs.wandb.ai](https://weave-docs.wandb.ai/) をご覧ください。
 {{% /alert %}}
 
-## 開始方法
-ユースケースに応じて、W&B Weave を始めるために以下のリソースを探索してください：
+W&B Weave は、LLM ベースの アプリケーション を追跡、実験、評価、デプロイ、改善するための フレームワーク です。柔軟性とスケーラビリティを重視して設計されており、LLM アプリケーション開発のワークフローのあらゆる段階を支援します:
 
-* [クイックスタート: LLM 呼び出しの入力と出力を追跡](https://wandb.github.io/weave/quickstart)
-* [評価パイプラインチュートリアルを構築](https://wandb.github.io/weave/tutorial-eval)
-* [RAG アプリケーションのモデルベースの評価チュートリアル](https://wandb.github.io/weave/tutorial-rag)
+- **トレーシング & モニタリング**: LLM の呼び出しやアプリケーション ロジックを追跡し、プロダクション システムのデバッグや分析を行います。
+- **体系的なイテレーション**: プロンプト、データセット、モデルを改善・反復します。
+- **実験**: LLM Playground でさまざまなモデルやプロンプトを試せます。
+- **評価**: カスタムまたはあらかじめ用意されたスコアラーと比較ツールを併用して、アプリケーションの性能を体系的に評価・向上させます。
+- **ガードレール**: コンテンツモデレーションやプロンプトの安全性などのセーフガードでアプリケーションを保護します。
+
+## Weave を始める
+
+Weave は初めてですか？ [Python クイックスタート](https://weave-docs.wandb.ai/quickstart) または [TypeScript クイックスタート](https://weave-docs.wandb.ai/reference/generated_typescript_docs/intro-notebook) を使ってセットアップし、使い始めましょう。
+
+## 高度なガイド
+
+高度なトピックについてさらに学びましょう:
+
+- [インテグレーション](https://weave-docs.wandb.ai/guides/integrations/): 一般的な LLM プロバイダ、ローカル モデル、フレームワーク、サードパーティ サービスと組み合わせて Weave を使う方法。
+- [クックブック](https://weave-docs.wandb.ai/reference/gen_notebooks/intro_notebook): Python と TypeScript を使って Weave で構築する方法。チュートリアルはインタラクティブなノートブックとして提供されています。
+- [W&B AI Academy](https://www.wandb.courses/pages/w-b-courses): 高度な RAG システムの構築、LLM のプロンプト改善、LLM のファインチューンなど。
+- [Weave Python SDK](https://weave-docs.wandb.ai/reference/python-sdk/weave/)
+- [Weave TypeScript SDK](https://weave-docs.wandb.ai/reference/typescript-sdk/weave/)
+- [Weave Service API](https://weave-docs.wandb.ai/reference/service-api/call-start-call-start-post)

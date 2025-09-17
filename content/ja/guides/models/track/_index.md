@@ -1,68 +1,68 @@
 ---
-title: 実験管理
-description: W&B で機械学習実験を追跡する。
+title: Experiments
+description: W&B で 機械学習の実験を追跡しましょう。
 cascade:
-- url: /ja/guides/track/:filename
+- url: guides/track/:filename
 menu:
   default:
     identifier: ja-guides-models-track-_index
     parent: w-b-models
-url: /ja/guides/track
+url: guides/track
 weight: 1
 ---
 
 {{< cta-button productLink="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" >}}
 
-数行のコードで機械学習実験を追跡します。その後、[インタラクティブなダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})で結果をレビューしたり、[Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}})を使用してプログラムからアクセスできるようにPythonにデータをエクスポートすることができます。
+数行のコードで機械学習の実験をトラッキングできます。結果は [インタラクティブなダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) で確認するか、[Public API]({{< relref path="/ref/python/public-api/index.md" lang="ja" >}}) を使ってデータを Python にエクスポートし、プログラムから アクセス できます。
 
-人気のあるフレームワークを使用している場合は、W&Bのインテグレーションを活用してください。[PyTorch]({{< relref path="/guides/integrations/pytorch.md" lang="ja" >}})、[Keras]({{< relref path="/guides/integrations/keras.md" lang="ja" >}})、または[Scikit]({{< relref path="/guides/integrations/scikit.md" lang="ja" >}})のようなフレームワークがあります。インテグレーションの完全なリストや、W&Bをコードに追加する方法については、[インテグレーションガイド]({{< relref path="/guides/integrations/" lang="ja" >}})をご覧ください。
+PyTorch、Keras、Scikit などの人気フレームワークを使っている場合は W&B Integrations を活用してください。インテグレーションの一覧やコードに W&B を追加する方法は [Integration guides]({{< relref path="/guides/integrations/" lang="ja" >}}) を参照してください。
 
-{{< img src="/images/experiments/experiments_landing_page.png" alt="" >}}
+{{< img src="/images/experiments/experiments_landing_page.png" alt="Experiments ダッシュボード" >}}
 
-上の画像は、複数の[Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}})でメトリクスを確認および比較できるダッシュボードの例を示しています。
+上の画像は、複数の [runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) にわたるメトリクスを表示・比較できるダッシュボードの例です。
 
 ## 仕組み
 
-数行のコードで機械学習実験を追跡します:
-1. [W&B Run]({{< relref path="/guides/models/track/runs/" lang="ja" >}})を作成します。
-2. 学習率やモデルタイプなどのハイパーパラメーターを辞書として設定（[`run.config`]({{< relref path="./config.md" lang="ja" >}})）に保存します。
-3. トレーニングループ中に正確性や損失などのメトリクスをログ（[`run.log()`]({{< relref path="/guides/models/track/log/" lang="ja" >}})）します。
-4. モデルの重みや予測のテーブルのようなRunの出力を保存します。
+数行のコードで機械学習の実験をトラッキングします:
+1. [W&B Run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) を作成します。
+2. 学習率やモデル種別などのハイパーパラメーターの辞書を、設定（[`wandb.Run.config`]({{< relref path="./config.md" lang="ja" >}})）に保存します。
+3. 精度や損失などのメトリクスを、トレーニング ループ内で時間経過に沿って（[`wandb.Run.log()`]({{< relref path="/guides/models/track/log/" lang="ja" >}})）記録します。
+4. モデルの重みや予測テーブルなど、run の出力を保存します。
 
-以下のコードは、一般的なW&B実験管理ワークフローを示しています:
+以下は、一般的な W&B の実験管理ワークフローを示すコード例です:
 
 ```python
-# Run を開始します。
+# run を開始します。
 #
-# このブロックから出ると、ログデータのアップロードが完了するのを待ちます。
-# 例外が発生した場合、Run は失敗としてマークされます。
+# このブロックを抜けると、記録したデータのアップロード完了を待ちます。
+# 例外が発生した場合、その run は失敗としてマークされます。
 with wandb.init(entity="", project="my-project-name") as run:
-  # モード入力とハイパーパラメーターを保存します。
+  # 入力やハイパーパラメーターを保存します。
   run.config.learning_rate = 0.01
 
-  # 実験コードを実行します。
+  # 実験のコードを実行します。
   for epoch in range(num_epochs):
-    # トレーニングをします...
+    # ここで学習を行う...
 
-    # モデルのパフォーマンスを可視化するためのメトリクスを時間と共にログします。
+    # モデルの性能を可視化できるよう、メトリクスを時系列でログします。
     run.log({"loss": loss})
 
-  # モデルの出力をアーティファクトとしてアップロードします。
+  # モデルの出力を Artifacts としてアップロードします。
   run.log_artifact(model)
 ```
 
-## 始めましょう
+## はじめに
 
-あなたのユースケースに応じて、W&B Experimentsの開始に役立つ次のリソースを探索してください:
+ユースケースに応じて、W&B Experiments を始めるために次のリソースを参照してください:
 
-* [W&Bクイックスタート]({{< relref path="/guides/quickstart.md" lang="ja" >}})を読んで、W&B Python SDKコマンドを使用してデータセットアーティファクトを作成、追跡、および利用するためのステップバイステップの概要を確認してください。
-* このチャプターを探索して、以下を学びましょう:
+* データセットのアーティファクトを作成、トラッキング、活用するために使用できる W&B Python SDK のコマンドを段階的に解説した [W&B Quickstart]({{< relref path="/guides/quickstart.md" lang="ja" >}}) を読んでください。
+* このチャプターでは次の内容を学べます:
   * 実験を作成する
   * 実験を設定する
-  * 実験からデータをログする
-  * 実験から結果を確認する
-* [W&B APIリファレンスガイド]({{< relref path="/ref/" lang="ja" >}})内の[W&B Pythonライブラリ]({{< relref path="/ref/python/" lang="ja" >}})を探索してください。
+  * 実験からデータをログに記録する
+  * 実験の結果を確認する
+* [W&B API Reference Guide]({{< relref path="/ref/" lang="ja" >}}) 内の [W&B Python Library]({{< relref path="/ref/python/index.md" lang="ja" >}}) も参照してください。
 
-## ベストプラクティスとヒント
+## ベストプラクティスとヒント 
 
-実験とログのベストプラクティスとヒントについては、[ベストプラクティス： 実験とログ](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging)をご覧ください。
+実験とロギングのベストプラクティスやヒントについては、[Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging) を参照してください。

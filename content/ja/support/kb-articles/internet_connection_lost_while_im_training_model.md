@@ -1,14 +1,16 @@
 ---
-title: モデルのトレーニング中にインターネット接続が切れた場合、何が起こりますか？
+title: モデルをトレーニング中にインターネット接続が切れた場合はどうなりますか？
 menu:
   support:
     identifier: ja-support-kb-articles-internet_connection_lost_while_im_training_model
 support:
-  - environment variables
+- 環境変数
+- 障害
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-ライブラリがインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスのストリームを試み続けます。この間、プログラムは実行を継続します。
 
-インターネットなしでマシン上で実行するには、`WANDB_MODE=offline` を設定します。この設定は、メトリクスをローカルのハードドライブに保存します。その後、`wandb sync ディレクトリー` を呼び出して、データをサーバーにストリームします。
+ライブラリ がインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスをストリーミングし続けます。この間もプログラムは実行し続けます。
+
+インターネットに接続できないマシンで実行するには、`WANDB_MODE=offline` を設定します。この 設定 はメトリクスをハードドライブ上にローカル保存します。後で、`wandb sync DIRECTORY` を実行して、データを サーバー にストリーミングします。

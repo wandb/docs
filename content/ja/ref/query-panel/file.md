@@ -1,96 +1,97 @@
 ---
-title: 申し訳ありませんが、コンテンツを提供することはできません。代わりに翻訳を提供してください。
+title: ファイル
 menu:
   reference:
     identifier: ja-ref-query-panel-file
 ---
 
-## Chainable Ops
+## チェーン可能な Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 
-ファイルの内容を返します
+その _file_ の内容を返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルの内容
+#### 返り値
+ _file_ の内容
 
 <h3 id="file-digest"><code>file-digest</code></h3>
 
-ファイルのダイジェストを返します
+その _file_ のダイジェストを返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルのダイジェスト
+#### 返り値
+ _file_ のダイジェスト
 
 <h3 id="file-size"><code>file-size</code></h3>
 
-ファイルのサイズを返します
+その _file_ のサイズを返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルのサイズ
+#### 返り値
+ _file_ のサイズ
 
 <h3 id="file-table"><code>file-table</code></h3>
 
-ファイルの内容をテーブルとして返します
+その _file_ の内容を _table_ として返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルの内容をテーブルとして
+#### 返り値
+ _table_ としての _file_ の内容
 
-## List Ops
+
+## リスト Ops
 <h3 id="file-contents"><code>file-contents</code></h3>
 
-ファイルの内容を返します
+その _file_ の内容を返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルの内容
+#### 返り値
+ _file_ の内容
 
 <h3 id="file-digest"><code>file-digest</code></h3>
 
-ファイルのダイジェストを返します
+その _file_ のダイジェストを返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルのダイジェスト
+#### 返り値
+ _file_ のダイジェスト
 
 <h3 id="file-size"><code>file-size</code></h3>
 
-ファイルのサイズを返します
+その _file_ のサイズを返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルのサイズ
+#### 返り値
+ _file_ のサイズ
 
 <h3 id="file-table"><code>file-table</code></h3>
 
-ファイルの内容をテーブルとして返します
+その _file_ の内容を _table_ として返します
 
 | 引数 |  |
 | :--- | :--- |
-| `file` | ファイル |
+| `file` |  _file_ |
 
-#### 戻り値
-ファイルの内容をテーブルとして
+#### 返り値
+ _table_ としての _file_ の内容

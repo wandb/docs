@@ -4,20 +4,19 @@ menu:
   support:
     identifier: ja-support-kb-articles-logging_turn_off
 support:
-  - logs
+- ログ
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`wandb offline` コマンドは、環境変数 `WANDB_MODE=offline` を設定し、データがリモート W&B サーバーと同期されないようにします。このアクションはすべての Projects に影響を与え、データの W&B サーバーへのログを停止します。
 
-警告メッセージを抑制するには、以下のコードを使用します。
+`wandb offline` コマンドは、環境変数 `WANDB_MODE=offline` を設定し、リモートの W&B サーバーへのデータ同期を行わないようにします。この設定はすべての Projects に適用され、W&B サーバーへのデータのログ記録を停止します。
+
+警告メッセージを抑制するには、次のコードを使用します:
 
 ```python
 import logging
 
-# ロガーを取得
 logger = logging.getLogger("wandb")
-# ログレベルを WARNING に設定
 logger.setLevel(logging.WARNING)
 ```

@@ -1,5 +1,5 @@
 ---
-title: ユーザーとチームの管理を自動化する
+title: ユーザーとチームの管理を自動化
 menu:
   default:
     identifier: ja-guides-hosting-iam-automate_iam
@@ -9,60 +9,60 @@ weight: 3
 
 ## SCIM API
 
-SCIM API を使用して、ユーザーやその所属するチームを効率的かつ再現可能な方法で管理します。また、SCIM API を使用してカスタムロールを管理したり、 W&B 組織内のユーザーにロールを割り当てたりすることもできます。ロールエンドポイントは公式の SCIM スキーマの一部ではありません。 W&B はカスタムロールの自動管理をサポートするためにロールエンドポイントを追加しています。
+SCIM API を使うと、Users と彼らが所属する Teams を効率的かつ再現可能な方法で管理できます。また、SCIM API を使用して、カスタムロールの管理や、W&B の組織内の Users へのロール割り当ても行えます。ロール用エンドポイントは公式の SCIM スキーマの一部ではありません。W&B では、カスタムロールの自動管理をサポートするためにロール用エンドポイントを追加しています。
 
-SCIM API は特に以下の場合に役立ちます：
+SCIM API は特に次のような場合に有用です:
 
-* 大規模なユーザーのプロビジョニングおよびプロビジョニング解除の管理
-* SCIMサポートのアイデンティティプロバイダーを使用してユーザーを管理
+* 大規模な User のプロビジョニングとデプロビジョニングを管理する
+* SCIM に対応したアイデンティティ プロバイダで Users を管理する
 
-SCIM API には大きく分けて 3 つのカテゴリがあります - **User** 、 **Group** 、および **Roles** 。
+SCIM API は大きく **User**、**Group**、**Roles** の 3 つに分類されます。
 
 ### User SCIM API
 
-[User SCIM API]({{< relref path="./scim.md#user-resource" lang="ja" >}}) を使用すると、ユーザーの作成、無効化、詳細の取得、または W&B 組織内の全ユーザーの一覧を表示できます。この API は、組織内のユーザーに事前定義されたロールまたはカスタムロールを割り当てることもサポートしています。
+[User SCIM API]({{< relref path="./scim.md#user-resource" lang="ja" >}}) では、W&B の組織内で User を作成・無効化・詳細取得したり、すべての Users を一覧表示できます。この API は、組織内の Users に対してあらかじめ定義されたロールやカスタムロールを割り当てることもサポートします。
 
 {{% alert %}}
-`DELETE User` エンドポイントを使用して、W&B 組織内のユーザーを無効化します。無効化されたユーザーはサインインできなくなります。ただし、無効化されたユーザーは引き続き組織のユーザーリストに表示されます。
+`DELETE User` エンドポイントで、W&B の組織内の User を無効化できます。無効化された Users はサインインできなくなります。ただし、無効化された Users は組織の User リストには引き続き表示されます。
 
-無効化されたユーザーをユーザーリストから完全に削除するには、 [ユーザーを組織から削除]({{< relref path="access-management/manage-organization.md#remove-a-user" lang="ja" >}}) する必要があります。
+無効化した User を User リストから完全に削除するには、[組織からその user を削除]({{< relref path="access-management/manage-organization.md#remove-a-user" lang="ja" >}}) する必要があります。
 
-必要に応じて無効化されたユーザーを再有効化することが可能です。
+必要に応じて、無効化した User を再有効化することも可能です。
 {{% /alert %}}
 
 ### Group SCIM API
 
-[Group SCIM API]({{< relref path="./scim.md#group-resource" lang="ja" >}}) は、組織内での W&B チームの作成や削除を含めた管理を行うことができます。 `PATCH Group` を使用して、既存のチームにユーザーを追加または削除します。
+[Group SCIM API]({{< relref path="./scim.md#group-resource" lang="ja" >}}) では、W&B Teams の管理（組織内の Teams の作成や削除など）が行えます。既存の Team に Users を追加または削除するには `PATCH Group` を使用します。
 
 {{% alert %}}
-W&B には、 `グループ内のユーザーが同じロールを持つ` という概念はありません。 W&B チームはグループに非常に似ており、さまざまな役割を持った多様な個人が関連するプロジェクトで共同作業することができます。チームは異なるユーザーグループで構成されることができます。チーム内の各ユーザーに、チームの管理者、メンバー、閲覧者、またはカスタムロールのいずれかのロールを割り当てます。
+W&B に `group of users having the same role` という概念はありません。W&B の Team は group に近く、異なるロールを持つ多様なペルソナが、関連する一連の Projects に共同で取り組めます。Teams は異なる Users のグループで構成され得ます。Team 内の各 User に、team admin、member、viewer、またはカスタムロールのいずれかのロールを割り当ててください。
 
-グループと W&B チームの類似性のために、 W&B は Group SCIM API エンドポイントを W&B チームにマップしています。
+グループと W&B の Teams が類似しているため、W&B は Group SCIM API のエンドポイントを W&B の Teams にマッピングしています。
 {{% /alert %}}
 
-### Custom role API
+### カスタムロール API
 
-[Custom role SCIM API]({{< relref path="./scim.md#role-resource" lang="ja" >}}) は、組織内でのカスタムロールの作成、一覧表示、更新を含めた管理を行うことができます。
+[Custom role SCIM API]({{< relref path="./scim.md#role-resource" lang="ja" >}}) では、組織内でカスタムロールを作成・一覧表示・更新するなど、カスタムロールの管理が行えます。
 
 {{% alert color="secondary" %}}
-カスタムロールを削除する際は注意してください。
+カスタムロールの削除は慎重に行ってください。
 
-`DELETE Role` エンドポイントを使用して W&B 組織内でカスタムロールを削除します。カスタムロールが継承する事前定義ロールは、操作が実行される前にカスタムロールに割り当てられたすべてのユーザーに割り当てられます。
+`DELETE Role` エンドポイントで、W&B の組織内のカスタムロールを削除できます。この操作の前に、カスタムロールを付与されているすべての Users には、そのカスタムロールが継承している事前定義ロールが割り当てられます。
 
-`PUT Role` エンドポイントを使用してカスタムロールの継承ロールを更新します。この操作は、カスタムロールの既存の、つまり非継承のカスタム許可には影響しません。
+`PUT Role` エンドポイントで、カスタムロールが継承しているロールを更新できます。この操作は、既存の（つまり継承ではない）カスタム権限には影響しません。
 {{% /alert %}}
 
 ## W&B Python SDK API
 
-SCIM API がユーザーとチームの管理を自動化するのと同様に、一部のメソッドを使用して [W&B Python SDK API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) も同様の目的で使用できます。以下のメソッドに注意してください：
+SCIM API で Users や Teams の管理を自動化できるのと同様に、その目的には [W&B Python SDK API]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) に用意されているいくつかのメソッドも利用できます。次のメソッドを覚えておくと便利です:
 
 | メソッド名 | 目的 |
 |-------------|---------|
-| `create_user(email, admin=False)` | ユーザーを組織に追加し、オプションで組織の管理者に設定します。 |
-| `user(userNameOrEmail)` | 組織に既に存在するユーザーを返します。 |
-| `user.teams()` | ユーザーのチームを返します。ユーザーオブジェクトは user(userNameOrEmail) メソッドを使用して取得できます。 |
-| `create_team(teamName, adminUserName)` | 新しいチームを作成し、オプションで組織レベルのユーザーをチーム管理者に設定します。 |
-| `team(teamName)` | 組織に既に存在するチームを返します。 |
-| `Team.invite(userNameOrEmail, admin=False)` | ユーザーをチームに追加します。team(teamName) メソッドを使用してチームオブジェクトを取得できます。 |
-| `Team.create_service_account(description)` | サービスアカウントをチームに追加します。team(teamName) メソッドを使用してチームオブジェクトを取得できます。 |
-| `Member.delete()` | チームからメンバーを削除します。team オブジェクトの `members` 属性を使用してチーム内のメンバーオブジェクトのリストを取得できます。そして、 team(teamName) メソッドを使用してチームオブジェクトを取得できます。 |
+| `create_user(email, admin=False)` | 組織に User を追加し、必要に応じて組織の admin に指定します。 |
+| `user(userNameOrEmail)` | 組織内に存在する User を返します。 |
+| `user.teams()` | その User が所属する Teams を返します。User のオブジェクトは user(userNameOrEmail) メソッドで取得できます。 |
+| `create_team(teamName, adminUserName)` | 新しい Team を作成し、必要に応じて組織レベルの User を Team admin に指定します。 |
+| `team(teamName)` | 組織内に存在する Team を返します。 |
+| `Team.invite(userNameOrEmail, admin=False)` | Team に User を追加します。Team のオブジェクトは team(teamName) メソッドで取得できます。 |
+| `Team.create_service_account(description)` | Team にサービスアカウントを追加します。Team のオブジェクトは team(teamName) メソッドで取得できます。 |
+|` Member.delete()` | Team からメンバー User を削除します。Team のオブジェクトの `members` 属性を使うと、Team 内のメンバーオブジェクトの一覧を取得できます。なお、Team のオブジェクトは team(teamName) メソッドで取得できます。 |

@@ -1,15 +1,15 @@
 ---
-title: Python ファイルを編集すると、sweep 実行中に何が起こりますか？
+title: sweep の実行中に自分の Python ファイルを編集したらどうなりますか？
 menu:
   support:
-    identifier: >-
-      ja-support-kb-articles-what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
+    identifier: ja-support-kb-articles-what_happens_if_i_edit_my_python_files_while_a_sweep_is_running
 support:
-  - sweeps
+- sweeps
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-スイープが実行中の場合:
-- スイープが使用する `train.py` スクリプトが変更された場合、スイープは元の `train.py` を使用し続けます。
-- スイープが参照する `train.py` スクリプト内のファイルが変更された場合、例えば `helper.py` スクリプト内の補助関数など、スイープは更新された `helper.py` を使用し始めます。
+
+sweep 実行中は:
+- sweep が使用する `train.py` スクリプトが変更されても、sweep は元の `train.py` を使い続けます
+- `train.py` スクリプトが参照するファイル（たとえば `helper.py` スクリプト内のヘルパー関数）が変更された場合、sweep は更新された `helper.py` の使用を開始します。

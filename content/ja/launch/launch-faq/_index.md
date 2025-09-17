@@ -1,5 +1,5 @@
 ---
-title: Launch FAQ
+title: Launch の FAQ
 cascade:
   toc_hide: true
 menu:

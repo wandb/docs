@@ -1,11 +1,11 @@
 ---
-title: 申し訳ありませんが、指定されたコンテンツを表示できません。別のリクエストを試してください。
+title: 表
 menu:
   reference:
     identifier: ja-ref-query-panel-table
 ---
 
-## Chainable Ops
+## チェイン可能な Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
 アセットの _file_ を返します
@@ -19,17 +19,17 @@ menu:
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-_table_ の行を返します
+_テーブル_ の行を返します
 
 | 引数 |  |
 | :--- | :--- |
-| `table` | _table_ |
+| `table` | _テーブル_ |
 
 #### 戻り値
-_table_ の行
+_テーブル_ の行
 
 
-## List Ops
+## リスト Ops
 <h3 id="asset-file"><code>asset-file</code></h3>
 
 アセットの _file_ を返します
@@ -43,11 +43,11 @@ _table_ の行
 
 <h3 id="table-rows"><code>table-rows</code></h3>
 
-_table_ の行を返します
+_テーブル_ の行を返します
 
 | 引数 |  |
 | :--- | :--- |
-| `table` | _table_ |
+| `table` | _テーブル_ |
 
 #### 戻り値
-_table_ の行
+_テーブル_ の行

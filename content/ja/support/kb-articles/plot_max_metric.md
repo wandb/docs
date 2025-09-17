@@ -1,12 +1,13 @@
 ---
-title: メトリックの最大値をプロットすることは可能ですか、それともステップごとにプロットする必要がありますか？
+title: ステップごとのプロットではなく、メトリクスの最大値をプロットすることは可能ですか？
 menu:
   support:
     identifier: ja-support-kb-articles-plot_max_metric
 support:
-  - metrics
+- メトリクス
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-メトリックの散布図を作成します。 **Edit** メニューを開き、 **Annotations** を選択します。そこから、値のランニング最大値をプロットします。
+
+メトリクスの散布図を作成します。**Edit** メニューを開き、 **Annotations** を選択します。そこから、値の累積最大値をプロットします。

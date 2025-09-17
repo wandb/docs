@@ -8,11 +8,11 @@ weight: 2
 ---
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Image_Classification_using_PyTorch_Lightning.ipynb" >}}
-私たちは PyTorch Lightning を使用して画像分類パイプラインを構築します。この[スタイルガイド](https://lightning.ai/docs/pytorch/stable/starter/style_guide.html)に従って、コードの読みやすさと再現性を高めます。このすばらしい説明は[こちら](https://wandb.ai/wandb/wandb-lightning/reports/Image-Classification-using-PyTorch-Lightning--VmlldzoyODk1NzY)で利用可能です。
+PyTorch Lightning を使って 画像分類 の パイプライン を構築します。コードの可読性と 再現性 を高めるため、この [スタイルガイド](https://lightning.ai/docs/pytorch/stable/starter/style_guide.html) に従います。わかりやすい解説は [こちら](https://wandb.ai/wandb/wandb-lightning/reports/Image-Classification-using-PyTorch-Lightning--VmlldzoyODk1NzY) にもあります。
 
 ## PyTorch Lightning と W&B のセットアップ
 
-このチュートリアルでは、PyTorch Lightning と Weights & Biases が必要です。
+このチュートリアルでは PyTorch Lightning と W&B が必要です。
 
 ```shell
 pip install lightning -q
@@ -22,7 +22,7 @@ pip install wandb -qU
 ```python
 import lightning.pytorch as pl
 
-# あなたのお気に入りの機械学習トラッキングツール
+# お気に入りの 機械学習 トラッキング ツール
 from lightning.pytorch.loggers import WandbLogger
 
 import torch
@@ -38,24 +38,25 @@ from torchvision.datasets import CIFAR10
 import wandb
 ```
 
-これで、wandb アカウントにログインする必要があります。
+次に、wandb アカウントにログインします。
 
 ```
 wandb.login()
 ```
 
-## DataModule - 私たちが求めるデータパイプライン
+## DataModule - 望んでいた データ パイプライン
 
-DataModules は、データに関連するフックを LightningModule から分離する方法であり、データセットに依存しないモデルを開発できます。
+DataModule は、データ関連の フック を LightningModule から切り離し、データセット に依存しない モデル を開発できるようにする仕組みです。
 
-これは、データパイプラインを1つの共有可能で再利用可能なクラスにまとめます。データモジュールは PyTorch のデータプロセッシングに関わる5つのステップをカプセル化します：
-- ダウンロード / トークン化 / プロセス。
-- クリーンし、（場合によっては）ディスクに保存。
-- データセット内にロード。
-- 変換を適用（回転、トークン化など）。
-- DataLoader 内にラップ。
+データ パイプラインを、共有可能で再利用可能な 1 つのクラスにまとめます。DataModule は、PyTorch における データ プロセッシング の 5 つのステップをカプセル化します:
+- ダウンロード / トークナイズ / 前処理
+- クリーンアップし、（必要に応じて）ディスクに保存
+- Dataset に読み込む
+- 変換を適用（回転、トークナイズ など）
+- DataLoader でラップする
 
-データモジュールについて詳しくは[こちら](https://lightning.ai/docs/pytorch/stable/data/datamodule.html)をご覧ください。Cifar-10 データセット用のデータモジュールを構築しましょう。
+DataModule についての詳細は [こちら](https://lightning.ai/docs/pytorch/stable/data/datamodule.html)。ここでは CIFAR-10 データセット 向けの DataModule を作ってみましょう。
+
 
 ```
 class CIFAR10DataModule(pl.LightningDataModule):
@@ -76,12 +77,12 @@ class CIFAR10DataModule(pl.LightningDataModule):
         CIFAR10(self.data_dir, train=False, download=True)
     
     def setup(self, stage=None):
-        # データローダーで使用する train/val データセットを割り当て
+        # dataloader で使う学習/検証データセットを割り当て
         if stage == 'fit' or stage is None:
             cifar_full = CIFAR10(self.data_dir, train=True, transform=self.transform)
             self.cifar_train, self.cifar_val = random_split(cifar_full, [45000, 5000])
 
-        # データローダーで使用するテストデータセットを割り当て
+        # dataloader で使うテスト データセットを割り当て
         if stage == 'test' or stage is None:
             self.cifar_test = CIFAR10(self.data_dir, train=False, transform=self.transform)
     
@@ -97,17 +98,19 @@ class CIFAR10DataModule(pl.LightningDataModule):
 
 ## コールバック
 
-コールバックは、プロジェクト間で再利用可能な自己完結型プログラムです。PyTorch Lightning は、定期的に使用されるいくつかの[組み込みコールバック](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html#built-in-callbacks)を提供しています。
-PyTorch Lightning のコールバックについて詳しくは[こちら](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html)をご覧ください。
+コールバック は、プロジェクト をまたいで再利用できる自己完結型のプログラムです。PyTorch Lightning にはよく使われる [ビルトインのコールバック](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html#built-in-callbacks) が用意されています。
+PyTorch Lightning のコールバックについての詳細は [こちら](https://lightning.ai/docs/pytorch/latest/extensions/callbacks.html)。
 
 ### 組み込みコールバック
 
-このチュートリアルでは、[Early Stopping](https://lightning.ai/docs/pytorch/latest/api/lightning.pytorch.callbacks.EarlyStopping.html#lightning.callbacks.EarlyStopping) と [Model Checkpoint](https://lightning.ai/docs/pytorch/latest/api/lightning.pytorch.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) の組み込みコールバックを使用します。それらは `Trainer` に渡すことができます。
+このチュートリアルでは、[Early Stopping](https://lightning.ai/docs/pytorch/latest/api/lightning.pytorch.callbacks.EarlyStopping.html#lightning.callbacks.EarlyStopping) と [Model Checkpoint](https://lightning.ai/docs/pytorch/latest/api/lightning.pytorch.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) のビルトイン コールバックを使います。これらは `Trainer` に渡せます。
 
-### カスタムコールバック
-カスタム Keras コールバックに慣れている場合、PyTorch パイプラインで同じことができる能力は、まさにケーキの上のさくらんぼです。
 
-画像分類を実行しているため、モデルのいくつかの画像サンプルに対する予測を視覚化する能力は役立つかもしれません。このコールバックの形式で提供されることで、モデルを早期段階でデバッグするのに役立ちます。
+### カスタム コールバック
+Keras のカスタム コールバックに馴染みがあれば、PyTorch の パイプライン でも同じことができるのはまさに嬉しいおまけです。
+
+画像分類 を行うので、いくつかの画像サンプルに対する モデル の 予測 を可視化できると便利です。これをコールバックとして実装すると、初期段階でのデバッグに役立ちます。 
+
 
 ```
 class ImagePredictionLogger(pl.callbacks.Callback):
@@ -117,13 +120,13 @@ class ImagePredictionLogger(pl.callbacks.Callback):
         self.val_imgs, self.val_labels = val_samples
     
     def on_validation_epoch_end(self, trainer, pl_module):
-        # テンソルを CPU に移動
+        # テンソルを CPU に移す
         val_imgs = self.val_imgs.to(device=pl_module.device)
         val_labels = self.val_labels.to(device=pl_module.device)
-        # モデル予測を取得
+        # モデルの 予測 を取得
         logits = pl_module(val_imgs)
         preds = torch.argmax(logits, -1)
-        # wandb Image として画像をログ
+        # 画像を wandb Image として ログ する
         trainer.logger.experiment.log({
             "examples":[wandb.Image(x, caption=f"Pred:{pred}, Label:{y}") 
                            for x, pred, y in zip(val_imgs[:self.num_samples], 
@@ -133,23 +136,24 @@ class ImagePredictionLogger(pl.callbacks.Callback):
         
 ```
 
-## LightningModule - システムの定義
+## LightningModule - システムを定義する
 
-LightningModule はシステムを定義し、モデルではありません。ここでシステムはすべての研究コードを1つのクラスにまとめて自己完結型にします。`LightningModule` は PyTorch コードを5つのセクションに整理します：
+LightningModule が定義するのは モデル ではなく「システム」です。ここでいうシステムとは、すべての 研究 用コードを 1 つのクラスにまとめ、自己完結させたものを指します。`LightningModule` はあなたの PyTorch コードを次の 5 つのセクションに整理します:
 - 計算（`__init__`）
-- トレーニングループ（`training_step`）
+- 学習ループ（`training_step`）
 - 検証ループ（`validation_step`）
-- テストループ（`test_step`）
+- テスト ループ（`test_step`）
 - オプティマイザー（`configure_optimizers`）
 
-このようにして、容易に共有できるデータセットに依存しないモデルを構築できます。Cifar-10 分類のためのシステムを構築しましょう。
+これにより、データセット に依存しない モデル を簡単に共有できます。では、CIFAR-10 の分類タスク向けにシステムを作りましょう。
+
 
 ```
 class LitModel(pl.LightningModule):
     def __init__(self, input_shape, num_classes, learning_rate=2e-4):
         super().__init__()
         
-        # ハイパーパラメーターをログ
+        # ハイパーパラメーター を ログ
         self.save_hyperparameters()
         self.learning_rate = learning_rate
         
@@ -169,7 +173,7 @@ class LitModel(pl.LightningModule):
 
         self.accuracy = Accuracy(task='multiclass', num_classes=num_classes)
 
-    # convブロックからLinear層に渡される出力テンソルのサイズを返します。
+    # conv ブロックから Linear 層に入る出力テンソルのサイズを返す
     def _get_conv_output(self, shape):
         batch_size = 1
         input = torch.autograd.Variable(torch.rand(batch_size, *shape))
@@ -178,7 +182,7 @@ class LitModel(pl.LightningModule):
         n_size = output_feat.data.view(batch_size, -1).size(1)
         return n_size
         
-    # convブロックからの特徴テンソルを返します
+    # conv ブロックからの特徴テンソルを返す
     def _forward_features(self, x):
         x = F.relu(self.conv1(x))
         x = self.pool1(F.relu(self.conv2(x)))
@@ -186,7 +190,7 @@ class LitModel(pl.LightningModule):
         x = self.pool2(F.relu(self.conv4(x)))
         return x
     
-    # 推論中に使用されます
+    # 推論時に使用
     def forward(self, x):
        x = self._forward_features(x)
        x = x.view(x.size(0), -1)
@@ -201,7 +205,7 @@ class LitModel(pl.LightningModule):
         logits = self(x)
         loss = F.nll_loss(logits, y)
         
-        # トレーニングメトリクス
+        # 学習時の メトリクス
         preds = torch.argmax(logits, dim=1)
         acc = self.accuracy(preds, y)
         self.log('train_loss', loss, on_step=True, on_epoch=True, logger=True)
@@ -214,7 +218,7 @@ class LitModel(pl.LightningModule):
         logits = self(x)
         loss = F.nll_loss(logits, y)
 
-        # 検証メトリクス
+        # 検証 メトリクス
         preds = torch.argmax(logits, dim=1)
         acc = self.accuracy(preds, y)
         self.log('val_loss', loss, prog_bar=True)
@@ -226,7 +230,7 @@ class LitModel(pl.LightningModule):
         logits = self(x)
         loss = F.nll_loss(logits, y)
         
-        # 検証メトリクス
+        # 検証 メトリクス
         preds = torch.argmax(logits, dim=1)
         acc = self.accuracy(preds, y)
         self.log('test_loss', loss, prog_bar=True)
@@ -239,31 +243,33 @@ class LitModel(pl.LightningModule):
 
 ```
 
-## トレーニングと評価
+## トレーニング と 評価
 
-`DataModule` を使用してデータパイプラインを整理し、 `LightningModule` を使用してモデルアーキテクチャ＋トレーニングループを整理したので、PyTorch Lightning の `Trainer` が他のすべてを自動化します。
+`DataModule` で データ パイプライン を、`LightningModule` で モデル の アーキテクチャー と トレーニング ループを整理したので、あとは PyTorch Lightning の `Trainer` がすべて自動化してくれます。
 
-Trainer は次のことを自動化します：
-- エポックとバッチの反復
+Trainer が自動化すること:
+- エポック と バッチ の反復
 - `optimizer.step()`, `backward`, `zero_grad()` の呼び出し
-- `.eval()` の呼び出し、グラッドの有効化/無効化
+- `.eval()` の呼び出し、勾配の有効化/無効化
 - 重みの保存と読み込み
-- Weights & Biases ログ
-- マルチ GPU トレーニングサポート
+- W&B への ログ
+- マルチ GPU トレーニング のサポート
 - TPU サポート
-- 16 ビットトレーニングサポート
+- 16-bit トレーニング サポート
+
 
 ```
 dm = CIFAR10DataModule(batch_size=32)
-# x_dataloader にアクセスするには、prepare_data および setup を呼び出す必要があります。
+# x_dataloader にアクセスするには prepare_data と setup を呼び出す必要があります。
 dm.prepare_data()
 dm.setup()
 
-# 画像予測をログするカスタム ImagePredictionLogger コールバックに必要なサンプル。
+# 画像の予測を ログ するために、カスタム ImagePredictionLogger コールバックが必要とするサンプル
 val_samples = next(iter(dm.val_dataloader()))
 val_imgs, val_labels = val_samples[0], val_samples[1]
 val_imgs.shape, val_labels.shape
 ```
+
 
 ```
 model = LitModel((3, 32, 32), dm.num_classes)
@@ -275,7 +281,7 @@ wandb_logger = WandbLogger(project='wandb-lightning', job_type='train')
 early_stop_callback = pl.callbacks.EarlyStopping(monitor="val_loss")
 checkpoint_callback = pl.callbacks.ModelCheckpoint()
 
-# トレーナーを初期化
+# Trainer を初期化
 trainer = pl.Trainer(max_epochs=2,
                      logger=wandb_logger,
                      callbacks=[early_stop_callback,
@@ -283,34 +289,33 @@ trainer = pl.Trainer(max_epochs=2,
                                 checkpoint_callback],
                      )
 
-# モデルのトレーニング
+# モデルを トレーニング 
 trainer.fit(model, dm)
 
-# 保留中のテストセットでモデルを評価 ⚡⚡
+# 保持しておいた テストセット で モデルを評価 ⚡⚡
 trainer.test(dataloaders=dm.test_dataloader())
 
-# wandb run を閉じる
-wandb.finish()
+# wandb の run をクローズ
+run.finish()
 ```
 
-## 最終的な考え
+## さいごに
+私は TensorFlow/Keras の エコシステム 出身で、PyTorch はエレガントな フレームワーク だと感じつつも少し圧倒されてきました（あくまで個人の感想です）。PyTorch Lightning を触ってみて、PyTorch を敬遠していた理由のほとんどが解消されていると気づきました。ワクワクポイントを手短にまとめます:
+- 当時: 典型的な PyTorch の モデル 定義は散らばりがちでした。`model.py` に モデル、`train.py` に トレーニング ループという具合で、パイプライン の把握に行ったり来たりが必要でした。 
+- 今は: `LightningModule` がシステムとして機能し、`training_step` や `validation_step` などと一緒に モデル を定義できます。モジュール化され、共有もしやすくなりました。
+- 当時: TensorFlow/Keras の良さは入力 データ パイプライン にあり、データセット カタログも充実していました。PyTorch の データ パイプライン は最大の痛点で、通常の PyTorch コードではデータのダウンロード/クリーンアップ/前処理が多くのファイルに散らばっていました。 
+- 今は: DataModule が データ パイプライン を 1 つの共有・再利用可能なクラスに整理します。`train_dataloader`、`val_dataloader`、`test_dataloader` と、必要な変換や データ の処理/ダウンロード手順の集合です。
+- 当時: Keras では `model.fit` で学習、`model.predict` で推論、`model.evaluate` でテスト データのシンプルな評価ができましたが、PyTorch ではそうはいきません。たいてい `train.py` と `test.py` が別々に存在します。 
+- 今は: `LightningModule` があるので、`Trainer` がすべてを自動化します。`trainer.fit` と `trainer.test` を呼べば学習と評価ができます。
+- 当時: TensorFlow は TPU が大好き、PyTorch は… 
+- 今は: PyTorch Lightning なら、同じ モデル を複数 GPU や TPU でも簡単に学習できます。
+- 当時: 私は コールバック の大ファンで、カスタム コールバックを書くのが好きです。Early Stopping のような些細なことでも、従来の PyTorch では議論の的になりました。 
+- 今は: PyTorch Lightning では Early Stopping と Model Checkpointing がとても簡単。カスタム コールバックも書けます。 
 
-私は TensorFlow/Keras エコシステムから来ており、PyTorch は洗練されたフレームワークであるにもかかわらず、ちょっと難しいと感じています。個人的な経験にすぎませんが。PyTorch Lightning を探索して、私が PyTorch から遠ざけていた理由のほとんどが解消されていることに気づきました。ここに私の興奮の概要があります：
-- 以前: 従来の PyTorch モデル定義はバラバラでした。モデルは `model.py` スクリプトに、トレーニングループは `train.py` ファイルにありました。パイプラインを理解するためには多くの見直しが必要でした。
-- 現在: `LightningModule` は、モデルが `training_step`、`validation_step` などと共に定義されているシステムとして機能します。今ではモジュール化され、共有可能です。
-- 以前: TensorFlow/Keras の最良の部分は入力データパイプラインでした。彼らのデータセットカタログは豊富で成長しています。PyTorch のデータパイプラインは、かつて最大の痛点でした。通常の PyTorch コードでは、データのダウンロード/クリーニング/準備は通常、多くのファイルに分散しています。
-- 現在: DataModule は、データパイプラインを1つの共有可能で再利用可能なクラスに組織します。それは単に `train_dataloader`、`val_dataloader`(s)、`test_dataloader`(s) と、必要な変換やデータプロセッシング/ダウンロードステップの集まりです。
-- 以前: Keras では `model.fit` を呼び出してモデルをトレーニングし、 `model.predict` で推論を実行することができました。`model.evaluate` は、テストデータに基づく昔ながらのシンプルな評価を提供しましたが、これは PyTorch ではありませんでした。通常、別々の `train.py` および `test.py` ファイルが見つかります。
-- 現在: `LightningModule` が整備されることで、`Trainer` がすべてを自動化します。ただ `trainer.fit` と `trainer.test` を呼び出してモデルをトレーニングと評価すればよいのです。
-- 以前: TensorFlow は TPU を好む、PyTorch は...
-- 現在: PyTorch Lightning では、複数の GPU で同じモデルをトレーニングするのがとても簡単ですし、TPU でも可能です。
-- 以前: 私はコールバックの大ファンで、カスタムコールバックを書くことを好んでいます。従来の PyTorch では、Early Stopping のような些細なことが議論の対象になることがありました。
-- 現在: PyTorch Lightning を使用すると、Early Stopping と Model Checkpointing が簡単です。カスタムコールバックを書くことさえもできます。
+## 🎨 まとめ と リソース
 
-## 🎨 結論とリソース
+このレポートが役立つことを願っています。ぜひコードをいじって、お好きな データセット で 画像分類器 をトレーニング してみてください。 
 
-このレポートが役に立つことを願っています。コードを試して、好きなデータセットで画像分類器をトレーニングすることをお勧めします。
-
-PyTorch Lightningについてもっと学ぶためのリソース：
-- [ステップバイステップのガイド](https://lightning.ai/docs/pytorch/latest/starter/introduction.html) - これは公式のチュートリアルの１つです。そのドキュメントは非常によく書かれており、良い学習リソースとして強くお勧めします。
-- [Weighs & Biases で Pytorch Lightning を使う](https://wandb.me/lightning) - W&B を PyTorch Lightning で使用する方法について学ぶために実行できる短い colab です。
+PyTorch Lightning をさらに学ぶためのリソース:
+- [ステップバイステップの解説](https://lightning.ai/docs/pytorch/latest/starter/introduction.html): 公式チュートリアルのひとつです。ドキュメントがとてもよく書かれていて、強くおすすめします。
+- [Use Pytorch Lightning with W&B](https://wandb.me/lightning): W&B と PyTorch Lightning の使い方を素早く学べる Colab です。

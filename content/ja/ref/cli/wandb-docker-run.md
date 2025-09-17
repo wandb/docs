@@ -11,11 +11,12 @@ menu:
 
 **概要**
 
-`docker run` をラップし、WANDB_API_KEY と WANDB_DOCKER 環境変数を追加します。
+`docker run` をラップし、環境変数 WANDB_API_KEY と WANDB_DOCKER を追加します。
 
-nvidia-docker 実行ファイルがシステム上に存在し、--runtime が設定されていない場合は、ランタイムを nvidia に設定します。
+システムに nvidia-docker の 実行可能ファイルが存在し、かつ --runtime が設定されていない場合、runtime を nvidia に設定します。
 
-詳細については、`docker run --help` を参照してください。
+詳細は `docker run --help` を参照してください。
+
 
 **オプション**
 

@@ -1,12 +1,13 @@
 ---
-title: スクリプトでランダムな run 名を取得するにはどうすればよいですか？
+title: 自分のスクリプトでランダムな run 名をどのように取得できますか？
 menu:
   support:
     identifier: ja-support-kb-articles-random_run_name_script
 support:
-  - experiments
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`wandb.run.save()` を呼び出して現在の run を保存します。`wandb.run.name` を使用して名前を取得します。
+
+run オブジェクトの `.save()` メソッドを呼び出して、現在の run を保存します。run オブジェクトの `name` 属性を使って名前を取得します。

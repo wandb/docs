@@ -1,13 +1,14 @@
 ---
-title: 私のトレーニングプロセスで wandb.init は何をしますか？
+title: wandb.init はトレーニング プロセスに何を行いますか？
 menu:
   support:
     identifier: ja-support-kb-articles-wandbinit_training_process
 support:
-  - environment variables
-  - experiments
+- 環境変数
+- 実験
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`wandb.init()` がトレーニングスクリプトで実行されると、API 呼び出しによりサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、ストリームとメトリクスの収集が行われ、主要なプロセスは通常通り機能します。スクリプトはローカルファイルに書き込みを行い、別のプロセスがシステムメトリクスを含むデータをサーバーにストリームします。ストリーミングをオフにするには、トレーニングディレクトリから `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定します。
+
+トレーニングスクリプトで `wandb.init()` が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスがメトリクスのストリーミングと収集を開始し、メインプロセスが通常どおり動作できるようにします。スクリプトはローカルファイルに書き込み、別のプロセスがシステムメトリクスを含むデータをサーバーにストリーミングします。ストリーミングをオフにするには、トレーニングディレクトリーで `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定します。

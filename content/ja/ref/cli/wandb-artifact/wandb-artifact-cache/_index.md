@@ -1,17 +1,17 @@
 ---
-title: wandb アーティファクト cache
+title: wandb Artifacts キャッシュ
 menu:
   reference:
     identifier: ja-ref-cli-wandb-artifact-wandb-artifact-cache-_index
 ---
 
-**使用法**
+**使用方法**
 
-`wandb artifact cache [OPTIONS] COMMAND [ARGS]...`
+`wandb artifact cache [OPTIONS] COMMAND [ARGS]...]`
 
 **概要**
 
-アーティファクトキャッシュと対話するためのコマンド
+Artifacts キャッシュを操作するためのコマンド
 
 
 **オプション**
@@ -24,4 +24,4 @@ menu:
 
 | **コマンド** | **説明** |
 | :--- | :--- |
-| cleanup | アーティファクトキャッシュからあまり頻繁に使用されないファイルをクリーンアップする |
+| cleanup | Artifacts キャッシュから使用頻度の低いファイルをクリーンアップ |

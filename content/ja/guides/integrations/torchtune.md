@@ -1,5 +1,5 @@
 ---
-title: Pytorch チューニングする torchtune
+title: Pytorch torchtune
 menu:
   default:
     identifier: ja-guides-integrations-torchtune
@@ -9,18 +9,18 @@ weight: 320
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" >}}
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html) は、大規模言語モデル（LLM）の作成、ファインチューニング、実験プロセスを効率化するために設計された PyTorch ベースのライブラリです。さらに、torchtune は [W&B でのログ記録](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html) をサポートしており、トレーニングプロセスの追跡と可視化を強化します。
+[torchtune](https://pytorch.org/torchtune/stable/index.html) は、PyTorch ベースで LLM（大規模言語モデル）の作成、ファインチューニング、実験を効率化するために設計されたライブラリです。さらに torchtune には [W&B へのロギング](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html) が標準で組み込まれており、トレーニング プロセスの追跡と可視化が強化されています。
 
-{{< img src="/images/integrations/torchtune_dashboard.png" alt="" >}}
+{{< img src="/images/integrations/torchtune_dashboard.png" alt="torchtune のトレーニング ダッシュボード" >}}
 
-[torchtune を使用した Mistral 7B のファインチューニング](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0) に関する W&B ブログ記事をチェックしてください。
+[torchtune で Mistral 7B をファインチューニング](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0) に関する W&B ブログもご覧ください。
 
-## W&B のログ記録が手の届くところに
+## W&B ロギングをすぐに使う
 
 {{< tabpane text=true >}}
-{{% tab header="Command line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
-ローンチ時にコマンドライン引数をオーバーライドします:
+起動時にコマンドライン引数を上書きします:
 
 ```bash
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -30,12 +30,12 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 ```
 
 {{% /tab %}}
-{{% tab header="Recipe's config" value="config" %}}
+{{% tab header="レシピの設定" value="config" %}}
 
-レシピの設定で W&B ログ記録を有効にします:
+レシピの設定で W&B ロギングを有効化します:
 
 ```yaml
-# inside llama3/8B_lora_single_device.yaml
+# llama3/8B_lora_single_device.yaml の中
 metric_logger:
   _component_: torchtune.utils.metric_logging.WandBLogger
   project: llama3_lora
@@ -45,17 +45,17 @@ log_every_n_steps: 5
 {{% /tab %}}
 {{< /tabpane >}}
 
-## W&B メトリックロガーの使用
+## W&B のメトリクス ロガーを使う
 
-`metric_logger` セクションを変更して、レシピの設定ファイルで W&B ログ記録を有効にします。`_component_` を `torchtune.utils.metric_logging.WandBLogger` にクラスを変更します。また、`project` 名と `log_every_n_steps` を渡してログ記録の振る舞いをカスタマイズすることもできます。
+レシピの設定ファイルで `metric_logger` セクションを変更して W&B ロギングを有効化します。`_component_` を `torchtune.utils.metric_logging.WandBLogger` クラスに変更してください。ロギングの振る舞いをカスタマイズするために、`project` 名や `log_every_n_steps` も渡せます。
 
-`wandb.init` メソッドに渡すのと同様に、他の `kwargs` を渡すこともできます。例えば、チームで作業している場合、`WandBLogger` クラスに `entity` 引数を渡してチーム名を指定することができます。
+[wandb.init()]({{< relref path="/ref/python/sdk/functions/init.md" lang="ja" >}}) に渡せるのと同じ任意の `kwargs` も利用できます。たとえばチームで作業している場合は、チーム名を指定するために `WandBLogger` クラスに `entity` 引数を渡してください。
 
 {{< tabpane text=true >}}
-{{% tab header="Recipe's Config" value="config" %}}
+{{% tab header="レシピの設定" value="config" %}}
 
 ```yaml
-# inside llama3/8B_lora_single_device.yaml
+# llama3/8B_lora_single_device.yaml の中
 metric_logger:
   _component_: torchtune.utils.metric_logging.WandBLogger
   project: llama3_lora
@@ -67,7 +67,7 @@ log_every_n_steps: 5
 
 {{% /tab %}}
 
-{{% tab header="Command Line" value="cli" %}}
+{{% tab header="コマンドライン" value="cli" %}}
 
 ```shell
 tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -82,34 +82,34 @@ tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 何がログされますか？
+## 何がログされるか
 
-W&B ダッシュボードを探索して、ログされたメトリックを見ることができます。デフォルトでは、W&B は設定ファイルとローンチのオーバーライドからすべてのハイパーパラメーターをログします。
+W&B ダッシュボードでログされたメトリクスを確認できます。デフォルトで、W&B は設定ファイルのすべてのハイパーパラメーターと、起動時に上書きした値をログします。
 
-W&B は **Overview** タブで解決された設定をキャプチャします。W&B は YAML 形式で設定を [Files タブ](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files) にも保存します。
+W&B は解決済みの設定を **Overview** タブに記録します。設定は YAML 形式でも [Files タブ](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files) に保存されます。
 
-{{< img src="/images/integrations/torchtune_config.png" alt="" >}}
+{{< img src="/images/integrations/torchtune_config.png" alt="torchtune の設定" >}}
 
-### ログされたメトリック
+### ログされるメトリクス
 
-各レシピにはそれぞれのトレーニングループがあります。個別のレシピを確認して、そのログされたメトリックを見ることができます。これにはデフォルトで以下が含まれています:
+各レシピは独自のトレーニング ループを持っています。ログされるメトリクスはレシピごとに確認してください。以下は既定で含まれるものです:
 
-| Metric | 説明 |
+| メトリクス | 説明 |
 | --- | --- |
-| `loss` | モデルのロス |
+| `loss` | モデルの損失 |
 | `lr` | 学習率 |
-| `tokens_per_second` | モデルのトークン毎秒 |
+| `tokens_per_second` | モデルの毎秒トークン数 |
 | `grad_norm` | モデルの勾配ノルム |
-| `global_step` | トレーニングループの現在のステップに対応します。勾配の累積を考慮に入れ、オプティマイザーステップが取られるたびにモデルが更新され、勾配が累積され、`gradient_accumulation_steps` ごとに1回モデルが更新されます。 |
+| `global_step` | 現在のトレーニング ループにおけるステップに対応します。勾配蓄積を考慮し、基本的にオプティマイザーのステップが実行されるたびにモデルが更新され、勾配が蓄積され、`gradient_accumulation_steps` ごとに 1 回モデルが更新されます。 |
 
 {{% alert %}}
-`global_step` はトレーニングステップの数と同じではありません。トレーニングループの現在のステップに対応します。勾配の累積を考慮に入れ、オプティマイザーステップが取られるたびに `global_step` が1増加します。例えば、データローダーに10バッチあり、勾配の累積ステップが2で3エポック走行する場合、オプティマイザーは15回ステップし、この場合 `global_step` は1から15までの範囲になります。
+`global_step` はトレーニング ステップ数そのものとは同じではありません。これは現在のトレーニング ループにおけるステップに対応します。勾配蓄積を考慮し、基本的にオプティマイザーのステップが実行されるたびに `global_step` は 1 ずつ増加します。たとえば、データローダーのバッチ数が 10、勾配蓄積ステップが 2、エポック数が 3 の場合、オプティマイザーは 15 回ステップを実行します。このケースでは `global_step` は 1 から 15 の範囲になります。
 {{% /alert %}}
 
-torchtune の効率的な設計により、カスタムメトリクスを簡単に追加したり、既存のものを変更することができます。対応する [レシピファイル](https://github.com/pytorch/torchtune/tree/main/recipes) を変更し、例えば以下のように `current_epoch` を全エポック数のパーセンテージとして記録するだけで十分です。
+torchtune のシンプルな設計により、カスタム メトリクスの追加や既存メトリクスの変更が容易です。対応する [レシピ ファイル](https://github.com/pytorch/torchtune/tree/main/recipes) を変更すれば十分です。たとえば、トータル エポック数に対する進捗率として `current_epoch` をログするには次のようにします:
 
 ```python
-# inside `train.py` function in the recipe file
+# レシピ ファイルの `train.py` 関数内
 self._metric_logger.log_dict(
     {"current_epoch": self.epochs * self.global_step / self._steps_per_epoch},
     step=self.global_step,
@@ -117,32 +117,32 @@ self._metric_logger.log_dict(
 ```
 
 {{% alert %}}
-これは急速に進化しているライブラリであり、現在のメトリクスは変更される可能性があります。カスタムメトリクスを追加したい場合は、レシピを変更し、対応する `self._metric_logger.*` 関数を呼び出す必要があります。
+このライブラリは急速に進化しています。現在のメトリクスは変更される可能性があります。カスタム メトリクスを追加したい場合は、レシピを変更し、対応する `self._metric_logger.*` 関数を呼び出してください。
 {{% /alert %}}
 
-## チェックポイントの保存とロード
+## チェックポイントの保存と読み込み
 
-torchtune ライブラリは様々な [チェックポイントフォーマット](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html) をサポートしています。使用しているモデルの出所に応じて、適切な [チェックポインタークラス](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html) に切り替えるべきです。
+torchtune ライブラリは、さまざまな[チェックポイント形式](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)をサポートしています。使用しているモデルの出自に応じて、適切な[Checkpointer クラス](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)に切り替えてください。
 
-もしモデルのチェックポイントを [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) に保存したい場合は、対応するレシピ内の `save_checkpoint` 関数をオーバーライドするのが最も簡単です。
+モデルのチェックポイントを [W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) に保存したい場合は、対応するレシピ内の `save_checkpoint` 関数をオーバーライドするのが最もシンプルです。
 
-ここにモデルのチェックポイントを W&B Artifacts に保存するために `save_checkpoint` 関数をオーバーライドする方法の例を示します。
+以下は、`save_checkpoint` 関数をオーバーライドしてモデルのチェックポイントを W&B Artifacts に保存する例です。
 
 ```python
 def save_checkpoint(self, epoch: int) -> None:
     ...
-    ## Let's save the checkpoint to W&B
-    ## depending on the Checkpointer Class the file will be named differently
-    ## Here is an example for the full_finetune case
+    ## チェックポイントを W&B に保存しましょう
+    ## 使用する Checkpointer クラスに応じてファイル名は異なります
+    ## これは full_finetune の例です
     checkpoint_file = Path.joinpath(
         self._checkpointer._output_dir, f"torchtune_model_{epoch}"
     ).with_suffix(".pt")
     wandb_artifact = wandb.Artifact(
         name=f"torchtune_model_{epoch}",
         type="model",
-        # description of the model checkpoint
+        # モデルのチェックポイントの説明
         description="Model checkpoint",
-        # you can add whatever metadata you want as a dict
+        # 辞書として任意のメタデータを追加できます
         metadata={
             utils.SEED_KEY: self.seed,
             utils.EPOCHS_KEY: self.epochs_run,

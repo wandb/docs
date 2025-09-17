@@ -1,75 +1,111 @@
 ---
 title: ファイル
+data_type_classification: module
 menu:
   reference:
     identifier: ja-ref-python-public-api-files
+object_type: public_apis_namespace
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L44-L107 >}}
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py >}}
 
-`File` オブジェクトの反復可能なコレクション。
+
+
+
+# <kbd>モジュール</kbd> `wandb.apis.public`
+W&B の File オブジェクト向け Public API。 
+
+このモジュールは、W&B に保存されたファイルを操作するためのクラスを提供します。 
+
+
+
+**例:**
+ ```python
+from wandb.apis.public import Api
+
+# 特定の run からファイルを取得
+run = Api().run("entity/project/run_id")
+files = run.files()
+
+# ファイルを操作する
+for file in files:
+     print(f"File: {file.name}")
+     print(f"Size: {file.size} bytes")
+     print(f"Type: {file.mimetype}")
+
+     # ファイルをダウンロード
+     if file.size < 1000000:  # 1MB 未満
+         file.download(root="./downloads")
+
+     # 大きなファイル用に S3 URI を取得
+     if file.size >= 1000000:
+         print(f"S3 URI: {file.path_uri}")
+``` 
+
+
+
+**注:**
+
+> このモジュールは W&B Public API の一部で、W&B に保存されたファイルへの アクセス、ダウンロード、管理 のためのメソッドを提供します。ファイルは通常、特定の run に紐づいており、モデルの重み、データセット、可視化、その他のアーティファクトを含むことがあります。 
+
+## <kbd>class</kbd> `Files`
+`File` オブジェクトのコレクションに対する遅延イテレーター。 
+
+run 中に W&B にアップロードされたファイルへ アクセスして管理 します。大量のファイルを反復処理する際は、ページネーションを自動で処理します。 
+
+
+
+**例:**
+ ```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# 例となる run オブジェクト
+run = Api().run("entity/project/run-id")
+
+# run 内のファイルを反復処理するための Files オブジェクトを作成
+files = Files(api.client, run)
+
+# ファイルを反復処理
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # ファイルをダウンロード
+     file.download(root="download_directory", replace=True)
+``` 
+
+### <kbd>メソッド</kbd> `Files.__init__`
 
 ```python
-Files(
-    client, run, names=None, per_page=50, upload=(False)
+__init__(
+    client: 'RetryingClient',
+    run: 'Run',
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    upload: 'bool' = False,
+    pattern: 'str | None' = None
 )
 ```
 
-| 属性 |  |
-| :--- | :--- |
+`File` オブジェクトのコレクションに対する遅延イテレーターを初期化します。 
 
-## メソッド
+ファイルは必要に応じて W&B サーバーからページ単位で取得されます。 
 
-### `convert_objects`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L100-L104)
 
-```python
-convert_objects()
-```
+**引数:**
+ client: ファイルを含む run オブジェクト run: ファイルを含む run オブジェクト names (list, オプション): ファイルをフィルタするためのファイル名のリスト per_page (int, オプション): 1 ページあたりに取得するファイル数 upload (bool, オプション): `True` の場合、各ファイルのアップロード URL を取得します pattern (str, オプション): W&B からファイルを返す際にマッチさせるパターン。 このパターンは MySQL の LIKE 構文を使用します。 たとえば .json で終わるすべてのファイルにマッチさせるには "%.json" です。 names と pattern の両方が指定された場合は ValueError が送出されます。 
 
-### `next`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+---
 
-```python
-next()
-```
 
-### `update_variables`
+### <kbd>プロパティ</kbd> Files.length
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L97-L98)
 
-```python
-update_variables()
-```
 
-### `__getitem__`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
 
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| クラス変数 |  |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+---

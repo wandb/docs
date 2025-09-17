@@ -1,14 +1,15 @@
 ---
-title: run に関連する git commit をどのように保存できますか？
+title: run に関連付けられている git commit を保存するにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-save_git_commit_associated_run
 support:
-  - experiments
+- experiments
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-`wandb.init` が呼び出されると、システムはリモートリポジトリのリンクや最新のコミットの SHA を含む git 情報を自動的に収集します。この情報は [runs ページ]({{< relref path="/guides/models/track/runs/#view-logged-runs" lang="ja" >}}) に表示されます。スクリプトを実行する際は、作業しているディレクトリーが git 管理フォルダー内であることを確認して、この情報を表示します。
 
-git コミットと、実験を実行するために使用したコマンドはユーザーには見えますが、外部ユーザーからは隠されています。公開プロジェクトでは、これらの詳細は非公開のままです。
+`wandb.init` を呼び出すと、システムはリモートリポジトリーのリンクや最新コミットの SHA などの git の情報を自動的に収集します。この情報は [run ページ]({{< relref path="/guides/models/track/runs/#view-logged-runs" lang="ja" >}}) に表示されます。この情報を表示するには、スクリプトを実行する際の作業ディレクトリーが git 管理下にあることを確認してください。
+
+git のコミットと実験の実行に用いた コマンドは ユーザーには表示されますが、外部の ユーザーからは非表示です。public Projects でも、これらの詳細は非公開のままです。

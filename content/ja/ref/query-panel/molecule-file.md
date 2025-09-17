@@ -5,7 +5,7 @@ menu:
     identifier: ja-ref-query-panel-molecule-file
 ---
 
-## Chainable Ops
+## 連結可能な演算
 <h3 id="asset-file"><code>asset-file</code></h3>
 
 アセットの _file_ を返します
@@ -17,7 +17,8 @@ menu:
 #### 戻り値
 アセットの _file_
 
-## List Ops
+
+## リスト演算
 <h3 id="asset-file"><code>asset-file</code></h3>
 
 アセットの _file_ を返します
@@ -27,4 +28,4 @@ menu:
 | `asset` | アセット |
 
 #### 戻り値
-アセットの _file_ 
+アセットの _file_

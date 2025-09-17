@@ -1,12 +1,13 @@
 ---
-title: レポートで Markdown を使用できますか？
+title: Markdown を Reports で使えますか？
 menu:
   support:
     identifier: ja-support-kb-articles-reports_markdown
 support:
-  - reports
+- Reports
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-はい。ドキュメント内のどこでも「/mark」と入力し、エンターキーを押すと Markdown ブロックを挿入できます。これにより、以前と同様に Markdown で編集できます。
+
+はい。ドキュメント内の任意の場所で「/mark」と入力し、Enter キーを押すと、Markdown ブロックが挿入されます。これにより、これまでと同様に Markdown で編集できます。

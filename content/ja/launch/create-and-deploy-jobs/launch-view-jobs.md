@@ -1,59 +1,59 @@
 ---
-title: ローンンチ ジョブを表示する
+title: Launch ジョブを表示
 menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-launch-view-jobs
     parent: create-and-deploy-jobs
-url: /ja/guides/launch/launch-view-jobs
+url: guides/launch/launch-view-jobs
 ---
 
-以下のページでは、キューに追加されたローンンチジョブの情報を表示する方法を説明します。
+このページでは、キューに追加された Launch ジョブに関する情報の見方を説明します。
 
-## ジョブの表示
+## ジョブを表示
 
-W&B アプリケーションを使用してキューに追加されたジョブを表示します。
+W&B App で、キューに追加されたジョブを表示します。
 
-1. https://wandb.ai/home にある W&B アプリケーションにアクセスします。
-2. 左側のサイドバーにある **Applications** セクション内の **Launch** を選択します。
-3. **All entities** ドロップダウンを選択し、ローンンチジョブが所属するエンティティを選択します。
-4. Launch Application ページから折りたたみ可能なUIを展開し、その特定のキューに追加されたジョブのリストを表示します。
+1. https://wandb.ai/home の W&B App にアクセスします。
+2. 左サイドバーの Applications セクションで Launch を選択します。
+3. All entities ドロップダウンを開き、その Launch ジョブが属する Entity を選択します。
+4. Launch Application ページで折りたたみ UI を展開し、その特定のキューに追加されたジョブの一覧を表示します。
 
 {{% alert %}}
-ローンンチエージェントがローンンチジョブを実行すると、run が作成されます。つまり、リストされている各runは、そのキューに追加された特定のジョブに対応しています。
+Launch エージェントが Launch ジョブを実行すると run が作成されます。つまり、一覧に表示される各 run は、そのキューに追加された特定のジョブに対応しています。
 {{% /alert %}}
 
-例えば、次の画像は、`job-source-launch_demo-canonical`というジョブから作成された2つのrunを示しています。このジョブは `Start queue` というキューに追加されました。キューにリストされている最初のrunは `resilient-snowball` と呼ばれ、2番目のrunは `earthy-energy-165` と呼ばれます。
+例えば、次の画像は `job-source-launch_demo-canonical` というジョブから作成された 2 つの run を示しています。ジョブは `Start queue` というキューに追加されました。最初の run は `resilient-snowball`、2 つ目の run は `earthy-energy-165` です。
 
-{{< img src="/images/launch/launch_jobs_status.png" alt="" >}}
+{{< img src="/images/launch/launch_jobs_status.png" alt="Launch jobs status view" >}}
 
-W&B アプリケーションUI内で、ローンンチジョブから作成されたrunに関する次のような追加情報を見つけることができます：
-   - **Run**: そのジョブに割り当てられた W&B run の名前。
+W&B App の UI では、Launch ジョブから作成された run について、次の追加情報を確認できます:
+   - **Run**: そのジョブに割り当てられた W&B の run 名。
    - **Job ID**: ジョブの名前。
-   - **Project**: runが所属するプロジェクトの名前。
-   - **Status**: キューに入れられたrunのステータス。
-   - **Author**: run を作成した W&B エンティティ。
+   - **Project**: run が属する Project の名前。
+   - **Status**: キューに入っている run のステータス。
+   - **Author**: その run を作成した W&B の Entity。
    - **Creation date**: キューが作成されたタイムスタンプ。
-   - **Start time**: ジョブが開始されたタイムスタンプ。
-   - **Duration**: ジョブのrunを完了するのにかかった時間（秒単位）。
+   - **Start time**: ジョブの開始時刻のタイムスタンプ。
+   - **Duration**: ジョブの run が完了するまでに要した時間（秒）。
 
-## ジョブのリスト 
-プロジェクト内に存在するジョブのリストを W&B CLI を使用して表示します。W&B job list コマンドを使用し、`--project` および `--entity` フラグにローンンチジョブが所属するプロジェクト名とエンティティ名を指定します。
+## ジョブを一覧表示
+W&B CLI で、特定の Project に存在するジョブの一覧を表示できます。W&B の job list コマンドを使い、その Launch ジョブが属する Project 名と Entity 名を、それぞれ `--project` と `--entity` フラグに指定します。
 
 ```bash
-wandb job list --entity your-entity --project project-name
+ wandb job list --entity your-entity --project project-name
 ```
 
-## ジョブのステータスを確認する
+## ジョブのステータスを確認
 
-次の表は、キューに入れられたrunが持つ可能性のあるステータスを定義しています：
+次の表は、キューに入っている run にあり得るステータスの定義です:
 
 | ステータス | 説明 |
 | --- | --- |
-| **Idle** | runはアクティブなエージェントのないキューにあります。 |
-| **Queued** | runはエージェントが処理するのを待っているキューにあります。 |
-| **Pending** | run はエージェントによって取得されましたが、まだ開始されていません。これはクラスターでリソースが利用できないことが原因である可能性があります。 |
+| **Idle** | run が、アクティブなエージェントが 1 つもいないキューにあります。 |
+| **Queued** | run が、エージェントによる処理を待ってキューにあります。 |
+| **Pending** | run はエージェントに取得されましたが、まだ開始していません。クラスター上のリソース不足などが原因の可能性があります。 |
 | **Running** | run は現在実行中です。 |
-| **Killed** | ジョブはユーザーによって終了されました。 |
-| **Crashed** | run はデータの送信を停止したか、正常に開始しませんでした。 |
-| **Failed** | run は非ゼロの終了コードで終了したか、run の開始に失敗しました。 |
-| **Finished** | ジョブは正常に完了しました。 |
+| **Killed** | ジョブがユーザーによって強制終了されました。 |
+| **Crashed** | run がデータの送信を停止した、または正常に開始できませんでした。 |
+| **Failed** | run が非ゼロの終了コードで終了した、または開始に失敗しました。 |
+| **Finished** | ジョブが正常に完了しました。 |

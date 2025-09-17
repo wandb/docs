@@ -1,12 +1,13 @@
 ---
-title: バグ報奨金制度はありますか？
+title: バグバウンティ プログラムはありますか？
 menu:
   support:
     identifier: ja-support-kb-articles-bounty_program
 support:
-  - security
+- セキュリティ
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-Weights and Biases にはバグバウンティプログラムがあります。詳細はセキュリティポータルをアクセスしてください: [https://security.wandb.ai/](https://security.wandb.ai/).
+
+Weights and Biases ではバグバウンティ プログラムを実施しています。詳細は [W&B セキュリティ ポータル](https://security.wandb.ai/)にアクセスしてください。

@@ -4,54 +4,40 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-dedicated_cloud-_index
     parent: deployment-options
-url: /ja/guides/hosting/hosting-options/dedicated_cloud
+url: guides/hosting/hosting-options/dedicated_cloud
 ---
 
-## 専用クラウドの利用 (シングルテナント SaaS)
+## W&B Dedicated Cloud をシングルテナント SaaS として使用する
+W&B Dedicated Cloud は、W&B の AWS、GCP、Azure クラウド アカウントにデプロイされるシングルテナントのフルマネージドプラットフォームです。各 Dedicated Cloud インスタンスは、他の W&B Dedicated Cloud インスタンスから分離された独自のネットワーク、コンピューティング、ストレージを備えています。お客様の W&B 固有のメタデータとデータは、分離されたクラウド ストレージに保存され、分離されたクラウド コンピューティング サービスを使用して処理されます。
+W&B Dedicated Cloud は、[各クラウド プロバイダーの複数のグローバル リージョン]({{< relref path="./dedicated_regions.md" lang="ja" >}}) で利用できます。
 
-W&B 専用クラウドは、シングルテナントで完全に管理されたプラットフォームであり、W&B の AWS、GCP または Azure クラウドアカウントにデプロイされます。各専用クラウドインスタンスは、他の W&B 専用クラウドインスタンスと隔離されたネットワーク、コンピュート、ストレージを持っています。W&B 固有のメタデータとデータは、隔離されたクラウドストレージに保存され、隔離されたクラウドコンピュートサービスを使って処理されます。
+## データ セキュリティ
+[セキュア ストレージ コネクター]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) を [インスタンスおよびチーム レベル]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ja" >}}) で使用して、独自のバケット (BYOB) を持ち込み、Models、Datasets などのファイルを保存できます。
+W&B マルチテナント クラウドと同様に、複数のチームに対して単一のバケットを設定することも、異なるチームに個別のバケットを使用することもできます。チームにセキュア ストレージ コネクターを設定しない場合、そのデータはインスタンス レベルのバケットに保存されます.
+{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="Dedicated Cloud アーキテクチャ図" >}}
+セキュア ストレージ コネクターを使用した BYOB に加えて、[IP 許可リスト]({{< relref path="/guides/hosting/data-security/ip-allowlisting.md" lang="ja" >}}) を使用して、信頼できるネットワークの場所からのみ Dedicated Cloud インスタンスへのアクセスを制限できます。
+[クラウド プロバイダーのセキュア接続ソリューション]({{< relref path="/guides/hosting/data-security/private-connectivity.md" lang="ja" >}}) を使用して、Dedicated Cloud インスタンスにプライベートに接続できます。
+該当する場合は、お客様のデプロイメントが組織のポリシーおよび [セキュリティ技術実装ガイドライン (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に準拠していることを確認する責任はお客様にあります。
 
-W&B 専用クラウドは[各クラウドプロバイダーにとって複数の世界各地域で利用可能です]({{< relref path="./dedicated_regions.md" lang="ja" >}})
-
-## データセキュリティ
-
-[セキュアストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}})を使用して、[インスタンスおよびチームレベル]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md#configuration-options" lang="ja" >}})で自分のバケット (BYOB) を持ち込むことで、モデル、データセットなどのファイルを保存できます。
-
-W&B マルチテナントクラウドと同様に、複数のチーム用に 1 つのバケットを設定するか、異なるチームに対して別々のバケットを使用することができます。チーム用にセキュアストレージコネクタを設定しない場合、そのデータはインスタンスレベルのバケットに保存されます。
-
-{{< img src="/images/hosting/dedicated_cloud_arch.png" alt="" >}}
-
-セキュアストレージコネクタを使用した BYOB に加えて、信頼できるネットワーク場所からのみ専用クラウドインスタンスにアクセスを制限するために [IP 許可リスト]({{< relref path="/guides/hosting/data-security/ip-allowlisting.md" lang="ja" >}})を利用できます。
-
-また、[クラウドプロバイダーのセキュア接続ソリューション]({{< relref path="/guides/hosting/data-security/private-connectivity.md" lang="ja" >}})を使用して、専用クラウドインスタンスにプライベートに接続することもできます。
-
-## アイデンティティとアクセス管理 (IAM)
-
-W&B 組織での安全な認証と効果的な認可のためのアイデンティティおよびアクセス管理機能を利用してください。専用クラウドインスタンスの IAM には、次の機能があります:
-
-* [OpenID Connect (OIDC) を使用した SSO]({{< relref path="/guides/hosting/iam/authentication/sso.md" lang="ja" >}}) または [LDAP]({{< relref path="/guides/hosting/iam/authentication/ldap.md" lang="ja" >}}) で認証します。
-* 組織の範囲およびチーム内で[適切なユーザー役割を設定]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ja" >}})します。
-* [制限付きプロジェクト]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}})で、誰が W&B プロジェクトを閲覧、編集、または W&B runs に送信できるかの範囲を定義します。
-* JSON Web トークンを[アイデンティティフェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}})と組み合わせて利用し、W&B API にアクセスします。
+## ID およびアクセス管理 (IAM)
+W&B Organization でのセキュアな認証と効果的な認可のために、ID およびアクセス管理機能を使用します。Dedicated Cloud インスタンスの IAM で利用できる機能は次のとおりです。
+*   [OpenID Connect (OIDC) を使用した SSO]({{< relref path="/guides/hosting/iam/authentication/sso.md" lang="ja" >}}) または [LDAP]({{< relref path="/guides/hosting/iam/authentication/ldap.md" lang="ja" >}}) で認証します。
+*   組織の範囲内およびチーム内で、[適切なユーザー ロールを設定]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#assign-or-update-a-users-role" lang="ja" >}}) します。
+*   [制限付き Projects]({{< relref path="/guides/hosting/iam/access-management/restricted-projects.md" lang="ja" >}}) を使用して、W&B Project の範囲を定義し、誰がそれを表示、編集、および W&B Runs を送信できるかを制限します。
+*   [ID フェデレーション]({{< relref path="/guides/hosting/iam/authentication/identity_federation.md" lang="ja" >}}) と JSON Web トークンを活用して W&B API にアクセスします。
 
 ## 監視
-
-[監査ログ]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md" lang="ja" >}})を使用して、チーム内でのユーザー活動を追跡し、企業ガバナンス要件に準拠します。また、専用クラウドインスタンス内の W&B 組織ダッシュボードを使用して、組織の利用状況を確認できます。
+[監査ログ]({{< relref path="/guides/hosting/monitoring-usage/audit-logging.md" lang="ja" >}}) を使用して、チーム内のユーザー アクティビティを追跡し、企業のガバナンス要件に準拠します。また、[W&B Organization ダッシュボード]({{< relref path="/guides/hosting/monitoring-usage/org_dashboard.md" lang="ja" >}}) を使用して、Dedicated Cloud インスタンスでの組織の使用状況を表示できます。
 
 ## メンテナンス
-
-W&B マルチテナントクラウドと同様に、専用クラウドを使用することで、W&B プラットフォームのプロビジョニングやメンテナンスに関するオーバーヘッドやコストを負担することはありません。
-
-専用クラウドで W&B がどのようにアップデートを管理するかを理解するためには、[サーバーリリースプロセス]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}})を参照してください。
+W&B マルチテナント クラウドと同様に、Dedicated Cloud を使用すると、W&B プラットフォームのプロビジョニングとメンテナンスのオーバーヘッドとコストが発生しません。
+W&B が Dedicated Cloud でアップデートを管理する方法を理解するには、[サーバー リリース プロセス]({{< relref path="/guides/hosting/hosting-options/self-managed/server-upgrade-process.md" lang="ja" >}}) を参照してください。
 
 ## コンプライアンス
-
-W&B 専用クラウドのセキュリティ管理は、定期的に内部および外部で監査されています。セキュリティ評価演習のためのセキュリティとコンプライアンス文書をリクエストするには、[W&B セキュリティポータル](https://security.wandb.ai/)を参照してください。
+W&B Dedicated Cloud のセキュリティ コントロールは、定期的に内部および外部で監査されます。製品評価用のセキュリティおよびコンプライアンス ドキュメントをリクエストするには、[W&B Security Portal](https://security.wandb.ai/) を参照してください。
 
 ## 移行オプション
-
-[セルフマネージドインスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}})または[マルチテナントクラウド]({{< relref path="../saas_cloud.md" lang="ja" >}})から専用クラウドへの移行がサポートされています。
+[Self-Managed インスタンス]({{< relref path="/guides/hosting/hosting-options/self-managed/" lang="ja" >}}) または [マルチテナント クラウド]({{< relref path="../saas_cloud.md" lang="ja" >}}) から Dedicated Cloud への移行は、特定の制限および移行関連の制約の対象となりますが、サポートされています。
 
 ## 次のステップ
-
-専用クラウドの利用に興味がある場合は、[このフォーム](https://wandb.ai/site/for-enterprise/dedicated-saas-trial)を提出してください。
+Dedicated Cloud の使用にご興味がある場合は、[こちらのフォーム](https://wandb.ai/site/for-enterprise/dedicated-saas-trial) をご提出ください。

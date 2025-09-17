@@ -4,10 +4,11 @@ menu:
   support:
     identifier: ja-support-kb-articles-delete_panel_grid
 support:
-  - reports
-  - wysiwyg
+- reports
+- WYSIWYG
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-パネルグリッドを選択し、削除またはバックスペースを押します。右上隅にあるドラッグハンドルをクリックしてパネルグリッドを選択します。
+
+パネル グリッドを選択し、Delete または Backspace を押します。右上隅にあるドラッグ ハンドルをクリックして、パネル グリッドを選択します。

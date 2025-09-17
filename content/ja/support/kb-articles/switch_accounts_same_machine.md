@@ -1,18 +1,18 @@
 ---
-title: 同じマシンでアカウントを切り替えるにはどうすればいいですか？
+title: 同じマシン上でアカウントを切り替えるにはどうすればよいですか？
 menu:
   support:
     identifier: ja-support-kb-articles-switch_accounts_same_machine
 support:
-  - environment variables
+- 環境変数
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+url: /support/:filename
 ---
-2つの W&B アカウントを同じマシンから管理するには、両方の API キーをファイルに保存します。以下のコードをリポジトリで使用し、キーを安全に切り替えることで、秘密キーがソース管理にチェックインされるのを防ぎます。
+
+同じマシンから 2 つの W&B アカウントを管理するには、両方の API キーをファイルに保存します。各リポジトリで次のコードを使えば、API キーを安全に切り替えられ、シークレットキーがバージョン管理にコミットされるのを防げます。
 
 ```python
-# キーを切り替えるコード例
 if os.path.exists("~/keys.json"):
     os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```

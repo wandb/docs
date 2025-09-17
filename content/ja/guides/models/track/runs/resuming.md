@@ -1,5 +1,5 @@
 ---
-title: run を再開
+title: run を再開する
 description: 一時停止または終了した W&B Run を再開する
 menu:
   default:
@@ -7,7 +7,7 @@ menu:
     parent: what-are-runs
 ---
 
-実行が停止またはクラッシュした場合にどのように動作するべきかを指定します。実行を再開または自動的に再開するためには、その実行に関連付けられた一意の実行IDを`id`パラメータとして指定する必要があります。
+run が停止またはクラッシュした場合にどのように振る舞うかを指定します。run を再開したり、自動再開を有効にするには、その run に関連付けられた一意の run ID を `id` パラメータに指定する必要があります:
 
 ```python
 run = wandb.init(entity="<entity>", \ 
@@ -15,28 +15,34 @@ run = wandb.init(entity="<entity>", \
 ```
 
 {{% alert %}}
-W&Bは、実行を保存したいW&B Projectの名前を指定することをお勧めします。
+W&B は、run を保存したい W&B Project の名前を指定することを推奨します。
 {{% /alert %}}
 
-W&Bがどのように対応するかを決定するために、次の引数の1つを`resume`パラメータに渡します。各場合において、W&Bは最初に実行IDが既に存在するかを確認します。
+W&B の振る舞いを決めるために、`resume` パラメータに次のいずれかの引数を渡してください。どの場合でも、まず W&B は run ID が既に存在するかどうかを確認します。 
 
-|引数 | 説明 | 実行IDが存在する場合 | 実行IDが存在しない場合 | ユースケース |
+|引数 | 説明 | run ID が存在する場合 | run ID が存在しない場合 | ユースケース |
 | --- | --- | -- | --| -- |
-| `"must"` | W&Bは実行IDで指定された実行を再開する必要があります。 | 同じ実行IDで実行を再開します。 | W&Bがエラーを発生させます。 | 同じ実行IDを使用する必要がある実行を再開します。 |
-| `"allow"`| 実行IDが存在する場合、W&Bが実行を再開することを許可します。 | 同じ実行IDで実行を再開します。 | 指定された実行IDで新しい実行を初期化します。 | 既存の実行を上書きせずに実行を再開します。 |
-| `"never"`| 実行IDで指定された実行をW&Bが再開することを許可しない。 | W&Bがエラーを発生させます。 | 指定された実行IDで新しい実行を初期化します。 | |
+| `"must"` | W&B は run ID で指定された run を必ず再開する必要がある。 | W&B は同じ run ID の run を再開します。 | W&B はエラーを発生させます。 | 同じ run ID を必ず使って run を再開したい場合。 |
+| `"allow"`| run ID が存在する場合に W&B に run を再開させます。 | W&B は同じ run ID の run を再開します。 | W&B は指定した run ID で新しい run を初期化します。 | 既存の run を上書きせずに run を再開したい場合。 |
+| `"never"`| run ID で指定された run の再開を W&B に許可しません。 | W&B はエラーを発生させます。 | W&B は指定した run ID で新しい run を初期化します。 | |
 
-`resume="auto"`を指定することで、W&Bが自動的にあなたの代わりに実行を再開しようとします。ただし、同じディレクトリーから実行を再開することを保証する必要があります。詳細は、[実行を自動的に再開する設定を有効にする]({{< relref path="#enable-runs-to-automatically-resume" lang="ja" >}})セクションを参照してください。
 
-以下の例では、`<>`で囲まれた値をあなた自身のものに置き換えてください。
 
-## 同じ実行IDを使用して実行を再開する
-実行が停止、クラッシュ、または失敗した場合、同じ実行IDを使用して再開できます。これを行うには、実行を初期化し、以下を指定します。
 
-* `resume`パラメータを`"must"`に設定します（`resume="must"`）。
-* 停止またはクラッシュした実行の実行IDを指定します。
+`resume="auto"` を指定して、W&B に run の再起動を自動的に試行させることもできます。ただし、同じディレクトリーで run を再起動する必要があります。詳しくは、[run の自動再開を有効にする]({{< relref path="#enable-runs-to-automatically-resume" lang="ja" >}}) を参照してください。
 
-以下のコードスニペットは、W&B Python SDKでこれを達成する方法を示しています。
+以下の例では、`<>` で囲まれた値を自分の値に置き換えてください。
+
+## 同じ run ID を必ず使って run を再開する
+run が停止、クラッシュ、または失敗した場合、同じ run ID を使って再開できます。そのためには、run を初期化して次を指定します:
+
+* `resume` パラメータを `"must"`（`resume="must"`）に設定する 
+* 停止またはクラッシュした run の run ID を指定する
+
+
+
+
+次のコードスニペットは W&B Python SDK での方法を示します:
 
 ```python
 run = wandb.init(entity="<entity>", \ 
@@ -44,15 +50,16 @@ run = wandb.init(entity="<entity>", \
 ```
 
 {{% alert color="secondary" %}}
-複数のプロセスが同じ`id`を同時に使用すると予期しない結果が発生します。
+複数のプロセスが同じ `id` を同時に使用すると、予期しない結果が発生します。 
 
-複数プロセスの管理方法については、[分散トレーニング実験のログ]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}})を参照してください。
+
+複数のプロセスの管理方法については、[分散トレーニングをログする]({{< relref path="/guides/models/track/log/distributed-training.md" lang="ja" >}}) を参照してください。 
 {{% /alert %}}
 
-## 既存の実行を上書きせずに実行を再開する
-停止またはクラッシュした実行を、既存の実行を上書きせずに再開します。これは、プロセスが正常に終了しない場合に特に役立ちます。次回W&Bを開始すると、W&Bは最後のステップからログを開始します。
+## 既存の run を上書きせずに run を再開する
+停止またはクラッシュした run を、既存の run を上書きせずに再開します。プロセスが正常に終了しなかった場合に特に役立ちます。次に W&B を開始したとき、W&B は最後のステップからログを開始します。
 
-W&Bで実行を初期化する場合、`resume`パラメータを`"allow"`(`resume="allow"`)で設定します。停止またはクラッシュした実行の実行IDを指定します。以下のコードスニペットは、W&B Python SDKでこれを達成する方法を示しています。
+W&B で run を初期化する際に `resume` パラメータを `"allow"`（`resume="allow"`）に設定します。停止またはクラッシュした run の run ID を指定してください。次のコードスニペットは W&B Python SDK での方法を示します:
 
 ```python
 import wandb
@@ -61,14 +68,15 @@ run = wandb.init(entity="<entity>", \
         project="<project>", id="<run ID>", resume="allow")
 ```
 
-## 実行を自動的に再開するように設定を有効にする
-以下のコードスニペットは、Python SDKまたは環境変数を使用して実行を自動的に再開する方法を示します。
+
+## run の自動再開を有効にする 
+次のコードスニペットは、Python SDK または環境変数で run の自動再開を有効にする方法を示します。 
 
 {{< tabpane text=true >}}
   {{% tab header="W&B Python SDK" %}}
-以下のコードスニペットは、Python SDKでW&B実行IDを指定する方法を示しています。
+次のコードスニペットは、Python SDK で W&B の run ID を指定する方法を示します。 
 
-`<>`で囲まれた値をあなた自身のものに置き換えてください。
+`<>` で囲まれた値を自分の値に置き換えてください:
 
 ```python
 run = wandb.init(entity="<entity>", \ 
@@ -77,15 +85,14 @@ run = wandb.init(entity="<entity>", \
   {{% /tab %}}
   {{% tab header="シェルスクリプト" %}}
 
-次の例は、bashスクリプトでW&B `WANDB_RUN_ID`変数を指定する方法を示しています。
+次の例は、bash スクリプトで W&B の `WANDB_RUN_ID` 変数を指定する方法を示します: 
 
 ```bash title="run_experiment.sh"
 RUN_ID="$1"
 
 WANDB_RESUME=allow WANDB_RUN_ID="$RUN_ID" python eval.py
 ```
-
-ターミナル内で、W&B実行IDと共にシェルスクリプトを実行できます。次のコードスニペットは実行ID `akj172`を渡します。
+ターミナル内で、W&B の run ID とともにこのシェルスクリプトを実行できます。次のコードスニペットでは run ID `akj172` を渡しています: 
 
 ```bash
 sh run_experiment.sh akj172 
@@ -94,30 +101,36 @@ sh run_experiment.sh akj172
 {{% /tab %}}
 {{< /tabpane >}}
 
+
 {{% alert color="secondary" %}}
-自動再開は、プロセスが失敗したプロセスと同じファイルシステムの上で再起動された場合にのみ機能します。
+自動再開は、失敗したプロセスと同じファイルシステム上でプロセスが再起動される場合にのみ機能します。 
 {{% /alert %}}
 
-例えば、`train.py`というPythonスクリプトを`Users/AwesomeEmployee/Desktop/ImageClassify/training/`というディレクトリーで実行するとします。`train.py`内で、自動再開を有効にする実行が作成されます。次にトレーニングスクリプトが停止されたとします。この実行を再開するには、`Users/AwesomeEmployee/Desktop/ImageClassify/training/`内で`train.py`スクリプトを再起動する必要があります。
+
+例えば、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` というディレクトリーで `train.py` という Python スクリプトを実行するとします。`train.py` の中で、自動再開を有効にする run を作成します。その後、training スクリプトが停止したとします。この run を再開するには、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` 内で `train.py` スクリプトを再実行する必要があります。
+
 
 {{% alert %}}
-ファイルシステムを共有できない場合は、`WANDB_RUN_ID`環境変数を指定するか、W&B Python SDKで実行IDを渡します。実行IDの詳細は、"What are runs?"ページの[カスタム実行ID]({{< relref path="./#custom-run-ids" lang="ja" >}})セクションを参照してください。
+ファイルシステムを共有できない場合は、`WANDB_RUN_ID` 環境変数を指定するか、W&B Python SDK で run ID を渡してください。run ID の詳細は「What are runs?」ページの [カスタム run ID]({{< relref path="./#custom-run-ids" lang="ja" >}}) セクションを参照してください。
 {{% /alert %}}
 
-## 中断可能なSweepsの実行を再開する
-中断されたスイープ実行を自動的に再キューします。これは、スイープエージェントを停止の対象となる計算環境（SLURMジョブの中断可能なキュー、EC2スポットインスタンス、Google Cloud中断可能VMなど）で実行する場合に特に役立ちます。
 
-[`mark_preempting`]({{< relref path="/ref/python/run.md#mark_preempting" lang="ja" >}})関数を使用して、W&Bが中断されたスイープ実行を自動的に再キューできるようにします。以下のコードスニペットの例
+
+
+
+## プリエンプト可能な Sweeps の run を再開する
+中断された [sweep]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) run を自動で再キューします。これは、プリエンプトが発生する可能性がある計算環境（プリエンプト可能キューの SLURM ジョブ、EC2 スポットインスタンス、Google Cloud の preemptible VM など）で sweep agent を実行する場合に特に有用です。
+
+中断された sweep run を自動で再キューするには、[`mark_preempting`]({{< relref path="/ref/python/sdk/classes/run#mark_preempting" lang="ja" >}}) 関数を使用します。例:
 
 ```python
-run = wandb.init()  # 実行を初期化
+run = wandb.init()  # run を初期化
 run.mark_preempting()
 ```
-
-以下の表は、スイープ実行の終了ステータスに基づいてW&Bが実行をどのように扱うかを概説しています。
+以下の表は、sweep run の終了ステータスに基づき W&B が run をどのように処理するかを示します。
 
 |ステータス| 振る舞い |
 |------| ---------|
-|ステータスコード0| 実行は成功裏に終了したと見なされ、再キューされません。 |
-|非ゼロステータス| W&Bは自動的に実行をスイープに関連付けられたランキューに追加します。|
-|ステータスなし| 実行はスイープランキューに追加されます。スイープエージェントは、キューが空になるまでランキューから実行を消費します。キューが空になると、スイープキューはスイープ検索アルゴリズムに基づいて新しい実行の生成を再開します。|
+|ステータスコード 0| run は正常終了と見なされ、再キューされません。  |
+|非 0 のステータス| W&B はその run を該当 sweep の run キューに自動で追加します。|
+|ステータスなし| run は sweep の run キューに追加されます。sweep agent は、キューが空になるまで run を消費します。キューが空になると、sweep キューは sweep の探索アルゴリズムに基づいて新しい run の生成を再開します。|

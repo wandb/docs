@@ -1,6 +1,6 @@
 ---
 title: LightGBM
-description: W&B でツリーをトラッキングする。
+description: W&B で ツリー を追跡しましょう。
 menu:
   default:
     identifier: ja-guides-integrations-lightgbm
@@ -10,29 +10,29 @@ weight: 190
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" >}}
 
-`wandb` ライブラリには、[LightGBM](https://lightgbm.readthedocs.io/en/latest/) 用の特別なコールバックが含まれています。また、Weights & Biases の一般的なログ機能を使用して、大規模な実験やハイパーパラメータ探索を追跡することも簡単です。
+`wandb` ライブラリには [LightGBM](https://lightgbm.readthedocs.io/en/latest/) 向けの特別な コールバック が含まれています。さらに、W&B の汎用的な ログ 機能を使えば、ハイパーパラメーター探索のような大規模な 実験 を追跡するのも簡単です。
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
 import lightgbm as lgb
 
-# メトリクスを W&B にログ
+# メトリクスを W&B にログする
 gbm = lgb.train(..., callbacks=[wandb_callback()])
 
-# 特徴量のインポータンスプロットをログし、モデルのチェックポイントを W&B にアップロード
+# 特徴量のインポータンスプロットをログし、モデルのチェックポイントを W&B にアップロードする
 log_summary(gbm, save_model_checkpoint=True)
 ```
 
 {{% alert %}}
-動作するコード例をお探しですか？[GitHub の例のリポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)をチェックしてください。
+動くコード例をお探しですか？[GitHub 上のサンプル集リポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms) をご覧ください。
 {{% /alert %}}
 
-## ハイパーパラメーターの調整と Sweeps
+## Sweeps でハイパーパラメーターをチューニングする
 
-モデルから最大のパフォーマンスを引き出すには、ツリーの深さや学習率のようなハイパーパラメーターを調整する必要があります。Weights & Biases は、大規模なハイパーパラメータのテスト実験を設定、調整、分析するための強力なツールキットである [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}})を含んでいます。
+モデルの性能を最大化するには、ツリー の深さや学習率などのハイパーパラメーターを調整する必要があります。W&B の [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) は、大規模なハイパーパラメーター検証 実験 の設定・オーケストレーション・分析を行える強力なツールキットです。
 
-これらのツールについて学び、XGBoost で Sweeps を使用する方法の例を確認するには、この対話型 Colab ノートブックをチェックしてください。
+これらのツールの詳細や、XGBoost と Sweeps を組み合わせる例は、対話的な Colabノートブック をご覧ください。
 
 {{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" >}}
 
-{{< img src="/images/integrations/lightgbm_sweeps.png" alt="要約: この分類データセットでツリーは線形学習者を上回る。" >}}
+{{< img src="/images/integrations/lightgbm_sweeps.png" alt="LightGBM の性能比較" >}}
