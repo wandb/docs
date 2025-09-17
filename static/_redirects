@@ -373,6 +373,9 @@
 /ref/python/integrations/sklearn/ /guides/integrations/scikit/ 301
 /ref/python/join/ /ref/python/ 301
 /ref/python/log/ /ref/python/ 301
+/ref/python/public-api/teams/ /ref/python/public-api/Team/ 301
+/ref/python/public-api/users/ /ref/python/public-api/User/ 301
+/ref/python/public-api/integrations/ /ref/python/public-api/ 301
 /ref/python/login/ /ref/python/functions/login/ 301
 /ref/python/public-api/job/ /ref/python/init/ 301
 /ref/python/public-api/queuedrun/ /ref/python/init/ 301
