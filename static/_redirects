@@ -96,9 +96,10 @@
 /guides/app/intro/ /guides/app/features/panels/ 301
 /guides/app/pages/guides/app/settings-page/ /guides/app/pages/ 301
 /guides/app/pages/intro/ /guides/app/pages/ 301
-/guides/app/pages/settings-page/ /guides/app/settings-page/ 301
+/guides/app/pages/settings-page/ /guides/models/app/settings-page/ 301
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
-/guides/app/settings-page/intro/ /guides/app/settings-page/ 301
+/guides/app/settings-page/ /guides/models/app/settings-page/ 301
+/guides/app/settings-page/intro/ /guides/models/app/settings-page/ 301
 /guides/app/settings-page/teams/ /guides/models/app/settings-page/teams/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
 /guides/artifacts/api/ /ref/python/public-api/api#artifact/ 301
@@ -341,10 +342,10 @@
 /ref/app/pages/gradient-panel/ /guides/app/pages/gradient-panel/ 301
 /ref/app/pages/project-page/ /guides/app/pages/project-page/ 301
 /ref/app/pages/run-page/ /guides/app/pages/run-page/ 301
-/ref/app/pages/settings-page/ /guides/app/settings-page/ 301
-/ref/app/pages/settings-page/emails/ /guides/app/settings-page/emails/ 301
-/ref/app/pages/settings-page/team-settings/ /guides/app/settings-page/team-settings/ 301
-/ref/app/pages/settings-page/user-settings/ /guides/app/settings-page/user-settings/ 301
+/ref/app/pages/settings-page/ /guides/models/app/settings-page/ 301
+/ref/app/pages/settings-page/emails/ /guides/models/app/settings-page/emails/ 301
+/ref/app/pages/settings-page/team-settings/ /guides/models/app/settings-page/team-settings/ 301
+/ref/app/pages/settings-page/user-settings/ /guides/models/app/settings-page/user-settings/ 301
 /ref/app/pages/workspaces/ /guides/track/workspaces/ 301
 /ref/cli/wandb-server-start/ /ref/cli/wandb-server/ 301
 /ref/data_types/ /ref/python/data-types/ 301
