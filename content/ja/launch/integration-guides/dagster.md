@@ -181,7 +181,7 @@ def create_dataset():
 W&B は複数のピクルスベースのシリアライズモジュール([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)) をサポートしています。また、[ONNX](https://onnx.ai/) や [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language) といったより高度なシリアライズも利用できます。[Serialization]({{< relref path="#serialization-configuration" lang="ja" >}}) セクションを参照してください。
 {{% /tab %}}
 {{% tab "W&B Object" %}}
-ネイティブ W&B オブジェクト (例: [Table]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}), [Image]({{< relref path="/ref/python/data-types/image.md" lang="ja" >}}), or [Graph]({{< relref path="/ref/python/data-types/graph.md" lang="ja" >}})) のいずれかが作成された Artifact にインテグレーションによって追加されます。以下は Table を使った例です。
+ネイティブ W&B オブジェクト (例: [Table]({{< relref path="/ref/python/data-types/table.md" lang="ja" >}}), [Image]({{< relref "/ref/python/data-types/image.md" >}}), or [Graph]({{< relref path="/ref/python/data-types/graph.md" lang="ja" >}})) のいずれかが作成された Artifact にインテグレーションによって追加されます。以下は Table を使った例です。
 
 ```python
 import wandb
