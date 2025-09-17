@@ -24,9 +24,7 @@
 
 ## Static redirects (exact paths)
 /app/ /guides/app/ 301
-/app/features /guides/app/ 301
 /app/features/ /guides/app/ 301
-/guides/models/app/features /guides/app/ 301
 /guides/models/app/features/ /guides/app/ 301
 /app/features/alerts/ /guides/runs/alert/ 301
 /app/features/custom-charts-beta/ /guides/app/features/custom-charts-beta/ 301
