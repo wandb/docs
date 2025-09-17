@@ -52,5 +52,5 @@ The Inference service is only available from supported geographic locations. For
 
 ## Next steps
 
-- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started
-- See [available models]({{< relref "models" >}}) and their specific costs 
+- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started.
+- See [available models]({{< relref "models" >}}) and their specific pricing. 
