@@ -13,7 +13,6 @@ Global functions in W&B are top-level functions that you call directly, such as 
 |----------|-------------|
 | [`init()`](./init/) | Start a new run to track and log to W&B. This is typically the first function you'll call in your ML training pipeline. |
 | [`login()`](./login/) | Set up W&B login credentials to authenticate your machine with the platform. |
-| [`finish()`](./finish/) | Complete a run and upload any remaining data to ensure all information is synced to the server. |
 | [`setup()`](./setup/) | Prepare W&B for use in the current process and its children. Useful for multi-process applications. |
 | [`teardown()`](./teardown/) | Clean up W&B resources and shut down the backend process. |
 | [`sweep()`](./sweep/) | Initialize a hyperparameter sweep to search for optimal model configurations. |
