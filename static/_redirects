@@ -25,7 +25,6 @@
 ## Static redirects (exact paths)
 /app/ /guides/app/ 301
 /app/features/ /guides/app/ 301
-/guides/models/app/features/ /guides/app/ 301
 /app/features/alerts/ /guides/runs/alert/ 301
 /app/features/custom-charts-beta/ /guides/app/features/custom-charts-beta/ 301
 /app/features/custom-charts/ /guides/app/features/custom-charts/ 301
@@ -162,7 +161,6 @@
 /guides/integrations/kubeflow/ /guides/integrations/kubeflow-pipelines-kfp/ 301
 /guides/integrations/mmsegmentation/ /guides/integrations/ 301
 /guides/integrations/open/ /guides/integrations/openai/ 301
-/guides/integrations/other/kubeflow/ /guides/integrations/kubeflow-pipelines-kfp/ 301
 /guides/integrations/otherray-tune/ /guides/integrations/ 301
 /guides/integrations/tensorboardgetting%20recal%20from%20precision/ /guides/integrations/tensorboard/ 301
 /guides/integrations/w-and-b-for-r/ /guides/integrations/ 301
@@ -260,7 +258,6 @@
 /hosting/setup/ /hosting/ 301
 /huggingface/ /guides/integrations/huggingface/ 301
 /integrations/jupyter.html /guides/track/jupyter/ 301
-/integrations/lightning%3E%60_ /guides/integrations/lightning/ 301
 /ja/ /ja/guides/ 301
 /java/ /ref/ 301
 /jp/ /ja/guides/ 301
@@ -278,13 +275,10 @@
 /library/distributed-training/ /guides/track/log/distributed-training/ 301
 /library/environment-variables/ /guides/track/environment-variables/ 301
 /library/example-projects/ /guides/integrations/tensorflow#examples/ 301
-/library/frameworks/pytorch/lightning/ /guides/integrations/lightning/ 301
 /library/graphs/graph-edit-axes/ / 301
 /library/grouping/ /guides/runs/grouping/ 301
 /library/hyperparameter-sweeps/ /guides/sweeps/ 301
 /library/init/ /ref/python/sdk/functions/init/ 301
-/library/integrations/cpp/ /guides/integrations/ 301
-/library/integrations/pytorch-lightning/ /guides/integrations/lightning/ 301
 /library/log/ /ref/python/sdk/log/ 301
 /library/plots/ /guides/app/ 301
 /library/plots/heatmap/ /guides/track/log/media/ 301
