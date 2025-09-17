@@ -202,7 +202,7 @@ To freeze a run set when viewing a report, click the snowflake icon in its panel
 
 ## Group a run set programmatically
 
-Group runs in a run set programmatically with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
+Group runs in a run set programmatically with the [Workspace and Reports API]({{< relref "/ref/wandb_workspaces/reports" >}}).
 
 You can group runs in a run set by config values, run metadata or summary metrics. The following table lists the available grouping methods along with the available keys for that grouping method:
 
@@ -328,7 +328,7 @@ runset = wr.Runset(
 
 ## Filter a run set programmatically
 
-Programmatically filter run sets and add them to a report with the [Workspace and Reports API]({{< relref "/ref/python/wandb_workspaces/reports" >}}).
+Programmatically filter run sets and add them to a report with the [Workspace and Reports API]({{< relref "/ref/wandb_workspaces/reports" >}}).
 
 The general syntax for a filter expression is:
 

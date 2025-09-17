@@ -1,11 +1,9 @@
 ---
 description: Metrics automatically logged by W&B.
-menu:
-  reference:
-    identifier: system-metrics
-    parent: reference
-title: System Metrics
-weight: 50
+title: System Metrics Reference
+aliases:
+- /guides/models/app/settings-page/system-metrics/
+- /guides/ref/system-metrics
 ---
 
 This page provides detailed information about the system metrics that are tracked by the W&B SDK.

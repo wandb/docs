@@ -1,15 +1,15 @@
 ---
-title: API Walkthrough
-weight: 1
+title: Get Started with W&B Models
+weight: 2
 ---
 
-Learn when and how to use different W&B APIs to track, share, and manage model artifacts in your machine learning workflows. This page covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
+Learn when and how to use W&B to track, share, and manage model artifacts in your machine learning workflows. This page covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
 
-W&B offers the following APIs:
+This tutorial uses the following:
 
-* W&B Python SDK (`wandb.sdk`): Log and monitor experiments during training.
-* W&B Public API (`wandb.apis.public`): Query and analyze logged experiment data.
-* W&B Report and Workspace API (`wandb.wandb-workspaces`): Create reports to summarize findings.
+* [W&B Python SDK]({{< relref "/ref/python" >}}) (`wandb.sdk`): to log and monitor experiments during training.
+* [W&B Public API]({{< relref "/ref/python/public-api" >}}) (`wandb.apis.public`): to query and analyze logged experiment data.
+* [W&B Reports and Workspaces API]({{< relref "/ref/wandb_workspaces" >}}) (`wandb.wandb-workspaces`): to create a report to summarize findings.
 
 ## Sign up and create an API key
 To authenticate your machine with W&B, you must first generate an API key at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
@@ -37,11 +37,11 @@ TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
 PROJECT = "my-awesome-project"
 ```
 
-## Train model
+## Train a model
 
 The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
 
-Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/sdk/classes/artifact.md#add_file" >}}).
+Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/experiments/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/experiments/artifact.md#add_file" >}}).
 
 ```python
 import random # For simulating data
@@ -98,9 +98,20 @@ The key takeaways from the previous code block are:
 * Use `wandb.Run.log()` to log metrics during training.
 * Use `wandb.Artifact` to save models (datasets, and so forth) as an artifact to your W&B project.
 
-Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.Run.use_artifact()`]({{< relref "/ref/python/sdk/classes/run/#method-runuse_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.Run.use_artifact()` serves two key purposes:
+Now that you have trained a model and saved it as an artifact, you can publish it to a registry in W&B. Use [`wandb.Run.use_artifact()`]({{< relref "/ref/python/experiments/run/#method-runuse_artifact" >}}) to retrieve the artifact from your project and prepare it for publication in the Model registry. `wandb.Run.use_artifact()` serves two key purposes:
 * Retrieves the artifact object from your project.
 * Marks the artifact as an input to the run, ensuring reproducibility and traceability. See [Create and view lineage map]({{< relref "/guides/core/registry/lineage/" >}}) for details.
+
+## View the training data in the dashboard
+
+Log in to your account at https://wandb.ai/login
+
+Under **Projects** you should see `my-awesome-project` (or whatever you used as a project name above). Click this to enter the workspace for your project. 
+
+From here, you can see details about every run you've done. In this screenshot, the code was re-run several times, generating a number of runs, each of which is given a randomly-generated name. 
+
+{{< img "/images/quickstart/quickstart_image.png" >}}
+
 
 ## Publish the model to the Model registry
 
@@ -130,7 +141,7 @@ For additional information on how to link artifacts to a registry, see [Link art
 
 ## Retrieve model artifact from registry for inference
 
-To use a model for inference, use `wandb.Run.use_artifact()` to retrieve the published artifact from the registry. This returns an artifact object that you can then use [`wandb.Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactdownload" >}}) to download the artifact to a local file.
+To use a model for inference, use `wandb.Run.use_artifact()` to retrieve the published artifact from the registry. This returns an artifact object that you can then use [`wandb.Artifact.download()`]({{< relref "/ref/python/experiments/artifact/#method-artifactdownload" >}}) to download the artifact to a local file.
 
 ```python
 REGISTRY_NAME = "Model"  # Name of the registry in W&B
@@ -155,7 +166,7 @@ Depending on your machine learning framework, you may need to recreate the model
 W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
-Create and share a [report]({{< relref "/guides/core/reports/_index.md" >}}) to summarize your work. To create a report programmatically, use the [W&B Report and Workspace API]({{< relref "/ref/python/wandb_workspaces/reports.md" >}}).
+Create and share a [report]({{< relref "/guides/core/reports/_index.md" >}}) to summarize your work. To create a report programmatically, use the [W&B Report and Workspace API]({{< relref "/ref/wandb_workspaces/reports.md" >}}).
 
 First, install the W&B Reports API:
 

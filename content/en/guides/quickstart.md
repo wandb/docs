@@ -6,7 +6,7 @@ menu:
     parent: guides
 title: W&B Quickstart
 url: quickstart
-weight: 2
+weight: 1
 ---
 Install W&B to track, visualize, and manage machine learning experiments of any size.
 
@@ -64,7 +64,7 @@ wandb.login()
 
 ## Start a run and track hyperparameters
 
-In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref "/ref/python/sdk/classes/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
+In your Python script or notebook, initialize a W&B run object with [`wandb.init()`]({{< relref "/ref/python/experiments/run.md" >}}). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
 
 ```python
 run = wandb.init(
