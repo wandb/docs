@@ -1,25 +1,14 @@
 ---
 title: Api
-object_type: public_apis_namespace
-data_type_classification: module
+namespace: public_apis_namespace
+python_object_type: class
 ---
 {{< readfile file="/_includes/public-api-use.md" >}}
+
+
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py >}}
 
 
-
-
-# <kbd>module</kbd> `wandb.apis.public`
-Use the Public API to export or update data that you have saved to W&B. 
-
-Before using this API, you'll want to log data from your script — check the [Quickstart](https://docs.wandb.ai/quickstart) for more details. 
-
-You might use the Public API to 
- - update metadata or metrics for an experiment after it has been completed, 
- - pull down your results as a dataframe for post-hoc analysis in a Jupyter notebook, or 
- - check your saved model artifacts for those tagged as `ready-to-deploy`. 
-
-For more on using the Public API, check out [our guide](https://docs.wandb.com/guides/track/public-api-guide). 
 
 
 ## <kbd>class</kbd> `Api`
@@ -62,24 +51,40 @@ Initialize the API.
 
 Returns W&B API key. 
 
+
+
+**Returns:**
+ - `str | None`: The api_key property value.
 ---
 
 ### <kbd>property</kbd> Api.client
 
 Returns the client object. 
 
+
+
+**Returns:**
+ - `RetryingClient`: The client property value.
 ---
 
 ### <kbd>property</kbd> Api.default_entity
 
 Returns the default W&B entity. 
 
+
+
+**Returns:**
+ - `str | None`: The default_entity property value.
 ---
 
 ### <kbd>property</kbd> Api.user_agent
 
 Returns W&B public user agent. 
 
+
+
+**Returns:**
+ - `str`: The user_agent property value.
 ---
 
 ### <kbd>property</kbd> Api.viewer
@@ -95,6 +100,10 @@ Returns the viewer object.
 
 
 
+
+
+**Returns:**
+ - `public.User`: The viewer property value.
 ---
 
 ### <kbd>method</kbd> `Api.artifact`
@@ -1560,5 +1569,4 @@ my_webhooks = [
     if ig.url_endpoint.startswith("https://my-fake-url.com")
 ]
 ``` 
-
 

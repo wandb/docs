@@ -1,7 +1,7 @@
 ---
 title: teardown()
-object_type: python_sdk_actions
-data_type_classification: function
+namespace: python_sdk_actions
+python_object_type: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/ >}}

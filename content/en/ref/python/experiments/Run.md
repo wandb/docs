@@ -1,11 +1,7 @@
 ---
 title: Run
-object_type: python_sdk_actions
-data_type_classification: class
-weight: 6
-aliases:
-- /ref/python/run
-- /ref/python/classes/run
+namespace: python_sdk_actions
+python_object_type: class
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py >}}
@@ -768,8 +764,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x105f25750>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x106a92710>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x104a016c0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10572a680>
 ) → Artifact | None
 ```
 

@@ -1,7 +1,7 @@
 ---
 title: Plotly
-object_type: python_sdk_data_type
-data_type_classification: class
+namespace: python_sdk_data_type
+python_object_type: class
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py >}}

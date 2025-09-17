@@ -1,28 +1,15 @@
 ---
-title: Users
-object_type: public_apis_namespace
-data_type_classification: module
+title: User
+namespace: public_apis_namespace
+python_object_type: class
 ---
 {{< readfile file="/_includes/public-api-use.md" >}}
+
+
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py >}}
 
 
 
-
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for managing users and API keys. 
-
-This module provides classes for managing W&B users and their API keys. 
-
-
-
-**Note:**
-
-> This module is part of the W&B Public API and provides methods to manage users and their authentication. Some operations require admin privileges. 
-
-
-
----
 
 ## <kbd>class</kbd> `User`
 A class representing a W&B user with authentication and management capabilities. 
@@ -153,5 +140,4 @@ Generate a new api key.
 
 **Returns:**
  The new api key, or None on failure 
-
 

@@ -1,7 +1,7 @@
 ---
 title: OnCreateArtifact
-object_type: automations_namespace
-data_type_classification: class
+namespace: automations_namespace
+python_object_type: class
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
