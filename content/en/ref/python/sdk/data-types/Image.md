@@ -43,9 +43,9 @@ Initialize a `wandb.Image` object.
  - `grouping`:  The grouping number for the image. 
  - `classes`:  A list of class information for the image,  used for labeling bounding boxes, and image masks. 
  - `boxes`:  A dictionary containing bounding box information for the image. 
- - `see`:  https://docs.wandb.ai/ref/python/data-types/boundingboxes2d/ 
+ - `see`:  wandb.sdk.data_types.image.BoundingBoxes2D for box data structure details 
  - `masks`:  A dictionary containing mask information for the image. 
- - `see`:  https://docs.wandb.ai/ref/python/data-types/imagemask/ 
+ - `see`:  wandb.sdk.data_types.image.ImageMask for mask data structure details 
  - `file_type`:  The file type to save the image as.  This parameter has no effect if data_or_path is a path to an image file. 
  - `normalize`:  If True, normalize the image pixel values to fall within the range of [0, 255].  Normalize is only applied if data_or_path is a numpy array or pytorch tensor. 
 
