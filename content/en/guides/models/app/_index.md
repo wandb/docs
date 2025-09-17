@@ -5,6 +5,8 @@ menu:
     parent: models
 title: W&B App UI
 url: guides/app
+cascade:
+- url: guides/app/:filename
 ---
 
 This section provides details to help you use the W&B App UI. Manage workspaces, teams, and registries, visualize and observe experiments, create panels and reports, configure automations, and more.

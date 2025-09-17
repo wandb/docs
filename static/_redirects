@@ -25,7 +25,6 @@
 ## Static redirects (exact paths)
 /app/ /guides/app/ 301
 /app/features/ /guides/app/ 301
-/guides/models/app/features/ /guides/app/ 301
 /app/features/alerts/ /guides/runs/alert/ 301
 /app/features/custom-charts-beta/ /guides/app/features/custom-charts-beta/ 301
 /app/features/custom-charts/ /guides/app/features/custom-charts/ 301
@@ -98,7 +97,6 @@
 /guides/app/pages/intro/ /guides/app/pages/ 301
 /guides/app/pages/settings-page/ /guides/app/settings-page/ 301
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
-/guides/app/settings-page/intro/ /guides/app/settings-page/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
 /guides/artifacts/api/ /ref/python/public-api/api#artifact/ 301
 /guides/artifacts/artifacts-core-concepts/ /guides/artifacts/ 301
@@ -163,7 +161,6 @@
 /guides/integrations/kubeflow/ /guides/integrations/kubeflow-pipelines-kfp/ 301
 /guides/integrations/mmsegmentation/ /guides/integrations/ 301
 /guides/integrations/open/ /guides/integrations/openai/ 301
-/guides/integrations/other/kubeflow/ /guides/integrations/kubeflow-pipelines-kfp/ 301
 /guides/integrations/otherray-tune/ /guides/integrations/ 301
 /guides/integrations/tensorboardgetting%20recal%20from%20precision/ /guides/integrations/tensorboard/ 301
 /guides/integrations/w-and-b-for-r/ /guides/integrations/ 301
@@ -261,7 +258,6 @@
 /hosting/setup/ /hosting/ 301
 /huggingface/ /guides/integrations/huggingface/ 301
 /integrations/jupyter.html /guides/track/jupyter/ 301
-/integrations/lightning%3E%60_ /guides/integrations/lightning/ 301
 /ja/ /ja/guides/ 301
 /java/ /ref/ 301
 /jp/ /ja/guides/ 301
@@ -279,13 +275,10 @@
 /library/distributed-training/ /guides/track/log/distributed-training/ 301
 /library/environment-variables/ /guides/track/environment-variables/ 301
 /library/example-projects/ /guides/integrations/tensorflow#examples/ 301
-/library/frameworks/pytorch/lightning/ /guides/integrations/lightning/ 301
 /library/graphs/graph-edit-axes/ / 301
 /library/grouping/ /guides/runs/grouping/ 301
 /library/hyperparameter-sweeps/ /guides/sweeps/ 301
 /library/init/ /ref/python/sdk/functions/init/ 301
-/library/integrations/cpp/ /guides/integrations/ 301
-/library/integrations/pytorch-lightning/ /guides/integrations/lightning/ 301
 /library/log/ /ref/python/sdk/log/ 301
 /library/plots/ /guides/app/ 301
 /library/plots/heatmap/ /guides/track/log/media/ 301
@@ -333,17 +326,17 @@
 /ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/weave/embedding-projector/ 301
 /ref/app/features/runs-table/ /guides/app/features/runs-table/ 301
 /ref/app/features/sweeps/ /guides/sweeps/ 301
-/ref/app/features/system-metrics/ /guides/app/features/system-metrics/ 301
+/ref/app/features/system-metrics/ /ref/system-metrics/ 301
 /ref/app/features/tags/ /guides/app/features/tags/ 301
 /ref/app/features/teams/ /guides/app/features/teams/ 301
 /ref/app/pages/ /guides/app/pages/ 301
 /ref/app/pages/gradient-panel/ /guides/app/pages/gradient-panel/ 301
 /ref/app/pages/project-page/ /guides/app/pages/project-page/ 301
 /ref/app/pages/run-page/ /guides/app/pages/run-page/ 301
-/ref/app/pages/settings-page/ /guides/app/settings-page/ 301
-/ref/app/pages/settings-page/emails/ /guides/app/settings-page/emails/ 301
-/ref/app/pages/settings-page/team-settings/ /guides/app/settings-page/team-settings/ 301
-/ref/app/pages/settings-page/user-settings/ /guides/app/settings-page/user-settings/ 301
+/ref/app/pages/settings-page/ /guides/models/app/settings-page/ 301
+/ref/app/pages/settings-page/emails/ /guides/models/app/settings-page/emails/ 301
+/ref/app/pages/settings-page/team-settings/ /guides/models/app/settings-page/team-settings/ 301
+/ref/app/pages/settings-page/user-settings/ /guides/models/app/settings-page/user-settings/ 301
 /ref/app/pages/workspaces/ /guides/track/workspaces/ 301
 /ref/cli/wandb-server-start/ /ref/cli/wandb-server/ 301
 /ref/data_types/ /ref/python/data-types/ 301
@@ -359,9 +352,9 @@
 /ref/python/README/ /ref/python/ 301
 /ref/python/config/ /ref/python/ 301
 /ref/python/controller/ /ref/python/sdk/functions/controller/ 301
-/ref/python/data-types/boundingboxes2d/ /ref/python/data-types/ 301
+/ref/python/data-types/boundingboxes2d/ /guides/track/log/media/#image-overlays 301
 /ref/python/data-types/graph/ /ref/python/data-types/ 301
-/ref/python/data-types/imagemask/ /ref/python/data-types/ 301
+/ref/python/data-types/imagemask/ /guides/track/log/media/#image-overlays 301
 /ref/python/data_types/ /ref/python/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
 /ref/python/finish/ /ref/python/sdk/functions/finish/ 301
