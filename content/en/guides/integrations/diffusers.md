@@ -45,7 +45,7 @@ autolog(init=dict(project="diffusers_logging"))
 
 2. Use `autolog` to initialize a W&B Run and automatically track the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}).
+    You can call the `autolog()` function with the `init` parameter, which accepts a dictionary of parameters required by [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}).
 
     When you call `autolog()`, it initializes a W&B Run and automatically tracks the inputs and the outputs from [all supported pipeline calls](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
@@ -149,7 +149,7 @@ run.finish()
     {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="Experiment config logging" >}}
 
 {{% alert %}}
-You need to explicitly call [`wandb.Run.finish()`]({{< relref "/ref/python/sdk/functions/finish.md" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
+You need to explicitly call [`wandb.Run.finish()`]({{< relref "/ref/python/functions/finish.md" >}}) when executing the code in IPython notebook environments after calling the pipeline. This is not necessary when executing python scripts.
 {{% /alert %}}
 
 ### Tracking multi-pipeline workflows

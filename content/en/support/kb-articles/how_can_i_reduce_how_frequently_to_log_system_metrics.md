@@ -8,7 +8,7 @@ support:
   - runs
 ---
 
-To configure the frequency to log [system metrics]({{< relref "/ref/system-metrics.md" >}}), set `x_stats_sampling_interval` to a number of seconds, expressed as a float.
+To configure the frequency to log [system metrics]({{< relref "/ref/python/experiments/system-metrics.md" >}}), set `_stats_sampling_interval` to a number of seconds, expressed as a float. Default: `10.0`.
 
 ```python
 wandb.init(settings=wandb.Settings(x_stats_sampling_interval=15))
