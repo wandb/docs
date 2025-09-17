@@ -5,6 +5,8 @@ menu:
     identifier: ja-guides-models-app-_index
     parent: models
 url: guides/app
+cascade:
+- url: guides/app/:filename
 ---
 
 
