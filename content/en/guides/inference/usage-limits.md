@@ -28,6 +28,7 @@ Some users may need to change their cap. Contact your account executive or suppo
 
 | Account Tier | Default Cap | How to Change Limit |
 |--------------|-------------|---------------------|
+| Free | $100/month | Upgrade to Pro or Enterprise |
 | Pro | $6,000/month | Contact your account executive or support for manual review |
 | Enterprise | $700,000/year | Contact your account executive or support for manual review |
 
@@ -51,5 +52,5 @@ The Inference service is only available from supported geographic locations. For
 
 ## Next steps
 
-- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started
-- See [available models]({{< relref "models" >}}) and their specific costs 
+- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started.
+- See [available models]({{< relref "models" >}}) and their specific pricing. 
