@@ -98,9 +98,6 @@
 /guides/app/pages/intro/ /guides/app/pages/ 301
 /guides/app/pages/settings-page/ /guides/app/settings-page/ 301
 /guides/app/pages/workspaces#create-saved-workspace-views-beta  /guides/track/workspaces/ 301
-/guides/app/settings-page/ /guides/models/app/settings-page/ 301
-/guides/app/settings-page/intro/ /guides/models/app/settings-page/ 301
-/guides/app/settings-page/teams/ /guides/models/app/settings-page/teams/ 301
 /guides/artifacts-1/ /guides/artifacts/ 301
 /guides/artifacts/api/ /ref/python/public-api/api#artifact/ 301
 /guides/artifacts/artifacts-core-concepts/ /guides/artifacts/ 301
