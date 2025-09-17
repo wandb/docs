@@ -1,7 +1,7 @@
 ---
 title: confusion_matrix()
-object_type: python_sdk_custom_charts
-data_type_classification: function
+namespace: python_sdk_custom_charts
+python_object_type: function
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py >}}

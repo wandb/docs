@@ -1,10 +1,7 @@
 ---
 title: Settings
-object_type: python_sdk_actions
-data_type_classification: class
-aliases:
-- /ref/python/sdk/settings
-- /ref/python/sdk/classes/settings
+namespace: python_sdk_actions
+python_object_type: class
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py >}}
@@ -156,7 +153,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 58871,
+    x_stats_pid: 'int' = 44039,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -456,6 +453,31 @@ validate_skip_transaction_log() → None
 
 
 
+### <kbd>classmethod</kbd> `Settings.validate_run_tags`
+
+```python
+validate_run_tags(
+    value
+) → None
+```
+
+Validate run tags.
+
+Validates that each tag:
+- Is between 1 and 64 characters in length (inclusive)
+- Converts single string values to tuple format
+- Preserves None values
+
+**Args:**
+ 
+ - `value`: A string, list, tuple, or None representing tags
+
+**Returns:**
+ - tuple: A tuple of validated tags, or None 
+
+**Raises:**
+ - `ValueError`: If any tag is empty or exceeds 64 characters
+ - `<!-- lazydoc-ignore-classmethod`: internal -->
 
 
 ### <kbd>property</kbd> `Settings.colab_url`

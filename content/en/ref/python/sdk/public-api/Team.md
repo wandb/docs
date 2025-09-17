@@ -1,69 +1,15 @@
 ---
-title: Teams
-object_type: public_apis_namespace
-data_type_classification: module
+title: Team
+namespace: public_apis_namespace
+python_object_type: class
 ---
+{{< readfile file="/_includes/public-api-use.md" >}}
+
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py >}}
 
 
 
-
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for managing teams and team members. 
-
-This module provides classes for managing W&B teams and their members. 
-
-
-
-**Note:**
-
-> This module is part of the W&B Public API and provides methods to manage teams and their members. Team management operations require appropriate permissions. 
-
-
-
----
-
-## <kbd>class</kbd> `Member`
-A member of a team.
-
-### <kbd>method</kbd> `Member.__init__`
-
-```python
-__init__(client, team, attrs)
-```
-
-**Args:**
- 
- - `client` (`wandb.apis.internal.Api`):  The client instance to use 
- - `team` (str):  The name of the team this member belongs to 
- - `attrs` (dict):  The member attributes 
-
-
-
-
-
-
-
-
-
----
-
-### <kbd>method</kbd> `Member.delete`
-
-```python
-delete()
-```
-
-Remove a member from a team. 
-
-
-
-**Returns:**
-  Boolean indicating success 
-
-
----
 
 ## <kbd>class</kbd> `Team`
 A class that represents a W&B team. 
