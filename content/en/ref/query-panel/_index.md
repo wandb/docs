@@ -4,7 +4,11 @@ menu:
     reference:
         identifier: query-panel
         parent: reference
-        weight: 4
+cascade:
+    menu:
+        reference:
+            parent: qel
+weight: 3
 ---
 
 The W&B Query Expression Language lets you programmatically analyze and visualize your ML experiments directly in the W&B UI. Transform raw experiment data into actionable insights using powerful query operations.
