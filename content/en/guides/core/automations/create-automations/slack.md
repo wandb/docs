@@ -28,6 +28,10 @@ A team admin can add a Slack integration to the team.
 
 Now you can [create an automation]({{< relref "#create-an-automation" >}}) that notifies the Slack channel you configured.
 
+{{% alert %}}
+**For programmatic automation creation**: Slack integrations must be configured through the UI due to OAuth requirements. However, once configured, you can use the API to create multiple automations that use the same Slack integration. This separation allows secure channel authorization while enabling flexible automation management via code.
+{{% /alert %}}
+
 ## View and manage Slack integrations
 A team admin can view and manage the team's Slack instances and channels.
 
@@ -89,6 +93,62 @@ Before creating automations programmatically:
 1. Ensure you have a [Slack integration configured]({{< relref "#add-a-slack-integration" >}}) in your team settings
 2. Install the W&B SDK: `pip install wandb`
 3. Authenticate with your W&B API key
+
+**Note**: Slack integrations must be created through the W&B UI due to the OAuth authentication flow required by Slack. Once configured, you can use the API to list available integrations and create automations that use them.
+
+### Checking for Slack Integrations
+
+Before creating automations, verify that you have Slack integrations configured:
+
+```python
+import wandb
+
+# Initialize the API
+api = wandb.Api()
+
+# List all Slack integrations for your team
+slack_integrations = list(api.slack_integrations(entity="your-team"))
+
+if not slack_integrations:
+    print("❌ No Slack integrations found!")
+    print("Please configure a Slack integration in your team settings:")
+    print(f"https://wandb.ai/{your-team}/settings/integrations")
+else:
+    print(f"✅ Found {len(slack_integrations)} Slack integration(s):")
+    for integration in slack_integrations:
+        print(f"   - Channel: {integration.channel_name}")
+        print(f"     ID: {integration.id}")
+        print(f"     Team: {integration.slack_team_name}")
+```
+
+### Helper Function for Integration Selection
+
+```python
+def get_slack_integration(entity, channel_pattern=None):
+    """Get a Slack integration, optionally filtered by channel name pattern"""
+    integrations = list(api.slack_integrations(entity=entity))
+    
+    if not integrations:
+        raise ValueError(f"No Slack integrations found for {entity}. "
+                        "Please configure one in team settings.")
+    
+    if channel_pattern:
+        # Filter by channel name pattern
+        matching = [i for i in integrations if channel_pattern in i.channel_name]
+        if matching:
+            return matching[0]
+    
+    # Return first integration if no pattern or no matches
+    return integrations[0]
+
+# Example usage
+try:
+    # Get integration for alerts channel
+    alerts_integration = get_slack_integration("my-team", "alerts")
+    print(f"Using Slack channel: {alerts_integration.channel_name}")
+except ValueError as e:
+    print(e)
+```
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}

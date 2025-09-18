@@ -42,6 +42,10 @@ If the webhook requires a Bearer token or its payload requires a sensitive strin
 
 Now you can [create an automation]({{< relref "#create-a-webhook-automation" >}}) that uses the webhook.
 
+{{% alert %}}
+**For programmatic automation creation**: Webhooks must be configured through the UI for security reasons (secure storage of endpoints, tokens, and secrets). Once configured, you can use the API to create multiple automations that use the same webhook with different triggers and payloads. This separation ensures secure credential management while enabling flexible automation workflows via code.
+{{% /alert %}}
+
 ## Create an automation
 After you [configure a webhook]({{< relref "#create-a-webhook" >}}), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
 
@@ -97,6 +101,112 @@ Before creating automations programmatically:
 2. Install the W&B SDK: `pip install wandb`
 3. Authenticate with your W&B API key
 4. If your webhook requires authentication, ensure you have [created the necessary secrets]({{< relref "/guides/core/secrets.md" >}})
+
+**Note**: Webhooks and secrets must be created through the W&B UI for security reasons. The UI allows secure configuration of endpoints, authentication tokens, and secret management. Once configured, you can use the API to list available webhooks and create automations that use them.
+
+### Checking for Webhook Integrations
+
+Before creating automations, verify that you have webhook integrations configured:
+
+```python
+import wandb
+
+# Initialize the API
+api = wandb.Api()
+
+# List all webhook integrations for your team
+webhook_integrations = list(api.webhook_integrations(entity="your-team"))
+
+if not webhook_integrations:
+    print("❌ No webhook integrations found!")
+    print("Please configure a webhook in your team settings:")
+    print(f"https://wandb.ai/{your-team}/settings/webhooks")
+else:
+    print(f"✅ Found {len(webhook_integrations)} webhook integration(s):")
+    for webhook in webhook_integrations:
+        print(f"   - Name: {webhook.name}")
+        print(f"     URL: {webhook.url_endpoint}")
+        print(f"     ID: {webhook.id}")
+        if hasattr(webhook, 'has_access_token') and webhook.has_access_token:
+            print(f"     Auth: Has access token")
+```
+
+### Helper Functions for Webhook Management
+
+```python
+def get_webhook_integration(entity, name_pattern=None, url_pattern=None):
+    """Get a webhook integration by name or URL pattern"""
+    webhooks = list(api.webhook_integrations(entity=entity))
+    
+    if not webhooks:
+        raise ValueError(f"No webhook integrations found for {entity}. "
+                        "Please configure one in team settings.")
+    
+    # Filter by name pattern
+    if name_pattern:
+        matching = [w for w in webhooks if name_pattern in w.name]
+        if matching:
+            return matching[0]
+    
+    # Filter by URL pattern
+    if url_pattern:
+        matching = [w for w in webhooks if url_pattern in w.url_endpoint]
+        if matching:
+            return matching[0]
+    
+    # Return first webhook if no pattern or no matches
+    return webhooks[0]
+
+def list_webhook_requirements(webhook):
+    """Display information about webhook configuration"""
+    print(f"Webhook: {webhook.name}")
+    print(f"  Endpoint: {webhook.url_endpoint}")
+    
+    if hasattr(webhook, 'has_access_token') and webhook.has_access_token:
+        print("  ✓ Has access token configured")
+        print("    Use ${ACCESS_TOKEN} in payload to access it")
+    
+    if hasattr(webhook, 'secrets') and webhook.secrets:
+        print(f"  ✓ Has {len(webhook.secrets)} secret(s) configured")
+        for secret in webhook.secrets:
+            print(f"    Use ${{{secret}}} in payload to access secret '{secret}'")
+
+# Example usage
+try:
+    # Get webhook for GitHub integration
+    github_webhook = get_webhook_integration("my-team", url_pattern="github.com")
+    list_webhook_requirements(github_webhook)
+except ValueError as e:
+    print(e)
+```
+
+### Understanding Webhook Configuration
+
+When creating webhook automations, it's important to understand what was configured in the UI:
+
+1. **Endpoint URL**: The URL where W&B will send POST requests
+2. **Access Token**: Optional Bearer token for authentication (accessed via `${ACCESS_TOKEN}`)
+3. **Secrets**: Additional secrets for the payload (accessed via `${SECRET_NAME}`)
+
+Example of checking webhook capabilities:
+
+```python
+# Check if webhook supports authentication
+webhook = get_webhook_integration("my-team", "deployment-webhook")
+
+# Build payload based on webhook configuration
+payload = {
+    "event": "model_ready",
+    "model": "${artifact_version_string}",
+}
+
+# Add authentication if configured
+if hasattr(webhook, 'has_access_token') and webhook.has_access_token:
+    payload["auth"] = "${ACCESS_TOKEN}"  # W&B will substitute the actual token
+
+# Create automation with appropriate payload
+action = SendWebhook.from_integration(webhook, payload=payload)
+```
 
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
