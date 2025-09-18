@@ -1,32 +1,26 @@
 ---
 title: OnLinkArtifact
-namespace: automations_namespace
-python_object_type: class
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.22.0/wandb/automations/events.py#L182-L185 >}}
 
-
-
-## <kbd>class</kbd> `OnLinkArtifact`
 A new artifact is linked to a collection.
 
+| Attributes |  |
+| :--- | :--- |
+|  `scope` |  The scope of the event. |
+|  `filter` |  Additional condition(s), if any, that must be met for this event to trigger an automation. |
 
-### <kbd>method</kbd> `OnLinkArtifact.__init__`
+## Methods
+
+### `then`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.22.0/wandb/automations/events.py#L151-L158)
 
 ```python
-__init__(
-    event_type: 'Literal[LINK_ARTIFACT]' = LINK_ARTIFACT,
-    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
-    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | dict[str, Any] | FilterExpr' = And([])
-) → None
+then(
+    action: InputAction
+) -> NewAutomation
 ```
 
-**Args:**
- 
- - `event_type` (Literal[LINK_ARTIFACT]): 
- - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): The scope of the event.
- - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, Dict[str, Any], FilterExpr]): Additional condition(s), if any, that must be met for this event to trigger an automation.
-
-**Returns:**
- An `OnLinkArtifact` object.
+Define a new Automation in which this event triggers the given action.

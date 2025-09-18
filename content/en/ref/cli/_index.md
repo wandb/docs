@@ -1,6 +1,5 @@
 ---
 title: Command Line Interface
-weight: 2
 ---
 
 **Usage**
@@ -37,11 +36,11 @@ weight: 2
 | offline | Disable W&B sync |
 | online | Enable W&B sync |
 | pull | Pull files from Weights & Biases |
-| restore | Restore code, config and docker state for a run |
+| restore | Restore code, config and docker state for a run. |
 | scheduler | Run a W&B launch sweep scheduler (Experimental) |
 | server | Commands for operating a local W&B server |
 | status | Show configuration settings |
 | sweep | Initialize a hyperparameter sweep. |
 | sync | Upload an offline training directory to W&B |
-| verify | Verify your local instance |
+| verify | Checks and verifies local instance of W&B. |
 
