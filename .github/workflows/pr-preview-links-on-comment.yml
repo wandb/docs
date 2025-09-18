@@ -67,7 +67,7 @@ jobs:
 
       - name: Get changed files
         id: changed
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v47
         with:
           base_sha: ${{ steps.pr.outputs.base_sha }}
           sha: ${{ steps.pr.outputs.head_sha }}

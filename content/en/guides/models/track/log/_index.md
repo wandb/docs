@@ -83,6 +83,7 @@ Avoid naming metrics with invalid characters (such as commas, spaces, or special
 ## Common workflows
 
 1. **Compare the best accuracy**: To compare the best value of a metric across runs, set the summary value for that metric. By default, summary is set to the last value you logged for each key. This is useful in the table in the UI, where you can sort and filter runs based on their summary metrics, to help compare runs in a table or bar chart based on their _best_ accuracy, instead of final accuracy. For example: `wandb.run.summary["best_accuracy"] = best_accuracy`
+
 2. **View multiple metrics on one chart**: Log multiple metrics in the same call. For example:
     ```python
     with wandb.init() as run:
@@ -94,7 +95,8 @@ Avoid naming metrics with invalid characters (such as commas, spaces, or special
     with wandb.init() as run:
       run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})
     ```
-    To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/sdk/classes/run.md#define_metric" >}}).
+    To set the default x-axis for a given metric use [Run.define_metric()]({{< relref "/ref/python/experiments/run.md#define_metric" >}}).
+
 4. **Log rich media and charts**: `wandb.Run.log()` supports the logging of a wide variety of data types, from [media like images and videos]({{< relref "./media.md" >}}) to [tables]({{< relref "./log-tables.md" >}}) and [charts]({{< relref "/guides/models/app/features/custom-charts/" >}}).
 
 ## Best practices and tips 
