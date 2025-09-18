@@ -42,3 +42,6 @@ package-lock.json
 
 # Link checker output
 lychee/
+
+# Core repository (cloned during build)
+scripts/core/
