@@ -6,8 +6,8 @@ This script automatically generates reference documentation for the W&B CLI
 by introspecting the Click-based command structure. It creates properly
 formatted markdown files with Hugo front matter for use in the documentation site.
 
-Note: This script excludes launch-only commands (launch, launch-agent, launch-sweep, 
-scheduler) from documentation as these are internal/experimental features.
+Note: Launch-only commands (launch, launch-agent, launch-sweep, scheduler) are generated 
+but hidden from navigation as these are internal/experimental features.
 
 Usage:
     python scripts/cli-docs-generator.py          # Auto-overwrites existing docs (default)
@@ -139,8 +139,8 @@ def get_param_info(param) -> Dict[str, Any]:
 
 def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
     """Extract information from a Click command."""
-    # Commands to exclude from documentation (launch-only features)
-    EXCLUDED_COMMANDS = {'launch', 'launch-agent', 'launch-sweep', 'scheduler'}
+    # Launch-only commands to hide from navigation
+    LAUNCH_COMMANDS = {'launch', 'launch-agent', 'launch-sweep', 'scheduler'}
     
     # For the root command, use "wandb" as the name
     name = cmd.name if cmd.name else "wandb"
@@ -156,6 +156,7 @@ def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
         'arguments': [],
         'subcommands': {},
         'is_group': isinstance(cmd, Group),
+        'is_launch_command': name in LAUNCH_COMMANDS,
     }
     
     # Extract parameters
@@ -169,9 +170,7 @@ def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
     # Extract subcommands if it's a group
     if isinstance(cmd, Group):
         for name, subcmd in cmd.commands.items():
-            # Skip excluded commands
-            if name not in EXCLUDED_COMMANDS:
-                info['subcommands'][name] = extract_command_info(subcmd, full_name)
+            info['subcommands'][name] = extract_command_info(subcmd, full_name)
     
     return info
 
@@ -184,6 +183,9 @@ def generate_markdown(cmd_info: Dict[str, Any]) -> str:
     # Fix title to show 'wandb' instead of 'cli'
     title = cmd_info['full_name'].replace('cli', 'wandb')
     lines.append(f"title: {title}")
+    # Hide launch commands from navigation
+    if cmd_info.get('is_launch_command', False):
+        lines.append("toc_hide: true")
     lines.append("---")
     lines.append("")
     
@@ -254,6 +256,9 @@ def generate_markdown(cmd_info: Dict[str, Any]) -> str:
         lines.append("| Command | Description |")
         lines.append("| :--- | :--- |")
         for name, subcmd_info in sorted(cmd_info['subcommands'].items()):
+            # Skip launch commands in the table
+            if subcmd_info.get('is_launch_command', False):
+                continue
             # Use brief description for table display
             desc = get_brief_description(subcmd_info['help'] or "")
             # For nested commands, we need to determine the correct reference path
@@ -296,6 +301,9 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append(f"title: {title}")
         # Suppress automatic child page listing for subcommand pages
         lines.append("no_list: true")
+        # Hide launch commands from navigation
+        if cmd_info.get('is_launch_command', False):
+            lines.append("toc_hide: true")
     else:
         lines.append("title: Command Line Interface")
         # Weight for proper ordering in navigation (only for main CLI page)
@@ -358,6 +366,9 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append("| Command | Description |")
         lines.append("| :--- | :--- |")
         for name, subcmd_info in sorted(cmd_info['subcommands'].items()):
+            # Skip launch commands in the table
+            if subcmd_info.get('is_launch_command', False):
+                continue
             # Use brief description for table display
             desc = get_brief_description(subcmd_info['help'] or "")
             # Link to the command page
@@ -584,7 +595,7 @@ def main():
         
         print(f"\n✅ Documentation generated successfully in {output_dir}")
         print(f"Total files generated: {len(list(output_dir.rglob('*.md')))}")
-        print(f"Note: Excluded launch-only commands: launch, launch-agent, launch-sweep, scheduler")
+        print(f"Note: Launch commands (launch, launch-agent, launch-sweep, scheduler) hidden from navigation")
         
     except ImportError as e:
         print(f"❌ Error: Could not import wandb CLI. Make sure wandb is installed.")
