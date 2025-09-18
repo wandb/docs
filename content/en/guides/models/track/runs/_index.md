@@ -23,7 +23,7 @@ Common patterns for initiating a run include, but are not limited to:
 * [Downloading a W&B Artifact]({{< relref "/guides/core/artifacts/download-and-use-an-artifact.md" >}})
 
 
-W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/sdk/classes/run.md" >}}) object.
+W&B stores runs that you create into [*projects*]({{< relref "/guides/models/track/project-page.md" >}}). You can view runs and their properties within the run's project workspace on the W&B App. You can also programmatically access run properties with the [`wandb.Api.Run`]({{< relref "/ref/python/experiments/run.md" >}}) object.
 
 Anything you log with `wandb.Run.log()` is recorded in that run.
 
@@ -124,7 +124,7 @@ As another example, during a [sweep]({{< relref "/guides/models/sweeps/" >}}), W
 
 ## Initialize a W&B Run
 
-Initialize a W&B Run with [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B Run with [`wandb.init()`]({{< relref "/ref/python/functions/init" >}}). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
@@ -223,7 +223,7 @@ For example, in the proceeding image, the unique run ID is `9mxi1arc`:
 
 
 ### Custom run IDs
-You can specify your own run ID by passing the `id` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
+You can specify your own run ID by passing the `id` parameter to the [`wandb.init()`]({{< relref "/ref/python/functions/init" >}}) method. 
 
 ```python 
 import wandb
@@ -248,7 +248,7 @@ By default, W&B generates a random run name when you initialize a new run. The n
 Use run names as a way to quickly identify a run in your project workspace.
 {{% /alert %}}
 
-You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init" >}}) method. 
+You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`]({{< relref "/ref/python/functions/init" >}}) method. 
 
 
 ```python 

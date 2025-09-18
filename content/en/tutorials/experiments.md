@@ -29,9 +29,6 @@ Install the W&B Python SDK and log in:
 import wandb
 import random
 import math
-
-# Use wandb-core, temporary for wandb's new backend
-wandb.require("core")
 ```
 
 
