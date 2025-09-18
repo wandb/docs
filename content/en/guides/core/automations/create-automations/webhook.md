@@ -86,6 +86,354 @@ A W&B admin can create automations in a project.
 {{% /tab %}}
 {{< /tabpane >}}
 
+## Create automations programmatically
+
+You can also create webhook automations using the W&B API. This enables you to automate the creation and management of automations as part of your MLOps workflows.
+
+### Prerequisites
+
+Before creating automations programmatically:
+1. Ensure you have a [webhook configured]({{< relref "#create-a-webhook" >}}) in your team settings
+2. Install the W&B SDK: `pip install wandb`
+3. Authenticate with your W&B API key
+4. If your webhook requires authentication, ensure you have [created the necessary secrets]({{< relref "/guides/core/secrets.md" >}})
+
+{{< tabpane text=true >}}
+{{% tab "Registry" %}}
+
+#### Example: Registry automation for model deployment
+
+Create an automation that triggers a deployment webhook when a model is promoted to production:
+
+```python
+import wandb
+from wandb.automations import OnAddArtifactAlias, SendWebhook
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the registry and collection
+registry = api.registry("model-registry", entity="my-team")
+collection = registry.collection("llm-models")
+
+# Get the webhook integration
+webhook_integration = next(api.webhook_integrations(entity="my-team"))
+
+# Define the event: Trigger when "production" alias is added
+event = OnAddArtifactAlias(
+    scope=collection,
+    filter={"alias": "production"}
+)
+
+# Define the webhook payload with template variables
+payload = {
+    "event_type": "DEPLOY_MODEL",
+    "model_info": {
+        "artifact_version": "${artifact_version_string}",
+        "collection": "${artifact_collection_name}",
+        "entity": "${entity_name}",
+        "project": "${project_name}",
+        "author": "${event_author}",
+        "event_type": "${event_type}"
+    },
+    "deployment_config": {
+        "environment": "production",
+        "auto_scale": True,
+        "min_replicas": 2
+    }
+}
+
+# Define the action: Send webhook with payload
+action = SendWebhook.from_integration(
+    webhook_integration,
+    payload=payload
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="production-deployment-trigger",
+    description="Trigger deployment pipeline when model is promoted to production"
+)
+
+print(f"Created automation: {automation.name}")
+```
+
+#### Example: Monitor artifact creation across registry
+
+Create an automation that sends artifact metadata to an external tracking system:
+
+```python
+import wandb
+from wandb.automations import OnCreateArtifact, SendWebhook
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the registry
+registry = api.registry("model-registry", entity="my-team")
+
+# Get the webhook integration
+webhook_integration = next(
+    (w for w in api.webhook_integrations(entity="my-team")
+     if "tracking-system" in w.url_endpoint)
+)
+
+# Define event at registry scope
+event = OnCreateArtifact(
+    scope=registry,
+    filter={"artifact_type": "model"}
+)
+
+# Define payload with artifact metadata
+payload = {
+    "action": "register_model",
+    "artifact": {
+        "id": "${artifact_version}",
+        "name": "${artifact_collection_name}",
+        "metadata": "${artifact_metadata.model_type}",  # Access specific metadata key
+        "created_by": "${event_author}"
+    },
+    "source": "wandb_registry"
+}
+
+# Define the action
+action = SendWebhook.from_integration(
+    webhook_integration,
+    payload=payload
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="external-tracking-sync",
+    description="Sync new models to external tracking system"
+)
+```
+
+{{% /tab %}}
+{{% tab "Project" %}}
+
+#### Example: Project automation for CI/CD integration
+
+Create an automation that triggers a GitHub Actions workflow when metrics meet criteria:
+
+```python
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendWebhook
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the project
+project = api.project("model-training", entity="my-team")
+
+# Get the webhook integration (GitHub repository dispatch)
+github_webhook = next(
+    (w for w in api.webhook_integrations(entity="my-team")
+     if "api.github.com" in w.url_endpoint)
+)
+
+# Define the event: Trigger when model performance is good
+event = OnRunMetric(
+    scope=project,
+    filter=(RunEvent.metric("val_accuracy") > 0.95) & 
+           (RunEvent.metric("val_loss") < 0.05)
+)
+
+# Define GitHub repository dispatch payload
+payload = {
+    "event_type": "MODEL_READY_FOR_REVIEW",
+    "client_payload": {
+        "artifact_version": "${artifact_version_string}",
+        "collection": "${artifact_collection_name}",
+        "project": "${project_name}",
+        "metrics": {
+            "event_type": "${event_type}",
+            "author": "${event_author}"
+        },
+        "author": "${event_author}",
+        "entity": "${entity_name}"
+    }
+}
+
+# Define the action
+action = SendWebhook.from_integration(
+    github_webhook,
+    payload=payload
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="high-performance-model-review",
+    description="Trigger review workflow for high-performing models"
+)
+
+print(f"Created automation: {automation.name}")
+```
+
+#### Example: Experiment monitoring with custom endpoints
+
+Create an automation that posts experiment results to a custom endpoint:
+
+```python
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendWebhook
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the project
+project = api.project("research-experiments", entity="my-team")
+
+# Get a specific webhook by name or URL
+webhook_integration = next(
+    w for w in api.webhook_integrations(entity="my-team")
+    if w.name == "experiment-tracker"
+)
+
+# Define the event: Trigger when a run completes with good metrics
+event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("final_loss") < 0.1
+)
+
+# Define custom payload with run summary
+payload = {
+    "experiment": {
+        "event_type": "${event_type}",
+        "project": "${project_name}",
+        "entity": "${entity_name}",
+        "author": "${event_author}",
+        "artifact_version": "${artifact_version_string}"
+    },
+    "notification": {
+        "type": "experiment_complete",
+        "priority": "normal",
+        "recipient": "${event_author}"
+    }
+}
+
+# Define the action
+action = SendWebhook.from_integration(
+    webhook_integration,
+    payload=payload
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="experiment-completion-tracker",
+    description="Send notification when experiments achieve low loss"
+)
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+### Managing webhook automations via API
+
+You can list, update, and manage webhook automations programmatically:
+
+```python
+# List all automations for a project or registry
+automations = project.automations()  # or registry.automations()
+
+# Filter automations by type
+webhook_automations = [
+    a for a in automations 
+    if a.action.action_type == "GENERIC_WEBHOOK"
+]
+
+# Update webhook payload
+for automation in webhook_automations:
+    if automation.name == "my-webhook-automation":
+        # Modify the automation configuration
+        automation.action.request_payload = updated_payload
+        automation.save()
+
+# Delete an automation
+automation.delete()
+```
+
+### Advanced webhook patterns
+
+#### Using secrets in webhooks
+
+Access secrets in your webhook payloads for secure authentication:
+
+```python
+# Assuming you have a secret named "DEPLOY_TOKEN" configured
+payload = {
+    "auth_token": "${DEPLOY_TOKEN}",  # Secret accessed with $ prefix
+    "deployment": {
+        "model": "${artifact_version_string}",
+        "environment": "production"
+    }
+}
+```
+
+#### Conditional webhook routing
+
+Route webhooks to different endpoints based on conditions:
+
+```python
+# Get multiple webhook integrations
+staging_webhook = next(
+    w for w in api.webhook_integrations(entity="my-team")
+    if "staging" in w.name
+)
+production_webhook = next(
+    w for w in api.webhook_integrations(entity="my-team")
+    if "production" in w.name
+)
+
+# Create different automations for different conditions
+# Staging automation for experiments
+staging_event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("val_accuracy") > 0.90
+)
+staging_automation = api.create_automation(
+    staging_event >> SendWebhook.from_integration(staging_webhook),
+    name="staging-deployment"
+)
+
+# Production automation for higher threshold
+prod_event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("val_accuracy") > 0.95
+)
+prod_automation = api.create_automation(
+    prod_event >> SendWebhook.from_integration(production_webhook),
+    name="production-deployment"
+)
+```
+
+#### Error handling and validation
+
+Add validation when creating webhook automations:
+
+```python
+try:
+    # Verify webhook integration exists
+    webhook_integrations = list(api.webhook_integrations(entity="my-team"))
+    if not webhook_integrations:
+        raise ValueError("No webhook integrations found. Please configure webhooks first.")
+    
+    # Create automation with error handling
+    automation = api.create_automation(
+        event >> action,
+        name="validated-webhook-automation",
+        description="Webhook automation with validation"
+    )
+    print(f"Successfully created: {automation.name}")
+    
+except Exception as e:
+    print(f"Failed to create automation: {e}")
+```
+
 ## View and manage automations
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}

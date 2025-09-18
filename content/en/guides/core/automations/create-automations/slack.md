@@ -79,6 +79,237 @@ A W&B admin can create automations in a project.
 {{% /tab %}}
 {{< /tabpane >}}
 
+## Create automations programmatically
+
+You can also create Slack automations using the W&B API. This enables you to automate the creation and management of automations as part of your MLOps workflows.
+
+### Prerequisites
+
+Before creating automations programmatically:
+1. Ensure you have a [Slack integration configured]({{< relref "#add-a-slack-integration" >}}) in your team settings
+2. Install the W&B SDK: `pip install wandb`
+3. Authenticate with your W&B API key
+
+{{< tabpane text=true >}}
+{{% tab "Registry" %}}
+
+#### Example: Registry automation for artifact events
+
+Create an automation that sends a Slack notification when a new model version is added to a registry collection:
+
+```python
+import wandb
+from wandb.automations import OnAddArtifactAlias, SendNotification
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the registry and collection
+registry = api.registry("my-registry", entity="my-team")
+collection = registry.collection("my-model-collection")
+
+# Get the Slack integration
+slack_integration = next(api.slack_integrations(entity="my-team"))
+
+# Define the event: Trigger when "production" alias is added
+event = OnAddArtifactAlias(
+    scope=collection,
+    filter={"alias": "production"}
+)
+
+# Define the action: Send notification to Slack
+action = SendNotification.from_integration(
+    slack_integration,
+    title="Production Model Updated",
+    text="A new model version has been promoted to production.",
+    level="INFO"
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="production-model-alert",
+    description="Notify team when a model is promoted to production"
+)
+
+print(f"Created automation: {automation.name}")
+```
+
+#### Example: Monitor multiple collections
+
+Create an automation that monitors all collections in a registry:
+
+```python
+import wandb
+from wandb.automations import OnCreateArtifact, SendNotification
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the registry
+registry = api.registry("my-registry", entity="my-team")
+
+# Get the Slack integration  
+slack_integration = next(api.slack_integrations(entity="my-team"))
+
+# Define event at registry scope (applies to all collections)
+event = OnCreateArtifact(
+    scope=registry,
+    filter={"artifact_type": "model"}
+)
+
+# Define the action
+action = SendNotification.from_integration(
+    slack_integration,
+    title="New Model Registered",
+    text="A new model artifact has been added to the registry."
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="registry-wide-model-monitor",
+    description="Monitor all model artifacts across the registry"
+)
+```
+
+{{% /tab %}}
+{{% tab "Project" %}}
+
+#### Example: Project automation for run metrics
+
+Create an automation that alerts when model accuracy drops below a threshold:
+
+```python
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the project
+project = api.project("my-ml-project", entity="my-team")
+
+# Get the Slack integration
+slack_integration = next(api.slack_integrations(entity="my-team"))
+
+# Define the event: Trigger when accuracy drops below 0.85
+event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("accuracy") < 0.85
+)
+
+# Define the action: Send alert to Slack
+action = SendNotification.from_integration(
+    slack_integration,
+    title="⚠️ Low Accuracy Alert",
+    text="Model accuracy has dropped below 85%",
+    level="WARN"
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="low-accuracy-alert",
+    description="Alert when model accuracy drops below threshold"
+)
+
+print(f"Created automation: {automation.name}")
+```
+
+#### Example: Monitor training completion
+
+Create an automation that notifies when long-running experiments complete:
+
+```python
+import wandb
+from wandb.automations import OnRunStateChange, RunState, SendNotification
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Get the project
+project = api.project("long-running-experiments", entity="my-team")
+
+# Get the Slack integration
+slack_integration = next(api.slack_integrations(entity="my-team"))
+
+# Define the event: Trigger when a run finishes
+event = OnRunStateChange(
+    scope=project,
+    to_state=RunState.finished
+)
+
+# Define the action
+action = SendNotification.from_integration(
+    slack_integration,
+    title="✅ Training Complete",
+    text="Your experiment has finished running.",
+    level="INFO"
+)
+
+# Create the automation
+automation = api.create_automation(
+    event >> action,
+    name="training-completion-notifier",
+    description="Notify when training runs complete"
+)
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+### Managing automations via API
+
+You can also list, update, and delete automations programmatically:
+
+```python
+# List all automations for a project
+automations = project.automations()
+for automation in automations:
+    print(f"- {automation.name}: {automation.description}")
+
+# Update an automation (enable/disable)
+automation.enabled = False
+automation.save()
+
+# Delete an automation
+automation.delete()
+```
+
+### Advanced patterns
+
+#### Using multiple filters
+
+Combine multiple conditions in your automation triggers:
+
+```python
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
+
+# Trigger when accuracy is high AND loss is low
+event = OnRunMetric(
+    scope=project,
+    filter=(RunEvent.metric("accuracy") > 0.95) & 
+           (RunEvent.metric("loss") < 0.1)
+)
+```
+
+#### Dynamic Slack channel selection
+
+Route notifications to different channels based on your team structure:
+
+```python
+# Find specific Slack integration by channel name
+slack_integrations = api.slack_integrations(entity="my-team")
+dev_channel = next(
+    (ig for ig in slack_integrations if ig.channel_name == "ml-dev-alerts"),
+    None
+)
+
+if dev_channel:
+    action = SendNotification.from_integration(dev_channel)
+```
+
 ## View and manage automations
 
 {{< tabpane text=true >}}
