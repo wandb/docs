@@ -397,7 +397,7 @@ W&B 앱의 [자체 호스팅 인스턴스](https://docs.wandb.ai/guides/hosting)
 기록된 값은 스칼라일 필요가 없습니다. 모든 wandb 오브젝트의 로깅이 지원됩니다.
 예를 들어 `run.log({"example": wandb.Image("myimage.jpg")})`는 W&B UI에 멋지게 표시될 예제 이미지를 기록합니다.
 지원되는 모든 유형에 대한
-[참조 문서](https://docs.wandb.ai/ref/python/sdk/data-types/)를 참조하거나
+[참조 문서](https://docs.wandb.ai/ref/python/data-types/)를 참조하거나
 3D 분자 구조 및 분할 마스크에서 PR 곡선 및 히스토그램에 이르기까지 예제에 대한
 [로깅 가이드](https://docs.wandb.ai/guides/track/log)를 확인하세요.
 `wandb.Table`을 사용하여 구조화된 데이터를 기록할 수 있습니다. 자세한 내용은
@@ -440,7 +440,7 @@ run.log(
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-[define_metric](https://docs.wandb.ai/ref/python/sdk/classes/run/#method-rundefine_metric)도 참조하세요.
+[define_metric](https://docs.wandb.ai/ref/python/experiments/run/#method-rundefine_metric)도 참조하세요.
 
 여러 `log` 호출을 사용하여
 `step` 및 `commit` 파라미터로 동일한 단계에 기록할 수 있습니다.

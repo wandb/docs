@@ -7,7 +7,7 @@ support:
   - logs
   - experiments
 ---
-These examples show logging losses a couple of different ways using [`wandb.Run.log()`]({{< relref "/ref/python/sdk/classes/run/#method-runlog/" >}}).
+These examples show logging losses a couple of different ways using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog/" >}}).
 
 {{< tabpane text=true >}}
 {{% tab "Using a dictionary" %}}

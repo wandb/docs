@@ -105,7 +105,7 @@ When you modify an artifact's TTL, the time the artifact takes to expire is stil
   {{% tab header="Python SDK" %}}
 1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Pass in a time delta to the artifact's `ttl` attribute. 
-3. Update the artifact with the [`save`]({{< relref "/ref/python/sdk/classes/run.md#save" >}}) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/experiments/run.md#save" >}}) method.
 
 
 The following code snippet shows how to set a TTL policy for an artifact:
@@ -182,7 +182,7 @@ Artifacts with TTL turned off will not inherit an artifact collection's TTL. Ref
   {{% tab header="Python SDK" %}}
 1. [Fetch your artifact]({{< relref "../download-and-use-an-artifact.md" >}}).
 2. Set the artifact's `ttl` attribute to `None`.
-3. Update the artifact with the [`save`]({{< relref "/ref/python/sdk/classes/run.md#save" >}}) method.
+3. Update the artifact with the [`save`]({{< relref "/ref/python/experiments/run.md#save" >}}) method.
 
 
 The following code snippet shows how to turn off a TTL policy for an artifact:
