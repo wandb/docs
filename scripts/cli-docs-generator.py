@@ -6,6 +6,9 @@ This script automatically generates reference documentation for the W&B CLI
 by introspecting the Click-based command structure. It creates properly
 formatted markdown files with Hugo front matter for use in the documentation site.
 
+Note: This script excludes launch-only commands (launch, launch-agent, launch-sweep, 
+scheduler) from documentation as these are internal/experimental features.
+
 Usage:
     python scripts/cli-docs-generator.py          # Auto-overwrites existing docs (default)
     python scripts/cli-docs-generator.py -i       # Interactive mode (prompts for confirmation)
@@ -136,8 +139,8 @@ def get_param_info(param) -> Dict[str, Any]:
 
 def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
     """Extract information from a Click command."""
-    # Commands to exclude from documentation
-    EXCLUDED_COMMANDS = {'launch', 'launch-agent', 'launch-sweep'}
+    # Commands to exclude from documentation (launch-only features)
+    EXCLUDED_COMMANDS = {'launch', 'launch-agent', 'launch-sweep', 'scheduler'}
     
     # For the root command, use "wandb" as the name
     name = cmd.name if cmd.name else "wandb"
@@ -581,7 +584,7 @@ def main():
         
         print(f"\n✅ Documentation generated successfully in {output_dir}")
         print(f"Total files generated: {len(list(output_dir.rglob('*.md')))}")
-        print(f"Note: Excluded commands: launch, launch-agent, launch-sweep")
+        print(f"Note: Excluded launch-only commands: launch, launch-agent, launch-sweep, scheduler")
         
     except ImportError as e:
         print(f"❌ Error: Could not import wandb CLI. Make sure wandb is installed.")

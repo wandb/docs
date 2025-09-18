@@ -69,7 +69,6 @@ wandb [OPTIONS] COMMAND [ARGS]...
 | [projects]({{< relref "wandb-projects" >}}) | List projects |
 | [pull]({{< relref "wandb-pull" >}}) | Pull files from Weights & Biases |
 | [restore]({{< relref "wandb-restore" >}}) | Restore code, config and docker state for a run. |
-| [scheduler]({{< relref "wandb-scheduler" >}}) | Run a W&B launch sweep scheduler (Experimental) |
 | [server]({{< relref "wandb-server" >}}) | Commands for operating a local W&B server |
 | [status]({{< relref "wandb-status" >}}) | Show configuration settings |
 | [sweep]({{< relref "wandb-sweep" >}}) | Initialize a hyperparameter sweep. |
