@@ -188,6 +188,18 @@ The proceeding table describes the possible states a run can be in:
 | `Finished`| Run ended and fully synced data, or called `wandb.Run.finish()`. |
 | `Killed` | Run was forcibly stopped before it could finish. |
 | `Running` | Run is still running and has recently sent a heartbeat.  |
+| `Pending` | Run is scheduled but not yet started (common in sweeps and Launch jobs). |
+
+### Run states in sweeps
+
+When runs are part of a [sweep]({{< relref "/guides/models/sweeps/" >}}), their states behave independently from the sweep's status:
+
+- **Individual run states** reflect each run's execution status (Running, Finished, Failed, etc.)
+- **Sweep status** controls whether new runs are created, not how existing runs execute
+- Pausing or stopping a sweep doesn't affect already-running runs
+- Only cancelling a sweep forcibly kills running runs (changes their state to `Killed`)
+
+For a detailed explanation of how sweep and run statuses interact, see [Understanding sweep and run statuses]({{< relref "/guides/models/sweeps/pause-resume-and-cancel-sweeps.md#understanding-sweep-and-run-statuses" >}}).
 
 
 ## Unique run identifiers

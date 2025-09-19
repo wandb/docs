@@ -4,43 +4,48 @@ menu:
   default:
     identifier: pause-resume-and-cancel-sweeps
     parent: sweeps
-title: Manage sweeps with the CLI
+title: Manage a W&B Sweep with the CLI
 weight: 8
 ---
 
-Pause, resume, and cancel a W&B Sweep with the CLI.  Pausing a W&B Sweep tells the W&B agent that new W&B Runs should not be executed until the Sweep is resumed. Resuming a Sweep tells the agent to continue executing new W&B Runs. Stopping a W&B Sweep tells the W&B Sweep agent to stop creating or executing new W&B Runs. Cancelling a W&B Sweep tells the Sweep agent to kill currently executing W&B Runs and stop executing new Runs.
+Pause, resume, and cancel a W&B Sweep with the CLI. These commands control the sweep's ability to create new W&B Runs, with different effects on existing runs:
 
-In each case, provide the W&B Sweep ID that was generated when you initialized a W&B Sweep. Optionally open a new terminal window to execute the proceeding commands. A new terminal window makes it easier to execute a command if a W&B Sweep is printing output statements to your current terminal window.
+- **Pause**: When you pause a sweep, the agent creates no new runs until you resume the sweep. Existing runs continue to execute normally.
+- **Resume**: When you resume a sweep, the agent continues creating new runs according to the search strategy.
+- **Stop**: When you stop a sweep, the agent stops creating new runs. Existing runs continue to completion.
+- **Cancel**: When you cancel a sweep, the agent immediately kills all currently executing runs and stops creating new runs.
 
-Use the following guidance to pause, resume, and cancel sweeps.
+In each case, provide the sweep ID that was generated when you initialized a sweep. Optionally open a new terminal window to execute the proceeding commands. A new terminal window makes it easier to execute a command if a sweep is printing output statements to your current terminal window.
 
-### Pause sweeps
+Use the following guidance to pause, resume, and cancel a sweep.
 
-Pause a W&B Sweep so it temporarily stops executing new W&B Runs. Use the `wandb sweep --pause` command to pause a W&B Sweep. Provide the W&B Sweep ID that you want to pause.
+### Pause a sweep
+
+Pause a sweep so it temporarily stops creating new runs. Runs that are already executing will continue to run until completion. Use the [`wandb sweep --pause`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command to pause a sweep. Provide the sweep ID that you want to pause.
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-### Resume sweeps
+### Resume a sweep
 
-Resume a paused W&B Sweep with the `wandb sweep --resume` command. Provide the W&B Sweep ID that you want to resume:
+Resume a paused sweep with the [`wandb sweep --resume`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command. The sweep will start creating new runs again according to its search strategy. Provide the sweep ID that you want to resume:
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-### Stop sweeps
+### Stop a sweep
 
-Finish a W&B sweep to stop executing newW&B Runs and let currently executing Runs finish.
+Finish a sweep to stop creating new runs while letting currently executing runs finish gracefully. Use the [`wandb sweep --stop`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command:
 
 ```bash
 wandb sweep --stop entity/project/sweep_ID
 ```
 
-### Cancel sweeps
+### Cancel a sweep
 
-Cancel a sweep to kill all running runs and stop running new runs. Use the `wandb sweep --cancel` command to cancel a W&B Sweep. Provide the W&B Sweep ID that you want to cancel.
+Cancel a sweep to immediately kill all running runs and stop creating new runs. This is the only sweep command that forcibly terminates existing runs. Use the [`wandb sweep --cancel`]({{< relref "/ref/cli/wandb-sweep.md" >}}) command to cancel a sweep. Provide the sweep ID that you want to cancel.
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID
@@ -48,20 +53,54 @@ wandb sweep --cancel entity/project/sweep_ID
 
 For a full list of CLI command options, see the [wandb sweep]({{< relref "/ref/cli/wandb-sweep.md" >}}) CLI Reference Guide.
 
-### Pause, resume, stop, and cancel a sweep across multiple agents
+## Understanding sweep and run statuses
 
-Pause, resume, stop, or cancel a W&B Sweep across multiple agents from a single terminal. For example, suppose you have a multi-core machine. After you initialize a W&B Sweep, you open new terminal windows and copy the Sweep ID to each new terminal.
+A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combinations. Understanding how sweep status and run status interact is crucial for effectively managing your hyperparameter optimization.
 
-Within any terminal, use the `wandb sweep` CLI command to pause, resume, stop, or cancel a W&B Sweep. For example, the proceeding code snippet demonstrates how to pause a W&B Sweep across multiple agents with the CLI:
+### Key differences
 
-```
+- **Sweep status** controls whether new runs are created (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed)
+- **Run status** reflects the execution state of individual runs (Pending, Running, Finished, Failed, Crashed, Killed)
+- Sweep commands affect run generation, not run execution (except cancel)
+
+### How commands affect existing runs
+
+| Command | Sweep Status Change | New Runs | Existing Runs |
+|---------|-------------------|----------|---------------|
+| `--pause` | → Paused | Stops creating | Continue normally |
+| `--resume` | Paused → Running | Resumes creating | No effect |
+| `--stop` | → Stopped | Stops creating | Continue to completion |
+| `--cancel` | → Cancelled | Stops creating | Immediately killed |
+
+### Common scenarios
+
+**Individual run failures**: When runs fail within a sweep, the run status shows as `Failed` but the sweep status remains `Running`. The sweep continues creating new runs, and the search algorithm may learn from the failure.
+
+**Resource constraints**: On preemptible resources, runs may show as `Crashed` if the instance is preempted, but the sweep status remains `Running`. Use `run.mark_preempting()` to automatically requeue crashed runs.
+
+**Partial analysis**: You can pause a sweep to analyze completed runs while others finish, then decide whether to resume, stop, or cancel based on results.
+
+### Best practices
+
+- Use pause instead of cancel when you want to temporarily halt exploration without losing running experiments
+- Monitor individual run statuses to identify systematic failures
+- Use stop for graceful termination when you've found satisfactory hyperparameters
+- Reserve cancel for emergencies when runs are consuming excessive resources or producing errors
+
+## Manage a sweep across multiple agents
+
+Manage a sweep across multiple agents from a single terminal. For example, suppose you have a multi-core machine. After you initialize a sweep, you open new terminal windows and copy the sweep ID to each new terminal.
+
+Within any terminal, use the [`wandb sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) CLI command to manage the sweep. For example, the proceeding code snippet demonstrates how to pause a sweep across multiple agents with the CLI:
+
+```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-Specify the `--resume` flag along with the Sweep ID to resume the Sweep across your agents:
+Specify the `--resume` flag along with the sweep ID to resume the sweep across your agents:
 
-```
+```bash
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-For more information on how to parallelize W&B agents, see [Parallelize agents]({{< relref "./parallelize-agents.md" >}}).
+For more information on how to parallelize agents, see [Parallelize agents]({{< relref "./parallelize-agents.md" >}}).
