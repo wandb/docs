@@ -45,8 +45,6 @@ A Registry admin can create automations in that registry.
 1. Log in to W&B.
 1. Click the name of a registry to view its details, 
 1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
-
-    To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
 1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md#registry-events" >}}) to watch for.
 
    Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
@@ -75,10 +73,7 @@ A W&B admin can create automations in a project.
 
             - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
             - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
-
-        1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
-
-        Click **Next step**.
+    1. Click **Next step**.
 
 1. Select the team that owns the [Slack integration]({{< relref "#add-a-slack-integration" >}}).
 1. Set **Action type** to **Slack notification**. Select the Slack channel, then click **Next step**.
@@ -93,15 +88,10 @@ A W&B admin can create automations in a project.
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
 
-- Manage the registry's automations from the registry's **Automations** tab.
-- Mamage a collection's automations from the **Automations** section of the collection's details page.
-
-From either of these pages, a Registry admin can manage existing automations:
+Manage the registry's automations from the registry's **Automations** tab.
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
-
-
 {{% /tab %}}
 {{% tab "Project" %}}
 A W&B admin can view and manage a project's automations from the project's **Automations** tab.
