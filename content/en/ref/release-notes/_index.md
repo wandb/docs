@@ -10,7 +10,7 @@ menu:
   default:
     parent: reference
     identifier: release-notes
-weight: 10
+weight: 5
 ---
 
 This section includes release notes for supported W&B Server releases. For releases that are no longer supported, refer to [Archived releases]({{< relref "archived/" >}}).

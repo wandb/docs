@@ -126,7 +126,7 @@ with wandb.init(project="metric-frequency") as run:
     )
 ```
 
-<!-- Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) for `run.log` for more details. -->
+<!-- Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/experiments/run/#method-runlog" >}}) for `run.log` for more details. -->
 
 {{% alert %}}
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.

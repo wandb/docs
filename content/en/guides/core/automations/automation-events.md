@@ -70,7 +70,7 @@ Because run status is a property of the entire run, you can create a run status 
 Currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
 {{% /alert %}}
 
-Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric]({{< relref "/ref/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
+Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric]({{< relref "/ref/python/experiments/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
 
 You can create a run metrics automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
 
