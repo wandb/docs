@@ -51,11 +51,6 @@ See the  [`wandb.Api().create_registry()`]({{< relref "/ref/python/public-api/Ap
 {{% /tab%}}
 {{< /tabpane >}}
 
-
-
-
-
-
 {{% alert %}}
 An artifact type cannot be removed from a registry once it is saved in the registry's settings.
 {{% /alert %}}
