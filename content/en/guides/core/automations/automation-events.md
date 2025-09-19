@@ -25,7 +25,7 @@ Learn more about [creating automations]({{< relref "create-automations/" >}}).
 ### Scopes
 A [Registry]({{< relref "/guides/core/registry/">}}) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
-### Events
+### Events {#registry-events}
 A Registry automation can watch for these events:
 - **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
@@ -118,7 +118,7 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify one or more run filters:
+- By default, any run in the project triggers the automation when the event occurs. You can limit which runs trigger an automation by configuring one of the following filters: 
   - **Filter to one user's runs**: Include only runs created by the specified user.
   - **Filter on run name**: Include only runs whose names match the given regular expression.
 
