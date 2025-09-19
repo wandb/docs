@@ -1,28 +1,21 @@
 ---
 title: wandb artifact
+no_list: true
 ---
-
-**Usage**
-
-`wandb artifact [OPTIONS] COMMAND [ARGS]...`
-
-**Summary**
 
 Commands for interacting with artifacts
 
+## Usage
 
-**Options**
+```bash
+wandb artifact COMMAND [ARGS]...
+```
 
-| **Option** | **Description** |
+## Commands
+
+| Command | Description |
 | :--- | :--- |
-
-
-**Commands**
-
-| **Command** | **Description** |
-| :--- | :--- |
-| cache | Commands for interacting with the artifact cache |
-| get | Download an artifact from wandb |
-| ls | List all artifacts in a wandb project |
-| put | Upload an artifact to wandb |
-
+| [cache]({{< relref "wandb-artifact-cache/_index" >}}) | Commands for interacting with the artifact cache |
+| [get]({{< relref "wandb-artifact-get" >}}) | Download an artifact from wandb |
+| [ls]({{< relref "wandb-artifact-ls" >}}) | List all artifacts in a wandb project |
+| [put]({{< relref "wandb-artifact-put" >}}) | Upload an artifact to wandb |

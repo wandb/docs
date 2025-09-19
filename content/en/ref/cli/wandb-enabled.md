@@ -2,20 +2,16 @@
 title: wandb enabled
 ---
 
-**Usage**
-
-`wandb enabled [OPTIONS]`
-
-**Summary**
-
 Enable W&B.
 
+## Usage
 
-**Options**
+```bash
+wandb enabled [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--service` | Enable W&B service  [default: True] |
-
-
-
+| `--service` | Enable W&B service (default: True) |

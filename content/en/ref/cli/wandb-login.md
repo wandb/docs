@@ -2,24 +2,26 @@
 title: wandb login
 ---
 
-**Usage**
-
-`wandb login [OPTIONS] [KEY]...`
-
-**Summary**
-
 Login to Weights & Biases
 
+## Usage
 
-**Options**
+```bash
+wandb login [KEY] [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `KEY` | No description available | No |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--cloud` | Login to the cloud instead of local |
-| `--host, --base-url` | Login to a specific instance of W&B |
+| `--cloud` | Login to the cloud instead of local (default: False) |
+| `--host`, `--base-url` | Login to a specific instance of W&B |
 | `--relogin` | Force relogin if already logged in. |
-| `--anonymously` | Log in anonymously |
-| `--verify / --no-verify` | Verify login credentials |
-
-
-
+| `--anonymously` | Log in anonymously (default: False) |
+| `--verify` | Verify login credentials (default: False) |

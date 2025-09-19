@@ -1,20 +1,18 @@
 ---
 title: wandb scheduler
+toc_hide: true
 ---
-
-**Usage**
-
-`wandb scheduler [OPTIONS] SWEEP_ID`
-
-**Summary**
 
 Run a W&B launch sweep scheduler (Experimental)
 
+## Usage
 
-**Options**
+```bash
+wandb scheduler SWEEP_ID
+```
 
-| **Option** | **Description** |
-| :--- | :--- |
+## Arguments
 
-
-
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `SWEEP_ID` | No description available | Yes |
