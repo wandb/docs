@@ -21,5 +21,5 @@ Beta versions of wandb CLI commands. Requires wandb-core.
 
 | **Command** | **Description** |
 | :--- | :--- |
-| sync | Upload a training run to W&B |
+| sync | Upload .wandb files specified by PATHS. |
 
