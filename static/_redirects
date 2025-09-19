@@ -352,7 +352,7 @@
 /ref/java/wandbrun/ /ref/ 301
 /ref/python/README/ /ref/python/ 301
 /ref/python/agent/ /ref/python/functions/agent/ 301
-/ref/python/artifact/ /ref/python/classes/artifact/ 301
+/ref/python/artifact/ /ref/python/experiments/artifact/ 301
 /ref/public-api/ /ref/python/public-api/ 301
 /ref/python/config/ /ref/python/ 301
 /ref/python/controller/ /ref/python/functions/controller/ 301
@@ -441,6 +441,9 @@
 ## Dynamic redirects (with wildcards and splats)
 # Note: Dynamic redirects must come after static redirects
 /data-vis/* /guides/tables/ 301
+# Everything else in classes goes to experiments
+/ref/python/classes/* /ref/python/experiments/:splat 301
+/ref/python/sdk/classes/* /ref/python/experiments/:splat 301
 /guides/core/automations/* /guides/automations/:splat 301
 /guides/core/tables/* /guides/tables/:splat 301
 /guides/core/registry/* /guides/registry/:splat 301
