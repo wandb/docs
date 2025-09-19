@@ -56,13 +56,16 @@ If `allow_all_artifact_types` is `True` then `artifact_types` reflects the types
 
 **Example:**
  ```python
-     registry.artifact_types.append("model")
-     registry.save()  # once saved, the artifact type `model` cannot be removed
-     registry.artifact_types.append("accidentally_added")
-     registry.artifact_types.remove(
-         "accidentally_added"
-     )  # Types can only be removed if it has not been saved yet
-    ``` 
+import wandb
+
+registry = wandb.Api().create_registry()
+registry.artifact_types.append("model")
+registry.save()  # once saved, the artifact type `model` cannot be removed
+registry.artifact_types.append("accidentally_added")
+registry.artifact_types.remove(
+     "accidentally_added"
+)  # Types can only be removed if it has not been saved yet
+``` 
 
 
 
