@@ -59,7 +59,13 @@ Files are retrieved in pages from the W&B server as needed.
 
 
 **Args:**
- client: The run object that contains the files run: The run object that contains the files names (list, optional): A list of file names to filter the files per_page (int, optional): The number of files to fetch per page upload (bool, optional): If `True`, fetch the upload URL for each file pattern (str, optional): Pattern to match when returning files from W&B  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
+ 
+ - `client`:  The run object that contains the files 
+ - `run`:  The run object that contains the files 
+ - `names` (list, optional):  A list of file names to filter the files 
+ - `per_page` (int, optional):  The number of files to fetch per page 
+ - `upload` (bool, optional):  If `True`, fetch the upload URL for each file 
+ - `pattern` (str, optional):  Pattern to match when returning files from W&B  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
 
 
 ---
