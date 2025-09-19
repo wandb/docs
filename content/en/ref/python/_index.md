@@ -1,5 +1,5 @@
 ---
-title: Python SDK 0.21.3
+title: Python SDK 0.22.0
 module: 
 weight: 1
 ---
