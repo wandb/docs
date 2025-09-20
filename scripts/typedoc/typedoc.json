@@ -1,0 +1,77 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["PATH_TO_WANDB_CORE/frontends/weave/src/core/ops/*.ts"],
+  "entryPointStrategy": "expand",
+  "out": "../../content/en/ref/query-panel-generated",
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-frontmatter"
+  ],
+  "theme": "markdown",
+  "readme": "none",
+  "hideBreadcrumbs": true,
+  "hideInPageTOC": false,
+  "navigationLinks": {
+    "GitHub": "https://github.com/wandb/core",
+    "Guide": "/guides/models/app/features/panels/query-panels/"
+  },
+  "categorizeByGroup": true,
+  "groupOrder": [
+    "Data Types",
+    "Chainable Operations",
+    "List Operations",
+    "Aggregation Operations",
+    "Helper Functions"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/test/**",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "tsconfig": "./tsconfig.json",
+  "validation": {
+    "notExported": false,
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "includeVersion": false,
+  "disableSources": false,
+  "sourceLinkTemplate": "https://github.com/wandb/core/blob/main/{path}#L{line}",
+  "basePath": "./",
+  "treatWarningsAsErrors": false,
+  "logLevel": "Info",
+  "preserveLinkText": false,
+  "skipErrorChecking": false,
+  "commentStyle": "JSDoc",
+  "blockTags": [
+    "@category",
+    "@example",
+    "@param",
+    "@returns",
+    "@see",
+    "@since",
+    "@deprecated"
+  ],
+  "inlineTags": [
+    "@link",
+    "@linkcode"
+  ],
+  "modifierTags": [
+    "@public",
+    "@private",
+    "@protected",
+    "@internal",
+    "@readonly",
+    "@override"
+  ],
+  "frontmatterGlobals": {
+    "cascade": {
+      "menu": {
+        "reference": {
+          "parent": "query-panel-generated"
+        }
+      }
+    }
+  }
+}

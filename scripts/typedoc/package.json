@@ -1,0 +1,15 @@
+{
+  "name": "wandb-query-docs-generator",
+  "version": "1.0.0",
+  "description": "TypeDoc generator for W&B Query Panel documentation",
+  "scripts": {
+    "docs:generate": "echo 'TypeDoc would generate from actual wandb/core source'",
+    "docs:postprocess": "node ./postprocess-hugo.js"
+  },
+  "devDependencies": {
+    "typedoc": "^0.25.7",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typedoc-plugin-frontmatter": "^0.0.2",
+    "typescript": "^5.3.3"
+  }
+}
