@@ -9,17 +9,39 @@ title: Semantic run plot legends
 
 Create visually meaningful line plots and plot legends by color-coding your W&B runs based on metrics or configuration parameters. Identify patterns and trends across experiments by coloring runs according to their performance metrics (highest, lowest, or latest values). W&B automatically groups your runs into color-coded buckets based on the values of your selected parameter.
 
-Navigate to your workspace's settings page to configure metric or configuration-based colors for runs:
+To use metric or configuration-based colors for your runs, you need to configure two settings:
+
+### Turn on key-based colors
 
 1. Navigate to your W&B project.
 2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon (⚙️) in the top right corner.
-4. From the drawer, select **Runs** then select **Key-based colors**.
+3. Click on the **Settings** icon in the top right corner.
+4. From the drawer, select **Runs**.
+5. In the **Run colors** section, select **Key-based colors**.
+6. Configure the following options:
     - From the **Key** dropdown, select the metric you want to use for assigning colors to runs.
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
-    - Set the the number of buckets to a value from 2 to 8.
+    - Set the number of buckets to a value from 2 to 8.
+
+### Choose a color palette
+
+1. Navigate to your W&B project.
+2. Select the **Workspace** tab from the project sidebar.
+3. Click on the **Settings** icon in the top right corner.
+4. From the drawer, select **Runs**.
+5. In the **Color palette** section, choose from:
+    - **Default**: Standard color palette.
+    - **Colorblind-safe (deuteranomaly)**: Optimized for red-green color blindness.
+    - **Colorblind-safe (all other forms)**: Optimized for other forms of color vision difference.
 
 The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
+
+
+### Example: Key-based coloring with loss metric
+
+In this example plot, runs are colored with a gradient where darker colors represent higher loss values and lighter colors represent lower loss values. The Y value is set to `latest` to use the most recent loss value for each run.
+ 
+{{< img src="/images/app_ui/run-colors-key-based.png" alt="W&B workspace showing runs colored based on their loss values using key-based coloring.">}}
 
 ## Set a metric
 
