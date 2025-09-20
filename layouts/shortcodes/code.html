@@ -1,0 +1,7 @@
+{{ $language := .Get "language" }}
+{{ $source := .Get "source" }}
+{{ $options := .Get "options" }}
+
+{{ with $source | readFile }}
+  {{ highlight (trim . "\n\r") $language $options }}
+{{ end }}
