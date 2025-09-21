@@ -198,7 +198,8 @@ This step assumes that the first admin user account is created with the browser.
 
 Follow these steps to verify the installation:
 
-1. Install the W&B CLI:
+1. Install the W&B Python SDK (`wandb`):
+
     ```shell
     pip install wandb
     ```
