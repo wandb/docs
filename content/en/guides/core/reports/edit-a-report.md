@@ -27,9 +27,8 @@ Check out the [Programmatic workspaces tutorial]({{< relref "/tutorials/workspac
 {{% alert %}}
 Verify that you have the W&B Report and Workspace API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
 
-```pip
-pip install wandb wandb-workspaces
-```
+{{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
+
 {{% /alert %}}
 
 ## Add plots

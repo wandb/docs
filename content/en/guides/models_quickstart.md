@@ -18,19 +18,24 @@ To authenticate your machine with W&B, you must first generate an API key at [wa
 
 Install the W&B library and some other packages you will need for this walkthrough.  
 
-{{< code language="shell" source="/bluehawk_source/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
+{{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
 
 Import W&B Python SDK:
 
 
-{{< code language="python" source="/bluehawk_source/snippets/import_wandb.snippet.import_wandb.py" >}}
+{{< code language="python" source="/bluehawk/snippets/import_wandb.snippet.import_wandb.py" >}}
 
 
 Next, import the Reports and Workspaces API:
 
-{{< code language="python" source="/bluehawk_source/snippets/import_wandb.snippet.import_wandb_workspaces.py" >}}
+{{< code language="python" source="/bluehawk/snippets/import_wandb.snippet.import_wandb_workspaces.py" >}}
 
-Specify the entity of your team in the following code block:
+
+## Train a model
+
+The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
+
+First, specify the entity of your team in the following code block:
 
 
 ```python
@@ -38,13 +43,9 @@ TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
 PROJECT = "my-awesome-project"
 ```
 
-## Train a model
+Next, use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/experiments/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/experiments/artifact.md#add_file" >}}).
 
-The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
-
-Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/experiments/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/experiments/artifact.md#add_file" >}}).
-
-{{< code language="python" source="/bluehawk_source/snippets/models_quickart.snippet.train_model.py" >}}
+{{< code language="python" source="/bluehawk/snippets/models_quickart.snippet.train_model.py" >}}
 
 The key takeaways from the previous code block are:
 * Use `wandb.Run.log()` to log metrics during training.
@@ -69,7 +70,7 @@ From here, you can see details about every run you've done. In this screenshot, 
 
 To share the model with others in your organization, publish it to a [collection]({{< relref "/guides/core/registry/create_collection" >}}) using `wandb.Run.link_artifact()`. The following code links the artifact to the [core Model registry]({{< relref "/guides/core/registry/registry_types/#core-registry" >}}), making it accessible to your team.
 
-{{< code language="python" source="/bluehawk_source/snippets/models_quickart.snippet.publish_model.py" >}}
+{{< code language="python" source="/bluehawk/snippets/models_quickart.snippet.publish_model.py" >}}
 
 After running `wandb.Run.link_artifact()`, the model artifact will be in the `DemoModels` collection in your registry. From there, you can view details such as the version history, [lineage map]({{< relref "/guides/core/registry/lineage/" >}}), and other [metadata]({{< relref "/guides/core/registry/registry_cards/" >}}). 
 
@@ -79,7 +80,7 @@ For additional information on how to link artifacts to a registry, see [Link art
 
 To use a model for inference, use `wandb.Run.use_artifact()` to retrieve the published artifact from the registry. This returns an artifact object that you can then use [`wandb.Artifact.download()`]({{< relref "/ref/python/experiments/artifact/#method-artifactdownload" >}}) to download the artifact to a local file.
 
-{{< code language="python" source="/bluehawk_source/snippets/models_quickart.snippet.retrieve_model.py" >}}
+{{< code language="python" source="/bluehawk/snippets/models_quickart.snippet.retrieve_model.py" >}}
 
 For more information on how to retrieve artifacts from a registry, see [Download an artifact from a registry]({{< relref "/guides/core/registry/download_use_artifact/" >}}).
 
@@ -93,17 +94,11 @@ W&B Report and Workspace API is in Public Preview.
 
 Create and share a [report]({{< relref "/guides/core/reports/_index.md" >}}) to summarize your work. To create a report programmatically, use the [W&B Report and Workspace API]({{< relref "/ref/wandb_workspaces/reports.md" >}}).
 
-First, install the W&B Reports API:
-
-```python
-pip install wandb wandb-workspaces -qqq
-```
-
 The following code block creates a report with multiple blocks, including markdown, panel grids, and more. You can customize the report by adding more blocks or changing the content of existing blocks. 
 
 The output of the code block prints a link to the URL report created. You can open this link in your browser to view the report. 
 
-{{< code language="python" source="/bluehawk_source/snippets/models_quickart.snippet.share_report.py" >}}
+{{< code language="python" source="/bluehawk/snippets/models_quickart.snippet.share_report.py" >}}
 
 For more information on how to create a report programmatically or how to create a report interactively with the W&B App, see [Create a report]({{< relref "/guides/core/reports/create-a-report.md" >}}) in the W&B Docs Developer guide. 
 
@@ -112,6 +107,6 @@ Use the [W&B Public APIs]({{< relref "/ref/python/public-api/_index.md" >}}) to 
 
 The following code block demonstrates how to query the Model registry for all artifacts in a specific collection. It retrieves the collection and iterates through its versions, printing out the name and version of each artifact.
 
-{{< code language="python" source="/bluehawk_source/snippets/models_quickart.snippet.query_registry.py" >}}
+{{< code language="python" source="/bluehawk/snippets/models_quickart.snippet.query_registry.py" >}}
 
 For more information on querying the registry, see the [Query registry items with MongoDB-style queries]({{< relref "/guides/core/registry/search_registry.md#query-registry-items-with-mongodb-style-queries" >}}).
