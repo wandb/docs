@@ -20,30 +20,36 @@ Install the W&B library and some other packages you will need for this walkthrou
 
 {{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
 
-Import W&B Python SDK:
+Import [W&B Python SDK]({{< relref "/ref/python" >}}) (`wandb.sdk`) to log and monitor experiments during training:
 
 
 {{< code language="python" source="/bluehawk/snippets/import_wandb.snippet.import_wandb.py" >}}
 
 
-Next, import the Reports and Workspaces API:
+Next, import the [Reports and Workspaces API]({{< relref "/ref/wandb_workspaces" >}}) (`wandb.wandb-workspaces`) to create and share a report in a later step:
 
 {{< code language="python" source="/bluehawk/snippets/import_wandb.snippet.import_wandb_workspaces.py" >}}
 
+You will use the Reports and Workspaces API in a [later step to create and share your findings in a report](#share-your-finds-with-a-report).
 
-## Train a model
+## Log in to W&B and set up your project
 
-The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
+Log in to W&B using your API key. You can use `wandb.login()` method by passing your API key as an argument, or by setting the `WANDB_API_KEY` environment variable. The following code snippet demonstrates how to log in using the `wandb.login()` method:
 
-First, specify the entity of your team in the following code block:
+{{< code language="python" source="/bluehawk/snippets/wandb_login.snippet.wandb_login_python.py" >}}
 
+Next, specify the entity and project name for your W&B runs within your Python script or notebook. The entity is typically your username or the name of your team or organization. The project is a way to group related runs together.
 
 ```python
 TEAM_ENTITY = "<Team_Entity>" # Replace with your team entity
 PROJECT = "my-awesome-project"
 ```
 
-Next, use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/experiments/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file`]({{< relref "/ref/python/experiments/artifact.md#add_file" >}}).
+## Train a model
+
+The following code simulates a basic machine learning workflow: training a model, logging metrics, and saving the model as an artifact.
+
+Use the W&B Python SDK (`wandb.sdk`) to interact with W&B during training. Log the loss using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog" >}}), then save the trained model as an artifact using [`wandb.Artifact`]({{< relref "/ref/python/experiments/artifact.md" >}}) before finally adding the model file using [`Artifact.add_file()`]({{< relref "/ref/python/experiments/artifact.md#add_file" >}}).
 
 {{< code language="python" source="/bluehawk/snippets/models_quickart.snippet.train_model.py" >}}
 
@@ -57,7 +63,7 @@ Now that you have trained a model and saved it as an artifact, you can publish i
 
 ## View the training data in the dashboard
 
-Log in to your account at https://wandb.ai/login
+Log in to your account at https://wandb.ai/login.
 
 Under **Projects** you should see `my-awesome-project` (or whatever you used as a project name above). Click this to enter the workspace for your project. 
 
