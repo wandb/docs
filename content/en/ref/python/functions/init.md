@@ -88,8 +88,7 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
  - `fork_from`:  Specifies a point in a previous run from which to fork a new  run, using the format `{id}?_step={step}`. This creates a new run that  resumes logging from the specified step in the target run’s history.  The target run must be part of the current project.  If an `id` argument is also provided, it must be different from the  `fork_from` argument, an error will be raised if they are the same.  `resume`, `resume_from` and `fork_from` cannot be used together, only  one of them can be used at a time.  Note that this feature is in beta and may change in the future. 
  - `save_code`:  Enables saving the main script or notebook to W&B, aiding in  experiment reproducibility and allowing code comparisons across runs in  the UI. By default, this is disabled, but you can change the default to  enable on your settings page. 
  - `tensorboard`:  Deprecated. Use `sync_tensorboard` instead. 
- - `sync_tensorboard`:  Enables automatic syncing of W&B logs from TensorBoard  or TensorBoardX, saving relevant event files for viewing in the W&B UI. 
- - `saving relevant event files for viewing in the W&B UI. (Default`:  `False`) 
+ - `sync_tensorboard`:  Enables automatic syncing of W&B logs from TensorBoard  or TensorBoardX, saving relevant event files for viewing in the W&B UI.
  - `monitor_gym`:  Enables automatic logging of videos of the environment when  using OpenAI Gym. 
  - `settings`:  Specifies a dictionary or `wandb.Settings` object with advanced  settings for the run. 
 
