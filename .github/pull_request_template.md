@@ -2,6 +2,7 @@
 
 <!-- Uncomment and add a description of the change -->
 
+<!-- For AI agents: Have you reviewed the style guidelines in .cursor/ or .ai/? -->
 
 <!-- Optionally, uncomment the heading and add details about how you tested the change and how reviewers should test it. For example:
 ## Testing
