@@ -222,23 +222,10 @@ Group runs by config values to compare runs with similar configurations. Config 
 
 For example, the following code snippet first initializes a run with a config value for `group`, then groups runs in a report based on the `group` config value. Replace values for `<entity>` and `<project>` with your W&B entity and project names.
 
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
 
-entity = "<entity>"
-project = "<project>"
+{{< code language="python" source="/bluehawk/snippets/group_runs.snippet.group_runs.py" >}}
 
-for group in ["control", "experiment_a", "experiment_b"]:
-    for i in range(3):
-        with wandb.init(entity=entity, project=project, group=group, config={"group": group, "run": i}, name=f"{group}_run_{i}") as run:
-            # Simulate some training
-            for step in range(100):
-                run.log({
-                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
-                    "loss": 1.0 - (step / 100) * 0.5
-                })
-```
+
 
 Within your Python script or notebook, you can then group runs by the `config.group` value:
 
@@ -296,24 +283,7 @@ The syntax for grouping runs by summary metrics is `summary.<key>`, where `<key>
 
 For example, suppose you log a summary metric called `acc`:
 
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
-
-entity = "<entity>"
-project = "<project>"
-
-for group in ["control", "experiment_a", "experiment_b"]:
-    for i in range(3):
-        with wandb.init(entity=entity, project=project, group=group, config={"group": group, "run": i}, name=f"{group}_run_{i}") as run:
-            # Simulate some training
-            for step in range(100):
-                run.log({
-                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
-                    "loss": 1.0 - (step / 100) * 0.5
-                })
-
-```
+{{< code language="python" source="/bluehawk/snippets/group_runs.snippet.group_runs.py" >}}
 
 You can then group runs by the `summary.acc` summary metric:
 
