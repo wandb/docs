@@ -9,8 +9,6 @@ weight: 2
 url: guides/tables
 cascade:
 - url: guides/tables/:filename
-aliases:
-- /guides/models/tables/
 ---
 
 {{< cta-button productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" >}}
@@ -33,11 +31,11 @@ A Table is a two-dimensional grid of data where each column has a single type of
 
 Log a table with a few lines of code:
 
-- [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}): Create a [run]({{< relref "/guides/models/track/runs/" >}}) to track results.
-- [`wandb.Table()`]({{< relref "/ref/python/sdk/data-types/table.md" >}}): Create a new table object.
+- [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}): Create a [run]({{< relref "/guides/models/track/runs/" >}}) to track results.
+- [`wandb.Table()`]({{< relref "/ref/python/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.
-- [`run.log()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runlog" >}}): Log the table to save it to W&B.
+- [`run.log()`]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}): Log the table to save it to W&B.
 
 ```python
 import wandb
