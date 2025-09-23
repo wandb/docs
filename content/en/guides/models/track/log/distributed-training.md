@@ -137,7 +137,8 @@ For each worker node, initialize a W&B run with [`wandb.init()`]({{< relref "/re
 3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 {{% alert %}}
-Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
+* Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
+* Consider defining an environment variable on each worker node to set the run ID of the primary node.
 {{% /alert %}}
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
@@ -145,10 +146,13 @@ The following sample code demonstrates the high level requirements for tracking 
 ```python
 import wandb
 
+entity = "<team_entity>"
+project = "<project_name>"
+
 # Initialize a run in the primary node
 run = wandb.init(
-    entity="entity",
-    project="project",
+    entity=entity,
+    project=project,
 	settings=wandb.Settings(
         x_label="rank_0", 
         mode="shared", 
@@ -163,12 +167,16 @@ run_id = run.id
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
 	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
 	id=run_id,
 )
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
 	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
 	id=run_id,
 )
