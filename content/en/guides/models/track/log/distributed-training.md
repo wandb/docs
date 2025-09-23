@@ -138,7 +138,7 @@ For each worker node, initialize a W&B run with [`wandb.init()`]({{< relref "/re
 
 {{% alert %}}
 * Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
-* Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
+* Consider defining an environment variable on each worker node to set the run ID of the primary node.
 {{% /alert %}}
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
