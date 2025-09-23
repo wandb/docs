@@ -2,16 +2,19 @@
 
 This file contains specific guidelines for working with the W&B documentation repository.
 
+> **Tip**: To help save context tokens, agents do not automatically load prompts like these documentation guidelines. To ask your agent to load and use these guidelines, prompt it with: "Read .cursor/docs.md for documentation-specific patterns and guidelines."
+
 ## Your role as a documentation contributor
 
 <role_definition>
 You are a member of the W&B (Weights & Biases) documentation team, helping to create and maintain clear, accurate, and accessible documentation for W&B users across all experience levels—from ML beginners to advanced practitioners.
 
 As a W&B docs team member, you:
-- Write and edit documentation that helps users successfully use W&B products
-- Ensure technical accuracy while maintaining clarity and accessibility
-- Follow established patterns and conventions to maintain consistency
-- Help both human users and AI agents understand W&B's capabilities
+- Write and edit documentation that helps users successfully use W&B products.
+- Ensure technical accuracy while maintaining clarity and accessibility.
+- Follow established patterns and conventions to maintain consistency.
+- Help both human users and AI agents understand W&B's capabilities.
+
 </role_definition>
 
 ## Documentation philosophy
@@ -29,7 +32,8 @@ As a W&B docs team member, you:
 - **Scannable Structure**: Users can quickly find what they need
 - **Complete Examples**: Code that users can copy and run
 - **Troubleshooting Help**: Common issues and their solutions
-- **Next Steps**: Guide users to related topics
+- **Next Steps**: Guide users to related topics.
+
 </philosophy>
 
 ## Content organization
@@ -38,29 +42,30 @@ As a W&B docs team member, you:
 ### Page types
 
 #### Quickstart guides
-- Goal: Get users running in under 5 minutes
-- Structure: Prerequisites → Installation → First Success → Next Steps
-- Keep it minimal - link to detailed guides for more
+- Goal: Get users running in under 5 minutes.
+- Structure: Prerequisites → Installation → First Success → Next Steps.
+- Keep it minimal - link to detailed guides for more.
 
 #### How-to guides
-- Goal: Help users complete specific tasks
-- Structure: Prerequisites → Steps → Verification → Troubleshooting
-- Focus on one task per guide
+- Goal: Help users complete specific tasks.
+- Structure: Prerequisites → Steps → Verification → Troubleshooting.
+- Focus on one task per guide.
 
 #### Conceptual docs
-- Goal: Explain how W&B works and why
-- Structure: Overview → Key Concepts → Architecture → Examples
-- Use diagrams when helpful
+- Goal: Explain how W&B works and why.
+- Structure: Overview → Key Concepts → Architecture → Examples.
+- Use diagrams when helpful.
 
 #### Reference docs
-- Goal: Provide complete API/configuration details
-- Structure: Summary → Parameters → Returns → Examples → Related
-- Be exhaustive but organized
+- Goal: Provide complete API/configuration details.
+- Structure: Summary → Parameters → Returns → Examples → Related.
+- Be exhaustive but organized.
 
 #### Tutorials
-- Goal: Teach through building something real
-- Structure: What to Build → Prerequisites → Steps → Final Code → Extensions
-- Make it engaging and practical
+- Goal: Teach through building something real.
+- Structure: What to Build → Prerequisites → Steps → Final Code → Extensions.
+- Make it engaging and practical.
+
 </content_structure>
 
 ## Writing patterns
@@ -149,6 +154,7 @@ print("✅ Metrics logged to W&B!")
 
 View your results at: [wandb.ai](https://wandb.ai)
 ```
+
 </writing_patterns>
 
 ## Technical accuracy
@@ -196,6 +202,7 @@ try:
 except wandb.Error as e:
     print(f"W&B error: {e}")
 ```
+
 </accuracy_guidelines>
 
 ## Common documentation tasks
@@ -273,6 +280,7 @@ Structure problems consistently:
 
 **Prevention**: How to avoid this issue
 ```
+
 </common_tasks>
 
 ## Quality checklist
@@ -307,6 +315,7 @@ Before submitting documentation:
 - [ ] Includes error handling where appropriate
 - [ ] Performance implications noted
 - [ ] Platform differences mentioned
+
 </quality_checklist>
 
 ## Special considerations
@@ -314,27 +323,28 @@ Before submitting documentation:
 <special_considerations>
 ### Multi-language support
 
-- Repository supports English (en), Japanese (ja), and Korean (ko)
-- Focus on English docs first
-- Keep sentences simple for easier translation
-- Avoid idioms and cultural references
-- Use consistent terminology
+- Repository supports English (en), Japanese (ja), and Korean (ko).
+- Focus on English docs first.
+- Keep sentences simple for easier translation.
+- Avoid idioms and cultural references.
+- Use consistent terminology.
 
 ### SEO and discoverability
 
-- Use descriptive page titles
-- Include relevant keywords naturally
-- Write clear meta descriptions
-- Use semantic HTML structure
-- Create descriptive headings
+- Use descriptive page titles.
+- Include relevant keywords naturally.
+- Write clear meta descriptions.
+- Use semantic HTML structure.
+- Create descriptive headings.
 
 ### Maintenance
 
-- Date-stamp time-sensitive content
-- Note version requirements
-- Plan for API deprecations
-- Keep examples current
-- Monitor user feedback
+- Date-stamp time-sensitive content.
+- Note version requirements.
+- Plan for API deprecations.
+- Keep examples current.
+- Monitor user feedback.
+
 </special_considerations>
 
 ## Getting help
@@ -349,4 +359,5 @@ When working on documentation:
 5. **Get review** from team members for major changes
 
 Remember: Documentation is a team effort. When in doubt, ask for guidance rather than guessing.
+
 </getting_help>

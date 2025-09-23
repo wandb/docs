@@ -2,6 +2,8 @@
 
 This file contains detailed style guidelines for creating and editing W&B documentation.
 
+> **Tip**: To help save context tokens, agents do not automatically load prompts like this style guide. To ask your agent to load and use this style guide, prompt it with: "Read .cursor/style.md and follow these style guidelines for all documentation changes."
+
 ## Style hierarchy
 
 <style_hierarchy>
@@ -31,7 +33,39 @@ This file contains detailed style guidelines for creating and editing W&B docume
 - Creating entirely new content
 - Doing an explicit style refactor
 - The existing style directly contradicts technical accuracy
+
 </style_hierarchy>
+
+## Format specification
+
+### Markdown flavors
+
+**Documentation content** (`/content/` directory) uses **Hugo with Docsy theme**:
+- Hugo's CommonMark implementation with specific extensions
+- Docsy shortcodes for special features
+- Hugo's built-in syntax highlighting
+- **Important**: Not all GFM features work in Hugo content
+
+**Cursor configuration files** (like this one in `.cursor/`) use a hybrid format:
+- Base format: GitHub Flavored Markdown for GitHub rendering
+- Enhanced with: XML-like tags (`<section_name>...</section_name>`) for AI parsing
+- Purpose: Human-readable on GitHub while being structured for AI agents
+
+Since Cursor config files are viewed on GitHub, they support GFM features like:
+- Tables
+- Task lists with `- [ ]` and `- [x]`
+- Fenced code blocks with language highlighting
+- Blockquotes with `>`
+
+### Technical formatting rules
+
+> **Note**: These expand on the basic formatting standards in [`rules.md`](rules.md#formatting-standards).
+
+- **Use spaces, not tabs**: 2 spaces per indentation level
+- **Trim trailing whitespace**: Remove trailing spaces on all lines
+- **Line endings**: Use LF (Unix-style) line endings
+- **EditorConfig**: The repository includes an `.editorconfig` file that enforces these settings
+- **Code blocks**: Use single backticks for inline `code` and triple backticks for code blocks with language identifiers
 
 ## Detailed style rules
 
@@ -47,6 +81,7 @@ This file contains detailed style guidelines for creating and editing W&B docume
   - ✗ "Configuring Your Environment"
   - ✗ "Getting Started with W&B"
   - ✗ "Integrating With GitHub Actions"
+
 </heading_style>
 
 <product_naming>
@@ -56,6 +91,11 @@ This file contains detailed style guidelines for creating and editing W&B docume
 - Use "W&B" (not "Weights & Biases") in running text.
 - Exception: Use full name in legal documents or first-time introductions to new audiences.
 - **Avoid using "W&B" in headings**: Shorter headings are clearer, easier to scan, and better for SEO. When editing existing content, match the heading style already in use. For new content, omit "W&B" from headings unless necessary for disambiguation (for example, when comparing W&B features to other tools).
+- **When uncertain about W&B terminology**: Check existing content for established patterns. If still unsure, add a TODO comment for human review:
+  ```html
+  <!-- TODO: Verify casing of W&B Inference -->
+  ```
+  This approach prevents incorrect terminology while flagging items for review.
 
 #### Product name patterns
 First mention on a page:
@@ -78,6 +118,7 @@ Special cases:
 - "Configure W&B Automations to monitor your runs. Automations can send alerts when specific conditions are met."
 - "Create a W&B Run to track your experiment. The run captures metrics, system information, and outputs."
 - "W&B artifacts help version your datasets. Each artifact is immutable once created."
+
 </product_naming>
 
 <writing_style>
@@ -85,21 +126,24 @@ Special cases:
 
 #### General guidelines
 - **Direct and concise**: Get to the point quickly.
-- **Second person and imperative mood**: Use imperative commands for instructions ("Configure the API key"). The "you" is implied and makes instructions more direct. Use explicit "you" for explanations and descriptions.
+- **Second person and imperative mood**: Use imperative commands for instructions ("Configure the API key"). The "you" is implied in instructions and makes instructions more direct. "You" may occasionally be approriate for explanations and descriptions.
 - **Active voice**: "Configure the API key" not "The API key should be configured".
 - **Present tense**: Describe what happens, not what will happen.
 - **Simple verbs**: "Use" not "Utilize", "Start" not "Initiate".
 
 #### Examples
 Instructions (use imperative):
-✓ "Configure authentication by setting the API key."
-✓ "Set the API key in your environment variables."
+✓ "To configure authentication, set the API key."
+✓ "Set an environment variable for the API key."
 ✗ "You should configure authentication by setting the API key."
 
 Explanations (use "you" explicitly):
 ✓ "You can track experiments with W&B."
 ✓ "When you run this code, W&B logs the metrics."
+✓ "W&B tracks experiments."
 ✗ "Experiments will be tracked by W&B."
+✗ "Experiments are tracked by W&B."
+
 </writing_style>
 
 <accessibility_guidelines>
@@ -113,9 +157,9 @@ Explanations (use "you" explicitly):
 - They don't display consistently across platforms.
 
 **Limited exceptions** (use sparingly):
-- Style guides showing correct/incorrect examples (✓/✗).
-- Feature comparison matrices.
-- Only when they add clarity without relying on color.
+- Examples of correct and incorrect examples together, such as in this style guide (✓/✗).
+- Comparison matrixes.
+- Specific cases when they add clarity without relying on color.
 
 **Prefer**:
 - Plain text descriptions.
@@ -129,13 +173,14 @@ Replace complex terms and Latin phrases:
 - ✓ "and so on" → ✗ "etc."
 - ✓ "versus" → ✗ "vs."
 - ✓ "through" → ✗ "via"
+
 </accessibility_guidelines>
 
 <punctuation_rules>
 ### Punctuation guidelines
 
 #### Quotes and apostrophes
-Always use straight quotes and apostrophes:
+Markdown is a plain text format. Always use straight quotes and apostrophes:
 - ✓ `"straight quotes"` and `'apostrophes'`
 - ✗ "curly quotes" and 'smart apostrophes'
 
@@ -144,10 +189,18 @@ Always use straight quotes and apostrophes:
 #### Simplify punctuation
 Avoid in regular documentation text:
 - Exclamation points (!)
-- Ellipses (...)
 - Semicolons (;)
-- Em dashes (—) and en dashes (–)
+- Em dashes (—) and en dashes (–). Use colons, commas, or parentheses instead.
 - Complex inline lists with nested punctuation.
+- Ellipses (...) and horizontal ellipsis characters (…), except in code examples to indicate omitted code.
+
+   > **Note**: Ellipses are acceptable in code blocks to show omitted sections:
+   ```python
+   def train_model(config):
+      # Setup code here
+      ...  # Additional training logic
+      return model
+   ```
 
 #### Lists
 - Use sentence case for all list items.
@@ -155,7 +208,7 @@ Avoid in regular documentation text:
 - **Use colons for definition-style lists**: When a list item introduces sub-items or provides an explanation, use a colon instead of a hyphen.
 - Include periods for:
   - Complete sentences
-  - Long phrases (more than 5-7 words)  
+  - Long phrases (more than 5-7 words)
   - Items with explanatory text or descriptions
   - Any item that contains multiple words beyond simple labels
 - Omit periods only for very short fragments (2-3 words that are simple labels).
@@ -172,6 +225,7 @@ Examples of when to use periods:
 - ✓ "Code examples with proper syntax highlighting." (descriptive item)
 - ✓ "API reference" (short fragment - no period)
 - ✓ "Quick links" (short label - no period)
+
 </punctuation_rules>
 
 <code_style>
@@ -206,6 +260,27 @@ project: my-project
 entity: my-team
 ```
 
+#### Showing Markdown or HTML code as code
+To render Markdown or HTML as code in the output, surround it with backticks.
+
+- **Inline**: Use single backticks to show inline code like `**bold text**` or `[link text](url)`
+- **Block**: Use triple backticks (fences) with language identifier:
+  ````markdown
+  ```html
+  <div class="alert">
+    <p>This HTML will be shown as code, not rendered.</p>
+  </div>
+  ```
+  ````
+  Or for Markdown:
+  ````markdown
+  ```markdown
+  ## This heading won't render
+  - This list item won't render
+  - It will all appear as code
+  ```
+  ````
+
 #### Code example best practices
 1. **Follow public API patterns** from https://docs.wandb.ai/ref/python/
 2. **Use context managers** for `wandb.init()`
@@ -213,15 +288,16 @@ entity: my-team
 4. **Make examples runnable** without additional context
 5. **Test when possible** to ensure correctness
 6. **Avoid placeholder names** like "foo" or "bar" - use meaningful examples
+
 </code_style>
 
 <formatting_standards>
 ### Text formatting standards
 
 #### Emphasis
-- **Bold** for UI elements: "Click the **New Project** button"
-- *Italics* sparingly for introducing new terms
-- `Code` for technical terms, commands, and code elements
+- `**Bold**` for UI elements: "Click the **New Project** button"
+- `*Italics*` (or `_italics_`) sparingly for introducing new terms
+- `` `Code` `` for technical terms, commands, and code elements
 - Avoid combining multiple formatting styles.
 
 #### Links
@@ -235,12 +311,15 @@ entity: my-team
 - Start with `/` for absolute paths
 - Omit leading `/` for relative paths.
 - Use backticks: `/home/user/project` or `data/dataset.csv`
+
 </formatting_standards>
 
 <common_patterns>
 ### Common documentation patterns
 
 #### Prerequisites sections
+**Common heading**: "Prerequisites" is the most common pattern in existing docs, though "Requirements", "Getting started", and "Before you begin" also appear.
+
 ```markdown
 ## Prerequisites
 
@@ -252,7 +331,7 @@ Before you begin, ensure you have:
 
 #### Step-by-step instructions
 ```markdown
-## Getting started
+## Get started
 
 Follow these steps to set up W&B:
 
@@ -288,21 +367,23 @@ Follow these steps to set up W&B:
 2. Check your internet connection.
 3. Ensure your firewall allows HTTPS traffic to api.wandb.ai.
 ```
+
 </common_patterns>
 
 <writing_tips>
 ### Writing tips for AI agents
 
-1. **Check surrounding content first** - Match the style of nearby content
-2. **Be consistent within a page** - Don't switch styles mid-document
-3. **Avoid over-formatting** - Clean, simple formatting is best
-4. **Think about scanning** - Users scan documentation, make it easy with clear headings and lists
-5. **Include examples** - Show, don't just tell
-6. **Test your instructions** - Can someone follow them without additional context?
-7. **Review for accessibility** - Would this work for non-native English speakers?
-8. **Keep sentences short** - Aim for 20 words or less when possible
-9. **One idea per paragraph** - Don't pack too much into a single paragraph
-10. **Use transition words** - Help readers follow your logic with words like "First", "Next", "However"
+1. **Check surrounding content first**: Match the style of nearby content.
+2. **Be consistent within a page**: Don't switch styles mid-document.
+3. **Avoid over-formatting**: Clean, simple formatting is best.
+4. **Think about scanning**: Users scan documentation, make it easy with clear headings and lists.
+5. **Include examples**: Show, don't just tell.
+6. **Test your instructions**: Can someone follow them without additional context?
+7. **Review for accessibility**: Would this work for non-native English speakers?
+8. **Keep sentences short**: Aim for 20 words or less when possible.
+9. **One idea per paragraph**: Don't pack too much into a single paragraph.
+10. **Use transition words**: Help readers follow your logic with words like "First", "Next", "However".
+
 </writing_tips>
 
 ## Important reminders
@@ -310,7 +391,8 @@ Follow these steps to set up W&B:
 <reminders>
 - This style guide supplements but doesn't replace the main rules in `rules.md`
 - When in doubt, consistency trumps perfection.
-- Style changes should be separate from content changes.
-- Always prioritize clarity and user success over strict style adherence.
+- In general, separate style changes from content changes.
+- Prioritize technical accuracy, clarity, and user success over strict style adherence.
 - Check existing content for established patterns before creating new ones.
+
 </reminders>

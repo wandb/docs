@@ -2,6 +2,8 @@
 
 This directory contains Cursor-specific prompts and configurations for AI agents working with the W&B documentation repository. These prompts are optimized for use with Cursor while maintaining human readability.
 
+> **Note**: The format used here (Markdown with XML-like tags) is based on community best practices. Cursor has not published an official specification for `.cursor/` directory contents at the time of writing.
+
 ## Directory structure
 
 ### Core configuration files
@@ -38,14 +40,38 @@ Task-specific prompts for complex operations:
 ## How to use these prompts
 
 ### For Cursor users
-1. Cursor automatically detects and loads these configuration files
-2. The AI assistant follows the rules and guidelines defined here
-3. No manual configuration needed - just start working
+1. Cursor detects that `.cursor/` files exist but does NOT automatically load their contents.
+2. You still need to prompt the agent to read these files.
+3. Use the example prompts below to direct your agent to these guidelines.
 
 ### For other AI tools
-1. Provide relevant files as context when starting a session
-2. Reference specific sections when needed
-3. The structured format with XML-like tags aids parsing
+1. Provide relevant files as context when starting a session.
+2. Reference specific sections when needed.
+3. The structured format with XML-like tags aids parsing.
+
+### Example prompts to direct your agent
+
+Since agents don't automatically load file contents (even in Cursor), use these prompts to ensure they follow the guidelines:
+
+**Before starting work:**
+```
+Please read .cursor/rules.md and .cursor/style.md to understand the project conventions, then help me with my task.
+```
+
+**When reviewing changes:**
+```
+Review your proposed changes against .cursor/style.md and make any necessary adjustments to match the style guidelines.
+```
+
+**For specific tasks:**
+```
+Check .cursor/runbooks/ for any relevant runbooks before proceeding with [task description].
+```
+
+**To ensure consistency:**
+```
+Before editing [filename], use grep to check how similar concepts are documented in this directory, then match that style.
+```
 
 ## Key differences from `.ai/` directory
 
@@ -65,16 +91,16 @@ Task-specific prompts for complex operations:
 - When new runbooks are needed
 
 ### How to update
-1. Maintain the structured format with clear sections
-2. Keep XML-like tags for major sections
-3. Ensure human readability alongside AI optimization
-4. Test changes with actual documentation tasks
+1. Maintain the structured format with clear sections.
+2. Keep XML-like tags for major sections.
+3. Ensure human readability alongside AI optimization.
+4. Test changes with actual documentation tasks.
 
 ### Creating new runbooks
 1. Copy the template from `runbooks/TEMPLATE.md`
-2. Fill in all sections with specific details
-3. Include all gotchas and edge cases discovered
-4. Test with an AI agent before finalizing
+2. Fill in all sections with specific details.
+3. Include all gotchas and edge cases discovered.
+4. Test with an AI agent before finalizing.
 
 ## Security notes
 
@@ -91,7 +117,7 @@ Task-specific prompts for complex operations:
 ## Contributing
 
 When updating these configurations:
-1. Ensure consistency with existing patterns
-2. Test changes with real documentation tasks
-3. Keep both human and AI usability in mind
-4. Update both `.cursor/` and `.ai/` directories if applicable
+1. Ensure consistency with existing patterns.
+2. Test changes with real documentation tasks.
+3. Keep both human and AI usability in mind.
+4. Update both `.cursor/` and `.ai/` directories if applicable.
