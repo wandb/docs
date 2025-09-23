@@ -48,7 +48,7 @@ registry = wandb.Api().create_registry(
 
 See the  [`wandb.Api().create_registry()`]({{< relref "/ref/python/public-api/Api/#method-apicreate_registry" >}}) method reference for a full list of parameters that you can provide when you create a custom registry.
 
-{{% /tab%}}
+{{% /tab %}}
 {{< /tabpane >}}
 
 {{% alert %}}
