@@ -163,8 +163,8 @@ def train(
         print("Validation acc: %.4f" % (float(val_acc),))
 
         # Reset metrics at the end of each epoch
-        train_acc_metric.reset_states()
-        val_acc_metric.reset_states()
+        train_acc_metric.reset_state()
+        val_acc_metric.reset_state()
 
         # Log metrics using run.log()
         run.log(
@@ -186,7 +186,7 @@ def train(
 This lets us know you're launching an experiment,
 so we can give it a unique ID and a dashboard.
 
-[Check out the official documentation]({{< relref "/ref/python/sdk/functions/init" >}})
+[Check out the official documentation]({{< relref "/ref/python/functions/init" >}})
 
 ```python
 # initialize wandb with your project name and optionally with configuration.
