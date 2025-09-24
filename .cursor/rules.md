@@ -137,6 +137,7 @@ This approach ensures:
 7. **Let humans request reviews**. AI agents should not change a PR from a draft or merge PRs. The human working with the agent should verify that a PR is accurate, useful, and ready for review before requesting review.
 8. **Let humans merge PRs**. AI agents should not merge a PR or enable auto-merge. The human working with the agent should verify that a PR has had adequate review and is published at an appropriate time.
 
+
 </collaboration_rules>
 
 ## Security guidelines

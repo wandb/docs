@@ -239,7 +239,7 @@ grep "W&B [A-Z]" file.md        # How are product names capitalized?
 
 ### Adding a new feature
 
-1. Propose whether it fits in existing docs or needs new page (humans should validate this architectural decision with full context).
+1. Propose whether it fits in existing docs or needs new page (humans should validate this architectural decision with full context before creating a draft PR).
 2. Follow the quickstart → how-to → reference progression.
 3. Include practical example using the feature.
 4. Add to relevant index/navigation pages.
