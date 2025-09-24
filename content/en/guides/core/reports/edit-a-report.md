@@ -126,6 +126,10 @@ report.blocks = [panel_grids]
 report.save()
 ```
 
+{{% /tab %}}
+{{< /tabpane >}}
+
+## Add run sets and panels
 You can optionally add runsets and panels with one call to the SDK:
 
 ```python
@@ -186,10 +190,6 @@ panel_grids = wr.PanelGrid(
 report.blocks = [panel_grids]
 report.save()
 ``` 
-
-{{% /tab %}}
-{{< /tabpane >}}
-
 
 ## Freeze a run set
 
