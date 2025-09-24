@@ -8,7 +8,7 @@ support:
   - runs
 ---
 
-To disable logging of [system metrics]({{< relref "/ref/system-metrics.md" >}}), set `_disable_stats` to `True`:
+To disable logging of [system metrics]({{< relref "/ref/python/experiments/system-metrics.md" >}}), set `_disable_stats` to `True`:
 
 ```python
 wandb.init(settings=wandb.Settings(x_disable_stats=True))
