@@ -91,59 +91,10 @@
 
 
 {{- if not hugo.IsProduction -}}
-<!-- Analytics for Development/Staging/Preview - NO CONSENT PROMPTS -->
+<!-- No analytics in development/staging/preview environments -->
+<!-- This keeps development clean without any tracking or consent popups -->
 <script type="text/javascript">
-  // For non-production environments (localhost, CloudFlare previews, etc.)
-  // we load Segment analytics directly without consent management to avoid annoying popups during development
-  // Note: Microsoft Clarity is production-only
-  
-  // Load Segment Analytics  
-  !function(){
-    var analytics = window.analytics = window.analytics || [];
-    if (!analytics.initialize)
-      if (analytics.invoked)
-        window.console && console.error && console.error("Segment snippet included twice.");
-      else {
-        analytics.invoked = !0;
-        analytics.methods = [
-          "trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify",
-          "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on",
-          "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"
-        ];
-        analytics.factory = function(method){
-          return function(){
-            if (window.analytics.initialized) return window.analytics[method].apply(window.analytics, arguments);
-            var args = Array.prototype.slice.call(arguments);
-            args.unshift(method);
-            analytics.push(args);
-            return analytics;
-          }
-        };
-        for (var i = 0; i < analytics.methods.length; i++) {
-          var key = analytics.methods[i];
-          analytics[key] = analytics.factory(key);
-        }
-        analytics.load = function(writeKey, options){
-          var script = document.createElement("script");
-          script.type = "text/javascript";
-          script.async = true;
-          script.src = "https://wandb.ai/sa-docs.min.js"; // <-- Your self-hosted Segment build
-          var first = document.getElementsByTagName("script")[0];
-          first.parentNode.insertBefore(script, first);
-          analytics._loadOptions = options;
-        };
-        analytics._writeKey = "2r0Di0ymuP5ugdT6SM64JqH7T3zUXTDa"; // <-- Your real write key
-        analytics.SNIPPET_VERSION = "4.16.1";
-        analytics.load("2r0Di0ymuP5ugdT6SM64JqH7T3zUXTDa");
-
-        // 🚀 Fire analytics.page() when ready
-        analytics.ready(function() {
-          analytics.page();
-        });
-      }
-  }();
-  
-  console.log("📊 Segment Analytics loaded for development environment (no consent prompts, no Clarity)");
+  console.log("🚫 Development mode: No analytics loaded (no consent popups, no tracking)");
 </script>
 {{- else -}}
 <!-- Segment & Onetrust: Production -->
