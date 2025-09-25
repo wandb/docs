@@ -13,21 +13,28 @@ weight: 20
 W&B Report and Workspace API is in Public Preview.
 {{% /alert %}}
 
-Edit a report interactively with the App UI or programmatically with the W&B SDK.
-
 Reports consist of _blocks_. Blocks make up the body of a report. Within these blocks you can add text, images, embedded visualizations, plots from experiments and run, and panels grids.
 
 _Panel grids_ are a specific type of block that hold panels and _run sets_. Run sets are a collection of runs logged to a project in W&B. Panels are visualizations of run set data.
 
 
-{{% alert %}}
-Check out the [Programmatic workspaces tutorial]({{< relref "/tutorials/workspaces.md" >}}) for a step by step example on how create and customize a saved workspace view.
-{{% /alert %}}
+Edit a report interactively with the W&B App or programmatically with the W&B Python SDK.
 
-{{% alert %}}
-Verify that you have the W&B Report and Workspace API `wandb-workspaces` installed in addition to the W&B Python SDK if you want to programmatically edit a report:
+<!-- {{% alert %}}
+Check out the [Programmatic workspaces tutorial]({{< relref "/tutorials/workspaces.md" >}}) for a step by step example on how create and customize a saved workspace view.
+{{% /alert %}} -->
+
+{{% alert title="Programmatic editing requirements" %}}
+
+To programmatically edit a report, you need to install the W&B Report and Workspace API `wandb-workspaces` in addition to the W&B Python SDK (`wandb`):
 
 {{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
+
+Within your Python script or notebook, import both the W&B Python SDK (`wandb`) and the `wandb_workspaces.reports.v2` module to access the Report and Workspace API:
+
+{{< code language="python" source="/bluehawk/snippets/import_wandb.snippet.import_wandb_and_workspaces.py" >}}
+
+Throughtout this guide, code snippets that demonstrate how to programmatically edit a report are prefixed with `wr.` to indicate they are part of the Report and Workspace API.
 
 {{% /alert %}}
 
@@ -47,32 +54,9 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. Select **A
 Add plots to a report programmatically with the SDK. Pass a list of one or more plot or chart objects to the `panels` parameter in the `PanelGrid` Public API Class. Create a plot or chart object with its associated Python Class.
 
 
-The proceeding examples demonstrates how to create a line plot and scatter plot.
+The following examples demonstrates how to create a line plot and scatter plot.
 
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
-
-report = wr.Report(
-    project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
-)
-
-blocks = [
-    wr.PanelGrid(
-        panels=[
-            wr.LinePlot(x="time", y="velocity"),
-            wr.ScatterPlot(x="time", y="acceleration"),
-        ]
-    )
-]
-
-report.blocks = blocks
-report.save()
-```
-
-For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.add-plots.py" >}}
 
 {{% /tab %}}
 {{< /tabpane >}}
@@ -101,30 +85,15 @@ If you import a panel into a report, run names are inherited from the project. I
 
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
 
-Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The proceeding procedure describes how to add a runset:
+Add run sets from projects with the `wr.Runset()` and `wr.PanelGrid` Classes. The following procedure describes how to add a runset:
 
 1. Create a `wr.Runset()` object instance. Provide the name of the project that contains the run sets for the project parameter and the entity that owns the project for the entity parameter.
 2. Create a `wr.PanelGrid()` object instance. Pass a list of one or more runset objects to the `run sets` parameter.
 3. Store one or more `wr.PanelGrid()` object instances in a list.
 4. Update the report instance blocks attribute with the list of panel grid instances.
 
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
 
-report = wr.Report(
-    project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
-)
-
-panel_grids = wr.PanelGrid(
-    runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")]
-)
-
-report.blocks = [panel_grids]
-report.save()
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.add-runset-no-panels.py" >}}
 
 {{% /tab %}}
 {{< /tabpane >}}
@@ -132,64 +101,7 @@ report.save()
 ## Add run sets and panels
 You can optionally add runsets and panels with one call to the SDK:
 
-```python
-import wandb
-
-report = wr.Report(
-    project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
-)
-
-panel_grids = wr.PanelGrid(
-    panels=[
-        wr.LinePlot(
-            title="line title",
-            x="x",
-            y=["y"],
-            range_x=[0, 100],
-            range_y=[0, 100],
-            log_x=True,
-            log_y=True,
-            title_x="x axis title",
-            title_y="y axis title",
-            ignore_outliers=True,
-            groupby="hyperparam1",
-            groupby_aggfunc="mean",
-            groupby_rangefunc="minmax",
-            smoothing_factor=0.5,
-            smoothing_type="gaussian",
-            smoothing_show_original=True,
-            max_runs_to_show=10,
-            plot_type="stacked-area",
-            font_size="large",
-            legend_position="west",
-        ),
-        wr.ScatterPlot(
-            title="scatter title",
-            x="y",
-            y="y",
-            # z='x',
-            range_x=[0, 0.0005],
-            range_y=[0, 0.0005],
-            # range_z=[0,1],
-            log_x=False,
-            log_y=False,
-            # log_z=True,
-            running_ymin=True,
-            running_ymean=True,
-            running_ymax=True,
-            font_size="small",
-            regression=True,
-        ),
-    ],
-    runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
-)
-
-
-report.blocks = [panel_grids]
-report.save()
-``` 
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.add-runsets-and-panels.py" >}}
 
 ## Freeze a run set
 
@@ -227,7 +139,8 @@ For example, the following code snippet first initializes a run with a config va
 
 
 
-Within your Python script or notebook, you can then group runs by the `config.group` value:
+You can then group runs by the `config.group` value:
+
 
 ```python
 runset = wr.Runset(
@@ -337,7 +250,7 @@ with wandb.init(project="<project>", entity="<entity>", config=config) as run:
     pass
 ```
 
-Within your Python script or notebook, you can then programmatically filter runs that have a learning rate greater than `0.01`.
+The following code snippet shows how to filter runs based on learning rates greater than `0.01`:
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -349,7 +262,7 @@ runset = wr.Runset(
 )
 ```
 
-You can also filter by multiple config values with the `and` operator:
+The following code snippet shows how to filter runs based on a single config value that have a learning rate greater than `0.01`and a batch size equal to `32`:
  
 ```python
 runset = wr.Runset(
@@ -359,24 +272,17 @@ runset = wr.Runset(
 )
 ```
 
-Continuing from the previous example, you can create a report with the filtered runset as follows:
+Once you have defined your filtered run set, you can create a report and pass the filtered run set to `wr.PanelGrid(runsets=)`:
 
 ```python
 report = wr.Report(
   entity="<entity>",
   project="<project>",
-  title="My Report"
 )
 
 report.blocks = [
   wr.PanelGrid(
-      runsets=[runset],
-      panels=[
-          wr.LinePlot(
-              x="Step",
-              y=["accuracy"],
-          )
-      ]
+      runsets=[runset]
   )
 ]
 
@@ -489,7 +395,7 @@ Select the name of the programming language on the right hand of the code block.
 
 Use the `wr.CodeBlock` Class to create a code block programmatically. Provide the name of the language and the code you want to display for the language and code parameters, respectively.
 
-For example the proceeding example demonstrates a list in YAML file:
+For example the following example demonstrates a list in YAML file:
 
 ```python
 import wandb
@@ -517,7 +423,7 @@ cool:
 - file
 ```
 
-The proceeding example demonstrates a Python code block:
+The following example demonstrates a Python code block:
 
 ```python
 report = wr.Report(project="report-editing")
@@ -553,16 +459,9 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 
 Use the `wandb.apis.reports.MarkdownBlock` Class to create a markdown block programmatically. Pass a string to the `text` parameter:
 
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.add-markdown.py" >}}
 
-report = wr.Report(project="report-editing")
-
-report.blocks = [
-    wr.MarkdownBlock(text="Markdown cell with *italics* and **bold** and $e=mc^2$")
-]
-```
+<br>
 
 This will render a markdown block similar to:
 
@@ -586,22 +485,10 @@ Enter a forward slash (`/`) in the report to display a dropdown menu. From the d
 
 {{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to create an H1, H2, and an unordered list:
+Pass a list of one or more HTML elements to `wandb.apis.reports.blocks` attribute. The following example demonstrates how to create an H1, H2, and an unordered list:
 
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.add-html.py" >}}
 
-report = wr.Report(project="report-editing")
-
-report.blocks = [
-    wr.H1(text="How Programmatic Reports work"),
-    wr.H2(text="Heading 2"),
-    wr.UnorderedList(items=["Bullet 1", "Bullet 2"]),
-]
-
-report.save()
-```
 
 This will render a HTML elements  to the following:
 
@@ -643,7 +530,7 @@ Copy and paste a SoundCloud link to embed an audio file into a report.
 
 {{% tab header="Report and Workspace API" value="python_wr_api" %}}
 
-Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The proceeding example demonstrates how to embed video and Twitter media into a report:
+Pass a list of one or more embedded media objects to the `wandb.apis.reports.blocks` attribute. The following example demonstrates how to embed video and Twitter media into a report:
 
 ```python
 import wandb
@@ -678,7 +565,7 @@ Select a panel grid and press `delete` on your keyboard to delete a panel grid.
 
 ## Collapse headers to organize Reports
 
-Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The proceeding gif demonstrates the process.
+Collapse headers in a Report to hide content within a text block. When the report is loaded, only headers that are expanded will show content. Collapsing headers in reports can help organize your content and prevent excessive data loading. The following gif demonstrates the process.
 
 {{< img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report." >}}
 

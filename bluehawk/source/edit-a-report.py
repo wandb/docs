@@ -10,7 +10,7 @@ import wandb_workspaces.reports.v2 as wr
 # :snippet-start: add-plots
 report = wr.Report(
     project = "<project>",
-    title="An amazing title",
+    title="<title>",
     description="A descriptive description.",
 )
 
@@ -105,7 +105,7 @@ report.blocks = [blocks]
 report.save()
 # :snippet-end: add-runsets-and-panels
 
-# snippet-start: group-runs-by-config
+# :snippet-start: group-runs-config
 entity = "<entity>"
 project = "<project>"
 
@@ -138,9 +138,9 @@ report.blocks = [
       ]
 
 report.save()
-# snippet-end: group-runs-by-config
+# :snippet-end: group-runs-config
 
-# snippet-start: group-runs-by-metadata
+# :snippet-start: group-runs-metadata
 entity = "<entity>"
 project = "<project>"
 
@@ -162,9 +162,9 @@ report.blocks = [
           )
       ]
 report.save()
-# snippet-end: group-runs-by-metadata
+# :snippet-end: group-runs-metadata
 
-# snippet-start: group-runs-by-summary-metrics
+# :snippet-start: group-runs-summary-metrics
 entity = "<entity>"
 project = "<project>"
 
@@ -197,10 +197,10 @@ report.blocks = [
       ]
 
 report.save()
-# snippet-end: group-runs-by-summary-metrics
+# :snippet-end: group-runs-summary-metrics
 
 
-#snippet-start: config-filters
+# :snippet-start: config-filters
 config = {
     "learning_rate": 0.01,
     "batch_size": 32,
@@ -210,42 +210,41 @@ with wandb.init(project="<project>", entity="<entity>", config=config) as run:
     # Your training code here
     pass
 
+# :snippet-end: config-filters
+
+# :snippet-start: config-filters-1
 runset = wr.Runset(
   entity="<entity>",
   project="<project>",
   filters="Config('learning_rate') > 0.01"
 )
+# :snippet-end: config-filters-1
 
+# :snippet-start: config-filters-2
 runset = wr.Runset(
   entity="<entity>",
   project="<project>",
   filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
 )
+# :snippet-end: config-filters-2
 
+# :snippet-start: config-filters-3
 report = wr.Report(
   entity="<entity>",
   project="<project>",
-  title="My Report"
 )
 
 report.blocks = [
   wr.PanelGrid(
-      runsets=[runset],
-      panels=[
-          wr.LinePlot(
-              x="Step",
-              y=["accuracy"],
-          )
-      ]
+      runsets=[runset]
   )
 ]
 
 report.save()
+# :snippet-end: config-filters-3
 
-#snippet-end: config-filters
 
-
-#snippet-start: metric-filters
+# :snippet-start: metric-filters
 with wandb.init(project="<project>", entity="<entity>") as run:
     for i in range(3):
         run.name = f"run{i+1}"
@@ -270,9 +269,9 @@ runset = wr.Runset(
   project="<project>",
   filters="Metric('state') not in ['crashed']"
 )
-#snippet-end: metric-filters
+# :snippet-end: metric-filters
 
-#snippet-start: summary-metric-filters
+# :snippet-start: summary-metric-filters
 runset = wr.Runset(
   entity="<entity>",
   project="<project>",
@@ -284,7 +283,7 @@ runset = wr.Runset(
   project="<project>",
   filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
 )
-#snippet-end: summary-metric-filters
+# :snippet-end: summary-metric-filters
 
 # :snippet-start: tag-filters
 runset = wr.Runset(
