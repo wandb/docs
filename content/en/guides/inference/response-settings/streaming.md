@@ -2,7 +2,7 @@
 description: >-
   How to use streaming output with W&B Inference.
 displayed_sidebar: default
-title: "Streaming responses"
+title: "Enable streaming responses"
 weight: 1
 ---
 

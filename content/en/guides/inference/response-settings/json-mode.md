@@ -2,16 +2,14 @@
 description: >-
   How to use JSON mode with W&B Inference.
 displayed_sidebar: default
-title: "JSON mode"
+title: "Enable JSON mode"
 weight: 3
 ---
 
-When you enable JSON mode as part of a request, models with that feature
-will output valid JSON. However, the JSON may not necessarily adhere to a
-particular schema. This is the difference between JSON mode and [Structured Output](../structured-output).
-We recommend using Structured Output instead of JSON mode when possible.
 
-To enable JSON mode, specify it as the "response_format" in the request.
+Enabling JSON mode instructs the model to return the response in a valid JSON format. However, the reponse's schema may not be consistent or adhere to a particular structure. For consistent structured JSON responses, we recommend using [ structured output](../structured-output) when possible.
+
+To enable JSON mode, specify it as the "response_format" in the request:
 
 {{< tabpane text=true >}}
 

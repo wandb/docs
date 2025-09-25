@@ -1,16 +1,14 @@
 ---
 description: >-
-  How to use Structured Output with W&B Inference.
+  How to configure structured output in W&B Inference responses.
 displayed_sidebar: default
-title: "Structured output"
+title: "Enable structured output"
 weight: 4
 ---
 
-Structured Output is similar to [JSON mode](../json-mode) but provides the added benefit
-of ensuring that the model's response adheres to the schema you specify.
-We recommend using Structured Output instead of JSON mode when possible.
+Structured Output is similar to [JSON mode](../json-mode) but provides the added benefit of ensuring that the model's response adheres to the schema you specify. We recommend using structured output instead of JSON mode when possible.
 
-To enable Structured Output, specify "json_schema" as the "response_format" type in the request.
+To enable structured output, specify `json_schema` as the `response_format` type in the request:
 
 {{< tabpane text=true >}}
 

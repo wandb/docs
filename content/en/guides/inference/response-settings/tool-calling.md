@@ -2,13 +2,13 @@
 description: >-
   How to use Tool Calling with W&B Inference.
 displayed_sidebar: default
-title: "Tool calling"
+title: "Use tool calling"
 weight: 5
 ---
 
-Tool Calling allows you to extend a model's capabilities to include invoking tools as part of its response. The only kind of Tool Calling currently supported within W&B Inference is Function Calling.
+Tool calling allows you to extend a model's capabilities to include invoking tools as part of its response. W&B Inference only supports calling functions at this time. 
 
-With Function Calling, you specify available functions and their arguments as part of your request to the model. The model will determine if the request should be fulfilled by running that function, and what the argument values should be.
+To call functions, specify them and their arguments as part of your request to the model. The model determines whether it needs to run the function to fulfill a request, and then specifies the function's argument values if needed.
 
 
 {{< tabpane text=true >}}

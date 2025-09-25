@@ -1,17 +1,16 @@
 ---
 description: >-
-  How to use Reasoning with W&B Inference.
+  How to return and view reasoning in your W&B Inference responses.
 displayed_sidebar: default
-title: "Reasoning"
+title: "View reasoning information"
 weight: 2
 ---
 
-Reasoning models like OpenAI GPT OSS 20B will include information about their reasoning steps as part of the output
-returned in addition to the final answer. This is automatic; no additional input parameters are needed.
+Reasoning models, like [OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b), include information about their reasoning steps as part of the output returned in addition to the final answer. This is automatic and no additional input parameters are needed.
 
-The "Supported Features" section of each model's catalog page in the UI will indicate whether reasoning is supported for that model.
+You can determine whether a model supports reasoning or not by checking the Supported Features sections of its catalog page in the UI.
 
-The additional information will be in a `reasoning_content` field. This field is not present in the outputs of other models.
+You can find reasoning information in the a `reasoning_content` field of responses. This field is not present in the outputs of other models.
 
 {{< tabpane text=true >}}
 
