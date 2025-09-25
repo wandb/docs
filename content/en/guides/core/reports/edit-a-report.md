@@ -141,32 +141,8 @@ For example, the following code snippet first initializes a run with a config va
 
 You can then group runs by the `config.group` value:
 
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.group-runs-config.py" >}}
 
-```python
-runset = wr.Runset(
-  project=project,
-  entity=entity,
-  groupby=["config.group"]  # Group by the "group" config value
-)
-```
-
-Continuing from the previous example, you can create a report with the grouped run set:
-
-```python
-report = wr.Report(
-  entity=entity,
-  project=project,
-  title="Grouped Runs Example",
-)
-
-report.blocks = [
-  wr.PanelGrid(
-      runsets=[runset],
-          )
-      ]
-
-report.save()
-```
 
 ### Group runs by run metadata
 
@@ -174,13 +150,7 @@ Group runs by a run's name (`Name`), state (`State`), or job type (`JobType`).
 
 Continuing from the previous example, you can group your runs by their name with the following code snippet:
 
-```python
-runset = wr.Runset(
-  project=project,
-  entity=entity,
-  groupby=["Name"]  # Group by run names
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.group-runs-metadata.py" >}}
 
 {{% alert %}}
 The name of the run is the name you specify in the `wandb.init(name=)` parameter. If you do not specify a name, W&B generates a random name for the run.
@@ -200,13 +170,7 @@ For example, suppose you log a summary metric called `acc`:
 
 You can then group runs by the `summary.acc` summary metric:
 
-```python
-runset = wr.Runset(
-  project=project,
-  entity=entity,
-  groupby=["summary.acc"]  # Group by summary values 
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.group-runs-summary-metrics.py" >}}
 
 ## Filter a run set programmatically
 
@@ -237,57 +201,19 @@ Filter a runset by one or more config values. Config values are parameters you s
 
 For example, the following code snippet first initializes a run with a config value for `learning_rate` and `batch_size`, then filters runs in a report based on the `learning_rate` config value.
 
-```python
-import wandb
-
-config = {
-    "learning_rate": 0.01,
-    "batch_size": 32,
-}
-
-with wandb.init(project="<project>", entity="<entity>", config=config) as run:
-    # Your training code here
-    pass
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.config-filters-0.py" >}}
 
 The following code snippet shows how to filter runs based on learning rates greater than `0.01`:
 
-```python
-import wandb_workspaces.reports.v2 as wr
-
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Config('learning_rate') > 0.01"
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.config-filters-1.py" >}}
 
 The following code snippet shows how to filter runs based on a single config value that have a learning rate greater than `0.01`and a batch size equal to `32`:
- 
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Config('learning_rate') > 0.01 and Config('batch_size') == 32"
-)
-```
+
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.config-filters-2.py" >}} 
 
 Once you have defined your filtered run set, you can create a report and pass the filtered run set to `wr.PanelGrid(runsets=)`:
 
-```python
-report = wr.Report(
-  entity="<entity>",
-  project="<project>",
-)
-
-report.blocks = [
-  wr.PanelGrid(
-      runsets=[runset]
-  )
-]
-
-report.save()
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.config-filters-3.py" >}}
 
 ### Metric filters
 
@@ -301,82 +227,39 @@ Metric('key') operation [<value>]
 ```
 {{% /alert %}}
 
-For example, consider the following Python snippet that creates three runs and assigns each of them a name:
+Consider the following Python snippet that creates three runs and assigns each of them a name:
 
-```python
-import wandb
-
-with wandb.init(project="<project>", entity="<entity>") as run:
-    for i in range(3):
-        run.name = f"run{i+1}"
-        # Your training code here
-        pass
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.metric-filters-0.py" >}}
 
 When you create your report, you can filter runs by their display name. For example, to filter runs with names `run1`, `run2`, and `run3`, you can use the following code:
 
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Metric('displayName') in ['run1', 'run2', 'run3']"
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.metric-filters-1.py" >}}
+
 
 {{% alert %}}
 You can find the name of the run in the **Overview** page of a run in the W&B App or programmatically with `Api.runs().run.name`.
 {{% /alert %}}
 
-The following examples demonstrate how to filter a runset by the run's state (`finished`, `crashed`, or `running`):
+The following examples demonstrate how to filter a runset by the run's state (`finished`, `crashed`, or `running`). In the following example, we filter a run set to include only runs that have finished:
 
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Metric('state') in ['finished']"
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.metric-filters-2.py" >}}
 
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Metric('state') not in ['crashed']"
-)
-```
+The following example demonstrates how to filter a run set to exclude runs that have crashed:
+
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.metric-filters-3.py" >}}
 
 
 ### SummaryMetric filters
 
 The following examples demonstrate how to filter a run set by summary metrics. Summary metrics are the values you log to a run with `wandb.Run.log()`. After you log a run, you can find the names of your summary metrics in the W&B App under the **Summary** section of a run's **Overview** page.
 
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="SummaryMetric('accuracy') > 0.9"
-)
-```
-
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.summary-metric-filters.py" >}}
 
 ### Tags filters
 
 The following code snippet shows how to filter a runs set by its tags. Tags are values you add to a run (programmatically or with the W&B App).
 
-```python
-runset = wr.Runset(
-  entity="<entity>",
-  project="<project>",
-  filters="Tags('training') == 'training'"
-)
-```
+{{< code language="python" source="/bluehawk/snippets/edit-a-report.snippet.tag-filters.py" >}}
 
 ## Add code blocks
 
@@ -398,9 +281,6 @@ Use the `wr.CodeBlock` Class to create a code block programmatically. Provide th
 For example the following example demonstrates a list in YAML file:
 
 ```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
-
 report = wr.Report(project="report-editing")
 
 report.blocks = [

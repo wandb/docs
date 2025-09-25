@@ -105,7 +105,7 @@ report.blocks = [blocks]
 report.save()
 # :snippet-end: add-runsets-and-panels
 
-# :snippet-start: group-runs-config
+
 entity = "<entity>"
 project = "<project>"
 
@@ -119,52 +119,63 @@ for group in ["control", "experiment_a", "experiment_b"]:
                     "loss": 1.0 - (step / 100) * 0.5
                 })
 
+# :snippet-start: group-runs-config
+# Create a report that groups runs by a config value
 report = wr.Report(
   entity=entity,
   project=project,
   title="Grouped Runs Example",
 )
 
+# Create a runset that groups runs by the "group" config value
 runset = wr.Runset(
   project=project,
   entity=entity,
-  groupby=["config.group"]  # Group by the "group" config value
+  groupby=["config.group"] 
 )
-
+# Add the runset to a panel grid in the report
 report.blocks = [
   wr.PanelGrid(
       runsets=[runset],
           )
       ]
-
+# Save the report
 report.save()
 # :snippet-end: group-runs-config
 
-# :snippet-start: group-runs-metadata
+
+##### Group runs by run metadata #####
 entity = "<entity>"
 project = "<project>"
 
+# :snippet-start: group-runs-metadata
+# Create a report that groups runs by their metadata (e.g., run name)
 report = wr.Report(
   entity=entity,
   project=project,
   title="Grouped Runs by Metadata Example",
 )
 
+# Create a runset that groups runs by their name (metadata)
 runset = wr.Runset(
   project=project,
   entity=entity,
   groupby=["Name"]  # Group by run names
 )
 
+# Add the runset to a panel grid in the report
 report.blocks = [
   wr.PanelGrid(
       runsets=[runset],
           )
       ]
+# Save the report
 report.save()
 # :snippet-end: group-runs-metadata
+##### END #####
 
-# :snippet-start: group-runs-summary-metrics
+
+##### Group runs by summary metrics #####
 entity = "<entity>"
 project = "<project>"
 
@@ -178,29 +189,35 @@ for group in ["control", "experiment_a", "experiment_b"]:
                     "loss": 1.0 - (step / 100) * 0.5
                 })
 
+# :snippet-start: group-runs-summary-metrics
+# Create a report that groups runs by a summary metric
 report = wr.Report(
   entity=entity,
   project=project,
   title="Grouped Runs by Summary Metrics Example",
 )
 
+# Create a runset that groups runs by the "summary.acc" summary metric
 runset = wr.Runset(
   project=project,
   entity=entity,
   groupby=["summary.acc"]  # Group by summary values 
 )
 
+# Add the runset to a panel grid in the report
 report.blocks = [
   wr.PanelGrid(
       runsets=[runset],
           )
       ]
-
+# Save the report
 report.save()
 # :snippet-end: group-runs-summary-metrics
+##### END #####
 
 
-# :snippet-start: config-filters
+##### Config filters #####
+# :snippet-start: config-filters-0
 config = {
     "learning_rate": 0.01,
     "batch_size": 32,
@@ -210,7 +227,7 @@ with wandb.init(project="<project>", entity="<entity>", config=config) as run:
     # Your training code here
     pass
 
-# :snippet-end: config-filters
+# :snippet-end: config-filters-0
 
 # :snippet-start: config-filters-1
 runset = wr.Runset(
@@ -242,35 +259,44 @@ report.blocks = [
 
 report.save()
 # :snippet-end: config-filters-3
+##### END #####
 
 
-# :snippet-start: metric-filters
+##### Metric filters #####
+# :snippet-start: metric-filters-0
 with wandb.init(project="<project>", entity="<entity>") as run:
     for i in range(3):
         run.name = f"run{i+1}"
         # Your training code here
         pass
+# :snippet-end: metric-filters-0
 
+# :snippet-start: metric-filters-1
 runset = wr.Runset(
   entity="<entity>",
   project="<project>",
   filters="Metric('displayName') in ['run1', 'run2', 'run3']"
 )
+# :snippet-end: metric-filters-1
 
-
+# :snippet-start: metric-filters-2
 runset = wr.Runset(
   entity="<entity>",
   project="<project>",
   filters="Metric('state') in ['finished']"
 )
+# :snippet-end: metric-filters-2
 
+# :snippet-start: metric-filters-3
 runset = wr.Runset(
   entity="<entity>",
   project="<project>",
   filters="Metric('state') not in ['crashed']"
 )
-# :snippet-end: metric-filters
+# :snippet-end: metric-filters-3
+##### END #####
 
+##### Summary metric filters #####
 # :snippet-start: summary-metric-filters
 runset = wr.Runset(
   entity="<entity>",
@@ -284,6 +310,7 @@ runset = wr.Runset(
   filters="Metric('state') in ['finished'] and SummaryMetric('train/train_loss') < 0.5"
 )
 # :snippet-end: summary-metric-filters
+##### END #####
 
 # :snippet-start: tag-filters
 runset = wr.Runset(
