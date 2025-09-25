@@ -94,15 +94,9 @@
 <!-- Analytics for Development/Staging/Preview - NO CONSENT PROMPTS -->
 <script type="text/javascript">
   // For non-production environments (localhost, CloudFlare previews, etc.)
-  // we load analytics directly without consent management to avoid annoying popups during development
+  // we load Segment analytics directly without consent management to avoid annoying popups during development
+  // Note: Microsoft Clarity is production-only
   
-  // Load Microsoft Clarity Analytics
-  (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "a6rlxhvc58");
-
   // Load Segment Analytics  
   !function(){
     var analytics = window.analytics = window.analytics || [];
@@ -149,7 +143,7 @@
       }
   }();
   
-  console.log("📊 Analytics loaded for development environment (no consent prompts)");
+  console.log("📊 Segment Analytics loaded for development environment (no consent prompts, no Clarity)");
 </script>
 {{- else -}}
 <!-- Segment & Onetrust: Production -->
