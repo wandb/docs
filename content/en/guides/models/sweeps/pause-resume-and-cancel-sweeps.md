@@ -55,7 +55,7 @@ For a full list of CLI command options, see the [wandb sweep]({{< relref "/ref/c
 
 ## Understanding sweep and run statuses
 
-A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combinations. Understanding how sweep status and run status interact is crucial for effectively managing your hyperparameter optimization.
+A sweep orchestrates multiple runs to explore hyperparameter combinations. Understanding how sweep status and run status interact is crucial for effectively managing your hyperparameter optimization.
 
 ### Key differences
 
