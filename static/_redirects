@@ -465,5 +465,5 @@
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
 /ref/python/sdk/* /ref/python/:splat 301
 /ref/python/wandb_workspaces/* /ref/wandb_workspaces/:splat 301
-/guides/app/features/runs-table* /guides/tables/ 301
-/ref/python/ini* /ref/python/functions/init/ 301
+/guides/app/features/runs-table* /guides/tables/:splat 301
+/ref/python/ini* /ref/python/functions/init/:splat 301
