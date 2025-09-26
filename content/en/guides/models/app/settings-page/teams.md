@@ -47,7 +47,7 @@ Team admins can open the team settings page and click the delete button next to 
 
 ### Avatar
 
-Set an avatar by navigating to the **Avatar** section and uploading an image.
+To set an avatar for your team:
 
 1. Navigate to the **Teams** section in the left-menu and click the team you want to add an avatar for. This opens the team's overview page.
 2. Hover over the team's default avatar image in the upper-left corner of the page and click the **Upload photo** button. This opens a file prompt.
