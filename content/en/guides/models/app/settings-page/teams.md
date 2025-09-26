@@ -65,7 +65,7 @@ For more information about how to set up and manage alerts, see [Send alerts wit
 
 ### Slack notifications
 
-Configure Slack destinations where your team's [automations]({{< relref "/guides/core/automations/" >}}) can send notifications when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}).
+Configure Slack destinations where your team's [automations]({{< relref "/guides/core/automations/" >}}) can send notifications when an event occurs in a registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}).
 
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-only.md" >}}
