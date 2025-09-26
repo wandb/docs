@@ -17,7 +17,7 @@ Use the [W&B CLI]({{< relref "/ref/cli/wandb-sweep.md" >}}) to pause, resume, an
 
 In each case, provide the sweep ID that was generated when you initialized a sweep. Optionally open a new terminal window to execute the proceeding commands. A new terminal window makes it easier to execute a command if a sweep is printing output statements to your current terminal window.
 
-Use the following guidance to pause, resume, and cancel a sweep.
+Use the following guidance to pause, resume, and cancel a sweep. In each case, provide the sweep ID that was generated when you initialized a sweep.
 
 ### Pause a sweep
 
