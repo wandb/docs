@@ -169,7 +169,7 @@ def train_model(
     test_dataloader_path: components.InputPath("dataloader"),
     model_path: components.OutputPath("pytorch_model"),
 ):
-with wandb.init() as run:
+   with wandb.init() as run:
     ...
     for epoch in epochs:
         for batch_idx, (data, target) in enumerate(train_dataloader):
