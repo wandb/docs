@@ -87,12 +87,6 @@ A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combination
 - Use stop for graceful termination when you've found satisfactory hyperparameters
 - Reserve cancel for emergencies when runs are consuming excessive resources or producing errors
 
-## Manage a sweep across multiple agents
-
-Manage a sweep across multiple agents from a single terminal. For example, suppose you have a multi-core machine. After you initialize a sweep, you open new terminal windows and copy the sweep ID to each new terminal.
-
-Within any terminal, use the [`wandb sweep`]({{< relref "/ref/cli/wandb-sweep.md" >}}) CLI command to manage the sweep. For example, the proceeding code snippet demonstrates how to pause a sweep across multiple agents with the CLI:
-
 ```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
