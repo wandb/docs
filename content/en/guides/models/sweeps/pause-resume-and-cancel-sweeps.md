@@ -67,7 +67,6 @@ A sweep orchestrates multiple runs to explore hyperparameter combinations. Under
 - Monitor individual run statuses to identify systematic failures
 - Use `--stop` for graceful termination when you've found satisfactory hyperparameters
 - Reserve `--cancel` for emergencies when runs are consuming excessive resources or producing errors
-Specify the `--resume` flag along with the sweep ID to resume the sweep across your agents:
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
