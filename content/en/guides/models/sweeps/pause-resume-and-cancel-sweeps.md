@@ -63,15 +63,6 @@ A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combination
 - **Run status** reflects the execution state of individual runs (Pending, Running, Finished, Failed, Crashed, Killed)
 - Sweep commands affect run generation, not run execution (except cancel)
 
-### How commands affect existing runs
-
-| Command | Sweep Status Change | New Runs | Existing Runs |
-|---------|-------------------|----------|---------------|
-| `--pause` | → Paused | Stops creating | Continue normally |
-| `--resume` | Paused → Running | Resumes creating | No effect |
-| `--stop` | → Stopped | Stops creating | Continue to completion |
-| `--cancel` | → Cancelled | Stops creating | Immediately killed |
-
 ### Best practices
 
 - Use `--pause` instead of cancel when you want to temporarily halt exploration without losing running experiments
