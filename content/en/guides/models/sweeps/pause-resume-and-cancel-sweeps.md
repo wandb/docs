@@ -82,10 +82,10 @@ A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combination
 
 ### Best practices
 
-- Use pause instead of cancel when you want to temporarily halt exploration without losing running experiments
+- Use `--pause` instead of cancel when you want to temporarily halt exploration without losing running experiments
 - Monitor individual run statuses to identify systematic failures
-- Use stop for graceful termination when you've found satisfactory hyperparameters
-- Reserve cancel for emergencies when runs are consuming excessive resources or producing errors
+- Use `--stop` for graceful termination when you've found satisfactory hyperparameters
+- Reserve `--cancel` for emergencies when runs are consuming excessive resources or producing errors
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
