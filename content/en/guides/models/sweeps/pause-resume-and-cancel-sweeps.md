@@ -68,8 +68,4 @@ A sweep orchestrates multiple runs to explore hyperparameter combinations. Under
 - Use `--stop` for graceful termination when you've found satisfactory hyperparameters
 - Reserve `--cancel` for emergencies when runs are consuming excessive resources or producing errors
 
-```bash
-wandb sweep --resume entity/project/sweep_ID
-```
-
 For more information on how to parallelize agents, see [Parallelize agents]({{< relref "./parallelize-agents.md" >}}).
