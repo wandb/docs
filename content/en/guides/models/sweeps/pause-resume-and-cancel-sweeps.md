@@ -8,7 +8,7 @@ title: Manage a W&B Sweep with the CLI
 weight: 8
 ---
 
-Pause, resume, and cancel a W&B Sweep with the CLI. These commands control the sweep's ability to create new W&B Runs, with different effects on existing runs:
+Use the [W&B CLI]({{< relref "/ref/cli/wandb-sweep.md" >}}) to pause, resume, and cancel a sweep. The CLI's `sweep` command uses flags such as `--pause` and `--resume` to control the sweep's ability to create new W&B runs, with different effects on existing runs:
 
 - **Pause**: When you pause a sweep, the agent creates no new runs until you resume the sweep. Existing runs continue to execute normally.
 - **Resume**: When you resume a sweep, the agent continues creating new runs according to the search strategy.
