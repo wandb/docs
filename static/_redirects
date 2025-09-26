@@ -351,7 +351,6 @@
 /ref/java/ /ref/ 301
 /ref/java/wandbrun-builder/ /ref/ 301
 /ref/java/wandbrun/ /ref/ 301
-/ref/public-api/ /ref/python/public-api/api/ 301
 /ref/python/README/ /ref/python/ 301
 /ref/python/agent/ /ref/python/functions/agent/ 301
 /ref/python/artifact/ /ref/python/experiments/artifact/ 301
@@ -457,6 +456,7 @@
 /library/frameworks/* /guides/integrations/:splat 301
 /library/integrations/* /guides/integrations/:splat 301
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
+/ref/public-api/* /ref/python/public-api/:splat 301
 /ref/python/classes/* /ref/python/experiments/:splat 301
 /ref/python/ini* /ref/python/functions/init/:splat 301
 /ref/python/integrations/*  /ref/python/:splat 301
