@@ -184,13 +184,13 @@
 /guides/model_registry/model-registry-automations/ /guides/automations/ 301
 /guides/model_registry/quickstart/ /guides/registry/ 301
 /guides/models/access_controls/ /guides/registry/configure_registry/ 301
-/guides/models/app/settings-page/system-metrics/ /ref/system-metrics/ 301
+/guides/models/app/settings-page/system-metrics/ /ref/python/experiments/system-metrics/ 301
 /guides/models/automation/ /guides/automations/ 301
 /guides/models/automations/registry-automations/ /guides/automations/ 301
 /guides/models/model-management-concepts/ /guides/registry/ 301
 /guides/models/model_tags/ /guides/registry/organize-with-tags/ 301
 /guides/models/notifications/ /guides/automations/create-automations/webhook/#payload-examples 301
-/guides/models/walkthrough/ /guides/quickstart/ 301
+/guides/models/walkthrough/ /guides/models_quickstart/ 301
 /guides/platform/ /guides/hosting/ 301
 /guides/projects/campaigns/ / 301
 /guides/projects/sharing-and-visibility/ / 301
@@ -251,7 +251,7 @@
 /guides/track/plots/ /guides/track/log/plots/ 301
 /guides/track/save-restore/ /guides/artifacts/ 301
 /guides/track/summary-metrics/ /guides/track/log/log-summary/ 301
-/guides/track/tracking-faq/ /support/experiments/ 301
+/guides/track/tracking-faq* /support/experiments/ 301
 /guides/troubleshooting/network/ /guides/technical-faq/ 301
 /home/ / 301
 /hosting/ /guides/hosting/ 301
@@ -328,7 +328,7 @@
 /ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/query-panels/embedding-projector/ 301
 /ref/app/features/runs-table/ /guides/tables/ 301
 /ref/app/features/sweeps/ /guides/sweeps/ 301
-/ref/app/features/system-metrics/ /ref/system-metrics/ 301
+/ref/app/features/system-metrics/ /ref/python/experiments/system-metrics/ 301
 /ref/app/features/tags/ /guides/app/features/tags/ 301
 /ref/app/features/teams/ /guides/app/features/teams/ 301
 /ref/app/pages/ /guides/app/pages/ 301
@@ -382,6 +382,7 @@
 /ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
 /ref/weave/README/ /guides/weave/ 301
+/ref/system-metrics/ /ref/python/experiments/system-metrics/ 301
 /reports/ /guides/reports/create-a-report/ 301
 /resources/technical-faq/ / 301
 /runner/ / 301
