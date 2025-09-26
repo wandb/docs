@@ -1,14 +1,14 @@
 ---
-description: Collaborate with your colleagues, share results, and track all the experiments across your team.
+description: Collaborate with your colleagues, share results, and track all the experiments across your team. Manage team settings including members, alerts, and privacy.
 menu:
   default:
     identifier: teams
     parent: settings
-title: Manage teams
-weight: 50
+title: Team settings
+weight: 30
 ---
 
-Use W&B Teams as a central workspace for your ML team to build better models faster.
+Use W&B Teams as a central workspace for your ML team to build better models faster. Organization admins and team admins can view and edit a team's settings.
 
 * **Track all the experiments** your team has tried so you never duplicate work.
 * **Save and reproduce** previously trained models.
@@ -18,16 +18,82 @@ Use W&B Teams as a central workspace for your ML team to build better models fas
 
 {{< img src="/images/app_ui/teams_overview.webp" alt="Teams workspace overview" >}}
 
+{{% alert %}}
+Only Administration account types can change team settings or remove a member from a team.
+{{% /alert %}}
+
 ## Create a collaborative team
 
 1. [Sign up or log in](https://app.wandb.ai/login?signup=true) to your free W&B account.
 2. Click **Invite Team** in the navigation bar.
 3. Create your team and invite collaborators.
-4. To configure your team, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
+4. Configure your team using the settings described below.
 
 {{% alert %}}
 **Note**: Only the admin of an organization can create a new team.
 {{% /alert %}}
+
+## Team configuration
+
+### Members
+
+The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member's name, username, email, team role, as well as their access privileges to Models and W&B Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#create-custom-roles" >}}), you can assign a custom role instead.
+
+See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a team, manage teams, and manage team membership and roles. To configure who can invite new members and configure other privacy settings for the team, refer to [Privacy]({{< relref "#privacy" >}}).
+
+Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs logged to the team remain after a user leaves.
+
+### Avatar
+
+Set an avatar by navigating to the **Avatar** section and uploading an image.
+
+1. Select the **Update Avatar** to prompt a file dialog to appear.
+2. From the file dialog, choose the image you want to use.
+
+### Alerts
+
+Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+
+Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+
+* **Runs finished**: whether a Weights and Biases run successfully finished.
+* **Run crashed**: if a run has failed to finish.
+
+For more information about how to set up and manage alerts, see [Send alerts with `wandb.Run.alert()`]({{< relref "/guides/models/track/runs/alert.md" >}}).
+
+### Slack notifications
+
+Configure Slack destinations where your team's [automations]({{< relref "/guides/core/automations/" >}}) can send notifications when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}).
+
+{{% pageinfo color="info" %}}
+{{< readfile file="/_includes/enterprise-only.md" >}}
+{{% /pageinfo %}}
+
+### Webhooks
+
+Configure webhooks that your team's [automations]({{< relref "/guides/core/automations/" >}}) can run when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}).
+
+{{% pageinfo color="info" %}}
+{{< readfile file="/_includes/enterprise-only.md" >}}
+{{% /pageinfo %}}
+
+### Privacy
+
+Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting.
+
+- Turn off the ability to make future projects public or to share reports publicly.
+- Allow any team member to invite other members, rather than only team admins.
+- Manage whether code saving is turned on by default.
+
+You can see the privacy settings of all team projects on the team settings page: `app.wandb.ai/teams/your-team-name`
+
+### Usage
+
+The **Usage** section describes the total memory usage the team has consumed on the Weights and Biases servers. The default storage plan is 100GB. For more information about storage and pricing, see the [Pricing](https://wandb.ai/site/pricing) page.
+
+### Storage
+
+The **Storage** section describes the cloud storage bucket configuration that is being used for the team's data. For more information, see [Secure Storage Connector]({{< relref "#secure-storage-connector" >}}) or check out our [W&B Server]({{< relref "/guides/hosting/data-security/secure-storage-connector.md" >}}) docs if you are self-hosting.
 
 ## Create a team profile
 
@@ -39,18 +105,11 @@ You can customize your team's profile page to show an introduction and showcase 
 
 <!-- To do: show team profiles -->
 
-<!-- To do: show how to remove team members -->
-
-## Remove team members
-
-Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs logged to the team remain after a user leaves.
-
-
-## Manage team roles and permissions
+## Team roles and permissions
 Select a team role when you invite colleagues to join a team. There are following team role options:
 
 - **Admin**: Team admins can add and remove other admins or team members. They have permissions to modify all projects and full deletion permissions. This includes, but is not limited to, deleting runs, projects, artifacts, and sweeps.
-- **Member**: A regular member of the team. By default, only an admin can invite a team member. To change this behavior, refer to [Manage team settings]({{< relref "team-settings.md#privacy" >}}).
+- **Member**: A regular member of the team. By default, only an admin can invite a team member. To change this behavior, refer to [Privacy settings]({{< relref "#privacy" >}}).
 - **View-Only (Enterprise-only feature)**: View-Only members can view assets within the team such as runs, reports, and workspaces. They can follow and comment on reports, but they can not create, edit, or delete project overview, reports, or runs.
 - **Custom roles (Enterprise-only feature)**: Custom roles allow organization admins to compose new roles based on either of the **View-Only** or **Member** roles, together with additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. Refer to [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) for details.
 
@@ -124,11 +183,6 @@ Use system permissions to create and manage teams and their members and to adjus
 ## Team trials
 
 See the [pricing page](https://wandb.ai/site/pricing) for more information on W&B plans. You can download all your data at any time, either using the dashboard UI or the [Export API]({{< relref "/ref/python/public-api/index.md" >}}).
-
-## Privacy settings
-
-You can see the privacy settings of all team projects on the team settings page:
-`app.wandb.ai/teams/your-team-name`
 
 ## Advanced configuration
 
