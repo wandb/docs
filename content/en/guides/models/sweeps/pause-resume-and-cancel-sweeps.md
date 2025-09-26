@@ -61,7 +61,6 @@ A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combination
 
 - **Sweep status** controls whether new runs are created (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed)
 - **Run status** reflects the execution state of individual runs (Pending, Running, Finished, Failed, Crashed, Killed)
-- Sweep commands affect run generation, not run execution (except cancel)
 
 ### Best practices
 
