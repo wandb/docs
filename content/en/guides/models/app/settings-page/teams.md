@@ -85,7 +85,12 @@ Team privacy settings allow you to manage visibility and sharing abilities on yo
 
 You can change the following privacy settings:
 
-- Turn off the ability to make future projects public or to share reports publicly.
+- Hide this team from all non-members.
+- Make all future team projects private (public sharing not allowed).
+- Allow any team member to invite other team members (not just admins).
+- Disable public sharing to outside of team for reports in private projects. This disables existing magic links.
+- Automatically recommend new users with matching email domains join this team upon signup.
+- Enable code saving by default.
 - Allow any team member to invite other members, rather than only team admins.
 - Manage whether code saving is turned on by default.
 
