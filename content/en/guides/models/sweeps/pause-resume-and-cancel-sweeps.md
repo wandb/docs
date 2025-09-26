@@ -72,14 +72,6 @@ A W&B Sweep orchestrates multiple W&B Runs to explore hyperparameter combination
 | `--stop` | → Stopped | Stops creating | Continue to completion |
 | `--cancel` | → Cancelled | Stops creating | Immediately killed |
 
-### Common scenarios
-
-**Individual run failures**: When runs fail within a sweep, the run status shows as `Failed` but the sweep status remains `Running`. The sweep continues creating new runs, and the search algorithm may learn from the failure.
-
-**Resource constraints**: On preemptible resources, runs may show as `Crashed` if the instance is preempted, but the sweep status remains `Running`. Use `run.mark_preempting()` to automatically requeue crashed runs.
-
-**Partial analysis**: You can pause a sweep to analyze completed runs while others finish, then decide whether to resume, stop, or cancel based on results.
-
 ### Best practices
 
 - Use `--pause` instead of cancel when you want to temporarily halt exploration without losing running experiments
