@@ -327,7 +327,8 @@
 /ref/app/features/panels/scatter-plot/ /guides/app/features/panels/scatter-plot/ 301
 /ref/app/features/panels/weave/ /guides/app/features/panels/weave/ 301
 /ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/weave/embedding-projector/ 301
-/ref/app/features/runs-table/ /guides/app/features/runs-table/ 301
+/ref/app/features/runs-table/ /guides/tables/ 301
+/guides/app/features/runs-table* /guides/tables/ 301
 /ref/app/features/sweeps/ /guides/sweeps/ 301
 /ref/app/features/system-metrics/ /ref/system-metrics/ 301
 /ref/app/features/tags/ /guides/app/features/tags/ 301
