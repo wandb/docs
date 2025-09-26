@@ -91,7 +91,6 @@ You can change the following privacy settings:
 - Disable public sharing to outside of team for reports in private projects. This disables existing magic links.
 - Automatically recommend new users with matching email domains join this team upon signup.
 - Enable code saving by default.
-- Allow any team member to invite other members, rather than only team admins.
 - Manage whether code saving is turned on by default.
 
 You can see the privacy settings of all team projects on the team settings page: `app.wandb.ai/teams/your-team-name`
