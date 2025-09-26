@@ -67,5 +67,3 @@ A sweep orchestrates multiple runs to explore hyperparameter combinations. Under
 - Monitor individual run statuses to identify systematic failures
 - Use `--stop` for graceful termination when you've found satisfactory hyperparameters
 - Reserve `--cancel` for emergencies when runs are consuming excessive resources or producing errors
-
-For more information on how to parallelize agents, see [Parallelize agents]({{< relref "./parallelize-agents.md" >}}).
