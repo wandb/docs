@@ -308,7 +308,6 @@
 /ref/api/public-methods/ /ref/python/public-api/ 301
 /ref/README/ /ref/ 301
 /ref/app/ /guides/app/ 301
-/ref/README/ /ref/ 301
 /ref/app/feature/ /guides/app/features/ 301
 /ref/app/features/ /guides/app/features/ 301
 /ref/app/features/alerts/ /guides/app/ 301
@@ -328,7 +327,6 @@
 /ref/app/features/panels/weave/ /guides/app/features/panels/weave/ 301
 /ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/weave/embedding-projector/ 301
 /ref/app/features/runs-table/ /guides/tables/ 301
-/guides/app/features/runs-table* /guides/tables/ 301
 /ref/app/features/sweeps/ /guides/sweeps/ 301
 /ref/app/features/system-metrics/ /ref/system-metrics/ 301
 /ref/app/features/tags/ /guides/app/features/tags/ 301
@@ -354,7 +352,6 @@
 /ref/python/README/ /ref/python/ 301
 /ref/python/agent/ /ref/python/functions/agent/ 301
 /ref/python/artifact/ /ref/python/experiments/artifact/ 301
-/ref/public-api/ /ref/python/public-api/ 301
 /ref/python/config/ /ref/python/ 301
 /ref/python/controller/ /ref/python/functions/controller/ 301
 /ref/python/data-types/boundingboxes2d/ /guides/track/log/media/#image-overlays 301
@@ -363,7 +360,6 @@
 /ref/python/data_types/ /ref/python/data-types/ 301
 /ref/python/errors/ /ref/python/ 301
 /ref/python/finish/ /ref/python/functions/finish/ 301
-/ref/python/ini* /ref/python/functions/init/ 301
 /ref/python/integrations/sklearn/ /guides/integrations/scikit/ 301
 /ref/python/join/ /ref/python/ 301
 /ref/python/log/ /ref/python/ 301
@@ -468,3 +464,5 @@
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
 /ref/python/sdk/* /ref/python/:splat 301
 /ref/python/wandb_workspaces/* /ref/wandb_workspaces/:splat 301
+/guides/app/features/runs-table* /guides/tables/ 301
+/ref/python/ini* /ref/python/functions/init/ 301
