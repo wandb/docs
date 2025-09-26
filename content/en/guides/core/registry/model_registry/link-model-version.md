@@ -14,7 +14,7 @@ Link a model version to a registered model with the W&B App or programmatically 
 
 ## Programmatically link a model
 
-Use the [`link_model`]({{< relref "/ref/python/run.md#link_model" >}}) method to programmatically log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}). 
+Use the [`link_model`]({{< relref "/ref/python/experiments/run.md#link_model" >}}) method to programmatically log model files to a W&B run and link it to the [W&B Model Registry]({{< relref "./" >}}). 
 
 Ensure to replace other the values enclosed in `<>` with your own:
 
@@ -37,7 +37,7 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 
 {{< tabpane text=true >}}
   {{% tab header="Model Registry" %}}
-1. Navigate to the Model Registry App at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
+1. Navigate to the [Model Registry App](https://wandb.ai/registry/model).
 2. Hover your mouse next to the name of the registered model you want to link a new model to. 
 3. Select the meatball menu icon (three horizontal dots) next to  **View details**.
 4. From the dropdown, select **Link new version**.
@@ -45,7 +45,7 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 6. From the **Model Artifact** dropdown, select the name of the model artifact. 
 7. From the **Version** dropdown, select the model version you want to link to the registered model.
 
-{{< img src="/images/models/link_model_wmodel_reg.gif" alt="" >}}
+{{< img src="/images/models/link_model_wmodel_reg.gif" alt="Linking model version to registry" >}}
   {{% /tab %}}
   {{% tab header="Artifact browser" %}}
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
@@ -57,7 +57,7 @@ Interactively link a model with the Model Registry or with the Artifact browser.
 7. (Optional) Select an alias from the **Aliases** dropdown. 
 8. Click **Link to registry**. 
 
-{{< img src="/images/models/manual_linking.gif" alt="" >}}  
+{{< img src="/images/models/manual_linking.gif" alt="Manual model linking" >}}  
   {{% /tab %}}
 {{< /tabpane >}}
 
@@ -71,8 +71,8 @@ A pointer connects a specific model version in the model registry to the source 
 
 {{< tabpane text=true >}}
   {{% tab header="Model Registry" %}}
-1. Navigate to your model registry at [https://wandb.ai/registry/model](https://wandb.ai/registry/model).
-{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
+1. Navigate to your [Model Registry App](https://wandb.ai/registry/model).
+{{< img src="/images/models/create_registered_model_1.png" alt="Create registered model" >}}
 2. Select **View details** next the name of your registered model.
 3. Within the **Versions** section, select **View** next to the model version you want to investigate.
 4. Click on the **Version** tab within the right panel.
@@ -80,7 +80,7 @@ A pointer connects a specific model version in the model registry to the source 
 
 For example, the following image shows a `v0` model version called `mnist_model` (see **Source version** field `mnist_model:v0`), linked to a registered model called `MNIST-dev`.
 
-{{< img src="/images/models/view_linked_model_registry.png" alt="" >}}  
+{{< img src="/images/models/view_linked_model_registry.png" alt="Linked model in registry" >}}  
   {{% /tab %}}
   {{% tab header="Artifact browser" %}}
 1. Navigate to your project's artifact browser on the W&B App at: `https://wandb.ai/<entity>/<project>/artifacts`
@@ -93,6 +93,6 @@ For example, the following image shows a `v0` model version called `mnist_model`
 For example, in the following image, there is a registered model called `MNIST-dev` (see the **Linked To** field). A model version called `mnist_model` with a version `v0`(`mnist_model:v0`) points to the `MNIST-dev` registered model.
 
 
-{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="" >}}  
+{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="Model artifacts browser" >}}  
   {{% /tab %}}
 {{< /tabpane >}}

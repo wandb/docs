@@ -19,7 +19,7 @@ Lineage graphs can show the specific run that logs an artifact. In addition, lin
 
 For example, the proceeding image shows artifacts created and used throughout an ML experiment:
 
-{{< img src="/images/registry/registry_lineage.png" alt="" >}}
+{{< img src="/images/registry/registry_lineage.png" alt="Registry lineage" >}}
 
 From left to right, the image shows:
 1. Multiple runs log the `split_zoo_dataset:v4` artifact.
@@ -47,7 +47,7 @@ artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 
 ## Track the output of a run
 
-Use ([`wandb.init.log_artifact`]({{< relref "/ref/python/run.md#log_artifact" >}})) to declare an artifact as an output of a run.
+Use ([`wandb.init.log_artifact`]({{< relref "/ref/python/experiments/run.md#log_artifact" >}})) to declare an artifact as an output of a run.
 
 The proceeding code snippet shows how to use the `wandb.init.log_artifact` API. Ensure to replace values enclosed in angle brackets (`< >`) with your values:
 
@@ -80,8 +80,8 @@ Once you are in an artifact's lineage graph page, you can view additional inform
  
 Select a run node to view that run's details, such as the run's ID, the run's name, the run's state, and more. As an example, the proceeding image shows information about the `rural-feather-20` run:
 
-{{< img src="/images/registry/lineage_expanded_node.png" alt="" >}}
+{{< img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node" >}}
 
 Select an artifact node to view that artifact's details, such as its full name, type, creation time, and associated aliases.
 
-{{< img src="/images/registry/lineage_expanded_artifact_node.png" alt="" >}}
+{{< img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details" >}}

@@ -9,14 +9,15 @@ support:
 ---
 For example, I want to log training accuracy per batch and validation accuracy per epoch.
 
-Yes, log indices like `batch` and `epoch` alongside your metrics. Use `wandb.log({'train_accuracy': 0.9, 'batch': 200})` in one step and `wandb.log({'val_accuracy': 0.8, 'epoch': 4})` in another. In the UI, set the desired value as the x-axis for each chart. To set a default x-axis for a specific index, use [Run.define_metric()]({{< relref "/ref/python/run.md#define_metric" >}}). For the example provided, use the following code:
+Yes, log indices like `batch` and `epoch` alongside your metrics. Use `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` in one step and `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` in another. In the UI, set the desired value as the x-axis for each chart. To set a default x-axis for a specific index, use [Run.define_metric()]({{< relref "/ref/python/experiments/run#define_metric" >}}). For the example provided, use the following code:
 
 ```python
-wandb.init()
+import wandb
 
-wandb.define_metric("batch")
-wandb.define_metric("epoch")
+with wandb.init() as run:
+   run.define_metric("batch")
+   run.define_metric("epoch")
 
-wandb.define_metric("train_accuracy", step_metric="batch")
-wandb.define_metric("val_accuracy", step_metric="epoch")
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
 ```

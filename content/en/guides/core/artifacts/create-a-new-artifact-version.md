@@ -27,7 +27,7 @@ W&B will create a new artifact and assign it a `v0` alias if you pass a name to 
 
 W&B will retrieve an existing artifact if you pass a name and artifact type to the `wandb.Artifact` API that matches an existing artifact in your project. The retrieved artifact will have a version greater than 1. 
 
-{{< img src="/images/artifacts/single_distributed_artifacts.png" alt="" >}}
+{{< img src="/images/artifacts/single_distributed_artifacts.png" alt="Artifact workflow comparison" >}}
 
 ### Single run
 Log a new version of an Artifact with a single run that produces all the files in the artifact. This case occurs when a single run produces all the files in the artifact. 
@@ -129,7 +129,7 @@ with wandb.init() as run:
 
 Add, modify, or remove a subset of files from a previous artifact version without the need to re-index the files that didn't change. Adding, modifying, or removing a subset of files from a previous artifact version creates a new artifact version known as an *incremental artifact*.
 
-{{< img src="/images/artifacts/incremental_artifacts.png" alt="" >}}
+{{< img src="/images/artifacts/incremental_artifacts.png" alt="Incremental artifact versioning" >}}
 
 Here are some scenarios for each type of incremental change you might encounter:
 
@@ -251,7 +251,7 @@ with wandb.init(job_type="modify dataset") as run:
     draft_artifact.add_file("file_to_add.txt")
     draft_artifact.remove("dir_to_remove/")
     run.log_artifact(
-        artifact
+        draft_artifact
     )  # log your changes to create a new version and mark it as output to your run
 ```  
   {{% /tab %}}

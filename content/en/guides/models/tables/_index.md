@@ -6,9 +6,9 @@ menu:
     parent: models
 title: Tables
 weight: 2
-url: guides/models/tables
+url: guides/tables
 cascade:
-- url: guides/models/tables/:filename
+- url: guides/tables/:filename
 ---
 
 {{< cta-button productLink="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" >}}
@@ -20,7 +20,7 @@ Use W&B Tables to visualize and query tabular data. For example:
 * Look at sample model predictions visually
 * Query to find commonly misclassified examples
 
-{{< img src="/images/data_vis/tables_sample_predictions.png" alt="" >}}
+{{< img src="/images/data_vis/tables_sample_predictions.png" alt="Semantic segmentation predictions table" >}}
 The above image shows a table with semantic segmentation and custom metrics. View this table here in this [sample project from the W&B ML Course](https://wandb.ai/av-team/mlops-course-001).
 
 ## How it works
@@ -31,11 +31,11 @@ A Table is a two-dimensional grid of data where each column has a single type of
 
 Log a table with a few lines of code:
 
-- [`wandb.init()`]({{< relref "/ref/python/init.md" >}}): Create a [run]({{< relref "/guides/models/track/runs/" >}}) to track results.
+- [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}): Create a [run]({{< relref "/guides/models/track/runs/" >}}) to track results.
 - [`wandb.Table()`]({{< relref "/ref/python/data-types/table.md" >}}): Create a new table object.
   - `columns`: Set the column names.
   - `data`: Set the contents of the table.
-- [`run.log()`]({{< relref "/ref/python/log.md" >}}): Log the table to save it to W&B.
+- [`run.log()`]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}): Log the table to save it to W&B.
 
 ```python
 import wandb

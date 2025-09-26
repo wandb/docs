@@ -10,17 +10,15 @@ weight: 2
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
 {{% /pageinfo %}}
 
-An automation can start when a specific event occurs within a project or registry. This diagram shows the relationship between automation events and actions.
-
-{{< img src="/images/automations/automation_events_actions.png" alt="Diagram showing the relationship between automation events and actions" >}}
-
-This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
+An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview]({{< relref "/guides/core/automations/" >}}) or [Create an automation]({{< relref "create-automations/" >}}).
 
 ## Registry
 This section describes the scopes and events for an automation in a [Registry]({{< relref "/guides/core/registry/">}}).
 
 1. Navigate to the **Registry** App at https://wandb.ai/registry/.
 1. Click the name of a registry, then view and create automations in the **Automations** tab.
+
+![Screenshot of the Registry Automations tab with an automation](/images/automations/registry_automations_tab.png)
 
 Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
@@ -31,14 +29,16 @@ You can create a Registry automation at these scopes:
 
 ### Events
 A Registry automation can watch for these events:
-- **Linking a new artifact to a collection**: Test and validate new models or datasets when they are added to a registry.
-- **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
+- **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
+- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
 
 ## Project
 This section describes the scopes and events for an automation in a [project]({{< relref "/guides/models/track/project-page.md" >}}).
 
 1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
 1. View and create automations in the **Automations** tab.
+
+![Screenshot of the Project Automations tab with an automation](/images/automations/project_automations_tab.png)
 
 Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
@@ -50,26 +50,39 @@ You can create a project automation at these scopes:
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **Linking a new artifact**: Test and validate new models or datasets automatically.
-- **Creating a new version of an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **Adding a new alias to a version of an artifact**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific label or alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied.
+- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
+- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version gains the `latest` alias. Only one artifact version can have a given alias at a point in time.
+- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project or collection has a specific tag applied. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
 
 ### Run events
-From the project's **Automations** tab or directly from a line plot panel, you can create a run metric automation triggered by:
-- A metric in a run's history.
-- A [system metric]({{< relref "/guides/models/app/settings-page/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
+An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a change in a [metric value]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
 
-The notification can trigger a workflow when these events occur:
-- **Run metrics threshold met**: When the average, minimum, or maximum logged value for a given metric meets the threshold you specify.
-- **Run metrics change threshold met**: When the average, minimum, or maximum logged value for a given metric changes by the threshold you specify.
+#### Run status change
+{{% alert %}}
+- Currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+- A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
+{{% /alert %}}
+
+Trigger a workflow when a run changes its [status]({{< relref "/guides/models/track/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+
+![Screenshot showing a run status change automation](/images/automations/run_status_change.png)
+
+Because run status is a property of the entire run, you can create a run status automation only from the the **Automations** page, not from a workspace.
+
+#### Run metrics change
+{{% alert %}}
+Currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
+{{% /alert %}}
+
+Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric]({{< relref "/ref/python/experiments/system-metrics.md" >}}) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
+
+You can create a run metrics automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
-{{% alert %}}
-Run metric automations are currently available only in [W&B Multi-tenant Cloud]({{< relref "/guides/hosting/#wb-multi-tenant-cloud" >}}).
-{{% /alert %}}
+Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
 
-#### Threshold
+##### Threshold
 For **Run metrics threshold met** events, you configure:
 1. The window of most recently logged values to consider (defaults to 5).
 1. Whether to evaluate the **Average**, **Min**, or **Max** value within the window.
@@ -83,7 +96,9 @@ For **Run metrics threshold met** events, you configure:
 
 For example, trigger an automation when average `accuracy` is above `.6`.
 
-#### Change threshold
+![Screenshot showing a run metrics threshold automation](/images/automations/run_metrics_threshold_automation.png)
+
+##### Change threshold
 For **Run metrics change threshold met** events, the automation uses two "windows" of values to check whether to start:
 
 - The _current window_ of recently logged values to consider (defaults to 10).
@@ -99,13 +114,15 @@ To create the automation, you configure:
       - Increases by at least
       - Decreases by at least
       - Increases or decreases by at least
-      
-      For example, trigger an automation when `loss` decreases by at least `.25`.
+
+For example, trigger an automation when average `loss` decreases by at least `.25`.
+
+![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the animation when the event occurs. To consider only specific runs, specify a run filter.
+- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify a run filter.
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24 hour period, a particular automation can fire at most once per run.

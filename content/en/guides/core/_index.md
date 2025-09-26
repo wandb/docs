@@ -3,13 +3,13 @@ menu:
   default:
     identifier: core
 title: W&B Core
-weight: 5
+weight: 6
 no_list: true
 ---
 
 W&B Core is the foundational framework supporting [W&B Models]({{< relref "/guides/models/" >}}) and [W&B Weave]({{< relref "/guides/weave/" >}}), and is itself supported by the [W&B Platform]({{< relref "/guides/hosting/" >}}). 
 
-{{< img src="/images/general/core.png" alt="" >}}
+{{< img src="/images/general/core.png" alt="W&B Core framework diagram" >}}
 
 W&B Core provides capabilities across the entire ML lifecycle. With W&B Core, you can:
 

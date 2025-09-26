@@ -48,9 +48,9 @@ After running `wandb.init()` , start a new cell with `%%wandb` to see live graph
 # Your training loop here
 ```
 
-Try it for yourself in this [example notebook](http://wandb.me/jupyter-interact-colab).
+Try it for yourself in this [example notebook](https://wandb.me/jupyter-interact-colab).
 
-{{< img src="/images/track/jupyter_widget.png" alt="" >}}
+{{< img src="/images/track/jupyter_widget.png" alt="Jupyter W&B widget" >}}
 
 ### Rendering live W&B interfaces directly in your notebooks
 
@@ -69,14 +69,16 @@ You can also display any existing dashboards, sweeps, or reports directly in you
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `wandb.run` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
+As an alternative to the `%%wandb` or `%wandb` magics, after running `wandb.init()` you can end any cell with `wandb.Run.finish()` to show in-line graphs, or call `ipython.display(...)` on any report, sweep, or run object returned from our apis.
 
 ```python
-# Initialize wandb.run first
-wandb.init()
+import wandb
+from IPython.display import display
+# Initialize a run
+run = wandb.init()
 
-# If cell outputs wandb.run, you'll see live graphs
-wandb.run
+# If cell outputs run.finish(), you'll see live graphs
+run.finish()
 ```
 
 {{% alert %}}

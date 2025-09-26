@@ -1,21 +1,12 @@
 ---
 url: /support/:filename
-title: How can I make my project public?
+title: How can I change the privacy of my project?
 toc_hide: true
 type: docs
 support:
 - privacy
 - projects
 ---
-To make a project public, follow these steps:
+To change a project's privacy (visibility):
 
-1. Access the project page in the Weights & Biases web app.
-2. Click the lock icon in the navigation bar to open privacy settings.
-3. Choose "Public" to allow visibility for anyone.
-4. Save the changes.
-
-If the "Public" option is not available due to restrictions, consider the following options:
-
-- Share a view-only link via a report.
-- Contact the organization's admin for assistance.
-- Check account settings to confirm permission for public projects.
+{{% readfile file="/content/en/_includes/project-visibility-settings.md" %}}

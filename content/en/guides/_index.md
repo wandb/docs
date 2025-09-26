@@ -1,6 +1,5 @@
 ---
-description: An overview of what is W&B along with links on how to get started if
-  you are a first time user.
+description: An overview of W&B and how to get started.
 menu:
   default:
     identifier: guides
@@ -14,9 +13,9 @@ no_list: true
 
 ## What is W&B?
 
-Weights & Biases (W&B) is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models. 
+W&B is the AI developer platform, with tools for training models, fine-tuning models, and leveraging foundation models.
 
-{{< img src="/images/general/architecture.png" alt="" >}}
+{{< img src="/images/general/architecture.png" alt="W&B platform architecture diagram" >}}
 
 W&B consists of three major components: [Models]({{< relref "/guides/models.md" >}}), [Weave](https://wandb.github.io/weave/), and [Core]({{< relref "/guides/core/" >}}):
 
@@ -31,6 +30,8 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 - [Artifacts]({{< relref "/guides/core/artifacts/" >}}): Version assets and track lineage
 - [Tables]({{< relref "/guides/models/tables/" >}}): Visualize and query tabular data
 - [Reports]({{< relref "/guides/core/reports/" >}}): Document and collaborate on your discoveries
+
+**[W&B Inference]({{< relref "/guides/inference/" >}})** is a set of tools for accessing open-source foundation models through W&B Weave and an OpenAI-compatible API.
 
 {{% alert %}}
 Learn about recent releases in the [W&B release notes]({{< relref "/ref/release-notes/" >}}).

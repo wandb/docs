@@ -64,7 +64,7 @@ Satisfy the following requirements to deploy W&B with the W&B Kubernetes operato
 
 Refer to the [reference architecture]({{< relref "../ref-arch.md#infrastructure-requirements" >}}). In addition, [obtain a valid W&B Server license]({{< relref "../#obtain-your-wb-server-license" >}}).
 
-See [this]({{< relref "../bare-metal.md" >}}) guide for a detailed explanation on how to set up and configure a self-managed installation.
+See the [bare-metal installation guide]({{< relref "../bare-metal.md" >}}) for a detailed explanation on how to set up and configure a self-managed installation.
 
 Depending on the installation method, you might need to meet the following requirements:
 * Kubectl installed and configured with the correct Kubernetes cluster context.
@@ -93,26 +93,38 @@ Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
     ```shell
     helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
     ```
-3. Configure the W&B operator custom resource to trigger the W&B Server installation, either by overriding the default configuration with a Helm `values.yaml` file or by fully customizing the custom resource definition (CRD) directly.
+3. Configure the W&B operator custom resource to trigger the W&B Server installation. Create a file named `operator.yaml` with your W&B deployment configuration. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-server" >}}) for all available options.
 
-    - **`values.yaml` override** (recommended): Create a new file named `values.yaml` that includes _only_ the keys from the [full `values.yaml` specification](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) that you want to override. For example, to configure MySQL:
+    Here's a minimal example configuration:
 
-      {{< prism file="/operator/values_mysql.yaml" title="values.yaml">}}{{< /prism >}}
-    - **Full CRD**: Copy this [example configuration](https://github.com/wandb/helm-charts/blob/main/charts/operator/crds/wandb.yaml) to a new file named `operator.yaml`. Make the required changes to the file. Refer to [Configuration Reference]({{< relref "#configuration-reference-for-wb-operator" >}}).
+    ```yaml
+    apiVersion: apps.wandb.com/v1
+    kind: WeightsAndBiases
+    metadata:
+      labels:
+        app.kubernetes.io/name: weightsandbiases
+        app.kubernetes.io/instance: wandb
+      name: wandb
+      namespace: default
+    spec:
+      values:
+        global:
+          host: https://<HOST_URI>
+          license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
+          bucket:
+            <details depend on the provider>
+          mysql:
+            <redacted>
+        ingress:
+          annotations:
+            <redacted>
+    ```
 
-      {{< prism file="/operator/wandb.yaml" title="operator.yaml">}}{{< /prism >}}
+4. Start the Operator with your custom configuration so that it can install, configure, and manage the W&B Server application:
 
-4. Start the Operator with your custom configuration so that it can install, configure, and manage the W&B Server application.
-
-    - To start the Operator with a `values.yaml` override:
-
-        ```shell
-        kubectl apply -f values.yaml
-        ```
-    - To start the operator with a fully customized CRD:
-      ```shell
-      kubectl apply -f operator.yaml
-      ```
+    ```shell
+    kubectl apply -f operator.yaml
+    ```
 
     Wait until the deployment completes. This takes a few minutes.
 
@@ -174,7 +186,7 @@ W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules de
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to this [section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) to self-managed installations section in the docs.
+For a detailed description on how to use these modules, refer to the [self-managed installations section]({{< relref "../#deploy-wb-server-within-self-managed-cloud-accounts" >}}) in the docs.
 
 ### Verify the installation
 
@@ -231,7 +243,7 @@ There are two ways to log in to the management console:
 1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
-    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_via_main_app.png" alt="System console access" >}}
 {{% /tab %}}
 
 {{% tab header="Option 2" value="option2"%}}
@@ -240,7 +252,7 @@ W&B recommends you access the console using the following steps only if Option 1
 {{% /alert %}}
 
 1. Open console application in browser. Open the above described URL, which redirects you to the login screen:
-    {{< img src="/images/hosting/access_system_console_directly.png" alt="" >}}
+    {{< img src="/images/hosting/access_system_console_directly.png" alt="Direct system console access" >}}
 2. Retrieve the password from the Kubernetes secret that the installation generates:
     ```shell
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
@@ -359,9 +371,12 @@ Follow these steps to migrate to the Operator-based Helm chart:
 
 This section describes the configuration options for W&B Server application. The application receives its configuration as custom resource definition named [WeightsAndBiases]({{< relref "#how-it-works" >}}). Some configuration options are exposed with the below configuration, some need to be set as environment variables.
 
-The documentation has two lists of environment variables: [basic]({{< relref "/guides/hosting/env-vars/" >}}) and [advanced]({{< relref "/guides/hosting/iam/advanced_env_vars/" >}}). Only use environment variables if the configuration option that you need are not exposed using Helm Chart.
+The documentation has two lists of environment variables: [basic]({{< relref "/guides/hosting/env-vars/" >}}) and [advanced]({{< relref "/guides/hosting/iam/advanced_env_vars/" >}}). Only use environment variables if the configuration option that you need is not exposed using the Helm Chart.
 
-The W&B Server application configuration file for a production deployment requires the following contents. This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
+### Basic example
+This example defines the minimum set of values required for W&B. For a more realistic production example, see [Complete example]({{< relref "#complete-example" >}}).
+
+This YAML file defines the desired state of your W&B deployment, including the version, environment variables, external resources like databases, and other necessary settings.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -386,10 +401,10 @@ spec:
         <redacted>
 ```
 
-Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml), and change only those values you need to override.
+Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml). **Change only those values you need to override**.
 
 ### Complete example 
-This is an example configuration that uses GCP Kubernetes with GCP Ingress and GCS (GCP Object storage):
+This example configuration deploys W&B to GCP Anthos using Google Cloud Storage:
 
 ```yaml
 apiVersion: apps.wandb.com/v1

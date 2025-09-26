@@ -4,13 +4,13 @@ menu:
     identifier: intro_panels
     parent: w-b-app-ui-reference
 title: Panels
-weight: 1
+weight: 2
 url: guides/app/features/panels
 cascade:
 - url: guides/app/features/panels/:filename
 ---
 
-Use workspace panel visualizations to explore your [logged data]({{< relref "/ref/python/log.md" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
+Use workspace panel visualizations to explore your [logged data]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}) by key, visualize the relationships between hyperparameters and output metrics, and more. 
 
 ## Workspace modes
 
@@ -56,16 +56,16 @@ To configure the layout of a section, click its gear icon, then click **Display 
 
 ## View a panel in full-screen mode
 
-In full-screen mode, the run selector displays and panels use full full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
+In full-screen mode, the run selector displays and panels use full-fidelity sampling mode plots with 10,000 buckets, rather than 1000 buckets otherwise.
 
 To view a panel in full-screen mode:
 
 1. Hover over the panel.
 1. Click the panel's action menu `...`, then click the full-screen button, which looks like a viewfinder or an outline showing the four corners of a square.
-    {{< img src="/images/app_ui/panel_fullscreen.png" alt="View panel full-screen" >}}
+    {{< img src="/images/app_ui/panel_fullscreen.png" alt="Full-screen panel" >}}
 1. When you [share the panel]({{< relref "#share-a-panel" >}}) while viewing it in full-screen mode, the resulting link opens in full-screen mode automatically.
 
-To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page.
+To get back to a panel's workspace from full-screen mode, click the left-pointing arrow at the top of the page. To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
 
 ## Add panels
 
@@ -195,16 +195,12 @@ To add a new section before or after an existing section, you can instead click 
 
 
 ### Manage a section's panels
-Sections with a large number of panels are paginated by default if they use the **Standard grid** layout. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
+Sections with a large number of panels are paginated by default. The default number of panels on a page depend on the panel's configuration and on the sizes of the panels in the section.
 
-1. To check which layout a section uses, click the section's action `...` menu. To change a section's layout, select **Standard grid** or **Custom grid** in the **Layout grid** section.
-1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size.
-  - If a section uses the **Standard grid**, resizing one panel resizes all panels in the section.
-  - If a section uses the **Custom grid**, you can customize the size of each panel separately.
+1. To resize a panel, hover over it, click the drag handle, and drag it to adjust the panel's size. Resizing one panel resizes all panels in the section.
 1. If a section is paginated, you can customize the number of panels to show on a page:
   1. At the top of the section, click **1 to <X> of <Y>**, where `<X>` is the number of visible panels and `<Y>` is the total number of panels.
   1. Choose how many panels to show per page, up to 100.
-1. To show all panels when there are a large number of them, configure the panel to use the **Custom grid** layout. Click the section's action `...` menu, then select **Custom grid** in the **Layout grid** section
 1. To delete a panel from a section:
   1. Hover over the panel, then click its action `...` menu.
   1. Click **Delete**.

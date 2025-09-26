@@ -1,49 +1,37 @@
 ---
-title: Python Library
+title: Python SDK 0.22.0
+module: 
+weight: 1
 ---
+The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune models, and manage models from experimentation to production. 
 
-<!-- Insert buttons and diff -->
+> After performing your training and fine-tuning operations with this SDK, you can use [the Public API]({{< relref "/ref/python/public-api" >}}) to query and analyze the data that was logged, and [the Reports and Workspaces API]({{< relref "/ref/wandb_workspaces" >}}) to generate a web-publishable [report]({{< relref "/guides/core/reports" >}}) summarizing your work.
 
+## Installation and setup
 
+### Sign up and create an API key
 
-Use wandb to track machine learning work.
+To authenticate your machine with W&B, you must first generate an API key at https://wandb.ai/authorize.
 
-Train and fine-tune models, manage models from experimentation to production.
+### Install and import packages
 
-For guides and examples, see https://docs.wandb.ai.
+Install the W&B library.
 
-For scripts and interactive notebooks, see https://github.com/wandb/examples.
+```
+pip install wandb
+```
 
-For reference documentation, see https://docs.wandb.com/ref/python.
+### Import W&B Python SDK:
 
-## Classes
+```python
+import wandb
 
-[`class Artifact`](./artifact.md): Flexible and lightweight building block for dataset and model versioning.
+# Specify your team entity
+entity = "<team_entity>"
 
-[`class Run`](./run.md): A unit of computation logged by wandb. Typically, this is an ML experiment.
+# Project that the run is recorded to
+project = "my-awesome-project"
 
-## Functions
-
-[`agent(...)`](./agent.md): Start one or more sweep agents.
-
-[`controller(...)`](./controller.md): Public sweep controller constructor.
-
-[`finish(...)`](./finish.md): Finish a run and upload any remaining data.
-
-[`init(...)`](./init.md): Start a new run to track and log to W&B.
-
-[`log(...)`](./log.md): Upload run data.
-
-[`login(...)`](./login.md): Set up W&B login credentials.
-
-[`save(...)`](./save.md): Sync one or more files to W&B.
-
-[`sweep(...)`](./sweep.md): Initialize a hyperparameter sweep.
-
-[`watch(...)`](./watch.md): Hooks into the given PyTorch model(s) to monitor gradients and the model's computational graph.
-
-| Other Members |  |
-| :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.20.1'` |
-|  `config`<a id="config"></a> |   |
-|  `summary`<a id="summary"></a> |   |
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+````

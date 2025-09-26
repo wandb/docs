@@ -21,7 +21,7 @@ Log your API inputs and outputs you can quickly evaluate the performance of diff
 
 
 
-{{< img src="/images/integrations/open_ai_autolog.png" alt="" >}}
+{{< img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API automatic logging" >}}
 
 
 ## Install OpenAI Python API library
@@ -46,7 +46,7 @@ from wandb.integration.openai import autolog
 autolog({"project": "gpt5"})
 ```
 
-You can optionally pass a dictionary with argument that `wandb.init()` accepts to `autolog`. This includes a project name, team name, entity, and more. For more information about [`wandb.init`]({{< relref "/ref/python/init.md" >}}), see the API Reference Guide.
+You can optionally pass a dictionary with argument that `wandb.init()` accepts to `autolog`. This includes a project name, team name, entity, and more. For more information about [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}), see the API Reference Guide.
 
 ### 2. Call the OpenAI API
 Each call you make to the OpenAI API is now logged to W&B automatically.

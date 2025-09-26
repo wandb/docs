@@ -13,13 +13,13 @@ Finding a machine learning model that meets your desired metric (such as model a
 
 Use W&B Sweeps to create an organized and efficient way to automatically search through combinations of hyperparameter values such as the learning rate, batch size, number of hidden layers, optimizer type and more to find values that optimize your model based on your desired metric.
 
-In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](http://wandb.me/sweeps-video).
+In this tutorial you will create a hyperparameter search with W&B PyTorch integration. Follow along with a [video tutorial](https://wandb.me/sweeps-video).
 
-{{< img src="/images/tutorials/sweeps-1.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-1.png" alt="Hyperparameter sweep results" >}}
 
 ## Sweeps: An Overview
 
-Running a hyperparameter sweep with Weights & Biases is very easy. There are just 3 simple steps:
+Running a hyperparameter sweep with W&B is very easy. There are just 3 simple steps:
 
 1. **Define the sweep:** we do this by creating a dictionary or a [YAML file]({{< relref "/guides/models/sweeps/define-sweep-configuration" >}}) that specifies the parameters to search through, the search strategy, the optimization metric et all.
 
@@ -231,10 +231,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train(config=None):
     # Initialize a new wandb run
-    with wandb.init(config=config):
+    with wandb.init(config=config) as run:
         # If called by wandb.agent, as below,
         # this config will be set by Sweep Controller
-        config = wandb.config
+        config = run.config
 
         loader = build_dataset(config.batch_size)
         network = build_network(config.fc_layer_size, config.dropout)
@@ -242,13 +242,13 @@ def train(config=None):
 
         for epoch in range(config.epochs):
             avg_loss = train_epoch(network, loader, optimizer)
-            wandb.log({"loss": avg_loss, "epoch": epoch})           
+            run.log({"loss": avg_loss, "epoch": epoch})           
 ```
 
 Within the `train` function, you will notice the following W&B Python SDK methods:
-* [`wandb.init()`]({{< relref "/ref/python/init" >}}): Initialize a new W&B run. Each run is a single execution of the training function.
-* [`wandb.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
-* [`wandb.log()`]({{< relref "/ref/python/log" >}}): Log the training loss for each epoch.
+* [`wandb.init()`]({{< relref "/ref/python/functions/init/" >}}): Initialize a new W&B Run. Each run is a single execution of the training function.
+* [`run.config`]({{< relref "/guides/models/track/config" >}}): Pass sweep configuration with the hyperparameters you want to experiment with.
+* [`run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog" >}}): Log the training loss for each epoch.
 
 
 The proceeding cell defines four functions:
@@ -296,19 +296,21 @@ def build_optimizer(network, optimizer, learning_rate):
 
 def train_epoch(network, loader, optimizer):
     cumu_loss = 0
-    for _, (data, target) in enumerate(loader):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
 
-        # ➡ Forward pass
-        loss = F.nll_loss(network(data), target)
-        cumu_loss += loss.item()
+    with wandb.init() as run:
+        for _, (data, target) in enumerate(loader):
+            data, target = data.to(device), target.to(device)
+            optimizer.zero_grad()
 
-        # ⬅ Backward pass + weight update
-        loss.backward()
-        optimizer.step()
+            # ➡ Forward pass
+            loss = F.nll_loss(network(data), target)
+            cumu_loss += loss.item()
 
-        wandb.log({"batch loss": loss.item()})
+            # ⬅ Backward pass + weight update
+            loss.backward()
+            optimizer.step()
+
+            run.log({"batch loss": loss.item()})
 
     return cumu_loss / len(loader)
 ```
@@ -349,14 +351,14 @@ For more information on how to create W&B Sweeps in a terminal, see the [W&B Swe
 ### Parallel Coordinates Plot
 This plot maps hyperparameter values to model metrics. It’s useful for honing in on combinations of hyperparameters that led to the best model performance.
 
-{{< img src="/images/tutorials/sweeps-2.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-2.png" alt="Sweep agent execution results" >}}
 
 
 ### Hyperparameter Importance Plot
 The hyperparameter importance plot surfaces which hyperparameters were the best predictors of your metrics.
 We report feature importance (from a random forest model) and correlation (implicitly a linear model).
 
-{{< img src="/images/tutorials/sweeps-3.png" alt="" >}}
+{{< img src="/images/tutorials/sweeps-3.png" alt="W&B sweep dashboard" >}}
 
 These visualizations can help you save both time and resources running expensive hyperparameter optimizations by honing in on the parameters (and value ranges) that are the most important, and thereby worthy of further exploration.
 

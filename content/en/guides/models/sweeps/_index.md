@@ -15,7 +15,7 @@ cascade:
 
 Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive experiment tracking. Pick from popular search methods such as Bayesian, grid search, and random to search the hyperparameter space. Scale and parallelize sweep across one or more machines.
 
-{{< img src="/images/sweeps/intro_what_it_is.png" alt="Draw insights from large hyperparameter tuning experiments with interactive dashboards." >}}
+{{< img src="/images/sweeps/intro_what_it_is.png" alt="Hyperparameter tuning insights" >}}
 
 ### How it works
 Create a sweep with two [W&B CLI]({{< relref "/ref/cli/" >}}) commands:
@@ -34,7 +34,7 @@ wandb agent <sweep-ID>
 ```
 
 {{% alert %}}
-The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the Sweeps [Walkthrough]({{< relref "./walkthrough.md" >}}) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the [Sweeps walkthrough]({{< relref "./walkthrough.md" >}}) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
 {{% /alert %}}
 
 
@@ -54,4 +54,4 @@ Depending on your use case, explore the following resources to get started with 
 
 For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
 
-<!-- {% embed url="http://wandb.me/sweeps-video" %} -->
+<!-- {% embed url="https://wandb.me/sweeps-video" %} -->

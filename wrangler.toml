@@ -2,4 +2,4 @@ name = "docs"
 pages_build_output_dir = "public"
 
 [vars]
-HUGO_VERSION = "0.147.5"
+HUGO_VERSION = "0.147.8"

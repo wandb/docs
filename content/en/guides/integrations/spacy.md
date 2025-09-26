@@ -6,14 +6,14 @@ menu:
 title: spaCy
 weight: 410
 ---
-[spaCy](https://spacy.io) is a popular "industrial-strength" NLP library: fast, accurate models with a minimum of fuss. As of spaCy v3, Weights and Biases can now be used with [`spacy train`](https://spacy.io/api/cli#train) to track your spaCy model's training metrics as well as to save and version your models and datasets. And all it takes is a few added lines in your configuration.
+[spaCy](https://spacy.io) is a popular "industrial-strength" NLP library: fast, accurate models with a minimum of fuss. As of spaCy v3, W&B can now be used with [`spacy train`](https://spacy.io/api/cli#train) to track your spaCy model's training metrics as well as to save and version your models and datasets. And all it takes is a few added lines in your configuration.
 
 ## Sign up and create an API key
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -138,4 +138,4 @@ python -m spacy train \
 {{% /tab %}}
 {{< /tabpane >}}
 
-When training begins, a link to your training run's [W&B page]({{< relref "/guides/models/track/runs/" >}}) will be output which will take you to this run's experiment tracking [dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) in the Weights & Biases web UI.
+When training begins, a link to your training run's [W&B page]({{< relref "/guides/models/track/runs/" >}}) will be output which will take you to this run's experiment tracking [dashboard]({{< relref "/guides/models/track/workspaces.md" >}}) in the W&B web UI.

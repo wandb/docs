@@ -21,7 +21,7 @@ To search for a registry item:
 
 Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
 
-{{< img src="/images/registry/search_registry.gif" alt=".gif of user typing text into registry search bar to filter registry items" >}}
+{{< img src="/images/registry/search_registry.gif" alt="Searching within a Registry" >}}
 
 ## Query registry items with MongoDB-style queries
 
@@ -117,7 +117,7 @@ for art in artifacts:
     print(f"tags attached to artifact: {art.tags}")
     print(f"artifact created at: {art.created_at}\n")
 ```
-For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/artifact/_index.md" >}}) in the API Reference docs. 
+For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/experiments/artifact/_index.md" >}}) in the API Reference docs. 
 
 
 Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:

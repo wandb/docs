@@ -7,18 +7,18 @@ menu:
 title: PaddleOCR
 weight: 280
 ---
-[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a Weights & Biases integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) aims to create multilingual, awesome, leading, and practical OCR tools that help users train better models and apply them into practice implemented in PaddlePaddle. PaddleOCR support a variety of cutting-edge algorithms related to OCR, and developed industrial solution. PaddleOCR now comes with a W&B integration for logging training and evaluation metrics along with model checkpoints with corresponding metadata.
 
 ## Example Blog & Colab
 
-[**Read here**](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) to see how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [**Google Colab**](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live W&B dashboard is available [**here**](https://wandb.ai/manan-goel/text_detection). There is also a Chinese version of this blog here: [**W&B对您的OCR模型进行训练和调试**](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
+[Read here](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) to see how to train a model with PaddleOCR on the ICDAR2015 dataset. This also comes with a [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) and the corresponding live W&B dashboard is available [here](https://wandb.ai/manan-goel/text_detection). There is also a Chinese version of this blog here: [W&B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
 
 ## Sign up and create an API key
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.
@@ -83,7 +83,7 @@ Global:
     use_wandb: True
 ```
 
-Any additional, optional arguments that you might like to pass to [`wandb.init`]({{< relref "/ref/python/init" >}}) can also be added under the `wandb` header in the yaml file:
+Any additional, optional arguments that you might like to pass to [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}) can also be added under the `wandb` header in the yaml file:
 
 ```
 wandb:  
@@ -100,14 +100,14 @@ The yaml file is then provided as an argument to the [training script](https://g
 python tools/train.py -c config.yml
 ```
 
-Once you run your `train.py` file with Weights & Biases turned on, a link will be generated to bring you to your W&B dashboard:
+Once you run your `train.py` file with W&B turned on, a link will be generated to bring you to your W&B dashboard:
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR training dashboard" >}}
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="PaddleOCR validation dashboard" >}}
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model" >}}
+{{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="Text Detection Model dashboard" >}}
 
 ## Feedback or issues
 
-If you have any feedback or issues about the Weights & Biases integration please open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.
+If you have any feedback or issues about the W&B integration, open an issue on the [PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) or email <a href="mailto:support@wandb.com">support@wandb.com</a>.

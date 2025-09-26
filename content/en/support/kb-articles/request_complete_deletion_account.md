@@ -6,4 +6,4 @@ type: docs
 support:
 - user management
 ---
-To delete a W&B account, navigate to the **Settings** page, scroll to the bottom, and click the **Delete Account** button.
+To delete a W&B account, navigate to the **User settings** page, scroll to the bottom, and click the **Delete Account** button.

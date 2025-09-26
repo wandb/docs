@@ -24,7 +24,7 @@ In this tutorial you will see how to use `wandb-workspaces` to create and custom
 
 
 {{% alert %}}
-Programmatic interaction with workspaces is currently supported for [**Saved workspaces views**]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
+Programmatic interaction with workspaces is currently supported for [Saved workspaces views]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
 {{% /alert %}}
 
 ## 1. Install and import dependencies
@@ -55,7 +55,7 @@ Note: You can load an existing workspace using its unique `Saved view` URL. See 
 
 
 ```python
-# Initialize Weights & Biases and Login
+# Initialize W&B and Login
 wandb.login()
 
 # Function to create a new project and log sample data
@@ -65,7 +65,7 @@ def create_project_and_log_data():
     # Initialize a run to log some sample data
     with wandb.init(project=project, name="sample_run") as run:
         for step in range(100):
-            wandb.log({
+            run.log({
                 "Step": step,
                 "val_loss": 1.0 / (step + 1),
                 "val_accuracy": step / 100.0,

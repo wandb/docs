@@ -8,18 +8,21 @@ title: Log summary metrics
 
 In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
 
- The last value logged with `wandb.log` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
 
-The proceeding code snippet demonstrates how to provide a custom summary metric to W&B:
+The following code snippet demonstrates how to provide a custom summary metric to W&B:
+
 ```python
-wandb.init(config=args)
+import wandb
+import argparse
 
-best_accuracy = 0
-for epoch in range(1, args.epochs + 1):
-    test_loss, test_accuracy = test()
-    if test_accuracy > best_accuracy:
-        wandb.summary["best_accuracy"] = test_accuracy
-        best_accuracy = test_accuracy
+with wandb.init(config=args) as run:
+  best_accuracy = 0
+  for epoch in range(1, args.epochs + 1):
+      test_loss, test_accuracy = test()
+      if test_accuracy > best_accuracy:
+          run.summary["best_accuracy"] = test_accuracy
+          best_accuracy = test_accuracy
 ```
 
 You can update the summary attribute of an existing W&B Run after training has completed. Use the [W&B Public API]({{< relref "/ref/python/public-api/" >}}) to update the summary attribute:
@@ -33,7 +36,7 @@ run.summary.update()
 
 ## Customize summary metrics
 
-Custom summary metrics are useful for capturing model performance at the best step of training in your `wandb.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
+Custom summary metrics are useful for capturing model performance at the best step of training in your `run.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
 
 By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
 
@@ -53,22 +56,22 @@ import wandb
 import random
 
 random.seed(1)
-wandb.init()
 
-# Min and max summary values for loss
-wandb.define_metric("loss", summary="min")
-wandb.define_metric("loss", summary="max")
+with wandb.init() as run:
+    # Min and max summary values for loss
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
 
-# Min and max summary values for accuracy
-wandb.define_metric("acc", summary="min")
-wandb.define_metric("acc", summary="max")
+    # Min and max summary values for accuracy
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
 
-for i in range(10):
-    log_dict = {
-        "loss": random.uniform(0, 1 / (i + 1)),
-        "acc": random.uniform(1 / (i + 1), 1),
-    }
-    wandb.log(log_dict)
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
 ```
 
 ## View summary metrics
@@ -84,7 +87,7 @@ View summary values in a run's **Overview** page or the project's runs table.
 4. Select the **Overview** tab.
 5. View the summary values in the **Summary** section.
 
-{{< img src="/images/track/customize_summary.png" alt="Overview page of a run logged to W&B. Bottom right corner of UI shows the min and max of the machine learning models accuracy and loss within the Summary metrics section." >}}
+{{< img src="/images/track/customize_summary.png" alt="Run overview" >}}
 
 {{% /tab %}}
 {{% tab header="Run Table" value="run table" %}}
@@ -112,27 +115,27 @@ run_name = "<your-run-name>" # Name of run with summary values
 all_runs = []
 
 for run in api.runs(f"{entity}/{project_name}"):
-  print("Fetching details for run: ", run.id, run.name)
-  run_data = {
-            "id": run.id,
-            "name": run.name,
-            "url": run.url,
-            "state": run.state,
-            "tags": run.tags,
-            "config": run.config,
-            "created_at": run.created_at,
-            "system_metrics": run.system_metrics,
-            "summary": run.summary,
-            "project": run.project,
-            "entity": run.entity,
-            "user": run.user,
-            "path": run.path,
-            "notes": run.notes,
-            "read_only": run.read_only,
-            "history_keys": run.history_keys,
-            "metadata": run.metadata,
-        }
-  all_runs.append(run_data)
+    print("Fetching details for run: ", run.id, run.name)
+    run_data = {
+              "id": run.id,
+              "name": run.name,
+              "url": run.url,
+              "state": run.state,
+              "tags": run.tags,
+              "config": run.config,
+              "created_at": run.created_at,
+              "system_metrics": run.system_metrics,
+              "summary": run.summary,
+              "project": run.project,
+              "entity": run.entity,
+              "user": run.user,
+              "path": run.path,
+              "notes": run.notes,
+              "read_only": run.read_only,
+              "history_keys": run.history_keys,
+              "metadata": run.metadata,
+          }
+    all_runs.append(run_data)
   
 # Convert to DataFrame  
 df = pd.DataFrame(all_runs)

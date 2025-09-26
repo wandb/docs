@@ -16,7 +16,11 @@ See the summary table in [Registry types]({{< relref "registry_types.md#summary"
 
 ## Create a custom registry
 
-To create a custom registry:
+Create a custom registry either programmatically using the Registry App or the W&B Python SDK.
+
+{{< tabpane text=true >}}
+  {{% tab header="Registry App" %}}
+
 1. Navigate to the **Registry** App at https://wandb.ai/registry/.
 2. Within **Custom registry**, click on the **Create registry** button.
 3. Provide a name for your registry in the **Name** field.
@@ -24,7 +28,28 @@ To create a custom registry:
 5. Select who can view the registry from the **Registry visibility** dropdown. See [Registry visibility types]({{< relref "./configure_registry.md#registry-visibility-types" >}}) for more information on registry visibility options.
 6. Select either **All types** or **Specify types** from the **Accepted artifacts type** dropdown.
 7. (If you select **Specify types**) Add one or more artifact types that your registry accepts.
-8. Click on the **Create registry** button. 
+8. Click on the **Create registry** button.
+
+  {{% /tab %}}
+  {{% tab header="Python SDK" %}}
+
+Use the [`wandb.Api().create_registry()`]({{< relref "/ref/python/public-api/Api/#method-apicreate_registry" >}}) method to create a custom registry programmatically. Provide a name and [visibility](#visibility-types) for the registry for the `name` and `visibility` parameters, respectively.
+
+Copy and paste the code block below. Replace the values enclosed in `<>` with your own:
+
+```python
+import wandb
+
+registry = wandb.Api().create_registry(
+    name="<registry_name>",
+    visibility="< 'restricted' | 'organization' >",
+)
+```
+
+See the  [`wandb.Api().create_registry()`]({{< relref "/ref/python/public-api/Api/#method-apicreate_registry" >}}) method reference for a full list of parameters that you can provide when you create a custom registry.
+
+{{% /tab %}}
+{{< /tabpane >}}
 
 {{% alert %}}
 An artifact type cannot be removed from a registry once it is saved in the registry's settings.
@@ -32,7 +57,7 @@ An artifact type cannot be removed from a registry once it is saved in the regis
 
 For example, the proceeding image shows a custom registry called `Fine_Tuned_Models` that a user is about to create. The registry is **Restricted** to only members that are manually added to the registry.
 
-{{< img src="/images/registry/create_registry.gif" alt="" >}}
+{{< img src="/images/registry/create_registry.gif" alt="Creating a new registry" >}}
 
 ## Visibility types
 
@@ -65,7 +90,7 @@ To restrict the visibility of an existing custom registry:
    2. Within the **Member** field, add the email or username of the member you want to add.
    3. Click **Add new member**.
 
-{{< img src="/images/registry/change_registry_visibility.gif" alt="" >}}
+{{< img src="/images/registry/change_registry_visibility.gif" alt="Changing registry visibility settings from private to public or team-restricted access" >}}
 
 See [Create a custom registry]({{< relref "./create_registry.md#create-a-custom-registry" >}}) for more information on how assign the visibility of a custom registry when a team administrator creates it.
 

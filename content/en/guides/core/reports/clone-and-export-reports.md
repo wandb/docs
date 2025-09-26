@@ -22,7 +22,7 @@ Export a report as a PDF or LaTeX. Within your report, select the kebab icon to 
 {{% tab header="W&B App" value="app" %}}
 Within your report, select the kebab icon to expand the dropdown menu. Choose the **Clone this report** button. Pick a destination for your cloned report in the modal. Choose **Clone report**.
 
-{{< img src="/images/reports/clone_reports.gif" alt="" >}}
+{{< img src="/images/reports/clone_reports.gif" alt="Cloning reports" >}}
 
 Clone a report to reuse a project's template and format. Cloned projects are visible to your team if you clone a project within the team's account. Projects cloned within an individual's account are only visible to that user.
 {{% /tab %}}

@@ -60,7 +60,7 @@ Navigate to your CLI and initialize a W&B Sweep with wandb sweep:
 wandb sweep config.yaml
 ```
 
-Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}}) with the CLI instead of the Python SDK ([`wandb.agent`]({{< relref "/ref/python/agent.md" >}})). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
+Make a note of the W&B Sweep ID that is returned. Next, start the Sweep job with [`wandb agent`]({{< relref "/ref/cli/wandb-agent.md" >}}) with the CLI instead of the Python SDK ([`wandb.agent`]({{< relref "/ref/python/functions/agent.md" >}})). Replace `sweep_ID` in the code snippet below with the Sweep ID that was returned in the previous step:
 
 ```shell
 wandb agent sweep_ID

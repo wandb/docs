@@ -9,9 +9,9 @@ weight: 1
 ---
 
 
-This page describes a reference architecture for a Weights & Biases deployment and outlines the recommended infrastructure and resources to support a production deployment of the platform.
+This page describes a reference architecture for a W&B deployment and outlines the recommended infrastructure and resources to support a production deployment of the platform.
 
-Depending on your chosen deployment environment for Weights & Biases (W&B), various services can help to enhance the resiliency of your deployment.
+Depending on your chosen deployment environment for W&B, various services can help to enhance the resiliency of your deployment.
 
 For instance, major cloud providers offer robust managed database services which help to reduce the complexity of database configuration, maintenance, high availability, and resilience.
 
@@ -56,18 +56,31 @@ Consider the following when you deploy a self-managed MySQL database:
 - **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
 - **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
 
+### Redis
+W&B depends on a single-node Redis 7.x deployment used by W&B's components for job queuing and data caching. For convenience during testing and development of proofs of concept, W&B Self-Managed includes a local Redis deployment that is not appropriate for production deployments.
+
+W&B can connect to a Redis instance in the following environments:
+
+- [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
+- [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+- [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+- Redis deployment hosted in your cloud or on-premise infrastructure
+
 ### Object storage
-W&B requires object storage with Pre-signed URL and CORS support, deployed in one of:
-- Amazon S3
-- Azure Cloud Storage
-- Google Cloud Storage
-- storage service compatible with Amazon S3
+W&B requires object storage with pre-signed URL and CORS support, deployed in one of:
+
+- [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) is a high-performance, S3-compatible object storage service optimized for AI workloads.
+- [Amazon S3](https://aws.amazon.com/s3/) is an object storage service offering industry-leading scalability, data availability, security, and performance.
+- [Google Cloud Storage](https://cloud.google.com/storage) is a managed service for storing unstructured data at scale.
+- [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs) is a cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
+- S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
 
 ### Versions
 | Software     | Minimum version                              |
 | ------------ | -------------------------------------------- |
 | Kubernetes   | v1.29                                        |
-| MySQL        | v8.0.0, "General Availability" releases only |
+| MySQL        | v8.0.x releases, must be v8.0.28 or newer|
+| Redis        | v7.x                                         |
 
 ### Networking
 

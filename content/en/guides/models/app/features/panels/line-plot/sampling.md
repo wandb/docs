@@ -26,7 +26,7 @@ Show or hide minimum and maximum values with shaded areas around your line plots
 
 The proceeding image shows a blue line plot. The light blue shaded area represents the minimum and maximum values for each bucket.
 
-{{< img src="/images/app_ui/shaded-areas.png" alt="" >}}
+{{< img src="/images/app_ui/shaded-areas.png" alt="Shaded confidence areas" >}}
 
 There are three ways to render minimum and maximum values in your line plots:
 
@@ -59,7 +59,7 @@ By default, the minimum and maximum values are not displayed as shaded areas. To
 Analyze specific regions of the dataset without missing critical points like extreme values or spikes. When you zoom in on a line plot, W&B adjusts the buckets sizes used to calculate the minimum, maximum, and average values within each bucket. 
 
 
-{{< img src="/images/app_ui/zoom_in.gif" alt="" >}}
+{{< img src="/images/app_ui/zoom_in.gif" alt="Plot zoom functionality" >}}
 
 
 W&B divides the x-axis is dynamically into 1000 buckets by default. For each bucket, W&B calculates the following values:
@@ -120,7 +120,7 @@ By default, W&B uses full fidelity mode. To enable random sampling, follow these
 
 ### Access non sampled data
 
-You can access the complete history of metrics logged during a run using the [W&B Run API]({{< relref "/ref/python/public-api/run.md" >}}). The following example demonstrates how to retrieve and process the loss values from a specific run:
+You can access the complete history of metrics logged during a run using the [W&B Run API]({{< relref "/ref/python/public-api/runs.md" >}}). The following example demonstrates how to retrieve and process the loss values from a specific run:
 
 
 ```python

@@ -20,7 +20,7 @@ W&B recommends you use a [Launch Docker queue]({{< relref "/launch/set-up-launch
 
 <!-- Paraphrase commented paragraph below in more clear wording. -->
 
-The [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) has made it easy to run GPU-enabled workflows on Docker. One limitation is a lack of native support for scheduling GPU by volume. If you want to use a GPU with the `docker run` command you must either request specific GPU by ID or all GPU present, which makes many distributed GPU enabled workloads impractical. Kubernetes offers support for scheduling by a volume request, but setting up a local Kubernetes cluster with GPU scheduling can take considerable time and effort, until recently. Minikube, one of the most popular tools for running single node Kubernetes clusters, recently released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 🎉 In this tutorial, we will create a Minikube cluster on a multi-GPU machine and launch concurrent stable diffusion inference jobs to the cluster using W&B Launch 🚀
+The [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) has made it easy to run GPU-enabled workflows on Docker. One limitation is a lack of native support for scheduling GPU by volume. If you want to use a GPU with the `docker run` command you must either request specific GPU by ID or all GPU present, which makes many distributed GPU enabled workloads impractical. Kubernetes offers support for scheduling by a volume request, but setting up a local Kubernetes cluster with GPU scheduling can take considerable time and effort, until recently. Minikube, one of the most popular tools for running single node Kubernetes clusters, recently released [support for GPU scheduling](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/). In this tutorial, we will create a Minikube cluster on a multi-GPU machine and launch concurrent stable diffusion inference jobs to the cluster using W&B Launch.
 
 ## Prerequisites
 
@@ -107,7 +107,7 @@ variable.
 Attempts to submit a run to this queue which violate the constraints of the template variable will
 be rejected.
 
-{{< img src="/images/tutorials/minikube_gpu/create_queue.png" alt="Image of queue creation drawer with gpus template variable" >}}
+{{< img src="/images/tutorials/minikube_gpu/create_queue.png" alt="Queue creation drawer" >}}
 
 7. Click **Create queue** to create your queue. You will be redirected to the queue page for your new queue.
 
@@ -275,7 +275,7 @@ Create the resources in your cluster with:
 kubectl apply -f nfs-persistent-volume.yaml
 ```
 
-In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
+In order for our runs to make use of this cache, we will need to add `volumes` and `volumeMounts` to our launch queue config. To edit the launch config, head back to [wandb.ai/launch](https://wandb.ai/launch) (or `<your-wandb-url>/launch` for users on wandb server), find your queue, click to the queue page, and then click the **Edit config** tab. The original config can be modified to:
 
 {{< tabpane text=true >}}
 {{% tab "YAML" %}}
@@ -358,7 +358,7 @@ wandb launch -d wandb/job_stable_diffusion_inference:main -p <target-wandb-proje
 The command above will submit the container image `wandb/job_stable_diffusion_inference:main` to your queue.
 Once your agent picks up the job and schedules it for execution on your cluster,
 it may take a while for the image to be pulled, depending on your connection.
-You can follow the status of the job on the queue page on [wandb.ai/launch](http://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
+You can follow the status of the job on the queue page on [wandb.ai/launch](https://wandb.ai/launch) (or \<your-wandb-url\>/launch for users on wandb server).
 
 Once the run has finished, you should have a job artifact in the project you specified.
 You can check your project's job page (`<project-url>/jobs`) to find the job artifact. Its default name should
@@ -372,4 +372,4 @@ page will be pre-populated with the parameters from the original run, but you ca
 change them to whatever you like by modifying their values in the **Overrides** section
 of the launch drawer.
 
-{{< img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="Image of launch UI for stable diffusion inference job" >}}
+{{< img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="Launch UI" >}}

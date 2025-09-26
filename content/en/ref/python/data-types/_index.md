@@ -1,49 +1,59 @@
 ---
 title: Data Types
+module: wandb.sdk.data_types
+weight: 2
+no_list: true
 ---
 
-<!-- Insert buttons and diff -->
+Data Types in W&B are classes that wrap media and structured data for logging to runs. They include visualization components in the W&B UI and handle data serialization, storage, and retrieval.
 
+## Available Data Types
 
+| Data Type | Description |
+|-----------|-------------|
+| [`Image`](./Image/) | Log images with support for masks, bounding boxes, and segmentation. |
+| [`Video`](./Video/) | Track video data for model outputs or dataset samples. |
+| [`Audio`](./Audio/) | Log audio samples for audio processing tasks. |
+| [`Table`](./Table/) | Create tables that can contain mixed media types. |
+| [`Plotly`](./Plotly/) | Log Plotly charts for data visualization. |
+| [`Html`](./Html/) | Embed custom HTML content. |
+| [`Object3D`](./Object3D/) | Visualize 3D point clouds and meshes. |
+| [`Molecule`](./Molecule/) | Log molecular structures for computational chemistry. |
 
-This module defines data types for logging rich, interactive visualizations to W&B.
+## Examples
 
-Data types include common media types, like images, audio, and videos,
-flexible containers for information, like tables and HTML, and more.
+This example uses an `Image`:
 
-For more on logging media, see [our guide](https://docs.wandb.com/guides/track/log/media)
+```python
+import wandb
+import matplotlib.pyplot as plt
 
-For more on logging structured data for interactive dataset and model analysis,
-see [our guide to W&B Tables](https://docs.wandb.com/guides/models/tables/).
+# Generate an image for demonstration purposes
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
 
-All of these special data types are subclasses of WBValue. All the data types
-serialize to JSON, since that is what wandb uses to save the objects locally
-and upload them to the W&B server.
+# Initialize a new run
+with wandb.init(project="awesome-project") as run:
 
-## Classes
+    # Log the image
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
+```
 
-[`class Audio`](./audio.md): Wandb class for audio clips.
+This example uses a `Table` to log a table with mixed text and labels:
 
-[`class BoundingBoxes2D`](./boundingboxes2d.md): Format images with 2D bounding box overlays for logging to W&B.
+```python
+import wandb
 
-[`class Graph`](./graph.md): Wandb class for graphs.
+# Initialize a new run
+with wandb.init(project="visualize-predictions", name="tables") as run:
 
-[`class Histogram`](./histogram.md): wandb class for histograms.
+    # Create tabular data, using a list of lists
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
 
-[`class Html`](./html.md): A class for logging HTML content to W&B.
-
-[`class Image`](./image.md): A class for logging images to W&B.
-
-[`class ImageMask`](./imagemask.md): Format image masks or overlays for logging to W&B.
-
-[`class Molecule`](./molecule.md): Wandb class for 3D Molecular data.
-
-[`class Object3D`](./object3d.md): Wandb class for 3D point clouds.
-
-[`class Plotly`](./plotly.md): Wandb class for plotly plots.
-
-[`class Table`](./table.md): The Table class used to display and analyze tabular data.
-
-[`class Video`](./video.md): A class for logging videos to W&B.
-
-[`class WBTraceTree`](./wbtracetree.md): Media object for trace tree data.
+    # Create tabular data, using `wandb.Table.add_data()` method
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```

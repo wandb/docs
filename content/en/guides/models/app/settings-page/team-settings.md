@@ -19,7 +19,7 @@ Only Administration account types can change team settings or remove a member fr
 
 
 ## Members
-The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member’s name, username, email, team role, as well as their access privileges to Models and Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#create-custom-roles" >}}), you can assign a custom role instead.
+The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member's name, username, email, team role, as well as their access privileges to Models and W&B Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#create-custom-roles" >}}), you can assign a custom role instead.
 
 See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a team, manage teams, and manage team membership and roles. To configure who can invite new members and configure other privacy settings for the team, refer to [Privacy]({{< relref "#privacy" >}}).
 
@@ -39,7 +39,7 @@ Toggle the switch next to the event type you want to receive alerts from. Weight
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: if a run has failed to finish.
 
-For more information about how to set up and manage alerts, see [Send alerts with wandb.alert]({{< relref "/guides/models/track/runs/alert.md" >}}).
+For more information about how to set up and manage alerts, see [Send alerts with `wandb.Run.alert()`]({{< relref "/guides/models/track/runs/alert.md" >}}).
 
 ## Slack notifications
 Configure Slack destinations where your team's [automations]({{< relref "/guides/core/automations/" >}}) can send notifications when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation]({{< relref "/guides/core/automations/create-automations/slack.md" >}}).

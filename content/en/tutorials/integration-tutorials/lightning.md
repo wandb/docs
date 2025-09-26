@@ -12,7 +12,7 @@ We will build an image classification pipeline using PyTorch Lightning. We will 
 
 ## Setting up PyTorch Lightning and W&B 
 
-For this tutorial, we need PyTorch Lightning and Weights and Biases.
+For this tutorial, we need PyTorch Lightning and W&B.
 
 ```shell
 pip install lightning -q
@@ -252,7 +252,7 @@ The Trainer automates:
 - Calling of `optimizer.step()`, `backward`, `zero_grad()`
 - Calling of `.eval()`, enabling/disabling grads
 - Saving and loading weights
-- Weights and Biases logging
+- W&B logging
 - Multi-GPU training support
 - TPU support
 - 16-bit training support
@@ -296,7 +296,7 @@ trainer.fit(model, dm)
 trainer.test(dataloaders=dm.test_dataloader())
 
 # Close wandb run
-wandb.finish()
+run.finish()
 ```
 
 ## Final Thoughts
@@ -317,5 +317,5 @@ I come from the TensorFlow/Keras ecosystem and find PyTorch a bit overwhelming e
 I hope you find this report helpful. I will encourage to play with the code and train an image classifier with a dataset of your choice. 
 
 Here are some resources to learn more about PyTorch Lightning:
-- [Step-by-step walk-through](https://lightning.ai/docs/pytorch/latest/starter/introduction.html) - This is one of the official tutorials. Their documentation is really well written and I highly encourage it as a good learning resource.
-- [Use Pytorch Lightning with Weights & Biases](https://wandb.me/lightning) - This is a quick colab that you can run through to learn more about how to use W&B with PyTorch Lightning.
+- [Step-by-step walk-through](https://lightning.ai/docs/pytorch/latest/starter/introduction.html): This is one of the official tutorials. Their documentation is really well written and I highly encourage it as a good learning resource.
+- [Use Pytorch Lightning with W&B](https://wandb.me/lightning): This is a quick colab that you can run through to learn more about how to use W&B with PyTorch Lightning.

@@ -15,16 +15,16 @@ Starting with `wandb` version 0.8.28, W&B can save the code from your main train
 
 When you enable code saving, W&B saves the code from the file that called `wandb.init()`. To save additional library code, you have three options:
 
-### Call `wandb.run.log_code(".")` after calling `wandb.init()`
+### Call `wandb.Run.log_code(".")` after calling `wandb.init()`
 
 ```python
 import wandb
 
-wandb.init()
-wandb.run.log_code(".")
+with wandb.init() as run:
+  run.log_code(".")
 ```
 
-### Pass a settings object to `wandb.init` with `code_dir` set
+### Pass a settings object to `wandb.init()` with `code_dir` set
 
 ```python
 import wandb
@@ -32,7 +32,7 @@ import wandb
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-This captures all python source code files in the current directory and all subdirectories as an [artifact]({{< relref "/ref/python/artifact.md" >}}). For more control over the types and locations of source code files that are saved, see the [reference docs]({{< relref "/ref/python/run.md#log_code" >}}).
+This captures all python source code files in the current directory and all subdirectories as an [artifact]({{< relref "/ref/python/experiments/artifact.md" >}}). For more control over the types and locations of source code files that are saved, see the [reference docs]({{< relref "/ref/python/experiments/run.md#log_code" >}}).
 
 ### Set code saving in the UI
 
@@ -51,7 +51,7 @@ Compare code used in different W&B runs:
 2. Expand **TEXT AND CODE** dropdown and select **Code**.
 
 
-{{< img src="/images/app_ui/code_comparer.png" alt="" >}}
+{{< img src="/images/app_ui/code_comparer.png" alt="Code comparer panel" >}}
 
 ## Jupyter session history
 
@@ -63,8 +63,8 @@ W&B saves the history of code executed in your Jupyter notebook session. When yo
 3. Expand the **code** artifact.
 4. Select the **Files** tab.
 
-{{< img src="/images/app_ui/jupyter_session_history.gif" alt="" >}}
+{{< img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter session history" >}}
 
 This displays the cells that were run in your session along with any outputs created by calling iPython’s display method. This enables you to see exactly what code was run within Jupyter in a given run. When possible W&B also saves the most recent version of the notebook which you would find in the code directory as well.
 
-{{< img src="/images/app_ui/jupyter_session_history_display.png" alt="" >}}
+{{< img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output" >}}

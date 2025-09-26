@@ -17,13 +17,13 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…)
 ```
 
-{{< img src="/images/integrations/cd.png" alt="" >}}
+{{< img src="/images/integrations/cd.png" alt="DeepChem molecular analysis" >}}
 
 ## Report and Google Colab
 
 Explore the Using [W&B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) article for an example charts generated using the W&B DeepChem integration.
 
-To dive straight into working code, check out this [**Google Colab**](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
+To dive straight into working code, check out this [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
 
 ## Track experiments
 
@@ -34,7 +34,7 @@ Set up W&B for DeepChem models of type [KerasModel](https://deepchem.readthedocs
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
 {{% alert %}}
-For a more streamlined approach, you can generate an API key by going directly to [https://wandb.ai/authorize](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
+For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
 {{% /alert %}}
 
 1. Click your user profile icon in the upper right corner.

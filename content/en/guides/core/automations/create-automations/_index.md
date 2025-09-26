@@ -5,6 +5,9 @@ menu:
     parent: automations
 title: Create an automation
 weight: 1
+url: guides/automations/create-automations
+cascade:
+- url: guides/automations/create-automations/:filename
 ---
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-cloud-only.md" >}}
@@ -35,7 +38,7 @@ Or, from a line plot in the workspace, you can quickly create a [run metric auto
 
 1. Hover over the panel, then click the bell icon at the top of the panel.
 
-    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Illustration showing the location of the automation bell icon" >}}
+    {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" >}}
 1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
 
 For details, refer to:
@@ -51,6 +54,7 @@ View and manage automations from a project or registry's **Automations** tab.
 - To delete an automation, click its action `...` menu, then click **Delete automation**.
 
 ## Next steps
+- Learn more about [automation events and scopes]({{< relref "/guides/core/automations/automation-events.md" >}})
 - [Create a Slack automation]({{< relref "slack.md" >}}).
 - [Create a webhook automation]({{< relref "webhook.md" >}}).
 - [Create a secret]({{< relref "/guides/core/secrets.md" >}}).

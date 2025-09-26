@@ -1,72 +1,68 @@
 ---
 title: Projects
+namespace: public_apis_namespace
+python_object_type: class
+---
+{{< readfile file="/_includes/public-api-use.md" >}}
+
+
+{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py >}}
+
+
+
+
+## <kbd>class</kbd> `Projects`
+An lazy iterator of `Project` objects. 
+
+An iterable interface to access projects created and saved by the entity.
+
+### <kbd>method</kbd> `Projects.__init__`
+
+```python
+__init__(
+    client: wandb.apis.public.api.RetryingClient,
+    entity: str,
+    per_page: int = 50
+) → Projects
+```
+
+**Args:**
+ 
+ - `client` (`wandb.apis.internal.Api`):  The API client instance to use. 
+ - `entity` (str):  The entity name (username or team) to fetch projects for. 
+ - `per_page` (int):  Number of projects to fetch per request (default is 50). 
+
+
+
+**Example:**
+ ```python
+from wandb.apis.public.api import Api
+
+# Find projects that belong to this entity
+projects = Api().projects(entity="entity")
+
+# Iterate over files
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+``` 
+
+
+An iterable collection of `Project` objects. 
+
+
+
+**Args:**
+ 
+ - `client`:  The API client used to query W&B. 
+ - `entity`:  The entity which owns the projects. 
+ - `per_page`:  The number of projects to fetch per request to the API. 
+
+
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/projects.py#L23-L80 >}}
 
-An iterable collection of `Project` objects.
 
-```python
-Projects(
-    client, entity, per_page=50
-)
-```
 
-| Attributes |  |
-| :--- | :--- |
-|  `cursor` |  The start cursor to use for the next fetched page. |
-|  `more` |  Whether there are more pages to be fetched. |
-
-## Methods
-
-### `convert_objects`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/public/projects.py#L73-L77)
-
-```python
-convert_objects()
-```
-
-Convert the last fetched response data into the iterated objects.
-
-### `next`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L100-L107)
-
-```python
-next() -> T
-```
-
-Return the next item from the iterator. When exhausted, raise StopIteration
-
-### `update_variables`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L69-L71)
-
-```python
-update_variables() -> None
-```
-
-Update the query variables for the next page fetch.
-
-### `__getitem__`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L93-L98)
-
-```python
-__getitem__(
-    index: (int | slice)
-) -> (T | list[T])
-```
-
-### `__iter__`
-
-[View source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/apis/paginator.py#L48-L50)
-
-```python
-__iter__() -> Iterator[T]
-```
-
-| Class Variables |  |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |

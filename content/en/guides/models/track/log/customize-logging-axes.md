@@ -6,7 +6,7 @@ menu:
 title: Customize log axes
 ---
 
-Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `wandb.log()` API call. 
+Set a custom x-axis when you log metrics to W&B. By default, W&B logs metrics as *steps*. Each step corresponds to a `wandb.Run.log()` API call. 
 
 For example, the following script has a `for` loop that iterates 10 times. In each iteration, the script logs a metric called `validation_loss` and increments the step number by 1.
 
@@ -22,11 +22,11 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
+In the project's workspace, the `validation_loss` metric is plotted against the `step` x-axis, which increments by 1 each time `wandb.Run.log()` is called. From the previous code, the x-axis shows the step numbers 0, 1, 2, ..., 9.
 
 {{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis." >}}
 
-In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`]({{< relref "ref/python/run/#define_metric" >}}) method to use any metric you log  as a custom x-axis.
+In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`]({{< relref "/ref/python/experiments/run/#define_metric" >}}) method to use any metric you log  as a custom x-axis.
 
 Specify the metric that you want to appear as the y-axis with the `name` parameter. The `step_metric` parameter specifies the metric you want to use as the x-axis. When you log a custom metric, specify a value for both the x-axis and the y-axis as key-value pairs in a dictionary. 
 
@@ -92,4 +92,4 @@ with wandb.init() as run:
 ```
 
 
-<!-- [Try `define_metric` in Google Colab](http://wandb.me/define-metric-colab). -->
+<!-- [Try `define_metric` in Google Colab](https://wandb.me/define-metric-colab). -->

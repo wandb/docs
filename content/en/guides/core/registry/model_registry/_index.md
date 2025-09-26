@@ -6,9 +6,9 @@ menu:
     parent: registry
 title: Model registry
 weight: 9
-url: guides/core/registry/model_registry
+url: guides/registry/model_registry
 cascade:
-- url: guides/core/registry/model_registry/:filename
+- url: guides/registry/model_registry/:filename
 ---
 
 {{% alert %}}
@@ -20,7 +20,7 @@ W&B will migrate existing model artifacts linked to the legacy Model Registry to
 
 The W&B Model Registry houses a team's trained models where ML Practitioners can publish candidates for production to be consumed by downstream teams and stakeholders. It is used to house staged/candidate models and manage workflows associated with staging.
 
-{{< img src="/images/models/model_reg_landing_page.png" alt="" >}}
+{{< img src="/images/models/model_reg_landing_page.png" alt="Model Registry" >}}
 
 With W&B Model Registry, you can:
 
@@ -29,7 +29,7 @@ With W&B Model Registry, you can:
 * Move model versions through its ML lifecycle; from staging to production.
 * Track a model's lineage and audit the history of changes to production models.
 
-{{< img src="/images/models/models_landing_page.png" alt="" >}}
+{{< img src="/images/models/models_landing_page.png" alt="Models overview" >}}
 
 ## How it works
 Track and manage your staged models with a few simple steps.
@@ -74,7 +74,7 @@ Depending on your use case, explore the following resources to get started with 
    * [Protected models and access control]({{< relref "./access_controls.md" >}}).
    * [How to connect Registry to CI/CD processes]({{< relref "/guides/core/automations/" >}}).
    * Set up [Slack notifications]({{< relref "./notifications.md" >}}) when a new model version is linked to a registered model.
-* Review [this](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) report on how the Model Registry fits into your ML workflow and the benefits of using one for model management. 
+* Review [What is an ML Model Registry?](https://wandb.ai/wandb_fc/model-registry-reports/reports/What-is-an-ML-Model-Registry---Vmlldzo1MTE5MjYx) to learn how to integrate Model Registry into your ML workflow. 
 * Take the W&B [Enterprise Model Management](https://www.wandb.courses/courses/enterprise-model-management) course and learn how to:
   * Use the W&B Model Registry to manage and version your models, track lineage, and promote models through different lifecycle stages
   * Automate your model management workflows using webhooks.

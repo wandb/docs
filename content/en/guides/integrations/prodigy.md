@@ -24,13 +24,13 @@ with wandb.init(project="prodigy"):
 
 and get visual, interactive, shareable tables like this one:
 
-{{< img src="/images/integrations/prodigy_interactive_visual.png" alt="" >}}
+{{< img src="/images/integrations/prodigy_interactive_visual.png" alt="Prodigy annotation table" >}}
 
 ## Quickstart
 
-Use `wandb.integration.prodigy.upload_dataset` to upload your annotated prodigy dataset directly from the local Prodigy database to W&B in our [Table]({{< relref "/ref/python/data-types/table" >}}) format. For more information on Prodigy, including installation & setup, please refer to the [Prodigy documentation](https://prodi.gy/docs/).
+Use `wandb.integration.prodigy.upload_dataset` to upload your annotated prodigy dataset directly from the local Prodigy database to W&B in our [Table]({{< relref "/ref/python/data-types/table.md" >}}) format. For more information on Prodigy, including installation & setup, please refer to the [Prodigy documentation](https://prodi.gy/docs/).
 
-W&B will automatically try to convert images and named entity fields to [`wandb.Image`]({{< relref "/ref/python/data-types/image" >}}) and [`wandb.Html`]({{< relref "/ref/python/data-types/html" >}})respectively. Extra columns may be added to the resulting table to include these visualizations.
+W&B will automatically try to convert images and named entity fields to [`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) and [`wandb.Html`]({{< relref "/ref/python/data-types/html.md" >}})respectively. Extra columns may be added to the resulting table to include these visualizations.
 
 ## Read through a detailed example
 

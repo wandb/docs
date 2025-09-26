@@ -24,7 +24,7 @@ Explore the code behind these examples in the W&B GitHub examples repository [he
 
 This section describes how to track values and metrics available to your rank 0 process. Use this approach to track only metrics that are available from a single process. Typical metrics include GPU/CPU utilization, behavior on a shared validation set, gradients and parameters, and loss values on representative data examples.
 
-Within the rank 0 process, initialize a W&B run with [`wandb.init`]({{< relref "/ref//python/init.md" >}}) and log experiments ([`wandb.log`]({{< relref "/ref//python/log.md" >}})) to that run. 
+Within the rank 0 process, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/functions/init" >}}) and log experiments ([`wandb.log`]({{< relref "/ref/python/experiments/run/#method-runlog" >}})) to that run.
 
 The following [sample Python script (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) demonstrates one way to track metrics on two GPUs on a single machine using PyTorch DDP. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the implementation may differ.
 
@@ -54,11 +54,11 @@ Explore an [example dashboard showing metrics tracked from a single process](htt
 
 The dashboard displays system metrics for both GPUs, such as temperature and utilization.
 
-{{< img src="/images/track/distributed_training_method1.png" alt="Workspace that shows four line plot panels. From left to right the plots are: GPU Utilization (%), GPU Temp (C), GPU Time Spent Accessing Memory (%), and GPU Memory Allocated (%)" >}}
+{{< img src="/images/track/distributed_training_method1.png" alt="GPU metrics dashboard" >}}
 
 However, the loss values as a function epoch and batch size were only logged from a single GPU.
 
-{{< img src="/images/experiments/loss_function_single_gpu.png" alt="Two line plot panels in an example workspace. The left plot shows the loss measured as a function of step. The right plot show the loss recorded at each batch." >}}
+{{< img src="/images/experiments/loss_function_single_gpu.png" alt="Loss function plots" >}}
 
 ## Track multiple processes
 
@@ -68,7 +68,7 @@ Track multiple processes with W&B with one of the following approaches:
 
 ### Track each process separately
 
-This section describes how to track each process separately by creating a run for each process. Within each run you log metrics, artifacts, and forth to their respective run. Call `wandb.finish()` at the end of training, to mark that the run has completed so that all processes exit properly.
+This section describes how to track each process separately by creating a run for each process. Within each run you log metrics, artifacts, and forth to their respective run. Call `wandb.Run.finish()` at the end of training, to mark that the run has completed so that all processes exit properly.
 
 You might find it difficult to keep track of runs across multiple experiments. To mitigate this, provide a value to the `group` parameter when you initialize W&B (`wandb.init(group='group-name')`) to keep track of which run belongs to a given experiment. For more information about how to keep track of training and evaluation W&B Runs in experiments, see [Group Runs]({{< relref "/guides/models/track/runs/grouping.md" >}}).
 
@@ -90,18 +90,20 @@ if __name__ == "__main__":
     )
     # Train model with DDP
     train(args, run)
+
+    run.finish()  # mark the run as finished
 ```
 
 Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna) of metrics tracked from multiple processes. Note that there are two W&B Runs grouped together in the left sidebar. Click on a group to view the dedicated group page for the experiment. The dedicated group page displays metrics from each process separately.
 
-{{< img src="/images/experiments/dashboard_grouped_runs.png" alt="" >}}
+{{< img src="/images/experiments/dashboard_grouped_runs.png" alt="Grouped distributed runs" >}}
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
 ### Track all processes to a single run
 
 {{% alert color="secondary"  %}}
-Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a GitHub issue at [https://github.com/wandb/wandb](https://github.com/wandb/wandb) to provide feedback.
+Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
 {{% /alert %}}
 
 {{% alert title="Requirements" %}}
@@ -113,7 +115,7 @@ To track multiple processes to a single run, you must have:
 
 In this approach you use a primary node and one or more worker nodes. Within the primary node you initialize a W&B run. For each worker node, initialize a run using the run ID used by the primary node. During training each worker node logs to the same run ID as the primary node. W&B aggregates metrics from all nodes and displays them in the W&B App UI.
 
-Within the primary node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
+Within the primary node, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/functions/init" >}}). Pass in a `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with the following:
 
 1. The `mode` parameter set to `"shared"` to enable shared mode.
 2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
@@ -126,7 +128,7 @@ Make note of the run ID of the primary node. Each worker node needs the run ID o
 `x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
 {{% /alert %}}
 
-For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/python/init.md" >}}) and provide the following:
+For each worker node, initialize a W&B run with [`wandb.init()`]({{< relref "/ref/python/functions/init" >}}) and provide the following:
 1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
    * The `mode` parameter set to `"shared"` to enable shared mode.
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
@@ -135,7 +137,8 @@ For each worker node, initialize a W&B run with [`wandb.init`]({{< relref "/ref/
 3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 {{% alert %}}
-Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
+* Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
+* Consider defining an environment variable on each worker node to set the run ID of the primary node.
 {{% /alert %}}
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
@@ -143,10 +146,13 @@ The following sample code demonstrates the high level requirements for tracking 
 ```python
 import wandb
 
+entity = "<team_entity>"
+project = "<project_name>"
+
 # Initialize a run in the primary node
 run = wandb.init(
-    entity="entity",
-    project="project",
+    entity=entity,
+    project=project,
 	settings=wandb.Settings(
         x_label="rank_0", 
         mode="shared", 
@@ -161,12 +167,16 @@ run_id = run.id
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
 	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
 	id=run_id,
 )
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
 	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
 	id=run_id,
 )
@@ -187,11 +197,13 @@ View console logs from multi node processes in the project that the run logs to:
 
 You can filter console logs based on the labels you provide for `x_label` in the UI search bar located at the top of the console log page. For example, the following image shows which options are available to filter the console log by if values  `rank0`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5`, and `rank6` are provided to `x_label`.` 
 
-{{< img src="/images/track/multi_node_console_logs.png" alt="Console logs from multiple nodes with the x_label filter applied." >}}
+{{< img src="/images/track/multi_node_console_logs.png" alt="Multi-node console logs" >}}
+
+See [Console logs]({{< relref "/guides/models/app/console-logs/" >}}) for more information.
 
 W&B aggregates system metrics from all nodes and displays them in the W&B App UI. For example, the following image shows a sample dashboard with system metrics from multiple nodes. Each node possesses a unique label (`rank_0`, `rank_1`, `rank_2`) that you specify in the `x_label` parameter.
 
-{{< img src="/images/track/multi_node_system_metrics.png" alt="Line plot panel with numerous semi linear lines depicting system metrics logged by a multi node process." >}}
+{{< img src="/images/track/multi_node_system_metrics.png" alt="Multi-node system metrics" >}}
 
 See [Line plots]({{< relref "/guides/models/app/features/panels/line-plot/" >}}) for information on how to customize line plot panels. 
 
@@ -207,8 +219,8 @@ Use the `wandb.setup()`method in your main function if you initiate a run in a s
 import multiprocessing as mp
 
 def do_work(n):
-    run = wandb.init(config=dict(n=n))
-    run.log(dict(this=n * n))
+    with wandb.init(config=dict(n=n)) as run:
+        run.log(dict(this=n * n))
 
 def main():
     wandb.setup()
@@ -226,13 +238,15 @@ Pass a run object as an argument to share runs between processes:
 
 ```python
 def do_work(run):
-    run.log(dict(this=1))
+    with wandb.init() as run:
+        run.log(dict(this=1))
 
 def main():
     run = wandb.init()
     p = mp.Process(target=do_work, kwargs=dict(run=run))
     p.start()
     p.join()
+    run.finish()  # mark the run as finished
 
 
 if __name__ == "__main__":
@@ -247,9 +261,8 @@ W&B can not guarantee the logging order. Synchronization should be done by the a
 There are two common issues you might encounter when using W&B and distributed training:
 
 1. **Hanging at the beginning of training** - A `wandb` process can hang if the `wandb` multiprocessing interferes with the multiprocessing from distributed training.
-2. **Hanging at the end of training** - A training job might hang if the `wandb` process does not know when it needs to exit. Call the `wandb.finish()` API at the end of your Python script to tell W&B that the Run finished. The wandb.finish() API will finish uploading data and will cause W&B to exit.
-
-We recommend using the `wandb service` to improve the reliability of your distributed jobs. Both of the preceding training issues are commonly found in versions of the W&B SDK where wandb service is unavailable.
+2. **Hanging at the end of training** - A training job might hang if the `wandb` process does not know when it needs to exit. Call the `wandb.Run.finish()` API at the end of your Python script to tell W&B that the run finished. The `wandb.Run.finish()` API will finish uploading data and will cause W&B to exit.
+W&B recommends using `wandb service` command to improve the reliability of your distributed jobs. Both of the preceding training issues are commonly found in versions of the W&B SDK where wandb service is unavailable.
 
 ### Enable W&B Service
 
