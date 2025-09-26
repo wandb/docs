@@ -43,7 +43,7 @@ The Members section shows a list of all pending invitations and the members that
 
 See [Add and Manage teams]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" >}}) for information on how to create a team, manage teams, and manage team membership and roles. To configure who can invite new members and configure other privacy settings for the team, refer to [Privacy]({{< relref "#privacy" >}}).
 
-Team admins can open the team settings page and click the delete button next to the departing member's name. Any runs logged to the team remain after a user leaves.
+To remove a team member, admins can open the team settings page and click the delete button next to the departing member's name. Any runs logged to the team remain after a user leaves.
 
 ### Avatar
 
