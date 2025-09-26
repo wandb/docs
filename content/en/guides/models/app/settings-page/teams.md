@@ -73,7 +73,7 @@ Configure Slack destinations where your team's [automations]({{< relref "/guides
 
 ### Webhooks
 
-Configure webhooks that your team's [automations]({{< relref "/guides/core/automations/" >}}) can run when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}).
+Configure webhooks that your team's [automations]({{< relref "/guides/core/automations/" >}}) can run when an event occurs in a registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a webhook automation]({{< relref "/guides/core/automations/create-automations/webhook.md" >}}).
 
 {{% pageinfo color="info" %}}
 {{< readfile file="/_includes/enterprise-only.md" >}}
