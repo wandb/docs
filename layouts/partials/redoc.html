@@ -1,0 +1,58 @@
+{{/* Redoc partial - handles the core Redoc initialization logic */}}
+{{/* Parameters: spec_url or spec_content, container_id, options */}}
+
+{{ $spec_url := .spec_url }}
+{{ $spec_content := .spec_content }}
+{{ $container_id := .container_id | default "redoc-container" }}
+{{ $options := .options | default (dict "theme" (dict "colors" (dict "primary" (dict "main" "#FF7557")))) }}
+
+<!-- Redoc container -->
+<div id="{{ $container_id }}" style="min-height: 500px;"></div>
+
+<!-- Redoc standalone script -->
+<script src="https://cdn.jsdelivr.net/npm/redoc@2.1.5/bundles/redoc.standalone.js"></script>
+
+<script>
+  (function() {
+    // Default Redoc options
+    var defaultOptions = {
+      // scrollYOffset: 50,
+      hideDownloadButton: false,
+      disableSearch: true,
+      expandResponses: "200,201",
+      requiredPropsFirst: true,
+      sortPropsAlphabetically: false,
+      hideHostname: false,
+      pathInMiddlePanel: true,
+      nativeScrollbars: false,
+      theme: {
+        colors: {
+          primary: {
+            main: '#FF7557'  // W&B brand color
+          }
+        },
+        typography: {
+          fontSize: '14px',
+          lineHeight: '1.5em',
+          code: {
+            fontSize: '13px'
+          }
+        }
+      }
+    };
+
+    // Merge user options with defaults
+    var options = Object.assign({}, defaultOptions, {{ $options | jsonify | safeJS }});
+
+    {{ if $spec_url }}
+    // Initialize Redoc with external spec URL
+    Redoc.init('{{ $spec_url }}', options, document.getElementById('{{ $container_id }}'));
+    {{ else if $spec_content }}
+    // Initialize Redoc with inline spec content
+    var specContent = {{ $spec_content | jsonify | safeJS }};
+    Redoc.init(specContent, options, document.getElementById('{{ $container_id }}'));
+    {{ else }}
+    console.error('Redoc: No API specification provided. Please provide either spec_url or spec_content.');
+    {{ end }}
+  })();
+</script>
