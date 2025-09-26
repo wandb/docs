@@ -34,7 +34,9 @@ Only Administration account types can change team settings or remove a member fr
 {{% /alert %}}
 
 ## Team configuration
+You can configure various settings for your team, including its membership, alerts, and privacy settings.
 
+To manage your team's settings, navigate to the **Teams** section in the left-menu and click the team you want to change settings for. You can update the following settings:
 ### Members
 
 The Members section shows a list of all pending invitations and the members that have either accepted the invitation to join the team. Each member listed displays a member's name, username, email, team role, as well as their access privileges to Models and W&B Weave, which is inherited by from the Organization. You can choose from the standard team roles **Admin**, **Member**, and **View-only**. If your organization has created [custom roles]({{< relref "/guides/hosting/iam/access-management/manage-organization.md#create-custom-roles" >}}), you can assign a custom role instead.
