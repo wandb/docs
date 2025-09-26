@@ -81,7 +81,9 @@ Configure webhooks that your team's [automations]({{< relref "/guides/core/autom
 
 ### Privacy
 
-Navigate to the **Privacy** section to change privacy settings. Only organization admins can modify privacy setting.
+Team privacy settings allow you to manage visibility and sharing abilities on your team. Only organization admins can modify privacy settings.
+
+You can change the following privacy settings:
 
 - Turn off the ability to make future projects public or to share reports publicly.
 - Allow any team member to invite other members, rather than only team admins.
