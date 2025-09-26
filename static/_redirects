@@ -37,7 +37,7 @@
 /app/features/panels/compare-metrics/smoothing/ /guides/app/features/panels/compare-metrics/smoothing/ 301
 /app/features/panels/parameter-importance/ /guides/app/features/panels/parameter-importance/ 301
 /app/features/panels/run-colors/ /guides/app/features/panels/run-colors/ 301
-/app/features/panels/weave/ /guides/app/features/panels/weave/ 301
+/app/features/panels/weave/ /guides/app/features/panels/query-panels/ 301
 /app/features/sidebar/ /guides/app/features/runs-table#add-sidebar-columns/ 301
 /app/features/sweeps/ /guides/sweeps/ 301
 /app/features/system-metrics/ /guides/app/features/system-metrics/ 301
@@ -68,7 +68,7 @@
 /datasets-and-predictions/ /guides/integrations/mmdetection#visualize-dataset-and-model-prediction/ 301
 /define-sweep-configuration/ /guides/sweeps/define-sweep-configuration/ 301
 /deployment/ /guides/hosting/ 301
-/docs/config.html /ref/weave/run#run-config/ 301
+/docs/config.html /ref/python/experiments/run/#property-runconfig 301
 /docs/configs.html /guides/track/config/ 301
 /docs/frameworks/fastai.html /guides/integrations/fastai/ 301
 /docs/init.html /ref/python/functions/init/ 301
@@ -271,7 +271,7 @@
 /library/api/examples/ /ref/python/public-api/api/ 301
 /library/api/ /ref/python/public-api/api/ 301
 /library/cli/ /ref/cli/ 301
-/library/config/ /ref/weave/run#run-config/ 301
+/library/config/ /ref/python/experiments/run/#property-runconfig 301
 /library/distributed-training/ /guides/track/log/distributed-training/ 301
 /library/environment-variables/ /guides/track/environment-variables/ 301
 /library/example-projects/ /guides/integrations/tensorflow#examples/ 301
@@ -324,8 +324,8 @@
 /ref/app/features/panels/run-colors/ /guides/app/features/panels/run-colors/ 301
 /ref/app/features/panels/run-comparer/ /guides/app/features/panels/run-comparer/ 301
 /ref/app/features/panels/scatter-plot/ /guides/app/features/panels/scatter-plot/ 301
-/ref/app/features/panels/weave/ /guides/app/features/panels/weave/ 301
-/ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/weave/embedding-projector/ 301
+/ref/app/features/panels/weave/ /guides/app/features/panels/query-panels/ 301
+/ref/app/features/panels/weave/embedding-projector/ /guides/app/features/panels/query-panels/embedding-projector/ 301
 /ref/app/features/runs-table/ /guides/tables/ 301
 /ref/app/features/sweeps/ /guides/sweeps/ 301
 /ref/app/features/system-metrics/ /ref/system-metrics/ 301
@@ -381,7 +381,7 @@
 /ref/release-notes/releases/ /ref/release-notes/ 301
 /ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
-/ref/weave/README/ /ref/weave/ 301
+/ref/weave/README/ /guides/weave/ 301
 /reports/ /guides/reports/create-a-report/ 301
 /resources/technical-faq/ / 301
 /runner/ / 301
