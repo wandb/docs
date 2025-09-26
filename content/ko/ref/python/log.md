@@ -26,7 +26,7 @@ log(
 
 [wandb.ai](https://wandb.ai) 의 워크스페이스, 또는 W&B 앱의 [자체 호스팅 인스턴스](https://docs.wandb.ai/guides/hosting) 에서 기록된 데이터를 시각화하거나, [API](https://docs.wandb.ai/guides/track/public-api-guide) 를 사용하여 데이터를 내보내 로컬에서 시각화하고 탐색합니다 (예: Jupyter 노트북).
 
-기록된 값은 스칼라일 필요가 없습니다. 모든 wandb 오브젝트 로깅이 지원됩니다. 예를 들어 `run.log({"example": wandb.Image("myimage.jpg")})` 는 W&B UI에 멋지게 표시될 예제 이미지를 기록합니다. 지원되는 다양한 유형에 대한 [참조 문서](https://docs.wandb.ai/ref/python/sdk/data-types/) 를 참조하거나 3D 분자 구조 및 분할 마스크에서 PR 곡선 및 히스토그램에 이르기까지 예제에 대한 [로깅 가이드](https://docs.wandb.ai/guides/track/log) 를 확인하세요. `wandb.Table` 을 사용하여 구조화된 데이터를 기록할 수 있습니다. 자세한 내용은 [테이블 로깅 가이드](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) 를 참조하세요.
+기록된 값은 스칼라일 필요가 없습니다. 모든 wandb 오브젝트 로깅이 지원됩니다. 예를 들어 `run.log({"example": wandb.Image("myimage.jpg")})` 는 W&B UI에 멋지게 표시될 예제 이미지를 기록합니다. 지원되는 다양한 유형에 대한 [참조 문서](https://docs.wandb.ai/ref/python/data-types/) 를 참조하거나 3D 분자 구조 및 분할 마스크에서 PR 곡선 및 히스토그램에 이르기까지 예제에 대한 [로깅 가이드](https://docs.wandb.ai/guides/track/log) 를 확인하세요. `wandb.Table` 을 사용하여 구조화된 데이터를 기록할 수 있습니다. 자세한 내용은 [테이블 로깅 가이드](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) 를 참조하세요.
 
 W&B UI는 이름에 슬래시 (`/`) 가 있는 메트릭을 마지막 슬래시 앞의 텍스트를 사용하여 명명된 섹션으로 구성합니다. 예를 들어 다음은 "train" 및 "validate" 라는 두 개의 섹션을 생성합니다.
 
@@ -56,7 +56,7 @@ run.log(
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-[define_metric](https://docs.wandb.ai/ref/python/sdk/classes/run/#method-rundefine_metric) 도 참조하세요.
+[define_metric](https://docs.wandb.ai/ref/python/experiments/run/#method-rundefine_metric) 도 참조하세요.
 
 여러 `log` 호출을 사용하여 `step` 및 `commit` 파라미터로 동일한 단계에 기록할 수 있습니다. 다음은 모두 동일합니다.
 
