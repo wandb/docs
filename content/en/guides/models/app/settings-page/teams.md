@@ -57,7 +57,7 @@ Set an avatar by navigating to the **Avatar** section and uploading an image.
 
 You can set up alerts to notify your team when runs crash and finish. Alerts can be sent through either email or Slack, and you can customize them to meet your needs.
 
-Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
+In the **Team alerts** section, toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options:
 
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: if a run has failed to finish.
