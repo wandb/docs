@@ -187,6 +187,7 @@
 /guides/model_registry/model-registry-automations/ /guides/automations/ 301
 /guides/model_registry/quickstart/ /guides/registry/ 301
 /guides/models/access_controls/ /guides/registry/configure_registry/ 301
+/guides/models/app/settings-page/team-settings.md /guides/models/app/settings-page/teams.md 301
 /guides/models/app/settings-page/system-metrics/ /ref/python/experiments/system-metrics/ 301
 /guides/models/automation/ /guides/automations/ 301
 /guides/models/automations/registry-automations/ /guides/automations/ 301
