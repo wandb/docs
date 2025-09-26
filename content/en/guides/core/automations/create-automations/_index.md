@@ -23,7 +23,7 @@ Looking for companion tutorials for automations?
 {{% /alert %}}
 
 ## Requirements
-- A team admin can create and manage automations for the team's projects, as well as components of their automations, such as webhooks, secrets, and Slack integrations. Refer to [Team settings]({{< relref "/guides/models/app/settings-page/team-settings/" >}}).
+- A team admin can create and manage automations for the team's projects, as well as components of their automations, such as webhooks, secrets, and Slack integrations. Refer to [Team settings]({{< relref "/guides/models/app/settings-page/teams/" >}}).
 - To create a registry automation, you must have access to the registry. Refer to [Configure Registry access]({{< relref "/guides/core/registry/configure_registry.md#registry-roles" >}}).
 - To create a Slack automation, you must have permission to post to the Slack instance and channel you select.
 
