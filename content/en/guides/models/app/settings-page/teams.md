@@ -60,6 +60,7 @@ Toggle the switch next to the event type you want to receive alerts from. Weight
 
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: if a run has failed to finish.
+* **wandb.alert()**: A custom scriptable alert. See [Send alerts with `wandb.Run.alert()`]({{< relref "/guides/models/track/runs/alert.md" >}}) for more information.
 
 
 ### Slack notifications
