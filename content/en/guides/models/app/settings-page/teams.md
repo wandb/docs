@@ -54,7 +54,7 @@ Set an avatar by navigating to the **Avatar** section and uploading an image.
 
 ### Alerts
 
-Notify your team when runs crash, finish, or set custom alerts. Your team can receive alerts either through email or Slack.
+You can set up alerts to notify your team when runs crash and finish. Alerts can be sent through either email or Slack, and you can customize them to meet your needs.
 
 Toggle the switch next to the event type you want to receive alerts from. Weights and Biases provides the following event type options be default:
 
