@@ -100,24 +100,23 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
-### Organize distributed runs with `job_type`
+### Organize distributed runs
 
-Specify the `job_type` in your [`wandb_init()`]({{< relref "/ref/python/sdk/functions/init/" >}}) invocation to distinguish between different types of nodes. Then you can create saved views to help you organize your runs and filter out noise from worker nodes.
-
-To organize your distributed training runs:
-
-1. Set `job_type` for different node types to categorize your nodes based on their function:
+Set the `job_type` parameter when you initialize W&B (`wandb.init(job_type='type-name')`) to categorize your nodes based on their function. For example, you might have a main coordinating node and several reporting worker nodes. You can set `job_type` to `main` for the main coordinating node and `worker` for the reporting worker nodes:
 
    ```python
    # Main coordinating node
-   with wandb.init(project="distributed-training", group="experiment_1",job_type="main") as run:
+   with wandb.init(project="<project>", job_type="main", group="experiment_1") as run:
         # Training code
 
    # Reporting worker nodes
-   with wandb.init(project="distributed-training", group="experiment_1", job_type="worker") as run:
+   with wandb.init(project="<project>", job_type="worker", group="experiment_1") as run:
         # Training code
    ```
-1. Create [saved views]({{< relref "/guides/models/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. First, filter your runs to show runs by their job type.  Click the **...** action menu at the top right and click **Save as new view**. For example, you could create the following saved views:
+
+Once you have set the `job_type` for your nodes, you can create [saved views]({{< relref "/guides/models/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. Click the **...** action menu at the top right and click **Save as new view**.
+
+For example, you could create the following saved views:
 
    - **Default view**: Filter out worker nodes to reduce noise
      - Click **Filter**, then set **Job Type** to `worker`.
@@ -132,13 +131,6 @@ To organize your distributed training runs:
      - Useful for comprehensive monitoring
 
 To open a saved view, click **Workspaces** in the sidebar, then click the menu. Workspaces appear at the top of the list and saved views appear at the bottom.
-1. Organize your workspaces for different use cases:
-
-   - **Main workspace**: Shows only `job_type="main"` runs for high-level experiment tracking.
-   - **Debug workspace**: Shows only `job_type="worker"` runs with `state != "finished"` for troubleshooting.
-   - **Overview workspace**: Shows all runs grouped by `group` to see the complete experiment.
-
-This approach gives you clean workspaces that emulate single-run behavior while maintaining visibility into all your distributed processes when needed.
 
 ### Track all processes to a single run
 
