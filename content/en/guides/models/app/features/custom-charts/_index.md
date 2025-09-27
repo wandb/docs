@@ -224,7 +224,7 @@ You can log the following data types from your script and use them in a custom c
 * **Config**: Initial settings of your experiment (your independent variables). This includes any named fields you've logged as keys to `wandb.Run.config` at the start of your training. For example: `wandb.Run.config.learning_rate = 0.0001`
 * **Summary**: Single values logged during training (your results or dependent variables). For example, `wandb.Run.log({"val_acc" : 0.8})`. If you write to this key multiple times during training via `wandb.Run.log()`, the summary is set to the final value of that key.
 * **History**: The full time series of the logged scalar is available to the query via the `history` field
-* **summaryTable**: If you need to log a list of multiple values, use a `wandb.Table()` to save that data, then query it in your custom panel.
+* **summaryTable**: If you need to log a list of values, use a `wandb.Table()` to save that data, then query it in your custom panel.
 * **historyTable**: If you need to see the history data, then query `historyTable` in your custom chart panel. Each time you call `wandb.Table()` or log a custom chart, you're creating a new table in history for that step.
 
 ### How to log a custom table
@@ -248,6 +248,33 @@ Add a new custom chart to get started, then edit the query to select data from y
 
 {{< img src="/images/app_ui/customize_chart.gif" alt="Custom chart creation" max=width="90%" >}}
 
+### Query syntax for different data tables
+
+W&B provides several ways to query your data:
+
+- **summary**: Access final metric values (for example, `{"summary": ["val_acc", "val_loss"]}`)
+- **history**: Access time-series data (for example, `{"history": ["loss", "accuracy"]}`)
+- **summaryTable**: Access custom tables with specific keys:
+  ```json
+  {
+    "summaryTable": {
+      "tableKey": "eval_results",
+      "tableColumns": ["precision", "recall"]
+    }
+  }
+  ```
+- **historyTable**: Access tables logged at multiple steps:
+  ```json
+  {
+    "historyTable": {
+      "tableKey": "predictions",
+      "tableColumns": ["x", "y", "prediction"]
+    }
+  }
+  ```
+
+For detailed query examples and patterns, see the [Query syntax guide]({{< relref "/guides/models/app/features/custom-charts/query-syntax.md" >}}).
+
 ### Custom visualizations
 
 Select a **Chart** in the upper right corner to start with a default preset. Next, select **Chart fields** to map the data you're pulling in from the query to the corresponding fields in your chart.
@@ -270,12 +297,49 @@ To set a default value for a field, use this syntax: `"${field:<field-name>:<pla
 
 Apply any changes to a specific visualization panel with the button at the bottom of the modal. Alternatively, you can save the Vega spec to use elsewhere in your project. To save the reusable chart definition, click **Save as** at the top of the Vega editor and give your preset a name.
 
+## Using CustomChart with the Reports API
+
+You can programmatically create custom charts in reports using the `wr.CustomChart` class:
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+# Create a custom chart from a logged table
+custom_chart = wr.CustomChart(
+    query={
+        'summaryTable': {
+            'tableKey': 'eval_results',
+            'tableColumns': ['class', 'precision', 'recall']
+        }
+    },
+    chart_name='wandb/bar/v0',
+    chart_fields={'x': 'class', 'y': 'precision'}
+)
+
+# Add to a report
+report = wr.Report(
+    project="my-project",
+    title="Evaluation Report"
+)
+
+panel_grid = wr.PanelGrid(
+    panels=[custom_chart],
+    runsets=[wr.RunSet(entity="my-entity", project="my-project")]
+)
+
+report.blocks = [panel_grid]
+report.save()
+```
+
+For more examples, including how to import existing charts to reports, see the [Query syntax guide]({{< relref "/guides/models/app/features/custom-charts/query-syntax.md" >}}).
+
 ## Articles and guides
 
-1. [The W&B Machine Learning Visualization IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
-2. [Visualizing NLP Attention Based Models](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
-3. [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
-4. [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
+1. [Query syntax for custom charts]({{< relref "/guides/models/app/features/custom-charts/query-syntax.md" >}})
+2. [The W&B Machine Learning Visualization IDE](https://wandb.ai/wandb/posts/reports/The-W-B-Machine-Learning-Visualization-IDE--VmlldzoyNjk3Nzg)
+3. [Visualizing NLP Attention Based Models](https://wandb.ai/kylegoyette/gradientsandtranslation2/reports/Visualizing-NLP-Attention-Based-Models-Using-Custom-Charts--VmlldzoyNjg2MjM)
+4. [Visualizing The Effect of Attention on Gradient Flow](https://wandb.ai/kylegoyette/gradientsandtranslation/reports/Visualizing-The-Effect-of-Attention-on-Gradient-Flow-Using-Custom-Charts--VmlldzoyNjg1NDg)
+5. [Logging arbitrary curves](https://wandb.ai/stacey/presets/reports/Logging-Arbitrary-Curves--VmlldzoyNzQyMzA)
 
 
 ## Common use cases
