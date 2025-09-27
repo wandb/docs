@@ -29,16 +29,13 @@ To authenticate your machine with W&B, generate an API key from your user profil
     export WANDB_API_KEY=<your_api_key>
     ```
 
-2. Install the `wandb` library and log in.
-
-    ```shell
-    pip install wandb
-    wandb login
-    ```
+2. Install the W&B Python SDK (`wandb`) and log in.
+   {{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb.sh" >}}
 
 {{% /tab %}}
 
 {{% tab header="Python" value="python" %}}
+
 
 ```bash
 pip install wandb

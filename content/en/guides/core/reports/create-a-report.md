@@ -42,15 +42,12 @@ See this [Google Colab](https://colab.research.google.com/github/wandb/examples/
 {{% tab header="Report and Workspace API" value="python_wr_api"%}}
 Create a report programmatically:
 
-1. Install W&B SDK (`wandb`) and Report and Workspace API (`wandb-workspaces`):
-    ```bash
-    pip install wandb wandb-workspaces
-    ```
-2. Next, import workspaces
-    ```python
-    import wandb
-    import wandb_workspaces.reports.v2 as wr
-    ```       
+1. Install the W&B Python SDK (`wandb`) and Report and Workspace API (`wandb-workspaces`):
+   {{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
+
+2. Next, import W&B Python SDK and the Report and Workspace API:
+    {{< code language="python" source="bluehawk/snippets/import_wandb.snippet.import_wandb_and_workspaces.py" >}}
+
 3. Create a report with `wandb_workspaces.reports.v2.Report`. Create a report instance with the Report Class Public API ([`wandb.apis.reports`]({{< relref "/ref/python/public-api/api.md#reports" >}})). Specify a name for the project.   
     ```python
     report = wr.Report(project="report_standard")
