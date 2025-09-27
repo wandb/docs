@@ -78,7 +78,92 @@ Rescale the plot to exclude outliers from the default plot min and max scale. Th
 
 ## Expression
 
-Expression lets you plot values derived from metrics like 1-accuracy. It currently only works if you are plotting a single metric. You can do simple arithmetic expressions, +, -, \*, / and % as well as \*\* for powers.
+Use expressions in charts to create derived metrics by performing mathematical operations on your logged values. For example, you could calculate error rates, ratios, percentages, and other custom metrics directly in your charts. Expressions are computed on-the-fly in the W&B App.
+
+### Supported operators
+Expressions support the following operators:
+
+- Basic arithmetic: `+`, `-`, `*`, `/`
+- Modulo (remainder): `%`
+- Exponent (power): `**`
+
+### Limitations
+- Expressions currently work only when plotting a single metric.
+- Expressions must use the exact metric name that was logged. For example, `accuracy` rather than `run.accuracy`.
+- Expressions do not support functions like `log()` or`sqrt()`.
+
+### Examples
+These examples illustrate some ways to use expressions in charts. For even more examples, refer to a [Colab notebook demo of chart expressions](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/chart_expressions/chart_expressions_demo.ipynb).
+
+#### Error rate from accuracy
+Convert a 0.95 accuracy into a 0.05 error rate:
+
+```math
+1 - accuracy
+```
+
+![Example chart showing an expression to derive error rate from accuracy](/images/app_ui/expressions_accuracy_error_rate.png)
+
+#### Percentage from decimal value
+Convert the decimal value `0.95` to `95%`:
+
+```math
+accuracy * 100
+```
+
+![Example chart showing an expression to derive a percentage from a decinal value](/images/app_ui/expressions_accuracy_percentage.png)
+
+#### Calculate ratios of logged values
+Detect overfitting by comparing training and validation losses:
+
+```math
+loss / val_loss
+```
+
+In this expression, a value greater than `1` indicates overfitting.
+
+![Example chart showing an expression to calculate the ratio of two logged values](/images/app_ui/expressions_loss_overfitting.png)
+
+#### Visualize small values more easily
+Use an expression to scale a small value:
+
+```math
+learning_rate * 1000
+```
+
+Or a metric with a wide range of values:
+```math
+loss * 10000
+```
+
+![Example chart showing an expression that scales a small value](/images/app_ui/expressions_learning_rate_scaled.png)
+
+#### Convert from one unit to another
+Convert memory bytes used to a percentage of total memory:
+
+```math
+memory_used / memory_total * 100
+```
+
+![Example chart showing an expression that scales a small value](/images/app_ui/expressions_memory_usage.png)
+
+#### Visualize training efficiency
+Plot accuracy gained per epoch:
+
+```math
+accuracy / epoch
+```
+
+![Example chart that visualizes accuracy per epoch](/images/app_ui/expressions_accuracy_per_epoch.png).
+
+#### Approximate F1 score
+F1 score is a machine learning evaluation metric that combines precision and recall scores. Use an expression to approximate the F1 score:
+
+```math
+2 * (precision * recall) / (precision + recall)
+```
+
+![Example chart that calculates the approximate F1 score, given precision and recall](/images/app_ui/expressions_f1_approximation.png).
 
 ## Plot style
 
@@ -95,3 +180,7 @@ Select a style for your line plot.
 **Percentage area plot:**
 
 {{< img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style" >}}
+
+### Interactive Tutorial
+
+For a hands-on tutorial with runnable examples, check out our [W&B Expressions Demo Colab notebook](https://colab.research.google.com/github/wandb/docs/blob/main/wandb_expressions_demo.ipynb) that demonstrates various expression use cases with real code you can run and modify.
