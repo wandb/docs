@@ -438,6 +438,7 @@
 # Splats are supported on both source (*) and destination (:splat)
 # If both are used, :splat resolves to exactly what * matches
 
+/ref/python/ini* /ref/python/functions/init/ 301
 /data-vis/* /guides/tables/ 301
 /guides/app/features/runs-table* /guides/tables/:splat 301
 /guides/core/automations/* /guides/automations/:splat 301
@@ -459,7 +460,6 @@
 /ref/app/features/panels/line-plot/* /guides/app/features/panels/line-plot/:splat 301
 /ref/public-api/* /ref/python/public-api/:splat 301
 /ref/python/classes/* /ref/python/experiments/:splat 301
-/ref/python/ini* /ref/python/functions/init/:splat 301
 /ref/python/integrations/*  /ref/python/:splat 301
 /ref/python/launch-library/* /launch-library/:splat 301
 /ref/python/sdk/* /ref/python/:splat 301
