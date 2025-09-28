@@ -6,6 +6,7 @@ menu:
 title: PyTorch
 weight: 1
 ---
+
 # Integrate PyTorch with Weights & Biases
 
 Use [Weights & Biases (W&B)](https://wandb.ai) to track machine learning experiments, version datasets, and collaborate on projects.
@@ -16,7 +17,7 @@ Use [Weights & Biases (W&B)](https://wandb.ai) to track machine learning experim
 
 ## Overview
 
-This tutorial shows you how to integrate W&B with PyTorch. After you complete it, you’ll be able to:
+This tutorial shows you how to integrate W&B with PyTorch. After you complete it, you'll be able to:
 
 - Log hyperparameters and metadata  
 - Track model gradients, parameters, and metrics  
@@ -36,28 +37,29 @@ You need the following:
 
 ## Quickstart
 
-The following example shows how to add W&B tracking to a training loop:
+The following example shows how to add W&B tracking to a training loop.
 
 ```python
+# import the library
 import wandb
 
-# Start a new experiment
+# start a new experiment
 with wandb.init(project="new-sota-model") as run:
-    # Log hyperparameters
+    # capture a dictionary of hyperparameters with config
     run.config = {"learning_rate": 0.001, "epochs": 100, "batch_size": 128}
-
-    # Define model and data
+    
+    # set up model and data
     model, dataloader = get_model(), get_data()
-
-    # Track gradients (optional)
+    
+    # optional: track gradients
     run.watch(model)
-
+    
     for batch in dataloader:
         metrics = model.training_step()
-        # Log metrics to visualize performance
+        # log metrics inside your training loop to visualize model performance
         run.log(metrics)
-
-    # Save trained model
+    
+    # optional: save model at the end
     model.to_onnx()
     run.save("model.onnx")
 ```
@@ -67,6 +69,37 @@ For a walkthrough, see the [video tutorial](https://wandb.me/pytorch-video).
 > **Note:** Steps labeled *Step X* show only the minimal code needed for W&B integration. Other sections cover model and data setup.
 
 ---
+
+## Configure Pytorch
+
+The following example shows how you can prepare your Pytorch code for W&B integration.
+
+```python
+import os
+import random
+
+import numpy as np
+import torch
+import torch.nn as nn
+import torchvision
+import torchvision.transforms as transforms
+from tqdm.auto import tqdm
+
+# Ensure deterministic behavior
+torch.backends.cudnn.deterministic = True
+random.seed(hash("setting random seeds") % 2**32 - 1)
+np.random.seed(hash("improves reproducibility") % 2**32 - 1)
+torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
+torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
+
+# Device configuration
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+# remove slow mirror from list of MNIST mirrors
+torchvision.datasets.MNIST.mirrors = [mirror for mirror in torchvision.datasets.MNIST.mirrors
+                                      if not mirror.startswith("http://yann.lecun.com")]
+```
+To integrate PyTorch with W&B:
 
 ## Step 1. Install W&B
 
@@ -102,8 +135,7 @@ config = dict(
     batch_size=128,
     learning_rate=0.005,
     dataset="MNIST",
-    architecture="CNN"
-)
+    architecture="CNN")
 ```
 
 A typical ML pipeline includes the following steps:
@@ -114,16 +146,39 @@ A typical ML pipeline includes the following steps:
 
 ```python
 def model_pipeline(hyperparameters):
+    # tell wandb to get started
     with wandb.init(project="pytorch-demo", config=hyperparameters) as run:
+        # access all HPs through run.config, so logging matches execution.
         config = run.config
 
+        # make the model, data, and optimization problem
         model, train_loader, test_loader, criterion, optimizer = make(config)
         print(model)
 
+        # and use them to train the model
         train(model, train_loader, criterion, optimizer, config)
+        # and test its final performance
         test(model, test_loader)
 
     return model
+```
+
+```python
+def make(config):
+    # Make the data
+    train, test = get_data(train=True), get_data(train=False)
+    train_loader = make_loader(train, batch_size=config.batch_size)
+    test_loader = make_loader(test, batch_size=config.batch_size)
+    
+    # Make the model
+    model = ConvNet(config.kernels, config.classes).to(device)
+    
+    # Make the loss and optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(
+        model.parameters(), lr=config.learning_rate)
+    
+    return model, train_loader, test_loader, criterion, optimizer
 ```
 
 ---
@@ -134,47 +189,47 @@ Load the data:
 
 ```python
 def get_data(slice=5, train=True):
-    dataset = torchvision.datasets.MNIST(
-        root=".",
-        train=train,
-        transform=transforms.ToTensor(),
-        download=True
-    )
-    return torch.utils.data.Subset(dataset, range(0, len(dataset), slice))
+    full_dataset = torchvision.datasets.MNIST(root=".",
+                                 train=train, 
+                                 transform=transforms.ToTensor(),
+                                 download=True)
+    #  equiv to slicing with [::slice] 
+    sub_dataset = torch.utils.data.Subset(
+      full_dataset, indices=range(0, len(full_dataset), slice))
+    return sub_dataset
 
 def make_loader(dataset, batch_size):
-    return torch.utils.data.DataLoader(
-        dataset=dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        pin_memory=True,
-        num_workers=2
-    )
+    loader = torch.utils.data.DataLoader(dataset=dataset,
+                                         batch_size=batch_size, 
+                                         shuffle=True,
+                                         pin_memory=True, num_workers=2)
+    return loader
 ```
 
 Define the model:
 
 ```python
+# Conventional and convolutional neural network
 class ConvNet(nn.Module):
     def __init__(self, kernels, classes=10):
-        super().__init__()
+        super(ConvNet, self).__init__()
+        
         self.layer1 = nn.Sequential(
             nn.Conv2d(1, kernels[0], kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(2, 2)
-        )
+            nn.MaxPool2d(kernel_size=2, stride=2))
         self.layer2 = nn.Sequential(
             nn.Conv2d(16, kernels[1], kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(2, 2)
-        )
+            nn.MaxPool2d(kernel_size=2, stride=2))
         self.fc = nn.Linear(7 * 7 * kernels[-1], classes)
 
     def forward(self, x):
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = x.reshape(x.size(0), -1)
-        return self.fc(x)
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = out.reshape(out.size(0), -1)
+        out = self.fc(out)
+        return out
 ```
 
 ---
@@ -185,28 +240,38 @@ Log gradients with `run.watch()` and metrics with `run.log()`:
 
 ```python
 def train(model, loader, criterion, optimizer, config):
+    # Tell wandb to watch what the model gets up to: gradients, weights, and more.
     run = wandb.init(project="pytorch-demo", config=config)
     run.watch(model, criterion, log="all", log_freq=10)
-
+    
+    # Run training and track with wandb
     total_batches = len(loader) * config.epochs
-    example_ct, batch_ct = 0, 0
-
+    example_ct = 0  # number of examples seen
+    batch_ct = 0
     for epoch in tqdm(range(config.epochs)):
-        for images, labels in loader:
+        for _, (images, labels) in enumerate(loader):
             loss = train_batch(images, labels, model, optimizer, criterion)
-            example_ct += len(images)
+            example_ct +=  len(images)
             batch_ct += 1
 
-            if (batch_ct + 1) % 25 == 0:
+            # Report metrics every 25th batch
+            if ((batch_ct + 1) % 25) == 0:
                 train_log(loss, example_ct, epoch)
 
 def train_batch(images, labels, model, optimizer, criterion):
     images, labels = images.to(device), labels.to(device)
+    
+    # Forward pass ➡
     outputs = model(images)
     loss = criterion(outputs, labels)
+    
+    # Backward pass ⬅
     optimizer.zero_grad()
     loss.backward()
+
+    # Step with optimizer
     optimizer.step()
+
     return loss
 ```
 
@@ -215,8 +280,10 @@ Log metrics:
 ```python
 def train_log(loss, example_ct, epoch):
     with wandb.init(project="pytorch-demo") as run:
+        # Log the loss and epoch number
+        # This is where we log the metrics to W&B
         run.log({"epoch": epoch, "loss": loss}, step=example_ct)
-        print(f"Loss after {example_ct} examples: {loss:.3f}")
+        print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
 ---
@@ -228,7 +295,9 @@ Evaluate and save the trained model:
 ```python
 def test(model, test_loader):
     model.eval()
+    
     with wandb.init(project="pytorch-demo") as run:
+        # Run the model on some test examples
         with torch.no_grad():
             correct, total = 0, 0
             for images, labels in test_loader:
@@ -238,10 +307,12 @@ def test(model, test_loader):
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
 
-            accuracy = correct / total
-            print(f"Accuracy: {accuracy:.2%}")
-            run.log({"test_accuracy": accuracy})
+            print(f"Accuracy of the model on the {total} " +
+                  f"test images: {correct / total:%}")
+            
+            run.log({"test_accuracy": correct / total})
 
+        # Save the model in the exchangeable ONNX format
         torch.onnx.export(model, images, "model.onnx")
         run.save("model.onnx")
 ```
@@ -253,6 +324,7 @@ def test(model, test_loader):
 Run the pipeline:
 
 ```python
+# Build, train and analyze the model with the pipeline
 model = model_pipeline(config)
 ```
 
@@ -295,4 +367,4 @@ For advanced use cases, see:
 - [Environment variables]({{< relref "/guides/hosting/env-vars/" >}})  
 - [Offline mode]({{< relref "/support/kb-articles/run_wandb_offline.md" >}})  
 - [On-premises hosting]({{< relref "/guides/hosting/hosting-options/self-managed" >}})  
-- [Sweeps]({{< relref "/guides/models/sweeps/" >}})  
+- [Sweeps]({{< relref "/guides/models/sweeps/" >}})
