@@ -1,6 +1,5 @@
 ---
 title: Command Line Interface
-weight: 2
 ---
 
 **Usage**
