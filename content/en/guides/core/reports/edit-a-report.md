@@ -75,6 +75,45 @@ report.save()
 
 For more information about available plots and charts you can add to a report programmatically, see `wr.panels`.
 
+### Adding custom charts
+
+Use `wr.CustomChart` to add visualizations that query data from custom tables:
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+# Query data from a summary table
+custom_chart = wr.CustomChart(
+    query={
+        'summaryTable': {
+            'tableKey': 'eval_results',
+            'tableColumns': ['metric', 'value']
+        }
+    },
+    chart_name='wandb/bar/v0',
+    chart_fields={'x': 'metric', 'y': 'value'}
+)
+
+# Add to report with other panels
+report = wr.Report(
+    project="my-project",
+    title="Analysis Report"
+)
+
+panel_grid = wr.PanelGrid(
+    panels=[
+        wr.LinePlot(x="step", y=["loss"]),
+        custom_chart  # Add the custom chart
+    ],
+    runsets=[wr.RunSet(entity="my-entity", project="my-project")]
+)
+
+report.blocks = [panel_grid]
+report.save()
+```
+
+For detailed query syntax and more examples, see the [Custom charts query syntax guide]({{< relref "/guides/models/app/features/custom-charts/query-syntax.md" >}}).
+
 {{% /tab %}}
 {{< /tabpane >}}
 
