@@ -18,7 +18,7 @@ Watch a [Managing data retention with Artifacts TTL](https://www.youtube.com/wat
 W&B deactivates the option to set a TTL policy for model artifacts linked to the Model Registry. This is to help ensure that linked models do not accidentally expire if used in production workflows.
 {{% /alert %}}
 {{% alert %}}
-* Only team admins can view a [team's settings]({{< relref "/guides/models/app/settings-page/team-settings.md" >}}) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
+* Only team admins can view a [team's settings]({{< relref "/guides/models/app/settings-page/teams.md" >}}) and access team level TTL settings such as (1) permitting who can set or edit a TTL policy or (2) setting a team default TTL.  
 * If you do not see the option to set or edit a TTL policy in an artifact's details in the W&B App UI or if setting a TTL programmatically does not successfully change an artifact's TTL property, your team admin has not given you permissions to do so. 
 {{% /alert %}}
 
