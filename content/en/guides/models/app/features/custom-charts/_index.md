@@ -10,7 +10,7 @@ cascade:
 - url: guides/app/features/custom-charts/:filename
 ---
 
-Custom charts are visualizations you create explicitly. Use custom charts to visualize more complex data relationships and have greater control over the appearance and behavior of the chart.
+Custom charts are visualizations you create explicitly. Use custom charts to visualize complex data relationships and have greater control over the appearance and behavior of the chart.
 
 To create a custom chart, you can either:
 
@@ -33,7 +33,7 @@ with wandb.init() as run:
     })
 ```
 
-The code snippet logs two metrics `acc` and `val_acc` at each training step (each `wandb.Run.log()` call). In the W&B App, navigate to the Workspace tab. Within the `Charts` panel, two line plots appear: one for `acc` and one for `val_acc`. The x-axis is the `step` value (automatically tracked by W&B), and the y-axis is the metric value you provide with `wandb.Run.log()`.
+This code logs two metrics `acc` and `val_acc` at each training step (each `wandb.Run.log()` call). Within the W&B App, the line plots for `acc` and `val_acc` are automatically generated and appear in the `Charts` panel of the **Workspace** tab.
 {{% /alert %}}
 
 
@@ -66,14 +66,16 @@ In the W&B App, navigate to the Workspace tab. Within the `Charts` panel, two li
 
 <!-- Suppose you want to create a line plot of the accuracy values you logged (`acc`) vs step. To do this: -->
 
-1. Click on the **Add panels** button in the top right corner, then select **Custom chart**.
+1. Click the **Add panels** button in the top right corner, then select **Custom chart**.
 2. Select **Line plot** from the list of chart types.
 3. Within the [query editor](#query-editor), select `history` as the [data source](#query-data-sources). Next, select `acc` and type in `_step` as keys. 
 4. Within the chart editor, select `_step` for the **X** field and `acc` for the **Y** field. Optionally, set a title for the chart. Your settings should look similar to the following:
 {{< img src="/images/app_ui/custom-charts-query-example.png" alt="Custom line plot settings" max-width="90%" >}}
 
 
+{{% alert %}}
 Note that only the keys you specify in the query editor are available in the chart editor (below the query editor). If you do not see the expected keys, go back to the query editor and ensure you have selected the correct data source and specified the correct keys.
+{{% /alert %}}
 
 Your custom line plot should now appear in the panel, showing the accuracy values over training steps.
 
@@ -89,7 +91,7 @@ When you create a custom chart, you can pull in data from your runs using a [Gra
 * `summaryTable`: A table of summary metrics. It's populated by logging a `wandb.Table` to the `summary` field. This is useful for logging metrics that are best represented in a tabular format, like confusion matrices or classification reports.
 * `historyTable`: A table of time series data. It's populated by logging a `wandb.Table` to the `history` field. This is useful for logging complex metrics that change over time, like per-epoch evaluation metrics.
 
-To summarize, `summary` and `history` are the general locations for your run data, while `summaryTable` and `historyTable` are the specific query types needed to access tabular data stored in those respective locations.
+To recap, `summary` and `history` are the general locations for your run data, while `summaryTable` and `historyTable` are the specific query types needed to access tabular data stored in those respective locations.
 
 
 ### Query editor
@@ -132,7 +134,7 @@ Here's a breakdown of the components:
 
 You can programmatically create a custom chart from your script by logging a `wandb.Table` of the data you want to visualize, then calling `wandb.plot.*` to create the chart. 
 
-For example consider the following code snippet:
+For example, consider the following code snippet:
 
 ```python
 import wandb
@@ -166,9 +168,9 @@ The following image shows the three custom charts created from the script:
 
 {{< img src="/images/app_ui/custom-charts-script-plots.png" alt="Custom charts from script" max-width="90%" >}}
 
-### Builtin chart types
+### Built-in chart types
 
-W&B has a number of builtin chart presets that you can log directly from your script. These include line plots, scatter plots, bar charts, histograms, PR curves, and ROC curves. The following tabs show how to log each type of chart.
+W&B has a number of built-in chart presets that you can log directly from your script. These include line plots, scatter plots, bar charts, histograms, PR curves, and ROC curves. The following tabs show how to log each type of chart.
 
 {{< tabpane text=true >}}
 {{% tab header="Line plot" value="line-plot" %}}
