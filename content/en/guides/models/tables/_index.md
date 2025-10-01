@@ -37,13 +37,7 @@ Log a table with a few lines of code:
   - `data`: Set the contents of the table.
 - [`run.log()`]({{< relref "/ref/python/experiments/run.md/#method-runlog" >}}): Log the table to save it to W&B.
 
-```python
-import wandb
-
-run = wandb.init(project="table-test")
-my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-run.log({"Table Name": my_table})
-```
+{{< code language="python" source="/bluehawk/snippets/table.snippet.log_table.py" >}}
 
 ## How to get started
 * [Quickstart]({{< relref "./tables-walkthrough.md" >}}): Learn to log data tables, visualize data, and query data.
