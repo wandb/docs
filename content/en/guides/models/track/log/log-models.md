@@ -2,7 +2,7 @@
 menu:
   default:
     identifier: log-models
-    parent: log-objects-and-media
+    parent: logging
 title: Log models
 ---
 

@@ -3,7 +3,7 @@ description: Use W&B to log distributed training experiments with multiple GPUs.
 menu:
   default:
     identifier: distributed-training
-    parent: log-objects-and-media
+    parent: logging
 title: Log distributed training experiments
 ---
 
