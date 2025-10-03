@@ -2,9 +2,9 @@
 description: Keep track of metrics, videos, custom plots, and more
 menu:
   default:
-    identifier: log-objects-and-media
+    identifier: logging
     parent: experiments
-title: Log objects and media
+title: Logging
 weight: 6
 url: guides/track/log
 cascade:
