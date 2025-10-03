@@ -22,7 +22,9 @@
     {{ end }}
     
     <!-- Include compiled theme CSS for navbar styling -->
-    <link href="/scss/main.css" rel="stylesheet">
+    {{ $scss := resources.Get "scss/_variables_project.scss" | toCSS (dict "targetPath" "css/_variables_project.scss") | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $scss.RelPermalink }}" integrity="{{ $scss.Data.Integrity }}">
+    
     
     <!-- jQuery (required by theme JavaScript) -->
     <script
@@ -134,7 +136,7 @@
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
     
     <!-- Debug script to monitor Redoc scrolling behavior -->
-    <script>
+    <!-- <script>
         // Wait for Redoc to initialize
         window.addEventListener('load', function() {
             console.log('🔍 Redoc Debug: Page loaded, setting up scroll monitoring...');
@@ -212,6 +214,6 @@
             
             console.log('✅ Redoc Debug: Monitoring setup complete. Check console for scroll events.');
         });
-    </script>
+    </script> -->
   </body>
 </html>
