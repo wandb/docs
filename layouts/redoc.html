@@ -2,43 +2,13 @@
 <html itemscope itemtype="http://schema.org/WebPage"
     {{- with .Site.Language.LanguageDirection }} dir="{{ . }}" {{- end -}}
     {{ with .Site.Language.Lang }} lang="{{ . }}" {{- end }} {{/**/ -}}
-    class="no-js">
+    class="no-js" data-bs-theme="light">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ .Title }} | {{ .Site.Title }}</title>
-    
-    <!-- Only include essential head elements, skip Docsy's problematic CSS/JS -->
-    {{ hugo.Generator }}
-    {{ range .AlternativeOutputFormats -}}
-    <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
-    {{ end -}}
-    
-    <!-- Favicon (if partial exists) -->
-    {{ if templates.Exists "partials/favicons.html" }}
-        {{ partialCached "favicons.html" . }}
-    {{ else }}
-        <link rel="icon" href="/favicons/favicon.ico" type="image/x-icon">
-    {{ end }}
-    
-    <!-- Include compiled theme CSS for navbar styling -->
-    {{ $scss := resources.Get "scss/_variables_project.scss" | toCSS (dict "targetPath" "css/_variables_project.scss") | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ $scss.RelPermalink }}" integrity="{{ $scss.Data.Integrity }}">
-    
-    
-    <!-- jQuery (required by theme JavaScript) -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous"></script>
-    
-    <!-- Redoc specific fonts -->
+    {{ partial "head.html" . }}
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
-    
-    <!-- Redoc specific styles and overrides -->
     <style>
-        /* CRITICAL: Override Docsy scroll-blocking styles */
-        html {
+      /* Redoc specific styles */
+      html {
             scroll-behavior: auto !important; /* Disable smooth scrolling from theme */
             overflow-y: visible !important;
             height: auto !important;
@@ -48,13 +18,6 @@
             overflow-x: hidden !important;
             overflow-y: visible !important;
             height: auto !important;
-        }
-        
-        /* Push content below the fixed navbar */
-        .redoc-container {
-            padding-top: 65px; /* Height of the navbar */
-            min-height: 100vh;
-            margin: 0;
         }
         
         /* Override any conflicting styles from the theme */
@@ -98,122 +61,45 @@
     <header>
       {{ partial "navbar.html" . }}
     </header>
-    <div class="redoc-container">
-      <redoc spec-url='/api-specs/serverlessRL.json' 
-             required-props-first=true
-             scroll-y-offset="65"
-             theme='{
-               "sidebar": {
-                 "activeTextColor": "#40a9ff"
-               },
-               "rightPanel": {
-                 "backgroundColor": "#263238",
-                 "textColor": "#ffffff"
-               },
-               "colors": {
-                 "primary": {
-                   "main": "#40a9ff",
-                   "backgroundColor": "#ffffff"
-                 },
-                 "text": {
-                   "primary": "#333333",
-                   "secondary": "#666666"
-                 }
-               },
-               "typography": {
-                 "fontSize": "14px",
-                 "lineHeight": "1.6",
-                 "code": {
-                   "color": "#e83e8c",
-                   "backgroundColor": "#f4f4f4"
-                 }
-               }
-             }'></redoc>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <main class="col-12 col-md-9 col-xl-10 ps-md-5" role="main">
+            {{ partial "version-banner.html" . }}
+            {{ if not (.Param "ui.breadcrumb_disable") -}}
+              {{ partial "breadcrumb.html" . -}}
+            {{ end -}}
+            <div class="td-content">
+              <div class="redoc-container">
+                <redoc spec-url='/api-specs/serverlessRL.json' scroll-y-offset="65"></redoc>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      {{ partial "footer.html" . }}
     </div>
-    {{ partial "footer.html" . }}
     {{ partial "scripts.html" . }}
-    <!-- Redoc standalone script -->
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
-    
-    <!-- Debug script to monitor Redoc scrolling behavior -->
-    <!-- <script>
-        // Wait for Redoc to initialize
-        window.addEventListener('load', function() {
-            console.log('🔍 Redoc Debug: Page loaded, setting up scroll monitoring...');
-            
-            // Monitor scroll events
-            window.addEventListener('scroll', function(e) {
-                console.log('📍 Scroll Event:', {
-                    scrollY: window.scrollY,
-                    scrollTop: document.documentElement.scrollTop,
-                    target: e.target
-                });
-            }, true);
-            
-            // Monitor hash changes (when clicking sidebar links)
-            window.addEventListener('hashchange', function(e) {
-                console.log('🔗 Hash Change:', {
-                    oldURL: e.oldURL,
-                    newURL: e.newURL,
-                    hash: window.location.hash,
-                    targetElement: document.querySelector(window.location.hash)
-                });
-            });
-            
-            // Monitor all click events on the page
-            document.addEventListener('click', function(e) {
-                // Check if click is within Redoc sidebar
-                if (e.target.closest('[role="navigation"]') || e.target.closest('.menu-content')) {
-                    console.log('🖱️ Sidebar Click:', {
-                        element: e.target,
-                        href: e.target.getAttribute('href'),
-                        text: e.target.textContent,
-                        offsetTop: e.target.offsetTop
-                    });
-                    
-                    // Track the next scroll position
-                    setTimeout(() => {
-                        const targetId = e.target.getAttribute('href')?.replace('#', '');
-                        const targetElement = targetId ? document.getElementById(targetId) : null;
-                        
-                        console.log('🎯 Scroll Target:', {
-                            targetId: targetId,
-                            targetElement: targetElement,
-                            targetOffsetTop: targetElement?.offsetTop,
-                            currentScrollY: window.scrollY,
-                            calculatedScrollPosition: targetElement ? targetElement.offsetTop - 65 : 'N/A'
-                        });
-                    }, 100);
-                }
-            }, true);
-            
-            // Monitor Redoc's internal scroll calculations
-            const originalScrollTo = window.scrollTo;
-            window.scrollTo = function(x, y) {
-                console.log('📜 scrollTo() called:', {
-                    x: x,
-                    y: y,
-                    options: arguments[0]
-                });
-                return originalScrollTo.apply(this, arguments);
-            };
-            
-            // Just monitor scrollIntoView calls (don't interfere)
-            const originalScrollIntoView = Element.prototype.scrollIntoView;
-            Element.prototype.scrollIntoView = function(options) {
-                console.log('👁️ scrollIntoView() called on:', {
-                    element: this,
-                    elementId: this.id,
-                    offsetTop: this.offsetTop,
-                    arguments: arguments[0]
-                });
-                
-                // Let Redoc handle its own scrolling
-                return originalScrollIntoView.apply(this, arguments);
-            };
-            
-            console.log('✅ Redoc Debug: Monitoring setup complete. Check console for scroll events.');
+    <script>
+      // Force light mode and prevent theme switcher from changing it
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+      
+      // Override any theme switching functionality
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.attributeName === 'data-bs-theme') {
+            if (document.documentElement.getAttribute('data-bs-theme') !== 'light') {
+              document.documentElement.setAttribute('data-bs-theme', 'light');
+            }
+          }
         });
-    </script> -->
+      });
+      
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme']
+      });
+    </script>
   </body>
 </html>
