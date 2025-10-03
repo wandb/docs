@@ -1,5 +1,5 @@
 ---
-title: W&B Training API Reference
+title: W&B Training API
 description: Generated documentation for W&B APIs
 menu:
   reference:
