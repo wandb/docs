@@ -15,5 +15,5 @@ To change an account from corporate to academic in W&B, follow these steps:
    - Add and set the academic email as the primary email.
 
 2. **Apply for an academic plan**:
-   - Visit the [W&B academic application page](https://wandb.ai/academic_application).
+   - Visit the [W&B academic page](https://wandb.ai/site/research/).
    - Submit the application for review.
