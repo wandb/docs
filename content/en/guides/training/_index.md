@@ -2,7 +2,7 @@
 menu:
   default:
     identifier: serverless-rl
-title: W&B Serverless RL
+title: W&B Training
 weight: 5
 ---
 
