@@ -20,6 +20,14 @@
             height: auto !important;
         }
         
+        /* Make the main content area full-width without breaking Bootstrap grid */
+        main.redoc-page {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        
         /* Override any conflicting styles from the theme */
         .redoc-container redoc {
             display: block;
@@ -64,7 +72,7 @@
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <main class="col-12 col-md-9 col-xl-10 ps-md-5" role="main">
+          <main class="col-12 redoc-page" role="main">
             {{ partial "version-banner.html" . }}
             {{ if not (.Param "ui.breadcrumb_disable") -}}
               {{ partial "breadcrumb.html" . -}}
