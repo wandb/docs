@@ -2,7 +2,7 @@
 <html itemscope itemtype="http://schema.org/WebPage"
     {{- with .Site.Language.LanguageDirection }} dir="{{ . }}" {{- end -}}
     {{ with .Site.Language.Lang }} lang="{{ . }}" {{- end }} {{/**/ -}}
-    class="no-js">
+    class="no-js" data-bs-theme="light">
   <head>
     {{ partial "head.html" . }}
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
@@ -88,5 +88,25 @@
     </div>
     {{ partial "scripts.html" . }}
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+    <script>
+      // Force light mode and prevent theme switcher from changing it
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+      
+      // Override any theme switching functionality
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.attributeName === 'data-bs-theme') {
+            if (document.documentElement.getAttribute('data-bs-theme') !== 'light') {
+              document.documentElement.setAttribute('data-bs-theme', 'light');
+            }
+          }
+        });
+      });
+      
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme']
+      });
+    </script>
   </body>
 </html>
