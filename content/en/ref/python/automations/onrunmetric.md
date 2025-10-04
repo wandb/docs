@@ -1,32 +1,26 @@
 ---
 title: OnRunMetric
-namespace: automations_namespace
-python_object_type: class
 ---
 
-{{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/events.py >}}
+{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/v0.22.1/wandb/automations/events.py#L210-L232 >}}
 
-
-
-## <kbd>class</kbd> `OnRunMetric`
 A run metric satisfies a user-defined condition.
 
+| Attributes |  |
+| :--- | :--- |
+|  `scope` |  The scope of the event: only projects are valid scopes for this event. |
+|  `filter` |  Run and/or metric condition(s) that must be satisfied for this event to trigger an automation. |
 
-### <kbd>method</kbd> `OnRunMetric.__init__`
+## Methods
+
+### `then`
+
+[View source](https://www.github.com/wandb/wandb/tree/v0.22.1/wandb/automations/events.py#L151-L158)
 
 ```python
-__init__(
-    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE]',
-    scope: 'ProjectScope',
-    filter: 'RunMetricFilter'
-) → None
+then(
+    action: InputAction
+) -> NewAutomation
 ```
 
-**Args:**
- 
- - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE]): 
- - `scope` (ProjectScope): The scope of the event: only projects are valid scopes for this event.
- - `filter` (RunMetricFilter): Run and/or metric condition(s) that must be satisfied for this event to trigger an automation.
-
-**Returns:**
- An `OnRunMetric` object.
+Define a new Automation in which this event triggers the given action.
