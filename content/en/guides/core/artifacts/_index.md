@@ -30,7 +30,7 @@ You can use artifacts throughout your entire ML workflow as inputs and outputs o
 
 
 {{% alert %}}
-The proceeding code snippets are meant to be run in order.
+The following code snippets are meant to be run in order.
 {{% /alert %}}
 
 ## Create an artifact
@@ -41,18 +41,10 @@ Create an artifact with four lines of code:
 3. Add one or more files, such as a model file or dataset, to your artifact object.
 4. Log your artifact to W&B.
 
-For example, the proceeding code snippet shows how to log a file called `dataset.h5` to an artifact called `example_artifact`:
+For example, the following code snippet shows how to log a file called `dataset.h5` to an artifact called `example_artifact`:
 
-```python
-import wandb
+{{< code language="python" source="/bluehawk/snippets/artifact.snippet.create_artifact.py" >}}
 
-run = wandb.init(project="artifacts-example", job_type="add-dataset")
-artifact = wandb.Artifact(name="example_artifact", type="dataset")
-artifact.add_file(local_path="./dataset.h5", name="training_dataset")
-artifact.save()
-
-# Logs the artifact version "my_data" as a dataset with data from dataset.h5
-```
 
 - The `type` of the artifact affects how it appears in the W&B platform. If you do not specify a `type`, it defaults to `unspecified`.
 - Each label of the dropdown represents a different `type` parameter value. In the above code snippet, the artifact's `type` is `dataset`.
@@ -66,20 +58,13 @@ Indicate the artifact you want to mark as input to your run with the [`use_artif
 
 Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
-```python
-artifact = run.use_artifact(
-    "training_dataset:latest"
-)  # returns a run object using the "my_data" artifact
-```
+{{< code language="python" source="/bluehawk/snippets/artifact.snippet.download_artifact-1.py" >}}
+
 This returns an artifact object.
 
 Next, use the returned object to download all contents of the artifact:
 
-```python
-datadir = (
-    artifact.download()
-)  # downloads the full `my_data` artifact to the default directory.
-```
+{{< code language="python" source="/bluehawk/snippets/artifact.snippet.download_artifact-2.py" >}}
 
 {{% alert %}}
 You can pass a custom path into the `root` [parameter]({{< relref "/ref/python/experiments/artifact.md" >}}) to download an artifact to a specific directory. For alternate ways to download artifacts and to see additional parameters, see the guide on [downloading and using artifacts]({{< relref "./download-and-use-an-artifact.md" >}}).
