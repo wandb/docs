@@ -79,7 +79,7 @@ Use [W&B Inference]({{< relref "/guides/inference/" >}}) to access leading open-
 
 ### Post-train your models
 
-Use [W&B Training]({{< relref "/guides/training/" >}}) to post-train large language models using serverless reinforcement learning (RL). Features include fully managed GPU infrastructure, integration with ART and RULER, and automatic scaling for multi-turn agentic tasks.
+Now in public preview, use [W&B Training]({{< relref "/guides/training/" >}}) to post-train large language models using serverless reinforcement learning (RL). Features include fully managed GPU infrastructure, integration with ART and RULER, and automatic scaling for multi-turn agentic tasks.
 
 - [Introduction]({{< relref "/guides/training/" >}})
 - [Serverless RL]({{< relref "/guides/training/serverless-rl/" >}})
