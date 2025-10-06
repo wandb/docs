@@ -290,7 +290,7 @@ Invite users to a team in your organization. Use the team's dashboard to invite 
 5. Within the modal that appears, provide the email of the user in the **Email or username** field and select the role to assign to that user from the **Select a team** role dropdown. For more information about roles a user can have in a team, see [Team roles]({{< relref "#assign-or-update-a-team-members-role" >}}).
 6. Choose on the **Send invite** button.
 
-By default, only a team or instance admin can invite members to a team. To change this behavior, refer to [Team settings]({{< relref "/guides/models/app/settings-page/team-settings.md#privacy" >}}).
+By default, only a team or instance admin can invite members to a team. To change this behavior, refer to [Team settings]({{< relref "/guides/models/app/settings-page/teams.md#privacy" >}}).
 
 In addition to inviting users manually with email invites, you can automatically add new users to a team if the new user's [email matches the domain of your organization]({{< relref "#domain-capture" >}}).
 

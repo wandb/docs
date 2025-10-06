@@ -2,7 +2,7 @@
 menu:
   default:
     identifier: log-summary
-    parent: log-objects-and-media
+    parent: logging
 title: Log summary metrics
 ---
 

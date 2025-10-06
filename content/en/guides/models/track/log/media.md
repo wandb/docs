@@ -3,7 +3,7 @@ description: Log rich media, from 3D point clouds and molecules to HTML and hist
 menu:
   default:
     identifier: media
-    parent: log-objects-and-media
+    parent: logging
 title: Log media and objects
 ---
 
@@ -13,7 +13,7 @@ title: Log media and objects
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
 {{% alert %}}
-For details, see the [Data types reference]({{< relref "/ref/python/sdk/data-types/" >}}).
+For details, see the [Data types reference]({{< relref "/ref/python/data-types/" >}}).
 {{% /alert %}}
 
 {{% alert %}}
@@ -331,7 +331,7 @@ Three different formats of NumPy arrays are supported for flexible color schemes
 
 #### Python object
 
-Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref "/ref/python/sdk/data-types/Object3D/#from_point_cloud" >}}).
+Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref "/ref/python/data-types/Object3D/#from_point_cloud" >}}).
 
 * `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above]({{< relref "#python-object" >}}).
 * `boxes` is a NumPy array of python dictionaries with three attributes:
@@ -388,7 +388,7 @@ When viewing a point cloud, you can hold control and use the mouse to move aroun
 
 #### Point cloud files
 
-You can use [the `from_file` method]({{< relref "/ref/python/sdk/data-types/Object3D/#from_file" >}}) to load in a JSON file full of point cloud data.
+You can use [the `from_file` method]({{< relref "/ref/python/data-types/Object3D/#from_file" >}}) to load in a JSON file full of point cloud data.
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -484,7 +484,7 @@ An example of how to format the point cloud data is shown below.
 ```
 #### NumPy arrays
 
-Using [the same array formats defined above]({{< relref "#numpy-array-formats" >}}), you can use `numpy` arrays directly with [the `from_numpy` method]({{< relref "/ref/python/sdk/data-types/Object3D/#from_numpy" >}}) to define a point cloud.
+Using [the same array formats defined above]({{< relref "#numpy-array-formats" >}}), you can use `numpy` arrays directly with [the `from_numpy` method]({{< relref "/ref/python/data-types/Object3D/#from_numpy" >}}) to define a point cloud.
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -562,7 +562,7 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 ### PNG image
 
-[`wandb.Image`]({{< relref "/ref/python/sdk/data-types/image.md" >}}) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
+[`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
 
 ```python
 run.log({"example": wandb.Image(...)})
@@ -572,7 +572,7 @@ run.log({"example": [wandb.Image(...) for img in images]})
 
 ### Video
 
-Videos are logged using the [`wandb.Video`]({{< relref "/ref/python/sdk/data-types/Video" >}}) data type:
+Videos are logged using the [`wandb.Video`]({{< relref "/ref/python/data-types/Video" >}}) data type:
 
 ```python
 run.log({"example": wandb.Video("myvideo.mp4")})
@@ -582,7 +582,7 @@ Now you can view videos in the media browser. Go to your project workspace, run 
 
 ## 2D view of a molecule
 
-You can log a 2D view of a molecule using the [`wandb.Image`]({{< relref "/ref/python/sdk/data-types/image.md" >}}) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
+You can log a 2D view of a molecule using the [`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")

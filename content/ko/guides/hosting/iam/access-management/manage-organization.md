@@ -288,7 +288,7 @@ Organization에서 Team에 사용자를 초대합니다. Team의 대시보드를
 5. 나타나는 모달에서 **Email or username** 필드에 사용자의 이메일을 입력하고 **Select a team** 역할 드롭다운에서 해당 사용자에게 할당할 역할을 선택합니다. 사용자가 Team에서 가질 수 있는 역할에 대한 자세한 내용은 [Team 역할]({{< relref path="#assign-or-update-a-team-members-role" lang="ko" >}})을 참조하십시오.
 6. **Send invite** 버튼을 클릭합니다.
 
-기본적으로 Team 또는 인스턴스 관리자만 Team에 구성원을 초대할 수 있습니다. 이 동작을 변경하려면 [Team 설정]({{< relref path="/guides/models/app/settings-page/team-settings.md#privacy" lang="ko" >}})을 참조하십시오.
+기본적으로 Team 또는 인스턴스 관리자만 Team에 구성원을 초대할 수 있습니다. 이 동작을 변경하려면 [Team 설정]({{< relref path="/guides/models/app/settings-page/teams.md#privacy" lang="ko" >}})을 참조하십시오.
 
 이메일 초대를 통해 수동으로 사용자를 초대하는 것 외에도 새 사용자의 [이메일이 Organization의 도메인과 일치하는 경우]({{< relref path="#domain-capture" lang="ko" >}}) 새 사용자를 Team에 자동으로 추가할 수 있습니다.
 

@@ -117,7 +117,7 @@ for art in artifacts:
     print(f"tags attached to artifact: {art.tags}")
     print(f"artifact created at: {art.created_at}\n")
 ```
-For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/sdk/classes/artifact/_index.md" >}}) in the API Reference docs. 
+For a complete list of an artifact object's attributes, see the [Artifacts Class]({{< relref "/ref/python/experiments/artifact/_index.md" >}}) in the API Reference docs. 
 
 
 Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:
@@ -137,3 +137,15 @@ artifacts = api.registries().collections().versions(filter=artifact_filters)
 Specify the date and time in the format `YYYY-MM-DD HH:MM:SS`. You can omit the hours, minutes, and seconds if you want to filter by date only.
 
 See the MongoDB documentation for more information on [query comparisons](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/).
+
+## Prioritize registries with stars
+
+Add a "star" to label important or frequently used registries. Starred registries appear in the **My starred registries** section on the Registry landing page.
+
+To add a star to a registry:
+
+1. Navigate to the W&B Registry.
+2. Click the star icon next to the name of the registry.
+
+
+

@@ -8,7 +8,9 @@ title: wandb restore
 
 **Summary**
 
-Restore code, config and docker state for a run
+Restore code, config and docker state for a run. Retrieves code from latest
+commit if code was not saved with `wandb.save()` or
+`wandb.init(save_code=True)`.
 
 
 **Options**

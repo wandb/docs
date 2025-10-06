@@ -2,7 +2,7 @@
 menu:
   default:
     identifier: customize-logging-axes
-    parent: log-objects-and-media
+    parent: logging
 title: Customize log axes
 ---
 
@@ -26,7 +26,7 @@ In the project's workspace, the `validation_loss` metric is plotted against the 
 
 {{< img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis." >}}
 
-In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`]({{< relref "/ref/python/sdk/classes/run/#define_metric" >}}) method to use any metric you log  as a custom x-axis.
+In certain situations, it makes more sense to log metrics against a different x-axis such as a logarithmic x-axis. Use the [`define_metric()`]({{< relref "/ref/python/experiments/run/#define_metric" >}}) method to use any metric you log  as a custom x-axis.
 
 Specify the metric that you want to appear as the y-axis with the `name` parameter. The `step_metric` parameter specifies the metric you want to use as the x-axis. When you log a custom metric, specify a value for both the x-axis and the y-axis as key-value pairs in a dictionary. 
 

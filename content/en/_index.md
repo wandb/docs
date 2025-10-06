@@ -1,6 +1,7 @@
 ---
 title: Weights & Biases Documentation
 ---
+
 <div style="padding-top:50px;">&nbsp;</div>
 <div style="max-width:1600px; margin: 0 auto">
 {{< banner title="Weights & Biases Documentation" background="/images/support/support_banner.png" >}}
