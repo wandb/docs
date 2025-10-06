@@ -23,7 +23,7 @@ You need these items to access W&B Training:
    Get your API key at [https://wandb.ai/authorize](https://wandb.ai/authorize)
 
 3. **A W&B project**  
-   Create a project in your W&B account to track usage, record training metrics, and save trained models.
+   Create a project in your W&B account to track usage, record training metrics, and save trained models
 
 ## Next steps
 

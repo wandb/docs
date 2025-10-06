@@ -7,21 +7,21 @@ description: Learn about how to more efficiently post-train your models using re
 weight: 5
 ---
 
-Serverless RL lets you post-train LLMs to learn new behaviors and improve reliability, speed, and costs when performing multi-turn, agentic tasks while we handle the GPUs and infrastructure for you. Serverless RL gives you instant access to GPUs on a fully managed, distributed training cluster that elastically auto-scales to dozens of GPUs or down to zero instantly, matching your reinforcement learning (RL) job at every moment. By automatically splitting RL workflows into inference and training phases and multiplexing them across jobs, Serverless RL maximizes GPU utilization and reduces your training time and costs.
+Serverless RL helps developers post-train LLMs to learn new behaviors and improve reliability, speed, and costs when performing multi-turn agentic tasks. We provision the training infrastructure for you while allowing full flexibility in your environment's setup. Serverless RL gives you instant access to a managed training cluster that elastically auto-scales to dozens of GPUs. By splitting RL workflows into inference and training phases and multiplexing them across jobs, Serverless RL increases GPU utilization and reduces your training time and costs.
 
-Serverless RL is ideal for:
+Serverless RL is ideal for tasks like:
 * Voice agents
 * Deep research assistants
 * On-prem models
 * Content marketing analysis agents
 
-Serverless RL trains low-rank adapters (LoRAs) and then provides you the ability to integrate them into calls to your existing LLM models, such as GPT-4.1. This extends the existing model’s training with data and hyper-parameters that you provide and gives you the ability to access the adapted model from a singular endpoint. You can also store versions of your adapters as artifacts stored in your W&B account.
+Serverless RL trains low-rank adapters (LoRAs) to specialize a model for your agent's specific task. This extends the original model’s capabilities with on-the-job experience. The LoRAs you train will automatically be stored as artifacts in your W&B account, and can be saved locally or to a third party for backup. Models that you train through Serverless RL will also be automatically hosted on W&B Inference.
 
 Serverless RL uses a combination of the following W&B services to operate:
 
 * [Inference]({{< relref "guides/inference" >}}): To run your models
 * [Models]({{< relref "guides/models" >}}): To track performance metrics during the LoRA adapter's training
 * [Artifacts]({{< relref "guides/core/artifacts" >}}): To store and version the LoRA adapters
-* [Weave]({{< relref "guides/models" >}}): To gain observability into how the model responds at each step of the training loop
+* [Weave (optional)]({{< relref "guides/models" >}}): To gain observability into how the model responds at each step of the training loop
 
-Serverless RL is currently in public preview. We only charge for the use of inference and the storage of artifacts. We do not charge for adapter training during the preview period. We will make training pricing details available when the service is released for general availability. 
+Serverless RL is currently in public preview. We only charge for the use of inference and the storage of artifacts. We do not charge for adapter training during the preview period. We will make training pricing details available in the next few weeks.
