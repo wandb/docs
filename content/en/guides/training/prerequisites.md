@@ -3,7 +3,7 @@ title: "Prerequisites"
 linkTitle: "Prerequisites"
 weight: 1
 description: >
-  Set up your environment to use W&B Training
+  Set up your environment to use W&B Training.
 ---
 
 Complete these steps before using W&B Training features through the OpenPipe ART framework or API.
@@ -23,7 +23,7 @@ You need these items to access W&B Training:
    Get your API key at [https://wandb.ai/authorize](https://wandb.ai/authorize)
 
 3. **A W&B project**  
-   Create a project in your W&B account to track usage
+   Create a project in your W&B account to track usage, reocrd training metrics, and save trained models
 
 ## Next steps
 
