@@ -14,9 +14,9 @@ When making inference requests, set your base url to `https://api.training.wandb
 
 `wandb-artifact:///<entity>/<project>/<model-name>:<step>`
 
-As an example, let's assume that your W&B team is named `team-rocket`, and your project was called `world-domination`. If you named your model `meowth` and wanted to deploy it on step 25 (presumably because that step did the best on your evals), you would set the model name in your chat completion requests to the following:
+As an example, let's assume that your W&B team is named `email-specialists`, and your project was called `mail-search`. If you named your model `agent-001` and wanted to deploy it on step 25 (presumably because that step did the best on your evals), you would set the model name in your chat completion requests to the following:
 
-`wandb-artifact:///team-rocket/world-domination/meowth:step25`
+`wandb-artifact:///email-specialists/mail-search/agent-001:step25`
 
 This tells W&B Inference exactly where to find your model when initially loading it for inference.
 
