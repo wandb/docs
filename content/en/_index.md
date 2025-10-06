@@ -73,7 +73,7 @@ Use [W&B Inference]({{< relref "/guides/inference/" >}}) to access leading open-
 {{% card %}}<div onclick="window.location.href='/guides/training/'" style="cursor: pointer;">
 
 <div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
-{{< img src="/icons/Name=Agents, Mode=Dark.svg" width="60" height="60" >}}
+{{< img src="/icons/Name=Training, Mode=Dark.svg" width="60" height="60" >}}
 </div>
 <h2>W&B Training</h2>
 
