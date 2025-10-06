@@ -18,11 +18,11 @@ Pricing for Serverless RL inference requests matches W&B Inference pricing. See 
 
 At each training step, Serverless RL collects batches of trajectories that include your agent's outputs and associated rewards (calculated by your reward function). The batched trajectories are then used to update the weights of a LoRA adapter that specializes a base model for your task. The training jobs to update these LoRAs run on dedicated GPU clusters managed by Serverless RL.
 
-During the public preview, training is free. Pricing for training will be announced in the next few weeks.
+During the public preview, training is free. We will announce pricing for training soon.
 
 ### Model storage
 
-Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB free storage, which is enough for roughly 30 LoRAs. Deletion of low-performing LoRAs is encouraged and made easy through the [ART SDK](https://art.openpipe.ai).
+Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. We recommend deleteing low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai) for instructions on how to do this.
 
 
 ## Inference Concurrency limits
