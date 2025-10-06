@@ -8,7 +8,7 @@ Serverless RL is supported through [OpenPipe's ART framework](https://art.openpi
 
 ### Why Serverless RL?
 
-RL is a powerful training technique that can be utilized in a variety of training setups, including on GPUs that you own or rent directly. In fact, much of the code that makes Serverless RL so effective is already open source in the [ART SDK](https://github.com/openpipe/art). So why use Serverless RL?
+RL is a set of powerful training techniques that can be utilized in many kinds of training setups, including on GPUs that you own or rent directly. In fact, much of the code that makes Serverless RL so effective is already open source in the [ART SDK](https://github.com/openpipe/art). So why use Serverless RL?
 
 * Lower training costs
   * By multiplexing shared infra across many users, skipping the setup process for each job, and scaling your GPU costs down to 0 when you're not actively training, Serverless RL reduces training costs significantly.
