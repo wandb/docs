@@ -9,21 +9,11 @@
     <div class="container-fluid flex-column flex-md-row">
         <a class="navbar-brand" href="{{ .Site.Home.RelPermalink }}">
             <span class="navbar-brand__logo navbar-logo">
-            {{- $lightLogo := resources.Get "icons/logo_light.svg" -}}
-            {{- $darkLogo := resources.Get "icons/logo_dark.svg" -}}
-            {{- if $lightLogo -}}
-            <div class="theme-light-only">{{ $lightLogo.Content | safeHTML }}</div>
-            {{- else -}}
-            <div class="theme-light-only">
-                <img src="/icons/logo_light.svg" alt="Logo" style="height: 40px;">
-            </div>
+            {{- with resources.Get "icons/logo_light.svg" -}}
+            <div class="theme-light-only">{{ .Content | safeHTML }}</div>
             {{- end -}}
-            {{- if $darkLogo -}}
-            <div class="theme-dark-only">{{ $darkLogo.Content | safeHTML }}</div>
-            {{- else -}}
-            <div class="theme-dark-only">
-                <img src="/icons/logo_dark.svg" alt="Logo" style="height: 40px;">
-            </div>
+            {{- with resources.Get "icons/logo_dark.svg" -}}
+            <div class="theme-dark-only">{{ .Content | safeHTML }}</div>
             {{- end -}}
             </span>
         </a>
