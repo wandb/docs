@@ -86,15 +86,18 @@ def parse_changelog(filepath):
     with open(filepath, 'r') as f:
         content = f.read()
     
-    # Split by release headers (## [version] - date)
-    release_pattern = r'^## \[([^\]]+)\] - (.+?)$'
+    # Three patterns: new format (## [version] - date), old format (# version (date)), and older format (## version (date))
+    new_release_pattern = r'^## \[([^\]]+)\] - (.+?)$'
+    old_release_pattern = r'^# ([\d\.]+) \((.+?)\)$'
+    older_release_pattern = r'^## ([\d\.]+) \((.+?)\)$'
     
     releases = []
     current_release = None
     current_content = []
     
     for line in content.split('\n'):
-        match = re.match(release_pattern, line)
+        # Try new format first
+        match = re.match(new_release_pattern, line)
         if match:
             # Save previous release if exists
             if current_release:
@@ -122,8 +125,88 @@ def parse_changelog(filepath):
                 'content': ''
             }
             current_content = []
-        elif current_release:
-            current_content.append(line)
+        else:
+            # Try old format
+            match = re.match(old_release_pattern, line)
+            if match:
+                # Save previous release if exists
+                if current_release:
+                    current_release['content'] = '\n'.join(current_content).strip()
+                    releases.append(current_release)
+                
+                # Start new release
+                version = match.group(1)
+                date_str = match.group(2)
+                
+                # Parse date from various formats (e.g., "Nov 7, 2023", "October 3, 2023")
+                try:
+                    # Try different date formats
+                    for fmt in ['%b %d, %Y', '%B %d, %Y', '%Y-%m-%d']:
+                        try:
+                            date_obj = datetime.strptime(date_str, fmt)
+                            formatted_date = date_obj.strftime('%Y-%m-%d')
+                            description = date_obj.strftime('%B %d, %Y')
+                            break
+                        except ValueError:
+                            continue
+                    else:
+                        # If no format worked, use as-is
+                        formatted_date = date_str
+                        description = date_str
+                except:
+                    formatted_date = date_str
+                    description = date_str
+                
+                current_release = {
+                    'version': version,
+                    'title': f'{version} ({date_str})',
+                    'date': formatted_date,
+                    'description': description,
+                    'content': ''
+                }
+                current_content = []
+            else:
+                # Try older format (## version (date))
+                match = re.match(older_release_pattern, line)
+                if match:
+                    # Save previous release if exists
+                    if current_release:
+                        current_release['content'] = '\n'.join(current_content).strip()
+                        releases.append(current_release)
+                    
+                    # Start new release
+                    version = match.group(1)
+                    date_str = match.group(2)
+                    
+                    # Parse date from various formats
+                    try:
+                        # Try different date formats
+                        for fmt in ['%B %d, %Y', '%b %d, %Y', '%Y-%m-%d']:
+                            try:
+                                date_obj = datetime.strptime(date_str, fmt)
+                                formatted_date = date_obj.strftime('%Y-%m-%d')
+                                description = date_obj.strftime('%B %d, %Y')
+                                break
+                            except ValueError:
+                                continue
+                        else:
+                            # If no format worked, use as-is
+                            formatted_date = date_str
+                            description = date_str
+                    except:
+                        formatted_date = date_str
+                        description = date_str
+                    
+                    current_release = {
+                        'version': version,
+                        'title': f'{version} ({date_str})',
+                        'date': formatted_date,
+                        'description': description,
+                        'content': ''
+                    }
+                    current_content = []
+                elif current_release:
+                    current_content.append(line)
     
     # Save last release
     if current_release:
