@@ -22,7 +22,7 @@ During the public preview, training is free. We will announce pricing for traini
 
 ### Model storage
 
-Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. We recommend deleteing low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai) for instructions on how to do this.
+Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. We recommend deleting low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai) for instructions on how to do this.
 
 
 ## Inference Concurrency limits
