@@ -23,19 +23,11 @@ To use metric or configuration-based colors for your runs, you need to configure
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
     - Set the number of buckets to a value from 2 to 8.
 
-### Choose a color palette
-
-1. Navigate to your W&B project.
-2. Select the **Workspace** tab from the project sidebar.
-3. Click on the **Settings** icon in the top right corner.
-4. From the drawer, select **Runs**.
-5. In the **Color palette** section, choose from:
-    - **Default**: Standard color palette.
-    - **Colorblind-safe (deuteranomaly)**: Optimized for red-green color blindness.
-    - **Colorblind-safe (all other forms)**: Optimized for other forms of color vision difference.
+{{% alert %}}
+When you use key-based colors, the option to [customize run colors]({{ relref "/guides/track/runs/run-colors.md" }}) is not available.
+{{% /alert %}}
 
 The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
-
 
 ### Example: Key-based coloring with loss metric
 
