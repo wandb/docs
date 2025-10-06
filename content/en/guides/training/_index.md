@@ -4,7 +4,7 @@ menu:
     identifier: training
 title: W&B Training
 description: Post-train your models using reinforcement learning.
-weight: 6
+weight: 60
 ---
 
 Now in public preview, W&B Training offers serverless reinforcement learning (RL) for post-training large language models (LLMs) to improve their reliability performing multi-turn, agentic tasks while also increasing speed and reducing costs. 

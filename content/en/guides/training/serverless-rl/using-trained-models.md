@@ -1,6 +1,6 @@
 ---
-title: "Use Trained Models"
-linkTitle: "Use Trained Models"
+title: "Use your trained models"
+linkTitle: "Use trained models"
 weight: 20
 description: >
   Make inference requests to the models you've trained.
