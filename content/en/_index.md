@@ -65,6 +65,30 @@ Use [W&B Inference]({{< relref "/guides/inference/" >}}) to access leading open-
 
 </div>{{% /card %}}
 {{< /cardpane >}}
+
+</div>
+
+<div class="bottom-row-cards">
+{{< cardpane >}}
+{{% card %}}<div onclick="window.location.href='/guides/training/'" style="cursor: pointer;">
+
+<div className="card-banner-icon" style="float:left;margin-right:10px !important; margin-top: -12px !important">
+{{< img src="/icons/Name=Agents, Mode=Dark.svg" width="60" height="60" >}}
+</div>
+<h2>W&B Training</h2>
+
+### Post-train your models
+
+Use [W&B Training]({{< relref "/guides/training/" >}}) to post-train large language models using serverless reinforcement learning (RL). Features include fully managed GPU infrastructure, integration with ART and RULER, and automatic scaling for multi-turn agentic tasks.
+
+- [Introduction]({{< relref "/guides/training/" >}})
+- [Serverless RL]({{< relref "/guides/training/serverless-rl/" >}})
+- [Prerequisites]({{< relref "/guides/training/prerequisites/" >}})
+- [API Reference]({{< relref "/guides/training/api-reference/" >}})
+
+</div>{{% /card %}}
+{{< /cardpane >}}
+
 </div>
 
 <!-- End max-width constraing -->
