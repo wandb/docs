@@ -3,7 +3,7 @@ description: Create and track plots from machine learning experiments.
 menu:
   default:
     identifier: plots
-    parent: log-objects-and-media
+    parent: logging
 title: Create and track plots from experiments
 ---
 
