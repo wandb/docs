@@ -27,7 +27,7 @@ Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serv
 
 ## Inference Concurrency limits
 
-By default, Serverless RL currently supports limits of 2000 concurrent requests per user and 6000 per project. If you exceed the rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
+By default, Serverless RL currently supports up to 2000 concurrent requests per user and 6000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
 
 {{< alert title="Note" >}}
 ## Personal entities unsupported
