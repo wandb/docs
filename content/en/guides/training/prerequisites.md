@@ -3,7 +3,7 @@ title: "Prerequisites"
 linkTitle: "Prerequisites"
 weight: 1
 description: >
-  Set up your environment to use W&B Training
+  Set up your environment to use W&B Training.
 ---
 
 Complete these steps before using W&B Training features through the OpenPipe ART framework or API.
