@@ -8,7 +8,7 @@ title: wandb online
 
 **Summary**
 
-Enable W&B sync
+Undo `wandb offline`.
 
 
 **Options**

@@ -4,7 +4,7 @@ title: wandb beta sync
 
 **Usage**
 
-`wandb beta sync [OPTIONS] WANDB_DIR`
+`wandb beta sync [OPTIONS] [PATHS]...`
 
 **Summary**
 
