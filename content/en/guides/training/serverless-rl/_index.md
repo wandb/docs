@@ -34,4 +34,4 @@ Serverless RL uses a combination of the following W&B components to operate:
 * [Artifacts]({{< relref "guides/core/artifacts" >}}): To store and version the LoRA adapters
 * [Weave (optional)]({{< relref "guides/models" >}}): To gain observability into how the model responds at each step of the training loop
 
-Serverless RL is in public preview. During the preview, you are charged only for the use of inference and the storage of artifacts, during the preview period, not for adapter training. W&B do not charge for adapter training during the preview period.
+Serverless RL is in public preview. During the preview, you are charged only for the use of inference and the storage of artifacts. W&B does not charge for adapter training during the preview period.

@@ -18,7 +18,7 @@ Pricing for Serverless RL inference requests matches W&B Inference pricing. See 
 
 At each training step, Serverless RL collects batches of trajectories that include your agent's outputs and associated rewards (calculated by your reward function). The batched trajectories are then used to update the weights of a LoRA adapter that specializes a base model for your task. The training jobs to update these LoRAs run on dedicated GPU clusters managed by Serverless RL.
 
-During the public preview, training is free. We will announce pricing for training soon.
+Training is free during the public preview period.
 
 ### Model storage
 
