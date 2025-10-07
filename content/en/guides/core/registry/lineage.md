@@ -1,5 +1,5 @@
 ---
-description: Create and view lineage maps, audit a collection's history
+description: Create and view lineage maps to audit a collection's history
 menu:
   default:
     parent: registry
@@ -8,7 +8,7 @@ title: Lineage maps and audit history
 weight: 8
 ---
 
-Use lineage maps to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection.
+Use a lineage map to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection.
 
 ## Lineage maps
 
@@ -18,12 +18,11 @@ Within a collection in the W&B Registry, you can view a history of the artifacts
 You can also view lineage graphs for artifacts you log to W&B that are not part of a collection.
 {{% /alert %}}
 
-Lineage graphs show:
+A lineage graph shows:
 * If a run used an artifact as an input.
 * If a run created an artifact as an output.
 
-In other words, lineage graphs show the input and output of a run. 
-
+In other words, a lineage graph shows the input and output of a run.  
 
 For example, the following image shows a typical lineage graph for artifacts created and used throughout an ML experiment:
 
@@ -82,7 +81,7 @@ View the lineage of an artifact linked to a collection in the W&B Registry.
 1. Navigate to the W&B Registry.
 2. Select the collection that contains the artifact.
 3. From the dropdown, select the artifact version you want to view its lineage graph.
-4. Select the "Lineage" tab.
+4. Select the **Lineage** tab.
 5. Select a node to view detailed information about the run or artifact.
 
 
