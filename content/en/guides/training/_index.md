@@ -13,6 +13,6 @@ W&B Training includes integration with:
 
 * [ART](https://art.openpipe.ai/getting-started/about), a flexible RL fine-tuning framework.
 * [RULER](https://openpipe.ai/blog/ruler), a universal verifier. 
-* A fully-managed backend on CoreWeave cloud.
+* A fully-managed backend on [CoreWeave Cloud](https://docs.coreweave.com/docs/platform).
 
 To get started, satisfy the [prerequisites]({{< relref "/guides/training/prerequisites" >}}) to start using the service and then see [OpenPipe's Serverless RL quickstart](https://art.openpipe.ai/getting-started/quick-start) to learn how to post-train your models.

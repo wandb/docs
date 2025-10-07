@@ -24,23 +24,10 @@ Training is free during the public preview period.
 
 Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. We recommend deleting low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai) for instructions on how to do this.
 
+## Limits
 
-## Inference Concurrency limits
+* **Inference concurrency limits**: By default, Serverless RL currently supports up to 2000 concurrent requests per user and 6000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
 
-By default, Serverless RL currently supports up to 2000 concurrent requests per user and 6000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
+* **Personal entities unsupported**: Serverless RL and W&B Inference don't support personal entities (personal accounts). To access Serverless RL, switch to a non-personal account by [creating a Team]({{< relref "/guides/hosting/iam/access-management/manage-organization/#add-and-manage-teams" >}}). Personal entities (personal accounts) were deprecated in May 2024, so this advisory only applies to legacy accounts.
 
-{{< alert title="Personal entities unsupported" >}}
-
-Serverless RL and W&B Inference don't support personal entities (personal accounts). To access Serverless RL, switch to a non-personal account by [creating a Team]({{< relref "/guides/hosting/iam/access-management/manage-organization/#add-and-manage-teams" >}}). Personal entities (personal accounts) were deprecated in May 2024, so this advisory only applies to legacy accounts.
-
-{{< /alert >}}
-
-{{< alert title="Geographic restrictions" >}}
-
-Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
-
-{{< /alert >}}
-
-
-
-
+* **Geographic restrictions**: Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).

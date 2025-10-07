@@ -2,8 +2,7 @@
 title: "Use your trained models"
 linkTitle: "Use trained models"
 weight: 20
-description: >
-  Make inference requests to the models you've trained.
+description: Make inference requests to the models you've trained.
 ---
 
 After training a model with Serverless RL, it is automatically available for inference.

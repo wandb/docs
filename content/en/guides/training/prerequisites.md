@@ -12,18 +12,12 @@ Complete these steps before using W&B Training features through the OpenPipe ART
 Before starting, review the [usage information and limits]({{< relref "guides/training/serverless-rl/usage-limits" >}}) to understand costs and restrictions.
 {{< /alert >}}
 
-## Set up your W&B account and project
+## Sign up and create an API key
 
-You need these items to access W&B Training:
+To authenticate your machine with W&B, you must first generate an API key at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
 
-1. **A W&B account**  
-   Sign up at [W&B](https://app.wandb.ai/login?signup=true)
-
-2. **A W&B API key**  
-   Get your API key at [https://wandb.ai/authorize](https://wandb.ai/authorize)
-
-3. **A W&B project**  
-   Create a project in your W&B account to track usage, record training metrics, and save trained models
+## Create a project in W&B
+Create a project in your W&B account to track usage, record training metrics, and save trained models. See [Insert link to a quickstart or tutorial]
 
 ## Next steps
 
