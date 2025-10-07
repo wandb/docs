@@ -84,7 +84,7 @@ Now in public preview, use [W&B Training]({{< relref "/guides/training/" >}}) to
 - [Introduction]({{< relref "/guides/training/" >}})
 - [Serverless RL]({{< relref "/guides/training/serverless-rl/" >}})
 - [Prerequisites]({{< relref "/guides/training/prerequisites/" >}})
-- [API Reference]({{< relref "/guides/training/api-reference/" >}})
+- [API Reference]({{< relref "/ref/training" >}})
 
 </div>{{% /card %}}
 {{< /cardpane >}}
