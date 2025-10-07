@@ -6,23 +6,33 @@ description: >
   Make inference requests to the models you've trained.
 ---
 
-After training a model with Serverless RL, it is automatically available for inference. To make a request to the OpenAI-compatible endpoint, follow the instructions below.
+After training a model with Serverless RL. it is automatically available for inference.
 
-When making inference requests, set your base URL to `https://api.training.wandb.ai/v1/` and use your W&B API key for authentication. Finally, set your model name to match the following schema:
+To send requests to your trained model, you need:
+* Your [W&B API key](https://wandb.ai/authorize)
+* The [Training API's]({{< relref "/ref/training" >}}) base URL, `https://api.training.wandb.ai/v1/`
+* Your model's endpoint
+
+The model's endpoint uses the following schema:
 
 ```
-wandb-artifact:///<entity>/<project>/<model-name>:<step>`
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
 ```
 
-For example, if your W&B team is named `email-specialists`, your project is called `mail-search`, your trained model is named `agent-001`, and you wanted to deploy it on step 25 (presumably because that step did the best on your evals), you would set the model name in your chat completion requests to the following:
+The schema consists of:
+
+* Your W&B entity's (team) name
+* The name of the project associated with your model
+* The trained model's name
+* The training step of the model you want to deploy (this is usually the step where the model performed best in your evaluations)
+
+For example, if your W&B team is named `email-specialists`, your project is called `mail-search`, your trained model is named `agent-001`, and you wanted to deploy it on step 25, the endpoint looks like this:
 
 ```
-wandb-artifact:///email-specialists/mail-search/agent-001:step25`
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
-This tells W&B Inference exactly where to find your model when initially loading it for inference.
-
-The following examples show you how to make inference requests to your trained model using a CuRL request or the [Python OpenAI SDK](https://github.com/openai/openai-python).
+Once you have your endpoint, you can integrate into your normal inference workflows. The following examples show how to make inference requests to your trained model using a CuRL request or the [Python OpenAI SDK](https://github.com/openai/openai-python).
 
 ### CuRL
 
