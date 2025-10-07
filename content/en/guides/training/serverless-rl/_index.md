@@ -7,7 +7,7 @@ description: Learn about how to more efficiently post-train your models using re
 weight: 5
 ---
 
-Now in public preview, Serverless RL helps developers post-train LLMs to learn new behaviors and improve reliability, speed, and costs when performing multi-turn agentic tasks. We provision the training infrastructure for you while allowing full flexibility in your environment's setup. Serverless RL gives you instant access to a managed training cluster that elastically auto-scales to dozens of GPUs. By splitting RL workflows into inference and training phases and multiplexing them across jobs, Serverless RL increases GPU utilization and reduces your training time and costs.
+Now in public preview, Serverless RL helps developers post-train LLMs to learn new behaviors and improve reliability, speed, and costs when performing multi-turn agentic tasks. W&B provision the training infrastructure ([on CoreWeave](https://docs.coreweave.com/docs/platform)) for you while allowing full flexibility in your environment's setup. Serverless RL gives you instant access to a managed training cluster that elastically auto-scales to dozens of GPUs. By splitting RL workflows into inference and training phases and multiplexing them across jobs, Serverless RL increases GPU utilization and reduces your training time and costs.
 
 Serverless RL is ideal for tasks like:
 * Voice agents
@@ -34,4 +34,4 @@ Serverless RL uses a combination of the following W&B components to operate:
 * [Artifacts]({{< relref "guides/core/artifacts" >}}): To store and version the LoRA adapters
 * [Weave (optional)]({{< relref "guides/models" >}}): To gain observability into how the model responds at each step of the training loop
 
-Serverless RL is in public preview. During the preview, you are charged only for the use of inference and the storage of artifacts, during the preview period, not for adapter training. We do not charge for adapter training during the preview period.
+Serverless RL is in public preview. During the preview, you are charged only for the use of inference and the storage of artifacts, during the preview period, not for adapter training. W&B do not charge for adapter training during the preview period.
