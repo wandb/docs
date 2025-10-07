@@ -1,14 +1,14 @@
 ---
-title: "Available Models"
-linkTitle: "Available Models"
+title: "Available models"
+linkTitle: "Available models"
 weight: 40
 description: >
   See the models you can train with Serverless RL.
 ---
 
-Serverless RL currently only supports a single open-source foundation model for training. We will add more models soon.
+Serverless RL currently only supports a single open-source foundation model for training.
 
-If there's a particular model you're interested in getting support for, email use at support@wandb.com.
+To express interest in a particular model, contact [support](mailto:support@wandb.ai).
 
 ## Model catalog
 

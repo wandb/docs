@@ -6,21 +6,23 @@ description: >
   Make inference requests to the models you've trained.
 ---
 
-After training a model with Serverless RL, it is automatically deployed and ready to use in production. To make a request to the OpenAI-compatible endpoint, follow the instructions below.
-
-### Overview
+After training a model with Serverless RL, it is automatically available for inference. To make a request to the OpenAI-compatible endpoint, follow the instructions below.
 
 When making inference requests, set your base URL to `https://api.training.wandb.ai/v1/` and use your W&B API key for authentication. Finally, set your model name to match the following schema:
 
-`wandb-artifact:///<entity>/<project>/<model-name>:<step>`
+```
+wandb-artifact:///<entity>/<project>/<model-name>:<step>`
+```
 
 For example, if your W&B team is named `email-specialists`, your project is called `mail-search`, your trained model is named `agent-001`, and you wanted to deploy it on step 25 (presumably because that step did the best on your evals), you would set the model name in your chat completion requests to the following:
 
-`wandb-artifact:///email-specialists/mail-search/agent-001:step25`
+```
+wandb-artifact:///email-specialists/mail-search/agent-001:step25`
+```
 
 This tells W&B Inference exactly where to find your model when initially loading it for inference.
 
-The following examples show you how to make inference requests to your trained model using a CuRL request or the [Python OpenAI SDK](https://openai.github.io/openai-agents-python/).
+The following examples show you how to make inference requests to your trained model using a CuRL request or the [Python OpenAI SDK](https://github.com/openai/openai-python).
 
 ### CuRL
 
@@ -49,9 +51,8 @@ ENTITY = "my-entity"
 PROJECT = "my-project"
 
 client = OpenAI(
-    base_url="https://api.inference.coreweave.com/v1",
-    api_key=WANDB_API_KEY,
-    default_headers={"OpenAI-Project": f"{ENTITY}/{PROJECT}"},
+    base_url="https://api.training.wandb.ai/v1",
+    api_key=WANDB_API_KEY
 )
 
 response = client.chat.completions.create(

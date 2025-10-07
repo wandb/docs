@@ -1,6 +1,6 @@
 ---
-title: "Usage Information and Limits"
-linkTitle: "Usage & Limits"
+title: "Usage information and limits"
+linkTitle: "Usage & limits"
 weight: 30
 description: >
   Understand pricing, usage limits, and account restrictions for W&B Serverless RL.
@@ -29,17 +29,17 @@ Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serv
 
 By default, Serverless RL currently supports up to 2000 concurrent requests per user and 6000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
 
-{{< alert title="Note" >}}
-## Personal entities unsupported
+{{< alert title="Personal entities unsupported" >}}
 
 Serverless RL and W&B Inference don't support personal entities (personal accounts). To access Serverless RL, switch to a non-personal account by [creating a Team]({{< relref "/guides/hosting/iam/access-management/manage-organization/#add-and-manage-teams" >}}). Personal entities (personal accounts) were deprecated in May 2024, so this advisory only applies to legacy accounts.
 
-## Geographic restrictions
-
-Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
 {{< /alert >}}
 
+{{< alert title="Geographic restrictions" >}}
 
+Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
+
+{{< /alert >}}
 
 
 
