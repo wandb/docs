@@ -803,6 +803,214 @@ PATCH /scim/Users/abc
 {{% /tab %}}
 {{< /tabpane >}}
 
+### Add to Registry
+
+Adds a user to a registry with an assigned registry-level role.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: PATCH
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `add` |
+| `path` | string | Yes | `registryRoles` |
+| `value` | array | Yes | Array of objects with `registryName` and `roleName` |
+
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Add to Registry Request" %}}
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles",
+            "value": [
+                {
+                    "roleName": "admin",
+                    "registryName": "hello-registry"
+                }
+            ]
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Add to Registry Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "registryRoles": [
+        {
+            "registryName": "hello-registry",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin"
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+
+### Remove from Registry
+
+Removes a user from a registry.
+
+{{% alert %}}
+The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `"registryRoles[registryName eq \"{registry_name}\"]"` to remove a user from a specific registry, or `"registryRoles"` to remove the user from all registries.
+{{% /alert %}}
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: PATCH
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `remove` |
+| `path` | string | Yes | `"registryRoles[registryName eq \"{registry_name}\"]"` or `"registryRoles"` |
+
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Remove from Registry Request" %}}
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles[registryName eq \"goodbye-registry\"]"
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Remove from Registry Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "registryRoles": [
+        {
+            "registryName": "hello-registry",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin"
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+{{< tabpane text=true >}}
+{{% tab header="Remove from ALL Registries Request" %}}
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles"
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Remove from ALL Registries Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "organizationRole": "admin"
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
 ## Group resource
 
 When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team.
