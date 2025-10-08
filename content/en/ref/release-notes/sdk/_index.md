@@ -6,6 +6,7 @@ cascade:
 - url: /ref/release-notes/sdk/:filename/
 - type: docs
 - weight: 1
+- parent: sdk-release-notes
 parent: release-notes
 identifier: sdk-release-notes
 weight: 2

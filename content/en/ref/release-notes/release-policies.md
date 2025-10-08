@@ -60,5 +60,3 @@ Any feature in a preview phase is subject to change. A preview feature is not gu
     The W&B team must enable a public preview feature before you can use it in your instance. Documentation may not be complete, interfaces and APIs may change, and the feature may not be fully implemented.
 
 To learn more about an individual W&B Server release, including any limitations, refer to [W&B Release notes]({{< relref "/ref/release-notes/" >}}).
-
-
