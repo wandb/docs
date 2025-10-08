@@ -3,7 +3,7 @@ menu:
   default:
     identifier: models
 title: W&B Models
-weight: 3
+weight: 30
 no_list: true
 ---
 

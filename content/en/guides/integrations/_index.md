@@ -3,7 +3,7 @@ menu:
   default:
     identifier: integrations
 title: Integrations
-weight: 8
+weight: 90
 url: guides/integrations
 cascade:
 - url: guides/integrations/:filename
