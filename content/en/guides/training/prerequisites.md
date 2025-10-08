@@ -17,7 +17,8 @@ Before starting, review the [usage information and limits]({{< relref "guides/tr
 To authenticate your machine with W&B, you must first generate an API key at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
 
 ## Create a project in W&B
-Create a project in your W&B account to track usage, record training metrics, and save trained models. See [Insert link to a quickstart or tutorial]
+
+Create a project in your W&B account to track usage, record training metrics, and save trained models. See the [Projects guide]({{< relref "/guides/track/project-page" >}}) for more information.
 
 ## Next steps
 

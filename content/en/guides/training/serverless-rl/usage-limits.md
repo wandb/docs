@@ -12,7 +12,7 @@ Pricing has three components: inference, training, and storage. For specific bil
 
 ### Inference
 
-Pricing for Serverless RL inference requests matches W&B Inference pricing. See [model-specific costs](https://wandb.ai/site/pricing/inference) for more details. Learn more about purchasing credits, account tiers, and usage caps in the [W&B Inference docs]({{< relref "/guides/inference/usage-limits/#purchase-more-credits" >}}).
+Pricing for Serverless RL inference requests matches W&B Inference pricing. See [model-specific costs](https://site.wandb.ai/pricing/reinforcement-learning) for more details. Learn more about purchasing credits, account tiers, and usage caps in the [W&B Inference docs]({{< relref "/guides/inference/usage-limits/#purchase-more-credits" >}}).
 
 ### Training
 
