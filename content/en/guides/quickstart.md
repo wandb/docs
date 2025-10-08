@@ -6,7 +6,7 @@ menu:
     parent: guides
 title: W&B Quickstart
 url: quickstart
-weight: 1
+weight: 10
 ---
 Install W&B to track, visualize, and manage machine learning experiments of any size.
 

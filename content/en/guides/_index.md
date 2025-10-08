@@ -33,6 +33,8 @@ W&B consists of three major components: [Models]({{< relref "/guides/models.md" 
 
 **[W&B Inference]({{< relref "/guides/inference/" >}})** is a set of tools for accessing open-source foundation models through W&B Weave and an OpenAI-compatible API.
 
+**[W&B Training]({{< relref "/guides/training/" >}})** provides serverless reinforcement learning for post-training LLMs to improve reliability on multi-turn agentic tasks.
+
 {{% alert %}}
 Learn about recent releases in the [W&B release notes]({{< relref "/ref/release-notes/" >}}).
 {{% /alert %}}

@@ -1,6 +1,6 @@
 ---
 title: Get Started with W&B Models
-weight: 2
+weight: 20
 ---
 
 Learn when and how to use W&B to track, share, and manage model artifacts in your machine learning workflows. This page covers logging experiments, generating reports, and accessing logged data using the appropriate W&B API for each task.
