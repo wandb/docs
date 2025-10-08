@@ -22,7 +22,7 @@ Serverless RL trains low-rank adapters (LoRAs) to specialize a model for your ag
 Reinforcement learning (RL) is a set of powerful training techniques that you can use in many kinds of training setups, including on GPUs that you own or rent directly. Serverless RL can provide the following advantages in your RL post-training:
 
 * **Lower training costs**: By multiplexing shared infrastructure across many users, skipping the setup process for each job, and scaling your GPU costs down to 0 when you're not actively training, Serverless RL reduces training costs significantly.
-* **Faster training time**: By splitting inference requests across many GPUs and immediately provisioning training infrstructure when you need it, Serverless RL speeds up your training jobs and lets you iterate faster.
+* **Faster training time**: By splitting inference requests across many GPUs and immediately provisioning training infrastructure when you need it, Serverless RL speeds up your training jobs and lets you iterate faster.
 * **Automatic deployment**: Serverless RL automatically deploys every checkpoint you train, eliminating the need to manually set up hosting infrastructure. Trained models can be accessed and tested immediately in local, staging, or production environments.
 
 ## How Serverless RL uses W&B services

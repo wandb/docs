@@ -22,7 +22,7 @@ Training is free during the public preview period.
 
 ### Model storage
 
-Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. We recommend deleting low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai) for instructions on how to do this.
+Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serve, or continue training them at any time. Storage is billed monthly based on total checkpoint size and your [pricing plan](https://wandb.ai/site/pricing). Every plan includes at least 5GB of free storage, which is enough for roughly 30 LoRAs. We recommend deleting low-performing LoRAs to save space. See the [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) for instructions on how to do this.
 
 ## Limits
 
@@ -30,4 +30,4 @@ Serverless RL stores checkpoints of your trained LoRAs so you can evaluate, serv
 
 * **Personal entities unsupported**: Serverless RL and W&B Inference don't support personal entities (personal accounts). To access Serverless RL, switch to a non-personal account by [creating a Team]({{< relref "/guides/hosting/iam/access-management/manage-organization/#add-and-manage-teams" >}}). Personal entities (personal accounts) were deprecated in May 2024, so this advisory only applies to legacy accounts.
 
-* **Geographic restrictions**: Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions).
+* **Geographic restrictions**: Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://site.wandb.ai/terms/).
