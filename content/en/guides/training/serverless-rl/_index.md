@@ -17,6 +17,8 @@ Serverless RL is ideal for tasks like:
 
 Serverless RL trains low-rank adapters (LoRAs) to specialize a model for your agent's specific task. This extends the original model’s capabilities with on-the-job experience. The LoRAs you train are automatically stored as artifacts in your W&B account, and can be saved locally or to a third party for backup. Models that you train through Serverless RL are also automatically hosted on W&B Inference.
 
+See the ART [quickstart](https://art.openpipe.ai/getting-started/quick-start) or [Google Colab notebook](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) to get started.
+
 ## Why Serverless RL?
 
 Reinforcement learning (RL) is a set of powerful training techniques that you can use in many kinds of training setups, including on GPUs that you own or rent directly. Serverless RL can provide the following advantages in your RL post-training:
