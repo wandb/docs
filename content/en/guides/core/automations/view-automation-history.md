@@ -65,38 +65,19 @@ Click any automation execution entry to view detailed information. The details s
 
 ### Execution status
 
-| Status | Icon | Description |
-|--------|------|-------------|
-| **Finished** | ✅ | A green checkmark indicates that the automation completed successfully. |
-| **Failed** | ❌ | A red X indicates that the automation terminated unsuccessfully for any reason. |
-| **Pending** | 🔄 Spinning icon | A spinning arrow icon indicates that the automation is running. |
+| Status | Description |
+|:-------|:------------|
+| **Finished** | A green checkmark indicates that the automation completed successfully. |
+| **Failed** | A red X indicates that the automation terminated unsuccessfully for any reason. |
+| **Pending** | A spinning arrow icon indicates that the automation is running. |
 
-#### Successful executions
-A successful execution shows:
-- **Trigger information**:
-  - Event type (e.g., "Artifact alias added")
-  - Source details (artifact name, version, user who triggered)
-  - Exact timestamp with timezone
-- **Payload sent**:
-  - For Slack: The formatted message content
-  - For webhooks: The complete JSON payload. No values are masked.
-- **Delivery confirmation**:
-  - HTTP status code (e.g., "200 OK")
-  - For Slack: Channel and thread information
-- **Response data** (webhook automations only):
-  - Full response body.
-Request and response headers are omitted.
+### Execution metadata
+Find detailed information about an execution by clicking its timestamp in the **Automation** or **Automation history** tab.
 
-#### Failed executions
-A failed execution shows:
-- **Error summary**: High-level description (e.g., "Connection timeout", "Authentication failed")
-- **Detailed error message**:
-  ```text
-  Error: Failed to connect to webhook endpoint
-  URL: https://api.example.com/webhook
-  Status: 502 Bad Gateway
-  Response: "upstream server temporarily unavailable"
-  ```
+- **Overview**: The automation's name and scope, execution timestamp, and status.
+- **Event details**: Details about what triggered the automation. For example, an alias was added to an artifact.
+- **Action details**: Details about the automation's action, such as whether the automation notified a Slack channel or ran a webhook, as well as the payload that was sent. For webhooks, the full response body is included, but request and response headers are omitted. For a failed execution, an error summary and a detailed error message are included.
+- **Result details**: Whether the automation failed, succeeded, or was cancelled.
 
 ## Filter and search automation history
 If you have a large number of automations or executions:
@@ -109,17 +90,14 @@ If you have a large number of automations or executions:
 If an expected automation execution doesn't appear:
 
 - After an automation runs, it may take a few minutes to appear in the history. Refresh the page, then check the **Last checked** column to verify that the automation ran.
-- Confirm that the automation is turned on. If the automation has a **Disabled** badge, click the automation's name, then turn the automation on using the toggle.
+- Confirm that the automation is turned on. If the automation has a **Disabled** badge, it won't run unless you turn it back on using the [Automations API]({{< relref "/ref//python/automations/_index.md" >}}).
 - Verify that the triggering event occurred or the triggering conditions were met. For example:
    - For an automation triggered by artifact events, such as when an artifact has an alias applied, check the artifact's version history.
    - For an automation triggered by a run metric, confirm that the run logged the expected metric values.
    - For an automation with a filter, verify the details. For example, for a regex filter, verify the regex.
 
 ### Missing execution details
-Some execution details may be limited if:
-- The automation was created before history tracking was turned on.
-- Network issues prevented complete logging.
-- The automation was deleted and recreated with the same name.
+Some execution details may be limited if the automation was created before history tracking was turned on.
 
 ## Next steps
 - Learn about [automation events]({{< relref "/guides/core/automations/automation-events.md" >}}) that can trigger automations
