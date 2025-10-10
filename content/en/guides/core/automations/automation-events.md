@@ -46,7 +46,7 @@ A project-level automation watches for the event taking place on any collection 
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created. To limit the automation's scope, in **Artifact filter**, select a specific artifact.
+- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created. To limit the automation's scope, select a specific artifact in the **Artifact filter** field.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a point in time.
 - **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
 
