@@ -56,8 +56,7 @@ When viewing an individual automation:
 1. Each entry shows:
    - Execution date and time.
    - Triggering event details.
-   - Status indicator (success, failure, or in progress).
-   - Duration of execution.
+   - Status indicator (finished, failed, or pending).
 
 ## Understanding execution details
 
