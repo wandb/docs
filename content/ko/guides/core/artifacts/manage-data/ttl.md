@@ -17,7 +17,7 @@ W&B Artifact time-to-live (TTL) 정책을 사용하여 Artifacts가 W&B에서 �
 W&B는 모델 레지스트리에 연결된 모델 아티팩트에 대한 TTL 정책을 설정하는 옵션을 비활성화합니다. 이는 연결된 모델이 프로덕션 워크플로우에서 사용되는 경우 실수로 만료되지 않도록 하기 위함입니다.
 {{% /alert %}}
 {{% alert %}}
-* 팀 관리자만 [팀 설정]({{< relref path="/guides/models/app/settings-page/team-settings.md" lang="ko" >}})을 보고 (1) 누가 TTL 정책을 설정하거나 편집할 수 있는지 허용하거나 (2) 팀 기본 TTL을 설정하는 것과 같은 팀 수준 TTL 설정에 엑세스할 수 있습니다.
+* 팀 관리자만 [팀 설정]({{< relref path="/guides/models/app/settings-page/teams.md" lang="ko" >}})을 보고 (1) 누가 TTL 정책을 설정하거나 편집할 수 있는지 허용하거나 (2) 팀 기본 TTL을 설정하는 것과 같은 팀 수준 TTL 설정에 엑세스할 수 있습니다.
 * W&B 앱 UI에서 아티팩트 세부 정보에 TTL 정책을 설정하거나 편집하는 옵션이 표시되지 않거나 프로그래밍 방식으로 TTL을 설정해도 아티팩트의 TTL 속성이 성공적으로 변경되지 않으면 팀 관리자가 해당 권한을 부여하지 않은 것입니다.
 {{% /alert %}}
 

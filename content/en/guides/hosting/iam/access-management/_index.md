@@ -23,7 +23,7 @@ Organization administrators can access and use an organization's account setting
 
 Once an organization administrator creates a team, the instance administrator or a team administrator can:
 
-- By default, only an admin can invite users to that team or remove users from the team. To change this behavior, refer to [Team settings]({{< relref "/guides/models/app/settings-page/team-settings.md#privacy" >}}).
+- By default, only an admin can invite users to that team or remove users from the team. To change this behavior, refer to [Team settings]({{< relref "/guides/models/app/settings-page/teams.md#privacy" >}}).
 - Assign or update a team member's role.
 - Automatically add new users to a team when they join your organization.
 
