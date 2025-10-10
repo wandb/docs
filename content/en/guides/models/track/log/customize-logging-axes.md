@@ -2,7 +2,7 @@
 menu:
   default:
     identifier: customize-logging-axes
-    parent: log-objects-and-media
+    parent: logging
 title: Customize log axes
 ---
 

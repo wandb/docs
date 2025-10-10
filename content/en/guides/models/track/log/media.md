@@ -3,7 +3,7 @@ description: Log rich media, from 3D point clouds and molecules to HTML and hist
 menu:
   default:
     identifier: media
-    parent: log-objects-and-media
+    parent: logging
 title: Log media and objects
 ---
 

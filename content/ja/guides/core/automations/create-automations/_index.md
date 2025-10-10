@@ -21,7 +21,7 @@ weight: 1
 {{% /alert %}}
 
 ## 要件
-- チーム管理者は、チームの Projects やオートメーションのコンポーネント（Webhook、秘密情報、Slack 接続など）のオートメーションを作成および管理できます。[チーム設定]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}})を参照してください。
+- チーム管理者は、チームの Projects やオートメーションのコンポーネント（Webhook、秘密情報、Slack 接続など）のオートメーションを作成および管理できます。[チーム設定]({{< relref path="/guides/models/app/settings-page/teams/" lang="ja" >}})を参照してください。
 - レジストリオートメーションを作成するには、レジストリへのアクセスが必要です。[レジストリアクセスの設定]({{< relref path="/guides/core/registry/configure_registry.md#registry-roles" lang="ja" >}})を参照してください。
 - Slack オートメーションを作成するには、選択した Slack インスタンスとチャンネルに投稿する権限が必要です。
 
