@@ -381,6 +381,8 @@
 /ref/python/watch/ /ref/python/ 301
 /ref/release-notes/releases/ /ref/release-notes/ 301
 /ref/release-notes/releases/index.xml/ /ref/release-notes/index.xml/ 301
+# Static rule until 0.61 EOL
+/ref/release-notes/releases/0.60/ /ref/release-notes/archived/0.60/ 301
 /ref/run/summary/ /ref/python/experiments/run/ 301
 /ref/sweep/configurations/ /guides/sweeps/define-sweep-configuration/ 301
 /ref/system-metrics/ /ref/python/experiments/system-metrics/ 301
@@ -467,6 +469,7 @@
 /ref/python/wandb_workspaces/* /ref/wandb_workspaces/:splat 301
 /ref/release-notes/0.3* /ref/release-notes/archived/0.3:splat 301
 /ref/release-notes/0.4* /ref/release-notes/archived/0.4:splat 301
-/ref/release-notes/0.5*/ /ref/release-notes/releases/archived/0.56:splat 301
+/ref/release-notes/0.5*/ /ref/release-notes/releases/archived/0.5:splat 301
+# After 0.61 EOL, move static rule from top section to 0.6* splat here
 /ref/release-notes/releases/* /ref/releases/:splat 301
 /ref/release-notes/releases/archived/* /ref/releases/archived/:splat 301
