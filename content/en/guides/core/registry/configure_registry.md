@@ -69,7 +69,7 @@ This section shows how to configure roles for Registry members. For more informa
 The following sections give more information about Registry roles.
 
 {{% alert %}}
-Your [role in a team]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) has no impact or relationship to your role in any registry.
+Your [role in a team]({{< ref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) has no impact or relationship to your role in any registry.
 {{% /alert %}}
 
 ### Default roles
@@ -149,16 +149,16 @@ To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use 
 When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
 
 The following methods are not available and result in permission errors:
-- [`Run.use_artifact()`]({{< relref "/ref/python/sdk/classes/run/#method-runuse_artifact" >}})
-- [`Artifact.download()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactdownload" >}})
-- [`Artifact.file()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfile" >}})
-- [`Artifact.files()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactfiles" >}})
+- [`Run.use_artifact()`]({{< relref "/ref/python/experiments/run/#method-runuse_artifact" >}})
+- [`Artifact.download()`]({{< relref "/ref/python/experiments/artifact/#method-artifactdownload" >}})
+- [`Artifact.file()`]({{< relref "/ref/python/experiments/artifact/#method-artifactfile" >}})
+- [`Artifact.files()`]({{< relref "/ref/python/experiments/artifact/#method-artifactfiles" >}})
 
 The following methods are limited to artifact metadata:
-- [`Artifact.get_entry()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_entry" >}})
-- [`Artifact.get_path()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget_path" >}})
-- [`Artifact.get()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactget" >}})
-- [`Artifact.verify()`]({{< relref "/ref/python/sdk/classes/artifact/#method-artifactverify" >}})
+- [`Artifact.get_entry()`]({{< relref "/ref/python/experiments/artifact/#method-artifactget_entry" >}})
+- [`Artifact.get_path()`]({{< relref "/ref/python/experiments/artifact/#method-artifactget_path" >}})
+- [`Artifact.get()`]({{< relref "/ref/python/experiments/artifact/#method-artifactget" >}})
+- [`Artifact.verify()`]({{< relref "/ref/python/experiments/artifact/#method-artifactverify" >}})
 
 ### Cross-registry permissions
 

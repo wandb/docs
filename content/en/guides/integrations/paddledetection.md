@@ -87,7 +87,7 @@ To use wandb via arguments to `train.py` in [PaddleDetection](https://github.com
 
 * Add the `--use_wandb` flag
 * The first wandb arguments must be preceded by `-o` (you only need to pass this once)
-* Each individual argument must contain the prefix `"wandb-"` . For example any argument to be passed to [`wandb.init()`]({{< relref "/ref/python/sdk/functions/init.md" >}}) would get the `wandb-` prefix
+* Each individual argument must contain the prefix `"wandb-"` . For example any argument to be passed to [`wandb.init()`]({{< relref "/ref/python/functions/init.md" >}}) would get the `wandb-` prefix
 
 ```shell
 python tools/train.py 

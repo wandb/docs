@@ -11,7 +11,7 @@ weight: 1
 
 W&B Secret Manager を使用すると、_シークレット_（アクセストークン、ベアラートークン、APIキー、またはパスワードなどの機密文字列）を安全かつ集中管理して注入することができます。W&B Secret Manager は、シークレットをコードや Webhook のヘッダー、または [ペイロード]({{< relref path="/guides/core/automations/" lang="ja" >}}) に直接追加する必要をなくします。
 
-シークレットは各チームの Secret Manager の**チーム シークレット**セクションで保存および管理されます。[チーム設定]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ja" >}})で確認できます。
+シークレットは各チームの Secret Manager の**チーム シークレット**セクションで保存および管理されます。[チーム設定]({{< relref path="/guides/models/app/settings-page/teams/" lang="ja" >}})で確認できます。
 
 {{% alert %}}
 * W&B 管理者のみがシークレットを作成、編集、または削除することができます。

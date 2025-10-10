@@ -1,49 +1,15 @@
 ---
-title: files
-object_type: public_apis_namespace
-data_type_classification: module
+title: Files
+namespace: public_apis_namespace
+python_object_type: class
 ---
+{{< readfile file="/_includes/public-api-use.md" >}}
+
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py >}}
 
 
 
-
-# <kbd>module</kbd> `wandb.apis.public`
-W&B Public API for File objects. 
-
-This module provides classes for interacting with files stored in W&B. 
-
-
-
-**Example:**
- ```python
-from wandb.apis.public import Api
-
-# Get files from a specific run
-run = Api().run("entity/project/run_id")
-files = run.files()
-
-# Work with files
-for file in files:
-     print(f"File: {file.name}")
-     print(f"Size: {file.size} bytes")
-     print(f"Type: {file.mimetype}")
-
-     # Download file
-     if file.size < 1000000:  # Less than 1MB
-         file.download(root="./downloads")
-
-     # Get S3 URI for large files
-     if file.size >= 1000000:
-         print(f"S3 URI: {file.path_uri}")
-``` 
-
-
-
-**Note:**
-
-> This module is part of the W&B Public API and provides methods to access, download, and manage files stored in W&B. Files are typically associated with specific runs and can include model weights, datasets, visualizations, and other artifacts. 
 
 ## <kbd>class</kbd> `Files`
 A lazy iterator over a collection of `File` objects. 
@@ -93,7 +59,13 @@ Files are retrieved in pages from the W&B server as needed.
 
 
 **Args:**
- client: The run object that contains the files run: The run object that contains the files names (list, optional): A list of file names to filter the files per_page (int, optional): The number of files to fetch per page upload (bool, optional): If `True`, fetch the upload URL for each file pattern (str, optional): Pattern to match when returning files from W&B  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
+ 
+ - `client`:  The run object that contains the files 
+ - `run`:  The run object that contains the files 
+ - `names` (list, optional):  A list of file names to filter the files 
+ - `per_page` (int, optional):  The number of files to fetch per page 
+ - `upload` (bool, optional):  If `True`, fetch the upload URL for each file 
+ - `pattern` (str, optional):  Pattern to match when returning files from W&B  This pattern uses mySQL's LIKE syntax,  so matching all files that end with .json would be "%.json".  If both names and pattern are provided, a ValueError will be raised. 
 
 
 ---
@@ -106,8 +78,6 @@ Files are retrieved in pages from the W&B server as needed.
 
 
 ---
-
-
 
 
 

@@ -1,31 +1,37 @@
 ---
-title: Python Library v(0.21.3)
+title: Python SDK 0.22.0
+module: 
 weight: 1
 ---
-{{< cardpane >}}
-    {{< card >}}
-            <a href="/ref/python/python_api_walkthrough">
-            <h2 className="card-title">API Walkthrough</h2></a>
-            <p className="card-content">Learn when and how to use different W&B APIs in your machine learning workflows.</p>
-        {{< /card >}}
-    {{< card >}}
-            <a href="/ref/python/public-api">
-            <h2 className="card-title">Query API</h2></a>
-            <p className="card-content">Query and analyze data logged to W&B.</p>
-        
-        {{< /card >}}
-{{< /cardpane >}}
-{{< cardpane >}}
-    {{< card >}}
-            <a href="/ref/python/automations">
-            <h2 className="card-title">Automations</h2></a>
-            <p className="card-content">Automate your W&B workflows.</p>
-        
-        {{< /card >}}
-    {{< card >}}
-        <a href="/ref/python/sdk">
-        <h2 className="card-title">Python Reference</h2></a>
-        <p className="card-content">Train and fine-tune models, manage models from experimentation to production.</p>
-    
-    {{< /card >}}
-{{< /cardpane >}}
+The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune models, and manage models from experimentation to production. 
+
+> After performing your training and fine-tuning operations with this SDK, you can use [the Public API]({{< relref "/ref/python/public-api" >}}) to query and analyze the data that was logged, and [the Reports and Workspaces API]({{< relref "/ref/wandb_workspaces" >}}) to generate a web-publishable [report]({{< relref "/guides/core/reports" >}}) summarizing your work.
+
+## Installation and setup
+
+### Sign up and create an API key
+
+To authenticate your machine with W&B, you must first generate an API key at https://wandb.ai/authorize.
+
+### Install and import packages
+
+Install the W&B library.
+
+```
+pip install wandb
+```
+
+### Import W&B Python SDK:
+
+```python
+import wandb
+
+# Specify your team entity
+entity = "<team_entity>"
+
+# Project that the run is recorded to
+project = "my-awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+````

@@ -51,10 +51,14 @@ A Registry admin can create automations in that registry. Registry automations a
 
 1. Log in to W&B.
 1. Click the name of a registry to view its details, 
-1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. An automation that is scoped to a registry is automatically applied to all of its collections (including those created in the future).
+1. To create an automation scoped to the registry, click the **Automations** tab, then click **Create automation**. 
 
-    To create an automation scoped only to a specific collection in the registry, click the collection's action `...` menu, then click **Create automation**. Alternatively, while viewing a collection, create an automation for it using the **Create automation** button in the **Automations** section of the collection's details page.
-1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**. Click **Next step**.
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md#registry-events" >}}) to watch for.
+
+    Fill in any additional fields that appear. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
+
+    Click **Next step**.
+
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use.
 1. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
@@ -70,13 +74,17 @@ A W&B admin can create automations in a project.
 
     Or, from a line plot in the workspace, you can quickly create a [run metric automation]({{< relref "/guides/core/automations/automation-events.md#run-events" >}}) for the metric it shows. Hover over the panel, then click the bell icon at the top of the panel.
     {{< img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" >}}
-1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
+1. Choose the [event]({{< relref "/guides/core/automations/automation-events.md#project" >}}) to watch for, such as when an artifact alias is added or when a run metric meets a given threshold.
 
     1. Fill in any additional fields that appear, which depend upon the event. For example, if you select **An artifact alias is added**, you must specify the **Alias regex**.
 
-    1. Optionally specify a collection filter. Otherwise, the automation is applied to all collections in the project, including those added in the future.
+        1. For automations triggered by a run, optionally specify one or more run filters.
 
-    Click **Next step**.
+            - **Filter to one user's runs**: Include only runs created by the specified user. Click the toggle to turn on the filter, then specify a username.
+            - **Filter on run name**: Include only runs whose names match the given regular expression. Click the toggle to turn on the filter, then specify a regular expression.
+
+          The automation is applied to all collections in the project, including those added in the future.
+    1. Click **Next step**.
 1. Select the team that owns the [webhook]({{< relref "#create-a-webhook" >}}).
 1. Set **Action type** to **Webhooks**. then select the [webhook]({{< relref "#create-a-webhook" >}}) to use. 
 1. If your webhook requires a payload, construct it and paste it into the **Payload** field. If you configured an access token for the webhook, you can access the token in the `${ACCESS_TOKEN}` [payload variable]({{< relref "#payload-variables" >}}). If you configured a secret for the webhook, you can access it in the payload by prefixing its name with `$`. Your webhook's requirements are determined by the webhook's service.
@@ -90,10 +98,8 @@ A W&B admin can create automations in a project.
 {{< tabpane text=true >}}
 {{% tab "Registry" %}}
 
-- Manage a registry's automations from the registry's **Automations** tab.
-- Manage a collection's automations from the **Automations** section of the collection's details page.
+Manage a registry's automations from the registry's **Automations** tab.
 
-From either of these pages, a Registry admin can manage existing automations:
 - To view an automation's details, click its name.
 - To edit an automation, click its action `...` menu, then click **Edit automation**.
 - To delete an automation, click its action `...` menu, then click **Delete automation**. Confirmation is required.
@@ -124,7 +130,7 @@ This section describes the variables you can use to construct your webhook's pay
 | `${tag}`                      | Contains an artifact's tags if the automation is triggered by the **An artifact tag is added** event. For other automations, this variable is blank. |
 | `${artifact_collection_name}` | The name of the artifact collection that the artifact version is linked to. |
 | `${artifact_metadata.<KEY>}`  | The value of an arbitrary top-level metadata key from the artifact version that triggered the action. Replace `<KEY>` with the name of a top-level metadata key. Only top-level metadata keys are available in the webhook's payload. |
-| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/sdk/classes/artifact.md/" >}}) representation of the artifact version that triggered the action. |
+| `${artifact_version}`         | The [`Wandb.Artifact`]({{< relref "/ref/python/experiments/artifact.md/" >}}) representation of the artifact version that triggered the action. |
 | `${artifact_version_string}` | The `string` representation of the artifact version that triggered the action. |
 | `${ACCESS_TOKEN}` | The value of the access token configured in the [webhook]({{< relref "#create-a-webhook" >}}), if an access token is configured. The access token is automatically passed in the `Authorization: Bearer` HTTP header. |
 | `${SECRET_NAME}` | If configured, the value of a secret configured in the [webhook]({{< relref "#create-a-webhook" >}}). Replace `SECRET_NAME` with the name of the secret. |
