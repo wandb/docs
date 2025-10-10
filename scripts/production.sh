@@ -19,15 +19,15 @@ if [ -n "$CF_PAGES" ] && [ -n "$CF_PAGES_URL" ]; then
     echo "  CF_PAGES_COMMIT_SHA: $CF_PAGES_COMMIT_SHA"
     echo "  CF_PAGES_BRANCH: $CF_PAGES_BRANCH"
     if [ "$CF_PAGES_BRANCH" = "main" ]; then
-        echo "Building the main site"
-        hugo
+        echo "Building the main site (production mode)"
+        hugo --environment production
     else
-        echo "Building a PR preview"
-        hugo -b $CF_PAGES_URL
+        echo "Building a PR preview (development mode)"
+        hugo --environment development -b $CF_PAGES_URL
     fi
 else
-    echo "Building locally with Hugo version $(hugo version)"
-    hugo
+    echo "Building locally with Hugo version $(hugo version) (development mode)"
+    hugo --environment development
 fi
 
 # Move English sitemap into root

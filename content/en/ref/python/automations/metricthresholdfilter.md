@@ -1,18 +1,36 @@
 ---
 title: MetricThresholdFilter
-object_type: automations_namespace
-data_type_classification: class
+namespace: automations_namespace
+python_object_type: class
 ---
 
 {{< cta-button githubLink=https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py >}}
 
 
 
+## <kbd>class</kbd> `MetricThresholdFilter`
 Defines a filter that compares a run metric against a user-defined threshold value.
 
-Attributes:
-- agg (Optional): Aggregate operation, if any, to apply over the window size.
-- cmp (Literal): Comparison operator used to compare the metric value (left) vs. the threshold value (right).
-- name (str): Name of the observed metric.
-- threshold (Union): Threshold value to compare against.
-- window (int): Size of the window over which the metric is aggregated (ignored if `agg is None`).
+
+### <kbd>method</kbd> `MetricThresholdFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
+    threshold: 'Annotated | Annotated'
+) → None
+```
+
+**Args:**
+ 
+ - `name` (str): 
+ - `agg` (Optional[Agg]): 
+ - `window` (int): 
+ - `cmp` (Literal['$gte', '$gt', '$lt', '$lte']): Comparison operator used to compare the metric value (left) vs. the threshold value (right).
+ - `threshold` (Union[Annotated, Annotated]): 
+
+**Returns:**
+ An `MetricThresholdFilter` object.

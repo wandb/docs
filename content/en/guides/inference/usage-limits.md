@@ -16,7 +16,7 @@ For detailed model pricing information, visit [W&B Inference pricing](https://wa
 
 W&B Inference credits come with Free, Pro, and Academic plans for a limited time. Enterprise availability may vary. When credits run out:
 
-- **Free accounts** must upgrade to a paid plan to continue using W&B Inference. [Upgrade to Pro or Enterprise](https://wandb.ai/subscriptions)
+- **Free accounts** must activate a pay-as-you-go inference (under the **Billing** tab), or upgrade to a paid plan to continue using W&B Inference. [Activate pay-as-you-go or upgrade](https://wandb.ai/subscriptions)
 - **Pro plan users** are billed for overages monthly, based on [model-specific pricing](https://wandb.ai/site/pricing/inference)
 - **Enterprise accounts** should contact their account executive
 
@@ -28,6 +28,7 @@ Some users may need to change their cap. Contact your account executive or suppo
 
 | Account Tier | Default Cap | How to Change Limit |
 |--------------|-------------|---------------------|
+| Free | $100/month | Upgrade to Pro or Enterprise |
 | Pro | $6,000/month | Contact your account executive or support for manual review |
 | Enterprise | $700,000/year | Contact your account executive or support for manual review |
 
@@ -51,5 +52,5 @@ The Inference service is only available from supported geographic locations. For
 
 ## Next steps
 
-- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started
-- See [available models]({{< relref "models" >}}) and their specific costs 
+- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started.
+- See [available models]({{< relref "models" >}}) and their specific pricing. 

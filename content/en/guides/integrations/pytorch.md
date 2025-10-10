@@ -18,7 +18,7 @@ You can also see our [example repo](https://github.com/wandb/examples) for scrip
 
 ## Log gradients with `run.watch`
 
-To automatically log gradients, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/classes/run.md/#method-runwatch" >}}) and pass in your PyTorch model.
+To automatically log gradients, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/experiments/run.md/#method-runwatch" >}}) and pass in your PyTorch model.
 
 ```python
 import wandb
@@ -40,7 +40,7 @@ with wandb.init(config=args) as run:
             run.log({"loss": loss})
 ```
 
-If you need to track multiple models in the same script, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/sdk/classes/run/#method-runwatch" >}}) on each model separately.
+If you need to track multiple models in the same script, you can call [`wandb.Run.watch()`]({{< relref "/ref/python/experiments/run/#method-runwatch" >}}) on each model separately.
 
 {{% alert color="secondary" %}}
 Gradients, metrics, and the graph won't be logged until `wandb.Run.log()` is called after a forward _and_ backward pass.
@@ -48,7 +48,7 @@ Gradients, metrics, and the graph won't be logged until `wandb.Run.log()` is cal
 
 ## Log images and media
 
-You can pass PyTorch `Tensors` with image data into [`wandb.Image`]({{< relref "/ref/python/sdk/data-types/image.md" >}}) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
+You can pass PyTorch `Tensors` with image data into [`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) and utilities from [`torchvision`](https://pytorch.org/vision/stable/index.html) will be used to convert them to images automatically:
 
 ```python
 with wandb.init(project="my_project", entity="my_entity") as run:

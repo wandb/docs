@@ -40,6 +40,8 @@ with wandb.init() as run:
 W&B automatically flattens nested values. This means that if you pass a dictionary, W&B turns it into a dot-separated name. For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots.
 {{% /alert %}}
 
+Metric names must follow certain naming constraints imposed by GraphQL. See [Metric naming constraints]({{< relref "/guides/models/track/log/#metric-naming-constraints" >}}) for details.
+
 <!-- ### Log media with same metric name
 Log related media to the same metric name:
 
@@ -124,7 +126,7 @@ with wandb.init(project="metric-frequency") as run:
     )
 ```
 
-<!-- Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/sdk/classes/run/#method-runlog" >}}) for `run.log` for more details. -->
+<!-- Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs]({{< relref "/ref/python/experiments/run/#method-runlog" >}}) for `run.log` for more details. -->
 
 {{% alert %}}
 W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.

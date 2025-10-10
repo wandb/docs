@@ -3,7 +3,7 @@ description: Log tables with W&B.
 menu:
   default:
     identifier: log-tables
-    parent: log-objects-and-media
+    parent: logging
 title: Log tables
 ---
 

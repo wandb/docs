@@ -67,7 +67,7 @@ To delete an artifact version:
 3. On the right hand side of the workspace, select the kebab dropdown.
 4. Choose Delete.
 
-An artifact version can also be deleted programmatically via the [delete()]({{< relref "/ref/python/sdk/classes/artifact.md#delete" >}}) method. See the examples below. 
+An artifact version can also be deleted programmatically via the [delete()]({{< relref "/ref/python/experiments/artifact.md#delete" >}}) method. See the examples below. 
 
 ### Delete multiple artifact versions with aliases
 
@@ -150,7 +150,7 @@ To delete an artifact collection:
 3. Select the kebab dropdown next to the artifact collection name.
 4. Choose Delete.
 
-You can also delete artifact collection programmatically with the [delete()]({{< relref "/ref/python/sdk/classes/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
+You can also delete artifact collection programmatically with the [delete()]({{< relref "/ref/python/experiments/artifact.md#delete" >}}) method. Provide the name of the project and entity for the `project` and `entity` keys in `wandb.Api`, respectively:
 
 ```python
 import wandb

@@ -8,6 +8,7 @@ cascade:
     menu:
         reference:
             parent: qel
+weight: 3
 ---
 Use the query expressions to select and aggregate data across runs and projects. 
 Learn more about [query panels]({{< relref "/guides/models/app/features/panels/query-panels/" >}}).

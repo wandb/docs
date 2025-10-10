@@ -21,7 +21,7 @@ weight: 1
 {{% /alert %}}
 
 ## 요구 사항
-- 팀 관리자는 팀의 Projects에 대한 자동화와 웹훅, 보안 비밀 또는 Slack 연결과 같은 자동화 구성 요소를 생성하고 관리할 수 있습니다. [팀 설정]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ko" >}})을 참조하세요.
+- 팀 관리자는 팀의 Projects에 대한 자동화와 웹훅, 보안 비밀 또는 Slack 연결과 같은 자동화 구성 요소를 생성하고 관리할 수 있습니다. [팀 설정]({{< relref path="/guides/models/app/settings-page/teams/" lang="ko" >}})을 참조하세요.
 - 레지스트리 자동화를 생성하려면 레지스트리에 대한 엑세스 권한이 있어야 합니다. [레지스트리 엑세스 구성]({{< relref path="/guides/core/registry/configure_registry.md#registry-roles" lang="ko" >}})을 참조하세요.
 - Slack 자동화를 생성하려면 선택한 Slack 인스턴스 및 채널에 게시할 수 있는 권한이 있어야 합니다.
 
