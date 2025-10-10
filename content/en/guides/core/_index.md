@@ -3,7 +3,7 @@ menu:
   default:
     identifier: core
 title: W&B Core
-weight: 6
+weight: 70
 no_list: true
 ---
 
