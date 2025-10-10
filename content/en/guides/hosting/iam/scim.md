@@ -25,36 +25,65 @@ For practical Python examples demonstrating how to interact with the SCIM API, v
 - **ETag Support**: Conditional updates using ETags for conflict detection  
 - **Service Account Authentication**: Organization service accounts can access the API
 
-{{% alert %}}
-If you are an admin of multiple Enterprise [Multi-tenant SaaS]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}) organizations, you must configure the organization where SCIM API requests are sent to ensure SCIM API requests sent using your API Key affect the correct organization. Click your profile image, then click **User Settings**, then check the setting **Default API organization**.
+## Before you begin
+Organization level admin users and organization level service accounts can access the SCIM API.
+- If you receive a `403` error when following these instructions, ensure that the identity has adequate permission.
+- **Multi-tenant Cloud**: As an extra security precaution, if you are a member of multiple Multi-tenant Cloud organizations or if you move from one organization to another, you _must_ configure the **Default API organization**, which determines where organization-level SCIM API calls are routed. Otherwise, you will receive the following error:
+     ```text
+     user is associated with multiple organizations but no valid org ID found in user info
+     ```
+     To specify your default API organization:
+     1. Click your profile image, then click **User Settings**.
+     1. For **Default API organization**, select an organization.
 
-The chosen hosting option determines the value for the `<host-url>` placeholder used in the examples in this page.
+     This is not applicable to a service account, which can be a member of only one Multi-tenant Cloud organization.
 
-In addition, examples use user IDs such as `abc` and `def`. Real requests and responses have hashed values for user IDs.
-{{% /alert %}}
+### Determine the SCIM API endpoint
+Determine the correct API endpoint for your instance:
 
-## Authentication
+- [Self-Managed]({{< relref "/guides/hosting/hosting-options/self-managed.md" >}}): `<wandb-platform-url>/scim/`
+- [Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud.md" >}}): `<instance-name>.wandb.io/scim/`
+- [Multi-tenant Cloud (Enterprise required)]({{< relref "/guides/hosting/hosting-options/saas_cloud.md" >}}): `https://api.wandb.ai/scim/`
 
-Choose to authenticate using a user identity or a service account, after reviewing the key differences.
+In the following steps, replace `<API-endpoint>` with your API endpoint.
 
-### Key differences
-- Who should use it: Users are best for interactive, one-off admin actions; service accounts are best for automation and integrations (CI/CD, provisioning tools).
-- Credentials: Users send username and API key; service accounts send only an API key (no username).
-- Authorization header payload: Users encode `username:API-KEY`; service accounts encode `:API-KEY` (leading colon).
-- Scope and permissions: Both require admin privileges; service accounts are organization-scoped and headless, providing clearer audit trails for automation.
-- Where to get credentials: Users copy their API key from User Settings; service account keys are in the organization’s Service account tab.
-- SaaS Cloud org targeting: For multi-org admins, set the Default API organization to ensure requests affect the intended org.
+### Construct the authorization payload
+W&B allows you to interact with SCIM using a mix of user accounts and service accounts. Keep the following differences in mind.
 
-### Users
-Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
+- **User**:
+  - Well suited for interactive or one-off admin actions.
+  - Added or invited to one or more W&B organizations.
+  - Authenticates using a username and an API key obtained from **User settings**.
+- **Service account**:
+  - Well suited for automated actions and integrations with CI/CD, provisioning tools, and the like.
+  - Created from the **Service accounts** page in a given W&B organization. Cannot be added to other organizations.
+  - Authenticates using only an API key, obtained from the organization's **Service accounts** page.
+
+In the HTTP header, construct the authorization payload using the correct format before encoding it. Select [User authorization](#user-authorization) or [Service account authorization](#service-account-authorization) to continue.
+
+#### User authorization payload
+To determine the authorization payload for an organization admin user:
+1. Obtain the API key.
+    1. Click your user icon, then select **User settings**.
+    1. In **API keys**, click **Reveal**. then copy the API key.
+1. Construct the authorization token in the format `username:API-KEY`, separated by a colon (`:`).
+1. Base-64 encode the authorization token. In the following steps, replace `<encoded-authorization-token>` with the encoded value.
+1. Construct the HTTP `Authorization` header with the encoded token and `Basic` authentication:Construct the HTTP `Authorization` header as `Basic <encoded-authorization-token>`.
 
 For example, authorize as `demo:p@55w0rd`:
 ```bash
 Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ```
 
-### Service accounts
-Use an organization-scoped service account for automation or integrations. Construct the HTTP `Authorization` header as `Basic <base64(:API-KEY)>` (note the leading colon and empty username). Find service account API keys in the organization dashboard under the **Service account** tab. Refer to [Organization-scoped service accounts]({{< relref "/guides/hosting/iam/authentication/service-accounts.md/#organization-scoped-service-accounts" >}}).
+#### Service account authorization payload
+To determine the authorization payload for an organization admin service account:
+1. Obtain the API key.
+    1. Click your user icon, then from **Account**, select **Settings**
+    1. Click **Service accounts**.
+    1. In the row for the service account, click **Copy API key**.
+1. Construct the authorization token in the format `:API-KEY` with a leading colon (`:`).
+1. Base-64 encode the authorization token. In the following examples, replace `<encoded-authorization-token>` with the encoded value.
+1. Construct the HTTP `Authorization` header with the encoded token and `Basic` authentication:Construct the HTTP `Authorization` header as `Basic <encoded-authorization-token>`.
 
 For example, authorize with API key `sa-p@55w0rd`:
 ```bash
@@ -797,6 +826,214 @@ PATCH /scim/Users/abc
             "roleName": "admin"
         }
     ],
+    "organizationRole": "admin"
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+### Add to Registry
+
+Adds a user to a registry with an assigned registry-level role.
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: PATCH
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `add` |
+| `path` | string | Yes | `registryRoles` |
+| `value` | array | Yes | Array of objects with `registryName` and `roleName` |
+
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Add to Registry Request" %}}
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles",
+            "value": [
+                {
+                    "roleName": "admin",
+                    "registryName": "hello-registry"
+                }
+            ]
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Add to Registry Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "registryRoles": [
+        {
+            "registryName": "hello-registry",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin"
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+
+### Remove from Registry
+
+Removes a user from a registry.
+
+{{% alert %}}
+The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `"registryRoles[registryName eq \"{registry_name}\"]"` to remove a user from a specific registry, or `"registryRoles"` to remove the user from all registries.
+{{% /alert %}}
+
+#### Endpoint
+- **URL**: `<host-url>/scim/Users/{id}`
+- **Method**: PATCH
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | The unique ID of the user |
+| `op` | string | Yes | `remove` |
+| `path` | string | Yes | `"registryRoles[registryName eq \"{registry_name}\"]"` or `"registryRoles"` |
+
+#### Example
+
+{{< tabpane text=true >}}
+{{% tab header="Remove from Registry Request" %}}
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles[registryName eq \"goodbye-registry\"]"
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Remove from Registry Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "registryRoles": [
+        {
+            "registryName": "hello-registry",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin"
+}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+{{< tabpane text=true >}}
+{{% tab header="Remove from ALL Registries Request" %}}
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles"
+        }
+    ]
+}
+```
+{{% /tab %}}
+{{% tab header="Remove from ALL Registries Response" %}}
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
     "organizationRole": "admin"
 }
 ```

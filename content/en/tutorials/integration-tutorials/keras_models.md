@@ -162,7 +162,7 @@ model.fit(
     validation_data = validloader,
     callbacks = [
         WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/") # Notice the use of WandbModelCheckpoint here
+        WandbModelCheckpoint(filepath="models/model.keras") # Notice the use of WandbModelCheckpoint here
     ]
 )
 

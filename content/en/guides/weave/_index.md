@@ -3,7 +3,7 @@ menu:
   default:
     identifier: weave
 title: W&B Weave
-weight: 4
+weight: 40
 ---
 
 {{% alert %}}
