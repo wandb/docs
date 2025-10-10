@@ -54,23 +54,22 @@ COMMIT_PREFIXES = [
 ]
 
 
-def remove_emojis(text):
+def remove_github_emoji_codes(text):
     """
-    Remove emojis from text.
+    Remove GitHub emoji codes from text.
+    
+    Removes emoji codes like :bug:, :nail_care:, :magic_wand: etc.
+    These appear in section headers in the changelog.
 
     Args:
         text (str): The text to clean.
 
     Returns:
-        str: Text without emojis.
+        str: Text without GitHub emoji codes.
     """
-    try:
-        import emoji
-        return emoji.replace_emoji(text, replace='')
-    except ImportError:
-        # If emoji library isn't installed, return text as-is
-        print("Warning: emoji library not installed. Emojis will not be removed.")
-        return text
+    import re
+    # Remove GitHub emoji codes like :bug:, :nail_care:, etc.
+    return re.sub(r':[a-z0-9_+-]+:', '', text)
 
 
 def parse_changelog(filepath):
@@ -219,10 +218,17 @@ def parse_changelog(filepath):
 def transform_content(content):
     """
     Transform the changelog content to be more suitable for documentation.
-
+    
+    This function performs simple, robust transformations:
+    - Removes GitHub emoji codes (:bug:, :nail_care:, etc.)
+    - Removes conventional commit prefixes (feat:, fix:, etc.)
+    - Removes PR links and author info
+    - Skips Contributors sections
+    - Normalizes heading levels
+    
     Args:
         content (str): The raw changelog content.
-
+    
     Returns:
         str: The transformed content.
     """
@@ -231,24 +237,28 @@ def transform_content(content):
     in_contributors_section = False
     
     for line in lines:
-        # Remove emojis from the line
-        line = remove_emojis(line)
+        # Remove GitHub emoji codes from the line (like :bug:, :nail_care:)
+        line = remove_github_emoji_codes(line)
         
         # Skip empty lines at the start
         if not transformed_lines and not line.strip():
             continue
         
         # Check if we're entering the Contributors section
-        if line.strip().startswith('### Contributors') or line.strip().startswith('## Contributors'):
+        if 'contributors' in line.lower() and line.strip().startswith(('#', '*')):
             in_contributors_section = True
             continue
         
         # Skip everything in the Contributors section
         if in_contributors_section:
             # Check if we're starting a new section (which would end Contributors)
-            if line.strip().startswith('###') or line.strip().startswith('##'):
-                in_contributors_section = False
-                # Process this line normally (it's a new section header)
+            if line.strip() and line.strip()[0] in '#*':
+                # Check if this is still about contributors
+                if 'contributor' not in line.lower():
+                    in_contributors_section = False
+                    # Process this line normally (it's a new section header)
+                else:
+                    continue  # Still in contributors
             else:
                 continue  # Skip contributor lines
         
@@ -258,41 +268,71 @@ def transform_content(content):
             if re.search(r'docs\(sdk\)', line, re.IGNORECASE):
                 continue
             
-            # Extract the main content before the PR link
-            # Handle both formats: "(@user in URL)" and "by @user in URL"
-            # Also handle when period comes after the PR info
-            match = re.match(r'^- (.+?)(\s+(?:\(@[^)]+\s+in\s+https://[^)]+\)|by\s+@[^)]+\s+in\s+https://[^)]+\)))?\.?\s*$', line)
-            if match:
-                main_content = match.group(1)
-                pr_info = match.group(2) or ''
-                
-                # Remove conventional commit prefixes
-                for prefix in COMMIT_PREFIXES:
-                    main_content = re.sub(prefix, '', main_content, flags=re.IGNORECASE)
-                
-                # Clean up the main content
-                # Ensure it ends with a period
-                if main_content and not main_content.endswith(('.', '!', '?')):
-                    main_content += '.'
-                
-                # Fix whitespace issues
-                main_content = re.sub(r'\s+', ' ', main_content).strip()
-                
-                # Create the transformed line
-                if pr_info:
-                    # Move PR info to HTML comment
-                    pr_comment = f"<!-- {pr_info.strip()} -->"
-                    transformed_line = f"- {main_content} {pr_comment}"
-                else:
-                    transformed_line = f"- {main_content}"
-                
-                transformed_lines.append(transformed_line)
-            else:
-                # Keep the line as-is if it doesn't match our pattern
-                transformed_lines.append(line)
+            # Simple approach: find and remove PR info patterns
+            # Look for patterns like:
+            # - (@username in https://...)
+            # - (by @username in https://...)
+            # - (@user1, @user2 in https://...)
+            # - by @username in https://...
+            # And variations with 'and' between users
+            
+            # First, extract the base content (everything before the PR info)
+            # PR info typically starts with (@, (by @, or by @
+            pr_pattern = r'[\s]*(?:\((?:by\s+)?@[^)]+\)|by\s+@[^\s]+\s+(?:and\s+@[^\s]+\s+)?in\s+https://[^\s\)]+)[\s\.]*$'
+            main_content = re.sub(pr_pattern, '', line[2:], flags=re.IGNORECASE).strip()
+            
+            # Remove conventional commit prefixes
+            for prefix in COMMIT_PREFIXES:
+                main_content = re.sub(prefix, '', main_content, flags=re.IGNORECASE)
+            
+            # Clean up the main content
+            main_content = main_content.strip()
+            
+            # Remove any Unicode emojis (like 🚀, 🦀)
+            # This simple pattern catches most common emojis
+            main_content = re.sub(r'[\U0001F300-\U0001F9FF]+', '', main_content).strip()
+            
+            # Capitalize first letter if it's lowercase
+            if main_content and main_content[0].islower():
+                main_content = main_content[0].upper() + main_content[1:]
+            
+            # Remove trailing periods that might have been part of the PR pattern
+            main_content = main_content.rstrip('.')
+            
+            # Ensure it ends with proper punctuation
+            if main_content and not main_content[-1] in '.!?':
+                main_content += '.'
+            
+            # Fix whitespace issues
+            main_content = re.sub(r'\s+', ' ', main_content).strip()
+            
+            if main_content:  # Only add if there's content left
+                transformed_lines.append(f"- {main_content}")
+        
         elif line.startswith('#'):
-            # Keep heading levels as-is (### stays as ###)
-            transformed_lines.append(line)
+            # Normalize heading levels for consistency
+            # We want: ## for main sections, ### for subsections
+            # Count the number of # characters
+            heading_match = re.match(r'^(#+)\s+(.+)', line)
+            if heading_match:
+                hashes = heading_match.group(1)
+                heading_text = heading_match.group(2)
+                
+                # Normalize common section headers to consistent level
+                heading_lower = heading_text.lower()
+                
+                # These should be H2 (##)
+                if any(word in heading_lower for word in ['notable changes', 'breaking changes']):
+                    transformed_lines.append(f"## {heading_text}")
+                # These should be H3 (###)
+                elif any(word in heading_lower for word in ['added', 'changed', 'deprecated', 'removed', 'fixed', 'security', 
+                                                             'enhancement', 'bug fix', 'features']):
+                    transformed_lines.append(f"### {heading_text}")
+                else:
+                    # Keep original level for other headings
+                    transformed_lines.append(line)
+            else:
+                transformed_lines.append(line)
         else:
             # Keep other lines as-is (but with emojis removed)
             transformed_lines.append(line)
@@ -425,30 +465,14 @@ def update_or_create_combined_file(release, output_dir):
         # For patches, we need to update an existing file
         if not os.path.exists(filepath):
             print(f"⚠️  Warning: Base release file {filepath} doesn't exist for patch {version}")
-            print(f"   Creating it anyway with patch content only...")
-            
-            # Create a minimal file with just the patch
-            content = f"""---
-title: "{minor_version}.x"
-date: {release['date']}
-description: "Unknown base release date"
----
-
-The latest patch is [**v{version}**](#v{version.replace('.', '')}).
-
-<!-- more -->
-
-{format_version_section(release)}
-"""
-            with open(filepath, 'w') as f:
-                f.write(content)
-            print(f"✓ Created: {filepath} (patch only)")
+            print(f"   Skipping patch {version} - base release should be processed first")
+            return
         else:
             # Read existing file
             with open(filepath, 'r') as f:
                 existing_content = f.read()
             
-            # Update the date in frontmatter (to the patch date for sorting)
+            # Update the date in frontmatter to reflect the latest patch
             existing_content = re.sub(
                 r'^date: \d{4}-\d{2}-\d{2}',
                 f'date: {release["date"]}',
@@ -456,35 +480,19 @@ The latest patch is [**v{version}**](#v{version.replace('.', '')}).
                 flags=re.MULTILINE
             )
             
-            # Check if this is the first patch being added (look for any existing patch versions like v0.18.1, v0.18.2, etc.)
-            is_first_patch = not re.search(r'^## v\d+\.\d+\.[1-9]\d*', existing_content, re.MULTILINE)
+            # Insert the new patch section right after the frontmatter
+            # This puts newer patches at the top of the file
             
-            # Update or add the latest patch reference
-            latest_patch_pattern = r'The latest patch is \[?\*\*v[\d\.]+\*\*\]?(?:\(#[^)]+\))?\.?'
-            new_latest_patch = f'The latest patch is [**v{version}**](#v{version.replace(".", "")}).'
-            
-            if re.search(latest_patch_pattern, existing_content):
-                # Update existing latest patch reference
-                existing_content = re.sub(latest_patch_pattern, new_latest_patch, existing_content)
-            else:
-                # First patch: add latest patch reference and <!-- more --> after the frontmatter
-                # Find the end of frontmatter (after the second ---)
-                frontmatter_end = existing_content.find('---', 3)  # Find second ---
-                if frontmatter_end != -1:
-                    frontmatter_end = existing_content.find('\n', frontmatter_end) + 1
-                    # Insert the latest patch reference and <!-- more --> after frontmatter
-                    if is_first_patch:
-                        existing_content = (existing_content[:frontmatter_end] + 
-                                          f"\n{new_latest_patch}\n\n<!-- more -->\n" + 
-                                          existing_content[frontmatter_end:])
-                    else:
-                        # This shouldn't happen, but handle it anyway
-                        existing_content = (existing_content[:frontmatter_end] + 
-                                          f"\n{new_latest_patch}\n" + 
-                                          existing_content[frontmatter_end:])
-            
-            # Append the new patch section at the end
-            existing_content = existing_content.rstrip() + '\n\n' + format_version_section(release)
+            # Find the end of frontmatter (after the second ---)
+            frontmatter_end = existing_content.find('---', 3)  # Find second ---
+            if frontmatter_end != -1:
+                frontmatter_end = existing_content.find('\n', frontmatter_end) + 1
+                # Insert the new patch section after frontmatter, before other content
+                existing_content = (
+                    existing_content[:frontmatter_end] + 
+                    '\n' + format_version_section(release) + '\n' +
+                    existing_content[frontmatter_end:]
+                )
             
             # Ensure content ends with a newline
             if not existing_content.endswith('\n'):
@@ -506,7 +514,7 @@ The latest patch is [**v{version}**](#v{version.replace('.', '')}).
             if not found_first_heading and not line.startswith('#'):
                 # This is intro content before the first heading
                 if line.strip():  # Skip empty lines
-                    intro_lines.append(remove_emojis(line))
+                    intro_lines.append(remove_github_emoji_codes(line))
             else:
                 if line.startswith('#'):
                     found_first_heading = True
@@ -523,14 +531,11 @@ The latest patch is [**v{version}**](#v{version.replace('.', '')}).
             f"""---
 title: "{minor_version}.x"
 date: {release['date']}
-description: "{release['description']}"
 ---"""]
         
         # Add intro content if it exists (this would be any text before the first heading in the changelog)
         if intro_content:
             content_parts.append(f"\n{intro_content}")
-        
-        # Don't add <!-- more --> for .0 releases (only added when patches are added)
         
         # Add the version section with its alert
         content_parts.append(f"\n## v{version}")
@@ -587,9 +592,14 @@ def main():
             return 1
         print(f"🎯 Processing specific version: v{target_version}")
     
-    # Process each release
-    for i, release in enumerate(releases, 1):
-        print(f"\n[{i}/{len(releases)}] Processing {release['title']} ({release['date']})")
+    # Process releases in reverse order (oldest first) so that:
+    # 1. Base .0 releases create the file first
+    # 2. Patches are appended in chronological order
+    # 3. The file ends up with newest patches at the bottom
+    releases_reversed = list(reversed(releases))
+    
+    for i, release in enumerate(releases_reversed, 1):
+        print(f"\n[{i}/{len(releases_reversed)}] Processing {release['title']} ({release['date']})")
         update_or_create_combined_file(release, args.output)
     
     print(f"\n✅ Successfully processed {len(releases)} release(s)!")
