@@ -69,7 +69,7 @@ This section shows how to configure roles for Registry members. For more informa
 The following sections give more information about Registry roles.
 
 {{% alert %}}
-Your [role in a team]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) has no impact or relationship to your role in any registry.
+Your [role in a team]({{< ref "/guides/models/app/settings-page/teams.md#team-roles-and-permissions" >}}) has no impact or relationship to your role in any registry.
 {{% /alert %}}
 
 ### Default roles

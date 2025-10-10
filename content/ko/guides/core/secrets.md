@@ -11,7 +11,7 @@ weight: 1
 
 W&B Secret Manager를 사용하면 엑세스 토큰, bearer 토큰, API 키 또는 비밀번호와 같은 중요한 문자열인 _secrets_를 안전하고 중앙 집중식으로 저장, 관리 및 삽입할 수 있습니다. W&B Secret Manager는 중요한 문자열을 코드에 직접 추가하거나 웹 훅의 헤더 또는 [페이로드]({{< relref path="/guides/core/automations/" lang="ko" >}})를 구성할 때 불필요하게 만듭니다.
 
-Secrets는 각 팀의 Secret Manager의 [팀 설정]({{< relref path="/guides/models/app/settings-page/team-settings/" lang="ko" >}})의 **Team secrets** 섹션에 저장되고 관리됩니다.
+Secrets는 각 팀의 Secret Manager의 [팀 설정]({{< relref path="/guides/models/app/settings-page/teams/" lang="ko" >}})의 **Team secrets** 섹션에 저장되고 관리됩니다.
 
 {{% alert %}}
 * W&B 관리자만 secret을 생성, 편집 또는 삭제할 수 있습니다.

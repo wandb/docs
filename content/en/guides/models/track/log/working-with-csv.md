@@ -3,7 +3,7 @@ description: Importing and logging data into W&B
 menu:
   default:
     identifier: working-with-csv
-    parent: log-objects-and-media
+    parent: logging
 title: Track CSV files with experiments
 ---
 

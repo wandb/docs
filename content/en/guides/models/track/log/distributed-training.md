@@ -3,7 +3,7 @@ description: Use W&B to log distributed training experiments with multiple GPUs.
 menu:
   default:
     identifier: distributed-training
-    parent: log-objects-and-media
+    parent: logging
 title: Log distributed training experiments
 ---
 
@@ -100,6 +100,38 @@ Explore the W&B App UI to view an [example dashboard](https://wandb.ai/ayush-tha
 
 The preceding image demonstrates the W&B App UI dashboard. On the sidebar we see two experiments. One labeled 'null' and a second (bound by a yellow box) called 'DPP'. If you expand the group (select the Group dropdown) you will see the W&B Runs that are associated to that experiment.
 
+### Organize distributed runs
+
+Set the `job_type` parameter when you initialize W&B (`wandb.init(job_type='type-name')`) to categorize your nodes based on their function. For example, you might have a main coordinating node and several reporting worker nodes. You can set `job_type` to `main` for the main coordinating node and `worker` for the reporting worker nodes:
+
+   ```python
+   # Main coordinating node
+   with wandb.init(project="<project>", job_type="main", group="experiment_1") as run:
+        # Training code
+
+   # Reporting worker nodes
+   with wandb.init(project="<project>", job_type="worker", group="experiment_1") as run:
+        # Training code
+   ```
+
+Once you have set the `job_type` for your nodes, you can create [saved views]({{< relref "/guides/models/track/workspaces/#create-a-new-saved-workspace-view" >}}) in your workspace to organize your runs. Click the **...** action menu at the top right and click **Save as new view**.
+
+For example, you could create the following saved views:
+
+   - **Default view**: Filter out worker nodes to reduce noise
+     - Click **Filter**, then set **Job Type** to `worker`.
+     - Shows only your reporting nodes
+
+   - **Debug view**: Focus on worker nodes for troubleshooting
+     - Click **Filter**, then set **Job Type** `==` `worker` and set **State** to  `IN` `crashed`.
+     - Shows only worker nodes that have crashed or are in error states
+
+   - **All nodes view**: See everything together
+     - No filter
+     - Useful for comprehensive monitoring
+
+To open a saved view, click **Workspaces** in the sidebar, then click the menu. Workspaces appear at the top of the list and saved views appear at the bottom.
+
 ### Track all processes to a single run
 
 {{% alert color="secondary"  %}}
@@ -137,7 +169,8 @@ For each worker node, initialize a W&B run with [`wandb.init()`]({{< relref "/re
 3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state]({{< relref "/guides/models/track/runs/#run-states" >}}) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 {{% alert %}}
-Consider using an environment variable to set the run ID of the primary node that you can then define in each worker node's machine.
+* Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
+* Consider defining an environment variable on each worker node to set the run ID of the primary node.
 {{% /alert %}}
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
@@ -145,10 +178,13 @@ The following sample code demonstrates the high level requirements for tracking 
 ```python
 import wandb
 
+entity = "<team_entity>"
+project = "<project_name>"
+
 # Initialize a run in the primary node
 run = wandb.init(
-    entity="entity",
-    project="project",
+    entity=entity,
+    project=project,
 	settings=wandb.Settings(
         x_label="rank_0", 
         mode="shared", 
@@ -163,12 +199,16 @@ run_id = run.id
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
 	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
 	id=run_id,
 )
 
 # Initialize a run in a worker node using the run ID of the primary node
 run = wandb.init(
+    entity=entity, # Use the same entity as the primary node
+    project=project, # Use the same project as the primary node
 	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
 	id=run_id,
 )
