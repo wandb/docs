@@ -6,6 +6,7 @@ cascade:
 - url: /ref/release-notes/archived/:filename/
 - type: docs
 - weight: 1
+- parent: archived
 parent: release-notes
 identifier: archived-release-notes
 weight: 10
