@@ -14,4 +14,4 @@ To express interest in a particular model, contact [support](mailto:support@wand
 
 | Model | Model ID (for API usage) | Type | Context Window | Parameters | Description |
 |-------|--------------------------|------|----------------|------------|-------------|
-| Qwen2.5 14B | Qwen/Qwen2.5-14B-Instruct | Text | 32K | 14B (Active-Total) | Dense model optimized for throughput and quality |
+| Qwen2.5 14B Instruct | `Qwen/Qwen2.5-14B-Instruct` | Text | 32.8K | 14.7B-14.7B (Active-Total) | Dense multilingual instruction-tuned model with tool-use and structured output support |
