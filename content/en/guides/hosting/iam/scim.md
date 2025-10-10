@@ -26,9 +26,9 @@ For practical Python examples demonstrating how to interact with the SCIM API, v
 - **Service Account Authentication**: Organization service accounts can access the API
 
 ## Before you begin
-Organization level admin users and service accounts can access the SCIM API.
+Organization level admin users and organization level service accounts can access the SCIM API.
 - If you receive a `403` error when following these instructions, ensure that the identity has adequate permission.
-- **Multi-tenant Cloud**: If a user is an organization admin in multiple Multi-tenant Cloud organizations, you _must_ configure the organization where organization-level API calls are routed. Otherwise, you will receive the following error:
+- **Multi-tenant Cloud**: As an extra security precaution, if you are a member of multiple Multi-tenant Cloud organizations or if you move from one organization to another, you _must_ configure the **Default API organization**, which determines where organization-level SCIM API calls are routed. Otherwise, you will receive the following error:
      ```text
      user is associated with multiple organizations but no valid org ID found in user info
      ```

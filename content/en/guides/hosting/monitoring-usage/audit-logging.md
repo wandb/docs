@@ -27,7 +27,7 @@ For more details about the format of the logs, see [Audit log schema](#audit-log
 
 ## Before you begin
 1. Organization level admins can fetch audit logs. If you receive a `403` error, ensure that you or your service account has adequate permission.
-1. **Multi-tenant Cloud**: If a user is an organization admin in multiple Multi-tenant Cloud organizations, you _must_ configure the organization where organization-level API calls are routed. Otherwise, you will receive the following error:
+1. **Multi-tenant Cloud**: If you are a member of multiple Multi-tenant Cloud organizations, you _must_ configure the **Default API organization**, which determines where audit logging API calls are routed. Otherwise, you will receive the following error:
      ```text
      user is associated with multiple organizations but no valid org ID found in user info
      ```
