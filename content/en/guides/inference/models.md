@@ -25,6 +25,7 @@ W&B Inference provides access to several open-source foundation models. Each mod
 | Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507` | Text | 262K | 22B-235B (Active-Total) | High-performance Mixture-of-Experts model optimized for structured reasoning, math, and long-form generation |
 | Qwen3 235B A22B-2507 | `Qwen/Qwen3-235B-A22B-Instruct-2507` | Text | 262K | 22B-235B (Active-Total) | Efficient multilingual, Mixture-of-Experts, instruction-tuned model, optimized for logical reasoning |
 | Qwen3 Coder 480B A35B | `Qwen/Qwen3-Coder-480B-A35B-Instruct` | Text | 262K | 35B-480B (Active-Total) | Mixture-of-Experts model optimized for coding tasks such as function calling, tooling use, and long-context reasoning |
+| Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct` | Text | 32.8K | 14.8B (Active-Total) | An efficient multilingual, dense, instruction-tuned model, optimized by OpenPipe for building agents with finetuning. |
 | Z.AI GLM 4.5 | `zai-org/GLM-4.5` | Text | 131K | 32B-355B (Active-Total) | Mixture-of-Experts model with user-controllable thinking/non-thinking modes for reasoning, code, and agents |
 
 ## Using model IDs

@@ -15,3 +15,4 @@ To express interest in a particular model, contact [support](mailto:support@wand
 | Model | Model ID (for API usage) | Type | Context Window | Parameters | Description |
 |-------|--------------------------|------|----------------|------------|-------------|
 | Qwen2.5 14B Instruct | `Qwen/Qwen2.5-14B-Instruct` | Text | 32.8K | 14.7B-14.7B (Active-Total) | Dense multilingual instruction-tuned model with tool-use and structured output support |
+| Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct` | Text | 32.8K | 14.8B (Active-Total) | An efficient multilingual, dense, instruction-tuned model, optimized by OpenPipe for building agents with fine-tuning. |
