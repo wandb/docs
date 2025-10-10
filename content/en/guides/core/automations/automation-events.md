@@ -23,11 +23,9 @@ This section describes the scopes and events for an automation in a [Registry]({
 Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
 ### Scopes
-You can create a Registry automation at these scopes:
-- [Registry]({{< relref "/guides/core/registry/">}}) level: The automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
-- Collection level: A single collection in a specific registry.
+A [Registry]({{< relref "/guides/core/registry/">}}) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
-### Events
+### Events {#registry-events}
 A Registry automation can watch for these events:
 - **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
@@ -43,16 +41,14 @@ This section describes the scopes and events for an automation in a [project]({{
 Learn more about [creating automations]({{< relref "create-automations/" >}}).
 
 ### Scopes
-You can create a project automation at these scopes:
-- Project level: The automation watches for the event taking place on any collection in the project.
-- Collection level: All collections in the project that match the filter you specify.
+A project-level automation watches for the event taking place on any collection in the project. Depending on the event you specify, you can further limit the scope of the automation.
 
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
-- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project or collection has a specific alias applied. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version gains the `latest` alias. Only one artifact version can have a given alias at a point in time.
-- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project or collection has a specific tag applied. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
+- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created. To limit the automation's scope, select a specific artifact in the **Artifact filter** field.
+- **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a point in time.
+- **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
 
 ### Run events
 An automation can be triggered by a change in a [run's status]({{< relref "/guides/models/track/runs/#run-states" >}}) or a change in a [metric value]({{< relref "/guides/models/track/log/#what-data-is-logged-with-specific-wb-api-calls" >}}).
@@ -63,7 +59,7 @@ An automation can be triggered by a change in a [run's status]({{< relref "/guid
 - A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
 {{% /alert %}}
 
-Trigger a workflow when a run changes its [status]({{< relref "/guides/models/track/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+Trigger a workflow when a run changes its [status]({{< relref "/guides/models/track/runs/_index.md#run-states" >}}) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
 
 ![Screenshot showing a run status change automation](/images/automations/run_status_change.png)
 
@@ -80,7 +76,7 @@ You can create a run metrics automation from the project's **Automations** tab o
 
 To set up a run metric automation, you configure how to compare the metric's value with the threshold you specify. Your choices depend on the event type and on any filters you specify.
 
-Optionally, you can further limit the runs that can trigger an automation by filtering by the user that started a run or the run's name.
+Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
 
 ##### Threshold
 For **Run metrics threshold met** events, you configure:
@@ -122,7 +118,11 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
-- By default, any run in the project triggers the automation when the event occurs. To consider only specific runs, specify a run filter.
+- By default, any run in the project triggers the automation when the event occurs. You can limit which runs trigger an automation by configuring one of the following filters: 
+  - **Filter to one user's runs**: Include only runs created by the specified user.
+  - **Filter on run name**: Include only runs whose names match the given regular expression.
+
+  For details, see [Create automations]({{< relref "/guides/core/automations/create-automations/" >}}).
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24 hour period, a particular automation can fire at most once per run.
