@@ -14,10 +14,10 @@ This page describes how to view activity in your W&B organization. Select your d
 {{% tab header="Dedicated Cloud / Self-Managed" value="dedicated" %}}
 1. Navigate to the **Organization Dashboard** at `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name. The **Users** tab opens by default and lists every user in the organization.
 2. To sort the list by user status, click the **Last Active** column header. Each user's status is one of the following:
-   * **Invite pending** – an invitation was sent but not yet accepted.
-   * **A timestamp** – the user accepted the invitation and has signed in at least once. The timestamp indicates the most recent activity.
-   * **–** – the user was previously active but has not been active in the last six months.
-   * **Deactivated** – an admin revoked the user's access.
+   * **Invite pending**: An invitation was sent but not yet accepted.
+   * **A timestamp**: The user accepted the invitation and has signed in at least once. The timestamp indicates the most recent activity.
+   * **Deactivated**: An admin revoked the user's access.
+   * **No status**: Indicated by a hyphen. The user was previously active but has not been active in the last six months.
 3. Hover over a user's **Last Active** field to see the date the user was added and their total active days.
 
 A user is _active_ if they:
@@ -31,10 +31,10 @@ A user is _active_ if they:
 {{% tab header="Multi-tenant Cloud" value="saas" %}}
 1. Open the [**Members** page](https://wandb.ai/account-settings/wandb/members/). The table lists every user in your organization.
 2. Click the **Last Active** column header to sort by user status. Each user's status is one of the following:
-   * **Active** – the user accepted the invitation and has signed in at least once.
-   * **–** – the user has not yet been active within the organization.
+   * **A timestamp**: The user has signed in at least once. The timestamp indicates the most recent activity.
+   * **No status**: Indicated by a hyphen. The user has not yet been active within the organization.
 
-A user is _active_ if they perform any auditable action scoped to the organization _after May 8 2025_. For a full list, see [Actions]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md#actions" >}}) in **Audit logging**.
+A user is _active_ if they perform any auditable action scoped to the organization after May 8 2025. For a full list, see [Actions]({{< relref "/guides/hosting/monitoring-usage/audit-logging.md#actions" >}}) in **Audit logging**.
 {{% /tab %}}
 {{< /tabpane >}}
 
@@ -46,8 +46,8 @@ Use the **Activity** tab to see how many users have been active during a given p
 1. Open the **Organization Dashboard** (`https://<org-name>.io/org/dashboard/`).
 2. Click **Activity**.
 3. Review the following plots:
-   * **Total active users** – unique active users during the selected period (defaults to 3 months).
-   * **Users active over time** – fluctuation of active users over the period (defaults to 6 months). Hover over a point to see the exact count on that date.
+   * **Total active users**: unique active users during the selected period (defaults to 3 months).
+   * **Users active over time**: fluctuation of active users over the period (defaults to 6 months). Hover over a point to see the exact count on that date.
 
 To change the period, use the drop-down above a plot. Options are Last 30 days, Last 3 months, Last 6 months, Last 12 months, and All time.
 {{% /tab %}}
@@ -57,9 +57,9 @@ Use the **Activity Dashboard** to view aggregate activity.
 1. Click your user icon in the upper-right corner of the W&B App.
 2. Under **Account**, click **Users**.
 3. Above the table of users, review the Activity Panel:
-   * **Active user count** – unique active users during the selected period (defaults to 3 months).
-   * **Weekly active users** – users active per week.
-   * **Most active user** – top-10 users ranked by active days and last-active date.
+   * **Active user count**: unique active users during the selected period (defaults to 3 months).
+   * **Weekly active users**: users active per week.
+   * **Most active user**: top-10 users ranked by active days and last-active date.
 4. To change the date range (7, 30, or 90 days; default is 30 days), click the date picker in the upper-right corner. All plots update automatically.
 {{% /tab %}}
 {{< /tabpane >}}
