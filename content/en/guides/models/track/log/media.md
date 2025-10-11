@@ -604,7 +604,7 @@ W&B also supports logging of a variety of other media types.
 run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-A maximum of 100 audio clips can be logged per step. For more usage information, see [`audio-file`]({{< relref "/ref/query-panel/audio-file.md" >}}).
+A maximum of 100 audio clips can be logged per step. For more usage information, see [`wandb.Audio`]({{< relref "/ref/python/sdk/data-types/Audio" >}}).
 
 ### Video
 
@@ -616,7 +616,7 @@ If a numpy array is supplied we assume the dimensions are, in order: time, chann
 
 On the W&B [Run]({{< relref "/guides/models/track/runs/" >}}) and [Project]({{< relref "/guides/models/track/project-page.md" >}}) Pages, you will see your videos in the Media section.
 
-For more usage information, see [`video-file`]({{< relref "/ref/query-panel/video-file" >}}).
+For more usage information, see [`wandb.Video`]({{< relref "/ref/python/sdk/data-types/Video" >}}).
 
 ### Text
 
@@ -643,7 +643,7 @@ You can also pass a pandas `DataFrame` object.
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-For more usage information, see [`string`]({{< relref "/ref/query-panel/" >}}).
+For more usage information, see [`wandb.Table`]({{< relref "/ref/python/sdk/data-types/Table" >}}).
 
 ### HTML
 
@@ -658,5 +658,5 @@ Custom HTML can be logged at any key, and this exposes an HTML panel on the run 
 run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-For more usage information, see [`html-file`]({{< relref "/ref/query-panel/html-file" >}}).
+For more usage information, see [`wandb.Html`]({{< relref "/ref/python/sdk/data-types/Html" >}}).
 
