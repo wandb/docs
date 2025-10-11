@@ -16,11 +16,9 @@ The local controller feature allows the user to commence search and stop algorit
 This feature is offered to support faster development and debugging of new algorithms for the Sweeps tool. It is not intended for actual hyperparameter optimization workloads.
 {{% /alert %}}
 
-Before you get start, you must install the W&B SDK(`wandb`). Type the following code snippet into your command line:
+Before you start, install the W&B Python SDK(`wandb`). Copy and poaste the following command in your terminal:
 
-```
-pip install wandb sweeps 
-```
+{{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb.sh" >}}
 
 The following examples assume you already have a configuration file and a training loop defined in a python script or Jupyter Notebook. For more information about how to define a configuration file, see [Define sweep configuration]({{< relref "/guides/models/sweeps/define-sweep-configuration/" >}}).
 

@@ -144,12 +144,9 @@ You can define the workspace's properties, such as:
 
 ### Install Workspace API
 
-In addition to `wandb`, ensure that you install `wandb-workspaces`:
+In addition to `wandb`, make sure you install `wandb-workspaces`:
 
-```bash
-pip install wandb wandb-workspaces
-```
-
+{{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb_packages.sh" >}}
 
 
 ### Define and save a workspace view programmatically
