@@ -8,8 +8,16 @@ title: wandb sync
 
 **Summary**
 
-Upload an offline training directory to W&B
+Synchronize W&B run data to the cloud.
 
+If PATH is provided, sync runs found at the given path. If a path is not
+specified, search for `./wandb` first, then search for a `wandb/`
+subdirectory.
+
+To sync a specific run:
+wandb sync ./wandb/run-20250813_124246-n67z9ude
+Or equivalently:
+wandb sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
 
 **Options**
 

@@ -8,7 +8,7 @@ title: wandb beta
 
 **Summary**
 
-Beta versions of wandb CLI commands. Requires wandb-core.
+Beta versions of wandb CLI commands.
 
 
 **Options**
@@ -21,5 +21,6 @@ Beta versions of wandb CLI commands. Requires wandb-core.
 
 | **Command** | **Description** |
 | :--- | :--- |
+| leet | Launch W&B LEET: the Lightweight Experiment Exploration Tool. |
 | sync | Upload .wandb files specified by PATHS. |
 

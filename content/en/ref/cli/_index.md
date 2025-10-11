@@ -1,6 +1,5 @@
 ---
 title: Command Line Interface
-weight: 2
 ---
 
 **Usage**
@@ -33,15 +32,15 @@ weight: 2
 | launch | Launch or queue a W&B Job. |
 | launch-agent | Run a W&B launch agent. |
 | launch-sweep | Run a W&B launch sweep (Experimental). |
-| login | Login to Weights & Biases |
-| offline | Disable W&B sync |
-| online | Enable W&B sync |
+| login | Verify and store your API key for authentication with W&B... |
+| offline | Save data logged to W&B locally without uploading it to... |
+| online | Undo `wandb offline`. |
 | pull | Pull files from Weights & Biases |
 | restore | Restore code, config and docker state for a run. |
 | scheduler | Run a W&B launch sweep scheduler (Experimental) |
 | server | Commands for operating a local W&B server |
 | status | Show configuration settings |
 | sweep | Initialize a hyperparameter sweep. |
-| sync | Upload an offline training directory to W&B |
+| sync | Synchronize W&B run data to the cloud. |
 | verify | Checks and verifies local instance of W&B. |
 

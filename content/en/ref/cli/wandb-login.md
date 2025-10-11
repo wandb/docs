@@ -8,7 +8,15 @@ title: wandb login
 
 **Summary**
 
-Login to Weights & Biases
+Verify and store your API key for authentication with W&B services.
+
+By default, only store credentials locally without verifying them with W&B.
+To verify credentials, set `--verify=True`.
+
+For server deployments (dedicated cloud or customer-managed instances),
+specify the host URL using the `--host` flag. You can also set environment
+variables `WANDB_BASE_URL` and `WANDB_API_KEY` instead of running the
+`login` command with host parameters.
 
 
 **Options**
