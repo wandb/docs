@@ -21,7 +21,7 @@ W&B Inference provides access to several open-source foundation models. Each mod
 | MoonshotAI Kimi K2 | `moonshotai/Kimi-K2-Instruct` | Text | 128K | 32B-1T (Active-Total) | Mixture-of-Experts model optimized for complex tool use, reasoning, and code synthesis |
 | OpenAI GPT OSS 20B | `openai/gpt-oss-20b` | Text | 131K | 3.6B-20B (Active-Total) | Lower latency Mixture-of-Experts model trained on OpenAI's Harmony response format with reasoning capabilities |
 | OpenAI GPT OSS 120B	| `openai/gpt-oss-120b` | Text | 131K | 5.1B-117B (Active-Total) | Efficient Mixture-of-Experts model designed for high-reasoning, agentic and general-purpose use cases |
-| OpenPipe Qwen3 14B | `OpenPipe/Qwen3-14B-Instruct` | Text | 32.8K | 14.8B (Active-Total) | An efficient multilingual, dense, instruction-tuned model, optimized by OpenPipe for building agents with finetuning. |
+| OpenPipe Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct` | Text | 32.8K | 14.8B (Active-Total) | An efficient multilingual, dense, instruction-tuned model, optimized by OpenPipe for building agents with finetuning. |
 | Qwen2.5 14B Instruct | `Qwen/Qwen2.5-14B-Instruct` | Text | 32.8K | 14.7B-14.7B (Active-Total) | Dense multilingual instruction-tuned model with tool-use and structured output support | 
 | Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507` | Text | 262K | 22B-235B (Active-Total) | High-performance Mixture-of-Experts model optimized for structured reasoning, math, and long-form generation |
 | Qwen3 235B A22B-2507 | `Qwen/Qwen3-235B-A22B-Instruct-2507` | Text | 262K | 22B-235B (Active-Total) | Efficient multilingual, Mixture-of-Experts, instruction-tuned model, optimized for logical reasoning |
