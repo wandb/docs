@@ -1,3 +1,0 @@
----
-title: Launch integration guides
----
