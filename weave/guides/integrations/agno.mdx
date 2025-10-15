@@ -4,9 +4,9 @@ You can trace [Agno](https://docs.agno.com/) agent and tool calls in Weave using
 
 This guide explains how to trace Agno agent and tool calls using OTEL, and visualize those traces in Weave. You'll learn how to install the required dependencies, configure an OTEL tracer to send data to Weave, and instrument your Agno agents and tools.
 
-:::tip
+<Tip>
 For more information on OTEL tracing in Weave, see [Send OTEL Traces to Weave](../tracking/otel).
-:::
+</Tip>
 
 ## Prerequisites
 
@@ -43,9 +43,9 @@ It is recommended that you store sensitive environment variables like your API k
 
 Once you've completed the [prerequisites](#prerequisites), you can send OTEL traces from Agno to Weave. The following code snippet demonstrates how to configure an OTLP span exporter and tracer provider to send OTEL traces from an Agno application to Weave.
 
-:::important
+<Warning>
 To ensure that Weave traces Agno properly, set the global tracer provider _before_ using Agno components in your code.
-:::
+</Warning>
 
 ```python
 # tracing.py
