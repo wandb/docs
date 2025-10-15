@@ -1,22 +1,15 @@
 ---
-title: "W&B Documentation"
 description: ""
 mode: wide
 ---
-
 import {Banner} from "/snippets/Banner.jsx";
 import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
 
 <HomeWrapper>
-<br/>
 <Banner title="Weights & Biases Documentation" background="/images/support/support_banner.png">
 Choose the product for which you need documentation.
 </Banner>
-<br/>
-<br/>
-
-<HomeWrapper padding="mint-px-4 md:mint-px-24">
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <ProductCard
         title="W&B Models"
@@ -80,25 +73,3 @@ Choose the product for which you need documentation.
     </ProductCard>
 </div>
 </HomeWrapper>
-</HomeWrapper>
-<br/>
-<br/>
-{/* To contain:
-
-- The homepage, featuring the cards currently on the homepage of https://docs.wandb.ai
-- Getting started page full of pointers to good resources (new topic)
-- Pointers to high-level W&B details from www such as security and pricing pages (nav entries only)
-    - https://wandb.ai/site/pricing/
-    - https://wandb.ai/site/security/
-- Topics from https://docs.wandb.ai/platform/app/settings-page/ under heading **Configuring W&B**
-    - Under this, bring in the secrets page from: https://docs.wandb.ai/platform/secrets/
-    - Also under this heading, the topics from https://docs.wandb.ai/platform/hosting/ under heading **Deployment options**
-
-## Implementation notes
-
-- URL rewriting is currently happening to get rid of `/core/` and `/models/` in the current site. This was necessary because of Docsy's requirement that the left-hand navigation be derived from the file structure, rather than a component like `docs.json` which composes a navigation as desired. 
-- In the migrated site, there is no need to have a `core` directory, as that section is being dissolved. 
-- The migrated topics in this section (i.e. topics that were originally from the Hugo site) are to be moved under `/platform/` in the file structure, from their original locations. These will require redirects.
-    - `/platform/hosting/`
-    - `/platform/settings/`
-    - `/platform/settings/secrets/` */}
