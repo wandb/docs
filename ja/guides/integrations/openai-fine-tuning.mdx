@@ -8,13 +8,13 @@ menu:
 weight: 250
 ---
 
-{{< cta-button colabLink="http://wandb.me/openai-colab" >}}
+<Card title="Try in Colab" href="http://wandb.me/openai-colab" icon="python"/>
 
 OpenAI GPT-3.5 や GPT-4 モデルのファインチューニングのメトリクスと設定を W&B にログします。 W&B エコシステムを活用してファインチューニング 実験、Models、Datasets を追跡し、結果を同僚と共有できます。
 
-{{% alert %}}
+<Note>
 ファインチューニングできるモデルの一覧については、[OpenAI ドキュメント](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) を参照してください。
-{{% /alert %}}
+</Note>
 
 ファインチューニングのために W&B と OpenAI を統合する方法についての追加情報は、OpenAI ドキュメントの [Weights and Biases Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) セクションを参照してください。
 
@@ -44,7 +44,9 @@ from wandb.integration.openai.fine_tuning import WandbLogger
 WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
 ```
 
-{{< img src="/images/integrations/open_ai_auto_scan.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/open_ai_auto_scan.png"  />
+</Frame>
 
 ### ファインチューニングを同期する
 
@@ -82,7 +84,7 @@ WandbLogger.sync(
 | wait_for_job_success     | OpenAI ファインチューニングジョブが開始されると、通常少し時間がかかります。ファインチューニングジョブが終了すると、メトリクスが W&B にすぐにログされるように、この設定は 60 秒ごとにファインチューニングジョブのステータスが `succeeded` に変わるかどうかを確認します。ファインチューニングジョブが成功したと検出されると、自動的にメトリクスが W&B に同期されます。 デフォルトで True に設定されています。                                           |
 | model_artifact_name      | ログされるモデル アーティファクトの名前。デフォルトは `"model-metadata"` です。|
 | model_artifact_type      | ログされるモデル アーティファクトのタイプ。デフォルトは `"model"` です。|
-| \*\*kwargs_wandb_init  | 直接 [`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}}) に渡される追加の引数                                     |
+| \*\*kwargs_wandb_init  | 直接 [`wandb.init()`](/ja/models/ref/python/init) に渡される追加の引数                                     |
 
 ## データセットのバージョン管理と可視化
 
@@ -90,21 +92,27 @@ WandbLogger.sync(
 
 ファインチューニングのために OpenAI にアップロードしたトレーニングおよび検証データは、バージョン管理を容易にするために自動的に W&B Artifacts としてログされます。 以下に、この アーティファクト 内のトレーニングファイルのビューを示します。ここでは、このファイルをログした W&B run、ログされた時期、このデータセットのバージョン、メタデータ、およびトレーニングデータから学習済みモデルまでの DAG リネージを確認できます。
 
-{{< img src="/images/integrations/openai_data_artifacts.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/openai_data_artifacts.png"  />
+</Frame>
 
 ### 可視化
 
 データセットは W&B Tables として可視化され、データセットを探索、検索、および対話することができます。以下に、 W&B Tables を使用して可視化されたトレーニングサンプルをチェックしてください。
 
-{{< img src="/images/integrations/openai_data_visualization.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/openai_data_visualization.png"  />
+</Frame>
 
 ## ファインチューニング済みモデルとモデルのバージョン管理
 
 OpenAI はファインチューニングされたモデルの ID を提供します。モデルの重みにはアアクセスできないため、`WandbLogger` はモデルのすべての詳細（ハイパーパラメーター、データファイルの ID など）と `fine_tuned_model` ID を含む `model_metadata.json` ファイルを作成し、 W&B アーティファクトとしてログします。
 
-このモデル（メタデータ）アーティファクトは、[W&B Registry]({{< relref path="/guides/core/registry/" lang="ja" >}}) のモデルにさらにリンクすることができます。
+このモデル（メタデータ）アーティファクトは、[W&B Registry](/ja/models/core/registry/) のモデルにさらにリンクすることができます。
 
-{{< img src="/images/integrations/openai_model_metadata.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/openai_model_metadata.png"  />
+</Frame>
 
 ## よくある質問
 
@@ -160,7 +168,9 @@ WandbLogger.sync(
 
 `wandb.Artifact`、`wandb.log` などの低レベルの wandb API を使用してパイプラインを常に制御できます。これにより、データとモデルの完全なトレーサビリティが可能になります。
 
-{{< img src="/images/integrations/open_ai_faq_can_track.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/open_ai_faq_can_track.png"  />
+</Frame>
 
 ## リソース
 

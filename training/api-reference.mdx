@@ -1,8 +1,32 @@
 ---
-title: "API Reference"
-linkTitle: "API Reference"
-weight: 100
-manualLink: "/ref/training"
-description: >
-  Complete API documentation for W&B Training.
+title: API Overview
+description: Complete API documentation for W&B Training
 ---
+
+<Note>
+The W&B Training API provides endpoints for managing and interacting with serverless reinforcement learning training jobs. The API is OpenAI-compatible for chat completions.
+</Note>
+
+## Authentication
+
+All API requests require authentication using your W&B API key. You can find your API key at [wandb.ai/authorize](https://wandb.ai/authorize).
+
+Include your API key in the `Authorization` header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Base URL
+
+```
+https://api.training.wandb.ai/v1
+```
+
+## Related Resources
+
+- [W&B Training overview](/training)
+- [Prerequisites](/training/prerequisites)
+- [Use your trained models](/training/serverless-rl/use-trained-models)
+- [Available models](/training/serverless-rl/available-models)
+- [Usage limits](/training/serverless-rl/usage-limits)

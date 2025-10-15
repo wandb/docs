@@ -8,7 +8,7 @@ menu:
 weight: 4
 ---
 
-[registered model]({{< relref path="./model-management-concepts.md#registered-model" lang="ja" >}}) を作成し、モデリングタスクのすべての候補モデルを保持します。モデルレジストリ内でインタラクティブに、または Python SDK を使用してプログラム的に registered model を作成できます。
+[registered model](/ja/models/core/registry/model_registry/model-management-concepts/#registered-model) を作成し、モデリングタスクのすべての候補モデルを保持します。モデルレジストリ内でインタラクティブに、または Python SDK を使用してプログラム的に registered model を作成できます。
 
 ## プログラムで registered model を作成する
 
@@ -31,19 +31,25 @@ run.finish()
 [Model Registry App](https://wandb.ai/registry/model) でインタラクティブに registered model を作成します。
 
 1. Model Registry App に移動します: [https://wandb.ai/registry/model](https://wandb.ai/registry/model)。
-{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
+<Frame>
+    <img src="/images/models/create_registered_model_1.png"  />
+</Frame>
 2. Model Registry ページの右上にある **New registered model** ボタンをクリックします。
-{{< img src="/images/models/create_registered_model_model_reg_app.png" alt="" >}}
+<Frame>
+    <img src="/images/models/create_registered_model_model_reg_app.png"  />
+</Frame>
 3. 表示されたパネルから、registered model が属するエンティティを **Owning Entity** ドロップダウンから選択します。
-{{< img src="/images/models/create_registered_model_3.png" alt="" >}}
+<Frame>
+    <img src="/images/models/create_registered_model_3.png"  />
+</Frame>
 4. **Name** フィールドにモデルの名前を入力します。 
 5. **Type** ドロップダウンから、registered model とリンクするアーティファクトのタイプを選択します。
 6. (オプション) **Description** フィールドにモデルについての説明を追加します。
 7. (オプション) **Tags** フィールドに1つ以上のタグを追加します。
 8. **Register model** をクリックします。
 
-{{% alert %}}
-モデルをモデルレジストリに手動でリンクすることは、一度だけのモデルに便利です。しかし、[プログラムでモデルバージョンをモデルレジストリにリンクする]({{< relref path="link-model-version#programmatically-link-a-model" lang="ja" >}})こともよくあります。
+<Note>
+モデルをモデルレジストリに手動でリンクすることは、一度だけのモデルに便利です。しかし、[プログラムでモデルバージョンをモデルレジストリにリンクする](/ja/models/core/registry/model_registry/link-model-version/#programmatically-link-a-model)こともよくあります。
 
 例えば、毎晩のジョブがあるとします。毎晩作成されるモデルを手動でリンクするのは面倒です。代わりに、モデルを評価し、そのモデルがパフォーマンスを改善した場合にそのモデルを W&B Python SDK を使用してモデルレジストリにリンクするスクリプトを作成することができます。
-{{% /alert %}}
+</Note>

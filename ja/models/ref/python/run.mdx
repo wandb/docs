@@ -5,7 +5,7 @@ menu:
     identifier: ja-ref-python-run
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L461-L4042 >}}
+<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/wandb_run.py#L461-L4042" icon="github"/>
 
 wandbによってログに記録される計算の単位。通常、これは機械学習実験です。
 
@@ -57,10 +57,10 @@ assert wandb.run is None
 ```
 
 `wandb.init`でrunを作成する方法についてはドキュメントを参照するか、
-[こちらのガイド](https://docs.wandb.ai/guides/track/launch)をご覧ください。
+[こちらのガイド](https://docs.wandb.ai/models/track/launch)をご覧ください。
 
 分散トレーニングでは、ランク0のプロセスで単一のrunを作成してそのプロセスからのみ情報をログするか、各プロセスでrunを作成してそれぞれからログを取り、`wandb.init`の`group`引数で結果をグループ化することができます。W&Bを使用した分散トレーニングの詳細については、
-[こちらのガイド](https://docs.wandb.ai/guides/track/log/distributed-training)をご覧ください。
+[こちらのガイド](https://docs.wandb.ai/models/track/log/distributed-training)をご覧ください。
 
 現在、`wandb.Api`には並行する`Run`オブジェクトがあります。最終的にこれら2つのオブジェクトは統合される予定です。
 
@@ -379,18 +379,18 @@ runデータをアップロードします。
 
 `log`を使用してrunからデータ（例えば、スカラー、画像、ビデオ、ヒストグラム、プロット、テーブルなど）をログに記録します。
 
-[ログ記録ガイド](https://docs.wandb.ai/guides/track/log)を参照し、
+[ログ記録ガイド](https://docs.wandb.ai/models/track/log)を参照し、
 ライブの例、コードスニペット、ベストプラクティスなどを確認してください。
 
 最も基本的な使用法は`run.log({"train-loss": 0.5, "accuracy": 0.9})`です。
 これは、損失と精度をrunの履歴に保存し、これらのメトリクスのsummaryの値を更新します。
 
-ワークスペースでログしたデータを[wandb.ai](https://wandb.ai)で可視化したり、自分でホストするW&Bアプリのインスタンスでローカルに可視化したり、データをエクスポートしてローカルで可視化、探索したり、例えば、Jupyter ノートブックで[公開API](https://docs.wandb.ai/guides/track/public-api-guide)を使用して行うことができます。
+ワークスペースでログしたデータを[wandb.ai](https://wandb.ai)で可視化したり、自分でホストするW&Bアプリのインスタンスでローカルに可視化したり、データをエクスポートしてローカルで可視化、探索したり、例えば、Jupyter ノートブックで[公開API](https://docs.wandb.ai/models/track/public-api-guide)を使用して行うことができます。
 
 ログした値はスカラーである必要はありません。任意のwandbオブジェクトのログがサポートされています。
 例えば、`run.log({"example": wandb.Image("myimage.jpg")})`は、W&B UIにうまく表示される例の画像のログを記録します。
-さまざまにサポートされているタイプについては、[参照ドキュメント](https://docs.wandb.ai/ref/python/data-types/)を参照するか、[logging ガイド](https://docs.wandb.ai/guides/track/log)で、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムの例を確認してください。
-`wandb.Table`を使用して構造化データをログできます。詳細については、[テーブルログのガイド](https://docs.wandb.ai/guides/models/tables/tables-walkthrough)をご覧ください。
+さまざまにサポートされているタイプについては、[参照ドキュメント](https://docs.wandb.ai/models/ref/python/data-types/)を参照するか、[logging ガイド](https://docs.wandb.ai/models/track/log)で、3D分子構造やセグメンテーションマスク、PR曲線、ヒストグラムの例を確認してください。
+`wandb.Table`を使用して構造化データをログできます。詳細については、[テーブルログのガイド](https://docs.wandb.ai/models/tables/tables-walkthrough)をご覧ください。
 
 W&B UIは、メトリクスを名前に含むスラッシュ（`/`）を含むセクションに整理し、名前の最後のスラッシュ前のテキストでセクション名を使用します。例えば、次の例では、「train」と「validate」という2つのセクションがあります：
 
@@ -422,7 +422,7 @@ run.log(
 run.log({"epoch": 40, "train-loss": 0.5})
 ```
 
-[define_metric](https://docs.wandb.ai/ref/python/experiments/run/#method-rundefine_metric)も参照してください。
+[define_metric](https://docs.wandb.ai/models/ref/python/experiments/run/#method-rundefine_metric)も参照してください。
 
 `step`および`commit`パラメータを使用して、同じステップにログを記録するために複数の`log`呼び出しを使用することができます。
 以下はすべて同等です：
@@ -456,7 +456,7 @@ run.log({"accuracy": 0.9}, step=current_step)
 #### 例:
 
 詳細でより多くの例は、
-[このログ記録ガイド](https://docs.wandb.com/guides/track/log)をご覧ください。
+[このログ記録ガイド](https://docs.wandb.com/models/track/log)をご覧ください。
 
 ### 基本的な使用法
 

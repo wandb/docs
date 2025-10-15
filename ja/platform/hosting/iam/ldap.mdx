@@ -8,23 +8,22 @@ menu:
 
 資格情報を W&B Server の LDAP サーバーで認証します。次のガイドは W&B Server の設定を行う方法を説明しています。必須およびオプションの設定、システム設定 UI から LDAP 接続を設定する手順をカバーしています。また、アドレス、ベース識別名、属性など、LDAP 設定のさまざまな入力についての情報を提供します。これらの属性は W&B アプリ UI から、または環境変数を使用して指定できます。匿名バインドを設定するか、管理者 DN とパスワードでバインドすることができます。
 
-{{% alert %}}
+<Note>
 W&B 管理者ロールのみが LDAP 認証を有効化および設定できます。
-{{% /alert %}}
+</Note>
 
 ## LDAP 接続の設定
 
-{{< tabpane text=true >}}
-{{% tab header="W&B アプリ" value="app" %}}
+<Tabs>
+<Tab title="W&B アプリ">
 1. W&B アプリに移動します。
 2. 右上のプロフィールアイコンを選択します。ドロップダウンから **System Settings** を選択します。
 3. **Configure LDAP Client** を切り替えます。
 4. フォームに詳細を追加します。各入力の詳細は、**Configuring Parameters** セクションを参照してください。
 5. **Update Settings** をクリックして設定をテストします。これにより、W&B サーバーとのテストクライアント/接続が確立されます。
 6. 接続が検証されたら、**Enable LDAP Authentication** を切り替え、**Update Settings** ボタンを選択します。
-{{% /tab %}}
-
-{{% tab header="環境変数" value="env"%}}
+</Tab>
+<Tab title="環境変数">
 次の環境変数を使用して LDAP 接続を設定します。
 
 | 環境変数                         | 必須   | 例                              |
@@ -38,9 +37,9 @@ W&B 管理者ロールのみが LDAP 認証を有効化および設定できま�
 | `LOCAL_LDAP_GROUP_ALLOW_LIST` | いいえ |                                 |
 | `LOCAL_LDAP_LOGIN`            | いいえ |                                 |
 
-各環境変数の定義については [Configuration parameters]({{< relref path="#configuration-parameters" lang="ja" >}}) セクションを参照してください。明確さのために、環境変数の接頭辞 `LOCAL_LDAP` を定義名から省略しました。
-{{% /tab %}}
-{{< /tabpane >}}
+各環境変数の定義については [Configuration parameters](#configuration-parameters) セクションを参照してください。明確さのために、環境変数の接頭辞 `LOCAL_LDAP` を定義名から省略しました。
+</Tab>
+</Tabs>
 
 ## 設定パラメータ
 

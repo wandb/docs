@@ -7,21 +7,21 @@ menu:
 weight: 4
 ---
 
-{{% alert %}}
+<Note>
 [SCIM を実際に使用するビデオを見る](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12分)
-{{% /alert %}}
+</Note>
 
 クロスドメイン・アイデンティティ管理システム (SCIM) API は、インスタンスまたは組織の管理者が W&B 組織内のユーザー、グループ、およびカスタムロールを管理できるようにします。SCIM グループは W&B のチームにマップされます。
 
 SCIM API は `<host-url>/scim/` でアクセス可能であり、[RC7643 プロトコル](https://www.rfc-editor.org/rfc/rfc7643)に見られるフィールドのサブセットを持つ `/Users` と `/Groups` エンドポイントをサポートしています。さらに、公式の SCIM スキーマの一部ではない `/Roles` エンドポイントを含んでいます。W&B は `/Roles` エンドポイントを追加して、W&B 組織でのカスタムロールの自動管理をサポートしています。
 
-{{% alert %}}
-複数の Enterprise [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})、[Self-managed instances]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}})、および [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
+<Note>
+複数の Enterprise [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud)、[Self-managed instances](/ja/platform/hosting/hosting-options/self-managed)、および [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
 
 選択したホスティングオプションに応じて、このページの例で使用される `<host-url>` プレースホルダーの値が決まります。
 
 さらに、例では `abc` や `def` のようなユーザー ID が使用されています。実際のリクエストとレスポンスでは、ユーザー ID はハッシュ化された値を持っています。
-{{% /alert %}}
+</Note>
 
 ## 認証
 
@@ -35,7 +35,7 @@ SCIM ユーザーリソースは W&B のユーザーにマップされます。
 
 - **エンドポイント:** **`<host-url>/scim/Users/{id}`**
 - **メソッド**: GET
-- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織または [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内の特定のユーザーの情報を取得します。
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内の特定のユーザーの情報を取得します。
 - **リクエスト例**:
 
 ```bash
@@ -76,7 +76,7 @@ GET /scim/Users/abc
 
 - **エンドポイント:** **`<host-url>/scim/Users`**
 - **メソッド**: GET
-- **説明**: [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織または [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内のすべてのユーザーのリストを取得します。
+- **説明**: [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内のすべてのユーザーのリストを取得します。
 - **リクエスト例**:
 
 ```bash
@@ -188,12 +188,12 @@ POST /scim/Users
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: DELETE
-- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) 組織または [Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンスから完全にユーザーを削除します。必要に応じて [Create user]({{< relref path="#create-user" lang="ja" >}}) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンスから完全にユーザーを削除します。必要に応じて [Create user](#create-user) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
 - **リクエスト例**:
 
-{{% alert %}}
-一時的にユーザーを無効化するには、`PATCH` エンドポイントを使用する [Deactivate user]({{< relref path="#deactivate-user" lang="ja" >}}) API を参照してください。
-{{% /alert %}}
+<Note>
+一時的にユーザーを無効化するには、`PATCH` エンドポイントを使用する [Deactivate user](#deactivate-user) API を参照してください。
+</Note>
 
 ```bash
 DELETE /scim/Users/abc
@@ -209,7 +209,7 @@ DELETE /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内で一時的にユーザーを無効化します。必要に応じて [Reactivate user]({{< relref path="#reactivate-user" lang="ja" >}}) API を使用してユーザーを再有効化します。
+- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内で一時的にユーザーを無効化します。必要に応じて [Reactivate user](#reactivate-user) API を使用してユーザーを再有効化します。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |
@@ -217,9 +217,9 @@ DELETE /scim/Users/abc
 | op | 文字列型 | 操作のタイプ。許可される唯一の値は `replace` です。 |
 | value | オブジェクト型 | オブジェクト `{"active": false}` を示し、ユーザーが無効化されるべきことを示します。 |
 
-{{% alert %}}
-[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザーの無効化および再有効化の操作はサポートされていません。
-{{% /alert %}}
+<Note>
+[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザーの無効化および再有効化の操作はサポートされていません。
+</Note>
 
 - **リクエスト例**:
 
@@ -274,7 +274,7 @@ PATCH /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}}) または [Self-managed]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}}) インスタンス内で無効化されたユーザーを再有効化します。
+- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内で無効化されたユーザーを再有効化します。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |
@@ -282,9 +282,9 @@ PATCH /scim/Users/abc
 | op | 文字列型 | 操作のタイプ。許可される唯一の値は `replace` です。 |
 | value | オブジェクト型 | オブジェクト `{"active": true}` を示し、ユーザーが再有効化されるべきことを示します。 |
 
-{{% alert %}}
-[SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザーの無効化および再有効化の操作はサポートされていません。
-{{% /alert %}}
+<Note>
+[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザーの無効化および再有効化の操作はサポートされていません。
+</Note>
 
 - **リクエスト例**:
 
@@ -339,7 +339,7 @@ PATCH /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: 組織レベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer` または `member` のいずれかになります ([こちらを参照]({{< relref path="access-management/manage-organization.md#invite-a-user" lang="ja" >}}))。 [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
+- **説明**: 組織レベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer` または `member` のいずれかになります ([こちらを参照](/ja/platform/hosting/iam/access-management/manage-organization/#invite-a-user))。 [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |
@@ -408,7 +408,7 @@ PATCH /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: チームレベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer`、`member` またはカスタムロールのいずれかになります ([こちらを参照]({{< relref path="access-management/manage-organization.md#assign-or-update-a-team-members-role" lang="ja" >}}))。 [SaaS Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
+- **説明**: チームレベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer`、`member` またはカスタムロールのいずれかになります ([こちらを参照](/ja/platform/hosting/iam/access-management/manage-organization/#invite-a-user))。 [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |

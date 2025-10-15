@@ -33,10 +33,10 @@ wandb
 
 また、SageMaker と W&B を使用した感情分析器のデプロイに関する[チュートリアル](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE)を読むこともできます。
 
-{{% alert color="secondary" %}}
+<Warning>
 W&B sweep agent は SageMaker インテグレーションがオフになっている場合のみ SageMaker ジョブで期待通りに動作します。`wandb.init` の呼び出しを変更して SageMaker インテグレーションをオフにしてください。
 
 ```python
 wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))
 ```
-{{% /alert %}}
+</Warning>

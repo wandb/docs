@@ -7,13 +7,13 @@ menu:
     parent: log-objects-and-media
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" icon="python"/>
 `wandb.Table` を使って、データをログに記録し W&B で視覚化・クエリできるようにします。このガイドでは次のことを学びます：
 
-1. [テーブルを作成する]({{< relref path="./log-tables.md#create-tables" lang="ja" >}})
-2. [データを追加する]({{< relref path="./log-tables.md#add-data" lang="ja" >}})
-3. [データを取得する]({{< relref path="./log-tables.md#retrieve-data" lang="ja" >}})
-4. [テーブルを保存する]({{< relref path="./log-tables.md#save-tables" lang="ja" >}})
+1. [テーブルを作成する](/ja/models/track/log/log-tables/#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B)
+2. [データを追加する](/ja/models/track/log/log-tables/#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B)
+3. [データを取得する](/ja/models/track/log/log-tables/#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B)
+4. [テーブルを保存する](/ja/models/track/log/log-tables/#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B)
 
 ## テーブルを作成する
 
@@ -59,7 +59,7 @@ Tables は可変です。スクリプトが実行中に最大 200,000 行まで�
 
 ### データを段階的に追加する
 
-このコードサンプルは、次第に W&B テーブルを作成し、データを追加する方法を示しています。信頼度スコアを含む事前定義された列でテーブルを定義し、推論中に行ごとにデータを追加します。また、[run を再開するときにテーブルにデータを段階的に追加]({{< relref path="#adding-data-to-resumed-runs" lang="ja" >}})することもできます。
+このコードサンプルは、次第に W&B テーブルを作成し、データを追加する方法を示しています。信頼度スコアを含む事前定義された列でテーブルを定義し、推論中に行ごとにデータを追加します。また、[run を再開するときにテーブルにデータを段階的に追加](#adding-data-to-resumed-runs)することもできます。
 
 ```python
 # 各ラベルの信頼度スコアを含むテーブルの列を定義
@@ -128,13 +128,13 @@ run.log({"table_key": my_table})
 
 同じキーにテーブルがログに記録されるたびに、新しいバージョンのテーブルが作成され、バックエンドに保存されます。これにより、複数のトレーニングステップにわたって同じテーブルをログに記録し、モデルの予測がどのように向上するかを確認したり、異なる Run 間でテーブルを比較したりすることができます。同じテーブルに最大 200,000 行までログに記録できます。
 
-{{% alert %}}
+<Note>
 200,000 行以上をログに記録するには、以下のように制限をオーバーライドできます：
 
 `wandb.Table.MAX_ARTIFACT_ROWS = X`
 
 ただし、これにより UI でのクエリの速度低下などのパフォーマンス問題が発生する可能性があります。
-{{% /alert %}}
+</Note>
 
 ### プログラムによるテーブルへのアクセス
 
@@ -145,11 +145,11 @@ with wandb.init() as run:
     my_table = run.use_artifact("run-<run-id>-<table-name>:<tag>").get("<table-name>")
 ```
 
-Artifacts の詳細については、デベロッパーガイドの [Artifacts チャプター]({{< relref path="/guides/core/artifacts/" lang="ja" >}}) を参照してください。
+Artifacts の詳細については、デベロッパーガイドの [Artifacts チャプター](/ja/models/artifacts/) を参照してください。
 
 ### テーブルを視覚化する
 
-この方法でログに記録されたテーブルは、Run ページと Project ページの両方でワークスペースに表示されます。詳細については、[テーブルの視覚化と分析]({{< relref path="/guides/models/tables//visualize-tables.md" lang="ja" >}}) を参照してください。
+この方法でログに記録されたテーブルは、Run ページと Project ページの両方でワークスペースに表示されます。詳細については、[テーブルの視覚化と分析](/ja/models/tables/visualize-tables/) を参照してください。
 
 ## アーティファクトテーブル
 

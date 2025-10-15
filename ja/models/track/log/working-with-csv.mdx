@@ -7,7 +7,7 @@ menu:
     parent: log-objects-and-media
 ---
 
-W&B Python ライブラリを使用して、CSV ファイルをログし、[W&B ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})で可視化します。W&B ダッシュボードは、機械学習モデルからの結果を整理し可視化する中心的な場所です。これは、W&B にログされていない[以前の機械学習実験の情報を含む CSV ファイル]({{< relref path="#import-and-log-your-csv-of-experiments" lang="ja" >}})や[データセットを含む CSV ファイル]({{< relref path="#import-and-log-your-dataset-csv-file" lang="ja" >}})がある場合に特に便利です。
+W&B Python ライブラリを使用して、CSV ファイルをログし、[W&B ダッシュボード](/ja/models/track/workspaces/)で可視化します。W&B ダッシュボードは、機械学習モデルからの結果を整理し可視化する中心的な場所です。これは、W&B にログされていない[以前の機械学習実験の情報を含む CSV ファイル](#import-and-log-your-csv-of-experiments)や[データセットを含む CSV ファイル](#import-and-log-your-dataset-csv-file)がある場合に特に便利です。
 
 ## データセットの CSV ファイルをインポートしてログする
 
@@ -23,7 +23,7 @@ import pandas as pd
 new_iris_dataframe = pd.read_csv("iris.csv")
 ```
 
-2. CSV ファイルを W&B Table に変換し、[W&B ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})を利用します。
+2. CSV ファイルを W&B Table に変換し、[W&B ダッシュボード](/ja/models/track/workspaces/)を利用します。
 
 ```python
 # DataFrame を W&B Table に変換
@@ -40,7 +40,7 @@ iris_table_artifact.add(iris_table, "iris_table")
 # データを保存するために、生の CSV ファイルを Artifact 内にログする
 iris_table_artifact.add_file("iris.csv")
 ```
-W&B Artifacts についての詳細は、[Artifacts チャプター]({{< relref path="/guides/core/artifacts/" lang="ja" >}})を参照してください。
+W&B Artifacts についての詳細は、[Artifacts チャプター](/ja/models/artifacts/)を参照してください。
 
 4. 最後に、`wandb.init` を使用して W&B で追跡しログするために新しい W&B Run を開始します:
 
@@ -57,7 +57,9 @@ run.log_artifact(iris_table_artifact)
 
 `wandb.init()` API は新しいバックグラウンドプロセスを開始し、データを Run にログし、デフォルトで wandb.ai に同期します。W&B ワークスペースダッシュボードでライブの可視化を表示します。以下の画像はコードスニペットのデモの出力を示しています。
 
-{{< img src="/images/track/import_csv_tutorial.png" alt="CSV ファイルが W&B ダッシュボードにインポートされた" >}}
+<Frame>
+    <img src="/images/track/import_csv_tutorial.png" alt="CSV ファイルが W&B ダッシュボードにインポートされた"  />
+</Frame>
 
 以下は、前述のコードスニペットを含む完全なスクリプトです:
 
@@ -96,9 +98,9 @@ run.finish()
 場合によっては、実験の詳細が CSV ファイルにあることがあります。そのような CSV ファイルに共通する詳細には次のようなものがあります:
 
 * 実験 run の名前
-* 初期の[ノート]({{< relref path="/guides/models/track/runs/#add-a-note-to-a-run" lang="ja" >}})
-* 実験を区別するための[タグ]({{< relref path="/guides/models/track/runs/tags.md" lang="ja" >}})
-* 実験に必要な設定（[Sweeps ハイパーパラメータチューニング]({{< relref path="/guides/models/sweeps/" lang="ja" >}})の利用の利点があります）。
+* 初期の[ノート](/ja/models/runs/#add-a-note-to-a-run)
+* 実験を区別するための[タグ](/ja/models/runs/tags/)
+* 実験に必要な設定（[Sweeps ハイパーパラメータチューニング](/ja/models/sweeps/)の利用の利点があります）。
 
 | 実験         | モデル名          | ノート                                           | タグ          | 層の数     | 最終トレイン精度 | 最終評価精度 | トレーニング損失                             |
 | ------------ | ---------------- | ------------------------------------------------ | ------------- | ---------- | --------------- | ------------- | ------------------------------------- |
@@ -147,7 +149,7 @@ for i, row in loaded_experiment_df.iterrows():
         summaries[summary_col] = row[summary_col]
 ```
 
-2. 次に、[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}})を使用して W&B で追跡し、ログするための新しい W&B Run を開始します:
+2. 次に、[`wandb.init()`](/ja/models/ref/python/init)を使用して W&B で追跡し、ログするための新しい W&B Run を開始します:
 
 ```python
 run = wandb.init(
@@ -155,21 +157,21 @@ run = wandb.init(
 )
 ```
 
-実験が進行するにつれて、メトリクスのすべてのインスタンスをログし、W&B で表示、クエリ、および分析可能にすることをお勧めするかもしれません。これを実現するには、[`run.log()`]({{< relref path="/ref/python/log.md" lang="ja" >}}) コマンドを使用します:
+実験が進行するにつれて、メトリクスのすべてのインスタンスをログし、W&B で表示、クエリ、および分析可能にすることをお勧めするかもしれません。これを実現するには、[`run.log()`](/ja/models/ref/python/log) コマンドを使用します:
 
 ```python
 run.log({key: val})
 ```
 
-また、run の結果を定義するために最終的なサマリーメトリクスをオプションでログすることもできます。これを実現するには、W&B [`define_metric`]({{< relref path="/ref/python/run.md#define_metric" lang="ja" >}}) API を使用します。この例では、`run.summary.update()` によりサマリーメトリクスを run に追加します:
+また、run の結果を定義するために最終的なサマリーメトリクスをオプションでログすることもできます。これを実現するには、W&B [`define_metric`](/ja/models/ref/python/run#define_metric) API を使用します。この例では、`run.summary.update()` によりサマリーメトリクスを run に追加します:
 
 ```python
 run.summary.update(summaries)
 ```
 
-サマリーメトリクスの詳細については、[Log Summary Metrics]({{< relref path="./log-summary.md" lang="ja" >}})を参照してください。
+サマリーメトリクスの詳細については、[Log Summary Metrics](/ja/models/track/log/log-summary/)を参照してください。
 
-以下は、上記のサンプルテーブルを [W&B ダッシュボード]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})に変換する完全な例のスクリプトです:
+以下は、上記のサンプルテーブルを [W&B ダッシュボード](/ja/models/track/workspaces/)に変換する完全な例のスクリプトです:
 
 ```python
 FILENAME = "experiments.csv"

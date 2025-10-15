@@ -1,182 +1,445 @@
 ---
-description: A playground for exploring run data with interactive visualizations
 menu:
-  default:
+  tutorials:
     identifier: workspaces
-    parent: experiments
-title: View experiments results
-weight: 4
+    parent: null
+title: Programmatic Workspaces
+weight: 5
 ---
 
-W&B workspace is your personal sandbox to customize charts and explore model results. A W&B workspace consists of *Tables* and *Panel sections*: 
+<Note>
+W&B Report and Workspace API is in Public Preview.
+</Note>
 
-* **Tables**: All runs logged to your project are listed in the project's table. Turn on and off runs, change colors, and expand the table to see notes, config, and summary metrics for each run.
-* **Panel sections**: A section that contains one or more [panels]({{< relref "/guides/models/app/features/panels/" >}}). Create new panels, organize them, and export to reports to save snapshots of your workspace.
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" icon="python"/>
+Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
 
-{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace table and panels" >}}
+`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces](/models/track/workspaces/) and [Reports](/models/reports/).
 
-## Workspace types
-There are two main workspace categories: **Personal workspaces** and **Saved views**. 
+In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
 
-* **Personal workspaces:**  A customizable workspace for in-depth analysis of models and data visualizations. Only the owner of the workspace can edit and save changes. Teammates can view a personal workspace but teammates can not make changes to someone else's personal workspace. 
-* **Saved views:** Saved views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. Use saved workspace views for reviewing and discussing experiments, runs, and more.
-
-The proceeding image shows multiple personal workspaces created by Cécile-parker's teammates. In this project, there are no saved views:
-{{< img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views" >}}
-
-## Saved workspace views
-Improve team collaboration with tailored workspace views. Create Saved Views to organize your preferred setup of charts and data. 
-
-### Create a new saved workspace view
-
-1. Navigate to a personal workspace or a saved view.
-2. Make edits to the workspace.
-3. Click on the meatball menu (three horizontal dots) at the top right corner of your workspace. Click on **Save as a new view**.
-
-New saved views appear in the workspace navigation menu.
-
-{{< img src="/images/app_ui/Menu_Views.jpg" alt="Saved views menu" >}}
-
-### Update a saved workspace view 
-Saved changes overwrite the previous state of the saved view. Unsaved changes are not retained. To update a saved workspace view in W&B:
-
-1. Navigate to a saved view.
-2. Make the desired changes to your charts and data within the workspace.
-3. Click the **Save** button to confirm your changes. 
-
-{{% alert %}}
-A confirmation dialog appears when you save your updates to a workspace view. If you prefer not to see this prompt in the future, select the option **Do not show this modal next time** before confirming your save.
-{{% /alert %}}
-
-### Delete a saved workspace view
-Remove saved views that are no longer needed.
-
-1. Navigate to the saved view you want to remove.
-2. Select the three horizontal lines (**...**) at the top right of the view.
-3. Choose **Delete view**.
-4. Confirm the deletion to remove the view from your workspace menu.
-
-### Share a workspace view
-Share your customized workspace with your team by sharing the workspace URL directly. All users with access to the workspace project can see the saved Views of that workspace.
-
-## Workspace templates
-{{% alert %}}This feature requires an [Enterprise](https://wandb.ai/site/pricing/) license.{{% /alert %}}
-
-Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces]({{< relref "#default-workspace-settings" >}}). Currently, a workspace template can define custom [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}).
-
-### Default workspace settings
-By default, new workspaces use these default settings for line plots:
-
-| Setting | Default |
-|-------|----------
-| X axis             | Step |
-| Smoothing type     | Time weight EMA |
-| Smoothing weight   | 0 |
-| Max runs           | 10 |
-| Grouping in charts | on |
-| Group aggregation  | Mean |
-
-### Configure your workspace template
-1. Open any workspace or create a new one.
-1. Configure the workspace's [line plot settings]({{< relref "/guides/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace" >}}) according to your preferences.
-1. Save the settings to your workspace template:
-    1. At the top of the workspace, click the action menu `...` near the **Undo** and **Redo** arrow icons.
-    1. Click **Save personal workspace template**.
-    1. Review the line plot settings for the template, then click **Save**.
-
-New workspaces will use these settings instead of the defaults.
-
-### View your workspace template
-To view your workspace template's current configuration:
-1. From any page, select your user icon on the top right corner. From the dropdown, choose **Settings**.
-1. Navigate to the **Personal workspace template** section. If you are using a workspace template, its configuration displays. Otherwise, the section includes no details.
-
-### Update your workspace template
-To update your workspace template:
-
-1. Open any workspace.
-1. Modify the workspace's settings. For example, set the number of runs to include to `11`.
-1. To save the changes to the template, click the action menu `...` near the **Undo** and **Redo** arrow icons, then click **Update personal workspace template**.
-1. Verify the settings, then click **Update**. The template is updated, and reapplied to all workspaces that use it.
-
-### Delete your workspace template
-To delete your workspace template and go back to the default settings:
-
-1. From any page, select your user icon on the top right corner. From the dropdown, choose **Settings**.
-1. Navigate to the **Personal workspace template** section. Your workspace template's configuration displays.
-1. Click the trash icon next to **Settings**. 
-
-{{% alert %}}
-For Dedicated Cloud and Self-Managed, deleting your workspace template is supported on v0.70 and above. On older Server versions, update your workspace template to use the [default settings]({{< relref "#default-workspace-settings" >}}) instead.
-{{% /alert %}}
-
-## Programmatically create workspaces
-
-[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
-
-Define a workspace programmatically with [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main). [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
-
-You can define the workspace's properties, such as:
-
-* Set panel layouts, colors, and section orders.
-* Configure workspace settings like default x-axis, section order, and collapse states.
-* Add and customize panels within sections to organize workspace views.
-* Load and modify existing workspaces using a URL.
-* Save changes to existing workspaces or save as new views.
-* Filter, group, and sort runs programmatically using simple expressions.
-* Customize run appearance with settings like colors and visibility.
-* Copy views from one workspace to another for integration and reuse.
-
-<!-- - **Programmatic workspace creation:**
-  - Define and create workspaces with specific configurations.
-  - Set panel layouts, colors, and section orders.
-- **Workspace customization:**
-  - Configure workspace settings like default x-axis, section order, and collapse states.
-  - Add and customize panels within sections to organize workspace views.
-- **Editing existing workspace `saved views`:**
-  - Load and modify existing workspaces using a URL.
-  - Save changes to existing workspaces or save as new views.
-- **Run filtering and grouping:**
-  - Filter, group, and sort runs programmatically using simple expressions.
-  - Customize run appearance with settings like colors and visibility.
-- **Cross-workspace integration:**
-  - Copy views from one workspace to another for seamless integration and reuse. -->
-
-### Install Workspace API
-
-In addition to `wandb`, ensure that you install `wandb-workspaces`:
-
-```bash
-pip install wandb wandb-workspaces
-```
+## How to use this notebook
+* Run each cell one at a time. 
+* Copy and paste the URL that is printed after you run a cell to view the changes made to the workspace.
 
 
+<Note>
+Programmatic interaction with workspaces is currently supported for [Saved workspaces views](/models/track/workspaces/#saved-workspace-views). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views.
+</Note>
 
-### Define and save a workspace view programmatically
+## 1. Install and import dependencies
 
 
 ```python
-import wandb_workspaces.reports.v2 as ws
-
-workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
-workspace.save()
+# Install dependencies
+!pip install wandb wandb-workspaces rich
 ```
 
-### Edit an existing view
-```python
-existing_workspace = ws.Workspace.from_url("workspace-url")
-existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
-existing_workspace.save()
-```
-
-### Copy a workspace `saved view` to another workspace
 
 ```python
-old_workspace = ws.Workspace.from_url("old-workspace-url")
-old_workspace_view = old_workspace.views[0]
-new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+# Import dependencies
+import os
+import wandb
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr # We use the Reports API for adding panels
 
-new_workspace.save()
+# Improve output formatting
+%load_ext rich
 ```
 
-See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces]({{< relref "/tutorials/workspaces.md" >}}) tutorial.
+## 2. Create a new project and workspace
+
+For this tutorial we will create a new project so that we can experiment with the `wandb_workspaces` API:
+
+Note: You can load an existing workspace using its unique `Saved view` URL. See the next code block to see how to do this.
+
+
+```python
+# Initialize W&B and Login
+wandb.login()
+
+# Function to create a new project and log sample data
+def create_project_and_log_data():
+    project = "workspace-api-example"  # Default project name
+
+    # Initialize a run to log some sample data
+    with wandb.init(project=project, name="sample_run") as run:
+        for step in range(100):
+            run.log({
+                "Step": step,
+                "val_loss": 1.0 / (step + 1),
+                "val_accuracy": step / 100.0,
+                "train_loss": 1.0 / (step + 2),
+                "train_accuracy": step / 110.0,
+                "f1_score": step / 100.0,
+                "recall": step / 120.0,
+            })
+    return project
+
+# Create a new project and log data
+project = create_project_and_log_data()
+entity = wandb.Api().default_entity
+```
+
+### (Optional) Load an existing project and workspace
+Instead of creating a new project, you can load one of your own existing project and workspace. To do this, find the unique workspace URL and pass it to `ws.Workspace.from_url` as a string. The URL has the form `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`. 
+
+For example:
+
+```python
+wandb.login()
+
+workspace = ws.Workspace.from_url("https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc").
+
+workspace = ws.Workspace(
+    entity="NEW-ENTITY",
+    project=NEW-PROJECT,
+    name="NEW-SAVED-VIEW-NAME"
+)
+```
+
+## 3. Programmatic workspace examples
+Below are examples for using programmatic workspace features:
+
+
+```python
+# See all available settings for workspaces, sections, and panels.
+all_settings_objects = [x for x in dir(ws) if isinstance(getattr(ws, x), type)]
+all_settings_objects
+```
+
+### Create a workspace with `saved view`
+This example demonstrates how to create a new workspace and populate it with sections and panels. Workspaces can be edited like regular Python objects, providing flexibility and ease of use.
+
+
+```python
+def sample_workspace_saved_example(entity: str, project: str) -> str:
+    workspace: ws.Workspace = ws.Workspace(
+        name="Example W&B Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Validation Metrics",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.BarPlot(metrics=["val_accuracy"]),
+                    wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+                ],
+                is_open=True,
+            ),
+        ],
+    )
+    workspace.save()
+    print("Sample Workspace saved.")
+    return workspace.url
+
+workspace_url: str = sample_workspace_saved_example(entity, project)
+```
+
+### Load a workspace from a URL
+Duplicate and customize workspaces without affecting the original setup. To do this, load an existing workspace and save it as a new view:
+
+
+```python
+def save_new_workspace_view_example(url: str) -> None:
+    workspace: ws.Workspace = ws.Workspace.from_url(url)
+
+    workspace.name = "Updated Workspace Name"
+    workspace.save_as_new_view()
+
+    print(f"Workspace saved as new view.")
+
+save_new_workspace_view_example(workspace_url)
+```
+
+Note that your workspace is now named "Updated Workspace Name".
+
+### Basic settings
+The following code shows how to create a workspace, add sections with panels, and configure settings for the workspace, individual sections, and panels:
+
+
+```python
+# Function to create and configure a workspace with custom settings
+def custom_settings_example(entity: str, project: str) -> None:
+    workspace: ws.Workspace = ws.Workspace(name="An example workspace", entity=entity, project=project)
+    workspace.sections = [
+        ws.Section(
+            name="Validation",
+            panels=[
+                wr.LinePlot(x="Step", y=["val_loss"]),
+                wr.LinePlot(x="Step", y=["val_accuracy"]),
+                wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+                wr.ScalarChart(metric="recall", groupby_aggfunc="mean"),
+            ],
+            is_open=True,
+        ),
+        ws.Section(
+            name="Training",
+            panels=[
+                wr.LinePlot(x="Step", y=["train_loss"]),
+                wr.LinePlot(x="Step", y=["train_accuracy"]),
+            ],
+            is_open=False,
+        ),
+    ]
+
+    workspace.settings = ws.WorkspaceSettings(
+        x_axis="Step",
+        x_min=0,
+        x_max=75,
+        smoothing_type="gaussian",
+        smoothing_weight=20.0,
+        ignore_outliers=False,
+        remove_legends_from_panels=False,
+        tooltip_number_of_runs="default",
+        tooltip_color_run_names=True,
+        max_runs=20,
+        point_visualization_method="bucketing",
+        auto_expand_panel_search_results=False,
+    )
+
+    section = workspace.sections[0]
+    section.panel_settings = ws.SectionPanelSettings(
+        x_min=25,
+        x_max=50,
+        smoothing_type="none",
+    )
+
+    panel = section.panels[0]
+    panel.title = "Validation Loss Custom Title"
+    panel.title_x = "Custom x-axis title"
+
+    workspace.save()
+    print("Workspace with custom settings saved.")
+
+# Run the function to create and configure the workspace
+custom_settings_example(entity, project)
+```
+
+Note that you are now viewing a different saved view called "An example workspace".
+
+## Customize runs
+The following code cells show you how to filter, change the color, group, and sort runs programmatically. 
+
+In each example, the general workflow is to specify the desired customization as an argument to the appropriate parameter in `ws.RunsetSettings`.
+
+### Filter runs
+You can create filters with python expressions and metrics you log with `wandb.log` or that are logged automatically as part of the run such as **Created Timestamp**.  You can also reference filters by how they appear in the W&B App UI such as the **Name**, **Tags**, or **ID**.
+
+The following example shows how to filter runs based on the validation loss summary, validation accuracy summary, and the regex specified:
+
+
+```python
+def advanced_filter_example(entity: str, project: str) -> None:
+    # Get all runs in the project
+    runs: list = wandb.Api().runs(f"{entity}/{project}")
+
+    # Apply multiple filters: val_loss < 0.1, val_accuracy > 0.8, and run name matches regex pattern
+    workspace: ws.Workspace = ws.Workspace(
+        name="Advanced Filtered Workspace with Regex",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Advanced Filtered Section",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            filters=[
+                (ws.Summary("val_loss") < 0.1),  # Filter runs by the 'val_loss' summary
+                (ws.Summary("val_accuracy") > 0.8),  # Filter runs by the 'val_accuracy' summary
+                (ws.Metric("ID").isin([run.id for run in wandb.Api().runs(f"{entity}/{project}")])),
+            ],
+            regex_query=True,
+        )
+    )
+
+    # Add regex search to match run names starting with 's'
+    workspace.runset_settings.query = "^s"
+    workspace.runset_settings.regex_query = True
+
+    workspace.save()
+    print("Workspace with advanced filters and regex search saved.")
+
+advanced_filter_example(entity, project)
+```
+
+Note that passing in a list of filter expressions applies the boolean "AND" logic.
+
+### Change the colors of runs
+This example demonstrates how to change the colors of the runs in a workspace:
+
+
+```python
+def run_color_example(entity: str, project: str) -> None:
+    # Get all runs in the project
+    runs: list = wandb.Api().runs(f"{entity}/{project}")
+
+    # Dynamically assign colors to the runs
+    run_colors: list = ['purple', 'orange', 'teal', 'magenta']
+    run_settings: dict = {}
+    for i, run in enumerate(runs):
+        run_settings[run.id] = ws.RunSettings(color=run_colors[i % len(run_colors)])
+
+    workspace: ws.Workspace = ws.Workspace(
+        name="Run Colors Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Run Colors Section",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            run_settings=run_settings
+        )
+    )
+
+    workspace.save()
+    print("Workspace with run colors saved.")
+
+run_color_example(entity, project)
+```
+
+### Group runs
+
+This example demonstrates how to group runs by specific metrics.
+
+
+
+```python
+def grouping_example(entity: str, project: str) -> None:
+    workspace: ws.Workspace = ws.Workspace(
+        name="Grouped Runs Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Grouped Runs",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            groupby=[ws.Metric("Name")]
+        )
+    )
+    workspace.save()
+    print("Workspace with grouped runs saved.")
+
+grouping_example(entity, project)
+```
+
+### Sort runs
+This example demonstrates how to sort runs based on the validation loss summary:
+
+
+```python
+def sorting_example(entity: str, project: str) -> None:
+    workspace: ws.Workspace = ws.Workspace(
+        name="Sorted Runs Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Sorted Runs",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            order=[ws.Ordering(ws.Summary("val_loss"))] #Order using val_loss summary
+        )
+    )
+    workspace.save()
+    print("Workspace with sorted runs saved.")
+
+sorting_example(entity, project)
+```
+
+## 4. Putting it all together: comprehensive example
+
+This example demonstrates how to create a comprehensive workspace, configure its settings, and add panels to sections:
+
+
+```python
+def full_end_to_end_example(entity: str, project: str) -> None:
+    # Get all runs in the project
+    runs: list = wandb.Api().runs(f"{entity}/{project}")
+
+    # Dynamically assign colors to the runs and create run settings
+    run_colors: list = ['red', 'blue', 'green', 'orange', 'purple', 'teal', 'magenta', '#FAC13C']
+    run_settings: dict = {}
+    for i, run in enumerate(runs):
+        run_settings[run.id] = ws.RunSettings(color=run_colors[i % len(run_colors)], disabled=False)
+
+    workspace: ws.Workspace = ws.Workspace(
+        name="My Workspace Template",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Main Metrics",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                    wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+                ],
+                is_open=True,
+            ),
+            ws.Section(
+                name="Additional Metrics",
+                panels=[
+                    wr.ScalarChart(metric="precision", groupby_aggfunc="mean"),
+                    wr.ScalarChart(metric="recall", groupby_aggfunc="mean"),
+                ],
+            ),
+        ],
+        settings=ws.WorkspaceSettings(
+            x_axis="Step",
+            x_min=0,
+            x_max=100,
+            smoothing_type="none",
+            smoothing_weight=0,
+            ignore_outliers=False,
+            remove_legends_from_panels=False,
+            tooltip_number_of_runs="default",
+            tooltip_color_run_names=True,
+            max_runs=20,
+            point_visualization_method="bucketing",
+            auto_expand_panel_search_results=False,
+        ),
+        runset_settings=ws.RunsetSettings(
+            query="",
+            regex_query=False,
+            filters=[
+                ws.Summary("val_loss") < 1,
+                ws.Metric("Name") == "sample_run",
+            ],
+            groupby=[ws.Metric("Name")],
+            order=[ws.Ordering(ws.Summary("Step"), ascending=True)],
+            run_settings=run_settings
+        )
+    )
+    workspace.save()
+    print("Workspace created and saved.")
+
+full_end_to_end_example(entity, project)
+```

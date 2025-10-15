@@ -5,7 +5,7 @@ menu:
   default:
     identifier: ja-guides-hosting-hosting-options-self-managed-server-upgrade-process
     parent: self-managed
-url: /ja/guides/hosting/server-upgrade-process
+slug: /ja/platform/hosting/server-upgrade-process
 weight: 6
 ---
 
@@ -13,8 +13,8 @@ W&B Server の バージョン と ライセンスのアップデートは、W&B
 
 | Release Type    | Description         |
 | ---------------- | ------------------ |
-| [Terraform]({{< relref path="#update-with-terraform" lang="ja" >}}) | W&B は、クラウド デプロイメント用に 3 つのパブリック Terraform モジュールをサポートしています: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), および [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)。 |
-| [Helm]({{< relref path="#update-with-helm" lang="ja" >}})              | 既存の Kubernetes クラスターに W&B をインストールするために [Helm Chart](https://github.com/wandb/helm-charts) を使用できます。  |
+| [Terraform](#update-with-terraform) | W&B は、クラウド デプロイメント用に 3 つのパブリック Terraform モジュールをサポートしています: [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [GCP](https://registry.terraform.io/modules/wandb/wandb/google/latest), および [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)。 |
+| [Helm](#update-with-helm)              | 既存の Kubernetes クラスターに W&B をインストールするために [Helm Chart](https://github.com/wandb/helm-charts) を使用できます。  |
 
 ## Terraform を使用してアップデート
 
@@ -94,7 +94,7 @@ Terraform を使ってライセンスと バージョン を更新します。�
      --reuse-values --set license=$LICENSE --set image.tag=$TAG
    ```
 
-詳細については、パブリック リポジトリの[アップグレード ガイド](https://github.com/wandb/helm-charts/blob/main/upgrade.md)を参照してください。
+詳細については、パブリック リポジトリの[アップグレード ガイド](https://github.com/wandb/helm-charts/blob/main/upgrade)を参照してください。
 
 ## 管理者 UI を使用してアップデート
 

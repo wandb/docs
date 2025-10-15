@@ -7,7 +7,7 @@ menu:
 weight: 4
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Simple_TensorFlow_Integration.ipynb" icon="python"/>
 
 ## このノートブックでカバーする内容
 
@@ -15,7 +15,9 @@ weight: 4
 * `keras.metrics` を使用したメトリクスの計算
 * `wandb.log` を使用して、カスタムトレーニングループでこれらのメトリクスをログに記録する方法。
 
-{{< img src="/images/tutorials/tensorflow/dashboard.png" alt="ダッシュボード" >}}
+<Frame>
+    <img src="/images/tutorials/tensorflow/dashboard.png" alt="ダッシュボード"  />
+</Frame>
 
 **注**: _ステップ_ から始まるセクションは、既存のコードに W&B を統合するために必要なすべてです。それ以外は通常の MNIST の例です。
 
@@ -170,7 +172,7 @@ def train(
 
 これにより、実験を起動したことがわかり、ユニークな ID とダッシュボードを提供できます。
 
-[公式ドキュメントをチェック]({{< relref path="/ref/python/init" lang="ja" >}})
+[公式ドキュメントをチェック](/ja/models/ref/python/init)
 
 ```python
 # プロジェクト名で wandb を初期化し、設定をオプションで指定します。
@@ -217,7 +219,7 @@ run.finish()  # Jupyter/Colab では、完了したことを知らせます！
 
 ### 結果を可視化
 
-上記の [**run ページ**]({{< relref path="/guides/models/track/runs/#view-logged-runs" lang="ja" >}}) リンクをクリックして、ライブ結果を確認してください。
+上記の [**run ページ**](/ja/models/runs/#view-logged-runs) リンクをクリックして、ライブ結果を確認してください。
 
 ## Sweep 101
 
@@ -231,7 +233,9 @@ Weights & Biases Sweeps を使用してハイパーパラメータの最適化�
 * **透明性**: 使用するアルゴリズムをすべて引用しており、[コードはオープンソース](https://github.com/wandb/sweeps)です。
 * **強力**: スイープは完全にカスタマイズ可能で設定可能です。何十台ものマシンでスイープを起動することができ、それはラップトップでスイープを開始するのと同じくらい簡単です。
 
-{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="スイープ結果" >}}
+<Frame>
+    <img src="/images/tutorials/tensorflow/sweeps.png" alt="スイープ結果"  />
+</Frame>
 
 ## サンプルギャラリー
 
@@ -245,7 +249,7 @@ W&B を使って記録・可視化されたプロジェクトの例を見るこ�
 5. **Reports**: 進捗について同僚と共有するために迅速にメモを取り、ML プロジェクトのダッシュボードとスナップショットを作成します。
 
 ### 高度なセットアップ
-1. [環境変数]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): APIキーを環境変数に設定して、管理されたクラスターでトレーニングを実行できるようにします。
-2. [オフラインモード]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}})
-3. [オンプレミス]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): W&B をプライベートクラウドやエアギャップサーバーのあなたのインフラストラクチャ上にインストールします。学術的なユーザーから企業間のチームまで、みんなのためにローカルインストールを提供しています。
-4. [Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}}): モデルとデータセットを一元化された方法で追跡し、バージョン管理することで、モデルをトレーニングする際にパイプラインステップを自動的にキャプチャします。
+1. [環境変数](/ja/platform/hosting/env-vars/): APIキーを環境変数に設定して、管理されたクラスターでトレーニングを実行できるようにします。
+2. [オフラインモード](/ja/models/support/run_wandb_offline/)
+3. [オンプレミス](/ja/platform/hosting/hosting-options/self-managed): W&B をプライベートクラウドやエアギャップサーバーのあなたのインフラストラクチャ上にインストールします。学術的なユーザーから企業間のチームまで、みんなのためにローカルインストールを提供しています。
+4. [Artifacts](/ja/models/artifacts/): モデルとデータセットを一元化された方法で追跡し、バージョン管理することで、モデルをトレーニングする際にパイプラインステップを自動的にキャプチャします。

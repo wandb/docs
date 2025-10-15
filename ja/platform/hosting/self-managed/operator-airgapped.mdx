@@ -39,15 +39,15 @@ Kubernetes アプリケーションをデプロイするために使用してい
 
 もし組織がすでに内部コンテナレジストリーを使用している場合、イメージを追加することができます。そうでない場合は、次のセクションに進み、WSM と呼ばれるものを使用してコンテナリポジトリーを準備してください。
 
-オペレーターの要件を追跡し、イメージのアップグレードを確認してダウンロードすることは、[WSM を使用して]({{< relref path="#list-images-and-their-versions" lang="ja" >}}) または組織独自のプロセスを使用して行う責任があります。
+オペレーターの要件を追跡し、イメージのアップグレードを確認してダウンロードすることは、[WSM を使用して](#list-images-and-their-versions) または組織独自のプロセスを使用して行う責任があります。
 
 ### WSM のインストール
 
 WSM を次のいずれかのメソッドでインストールします。
 
-{{% alert %}}
+<Note>
 WSM は、動作する Docker インストールを必要とします。
-{{% /alert %}}
+</Note>
 
 #### Bash
 Bash スクリプトを GitHub から直接実行します:
@@ -223,7 +223,7 @@ Kubernetes オペレーターは、CR の値を使用して内部リポジトリ
 
 すべてのタグ/バージョンを内部レジストリーで利用可能なバージョンに置き換えてください。
 
-前述の設定ファイルの作成に関する詳細情報は[こちら]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#configuration-reference-for-wb-server" lang="ja" >}})にあります。
+前述の設定ファイルの作成に関する詳細情報は[こちら](/ja/platform/hosting/operator/#configuration-reference-for-wb-server)にあります。
 
 ## ステップ 7: W&B プラットフォームのデプロイ
 

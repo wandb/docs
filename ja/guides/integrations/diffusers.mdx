@@ -7,7 +7,7 @@ menu:
 weight: 120
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" icon="python"/>
 
 [Hugging Face Diffusers](https://huggingface.co/docs/diffusers) は、画像、オーディオ、さらには分子の3D構造を生成するための最先端の学習済み拡散モデルのためのライブラリです。W&B インテグレーションは、柔軟な実験管理、メディア可視化、パイプライン アーキテクチャー、および設定管理をインタラクティブで集中化されたダッシュボードに追加し、使いやすさを損ないません。
 
@@ -23,9 +23,9 @@ from wandb.integration.diffusers import autolog
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-| {{< img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged" >}} | 
-|:--:| 
-| **実験の結果がどのようにログされるかの例です。** |
+<Frame caption="実験の結果がどのようにログされるかの例です。">
+    <img src="/images/integrations/diffusers-autolog-4.gif" alt="An example of how the results of your experiment are logged"  />
+</Frame>
 
 ## 始め方
 
@@ -46,18 +46,18 @@ autolog(init=dict(project="diffusers_logging"))
 
 2. `autolog` を使用して Weights & Biases の run を初期化し、[すべてのサポートされているパイプライン呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)からの入出力を自動的に追跡します。
 
-    `init` パラメータを持つ `autolog()` 関数を呼び出すことができ、このパラメータは [`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}}) によって要求されるパラメータの辞書が受け入れられます。
+    `init` パラメータを持つ `autolog()` 関数を呼び出すことができ、このパラメータは [`wandb.init()`](/ja/models/ref/python/init) によって要求されるパラメータの辞書が受け入れられます。
 
     `autolog()` を呼び出すと、Weights & Biases の run が初期化され、[すべてのサポートされているパイプライン呼び出し](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)からの入力と出力が自動的に追跡されます。
 
-    - 各パイプライン呼び出しはその run のワークスペース内の独自の [table]({{< relref path="/guides/models/tables/" lang="ja" >}}) に追跡され、パイプライン呼び出しに関連する設定はその run のワークフローリストに追加されます。
-    - プロンプト、ネガティブプロンプト、生成されたメディアは [`wandb.Table`]({{< relref path="/guides/models/tables/" lang="ja" >}}) にログされます。
+    - 各パイプライン呼び出しはその run のワークスペース内の独自の [table](/ja/models/tables/) に追跡され、パイプライン呼び出しに関連する設定はその run のワークフローリストに追加されます。
+    - プロンプト、ネガティブプロンプト、生成されたメディアは [`wandb.Table`](/ja/models/tables/) にログされます。
     - シードやパイプライン アーキテクチャーを含む実験に関連するすべての他の設定は、その run の設定セクションに保存されます。
-    - 各パイプライン呼び出しの生成されたメディアは run の [media panels]({{< relref path="/guides/models/track/log/media" lang="ja" >}}) にもログされます。
+    - 各パイプライン呼び出しの生成されたメディアは run の [media panels](/ja/models/track/log/media/) にもログされます。
 
-    {{% alert %}}
+    <Note>
     サポートされているパイプライン呼び出しのリストは[こちら](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72)から見つけることができます。このインテグレーションの新機能をリクエストしたり、関連するバグを報告したりする場合は、[https://github.com/wandb/wandb/issues](https://github.com/wandb/wandb/issues)で問題をオープンしてください。
-    {{% /alert %}}
+    </Note>
 
 ## 例
 
@@ -65,8 +65,8 @@ autolog(init=dict(project="diffusers_logging"))
 
 ここでは、autolog の動作を示す簡単なエンドツーエンドの例を示します。
 
-{{< tabpane text=true >}}
-{{% tab header="Script" value="script" %}}
+<Tabs>
+<Tab title="Script">
 ```python
 import torch
 from diffusers import DiffusionPipeline
@@ -95,9 +95,8 @@ images = pipeline(
     generator=generator,
 )
 ```
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook"%}}
+</Tab>
+<Tab title="Notebook">
 ```python
 import torch
 from diffusers import DiffusionPipeline
@@ -131,35 +130,39 @@ images = pipeline(
 # 実験を終了
 wandb.finish()
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 - 単一の実験の結果:
 
-    {{< img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged" >}}
+    <Frame>
+    <img src="/images/integrations/diffusers-autolog-2.gif" alt="An example of how the results of your experiment are logged"  />
+    </Frame>
 
 - 複数の実験の結果:
 
-    {{< img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged" >}}
+    <Frame>
+    <img src="/images/integrations/diffusers-autolog-1.gif" alt="An example of how the results of your experiment are logged"  />
+    </Frame>
 
 - 実験の設定:
 
-    {{< img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment" >}}
+    <Frame>
+    <img src="/images/integrations/diffusers-autolog-3.gif" alt="An example of how the autolog logs the configs of your experiment"  />
+    </Frame>
 
-{{% alert %}}
-パイプラインを呼び出した後、IPython ノートブック環境でコードを実行する際には [`wandb.finish()`]({{< relref path="/ref/python/finish" lang="ja" >}})を明示的に呼び出す必要があります。Python スクリプトを実行する際は必要ありません。
-{{% /alert %}}
+<Note>
+パイプラインを呼び出した後、IPython ノートブック環境でコードを実行する際には [`wandb.finish()`](/ja/models/ref/python/finish)を明示的に呼び出す必要があります。Python スクリプトを実行する際は必要ありません。
+</Note>
 
 ### マルチパイプライン ワークフローの追跡
 
 このセクションでは、[`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) で生成された潜在変数が対応するリファイナーによって調整される、典型的な[Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model) ワークフローを使用した autolog のデモンストレーションを行います。
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/sdxl-diffusers.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/sdxl-diffusers.ipynb" icon="python"/>
 
-{{< tabpane text=true >}}
-
-{{% tab header="Python Script" value="script" %}}
-
+<Tabs>
+<Tab title="Python Script">
 ```python
 import torch
 from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
@@ -216,11 +219,8 @@ image = refiner_pipeline(
     generator=generator_refiner,
 ).images[0]
 ```
-
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Notebook">
 ```python
 import torch
 from diffusers import StableDiffusionXLImg2ImgPipeline, StableDiffusionXLPipeline
@@ -282,13 +282,13 @@ image = refiner_pipeline(
 # 実験を終了
 wandb.finish()
 ```
-
-{{% /tab %}}
-
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 - Stable Diffusion XL + Refiner の実験の例:
-    {{< img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment" >}}
+    <Frame>
+    <img src="/images/integrations/diffusers-autolog-6.gif" alt="An example of how the autolog tracks an Stable Diffusion XL + Refiner experiment"  />
+    </Frame>
 
 ## 追加リソース
 

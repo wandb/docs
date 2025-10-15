@@ -1,19 +1,14 @@
 ---
-title: Reports
+title: レポート
 menu:
   reference:
-    identifier: ko-ref-python-wandb_workspaces-reports
+    identifier: ja-ref-python-wandb_workspaces-reports
 ---
 
-{{< cta-button githubLink="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py" >}}
-
-
-
-
-
+<Card title="View the source code" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/interface.py" icon="github"/>
 
 # <kbd>module</kbd> `wandb_workspaces.reports.v2`
-W&B Reports API를 프로그래밍 방식으로 사용하기 위한 Python 라이브러리입니다.
+プログラムで W&B レポート API を操作するための Python ライブラリ。
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -40,105 +35,103 @@ report.save()
 
 ---
 
-
-
 ## <kbd>class</kbd> `BarPlot`
-2D 막대 그래프를 표시하는 패널 오브젝트입니다.
+2Dバープロットを表示するパネルオブジェクト。
 
 **Attributes:**
  
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `metrics` (LList[MetricType]): orientation Literal["v", "h"]: 막대 그래프의 방향입니다. 수직("v") 또는 수평("h")으로 설정합니다. 기본값은 수평("h")입니다.
- - `range_x` (Tuple[float | None, float | None]): x축의 범위를 지정하는 튜플입니다.
- - `title_x` (Optional[str]): x축의 레이블입니다.
- - `title_y` (Optional[str]): y축의 레이블입니다.
- - `groupby` (Optional[str]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭을 기반으로 run을 그룹화합니다.
- - `groupby_aggfunc` (Optional[GroupAgg]): 지정된 함수로 run을 집계합니다. 옵션에는 `mean`, `min`, `max`, `median`, `sum`, `samples` 또는 `None`이 있습니다.
- - `groupby_rangefunc` (Optional[GroupArea]): 범위를 기준으로 run을 그룹화합니다. 옵션에는 `minmax`, `stddev`, `stderr`, `none`, =`samples` 또는 `None`이 있습니다.
- - `max_runs_to_show` (Optional[int]): 플롯에 표시할 최대 run 수입니다.
- - `max_bars_to_show` (Optional[int]): 막대 그래프에 표시할 최대 막대 수입니다.
- - `custom_expressions` (Optional[LList[str]]): 막대 그래프에 사용할 사용자 정의 표현식 목록입니다.
- - `legend_template` (Optional[str]): 범례 템플릿입니다.
- - `font_size` ( Optional[FontSize]): 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
- - `line_titles` (Optional[dict]): 선 제목입니다. 키는 선 이름이고 값은 제목입니다.
- - `line_colors` (Optional[dict]): 선 색상입니다. 키는 선 이름이고 값은 색상입니다.
+- `title` (Optional[str]): プロットの上部に表示されるテキスト。
+- `metrics` (LList[MetricType]): orientation Literal["v", "h"]: バープロットの向き。垂直 ("v") または水平 ("h") を選択します。デフォルトは水平 ("h")。
+- `range_x` (Tuple[float | None, float | None]): x軸の範囲を指定するタプル。
+- `title_x` (Optional[str]): x軸のラベル。
+- `title_y` (Optional[str]): y軸のラベル。
+- `groupby` (Optional[str]): W&Bプロジェクトにログされたメトリクスに基づいて run をグループ化します。このレポートは情報を取得します。
+- `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには `mean`, `min`, `max`, `median`, `sum`, `samples`, または `None` が含まれます。
+- `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには `minmax`, `stddev`, `stderr`, `none`, `samples`, または `None` が含まれます。
+- `max_runs_to_show` (Optional[int]): プロットに表示する最大 run 数。
+- `max_bars_to_show` (Optional[int]): バープロットに表示する最大バー数。
+- `custom_expressions` (Optional[LList[str]]): バープロットで使用されるカスタム式のリスト。
+- `legend_template` (Optional[str]): 凡例のテンプレート。
+- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
+- `line_titles` (Optional[dict]): ラインのタイトル。キーがライン名で、値がタイトルです。
+- `line_colors` (Optional[dict]): ラインの色。キーがライン名で、値が色です。
 
 ---
 
 ## <kbd>class</kbd> `BlockQuote`
-인용된 텍스트 블록입니다.
+引用されたテキストのブロック。
 
 **Attributes:**
- 
- - `text` (str): 인용 블록의 텍스트입니다.
+
+- `text` (str): 引用ブロックのテキスト。
 
 ---
 
 ## <kbd>class</kbd> `CalloutBlock`
-콜아웃 텍스트 블록입니다.
+強調されたテキストのブロック。
 
 **Attributes:**
- 
- - `text` (str): 콜아웃 텍스트입니다.
+
+- `text` (str): 強調テキスト。
 
 ---
 
 ## <kbd>class</kbd> `CheckedList`
-확인란이 있는 항목 목록입니다. `CheckedList` 내에 하나 이상의 `CheckedListItem`을 추가합니다.
+チェックボックス付きの項目リスト。`CheckedListItem` を `CheckedList` 内に1つ以上追加します。
 
 **Attributes:**
- 
- - `items` (LList[CheckedListItem]): 하나 이상의 `CheckedListItem` 오브젝트 목록입니다.
+
+- `items` (LList[CheckedListItem]): `CheckedListItem` オブジェクトのリスト。
 
 ---
 
 ## <kbd>class</kbd> `CheckedListItem`
-확인란이 있는 목록 항목입니다. `CheckedList` 내에 하나 이상의 `CheckedListItem`을 추가합니다.
+チェックボックス付きのリストアイテム。`CheckedList` 内に1つ以上の `CheckedListItem` を追加します。
 
 **Attributes:**
- 
- - `text` (str): 목록 항목의 텍스트입니다.
- - `checked` (bool): 확인란이 선택되었는지 여부입니다. 기본적으로 `False`로 설정됩니다.
+
+- `text` (str): リストアイテムのテキスト。
+- `checked` (bool): チェックボックスがチェックされているかどうか。デフォルトは `False`。
 
 ---
 
 ## <kbd>class</kbd> `CodeBlock`
-코드 블록입니다.
+コードのブロック。
 
 **Attributes:**
- 
- - `code` (str): 블록의 코드입니다.
- - `language` (Optional[Language]): 코드의 언어입니다. 지정된 언어는 구문 강조 표시에 사용됩니다. 기본적으로 `python`으로 설정됩니다. 옵션에는 `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml`이 있습니다.
+
+- `code` (str): ブロック内のコード。
+- `language` (Optional[Language]): コードの言語。指定された言語は構文強調表示に使われます。デフォルトは `python`。オプションには `javascript`, `python`, `css`, `json`, `html`, `markdown`, `yaml` が含まれます。
 
 ---
 
 ## <kbd>class</kbd> `CodeComparer`
-두 개의 다른 run 간의 코드를 비교하는 패널 오브젝트입니다.
+異なる2つの run 間のコードを比較するパネルオブジェクト。
 
 **Attributes:**
- 
- - `diff` `(Literal['split', 'unified'])`: 코드 차이점을 표시하는 방법입니다. 옵션에는 `split` 및 `unified`가 있습니다.
+
+- `diff` (Literal['split', 'unified']): コードの差異を表示する方法。オプションには `split` と `unified` が含まれます。
 
 ---
 
 ## <kbd>class</kbd> `Config`
-run의 config 오브젝트에 기록된 메트릭입니다. Config 오브젝트는 일반적으로 `run.config[name] = ...`을 사용하거나 키-값 쌍의 사전으로 config를 전달하여 기록됩니다. 여기서 키는 메트릭 이름이고 값은 해당 메트릭 값입니다.
+run の設定オブジェクトにログされたメトリクス。設定オブジェクトは通常、`run.config[name] = ...` を使用するか、キーと値のペアを持つ設定として渡されてログされます。ここでキーがメトリクスの名前、値がメトリクスの値です。
 
 **Attributes:**
- 
- - `name` (str): 메트릭 이름입니다.
+
+- `name` (str): メトリクスの名前。
 
 ---
 
 ## <kbd>class</kbd> `CustomChart`
-사용자 정의 차트를 표시하는 패널입니다. 차트는 Weave 쿼리로 정의됩니다.
+カスタムチャートを表示するパネル。チャートは Weave クエリによって定義されます。
 
 **Attributes:**
- 
- - `query` (dict): 사용자 정의 차트를 정의하는 쿼리입니다. 키는 필드 이름이고 값은 쿼리입니다.
- - `chart_name` (str): 사용자 정의 차트 제목입니다.
- - `chart_fields` (dict): 플롯의 축을 정의하는 키-값 쌍입니다. 여기서 키는 레이블이고 값은 메트릭입니다.
- - `chart_strings` (dict): 차트의 문자열을 정의하는 키-값 쌍입니다.
+
+- `query` (dict): カスタムチャートを定義するクエリ。キーがフィールドの名前で、値がクエリです。
+- `chart_name` (str): カスタムチャートのタイトル。
+- `chart_fields` (dict): プロットの軸を定義するキーと値のペア。ここでキーはラベル、値はメトリクスです。
+- `chart_strings` (dict): チャート内の文字列を定義するキーと値のペア。
 
 ---
 
@@ -152,83 +145,83 @@ from_table(
 )
 ```
 
-테이블에서 사용자 정의 차트를 만듭니다.
+テーブルからカスタムチャートを作成します。
 
 **Arguments:**
- 
- - `table_name` (str): 테이블 이름입니다.
- - `chart_fields` (dict): 차트에 표시할 필드입니다.
- - `chart_strings` (dict): 차트에 표시할 문자열입니다.
+
+- `table_name` (str): テーブルの名前。
+- `chart_fields` (dict): チャートに表示するフィールド。
+- `chart_strings` (dict): チャートに表示する文字列。
 
 ---
 
 ## <kbd>class</kbd> `Gallery`
-Reports 및 URL 갤러리를 렌더링하는 블록입니다.
+レポートと URL のギャラリーをレンダリングするブロック。
 
 **Attributes:**
- 
- - `items` (List[Union[`GalleryReport`, `GalleryURL`]]): `GalleryReport` 및 `GalleryURL` 오브젝트 목록입니다.
+
+- `items` (List[Union[`GalleryReport`, `GalleryURL`]]): `GalleryReport` と `GalleryURL` オブジェクトのリスト。
 
 ---
 
 ## <kbd>class</kbd> `GalleryReport`
-갤러리의 리포트에 대한 참조입니다.
+ギャラリー内のレポートへの参照。
 
 **Attributes:**
- 
- - `report_id` (str): 리포트 ID입니다.
+
+- `report_id` (str): レポートの ID。
 
 ---
 
 ## <kbd>class</kbd> `GalleryURL`
-외부 리소스에 대한 URL입니다.
+外部リソースへの URL。
 
 **Attributes:**
- 
- - `url` (str): 리소스의 URL입니다.
- - `title` (Optional[str]): 리소스 제목입니다.
- - `description` (Optional[str]): 리소스 설명입니다.
- - `image_url` (Optional[str]): 표시할 이미지 URL입니다.
+
+- `url` (str): リソースの URL。
+- `title` (Optional[str]): リソースのタイトル。
+- `description` (Optional[str]): リソースの説明。
+- `image_url` (Optional[str]): 表示する画像の URL。
 
 ---
 
 ## <kbd>class</kbd> `GradientPoint`
-그레이디언트의 점입니다.
+勾配内の点。
 
 **Attributes:**
- 
- - `color`: 점의 색상입니다.
- - `offset`: 그레이디언트에서 점의 위치입니다. 값은 0에서 100 사이여야 합니다.
+
+- `color`: 点の色。
+- `offset`: 勾配内の点の位置。値は 0 から 100 の範囲であるべきです。
 
 ---
 
 ## <kbd>class</kbd> `H1`
-지정된 텍스트가 있는 H1 제목입니다.
+指定されたテキストを持つ H1 ヘッディング。
 
 **Attributes:**
- 
- - `text` (str): 제목의 텍스트입니다.
- - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 제목이 축소될 때 표시할 블록입니다.
+
+- `text` (str): ヘッディングのテキスト。
+- `collapsed_blocks` (Optional[LList["BlockTypes"]]): ヘッディングを折りたたんだときに表示されるブロック。
 
 ---
 
 ## <kbd>class</kbd> `H2`
-지정된 텍스트가 있는 H2 제목입니다.
+指定されたテキストを持つ H2 ヘッディング。
 
 **Attributes:**
- 
- - `text` (str): 제목의 텍스트입니다.
- - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 제목이 축소될 때 표시할 하나 이상의 블록입니다.
+
+- `text` (str): ヘッディングのテキスト。
+- `collapsed_blocks` (Optional[LList["BlockTypes"]]): ヘッディングを折りたたんだときに表示される1つ以上のブロック。
 
 ---
 
 ## <kbd>class</kbd> `H3`
-지정된 텍스트가 있는 H3 제목입니다.
+指定されたテキストを持つ H3 ヘッディング。
 
 **Attributes:**
- 
- - `text` (str): 제목의 텍스트입니다.
- - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 제목이 축소될 때 표시할 하나 이상의 블록입니다.
+
+- `text` (str): ヘッディングのテキスト。
+- `collapsed_blocks` (Optional[LList["BlockTypes"]]): ヘッディングを折りたたんだときに表示される1つ以上のブロック。
 
 ---
 
@@ -237,249 +230,251 @@ Reports 및 URL 갤러리를 렌더링하는 블록입니다.
 ---
 
 ## <kbd>class</kbd> `HorizontalRule`
-HTML 수평선입니다.
+HTML の水平ライン。
 
 ---
 
 ## <kbd>class</kbd> `Image`
-이미지를 렌더링하는 블록입니다.
+画像をレンダリングするブロック。
 
 **Attributes:**
- 
- - `url` (str): 이미지 URL입니다.
- - `caption` (str): 이미지 캡션입니다. 캡션은 이미지 아래에 나타납니다.
+
+- `url` (str): 画像の URL。
+- `caption` (str): 画像のキャプション。キャプションは画像の下に表示されます。
 
 ---
 
 ## <kbd>class</kbd> `InlineCode`
-인라인 코드입니다. 코드 뒤에 줄 바꿈 문자를 추가하지 않습니다.
+インラインコード。コードの後に改行文字を加えません。
 
 **Attributes:**
- 
- - `text` (str): 리포트에 표시할 코드입니다.
+
+- `text` (str): レポートに表示したいコード。
 
 ---
 
 ## <kbd>class</kbd> `InlineLatex`
-인라인 LaTeX 마크다운입니다. LaTeX 마크다운 뒤에 줄 바꿈 문자를 추가하지 않습니다.
+インライン LaTeX マークダウン。LaTeX マークダウンの後に改行文字を加えません。
 
 **Attributes:**
- 
- - `text` (str): 리포트에 표시할 LaTeX 마크다운입니다.
+
+- `text` (str): レポートに表示したい LaTeX マークダウン。
 
 ---
 
 ## <kbd>class</kbd> `LatexBlock`
-LaTeX 텍스트 블록입니다.
+LaTeX テキストのブロック。
 
 **Attributes:**
- 
- - `text` (str): LaTeX 텍스트입니다.
+
+- `text` (str): LaTeX テキスト。
 
 ---
 
 ## <kbd>class</kbd> `Layout`
-리포트의 패널 레이아웃입니다. 패널의 크기와 위치를 조정합니다.
+レポート内のパネルのレイアウト。パネルのサイズと位置を調整します。
 
 **Attributes:**
- 
- - `x` (int): 패널의 x 위치입니다.
- - `y` (int): 패널의 y 위치입니다.
- - `w` (int): 패널의 너비입니다.
- - `h` (int): 패널의 높이입니다.
+
+- `x` (int): パネルの x 位置。
+- `y` (int): パネルの y 位置。
+- `w` (int): パネルの幅。
+- `h` (int): パネルの高さ。
 
 ---
 
 ## <kbd>class</kbd> `LinePlot`
-2D 선 플롯이 있는 패널 오브젝트입니다.
+2D ラインプロットを持つパネルオブジェクト。
 
 **Attributes:**
- 
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `x` (Optional[MetricType]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다. 지정된 메트릭은 x축에 사용됩니다.
- - `y` (LList[MetricType]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 하나 이상의 메트릭입니다. 지정된 메트릭은 y축에 사용됩니다.
- - `range_x` (Tuple[float | `None`, float | `None`]): x축의 범위를 지정하는 튜플입니다.
- - `range_y` (Tuple[float | `None`, float | `None`]): y축의 범위를 지정하는 튜플입니다.
- - `log_x` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 x좌표를 플로팅합니다.
- - `log_y` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 y좌표를 플로팅합니다.
- - `title_x` (Optional[str]): x축 레이블입니다.
- - `title_y` (Optional[str]): y축 레이블입니다.
- - `ignore_outliers` (Optional[bool]): `True`로 설정되면 이상값을 플로팅하지 않습니다.
- - `groupby` (Optional[str]): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭을 기반으로 run을 그룹화합니다.
- - `groupby_aggfunc` (Optional[GroupAgg]): 지정된 함수로 run을 집계합니다. 옵션에는 `mean`, `min`, `max`, `median`, `sum`, `samples` 또는 `None`이 있습니다.
- - `groupby_rangefunc` (Optional[GroupArea]): 범위를 기준으로 run을 그룹화합니다. 옵션에는 `minmax`, `stddev`, `stderr`, `none`, `samples` 또는 `None`이 있습니다.
- - `smoothing_factor` (Optional[float]): 스무딩 유형에 적용할 스무딩 계수입니다. 허용되는 값의 범위는 0에서 1 사이입니다.
- - `smoothing_type Optional[SmoothingType]`: 지정된 분포를 기반으로 필터를 적용합니다. 옵션에는 `exponentialTimeWeighted`, `exponential`, `gaussian`, `average` 또는 `none`이 있습니다.
- - `smoothing_show_original` (Optional[bool]): `True`로 설정되면 원본 데이터를 표시합니다.
- - `max_runs_to_show` (Optional[int]): 선 플롯에 표시할 최대 run 수입니다.
- - `custom_expressions` (Optional[LList[str]]): 데이터에 적용할 사용자 정의 표현식입니다.
- - `plot_type Optional[LinePlotStyle]`: 생성할 선 플롯 유형입니다. 옵션에는 `line`, `stacked-area` 또는 `pct-area`가 있습니다.
- - `font_size Optional[FontSize]`: 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
- - `legend_position Optional[LegendPosition]`: 범례를 배치할 위치입니다. 옵션에는 `north`, `south`, `east`, `west` 또는 `None`이 있습니다.
- - `legend_template` (Optional[str]): 범례 템플릿입니다.
- - `aggregate` (Optional[bool]): `True`로 설정되면 데이터를 집계합니다.
- - `xaxis_expression` (Optional[str]): x축 표현식입니다.
- - `legend_fields` (Optional[LList[str]]): 범례에 포함할 필드입니다.
+
+- `title` (Optional[str]): プロットの上部に表示されるテキスト。
+- `x` (Optional[MetricType]): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。指定されたメトリクスは x 軸に使用されます。
+- `y` (LList[MetricType]): W&B プロジェクトにログされた1つ以上のメトリクス。このレポートは情報を取得します。指定されたメトリクスは y 軸に使用されます。
+- `range_x` (Tuple[float | None, float | None]): x軸の範囲を指定するタプル。
+- `range_y` (Tuple[float | None, float | None]): y軸の範囲を指定するタプル。
+- `log_x` (Optional[bool]): x 座標を底 10 の対数スケールでプロットします。
+- `log_y` (Optional[bool]): y 座標を底 10 の対数スケールでプロットします。
+- `title_x` (Optional[str]): x軸のラベル。
+- `title_y` (Optional[str]): y軸のラベル。
+- `ignore_outliers` (Optional[bool]): `True` に設定すると、外れ値をプロットしません。
+- `groupby` (Optional[str]): W&B プロジェクトにログされたメトリクスに基づいて run をグループ化します。このレポートは情報を取得します。
+- `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには `mean`, `min`, `max`, `median`, `sum`, `samples`, または `None` が含まれます。
+- `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには `minmax`, `stddev`, `stderr`, `none`, `samples`, または `None` が含まれます。
+- `smoothing_factor` (Optional[float]): 平滑化タイプに適用する平滑化係数。許容する値は 0 から 1 の範囲です。
+- `smoothing_type` (Optional[SmoothingType]): 指定された分布に基づいてフィルターを適用します。オプションには `exponentialTimeWeighted`, `exponential`, `gaussian`, `average`, または `none` が含まれます。
+- `smoothing_show_original` (Optional[bool]): `True` に設定すると、元のデータを表示します。
+- `max_runs_to_show` (Optional[int]): ラインプロットに表示する最大 run 数。
+- `custom_expressions` (Optional[LList[str]]): データに適用するカスタム式。
+- `plot_type` (Optional[LinePlotStyle]): 生成するラインプロットのタイプ。オプションには `line`, `stacked-area`, または `pct-area` が含まれます。
+- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
+- `legend_position` (Optional[LegendPosition]): 凡例を配置する場所。オプションには `north`, `south`, `east`, `west`, または `None` が含まれます。
+- `legend_template` (Optional[str]): 凡例のテンプレート。
+- `aggregate` (Optional[bool]): `True` に設定すると、データを集計します。
+- `xaxis_expression` (Optional[str]): x軸の表現。
+- `legend_fields` (Optional[LList[str]]): 凡例に含めるフィールド。
 
 ---
 
 ## <kbd>class</kbd> `Link`
-URL에 대한 링크입니다.
+URL へのリンク。
 
 **Attributes:**
- 
- - `text` (Union[str, TextWithInlineComments]): 링크 텍스트입니다.
- - `url` (str): 링크가 가리키는 URL입니다.
+
+- `text` (Union[str, TextWithInlineComments]): リンクのテキスト。
+- `url` (str): リンクが指す URL。
 
 ---
 
 ## <kbd>class</kbd> `MarkdownBlock`
-마크다운 텍스트 블록입니다. 일반적인 마크다운 구문을 사용하는 텍스트를 작성하려는 경우에 유용합니다.
+マークダウンテキストのブロック。一般的なマークダウンサクジを使用してテキストを書くのに便利です。
 
 **Attributes:**
- 
- - `text` (str): 마크다운 텍스트입니다.
+
+- `text` (str): マークダウンテキスト。
 
 ---
 
 ## <kbd>class</kbd> `MarkdownPanel`
-마크다운을 렌더링하는 패널입니다.
+マークダウンをレンダリングするパネル。
 
 **Attributes:**
- 
- - `markdown` (str): 마크다운 패널에 표시할 텍스트입니다.
+
+- `markdown` (str): マークダウンパネルに表示したいテキスト。
 
 ---
 
 ## <kbd>class</kbd> `MediaBrowser`
-미디어 파일을 그리드 레이아웃으로 표시하는 패널입니다.
+メディアファイルをグリッドレイアウトで表示するパネル。
 
 **Attributes:**
- 
- - `num_columns` (Optional[int]): 그리드의 열 수입니다.
- - `media_keys` (LList[str]): 미디어 파일에 해당하는 미디어 키 목록입니다.
+
+- `num_columns` (Optional[int]): グリッドの列数。
+- `media_keys` (LList[str]): メディアファイルに対応するメディアキーのリスト。
 
 ---
 
 ## <kbd>class</kbd> `Metric`
-프로젝트에 기록된 리포트에 표시할 메트릭입니다.
+プロジェクトにログされたメトリクスをレポートに表示する。
 
 **Attributes:**
- 
- - `name` (str): 메트릭 이름입니다.
+
+- `name` (str): メトリクスの名前。
 
 ---
 
 ## <kbd>class</kbd> `OrderBy`
-정렬할 메트릭입니다.
+並び替えに使用するメトリクス。
 
 **Attributes:**
- 
- - `name` (str): 메트릭 이름입니다.
- - `ascending` (bool): 오름차순으로 정렬할지 여부입니다. 기본적으로 `False`로 설정됩니다.
+
+- `name` (str): メトリクスの名前。
+- `ascending` (bool): 昇順にソートするかどうか。デフォルトは `False` に設定されています。
 
 ---
 
 ## <kbd>class</kbd> `OrderedList`
-번호 매겨진 목록의 항목 목록입니다.
+番号付きリストの項目リスト。
 
 **Attributes:**
- 
- - `items` (LList[str]): 하나 이상의 `OrderedListItem` 오브젝트 목록입니다.
+
+- `items` (LList[str]): `OrderedListItem` オブジェクトのリスト。
 
 ---
 
 ## <kbd>class</kbd> `OrderedListItem`
-순서가 지정된 목록의 목록 항목입니다.
+順序付きリストの項目。
 
 **Attributes:**
- 
- - `text` (str): 목록 항목의 텍스트입니다.
+
+- `text` (str): リストアイテムのテキスト。
 
 ---
 
 ## <kbd>class</kbd> `P`
-텍스트 단락입니다.
+テキストの段落。
 
 **Attributes:**
- 
- - `text` (str): 단락 텍스트입니다.
+
+- `text` (str): 段落のテキスト。
 
 ---
 
 ## <kbd>class</kbd> `Panel`
-패널 그리드에 시각화를 표시하는 패널입니다.
+パネルグリッドで可視化を表示するパネル。
 
 **Attributes:**
- 
- - `layout` (Layout): `Layout` 오브젝트입니다.
+
+- `layout` (Layout): `Layout` オブジェクト。
 
 ---
 
 ## <kbd>class</kbd> `PanelGrid`
-runset 및 패널로 구성된 그리드입니다. `Runset` 및 `Panel` 오브젝트를 사용하여 각각 runset 및 패널을 추가합니다.
+runset とパネルで構成されるグリッド。runset とパネルはそれぞれ `Runset` と `Panel` オブジェクトで追加します。
 
-사용 가능한 패널은 다음과 같습니다. `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`.
+**利用可能なパネル:**
+
+- `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`
 
 **Attributes:**
- 
- - `runsets` (LList["Runset"]): 하나 이상의 `Runset` 오브젝트 목록입니다.
- - `panels` (LList["PanelTypes"]): 하나 이상의 `Panel` 오브젝트 목록입니다.
- - `active_runset` (int): runset 내에 표시할 run 수입니다. 기본적으로 0으로 설정됩니다.
- - `custom_run_colors` (dict): 키가 run 이름이고 값이 16진수 값으로 지정된 색상인 키-값 쌍입니다.
+
+- `runsets` (LList["Runset"]): `Runset` オブジェクトのリスト。
+- `panels` (LList["PanelTypes"]): `Panel` オブジェクトのリスト。
+- `active_runset` (int): runset 内で表示したい run の数。デフォルトは 0 に設定されています。
+- `custom_run_colors` (dict): run の名前をキーに指定し、16進値の色を値として指定するキーと値のペア。
 
 ---
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
-평행 좌표 플롯을 표시하는 패널 오브젝트입니다.
+並列座標プロットを表示するパネルオブジェクト。
 
 **Attributes:**
- 
- - `columns` (LList[ParallelCoordinatesPlotColumn]): 하나 이상의 `ParallelCoordinatesPlotColumn` 오브젝트 목록입니다.
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `gradient` (Optional[LList[GradientPoint]]): 그레이디언트 점 목록입니다.
- - `font_size` (Optional[FontSize]): 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
+
+- `columns` (LList[ParallelCoordinatesPlotColumn]): `ParallelCoordinatesPlotColumn` オブジェクトのリスト。
+- `title` (Optional[str]): プロットの上部に表示されるテキスト。
+- `gradient` (Optional[LList[GradientPoint]]): 勾配ポイントのリスト。
+- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
 
 ---
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
-평행 좌표 플롯 내의 열입니다. 지정된 `metric` 순서에 따라 평행 좌표 플롯에서 평행축(x축)의 순서가 결정됩니다.
+並列座標プロット内の列。指定された `metric` の順序が並列軸 (x軸) の順序を決定します。
 
 **Attributes:**
- 
- - `metric` (str | Config | SummaryMetric): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다.
- - `display_name` (Optional[str]): 메트릭 이름입니다.
- - `inverted` (Optional[bool]): 메트릭을 반전할지 여부입니다.
- - `log` (Optional[bool]): 메트릭에 로그 변환을 적용할지 여부입니다.
+
+- `metric` (str | Config | SummaryMetric): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。
+- `display_name` (Optional[str]): メトリクスの表示名。
+- `inverted` (Optional[bool]): メトリクスを反転するかどうか。
+- `log` (Optional[bool]): メトリクスに対数変換を適用するかどうか。
 
 ---
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
-선택한 메트릭을 예측하는 데 각 하이퍼파라미터가 얼마나 중요한지 보여주는 패널입니다.
+各ハイパーパラメーターが選択されたメトリクスの予測にどれほど重要かを示すパネル。
 
 **Attributes:**
- 
- - `with_respect_to` (str): 파라미터 중요도를 비교할 메트릭입니다. 일반적인 메트릭에는 손실, 정확도 등이 있습니다. 지정하는 메트릭은 리포트가 정보를 가져오는 프로젝트 내에 기록되어야 합니다.
+
+- `with_respect_to` (str): パラメータの重要度を比較したいメトリクス。一般的なメトリクスにはロス、精度などが含まれます。指定されたメトリクスはプロジェクト内でログされる必要があります。このレポートは情報を取得します。
 
 ---
 
 ## <kbd>class</kbd> `Report`
-W&B Report를 나타내는 오브젝트입니다. 리포트를 사용자 정의하려면 반환된 오브젝트의 `blocks` 속성을 사용하세요. Report 오브젝트는 자동으로 저장되지 않습니다. 변경 사항을 유지하려면 `save()` 메소드를 사용하세요.
+W&B レポートを表すオブジェクト。返されたオブジェクトの `blocks` 属性を使用してレポートをカスタマイズします。レポートオブジェクトは自動的に保存されません。`save()` メソッドを使用して変更を保存してください。
 
 **Attributes:**
- 
- - `project` (str): 로드할 W&B 프로젝트 이름입니다. 지정된 프로젝트는 리포트 URL에 나타납니다.
- - `entity` (str): 리포트를 소유한 W&B entity입니다. entity는 리포트 URL에 나타납니다.
- - `title` (str): 리포트 제목입니다. 제목은 리포트 상단에 H1 제목으로 나타납니다.
- - `description` (str): 리포트 설명입니다. 설명은 리포트 제목 아래에 나타납니다.
- - `blocks` (LList[BlockTypes]): 하나 이상의 HTML 태그, 플롯, 그리드, runset 등의 목록입니다.
- - `width` (Literal['readable', 'fixed', 'fluid']): 리포트 너비입니다. 옵션에는 'readable', 'fixed', 'fluid'가 있습니다.
+
+- `project` (str): 読み込む W&B プロジェクトの名前。指定されたプロジェクトはレポートの URL に表示されます。
+- `entity` (str): レポートを所有する W&B エンティティ。エンティティはレポートの URL に表示されます。
+- `title` (str): レポートのタイトル。タイトルはレポートのトップに H1 ヘッディングとして表示されます。
+- `description` (str): レポートの説明。説明はレポートのタイトルの下に表示されます。
+- `blocks` (LList[BlockTypes]): HTML タグ、プロット、グリッド、runset などのリスト。
+- `width` (Literal['readable', 'fixed', 'fluid']): レポートの幅。オプションには 'readable', 'fixed', 'fluid' が含まれます。
 
 ---
 
 #### <kbd>property</kbd> url
 
-리포트가 호스팅되는 URL입니다. 리포트 URL은 `https://wandb.ai/{entity}/{project_name}/reports/`로 구성됩니다. 여기서 `{entity}` 및 `{project_name}`은 리포트가 속한 entity와 프로젝트 이름으로 구성됩니다.
+レポートがホストされている URL。レポート URL は `https://wandb.ai/{entity}/{project_name}/reports/` で構成されます。ここで `{entity}` と `{project_name}` はそれぞれレポートが所属するエンティティとプロジェクトの名前です。
 
 ---
 
@@ -489,12 +484,12 @@ W&B Report를 나타내는 오브젝트입니다. 리포트를 사용자 정의�
 from_url(url: str, as_model: bool = False)
 ```
 
-리포트를 현재 환경으로 로드합니다. 리포트가 호스팅되는 URL을 전달합니다.
+現在の環境にレポートを読み込みます。レポートがホストされている URL を渡します。
 
 **Arguments:**
- 
- - `url` (str): 리포트가 호스팅되는 URL입니다.
- - `as_model` (bool): True이면 Report 오브젝트 대신 model 오브젝트를 반환합니다. 기본적으로 `False`로 설정됩니다.
+
+- `url` (str): レポートがホストされている URL。
+- `as_model` (bool): `True` に設定すると、レポートオブジェクトの代わりにモデルオブジェクトが返されます。デフォルトは `False` に設定されています。
 
 ---
 
@@ -504,7 +499,7 @@ from_url(url: str, as_model: bool = False)
 save(draft: bool = False, clone: bool = False)
 ```
 
-리포트 오브젝트에 대한 변경 사항을 유지합니다.
+レポートオブジェクトに加えた変更を保存します。
 
 ---
 
@@ -514,275 +509,270 @@ save(draft: bool = False, clone: bool = False)
 to_html(height: int = 1024, hidden: bool = False) → str
 ```
 
-이 리포트를 표시하는 iframe이 포함된 HTML을 생성합니다. 일반적으로 Python 노트북 내에서 사용됩니다.
+このレポートを表示する iframe を含む HTML を生成します。通常、Python ノートブック内で使用されます。
 
 **Arguments:**
- 
- - `height` (int): iframe 높이입니다.
- - `hidden` (bool): True이면 iframe을 숨깁니다. 기본적으로 `False`로 설정됩니다.
+
+- `height` (int): iframe の高さ。
+- `hidden` (bool): `True` に設定すると、iframe を非表示にします。デフォルトは `False` に設定されています。
 
 ---
 
 ## <kbd>class</kbd> `RunComparer`
-리포트가 정보를 가져오는 프로젝트의 서로 다른 run에서 메트릭을 비교하는 패널입니다.
+プロジェクトから引き出された情報で、異なる run 間のメトリクスを比較するパネル。
 
 **Attributes:**
- 
- - `diff_only` `(Optional[Literal["split", True]])`: 프로젝트의 run 간 차이만 표시합니다. W&B Report UI에서 이 기능을 켜고 끌 수 있습니다.
+
+- `diff_only` (Optional[Literal["split", True]]): プロジェクト内の run 間の差異のみを表示します。W&B レポート UI ではこの機能のオン/オフを切り替えることができます。
 
 ---
 
 ## <kbd>class</kbd> `Runset`
-패널 그리드에 표시할 run 집합입니다.
+パネルグリッドに表示する run のセット。
 
 **Attributes:**
- 
- - `entity` (str): run이 저장된 프로젝트를 소유하거나 올바른 권한을 가진 entity입니다.
- - `project` (str): run이 저장된 프로젝트 이름입니다.
- - `name` (str): run set 이름입니다. 기본적으로 `Run set`으로 설정됩니다.
- - `query` (str): run을 필터링하는 쿼리 문자열입니다.
- - `filters` (Optional[str]): run을 필터링하는 필터 문자열입니다.
- - `groupby` (LList[str]): 그룹화할 메트릭 이름 목록입니다.
- - `order` (LList[OrderBy]): 정렬할 `OrderBy` 오브젝트 목록입니다.
- - `custom_run_colors` (LList[OrderBy]): run ID를 색상에 매핑하는 사전입니다.
+
+- `entity` (str): run が保存されているプロジェクトを所有したり、正しい権限を持つエンティティ。
+- `project` (str): run が保存されているプロジェクトの名前。
+- `name` (str): run セットの名前。デフォルトで `Run set` に設定されています。
+- `query` (str): run をフィルタリングするためのクエリ文字列。
+- `filters` (Optional[str]): run をフィルタリングするためのフィルタ文字列。
+- `groupby` (LList[str]): グループ化するメトリクス名のリスト。
+- `order` (LList[OrderBy]): ソートするための `OrderBy` オブジェクトのリスト。
+- `custom_run_colors` (LList[OrderBy]): run ID を色にマッピングする辞書。
 
 ---
 
 ## <kbd>class</kbd> `RunsetGroup`
-runset 그룹을 표시하는 UI 요소입니다.
+runset のグループを表示する UI エレメント。
 
 **Attributes:**
- 
- - `runset_name` (str): runset 이름입니다.
- - `keys` (Tuple[RunsetGroupKey, ...]): 그룹화할 키입니다. 그룹화할 하나 이상의 `RunsetGroupKey` 오브젝트를 전달합니다.
+
+- `runset_name` (str): runset の名前。
+- `keys` (Tuple[RunsetGroupKey, ...]): グループ化するためのキー。グループ化するために1つ以上の `RunsetGroupKey` オブジェクトを渡します。
 
 ---
 
 ## <kbd>class</kbd> `RunsetGroupKey`
-메트릭 유형 및 값으로 runset을 그룹화합니다. `RunsetGroup`의 일부입니다. 그룹화할 메트릭 유형 및 값을 키-값 쌍으로 지정합니다.
+メトリクスタイプと値によって runset をグループ化します。`RunsetGroup` の一部として動作します。メトリクスタイプとグループ化する値をキーと値のペアとして指定します。
 
 **Attributes:**
- 
- - `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): 그룹화할 메트릭 유형입니다.
- - `value` (str): 그룹화할 메트릭 값입니다.
+
+- `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): グループ化するメトリクスタイプ。
+- `value` (str): グループ化するメトリクスの値。
 
 ---
 
 ## <kbd>class</kbd> `ScalarChart`
-스칼라 차트를 표시하는 패널 오브젝트입니다.
+スカラーグラフを表示するパネルオブジェクト。
 
 **Attributes:**
- 
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `metric` (MetricType): 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다.
- - `groupby_aggfunc` (Optional[GroupAgg]): 지정된 함수로 run을 집계합니다. 옵션에는 `mean`, `min`, `max`, `median`, `sum`, `samples` 또는 `None`이 있습니다.
- - `groupby_rangefunc` (Optional[GroupArea]): 범위를 기준으로 run을 그룹화합니다. 옵션에는 `minmax`, `stddev`, `stderr`, `none`, `samples` 또는 `None`이 있습니다.
- - `custom_expressions` (Optional[LList[str]]): 스칼라 차트에 사용할 사용자 정의 표현식 목록입니다.
- - `legend_template` (Optional[str]): 범례 템플릿입니다.
- - `font_size Optional[FontSize]`: 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
+
+- `title` (Optional[str]): プロットの上部に表示されるテキスト。
+- `metric` (MetricType): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。
+- `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには `mean`, `min`, `max`, `median`, `sum`, `samples`, または `None` が含まれます。
+- `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには `minmax`, `stddev`, `stderr`, `none`, `samples`, または `None` が含まれます。
+- `custom_expressions` (Optional[LList[str]]): スカラーチャートで使用されるカスタム式のリスト。
+- `legend_template` (Optional[str]): 凡例のテンプレート。
+- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
 
 ---
 
 ## <kbd>class</kbd> `ScatterPlot`
-2D 또는 3D 산점도를 표시하는 패널 오브젝트입니다.
+2D または 3D 散布図を表示するパネルオブジェクト。
 
 **Arguments:**
- 
- - `title` (Optional[str]): 플롯 상단에 표시되는 텍스트입니다.
- - `x Optional[SummaryOrConfigOnlyMetric]`: 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 메트릭 이름입니다. 지정된 메트릭은 x축에 사용됩니다.
- - `y Optional[SummaryOrConfigOnlyMetric]`: 리포트가 정보를 가져오는 W&B 프로젝트에 기록된 하나 이상의 메트릭입니다. 지정된 메트릭은 y축 내에 플로팅됩니다. z Optional[SummaryOrConfigOnlyMetric]:
- - `range_x` (Tuple[float | `None`, float | `None`]): x축의 범위를 지정하는 튜플입니다.
- - `range_y` (Tuple[float | `None`, float | `None`]): y축의 범위를 지정하는 튜플입니다.
- - `range_z` (Tuple[float | `None`, float | `None`]): z축의 범위를 지정하는 튜플입니다.
- - `log_x` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 x좌표를 플로팅합니다.
- - `log_y` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 y좌표를 플로팅합니다.
- - `log_z` (Optional[bool]): 밑이 10인 로그 스케일을 사용하여 z좌표를 플로팅합니다.
- - `running_ymin` (Optional[bool]): 이동 평균 또는 롤링 평균을 적용합니다.
- - `running_ymax` (Optional[bool]): 이동 평균 또는 롤링 평균을 적용합니다.
- - `running_ymean` (Optional[bool]): 이동 평균 또는 롤링 평균을 적용합니다.
- - `legend_template` (Optional[str]): 범례 형식을 지정하는 문자열입니다.
- - `gradient` (Optional[LList[GradientPoint]]): 플롯의 색상 그레이디언트를 지정하는 그레이디언트 점 목록입니다.
- - `font_size` (Optional[FontSize]): 선 플롯 글꼴 크기입니다. 옵션에는 `small`, `medium`, `large`, `auto` 또는 `None`이 있습니다.
- - `regression` (Optional[bool]): `True`이면 산점도에 회귀선이 플로팅됩니다.
+
+- `title` (Optional[str]): プロットの上部に表示されるテキスト。
+- `x` (Optional[SummaryOrConfigOnlyMetric]): W&B プロジェクトにログされたメトリクスの名前。このレポートは情報を取得します。指定されたメトリクスは x 軸に使用されます。
+- `y` (Optional[SummaryOrConfigOnlyMetric]): W&B プロジェクトにログされた1つ以上のメトリクス。このレポートは情報を取得します。指定されたメトリクスは y 軸にプロットされます。
+- `range_x` (Tuple[float | None, float | None]): x軸の範囲を指定するタプル。
+- `range_y` (Tuple[float | None, float | None]): y軸の範囲を指定するタプル。
+- `log_x` (Optional[bool]): x 座標を底 10 の対数スケールでプロットします。
+- `log_y` (Optional[bool]): y 座標を底 10 の対数スケールでプロットします。
+- `legend_template` (Optional[str]): 凡例の形式を指定する文字列。
+- `gradient` (Optional[LList[GradientPoint]]): プロットの色勾配を指定する勾配ポイントのリスト。
+- `font_size` (Optional[FontSize]): ラインプロットのフォントサイズ。オプションには `small`, `medium`, `large`, `auto`, または `None` が含まれます。
+- `regression` (Optional[bool]): `True` に設定すると、散布図に回帰直線をプロットします。
 
 ---
 
 ## <kbd>class</kbd> `SoundCloud`
-SoundCloud 플레이어를 렌더링하는 블록입니다.
+SoundCloud プレーヤーをレンダリングするブロック。
 
 **Attributes:**
- 
- - `html` (str): SoundCloud 플레이어를 포함할 HTML 코드입니다.
+
+- `html` (str): SoundCloud プレーヤーを埋め込むための HTML コード。
 
 ---
 
 ## <kbd>class</kbd> `Spotify`
-Spotify 플레이어를 렌더링하는 블록입니다.
+Spotify プレーヤーをレンダリングするブロック。
 
 **Attributes:**
- 
- - `spotify_id` (str): 트랙 또는 재생 목록의 Spotify ID입니다.
+
+- `spotify_id` (str): トラックまたはプレイリストの Spotify ID。
 
 ---
 
 ## <kbd>class</kbd> `SummaryMetric`
-리포트에 표시할 요약 메트릭입니다.
+レポート内に表示するサマリメトリクス。
 
 **Attributes:**
- 
- - `name` (str): 메트릭 이름입니다.
+
+- `name` (str): メトリクスの名前。
 
 ---
 
 ## <kbd>class</kbd> `TableOfContents`
-리포트에 지정된 H1, H2 및 H3 HTML 블록을 사용하여 섹션 및 하위 섹션 목록을 포함하는 블록입니다.
+H1, H2, H3 の HTML ブロックを使用して指定されたセクションとサブセクションのリストを含むブロック。
 
 ---
 
 ## <kbd>class</kbd> `TextWithInlineComments`
-인라인 주석이 있는 텍스트 블록입니다.
+インラインコメント付きのテキストブロック。
 
 **Attributes:**
- 
- - `text` (str): 블록 텍스트입니다.
+
+- `text` (str): テキストブロックのテキスト。
 
 ---
 
 ## <kbd>class</kbd> `Twitter`
-Twitter 피드를 표시하는 블록입니다.
+Twitter フィードを表示するブロック。
 
 **Attributes:**
- 
- - `html` (str): Twitter 피드를 표시할 HTML 코드입니다.
+
+- `html` (str): Twitter フィードを表示するための HTML コード。
 
 ---
 
 ## <kbd>class</kbd> `UnorderedList`
-글머리 기호 목록의 항목 목록입니다.
+箇条書きリストの項目リスト。
 
 **Attributes:**
- 
- - `items` (LList[str]): 하나 이상의 `UnorderedListItem` 오브젝트 목록입니다.
+
+- `items` (LList[str]): `UnorderedListItem` オブジェクトのリスト。
 
 ---
 
 ## <kbd>class</kbd> `UnorderedListItem`
-순서가 지정되지 않은 목록의 목록 항목입니다.
+順序のないリストの項目。
 
 **Attributes:**
- 
- - `text` (str): 목록 항목의 텍스트입니다.
+
+- `text` (str): リストアイテムのテキスト。
 
 ---
 
 ## <kbd>class</kbd> `Video`
-비디오를 렌더링하는 블록입니다.
+ビデオをレンダリングするブロック。
 
 **Attributes:**
- 
- - `url` (str): 비디오 URL입니다.
+
+- `url` (str): ビデオの URL。
 
 ---
 
 ## <kbd>class</kbd> `WeaveBlockArtifact`
-W&B에 기록된 아티팩트를 표시하는 블록입니다. 쿼리는 다음과 같은 형식을 취합니다.
+W&B にログされたアーティファクトを示すブロック。クエリは次の形式を取ります。
 
 ```python
 project('entity', 'project').artifact('artifact-name')
 ```
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 **Attributes:**
- 
- - `entity` (str): 아티팩트가 저장된 프로젝트를 소유하거나 적절한 권한을 가진 entity입니다.
- - `project` (str): 아티팩트가 저장된 프로젝트입니다.
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: 아티팩트 패널에 표시할 탭입니다.
+
+- `entity` (str): アーティファクトが保存されているプロジェクトを所有するか、適切な権限を持つエンティティ。
+- `project` (str): アーティファクトが保存されているプロジェクト。
+- `artifact` (str): 取得するアーティファクトの名前。
+- `tab` (Literal["overview", "metadata", "usage", "files", "lineage"]): アーティファクトパネルに表示するタブ。
 
 ---
 
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
-W&B 아티팩트에 기록된 버전 관리 파일을 표시하는 블록입니다. 쿼리는 다음과 같은 형식을 취합니다.
+バージョン化されたファイルを W&B アーティファクトにログしたことを示すブロック。クエリは次の形式を取ります。
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
 ```
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 **Attributes:**
- 
- - `entity` (str): 아티팩트가 저장된 프로젝트를 소유하거나 적절한 권한을 가진 entity입니다.
- - `project` (str): 아티팩트가 저장된 프로젝트입니다.
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `version` (str): 검색할 아티팩트 버전입니다.
- - `file` (str): 검색할 아티팩트에 저장된 파일 이름입니다.
+
+- `entity` (str): アーティファクトが保存されているプロジェクトを所有するか、適切な権限を持つエンティティ。
+- `project` (str): アーティファクトが保存されているプロジェクト。
+- `artifact` (str): 取得するアーティファクトの名前。
+- `version` (str): 取得するアーティファクトのバージョン。
+- `file` (str): 取得するアーティファクト内に保存されているファイルの名前。
 
 ---
 
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
-W&B에 기록된 W&B Table, pandas DataFrame, 플롯 또는 기타 값을 표시하는 블록입니다. 쿼리는 다음과 같은 형식을 취합니다.
+W&B にログされた W&B テーブル、pandas DataFrame、プロット、またはその他の値を表示するブロック。クエリは次の形式を取ります。
 
 ```python
 project('entity', 'project').runs.summary['value']
 ```
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 **Attributes:**
- 
- - `entity` (str): 값이 기록된 프로젝트를 소유하거나 적절한 권한을 가진 entity입니다.
- - `project` (str): 값이 기록된 프로젝트입니다.
- - `table_name` (str): 테이블, DataFrame, 플롯 또는 값의 이름입니다.
+
+- `entity` (str): 値がログされたプロジェクトを所有するか、適切な権限を持つエンティティ。
+- `project` (str): 値がログされたプロジェクト。
+- `table_name` (str): テーブル、DataFrame、プロット、または値の名前。
 
 ---
 
 ## <kbd>class</kbd> `WeavePanel`
-쿼리를 사용하여 사용자 정의 콘텐츠를 표시하는 데 사용할 수 있는 빈 쿼리 패널입니다.
+クエリを使用してカスタムコンテンツを表示するための空のクエリパネル。
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 ---
 
 ## <kbd>class</kbd> `WeavePanelArtifact`
-W&B에 기록된 아티팩트를 표시하는 패널입니다.
+W&B にログされたアーティファクトを示すパネル。
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 **Attributes:**
- 
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: 아티팩트 패널에 표시할 탭입니다.
+
+- `artifact` (str): 取得するアーティファクトの名前。
+- `tab` (Literal["overview", "metadata", "usage", "files", "lineage"]): アーティファクトパネルに表示するタブ。
 
 ---
 
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
-W&B 아티팩트에 기록된 버전 관리 파일을 표시하는 패널입니다.
+バージョンのあるファイルを W&B アーティファクトにログしたことを示すパネル。
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
 ```
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 **Attributes:**
- 
- - `artifact` (str): 검색할 아티팩트 이름입니다.
- - `version` (str): 검색할 아티팩트 버전입니다.
- - `file` (str): 검색할 아티팩트에 저장된 파일 이름입니다.
+
+- `artifact` (str): 取得するアーティファクトの名前。
+- `version` (str): 取得するアーティファクトのバージョン。
+- `file` (str): 取得するアーティファクト内に保存されているファイルの名前。
 
 ---
 
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
-W&B에 기록된 W&B Table, pandas DataFrame, 플롯 또는 기타 값을 표시하는 패널입니다. 쿼리는 다음과 같은 형식을 취합니다.
+W&B にログされた W&B テーブル、pandas DataFrame、プロット、またはその他の値を表示するパネル。クエリは次の形式を取ります。
 
 ```python
 runs.summary['value']
 ```
 
-API 이름의 "Weave"라는 용어는 LLM을 추적하고 평가하는 데 사용되는 W&B Weave 툴킷을 지칭하지 않습니다.
+API 名内の "Weave" の用語は、LLM を追跡および評価するために使用される W&B Weave ツールキットを指していません。
 
 **Attributes:**
- 
- - `table_name` (str): 테이블, DataFrame, 플롯 또는 값의 이름입니다.
+
+- `table_name` (str): テーブル、DataFrame、プロット、または値の名前。

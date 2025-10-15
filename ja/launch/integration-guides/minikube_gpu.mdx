@@ -4,18 +4,18 @@ menu:
   launch:
     identifier: ja-launch-integration-guides-minikube_gpu
     parent: launch-integration-guides
-url: /ja/tutorials/minikube_gpu
+slug: /ja/tutorials/minikube_gpu
 ---
 
 W&B LaunchをMinikubeクラスターにセットアップし、GPU のワークロードをスケジュールして実行できるようにします。
 
-{{% alert %}}
+<Note>
 このチュートリアルは、複数のGPUを搭載したマシンへの直接アクセスがあるユーザーを対象としています。このチュートリアルは、クラウドマシンをレンタルしているユーザーには意図されていません。
 
 クラウドマシン上でminikubeクラスターをセットアップしたい場合、W&Bはクラウドプロバイダーを使用したGPU対応のKubernetesクラスターを作成することを推奨します。たとえば、AWS、GCP、Azure、Coreweave、その他のクラウドプロバイダーには、GPU対応のKubernetesクラスターを作成するためのツールがあります。
 
-単一のGPUを搭載したマシンでGPUをスケジュールするためにminikubeクラスターをセットアップしたい場合、W&Bは[Launch Dockerキュー]({{< relref path="/launch/set-up-launch/setup-launch-docker" lang="ja" >}})を使用することを推奨します。このチュートリアルを楽しくフォローすることはできますが、GPUのスケジューリングはあまり役に立たないでしょう。
-{{% /alert %}}
+単一のGPUを搭載したマシンでGPUをスケジュールするためにminikubeクラスターをセットアップしたい場合、W&Bは[Launch Dockerキュー](/ja/launch/set-up-launch/setup-launch-docker)を使用することを推奨します。このチュートリアルを楽しくフォローすることはできますが、GPUのスケジューリングはあまり役に立たないでしょう。
+</Note>
 
 ## 背景
 
@@ -31,9 +31,9 @@ W&B LaunchをMinikubeクラスターにセットアップし、GPU のワーク�
    2. 使用したいGPU用のドライバ
    3. Nvidiaコンテナツールキット
 
-{{% alert %}}
+<Note>
 このチュートリアルをテストし作成するために、4 NVIDIA Tesla T4 GPUを接続した `n1-standard-16` Google Cloud Compute Engineインスタンスを使用しました。
-{{% /alert %}}
+</Note>
 
 ## Launchジョブ用のキューを作成
 
@@ -44,8 +44,8 @@ W&B LaunchをMinikubeクラスターにセットアップし、GPU のワーク�
 3. エンティティを選択し、名前を入力し、キューのタイプとして **Kubernetes** を選択します。
 4. ドロワーの **Config** セクションには、launchキュー用の[Kubernetesジョブ仕様](https://kubernetes.io/docs/concepts/workloads/controllers/job/)を入力します。このキューから起動されたrunは、このジョブ仕様を使用して作成されるため、必要に応じてジョブをカスタマイズするためにこの設定を変更できます。このチュートリアルでは、下記のサンプル設定をキューの設定にYAMLまたはJSONとしてコピー＆ペーストできます：
 
-{{< tabpane text=true >}}
-{{% tab "YAML" %}}
+<Tabs>
+<Tab title="YAML">
 ```yaml
 spec:
   template:
@@ -60,8 +60,8 @@ spec:
       restartPolicy: Never
   backoffLimit: 0
 ```
-{{% /tab %}}
-{{% tab "JSON" %}}
+</Tab>
+<Tab title="JSON">
 ```json
 {
   "spec": {
@@ -86,17 +86,19 @@ spec:
   }
 }
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
-キュー設定の詳細については、 [Set up Launch on Kubernetes]({{< relref path="/launch/set-up-launch/setup-launch-kubernetes.md" lang="ja" >}})と [Advanced queue setup guide]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ja" >}}) を参照してください。   
+キュー設定の詳細については、 [Set up Launch on Kubernetes](/ja/launch/set-up-launch/setup-launch-kubernetes)と [Advanced queue setup guide](/ja/launch/set-up-launch/setup-queue-advanced) を参照してください。   
 
 `${image_uri}` と `{{gpus}}` 文字列は、キュー設定で使用できる2種類の変数テンプレートの例です。`${image_uri}` テンプレートは、エージェントが起動するジョブの画像URIに置き換えられます。`{{gpus}}` テンプレートは、ジョブを送信する際にlaunch UI、CLI、またはSDKからオーバーライドできるテンプレート変数の作成に使用されます。これらの値はジョブ仕様に配置され、ジョブで使用される画像とGPUリソースを制御する正しいフィールドを変更します。
 
 5. **Parse configuration** ボタンをクリックして `gpus` テンプレート変数をカスタマイズし始めます。
 6. **Type** を `Integer` に設定し、 **Default** 、 **Min** 、 **Max** を選択した値に設定します。このテンプレート変数の制約を違反するrunをこのキューに送信しようとすると、拒否されます。
 
-{{< img src="/images/tutorials/minikube_gpu/create_queue.png" alt="gpusテンプレート変数を使用したキュー作成ドロワーの画像" >}}
+<Frame>
+    <img src="/images/tutorials/minikube_gpu/create_queue.png" alt="gpusテンプレート変数を使用したキュー作成ドロワーの画像"  />
+</Frame>
 
 7. **Create queue** をクリックしてキューを作成します。新しいキューのキューページにリダイレクトされます。
 
@@ -176,9 +178,9 @@ minikube start --gpus all
 
 このチュートリアルでは、エージェントをホストマシンで直接実行します。
 
-{{% alert %}}
+<Note>
 コンテナ外でエージェントを実行することも、ローカルDockerホストを使用してクラスター用の画像を構築できることを意味します。
-{{% /alert %}}
+</Note>
 
 エージェントをローカルで実行するには、デフォルトのKubernetes APIコンテキストがMinikubeクラスターを指していることを確認してください。次に、以下を実行してエージェントの依存関係をインストールします：
 
@@ -265,8 +267,8 @@ kubectl apply -f nfs-persistent-volume.yaml
 
 私たちのrunがこのキャッシュを使用できるようにするためには、launchキューの設定に `volumes` と `volumeMounts` を追加する必要があります。launchの設定を編集するには、再び [wandb.ai/launch](http://wandb.ai/launch)（またはwandbサーバー上のユーザーの場合は\<your-wandb-url\>/launch）に戻り、キューを見つけ、キューページに移動し、その後、**Edit config** タブをクリックします。元の設定を次のように変更できます：
 
-{{< tabpane text=true >}}
-{{% tab "YAML" %}}
+<Tabs>
+<Tab title="YAML">
 ```yaml
 spec:
   template:
@@ -288,8 +290,8 @@ spec:
             claimName: nfs-pvc
   backoffLimit: 0
 ```
-{{% /tab %}}
-{{% tab "JSON" %}}
+</Tab>
+<Tab title="JSON">
 ```json
 {
   "spec": {
@@ -328,8 +330,8 @@ spec:
   }
 }
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 これで、NFSはジョブを実行しているコンテナの `/root/.cache` にマウントされます。コンテナが `root` 以外のユーザーとして実行される場合、マウントパスは調整が必要です。HuggingfaceのライブラリとW&B Artifactsは、デフォルトで `$HOME/.cache/` を利用しているため、ダウンロードは一度だけ行われるはずです。
 
@@ -352,4 +354,6 @@ runが終了すると、指定したプロジェクトにジョブアーティ�
 このジョブを使って、クラスター上でさらに安定的な拡散推論を実行することができます。
 ジョブページから、右上隅にある **Launch** ボタンをクリックして新しい推論ジョブを設定し、キューに送信します。ジョブの設定ページは、元のrunからのパラメータで自動的に入力されますが、 **Overrides** セクションで値を変更することで好きなように変更できます。
 
-{{< img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="安定拡散推論ジョブのlaunch UIの画像" >}}
+<Frame>
+    <img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="安定拡散推論ジョブのlaunch UIの画像"  />
+</Frame>

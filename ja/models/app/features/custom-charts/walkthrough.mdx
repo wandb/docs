@@ -11,7 +11,7 @@ menu:
 
 ## 1. データを W&B にログする
 
-まず、スクリプトにデータをログします。ハイパーパラメーターのようなトレーニングの開始時に設定される単一のポイントには [wandb.config]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) を使用します。時間の経過に伴う複数のポイントには [wandb.log()]({{< relref path="/guides/models/track/log/" lang="ja" >}}) を使用し、`wandb.Table()` でカスタムの2D配列をログします。ログされたキーごとに最大10,000データポイントのログを推奨します。
+まず、スクリプトにデータをログします。ハイパーパラメーターのようなトレーニングの開始時に設定される単一のポイントには [wandb.config](/ja/models/track/config/) を使用します。時間の経過に伴う複数のポイントには [wandb.log()](/ja/models/track/log/) を使用し、`wandb.Table()` でカスタムの2D配列をログします。ログされたキーごとに最大10,000データポイントのログを推奨します。
 
 ```python
 # データのカスタムテーブルをログする
@@ -27,7 +27,9 @@ wandb.log(
 
 データを視覚化するためにログしたら、プロジェクトページに移動し、新しいパネルを追加するために **`+`** ボタンをクリックし、**Custom Chart** を選びます。[このワークスペース](https://app.wandb.ai/demo-team/custom-charts) で案内に従うことができます。
 
-{{< img src="/images/app_ui/create_a_query.png" alt="設定する準備が整った新しいカスタムチャート" >}}
+<Frame>
+    <img src="/images/app_ui/create_a_query.png" alt="設定する準備が整った新しいカスタムチャート"  />
+</Frame>
 
 ### クエリを追加する
 
@@ -38,7 +40,9 @@ wandb.log(
 
 これらの列がクエリに読み込まれたので、Vega フィールドのドロップダウンメニューで選択オプションとして利用可能です：
 
-{{< img src="/images/app_ui/set_vega_fields.png" alt="Vega フィールドを設定するためにクエリ結果から列を引き出す" >}}
+<Frame>
+    <img src="/images/app_ui/set_vega_fields.png" alt="Vega フィールドを設定するためにクエリ結果から列を引き出す"  />
+</Frame>
 
 * **x-axis:** runSets_historyTable_r (recall)
 * **y-axis:** runSets_historyTable_p (precision)
@@ -48,7 +52,9 @@ wandb.log(
 
 見た目はかなり良いですが、散布図から折れ線グラフに切り替えたいと思います。組み込みチャートの Vega スペックを変更するために **Edit** をクリックします。[このワークスペース](https://app.wandb.ai/demo-team/custom-charts) で案内に従うことができます。
 
-{{< img src="/images/general/custom-charts-1.png" alt="" >}}
+<Frame>
+    <img src="/images/general/custom-charts-1.png"  />
+</Frame>
 
 Vega スペックを更新して可視化をカスタマイズしました：
 
@@ -56,17 +62,23 @@ Vega スペックを更新して可視化をカスタマイズしました：
 * 「mark」の 値を「point」から「line」に変更
 * 使用されていない「size」フィールドを削除
 
-{{< img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png"  />
+</Frame>
 
 これを別の場所で使用できるプリセットとして保存するには、ページ上部の **Save as** をクリックします。結果は次の通り、ROC 曲線と共に次のようになります：
 
-{{< img src="/images/general/custom-charts-2.png" alt="" >}}
+<Frame>
+    <img src="/images/general/custom-charts-2.png"  />
+</Frame>
 
 ## ボーナス: コンポジットヒストグラム
 
 ヒストグラムは、数値の分布を可視化し、大きなデータセットを理解するのに役立ちます。コンポジットヒストグラムは、同じビンにまたがる複数の分布を示し、異なるモデルまたはモデル内の異なるクラス間で2つ以上のメトリクスを比較することができます。ドライブシーンのオブジェクトを検出するセマンティックセグメンテーションモデルの場合、精度最適化と Intersection over union (IOU) の効果を比較したり、異なるモデルが車（データの大きく一般的な領域）と交通標識（より小さく一般的でない領域）をどれだけよく検出するかを知りたいかもしれません。[デモ Colab](https://bit.ly/custom-charts-colab) では、生命体の10クラスのうち2つのクラスの信頼スコアを比較できます。
 
-{{< img src="/images/app_ui/composite_histograms.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/composite_histograms.png"  />
+</Frame>
 
 カスタム合成ヒストグラムパネルのバージョンを作成するには：
 
@@ -77,6 +89,10 @@ Vega スペックを更新して可視化をカスタマイズしました：
 
 私の非常に短い実験の結果は次のようになりました：1,000エポックで1,000エグゼンプルだけでトレーニングすると、モデルはほとんどの画像が植物でないことに非常に自信を持ち、どの画像が動物かについては非常に不確かです。
 
-{{< img src="/images/general/custom-charts-3.png" alt="" >}}
+<Frame>
+    <img src="/images/general/custom-charts-3.png"  />
+</Frame>
 
-{{< img src="/images/general/custom-charts-4.png" alt="" >}}
+<Frame>
+    <img src="/images/general/custom-charts-4.png"  />
+</Frame>

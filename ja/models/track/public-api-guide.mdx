@@ -10,9 +10,9 @@ weight: 8
 
 データをエクスポートまたはインポートするには、W&B パブリックAPIを使用します。
 
-{{% alert %}}
+<Note>
 この機能には python>=3.8 が必要です
-{{% /alert %}}
+</Note>
 
 ## MLFlow からデータをインポート
 
@@ -57,11 +57,11 @@ for run in mlflow_client.search_runs(...):
 importer.import_runs(runs)
 ```
 
-{{% alert %}}
+<Note>
 Databricks MLFlow からインポートする場合、最初に[Databricks CLI を設定することが必要です](https://docs.databricks.com/dev-tools/cli/index.html)。
 
 前のステップで `mlflow-tracking-uri="databricks"` を設定します。
-{{% /alert %}}
+</Note>
 
 アーティファクトのインポートをスキップするには、`artifacts=False` を渡します:
 
@@ -79,22 +79,22 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
 
 ## データのエクスポート
 
-パブリックAPIを使用して、W&B に保存したデータをエクスポートまたは更新します。このAPIを使用する前に、スクリプトからデータをログします。詳細は[クイックスタート]({{< relref path="/guides/quickstart.md" lang="ja" >}})を確認してください。
+パブリックAPIを使用して、W&B に保存したデータをエクスポートまたは更新します。このAPIを使用する前に、スクリプトからデータをログします。詳細は[クイックスタート](/ja/quickstart/)を確認してください。
 
 **パブリックAPIのユースケース**
 
 - **データのエクスポート**: カスタム分析のために Jupyter ノートブックにデータフレームを取り込みます。データを探索した後、例えば `wandb.init(job_type="analysis")` のように新しい分析 run を作成し、結果を記録して学びを同期できます。
 - **既存の runs の更新**: W&B run に関連して記録されたデータを更新することができます。例えば、最初はログされていなかったアーキテクチャーやハイパーパラメーターの情報を追加するために設定を更新することがあるでしょう。
 
-利用可能な関数の詳細については、[生成されたリファレンスドキュメント]({{< relref path="/ref/python/public-api/" lang="ja" >}})を参照してください。
+利用可能な関数の詳細については、[生成されたリファレンスドキュメント](/ja/models/ref/python/public-api/)を参照してください。
 
 ### APIキーを作成する
 
 APIキーは、マシンをW&Bに認証します。ユーザープロフィールからAPIキーを生成できます。
 
-{{% alert %}}
+<Note>
 より効率的なアプローチとして、直接 [https://wandb.ai/authorize](https://wandb.ai/authorize) にアクセスしてAPIキーを生成できます。表示されたAPIキーをコピーし、パスワードマネージャーのような安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上のユーザープロフィールアイコンをクリックします。
 2. **ユーザー設定** を選択し、**APIキー** セクションまでスクロールします。
@@ -102,7 +102,7 @@ APIキーは、マシンをW&Bに認証します。ユーザープロフィー�
 
 ### run パスを見つける
 
-パブリックAPIを使用するには、しばしば `<entity>/<project>/<run_id>` という形式の run パスが必要になります。アプリUIでrunページを開き、[Overviewタブ]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}})をクリックしてrunパスを取得します。
+パブリックAPIを使用するには、しばしば `<entity>/<project>/<run_id>` という形式の run パスが必要になります。アプリUIでrunページを開き、[Overviewタブ](/ja/models/runs/#overview-tab)をクリックしてrunパスを取得します。
 
 ### run データをエクスポートする
 
@@ -174,12 +174,12 @@ run.finish()
 
 ### サンプリング
 
-デフォルトの history メソッドは、メトリクスを固定されたサンプル数（デフォルトは500）にサンプリングします。大規模なrunのすべてのデータをエクスポートしたい場合は、`run.scan_history()` メソッドを使用してください。詳細は[APIリファレンス]({{< relref path="/ref/python/public-api" lang="ja" >}})を参照してください。
+デフォルトの history メソッドは、メトリクスを固定されたサンプル数（デフォルトは500）にサンプリングします。大規模なrunのすべてのデータをエクスポートしたい場合は、`run.scan_history()` メソッドを使用してください。詳細は[APIリファレンス](/ja/models/ref/python/public-api)を参照してください。
 
 ### 複数の runs のクエリ
 
-{{< tabpane text=true >}}
-    {{% tab header="データフレームとCSV" %}}
+<Tabs>
+<Tab title="データフレームとCSV">
 このサンプルスクリプトはプロジェクトを検索し、CSVにrun の名前、設定、サマリーステータスを出力します。 `<entity>` と `<project>` をそれぞれあなたのW&Bエンティティとプロジェクト名に置き換えてください。
 
 ```python
@@ -209,8 +209,8 @@ runs_df = pd.DataFrame(
 
 runs_df.to_csv("project.csv")
 ```
-    {{% /tab %}}
-    {{% tab header="MongoDB スタイル" %}}
+</Tab>
+<Tab title="MongoDB スタイル">
 W&B API は、api.runs() を使用してプロジェクト内の runs を横断してクエリを実行する方法も提供しています。最も一般的なユースケースはカスタム分析のために runs データをエクスポートすることです。クエリインターフェースは [MongoDB が使用するもの](https://docs.mongodb.com/manual/reference/operator/query) と同じです。
 
 ```python
@@ -219,9 +219,9 @@ runs = api.runs(
     {"$or": [{"config.experiment_name": "foo"}, {"config.experiment_name": "bar"}]},
 )
 print(f"Found {len(runs)} runs")
-```    
-    {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 `api.runs` を呼び出すと、反復可能でリストのように動作する `Runs` オブジェクトが返されます。デフォルトでは、オブジェクトは要求に応じて1回に50のrunを順番にロードしますが、`per_page` キーワード引数を使用してページごとにロードする数を変更できます。
 
@@ -247,13 +247,13 @@ run の識別子を効果的に設定する方法について考えている場�
 - **run ID**：生成されたハッシュのままにしておきます。これはプロジェクト内の run で一意である必要があります。
 - **run 名前**：短く、読み書き可能で、おそらく一意であるべきです。そうすれば、チャートの異なる線間で違いをつけることができます。
 - **run ノート**：run内で何をしているかを簡単に説明するのに最適です。`wandb.init(notes="your notes here")` で設定できます。
-- **run タグ**：run タグで動的に追跡し、UIでフィルターを使用して興味のある run に絞り込みます。スクリプトからタグを設定し、runsテーブルやrunページのoverviewタブでUIからも編集できます。詳細な指示は[こちら]({{< relref path="/guides/models/track/runs/tags.md" lang="ja" >}})を参照してください。
+- **run タグ**：run タグで動的に追跡し、UIでフィルターを使用して興味のある run に絞り込みます。スクリプトからタグを設定し、runsテーブルやrunページのoverviewタブでUIからも編集できます。詳細な指示は[こちら](/ja/models/runs/tags/)を参照してください。
 
 ## 公開APIの例
 
 ### matplotlib または seaborn で視覚化するためにデータをエクスポート
 
-一般的なエクスポートパターンについては、[APIの例]({{< relref path="/ref/python/public-api/" lang="ja" >}})を確認してください。また、カスタムプロットや拡張されたrunテーブルでダウンロードボタンをクリックして、ブラウザからCSVをダウンロードすることもできます。
+一般的なエクスポートパターンについては、[APIの例](/ja/models/ref/python/public-api/)を確認してください。また、カスタムプロットや拡張されたrunテーブルでダウンロードボタンをクリックして、ブラウザからCSVをダウンロードすることもできます。
 
 ### run からメトリクスを読む
 
@@ -358,9 +358,9 @@ del run.summary["old_name"]
 run.summary.update()
 ```
 
-{{% alert %}}
+<Note>
 列のリネームはテーブルにのみ適用されます。チャートは元の名前でメトリクスを参照し続けます。
-{{% /alert %}}
+</Note>
 
 ### 既存の run の設定を更新する
 

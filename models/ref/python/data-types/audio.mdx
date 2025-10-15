@@ -1,54 +1,61 @@
 ---
-title: Audio
-menu:
-  reference:
-    identifier: ko-ref-python-data-types-audio
+title: "Audio"
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L13-L157 >}}
 
-오디오 클립을 위한 Wandb 클래스입니다.
+
+
+
+
+## <kbd>class</kbd> `Audio`
+W&B class for audio clips. 
+
+### <kbd>method</kbd> `Audio.__init__`
 
 ```python
-Audio(
-    data_or_path, sample_rate=None, caption=None
+__init__(
+    data_or_path: Union[str, pathlib.Path, list, ForwardRef('np.ndarray')],
+    sample_rate: Optional[int] = None,
+    caption: Optional[str] = None
 )
 ```
 
-| ARG |  |
-| :--- | :--- |
-|  `data_or_path` |  (string 또는 numpy array) 오디오 파일의 경로 또는 오디오 데이터의 numpy array입니다. |
-|  `sample_rate` |  (int) 샘플 속도. 오디오 데이터의 raw numpy array를 전달할 때 필요합니다. |
-|  `caption` |  (string) 오디오와 함께 표시할 캡션입니다. |
+Accept a path to an audio file or a numpy array of audio data. 
 
-## 메소드 (method)
 
-### `durations`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L115-L117)
+**Args:**
+ 
+ - `data_or_path`:  A path to an audio file or a NumPy array of audio data. 
+ - `sample_rate`:  Sample rate, required when passing in raw NumPy array of audio data. 
+ - `caption`:  Caption to display with audio. 
 
-```python
-@classmethod
-durations(
-    audio_list
-)
-```
 
-### `resolve_ref`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L131-L143)
+
+---
+
+
+
+### <kbd>classmethod</kbd> `Audio.durations`
 
 ```python
-resolve_ref()
+durations(audio_list)
 ```
 
-### `sample_rates`
+Calculate the duration of the audio files. 
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L119-L121)
+---
+
+
+
+### <kbd>classmethod</kbd> `Audio.sample_rates`
 
 ```python
-@classmethod
-sample_rates(
-    audio_list
-)
+sample_rates(audio_list)
 ```
+
+Get sample rates of the audio files. 
+
+---
+

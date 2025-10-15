@@ -26,7 +26,9 @@ weight: 10
 
 `@weights_biases` アカウントのフォローバッジを X に追加するには、HTML の `<img>` タグを含む Markdown スタイルのリンクを追加します。そのバッジ画像にリンクさせます。
 
-[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases" >](https://x.com/intent/follow?screen_name=weights_biases)
+<Frame>
+[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases"/>](https://x.com/intent/follow?screen_name=weights_biases)
+</Frame>
 
 `<img>` タグでは、`width`、`height`、またはその両方を指定できます。どちらか一方だけを指定すると、画像の比率は維持されます。
 
@@ -38,9 +40,9 @@ weight: 10
 * **Team type** - **Work** または **Academic** ボタンを選択します。
 * **Company/Organization** - チームの会社または組織の名前を提供します。 ドロップダウンメニューから会社または組織を選択します。 オプションで新しい組織を提供することもできます。
 
-{{% alert %}}
+<Note>
 管理者アカウントのみがチームを作成できます。
-{{% /alert %}}
+</Note>
 
 ## ベータ機能
 
@@ -48,12 +50,12 @@ weight: 10
 
 ## アラート
 
-Runs がクラッシュしたり、終了したり、カスタムアラートを設定した際に通知を受け取ります。[wandb.alert()]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を使用して電子メールまたは Slack 経由で通知を受け取ります。受け取りたいアラートイベントタイプの横にあるスイッチを切り替えます。
+Runs がクラッシュしたり、終了したり、カスタムアラートを設定した際に通知を受け取ります。[wandb.alert()](/ja/models/runs/alert/) を使用して電子メールまたは Slack 経由で通知を受け取ります。受け取りたいアラートイベントタイプの横にあるスイッチを切り替えます。
 
 * **Runs finished**: Weights and Biases の run が正常に完了したかどうか。
 * **Run crashed**: run が終了しなかった場合の通知。
 
-アラートの設定と管理方法の詳細については、[Send alerts with wandb.alert]({{< relref path="/guides/models/track/runs/alert.md" lang="ja" >}}) を参照してください。
+アラートの設定と管理方法の詳細については、[Send alerts with wandb.alert](/ja/models/runs/alert/) を参照してください。
 
 ## 個人 GitHub インテグレーション
 
@@ -67,9 +69,9 @@ Runs がクラッシュしたり、終了したり、カスタムアラートを
 
 アカウントを削除するには、**Delete Account** ボタンを選択します。
 
-{{% alert color="secondary" %}}
+<Warning>
 アカウントの削除は元に戻せません。
-{{% /alert %}}
+</Warning>
 
 ## ストレージ
 

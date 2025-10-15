@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-launch-view-jobs
     parent: create-and-deploy-jobs
-url: /ja/guides/launch/launch-view-jobs
+slug: /ja/guides/launch/launch-view-jobs
 ---
 
 以下のページでは、キューに追加されたローンンチジョブの情報を表示する方法を説明します。
@@ -18,13 +18,15 @@ W&B アプリケーションを使用してキューに追加されたジョブ�
 3. **All entities** ドロップダウンを選択し、ローンンチジョブが所属するエンティティを選択します。
 4. Launch Application ページから折りたたみ可能なUIを展開し、その特定のキューに追加されたジョブのリストを表示します。
 
-{{% alert %}}
+<Note>
 ローンンチエージェントがローンンチジョブを実行すると、run が作成されます。つまり、リストされている各runは、そのキューに追加された特定のジョブに対応しています。
-{{% /alert %}}
+</Note>
 
 例えば、次の画像は、`job-source-launch_demo-canonical`というジョブから作成された2つのrunを示しています。このジョブは `Start queue` というキューに追加されました。キューにリストされている最初のrunは `resilient-snowball` と呼ばれ、2番目のrunは `earthy-energy-165` と呼ばれます。
 
-{{< img src="/images/launch/launch_jobs_status.png" alt="" >}}
+<Frame>
+    <img src="/images/launch/launch_jobs_status.png"  />
+</Frame>
 
 W&B アプリケーションUI内で、ローンンチジョブから作成されたrunに関する次のような追加情報を見つけることができます：
    - **Run**: そのジョブに割り当てられた W&B run の名前。

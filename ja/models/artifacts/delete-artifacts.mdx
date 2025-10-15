@@ -11,11 +11,11 @@ menu:
 
 アーティファクトの内容は、定期的に実行されるガベージコレクション プロセスが削除対象としてマークされたすべてのアーティファクトをレビューするまで、ソフト削除または削除保留状態のままです。ガベージコレクションプロセスは、アーティファクトおよびその関連ファイルが以前または後のアーティファクトバージョンで使用されていない場合、関連ファイルをストレージから削除します。
 
-このページのセクションでは、特定のアーティファクトバージョンの削除方法、アーティファクトコレクションの削除方法、エイリアスを持つアーティファクトの削除方法、エイリアスがないアーティファクトの削除方法などについて説明します。アーティファクトが W&B から削除される時間を TTL ポリシーでスケジュールできます。詳細については、[Artifact TTL ポリシーによるデータ保持の管理]({{< relref path="./ttl.md" lang="ja" >}})を参照してください。
+このページのセクションでは、特定のアーティファクトバージョンの削除方法、アーティファクトコレクションの削除方法、エイリアスを持つアーティファクトの削除方法、エイリアスがないアーティファクトの削除方法などについて説明します。アーティファクトが W&B から削除される時間を TTL ポリシーでスケジュールできます。詳細については、[Artifact TTL ポリシーによるデータ保持の管理](/ja/models/artifacts/ttl/)を参照してください。
 
-{{% alert %}}
+<Note>
 TTL ポリシーで削除予定のアーティファクト、W&B SDK で削除されたアーティファクト、または W&B App UI で削除されたアーティファクトは、最初にソフト削除されます。ソフト削除されたアーティファクトは、最終的にハード削除される前にガベージコレクションを受けます。
-{{% /alert %}}
+</Note>
 
 ### アーティファクトバージョンの削除
 
@@ -26,7 +26,7 @@ TTL ポリシーで削除予定のアーティファクト、W&B SDK で削除�
 3. ワークスペースの右側にあるケバブドロップダウンを選択します。
 4. 「Delete」を選択します。
 
-アーティファクトバージョンは、[delete()]({{< relref path="/ref/python/artifact#delete" lang="ja" >}}) メソッドを使用してプログラム的にも削除できます。以下の例を参照してください。
+アーティファクトバージョンは、[delete()](/ja/models/ref/python/artifact#delete) メソッドを使用してプログラム的にも削除できます。以下の例を参照してください。
 
 ### エイリアスを持つ複数のアーティファクトバージョンの削除
 
@@ -96,7 +96,7 @@ for v in api.artifact_versions(artifact_type, artifact_name):
 2. アーティファクトコレクション名の横にあるケバブドロップダウンを選択します。
 4. 「Delete」を選択します。
 
-アーティファクトコレクションは、[delete()]({{< relref path="/ref/python/artifact.md#delete" lang="ja" >}}) メソッドを使用してプログラムで削除することもできます。`wandb.Api` の `project` および `entity` キーにプロジェクト名とエンティティの名前を指定してください:
+アーティファクトコレクションは、[delete()](/ja/models/ref/python/artifact#delete) メソッドを使用してプログラムで削除することもできます。`wandb.Api` の `project` および `entity` キーにプロジェクト名とエンティティの名前を指定してください:
 
 ```python
 import wandb
@@ -115,9 +115,9 @@ W&B の共有クラウドを使用している場合、ガベージコレクシ�
 
 * `GORILLA_ARTIFACT_GC_ENABLED` 環境変数を true に設定: `GORILLA_ARTIFACT_GC_ENABLED=true`
 * [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/object-versioning) または [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning) などのストレージプロバイダーを使用している場合は、バケットバージョン管理を有効にします。Azure を使用している場合は、[ソフト削除を有効](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview)にします。
-  {{% alert %}}
-  Azure のソフト削除は、他のストレージプロバイダーでのバケットバージョン管理に相当します。
-  {{% /alert %}}
+    <Note>
+    Azure のソフト削除は、他のストレージプロバイダーでのバケットバージョン管理に相当します。
+    </Note>
 
 以下の表は、デプロイメントタイプに基づいてガベージコレクションを有効にするための要件を満たす方法を説明しています。
 
@@ -126,12 +126,13 @@ W&B の共有クラウドを使用している場合、ガベージコレクシ�
 |                                                | 環境変数                 | バージョン管理の有効化 | 
 | -----------------------------------------------| ------------------------| ----------------- | 
 | 共有クラウド                                   |                         |                   | 
-| [セキュアストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) を使用した共有クラウド |                         | X                 | 
+| [セキュアストレージコネクタ](/ja/platform/hosting/data-security/secure-storage-connector) を使用した共有クラウド |                         | X                 | 
 | 専用クラウド                                |                         |                   | 
-| [セキュアストレージコネクタ]({{< relref path="/guides/hosting/data-security/secure-storage-connector.md" lang="ja" >}}) を使用した専用クラウド |                         | X                 | 
+| [セキュアストレージコネクタ](/ja/platform/hosting/data-security/secure-storage-connector) を使用した専用クラウド |                         | X                 | 
 | カスタマーマネージドクラウド                         | X                       | X                 | 
 | カスタマーマネージドオンプレミス                       | X                       | X                 |
 
-{{% alert %}}注意
+<Note>
+注意
 セキュアストレージコネクタは現在、Google Cloud Platform および Amazon Web Services のみで利用可能です。
-{{% /alert %}}
+</Note>

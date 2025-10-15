@@ -15,9 +15,11 @@ Manage multiple runs in a single Python process. This is useful for workflows wh
 
 By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one, depending on the configuration. The content in this guide explains how to use `reinit` to modify the `wandb.init()` behavior to enable multiple runs in a single Python process.
 
-{{% alert title="Requirements" %}}
+<Note>
+**Requirements**
+
 To manage multiple runs in a single Python process, you must have W&B Python SDK version `v0.19.10` or newer.
-{{% /alert  %}}
+</Note>
 
 ## `reinit` options
 
@@ -25,17 +27,17 @@ Use the `reinit` parameter to configure how W&B handles multiple calls to `wandb
 
 | | Description | Creates a run? | Example use case |
 |----------------|----------------|----------------| -----------------|
-| `create_new` |Create a new run with `wandb.init()` without finishing existing, active runs. W&B does not automatically switch the global `wandb.Run` to new runs. You must hold onto each run object yourself. See the [multiple runs in one process example]({{< relref "multiple-runs-per-process/#example-multiple-runs-in-one-process" >}}) below for details.  | Yes |  Ideal for creating and managing concurrent processes. For example, a “primary” run that remains active while you start or end “secondary” runs.|
+| `create_new` |Create a new run with `wandb.init()` without finishing existing, active runs. W&B does not automatically switch the global `wandb.Run` to new runs. You must hold onto each run object yourself. See the [multiple runs in one process example](/models/runs/multiple-runs-per-process/#example-multiple-runs-in-one-process) below for details.  | Yes |  Ideal for creating and managing concurrent processes. For example, a “primary” run that remains active while you start or end “secondary” runs.|
 | `finish_previous` | Finish all active runs with `run.finish()` before creating a new one run with `wandb.init()`. Default behavior for non notebook environments. | Yes | Ideal when you want to break sequential sub-processes into separate individual runs. |
 | `return_previous` |  Return the most recent, unfinished run. Default behavior for notebook environments. | No | |
 
-{{% alert  %}}
-W&B does not support `create_new` mode for [W&B Integrations]({{< relref "/guides/integrations/" >}}) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
-{{% /alert %}}
+<Note>
+W&B does not support `create_new` mode for [W&B Integrations](/guides/integrations/) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
+</Note>
 
 ## Specifying `reinit`
 
-<!-- There are several ways to create and manage multiple runs in a single Python process: -->
+{/* There are several ways to create and manage multiple runs in a single Python process: */}
 
 - Use `wandb.init()` with the `reinit` argument directly:
    ```python

@@ -8,11 +8,11 @@ menu:
 weight: 6
 ---
 
-新しいアーティファクトバージョンをシングル [run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) で作成するか、分散 run を使って共同で作成します。以前のバージョンから新しいアーティファクトバージョンを作成することもできます。これを [インクリメンタルアーティファクト]({{< relref path="#create-a-new-artifact-version-from-an-existing-version" lang="ja" >}}) と呼びます。
+新しいアーティファクトバージョンをシングル [run](/ja/models/runs/) で作成するか、分散 run を使って共同で作成します。以前のバージョンから新しいアーティファクトバージョンを作成することもできます。これを [インクリメンタルアーティファクト](#create-a-new-artifact-version-from-an-existing-version) と呼びます。
 
-{{% alert %}}
+<Note>
 アーティファクト内のファイルの一部に変更を加える必要がある場合、元のアーティファクトのサイズがかなり大きい場合は、インクリメンタルアーティファクトを作成することをお勧めします。
-{{% /alert %}}
+</Note>
 
 ## 新しいアーティファクトバージョンをゼロから作成する
 新しいアーティファクトバージョンを作成する方法は、シングル run と分散 run による2つがあります。それぞれ次のように定義されています:
@@ -24,15 +24,17 @@ W&B は、プロジェクト内に存在しない名前を `wandb.Artifact` API 
 
 プロジェクト内に既存のアーティファクトと一致する名前とアーティファクトタイプを `wandb.Artifact` API に渡すと、W&B は既存のアーティファクトを取得します。取得されたアーティファクトはバージョンが 1 より大きくなります。
 
-{{< img src="/images/artifacts/single_distributed_artifacts.png" alt="" >}}
+<Frame>
+    <img src="/images/artifacts/single_distributed_artifacts.png"  />
+</Frame>
 
 ### シングル run
 アーティファクト内のすべてのファイルを生成するシングル run によって、新しいバージョンのアーティファクトをログします。このケースは、シングル run がアーティファクト内のすべてのファイルを生成する場合に発生します。
 
 ユースケースに基づいて、以下のタブのいずれかを選択して、run 内または run 外で新しいアーティファクトバージョンを作成してください:
 
-{{< tabpane text=true >}}
-  {{% tab header="Inside a run" %}}
+<Tabs>
+<Tab title="Inside a run">
 W&B run 内でアーティファクトバージョンを作成します:
 
 1. `wandb.init` を使って run を作成。
@@ -48,9 +50,9 @@ with wandb.init() as run:
     # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
     artifact.add_file("image1.png")
     run.log_artifact(artifact)
-```  
-  {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
+```
+</Tab>
+<Tab title="Outside of a run">
 W&B run の外でアーティファクトバージョンを作成します:
 
 1. `wanb.Artifact` で新しいアーティファクトを作成するか、既存のアーティファクトを取得。
@@ -63,19 +65,19 @@ artifact = wandb.Artifact("artifact_name", "artifact_type")
 # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
 artifact.add_file("image1.png")
 artifact.save()
-```    
-  {{% /tab %}}
-{{< /tabpane  >}}
+```
+</Tab>
+</Tabs>
 
 ### 分散 run
 
 バージョンをコミットする前に、複数の run が共同で作業します。これは、上記のシングル run モードとは対照的です。こちらは1つの run が新しいバージョンのすべてのデータを提供します。
 
-{{% alert %}}
+<Note>
 1. コレクション内の各 run は、同じバージョンで共同作業をするために、同じユニークな ID ( `distributed_id` と呼ばれる) を認識している必要があります。デフォルトでは、存在する場合、W&B は run の `group` を、`wandb.init(group=GROUP)` によって設定された `distributed_id` として使用します。
 2. バージョンを「コミット」し、その状態を永続的にロックする最終 run が必要です。
 3. 協調的なアーティファクトに追加するには `upsert_artifact` を使用し、コミットを最終的にするには `finish_artifact` を使用します。
-{{% /alert %}}
+</Note>
 
 以下の例を考えてみてください。異なる run (以下で **Run 1**、**Run 2**、**Run 3** とラベル付けされている) が `upsert_artifact` を使って同じアーティファクトに異なる画像ファイルを追加します。
 
@@ -118,7 +120,9 @@ with wandb.init() as run:
 
 前のアーティファクトバージョンからファイルのサブセットを追加、変更、または削除して、変更されていないファイルを再インデックスする必要はありません。前のアーティファクトバージョンからファイルのサブセットを追加、変更、または削除すると、新しいアーティファクトバージョンが作成され、これを*インクリメンタルアーティファクト*と呼びます。
 
-{{< img src="/images/artifacts/incremental_artifacts.png" alt="" >}}
+<Frame>
+    <img src="/images/artifacts/incremental_artifacts.png"  />
+</Frame>
 
 以下は、遭遇する可能性のあるインクリメンタルな変更の各タイプに対するシナリオです:
 
@@ -128,31 +132,27 @@ with wandb.init() as run:
 
 インクリメンタルアーティファクトとしての同じ機能を実行するためにアーティファクトをゼロから作成することもできます。しかし、アーティファクトをゼロから作成する場合、アーティファクトのすべての内容をローカルディスクに持っている必要があります。インクリメンタルな変更を行う場合、前のアーティファクトバージョンのファイルを変更せずに、個々のファイルを追加、削除、または変更できます。
 
-{{% alert %}}
+<Note>
 単一の run で、または複数の run (分散モード) でインクリメンタルアーティファクトを作成できます。
-{{% /alert %}}
+</Note>
 
 以下の手順に従って、アーティファクトをインクリメンタルに変更します:
 
 1. インクリメンタル変更を行いたいアーティファクトバージョンを取得します:
 
-{{< tabpane text=true >}}
-{{% tab header="Inside a run" %}}
-
+<Tabs>
+<Tab title="Inside a run">
 ```python
 saved_artifact = run.use_artifact("my_artifact:latest")
 ```
-
-{{% /tab %}}
-{{% tab header="Outside of a run" %}}
-
+</Tab>
+<Tab title="Outside of a run">
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 2. 以下の方法でドラフトを作成します:
 
@@ -164,59 +164,58 @@ draft_artifact = saved_artifact.new_draft()
 
 各変更を行うための例については、以下のいずれかのタブを選択してください:
 
-{{< tabpane text=true >}}
-  {{% tab header="Add" %}}
+<Tabs>
+<Tab title="Add">
 `add_file` メソッドで既存のアーティファクトバージョンにファイルを追加します:
 
 ```python
 draft_artifact.add_file("file_to_add.txt")
 ```
 
-{{% alert %}}
+<Note>
 `add_dir` メソッドを使用してディレクトリを追加することで、複数のファイルを追加することもできます。
-{{% /alert %}}  
-  {{% /tab %}}
-  {{% tab header="Remove" %}}
+</Note>
+</Tab>
+<Tab title="Remove">
 `remove` メソッドで既存のアーティファクトバージョンからファイルを削除します:
 
 ```python
 draft_artifact.remove("file_to_remove.txt")
 ```
 
-{{% alert %}}
+<Note>
 `remove` メソッドにディレクトリパスを渡すことで、複数のファイルを削除することもできます。
-{{% /alert %}}  
-  {{% /tab %}}
-  {{% tab header="Modify" %}}
+</Note>
+</Tab>
+<Tab title="Modify">
 ドラフトから古い内容を削除し、新しい内容を追加することで、内容を変更または置き換えます:
 
 ```python
 draft_artifact.remove("modified_file.txt")
 draft_artifact.add_file("modified_file.txt")
-```  
-  {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 4. 最後に、変更をログまたは保存します。以下のタブは、W&B run の内外で変更を保存する方法を示しています。適切なユースケースに応じてタブを選択してください:
 
-{{< tabpane text=true >}}
-  {{% tab header="Inside a run" %}}
+<Tabs>
+<Tab title="Inside a run">
 ```python
 run.log_artifact(draft_artifact)
 ```
-
-  {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
+</Tab>
+<Tab title="Outside of a run">
 ```python
 draft_artifact.save()
-```  
-  {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 以上のコード例をまとめると、以下のようになります:
 
-{{< tabpane text=true >}}
-  {{% tab header="Inside a run" %}}
+<Tabs>
+<Tab title="Inside a run">
 ```python
 with wandb.init(job_type="modify dataset") as run:
     saved_artifact = run.use_artifact(
@@ -230,9 +229,9 @@ with wandb.init(job_type="modify dataset") as run:
     run.log_artifact(
         artifact
     )  # log your changes to create a new version and mark it as output to your run
-```  
-  {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
+```
+</Tab>
+<Tab title="Outside of a run">
 ```python
 client = wandb.Api()
 saved_artifact = client.artifact("my_artifact:latest")  # load your artifact
@@ -242,6 +241,6 @@ draft_artifact = saved_artifact.new_draft()  # create a draft version
 draft_artifact.remove("deleted_file.txt")
 draft_artifact.add_file("modified_file.txt")
 draft_artifact.save()  # commit changes to the draft
-```  
-  {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>

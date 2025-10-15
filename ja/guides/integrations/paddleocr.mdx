@@ -18,9 +18,9 @@ PaddleOCRでICDAR2015データセットを使ってモデルをトレーニン�
 
 APIキーは、W&Bへの認証に使われます。APIキーはユーザーのプロファイルから生成できます。
 
-{{% alert %}}
+<Note>
 よりスムーズな方法として、直接[https://wandb.ai/authorize](https://wandb.ai/authorize)にアクセスしてAPIキーを生成することができます。表示されたAPIキーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上のユーザープロファイルアイコンをクリックします。
 2. **User Settings**を選択し、**API Keys**セクションまでスクロールします。
@@ -30,10 +30,9 @@ APIキーは、W&Bへの認証に使われます。APIキーはユーザーの�
 
 `wandb`ライブラリをローカルにインストールしてログインするには:
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
-
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})を自分のAPIキーに設定します。
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/)を自分のAPIキーに設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -46,11 +45,8 @@ APIキーは、W&Bへの認証に使われます。APIキーはユーザーの�
 
     wandb login
     ```
-
-{{% /tab %}}
-
-{{% tab header="Python" value="python" %}}
-
+</Tab>
+<Tab title="Python">
 ```bash
 pip install wandb
 ```
@@ -58,20 +54,16 @@ pip install wandb
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{% tab header="Python notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Python notebook">
 ```notebook
 !pip install wandb
 
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## `config.yml`ファイルにwandbを追加する
 
@@ -82,7 +74,7 @@ Global:
     use_wandb: True
 ```
 
-[`wandb.init`]({{< relref path="/ref/python/init" lang="ja" >}})に渡したい追加の任意の引数は、yamlファイルの`wandb`ヘッダーの下に追加することもできます:
+[`wandb.init`](/ja/models/ref/python/init)に渡したい追加の任意の引数は、yamlファイルの`wandb`ヘッダーの下に追加することもできます:
 
 ```
 wandb:  
@@ -101,11 +93,17 @@ python tools/train.py -c config.yml
 
 Weights & Biasesをオンにして`train.py`ファイルを実行するとき、W&Bダッシュボードへのリンクが生成されます:
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/paddleocr_wb_dashboard1.png"  />
+</Frame>
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/paddleocr_wb_dashboard2.png"  />
+</Frame>
 
-{{< img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model" >}}
+<Frame>
+    <img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="W&B Dashboard for the Text Detection Model"  />
+</Frame>
 
 ## フィードバックや問題点
 

@@ -8,21 +8,21 @@ menu:
 weight: 5
 ---
 
-{{% alert %}}
-W&B は、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) や [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) のような完全管理されたデプロイメントオプションを推奨しています。W&B の完全管理サービスは、シンプルで安全に使用でき、ほとんど設定が不要です。
-{{% /alert %}}
+<Note>
+W&B は、[W&B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/saas_cloud) や [W&B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) のような完全管理されたデプロイメントオプションを推奨しています。W&B の完全管理サービスは、シンプルで安全に使用でき、ほとんど設定が不要です。
+</Note>
 
 関連する質問については、W&B セールスチームにお問い合わせください: [contact@wandb.com](mailto:contact@wandb.com).
 
 ## インフラストラクチャーガイドライン
 
-W&B のデプロイメントを開始する前に、特にインフラストラクチャー要件を確認するために、[リファレンスアーキテクチャー]({{< relref path="ref-arch.md#infrastructure-requirements" lang="ja" >}})を参照してください。
+W&B のデプロイメントを開始する前に、特にインフラストラクチャー要件を確認するために、[リファレンスアーキテクチャー](/ja/platform/hosting/self-managed/ref-arch/#infrastructure-requirements)を参照してください。
 
 ## MySQL データベース
 
-{{% alert color="secondary" %}}
+<Warning>
 W&B は MySQL 5.7 の使用を推奨しません。MySQL 5.7 を使用している場合は、最新バージョンの W&B Server との互換性を最大限にするために MySQL 8 へ移行してください。W&B Server は現在、`MySQL 8` バージョン `8.0.28` 以降のみをサポートしています。
-{{% /alert %}}
+</Warning>
 
 スケーラブルな MySQL データベースの運用を簡素化するエンタープライズサービスがいくつかあります。W&B は次のソリューションのいずれかを検討することを推奨します:
 
@@ -52,9 +52,9 @@ CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
 ```
 
-{{% alert %}}
+<Note>
 これは SSL 証明書が信頼されている場合にのみ機能します。W&B は自己署名証明書をサポートしていません。
-{{% /alert %}}
+</Note>
 
 ### パラメータグループ設定
 
@@ -100,9 +100,9 @@ s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME
 s3://$ACCESS_KEY:$SECRET_KEY@$HOST/$BUCKET_NAME?tls=true
 ```
 
-{{% alert color="secondary" %}}
+<Warning>
 これは SSL 証明書が信頼されている場合にのみ機能します。W&B は自己署名証明書をサポートしていません。
-{{% /alert %}}
+</Warning>
 
 サードパーティのオブジェクトストアを使用している場合、`BUCKET_QUEUE` を `internal://` に設定します。これにより、外部の SQS キューやそれに相当するものに依存せずに、W&B サーバーがすべてのオブジェクト通知を内部で管理できるようになります。
 
@@ -128,23 +128,23 @@ mc mb --region=us-east1 local/local-files
 
 ## W&B Server アプリケーションを Kubernetes にデプロイ
 
-公式の W&B Helm チャートを使用することが推奨されるインストール方法です。[こちらのセクション]({{< relref path="/guides/hosting/hosting-options/self-managed/kubernetes-operator/#deploy-wb-with-helm-cli" lang="ja" >}})に従って W&B Server アプリケーションをデプロイしてください。
+公式の W&B Helm チャートを使用することが推奨されるインストール方法です。[こちらのセクション](/ja/platform/hosting/operator#deploy-wb-with-helm-cli)に従って W&B Server アプリケーションをデプロイしてください。
 
 ### OpenShift
 
 W&B は、[OpenShift Kubernetes クラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift) 内からの運用をサポートしています。
 
-{{% alert %}}
+<Note>
 W&B は公式の W&B Helm チャートでのインストールをお勧めします。
-{{% /alert %}}
+</Note>
 
 #### コンテナを非特権ユーザーとして実行
 
 デフォルトでは、コンテナは `$UID` 999 を使用します。オーケストレーターが非ルートユーザーでのコンテナ実行を要求する場合、`$UID` >= 100000 そして `$GID` を 0 に指定します。
 
-{{% alert %}}
+<Note>
 W&B はファイルシステム権限が正しく機能するためにルートグループ (`$GID=0`) として開始する必要があります。
-{{% /alert %}}
+</Note>
 
 Kubernetes のセキュリティコンテキストの例は次のようになります:
 
@@ -252,19 +252,18 @@ wandb verify
 
 開始時に W&B Server にヒットするエラーを表示するためにログファイルを確認してください。次のコマンドを実行します:
 
-{{< tabpane text=true >}}
-{{% tab header="Docker" value="docker" %}}
+<Tabs>
+<Tab title="Docker">
 ```bash
 docker logs wandb-local
 ```
-{{% /tab %}}
-
-{{% tab header="Kubernetes" value="kubernetes"%}}
+</Tab>
+<Tab title="Kubernetes">
 ```bash
 kubectl get pods
 kubectl logs wandb-XXXXX-XXXXX
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 エラーが発生した場合は W&B サポートにお問い合わせください。

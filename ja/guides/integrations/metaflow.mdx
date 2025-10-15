@@ -23,9 +23,9 @@ weight: 200
 
 APIキーはあなたのマシンをW&Bに認証します。ユーザープロフィールからAPIキーを生成することができます。
 
-{{% alert %}}
+<Note>
 よりスムーズな方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize)に直接アクセスしてAPIキーを生成できます。表示されたAPIキーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上のユーザープロフィールアイコンをクリックします。
 2. **User Settings**を選択し、**API Keys**セクションまでスクロールします。
@@ -35,10 +35,9 @@ APIキーはあなたのマシンをW&Bに認証します。ユーザープロ�
 
 ローカルに`wandb`ライブラリをインストールし、ログインするためには次の手順を行います。
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
-
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})をAPIキーに設定します。
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/)をAPIキーに設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -51,11 +50,8 @@ APIキーはあなたのマシンをW&Bに認証します。ユーザープロ�
 
     wandb login
     ```
-
-{{% /tab %}}
-
-{{% tab header="Python" value="python" %}}
-
+</Tab>
+<Tab title="Python">
 ```bash
 pip install -Uqqq metaflow fastcore wandb
 ```
@@ -63,26 +59,21 @@ pip install -Uqqq metaflow fastcore wandb
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{% tab header="Python notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Python notebook">
 ```notebook
 !pip install -Uqqq metaflow fastcore wandb
 
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ### フローとステップをデコレートする
 
-{{< tabpane text=true >}}
-{{% tab header="Step" value="step" %}}
-
+<Tabs>
+<Tab title="Step">
 ステップをデコレートすることで、そのステップ内の特定のタイプに対してログのオンまたはオフが適用されます。
 
 この例では、`start`における全てのデータセットとモデルがログされます。
@@ -98,10 +89,8 @@ class WandbExampleFlow(FlowSpec):
         self.model_file = torch.load(...)  # nn.Module    -> モデルとしてアップロード
         self.next(self.transform)
 ```
-{{% /tab %}}
-
-{{% tab header="Flow" value="flow" %}}
-
+</Tab>
+<Tab title="Flow">
 フローをデコレートすることは、すべての構成ステップをデフォルトでデコレートすることに相当します。
 
 この場合、`WandbExampleFlow`のすべてのステップは、各ステップを `@wandb_log(datasets=True, models=True)`でデコレートするのと同様に、デフォルトでデータセットとモデルをログします。
@@ -117,10 +106,8 @@ class WandbExampleFlow(FlowSpec):
         self.model_file = torch.load(...)  # nn.Module    -> モデルとしてアップロード
         self.next(self.transform)
 ```
-{{% /tab %}}
-
-{{% tab header="Flow and Steps" value="flow_and_steps" %}}
-
+</Tab>
+<Tab title="Flow and Steps">
 フローをデコレートすることは、すべてのステップをデフォルトでデコレートすることを意味します。つまり、後でステップを別の`@wandb_log`でデコレートすると、フローレベルのデコレーションが上書きされます。
 
 この例では:
@@ -154,12 +141,12 @@ class WandbExampleFlow(FlowSpec):
     self.raw_df = pd.read_csv(...).    
     self.model_file = torch.load(...)
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## データへプログラムでアクセスする
 
-キャプチャされた情報には3つの方法でアクセスできます: [`wandb`クライアントライブラリ]({{< relref path="/ref/python/" lang="ja" >}})を使用してオリジナルのPythonプロセス内でログされたもの、[ウェブアプリUI]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}})、あるいは[パブリックAPI]({{< relref path="/ref/python/public-api/" lang="ja" >}})をプログラムで使用する方法です。パラメータはW&Bの[`config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}})に保存され、[Overviewタブ]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}})で見つけることができます。`datasets`、`models`、およびその他は[W&B Artifacts]({{< relref path="/guides/core/artifacts/" lang="ja" >}})に保存され、[Artifactsタブ]({{< relref path="/guides/models/track/runs/#artifacts-tab" lang="ja" >}})で見つけることができます。基本的なPythonタイプはW&Bの[`summary`]({{< relref path="/guides/models/track/log/" lang="ja" >}})ディクショナリに保存され、Overviewタブで見ることができます。これらの情報を外部からプログラムで取得する方法の詳細については、[パブリックAPIのガイド]({{< relref path="/guides/models/track/public-api-guide.md" lang="ja" >}})をご覧ください。
+キャプチャされた情報には3つの方法でアクセスできます: [`wandb`クライアントライブラリ](/ja/models/ref/python/)を使用してオリジナルのPythonプロセス内でログされたもの、[ウェブアプリUI](/ja/models/track/workspaces/)、あるいは[パブリックAPI](/ja/models/ref/python/public-api/)をプログラムで使用する方法です。パラメータはW&Bの[`config`](/ja/models/track/config/)に保存され、[Overviewタブ](/ja/models/runs/#overview-tab)で見つけることができます。`datasets`、`models`、およびその他は[W&B Artifacts](/ja/models/artifacts/)に保存され、[Artifactsタブ](/ja/models/runs/#artifacts-tab)で見つけることができます。基本的なPythonタイプはW&Bの[`summary`](/ja/models/track/log/)ディクショナリに保存され、Overviewタブで見ることができます。これらの情報を外部からプログラムで取得する方法の詳細については、[パブリックAPIのガイド](/ja/models/track/public-api-guide/)をご覧ください。
 
 ### クイックリファレンス
 

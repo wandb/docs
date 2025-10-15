@@ -8,7 +8,7 @@ menu:
 weight: 230
 ---
 
-{{< cta-button colabLink="https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" >}}
+<Card title="Try in Colab" href="https://github.com/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" icon="python"/>
 
 [Composer](https://github.com/mosaicml/composer) は、ニューラルネットワークをより良く、より速く、より安価にトレーニングするためのライブラリです。ニューラルネットワークのトレーニングを加速し、一般化能力を向上させるための最新のメソッドが多数含まれており、多様な強化を容易に組み合わせるためのオプションの [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API も用意されています。
 
@@ -23,7 +23,9 @@ from composer.loggers import WandBLogger
 trainer = Trainer(..., logger=WandBLogger())
 ```
 
-{{< img src="/images/integrations/n6P7K4M.gif" alt="インタラクティブなダッシュボードはどこからでもアクセス可能で、さらに多くの機能があります！" >}}
+<Frame>
+    <img src="/images/integrations/n6P7K4M.gif" alt="インタラクティブなダッシュボードはどこからでもアクセス可能で、さらに多くの機能があります！"  />
+</Frame>
 
 ## Composer の `WandBLogger` を使用する
 
@@ -47,7 +49,7 @@ WandbLogger のパラメータは以下です。完全な一覧と説明につ�
 | `tags`                   | W&B タグ (List[str], optional)
 | `log_artifacts`                 | チェックポイントを wandb にログするかどうか。デフォルト: `false` (bool, optional)|
 | `rank_zero_only`         | ランクゼロのプロセスでのみログするかどうか。アーティファクトをログする場合、すべてのランクでログすることが強く推奨されます。ランク 1 以上のアーティファクトは保存されないため、関連する情報が失われる可能性があります。例えば、Deepspeed ZeRO を使用する場合、すべてのランクからのアーティファクトがなければチェックポイントから復元することはできません。デフォルト: `True` (bool, optional)
-| `init_kwargs`                   | `wandb.init` に渡すパラメータ、`config` など。このリストについては完全な一覧を[こちら]({{< relref path="/ref/python/init" lang="ja" >}}) から確認できます。                                                                                                                                                                                   
+| `init_kwargs`                   | `wandb.init` に渡すパラメータ、`config` など。このリストについては完全な一覧を[こちら](/ja/models/ref/python/init) から確認できます。                                                                                                                                                                                   
 
 典型的な使用法は次のとおりです：
 

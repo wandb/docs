@@ -8,19 +8,19 @@ menu:
 ---
 
 # runを巻き戻す
-{{% alert color="secondary" %}}
+<Warning>
 runを巻き戻すオプションはプライベートプレビューです。この機能へのアクセスをリクエストするには、W&Bサポート(support@wandb.com)までお問い合わせください。
 
 現在、W&Bがサポートしていないもの:
 * **ログの巻き戻し**: 新しいrunセグメントでログがリセットされます。
 * **システムメトリクスの巻き戻し**: W&Bは巻き戻しポイントの後にのみ新しいシステムメトリクスをログします。
 * **アーティファクトの関連付け**: W&Bは生成されたアーティファクトをそのソースrunに関連付けます。
-{{% /alert %}}
+</Warning>
 
-{{% alert %}}
+<Note>
 * runを巻き戻すには、[W&B Python SDK](https://pypi.org/project/wandb/) バージョン >= `0.17.1` が必要です。
-* 単調増加するステップを使用する必要があります。run履歴とシステムメトリクスの必要な時間順序を乱すため、[`define_metric()`]({{< relref path="/ref/python/run#define_metric" lang="ja" >}})で定義された非単調ステップを使用することはできません。
-{{% /alert %}}
+* 単調増加するステップを使用する必要があります。run履歴とシステムメトリクスの必要な時間順序を乱すため、[`define_metric()`](/ja/models/ref/python/run#define_metric)で定義された非単調ステップを使用することはできません。
+</Note>
 
 runを巻き戻して、元のデータを失うことなくrunの履歴を修正または変更します。さらに、runを巻き戻すと、その時点から新しいデータをログすることができます。W&Bは、新しい履歴に基づく巻き戻し対象のrunのサマリーメトリクスを再計算します。これは以下の振る舞いを意味します:
 - **履歴の切断**: W&Bは巻き戻しポイントまで履歴を切断し、新しいデータのログを可能にします。
@@ -29,24 +29,26 @@ runを巻き戻して、元のデータを失うことなくrunの履歴を修�
 
 runを巻き戻すと、W&Bは指定されたステップにrunの状態をリセットし、元のデータを保持し、一貫したrun IDを維持します。これは次のことを意味します:
 
-- **runのアーカイブ**: W&Bは元のrunをアーカイブします。runは[**Run Overview**]({{< relref path="./#overview-tab" lang="ja" >}}) タブからアクセス可能です。
+- **runのアーカイブ**: W&Bは元のrunをアーカイブします。runは[**Run Overview**](/ja/./#overview-tab) タブからアクセス可能です。
 - **アーティファクトの関連付け**: アーティファクトを生成するrunと関連付けます。
 - **不変のrun ID**: 正確な状態からフォークするための一貫性が導入されます。
 - **不変のrun IDをコピー**: run管理を改善するために不変のrun IDをコピーするボタンがあります。
 
-{{% alert title="巻き戻しとフォークの互換性" %}}
+<Note>
+**巻き戻しとフォークの互換性**
+
 フォークは巻き戻しと補完し合います。
 
 runからフォークすると、W&Bは特定のポイントでrunを分岐させて異なるパラメータやモデルを試します。
 
 runを巻き戻すと、W&Bはrun履歴そのものを修正または変更することを可能にします。
-{{% /alert %}}
+</Note>
 
 
 
 ## runを巻き戻す
 
-`resume_from`を[`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}})と共に使用して、runの履歴を特定のステップまで「巻き戻し」ます。runの名前と巻き戻すステップを指定します:
+`resume_from`を[`wandb.init()`](/ja/models/ref/python/init)と共に使用して、runの履歴を特定のステップまで「巻き戻し」ます。runの名前と巻き戻すステップを指定します:
 
 ```python
 import wandb
@@ -81,14 +83,14 @@ run2.finish()
 
 runを巻き戻した後、W&B App UIでアーカイブされたrunを探索できます。以下のステップに従ってアーカイブされたrunを表示します:
 
-1. **Overviewタブにアクセスする**: runのページで[**Overviewタブ**]({{< relref path="./#overview-tab" lang="ja" >}})に移動します。このタブはrunの詳細と履歴を包括的に表示します。
+1. **Overviewタブにアクセスする**: runのページで[**Overviewタブ**](/ja/./#overview-tab)に移動します。このタブはrunの詳細と履歴を包括的に表示します。
 2. **Forked Fromフィールドを見つける**: **Overview**タブ内で、`Forked From`フィールドを見つけます。このフィールドは再開の履歴を記録します。**Forked From**フィールドにはソースrunへのリンクが含まれており、オリジナルのrunに遡り、全体の巻き戻し履歴を理解することができます。
 
 `Forked From`フィールドを使用することで、アーカイブされた再開のツリーを簡単にナビゲートし、それぞれの巻き戻しの順序と起源についての洞察を得ることができます。
 
 ## 巻き戻されたrunからフォークする
 
-巻き戻されたrunからフォークするには、`wandb.init()`の[**`fork_from`**]({{< relref path="/guides/models/track/runs/forking" lang="ja" >}})引数を使用し、ソースrun IDとフォークするソースrunのステップを指定します:
+巻き戻されたrunからフォークするには、`wandb.init()`の[**`fork_from`**](/ja/models/runs/forking/)引数を使用し、ソースrun IDとフォークするソースrunのステップを指定します:
 
 ```python 
 import wandb

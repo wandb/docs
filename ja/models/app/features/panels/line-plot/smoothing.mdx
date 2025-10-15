@@ -10,14 +10,16 @@ weight: 30
 
 W&B は 3 つのタイプの平滑化をサポートしています:
 
-- [指数移動平均]({{< relref path="smoothing.md#exponential-moving-average-default" lang="ja" >}}) (デフォルト)
-- [ガウス平滑化]({{< relref path="smoothing.md#gaussian-smoothing" lang="ja" >}})
-- [移動平均]({{< relref path="smoothing.md#running-average" lang="ja" >}})
-- [指数移動平均 - Tensorboard]({{< relref path="smoothing.md#exponential-moving-average-deprecated" lang="ja" >}}) (非推奨)
+- [指数移動平均](/ja/models/app/features/panels/line-plot/smoothing/#exponential-moving-average-default) (デフォルト)
+- [ガウス平滑化](/ja/models/app/features/panels/line-plot/smoothing/#%E3%82%AC%E3%82%A6%E3%82%B9%E5%B9%B3%E6%BB%91%E5%8C%96)
+- [移動平均](/ja/models/app/features/panels/line-plot/smoothing/#%E7%A7%BB%E5%8B%95%E5%B9%B3%E5%9D%87)
+- [指数移動平均 - Tensorboard](/ja/models/app/features/panels/line-plot/smoothing/#exponential-moving-average-deprecated) (非推奨)
 
 これらが [インタラクティブな W&B レポート](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc)でどのように動作するかをご覧ください。
 
-{{< img src="/images/app_ui/beamer_smoothing.gif" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/beamer_smoothing.gif"  />
+</Frame>
 
 ## 指数移動平均 (デフォルト)
 
@@ -47,7 +49,9 @@ return yValues.map((yPoint, index) => {
 
 これがアプリ内でどのように見えるかはこちらをご覧ください [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-{{< img src="/images/app_ui/weighted_exponential_moving_average.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/weighted_exponential_moving_average.png"  />
+</Frame>
 
 ## ガウス平滑化
 
@@ -57,7 +61,9 @@ return yValues.map((yPoint, index) => {
 
 これがアプリ内でどのように見えるかはこちらをご覧ください [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing):
 
-{{< img src="/images/app_ui/gaussian_smoothing.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/gaussian_smoothing.png"  />
+</Frame>
 
 ## 移動平均
 
@@ -67,7 +73,9 @@ return yValues.map((yPoint, index) => {
 
 次の画像は、アプリ内での移動アプリの表示例を示しています [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
 
-{{< img src="/images/app_ui/running_average.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/running_average.png"  />
+</Frame>
 
 ## 指数移動平均 (非推奨)
 
@@ -88,7 +96,9 @@ return yValues.map((yPoint, index) => {
 
 これがアプリ内でどのように見えるかはこちらをご覧ください [in the app](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
-{{< img src="/images/app_ui/exponential_moving_average.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/exponential_moving_average.png"  />
+</Frame>
 
 ## 実装の詳細
 
@@ -98,4 +108,6 @@ return yValues.map((yPoint, index) => {
 
 デフォルトでは、オリジナルの非平滑化データを背景として薄い線で表示します。この表示をオフにするには、**Show Original** トグルをクリックしてください。
 
-{{< img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif"  />
+</Frame>

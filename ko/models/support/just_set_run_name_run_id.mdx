@@ -1,18 +1,21 @@
 ---
-url: /support/:filename
-title: "Can I just set the run name to the run ID?"
+title: Can I just set the run name to the run ID?
+menu:
+  support:
+    identifier: ko-support-kb-articles-just_set_run_name_run_id
+support:
+- experiments
 toc_hide: true
 type: docs
-support:
-   - experiments
+slug: /ko/models/support/:filename
 ---
 
-Yes. To overwrite the run name with the run ID, use the following code snippet:
+예: run 이름을 run ID로 덮어쓰려면 다음 코드 조각을 사용하세요.
 
 ```python
 import wandb
 
-with wandb.init() as run:
-   run.name = run.id
-   run.save()
+wandb.init()
+wandb.run.name = wandb.run.id
+wandb.run.save()
 ```

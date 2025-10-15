@@ -8,7 +8,9 @@ menu:
     parent: query-panels
 ---
 
-{{< img src="/images/weave/embedding_projector.png" alt="" >}}
+<Frame>
+    <img src="/images/weave/embedding_projector.png"  />
+</Frame>
 
 [Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) はオブジェクト（人物、画像、投稿、単語など）を数字のリストで表現するために使用されます。これを _ベクトル_ と呼ぶこともあります。機械学習やデータサイエンスのユースケースでは、Embeddings は様々な手法を用いて生成でき、幅広いアプリケーションで利用されます。このページでは、読者が Embeddings に精通しており、W&B 内でそれらを視覚的に分析することに関心があることを前提としています。
 
@@ -39,7 +41,9 @@ wandb.finish()
 
 上記のコードを実行すると、W&B ダッシュボードにデータを含む新しいテーブルが作成されます。右上のパネルセレクタから `2D Projection` を選択して Embeddings を 2 次元でプロットすることができます。デフォルトで賢明な設定が自動的に選択されますが、設定メニューから簡単に上書きできます。この例では、利用可能な 5 つの数値次元をすべて自動的に使用しています。
 
-{{< img src="/images/app_ui/weave_hello_world.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/weave_hello_world.png"  />
+</Frame>
 
 ### 数字のMNIST
 
@@ -73,7 +77,9 @@ wandb.finish()
 
 上記のコードを実行した後、再び UI にテーブルが表示されます。 `2D Projection` を選択することで、Embedding の定義、色付け、アルゴリズム（PCA, UMAP, t-SNE）、アルゴリズムのパラメータ、さらにはオーバーレイ（この場合、点の上にマウスを置くと画像が表示されます）の設定を行うことができます。この特定のケースでは、すべて「スマートデフォルト」が設定されており、`2D Projection` をクリックするだけで非常に類似したものが見えるはずです。([この例を試してみてください](https://wandb.ai/timssweeney/embedding_tutorial/runs/k6guxhum?workspace=user-timssweeney))。
 
-{{< img src="/images/weave/embedding_projector.png" alt="" >}}
+<Frame>
+    <img src="/images/weave/embedding_projector.png"  />
+</Frame>
 
 ## ログオプション
 
@@ -82,8 +88,12 @@ Embeddings はさまざまなフォーマットでログすることができま
 1. **単一の埋め込みカラム:** データがすでに「行列」形式になっていることが多いです。この場合、カラムのデータ型は `list[int]`, `list[float]`, または `np.ndarray` にすることができます。
 2. **複数の数値カラム:** 上記の2つの例では、各次元に対してカラムを作成するこの方法を使用します。現在、セルには Python の `int` または `float` が受け入れられます。
 
-{{< img src="/images/weave/logging_options.png" alt="Single Embedding Column" >}}
-{{< img src="/images/weave/logging_option_image_right.png" alt="Many Numeric Columns" >}}
+<Frame>
+    <img src="/images/weave/logging_options.png" alt="Single Embedding Column"  />
+</Frame>
+<Frame>
+    <img src="/images/weave/logging_option_image_right.png" alt="Many Numeric Columns"  />
+</Frame>
 
 さらに、他のすべてのテーブルと同様に、テーブルを構築する方法について多くのオプションがあります:
 
@@ -97,9 +107,13 @@ Embeddings はさまざまなフォーマットでログすることができま
 
 `2D Projection` を選択した後、ギアアイコンをクリックしてレンダリング設定を編集できます。上記のカラムの選択に加えて、興味のあるアルゴリズム（および必要なパラメータ）を選ぶことができます。以下に、UMAP と t-SNE の各パラメータが表示されています。
 
-{{< img src="/images/weave/plotting_options_left.png" alt="" >}} 
-{{< img src="/images/weave/plotting_options_right.png" alt="" >}}
+<Frame>
+    <img src="/images/weave/plotting_options_left.png"  />
+</Frame> 
+<Frame>
+    <img src="/images/weave/plotting_options_right.png"  />
+</Frame>
 
-{{% alert %}}
+<Note>
 注: 現在、すべての 3 つのアルゴリズムに対して、ランダムなサブセット 1000 行と 50 次元にダウンサンプリングされます。
-{{% /alert %}}
+</Note>

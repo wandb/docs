@@ -1,13 +1,13 @@
 ---
-title: Runs
+title: run
 menu:
   reference:
-    identifier: ko-ref-python-public-api-runs
+    identifier: ja-ref-python-public-api-runs
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L64-L273 >}}
+<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L64-L273" icon="github"/>
 
-프로젝트 및 선택적 필터와 연결된 runs의 반복 가능한 컬렉션입니다.
+プロジェクトに関連付けられた runs の反復可能なコレクションとオプションフィルター。
 
 ```python
 Runs(
@@ -21,16 +21,16 @@ Runs(
 )
 ```
 
-일반적으로 `Api`.runs 메소드를 통해 간접적으로 사용됩니다.
+これは通常、`Api`.runs メソッドを介して間接的に使用されます。
 
-| 속성 |  |
+| 属性 |  |
 | :--- | :--- |
 
-## 메소드
+## メソッド
 
 ### `convert_objects`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L141-L173)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L141-L173)
 
 ```python
 convert_objects()
@@ -38,7 +38,7 @@ convert_objects()
 
 ### `histories`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L175-L270)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L175-L270)
 
 ```python
 histories(
@@ -50,24 +50,24 @@ histories(
 )
 ```
 
-필터 조건에 맞는 모든 runs에 대해 샘플링된 히스토리 메트릭을 반환합니다.
+フィルター条件に適合するすべての runs のサンプル履歴メトリクスを返します。
 
-| Args |  |
+| 引数 |  |
 | :--- | :--- |
-|  `samples` |  (int, optional) run 당 반환할 샘플 수 |
-|  `keys` |  (list[str], optional) 특정 키에 대한 메트릭만 반환 |
-|  `x_axis` |  (str, optional) 이 메트릭을 xAxis로 사용, 기본값은 _step |
-|  `format` |  (Literal, optional) 데이터를 반환할 형식, 옵션은 "default", "pandas", "polars" |
-|  `stream` |  (Literal, optional) 메트릭의 경우 "default", 머신 메트릭의 경우 "system" |
+|  `samples` |  (int, オプション) 各 run に対して返されるサンプルの数 |
+|  `keys` |  (list[str], オプション) 特定のキーのメトリクスのみを返します |
+|  `x_axis` |  (str, オプション) このメトリクスを x 軸として使用します。デフォルトは _step |
+|  `format` |  (Literal, オプション) データを返すフォーマット、オプションは "default", "pandas", "polars" |
+|  `stream` |  (Literal, オプション) メトリクスの "default", マシンメトリクスの "system" |
 
-| 반환 값 |  |
+| 戻り値 |  |
 | :--- | :--- |
-|  `pandas.DataFrame` |  format="pandas"인 경우, 히스토리 메트릭의 `pandas.DataFrame`을 반환합니다. |
-|  `polars.DataFrame` |  format="polars"인 경우, 히스토리 메트릭의 `polars.DataFrame`을 반환합니다. list of dicts: format="default"인 경우, run_id 키가 있는 히스토리 메트릭을 포함하는 dicts 목록을 반환합니다. |
+|  `pandas.DataFrame` |  format="pandas" の場合、履歴メトリクスの `pandas.DataFrame` を返します。 |
+|  `polars.DataFrame` |  format="polars" の場合、履歴メトリクスの `polars.DataFrame` を返します。リスト of dicts: format="default" の場合、履歴メトリクスを含む dicts のリストを run_id キー付きで返します。 |
 
 ### `next`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
 
 ```python
 next()
@@ -75,7 +75,7 @@ next()
 
 ### `update_variables`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
 
 ```python
 update_variables()
@@ -83,7 +83,7 @@ update_variables()
 
 ### `__getitem__`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
 
 ```python
 __getitem__(
@@ -93,7 +93,7 @@ __getitem__(
 
 ### `__iter__`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
 
 ```python
 __iter__()
@@ -101,12 +101,12 @@ __iter__()
 
 ### `__len__`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
+[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
 
 ```python
 __len__()
 ```
 
-| 클래스 변수 |  |
+| クラス変数 |  |
 | :--- | :--- |
 |  `QUERY`<a id="QUERY"></a> |   |

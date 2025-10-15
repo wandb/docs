@@ -1,168 +1,73 @@
 ---
-title: project
+title: Project
+menu:
+  reference:
+    identifier: ko-ref-python-public-api-project
 ---
-## Chainable Ops
-<h3 id="project-artifact"><code>project-artifact</code></h3>
 
-Returns the [artifact](artifact.md) for a given name within a [project](project.md)
+<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L79-L154" icon="github"/>
 
-| Argument |  |
+project는 runs를 위한 네임스페이스입니다.
+
+```python
+Project(
+    client, entity, project, attrs
+)
+```
+
+| 속성 |  |
 | :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifact](artifact.md) |
 
-#### Return Value
-The [artifact](artifact.md) for a given name within a [project](project.md)
+## Methods
 
-<h3 id="project-artifactType"><code>project-artifactType</code></h3>
+### `artifacts_types`
 
-Returns the [artifactType](artifact-type.md for a given name within a [project](project.md)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L112-L114)
 
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactType` | The name of the [artifactType](artifact-type.md |
+```python
+artifacts_types(
+    per_page=50
+)
+```
 
-#### Return Value
-The [artifactType](artifact-type.md for a given name within a [project](project.md)
+### `display`
 
-<h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
 
-Returns the [artifactTypes](artifact-type.md for a [project](project.md)
+```python
+display(
+    height=420, hidden=(False)
+) -> bool
+```
 
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
+Jupyter에서 이 오브젝트를 표시합니다.
 
-#### Return Value
-The [artifactTypes](artifact-type.md for a [project](project.md)
+### `snake_to_camel`
 
-<h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
 
-Returns the [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
+```python
+snake_to_camel(
+    string
+)
+```
 
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifactVersion](artifact-version.md |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](artifact-version.md |
+### `sweeps`
 
-#### Return Value
-The [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L116-L154)
 
-<h3 id="project-createdAt"><code>project-createdAt</code></h3>
+```python
+sweeps()
+```
 
-Returns the creation time of the [project](project.md)
+### `to_html`
 
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
+[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L96-L104)
 
-#### Return Value
-The creation time of the [project](project.md)
+```python
+to_html(
+    height=420, hidden=(False)
+)
+```
 
-<h3 id="project-name"><code>project-name</code></h3>
-
-Returns the name of the [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-
-#### Return Value
-The name of the [project](project.md)
-
-<h3 id="project-runs"><code>project-runs</code></h3>
-
-Returns the [runs](run.md) from a [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-
-#### Return Value
-The [runs](run.md) from a [project](project.md)
-
-
-## List Ops
-<h3 id="project-artifact"><code>project-artifact</code></h3>
-
-Returns the [artifact](artifact.md) for a given name within a [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifact](artifact.md) |
-
-#### Return Value
-The [artifact](artifact.md) for a given name within a [project](project.md)
-
-<h3 id="project-artifactType"><code>project-artifactType</code></h3>
-
-Returns the [artifactType](artifact-type.md for a given name within a [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactType` | The name of the [artifactType](artifact-type.md |
-
-#### Return Value
-The [artifactType](artifact-type.md for a given name within a [project](project.md)
-
-<h3 id="project-artifactTypes"><code>project-artifactTypes</code></h3>
-
-Returns the [artifactTypes](artifact-type.md for a [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-
-#### Return Value
-The [artifactTypes](artifact-type.md for a [project](project.md)
-
-<h3 id="project-artifactVersion"><code>project-artifactVersion</code></h3>
-
-Returns the [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-| `artifactName` | The name of the [artifactVersion](artifact-version.md |
-| `artifactVersionAlias` | The version alias of the [artifactVersion](artifact-version.md |
-
-#### Return Value
-The [artifactVersion](artifact-version.md for a given name and version within a [project](project.md)
-
-<h3 id="project-createdAt"><code>project-createdAt</code></h3>
-
-Returns the creation time of the [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-
-#### Return Value
-The creation time of the [project](project.md)
-
-<h3 id="project-name"><code>project-name</code></h3>
-
-Returns the name of the [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-
-#### Return Value
-The name of the [project](project.md)
-
-<h3 id="project-runs"><code>project-runs</code></h3>
-
-Returns the [runs](run.md) from a [project](project.md)
-
-| Argument |  |
-| :--- | :--- |
-| `project` | A [project](project.md) |
-
-#### Return Value
-The [runs](run.md) from a [project](project.md)
-
+이 project를 표시하는 iframe을 포함하는 HTML을 생성합니다.

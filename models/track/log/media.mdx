@@ -3,22 +3,22 @@ description: Log rich media, from 3D point clouds and molecules to HTML and hist
 menu:
   default:
     identifier: media
-    parent: logging
+    parent: log-objects-and-media
 title: Log media and objects
 ---
 
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" icon="python"/>
 
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
-{{% alert %}}
-For details, see the [Data types reference]({{< relref "/ref/python/data-types/" >}}).
-{{% /alert %}}
+<Note>
+For details, see the [Data types reference](/models/ref/python/data-types/).
+</Note>
 
-{{% alert %}}
+<Note>
 For more details, check out a [demo report about visualize model predictions](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) or watch a [video walkthrough](https://www.youtube.com/watch?v=96MxRvx15Ts).
-{{% /alert %}}
+</Note>
 
 ## Pre-requisites
 In order to log media objects with the W&B SDK, you may need to install additional dependencies.
@@ -32,18 +32,20 @@ pip install wandb[media]
 
 Log images to track inputs, outputs, filter weights, activations, and more.
 
-{{< img src="/images/track/log_images.png" alt="Autoencoder inputs and outputs" >}}
+<Frame>
+    <img src="/images/track/log_images.png" alt="Autoencoder inputs and outputs"  />
+</Frame>
 
 Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem. 
 
 Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
 
-{{% alert %}}
+<Note>
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
-{{% /alert %}}
+</Note>
 
-{{< tabpane text=true >}}
-   {{% tab header="Logging arrays as Images" %}}
+<Tabs>
+<Tab title="Logging arrays as Images">
 Provide arrays directly when constructing images manually, such as by using [`make_grid` from `torchvision`](https://pytorch.org/vision/stable/utils.html#torchvision.utils.make_grid).
 
 Arrays are converted to png using [Pillow](https://pillow.readthedocs.io/en/stable/index.html).
@@ -58,9 +60,9 @@ with wandb.init(project="image-log-example") as run:
     run.log({"examples": images})
 ```
 
-We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.   
-   {{% /tab %}}
-   {{% tab header="Logging PIL Images" %}}
+We assume the image is gray scale if the last dimension is 1, RGB if it's 3, and RGBA if it's 4. If the array contains floats, we convert them to integers between `0` and `255`. If you want to normalize your images differently, you can specify the [`mode`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) manually or just supply a [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html), as described in the "Logging PIL Images" tab of this panel.
+</Tab>
+<Tab title="Logging PIL Images">
 For full control over the conversion of arrays to images, construct the [`PIL.Image`](https://pillow.readthedocs.io/en/stable/reference/Image.html) yourself and provide it directly.
 
 ```python
@@ -77,9 +79,8 @@ with wandb.init(project="") as run:
     # Log the image
     run.log({"example": wandb.Image(image, caption="My Image")})
 ```
-
-   {{% /tab %}}
-   {{% tab header="Logging Images from Files" %}}
+</Tab>
+<Tab title="Logging Images from Files">
 For even more control, create images however you like, save them to disk, and provide a filepath.
 
 ```python
@@ -93,19 +94,21 @@ with wandb.init(project="") as run:
     rgb_im.save("myimage.jpg")
 
     run.log({"example": wandb.Image("myimage.jpg")})
-```   
-   {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 
 ## Image overlays
 
 
-{{< tabpane text=true >}}
-   {{% tab header="Segmentation Masks" %}}
+<Tabs>
+<Tab title="Segmentation Masks">
 Log semantic segmentation masks and interact with them (altering opacity, viewing changes over time, and more) via the W&B UI.
 
-{{< img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing" >}}
+<Frame>
+    <img src="/images/track/semantic_segmentation.gif" alt="Interactive mask viewing"  />
+</Frame>
 
 To log an overlay, provide a dictionary with the following keys and values to the `masks` keyword argument of `wandb.Image`:
 
@@ -140,11 +143,13 @@ mask_img = wandb.Image(
 Segmentation masks for a key are defined at each step (each call to `run.log()`). 
 - If steps provide different values for the same mask key, only the most recent value for the key is applied to the image.
 - If steps provide different mask keys, all values for each key are shown, but only those defined in the step being viewed are applied to the image. Toggling the visibility of masks not defined in the step do not change the image.
-   {{% /tab %}}
-    {{% tab header="Bounding Boxes" %}}
+</Tab>
+<Tab title="Bounding Boxes">
 Log bounding boxes with images, and use filters and toggles to dynamically visualize different sets of boxes in the UI.
 
-{{< img src="/images/track/bb-docs.jpeg" alt="Bounding box example" >}}
+<Frame>
+    <img src="/images/track/bb-docs.jpeg" alt="Bounding box example"  />
+</Frame>
 
 [See a live example](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
@@ -206,17 +211,19 @@ img = wandb.Image(
 
 with wandb.init(project="my_project") as run:
     run.log({"driving_scene": img})
-```    
-    {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 
 
 ## Image overlays in Tables
 
-{{< tabpane text=true >}}
-   {{% tab header="Segmentation Masks" %}}
-{{< img src="/images/track/Segmentation_Masks.gif" alt="Interactive Segmentation Masks in Tables" >}}
+<Tabs>
+<Tab title="Segmentation Masks">
+<Frame>
+    <img src="/images/track/Segmentation_Masks.gif" alt="Interactive Segmentation Masks in Tables"  />
+</Frame>
 
 To log Segmentation Masks in tables, you will need to provide a `wandb.Image` object for each row in the table.
 
@@ -238,10 +245,12 @@ for id, img, label in zip(ids, images, labels):
 
 with wandb.init(project="my_project") as run:
     run.log({"Table": table})
-```   
-   {{% /tab %}}
-   {{% tab header="Bounding Boxes" %}}
-{{< img src="/images/track/Bounding_Boxes.gif" alt="Interactive Bounding Boxes in Tables" >}}
+```
+</Tab>
+<Tab title="Bounding Boxes">
+<Frame>
+    <img src="/images/track/Bounding_Boxes.gif" alt="Interactive Bounding Boxes in Tables"  />
+</Frame>
 
 To log Images with Bounding Boxes in tables, you will need to provide a `wandb.Image` object for each row in the table.
 
@@ -273,16 +282,16 @@ for id, img, boxes in zip(ids, images, boxes_set):
             }
         },
     )
-```   
-   {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 
 
 ## Histograms
 
-{{< tabpane text=true >}}
-   {{% tab header="Basic Histogram Logging" %}}
+<Tabs>
+<Tab title="Basic Histogram Logging">
 If a sequence of numbers, such as a list, array, or tensor, is provided as the first argument, we will construct the histogram automatically by calling `np.histogram`. All arrays/tensors are flattened. You can use the optional `num_bins` keyword argument to override the default of `64` bins. The maximum number of bins supported is `512`.
 
 In the UI, histograms are plotted with the training step on the x-axis, the metric value on the y-axis, and the count represented by color, to ease comparison of histograms logged throughout training. See the "Histograms in Summary" tab of this panel for details on logging one-off histograms.
@@ -291,21 +300,23 @@ In the UI, histograms are plotted with the training step on the x-axis, the metr
 run.log({"gradients": wandb.Histogram(grads)})
 ```
 
-{{< img src="/images/track/histograms.png" alt="GAN discriminator gradients" >}}   
-   {{% /tab %}}
-   {{% tab header="Flexible Histogram Logging" %}}
+<Frame>
+    <img src="/images/track/histograms.png" alt="GAN discriminator gradients"  />
+</Frame>
+</Tab>
+<Tab title="Flexible Histogram Logging">
 If you want more control, call `np.histogram` and pass the returned tuple to the `np_histogram` keyword argument.
 
 ```python
 np_hist_grads = np.histogram(grads, density=True, range=(0.0, 1.0))
 run.log({"gradients": wandb.Histogram(np_hist_grads)})
 ```
-   {{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 
 
-If histograms are in your summary they will appear on the Overview tab of the [Run Page]({{< relref "/guides/models/track/runs/" >}}). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
+If histograms are in your summary they will appear on the Overview tab of the [Run Page](/models/runs/). If they are in your history, we plot a heatmap of bins over time on the Charts tab.
 
 ## 3D visualizations
 
@@ -317,9 +328,9 @@ point_cloud = np.array([[0, 0, 0, COLOR]])
 run.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
-{{% alert %}}
+<Note>
 The W&B UI truncates the data at 300,000 points.
-{{% /alert %}}
+</Note>
 
 #### NumPy array formats
 
@@ -331,9 +342,9 @@ Three different formats of NumPy arrays are supported for flexible color schemes
 
 #### Python object
 
-Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method]({{< relref "/ref/python/data-types/Object3D/#from_point_cloud" >}}).
+Using this schema, you can define a Python object and pass it in to [the `from_point_cloud` method](/ref/#from_point_cloud).
 
-* `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above]({{< relref "#python-object" >}}).
+* `points`is a NumPy array containing coordinates and colors for the points to render using [the same formats as the simple point cloud renderer shown above](#python-object).
 * `boxes` is a NumPy array of python dictionaries with three attributes:
   * `corners`- a list of eight corners
   * `label`- a string representing the label to be rendered on the box (Optional)
@@ -388,7 +399,7 @@ When viewing a point cloud, you can hold control and use the mouse to move aroun
 
 #### Point cloud files
 
-You can use [the `from_file` method]({{< relref "/ref/python/data-types/Object3D/#from_file" >}}) to load in a JSON file full of point cloud data.
+You can use [the `from_file` method](/ref/#from_file) to load in a JSON file full of point cloud data.
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -484,7 +495,7 @@ An example of how to format the point cloud data is shown below.
 ```
 #### NumPy arrays
 
-Using [the same array formats defined above]({{< relref "#numpy-array-formats" >}}), you can use `numpy` arrays directly with [the `from_numpy` method]({{< relref "/ref/python/data-types/Object3D/#from_numpy" >}}) to define a point cloud.
+Using [the same array formats defined above](#numpy-array-formats), you can use `numpy` arrays directly with [the `from_numpy` method](/ref/#from_numpy) to define a point cloud.
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -529,8 +540,6 @@ run.log({"my_cloud_from_numpy_rgb": wandb.Object3D.from_numpy(
 )})
 ```
 
-  </TabItem>
-  <TabItem value="molecules">
 
 ```python
 run.log({"protein": wandb.Molecule("6lu7.pdb")})
@@ -556,13 +565,13 @@ When your run finishes, you'll be able to interact with 3D visualizations of you
 
 [See a live example using AlphaFold](https://wandb.me/alphafold-workspace)
 
-{{< img src="/images/track/docs-molecule.png" alt="Molecule structure" >}}
-  </TabItem>
-</Tabs>
+<Frame>
+    <img src="/images/track/docs-molecule.png" alt="Molecule structure"  />
+</Frame>
 
 ### PNG image
 
-[`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
+[`wandb.Image`](/models/ref/python/data-types/image) converts `numpy` arrays or instances of `PILImage` to PNGs by default.
 
 ```python
 run.log({"example": wandb.Image(...)})
@@ -572,7 +581,7 @@ run.log({"example": [wandb.Image(...) for img in images]})
 
 ### Video
 
-Videos are logged using the [`wandb.Video`]({{< relref "/ref/python/data-types/Video" >}}) data type:
+Videos are logged using the [`wandb.Video`](/ref/) data type:
 
 ```python
 run.log({"example": wandb.Video("myvideo.mp4")})
@@ -582,7 +591,7 @@ Now you can view videos in the media browser. Go to your project workspace, run 
 
 ## 2D view of a molecule
 
-You can log a 2D view of a molecule using the [`wandb.Image`]({{< relref "/ref/python/data-types/image.md" >}}) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
+You can log a 2D view of a molecule using the [`wandb.Image`](/models/ref/python/data-types/image) data type and [`rdkit`](https://www.rdkit.org/docs/index.html):
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -604,7 +613,7 @@ W&B also supports logging of a variety of other media types.
 run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-A maximum of 100 audio clips can be logged per step. For more usage information, see [`audio-file`]({{< relref "/ref/query-panel/audio-file.md" >}}).
+A maximum of 100 audio clips can be logged per step. For more usage information, see [`audio-file`](/models/ref/query-panel/audio-file).
 
 ### Video
 
@@ -614,9 +623,9 @@ run.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")
 
 If a numpy array is supplied we assume the dimensions are, in order: time, channels, width, height. By default we create a 4 fps gif image ([`ffmpeg`](https://www.ffmpeg.org) and the [`moviepy`](https://pypi.org/project/moviepy/) python library are required when passing numpy objects). Supported formats are `"gif"`, `"mp4"`, `"webm"`, and `"ogg"`. If you pass a string to `wandb.Video` we assert the file exists and is a supported format before uploading to wandb. Passing a `BytesIO` object will create a temporary file with the specified format as the extension.
 
-On the W&B [Run]({{< relref "/guides/models/track/runs/" >}}) and [Project]({{< relref "/guides/models/track/project-page.md" >}}) Pages, you will see your videos in the Media section.
+On the W&B [Run](/models/runs/) and [Project](/models/track/project-page/) Pages, you will see your videos in the Media section.
 
-For more usage information, see [`video-file`]({{< relref "/ref/query-panel/video-file" >}}).
+For more usage information, see [`video-file`](/models/ref/query-panel/video-file).
 
 ### Text
 
@@ -643,7 +652,7 @@ You can also pass a pandas `DataFrame` object.
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-For more usage information, see [`string`]({{< relref "/ref/query-panel/" >}}).
+For more usage information, see [`string`](/models/ref/query-panel/).
 
 ### HTML
 
@@ -658,5 +667,5 @@ Custom HTML can be logged at any key, and this exposes an HTML panel on the run 
 run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-For more usage information, see [`html-file`]({{< relref "/ref/query-panel/html-file" >}}).
+For more usage information, see [`html-file`](/models/ref/query-panel/html-file).
 

@@ -4,15 +4,17 @@ date: 2025-07-29
 description: "July 29, 2025"
 ---
 
-With W&B Server 0.71, Registry is turned on by default for all organizations. For more details about the staged Registry rollout, see the relevant note in Features. This release brings several improvements and fixes to workspaces: Keep media panels with a common step slider in sync, navigate through through full-screen panels more efficiently, and find more details about a run’s total duration and time actively running. in the Run Overview page. Automations have been enhanced, and you can now trigger an automation based on an artifact version’s tags. <!-- more -->
+With W&B Server 0.71, Registry is turned on by default for all organizations. For more details about the staged Registry rollout, see the relevant note in Features. This release brings several improvements and fixes to workspaces: Keep media panels with a common step slider in sync, navigate through through full-screen panels more efficiently, and find more details about a run’s total duration and time actively running. in the Run Overview page. Automations have been enhanced, and you can now trigger an automation based on an artifact version’s tags. {/* more */}
 
 ## Support and end of life
 <ul>
   <li>W&B Server v0.57 and below reached end of life on July 29, 2025.</li>
   <li>W&B Server v0.58 is scheduled to reach end of life on September 2, 2025.</li>
-</ul><!-- This is in HTML to fix the admonition included below showing up as a child of the second item -->
+</ul>{/* This is in HTML to fix the admonition included below showing up as a child of the second item */}
 
-{{% readfile "/_includes/release-notes-support-eol-reminder.md" %}}
+import Text from "/snippets/en/_includes/release-notes-support-eol-reminder.mdx";
+
+<Text/>
 
 ### Upcoming changes
 - We’re optimizing our rendering behavior in the workspace to provide faster loading in workspaces with many panels, as well as more responsive and accurate drag-and-drop of panels in workspaces. **As part of this, we plan to remove the “Custom grid” layout in workspace sections in the next (0.72) release.** Custom grids will remain available in Reports. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions or concerns.
@@ -26,7 +28,7 @@ With W&B Server 0.71, Registry is turned on by default for all organizations. Fo
     3. In Server v0.74 (September), we will remove this flag and migration will happen during the upgrade.
 
     We’re optimizing for a seamless, minimally-inconveniencing upgrade to a powerful new experience. Reach out to your W&B for any questions about the migration.
-- An automation can now be triggered by adding a tag to an artifact. See [Artifact events](/guides/core/automations/automation-events#artifact-events).
+- An automation can now be triggered by adding a tag to an artifact. See [Artifact events](/models/automations/automation-events/#artifact-events).
 - When viewing a panel in full screen, view the next or previous panel in the section using the **Previous** and **Next** buttons or the left and right arrow keys.
 - When viewing a media panel in full screen, move the step slider with **CMD + left or right arrow** keys (macOS) or **Ctrl + left or right arrow** keys (Windows / Linux).
 - You can now synchronize media panels with the same step slider key so that when you advance the step slider in one media panel, the step sliders for other panels also advance. Open the workspace or section settings, go to **Media**, click the **Sync** tab, then turn on **Sync slider by key (Step)**.

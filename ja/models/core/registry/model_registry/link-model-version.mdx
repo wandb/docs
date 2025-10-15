@@ -12,7 +12,7 @@ weight: 5
 
 ## プログラムでモデルをリンクする
 
-[`link_model`]({{< relref path="/ref/python/run.md#link_model" lang="ja" >}}) メソッドを使用して、プログラムでモデルファイルを W&B run にログし、それを [W&B モデルレジストリ]({{< relref path="./" lang="ja" >}}) にリンクします。
+[`link_model`](/ja/models/ref/python/run#link_model) メソッドを使用して、プログラムでモデルファイルを W&B run にログし、それを [W&B モデルレジストリ](/ja/./) にリンクします。
 
 `<>`で囲まれた値を自分のものに置き換えることを忘れないでください:
 
@@ -33,8 +33,8 @@ run.finish()
 ## インタラクティブにモデルをリンクする
 インタラクティブにモデルレジストリまたはアーティファクトブラウザでモデルをリンクします。
 
-{{< tabpane text=true >}}
-  {{% tab header="Model Registry" %}}
+<Tabs>
+<Tab title="Model Registry">
 1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) のモデルレジストリアプリに移動します。
 2. 新しいモデルをリンクしたい登録済みモデルの名前の横にマウスをホバーします。
 3. **View details** の横のミートボールメニューアイコン（三つの水平な点）を選択します。
@@ -43,9 +43,11 @@ run.finish()
 6. **Model Artifact** ドロップダウンからモデルアーティファクトの名前を選択します。
 7. **Version** ドロップダウンから登録済みモデルにリンクしたいモデルバージョンを選択します。
 
-{{< img src="/images/models/link_model_wmodel_reg.gif" alt="" >}}
-  {{% /tab %}}
-  {{% tab header="Artifact browser" %}}
+<Frame>
+    <img src="/images/models/link_model_wmodel_reg.gif"  />
+</Frame>
+</Tab>
+<Tab title="Artifact browser">
 1. W&B App でプロジェクトのアーティファクトブラウザに移動します: `https://wandb.ai/<entity>/<project>/artifacts`
 2. 左側のサイドバーで Artifacts アイコンを選択します。
 3. リストにあなたのモデルを表示したいプロジェクトを表示します。
@@ -55,9 +57,11 @@ run.finish()
 7. （オプション）**Aliases** ドロップダウンからエイリアスを選択します。
 8. **Link to registry** をクリックします。
 
-{{< img src="/images/models/manual_linking.gif" alt="" >}}  
-  {{% /tab %}}
-{{< /tabpane >}}
+<Frame>
+    <img src="/images/models/manual_linking.gif"  />
+</Frame>
+</Tab>
+</Tabs>
 
 
 ## リンクされたモデルのソースを表示する
@@ -66,10 +70,12 @@ run.finish()
 
 モデルレジストリ内の特定のモデルバージョンを、（そのモデルがログされているプロジェクト内に位置する）ソースモデルアーティファクトと接続するポインタがあります。ソースモデルアーティファクトにもモデルレジストリへのポインタがあります。
 
-{{< tabpane text=true >}}
-  {{% tab header="Model Registry" %}}
+<Tabs>
+<Tab title="Model Registry">
 1. [https://wandb.ai/registry/model](https://wandb.ai/registry/model) でモデルレジストリに移動します。
-{{< img src="/images/models/create_registered_model_1.png" alt="" >}}
+<Frame>
+    <img src="/images/models/create_registered_model_1.png"  />
+</Frame>
 2. 登録済みモデルの名前の横で **View details** を選択します。
 3. **Versions** セクション内で調査したいモデルバージョンの横にある **View** を選択します。
 4. 右パネル内の **Version** タブをクリックします。
@@ -77,9 +83,11 @@ run.finish()
 
 例えば、次の画像は `v0` モデルバージョンである `mnist_model` （**Source version** フィールド `mnist_model:v0` を参照）を登録済みモデル `MNIST-dev` にリンクしていることを示しています。
 
-{{< img src="/images/models/view_linked_model_registry.png" alt="" >}}  
-  {{% /tab %}}
-  {{% tab header="Artifact browser" %}}
+<Frame>
+    <img src="/images/models/view_linked_model_registry.png"  />
+</Frame>
+</Tab>
+<Tab title="Artifact browser">
 1. W&B App でプロジェクトのアーティファクトブラウザに移動します: `https://wandb.ai/<entity>/<project>/artifacts`
 2. 左側のサイドバーで Artifacts アイコンを選択します。
 3. アーティファクトパネルから **model** ドロップダウンメニューを展開します。
@@ -89,6 +97,8 @@ run.finish()
 
 例えば、次の画像では、`MNIST-dev` という登録済みモデルがあります（**Linked To** フィールドを参照）。バージョン `v0` のモデルバージョン `mnist_model`（`mnist_model:v0`）が `MNIST-dev` 登録済みモデルを指しています。
 
-{{< img src="/images/models/view_linked_model_artifacts_browser.png" alt="" >}}  
-  {{% /tab %}}
-{{< /tabpane >}}
+<Frame>
+    <img src="/images/models/view_linked_model_artifacts_browser.png"  />
+</Frame>
+</Tab>
+</Tabs>

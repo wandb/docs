@@ -10,11 +10,11 @@ weight: 3
 
 モデル、モデルの依存関係、およびそのモデルに関連するその他の情報を W&B Python SDK を使用して追跡します。
 
-内部的には、W&B は [モデルアーティファクト]({{< relref path="./model-management-concepts.md#model-artifact" lang="ja" >}}) のリネージを作成し、W&B アプリ UI で表示したり、W&B Python SDK を使用してプログラム的に確認することができます。詳細は [モデルリネージマップの作成]({{< relref path="./model-lineage.md" lang="ja" >}}) を参照してください。
+内部的には、W&B は [モデルアーティファクト](/ja/models/core/registry/model_registry/model-management-concepts/#model-artifact) のリネージを作成し、W&B アプリ UI で表示したり、W&B Python SDK を使用してプログラム的に確認することができます。詳細は [モデルリネージマップの作成](/ja/models/core/registry/model_registry/model-lineage/) を参照してください。
 
 ## モデルをログする方法
 
-`run.log_model` API を使用してモデルをログします。モデルファイルが保存されているパスを `path` パラメータに提供してください。このパスはローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの[リファレンス URI]({{< relref path="/guides/core/artifacts/track-external-files.md#amazon-s3--gcs--azure-blob-storage-references" lang="ja" >}}) のいずれかにすることができます。
+`run.log_model` API を使用してモデルをログします。モデルファイルが保存されているパスを `path` パラメータに提供してください。このパスはローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの[リファレンス URI](/ja/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) のいずれかにすることができます。
 
 オプションでモデルアーティファクトの名前を `name` パラメータに指定できます。`name` が指定されていない場合、W&B は入力パスのベース名を実行 ID を前に付けたものとして使用します。
 

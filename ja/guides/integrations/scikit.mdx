@@ -15,9 +15,9 @@ wandbを使って、scikit-learn モデルの性能を数行のコードで視�
 
 APIキーは、あなたのマシンをW&Bに認証するためのものです。ユーザーのプロフィールからAPIキーを生成できます。
 
-{{% alert %}}
+<Note>
 よりスムーズな方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize)に直接アクセスしてAPIキーを生成することができます。表示されたAPIキーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上のユーザープロフィールアイコンをクリック。
 2. **User Settings** を選択し、**API Keys** セクションまでスクロール。
@@ -27,10 +27,9 @@ APIキーは、あなたのマシンをW&Bに認証するためのものです�
 
 ローカルで`wandb` ライブラリをインストールし、ログインするには:
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
-
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたのAPIキーに設定します。
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) をあなたのAPIキーに設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -43,11 +42,8 @@ APIキーは、あなたのマシンをW&Bに認証するためのものです�
 
     wandb login
     ```
-
-{{% /tab %}}
-
-{{% tab header="Python" value="python" %}}
-
+</Tab>
+<Tab title="Python">
 ```bash
 pip install wandb
 ```
@@ -55,20 +51,16 @@ pip install wandb
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{% tab header="Python notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Python notebook">
 ```notebook
 !pip install wandb
 
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ### メトリクスをログする
 
@@ -163,7 +155,9 @@ wandb.log({"plot": plt})
 
 ### 学習曲線
 
-{{< img src="/images/integrations/scikit_learning_curve.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_learning_curve.png"  />
+</Frame>
 
 モデルを様々な長さのデータセットでトレーニングし、交差検証スコアとデータセットサイズのプロットを生成します。トレーニングセットとテストセット両方に対して。
 
@@ -175,7 +169,9 @@ wandb.log({"plot": plt})
 
 ### ROC
 
-{{< img src="/images/integrations/scikit_roc.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_roc.png"  />
+</Frame>
 
 ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットします。理想的なスコアは、TPR = 1 かつ FPR = 0で、グラフの左上の点です。通常、ROC曲線の下面積 (AUC-ROC) を計算し、AUC-ROC が大きいほど良いです。
 
@@ -187,7 +183,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### クラスの割合
 
-{{< img src="/images/integrations/scikic_class_props.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikic_class_props.png"  />
+</Frame>
 
 トレーニングセットとテストセット内のターゲットクラスの分布をプロットします。非バランスなクラスを検出し、1つのクラスがモデルに過度の影響を与えないようにするために役立ちます。
 
@@ -199,7 +197,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### 精度-再現率曲線
 
-{{< img src="/images/integrations/scikit_precision_recall.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_precision_recall.png"  />
+</Frame>
 
 異なる閾値に対する精度と再現率のトレードオフを計算します。曲線下面積が高いということは、再現率も精度も高いことを表しており、高精度は低誤報率に、高再現率は低漏れ率に関連しています。
 
@@ -213,7 +213,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### 特徴の重要度
 
-{{< img src="/images/integrations/scikit_feature_importances.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_feature_importances.png"  />
+</Frame>
 
 分類タスクにおける各特徴の重要度を評価しプロットします。ツリーのような `feature_importances_` 属性を持つ分類器でのみ動作します。
 
@@ -224,7 +226,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### キャリブレーション曲線
 
-{{< img src="/images/integrations/scikit_calibration_curve.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_calibration_curve.png"  />
+</Frame>
 
 分類器の予測確率がどれだけキャリブレーションされているか、そしてどのように未キャリブレーションの分類器をキャリブレーションするかをプロットします。ロジスティック回帰ベースラインモデル、引数として渡されたモデル、およびそのアイソトニックキャリブレーションとシグモイドキャリブレーションによって、推定された予測確率を比較します。
 
@@ -241,7 +245,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### 混同行列
 
-{{< img src="/images/integrations/scikit_confusion_matrix.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_confusion_matrix.png"  />
+</Frame>
 
 分類の精度を評価するために混同行列を計算します。モデルの予測の質を評価し、モデルが間違ってしまう予測のパターンを見つけるのに役立ちます。対角線は、実際のラベルと予測ラベルが一致する正しい予測を表します。
 
@@ -253,7 +259,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### サマリーメトリクス
 
-{{< img src="/images/integrations/scikit_summary_metrics.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_summary_metrics.png"  />
+</Frame>
 
 - `mse`、`mae`、`r2`スコアなどの分類のサマリーメトリクスを計算します。
 - `f1`、精度、再現率などの回帰のサマリーメトリクスを計算します。
@@ -268,7 +276,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### エルボープロット
 
-{{< img src="/images/integrations/scikit_elbow_plot.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_elbow_plot.png"  />
+</Frame>
 
 クラスターの数に対する分散の説明率をトレーニング時間とともに測定しプロットします。クラスター数の最適値を選ぶのに役立ちます。
 
@@ -279,7 +289,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### シルエットプロット
 
-{{< img src="/images/integrations/scikit_silhouette_plot.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_silhouette_plot.png"  />
+</Frame>
 
 1つのクラスター内の各ポイントが、隣接するクラスターポイントにどれだけ近いかを測定しプロットします。クラスターの厚みはクラスターサイズに対応します。垂直線は全ポイントの平均シルエットスコアを示します。
 
@@ -295,7 +307,9 @@ ROC曲線は、真陽性率 (y軸) 対 偽陽性率 (x軸) をプロットしま
 
 ### 外れ値候補プロット
 
-{{< img src="/images/integrations/scikit_outlier_plot.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_outlier_plot.png"  />
+</Frame>
 
 Cookの距離を使用して、回帰モデルの各データポイントの影響を評価します。大きく偏った影響を持つインスタンスは外れ値である可能性があります。外れ値検出に役立ちます。
 
@@ -307,7 +321,9 @@ Cookの距離を使用して、回帰モデルの各データポイントの影�
 
 ### 残差プロット
 
-{{< img src="/images/integrations/scikit_residuals_plot.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/scikit_residuals_plot.png"  />
+</Frame>
 
 予測された目標値 (y軸) 対 実際の目標値と予測された目標値の差 (x軸) 、さらに残差誤差の分布を測定しプロットします。
 

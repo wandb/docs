@@ -8,7 +8,7 @@ menu:
 weight: 2
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" icon="python"/>
 
 `run` の `config` プロパティを使用して、トレーニング設定を保存します:
 - ハイパーパラメーター
@@ -17,9 +17,9 @@ weight: 2
 
 `run.config` プロパティを使用すると、実験を簡単に分析し、将来的に作業を再現できます。 W&B アプリで設定値ごとにグループ化し、さまざまな W&B Run の設定を比較し、各トレーニング設定が出力にどのように影響するかを評価できます。`config` プロパティは、複数の辞書のようなオブジェクトから構成できる辞書のようなオブジェクトです。
 
-{{% alert %}}
+<Note>
 出力メトリクスや損失や精度のような従属変数を保存するには、`run.config` ではなく `run.log` を使用してください。
-{{% /alert %}}
+</Note>
 
 ## 実験の設定を行う
 設定は通常、トレーニングスクリプトの最初に定義されます。ただし、機械学習ワークフローは異なる場合があるため、トレーニングスクリプトの最初に設定を定義する必要はありません。
@@ -69,9 +69,9 @@ kernel_sizes = run.config.get("kernel_sizes")
 activation = run.config.get("activation")
 ```
 
-{{% alert %}}
+<Note>
 開発者ガイドと例全体で、設定値を別の変数にコピーします。このステップは任意です。読みやすさのために行われます。
-{{% /alert %}}
+</Note>
 
 ### argparse を使用して設定を行う
 argparse オブジェクトで設定を行うことができます。[argparse](https://docs.python.org/3/library/argparse.html) は、引数パーサの短縮形で、Python 3.2 以降の標準ライブラリモジュールであり、コマンドライン引数の柔軟性と強力さを活かしたスクリプトの記述を容易にします。
@@ -174,9 +174,9 @@ run.config.update({"lr": 0.1, "channels": 16})
 ```
 
 ### Run終了後に設定を行う
-[W&B Public API]({{< relref path="/ref/python/public-api/" lang="ja" >}})を使用して、完了済みの run の設定を更新できます。
+[W&B Public API](/ja/models/ref/python/public-api/)を使用して、完了済みの run の設定を更新できます。
 
-API に対して、エンティティ、プロジェクト名、および run の ID を提供する必要があります。これらの詳細は Run オブジェクトや [W&B App UI]({{< relref path="/guides/models/track/workspaces.md" lang="ja" >}}) で確認できます:
+API に対して、エンティティ、プロジェクト名、および run の ID を提供する必要があります。これらの詳細は Run オブジェクトや [W&B App UI](/ja/models/track/workspaces/) で確認できます:
 
 ```python
 with wandb.init() as run:

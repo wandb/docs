@@ -8,24 +8,22 @@ W&B v0.74 delivers SCIM API improvements for enterprise identity management, inc
 
 The latest patch is **v0.74.1**. Refer to [Patches](#patches).
 
-<!--more-->
-
 ## Support and end of life
-<ul>
-  <li>W&B Server v0.60 and below reached end of life on October 2, 2025.</li>
-  <li>W&B Server v0.61 is scheduled to reach end of life on October 28, 2025.</li>
-</ul><!-- This is in HTML to fix the admonition included below showing up as a child of the second item -->
+- W&B Server v0.60 and below reached end of life on October 2, 2025.
+- W&B Server v0.61 is scheduled to reach end of life on October 28, 2025.
 
-{{% readfile "/_includes/release-notes-support-eol-reminder.md" %}}
+<Note>
+For more information about the W&B Server release schedule and support, see [W&B Server release policies](/release-notes/release-policies).
+</Note>
 
 ## Features
 - The SCIM API has been enhanced:
     - Provisioning and deprovisioning operations are now more compatible with Okta.
-    - In Multi-tenant Cloud deployments, you can now configure the organization role and teams when you [create a user]({{< relref "/guides/hosting/iam/scim/#create-user" >}}). This aligns with the endpoint's behavior in Dedicated Cloud and Self-Managed.
-    - In Dedicated Cloud and Self-Managed deployments, you can now update a user's username or email address. See [Update user email]({{< relref "/guides/hosting/iam/scim/#update-user-email" >}}) and [Update user display name]({{< relref "/guides/hosting/iam/scim/#update-user-display-name" >}}). Not applicable to Multi-tenant Cloud deployments.
-    - You can now [search and retrieve a user]({{< relref "/guides/hosting/iam/scim/#get-user" >}}) by email and username.
-    - Okta groups are now synced automatically using [ETags]({{< relref "/guides/hosting/iam/scim/#etag-support" >}}). For details about SCIM groups, see [Group resource]({{< relref "/guides/hosting/iam/scim/#group-resource" >}}).
-- When [exporting the list of users]({{< relref "/guides/hosting/monitoring-usage/org_dashboard/#export-user-details" >}}) in your organization, the CSV file now includes columns for **Models seats** and **Weave access**.
+    - In Multi-tenant Cloud deployments, you can now configure the organization role and teams when you [create a user](/platform/hosting/iam/scim#create-user). This aligns with the endpoint's behavior in Dedicated Cloud and Self-Managed.
+    - In Dedicated Cloud and Self-Managed deployments, you can now update a user's username or email address. See [Update user email](/platform/hosting/iam/scim#update-user-email) and [Update user display name](/platform/hosting/iam/scim#update-user-display-name). Not applicable to Multi-tenant Cloud deployments.
+    - You can now [search and retrieve a user](/platform/hosting/iam/scim#get-user) by email and username.
+    - Okta groups are now synced automatically using [ETags](/platform/hosting/iam/scim#etag-support). For details about SCIM groups, see [Group resource](/platform/hosting/iam/scim#group-resource).
+- When [exporting the list of users](/platform/hosting/monitoring-usage/org_dashboard#export-user-details) in your organization, the CSV file now includes columns for **Models seats** and **Weave access**.
 - In **W&B Dedicated Cloud**, the new full-screen image browser simplifies inspection and comparison of logged images.
     - **True full-screen view.** Inspect image details more easily with edge-to-edge full-screen viewing. No more cramped panels.
     - **Step slider in full-screen view.** Move through steps efficiently with an embedded slider to see how outputs evolve.
@@ -43,7 +41,7 @@ The latest patch is **v0.74.1**. Refer to [Patches](#patches).
 - The output from an OpenAI streaming endpoint call now includes a new field, `time_to_first_token`, expressed in milliseconds.
 
 ### Inference
-- [W&B Inference]({{< relref "/guides/inference/" >}}) adds support for the [Z.AI GLM](https://z.ai/blog/glm-4.5) hybrid reasoning model. v4.5 is supported.
+- [W&B Inference](/inference) adds support for the [Z.AI GLM](https://z.ai/blog/glm-4.5) hybrid reasoning model. v4.5 is supported.
 
 ## Fixes
 - Fixed display problems in bounding boxes with captions.
@@ -60,12 +58,9 @@ The latest patch is **v0.74.1**. Refer to [Patches](#patches).
 ### v0.74.1
 **October 8, 2025**
 
-- Fixed a bug that could prevent an organization admin from accessing the Organization Dashboard. <!-- https://github.com/wandb/core/pull/34780 -->
-- Fixed a bug introduced in 0.73.0 that allowed deletion of previously exported Parquet files. <!-- https://github.com/wandb/core/pull/34975 -->
-- Fixed a bug that could allow deleting an artifact file in Parquet after it has successfully committed. <!-- https://github.com/wandb/core/pull/35047 -->
-- Fixed a performance regression introduced in v0.73 when querying system metrics from MySQL. <!-- https://github.com/wandb/core/pull/34991 -->
-- Fixed a bug that could prevent editing of a project with no owner. <!-- https://github.com/wandb/core/pull/35028 -->
-- Historical metric histograms no longer display in summary pages by default. Instead, details about each metric display in summary pages, and histograms are available as workspace panels. <!-- https://github.com/wandb/core/pull/34962 -->
-
-
-
+- Fixed a bug that could prevent an organization admin from accessing the Organization Dashboard.
+- Fixed a bug introduced in 0.73.0 that allowed deletion of previously exported Parquet files.
+- Fixed a bug that could allow deleting an artifact file in Parquet after it has successfully committed.
+- Fixed a performance regression introduced in v0.73 when querying system metrics from MySQL.
+- Fixed a bug that could prevent editing of a project with no owner.
+- Historical metric histograms no longer display in summary pages by default. Instead, details about each metric display in summary pages, and histograms are available as workspace panels.

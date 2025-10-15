@@ -18,9 +18,9 @@ weight: 170
 
 APIキーは、あなたのマシンをW&Bに認証します。APIキーは、ユーザープロファイルから生成できます。
 
-{{% alert %}}
+<Note>
 より効率的な方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接行ってAPIキーを生成することができます。表示されたAPIキーをコピーし、パスワードマネージャーなどの安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上隅のユーザープロファイルアイコンをクリックします。
 1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
@@ -30,10 +30,9 @@ APIキーは、あなたのマシンをW&Bに認証します。APIキーは、�
 
 ローカルに `wandb` ライブラリをインストールしてログインするには：
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
-
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をAPIキーに設定します。
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) をAPIキーに設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -46,11 +45,8 @@ APIキーは、あなたのマシンをW&Bに認証します。APIキーは、�
 
     wandb login
     ```
-
-{{% /tab %}}
-
-{{% tab header="Python" value="python" %}}
-
+</Tab>
+<Tab title="Python">
 ```bash
 pip install wandb
 ```
@@ -58,20 +54,16 @@ pip install wandb
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{% tab header="Python notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Python notebook">
 ```notebook
 !pip install wandb
 
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## コンポーネントをデコレートする
 
@@ -92,7 +84,7 @@ add = components.create_component_from_func(add)
 
 ## 環境変数をコンテナに渡す
 
-[環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}})をコンテナに明示的に渡す必要があるかもしれません。双方向リンクのためには、`WANDB_KUBEFLOW_URL` 環境変数をKubeflow Pipelinesインスタンスの基本URLに設定する必要があります。例えば、`https://kubeflow.mysite.com`です。
+[環境変数](/ja/models/track/environment-variables/)をコンテナに明示的に渡す必要があるかもしれません。双方向リンクのためには、`WANDB_KUBEFLOW_URL` 環境変数をKubeflow Pipelinesインスタンスの基本URLに設定する必要があります。例えば、`https://kubeflow.mysite.com`です。
 
 ```python
 import os
@@ -125,19 +117,25 @@ W&Bでログされた任意の Run を Kubeflow Pipelines UI でクリックし�
 * `Input/Output` と `ML Metadata` タブで入力と出力の詳細を見つけます。
 * `Visualizations` タブからW&Bウェブアプリを表示します。
 
-{{< img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="Kubeflow UI でのW&Bのビューを取得" >}}
+<Frame>
+    <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="Kubeflow UI でのW&Bのビューを取得"  />
+</Frame>
 
 ### ウェブアプリ UI から
 
-ウェブアプリ UI は Kubeflow Pipelines の `Visualizations` タブと同じコンテンツを持っていますが、より多くのスペースがあります。[ここでウェブアプリ UI についてもっと学びましょう]({{< relref path="/guides/models/app" lang="ja" >}})。
+ウェブアプリ UI は Kubeflow Pipelines の `Visualizations` タブと同じコンテンツを持っていますが、より多くのスペースがあります。[ここでウェブアプリ UI についてもっと学びましょう](/ja/models/app/)。
 
-{{< img src="/images/integrations/kubeflow_pipelines.png" alt="特定の run の詳細を確認し、Kubeflow UI に戻るリンク" >}}
+<Frame>
+    <img src="/images/integrations/kubeflow_pipelines.png" alt="特定の run の詳細を確認し、Kubeflow UI に戻るリンク"  />
+</Frame>
 
-{{< img src="/images/integrations/kubeflow_via_app.png" alt="パイプラインの各ステージでの入力と出力の完全なDAGを見る" >}}
+<Frame>
+    <img src="/images/integrations/kubeflow_via_app.png" alt="パイプラインの各ステージでの入力と出力の完全なDAGを見る"  />
+</Frame>
 
 ### 公開APIを通じて（プログラムによるアクセス）
 
-* プログラムによるアクセスのために、[私たちの公開APIをご覧ください]({{< relref path="/ref/python/public-api" lang="ja" >}})。
+* プログラムによるアクセスのために、[私たちの公開APIをご覧ください](/ja/models/ref/python/public-api)。
 
 ### Kubeflow Pipelines と W&B の概念マッピング
 
@@ -145,10 +143,10 @@ W&Bでログされた任意の Run を Kubeflow Pipelines UI でクリックし�
 
 | Kubeflow Pipelines | W&B | W&B 内の場所 |
 | ------------------ | --- | --------------- |
-| Input Scalar | [`config`]({{< relref path="/guides/models/track/config" lang="ja" >}}) | [Overview tab]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}}) |
-| Output Scalar | [`summary`]({{< relref path="/guides/models/track/log" lang="ja" >}}) | [Overview tab]({{< relref path="/guides/models/track/runs/#overview-tab" lang="ja" >}}) |
-| Input Artifact | Input Artifact | [Artifacts tab]({{< relref path="/guides/models/track/runs/#artifacts-tab" lang="ja" >}}) |
-| Output Artifact | Output Artifact | [Artifacts tab]({{< relref path="/guides/models/track/runs/#artifacts-tab" lang="ja" >}}) |
+| Input Scalar | [`config`](/ja/models/track/config/) | [Overview tab](/ja/models/runs/#overview-tab) |
+| Output Scalar | [`summary`](/ja/models/track/log/) | [Overview tab](/ja/models/runs/#overview-tab) |
+| Input Artifact | Input Artifact | [Artifacts tab](/ja/models/runs/#artifacts-tab) |
+| Output Artifact | Output Artifact | [Artifacts tab](/ja/models/runs/#artifacts-tab) |
 
 ## 細かいログ
 
@@ -179,7 +177,7 @@ def train_model(
 
 ### 暗黙的な wandb インテグレーションを使用
 
-もしサポートする [フレームワークインテグレーションを使用]({{< relref path="/guides/integrations/" lang="ja" >}}) している場合は、コールバックを直接渡すこともできます。
+もしサポートする [フレームワークインテグレーションを使用](/ja/guides/integrations/) している場合は、コールバックを直接渡すこともできます。
 
 ```python
 @wandb_log

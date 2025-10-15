@@ -14,33 +14,34 @@ Reports は _ブロック_ で構成されます。ブロックはレポート�
 
 _パネルグリッド_ は、パネルと _run セット_ を保持する特定の種類のブロックです。Run セットは W&B のプロジェクトにログされる run のコレクションです。パネルは run セット データの可視化を行います。
 
-{{% alert %}}
-[プログラム ワークスペースのチュートリアル]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) を参照して、保存済みワークスペースビューを作成およびカスタマイズするステップバイステップの例を見てみましょう。
-{{% /alert %}}
+<Note>
+[プログラム ワークスペースのチュートリアル](/ja/tutorials/workspaces) を参照して、保存済みワークスペースビューを作成およびカスタマイズするステップバイステップの例を見てみましょう。
+</Note>
 
-{{% alert %}}
+<Note>
 プログラムでレポートを編集する場合は、W&B Python SDK に加えて `wandb-workspaces` をインストールしてください：
 
 pip install wandb wandb-workspaces
-{{% /alert %}}
+</Note>
 
 ## プロットを追加する
 
 各パネルグリッドには一連の run セットと一連のパネルがあります。このセクションの下部にある run セットで、グリッド内のパネルに表示されるデータを制御します。異なる run セットからデータを取得するチャートを追加する場合は、新しいパネルグリッドを作成してください。
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-
+<Tabs>
+<Tab title="App UI">
 レポートにスラッシュ（`/`）を入力して、ドロップダウンメニューを表示します。**Add panel** を選択してパネルを追加します。W&B でサポートされている任意のパネルを追加できます。例えば、ラインプロット、散布図や並行座標チャートなどです。
 
-{{< img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report" >}}
-{{% /tab %}}
-
-{{% tab header="Workspaces API" value="sdk" %}}
+<Frame>
+    <img src="/images/reports/demo_report_add_panel_grid.gif" alt="Add charts to a report"  />
+</Frame>
+</Tab>
+<Tab title="Workspaces API">
 SDK を使用してプログラムでレポートにプロットを追加します。`PanelGrid` Public API クラスの `panels` パラメータに、1つ以上のプロットまたはチャートのオブジェクトのリストを渡します。対応する Python クラスを使用してプロットまたはチャートのオブジェクトを作成します。
 
 以下の例では、ラインプロットと散布図の作成方法を示しています。
 
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -61,33 +62,28 @@ blocks = [
 
 report.blocks = blocks
 report.save()
-
+```
 プログラムでレポートに追加できるプロットやチャートの詳細については、`wr.panels` を参照してください。
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 
 ## Run セットを追加する
 
 App UI または W&B SDK を使用して、プロジェクトから run セットを追加します。
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-
+<Tabs>
+<Tab title="App UI">
 レポートにスラッシュ（`/`）を入力して、ドロップダウンメニューを表示します。ドロップダウンから Panel Grid を選択します。これにより、レポートが作成されたプロジェクトから自動的に run セットがインポートされます。
-
-{{% /tab %}}
-
-{{% tab header="Workspaces API" value="sdk"%}}
-
+</Tab>
+<Tab title="Workspaces API">
 `wr.Runset()` および `wr.PanelGrid` クラスを使用してプロジェクトから run セットを追加します。以下の手順で run セットの追加方法を示します：
 
 1. `wr.Runset()` オブジェクト インスタンスを作成します。プロジェクト パラメータのために、run セットを含むプロジェクトの名前を指定し、エンティティ パラメータのためにプロジェクトを所有するエンティティを指定します。
 2. `wr.PanelGrid()` オブジェクト インスタンスを作成します。1つ以上の runset オブジェクトを `runsets` パラメータに渡します。
 3. 1つ以上の `wr.PanelGrid()` オブジェクト インスタンスをリストに保存します。
 4. パネルグリッド インスタンスのリストを使用して、レポート インスタンス ブロック属性を更新します。
-
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -103,9 +99,9 @@ panel_grids = wr.PanelGrid(
 
 report.blocks = [panel_grids]
 report.save()
-
+```
 ひとつの SDK 呼び出しで run セットとパネルを追加することもできます：
-
+```python
 import wandb
 
 report = wr.Report(
@@ -162,9 +158,9 @@ panel_grids = wr.PanelGrid(
 
 report.blocks = [panel_grids]
 report.save()
-
-{{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 
 ## Run セットをフリーズする
@@ -173,27 +169,25 @@ report.save()
 
 レポートを表示する際に run セットをフリーズするには、**Filter** ボタンの近くにあるスノーフレーク アイコンをクリックします。
 
-{{< img src="/images/reports/freeze_runset.png" alt="" >}}
+<Frame>
+    <img src="/images/reports/freeze_runset.png"  />
+</Frame>
 
 ## コード ブロックを追加する
 
 レポートにコードブロックを App UI でインタラクティブに、または W&B SDK で追加します。
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-
+<Tabs>
+<Tab title="App UI">
 レポートにスラッシュ（`/`）を入力して、ドロップダウン メニューを表示します。ドロップダウンから **Code** を選択します。
 
 コード ブロックの右側にあるプログラミング言語の名前を選択すると、ドロップダウンが展開されます。利用可能なプログラミング言語の構文を選択してください。Javascript、Python、CSS、JSON、HTML、Markdown、YAML から選べます。
-
-{{% /tab %}}
-
-{{% tab header="Workspaces API" value="sdk" %}}
-
+</Tab>
+<Tab title="Workspaces API">
 `wr.CodeBlock` クラスを使用してコード ブロックをプログラムで作成します。言語とコードにそれぞれ表示したい言語名とコードを指定します。
 
 たとえば、以下の例では、YAML ファイルのリストを示しています。
-
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -206,7 +200,7 @@ report.blocks = [
 ]
 
 report.save()
-
+```
 これにより、次のようなコードブロックがレンダリングされます：
 
 this:
@@ -228,26 +222,20 @@ report.save()
 これにより、次のようなコードブロックがレンダリングされます：
 
 Hello, World!
-
-{{% /tab %}}
-
-{{% /tabpane %}}
+</Tab>
+</Tabs>
 
 ## マークダウンを追加する
 
 レポートにマークダウンを App UI でインタラクティブに、または W&B SDK で追加します。
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-
+<Tabs>
+<Tab title="App UI">
 レポートにスラッシュ（`/`）を入力して、ドロップダウン メニューを表示します。ドロップダウンから **Markdown** を選択します。
-
-{{% /tab %}}
-
-{{% tab header="Workspaces API" value="sdk" %}}
-
+</Tab>
+<Tab title="Workspaces API">
 `wandb.apis.reports.MarkdownBlock` クラスを使用して、プログラムでマークダウンブロックを作成します。`text` パラメータに文字列を渡します：
-
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -256,30 +244,26 @@ report = wr.Report(project="report-editing")
 report.blocks = [
     wr.MarkdownBlock(text="Markdown cell with *italics* and **bold** and $e=mc^2$")
 ]
-
+```
 これにより、次のようなマークダウン ブロックがレンダリングされます：
 
-{{< img src="/images/reports/markdown.png" alt="" >}}
-
-{{% /tab %}}
-
-{{% /tabpane %}}
+<Frame>
+    <img src="/images/reports/markdown.png"  />
+</Frame>
+</Tab>
+</Tabs>
 
 ## HTML要素を追加する
 
 レポートに HTML 要素を App UI でインタラクティブに、または W&B SDK で追加します。
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-
+<Tabs>
+<Tab title="App UI">
 レポートにスラッシュ（`/`）を入力して、ドロップダウン メニューを表示します。ドロップダウンからテキスト ブロックの種類を選択します。例として、H2 見出しブロックを作成するには、`Heading 2` のオプションを選択します。
-
-{{% /tab %}}
-
-{{% tab header="Workspaces API" value="sdk" %}}
-
+</Tab>
+<Tab title="Workspaces API">
 1つ以上の HTML 要素のリストを `wandb.apis.reports.blocks` 属性に渡します。以下の例では、H1、H2、および無順リストを作成する方法を示しています：
-
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -292,48 +276,50 @@ report.blocks = [
 ]
 
 report.save()
-
+```
 これにより、次のような HTML 要素がレンダリングされます：
 
-{{< img src="/images/reports/render_html.png" alt="" >}}
-
-{{% /tab %}}
-
-{{% /tabpane %}}
+<Frame>
+    <img src="/images/reports/render_html.png"  />
+</Frame>
+</Tab>
+</Tabs>
 
 ## リッチメディアリンクを埋め込む
 
 レポート内にリッチメディアを App UI で、または W&B SDK で埋め込みます。
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
-
+<Tabs>
+<Tab title="App UI">
 URL をレポートにコピーアンドペーストして、リッチメディアをレポート内に埋め込みます。以下のアニメーションは、Twitter、YouTube、および SoundCloud からの URL をコピーアンドペーストする方法を示しています。
 
 ### Twitter
 
 レポートにツイートリンク URL をコピーして貼り付け、ツイートをレポート内に表示します。
 
-{{< img src="/images/reports/twitter.gif" alt="" >}}
+<Frame>
+    <img src="/images/reports/twitter.gif"  />
+</Frame>
 
 ### YouTube
 
 レポート内にビデオを埋め込むために YouTube ビデオ URL リンクをコピーアンドペーストします。
 
-{{< img src="/images/reports/youtube.gif" alt="" >}}
+<Frame>
+    <img src="/images/reports/youtube.gif"  />
+</Frame>
 
 ### SoundCloud
 
 SoundCloud のリンクをコピーアンドペーストして、オーディオファイルをレポート内に埋め込みます。
 
-{{< img src="/images/reports/soundcloud.gif" alt="" >}}
-
-{{% /tab %}}
-
-{{% tab header="Workspaces API" value="sdk" %}}
-
+<Frame>
+    <img src="/images/reports/soundcloud.gif"  />
+</Frame>
+</Tab>
+<Tab title="Workspaces API">
 1 つ以上の埋め込みメディア オブジェクトのリストを `wandb.apis.reports.blocks` 属性に渡します。以下の例では、ビデオと Twitter メディアをレポートに埋め込む方法を示しています：
-
+```python
 import wandb
 import wandb_workspaces.reports.v2 as wr
 
@@ -346,10 +332,9 @@ report.blocks = [
     ),
 ]
 report.save()
-
-{{% /tab %}}
-
-{{% /tabpane %}}
+```
+</Tab>
+</Tabs>
 
 ## パネルグリッドの複製と削除
 
@@ -357,17 +342,23 @@ report.save()
 
 パネルグリッドセクション全体を強調表示するには、右上隅のドラッグハンドルを選択します。パネルグリッド、テキスト、見出しなど、レポート内の領域をクリックしてドラッグして強調表示および選択します。
 
-{{< img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif" alt="" >}}
+<Frame>
+    <img src="/images/reports/demo_copy_and_paste_a_panel_grid_section.gif"  />
+</Frame>
 
 パネルグリッドを選択し、キーボードで `delete` を押してパネルグリッドを削除します。
 
-{{< img src="/images/reports/delete_panel_grid.gif" alt="" >}}
+<Frame>
+    <img src="/images/reports/delete_panel_grid.gif"  />
+</Frame>
 
 ## レポート内のヘッダーを折りたたんで整理する
 
 テキストブロック内のコンテンツを非表示にするために、レポート内のヘッダーを折りたたみます。レポートが読み込まれると、展開されているヘッダーのみがコンテンツを表示します。レポート内でヘッダーを折りたたむことで、コンテンツを整理し、過剰なデータの読み込みを防ぐことができます。以下の gif はその手順を示しています。
 
-{{< img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report." >}}
+<Frame>
+    <img src="/images/reports/collapse_headers.gif" alt="Collapsing headers in a report."  />
+</Frame>
 
 ## 複数次元の関係を可視化する
 

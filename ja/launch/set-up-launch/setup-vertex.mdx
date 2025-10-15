@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-vertex
     parent: set-up-launch
-url: /ja/guides/launch/setup-vertex
+slug: /ja/guides/launch/setup-vertex
 ---
 
 W&B Launch を使用して、Vertex AI トレーニングジョブとしてジョブを実行するために送信することができます。Vertex AI トレーニングジョブでは、Vertex AI プラットフォーム上の提供されたアルゴリズムまたはカスタムアルゴリズムを使用して機械学習モデルをトレーニングすることができます。ローンチジョブが開始されると、Vertex AI が基盤となるインフラストラクチャー、スケーリング、およびオーケストレーションを管理します。
@@ -25,9 +25,9 @@ W&B Launch は、`google-cloud-aiplatform` SDK の `CustomJob` クラスを介�
 | `aiplatform.customJobs.list`       | 指定された GCP プロジェクト | プロジェクト内の機械学習ジョブを列挙することができます。                                           |
 | `aiplatform.customJobs.get`        | 指定された GCP プロジェクト | プロジェクト内の特定の機械学習ジョブの情報を取得することができます。                                         |
 
-{{% alert %}}
+<Note>
 Vertex AI ワークロードに標準以外のサービスアカウントのアイデンティティを引き継がせたい場合は、Vertex AI ドキュメントを参照してサービスアカウントの作成と必要な権限についての手順を確認してください。ローンチキュー設定の `spec.service_account` フィールドを使用して、W&B の run 用のカスタムサービスアカウントを選択できます。
-{{% /alert %}}
+</Note>
 
 ## Vertex AI 用キューを設定
 
@@ -51,19 +51,20 @@ Vertex AI を計算リソースとして使用するキューを W&B アプリ�
 5. **Resource** として **GCP Vertex** を選択します。
 6. **Configuration** フィールドに、前のセクションで定義した Vertex AI `CustomJob` についての情報を入力します。デフォルトで、W&B は次のような YAML および JSON のリクエストボディを自動入力します：
 
-spec:
-  worker_pool_specs:
-    - machine_spec:
-        machine_type: n1-standard-4
-        accelerator_type: ACCELERATOR_TYPE_UNSPECIFIED
-        accelerator_count: 0
-      replica_count: 1
-      container_spec:
-        image_uri: ${image_uri}
-  staging_bucket: <REQUIRED>
-run:
-  restart_job_on_worker_restart: false
-
+  ```yml
+  spec:
+    worker_pool_specs:
+      - machine_spec:
+          machine_type: n1-standard-4
+          accelerator_type: ACCELERATOR_TYPE_UNSPECIFIED
+          accelerator_count: 0
+        replica_count: 1
+        container_spec:
+          image_uri: ${image_uri}
+    staging_bucket: <REQUIRED>
+  run:
+    restart_job_on_worker_restart: false
+  ```
 7. キューを設定したら、**Create Queue** ボタンをクリックします。
 
 最低限指定する必要があるのは以下です：
@@ -71,21 +72,21 @@ run:
 - `spec.worker_pool_specs` : 非空のワーカープール仕様リスト。
 - `spec.staging_bucket` : Vertex AI アセットとメタデータのステージングに使用する GCS バケット。
 
-{{% alert color="secondary" %}}
+<Warning>
 一部の Vertex AI ドキュメントには、すべてのキーがキャメルケースで表示されるワーカープール仕様が示されています。例： `workerPoolSpecs`。 Vertex AI Python SDK では、これらのキーにスネークケースを使用します。例：`worker_pool_specs`。
 
 ローンチキュー設定のすべてのキーはスネークケースを使用する必要があります。
-{{% /alert %}}
+</Warning>
 
 ## ローンチエージェントを設定
 
 ローンチエージェントは、デフォルトでは `~/.config/wandb/launch-config.yaml` にある設定ファイルを介して設定可能です。
-
+```yml
 max_jobs: <n-concurrent-jobs>
 queues:
   - <queue-name>
-
-Vertex AI で実行されるイメージをローンチエージェントに構築してもらいたい場合は、[Advanced agent set up]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) を参照してください。
+```
+Vertex AI で実行されるイメージをローンチエージェントに構築してもらいたい場合は、[Advanced agent set up](/ja/launch/set-up-launch/setup-agent-advanced) を参照してください。
 
 ## エージェント権限を設定
 

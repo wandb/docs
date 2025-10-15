@@ -10,9 +10,11 @@ weight: 30
 
 大規模なハイパーパラメーターとモデルメトリクスの関係を一目で要約できるのがパラレル座標チャートです。
 
-{{< img src="/images/app_ui/parallel_coordinates.gif" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/parallel_coordinates.gif"  />
+</Frame>
 
-* **軸**: [`wandb.config`]({{< relref path="/guides/models/track/config.md" lang="ja" >}}) からのさまざまなハイパーパラメーターと [`wandb.log`]({{< relref path="/guides/models/track/log/" lang="ja" >}}) からのメトリクス。
+* **軸**: [`wandb.config`](/ja/models/track/config/) からのさまざまなハイパーパラメーターと [`wandb.log`](/ja/models/track/log/) からのメトリクス。
 * **ライン**: 各ラインは単一の run を表します。ラインにマウスを合わせると、その run の詳細がツールチップで表示されます。現在のフィルターに一致するすべてのラインが表示されますが、目をオフにすると、ラインはグレー表示されます。
 
 ## パラレル座標パネルを作成する

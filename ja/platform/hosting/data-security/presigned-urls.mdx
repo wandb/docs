@@ -13,11 +13,11 @@ W&B は事前署名付き URL を使用して、AI ワークロードやユー�
 
 ## チームレベルのアクセス制御
 
-各事前署名付き URL は、W&B プラットフォームの[チームレベルのアクセス制御]({{< relref path="/guides/hosting/iam/access-management/manage-organization.md#add-and-manage-teams" lang="ja" >}}) に基づいて特定のバケットに限定されます。ユーザーが[セキュア ストレージ コネクタ]({{< relref path="./secure-storage-connector.md" lang="ja" >}})を使用して blob ストレージ バケットにマッピングされているチームの一員であり、そのユーザーがそのチームにのみ属している場合、彼らの要求に対して生成された事前署名付き URL には、他のチームにマッピングされている blob ストレージ バケットにアクセスする権限がありません。
+各事前署名付き URL は、W&B プラットフォームの[チームレベルのアクセス制御](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) に基づいて特定のバケットに限定されます。ユーザーが[セキュア ストレージ コネクタ](/ja/platform/hosting/data-security/secure-storage-connector/)を使用して blob ストレージ バケットにマッピングされているチームの一員であり、そのユーザーがそのチームにのみ属している場合、彼らの要求に対して生成された事前署名付き URL には、他のチームにマッピングされている blob ストレージ バケットにアクセスする権限がありません。
 
-{{% alert %}}
+<Note>
 W&B は、ユーザーを所属すべきチームのみに追加することを推奨します。
-{{% /alert %}}
+</Note>
 
 ## ネットワーク制限
 
@@ -27,8 +27,8 @@ AWS の場合、[VPC または IP アドレスに基づくネットワーク制�
 
 ## 監査ログ
 
-W&B は、blob ストレージ固有の監査ログに加えて、[W&B 監査ログ]({{< relref path="../monitoring-usage/audit-logging.md" lang="ja" >}})を使用することを推奨します。後者については、[AWS S3 のアクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)、[Google Cloud Storage の監査ログ](https://cloud.google.com/storage/docs/audit-logging)、[Azure blob storage の監視](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)を参照してください。管理者とセキュリティ チームは、W&B 製品でどのユーザーが何をしているかを追跡し、特定のユーザーに対していくつかの操作を制限する必要があると判断した場合に必要な対策を講じるために監査ログを使用できます。
+W&B は、blob ストレージ固有の監査ログに加えて、[W&B 監査ログ](/ja/platform/hosting/monitoring-usage/audit-logging/)を使用することを推奨します。後者については、[AWS S3 のアクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)、[Google Cloud Storage の監査ログ](https://cloud.google.com/storage/docs/audit-logging)、[Azure blob storage の監視](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)を参照してください。管理者とセキュリティ チームは、W&B 製品でどのユーザーが何をしているかを追跡し、特定のユーザーに対していくつかの操作を制限する必要があると判断した場合に必要な対策を講じるために監査ログを使用できます。
 
-{{% alert %}}
+<Note>
 事前署名付き URL は、W&B でサポートされている唯一の blob ストレージ アクセス メカニズムです。W&B は、リスク許容度に応じて、セキュリティ制御の上記リストの一部またはすべてを設定することを推奨します。
-{{% /alert %}}
+</Note>

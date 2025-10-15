@@ -10,10 +10,10 @@ weight: 1
 
 このページでは、スイープを定義、初期化、および実行する方法を示します。主に4つのステップがあります。
 
-1. [トレーニングコードをセットアップする]({{< relref path="#set-up-your-training-code" lang="ja" >}})
-2. [スイープ設定で探索空間を定義する]({{< relref path="#define-the-search-space-with-a-sweep-configuration" lang="ja" >}})
-3. [スイープを初期化する]({{< relref path="#initialize-the-sweep" lang="ja" >}})
-4. [スイープエージェントを開始する]({{< relref path="#start-the-sweep" lang="ja" >}})
+1. [トレーニングコードをセットアップする](#set-up-your-training-code)
+2. [スイープ設定で探索空間を定義する](#define-the-search-space-with-a-sweep-configuration)
+3. [スイープを初期化する](#initialize-the-sweep)
+4. [スイープエージェントを開始する](#start-the-sweep)
 
 以下のコードを Jupyter ノートブックまたは Python スクリプトにコピーして貼り付けてください。
 
@@ -55,11 +55,11 @@ wandb.agent(sweep_id, function=main, count=10)
 
 `wandb.config` からハイパーパラメーターの値を取り込み、それを使用してモデルをトレーニングし、メトリクスを返すトレーニング関数を定義します。
 
-オプションとして、W&B Run の出力を保存したいプロジェクトの名前（[`wandb.init`]({{< relref path="/ref/python/init.md" lang="ja" >}})内のproject パラメータ）を指定します。プロジェクトが指定されていない場合、Run は「Uncategorized」プロジェクトに入ります。
+オプションとして、W&B Run の出力を保存したいプロジェクトの名前（[`wandb.init`](/ja/models/ref/python/init)内のproject パラメータ）を指定します。プロジェクトが指定されていない場合、Run は「Uncategorized」プロジェクトに入ります。
 
-{{% alert %}}
+<Note>
 スイープとrunは同じプロジェクト内にある必要があります。したがって、W&Bを初期化するときに指定する名前は、スイープを初期化するときに指定するプロジェクトの名前と一致する必要があります。
-{{% /alert %}}
+</Note>
 
 ```python
 # 1: 目的/トレーニング関数を定義する
@@ -76,7 +76,7 @@ def main():
 
 ## スイープ設定で探索空間を定義する
 
-探索するハイパーパラメーターを辞書で指定します。設定オプションについては、[スイープ設定を定義する]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}})を参照してください。
+探索するハイパーパラメーターを辞書で指定します。設定オプションについては、[スイープ設定を定義する](/ja/models/sweeps/define-sweep-configuration/)を参照してください。
 
 次の例では、ランダム検索（`'method':'random'`）を使用するスイープ設定を示しています。スイープは、バッチサイズ、エポック、および学習率の設定にリストされているランダムな値を無作為に選択します。
 
@@ -96,7 +96,7 @@ sweep_configuration = {
 
 ## スイープを初期化する
 
-W&Bは、クラウド（標準）またはローカル（ローカル）で複数のマシンを横断してスイープを管理するために、_Sweep Controller_ を使用します。Sweep Controller についての詳細は、[ローカルで探索と停止のアルゴリズムを確認する]({{< relref path="./local-controller.md" lang="ja" >}})を参照してください。
+W&Bは、クラウド（標準）またはローカル（ローカル）で複数のマシンを横断してスイープを管理するために、_Sweep Controller_ を使用します。Sweep Controller についての詳細は、[ローカルで探索と停止のアルゴリズムを確認する](/ja/models/sweeps/local-controller/)を参照してください。
 
 スイープを初期化すると、スイープ識別番号が返されます。
 
@@ -104,11 +104,11 @@ W&Bは、クラウド（標準）またはローカル（ローカル）で複�
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-スイープの初期化に関する詳細は、[スイープを初期化する]({{< relref path="./initialize-sweeps.md" lang="ja" >}})を参照してください。
+スイープの初期化に関する詳細は、[スイープを初期化する](/ja/models/sweeps/walkthrough/#%E3%82%B9%E3%82%A4%E3%83%BC%E3%83%97%E3%82%92%E5%88%9D%E6%9C%9F%E5%8C%96%E3%81%99%E3%82%8B)を参照してください。
 
 ## スイープを開始する
 
-スイープを開始するには、[`wandb.agent`]({{< relref path="/ref/python/agent.md" lang="ja" >}}) APIコールを使用します。
+スイープを開始するには、[`wandb.agent`](/ja/models/ref/python/agent) APIコールを使用します。
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
@@ -116,11 +116,13 @@ wandb.agent(sweep_id, function=main, count=10)
 
 ## 結果を視覚化する（オプション）
 
-プロジェクトを開くと、W&Bアプリダッシュボードでライブ結果を確認できます。数回のクリックで豊富なインタラクティブグラフを構築します。例えば、[並列座標プロット]({{< relref path="/guides/models/app/features/panels/parallel-coordinates.md" lang="ja" >}})、[パラメータの重要度解析]({{< relref path="/guides/models/app/features/panels/parameter-importance.md" lang="ja" >}})、および[その他]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}})です。
+プロジェクトを開くと、W&Bアプリダッシュボードでライブ結果を確認できます。数回のクリックで豊富なインタラクティブグラフを構築します。例えば、[並列座標プロット](/ja/models/app/features/panels/parallel-coordinates/)、[パラメータの重要度解析](/ja/models/app/features/panels/parameter-importance/)、および[その他](/ja/models/app/features/panels/)です。
 
-{{< img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps ダッシュボード例" >}}
+<Frame>
+    <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps ダッシュボード例"  />
+</Frame>
 
-結果の視覚化方法に関する詳細は、[スイープ結果を視覚化する]({{< relref path="./visualize-sweep-results.md" lang="ja" >}})を参照してください。サンプルのダッシュボードについては、この[スイーププロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)を参照してください。
+結果の視覚化方法に関する詳細は、[スイープ結果を視覚化する](/ja/models/sweeps/visualize-sweep-results/)を参照してください。サンプルのダッシュボードについては、この[スイーププロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)を参照してください。
 
 ## エージェントを停止する（オプション）
 

@@ -15,9 +15,9 @@ PyTorch Geometric をインストールした後、以下の手順に従って�
 
 APIキーは、あなたのマシンをW&Bに認証します。APIキーはユーザープロフィールから生成できます。
 
-{{% alert %}}
+<Note>
 よりスムーズな方法として、[https://wandb.ai/authorize](https://wandb.ai/authorize)に直接アクセスしてAPIキーを生成することができます。表示されるAPIキーをコピーし、パスワード管理ツールなどの安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上のユーザープロフィールアイコンをクリックします。
 2. **ユーザー設定**を選択し、**API キー**セクションまでスクロールします。
@@ -27,10 +27,9 @@ APIキーは、あなたのマシンをW&Bに認証します。APIキーはユ�
 
 `wandb` ライブラリをローカルにインストールし、ログインするには:
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
-
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をAPIキーに設定します。
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) をAPIキーに設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -43,11 +42,8 @@ APIキーは、あなたのマシンをW&Bに認証します。APIキーはユ�
 
     wandb login
     ```
-
-{{% /tab %}}
-
-{{% tab header="Python" value="python" %}}
-
+</Tab>
+<Tab title="Python">
 ```bash
 pip install wandb
 ```
@@ -55,20 +51,16 @@ pip install wandb
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{% tab header="Python notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Python notebook">
 ```notebook
 !pip install wandb
 
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## グラフの可視化
 
@@ -101,7 +93,9 @@ wandb.log({"eda/graph": wandb.Html("graph.html")})
 wandb.finish()
 ```
 
-{{< img src="/images/integrations/pyg_graph_wandb.png" alt="この画像は、インタラクティブな HTML 可視化として入力グラフを示しています。" >}}
+<Frame>
+    <img src="/images/integrations/pyg_graph_wandb.png" alt="この画像は、インタラクティブな HTML 可視化として入力グラフを示しています。"  />
+</Frame>
 
 ### Plotly を使用する
 
@@ -155,7 +149,9 @@ wandb.log({‘graph’: wandb.Plotly(create_vis(graph))})
 wandb.finish()
 ```
 
-{{< img src="/images/integrations/pyg_graph_plotly.png" alt="この視覚化結果は、例の関数を使用して作成され、W&B テーブル内に記録されました。" >}}
+<Frame>
+    <img src="/images/integrations/pyg_graph_plotly.png" alt="この視覚化結果は、例の関数を使用して作成され、W&B テーブル内に記録されました。"  />
+</Frame>
 
 ## メトリクスのログ化
 
@@ -170,7 +166,9 @@ wandb.log({
 })
 ```
 
-{{< img src="/images/integrations/pyg_metrics.png" alt="W&Bからのプロットが、異なるK値に対するエポックごとのhits@Kメトリクスの変化を示しています。" >}}
+<Frame>
+    <img src="/images/integrations/pyg_metrics.png" alt="W&Bからのプロットが、異なるK値に対するエポックごとのhits@Kメトリクスの変化を示しています。"  />
+</Frame>
 
 ## その他のリソース
 

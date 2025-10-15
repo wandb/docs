@@ -4,18 +4,18 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-launch-kubernetes
     parent: set-up-launch
-url: /ja/guides/launch/setup-launch-kubernetes
+slug: /ja/guides/launch/setup-launch-kubernetes
 ---
 
 W&B Launch を使用して、ML エンジニアが Kubernetes ですでに管理しているリソースを簡単に利用できるようにし、Kubernetes クラスターに ML ワークロードをプッシュできます。
 
 W&B は、あなたのクラスターにデプロイできる公式の [Launch agent イメージ](https://hub.docker.com/r/wandb/launch-agent) を提供しており、これは W&B が管理する [Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) を使用します。
 
-W&B は [Kaniko](https://github.com/GoogleContainerTools/kaniko) ビルダーを使用して、Launch agent が Kubernetes クラスター内で Docker イメージをビルドできるようにします。Launch agent のための Kaniko のセットアップ方法や、ジョブビルディングをオフにしてプレビルドした Docker イメージのみを使用する方法については、[Advanced agent set up]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) を参照してください。
+W&B は [Kaniko](https://github.com/GoogleContainerTools/kaniko) ビルダーを使用して、Launch agent が Kubernetes クラスター内で Docker イメージをビルドできるようにします。Launch agent のための Kaniko のセットアップ方法や、ジョブビルディングをオフにしてプレビルドした Docker イメージのみを使用する方法については、[Advanced agent set up](/ja/launch/set-up-launch/setup-agent-advanced) を参照してください。
 
-{{% alert %}}
+<Note>
 Helm をインストールして W&B の Launch agent Helm チャートを適用またはアップグレードするには、Kubernetes リソースを作成、更新、および削除するための十分な権限を持つクラスターへの `kubectl` アクセスが必要です。通常、クラスター管理者や同等の権限を持つカスタムロールを持つユーザーが必要です。
-{{% /alert %}}
+</Note>
 
 ## Kubernetes のキューを設定する
 
@@ -23,8 +23,8 @@ Kubernetes のターゲットリソースに対する Launch キューの設定�
 
 Launch キューを作成する際に、Kubernetes ワークロードリソーススペックの任意の側面を制御できます。
 
-{{< tabpane text=true >}}
-{{% tab "Kubernetes job spec" %}}
+<Tabs>
+<Tab title="Kubernetes job spec">
 ```yaml
 spec:
   template:
@@ -42,8 +42,8 @@ metadata:
     queue: k8s-test
 namespace: wandb
 ```
-{{% /tab %}}
-{{% tab "Custom resource spec" %}}
+</Tab>
+<Tab title="Custom resource spec">
 一部のユースケースでは、`CustomResource` の定義を使用したいかもしれません。例えば、マルチノードの分散トレーニングを実行したい場合に `CustomResource` が便利です。Volcano を使用してマルチノードジョブを Launch で使用するためのアプリケーションの例をチュートリアルで参照してください。別のユースケースとして、W&B Launch を Kubeflow と一緒に使用したい場合があるかもしれません。
 
 以下の YAML スニペットは、Kubeflow を使用したサンプルの Launch キュー設定を示しています：
@@ -76,8 +76,8 @@ kubernetes:
     name: '${run_id}-pytorch-job'
   apiVersion: kubeflow.org/v1
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 セキュリティ上の理由から、W&B は、Launch キューに指定されていない場合、次のリソースを注入します：
 
@@ -110,7 +110,7 @@ Kubernetes を計算リソースとして使用する W&B アプリでキュー�
 3. キューを作成したい **Entity** を選択します。
 4. **Name** フィールドにキューの名前を入力します。
 5. **Resource** として **Kubernetes** を選択します。
-6. **Configuration** フィールドに、[前のセクションで設定した]({{< relref path="#configure-a-queue-for-kubernetes" lang="ja" >}}) Kubernetes Job ワークフロースペックまたは Custom Resource スペックを入力します。
+6. **Configuration** フィールドに、[前のセクションで設定した](#configure-a-queue-for-kubernetes) Kubernetes Job ワークフロースペックまたは Custom Resource スペックを入力します。
 
 ## Helm を使って Launch agent を設定する
 
@@ -193,4 +193,4 @@ serviceAccount:
 azureStorageAccessKey: ''
 ```
 
-レジストリ、環境、および必要なエージェント権限に関する詳細は、[Advanced agent set up]({{< relref path="./setup-agent-advanced.md" lang="ja" >}}) を参照してください。
+レジストリ、環境、および必要なエージェント権限に関する詳細は、[Advanced agent set up](/ja/launch/set-up-launch/setup-agent-advanced) を参照してください。

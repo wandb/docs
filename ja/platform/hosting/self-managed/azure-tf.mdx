@@ -8,9 +8,9 @@ menu:
 weight: 30
 ---
 
-{{% alert %}}
-W&B は、[W&B Multi-tenant Cloud]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}}) または [W&B Dedicated Cloud]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud/" lang="ja" >}}) デプロイメント タイプのような完全に管理されたデプロイメント オプションをお勧めします。W&B の完全管理サービスは簡単で安全に使用でき、設定がほとんどまたは全く必要ありません。
-{{% /alert %}}
+<Note>
+W&B は、[W&B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/saas_cloud) または [W&B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) デプロイメント タイプのような完全に管理されたデプロイメント オプションをお勧めします。W&B の完全管理サービスは簡単で安全に使用でき、設定がほとんどまたは全く必要ありません。
+</Note>
 
 自己管理の W&B サーバーを選択した場合、W&B は [W&B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest) を使用して Azure 上でプラットフォームをデプロイすることをお勧めします。
 
@@ -172,7 +172,7 @@ AzureRM プロバイダーを設定する最も簡単な方法は [Azure CLI](ht
 
 別のデプロイメント オプションとして、`Redis` を使用して SQL クエリをキャッシュし、実験のメトリクスを読み込む際のアプリケーション応答を高速化します。
 
-キャッシュを有効にするには、`recommended deployment`({{< relref path="#recommended-deployment" lang="ja" >}}) で使用したのと同じ `main.tf` ファイルに `create_redis = true` オプションを追加する必要があります。
+キャッシュを有効にするには、[`recommended deployment`](#recommended-deployment) で使用したのと同じ `main.tf` ファイルに `create_redis = true` オプションを追加する必要があります。
 
 ```bash
 # 必要なすべてのサービスをスピンアップ
@@ -195,7 +195,7 @@ module "wandb" {
 
 デプロイメント オプション 3 は、外部の `message broker` を有効にすることです。 これはオプションであり、W&B にはブローカーが組み込まれているため、パフォーマンスの向上はもたらされません。
 
-message broker を提供する Azure リソースは `Azure Event Grid` であり、有効にするには、`recommended deployment`({{< relref path="#recommended-deployment" lang="ja" >}}) で使用したのと同じ `main.tf` に `use_internal_queue = false` オプションを追加する必要があります。
+message broker を提供する Azure リソースは `Azure Event Grid` であり、有効にするには、[`recommended deployment`](#recommended-deployment) で使用したのと同じ `main.tf` に `use_internal_queue = false` オプションを追加する必要があります。
 ```bash
 # 必要なすべてのサービスをスピンアップ
 module "wandb" {
@@ -217,4 +217,4 @@ module "wandb" {
 ## その他のデプロイメント オプション
 
 3 つのデプロイメント オプションすべてを組み合わせて、すべての構成を同じファイルに追加できます。
-[Teraform モジュール](https://github.com/wandb/terraform-azure-wandb) は、標準オプションや [recommended deployment]({{< relref path="#recommended-deployment" lang="ja" >}}) に見られる最小構成と組み合わせることができるいくつかのオプションを提供します。
+[Teraform モジュール](https://github.com/wandb/terraform-azure-wandb) は、標準オプションや [recommended deployment](#recommended-deployment) に見られる最小構成と組み合わせることができるいくつかのオプションを提供します。

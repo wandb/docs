@@ -7,7 +7,7 @@ support:
   - runs
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+slug: /ja/models/support/:filename
 ---
 run をあるプロジェクトから別のプロジェクトに移動するには、次の手順に従います：
 
@@ -17,4 +17,4 @@ run をあるプロジェクトから別のプロジェクトに移動するに�
 - **Move** ボタンをクリックします。
 - 移動先のプロジェクトを選択し、操作を確認します。
 
-W&B は UI を介して run の移動をサポートしていますが、run のコピーはサポートしていません。run にログされた アーティファクト は新しいプロジェクトには転送されません。run の新しい場所にアーティファクト を手動で移動するには、[`wandb artifact get`]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-get/" lang="ja" >}}) SDK コマンドまたは [`Api.artifact` API]({{< relref path="/ref/python/public-api/api/#artifact" lang="ja" >}}) を使用してアーティファクトをダウンロードし、[wandb artifact put]({{< relref path="/ref/cli/wandb-artifact/wandb-artifact-put/" lang="ja" >}}) または `Api.artifact` API を使用して run の新しい場所にアップロードできます。
+W&B は UI を介して run の移動をサポートしていますが、run のコピーはサポートしていません。run にログされた アーティファクト は新しいプロジェクトには転送されません。run の新しい場所にアーティファクト を手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用してアーティファクトをダウンロードし、[wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して run の新しい場所にアップロードできます。

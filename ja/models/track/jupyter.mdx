@@ -13,7 +13,7 @@ W&B を Jupyter と組み合わせることで、ノートブックを離れる�
 ## Jupyter ノートブックにおける W&B のユースケース
 
 1. **反復実験**: 実験を実行および再実行して、パラメータを調整し、すべての実行を手動でメモを取ることなく自動的に W&B に保存します。
-2. **コード保存**: モデルを再現する際、ノートブックのどのセルが実行されたか、どの順序で実行されたかを知るのは難しいです。各実験のセル実行の記録を保存するために、[設定ページ]({{< relref path="/guides/models/app/settings-page/" lang="ja" >}})でコード保存をオンにしてください。
+2. **コード保存**: モデルを再現する際、ノートブックのどのセルが実行されたか、どの順序で実行されたかを知るのは難しいです。各実験のセル実行の記録を保存するために、[設定ページ](/ja/platform/app/settings-page/)でコード保存をオンにしてください。
 3. **カスタム分析**: 実行が W&B にログされたら、APIからデータフレームを取得して、カスタム分析を行い、その結果を W&B にログしてレポートで保存し、共有できます。
 
 ## ノートブックでの始め方
@@ -49,7 +49,9 @@ wandb.init(
 
 この[例のノートブック](http://wandb.me/jupyter-interact-colab)で試してみてください。
 
-{{< img src="/images/track/jupyter_widget.png" alt="" >}}
+<Frame>
+    <img src="/images/track/jupyter_widget.png"  />
+</Frame>
 
 ### ノートブックでライブ W&B インターフェイスを直接レンダリング
 
@@ -78,9 +80,9 @@ wandb.init()
 wandb.run
 ```
 
-{{% alert %}}
-W&B でできることについてもっと知りたいですか？[データとメディアのログガイド]({{< relref path="/guides/models/track/log/" lang="ja" >}})をチェックし、[お気に入りの ML ツールキットとのインテグレーション方法]({{< relref path="/guides/integrations/" lang="ja" >}})を学ぶか、[リファレンスドキュメント]({{< relref path="/ref/python/" lang="ja" >}})または私たちの[例のレポジトリ](https://github.com/wandb/examples)に直接飛び込んでください。
-{{% /alert %}}
+<Note>
+W&B でできることについてもっと知りたいですか？[データとメディアのログガイド](/ja/models/track/log/)をチェックし、[お気に入りの ML ツールキットとのインテグレーション方法](/ja/guides/integrations/)を学ぶか、[リファレンスドキュメント](/ja/models/ref/python/)または私たちの[例のレポジトリ](https://github.com/wandb/examples)に直接飛び込んでください。
+</Note>
 
 ## W&B における追加の Jupyter 機能
 

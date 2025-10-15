@@ -9,18 +9,18 @@ support:
   - environment variables
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+slug: /ja/models/support/:filename
 ---
 デフォルトでは、Artifacts は `artifacts/` フォルダにダウンロードされます。場所を変更するには次のようにします。
 
-- [`wandb.Artifact().download`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) に渡します:
+- [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に渡します:
 
     ```python
     # ダウンロードのためのパスを指定します
     wandb.Artifact().download(root="<path_to_download>")
     ```
 
-- `WANDB_ARTIFACT_DIR` [環境変数]({{< relref path="guides/models/track/environment-variables.md" lang="ja" >}}) を設定します:
+- `WANDB_ARTIFACT_DIR` [環境変数](/ja/models/track/environment-variables/) を設定します:
 
     ```python
     # 環境変数を設定します

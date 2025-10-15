@@ -1,56 +1,100 @@
 ---
-title: ビデオ
-menu:
-  reference:
-    identifier: ja-ref-python-data-types-video
+title: "Video Support"
+description: "Automatically log videos using moviepy in Weave"
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/video.py#L49-L251 >}}
+Weave automatically logs videos using [`moviepy`](https://zulko.github.io/moviepy/). This allows you to pass video inputs and outputs to traced functions, and Weave will automatically handle uploading and storing video data.
 
-W&B にログするためのビデオをフォーマットします。
+<Note>
+Video support is currently only available in Python.
+</Note>
+
+## Usage prerequisites
+
+1. Install `weave` and `moviepy==1.0.3`.
+2. Create a W&B account.
+
+## Supported video types
+
+Weave recognizes `moviepy` video clip objects, such as:
+
+- A `VideoFileClip` loaded from a video file
+- In-memory clips like `ImageClip`, `ColorClip`, and `TextClip`
+
+### Direct upload of file-based clips
+
+If your clip is a `VideoFileClip` and has a valid filename with a supported extension, Weave will upload the file directly.
+
+**Supported file extensions:**
+
+- `.mp4`
+- `.webm`
+- `.gif`
+
+### In-memory clip support
+
+If the video object is in memory (no file on disk), Weave will encode it as an `.mp4` file and handle the upload automatically. This applies to clips of the following type:
+
+- `ImageClip`
+- `ColorClip`
+- `TextClip`
+
+## Example: Trace a video function
+
+The following code sample demonstrates how to trace a video processing function in Weave. The code sample:
+
+1. Initializes a Weave project `video-test`.
+2. Defines a `get_video` function tracked as a `weave.op` that extracts a 1 second subclip of the loaded `VideoFileClip` as a `VideoClip`.
+3. Uploads and tracks the clip in Weave.
+4. Automatically generates a dummy MP4 video if none is found.
+
+<Warning>
+To avoid thread-safety issues, always pass the path to `VideoFileClip` objects instead of creating them outside the Weave `op`.
+</Warning>
+
+Before you use the following code snippet, complete the [usage prerequisites](#usage-prerequisites).
 
 ```python
-Video(
-    data_or_path: Union['np.ndarray', str, 'TextIO', 'BytesIO'],
-    caption: Optional[str] = None,
-    fps: Optional[int] = None,
-    format: Optional[str] = None
-)
+import os
+import weave
+from moviepy.editor import VideoFileClip, ColorClip, VideoClip
+
+# Update to your project name, or create a new project named 'video-test'
+weave.init('video-test')
+
+@weave.op
+def get_video(clip: VideoFileClip) -> VideoClip:
+    """Process a video by path rather than by passing the clip directly.
+
+    This ensures that the VideoFileClip is created and managed within the
+    Weave op's thread context, avoiding thread-safety issues.
+    """
+    new_clip = clip.subclip(0, 1)
+    return new_clip
+
+if __name__ == "__main__":
+    os.makedirs("videos", exist_ok=True)
+
+    # Update the path to point to your MP4 file
+    video_path = './videos/example.mp4'
+
+    # Generate a dummy video if it doesn't exist
+    # Dummy video contents: A red square that displays for 5 seconds
+    if not os.path.isfile(video_path):
+        print("No video found. Creating dummy video...")
+        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
+        dummy_clip.write_videofile(video_path, fps=24)
+
+    clip = VideoFileClip(video_path, has_mask=False, audio=True)
+    get_video(clip) 
 ```
 
-| 引数 |  |
-| :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) ビデオはファイルへのパスまたは io オブジェクトで初期化できます。フォーマットは "gif", "mp4", "webm", "ogg" のいずれかでなければなりません。フォーマットは format 引数で指定する必要があります。ビデオは numpy テンソルでも初期化できます。numpy テンソルは 4次元または 5次元でなければなりません。チャンネルは (time, channel, height, width) または (batch, time, channel, height, width) であるべきです。 |
-|  `caption` |  (string) ビデオに関連付けられたキャプション（表示用） |
-|  `fps` |  (int) 生のビデオフレームをエンコードする際のフレームレート。デフォルト値は 4 です。このパラメータは data_or_path が string または bytes の場合には影響しません。 |
-|  `format` |  (string) ビデオのフォーマット。パスまたは io オブジェクトで初期化する場合に必要です。 |
+When the code sample runs successfully, you can view your video by clicking the link in the **Traces** table of your project.
 
-#### 例:
+<Frame>
+![A trace of a video processing function in the Traces table.](/weave/guides/tracking/imgs/video-trace.png)
+</Frame>
 
-### numpy 配列をビデオとしてログする
-
-```python
-import numpy as np
-import wandb
-
-run = wandb.init()
-# 軸は (time, channel, height, width)
-frames = np.random.randint(low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8)
-run.log({"video": wandb.Video(frames, fps=4)})
-```
-
-## メソッド
-
-### `encode`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/video.py#L140-L179)
-
-```python
-encode(
-    fps: int = 4
-) -> None
-```
-
-| クラス変数 |  |
-| :--- | :--- |
-|  `EXTS`<a id="EXTS"></a> |   |
+<Frame>
+![An MP4 video uploaded to Weave, viewed in the Traces popout.](/weave/guides/tracking/imgs/video-trace-popout.png)
+</Frame>

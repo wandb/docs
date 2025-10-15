@@ -7,7 +7,7 @@ menu:
 weight: 3
 ---
 
-レジストリ管理者は、レジストリの設定を設定することで、[レジストリロールを設定]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}})、[ユーザーを追加]({{< relref path="configure_registry.md#add-a-user-or-a-team-to-a-registry" lang="ja" >}})、または[ユーザーを削除]({{< relref path="configure_registry.md#remove-a-user-or-team-from-a-registry" lang="ja" >}})することができます。
+レジストリ管理者は、レジストリの設定を設定することで、[レジストリロールを設定](/ja/models/core/registry/configure_registry/#configure-registry-roles)、[ユーザーを追加](/ja/models/core/registry/configure_registry/#add-a-user-or-a-team-to-a-registry)、または[ユーザーを削除](/ja/models/core/registry/configure_registry/#remove-a-user-or-team-from-a-registry)することができます。
 
 ## ユーザー管理
 
@@ -22,9 +22,11 @@ weight: 3
 5. **Include users and teams** フィールドに、追加したいユーザー名、メールアドレス、またはチーム名を指定します。
 6. **Add access** をクリックします。
 
-{{< img src="/images/registry/add_team_registry.gif" alt="UI を使用して個々のユーザーやチームをレジストリに追加するアニメーション" >}}
+<Frame>
+    <img src="/images/registry/add_team_registry.gif" alt="UI を使用して個々のユーザーやチームをレジストリに追加するアニメーション"  />
+</Frame>
 
-[レジストリでのユーザーロール設定]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}})や[レジストリロールの権限]({{< relref path="configure_registry.md#registry-role-permissions" lang="ja" >}})についての詳細をご覧ください。
+[レジストリでのユーザーロール設定](/ja/models/core/registry/configure_registry/#configure-registry-roles)や[レジストリロールの権限](/ja/models/core/registry/configure_registry/#registry-role-permissions)についての詳細をご覧ください。
 
 ### ユーザーまたはチームの削除
 
@@ -36,9 +38,9 @@ weight: 3
 4. **Registry access** セクションに移動し、削除したいユーザー名、メールアドレス、またはチームを入力します。
 5. **Delete** ボタンをクリックします。
 
-{{% alert %}}
+<Note>
 チームからユーザーを削除すると、そのユーザーのレジストリへのアクセスも削除されます。
-{{% /alert %}}
+</Note>
 
 ## レジストリロール
 
@@ -52,13 +54,15 @@ W&B は、レジストリにユーザーやチームが追加されると、自�
 | User (non admin) | Viewer |
 | Org admin | Admin |
 
-レジストリ管理者は、レジストリ内のユーザーやチームのロールを割り当てまたは変更することができます。詳細は [レジストリでのユーザーロールの設定]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}}) を参照してください。
+レジストリ管理者は、レジストリ内のユーザーやチームのロールを割り当てまたは変更することができます。詳細は [レジストリでのユーザーロールの設定](/ja/models/core/registry/configure_registry/#configure-registry-roles) を参照してください。
 
-{{% alert title="W&Bロールタイプ" %}}
-W&B には、[チームロール]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}})と[レジストリロール]({{< relref path="configure_registry.md#configure-registry-roles" lang="ja" >}})の2種類のロールがあります。
+<Note>
+**W&Bロールタイプ**
+
+W&B には、[チームロール](/ja/platform/app/settings-page/teams/#team-role-and-permissions)と[レジストリロール](/ja/models/core/registry/configure_registry/#configure-registry-roles)の2種類のロールがあります。
 
 チームにおけるあなたのロールは、いかなるレジストリにおけるあなたのロールにも影響や関連を持ちません。
-{{% /alert %}}
+</Note>
 
 以下の表は、ユーザーが持つことのできる異なるロールとその権限を示しています：
 
@@ -110,7 +114,9 @@ Nico は Foundation Model Team のメンバーであり、このチームは Reg
 
 例えば、以下の画像では、Alex は `smle-reg-team-1` チームのメンバーであるため、**Member** ロールの特権を継承しています。
 
-{{< img src="/images/registry/role_conflict.png" alt="チームの一部であるため、メンバーのロールを継承するユーザー。" >}}
+<Frame>
+    <img src="/images/registry/role_conflict.png" alt="チームの一部であるため、メンバーのロールを継承するユーザー。"  />
+</Frame>
 
 ## レジストリロールの設定
 

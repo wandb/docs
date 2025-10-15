@@ -1,122 +1,178 @@
 ---
-title: Configure registry access
 menu:
   default:
-    identifier: ko-guides-core-registry-configure_registry
+    identifier: configure_registry
     parent: registry
+title: Configure registry access
 weight: 3
 ---
 
-Registry 관리자는 [레지스트리 역할 구성]({{< relref path="configure_registry.md#configure-registry-roles" lang="ko" >}}), [사용자 추가]({{< relref path="configure_registry.md#add-a-user-or-a-team-to-a-registry" lang="ko" >}}), 또는 [사용자 제거]({{< relref path="configure_registry.md#remove-a-user-or-team-from-a-registry" lang="ko" >}})를 레지스트리의 설정을 구성하여 레지스트리에서 수행할 수 있습니다.
+A registry admin can [configure registry roles](/models/registry/configure_registry/#configure-registry-roles), [add users](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry), or [remove users](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) from a registry by configuring the registry's settings.
 
-## 사용자 관리
+## Manage users
 
-### 사용자 또는 팀 추가
+### Add a user or a team
 
-Registry 관리자는 개별 user 또는 전체 Teams를 Registry에 추가할 수 있습니다. Registry에 user 또는 Team을 추가하려면 다음을 수행하십시오.
+Registry admins can add individual users or entire teams to a registry. To add a user or team to a registry:
 
-1. Registry(https://wandb.ai/registry/)로 이동합니다.
-2. user 또는 Team을 추가할 Registry를 선택합니다.
-3. 오른쪽 상단 모서리에 있는 톱니바퀴 아이콘을 클릭하여 Registry settings에 엑세스합니다.
-4. **Registry access** 섹션에서 **Add access**를 클릭합니다.
-5. **Include users and teams** 필드에 하나 이상의 user 이름, 이메일 또는 Team 이름을 지정합니다.
-6. **Add access**를 클릭합니다.
+1. Navigate to the **Registry** App in the W&B App UI.
+2. Select the registry you want to add a user or team to.
+3. Click on the gear icon on the upper right hand corner to access the registry settings.
+4. In the **Registry access** section, click **Add access**.
+5. Specify one or more user names, emails, or the team names to the **Include users and teams** field.
+6. Click **Add access**.
 
-{{< img src="/images/registry/add_team_registry.gif" alt="UI를 사용하여 팀과 개별 사용자를 레지스트리에 추가하는 애니메이션" >}}
+<Frame>
+    <img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry"  />
+</Frame>
 
-[레지스트리에서 user 역할 구성]({{< relref path="configure_registry.md#configure-registry-roles" lang="ko" >}}) 또는 [Registry 역할 권한]({{< relref path="configure_registry.md#registry-role-permissions" lang="ko" >}})에 대해 자세히 알아보세요.
+Learn more about [configuring user roles in a registry](/models/registry/configure_registry/#configure-registry-roles), or [Registry role permissions](/models/registry/configure_registry/#registry-role-permissions) . 
 
-### 사용자 또는 팀 제거
-Registry 관리자는 개별 user 또는 전체 Teams를 Registry에서 제거할 수 있습니다. Registry에서 user 또는 Team을 제거하려면 다음을 수행하십시오.
+### Remove a user or team
+A registry admin can remove individual users or entire teams from a registry. To remove a user or team from a registry:
 
-1. Registry(https://wandb.ai/registry/)로 이동합니다.
-2. user를 제거할 Registry를 선택합니다.
-3. 오른쪽 상단 모서리에 있는 톱니바퀴 아이콘을 클릭하여 Registry settings에 엑세스합니다.
-4. **Registry access** 섹션으로 이동하여 제거할 user 이름, 이메일 또는 Team을 입력합니다.
-5. **Delete** 버튼을 클릭합니다.
+1. Navigate to the **Registry** App in the W&B App UI.
+2. Select the registry you want to remove a user from.
+3. Click on the gear icon on the upper right hand corner to access the registry settings.
+4. Navigate to the **Registry access** section and type in the username, email, or team you want to remove.
+5. Click the **Delete** button.
 
-{{% alert %}}
-Team에서 user를 제거하면 해당 user의 Registry에 대한 엑세스 권한도 제거됩니다.
-{{% /alert %}}
+<Note>
+Removing a user from a team also removes that user's access to the registry.
+</Note>
 
-## Registry 역할
+### Change the owner of a registry
 
-Registry의 각 user는 해당 Registry에서 수행할 수 있는 작업을 결정하는 *Registry 역할*을 가집니다.
+A registry admin can designate any member as a registry's owner, including a **Restricted Viewer** or a **Viewer**. Registry ownership is primarily for accountability purposes and does not confer any additional permissions beyond those granted by the user's assigned role.
 
-W&B는 user 또는 Team이 Registry에 추가될 때 자동으로 기본 Registry 역할을 할당합니다.
+To change the owner:
+1. Navigate to the **Registry** App in the W&B App UI.
+2. Select the registry you want to configure.
+3. Click the gear icon on the upper right hand corner.
+4. Scroll to the **Registry members and roles** section.
+5. Hover over the row for a member.
+6. Click the **...** action menu at the end of the row, then click **Make owner**.
 
-| Entity | 기본 Registry 역할 |
-| ----- | ----- |
-| Team | Viewer |
-| User (관리자 아님) | Viewer |
-| Org 관리자 | Admin |
 
-Registry 관리자는 Registry에서 user 및 Teams에 대한 역할을 할당하거나 수정할 수 있습니다.
-자세한 내용은 [레지스트리에서 user 역할 구성]({{< relref path="configure_registry.md#configure-registry-roles" lang="ko" >}})을 참조하십시오.
+## Configure Registry roles
 
-{{% alert title="W&B 역할 유형" %}}
-W&B에는 두 가지 다른 유형의 역할이 있습니다. [Team 역할]({{< ref "/guides/models/app/settings-page/teams.md#team-role-and-permissions" >}}) 및 [Registry 역할]({{< relref path="configure_registry.md#configure-registry-roles" lang="ko" >}}).
+This section shows how to configure roles for Registry members. For more information about Registry roles, including the cabilities of each role, order of precedence, defaults, and more, see [Details about Registry roles](#details-about-registry-roles).
 
-Team에서의 역할은 Registry에서의 역할에 영향을 미치거나 관계가 없습니다.
-{{% /alert %}}
+1. Navigate to the **Registry** App in the W&B App UI.
+2. Select the registry you want to configure.
+3. Click the gear icon on the upper right hand corner.
+4. Scroll to the **Registry members and roles** section.
+5. Within the **Member** field, search for the user or team you want to edit permissions for.
+6. In the **Registry role** column, click the user's role. 
+7. From the dropdown, select the role you want to assign to the user.
 
-다음 표는 user가 가질 수 있는 다양한 역할과 해당 권한을 나열합니다.
+## Details about Registry roles
 
-| 권한 | 권한 그룹 | Viewer | Member | Admin |
-|--------------------------------------------------------------- |------------------|--------|--------|-------|
-| 컬렉션의 세부 정보 보기 | 읽기 | X | X | X |
-| 연결된 아티팩트의 세부 정보 보기 | 읽기 | X | X | X |
-| 사용량: use_artifact를 사용하여 레지스트리에서 아티팩트 사용 | 읽기 | X | X | X |
-| 연결된 아티팩트 다운로드 | 읽기 | X | X | X |
-| 아티팩트의 파일 뷰어에서 파일 다운로드 | 읽기 | X | X | X |
-| 레지스트리 검색 | 읽기 | X | X | X |
-| 레지스트리의 설정 및 user 목록 보기 | 읽기 | X | X | X |
-| 컬렉션에 대한 새 자동화 생성 | 생성 | | X | X |
-| 새 버전이 추가될 때 Slack 알림 켜기 | 생성 | | X | X |
-| 새 컬렉션 생성 | 생성 | | X | X |
-| 새 사용자 지정 레지스트리 생성 | 생성 | | X | X |
-| 컬렉션 카드 편집(설명) | 업데이트 | | X | X |
-| 연결된 아티팩트 설명 편집 | 업데이트 | | X | X |
-| 컬렉션의 태그 추가 또는 삭제 | 업데이트 | | X | X |
-| 연결된 아티팩트에서 에일리어스 추가 또는 삭제 | 업데이트 | | X | X |
-| 새 아티팩트 연결 | 업데이트 | | X | X |
-| 레지스트리에 허용된 유형 목록 편집 | 업데이트 | | X | X |
-| 사용자 지정 레지스트리 이름 편집 | 업데이트 | | X | X |
-| 컬렉션 삭제 | 삭제 | | X | X |
-| 자동화 삭제 | 삭제 | | X | X |
-| 레지스트리에서 아티팩트 연결 해제 | 삭제 | | X | X |
-| 레지스트리에 대해 허용된 아티팩트 유형 편집 | Admin | | | X |
-| 레지스트리 가시성 변경(Organization 또는 Restricted) | Admin | | | X |
-| 레지스트리에 user 추가 | Admin | | | X |
-| 레지스트리에서 user의 역할 할당 또는 변경 | Admin | | | X |
+The following sections give more information about Registry roles.
 
-### 상속된 권한
+<Note>
+Your [role in a team](/platform/app/settings-page/teams/#team-roles-and-permissions) has no impact or relationship to your role in any registry.
+</Note>
 
-Registry에서 user의 권한은 개별적으로 또는 Team 멤버십에 의해 해당 user에게 할당된 최고 수준의 권한에 따라 달라집니다.
+### Default roles
+W&B automatically assigns a default **registry role** to a user or team when they are added to a registry. This role determines what they can do in that registry. 
 
-예를 들어, Registry 관리자가 Nico라는 user를 Registry A에 추가하고 **Viewer** Registry 역할을 할당한다고 가정합니다. 그런 다음 Registry 관리자가 Foundation Model Team이라는 Team을 Registry A에 추가하고 Foundation Model Team에 **Member** Registry 역할을 할당합니다.
+| Entity                                 | Default registry role<br />(Dedicated Cloud / Self-Managed) | Default registry role<br />(Multi-tenant Cloud) |
+|----------------------------------------|-------------------------------------------------------------|-------------------------------------------------|
+| Team                                   | Viewer                                                      | Restricted Viewer                               |
+| User or service account (non admin)    | Viewer                                                      | Restricted Viewer                               |
+| Service account (non admin)            | Member<sup><a href="#service_account_footnote">1</a></sup>  | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| Org admin                              | Admin                                                       | Admin                                           |
 
-Nico는 Registry의 **Member**인 Foundation Model Team의 멤버입니다. **Member**는 **Viewer**보다 더 많은 권한을 가지고 있기 때문에 W&B는 Nico에게 **Member** 역할을 부여합니다.
+<a id="service_account_footnote">1</a>: Service accounts cannot have **Viewer** or **Restricted Viewer** roles.
 
-다음 표는 user의 개별 Registry 역할과 해당 멤버인 Team의 Registry 역할 간의 충돌이 발생할 경우 최고 수준의 권한을 보여줍니다.
+A registry admin can assign or modify roles for users and teams in the registry.
+See [Configure user roles in a registry](/models/registry/configure_registry/#configure-registry-roles) for more information.
 
-| Team Registry 역할 | 개별 Registry 역할 | 상속된 Registry 역할 |
-| ------ | ------ | ------ |
-| Viewer | Viewer | Viewer |
-| Member | Viewer | Member |
-| Admin | Viewer | Admin |
+<Note>
+**Restricted Viewer role availability**
 
-충돌이 있는 경우 W&B는 user 이름 옆에 최고 수준의 권한을 표시합니다.
+The **Restricted Viewer** role is currently available only in Multi-Tenant Cloud organizations by invitation only. To request access, or to express interest in the feature on Dedicated Cloud or Self-Managed, [contact support](mailto:support@wandb.ai).
 
-예를 들어, 다음 이미지에서 Alex는 `smle-reg-team-1` Team의 멤버이기 때문에 **Member** 역할 권한을 상속받습니다.
+This role provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources.
 
-{{< img src="/images/registry/role_conflict.png" alt="사용자가 팀의 일부이기 때문에 멤버 역할을 상속합니다." >}}
+Unlike a **Viewer**, a **Restricted Viewer**:
+- Cannot download artifact files or access file contents.
+- Cannot use artifacts with use_artifact() in the W&B SDK.
+</Note>
 
-## Registry 역할 구성
-1. Registry(https://wandb.ai/registry/)로 이동합니다.
-2. 구성할 Registry를 선택합니다.
-3. 오른쪽 상단 모서리에 있는 톱니바퀴 아이콘을 클릭합니다.
-4. **Registry members and roles** 섹션으로 스크롤합니다.
-5. **Member** 필드 내에서 권한을 편집할 user 또는 Team을 검색합니다.
-6. **Registry role** 열에서 user의 역할을 클릭합니다.
-7. 드롭다운에서 user에게 할당할 역할을 선택합니다.
+### Role permissions
+The following table lists each Registry role, along with the permissions provided by each role:
+
+| Permission                                                     | Permission Group | Restricted Viewer<br />(Multi-tenant Cloud, by invitation) | Viewer | Member | Admin | 
+|--------------------------------------------------------------- |------------------|-------------------|--------|--------|-------|
+| View a collection's details                                    | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| View a linked artifact's details                               | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| Usage: Consume an artifact in a registry with use_artifact     | Read             |                   |   ✓    |   ✓    |   ✓   |
+| Download a linked artifact                                     | Read             |                   |   ✓    |   ✓    |   ✓   |
+| Download files from an artifact's file viewer                  | Read             |                   |   ✓    |   ✓    |   ✓   |
+| Search a registry                                              | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| View a registry's settings and user list                       | Read             |        ✓         |   ✓    |   ✓    |   ✓   |
+| Create a new automation for a collection                       | Create           |                   |        |   ✓    |   ✓   |
+| Turn on Slack notifications for new version being added        | Create           |                   |        |   ✓    |   ✓   |
+| Create a new collection                                        | Create           |                   |        |   ✓    |   ✓   |
+| Create a new custom registry                                   | Create           |                   |        |   ✓    |   ✓   |
+| Edit collection card (description)                             | Update           |                   |        |   ✓    |   ✓   |
+| Edit linked artifact description                               | Update           |                   |        |   ✓    |   ✓   |
+| Add or delete a collection's tag                               | Update           |                   |        |   ✓    |   ✓   |
+| Add or delete an alias from a linked artifact                  | Update           |                   |        |   ✓    |   ✓   |
+| Link a new artifact                                            | Update           |                   |        |   ✓    |   ✓   |
+| Edit allowed types list for a registry                         | Update           |                   |        |   ✓    |   ✓   |
+| Edit custom registry name                                      | Update           |                   |        |   ✓    |   ✓   |
+| Delete a collection                                            | Delete           |                   |        |   ✓    |   ✓   |
+| Delete an automation                                           | Delete           |                   |        |   ✓    |   ✓   |
+| Unlink an artifact from a registry                             | Delete           |                   |        |   ✓    |   ✓   |
+| Edit accepted artifact types for a registry                    | Admin            |                   |        |        |   ✓   |
+| Change registry visibility (Organization or Restricted)        | Admin            |                   |        |        |   ✓   |
+| Add users to a registry                                        | Admin            |                   |        |        |   ✓   |
+| Assign or change a user's role in a registry                   | Admin            |                   |        |        |   ✓   |
+
+
+### Inherited Registry role
+The registry's membership list shows each user's inherited (effective) registry role (in light gray) next to the role dropdown in their row.
+
+<Frame>
+    <img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role"  />
+</Frame>
+
+A user's effective role in a particular registry matches their _highest_ role among their role in the organization, the registry, and the team that owns the registry, whether inherited or explicitly assigned. For example:
+
+- A team **Admin** or organization **Admin** with the **Viewer** role in a particular registry owned by the team is effectively an **Admin** of the registry.
+- A registry **Viewer** with the **Member** role in the team is effectively a **Member** of the registry.
+- A team **Viewer** with the **Member** role in a particular registry is effectively a **Member** of the registry.
+
+### SDK compatibility
+
+<Note>
+**SDK version requirement**
+
+To use the W&B SDK to access artifacts as a **Restricted Viewer**, you must use W&B SDK version 0.19.9 or higher. Otherwise, some SDK commands will result in permission errors.
+</Note>
+
+When a **Restricted Viewer** uses the SDK, certain functions are not available or work differently.
+
+The following methods are not available and result in permission errors:
+- [`Run.use_artifact()`](/models/ref/python/experiments/run/#method-runuse_artifact)
+- [`Artifact.download()`](/models/ref/python/experiments/artifact/#method-artifactdownload)
+- [`Artifact.file()`](/models/ref/python/experiments/artifact/#method-artifactfile)
+- [`Artifact.files()`](/models/ref/python/experiments/artifact/#method-artifactfiles)
+
+The following methods are limited to artifact metadata:
+- [`Artifact.get_entry()`](/models/ref/python/experiments/artifact/#method-artifactget_entry)
+- [`Artifact.get_path()`](/models/ref/python/experiments/artifact/#method-artifactget_path)
+- [`Artifact.get()`](/models/ref/python/experiments/artifact/#method-artifactget)
+- [`Artifact.verify()`](/models/ref/python/experiments/artifact/#method-artifactverify)
+
+### Cross-registry permissions
+
+A user can have different roles in different registries. For example, a user can be a **Restricted Viewer** in Registry A but a **Viewer** in Registry B. In this case:
+
+- The same artifact linked to both registries will have different access levels
+- In Registry A, the user is a **Restricted Viewer** and cannot download files or use the artifact
+- In Registry B, the user is a **Viewer** and can download files and use the artifact
+- In other words, access is determined by the registry in which the artifact is accessed

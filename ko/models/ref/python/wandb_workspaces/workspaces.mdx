@@ -1,445 +1,200 @@
 ---
+title: Workspaces
 menu:
-  tutorials:
-    identifier: workspaces
-    parent: null
-title: Programmatic Workspaces
-weight: 5
+  reference:
+    identifier: ko-ref-python-wandb_workspaces-workspaces
 ---
 
-{{% alert %}}
-W&B Report and Workspace API is in Public Preview.
-{{% /alert %}}
-
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" >}}
-Organize and visualize your machine learning experiments more effectively by programmatically creating, managing, and customizing workspaces. You can define configurations, set panel layouts, and organize sections with the [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B library. You can load and modify workspaces by URL, use expressions to filter and group runs, and customize the appearances of runs.
-
-`wandb-workspaces` is a Python library for programmatically creating and customizing W&B [Workspaces]({{< relref "/guides/models/track/workspaces/" >}}) and [Reports]({{< relref "/guides/core/reports/" >}}).
-
-In this tutorial you will see how to use `wandb-workspaces` to create and customize workspaces by defining configurations, set panel layouts, and organize sections.
-
-## How to use this notebook
-* Run each cell one at a time. 
-* Copy and paste the URL that is printed after you run a cell to view the changes made to the workspace.
+<Card title="View the source code" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/interface.py" icon="github"/>
 
 
-{{% alert %}}
-Programmatic interaction with workspaces is currently supported for [Saved workspaces views]({{< relref "/guides/models/track/workspaces#saved-workspace-views" >}}). Saved workspaces views are collaborative snapshots of a workspace. Anyone on your team can view, edit, and save changes to saved workspace views. 
-{{% /alert %}}
 
-## 1. Install and import dependencies
 
+
+
+# <kbd>module</kbd> `wandb_workspaces.workspaces`
+W&B Workspace API를 프로그래밍 방식으로 사용하기 위한 Python 라이브러리입니다.
 
 ```python
-# Install dependencies
-!pip install wandb wandb-workspaces rich
-```
-
-
-```python
-# Import dependencies
-import os
-import wandb
+# 가져오는 방법
 import wandb_workspaces.workspaces as ws
-import wandb_workspaces.reports.v2 as wr # We use the Reports API for adding panels
 
-# Improve output formatting
-%load_ext rich
-```
-
-## 2. Create a new project and workspace
-
-For this tutorial we will create a new project so that we can experiment with the `wandb_workspaces` API:
-
-Note: You can load an existing workspace using its unique `Saved view` URL. See the next code block to see how to do this.
-
-
-```python
-# Initialize W&B and Login
-wandb.login()
-
-# Function to create a new project and log sample data
-def create_project_and_log_data():
-    project = "workspace-api-example"  # Default project name
-
-    # Initialize a run to log some sample data
-    with wandb.init(project=project, name="sample_run") as run:
-        for step in range(100):
-            run.log({
-                "Step": step,
-                "val_loss": 1.0 / (step + 1),
-                "val_accuracy": step / 100.0,
-                "train_loss": 1.0 / (step + 2),
-                "train_accuracy": step / 110.0,
-                "f1_score": step / 100.0,
-                "recall": step / 120.0,
-            })
-    return project
-
-# Create a new project and log data
-project = create_project_and_log_data()
-entity = wandb.Api().default_entity
-```
-
-### (Optional) Load an existing project and workspace
-Instead of creating a new project, you can load one of your own existing project and workspace. To do this, find the unique workspace URL and pass it to `ws.Workspace.from_url` as a string. The URL has the form `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc`. 
-
-For example:
-
-```python
-wandb.login()
-
-workspace = ws.Workspace.from_url("https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc").
-
-workspace = ws.Workspace(
-    entity="NEW-ENTITY",
-    project=NEW-PROJECT,
-    name="NEW-SAVED-VIEW-NAME"
+# 워크스페이스 생성 예시
+ws.Workspace(
+     name="Example W&B Workspace",
+     entity="entity", # 워크스페이스를 소유한 entity
+     project="project", # 워크스페이스가 연결된 project
+     sections=[
+         ws.Section(
+             name="Validation Metrics",
+             panels=[
+                 wr.LinePlot(x="Step", y=["val_loss"]),
+                 wr.BarPlot(metrics=["val_accuracy"]),
+                 wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+             ],
+             is_open=True,
+         ),
+     ],
 )
+workspace.save()
 ```
 
-## 3. Programmatic workspace examples
-Below are examples for using programmatic workspace features:
+---
 
+
+
+## <kbd>class</kbd> `RunSettings`
+runset의 run에 대한 설정입니다 (왼쪽 막대).
+
+**속성:**
+ 
+ - `color` (str): UI에서 run의 색상입니다. 16진수 (#ff0000), CSS 색상 (red) 또는 rgb (rgb(255, 0, 0))가 될 수 있습니다.
+ - `disabled` (bool): run이 비활성화되었는지 여부입니다 (UI에서 눈이 감김). 기본값은 `False`로 설정됩니다.
+
+---
+
+
+
+## <kbd>class</kbd> `RunsetSettings`
+워크스페이스의 runset (run을 포함하는 왼쪽 막대)에 대한 설정입니다.
+
+**속성:**
+ 
+ - `query` (str): runset을 필터링하는 쿼리입니다 (정규식 표현일 수 있음, 다음 매개변수 참조).
+ - `regex_query` (bool): 쿼리 (위)가 정규식 표현인지 여부를 제어합니다. 기본값은 `False`로 설정됩니다.
+ - `filters` `(LList[expr.FilterExpr])`: runset에 적용할 필터 목록입니다. 필터는 AND로 결합됩니다. 필터 생성에 대한 자세한 내용은 FilterExpr를 참조하세요.
+ - `groupby` `(LList[expr.MetricType])`: runset에서 그룹화할 메트릭 목록입니다. `Metric`, `Summary`, `Config`, `Tags` 또는 `KeysInfo`로 설정됩니다.
+ - `order` `(LList[expr.Ordering])`: runset에 적용할 메트릭 및 순서 지정 목록입니다.
+ - `run_settings` `(Dict[str, RunSettings])`: run 설정 사전입니다. 여기서 키는 run의 ID이고 값은 RunSettings 오브젝트입니다.
+
+---
+
+
+
+## <kbd>class</kbd> `Section`
+워크스페이스의 섹션을 나타냅니다.
+
+**속성:**
+ 
+ - `name` (str): 섹션의 이름/제목입니다.
+ - `panels` `(LList[PanelTypes])`: 섹션의 패널 순서가 지정된 목록입니다. 기본적으로 첫 번째는 왼쪽 상단이고 마지막은 오른쪽 하단입니다.
+ - `is_open` (bool): 섹션이 열려 있는지 닫혀 있는지 여부입니다. 기본값은 닫힘입니다.
+ - `layout_settings` `(Literal[`standard`, `custom`])`: 섹션의 패널 레이아웃에 대한 설정입니다.
+ - `panel_settings`: 섹션의 모든 패널에 적용되는 패널 수준 설정입니다. `Section`에 대한 `WorkspaceSettings`와 유사합니다.
+
+---
+
+
+
+## <kbd>class</kbd> `SectionLayoutSettings`
+섹션의 패널 레이아웃 설정입니다. 일반적으로 W&B App Workspace UI의 섹션 상단 오른쪽에 표시됩니다.
+
+**속성:**
+ 
+ - `layout` `(Literal[`standard`, `custom`])`: 섹션의 패널 레이아웃입니다. `standard`는 기본 그리드 레이아웃을 따르고, `custom`은 개별 패널 설정에 의해 제어되는 패널별 레이아웃을 허용합니다.
+ - `columns` (int): 표준 레이아웃에서 레이아웃의 열 수입니다. 기본값은 3입니다.
+ - `rows` (int): 표준 레이아웃에서 레이아웃의 행 수입니다. 기본값은 2입니다.
+
+---
+
+
+
+## <kbd>class</kbd> `SectionPanelSettings`
+섹션에 대한 패널 설정입니다. 섹션에 대한 `WorkspaceSettings`와 유사합니다.
+
+여기에 적용된 설정은 Section < Panel 우선 순위로 더 세분화된 패널 설정으로 재정의할 수 있습니다.
+
+**속성:**
+ 
+ - `x_axis` (str): X축 메트릭 이름 설정입니다. 기본적으로 `Step`으로 설정됩니다.
+ - `x_min Optional[float]`: X축의 최소값입니다.
+ - `x_max Optional[float]`: X축의 최대값입니다.
+ - `smoothing_type` (Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none']): 모든 패널에 적용되는 평활화 유형입니다.
+ - `smoothing_weight` (int): 모든 패널에 적용되는 평활화 가중치입니다.
+
+---
+
+
+
+## <kbd>class</kbd> `Workspace`
+섹션, 설정 및 run set 구성을 포함하는 W&B 워크스페이스를 나타냅니다.
+
+**속성:**
+ 
+ - `entity` (str): 이 워크스페이스가 저장될 entity입니다 (일반적으로 사용자 또는 팀 이름).
+ - `project` (str): 이 워크스페이스가 저장될 project입니다.
+ - `name`: 워크스페이스의 이름입니다.
+ - `sections` `(LList[Section])`: 워크스페이스의 섹션 순서가 지정된 목록입니다. 첫 번째 섹션이 워크스페이스 상단에 있습니다.
+ - `settings` `(WorkspaceSettings)`: 워크스페이스에 대한 설정입니다. 일반적으로 UI의 워크스페이스 상단에 표시됩니다.
+ - `runset_settings` `(RunsetSettings)`: 워크스페이스의 runset (run을 포함하는 왼쪽 막대)에 대한 설정입니다.
+
+---
+
+#### <kbd>property</kbd> url
+
+W&B 앱의 워크스페이스 URL입니다.
+
+---
+
+### <kbd>classmethod</kbd> `from_url`
 
 ```python
-# See all available settings for workspaces, sections, and panels.
-all_settings_objects = [x for x in dir(ws) if isinstance(getattr(ws, x), type)]
-all_settings_objects
+from_url(url: str)
 ```
 
-### Create a workspace with `saved view`
-This example demonstrates how to create a new workspace and populate it with sections and panels. Workspaces can be edited like regular Python objects, providing flexibility and ease of use.
+URL에서 워크스페이스를 가져옵니다.
 
+---
+
+### <kbd>method</kbd> `save`
 
 ```python
-def sample_workspace_saved_example(entity: str, project: str) -> str:
-    workspace: ws.Workspace = ws.Workspace(
-        name="Example W&B Workspace",
-        entity=entity,
-        project=project,
-        sections=[
-            ws.Section(
-                name="Validation Metrics",
-                panels=[
-                    wr.LinePlot(x="Step", y=["val_loss"]),
-                    wr.BarPlot(metrics=["val_accuracy"]),
-                    wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
-                ],
-                is_open=True,
-            ),
-        ],
-    )
-    workspace.save()
-    print("Sample Workspace saved.")
-    return workspace.url
-
-workspace_url: str = sample_workspace_saved_example(entity, project)
+save()
 ```
 
-### Load a workspace from a URL
-Duplicate and customize workspaces without affecting the original setup. To do this, load an existing workspace and save it as a new view:
+현재 워크스페이스를 W&B에 저장합니다.
 
+**반환 값:**
+ 
+ - `Workspace`: 저장된 내부 이름 및 ID로 업데이트된 워크스페이스입니다.
+
+---
+
+### <kbd>method</kbd> `save_as_new_view`
 
 ```python
-def save_new_workspace_view_example(url: str) -> None:
-    workspace: ws.Workspace = ws.Workspace.from_url(url)
-
-    workspace.name = "Updated Workspace Name"
-    workspace.save_as_new_view()
-
-    print(f"Workspace saved as new view.")
-
-save_new_workspace_view_example(workspace_url)
+save_as_new_view()
 ```
 
-Note that your workspace is now named "Updated Workspace Name".
+현재 워크스페이스를 W&B에 새 뷰로 저장합니다.
 
-### Basic settings
-The following code shows how to create a workspace, add sections with panels, and configure settings for the workspace, individual sections, and panels:
+**반환 값:**
+ 
+ - `Workspace`: 저장된 내부 이름 및 ID로 업데이트된 워크스페이스입니다.
 
+---
 
-```python
-# Function to create and configure a workspace with custom settings
-def custom_settings_example(entity: str, project: str) -> None:
-    workspace: ws.Workspace = ws.Workspace(name="An example workspace", entity=entity, project=project)
-    workspace.sections = [
-        ws.Section(
-            name="Validation",
-            panels=[
-                wr.LinePlot(x="Step", y=["val_loss"]),
-                wr.LinePlot(x="Step", y=["val_accuracy"]),
-                wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
-                wr.ScalarChart(metric="recall", groupby_aggfunc="mean"),
-            ],
-            is_open=True,
-        ),
-        ws.Section(
-            name="Training",
-            panels=[
-                wr.LinePlot(x="Step", y=["train_loss"]),
-                wr.LinePlot(x="Step", y=["train_accuracy"]),
-            ],
-            is_open=False,
-        ),
-    ]
+## <kbd>class</kbd> `WorkspaceSettings`
+워크스페이스에 대한 설정입니다. 일반적으로 UI의 워크스페이스 상단에 표시됩니다.
 
-    workspace.settings = ws.WorkspaceSettings(
-        x_axis="Step",
-        x_min=0,
-        x_max=75,
-        smoothing_type="gaussian",
-        smoothing_weight=20.0,
-        ignore_outliers=False,
-        remove_legends_from_panels=False,
-        tooltip_number_of_runs="default",
-        tooltip_color_run_names=True,
-        max_runs=20,
-        point_visualization_method="bucketing",
-        auto_expand_panel_search_results=False,
-    )
+이 오브젝트에는 X축, 평활화, 이상값, 패널, 툴팁, run 및 패널 쿼리 막대에 대한 설정이 포함됩니다.
 
-    section = workspace.sections[0]
-    section.panel_settings = ws.SectionPanelSettings(
-        x_min=25,
-        x_max=50,
-        smoothing_type="none",
-    )
+여기에 적용된 설정은 Workspace < Section < Panel 우선 순위로 더 세분화된 섹션 및 패널 설정으로 재정의할 수 있습니다.
 
-    panel = section.panels[0]
-    panel.title = "Validation Loss Custom Title"
-    panel.title_x = "Custom x-axis title"
-
-    workspace.save()
-    print("Workspace with custom settings saved.")
-
-# Run the function to create and configure the workspace
-custom_settings_example(entity, project)
-```
-
-Note that you are now viewing a different saved view called "An example workspace".
-
-## Customize runs
-The following code cells show you how to filter, change the color, group, and sort runs programmatically. 
-
-In each example, the general workflow is to specify the desired customization as an argument to the appropriate parameter in `ws.RunsetSettings`.
-
-### Filter runs
-You can create filters with python expressions and metrics you log with `wandb.log` or that are logged automatically as part of the run such as **Created Timestamp**.  You can also reference filters by how they appear in the W&B App UI such as the **Name**, **Tags**, or **ID**.
-
-The following example shows how to filter runs based on the validation loss summary, validation accuracy summary, and the regex specified:
-
-
-```python
-def advanced_filter_example(entity: str, project: str) -> None:
-    # Get all runs in the project
-    runs: list = wandb.Api().runs(f"{entity}/{project}")
-
-    # Apply multiple filters: val_loss < 0.1, val_accuracy > 0.8, and run name matches regex pattern
-    workspace: ws.Workspace = ws.Workspace(
-        name="Advanced Filtered Workspace with Regex",
-        entity=entity,
-        project=project,
-        sections=[
-            ws.Section(
-                name="Advanced Filtered Section",
-                panels=[
-                    wr.LinePlot(x="Step", y=["val_loss"]),
-                    wr.LinePlot(x="Step", y=["val_accuracy"]),
-                ],
-                is_open=True,
-            ),
-        ],
-        runset_settings=ws.RunsetSettings(
-            filters=[
-                (ws.Summary("val_loss") < 0.1),  # Filter runs by the 'val_loss' summary
-                (ws.Summary("val_accuracy") > 0.8),  # Filter runs by the 'val_accuracy' summary
-                (ws.Metric("ID").isin([run.id for run in wandb.Api().runs(f"{entity}/{project}")])),
-            ],
-            regex_query=True,
-        )
-    )
-
-    # Add regex search to match run names starting with 's'
-    workspace.runset_settings.query = "^s"
-    workspace.runset_settings.regex_query = True
-
-    workspace.save()
-    print("Workspace with advanced filters and regex search saved.")
-
-advanced_filter_example(entity, project)
-```
-
-Note that passing in a list of filter expressions applies the boolean "AND" logic.
-
-### Change the colors of runs
-This example demonstrates how to change the colors of the runs in a workspace:
-
-
-```python
-def run_color_example(entity: str, project: str) -> None:
-    # Get all runs in the project
-    runs: list = wandb.Api().runs(f"{entity}/{project}")
-
-    # Dynamically assign colors to the runs
-    run_colors: list = ['purple', 'orange', 'teal', 'magenta']
-    run_settings: dict = {}
-    for i, run in enumerate(runs):
-        run_settings[run.id] = ws.RunSettings(color=run_colors[i % len(run_colors)])
-
-    workspace: ws.Workspace = ws.Workspace(
-        name="Run Colors Workspace",
-        entity=entity,
-        project=project,
-        sections=[
-            ws.Section(
-                name="Run Colors Section",
-                panels=[
-                    wr.LinePlot(x="Step", y=["val_loss"]),
-                    wr.LinePlot(x="Step", y=["val_accuracy"]),
-                ],
-                is_open=True,
-            ),
-        ],
-        runset_settings=ws.RunsetSettings(
-            run_settings=run_settings
-        )
-    )
-
-    workspace.save()
-    print("Workspace with run colors saved.")
-
-run_color_example(entity, project)
-```
-
-### Group runs
-
-This example demonstrates how to group runs by specific metrics.
-
-
-
-```python
-def grouping_example(entity: str, project: str) -> None:
-    workspace: ws.Workspace = ws.Workspace(
-        name="Grouped Runs Workspace",
-        entity=entity,
-        project=project,
-        sections=[
-            ws.Section(
-                name="Grouped Runs",
-                panels=[
-                    wr.LinePlot(x="Step", y=["val_loss"]),
-                    wr.LinePlot(x="Step", y=["val_accuracy"]),
-                ],
-                is_open=True,
-            ),
-        ],
-        runset_settings=ws.RunsetSettings(
-            groupby=[ws.Metric("Name")]
-        )
-    )
-    workspace.save()
-    print("Workspace with grouped runs saved.")
-
-grouping_example(entity, project)
-```
-
-### Sort runs
-This example demonstrates how to sort runs based on the validation loss summary:
-
-
-```python
-def sorting_example(entity: str, project: str) -> None:
-    workspace: ws.Workspace = ws.Workspace(
-        name="Sorted Runs Workspace",
-        entity=entity,
-        project=project,
-        sections=[
-            ws.Section(
-                name="Sorted Runs",
-                panels=[
-                    wr.LinePlot(x="Step", y=["val_loss"]),
-                    wr.LinePlot(x="Step", y=["val_accuracy"]),
-                ],
-                is_open=True,
-            ),
-        ],
-        runset_settings=ws.RunsetSettings(
-            order=[ws.Ordering(ws.Summary("val_loss"))] #Order using val_loss summary
-        )
-    )
-    workspace.save()
-    print("Workspace with sorted runs saved.")
-
-sorting_example(entity, project)
-```
-
-## 4. Putting it all together: comprehensive example
-
-This example demonstrates how to create a comprehensive workspace, configure its settings, and add panels to sections:
-
-
-```python
-def full_end_to_end_example(entity: str, project: str) -> None:
-    # Get all runs in the project
-    runs: list = wandb.Api().runs(f"{entity}/{project}")
-
-    # Dynamically assign colors to the runs and create run settings
-    run_colors: list = ['red', 'blue', 'green', 'orange', 'purple', 'teal', 'magenta', '#FAC13C']
-    run_settings: dict = {}
-    for i, run in enumerate(runs):
-        run_settings[run.id] = ws.RunSettings(color=run_colors[i % len(run_colors)], disabled=False)
-
-    workspace: ws.Workspace = ws.Workspace(
-        name="My Workspace Template",
-        entity=entity,
-        project=project,
-        sections=[
-            ws.Section(
-                name="Main Metrics",
-                panels=[
-                    wr.LinePlot(x="Step", y=["val_loss"]),
-                    wr.LinePlot(x="Step", y=["val_accuracy"]),
-                    wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
-                ],
-                is_open=True,
-            ),
-            ws.Section(
-                name="Additional Metrics",
-                panels=[
-                    wr.ScalarChart(metric="precision", groupby_aggfunc="mean"),
-                    wr.ScalarChart(metric="recall", groupby_aggfunc="mean"),
-                ],
-            ),
-        ],
-        settings=ws.WorkspaceSettings(
-            x_axis="Step",
-            x_min=0,
-            x_max=100,
-            smoothing_type="none",
-            smoothing_weight=0,
-            ignore_outliers=False,
-            remove_legends_from_panels=False,
-            tooltip_number_of_runs="default",
-            tooltip_color_run_names=True,
-            max_runs=20,
-            point_visualization_method="bucketing",
-            auto_expand_panel_search_results=False,
-        ),
-        runset_settings=ws.RunsetSettings(
-            query="",
-            regex_query=False,
-            filters=[
-                ws.Summary("val_loss") < 1,
-                ws.Metric("Name") == "sample_run",
-            ],
-            groupby=[ws.Metric("Name")],
-            order=[ws.Ordering(ws.Summary("Step"), ascending=True)],
-            run_settings=run_settings
-        )
-    )
-    workspace.save()
-    print("Workspace created and saved.")
-
-full_end_to_end_example(entity, project)
-```
+**속성:**
+ 
+ - `x_axis` (str): X축 메트릭 이름 설정입니다.
+ - `x_min` `(Optional[float])`: X축의 최소값입니다.
+ - `x_max` `(Optional[float])`: X축의 최대값입니다.
+ - `smoothing_type` `(Literal['exponentialTimeWeighted', 'exponential', 'gaussian', 'average', 'none'])`: 모든 패널에 적용되는 평활화 유형입니다.
+ - `smoothing_weight` (int): 모든 패널에 적용되는 평활화 가중치입니다.
+ - `ignore_outliers` (bool): 모든 패널에서 이상값을 무시합니다.
+ - `sort_panels_alphabetically` (bool): 모든 섹션에서 패널을 알파벳순으로 정렬합니다.
+ - `group_by_prefix` `(Literal[`first`, `last`])`: 패널을 처음 또는 마지막 접두사 (처음 또는 마지막)로 그룹화합니다. 기본값은 `last`로 설정됩니다.
+ - `remove_legends_from_panels` (bool): 모든 패널에서 범례를 제거합니다.
+ - `tooltip_number_of_runs` `(Literal[`default`, `all`, `none`])`: 툴팁에 표시할 run 수입니다.
+ - `tooltip_color_run_names` (bool): 툴팁에서 run 이름을 runset (True)과 일치하도록 색상을 지정할지 여부 (False)입니다. 기본값은 `True`로 설정됩니다.
+ - `max_runs` (int): 패널당 표시할 최대 run 수입니다 (이는 runset의 처음 10개 run이 됩니다).
+ - `point_visualization_method` `(Literal[`line`, `point`, `line_point`])`: 포인트 시각화 방법입니다.
+ - `panel_search_query` (str): 패널 검색 막대에 대한 쿼리입니다 (정규식 표현일 수 있음).
+ - `auto_expand_panel_search_results` (bool): 패널 검색 결과를 자동으로 확장할지 여부입니다.

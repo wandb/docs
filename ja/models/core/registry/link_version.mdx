@@ -13,35 +13,35 @@ weight: 5
 
 言い換えれば、アーティファクトをレジストリコレクションにリンクすることによって、アーティファクトのバージョンはプライベートなプロジェクトレベルのスコープから、共有される組織レベルのスコープになります。
 
-{{% alert %}}
-「タイプ」という用語は、アーティファクトオブジェクトのタイプを指します。 アーティファクトオブジェクトを作成する際に ([`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ja" >}}))、またはアーティファクトをログに記録する際に ([`wandb.init.log_artifact`]({{< relref path="/ref/python/run.md#log_artifact" lang="ja" >}}))、`type` パラメータにタイプを指定します。
-{{% /alert %}}
+<Note>
+「タイプ」という用語は、アーティファクトオブジェクトのタイプを指します。 アーティファクトオブジェクトを作成する際に ([`wandb.Artifact`](/ja/models/ref/python/artifact))、またはアーティファクトをログに記録する際に ([`wandb.init.log_artifact`](/ja/models/ref/python/run#log_artifact))、`type` パラメータにタイプを指定します。
+</Note>
 
 ## アーティファクトをコレクションにリンクする
 
 アーティファクトバージョンをインタラクティブまたはプログラム的にコレクションにリンクします。
 
-{{% alert %}}
-レジストリにアーティファクトをリンクする前に、コレクションが許可しているアーティファクトのタイプを確認してください。 コレクションタイプの詳細については、[コレクションを作成する]({{< relref path="./create_collection.md" lang="ja" >}})内の「コレクションタイプ」を参照してください。
-{{% /alert %}}
+<Note>
+レジストリにアーティファクトをリンクする前に、コレクションが許可しているアーティファクトのタイプを確認してください。 コレクションタイプの詳細については、[コレクションを作成する](/ja/models/core/registry/create_collection/)内の「コレクションタイプ」を参照してください。
+</Note>
 
 ユースケースに基づいて、以下のタブで説明されている手順に従ってアーティファクトバージョンをリンクしてください。
 
-{{% alert %}}
-アーティファクトバージョンがメトリクスをログに記録している場合（`run.log_artifact()`を使用するなど）、そのバージョンの詳細ページからメトリクスを閲覧することができ、アーティファクトのページからアーティファクトバージョン間のメトリクスを比較することができます。 [レジストリでリンクされたアーティファクトを見る]({{< relref path="#view-linked-artifacts-in-a-registry" lang="ja" >}})を参照してください。
-{{% /alert %}}
+<Note>
+アーティファクトバージョンがメトリクスをログに記録している場合（`run.log_artifact()`を使用するなど）、そのバージョンの詳細ページからメトリクスを閲覧することができ、アーティファクトのページからアーティファクトバージョン間のメトリクスを比較することができます。 [レジストリでリンクされたアーティファクトを見る](#view-linked-artifacts-in-a-registry)を参照してください。
+</Note>
 
-{{< tabpane text=true >}}
-  {{% tab header="Python SDK" %}}
-{{% alert %}}
+<Tabs>
+<Tab title="Python SDK">
+<Note>
 バージョンのリンクを示す[ビデオを見る](https://www.youtube.com/watch?v=2i_n1ExgO0A)（8分）。
-{{% /alert %}}
+</Note>
 
-プログラム的にアーティファクトバージョンをコレクションにリンクするには、[`wandb.init.Run.link_artifact()`]({{< relref path="/ref/python/run.md#link_artifact" lang="ja" >}})を使用します。
+プログラム的にアーティファクトバージョンをコレクションにリンクするには、[`wandb.init.Run.link_artifact()`](/ja/models/ref/python/run#link_artifact)を使用します。
 
-{{% alert %}}
+<Note>
 アーティファクトをコレクションにリンクする前に、そのコレクションが所属するレジストリが既に存在することを確認してください。 レジストリが存在するかどうかを確認するには、W&B App UIのレジストリアプリにアクセスし、レジストリの名前を検索してください。
-{{% /alert %}}
+</Note>
 
 `target_path` パラメータを使用して、リンクするアーティファクトバージョンのコレクションとレジストリを指定します。ターゲットパスは、プレフィックス "wandb-registry"、レジストリの名前、コレクション名がフォワードスラッシュで区切られています。
 
@@ -76,14 +76,15 @@ target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 # アーティファクトをコレクションにリンク
 run.link_artifact(artifact = artifact, target_path = target_path)
 ```
-{{% alert %}}
+<Note>
 アーティファクトバージョンをモデルレジストリまたはデータセットレジストリにリンクする場合、アーティファクトのタイプをそれぞれ `"model"` または `"dataset"` に設定してください。
-{{% /alert %}}
-
-  {{% /tab %}}
-  {{% tab header="Registry App" %}}
+</Note>
+</Tab>
+<Tab title="Registry App">
 1. Registry App に移動します。
-    {{< img src="/images/registry/navigate_to_registry_app.png" alt="" >}}
+    <Frame>
+    <img src="/images/registry/navigate_to_registry_app.png"  />
+    </Frame>
 2. アーティファクトバージョンをリンクするコレクションの名前の隣にマウスをホバーさせます。
 3. **詳細を表示**の隣にあるミートボールメニューアイコン（三つの横に並んだ点）を選択します。
 4. ドロップダウンから、**新しいバージョンをリンク**を選択します。
@@ -91,10 +92,8 @@ run.link_artifact(artifact = artifact, target_path = target_path)
 5. **Project** ドロップダウンからアーティファクトを含むプロジェクトの名前を選択します。
 6. **Artifact** ドロップダウンからアーティファクトの名前を選択します。
 7. **Version** ドロップダウンからコレクションにリンクしたいアーティファクトのバージョンを選択します。
-
-  
-  {{% /tab %}}
-  {{% tab header="Artifact browser" %}}
+</Tab>
+<Tab title="Artifact browser">
 1. プロジェクトのアーティファクトブラウザに移動します。URLは: `https://wandb.ai/<entity>/<project>/artifacts`
 2. 左サイドバーでアーティファクトアイコンを選択します。
 3. レジストリにリンクしたいアーティファクトバージョンをクリックします。
@@ -103,10 +102,8 @@ run.link_artifact(artifact = artifact, target_path = target_path)
 6. **次のステップ** をクリックします。
 7. (任意) **Aliases** ドロップダウンから別名を選択します。
 8. **Link to registry** をクリックします。
-
-  
-  {{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 リンクされたアーティファクトのメタデータ、バージョンデータ、使用状況、リネージ情報などをRegistry Appで表示します。
 
@@ -137,9 +134,9 @@ wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
 
 個人エンティティを使用してW&Bにログされたアーティファクトはレジストリにリンクすることができません。 アーティファクトを組織内のチームエンティティを使用してログに記録していることを確認してください。 組織のチーム内でログに記録されたアーティファクトのみが組織のレジストリにリンクされることができます。
 
-{{% alert title="" %}}
+<Note>
 アーティファクトをレジストリにリンクしたい場合は、チームエンティティを使用してアーティファクトをログしてください。
-{{% /alert %}}
+</Note>
 
 #### あなたのチームエンティティを見つける
 
@@ -151,7 +148,7 @@ W&B はあなたのチームの名前をチームのエンティティとして�
 2. サイトの URL をコピーします。それは`https://wandb.ai/<team>`の形式です。ここで `<team>` はあなたのチームの名前とチームのエンティティの両方です。
 
 #### チームエンティティからログする
-1. [`wandb.init()`]({{< relref path="/ref/python/init" lang="ja" >}})を使用して run を初期化するときに、エンティティとしてチームを指定します。もし run を初期化するときに `entity` を指定しなかった場合、run はあなたのデフォルトエンティティを使用しますが、それがチームエンティティであるとは限りません。
+1. [`wandb.init()`](/ja/models/ref/python/init)を使用して run を初期化するときに、エンティティとしてチームを指定します。もし run を初期化するときに `entity` を指定しなかった場合、run はあなたのデフォルトエンティティを使用しますが、それがチームエンティティであるとは限りません。
   ```python 
   import wandb   
 
@@ -165,7 +162,7 @@ W&B はあなたのチームの名前をチームのエンティティとして�
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
     ```
-    アーティファクトのログ方法についての詳細は、[アーティファクトを構成する]({{< relref path="/guides/core/artifacts/construct-an-artifact.md" lang="ja" >}})を参照してください。
+    アーティファクトのログ方法についての詳細は、[アーティファクトを構成する](/ja/models/artifacts/construct-an-artifact/)を参照してください。
 3. 個人エンティティにログされたアーティファクトがある場合、それを組織内のエンティティに再ログする必要があります。
 
 ### W&B App UIでレジストリのパスを確認する
@@ -179,7 +176,9 @@ UIを使用してレジストリのパスを確認する方法は2つありま�
 3. ページの上部に自動生成されたコードブロックが表示されます。
 4. これをコピーしてコードに貼り付け、パスの最後の部分をコレクションの名前に置き換えてください。
 
-{{< img src="/images/registry/get_autogenerated_code.gif" alt="" >}}
+<Frame>
+    <img src="/images/registry/get_autogenerated_code.gif"  />
+</Frame>
 
 #### 空のコレクションを作成する
 
@@ -189,7 +188,9 @@ UIを使用してレジストリのパスを確認する方法は2つありま�
 5. 表示されるコードスニペット内で、`.link_artifact()` 内の `target_path` フィールドを識別します。
 6. (任意) コレクションを削除します。
 
-{{< img src="/images/registry/check_empty_collection.gif" alt="" >}}
+<Frame>
+    <img src="/images/registry/check_empty_collection.gif"  />
+</Frame>
 
 例えば、上記の手順を完了した後、`target_path`パラメータを持つコードブロックを見つけます：
 
@@ -206,6 +207,6 @@ REGISTRY_NAME = "Golden Datasets"
 COLLECTION_NAME = "raw_images"
 ```
 
-{{% alert %}}
+<Note>
 一時コレクションのコレクション名を、リンクしたいアーティファクトのコレクション名に置き換えることを忘れないでください。
-{{% /alert %}}
+</Note>

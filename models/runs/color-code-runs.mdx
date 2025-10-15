@@ -23,9 +23,9 @@ To use metric or configuration-based colors for your runs, you need to configure
     - From the **Y value** dropdown, select the y value you want to use for assigning colors to runs.
     - Set the number of buckets to a value from 2 to 8.
 
-{{% alert %}}
-When you use key-based colors, the option to [customize run colors]({{ relref "/guides/track/runs/run-colors.md" }}) is not available.
-{{% /alert %}}
+<Note>
+When you use key-based colors, the option to [customize run colors](/models/runs/run-colors) is not available.
+</Note>
 
 The following sections describe how to set the metric and y value and as how to customize the buckets used for assigning colors to runs.
 
@@ -33,11 +33,11 @@ The following sections describe how to set the metric and y value and as how to 
 
 In this example plot, runs are colored with a gradient where darker colors represent higher loss values and lighter colors represent lower loss values. The Y value is set to `latest` to use the most recent loss value for each run.
  
-{{< img src="/images/app_ui/run-colors-key-based.png" alt="W&B workspace showing runs colored based on their loss values using key-based coloring.">}}
+<Image src="/images/app_ui/run-colors-key-based.png" alt="W&B workspace showing runs colored based on their loss values using key-based coloring." />
 
 ## Set a metric
 
-The metric options in your **Key** dropdown are derived from the key-value pairs [you log to W&B]({{< relref "guides/models/track/runs/color-code-runs/#custom-metrics" >}}) and [default metrics]({{< relref "guides/models/track/runs/color-code-runs/#default-metrics" >}}) defined by W&B.
+The metric options in your **Key** dropdown are derived from the key-value pairs [you log to W&B](/models/runs/color-code-runs/#custom-metrics) and [default metrics](/models/runs/color-code-runs/#default-metrics) defined by W&B.
 
 ### Default metrics
 
@@ -105,7 +105,9 @@ Buckets are ranges of values that W&B uses to categorize runs based on the metri
 
 Consider the following:
 
-{{< img src="/images/track/color-coding-runs.png" alt="Color coded runs" >}}
+<Frame>
+    <img src="/images/track/color-coding-runs.png" alt="Color coded runs"  />
+</Frame>
 
 - **Key** is set to `"Accuracy"` (abbreviated as `"acc"`).
 - **Y value** is set to `"Max"`
@@ -123,4 +125,6 @@ Six buckets are defined for the metric, with each bucket representing a range of
 
 In the line plot below, the run with the highest accuracy (0.8232) is colored in a deep purple (Bucket 5), while the run with the lowest accuracy (0.7684) is colored in a light orange (Bucket 2). The other runs are colored based on their accuracy values, with the color gradient indicating their relative performance. 
 
-{{< img src="/images/track/color-code-runs-plot.png" alt="Color coded runs plot" >}}
+<Frame>
+    <img src="/images/track/color-code-runs-plot.png" alt="Color coded runs plot"  />
+</Frame>

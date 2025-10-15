@@ -34,15 +34,17 @@ Some users may need to change their cap. Contact your account executive or suppo
 
 ## Concurrency limits
 
-If you exceed the rate limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests. For detailed troubleshooting, see [W&B Inference support articles](/support/inference/).
+If you exceed the rate limit, the API returns a `429 Concurrency limit reached for requests` response. To fix this error, reduce the number of concurrent requests. For detailed troubleshooting, see [W&B Inference support articles](/inference/support).
 
 W&B applies rate limits per W&B project. For example, if you have 3 projects in a team, each project has its own rate limit quota.
 
 ## Personal entities unsupported
 
-{{< alert title="Note" >}}
+<Note>
+**Note**
+
 Personal entities were deprecated in May 2024, so this only applies to legacy accounts.
-{{< /alert >}}
+</Note>
 
 Personal accounts (personal entities) don't support W&B Inference. To access W&B Inference, switch to a non-personal account by creating a Team.
 
@@ -52,5 +54,5 @@ The Inference service is only available from supported geographic locations. For
 
 ## Next steps
 
-- Review the [prerequisites]({{< relref "prerequisites" >}}) before getting started.
-- See [available models]({{< relref "models" >}}) and their specific pricing. 
+- Review the [prerequisites](/inference/prerequisites/) before getting started.
+- See [available models](models) and their specific pricing. 

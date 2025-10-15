@@ -5,37 +5,39 @@ menu:
   launch:
     identifier: ja-launch-walkthrough
     parent: launch
-url: /ja/guides/launch/walkthrough
+slug: /ja/guides/launch/walkthrough
 weight: 1
 ---
 
 ## What is Launch?
 
-{{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python"/>
 
-W&B Launch を使用して、トレーニング [Runs]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) をデスクトップから Amazon SageMaker、Kubernetes などの計算リソースに簡単にスケールできます。W&B Launch の設定が完了すると、トレーニング スクリプト、モデルの評価スイート、プロダクション推論用のモデルの準備などを、数回のクリックとコマンドで迅速に実行できます。
+W&B Launch を使用して、トレーニング [Runs](/ja/models/runs/) をデスクトップから Amazon SageMaker、Kubernetes などの計算リソースに簡単にスケールできます。W&B Launch の設定が完了すると、トレーニング スクリプト、モデルの評価スイート、プロダクション推論用のモデルの準備などを、数回のクリックとコマンドで迅速に実行できます。
 
 ## 仕組み
 
 Launch は、**launch jobs**、**queues**、**agents** の3つの基本的なコンポーネントで構成されています。
 
-[*launch job*]({{< relref path="./launch-terminology.md#launch-job" lang="ja" >}})は、ML ワークフローでタスクを設定および実行するためのブループリントです。Launch Job を作成したら、[*launch queue*]({{< relref path="./launch-terminology.md#launch-queue" lang="ja" >}}) に追加できます。Launch Queue は、Amazon SageMaker や Kubernetes クラスターなどの特定のコンピュートターゲットリソースに Jobs を構成して送信できる先入れ先出し (FIFO) のキューです。
+[*launch job*](/ja/launch/launch-terminology#launch-job)は、ML ワークフローでタスクを設定および実行するためのブループリントです。Launch Job を作成したら、[*launch queue*](/ja/launch/launch-terminology#launch-queue) に追加できます。Launch Queue は、Amazon SageMaker や Kubernetes クラスターなどの特定のコンピュートターゲットリソースに Jobs を構成して送信できる先入れ先出し (FIFO) のキューです。
 
-ジョブがキューに追加されると、[*launch agents*]({{< relref path="./launch-terminology.md#launch-agent" lang="ja" >}}) がそのキューをポーリングし、キューによってターゲットとされたシステムでジョブを実行します。
+ジョブがキューに追加されると、[*launch agents*](/ja/launch/launch-terminology#launch-agent) がそのキューをポーリングし、キューによってターゲットとされたシステムでジョブを実行します。
 
-{{< img src="/images/launch/launch_overview.png" alt="" >}}
+<Frame>
+    <img src="/images/launch/launch_overview.png"  />
+</Frame>
 
-ユースケースに基づいて、あなた自身またはチームの誰かが選択した [compute resource target]({{< relref path="./launch-terminology.md#target-resources" lang="ja" >}})（たとえば、Amazon SageMaker）に従って Launch Queue を設定し、独自のインフラストラクチャーに Launch エージェントをデプロイします。
+ユースケースに基づいて、あなた自身またはチームの誰かが選択した [compute resource target](/ja/launch/launch-terminology#target-resources)（たとえば、Amazon SageMaker）に従って Launch Queue を設定し、独自のインフラストラクチャーに Launch エージェントをデプロイします。
 
-Launch Jobs、キューの仕組み、Launch エージェント、および W&B Launch の動作に関する追加情報については、[Terms and Concepts]({{< relref path="./launch-terminology.md" lang="ja" >}}) ページを参照してください。
+Launch Jobs、キューの仕組み、Launch エージェント、および W&B Launch の動作に関する追加情報については、[Terms and Concepts](/ja/launch/launch-terminology) ページを参照してください。
 
 ## 開始方法
 
 ユースケースに応じて、W&B Launch を始めるために次のリソースを確認してください。
 
-* 初めて W&B Launch を使用する場合は、[Walkthrough]({{< relref path="#walkthrough" lang="ja" >}}) ガイドを閲覧することをお勧めします。
-* [W&B Launch]({{< relref path="/launch/set-up-launch/" lang="ja" >}}) の設定方法を学びます。
-* [Launch Job]({{< relref path="./create-and-deploy-jobs/create-launch-job.md" lang="ja" >}}) を作成します。
+* 初めて W&B Launch を使用する場合は、[Walkthrough](#walkthrough) ガイドを閲覧することをお勧めします。
+* [W&B Launch](/ja/launch/set-up-launch/) の設定方法を学びます。
+* [Launch Job](/ja/launch/create-and-deploy-jobs/create-launch-job) を作成します。
 * Triton へのデプロイや LLM の評価などの一般的なタスクのテンプレートについては、W&B Launch の[公開ジョブ GitHub リポジトリ](https://github.com/wandb/launch-jobs) をチェックしてください。
     * このリポジトリから作成された Launch Job は、この公開された [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) W&B プロジェクトで閲覧できます。
 
@@ -43,9 +45,9 @@ Launch Jobs、キューの仕組み、Launch エージェント、および W&B 
 
 このページでは、W&B Launch ワークフローの基本を案内します。
 
-{{% alert %}}
+<Note>
 W&B Launch は、コンテナ内で機械学習ワークロードを実行します。コンテナについての知識は必須ではありませんが、このWalkthroughに役立ちます。コンテナの入門書は [Docker ドキュメント](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) をご覧ください。
-{{% /alert %}}
+</Note>
 
 ## Prerequisites
 
@@ -59,29 +61,28 @@ pip install wandb>=0.17.1
 ```
 4. ターミナル内で `wandb login` を実行するか、`WANDB_API_KEY` 環境変数を設定して W&B を認証します。
 
-{{< tabpane text=true >}}
-{{% tab "Log in to W&B" %}}
-    ターミナル内で以下を実行します:
+<Tabs>
+<Tab title="Log in to W&B">
+ターミナル内で以下を実行します:
 
     ```bash
     wandb login
     ```
-{{% /tab %}}
-{{% tab "Environment variable" %}}
-
-    ```bash
+</Tab>
+<Tab title="Environment variable">
+```bash
     WANDB_API_KEY=<your-api-key>
     ```
 
     `<your-api-key>` をあなたの W&B API キーに置き換えます。
-{{% /tab %}}
-{{% /tabpane %}}
+</Tab>
+</Tabs>
 
 ## Create a launch job
-Docker イメージ、git リポジトリから、またはローカルソースコードから3つの方法のいずれかで [Launch Job]({{< relref path="./launch-terminology.md#launch-job" lang="ja" >}}) を作成します。
+Docker イメージ、git リポジトリから、またはローカルソースコードから3つの方法のいずれかで [Launch Job](/ja/launch/launch-terminology#launch-job) を作成します。
 
-{{< tabpane text=true >}}
-{{% tab "With a Docker image" %}}
+<Tabs>
+<Tab title="With a Docker image">
 W&B にメッセージをログする事前に作成されたコンテナを実行するには、ターミナルを開いて次のコマンドを実行します。
 
 ```bash
@@ -91,8 +92,8 @@ wandb launch --docker-image wandb/job_hello_world:main --project launch-quicksta
 前述のコマンドは、コンテナイメージ `wandb/job_hello_world:main` をダウンロードして実行します。
 
 Launch は、`wandb` でログされたすべての情報を `launch-quickstart` プロジェクトに報告するようにコンテナを設定します。コンテナは W&B にメッセージをログし、新しく作成された Run へのリンクを W&B に表示します。リンクをクリックして、W&B UI で Run を確認します。
-{{% /tab %}}
-{{% tab "From a git repository" %}}
+</Tab>
+<Tab title="From a git repository">
 同じ hello-world ジョブを [W&B Launch jobs リポジトリ内のソースコード](https://github.com/wandb/launch-jobs) から起動するには、次のコマンドを実行します。
 
 ```bash
@@ -108,10 +109,8 @@ wandb launch --uri https://github.com/wandb/launch-jobs.git \\
 4. コンテナを開始し、`job.py` Python スクリプトを実行します。
 
 コンソール出力には、イメージのビルドと実行が表示されます。コンテナの出力は、前の例とほぼ同じである必要があります。
-
-{{% /tab %}}
-{{% tab "From local source code" %}}
-
+</Tab>
+<Tab title="From local source code">
 git リポジトリにバージョン管理されていないコードは、`--uri` 引数にローカルディレクトリパスを指定することで起動できます。
 
 空のディレクトリを作成し、次の内容を持つ `train.py` という名前の Python スクリプトを追加します。
@@ -140,8 +139,8 @@ wandb launch --uri . --job-name hello-world-code --project launch-quickstart --e
 2. **launch-quickstart** プロジェクトに **hello-world-code** という名前のジョブを作成します。
 3. `train.py` と `requirements.txt` を基礎イメージにコピーしてコンテナイメージをビルドし、`pip install` で要件をインストールします。
 4. コンテナを開始して `python train.py` を実行します。
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## Create a queue
 
@@ -156,9 +155,11 @@ Launch は、Teams が共有計算を中心にワークフローを構築する�
 
 ボタンをクリックすると、ブラウザはキュー表示の **Agents** タブにリダイレクトされます。キューにエージェントがポーリングされるまで、キューは **Not active** 状態のままです。
 
-{{< img src="/images/launch/create_docker_queue.gif" alt="" >}}
+<Frame>
+    <img src="/images/launch/create_docker_queue.gif"  />
+</Frame>
 
-高度なキューの設定オプションについては、[advanced queue setup ページ]({{< relref path="/launch/set-up-launch/setup-queue-advanced.md" lang="ja" >}}) を参照してください。
+高度なキューの設定オプションについては、[advanced queue setup ページ](/ja/launch/set-up-launch/setup-queue-advanced) を参照してください。
 
 ## Connect an agent to the queue
 

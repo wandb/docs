@@ -1,33 +1,34 @@
 ---
-title: Plotly
-menu:
-  reference:
-    identifier: ko-ref-python-data-types-plotly
+title: "Plotly"
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L33-L82 >}}
 
-plotly plot을 위한 Wandb 클래스입니다.
+
+
+
+
+## <kbd>class</kbd> `Plotly`
+W&B class for Plotly plots. 
+
+### <kbd>method</kbd> `Plotly.__init__`
 
 ```python
-Plotly(
-    val: Union['plotly.Figure', 'matplotlib.artist.Artist']
+__init__(
+    val: Union[ForwardRef('plotly.Figure'), ForwardRef('matplotlib.artist.Artist')]
 )
 ```
 
-| ARG |  |
-| :--- | :--- |
-|  `val` |  matplotlib 또는 plotly figure |
+Initialize a Plotly object. 
 
-## 메소드
 
-### `make_plot_media`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L42-L50)
+**Args:**
+ 
+ - `val`:  Matplotlib or Plotly figure. 
 
-```python
-@classmethod
-make_plot_media(
-    val: Union['plotly.Figure', 'matplotlib.artist.Artist']
-) -> Union[Image, 'Plotly']
-```
+
+
+
+---
+
+

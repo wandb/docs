@@ -4,18 +4,18 @@ menu:
   launch:
     identifier: ja-launch-create-and-deploy-jobs-create-launch-job
     parent: create-and-deploy-jobs
-url: /ja/guides/launch/create-launch-job
+slug: /ja/guides/launch/create-launch-job
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python"/>
 
 Launch ジョブは、W&B Runs を再現するための設計図です。ジョブは、ワークロードを実行するために必要なソースコード、依存関係、および入力をキャプチャする W&B Artifacts です。
 
 `wandb launch` コマンドでジョブを作成して実行します。
 
-{{% alert %}}
-実行に送信せずにジョブを作成するには、`wandb job create` コマンドを使用します。詳細については、[コマンドリファレンスドキュメント]({{< relref path="/ref/cli/wandb-job/wandb-job-create.md" lang="ja" >}}) を参照してください。
-{{% /alert %}}
+<Note>
+実行に送信せずにジョブを作成するには、`wandb job create` コマンドを使用します。詳細については、[コマンドリファレンスドキュメント](/ja/models/ref/cli/wandb-job/wandb-job-create) を参照してください。
+</Note>
 
 ## Git ジョブ
 
@@ -92,7 +92,7 @@ wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"
 
 W&B は、追跡されたソースコードを持つ任意の Run に対してジョブを自動的に作成して追跡します。この Run が Launch で作成されていなくてもです。Run が追跡されたソースコードを持つと見なされる条件は次の3つのうちのいずれかを満たした場合です:
 - Run に関連付けられた git リモートとコミットハッシュがある
-- Run がコードアーティファクトを記録した (詳細については [`Run.log_code`]({{< relref path="/ref/python/run.md#log_code" lang="ja" >}}) を参照)
+- Run がコードアーティファクトを記録した (詳細については [`Run.log_code`](/ja/models/ref/python/run#log_code) を参照)
 - Run が `WANDB_DOCKER` 環境変数をイメージタグに設定した Docker コンテナで実行された
 
 Git リモート URL は、W&B Run によって自動的に作成された Launch ジョブの場合、ローカルの git リポジトリから推測されます。
@@ -111,27 +111,27 @@ Git リモート URL は、W&B Run によって自動的に作成された Launc
 
 W&B 環境変数または W&B Python SDK でジョブに名前を付けます
 
-{{< tabpane text=true >}}
-{{% tab "Environment variable" %}}
+<Tabs>
+<Tab title="Environment variable">
 `WANDB_JOB_NAME` 環境変数を希望のジョブ名に設定します。例:
 
 ```bash
 WANDB_JOB_NAME=awesome-job-name
 ```
-{{% /tab %}}
-{{% tab "W&B Python SDK" %}}
+</Tab>
+<Tab title="W&B Python SDK">
 `wandb.Settings` でジョブの名前を定義します。そして、このオブジェクトを使用して W&B を `wandb.init` で初期化する際に渡します。例:
 
 ```python
 settings = wandb.Settings(job_name="my-job-name")
 wandb.init(settings=settings)
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
-{{% alert %}}
+<Note>
 Docker イメージジョブの場合、バージョンエイリアスは自動的にジョブのエイリアスとして追加されます。
-{{% /alert %}}
+</Note>
 
 ## コンテナ化
 
@@ -143,17 +143,17 @@ Docker イメージジョブの場合、バージョンエイリアスは自動�
 
 ビルドコンテキストとは、コンテナイメージをビルドするために Docker デーモンに送信されるファイルとディレクトリーのツリーを指します。デフォルトでは、Launch はジョブソースコードのルートをビルドコンテキストとして使用します。サブディレクトリーをビルドコンテキストとして指定するには、ジョブを作成して起動する際に `wandb launch` の `--build-context` 引数を使用します。
 
-{{% alert %}}
+<Note>
 `--build-context` 引数は、複数のプロジェクトを含むモノレポを参照する Git ジョブで作業する際に特に便利です。サブディレクトリーをビルドコンテキストとして指定することで、モノレポ内の特定のプロジェクト用のコンテナイメージをビルドできます。
 
-この引数を公式の W&B Launch ジョブリポジトリで使用する方法については、[上記の例]({{< relref path="#git-jobs" lang="ja" >}})をご覧ください。
-{{% /alert %}}
+この引数を公式の W&B Launch ジョブリポジトリで使用する方法については、[上記の例](#git-jobs)をご覧ください。
+</Note>
 
 ### Dockerfile
 
 Dockerfile は、Docker イメージをビルドするための命令を含むテキストファイルです。デフォルトでは、Launch は `requirements.txt` ファイルをインストールするデフォルトの Dockerfile を使用します。カスタム Dockerfile を使用するには、`wandb launch` の `--dockerfile` 引数でファイルのパスを指定します。
 
-Dockerfile のパスはビルドコンテキストに相対的に指定されます。たとえば、ビルドコンテキストが `jobs/hello_world` で、Dockerfile が `jobs/hello_world` ディレクトリーにある場合、`--dockerfile` 引数は `Dockerfile.wandb` に設定されるべきです。この引数を公式の W&B Launch ジョブリポジトリで使用する方法については、[上記の例]({{< relref path="#git-jobs" lang="ja" >}})をご覧ください。
+Dockerfile のパスはビルドコンテキストに相対的に指定されます。たとえば、ビルドコンテキストが `jobs/hello_world` で、Dockerfile が `jobs/hello_world` ディレクトリーにある場合、`--dockerfile` 引数は `Dockerfile.wandb` に設定されるべきです。この引数を公式の W&B Launch ジョブリポジトリで使用する方法については、[上記の例](#git-jobs)をご覧ください。
 
 ### 要件ファイル
 

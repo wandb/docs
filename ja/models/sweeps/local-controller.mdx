@@ -11,9 +11,9 @@ menu:
 
 ローカルコントローラ機能により、ユーザーはアルゴリズムをローカルで検索および停止することができます。ローカルコントローラは、ユーザーにコードを検査および操作する能力を与え、問題のデバッグやクラウドサービスに組み込むことができる新機能の開発を可能にします。
 
-{{% alert color="secondary" %}}
+<Warning>
 この機能は、Sweepsツールの新しいアルゴリズムの迅速な開発とデバッグをサポートするために提供されています。本来のハイパーパラメータ最適化のワークロードを目的としていません。
-{{% /alert %}}
+</Warning>
 
 始める前に、W&B SDK (`wandb`) をインストールする必要があります。次のコマンドをコマンドラインに入力してください：
 
@@ -21,7 +21,7 @@ menu:
 pip install wandb sweeps 
 ```
 
-以下の例では、既に設定ファイルとPythonスクリプトまたはJupyterノートブックで定義されたトレーニングループがあることを前提としています。設定ファイルの定義方法についての詳細は、[Define sweep configuration]({{< relref path="/guides/models/sweeps/define-sweep-configuration/" lang="ja" >}}) を参照してください。
+以下の例では、既に設定ファイルとPythonスクリプトまたはJupyterノートブックで定義されたトレーニングループがあることを前提としています。設定ファイルの定義方法についての詳細は、[Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
 
 ### コマンドラインからローカルコントローラを実行する
 
@@ -46,14 +46,14 @@ controller:
 wandb sweep config.yaml
 ```
 
-スイープを初期化した後、[`wandb controller`]({{< relref path="/ref/python/controller.md" lang="ja" >}}) を使用してコントローラを開始します：
+スイープを初期化した後、[`wandb controller`](/ja/models/ref/python/controller) を使用してコントローラを開始します：
 
 ```bash
 # wandb sweep コマンドが sweep_id を出力します
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-ローカルコントローラを使用することを指定した後、スイープを実行するために1つ以上のSweepエージェントを開始します。通常のW&Bスイープを開始するのと同じようにしてください。[Start sweep agents]({{< relref path="/guides/models/sweeps/start-sweep-agents.md" lang="ja" >}}) を参照してください。
+ローカルコントローラを使用することを指定した後、スイープを実行するために1つ以上のSweepエージェントを開始します。通常のW&Bスイープを開始するのと同じようにしてください。[Start sweep agents](/ja/models/sweeps/start-sweep-agents/) を参照してください。
 
 ```bash
 wandb sweep sweep_ID
@@ -63,7 +63,7 @@ wandb sweep sweep_ID
 
 以下のコードスニペットは、W&B Python SDKを使用してローカルコントローラを指定し、使用する方法を示しています。
 
-Python SDKでコントローラを使用する最も簡単な方法は、[`wandb.controller`]({{< relref path="/ref/python/controller.md" lang="ja" >}}) メソッドにスイープIDを渡すことです。次に、戻りオブジェクトの `run` メソッドを使用してスイープジョブを開始します：
+Python SDKでコントローラを使用する最も簡単な方法は、[`wandb.controller`](/ja/models/ref/python/controller) メソッドにスイープIDを渡すことです。次に、戻りオブジェクトの `run` メソッドを使用してスイープジョブを開始します：
 
 ```python
 sweep = wandb.controller(sweep_id)

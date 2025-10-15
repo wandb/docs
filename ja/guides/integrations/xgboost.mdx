@@ -8,11 +8,13 @@ menu:
 weight: 460
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" icon="python"/>
 
 `wandb` ライブラリには、XGBoost のトレーニングからメトリクス、設定、保存されたブースターをログするための `WandbCallback` コールバックがあります。ここでは、XGBoost `WandbCallback` の出力を含む **[ライブ Weights & Biases ダッシュボード](https://wandb.ai/morg/credit_scorecard)** を確認できます。
 
-{{< img src="/images/integrations/xgb_dashboard.png" alt="Weights & Biases ダッシュボードを使用した XGBoost" >}}
+<Frame>
+    <img src="/images/integrations/xgb_dashboard.png" alt="Weights & Biases ダッシュボードを使用した XGBoost"  />
+</Frame>
 
 ## 始めに
 
@@ -63,10 +65,12 @@ run.finish()
 
 ## Sweep でハイパーパラメーターをチューニングする
 
-モデルの最大パフォーマンスを引き出すには、ツリーの深さや学習率など、ハイパーパラメーターをチューニングする必要があります。Weights & Biases には、大規模なハイパーパラメーターテスト実験を設定、編成、分析するための強力なツールキットである [Sweeps]({{< relref path="/guides/models/sweeps/" lang="ja" >}}) が含まれています。
+モデルの最大パフォーマンスを引き出すには、ツリーの深さや学習率など、ハイパーパラメーターをチューニングする必要があります。Weights & Biases には、大規模なハイパーパラメーターテスト実験を設定、編成、分析するための強力なツールキットである [Sweeps](/ja/models/sweeps/) が含まれています。
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" icon="python"/>
 
 この [XGBoost & Sweeps Python スクリプト](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py) も試すことができます。
 
-{{< img src="/images/integrations/xgboost_sweeps_example.png" alt="要約: この分類データセットではツリーが線形学習者を上回る。" >}}
+<Frame>
+    <img src="/images/integrations/xgboost_sweeps_example.png" alt="要約: この分類データセットではツリーが線形学習者を上回る。"  />
+</Frame>

@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-integration-guides-volcano
     parent: launch-integration-guides
-url: /ja/tutorials/volcano
+slug: /ja/tutorials/volcano
 ---
 
 このチュートリアルでは、Kubernetes上でW&BとVolcanoを使用してマルチノードトレーニングのジョブをローンチするプロセスを説明します。
@@ -32,12 +32,12 @@ url: /ja/tutorials/volcano
 
 設定セクションで、[volcanoのジョブ](https://volcano.sh/en/docs/vcjob/)のテンプレートを入力します。このキューからローンチされたすべてのrunはこのジョブ仕様を使用して作成されるため、ジョブをカスタマイズしたい場合はこの設定を変更できます。
 
-この設定ブロックには、Kubernetesジョブ仕様、volcanoジョブ仕様、または他のカスタムリソース定義（CRD）をローンチするために使用することができます。[設定ブロック内のマクロ]({{< relref path="/launch/set-up-launch/" lang="ja" >}})を利用して、この仕様の内容を動的に設定することができます。
+この設定ブロックには、Kubernetesジョブ仕様、volcanoジョブ仕様、または他のカスタムリソース定義（CRD）をローンチするために使用することができます。[設定ブロック内のマクロ](/ja/launch/set-up-launch/)を利用して、この仕様の内容を動的に設定することができます。
 
-このチュートリアルでは、[volcanoのpytorchプラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin.md)を利用したマルチノードpytorchトレーニングの設定を使用します。以下の設定をYAMLまたはJSONとしてコピーして貼り付けることができます：
+このチュートリアルでは、[volcanoのpytorchプラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin)を利用したマルチノードpytorchトレーニングの設定を使用します。以下の設定をYAMLまたはJSONとしてコピーして貼り付けることができます：
 
-{{< tabpane text=true >}}
-{{% tab "YAML" %}}
+<Tabs>
+<Tab title="YAML">
 ```yaml
 kind: Job
 spec:
@@ -79,8 +79,8 @@ metadata:
   namespace: wandb
 apiVersion: batch.volcano.sh/v1alpha1
 ```
-{{% /tab %}}
-{{% tab "JSON" %}}
+</Tab>
+<Tab title="JSON">
 ```json
 {
   "kind": "Job",
@@ -147,8 +147,8 @@ apiVersion: batch.volcano.sh/v1alpha1
   "apiVersion": "batch.volcano.sh/v1alpha1"
 }
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ドロワーの下部にある**Create queue**ボタンをクリックしてキューの作成を完了します。
 
@@ -164,9 +164,9 @@ KubernetesクラスターにVolcanoをインストールするには、[公式�
 
 Volcanoのpytorchプラグインは、pytorch DPPが機能するために必要な環境変数（`MASTER_ADDR`、`RANK`、`WORLD_SIZE`など）を自動で設定します。ただし、pytorchコードがDDPを正しく使用している場合に限ります。カスタムのPythonコードでDDPを使用する方法の詳細については、[pytorchのドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)を参照してください。
 
-{{% alert %}}
+<Note>
 Volcanoのpytorchプラグインは、[PyTorch Lightning `Trainer`を使用したマルチノードトレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes)とも互換性があります。
-{{% /alert %}}
+</Note>
 
 ## ローンチ 🚀
 
@@ -174,7 +174,9 @@ Volcanoのpytorchプラグインは、[PyTorch Lightning `Trainer`を使用し�
 
 このジョブをローンチするには、[ジョブのページ](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)にアクセスし、画面の右上にある**Launch**ボタンをクリックします。ジョブをローンチするキューを選択するように促されます。
 
-{{< img src="/images/launch/launching_multinode_job.png" alt="" >}}
+<Frame>
+    <img src="/images/launch/launching_multinode_job.png"  />
+</Frame>
 
 1. ジョブのパラメータを好きなように設定し、
 2. 先ほど作成したキューを選択します。

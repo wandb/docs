@@ -12,18 +12,20 @@ W&B 0.69 focuses on making the workspace more intuitive, collaborative, and effi
 This release also marks the end of life for v0.54 and older, which are now officially unsupported.
 
 
-The latest patch is **v0.69.1**.<!--more--> Refer to [Patches]({{< relref "#patches" >}}).
+The latest patch is **v0.69.1**.{/* more */} Refer to [Patches](#patches).
 
 ## Support and end of life
 <ul>
   <li>W&B Server v0.54 and below have reached end of life as of May 27, 2025.</li>
   <li>W&B Server v0.56 is scheduled to reach end of life in July 2025</li>
-</ul><!-- Fix the admonition showing up as a child of the second item -->
+</ul>{/* Fix the admonition showing up as a child of the second item */}
 
-{{% readfile "/_includes/release-notes-support-eol-reminder.md" %}}
+import Text from "/snippets/en/_includes/release-notes-support-eol-reminder.mdx";
+
+<Text/>
 
 ## Upgrading
-To [upgrade]({{< relref "/guides/hosting/hosting-options/self-managed/server-upgrade-process.md#update-with-helm" >}}) to W&B v0.69.x, you must use v0.31.4+ of the `operator-wandb` Helm chart. Otherwise, after the upgrade, the `weave-cache-clear` container can fail to start. Ensure that your deployment uses these values:
+To [upgrade](/platform/hosting/server-upgrade-process/#update-with-helm) to W&B v0.69.x, you must use v0.31.4+ of the `operator-wandb` Helm chart. Otherwise, after the upgrade, the `weave-cache-clear` container can fail to start. Ensure that your deployment uses these values:
 
 ```yaml
 chart:
@@ -42,13 +44,13 @@ If you have questions or are experiencing issues with an upgrade, contact [suppo
 - Settings for all types of media panels have been reorganized and improved.
 - You can now customize the point and background colors for point cloud panels.
 - Team-level and organization-level service accounts can now interact with Registry.
-- Improved Exponentially-weighted Moving Average (EMA) smoothing provides more reliable [smoothed lines]({{< relref "/guides/models/app/features/panels/line-plot/smoothing.md" >}}) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance. This feature was in private preview in v0.68.x.
+- Improved Exponentially-weighted Moving Average (EMA) smoothing provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing/) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance. This feature was in private preview in v0.68.x.
 
 ### Private preview
-Private preview features are available by invitation only. To request enrollment in a private preview, contact [support]({{< relref "mailto:support@wandb.com" >}}) or your AISE.
+Private preview features are available by invitation only. To request enrollment in a private preview, contact [support](mailto:support@wandb.com) or your AISE.
 
 - You can now color all of your runs based on a secondary metric, such as loss or custom efficiency metrics. This creates a clear gradient color scale across your runs in all plots, so you can spot patterns faster. [Watch a video demo](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d).
-- [Personal workspace templates](/guides/track/workspaces/#workspace-templates)<!-- TODO change to a relref after workspace templates docs merge --> allow you to save core line plot settings and automatically reapply them in new views. These settings include x-axis key, smoothing algorithm, smoothing factor, max number of lines, whether to use the run selector’s grouping, and which aggregation to apply.
+- [Personal workspace templates](/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */} allow you to save core line plot settings and automatically reapply them in new views. These settings include x-axis key, smoothing algorithm, smoothing factor, max number of lines, whether to use the run selector’s grouping, and which aggregation to apply.
 
 ### Weave
 - [Saved views](https://weave-docs.wandb.ai/guides/tools/saved-views/) simplify team collaboration and allow you to persist filter and column settings.
@@ -63,7 +65,7 @@ Private preview features are available by invitation only. To request enrollment
 
 ## Performance
 - With [`wandb` SDK](/quickstart/#install-the-wandb-library-and-log-in) v0.19.11, artifacts now download 3-5x faster on average. For example, an artifact that previously downloaded at around 100 MB/sec may now download at 450 MB/sec or faster. Actual download speeds vary based on factors such as your network and storage infrastructure.
-- Improved caching on [Project](/guides/track/project-page/) and [User Settings](/guides/models/app/settings-page/user-settings/) pages.
+- Improved caching on [Project](/models/track/project-page/) and [User Settings](/platform/app/settings-page/user-settings/) pages.
 
 ## Fixes
 - Improved the startup process for the `weave-cache-clear` container to ensure compatibility with Python virtual environments.
@@ -73,7 +75,7 @@ Private preview features are available by invitation only. To request enrollment
 - Fixed many cases where y-axes would over-round to a degree that caused duplicate values to display.
 - Fixed confusing behavior when entering invalid smoothing parameters.
 - Removed the **Partial Media** warning from media panels. This does not change the behavior of the media panels.
-- When adding a [run filter based on tags](/guides/runs/filter-runs/#filter-runs-with-tags), the filter is now selected by default, as when filtering by other fields.
+- When adding a [run filter based on tags](/models/runs/filter-runs/#filter-runs-with-tags), the filter is now selected by default, as when filtering by other fields.
 - Removed the green bell icon that could appear on active runs in the run selector.
 - Removed the System page for individual runs.
 - The project description field now respects new lines.

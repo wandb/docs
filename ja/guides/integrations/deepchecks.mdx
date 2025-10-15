@@ -8,7 +8,7 @@ menu:
 weight: 60
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" icon="python"/>
 
 DeepChecks は、データの整合性の検証、分布の確認、データ分割の検証、モデルの評価、および異なるモデル間の比較など、機械学習モデルとデータの検証を最小限の労力で行うことができます。
 
@@ -55,6 +55,8 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
 
 ``[**このレポート**](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) は、DeepChecks と Weights & Biases を使用することの強力さを示しています
 
-{{< img src="/images/integrations/deepchecks_example.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/deepchecks_example.png"  />
+</Frame>
 
 この Weights & Biases インテグレーションに関して質問や問題がある場合は、[DeepChecks github リポジトリ](https://github.com/deepchecks/deepchecks)にイシューを開いてください。対応し、ご回答いたします :)

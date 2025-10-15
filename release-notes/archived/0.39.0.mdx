@@ -5,15 +5,21 @@ description: "July 27, 2023"
 parent: archived-releases
 ---
 
-{{% alert color="warning" %}}{{% readfile "/_includes/unsupported_server_version.md" %}}{{% /alert %}}
+import Text from "/snippets/en/_includes/unsupported_server_version.mdx";
+
+<Danger>
+<Text/>
+</Danger>
 
 ## Features
 
 **Revamped Organization Dashboard**
 
+<Frame>
 ![Revamped Organization Dashboard showing user activity, run creation statistics, and member management features](https://github.com/wandb/server/assets/47005026/ecfda350-2fc2-4023-a98c-d8eb67498957)
+</Frame>
 
-We've made it easier to see who's making the most W&B with our overhauled Organization Dashboard, accessible to W&B admins.  You can now see details on who's created runs and reports,  who's actively using W&B, who's invites are pending--and you can export all this in CSV to share across your organization.  Learn more about [access management](https://docs.wandb.ai/guides/hosting/iam/access-management-intro/).
+We've made it easier to see who's making the most W&B with our overhauled Organization Dashboard, accessible to W&B admins.  You can now see details on who's created runs and reports,  who's actively using W&B, who's invites are pending--and you can export all this in CSV to share across your organization.  Learn more about [access management](https://docs.wandb.ai/platform/hosting/iam/access-management-intro/).
 
 For Dedicated Cloud customers, this feature has been turned on.  For Customer-Managed W&B customers, contact W&B support and we'll be happy to work with you to enable it. 
 

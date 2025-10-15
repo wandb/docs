@@ -5,13 +5,19 @@ description: "September 14, 2023"
 parent: archived-releases
 ---
 
-{{% alert color="warning" %}}{{% readfile "/_includes/unsupported_server_version.md" %}}{{% /alert %}}
+import Text from "/snippets/en/_includes/unsupported_server_version.mdx";
+
+<Danger>
+<Text/>
+</Danger>
 
 ## Features
 
 **********W&B Artifacts now supports time-to-live (TTL) policies********** 
 
+<Frame>
 ![Image illustrating TTL policies for artifacts](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
+</Frame>
 
 Users can now gain more control over deleting and retention of Artifacts logged with W&B, with the ability to set retention and time-to-live (TTL) policies! Determine when you want specific Artifacts to be deleted, update policies on existing Artifacts, and set TTL policies on upstream or downstream Artifacts. 
 

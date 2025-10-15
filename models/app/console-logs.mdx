@@ -1,6 +1,6 @@
 ---
 title: Console logs
-url: guides/app/console-logs
+slug: guides/app/console-logs
 ---
 
 
@@ -14,13 +14,13 @@ Access console logs for a run in the W&B App:
 2. Select a run within the **Runs** table.
 3. Click the **Logs** tab in the project sidebar.
 
-{{% alert %}}
+<Note>
 Only 10,000 lines of your logs are shown due to storage limitations
-{{% /alert %}}
+</Note>
 
-<!-- ## Console log fields
+{/* ## Console log fields
 
-Within the W&B App you can modify the fields shown in the console logs table.  -->
+Within the W&B App you can modify the fields shown in the console logs table. */}
 
 ## Types of console logs
 
@@ -115,9 +115,9 @@ Use the search bar at the top of the console logs page to filter logs by keyword
 
 ## Filter with custom labels
 
-{{% alert color="secondary"  %}}
+<Warning>
 Parameters prefixed by `x_` (such as `x_label`) are in public preview. Create a [GitHub issue in the W&B repository](https://github.com/wandb/wandb) to provide feedback.
-{{% /alert %}}
+</Warning>
 
 You can filter console logs based on the labels you pass as arguments for `x_label` in `wandb.Settings` in the UI search bar located at the top of the console log page. 
 

@@ -32,17 +32,15 @@ W&Bは少なくともこれらの詳細を含めることを推奨します。
 
 W&B Registry UIまたはPython SDKを使用して、インタラクティブまたはプログラム的にコレクションに説明を追加します。
 
-{{< tabpane text=true >}}
-  {{% tab header="W&B Registry UI" %}}
+<Tabs>
+<Tab title="W&B Registry UI">
 1. [https://wandb.ai/registry/](https://wandb.ai/registry/)でW&B Registryにアクセスします。
 2. コレクションをクリックします。
 3. コレクション名の横にある**詳細を表示**を選択します。
 4. **説明**フィールド内で、コレクションに関する情報を提供します。[Markdownマークアップ言語](https://www.markdownguide.org/)でテキストをフォーマットします。
-
-  {{% /tab %}}
-  {{% tab header="Python SDK" %}}
-
-[`wandb.Api().artifact_collection()`]({{< relref path="/ref/python/public-api/api.md#artifact_collection" lang="ja" >}}) メソッドを使用してコレクションの説明にアクセスします。返されたオブジェクトの `description` プロパティを使用してコレクションに説明を追加または更新します。
+</Tab>
+<Tab title="Python SDK">
+[`wandb.Api().artifact_collection()`](/ja/models/ref/python/public-api/api#artifact_collection) メソッドを使用してコレクションの説明にアクセスします。返されたオブジェクトの `description` プロパティを使用してコレクションに説明を追加または更新します。
 
 `type_name`パラメータにはコレクションのタイプを、`name`パラメータにはコレクションの完全な名前を指定します。コレクションの名前は「wandb-registry」、レジストリの名前、およびコレクションの名前をスラッシュで区切ったものです:
 
@@ -65,10 +63,12 @@ collection = api.artifact_collection(
 
 collection.description = "This is a description."
 collection.save()  
-```  
-  {{% /tab %}}
-{{< /tabpane >}}
+```
+</Tab>
+</Tabs>
 
 例えば、以下の画像は、モデルのアーキテクチャー、意図された使用法、パフォーマンス情報などをドキュメントしているコレクションを示しています。
 
-{{< img src="/images/registry/registry_card.png" alt="モデルアーキテクチャー、意図された使用法、パフォーマンス情報などに関する情報が記載されたコレクションカード。" >}}
+<Frame>
+    <img src="/images/registry/registry_card.png" alt="モデルアーキテクチャー、意図された使用法、パフォーマンス情報などに関する情報が記載されたコレクションカード。"  />
+</Frame>

@@ -5,7 +5,7 @@ menu:
     identifier: ja-ref-python-artifact
 ---
 
-{{< cta-button githubLink=https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/artifacts/artifact.py#L96-L2410 >}}
+<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/artifacts/artifact.py#L96-L2410" icon="github"/>
 
 データセットとモデルのバージョン管理のための柔軟で軽量なビルディングブロック。
 
@@ -37,7 +37,7 @@ Artifact(
 
 | 属性 |  |
 | :--- | :--- |
-|  `aliases` |  アーティファクトのバージョンに割り当てられた意味的にフレンドリーな参照または識別用の「ニックネーム」のリストです。エイリアスはプログラムで参照できる可変な参照です。アーティファクトのエイリアスは W&B App UI またはプログラムで変更できます。詳しくは [Create new artifact versions](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) を参照してください。 |
+|  `aliases` |  アーティファクトのバージョンに割り当てられた意味的にフレンドリーな参照または識別用の「ニックネーム」のリストです。エイリアスはプログラムで参照できる可変な参照です。アーティファクトのエイリアスは W&B App UI またはプログラムで変更できます。詳しくは [Create new artifact versions](https://docs.wandb.ai/models/artifacts/create-a-new-artifact-version) を参照してください。 |
 |  `collection` |  このアーティファクトが取得されたコレクションです。コレクションはアーティファクトのバージョンをまとめた順序付けられたグループです。このアーティファクトがポートフォリオ/リンクされたコレクションから取得された場合、そのコレクションが返されます。アーティファクトの起源となるコレクションはソースシーケンスとして知られています。 |
 |  `commit_hash` |  このアーティファクトがコミットされた時に返されたハッシュです。 |
 |  `created_at` |  アーティファクトが作成された時のタイムスタンプです。 |
@@ -173,7 +173,7 @@ add_reference(
 
 URI によって示される参照をアーティファクトに追加します。
 
-アーティファクトにファイルやディレクトリを追加する場合と異なり、参照は W&B にアップロードされません。詳細は、[Track external files](https://docs.wandb.ai/guides/artifacts/track-external-files) を参照してください。
+アーティファクトにファイルやディレクトリを追加する場合と異なり、参照は W&B にアップロードされません。詳細は、[Track external files](https://docs.wandb.ai/models/artifacts/track-external-files) を参照してください。
 
 デフォルトでは、以下のスキームがサポートされています:
 

@@ -4,7 +4,7 @@ menu:
   launch:
     identifier: ja-launch-set-up-launch-setup-queue-advanced
     parent: set-up-launch
-url: /ja/guides/launch/setup-queue-advanced
+slug: /ja/guides/launch/setup-queue-advanced
 ---
 
 以下のページでは、ローンチキューオプションの設定方法について説明します。
@@ -60,7 +60,9 @@ StoppingCondition:
 
 そこで、**Type** ドロップダウンからデータ型として String を選択します。これにより、ユーザーが選択できる値を指定できるフィールドが表示されます。例えば、次の画像では、チームの管理者がユーザーが選べる 2 つの異なる AWS インスタンスタイプ (`ml.m4.xlarge` と `ml.p3.xlarge`) を設定しています：
 
-{{< img src="/images/launch/aws_template_example.png" alt="" >}}
+<Frame>
+    <img src="/images/launch/aws_template_example.png"  />
+</Frame>
 
 ## ローンチジョブを動的に設定する
 キュー設定は、エージェントがキューからジョブをデキューするときに評価されるマクロを使用して動的に設定できます。以下のマクロを設定できます：
@@ -73,9 +75,9 @@ StoppingCondition:
 | `${run_name}`     | ローンチされる run の名前。                |
 | `${image_uri}`    | この run のコンテナイメージの URI。          |
 
-{{% alert %}}
+<Note>
 前の表に記載されていないカスタムマクロ (例えば `${MY_ENV_VAR}`) は、エージェントの環境から環境変数で置き換えられます。
-{{% /alert %}}
+</Note>
 
 ## アクセラレータ (GPU) で実行されるイメージをビルドするためのローンチエージェントの使用
 アクセラレータ環境で実行されるイメージをビルドするためにローンチを使用する場合、アクセラレータベースイメージを指定する必要があります。

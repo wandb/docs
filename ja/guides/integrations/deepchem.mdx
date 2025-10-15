@@ -18,7 +18,9 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…)
 ```
 
-{{< img src="/images/integrations/cd.png" alt="" >}}
+<Frame>
+    <img src="/images/integrations/cd.png"  />
+</Frame>
 
 ## Report と Google Colab
 
@@ -34,9 +36,9 @@ W&B DeepChem インテグレーションを使用して生成されたチャー�
 
 APIキーは、あなたのマシンを W&B に認証します。APIキーはユーザープロフィールから生成できます。
 
-{{% alert %}}
+<Note>
 よりスムーズなアプローチとして、[https://wandb.ai/authorize](https://wandb.ai/authorize) に直接アクセスして、APIキーを生成できます。表示されるAPIキーをコピーし、パスワードマネージャーなど安全な場所に保存してください。
-{{% /alert %}}
+</Note>
 
 1. 右上のユーザープロフィールアイコンをクリックします。
 1. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
@@ -46,10 +48,9 @@ APIキーは、あなたのマシンを W&B に認証します。APIキーはユ
 
 `wandb` ライブラリをローカルにインストールしてログインするには：
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="cli" %}}
-
-1. `WANDB_API_KEY` [環境変数]({{< relref path="/guides/models/track/environment-variables.md" lang="ja" >}}) をあなたのAPIキーに設定します。
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) をあなたのAPIキーに設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -62,11 +63,8 @@ APIキーは、あなたのマシンを W&B に認証します。APIキーはユ
 
     wandb login
     ```
-
-{{% /tab %}}
-
-{{% tab header="Python" value="python" %}}
-
+</Tab>
+<Tab title="Python">
 ```bash
 pip install wandb
 ```
@@ -74,30 +72,23 @@ pip install wandb
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{% tab header="Python notebook" value="python-notebook" %}}
-
+</Tab>
+<Tab title="Python notebook">
 ```notebook
 !pip install wandb
 
 import wandb
 wandb.login()
 ```
-
-{{% /tab %}}
-
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ### トレーニングと評価データを W&B にログする
 
 トレーニング損失と評価メトリクスは、W&Bに自動的に記録されます。オプションの評価は、DeepChem の [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) を使用して有効化できます。`WandbLogger` は ValidationCallback コールバックを検出し、生成されたメトリクスをログします。
 
-{{< tabpane text=true >}}
-
-{{% tab header="TorchModel" value="torch" %}}
-
+<Tabs>
+<Tab title="TorchModel">
 ```python
 from deepchem.models import TorchModel, ValidationCallback
 
@@ -106,11 +97,8 @@ model = TorchModel(…, wandb_logger=logger)
 model.fit(…, callbacks=[vc])
 logger.finish()
 ```
-
-{{% /tab %}}
-
-{{% tab header="KerasModel" value="keras" %}}
-
+</Tab>
+<Tab title="KerasModel">
 ```python
 from deepchem.models import KerasModel, ValidationCallback
 
@@ -119,7 +107,5 @@ model = KerasModel(…, wandb_logger=logger)
 model.fit(…, callbacks=[vc])
 logger.finish()
 ```
-
-{{% /tab %}}
-
-{{< /tabpane >}}
+</Tab>
+</Tabs>

@@ -7,14 +7,18 @@ menu:
 weight: 5
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb" icon="python"/>
 W&B を使用して、機械学習実験管理、データセットのバージョン管理、プロジェクトコラボレーションを行いましょう。
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
+<Frame>
+    <img src="/images/tutorials/huggingface-why.png"  />
+</Frame>
 
 W&B Sweeps を使用してハイパーパラメーターの最適化を自動化し、インタラクティブな ダッシュボードでモデルの可能性を探りましょう:
 
-{{< img src="/images/tutorials/tensorflow/sweeps.png" alt="" >}}
+<Frame>
+    <img src="/images/tutorials/tensorflow/sweeps.png"  />
+</Frame>
 
 ## なぜ sweeps を使うのか
 
@@ -22,7 +26,7 @@ W&B Sweeps を使用してハイパーパラメーターの最適化を自動化
 * **透明性**: このプロジェクトは使用されるすべてのアルゴリズムを引用し、[コードはオープンソース](https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py)です。
 * **強力**: Sweeps はカスタマイズオプションを提供し、複数のマシンやノートパソコンで簡単に実行できます。
 
-詳しくは、[Sweep ドキュメント]({{< relref path="/guides/models/sweeps/" lang="ja" >}})を参照してください。
+詳しくは、[Sweep ドキュメント](/ja/models/sweeps/)を参照してください。
 
 ## このノートブックで扱う内容
 
@@ -60,9 +64,9 @@ from wandb.integration.keras import WandbMetricsLogger
 wandb.login()
 ```
 
-{{< alert >}}
+<Note>
 W&B が初めてであるか、ログインしていない場合、`wandb.login()` を実行した後のリンクは、新規登録/ログインページへと案内します。
-{{< /alert >}}
+</Note>
 
 ## データセットの準備
 
@@ -183,7 +187,7 @@ sweep を設定する手順:
 * `bayes` の目標とメトリクスを設定する。例えば `val_loss` を最小化する
 * `hyperband` を使用して、実行中のものを早期終了する
 
-詳しくは [W&B Sweeps ドキュメント]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}})を参照してください。
+詳しくは [W&B Sweeps ドキュメント](/ja/models/sweeps/define-sweep-configuration/)を参照してください。
 
 ```python
 sweep_config = {
@@ -284,6 +288,6 @@ W&B で追跡および視覚化されたプロジェクトを [Gallery](https://
 
 ## 高度なセットアップ
 
-1. [環境変数]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): 管理されたクラスターでのトレーニングのために API キーを設定します。
-2. [オフラインモード]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}})
-3. [オンプレミス]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): W&B をプライベートクラウドまたはインフラストラクチャ内のエアギャップサーバーにインストールします。ローカルインストールは学術機関および企業チームに適しています。
+1. [環境変数](/ja/platform/hosting/env-vars/): 管理されたクラスターでのトレーニングのために API キーを設定します。
+2. [オフラインモード](/ja/models/support/run_wandb_offline/)
+3. [オンプレミス](/ja/platform/hosting/hosting-options/self-managed): W&B をプライベートクラウドまたはインフラストラクチャ内のエアギャップサーバーにインストールします。ローカルインストールは学術機関および企業チームに適しています。

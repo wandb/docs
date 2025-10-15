@@ -11,9 +11,11 @@ weight: 4
 W&B ワークスペースは、チャートをカスタマイズしモデル結果を探索するための個人のサンドボックスです。W&B ワークスペースは *テーブル* と *パネルセクション* で構成されています:
 
 * **Tables**: プロジェクトに記録されたすべてのRunがプロジェクトのテーブルに一覧表示されます。Runをオンオフしたり、色を変更したり、テーブルを拡張して各Runのノート、設定、およびサマリーメトリクスを表示することができます。
-* **Panel sections**: 1つ以上の [パネル]({{< relref path="/guides/models/app/features/panels/" lang="ja" >}}) を含むセクションです。新しいパネルを作成し、整理し、ワークスペースのスナップショットを保存するためにReportsにエクスポートすることができます。
+* **Panel sections**: 1つ以上の [パネル](/ja/models/app/features/panels/) を含むセクションです。新しいパネルを作成し、整理し、ワークスペースのスナップショットを保存するためにReportsにエクスポートすることができます。
 
-{{< img src="/images/app_ui/workspace_table_and_panels.png" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/workspace_table_and_panels.png"  />
+</Frame>
 
 ## Workspaceの種類
 主に2つのWorkspaceカテゴリがあります: **個人用ワークスペース** と **保存されたビュー** です。
@@ -22,7 +24,9 @@ W&B ワークスペースは、チャートをカスタマイズしモデル結�
 * **保存されたビュー:** 保存されたビューは、ワークスペースの協力的なスナップショットです。チームの誰もが保存されたワークスペースビューを閲覧、編集、保存することができます。保存されたワークスペースビューを使用して、実験、Runなどをレビューおよび議論します。
 
 次の画像は、Cécile-parkerのチームメイトによって作成された複数の個人用ワークスペースを示しています。このプロジェクトには保存されたビューがありません:
-{{< img src="/images/app_ui/Menu_No_views.jpg" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/Menu_No_views.jpg"  />
+</Frame>
 
 ## 保存されたワークスペースビュー
 チームのコラボレーションを向上させるために、カスタマイズされたワークスペースビューを作成します。保存されたビューを作成して、チャートとデータの好みのセットアップを整理します。
@@ -35,7 +39,9 @@ W&B ワークスペースは、チャートをカスタマイズしモデル結�
 
 新しい保存されたビューはワークスペースナビゲーションメニューに表示されます。
 
-{{< img src="/images/app_ui/Menu_Views.jpg" alt="" >}}
+<Frame>
+    <img src="/images/app_ui/Menu_Views.jpg"  />
+</Frame>
 
 ### 保存されたワークスペースビューを更新する
 保存された変更は、保存されたビューの以前の状態を上書きします。保存されていない変更は保持されません。W&Bで保存されたワークスペースビューを更新するには:
@@ -44,9 +50,9 @@ W&B ワークスペースは、チャートをカスタマイズしモデル結�
 2. ワークスペース内のチャートとデータに必要な変更を加えます。
 3. **保存** ボタンをクリックして変更を確認します。
 
-{{% alert %}}
+<Note>
 ワークスペースビューの更新を保存すると、確認ダイアログが表示されます。次回このプロンプトを表示しないようにするには、保存を確認する前に **今後このモーダルを表示しない** オプションを選択します。
-{{% /alert %}}
+</Note>
 
 ### 保存されたワークスペースビューを削除する
 不要になった保存されたビューを削除します。
@@ -110,4 +116,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-包括的なワークスペースAPIの例として、[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) を参照してください。エンドツーエンドのチュートリアルについては、[Programmatic Workspaces]({{< relref path="/tutorials/workspaces.md" lang="ja" >}}) チュートリアルを参照してください。
+包括的なワークスペースAPIの例として、[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) を参照してください。エンドツーエンドのチュートリアルについては、[Programmatic Workspaces](/ja/tutorials/workspaces) チュートリアルを参照してください。

@@ -43,7 +43,7 @@ accelerator.end_training()
 1. Accelerator クラスを初期化するときに `log_with="wandb"` を渡す
 2. [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) メソッドを呼び出し、以下を渡します:
 - `project_name` よりプロジェクト名
-- [`wandb.init`]({{< relref path="/ref/python/init" lang="ja" >}}) に渡したい任意のパラメータをネストされた dict で `init_kwargs` に
+- [`wandb.init`](/ja/models/ref/python/init) に渡したい任意のパラメータをネストされた dict で `init_kwargs` に
 - wandb run にログ記録したい任意の実験設定情報を `config` で
 3. Weights & Biases にログを記録するために `.log` メソッドを使用する; `step` 引数はオプション
 4. トレーニングが終了したら `.end_training` を呼び出す
@@ -63,7 +63,7 @@ wandb_tracker = accelerator.get_tracker("wandb")
 wandb_tracker.log_artifact(some_artifact_to_log)
 ```
 
-{{% alert color="secondary" %}}
+<Warning>
 Accelerate にビルトインされたトラッカーは、正しいプロセスで自動的に実行されるので、トラッカーがメインプロセスでのみ実行するように設定されている場合、それが自動的に行われます。
 
 Accelerate のラッピングを完全に削除したい場合は、次の方法で同じ結果を得ることができます:
@@ -73,7 +73,7 @@ wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
 with accelerator.on_main_process:
     wandb_tracker.log_artifact(some_artifact_to_log)
 ```
-{{% /alert %}}
+</Warning>
 
 ## Accelerate 記事
 以下は Accelerate 記事で、お楽しみいただけるかもしれません。

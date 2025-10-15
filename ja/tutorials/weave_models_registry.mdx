@@ -6,7 +6,7 @@ menu:
     parent: weave-and-models-tutorials
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/drive/1Uqgel6cNcGdP7AmBXe2pR9u6Dejggsh8?usp=sharing" icon="python"/>
 
 このノートブックは、W&B Weave を W&B Models と一緒に使用する方法を示しています。具体的には、2つの異なるチームを検討しています。
 
@@ -15,7 +15,9 @@ menu:
 
 W&B Models と W&B Weave のパブリックワークスペースを [こちら](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations) から見つけることができます。
 
-{{< img src="/images/tutorials/weave_models_workflow.jpg"  alt="Weights & Biases" >}}
+<Frame>
+    <img src="/images/tutorials/weave_models_workflow.jpg" alt="Weights & Biases"  />
+</Frame>
 
 ワークフローは次のステップをカバーしています：
 
@@ -165,7 +167,7 @@ pip install litellm faiss-gpu
 
 ```python
 RagModel = weave.ref(
-    "weave:///wandb-smle/weave-cookboook-demo/object/RagModel:cqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo"
+    "weave://wandb-smle/weave-cookboook-demo/object/RagModel:cqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo"
 ).get()
 # MAGIC: chat_model を交換して新しいバージョンを公開する（他のRAGコンポーネントについて心配する必要はありません）
 RagModel.chat_model = new_chat_model
@@ -187,7 +189,7 @@ Weave の観点から:
 
 ```python
 # MAGIC: 評価データセットや評価スコアラーと一緒に評価を取得して使用します
-WEAVE_EVAL = "weave:///wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
+WEAVE_EVAL = "weave://wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 
 with weave.attributes({"wandb-run-id": wandb.run.id}):
@@ -204,7 +206,7 @@ MODELS_OBJECT_NAME = PUB_REFERENCE.name  # weave オブジェクト名
 
 models_url = f"https://wandb.ai/{ENTITY}/{PROJECT}/weave/objects/{MODELS_OBJECT_NAME}/versions/{MODELS_OBJECT_VERSION}"
 models_link = (
-    f"weave:///{ENTITY}/{PROJECT}/object/{MODELS_OBJECT_NAME}:{MODELS_OBJECT_VERSION}"
+    f"weave://{ENTITY}/{PROJECT}/object/{MODELS_OBJECT_NAME}:{MODELS_OBJECT_VERSION}"
 )
 
 with wandb.init(project=PROJECT, entity=ENTITY) as run:

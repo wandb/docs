@@ -7,7 +7,7 @@ menu:
 weight: 10
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/monai/3d_brain_tumor_segmentation.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/monai/3d_brain_tumor_segmentation.ipynb" icon="python"/>
 
 このチュートリアルでは、[MONAI](https://github.com/Project-MONAI/MONAI)を使用して、マルチラベルの3D脳腫瘍セグメンテーションタスクのトレーニングワークフローを構築し、[Weights & Biases](https://wandb.ai/site)の実験管理とデータ可視化機能を使用する方法をデモンストレーションします。チュートリアルには以下の機能が含まれています。
 
@@ -226,13 +226,13 @@ val_dataset = DecathlonDataset(
 )
 ```
 
-{{% alert %}}
+<Note>
 **注意:** `train_transform` を `train_dataset` に適用する代わりに、`val_transform` をトレーニングおよび検証データセットの両方に適用します。これは、トレーニングの前に、データセットの2つのスプリットからのサンプルを視覚化するためです。
-{{% /alert %}}
+</Note>
 
 ### データセットの可視化
 
-Weights & Biasesは画像、ビデオ、オーディオなどをサポートしています。リッチメディアをログに取り込み、結果を探索し、run、モデル、データセットを視覚的に比較できます。[セグメンテーションマスクオーバーレイシステム]({{< relref path="/guides/models/track/log/media/#image-overlays-in-tables" lang="ja" >}})を使用してデータボリュームを可視化します。 [テーブル]({{< relref path="/guides/models/tables/" lang="ja" >}})にセグメンテーションマスクをログに追加するには、テーブル内の各行に`wandb.Image` オブジェクトを提供する必要があります。
+Weights & Biasesは画像、ビデオ、オーディオなどをサポートしています。リッチメディアをログに取り込み、結果を探索し、run、モデル、データセットを視覚的に比較できます。[セグメンテーションマスクオーバーレイシステム](/ja/models/track/log/media/#image-overlays-in-tables)を使用してデータボリュームを可視化します。 [テーブル](/ja/models/tables/)にセグメンテーションマスクをログに追加するには、テーブル内の各行に`wandb.Image` オブジェクトを提供する必要があります。
 
 次の擬似コードは、その例です。
 
@@ -360,21 +360,21 @@ for data_idx, sample in progress_bar:
 wandb.log({"Tumor-Segmentation-Data": table})
 ```
 
-データはW&Bダッシュボード上でインタラクティブな表形式で表示されます。我々はデータボリュームの特定のスライスの各チャンネルを、各行の対応するセグメンテーションマスクと重ね合わせて見ることができます。テーブルのデータを論理的にフィルタリングして、特定の行に集中するために [Weave クエリ]({{< relref path="/guides/weave" lang="ja" >}}) を書くことができます。
+データはW&Bダッシュボード上でインタラクティブな表形式で表示されます。我々はデータボリュームの特定のスライスの各チャンネルを、各行の対応するセグメンテーションマスクと重ね合わせて見ることができます。テーブルのデータを論理的にフィルタリングして、特定の行に集中するために [Weave クエリ](/ja/guides/weave) を書くことができます。
 
-| {{< img src="/images/tutorials/monai/viz-1.gif" alt="An example of logged table data." >}} | 
-|:--:| 
-| **ログされたテーブルデータの例。** |
+<Frame caption="ログされたテーブルデータの例。">
+<img src="/images/tutorials/monai/viz-1.gif" alt="An example of logged table data."  />
+</Frame>
 
 画像を開き、インタラクティブなオーバーレイを使用して、各セグメンテーションマスクをどのように操作できるかを見てみてください。
 
-| {{< img src="/images/tutorials/monai/viz-2.gif" alt="An example of visualized segmentation maps." >}} | 
-|:--:| 
-| **セグメンテーションマップの可視化例。** |
+<Frame caption="セグメンテーションマップの可視化例。">
+<img src="/images/tutorials/monai/viz-2.gif" alt="An example of visualized segmentation maps."  />
+</Frame>
 
-{{% alert %}}
+<Note>
 **注意:** データセットのラベルはクラス間で重ならないマスクで構成されています。オーバーレイはラベルをオーバーレイ内の個別のマスクとしてログします。
-{{% /alert %}}
+</Note>
 
 ### データのロード
 
@@ -584,23 +584,23 @@ artifact.wait()
 
 コードを `wandb.log` で計装することで、トレーニングと検証プロセスに関連するメトリクスすべてを追跡するだけでなく、W&Bダッシュボード上のすべてのシステムメトリクス（この場合はCPUとGPU）も追跡できます。
 
-| {{< img src="/images/tutorials/monai/viz-3.gif" alt="An example of training and validation process tracking on W&B." >}} | 
-|:--:| 
-| **W&Bでのトレーニングと検証プロセス追跡の例。** |
+<Frame caption="W&Bでのトレーニングと検証プロセス追跡の例。">
+<img src="/images/tutorials/monai/viz-3.gif" alt="An example of training and validation process tracking on W&B."  />
+</Frame>
 
 W&Bの run ダッシュボードのアーティファクトタブに移動して、トレーニング中にログされたモデルチェックポイントアーティファクトの異なるバージョンにアクセスします。
 
-| {{< img src="/images/tutorials/monai/viz-4.gif" alt="An example of model checkpoints logging and versioning on W&B." >}} | 
-|:--:| 
-| **W&Bでのモデルチェックポイントのログとバージョン管理の例。** |
+<Frame caption="W&Bでのモデルチェックポイントのログとバージョン管理の例。">
+<img src="/images/tutorials/monai/viz-4.gif" alt="An example of model checkpoints logging and versioning on W&B."  />
+</Frame>
 
 ## 推論
 
 アーティファクトインターフェースを使用して、このケースでは平均エポック単位のトレーニング損失が最良のモデルチェックポイントであるアーティファクトのバージョンを選択できます。アーティファクト全体のリネージを探索し、必要なバージョンを使用することもできます。
 
-| {{< img src="/images/tutorials/monai/viz-5.gif" alt="An example of model artifact tracking on W&B." >}} | 
-|:--:| 
-| **W&Bでのモデルアーティファクト追跡の例。** |
+<Frame caption="W&Bでのモデルアーティファクト追跡の例。">
+<img src="/images/tutorials/monai/viz-5.gif" alt="An example of model artifact tracking on W&B."  />
+</Frame>
 
 最良のエポック単位の平均トレーニング損失を持つモデルアーティファクトのバージョンをフェッチし、チェックポイントステート辞書をモデルにロードします。
 
@@ -737,9 +737,9 @@ wandb.finish()
 
 インタラクティブなセグメンテーションマスクオーバーレイを使用して、予測されたセグメンテーションマスクと各クラスの正解ラベルを分析および比較します。
 
-| {{< img src="/images/tutorials/monai/viz-6.gif" alt="An example of predictions and ground-truth visualization on W&B." >}} | 
-|:--:| 
-| **W&Bでの予測と正解の可視化例。** |
+<Frame caption="W&Bでの予測と正解の可視化例。">
+<img src="/images/tutorials/monai/viz-6.gif" alt="An example of predictions and ground-truth visualization on W&B."  />
+</Frame>
 
 ## 謝辞と追加リソース
 

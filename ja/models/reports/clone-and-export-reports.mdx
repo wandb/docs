@@ -14,20 +14,17 @@ weight: 40
 
 ## レポートをクローン
 
-{{< tabpane text=true >}}
-{{% tab header="App UI" value="app" %}}
+<Tabs>
+<Tab title="App UI">
 レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**Clone this report** ボタンを選択します。モーダルでクローンされたレポートの保存先を選択します。**Clone report** を選択します。
 
-{{< img src="/images/reports/clone_reports.gif" alt="" >}}
+<Frame>
+    <img src="/images/reports/clone_reports.gif"  />
+</Frame>
 
 プロジェクトのテンプレートと形式を再利用するためにレポートをクローンします。チームのアカウント内でプロジェクトをクローンした場合、クローンされたプロジェクトはチームに表示されます。個人のアカウント内でプロジェクトをクローンした場合、そのプロジェクトはそのユーザーのみに表示されます。
-{{% /tab %}}
-
-{{% tab header="Python SDK" value="python"%}}
-
-
-
-
+</Tab>
+<Tab title="Python SDK">
 テンプレートとして使用するために URL からレポートをロードします。
 
 ```python
@@ -58,5 +55,5 @@ new_report.blocks = (
 )
 new_report.save()
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

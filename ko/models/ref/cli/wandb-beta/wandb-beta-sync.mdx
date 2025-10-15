@@ -1,33 +1,29 @@
 ---
 title: wandb beta sync
+menu:
+  reference:
+    identifier: ko-ref-cli-wandb-beta-wandb-beta-sync
 ---
 
-**Usage**
+**사용법**
 
 `wandb beta sync [OPTIONS] WANDB_DIR`
 
-**Summary**
+**요약**
 
-Upload .wandb files specified by PATHS.
+트레이닝 run을 W&B에 업로드합니다.
 
-PATHS can include .wandb files, run directories containing .wandb files, and
-"wandb" directories containing run directories.
+**옵션**
 
-For example, to sync all runs in a directory:
-wandb beta sync ./wandb
-To sync a specific run:
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude
-Or equivalently:
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
-
-**Options**
-
-| **Option** | **Description** |
+| **옵션** | **설명** |
 | :--- | :--- |
-| `--skip-synced / --no-skip-synced` | Skip runs that have already been synced with this command. |
-| `--dry-run` | Print what would happen without uploading   anything. |
-| `-v, --verbose` | Print more information. |
-| `-n` | Max number of runs to sync at a time. |
-
-
-
+| `--id` | 업로드할 run입니다. |
+| `-p, --project` | 업로드할 project입니다. |
+| `-e, --entity` | 범위를 지정할 entity입니다. |
+| `--skip-console` | 콘솔 로그를 건너뜁니다. |
+| `--append` | run을 추가합니다. |
+| `-i, --include` | 포함할 glob입니다. 여러 번 사용할 수 있습니다. |
+| `-e, --exclude` | 제외할 glob입니다. 여러 번 사용할 수 있습니다. |
+| `--mark-synced / --no-mark-synced` | run을 동기화됨으로 표시합니다. |
+| `--skip-synced / --no-skip-synced` | 동기화된 run을 건너뜁니다. |
+| `--dry-run` | 아무것도 업로드하지 않고 dry run을 수행합니다. |

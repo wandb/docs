@@ -24,11 +24,13 @@ W&Bを自社で管理するアプローチが、あなたのチームが抱え�
 
 プロダクションレベルのアプリケーションを実行および維持する方法についての強力な理解は、自己管理型のW&Bをデプロイする前の重要な前提条件です。あなたのチームが支援を必要とする場合、弊社のプロフェッショナルサービスチームとパートナーが、実装と最適化のサポートを提供します。
 
-自分で管理する代わりに、W&Bの管理されたソリューションについて詳しく知るには、[W&Bマルチテナントクラウド]({{< relref path="/guides/hosting/hosting-options/saas_cloud.md" lang="ja" >}})および[W&B専用クラウド]({{< relref path="/guides/hosting/hosting-options/dedicated_cloud.md" lang="ja" >}})を参照してください。
+自分で管理する代わりに、W&Bの管理されたソリューションについて詳しく知るには、[W&Bマルチテナントクラウド](/ja/platform/hosting/hosting-options/saas_cloud)および[W&B専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud)を参照してください。
 
 ## インフラストラクチャ
 
-{{< img src="/images/hosting/reference_architecture.png" alt="W&B infrastructure diagram" >}}
+<Frame>
+    <img src="/images/hosting/reference_architecture.png" alt="W&B infrastructure diagram"  />
+</Frame>
 
 ### アプリケーション層
 
@@ -41,7 +43,7 @@ W&Bを自社で管理するアプローチが、あなたのチームが抱え�
 ## インフラストラクチャの要件
 
 ### Kubernetes
-W&Bサーバーアプリケーションは、複数のポッドをデプロイする[Kubernetesオペレーター]({{< relref path="kubernetes-operator/" lang="ja" >}})としてデプロイされます。このため、W&Bには以下の要件を備えたKubernetesクラスターが必要です：
+W&Bサーバーアプリケーションは、複数のポッドをデプロイする[Kubernetesオペレーター](/ja/platform/hosting/operator/)としてデプロイされます。このため、W&Bには以下の要件を備えたKubernetesクラスターが必要です：
 - 完全に設定され機能するインフラストラクチャコントローラ。
 - 永続ボリュームをプロビジョニングする能力。
 
@@ -77,7 +79,7 @@ W&Bは、Pre-signed URLとCORSサポートのあるオブジェクトストレ�
 * https://quay.io
 * `https://gcr.io`
 
-エアギャップデプロイメントについて知るには、[エアギャップインスタンス用Kubernetesオペレーター]({{< relref path="kubernetes-operator/operator-airgapped.md" lang="ja" >}})を参照してください。
+エアギャップデプロイメントについて知るには、[エアギャップインスタンス用Kubernetesオペレーター](/ja/platform/hosting/self-managed/operator-airgapped/)を参照してください。
 トレーニングインフラストラクチャと実験のニーズを追跡する各システムにおいて、W&Bおよびオブジェクトストレージへのアクセスが必要です。
 
 ### DNS
@@ -92,7 +94,7 @@ W&Bは、クライアントとサーバー間の安全な通信のために、�
 W&BはIntel（x86）CPUアーキテクチャ上で実行されます。ARMはサポートされていません。
 
 ## インフラストラクチャのプロビジョニング
-Terraformはプロダクション用にW&Bをデプロイするために推奨される方法です。Terraformを使用すると、必要なリソース、それらの他のリソースへの参照、および依存関係を定義できます。W&Bは主要なクラウドプロバイダ向けにTerraformモジュールを提供しています。詳細については、[自己管理型クラウドアカウントでW&Bサーバーをデプロイする方法]({{< relref path="/guides/hosting/hosting-options/self-managed.md#deploy-wb-server-within-self-managed-cloud-accounts" lang="ja" >}})を参照してください。
+Terraformはプロダクション用にW&Bをデプロイするために推奨される方法です。Terraformを使用すると、必要なリソース、それらの他のリソースへの参照、および依存関係を定義できます。W&Bは主要なクラウドプロバイダ向けにTerraformモジュールを提供しています。詳細については、[自己管理型クラウドアカウントでW&Bサーバーをデプロイする方法](/ja/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts)を参照してください。
 
 ## サイズ調整
 デプロイメントを計画する際の出発点として、以下の一般的なガイドラインを使用してください。W&Bは、新しいデプロイメントのすべてのコンポーネントを厳密に監視し、観察された使用パターンに基づいて調整を行うことを推奨します。時間をかけてプロダクションデプロイメントを監視し、最適なパフォーマンスを維持するために必要に応じて調整を行い続けてください。

@@ -5,20 +5,28 @@ description: "May 10, 2023"
 parent: archived-releases
 ---
 
-{{% alert color="warning" %}}{{% readfile "/_includes/unsupported_server_version.md" %}}{{% /alert %}}
+import Text from "/snippets/en/_includes/unsupported_server_version.mdx";
+
+<Danger>
+<Text/>
+</Danger>
 
 ## Features
 
 ### Prompts: Zoom and pan
 
+<Frame>
 ![Demo of zooming and panning](https://github.com/wandb/server/assets/97066933/c6580dff-f003-4767-86f2-ad26d40108fb)
+</Frame>
 
 
 Explore complex chains of LLM prompts more easily with new zoom and pan controls in our prompts tracer.
 
 ### Model registry admin role
 
+<Frame>
 ![Image showing Model registry admin role](https://github.com/wandb/server/assets/97066933/b0fc6389-b8a6-437a-91a3-a991e69bca0d)
+</Frame>
 
 
 Control your model promotion process with a new role for model registry admins.   These users can manage the list of protected aliases (for example, “challenger” or “prod”), as well as apply or remove protected aliases for model versions.
@@ -33,7 +41,9 @@ Team admins can now disable magic link sharing for a team and its members.  Disa
 
 ### Improved report composition
 
+<Frame>
 ![Improved report composition interface with enhanced draft publication, editing, and collaboration features](https://github.com/wandb/server/assets/97066933/c2858fd5-d2f6-47e3-9e93-f8d048df4f59)
+</Frame>
 
 
 Reports help share your findings W&B further throughout an organization, including with people outside the ML team. We’ve made several investments to ensure it’s as simple and frictionless as possible to create and share them—including an improved report drafting experience with enhanced draft publication, editing, management, and sharing UX to improve how teams collaborate with Reports. 

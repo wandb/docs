@@ -11,31 +11,26 @@ weight: 130
 
 [Weights & Biases](http://wandb.com/) は Hugging Face AutoTrain に直接インテグレーションされています。実験管理と設定管理を提供します。実験には CLI コマンド内の単一パラメータを使用するだけで簡単です。
 
-{{< img src="/images/integrations/hf-autotrain-1.png" alt="実験のメトリクスをログする例" >}}
+<Frame>
+    <img src="/images/integrations/hf-autotrain-1.png" alt="実験のメトリクスをログする例"  />
+</Frame>
 
 ## 必要条件をインストールする
 
 `autotrain-advanced` と `wandb` をインストールします。
 
-{{< tabpane text=true >}}
-
-{{% tab header="Command Line" value="script" %}}
-
+<Tabs>
+<Tab title="Command Line">
 ```shell
 pip install --upgrade autotrain-advanced wandb
 ```
-
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Notebook">
 ```notebook
 !pip install --upgrade autotrain-advanced wandb
 ```
-
-{{% /tab %}}
-
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 これらの変更を示すために、このページでは数学データセット上での LLM の微調整を行い、[GSM8k Benchmarks](https://github.com/openai/grade-school-math) での `pass@1` での最先端の結果を達成します。
 
@@ -49,12 +44,10 @@ Hugging Face AutoTrain は、独自の CSV データセットが適切に動作�
 
 ## `autotrain` を使用したトレーニング
 
-コマンドラインまたはノートブックから `autotrain` の高度な機能を使用してトレーニングを開始できます。`--log` 引数を使用するか、`--log wandb` を使用して、[W&B run]({{< relref path="/guides/models/track/runs/" lang="ja" >}}) に結果をログします。
+コマンドラインまたはノートブックから `autotrain` の高度な機能を使用してトレーニングを開始できます。`--log` 引数を使用するか、`--log wandb` を使用して、[W&B run](/ja/models/runs/) に結果をログします。
 
-{{< tabpane text=true >}}
-
-{{% tab header="Command Line" value="script" %}}
-
+<Tabs>
+<Tab title="Command Line">
 ```shell
 autotrain llm \
     --train \
@@ -82,11 +75,8 @@ autotrain llm \
     --token <huggingface-token> \
     --repo-id <huggingface-repository-address>
 ```
-
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Notebook">
 ```notebook
 # ハイパーパラメーターを設定する
 learning_rate = 2e-5
@@ -129,12 +119,12 @@ logging_steps = 10
     --token str(hf_token) \
     --repo-id "rishiraj/zephyr-math"
 ```
+</Tab>
+</Tabs>
 
-{{% /tab %}}
-
-{{< /tabpane >}}
-
-{{< img src="/images/integrations/hf-autotrain-2.gif" alt="実験の設定を保存する例。" >}}
+<Frame>
+    <img src="/images/integrations/hf-autotrain-2.gif" alt="実験の設定を保存する例。"  />
+</Frame>
 
 ## 追加のリソース
 

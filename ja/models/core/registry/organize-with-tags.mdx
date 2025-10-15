@@ -11,19 +11,20 @@ weight: 7
 
 コレクションやアーティファクトバージョンをレジストリ内で整理するためにタグを作成し追加します。W&B アプリ UI または W&B Python SDK を使用して、コレクションまたはアーティファクトバージョンにタグを追加、変更、表示、削除できます。
 
-{{% alert title="エイリアスとタグの使い分け" %}}
+<Note>
+**エイリアスとタグの使い分け**
+
 特定のアーティファクトバージョンを一意に参照する必要がある場合は、エイリアスを使用します。例えば、`artifact_name:alias` が常に単一で特定のバージョンを指すように、「production」や「latest」といったエイリアスを使用します。
 
 より自由にグループ化や検索をしたい場合は、タグを使用します。タグは複数のバージョンやコレクションが同じラベルを共有できるときに理想的で、特定の識別子に関連付けられるバージョンが一つだけである保証は必要ありません。
-{{% /alert %}}
+</Note>
 
 ## コレクションにタグを追加する
 
 W&B アプリ UI または Python SDK を使用してコレクションにタグを追加します。
 
-{{< tabpane text=true >}}
-{{% tab header="W&B App" %}}
-
+<Tabs>
+<Tab title="W&B App">
 W&B アプリ UI を使用してコレクションにタグを追加します。
 
 1. W&B レジストリに移動します: https://wandb.ai/registry
@@ -32,11 +33,11 @@ W&B アプリ UI を使用してコレクションにタグを追加します。
 4. コレクションカード内で、**Tags** フィールドの隣にあるプラスアイコン (**+**) をクリックし、タグの名前を入力します
 5. キーボードの **Enter** を押します
 
-{{< img src="/images/registry/add_tag_collection.gif" alt="" >}}
-
-{{% /tab %}}
-{{% tab header="Python SDK" %}}
-
+<Frame>
+    <img src="/images/registry/add_tag_collection.gif"  />
+</Frame>
+</Tab>
+<Tab title="Python SDK">
 ```python
 import wandb
 
@@ -55,15 +56,14 @@ collection = wandb.Api().artifact_collection(
 collection.tags = ["your-tag"]
 collection.save()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## コレクションに属するタグを更新する
 
 `tags` 属性を再割り当てするか、変更することでプログラム上でタグを更新します。W&B は `tags` 属性をインプレースで変更するのではなく、再割り当てすることを推奨しており、これは良い Python の習慣でもあります。
 
-例えば、以下のコードスニペットは、再割り当てを用いてリストを更新する一般的な方法を示しています。簡潔にするために、このコード例は [コレクションにタグを追加するセクション]({{< relref path="#add-a-tag-to-a-collection" lang="ja" >}}) から続いています。
+例えば、以下のコードスニペットは、再割り当てを用いてリストを更新する一般的な方法を示しています。簡潔にするために、このコード例は [コレクションにタグを追加するセクション](#add-a-tag-to-a-collection) から続いています。
 
 ```python
 collection.tags = [*collection.tags, "new-tag", "other-tag"]
@@ -96,13 +96,17 @@ W&B アプリ UI を使用してコレクションに追加されたタグを表
 
 コレクションに 1 つ以上のタグがある場合、それらのタグはコレクションカード内の **Tags** フィールドの隣に表示されます。
 
-{{< img src="/images/registry/tag_collection_selected.png" alt="" >}}
+<Frame>
+    <img src="/images/registry/tag_collection_selected.png"  />
+</Frame>
 
 コレクションに追加されたタグは、コレクション名の隣にも表示されます。
 
 例えば、以下の画像では、「zoo-dataset-tensors」コレクションに "tag1" というタグが追加されています。
 
-{{< img src="/images/registry/tag_collection.png" alt="" >}}
+<Frame>
+    <img src="/images/registry/tag_collection.png"  />
+</Frame>
 
 ## コレクションからタグを削除する
 
@@ -118,8 +122,8 @@ W&B アプリ UI を使用してコレクションからタグを削除します
 
 W&B アプリ UI または Python SDK を使用して、コレクションにリンクされたアーティファクトバージョンにタグを追加します。
 
-{{< tabpane text=true >}}
-{{% tab header="W&B App" %}}
+<Tabs>
+<Tab title="W&B App">
 1. W&B レジストリに移動します: https://wandb.ai/registry
 2. レジストリカードをクリックします
 3. タグを追加したいコレクションの名前の横にある **View details** をクリックします
@@ -128,10 +132,11 @@ W&B アプリ UI または Python SDK を使用して、コレクションにリ
 6. **Version** タブ内で、**Tags** フィールドの隣にあるプラスアイコン (**+**) をクリックし、タグの名前を入力します
 7. キーボードの **Enter** を押します
 
-{{< img src="/images/registry/add_tag_linked_artifact_version.gif" alt="" >}}
-
-{{% /tab %}}
-{{% tab header="Python SDK" %}}
+<Frame>
+    <img src="/images/registry/add_tag_linked_artifact_version.gif"  />
+</Frame>
+</Tab>
+<Tab title="Python SDK">
 タグを追加または更新したいアーティファクトバージョンを取得します。アーティファクトバージョンを取得したら、アーティファクトオブジェクトの `tag` 属性にアクセスして、そのアーティファクトのタグを追加または変更します。1 つ以上のタグをリストとして `tag` 属性に渡します。
 
 他のアーティファクト同様、W&B からアーティファクトを取得するのに run を作成する必要はありませんが、run を作成し、その run の中でアーティファクトを取得することもできます。どちらの場合でも、W&B サーバー上でアーティファクトを更新するために、アーティファクトオブジェクトの `save` メソッドを呼び出すことを確認してください。
@@ -174,15 +179,14 @@ artifact = run.use_artifact(artifact_or_name = artifact_name)
 artifact.tags = ["tag2"] # リストに 1 つ以上のタグを提供
 artifact.save()
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## アーティファクトバージョンに属するタグを更新する
 
 `tags` 属性を再割り当てするか、変更することでプログラム上でタグを更新します。W&B は `tags` 属性をインプレースで変更するのではなく、再割り当てすることを推奨しており、これは良い Python の習慣でもあります。
 
-例えば、以下のコードスニペットは、再割り当てを用いてリストを更新する一般的な方法を示しています。簡潔にするために、このコード例は [アーティファクトバージョンにタグを追加するセクション]({{< relref path="#add-a-tag-to-an-artifact-version" lang="ja" >}}) から続いています。
+例えば、以下のコードスニペットは、再割り当てを用いてリストを更新する一般的な方法を示しています。簡潔にするために、このコード例は [アーティファクトバージョンにタグを追加するセクション](#add-a-tag-to-an-artifact-version) から続いています。
 
 ```python
 artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
@@ -209,9 +213,8 @@ artifact.tags.clear()
 
 W&B アプリ UI または Python SDK を使用して、レジストリにリンクされたアーティファクトバージョンに属するタグを表示します。
 
-{{< tabpane text=true >}}
-{{% tab header="W&B App" %}}
-
+<Tabs>
+<Tab title="W&B App">
 1. W&B レジストリに移動します: https://wandb.ai/registry
 2. レジストリカードをクリックします
 3. タグを追加したいコレクションの名前の横にある **View details** をクリックします
@@ -219,11 +222,11 @@ W&B アプリ UI または Python SDK を使用して、レジストリにリン
 
 アーティファクトバージョンに 1 つ以上のタグがある場合、それらのタグは **Tags** 列に表示されます。
 
-{{< img src="/images/registry/tag_artifact_version.png" alt="" >}}
-
-{{% /tab %}}
-{{% tab header="Python SDK" %}}
-
+<Frame>
+    <img src="/images/registry/tag_artifact_version.png"  />
+</Frame>
+</Tab>
+<Tab title="Python SDK">
 アーティファクトバージョンを取得して、そのタグを表示します。アーティファクトバージョンを取得したら、アーティファクトオブジェクトの `tag` 属性を表示して、そのアーティファクトに属するタグを表示します。
 
 他のアーティファクト同様、W&B からアーティファクトを取得するのに run を作成する必要はありませんが、run を作成し、その run の中でアーティファクトを取得することもできます。
@@ -264,9 +267,8 @@ artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{
 artifact = run.use_artifact(artifact_or_name = artifact_name)
 print(artifact.tags)
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 
 ## アーティファクトバージョンからタグを削除する
@@ -287,7 +289,9 @@ W&B アプリ UI を使用して、コレクションやアーティファクト
 2. レジストリカードをクリックします
 3. 検索バー内にタグの名前を入力します
 
-{{< img src="/images/registry/search_tags.gif" alt="" >}}
+<Frame>
+    <img src="/images/registry/search_tags.gif"  />
+</Frame>
 
 ## 特定のタグを持つアーティファクトバージョンを見つける
 

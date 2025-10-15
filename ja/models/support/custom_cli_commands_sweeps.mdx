@@ -7,7 +7,7 @@ support:
   - sweeps
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+slug: /ja/models/support/:filename
 ---
 W&B スイープは、トレーニング設定がコマンドライン引数を通過する場合、カスタム CLI コマンドと共に使用できます。
 
@@ -49,7 +49,7 @@ parser = argparse.ArgumentParser()
 args, unknown = parser.parse_known_args()
 ```
 
-{{% alert %}}
+<Note>
 環境によっては、`python` が Python 2 を指す場合があります。Python 3 を呼び出すには、コマンド設定で `python3` を使用してください。
 
 ```yaml
@@ -61,4 +61,4 @@ command:
   - ${program}
   - ${args}
 ```
-{{% /alert %}}
+</Note>

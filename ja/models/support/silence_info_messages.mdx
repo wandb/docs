@@ -8,7 +8,7 @@ support:
   - environment variables
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+slug: /ja/models/support/:filename
 ---
 ノートブックで次のようなログメッセージを抑制するには:
 
@@ -27,17 +27,17 @@ logger.setLevel(logging.ERROR)
 
 ログ出力を完全にオフにするには、`WANDB_SILENT` 環境変数を設定します。これは `wandb.login` を実行する前にノートブックセル内で行う必要があります。
 
-{{< tabpane text=true langEqualsHeader=true >}}
-{{% tab "ノートブック" %}}
+<Tabs>
+<Tab title="ノートブック">
 ```python
 %env WANDB_SILENT=True
 ```
-{{% /tab %}}
-{{% tab "Python" %}}
+</Tab>
+<Tab title="Python">
 ```python
 import os
 
 os.environ["WANDB_SILENT"] = "True"
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

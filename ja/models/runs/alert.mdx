@@ -7,21 +7,23 @@ menu:
     parent: what-are-runs
 ---
 
-{{< cta-button colabLink="http://wandb.me/alerts-colab" >}}
+<Card title="Try in Colab" href="http://wandb.me/alerts-colab" icon="python"/>
 
 run がクラッシュしたり、カスタムトリガーで Slack やメールでアラートを作成します。例えば、トレーニングループの勾配が膨らみ始めた場合（NaNを報告）や、ML パイプライン内のステップが完了した場合などです。アラートは、個人およびチームプロジェクトの両方を含む、run を初期化するすべての Projects に適用されます。
 
 その後、Slack（またはメール）で W&B Alerts メッセージを確認します。
 
-{{< img src="/images/track/send_alerts_slack.png" alt="" >}}
+<Frame>
+    <img src="/images/track/send_alerts_slack.png"  />
+</Frame>
 
 ## アラートの作成方法
 
-{{% alert %}}
+<Note>
 以下のガイドは、マルチテナントクラウドでのアラートにのみ適用されます。
 
-プライベートクラウドまたは W&B 専用クラウドで [W&B Server]({{< relref path="/guides/hosting/" lang="ja" >}}) を使用している場合は、Slack アラートの設定については[こちらのドキュメント]({{< relref path="/guides/hosting/monitoring-usage/slack-alerts.md" lang="ja" >}})を参照してください。
-{{% /alert %}}
+プライベートクラウドまたは W&B 専用クラウドで [W&B Server](/ja/platform/hosting/) を使用している場合は、Slack アラートの設定については[こちらのドキュメント](/ja/platform/hosting/monitoring-usage/slack-alerts)を参照してください。
+</Note>
 
 アラートを設定するための主なステップは2つあります。
 
@@ -40,7 +42,9 @@ run がクラッシュしたり、カスタムトリガーで Slack やメール
 
 W&B Alerts を初めて設定する際、またはアラートの受け取り方を変更したい場合にのみ、これを行う必要があります。
 
-{{< img src="/images/track/demo_connect_slack.png" alt="Alerts settings in W&B User Settings" >}}
+<Frame>
+    <img src="/images/track/demo_connect_slack.png" alt="Alerts settings in W&B User Settings"  />
+</Frame>
 
 ### 2. コードに `run.alert()` を追加する
 

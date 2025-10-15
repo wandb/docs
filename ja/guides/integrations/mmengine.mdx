@@ -18,43 +18,33 @@ MMEngine by [OpenMMLab](https://github.com/open-mmlab) は、PyTorch に基づ�
 
 `openmim` および `wandb` をインストールします。
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="script" %}}
-
+<Tabs>
+<Tab title="Command Line">
 ``` bash
 pip install -q -U openmim wandb
 ```
-
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Notebook">
 ``` bash
 !pip install -q -U openmim wandb
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 次に、`mim` を使用して `mmengine` および `mmcv` をインストールします。
 
-{{< tabpane text=true >}}
-{{% tab header="Command Line" value="script" %}}
-
+<Tabs>
+<Tab title="Command Line">
 ``` bash
 mim install -q mmengine mmcv
 ```
-
-{{% /tab %}}
-
-{{% tab header="Notebook" value="notebook" %}}
-
+</Tab>
+<Tab title="Notebook">
 ``` bash
 !mim install -q mmengine mmcv
 ```
-
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## `WandbVisBackend` を MMEngine Runner で使用する
 
@@ -81,9 +71,9 @@ mim install -q mmengine mmcv
     visualizer = Visualizer.get_instance(**visualization_cfg)
     ```
 
-    {{% alert %}}
-    [W&B run 初期化]({{< relref path="/ref/python/init" lang="ja" >}})の入力パラメータ用引数の辞書を `init_kwargs` に渡します。
-    {{% /alert %}}
+    <Note>
+    [W&B run 初期化](/ja/models/ref/python/init)の入力パラメータ用引数の辞書を `init_kwargs` に渡します。
+    </Note>
 
 2. `visualizer` とともに `runner` を初期化し、`runner.train()` を呼び出します。
 

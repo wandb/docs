@@ -9,7 +9,7 @@ weight: 6
 
 W&B Python SDK を使用して、レジストリにリンクされたアーティファクトをダウンロードします。アーティファクトをダウンロードして使用するには、レジストリ名、コレクション名、およびダウンロードしたいアーティファクトバージョンのエイリアスまたはインデックスを知る必要があります。
 
-アーティファクトのプロパティを知ったら、[リンクされたアーティファクトへのパスを構築]({{< relref path="#construct-path-to-linked-artifact" lang="ja" >}})してアーティファクトをダウンロードできます。または、W&B アプリ UI から事前に生成されたコードスニペットを[コピーして貼り付け]({{< relref path="#copy-and-paste-pre-generated-code-snippet" lang="ja" >}})することで、レジストリにリンクされたアーティファクトをダウンロードすることもできます。
+アーティファクトのプロパティを知ったら、[リンクされたアーティファクトへのパスを構築](#construct-path-to-linked-artifact)してアーティファクトをダウンロードできます。または、W&B アプリ UI から事前に生成されたコードスニペットを[コピーして貼り付け](#copy-and-paste-pre-generated-code-snippet)することで、レジストリにリンクされたアーティファクトをダウンロードすることもできます。
 
 ## リンクされたアーティファクトへのパスを構築
 
@@ -27,9 +27,9 @@ f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
 中括弧 `{}` 内の値を、アクセスしたいレジストリ、コレクション、およびアーティファクトバージョンのエイリアスまたはインデックスの名前で置き換えてください。
 
-{{% alert %}}
+<Note>
 アーティファクトバージョンをコアモデルレジストリまたはコアデータセットレジストリにリンクするには、`model` または `dataset` を指定してください。
-{{% /alert %}}
+</Note>
 
 リンクされたアーティファクトのパスを取得したら、`wandb.init.use_artifact` メソッドを使用してアーティファクトにアクセスし、その内容をダウンロードします。以下のコードスニペットは、W&B レジストリにリンクされたアーティファクトを使用およびダウンロードする方法を示しています。`<>` 内の値を自分のものに置き換えてください。
 
@@ -51,7 +51,7 @@ fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)
 download_path = fetched_artifact.download()  
 ```
 
-`.use_artifact()` メソッドは、[run]({{< relref path="/guides/models/track/runs/" lang="ja" >}})を作成するとともに、ダウンロードしたアーティファクトをその run の入力としてマークします。 アーティファクトを run の入力としてマークすることにより、W&B はそのアーティファクトのリネージを追跡できます。
+`.use_artifact()` メソッドは、[run](/ja/models/runs/)を作成するとともに、ダウンロードしたアーティファクトをその run の入力としてマークします。 アーティファクトを run の入力としてマークすることにより、W&B はそのアーティファクトのリネージを追跡できます。
 
 runを作成したくない場合は、`wandb.Api()` オブジェクトを使用してアーティファクトにアクセスできます。
 
@@ -95,9 +95,11 @@ downloaded_path = fetched_artifact.download()
 ```
 </details>
 
-APIリファレンスガイドの [`use_artifact`]({{< relref path="/ref/python/run.md#use_artifact" lang="ja" >}}) と [`Artifact.download()`]({{< relref path="/ref/python/artifact#download" lang="ja" >}}) で可能なパラメータや返り値の種類について詳しく見てください。
+APIリファレンスガイドの [`use_artifact`](/ja/models/ref/python/run#use_artifact) と [`Artifact.download()`](/ja/models/ref/python/artifact#download) で可能なパラメータや返り値の種類について詳しく見てください。
 
-{{% alert title="複数の組織に所属する個人エンティティを持つユーザー" %}} 
+<Note>
+**複数の組織に所属する個人エンティティを持つユーザー**
+
 複数の組織に所属する個人エンティティを持つユーザーは、レジストリにリンクされたアーティファクトにアクセスする際、組織名を指定するか、チームエンティティを使用する必要があります。
 
 ```python
@@ -119,7 +121,7 @@ artifact = api.artifact(name = artifact_name)
 ```
 
 `ORG_NAME` は組織の表示名です。マルチテナント SaaS ユーザーは、`https://wandb.ai/account-settings/` の組織の設定ページで組織名を見つけることができます。専用クラウドおよび自己管理ユーザーの場合、組織の表示名を確認するには、アカウント管理者に連絡してください。
-{{% /alert %}}
+</Note>
 
 ## 事前に生成されたコードスニペットのコピーと貼り付け
 
@@ -133,4 +135,6 @@ W&B は、レジストリにリンクされたアーティファクトをダウ�
 6. **Usage API** セクションに表示されたコードスニペットをコピーします。
 7. コピーしたコードスニペットを Python スクリプト、ノートブック、またはターミナルに貼り付けます。
 
-{{< img src="/images/registry/find_usage_in_registry_ui.gif" >}}
+<Frame>
+    <img src="/images/registry/find_usage_in_registry_ui.gif"  />
+</Frame>

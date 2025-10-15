@@ -1,38 +1,31 @@
 ---
-url: /support/:filename
-title: "How do I log a list of values?"
+title: How do I log a list of values?
+menu:
+  support:
+    identifier: ko-support-kb-articles-log_list_values
+support:
+- logs
+- experiments
 toc_hide: true
 type: docs
-support:
-  - logs
-  - experiments
+slug: /ko/models/support/:filename
 ---
-These examples show logging losses a couple of different ways using [`wandb.Run.log()`]({{< relref "/ref/python/experiments/run/#method-runlog/" >}}).
 
-{{< tabpane text=true >}}
-{{% tab "Using a dictionary" %}}
+다음 예제는 [`wandb.log()`](/ko/models/ref/python/log/)를 사용하여 여러 가지 방법으로 손실을 기록하는 방법을 보여줍니다.
+
+<Tabs>
+<Tab title="Using a dictionary">
 ```python
-import wandb
-
-# Initialize a new run
-with wandb.init(project="log-list-values", name="log-dict") as run:
-    # Log losses as a dictionary
-    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
-    run.log({"losses": losses})
-    run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
+wandb.log({f"losses/loss-{ii}": loss for ii, 
+  loss in enumerate(losses)})
 ```
-{{% /tab %}}
-{{% tab "As a histogram" %}}
+</Tab>
+<Tab title="As a histogram">
 ```python
-import wandb
-
-# Initialize a new run
-with wandb.init(project="log-list-values", name="log-hist") as run:
-    # Log losses as a histogram
-    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
-    run.log({"losses": wandb.Histogram(losses)})
+# 손실을 히스토그램으로 변환합니다.
+wandb.log({"losses": wandb.Histogram(losses)})  
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
-For more, see [the documentation on logging]({{< relref "/guides/models/track/log/" >}}).
+자세한 내용은 [로깅에 대한 문서](/ko/models/track/log/)를 참조하세요.

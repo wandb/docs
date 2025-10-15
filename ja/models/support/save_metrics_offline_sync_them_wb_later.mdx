@@ -9,7 +9,7 @@ support:
   - metrics
 toc_hide: true
 type: docs
-url: /ja/support/:filename
+slug: /ja/models/support/:filename
 ---
 `wandb.init` はデフォルトでメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用する場合は、オフラインモードを有効にし、後で同期できるように2つの環境変数を設定してください。
 
@@ -43,7 +43,9 @@ for i in range(100):
 
 サンプルのターミナル出力は以下の通りです:
 
-{{< img src="/images/experiments/sample_terminal_output.png" alt="" >}}
+<Frame>
+    <img src="/images/experiments/sample_terminal_output.png"  />
+</Frame>
 
 作業が完了した後、データをクラウドに同期するために以下のコマンドを実行します:
 
@@ -51,4 +53,6 @@ for i in range(100):
 wandb sync wandb/dryrun-folder-name
 ```
 
-{{< img src="/images/experiments/sample_terminal_output_cloud.png" alt="" >}}
+<Frame>
+    <img src="/images/experiments/sample_terminal_output_cloud.png"  />
+</Frame>

@@ -8,33 +8,33 @@ menu:
 weight: 2
 ---
 
-W&B Python SDK を使用して、[W&B Runs]({{< relref path="/ref/python/run.md" lang="ja" >}}) から artifacts を構築します。[ファイル、ディレクトリ、URI、並行実行からのファイルを artifacts に追加]({{< relref path="#add-files-to-an-artifact" lang="ja" >}})できます。ファイルをアーティファクトに追加した後、W&B サーバーまたは[自分のプライベートサーバー]({{< relref path="/guides/hosting/hosting-options/self-managed.md" lang="ja" >}})に保存します。
+W&B Python SDK を使用して、[W&B Runs](/ja/models/ref/python/run) から artifacts を構築します。[ファイル、ディレクトリ、URI、並行実行からのファイルを artifacts に追加](#add-files-to-an-artifact)できます。ファイルをアーティファクトに追加した後、W&B サーバーまたは[自分のプライベートサーバー](/ja/platform/hosting/hosting-options/self-managed)に保存します。
 
-Amazon S3 に保存されているファイルなど、外部ファイルのトラッキング方法については、[外部ファイルのトラッキング]({{< relref path="./track-external-files.md" lang="ja" >}})ページをご覧ください。
+Amazon S3 に保存されているファイルなど、外部ファイルのトラッキング方法については、[外部ファイルのトラッキング](/ja/models/artifacts/track-external-files/)ページをご覧ください。
 
 ## アーティファクトの構築方法
 
-3 つのステップで [W&B Artifact]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) を構築します。
+3 つのステップで [W&B Artifact](/ja/models/ref/python/artifact) を構築します。
 
 ### 1. `wandb.Artifact()` でアーティファクト Python オブジェクトを作成する
 
-[`wandb.Artifact()`]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) クラスを初期化して、アーティファクトオブジェクトを作成します。以下のパラメータを指定します。
+[`wandb.Artifact()`](/ja/models/ref/python/artifact) クラスを初期化して、アーティファクトオブジェクトを作成します。以下のパラメータを指定します。
 
 * **Name**: アーティファクトの名前を指定します。名前は一意で説明的、かつ記憶しやすいものにしてください。Artifacts の名前は、W&B アプリ UI でアーティファクトを識別するとき、またそのアーティファクトを使用したいときに使用します。
 * **Type**: タイプを指定します。タイプはシンプルで説明的で、機械学習パイプラインの単一ステップに対応するものでなければなりません。一般的なアーティファクトタイプには `'dataset'` や `'model'` があります。
 
-{{% alert %}}
+<Note>
 指定した「name」と「type」は、有向非循環グラフを作成するために使用されます。これは、W&B アプリでアーティファクトのリネージを見ることができることを意味します。
 
-詳細については、[アーティファクトグラフの探索とトラバース]({{< relref path="./explore-and-traverse-an-artifact-graph.md" lang="ja" >}})をご覧ください。
-{{% /alert %}}
+詳細については、[アーティファクトグラフの探索とトラバース](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/)をご覧ください。
+</Note>
 
 
-{{% alert color="secondary" %}}
+<Warning>
 Artifacts は、たとえ異なる types パラメータを指定しても、同じ名前を持つことはできません。つまり、`cats` という名前のタイプ `dataset` のアーティファクトを作成し、同じ名前のタイプ `model` のアーティファクトを作成することはできません。
-{{% /alert %}}
+</Warning>
 
-アーティファクトオブジェクトを初期化する際に、オプションで説明とメタデータを提供できます。利用可能な属性とパラメータの詳細については、Python SDK Reference Guide の [`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) クラス定義をご覧ください。
+アーティファクトオブジェクトを初期化する際に、オプションで説明とメタデータを提供できます。利用可能な属性とパラメータの詳細については、Python SDK Reference Guide の [`wandb.Artifact`](/ja/models/ref/python/artifact) クラス定義をご覧ください。
 
 次の例は、データセットアーティファクトを作成する方法を示しています。
 
@@ -48,17 +48,17 @@ artifact = wandb.Artifact(name="<replace>", type="<replace>")
 
 ### 2. アーティファクトに 1 つ以上のファイルを追加する
 
-ファイル、ディレクトリ、外部 URI リファレンス（例: Amazon S3）などをアーティファクトメソッドで追加します。たとえば、単一のテキストファイルを追加するには、[`add_file`]({{< relref path="/ref/python/artifact.md#add_file" lang="ja" >}}) メソッドを使用します。
+ファイル、ディレクトリ、外部 URI リファレンス（例: Amazon S3）などをアーティファクトメソッドで追加します。たとえば、単一のテキストファイルを追加するには、[`add_file`](/ja/models/ref/python/artifact#add_file) メソッドを使用します。
 
 ```python
 artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
-また、複数のファイルを [`add_dir`]({{< relref path="/ref/python/artifact.md#add_dir" lang="ja" >}}) メソッドで追加することもできます。ファイルを追加する方法の詳細については、[アーティファクトの更新]({{< relref path="./update-an-artifact.md" lang="ja" >}})をご覧ください。
+また、複数のファイルを [`add_dir`](/ja/models/ref/python/artifact#add_dir) メソッドで追加することもできます。ファイルを追加する方法の詳細については、[アーティファクトの更新](/ja/models/artifacts/update-an-artifact/)をご覧ください。
 
 ### 3. アーティファクトを W&B サーバーに保存する
 
-最後に、アーティファクトを W&B サーバーに保存します。Artifacts は run に関連付けられます。したがって、run オブジェクトの [`log_artifact()`]({{< relref path="/ref/python/run.md#log_artifact" lang="ja" >}}) メソッドを使用してアーティファクトを保存します。
+最後に、アーティファクトを W&B サーバーに保存します。Artifacts は run に関連付けられます。したがって、run オブジェクトの [`log_artifact()`](/ja/models/ref/python/run#log_artifact) メソッドを使用してアーティファクトを保存します。
 
 ```python
 # W&B Run を作成します。'job-type' を置き換えます。
@@ -67,9 +67,9 @@ run = wandb.init(project="artifacts-example", job_type="job-type")
 run.log_artifact(artifact)
 ```
 
-W&B Run の外でアーティファクトを作成することもできます。詳細については、[外部ファイルのトラッキング]({{< relref path="./track-external-files.md" lang="ja" >}})をご覧ください。
+W&B Run の外でアーティファクトを作成することもできます。詳細については、[外部ファイルのトラッキング](/ja/models/artifacts/track-external-files/)をご覧ください。
 
-{{% alert color="secondary" %}}
+<Warning>
 `log_artifact` の呼び出しは、パフォーマンスを向上させるために非同期で行われます。これにより、ループ内でアーティファクトをログする際に予期しない挙動が生じることがあります。たとえば、
 
 ```python
@@ -86,7 +86,7 @@ for i in range(10):
 ```
 
 アーティファクトバージョン **v0** は、そのメタデータにインデックス 0 があることを保証しません。アーティファクトは任意の順序でログされる可能性があるためです。
-{{% /alert %}}
+</Warning>
 
 ## アーティファクトにファイルを追加
 
@@ -164,7 +164,7 @@ artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 
 アーティファクトは、URI が W&B ライブラリが扱えるスキームを持つ場合、再現性のためにチェックサムやその他の情報をトラッキングします。
 
-[`add_reference`]({{< relref path="/ref/python/artifact.md#add_reference" lang="ja" >}}) メソッドを使用して、アーティファクトに外部 URI リファレンスを追加します。 `'uri'` 文字列を自分の URI で置き換えてください。オプションで、アーティファクト内の `name` パラメータの希望するパスを渡して下さい。
+[`add_reference`](/ja/models/ref/python/artifact#add_reference) メソッドを使用して、アーティファクトに外部 URI リファレンスを追加します。 `'uri'` 文字列を自分の URI で置き換えてください。オプションで、アーティファクト内の `name` パラメータの希望するパスを渡して下さい。
 
 ```python
 # URI リファレンスを追加

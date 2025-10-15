@@ -7,7 +7,7 @@ menu:
 weight: 7
 ---
 
-[W&B レジストリアプリのグローバル検索バー]({{< relref path="./search_registry.md#search-for-registry-items" lang="ja" >}})を使用して、レジストリ、コレクション、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスを見つけます。W&B Python SDK を使用して、特定の条件に基づいて [レジストリ、コレクション、およびアーティファクトバージョンをフィルタリング]({{< relref path="./search_registry.md#query-registry-items-with-mongodb-style-queries" lang="ja" >}}) するために、MongoDBスタイルのクエリを使用することができます。
+[W&B レジストリアプリのグローバル検索バー](/ja/models/core/registry/search_registry/#search-for-registry-items)を使用して、レジストリ、コレクション、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスを見つけます。W&B Python SDK を使用して、特定の条件に基づいて [レジストリ、コレクション、およびアーティファクトバージョンをフィルタリング](/ja/models/core/registry/search_registry/#query-registry-items-with-mongodb-style-queries) するために、MongoDBスタイルのクエリを使用することができます。
 
 表示権限がある項目のみが検索結果に表示されます。
 
@@ -20,11 +20,13 @@ weight: 7
 
 指定した語が既存のレジストリ、コレクション名、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスと一致する場合、検索バーの下に検索結果が表示されます。
 
-{{< img src="/images/registry/search_registry.gif" alt="レジストリ検索バーにテキストを入力してレジストリ項目をフィルタリングするユーザーの.gif" >}}
+<Frame>
+    <img src="/images/registry/search_registry.gif" alt="レジストリ検索バーにテキストを入力してレジストリ項目をフィルタリングするユーザーの.gif"  />
+</Frame>
 
 ## MongoDBスタイルのクエリでレジストリ項目をクエリ
 
-[`wandb.Api().registries()`]({{< relref path="/ref/python/public-api/api.md#registries" lang="ja" >}}) と [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使用して、1つ以上の [MongoDBスタイルクエリ](https://www.mongodb.com/docs/compass/current/query/filter/) に基づいて、レジストリ、コレクション、およびアーティファクトバージョンをフィルタリングします。
+[`wandb.Api().registries()`](/ja/models/ref/python/public-api/api#registries) と [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使用して、1つ以上の [MongoDBスタイルクエリ](https://www.mongodb.com/docs/compass/current/query/filter/) に基づいて、レジストリ、コレクション、およびアーティファクトバージョンをフィルタリングします。
 
 以下の表は、フィルタリングしたい項目の種類に基づいて使用できるクエリの名前を示しています。
 
@@ -36,7 +38,7 @@ weight: 7
 
 以下のコード例は、一般的な検索シナリオを示しています。
 
-`wandb.Api().registries()` メソッドを使用するには、まず W&B Python SDK （[`wandb`]({{< relref path="/ref/python/_index.md" lang="ja" >}})） ライブラリをインポートします。
+`wandb.Api().registries()` メソッドを使用するには、まず W&B Python SDK （[`wandb`](/ja/models/ref/python/)） ライブラリをインポートします。
 ```python
 import wandb
 
@@ -117,7 +119,7 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 
-アーティファクトオブジェクトの属性の完全なリストについては、API Reference docs の [Artifacts Class]({{< relref path="/ref/python/artifact/_index.md" lang="ja" >}}) を参照してください。
+アーティファクトオブジェクトの属性の完全なリストについては、API Reference docs の [Artifacts Class](/ja/models/ref/python/artifact/) を参照してください。
 
 レジストリやコレクションに関係なく、2024-01-08 から 2025-03-04 の 13:10 UTC の間に作成されたすべてのアーティファクトバージョンをフィルタリングします。
 

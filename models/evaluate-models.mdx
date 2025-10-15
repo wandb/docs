@@ -11,7 +11,9 @@ menu:
 
 [W&B Weave](https://weave-docs.wandb.ai/) is a purpose-built toolkit for evaluating LLMs and GenAI applications. It provides comprehensive evaluation capabilities including scorers, judges, and detailed tracing to help you understand and improve model performance. Weave integrates with W&B Models, allowing you to evaluate models stored in your Model Registry.
 
-{{< img src="/images/weave/evals.png" alt="Weave evaluation dashboard showing model performance metrics and traces" >}}
+<Frame>
+    <img src="/images/weave/evals.png" alt="Weave evaluation dashboard showing model performance metrics and traces"  />
+</Frame>
 
 ### Key features for model evaluation
 
@@ -134,7 +136,9 @@ Use W&B Tables to:
 * **Analyze errors**: Filter and query to find commonly misclassified examples and error patterns
 * **Visualize rich media**: Display images, audio, text, and other media types alongside predictions and metrics
 
+<Frame>
 ![Example of predictions table showing model outputs alongside ground truth labels](/images/data_vis/tables_sample_predictions.png)
+</Frame>
 
 ### Basic example: Log evaluation results
 
@@ -184,7 +188,9 @@ with wandb.init(project="model-comparison", name="model_b") as run:
     run.log({"test_predictions": eval_table_b})
 ```
 
+<Frame>
 ![Side-by-side comparison of model predictions across training epochs](/images/data_vis/table_comparison.png)
+</Frame>
 
 #### Track predictions over time
 Log tables at different training epochs to visualize improvement:
@@ -210,7 +216,9 @@ Once logged, you can:
 3. **Query data**: Use the query bar to find specific patterns (for example, `"correct" = false AND "confidence" > 0.8`)
 4. **Group and aggregate**: Group by predicted class to see per-class accuracy metrics
 
+<Frame>
 ![Interactive filtering and querying of evaluation results in W&B Tables](/images/data_vis/wandb_demo_filter_on_a_table.png)
+</Frame>
 
 ### Example: Error analysis with enriched tables
 

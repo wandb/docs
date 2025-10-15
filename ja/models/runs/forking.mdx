@@ -7,22 +7,22 @@ menu:
     parent: what-are-runs
 ---
 
-{{% alert color="secondary" %}}
+<Warning>
 run をフォークする機能はプライベートプレビューです。この機能へのアクセスをリクエストするには、support@wandb.com まで W&B サポートにお問い合わせください。
-{{% /alert %}}
+</Warning>
 
 run を初期化する際に `fork_from` を使用して、既存の W&B run から"フォーク"します。run をフォークすると、W&B はソース run の `run ID` と `step` を使用して新しい run を作成します。
 
 run をフォークすることで、元の run に影響を与えずに、実験の特定のポイントから異なるパラメータやモデルを探索することができます。
 
-{{% alert %}}
+<Note>
 * run のフォークには [`wandb`](https://pypi.org/project/wandb/) SDK バージョン >= 0.16.5 が必要です
-* run のフォークには、単調に増加するステップが必要です。[`define_metric()`]({{< relref path="/ref/python/run#define_metric" lang="ja" >}})で定義された非単調なステップを使用してフォークポイントを設定することはできません。これは、run 履歴およびシステムメトリクスの重要な時間的順序を乱すためです。
-{{% /alert %}}
+* run のフォークには、単調に増加するステップが必要です。[`define_metric()`](/ja/models/ref/python/run#define_metric)で定義された非単調なステップを使用してフォークポイントを設定することはできません。これは、run 履歴およびシステムメトリクスの重要な時間的順序を乱すためです。
+</Note>
 
 ## フォークされた run を開始する
 
-run をフォークするには、[`wandb.init()`]({{< relref path="/ref/python/init.md" lang="ja" >}})で `fork_from` 引数を使用し、フォーク元としてのソース `run ID` と `step` を指定します:
+run をフォークするには、[`wandb.init()`](/ja/models/ref/python/init)で `fork_from` 引数を使用し、フォーク元としてのソース `run ID` と `step` を指定します:
 
 ```python
 import wandb
@@ -44,7 +44,7 @@ forked_run = wandb.init(
 
 不変の run ID を使用して、特定の run への一貫性のある変更不可能な参照を保証します。ユーザーインターフェースから不変の run ID を取得するには、次の手順に従います:
 
-1. **Overview タブにアクセスする:** ソース run のページで [**Overview タブ**]({{< relref path="./#overview-tab" lang="ja" >}}) に移動します。
+1. **Overview タブにアクセスする:** ソース run のページで [**Overview タブ**](/ja/./#overview-tab) に移動します。
 
 2. **不変の Run ID をコピーする:** **Overview** タブの右上隅にある `...` メニュー（三点ドット）をクリックします。ドロップダウンメニューから `Copy Immutable Run ID` オプションを選択します。
 
@@ -85,10 +85,12 @@ for i in range(200, 300):
 run2.finish()
 ```
 
-{{% alert title="巻き戻しとフォークの互換性" %}}
-フォークは、あなたの run を管理し実験する上でより多くの柔軟性を提供することにより、[`巻き戻し`]({{< relref path="/guides/models/track/runs/rewind" lang="ja" >}})を補完します。
+<Note>
+**巻き戻しとフォークの互換性**
+
+フォークは、あなたの run を管理し実験する上でより多くの柔軟性を提供することにより、[`巻き戻し`](/ja/models/runs/rewind/)を補完します。
 
 run をフォークする際、W&B は特定のポイントで run から新しいブランチを作成し、異なるパラメータやモデルを試みることができます。
 
 run を巻き戻す際、W&B は run 履歴自体を修正または変更することができます。
-{{% /alert %}}
+</Note>

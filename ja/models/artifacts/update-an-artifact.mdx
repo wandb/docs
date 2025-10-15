@@ -10,16 +10,15 @@ weight: 4
 
 アーティファクトの `description`、`metadata`、および `alias` に希望する値を渡します。W&B サーバー上でアーティファクトを更新するには、`save()` メソッドを呼び出してください。W&B Run の間または Run の外でアーティファクトを更新することができます。
 
-W&B Public API ([`wandb.Api`]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}})) を使用して、Run の外でアーティファクトを更新します。Artifact API ([`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ja" >}})) を使用して、Run の間にアーティファクトを更新します。
+W&B Public API ([`wandb.Api`](/ja/models/ref/python/public-api/api)) を使用して、Run の外でアーティファクトを更新します。Artifact API ([`wandb.Artifact`](/ja/models/ref/python/artifact)) を使用して、Run の間にアーティファクトを更新します。
 
-{{% alert color="secondary" %}}
+<Warning>
 Model Registry にリンクされたアーティファクトのエイリアスを更新することはできません。
-{{% /alert %}}
+</Warning>
 
-{{< tabpane text=true >}}
-  {{% tab header="During a run" %}}
-
-次のコード例は、[`wandb.Artifact`]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) API を使用してアーティファクトの説明を更新する方法を示しています。
+<Tabs>
+<Tab title="During a run">
+次のコード例は、[`wandb.Artifact`](/ja/models/ref/python/artifact) API を使用してアーティファクトの説明を更新する方法を示しています。
 
 ```python
 import wandb
@@ -28,9 +27,9 @@ run = wandb.init(project="<example>")
 artifact = run.use_artifact("<artifact-name>:<alias>")
 artifact.description = "<description>"
 artifact.save()
-```  
-  {{% /tab %}}
-  {{% tab header="Outside of a run" %}}
+```
+</Tab>
+<Tab title="Outside of a run">
 次のコード例は、`wandb.Api` API を使用してアーティファクトの説明を更新する方法を示しています。
 
 ```python
@@ -62,9 +61,9 @@ artifact.aliases = ["replaced"]
 artifact.save()
 ```
 
-詳細は、Weights and Biases [Artifact API]({{< relref path="/ref/python/artifact.md" lang="ja" >}}) を参照してください。  
-  {{% /tab %}}
-  {{% tab header="With collections" %}}
+詳細は、Weights and Biases [Artifact API](/ja/models/ref/python/artifact) を参照してください。
+</Tab>
+<Tab title="With collections">
 コレクションも単一のアーティファクトと同様に更新することができます。
 
 ```python
@@ -76,6 +75,6 @@ artifact.name = "<new-collection-name>"
 artifact.description = "<This is where you'd describe the purpose of your collection.>"
 artifact.save()
 ```
-詳細は [Artifacts Collection]({{< relref path="/ref/python/public-api/api.md" lang="ja" >}}) リファレンスを参照してください。
-  {{% /tab %}}
-{{% /tabpane %}}
+詳細は [Artifacts Collection](/ja/models/ref/python/public-api/api) リファレンスを参照してください。
+</Tab>
+</Tabs>

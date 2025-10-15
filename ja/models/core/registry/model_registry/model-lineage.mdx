@@ -8,19 +8,21 @@ menu:
 weight: 7
 ---
 
-このページでは、従来の W&B Model Registry でのリネージグラフの作成について説明します。W&B Registry でのリネージグラフについて学ぶには、[リネージマップの作成と表示]({{< relref path="../lineage.md" lang="ja" >}})を参照してください。
+このページでは、従来の W&B Model Registry でのリネージグラフの作成について説明します。W&B Registry でのリネージグラフについて学ぶには、[リネージマップの作成と表示](/ja/models/core/registry/lineage/)を参照してください。
 
-{{% alert %}}
-W&B は、従来の [W&B Model Registry]({{< relref path="/guides/core/registry/model_registry/" lang="ja" >}}) から新しい [W&B Registry]({{< relref path="./" lang="ja" >}}) へのアセット移行を管理および実行します。この移行は W&B によって完全に管理され、ユーザーによる介入は必要ありません。このプロセスは、既存のワークフローへの影響を最小限に抑えて、可能な限りシームレスに設計されています。[従来の Model Registry からの移行]({{< relref path="../model_registry_eol.md" lang="ja" >}}) を参照してください。
-{{% /alert %}}
+<Note>
+W&B は、従来の [W&B Model Registry](/ja/models/core/registry/model_registry/) から新しい [W&B Registry](/ja/./) へのアセット移行を管理および実行します。この移行は W&B によって完全に管理され、ユーザーによる介入は必要ありません。このプロセスは、既存のワークフローへの影響を最小限に抑えて、可能な限りシームレスに設計されています。[従来の Model Registry からの移行](/ja/models/core/registry/model_registry_eol/) を参照してください。
+</Note>
 
 モデルアーティファクトを W&B にログする際の便利な機能の一つにリネージグラフがあります。リネージグラフは、run によってログされたアーティファクトと特定の run で使用されたアーティファクトを表示します。
 
-つまり、モデルアーティファクトをログする際には、少なくともモデルアーティファクトを使用または生成した W&B run を表示するためのアクセスが可能です。[依存関係を追跡する]({{< relref path="#track-an-artifact-dependency" lang="ja" >}})場合、モデルアーティファクトで使用された入力も見ることができます。
+つまり、モデルアーティファクトをログする際には、少なくともモデルアーティファクトを使用または生成した W&B run を表示するためのアクセスが可能です。[依存関係を追跡する](#track-an-artifact-dependency)場合、モデルアーティファクトで使用された入力も見ることができます。
 
 例えば、以下の画像では、ML 実験全体で作成および使用されたアーティファクトが示されています。
 
-{{< img src="/images/models/model_lineage_example.png" alt="" >}}
+<Frame>
+    <img src="/images/models/model_lineage_example.png"  />
+</Frame>
 
 画像は左から右に向かって次のように示しています。
 1. `jumping-monkey-1` W&B run によって `mnist_dataset:v0` のデータセットアーティファクトが作成されました。

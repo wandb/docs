@@ -16,7 +16,7 @@ weight: 20
 
 - ユーザーの詳細とリストについては、**Manage users** をクリックしてください。
 - 使用状況の詳細については、**View usage** をクリックしてください。
-- あなたの組織が使用するストレージの量（無料と有料の両方）。ここから追加のストレージを購入したり、現在使用中のストレージを管理したりできます。[storage settings]({{< relref path="storage.md" lang="ja" >}}) についての詳細を学んでください。
+- あなたの組織が使用するストレージの量（無料と有料の両方）。ここから追加のストレージを購入したり、現在使用中のストレージを管理したりできます。[storage settings](/ja/platform/app/settings-page/storage/) についての詳細を学んでください。
 
 ここから、プランを比較したり、営業と話をすることができます。
 
@@ -25,11 +25,11 @@ weight: 20
 
 ### 使用状況アラート
 
-{{% alert %}}
+<Note>
 使用状況アラートは [Enterprise plan](https://wandb.ai/site/pricing/) では利用できません。
-{{% /alert %}}
+</Note>
 
-有料プランを使用している組織の場合、管理者は特定のしきい値に達したときに **1 回の請求期間ごとに** 電子メールでアラートを受け取ります。[billing admin]({{< relref path="#billing-admin" lang="ja" >}}) である場合は組織の制限を増やす方法の詳細情報と、そうでない場合の billing admin への連絡方法を提供します。[Pro plan](https://wandb.ai/site/pricing/) では、billing admin のみが使用状況アラートを受け取ります。
+有料プランを使用している組織の場合、管理者は特定のしきい値に達したときに **1 回の請求期間ごとに** 電子メールでアラートを受け取ります。[billing admin](#billing-admin) である場合は組織の制限を増やす方法の詳細情報と、そうでない場合の billing admin への連絡方法を提供します。[Pro plan](https://wandb.ai/site/pricing/) では、billing admin のみが使用状況アラートを受け取ります。
 
 これらのアラートは設定可能ではなく、以下の場合に送信されます：
 
@@ -44,9 +44,9 @@ weight: 20
 ## Billing admin
 このセクションでは、現在の billing admin を表示します。billing admin は組織の管理者であり、すべての請求関連メールを受信し、支払い方法を表示および管理することができます。
 
-{{% alert %}}
+<Note>
 W&B Dedicated Cloud では、複数のユーザーが billing admins になることができます。W&B Multi-tenant Cloud では、一度に一人のユーザーのみが billing admin になることができます。
-{{% /alert %}}
+</Note>
 
 billing admin を変更するか、追加の users に役割を割り当てるには：
 

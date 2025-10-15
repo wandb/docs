@@ -7,17 +7,21 @@ menu:
 weight: 1
 ---
 
-{{< cta-button colabLink="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" >}}
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" icon="python"/>
 
 [Weights & Biases](https://wandb.com) を使用して、機械学習の実験管理、データセットのバージョン管理、およびプロジェクトのコラボレーションを行います。
 
-{{< img src="/images/tutorials/huggingface-why.png" alt="" >}}
+<Frame>
+    <img src="/images/tutorials/huggingface-why.png"  />
+</Frame>
 
 ## このノートブックでカバーする内容
 
 PyTorch のコードに Weights & Biases を統合して、実験管理をパイプラインに追加する方法を示します。
 
-{{< img src="/images/tutorials/pytorch.png" alt="" >}}
+<Frame>
+    <img src="/images/tutorials/pytorch.png"  />
+</Frame>
 
 ```python
 # ライブラリをインポート
@@ -416,7 +420,7 @@ Weights & Biases Sweeps を使用してハイパーパラメータのテスト�
 
 Weights & Biases を使用したハイパーパラメータ探索です。非常に簡単です。たった3つの簡単なステップがあります：
 
-1. **スイープを定義する**: これは、検索するパラメータ、検索戦略、最適化メトリクスなどを指定する辞書または[YAML ファイル]({{< relref path="/guides/models/sweeps/define-sweep-configuration" lang="ja" >}})を作成することで行います。
+1. **スイープを定義する**: これは、検索するパラメータ、検索戦略、最適化メトリクスなどを指定する辞書または[YAML ファイル](/ja/models/sweeps/define-sweep-configuration/)を作成することで行います。
 
 2. **スイープを初期化する**: 
 `sweep_id = wandb.sweep(sweep_config)`
@@ -426,14 +430,16 @@ Weights & Biases を使用したハイパーパラメータ探索です。非常
 
 これだけでハイパーパラメータ探索が実行できます。
 
-{{< img src="/images/tutorials/pytorch-2.png" alt="" >}}
+<Frame>
+    <img src="/images/tutorials/pytorch-2.png"  />
+</Frame>
 
 ## Example Gallery
 
 W&B で追跡および視覚化されたプロジェクトの例を[ギャラリー →](https://app.wandb.ai/gallery)でご覧ください。
 
 ## Advanced Setup
-1. [環境変数]({{< relref path="/guides/hosting/env-vars/" lang="ja" >}}): 環境変数に API キーを設定して、管理されたクラスターでトレーニングを実行できます。
-2. [オフラインモード]({{< relref path="/support/kb-articles/run_wandb_offline.md" lang="ja" >}}): `dryrun` モードを使用してオフラインでトレーニングし、後で結果を同期。
-3. [オンプレ]({{< relref path="/guides/hosting/hosting-options/self-managed" lang="ja" >}}): プライベートクラウドまたはエアギャップされたサーバーに W&B をインストールします。学術機関から企業チームまで、すべての人に向けたローカルインストールを提供。
-4. [スイープ]({{< relref path="/guides/models/sweeps/" lang="ja" >}}): ハイパーパラメータ探索を迅速に設定できる、チューニングのための軽量ツール。
+1. [環境変数](/ja/platform/hosting/env-vars/): 環境変数に API キーを設定して、管理されたクラスターでトレーニングを実行できます。
+2. [オフラインモード](/ja/models/support/run_wandb_offline/): `dryrun` モードを使用してオフラインでトレーニングし、後で結果を同期。
+3. [オンプレ](/ja/platform/hosting/hosting-options/self-managed): プライベートクラウドまたはエアギャップされたサーバーに W&B をインストールします。学術機関から企業チームまで、すべての人に向けたローカルインストールを提供。
+4. [スイープ](/ja/models/sweeps/): ハイパーパラメータ探索を迅速に設定できる、チューニングのための軽量ツール。

@@ -1,38 +1,38 @@
 ---
-title: Can I specify a Dockerfile and let W&B build a Docker image for me?
+title: W&B に Dockerfile を指定して、Docker イメージを作成してもらうことはできますか？
 menu:
   launch:
-    identifier: ko-launch-launch-faq-dockerfile_let_wb_build_docker_image_me
+    identifier: ja-launch-launch-faq-dockerfile_let_wb_build_docker_image_me
     parent: launch-faq
 ---
 
-이 기능은 요구 사항은 안정적이지만 코드 베이스가 자주 변경되는 프로젝트에 적합합니다.
+この機能は、要件が安定しているがコードベースが頻繁に変化するプロジェクトに適しています。
 
-{{% alert color="secondary" %}}
-마운트를 사용하도록 Dockerfile 의 형식을 지정하세요. 자세한 내용은 [Docker Docs 웹사이트의 마운트 관련 문서](https://docs.docker.com/build/guide/mounts/)를 참조하세요.
-{{% /alert %}}
+<Warning>
+Dockerfile をマウントとして使用するようにフォーマットしてください。詳細は、[Docker Docs の Mounts ドキュメント](https://docs.docker.com/build/guide/mounts/)をご覧ください。
+</Warning>
 
-Dockerfile을 구성한 후에는 다음 세 가지 방법 중 하나로 W&B에 지정합니다.
+Dockerfile を設定した後、W&B に指定する方法は次の3つです:
 
-* Dockerfile.wandb 사용
-* W&B CLI 사용
-* W&B App 사용
+* Dockerfile.wandb を使用する
+* W&B CLI を使用する
+* W&B App を使用する
 
-{{< tabpane text=true >}}
-{{% tab "Dockerfile.wandb" %}}
-W&B run 의 진입점과 동일한 디렉토리에 `Dockerfile.wandb` 파일을 포함합니다. W&B는 내장된 Dockerfile 대신 이 파일을 사용합니다.
-{{% /tab %}}
-{{% tab "W&B CLI" %}}
-`wandb launch` 코맨드와 함께 `--dockerfile` 플래그를 사용하여 작업을 대기열에 추가합니다.
+<Tabs>
+<Tab title="Dockerfile.wandb">
+W&B run のエントリポイントと同じディレクトリーに `Dockerfile.wandb` ファイルを含めます。W&B はこのファイルを組み込みの Dockerfile ではなく使用します。
+</Tab>
+<Tab title="W&B CLI">
+`wandb launch` コマンドに `--dockerfile` フラグを使用してジョブをキューに追加します:
 
 ```bash
 wandb launch --dockerfile path/to/Dockerfile
 ```
-{{% /tab %}}
-{{% tab "W&B app" %}}
-W&B App에서 대기열에 작업을 추가할 때 **Overrides** 섹션에서 Dockerfile 경로를 제공합니다. `"dockerfile"` 을 키 로, Dockerfile의 경로를 값 으로 하여 키-값 쌍으로 입력합니다.
+</Tab>
+<Tab title="W&B app">
+W&B App でジョブをキューに追加する際、**Overrides** セクションで Dockerfile のパスを指定します。それをキーと値のペアとして入力し、キーを `"dockerfile"`、値を Dockerfile のパスとします。
 
-다음 JSON은 로컬 디렉토리에 Dockerfile을 포함하는 방법을 보여줍니다.
+次の JSON は、ローカルディレクトリーに Dockerfile を含む方法を示しています:
 
 ```json title="Launch job W&B App"
 {
@@ -46,5 +46,5 @@ W&B App에서 대기열에 작업을 추가할 때 **Overrides** 섹션에서 Do
   "dockerfile": "./Dockerfile"
 }
 ```
-{{% /tab %}}
-{{% /tabpane %}}
+</Tab>
+</Tabs>

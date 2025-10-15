@@ -5,7 +5,11 @@ description: "June 07, 2023"
 parent: archived-releases
 ---
 
-{{% alert color="warning" %}}{{% readfile "/_includes/unsupported_server_version.md" %}}{{% /alert %}}
+import Text from "/snippets/en/_includes/unsupported_server_version.mdx";
+
+<Danger>
+<Text/>
+</Danger>
 
 ## Security
 
@@ -15,7 +19,9 @@ Fixed issue where API keys were logged for recently logged in users. Check for `
 
 ### Launch Agent Logs Now in the GUI
 
+<Frame>
 ![Image showing Launch agent logs in GUI](https://github.com/wandb/server/assets/97066933/9d68dc0d-54c9-4024-a108-ffb5a1500fa8)
+</Frame>
 
 [W&B Launch](https://docs.wandb.ai/guides/launch) allows you to push machine learning jobs to a wide range of specialized compute environments.  With this update, you can now use W&B to monitor and debug jobs running in these remote environments, without needing to log into your AWS or GCP console.
 
