@@ -162,9 +162,18 @@
               {
                 "group": "Resources",
                 "pages": [
-                  "https://wandb.ai/site/security/",
-                  "https://wandb.ai/site/pricing/",
-                  "https://wandb.ai/fully-connected"
+                  {
+                    "text": "Security",
+                    "url": "https://wandb.ai/site/security/"
+                  },
+                  {
+                    "text": "Pricing",
+                    "url": "https://wandb.ai/site/pricing/"
+                  },
+                  {
+                    "text": "Fully Connected Blog",
+                    "url": "https://wandb.ai/fully-connected"
+                  }
                 ]
               }
             ]
