@@ -1,0 +1,312 @@
+name: Generate SDK Release Notes
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdk_version:
+        description: 'SDK version to generate release notes for (e.g., 0.21.1)'
+        required: true
+        type: string
+
+  # Allow triggering from PR comments for testing
+  issue_comment:
+    types: [created]
+
+jobs:
+  generate-release-notes:
+    # Only run on PR comments that start with "/sdk-release"
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       startsWith(github.event.comment.body, '/sdk-release'))
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Get SDK version
+        id: get-version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.sdk_version }}" >> $GITHUB_OUTPUT
+          else
+            # Extract version from comment like "/sdk-release 0.21.1"
+            VERSION=$(echo "${{ github.event.comment.body }}" | sed -n 's/^\/sdk-release \([0-9.]*\).*/\1/p')
+            if [ -z "$VERSION" ]; then
+              echo "❌ Error: Could not parse version from comment. Use format: /sdk-release 0.21.1"
+              exit 1
+            fi
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post starting comment (for PR trigger)
+        if: github.event_name == 'issue_comment'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🚀 Starting SDK release notes generation for version ${{ steps.get-version.outputs.version }}...`
+            })
+
+      - name: Checkout docs repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # Fetch all history for proper branch operations
+
+      - name: Setup branch and check existing content
+        id: setup-branch
+        run: |
+          set -e
+          VERSION="${{ steps.get-version.outputs.version }}"
+          # Extract minor version (e.g., 0.21 from 0.21.1)
+          MINOR_VERSION=$(echo "$VERSION" | cut -d. -f1-2)
+          BRANCH_NAME="sdk-release-notes-v${VERSION}"
+          OUTPUT_FILE="content/en/ref/release-notes/sdk/${MINOR_VERSION}.md"
+
+          # Configure git
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          echo "🔍 Checking if branch $BRANCH_NAME exists..."
+
+          # Try to fetch the branch if it exists
+          if git fetch origin "$BRANCH_NAME" 2>/dev/null; then
+            echo "✅ Branch exists, checking out..."
+            git checkout -b "$BRANCH_NAME" "origin/$BRANCH_NAME"
+          else
+            echo "🌿 Branch doesn't exist, creating from main..."
+            git checkout -b "$BRANCH_NAME" origin/main
+          fi
+
+          # Check if this exact version has already been added
+          if [ -f "$OUTPUT_FILE" ]; then
+            echo "📄 Checking if v$VERSION is already in $OUTPUT_FILE..."
+            if grep -q "^## v${VERSION}$" "$OUTPUT_FILE" 2>/dev/null; then
+              echo "⚠️ Release notes for v$VERSION already exist in $OUTPUT_FILE"
+              echo "❌ Exiting - this version has already been added"
+              exit 1
+            fi
+            echo "✅ Version $VERSION not found in existing file, will append as patch"
+          else
+            echo "✅ No existing file for minor version $MINOR_VERSION"
+          fi
+
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "output_file=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+          echo "minor_version=$MINOR_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Fetch and validate CHANGELOG
+        id: fetch-changelog
+        run: |
+          set -e
+          VERSION="${{ steps.get-version.outputs.version }}"
+
+          echo "📥 Fetching CHANGELOG.md from wandb/wandb repository..."
+          curl -L -o CHANGELOG.md https://raw.githubusercontent.com/wandb/wandb/main/CHANGELOG.md
+          echo "✅ Downloaded CHANGELOG.md"
+
+          echo "🔍 Checking if CHANGELOG contains version $VERSION..."
+          if grep -q "^## \[${VERSION}\]" CHANGELOG.md; then
+            echo "✅ Found version $VERSION in CHANGELOG"
+          else
+            echo "❌ Version $VERSION not found in CHANGELOG.md"
+            echo "Available versions:"
+            grep "^## \[" CHANGELOG.md | head -10
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install emoji
+
+      - name: Generate release notes
+        id: generate
+        run: |
+          set -e
+          VERSION="${{ steps.get-version.outputs.version }}"
+          OUTPUT_FILE="${{ steps.setup-branch.outputs.output_file }}"
+          MINOR_VERSION="${{ steps.setup-branch.outputs.minor_version }}"
+
+          echo "📦 Generating release notes for v$VERSION"
+          echo "📄 Output file: $OUTPUT_FILE (minor version: $MINOR_VERSION)"
+
+          # Copy the combined script if it doesn't exist
+          if [ ! -f ./scripts/sdk-changelog-to-hugo-combined.py ]; then
+            echo "⚠️ Combined script not found, using original script..."
+            SCRIPT_NAME="sdk-changelog-to-hugo.py"
+          else
+            SCRIPT_NAME="sdk-changelog-to-hugo-combined.py"
+          fi
+
+          # Run the script
+          python3 ./scripts/$SCRIPT_NAME \
+            --changelog CHANGELOG.md \
+            --output content/en/ref/release-notes/sdk \
+            --version "$VERSION" || {
+              echo "❌ Python script failed with exit code $?"
+              exit 1
+            }
+
+          # Verify file was created or updated
+          if [ ! -f "$OUTPUT_FILE" ]; then
+            echo "❌ Error: Release notes file was not created at $OUTPUT_FILE"
+            ls -la content/en/ref/release-notes/sdk/
+            exit 1
+          fi
+
+          echo "✅ Successfully generated/updated release notes"
+
+          # Clean up the downloaded CHANGELOG.md
+          rm -f CHANGELOG.md
+
+      - name: Commit and push changes
+        id: commit-push
+        run: |
+          set -e
+          VERSION="${{ steps.get-version.outputs.version }}"
+          BRANCH_NAME="${{ steps.setup-branch.outputs.branch }}"
+          OUTPUT_FILE="${{ steps.setup-branch.outputs.output_file }}"
+
+          echo "📝 Committing to branch: $BRANCH_NAME"
+
+          # Add and commit the new file
+          git add "$OUTPUT_FILE"
+
+          echo "📋 Git status:"
+          git status
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "⚠️ No changes to commit - file might already exist"
+            exit 1
+          fi
+
+          echo "💾 Committing changes..."
+          # Determine if this is a patch or new minor version
+          if echo "$VERSION" | grep -q '\.0$'; then
+            COMMIT_MSG="Add SDK release notes for v${VERSION} (new minor version)"
+          else
+            COMMIT_MSG="Update SDK release notes: add v${VERSION} patch"
+          fi
+          git commit -m "$COMMIT_MSG - Generated automatically from wandb/wandb CHANGELOG.md"
+
+          echo "🚀 Pushing to remote..."
+          git push origin "$BRANCH_NAME"
+
+          echo "✅ Successfully pushed changes"
+
+      - name: Create or update Pull Request
+        id: create-pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.get-version.outputs.version }}';
+            const branch = '${{ steps.setup-branch.outputs.branch }}';
+
+            // Check if PR already exists for this branch
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${branch}`,
+              state: 'open'
+            });
+
+            if (prs.length > 0) {
+              const existingPR = prs[0];
+              console.log(`✅ PR already exists: #${existingPR.number} - ${existingPR.html_url}`);
+
+              // Add a comment to the existing PR
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingPR.number,
+                body: `🔄 Updated SDK release notes for v${version} at ${new Date().toISOString()}`
+              });
+
+              return existingPR.number;
+            }
+            
+            // Create new PR if none exists
+            console.log('📝 Creating new PR...');
+            const minorVersion = version.split('.').slice(0, 2).join('.');
+            const isPatch = !version.endsWith('.0');
+            const action = isPatch ? 'Update' : 'Add';
+            
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[SDK Release Notes] ${action} v${version}`,
+              head: branch,
+              base: 'main',
+              draft: true,
+              body: `## SDK Release Notes for v${version}
+            
+            This PR ${isPatch ? 'updates' : 'adds'} release notes for W&B SDK v${version}.
+            
+            ### Generated from
+            - Source: [wandb/wandb CHANGELOG.md](https://github.com/wandb/wandb/blob/main/CHANGELOG.md)
+            - Version: v${version}
+            - File: \`${minorVersion}.md\` (combined minor version format)
+            
+            ### Checklist
+            - [ ] Review content for accuracy
+            - [ ] Verify formatting looks correct
+            - [ ] Check that all links work
+            - [ ] Confirm no internal/private information is exposed
+            ${isPatch ? '- [ ] Verify patch was correctly appended to Patches section' : '- [ ] Verify this is a new minor version file'}
+            
+            ### Preview
+            View the generated file: [\`content/en/ref/release-notes/sdk/${minorVersion}.md\`](https://github.com/${{ github.repository }}/blob/${branch}/content/en/ref/release-notes/sdk/${minorVersion}.md)
+            
+            ---
+            *Generated automatically by the SDK Release Notes workflow*`
+            });
+            
+            console.log(`✅ Created PR #${pr.number}: ${pr.html_url}`);
+            return pr.number;
+
+      - name: Post success comment (for PR trigger)
+        if: github.event_name == 'issue_comment'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ Successfully generated SDK release notes for v${{ steps.get-version.outputs.version }}!
+
+            📝 Draft PR created: #${{ steps.create-pr.outputs.result }}
+            🔗 Branch: \`${{ steps.create-branch.outputs.branch }}\`
+
+            Please review the draft PR and make any necessary adjustments.`
+            })
+
+      - name: Post failure comment (for PR trigger)
+        if: failure() && github.event_name == 'issue_comment'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `❌ Failed to generate SDK release notes for v${{ steps.get-version.outputs.version }}.
+
+            Please check the [workflow logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.`
+            })
