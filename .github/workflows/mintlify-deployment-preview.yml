@@ -30,6 +30,7 @@ jobs:
           script: |
             // The deployment ref is the branch name
             const branch = context.payload.deployment.ref;
+            const deploymentSha = context.payload.deployment.sha;
             
             // Find PRs for this branch
             const prs = await github.rest.pulls.list({
@@ -41,19 +42,32 @@ jobs:
             
             if (prs.data.length > 0) {
               const pr = prs.data[0];
+              
+              // Check if this deployment is for the latest commit in the PR
+              const prHeadSha = pr.head.sha;
+              if (deploymentSha !== prHeadSha) {
+                core.warning(`Deployment SHA (${deploymentSha}) doesn't match PR head SHA (${prHeadSha})`);
+                core.warning(`This appears to be a deployment for an older commit. Skipping update.`);
+                core.setOutput('skip_update', 'true');
+                return null;
+              }
+              
               core.setOutput('pr_number', pr.number);
               core.setOutput('base_ref', pr.base.ref);
               core.setOutput('base_sha', pr.base.sha);
+              core.setOutput('skip_update', 'false');
               core.info(`Found PR #${pr.number} for branch ${branch}`);
               core.info(`Base branch: ${pr.base.ref} (${pr.base.sha})`);
+              core.info(`Deployment SHA matches PR head: ${deploymentSha}`);
               return pr.number;
             } else {
               core.warning(`No open PR found for branch ${branch}`);
+              core.setOutput('skip_update', 'true');
               return null;
             }
 
       - name: Get all PR changed files
-        if: steps.get-pr.outputs.pr_number
+        if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true'
         id: changed
         uses: actions/github-script@v8
         with:
@@ -103,7 +117,7 @@ jobs:
             core.info(`Added: ${added.length}, Modified: ${modified.length}, Renamed: ${renamed.length}, Removed: ${removed.length}`);
 
       - name: Update PR comment with preview links
-        if: steps.get-pr.outputs.pr_number && steps.changed.outputs.any_changed == 'true'
+        if: steps.get-pr.outputs.pr_number && steps.get-pr.outputs.skip_update != 'true' && steps.changed.outputs.any_changed == 'true'
         uses: actions/github-script@v8
         env:
           PR_NUMBER: ${{ steps.get-pr.outputs.pr_number }}
@@ -429,8 +443,13 @@ jobs:
               body += `*No documentation changes detected in this PR.*\n\n`;
             }
             
+            // Add deployment info and timestamp
+            const deploymentSha = context.payload.deployment.sha.substring(0, 7);
+            const timestamp = new Date().toISOString().replace('T', ' ').split('.')[0] + ' UTC';
+            
             body += `\n---\n`;
-            body += `🤖 *Generated automatically when Mintlify deployment succeeds*`;
+            body += `🤖 *Generated automatically when Mintlify deployment succeeds*\n`;
+            body += `📍 *Deployment: \`${deploymentSha}\` at ${timestamp}*`;
             
             // Find existing comment
             const comments = await github.paginate(github.rest.issues.listComments, {
