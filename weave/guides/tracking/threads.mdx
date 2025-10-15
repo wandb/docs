@@ -355,9 +355,9 @@ Sometimes you need to resume a previously started session and continue adding ca
 
 When implementing optional thread resumption, **never** leave the `thread_id` parameter as `None`, as this will disable thread grouping entirely. Instead, always provide a valid thread ID. If you need to create a new thread, generate a unique identifier using a function like `generate_id()`. 
 
-:::info
+<Info>
 When no `thread_id` is specified, Weave's internal implementation automatically generates a random UUID v7. You can replicate this behavior in your own `generate_id()` function or use any unique string value you prefer.
-:::
+</Info>
 
 ```python
 import weave
