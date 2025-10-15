@@ -1,0 +1,415 @@
+---
+title: "OpenAI"
+description: "Integrate OpenAI with Weave for tracing, evaluation, and monitoring"
+---
+
+# OpenAI
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+<Note>
+Do you want to experiment with OpenAI models on Weave without any set up? Try the [LLM Playground](../tools/playground.mdx).
+</Note>
+
+## Tracing
+
+It's important to store traces of LLM applications in a central database, both during development and in production. You'll use these traces for debugging and to help build a dataset of tricky examples to evaluate against while improving your application.
+
+Weave can automatically capture traces for the [openai python library](https://platform.openai.com/docs/libraries/python-library).
+
+Start capturing by calling `weave.init(<project-name>)` with a project name of your choice. OpenAI will be automatically patched regardless of when you import it.
+
+If you don't specify a W&B team when you call `weave.init()`, your default entity is used. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
+
+**Automatic Patching**
+
+Weave automatically patches OpenAI whether imported before or after `weave.init()`:
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+# highlight-next-line
+weave.init('emoji-bot')  # OpenAI is automatically patched!
+
+client = OpenAI()
+response = client.chat.completions.create(
+  model="gpt-4",
+  messages=[
+    {
+      "role": "system",
+      "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+    },
+    {
+      "role": "user",
+      "content": "How are you?"
+    }
+  ]
+)
+```
+
+```typescript TypeScript
+import { OpenAI } from 'openai';
+import { wrapOpenAI } from '@wandb/weave';
+
+const openai = wrapOpenAI(new OpenAI());
+
+// This will now trace all calls to OpenAI
+openai.chat.completions.create(
+  {
+    model: "gpt-4",
+    messages: [
+      {
+        role: "system",
+        content: "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+      },
+      {
+        role: "user",
+        content: "How are you?"
+      }
+    ]
+  }
+);
+```
+</CodeGroup>
+
+**Explicit Patching (Optional)**
+
+You can still explicitly patch if you want fine-grained control:
+
+```python
+import weave
+
+# highlight-next-line
+weave.init('emoji-bot')
+# highlight-next-line
+weave.integrations.patch_openai()  # Enable OpenAI tracing
+
+from openai import OpenAI
+client = OpenAI()
+response = client.chat.completions.create(
+  model="gpt-4",
+  messages=[
+    {"role": "user", "content": "Make me a emoji"}
+  ]
+)
+```
+
+[View a live trace](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
+
+<Tip>
+We capture the function calling tools for [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) and [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview) as well.
+</Tip>
+
+## Structured Outputs
+
+Weave also supports structured outputs with OpenAI. This is useful for ensuring that your LLM responses follow a specific format.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+from pydantic import BaseModel
+import weave
+
+class UserDetail(BaseModel):
+    name: str
+    age: int
+
+client = OpenAI()
+weave.init('extract-user-details')
+
+completion = client.beta.chat.completions.parse(
+    model="gpt-4o-2024-08-06",
+    messages=[
+        {"role": "system", "content": "Extract the user details from the message."},
+        {"role": "user", "content": "My name is David and I am 30 years old."},
+    ],
+    response_format=UserDetail,
+)
+
+user_detail = completion.choices[0].message.parsed
+print(user_detail)
+```
+</CodeGroup>
+
+## Async Support
+
+Weave also supports async functions for OpenAI.
+
+<CodeGroup>
+```python Python
+from openai import AsyncOpenAI
+import weave
+
+client = AsyncOpenAI()
+weave.init('async-emoji-bot')
+
+async def call_openai():
+    response = await client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system", 
+                "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+            },
+            {
+                "role": "user",
+                "content": "How are you?"
+            }
+        ]
+    )
+    return response
+
+# Call the async function
+result = await call_openai()
+```
+</CodeGroup>
+
+## Streaming Support
+
+Weave also supports streaming responses from OpenAI.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('streaming-emoji-bot')
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {
+            "role": "system", 
+            "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+        },
+        {
+            "role": "user",
+            "content": "How are you?"
+        }
+    ],
+    stream=True
+)
+
+for chunk in response:
+    print(chunk.choices[0].delta.content or "", end="")
+```
+</CodeGroup>
+
+## Tracing Function Calls
+
+Weave also traces function calls made by OpenAI when using tools.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('function-calling-bot')
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get the weather in a given location",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The location to get the weather for"
+                    },
+                    "unit": {
+                        "type": "string",
+                        "enum": ["celsius", "fahrenheit"],
+                        "description": "The unit to return the temperature in"
+                    }
+                },
+                "required": ["location"]
+            }
+        }
+    }
+]
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {
+            "role": "user",
+            "content": "What's the weather like in New York?"
+        }
+    ],
+    tools=tools
+)
+
+print(response.choices[0].message.tool_calls)
+```
+</CodeGroup>
+
+## Logging additional data
+
+You can log additional data to your traces by using the `weave.log` function.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('logging-bot')
+
+# Log additional data
+weave.log({"user_id": "123", "session_id": "abc"})
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {
+            "role": "user",
+            "content": "Hello, how are you?"
+        }
+    ]
+)
+```
+</CodeGroup>
+
+## Batch API
+
+Weave also supports the OpenAI Batch API for processing multiple requests.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('batch-processing')
+
+# Create a batch file
+batch_input = [
+    {
+        "custom_id": "request-1",
+        "method": "POST",
+        "url": "/v1/chat/completions",
+        "body": {
+            "model": "gpt-4",
+            "messages": [{"role": "user", "content": "Hello, how are you?"}]
+        }
+    },
+    {
+        "custom_id": "request-2", 
+        "method": "POST",
+        "url": "/v1/chat/completions",
+        "body": {
+            "model": "gpt-4",
+            "messages": [{"role": "user", "content": "What's the weather like?"}]
+        }
+    }
+]
+
+# Submit the batch
+batch = client.batches.create(
+    input_file_id="your-file-id",
+    endpoint="/v1/chat/completions",
+    completion_window="24h"
+)
+
+# Retrieve the batch results
+completed_batch = client.batches.retrieve(batch.id)
+```
+</CodeGroup>
+
+## Assistants API
+
+Weave also supports the OpenAI Assistants API for building conversational AI applications.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('assistant-bot')
+
+# Create an assistant
+assistant = client.beta.assistants.create(
+    name="Math Assistant",
+    instructions="You are a personal math tutor. Answer questions about math.",
+    model="gpt-4"
+)
+
+# Create a thread
+thread = client.beta.threads.create()
+
+# Add a message to the thread
+message = client.beta.threads.messages.create(
+    thread_id=thread.id,
+    role="user",
+    content="What is 2+2?"
+)
+
+# Run the assistant
+run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id
+)
+
+# Get the assistant's response
+messages = client.beta.threads.messages.list(thread_id=thread.id)
+```
+</CodeGroup>
+
+## Cost Tracking
+
+Weave automatically tracks the cost of your OpenAI API calls. You can view the cost breakdown in the Weave UI.
+
+<Note>
+Cost tracking is available for all OpenAI models and is calculated based on the latest OpenAI pricing.
+</Note>
+
+## Tracing Custom Functions
+
+You can also trace custom functions that use OpenAI by using the `@weave.op` decorator.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('custom-function-bot')
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+    return response.choices[0].message.content
+
+# This function call will be traced
+result = generate_response("Hello, how are you?")
+```
+</CodeGroup>
+
+## Next Steps
+
+Now that you've set up tracing for OpenAI, you can:
+
+1. **View traces in the Weave UI**: Go to your Weave project to see traces of your OpenAI calls
+2. **Create evaluations**: Use your traces to build evaluation datasets
+3. **Monitor performance**: Track latency, costs, and other metrics
+4. **Debug issues**: Use traces to understand what's happening in your LLM application
+
+For more information on these topics, check out our [evaluation guide](../evaluation/scorers.mdx) and [monitoring guide](../tracking/index.mdx).

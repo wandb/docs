@@ -1,0 +1,104 @@
+---
+title: "W&B Documentation"
+description: ""
+mode: wide
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+<br/>
+<Banner title="Weights & Biases Documentation" background="/images/support/support_banner.png">
+Choose the product for which you need documentation.
+</Banner>
+<br/>
+<br/>
+
+<HomeWrapper padding="mint-px-4 md:mint-px-24">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard
+        title="W&B Models"
+        iconSrc="/icons/Name=Models, Mode=Dark.svg"
+        href="/models"
+        subtitle="Develop AI models"
+    >
+        Use W&B Models to manage AI model development. Features include training, fine-tuning, reporting, automating hyperparameter sweeps, and utilizing the model registry for versioning and reproducibility.
+        <br/>
+        <br/>
+        • <a href="/models/">Introduction</a><br/>
+        • <a href="/models/quickstart/">Quickstart</a><br/>
+        • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube Tutorial</a><br/>
+        • <a href="https://wandb.ai/site/courses/101/">Online Course</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Weave"
+        iconSrc="/icons/Name=Weave, Mode=Dark.svg"
+        href="/weave"
+        subtitle="Use AI models in your app"
+    >   
+        Use W&B Weave to manage AI models in your code. Features include tracing, output evaluation, cost estimates, and a hosted inference service and playground for comparing different large language models (LLMs) and settings.
+        <br/>
+        <br/>
+        • <a href="/weave/">Introduction</a><br/>
+        • <a href="/weave/quickstart">Quickstart</a><br/>
+        • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube Demo</a><br/>
+        • <a href="/weave/guides/tools/playground/">Try the Playground</a><br/>
+        • <a href="/guides/weave/set-up-weave">Use Weave in your W&B runs</a>
+    </ProductCard>
+    
+    <ProductCard
+        title="W&B Inference"
+        iconSrc="/icons/Name=Inference, Mode=Dark.svg"
+        href="/inference/"
+        subtitle="Access foundation models"
+    >
+        Use W&B Inference to access leading open-source foundation models through an OpenAI-compatible API. Features include multiple model options, usage tracking, and integration with Weave for tracing and evaluation.
+        <br/>
+        <br/>
+        • <a href="/inference/">Introduction</a><br/>
+        • <a href="/inference/models/">Available Models</a><br/>
+        • <a href="/inference/api-reference/">API Reference</a><br/>
+        • <a href="https://wandb.ai/inference">Try in Playground</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Training"
+        iconSrc="/icons/Name=Training,%20Mode=Dark.svg"
+        href="/training/"
+        subtitle="Post-train your models"
+    >
+        Now in public preview, use W&B Training to post-train large language models using serverless reinforcement learning (RL). Features include fully managed GPU infrastructure, integration with ART and RULER, and automatic scaling for multi-turn agentic tasks.
+        <br/>
+        <br/>
+        • <a href="/training/">Introduction</a><br/>
+        • <a href="/training/prerequisites/">Prerequisites</a><br/>
+        • <a href="/training/serverless-rl/">Serverless RL</a><br/>
+        • <a href="/training/api-reference/">API Reference</a>
+    </ProductCard>
+</div>
+</HomeWrapper>
+</HomeWrapper>
+<br/>
+<br/>
+{/* To contain:
+
+- The homepage, featuring the cards currently on the homepage of https://docs.wandb.ai
+- Getting started page full of pointers to good resources (new topic)
+- Pointers to high-level W&B details from www such as security and pricing pages (nav entries only)
+    - https://wandb.ai/site/pricing/
+    - https://wandb.ai/site/security/
+- Topics from https://docs.wandb.ai/platform/app/settings-page/ under heading **Configuring W&B**
+    - Under this, bring in the secrets page from: https://docs.wandb.ai/platform/secrets/
+    - Also under this heading, the topics from https://docs.wandb.ai/platform/hosting/ under heading **Deployment options**
+
+## Implementation notes
+
+- URL rewriting is currently happening to get rid of `/core/` and `/models/` in the current site. This was necessary because of Docsy's requirement that the left-hand navigation be derived from the file structure, rather than a component like `docs.json` which composes a navigation as desired. 
+- In the migrated site, there is no need to have a `core` directory, as that section is being dissolved. 
+- The migrated topics in this section (i.e. topics that were originally from the Hugo site) are to be moved under `/platform/` in the file structure, from their original locations. These will require redirects.
+    - `/platform/hosting/`
+    - `/platform/settings/`
+    - `/platform/settings/secrets/` */}

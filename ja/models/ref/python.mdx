@@ -1,0 +1,48 @@
+---
+title: Python ライブラリ
+menu:
+  reference:
+    identifier: ja-ref-python-_index
+---
+
+wandb を使用して機械学習の作業を追跡します。
+
+モデルをトレーニングおよびファインチューンし、実験からプロダクションに至るまでモデルを管理します。
+
+ガイドや例については、https://docs.wandb.ai をご覧ください。
+
+スクリプトやインタラクティブなノートブックについては、https://github.com/wandb/examples をご覧ください。
+
+リファレンスドキュメントについては、https://docs.wandb.com/ref/python をご覧ください。
+
+## クラス
+
+[`class Artifact`](/ja/models/ref/python/artifact/): データセットおよびモデルのバージョン管理のための柔軟で軽量な構成要素。
+
+[`class Run`](/ja/models/ref/python/run/): wandb によってログされる計算の単位。通常、これは機械学習の実験です。
+
+## 関数
+
+[`agent(...)`](/ja/models/ref/python/agent/): 一つ以上の sweep agent を開始します。
+
+[`controller(...)`](/ja/models/ref/python/controller/): パブリックな sweep コントローラのコンストラクタです。
+
+[`finish(...)`](/ja/models/ref/python/finish/): run を終了し、残りのデータをアップロードします。
+
+[`init(...)`](/ja/models/ref/python/init/): 新しい run を開始して W&B へ追跡しログします。
+
+[`log(...)`](/ja/models/ref/python/log/): run のデータをアップロードします。
+
+[`login(...)`](/ja/models/ref/python/login/): W&B ログイン資格情報を設定します。
+
+[`save(...)`](/ja/models/ref/python/save/): 一つ以上のファイルを W&B に同期します。
+
+[`sweep(...)`](/ja/models/ref/python/sweep/): ハイパーパラメーター探索を初期化します。
+
+[`watch(...)`](/ja/models/ref/python/watch/): 指定された PyTorch のモデルにフックし、勾配とモデルの計算グラフを監視します。
+
+| その他のメンバー |  |
+| :--- | :--- |
+|  `__version__`<a id="__version__"></a> |  `'0.19.8'` |
+|  `config`<a id="config"></a> |   |
+|  `summary`<a id="summary"></a> |   |
