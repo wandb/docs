@@ -1,11 +1,11 @@
 ---
-title: Get Started with W&B
+title: Get Started with Weights & Biases
 description: Choose the right W&B product for your use case and learn how to get started
 ---
 
-## Choose Your Product
+## Product comparison
 
-Weights & Biases offers specialized products for different stages of the AI/ML lifecycle. Start by selecting the product that matches your needs:
+Welcome to Weights & Biases! Before getting started with our products, it's important to identify which ones suit your use case. 
 
 | Product | Best For | Key Features |
 |---------|----------|--------------|
@@ -16,103 +16,63 @@ Weights & Biases offers specialized products for different stages of the AI/ML l
 
 ## W&B Models
 
-**Build and train machine learning models with comprehensive experiment tracking and collaboration tools.**
-
 <Columns cols={2}>
-  <Card title="Quickstart" href="/models/quickstart">
-    This is the first card.
+  <Card title="Models Quickstart" href="/models/quickstart">
+    The "hello world" of W&B, which guides you to logging your first data.
   </Card>
-  <Card title="Second card" icon="panel-right-close">
-    This is the second card.
+  <Card title="Get Started with Models" href="/models/models_quickstart/">
+    A full-fledged tutorial that walks through the entire Models product using a real ML experiment.
+  </Card>
+  <Card title="W&B 101 Course" href="https://wandb.ai/site/courses/101/">
+    A video-led course that emphasizes experiment tracking and features quizzes to ensure comprehension.
+  </Card>
+  <Card title="YouTube Tutorial" href="https://www.youtube.com/watch?v=tHAFujRhZLA">
+    Learn how models are trained, evaluated, developed, and deployed and how you can use wandb at each step of that lifecycle to help build better performing models faster.
   </Card>
 </Columns>
 
-### Getting Started Resources
-
-| Resource | Description |
-|----------|-------------|
-| [Quickstart Guide](/models/quickstart) | Set up your first experiment in 5 minutes |
-| [Track Experiments](/models/track) | Learn to log metrics, visualize results, and compare runs |
-| [Manage Artifacts](/models/artifacts) | Version datasets and models throughout your pipeline |
-| [Create Reports](/models/reports) | Share findings with interactive visualizations |
-| [API Reference](/ref/python) | Complete Python SDK documentation |
-
-### Common Use Cases
-- Train computer vision models with automatic image logging
-- Track NLP experiments with built-in text visualizations  
-- Optimize hyperparameters with Sweeps
-- Collaborate on model development with team features
 
 ## W&B Weave
 
-**Build reliable LLM applications with comprehensive observability and evaluation tools.**
-
-### Getting Started Resources
-
-| Resource | Description |
-|----------|-------------|
-| [Quickstart Guide](/weave/quickstart) | Trace your first LLM application |
-| [Tracing Guide](/weave/tracing) | Monitor LLM calls, costs, and performance |
-| [Evaluation Framework](/weave/evaluation) | Score and compare model outputs systematically |
-| [Prompt Management](/weave/prompts) | Version and optimize your prompts |
-| [Production Guide](/weave/production) | Deploy Weave in production environments |
-
-### Common Use Cases
-- Debug complex LLM chains and agents
-- Track token usage and API costs
-- A/B test different prompts and models
-- Build evaluation datasets for continuous improvement
+<Columns cols={2}>
+  <Card title="Weave Quickstart" href="/weave/quickstart">
+    Learn how to decorate your code so that calling into an LLM logs Weave traces and sets you on the path of a perfect LLM workflow.
+  </Card>
+  <Card title="Learn Weave with W&B Inference" href="/weave/quickstart-inference">
+    A full-fledged tutorial that shows Weave doing real-world evaluation of the performance of various models hosted by W&B Inference
+  </Card>
+  <Card title="W&B Weave 101 Course" href="https://site.wandb.ai/courses/weave/">
+    A video-led course that teaches you how to log, debug, and evaluate language model workflows, and features quizzes to ensure comprehension.
+  </Card>
+  <Card title="YouTube Demo" href="https://www.youtube.com/watch?v=IQcGGNLN3zo">
+    Learn how you can evaluate, monitor, and iterate continuously on your AI applications and improve quality, latency, cost, and safety. 
+  </Card>
+</Columns>
 
 ## W&B Inference
 
-**Access hosted open-source models through a simple API without managing infrastructure.**
-
-### Getting Started Resources  
-
-| Resource | Description |
-|----------|-------------|
-| [Available Models](/inference/models) | Browse supported models and capabilities |
-| [API Guide](/inference/api-reference) | Make your first API call |
-| [Playground](/inference/ui-guide) | Test models interactively in the browser |
-| [Response Settings](/inference/response-settings) | Configure temperature, tokens, and other parameters |
-| [Usage Limits](/inference/usage-limits) | Understand quotas and rate limits |
-
-### Common Use Cases
-- Prototype with different models quickly
-- Compare model performance for your use case
-- Integrate open-source models into applications
-- Test prompts across multiple models
+<Columns cols={2}>
+  <Card title="Inference Introduction" href="/inference">
+    Features a quickstart that shows how you use the standard OpenAI REST API to call any model hosted on W&B Inference.
+  </Card>
+  <Card title="Learn Weave with W&B Inference" href="/weave/quickstart-inference">
+    A full-fledged tutorial that shows Weave doing real-world evaluation of the performance of various models hosted by W&B Inference
+  </Card>
+  <Card title="Try the Inference Playground" href="https://wandb.ai/inference">
+    W&B Inference is really simple to use. Click on any model we host, start trying prompts, and see our observability layer kick into action.
+  </Card>
+  <Card title="Examples" href="/inference/examples">
+    Run through a few quick examples of W&B Inference tracing calls to popular LLMs and evaluating the results.
+  </Card>
+</Columns>
 
 ## W&B Training
 
-**Fine-tune and customize models with reinforcement learning and human feedback.**
-
-### Getting Started Resources
-
-| Resource | Description |
-|----------|-------------|
-| [Training Overview](/training) | Understand the fine-tuning process |
-| [Create LoRAs](/training/lora-creation) | Build lightweight model adaptations |
-| [RLHF Guide](/training/rlhf) | Implement reinforcement learning from human feedback |
-| [Deploy Models](/training/deployment) | Host your fine-tuned models |
-| [Best Practices](/training/best-practices) | Optimize training efficiency and quality |
-
-### Common Use Cases
-- Adapt models to domain-specific tasks
-- Improve model behavior with human feedback
-- Create specialized versions of base models
-- Deploy custom models for production use
-
-## Next Steps
-
-1. **Create a free account**: [Sign up at wandb.ai](https://wandb.ai/signup)
-2. **Install the SDK**: `pip install wandb`  
-3. **Join the community**: [W&B Community Forum](https://wandb.ai/community)
-4. **Explore examples**: [GitHub Examples](https://github.com/wandb/examples)
-
-## Need Help?
-
-- 📚 Browse the [full documentation](/)
-- 💬 Ask questions in [Discord](https://wandb.me/discord)
-- 📧 Contact [support@wandb.com](mailto:support@wandb.com) for technical assistance
-- 🎓 Take free [W&B Courses](https://wandb.ai/courses) to level up your skills
+<Columns cols={2}>
+  <Card title="Quickstart" href="https://art.openpipe.ai/getting-started/quick-start">
+    Use W&B Training with OpenPipe's ART library to train a model to play the game 2048.
+  </Card>
+  <Card title="Use your trained models" href="/training/serverless-rl/use-trained-models">
+    After creating your trained model, learn how to use it in your code.
+  </Card>
+</Columns>
