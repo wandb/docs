@@ -13,11 +13,11 @@ W&B Platform은 세 가지의 다양한 배포 옵션으로 제공됩니다:
 
 * [W&B Multi-tenant Cloud](#wb-multi-tenant-cloud)
 * [W&B Dedicated Cloud](#wb-dedicated-cloud)
-* [W&B Customer-managed](#wb-customer-managed)
+* [W&B Self-Managed](#wb-self-managed)
 
 다음 책임 매트릭스는 주요 차이점을 간략하게 설명합니다:
 
-|                                      | Multi-tenant Cloud                | Dedicated Cloud                                                     | Customer-managed |
+|                                      | Multi-tenant Cloud                | Dedicated Cloud                                                     | Self-Managed |
 |--------------------------------------|-----------------------------------|---------------------------------------------------------------------|------------------|
 | MySQL / DB 관리                | W&B에서 완전 호스팅 및 관리     | W&B에서 클라우드 또는 고객 선택 지역에서 완전 호스팅 및 관리 | 고객이 완전 호스팅 및 관리 |
 | 오브젝트 스토리지 (S3/GCS/Blob storage) | **옵션 1**: W&B에서 완전 호스팅<br />**옵션 2**: 고객은 [Secure Storage Connector](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하여 팀별로 자체 버킷을 구성할 수 있습니다.  | **옵션 1**: W&B에서 완전 호스팅<br />**옵션 2**: 고객은 [Secure Storage Connector](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하여 인스턴스 또는 팀별로 자체 버킷을 구성할 수 있습니다. | 고객이 완전 호스팅 및 관리 |
@@ -41,10 +41,10 @@ W&B Dedicated Cloud는 W&B의 클라우드 인프라에 배포된 싱글 테넌�
 
 자세한 내용은 [W&B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud/)를 참조하십시오.
 
-### W&B Customer-Managed
+### W&B Self-Managed
 이 옵션을 사용하면 자체 관리형 인프라에 W&B Server를 배포하고 관리할 수 있습니다. W&B Server는 W&B Platform 및 지원되는 W&B 제품을 실행하기 위한 자체 포함 패키지 메커니즘입니다. 기존 인프라가 모두 온프레미스에 있거나, W&B Dedicated Cloud에서 충족되지 않는 엄격한 규제 요구 사항이 있는 경우 이 옵션을 사용하는 것이 좋습니다. 이 옵션을 사용하면 W&B Server를 지원하는 데 필요한 인프라의 프로비저닝, 지속적인 유지 관리 및 업그레이드를 완전히 책임져야 합니다.
 
-자세한 내용은 [W&B Self Managed](/ko/platform/hosting/hosting-options/self-managed/)를 참조하십시오.
+자세한 내용은 [W&B Self-Managed](/ko/platform/hosting/hosting-options/self-managed/)를 참조하십시오.
 
 ## 다음 단계
 
