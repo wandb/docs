@@ -54,46 +54,56 @@
                 "group": "Deployment Options",
                 "pages": [
                   "platform/hosting",
+                  "platform/hosting/hosting-options/saas_cloud",
                   {
-                    "group": "Deployment Options",
+                    "group": "Dedicated Cloud",
                     "pages": [
-                      "platform/hosting/hosting-options/saas_cloud",
+                      "platform/hosting/hosting-options/dedicated_cloud",
+                      "platform/hosting/hosting-options/dedicated_regions",
+                      "platform/hosting/export-data-from-dedicated-cloud"
+                    ]
+                  },
+                  {
+                    "group": "Self-Managed",
+                    "pages": [
+                      "platform/hosting/hosting-options/self-managed",
+                      "platform/hosting/self-managed/ref-arch",
                       {
-                        "group": "Dedicated Cloud",
+                        "group": "Run W&B Server on Kubernetes",
                         "pages": [
-                          "platform/hosting/hosting-options/dedicated_cloud",
-                          "platform/hosting/hosting-options/dedicated_regions",
-                          "platform/hosting/export-data-from-dedicated-cloud"
+                          "platform/hosting/operator",
+                          "platform/hosting/self-managed/operator-airgapped"
                         ]
                       },
                       {
-                        "group": "Self-Managed",
+                        "group": "Install on public cloud",
                         "pages": [
-                          "platform/hosting/hosting-options/self-managed",
-                          "platform/hosting/self-managed/ref-arch",
-                          {
-                            "group": "Run W&B Server on Kubernetes",
-                            "pages": [
-                              "platform/hosting/operator",
-                              "platform/hosting/self-managed/operator-airgapped"
-                            ]
-                          },
-                          {
-                            "group": "Install on public cloud",
-                            "pages": [
-                              "platform/hosting/self-managed/install-on-public-cloud",
-                              "platform/hosting/self-managed/aws-tf",
-                              "platform/hosting/self-managed/gcp-tf",
-                              "platform/hosting/self-managed/azure-tf"
-                            ]
-                          },
-                          "platform/hosting/self-managed/bare-metal",
-                          "platform/hosting/server-upgrade-process",
-                          "platform/hosting/self-managed/disable-automatic-app-version-updates"
+                          "platform/hosting/self-managed/install-on-public-cloud",
+                          "platform/hosting/self-managed/aws-tf",
+                          "platform/hosting/self-managed/gcp-tf",
+                          "platform/hosting/self-managed/azure-tf"
                         ]
-                      }
+                      },
+                      "platform/hosting/self-managed/bare-metal",
+                      "platform/hosting/server-upgrade-process",
+                      "platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]
-                  },
+                  }
+                ]
+              },
+              {
+                "group": "Configure W&B",
+                "pages": [
+                  "platform/app/settings-page/user-settings",
+                  "platform/app/settings-page/billing-settings",
+                  "platform/app/settings-page/emails",
+                  "platform/app/settings-page/teams",
+                  "platform/app/settings-page/storage",
+                  "platform/app/settings-page/anon",
+                  "platform/secrets",
+                  "platform/hosting/privacy-settings",
+                  "platform/hosting/smtp",
+                  "platform/hosting/env-vars",
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
@@ -101,7 +111,6 @@
                       {
                         "group": "Authentication",
                         "pages": [
-                          "platform/hosting/iam/authentication",
                           "platform/hosting/iam/ldap",
                           "platform/hosting/iam/sso",
                           "platform/hosting/iam/identity_federation",
@@ -124,56 +133,31 @@
                   {
                     "group": "Data security",
                     "pages": [
-                      "platform/hosting/data-security",
                       "platform/hosting/data-security/secure-storage-connector",
                       "platform/hosting/data-security/presigned-urls",
                       "platform/hosting/data-security/ip-allowlisting",
                       "platform/hosting/data-security/private-connectivity",
                       "platform/hosting/data-security/data-encryption"
                     ]
-                  },
-                  "platform/hosting/privacy-settings",
-                  {
-                    "group": "Monitoring and usage",
-                    "pages": [
-                      "platform/hosting/monitoring-usage",
-                      "platform/hosting/monitoring-usage/audit-logging",
-                      "platform/hosting/monitoring-usage/prometheus-logging",
-                      "platform/hosting/monitoring-usage/slack-alerts",
-                      "platform/hosting/monitoring-usage/org_dashboard"
-                    ]
-                  },
-                  "platform/hosting/smtp",
-                  "platform/hosting/env-vars"
+                  }
                 ]
               },
               {
-                "group": "Configuring W&B",
+                "group": "Monitoring and usage",
                 "pages": [
-                  "platform/app/settings-page/user-settings",
-                  "platform/app/settings-page/billing-settings",
-                  "platform/app/settings-page/emails",
-                  "platform/app/settings-page/teams",
-                  "platform/app/settings-page/storage",
-                  "platform/app/settings-page/anon",
-                  "platform/secrets"
+                  "platform/hosting/monitoring-usage/audit-logging",
+                  "platform/hosting/monitoring-usage/prometheus-logging",
+                  "platform/hosting/monitoring-usage/slack-alerts",
+                  "platform/hosting/monitoring-usage/org_dashboard"
                 ]
               },
               {
                 "group": "Resources",
                 "pages": [
-                  {
-                    "text": "Security",
-                    "url": "https://wandb.ai/site/security/"
-                  },
-                  {
-                    "text": "Pricing",
-                    "url": "https://wandb.ai/site/pricing/"
-                  },
-                  {
-                    "text": "Fully Connected Blog",
-                    "url": "https://wandb.ai/fully-connected"
-                  }
+                  "pricing",
+                  "blog",
+                  "courses",
+                  "security"
                 ]
               }
             ]
@@ -1103,7 +1087,6 @@
                       "ja/platform/hosting/data-security/data-encryption"
                     ]
                   },
-                  "ja/platform/hosting/privacy-settings",
                   {
                     "group": "\u76e3\u8996\u3068\u5229\u7528\u72b6\u6cc1",
                     "pages": [
@@ -1113,9 +1096,7 @@
                       "ja/platform/hosting/monitoring-usage/slack-alerts",
                       "ja/platform/hosting/monitoring-usage/org_dashboard"
                     ]
-                  },
-                  "ja/platform/hosting/smtp",
-                  "ja/platform/hosting/env-vars"
+                  }
                 ]
               },
               {
@@ -1127,7 +1108,10 @@
                   "ja/platform/app/settings-page/teams",
                   "ja/platform/app/settings-page/storage",
                   "ja/platform/app/settings-page/anon",
-                  "ja/platform/secrets"
+                  "ja/platform/secrets",
+                  "ja/platform/hosting/privacy-settings",
+                  "ja/platform/hosting/smtp",
+                  "ja/platform/hosting/env-vars"
                 ]
               }
             ]
@@ -1623,7 +1607,6 @@
                       "ko/platform/hosting/data-security/data-encryption"
                     ]
                   },
-                  "ko/platform/hosting/privacy-settings",
                   {
                     "group": "Monitoring and usage",
                     "pages": [
@@ -1633,8 +1616,6 @@
                       "ko/platform/hosting/monitoring-usage/org_dashboard"
                     ]
                   },
-                  "ko/platform/hosting/smtp",
-                  "ko/platform/hosting/env-vars",
                   "ko/platform/hosting/server-release-process/"
                 ]
               },
@@ -1647,7 +1628,10 @@
                   "ko/platform/app/settings-page/teams/",
                   "ko/platform/app/settings-page/storage/",
                   "ko/platform/app/settings-page/anon/",
-                  "ko/platform/secrets"
+                  "ko/platform/secrets",
+                  "ko/platform/hosting/privacy-settings",
+                  "ko/platform/hosting/smtp",
+                  "ko/platform/hosting/env-vars"
                 ]
               }
             ]
@@ -3675,10 +3659,6 @@
     {
       "source": "/wandb/log/",
       "destination": "/ref/python/log/"
-    },
-    {
-      "source": "/weave/",
-      "destination": "/guides/app/features/panels/query-panels/"
     },
     {
       "source": "/weave/boards/",
