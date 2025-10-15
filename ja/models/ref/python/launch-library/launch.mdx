@@ -28,7 +28,7 @@ launch(
 ) -> AbstractRun
 ```
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `job` |  wandb.Job への文字列参照 例: wandb/test/my-job:latest |
 |  `api` |  wandb.apis.internal からの wandb Api のインスタンス。 |
@@ -57,10 +57,10 @@ api = wandb.apis.internal.Api()
 launch(api, job, parameters=params)
 ```
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  `wandb.launch.SubmittedRun` のインスタンスで、ローンンチされた run に関する情報（例: run ID）を公開します。 |
 
-| 例外 |  |
+| 例外 | Description |
 | :--- | :--- |
 |  `wandb.exceptions.ExecutionError` ブロックモードでローンンチされた run が不成功の場合。 |

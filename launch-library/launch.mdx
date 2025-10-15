@@ -25,7 +25,7 @@ launch(
 ) -> AbstractRun
 ```
 
-| Arguments |  |
+| Arguments | Description |
 | :--- | :--- |
 |  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
 |  `api` |  An instance of a wandb Api from wandb.apis.internal. |
@@ -54,10 +54,10 @@ api = wandb.apis.internal.Api()
 launch(api, job, parameters=params)
 ```
 
-| Returns |  |
+| Returns | Description |
 | :--- | :--- |
 |  an instance of`wandb.launch.SubmittedRun` exposing information (e.g. run ID) about the launched run. |
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  `wandb.exceptions.ExecutionError` If a run launched in blocking mode is unsuccessful. |

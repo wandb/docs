@@ -37,7 +37,7 @@ https://docs.wandb.ai/guides/artifacts
 - モデルの重みのみを保存するか、全体のモデルを保存します。
 - モデルを SavedModel 形式か `.h5` 形式で保存します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `filepath` |  (Union[str, os.PathLike]) モデルファイルを保存するパス。`filepath` には名前付きのフォーマット オプションを含めることができ、これには `epoch` の値および `logs` のキー（`on_epoch_end` で渡される）が埋め込まれます。たとえば、`filepath` が `model-{epoch:02d}-{val_loss:.2f}` の場合、モデルのチェックポイントはエポック番号と検証損失とともにファイル名で保存されます。 |
 |  `monitor` |  (str) 監視するメトリクスの名前。デフォルトは "val_loss"。 |
@@ -48,7 +48,7 @@ https://docs.wandb.ai/guides/artifacts
 |  `save_freq` |  (Union[SaveStrategy, int]) `epoch` または整数。`'epoch'` を使用する場合、コールバックは各エポックの後にモデルを保存します。整数を使用する場合、コールバックはこのバッチ数の終わりにモデルを保存します。`val_acc` や `val_loss` などの検証メトリクスを監視する場合、save_freq は「epoch」に設定する必要があります。これらのメトリクスはエポックの終わりにのみ利用可能だからです。 |
 |  `initial_value_threshold` |  (Optional[float]) 監視されるメトリクスの浮動小数点数の初期「最良」値。 |
 
-| 属性 |  |
+| 属性 | Description |
 | :--- | :--- |
 
 ## メソッド

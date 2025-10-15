@@ -17,7 +17,7 @@ Molecule(
 ) -> None
 ```
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `data_or_path` |  (string, io) Molecule はファイル名または io オブジェクトから初期化できます。 |
 |  `caption` |  (string) 表示用の分子に関連付けられたキャプション。 |
@@ -40,7 +40,7 @@ from_rdkit(
 
 RDKit がサポートするファイル/オブジェクトタイプを wandb.Molecule に変換します。
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `data_or_path` |  (string, rdkit.Chem.rdchem.Mol) Molecule はファイル名または rdkit.Chem.rdchem.Mol オブジェクトから初期化できます。 |
 |  `caption` |  (string) 表示用の分子に関連付けられたキャプション。 |
@@ -64,7 +64,7 @@ from_smiles(
 
 SMILES 文字列を wandb.Molecule に変換します。
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `data` |  (string) SMILES 文字列。 |
 |  `caption` |  (string) 表示用の分子に関連付けられたキャプション |
@@ -72,7 +72,7 @@ SMILES 文字列を wandb.Molecule に変換します。
 |  `convert_to_3d_and_optimize` |  (bool) 3D 座標で rdkit.Chem.rdchem.Mol に変換します。複雑な分子の場合、時間がかかるため、高価な操作です。 |
 |  `mmff_optimize_molecule_max_iterations` |  (int) rdkit.Chem.AllChem.MMFFOptimizeMolecule で使用する反復回数 |
 
-| クラス変数 |  |
+| クラス変数 | Description |
 | :--- | :--- |
 |  `SUPPORTED_RDKIT_TYPES`<a id="SUPPORTED_RDKIT_TYPES"></a> |   |
 |  `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |

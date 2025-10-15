@@ -35,13 +35,13 @@ hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
 ```
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `sequence` |  (array_like) ヒストグラムの入力データ |
 |  `np_histogram` |  (numpy histogram) あらかじめ計算されたヒストグラムの代替入力 |
 |  `num_bins` |  (int) ヒストグラムのビンの数。デフォルトのビンの数は 64 です。ビンの最大数は 512 です |
 
-| Attributes |  |
+| Attributes | Description |
 | :--- | :--- |
 |  `bins` |  ([float]) ビンの境界 |
 |  `histogram` |  ([int]) 各ビンに入る要素の数 |

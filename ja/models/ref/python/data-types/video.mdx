@@ -18,7 +18,7 @@ Video(
 )
 ```
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `data_or_path` |  (numpy array, string, io) ビデオはファイルへのパスまたは io オブジェクトで初期化できます。フォーマットは "gif", "mp4", "webm", "ogg" のいずれかでなければなりません。フォーマットは format 引数で指定する必要があります。ビデオは numpy テンソルでも初期化できます。numpy テンソルは 4次元または 5次元でなければなりません。チャンネルは (time, channel, height, width) または (batch, time, channel, height, width) であるべきです。 |
 |  `caption` |  (string) ビデオに関連付けられたキャプション（表示用） |
@@ -51,6 +51,6 @@ encode(
 ) -> None
 ```
 
-| クラス変数 |  |
+| クラス変数 | Description |
 | :--- | :--- |
 |  `EXTS`<a id="EXTS"></a> |   |

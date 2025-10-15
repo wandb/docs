@@ -67,7 +67,7 @@ run 생성에 대한 자세한 내용은 `wandb.init` 문서를 참조하거나
 
 현재 `wandb.Api`에 병렬 `Run` 오브젝트가 있습니다. 결국 이 두 오브젝트는 병합될 것입니다.
 
-| 속성 |  |
+| 속성 | Description |
 | :--- | :--- |
 | `summary` | (`Summary`) 각 `wandb.log()` 키에 대해 설정된 단일 값입니다. 기본적으로 summary는 마지막으로 기록된 값으로 설정됩니다. 최대 정확도와 같이 최종 값 대신 수동으로 summary를 최적 값으로 설정할 수 있습니다. |
 | `config` | 이 run과 관련된 Config 오브젝트입니다. |
@@ -106,7 +106,7 @@ alert(
 
 지정된 제목과 텍스트로 알림을 시작합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `title` | (str) 알림 제목입니다. 64자 미만이어야 합니다. |
 | `text` | (str) 알림의 텍스트 본문입니다. |
@@ -131,7 +131,7 @@ define_metric(
 
 `wandb.log()`로 기록된 메트릭을 사용자 정의합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `name` | 사용자 정의할 메트릭의 이름입니다. |
 | `step_metric` | 자동으로 생성된 차트에서 이 메트릭의 X축 역할을 할 다른 메트릭의 이름입니다. |
@@ -141,7 +141,7 @@ define_metric(
 | `goal` | "best" summary 유형을 해석하는 방법을 지정합니다. 지원되는 옵션은 "minimize" 및 "maximize"입니다. |
 | `overwrite` | False인 경우 이 호출은 지정되지 않은 파라미터에 대한 값을 사용하여 동일한 메트릭에 대한 이전 `define_metric` 호출과 병합됩니다. True인 경우 지정되지 않은 파라미터는 이전 호출에서 지정된 값을 덮어씁니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 이 호출을 나타내는 오브젝트이지만 그렇지 않으면 삭제될 수 있습니다. |
 
@@ -189,7 +189,7 @@ run의 최종 상태는 종료 조건 및 동기화 상태에 따라 결정됩�
 - Finished: 모든 데이터가 동기화된 상태로 성공적으로 완료된 run입니다(`exit_code=0`).
 - Failed: 오류가 발생하여 완료된 run입니다(`exit_code!=0`).
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `exit_code` | run의 종료 상태를 나타내는 정수입니다. 성공에는 0을 사용하고 다른 값은 run을 실패로 표시합니다. |
 | `quiet` | 더 이상 사용되지 않습니다. `wandb.Settings(quiet=...)`를 사용하여 로깅 verbosity를 구성합니다. |
@@ -212,7 +212,7 @@ run의 출력으로 아직 완료되지 않은 아티팩트를 완료합니다.
 
 동일한 분산 ID를 사용한 후속 "업서트"는 새 버전을 생성합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `artifact_or_path` | (str 또는 Artifact) 이 아티팩트의 콘텐츠에 대한 경로입니다. 다음 형식이 될 수 있습니다. - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트를 전달할 수도 있습니다. |
 | `name` | (str, 선택 사항) 아티팩트 이름입니다. 엔티티/프로젝트로 시작할 수 있습니다. 유효한 이름은 다음 형식이 될 수 있습니다. - name:version - name:alias - digest 지정하지 않으면 기본적으로 현재 run ID가 접두사로 붙은 경로의 기본 이름으로 설정됩니다. |
@@ -220,7 +220,7 @@ run의 출력으로 아직 완료되지 않은 아티팩트를 완료합니다.
 | `aliases` | (list, 선택 사항) 이 아티팩트에 적용할 에일리어스입니다. 기본값은 `["latest"]`입니다. |
 | `distributed_id` | (string, 선택 사항) 모든 분산 작업이 공유하는 고유한 문자열입니다. None인 경우 run의 그룹 이름으로 기본 설정됩니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `Artifact` 오브젝트입니다. |
 
@@ -286,13 +286,13 @@ link_artifact(
 
 연결된 아티팩트는 지정된 포트폴리오의 UI에 표시됩니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `artifact` | 연결될 (공개 또는 로컬) 아티팩트입니다. |
 | `target_path` | `str` - 다음 형식을 취합니다. `{portfolio}`, `{project}/{portfolio}` 또는 `{entity}/{project}/{portfolio}` |
 | `aliases` | `List[str]` - 선택적 에일리어스로, 포트폴리오 내의 이 연결된 아티팩트에만 적용됩니다. "latest" 에일리어스는 항상 연결된 아티팩트의 최신 버전에 적용됩니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | None |
 
@@ -320,7 +320,7 @@ link_model(
 - 모델 아티팩트 'name' 버전을 등록된 모델 'registered_model_name'에 연결합니다.
 - 'aliases' 목록에서 에일리어스를 새로 연결된 모델 아티팩트 버전에 연결합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `path` | (str) 이 모델의 콘텐츠에 대한 경로입니다. 다음 형식이 될 수 있습니다. - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
 | `registered_model_name` | (str) - 모델을 연결할 등록된 모델의 이름입니다. 등록된 모델은 모델 레지스트리에 연결된 모델 버전의 모음으로, 일반적으로 팀의 특정 ML 작업을 나타냅니다. 이 등록된 모델이 속한 엔티티는 run에서 파생됩니다. |
@@ -356,12 +356,12 @@ run.link_model(
 )
 ```
 
-| 발생 |  |
+| 발생 | Description |
 | :--- | :--- |
 | `AssertionError` | registered_model_name이 경로이거나 모델 아티팩트 'name'이 'model' 하위 문자열을 포함하지 않는 유형인 경우 |
 | `ValueError` | 이름에 잘못된 특수 문자가 있는 경우 |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | None |
 
@@ -465,7 +465,7 @@ run.log({"train-loss": 0.4}, step=current_step)
 run.log({"accuracy": 0.9}, step=current_step)
 ```
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `data` | `str` 키와 값이 직렬화 가능한 Python 오브젝트인 `dict`입니다(예: `int`, `float` 및 `string`). `wandb.data_types`, 직렬화 가능한 Python 오브젝트의 목록, 튜플 및 NumPy 배열, 이 구조의 다른 `dict`를 포함합니다. |
 | `step` | 기록할 단계 번호입니다. `None`인 경우 암시적 자동 증가 단계가 사용됩니다. 설명에서 참고 사항을 참조하세요. |
@@ -604,7 +604,7 @@ run.log(
 )
 ```
 
-| 발생 |  |
+| 발생 | Description |
 | :--- | :--- |
 | `wandb.Error` | `wandb.init` 전에 호출된 경우 |
 | `ValueError` | 잘못된 데이터가 전달된 경우 |
@@ -625,7 +625,7 @@ log_artifact(
 
 아티팩트를 run의 출력으로 선언합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `artifact_or_path` | (str 또는 Artifact) 이 아티팩트의 콘텐츠에 대한 경로입니다. 다음 형식이 될 수 있습니다. - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트를 전달할 수도 있습니다. |
 | `name` | (str, 선택 사항) 아티팩트 이름입니다. 유효한 이름은 다음 형식이 될 수 있습니다. - name:version - name:alias - digest 지정하지 않으면 기본적으로 현재 run ID가 접두사로 붙은 경로의 기본 이름으로 설정됩니다. |
@@ -633,7 +633,7 @@ log_artifact(
 | `aliases` | (list, 선택 사항) 이 아티팩트에 적용할 에일리어스입니다. 기본값은 `["latest"]`입니다. |
 | `tags` | (list, 선택 사항) 이 아티팩트에 적용할 태그입니다(있는 경우). |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `Artifact` 오브젝트입니다. |
 
@@ -654,7 +654,7 @@ log_code(
 
 기본적으로 현재 디렉토리를 탐색하고 `.py`로 끝나는 모든 파일을 기록합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `root` | `os.getcwd()`에 대한 상대 경로 또는 코드를 재귀적으로 찾을 절대 경로입니다. |
 | `name` | (str, 선택 사항) 코드 아티팩트의 이름입니다. 기본적으로 아티팩트 이름을 `source-$PROJECT_ID-$ENTRYPOINT_RELPATH`로 지정합니다. 여러 run이 동일한 아티팩트를 공유하도록 하려는 시나리오가 있을 수 있습니다. 이름을 지정하면 이를 달성할 수 있습니다. |
@@ -681,7 +681,7 @@ run.log_code(
 )
 ```
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 코드가 기록된 경우 `Artifact` 오브젝트입니다. |
 
@@ -699,7 +699,7 @@ log_model(
 
 'path' 내부의 콘텐츠를 포함하는 모델 아티팩트를 run에 기록하고 이 run에 대한 출력으로 표시합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `path` | (str) 이 모델의 콘텐츠에 대한 경로입니다. 다음 형식이 될 수 있습니다. - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
 | `name` | (str, 선택 사항) 파일 콘텐츠가 추가될 모델 아티팩트에 할당할 이름입니다. 문자열에는 대시, 밑줄 및 점과 같은 영숫자 문자만 포함되어야 합니다. 지정하지 않으면 기본적으로 현재 run ID가 접두사로 붙은 경로의 기본 이름으로 설정됩니다. |
@@ -725,11 +725,11 @@ run.log_model(
 )
 ```
 
-| 발생 |  |
+| 발생 | Description |
 | :--- | :--- |
 | `ValueError` | 이름에 잘못된 특수 문자가 있는 경우 |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | None |
 
@@ -771,18 +771,18 @@ restore(
 파일은 현재 디렉토리 또는 run 디렉토리에 배치됩니다.
 기본적으로 파일이 아직 존재하지 않는 경우에만 다운로드합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `name` | 파일 이름입니다. |
 | `run_path` | 파일을 가져올 run에 대한 선택적 경로입니다(예: `username/project_name/run_id`). wandb.init가 호출되지 않은 경우 필수입니다. |
 | `replace` | 파일이 로컬에 이미 있더라도 파일을 다운로드할지 여부입니다. |
 | `root` | 파일을 다운로드할 디렉토리입니다. 기본값은 현재 디렉토리 또는 wandb.init가 호출된 경우 run 디렉토리입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 파일을 찾을 수 없으면 None이고, 그렇지 않으면 읽기용으로 열린 파일 오브젝트입니다. |
 
-| 발생 |  |
+| 발생 | Description |
 | :--- | :--- |
 | `wandb.CommError` | wandb 백엔드에 연결할 수 없는 경우 |
 | `ValueError` | 파일을 찾을 수 없거나 run_path를 찾을 수 없는 경우 |
@@ -829,13 +829,13 @@ wandb.save("files/*/saveme.txt")
 
 참고: 절대 경로 또는 glob이 제공되고 `base_path`가 없는 경우 위 예제와 같이 한 디렉토리 수준이 유지됩니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `glob_str` | 상대 경로 또는 절대 경로 또는 Unix glob입니다. |
 | `base_path` | 디렉토리 구조를 추론하는 데 사용할 경로입니다. 예를 참조하세요. |
 | `policy` | `live`, `now` 또는 `end` 중 하나입니다. * live: 파일이 변경될 때 파일을 업로드하고 이전 버전을 덮어씁니다. * now: 파일을 지금 한 번 업로드합니다. * end: run이 종료될 때 파일을 업로드합니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 일치하는 파일에 대해 생성된 심볼릭 링크의 경로입니다. 레거시 코드에서는 이전 이유로 인해 부울을 반환할 수 있습니다. |
 
@@ -874,7 +874,7 @@ unwatch(
 
 pytorch 모델 토폴로지, 그레이디언트 및 파라미터 훅을 제거합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | models (torch.nn.Module | Sequence[torch.nn.Module]): watch가 호출된 pytorch 모델의 선택적 목록 |
 
@@ -897,7 +897,7 @@ run의 출력으로 아직 완료되지 않은 아티팩트를 선언하거나 �
 아티팩트를 완료하려면 run.finish_artifact()를 호출해야 합니다.
 이는 분산 작업이 모두 동일한 아티팩트에 기여해야 하는 경우에 유용합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `artifact_or_path` | (str 또는 Artifact) 이 아티팩트의 콘텐츠에 대한 경로입니다. 다음 형식이 될 수 있습니다. - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트를 전달할 수도 있습니다. |
 | `name` | (str, 선택 사항) 아티팩트 이름입니다. 엔티티/프로젝트로 시작할 수 있습니다. 유효한 이름은 다음 형식이 될 수 있습니다. - name:version - name:alias - digest 지정하지 않으면 기본적으로 현재 run ID가 접두사로 붙은 경로의 기본 이름으로 설정됩니다. |
@@ -905,7 +905,7 @@ run의 출력으로 아직 완료되지 않은 아티팩트를 선언하거나 �
 | `aliases` | (list, 선택 사항) 이 아티팩트에 적용할 에일리어스입니다. 기본값은 `["latest"]`입니다. |
 | `distributed_id` | (string, 선택 사항) 모든 분산 작업이 공유하는 고유한 문자열입니다. None인 경우 run의 그룹 이름으로 기본 설정됩니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `Artifact` 오브젝트입니다. |
 
@@ -926,14 +926,14 @@ use_artifact(
 
 반환된 오브젝트에서 `download` 또는 `file`을 호출하여 콘텐츠를 로컬로 가져옵니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `artifact_or_name` | (str 또는 Artifact) 아티팩트 이름입니다. 프로젝트/ 또는 엔티티/프로젝트/로 시작할 수 있습니다. 이름에 엔티티가 지정되지 않은 경우 Run 또는 API 설정의 엔티티가 사용됩니다. 유효한 이름은 다음 형식이 될 수 있습니다. - name:version - name:alias `wandb.Artifact`를 호출하여 생성된 Artifact 오브젝트를 전달할 수도 있습니다. |
 | `type` | (str, 선택 사항) 사용할 아티팩트의 유형입니다. |
 | `aliases` | (list, 선택 사항) 이 아티팩트에 적용할 에일리어스입니다. |
 | `use_as` | (string, 선택 사항) 아티팩트가 사용된 목적을 나타내는 선택적 문자열입니다. UI에 표시됩니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `Artifact` 오브젝트입니다. |
 
@@ -949,7 +949,7 @@ use_model(
 
 모델 아티팩트 'name'에 기록된 파일을 다운로드합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `name` | (str) 모델 아티팩트 이름입니다. 'name'은 기존에 기록된 모델 아티팩트의 이름과 일치해야 합니다. 엔티티/프로젝트/로 시작할 수 있습니다. 유효한 이름은 다음 형식이 될 수 있습니다. - model_artifact_name:version - model_artifact_name:alias |
 
@@ -977,11 +977,11 @@ run.use_model(
 )
 ```
 
-| 발생 |  |
+| 발생 | Description |
 | :--- | :--- |
 | `AssertionError` | 모델 아티팩트 'name'이 'model' 하위 문자열을 포함하지 않는 유형인 경우 |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `path` | (str) 다운로드된 모델 아티팩트 파일의 경로입니다. |
 
@@ -1004,11 +1004,11 @@ watch(
 
 이 함수는 트레이닝 중에 파라미터, 그레이디언트 또는 둘 다를 추적할 수 있습니다. 향후 임의의 기계 학습 모델을 지원하도록 확장해야 합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): 모니터링할 단일 모델 또는 모델 시퀀스입니다. criterion (Optional[torch.F]): 최적화할 손실 함수입니다(선택 사항). log (Optional[Literal["gradients", "parameters", "all"]]): "gradients", "parameters" 또는 "all"을 기록할지 여부를 지정합니다. 로깅을 비활성화하려면 None으로 설정합니다. (기본값="gradients") log_freq (int): 그레이디언트 및 파라미터를 기록할 빈도(배치 단위)입니다. (기본값=1000) idx (Optional[int]): `wandb.watch`로 여러 모델을 추적할 때 사용되는 인덱스입니다. (기본값=None) log_graph (bool): 모델의 계산 그래프를 기록할지 여부입니다. (기본값=False) |
 
-| 발생 |  |
+| 발생 | Description |
 | :--- | :--- |
 | `ValueError` | `wandb.init`가 호출되지 않았거나 모델이 `torch.nn.Module`의 인스턴스가 아닌 경우 |
 

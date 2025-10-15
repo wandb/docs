@@ -79,7 +79,7 @@ run.log({"train-loss": 0.4}, step=current_step)
 run.log({"accuracy": 0.9}, step=current_step)
 ```
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `data` |  `str` キーと直列化可能な Python オブジェクトを含む `dict`。これには、`int`、`float`、`string`、任意の `wandb.data_types`、直列化可能な Python オブジェクトのリスト、タプル、NumPy 配列、同じ構造の他の `dict` が含まれます。 |
 |  `step` |  ログするステップ番号。`None` の場合、暗黙的な自動インクリメントステップが使用されます。説明の中の注釈を参照してください。 |
@@ -217,7 +217,7 @@ with wandb.init() as run:
     )
 ```
 
-| 例外 |  |
+| 例外 | Description |
 | :--- | :--- |
 |  `wandb.Error` |  `wandb.init` の前に呼び出された場合 |
 |  `ValueError` |  無効なデータが渡された場合 |

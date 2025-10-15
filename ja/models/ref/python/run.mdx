@@ -64,7 +64,7 @@ assert wandb.run is None
 
 現在、`wandb.Api`には並行する`Run`オブジェクトがあります。最終的にこれら2つのオブジェクトは統合される予定です。
 
-| 属性 |  |
+| 属性 | Description |
 | :--- | :--- |
 |  `summary` |  (Summary) 各`wandb.log()`キーに設定された単一の値。デフォルトでは、summaryは最後にログした値に設定されます。summaryを手動で最高の値（例: 最大精度）に設定することもできます。 |
 |  `config` |  このrunに関連付けられたConfigオブジェクト。 |
@@ -103,7 +103,7 @@ alert(
 
 指定されたタイトルとテキストでアラートを開始します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `title` |  (str) アラートのタイトル。64文字未満である必要があります。 |
 |  `text` |  (str) アラートの本文。 |
@@ -128,7 +128,7 @@ define_metric(
 
 `wandb.log()`で記録されたメトリクスをカスタマイズします。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `name` |  カスタマイズするメトリクスの名前。 |
 |  `step_metric` |  このメトリクスのX軸として機能する他のメトリクスの名前。 |
@@ -138,7 +138,7 @@ define_metric(
 |  `goal` |  "best" summaryタイプの解釈方法を指定します。サポートされているオプションは「minimize」と「maximize」です。 |
 |  `overwrite` |  Falseの場合、同じメトリクスのために以前の`define_metric`呼び出しとこの呼び出しがマージされ、指定されていないパラメータには以前の呼び出しで指定された値が使用されます。Trueの場合、指定されていないパラメータは以前の呼び出しで指定された値を上書きします。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  この呼び出しを表すオブジェクトですが、他には捨てても問題ありません。 |
 
@@ -186,7 +186,7 @@ runの最終状態は、その終了条件と同期状態によって決まり�
 - Finished: すべてのデータが同期されて正常に完了したrun（`exit_code=0`）。
 - Failed: エラーで完了したrun（`exit_code!=0`）。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `exit_code` |  runの終了ステータスを示す整数。成功の場合は0、他の値はrunを失敗としてマークします。 |
 |  `quiet` |  廃止予定。`wandb.Settings(quiet=...)`を使用してログの冗長性を設定します。 |
@@ -209,7 +209,7 @@ finish_artifact(
 
 同じdistributed IDでの後続の「アップサート」は新しいバージョンになります。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `artifact_or_path` |  (strまたはArtifact） このアーティファクトの内容へのパス、次の形式で可能： - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` また、`wandb.Artifact`を呼び出すことによって作成されたArtifactオブジェクトを渡すこともできます。 |
 |  `name` |  (str, オプション) アーティファクト名。entity/projectで接頭辞を付ける場合もあります。次の形式で有効な名前にできます： - name:version - name:alias - digest 指定されていない場合、デフォルトでパスのベース名に現在のidが追加されます。 |
@@ -217,7 +217,7 @@ finish_artifact(
 |  `aliases` |  (list, オプション) このアーティファクトに適用するエイリアス。デフォルトは`["latest"]`。 |
 |  `distributed_id` |  (文字列, オプション) すべての分散ジョブが共有する一意の文字列。Noneの場合、runのグループ名がデフォルトです。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  アーティファクトオブジェクト。 |
 
@@ -283,13 +283,13 @@ link_artifact(
 
 リンクされたアートファクトは、指定されたポートフォリオのUIに表示されます。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `artifact` |  公開またはローカルアートファクトで、リンクされるアーティファクト。 |
 |  `target_path` |  `str` - 次の形式を取り得る： `{portfolio}`, `{project}/{portfolio}`, または `{entity}/{project}/{portfolio}` |
 |  `aliases` |  `List[str]` - このリンクアーティファクト内のポートフォリオでのみ適用されるオプショナルなエイリアス。 "latest"のエイリアスは、リンクされたアーティファクトの最新バージョンに常に適用されます。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  None |
 
@@ -317,7 +317,7 @@ link_model(
 - モデルアーティファクト'name'のバージョンを登録モデル'registered_model_name'にリンクします。
 - 新しくリンクされたモデルアーティファクトバージョンに'aliases'リストのエイリアスを添付します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `path` |  (str) モデルの内容へのパスは、次の形式で可能です： - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
 |  `registered_model_name` |  (str) - モデルがリンクされる登録モデルの名前。登録モデルはモデルバージョンのコレクションであり、通常はチームの特定のMLタスクを表します。この登録モデルが属するエンティティはrunから派生します。 |
@@ -353,12 +353,12 @@ run.link_model(
 )
 ```
 
-| 発生する可能性のあるエラー |  |
+| 発生する可能性のあるエラー | Description |
 | :--- | :--- |
 |  `AssertionError` |  registered_model_nameがパスであるか、モデルアーティファクト名が「model」の部分文字列を持っていない場合 |
 |  `ValueError` |  nameに無効な特殊文字が含まれている場合 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  None |
 
@@ -446,7 +446,7 @@ run.log({"train-loss": 0.4}, step=current_step)
 run.log({"accuracy": 0.9}, step=current_step)
 ```
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `data` |  シリアル化可能なPythonオブジェクトを含む`int`、`float`、および`string`、`wandb.data_types`のいずれか；シリアル化可能なPythonオブジェクトのリスト、タプルとNumPy配列。;この構造の他の`dict`。 |
 |  `step` |  ログするステップ番号。もし`None`の場合、暗黙の自動インクリメントステップが使用されます。詳細は説明の注意事項を参照してください。 |
@@ -585,7 +585,7 @@ run.log(
 )
 ```
 
-| 発生する可能性のあるエラー |  |
+| 発生する可能性のあるエラー | Description |
 | :--- | :--- |
 |  `wandb.Error` |  `wandb.init`を呼び出す前に呼び出された場合 |
 |  `ValueError` |  無効なデータが渡された場合 |
@@ -606,7 +606,7 @@ log_artifact(
 
 アーティファクトをrunの出力として宣言します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `artifact_or_path` |  (strまたはArtifact） このアーティファクトの内容へのパス、次の形式で可能： - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` また、`wandb.Artifact`を呼び出すことによって作成されたArtifactオブジェクトを渡すこともできます。 |
 |  `name` |  (str, オプション) アーティファクト名。次の形式で有効な名前にすることができます： - name:version - name:alias - digest 指定されていない場合、デフォルトでパスのベース名に現在のrun idが追加されます。 |
@@ -614,7 +614,7 @@ log_artifact(
 |  `aliases` |  (list, オプション) このアーティファクトに適用するエイリアス。デフォルトは`["latest"]`。 |
 |  `tags` |  (list, オプション) このアーティファクトに適用するタグ。もし存在すれば。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  アーティファクトオブジェクト。 |
 
@@ -635,7 +635,7 @@ log_code(
 
 デフォルトでは、現在のディレクトリを探索し、`.py`で終わるすべてのファイルをログに記録します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `root` |  `os.getcwd()`に対して相対的、または絶対パスで、コードを再帰的に見つけるためのルート。 |
 |  `name` |  (str, オプション) 私たちのコードアーティファクトの名前。デフォルトでは、アーティファクトは`source-$PROJECT_ID-$ENTRYPOINT_RELPATH`と名付けられます。シナリオによっては、複数のrunが同じアーティファクトを共有したい場合があります。nameを指定することでそれを達成できます。 |
@@ -662,7 +662,7 @@ run.log_code(
 )
 ```
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  コードがログされた場合のアーティファクトオブジェクト |
 
@@ -680,7 +680,7 @@ log_model(
 
 'path'内の内容をrunに含むモデルアーティファクトをログに記録し、runの出力としてマークします。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `path` |  (str) モデルの内容へのパスは、次の形式で可能です： - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` |
 |  `name` |  (str, オプション） ファイル内容が追加されるモデルアーティファクトに割り当てられる名前。文字列には、次のアルファベットと数字の文字のみ含めることができます：ダッシュ、アンダースコア、およびドット。指定されていない場合、デフォルトでパスのベース名に現在のrun idが追加されます。 |
@@ -706,11 +706,11 @@ run.log_model(
 )
 ```
 
-| 発生する可能性のあるエラー |  |
+| 発生する可能性のあるエラー | Description |
 | :--- | :--- |
 |  `ValueError` |  nameに無効な特殊文字が含まれている場合 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  None |
 
@@ -752,18 +752,18 @@ restore(
 ファイルは現在のディレクトリまたはrunディレクトリに配置されます。
 デフォルトでは、ローカルにまだ存在しない場合にのみファイルをダウンロードします。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `name` |  ファイルの名前 |
 |  `run_path` |  ファイルをプルするrunへのオプションのパス、例：`username/project_name/run_id`。wandb.initが呼び出されていない場合、これは必須です。 |
 |  `replace` |  ファイルがローカルに既に存在する場合でもダウンロードするかどうか |
 |  `root` |  ファイルをダウンロードするディレクトリ。デフォルトは現在のディレクトリまたはwandb.initが呼び出された場合のrunディレクトリ。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  ファイルが見つからない場合はNone、見つかった場合は読み取り用に開かれたファイルオブジェクト。 |
 
-| 発生する可能性のあるエラー |  |
+| 発生する可能性のあるエラー | Description |
 | :--- | :--- |
 |  `wandb.CommError` |  wandbバックエンドに接続できない場合 |
 |  `ValueError` |  ファイルが見つからない場合、またはrun_pathが見つからない場合 |
@@ -809,13 +809,13 @@ wandb.save("files/*/saveme.txt")
 
 注意：絶対パスまたはglobが指定され`base_path`がない場合は、上記の例のように1つのディレクトリレベルが保持されます。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `glob_str` |  相対または絶対のパスまたはUnix glob。 |
 |  `base_path` |  ディレクトリ構造を推定するためのパス；例を参照。 |
 |  `policy` |  `live`、`now`、または`end`のいずれか。 * live: ファイルを変更すると新しいバージョンで上書きしてアップロードします。 * now: 現在アップロードされているファイルを一度だけアップロードします。 * end: runが終了したときにファイルをアップロードします。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  発生した場合、ファイルのリンクシステムとして作成されたパス。歴史的な理由から、これが古いコードでブール値を返す場合もあります。 |
 
@@ -854,7 +854,7 @@ unwatch(
 
 PyTorchモデルのトポロジー、勾配、およびパラメータフックを削除します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  models (torch.nn.Module | Sequence[torch.nn.Module]): 呼び出し済みのwatchがあり、そのリストであるオプションのPyTorchモデル。 |
 
@@ -877,7 +877,7 @@ runの出力として、非最終化されたアーティファクトを宣言�
 注意：アーティファクトを最終化するためには、 `run.finish_artifact()`を呼び出す必要があります。
 これは分散ジョブが同じアーティファクトにすべて貢献する必要がある場合に役立ちます。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `artifact_or_path` |  (strまたはArtifact） このアーティファクトの内容へのパス、次の形式で可能： - `/local/directory` - `/local/directory/file.txt` - `s3://bucket/path` また、`wandb.Artifact`を呼び出すことによって作成されたArtifactオブジェクトを渡すこともできます。 |
 |  `name` |  (str, オプション) アーティファクト名。entity/projectで接頭辞を付ける場合もあります。次の形式で有効な名前にできます： - name:version - name:alias - digest 指定されていない場合、デフォルトでパスのベース名に現在のrun idが追加されます。 |
@@ -885,7 +885,7 @@ runの出力として、非最終化されたアーティファクトを宣言�
 |  `aliases` |  (list, オプション) このアーティファクトに適用するエイリアス。デフォルトは`["latest"]`。 |
 |  `distributed_id` |  (文字列, オプション) すべての分散ジョブが共有する一意の文字列。Noneの場合、runのグループ名がデフォルトです。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  アーティファクトオブジェクト。 |
 
@@ -906,14 +906,14 @@ runの入力としてアーティファクトを宣言します。
 
 返されたオブジェクトで`download`または`file`を呼び出して、コンテンツをローカルに取得します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `artifact_or_name` |  (strまたはArtifact） アーティファクト名。project/またはentity/project/で接頭辞を付ける場合もあります。名前にentityが指定されていない場合、RunまたはAPIのエンティティ設定が使用されます。次の形式で有効な名前にできます： - name:version - name:alias または、`wandb.Artifact`の呼び出しで作成されたArtifactオブジェクトを渡すこともできます。 |
 |  `type` |  (str, オプション) 使用するアーティファクトのタイプ。 |
 |  `aliases` |  (list, オプション) このアーティファクトに適用するエイリアス。 |
 |  `use_as` |  (文字列, オプション) オプショナル文字列で、そのアーティファクトがどんな目的で使用されたかを示します。UIで表示されます。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  アーティファクトオブジェクト。 |
 
@@ -929,7 +929,7 @@ use_model(
 
 モデルアーティファクト'name'にログされたファイルをダウンロードします。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `name` |  (str） モデルアーティファクト名。'name'は既存のログされたモデルアーティファクトの名前と一致する必要があります。entity/project/で接頭辞を付ける場合もあります。次の形式で有効な名前にできます： - model_artifact_name:version - model_artifact_name:alias |
 
@@ -957,11 +957,11 @@ run.use_model(
 )
 ```
 
-| 発生する可能性のあるエラー |  |
+| 発生する可能性のあるエラー | Description |
 | :--- | :--- |
 |  `AssertionError` |  モデルアーティファクト'name'が「model」の部分文字列を含むタイプではない場合。 |
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 |  `path` |  (str） ダウンロードされたモデルアーティファクトファイルのパス。 |
 
@@ -985,11 +985,11 @@ watch(
 この関数は、トレーニング中にパラメータ、勾配、または両方を追跡することができます。
 将来的には任意の機械学習モデルに対応するよう拡張されるべきです。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  models (Union[torch.nn.Module, Sequence[torch.nn.Module]]): モニタリングされるモデルまたはモデルのシーケンス。 criterion (Optional[torch.F]): 最適化される損失関数 (オプション)。 log (Optional[Literal["gradients", "parameters", "all"]]): "gradients"、"parameters"、または"all" をどれをログするか指定します。ログを無効にするにはNoneを設定します (デフォルトは"gradients")。 log_freq (int): 勾配とパラメータをログする頻度 (バッチ単位）。 (デフォルトは1000）。 idx (Optional[int]): `wandb.watch`を使用して複数のモデルを追跡する時に使用されるインデックス (デフォルトはNone）。 log_graph (bool): モデルの計算グラフをログするかどうか。 (デフォルトはFalse） |
 
-| 発生する可能性のあるエラー |  |
+| 発生する可能性のあるエラー | Description |
 | :--- | :--- |
 |  `ValueError` |  `wandb.init`が呼び出されていない場合や、モデルのいずれかが`torch.nn.Module`のインスタンスでない場合。 |
 

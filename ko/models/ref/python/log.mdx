@@ -79,7 +79,7 @@ run.log({"train-loss": 0.4}, step=current_step)
 run.log({"accuracy": 0.9}, step=current_step)
 ```
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `data` |  `str` 키와 직렬화 가능한 Python 오브젝트 (예: `int`, `float` 및 `string`; `wandb.data_types`; 직렬화 가능한 Python 오브젝트의 목록, 튜플 및 NumPy 배열; 이 구조의 다른 `dict`) 가 있는 `dict` 입니다. |
 |  `step` |  기록할 단계 번호입니다. `None` 인 경우 암시적 자동 증가 단계가 사용됩니다. 설명의 메모를 참조하세요. |
@@ -217,7 +217,7 @@ with wandb.init() as run:
     )
 ```
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  `wandb.Error` |  `wandb.init` 전에 호출된 경우 |
 |  `ValueError` |  잘못된 데이터가 전달된 경우 |

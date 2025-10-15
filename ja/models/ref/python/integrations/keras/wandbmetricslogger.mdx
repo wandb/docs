@@ -30,7 +30,7 @@ WandbMetricsLogger(
 
 `initial_epoch` を `model.fit` に渡してトレーニングを再開し、かつ学習率スケジューラを使用している場合、`initial_global_step` を `WandbMetricsLogger` に渡すことを確認してください。`initial_global_step`は `step_size * initial_step` であり、ここで `step_size` はエポックごとのトレーニングステップ数です。`step_size` はトレーニングデータセットの基数とバッチサイズの積として計算できます。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `log_freq` |  ("epoch", "batch", または int) "epoch" の場合、各エポックの終了時にメトリクスをログします。"batch" の場合、各バッチの終了時にメトリクスをログします。整数の場合、そのバッチ数の終了時にメトリクスをログします。デフォルトは "epoch" です。 |
 |  `initial_global_step` |  (int) ある `initial_epoch` からトレーニングを再開し、学習率スケジューラを使用している場合に、学習率を正しくログするためにこの引数を使用します。これは `step_size * initial_step` として計算できます。デフォルトは 0 です。 |

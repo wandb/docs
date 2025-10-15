@@ -36,7 +36,7 @@ WandbModelCheckpoint(
 - 모델 가중치만 저장하거나 전체 모델을 저장합니다.
 - SavedModel 형식 또는 `.h5` 형식으로 모델을 저장합니다.
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `filepath` |  (Union[str, os.PathLike]) 모델 파일을 저장할 경로입니다. `filepath` 에는 `epoch` 의 값과 `logs` 의 키 ( `on_epoch_end` 에 전달됨)로 채워지는 명명된 형식 옵션이 포함될 수 있습니다. 예를 들어 `filepath` 가 `model-{epoch:02d}-{val_loss:.2f}` 이면 모델 체크포인트는 에포크 번호와 파일 이름의 유효성 검사 손실과 함께 저장됩니다. |
 |  `monitor` |  (str) 모니터링할 메트릭 이름입니다. 기본값은 "val_loss"입니다. |
@@ -47,7 +47,7 @@ WandbModelCheckpoint(
 |  `save_freq` |  (Union[SaveStrategy, int]) `epoch` 또는 정수입니다. `'epoch'` 를 사용하면 콜백은 각 에포크 후에 모델을 저장합니다. 정수를 사용하면 콜백은 이 많은 배치가 끝날 때 모델을 저장합니다. `val_acc` 또는 `val_loss` 와 같은 유효성 검사 메트릭을 모니터링할 때 save_freq는 해당 메트릭이 에포크가 끝날 때만 사용할 수 있으므로 "epoch" 로 설정해야 합니다. |
 |  `initial_value_threshold` |  (Optional[float]) 모니터링할 메트릭의 부동 소수점 초기 "최고" 값입니다. |
 
-| Attributes |  |
+| Attributes | Description |
 | :--- | :--- |
 
 ## 메소드

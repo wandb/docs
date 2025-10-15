@@ -21,7 +21,7 @@ Table(
 
 이 클래스는 UI에서 Table Visualizer를 생성하는 데 사용되는 기본 클래스입니다. [https://docs.wandb.ai/models/tables/](/models/tables/) 를 참조하세요.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 |  `columns` |  (List[str]) 테이블의 열 이름입니다. 기본값은 ["Input", "Output", "Expected"]입니다. |
 |  `data` |  (List[List[any]]) 값의 2D 행 중심 배열입니다. |
@@ -43,7 +43,7 @@ add_column(
 
 테이블에 데이터 열을 추가합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 |  `name` |  (str) - 열의 고유한 이름 |
 |  `data` |  (list | np.array) - 동종 데이터 열 |
@@ -61,7 +61,7 @@ add_computed_columns(
 
 기존 데이터를 기반으로 하나 이상의 계산된 열을 추가합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 |  `fn` |  하나 또는 두 개의 파라미터, ndx (int) 및 row (dict)를 허용하는 함수입니다. 여기서 ndx는 행의 인덱스를 나타내는 정수입니다. `include_ndx`가 `True`로 설정된 경우에만 포함됩니다. `row`는 기존 열을 키로 사용하는 사전입니다. 이 함수는 해당 행에 대한 새 열을 나타내는 사전을 반환해야 합니다(새 열 이름을 키로 사용). |
 
@@ -106,7 +106,7 @@ cast(
 이는 일반 Python 클래스, 내부 W&B 유형 또는
 wandb.Image 또는 wandb.Classes의 인스턴스와 같은 예제 오브젝트 중 하나일 수 있습니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 |  `col_name` |  (str) - 캐스팅할 열의 이름입니다. |
 |  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 대상 dtype입니다. |
@@ -124,7 +124,7 @@ get_column(
 
 테이블에서 열을 검색하고 선택적으로 NumPy 오브젝트로 변환합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 |  `name` |  (str) - 열의 이름 |
 |  `convert_to` |  (str, optional) - "numpy": 기본 데이터를 numpy 오브젝트로 변환합니다. |
@@ -171,7 +171,7 @@ iterrows()
 
 행의 인덱스 및 관련 데이터를 표시하여 테이블 데이터를 행별로 반환합니다.
 
-| Yields |  |
+| Yields | Description |
 | :--- | :--- |
 
 ***

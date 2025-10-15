@@ -23,7 +23,7 @@ login(
 
 デフォルトでは、資格情報は W&B サーバーに確認せずにローカルにのみ保存されます。資格情報を確認するには `verify=True` を指定してください。
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `anonymous` |  (string, optional) "must"、"allow"、または "never" のいずれかです。"must" に設定すると、常に匿名でユーザーをログインさせます。"allow" に設定すると、ユーザーが既にログインしていない場合にのみ匿名ユーザーを作成します。"never" に設定すると、ユーザーを匿名でログインさせません。デフォルトは "never" に設定されています。 |
 |  `key` |  (string, optional) 使用する APIキーです。 |
@@ -33,10 +33,10 @@ login(
 |  `timeout` |  (int, optional) ユーザー入力を待つ秒数です。 |
 |  `verify` |  (bool) W&B サーバーで資格情報を確認します。 |
 
-| Returns |  |
+| Returns | Description |
 | :--- | :--- |
 |  `bool` |  key が設定された場合 |
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  AuthenticationError - api_key の検証がサーバーで失敗した場合 UsageError - api_key が設定できず、tty がない場合 |

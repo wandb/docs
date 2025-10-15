@@ -13,12 +13,12 @@ LaunchAgent(
 )
 ```
 
-| Arguments |  |
+| Arguments | Description |
 | :--- | :--- |
 |  `api` |  Api object to use for making requests to the backend. |
 |  `config` |  Config dictionary for the agent. |
 
-| Attributes |  |
+| Attributes | Description |
 | :--- | :--- |
 |  `num_running_jobs` |  Return the number of jobs not including schedulers. |
 |  `num_running_schedulers` |  Return just the number of schedulers. |
@@ -89,7 +89,7 @@ loop()
 
 Loop infinitely to poll for jobs and run them.
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  `KeyboardInterrupt` |  if the agent is requested to stop. |
 
@@ -116,15 +116,15 @@ pop_from_queue(
 
 Pops an item off the runqueue to run as a job.
 
-| Arguments |  |
+| Arguments | Description |
 | :--- | :--- |
 |  `queue` |  Queue to pop from. |
 
-| Returns |  |
+| Returns | Description |
 | :--- | :--- |
 |  Item popped off the queue. |
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  `Exception` |  if there is an error popping from the queue. |
 
@@ -150,7 +150,7 @@ run_job(
 
 Set up project and run the job.
 
-| Arguments |  |
+| Arguments | Description |
 | :--- | :--- |
 |  `job` |  Job to run. |
 
@@ -176,6 +176,6 @@ update_status(
 
 Update the status of the agent.
 
-| Arguments |  |
+| Arguments | Description |
 | :--- | :--- |
 |  `status` |  Status to update the agent to. |

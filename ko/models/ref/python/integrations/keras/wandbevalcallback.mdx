@@ -149,7 +149,7 @@ init_data_table(
 
 이 메소드를 `on_train_begin` 또는 이와 동등한 훅에서 호출합니다. 그 뒤에 테이블 행 또는 열 단위로 데이터를 추가합니다.
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `column_names` | (list) W&B Tables의 열 이름입니다. |
 
@@ -167,7 +167,7 @@ init_pred_table(
 
 이 메소드를 `on_epoch_end` 또는 이와 동등한 훅에서 호출합니다. 그 뒤에 테이블 행 또는 열 단위로 데이터를 추가합니다.
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `column_names` | (list) W&B Tables의 열 이름입니다. |
 
@@ -187,7 +187,7 @@ log_data_table(
 
 이를 통해 평가 테이블은 이미 업로드된 데이터(이미지, 텍스트, 스칼라 등)의 참조를 다시 업로드하지 않고 사용할 수 있습니다.
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `name` | (str) 이 Artifacts에 대한 사람이 읽을 수 있는 이름입니다. UI에서 이 Artifacts를 식별하거나 use_artifact 호출에서 참조하는 방법입니다. (기본값은 'val') |
 |  `type` | (str) Artifacts의 유형으로, Artifacts를 구성하고 차별화하는 데 사용됩니다. (기본값은 'dataset') |
@@ -209,7 +209,7 @@ log_pred_table(
 
 테이블은 새 버전을 생성하여 여러 번 기록됩니다. 이를 사용하여 다른 간격으로 모델을 대화식으로 비교합니다.
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `type` | (str) Artifacts의 유형으로, Artifacts를 구성하고 차별화하는 데 사용됩니다. (기본값은 'evaluation') |
 |  `table_name` | (str) UI에 표시될 테이블의 이름입니다. (기본값은 'eval_data') |

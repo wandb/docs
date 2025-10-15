@@ -22,7 +22,7 @@ Image(
 ) -> None
 ```
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  `data_or_path` |  (numpy array, string, io) 画像データの numpy 配列または PIL 画像を受け付けます。クラスはデータフォーマットを推測して変換します。|
 |  `mode` |  (string) 画像のための PIL モード。最も一般的なのは "L", "RGB", "RGBA" です。詳しくは https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes を参照してください。|
@@ -81,7 +81,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-| Attributes |  |
+| Attributes | Description |
 | :--- | :--- |
 
 ## メソッド
@@ -152,7 +152,7 @@ to_uint8(
 
 範囲 [0,1] の浮動小数点画像と範囲 [0,255] の整数画像を必要に応じてクリッピングして uint8 に変換します。
 
-| クラス変数 |  |
+| クラス変数 | Description |
 | :--- | :--- |
 |  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
 |  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |

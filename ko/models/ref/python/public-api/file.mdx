@@ -15,7 +15,7 @@ File(
 )
 ```
 
-| 속성 |  |
+| 속성 | Description |
 | :--- | :--- |
 |  `path_uri` | 스토리지 버킷에 있는 파일의 uri 경로를 반환합니다. |
 
@@ -56,11 +56,11 @@ download(
 
 wandb 서버에서 run에 의해 이전에 저장된 파일을 다운로드합니다.
 
-| Args |  |
+| Args | Description |
 | :--- | :--- |
 |  replace (boolean): `True`인 경우, 다운로드는 로컬 파일이 존재하면 덮어씁니다. 기본값은 `False`입니다. root (str): 파일을 저장할 로컬 디렉토리입니다. 기본값은 "."입니다. exist_ok (boolean): `True`인 경우, 파일이 이미 존재하면 ValueError를 발생시키지 않으며 replace=True가 아니면 다시 다운로드하지 않습니다. 기본값은 `False`입니다. api (Api, optional): 주어진 경우, 파일을 다운로드하는 데 사용되는 `Api` 인스턴스입니다. |
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  파일이 이미 존재하고 replace=False 및 exist_ok=False인 경우 `ValueError`가 발생합니다. |
 

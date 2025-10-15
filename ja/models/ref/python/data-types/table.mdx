@@ -23,7 +23,7 @@ Table(
 
 このクラスは、UI の Table Visualizer を生成するために使用される主要なクラスです: [https://docs.wandb.ai/models/tables/](/ja/models/tables/).
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `columns` |  (List[str]) テーブル内の列の名前。デフォルトは["Input", "Output", "Expected"]です。 |
 |  `data` |  (List[List[any]]) 2D 行指向の配列。 |
@@ -45,7 +45,7 @@ add_column(
 
 テーブルにデータ列を追加します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `name` |  (str) - 列の一意の名前 |
 |  `data` |  (list | np.array) - 同種のデータの列 |
@@ -63,7 +63,7 @@ add_computed_columns(
 
 既存のデータに基づいて1つ以上の計算列を追加します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `fn` |  ndx（int）および row（dict）という1つまたは2つのパラメータを受け取り、新しい列のキーを新しい列名として指定した辞書を返す関数です。`ndx` は行のインデックスを示す整数です。`include_ndx` が `True` に設定されている場合にのみ含まれます。`row` は既存の列にキー付けされた辞書です。 |
 
@@ -107,7 +107,7 @@ cast(
 
 これは通常の Python クラスの1つである場合もあれば、内部の W&B タイプの1つであり、例えば wandb.Image や wandb.Classes のインスタンスのようなサンプルオブジェクトである場合もあります。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `col_name` |  (str) - キャストする列の名前。 |
 |  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 目的の dtype。 |
@@ -125,7 +125,7 @@ get_column(
 
 テーブルから列を取得し、オプションで NumPy オブジェクトに変換します。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `name` |  (str) - 列の名前 |
 |  `convert_to` |  (str, optional) - "numpy": 基礎となるデータを numpy オブジェクトに変換します |
@@ -172,7 +172,7 @@ iterrows()
 
 行ごとにテーブルデータを返し、行のインデックスと関連するデータを表示します。
 
-| Yields |  |
+| Yields | Description |
 | :--- | :--- |
 
 ***
@@ -202,7 +202,7 @@ set_pk(
 )
 ```
 
-| クラス変数 |  |
+| クラス変数 | Description |
 | :--- | :--- |
 |  `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> |  `200000` |
 |  `MAX_ROWS`<a id="MAX_ROWS"></a> |  `10000` |

@@ -35,13 +35,13 @@ hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
 ```
 
-| 인자 |  |
+| 인자 | Description |
 | :--- | :--- |
 |  `sequence` |  (array_like) 히스토그램을 위한 입력 데이터 |
 |  `np_histogram` |  (numpy histogram) 미리 계산된 히스토그램의 대체 입력 |
 |  `num_bins` |  (int) 히스토그램의 bin 개수입니다. 기본 bin 개수는 64개입니다. 최대 bin 개수는 512개입니다. |
 
-| 속성 |  |
+| 속성 | Description |
 | :--- | :--- |
 |  `bins` |  ([float]) bin의 경계 |
 |  `histogram` |  ([int]) 각 bin에 속하는 요소의 수 |

@@ -20,7 +20,7 @@ Run(
 )
 ```
 
-| 어트리뷰트 |  |
+| 어트리뷰트 | Description |
 | :--- | :--- |
 
 ## 메소드
@@ -74,11 +74,11 @@ file(
 
 아티팩트에서 지정된 이름을 가진 파일의 경로를 반환합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | name (str): 요청된 파일의 이름입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | name 인수와 일치하는 `File`입니다. |
 
@@ -94,11 +94,11 @@ files(
 
 이름이 지정된 각 파일에 대한 파일 경로를 반환합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | names (list): 요청된 파일의 이름입니다. 비어 있으면 모든 파일을 반환합니다. per_page (int): 페이지당 결과 수입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `File` 오브젝트에 대한 반복자인 `Files` 오브젝트입니다. |
 
@@ -116,7 +116,7 @@ run에 대한 샘플링된 히스토리 메트릭을 반환합니다.
 
 히스토리 레코드가 샘플링되어도 괜찮다면 더 간단하고 빠릅니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `samples` | (int, optional) 반환할 샘플 수 |
 | `pandas` | (bool, optional) pandas 데이터프레임을 반환합니다 |
@@ -124,7 +124,7 @@ run에 대한 샘플링된 히스토리 메트릭을 반환합니다.
 | `x_axis` | (str, optional) 이 메트릭을 xAxis 기본값인 _step으로 사용합니다 |
 | `stream` | (str, optional) 메트릭의 경우 "default", 머신 메트릭의 경우 "system" |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `pandas.DataFrame` | pandas=True인 경우 히스토리 메트릭의 `pandas.DataFrame`을 반환합니다. dict 목록: pandas=False인 경우 히스토리 메트릭의 dict 목록을 반환합니다. |
 
@@ -152,12 +152,12 @@ log_artifact(
 
 아티팩트를 run의 출력으로 선언합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | artifact (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 아티팩트입니다. aliases (list, optional): 이 아티팩트에 적용할 에일리어스입니다. |
 | `tags` | (list, optional) 이 아티팩트에 적용할 태그(있는 경우)입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `Artifact` 오브젝트입니다. |
 
@@ -175,11 +175,11 @@ logged_artifacts(
 
 run 중에 로그된 모든 출력 아티팩트를 검색합니다. 반복하거나 단일 목록으로 수집할 수 있는 페이지 매김된 결과를 반환합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `per_page` | API 요청당 가져올 아티팩트 수입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 이 run 중에 출력으로 로그된 모든 Artifact 오브젝트의 반복 가능한 컬렉션입니다. |
 
@@ -235,11 +235,11 @@ history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
 ```
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | keys ([str], optional): 이러한 키만 가져오고, 정의된 모든 키를 가진 행만 가져옵니다. page_size (int, optional): API에서 가져올 페이지 크기입니다. min_step (int, optional): 한 번에 스캔할 최소 페이지 수입니다. max_step (int, optional): 한 번에 스캔할 최대 페이지 수입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 히스토리 레코드(dict)에 대한 반복 가능한 컬렉션입니다. |
 
@@ -287,11 +287,11 @@ upload_file(
 
 파일을 업로드합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | path (str): 업로드할 파일의 이름입니다. root (str): 파일을 기준으로 저장할 루트 경로입니다. 즉, 파일을 "my_dir/file.txt"로 run에 저장하고 현재 "my_dir"에 있는 경우 루트를 "../"로 설정합니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | name 인수와 일치하는 `File`입니다. |
 
@@ -307,11 +307,11 @@ use_artifact(
 
 아티팩트를 run에 대한 입력으로 선언합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | artifact (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 아티팩트입니다. use_as (string, optional): 스크립트에서 아티팩트가 사용되는 방식을 식별하는 문자열입니다. 베타 wandb Launch 기능의 아티팩트 스와핑 기능을 사용할 때 run에서 사용되는 아티팩트를 쉽게 구별하는 데 사용됩니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | `Artifact` 오브젝트입니다. |
 
@@ -329,11 +329,11 @@ used_artifacts(
 
 일반적으로 `run.use_artifact()`를 통해 run 중에 사용된 것으로 명시적으로 선언된 입력 아티팩트만 검색합니다. 반복하거나 단일 목록으로 수집할 수 있는 페이지 매김된 결과를 반환합니다.
 
-| 인수 |  |
+| 인수 | Description |
 | :--- | :--- |
 | `per_page` | API 요청당 가져올 아티팩트 수입니다. |
 
-| 반환 |  |
+| 반환 | Description |
 | :--- | :--- |
 | 이 run에서 입력으로 명시적으로 사용된 Artifact 오브젝트의 반복 가능한 컬렉션입니다. |
 

@@ -31,7 +31,7 @@ launch_add(
 ) -> "public.QueuedRun"
 ```
 
-| Arguments |  |
+| Arguments | Description |
 | :--- | :--- |
 |  `uri` |  URI of experiment to run. A wandb run uri or a Git repository URI. |
 |  `job` |  string reference to a wandb.Job eg: wandb/test/my-job:latest |
@@ -65,10 +65,10 @@ api = wandb.apis.internal.Api()
 launch_add(uri=project_uri, parameters=params)
 ```
 
-| Returns |  |
+| Returns | Description |
 | :--- | :--- |
 |  an instance of`wandb.api.public.QueuedRun` which gives information about the queued run, or if `wait_until_started` or `wait_until_finished` are called, gives access to the underlying Run information. |
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  `wandb.exceptions.LaunchError` if unsuccessful |

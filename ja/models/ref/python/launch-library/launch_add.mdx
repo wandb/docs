@@ -37,7 +37,7 @@ launch_add(
 ) -> "public.QueuedRun"
 ```
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  `uri` |  実行する実験の URI。wandb の run URI や Git リポジトリ URI。 |
 |  `job` |  wandb.Job への文字列参照。例: wandb/test/my-job:latest |
@@ -70,10 +70,10 @@ api = wandb.apis.internal.Api()
 launch_add(uri=project_uri, parameters=params)
 ```
 
-| 戻り値 |  |
+| 戻り値 | Description |
 | :--- | :--- |
 | `wandb.api.public.QueuedRun` のインスタンスで、キューに追加された run に関する情報を提供します。また、`wait_until_started` または `wait_until_finished` が呼び出された場合、基礎となる Run 情報にアクセスできます。 |
 
-| 例外 |  |
+| 例外 | Description |
 | :--- | :--- |
 | `wandb.exceptions.LaunchError` が失敗時に発生します |

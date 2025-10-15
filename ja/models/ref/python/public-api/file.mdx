@@ -15,7 +15,7 @@ File(
 )
 ```
 
-| 属性 |  |
+| 属性 | Description |
 | :--- | :--- |
 |  `path_uri` |  ストレージバケット内のファイルへの URI パスを返します。 |
 
@@ -56,11 +56,11 @@ download(
 
 wandb サーバーから run によって以前に保存されたファイルをダウンロードします。
 
-| 引数 |  |
+| 引数 | Description |
 | :--- | :--- |
 |  replace (boolean): `True` の場合、ローカルファイルが存在するときにダウンロードがそのファイルを上書きします。デフォルトは `False`。root (str): ファイルを保存するローカルディレクトリー。デフォルトは "."。exist_ok (boolean): `True` の場合、ファイルが既に存在しているときに ValueError を発生させず、replace=True でない限り再ダウンロードしません。デフォルトは `False`。api (Api, optional): 指定された場合、ファイルをダウンロードするのに使用される `Api` インスタンス。 |
 
-| Raises |  |
+| Raises | Description |
 | :--- | :--- |
 |  ファイルが既に存在し、replace=False でかつ exist_ok=False の場合に `ValueError` を発生させます。 |
 

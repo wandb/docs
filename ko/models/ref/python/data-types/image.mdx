@@ -22,7 +22,7 @@ Image(
 ) -> None
 ```
 
-| ARG |  |
+| ARG | Description |
 | :--- | :--- |
 |  `data_or_path` |  (numpy array, string, io) 이미지 데이터의 numpy array 또는 PIL 이미지를 허용합니다. 클래스는 데이터 형식을 추론하고 변환을 시도합니다. |
 |  `mode` |  (string) 이미지의 PIL 모드입니다. 가장 일반적인 것은 "L", "RGB", "RGBA"입니다. 자세한 설명은 https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes 를 참조하세요. |
@@ -81,7 +81,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-| 속성 |  |
+| 속성 | Description |
 | :--- | :--- |
 
 ## Methods
