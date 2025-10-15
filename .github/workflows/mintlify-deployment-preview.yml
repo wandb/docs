@@ -1,0 +1,464 @@
+name: Mintlify Deployment Preview Links
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  deployments: read
+
+jobs:
+  update-preview-links:
+    # Only run when Mintlify deployment succeeds
+    if: |
+      github.event.deployment_status.state == 'success' && 
+      github.event.deployment.environment == 'staging' &&
+      contains(github.event.deployment_status.creator.login, 'mintlify')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.deployment.ref }}
+
+      - name: Get PR number from deployment ref
+        id: get-pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            // The deployment ref is the branch name
+            const branch = context.payload.deployment.ref;
+            
+            // Find PRs for this branch
+            const prs = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${branch}`,
+              state: 'open'
+            });
+            
+            if (prs.data.length > 0) {
+              const pr = prs.data[0];
+              core.setOutput('pr_number', pr.number);
+              core.setOutput('base_ref', pr.base.ref);
+              core.setOutput('base_sha', pr.base.sha);
+              core.info(`Found PR #${pr.number} for branch ${branch}`);
+              core.info(`Base branch: ${pr.base.ref} (${pr.base.sha})`);
+              return pr.number;
+            } else {
+              core.warning(`No open PR found for branch ${branch}`);
+              return null;
+            }
+
+      - name: Get all PR changed files
+        if: steps.get-pr.outputs.pr_number
+        id: changed
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
+            
+            // Get all files changed in the PR
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              per_page: 100
+            });
+            
+            // Filter for relevant file types
+            const relevantFiles = files.filter(file => {
+              const filename = file.filename;
+              return filename.endsWith('.mdx') || 
+                     filename.endsWith('.md') || 
+                     filename === 'docs.json' || 
+                     filename === 'mint.json' ||
+                     filename.startsWith('snippets/') ||
+                     filename.startsWith('images/') ||
+                     filename.startsWith('icons/') ||
+                     filename.startsWith('logo/') ||
+                     filename.startsWith('static/') ||
+                     filename === 'style.css';
+            });
+            
+            // Group files by status - include previous_filename for renamed files
+            const added = relevantFiles.filter(f => f.status === 'added').map(f => f.filename);
+            const modified = relevantFiles.filter(f => f.status === 'modified').map(f => f.filename);
+            const removed = relevantFiles.filter(f => f.status === 'removed').map(f => f.filename);
+            const renamed = relevantFiles.filter(f => f.status === 'renamed').map(f => ({
+              old: f.previous_filename,
+              new: f.filename
+            }));
+            
+            // Store all categorized files for the comment builder
+            core.setOutput('added_files', JSON.stringify(added));
+            core.setOutput('modified_files', JSON.stringify(modified));
+            core.setOutput('removed_files', JSON.stringify(removed));
+            core.setOutput('renamed_files', JSON.stringify(renamed));
+            core.setOutput('any_changed', relevantFiles.length > 0 ? 'true' : 'false');
+            
+            core.info(`Found ${relevantFiles.length} changed files in PR #${prNumber}`);
+            core.info(`Added: ${added.length}, Modified: ${modified.length}, Renamed: ${renamed.length}, Removed: ${removed.length}`);
+
+      - name: Update PR comment with preview links
+        if: steps.get-pr.outputs.pr_number && steps.changed.outputs.any_changed == 'true'
+        uses: actions/github-script@v8
+        env:
+          PR_NUMBER: ${{ steps.get-pr.outputs.pr_number }}
+          PREVIEW_URL: ${{ github.event.deployment_status.environment_url }}
+          ADDED_FILES: ${{ steps.changed.outputs.added_files }}
+          MODIFIED_FILES: ${{ steps.changed.outputs.modified_files }}
+          REMOVED_FILES: ${{ steps.changed.outputs.removed_files }}
+          RENAMED_FILES: ${{ steps.changed.outputs.renamed_files }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const prNumber = parseInt(process.env.PR_NUMBER);
+            const previewUrl = process.env.PREVIEW_URL;
+            
+            // Parse the categorized files
+            const added = JSON.parse(process.env.ADDED_FILES || '[]');
+            const modified = JSON.parse(process.env.MODIFIED_FILES || '[]');
+            const removed = JSON.parse(process.env.REMOVED_FILES || '[]');
+            const renamed = JSON.parse(process.env.RENAMED_FILES || '[]');
+            
+            if (!previewUrl) {
+              core.warning('No preview URL found in deployment status');
+              return;
+            }
+            
+            const totalFiles = added.length + modified.length + removed.length + renamed.length;
+            core.info(`Mintlify Preview URL: ${previewUrl}`);
+            core.info(`Total changed files: ${totalFiles}`);
+            core.info(`Added: ${added.length}, Modified: ${modified.length}, Renamed: ${renamed.length}, Removed: ${removed.length}`);
+            
+            // Helper function to detect if a file is an image
+            function isImageFile(filepath) {
+              const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.bmp'];
+              const ext = path.extname(filepath).toLowerCase();
+              if (imageExtensions.includes(ext)) return true;
+              
+              // Also check if it's in an image-related directory
+              return filepath.startsWith('images/') || 
+                     filepath.startsWith('icons/') || 
+                     filepath.startsWith('logo/') || 
+                     filepath.startsWith('static/');
+            }
+            
+            // Function to get title from file path
+            function titleFromPath(p) {
+              let base = path.basename(p, path.extname(p));
+              
+              // Handle special icon naming pattern
+              if (base.includes('Name=') || base.includes('Mode=')) {
+                const nameMatch = base.match(/Name=([^,\s]+)/);
+                const modeMatch = base.match(/Mode=([^,\s]+)/);
+                
+                if (nameMatch || modeMatch) {
+                  const parts = [];
+                  if (nameMatch) parts.push(nameMatch[1]);
+                  if (modeMatch) parts.push(modeMatch[1]);
+                  base = parts.join(' ');
+                }
+              }
+              
+              if (base === 'index') {
+                const dir = path.dirname(p);
+                const parent = path.basename(dir);
+                return parent.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+              }
+              return base.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+            
+            // Function to get URL from file path
+            function urlFromPath(p) {
+              // Remove file extension
+              let urlPath = p.replace(/\.(mdx?|md)$/, '');
+              
+              // Remove 'index' from the end if present
+              if (urlPath.endsWith('/index')) {
+                urlPath = urlPath.slice(0, -6);
+              }
+              
+              return `${previewUrl}/${urlPath}`;
+            }
+            
+            // Helper function to create file table rows
+            function createFileTable(files, maxShow = 10, showPreview = true, isImage = false) {
+              let table = showPreview ? 
+                `| File | Preview |\n|------|----------|\n` :
+                `| File |\n|------|\n`;
+              
+              const toShow = files.slice(0, maxShow);
+              toShow.forEach(file => {
+                if (showPreview) {
+                  if (file.endsWith('.mdx') || file.endsWith('.md')) {
+                    const title = titleFromPath(file);
+                    const url = urlFromPath(file);
+                    table += `| \`${file}\` | [${title}](${url}) |\n`;
+                  } else if (isImage) {
+                    // Images can also be previewed directly
+                    const title = titleFromPath(file);
+                    const url = `${previewUrl}/${file}`;
+                    table += `| \`${file}\` | [View ${title}](${url}) |\n`;
+                  } else {
+                    table += `| \`${file}\` | - |\n`;
+                  }
+                } else {
+                  table += `| \`${file}\` |\n`;
+                }
+              });
+              
+              if (files.length > maxShow) {
+                table += showPreview ? 
+                  `| *... and ${files.length - maxShow} more files* | |\n` :
+                  `| *... and ${files.length - maxShow} more files* |\n`;
+              }
+              
+              return table;
+            }
+            
+            // Build comment body
+            let body = `<!-- mintlify-preview-links -->\n`;
+            body += `## 📚 Mintlify Preview Links\n\n`;
+            body += `🔗 **[View Full Preview](${previewUrl})**\n\n`;
+            
+            const maxPerSubcategory = 10;
+            let hasChanges = false;
+            
+            // Renamed/Moved files
+            if (renamed.length > 0) {
+              hasChanges = true;
+              body += `### 🔄 Renamed/Moved (${renamed.length} total)\n\n`;
+              
+              const pagesRenamed = renamed.filter(r => r.new.endsWith('.mdx') || r.new.endsWith('.md'));
+              const imagesRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && isImageFile(r.new));
+              const otherRenamed = renamed.filter(r => !pagesRenamed.some(p => p.new === r.new) && !imagesRenamed.some(i => i.new === r.new));
+              
+              // Pages (with preview links)
+              if (pagesRenamed.length > 0) {
+                body += `#### 📄 Pages (${pagesRenamed.length})\n\n`;
+                body += `| Old Path → New Path | Preview |\n|---------------------|----------|\n`;
+                const toShow = pagesRenamed.slice(0, maxPerSubcategory);
+                toShow.forEach(({old: oldPath, new: newPath}) => {
+                  const title = titleFromPath(newPath);
+                  const url = urlFromPath(newPath);
+                  body += `| \`${oldPath}\`<br>→ \`${newPath}\` | [${title}](${url}) |\n`;
+                });
+                if (pagesRenamed.length > maxPerSubcategory) {
+                  body += `| *... and ${pagesRenamed.length - maxPerSubcategory} more pages* | |\n`;
+                }
+                body += `\n`;
+              }
+              
+              // Images (with preview links)
+              if (imagesRenamed.length > 0) {
+                if (imagesRenamed.length > 5) {
+                  body += `<details>\n<summary>🖼️ Images (${imagesRenamed.length})</summary>\n\n`;
+                } else {
+                  body += `#### 🖼️ Images (${imagesRenamed.length})\n\n`;
+                }
+                body += `| Old Path → New Path | Preview |\n|---------------------|----------|\n`;
+                const toShow = imagesRenamed.slice(0, maxPerSubcategory);
+                toShow.forEach(({old: oldPath, new: newPath}) => {
+                  const title = titleFromPath(newPath);
+                  const url = `${previewUrl}/${newPath}`;
+                  body += `| \`${oldPath}\`<br>→ \`${newPath}\` | [View ${title}](${url}) |\n`;
+                });
+                if (imagesRenamed.length > maxPerSubcategory) {
+                  body += `| *... and ${imagesRenamed.length - maxPerSubcategory} more images* | |\n`;
+                }
+                if (imagesRenamed.length > 5) {
+                  body += `\n</details>\n`;
+                }
+                body += `\n`;
+              }
+              
+              // Other files (no preview)
+              if (otherRenamed.length > 0) {
+                body += `<details>\n<summary>⚙️ Other (${otherRenamed.length})</summary>\n\n`;
+                body += `| Old Path → New Path |\n|---------------------|\n`;
+                const toShow = otherRenamed.slice(0, maxPerSubcategory);
+                toShow.forEach(({old: oldPath, new: newPath}) => {
+                  body += `| \`${oldPath}\`<br>→ \`${newPath}\` |\n`;
+                });
+                if (otherRenamed.length > maxPerSubcategory) {
+                  body += `| *... and ${otherRenamed.length - maxPerSubcategory} more files* |\n`;
+                }
+                body += `\n</details>\n\n`;
+              }
+            }
+            
+            // Added files
+            if (added.length > 0) {
+              hasChanges = true;
+              body += `### ✨ Added (${added.length} total)\n\n`;
+              
+              const pagesAdded = added.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const imagesAdded = added.filter(f => !pagesAdded.includes(f) && isImageFile(f));
+              const otherAdded = added.filter(f => !pagesAdded.includes(f) && !imagesAdded.includes(f));
+              
+              // Pages (with preview links)
+              if (pagesAdded.length > 0) {
+                body += `#### 📄 Pages (${pagesAdded.length})\n\n`;
+                body += createFileTable(pagesAdded, maxPerSubcategory, true, false);
+                body += `\n`;
+              }
+              
+              // Images (with preview links)
+              if (imagesAdded.length > 0) {
+                if (imagesAdded.length > 5) {
+                  body += `<details>\n<summary>🖼️ Images (${imagesAdded.length})</summary>\n\n`;
+                } else {
+                  body += `#### 🖼️ Images (${imagesAdded.length})\n\n`;
+                }
+                body += createFileTable(imagesAdded, maxPerSubcategory, true, true);
+                if (imagesAdded.length > 5) {
+                  body += `</details>\n`;
+                }
+                body += `\n`;
+              }
+              
+              // Other files (no preview)
+              if (otherAdded.length > 0) {
+                body += `<details>\n<summary>⚙️ Other (${otherAdded.length})</summary>\n\n`;
+                body += createFileTable(otherAdded, maxPerSubcategory, false);
+                body += `\n</details>\n\n`;
+              }
+            }
+            
+            // Changed files (Modified)
+            if (modified.length > 0) {
+              hasChanges = true;
+              body += `### 📝 Changed (${modified.length} total)\n\n`;
+              
+              const pagesModified = modified.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const imagesModified = modified.filter(f => !pagesModified.includes(f) && isImageFile(f));
+              const otherModified = modified.filter(f => !pagesModified.includes(f) && !imagesModified.includes(f));
+              
+              // Pages (with preview links)
+              if (pagesModified.length > 0) {
+                body += `#### 📄 Pages (${pagesModified.length})\n\n`;
+                body += createFileTable(pagesModified, maxPerSubcategory, true, false);
+                body += `\n`;
+              }
+              
+              // Images (with preview links)
+              if (imagesModified.length > 0) {
+                if (imagesModified.length > 5) {
+                  body += `<details>\n<summary>🖼️ Images (${imagesModified.length})</summary>\n\n`;
+                } else {
+                  body += `#### 🖼️ Images (${imagesModified.length})\n\n`;
+                }
+                body += createFileTable(imagesModified, maxPerSubcategory, true, true);
+                if (imagesModified.length > 5) {
+                  body += `</details>\n`;
+                }
+                body += `\n`;
+              }
+              
+              // Other files (no preview)
+              if (otherModified.length > 0) {
+                body += `<details>\n<summary>⚙️ Other (${otherModified.length})</summary>\n\n`;
+                body += createFileTable(otherModified, maxPerSubcategory, false);
+                body += `\n</details>\n\n`;
+              }
+            }
+            
+            // Deleted files (no preview links)
+            if (removed.length > 0) {
+              hasChanges = true;
+              body += `### 🗑️ Deleted (${removed.length} total)\n\n`;
+              
+              const pagesRemoved = removed.filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+              const imagesRemoved = removed.filter(f => !pagesRemoved.includes(f) && isImageFile(f));
+              const otherRemoved = removed.filter(f => !pagesRemoved.includes(f) && !imagesRemoved.includes(f));
+              
+              body += `<details>\n<summary>View deleted files</summary>\n\n`;
+              
+              // Pages (no preview)
+              if (pagesRemoved.length > 0) {
+                body += `**📄 Pages (${pagesRemoved.length})**\n\n`;
+                body += `| File |\n|------|\n`;
+                const toShow = pagesRemoved.slice(0, maxPerSubcategory);
+                toShow.forEach(file => {
+                  body += `| \`${file}\` |\n`;
+                });
+                if (pagesRemoved.length > maxPerSubcategory) {
+                  body += `| *... and ${pagesRemoved.length - maxPerSubcategory} more pages* |\n`;
+                }
+                body += `\n`;
+              }
+              
+              // Images (no preview)
+              if (imagesRemoved.length > 0) {
+                body += `**🖼️ Images (${imagesRemoved.length})**\n\n`;
+                body += `| File |\n|------|\n`;
+                const toShow = imagesRemoved.slice(0, maxPerSubcategory);
+                toShow.forEach(file => {
+                  body += `| \`${file}\` |\n`;
+                });
+                if (imagesRemoved.length > maxPerSubcategory) {
+                  body += `| *... and ${imagesRemoved.length - maxPerSubcategory} more images* |\n`;
+                }
+                body += `\n`;
+              }
+              
+              // Other files (no preview)
+              if (otherRemoved.length > 0) {
+                body += `**⚙️ Other (${otherRemoved.length})**\n\n`;
+                body += `| File |\n|------|\n`;
+                const toShow = otherRemoved.slice(0, maxPerSubcategory);
+                toShow.forEach(file => {
+                  body += `| \`${file}\` |\n`;
+                });
+                if (otherRemoved.length > maxPerSubcategory) {
+                  body += `| *... and ${otherRemoved.length - maxPerSubcategory} more files* |\n`;
+                }
+                body += `\n`;
+              }
+              
+              body += `</details>\n\n`;
+            }
+            
+            if (!hasChanges) {
+              body += `*No documentation changes detected in this PR.*\n\n`;
+            }
+            
+            body += `\n---\n`;
+            body += `🤖 *Generated automatically when Mintlify deployment succeeds*`;
+            
+            // Find existing comment
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              per_page: 100,
+            });
+            
+            let existingComment = comments.find(c => 
+              c.body && c.body.includes('<!-- mintlify-preview-links -->')
+            );
+            
+            // Create or update comment
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body
+              });
+              core.info(`Updated existing comment #${existingComment.id}`);
+            } else {
+              const newComment = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body
+              });
+              core.info(`Created new comment #${newComment.data.id}`);
+            }
