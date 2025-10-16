@@ -22,7 +22,7 @@ In this notebook we will learn to use Weave's Leaderboard to compare model perfo
 
 First we will create a function `generate_dataset_rows` that generates a list of fake zip code data.
 
-```python
+```python lines
 import json
 
 from openai import OpenAI
@@ -78,7 +78,7 @@ Next we will author 3 scoring functions:
 2. `check_value_fields`: Checks if the model output is within 10% of the expected population and median income.
 3. `check_subjective_fields`: Uses a LLM to check if the model output matches the expected "known for" field.
 
-```python
+```python lines
 @weave.op
 def check_concrete_fields(city: str, state: str, output: dict):
     return {
@@ -129,7 +129,7 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
 
 Next we define a simple evaliation using our fake data and scoring functions.
 
-```python
+```python lines
 rows = generate_dataset_rows()
 evaluation = weave.Evaluation(
     name="United States - 2022",
@@ -146,7 +146,7 @@ evaluation = weave.Evaluation(
 
 Now we will evaluate a baseline model which returns a static response.
 
-```python
+```python lines
 @weave.op
 def baseline_model(zip_code: str):
     return {
@@ -165,7 +165,7 @@ await evaluation.evaluate(baseline_model)
 
 Now we will create 2 more models to compare against the baseline.
 
-```python
+```python lines
 @weave.op
 def gpt_4o_mini_no_context(zip_code: str):
     client = OpenAI()
@@ -223,7 +223,7 @@ await evaluation.evaluate(gpt_4o_mini_with_context)
 
 Now we will evaluate a matrix of models vs evaluations.
 
-```python
+```python lines
 scorers = [
     check_concrete_fields,
     check_value_fields,
@@ -273,7 +273,7 @@ You can create a new leaderboard by navigating to the leaderboard tab in the UI 
 
 We can also generate a leaderboard directly from Python:
 
-```python
+```python lines
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 

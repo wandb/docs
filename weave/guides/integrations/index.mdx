@@ -1,11 +1,10 @@
 # Integrations
 
-<Info title="Integration Tracking">
 Weave provides **automatic implicit patching** for all supported integrations by default:
 
 **Implicit Patching (Automatic):** Libraries are automatically patched regardless of when they are imported.
 
-```python
+```python lines
 # Option 1: Import before weave.init()
 import openai
 import weave
@@ -19,7 +18,7 @@ import anthropic  # Automatically patched via import hook!
 
 **Disabling Implicit Patching:** You can disable automatic patching if you prefer explicit control.
 
-```python
+```python lines
 import weave
 
 # Option 1: Via settings parameter
@@ -35,14 +34,12 @@ weave.patch_openai()  # Now required for OpenAI tracing
 
 **Explicit Patching (Manual):** You can explicitly patch integrations for fine-grained control.
 
-```python
+```python lines
 import weave
 weave.init('my-project')
 weave.integrations.patch_openai()  # Enable OpenAI tracing
 weave.integrations.patch_anthropic()  # Enable Anthropic tracing
 ```
-
-</Info>
 
 W&B Weave provides logging integrations for popular LLM providers and orchestration frameworks. These integrations allow you to seamlessly trace calls made through various libraries, enhancing your ability to monitor and analyze your AI applications.
 

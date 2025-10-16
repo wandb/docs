@@ -13,7 +13,7 @@ A `Model` is a combination of data (which can include configuration, trained mod
     - type definitions on all parameters
     - a typed `predict` function with `@weave.op()` decorator
 
-    ```python
+    ```python lines
     from weave import Model
     import weave
 
@@ -30,7 +30,7 @@ A `Model` is a combination of data (which can include configuration, trained mod
 
     You can call the model as usual with:
 
-    ```python
+    ```python lines
     import weave
     weave.init('intro-example')
 
@@ -47,7 +47,7 @@ A `Model` is a combination of data (which can include configuration, trained mod
 
     For example, here we create a new model:
 
-    ```python
+    ```python lines
     import weave
     weave.init('intro-example')
 
@@ -71,7 +71,7 @@ A `Model` is a combination of data (which can include configuration, trained mod
 
     To separate production calls, you can add an additional attribute to the predictions for easy filtering in the UI or API.
 
-    ```python
+    ```python lines
     with weave.attributes({'env': 'production'}):
         model.predict('world')
     ```

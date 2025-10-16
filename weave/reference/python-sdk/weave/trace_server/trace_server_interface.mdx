@@ -246,7 +246,7 @@ Base model with strict validation that forbids extra fields.
 
 ### <kbd>method</kbd> `serialize_typed_dicts`
 
-```python
+```python lines
 serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 ```
 
@@ -748,7 +748,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ### <kbd>method</kbd> `serialize_typed_dicts`
 
-```python
+```python lines
 serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 ```
 
@@ -1627,7 +1627,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ### <kbd>method</kbd> `model_post_init`
 
-```python
+```python lines
 model_post_init(_ObjSchemaForInsert__context: Any) → None
 ```
 
@@ -2488,7 +2488,7 @@ Turn calls are the immediate children of thread contexts (where call.id == turn_
 
 ### <kbd>method</kbd> `actions_execute_batch`
 
-```python
+```python lines
 actions_execute_batch(req: ActionsExecuteBatchReq) → ActionsExecuteBatchRes
 ```
 
@@ -2502,7 +2502,7 @@ actions_execute_batch(req: ActionsExecuteBatchReq) → ActionsExecuteBatchRes
 
 ### <kbd>method</kbd> `call_end`
 
-```python
+```python lines
 call_end(req: CallEndReq) → CallEndRes
 ```
 
@@ -2516,7 +2516,7 @@ call_end(req: CallEndReq) → CallEndRes
 
 ### <kbd>method</kbd> `call_read`
 
-```python
+```python lines
 call_read(req: CallReadReq) → CallReadRes
 ```
 
@@ -2530,7 +2530,7 @@ call_read(req: CallReadReq) → CallReadRes
 
 ### <kbd>method</kbd> `call_start`
 
-```python
+```python lines
 call_start(req: CallStartReq) → CallStartRes
 ```
 
@@ -2544,7 +2544,7 @@ call_start(req: CallStartReq) → CallStartRes
 
 ### <kbd>method</kbd> `call_start_batch`
 
-```python
+```python lines
 call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
 ```
 
@@ -2558,7 +2558,7 @@ call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
 
 ### <kbd>method</kbd> `call_update`
 
-```python
+```python lines
 call_update(req: CallUpdateReq) → CallUpdateRes
 ```
 
@@ -2572,7 +2572,7 @@ call_update(req: CallUpdateReq) → CallUpdateRes
 
 ### <kbd>method</kbd> `calls_delete`
 
-```python
+```python lines
 calls_delete(req: CallsDeleteReq) → CallsDeleteRes
 ```
 
@@ -2586,7 +2586,7 @@ calls_delete(req: CallsDeleteReq) → CallsDeleteRes
 
 ### <kbd>method</kbd> `calls_query`
 
-```python
+```python lines
 calls_query(req: CallsQueryReq) → CallsQueryRes
 ```
 
@@ -2600,7 +2600,7 @@ calls_query(req: CallsQueryReq) → CallsQueryRes
 
 ### <kbd>method</kbd> `calls_query_stats`
 
-```python
+```python lines
 calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
 ```
 
@@ -2614,7 +2614,7 @@ calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
 
 ### <kbd>method</kbd> `calls_query_stream`
 
-```python
+```python lines
 calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
 ```
 
@@ -2628,7 +2628,7 @@ calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
 
 ### <kbd>method</kbd> `completions_create`
 
-```python
+```python lines
 completions_create(req: CompletionsCreateReq) → CompletionsCreateRes
 ```
 
@@ -2642,7 +2642,7 @@ completions_create(req: CompletionsCreateReq) → CompletionsCreateRes
 
 ### <kbd>method</kbd> `completions_create_stream`
 
-```python
+```python lines
 completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]]
 ```
 
@@ -2656,7 +2656,7 @@ completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]
 
 ### <kbd>method</kbd> `cost_create`
 
-```python
+```python lines
 cost_create(req: CostCreateReq) → CostCreateRes
 ```
 
@@ -2670,7 +2670,7 @@ cost_create(req: CostCreateReq) → CostCreateRes
 
 ### <kbd>method</kbd> `cost_purge`
 
-```python
+```python lines
 cost_purge(req: CostPurgeReq) → CostPurgeRes
 ```
 
@@ -2684,7 +2684,7 @@ cost_purge(req: CostPurgeReq) → CostPurgeRes
 
 ### <kbd>method</kbd> `cost_query`
 
-```python
+```python lines
 cost_query(req: CostQueryReq) → CostQueryRes
 ```
 
@@ -2698,7 +2698,7 @@ cost_query(req: CostQueryReq) → CostQueryRes
 
 ### <kbd>method</kbd> `ensure_project_exists`
 
-```python
+```python lines
 ensure_project_exists(entity: str, project: str) → EnsureProjectExistsRes
 ```
 
@@ -2712,7 +2712,7 @@ ensure_project_exists(entity: str, project: str) → EnsureProjectExistsRes
 
 ### <kbd>method</kbd> `evaluate_model`
 
-```python
+```python lines
 evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
 ```
 
@@ -2726,7 +2726,7 @@ evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
 
 ### <kbd>method</kbd> `evaluation_status`
 
-```python
+```python lines
 evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
 ```
 
@@ -2740,7 +2740,7 @@ evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
 
 ### <kbd>method</kbd> `feedback_create`
 
-```python
+```python lines
 feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
 ```
 
@@ -2754,7 +2754,7 @@ feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
 
 ### <kbd>method</kbd> `feedback_create_batch`
 
-```python
+```python lines
 feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
 ```
 
@@ -2768,7 +2768,7 @@ feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
 
 ### <kbd>method</kbd> `feedback_purge`
 
-```python
+```python lines
 feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
 ```
 
@@ -2782,7 +2782,7 @@ feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
 
 ### <kbd>method</kbd> `feedback_query`
 
-```python
+```python lines
 feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
 ```
 
@@ -2796,7 +2796,7 @@ feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
 
 ### <kbd>method</kbd> `feedback_replace`
 
-```python
+```python lines
 feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
 ```
 
@@ -2810,7 +2810,7 @@ feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
 
 ### <kbd>method</kbd> `file_content_read`
 
-```python
+```python lines
 file_content_read(req: FileContentReadReq) → FileContentReadRes
 ```
 
@@ -2824,7 +2824,7 @@ file_content_read(req: FileContentReadReq) → FileContentReadRes
 
 ### <kbd>method</kbd> `file_create`
 
-```python
+```python lines
 file_create(req: FileCreateReq) → FileCreateRes
 ```
 
@@ -2838,7 +2838,7 @@ file_create(req: FileCreateReq) → FileCreateRes
 
 ### <kbd>method</kbd> `files_stats`
 
-```python
+```python lines
 files_stats(req: FilesStatsReq) → FilesStatsRes
 ```
 
@@ -2852,7 +2852,7 @@ files_stats(req: FilesStatsReq) → FilesStatsRes
 
 ### <kbd>method</kbd> `image_create`
 
-```python
+```python lines
 image_create(req: ImageGenerationCreateReq) → ImageGenerationCreateRes
 ```
 
@@ -2866,7 +2866,7 @@ image_create(req: ImageGenerationCreateReq) → ImageGenerationCreateRes
 
 ### <kbd>method</kbd> `obj_create`
 
-```python
+```python lines
 obj_create(req: ObjCreateReq) → ObjCreateRes
 ```
 
@@ -2880,7 +2880,7 @@ obj_create(req: ObjCreateReq) → ObjCreateRes
 
 ### <kbd>method</kbd> `obj_delete`
 
-```python
+```python lines
 obj_delete(req: ObjDeleteReq) → ObjDeleteRes
 ```
 
@@ -2894,7 +2894,7 @@ obj_delete(req: ObjDeleteReq) → ObjDeleteRes
 
 ### <kbd>method</kbd> `obj_read`
 
-```python
+```python lines
 obj_read(req: ObjReadReq) → ObjReadRes
 ```
 
@@ -2908,7 +2908,7 @@ obj_read(req: ObjReadReq) → ObjReadRes
 
 ### <kbd>method</kbd> `objs_query`
 
-```python
+```python lines
 objs_query(req: ObjQueryReq) → ObjQueryRes
 ```
 
@@ -2922,7 +2922,7 @@ objs_query(req: ObjQueryReq) → ObjQueryRes
 
 ### <kbd>method</kbd> `op_create`
 
-```python
+```python lines
 op_create(req: OpCreateReq) → OpCreateRes
 ```
 
@@ -2936,7 +2936,7 @@ op_create(req: OpCreateReq) → OpCreateRes
 
 ### <kbd>method</kbd> `op_read`
 
-```python
+```python lines
 op_read(req: OpReadReq) → OpReadRes
 ```
 
@@ -2950,7 +2950,7 @@ op_read(req: OpReadReq) → OpReadRes
 
 ### <kbd>method</kbd> `ops_query`
 
-```python
+```python lines
 ops_query(req: OpQueryReq) → OpQueryRes
 ```
 
@@ -2964,7 +2964,7 @@ ops_query(req: OpQueryReq) → OpQueryRes
 
 ### <kbd>method</kbd> `otel_export`
 
-```python
+```python lines
 otel_export(req: OtelExportReq) → OtelExportRes
 ```
 
@@ -2978,7 +2978,7 @@ otel_export(req: OtelExportReq) → OtelExportRes
 
 ### <kbd>method</kbd> `project_stats`
 
-```python
+```python lines
 project_stats(req: ProjectStatsReq) → ProjectStatsRes
 ```
 
@@ -2992,7 +2992,7 @@ project_stats(req: ProjectStatsReq) → ProjectStatsRes
 
 ### <kbd>method</kbd> `refs_read_batch`
 
-```python
+```python lines
 refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
 ```
 
@@ -3006,7 +3006,7 @@ refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
 
 ### <kbd>method</kbd> `table_create`
 
-```python
+```python lines
 table_create(req: TableCreateReq) → TableCreateRes
 ```
 
@@ -3020,7 +3020,7 @@ table_create(req: TableCreateReq) → TableCreateRes
 
 ### <kbd>method</kbd> `table_create_from_digests`
 
-```python
+```python lines
 table_create_from_digests(
     req: TableCreateFromDigestsReq
 ) → TableCreateFromDigestsRes
@@ -3036,7 +3036,7 @@ table_create_from_digests(
 
 ### <kbd>method</kbd> `table_query`
 
-```python
+```python lines
 table_query(req: TableQueryReq) → TableQueryRes
 ```
 
@@ -3050,7 +3050,7 @@ table_query(req: TableQueryReq) → TableQueryRes
 
 ### <kbd>method</kbd> `table_query_stats`
 
-```python
+```python lines
 table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes
 ```
 
@@ -3064,7 +3064,7 @@ table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes
 
 ### <kbd>method</kbd> `table_query_stats_batch`
 
-```python
+```python lines
 table_query_stats_batch(req: TableQueryStatsBatchReq) → TableQueryStatsBatchRes
 ```
 
@@ -3078,7 +3078,7 @@ table_query_stats_batch(req: TableQueryStatsBatchReq) → TableQueryStatsBatchRe
 
 ### <kbd>method</kbd> `table_query_stream`
 
-```python
+```python lines
 table_query_stream(req: TableQueryReq) → Iterator[TableRowSchema]
 ```
 
@@ -3092,7 +3092,7 @@ table_query_stream(req: TableQueryReq) → Iterator[TableRowSchema]
 
 ### <kbd>method</kbd> `table_update`
 
-```python
+```python lines
 table_update(req: TableUpdateReq) → TableUpdateRes
 ```
 
@@ -3106,7 +3106,7 @@ table_update(req: TableUpdateReq) → TableUpdateRes
 
 ### <kbd>method</kbd> `threads_query_stream`
 
-```python
+```python lines
 threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 ```
 

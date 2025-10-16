@@ -58,9 +58,7 @@ A _Trace_ captures the full call stack for a single operation. Threads group tra
 
 In the Weave sidebar, select **Threads** to access the [Threads list view](#threads-list-view). 
 
-<Frame>
 ![The Threads icon in the Weave sidebar](/weave/guides/tracking/imgs/threads-sidebar.png)
-</Frame>
 
 ### Threads list view
 
@@ -68,9 +66,7 @@ In the Weave sidebar, select **Threads** to access the [Threads list view](#thre
 - Columns include number of turns, start time, and last updated
 - Click a row to open its [detail drawer](#threads-detail-drawer)
 
-<Frame>
 ![The Threads list view](/weave/guides/tracking/imgs/threads-list.png)
-</Frame>
 
 ### Threads detail drawer
 
@@ -86,9 +82,7 @@ In the Weave sidebar, select **Threads** to access the [Threads list view](#thre
 
 The chat pane displays structured message data extracted from LLM calls made during each turn. This view gives you a conversational-style rendering of the interaction.
 
-<Frame>
 ![Chat view](/weave/guides/tracking/imgs/threads-chat-view.png)
-</Frame>
 
 #### What qualifies as a message?
 
@@ -113,9 +107,7 @@ You can open the full trace for a turn by clicking into it.
 
 A back button appears in the upper left corner to return to the thread detail view. UI state (like scroll position) is not preserved across the transition.
 
-<Frame>
 ![The Threads drawer view](/weave/guides/tracking/imgs/threads-drawer.png)
-</Frame>
 
 ## SDK usage
 
@@ -133,7 +125,7 @@ Nested `weave.thread()` contexts always start a new thread unless the same `thre
 
 The following code sample demonstrates how to use `weave.thread()` to group one or more operations under a shared `thread_id`. This is the simplest way to start using Threads in your application.
 
-```python
+```python lines
 import weave
 
 @weave.op
@@ -153,7 +145,7 @@ This example shows how to manually define a conversational agent using `@weave.o
 
 Use the auto-generated thread ID for short-lived interactions, or pass a custom session ID (like `user_session_123`) to persist thread context across sessions.
 
-```python
+```python lines
 import weave
 
 class ConversationAgent:
@@ -226,7 +218,7 @@ This example demonstrates that turns can be defined at different depths in the c
 
 All turns share the same `thread_id`, but the turn boundary appears at different levels in the stack depending on the provider logic. This is useful when calls need to be traced differently for different backends, while still grouping them into the same thread.
 
-```python 
+```python lines 
 import weave
 import random
 import asyncio
@@ -355,11 +347,10 @@ Sometimes you need to resume a previously started session and continue adding ca
 
 When implementing optional thread resumption, **never** leave the `thread_id` parameter as `None`, as this will disable thread grouping entirely. Instead, always provide a valid thread ID. If you need to create a new thread, generate a unique identifier using a function like `generate_id()`. 
 
-<Info>
 When no `thread_id` is specified, Weave's internal implementation automatically generates a random UUID v7. You can replicate this behavior in your own `generate_id()` function or use any unique string value you prefer.
-</Info>
 
-```python
+
+```python lines
 import weave
 import uuidv7
 import argparse
@@ -402,7 +393,7 @@ This example illustrates how to structure complex applications using multiple co
 
 Each layer runs in its own thread context, allowing for clean separation of concerns. The parent application thread coordinates these layers by setting up thread IDs using a shared `ThreadContext`. Use this pattern when you want to analyze or monitor different parts of the system independently while still tying them to a shared session.
 
-```python
+```python lines
 import weave
 from contextlib import contextmanager
 from typing import Dict
@@ -554,7 +545,7 @@ Endpoint: `POST /threads/query`
 
 ### Request schema
 
-```python
+```python lines
 class ThreadsQueryReq:
     project_id: str
     limit: Optional[int] = None
@@ -566,7 +557,7 @@ class ThreadsQueryReq:
 
 ### Response schema
 
-```python
+```python lines
 class ThreadSchema:
     thread_id: str           # Unique identifier for the thread
     turn_count: int          # Number of turn calls in this thread
@@ -581,7 +572,7 @@ class ThreadsQueryRes:
 
 This example fetches the 50 most recently updated threads. Replace `my-project` with your actual project ID.
 
-```python
+```python lines
 # Get most recently active threads
 response = client.threads_query(ThreadsQueryReq(
     project_id="my-project",
@@ -597,7 +588,7 @@ for thread in response.threads:
 
 This example fetches the 20 most active threads, ordered by number of turns.
 
-```python
+```python lines
 # Get threads with most activity (most turns)
 response = client.threads_query(ThreadsQueryReq(
     project_id="my-project",
@@ -610,7 +601,7 @@ response = client.threads_query(ThreadsQueryReq(
 
 This example returns threads that started in the past 24 hours. You can change the time window by adjusting the value of `days` in `timedelta`.
 
-```python
+```python lines
 from datetime import datetime, timedelta
 
 # Get threads started in the last 24 hours

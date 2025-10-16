@@ -22,7 +22,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     This scorer checks if your AI system's output includes any hallucinations based on the input data.
 
-    ```python
+    ```python lines
     from weave.scorers import HallucinationFreeScorer
 
     scorer = HallucinationFreeScorer()
@@ -38,7 +38,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Here you have an example in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     import weave
     from weave.scorers import HallucinationFreeScorer
@@ -76,7 +76,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Use an LLM to compare a summary to the original text and evaluate the quality of the summary.
 
-    ```python
+    ```python lines
     from weave.scorers import SummarizationScorer
 
     scorer = SummarizationScorer(
@@ -102,7 +102,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Here you have an example usage in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     import weave
     from weave.scorers import SummarizationScorer
@@ -135,7 +135,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `OpenAIModerationScorer` uses OpenAI's Moderation API to check if the AI system's output contains disallowed content, such as hate speech or explicit material.
 
-    ```python
+    ```python lines
     from weave.scorers import OpenAIModerationScorer
 
     scorer = OpenAIModerationScorer()
@@ -148,7 +148,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
     **Notes:**
     Here is an example in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     import weave
     from weave.scorers import OpenAIModerationScorer
@@ -181,7 +181,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `EmbeddingSimilarityScorer` computes the cosine similarity between the embeddings of the AI system's output and a target text from your dataset. It is useful for measuring how similar the AI's output is to a reference text.
 
-    ```python
+    ```python lines
     from weave.scorers import EmbeddingSimilarityScorer
 
     similarity_scorer = EmbeddingSimilarityScorer(
@@ -198,7 +198,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Here is an example usage in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     import weave
     from weave.scorers import EmbeddingSimilarityScorer
@@ -241,7 +241,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `ValidJSONScorer` checks whether the AI system's output is valid JSON. This scorer is useful when you expect the output to be in JSON format and need to verify its validity.
 
-    ```python
+    ```python lines
     from weave.scorers import ValidJSONScorer
 
     json_scorer = ValidJSONScorer()
@@ -249,7 +249,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Here is an example in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     import weave
     from weave.scorers import ValidJSONScorer
@@ -282,7 +282,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `ValidXMLScorer` checks whether the AI system's output is valid XML. It is useful when expecting XML-formatted outputs.
 
-    ```python
+    ```python lines
     from weave.scorers import ValidXMLScorer
 
     xml_scorer = ValidXMLScorer()
@@ -290,7 +290,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Here is an example in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     import weave
     from weave.scorers import ValidXMLScorer
@@ -322,7 +322,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `PydanticScorer` validates the AI system's output against a Pydantic model to ensure it adheres to a specified schema or data structure.
 
-    ```python
+    ```python lines
     from weave.scorers import PydanticScorer
     from pydantic import BaseModel
 
@@ -339,7 +339,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `ContextEntityRecallScorer` estimates context recall by extracting entities from both the AI system's output and the provided context, then computing the recall score. It is based on the [RAGAS](https://github.com/explodinggradients/ragas) evaluation library.
 
-    ```python
+    ```python lines
     from weave.scorers import ContextEntityRecallScorer
 
     entity_recall_scorer = ContextEntityRecallScorer(
@@ -363,7 +363,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     The `ContextRelevancyScorer` evaluates the relevancy of the provided context to the AI system's output. It is based on the [RAGAS](https://github.com/explodinggradients/ragas) evaluation library.
 
-    ```python
+    ```python lines
     from weave.scorers import ContextRelevancyScorer
 
     relevancy_scorer = ContextRelevancyScorer(
@@ -390,7 +390,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     Here is an example usage in the context of an evaluation:
 
-    ```python
+    ```python lines
     import asyncio
     from textwrap import dedent
     import weave
@@ -446,7 +446,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
 **Note:** The built-in scorers were calibrated using OpenAI models (e.g. `openai/gpt-4o`, `openai/text-embedding-3-small`). If you wish to experiment with other providers, you can simply update the `model_id`. For example, to use an Anthropic model:
 
-```python
+```python lines
 from weave.scorers import SummarizationScorer
 
 # Switch to Anthropic's Claude model

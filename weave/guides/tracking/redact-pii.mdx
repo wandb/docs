@@ -29,7 +29,7 @@ To get started with the Sensitive Data Protection feature in Weave, complete the
 
 2. Modify your `weave.init` call to enable redaction. When `redact_pii=True`, [common entities are redacted by default](#entities-redacted-by-default):
 
-    ```python
+    ```python lines
     import weave
 
     weave.init("my-project", settings={"redact_pii": True})
@@ -37,7 +37,7 @@ To get started with the Sensitive Data Protection feature in Weave, complete the
 
 3. (Optional) Customize redaction fields using the `redact_pii_fields` parameter:
 
-    ```python
+    ```python lines
     weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
     ```
 
@@ -92,7 +92,7 @@ Weave automatically redacts the following sensitive keys by default:
 
 You can extend this list with your own custom keys that you want to redact from traces:
 
-```python
+```python lines
 import weave
 
 client = weave.init("my-project")
@@ -113,7 +113,7 @@ def test():
 
 When viewed in the Weave UI, the values of `client_id` and `whatever_else` will appear as `"REDACTED"`:
 
-```python
+```python lines
 client_id = "REDACTED"
 whatever_else = "REDACTED"
 ```

@@ -42,7 +42,7 @@ There are two types of customizable names in the evaluation flow:
 
 To name the `Evaluation` object itself, pass an `evaluation_name` parameter to the `Evaluation` class. This name helps you identify the Evaluation in code and UI listings.
 
-```python
+```python lines
 evaluation = Evaluation(
     dataset=examples, scorers=[match_score1], evaluation_name="My Evaluation"
 )
@@ -52,7 +52,7 @@ evaluation = Evaluation(
 
 To name a specific evaluation run (a call to `evaluate()`), use the `__weave` dictionary with a `display_name`. This affects what is shown in the UI for that run.
 
-```python
+```python lines
 evaluation = Evaluation(
     dataset=examples, scorers=[match_score1]
 )
@@ -65,7 +65,7 @@ First, define a [Dataset](../core-types/datasets.mdx) object or list of dictiona
 
 The following examples shows a dataset defined as a list of dictionaries:
 
-```python
+```python lines
 examples = [
     {"question": "What is the capital of France?", "expected": "Paris"},
     {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
@@ -85,7 +85,7 @@ If your scorer expects an `output` argument but isn’t receiving it, check if i
 
 The following example scorer function `match_score1` uses the `expected` value from the `examples` dictionary for scoring.
 
-```python
+```python lines
 import weave
 
 # Collect your examples
@@ -112,7 +112,7 @@ See the tutorial on defining a `Scorer` class in [Model-Based Evaluation of RAG 
 
 To evaluate a `Model`, call `evaluate` on it using an `Evaluation`. `Models` are used when you have parameters that you want to experiment with and capture in weave.
 
-```python
+```python lines
 from weave import Model, Evaluation
 import asyncio
 
@@ -140,7 +140,7 @@ This will run `predict` on each example and score the output with each scoring f
 
 Alternatively, you can also evaluate a custom function tracked by `@weave.op()`.
 
-```python
+```python lines
 @weave.op
 def function_to_evaluate(question: str):
     # here's where you would add your LLM call and return the output
@@ -154,7 +154,7 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 To run an evaluation, call `.evaluate()` on the object you want to evaluate.
 For example, assuming an `Evaluation` object called `evaluation` and a `Model` object to evaluate called `model`, the following code instatiates an evaluation run.
 
-```python
+```python lines
 asyncio.run(evaluation.evaluate(model))
 ```
 
@@ -169,7 +169,7 @@ asyncio.run(evaluation.evaluate(model))
 
 You can set the `trials` parameter on the `Evaluation` object to run each example multiple times.
 
-```python
+```python lines
 evaluation = Evaluation(dataset=examples, scorers=[match_score], trials=3)
 ```
 
@@ -179,7 +179,7 @@ Each example will be passed to the `model` three times, and each run will be sco
 
 The following code sample demonstrates a complete evaluation run from start to finish. The `examples` dictionary is used by the `match_score1` and `match_score2` scoring functions to evaluate `MyModel` given the value of `prompt`, as well as a custom function `function_to_evaluate`. The evaluation runs for both the `Model` and the function are invoked via `asyncio.run(evaluation.evaluate()`.
 
-```python
+```python lines
 from weave import Evaluation, Model
 import weave
 import asyncio
@@ -219,10 +219,7 @@ def function_to_evaluate(question: str):
 asyncio.run(evaluation.evaluate(function_to_evaluate("What is the capitol of France?")))
 ```
 
-<Frame>
 ![Evals hero](/images/evals-hero.png)
-</Frame>
-
 ## Advanced evaluation usage
 
 ### Format dataset rows before evaluating
@@ -240,7 +237,7 @@ The `preprocess_model_input` parameter allows you to transform your dataset exam
 
 Here's a simple example that shows how to use `preprocess_model_input` to rename fields:
 
-```python
+```python lines
 import weave
 from weave import Evaluation
 import asyncio

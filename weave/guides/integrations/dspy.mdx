@@ -15,7 +15,7 @@ It’s important to store traces of language model applications in a central loc
 
 Weave will automatically capture traces for [DSPy](https://dspy-docs.vercel.app/). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
 
-```python
+```python lines
 import os
 import dspy
 import weave
@@ -38,7 +38,7 @@ Weave logs all LM calls in your DSPy program, providing details about inputs, ou
 
 A `Module` is the building block with learnable parameters for DSPy programs that abstracts a prompting technique. A `Signature` is a declarative specification of input/output behavior of a DSPy Module. Weave automatically tracks all in-built and cutom Signatures and Modules in your DSPy programs.
 
-```python
+```python lines
 import os
 import dspy
 import weave
@@ -101,7 +101,7 @@ article = draft_article(topic="World Cup 2002")
 Weave also automatically captures traces for DSPy optimizers and Evaluation calls which you can use to improve and evaulate your DSPy program's performance on a development set.
 
 
-```python
+```python lines
 import os
 import dspy
 import weave

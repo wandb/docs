@@ -20,7 +20,7 @@ description: "Python SDK reference for weave.trace.op"
 
 ### <kbd>function</kbd> `call`
 
-```python
+```python lines
 call(
     op: 'Op',
     *args: 'Any',
@@ -37,7 +37,7 @@ This function will never raise.  Any errors are captured in the Call object.
 
 This method is automatically bound to any function decorated with `@weave.op`, allowing for usage like: 
 
-```python
+```python lines
 @weave.op
 def add(a: int, b: int) -> int:
      return a + b
@@ -53,7 +53,7 @@ result, call = add.call(1, 2)
 
 ### <kbd>function</kbd> `calls`
 
-```python
+```python lines
 calls(op: 'Op') → CallsIter
 ```
 
@@ -61,7 +61,7 @@ Get an iterator over all calls to this op.
 
 This method is automatically bound to any function decorated with `@weave.op`, allowing for usage like: 
 
-```python
+```python lines
 @weave.op
 def add(a: int, b: int) -> int:
      return a + b

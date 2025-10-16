@@ -27,7 +27,7 @@ You can try out the dashboard with your own Weave project by installing streamli
 
 To follow along this tutorial you'll only need to install the following packages:
 
-```python
+```python lines
 !pip install streamlit pandas plotly weave
 ```
 
@@ -40,7 +40,7 @@ First, we'll set up a function to initialize the Weave client and add costs for 
 - We have included the standard costs for many standard models but we also make it easy to add your own custom costs and custom models. In the following we'll show how to add custom costs for a few models and use the standard costs for the rest.
 - The costs are calculate based on the tracked tokens for each call in Weave. For many LLM vendor libraries, we will automatically track the token usage, but it is also possible to return custom token counts for any call. See this cookbook on how to define the token count and cost calculation for a custom model - [custom cost cookbook](https://weave-docs.wandb.ai/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
 
-```python
+```python lines
 PROJECT_NAME = "wandb-smle/weave-cookboook-demo"
 python
 import weave
@@ -92,7 +92,7 @@ The first option to access data from Weave is to retrieve a list of filtered cal
 - `include_costs` boolean: This boolean indicates whether to include the costs in the calls data.
 - `include_feedback` boolean: This boolean indicates whether to include the feedback in the calls data.
 
-```python
+```python lines
 import itertools
 from datetime import datetime, timedelta
 
@@ -127,7 +127,7 @@ pd.DataFrame([call.dict() for call in calls]).head(3)
 
 Processing the calls is very easy with the return from Weave - we'll extract the relevant information and store it in a list of dictionaries. We'll then convert the list of dictionaries to a pandas DataFrame and return it.
 
-```python
+```python lines
 import json
 from datetime import datetime
 
@@ -173,7 +173,7 @@ df_calls.head(3)
 Instead of goin through every call Weave also provides high-level APIs to directly access model costs, feedback, and other metrics.
 For example, for the cost, we'll use the `query_costs` API to fetch the costs of all used LLMs using in project:
 
-```python
+```python lines
 # Use cost API to get costs
 costs = client.query_costs()
 df_costs = pd.DataFrame([cost.dict() for cost in costs])
@@ -189,7 +189,7 @@ df_costs
 
 Next, we can generate the visualizations using plotly. This is the most basic dashboard, but you can customize it as you like! For a more complex example, check out a Streamlit example [here](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py).
 
-```python
+```python lines
 import plotly.express as px
 import plotly.graph_objects as go
 

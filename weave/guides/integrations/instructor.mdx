@@ -12,7 +12,7 @@ It’s important to store traces of language model applications in a central loc
 
 Weave will automatically capture traces for [Instructor](https://python.useinstructor.com/). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
 
-```python
+```python lines
 import instructor
 import weave
 from pydantic import BaseModel
@@ -50,7 +50,7 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have the function `extract_person` which is the metric function wrapped with `@weave.op`. This helps us see how intermediate steps, such as OpenAI chat completion call.
 
-```python
+```python lines
 import instructor
 import weave
 from openai import OpenAI
@@ -97,7 +97,7 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](../core-t
 
 In the example below, you can experiment with `PersonExtractor`. Every time you change one of these, you'll get a new _version_ of `PersonExtractor`.
 
-```python
+```python lines
 import asyncio
 from typing import List, Iterable
 

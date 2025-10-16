@@ -30,7 +30,7 @@ We also have support for the deprecated [Google AI Python SDK for the Gemini API
 
 Weave will automatically capture traces for [Google GenAI SDK](https://github.com/googleapis/python-genai). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
 
-```python
+```python lines
 import os
 from google import genai
 import weave
@@ -48,7 +48,7 @@ response = google_client.models.generate_content(
 
 Weave will also automatically capture traces for [Vertex APIs](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
 
-```python
+```python lines
 import vertexai
 import weave
 from vertexai.generative_models import GenerativeModel
@@ -69,7 +69,7 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have the function `recommend_places_to_visit` which is a function wrapped with `@weave.op` that recommends places to visit in a city.
 
-```python
+```python lines
 import os
 from google import genai
 import weave
@@ -102,7 +102,7 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](../core-t
 
 In the example below, you can experiment with `CityVisitRecommender`. Every time you change one of these, you'll get a new _version_ of `CityVisitRecommender`.
 
-```python
+```python lines
 import os
 from google import genai
 import weave

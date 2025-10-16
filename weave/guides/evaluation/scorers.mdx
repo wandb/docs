@@ -39,7 +39,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   <Tab title="Python">
     These are functions decorated with `@weave.op` that return a dictionary. They're great for simple evaluations like:
 
-    ```python
+    ```python lines
     import weave
 
     @weave.op
@@ -57,7 +57,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   </Tab>
   <Tab title="TypeScript">
     These are functions wrapped with `weave.op` that accept an object with `modelOutput` and optionally `datasetRow`.  They're great for simple evaluations like:
-    ```typescript
+    ```typescript lines
     import * as weave from 'weave'
 
     const evaluateUppercase = weave.op(
@@ -88,7 +88,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Example:
 
-    ```python
+    ```python lines
     import weave
     from openai import OpenAI
     from weave import Scorer
@@ -111,7 +111,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
                 messages=[
                     {"role": "system", "content": self.system_prompt},
                     {"role": "user", "content": (
-                        f"Analyse how good the summary is compared to the original text."
+                        f"Analyze how good the summary is compared to the original text."
                         f"Summary: {summary}\n{processed_text}"
                     )}])
             return {"summary_quality": res}
@@ -138,7 +138,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -155,7 +155,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     For example if you wanted to use a column called "label" from your dataset then your scorer function (or `score` class method) would have a parameter list like this:
 
-    ```python
+    ```python lines
     @weave.op
     def my_custom_scorer(output: str, label: int) -> dict:
         ...
@@ -169,15 +169,15 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Sometimes, the `score` methods' argument names don't match the column names in your dataset. You can fix this using a `column_map`.
 
-    If you're using a class-based scorer, pass a dictionary to the `column_map` attribute of `Scorer` when you initialise your scorer class. This dictionary maps your `score` method's argument names to the dataset's column names, in the order: `{scorer_keyword_argument: dataset_column_name}`.
+    If you're using a class-based scorer, pass a dictionary to the `column_map` attribute of `Scorer` when you initialize your scorer class. This dictionary maps your `score` method's argument names to the dataset's column names, in the order: `{scorer_keyword_argument: dataset_column_name}`.
 
     Example:
 
-    ```python
+    ```python lines
     import weave
     from weave import Scorer
 
-    # A dataset with news articles to be summarised
+    # A dataset with news articles to be summarized
     dataset = [
         {"news_article": "The news today was great...", "date": "2030-04-20", "source": "Bright Sky Network"},
         ...
@@ -190,7 +190,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
         def score(self, output, text) -> dict:
             """
                 output: output summary from a LLM summarization system
-                text: the text being summarised
+                text: the text being summarized
             """
             ...  # evaluate the quality of the summary
 
@@ -204,7 +204,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     - Another equivalent option to map your columns is to subclass the `Scorer` and overload the `score` method mapping the columns explicitly.
 
-    ```python
+    ```python lines
     import weave
     from weave import Scorer
 
@@ -222,7 +222,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     You can easily access relevant columns from the dataset row by adding a `datasetRow` keyword argument to your scorer definition.
 
-    ```typescript
+    ```typescript lines
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -244,7 +244,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Example:
 
-    ```typescript
+    ```typescript lines
     const myScorer = weave.op(
         ({modelOutput, datasetRow}) => {
             return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
@@ -280,7 +280,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     When you need to score all rows before deciding on the final value of the score for the dataset.
 
-    ```python
+    ```python lines
     class MyBinaryScorer(Scorer):
         """
         Returns True if the full output matches the target, False if not
@@ -321,7 +321,7 @@ For more information on how to use the `.call()` method, see the [Calling Ops](.
   <Tab title="Python">
     Here's a basic example:
 
-    ```python
+    ```python lines
     # Get both result and Call object
     result, call = generate_text.call("Say hello")
 
@@ -331,7 +331,7 @@ For more information on how to use the `.call()` method, see the [Calling Ops](.
 
     You can also apply multiple scorers to the same call:
 
-    ```python
+    ```python lines
     # Apply multiple scorers in parallel
     await asyncio.gather(
         call.apply_scorer(quality_scorer),
@@ -349,7 +349,7 @@ For more information on how to use the `.call()` method, see the [Calling Ops](.
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet. Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -376,7 +376,7 @@ In this section, we'll show you how to analyze the scores for a single call, mul
 
 To retrieve the calls for a single call, you can use the `get_call` method.
 
-```python
+```python lines
 client = weave.init("my-project")
 
 # Get a single call
@@ -388,9 +388,7 @@ feedback = list(call.feedback)
 
 #### Single Call UI
 
-<Frame>
 ![Call Scores Tab](./img/call_scores_tab.png)
-</Frame>
 
 Scores for an individual call are displayed in the call details page under the "Scores" tab.
 
@@ -400,7 +398,7 @@ Scores for an individual call are displayed in the call details page under the "
 
 To retrieve the calls for multiple calls, you can use the `get_calls` method.
 
-```python
+```python lines
 client = weave.init("my-project")
 
 # Get multiple calls - use whatever filters you want and include feedback
@@ -413,9 +411,7 @@ for call in calls:
 
 #### Multiple Calls UI
 
-<Frame>
 ![Multiple Calls Tab](./img/traces_table_scores.png)
-</Frame>
 
 Scores for multiple calls are displayed in the traces table under the "Scores" column.
 
@@ -425,7 +421,7 @@ Scores for multiple calls are displayed in the traces table under the "Scores" c
 
 To retrieve all calls scored by a specific scorer, you can use the `get_calls` method.
 
-```python
+```python lines
 client = weave.init("my-project")
 
 # To get all the calls scored by any version of a scorer, use the scorer name (typically the class name)
@@ -444,19 +440,13 @@ for call in calls:
 
 Finally, if you would like to see all the calls scored by a Scorer, navigate to the Scorers Tab in the UI and select "Programmatic Scorer" tab. Click your Scorer to open the Scorer details page.
 
-<Frame>
 ![Scorer Details Page](./img/scorer_detail_page.png)
-</Frame>
 
 Next, click the `View Traces` button under `Scores` to view all the calls scored by your Scorer.
 
-<Frame>
 ![Filtered Calls to Scorer Version](./img/filtered_calls_to_scorer_version.png)
-</Frame>
 
 This will default to the selected version of the Scorer. You can remove the version filter to see all the calls scored by any version of the Scorer.
 
-<Frame>
 ![Filtered Calls to Scorer Name](./img/filtered_calls_scorer_name.png)
-</Frame>
 

@@ -3,10 +3,7 @@ title: "Online Evaluation: Guardrails and Monitors"
 description: "Ensure LLM safety and measure output quality in production applications"
 ---
 
-<Frame>
 ![Feedback](/images/guardrails_scorers.png)
-</Frame>
-
 ## Introduction
 
 Building production LLM applications? Two questions likely keep you up at night:
@@ -58,7 +55,7 @@ Every scorer result is automatically stored in Weave's database. This means your
 
 To use scorers with Weave ops, you'll need access to both the operation's result and its tracking information. The `.call()` method provides both:
 
-```python
+```python lines
 # Instead of calling the op directly:
 result = generate_text(input)  # Primary way to call the op but doesn't give access to the Call object
 
@@ -79,7 +76,7 @@ For more details about Call objects, see the [Calls guide section on Call object
 
 Here's a simple example showing how to use `.call()` with a scorer:
 
-```python
+```python lines
 import weave
 from weave import Scorer
 
@@ -107,7 +104,7 @@ await call.apply_scorer(LengthScorer())
 
 Guardrails act as safety checks that run before allowing LLM output to reach users. Here's a practical example:
 
-```python
+```python lines
 import weave
 from weave import Scorer
 
@@ -209,7 +206,7 @@ In the following example, you'll create:
 - A monitor, `truthfulness-monitor`, to evaluate the truthfulness of the generated statements.
 
 1. Define `generate_statement`:
-   ```python
+   ```python lines
     import weave
     import random
     import openai
@@ -276,7 +273,7 @@ In the following example, you'll create:
             ![Creating a monitor part 3](/weave/guides/evaluation/img/monitors-ui-3.png)
 5. Click **Create Monitor**. The `truthfulness-monitor` is ready to start monitoring.
 6. Generate statements for evaluation by the monitor with true and easily verifiable `ground_truth` statements such as `"Water freezes at 0 degrees Celsius."`.
-    ```python
+    ```python lines
     generate_statement("The Earth revolves around the Sun.")
     generate_statement("Water freezes at 0 degrees Celsius.")
     generate_statement("The Great Wall of China was built over several centuries, with construction beginning as early as the 7th century BCE.")
@@ -290,7 +287,7 @@ In the following example, you'll create:
 
 In scoring prompts, you can reference multiple variables from your op. These values are automatically extracted from your function call when the scorer runs. Consider the following example function:
 
-```python
+```python lines
 @weave.op
 def my_function(foo: str, bar: str) -> str:
     return f"{foo} and {bar}"
@@ -330,7 +327,7 @@ You don't need to create your own Bedrock client—Weave creates it for you.  To
 </Tip>
 
 For more details on creating a guardrail, see the [Bedrock guardrails notebook](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb).
-```python
+```python lines
 import weave
 import boto3
 from weave.scorers.bedrock_guardrails import BedrockGuardrailScorer
@@ -379,7 +376,7 @@ A scorer is a class that inherits from `Scorer` and implements a `score` method.
 
 Here's a comprehensive example:
 
-```python
+```python lines
 @weave.op
 def generate_styled_text(prompt: str, style: str, temperature: float) -> str:
     """Generate text in a specific style."""
@@ -427,7 +424,7 @@ async def generate_and_score():
 
 Sometimes your scorer's parameter names might not match your function's parameter names exactly. For example:
 
-```python
+```python lines
 @weave.op
 def generate_text(user_input: str):  # Uses 'user_input'
     return process(user_input)
@@ -455,7 +452,7 @@ Common use cases for `column_map`:
 
 Sometimes scorers need extra parameters that aren't part of your function. You can provide these using `additional_scorer_kwargs`:
 
-```python
+```python lines
 class ReferenceScorer(Scorer):
     @weave.op
     def score(self, output: str, reference_answer: str):
@@ -478,13 +475,13 @@ This is useful when your scorer needs context or configuration that isn't part o
 ### Using Scorers: Two Approaches
 
 1. **With Weave's Op System** (Recommended)
-```python
+```python lines
 result, call = generate_text.call(input)
 score = await call.apply_scorer(MyScorer())
 ```
 
 2. **Direct Usage** (Quick Experiments)
-```python
+```python lines
 scorer = MyScorer()
 score = scorer.score(output="some text")
 ```
@@ -507,7 +504,7 @@ For detailed information about querying calls and their scorer results, see our 
 ## Production Best Practices
 
 ### 1. Set Appropriate Sampling Rates
-```python
+```python lines
 @weave.op
 def generate_text(prompt: str) -> str:
     return generate_response(prompt)
@@ -524,7 +521,7 @@ async def generate_with_sampling(prompt: str) -> str:
 ```
 
 ### 2. Monitor Multiple Aspects
-```python
+```python lines
 async def evaluate_comprehensively(call):
     await call.apply_scorer(ToxicityScorer())
     await call.apply_scorer(QualityScorer())
@@ -570,7 +567,7 @@ For Monitors:
 
 Here's a comprehensive example that brings together all the concepts we've covered:
 
-```python
+```python lines
 import weave
 from weave import Scorer
 import asyncio

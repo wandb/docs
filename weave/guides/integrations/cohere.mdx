@@ -15,7 +15,7 @@ It's important to store traces of LLM applications in a central database, both d
 
 Weave will automatically capture traces for [cohere-python](https://github.com/cohere-ai/cohere-python). You can use the library as usual, start by calling `weave.init()`:
 
-```python
+```python lines
 import cohere
 import os
 import weave
@@ -48,7 +48,7 @@ We patch the Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream`, and
 
 Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into Cohere's chat methods, and Weave will track the inputs and outputs for you. Here's an example:
 
-```python
+```python lines
 import cohere
 import os
 import weave
@@ -81,7 +81,7 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/gu
 
 In the example below, you can experiment with `model` and `temperature`. Every time you change one of these, you'll get a new _version_ of `WeatherModel`.
 
-```python
+```python lines
 import weave
 import cohere
 import os

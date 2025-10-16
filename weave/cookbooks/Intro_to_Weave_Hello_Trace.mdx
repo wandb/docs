@@ -17,7 +17,7 @@ Before you can begin tracing in Weave, complete the following prerequisites.
 2. Install the OpenAI SDK and log in with your [API key](https://platform.openai.com/api-keys).
 3. Initialize your W&B project.
 
-```python
+```python lines
 # Install dependancies and imports
 !pip install wandb weave openai -q
 
@@ -51,7 +51,7 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Your W&B project name
 
 The following code sample shows how to capture and visualize a trace in Weave using the `@weave.op` decorator. It defines a function called `extract_fruit` that sends a prompt to OpenAI's GPT-4o to extract structured data (fruit, color, and flavor) from a sentence. By decorating the function with `@weave.op`, Weave automatically tracks the function execution, including inputs, outputs, and intermediate steps. When the function is called with a sample sentence, the full trace is saved and viewable in the Weave UI.
 
-```python
+```python lines
 @weave.op()  # 🐝 Decorator to track requests
 def extract_fruit(sentence: str) -> dict:
     client = OpenAI()

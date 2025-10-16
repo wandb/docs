@@ -45,7 +45,7 @@ We set the name of the file we upload to colab in `name_of_file` and set the pro
 
 We then fetch a weave client by calling `weave.init()`
 
-```python
+```python lines
 %pip install wandb weave pandas datetime --quiet
 python
 import os
@@ -93,7 +93,7 @@ We load the data into a Pandas dataframe, and ensure we sort it by the `conversa
 
 This will result in a two column pandas DF with our conversation turns as an array under `conversation_data`.
 
-```python
+```python lines
 ## Load data and shape it
 df = pd.read_csv(name_of_file)
 
@@ -128,7 +128,7 @@ Important concepts of the lower level python API:
 - The `op` value of a call is how Weave categorizes calls of the same make up. In this example, all parent calls are of `Conversation` type, and all children calls are of `Turn` type. You may modify this as you see fit.
 - A call may have `inputs` and `output`. `inputs` are defined at creation an `output` is defined when the call is finished.
 
-```python
+```python lines
 # Log traces to weave
 
 # Iterate through our aggregated conversations
@@ -190,27 +190,18 @@ for _, row in result_df.iterrows():
 
 Traces:
 
-<Frame>
 ![image.png](/images/screenshots/csv-1.png)
-</Frame>
-
 Operations:
 
-<Frame>
 ![image.png](/images/screenshots/csv-2.png)
-</Frame>
-
 # Bonus: Export your traces to run rigorous evaluations!
 
 Once our traces are in Weave and we have an understanding on how the conversations are looking, we may want to later on export them to another process to run Weave Evaluations
 
-<Frame>
 ![image.png](/images/screenshots/csv-3.png)
-</Frame>
-
 To do this, we fetch all conversations from W&B through our simple query API and create a dataset from it.
 
-```python
+```python lines
 ## This cell does not run by default, comment the below line to execute this script
 %%script false --no-raise-error
 ## Get all Conversation traces for evaluation and prepare dataset for eval
@@ -274,8 +265,5 @@ weave.publish(dset)
 
 # Result
 
-<Frame>
 ![image.png](/images/screenshots/csv-4.png)
-</Frame>
-
 To learn more about evaluations, check out our [Quickstart](https://weave-docs.wandb.ai/tutorial-rag) on using your newly created dataset to evaluate your RAG application!

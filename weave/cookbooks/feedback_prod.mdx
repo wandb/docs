@@ -18,7 +18,7 @@ We'll use Streamlit to build the interface and we'll capture the LLM interaction
 
 ## Setup
 
-```python
+```python lines
 !pip install weave openai streamlit wandb
 !pip install set-env-colab-kaggle-dotenv -q # for env var
 python
@@ -31,7 +31,7 @@ _ = set_env("WANDB_API_KEY")
 
 Next, create a file called `chatbot.py` with the following contents:
 
-```python
+```python lines
 # chatbot.py
 
 import openai
@@ -189,7 +189,7 @@ Visit the Weave UI to see the attached feedback.
 
 If we consider our decorated prediction function as:
 
-```python
+```python lines
 import weave
 
 weave.init("feedback-example")
@@ -204,7 +204,7 @@ def predict(input_data):
 
 We can use it as usual to deliver some model response to the user:
 
-```python
+```python lines
 with weave.attributes(
     {"session": "123abc", "env": "prod"}
 ):  # attach arbitrary attributes to the call alongside inputs & outputs
@@ -213,14 +213,14 @@ with weave.attributes(
 
 To attach feedback, you need the `call` object, which is obtained by using the `.call()` method _instead of calling the function as normal_:
 
-```python
+```python lines
 result, call = predict.call(input_data="your data here")
 ```
 
 This call object is needed for attaching feedback to the specific response.
 After making the call, the output of the operation is available using `result` above.
 
-```python
+```python lines
 call.feedback.add_reaction("👍")  # user reaction through the App UI
 ```
 

@@ -16,13 +16,13 @@ Weave automatically captures traces for [Smolagents](https://huggingface.co/docs
 
 1. Before you can use Smolagents with Weave, install the required libraries or upgrade to the latest versions. The following command installs or upgrades `smolagents`, `openai`, and `weave`, and suppresses output:
 
-    ```python
+    ```python lines
     pip install -U smolagents openai weave -qqq
     ```
 
 2. Smolagents supports multiple LLM providers, such as OpenAI, Hugging Face Transformers, and Anthropic. Set the API key for your chosen provider by setting the corresponding environment variable:
 
-    ```python
+    ```python lines
     import os
     import getpass
 
@@ -43,7 +43,7 @@ The following example demonstrates how to log inference calls to a tool-using LL
 - You run a query through the agent that triggers the search tool.
 - Weave logs each function and model invocation, making them available for inspection via its web interface.
 
-```python
+```python lines
 import weave
 from smolagents import DuckDuckGoSearchTool, OpenAIServerModel, ToolCallingAgent
 
@@ -65,10 +65,7 @@ answer = agent.run(
 
 Once you run the code sample, navigate to your Weave project dashboard to view the traces.
 
-<Frame>
 ![Weave logs each inference call, providing details about inputs, outputs, and metadata.](./imgs/smolagents-trace.png)
-</Frame>
-
 ## Tracing custom tools
 
 You can declare custom tools for your agentic workflows by decorating a function with `@tool` from `smolagents` or by inheriting from the `smolagents.Tool` class.
@@ -82,7 +79,7 @@ Weave automatically tracks custom tool calls for your Smolagents workflows. The 
 - When the agent runs the query, it selects and invokes the `get_weather` tool.
 - Weave logs both the model inference and the custom tool invocation, including arguments and return values.
 
-```python
+```python lines
 from typing import Optional
 
 import weave
@@ -107,7 +104,4 @@ answer = agent.run("What is the weather in Tokyo?")
 
 Once you run the code sample, navigate to your Weave project dashboard to view the traces.
 
-<Frame>
 ![Weave logs each custom tool call.](./imgs/smolagents-custom-tool.png)
-</Frame>
-

@@ -38,7 +38,7 @@ Weave Ops allow you to define input and output postprocessing functions. Using t
 
 In the following example, two postprocessing functions are defined and passed as arguments to `weave.op()`.
 
-```python
+```python lines
 from dataclasses import dataclass
 from typing import Any
 
@@ -91,7 +91,7 @@ Before using Weave with PII data, review the best practices for using Weave with
 
 1. First, install the required packages.
 
-```python
+```python lines
 %%capture
 # @title required python packages:
 !pip install cryptography
@@ -110,7 +110,7 @@ Before using Weave with PII data, review the best practices for using Weave with
    - [W&B](https://wandb.ai/authorize)
    - [Anthropic](https://console.anthropic.com/settings/keys).
 
-```python
+```python lines
 %%capture
 # @title Make sure to set up set up your API keys correctly
 # See: https://pypi.org/project/set-env-colab-kaggle-dotenv/ for usage instructions.
@@ -123,7 +123,7 @@ _ = set_env("WANDB_API_KEY")
 
 3. Initialize your Weave project.
 
-```python
+```python lines
 import weave
 
 # Start a new Weave project
@@ -133,7 +133,7 @@ weave.init(WEAVE_PROJECT)
 
 4. Load the demo PII dataset, which contains 10 text blocks.
 
-```python
+```python lines
 import requests
 
 url = "https://raw.githubusercontent.com/wandb/weave/master/docs/notebooks/10_pii_data.json"
@@ -157,7 +157,7 @@ To detect and protect our PII data, we'll identify and redact PII data and optio
 
 [Regular expressions (regex)](https://docs.python.org/3/library/re.html) are the simplest method to identify and redact PII data. Regex allows you to define patterns that can match various formats of sensitive information like phone numbers, email addresses, and social security numbers. Using regex, you can scan through large volumes of text and replace or redact information without the need for more complex NLP techniques.
 
-```python
+```python lines
 import re
 
 # Define a function to clean PII data using regex
@@ -209,7 +209,7 @@ def redact_with_regex(text):
 
 Let's test the function with a sample text:
 
-```python
+```python lines
 # Test the function
 test_text = "My name is John Doe, my email is john.doe@example.com, my phone is 123-456-7890, and my SSN is 123-45-6789."
 cleaned_text = redact_with_regex(test_text)
@@ -223,7 +223,7 @@ The next method involves complete removal of PII data using [Microsoft Presidio]
 
 Presidio comes with a built-in support for [common entities](https://microsoft.github.io/presidio/supported_entities/). In the below example, we redact all entities that are a `PHONE_NUMBER`, `PERSON`, `LOCATION`, `EMAIL_ADDRESS` or `US_SSN`. The Presidio process is encapsulated in a function.
 
-```python
+```python lines
 from presidio_analyzer import AnalyzerEngine
 from presidio_anonymizer import AnonymizerEngine
 
@@ -248,7 +248,7 @@ def redact_with_presidio(text):
 
 Let's test the function with a sample text:
 
-```python
+```python lines
 text = "My phone number is 212-555-5555 and my name is alex"
 
 # Test the function
@@ -270,7 +270,7 @@ Once the data has been processed using Presidio and Faker, it might look like:
 
 To effectively use Presidio and Faker together, we must supply references to our custom operators. These operators will direct Presidio to the Faker functions responsible for swapping PII with fake data.
 
-```python
+```python lines
 from faker import Faker
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
@@ -312,7 +312,7 @@ print(f"Anonymized text:\n\t{anonymized_results.text}")
 
 Let's consolidate our code into a single class and expand the list of entities to include the additional ones identified earlier.
 
-```python
+```python lines
 from typing import ClassVar
 
 from faker import Faker
@@ -361,7 +361,7 @@ class MyFaker(Faker):
 
 Let's test the function with a sample text:
 
-```python
+```python lines
 faker = MyFaker()
 text_to_anonymize = (
     "My name is Raphael and I like to fish. My phone number is 212-555-5555"
@@ -381,7 +381,7 @@ You can use `autopatch_settings` to configure PII handling directly during initi
 
 To use `autopatch_settings` to configure PII handling, define `postprocess_inputs` and/or `postprocess_output` in `op_settings` for any one of the supported LLM integrations.
 
-```python
+```python lines
 
 def postprocess(inputs: dict) -> dict:
     if "SENSITIVE_KEY" in inputs:
@@ -421,7 +421,7 @@ Once you run this code, you will receive a links to the Weave project page, as w
 
 In the simplest case, we can use regex to identify and redact PII data from the original text.
 
-```python
+```python lines
 import json
 from typing import Any
 
@@ -477,11 +477,8 @@ for entry in pii_data:
 
 Next, we will use Presidio to identify and redact PII data from the original text.
 
-<Frame>
 ![](/media/pii/redact.png)
-</Frame>
-
-```python
+```python lines
 from typing import Any
 
 import weave
@@ -534,11 +531,8 @@ for entry in pii_data:
 
 In this example, we use Faker to generate anonymized replacement PII data and use Presidio to identify and replace the PII data in the original text.
 
-<Frame>
 ![](/media/pii/replace.png)
-</Frame>
-
-```python
+```python lines
 from typing import Any
 
 import weave
@@ -593,7 +587,7 @@ for entry in pii_data:
 
 In the following example, we set `postprocess_inputs` for `anthropic` to the `postprocess_inputs_regex()` function () at initialization. The `postprocess_inputs_regex` function applies the`redact_with_regex` method defined in [Method 1: Regular Expression Filtering](#method-1-regular-expression-filtering). Now, `redact_with_regex` will be applied to all inputs to any `anthropic` models.
 
-```python
+```python lines
 from typing import Any
 
 import weave
@@ -652,13 +646,10 @@ for entry in pii_data:
 
 ### (Optional) Encrypt your data
 
-<Frame>
 ![](/media/pii/encrypt.png)
-</Frame>
-
 In addition to anonymizing PII, you can add an extra layer of security by encrypting your data using the cryptography library's [Fernet](https://cryptography.io/en/latest/fernet/) symmetric encryption. This approach ensures that even if the anonymized data is intercepted, it remains unreadable without the encryption key.
 
-```python
+```python lines
 import os
 from cryptography.fernet import Fernet
 from pydantic import BaseModel, ValidationInfo, model_validator

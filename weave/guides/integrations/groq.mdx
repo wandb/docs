@@ -16,7 +16,7 @@ It’s important to store traces of language model applications in a central loc
 
 Weave will automatically capture traces for [Groq](https://groq.com/). To start tracking, calling `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` and use the library as normal.
 
-```python
+```python lines
 import os
 import weave
 from groq import Groq
@@ -49,7 +49,7 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have the function `recommend_places_to_visit` which is a function wrapped with `@weave.op` that recommends places to visit in a city.
 
-```python
+```python lines
 import os
 import weave
 from groq import Groq
@@ -96,7 +96,7 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](../core-t
 
 In the example below, you can experiment with `GroqCityVisitRecommender`. Every time you change one of these, you'll get a new _version_ of `GroqCityVisitRecommender`.
 
-```python
+```python lines
 import os
 from groq import Groq
 import weave

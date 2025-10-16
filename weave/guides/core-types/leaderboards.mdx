@@ -15,7 +15,7 @@ Leaderboards are ideal for:
 
 You can create a leaderboard via the [Weave UI](#ui) or [programmatically](#python).
 
-### UI
+### Using the UI
 
 To create and customize leaderboards directly in the Weave UI:
 
@@ -53,7 +53,7 @@ To create and publish a leaderboard:
 
 1. Define a test dataset. You can use the built-in [`Dataset`](./datasets.mdx), or define a list of inputs and targets manually:
 
-   ```python
+   ```python lines
    dataset = [
        {"input": "...", "target": "..."},
        ...
@@ -62,7 +62,7 @@ To create and publish a leaderboard:
 
 2. Define one or more [scorers](../evaluation/scorers.mdx):
 
-   ```python
+   ```python lines
    @weave.op
    def jaccard_similarity(target: str, output: str) -> float:
        ...
@@ -70,7 +70,7 @@ To create and publish a leaderboard:
 
 3. Create an [`Evaluation`](../core-types/evaluations.mdx):
 
-   ```python
+   ```python lines
    evaluation = weave.Evaluation(
        name="My Eval",
        dataset=dataset,
@@ -80,7 +80,7 @@ To create and publish a leaderboard:
 
 4. Define models to be evaluated:
 
-   ```python
+   ```python lines
    @weave.op
    def my_model(input: str) -> str:
        ...
@@ -88,7 +88,7 @@ To create and publish a leaderboard:
 
 5. Run the evaluation:
 
-   ```python
+   ```python lines
     async def run_all():
         await evaluation.evaluate(model_vanilla)
         await evaluation.evaluate(model_humanlike)
@@ -99,7 +99,7 @@ To create and publish a leaderboard:
 
 6. Create the leaderboard:
 
-   ```python
+   ```python lines
    spec = leaderboard.Leaderboard(
        name="My Leaderboard",
        description="Evaluating models on X task",
@@ -115,13 +115,13 @@ To create and publish a leaderboard:
 
 7. Publish the leaderboard.
 
-   ```python
+   ```python lines
    weave.publish(spec)
    ```
 
 8. Retrieve the results:
 
-   ```python
+   ```python lines
    results = leaderboard.get_leaderboard_results(spec, client)
    print(results)
    ```
@@ -130,7 +130,7 @@ To create and publish a leaderboard:
 
 The following example uses Weave Evaluations and creates a leaderboard to compare three summarization models on a shared dataset using a custom metric. It creates a small benchmark, evaluates each model, scores each model with [Jaccard similarity](https://www.learndatasci.com/glossary/jaccard-similarity/), and publishes the results to a Weave leaderboard.
 
-```python
+```python lines
 import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
@@ -218,10 +218,7 @@ After the script finishes running, view view the leaderboard:
 
 In the leaderboard table, each row represents a given model (`model_humanlike`, `model_vanilla`, `model_messy`). The `mean` column shows the average Jaccard similarity between the model's output and the reference summaries.
 
-<Frame>
 ![A leaderboard in the Weave UI](/weave/guides/core-types/imgs/leaderboard-example.png)
-</Frame>
-
 For this example:
 
 - `model_humanlike` performs the best, with \~46% overlap.

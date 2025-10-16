@@ -5,9 +5,7 @@ description: "Learn how to build an evaluation pipeline with Weave Models and Ev
 
 To iterate on an application, we need a way to evaluate if it's improving. To do so, a common practice is to test it against the same set of examples when there is a change. Weave has a first-class way to track evaluations with `Model` & `Evaluation` classes. We have built the APIs to make minimal assumptions to allow for the flexibility to support a wide array of use-cases.
 
-<Frame>
 ![Evals hero](/images/evals-hero.png)
-</Frame>
 
 ## 1. Build a `Model`
 
@@ -22,7 +20,7 @@ Weave automatically captures when they are used and updates the version when the
 
 <CodeGroup>
 
-```python Python
+```python lines
 import json
 import openai
 import weave
@@ -67,7 +65,7 @@ const model = weave.op(async function myModel({datasetRow}) {
 You can instantiate `Model` objects as normal like this:
 
 <CodeGroup>
-```python Python
+```python lines
 import asyncio
 import weave
 
@@ -103,7 +101,7 @@ Next, you need a dataset to evaluate your model on. A `Dataset` is just a collec
 Here we build a list of examples in code, but you can also log them one at a time from your running application.
 
 <CodeGroup>
-```python Python
+```python lines
 sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
 "Pounits are a bright green color and are more savory than sweet.",
 "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."]
@@ -141,7 +139,7 @@ const examples = sentences.map((sentence, i) => ({
 Then publish your dataset:
 
 <CodeGroup>
-```python Python
+```python lines
 import weave
 # highlight-next-line
 weave.init('intro-example')
@@ -172,7 +170,7 @@ Checkout the [Datasets](/weave/guides/core-types/datasets) guide to learn more.
 `Evaluation`s assess a `Model`s performance on a set of examples using a list of specified scoring functions or `weave.scorer.Scorer` classes.
 
 <CodeGroup>
-```python Python
+```python lines
 # highlight-next-line
 import weave
 from weave.scorers import MultiTaskBinaryClassificationF1
@@ -205,7 +203,7 @@ In some applications we want to create custom `Scorer` classes - where for examp
 Now, you're ready to run an evaluation of `ExtractFruitsModel` on the `fruits` dataset using your scoring function.
 
 <CodeGroup>
-```python Python
+```python lines
 import asyncio
 import weave
 from weave.scorers import MultiTaskBinaryClassificationF1
@@ -250,9 +248,7 @@ Weave will automatically capture traces of each prediction and score.
 
 Click on the link printed by the evaluation to view the results in the Weave UI.
 
-<Frame>
 ![Evaluation results](/images/evals-hero.png)
-</Frame>
 
 ## What's next?
 

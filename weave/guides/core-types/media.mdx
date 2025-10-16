@@ -41,7 +41,7 @@ The following example draws a basic image and then logs it to Weave using the `C
 
 ## Images
 
-```python
+```python lines
 import weave
 from weave import Content
 from PIL import Image, ImageDraw
@@ -90,7 +90,7 @@ The following example shows how to log an image generated via the OpenAI DALL-E 
 <Tabs>
   <Tab title="Python">
   
-    ```python
+    ```python lines
 import weave
 from weave import Content
 from typing import Annotated
@@ -119,7 +119,7 @@ generate_image("a cat with a pumpkin hat")
   </Tab>
   <Tab title="TypeScript">
 
-    ```typescript
+    ```typescript lines
     import {OpenAI} from 'openai';
     import * as weave from 'weave';
 
@@ -152,16 +152,14 @@ generate_image("a cat with a pumpkin hat")
 </Tabs>
 This image is logged to Weave and automatically displayed in the UI. 
 
-<Frame>
 ![Screenshot of pumpkin cat trace view](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
-</Frame>
 
 
 ### Resize large images before logging
 
 It can be helpful to resize images before logging to reduce UI rendering cost and storage impact. You can use `postprocess_output` in your `@weave.op` to resize an image.
 
-```python
+```python lines
 from dataclasses import dataclass
 from typing import Any
 from PIL import Image
@@ -214,7 +212,7 @@ Log videos by annotating functions with `Annotated[bytes, Content]` types. Weave
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated
@@ -258,7 +256,7 @@ The following example shows how to log video within a video-understanding projec
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -306,9 +304,7 @@ video_data = download_youtube_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ
 result = analyze_video(video_data)
 ```
 
-<Frame>
 ![Video logging in Weave](/images/weave/video.png)
-</Frame>
 
 ## Documents
 
@@ -334,7 +330,7 @@ The following example shows how stores copies of the input PDF and CSV files, an
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated
@@ -388,7 +384,7 @@ This example demonstrates how to log documents within a Retrieval-Augmented Gene
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -444,9 +440,7 @@ hr_response = create_and_query_document(
 )
 ```
 
-<Frame>
 ![PDF document logging in Weave](/images/weave/pdf.png)
-</Frame>
 
 ## Audio
 
@@ -471,7 +465,7 @@ The following code snippet generates a sine wave, records it, and then logs the 
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 import wave
@@ -516,7 +510,7 @@ This example generates and logs AI-created audio using the `Content` annotation:
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -550,14 +544,12 @@ def generate_demo(
 demo1 = generate_demo("machine learning best practices")
 ```
 
-<Frame>
 ![Audio logging in Weave](/images/weave/audio.png)
-</Frame>
 
 <Tabs>
   <Tab title="Python">
   
-    ```python
+    ```python lines
     import weave
     from openai import OpenAI
     import wave
@@ -584,7 +576,7 @@ demo1 = generate_demo("machine learning best practices")
   </Tab>
   <Tab title="TypeScript">
 
-    ```typescript
+    ```typescript lines
     import {OpenAI} from 'openai';
     import * as weave from 'weave';
 
@@ -618,9 +610,7 @@ demo1 = generate_demo("machine learning best practices")
 
 This audio is logged to Weave and automatically displayed in the UI, along with an audio player. In the audio player, you can view and download the raw audio waveform.
 
-<Frame>
 ![Screenshot of audio trace view](/weave/guides/core-types/imgs/audio-trace.png)
-</Frame>
 
 <Tip>
 Try our cookbook for [Audio Logging](/weave/cookbooks/audio_with_weave). The cookbook also includes an advanced example of a Real Time Audio API based assistant integrated with Weave.
@@ -649,7 +639,7 @@ Log interactive HTML by annotating functions with `Annotated[str, Content[Litera
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -697,7 +687,7 @@ This example generates self-contained HTML pages using [W&B Inference](https://d
   </Tab>
 </Tabs>
 
-```python
+```python lines
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -736,9 +726,7 @@ result = generate_html(prompt, prompt_template)
 
 This HTML is logged to Weave and automatically displayed in the UI. Clicking the `file_name.html` cell in the table opens it in full screen. You can also download the raw `.html` file.
 
-<Frame>
 ![HTML logging in Weave](/images/weave/html.png)
-</Frame>
 
 ## Using the Contents API
 
@@ -758,7 +746,7 @@ Type annotations automatically detect the proper constructor to use, while direc
 
 The Weave Content API is designed to primarily be used through type annotations, which signal to Weave that traced inputs and outputs should be processed and stored as content blobs.
 
-```python
+```python lines
 import weave
 from weave import Content
 from pathlib import Path
@@ -788,7 +776,7 @@ You can initialize content directly from your target type using one of the follo
 - `Content.from_text` - Create from text string
 - `Content.from_base64` - Create from base64-encoded data
 
-```python
+```python lines
 import weave
 from weave import Content
 
@@ -808,7 +796,7 @@ content.model_dump()  # Dumps the model attributes to JSON
 Weave can detect most binary mimetypes, but custom mimetypes and text documents such as markdown may not be automatically detected, requiring you to manually specify the mimetype or extension of your file.
 
 #### Custom Mimetypes with Type Annotations
-```python
+```python lines
 import weave
 from weave import Content
 from pathlib import Path
@@ -826,7 +814,7 @@ markdown_content('path/to/your/document.md')
 
 #### Custom Mimetypes with Direct Initialization
 
-```python
+```python lines
 video_bytes = Path('/path/to/video.mp4').read_bytes()
 
 # Pass an extension such as 'mp4' or '.mp4' to the extension parameter
@@ -864,14 +852,14 @@ For a comprehensive list of class attributes and methods, view the [Content refe
 
 Create `content` object from a file path:
 
-```python
+```python lines
 content = Content.from_path("assets/photo.jpg")
 print(content.mimetype, content.size)
 ```
 
 Create `content` object from raw bytes:
 
-```python
+```python lines
 content = Content.from_bytes(
     data_bytes,
     filename="audio.mp3", 
@@ -882,14 +870,14 @@ content.save("output.mp3")
 
 Create `content` object from text:
 
-```python
+```python lines
 content = Content.from_text("Hello, World!", mimetype="text/plain")
 print(content.as_string())
 ```
 
 Create `content` object from base64-encoded data:
 
-```python
+```python lines
 content = Content.from_base64(base64_string)
 print(content.metadata)
 ```
@@ -898,7 +886,7 @@ print(content.metadata)
 
 You can attach custom metadata to any Content object:
 
-```python
+```python lines
 content = Content.from_bytes(
     data,
     metadata={"resolution": "1920x1080", "model": "dall-e-3" }

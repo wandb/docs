@@ -39,7 +39,7 @@ It is recommended that you store sensitive environment variables like your API k
 
 The following code snippet demonstrates how to configure an OTLP span exporter and tracer provider to send OTEL traces from a PydanticAI application to Weave. 
 
-```python
+```python lines
 import base64
 import os
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -76,7 +76,7 @@ To trace your PydanticAI agents and send trace data to Weave, pass an `Instrumen
 
 The following example shows how to create a simple agent with tracing enabled. The key step is setting the instrument argument when initializing the agent:
 
-```python
+```python lines
 from pydantic_ai import Agent
 from pydantic_ai.models.instrumented import InstrumentationSettings
 
@@ -92,17 +92,14 @@ print(result.output)
 
 All calls to the agent are traced and sent to Weave.
 
-<Frame>
 ![A trace visualization of a simple PydanticAI agent](./imgs/pydantic_ai/pydanticai_agent_trace.png)
-</Frame>
-
 ## Trace PydanticAI Tools with OTEL
 
 Weave can trace any PydanticAI operations that are instrumented with OTEL, including both agent and tool calls. This means that when your agent invokes a tool (e.g. a function decorated with `@agent.tool_plain`), the entire interaction is captured and visualized in Weave, including tool inputs, outputs, and the model's reasoning.
 
 The following example shows how to create an agent with a system prompt and a tool. Tracing is enabled automatically for both the agent and the tool:
 
-```python
+```python lines
 from pydantic_ai import Agent
 from pydantic_ai.models.instrumented import InstrumentationSettings
 
@@ -127,17 +124,14 @@ result = agent.run_sync("What is 7 multiplied by 8?")
 print(result.output)
 ```
 
-<Frame>
 ![A trace visualization of a tool call](./imgs/pydantic_ai/pydanticai_tool_call.png)
-</Frame>
-
 Both the agent call and the tool call are traced in Weave, allowing you to inspect the full reasoning and execution path of your application.
 
 ## Instrument all agents by default
 
 To apply OTEL tracing to all PydanticAI agents in your application, use the `Agent.instrument_all()` method. This sets a default `InstrumentationSettings` instance for any agent that doesn’t explicitly specify the `instrument` parameter.
 
-```python
+```python lines
 from pydantic_ai import Agent
 from pydantic_ai.models.instrumented import InstrumentationSettings
 

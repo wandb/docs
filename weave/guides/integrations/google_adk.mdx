@@ -50,7 +50,7 @@ The following code snippet demonstrates how to configure an OTLP span exporter a
 To ensure that Weave traces ADK properly, set the global tracer provider _before_ using ADK components in your code.
 </Warning>
 
-```python
+```python lines
 import base64
 import os
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -91,7 +91,7 @@ trace.set_tracer_provider(tracer_provider)
 
 After setting up the tracer provider, you can create and run ADK agents with automatic tracing. The following example demonstrates how to create a simple LLM agent with a tool, and run it with an in-memory runner:
 
-```python
+```python lines
 from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
 from google.adk.tools import FunctionTool
@@ -155,17 +155,14 @@ asyncio.run(run_agent())
 
 All agent operations are automatically traced and sent to Weave, allowing you to visualize the execution flow. You can view model calls, reasoning steps, and tool invocations.
 
-<Frame>
 ![A trace visualization of an ADK agent](./imgs/google_adk/adk_agent_trace.png)
-</Frame>
-
 ## Trace ADK Tools with OTEL
 
 When you define and use tools with ADK, these tool calls are also captured in the trace. The OTEL integration automatically instruments both the agent's reasoning process and the individual tool executions, providing a comprehensive view of your agent's behavior.
 
 Here's an example with multiple tools:
 
-```python
+```python lines
 from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
 from google.adk.tools import FunctionTool
@@ -242,15 +239,12 @@ async def run_agent():
 asyncio.run(run_agent())
 ```
 
-<Frame>
 ![A trace visualization of ADK tool calls](./imgs/google_adk/adk_tool_calls.png)
-</Frame>
-
 ## Work with Workflow Agents
 
 ADK provides various [_workflow agents_](https://google.github.io/adk-docs/agents/workflow-agents/) for more complex scenarios. You can trace workflow agents just like regular LLM agents. Here's an example using a [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/):
 
-```python
+```python lines
 from google.adk.agents import LlmAgent, SequentialAgent
 from google.adk.runners import InMemoryRunner
 from google.genai import types
@@ -312,10 +306,7 @@ asyncio.run(run_workflow())
 
 This workflow agent trace will show the sequential execution of both agents in Weave, providing visibility into how data flows through your multi-agent system.
 
-<Frame>
 ![A trace visualization of a Sequential workflow agent](./imgs/google_adk/adk_workflow_trace.png)
-</Frame>
-
 ## Learn more
 
 - [Weave documentation: Send OTEL traces to Weave](../tracking/otel.mdx)

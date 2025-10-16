@@ -50,7 +50,7 @@ The MCP integration can be configured through environment variables:
 
 To trace an MCP server, add two lines to your existing `FastMCP` setup: one to import Weave and one to initialize the client. Once added, tool, resource, and prompt operations will be automatically traced.
 
-```python
+```python lines
 # Import Weave (required for tracing)
 import weave
 from mcp.server.fastmcp import FastMCP
@@ -87,7 +87,7 @@ mcp.run(transport="stdio")
 
 On the client side, tracing also requires just two changes: import Weave and initialize it. All tool calls, resource accesses, and prompt requests will be traced automatically.
 
-```python
+```python lines
 # Import Weave (required for tracing)
 import weave
 from mcp import ClientSession, StdioServerParameters

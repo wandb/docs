@@ -1,9 +1,6 @@
 # Log traces during model training runs
 
-<Frame>
 ![Weave Trace in Workspaces](/images/weave/traces-in-workspace.png)
-</Frame>
-
 You can now log Weave traces during model training runs and view them in your personal workspace. 
 
 Personal workspaces are customizable dashboards in the UI that allow you to view in-depth analysis and data visualizations of your model training runs. By adding Weave panels to your workspace, you can view and access trace data logged during model runs to help gain better insight into how your models perform during training.
@@ -16,7 +13,7 @@ For example, if you're fine-tuning an LLM model and your W&B workspace shows tha
 
 For example, the following script demonstrates how Weave traces integrate with W&B training runs. It simulates a machine learning training loop where each training step logs metrics to W&B while simultaneously creating detailed Weave traces. The `@weave.op` decorators on the functions automatically capture inputs, outputs, and execution details. When the training loop logs metrics with `wandb.log()`, it also logs Weave trace information to your project.
 
-```python
+```python lines
 import wandb
 import weave
 import random

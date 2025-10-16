@@ -25,7 +25,7 @@ For the advanced use case, we leverage the OpenAI Realtime API to stream audio i
 
 Start by installing the OpenAI (`openai`) and Weave (`weave`) dependencies, as well as API key management dependencey `set-env`.
 
-```python
+```python lines
 %%capture
 !pip install openai
 !pip install weave
@@ -40,7 +40,7 @@ python
 
 Next, load the required API keys for OpenAI and Weave. Here, we use set_env which is compatible with google colab's secret keys manager, and is an alternative to colab's specific `google.colab.userdata`. See: [here](https://pypi.org/project/set-env-colab-kaggle-dotenv/) for usage instructions.
 
-```python
+```python lines
 # Set environment variables.
 from set_env import set_env
 
@@ -50,7 +50,7 @@ _ = set_env("WANDB_API_KEY")
 
 And finally import the required libraries.
 
-```python
+```python lines
 import base64
 import os
 import time
@@ -67,7 +67,7 @@ import weave
 
 Now we will setup a call to OpenAI's completions endpoint with audio modality enabled. First create the OpenAI client and initiate a Weave project.
 
-```python
+```python lines
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 weave.init("openai-audio-chat")
 ```
@@ -85,7 +85,7 @@ Here, we define the function `prompt_endpont_and_log_trace`. This function has t
 
 3. We return an open file handler to the audio file so Weave logs the audio data in the trace.
 
-```python
+```python lines
 SAMPLE_RATE = 22050
 
 @weave.op()
@@ -136,7 +136,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
 Run the following cell. The system and user prompt will be stored in a Weave trace as well as the output audio.
 After running the cell, click the link next to the "🍩" emoji to view your trace.
 
-```python
+```python lines
 from IPython.display import Audio
 
 # Call the function to write the audio stream
@@ -166,7 +166,7 @@ Please note:
 
 ## Requirements Setup
 
-```python
+```python lines
 %%capture
 !pip install numpy==2.0
 !pip install weave
@@ -198,7 +198,7 @@ _ = set_env("WANDB_API_KEY")
 
 Run the following cell to find all available audio devices. Then, populate the `INPUT_DEVICE_INDEX` and the `OUTPUT_DEVICE_INDEX` based on the devices listed. Your input device will have at least 1 input channels, and your output device will have at least 1 output channels.
 
-```python
+```python lines
 # Get device list from pyaudio so we can configure the next cell
 p = pyaudio.PyAudio()
 devices_data = {i: p.get_device_info_by_index(i) for i in range(p.get_device_count())}
@@ -234,7 +234,7 @@ The OpenAI Python SDK does not yet provide Realtime API support. We implement th
 <details>
 <summary> Pydantic Schema for OpenAI Realtime API (OpenAI's SDK lacks Realtime API support) </summary>
 
-```python
+```python lines
 from enum import Enum
 from typing import Any, Literal, Union
 
@@ -777,7 +777,7 @@ def parse_server_event(event_data: dict) -> ServerEvent:
 
 ## Audio Stream Writer (To Disk and In Memory)
 
-```python
+```python lines
 class StreamingWavWriter:
     """Writes audio integer or byte array chunks to a WAV file."""
 
@@ -842,7 +842,7 @@ The realtime (RT) audio model uses a websocket to send events to OpenAI's Realti
 
     3.**send_audio**: A handler appends user audio chunks to a buffer, and sends chunks of audio when the audio buffer reaches a certain size.
 
-```python
+```python lines
 class RTAudioModel(weave.Model):
     """Model class for realtime e2e audio OpenAI model interaction with Whisper user transcription for logging."""
 
@@ -1040,7 +1040,7 @@ class RTAudioModel(weave.Model):
 
 We use a pyaudio input stream with a handler linked to the `send_audio` method of the RTAudio model. The stream is returned to the main thread so it can be safely exited upon program completion.
 
-```python
+```python lines
 # Audio capture stream
 def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
     """Setup a Pyaudio input stream and use the RTAudioModel as a callback for streaming data."""
@@ -1069,7 +1069,7 @@ def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
 
 The main thread initiates a Realtime Audio Model with Weave integrated. Next, a reccording is opened and we wait for a keyboard interrupt from the user.
 
-```python
+```python lines
 weave.init(project_name="realtime-oai-audio-testing")
 
 realtime_model = RTAudioModel()
