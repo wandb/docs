@@ -18,12 +18,10 @@ The W&B Public API provides programmatic access to query, export, and update dat
 | [`Sweeps`](./sweeps/) | Access hyperparameter sweep data and analyze optimization results. |
 | [`Projects`](./projects/) | Manage projects and access project-level metadata and settings. |
 | [`Reports`](./reports/) | Programmatically access and manage W&B Reports. |
-| [`Teams`](./teams/) | Query team information and manage team-level resources. |
-| [`Users`](./users/) | Access user profiles and user-specific data. |
-| [`Files`](./files/) | Download and manage files associated with runs. |
-| [`History`](./history/) | Access detailed time-series metrics logged during training. |
-| [`Automations`](./automations/) | Manage automated workflows and actions. |
-| [`Integrations`](./integrations/) | Configure and manage third-party integrations. |
+| [`Team`](./Team) | Query team information and manage team-level resources. |
+| [`User`](./User) | Access user profiles and user-specific data. |
+| [`Files`](./files) | Download and manage files associated with runs. |
+| [`Automations`](./automations) | Manage automated workflows and actions. |
 
 ## Common Use Cases
 
@@ -128,4 +126,4 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-For more information on how to query a registry, collection, or artifact, see the [Find registry items](/guides/registry/search-registry).
+For more information on how to query a registry, collection, or artifact, see the [Search registry](/models/registry/search_registry).
