@@ -956,48 +956,8 @@
             "tab": "Release Notes",
             "pages": [
               "release-notes",
-              "release-notes/0.74",
-              "release-notes/0.73",
-              "release-notes/0.72",
-              "release-notes/0.71",
-              "release-notes/0.70",
-              "release-notes/0.69.0",
-              "release-notes/0.68.0",
-              "release-notes/0.67.0",
-              "release-notes/0.66.0",
-              "release-notes/0.65.0",
-              "release-notes/0.63.0",
-              "release-notes/0.61.0",
-              {
-                "group": "Archived Releases",
-                "pages": [
-                  "release-notes/archived/0.60.0",
-                  "release-notes/archived/0.58.1",
-                  "release-notes/archived/0.57.2",
-                  "release-notes/archived/0.56.0",
-                  "release-notes/archived/0.54.0",
-                  "release-notes/archived/0.52.2",
-                  "release-notes/archived/0.51.0",
-                  "release-notes/archived/0.50.2",
-                  "release-notes/archived/0.49.0",
-                  "release-notes/archived/0.48.0",
-                  "release-notes/archived/0.47.3",
-                  "release-notes/archived/0.47.2",
-                  "release-notes/archived/0.46.0",
-                  "release-notes/archived/0.45.0",
-                  "release-notes/archived/0.44.1",
-                  "release-notes/archived/0.43.0",
-                  "release-notes/archived/0.42.0",
-                  "release-notes/archived/0.41.0",
-                  "release-notes/archived/0.40.0",
-                  "release-notes/archived/0.39.0",
-                  "release-notes/archived/0.38.0",
-                  "release-notes/archived/0.36.0",
-                  "release-notes/archived/0.35.0",
-                  "release-notes/archived/0.34.0",
-                  "release-notes/archived/0.33.0"
-                ]
-              },
+              "release-notes/server-releases",
+              "release-notes/server-releases-archived",
               "release-notes/release-policies"
             ]
           }
@@ -3480,11 +3440,11 @@
     },
     {
       "source": "/ref/release-notes/releases/",
-      "destination": "/ref/release-notes/"
+      "destination": "/release-notes/server-releases/"
     },
     {
       "source": "/ref/release-notes/releases/index.xml/",
-      "destination": "/ref/release-notes/index.xml/"
+      "destination": "/release-notes/server-releases/rss.xml"
     },
     {
       "source": "/ref/run/summary/",
@@ -3792,23 +3752,31 @@
     },
     {
       "source": "/ref/release-notes/0.3*",
-      "destination": "/ref/release-notes/archived/0.3:slug*"
+      "destination": "/release-notes/server-releases-archived/"
     },
     {
       "source": "/ref/release-notes/0.4:slug*",
-      "destination": "/ref/release-notes/archived/0.4:slug*"
+      "destination": "/release-notes/server-releases-archived/"
     },
     {
       "source": "/ref/release-notes/0.5*/",
-      "destination": "/ref/release-notes/releases/archived/0.56:slug*"
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/release-notes/0.60.0/",
+      "destination": "/release-notes/server-releases-archived/"
+    },
+    {
+      "source": "/ref/release-notes/0.61.0/",
+      "destination": "/release-notes/server-releases/"
     },
     {
       "source": "/ref/release-notes/releases/*",
-      "destination": "/ref/releases/:slug*"
+      "destination": "/release-notes/server-releases/"
     },
     {
       "source": "/ref/release-notes/releases/archived/*",
-      "destination": "/ref/releases/archived/:slug*"
+      "destination": "/release-notes/server-releases-archived/"
     },
     {
       "source": "/guides/app/settings-page/user-settings",
