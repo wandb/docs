@@ -48,7 +48,7 @@ Location: `weave/cookbooks/`
 - `Models_and_Weave_Integration_Demo.mdx`
 - `Intro_to_Weave_Hello_Eval.mdx`
 
-These appear to be notebook-style tutorials with descriptive names.
+These are imported from `wandb/weave` repo where the source Jupyter notebooks use these uppercase names. The casing is intentionally preserved to match the source repository.
 
 ## Handling Case-Sensitive Files on macOS
 
@@ -85,9 +85,14 @@ git config core.ignorecase
 ## Recommendations
 
 1. **Python SDK files**: Must keep uppercase naming (matches Python classes)
-2. **TypeScript SDK files**: Likely auto-generated, should keep as-is
-3. **Weave cookbooks**: Could be renamed to lowercase for consistency, but not critical
+2. **TypeScript SDK files**: Auto-generated from TypeScript definitions, keep as-is
+3. **Weave cookbooks**: Keep uppercase to match source notebooks in `wandb/weave` repo
 4. **Future files**: Default to lowercase unless there's a specific reason for uppercase
+
+## Future Improvements
+
+- Consider adding cookbook generation to the Weave GitHub Action workflow
+- If notebook names are standardized in `wandb/weave`, update accordingly in this repo
 
 ## Migration Notes
 
