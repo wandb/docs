@@ -30,7 +30,7 @@ This section shows how to edit a page or report a bug from within your browser w
 
 If you work for Weights & Biases, file a doc JIRA, using this template: https://wandb.atlassian.net/secure/CreateIssueDetails!init.jspa?priority=3&pid=10026&issuetype=10047.
 
-{*/
+{/*
 To report a bug on a page you're reading on docs.wandb.com:
 1. Scroll to the bottom of the page and click **Report issue**.
 1. Provide a title and optionally edit the description, then click **Create**.
