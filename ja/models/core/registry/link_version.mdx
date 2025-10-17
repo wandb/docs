@@ -120,9 +120,9 @@ Registry Appでメタデータ、リネージ、使用状況情報などのリ�
 
 **バージョンタブ** 内の **フルネーム** フィールドに注意してください。リンクされたアーティファクトのフルネームは、レジストリ、コレクション名、アーティファクトのバージョンのエイリアスまたはインデックスから構成されています。
 
-```text title="リンクされたアーティファクトのフルネーム"
-wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
-```
+   ```text title="リンクされたアーティファクトのフルネーム"
+   wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
+   ```
 
 プログラム的にアーティファクトバージョンにアクセスするには、リンクされたアーティファクトのフルネームが必要です。
 
@@ -149,14 +149,14 @@ W&B はあなたのチームの名前をチームのエンティティとして�
 
 #### チームエンティティからログする
 1. [`wandb.init()`](/ja/models/ref/python/init)を使用して run を初期化するときに、エンティティとしてチームを指定します。もし run を初期化するときに `entity` を指定しなかった場合、run はあなたのデフォルトエンティティを使用しますが、それがチームエンティティであるとは限りません。
-  ```python 
-  import wandb   
-
-  run = wandb.init(
-    entity='<team_entity>', 
-    project='<project_name>'
-    )
-  ```
+   ```python 
+     import wandb   
+   
+     run = wandb.init(
+       entity='<team_entity>', 
+       project='<project_name>'
+       )
+   ```
 2. run にアーティファクトをログするには、run.log_artifact を使用するか、Artifact オブジェクトを作成してからファイルを追加します:
 
     ```python
@@ -194,18 +194,18 @@ UIを使用してレジストリのパスを確認する方法は2つありま�
 
 例えば、上記の手順を完了した後、`target_path`パラメータを持つコードブロックを見つけます：
 
-```python
-target_path = 
-      "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
-```
+   ```python
+   target_path = 
+         "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
+   ```
 
 これを構成要素に分解すると、プログラム的にアーティファクトをリンクするために必要なパスを作成するために必要なものが見えます：
 
-```python
-ORG_ENTITY_NAME = "smle-registries-bug-bash"
-REGISTRY_NAME = "Golden Datasets"
-COLLECTION_NAME = "raw_images"
-```
+   ```python
+   ORG_ENTITY_NAME = "smle-registries-bug-bash"
+   REGISTRY_NAME = "Golden Datasets"
+   COLLECTION_NAME = "raw_images"
+   ```
 
 <Note>
 一時コレクションのコレクション名を、リンクしたいアーティファクトのコレクション名に置き換えることを忘れないでください。
