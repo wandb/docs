@@ -48,6 +48,7 @@
         "tabs": [
           {
             "tab": "Platform",
+            "icon": "/icons/Name=Artifacts, Mode=Dark.svg",
             "pages": [
               {
                 "group": "W&B Platform",
@@ -170,6 +171,7 @@
           },
           {
             "tab": "W&B Models",
+            "icon": "/icons/Name=Models, Mode=Dark.svg",
             "pages": [
               {
                 "group": "W&B Models",
@@ -602,6 +604,7 @@
           },
           {
             "tab": "W&B Weave",
+            "icon": "/icons/Name=Weave, Mode=Dark.svg",
             "groups": [
               {
                 "group": "Introduction",
@@ -899,6 +902,7 @@
           },
           {
             "tab": "W&B Inference",
+            "icon": "/icons/Name=Inference, Mode=Dark.svg",
             "pages": [
               "inference",
               "inference/prerequisites",
@@ -931,6 +935,7 @@
           },
           {
             "tab": "W&B Training",
+            "icon": "/icons/Name=Training,%20Mode=Dark.svg",
             "pages": [
               "training",
               "training/prerequisites",
@@ -954,6 +959,7 @@
           },
           {
             "tab": "Release Notes",
+            "icon": "/icons/Name=Reports, Mode=Dark.svg",
             "pages": [
               "release-notes",
               "release-notes/server-releases",
