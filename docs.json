@@ -50,8 +50,8 @@
             "tab": "Platform",
             "icon": "/icons/Name=Artifacts, Mode=Dark.svg",
             "pages": [
-               "index",
-               "get-started",
+              "index",
+              "get-started",
               {
                 "group": "Deployment Options",
                 "pages": [
@@ -243,6 +243,7 @@
             "pages": [
               "models",
               "models/quickstart",
+              "models/models_quickstart",
               "models/evaluate-models",
               {
                 "group": "Guides",
@@ -802,9 +803,9 @@
             "tab": "W&B Weave",
             "icon": "/icons/Name=Weave, Mode=Dark.svg",
             "pages": [
-                "weave/index",
-                "weave/quickstart",
-                "weave/quickstart-inference",
+              "weave/index",
+              "weave/quickstart",
+              "weave/quickstart-inference",
               {
                 "group": "Guides",
                 "pages": [
