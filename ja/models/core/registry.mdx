@@ -1,0 +1,144 @@
+---
+title: レジストリ
+cascade:
+- slug: /ja/models/core/registry/:filename
+menu:
+  default:
+    identifier: ja-guides-core-registry-_index
+    parent: core
+slug: /ja/models/core/registry
+weight: 3
+---
+
+<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" icon="python"/>
+
+<Note>
+W&B Registryは現在パブリックプレビュー中です。有効化の方法については、[こちら](/ja/./#enable-wb-registry)のセクションを参照してください。
+</Note>
+
+W&B Registryは、組織内のアーティファクトバージョンの管理された中央リポジトリです。組織内で[権限を持つ](/ja/models/core/registry/configure_registry/)ユーザーは、すべてのアーティファクトのライフサイクルを[ダウンロード](/ja/models/core/registry/download_use_artifact/)、共有、共同管理できます。  
+ 
+Registryを使用して、[アーティファクトバージョンを追跡](/ja/models/core/registry/link_version/)し、アーティファクトの使用履歴と変更履歴を監査し、アーティファクトのガバナンスとコンプライアンスを保証し、[モデルCI/CDなどの下流プロセスを自動化](/ja/models/core/automations/)できます。
+
+要約すると、W&B Registryを使用して以下を行うことができます：
+
+- 機械学習タスクを満たすアーティファクトバージョンを組織内の他のユーザーに[プロモート](/ja/models/core/registry/link_version/)します。
+- [アーティファクトをタグで整理](/ja/models/core/registry/organize-with-tags/)し、特定のアーティファクトを見つけたり参照したりします。
+- [アーティファクトのリネージ](/ja/models/core/registry/lineage)を追跡し、変更履歴を監査します。
+- モデルCI/CDなどの[下流プロセスを自動化](/ja/models/core/automations/)します。
+- 組織内の誰が各レジストリのアーティファクトに[アクセスできるかを制限](/ja/models/core/registry/configure_registry/)します。
+
+<Frame>
+    <img src="/images/registry/registry_landing_page.png"  />
+</Frame>
+
+前の画像は「Model」と「Dataset」のコアレジストリとカスタムレジストリがあるRegistryアプリを示しています。
+
+## 基本を学ぶ
+
+各組織には最初にモデルとデータセットのアーティファクトを整理するための**Models**と**Datasets**と呼ばれる2つのレジストリが含まれています。組織のニーズに基づいて、[他のアーティファクトタイプを整理するための追加のレジストリを作成する](/ja/models/core/registry/registry_types/)ことができます。
+
+[レジストリ](/ja/models/core/registry/configure_registry/)は1つ以上の[コレクション](/ja/models/core/registry/create_collection/)で構成されています。各コレクションは、異なるタスクまたはユースケースを表しています。
+
+<Frame>
+    <img src="/images/registry/homepage_registry.png"  />
+</Frame>
+
+レジストリにアーティファクトを追加するには、最初に[特定のアーティファクトバージョンをW&Bにログ](/ja/models/artifacts/create-a-new-artifact-version/)します。アーティファクトをログすると、W&Bは自動的にそのアーティファクトにバージョンを割り当てます。アーティファクトバージョンは0から始まり、最初のバージョンは`v0`、2番目は`v1`というように続きます。
+
+アーティファクトをW&Bにログしたら、その特定のアーティファクトバージョンをレジストリ内のコレクションにリンクできます。
+
+<Note>
+「リンク」という用語は、W&Bがアーティファクトを保存している場所と、レジストリでアーティファクトにアクセスできる場所を接続するポインタを指します。アーティファクトをコレクションにリンクするときにW&Bはアーティファクトを重複しません。
+</Note>
+
+例として、以下のコード例では、"my_model.txt"という名前のモデルアーティファクトを[コアレジストリ](/ja/models/core/registry/registry_types/)内の"first-collection"というコレクションにログしリンクする方法を示しています：
+
+1. W&Bのrunを初期化します。
+2. アーティファクトをW&Bにログします。
+3. コレクションとレジストリの名前を指定して、アーティファクトバージョンをリンクします。
+4. アーティファクトをコレクションにリンクします。
+
+このPythonコードをスクリプトとして保存し実行してください。W&B Python SDKバージョン0.18.6以上が必要です。
+
+```python title="hello_collection.py"
+import wandb
+import random
+
+# アーティファクトをトラックするためにW&Bのrunを初期化
+run = wandb.init(project="registry_quickstart") 
+
+# シミュレートされたモデルファイルを作成してログします
+with open("my_model.txt", "w") as f:
+   f.write("Model: " + str(random.random()))
+
+# アーティファクトをW&Bにログします
+logged_artifact = run.log_artifact(
+    artifact_or_path="./my_model.txt", 
+    name="gemma-finetuned", 
+    type="model" # アーティファクトタイプを指定
+)
+
+# 公開したいコレクションとレジストリの名前を指定
+COLLECTION_NAME = "first-collection"
+REGISTRY_NAME = "model"
+
+# アーティファクトをレジストリにリンク
+run.link_artifact(
+    artifact=logged_artifact, 
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+)
+```
+
+指定したレジストリ内に存在しない場合、`link_artifact(target_path = "")`メソッドで返されるrunオブジェクトの指定したコレクションをW&Bが自動的に作成します。
+
+<Note>
+ターミナルが出力するURLは、W&Bがあなたのアーティファクトを保存しているプロジェクトにリダイレクトされます。
+</Note>
+
+他の組織メンバーと公開したアーティファクトバージョンを表示するためにRegistryアプリに移動します。まずW&Bに移動します。左側のサイドバーで**Applications**以下の**Registry**を選択します。「Model」レジストリを選択します。そのレジストリ内で、リンクしたアーティファクトバージョンを持つ「first-collection」コレクションが表示されるはずです。
+
+アーティファクトバージョンをレジストリ内のコレクションにリンクすると、それを所有している組織メンバーは、適切な権限を持っていれば、あなたのアーティファクトバージョンを表示、ダウンロード、管理し、下流のオートメーションを作成できます。
+
+<Note>
+もしアーティファクトバージョンがメトリクスをログする場合（たとえば`run.log_artifact()`を使用して）、そのバージョンの詳細ページからメトリクスを表示できますし、コレクションのページからアーティファクトバージョン間でメトリクスを比較できます。参照：[レジストリ内のリンクされたアーティファクトを表示する](/ja/models/core/registry/link_version/#view-linked-artifacts-in-a-registry)。
+</Note>
+
+## W&B Registryを有効にする
+
+デプロイメントタイプに基づいて、以下の条件を満たしてW&B Registryを有効にします：
+
+| デプロイメントタイプ | 有効にする方法 |
+| ----- | ----- |
+| マルチテナントクラウド | アクションは必要ありません。W&B RegistryはW&Bアプリで利用可能です。 |
+| 専用クラウド | アカウントチームに連絡してください。ソリューションアーキテクト(SA)チームがあなたのインスタンスのオペレーターコンソール内でW&B Registryを有効にします。インスタンスがサーバーリリースバージョン0.59.2以上であることを確認してください。|
+| セルフマネージド   | `ENABLE_REGISTRY_UI`と呼ばれる環境変数を有効にします。サーバーで環境変数を有効にする方法の詳細については[こちらのドキュメント](/ja/platform/hosting/env-vars/)をご覧ください。セルフマネージドインスタンスでは、インフラストラクチャ管理者がこの環境変数を有効にして`true`に設定する必要があります。インスタンスがサーバーリリースバージョン0.59.2以上であることを確認してください。|
+
+## 開始するためのリソース
+
+ユースケースに応じて、W&B Registryの利用を開始するための以下のリソースを探索してください：
+
+* チュートリアルビデオをチェックしてください：
+    * [Weights & BiasesからのRegistryの開始方法](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+* W&Bの[Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) コースを受講し、以下を学びましょう：
+    * W&B Registryを使用してアーティファクトを管理し、バージョン管理、リネージトラッキング、および異なるライフサイクルステージへのモデルプロモートを行います。
+    * Webhooksを使用してモデル管理ワークフローを自動化します。
+    * 外部MLシステムおよびツールとレジストリを統合して、モデル評価、モニタリング、デプロイメントを行います。
+
+## 旧モデルレジストリからW&B Registryへの移行
+
+旧モデルレジストリの廃止予定日は未定です。旧モデルレジストリを廃止する前に、W&Bは旧モデルレジストリの内容をW&B Registryに移行します。
+
+旧モデルレジストリからW&B Registryへの移行プロセスについて詳しくは、[旧モデルレジストリからの移行](/ja/models/core/registry/model_registry_eol/)を参照してください。
+
+移行が行われるまで、W&Bは旧モデルレジストリと新しいレジストリの両方をサポートしています。
+
+<Note>
+旧モデルレジストリを表示するには、W&BアプリでModel Registryに移動してください。ページの上部に、旧モデルレジストリアプリUIを使用できるバナーが表示されます。
+
+<Frame>
+    <img src="/images/registry/nav_to_old_model_reg.gif"  />
+</Frame>
+</Note>
+
+質問がある場合や移行についての懸念がある場合は、support@wandb.comにお問い合わせいただくか、W&Bプロダクトチームとお話しください。

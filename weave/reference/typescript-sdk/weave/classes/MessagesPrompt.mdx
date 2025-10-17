@@ -1,0 +1,176 @@
+---
+title: "Class: MessagesPrompt"
+description: "TypeScript SDK reference"
+---
+
+[weave](../index) / MessagesPrompt
+
+
+
+## Hierarchy
+
+- `Prompt`
+
+  ↳ `MessagesPrompt`
+
+## Table of contents
+
+### Constructors
+
+- [constructor](./MessagesPrompt#constructor)
+
+### Properties
+
+- [\_\_savedRef](./MessagesPrompt#__savedref)
+- [messages](./MessagesPrompt#messages)
+
+### Accessors
+
+- [description](./MessagesPrompt#description)
+- [name](./MessagesPrompt#name)
+
+### Methods
+
+- [className](./MessagesPrompt#classname)
+- [format](./MessagesPrompt#format)
+- [saveAttrs](./MessagesPrompt#saveattrs)
+
+## Constructors
+
+### constructor
+
+• **new MessagesPrompt**(`parameters`): [`MessagesPrompt`](./MessagesPrompt)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `parameters` | `MessagesPromptParameters` |
+
+#### Returns
+
+[`MessagesPrompt`](./MessagesPrompt)
+
+#### Overrides
+
+Prompt.constructor
+
+#### Defined in
+
+[prompt.ts:33](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/prompt.ts#L33)
+
+## Properties
+
+### \_\_savedRef
+
+• `Optional` **\_\_savedRef**: `ObjectRef` \| `Promise`\<`ObjectRef`\>
+
+#### Inherited from
+
+Prompt.\_\_savedRef
+
+#### Defined in
+
+[weaveObject.ts:49](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L49)
+
+___
+
+### messages
+
+• **messages**: `Record`\<`string`, `any`\>[]
+
+#### Defined in
+
+[prompt.ts:31](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/prompt.ts#L31)
+
+## Accessors
+
+### description
+
+• `get` **description**(): `undefined` \| `string`
+
+#### Returns
+
+`undefined` \| `string`
+
+#### Inherited from
+
+Prompt.description
+
+#### Defined in
+
+[weaveObject.ts:80](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L80)
+
+___
+
+### name
+
+• `get` **name**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+Prompt.name
+
+#### Defined in
+
+[weaveObject.ts:76](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L76)
+
+## Methods
+
+### className
+
+▸ **className**(): `any`
+
+#### Returns
+
+`any`
+
+#### Inherited from
+
+Prompt.className
+
+#### Defined in
+
+[weaveObject.ts:53](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L53)
+
+___
+
+### format
+
+▸ **format**(`values?`): `Record`\<`string`, `any`\>[]
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `values` | `Record`\<`string`, `any`\> |
+
+#### Returns
+
+`Record`\<`string`, `any`\>[]
+
+#### Defined in
+
+[prompt.ts:60](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/prompt.ts#L60)
+
+___
+
+### saveAttrs
+
+▸ **saveAttrs**(): `Object`
+
+#### Returns
+
+`Object`
+
+#### Inherited from
+
+Prompt.saveAttrs
+
+#### Defined in
+
+[weaveObject.ts:57](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L57)

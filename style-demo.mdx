@@ -1,0 +1,115 @@
+---
+title: "Style Guide Demo"
+description: "Demonstration of custom W&B brand styles"
+---
+
+# Style Guide Demo
+
+This page demonstrates the custom brand styles implemented for W&B documentation.
+
+## 1. Typography
+
+### Headings with Source Serif 4
+
+# H1 Heading - Source Serif 4
+## H2 Heading - Source Serif 4
+### H3 Heading - Source Serif 4
+#### H4 Heading - Source Serif 4
+
+Body text uses the system font stack for optimal readability across platforms.
+
+## 2. Brand Colors
+
+<div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem'}}>
+  <div style={{padding: '1rem', background: 'var(--wandb-gold)', color: 'var(--moon-900)', borderRadius: '8px'}}>
+    W&B Gold
+    #ffcc33
+  </div>
+  <div style={{padding: '1rem', background: 'var(--wandb-teal-500)', color: 'white', borderRadius: '8px'}}>
+    W&B Teal
+    #13a9ba
+  </div>
+  <div style={{padding: '1rem', background: 'var(--moon-100)', color: 'var(--moon-800)', borderRadius: '8px'}}>
+    Moon 100
+    #f5f6f7
+  </div>
+</div>
+
+Links use <a href="#">teal colors</a> for consistency.
+
+## 3. Banner Components
+
+<div className="help-banner custom-banner">
+  <h2>Help & Support Banner</h2>
+  <p>This banner uses the support background image with text shadows.</p>
+</div>
+
+<div className="card-banner custom-banner">
+  <h3>Card Banner</h3>
+  <p>A subtle gray background banner for informational content.</p>
+</div>
+
+<div className="gradient-banner custom-banner">
+  <h3>Gradient Banner</h3>
+  <p>Using the sunset gradient for eye-catching announcements.</p>
+</div>
+
+<div className="wandb-banner custom-banner">
+  <h3>W&B Brand Banner</h3>
+  <p>Using the official W&B gold gradient.</p>
+</div>
+
+## 4. Button Styles
+
+<div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem'}}>
+  <button className="cta-button">CTA Button</button>
+  <button className="primary-button">Primary Button</button>
+  <button className="brand-button">Brand Button</button>
+  <a href="#" className="contact-button">Contact Button</a>
+</div>
+
+## 5. Gradient Backgrounds
+
+<div className="hero-gradient">
+  <h2>Hero Section with Gradient</h2>
+  <p>This uses the sunset gradient for hero sections and important announcements.</p>
+</div>
+
+<div className="card-gradient">
+  <h3>Card with Subtle Gradient</h3>
+  <p>A subtle gradient overlay for card components that adds visual interest without being overwhelming.</p>
+</div>
+
+<div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '2rem'}}>
+  <span className="text-gradient-wandb">W&B Gradient Text Effect</span>
+</div>
+
+## Usage Examples
+
+### Banner in MDX
+```mdx
+<div className="help-banner custom-banner">
+  <h2>Your Title</h2>
+  <p>Your content here</p>
+</div>
+```
+
+### Button in MDX
+```mdx
+<button className="primary-button">Click Me</button>
+```
+
+### Gradient Section
+```mdx
+<div className="hero-gradient">
+  <h1>Welcome to W&B</h1>
+  <p>Build better models faster</p>
+</div>
+```
+
+## Notes
+
+- All styles respect dark mode automatically
+- Colors are defined as CSS variables for easy maintenance
+- Gradients use brand colors consistently
+- Hover effects provide interactive feedback

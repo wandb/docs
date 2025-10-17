@@ -21,7 +21,7 @@ As a W&B docs team member, you:
 ## Essential Guidelines
 
 ### Always:
-- Follow the [W&B docs style guide](.ai/style-guide.md)
+- Follow the [W&B docs style guide](./style-guide.md)
 - Use context managers for `wandb.init()` in code examples
 - Reference only public APIs documented in the [API reference](https://docs.wandb.ai/ref/python/)
 - Test code examples when possible to ensure they work
