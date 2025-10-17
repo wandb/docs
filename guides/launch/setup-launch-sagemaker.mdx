@@ -242,7 +242,11 @@ Navigate to **Instances** within the left panel of the EC2 Dashboard on AWS. Ens
    ```
 4. Next, install and start Docker within your EC2 instance:
    ```bash
-   sudo yum update -y && sudo yum install -y docker python3 && sudo systemctl start docker && sudo systemctl enable docker && sudo usermod -a -G docker ec2-user
+   sudo yum update -y && \
+   sudo yum install -y docker python3 && \
+   sudo systemctl start docker && \
+   sudo systemctl enable docker && \
+   sudo usermod -a -G docker ec2-user
    
    newgrp docker
    ```
