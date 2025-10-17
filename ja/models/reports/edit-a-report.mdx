@@ -83,82 +83,82 @@ App UI または W&B SDK を使用して、プロジェクトから run セッ�
 2. `wr.PanelGrid()` オブジェクト インスタンスを作成します。1つ以上の runset オブジェクトを `runsets` パラメータに渡します。
 3. 1つ以上の `wr.PanelGrid()` オブジェクト インスタンスをリストに保存します。
 4. パネルグリッド インスタンスのリストを使用して、レポート インスタンス ブロック属性を更新します。
-```python
-import wandb
-import wandb_workspaces.reports.v2 as wr
-
-report = wr.Report(
-    project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
-)
-
-panel_grids = wr.PanelGrid(
-    runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")]
-)
-
-report.blocks = [panel_grids]
-report.save()
-```
+   ```python
+   import wandb
+   import wandb_workspaces.reports.v2 as wr
+   
+   report = wr.Report(
+       project="report-editing",
+       title="An amazing title",
+       description="A descriptive description.",
+   )
+   
+   panel_grids = wr.PanelGrid(
+       runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")]
+   )
+   
+   report.blocks = [panel_grids]
+   report.save()
+   ```
 ひとつの SDK 呼び出しで run セットとパネルを追加することもできます：
-```python
-import wandb
-
-report = wr.Report(
-    project="report-editing",
-    title="An amazing title",
-    description="A descriptive description.",
-)
-
-panel_grids = wr.PanelGrid(
-    panels=[
-        wr.LinePlot(
-            title="line title",
-            x="x",
-            y=["y"],
-            range_x=[0, 100],
-            range_y=[0, 100],
-            log_x=True,
-            log_y=True,
-            title_x="x axis title",
-            title_y="y axis title",
-            ignore_outliers=True,
-            groupby="hyperparam1",
-            groupby_aggfunc="mean",
-            groupby_rangefunc="minmax",
-            smoothing_factor=0.5,
-            smoothing_type="gaussian",
-            smoothing_show_original=True,
-            max_runs_to_show=10,
-            plot_type="stacked-area",
-            font_size="large",
-            legend_position="west",
-        ),
-        wr.ScatterPlot(
-            title="scatter title",
-            x="y",
-            y="y",
-            # z='x',
-            range_x=[0, 0.0005],
-            range_y=[0, 0.0005],
-            # range_z=[0,1],
-            log_x=False,
-            log_y=False,
-            # log_z=True,
-            running_ymin=True,
-            running_ymean=True,
-            running_ymax=True,
-            font_size="small",
-            regression=True,
-        ),
-    ],
-    runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
-)
-
-
-report.blocks = [panel_grids]
-report.save()
-```
+   ```python
+   import wandb
+   
+   report = wr.Report(
+       project="report-editing",
+       title="An amazing title",
+       description="A descriptive description.",
+   )
+   
+   panel_grids = wr.PanelGrid(
+       panels=[
+           wr.LinePlot(
+               title="line title",
+               x="x",
+               y=["y"],
+               range_x=[0, 100],
+               range_y=[0, 100],
+               log_x=True,
+               log_y=True,
+               title_x="x axis title",
+               title_y="y axis title",
+               ignore_outliers=True,
+               groupby="hyperparam1",
+               groupby_aggfunc="mean",
+               groupby_rangefunc="minmax",
+               smoothing_factor=0.5,
+               smoothing_type="gaussian",
+               smoothing_show_original=True,
+               max_runs_to_show=10,
+               plot_type="stacked-area",
+               font_size="large",
+               legend_position="west",
+           ),
+           wr.ScatterPlot(
+               title="scatter title",
+               x="y",
+               y="y",
+               # z='x',
+               range_x=[0, 0.0005],
+               range_y=[0, 0.0005],
+               # range_z=[0,1],
+               log_x=False,
+               log_y=False,
+               # log_z=True,
+               running_ymin=True,
+               running_ymean=True,
+               running_ymax=True,
+               font_size="small",
+               regression=True,
+           ),
+       ],
+       runsets=[wr.RunSet(project="<project-name>", entity="<entity-name>")],
+   )
+   
+   
+   report.blocks = [panel_grids]
+   report.save()
+   ```
 </Tab>
 </Tabs>
 
