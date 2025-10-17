@@ -131,7 +131,10 @@ finance_agent.print_response(
 
 All agent operations are automatically traced and sent to Weave, allowing you to visualize the execution flow, model calls, reasoning steps, and tool invocations.
 
+<Frame>
 ![A trace visualization of an Agno agent](./imgs/agno/agno_agent_trace.png)
+</Frame>
+
 ## Trace Agno tools with OTEL
 
 When you define and use tools with Agno, these tool calls are also captured in the trace. The OTEL integration automatically instruments both the agent's reasoning process and the individual tool executions, providing a comprehensive view of your agent's behavior.
@@ -177,7 +180,10 @@ research_agent.print_response(
 )
 ```
 
+<Frame>
 ![A trace visualization of Agno tool calls](./imgs/agno/agno_tool_calls.png)
+</Frame>
+
 ## Trace multi-agent teams with OTEL
 
 Agno's powerful multi-agent architecture allows you to create teams of agents that can collaborate and share context. These team interactions are also fully traced:
@@ -236,7 +242,10 @@ agent_team.print_response(
 
 This multi-agent trace will show the coordination between different agents in Weave, providing visibility into how tasks are distributed and executed across your agent team.
 
+<Frame>
 ![A trace visualization of Agno multi-agent team](./imgs/agno/agno_team_trace.png)
+</Frame>
+
 ## Work with Reasoning Agents
 
 Agno provides built-in reasoning capabilities that help agents think through problems step-by-step. These reasoning processes are also captured in traces:
@@ -283,7 +292,10 @@ reasoning_agent.print_response(
 
 The reasoning steps will be visible in the trace, showing how the agent breaks down complex problems and makes decisions.
 
+<Frame>
 ![A trace visualization of Agno reasoning agent](./imgs/agno/agno_reasoning_trace.png)
+</Frame>
+
 ## Work with memory and knowledge
 
 Agno agents can maintain memory and access knowledge bases. These operations are also traced:
@@ -325,7 +337,10 @@ memory_agent.print_response("My name is John and I'm interested in AI investing 
 memory_agent.print_response("What specific AI companies would you recommend for my portfolio?")
 ```
 
+<Frame>
 ![A trace visualization of Agno memory usage](./imgs/agno/agno_memory_use.png)
+</Frame>
+
 Memory operations, including storing and retrieving conversation history, will be shown in the trace.
 
 ## Learn more

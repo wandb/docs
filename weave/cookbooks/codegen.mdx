@@ -17,7 +17,10 @@ Generating high-quality code with proper structure, documentation, and tests is 
 
 We'll use Weave for evaluation comparison and tracking, and OpenAI's GPT models for code generation using structured outputs.
 
+<Frame>
 ![Evaluation](/media/codegen/eval_dash.png)
+</Frame>
+
 ## Video Demonstration
 
 For a visual demonstration of the code generation pipeline using Weave, Groq, and E2B check out this video:
@@ -203,7 +206,10 @@ This `CodeFormatter` class provides several Weave operations to clean and format
 
 ## Define the CodeGenerationPipeline
 
+<Frame>
 ![Code Generation Pipeline](/media/codegen/codegen_trace.png)
+</Frame>
+
 Now, let's implement the core code generation logic:
 
 We're using a `weave.Model` so that it's automatically versioned when it changes. We're also keeping the `model_name` as an attribute so that we can experiment with it and easily diff & compare it in Weave. We're tracking our function calls with `@weave.op` so the inputs & outputs are logged to help with error tracking and debugging.
@@ -319,7 +325,10 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
 
 These evaluation functions run the generated code and return a boolean value indicating whether the code passed the test provided from the dataset.
 
+<Frame>
 ![Evaluation](/media/codegen/eval_trace.png)
+</Frame>
+
 ## Create a Weave Dataset and run evaluation
 
 To evaluate our pipeline, we'll create a Weave Dataset and run an evaluation:
@@ -376,7 +385,10 @@ for model_name in ["gpt-4o-2024-08-06"]:
 
 This code creates a dataset with our sample prompts, defines our humaneval test scorer, and runs an evaluation of our code generation pipeline.
 
+<Frame>
 ![Final Evaluation](/media/codegen/eval_dash.png)
+</Frame>
+
 ## Conclusion
 
 In this example, we've demonstrated how to implement a code generation pipeline using Weave and OpenAI's language models. We've shown how to:

@@ -83,7 +83,10 @@ response = huggingface_client.chat_completion(
 
 After the code shown above runs, Weave tracks and logs all LLM calls made with the Hugging Face Inference Client. You can view these traces in the Weave web interface.
 
+<Frame>
 ![Weave logs each inference call, providing details about inputs, outputs, and metadata.](./imgs/huggingface/trace_call.png)
+</Frame>
+
 Weave logs each inference call, providing details about inputs, outputs, and metadata.
 
 ![Weave also renders the call as a chat view in the UI, displaying the entire chat history with the model.](./imgs/huggingface/trace_chat.png)
@@ -157,8 +160,10 @@ response = generate_image_and_check_correctness("A cute puppy")
 
 Weave now logs all function calls wrapped with `@weave.op`, allowing you to analyze execution details in the Weave UI.
 
+<Frame>
 ![Weave now logs all function calls wrapped with `@weave.op`, allowing you to analyze execution details in the Weave UI. Weave also captures and visualizes function execution, helping you to understand data flow and logic within your application.](./imgs/huggingface/trace_ops.png)
 Weave also captures and visualizes function execution, helping you to understand data flow and logic within your application.
+</Frame>
 
 ## Use `Model`s for experimentation
 
@@ -207,4 +212,6 @@ rich.print(city_visit_recommender.predict("Paris"))
 
 Weave automatically logs models and tracks different versions, making it easy to analyze performance and experiment history.
 
+<Frame>
 ![Weave automatically logs models and tracks different versions, making it easy to analyze performance and experiment history.](./imgs/huggingface/trace_model.png)
+</Frame>

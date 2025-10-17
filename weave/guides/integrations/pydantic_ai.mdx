@@ -92,7 +92,10 @@ print(result.output)
 
 All calls to the agent are traced and sent to Weave.
 
+<Frame>
 ![A trace visualization of a simple PydanticAI agent](./imgs/pydantic_ai/pydanticai_agent_trace.png)
+</Frame>
+
 ## Trace PydanticAI Tools with OTEL
 
 Weave can trace any PydanticAI operations that are instrumented with OTEL, including both agent and tool calls. This means that when your agent invokes a tool (e.g. a function decorated with `@agent.tool_plain`), the entire interaction is captured and visualized in Weave, including tool inputs, outputs, and the model's reasoning.
@@ -123,8 +126,10 @@ def multiply(a: int, b: int) -> int:
 result = agent.run_sync("What is 7 multiplied by 8?")
 print(result.output)
 ```
-
+<Frame>
 ![A trace visualization of a tool call](./imgs/pydantic_ai/pydanticai_tool_call.png)
+</Frame>
+
 Both the agent call and the tool call are traced in Weave, allowing you to inspect the full reasoning and execution path of your application.
 
 ## Instrument all agents by default

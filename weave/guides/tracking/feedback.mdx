@@ -29,7 +29,10 @@ In the Weave UI, you can add and view feedback [from the call details page](#fro
    - _[Add and view feedback using the icons](#use-the-icons)_ located in the upper right corner of the call details feedback view.
    - _View and delete feedback from the call details feedback table._ Delete feedback by clicking the trashcan icon in the rightmost column of the appropriate feedback row.
 
+<Frame>
 ![Screenshot of Feedback tab in call details](/weave/guides/tracking/imgs/feedback_tab.png)
+</Frame>
+
 ### Use the icons
 
 You can add or remove a reaction, and add a note using the icons that are located in both the call table and individual call details pages.
@@ -59,7 +62,10 @@ To add a comment:
 The maximum number of characters in a feedback note is 1024. If a note exceeds this limit, it will not be created.
 </Warning>
 
+<Frame>
 ![Screenshot of calls grid with feedback column](/weave/guides/tracking/imgs/feedback_calls.png)
+</Frame>
+
 ## Provide feedback via the SDK
 
 > You can find SDK usage examples for feedback in the UI under the **Use** tab in the call details page.
@@ -252,7 +258,10 @@ To create a human annotation scorer in the UI, do the following:
 
 In the following example, a human annotator is asked to select which type of document the LLM ingested. As such, the `Type` selected for the score configuration is an `enum` containing the possible document types.
 
+<Frame>
 ![Human Annotation scorer form](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
+</Frame>
+
 ### Use the human annotation scorer in the UI
 
 Once you [create a human annotation scorer](#create-a-human-annotation-scorer-in-the-ui), it will automatically display in the **Feedback** sidebar of the call details page with the configured options. To use the scorer, do the following:
@@ -274,7 +283,10 @@ Once you [create a human annotation scorer](#create-a-human-annotation-scorer-in
 
    > Refresh the call table to view the most up-to-date information.
 
+<Frame>
 ![Human Annotation scorer feedback in calls table](/weave/guides/tracking/imgs/feedback-in-the-table.png)
+</Frame>
+
 ### Create a human annotation scorer using the API
 
 Human annotation scorers can also be created through the API. Each scorer is its own object, which is created and updated independently. To create a human annotation scorer programmatically, do the following:
@@ -356,7 +368,10 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
   </Tab>
 </Tabs>
 
+<Frame>
 ![Human Annotation scorer history](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
+</Frame>
+
 ### Use a human annotation scorer using the API
 
 The feedback API allows you to use a human annotation scorer by specifying a specially constructed name and an `annotation_ref` field. You can obtain the `annotation_spec_ref` from the UI by selecting the appropriate tab, or during the creation of the `AnnotationSpec`.

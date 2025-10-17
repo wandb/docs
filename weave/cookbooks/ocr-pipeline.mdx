@@ -192,7 +192,10 @@ print(f"Results saved to: {output_file}")
 
 You will see something similar to the following in the **Traces** table in the Weave UI.
 
+<Frame>
 ![Screenshot 2025-05-02 at 12.03.00 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
+</Frame>
+
 ## 4. Evaluate the pipeline using Weave
 
 Now that you have created a pipeline to perform NER using a VLM, you can use Weave to systematically evaluate it and find out how well it performs. You can learn more about Evaluations in Weave in [Evaluations Overview](https://weave-docs.wandb.ai/guides/core-types/evaluations). 
@@ -312,4 +315,6 @@ print(await evaluation.evaluate(named_entity_recognation))
 
 When the above code is run, a link to the Evaluation table in the Weave UI is generated. Follow the link to view the results and compare different iterations of the pipeline across models, prompts, and datasets of your choice. The Weave UI automatically creates a visualization like the one shown below for your team.   
 
+<Frame>
 ![Screenshot 2025-05-02 at 12.26.15 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pm.png)
+</Frame>
