@@ -50,13 +50,8 @@
             "tab": "Platform",
             "icon": "/icons/Name=Artifacts, Mode=Dark.svg",
             "pages": [
-              {
-                "group": "W&B Platform",
-                "pages": [
-                  "index",
-                  "get-started"
-                ]
-              },
+               "index",
+               "get-started",
               {
                 "group": "Deployment Options",
                 "pages": [
@@ -246,12 +241,12 @@
             "tab": "W&B Models",
             "icon": "/icons/Name=Models, Mode=Dark.svg",
             "pages": [
+              "models",
+              "models/quickstart",
+              "models/evaluate-models",
               {
-                "group": "W&B Models",
+                "group": "Guides",
                 "pages": [
-                  "models",
-                  "models/quickstart",
-                  "models/evaluate-models",
                   {
                     "group": "Experiments",
                     "pages": [
@@ -806,15 +801,10 @@
           {
             "tab": "W&B Weave",
             "icon": "/icons/Name=Weave, Mode=Dark.svg",
-            "groups": [
-              {
-                "group": "Introduction",
-                "pages": [
-                  "weave/index",
-                  "weave/quickstart",
-                  "weave/quickstart-inference"
-                ]
-              },
+            "pages": [
+                "weave/index",
+                "weave/quickstart",
+                "weave/quickstart-inference",
               {
                 "group": "Guides",
                 "pages": [
