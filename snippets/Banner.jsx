@@ -1,4 +1,30 @@
-export const Banner = ({ title, background, children }) => {
+export const Banner = ({ title, background, children, home }) => {
+  useEffect(() => {
+    if (home) {
+      const header = document.querySelector("div#content-area > header#header");
+      if (header) {
+        header.style.display = "none";
+      }
+
+      const mdxContent = document.querySelector("div.mdx-content");
+      if (mdxContent) {
+        mdxContent.style.marginTop = "0";
+      }
+    }
+
+    return () => {
+      const header = document.querySelector("div#content-area > header#header");
+      if (header) {
+        header.style.display = "";
+      }
+
+      const mdxContent = document.querySelector("div.mdx-content");
+      if (mdxContent) {
+        mdxContent.style.marginTop = "";
+      }
+    };
+  }, [home]);
+
   return (
     <div
       className="relative w-full min-h-[200px] bg-gray-900 bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden"
