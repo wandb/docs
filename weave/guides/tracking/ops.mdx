@@ -9,7 +9,7 @@ A Weave op is a versioned function that automatically logs all calls.
   <Tab title="Python">
     To create an op, decorate a python function with `weave.op()`
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     @weave.op()
@@ -20,11 +20,11 @@ A Weave op is a versioned function that automatically logs all calls.
     track_me(15)
     ```
 
-    Calling an op will create a new op version if the code has changed from the last call, and log the inputs and outputs of the function.
+    Calling an op creates a new op version if the code has changed from the last call, and log the inputs and outputs of the function.
 
-    :::note
+
     Functions decorated with `@weave.op()` will behave normally (without code versioning and tracking), if you don't call `weave.init('your-project-name')` before calling them.
-    :::
+
 
     Ops can be [served](/weave/guides/tools/serve) or [deployed](/weave/guides/tools/deploy) using the Weave toolbelt.
 
@@ -32,7 +32,7 @@ A Weave op is a versioned function that automatically logs all calls.
   <Tab title="TypeScript">
     To create an op, wrap a typescript function with `weave.op`
 
-    ```typescript showLineNumbers
+    ```typescript lines
     import * as weave from 'weave'
 
     function trackMe(v: number) {
@@ -56,7 +56,7 @@ A Weave op is a versioned function that automatically logs all calls.
   <Tab title="Python">
     You can customize the op's display name by setting the `name` parameter in the `@weave.op` decorator:
 
-    ```python
+    ```python lines
     @weave.op(name="custom_name")
     def func():
         ...
@@ -65,7 +65,7 @@ A Weave op is a versioned function that automatically logs all calls.
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -80,7 +80,7 @@ A Weave op is a versioned function that automatically logs all calls.
 
     `postprocess_output` takes in any value which would normally be returned by the function and returns the transformed output.
 
-    ```py
+    ```python lines
     from dataclasses import dataclass
     from typing import Any
     import weave
@@ -110,7 +110,7 @@ A Weave op is a versioned function that automatically logs all calls.
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -123,7 +123,7 @@ A Weave op is a versioned function that automatically logs all calls.
 
      Note that sampling rates are only applied to root calls. If an op has a sample rate, but is called by another op first, then that sampling rate will be ignored.
 
-    ```python
+    ```python lines
     @weave.op(tracing_sample_rate=0.1)  # Only trace ~10% of calls
     def high_frequency_op(x: int) -> int:
         return x + 1
@@ -143,7 +143,7 @@ A Weave op is a versioned function that automatically logs all calls.
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet. Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -162,7 +162,7 @@ export WEAVE_PRINT_CALL_LINK=false
   <Tab title="Python">
     To delete a version of an op, call `.delete()` on the op ref.
 
-    ```python
+    ```python lines
     weave.init('intro-example')
     my_op_ref = weave.ref('track_me:v1')
     my_op_ref.delete()
@@ -173,7 +173,7 @@ export WEAVE_PRINT_CALL_LINK=false
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>

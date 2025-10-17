@@ -27,7 +27,7 @@ We set the project in W&B we want to log this into in `name_of_wandb_project`.
 
 We then fetch a weave client by calling `weave.init()`
 
-```python
+```python lines
 %pip install wandb weave datetime --quiet
 python
 import os
@@ -47,7 +47,7 @@ weave_client = weave.init(name_of_wandb_project)
 
 ## Setting up a model with weave
 
-```python
+```python lines
 from weave import Model
 
 class YourModel(Model):
@@ -94,7 +94,7 @@ class YourModel(Model):
 
 Here we add a custom cost, and now that we have a custom cost, and our calls have usage, we can fetch the calls with `include_cost` and our calls with have costs under `summary.weave.costs`.
 
-```python
+```python lines
 model = YourModel(attribute1="Hello", attribute2=1)
 model.predict("world")
 

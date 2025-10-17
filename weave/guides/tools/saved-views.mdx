@@ -20,7 +20,7 @@ The `SavedView` class in Weave provides a way to save, filter, sort, and customi
 
 Initialize a `SavedView` instance in your Weave project:
 
-```python
+```python lines
 import weave
 client = weave.init(<my_project>)
 
@@ -31,13 +31,13 @@ view = weave.SavedView()
 
 Use `.to_grid()` to represent the saved view as a grid. Specify the maximum number of rows to display with `limit`.
 
-```python
+```python lines
 view.to_grid(limit=5)
 ```
 
 Display the grid representation using `.show()`:
 
-```python
+```python lines
 view.to_grid().show()
 ```
 
@@ -45,7 +45,7 @@ view.to_grid().show()
 
 Use `.set_columns()` to set the columns to be displayed in the view. Specify one or more columns to be displayed.
 
-```python
+```python lines
 view.set_columns("id", "op_name")
 ```
 
@@ -53,7 +53,7 @@ view.set_columns("id", "op_name")
 
 Use `.add_column()` to add one or more new columns to the view. Specify one or more columns to be added.
 
-```python
+```python lines
 # Add a column with the field specifier and label "Created"
 view.add_column("Created")
 # Optionally, you can add a second argument to specify a different label name for the new column. By default, the field specifier is use for the label.
@@ -63,7 +63,7 @@ view.add_column("Created")
 
 Use `.sort_by()` to sort results based on a specific column. Specify the column name to be sorted and the sort order (`asc` or `desc`).
 
-```python
+```python lines
 view.sort_by("started_at", "desc")
 ```
 
@@ -72,7 +72,7 @@ view.sort_by("started_at", "desc")
 In Weave, every trace or eval is associated with an operation name.
 Use `.filter_op()` to filter the `SavedView` to only include calls where that specific operation was executed. 
 
-```python
+```python lines
 view.filter_op("Evaluation.predict_and_score")
 ```
 
@@ -81,7 +81,7 @@ view.filter_op("Evaluation.predict_and_score")
 
 Use `.add_filter()` to apply a custom filter to the view. Define the filter using one of the [supported filter operators](#filter-operators) and a condition.
 
-```python
+```python lines
 view.add_filter("output.model_latency", ">=", 5)
 ```
 
@@ -108,13 +108,13 @@ view.add_filter("output.model_latency", ">=", 5)
 
 Use `.remove_filter()` to remove a specific filter from the view by index or field name.
 
-```python
+```python lines
 view.remove_filter("output.model_latency")
 ```
 
 Use `.remove_filters()` to remove all filters.
 
-```python
+```python lines
 view.remove_filters()
 ```
 
@@ -122,7 +122,7 @@ view.remove_filters()
 
 Use `.save()` to publish the saved view to Weave.
 
-```python
+```python lines
 view.save()
 ```
 
@@ -130,7 +130,7 @@ view.save()
 
 Use `.get_calls()` to retrieve function calls that match the filters in the saved view. You can specify optional parameters such as `limit` and `offset`.
 
-```python
+```python lines
 calls = view.get_calls(limit=10)
 ```
 

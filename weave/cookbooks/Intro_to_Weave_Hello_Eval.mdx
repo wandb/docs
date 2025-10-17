@@ -17,7 +17,7 @@ Before you can run a Weave evaluation, complete the following prerequisites.
 2. Install the OpenAI SDK and log in with your [API key](https://platform.openai.com/api-keys).
 3. Initialize your W&B project.
 
-```python
+```python lines
 # Install dependancies and imports
 !pip install wandb weave openai -q
 
@@ -51,7 +51,7 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Your W&B project name
 
 The following code sample shows how to evaluate an LLM using Weave’s `Model` and `Evaluation` APIs. First, define a Weave model by subclassing `weave.Model`, specifying the model name and prompt format, and tracking a `predict` method with `@weave.op`. The `predict` method sends a prompt to OpenAI and parses the response into a structured output using a Pydantic schema (`FruitExtract`). Then, create a small evaluation dataset consisting of input sentences and expected targets. Next, define a custom scoring function (also tracked using `@weave.op`) that compares the model’s output to the target label. Finally,  wrap everything in a `weave.Evaluation`, specifying your dataset and scorers, and call `evaluate()` to run the evaluation pipeline asynchronously.
 
-```python
+```python lines
 # 1. Construct a Weave model
 class FruitExtract(BaseModel):
     fruit: str

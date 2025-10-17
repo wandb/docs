@@ -24,7 +24,7 @@ pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave
 
 Set up your API keys as environment variables:
 
-```python
+```python lines
 import os
 
 os.environ["OPENAI_API_KEY"] = "<your-openai-api-key>"
@@ -35,7 +35,7 @@ os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
 
 Initialize Weave at the beginning of your script to start capturing traces.
 
-```python
+```python lines
 # highlight-next-line
 import weave
 # highlight-next-line
@@ -50,7 +50,7 @@ Weave can trace calls made directly to model clients within AutoGen.
 
 This example demonstrates tracing a single call to an `OpenAIChatCompletionClient`.
 
-```python
+```python lines
 import asyncio
 from autogen_core.models import UserMessage
 from autogen_ext.models.openai import OpenAIChatCompletionClient
@@ -79,7 +79,7 @@ asyncio.run(simple_client_call())
 
 Weave also supports tracing streamed responses.
 
-```python
+```python lines
 
 async def simple_client_call_stream(model_name = "gpt-4o"):
     openai_model_client = OpenAIChatCompletionClient(model=model_name)
@@ -98,7 +98,7 @@ asyncio.run(simple_client_call_stream())
 
 AutoGen's `ChatCompletionCache` can be used, and Weave will trace these interactions, showing whether a response came from the cache or a new call.
 
-```python
+```python lines
 
 from autogen_ext.models.cache import ChatCompletionCache
 
@@ -126,7 +126,7 @@ asyncio.run(run_cache_client())
 
 Weave traces agents and their tool usage, providing visibility into how agents select and execute tools.
 
-```python
+```python lines
 from autogen_agentchat.agents import AssistantAgent
 
 async def get_weather(city: str) -> str:
@@ -158,7 +158,7 @@ asyncio.run(run_agent_with_tools())
 
 Interactions within group chats, such as `RoundRobinGroupChat`, are traced by Weave, allowing you to follow the conversation flow between agents.
 
-```python
+```python lines
 
 from autogen_agentchat.conditions import TextMentionTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
@@ -206,7 +206,7 @@ asyncio.run(run_round_robin_group_chat())
 
 AutoGen's memory components can be traced with Weave. You can use `@weave.op()` to group memory operations under a single trace for better readability.
 
-```python
+```python lines
 
 from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
 
@@ -270,7 +270,7 @@ Retrieval Augmented Generation (RAG) workflows, including document indexing and 
 The RAG example requires `chromadb`. Install it with `pip install chromadb`.
 </Note>
 
-```python
+```python lines
 # highlight-next-line
 # !pip install -q chromadb 
 # Ensure chromadb is installed in your environment: `pip install chromadb`
@@ -388,7 +388,7 @@ asyncio.run(run_rag_agent())
 
 Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Using `@weave.op()` around the runtime execution function can group related traces.
 
-```python
+```python lines
 from dataclasses import dataclass
 from typing import Callable
 
@@ -469,7 +469,7 @@ asyncio.run(run_agent_runtime())
 
 Complex agent workflows, defining sequences of agent interactions, can be traced. `@weave.op()` can be used to provide a high-level trace for the entire workflow.
 
-```python
+```python lines
 
 from autogen_core import TopicId, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
@@ -613,7 +613,7 @@ This example involves code execution using Docker and may not work in all enviro
 
 Weave traces the generation and execution of code by AutoGen agents.
 
-```python
+```python lines
 
 import tempfile
 from autogen_core import DefaultTopicId

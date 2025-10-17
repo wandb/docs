@@ -15,7 +15,7 @@ First, install the necessary libraries, set up API keys, log in to W&B, and crea
 
 1. Install `weave`, `pandas`, `unsloth`, `wandb`, `litellm`, `pydantic`, `torch`, and `faiss-gpu` using `pip`.
 
-```python
+```python lines
 %%capture
 !pip install weave wandb pandas pydantic litellm faiss-gpu
 python
@@ -27,7 +27,7 @@ python
 
 2. Add the necessary API keys from your environment.
 
-```python
+```python lines
 import os
 
 from google.colab import userdata
@@ -43,7 +43,7 @@ os.environ["GEMINI_API_KEY"] = userdata.get(
 
 3. Log in to W&B, and create a new project.
 
-```python
+```python lines
 import pandas as pd
 import wandb
 
@@ -69,7 +69,7 @@ To load the `ChatModel`, `unsloth.FastLanguageModel` or `peft.AutoPeftModelForCa
 
 The code below defines the `UnslothLoRAChatModel` class to manage, initialize, and use the fine-tuned Llama-3.2 model retrieved from the W&B Models Registry. `UnslothLoRAChatModel` uses `unsloth.FastLanguageModel` for optimized inference. The `model_post_init` method handles downloading and setting up the model, while the `predict` method processes user queries and generates responses. To adapt the code for your use case, update the `MODEL_REG_URL` with the correct Registry path for your fine-tuned model and adjust parameters like `max_seq_length` or `dtype` based on your hardware or requirements.
 
-```python
+```python lines
 from typing import Any
 
 from pydantic import PrivateAttr
@@ -162,7 +162,7 @@ Building a RAG application from a fine-tuned chat model improves conversational 
 
 The code below retrieves the `RagModel` object using a reference from the Weave project. The `chat_model` attribute of the `RagModel` is then updated to use the new `UnslothLoRAChatModel` instance created in the previous step. After this, the updated `RagModel` is published to create a new version. Finally, the updated `RagModel` is used to run a sample prediction query, verifying that the new chat model is being used. 
 
-```python
+```python lines
 RagModel = weave.ref(
     "weave://wandb-smle/weave-cookboook-demo/object/RagModel:cqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo"
 ).get()
@@ -196,7 +196,7 @@ In Weave:
 
 The code below demonstrates how to retrieve an evaluation object, execute the evaluation using the updated `RagModel`, and log the results to both W&B and Weave. Ensure that the evaluation reference (`WEAVE_EVAL`) matches your project setup. 
 
-```python
+```python lines
 # MAGIC: we can simply get an evaluation with a eval dataset and scorers and use them
 WEAVE_EVAL = "weave://wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
@@ -221,7 +221,7 @@ The code below retrieves the `weave` object version and name for the updated `Ra
 
 Before running the code, ensure the `ENTITY` and `PROJECT` variables match your W&B setup, and the target registry path is correctly specified. This process finalizes the workflow by publishing the new `RagModel` to the W&B ecosystem for easy collaboration and reuse.
 
-```python
+```python lines
 MODELS_OBJECT_VERSION = PUB_REFERENCE.digest  # weave object version
 MODELS_OBJECT_NAME = PUB_REFERENCE.name  # weave object name
 python

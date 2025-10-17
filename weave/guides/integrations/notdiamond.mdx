@@ -26,7 +26,7 @@ Weave integrates with [Not Diamond's Python library][python] to [automatically l
 You only need to run `weave.init()` at the start of your workflow, then continue using the routed
 provider as usual:
 
-```python
+```python lines
 from notdiamond import NotDiamond
 
 import weave
@@ -52,7 +52,7 @@ according to eval performance for specialized use cases.
 
 Start by training a custom router:
 
-```python
+```python lines
 from weave.flow.eval import EvaluationResults
 from weave.integrations.notdiamond.custom_router import train_router
 
@@ -77,7 +77,7 @@ preference_id = train_router(
 By reusing this preference ID in any `model_select` request, you can route your prompts
 to maximize performance and minimize cost on your evaluation data:
 
-```python
+```python lines
 from notdiamond import NotDiamond
 client = NotDiamond()
 

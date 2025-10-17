@@ -1,4 +1,7 @@
-# MistralAI
+---
+title: MistralAI
+description: "Track and monitor MistralAI model calls with Weave's automatic tracing, capturing chat completions, function calling, and model interactions for open-weight and commercial Mistral models."
+---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
@@ -14,7 +17,7 @@ It’s important to store traces of LLM applications in a central database, both
 
 Weave will automatically capture traces for [mistralai](https://github.com/mistralai/client-python). You can use the library as usual, start by calling `weave.init()`:
 
-```python
+```python lines
 import weave
 weave.init("cheese_recommender")
 
@@ -48,7 +51,7 @@ Weave will now track and log all LLM calls made through the MistralAI library. Y
 
 Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion/) and Weave will track the inputs and outputs for you. Let's see how we can do this for our cheese recommender:
 
-```python
+```python lines
 # highlight-next-line
 @weave.op()
 def cheese_recommender(region:str, model:str) -> str:
@@ -82,7 +85,7 @@ In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/gu
 
 In the example below, you can experiment with `model` and `country`. Every time you change one of these, you'll get a new _version_ of `CheeseRecommender`. 
 
-```python
+```python lines
 import weave
 from mistralai import Mistral
 

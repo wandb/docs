@@ -12,7 +12,7 @@ description: "Track and manage costs for LLM operations in Weave"
     `llm_id` is the name of the LLM (e.g. `gpt-4o`). `prompt_token_cost` and `completion_token_cost` are cost per token for the LLM (if the LLM prices were specified inper million tokens, make sure to convert the value).
     You can also set `effective_date` to a datetime, to make the cost effective at a specific date, this defaults to the current date.
 
-    ```python
+    ```python lines
     import weave
     from datetime import datetime
 
@@ -50,7 +50,7 @@ description: "Track and manage costs for LLM operations in Weave"
     You can query for costs by using the [`query_costs`](/weave/reference/python-sdk/weave/trace/weave_client.mdx#query_costs) method.
     There are a few ways to query for costs, you can pass in a singular cost id, or a list of LLM model names.
 
-    ```python
+    ```python lines
     import weave
 
     client = weave.init("my_custom_cost_model")
@@ -76,7 +76,7 @@ description: "Track and manage costs for LLM operations in Weave"
   <Tab title="Python">
     You can purge a custom cost by using the [`purge_costs`](/weave/reference/python-sdk/weave/trace/weave_client.mdx#purge_costs) method. You pass in a list of cost ids, and the costs with those ids are purged.
 
-    ```python
+    ```python lines
     import weave
 
     client = weave.init("my_custom_cost_model")
@@ -99,7 +99,7 @@ description: "Track and manage costs for LLM operations in Weave"
   <Tab title="Python">
     You can calculate costs for a project by using our `calls_query` and adding `include_costs=True` with a little bit of setup.
 
-    ```python
+    ```python lines
     import weave
 
     weave.init("project_costs")

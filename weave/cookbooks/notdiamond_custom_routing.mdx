@@ -37,7 +37,7 @@ for [the HumanEval dataset](https://github.com/openai/human-eval) to train a cus
 
 We start by downloading the dataset we have prepared for this example, then parsing LLM responses into EvaluationResults for each model.
 
-```python
+```python lines
 !curl -L "https://drive.google.com/uc?export=download&id=1q1zNZHioy9B7M-WRjsJPkfvFosfaHX38" -o humaneval.csv
 python
 import random
@@ -81,7 +81,7 @@ Now that you have EvaluationResults, you can train a custom router. Make sure yo
 ![Create an API key](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
 </Frame>
 
-```python
+```python lines
 import os
 
 from weave.integrations.notdiamond.custom_router import train_router
@@ -109,7 +109,7 @@ You can then follow the training process for your custom router via the Not Diam
 
 Once your custom router has finished training, you can use it to route your prompts.
 
-```python
+```python lines
 from notdiamond import NotDiamond
 
 import weave
@@ -155,10 +155,7 @@ print(f"Target Model: {routing_target_model}")
 
 This example also used Not Diamond's compatibility with Weave auto-tracing. You can see the results in the Weave UI.
 
-<Frame>
 ![Weave UI for custom routing](/weave/guides/integrations/imgs/notdiamond/weave-trace.png)
-</Frame>
-
 ## Evaluating your custom router
 
 Once you have trained your custom router, you can evaluate either its
@@ -168,7 +165,7 @@ Once you have trained your custom router, you can evaluate either its
 
 Below, we submit the test set to the custom router to evaluate its performance.
 
-```python
+```python lines
 from weave.integrations.notdiamond.custom_router import evaluate_router
 
 eval_prompt_column = "prompt"
@@ -208,4 +205,3 @@ In the UI we see that the Not Diamond "meta-model" outperforms the best-performi
 <Frame>
 ![Evaluating Not Diamond](/weave/guides/integrations/imgs/notdiamond/evaluations.png)
 </Frame>
-

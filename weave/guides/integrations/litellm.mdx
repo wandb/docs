@@ -17,7 +17,7 @@ It's important to store traces of LLM applications in a central database, both d
 
 Weave will automatically capture traces for LiteLLM. You can use the library as usual, start by calling `weave.init()`:
 
-```python
+```python lines
 import litellm
 import weave
 
@@ -45,7 +45,7 @@ Weave will now track and log all LLM calls made through LiteLLM. You can view th
 
 Weave ops make results reproducible by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with `@weave.op()` that calls into LiteLLM's completion function and Weave will track the inputs and outputs for you. Here's an example:
 
-```python
+```python lines
 import litellm
 import weave
 
@@ -74,7 +74,7 @@ In addition to versioning code and capturing inputs/outputs, Models capture stru
 
 In the example below, you can experiment with different models and temperatures:
 
-```python
+```python lines
 import litellm
 import weave
 
@@ -118,7 +118,7 @@ print(claude_translator.predict(english_text, "Spanish"))
 
 LiteLLM supports function calling for compatible models. Weave will automatically track these function calls.
 
-```python
+```python lines
 import litellm
 import weave
 

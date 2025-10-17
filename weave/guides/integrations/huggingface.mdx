@@ -30,13 +30,13 @@ Weave will automatically capture traces for [`InferenceClient`](https://huggingf
 
 1. Before you can use `huggingface_hub` with Weave, you must install the necessary libraries, or upgrade to the latest versions. The following command installs or upgrades `huggingface_hub` and `weave` to the latest version if it's already installed, and reduces installation output.
 
-    ```python
+    ```python lines
     pip install -U huggingface_hub weave -qqq
     ```
 
 2. To use inference with a model on the Hugging Face Hub, set your [User Access Token](https://huggingface.co/docs/hub/security-tokens). You can either set the token from your [Hugging Face Hub Settings page](https://huggingface.co/settings/tokens) or programmatically. The following code sample prompts the user to enter their `HUGGINGFACE_TOKEN` and sets the token as an environment variable.
 
-    ```python
+    ```python lines
     import os
     import getpass
 
@@ -51,7 +51,7 @@ Weave automatically captures traces for the [`InferenceClient`](https://huggingf
 
 The following example demonstrates how to log inference calls to the Hugging Face Hub using Weave:
 
-```python
+```python lines
 import weave
 from huggingface_hub import InferenceClient
 
@@ -89,10 +89,7 @@ After the code shown above runs, Weave tracks and logs all LLM calls made with t
 
 Weave logs each inference call, providing details about inputs, outputs, and metadata.
 
-<Frame>
 ![Weave also renders the call as a chat view in the UI, displaying the entire chat history with the model.](./imgs/huggingface/trace_chat.png)
-</Frame>
-
 Weave also renders the call as a chat view in the UI, displaying the entire chat history with the model.
 
 ## Trace a function
@@ -105,7 +102,7 @@ To start tracking, decorate the functions that you want to track with `@weave.op
 
 In the following example, Weave tracks three functions: `generate_image`, `check_image_correctness`, and `generate_image_and_check_correctness`. These functions generate an image and validate whether it matches a given prompt.
 
-```python
+```python lines
 import base64
 from PIL import Image
 
@@ -165,9 +162,8 @@ Weave now logs all function calls wrapped with `@weave.op`, allowing you to anal
 
 <Frame>
 ![Weave now logs all function calls wrapped with `@weave.op`, allowing you to analyze execution details in the Weave UI. Weave also captures and visualizes function execution, helping you to understand data flow and logic within your application.](./imgs/huggingface/trace_ops.png)
-</Frame>
-
 Weave also captures and visualizes function execution, helping you to understand data flow and logic within your application.
+</Frame>
 
 ## Use `Model`s for experimentation
 
@@ -177,7 +173,7 @@ In addition to versioning code and capturing inputs/outputs, a `Model` stores st
 
 The example below demonstrates defines a `CityVisitRecommender` model for travel recommendations. Each modification to its parameters generates a new version, making experimentation easy.
 
-```python
+```python lines
 import rich
 
 

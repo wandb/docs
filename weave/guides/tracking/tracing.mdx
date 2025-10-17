@@ -42,7 +42,7 @@ There are three main ways to create Calls in Weave:
     You can control Weave's default tracking behavior [using the `autopatch_settings` argument in `weave.init`](#configure-autopatching).
     </Tip>
 
-    ```python showLineNumbers
+    ```python lines
     import weave
 
     from openai import OpenAI
@@ -69,7 +69,7 @@ There are three main ways to create Calls in Weave:
   <Tab title="TypeScript">
     Weave automatically tracks [calls to common LLM libraries](/weave/guides/integrations/index), such as `openai`.
 
-    ```typescript showLineNumbers
+    ```typescript lines
     import OpenAI from 'openai'
     import * as weave from 'weave'
 
@@ -112,7 +112,7 @@ However, often LLM applications have additional logic (such as pre/post processi
   <Tab title="Python">
     Weave allows you to manually track these calls using the [`@weave.op`](/weave/reference/python-sdk/weave/index#function-op) decorator. For example:
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     # Initialize Weave Tracing
@@ -138,7 +138,7 @@ However, often LLM applications have additional logic (such as pre/post processi
     To ensure outputs are captured in the trace, fully consume the generator (e.g., by using `list()`).
     </Warning>
 
-    ```python showLineNumbers
+    ```python lines lines
     from typing import Generator
     import weave
 
@@ -187,7 +187,7 @@ However, often LLM applications have additional logic (such as pre/post processi
   <Tab title="TypeScript">
     Weave allows you to manually track these calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/weave/functions/op). For example:
 
-    ```typescript showLineNumbers
+    ```typescript lines
     import * as weave from 'weave'
 
     await weave.init('intro-example')
@@ -227,21 +227,21 @@ However, often LLM applications have additional logic (such as pre/post processi
   <Tab title="Python">
     Sometimes it is useful to get a handle to the `Call` object itself. You can do this by calling the `op.call` method, which returns both the result and the `Call` object. For example:
 
-    ```python showLineNumbers
+    ```python lines lines
     result, call = my_function.call("World")
     ```
 
-    Then, `call` can be used to set / update / fetch additional properties (most commonly used to get the ID of the call to be used for feedback).
+    Then you can use `call` to set, update, or fetch additional properties (most commonly used to get the ID of the call to be used for feedback).
 
     <Note>
     If your op is a method on a class, you need to pass the instance as the first argument to the op (see example below).
     </Note>
-    ```python showLineNumbers
+    ```python lines lines
     # Notice that we pass the `instance` as the first argument.
     print(instance.my_method.call(instance, "World")
     ```
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     # Initialize Weave Tracing
@@ -274,7 +274,7 @@ However, often LLM applications have additional logic (such as pre/post processi
 
     1. Change the display name at the time of calling the op:
 
-    ```python showLineNumbers
+    ```python lines lines
     result = my_function("World", __weave={"display_name": "My Custom Display Name"})
     ```
 
@@ -283,14 +283,14 @@ However, often LLM applications have additional logic (such as pre/post processi
 
     </Note>
     2. Change the display name on a per-call basis. This uses the [`Op.call`](/weave/reference/python-sdk/weave/trace/op#function-call) method to return a `Call` object, which you can then use to set the display name using [`Call.set_display_name`](/weave/reference/python-sdk/weave/trace/weave_client#method-set_display_name).
-    ```python showLineNumbers
+    ```python lines lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
     ```
 
     3. Change the display name for all Calls of a given Op:
 
-    ```python showLineNumbers
+    ```python lines lines
     @weave.op(call_display_name="My Custom Display Name")
     def my_function(name: str):
         return f"Hello, {name}!"
@@ -345,12 +345,12 @@ However, often LLM applications have additional logic (such as pre/post processi
     By default, the Op's name is the function name, and the associated calls will have the same display name. The above example shows how to override the display name for all Calls of a given Op.  Sometimes, users wish to override the name of the Op itself. This can be achieved in one of two ways:
 
     1. Set the `name` property of the Op before any calls are logged
-    ```python showLineNumbers
+    ```python lines lines
     my_function.name = "My Custom Op Name"
     ```
 
     2. Set the `name` option on the op decorator
-    ```python showLineNumbers
+    ```python lines lines
     @weave.op(name="My Custom Op Name)
     ```
   </Tab>
@@ -367,7 +367,7 @@ However, often LLM applications have additional logic (such as pre/post processi
   <Tab title="Python">
     When calling tracked functions, you can add additional metadata to the call by using [`weave.attributes`](/weave/reference/python-sdk/weave/index#function-attributes) context manager. In the example below, we add an `env` attribute to the call specified as `'production'`.
 
-    ```python showLineNumbers
+    ```python lines lines
     # ... continued from above ...
 
     # Add additional attributes to the call
@@ -397,7 +397,7 @@ However, often LLM applications have additional logic (such as pre/post processi
     The first function, `func`, is a simple `op` that takes `x` and returns `x+1`. The second function, `outer`, is another `op` that accepts a list of inputs.
     Inside `outer`, the use of `ThreadPoolExecutor` and `exc.map(func, inputs)` means that each call to `func` still carries the same parent trace context. 
 
-    ```python
+    ```python lines
     import weave
 
     @weave.op
@@ -427,7 +427,7 @@ You can also manually create Calls using the API directly.
 <Tabs>
     <Tab title="Python">
 
-        ```python showLineNumbers
+        ```python lines lines
         import weave
 
         # Initialize Weave Tracing
@@ -488,7 +488,7 @@ You can also track class and object methods.
     <Tab title="Python">
     Track any method on a class using `weave.op`.
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     # Initialize Weave Tracing
@@ -561,7 +561,7 @@ You can also track class and object methods.
     <Tab title="Python">
     To view a call using the Python API, you can use the [`get_call`](/weave/reference/python-sdk/weave/trace/weave_client#method-get_call) method:
 
-    ```python
+    ```python lines
     import weave
 
     # Initialize the client
@@ -574,7 +574,7 @@ You can also track class and object methods.
     ```
     </Tab>
     <Tab title="TypeScript">
-    ```typescript showLineNumbers
+    ```typescript lines
     import * as weave from 'weave'
 
     // Initialize the client
@@ -608,8 +608,7 @@ You can use `weave.Markdown` to customize how your trace information is displaye
 
 Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
     
-<pre>
-```python
+```python lines
 import weave
 
 def postprocess_inputs(query) -> weave.Markdown:
@@ -664,7 +663,6 @@ if __name__ == "__main__":
     weave.init('markdown_renderers')
     rag_step("Tell me about OpenAI")
 ```
-</pre>
 
 In the following screenshot, you can view the difference between the unformatted and formatted outputs, respectively.
 
@@ -677,7 +675,7 @@ Calls are mostly immutable once created, however, there are a few mutations whic
 * [Add Feedback](#add-feedback)
 * [Delete a Call](#delete-a-call)
 
-All of these mutations can be performed from the UI by navigating to the call detail page:
+You can perform all of these mutations from the UI by navigating to the call detail page:
 
 <Frame>
 ![Update Call in Web App](/images/call_edit_screenshot.png)
@@ -689,7 +687,7 @@ All of these mutations can be performed from the UI by navigating to the call de
     <Tab title="Python">
     In order to set the display name of a call, you can use the [`Call.set_display_name`](/weave/reference/python-sdk/weave/trace/weave_client#method-set_display_name) method.
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     # Initialize the client
@@ -733,7 +731,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
     <Tab title="Python">
     To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/weave/trace/weave_client#method-delete) method.
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     # Initialize the client
@@ -780,7 +778,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
     - Deleting a Call also deletes all of its children.
     </Important>
 
-    ```python showLineNumbers
+    ```python lines lines
     import weave
 
     # Initialize the client
@@ -829,7 +827,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
     <Tab title="Python">
     To fetch calls using the Python API, you can use the [`client.get_calls`](/weave/reference/python-sdk/weave/trace/weave_client#method-get_calls) method:
 
-    ```python
+    ```python lines
     import weave
 
     # Initialize the client
@@ -918,22 +916,22 @@ Please see the [schema](/weave/reference/python-sdk/weave/trace_server/trace_ser
 
 | Property | Type | Description |
 |----------|------|-------------|
-| id | string (uuid) | Unique identifier for the call |
-| project_id | string (optional) | Associated project identifier |
-| op_name | string | Name of the operation (can be a reference) |
-| display_name | string (optional) | User-friendly name for the call |
-| trace_id | string (uuid) | Identifier for the trace this call belongs to |
-| parent_id | string (uuid) | Identifier of the parent call |
-| started_at | datetime | Timestamp when the call started |
-| attributes | Dict[str, Any] | User-defined metadata about the call *(read-only during execution)* |
-| inputs | Dict[str, Any] | Input parameters for the call |
-| ended_at | datetime (optional) | Timestamp when the call ended |
-| exception | string (optional) | Error message if the call failed |
-| output | Any (optional) | Result of the call |
-| summary | Optional[SummaryMap] | Post-execution summary information. You can modify this during execution to record custom metrics. |
-| wb_user_id | Optional[str] | Associated Weights & Biases user ID |
-| wb_run_id | Optional[str] | Associated Weights & Biases run ID |
-| deleted_at | datetime (optional) | Timestamp of call deletion, if applicable |
+| `id` | string (uuid) | Unique identifier for the call |
+| `project_id` | string (optional) | Associated project identifier |
+| `op_name` | string | Name of the operation (can be a reference) |
+| `display_name` | string (optional) | User-friendly name for the call |
+| `trace_id` | string (uuid) | Identifier for the trace this call belongs to |
+| `parent_id` | string (uuid) | Identifier of the parent call |
+| `started_at` | datetime | Timestamp when the call started |
+| `attributes` | Dict[str, Any] | User-defined metadata about the call *(read-only during execution)* |
+| `inputs` | Dict[str, Any] | Input parameters for the call |
+| `ended_at` | datetime (optional) | Timestamp when the call ended |
+| `exception` | string (optional) | Error message if the call failed |
+| `output` | Any (optional) | Result of the call |
+| `summary` | Optional[SummaryMap] | Post-execution summary information. You can modify this during execution to record custom metrics. |
+| `wb_user_id` | Optional[str] | Associated Weights & Biases user ID |
+| `wb_run_id` | Optional[str] | Associated Weights & Biases run ID |
+| `deleted_at` | datetime (optional) | Timestamp of call deletion, if applicable |
 
 The table above outlines the key properties of a Call in Weave. Each property plays a crucial role in tracking and managing function calls:
 
@@ -965,7 +963,7 @@ The following Python code shows how traced operations are linked to W&B
 runs when executed inside a `wandb.init()` context. These traces appear in the
 Weave UI and are associated with the corresponding run.
 
-```python 
+```python lines 
 import wandb
 import weave
 
@@ -1038,13 +1036,13 @@ You can control this behavior using the `autopatch_settings` argument in `weave.
 
 ### Disable all autopatching
 
-```python showLineNumbers
+```python lines lines
 weave.init(..., autopatch_settings={"disable_autopatch": True})
 ```
 
 ### Disable a specific integration
 
-```python showLineNumbers
+```python lines lines
 weave.init(..., autopatch_settings={"openai": {"enabled": False}})
 ```
 
@@ -1052,7 +1050,7 @@ weave.init(..., autopatch_settings={"openai": {"enabled": False}})
 
 You can also customize how post-process inputs and outputs (e.g. for PII data) are handled during autopatching:
 
-```python showLineNumbers
+```python lines lines
 def redact_inputs(inputs: dict) -> dict:
     if "email" in inputs:
         inputs["email"] = "[REDACTED]"
@@ -1088,7 +1086,7 @@ In situations where you want to unconditionally disable tracing for the entire p
 
 Sometimes, you may want to conditionally enable tracing for a specific initialization based on some condition. In this case, you can initialize the client with the `disabled` flag in init settings.
 
-```python
+```python lines
 import weave
 
 # Initialize the client
@@ -1099,7 +1097,7 @@ client = weave.init(..., settings={"disabled": True})
 
 Finally, you may want to conditionally disable tracing for a single function based on some application logic. In this case, you can use the context manager `with set_tracing_enabled(False)` which can be imported from `weave.trace.context.call_context`.
 
-```python
+```python lines
 import weave
 from weave.trace.context.call_context import set_tracing_enabled
 
@@ -1117,7 +1115,7 @@ with set_tracing_enabled(False):
 
 Typically you would call an op directly:
 
-```python
+```python lines
 @weave.op
 def my_op():
     ...
@@ -1127,7 +1125,7 @@ my_op()
 
 However, you can also get access to the call object directly by invoking the `call` method on the op:
 
-```python
+```python lines
 @weave.op
 def my_op():
     ...
@@ -1135,4 +1133,4 @@ def my_op():
 output, call = my_op.call()
 ```
 
-From here, the `call` object will have all the information about the call, including the inputs, outputs, and other metadata.
+From here, the `call` object contains all the information about the call, including the inputs, outputs, and other metadata.

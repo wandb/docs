@@ -89,7 +89,7 @@ You can also get additional information for each feedback object in `client.get_
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     client = weave.init('intro-example')
 
@@ -114,7 +114,7 @@ You can also get additional information for each feedback object in `client.get_
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -133,7 +133,7 @@ The maximum number of characters in a feedback note is 1024. If a note exceeds t
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     client = weave.init('intro-example')
 
@@ -154,7 +154,7 @@ The maximum number of characters in a feedback note is 1024. If a note exceeds t
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -172,7 +172,7 @@ To retrieve the UUID during call execution, get the current call, and return the
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
 
     import weave
     weave.init("uuid")
@@ -190,7 +190,7 @@ To retrieve the UUID during call execution, get the current call, and return the
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -201,7 +201,7 @@ Alternatively, you can use `call()` method to execute the operation and retrieve
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     weave.init("uuid")
 
@@ -217,7 +217,7 @@ Alternatively, you can use `call()` method to execute the operation and retrieve
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -228,13 +228,13 @@ You can delete feedback from a particular call by specifying a UUID.
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     call.feedback.purge("<feedback_uuid>")
     ```
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -298,7 +298,7 @@ In the following example, two scorers are created. The first scorer, `Temperatur
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     from weave.flow.annotation_spec import AnnotationSpec
 
@@ -328,7 +328,7 @@ In the following example, two scorers are created. The first scorer, `Temperatur
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -341,7 +341,7 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     from weave.flow.annotation_spec import AnnotationSpec
 
@@ -363,7 +363,7 @@ Expanding on [creating a human annotation scorer using the API](#create-a-human-
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -378,7 +378,7 @@ The feedback API allows you to use a human annotation scorer by specifying a spe
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
 
     client = weave.init("feedback-example")

@@ -8,9 +8,7 @@ Retrieval Augmented Generation (RAG) is a common way of building Generative AI a
 In this example, we'll show an example that has a retrieval step to get documents. By tracking this, you can debug your app and see what documents were pulled into the LLM context.
 We'll also show how to evaluate it using an LLM judge.
 
-<Frame>
 ![Evals hero](/images/evals-hero.png)
-</Frame>
 
 Check out the [RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) for a more advanced dive into practical RAG techniques for engineers, where you'll learn production-ready solutions from Weights & Biases, Cohere and Weaviate to optimize performance, cut costs, and enhance the accuracy and relevance of your applications.
 
@@ -20,7 +18,7 @@ First, we compute the embeddings for our articles. You would typically do this o
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     from openai import OpenAI
     import weave
     from weave import Model
@@ -55,7 +53,7 @@ First, we compute the embeddings for our articles. You would typically do this o
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript lines
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';
@@ -108,7 +106,7 @@ Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     from openai import OpenAI
     import weave
     from weave import Model
@@ -172,7 +170,7 @@ Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript lines
     class RAGModel {
         private openai: OpenAI;
         private systemMessage: string;
@@ -231,7 +229,7 @@ As we did in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), 
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     from openai import OpenAI
     import weave
     import asyncio
@@ -282,7 +280,7 @@ As we did in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), 
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript lines
     const contextPrecisionScore = weave.op(async function(args: {
         datasetRow: QuestionRow;
         modelOutput: { answer: string; context: string; }
@@ -332,7 +330,7 @@ On a high-level the steps to create custom Scorer are quite simple:
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     from weave import Scorer
 
     class CorrectnessLLMJudge(Scorer):
@@ -402,7 +400,7 @@ On a high-level the steps to create custom Scorer are quite simple:
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -411,13 +409,13 @@ To use this as a scorer, you would initialize it and pass it to `scorers` argume
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     evaluation = weave.Evaluation(dataset=questions, scorers=[CorrectnessLLMJudge()])
     ```
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -438,7 +436,7 @@ Here, we show the code in it's entirety.
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     from openai import OpenAI
     import weave
     from weave import Model
@@ -578,7 +576,7 @@ Here, we show the code in it's entirety.
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript lines
     require('dotenv').config();
     import { OpenAI } from 'openai';
     import * as weave from 'weave';

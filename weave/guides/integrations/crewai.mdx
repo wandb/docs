@@ -24,7 +24,7 @@ pip install crewai weave
 
 Now we will create a CrewAI Crew and trace the execution using Weave. To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name where the traces will be logged.
 
-```python
+```python lines
 import weave
 from crewai import Agent, Task, Crew, LLM, Process
 
@@ -102,7 +102,7 @@ pip install 'crewai[tools]'
 
 In this example, we are using the `SerperDevTool` to enable our 'Research Analyst' agent to search relevant information on the internet. Learn more about this tool and API requirements [here](https://docs.crewai.com/tools/serperdevtool).
 
-```python
+```python lines
 # .... existing imports ....
 from crewai_tools import SerperDevTool
 
@@ -131,7 +131,7 @@ The integration automatically patches all the tools available in the [`crewAI-to
 
 ## Getting Started with Flow
 
-```python
+```python lines
 import weave
 # Initialize Weave with your project name
 # highlight-next-line
@@ -221,7 +221,7 @@ Wrapping this function with `@weave.op` starts capturing inputs, outputs and app
 
 Let's take the example of research analyst and writer. We add a guardrail to validate the length of the generated report.
 
-```python
+```python lines
 # .... existing imports and weave initialization ....
 
 # Decorate your guardrail function with `@weave.op()`

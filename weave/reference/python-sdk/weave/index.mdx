@@ -20,7 +20,7 @@ description: "Python SDK reference for weave"
 
 ### <kbd>function</kbd> `init`
 
-```python
+```python lines
 init(
     project_name: 'str',
     settings: 'UserSettings | dict[str, Any] | None' = None,
@@ -64,7 +64,7 @@ NOTE: Global postprocessing settings are applied to all ops after each op's own 
 
 ### <kbd>function</kbd> `publish`
 
-```python
+```python lines
 publish(obj: 'Any', name: 'str | None' = None) → ObjectRef
 ```
 
@@ -92,7 +92,7 @@ Weave creates a new version of the object if the object's name already exists an
 
 ### <kbd>function</kbd> `ref`
 
-```python
+```python lines
 ref(location: 'str') → ObjectRef
 ```
 
@@ -117,7 +117,7 @@ Creates a Ref to an existing Weave object. This does not directly retrieve the o
 
 ### <kbd>function</kbd> `get`
 
-```python
+```python lines
 get(uri: 'str | ObjectRef') → Any
 ```
 
@@ -139,7 +139,7 @@ Many objects logged by Weave are automatically registered with the Weave server.
 
 
 **Example:**
-```python
+```python lines
 weave.init("weave_get_example")
 dataset = weave.Dataset(rows=[{"a": 1, "b": 2}])
 ref = weave.publish(dataset)
@@ -155,7 +155,7 @@ dataset2 = weave.get(ref)  # same as dataset!
 
 ### <kbd>function</kbd> `require_current_call`
 
-```python
+```python lines
 require_current_call() → Call
 ```
 
@@ -163,7 +163,7 @@ Get the Call object for the currently executing Op, within that Op.
 
 This allows you to access attributes of the Call such as its id or feedback while it is running. 
 
-```python
+```python lines
 @weave.op
 def hello(name: str) -> None:
      print(f"Hello {name}!")
@@ -175,14 +175,14 @@ It is also possible to access a Call after the Op has returned.
 
 If you have the Call's id, perhaps from the UI, you can use the `get_call` method on the `WeaveClient` returned from `weave.init` to retrieve the Call object. 
 
-```python
+```python lines
 client = weave.init("<project>")
 mycall = client.get_call("<call_id>")
 ```
 
 Alternately, after defining your Op you can use its `call` method. For example: 
 
-```python
+```python lines
 @weave.op
 def add(a: int, b: int) -> int:
      return a + b
@@ -210,7 +210,7 @@ print(call.id)
 
 ### <kbd>function</kbd> `get_current_call`
 
-```python
+```python lines
 get_current_call() → Call | None
 ```
 
@@ -235,7 +235,7 @@ Get the Call object for the currently executing Op, within that Op.
 
 ### <kbd>function</kbd> `finish`
 
-```python
+```python lines
 finish() → None
 ```
 
@@ -251,7 +251,7 @@ Following finish, calls of weave.op() decorated functions will no longer be logg
 
 ### <kbd>function</kbd> `op`
 
-```python
+```python lines
 op(
     func: 'Callable[P, R] | None' = None,
     name: 'str | None' = None,
@@ -274,7 +274,7 @@ A decorator to weave op-ify a function or method. Works for both sync and async.
 
 ### <kbd>function</kbd> `attributes`
 
-```python
+```python lines
 attributes(attributes: 'dict[str, Any]') → Iterator
 ```
 
@@ -283,7 +283,7 @@ Context manager for setting attributes on a call.
 
 
 **Example:**
-```python
+```python lines
 with weave.attributes({'env': 'production'}):
      print(my_function.call("World"))
 ```
@@ -296,7 +296,7 @@ with weave.attributes({'env': 'production'}):
 
 ### <kbd>function</kbd> `thread`
 
-```python
+```python lines
 thread(
     thread_id: 'str | None | object' = <object object at 0x7f9ce5b8ce30>
 ) → Iterator[ThreadContext]
@@ -307,7 +307,7 @@ Context manager for setting thread_id on calls within the context.
 
 
 **Examples:**
-```python
+```python lines
 # Auto-generate thread_id
 with weave.thread() as t:
      print(f"Thread ID: {t.thread_id}")
@@ -357,7 +357,7 @@ This class extends Pydantic's BaseModel to provide Weave-specific functionality 
 
 
 **Examples:**
-```python
+```python lines
 # Create a simple object
 obj = Object(name="my_object", description="A test object")
 
@@ -379,7 +379,7 @@ obj = Object.from_uri("weave://entity/project/object:digest")
 
 ### <kbd>classmethod</kbd> `from_uri`
 
-```python
+```python lines
 from_uri(uri: str, objectify: bool = True) → Self
 ```
 
@@ -407,7 +407,7 @@ Create an object instance from a Weave URI.
 
 
 **Examples:**
-```python
+```python lines
 obj = MyObject.from_uri("weave://entity/project/object:digest")
 ```
 
@@ -417,7 +417,7 @@ obj = MyObject.from_uri("weave://entity/project/object:digest")
 
 ### <kbd>classmethod</kbd> `handle_relocatable_object`
 
-```python
+```python lines
 handle_relocatable_object(
     v: Any,
     handler: ValidatorFunctionWrapHandler,
@@ -446,7 +446,7 @@ This validator handles special cases where the input is an ObjectRef or WeaveObj
 
 
 **Examples:**
- This method is called automatically during object creation and validation. It handles cases like: ```python
+ This method is called automatically during object creation and validation. It handles cases like: ```python lines
     # When an ObjectRef is passed
     obj = MyObject(some_object_ref)
 
@@ -467,7 +467,7 @@ Dataset object with easy saving and automatic versioning.
 
 
 **Examples:**
-```python
+```python lines
 # Create a dataset
 dataset = Dataset(name='grammar', rows=[
      {'id': '0', 'sentence': "He no likes ice cream.", 'correction': "He doesn't like ice cream."},
@@ -500,7 +500,7 @@ example_label = dataset_ref.rows[2]['sentence']
 
 ### <kbd>method</kbd> `add_rows`
 
-```python
+```python lines
 add_rows(rows: Iterable[dict]) → Dataset
 ```
 
@@ -525,7 +525,7 @@ This is useful for adding examples to large datasets without having to load the 
 
 ### <kbd>classmethod</kbd> `convert_to_table`
 
-```python
+```python lines
 convert_to_table(rows: Any) → Union[Table, WeaveTable]
 ```
 
@@ -539,7 +539,7 @@ convert_to_table(rows: Any) → Union[Table, WeaveTable]
 
 ### <kbd>classmethod</kbd> `from_calls`
 
-```python
+```python lines
 from_calls(calls: Iterable[Call]) → Self
 ```
 
@@ -553,7 +553,7 @@ from_calls(calls: Iterable[Call]) → Self
 
 ### <kbd>classmethod</kbd> `from_hf`
 
-```python
+```python lines
 from_hf(
     hf_dataset: Union[ForwardRef('HFDataset'), ForwardRef('HFDatasetDict')]
 ) → Self
@@ -569,7 +569,7 @@ from_hf(
 
 ### <kbd>classmethod</kbd> `from_obj`
 
-```python
+```python lines
 from_obj(obj: WeaveObject) → Self
 ```
 
@@ -583,7 +583,7 @@ from_obj(obj: WeaveObject) → Self
 
 ### <kbd>classmethod</kbd> `from_pandas`
 
-```python
+```python lines
 from_pandas(df: 'DataFrame') → Self
 ```
 
@@ -597,7 +597,7 @@ from_pandas(df: 'DataFrame') → Self
 
 ### <kbd>method</kbd> `select`
 
-```python
+```python lines
 select(indices: Iterable[int]) → Self
 ```
 
@@ -620,7 +620,7 @@ Select rows from the dataset based on the provided indices.
 
 ### <kbd>method</kbd> `to_hf`
 
-```python
+```python lines
 to_hf() → HFDataset
 ```
 
@@ -634,7 +634,7 @@ to_hf() → HFDataset
 
 ### <kbd>method</kbd> `to_pandas`
 
-```python
+```python lines
 to_pandas() → DataFrame
 ```
 
@@ -657,7 +657,7 @@ When you change the attributes or the code that defines your model, these change
 
 
 **Examples:**
-```python
+```python lines
 class YourModel(Model):
      attribute1: str
      attribute2: int
@@ -683,7 +683,7 @@ class YourModel(Model):
 
 ### <kbd>method</kbd> `get_infer_method`
 
-```python
+```python lines
 get_infer_method() → Callable
 ```
 
@@ -717,7 +717,7 @@ get_infer_method() → Callable
 
 ### <kbd>method</kbd> `format`
 
-```python
+```python lines
 format(**kwargs: Any) → Any
 ```
 
@@ -741,7 +741,7 @@ format(**kwargs: Any) → Any
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(content: str)
 ```
 
@@ -764,7 +764,7 @@ __init__(content: str)
 
 ### <kbd>method</kbd> `format`
 
-```python
+```python lines
 format(**kwargs: Any) → str
 ```
 
@@ -778,7 +778,7 @@ format(**kwargs: Any) → str
 
 ### <kbd>classmethod</kbd> `from_obj`
 
-```python
+```python lines
 from_obj(obj: WeaveObject) → Self
 ```
 
@@ -802,7 +802,7 @@ from_obj(obj: WeaveObject) → Self
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(messages: list[dict])
 ```
 
@@ -825,7 +825,7 @@ __init__(messages: list[dict])
 
 ### <kbd>method</kbd> `format`
 
-```python
+```python lines
 format(**kwargs: Any) → list
 ```
 
@@ -839,7 +839,7 @@ format(**kwargs: Any) → list
 
 ### <kbd>method</kbd> `format_message`
 
-```python
+```python lines
 format_message(message: dict, **kwargs: Any) → dict
 ```
 
@@ -853,7 +853,7 @@ format_message(message: dict, **kwargs: Any) → dict
 
 ### <kbd>classmethod</kbd> `from_obj`
 
-```python
+```python lines
 from_obj(obj: WeaveObject) → Self
 ```
 
@@ -880,7 +880,7 @@ If you want to preprocess the rows from the dataset you can pass in a function t
 
 
 **Examples:**
-```python
+```python lines
 # Collect your examples
 examples = [
      {"question": "What is the capital of France?", "expected": "Paris"},
@@ -930,7 +930,7 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 
 ### <kbd>method</kbd> `evaluate`
 
-```python
+```python lines
 evaluate(model: Union[Op, Model]) → dict
 ```
 
@@ -944,7 +944,7 @@ evaluate(model: Union[Op, Model]) → dict
 
 ### <kbd>classmethod</kbd> `from_obj`
 
-```python
+```python lines
 from_obj(obj: WeaveObject) → Self
 ```
 
@@ -958,7 +958,7 @@ from_obj(obj: WeaveObject) → Self
 
 ### <kbd>method</kbd> `get_eval_results`
 
-```python
+```python lines
 get_eval_results(model: Union[Op, Model]) → EvaluationResults
 ```
 
@@ -972,7 +972,7 @@ get_eval_results(model: Union[Op, Model]) → EvaluationResults
 
 ### <kbd>method</kbd> `get_evaluate_calls`
 
-```python
+```python lines
 get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
 ```
 
@@ -995,7 +995,7 @@ Note that this returns a CallsIter instead of a single call because it's possibl
 
 
 **Examples:**
-```python
+```python lines
 evaluation = Evaluation(dataset=examples, scorers=[scorer])
 await evaluation.evaluate(model)  # Run evaluation first
 calls = evaluation.get_evaluate_calls()
@@ -1009,7 +1009,7 @@ for call in calls:
 
 ### <kbd>method</kbd> `get_score_calls`
 
-```python
+```python lines
 get_score_calls() → dict[str, list[Call]]
 ```
 
@@ -1024,7 +1024,7 @@ Retrieve scorer calls for each evaluation run, grouped by trace ID.
 
 
 **Examples:**
-```python
+```python lines
 evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
 await evaluation.evaluate(model)
 score_calls = evaluation.get_score_calls()
@@ -1041,7 +1041,7 @@ for trace_id, calls in score_calls.items():
 
 ### <kbd>method</kbd> `get_scores`
 
-```python
+```python lines
 get_scores() → dict[str, dict[str, list[Any]]]
 ```
 
@@ -1059,7 +1059,7 @@ Extract and organize scorer outputs from evaluation runs.
 
 
 **Examples:**
-```python
+```python lines
 evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
 await evaluation.evaluate(model)
 scores = evaluation.get_scores()
@@ -1087,7 +1087,7 @@ Expected output:
 
 ### <kbd>method</kbd> `model_post_init`
 
-```python
+```python lines
 model_post_init(_Evaluation__context: Any) → None
 ```
 
@@ -1101,7 +1101,7 @@ model_post_init(_Evaluation__context: Any) → None
 
 ### <kbd>method</kbd> `predict_and_score`
 
-```python
+```python lines
 predict_and_score(model: Union[Op, Model], example: dict) → dict
 ```
 
@@ -1115,7 +1115,7 @@ predict_and_score(model: Union[Op, Model], example: dict) → dict
 
 ### <kbd>method</kbd> `summarize`
 
-```python
+```python lines
 summarize(eval_table: EvaluationResults) → dict
 ```
 
@@ -1140,7 +1140,7 @@ Each time you log a prediction, you will get back a `ScoreLogger` object. You ca
 
 
 **Example:**
-```python
+```python lines
 ev = EvaluationLogger()
 pred = ev.log_prediction(inputs, output)
 pred.log_score(scorer_name, score)
@@ -1181,7 +1181,7 @@ ev.log_summary(summary)
 
 ### <kbd>method</kbd> `fail`
 
-```python
+```python lines
 fail(exception: 'BaseException') → None
 ```
 
@@ -1193,7 +1193,7 @@ Convenience method to fail the evaluation with an exception.
 
 ### <kbd>method</kbd> `finish`
 
-```python
+```python lines
 finish(exception: 'BaseException | None' = None) → None
 ```
 
@@ -1207,7 +1207,7 @@ Ensures all prediction calls and the main evaluation call are finalized. This is
 
 ### <kbd>method</kbd> `log_prediction`
 
-```python
+```python lines
 log_prediction(inputs: 'dict', output: 'Any') → ScoreLogger
 ```
 
@@ -1221,7 +1221,7 @@ The reference can be used to log scores which are attached to the specific predi
 
 ### <kbd>method</kbd> `log_summary`
 
-```python
+```python lines
 log_summary(summary: 'dict | None' = None, auto_summarize: 'bool' = True) → None
 ```
 
@@ -1235,7 +1235,7 @@ This will calculate the summary, call the summarize op, and then finalize the ev
 
 ### <kbd>method</kbd> `model_post_init`
 
-```python
+```python lines
 model_post_init(_EvaluationLogger__context: 'Any') → None
 ```
 
@@ -1247,7 +1247,7 @@ Initialize the pseudo evaluation with the dataset from the model.
 
 ### <kbd>method</kbd> `set_view`
 
-```python
+```python lines
 set_view(
     name: 'str',
     content: 'Content | str',
@@ -1313,7 +1313,7 @@ Saves the provided content as an object in the project and writes its reference 
 
 ### <kbd>classmethod</kbd> `from_obj`
 
-```python
+```python lines
 from_obj(obj: WeaveObject) → Self
 ```
 
@@ -1327,7 +1327,7 @@ from_obj(obj: WeaveObject) → Self
 
 ### <kbd>method</kbd> `model_post_init`
 
-```python
+```python lines
 model_post_init(_Scorer__context: Any) → None
 ```
 
@@ -1341,7 +1341,7 @@ model_post_init(_Scorer__context: Any) → None
 
 ### <kbd>method</kbd> `score`
 
-```python
+```python lines
 score(output: Any, **kwargs: Any) → Any
 ```
 
@@ -1355,7 +1355,7 @@ score(output: Any, **kwargs: Any) → Any
 
 ### <kbd>method</kbd> `summarize`
 
-```python
+```python lines
 summarize(score_rows: list) → Optional[dict]
 ```
 
@@ -1391,7 +1391,7 @@ summarize(score_rows: list) → Optional[dict]
 
 ### <kbd>classmethod</kbd> `preprocess_field_schema`
 
-```python
+```python lines
 preprocess_field_schema(data: dict[str, Any]) → dict[str, Any]
 ```
 
@@ -1405,7 +1405,7 @@ preprocess_field_schema(data: dict[str, Any]) → dict[str, Any]
 
 ### <kbd>classmethod</kbd> `validate_field_schema`
 
-```python
+```python lines
 validate_field_schema(schema: dict[str, Any]) → dict[str, Any]
 ```
 
@@ -1419,7 +1419,7 @@ validate_field_schema(schema: dict[str, Any]) → dict[str, Any]
 
 ### <kbd>method</kbd> `value_is_valid`
 
-```python
+```python lines
 value_is_valid(payload: Any) → bool
 ```
 
@@ -1451,7 +1451,7 @@ A class representing a file with path, mimetype, and size information.
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(path: 'str | Path', mimetype: 'str | None' = None)
 ```
 
@@ -1485,7 +1485,7 @@ Get the filename of the file.
 
 ### <kbd>method</kbd> `open`
 
-```python
+```python lines
 open() → bool
 ```
 
@@ -1505,7 +1505,7 @@ This method uses the platform-specific mechanism to open the file with the defau
 
 ### <kbd>method</kbd> `save`
 
-```python
+```python lines
 save(dest: 'str | Path') → None
 ```
 
@@ -1539,7 +1539,7 @@ This class must be instantiated using one of its classmethods:
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(*args: 'Any', **kwargs: 'Any') → None
 ```
 
@@ -1586,7 +1586,7 @@ Direct initialization is disabled. Please use a classmethod like `Content.from_p
 
 ### <kbd>method</kbd> `as_string`
 
-```python
+```python lines
 as_string() → str
 ```
 
@@ -1601,7 +1601,7 @@ Display the data as a string. Bytes are decoded using the `encoding` attribute I
 
 ### <kbd>classmethod</kbd> `from_base64`
 
-```python
+```python lines
 from_base64(
     b64_data: 'str | bytes',
     extension: 'str | None' = None,
@@ -1618,7 +1618,7 @@ Initializes Content from a base64 encoded string or bytes.
 
 ### <kbd>classmethod</kbd> `from_bytes`
 
-```python
+```python lines
 from_bytes(
     data: 'bytes',
     extension: 'str | None' = None,
@@ -1636,7 +1636,7 @@ Initializes Content from raw bytes.
 
 ### <kbd>classmethod</kbd> `from_data_url`
 
-```python
+```python lines
 from_data_url(url: 'str', metadata: 'dict[str, Any] | None' = None) → Self
 ```
 
@@ -1648,7 +1648,7 @@ Initializes Content from a data URL.
 
 ### <kbd>classmethod</kbd> `from_path`
 
-```python
+```python lines
 from_path(
     path: 'str | Path',
     encoding: 'str' = 'utf-8',
@@ -1665,7 +1665,7 @@ Initializes Content from a local file path.
 
 ### <kbd>classmethod</kbd> `from_text`
 
-```python
+```python lines
 from_text(
     text: 'str',
     extension: 'str | None' = None,
@@ -1683,7 +1683,7 @@ Initializes Content from a string of text.
 
 ### <kbd>classmethod</kbd> `from_url`
 
-```python
+```python lines
 from_url(
     url: 'str',
     headers: 'dict[str, Any] | None' = None,
@@ -1702,7 +1702,7 @@ Downloads the content, infers mimetype/extension from headers, URL path, and dat
 
 ### <kbd>classmethod</kbd> `model_validate`
 
-```python
+```python lines
 model_validate(
     obj: 'Any',
     strict: 'bool | None' = None,
@@ -1719,7 +1719,7 @@ Override model_validate to handle Content reconstruction from dict.
 
 ### <kbd>classmethod</kbd> `model_validate_json`
 
-```python
+```python lines
 model_validate_json(
     json_data: 'str | bytes | bytearray',
     strict: 'bool | None' = None,
@@ -1735,7 +1735,7 @@ Override model_validate_json to handle Content reconstruction from JSON.
 
 ### <kbd>method</kbd> `open`
 
-```python
+```python lines
 open() → bool
 ```
 
@@ -1755,7 +1755,7 @@ This method uses the platform-specific mechanism to open the file with the defau
 
 ### <kbd>method</kbd> `save`
 
-```python
+```python lines
 save(dest: 'str | Path') → None
 ```
 
@@ -1773,7 +1773,7 @@ Copy the file to the specified destination path. Updates the filename and the pa
 
 ### <kbd>method</kbd> `serialize_data`
 
-```python
+```python lines
 serialize_data(data: 'bytes') → str
 ```
 
@@ -1785,7 +1785,7 @@ When dumping model in json mode
 
 ### <kbd>method</kbd> `to_data_url`
 
-```python
+```python lines
 to_data_url(use_base64: 'bool' = True) → str
 ```
 
@@ -1828,7 +1828,7 @@ A Markdown renderable.
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(
     markup: 'str',
     code_theme: 'str' = 'monokai',
@@ -1860,7 +1860,7 @@ Sets up a monitor to score incoming calls automatically.
 
 
 **Examples:**
-```python
+```python lines
 import weave
 from weave.scorers import ValidJSONScorer
 
@@ -1909,7 +1909,7 @@ my_monitor.activate()
 
 ### <kbd>method</kbd> `activate`
 
-```python
+```python lines
 activate() → ObjectRef
 ```
 
@@ -1926,7 +1926,7 @@ Activates the monitor.
 
 ### <kbd>method</kbd> `deactivate`
 
-```python
+```python lines
 deactivate() → ObjectRef
 ```
 
@@ -1943,7 +1943,7 @@ Deactivates the monitor.
 
 ### <kbd>classmethod</kbd> `from_obj`
 
-```python
+```python lines
 from_obj(obj: WeaveObject) → Self
 ```
 
@@ -1965,7 +1965,7 @@ A fluent-style class for working with SavedView objects.
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(view_type: 'str' = 'traces', label: 'str' = 'SavedView') → None
 ```
 
@@ -2014,7 +2014,7 @@ __init__(view_type: 'str' = 'traces', label: 'str' = 'SavedView') → None
 
 ### <kbd>method</kbd> `add_column`
 
-```python
+```python lines
 add_column(path: 'str | ObjectPath', label: 'str | None' = None) → SavedView
 ```
 
@@ -2028,7 +2028,7 @@ add_column(path: 'str | ObjectPath', label: 'str | None' = None) → SavedView
 
 ### <kbd>method</kbd> `add_columns`
 
-```python
+```python lines
 add_columns(*columns: 'str') → SavedView
 ```
 
@@ -2040,7 +2040,7 @@ Convenience method for adding multiple columns to the grid.
 
 ### <kbd>method</kbd> `add_filter`
 
-```python
+```python lines
 add_filter(
     field: 'str',
     operator: 'str',
@@ -2058,7 +2058,7 @@ add_filter(
 
 ### <kbd>method</kbd> `add_sort`
 
-```python
+```python lines
 add_sort(field: 'str', direction: 'SortDirection') → SavedView
 ```
 
@@ -2072,7 +2072,7 @@ add_sort(field: 'str', direction: 'SortDirection') → SavedView
 
 ### <kbd>method</kbd> `column_index`
 
-```python
+```python lines
 column_index(path: 'int | str | ObjectPath') → int
 ```
 
@@ -2086,7 +2086,7 @@ column_index(path: 'int | str | ObjectPath') → int
 
 ### <kbd>method</kbd> `filter_op`
 
-```python
+```python lines
 filter_op(op_name: 'str | None') → SavedView
 ```
 
@@ -2100,7 +2100,7 @@ filter_op(op_name: 'str | None') → SavedView
 
 ### <kbd>method</kbd> `get_calls`
 
-```python
+```python lines
 get_calls(
     limit: 'int | None' = None,
     offset: 'int | None' = None,
@@ -2118,7 +2118,7 @@ Get calls matching this saved view's filters and settings.
 
 ### <kbd>method</kbd> `get_known_columns`
 
-```python
+```python lines
 get_known_columns(num_calls_to_query: 'int | None' = None) → list[str]
 ```
 
@@ -2130,7 +2130,7 @@ Get the set of columns that are known to exist.
 
 ### <kbd>method</kbd> `get_table_columns`
 
-```python
+```python lines
 get_table_columns() → list[TableColumn]
 ```
 
@@ -2144,7 +2144,7 @@ get_table_columns() → list[TableColumn]
 
 ### <kbd>method</kbd> `hide_column`
 
-```python
+```python lines
 hide_column(col_name: 'str') → SavedView
 ```
 
@@ -2158,7 +2158,7 @@ hide_column(col_name: 'str') → SavedView
 
 ### <kbd>method</kbd> `insert_column`
 
-```python
+```python lines
 insert_column(
     idx: 'int',
     path: 'str | ObjectPath',
@@ -2176,7 +2176,7 @@ insert_column(
 
 ### <kbd>classmethod</kbd> `load`
 
-```python
+```python lines
 load(ref: 'str') → SavedView
 ```
 
@@ -2190,7 +2190,7 @@ load(ref: 'str') → SavedView
 
 ### <kbd>method</kbd> `page_size`
 
-```python
+```python lines
 page_size(page_size: 'int') → SavedView
 ```
 
@@ -2204,7 +2204,7 @@ page_size(page_size: 'int') → SavedView
 
 ### <kbd>method</kbd> `pin_column_left`
 
-```python
+```python lines
 pin_column_left(col_name: 'str') → SavedView
 ```
 
@@ -2218,7 +2218,7 @@ pin_column_left(col_name: 'str') → SavedView
 
 ### <kbd>method</kbd> `pin_column_right`
 
-```python
+```python lines
 pin_column_right(col_name: 'str') → SavedView
 ```
 
@@ -2232,7 +2232,7 @@ pin_column_right(col_name: 'str') → SavedView
 
 ### <kbd>method</kbd> `remove_column`
 
-```python
+```python lines
 remove_column(path: 'int | str | ObjectPath') → SavedView
 ```
 
@@ -2246,7 +2246,7 @@ remove_column(path: 'int | str | ObjectPath') → SavedView
 
 ### <kbd>method</kbd> `remove_columns`
 
-```python
+```python lines
 remove_columns(*columns: 'str') → SavedView
 ```
 
@@ -2258,7 +2258,7 @@ Remove columns from the saved view.
 
 ### <kbd>method</kbd> `remove_filter`
 
-```python
+```python lines
 remove_filter(index_or_field: 'int | str') → SavedView
 ```
 
@@ -2272,7 +2272,7 @@ remove_filter(index_or_field: 'int | str') → SavedView
 
 ### <kbd>method</kbd> `remove_filters`
 
-```python
+```python lines
 remove_filters() → SavedView
 ```
 
@@ -2284,7 +2284,7 @@ Remove all filters from the saved view.
 
 ### <kbd>method</kbd> `rename`
 
-```python
+```python lines
 rename(label: 'str') → SavedView
 ```
 
@@ -2298,7 +2298,7 @@ rename(label: 'str') → SavedView
 
 ### <kbd>method</kbd> `rename_column`
 
-```python
+```python lines
 rename_column(path: 'int | str | ObjectPath', label: 'str') → SavedView
 ```
 
@@ -2312,7 +2312,7 @@ rename_column(path: 'int | str | ObjectPath', label: 'str') → SavedView
 
 ### <kbd>method</kbd> `save`
 
-```python
+```python lines
 save() → SavedView
 ```
 
@@ -2324,7 +2324,7 @@ Publish the saved view to the server.
 
 ### <kbd>method</kbd> `set_columns`
 
-```python
+```python lines
 set_columns(*columns: 'str') → SavedView
 ```
 
@@ -2336,7 +2336,7 @@ Set the columns to be displayed in the grid.
 
 ### <kbd>method</kbd> `show_column`
 
-```python
+```python lines
 show_column(col_name: 'str') → SavedView
 ```
 
@@ -2350,7 +2350,7 @@ show_column(col_name: 'str') → SavedView
 
 ### <kbd>method</kbd> `sort_by`
 
-```python
+```python lines
 sort_by(field: 'str', direction: 'SortDirection') → SavedView
 ```
 
@@ -2364,7 +2364,7 @@ sort_by(field: 'str', direction: 'SortDirection') → SavedView
 
 ### <kbd>method</kbd> `to_grid`
 
-```python
+```python lines
 to_grid(limit: 'int | None' = None) → Grid
 ```
 
@@ -2378,7 +2378,7 @@ to_grid(limit: 'int | None' = None) → Grid
 
 ### <kbd>method</kbd> `to_rich_table_str`
 
-```python
+```python lines
 to_rich_table_str() → str
 ```
 
@@ -2392,7 +2392,7 @@ to_rich_table_str() → str
 
 ### <kbd>method</kbd> `ui_url`
 
-```python
+```python lines
 ui_url() → str | None
 ```
 
@@ -2406,7 +2406,7 @@ Note this is the "result" page with traces etc, not the URL for the view object.
 
 ### <kbd>method</kbd> `unpin_column`
 
-```python
+```python lines
 unpin_column(col_name: 'str') → SavedView
 ```
 
@@ -2451,7 +2451,7 @@ This class handles audio data storage and provides methods for loading from diff
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(
     data: 'bytes',
     format: 'SUPPORTED_FORMATS_TYPE',
@@ -2472,7 +2472,7 @@ __init__(
 
 ### <kbd>method</kbd> `export`
 
-```python
+```python lines
 export(path: 'str | bytes | Path | PathLike') → None
 ```
 
@@ -2490,7 +2490,7 @@ Export audio data to a file.
 
 ### <kbd>classmethod</kbd> `from_data`
 
-```python
+```python lines
 from_data(data: 'str | bytes', format: 'str') → Audio
 ```
 
@@ -2521,7 +2521,7 @@ Create an Audio object from raw data and specified format.
 
 ### <kbd>classmethod</kbd> `from_path`
 
-```python
+```python lines
 from_path(path: 'str | bytes | Path | PathLike') → Audio
 ```
 

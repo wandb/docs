@@ -32,7 +32,7 @@ In the example below, the **model name, temperature and system prompt will be tr
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import json
     from openai import OpenAI
 
@@ -86,7 +86,7 @@ Now you can instantiate and call the model with `invoke`:
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     weave.init('jurassic-park')
     client = OpenAI()
 
@@ -120,9 +120,7 @@ Now you can instantiate and call the model with `invoke`:
 
 Now after calling `.invoke` you can see the trace in Weave **now tracks the model parameters as well as the code** for the model functions that have been decorated with `weave.op()`. You can see the model is also versioned, "v21" in this case, and if you click on the model **you can see all of the calls** that have used that version of the model
 
-<Frame>
 ![Re-using a weave model](/images/tutorial-model_invoke3.png)
-</Frame>
 
 **A note on using `weave.Model`:**
 
@@ -142,7 +140,7 @@ Once you have the URI of the Model object, you can export and re-use it. Note th
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     # the exported weave model is already initialised and ready to be called
     # highlight-next-line
     new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
@@ -165,9 +163,7 @@ Once you have the URI of the Model object, you can export and re-use it. Note th
 
 Here you can now see the name Model version (v21) was used with the new input:
 
-<Frame>
 ![Re-using a weave model](/images/tutorial-model_re-use.png)
-</Frame>
 
 ## What's next?
 

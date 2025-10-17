@@ -1,4 +1,7 @@
-# LlamaIndex
+---
+title: LlamaIndex
+description: "Automatically trace and debug LlamaIndex applications with Weave, capturing all LLM calls, RAG pipelines, agent steps, and evaluations for comprehensive observability of your data-connected AI workflows."
+---
 
 Weave is designed to simplify the tracking and logging of all calls made through the [LlamaIndex Python library](https://github.com/run-llama/llama_index).
 
@@ -10,7 +13,7 @@ Weave simplifies this process by automatically capturing traces for your LlamaIn
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in `weave.init()` is a project name that will help you organize your traces.
 
-```python
+```python lines
 import weave
 from llama_index.core.chat_engine import SimpleChatEngine
 
@@ -37,7 +40,7 @@ These traces are essential for debugging and improving your application. Weave a
 
 Below is an example of a simple RAG pipeline from LlamaIndex's [Starter Tutorial (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/):
 
-```python
+```python lines
 import weave
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 
@@ -70,7 +73,7 @@ Organizing and evaluating LLMs in applications for various use cases is challeng
 
 The following example demonstrates building a LlamaIndex query engine in a `WeaveModel`, using data that can be found in the [weave/data](https://github.com/wandb/weave/tree/master/data) folder:
 
-```python
+```python lines
 import weave
 
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
@@ -150,7 +153,7 @@ This `SimpleRAGPipeline` class subclassed from `weave.Model` organizes the impor
 
 Evaluations help you measure the performance of your applications. By using the [`weave.Evaluation`](/weave/guides/core-types/evaluations) class, you can capture how well your model performs on specific tasks or datasets, making it easier to compare different models and iterations of your application. The following example demonstrates how to evaluate the model we created:
 
-```python
+```python lines
 import asyncio
 from llama_index.core.evaluation import CorrectnessEvaluator
 

@@ -14,7 +14,7 @@ In this tutorial you will learn how to:
 
 LLM-powered applications can contain multiple LLMs calls and additional data processing and validation logic that is important to monitor. Even deep nested call structures common in many apps, Weave will keep track of the parent-child relationships in nested functions as long as `weave.op()` is added to every function you'd like to track.
 
-Building on our [basic tracing example](/weave/quickstart), we will now add additional logic to count the returned items from our LLM and wrap them all in a higher level function. We'll then add `weave.op()` to trace every function, its call order and its parent-child relationship:
+Building on the [quickstart example](/weave/quickstart), the following code adds additional logic to count the returned items from the LLM and wrap them all in a higher level function. Additionally, the example uses `weave.op()` to trace every function, its call order, and its parent-child relationship:
 
 <Tabs>
   <Tab title="Python">
@@ -76,7 +76,7 @@ Building on our [basic tracing example](/weave/quickstart), we will now add addi
     ```
     **Nested functions**
 
-    When you run the above code you will see the the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
+    When you run the above code, you see the the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
 
     ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
 
@@ -133,7 +133,7 @@ Building on our [basic tracing example](/weave/quickstart), we will now add addi
 
     **Nested functions**
 
-    When you run the above code you will see the the inputs and outputs from the two nested functions (`extractDinos` and `countDinos`), as well as the automatically-logged OpenAI trace.
+    When you run the above code, you see the the inputs and outputs from the two nested functions (`extractDinos` and `countDinos`), as well as the automatically-logged OpenAI trace.
 
     {/* TODO: Update to TS screenshot */}
     ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
@@ -143,7 +143,7 @@ Building on our [basic tracing example](/weave/quickstart), we will now add addi
 
 ## Tracking metadata
 
-Tracking metadata can be done easily by using the `weave.attributes` context manager and passing it a dictionary of the metadata to track at call time.
+You can track metadata by using the `weave.attributes` context manager and passing it a dictionary of the metadata to track at call time.
 
 Continuing our example from above:
 
@@ -173,11 +173,11 @@ Continuing our example from above:
 </Tabs>
 
 <Note>
-It's recommended to use metadata tracking to track metadata at run time, e.g. user ids or whether or not the call is part of the development process or is in production etc.
+We recommend tracking metadata at run time, such as your user IDs and your code's environment status (development, staging, or production).
 
-To track system settings, such as a System Prompt, we recommend using [weave Models](/weave/guides/core-types/models)
+To track system settings, such as a system prompt, we recommend using [Weave Models](/weave/guides/core-types/models)
 </Note>
 
 ## What's next?
 
-- Follow the [App Versioning tutorial](/weave/tutorial-weave_models) to capture, version and organize ad-hoc prompt, model, and application changes.
+- Follow the [App Versioning tutorial](/weave/tutorial-weave_models) to capture, version, and organize ad-hoc prompt, model, and application changes.

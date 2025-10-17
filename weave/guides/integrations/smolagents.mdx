@@ -1,4 +1,7 @@
-# Smolagents
+---
+title: Smolagents
+description: "Track and analyze Smolagents agentic applications with Weave's automatic tracing, capturing tool calls, model inferences, and multi-step workflows across OpenAI, Hugging Face, and Anthropic LLM providers."
+---
 
 <Warning>
 All code samples shown on this page are in Python.
@@ -16,13 +19,13 @@ Weave automatically captures traces for [Smolagents](https://huggingface.co/docs
 
 1. Before you can use Smolagents with Weave, install the required libraries or upgrade to the latest versions. The following command installs or upgrades `smolagents`, `openai`, and `weave`, and suppresses output:
 
-    ```python
+    ```python lines
     pip install -U smolagents openai weave -qqq
     ```
 
 2. Smolagents supports multiple LLM providers, such as OpenAI, Hugging Face Transformers, and Anthropic. Set the API key for your chosen provider by setting the corresponding environment variable:
 
-    ```python
+    ```python lines
     import os
     import getpass
 
@@ -43,7 +46,7 @@ The following example demonstrates how to log inference calls to a tool-using LL
 - You run a query through the agent that triggers the search tool.
 - Weave logs each function and model invocation, making them available for inspection via its web interface.
 
-```python
+```python lines
 import weave
 from smolagents import DuckDuckGoSearchTool, OpenAIServerModel, ToolCallingAgent
 
@@ -82,7 +85,7 @@ Weave automatically tracks custom tool calls for your Smolagents workflows. The 
 - When the agent runs the query, it selects and invokes the `get_weather` tool.
 - Weave logs both the model inference and the custom tool invocation, including arguments and return values.
 
-```python
+```python lines
 from typing import Optional
 
 import weave
@@ -110,4 +113,3 @@ Once you run the code sample, navigate to your Weave project dashboard to view t
 <Frame>
 ![Weave logs each custom tool call.](./imgs/smolagents-custom-tool.png)
 </Frame>
-

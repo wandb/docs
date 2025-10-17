@@ -11,7 +11,7 @@ Tracking LLM calls is crucial for debugging and performance monitoring. Weave he
 
 Here's an example of how to use Weave with Cerebras:
 
-```python
+```python lines
 import os
 import weave
 from cerebras.cloud.sdk import Cerebras
@@ -41,7 +41,7 @@ Weave will now track and log all LLM calls made through the Cerebras SDK. You ca
 
 Weave ops offer a powerful way to enhance reproducibility and traceability in your experiments. By automatically versioning your code and capturing inputs and outputs. Here's an example of how you can leverage Weave ops with the Cerebras SDK:
 
-```python
+```python lines
 import os
 import weave
 from cerebras.cloud.sdk import Cerebras
@@ -72,7 +72,7 @@ animal_speedster("human", "llama3.1-8b")
 The [Model](/weave/guides/core-types/models) class in Weave helps you organize and compare different iterations of your app. This is particularly useful when experimenting with Cerebras models. Here's an example:
 
 
-```python
+```python lines
 import os
 import weave
 from cerebras.cloud.sdk import Cerebras

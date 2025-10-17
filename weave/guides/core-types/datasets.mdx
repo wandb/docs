@@ -3,7 +3,7 @@ title: "Datasets"
 description: "Organize, collect, track, and version examples for LLM application evaluation"
 ---
 
-Weave `Dataset`s help you to organize, collect, track, and version examples for LLM application evaluation for easy comparison. You can create and interact with `Dataset`s programmatically and via the UI. 
+Weave datasets help you to organize, collect, track, and version examples for LLM application evaluation for easy comparison. You can create and interact with `Dataset`s programmatically and via the UI. 
 
 This page describes:
 
@@ -24,7 +24,7 @@ Select a tab to see Python and TypeScript-specific code.
 
 <Tabs>
   <Tab title="Python">
-    ```python
+    ```python lines
     import weave
     from weave import Dataset
     # Initialize Weave
@@ -52,7 +52,7 @@ Select a tab to see Python and TypeScript-specific code.
 
   </Tab>
   <Tab title="TypeScript">
-    ```typescript
+    ```typescript lines
     import * as weave from 'weave';
 
     // Initialize Weave
@@ -88,7 +88,7 @@ Select a tab to see Python and TypeScript-specific code.
 
   To create a `Dataset` from one or more Weave calls, retrieve the call object(s), and add them to a list in the `from_calls` method.
 
-  ```python
+  ```python lines
   @weave.op
   def model(task: str) -> str:
       return f"Now working on {task}"
@@ -106,7 +106,7 @@ Select a tab to see Python and TypeScript-specific code.
 
   To convert the `Dataset` back, use `to_pandas`.
 
-  ```python
+  ```python lines
   import pandas as pd
 
   df = pd.DataFrame([
@@ -132,7 +132,7 @@ Select a tab to see Python and TypeScript-specific code.
 
   To convert a `weave.Dataset` back to a Hugging Face `Dataset`, use the `to_hf` method.
 
-  ```python
+  ```python lines
   # Ensure datasets is installed: pip install datasets
   from datasets import Dataset as HFDataset, DatasetDict
 
@@ -286,7 +286,7 @@ You can create, edit, and delete `Dataset`s in the UI.
 
   You can select specific rows from a `Dataset` by their index using the `select` method. This is useful for creating subsets of your data.
 
-  ```python
+  ```python lines
   import weave
   from weave import Dataset
 

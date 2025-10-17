@@ -73,7 +73,7 @@ This approach is a workaround and may change in future releases. We are actively
 
 The following code sample demonstrates how to implement a pairwise evaluation in Weave by creating a [class-based scorer](/weave/guides/evaluation/scorers#class-based-scorers) called `PreferenceScorer`. The `PreferenceScorer` compares two models, `ModelA` and `ModelB`, and returns a relative score of the model outputs based on explicit hints in the input text.
 
-```python
+```python lines
 from weave import Model, Evaluation, Scorer, Dataset
 from weave.flow.model import ApplyModelError, apply_model_async
 

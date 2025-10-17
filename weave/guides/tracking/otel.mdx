@@ -39,7 +39,7 @@ pip install openai openinference-instrumentation-openai opentelemetry-exporter-o
 
 Next, paste the following code into a python file such as `openinference_example.py`
 
-```python
+```python lines
 import base64
 import openai
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -113,7 +113,7 @@ pip install openai opentelemetry-instrumentation-openai opentelemetry-exporter-o
 
 Next, paste the following code into a python file such as `openllmetry_example.py`. Note that this is the same code as above, except the `OpenAIInstrumentor` is imported from `opentelemetry.instrumentation.openai` instead of `openinference.instrumentation.openai`
 
-```python
+```python lines
 import base64
 import openai
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -187,7 +187,7 @@ pip install openai opentelemetry-sdk opentelemetry-api opentelemetry-exporter-ot
 
 Next, paste the following code into a python file such as `opentelemetry_example.py`
 
-```python
+```python lines
 import json
 import base64
 import openai

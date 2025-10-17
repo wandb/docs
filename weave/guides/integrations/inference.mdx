@@ -128,7 +128,7 @@ To create a chat completion, you will need:
     ```
   </Tab>
   <Tab title="Python">
-    ```python
+    ```python lines
     import openai
 
     client = openai.OpenAI(
@@ -178,7 +178,7 @@ Use the API to query all currently available models and their IDs. This is usefu
     ```
   </Tab>
   <Tab title="Python">
-    ```python
+    ```python lines
     import openai
 
     client = openai.OpenAI(
@@ -219,7 +219,7 @@ In this example:
 
 To use this example, you must complete the [general prerequisites](#prerequisites) and [Additional prerequisites for using the API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
-```python
+```python lines
 import weave
 import openai
 
@@ -270,7 +270,7 @@ In addition to using Weave with the Inference service to [trace model calls](../
 
 To use this example, you must complete the [general prerequisites](#prerequisites) and [Additional prerequisites for using the API via Python](#additional-prerequisites-for-using-the-api-via-python).
 
-```python
+```python lines
 import os
 import asyncio
 import openai
@@ -351,7 +351,6 @@ After you run the following code sample, navigate to your W&B account at [https:
 <Frame>
 ![View your model evaluations](/weave/guides/integrations/imgs/inference-advanced-evals.png)
 </Frame>
-
 <Frame>
 ![View your traces](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)
 </Frame>
@@ -425,7 +424,6 @@ Now, you can compare models in the Playground, and use any of the features descr
 <Frame>
 ![Select multiple models to compare in Playground](/weave/guides/integrations/imgs/inference-playground-compare.png)
 </Frame>
-
 #### Access the Compare view from the Playground tab
 
 1. From the left sidebar, select **Playground**. The Playground chat UI displays.

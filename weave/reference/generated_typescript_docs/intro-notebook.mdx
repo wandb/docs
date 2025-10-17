@@ -16,14 +16,14 @@ After adding `weave.op` and calling the function, visit the W&B dashboard to see
 
 We automatically track your code - check the code tab in the UI!
 
-```typescript
+```typescript lines
 async function initializeWeaveProject() {
     const PROJECT = 'weave-examples';
     await weave.init(PROJECT);
 }
 ```
 
-```typescript
+```typescript lines
 const stripUserInput = weave.op(function stripUserInput(userInput: string): string {
     return userInput.trim();
 });
@@ -31,7 +31,7 @@ const stripUserInput = weave.op(function stripUserInput(userInput: string): stri
 
 The following example shows how basic function tracking works.
 
-```typescript
+```typescript lines
 async function demonstrateBasicTracking() {
     const result = await stripUserInput("    hello    ");
     console.log('Basic tracking result:', result);
@@ -51,7 +51,7 @@ Weave automatically tracks all OpenAI calls, including:
 In addition to OpenAI, Weave supports automatic logging of other LLM providers, such as Anthropic and Mistral. For the full list, see [LLM Providers in the Integrations documentation](../../guides/integrations/index#llm-providers).
 </Note>
 
-```typescript
+```typescript lines
 function initializeOpenAIClient() {
     return weave.wrapOpenAI(new OpenAI({
         apiKey: process.env.OPENAI_API_KEY
@@ -59,7 +59,7 @@ function initializeOpenAIClient() {
 }
 ```
 
-```typescript
+```typescript lines
 async function demonstrateOpenAITracking() {
     const client = initializeOpenAIClient();
     const result = await client.chat.completions.create({
@@ -79,7 +79,7 @@ and LLM calls while preserving the entire execution trace. The benefits of this 
 - Easy debugging of complex chains of operations
 - Performance optimization opportunities
 
-```typescript
+```typescript lines
 async function demonstrateNestedTracking() {
     const client = initializeOpenAIClient();
     
@@ -113,14 +113,14 @@ You can create and manage datasets with Weave using the [`weave.Dataset`](../../
 - Share datasets between team members
 - Power systematic evaluations
 
-```typescript
+```typescript lines
 interface GrammarExample {
     userInput: string;
     expected: string;
 }
 ```
 
-```typescript
+```typescript lines
 function createGrammarDataset(): weave.Dataset<GrammarExample> {
     return new weave.Dataset<GrammarExample>({
         id: 'grammar-correction',
@@ -153,7 +153,7 @@ Weave supports evaluation-driven development with the [`Evaluation` class](../..
 
 You can find a complete evaluation tutorial at [http://wandb.me/weave_eval_tut](http://wandb.me/weave_eval_tut)
 
-```typescript
+```typescript lines
 class OpenAIGrammarCorrector {
     private oaiClient: ReturnType<typeof weave.wrapOpenAI>;
     
@@ -181,7 +181,7 @@ class OpenAIGrammarCorrector {
 }
 ```
 
-```typescript
+```typescript lines
 async function runEvaluation() {
     const corrector = new OpenAIGrammarCorrector();
     const dataset = createGrammarDataset();
@@ -212,7 +212,7 @@ async function runEvaluation() {
 
 The following `main` function runs all demonstrations:
 
-```typescript
+```typescript lines
 async function main() {
     try {
         await initializeWeaveProject();

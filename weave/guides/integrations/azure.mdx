@@ -13,7 +13,7 @@ For the latest tutorials, visit [Weights & Biases on Microsoft Azure](https://wa
 
 To get started using Azure with Weave, simply decorate the function(s) you want to track with `weave.op`.
 
-```python
+```python lines
 @weave.op()
 def call_azure_chat(model_id: str, messages: list, max_tokens: int = 1000, temperature: float = 0.5):
     response = client.chat.completions.create(

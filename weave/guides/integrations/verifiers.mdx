@@ -1,5 +1,6 @@
 ---
 title: Verifiers
+description: "Track and debug Verifiers RL environments and LLM agent training with Weave, capturing multi-round conversations, evaluation rollouts, and model performance metrics for comprehensive observability of reinforcement learning workflows."
 ---
 
 [Verifiers](https://github.com/willccbb/verifiers) is a library of modular components for creating Reinforcement Learning (RL) environments and training LLM agents. Environments built with Verifiers can serve as LLM evaluations, synthetic data pipelines, agent harnesses for any OpenAI‑compatible endpoint, and RL training.
@@ -43,7 +44,7 @@ The following example script demonstrates how to run an evaluation with Verifier
 
 Run the example and inspect the results in Weave:
 
-```python
+```python lines
 import os
 from openai import OpenAI
 import verifiers as vf

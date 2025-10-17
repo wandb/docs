@@ -1,4 +1,7 @@
-# Amazon Bedrock
+---
+title: Bedrock
+description: "Track and monitor Amazon Bedrock LLM calls with Weave, capturing foundation model interactions, converse API usage, and multi-provider model deployments through AWS's unified API for comprehensive observability."
+---
 
 Weave automatically tracks and logs LLM calls made via Amazon Bedrock, AWS's fully managed service that offers foundation models from leading AI companies through a unified API.
 
@@ -12,7 +15,7 @@ For the latest tutorials, visit [Weights & Biases on Amazon Web Services](https:
 
 Weave will automatically capture traces for Bedrock API calls. You can use the Bedrock client as usual after initializing Weave and patching the client:
 
-```python
+```python lines
 import weave
 import boto3
 import json
@@ -43,7 +46,7 @@ print(response_dict["content"][0]["text"])
 
 of using the `converse` API:
 
-```python
+```python lines
 messages = [{"role": "user", "content": [{"text": "What is the capital of France?"}]}]
 
 response = client.converse(
@@ -60,7 +63,7 @@ print(response["output"]["message"]["content"][0]["text"])
 
 You can create reusable operations using the `@weave.op()` decorator. Here's an example showing both the `invoke_model` and `converse` APIs:
 
-```python
+```python lines
 @weave.op
 def call_model_invoke(
     model_id: str,
@@ -109,7 +112,7 @@ def call_model_converse(
 
 You can create a Weave Model to better organize your experiments and capture parameters. Here's an example using the `converse` API:
 
-```python
+```python lines
 class BedrockLLM(weave.Model):
     model_id: str
     max_tokens: int = 100

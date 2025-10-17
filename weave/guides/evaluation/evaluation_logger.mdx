@@ -45,7 +45,7 @@ The `user_model` model function is defined and applied to a list of inputs. For 
 - `finish()` finalizes logging for that prediction.
 Finally, `log_summary` records any aggregate metrics and triggers automatic score summarization in Weave.
 
-```python
+```python lines
 import weave
 from openai import OpenAI
 from weave import EvaluationLogger 
@@ -112,7 +112,7 @@ print("Evaluation logging complete. View results in the Weave UI.")
 
 You can first compute your model outputs, then separately log predictions and scores. This allows for better separation of evaluation and logging logic.
 
-```python
+```python lines
 # Initialize EvaluationLogger BEFORE calling the model to ensure token tracking
 ev = EvaluationLogger(
     model="example_model", 
@@ -134,7 +134,7 @@ ev.log_summary()
 
 Inputs, outputs, and scores can include rich media such as images, videos, audio, or structured tables. Simply pass a dict or media object into the `log_prediction` or `log_score` methods:
 
-```python
+```python lines
 import io
 import wave
 import struct
@@ -214,7 +214,7 @@ With `EvaluationLogger`, you can log and compare multiple evaluations.
    
    For more information on comparisons, see [Comparisons](../tools/comparison.mdx)
 
-```python
+```python lines
 import weave
 
 models = [
@@ -236,7 +236,6 @@ for model in models:
 
     ev.log_summary()
 ```
-
 <Frame>
 ![The Evals tab](/weave/guides/evaluation/img/evals_tab.png)
 </Frame>
@@ -244,7 +243,6 @@ for model in models:
 <Frame>
 ![The Comparison view](/weave/guides/evaluation/img/comparison.png)
 </Frame>
-
 ## Usage tips
 
 - Call `finish()` promptly after each prediction.

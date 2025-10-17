@@ -18,7 +18,7 @@ Weave simplifies this process by automatically capturing traces for your [LangCh
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name that will help you organize your traces.
 
-```python
+```python lines
 import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -41,7 +41,7 @@ print(output)
 
 To track metadata from your LangChain calls, you can use the [`weave.attributes`](https://weave-docs.wandb.ai/reference/python-sdk/weave/#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a chain or a single request.
 
-```python
+```python lines
 import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -83,7 +83,7 @@ In addition to automatic tracing, you can manually trace calls using the `WeaveT
 
 You can pass the `WeaveTracer` callback to individual LangChain components to trace specific requests.
 
-```python
+```python lines
 import os
 
 os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
@@ -118,7 +118,7 @@ llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for la
 
 Alternatively, you can use the `weave_tracing_enabled` context manager to enable tracing for specific blocks of code.
 
-```python
+```python lines
 import os
 
 os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
@@ -172,7 +172,7 @@ Organizing and evaluating LLMs in applications for various use cases is challeng
 
 The following example demonstrates wrapping a Langchain chain in a `WeaveModel`:
 
-```python
+```python lines
 import json
 import asyncio
 
@@ -229,7 +229,7 @@ You can also use Weave Models with `serve`, and [`Evaluations`](/weave/guides/co
 Evaluations help you measure the performance of your models. By using the [`weave.Evaluation`](/weave/guides/core-types/evaluations) class, you can capture how well your model performs on specific tasks or datasets, making it easier to compare different models and iterations of your application. The following example demonstrates how to evaluate the model we created:
 
 
-```python
+```python lines
 
 from weave.scorers import MultiTaskBinaryClassificationF1
 

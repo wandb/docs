@@ -68,7 +68,7 @@ Modify the following parameters:
 
 W&B recommends keeping the `clusterName` value in `values.yaml` set to `weave_cluster`.  This is the expected cluster name when W&B Weave runs the database migration. If you need to use a different name, see the [Setting `clusterName`](#setting-clustername) section for more information.
 
-```yaml
+```yaml lines
 ## @param clusterName ClickHouse cluster name
 clusterName: weave_cluster
 
@@ -339,7 +339,7 @@ Weave is already available for automatic deployment via [W&B Operator](https://d
 
 2. With this information, update the W&B Platform Custom Resource(CR) by adding the following configuration:
 
-    ```yaml
+    ```yaml lines
     apiVersion: apps.wandb.com/v1
     kind: WeightsAndBiases
     metadata:
@@ -386,7 +386,7 @@ This has the same effect of `replicated: true` which in preview.
 
     Alternatively, ff you use a different cluster name, set the `WF_CLICKHOUSE_REPLICATED_CLUSTER` environment variable in `weave-trace.extraEnv` to match the chosen name, as shown in the example below.
 
-    ```yaml
+    ```yaml lines
     [...]
       clickhouse:
         host: <release-name>-headless.<namespace>.svc.cluster.local
@@ -411,7 +411,7 @@ This has the same effect of `replicated: true` which in preview.
 
     The final configuration will look like the following example:
 
-    ```yaml
+    ```yaml lines
     apiVersion: apps.wandb.com/v1
     kind: WeightsAndBiases
     metadata:

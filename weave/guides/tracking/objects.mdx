@@ -10,7 +10,7 @@ Weave's serialization layer saves and versions objects.
 <Tabs>
   <Tab title="Python">
 
-    ```python
+    ```python lines
     import weave
     # Initialize tracking to the project 'intro-example'
     weave.init('intro-example')
@@ -22,7 +22,7 @@ Weave's serialization layer saves and versions objects.
   <Tab title="TypeScript">
     Publishing in TypeScript is still early, so not all objects are fully supported yet.
 
-    ```typescript
+    ```typescript lines
     import * as weave from 'weave'
 
     // Initialize tracking to the project 'intro-example'
@@ -45,7 +45,7 @@ Saving an object with a name will create the first version of that object if it 
 
     You can construct a ref and then fetch the object back.
 
-    ```python
+    ```python lines
     weave.init('intro-example')
     cat_names = weave.ref('cat-names').get()
     ```
@@ -53,7 +53,7 @@ Saving an object with a name will create the first version of that object if it 
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -64,7 +64,7 @@ Saving an object with a name will create the first version of that object if it 
   <Tab title="Python">
     To delete a version of an object, call `.delete()` on the object ref.
 
-    ```python
+    ```python lines
     weave.init('intro-example')
     cat_names_ref = weave.ref('cat-names:v1')
     cat_names_ref.delete()
@@ -75,14 +75,14 @@ Saving an object with a name will create the first version of that object if it 
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
 ## Ref styles
 
-A fully qualified weave object ref uri looks like this:
+A fully qualified Weave object ref URI looks like this:
 
 ```
 weave://<entity>/<project>/object/<object_name>:<object_version>

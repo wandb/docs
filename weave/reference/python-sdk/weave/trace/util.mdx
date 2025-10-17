@@ -25,7 +25,7 @@ This is a drop-in replacement for concurrent.futures.ThreadPoolExecutor that ens
 
 You can achieve the same effect without this class by instead writing: 
 
-```python
+```python lines
 with concurrent.futures.ThreadPoolExecutor() as executor:
      contexts = [copy_context() for _ in range(len(vals))]
 
@@ -39,7 +39,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(*args: 'Any', **kwargs: 'Any') → None
 ```
 
@@ -56,7 +56,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ### <kbd>method</kbd> `map`
 
-```python
+```python lines
 map(
     fn: 'Callable',
     *iterables: 'Iterable[Any]',
@@ -75,7 +75,7 @@ map(
 
 ### <kbd>method</kbd> `submit`
 
-```python
+```python lines
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 ```
 
@@ -97,7 +97,7 @@ This is a drop-in replacement for threading.Thread that ensures calls behave as 
 
 You can achieve the same effect without this class by instead writing: 
 
-```python
+```python lines
 def run_with_context(func, *args, **kwargs):
      context = copy_context()
      def wrapper():
@@ -112,7 +112,7 @@ thread.start()
 
 ### <kbd>method</kbd> `__init__`
 
-```python
+```python lines
 __init__(*args: 'Any', **kwargs: 'Any') → None
 ```
 
@@ -163,7 +163,7 @@ This is a non-negative integer. See the get_native_id() function. This represent
 
 ### <kbd>method</kbd> `run`
 
-```python
+```python lines
 run() → None
 ```
 
