@@ -11,9 +11,9 @@
     "eyebrows": "breadcrumbs"
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg",
-    "href": "https://docs.wandb.ai"
+    "light": "/icons/logo_light.svg",
+    "dark": "/icons/logo_dark.svg",
+    "href": "https://docs.wandb.ai/"
   },
   "favicon": "/favicon.png",
   "background": {
