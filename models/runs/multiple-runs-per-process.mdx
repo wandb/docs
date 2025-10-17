@@ -32,7 +32,7 @@ Use the `reinit` parameter to configure how W&B handles multiple calls to `wandb
 | `return_previous` |  Return the most recent, unfinished run. Default behavior for notebook environments. | No | |
 
 <Note>
-W&B does not support `create_new` mode for [W&B Integrations](/guides/integrations/) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
+W&B does not support `create_new` mode for [W&B Integrations](/models/integrations) that assume a single global run, such as Hugging Face Trainer, Keras callbacks, and PyTorch Lightning. If you use these integrations, you should run each sub-experiment in a separate process.
 </Note>
 
 ## Specifying `reinit`
