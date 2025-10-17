@@ -21,11 +21,13 @@ To define a Table, specify the columns you want to see for each row of data. Eac
 
 Use the `wandb.Table` constructor in one of two ways:
 
-1. **List of Rows:** Log named columns and rows of data. For example the proceeding code snippet generates a table with two rows and three columns:
+1. **List of Rows:**
 
-```python
-wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
-```
+   Log named columns and rows of data. For example the proceeding code snippet generates a table with two rows and three columns:
+
+   ```python
+   wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
+   ```
 
 
 2. **Pandas DataFrame:** Log a DataFrame using `wandb.Table(dataframe=my_df)`. Column names will be extracted from the DataFrame.

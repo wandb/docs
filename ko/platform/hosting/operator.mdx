@@ -88,14 +88,14 @@ W&B는 W&B Kubernetes operator를 Kubernetes 클러스터에 배포하기 위한
 다음 단계에 따라 Helm CLI로 W&B Kubernetes Operator를 설치하세요.
 
 1. W&B Helm 저장소를 추가합니다. W&B Helm chart는 W&B Helm 저장소에서 사용할 수 있습니다. 다음 코맨드를 사용하여 저장소를 추가합니다.
-```shell
-helm repo add wandb https://charts.wandb.ai
-helm repo update
-```
+   ```shell
+   helm repo add wandb https://charts.wandb.ai
+   helm repo update
+   ```
 2. Kubernetes 클러스터에 Operator를 설치합니다. 다음을 복사하여 붙여넣습니다.
-```shell
-helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
-```
+   ```shell
+   helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+   ```
 3. W&B Server 설치를 트리거하도록 W&B operator 커스텀 리소스를 구성합니다. 이 예제 설정을 `operator.yaml`이라는 파일에 복사하여 W&B 배포를 사용자 정의할 수 있도록 합니다. [설정 참조](#configuration-reference-for-wb-operator)를 참조하세요.
 
    ```yaml
@@ -253,19 +253,19 @@ W&B는 AWS, GCP 및 Azure용 Terraform Modules 세트를 제공합니다. 이러
 
 설치가 완료되고 W&B 배포가 완전히 작동하면 다음 출력이 표시됩니다.
 
-```console
-Default host selected:  https://wandb.company-name.com
-Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
-Checking if logged in...................................................✅
-Checking signed URL upload..............................................✅
-Checking ability to send large payloads through proxy...................✅
-Checking requests to base url...........................................✅
-Checking requests made over signed URLs.................................✅
-Checking CORs configuration of the bucket...............................✅
-Checking wandb package version is up to date............................✅
-Checking logged metrics, saving and downloading a file..................✅
-Checking artifact save and download workflows...........................✅
-```
+   ```console
+   Default host selected:  https://wandb.company-name.com
+   Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+   Checking if logged in...................................................✅
+   Checking signed URL upload..............................................✅
+   Checking ability to send large payloads through proxy...................✅
+   Checking requests to base url...........................................✅
+   Checking requests made over signed URLs.................................✅
+   Checking CORs configuration of the bucket...............................✅
+   Checking wandb package version is up to date............................✅
+   Checking logged metrics, saving and downloading a file..................✅
+   Checking artifact save and download workflows...........................✅
+   ```
 
 ## W&B Management Console 엑세스
 W&B Kubernetes operator에는 관리 콘솔이 함께 제공됩니다. 예를 들어 `https://wandb.company-name.com/` 콘솔과 같이 `${HOST_URI}/console`에 있습니다.

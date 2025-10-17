@@ -55,9 +55,9 @@ Before you get started, ensure you have satisfied the following prerequisites:
 1. Sign up for an account at https://wandb.ai/site and then log in to your W&B account. 
 2. This walkthrough requires terminal access to a machine with a working Docker CLI and engine. See the [Docker installation guide](https://docs.docker.com/engine/install/) for more information. 
 3. Install W&B Python SDK version `0.17.1` or higher:
-```bash
-pip install wandb>=0.17.1
-```
+   ```bash
+   pip install wandb>=0.17.1
+   ```
 4. Within your terminal, execute `wandb login` or set the `WANDB_API_KEY` environment variable to authenticate with W&B.
 
 <Tabs>
@@ -69,9 +69,9 @@ Within your terminal execute:
     ```
 </Tab>
 <Tab title="Environment variable">
-```bash
-    WANDB_API_KEY=<your-api-key>
-    ```
+   ```bash
+       WANDB_API_KEY=<your-api-key>
+   ```
 
     Replace `<your-api-key>` with your W&B API key.
 </Tab>
@@ -114,24 +114,24 @@ Code not versioned in a git repository can be launched by specifying a local dir
 
 Create an empty directory and add a Python script named `train.py` with the following content:
 
-```python
-import wandb
-
-with wandb.init() as run:
-    run.log({"hello": "world"})
-```
+   ```python
+   import wandb
+   
+   with wandb.init() as run:
+       run.log({"hello": "world"})
+   ```
 
 Add a file `requirements.txt` with the following content:
 
-```text
-wandb>=0.17.1
-```
+   ```text
+   wandb>=0.17.1
+   ```
 
 From within the directory, run the following command:
 
-```bash
-wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
-```
+   ```bash
+   wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
+   ```
 
 The command does the following:
 1. Log the contents of the current directory to W&B as a Code Artifact.
@@ -188,6 +188,6 @@ This submits the job to the queue. The agent polling this queue picks up and exe
 
 The `wandb launch` command can push jobs to the queue directly by specifying the `--queue` argument. For example, to submit the hello-world container job to the queue, run the following command:
 
-```bash
-wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
-```
+   ```bash
+   wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
+   ```

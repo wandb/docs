@@ -49,94 +49,94 @@ W&B Launch 에이전트가 Docker 이미지를 빌드하도록 할지 결정합�
 
 <Tabs>
 <Tab title="Agent submits pre-built Docker image">
-```json
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Action": [
-          "logs:DescribeLogStreams",
-          "SageMaker:AddTags",
-          "SageMaker:CreateTrainingJob",
-          "SageMaker:DescribeTrainingJob"
-        ],
-        "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
-      },
-      {
-        "Effect": "Allow",
-        "Action": "iam:PassRole",
-        "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
-      },
-    {
-        "Effect": "Allow",
-        "Action": "kms:CreateGrant",
-        "Resource": "<ARN-OF-KMS-KEY>",
-        "Condition": {
-          "StringEquals": {
-            "kms:ViaService": "SageMaker.<region>.amazonaws.com",
-            "kms:GrantIsForAWSResource": "true"
-          }
-        }
-      }
-    ]
-  }
-  ```
+   ```json
+     {
+       "Version": "2012-10-17",
+       "Statement": [
+         {
+           "Effect": "Allow",
+           "Action": [
+             "logs:DescribeLogStreams",
+             "SageMaker:AddTags",
+             "SageMaker:CreateTrainingJob",
+             "SageMaker:DescribeTrainingJob"
+           ],
+           "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
+         },
+         {
+           "Effect": "Allow",
+           "Action": "iam:PassRole",
+           "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
+         },
+       {
+           "Effect": "Allow",
+           "Action": "kms:CreateGrant",
+           "Resource": "<ARN-OF-KMS-KEY>",
+           "Condition": {
+             "StringEquals": {
+               "kms:ViaService": "SageMaker.<region>.amazonaws.com",
+               "kms:GrantIsForAWSResource": "true"
+             }
+           }
+         }
+       ]
+     }
+   ```
 </Tab>
 <Tab title="Agent builds and submits Docker image">
-```json
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Action": [
-          "logs:DescribeLogStreams",
-          "SageMaker:AddTags",
-          "SageMaker:CreateTrainingJob",
-          "SageMaker:DescribeTrainingJob"
-        ],
-        "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
-      },
-      {
-        "Effect": "Allow",
-        "Action": "iam:PassRole",
-        "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
-      },
+   ```json
+     {
+       "Version": "2012-10-17",
+       "Statement": [
+         {
+           "Effect": "Allow",
+           "Action": [
+             "logs:DescribeLogStreams",
+             "SageMaker:AddTags",
+             "SageMaker:CreateTrainingJob",
+             "SageMaker:DescribeTrainingJob"
+           ],
+           "Resource": "arn:aws:sagemaker:<region>:<account-id>:*"
+         },
+         {
+           "Effect": "Allow",
+           "Action": "iam:PassRole",
+           "Resource": "arn:aws:iam::<account-id>:role/<RoleArn-from-queue-config>"
+         },
+          {
+         "Effect": "Allow",
+         "Action": [
+           "ecr:CreateRepository",
+           "ecr:UploadLayerPart",
+           "ecr:PutImage",
+           "ecr:CompleteLayerUpload",
+           "ecr:InitiateLayerUpload",
+           "ecr:DescribeRepositories",
+           "ecr:DescribeImages",
+           "ecr:BatchCheckLayerAvailability",
+           "ecr:BatchDeleteImage"
+         ],
+         "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
+       },
        {
-      "Effect": "Allow",
-      "Action": [
-        "ecr:CreateRepository",
-        "ecr:UploadLayerPart",
-        "ecr:PutImage",
-        "ecr:CompleteLayerUpload",
-        "ecr:InitiateLayerUpload",
-        "ecr:DescribeRepositories",
-        "ecr:DescribeImages",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:BatchDeleteImage"
-      ],
-      "Resource": "arn:aws:ecr:<region>:<account-id>:repository/<repository>"
-    },
-    {
-      "Effect": "Allow",
-      "Action": "ecr:GetAuthorizationToken",
-      "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": "kms:CreateGrant",
-        "Resource": "<ARN-OF-KMS-KEY>",
-        "Condition": {
-          "StringEquals": {
-            "kms:ViaService": "SageMaker.<region>.amazonaws.com",
-            "kms:GrantIsForAWSResource": "true"
-          }
-        }
-      }
-    ]
-  }
-  ```
+         "Effect": "Allow",
+         "Action": "ecr:GetAuthorizationToken",
+         "Resource": "*"
+       },
+       {
+           "Effect": "Allow",
+           "Action": "kms:CreateGrant",
+           "Resource": "<ARN-OF-KMS-KEY>",
+           "Condition": {
+             "StringEquals": {
+               "kms:ViaService": "SageMaker.<region>.amazonaws.com",
+               "kms:GrantIsForAWSResource": "true"
+             }
+           }
+         }
+       ]
+     }
+   ```
 </Tab>
 </Tabs>
 
@@ -172,22 +172,22 @@ IAM 역할을 만드는 방법에 대한 자세한 내용은 [AWS Identity and A
 5. **이름** 필드에 대기열 이름을 제공합니다.
 6. **리소스**로 **SageMaker** 를 선택합니다.
 7. **설정** 필드 내에서 SageMaker 작업에 대한 정보를 제공합니다. 기본적으로 W&B 는 YAML 및 JSON `CreateTrainingJob` 요청 본문을 채웁니다.
-```json
-{
-  "RoleArn": "<REQUIRED>", 
-  "ResourceConfig": {
-      "InstanceType": "ml.m4.xlarge",
-      "InstanceCount": 1,
-      "VolumeSizeInGB": 2
-  },
-  "OutputDataConfig": {
-      "S3OutputPath": "<REQUIRED>"
-  },
-  "StoppingCondition": {
-      "MaxRuntimeInSeconds": 3600
-  }
-}
-```
+   ```json
+   {
+     "RoleArn": "<REQUIRED>", 
+     "ResourceConfig": {
+         "InstanceType": "ml.m4.xlarge",
+         "InstanceCount": 1,
+         "VolumeSizeInGB": 2
+     },
+     "OutputDataConfig": {
+         "S3OutputPath": "<REQUIRED>"
+     },
+     "StoppingCondition": {
+         "MaxRuntimeInSeconds": 3600
+     }
+   }
+   ```
 최소한 다음을 지정해야 합니다.
 
 - `RoleArn`: SageMaker 실행 IAM 역할의 ARN ( [전제 조건](#prerequisites) 참조). launch **에이전트** IAM 역할과 혼동하지 마십시오.
@@ -231,33 +231,33 @@ AWS 의 EC2 대시보드의 왼쪽 패널 내에서 **인스턴스**로 이동�
 1. **연결**을 선택합니다.
 2. **SSH 클라이언트** 탭을 선택하고 설명된 지침에 따라 EC2 인스턴스에 연결합니다.
 3. EC2 인스턴스 내에서 다음 패키지를 설치합니다.
-```bash
-sudo yum install python311 -y && python3 -m ensurepip --upgrade && pip3 install wandb && pip3 install wandb[launch]
-```
+   ```bash
+   sudo yum install python311 -y && python3 -m ensurepip --upgrade && pip3 install wandb && pip3 install wandb[launch]
+   ```
 4. 다음으로 EC2 인스턴스 내에서 Docker 를 설치하고 시작합니다.
-```bash
-sudo yum update -y && sudo yum install -y docker python3 && sudo systemctl start docker && sudo systemctl enable docker && sudo usermod -a -G docker ec2-user
-
-newgrp docker
-```
+   ```bash
+   sudo yum update -y && sudo yum install -y docker python3 && sudo systemctl start docker && sudo systemctl enable docker && sudo usermod -a -G docker ec2-user
+   
+   newgrp docker
+   ```
 
 이제 Launch 에이전트 구성을 설정할 수 있습니다.
 </Tab>
 <Tab title="Local machine">
 `~/.aws/config` 및 `~/.aws/credentials` 에 있는 AWS 구성 파일을 사용하여 로컬 시스템에서 폴링하는 에이전트와 역할을 연결합니다. 이전 단계에서 launch 에이전트에 대해 만든 IAM 역할 ARN 을 제공합니다.
  
-```yaml title="~/.aws/config"
-[profile SageMaker-agent]
-role_arn = arn:aws:iam::<account-id>:role/<agent-role-name>
-source_profile = default                                                                   
-```
+   ```yaml title="~/.aws/config"
+   [profile SageMaker-agent]
+   role_arn = arn:aws:iam::<account-id>:role/<agent-role-name>
+   source_profile = default                                                                   
+   ```
 
-```yaml title="~/.aws/credentials"
-[default]
-aws_access_key_id=<access-key-id>
-aws_secret_access_key=<secret-access-key>
-aws_session_token=<session-token>
-```
+   ```yaml title="~/.aws/credentials"
+   [default]
+   aws_access_key_id=<access-key-id>
+   aws_secret_access_key=<secret-access-key>
+   aws_session_token=<session-token>
+   ```
 
 세션 토큰의 최대 길이는 연결된 보안 주체에 따라 1 시간 또는 3 일입니다.
 </Tab>
