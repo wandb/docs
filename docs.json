@@ -178,6 +178,88 @@
                   "models/quickstart",
                   "models/evaluate-models",
                   {
+                    "group": "Integrations",
+                    "pages": [
+                      "models/integrations",
+                      "models/integrations/add-wandb-to-any-library",
+                      {
+                        "group": "ML Frameworks",
+                        "pages": [
+                          "models/integrations/pytorch",
+                          "models/integrations/pytorch-geometric",
+                          "models/integrations/tensorflow",
+                          "models/integrations/keras",
+                          "models/integrations/lightning",
+                          "models/integrations/ignite",
+                          "models/integrations/catalyst",
+                          "models/integrations/fastai",
+                          "models/integrations/fastai/v1",
+                          "models/integrations/skorch",
+                          "models/integrations/mmengine",
+                          "models/integrations/mmf",
+                          "models/integrations/paddledetection",
+                          "models/integrations/paddleocr"
+                        ]
+                      },
+                      {
+                        "group": "ML Libraries",
+                        "pages": [
+                          "models/integrations/huggingface",
+                          "models/integrations/diffusers",
+                          "models/integrations/accelerate",
+                          "models/integrations/torchtune",
+                          "models/integrations/composer",
+                          "models/integrations/scikit",
+                          "models/integrations/xgboost",
+                          "models/integrations/lightgbm",
+                          "models/integrations/stable-baselines-3",
+                          "models/integrations/openai-gym",
+                          "models/integrations/farama-gymnasium",
+                          "models/integrations/ray-tune",
+                          "models/integrations/hydra",
+                          "models/integrations/spacy",
+                          "models/integrations/prodigy",
+                          "models/integrations/simpletransformers",
+                          "models/integrations/autotrain",
+                          "models/integrations/deepchem",
+                          "models/integrations/deepchecks",
+                          "models/integrations/dspy",
+                          "models/integrations/ultralytics",
+                          "models/integrations/yolov5",
+                          "models/integrations/yolox"
+                        ]
+                      },
+                      {
+                        "group": "Cloud Platforms",
+                        "pages": [
+                          "models/integrations/sagemaker",
+                          "models/integrations/databricks",
+                          "models/integrations/azure-openai-fine-tuning",
+                          "models/integrations/openai-fine-tuning",
+                          "models/integrations/cohere-fine-tuning",
+                          "models/integrations/openai-api",
+                          "models/integrations/nim"
+                        ]
+                      },
+                      {
+                        "group": "Workflow Orchestration",
+                        "pages": [
+                          "models/integrations/kubeflow-pipelines-kfp",
+                          "models/integrations/metaflow",
+                          "models/integrations/dagster"
+                        ]
+                      },
+                      {
+                        "group": "Other",
+                        "pages": [
+                          "models/integrations/docker",
+                          "models/integrations/tensorboard",
+                          "models/integrations/w-and-b-for-julia"
+                        ]
+                      }
+                    ]
+                  },
+                  {
                     "group": "Experiments",
                     "pages": [
                       "models/track",
@@ -2200,7 +2282,7 @@
     },
     {
       "source": "/datasets-and-predictions/",
-      "destination": "/guides/integrations/mmdetection#visualize-dataset-and-model-prediction/"
+      "destination": "/models/integrations/mmdetection#visualize-dataset-and-model-prediction/"
     },
     {
       "source": "/define-sweep-configuration/",
@@ -2220,7 +2302,7 @@
     },
     {
       "source": "/docs/frameworks/fastai.html",
-      "destination": "/guides/integrations/fastai/"
+      "destination": "/models/integrations/fastai/"
     },
     {
       "source": "/docs/init.html",
@@ -2232,11 +2314,11 @@
     },
     {
       "source": "/docs/integrations/docker.html",
-      "destination": "/guides/integrations/docker/"
+      "destination": "/models/integrations/docker/"
     },
     {
       "source": "/docs/integrations/sagemaker.html",
-      "destination": "/guides/integrations/sagemaker/"
+      "destination": "/models/integrations/sagemaker/"
     },
     {
       "source": "/docs/restoring.html",
@@ -2260,15 +2342,227 @@
     },
     {
       "source": "/examples/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/guides/integrations",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/guides/integrations/",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/guides/integrations/accelerate",
+      "destination": "/models/integrations/accelerate"
+    },
+    {
+      "source": "/guides/integrations/add-wandb-to-any-library",
+      "destination": "/models/integrations/add-wandb-to-any-library"
+    },
+    {
+      "source": "/guides/integrations/autotrain",
+      "destination": "/models/integrations/autotrain"
+    },
+    {
+      "source": "/guides/integrations/azure-openai-fine-tuning",
+      "destination": "/models/integrations/azure-openai-fine-tuning"
+    },
+    {
+      "source": "/guides/integrations/catalyst",
+      "destination": "/models/integrations/catalyst"
+    },
+    {
+      "source": "/guides/integrations/cohere-fine-tuning",
+      "destination": "/models/integrations/cohere-fine-tuning"
+    },
+    {
+      "source": "/guides/integrations/composer",
+      "destination": "/models/integrations/composer"
+    },
+    {
+      "source": "/guides/integrations/dagster",
+      "destination": "/models/integrations/dagster"
+    },
+    {
+      "source": "/guides/integrations/databricks",
+      "destination": "/models/integrations/databricks"
+    },
+    {
+      "source": "/guides/integrations/deepchecks",
+      "destination": "/models/integrations/deepchecks"
+    },
+    {
+      "source": "/guides/integrations/deepchem",
+      "destination": "/models/integrations/deepchem"
+    },
+    {
+      "source": "/guides/integrations/diffusers",
+      "destination": "/models/integrations/diffusers"
+    },
+    {
+      "source": "/guides/integrations/docker",
+      "destination": "/models/integrations/docker"
+    },
+    {
+      "source": "/guides/integrations/dspy",
+      "destination": "/models/integrations/dspy"
+    },
+    {
+      "source": "/guides/integrations/farama-gymnasium",
+      "destination": "/models/integrations/farama-gymnasium"
+    },
+    {
+      "source": "/guides/integrations/fastai",
+      "destination": "/models/integrations/fastai"
+    },
+    {
+      "source": "/guides/integrations/fastai/v1",
+      "destination": "/models/integrations/fastai/v1"
+    },
+    {
+      "source": "/guides/integrations/huggingface",
+      "destination": "/models/integrations/huggingface"
+    },
+    {
+      "source": "/guides/integrations/hydra",
+      "destination": "/models/integrations/hydra"
+    },
+    {
+      "source": "/guides/integrations/ignite",
+      "destination": "/models/integrations/ignite"
+    },
+    {
+      "source": "/guides/integrations/keras",
+      "destination": "/models/integrations/keras"
+    },
+    {
+      "source": "/guides/integrations/kubeflow-pipelines-kfp",
+      "destination": "/models/integrations/kubeflow-pipelines-kfp"
+    },
+    {
+      "source": "/guides/integrations/lightgbm",
+      "destination": "/models/integrations/lightgbm"
+    },
+    {
+      "source": "/guides/integrations/lightning",
+      "destination": "/models/integrations/lightning"
+    },
+    {
+      "source": "/guides/integrations/metaflow",
+      "destination": "/models/integrations/metaflow"
+    },
+    {
+      "source": "/guides/integrations/mmengine",
+      "destination": "/models/integrations/mmengine"
+    },
+    {
+      "source": "/guides/integrations/mmf",
+      "destination": "/models/integrations/mmf"
+    },
+    {
+      "source": "/guides/integrations/nim",
+      "destination": "/models/integrations/nim"
+    },
+    {
+      "source": "/guides/integrations/openai-api",
+      "destination": "/models/integrations/openai-api"
+    },
+    {
+      "source": "/guides/integrations/openai-fine-tuning",
+      "destination": "/models/integrations/openai-fine-tuning"
+    },
+    {
+      "source": "/guides/integrations/openai-gym",
+      "destination": "/models/integrations/openai-gym"
+    },
+    {
+      "source": "/guides/integrations/paddledetection",
+      "destination": "/models/integrations/paddledetection"
+    },
+    {
+      "source": "/guides/integrations/paddleocr",
+      "destination": "/models/integrations/paddleocr"
+    },
+    {
+      "source": "/guides/integrations/prodigy",
+      "destination": "/models/integrations/prodigy"
+    },
+    {
+      "source": "/guides/integrations/pytorch-geometric",
+      "destination": "/models/integrations/pytorch-geometric"
+    },
+    {
+      "source": "/guides/integrations/pytorch",
+      "destination": "/models/integrations/pytorch"
+    },
+    {
+      "source": "/guides/integrations/ray-tune",
+      "destination": "/models/integrations/ray-tune"
+    },
+    {
+      "source": "/guides/integrations/sagemaker",
+      "destination": "/models/integrations/sagemaker"
+    },
+    {
+      "source": "/guides/integrations/scikit",
+      "destination": "/models/integrations/scikit"
+    },
+    {
+      "source": "/guides/integrations/simpletransformers",
+      "destination": "/models/integrations/simpletransformers"
+    },
+    {
+      "source": "/guides/integrations/skorch",
+      "destination": "/models/integrations/skorch"
+    },
+    {
+      "source": "/guides/integrations/spacy",
+      "destination": "/models/integrations/spacy"
+    },
+    {
+      "source": "/guides/integrations/stable-baselines-3",
+      "destination": "/models/integrations/stable-baselines-3"
+    },
+    {
+      "source": "/guides/integrations/tensorboard",
+      "destination": "/models/integrations/tensorboard"
+    },
+    {
+      "source": "/guides/integrations/tensorflow",
+      "destination": "/models/integrations/tensorflow"
+    },
+    {
+      "source": "/guides/integrations/torchtune",
+      "destination": "/models/integrations/torchtune"
+    },
+    {
+      "source": "/guides/integrations/ultralytics",
+      "destination": "/models/integrations/ultralytics"
+    },
+    {
+      "source": "/guides/integrations/w-and-b-for-julia",
+      "destination": "/models/integrations/w-and-b-for-julia"
+    },
+    {
+      "source": "/guides/integrations/xgboost",
+      "destination": "/models/integrations/xgboost"
+    },
+    {
+      "source": "/guides/integrations/yolov5",
+      "destination": "/models/integrations/yolov5"
+    },
+    {
+      "source": "/guides/integrations/yolox",
+      "destination": "/models/integrations/yolox"
     },
     {
       "source": "/frameworks/keras/",
-      "destination": "/guides/integrations/keras/"
+      "destination": "/models/integrations/keras"
     },
     {
       "source": "/frameworks/pytorch/",
-      "destination": "/guides/integrations/pytorch/"
+      "destination": "/models/integrations/pytorch"
     },
     {
       "source": "/getting-started/",
@@ -2552,47 +2846,47 @@
     },
     {
       "source": "/guides/integrations/boosting/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/fastai/v2/",
-      "destination": "/guides/integrations/fastai/"
+      "destination": "/models/integrations/fastai/"
     },
     {
       "source": "/guides/integrations/jax/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/kerasyou/",
-      "destination": "/guides/integrations/keras/"
+      "destination": "/models/integrations/keras/"
     },
     {
       "source": "/guides/integrations/kubeflow/",
-      "destination": "/guides/integrations/kubeflow-pipelines-kfp/"
+      "destination": "/models/integrations/kubeflow-pipelines-kfp/"
     },
     {
       "source": "/guides/integrations/mmsegmentation/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/open/",
-      "destination": "/guides/integrations/openai/"
+      "destination": "/models/integrations/openai/"
     },
     {
       "source": "/guides/integrations/otherray-tune/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/tensorboardgetting%20recal%20from%20precision/",
-      "destination": "/guides/integrations/tensorboard/"
+      "destination": "/models/integrations/tensorboard/"
     },
     {
       "source": "/guides/integrations/w-and-b-for-r/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/yolov8",
-      "destination": "/guides/integrations/yolov5"
+      "destination": "/models/integrations/yolov5"
     },
     {
       "source": "/guides/intro/",
@@ -2780,7 +3074,7 @@
     },
     {
       "source": "/guides/sweeps/advanced-sweeps/ray-tune/",
-      "destination": "/guides/integrations/ray-tune/"
+      "destination": "/models/integrations/ray-tune/"
     },
     {
       "source": "/guides/sweeps/configuration/",
@@ -2964,7 +3258,7 @@
     },
     {
       "source": "/huggingface/",
-      "destination": "/guides/integrations/huggingface/"
+      "destination": "/models/integrations/huggingface/"
     },
     {
       "source": "/integrations/jupyter.html",
@@ -3036,7 +3330,7 @@
     },
     {
       "source": "/library/example-projects/",
-      "destination": "/guides/integrations/tensorflow#examples/"
+      "destination": "/models/integrations/tensorflow#examples/"
     },
     {
       "source": "/library/graphs/graph-edit-axes/",
@@ -3056,11 +3350,11 @@
     },
     {
       "source": "/library/integrations/cpp/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/library/integrations/pytorch-lightning/",
-      "destination": "/guides/integrations/lightning/"
+      "destination": "/models/integrations/lightning/"
     },
     {
       "source": "/library/log/",
@@ -3376,7 +3670,7 @@
     },
     {
       "source": "/ref/python/integrations/sklearn/",
-      "destination": "/guides/integrations/scikit/"
+      "destination": "/models/integrations/scikit/"
     },
     {
       "source": "/ref/python/join/",
@@ -3476,7 +3770,7 @@
     },
     {
       "source": "/scikit/",
-      "destination": "/guides/integrations/scikit/"
+      "destination": "/models/integrations/scikit/"
     },
     {
       "source": "/search.json/",
@@ -3580,7 +3874,7 @@
     },
     {
       "source": "/sweeps/ray-tune/",
-      "destination": "/guides/integrations/ray-tune/"
+      "destination": "/models/integrations/ray-tune/"
     },
     {
       "source": "/sweeps/sweeps-examples/",
@@ -3668,7 +3962,7 @@
     },
     {
       "source": "/guides/integrations/other/*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/guides/integrations/prompts/_",
@@ -3704,15 +3998,15 @@
     },
     {
       "source": "/integrations/:slug*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/library/frameworks/*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/library/integrations/*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/ref/app/features/panels/line-plot/*",
