@@ -599,6 +599,7 @@
                       {
                         "group": "Global Functions",
                         "pages": [
+                          "models/ref/python/functions",
                           "models/ref/python/functions/agent",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
@@ -613,6 +614,7 @@
                       {
                         "group": "Data Types",
                         "pages": [
+                          "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
                           "models/ref/python/data-types/box3d",
                           "models/ref/python/data-types/histogram",
@@ -628,6 +630,7 @@
                       {
                         "group": "Experiments",
                         "pages": [
+                          "models/ref/python/experiments",
                           "models/ref/python/experiments/artifact",
                           "models/ref/python/experiments/run",
                           "models/ref/python/experiments/settings",
@@ -637,6 +640,7 @@
                       {
                         "group": "Automations",
                         "pages": [
+                          "models/ref/python/automations",
                           "models/ref/python/automations/automation",
                           "models/ref/python/automations/donothing",
                           "models/ref/python/automations/metricchangefilter",
@@ -653,6 +657,7 @@
                       {
                         "group": "Custom Charts",
                         "pages": [
+                          "models/ref/python/custom-charts",
                           "models/ref/python/custom-charts/bar",
                           "models/ref/python/custom-charts/confusion_matrix",
                           "models/ref/python/custom-charts/histogram",
@@ -667,6 +672,7 @@
                       {
                         "group": "Public API",
                         "pages": [
+                          "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
@@ -4968,6 +4974,10 @@
     {
       "source": "/ref/python",
       "destination": "/models/ref/python"
+    },
+    {
+      "source": "/ref/python/:slug*",
+      "destination": "/models/ref/python/:slug*"
     },
     {
       "source": "/support/*",
