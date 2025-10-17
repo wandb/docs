@@ -85,6 +85,11 @@ jobs:
         deactivate
         rm -rf venv_typescript
         
+    - name: Fix file casing
+      run: |
+        echo "Fixing file casing for SDK documentation..."
+        python scripts/reference-generation/fix_casing.py
+        
     - name: Fix broken links
       run: |
         echo "Fixing broken links in documentation..."

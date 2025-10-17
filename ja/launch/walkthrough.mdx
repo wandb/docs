@@ -56,9 +56,9 @@ W&B Launch は、コンテナ内で機械学習ワークロードを実行しま
 1. https://wandb.ai/site でアカウントに登録し、その後 W&B アカウントにログインします。
 2. この Walkthrough には、動作する Docker CLI とエンジン付きのマシンへのターミナル アクセスが必要です。詳細については [Docker インストールガイド](https://docs.docker.com/engine/install/) を参照してください。
 3. W&B Python SDK バージョン `0.17.1` 以上をインストールします:
-```bash
-pip install wandb>=0.17.1
-```
+   ```bash
+   pip install wandb>=0.17.1
+   ```
 4. ターミナル内で `wandb login` を実行するか、`WANDB_API_KEY` 環境変数を設定して W&B を認証します。
 
 <Tabs>
@@ -70,9 +70,9 @@ pip install wandb>=0.17.1
     ```
 </Tab>
 <Tab title="Environment variable">
-```bash
-    WANDB_API_KEY=<your-api-key>
-    ```
+   ```bash
+       WANDB_API_KEY=<your-api-key>
+   ```
 
     `<your-api-key>` をあなたの W&B API キーに置き換えます。
 </Tab>
@@ -115,24 +115,24 @@ git リポジトリにバージョン管理されていないコードは、`--u
 
 空のディレクトリを作成し、次の内容を持つ `train.py` という名前の Python スクリプトを追加します。
 
-```python
-import wandb
-
-with wandb.init() as run:
-    run.log({"hello": "world"})
-```
+   ```python
+   import wandb
+   
+   with wandb.init() as run:
+       run.log({"hello": "world"})
+   ```
 
 次の内容で `requirements.txt` ファイルを追加します。
 
-```text
-wandb>=0.17.1
-```
+   ```text
+   wandb>=0.17.1
+   ```
 
 ディレクトリ内から次のコマンドを実行します。
 
-```bash
-wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
-```
+   ```bash
+   wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
+   ```
 
 このコマンドは次のことを行います。
 1. 現在のディレクトリの内容を W&B に Code Artifact としてログします。
@@ -188,6 +188,6 @@ W&B アカウントの **launch-quickstart** プロジェクトに移動し、�
 
 `wandb launch` コマンドは `--queue` 引数を指定することで Jobs をキューに直接プッシュできます。たとえば、hello-world コンテナジョブをキューに送信するには、次のコマンドを実行します。
 
-```bash
-wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
-```
+   ```bash
+   wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
+   ```
