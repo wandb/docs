@@ -178,88 +178,6 @@
                   "models/quickstart",
                   "models/evaluate-models",
                   {
-                    "group": "Integrations",
-                    "pages": [
-                      "models/integrations",
-                      "models/integrations/add-wandb-to-any-library",
-                      {
-                        "group": "ML Frameworks",
-                        "pages": [
-                          "models/integrations/pytorch",
-                          "models/integrations/pytorch-geometric",
-                          "models/integrations/tensorflow",
-                          "models/integrations/keras",
-                          "models/integrations/lightning",
-                          "models/integrations/ignite",
-                          "models/integrations/catalyst",
-                          "models/integrations/fastai",
-                          "models/integrations/fastai/v1",
-                          "models/integrations/skorch",
-                          "models/integrations/mmengine",
-                          "models/integrations/mmf",
-                          "models/integrations/paddledetection",
-                          "models/integrations/paddleocr"
-                        ]
-                      },
-                      {
-                        "group": "ML Libraries",
-                        "pages": [
-                          "models/integrations/huggingface",
-                          "models/integrations/diffusers",
-                          "models/integrations/accelerate",
-                          "models/integrations/torchtune",
-                          "models/integrations/composer",
-                          "models/integrations/scikit",
-                          "models/integrations/xgboost",
-                          "models/integrations/lightgbm",
-                          "models/integrations/stable-baselines-3",
-                          "models/integrations/openai-gym",
-                          "models/integrations/farama-gymnasium",
-                          "models/integrations/ray-tune",
-                          "models/integrations/hydra",
-                          "models/integrations/spacy",
-                          "models/integrations/prodigy",
-                          "models/integrations/simpletransformers",
-                          "models/integrations/autotrain",
-                          "models/integrations/deepchem",
-                          "models/integrations/deepchecks",
-                          "models/integrations/dspy",
-                          "models/integrations/ultralytics",
-                          "models/integrations/yolov5",
-                          "models/integrations/yolox"
-                        ]
-                      },
-                      {
-                        "group": "Cloud Platforms",
-                        "pages": [
-                          "models/integrations/sagemaker",
-                          "models/integrations/databricks",
-                          "models/integrations/azure-openai-fine-tuning",
-                          "models/integrations/openai-fine-tuning",
-                          "models/integrations/cohere-fine-tuning",
-                          "models/integrations/openai-api",
-                          "models/integrations/nim"
-                        ]
-                      },
-                      {
-                        "group": "Workflow Orchestration",
-                        "pages": [
-                          "models/integrations/kubeflow-pipelines-kfp",
-                          "models/integrations/metaflow",
-                          "models/integrations/dagster"
-                        ]
-                      },
-                      {
-                        "group": "Other",
-                        "pages": [
-                          "models/integrations/docker",
-                          "models/integrations/tensorboard",
-                          "models/integrations/w-and-b-for-julia"
-                        ]
-                      }
-                    ]
-                  },
-                  {
                     "group": "Experiments",
                     "pages": [
                       "models/track",
@@ -474,6 +392,128 @@
                       "models/app/features/cascade-settings"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Integrations",
+                "pages": [
+                  "models/integrations",
+                  "models/integrations/add-wandb-to-any-library",
+                  {
+                    "group": "ML Frameworks",
+                    "pages": [
+                      "models/integrations/pytorch",
+                      "models/integrations/pytorch-geometric",
+                      "models/integrations/tensorflow",
+                      "models/integrations/keras",
+                      "models/integrations/lightning",
+                      "models/integrations/ignite",
+                      "models/integrations/catalyst",
+                      "models/integrations/fastai",
+                      "models/integrations/fastai/v1",
+                      "models/integrations/skorch",
+                      "models/integrations/mmengine",
+                      "models/integrations/mmf",
+                      "models/integrations/paddledetection",
+                      "models/integrations/paddleocr"
+                    ]
+                  },
+                  {
+                    "group": "ML Libraries",
+                    "pages": [
+                      "models/integrations/huggingface",
+                      "models/integrations/diffusers",
+                      "models/integrations/accelerate",
+                      "models/integrations/torchtune",
+                      "models/integrations/composer",
+                      "models/integrations/scikit",
+                      "models/integrations/xgboost",
+                      "models/integrations/lightgbm",
+                      "models/integrations/stable-baselines-3",
+                      "models/integrations/openai-gym",
+                      "models/integrations/farama-gymnasium",
+                      "models/integrations/ray-tune",
+                      "models/integrations/hydra",
+                      "models/integrations/spacy",
+                      "models/integrations/prodigy",
+                      "models/integrations/simpletransformers",
+                      "models/integrations/autotrain",
+                      "models/integrations/deepchem",
+                      "models/integrations/deepchecks",
+                      "models/integrations/dspy",
+                      "models/integrations/ultralytics",
+                      "models/integrations/yolov5",
+                      "models/integrations/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Cloud Platforms",
+                    "pages": [
+                      "models/integrations/sagemaker",
+                      "models/integrations/databricks",
+                      "models/integrations/azure-openai-fine-tuning",
+                      "models/integrations/openai-fine-tuning",
+                      "models/integrations/cohere-fine-tuning",
+                      "models/integrations/openai-api",
+                      "models/integrations/nim"
+                    ]
+                  },
+                  {
+                    "group": "Workflow Orchestration",
+                    "pages": [
+                      "models/integrations/kubeflow-pipelines-kfp",
+                      "models/integrations/metaflow",
+                      "models/integrations/dagster"
+                    ]
+                  },
+                  {
+                    "group": "Other",
+                    "pages": [
+                      "models/integrations/docker",
+                      "models/integrations/tensorboard",
+                      "models/integrations/w-and-b-for-julia"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "models/tutorials",
+                  {
+                    "group": "Fundamentals",
+                    "pages": [
+                      "models/tutorials/experiments",
+                      "models/tutorials/tables",
+                      "models/tutorials/sweeps",
+                      "models/tutorials/artifacts",
+                      "models/tutorials/workspaces",
+                      "models/tutorials/weave_models_registry"
+                    ]
+                  },
+                  {
+                    "group": "Framework Tutorials",
+                    "pages": [
+                      "models/tutorials/keras",
+                      "models/tutorials/keras_models",
+                      "models/tutorials/keras_tables",
+                      "models/tutorials/pytorch",
+                      "models/tutorials/lightning",
+                      "models/tutorials/tensorflow",
+                      "models/tutorials/tensorflow_sweeps",
+                      "models/tutorials/xgboost_sweeps",
+                      "models/tutorials/huggingface"
+                    ]
+                  },
+                  {
+                    "group": "Advanced Tutorials",
+                    "pages": [
+                      "models/tutorials/monai_3d_segmentation",
+                      "models/tutorials/volcano",
+                      "models/tutorials/minikube_gpu"
+                    ]
+                  },
+                  "models/tutorials/integration-tutorials"
                 ]
               },
               {
@@ -3890,19 +3930,31 @@
     },
     {
       "source": "/tutorials/Workspace_tutorial/",
-      "destination": "/tutorials/workspaces/"
+      "destination": "/models/tutorials/workspaces"
     },
     {
       "source": "/tutorials/lightgbm/",
-      "destination": "/tutorials/"
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/tutorials",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/tutorials/",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/tutorials/:slug*",
+      "destination": "/models/tutorials/:slug*"
     },
     {
       "source": "/tutorials/prompts/",
-      "destination": "/tutorials/"
+      "destination": "/models/tutorials"
     },
     {
       "source": "/tutorials/xgboost/",
-      "destination": "/tutorials/"
+      "destination": "/models/tutorials"
     },
     {
       "source": "/v/",
