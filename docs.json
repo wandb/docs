@@ -3949,6 +3949,10 @@
       "destination": "/models/tutorials/:slug*"
     },
     {
+      "source": "/guides/weave/:slug*",
+      "destination": "/weave"
+    },
+    {
       "source": "/tutorials/prompts/",
       "destination": "/models/tutorials"
     },
