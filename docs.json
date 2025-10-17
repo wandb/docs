@@ -159,6 +159,79 @@
                 ]
               },
               {
+                "group": "W&B Launch",
+                "pages": [
+                  "platform/launch",
+                  "platform/launch/walkthrough",
+                  "platform/launch/launch-terminology",
+                  {
+                    "group": "Set up Launch",
+                    "pages": [
+                      "platform/launch/set-up-launch",
+                      {
+                        "group": "Configure compute resources",
+                        "pages": [
+                          "platform/launch/setup-launch-docker",
+                          "platform/launch/setup-launch-kubernetes",
+                          "platform/launch/setup-launch-sagemaker",
+                          "platform/launch/setup-vertex"
+                        ]
+                      },
+                      "platform/launch/setup-queue-advanced",
+                      "platform/launch/setup-agent-advanced"
+                    ]
+                  },
+                  {
+                    "group": "Create and deploy jobs",
+                    "pages": [
+                      "platform/launch/create-and-deploy-jobs",
+                      "platform/launch/create-launch-job",
+                      "platform/launch/add-job-to-queue",
+                      "platform/launch/job-inputs",
+                      "platform/launch/launch-view-jobs"
+                    ]
+                  },
+                  {
+                    "group": "Advanced",
+                    "pages": [
+                      "platform/launch/sweeps-on-launch",
+                      "platform/launch/launch-queue-observability",
+                      "platform/launch/integration-guides"
+                    ]
+                  },
+                  {
+                    "group": "Launch FAQ",
+                    "pages": [
+                      "platform/launch/launch-faq",
+                      "platform/launch/launch-faq/best_practices_launch_effectively",
+                      "platform/launch/launch-faq/build_container_launch",
+                      "platform/launch/launch-faq/clicking_launch_without_going_ui",
+                      "platform/launch/launch-faq/control_push_queue",
+                      "platform/launch/launch-faq/docker_queues_run_multiple_jobs_download_same_artifact_useartifact",
+                      "platform/launch/launch-faq/dockerfile_let_wb_build_docker_image_me",
+                      "platform/launch/launch-faq/launch_automatically_provision_spin_compute_resources_target_environment",
+                      "platform/launch/launch-faq/launch_build_images",
+                      "platform/launch/launch-faq/launch_d_wandb_job_create_image_uploading_whole_docker",
+                      "platform/launch/launch-faq/launch_support_parallelization_limit_resources_consumed_job",
+                      "platform/launch/launch-faq/launch_tensorflow_gpu",
+                      "platform/launch/launch-faq/launcherror_permission_denied",
+                      "platform/launch/launch-faq/permissions_agent_require_kubernetes",
+                      "platform/launch/launch-faq/requirements_accelerator_base_image",
+                      "platform/launch/launch-faq/restrict_access_modify_example",
+                      "platform/launch/launch-faq/secrets_jobsautomations_instance_api_key_wish_directly_visible"
+                    ]
+                  },
+                  {
+                    "group": "Launch Library API Reference",
+                    "pages": [
+                      "platform/launch/launch-library/launch",
+                      "platform/launch/launch-library/launch_add",
+                      "platform/launch/launch-library/launchagent"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "Resources",
                 "pages": [
                   "pricing",
@@ -397,6 +470,128 @@
                 ]
               },
               {
+                "group": "Integrations",
+                "pages": [
+                  "models/integrations",
+                  "models/integrations/add-wandb-to-any-library",
+                  {
+                    "group": "ML Frameworks",
+                    "pages": [
+                      "models/integrations/pytorch",
+                      "models/integrations/pytorch-geometric",
+                      "models/integrations/tensorflow",
+                      "models/integrations/keras",
+                      "models/integrations/lightning",
+                      "models/integrations/ignite",
+                      "models/integrations/catalyst",
+                      "models/integrations/fastai",
+                      "models/integrations/fastai/v1",
+                      "models/integrations/skorch",
+                      "models/integrations/mmengine",
+                      "models/integrations/mmf",
+                      "models/integrations/paddledetection",
+                      "models/integrations/paddleocr"
+                    ]
+                  },
+                  {
+                    "group": "ML Libraries",
+                    "pages": [
+                      "models/integrations/huggingface",
+                      "models/integrations/diffusers",
+                      "models/integrations/accelerate",
+                      "models/integrations/torchtune",
+                      "models/integrations/composer",
+                      "models/integrations/scikit",
+                      "models/integrations/xgboost",
+                      "models/integrations/lightgbm",
+                      "models/integrations/stable-baselines-3",
+                      "models/integrations/openai-gym",
+                      "models/integrations/farama-gymnasium",
+                      "models/integrations/ray-tune",
+                      "models/integrations/hydra",
+                      "models/integrations/spacy",
+                      "models/integrations/prodigy",
+                      "models/integrations/simpletransformers",
+                      "models/integrations/autotrain",
+                      "models/integrations/deepchem",
+                      "models/integrations/deepchecks",
+                      "models/integrations/dspy",
+                      "models/integrations/ultralytics",
+                      "models/integrations/yolov5",
+                      "models/integrations/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Cloud Platforms",
+                    "pages": [
+                      "models/integrations/sagemaker",
+                      "models/integrations/databricks",
+                      "models/integrations/azure-openai-fine-tuning",
+                      "models/integrations/openai-fine-tuning",
+                      "models/integrations/cohere-fine-tuning",
+                      "models/integrations/openai-api",
+                      "models/integrations/nim"
+                    ]
+                  },
+                  {
+                    "group": "Workflow Orchestration",
+                    "pages": [
+                      "models/integrations/kubeflow-pipelines-kfp",
+                      "models/integrations/metaflow",
+                      "models/integrations/dagster"
+                    ]
+                  },
+                  {
+                    "group": "Other",
+                    "pages": [
+                      "models/integrations/docker",
+                      "models/integrations/tensorboard",
+                      "models/integrations/w-and-b-for-julia"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "models/tutorials",
+                  {
+                    "group": "Fundamentals",
+                    "pages": [
+                      "models/tutorials/experiments",
+                      "models/tutorials/tables",
+                      "models/tutorials/sweeps",
+                      "models/tutorials/artifacts",
+                      "models/tutorials/workspaces",
+                      "models/tutorials/weave_models_registry"
+                    ]
+                  },
+                  {
+                    "group": "Framework Tutorials",
+                    "pages": [
+                      "models/tutorials/keras",
+                      "models/tutorials/keras_models",
+                      "models/tutorials/keras_tables",
+                      "models/tutorials/pytorch",
+                      "models/tutorials/lightning",
+                      "models/tutorials/tensorflow",
+                      "models/tutorials/tensorflow_sweeps",
+                      "models/tutorials/xgboost_sweeps",
+                      "models/tutorials/huggingface"
+                    ]
+                  },
+                  {
+                    "group": "Advanced Tutorials",
+                    "pages": [
+                      "models/tutorials/monai_3d_segmentation",
+                      "models/tutorials/volcano",
+                      "models/tutorials/minikube_gpu"
+                    ]
+                  },
+                  "models/tutorials/integration-tutorials"
+                ]
+              },
+              {
                 "group": "Reference",
                 "pages": [
                   "models/ref",
@@ -406,6 +601,7 @@
                       {
                         "group": "Global Functions",
                         "pages": [
+                          "models/ref/python/functions",
                           "models/ref/python/functions/agent",
                           "models/ref/python/functions/controller",
                           "models/ref/python/functions/finish",
@@ -420,6 +616,7 @@
                       {
                         "group": "Data Types",
                         "pages": [
+                          "models/ref/python/data-types",
                           "models/ref/python/data-types/audio",
                           "models/ref/python/data-types/box3d",
                           "models/ref/python/data-types/histogram",
@@ -435,6 +632,7 @@
                       {
                         "group": "Experiments",
                         "pages": [
+                          "models/ref/python/experiments",
                           "models/ref/python/experiments/artifact",
                           "models/ref/python/experiments/run",
                           "models/ref/python/experiments/settings",
@@ -444,6 +642,7 @@
                       {
                         "group": "Automations",
                         "pages": [
+                          "models/ref/python/automations",
                           "models/ref/python/automations/automation",
                           "models/ref/python/automations/donothing",
                           "models/ref/python/automations/metricchangefilter",
@@ -460,6 +659,7 @@
                       {
                         "group": "Custom Charts",
                         "pages": [
+                          "models/ref/python/custom-charts",
                           "models/ref/python/custom-charts/bar",
                           "models/ref/python/custom-charts/confusion_matrix",
                           "models/ref/python/custom-charts/histogram",
@@ -474,6 +674,7 @@
                       {
                         "group": "Public API",
                         "pages": [
+                          "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
                           "models/ref/python/public-api/artifactcollection",
                           "models/ref/python/public-api/artifactcollections",
@@ -2206,7 +2407,7 @@
     },
     {
       "source": "/datasets-and-predictions/",
-      "destination": "/guides/integrations/mmdetection#visualize-dataset-and-model-prediction/"
+      "destination": "/models/integrations/mmdetection#visualize-dataset-and-model-prediction/"
     },
     {
       "source": "/define-sweep-configuration/",
@@ -2226,7 +2427,7 @@
     },
     {
       "source": "/docs/frameworks/fastai.html",
-      "destination": "/guides/integrations/fastai/"
+      "destination": "/models/integrations/fastai/"
     },
     {
       "source": "/docs/init.html",
@@ -2238,11 +2439,11 @@
     },
     {
       "source": "/docs/integrations/docker.html",
-      "destination": "/guides/integrations/docker/"
+      "destination": "/models/integrations/docker/"
     },
     {
       "source": "/docs/integrations/sagemaker.html",
-      "destination": "/guides/integrations/sagemaker/"
+      "destination": "/models/integrations/sagemaker/"
     },
     {
       "source": "/docs/restoring.html",
@@ -2266,15 +2467,19 @@
     },
     {
       "source": "/examples/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/guides/integrations/:slug*",
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/frameworks/keras/",
-      "destination": "/guides/integrations/keras/"
+      "destination": "/models/integrations/keras"
     },
     {
       "source": "/frameworks/pytorch/",
-      "destination": "/guides/integrations/pytorch/"
+      "destination": "/models/integrations/pytorch"
     },
     {
       "source": "/getting-started/",
@@ -2558,47 +2763,47 @@
     },
     {
       "source": "/guides/integrations/boosting/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/fastai/v2/",
-      "destination": "/guides/integrations/fastai/"
+      "destination": "/models/integrations/fastai/"
     },
     {
       "source": "/guides/integrations/jax/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/kerasyou/",
-      "destination": "/guides/integrations/keras/"
+      "destination": "/models/integrations/keras/"
     },
     {
       "source": "/guides/integrations/kubeflow/",
-      "destination": "/guides/integrations/kubeflow-pipelines-kfp/"
+      "destination": "/models/integrations/kubeflow-pipelines-kfp/"
     },
     {
       "source": "/guides/integrations/mmsegmentation/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/open/",
-      "destination": "/guides/integrations/openai/"
+      "destination": "/models/integrations/openai/"
     },
     {
       "source": "/guides/integrations/otherray-tune/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/tensorboardgetting%20recal%20from%20precision/",
-      "destination": "/guides/integrations/tensorboard/"
+      "destination": "/models/integrations/tensorboard/"
     },
     {
       "source": "/guides/integrations/w-and-b-for-r/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/guides/integrations/yolov8",
-      "destination": "/guides/integrations/yolov5"
+      "destination": "/models/integrations/yolov5"
     },
     {
       "source": "/guides/intro/",
@@ -2786,7 +2991,7 @@
     },
     {
       "source": "/guides/sweeps/advanced-sweeps/ray-tune/",
-      "destination": "/guides/integrations/ray-tune/"
+      "destination": "/models/integrations/ray-tune/"
     },
     {
       "source": "/guides/sweeps/configuration/",
@@ -2970,7 +3175,7 @@
     },
     {
       "source": "/huggingface/",
-      "destination": "/guides/integrations/huggingface/"
+      "destination": "/models/integrations/huggingface/"
     },
     {
       "source": "/integrations/jupyter.html",
@@ -3042,7 +3247,7 @@
     },
     {
       "source": "/library/example-projects/",
-      "destination": "/guides/integrations/tensorflow#examples/"
+      "destination": "/models/integrations/tensorflow#examples/"
     },
     {
       "source": "/library/graphs/graph-edit-axes/",
@@ -3062,11 +3267,11 @@
     },
     {
       "source": "/library/integrations/cpp/",
-      "destination": "/guides/integrations/"
+      "destination": "/models/integrations"
     },
     {
       "source": "/library/integrations/pytorch-lightning/",
-      "destination": "/guides/integrations/lightning/"
+      "destination": "/models/integrations/lightning/"
     },
     {
       "source": "/library/log/",
@@ -3382,7 +3587,7 @@
     },
     {
       "source": "/ref/python/integrations/sklearn/",
-      "destination": "/guides/integrations/scikit/"
+      "destination": "/models/integrations/scikit/"
     },
     {
       "source": "/ref/python/join/",
@@ -3482,7 +3687,7 @@
     },
     {
       "source": "/scikit/",
-      "destination": "/guides/integrations/scikit/"
+      "destination": "/models/integrations/scikit/"
     },
     {
       "source": "/search.json/",
@@ -3586,7 +3791,7 @@
     },
     {
       "source": "/sweeps/ray-tune/",
-      "destination": "/guides/integrations/ray-tune/"
+      "destination": "/models/integrations/ray-tune/"
     },
     {
       "source": "/sweeps/sweeps-examples/",
@@ -3602,19 +3807,47 @@
     },
     {
       "source": "/tutorials/Workspace_tutorial/",
-      "destination": "/tutorials/workspaces/"
+      "destination": "/models/tutorials/workspaces"
     },
     {
       "source": "/tutorials/lightgbm/",
-      "destination": "/tutorials/"
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/tutorials",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/tutorials/",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/tutorials/:slug*",
+      "destination": "/models/tutorials/:slug*"
+    },
+    {
+      "source": "/guides/weave/:slug*",
+      "destination": "/weave"
+    },
+    {
+      "source": "/guides/launch/:slug*",
+      "destination": "/platform/launch/:slug*"
+    },
+    {
+      "source": "/launch/:slug*",
+      "destination": "/platform/launch/:slug*"
+    },
+    {
+      "source": "/launch-library/:slug*",
+      "destination": "/platform/launch/launch-library/:slug*"
     },
     {
       "source": "/tutorials/prompts/",
-      "destination": "/tutorials/"
+      "destination": "/models/tutorials"
     },
     {
       "source": "/tutorials/xgboost/",
-      "destination": "/tutorials/"
+      "destination": "/models/tutorials"
     },
     {
       "source": "/v/",
@@ -3674,7 +3907,7 @@
     },
     {
       "source": "/guides/integrations/other/*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/guides/integrations/prompts/_",
@@ -3710,15 +3943,15 @@
     },
     {
       "source": "/integrations/:slug*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/library/frameworks/*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/library/integrations/*",
-      "destination": "/guides/integrations/:slug*"
+      "destination": "/models/integrations/:slug*"
     },
     {
       "source": "/ref/app/features/panels/line-plot/*",
@@ -4286,7 +4519,11 @@
     },
     {
       "source": "/guides/core",
-      "destination": "/models/core"
+      "destination": "/models"
+    },
+    {
+      "source": "/models/core",
+      "destination": "/models"
     },
     {
       "source": "/guides/artifacts",
@@ -4539,6 +4776,10 @@
     {
       "source": "/ref/python",
       "destination": "/models/ref/python"
+    },
+    {
+      "source": "/ref/python/:slug*",
+      "destination": "/models/ref/python/:slug*"
     },
     {
       "source": "/support/*",
