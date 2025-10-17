@@ -1,4 +1,3 @@
-
 ---
 title: "NVIDIA NIM"
 description: "Use Weave to trace and log LLM calls made via the ChatNVIDIA library"
@@ -20,7 +19,7 @@ It’s important to store traces of LLM applications in a central database, both
 
     Start capturing by calling `weave.init(<project-name>)` with a project name your choice.
 
-    ```python
+    ```python lines
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import weave
     client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.8, max_tokens=64, top_p=1)
@@ -58,7 +57,7 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have 2 functions wrapped with op. This helps us see how intermediate steps, like the retrieval step in a RAG app, are affecting how our app behaves.
 
-    ```python
+    ```python lines
     # highlight-next-line
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
@@ -136,7 +135,7 @@ Navigate to Weave and you can click `get_pokemon_data` in the UI to see the inpu
 
     In the example below, you can experiment with `model` and `system_message`. Every time you change one of these, you'll get a new _version_ of `GrammarCorrectorModel`.
 
-    ```python
+    ```python lines
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
 

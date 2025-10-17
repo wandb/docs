@@ -1,4 +1,7 @@
-# Agno
+---
+title: Agno
+description: "Trace Agno multi-agent systems with Weave using OpenTelemetry, capturing agent interactions, tool calls, shared memory operations, and multi-modal workflows for comprehensive observability of your AI agent systems."
+---
 
 You can trace [Agno](https://docs.agno.com/) agent and tool calls in Weave using [OpenTelemetry (OTEL)](https://opentelemetry.io/). Agno is a Python framework for building multi-agent systems with shared memory, knowledge, and reasoning. It's designed to be lightweight, model-agnostic, and highly performant, supporting multi-modal capabilities including text, image, audio, and video processing.
 
@@ -28,9 +31,9 @@ For more information on OTEL tracing in Weave, see [Send OTEL Traces to Weave](.
 
 To send traces from Agno to Weave, configure OTEL with a `TracerProvider` and an `OTLPSpanExporter`. Set the exporter to the [correct endpoint and HTTP headers for authentication and project identification](#required-configuration).
 
-:::important 
-It is recommended that you store sensitive environment variables like your API key and project info in an environment file (e.g., `.env`), and load them using `os.environ`. This keeps your credentials secure and out of your codebase.
-:::
+<note>
+We recommend that you store sensitive environment variables like your API key and project info in an environment file (e.g., `.env`), and load them using `os.environ`. This keeps your credentials secure and out of your codebase.
+</note>
 
 #### Required configuration
 
