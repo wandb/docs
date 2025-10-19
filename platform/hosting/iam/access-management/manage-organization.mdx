@@ -62,7 +62,7 @@ admins can invite users to their organization, as well as specific teams within 
 
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
 </Tab>
-<Tab title="Dedicated or Self-managed">
+<Tab title="Dedicated or Self-Managed">
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
@@ -81,28 +81,28 @@ A W&B user with matching email domain can sign in to your W&B Organization with 
 
 W&B strongly recommends and encourages that users authenticate using Single Sign-On (SSO). Reach out to your W&B team to enable SSO for your organization. 
 
-To learn more about how to setup SSO with Dedicated cloud or Self-managed instances, refer to [SSO with OIDC](/platform/hosting/iam/sso/) or [SSO with LDAP](/platform/hosting/iam/ldap/).
+To learn more about how to setup SSO with Dedicated Cloud or Self-Managed instances, refer to [SSO with OIDC](/platform/hosting/iam/sso/) or [SSO with LDAP](/platform/hosting/iam/ldap/).
 </Note>
 
 
 W&B assigned auto-provisioning users "Member" roles by default. You can change the role of auto-provisioned users at any time.
 
-Auto-provisioning users with SSO is on by default for Dedicated cloud instances and Self-managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
+Auto-provisioning users with SSO is on by default for Dedicated Cloud instances and Self-Managed deployments. You can turn off auto provisioning. Turning auto provisioning off enables you to selectively add specific users to your W&B organization.
 
 The proceeding tabs describe how to turn off SSO based on deployment type:
 
 <Tabs>
-<Tab title="Dedicated cloud">
-Reach out to your W&B team if you are on Dedicated cloud instance and you want to turn off auto provisioning with SSO.
+<Tab title="Dedicated Cloud">
+Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
 </Tab>
-<Tab title="Self-managed">
+<Tab title="Self-Managed">
 Use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Choose **Security** 
 3. Select the **Disable SSO Provisioning** to turn off auto provisioning with SSO.
 
-{/* For Self-managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO. */}
+{/* For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO. */}
 </Tab>
 </Tabs>
 
@@ -112,7 +112,7 @@ Auto provisioning with SSO is useful for adding users to an organization at scal
 
 ### Create custom roles
 <Note>
-An Enterprise license is required to create or assign custom roles on Dedicated cloud or Self-managed deployments.
+An Enterprise license is required to create or assign custom roles on Dedicated Cloud or Self-Managed deployments.
 </Note>
 
 Organization admins can compose a new role based on either the View-Only or Member role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. Custom roles are created at the organization level but are assigned at the team level.
@@ -131,7 +131,7 @@ To create a custom role:
 1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
 1. Click **Create Role**.
 </Tab>
-<Tab title="Dedicated or Self-managed">
+<Tab title="Dedicated or Self-Managed">
 Use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
@@ -182,8 +182,8 @@ You must enable domain matching within a team's settings before you can automati
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 </Tab>
-<Tab title="Dedicated or Self-managed">
-Reach out to your W&B Account Team if you use Dedicated or Self-managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated or Self-managed instance.
+<Tab title="Dedicated or Self-Managed">
+Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated or Self-Managed instance.
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | -----|
@@ -227,7 +227,7 @@ A user within an organization has one of the proceeding model seat or weave acce
 
 Model seat type and weave access type are defined at the organization level, and inherited by the team. If you want to change a user's seat type, navigate to the organization settings and follow the proceeding steps:
 
-1. For SaaS users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For other Dedicated and Self-managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
+1. For SaaS users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For other Dedicated and Self-Managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
 2. Select the **Users** tab.
 3. From the **Role** dropdown, select the seat type you want to assign to the user.
 
@@ -319,7 +319,7 @@ Service accounts are not users, but rather non-human identities used for automat
 </Info>
 
 <Note>
-Only enterprise licenses on Dedicated cloud or Self-managed deployment can assign custom roles to members in a team.
+Only enterprise licenses on Dedicated Cloud or Self-Managed deployment can assign custom roles to members in a team.
 </Note>
 
 ### Remove users from a team

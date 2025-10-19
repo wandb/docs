@@ -88,9 +88,9 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 ## Features
 
 * The new Full Fidelity line plot in W&B Experiments enhances the visibility of training metrics by aggregating all data along the x-axis, displaying the minimum, maximum, and average values within each bucket, allowing users to easily spot outliers and zoom into high-fidelity details without downsampling loss.  [Learn more in our documentation](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling).
-* You can now use [cross-cloud storage buckets for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-managed instances. For example, in a W&B instance on AWS, you can now configure Azure Blob Storage or Google Cloud Storage for team-level BYOB, and so on for each cross-cloud combination. 
-* In the same vein, you can now use [S3-compatible storage buckets like MinIO for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-managed instances. For example, in a W&B instance on GCP, you can configure a MinIO bucket hosted in cloud or on-prem for team-level BYOB.
-* Admins can now automate full deletion of users in their Dedicated Cloud or Self-managed instances using the [SCIM API's DELETE User endpoint](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user). The user deactivation operation has been reimplemented using the [PATCH User endpoint](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user), along with the introduction of [user reactivation operation](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user).
+* You can now use [cross-cloud storage buckets for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-Managed instances. For example, in a W&B instance on AWS, you can now configure Azure Blob Storage or Google Cloud Storage for team-level BYOB, and so on for each cross-cloud combination. 
+* In the same vein, you can now use [S3-compatible storage buckets like MinIO for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-Managed instances. For example, in a W&B instance on GCP, you can configure a MinIO bucket hosted in cloud or on-prem for team-level BYOB.
+* Admins can now automate full deletion of users in their Dedicated Cloud or Self-Managed instances using the [SCIM API's DELETE User endpoint](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user). The user deactivation operation has been reimplemented using the [PATCH User endpoint](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user), along with the introduction of [user reactivation operation](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user).
 * If you use the SCIM API, you will also see a couple of minor improvements:
   The API now has a more pertinent error message in case of authentication failures.
   Relevant endpoints now return the full name of a user in the SCIM User object if it's available.
@@ -112,7 +112,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 
 <Update label="v0.54.0" description="May 24, 2024">
 ## Features
-* You can now configure Secure storage connector (BYOB) at team-level in Dedicated Cloud or Self-managed instances on Microsoft Azure. 
+* You can now configure Secure storage connector (BYOB) at team-level in Dedicated Cloud or Self-Managed instances on Microsoft Azure. 
   Refer to [this Terraform Module](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) and reach out to your W&B team for any questions.
 * Organization admins can now enforce privacy settings across all W&B teams by setting those at the organization level, from within the `Settings` tab in the Organization Dashboard. 
   W&B recommends to notify team admins and other users before making such enforcement changes.
@@ -187,7 +187,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 * Properly pass template variables through sweep scheduler
 * Scheduler polluting sweep yaml generator
 * Display user roles correctly on team members page when search or sort is applied
-* Org admins can again delete personal projects in their Dedicated Cloud or Self-managed server instance
+* Org admins can again delete personal projects in their Dedicated Cloud or Self-Managed server instance
 * Add validation for SCIM GET groups API for pending users
 </Update>
 

@@ -203,7 +203,7 @@ module "wandb" {
 
 設定オプションは[設定参照](#configuration-reference-for-wb-operator)に記載されているものと同じですが、構文は HashiCorp Configuration Language (HCL) に従う必要があります。Terraform モジュールは、W&B カスタムリソース定義 (CRD) を作成します。
 
-W&B&Biases 自身が「Dedicated cloud」インストールをデプロイするために Helm Terraform モジュールをどのように活用しているかを知るには、次のリンクをたどってください：
+W&B&Biases 自身が「Dedicated Cloud」インストールをデプロイするために Helm Terraform モジュールをどのように活用しているかを知るには、次のリンクをたどってください：
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
 - [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
@@ -220,7 +220,7 @@ W&B は AWS、GCP、および Azure のための Terraform Modules を提供し�
 
 この統合により、最小限のセットアップで W&B インスタンス用の W&B Kubernetes オペレーターの準備が整い、クラウド環境での W&B Server のデプロイと管理がスムーズに行えます。
 
-これらのモジュールの使用方法の詳細な説明については、これを[セクション](/#deploy-wb-server-within-self-managed-cloud-accounts)のセルフマネージドインストールセクションのドキュメントを参照してください。
+これらのモジュールの使用方法の詳細な説明については、これを[セクション](/#deploy-wb-server-within-Self-Managed-cloud-accounts)のセルフマネージドインストールセクションのドキュメントを参照してください。
 
 ### インストールを検証する
 
@@ -306,7 +306,7 @@ W&B は、Option 1 が機能しない場合のみ、以下の手順を使用し�
 
 <Note>
 * W&B Kubernetes オペレーターを更新しても、W&B サーバーアプリケーションは更新されません。
-* W&B Kubernetes オペレーターを使用していない helm chart を使用している場合は、続いて W&B オペレーターを更新する手順を実行する前に[こちら](#migrate-self-managed-instances-to-wb-operator)の指示を参照してください。
+* W&B Kubernetes オペレーターを使用していない helm chart を使用している場合は、続いて W&B オペレーターを更新する手順を実行する前に[こちら](#migrate-Self-Managed-instances-to-wb-operator)の指示を参照してください。
 </Note>
 
 以下のコードスニペットをターミナルにコピーして貼り付けます。
