@@ -1,9 +1,5 @@
 ---
 title: ログサマリーメトリクス
-menu:
-  default:
-    identifier: ja-guides-models-track-log-log-summary
-    parent: log-objects-and-media
 ---
 
 時間とともに変化する値に加えて、モデルや前処理ステップを要約する単一の値を追跡することも重要です。この情報を W&B Run の `summary` 辞書にログします。Run の summary 辞書は numpy 配列、PyTorch テンソル、TensorFlow テンソルを扱うことができます。値がこれらのタイプのいずれかの場合、バイナリファイルにテンソル全体を保存し、メトリクスを summary オブジェクトに保存します。たとえば最小値、平均、分散、パーセンタイルなどです。

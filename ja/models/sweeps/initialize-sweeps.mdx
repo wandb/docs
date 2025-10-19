@@ -1,11 +1,6 @@
 ---
 title: sweep を初期化する
 description: W&B で Sweep を初期化する
-menu:
-  default:
-    identifier: ja-guides-models-sweeps-initialize-sweeps
-    parent: sweeps
-weight: 4
 ---
 
 W&B は、_Sweep Controller_ を使用して、クラウド (標準)、ローカル (ローカル) の 1 台以上のマシンで スイープを管理します。run が完了すると、sweep controller は新しい run を実行するための新しい指示を発行します。これらの指示は、実際に run を実行する _agents_ によって受け取られます。典型的な W&B Sweep では、controller は W&B サーバー上に存在し、agents は_あなたの_マシン上に存在します。
