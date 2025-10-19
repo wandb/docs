@@ -1,11 +1,6 @@
 ---
 title: Initialize a sweep
 description: W&B 스윕 초기화
-menu:
-  default:
-    identifier: ko-guides-models-sweeps-initialize-sweeps
-    parent: sweeps
-weight: 4
 ---
 
 W&B는 클라우드 (표준), 로컬 (local) 환경에서 하나 이상의 머신에서 Sweeps 를 관리하기 위해 _Sweep Controller_ 를 사용합니다. Run이 완료되면, 스윕 컨트롤러는 실행할 새로운 Run을 설명하는 새로운 명령어 세트를 발행합니다. 이 명령어는 실제로 Run을 수행하는 _에이전트_ 에 의해 선택됩니다. 일반적인 W&B 스윕에서 컨트롤러는 W&B 서버에 존재합니다. 에이전트는 _사용자_ 의 머신에 존재합니다.

@@ -1,13 +1,9 @@
 ---
 title: How does wandb stream logs and writes to disk?
-menu:
-  support:
-    identifier: ko-support-kb-articles-stream_logs_writes_disk
 support:
 - environment variables
 toc_hide: true
 type: docs
-slug: /ko/models/support/:filename
 ---
 
 W&B는 메모리에서 이벤트를 큐에 넣고 비동기적으로 디스크에 기록하여 오류를 관리하고 `WANDB_MODE=offline` 설정을 지원하여 로깅 후 동기화할 수 있도록 합니다.

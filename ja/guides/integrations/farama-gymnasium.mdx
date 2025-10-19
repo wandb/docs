@@ -1,11 +1,6 @@
 ---
 title: Farama Gymnasium
 description: W&B を Farama Gymnasium と統合する方法。
-menu:
-  default:
-    identifier: ja-guides-integrations-farama-gymnasium
-    parent: integrations
-weight: 90
 ---
 
 [Farama Gymnasium](https://gymnasium.farama.org/#) を使用している場合、 `gymnasium.wrappers.Monitor` によって生成された環境のビデオを自動的にログします。 キーワード引数 `monitor_gym` を [`wandb.init`](/ja/models/ref/python/init) に `True` と設定するだけです。

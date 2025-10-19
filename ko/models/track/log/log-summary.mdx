@@ -1,9 +1,5 @@
 ---
 title: Log summary metrics
-menu:
-  default:
-    identifier: ko-guides-models-track-log-log-summary
-    parent: log-objects-and-media
 ---
 
 트레이닝 과정에서 시간이 지남에 따라 변하는 값 외에도, 모델 또는 전처리 단계를 요약하는 단일 값을 추적하는 것이 중요한 경우가 많습니다. W&B Run의 `summary` 사전에 이 정보를 기록하세요. Run의 summary 사전은 numpy 배열, PyTorch 텐서 또는 TensorFlow 텐서를 처리할 수 있습니다. 값이 이러한 유형 중 하나인 경우 전체 텐서를 바이너리 파일에 유지하고 요약 오브젝트에 최소값, 평균, 분산, 백분위수 등과 같은 높은 수준의 메트릭을 저장합니다.
