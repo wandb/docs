@@ -1173,7 +1173,7 @@
                   {
                     "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                     "pages": [
-                      "ja/platform/hosting/hosting-options/saas_cloud",
+                      "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
                         "group": "\u81ea\u5df1\u7ba1\u7406",
                         "pages": [
@@ -1694,7 +1694,7 @@
                   {
                     "group": "Deployment Options",
                     "pages": [
-                      "ko/platform/hosting/hosting-options/saas_cloud",
+                      "ko/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
                         "group": "Dedicated Cloud",
                         "pages": [
@@ -4039,6 +4039,14 @@
       "destination": "/platform/hosting/hosting-options/multi_tenant_cloud"
     },
     {
+      "source": "/platform/hosting/hosting-options/saas_cloud",
+      "destination": "/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
+      "source": "/guides/hosting/hosting-options/multi_tenant_cloud",
+      "destination": "/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
       "source": "/guides/hosting/:slug",
       "destination": "/platform/hosting/:slug"
     },
@@ -5115,7 +5123,19 @@
       "destination": "/ko/platform/hosting"
     },
     {
+      "source": "/ja/platform/hosting/hosting-options/saas_cloud",
+      "destination": "/ja/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
       "source": "/ko/guides/hosting/hosting-options/saas_cloud",
+      "destination": "/ko/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
+      "source": "/ko/platform/hosting/hosting-options/saas_cloud",
+      "destination": "/ko/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
+      "source": "/ko/guides/hosting/hosting-options/multi_tenant_cloud",
       "destination": "/ko/platform/hosting/hosting-options/multi_tenant_cloud"
     },
     {
