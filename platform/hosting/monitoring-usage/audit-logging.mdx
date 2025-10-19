@@ -1,10 +1,5 @@
 ---
-menu:
-  default:
-    identifier: audit-logging
-    parent: monitoring-and-usage
 title: Track user activity with audit logs
-weight: 1
 ---
 
 Use W&B audit logs to track user activity within your organization and to conform to your enterprise governance requirements. Audit logs are available in JSON format. Refer to [Audit log schema](#audit-log-schema).
@@ -14,7 +9,7 @@ How to access audit logs depends on your W&B platform deployment type:
 | W&B Platform Deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
 | [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) | <ul><li>[Instance-level BYOB](/platform/hosting/data-security/secure-storage-connector): Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api).</li><li>Default instance-level storage: Available only by using [the API](#fetch-audit-logs-using-api).</li></ul> |
-| [Multi-tenant Cloud](/platform/hosting/hosting-options/saas_cloud) | Available for Enterprise plans only. Available only by using [the API](#fetch-audit-logs-using-api). |
+| [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) | Available for Enterprise plans only. Available only by using [the API](#fetch-audit-logs-using-api). |
 | [Self-Managed](/platform/hosting/hosting-options/self-managed) | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
 
 After fetching audit logs, you can analyze them using tools like [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), or [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric). Some audit log analysis tools do not support JSON; refer to the documentation for your analysis tool for guidelines and requirements for transforming the JSON-formatted audit logs before analysis.
@@ -55,7 +50,7 @@ This table shows all keys which may appear in an audit log entry, ordered alphab
 Personally identifiable information (PII), such as email addresses and the names of projects, teams, and reports, is available only using the API endpoint option.
 - For [Self-Managed](/platform/hosting/hosting-options/self-managed) and 
   [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), an organization admin can [exclude PII](#exclude-pii) when fetching audit logs.
-- For [Multi-tenant Cloud](/platform/hosting/hosting-options/saas_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
+- For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
 
 ## Before you begin
 1. Organization level admins can fetch audit logs. If you receive a `403` error, ensure that you or your service account has adequate permission.
@@ -76,7 +71,7 @@ To fetch audit logs:
 
 - [Self-Managed](/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
 - [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud): `<instance-name>.wandb.io/admin/audit_logs`
-- [Multi-tenant Cloud (Enterprise required)](/platform/hosting/hosting-options/saas_cloud): `https://api.wandb.ai/audit_logs`
+- [Multi-tenant Cloud (Enterprise required)](/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
     In the following steps, replace `<API-endpoint>` with your API endpoint.
 1. (Optional) Construct query parameters to append to the endpoint. In the following steps, replace `<parameters>` with the resulting string.
@@ -94,7 +89,7 @@ The API response contains new-line separated JSON objects. Objects will include 
 To use basic authentication with your API key to access the audit logs API, set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
 ### Exclude PII when fetching audit logs <a id="exclude-pii"></a>
-For [Self-Managed](/platform/hosting/hosting-options/self-managed) and [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), a W&B organization or instance admin can exclude PII when fetching audit logs. For [Multi-tenant Cloud](/platform/hosting/hosting-options/saas_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
+For [Self-Managed](/platform/hosting/hosting-options/self-managed) and [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), a W&B organization or instance admin can exclude PII when fetching audit logs. For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
 
 
 To exclude PII, pass the `anonymize=true` URL parameter. For example, if your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs for user activity within the last week and exclude PII, use an API endpoint like:
@@ -138,7 +133,7 @@ This table describes possible actions that can be recorded by W&B, sorted alphab
 | `user:read`                   | User profile is read. <sup><a href="#1">1</a></sup>
 | `user:update`                 | User is updated. <sup><a href="#1">1</a></sup>
 
-<a id="1">1</a>: On [Multi-tenant Cloud](/platform/hosting/hosting-options/saas_cloud), audit logs are not collected for:
+<a id="1">1</a>: On [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), audit logs are not collected for:
 - Open or Public projects.
 - The `report:read` action.
 - `User` actions which are not tied to a specific organization.

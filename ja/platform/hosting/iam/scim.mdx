@@ -16,7 +16,7 @@ weight: 4
 SCIM API は `<host-url>/scim/` でアクセス可能であり、[RC7643 プロトコル](https://www.rfc-editor.org/rfc/rfc7643)に見られるフィールドのサブセットを持つ `/Users` と `/Groups` エンドポイントをサポートしています。さらに、公式の SCIM スキーマの一部ではない `/Roles` エンドポイントを含んでいます。W&B は `/Roles` エンドポイントを追加して、W&B 組織でのカスタムロールの自動管理をサポートしています。
 
 <Note>
-複数の Enterprise [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud)、[Self-managed instances](/ja/platform/hosting/hosting-options/self-managed)、および [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
+複数の Enterprise [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud)、[Self-managed instances](/ja/platform/hosting/hosting-options/self-managed)、および [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
 
 選択したホスティングオプションに応じて、このページの例で使用される `<host-url>` プレースホルダーの値が決まります。
 
@@ -35,7 +35,7 @@ SCIM ユーザーリソースは W&B のユーザーにマップされます。
 
 - **エンドポイント:** **`<host-url>/scim/Users/{id}`**
 - **メソッド**: GET
-- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内の特定のユーザーの情報を取得します。
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内の特定のユーザーの情報を取得します。
 - **リクエスト例**:
 
 ```bash
@@ -76,7 +76,7 @@ GET /scim/Users/abc
 
 - **エンドポイント:** **`<host-url>/scim/Users`**
 - **メソッド**: GET
-- **説明**: [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内のすべてのユーザーのリストを取得します。
+- **説明**: [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内のすべてのユーザーのリストを取得します。
 - **リクエスト例**:
 
 ```bash
@@ -188,7 +188,7 @@ POST /scim/Users
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: DELETE
-- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンスから完全にユーザーを削除します。必要に応じて [Create user](#create-user) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンスから完全にユーザーを削除します。必要に応じて [Create user](#create-user) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
 - **リクエスト例**:
 
 <Note>
@@ -218,7 +218,7 @@ DELETE /scim/Users/abc
 | value | オブジェクト型 | オブジェクト `{"active": false}` を示し、ユーザーが無効化されるべきことを示します。 |
 
 <Note>
-[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザーの無効化および再有効化の操作はサポートされていません。
+[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、ユーザーの無効化および再有効化の操作はサポートされていません。
 </Note>
 
 - **リクエスト例**:
@@ -283,7 +283,7 @@ PATCH /scim/Users/abc
 | value | オブジェクト型 | オブジェクト `{"active": true}` を示し、ユーザーが再有効化されるべきことを示します。 |
 
 <Note>
-[SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザーの無効化および再有効化の操作はサポートされていません。
+[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、ユーザーの無効化および再有効化の操作はサポートされていません。
 </Note>
 
 - **リクエスト例**:
@@ -339,7 +339,7 @@ PATCH /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: 組織レベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer` または `member` のいずれかになります ([こちらを参照](/ja/platform/hosting/iam/access-management/manage-organization/#invite-a-user))。 [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
+- **説明**: 組織レベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer` または `member` のいずれかになります ([こちらを参照](/ja/platform/hosting/iam/access-management/manage-organization/#invite-a-user))。 [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |
@@ -408,7 +408,7 @@ PATCH /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: チームレベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer`、`member` またはカスタムロールのいずれかになります ([こちらを参照](/ja/platform/hosting/iam/access-management/manage-organization/#invite-a-user))。 [SaaS Cloud](/ja/platform/hosting/hosting-options/saas_cloud) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
+- **説明**: チームレベルのロールをユーザーに割り当てます。このロールは、ここで説明されているように `admin`、`viewer`、`member` またはカスタムロールのいずれかになります ([こちらを参照](/ja/platform/hosting/iam/access-management/manage-organization/#invite-a-user))。 [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、ユーザー設定で SCIM API の正しい組織を設定することを確認してください。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |

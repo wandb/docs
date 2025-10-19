@@ -56,7 +56,7 @@
                 "group": "Deployment Options",
                 "pages": [
                   "platform/hosting",
-                  "platform/hosting/hosting-options/saas_cloud",
+                  "platform/hosting/hosting-options/multi_tenant_cloud",
                   {
                     "group": "Dedicated Cloud",
                     "pages": [
@@ -1173,7 +1173,7 @@
                   {
                     "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                     "pages": [
-                      "ja/platform/hosting/hosting-options/saas_cloud",
+                      "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
                         "group": "\u81ea\u5df1\u7ba1\u7406",
                         "pages": [
@@ -1694,7 +1694,7 @@
                   {
                     "group": "Deployment Options",
                     "pages": [
-                      "ko/platform/hosting/hosting-options/saas_cloud",
+                      "ko/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
                         "group": "Dedicated Cloud",
                         "pages": [
@@ -4035,172 +4035,20 @@
       "destination": "/platform/secrets"
     },
     {
-      "source": "/guides/hosting",
-      "destination": "/platform/hosting"
-    },
-    {
       "source": "/guides/hosting/hosting-options/saas_cloud",
-      "destination": "/platform/hosting/hosting-options/saas_cloud"
+      "destination": "/platform/hosting/hosting-options/multi_tenant_cloud"
     },
     {
-      "source": "/guides/hosting/hosting-options/dedicated_cloud",
-      "destination": "/platform/hosting/hosting-options/dedicated_cloud"
+      "source": "/platform/hosting/hosting-options/saas_cloud",
+      "destination": "/platform/hosting/hosting-options/multi_tenant_cloud"
     },
     {
-      "source": "/guides/hosting/hosting-options/dedicated_regions",
-      "destination": "/platform/hosting/hosting-options/dedicated_regions"
+      "source": "/guides/hosting/hosting-options/multi_tenant_cloud",
+      "destination": "/platform/hosting/hosting-options/multi_tenant_cloud"
     },
     {
-      "source": "/guides/hosting/export-data-from-dedicated-cloud",
-      "destination": "/platform/hosting/export-data-from-dedicated-cloud"
-    },
-    {
-      "source": "/guides/hosting/hosting-options/self-managed",
-      "destination": "/platform/hosting/hosting-options/self-managed"
-    },
-    {
-      "source": "/guides/hosting/self-managed/ref-arch",
-      "destination": "/platform/hosting/self-managed/ref-arch"
-    },
-    {
-      "source": "/guides/hosting/operator",
-      "destination": "/platform/hosting/operator"
-    },
-    {
-      "source": "/guides/hosting/self-managed/operator-airgapped",
-      "destination": "/platform/hosting/self-managed/operator-airgapped"
-    },
-    {
-      "source": "/guides/hosting/self-managed/install-on-public-cloud",
-      "destination": "/platform/hosting/self-managed/install-on-public-cloud"
-    },
-    {
-      "source": "/guides/hosting/self-managed/aws-tf",
-      "destination": "/platform/hosting/self-managed/aws-tf"
-    },
-    {
-      "source": "/guides/hosting/self-managed/gcp-tf",
-      "destination": "/platform/hosting/self-managed/gcp-tf"
-    },
-    {
-      "source": "/guides/hosting/self-managed/azure-tf",
-      "destination": "/platform/hosting/self-managed/azure-tf"
-    },
-    {
-      "source": "/guides/hosting/self-managed/bare-metal",
-      "destination": "/platform/hosting/self-managed/bare-metal"
-    },
-    {
-      "source": "/guides/hosting/server-upgrade-process",
-      "destination": "/platform/hosting/server-upgrade-process"
-    },
-    {
-      "source": "/guides/hosting/self-managed/disable-automatic-app-version-updates",
-      "destination": "/platform/hosting/self-managed/disable-automatic-app-version-updates"
-    },
-    {
-      "source": "/guides/hosting/iam/org_team_struct",
-      "destination": "/platform/hosting/iam/org_team_struct"
-    },
-    {
-      "source": "/guides/hosting/iam/authentication",
-      "destination": "/platform/hosting/iam/authentication"
-    },
-    {
-      "source": "/guides/hosting/iam/ldap",
-      "destination": "/platform/hosting/iam/ldap"
-    },
-    {
-      "source": "/guides/hosting/iam/sso",
-      "destination": "/platform/hosting/iam/sso"
-    },
-    {
-      "source": "/guides/hosting/iam/identity_federation",
-      "destination": "/platform/hosting/iam/identity_federation"
-    },
-    {
-      "source": "/guides/hosting/iam/service-accounts",
-      "destination": "/platform/hosting/iam/service-accounts"
-    },
-    {
-      "source": "/guides/hosting/iam/access-management-intro",
-      "destination": "/platform/hosting/iam/access-management-intro"
-    },
-    {
-      "source": "/guides/hosting/iam/access-management/manage-organization",
-      "destination": "/platform/hosting/iam/access-management/manage-organization"
-    },
-    {
-      "source": "/guides/hosting/iam/access-management/restricted-projects",
-      "destination": "/platform/hosting/iam/access-management/restricted-projects"
-    },
-    {
-      "source": "/guides/hosting/iam/automate_iam",
-      "destination": "/platform/hosting/iam/automate_iam"
-    },
-    {
-      "source": "/guides/hosting/iam/scim",
-      "destination": "/platform/hosting/iam/scim"
-    },
-    {
-      "source": "/guides/hosting/iam/advanced_env_vars",
-      "destination": "/platform/hosting/iam/advanced_env_vars"
-    },
-    {
-      "source": "/guides/hosting/data-security",
-      "destination": "/platform/hosting/data-security"
-    },
-    {
-      "source": "/guides/hosting/data-security/secure-storage-connector",
-      "destination": "/platform/hosting/data-security/secure-storage-connector"
-    },
-    {
-      "source": "/guides/hosting/data-security/presigned-urls",
-      "destination": "/platform/hosting/data-security/presigned-urls"
-    },
-    {
-      "source": "/guides/hosting/data-security/ip-allowlisting",
-      "destination": "/platform/hosting/data-security/ip-allowlisting"
-    },
-    {
-      "source": "/guides/hosting/data-security/private-connectivity",
-      "destination": "/platform/hosting/data-security/private-connectivity"
-    },
-    {
-      "source": "/guides/hosting/data-security/data-encryption",
-      "destination": "/platform/hosting/data-security/data-encryption"
-    },
-    {
-      "source": "/guides/hosting/privacy-settings",
-      "destination": "/platform/hosting/privacy-settings"
-    },
-    {
-      "source": "/guides/hosting/monitoring-usage",
-      "destination": "/platform/hosting/monitoring-usage"
-    },
-    {
-      "source": "/guides/hosting/monitoring-usage/audit-logging",
-      "destination": "/platform/hosting/monitoring-usage/audit-logging"
-    },
-    {
-      "source": "/guides/hosting/monitoring-usage/prometheus-logging",
-      "destination": "/platform/hosting/monitoring-usage/prometheus-logging"
-    },
-    {
-      "source": "/guides/hosting/monitoring-usage/slack-alerts",
-      "destination": "/platform/hosting/monitoring-usage/slack-alerts"
-    },
-    {
-      "source": "/guides/hosting/monitoring-usage/org_dashboard",
-      "destination": "/platform/hosting/monitoring-usage/org_dashboard"
-    },
-    {
-      "source": "/guides/hosting/smtp",
-      "destination": "/platform/hosting/smtp"
-    },
-    {
-      "source": "/guides/hosting/env-vars",
-      "destination": "/platform/hosting/env-vars"
+      "source": "/guides/hosting/:slug",
+      "destination": "/platform/hosting/:slug"
     },
     {
       "source": "/guides/models",
@@ -5275,8 +5123,20 @@
       "destination": "/ko/platform/hosting"
     },
     {
+      "source": "/ja/platform/hosting/hosting-options/saas_cloud",
+      "destination": "/ja/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
       "source": "/ko/guides/hosting/hosting-options/saas_cloud",
-      "destination": "/ko/platform/hosting/hosting-options/saas_cloud"
+      "destination": "/ko/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
+      "source": "/ko/platform/hosting/hosting-options/saas_cloud",
+      "destination": "/ko/platform/hosting/hosting-options/multi_tenant_cloud"
+    },
+    {
+      "source": "/ko/guides/hosting/hosting-options/multi_tenant_cloud",
+      "destination": "/ko/platform/hosting/hosting-options/multi_tenant_cloud"
     },
     {
       "source": "/ko/guides/hosting/hosting-options/dedicated_cloud",

@@ -8,13 +8,35 @@ no_list: true
 ---
 W&B Platform is the foundational infrastructure, tooling and governance scaffolding which supports the W&B products like [Models](/models/) and [Weave](/weave). 
 
-W&B Platform is available in three different deployment options:
+## Deployment options
+<CardGroup cols={1}>
+  <a id="wb-multi-tenant-cloud"></a><Card title="W&B Multi-tenant Cloud">
+    A fully managed service deployed in W&B's cloud infrastructure, where you can seamlessly access the W&B products at the desired scale, with cost-efficient options for pricing, and with continuous updates for the latest features and functionalities. W&B recommends to use the Multi-tenant Cloud for your product trial, or to manage your production AI workflows if you do not need the security of a private deployment, self-service onboarding is important, and cost efficiency is critical.
+    
+    See **[W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)** for more information.
+  </Card>
+  
+  <a id="wb-dedicated-cloud"></a><Card title="W&B Dedicated Cloud">
+    A single-tenant, fully managed service deployed in W&B's cloud infrastructure. It is the best place to onboard W&B if your organization requires conformance to strict governance controls including data residency, have need of advanced security capabilities, and are looking to optimize their AI operating costs by not having to build & manage the required infrastructure with security, scale & performance characteristics.
+    
+    See **[W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/)** for more information.
+  </Card>
+  
+  <a id="wb-self-managed"></a><Card title="W&B Self-Managed">
+    Deploy and manage W&B Server on your own managed infrastructure. W&B Server is a self-contained packaged mechanism to run the W&B Platform & its supported W&B products. W&B recommends this option if all your existing infrastructure is on-prem, or your organization has strict regulatory needs that are not satisfied by W&B Dedicated Cloud. With this option, you are fully responsible to manage the provisioning, and continuous maintenance & upgrades of the infrastructure required to support W&B Server.
+    
+    See **[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/)** for more information.
+  </Card>
+</CardGroup>
 
-* [W&B Multi-tenant Cloud](#wb-multi-tenant-cloud)
-* [W&B Dedicated Cloud](#wb-dedicated-cloud)
-* [W&B Self-Managed](#wb-self-managed)
+<Tip title="Getting started">
+To get started quickly, W&B recommends [Multi-tenant Cloud](https://wandb.ai/home).
 
-The following responsibility matrix outlines some of the key differences:
+Some features and functionality require an [Enterprise](https://wandb.ai/site/pricing/) license. To try these features, sign up for an [Enterprise trial](https://wandb.ai/site/enterprise-trial) and choose your deployment type.
+</Tip>
+
+## Key differences
+This table shows some key differences among deployment types.
 
 |                                      | Multi-tenant Cloud                | Dedicated Cloud                                                     | Self-Managed |
 |--------------------------------------|-----------------------------------|---------------------------------------------------------------------|------------------|
@@ -26,25 +48,3 @@ The following responsibility matrix outlines some of the key differences:
 | Maintenance (upgrades, backups, etc.)| Managed by W&B | Managed by W&B | Managed by customer |
 | Support                              | Support SLA                       | Support SLA                                                         | Support SLA |
 | Supported cloud infrastructure       | GCP                               | AWS, GCP, Azure                                                     | AWS, GCP, Azure, On-Prem bare-metal |
-
-## Deployment options
-The following sections provide an overview of each deployment type. 
-
-### W&B Multi-tenant Cloud
-W&B Multi-tenant Cloud is a fully managed service deployed in W&B's cloud infrastructure, where you can seamlessly access the W&B products at the desired scale, with cost-efficient options for pricing, and with continuous updates for the latest features and functionalities. W&B recommends to use the Multi-tenant Cloud for your product trial, or to manage your production AI workflows if you do not need the security of a private deployment, self-service onboarding is important, and cost efficiency is critical.
-
-See [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud) for more information. 
-
-### W&B Dedicated Cloud
-W&B Dedicated Cloud is a single-tenant, fully managed service deployed in W&B's cloud infrastructure. It is the best place to onboard W&B if your organization requires conformance to strict governance controls including data residency, have need of advanced security capabilities, and are looking to optimize their AI operating costs by not having to build & manage the required infrastructure with security, scale & performance characteristics.
-
-See [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) for more information.
-
-### W&B Self-Managed
-With this option, you can deploy and manage W&B Server on your own managed infrastructure. W&B Server is a self-contained packaged mechanism to run the W&B Platform & its supported W&B products. W&B recommends this option if all your existing infrastructure is on-prem, or your organization has strict regulatory needs that are not satisfied by W&B Dedicated Cloud. With this option, you are fully responsible to manage the provisioning, and continuous maintenance & upgrades of the infrastructure required to support W&B Server.
-
-See [W&B Self-Managed](/platform/hosting/hosting-options/self-managed/) for more information.
-
-## Next steps
-
-If you're looking to try any of the W&B products, W&B recommends using the [Multi-tenant Cloud](https://wandb.ai/home). If you're looking for an enterprise-friendly setup, choose the appropriate deployment type for your trial [here](https://wandb.ai/site/enterprise-trial).
