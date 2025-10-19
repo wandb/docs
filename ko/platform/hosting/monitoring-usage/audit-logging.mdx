@@ -8,7 +8,7 @@ W&B 감사 로그를 사용하여 조직 내 사용자 활동을 추적하고 �
 
 | W&B Platform 배포 유형 | 감사 로그 엑세스 메커니즘 |
 |----------------------------|--------------------------------|
-| [자체 관리](/ko/platform/hosting/hosting-options/self-managed) | 10분마다 인스턴스 수준 버킷에 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 사용할 수도 있습니다. |
+| [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) | 10분마다 인스턴스 수준 버킷에 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 사용할 수도 있습니다. |
 | [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) ([보안 스토리지 커넥터 (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)) | 10분마다 인스턴스 수준 버킷 (BYOB)에 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 사용할 수도 있습니다. |
 | W&B 관리 스토리지 (BYOB 없음)가 있는 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) | [API](#fetch-audit-logs-using-api)를 통해서만 사용할 수 있습니다. |
 | [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise 요금제에서만 사용할 수 있습니다. [API](#fetch-audit-logs-using-api)를 통해서만 사용할 수 있습니다.
@@ -51,7 +51,7 @@ W&B 감사 로그를 사용하여 조직 내 사용자 활동을 추적하고 �
 ### 개인 식별 정보 (PII)
 
 이메일 어드레스, project 이름, 팀 및 report와 같은 개인 식별 정보 (PII)는 API 엔드포인트 옵션을 통해서만 사용할 수 있습니다.
-- [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 및
+- [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 및
   [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우 조직 관리자는 감사 로그를 가져올 때 [PII를 제외](#exclude-pii)할 수 있습니다.
 - [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 API 엔드포인트는 항상 PII를 포함하여 감사 로그에 대한 관련 필드를 반환합니다. 이는 구성할 수 없습니다.
 
@@ -66,7 +66,7 @@ W&B 감사 로그를 사용하여 조직 내 사용자 활동을 추적하고 �
 
 1. 인스턴스에 적합한 API 엔드포인트를 결정합니다.
 
-    - [자체 관리](/ko/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
+    - [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed): `<wandb-platform-url>/admin/audit_logs`
     - [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud): `<wandb-platform-url>/admin/audit_logs`
     - [SaaS Cloud (Enterprise 필요)](/ko/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
@@ -89,7 +89,7 @@ API 응답에는 줄 바꿈으로 구분된 JSON 오브젝트가 포함됩니다
 API 키로 기본 인증을 사용하여 감사 로그 API에 액세스하려면 HTTP 요청의 `Authorization` 헤더를 `Basic` 문자열로 설정하고 공백을 추가한 다음 `username:API-KEY` 형식으로 base-64로 인코딩된 문자열을 설정합니다. 즉, 사용자 이름과 API 키를 `:` 문자로 구분된 값으로 바꾸고 결과를 base-64로 인코딩합니다. 예를 들어 `demo:p@55w0rd`로 인증하려면 헤더는 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`여야 합니다.
 
 ### 감사 로그를 가져올 때 PII 제외
-[자체 관리](/ko/platform/hosting/hosting-options/self-managed) 및 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우 W&B 조직 또는 인스턴스 관리자는 감사 로그를 가져올 때 PII를 제외할 수 있습니다. [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 API 엔드포인트는 항상 PII를 포함하여 감사 로그에 대한 관련 필드를 반환합니다. 이는 구성할 수 없습니다.
+[자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 및 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우 W&B 조직 또는 인스턴스 관리자는 감사 로그를 가져올 때 PII를 제외할 수 있습니다. [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 API 엔드포인트는 항상 PII를 포함하여 감사 로그에 대한 관련 필드를 반환합니다. 이는 구성할 수 없습니다.
 
 PII를 제외하려면 `anonymize=true` URL 파라미터를 전달합니다. 예를 들어 W&B 인스턴스 URL이 `https://mycompany.wandb.io`이고 지난 주 동안의 사용자 활동에 대한 감사 로그를 가져오고 PII를 제외하려면 다음과 같은 API 엔드포인트를 사용합니다.
 

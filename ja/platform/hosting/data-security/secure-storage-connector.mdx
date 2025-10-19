@@ -39,7 +39,7 @@ BYOB 機能を使用すると、データの一部は W&B の中央データベ�
 たとえば、組織内に Kappa というチームがあるとします。あなたの組織 (およびチーム Kappa) は、デフォルトでインスタンスレベルのストレージバケットを使用します。次に Omega というチームを作成します。チーム Omega を作成する際に、そのチームのためのチームレベルのストレージバケットを設定することができます。チーム Omega によって生成されたファイルはチーム Kappa によってアクセスすることはできません。ただし、チーム Kappa によって作成されたファイルはチーム Omega によってアクセスすることができます。チーム Kappa のデータを分離したい場合は、彼らのためにチームレベルのストレージバケットを設定する必要があります。
 
 <Note>
-チームレベルのストレージバケットは、特に異なる事業部門や部門がインスタンスを共有してインフラストラクチャーや管理資源を効果的に利用するため、[セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) インスタンスにも同じ恩恵を提供します。これは、別々のプロジェクトチームが別々の顧客向けの AI ワークフローを管理する企業にも適用されます。
+チームレベルのストレージバケットは、特に異なる事業部門や部門がインスタンスを共有してインフラストラクチャーや管理資源を効果的に利用するため、[セルフマネージド](/ja/platform/hosting/hosting-options/Self-Managed) インスタンスにも同じ恩恵を提供します。これは、別々のプロジェクトチームが別々の顧客向けの AI ワークフローを管理する企業にも適用されます。
 </Note>
 
 ## 利用可能性マトリックス
@@ -57,7 +57,7 @@ BYOB 機能を使用すると、データの一部は W&B の中央データベ�
 
 ## チームレベル BYOB のためのクロスクラウドまたは S3 互換ストレージ
 
-[専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) インスタンスにおいて、別のクラウドのクラウドネイティブのストレージバケットまたは [MinIO](https://github.com/minio/minio) のような S3 互換のストレージバケットに接続して、チームレベル BYOB を利用することができます。
+[専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/Self-Managed) インスタンスにおいて、別のクラウドのクラウドネイティブのストレージバケットまたは [MinIO](https://github.com/minio/minio) のような S3 互換のストレージバケットに接続して、チームレベル BYOB を利用することができます。
 
 クロスクラウドまたは S3 互換のストレージの利用を有効にするには、次のフォーマットのいずれかを使用してストレージバケットを指定し、W&B インスタンス用の`GORILLA_SUPPORTED_FILE_STORES` 環境変数を設定します。
 
@@ -226,7 +226,7 @@ W&B は、ストレージバケットをプロビジョニングするために 
         * [SaaS クラウド](/ja/platform/hosting/hosting-options/multi_tenant_cloud): `arn:aws:iam::725579432336:role/WandbIntegration`
         * [専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud): `arn:aws:iam::830241207209:root`
   
-  詳細については、[AWS セルフマネージドホスティングガイド](/ja/platform/hosting/self-managed/aws-tf/)をご覧ください。
+  詳細については、[AWS セルフマネージドホスティングガイド](/ja/platform/hosting/Self-Managed/aws-tf/)をご覧ください。
 </Tab>
 <Tab title="GCP">
 1. GCS バケットのプロビジョニング
@@ -309,7 +309,7 @@ W&B は、ストレージバケットをプロビジョニングするために 
 <Tabs>
 <Tab title="チームレベル">
 <Note>
-別のクラウドのクラウドネイティブのストレージバケットに接続している場合、または[専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) インスタンスでチームレベル BYOB のために [MinIO](https://github.com/minio/minio) のような S3 互換のストレージバケットに接続している場合、[チームレベル BYOB のためのクロスクラウドまたは S3 互換ストレージ](#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を参照してください。そのような場合、W&B インスタンス用の `GORILLA_SUPPORTED_FILE_STORES` 環境変数を使用してストレージバケットを指定し、それをチーム用に設定する前に以下の手順に従ってください。
+別のクラウドのクラウドネイティブのストレージバケットに接続している場合、または[専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/Self-Managed) インスタンスでチームレベル BYOB のために [MinIO](https://github.com/minio/minio) のような S3 互換のストレージバケットに接続している場合、[チームレベル BYOB のためのクロスクラウドまたは S3 互換ストレージ](#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を参照してください。そのような場合、W&B インスタンス用の `GORILLA_SUPPORTED_FILE_STORES` 環境変数を使用してストレージバケットを指定し、それをチーム用に設定する前に以下の手順に従ってください。
 </Note>
 
 <Note>
@@ -325,7 +325,7 @@ W&B チーム作成時にチームレベルでストレージバケットを設�
     複数の W&B チームが同じクラウドストレージバケットを使用できます。これを有効にするには、ドロップダウンから既存のクラウドストレージバケットを選択してください。
 
 4. **クラウドプロバイダー** ドロップダウンからクラウドプロバイダーを選択します。
-5. **名前** フィールドにストレージバケットの名前を入力します。Azure で [専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) インスタンスを持っている場合は、**アカウント名** および **コンテナ名** の値を入力してください。
+5. **名前** フィールドにストレージバケットの名前を入力します。Azure で [専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/Self-Managed) インスタンスを持っている場合は、**アカウント名** および **コンテナ名** の値を入力してください。
 6. (オプション) バケットのサブパスをオプションの **パス** フィールドに入力します。そうすることで、W&B がバケットのルートにあるフォルダにファイルを保存しないようにすることができます。
 7. (AWS バケットを使用する場合はオプション) **KMSキーARN** フィールドに暗号化キーの ARN を入力します。
 8. (Azure バケットを使用する場合はオプション) **テナントID** および **マネージド アイデンティティ クライアント ID** の値を入力します。

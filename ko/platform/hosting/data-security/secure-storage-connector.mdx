@@ -39,7 +39,7 @@ BYOB 기능을 사용할 때 특정 유형의 데이터는 W&B 중앙 데이터�
 예를 들어 조직에 Kappa라는 팀이 있다고 가정합니다. 조직(및 Team Kappa)은 기본적으로 인스턴스 수준 스토리지 버킷을 사용합니다. 다음으로 Omega라는 팀을 만듭니다. Team Omega를 만들 때 해당 팀에 대한 팀 수준 스토리지 버킷을 구성합니다. Team Omega에서 생성된 파일은 Team Kappa에서 엑세스할 수 없습니다. 그러나 Team Kappa에서 만든 파일은 Team Omega에서 엑세스할 수 있습니다. Team Kappa에 대한 데이터를 격리하려면 해당 팀에 대한 팀 수준 스토리지 버킷도 구성해야 합니다.
 
 <Note>
-팀 수준 스토리지 버킷은 특히 다양한 사업부 및 부서가 인프라 및 관리 리소스를 효율적으로 활용하기 위해 인스턴스를 공유할 때 [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에 대해 동일한 이점을 제공합니다. 이는 별도의 고객 참여에 대한 AI 워크플로우를 관리하는 별도의 프로젝트 팀이 있는 회사에도 적용됩니다.
+팀 수준 스토리지 버킷은 특히 다양한 사업부 및 부서가 인프라 및 관리 리소스를 효율적으로 활용하기 위해 인스턴스를 공유할 때 [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에 대해 동일한 이점을 제공합니다. 이는 별도의 고객 참여에 대한 AI 워크플로우를 관리하는 별도의 프로젝트 팀이 있는 회사에도 적용됩니다.
 </Note>
 
 ## 가용성 매트릭스
@@ -57,7 +57,7 @@ BYOB 기능을 사용할 때 특정 유형의 데이터는 W&B 중앙 데이터�
 
 ## 팀 수준 BYOB를 위한 크로스 클라우드 또는 S3 호환 스토리지
 
-[전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 팀 수준 BYOB에 대해 다른 클라우드의 클라우드 네이티브 스토리지 버킷 또는 [MinIO](https://github.com/minio/minio)와 같은 S3 호환 스토리지 버킷에 연결할 수 있습니다.
+[전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 팀 수준 BYOB에 대해 다른 클라우드의 클라우드 네이티브 스토리지 버킷 또는 [MinIO](https://github.com/minio/minio)와 같은 S3 호환 스토리지 버킷에 연결할 수 있습니다.
 
 크로스 클라우드 또는 S3 호환 스토리지 사용을 활성화하려면 W&B 인스턴스에 대한 `GORILLA_SUPPORTED_FILE_STORES` 환경 변수를 사용하여 다음 형식 중 하나로 관련 엑세스 키를 포함하는 스토리지 버킷을 지정합니다.
 
@@ -94,7 +94,7 @@ gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
 </details>
 
 <Note>
-팀 수준 BYOB에 대한 S3 호환 스토리지 연결은 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 사용할 수 없습니다. 또한 팀 수준 BYOB에 대한 AWS 버킷 연결은 해당 인스턴스가 GCP에 있으므로 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 크로스 클라우드입니다. 해당 크로스 클라우드 연결은 이전에 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 및 [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에 대해 설명한 대로 엑세스 키 및 환경 변수 기반 메커니즘을 사용하지 않습니다.
+팀 수준 BYOB에 대한 S3 호환 스토리지 연결은 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 사용할 수 없습니다. 또한 팀 수준 BYOB에 대한 AWS 버킷 연결은 해당 인스턴스가 GCP에 있으므로 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 크로스 클라우드입니다. 해당 크로스 클라우드 연결은 이전에 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 및 [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에 대해 설명한 대로 엑세스 키 및 환경 변수 기반 메커니즘을 사용하지 않습니다.
 </Note>
 
 자세한 내용은 support@wandb.com으로 W&B 지원팀에 문의하십시오.
@@ -225,7 +225,7 @@ W&B는 필요한 엑세스 메커니즘 및 관련 IAM 권한과 함께 스토�
         * [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud): `arn:aws:iam::725579432336:role/WandbIntegration`
         * [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud): `arn:aws:iam::830241207209:root`
   
-  자세한 내용은 [AWS 자체 관리 호스팅 가이드](/ko/platform/hosting/self-managed/aws-tf/)를 참조하십시오.
+  자세한 내용은 [AWS 자체 관리 호스팅 가이드](/ko/platform/hosting/Self-Managed/aws-tf/)를 참조하십시오.
 </Tab>
 <Tab title="GCP">
 1. GCS 버킷 프로비저닝
@@ -308,7 +308,7 @@ W&B는 필요한 엑세스 메커니즘 및 관련 IAM 권한과 함께 스토�
 <Tabs>
 <Tab title="팀 수준">
 <Note>
-[전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 팀 수준 BYOB에 대해 다른 클라우드의 클라우드 네이티브 스토리지 버킷 또는 [MinIO](https://github.com/minio/minio)와 같은 S3 호환 스토리지 버킷에 연결하는 경우 [팀 수준 BYOB에 대한 크로스 클라우드 또는 S3 호환 스토리지](#cross-cloud-or-s3-compatible-storage-for-team-level-byob)를 참조하십시오. 이러한 경우 아래 지침을 사용하여 팀에 대해 구성하기 전에 W&B 인스턴스에 대한 `GORILLA_SUPPORTED_FILE_STORES` 환경 변수를 사용하여 스토리지 버킷을 지정해야 합니다.
+[전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 팀 수준 BYOB에 대해 다른 클라우드의 클라우드 네이티브 스토리지 버킷 또는 [MinIO](https://github.com/minio/minio)와 같은 S3 호환 스토리지 버킷에 연결하는 경우 [팀 수준 BYOB에 대한 크로스 클라우드 또는 S3 호환 스토리지](#cross-cloud-or-s3-compatible-storage-for-team-level-byob)를 참조하십시오. 이러한 경우 아래 지침을 사용하여 팀에 대해 구성하기 전에 W&B 인스턴스에 대한 `GORILLA_SUPPORTED_FILE_STORES` 환경 변수를 사용하여 스토리지 버킷을 지정해야 합니다.
 </Note>
 
 <Note>
@@ -324,7 +324,7 @@ W&B Team을 만들 때 팀 수준에서 스토리지 버킷을 구성하려면:
     여러 W&B Teams가 동일한 클라우드 스토리지 버킷을 사용할 수 있습니다. 이를 활성화하려면 드롭다운에서 기존 클라우드 스토리지 버킷을 선택합니다.
 
 4. **클라우드 공급자** 드롭다운에서 클라우드 공급자를 선택합니다.
-5. **이름** 필드에 스토리지 버킷 이름을 입력합니다. [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 Azure의 [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 인스턴스가 있는 경우 **계정 이름** 및 **컨테이너 이름** 필드에 값을 입력합니다.
+5. **이름** 필드에 스토리지 버킷 이름을 입력합니다. [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 Azure의 [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스가 있는 경우 **계정 이름** 및 **컨테이너 이름** 필드에 값을 입력합니다.
 6. (선택 사항) 선택적 **경로** 필드에 버킷 하위 경로를 입력합니다. W&B가 버킷 루트의 폴더에 파일을 저장하지 않으려면 이 작업을 수행합니다.
 7. (AWS 버킷을 사용하는 경우 선택 사항) **KMS 키 ARN** 필드에 KMS 암호화 키의 ARN을 입력합니다.
 8. (Azure 버킷을 사용하는 경우 선택 사항) **테넌트 ID** 및 **관리 ID 클라이언트 ID** 필드에 값을 입력합니다.

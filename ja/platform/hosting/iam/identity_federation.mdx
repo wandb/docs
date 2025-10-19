@@ -45,7 +45,7 @@ JWTをW&Bアクセストークンと交換し、プロジェクトにアクセ�
 * JWT署名はW&B組織レベルでJWKSを使用して検証されます。これが最初の防御線であり、これが失敗した場合、あなたのJWKSやJWTの署名に問題があることを意味します。
 * JWT内の `iss` クレームは、組織レベルで設定されたイシュアURLと等しいものである必要があります。
 * JWT内の `sub` クレームは、W&B組織で設定されたユーザーのメールアドレスと等しいものである必要があります。
-* JWT内の `aud` クレームは、AIワークフローの一部としてアクセスしているプロジェクトを保有しているW&B組織の名前と同じである必要があります。[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/self-managed) インスタンスの場合、インスタンスレベルの環境変数 `SKIP_AUDIENCE_VALIDATION` を `true` に設定してオーディエンスクレームの検証をスキップするか、`wandb` をオーディエンスとして使用します。
+* JWT内の `aud` クレームは、AIワークフローの一部としてアクセスしているプロジェクトを保有しているW&B組織の名前と同じである必要があります。[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [セルフマネージド](/ja/platform/hosting/hosting-options/Self-Managed) インスタンスの場合、インスタンスレベルの環境変数 `SKIP_AUDIENCE_VALIDATION` を `true` に設定してオーディエンスクレームの検証をスキップするか、`wandb` をオーディエンスとして使用します。
 * JWT内の `exp` クレームは、トークンが有効で期限が切れていないか、リフレッシュが必要であるかを確認するためにチェックされます。
 
 ## 外部サービスアカウント

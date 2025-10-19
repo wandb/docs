@@ -11,7 +11,7 @@ SCIM(System for Cross-domain Identity Management) API를 통해 인스턴스 또
 SCIM API는 `<host-url>/scim/`에서 액세스할 수 있으며 [RC7643 프로토콜](https://www.rfc-editor.org/rfc/rfc7643)에서 찾을 수 있는 필드의 서브셋으로 `/Users` 및 `/Groups` 엔드포인트를 지원합니다. 또한 공식 SCIM 스키마의 일부가 아닌 `/Roles` 엔드포인트도 포함합니다. W&B는 W&B organization에서 사용자 지정 역할의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
 
 <Note>
-여러 Enterprise [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization의 관리자인 경우 SCIM API 요청이 전송되는 organization을 구성해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭합니다. 설정 이름은 **Default API organization**입니다. 이는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud), [Self-managed instances](/ko/platform/hosting/hosting-options/self-managed) 및 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 포함한 모든 호스팅 옵션에 필요합니다. SaaS Cloud에서 organization 관리자는 SCIM API 요청이 올바른 organization으로 이동하도록 사용자 설정에서 기본 organization을 구성해야 합니다.
+여러 Enterprise [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization의 관리자인 경우 SCIM API 요청이 전송되는 organization을 구성해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭합니다. 설정 이름은 **Default API organization**입니다. 이는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud), [Self-Managed instances](/ko/platform/hosting/hosting-options/Self-Managed) 및 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 포함한 모든 호스팅 옵션에 필요합니다. SaaS Cloud에서 organization 관리자는 SCIM API 요청이 올바른 organization으로 이동하도록 사용자 설정에서 기본 organization을 구성해야 합니다.
 
 선택한 호스팅 옵션은 이 페이지의 예제에서 사용되는 `<host-url>` 자리 표시자의 값을 결정합니다.
 
@@ -30,7 +30,7 @@ SCIM 사용자 리소스는 W&B Users에 매핑됩니다.
 
 -   **엔드포인트:** **`<host-url>/scim/Users/{id}`**
 -   **메서드**: GET
--   **설명**: 사용자 고유 ID를 제공하여 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 특정 사용자에 대한 정보를 검색합니다.
+-   **설명**: 사용자 고유 ID를 제공하여 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 특정 사용자에 대한 정보를 검색합니다.
 -   **요청 예시**:
 
 ```bash
@@ -71,7 +71,7 @@ GET /scim/Users/abc
 
 -   **엔드포인트:** **`<host-url>/scim/Users`**
 -   **메서드**: GET
--   **설명**: [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 모든 사용자 목록을 검색합니다.
+-   **설명**: [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 모든 사용자 목록을 검색합니다.
 -   **요청 예시**:
 
 ```bash
@@ -184,7 +184,7 @@ POST /scim/Users
 
 -   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
 -   **메서드**: DELETE
--   **설명**: 사용자 고유 ID를 제공하여 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 사용자를 완전히 삭제합니다. 필요한 경우 [사용자 생성](#create-user) API를 사용하여 사용자를 organization 또는 인스턴스에 다시 추가합니다.
+-   **설명**: 사용자 고유 ID를 제공하여 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 사용자를 완전히 삭제합니다. 필요한 경우 [사용자 생성](#create-user) API를 사용하여 사용자를 organization 또는 인스턴스에 다시 추가합니다.
 -   **요청 예시**:
 
 <Note>
@@ -205,7 +205,7 @@ DELETE /scim/Users/abc
 
 -   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
 -   **메서드**: PATCH
--   **설명**: 사용자 고유 ID를 제공하여 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 사용자를 일시적으로 비활성화합니다. 필요한 경우 [사용자 다시 활성화](#reactivate-user) API를 사용하여 사용자를 다시 활성화합니다.
+-   **설명**: 사용자 고유 ID를 제공하여 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 사용자를 일시적으로 비활성화합니다. 필요한 경우 [사용자 다시 활성화](#reactivate-user) API를 사용하여 사용자를 다시 활성화합니다.
 -   **지원되는 필드**:
 
 | 필드 | 유형 | 필수 |
@@ -270,7 +270,7 @@ PATCH /scim/Users/abc
 
 -   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
 -   **메서드**: PATCH
--   **설명**: 사용자 고유 ID를 제공하여 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 비활성화된 사용자를 다시 활성화합니다.
+-   **설명**: 사용자 고유 ID를 제공하여 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스에서 비활성화된 사용자를 다시 활성화합니다.
 -   **지원되는 필드**:
 
 | 필드 | 유형 | 필수 |

@@ -62,7 +62,7 @@ Organization 관리자가 사용자를 Organization에 추가할 수 있는 방�
 
 **Send invite** 버튼을 선택하면 W&B에서 타사 이메일 서버를 사용하여 사용자 이메일로 초대 링크를 보냅니다. 사용자는 초대를 수락하면 Organization에 액세스할 수 있습니다.
 </Tab>
-<Tab title="Dedicated or Self-managed">
+<Tab title="Dedicated or Self-Managed">
 1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 Organization 이름으로 바꿉니다.
 2. **Add user** 버튼을 선택합니다.
 3. 나타나는 모달에서 **Email** 필드에 새 사용자의 이메일을 입력합니다.
@@ -81,20 +81,20 @@ SSO를 구성하고 SSO 제공업체에서 허용하는 경우 일치하는 이�
 
 W&B는 사용자가 Single Sign-On (SSO)을 사용하여 인증할 것을 강력히 권장합니다. Organization에 대해 SSO를 활성화하려면 W&B Team에 문의하십시오.
 
-Dedicated Cloud 또는 Self-managed 인스턴스로 SSO를 설정하는 방법에 대한 자세한 내용은 [OIDC를 사용한 SSO](/ko/platform/hosting/iam/sso/) 또는 [LDAP를 사용한 SSO](/ko/platform/hosting/iam/ldap/)를 참조하십시오.
+Dedicated Cloud 또는 Self-Managed 인스턴스로 SSO를 설정하는 방법에 대한 자세한 내용은 [OIDC를 사용한 SSO](/ko/platform/hosting/iam/sso/) 또는 [LDAP를 사용한 SSO](/ko/platform/hosting/iam/ldap/)를 참조하십시오.
 </Note>
 
 W&B는 자동 프로비저닝 사용자에게 기본적으로 "Member" 역할을 할당합니다. 자동 프로비저닝 사용자의 역할은 언제든지 변경할 수 있습니다.
 
-SSO를 통한 자동 프로비저닝 사용자는 Dedicated Cloud 인스턴스 및 Self-managed 배포에서 기본적으로 켜져 있습니다. 자동 프로비저닝을 끌 수 있습니다. 자동 프로비저닝을 끄면 특정 사용자를 W&B Organization에 선택적으로 추가할 수 있습니다.
+SSO를 통한 자동 프로비저닝 사용자는 Dedicated Cloud 인스턴스 및 Self-Managed 배포에서 기본적으로 켜져 있습니다. 자동 프로비저닝을 끌 수 있습니다. 자동 프로비저닝을 끄면 특정 사용자를 W&B Organization에 선택적으로 추가할 수 있습니다.
 
 다음 탭에서는 배포 유형에 따라 SSO를 끄는 방법을 설명합니다.
 
 <Tabs>
-<Tab title="Dedicated cloud">
+<Tab title="Dedicated Cloud">
 Dedicated Cloud 인스턴스를 사용 중이고 SSO를 통한 자동 프로비저닝을 끄려면 W&B Team에 문의하십시오.
 </Tab>
-<Tab title="Self-managed">
+<Tab title="Self-Managed">
 W&B Console을 사용하여 SSO를 통한 자동 프로비저닝을 끕니다.
 
 1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 Organization 이름으로 바꿉니다.
@@ -110,7 +110,7 @@ SSO를 통한 자동 프로비저닝은 Organization 관리자가 개별 사용�
 ### 사용자 지정 역할 만들기
 
 <Note>
-Dedicated Cloud 또는 Self-managed 배포에서 사용자 지정 역할을 만들거나 할당하려면 Enterprise 라이선스가 필요합니다.
+Dedicated Cloud 또는 Self-Managed 배포에서 사용자 지정 역할을 만들거나 할당하려면 Enterprise 라이선스가 필요합니다.
 </Note>
 
 Organization 관리자는 View-Only 또는 Member 역할을 기반으로 새 역할을 구성하고 세분화된 엑세스 제어를 위해 추가 권한을 추가할 수 있습니다. Team 관리자는 Team member에게 사용자 지정 역할을 할당할 수 있습니다. 사용자 지정 역할은 Organization 수준에서 생성되지만 Team 수준에서 할당됩니다.
@@ -129,7 +129,7 @@ Organization 관리자는 View-Only 또는 Member 역할을 기반으로 새 역
 1. 역할에 있는 권한을 요약하는 **Custom role permissions** 섹션을 검토합니다.
 1. **Create Role**을 클릭합니다.
 </Tab>
-<Tab title="Dedicated or Self-managed">
+<Tab title="Dedicated or Self-Managed">
 W&B Console을 사용하여 SSO를 통한 자동 프로비저닝을 끕니다.
 
 1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 Organization 이름으로 바꿉니다.
@@ -181,8 +181,8 @@ W&B Console을 사용하여 SSO를 통한 자동 프로비저닝을 끕니다.
 2. Team 대시보드의 왼쪽 탐색 모음에서 **Team settings**를 선택합니다.
 3. **Privacy** 섹션 내에서 "가입 시 일치하는 이메일 도메인을 가진 새 사용자가 이 Team에 가입하도록 추천" 옵션을 토글합니다.
 </Tab>
-<Tab title="Dedicated or Self-managed">
-도메인 캡처를 구성하려면 Dedicated 또는 Self-managed 배포 유형을 사용하는 경우 W&B Account Team에 문의하십시오. 구성되면 W&B SaaS 인스턴스는 회사 이메일 주소로 W&B 계정을 만드는 사용자에게 관리자에게 연락하여 Dedicated 또는 Self-managed 인스턴스에 대한 엑세스를 요청하라는 메시지를 자동으로 표시합니다.
+<Tab title="Dedicated or Self-Managed">
+도메인 캡처를 구성하려면 Dedicated 또는 Self-Managed 배포 유형을 사용하는 경우 W&B Account Team에 문의하십시오. 구성되면 W&B SaaS 인스턴스는 회사 이메일 주소로 W&B 계정을 만드는 사용자에게 관리자에게 연락하여 Dedicated 또는 Self-Managed 인스턴스에 대한 엑세스를 요청하라는 메시지를 자동으로 표시합니다.
 
 | | 도메인 캡처 사용 | 도메인 캡처 사용 안 함 |
 | ----- | ----- | -----|
@@ -225,7 +225,7 @@ Organization 내의 사용자는 다음 Models Seat 또는 Weave 엑세스 유�
 
 Model Seat 유형 및 Weave 엑세스 유형은 Organization 수준에서 정의되며 Team에서 상속됩니다. 사용자의 Seat 유형을 변경하려면 Organization 설정으로 이동하여 다음 단계를 따르십시오.
 
-1. SaaS 사용자의 경우 `https://wandb.ai/account-settings/<organization>/settings`에서 Organization 설정으로 이동합니다. 꺾쇠 괄호 (`<>`)로 묶인 값을 Organization 이름으로 바꿔야 합니다. 다른 Dedicated 및 Self-managed 배포의 경우 `https://<your-instance>.wandb.io/org/dashboard`로 이동합니다.
+1. SaaS 사용자의 경우 `https://wandb.ai/account-settings/<organization>/settings`에서 Organization 설정으로 이동합니다. 꺾쇠 괄호 (`<>`)로 묶인 값을 Organization 이름으로 바꿔야 합니다. 다른 Dedicated 및 Self-Managed 배포의 경우 `https://<your-instance>.wandb.io/org/dashboard`로 이동합니다.
 2. **Users** 탭을 선택합니다.
 3. **Role** 드롭다운에서 사용자에게 할당할 Seat 유형을 선택합니다.
 
@@ -313,7 +313,7 @@ Organization 관리자는 도메인 클레임을 활성화해야 합니다. 도�
 | 사용자 지정 역할 (Enterprise 전용 기능) | 사용자 지정 역할을 통해 Organization 관리자는 이전 View-Only 또는 Member 역할에서 상속하고 세분화된 엑세스 제어를 위해 추가 권한을 추가하여 새 역할을 구성할 수 있습니다. 그런 다음 Team 관리자는 해당 사용자 지정 역할을 각 Teams의 사용자에게 할당할 수 있습니다. 자세한 내용은 [이 문서](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3)를 참조하십시오. |
 
 <Note>
-Dedicated Cloud 또는 Self-managed 배포의 Enterprise 라이선스만 Team 구성원에게 사용자 지정 역할을 할당할 수 있습니다.
+Dedicated Cloud 또는 Self-Managed 배포의 Enterprise 라이선스만 Team 구성원에게 사용자 지정 역할을 할당할 수 있습니다.
 </Note>
 
 ### Team에서 사용자 제거

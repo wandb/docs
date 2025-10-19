@@ -33,7 +33,7 @@ There are two scopes you can configure your storage bucket to:
 
 | Scope          | Description |
 |----------------|-------------|
-| Instance level | In [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) and [Self-Managed](/platform/hosting/hosting-options/self-managed), any user with the required permissions within your organization or instance can access files stored in your instance's storage bucket. Not applicable to [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). |
+| Instance level | In [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) and [Self-Managed](/platform/hosting/hosting-options/Self-Managed), any user with the required permissions within your organization or instance can access files stored in your instance's storage bucket. Not applicable to [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). |
 | Team level     | If a W&B Team is configured to use a Team level storage bucket, team members can access files stored in it. Team level storage buckets allow greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.<br/><br/>Team level storage can help different business units or departments sharing an instance to efficiently use the infrastructure and administrative resources. It can also allow separate project teams to manage AI workflows for separate customer engagements. Available for all deployment types. You configure team level BYOB when setting up the team. |
 
 This flexible design allows for many different storage topologies, depending on your organization's needs. For example:
@@ -294,7 +294,7 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
         * For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud): `arn:aws:iam::725579432336:role/WandbIntegration`
         * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud): `arn:aws:iam::830241207209:root`
   
-For more details, see the [AWS self-managed hosting guide](/platform/hosting/hosting-options/).
+For more details, see the [AWS Self-Managed hosting guide](/platform/hosting/hosting-options/).
 </Tab>
 <Tab title="GCP">
 For details, see [Create a bucket](https://cloud.google.com/storage/docs/creating-buckets) in the GCP documentation.

@@ -4,22 +4,22 @@ description: "Deploy and manage Weave on your own infrastructure"
 ---
 
 <Warning>
-Weave on self-managed infrastructure is currently in Private Preview.  
+Weave on Self-Managed infrastructure is currently in Private Preview.  
 
 For production environments, W&B strongly recommends using [W&B Dedicated Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated_cloud), where Weave is Generally Available.  
 
-To deploy a production-grade, self-managed instance, contact `support@wandb.com`.  
+To deploy a production-grade, Self-Managed instance, contact `support@wandb.com`.  
 </Warning>
 
-This guide explains how to deploy all the components required to run W&B Weave in a self-managed environment.
+This guide explains how to deploy all the components required to run W&B Weave in a Self-Managed environment.
 
-A key component of a self-managed Weave deployment is [ClickHouseDB](https://clickhouse.com/), which the Weave application backend relies on.
+A key component of a Self-Managed Weave deployment is [ClickHouseDB](https://clickhouse.com/), which the Weave application backend relies on.
 
 Although the deployment process sets up a fully functional ClickHouseDB instance, you may need to take additional steps to ensure reliability and high availability for a production-ready environment.
 
 ## Requirements
 
-- W&B Platform installed. For more information, see the [Self-Managed Deployment Guide](https://docs.wandb.ai/platform/hosting/hosting-options/self-managed/).
+- W&B Platform installed. For more information, see the [Self-Managed Deployment Guide](https://docs.wandb.ai/platform/hosting/hosting-options/Self-Managed/).
 - [Bitnami's ClickHouse Helm Chart](https://github.com/bitnami/charts/tree/main/bitnami/clickhouse).
 - An S3 bucket pre-configured for ClickHouse storage. For configuration details, see [Provide S3 Credentials](#provide-s3-credentials).
 - Kubernetes Cluster Nodes with the following specifications:
@@ -29,7 +29,7 @@ Although the deployment process sets up a fully functional ClickHouseDB instance
 - A Weave-enabled license from W&B. To request a license, please contact `support@wandb.com`.
 
 <Tip>
-For a detailed reference architecture, see [https://docs.wandb.ai/platform/hosting/self-managed/ref-arch/](https://docs.wandb.ai/platform/hosting/self-managed/ref-arch/#models-and-weave).
+For a detailed reference architecture, see [https://docs.wandb.ai/platform/hosting/Self-Managed/ref-arch/](https://docs.wandb.ai/platform/hosting/Self-Managed/ref-arch/#models-and-weave).
 </Tip>
 
 ## 1. Configure ClickHouse
@@ -473,5 +473,5 @@ This has the same effect of `replicated: true` which in preview.
 Once the deployment is running, accessing the W&B endpoint configured in the `host` option should display the Weave licensing status as enabled.
 
 <Frame>
-![Weave](/media/weave-self-managed/weave-org-dashboard.png)
+![Weave](/media/weave-Self-Managed/weave-org-dashboard.png)
 </Frame>

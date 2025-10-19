@@ -11,7 +11,7 @@ title: ユーザー、グループ、およびロールを SCIM で管理する
 SCIM API は `<host-url>/scim/` でアクセス可能であり、[RC7643 プロトコル](https://www.rfc-editor.org/rfc/rfc7643)に見られるフィールドのサブセットを持つ `/Users` と `/Groups` エンドポイントをサポートしています。さらに、公式の SCIM スキーマの一部ではない `/Roles` エンドポイントを含んでいます。W&B は `/Roles` エンドポイントを追加して、W&B 組織でのカスタムロールの自動管理をサポートしています。
 
 <Note>
-複数の Enterprise [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud)、[Self-managed instances](/ja/platform/hosting/hosting-options/self-managed)、および [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
+複数の Enterprise [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合、SCIM API リクエストが送信される組織を設定する必要があります。プロファイル画像をクリックし、**User Settings** をクリックします。設定名は **Default API organization** です。これは、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud)、[Self-Managed instances](/ja/platform/hosting/hosting-options/Self-Managed)、および [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) を含むすべてのホスティングオプションで必要です。SaaS Cloud では、組織の管理者は SCIM API リクエストが正しい組織に行くように、ユーザー設定でデフォルトの組織を設定する必要があります。
 
 選択したホスティングオプションに応じて、このページの例で使用される `<host-url>` プレースホルダーの値が決まります。
 
@@ -30,7 +30,7 @@ SCIM ユーザーリソースは W&B のユーザーにマップされます。
 
 - **エンドポイント:** **`<host-url>/scim/Users/{id}`**
 - **メソッド**: GET
-- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内の特定のユーザーの情報を取得します。
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/Self-Managed) インスタンス内の特定のユーザーの情報を取得します。
 - **リクエスト例**:
 
 ```bash
@@ -71,7 +71,7 @@ GET /scim/Users/abc
 
 - **エンドポイント:** **`<host-url>/scim/Users`**
 - **メソッド**: GET
-- **説明**: [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内のすべてのユーザーのリストを取得します。
+- **説明**: [SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/Self-Managed) インスタンス内のすべてのユーザーのリストを取得します。
 - **リクエスト例**:
 
 ```bash
@@ -183,7 +183,7 @@ POST /scim/Users
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: DELETE
-- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンスから完全にユーザーを削除します。必要に応じて [Create user](#create-user) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
+- **説明**: ユーザーの一意の ID を提供することにより、[SaaS Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/Self-Managed) インスタンスから完全にユーザーを削除します。必要に応じて [Create user](#create-user) API を使用して組織またはインスタンスに再度ユーザーを追加してください。
 - **リクエスト例**:
 
 <Note>
@@ -204,7 +204,7 @@ DELETE /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内で一時的にユーザーを無効化します。必要に応じて [Reactivate user](#reactivate-user) API を使用してユーザーを再有効化します。
+- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/Self-Managed) インスタンス内で一時的にユーザーを無効化します。必要に応じて [Reactivate user](#reactivate-user) API を使用してユーザーを再有効化します。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |
@@ -269,7 +269,7 @@ PATCH /scim/Users/abc
 
 - **エンドポイント**: **`<host-url>/scim/Users/{id}`**
 - **メソッド**: PATCH
-- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-managed](/ja/platform/hosting/hosting-options/self-managed) インスタンス内で無効化されたユーザーを再有効化します。
+- **説明**: ユーザーの一意の ID を提供することにより、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/Self-Managed) インスタンス内で無効化されたユーザーを再有効化します。
 - **サポートされているフィールド**:
 
 | フィールド | 型 | 必要 |
