@@ -1,8 +1,6 @@
 ---
 title: Log objects and media
 description: 메트릭, 비디오, 사용자 정의 플롯 등을 추적하세요.
-cascade:
-- slug: /ko/guides/track/log/:filename
 ---
 
 W&B Python SDK를 사용하여 메트릭, 미디어 또는 사용자 정의 오브젝트의 사전을 단계별로 기록합니다. W&B는 각 단계에서 키-값 쌍을 수집하고 `wandb.log()`로 데이터를 기록할 때마다 하나의 통합된 사전에 저장합니다. 스크립트에서 기록된 데이터는 `wandb`라는 디렉토리에 로컬로 저장된 다음 W&B 클라우드 또는 [개인 서버](/ko/platform/hosting/)로 동기화됩니다.
