@@ -88,7 +88,7 @@ For a networked deployment, egress to these endpoints is required during _both_ 
 * https://quay.io
 * `https://gcr.io`
 
-To learn about air-gapped deployments, refer to [Kubernetes operator for air-gapped instances](/platform/hosting/Self-Managed/operator-airgapped/).
+To learn about air-gapped deployments, refer to [Kubernetes operator for air-gapped instances](/platform/hosting/self-managed/operator-airgapped/).
 Access to W&B and to the object storage is required for the training infrastructure and for each system that tracks the needs of experiments.
 
 ### DNS
@@ -103,7 +103,7 @@ Please note: W&B does not recommend the use self-signed certificates and custom 
 W&B runs on the Intel (x86) CPU architecture. ARM is not supported.
 
 ## Infrastructure provisioning
-Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within Self-Managed cloud accounts](/platform/hosting/hosting-options/Self-Managed#deploy-wb-server-within-Self-Managed-cloud-accounts).
+Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within Self-Managed cloud accounts](/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts).
 
 ## Sizing
 Use the following general guidelines as a starting point when planning a deployment. W&B recommends that you monitor all components of a new deployment closely and that you make adjustments based on observed usage patterns. Continue to monitor production deployments over time and make adjustments as needed to maintain optimal performance.

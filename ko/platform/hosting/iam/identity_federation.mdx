@@ -45,7 +45,7 @@ JWT를 W&B 엑세스 토큰으로 교환한 다음 프로젝트에 엑세스하�
 * JWT 서명은 W&B 조직 수준에서 JWKS를 사용하여 확인됩니다. 이것이 첫 번째 방어선이며, 실패하면 JWKS 또는 JWT 서명 방식에 문제가 있음을 의미합니다.
 * JWT의 `iss` 클레임은 조직 수준에서 구성된 발급자 URL과 같아야 합니다.
 * JWT의 `sub` 클레임은 W&B 조직에 구성된 사용자의 이메일 주소와 같아야 합니다.
-* JWT의 `aud` 클레임은 AI 워크플로우의 일부로 엑세스하는 프로젝트를 수용하는 W&B 조직의 이름과 같아야 합니다. [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리](/ko/platform/hosting/hosting-options/Self-Managed) 인스턴스의 경우 인스턴스 수준 환경 변수 `SKIP_AUDIENCE_VALIDATION`을 `true`로 구성하여 대상 클레임의 유효성 검사를 건너뛰거나 `wandb`를 대상으로 사용할 수 있습니다.
+* JWT의 `aud` 클레임은 AI 워크플로우의 일부로 엑세스하는 프로젝트를 수용하는 W&B 조직의 이름과 같아야 합니다. [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 인스턴스의 경우 인스턴스 수준 환경 변수 `SKIP_AUDIENCE_VALIDATION`을 `true`로 구성하여 대상 클레임의 유효성 검사를 건너뛰거나 `wandb`를 대상으로 사용할 수 있습니다.
 * JWT의 `exp` 클레임은 토큰이 유효한지 또는 만료되었는지 확인하기 위해 검사되며 갱신해야 합니다.
 
 ## 외부 서비스 계정
