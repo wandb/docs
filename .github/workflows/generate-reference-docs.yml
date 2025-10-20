@@ -1,10 +1,10 @@
-name: Generate Weave Reference Documentation
+name: Generate Weave references
 
 on:
   workflow_dispatch:
     inputs:
       weave_version:
-        description: 'Weave version (e.g., "latest", "0.51.34", "v0.51.34", commit SHA, or branch name)'
+        description: 'A Weave version from PyPI (without -dev0 suffix) or "latest"'
         required: false
         default: 'latest'
         type: string
@@ -59,6 +59,7 @@ jobs:
         python scripts/reference-generation/generate_service_api_spec.py
         
     - name: Generate Python SDK Documentation
+      id: python-sdk
       run: |
         echo "Generating Python SDK documentation..."
         VERSION="${{ steps.version.outputs.version }}"
@@ -68,7 +69,19 @@ jobs:
         python -m venv venv_python
         source venv_python/bin/activate
         pip install requests lazydocs
-        python scripts/reference-generation/generate_python_sdk_docs.py "${VERSION:-latest}"
+        
+        # Run the script and capture output for version extraction
+        OUTPUT=$(python scripts/reference-generation/generate_python_sdk_docs.py "${VERSION:-latest}")
+        echo "$OUTPUT"
+        
+        # Extract actual version if it was resolved
+        ACTUAL_VERSION=$(echo "$OUTPUT" | grep "^ACTUAL_VERSION=" | cut -d= -f2)
+        if [ -n "$ACTUAL_VERSION" ]; then
+          echo "actual_version=${ACTUAL_VERSION}" >> $GITHUB_OUTPUT
+        else
+          echo "actual_version=${VERSION:-latest}" >> $GITHUB_OUTPUT
+        fi
+        
         deactivate
         rm -rf venv_python
         
@@ -90,6 +103,11 @@ jobs:
         echo "Fixing file casing for SDK documentation..."
         python scripts/reference-generation/fix_casing.py
         
+    - name: Update TOC
+      run: |
+        echo "Updating docs.json TOC with new Python SDK modules..."
+        python scripts/reference-generation/update_weave_toc.py
+        
     - name: Fix broken links
       run: |
         echo "Fixing broken links in documentation..."
@@ -100,25 +118,23 @@ jobs:
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "chore: Update reference documentation (Weave ${{ steps.version.outputs.version }})"
-        title: "Update Weave reference documentation (Weave ${{ steps.version.outputs.version }})"
+        commit-message: "chore: Update reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
+        title: "Update Weave reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         draft: true
         body: |
           This PR updates the reference documentation for Weave.
           
-          **Version**: ${{ steps.version.outputs.version }}
+          **Version**: ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }}
           **Generated on**: ${{ steps.version.outputs.timestamp }}
+          **Source code**: [wandb/weave@${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }}](https://github.com/wandb/weave/tree/${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})
           
           ### Changes
           - Updated Service API documentation from OpenAPI spec
-          - Regenerated Python SDK documentation using lazydocs
+          - Regenerated Python SDK documentation using lazydocs (dynamically discovers all public modules)
           - Regenerated TypeScript SDK documentation using typedoc
+          - Updated docs.json navigation with any new or removed modules
+          - Fixed file casing for consistency
           - Fixed internal cross-reference links
-          
-          ### Notes
-          - Documentation generation runs in isolated environments
-          - All dependencies are development-only and not included in the repository
-          - Please review the changes before merging
         branch: update-reference-docs-${{ github.run_number }}
         delete-branch: true
         labels: |
