@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       weave_version:
-        description: '[Weave version](https://pypi.org/project/weave/#history) or "latest"'
+        description: 'A Weave version from PyPI (without -dev0 suffix) or "latest"'
         required: false
         default: 'latest'
         type: string
