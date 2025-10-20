@@ -15,13 +15,13 @@ To authenticate your machine with W&B, you must first generate an API key at htt
 
 ### Install and import packages
 
-Install the W&B library.
+Install the W&B library and log in:
 
-```
-pip install wandb
-```
+{{< code language="shell" source="/bluehawk/snippets/wandb_install.snippet.pip_install_wandb.sh" >}}
 
 ### Import W&B Python SDK:
+
+Import the `wandb` package in your Python script or Jupyter Notebook. The following example demonstrates how to import the package, initialize a W&B run (`wandb.init()`), and log metrics (`wandb.Run.log()`):
 
 ```python
 import wandb
