@@ -343,7 +343,6 @@
                       {
                         "group": "Manage data",
                         "pages": [
-                          "models/artifacts/manage-data",
                           "models/artifacts/delete-artifacts",
                           "models/artifacts/ttl",
                           "models/artifacts/storage"
@@ -467,7 +466,6 @@
               {
                 "group": "Integrations",
                 "pages": [
-                  "models/integrations",
                   "models/integrations/add-wandb-to-any-library",
                   {
                     "group": "ML Frameworks",
