@@ -14,6 +14,18 @@ Download and use an artifact that is already stored on the W&B server or constru
 Team members with view-only seats cannot download artifacts.
 {{% /alert %}}
 
+{{% alert color="warning" %}}
+Artifacts created with reference URIs using `checksum=False` cannot be downloaded. To ensure your artifacts can be downloaded, use `checksum=True` (the default) when adding references:
+
+```python
+# This artifact can be downloaded
+artifact.add_reference("s3://my-bucket/model.h5", checksum=True)
+
+# This artifact cannot be downloaded
+artifact.add_reference("s3://my-bucket/model.h5", checksum=False)
+```
+{{% /alert %}}
+
 
 ### Download and use an artifact stored on W&B
 
