@@ -820,13 +820,13 @@
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/costs",
                           "weave/guides/core-types/media",
-                          "weave/guides/tools/playground",
                           "weave/guides/tools/saved-views",
                           "weave/guides/tools/comparison",
                           "weave/guides/tracking/trace-tree",
                           "weave/guides/tracking/threads",
                           "weave/guides/tracking/trace-plots",
-                          "weave/guides/tracking/otel"
+                          "weave/guides/tracking/otel",
+                          "weave/guides/tools/weave-in-workspaces"
                         ]
                       },
                       {
@@ -874,8 +874,8 @@
                       {
                         "group": "Tools & Utilities",
                         "pages": [
-                          "weave/guides/tools/evaluation_playground",
-                          "weave/guides/tools/weave-in-workspaces"
+                          "weave/guides/tools/playground",
+                          "weave/guides/tools/evaluation_playground"
                         ]
                       }
                     ]
