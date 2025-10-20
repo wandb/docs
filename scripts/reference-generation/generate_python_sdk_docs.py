@@ -244,6 +244,14 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
     # Clean up excessive whitespace (multiple blank lines)
     content = re.sub(r'\n{3,}', '\n\n', content)
     
+    # Fix broken URLs where lazydocs splits them incorrectly
+    # Pattern: [link text](https`</b>: //domain...)
+    content = re.sub(r'\]\(https`</b>:\s*//', '](https://', content)
+    # Also fix any other protocol splits
+    content = re.sub(r'\]\(http`</b>:\s*//', '](http://', content)
+    # Fix broken bold tags around URLs
+    content = re.sub(r'<b>`([^`]+)\]\(([^)]+)`</b>', r'**\1](\2**', content)
+    
     # Convert to Mintlify format
     content = convert_docusaurus_to_mintlify(content, module_name)
     
