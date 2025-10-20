@@ -589,8 +589,9 @@
                 "pages": [
                   "models/ref",
                   {
-                    "group": "Python SDK 0.22.0",
+                    "group": "Python",
                     "pages": [
+                      "models/ref/python",
                       {
                         "group": "Global Functions",
                         "pages": [
@@ -696,8 +697,9 @@
                     ]
                   },
                   {
-                    "group": "Command Line Interface",
+                    "group": "Command Line Interface (CLI)",
                     "pages": [
+                      "models/ref/cli",
                       "models/ref/cli/wandb-agent",
                       {
                         "group": "wandb artifact",
@@ -758,6 +760,7 @@
                   {
                     "group": "Query Expression Language",
                     "pages": [
+                      "models/ref/query-panel",
                       "models/ref/query-panel/artifact",
                       "models/ref/query-panel/artifact-type",
                       "models/ref/query-panel/artifact-version",
