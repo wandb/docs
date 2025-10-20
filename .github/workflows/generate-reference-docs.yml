@@ -71,7 +71,15 @@ jobs:
         pip install requests lazydocs
         
         # Capture output to get actual version
-        OUTPUT=$(python scripts/reference-generation/generate_python_sdk_docs.py "${VERSION:-latest}" | tee /dev/tty)
+        # Use tee to show output while capturing it (handle CI environment without TTY)
+        if [ -t 1 ]; then
+          # TTY is available (local environment)
+          OUTPUT=$(python scripts/reference-generation/generate_python_sdk_docs.py "${VERSION:-latest}" | tee /dev/tty)
+        else
+          # No TTY (CI environment) - just capture and echo
+          OUTPUT=$(python scripts/reference-generation/generate_python_sdk_docs.py "${VERSION:-latest}")
+          echo "$OUTPUT"
+        fi
         
         # Extract actual version if it was resolved
         ACTUAL_VERSION=$(echo "$OUTPUT" | grep "^ACTUAL_VERSION=" | cut -d= -f2)
