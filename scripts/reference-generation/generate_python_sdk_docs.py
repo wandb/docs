@@ -196,10 +196,15 @@ description: "Python SDK reference for {module_name}"
     return content
 
 
-def generate_module_docs(module, module_name: str, src_root_path: str) -> str:
+def generate_module_docs(module, module_name: str, src_root_path: str, version: str = "master") -> str:
     """Generate documentation for a single module."""
+    # Use the specific version tag for source links
+    src_url = f"https://github.com/wandb/weave/blob/{version}"
+    if version == "latest":
+        src_url = "https://github.com/wandb/weave/blob/master"
+    
     generator = lazydocs.MarkdownGenerator(
-        src_base_url="https://github.com/wandb/weave/blob/master",
+        src_base_url=src_url,
         src_root_path=src_root_path,
         remove_package_prefix=True,
     )
@@ -235,6 +240,9 @@ def generate_module_docs(module, module_name: str, src_root_path: str) -> str:
     
     # Fix code fence indentation
     content = fix_code_fence_indentation(content)
+    
+    # Clean up excessive whitespace (multiple blank lines)
+    content = re.sub(r'\n{3,}', '\n\n', content)
     
     # Convert to Mintlify format
     content = convert_docusaurus_to_mintlify(content, module_name)
@@ -352,12 +360,20 @@ def main():
     # Get modules to document
     modules = get_modules_to_document()
     
+    # Determine the version tag to use for source links
+    link_version = weave_version
+    if weave_version == "latest":
+        # Get the actual installed version for links
+        actual_version = get_installed_version()
+        if actual_version:
+            link_version = actual_version
+    
     for module, module_name in modules:
         print(f"  Generating docs for {module_name}...")
         
         try:
             # Generate documentation
-            content = generate_module_docs(module, module_name, str(module_root_path))
+            content = generate_module_docs(module, module_name, str(module_root_path), link_version)
             
             # Determine output path
             parts = module_name.split(".")
