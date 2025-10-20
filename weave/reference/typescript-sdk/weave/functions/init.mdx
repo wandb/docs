@@ -5,7 +5,7 @@ description: "TypeScript SDK reference"
 
 # init
 
-▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../classes/WeaveClient)\>
+▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](classes/WeaveClient)\>
 
 Initialize the Weave client, which is required for weave tracing to work.
 
@@ -13,12 +13,12 @@ Initialize the Weave client, which is required for weave tracing to work.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team |
+| `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
 | `settings?` | `Settings` | (Optional) Weave tracing settings |
 
 #### Returns
 
-`Promise`\<[`WeaveClient`](../classes/WeaveClient)\>
+`Promise`\<[`WeaveClient`](classes/WeaveClient)\>
 
 A promise that resolves to the initialized Weave client.
 
@@ -28,6 +28,6 @@ If the initialization fails
 
 #### Defined in
 
-[clientApi.ts:83](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/clientApi.ts#L83)
+[clientApi.ts:83](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/clientApi.ts#L83)
 
 ___

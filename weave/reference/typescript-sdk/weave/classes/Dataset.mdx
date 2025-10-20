@@ -1,5 +1,5 @@
 ---
-title: "Class: Dataset<R>"
+title: "Class: Dataset\<R\>"
 description: "TypeScript SDK reference"
 ---
 
@@ -11,7 +11,7 @@ Dataset object with easy saving and automatic versioning
 
 `Example`
 
-```typescript lines
+```ts
 // Create a dataset
 const dataset = new Dataset({
   id: 'grammar-dataset',
@@ -37,7 +37,7 @@ const ref = await dataset.save()
 
 ## Hierarchy
 
-- [`WeaveObject`](./WeaveObject)
+- [`WeaveObject`](WeaveObject)
 
   ↳ `Dataset`
 
@@ -45,32 +45,31 @@ const ref = await dataset.save()
 
 ### Constructors
 
-- [constructor](./Dataset#constructor)
+- [constructor](Dataset#constructor)
 
 ### Properties
 
-- [\_\_savedRef](./Dataset#__savedref)
-- [rows](./Dataset#rows)
+- [\_\_savedRef](Dataset#__savedref)
+- [rows](Dataset#rows)
 
 ### Accessors
 
-- [description](./Dataset#description)
-- [length](./Dataset#length)
-- [name](./Dataset#name)
+- [description](Dataset#description)
+- [length](Dataset#length)
+- [name](Dataset#name)
 
 ### Methods
 
-- [[asyncIterator]](./Dataset#[asynciterator])
-- [className](./Dataset#classname)
-- [getRow](./Dataset#getrow)
-- [save](./Dataset#save)
-- [saveAttrs](./Dataset#saveattrs)
+- [[asyncIterator]](Dataset#[asynciterator])
+- [getRow](Dataset#getrow)
+- [save](Dataset#save)
+- [saveAttrs](Dataset#saveattrs)
 
 ## Constructors
 
 ### constructor
 
-• **new Dataset**\<`R`\>(`parameters`): [`Dataset`](./Dataset)\<`R`\>
+• **new Dataset**\<`R`\>(`parameters`): [`Dataset`](Dataset)\<`R`\>
 
 #### Type parameters
 
@@ -86,15 +85,15 @@ const ref = await dataset.save()
 
 #### Returns
 
-[`Dataset`](./Dataset)\<`R`\>
+[`Dataset`](Dataset)\<`R`\>
 
 #### Overrides
 
-[WeaveObject](./WeaveObject).[constructor](./WeaveObject#constructor)
+[WeaveObject](WeaveObject).[constructor](WeaveObject#constructor)
 
 #### Defined in
 
-[dataset.ts:51](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/dataset.ts#L51)
+[dataset.ts:51](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/dataset.ts#L51)
 
 ## Properties
 
@@ -104,11 +103,11 @@ const ref = await dataset.save()
 
 #### Inherited from
 
-[WeaveObject](./WeaveObject).[__savedRef](./WeaveObject#__savedref)
+[WeaveObject](WeaveObject).[__savedRef](WeaveObject#__savedref)
 
 #### Defined in
 
-[weaveObject.ts:49](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L49)
+[weaveObject.ts:49](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L49)
 
 ___
 
@@ -118,7 +117,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:49](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/dataset.ts#L49)
+[dataset.ts:49](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/dataset.ts#L49)
 
 ## Accessors
 
@@ -136,7 +135,7 @@ WeaveObject.description
 
 #### Defined in
 
-[weaveObject.ts:80](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L80)
+[weaveObject.ts:76](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L76)
 
 ___
 
@@ -150,7 +149,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:64](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/dataset.ts#L64)
+[dataset.ts:64](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/dataset.ts#L64)
 
 ___
 
@@ -168,7 +167,7 @@ WeaveObject.name
 
 #### Defined in
 
-[weaveObject.ts:76](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L76)
+[weaveObject.ts:72](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L72)
 
 ## Methods
 
@@ -182,25 +181,7 @@ WeaveObject.name
 
 #### Defined in
 
-[dataset.ts:68](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/dataset.ts#L68)
-
-___
-
-### className
-
-▸ **className**(): `any`
-
-#### Returns
-
-`any`
-
-#### Inherited from
-
-[WeaveObject](./WeaveObject).[className](./WeaveObject#classname)
-
-#### Defined in
-
-[weaveObject.ts:53](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L53)
+[dataset.ts:68](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/dataset.ts#L68)
 
 ___
 
@@ -220,7 +201,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:74](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/dataset.ts#L74)
+[dataset.ts:74](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/dataset.ts#L74)
 
 ___
 
@@ -234,7 +215,7 @@ ___
 
 #### Defined in
 
-[dataset.ts:60](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/dataset.ts#L60)
+[dataset.ts:60](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/dataset.ts#L60)
 
 ___
 
@@ -248,8 +229,8 @@ ___
 
 #### Inherited from
 
-[WeaveObject](./WeaveObject).[saveAttrs](./WeaveObject#saveattrs)
+[WeaveObject](WeaveObject).[saveAttrs](WeaveObject#saveattrs)
 
 #### Defined in
 
-[weaveObject.ts:57](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveObject.ts#L57)
+[weaveObject.ts:53](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L53)
