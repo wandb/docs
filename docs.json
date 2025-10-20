@@ -421,8 +421,7 @@
                   {
                     "group": "W&B App UI",
                     "pages": [
-                      "models/app",
-                      "models/app/keyboard-shortcuts",
+                      "models/app/features/cascade-settings",
                       {
                         "group": "Panels",
                         "pages": [
@@ -460,7 +459,7 @@
                         ]
                       },
                       "models/app/console-logs",
-                      "models/app/features/cascade-settings"
+                      "models/app/keyboard-shortcuts"
                     ]
                   }
                 ]
@@ -2224,11 +2223,11 @@
   "redirects": [
     {
       "source": "/app/",
-      "destination": "/guides/app/"
+      "destination": "/guides/models/app/features/cascade-settings"
     },
     {
       "source": "/app/features/",
-      "destination": "/guides/app/"
+      "destination": "/guides/models/app/features/cascade-settings"
     },
     {
       "source": "/app/features/alerts/",
@@ -2312,7 +2311,7 @@
     },
     {
       "source": "/app/visualizations/",
-      "destination": "/guides/app/"
+      "destination": "/guides/models/app/features/cascade-settings"
     },
     {
       "source": "/artifacts/",
@@ -3264,7 +3263,7 @@
     },
     {
       "source": "/library/plots/",
-      "destination": "/guides/app/"
+      "destination": "/guides/models/app/features/cascade-settings"
     },
     {
       "source": "/library/plots/heatmap/",
@@ -3364,7 +3363,7 @@
     },
     {
       "source": "/ref/app/",
-      "destination": "/guides/app/"
+      "destination": "/guides/models/app/features/cascade-settings"
     },
     {
       "source": "/ref/app/feature/",
@@ -3376,7 +3375,7 @@
     },
     {
       "source": "/ref/app/features/alerts/",
-      "destination": "/guides/app/"
+      "destination": "/guides/models/app/features/cascade-settings"
     },
     {
       "source": "/ref/app/features/anon/",
