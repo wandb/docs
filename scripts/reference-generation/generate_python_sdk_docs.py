@@ -283,18 +283,35 @@ def process_pydantic_model(obj, generator, module_name: str) -> str:
 
 def get_modules_to_document():
     """Get the list of modules to document."""
-    # Import weave modules
     import weave
-    from weave.trace import op, weave_client, util
-    from weave.trace_server import trace_server_interface
     
-    return [
-        (weave, "weave"),
-        (weave_client, "weave.trace.weave_client"),
-        (op, "weave.trace.op"),
-        (util, "weave.trace.util"),
-        (trace_server_interface, "weave.trace_server.trace_server_interface"),
+    # Define the modules we want to document based on upstream Weave docs
+    # These are the public API modules that users should interact with
+    public_api_modules = [
+        "weave",  # Main module
+        "weave.trace.feedback",  # Feedback API
+        "weave.trace.op",  # Operations API
+        "weave.trace.util",  # Utility functions
+        "weave.trace.weave_client",  # Client API
+        "weave.trace_server.trace_server_interface",  # Server interface
+        "weave.trace_server_bindings.remote_http_trace_server",  # Remote server bindings
     ]
+    
+    modules_to_document = []
+    
+    for module_name in public_api_modules:
+        try:
+            # Try to import the module
+            import importlib
+            module = importlib.import_module(module_name)
+            modules_to_document.append((module, module_name))
+            print(f"  ✓ Found module: {module_name}")
+        except ImportError as e:
+            print(f"  ⚠ Could not import {module_name}: {e}")
+        except Exception as e:
+            print(f"  ⚠ Error with {module_name}: {e}")
+    
+    return modules_to_document
 
 
 def main():
@@ -321,6 +338,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print("\nGenerating Python SDK documentation...")
+    print("Discovering public modules...")
     
     # Get modules to document
     modules = get_modules_to_document()
