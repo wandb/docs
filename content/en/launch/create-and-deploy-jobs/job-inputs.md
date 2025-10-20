@@ -133,7 +133,7 @@ dataset: cifar10
 
 The call to `launch.manage_config_file` will add the `config.yaml` file as an input to the job, making it reconfigurable when launching from the W&B CLI or UI. 
 
-The `include` and `exclude` keyword arugments may be used to filter the acceptable input keys for the config file in the same way as `launch.manage_wandb_config`.
+The `include` and `exclude` keyword arguments may be used to filter the acceptable input keys for the config file in the same way as `launch.manage_wandb_config`.
 
 
 ### Access config file inputs

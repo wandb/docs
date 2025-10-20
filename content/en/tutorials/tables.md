@@ -157,7 +157,7 @@ For every epoch, run a training step and a test step. For each test step, create
 
 
 ```python
-# convenience funtion to log predictions for a batch of test images
+# convenience function to log predictions for a batch of test images
 def log_test_predictions(images, labels, outputs, predicted, test_table, log_counter):
   # obtain confidence scores for all classes
   scores = F.softmax(outputs.data, dim=1)
