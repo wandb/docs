@@ -21,7 +21,7 @@ This section shows how to edit a page or report a bug from within your browser w
 1. Edit the page, then click **Commit changes**. In the dialog, choose to create a new branch, then specify:
   - A name for the branch
   - A commit message that describes the change. By default, this becomes the pull request title.
-  - An optional extended descrption. By default, this becomes the pull request body.
+  - An optional extended description. By default, this becomes the pull request body.
 1. Click **Propose change**. A new branch is created with the commit you just created. A new dialog opens where you can create a pull request.
 1. Optionally edit the pull request's title and description. Markdown is allowed. You can refer to a PR or issue by number or URL, and you can refer to a JIRA issue by its ID.
 1. Click **Create pull request**. A member of @docs-team reviews your changes, provides feedback, and works with you to merge the change.
