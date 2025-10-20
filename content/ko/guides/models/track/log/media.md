@@ -12,7 +12,7 @@ menu:
 이미지, 비디오, 오디오 등을 지원합니다. 풍부한 미디어를 기록하여 결과물을 살펴보고 run, model, dataset을 시각적으로 비교해 보세요. 예시와 사용 가이드는 아래를 참고하세요.
 
 {{% alert %}}
-미디어 유형에 대한 레퍼런스 문서를 찾고 계신가요? [이 페이지]({{< relref path="/ref/python/data-types/" lang="ko" >}})를 확인하세요.
+미디어 유형에 대한 레퍼런스 문서를 찾고 계신가요? [이 페이지]({{< relref "/ref/python/data-types/" >}})를 확인하세요.
 {{% /alert %}}
 
 {{% alert %}}
@@ -326,7 +326,7 @@ W&B UI는 데이터를 300,000개 포인트에서 자릅니다.
 
 #### Python 오브젝트
 
-이 스키마를 사용하면 Python 오브젝트를 정의하고 [the `from_point_cloud` method]({{< relref path="/ref/python/data-types/object3d/#from_point_cloud" lang="ko" >}})에 아래와 같이 전달할 수 있습니다.
+이 스키마를 사용하면 Python 오브젝트를 정의하고 [the `from_point_cloud` method]({{< relref "/ref/python/data-types/object3d/#from_point_cloud" >}})에 아래와 같이 전달할 수 있습니다.
 
 * `points`는 [위에 표시된 단순 포인트 클라우드 렌더러와 동일한 형식]({{< relref path="#python-object" lang="ko" >}})을 사용하여 렌더링할 점에 대한 좌표와 색상을 포함하는 NumPy 배열입니다.
 * `boxes`는 세 가지 속성이 있는 Python 사전의 NumPy 배열입니다.
@@ -383,7 +383,7 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
 
 #### 포인트 클라우드 파일
 
-[the `from_file` method]({{< relref path="/ref/python/data-types/object3d/#from_file" lang="ko" >}})를 사용하여 포인트 클라우드 데이터로 가득 찬 JSON 파일을 로드할 수 있습니다.
+[the `from_file` method]({{< relref "/ref/python/data-types/object3d/#from_file" >}})를 사용하여 포인트 클라우드 데이터로 가득 찬 JSON 파일을 로드할 수 있습니다.
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -479,7 +479,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
 ```
 #### NumPy 배열
 
-[위에서 정의한 것과 동일한 배열 형식]({{< relref path="#numpy-array-formats" lang="ko" >}})을 사용하여 [`numpy` 배열을 [`the `from_numpy` method]({{< relref path="/ref/python/data-types/object3d/#from_numpy" lang="ko" >}})와 함께 직접 사용하여 포인트 클라우드를 정의할 수 있습니다.
+[위에서 정의한 것과 동일한 배열 형식]({{< relref path="#numpy-array-formats" lang="ko" >}})을 사용하여 [`numpy` 배열을 [`the `from_numpy` method]({{< relref "/ref/python/data-types/object3d/#from_numpy" >}})와 함께 직접 사용하여 포인트 클라우드를 정의할 수 있습니다.
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -557,7 +557,7 @@ run이 완료되면 UI에서 분자의 3D 시각화와 상호 작용할 수 있�
 
 ### PNG 이미지
 
-[`wandb.Image`]({{< relref path="/ref/python/data-types/image.md" lang="ko" >}})는 `numpy` 배열 또는 `PILImage` 인스턴스를 기본적으로 PNG로 변환합니다.
+[`wandb.Image`]({{< relref "/ref/python/data-types/image" >}})는 `numpy` 배열 또는 `PILImage` 인스턴스를 기본적으로 PNG로 변환합니다.
 
 ```python
 wandb.log({"example": wandb.Image(...)})
@@ -567,7 +567,7 @@ wandb.log({"example": [wandb.Image(...) for img in images]})
 
 ### 비디오
 
-비디오는 [`wandb.Video`]({{< relref path="/ref/python/data-types/video.md" lang="ko" >}}) 데이터 유형을 사용하여 기록됩니다.
+비디오는 [`wandb.Video`]({{< relref "/ref/python/data-types/video" >}}) 데이터 유형을 사용하여 기록됩니다.
 
 ```python
 wandb.log({"example": wandb.Video("myvideo.mp4")})
@@ -577,7 +577,7 @@ wandb.log({"example": wandb.Video("myvideo.mp4")})
 
 ## 분자의 2D 보기
 
-[`wandb.Image`]({{< relref path="/ref/python/data-types/image.md" lang="ko" >}}) 데이터 유형과 [`rdkit`](https://www.rdkit.org/docs/index.html)을 사용하여 분자의 2D 보기를 기록할 수 있습니다.
+[`wandb.Image`]({{< relref "/ref/python/data-types/image" >}}) 데이터 유형과 [`rdkit`](https://www.rdkit.org/docs/index.html)을 사용하여 분자의 2D 보기를 기록할 수 있습니다.
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -598,7 +598,7 @@ W&B는 다양한 다른 미디어 유형의 로깅도 지원합니다.
 wandb.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-스텝당 최대 100개의 오디오 클립을 기록할 수 있습니다. 자세한 사용 정보는 [`audio-file`]({{< relref path="/ref/query-panel/audio-file.md" lang="ko" >}})을 참조하세요.
+스텝당 최대 100개의 오디오 클립을 기록할 수 있습니다. 자세한 사용 정보는 [`wandb.Audio`]({{< relref "/ref/python/data-types/audio" >}})을 참조하세요.
 
 ### 비디오
 
@@ -610,7 +610,7 @@ numpy 배열이 제공되면 차원은 시간, 채널, 너비, 높이 순서라�
 
 W&B [Run]({{< relref path="/guides/models/track/runs/" lang="ko" >}}) 및 [Project]({{< relref path="/guides/models/track/project-page.md" lang="ko" >}}) 페이지에서 미디어 섹션에 비디오가 표시됩니다.
 
-자세한 사용 정보는 [`video-file`]({{< relref path="/ref/query-panel/video-file" lang="ko" >}})을 참조하세요.
+자세한 사용 정보는 [`wandb.Video`]({{< relref "/ref/python/data-types/video" >}})을 참조하세요.
 
 ### 텍스트
 
@@ -636,7 +636,7 @@ pandas `DataFrame` 오브젝트를 전달할 수도 있습니다.
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-자세한 사용 정보는 [`string`]({{< relref path="/ref/query-panel/" lang="ko" >}})을 참조하세요.
+자세한 사용 정보는 [`wandb.Table`]({{< relref "/ref/python/data-types/table" >}})을 참조하세요.
 
 ### HTML
 
@@ -651,5 +651,5 @@ wandb.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 wandb.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-자세한 사용 정보는 [`html-file`]({{< relref path="/ref/query-panel/html-file" lang="ko" >}})을 참조하세요.
+자세한 사용 정보는 [`wandb.Html`]({{< relref "/ref/python/data-types/html" >}})을 참조하세요.
 ```

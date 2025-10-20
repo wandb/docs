@@ -1,0 +1,54 @@
+{
+  "entryPoints": ["src/core/ops/*.ts"],
+  "out": "content/en/ref/query-panel",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-hugo-theme"],
+  "theme": "hugo",
+  "readme": "none",
+  "githubPages": false,
+  "includeVersion": false,
+  "hideBreadcrumbs": true,
+  "hideInPageTOC": false,
+  "namedAnchors": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/wandb/core",
+    "Documentation": "/guides/models/app/features/panels/query-panels/"
+  },
+  "markedOptions": {
+    "tables": true,
+    "smartypants": true
+  },
+  "frontmatterGlobals": {
+    "menu": {
+      "reference": {
+        "parent": "qel"
+      }
+    }
+  },
+  "outputFileStrategy": "members",
+  "memberPageTitle": "{name}",
+  "kindStrings": {
+    "Function": "Operation",
+    "Method": "Operation",
+    "Interface": "Data Type"
+  },
+  "categorizeByGroup": true,
+  "groupOrder": [
+    "Chainable Operations",
+    "List Operations",
+    "Aggregation Operations",
+    "Filter Operations"
+  ],
+  "exclude": ["**/test/**", "**/node_modules/**"],
+  "externalPattern": ["**/node_modules/**"],
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "disableSources": false,
+  "sourceLinkTemplate": "https://github.com/wandb/core/blob/{gitRevision}/{path}#L{line}",
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  }
+}
