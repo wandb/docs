@@ -257,12 +257,29 @@ Once you are done, create a pull request from https://github.com/wandb/wandb. Th
 
 ## AI resources
 
-The `.ai/` directory contains resources specifically designed for AI agents working with this repository. These include:
+This repository includes two directories with AI agent resources:
 
-- **[Runbooks](.ai/runbooks/)**: Step-by-step instructions for complex, recurring tasks (e.g., testing GitHub Actions changes)
-- **[Style guide](.ai/style-guide.md)**: Quick reference for AI agents on wandb/docs style conventions
+### `.ai/` directory
+Contains natural language resources designed for AI agents working with this repository:
+- **[System prompt](.ai/system-prompt.md)**: Role and principles for AI documentation contributors
+- **[Style guide](.ai/style-guide.md)**: Comprehensive style guide for W&B documentation
+- **[Runbooks](.ai/runbooks/)**: Step-by-step instructions for complex, recurring tasks
 
-If you're using an AI agent to help with documentation tasks, provide these resources as context to ensure consistent, high-quality contributions. See the [.ai/README.md](.ai/README.md) for more details.
+These resources are written in human-readable prose format. See the [.ai/README.md](.ai/README.md) for details.
+
+### `.cursor/` directory
+Contains Cursor-specific prompts optimized for use with Cursor IDE:
+- **[Rules](.cursor/rules.md)**: Core project rules and mandatory guidelines
+- **[Style](.cursor/style.md)**: Detailed style guidelines in structured format
+- **[Docs](.cursor/docs.md)**: Documentation-specific patterns and guidelines
+- **[Runbooks](.cursor/runbooks/)**: Task-specific instructions formatted for Cursor
+
+These resources use structured formatting with XML-like tags for optimal AI parsing. Cursor automatically loads these configurations. See the [.cursor/README.md](.cursor/README.md) for details.
+
+### Which to use?
+- **For Cursor users**: The `.cursor/` directory is automatically loaded and used
+- **For other AI tools**: Use either directory, though `.ai/` may be more readable for manual context provision
+- **For humans**: The `.ai/` directory is more readable as traditional documentation
 
 ## License
 
