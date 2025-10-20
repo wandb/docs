@@ -35,6 +35,15 @@ def check_pypi_version(version):
         return True, []  # Allow to proceed if we can't check
 
 
+def get_installed_version():
+    """Get the installed Weave version."""
+    try:
+        import weave
+        return weave.__version__
+    except:
+        return None
+
+
 def install_dependencies(weave_version="latest"):
     """Install Weave and other required packages."""
     print(f"Installing dependencies (Weave version: {weave_version})...")
@@ -369,6 +378,11 @@ def main():
             print(f"    ✗ Error: {e}")
     
     print("\n✓ Python SDK documentation generation complete!")
+    
+    # Output the actual installed version for the workflow
+    actual_version = get_installed_version()
+    if actual_version:
+        print(f"\nACTUAL_VERSION={actual_version}")
 
 
 if __name__ == "__main__":
