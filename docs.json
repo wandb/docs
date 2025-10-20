@@ -580,8 +580,7 @@
                       "models/tutorials/volcano",
                       "models/tutorials/minikube_gpu"
                     ]
-                  },
-                  "models/tutorials/integration-tutorials"
+                  }
                 ]
               },
               {
