@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       weave_version:
-        description: 'Weave version (e.g., "latest", "0.51.34", "v0.51.34", commit SHA, or branch name)'
+        description: '[Weave version](https://pypi.org/project/weave/#history) or "latest"'
         required: false
         default: 'latest'
         type: string
