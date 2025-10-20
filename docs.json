@@ -468,50 +468,46 @@
                 "pages": [
                   "models/integrations/add-wandb-to-any-library",
                   {
-                    "group": "ML Frameworks",
+                    "group": "ML Frameworks and Libraries",
                     "pages": [
-                      "models/integrations/pytorch",
-                      "models/integrations/pytorch-geometric",
-                      "models/integrations/tensorflow",
-                      "models/integrations/keras",
-                      "models/integrations/lightning",
-                      "models/integrations/ignite",
-                      "models/integrations/catalyst",
-                      "models/integrations/fastai",
-                      "models/integrations/fastai/v1",
-                      "models/integrations/skorch",
-                      "models/integrations/mmengine",
-                      "models/integrations/mmf",
-                      "models/integrations/paddledetection",
-                      "models/integrations/paddleocr"
-                    ]
-                  },
-                  {
-                    "group": "ML Libraries",
-                    "pages": [
-                      "models/integrations/huggingface",
-                      "models/integrations/diffusers",
-                      "models/integrations/accelerate",
-                      "models/integrations/torchtune",
-                      "models/integrations/composer",
-                      "models/integrations/scikit",
-                      "models/integrations/xgboost",
-                      "models/integrations/lightgbm",
-                      "models/integrations/stable-baselines-3",
-                      "models/integrations/openai-gym",
-                      "models/integrations/farama-gymnasium",
-                      "models/integrations/ray-tune",
-                      "models/integrations/hydra",
-                      "models/integrations/spacy",
-                      "models/integrations/prodigy",
-                      "models/integrations/simpletransformers",
-                      "models/integrations/autotrain",
-                      "models/integrations/deepchem",
-                      "models/integrations/deepchecks",
-                      "models/integrations/dspy",
-                      "models/integrations/ultralytics",
-                      "models/integrations/yolov5",
-                      "models/integrations/yolox"
+                      {
+                        "group": "ML Frameworks",
+                        "pages": [
+                          "models/integrations/pytorch",
+                          "models/integrations/tensorflow",
+                          "models/integrations/keras",
+                          "models/integrations/lightning",
+                          "models/integrations/ignite",
+                          "models/integrations/catalyst",
+                          "models/integrations/fastai",
+                          "models/integrations/fastai/v1",
+                          "models/integrations/skorch",
+                          "models/integrations/mmengine",
+                          "models/integrations/mmf",
+                          "models/integrations/paddledetection",
+                          "models/integrations/paddleocr"
+                        ]
+                      },
+                      {
+                        "group": "ML Libraries",
+                        "pages": [
+                          "models/integrations/pytorch",
+                          "models/integrations/pytorch-geometric",
+                          "models/integrations/tensorflow",
+                          "models/integrations/keras",
+                          "models/integrations/lightning",
+                          "models/integrations/ignite",
+                          "models/integrations/catalyst",
+                          "models/integrations/fastai",
+                          "models/integrations/fastai/v1",
+                          "models/integrations/skorch",
+                          "models/integrations/mmengine",
+                          "models/integrations/mmf",
+                          "models/integrations/paddledetection",
+                          "models/integrations/paddleocr"
+                        ]
+                      }
+
                     ]
                   },
                   {
