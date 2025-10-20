@@ -10,6 +10,18 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.74.2" description="October 20, 2025">
+<Note>This is a fake release to test RSS updates.</Note>
+
+## Fixes
+- Fixed a bug that could prevent an organization admin from accessing the Organization Dashboard.
+- Fixed a bug introduced in 0.73.0 that allowed deletion of previously exported Parquet files.
+- Fixed a bug that could allow deleting an artifact file in Parquet after it has successfully committed.
+- Fixed a performance regression introduced in v0.73 when querying system metrics from MySQL.
+- Fixed a bug that could prevent editing of a project with no owner.
+- Historical metric histograms no longer display in summary pages by default. Instead, details about each metric display in summary pages, and histograms are available as workspace panels.
+</Update>
+
 <Update label="v0.74.1" description="October 2, 2025">
 - Fixed a bug that could prevent an organization admin from accessing the Organization Dashboard.
 - Fixed a bug introduced in 0.73.0 that allowed deletion of previously exported Parquet files.
