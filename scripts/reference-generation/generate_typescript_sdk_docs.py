@@ -231,6 +231,21 @@ description: "TypeScript SDK reference"
         # For links to class names (start with capital letter) that don't have a path
         content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', r'](./\1\2)', content)
         
+        # 4. Fix cross-directory links based on file location
+        if '/functions/' in str(md_file):
+            # Functions linking to classes/interfaces need ../
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
+            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](../interfaces/\1)', content)
+        elif '/type-aliases/' in str(md_file):
+            # Type aliases linking to classes need ../
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
+        elif md_file.name == 'README.md' or md_file.name == 'index.mdx':
+            # Index files need ./ prefix for subdirectories
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](./classes/\1)', content)
+            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](./interfaces/\1)', content)
+            content = re.sub(r'\]\(functions/([^)]+)\)', r'](./functions/\1)', content)
+            content = re.sub(r'\]\(type-aliases/([^)]+)\)', r'](./type-aliases/\1)', content)
+        
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
         # Keep these as relative links too
