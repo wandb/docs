@@ -38,7 +38,7 @@ To follow along this tutorial you'll only need to install the following packages
 First, we'll set up a function to initialize the Weave client and add costs for each model.
 
 - We have included the standard costs for many standard models but we also make it easy to add your own custom costs and custom models. In the following we'll show how to add custom costs for a few models and use the standard costs for the rest.
-- The costs are calculate based on the tracked tokens for each call in Weave. For many LLM vendor libraries, we will automatically track the token usage, but it is also possible to return custom token counts for any call. See this cookbook on how to define the token count and cost calculation for a custom model - [custom cost cookbook](https://weave-docs.wandb.ai/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
+- The costs are calculate based on the tracked tokens for each call in Weave. For many LLM vendor libraries, we will automatically track the token usage, but it is also possible to return custom token counts for any call. See this cookbook on how to define the token count and cost calculation for a custom model - [custom cost cookbook](/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
 
 ```python lines
 PROJECT_NAME = "wandb-smle/weave-cookboook-demo"
@@ -86,7 +86,7 @@ In order to fetch call data from Weave, we have two options:
 The first option to access data from Weave is to retrieve a list of filtered calls and extract the wanted data call-by-call. For that we can use the `calls_query_stream` API to fetch the calls data from Weave:
 
 - `calls_query_stream` API: This API allows us to fetch the calls data from Weave.
-- `filter` dictionary: This dictionary contains the filter parameters to fetch the calls data - see [here](https://weave-docs.wandb.ai/reference/python-sdk/weave/trace_server/weave.trace_server.trace_server_interface/#class-callschema) for more details.
+- `filter` dictionary: This dictionary contains the filter parameters to fetch the calls data - see [here](/weave/reference/python-sdk/weave/trace_server/trace_server_interface#class-callschema) for more details.
 - `expand_columns` list: This list contains the columns to expand in the calls data.
 - `sort_by` list: This list contains the sorting parameters for the calls data.
 - `include_costs` boolean: This boolean indicates whether to include the costs in the calls data.
@@ -231,11 +231,11 @@ plot_model_cost_distribution(df_costs)
 In this cookbook, we demonstrated how to create a custom production monitoring dashboard using Weave's APIs and functions. Weave currently focuses on fast integrations for easy input of data as well as extraction of the data for custom processes.
 
 - **Data Input:**
-  - Framework-agnostic tracing with [@weave-op()](https://weave-docs.wandb.ai/quickstart#2-log-a-trace-to-a-new-project) decorator and the possibility to import calls from CSV (see related [import cookbook](https://weave-docs.wandb.ai/cookbooks/import_from_csv))
-  - Service API endpoints to log to Weave from for various programming frameworks and languages, see [here](https://weave-docs.wandb.ai/reference/service-api/call-start-call-start-post) for more details.
+  - Framework-agnostic tracing with [@weave-op()](/weave/quickstart#2-log-a-trace-to-a-new-project) decorator and the possibility to import calls from CSV (see related [import cookbook](/weave/cookbooks/import_from_csv))
+  - Service API endpoints to log to Weave from for various programming frameworks and languages, see [here](/weave/reference/service-api/call-start-call-start-post) for more details.
 - **Data Output:**
-  - Easy download of the data in CSV, TSV, JSONL, JSON formats - see [here](https://weave-docs.wandb.ai/guides/tracking/tracing#querying--exporting-calls) for more details.
-  - Easy export using programmatic access to the data - see "Use Python" section in the export panel as described in this cookbook. See [here](https://weave-docs.wandb.ai/guides/tracking/tracing#querying--exporting-calls) for more details.
+  - Easy download of the data in CSV, TSV, JSONL, JSON formats - see [here](/api-reference/calls/call-start) for more details.
+  - Easy export using programmatic access to the data - see "Use Python" section in the export panel as described in this cookbook. See [here](/weave/guides/tracking/tracing#querying-and-exporting-calls) for more details.
 
 This custom dashboard extends Weave's native Traces view, allowing for tailored monitoring of LLM applications in production. If you're interested in viewing a more complex dashboard, check out a Streamlit example where you can add your own Weave project URL [in this repo](https://github.com/NiWaRe/agent-dev-collection).
 
