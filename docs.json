@@ -244,7 +244,6 @@
               "models",
               "models/quickstart",
               "models/models_quickstart",
-              "models/evaluate-models",
               {
                 "group": "Guides",
                 "pages": [
@@ -552,7 +551,8 @@
                       "models/tutorials/sweeps",
                       "models/tutorials/artifacts",
                       "models/tutorials/workspaces",
-                      "models/tutorials/weave_models_registry"
+                      "models/tutorials/weave_models_registry",
+                      "models/evaluate-models"
                     ]
                   },
                   {
