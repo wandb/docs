@@ -7,7 +7,7 @@ description: "Track and manage costs for LLM operations in Weave"
 
 <Tabs>
   <Tab title="Python">
-    You can add a custom cost by using the [`add_cost`](/weave/reference/python-sdk/weave/trace/weave_client.mdx#add_cost) method.
+    You can add a custom cost by using the [`add_cost`](/weave/reference/python-sdk/weave/trace/weave_client#method-add-cost) method.
     The three required fields are `llm_id`, `prompt_token_cost`, and `completion_token_cost`.
     `llm_id` is the name of the LLM (e.g. `gpt-4o`). `prompt_token_cost` and `completion_token_cost` are cost per token for the LLM (if the LLM prices were specified inper million tokens, make sure to convert the value).
     You can also set `effective_date` to a datetime, to make the cost effective at a specific date, this defaults to the current date.
@@ -47,7 +47,7 @@ description: "Track and manage costs for LLM operations in Weave"
 
 <Tabs>
   <Tab title="Python">
-    You can query for costs by using the [`query_costs`](/weave/reference/python-sdk/weave/trace/weave_client.mdx#query_costs) method.
+    You can query for costs by using the [`query_costs`](/weave/reference/python-sdk/weave/trace/weave_client#method-query-costs) method.
     There are a few ways to query for costs, you can pass in a singular cost id, or a list of LLM model names.
 
     ```python lines
@@ -74,7 +74,7 @@ description: "Track and manage costs for LLM operations in Weave"
 
 <Tabs>
   <Tab title="Python">
-    You can purge a custom cost by using the [`purge_costs`](/weave/reference/python-sdk/weave/trace/weave_client.mdx#purge_costs) method. You pass in a list of cost ids, and the costs with those ids are purged.
+    You can purge a custom cost by using the [`purge_costs`](/weave/reference/python-sdk/weave/trace/weave_client#method-purge-costs) method. You pass in a list of cost ids, and the costs with those ids are purged.
 
     ```python lines
     import weave

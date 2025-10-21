@@ -40,14 +40,14 @@ W&B v0.74 delivers SCIM API improvements for enterprise identity management, inc
     - **Quickly toggle between runs using the keyboard.** In full-screen view, use the keyboard **left / right arrow** keys to move between runs, and use **Cmd + left / right arrow** (macOS) or **Ctrl + left / right arrow** (Windows / Linux) to move between steps of the same image.
 
 ### Weave
-- From the **Evaluations** sidebar tab, you can now update prompt values and run LLM judge evaluations to test the changes. Try it out in the [Playground](https://weave-docs.wandb.ai/guides/tools/playground/).
-- You can now integrate Weave into your Reinforcement Learning (RL) training workflows and [view the traces and evaluations](https://weave-docs.wandb.ai/guides/tools/weave-in-workspaces) captured during training in the W&B Workspace, together with run metrics panels.
-- Weave now includes an integration with [Verifiers](https://verifiers.readthedocs.io/en/latest/), a library of modular components for creating Reinforcement Learning (RL) environments and training LLM agents. Environments built with Verifiers can serve as LLM evaluations, synthetic data pipelines, agent harnesses for OpenAI-compatible endpoints, and RL training. [Learn more](https://weave-docs.wandb.ai/guides/integrations/verifiers).
+- From the **Evaluations** sidebar tab, you can now update prompt values and run LLM judge evaluations to test the changes. Try it out in the [Playground](/weave/guides/tools/playground).
+- You can now integrate Weave into your Reinforcement Learning (RL) training workflows and [view the traces and evaluations](/weave/guides/tools/weave-in-workspaces) captured during training in the W&B Workspace, together with run metrics panels.
+- Weave now includes an integration with [Verifiers](https://verifiers.readthedocs.io/en/latest/), a library of modular components for creating Reinforcement Learning (RL) environments and training LLM agents. Environments built with Verifiers can serve as LLM evaluations, synthetic data pipelines, agent harnesses for OpenAI-compatible endpoints, and RL training. [Learn more](/weave/guides/integrations/verifiers).
 - From the **Threads** sidebar tab, you can now view tool calls for a multi-turn Thread together with its message history.
 - A Team's **Project** page now shows the number of Weave traces for each project together with data about the project's runs.
-- The [DSPy integration](https://weave-docs.wandb.ai/guides/integrations/dspy) has been improved. For details, see [`wandb/weave` #5184](https://github.com/wandb/weave/pull/5184).
+- The [DSPy integration](/weave/guides/integrations/dspy) has been improved. For details, see [`wandb/weave` #5184](https://github.com/wandb/weave/pull/5184).
 - If your Weave code calls `wandb.init()`, it no longer needs to explicitly call `weave.init()`.
-- New convenience method [`delete_all_object_versions`](https://weave-docs.wandb.ai/reference/python-sdk/weave/trace/weave.trace.weave_client/).
+- New convenience method [`delete_all_object_versions`](/weave/reference/python-sdk/weave/trace/weave_client).
 - The output from an OpenAI streaming endpoint call now includes a new field, `time_to_first_token`, expressed in milliseconds.
 
 ### Inference
@@ -98,10 +98,10 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
 - BYOB with CoreWeave AI Object Storage now supports authentication with service principals in Multi-tenant Cloud, Dedicated Cloud, and Self-Managed deployments. This helps you to avoid using static credentials in your deployment. Learn more at [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector/).
 
 ### Weave
-- You can now group sessions or conversations across multiple traces with [Weave Threads](https://weave-docs.wandb.ai/guides/tracking/threads/).
-- The **Trace view**'s new [Graph view](https://weave-docs.wandb.ai/guides/tracking/trace-tree#graph-view) visualizes the call tree structure as a graph.
-- The **Trace view** includes new specialized views for [documents](https://weave-docs.wandb.ai/guides/core-types/media#documents) retrieved with ChromaDB and Langchain improves handling of schemas such as chats. In **Trace view**, click a document to open its detailed view in a drawer to the right. Learn more at [Navigate the trace view](https://weave-docs.wandb.ai/guides/tracking/trace-tree/).
-- You can now attach [HTML](https://weave-docs.wandb.ai/guides/core-types/media#html) to a trace as a media type.
+- You can now group sessions or conversations across multiple traces with [Weave Threads](/weave/guides/tracking/threads).
+- The **Trace view**'s new [Graph view](/weave/guides/tracking/trace-tree#graph-view) visualizes the call tree structure as a graph.
+- The **Trace view** includes new specialized views for [documents](/weave/guides/core-types/media#documents) retrieved with ChromaDB and Langchain improves handling of schemas such as chats. In **Trace view**, click a document to open its detailed view in a drawer to the right. Learn more at [Navigate the trace view](/weave/guides/tracking/trace-tree).
+- You can now attach [HTML](/weave/guides/core-types/media#html) to a trace as a media type.
 - From the **Assets** tab, you can now create and edit prompts. Click **Assets**, then in the navigation, click **Prompts**. Click **New prompt** or click the name of an existing prompt to view its details. From there, click the pencil icon to edit and republish the prompt.
 
 ## Fixes
@@ -165,9 +165,9 @@ With W&B Server 0.71, Registry is turned on by default for all organizations. Fo
 - The Run Comparer includes a new **Meta** section with metadata about the run, such as the command, Python version, and GPU type.
 
 ### Weave
-- The **Trace plots** tool allows you to explore, visualize, and debug trace-level metrics like latency, cost, or tokens over time using custom interactive charts. [Learn more](https://weave-docs.wandb.ai/guides/tracking/trace-plots/).
-- **Online Evaluations**: Monitor your traces in Dedicated Cloud by attaching Monitors to your incoming traces. Monitors run in the background as LLM judges and score a subset of calls that you specify. Use Monitors to track production behavior, catch regressions, collect real-world production data, and more. [Learn more](https://weave-docs.wandb.ai/guides/evaluation/guardrails_and_monitors).
-- Added [AutoGen](https://weave-docs.wandb.ai/guides/integrations/autogen) and [LlamaIndex](https://weave-docs.wandb.ai/guides/integrations/llamaindex) integrations. _AutoGen_ is a framework from Microsoft for building AI agents and applications, with components for conversational AI, core multi-agent functionalities, and integrations with external services, and tools for no-code agent prototyping. _LlamaIndex_ is a powerful framework for building LLM-driven applications like RAG systems, chatbots, and agents.
+- The **Trace plots** tool allows you to explore, visualize, and debug trace-level metrics like latency, cost, or tokens over time using custom interactive charts. [Learn more](/weave/guides/tracking/trace-plots).
+- **Online Evaluations**: Monitor your traces in Dedicated Cloud by attaching Monitors to your incoming traces. Monitors run in the background as LLM judges and score a subset of calls that you specify. Use Monitors to track production behavior, catch regressions, collect real-world production data, and more. [Learn more](/weave/guides/tracking/trace-plots).
+- Added [AutoGen](/weave/guides/integrations/autogen) and [LlamaIndex](/weave/guides/integrations/llamaindex) integrations. _AutoGen_ is a framework from Microsoft for building AI agents and applications, with components for conversational AI, core multi-agent functionalities, and integrations with external services, and tools for no-code agent prototyping. _LlamaIndex_ is a powerful framework for building LLM-driven applications like RAG systems, chatbots, and agents.
 - Improved Integrations with OpenAI, LangChain, ChromaDB, Verdict, including:
   - Document view for Langchain and ChromaDB.
   - Chat view rendering for LangChain.
@@ -177,7 +177,7 @@ With W&B Server 0.71, Registry is turned on by default for all organizations. Fo
     - `Qwen/Qwen3-Coder-480B-A35B-Instruct`
     - `Qwen/Qwen3-235B-A22B-Instruct-2507`
     - `Kimi-K2-Instruct`
-- Added support to the TypeScript SDK for creating and publishing prompts. [Learn more](https://weave-docs.wandb.ai/guides/core-types/prompts/).
+- Added support to the TypeScript SDK for creating and publishing prompts. [Learn more](/weave/guides/core-types/prompts).
 - The new `Content` class allows you safely to upload data of any MIME type, with automatic Base-64 encoding, automatic metadata extraction, and more.
 
 ## Fixes
@@ -298,14 +298,14 @@ Private preview features are available by invitation only. To request enrollment
 - [Personal workspace templates](/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */} allow you to save core line plot settings and automatically reapply them in new views. These settings include x-axis key, smoothing algorithm, smoothing factor, max number of lines, whether to use the run selector’s grouping, and which aggregation to apply.
 
 ### Weave
-- [Saved views](https://weave-docs.wandb.ai/guides/tools/saved-views/) simplify team collaboration and allow you to persist filter and column settings.
+- [Saved views](/weave/guides/tools/saved-views) simplify team collaboration and allow you to persist filter and column settings.
 - PDFs and generic files are now supported.
-- The new [`EvaluationLogger` API](https://weave-docs.wandb.ai/guides/evaluation/evaluation_logger) provides flexible imperative-style evaluation logging.
-- You can now import [human annotations](https://weave-docs.wandb.ai/guides/tracking/feedback#add-human-annotations) into Weave datasets
-- [Playground](https://weave-docs.wandb.ai/guides/tools/playground/) now supports saved configurations and prompts.
+- The new [`EvaluationLogger` API](/weave/guides/evaluation/evaluation_logger) provides flexible imperative-style evaluation logging.
+- You can now import [human annotations](/weave/guides/tracking/feedback#add-human-annotations) into Weave datasets
+- [Playground](/weave/guides/tools/playground/) now supports saved configurations and prompts.
 - Decorators are now supported in TypeScript.
-- Added support for [tracing generator functions](https://weave-docs.wandb.ai/guides/tracking/tracing#trace-sync--async-generator-functions).
-- The new [`dataset.add_rows`](https://weave-docs.wandb.ai/reference/python-sdk/weave/#method-add_rows) helper improves the efficiency of appending to an existing dataset.
+- Added support for [tracing generator functions](/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions).
+- The new [`dataset.add_rows`](/weave/reference/python-sdk/weave/#method-add-rows) helper improves the efficiency of appending to an existing dataset.
 - To help you understand your usage, trace and object sizes are now shown through the UI.
 
 ## Performance
@@ -363,11 +363,11 @@ Private preview features are available by invitation only. To request enrollment
 - **Improved Exponentially-weighted Moving Average (EMA) smoothing** provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing/) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance.
 
 ### Weave
-- Chat with fine-tuned models from within your W&B instance. [Playground](https://weave-docs.wandb.ai/guides/tools/playground/) is now supported in Dedicated Cloud. Playground is a chat interface for comparing different LLMs on historical traces. Admins can add API keys to different model providers or hook up [custom hosted LLM providers](https://weave-docs.wandb.ai/guides/tools/playground/#add-a-custom-provider) so your team can interact with them from within Weave.
-- Open Telemetry Support. Now you can log traces via OpenTelemetry (OTel). See [OpenTelemetry tracing](https://weave-docs.wandb.ai/guides/tracking/otel/?utm_source=beamer&utm_medium=sidebar&utm_campaign=OpenTelemetry-support-in-Weave&utm_content=ctalink).
-- Weave [tracing](https://weave-docs.wandb.ai/guides/tracking/) has new framework integrations: CrewAI, OpenAI’s Agent SDK, DSPy 2.x and Google's genai Python SDK.
-- Playground supports new [OpenAI models](https://weave-docs.wandb.ai/guides/tools/playground/#openai): GPT‑4.1, GPT‑4.1 mini, and GPT‑4.1 nano.
-- Build labeled datasets directly from traces, with your annotations automatically converted into dataset columns. See [Dataset creation from traces](https://weave-docs.wandb.ai/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui).
+- Chat with fine-tuned models from within your W&B instance. [Playground](/weave/guides/tools/playground/) is now supported in Dedicated Cloud. Playground is a chat interface for comparing different LLMs on historical traces. Admins can add API keys to different model providers or hook up [custom hosted LLM providers](/weave/guides/tools/playground/#add-a-custom-provider) so your team can interact with them from within Weave.
+- Open Telemetry Support. Now you can log traces via OpenTelemetry (OTel). See [OpenTelemetry tracing](/weave/guides/tracking/otel/?utm_source=beamer&utm_medium=sidebar&utm_campaign=OpenTelemetry-support-in-Weave&utm_content=ctalink).
+- Weave [tracing](/weave/guides/tracking/) has new framework integrations: CrewAI, OpenAI’s Agent SDK, DSPy 2.x and Google's genai Python SDK.
+- Playground supports new [OpenAI models](/weave/guides/tools/playground/#openai): GPT‑4.1, GPT‑4.1 mini, and GPT‑4.1 nano.
+- Build labeled datasets directly from traces, with your annotations automatically converted into dataset columns. See [Dataset creation from traces](/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui).
 
 ## Security
 - Registry admins can now designate a [service account](/platform/hosting/iam/service-accounts/) in a registry as either a Registry Admin or a Member. Previously, the service account’s role was always Registry Admin. See [Registry service account configuration](/models/registry/configure_registry/).
@@ -417,8 +417,8 @@ Private preview features are available by invitation only. To request enrollment
 - In Tables and Query panels that use the `runs` expression, you can use the new Runs History step slider and drop-down controls to view a table of metrics at each step of a run.
 - Playground in W&B Weave supports new models: OpenAI's `gpt-4.5-preview`  and Deepseek's `deepseek-chat` and `deepseek-reasoner`.
 - Weave tracing has two new agent framework integrations: CrewAI and OpenAI’s Agent SDK.
-- In the Weave UI, you can now build Datasets from traces. Learn more: https://weave-docs.wandb.ai/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui
-- The Weave Python SDK now provides a way to filter the inputs and outputs of your Weave data to ensure sensitive data does not leave your network perimeter. You can configure to redact sensitive data. Learn more: https://weave-docs.wandb.ai/guides/tracking/redact-pii/
+- In the Weave UI, you can now build Datasets from traces. Learn more: /weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui
+- The Weave Python SDK now provides a way to filter the inputs and outputs of your Weave data to ensure sensitive data does not leave your network perimeter. You can configure to redact sensitive data. Learn more: /weave/guides/tracking/redact-pii/
 - To streamline your experience, the System tab in the individual run workspace view will be removed in an upcoming release. View full information about system metrics in the System section of the workspace. For questions, contact [support@wandb.com](mailto:support@wandb.com).
 
 ## Security
@@ -491,8 +491,8 @@ The release includes the following additional updates:
 
 **This is a mini-feature and patch release, delivered at a different schedule than the monthly W&B server major releases**
 
-* Organization admins can now configure Models seats and access control for both Models & [W&B Weave](https://weave-docs.wandb.ai/) in a seamless manner from their organization dashboard. This change allows for a efficient user management when [Weave](https://weave-docs.wandb.ai/) is enabled for a Dedicated Cloud or Self-Managed instance.
-    * [Weave](https://weave-docs.wandb.ai/) pricing is consumption-based rather than based on number of seats used. Seat management only applies to the Models product.
+* Organization admins can now configure Models seats and access control for both Models & [W&B Weave](/weave/) in a seamless manner from their organization dashboard. This change allows for a efficient user management when [Weave](/weave/) is enabled for a Dedicated Cloud or Self-Managed instance.
+    * [Weave](/weave/) pricing is consumption-based rather than based on number of seats used. Seat management only applies to the Models product.
 * You can now configure [access roles at the project level for team and restricted scoped projects](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/). It allows assigning different access roles to a user within different projects in the same team, and thus adding another strong control to conform to enterprise governance needs.
 
 
