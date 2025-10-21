@@ -2252,11 +2252,11 @@
   },
   "redirects": [
     {
-      "source": "/app/*",
+      "source": "/app/:slug*",
       "destination": "/models/app/:slug*"
     },
     {
-      "source": "/guides/app/*",
+      "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
     {
@@ -2268,39 +2268,39 @@
       "destination": "/models/models_quickstart"
     },
     {
-      "source": "/artifacts/*",
+      "source": "/artifacts/:slug*",
       "destination": "/models/artifacts/:slug*"
     },
     {
-      "source": "/guides/artifacts/*",
+      "source": "/guides/artifacts/:slug*",
       "destination": "/models/artifacts/:slug*"
     },
     {
-      "source": "/guides/automations/*",
+      "source": "/guides/automations/:slug*",
       "destination": "/models/automations/:slug*"
     },
     {
-      "source": "/guides/hosting/*",
+      "source": "/guides/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
     },
     {
-      "source": "/guides/inference/*",
+      "source": "/guides/inference/:slug*",
       "destination": "/inference/:slug*"
     },
     {
-      "source": "/guides/integrations/*",
+      "source": "/guides/integrations/:slug*",
       "destination": "/models/integrations/:slug*"
     },
     {
-      "source": "/guides/launch/*",
+      "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
     },
     {
-      "source": "/guides/registry/*",
+      "source": "/guides/registry/:slug*",
       "destination": "/models/registry/:slug*"
     },
     {
-      "source": "/guides/reports/*",
+      "source": "/guides/reports/:slug*",
       "destination": "/models/reports/:slug*"
     },
     {
@@ -2308,24 +2308,24 @@
       "destination": "/platform/secrets"
     },
     {
-      "source": "/guides/track/*",
+      "source": "/guides/track/:slug*",
       "destination": "/models/track/:slug*"
     },
 
     {
-      "source": "/guides/runs/*",
+      "source": "/guides/runs/:slug*",
       "destination": "/models/runs/:slug*"
     },
     {
-      "source": "/guides/sweeps/*",
+      "source": "/guides/sweeps/:slug*",
       "destination": "/models/sweeps/:slug*"
     },
     {
-      "source": "/guides/tables/*",
+      "source": "/guides/tables/:slug*",
       "destination": "/models/tables/:slug*"
     },
     {
-      "source": "/guides/training/*",
+      "source": "/guides/training/:slug*",
       "destination": "/training/:slug*"
     },
     {
@@ -2333,19 +2333,19 @@
       "destination": "/models/evaluate-models"
     },
     {
-      "source": "/launch-library/*",
+      "source": "/launch-library/:slug*",
       "destination": "/platform/launch/launch-library/:slug*"
     },
     {
-      "source": "/ref/python/*",
+      "source": "/ref/python/:slug*",
       "destination": "/models/ref/python/:slug*"
     },
     {
-      "source": "/ref/cli/*",
+      "source": "/ref/cli/:slug*",
       "destination": "/models/ref/cli/:slug*"
     },
     {
-      "source": "/ref/query-panel/*",
+      "source": "/ref/query-panel/:slug*",
       "destination": "/models/ref/query-panel/:slug*"
     },
     {
@@ -2357,11 +2357,11 @@
       "destination": "/training/api-reference"
     },
     {
-      "source": "/ref/wandb_workspaces/*",
+      "source": "/ref/wandb_workspaces/:slug*",
       "destination": "/models/ref/wandb_workspaces/:slug*"
     },
     {
-      "source": "/tutorials/*",
+      "source": "/tutorials/:slug*",
       "destination": "/models/tutorials/:slug*"
     },
     {
@@ -2413,15 +2413,15 @@
       "destination": "/models/support/"
     },
     {
-      "source": "/wandb/*",
+      "source": "/wandb/",
       "destination": "/models/ref/python/"
     },
     {
-      "source": "/ref/public-api/*",
+      "source": "/ref/public-api/:slug*",
       "destination": "/models/ref/python/public-api/:slug*"
     },
     {
-      "source": "/ref/python/classes/*",
+      "source": "/ref/python/classes/:slug*",
       "destination": "/models/ref/python/experiments/:slug*"
     },
     {
@@ -2429,27 +2429,27 @@
       "destination": "/models/ref/python"
     },
     {
-      "source": "/ref/python/wandb_workspaces/*",
+      "source": "/ref/python/wandb_workspaces/:slug*",
       "destination": "/models/ref/wandb_workspaces/:slug*"
     },
     {
-      "source": "/ref/release-notes/0.3*",
+      "source": "/ref/release-notes/0.3/*",
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/ref/release-notes/0.4:slug*",
+      "source": "/ref/release-notes/0.4/*",
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/ref/release-notes/0.5*/",
+      "source": "/ref/release-notes/0.5/*",
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/ref/release-notes/0.60.0/",
+      "source": "/ref/release-notes/0.60.0/*",
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/ref/release-notes/0.61.0/",
+      "source": "/ref/release-notes/0.61.0/*",
       "destination": "/release-notes/server-releases/"
     },
     {
