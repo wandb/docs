@@ -433,7 +433,7 @@
                           "models/integrations/scikit",
                           "models/integrations/simpletransformers",
                           "models/integrations/spacy",
-                          "models/integrations/stable-baselines3",
+                          "models/integrations/stable-baselines-3",
                           "models/integrations/ultralytics"
                         ]
                       }
@@ -458,7 +458,7 @@
                       "models/integrations/kubeflow-pipelines-kfp",
                       "models/integrations/metaflow",
                       "models/integrations/dagster",
-                      "models/integration/hydra"
+                      "models/integrations/hydra"
                     ]
                   },
                   {
@@ -467,7 +467,7 @@
                       "models/integrations/docker",
                       "models/integrations/tensorboard",
                       "models/integrations/w-and-b-for-julia",
-                      "models/integrations/yolo",
+                      "models/integrations/yolox",
                       "models/integrations/yolov5"
                     ]
                   }
