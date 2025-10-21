@@ -7,6 +7,14 @@
     "light": "#ffb633",
     "dark": "#ffb633"
   },
+  "integrations": {
+    "ga4": {
+        "measurementId": "G-5JYCHZZP7K"
+    },
+    "gtm": {
+      "tagId": "GTM-5BL5RTH"
+    }
+  },
   "styling": {
     "eyebrows": "breadcrumbs"
   },
