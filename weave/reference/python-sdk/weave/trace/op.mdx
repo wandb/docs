@@ -6,21 +6,13 @@ description: "Python SDK reference for weave.trace.op"
 
 # API Overview
 
-
-
-
-
-
-
-
 ---
 
-
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/op.py#L1087"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/op.py#L1096"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>function</kbd> `call`
 
-```python lines
+```python
 call(
     op: 'Op',
     *args: 'Any',
@@ -37,7 +29,7 @@ This function will never raise.  Any errors are captured in the Call object.
 
 This method is automatically bound to any function decorated with `@weave.op`, allowing for usage like: 
 
-```python lines
+```python
 @weave.op
 def add(a: int, b: int) -> int:
      return a + b
@@ -45,15 +37,13 @@ def add(a: int, b: int) -> int:
 result, call = add.call(1, 2)
 ```
 
-
 ---
 
-
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/op.py#L1133"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/op.py#L1142"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>function</kbd> `calls`
 
-```python lines
+```python
 calls(op: 'Op') → CallsIter
 ```
 
@@ -61,7 +51,7 @@ Get an iterator over all calls to this op.
 
 This method is automatically bound to any function decorated with `@weave.op`, allowing for usage like: 
 
-```python lines
+```python
 @weave.op
 def add(a: int, b: int) -> int:
      return a + b

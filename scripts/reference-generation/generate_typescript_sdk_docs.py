@@ -195,9 +195,12 @@ def convert_to_mintlify_format(docs_dir):
         if title_match:
             content = content.replace(title_match.group(0), '', 1).strip()
         
+        # Fix escaped angle brackets in title (TypeDoc escapes them as \< and \>)
+        title_fixed = title.replace('\\<', '<').replace('\\>', '>')
+        
         # Add Mintlify frontmatter
         frontmatter = f"""---
-title: "{title}"
+title: "{title_fixed}"
 description: "TypeScript SDK reference"
 ---
 
@@ -216,13 +219,32 @@ description: "TypeScript SDK reference"
         # TypeDoc generates links like ../classes/WeaveObject.md which are already relative
         # We just need to remove the .md extension
         
-        # Remove .md extensions from all links
+        # Fix internal links
+        # 1. Remove .md extensions from all links
         content = re.sub(r'\.md(#[^)]+)?\)', r'\1)', content)
         
-        # Fix links to README to point to index instead
-        # TypeDoc generates links like ../README which should be ../index
+        # 2. Fix links to README to point to index instead
         content = re.sub(r'\]\(\.\./README', '](../index', content)
         content = re.sub(r'\]\(README', '](index', content)
+        
+        # 3. Fix same-directory links (e.g., WeaveObject -> ./WeaveObject)
+        # For links to class names (start with capital letter) that don't have a path
+        content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', r'](./\1\2)', content)
+        
+        # 4. Fix cross-directory links based on file location
+        if '/functions/' in str(md_file):
+            # Functions linking to classes/interfaces need ../
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
+            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](../interfaces/\1)', content)
+        elif '/type-aliases/' in str(md_file):
+            # Type aliases linking to classes need ../
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
+        elif md_file.name == 'README.md' or md_file.name == 'index.mdx':
+            # Index files need ./ prefix for subdirectories
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](./classes/\1)', content)
+            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](./interfaces/\1)', content)
+            content = re.sub(r'\]\(functions/([^)]+)\)', r'](./functions/\1)', content)
+            content = re.sub(r'\]\(type-aliases/([^)]+)\)', r'](./type-aliases/\1)', content)
         
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
@@ -308,47 +330,53 @@ description: "TypeScript SDK reference"
                 flags=re.DOTALL
             )
     
-    # Extract type aliases (specifically Op)
+    # Extract type aliases
     if has_type_aliases:
         type_aliases_dir = docs_path / "type-aliases"
         type_aliases_dir.mkdir(exist_ok=True)
         
-        # Pattern to match Op type alias section
-        op_pattern = re.compile(
-            r'(### Op\n.*?)(?=\n### |\Z)',
+        # Pattern to match all type alias sections
+        # Look for ### TypeAliasName pattern
+        type_alias_pattern = re.compile(
+            r'(### ([A-Za-z][A-Za-z0-9]*)\n\nƬ .*?)(?=\n### |\Z)',
             re.DOTALL
         )
         
-        op_match = op_pattern.search(content)
-        if op_match:
-            op_content = op_match.group(1)
-            
-            # Create the Op file content
-            op_file_content = f"""---
-title: "Op"
+        type_aliases = type_alias_pattern.findall(content)
+        for alias_content, alias_name in type_aliases:
+            # Skip if it's not a type alias (e.g., if it's a function or class)
+            if not alias_content.startswith(f"### {alias_name}\n\nƬ "):
+                continue
+                
+            # Create the type alias file content
+            alias_file_content = f"""---
+title: "{alias_name}"
 description: "TypeScript SDK reference"
 ---
 
-{op_content.replace('### Op', '# Op')}"""
+{alias_content.replace(f'### {alias_name}', f'# {alias_name}')}"""
             
-            # Write the Op file
-            op_file = type_aliases_dir / "Op.mdx"
-            op_file.write_text(op_file_content)
-            print(f"    ✓ Extracted Op.mdx")
+            # Write the type alias file
+            alias_file = type_aliases_dir / f"{alias_name}.mdx"
+            alias_file.write_text(alias_file_content)
+            print(f"    ✓ Extracted {alias_name}.mdx")
+        
+        # Remove all extracted type aliases from index
+        content = type_alias_pattern.sub('', content)
             
-            # Remove Op documentation from index
-            content = op_pattern.sub('', content)
-            
-            # Update Type Aliases section with link
-            type_aliases_section = "\n### Type Aliases\n\n- [Op](type-aliases/Op)\n"
-            
-            # Replace existing Type Aliases section
-            content = re.sub(
-                r'### Type [Aa]liases.*?(?=\n### |\n## |\Z)',
-                type_aliases_section,
-                content,
-                flags=re.DOTALL
-            )
+        # Update Type Aliases section with links to all extracted type aliases
+        if type_aliases:
+            type_aliases_links = [f"- [{name}](type-aliases/{name})" for _, name in type_aliases if _.startswith(f"### {name}\n\nƬ ")]
+            if type_aliases_links:
+                type_aliases_section = "\n### Type Aliases\n\n" + "\n".join(sorted(type_aliases_links)) + "\n"
+                
+                # Replace existing Type Aliases section
+                content = re.sub(
+                    r'### Type [Aa]liases.*?(?=\n### |\n## |\Z)',
+                    type_aliases_section,
+                    content,
+                    flags=re.DOTALL
+                )
     
     # Write updated index
     index_file.write_text(content)

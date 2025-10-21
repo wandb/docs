@@ -21,6 +21,7 @@ description: "TypeScript SDK reference"
 
 ### Methods
 
+- [addScore](./WeaveClient#addscore)
 - [createCall](./WeaveClient#createcall)
 - [finishCall](./WeaveClient#finishcall)
 - [finishCallWithException](./WeaveClient#finishcallwithexception)
@@ -57,7 +58,7 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[weaveClient.ts:91](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L91)
+[weaveClient.ts:92](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L92)
 
 ## Properties
 
@@ -67,7 +68,7 @@ description: "TypeScript SDK reference"
 
 #### Defined in
 
-[weaveClient.ts:94](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L94)
+[weaveClient.ts:95](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L95)
 
 ___
 
@@ -77,7 +78,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:95](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L95)
+[weaveClient.ts:96](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L96)
 
 ___
 
@@ -87,13 +88,39 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:92](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L92)
+[weaveClient.ts:93](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L93)
 
 ## Methods
 
+### addScore
+
+▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
+
+Add a scorer result (e.g., scorer output) to a call.
+Used in imperative evaluation to attach scorer results to predict calls.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `predictCallId` | `string` | ID of the predict call to attach feedback to |
+| `scorerCallId` | `string` | ID of the scorer call that generated the feedback |
+| `runnableRefUri` | `string` | URI of the scorer (Op or Object ref) |
+| `scorerOutput` | `any` | Output of the scorer |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+#### Defined in
+
+[weaveClient.ts:841](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L841)
+
+___
+
 ### createCall
 
-▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`): `Promise`\<`void`\>
+▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -108,6 +135,7 @@ ___
 | `parentCall` | `undefined` \| `CallStackEntry` |
 | `startTime` | `Date` |
 | `displayName?` | `string` |
+| `attributes?` | `Record`\<`string`, `any`\> |
 
 #### Returns
 
@@ -115,7 +143,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:700](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L700)
+[weaveClient.ts:701](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L701)
 
 ___
 
@@ -141,7 +169,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:741](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L741)
+[weaveClient.ts:748](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L748)
 
 ___
 
@@ -166,7 +194,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:781](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L781)
+[weaveClient.ts:788](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L788)
 
 ___
 
@@ -186,7 +214,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:280](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L280)
+[weaveClient.ts:281](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L281)
 
 ___
 
@@ -207,7 +235,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:211](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L211)
+[weaveClient.ts:212](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L212)
 
 ___
 
@@ -221,7 +249,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:628](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L628)
+[weaveClient.ts:629](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L629)
 
 ___
 
@@ -243,7 +271,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:221](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L221)
+[weaveClient.ts:222](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L222)
 
 ___
 
@@ -265,7 +293,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:235](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L235)
+[weaveClient.ts:236](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L236)
 
 ___
 
@@ -286,7 +314,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:199](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L199)
+[weaveClient.ts:200](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L200)
 
 ___
 
@@ -306,7 +334,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:632](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L632)
+[weaveClient.ts:633](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L633)
 
 ___
 
@@ -333,7 +361,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:636](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L636)
+[weaveClient.ts:637](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L637)
 
 ___
 
@@ -354,7 +382,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:666](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L666)
+[weaveClient.ts:667](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L667)
 
 ___
 
@@ -375,7 +403,7 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:817](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L817)
+[weaveClient.ts:824](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L824)
 
 ___
 
@@ -389,4 +417,4 @@ ___
 
 #### Defined in
 
-[weaveClient.ts:112](https://github.com/wandb/weave/blob/b1d9129c93572ba073682dba39c7e414a0627f7e/sdks/node/src/weaveClient.ts#L112)
+[weaveClient.ts:113](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveClient.ts#L113)

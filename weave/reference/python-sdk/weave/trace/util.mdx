@@ -6,17 +6,9 @@ description: "Python SDK reference for weave.trace.util"
 
 # API Overview
 
-
-
-
-
-
-
-
 ---
 
-
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L40"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L40"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
 A ThreadPoolExecutor that runs functions with the context of the caller. 
@@ -25,7 +17,7 @@ This is a drop-in replacement for concurrent.futures.ThreadPoolExecutor that ens
 
 You can achieve the same effect without this class by instead writing: 
 
-```python lines
+```python
 with concurrent.futures.ThreadPoolExecutor() as executor:
      contexts = [copy_context() for _ in range(len(vals))]
 
@@ -35,28 +27,21 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
      executor.map(_wrapped_fn, vals)
 ```
 
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L63"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L63"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `__init__`
 
-```python lines
+```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
 ```
 
-
-
-
-
-
-
-
 ---
 
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L72"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L72"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `map`
 
-```python lines
+```python
 map(
     fn: 'Callable',
     *iterables: 'Iterable[Any]',
@@ -65,30 +50,19 @@ map(
 ) → Iterator
 ```
 
-
-
-
-
 ---
 
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L68"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L68"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `submit`
 
-```python lines
+```python
 submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 ```
 
-
-
-
-
-
-
 ---
 
-
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L100"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L100"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ## <kbd>class</kbd> `ContextAwareThread`
 A Thread that runs functions with the context of the caller. 
@@ -97,7 +71,7 @@ This is a drop-in replacement for threading.Thread that ensures calls behave as 
 
 You can achieve the same effect without this class by instead writing: 
 
-```python lines
+```python
 def run_with_context(func, *args, **kwargs):
      context = copy_context()
      def wrapper():
@@ -108,18 +82,13 @@ thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
 thread.start()
 ```
 
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L124"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L124"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `__init__`
 
-```python lines
+```python
 __init__(*args: 'Any', **kwargs: 'Any') → None
 ```
-
-
-
-
-
 
 ---
 
@@ -155,19 +124,13 @@ Native integral thread ID of this thread, or None if it has not been started.
 
 This is a non-negative integer. See the get_native_id() function. This represents the Thread ID as reported by the kernel. 
 
-
-
 ---
 
-<a href="https://github.com/wandb/weave/blob/master/weave/trace/util.py#L128"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/util.py#L128"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>method</kbd> `run`
 
-```python lines
+```python
 run() → None
 ```
-
-
-
-
 

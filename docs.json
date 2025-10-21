@@ -1010,15 +1010,22 @@
                       {
                         "group": "Core",
                         "pages": [
-                          "weave/reference/python-sdk/weave/trace/weave_client",
+                          "weave/reference/python-sdk/weave/trace/feedback",
                           "weave/reference/python-sdk/weave/trace/op",
-                          "weave/reference/python-sdk/weave/trace/util"
+                          "weave/reference/python-sdk/weave/trace/util",
+                          "weave/reference/python-sdk/weave/trace/weave_client"
                         ]
                       },
                       {
                         "group": "Trace Server",
                         "pages": [
                           "weave/reference/python-sdk/weave/trace_server/trace_server_interface"
+                        ]
+                      },
+                      {
+                        "group": "Trace Server Bindings",
+                        "pages": [
+                          "weave/reference/python-sdk/weave/trace_server_bindings/remote_http_trace_server"
                         ]
                       }
                     ]
@@ -1032,6 +1039,10 @@
                         "pages": [
                           "weave/reference/typescript-sdk/weave/classes/Dataset",
                           "weave/reference/typescript-sdk/weave/classes/Evaluation",
+                          "weave/reference/typescript-sdk/weave/classes/EvaluationLogger",
+                          "weave/reference/typescript-sdk/weave/classes/MessagesPrompt",
+                          "weave/reference/typescript-sdk/weave/classes/ScoreLogger",
+                          "weave/reference/typescript-sdk/weave/classes/StringPrompt",
                           "weave/reference/typescript-sdk/weave/classes/WeaveClient",
                           "weave/reference/typescript-sdk/weave/classes/WeaveObject"
                         ]
@@ -1042,28 +1053,34 @@
                           "weave/reference/typescript-sdk/weave/functions/init",
                           "weave/reference/typescript-sdk/weave/functions/login",
                           "weave/reference/typescript-sdk/weave/functions/op",
+                          "weave/reference/typescript-sdk/weave/functions/requireCurrentCallStackEntry",
+                          "weave/reference/typescript-sdk/weave/functions/requireCurrentChildSummary",
                           "weave/reference/typescript-sdk/weave/functions/weaveAudio",
-                          "weave/reference/typescript-sdk/weave/functions/weaveImage"
+                          "weave/reference/typescript-sdk/weave/functions/weaveImage",
+                          "weave/reference/typescript-sdk/weave/functions/wrapOpenAI"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
                           "weave/reference/typescript-sdk/weave/interfaces/CallSchema",
-                          "weave/reference/typescript-sdk/weave/interfaces/CallsFilter"
+                          "weave/reference/typescript-sdk/weave/interfaces/CallsFilter",
+                          "weave/reference/typescript-sdk/weave/interfaces/WeaveAudio",
+                          "weave/reference/typescript-sdk/weave/interfaces/WeaveImage"
                         ]
                       },
                       {
                         "group": "Type Aliases",
                         "pages": [
-                          "weave/reference/typescript-sdk/weave/type-aliases/Op"
+                          "weave/reference/typescript-sdk/weave/type-aliases/Op",
+                          "weave/reference/typescript-sdk/weave/type-aliases/OpDecorator"
                         ]
                       }
                     ]
                   },
                   {
                     "group": "Service API",
-                    "openapi": "openapi.json"
+                    "openapi": "https://raw.githubusercontent.com/wandb/weave/v0.52.10/sdks/node/weave.openapi.json"
                   }
                 ]
               },

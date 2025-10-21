@@ -35,6 +35,15 @@ def check_pypi_version(version):
         return True, []  # Allow to proceed if we can't check
 
 
+def get_installed_version():
+    """Get the installed Weave version."""
+    try:
+        import weave
+        return weave.__version__
+    except:
+        return None
+
+
 def install_dependencies(weave_version="latest"):
     """Install Weave and other required packages."""
     print(f"Installing dependencies (Weave version: {weave_version})...")
@@ -187,10 +196,15 @@ description: "Python SDK reference for {module_name}"
     return content
 
 
-def generate_module_docs(module, module_name: str, src_root_path: str) -> str:
+def generate_module_docs(module, module_name: str, src_root_path: str, version: str = "master") -> str:
     """Generate documentation for a single module."""
+    # Use the specific version tag for source links
+    src_url = f"https://github.com/wandb/weave/blob/{version}"
+    if version == "latest":
+        src_url = "https://github.com/wandb/weave/blob/master"
+    
     generator = lazydocs.MarkdownGenerator(
-        src_base_url="https://github.com/wandb/weave/blob/master",
+        src_base_url=src_url,
         src_root_path=src_root_path,
         remove_package_prefix=True,
     )
@@ -226,6 +240,123 @@ def generate_module_docs(module, module_name: str, src_root_path: str) -> str:
     
     # Fix code fence indentation
     content = fix_code_fence_indentation(content)
+    
+    # Clean up excessive whitespace (multiple blank lines)
+    content = re.sub(r'\n{3,}', '\n\n', content)
+    
+    # Fix broken URLs where lazydocs splits them incorrectly
+    # Pattern: [link text](https`</b>: //domain...)
+    content = re.sub(r'\]\(https`</b>:\s*//', '](https://', content)
+    # Also fix any other protocol splits
+    content = re.sub(r'\]\(http`</b>:\s*//', '](http://', content)
+    # Fix broken bold tags around URLs
+    content = re.sub(r'<b>`([^`]+)\]\(([^)]+)`</b>', r'**\1](\2**', content)
+    # Fix unclosed <b> tags that break MDX parsing
+    # Remove <b>` at the start of lines that don't have a closing </b>
+    content = re.sub(r'^- <b>`([^`\n]*?)$', r'- \1', content, flags=re.MULTILINE)
+    
+    # Fix parameter lists that have been broken by lazydocs
+    # Strategy: Parse all parameters into a structured format, then reconstruct them properly
+    def fix_parameter_lists(text):
+        """Fix parameter lists where continuations are incorrectly marked as new parameters."""
+        lines = text.split('\n')
+        fixed_lines = []
+        i = 0
+        
+        while i < len(lines):
+            line = lines[i]
+            
+            # Check if we're at the start of a parameter list (Args: or similar)
+            if line.strip() in ['**Args:**', '**Arguments:**', '**Parameters:**', '**Kwargs:**']:
+                fixed_lines.append(line)
+                i += 1
+                
+                # Collect all parameter lines until we hit a non-parameter section
+                params = []
+                current_param = None
+                
+                while i < len(lines):
+                    curr_line = lines[i]
+                    stripped = curr_line.strip()
+                    
+                    # Check if we've reached the end of the parameter list
+                    if stripped.startswith('**') and stripped.endswith(':**'):
+                        break  # Hit the next section (Returns:, Raises:, etc.)
+                    if not stripped:
+                        # Empty line might signal end of params
+                        if current_param:
+                            params.append(current_param)
+                            current_param = None
+                        fixed_lines.append(curr_line)
+                        i += 1
+                        continue
+                    
+                    # Check if this is a parameter line
+                    if stripped.startswith('- <b>`'):
+                        # Try to parse as a properly formatted parameter
+                        # A valid parameter line should match: - <b>`param_name`</b>: description
+                        match = re.match(r'^- <b>`([^`]+)`</b>:\s*(.*)', stripped)
+                        if match:
+                            # Extract parameter name and description
+                            param_name = match.group(1)
+                            param_desc = match.group(2)
+                            
+                            # Check if the parameter name is valid (alphanumeric/underscore only)
+                            # Valid parameter names don't contain spaces or special characters
+                            if re.match(r'^[a-zA-Z_][\w_]*(\.[a-zA-Z_][\w_]*)*$', param_name):
+                                # This is a real parameter
+                                if current_param:
+                                    params.append(current_param)
+                                current_param = {'name': param_name, 'desc': param_desc}
+                            else:
+                                # The "parameter name" contains invalid characters
+                                # This is probably a continuation line that was incorrectly formatted
+                                # Extract the full content and treat as continuation
+                                continuation = stripped[6:]  # Skip '- <b>`'
+                                continuation = continuation.replace('`</b>:', '').replace('`</b>', '').replace('`', '').strip()
+                                if current_param:
+                                    current_param['desc'] += ' ' + continuation
+                                else:
+                                    fixed_lines.append(curr_line)
+                        else:
+                            # Doesn't match the parameter pattern at all
+                            # This is a malformed line - likely a continuation
+                            # Extract whatever content we can find
+                            continuation = stripped[6:] if len(stripped) > 6 else ''
+                            # Clean up any stray markup
+                            continuation = re.sub(r'`</b>:?', '', continuation)
+                            continuation = continuation.replace('`', '').strip()
+                            
+                            if current_param:
+                                current_param['desc'] += ' ' + continuation
+                            else:
+                                # No current parameter to attach to
+                                fixed_lines.append(curr_line)
+                    else:
+                        # Regular line, might be continuation of description
+                        if current_param and stripped:
+                            # This is a continuation of the current parameter's description
+                            current_param['desc'] += ' ' + stripped
+                        else:
+                            fixed_lines.append(curr_line)
+                    
+                    i += 1
+                
+                # Add the last parameter if exists
+                if current_param:
+                    params.append(current_param)
+                
+                # Reconstruct the parameter list with proper formatting
+                for param in params:
+                    fixed_lines.append(f" - <b>`{param['name']}`</b>: {param['desc']}")
+                
+            else:
+                fixed_lines.append(line)
+                i += 1
+        
+        return '\n'.join(fixed_lines)
+    
+    content = fix_parameter_lists(content)
     
     # Convert to Mintlify format
     content = convert_docusaurus_to_mintlify(content, module_name)
@@ -283,18 +414,35 @@ def process_pydantic_model(obj, generator, module_name: str) -> str:
 
 def get_modules_to_document():
     """Get the list of modules to document."""
-    # Import weave modules
     import weave
-    from weave.trace import op, weave_client, util
-    from weave.trace_server import trace_server_interface
     
-    return [
-        (weave, "weave"),
-        (weave_client, "weave.trace.weave_client"),
-        (op, "weave.trace.op"),
-        (util, "weave.trace.util"),
-        (trace_server_interface, "weave.trace_server.trace_server_interface"),
+    # Define the modules we want to document based on upstream Weave docs
+    # These are the public API modules that users should interact with
+    public_api_modules = [
+        "weave",  # Main module
+        "weave.trace.feedback",  # Feedback API
+        "weave.trace.op",  # Operations API
+        "weave.trace.util",  # Utility functions
+        "weave.trace.weave_client",  # Client API
+        "weave.trace_server.trace_server_interface",  # Server interface
+        "weave.trace_server_bindings.remote_http_trace_server",  # Remote server bindings
     ]
+    
+    modules_to_document = []
+    
+    for module_name in public_api_modules:
+        try:
+            # Try to import the module
+            import importlib
+            module = importlib.import_module(module_name)
+            modules_to_document.append((module, module_name))
+            print(f"  ✓ Found module: {module_name}")
+        except ImportError as e:
+            print(f"  ⚠ Could not import {module_name}: {e}")
+        except Exception as e:
+            print(f"  ⚠ Error with {module_name}: {e}")
+    
+    return modules_to_document
 
 
 def main():
@@ -321,16 +469,25 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print("\nGenerating Python SDK documentation...")
+    print("Discovering public modules...")
     
     # Get modules to document
     modules = get_modules_to_document()
+    
+    # Determine the version tag to use for source links
+    link_version = weave_version
+    if weave_version == "latest":
+        # Get the actual installed version for links
+        actual_version = get_installed_version()
+        if actual_version:
+            link_version = actual_version
     
     for module, module_name in modules:
         print(f"  Generating docs for {module_name}...")
         
         try:
             # Generate documentation
-            content = generate_module_docs(module, module_name, str(module_root_path))
+            content = generate_module_docs(module, module_name, str(module_root_path), link_version)
             
             # Determine output path
             parts = module_name.split(".")
@@ -351,6 +508,11 @@ def main():
             print(f"    ✗ Error: {e}")
     
     print("\n✓ Python SDK documentation generation complete!")
+    
+    # Output the actual installed version for the workflow
+    actual_version = get_installed_version()
+    if actual_version:
+        print(f"\nACTUAL_VERSION={actual_version}")
 
 
 if __name__ == "__main__":
