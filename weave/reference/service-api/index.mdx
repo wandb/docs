@@ -26,64 +26,63 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 
 ### Calls
 
-- **POST /call/start** - Call Start
-- **POST /call/end** - Call End
-- **POST /call/upsert_batch** - Call Start Batch
-- **POST /calls/delete** - Calls Delete
-- **POST /call/update** - Call Update
-- **POST /call/read** - Call Read
-- **POST /calls/query_stats** - Calls Query Stats
-- **POST /calls/stream_query** - Calls Query Stream
+- **[POST /call/start](/api-reference/calls/call-start)** - Call Start
+- **[POST /call/end](/api-reference/calls/call-end)** - Call End
+- **[POST /call/upsert_batch](/api-reference/calls/call-start-batch)** - Call Start Batch
+- **[POST /calls/delete](/api-reference/calls/calls-delete)** - Calls Delete
+- **[POST /call/update](/api-reference/calls/call-update)** - Call Update
+- **[POST /call/read](/api-reference/calls/call-read)** - Call Read
+- **[POST /calls/query_stats](/api-reference/calls/calls-query-stats)** - Calls Query Stats
+- **[POST /calls/stream_query](/api-reference/calls/calls-query-stream)** - Calls Query Stream
 
 ### Costs
 
-- **POST /cost/create** - Cost Create
-- **POST /cost/query** - Cost Query
-- **POST /cost/purge** - Cost Purge
+- **[POST /cost/create](/api-reference/costs/cost-create)** - Cost Create
+- **[POST /cost/query](/api-reference/costs/cost-query)** - Cost Query
+- **[POST /cost/purge](/api-reference/costs/cost-purge)** - Cost Purge
 
 ### Feedback
 
-- **POST /feedback/create** - Feedback Create
-- **POST /feedback/query** - Feedback Query
-- **POST /feedback/purge** - Feedback Purge
-- **POST /feedback/replace** - Feedback Replace
+- **[POST /feedback/create](/api-reference/feedback/feedback-create)** - Feedback Create
+- **[POST /feedback/query](/api-reference/feedback/feedback-query)** - Feedback Query
+- **[POST /feedback/purge](/api-reference/feedback/feedback-purge)** - Feedback Purge
+- **[POST /feedback/replace](/api-reference/feedback/feedback-replace)** - Feedback Replace
 
 ### Files
 
-- **POST /file/create** - File Create
-- **POST /file/content** - File Content
-- **POST /files/query_stats** - Files Stats
+- **[POST /file/create](/api-reference/files/file-create)** - File Create
+- **[POST /file/content](/api-reference/files/file-content)** - File Content
+- **[POST /files/query_stats](/api-reference/files/files-stats)** - Files Stats
 
 ### Objects
 
-- **POST /obj/create** - Obj Create
-- **POST /obj/read** - Obj Read
-- **POST /objs/query** - Objs Query
-- **POST /obj/delete** - Obj Delete
+- **[POST /obj/create](/api-reference/objects/obj-create)** - Obj Create
+- **[POST /obj/read](/api-reference/objects/obj-read)** - Obj Read
+- **[POST /obj/delete](/api-reference/objects/obj-delete)** - Obj Delete
 
 ### OpenTelemetry
 
-- **POST /otel/v1/traces** - Export Trace
+- **[POST /otel/v1/traces](/api-reference/opentelemetry/export-trace)** - Export Trace
 
 ### Refs
 
-- **POST /refs/read_batch** - Refs Read Batch
+- **[POST /refs/read_batch](/api-reference/refs/refs-read-batch)** - Refs Read Batch
 
 ### Service
 
-- **GET /health** - Read Root
-- **GET /version** - Read Version
-- **GET /geolocate** - Get Caller Location
-- **GET /server_info** - Server Info
+- **[GET /health](/api-reference/service/read-root)** - Read Root
+- **[GET /version](/api-reference/service/read-version)** - Read Version
+- **[GET /geolocate](/api-reference/service/get-caller-location)** - Get Caller Location
+- **[GET /server_info](/api-reference/service/server-info)** - Server Info
 
 ### Tables
 
-- **POST /table/create** - Table Create
-- **POST /table/update** - Table Update
-- **POST /table/query** - Table Query
-- **POST /table/query_stats** - Table Query Stats
-- **POST /table/query_stats_batch** - Table Query Stats Batch
+- **[POST /table/create](/api-reference/tables/table-create)** - Table Create
+- **[POST /table/update](/api-reference/tables/table-update)** - Table Update
+- **[POST /table/query](/api-reference/tables/table-query)** - Table Query
+- **[POST /table/query_stats](/api-reference/tables/table-query-stats)** - Table Query Stats
+- **[POST /table/query_stats_batch](/api-reference/tables/table-query-stats-batch) - Table Query Stats Batch
 
 ### Threads
 
-- **POST /threads/stream_query** - Threads Query Stream
+- **[POST /threads/stream_query](/api-reference/threads/threads-query-stream)** - Threads Query Stream
