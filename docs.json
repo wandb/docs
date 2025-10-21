@@ -154,79 +154,6 @@
                 ]
               },
               {
-                "group": "W&B Launch",
-                "pages": [
-                  "platform/launch",
-                  "platform/launch/walkthrough",
-                  "platform/launch/launch-terminology",
-                  {
-                    "group": "Set up Launch",
-                    "pages": [
-                      "platform/launch/set-up-launch",
-                      {
-                        "group": "Configure compute resources",
-                        "pages": [
-                          "platform/launch/setup-launch-docker",
-                          "platform/launch/setup-launch-kubernetes",
-                          "platform/launch/setup-launch-sagemaker",
-                          "platform/launch/setup-vertex"
-                        ]
-                      },
-                      "platform/launch/setup-queue-advanced",
-                      "platform/launch/setup-agent-advanced"
-                    ]
-                  },
-                  {
-                    "group": "Create and deploy jobs",
-                    "pages": [
-                      "platform/launch/create-and-deploy-jobs",
-                      "platform/launch/create-launch-job",
-                      "platform/launch/add-job-to-queue",
-                      "platform/launch/job-inputs",
-                      "platform/launch/launch-view-jobs"
-                    ]
-                  },
-                  {
-                    "group": "Advanced",
-                    "pages": [
-                      "platform/launch/sweeps-on-launch",
-                      "platform/launch/launch-queue-observability",
-                      "platform/launch/integration-guides"
-                    ]
-                  },
-                  {
-                    "group": "Launch FAQ",
-                    "pages": [
-                      "platform/launch/launch-faq",
-                      "platform/launch/launch-faq/best_practices_launch_effectively",
-                      "platform/launch/launch-faq/build_container_launch",
-                      "platform/launch/launch-faq/clicking_launch_without_going_ui",
-                      "platform/launch/launch-faq/control_push_queue",
-                      "platform/launch/launch-faq/docker_queues_run_multiple_jobs_download_same_artifact_useartifact",
-                      "platform/launch/launch-faq/dockerfile_let_wb_build_docker_image_me",
-                      "platform/launch/launch-faq/launch_automatically_provision_spin_compute_resources_target_environment",
-                      "platform/launch/launch-faq/launch_build_images",
-                      "platform/launch/launch-faq/launch_d_wandb_job_create_image_uploading_whole_docker",
-                      "platform/launch/launch-faq/launch_support_parallelization_limit_resources_consumed_job",
-                      "platform/launch/launch-faq/launch_tensorflow_gpu",
-                      "platform/launch/launch-faq/launcherror_permission_denied",
-                      "platform/launch/launch-faq/permissions_agent_require_kubernetes",
-                      "platform/launch/launch-faq/requirements_accelerator_base_image",
-                      "platform/launch/launch-faq/restrict_access_modify_example",
-                      "platform/launch/launch-faq/secrets_jobsautomations_instance_api_key_wish_directly_visible"
-                    ]
-                  },
-                  {
-                    "group": "Launch Library API Reference",
-                    "pages": [
-                      "platform/launch/launch-library/launch",
-                      "platform/launch/launch-library/launch_add",
-                      "platform/launch/launch-library/launchagent"
-                    ]
-                  }
-                ]
-              },
-              {
                 "group": "Resources",
                 "pages": [
                   "pricing",
@@ -665,28 +592,28 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/artifactcollection",
-                          "models/ref/python/public-api/artifactcollections",
-                          "models/ref/python/public-api/artifactfiles",
+                          "models/ref/python/public-api/ArtifactCollection",
+                          "models/ref/python/public-api/ArtifactCollections",
+                          "models/ref/python/public-api/ArtifactFiles",
                           "models/ref/python/public-api/artifacts",
-                          "models/ref/python/public-api/artifacttype",
-                          "models/ref/python/public-api/artifacttypes",
+                          "models/ref/python/public-api/ArtifactType",
+                          "models/ref/python/public-api/ArtifactTypes",
                           "models/ref/python/public-api/automations",
-                          "models/ref/python/public-api/betareport",
-                          "models/ref/python/public-api/file",
+                          "models/ref/python/public-api/BetaReport",
+                          "models/ref/python/public-api/File",
                           "models/ref/python/public-api/files",
-                          "models/ref/python/public-api/member",
-                          "models/ref/python/public-api/project",
+                          "models/ref/python/public-api/Member",
+                          "models/ref/python/public-api/Project",
                           "models/ref/python/public-api/projects",
-                          "models/ref/python/public-api/registry",
+                          "models/ref/python/public-api/Registry",
                           "models/ref/python/public-api/reports",
-                          "models/ref/python/public-api/run",
-                          "models/ref/python/public-api/runartifacts",
+                          "models/ref/python/public-api/Run",
+                          "models/ref/python/public-api/RunArtifacts",
                           "models/ref/python/public-api/runs",
-                          "models/ref/python/public-api/sweep",
+                          "models/ref/python/public-api/Sweep",
                           "models/ref/python/public-api/sweeps",
-                          "models/ref/python/public-api/team",
-                          "models/ref/python/public-api/user"
+                          "models/ref/python/public-api/Team",
+                          "models/ref/python/public-api/User"
                         ]
                       }
                     ]
@@ -1163,6 +1090,81 @@
               "release-notes/server-releases",
               "release-notes/server-releases-archived",
               "release-notes/release-policies"
+            ]
+          },
+          {
+            "tab": "W&B Launch",
+            "icon": "/icons/Name=Launch, Mode=Dark.svg",
+            "hidden": true,
+            "pages": [
+              "platform/launch",
+              "platform/launch/walkthrough",
+              "platform/launch/launch-terminology",
+              {
+                "group": "Set up Launch",
+                "pages": [
+                  "platform/launch/set-up-launch",
+                  {
+                    "group": "Configure compute resources",
+                    "pages": [
+                      "platform/launch/setup-launch-docker",
+                      "platform/launch/setup-launch-kubernetes",
+                      "platform/launch/setup-launch-sagemaker",
+                      "platform/launch/setup-vertex"
+                    ]
+                  },
+                  "platform/launch/setup-queue-advanced",
+                  "platform/launch/setup-agent-advanced"
+                ]
+              },
+              {
+                "group": "Create and deploy jobs",
+                "pages": [
+                  "platform/launch/create-and-deploy-jobs",
+                  "platform/launch/create-launch-job",
+                  "platform/launch/add-job-to-queue",
+                  "platform/launch/job-inputs",
+                  "platform/launch/launch-view-jobs"
+                ]
+              },
+              {
+                "group": "Advanced",
+                "pages": [
+                  "platform/launch/sweeps-on-launch",
+                  "platform/launch/launch-queue-observability",
+                  "platform/launch/integration-guides"
+                ]
+              },
+              {
+                "group": "Launch FAQ",
+                "pages": [
+                  "platform/launch/launch-faq",
+                  "platform/launch/launch-faq/best_practices_launch_effectively",
+                  "platform/launch/launch-faq/build_container_launch",
+                  "platform/launch/launch-faq/clicking_launch_without_going_ui",
+                  "platform/launch/launch-faq/control_push_queue",
+                  "platform/launch/launch-faq/docker_queues_run_multiple_jobs_download_same_artifact_useartifact",
+                  "platform/launch/launch-faq/dockerfile_let_wb_build_docker_image_me",
+                  "platform/launch/launch-faq/launch_automatically_provision_spin_compute_resources_target_environment",
+                  "platform/launch/launch-faq/launch_build_images",
+                  "platform/launch/launch-faq/launch_d_wandb_job_create_image_uploading_whole_docker",
+                  "platform/launch/launch-faq/launch_support_parallelization_limit_resources_consumed_job",
+                  "platform/launch/launch-faq/launch_tensorflow_gpu",
+                  "platform/launch/launch-faq/launcherror_permission_denied",
+                  "platform/launch/launch-faq/permissions_agent_require_kubernetes",
+                  "platform/launch/launch-faq/requirements_accelerator_base_image",
+                  "platform/launch/launch-faq/restrict_access_modify_example",
+                  "platform/launch/launch-faq/secrets_jobsautomations_instance_api_key_wish_directly_visible"
+                ]
+              },
+              {
+                "group": "Launch Library API Reference",
+                "pages": [
+                  "platform/launch/launch-library/launch",
+                  "platform/launch/launch-library/launch_add",
+                  "platform/launch/launch-library/launchagent"
+                ]
+              }
             ]
           }
         ]
