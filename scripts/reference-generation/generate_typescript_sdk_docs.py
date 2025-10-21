@@ -219,13 +219,17 @@ description: "TypeScript SDK reference"
         # TypeDoc generates links like ../classes/WeaveObject.md which are already relative
         # We just need to remove the .md extension
         
-        # Remove .md extensions from all links
+        # Fix internal links
+        # 1. Remove .md extensions from all links
         content = re.sub(r'\.md(#[^)]+)?\)', r'\1)', content)
         
-        # Fix links to README to point to index instead
-        # TypeDoc generates links like ../README which should be ../index
+        # 2. Fix links to README to point to index instead
         content = re.sub(r'\]\(\.\./README', '](../index', content)
         content = re.sub(r'\]\(README', '](index', content)
+        
+        # 3. Fix same-directory links (e.g., WeaveObject -> ./WeaveObject)
+        # For links to class names (start with capital letter) that don't have a path
+        content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', r'](./\1\2)', content)
         
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
