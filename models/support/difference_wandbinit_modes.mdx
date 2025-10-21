@@ -1,0 +1,9 @@
+---
+title: What is the difference between wandb.init modes?
+---
+
+These modes are available:
+
+* `online` (default): The client sends data to the wandb server.
+* `offline`: The client stores data locally on the machine instead of sending it to the wandb server. Use the [`wandb sync`](/models/ref/cli/wandb-sync) command to synchronize the data later.
+* `disabled`: The client simulates operation by returning mocked objects and prevents any network communication. All logging is turned off, but all API method stubs remain callable. This mode is typically used for testing.

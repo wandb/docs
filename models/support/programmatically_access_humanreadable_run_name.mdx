@@ -1,0 +1,13 @@
+---
+title: How do I programmatically access the human-readable run name?
+---
+
+The `.name` attribute of a [`wandb.Run`](/models/ref/python/experiments/run/) is accessible as follows:
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
+```

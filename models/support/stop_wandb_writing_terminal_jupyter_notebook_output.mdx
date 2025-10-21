@@ -1,0 +1,23 @@
+---
+title: How do I stop wandb from writing to my terminal or my Jupyter notebook output?
+---
+
+Set the environment variable [`WANDB_SILENT`](/models/track/environment-variables/) to `true`.
+
+<Tabs>
+  <Tab title="Python">
+```python
+os.environ["WANDB_SILENT"] = "true"
+```
+  </Tab>
+  <Tab title="Notebook">
+```python
+%env WANDB_SILENT=true
+```
+  </Tab>
+  <Tab title="Command-Line">
+```shell
+WANDB_SILENT=true
+```
+  </Tab>
+</Tabs>

@@ -1,0 +1,25 @@
+---
+title: 値のリストをログするにはどうすればよいですか？
+support:
+  - logs
+  - experiments
+toc_hide: true
+type: docs
+---
+これらの例は、異なる方法で損失をログとして記録する [`wandb.log()`](/ja/models/ref/python/log/) の使い方を示しています。
+<Tabs>
+<Tab title="辞書を使う">
+```python
+wandb.log({f"losses/loss-{ii}": loss for ii, 
+  loss in enumerate(losses)})
+```
+</Tab>
+<Tab title="ヒストグラムとして">
+```python
+# 損失をヒストグラムに変換します
+wandb.log({"losses": wandb.Histogram(losses)})  
+```
+</Tab>
+</Tabs>
+
+詳細は [ログのドキュメント](/ja/models/track/log/) を参照してください。

@@ -1,0 +1,24 @@
+---
+title: 'InitStartError: Error communicating with wandb process'
+---
+
+This error indicates that the library encounters an issue launching the process that synchronizes data to the server.
+
+The following workarounds resolve the issue in specific environments:
+
+<Tabs>
+<Tab title="Linux and OS X">
+```python
+wandb.init(settings=wandb.Settings(start_method="fork"))
+```
+
+</Tab>
+<Tab title="Google Colab">
+
+For versions prior to `0.13.0`, use:
+
+```python
+wandb.init(settings=wandb.Settings(start_method="thread"))
+```
+</Tab>
+</Tabs>

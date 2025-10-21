@@ -1,0 +1,15 @@
+---
+title: 人間が読みやすい Run 名をプログラムで取得するにはどうすればいいですか？
+support:
+  - experiments
+toc_hide: true
+type: docs
+---
+`.name` 属性は、[`wandb.Run`](/ja/models/ref/python/run) から以下のようにアクセスできます:
+
+```python
+import wandb
+
+wandb.init()
+run_name = wandb.run.name
+```

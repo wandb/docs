@@ -1,9 +1,0 @@
-{{- $items := slice -}}
-{{- range .Site.Pages -}}
-  {{- if or (eq .Kind "page") (eq .Kind "section") -}}
-    {{- if .File -}}
-      {{- $items = $items | append (dict "path" .File.Path "lang" .Lang "kind" .Kind "isPage" .IsPage "isSection" .IsSection "bundleType" .BundleType "title" .Title "relPermalink" .RelPermalink "permalink" .Permalink) -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-{{- $items | jsonify -}}
