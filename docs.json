@@ -2425,7 +2425,7 @@
       "destination": "/models/ref/python/experiments/:slug*"
     },
     {
-      "source": "/ref/python/sdk/:slug*",
+      "source": "/ref/python/sdk/*",
       "destination": "/models/ref/python"
     },
     {
@@ -2445,11 +2445,11 @@
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/ref/release-notes/0.60.0/",
+      "source": "/ref/release-notes/0.60.0/*",
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/ref/release-notes/0.61.0/",
+      "source": "/ref/release-notes/0.61.0/*",
       "destination": "/release-notes/server-releases/"
     },
     {
