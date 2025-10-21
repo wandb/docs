@@ -120,82 +120,61 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 <Tab title="Entra">
 1. Log in to the [Azure Portal](https://portal.azure.com/).
 
-2. Select "Microsoft Entra ID" service.
-    <Frame>
-    <img src="/images/hosting/entra_select_entra_service.png" alt="Microsoft Entra ID service"  />
-    </Frame>
+2. Navigate to **Microsoft Entra ID** service and select **App registrations** from the left sidebar.
 
-3. On the left side, select "App registrations."
-    <Frame>
-    <img src="/images/hosting/entra_app_registrations.png" alt="App registrations menu"  />
-    </Frame>
+3. Click **New registration** at the top of the page.
 
-4. On the top, click "New registration."
-    <Frame>
-    <img src="/images/hosting/entra_new_app_registration.png" alt="New registration button"  />
-    </Frame>
+4. On the "Register an application" screen, configure the following:
+   - **Name**: Enter a descriptive name (e.g., "Weights and Biases application")
+   - **Supported account types**: Keep the default "Single tenant" or modify as needed
+   - **Redirect URI**: Select platform type **Web** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
+   - Click **Register**
 
-    On the screen named "Register an application," fill out the values as follows:
-    <Frame>
-    <img src="/images/hosting/entra_register_an_application.png" alt="Application registration form"  />
-    </Frame>
+   <Frame>
+   <img src="/images/hosting/entra_register_an_application.png" alt="Application registration form"  />
+   </Frame>
 
-    - Specify a name, for example "Weights and Biases application"
-    - By default the selected account type is: "Accounts in this organizational directory only (Default Directory only - Single tenant)." Modify if you need to.
-    - Configure Redirect URI as type **Web** with value: `https://YOUR_W_AND_B_URL/oidc/callback`
-    - Click "Register."
+5. After registration, note the following values from the Overview page:
+   - **Application (client) ID** - This is your OIDC Client ID
+   - **Directory (tenant) ID** - This is used for your OIDC Issuer URL
 
-    - Make a note of the "Application (client) ID" and "Directory (tenant) ID." 
+   <Frame>
+   <img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs"  />
+   </Frame>
 
-        <Frame>
-        <img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs"  />
-        </Frame>
+6. Configure authentication settings:
+   - Select **Authentication** from the left sidebar
+   - Under **Front-channel logout URL**, enter `https://YOUR_W_AND_B_URL/logout`
+   - Click **Save**
 
+   <Frame>
+   <img src="/images/hosting/entra_logout_url.png" alt="Front-channel logout URL configuration"  />
+   </Frame>
 
-5. On the left side, click **Authentication**.
-    <Frame>
-    <img src="/images/hosting/entra_select_authentication.png" alt="Authentication menu"  />
-    </Frame>
+7. Create a client secret:
+   - Select **Certificates & secrets** from the left sidebar
+   - Click **New client secret**
+   - Add a description (e.g., "wandb")
+   - Choose an expiration period
+   - Click **Add**
+   - **Important**: Copy and save the secret **Value** immediately (not the Secret ID)
 
-    - Under **Front-channel logout URL**, specify: `https://YOUR_W_AND_B_URL/logout`
-    - Click "Save."
+   <Frame>
+   <img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value"  />
+   </Frame>
 
-        <Frame>
-        <img src="/images/hosting/entra_logout_url.png" alt="Front-channel logout URL"  />
-        </Frame>
+You should now have collected three essential values:
+- **OIDC Client ID**: The Application (client) ID from step 5
+- **OIDC Client Secret**: The secret value from step 7
+- **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5)
 
+<Note>
+The v2.0 endpoint supports both personal Microsoft accounts and work/school accounts. If your organization requires the v1.0 endpoint, use `https://login.microsoftonline.com/{TenantID}` instead.
+</Note>
 
-6. On the left side, click "Certificates & secrets."
-    <Frame>
-    <img src="/images/hosting/entra_select_certificates_secrets.png" alt="Certificates & secrets menu"  />
-    </Frame>
-
-    - Click "Client secrets" and then click "New client secret."
-        <Frame>
-        <img src="/images/hosting/entra_new_secret.png" alt="New client secret button"  />
-        </Frame>
-
-      On the screen named "Add a client secret," fill out the values as follows:
-        <Frame>
-        <img src="/images/hosting/entra_add_new_client_secret.png" alt="Client secret configuration"  />
-        </Frame>
-
-      - Enter a description, for example "wandb"
-      - Leave "Expires" as is or change if you have to.
-      - Click "Add."
-
-
-    - Make a note of the "Value" of the secret. There is no need for the "Secret ID."
-    <Frame>
-    <img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value"  />
-    </Frame>
-
-You should now have made notes of three values:
-- OIDC Client ID
-- OIDC Client Secret
-- Tenant ID is needed for the OIDC Issuer URL
-
-The OIDC issuer URL has the following format: `https://login.microsoftonline.com/${TenantID}/v2.0`
+When configuring W&B Server, use:
+- **Auth Method**: `pkce` (recommended for Entra ID)
+- **OIDC Client Secret**: Required for Entra ID applications
 </Tab>
 </Tabs>
 

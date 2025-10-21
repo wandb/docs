@@ -117,74 +117,50 @@ Okta を認証に設定する手順は以下の通りです：
 OIDC 発行者 URL は `https://COMPANY.okta.com` の形式です。該当する値で COMPANY を置き換えて、注意してください。
 </Tab>
 <Tab title="Entra">
-1. [https://portal.azure.com/](https://portal.azure.com/) で Azure ポータルにログインします。
+1. [Azure ポータル](https://portal.azure.com/)にログインします。
 
-2. 「Microsoft Entra ID」サービスを選択します。
-    <Frame>
-    <img src="/images/hosting/entra_select_entra_service.png"  />
-    </Frame>
+2. **Microsoft Entra ID** サービスに移動し、左側のサイドバーから **App registrations** を選択します。
 
-3. 左側のサイドバーで「App registrations」を選択します。
-    <Frame>
-    <img src="/images/hosting/entra_app_registrations.png"  />
-    </Frame>
+3. ページ上部の **New registration** をクリックします。
 
-4. 上部で「New registration」をクリックします。
-    <Frame>
-    <img src="/images/hosting/entra_new_app_registration.png"  />
-    </Frame>
+4. 「アプリケーションの登録」画面で次の値を設定します：
+   - **名前**: わかりやすい名前を入力（例：「Weights and Biases application」）
+   - **サポートされるアカウントタイプ**: デフォルトの「シングルテナント」を維持するか、必要に応じて変更
+   - **リダイレクト URI**: プラットフォームタイプ **Web** を選択し、`https://YOUR_W_AND_B_URL/oidc/callback` を入力
+   - **登録** をクリック
 
-    「アプリケーションの登録」画面で次の値を入力します：
-    <Frame>
-    <img src="/images/hosting/entra_register_an_application.png"  />
-    </Frame>
+   <Frame>
+   <img src="/images/hosting/entra_register_an_application.png"  />
+   </Frame>
 
-    - 名前を指定します。例として「Weights and Biases application」
-    - デフォルトでは選択されたアカウントタイプは「この組織ディレクトリ内のアカウントのみ (デフォルトディレクトリのみ - シングルテナント)」です。必要に応じて修正してください。
-    - リダイレクト URI を **Web** タイプで設定し、値は `https://YOUR_W_AND_B_URL/oidc/callback`
-    - 「登録」をクリックします。
+5. 登録後、概要ページから次の値をメモします：
+   - **アプリケーション (client) ID** - これが OIDC Client ID です
+   - **ディレクトリ (テナント) ID** - これが OIDC Issuer URL に使用されます
 
-    - 「アプリケーション (client) ID」と「ディレクトリ (テナント) ID」をメモしておいてください。
+   <Frame>
+   <img src="/images/hosting/entra_app_overview_make_note.png"  />
+   </Frame>
 
-        <Frame>
-        <img src="/images/hosting/entra_app_overview_make_note.png"  />
-        </Frame>
+6. 認証設定を構成します：
+   - 左側のサイドバーから **Authentication** を選択
+   - **Front-channel logout URL** に `https://YOUR_W_AND_B_URL/logout` を入力
+   - **保存** をクリック
 
-5. 左側のサイドバーで、**Authentication** をクリックします。
-    <Frame>
-    <img src="/images/hosting/entra_select_authentication.png"  />
-    </Frame>
+   <Frame>
+   <img src="/images/hosting/entra_logout_url.png"  />
+   </Frame>
 
-    - **Front-channel logout URL** の下に次を指定します: `https://YOUR_W_AND_B_URL/logout`
-    - 「保存」をクリックします。
+7. クライアントシークレットを作成します：
+   - 左側のサイドバーから **Certificates & secrets** を選択
+   - **New client secret** をクリック
+   - 説明を追加（例：「wandb」）
+   - 有効期限を選択
+   - **追加** をクリック
+   - **重要**: シークレットの **値** を即座にコピーして保存（シークレット ID ではありません）
 
-        <Frame>
-        <img src="/images/hosting/entra_logout_url.png"  />
-        </Frame>
-
-6. 左側のサイドバーで「Certificates & secrets」をクリックします。
-    <Frame>
-    <img src="/images/hosting/entra_select_certificates_secrets.png"  />
-    </Frame>
-
-    - 「Client secrets」をクリックし、「New client secret」をクリックします。
-    <Frame>
-    <img src="/images/hosting/entra_new_secret.png"  />
-    </Frame>
-
-    「クライアントシークレットの追加」画面で次の値を入力します：
-      <Frame>
-    <img src="/images/hosting/entra_add_new_client_secret.png"  />
-    </Frame>
-
-      - 説明を入力します。例として「wandb」
-      - 「有効期限」はそのままにしておくか、必要に応じて変更します。
-      - 「追加」をクリックします。
-
-    - シークレットの「値」をメモしておいてください。「シークレット ID」は不要です。
-    <Frame>
-    <img src="/images/hosting/entra_make_note_of_secret_value.png"  />
-    </Frame>
+   <Frame>
+   <img src="/images/hosting/entra_make_note_of_secret_value.png"  />
+   </Frame>
 
 これで次の 3 つの値をメモしておいてください：
 - OIDC クライアント ID
