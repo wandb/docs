@@ -1,15 +1,103 @@
 {
   "openapi": "3.1.0",
-  "servers": [
-    {
-      "url": "https://trace.wandb.ai"
-    }
-  ],
   "info": {
     "title": "FastAPI",
     "version": "0.1.0"
   },
   "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Read Root",
+        "operationId": "read_root_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Read Version",
+        "operationId": "read_version_version_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geolocate": {
+      "get": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Get Caller Location",
+        "description": "Lookup the geographic location of a user based on their IP address.\n\nThis API exists for debugging purposes and may not be available in the future.",
+        "operationId": "get_caller_location_geolocate_get",
+        "parameters": [
+          {
+            "name": "ip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "IP address to geolocate, defaults to client IP address",
+              "examples": [
+                "1.2.3.4"
+              ],
+              "title": "Ip"
+            },
+            "description": "IP address to geolocate, defaults to client IP address"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeolocationRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/server_info": {
       "get": {
         "tags": [
@@ -27,44 +115,23 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
+        }
       }
     },
-    "/health": {
-      "get": {
+    "/otel/v1/traces": {
+      "post": {
         "tags": [
-          "Service"
+          "OpenTelemetry"
         ],
-        "summary": "Read Root",
-        "operationId": "read_root_health_get",
+        "summary": "Export Trace",
+        "operationId": "export_trace_otel_v1_traces_post",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "additionalProperties": {
-                    "type": "string"
-                  },
-                  "type": "object",
-                  "title": "Response Read Root Health Get"
-                }
+                "schema": {}
               }
             }
           },
@@ -362,6 +429,128 @@
         ]
       }
     },
+    "/inference/router/openrouter/models": {
+      "get": {
+        "tags": [
+          "Inference"
+        ],
+        "summary": "Inference Router Openrouter Models",
+        "description": "Returns a list of models that are available to be used with OpenRouter.\n\nThis API is available without authentication.",
+        "operationId": "inference_router_openrouter_models_inference_router_openrouter_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouterOpenRouterModelsRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inference/v1{path}": {
+      "get": {
+        "tags": [
+          "Inference"
+        ],
+        "summary": "Inference Get",
+        "description": "OpenAI-compatible APIs.",
+        "operationId": "inference_get_inference_v1_path__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inference"
+        ],
+        "summary": "Inference Post",
+        "description": "OpenAI-compatible APIs.",
+        "operationId": "inference_post_inference_v1_path__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompletionsCreateRequestInputs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/calls/query_stats": {
       "post": {
         "tags": [
@@ -444,15 +633,10 @@
         },
         "responses": {
           "200": {
-            "description": "Stream of data in JSONL format",
+            "description": "Successful Response",
             "content": {
-              "application/jsonl": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Schema"
-                  }
-                }
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -745,6 +929,52 @@
         ]
       }
     },
+    "/table/create_from_digests": {
+      "post": {
+        "tags": [
+          "Tables"
+        ],
+        "summary": "Table Create From Digests",
+        "operationId": "table_create_from_digests_table_create_from_digests_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TableCreateFromDigestsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TableCreateRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/table/query": {
       "post": {
         "tags": [
@@ -791,64 +1021,6 @@
         ]
       }
     },
-    "/table/query_stream": {
-      "post": {
-        "summary": "Table Query Stream",
-        "operationId": "table_query_stream_table_query_stream_post",
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "application/jsonl",
-              "title": "Accept"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TableQueryReq"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Stream of data in JSONL format",
-            "content": {
-              "application/jsonl": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Schema"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/table/query_stats": {
       "post": {
         "tags": [
@@ -873,6 +1045,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TableQueryStatsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/table/query_stats_batch": {
+      "post": {
+        "tags": [
+          "Tables"
+        ],
+        "summary": "Table Query Stats Batch",
+        "operationId": "table_query_stats_batch_table_query_stats_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TableQueryStatsBatchReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TableQueryStatsBatchRes"
                 }
               }
             }
@@ -1006,9 +1224,57 @@
         },
         "responses": {
           "200": {
-            "description": "Binary file content stream",
+            "description": "Successful Response",
             "content": {
-              "application/octet-stream": {}
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/files/query_stats": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Files Stats",
+        "operationId": "files_stats_files_query_stats_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilesStatsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilesStatsRes"
+                }
+              }
             }
           },
           "422": {
@@ -1214,6 +1480,53 @@
         ]
       }
     },
+    "/feedback/batch/create": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Feedback Create Batch",
+        "description": "Add multiple feedback items to calls or objects.",
+        "operationId": "feedback_create_batch_feedback_batch_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreateBatchReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackCreateBatchRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/feedback/query": {
       "post": {
         "tags": [
@@ -1353,6 +1666,188 @@
           }
         ]
       }
+    },
+    "/threads/stream_query": {
+      "post": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Threads Query Stream",
+        "operationId": "threads_query_stream_threads_stream_query_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThreadsQueryReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/evaluations/evaluate_model": {
+      "post": {
+        "tags": [
+          "Evaluations"
+        ],
+        "summary": "Evaluate Model",
+        "operationId": "evaluate_model_evaluations_evaluate_model_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluateModelReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateModelRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/evaluations/status": {
+      "post": {
+        "tags": [
+          "Evaluations"
+        ],
+        "summary": "Evaluation Status",
+        "operationId": "evaluation_status_evaluations_status_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationStatusReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationStatusRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/image/create": {
+      "post": {
+        "tags": [
+          "Images"
+        ],
+        "summary": "Image Create",
+        "operationId": "image_create_image_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageGenerationCreateReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageGenerationCreateRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1405,7 +1900,8 @@
         "required": [
           "$and"
         ],
-        "title": "AndOperation"
+        "title": "AndOperation",
+        "description": "Logical AND. All conditions must evaluate to true.\n\nExample:\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
       },
       "Body_file_create_file_create_post": {
         "properties": {
@@ -1512,6 +2008,7 @@
             "$ref": "#/components/schemas/EndedCallSchemaForInsert"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "end"
@@ -1544,8 +2041,33 @@
             ],
             "title": "Include Costs",
             "default": false
+          },
+          "include_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Storage Size",
+            "default": false
+          },
+          "include_total_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Total Storage Size",
+            "default": false
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -1611,6 +2133,28 @@
               }
             ],
             "title": "Parent Id"
+          },
+          "thread_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
+          },
+          "turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Turn Id"
           },
           "started_at": {
             "type": "string",
@@ -1682,6 +2226,28 @@
             ],
             "title": "Wb Run Id"
           },
+          "wb_run_step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step"
+          },
+          "wb_run_step_end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step End"
+          },
           "deleted_at": {
             "anyOf": [
               {
@@ -1693,6 +2259,28 @@
               }
             ],
             "title": "Deleted At"
+          },
+          "storage_size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Size Bytes"
+          },
+          "total_storage_size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Storage Size Bytes"
           }
         },
         "type": "object",
@@ -1713,6 +2301,7 @@
             "$ref": "#/components/schemas/StartedCallSchemaForInsert"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "start"
@@ -1771,6 +2360,7 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -1809,6 +2399,7 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -1907,6 +2498,34 @@
             ],
             "title": "Call Ids"
           },
+          "thread_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Ids"
+          },
+          "turn_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Turn Ids"
+          },
           "trace_roots_only": {
             "anyOf": [
               {
@@ -1947,6 +2566,7 @@
             "title": "Wb Run Ids"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "CallsFilter"
       },
@@ -2038,6 +2658,32 @@
             "description": "Beta, subject to change. If true, the response will include feedback for each call.",
             "default": false
           },
+          "include_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Storage Size",
+            "description": "Beta, subject to change. If true, the response will include the storage size for a call.",
+            "default": false
+          },
+          "include_total_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Total Storage Size",
+            "description": "Beta, subject to change. If true, the response will include the total storage size for a trace.",
+            "default": false
+          },
           "columns": {
             "anyOf": [
               {
@@ -2072,8 +2718,22 @@
                 "inputs.model.prompt"
               ]
             ]
+          },
+          "return_expanded_column_values": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Expanded Column Values",
+            "description": "If true, the response will include raw values for expanded columns. If false, the response expand_columns will only be used for filtering and ordering. This is useful for clients that want to resolve refs themselves, e.g. for performance reasons.",
+            "default": true
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -2105,8 +2765,53 @@
                 "type": "null"
               }
             ]
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit"
+          },
+          "include_total_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Total Storage Size",
+            "default": false
+          },
+          "expand_columns": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expand Columns",
+            "description": "Columns with refs to objects or table rows that require expansion during filtering or ordering.",
+            "examples": [
+              [
+                "inputs.self.message",
+                "inputs.model.prompt"
+              ]
+            ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -2118,6 +2823,17 @@
           "count": {
             "type": "integer",
             "title": "Count"
+          },
+          "total_storage_size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Storage Size Bytes"
           }
         },
         "type": "object",
@@ -2125,6 +2841,303 @@
           "count"
         ],
         "title": "CallsQueryStatsRes"
+      },
+      "CompletionsCreateRequestInputs": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "messages": {
+            "items": {},
+            "type": "array",
+            "title": "Messages",
+            "default": []
+          },
+          "timeout": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timeout"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature"
+          },
+          "top_p": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top P"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N"
+          },
+          "stop": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop"
+          },
+          "max_completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Completion Tokens"
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens"
+          },
+          "modalities": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalities"
+          },
+          "presence_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Presence Penalty"
+          },
+          "frequency_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frequency Penalty"
+          },
+          "stream": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stream"
+          },
+          "logit_bias": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logit Bias"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User"
+          },
+          "response_format": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Format"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          },
+          "tool_choice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Choice"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logprobs"
+          },
+          "top_logprobs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top Logprobs"
+          },
+          "parallel_tool_calls": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parallel Tool Calls"
+          },
+          "extra_headers": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extra Headers"
+          },
+          "functions": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Functions"
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Function Call"
+          },
+          "api_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model"
+        ],
+        "title": "CompletionsCreateRequestInputs"
       },
       "ContainsOperation": {
         "properties": {
@@ -2136,7 +3149,8 @@
         "required": [
           "$contains"
         ],
-        "title": "ContainsOperation"
+        "title": "ContainsOperation",
+        "description": "Case-insensitive substring match.\n\nNot part of MongoDB. Weave-specific addition.\n\nExample:\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```"
       },
       "ContainsSpec": {
         "properties": {
@@ -2234,7 +3248,8 @@
           "input",
           "substr"
         ],
-        "title": "ContainsSpec"
+        "title": "ContainsSpec",
+        "description": "Specification for the `$contains` operation.\n\n- `input`: The string to search.\n- `substr`: The substring to search for.\n- `case_insensitive`: If true, match is case-insensitive."
       },
       "ConvertOperation": {
         "properties": {
@@ -2246,7 +3261,8 @@
         "required": [
           "$convert"
         ],
-        "title": "ConvertOperation"
+        "title": "ConvertOperation",
+        "description": "Convert the input value to a specific type (e.g., `int`, `bool`, `string`).\n\nExample:\n    ```\n    {\n        \"$convert\": {\n            \"input\": {\"$getField\": \"inputs.value\"},\n            \"to\": \"int\"\n        }\n    }\n    ```"
       },
       "ConvertSpec": {
         "properties": {
@@ -2305,7 +3321,8 @@
           "input",
           "to"
         ],
-        "title": "ConvertSpec"
+        "title": "ConvertSpec",
+        "description": "Specifies conversion details for `$convert`.\n\n- `input`: The operand to convert.\n- `to`: The type to convert to."
       },
       "CostCreateInput": {
         "properties": {
@@ -2369,6 +3386,7 @@
             "description": "The provider of the LLM, e.g. 'openai' or 'mistral'. If not provided, the provider_id will be set to 'default'"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "prompt_token_cost",
@@ -2405,6 +3423,7 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -2451,6 +3470,7 @@
             "$ref": "#/components/schemas/Query"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -2670,6 +3690,7 @@
             ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -2691,6 +3712,19 @@
           "results"
         ],
         "title": "CostQueryRes"
+      },
+      "Datacenter": {
+        "properties": {
+          "country_code": {
+            "type": "string",
+            "title": "Country Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "country_code"
+        ],
+        "title": "Datacenter"
       },
       "EndedCallSchemaForInsert": {
         "properties": {
@@ -2729,6 +3763,17 @@
           },
           "summary": {
             "$ref": "#/components/schemas/SummaryInsertMap"
+          },
+          "wb_run_step_end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step End"
           }
         },
         "type": "object",
@@ -2829,10 +3874,247 @@
         "required": [
           "$eq"
         ],
-        "title": "EqOperation"
+        "title": "EqOperation",
+        "description": "Equality check between two operands.\n\nExample:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
+      },
+      "EvaluateModelReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "evaluation_ref": {
+            "type": "string",
+            "title": "Evaluation Ref"
+          },
+          "model_ref": {
+            "type": "string",
+            "title": "Model Ref"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "evaluation_ref",
+          "model_ref"
+        ],
+        "title": "EvaluateModelReq"
+      },
+      "EvaluateModelRes": {
+        "properties": {
+          "call_id": {
+            "type": "string",
+            "title": "Call Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "call_id"
+        ],
+        "title": "EvaluateModelRes"
+      },
+      "EvaluationStatusComplete": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "complete"
+            ],
+            "const": "complete",
+            "title": "Code",
+            "default": "complete"
+          },
+          "output": {
+            "type": "object",
+            "title": "Output"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "output"
+        ],
+        "title": "EvaluationStatusComplete"
+      },
+      "EvaluationStatusFailed": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "failed"
+            ],
+            "const": "failed",
+            "title": "Code",
+            "default": "failed"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "EvaluationStatusFailed"
+      },
+      "EvaluationStatusNotFound": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "not_found"
+            ],
+            "const": "not_found",
+            "title": "Code",
+            "default": "not_found"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "EvaluationStatusNotFound"
+      },
+      "EvaluationStatusReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "call_id": {
+            "type": "string",
+            "title": "Call Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "call_id"
+        ],
+        "title": "EvaluationStatusReq"
+      },
+      "EvaluationStatusRes": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvaluationStatusNotFound"
+              },
+              {
+                "$ref": "#/components/schemas/EvaluationStatusRunning"
+              },
+              {
+                "$ref": "#/components/schemas/EvaluationStatusFailed"
+              },
+              {
+                "$ref": "#/components/schemas/EvaluationStatusComplete"
+              }
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "EvaluationStatusRes"
+      },
+      "EvaluationStatusRunning": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "running"
+            ],
+            "const": "running",
+            "title": "Code",
+            "default": "running"
+          },
+          "completed_rows": {
+            "type": "integer",
+            "title": "Completed Rows"
+          },
+          "total_rows": {
+            "type": "integer",
+            "title": "Total Rows"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "completed_rows",
+          "total_rows"
+        ],
+        "title": "EvaluationStatusRunning"
+      },
+      "FeedbackCreateBatchReq": {
+        "properties": {
+          "batch": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackCreateReq"
+            },
+            "type": "array",
+            "title": "Batch"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "batch"
+        ],
+        "title": "FeedbackCreateBatchReq"
+      },
+      "FeedbackCreateBatchRes": {
+        "properties": {
+          "res": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackCreateRes"
+            },
+            "type": "array",
+            "title": "Res"
+          }
+        },
+        "type": "object",
+        "required": [
+          "res"
+        ],
+        "title": "FeedbackCreateBatchRes"
       },
       "FeedbackCreateReq": {
         "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "If provided by the client, this ID will be used for the feedback row instead of a server-generated one.",
+            "examples": [
+              "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
+            ]
+          },
           "project_id": {
             "type": "string",
             "title": "Project Id",
@@ -2946,6 +4228,7 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -2997,6 +4280,7 @@
             "$ref": "#/components/schemas/Query"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -3092,6 +4376,7 @@
             ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -3116,6 +4401,21 @@
       },
       "FeedbackReplaceReq": {
         "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "If provided by the client, this ID will be used for the feedback row instead of a server-generated one.",
+            "examples": [
+              "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
+            ]
+          },
           "project_id": {
             "type": "string",
             "title": "Project Id",
@@ -3233,6 +4533,7 @@
             "title": "Feedback Id"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -3283,6 +4584,7 @@
             "title": "Digest"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -3303,6 +4605,120 @@
         ],
         "title": "FileCreateRes"
       },
+      "FilesStatsReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "FilesStatsReq"
+      },
+      "FilesStatsRes": {
+        "properties": {
+          "total_size_bytes": {
+            "type": "integer",
+            "title": "Total Size Bytes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_size_bytes"
+        ],
+        "title": "FilesStatsRes"
+      },
+      "Geolocation": {
+        "properties": {
+          "file_index": {
+            "type": "integer",
+            "title": "File Index",
+            "description": "row in CSV file"
+          },
+          "range_start_int": {
+            "type": "integer",
+            "title": "Range Start Int",
+            "description": "Start of IP range as integer"
+          },
+          "range_end_int": {
+            "type": "integer",
+            "title": "Range End Int",
+            "description": "End of IP range as integer"
+          },
+          "range_start_ip": {
+            "type": "string",
+            "title": "Range Start Ip",
+            "description": "Start of IP range in dotted decimal notation"
+          },
+          "range_end_ip": {
+            "type": "string",
+            "title": "Range End Ip",
+            "description": "End of IP range in dotted decimal notation"
+          },
+          "country_code": {
+            "type": "string",
+            "title": "Country Code",
+            "description": "2-letter country code in ISO 3166-1 Alpha 2 format"
+          },
+          "country_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country Name",
+            "description": "Country name, None if could not be determined"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_index",
+          "range_start_int",
+          "range_end_int",
+          "range_start_ip",
+          "range_end_ip",
+          "country_code"
+        ],
+        "title": "Geolocation"
+      },
+      "GeolocationRes": {
+        "properties": {
+          "ip": {
+            "type": "string",
+            "title": "Ip",
+            "description": "Resolved IP address, useful for debugging"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Geolocation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Information about the location of the IP address, None if could not be determined"
+          },
+          "allowed": {
+            "type": "boolean",
+            "title": "Allowed",
+            "description": "Whether the IP address is allowed to be used for inference.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "ip"
+        ],
+        "title": "GeolocationRes"
+      },
       "GetFieldOperator": {
         "properties": {
           "$getField": {
@@ -3314,7 +4730,8 @@
         "required": [
           "$getField"
         ],
-        "title": "GetFieldOperator"
+        "title": "GetFieldOperator",
+        "description": "Access a field on the traced call.\n\nSupports dot notation for nested access, e.g. `summary.usage.tokens`.\n\nOnly works on fields present in the `CallSchema`, including:\n- Top-level fields like `op_name`, `trace_id`, `started_at`\n- Nested fields like `inputs.input_name`, `summary.usage.tokens`, etc.\n\nExample:\n    ```\n    {\"$getField\": \"op_name\"}\n    ```"
       },
       "GtOperation": {
         "properties": {
@@ -3405,7 +4822,8 @@
         "required": [
           "$gt"
         ],
-        "title": "GtOperation"
+        "title": "GtOperation",
+        "description": "Greater than comparison.\n\nExample:\n    ```\n    {\n        \"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "GteOperation": {
         "properties": {
@@ -3496,7 +4914,8 @@
         "required": [
           "$gte"
         ],
-        "title": "GteOperation"
+        "title": "GteOperation",
+        "description": "Greater than or equal comparison.\n\nExample:\n    ```\n    {\n        \"$gte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "HTTPValidationError": {
         "properties": {
@@ -3510,6 +4929,101 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "ImageGenerationCreateReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/ImageGenerationRequestInputs"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
+          },
+          "track_llm_call": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Llm Call",
+            "description": "Whether to track this image generation call in the trace server",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "inputs"
+        ],
+        "title": "ImageGenerationCreateReq"
+      },
+      "ImageGenerationCreateRes": {
+        "properties": {
+          "response": {
+            "type": "object",
+            "title": "Response"
+          },
+          "weave_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weave Call Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "response"
+        ],
+        "title": "ImageGenerationCreateRes"
+      },
+      "ImageGenerationRequestInputs": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model",
+          "prompt"
+        ],
+        "title": "ImageGenerationRequestInputs"
       },
       "InOperation": {
         "properties": {
@@ -3603,7 +5117,8 @@
         "required": [
           "$in"
         ],
-        "title": "InOperation"
+        "title": "InOperation",
+        "description": "Membership check.\n\nReturns true if the left operand is in the list provided as the second operand.\n\nExample:\n    ```\n    {\n        \"$in\": [\n            {\"$getField\": \"op_name\"},\n            [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n        ]\n    }\n    ```"
       },
       "LLMUsageSchema": {
         "properties": {
@@ -3716,7 +5231,8 @@
         "required": [
           "$literal"
         ],
-        "title": "LiteralOperation"
+        "title": "LiteralOperation",
+        "description": "Represents a constant value in the query language.\n\nThis can be any standard JSON-serializable value.\n\nExample:\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
       },
       "NotOperation": {
         "properties": {
@@ -3770,7 +5286,8 @@
         "required": [
           "$not"
         ],
-        "title": "NotOperation"
+        "title": "NotOperation",
+        "description": "Logical NOT. Inverts the condition.\n\nExample:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
       },
       "ObjCreateReq": {
         "properties": {
@@ -3778,6 +5295,7 @@
             "$ref": "#/components/schemas/ObjSchemaForInsert"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "obj"
@@ -3823,6 +5341,7 @@
             "description": "List of digests to delete. If not provided, all digests for the object will be deleted."
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -3937,8 +5456,22 @@
             "title": "Metadata Only",
             "description": "If true, the `val` column is not read from the database and is empty.All other fields are returned.",
             "default": false
+          },
+          "include_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Storage Size",
+            "description": "If true, the `size_bytes` column is returned.",
+            "default": false
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id"
@@ -3989,6 +5522,7 @@
             "default": false
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -4063,6 +5597,17 @@
             ],
             "title": "Base Object Class"
           },
+          "leaf_object_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Class"
+          },
           "val": {
             "title": "Val"
           },
@@ -4077,6 +5622,17 @@
             ],
             "title": "Wb User Id",
             "description": "Do not set directly. Server will automatically populate this field."
+          },
+          "size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Size Bytes"
           }
         },
         "type": "object",
@@ -4175,6 +5731,55 @@
               ]
             ]
           },
+          "exclude_base_object_classes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exclude Base Object Classes",
+            "description": "Exclude objects by their base classes",
+            "examples": [
+              [
+                "Model"
+              ],
+              [
+                "Dataset"
+              ]
+            ]
+          },
+          "leaf_object_classes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Object Classes",
+            "description": "Filter objects by their leaf classes",
+            "examples": [
+              [
+                "Model"
+              ],
+              [
+                "Dataset"
+              ],
+              [
+                "LLMStructuredCompletionModel"
+              ]
+            ]
+          },
           "object_ids": {
             "anyOf": [
               {
@@ -4228,6 +5833,7 @@
             ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "ObjectVersionFilter"
       },
@@ -4279,7 +5885,47 @@
         "required": [
           "$or"
         ],
-        "title": "OrOperation"
+        "title": "OrOperation",
+        "description": "Logical OR. At least one condition must be true.\n\nExample:\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
+      },
+      "Pricing": {
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          },
+          "completion": {
+            "type": "string",
+            "title": "Completion"
+          },
+          "image": {
+            "type": "string",
+            "title": "Image"
+          },
+          "request": {
+            "type": "string",
+            "title": "Request"
+          },
+          "input_cache_reads": {
+            "type": "string",
+            "title": "Input Cache Reads"
+          },
+          "input_cache_writes": {
+            "type": "string",
+            "title": "Input Cache Writes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt",
+          "completion",
+          "image",
+          "request",
+          "input_cache_reads",
+          "input_cache_writes"
+        ],
+        "title": "Pricing",
+        "description": "All pricing values are in USD per 1 token.\n\nPricing fields are in string format to avoid floating point precision issues."
       },
       "Query": {
         "properties": {
@@ -4313,6 +5959,7 @@
             "title": "$Expr"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "$expr"
@@ -4329,6 +5976,7 @@
             "title": "Refs"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "refs"
@@ -4348,6 +5996,131 @@
           "vals"
         ],
         "title": "RefsReadBatchRes"
+      },
+      "RouterOpenRouterModel": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "created": {
+            "type": "integer",
+            "title": "Created"
+          },
+          "input_modalities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Input Modalities"
+          },
+          "output_modalities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Output Modalities"
+          },
+          "quantization": {
+            "type": "string",
+            "enum": [
+              "int4",
+              "int8",
+              "fp4",
+              "fp6",
+              "fp8",
+              "fp16",
+              "bf16",
+              "fp32"
+            ],
+            "title": "Quantization"
+          },
+          "context_length": {
+            "type": "integer",
+            "title": "Context Length"
+          },
+          "max_output_length": {
+            "type": "integer",
+            "title": "Max Output Length"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/Pricing"
+          },
+          "supported_sampling_parameters": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "temperature",
+                "top_p",
+                "top_k",
+                "repetition_penalty",
+                "frequency_penalty",
+                "presence_penalty",
+                "stop",
+                "seed"
+              ]
+            },
+            "type": "array",
+            "title": "Supported Sampling Parameters"
+          },
+          "supported_features": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "tools",
+                "json_mode",
+                "structured_outputs",
+                "web_search",
+                "reasoning"
+              ]
+            },
+            "type": "array",
+            "title": "Supported Features"
+          },
+          "datacenters": {
+            "items": {
+              "$ref": "#/components/schemas/Datacenter"
+            },
+            "type": "array",
+            "title": "Datacenters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "created",
+          "input_modalities",
+          "output_modalities",
+          "quantization",
+          "context_length",
+          "max_output_length",
+          "pricing",
+          "supported_sampling_parameters",
+          "supported_features",
+          "datacenters"
+        ],
+        "title": "RouterOpenRouterModel"
+      },
+      "RouterOpenRouterModelsRes": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RouterOpenRouterModel"
+            },
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "RouterOpenRouterModelsRes"
       },
       "ServerInfoRes": {
         "properties": {
@@ -4377,6 +6150,7 @@
             "title": "Direction"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "field",
@@ -4438,6 +6212,28 @@
             ],
             "title": "Parent Id"
           },
+          "thread_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
+          },
+          "turn_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Turn Id"
+          },
           "started_at": {
             "type": "string",
             "format": "date-time",
@@ -4473,6 +6269,17 @@
               }
             ],
             "title": "Wb Run Id"
+          },
+          "wb_run_step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Step"
           }
         },
         "type": "object",
@@ -4493,6 +6300,13 @@
             },
             "type": "object",
             "title": "Usage"
+          },
+          "status_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Status Counts"
           }
         },
         "additionalProperties": true,
@@ -4524,12 +6338,35 @@
         ],
         "title": "TableAppendSpecPayload"
       },
+      "TableCreateFromDigestsReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "row_digests": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Row Digests"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "row_digests"
+        ],
+        "title": "TableCreateFromDigestsReq"
+      },
       "TableCreateReq": {
         "properties": {
           "table": {
             "$ref": "#/components/schemas/TableSchemaForInsert"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "table"
@@ -4703,6 +6540,7 @@
             ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -4726,6 +6564,73 @@
         ],
         "title": "TableQueryRes"
       },
+      "TableQueryStatsBatchReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "description": "The ID of the project",
+            "examples": [
+              "my_entity/my_project"
+            ]
+          },
+          "digests": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Digests",
+            "description": "The digests of the tables to query",
+            "default": [],
+            "examples": [
+              "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
+              "smirva431etnsroatsratlrampgrmeangmpr5344aplatmipa31ltvsmi\u0435\u0440\u0430noa"
+            ]
+          },
+          "include_storage_size": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Storage Size",
+            "description": "If true, the `storage_size_bytes` column is returned.",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "TableQueryStatsBatchReq"
+      },
+      "TableQueryStatsBatchRes": {
+        "properties": {
+          "tables": {
+            "items": {
+              "$ref": "#/components/schemas/TableStatsRow"
+            },
+            "type": "array",
+            "title": "Tables"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tables"
+        ],
+        "title": "TableQueryStatsBatchRes"
+      },
       "TableQueryStatsReq": {
         "properties": {
           "project_id": {
@@ -4739,12 +6644,10 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "The digest of the table to query",
-            "examples": [
-              "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims"
-            ]
+            "description": "The digest of the table to query"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -4789,6 +6692,7 @@
             ]
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "TableRowFilter"
       },
@@ -4841,6 +6745,35 @@
         ],
         "title": "TableSchemaForInsert"
       },
+      "TableStatsRow": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest"
+          },
+          "storage_size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Size Bytes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "digest"
+        ],
+        "title": "TableStatsRow"
+      },
       "TableUpdateReq": {
         "properties": {
           "project_id": {
@@ -4869,6 +6802,7 @@
             "title": "Updates"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "project_id",
@@ -4897,6 +6831,154 @@
           "digest"
         ],
         "title": "TableUpdateRes"
+      },
+      "ThreadsQueryFilter": {
+        "properties": {
+          "after_datetime": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "After Datetime",
+            "description": "Only include threads with start_time after this timestamp",
+            "examples": [
+              "2024-01-01T00:00:00Z"
+            ]
+          },
+          "before_datetime": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Before Datetime",
+            "description": "Only include threads with last_updated before this timestamp",
+            "examples": [
+              "2024-12-31T23:59:59Z"
+            ]
+          },
+          "thread_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Ids",
+            "description": "Only include threads with thread_ids in this list",
+            "examples": [
+              [
+                "thread_1",
+                "thread_2",
+                "my_thread_id"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ThreadsQueryFilter"
+      },
+      "ThreadsQueryReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "description": "The ID of the project",
+            "examples": [
+              "my_entity/my_project"
+            ]
+          },
+          "filter": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThreadsQueryFilter"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter criteria for the threads query"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit",
+            "description": "Maximum number of threads to return"
+          },
+          "offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Offset",
+            "description": "Number of threads to skip"
+          },
+          "sort_by": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SortBy"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort By",
+            "description": "Sorting criteria for the threads. Supported fields: 'thread_id', 'turn_count', 'start_time', 'last_updated', 'p50_turn_duration_ms', 'p99_turn_duration_ms'.",
+            "examples": [
+              [
+                {
+                  "direction": "desc",
+                  "field": "last_updated"
+                }
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "ThreadsQueryReq",
+        "description": "Query threads with aggregated statistics based on turn calls only.\n\nTurn calls are the immediate children of thread contexts (where call.id == turn_id).\nThis provides meaningful conversation-level statistics rather than including all\nnested implementation details."
+      },
+      "TraceStatus": {
+        "type": "string",
+        "enum": [
+          "success",
+          "error",
+          "running",
+          "descendant_error"
+        ],
+        "title": "TraceStatus"
       },
       "ValidationError": {
         "properties": {
@@ -4936,6 +7018,10 @@
       "HTTPBasic": {
         "type": "http",
         "scheme": "basic"
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
