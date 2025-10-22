@@ -62,7 +62,7 @@ def get_generated_python_modules():
 
 def get_typescript_items():
     """Scan the weave/reference/typescript-sdk directory for generated items."""
-    ts_dir = Path("weave/reference/typescript-sdk/weave")
+    ts_dir = Path("weave/reference/typescript-sdk")
     items = {}
     
     if not ts_dir.exists():
@@ -75,7 +75,7 @@ def get_typescript_items():
             items[subdir] = []
             for mdx_file in subdir_path.glob("*.mdx"):
                 name = mdx_file.stem
-                toc_path = f"weave/reference/typescript-sdk/weave/{subdir}/{name}"
+                toc_path = f"weave/reference/typescript-sdk/{subdir}/{name}"
                 items[subdir].append(toc_path)
             items[subdir].sort()
     

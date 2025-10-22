@@ -36,7 +36,7 @@ There are three main ways to create Calls in Weave:
 
 <Tabs>
   <Tab title="Python">
-    Weave automatically tracks [calls to common LLM libraries](/weave/guides/integrations/index) like `openai`, `anthropic`, `cohere`, and `mistral`. Simply call [`weave.init('project_name')`](/weave/reference/python-sdk/weave/index#function-init) at the start of your program:
+    Weave automatically tracks [calls to common LLM libraries](/weave/guides/integrations) like `openai`, `anthropic`, `cohere`, and `mistral`. Simply call [`weave.init('project_name')`](/weave/reference/python-sdk#function-init) at the start of your program:
 
     <Tip>
     You can control Weave's default tracking behavior [using the `autopatch_settings` argument in `weave.init`](#configure-autopatching).
@@ -67,7 +67,7 @@ There are three main ways to create Calls in Weave:
 
   </Tab>
   <Tab title="TypeScript">
-    Weave automatically tracks [calls to common LLM libraries](/weave/guides/integrations/index), such as `openai`.
+    Weave automatically tracks [calls to common LLM libraries](/weave/guides/integrations), such as `openai`.
 
     ```typescript lines
     import OpenAI from 'openai'
@@ -110,7 +110,7 @@ However, often LLM applications have additional logic (such as pre/post processi
 
 <Tabs>
   <Tab title="Python">
-    Weave allows you to manually track these calls using the [`@weave.op`](/weave/reference/python-sdk/weave/index#function-op) decorator. For example:
+    Weave allows you to manually track these calls using the [`@weave.op`](/weave/reference/python-sdk/#function-op) decorator. For example:
 
     ```python lines lines
     import weave
@@ -185,7 +185,7 @@ However, often LLM applications have additional logic (such as pre/post processi
 
   </Tab>
   <Tab title="TypeScript">
-    Weave allows you to manually track these calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/weave/functions/op). For example:
+    Weave allows you to manually track these calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/functions/op). For example:
 
     ```typescript lines
     import * as weave from 'weave'
@@ -282,7 +282,7 @@ However, often LLM applications have additional logic (such as pre/post processi
     Using the `__weave` dictionary sets the call display name which will take precedence over the Op display name.
 
     </Note>
-    2. Change the display name on a per-call basis. This uses the [`Op.call`](/weave/reference/python-sdk/weave/trace/op#function-call) method to return a `Call` object, which you can then use to set the display name using [`Call.set_display_name`](/weave/reference/python-sdk/weave/trace/weave_client#method-set_display_name).
+    2. Change the display name on a per-call basis. This uses the [`Op.call`](/weave/reference/python-sdk/trace/op#function-call) method to return a `Call` object, which you can then use to set the display name using [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set_display_name).
     ```python lines lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
@@ -365,7 +365,7 @@ However, often LLM applications have additional logic (such as pre/post processi
 
 <Tabs>
   <Tab title="Python">
-    When calling tracked functions, you can add additional metadata to the call by using [`weave.attributes`](/weave/reference/python-sdk/weave/index#function-attributes) context manager. In the example below, we add an `env` attribute to the call specified as `'production'`.
+    When calling tracked functions, you can add additional metadata to the call by using [`weave.attributes`](/weave/reference/python-sdk/#function-attributes) context manager. In the example below, we add an `env` attribute to the call specified as `'production'`.
 
     ```python lines lines
     # ... continued from above ...
@@ -391,7 +391,7 @@ However, often LLM applications have additional logic (such as pre/post processi
 
 <Tabs>
   <Tab title="Python">
-    By default, parallel calls all show up in Weave as separate root calls. To get correct nesting under the same parent `op`, use [`ThreadPoolExecutor`](/weave/reference/python-sdk/weave/trace/util#class-contextawarethreadpoolexecutor).
+    By default, parallel calls all show up in Weave as separate root calls. To get correct nesting under the same parent `op`, use [`ThreadPoolExecutor`](/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor).
 
     The following code sample demonstrates the use of `ThreadPoolExecutor`. 
     The first function, `func`, is a simple `op` that takes `x` and returns `x+1`. The second function, `outer`, is another `op` that accepts a list of inputs.
@@ -456,8 +456,8 @@ You can also manually create Calls using the API directly.
     </Tab>
 
     <Tab title="HTTP API">
-    * Start a call: [POST `/call/start`](/weave/reference/service-api/index)
-    * End a call: [POST `/call/end`](/weave/reference/service-api/index)
+    * Start a call: [POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)
+    * End a call: [POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)
     ```bash
     curl -L 'https://trace.wandb.ai/call/start' \
     -H 'Content-Type: application/json' \
@@ -559,7 +559,7 @@ You can also track class and object methods.
     ![View Call in Web App](/images/screenshots/basic_call.png)
     </Tab>
     <Tab title="Python">
-    To view a call using the Python API, you can use the [`get_call`](/weave/reference/python-sdk/weave/trace/weave_client#method-get-call) method:
+    To view a call using the Python API, you can use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
 
     ```python lines
     import weave
@@ -588,7 +588,7 @@ You can also track class and object methods.
     </Tab>
 
     <Tab title="HTTP API">
-    To view a call using the Service API, you can make a request to the [`/call/read`](/api-reference/calls/call-read) endpoint.
+    To view a call using the Service API, you can make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
 
     ```bash
     curl -L 'https://trace.wandb.ai/call/read' \
@@ -685,7 +685,7 @@ You can perform all of these mutations from the UI by navigating to the call det
 
 <Tabs>
     <Tab title="Python">
-    In order to set the display name of a call, you can use the [`Call.set_display_name`](/weave/reference/python-sdk/weave/trace/weave_client#property-display-name) method.
+    In order to set the display name of a call, you can use the [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
 
     ```python lines lines
     import weave
@@ -706,7 +706,7 @@ You can perform all of these mutations from the UI by navigating to the call det
     ```
     </Tab>
     <Tab title="HTTP API">
-    To set the display name of a call using the Service API, you can make a request to the [`/call/update`](/api-reference/calls/call-update) endpoint.
+    To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
 
     ```bash
     curl -L 'https://trace.wandb.ai/call/update' \
@@ -729,7 +729,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
 
 <Tabs>
     <Tab title="Python">
-    To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/weave/trace/weave_client#method-delete) method.
+    To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
 
     ```python lines lines
     import weave
@@ -751,7 +751,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
     ```
     </Tab>
     <Tab title="HTTP API">
-    To delete a call using the Service API, you can make a request to the [`/calls/delete`](/weave/reference/service-api/index) endpoint.
+    To delete a call using the Service API, you can make a request to the [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) endpoint.
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/delete' \
@@ -825,7 +825,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
 
 <Tabs>
     <Tab title="Python">
-    To fetch calls using the Python API, you can use the [`client.get_calls`](/weave/reference/python-sdk/weave/trace/weave_client#method-get_calls) method:
+    To fetch calls using the Python API, you can use the [`client.get_calls`](/weave/reference/python-sdk/trace/weave_client#method-get_calls) method:
 
     ```python lines
     import weave
@@ -839,7 +839,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
 
     </Tab>
     <Tab title="TypeScript">
-    To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/weave/classes/WeaveClient#getcalls) method.
+    To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/WeaveClient#getcalls) method.
     ```typescript
     import * as weave from 'weave'
 
@@ -851,7 +851,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
     ```
     </Tab>
     <Tab title="HTTP API">
-    The most powerful query layer is at the Service API. To fetch calls using the Service API, you can make a request to the [`/calls/stream_query`](/api-reference/calls/calls-query-stream) endpoint.
+    The most powerful query layer is at the Service API. To fetch calls using the Service API, you can make a request to the [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) endpoint.
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -912,7 +912,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
 
 ### Call schema
 
-Please see the [schema](/weave/reference/python-sdk/weave/trace_server/trace_server_interface#class-callschema) for a complete list of fields.
+Please see the [schema](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) for a complete list of fields.
 
 | Property | Type | Description |
 |----------|------|-------------|

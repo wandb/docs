@@ -1,9 +1,9 @@
 ---
-title: "Class: MessagesPrompt"
+title: "Class: StringPrompt"
 description: "TypeScript SDK reference"
 ---
 
-[weave](../index) / MessagesPrompt
+[weave](../) / StringPrompt
 
 
 
@@ -11,44 +11,44 @@ description: "TypeScript SDK reference"
 
 - `Prompt`
 
-  ↳ `MessagesPrompt`
+  ↳ `StringPrompt`
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](./MessagesPrompt#constructor)
+- [constructor](./StringPrompt#constructor)
 
 ### Properties
 
-- [\_\_savedRef](./MessagesPrompt#__savedref)
-- [messages](./MessagesPrompt#messages)
+- [\_\_savedRef](./StringPrompt#__savedref)
+- [content](./StringPrompt#content)
 
 ### Accessors
 
-- [description](./MessagesPrompt#description)
-- [name](./MessagesPrompt#name)
+- [description](./StringPrompt#description)
+- [name](./StringPrompt#name)
 
 ### Methods
 
-- [format](./MessagesPrompt#format)
-- [saveAttrs](./MessagesPrompt#saveattrs)
+- [format](./StringPrompt#format)
+- [saveAttrs](./StringPrompt#saveattrs)
 
 ## Constructors
 
 ### constructor
 
-• **new MessagesPrompt**(`parameters`): [`MessagesPrompt`](./MessagesPrompt)
+• **new StringPrompt**(`parameters`): [`StringPrompt`](./StringPrompt)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `parameters` | `MessagesPromptParameters` |
+| `parameters` | `StringPromptParameters` |
 
 #### Returns
 
-[`MessagesPrompt`](./MessagesPrompt)
+[`StringPrompt`](./StringPrompt)
 
 #### Overrides
 
@@ -56,7 +56,7 @@ Prompt.constructor
 
 #### Defined in
 
-[prompt.ts:33](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/prompt.ts#L33)
+[prompt.ts:16](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/prompt.ts#L16)
 
 ## Properties
 
@@ -74,13 +74,13 @@ Prompt.\_\_savedRef
 
 ___
 
-### messages
+### content
 
-• **messages**: `Record`\<`string`, `any`\>[]
+• **content**: `string`
 
 #### Defined in
 
-[prompt.ts:31](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/prompt.ts#L31)
+[prompt.ts:14](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/prompt.ts#L14)
 
 ## Accessors
 
@@ -122,7 +122,7 @@ Prompt.name
 
 ### format
 
-▸ **format**(`values?`): `Record`\<`string`, `any`\>[]
+▸ **format**(`values?`): `string`
 
 #### Parameters
 
@@ -132,11 +132,11 @@ Prompt.name
 
 #### Returns
 
-`Record`\<`string`, `any`\>[]
+`string`
 
 #### Defined in
 
-[prompt.ts:60](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/prompt.ts#L60)
+[prompt.ts:21](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/prompt.ts#L21)
 
 ___
 

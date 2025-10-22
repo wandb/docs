@@ -461,7 +461,7 @@ def main():
     module_root_path = Path(weave.__file__).parent.parent
     
     # Output directory
-    output_dir = Path("weave/reference/python-sdk/weave")
+    output_dir = Path("weave/reference/python-sdk")
     
     # Clean existing docs
     if output_dir.exists():
@@ -491,8 +491,12 @@ def main():
             
             # Determine output path
             parts = module_name.split(".")
-            if hasattr(module, "__file__") and module.__file__.endswith("__init__.py"):
-                # For __init__ modules, create an index.mdx
+            
+            # Special case: root weave module becomes the landing page
+            if module_name == "weave":
+                file_path = output_dir.parent / "python-sdk.mdx"
+            elif hasattr(module, "__file__") and module.__file__.endswith("__init__.py"):
+                # For other __init__ modules, create an index.mdx
                 file_path = output_dir / Path(*parts[1:]) / "index.mdx"
             else:
                 # For regular modules, use the module name

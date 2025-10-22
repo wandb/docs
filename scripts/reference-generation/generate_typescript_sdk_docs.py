@@ -223,9 +223,10 @@ description: "TypeScript SDK reference"
         # 1. Remove .md extensions from all links
         content = re.sub(r'\.md(#[^)]+)?\)', r'\1)', content)
         
-        # 2. Fix links to README to point to index instead
-        content = re.sub(r'\]\(\.\./README', '](../index', content)
-        content = re.sub(r'\]\(README', '](index', content)
+        # 2. Fix links to README/index to point to landing page
+        content = re.sub(r'\]\(\.\./README', '](../', content)
+        content = re.sub(r'\]\(\.\./index', '](../', content)
+        content = re.sub(r'\]\(README', '](typescript-sdk', content)
         
         # 3. Fix same-directory links (e.g., WeaveObject -> ./WeaveObject)
         # For links to class names (start with capital letter) that don't have a path
@@ -240,11 +241,11 @@ description: "TypeScript SDK reference"
             # Type aliases linking to classes need ../
             content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
         elif md_file.name == 'README.md' or md_file.name == 'index.mdx':
-            # Index files need ./ prefix for subdirectories
-            content = re.sub(r'\]\(classes/([^)]+)\)', r'](./classes/\1)', content)
-            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](./interfaces/\1)', content)
-            content = re.sub(r'\]\(functions/([^)]+)\)', r'](./functions/\1)', content)
-            content = re.sub(r'\]\(type-aliases/([^)]+)\)', r'](./type-aliases/\1)', content)
+            # Index/README will become landing page, so needs ./typescript-sdk/ prefix
+            content = re.sub(r'\]\(classes/([^)]+)\)', r'](./typescript-sdk/classes/\1)', content)
+            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](./typescript-sdk/interfaces/\1)', content)
+            content = re.sub(r'\]\(functions/([^)]+)\)', r'](./typescript-sdk/functions/\1)', content)
+            content = re.sub(r'\]\(type-aliases/([^)]+)\)', r'](./typescript-sdk/type-aliases/\1)', content)
         
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
@@ -265,10 +266,16 @@ description: "TypeScript SDK reference"
 
 
 def extract_members_to_separate_files(docs_path):
-    """Extract function and type-alias documentation from index.mdx to separate files."""
-    index_file = docs_path / "index.mdx"
-    if not index_file.exists():
-        return
+    """Extract function and type-alias documentation from typescript-sdk.mdx landing page to separate files."""
+    # Check for the landing page
+    landing_file = docs_path.parent / "typescript-sdk.mdx"
+    if landing_file.exists():
+        index_file = landing_file
+    else:
+        # Fallback to index.mdx if it exists (shouldn't happen with new generation)
+        index_file = docs_path / "index.mdx"
+        if not index_file.exists():
+            return
     
     content = index_file.read_text()
     
@@ -378,9 +385,12 @@ description: "TypeScript SDK reference"
                     flags=re.DOTALL
                 )
     
-    # Write updated index
+    # Write updated content back
     index_file.write_text(content)
-    print(f"  ✓ Updated index.mdx")
+    if index_file.name == "typescript-sdk.mdx":
+        print(f"  ✓ Updated typescript-sdk.mdx landing page")
+    else:
+        print(f"  ✓ Updated index.mdx")
 
 
 def organize_for_mintlify(temp_output, final_output):
@@ -405,12 +415,12 @@ def organize_for_mintlify(temp_output, final_output):
         else:
             shutil.copy2(item, dest)
     
-    # Rename README.mdx to index.mdx if it exists
+    # Move README.mdx to typescript-sdk.mdx landing page if it exists
     readme_path = final_path / "README.mdx"
     if readme_path.exists():
-        index_path = final_path / "index.mdx"
-        readme_path.rename(index_path)
-        print("  ✓ Renamed README.mdx to index.mdx")
+        landing_path = final_path.parent / "typescript-sdk.mdx"
+        readme_path.rename(landing_path)
+        print("  ✓ Created typescript-sdk.mdx landing page from README")
     
     # Extract functions and type aliases to separate files if they're consolidated
     extract_members_to_separate_files(final_path)
@@ -451,7 +461,7 @@ def main():
         convert_to_mintlify_format(temp_output)
         
         # Organize for Mintlify - use absolute path from original directory
-        final_output = os.path.join(original_cwd, "weave/reference/typescript-sdk/weave")
+        final_output = os.path.join(original_cwd, "weave/reference/typescript-sdk")
         organize_for_mintlify(temp_output, final_output)
         
         print("\n✓ TypeScript SDK documentation generation complete!")
