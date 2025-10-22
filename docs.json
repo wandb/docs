@@ -31,8 +31,13 @@
     "options": [
       "copy",
       "view",
+      "cursor",
+      "vscode",
+      "mcp",
       "chatgpt",
-      "claude"
+      "claude",
+      "perplexity"
+
     ]
   },
   "navbar": {
