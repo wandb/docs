@@ -49,17 +49,18 @@ If you still need alternatives:
 
 2. Install Python dependencies:
    ```bash
-   pip install -r scripts/reference-generation/requirements.txt
+   pip install -r scripts/reference-generation/weave/requirements.txt
    ```
 
 ## Usage
 
 ### Automated Generation via GitHub Actions (Recommended)
 
-The primary way to generate reference documentation is through the GitHub Actions workflow:
+The primary way to generate reference documentation is through the GitHub Actions workflows:
 
+#### Full Reference Generation
 1. Go to the [Actions tab](https://github.com/wandb/mintlifytest/actions) in the repository
-2. Select "Generate Reference Documentation" workflow
+2. Select "Generate Weave references" workflow
 3. Click "Run workflow"
 4. Enter the Weave version:
    - `latest` - Latest PyPI release (default)
@@ -69,30 +70,54 @@ The primary way to generate reference documentation is through the GitHub Action
 5. Click "Run workflow"
 
 The workflow will:
-- Generate all three types of documentation
+- Sync the OpenAPI specification from the remote service
+- Update the Service API landing page with current endpoints
+- Generate Python and TypeScript SDK documentation
 - Fix any broken internal links
+- Convert Service API links to fully qualified URLs
 - Create a draft PR with the changes for review
+
+#### Service API Updates Only
+There's also a dedicated workflow for Service API updates:
+- **Manual trigger**: Run "Update Service API Documentation" workflow
+- **Automatic**: Runs weekly (Mondays at 9 AM UTC)
+- Only creates a PR if the API has actually changed
 
 ### Manual Local Generation
 
 For development or testing, you can run the generators locally:
 
 ```bash
-# Option 1: Use the test script (runs all generators in isolated environments)
-./scripts/reference-generation/test-locally.sh latest
+# Option 1: Use the master generation script (recommended)
+python scripts/reference-generation/weave/generate_weave_reference.py
 
-# Option 2: Run individual generators
+# Option 2: Use the test script (runs all generators in isolated environments)
+./scripts/reference-generation/weave/test-locally.sh latest
+
+# Option 3: Run individual generators
+# Sync OpenAPI spec from remote service
+python scripts/reference-generation/weave/sync_openapi_spec.py
+
 # Generate Service API docs
-python scripts/reference-generation/generate_service_api_spec.py
+python scripts/reference-generation/weave/generate_service_api_spec.py
+
+# Update Service API landing page with current endpoints
+python scripts/reference-generation/weave/update_service_api_landing.py
 
 # Generate Python SDK docs (specify version as argument)
-python scripts/reference-generation/generate_python_sdk_docs.py latest
+python scripts/reference-generation/weave/generate_python_sdk_docs.py latest
 
 # Generate TypeScript SDK docs (specify version as argument)
-python scripts/reference-generation/generate_typescript_sdk_docs.py latest
+python scripts/reference-generation/weave/generate_typescript_sdk_docs.py latest
 
 # Fix broken links after generation
-python scripts/reference-generation/fix_broken_links.py
+python scripts/reference-generation/weave/fix_broken_links.py
+
+# Convert Service API links to fully qualified URLs
+python scripts/reference-generation/weave/fix_service_api_links.py
+
+# Update TOC in docs.json
+python scripts/reference-generation/weave/update_weave_toc.py
 ```
 
 ## Output Structure
@@ -101,25 +126,24 @@ The scripts generate documentation in the following structure:
 
 ```
 weave/
-├── api-reference/
-│   └── openapi.json          # Service API OpenAPI spec
 └── reference/
+    ├── service-api/
+    │   ├── service-api.mdx   # Landing page with endpoints list
+    │   └── openapi.json      # Service API OpenAPI spec (local copy)
     ├── python-sdk/
-    │   └── weave/
-    │       ├── index.mdx     # Main module docs
-    │       ├── trace/
-    │       │   ├── op.mdx
-    │       │   ├── weave_client.mdx
-    │       │   └── util.mdx
-    │       └── trace_server/
-    │           └── trace_server_interface.mdx
+    │   ├── python-sdk.mdx    # Main module docs
+    │   ├── trace/
+    │   │   ├── op.mdx
+    │   │   ├── weave_client.mdx
+    │   │   └── util.mdx
+    │   └── trace_server/
+    │       └── trace_server_interface.mdx
     └── typescript-sdk/
-        └── weave/
-            ├── index.mdx
-            ├── classes/
-            ├── functions/
-            ├── interfaces/
-            └── type-aliases/
+        ├── typescript-sdk.mdx # Main SDK docs
+        ├── classes/
+        ├── functions/
+        ├── interfaces/
+        └── type-aliases/
 ```
 
 ## Testing Locally
@@ -135,10 +159,31 @@ Then navigate to the reference documentation sections to verify the output.
 
 ## How It Works
 
-### Service API (`generate_service_api_spec.py`)
-- Downloads the OpenAPI spec from https://trace.wandb.ai/openapi.json
-- Updates server URLs and metadata
-- Saves directly for Mintlify to consume (no conversion needed)
+### Service API
+The Service API documentation uses a multi-step process:
+
+1. **`sync_openapi_spec.py`**:
+   - Downloads the latest OpenAPI spec from https://trace.wandb.ai/openapi.json
+   - Compares with local copy to detect changes
+   - Saves to `weave/reference/service-api/openapi.json`
+   - Can switch between local and remote spec in docs.json
+   
+   **Note**: The documentation uses the local OpenAPI spec by default for better build reliability. The spec is automatically synced weekly via GitHub Actions.
+
+2. **`generate_service_api_spec.py`**:
+   - Sets up the Service API documentation structure
+   - Creates the service-api directory if needed
+
+3. **`update_service_api_landing.py`**:
+   - Parses the OpenAPI spec to extract all endpoints
+   - Groups endpoints by category (Calls, Costs, Feedback, etc.)
+   - Updates the service-api.mdx landing page with current endpoints list
+   - Generates fully qualified URLs for each endpoint
+
+4. **`fix_service_api_links.py`**:
+   - Scans all documentation for Service API references
+   - Converts internal links to fully qualified URLs (https://docs.wandb.ai/...)
+   - Prevents broken link warnings for dynamically generated pages
 
 ### Python SDK (`generate_python_sdk_docs.py`)
 - Installs the specified Weave version
@@ -154,12 +199,25 @@ Then navigate to the reference documentation sections to verify the output.
 - Converts to Mintlify MDX format
 - Organizes files according to Mintlify structure
 
+### Master Generation Script (`generate_weave_reference.py`)
+This script orchestrates all the generation steps in the correct order:
+1. Syncs the OpenAPI specification
+2. Generates Python SDK documentation
+3. Generates TypeScript SDK documentation
+4. Updates Service API landing page
+5. Fixes broken links (general)
+6. Fixes Service API links (converts to fully qualified URLs)
+7. Updates the TOC in docs.json
+
+This is the recommended way to run all generators locally.
+
 ## Verifying Generated Documentation
 
 After generation (either via GitHub Actions or locally):
 
 1. **Check Generated Files**:
-   - `weave/api-reference/openapi.json` - Service API spec
+   - `weave/reference/service-api/openapi.json` - Local copy of Service API spec
+   - `weave/reference/service-api.mdx` - Service API landing page with endpoints
    - `weave/reference/python-sdk/` - Python SDK docs
    - `weave/reference/typescript-sdk/` - TypeScript SDK docs
 
@@ -167,12 +225,15 @@ After generation (either via GitHub Actions or locally):
    ```bash
    mintlify broken-links
    ```
-   All internal links should work correctly.
+   All internal links should work correctly. Service API links will be fully qualified URLs.
 
 3. **Review PR** (if generated via GitHub Actions):
-   - A draft PR titled "[Draft] Update reference documentation (Weave X.X.X)"
+   - A draft PR titled "Update Weave reference documentation (Weave X.X.X)"
    - Labels: `documentation`, `automated`, `weave`
-   - Description includes version info and changes made
+   - Description includes:
+     - Version info and timestamp
+     - List of changes (OpenAPI sync, SDK updates, link fixes)
+     - Link to source code for the version
 
 ## Troubleshooting
 

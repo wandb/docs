@@ -10,7 +10,7 @@ on:
         type: string
 
 jobs:
-  generate-docs:
+  generate-weave-reference-docs:
     runs-on: ubuntu-latest
     
     steps:
@@ -33,7 +33,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('scripts/reference-generation/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('scripts/reference-generation/weave/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
           
@@ -56,17 +56,17 @@ jobs:
     - name: Sync OpenAPI Specification
       run: |
         echo "Syncing OpenAPI specification from remote service..."
-        python scripts/reference-generation/sync_openapi_spec.py
+        python scripts/reference-generation/weave/sync_openapi_spec.py
         
     - name: Generate Service API Documentation
       run: |
         echo "Setting up Service API documentation..."
-        python scripts/reference-generation/generate_service_api_spec.py
+        python scripts/reference-generation/weave/generate_service_api_spec.py
         
     - name: Update Service API Landing Page
       run: |
         echo "Updating Service API landing page with current endpoints..."
-        python scripts/reference-generation/update_service_api_landing.py
+        python scripts/reference-generation/weave/update_service_api_landing.py
         
     - name: Generate Python SDK Documentation
       id: python-sdk
@@ -81,7 +81,7 @@ jobs:
         pip install requests lazydocs
         
         # Run the script and capture output for version extraction
-        OUTPUT=$(python scripts/reference-generation/generate_python_sdk_docs.py "${VERSION:-latest}")
+        OUTPUT=$(python scripts/reference-generation/weave/generate_python_sdk_docs.py "${VERSION:-latest}")
         echo "$OUTPUT"
         
         # Extract actual version if it was resolved
@@ -104,29 +104,29 @@ jobs:
         # Create isolated environment for TypeScript SDK generation
         python -m venv venv_typescript
         source venv_typescript/bin/activate
-        python scripts/reference-generation/generate_typescript_sdk_docs.py "${VERSION:-latest}"
+        python scripts/reference-generation/weave/generate_typescript_sdk_docs.py "${VERSION:-latest}"
         deactivate
         rm -rf venv_typescript
         
     - name: Fix file casing
       run: |
         echo "Fixing file casing for SDK documentation..."
-        python scripts/reference-generation/fix_casing.py
+        python scripts/reference-generation/weave/fix_casing.py
         
     - name: Update TOC
       run: |
         echo "Updating docs.json TOC with new Python SDK modules..."
-        WEAVE_VERSION="${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }}" python scripts/reference-generation/update_weave_toc.py
+        WEAVE_VERSION="${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }}" python scripts/reference-generation/weave/update_weave_toc.py
         
     - name: Fix broken links
       run: |
         echo "Fixing broken links in documentation..."
-        python scripts/reference-generation/fix_broken_links.py
+        python scripts/reference-generation/weave/fix_broken_links.py
         
     - name: Fix Service API links
       run: |
         echo "Converting Service API links to fully qualified URLs..."
-        python scripts/reference-generation/fix_service_api_links.py
+        python scripts/reference-generation/weave/fix_service_api_links.py
         
     - name: Create Pull Request
       id: create-pr
