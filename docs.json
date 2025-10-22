@@ -1024,9 +1024,7 @@
                     "pages": [
                       "weave/reference/service-api"
                     ],
-                    "openapi": {
-                      "source": "https://trace.wandb.ai/openapi.json"
-                    }
+                    "openapi": "weave/reference/service-api/openapi.json"
                   }
                 ]
               },

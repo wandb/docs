@@ -53,10 +53,20 @@ jobs:
         echo "timestamp=${TIMESTAMP}" >> $GITHUB_OUTPUT
         echo "Generated at: ${TIMESTAMP}"
         
+    - name: Sync OpenAPI Specification
+      run: |
+        echo "Syncing OpenAPI specification from remote service..."
+        python scripts/reference-generation/sync_openapi_spec.py
+        
     - name: Generate Service API Documentation
       run: |
-        echo "Generating Service API documentation..."
+        echo "Setting up Service API documentation..."
         python scripts/reference-generation/generate_service_api_spec.py
+        
+    - name: Update Service API Landing Page
+      run: |
+        echo "Updating Service API landing page with current endpoints..."
+        python scripts/reference-generation/update_service_api_landing.py
         
     - name: Generate Python SDK Documentation
       id: python-sdk
@@ -113,6 +123,11 @@ jobs:
         echo "Fixing broken links in documentation..."
         python scripts/reference-generation/fix_broken_links.py
         
+    - name: Fix Service API links
+      run: |
+        echo "Converting Service API links to fully qualified URLs..."
+        python scripts/reference-generation/fix_service_api_links.py
+        
     - name: Create Pull Request
       id: create-pr
       uses: peter-evans/create-pull-request@v6
@@ -129,12 +144,14 @@ jobs:
           **Source code**: [wandb/weave@${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }}](https://github.com/wandb/weave/tree/${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})
           
           ### Changes
-          - Updated Service API documentation from OpenAPI spec
+          - Synced OpenAPI specification from remote service
+          - Updated Service API landing page with current endpoints list
           - Regenerated Python SDK documentation using lazydocs (dynamically discovers all public modules)
           - Regenerated TypeScript SDK documentation using typedoc
           - Updated docs.json navigation with any new or removed modules
           - Fixed file casing for consistency
           - Fixed internal cross-reference links
+          - Converted Service API endpoint links to fully qualified URLs
         branch: update-reference-docs-${{ github.run_number }}
         delete-branch: true
         labels: |
