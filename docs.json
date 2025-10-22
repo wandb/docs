@@ -1022,7 +1022,7 @@
                   },
                   {
                     "group": "Service API",
-                    "openapi": "https://raw.githubusercontent.com/wandb/weave/v0.52.10/sdks/node/weave.openapi.json"
+                    "openapi": "https://trace.wandb.ai/openapi.json"
                   }
                 ]
               },
