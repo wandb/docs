@@ -1,0 +1,1 @@
+This feature is available only for [W&B Self-Managed deployments]({{< relref "/guides/hosting/hosting-options/self-managed/_index.md" >}}) with an [Enterprise license]({{< relref "/guides/hosting/enterprise-licenses.md" >}}).

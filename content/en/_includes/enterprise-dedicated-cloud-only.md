@@ -1,0 +1,1 @@
+This feature is available only for [W&B Dedicated Cloud]({{< relref "/guides/hosting/hosting-options/dedicated_cloud/_index.md" >}}) deployments, which include an Enterprise license.

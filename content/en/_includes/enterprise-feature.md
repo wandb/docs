@@ -1,0 +1,1 @@
+This feature requires an [Enterprise license]({{< relref "/guides/hosting/enterprise-licenses.md" >}}). See [Enterprise features]({{< relref "/guides/hosting/enterprise-licenses.md#enterprise-features" >}}) for more information.
