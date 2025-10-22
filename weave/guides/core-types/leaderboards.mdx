@@ -51,7 +51,7 @@ Looking for a complete, runnable code sample? See the [End-to-end Python example
 
 To create and publish a leaderboard:
 
-1. Define a test dataset. You can use the built-in [`Dataset`](./datasets.mdx), or define a list of inputs and targets manually:
+1. Define a test dataset. You can use the built-in [`Dataset`](./datasets), or define a list of inputs and targets manually:
 
    ```python lines
    dataset = [
@@ -60,7 +60,7 @@ To create and publish a leaderboard:
    ]
    ```
 
-2. Define one or more [scorers](../evaluation/scorers.mdx):
+2. Define one or more [scorers](../evaluation/scorers):
 
    ```python lines
    @weave.op
@@ -68,7 +68,7 @@ To create and publish a leaderboard:
        ...
    ```
 
-3. Create an [`Evaluation`](../core-types/evaluations.mdx):
+3. Create an [`Evaluation`](../core-types/evaluations):
 
    ```python lines
    evaluation = weave.Evaluation(

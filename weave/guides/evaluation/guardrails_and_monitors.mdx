@@ -15,7 +15,7 @@ Building production LLM applications? Two questions likely keep you up at night:
 
 Weave's unified scoring system answers both questions through a simple yet powerful framework. Whether you need active safety controls (guardrails) or passive quality monitoring, this guide will show you how to implement robust evaluation systems for your LLM applications.
 
-The foundation of Weave's evaluation system is the [**Scorer**](./scorers.mdx) - a component that evaluates your function's inputs and outputs to measure quality, safety, or any other metric you care about. Scorers are versatile and can be used in two ways:
+The foundation of Weave's evaluation system is the [**Scorer**](./scorers) - a component that evaluates your function's inputs and outputs to measure quality, safety, or any other metric you care about. Scorers are versatile and can be used in two ways:
 
 - **As Guardrails**: Block or modify unsafe content before it reaches users
 - **As Monitors**: Track quality metrics over time to identify trends and improvements
@@ -26,11 +26,11 @@ Throughout this guide, we'll refer to functions decorated with `@weave.op` as "o
 </Note>
 
 #### Ready-to-Use Scorers
-While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers.mdx) that you can use right away, including:
-- [Hallucination detection](./builtin_scorers.mdx#hallucinationfreescorer)
-- [Summarization quality](./builtin_scorers.mdx#summarizationscorer)
-- [Embedding similarity](./builtin_scorers.mdx#embeddingsimilarityscorer)
-- [Relevancy evaluation](./builtin_scorers.mdx#ragas---contextrelevancyscorer)
+While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers) that you can use right away, including:
+- [Hallucination detection](./builtin_scorers#hallucinationfreescorer)
+- [Summarization quality](./builtin_scorers#summarizationscorer)
+- [Embedding similarity](./builtin_scorers#embeddingsimilarityscorer)
+- [Relevancy evaluation](./builtin_scorers#ragas---contextrelevancyscorer)
 - And more!
 
 ### Guardrails vs. Monitors: When to Use Each
@@ -70,7 +70,7 @@ result, call = generate_text.call(input)  # Now you can use the call object with
 **Why Use `.call()`?**
 The Call object is essential for associating the score with the call in the database. While you can directly call the scoring function, this would not be associated with the call, and therefore not searchable, filterable, or exportable for later analysis.
 
-For more details about Call objects, see the [Calls guide section on Call objects](../tracking/tracing.mdx#getting-a-handle-to-the-call-object-during-execution).
+For more details about Call objects, see the [Calls guide section on Call objects](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution).
 </Tip>
 
 ## Getting Started with Scorers
@@ -193,7 +193,7 @@ Learn how to [create a monitor in general](#create-a-monitor) or try out the [en
         - **Judge model**: Select the model that will score your ops. Three types of models are available:
             - [Saved models](../tools/playground#saved-models)
             - Models from providers configured by your W&B admin
-            - [W&B Inference models](../integrations/inference.mdx)
+            - [W&B Inference models](../integrations/inference)
         
         For the selected model, configure the following settings:
             - **Configuration name**
@@ -679,6 +679,6 @@ This example demonstrates:
 
 ## Next Steps
 
-- Explore [Available Scorers](./scorers.mdx)
+- Explore [Available Scorers](./scorers)
 - Learn about [Weave Ops](/weave/guides/tracking/ops)
 

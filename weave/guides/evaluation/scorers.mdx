@@ -25,9 +25,9 @@ In Weave, Scorers are used to evaluate AI outputs and return evaluation metrics.
 <Tip>
 **Ready-to-Use Scorers**
 While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers.mdx) and [local SLM scorers](./weave_local_scorers.mdx) that you can use right away, including:
-- [Hallucination detection](./builtin_scorers.mdx#hallucinationfreescorer)
-- [Summarization quality](./builtin_scorers.mdx#summarizationscorer)
-- [Embedding similarity](./builtin_scorers.mdx#embeddingsimilarityscorer)
+- [Hallucination detection](./builtin_scorers#hallucinationfreescorer)
+- [Summarization quality](./builtin_scorers#summarizationscorer)
+- [Embedding similarity](./builtin_scorers#embeddingsimilarityscorer)
 - [Toxicity detection (local)](./weave_local_scorers#weavetoxicityscorerv1)
 - [Context Relevance scoring (local)](./weave_local_scorers#weavecontextrelevancescorerv1)
 - And more!
@@ -344,7 +344,7 @@ For more information on how to use the `.call()` method, see the [Calling Ops](.
     - Scorers run asynchronously after the main operation completes
     - You can view scorer results in the UI or query them via the API
 
-    For more detailed information about using scorers as guardrails or monitors, including production best practices and complete examples, see our [Guardrails and Monitors guide](./guardrails_and_monitors.mdx).
+    For more detailed information about using scorers as guardrails or monitors, including production best practices and complete examples, see our [Guardrails and Monitors guide](./guardrails_and_monitors).
 
   </Tab>
   <Tab title="TypeScript">
