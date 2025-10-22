@@ -4,23 +4,23 @@ title: 'Tutorial: Set up W&B Launch on Vertex AI'
 
 You can use W&B Launch to submit jobs for execution as Vertex AI training jobs. With Vertex AI training jobs, you can train machine learning models using either provided, or custom algorithms on the Vertex AI platform. Once a launch job is initiated, Vertex AI manages the underlying infrastructure, scaling, and orchestration.
 
-W&B Launch works with Vertex AI through the `CustomJob` class in the `google-cloud-aiplatform` SDK. The parameters of a `CustomJob` can be controlled with the launch queue configuration. Vertex AI cannot be configured to pull images from a private registry outside of GCP. This means that you must store container images in GCP or in a public registry if you want to use Vertex AI with W&B Launch. See the Vertex AI documentation for more information on making container images accessible to Vertex jobs.
+W&B Launch works with Vertex AI through the `CustomJob` class in the `google-cloud-aiplatform` SDK. The parameters of a `CustomJob` can be controlled with the launch queue configuration. Vertex AI cannot be configured to pull images from a private registry outside of Google Cloud. This means that you must store container images in Google Cloud or in a public registry if you want to use Vertex AI with W&B Launch. See the Vertex AI documentation for more information on making container images accessible to Vertex jobs.
 
 {/* Component Diagram of Launch in Vertex AI */}
 
 ## Prerequisites
 
-1. **Create or access a GCP project with the Vertex AI API enabled.** See the [GCP API Console docs](https://support.google.com/googleapi/answer/6158841?hl=en) for more information on enabling an API.
-2. **Create a GCP Artifact Registry repository** to store images you want to execute on Vertex. See the [GCP Artifact Registry documentation](https://cloud.google.com/artifact-registry/docs/overview) for more information.
-3. **Create a staging GCS bucket** for Vertex AI to store its metadata. Note that this bucket must be in the same region as your Vertex AI workloads in order to be used as a staging bucket. The same bucket can be used for staging and build contexts.
-4. **Create a service account** with the necessary permissions to spin up Vertex AI jobs. See the [GCP IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information on assigning permissions to service accounts.
+1. **Create or access a Google Cloud project with the Vertex AI API enabled.** See the [Google Cloud API Console docs](https://support.google.com/googleapi/answer/6158841?hl=en) for more information on enabling an API.
+2. **Create a Google Cloud Artifact Registry repository** to store images you want to execute on Vertex. See the [Google Cloud Artifact Registry documentation](https://cloud.google.com/artifact-registry/docs/overview) for more information.
+3. **Create a staging GCS bucket** for Vertex AI to store its metadata. Note that this bucket must be in the same region as your Vertex AI workloads in order to be used as a staging bucket. The same bucket can be used for staging and build contexts.
+4. **Create a service account** with the necessary permissions to spin up Vertex AI jobs. See the [Google Cloud IAM documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) for more information on assigning permissions to service accounts.
 5. **Grant your service account permission to manage Vertex jobs**
 
 | Permission                     | Resource Scope        | Description                                                                              |
 | ------------------------------ | --------------------- | ---------------------------------------------------------------------------------------- |
-| `aiplatform.customJobs.create` | Specified GCP Project | Allows creation of new machine learning jobs within the project.                         |
-| `aiplatform.customJobs.list`   | Specified GCP Project | Allows listing of machine learning jobs within the project.                              |
-| `aiplatform.customJobs.get`    | Specified GCP Project | Allows retrieval of information about specific machine learning jobs within the project. |
+| `aiplatform.customJobs.create` | Specified Google Cloud Project | Allows creation of new machine learning jobs within the project.                         |
+| `aiplatform.customJobs.list`   | Specified Google Cloud Project | Allows listing of machine learning jobs within the project.                              |
+| `aiplatform.customJobs.get`    | Specified Google Cloud Project | Allows retrieval of information about specific machine learning jobs within the project. |
 
 <Note>
 If you want your Vertex AI workloads to assume the identity of a non-standard service account, refer to the Vertex AI documentation for instructions on service account creation and necessary permissions. The `spec.service_account` field of the launch queue configuration can be used to select a custom service account for your W&B runs.
@@ -45,7 +45,7 @@ Create a queue in the W&B App that uses Vertex AI as its compute resource:
 2. Click on the **Create Queue** button.
 3. Select the **Entity** you would like to create the queue in.
 4. Provide a name for your queue in the **Name** field.
-5. Select **GCP Vertex** as the **Resource**.
+5. Select **Google Cloud Vertex AI** as the **Resource**.
 6. Within the **Configuration** field, provide information about your Vertex AI `CustomJob` you defined in the previous section. By default, W&B will populate a YAML and JSON request body similar to the following:
 
 ```yaml
