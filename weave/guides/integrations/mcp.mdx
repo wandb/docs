@@ -17,7 +17,7 @@ The Weave integration lets you trace activity between your MCP client and MCP se
 Currently, the integration captures client-side and server-side operations separately, but does not provide end-to-end visibility into their interaction. There's an ongoing proposal to add OpenTelemetry trace support to MCP to enable end-to-end observability. For more information, see [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269).
 </Warning>
 
-The Weave integration automatically traces key components of the Model Context Protocol (MCP) by patching core methods with the [`weave.op()`](../tracking/ops.mdx) decorator. Specifically, it patches methods in the [`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) and [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84) classes.
+The Weave integration automatically traces key components of the Model Context Protocol (MCP) by patching core methods with the [`weave.op()`](../tracking/ops) decorator. Specifically, it patches methods in the [`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) and [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84) classes.
 
 Through this integration, Weave traces the following MCP components:
 
@@ -181,7 +181,7 @@ The `example_client.py` client demonstrates how to:
 - Call tools with parameters
 - Read from resource URIs
 - Generate prompts with arguments
-- Show usage of [`weave.op()`](../tracking/ops.mdx) with custom methods/functions.
+- Show usage of [`weave.op()`](../tracking/ops) with custom methods/functions.
 
 Weave traces all client-side calls to provide a complete view of interactions between the client and server.
 
