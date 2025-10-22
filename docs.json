@@ -1069,8 +1069,7 @@
                 ]
               },
               "inference/examples",
-              "inference/ui-guide",
-              "inference/support"
+              "inference/ui-guide"
             ]
           },
           {
@@ -2286,6 +2285,10 @@
     {
       "source": "/guides/inference/:slug*",
       "destination": "/inference/:slug*"
+    },
+    {
+      "source": "/inference/support",
+      "destination": "/inference"
     },
     {
       "source": "/guides/integrations/:slug*",
