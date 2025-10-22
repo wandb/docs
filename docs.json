@@ -1024,7 +1024,10 @@
                     "pages": [
                       "weave/reference/service-api"
                     ],
-                    "openapi": "weave/reference/service-api/openapi.json"
+                    "openapi": {
+                      "source": "weave/reference/service-api/openapi.json",
+                      "directory": "weave/reference/service-api"
+                    }
                   }
                 ]
               },
@@ -1091,10 +1094,13 @@
               },
               {
                 "group": "API Reference",
-                "openapi": "https://api.training.wandb.ai/openapi.json",
                 "pages": [
                   "training/api-reference"
-                ]
+                ],
+                "openapi": {
+                  "source": "training/api-reference/openapi.json",
+                  "directory": "training/api-reference"
+                }
               }
             ]
           },
