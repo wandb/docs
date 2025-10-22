@@ -13,7 +13,7 @@ This is an interactive notebook. You can run it locally or use the links below:
 
 The [BIG-bench (Beyond the Imitation Game Benchmark)](https://github.com/google/BIG-bench) is a collaborative benchmark intended to probe large language models and extrapolate their future capabilities consisting of more than 200 tasks. The [BIG-Bench Hard (BBH)](https://github.com/suzgunmirac/BIG-Bench-Hard) is a suite of 23 most challenging BIG-Bench tasks that can be quite difficult to be solved using the current generation of language models.
 
-This tutorial demonstrates how we can improve the performance of our LLM workflow implemented  on the **causal judgement task** from the BIG-bench Hard benchmark and evaluate our prompting strategies. We will use [DSPy](https://dspy-docs.vercel.app/) for implementing our LLM workflow and optimizing our prompting strategy. We will also use [Weave](https://docs.wandb.ai/guides/weave) to track our LLM workflow and evaluate our prompting strategies.
+This tutorial demonstrates how we can improve the performance of our LLM workflow implemented  on the **causal judgement task** from the BIG-bench Hard benchmark and evaluate our prompting strategies. We will use [DSPy](https://dspy-docs.vercel.app/) for implementing our LLM workflow and optimizing our prompting strategy. We will also use [Weave](/weave) to track our LLM workflow and evaluate our prompting strategies.
 
 ## Installing the Dependencies
 
@@ -39,7 +39,7 @@ os.environ["OPENAI_API_KEY"] = api_key
 
 ## Enable Tracking using Weave
 
-Weave is currently integrated with DSPy, and including [`weave.init`](/weave/reference/python-sdk/weave/trace/weave_client#method-init) at the start of our code lets us automatically trace our DSPy functions which can be explored in the Weave UI. Check out the [Weave integration docs for DSPy](https://docs.wandb.ai/guides/weave/integrations/dspy) to learn more.
+Weave is currently integrated with DSPy, and including [`weave.init`](/weave/reference/python-sdk/trace/weave_client#method-init) at the start of our code lets us automatically trace our DSPy functions which can be explored in the Weave UI. Check out the [Weave integration docs for DSPy](/weave/integrations/dspy) to learn more.
 
 ```python lines
 import weave
@@ -47,7 +47,7 @@ import weave
 weave.init(project_name="dspy-bigbench-hard")
 ```
 
-In this tutorial, we use a metadata class inherited from [`weave.Object`](/weave/reference/python-sdk/weave#class-object) to manage our metadata.
+In this tutorial, we use a metadata class inherited from [`weave.Object`](/weave/reference/python-sdk#class-object) to manage our metadata.
 
 ```python lines
 class Metadata(weave.Object):
