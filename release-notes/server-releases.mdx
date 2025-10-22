@@ -47,7 +47,7 @@ W&B v0.74 delivers SCIM API improvements for enterprise identity management, inc
 - A Team's **Project** page now shows the number of Weave traces for each project together with data about the project's runs.
 - The [DSPy integration](/weave/guides/integrations/dspy) has been improved. For details, see [`wandb/weave` #5184](https://github.com/wandb/weave/pull/5184).
 - If your Weave code calls `wandb.init()`, it no longer needs to explicitly call `weave.init()`.
-- New convenience method [`delete_all_object_versions`](/weave/reference/python-sdk/weave/trace/weave_client).
+- New convenience method [`delete_all_object_versions`](/weave/reference/python-sdk/trace/weave_client).
 - The output from an OpenAI streaming endpoint call now includes a new field, `time_to_first_token`, expressed in milliseconds.
 
 ### Inference
@@ -305,7 +305,7 @@ Private preview features are available by invitation only. To request enrollment
 - [Playground](/weave/guides/tools/playground/) now supports saved configurations and prompts.
 - Decorators are now supported in TypeScript.
 - Added support for [tracing generator functions](/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions).
-- The new [`dataset.add_rows`](/weave/reference/python-sdk/weave/#method-add-rows) helper improves the efficiency of appending to an existing dataset.
+- The new [`dataset.add_rows`](/weave/reference/python-sdk/#method-add-rows) helper improves the efficiency of appending to an existing dataset.
 - To help you understand your usage, trace and object sizes are now shown through the UI.
 
 ## Performance

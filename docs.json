@@ -9,7 +9,7 @@
   },
   "integrations": {
     "ga4": {
-        "measurementId": "G-5JYCHZZP7K"
+      "measurementId": "G-5JYCHZZP7K"
     },
     "gtm": {
       "tagId": "GTM-5BL5RTH"
@@ -406,12 +406,12 @@
                     "pages": [
                       {
                         "group": "ML Frameworks",
-                        "pages": [                       
+                        "pages": [
                           "models/integrations/catalyst",
                           "models/integrations/deepchem",
                           "models/integrations/dspy",
                           "models/integrations/keras",
-                          "models/integrations/lightgbm",                                                    
+                          "models/integrations/lightgbm",
                           "models/integrations/mmengine",
                           "models/integrations/mmf",
                           "models/integrations/paddledetection",
@@ -420,24 +420,24 @@
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/skorch",
-                          "models/integrations/tensorflow",                                                                                 
+                          "models/integrations/tensorflow",
                           "models/integrations/xgboost"
                         ]
                       },
                       {
                         "group": "ML Libraries",
                         "pages": [
-                          "models/integrations/deepchecks",                          
+                          "models/integrations/deepchecks",
                           "models/integrations/huggingface",
                           "models/integrations/diffusers",
-                          "models/integrations/autotrain",                         
+                          "models/integrations/autotrain",
                           "models/integrations/fastai",
                           "models/integrations/fastai/v1",
-                          "models/integrations/composer",                          
+                          "models/integrations/composer",
                           "models/integrations/openai-gym",
                           "models/integrations/prodigy",
                           "models/integrations/pytorch-geometric",
-                          "models/integrations/torchtune",                           
+                          "models/integrations/torchtune",
                           "models/integrations/scikit",
                           "models/integrations/simpletransformers",
                           "models/integrations/spacy",
@@ -445,7 +445,6 @@
                           "models/integrations/ultralytics"
                         ]
                       }
-
                     ]
                   },
                   {
@@ -944,30 +943,30 @@
               {
                 "group": "Reference",
                 "pages": [
-                  "weave/reference/index",
+                  "weave/reference",
                   {
                     "group": "Python SDK",
                     "pages": [
-                      "weave/reference/python-sdk/weave/index",
+                      "weave/reference/python-sdk",
                       {
                         "group": "Core",
                         "pages": [
-                          "weave/reference/python-sdk/weave/trace/feedback",
-                          "weave/reference/python-sdk/weave/trace/op",
-                          "weave/reference/python-sdk/weave/trace/util",
-                          "weave/reference/python-sdk/weave/trace/weave_client"
+                          "weave/reference/python-sdk/trace/feedback",
+                          "weave/reference/python-sdk/trace/op",
+                          "weave/reference/python-sdk/trace/util",
+                          "weave/reference/python-sdk/trace/weave_client"
                         ]
                       },
                       {
                         "group": "Trace Server",
                         "pages": [
-                          "weave/reference/python-sdk/weave/trace_server/trace_server_interface"
+                          "weave/reference/python-sdk/trace_server/trace_server_interface"
                         ]
                       },
                       {
                         "group": "Trace Server Bindings",
                         "pages": [
-                          "weave/reference/python-sdk/weave/trace_server_bindings/remote_http_trace_server"
+                          "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
                       }
                     ]
@@ -975,54 +974,59 @@
                   {
                     "group": "TypeScript SDK",
                     "pages": [
-                      "weave/reference/typescript-sdk/weave/index",
+                      "weave/reference/typescript-sdk",
                       {
                         "group": "Classes",
                         "pages": [
-                          "weave/reference/typescript-sdk/weave/classes/Dataset",
-                          "weave/reference/typescript-sdk/weave/classes/Evaluation",
-                          "weave/reference/typescript-sdk/weave/classes/EvaluationLogger",
-                          "weave/reference/typescript-sdk/weave/classes/MessagesPrompt",
-                          "weave/reference/typescript-sdk/weave/classes/ScoreLogger",
-                          "weave/reference/typescript-sdk/weave/classes/StringPrompt",
-                          "weave/reference/typescript-sdk/weave/classes/WeaveClient",
-                          "weave/reference/typescript-sdk/weave/classes/WeaveObject"
+                          "weave/reference/typescript-sdk/classes/Dataset",
+                          "weave/reference/typescript-sdk/classes/Evaluation",
+                          "weave/reference/typescript-sdk/classes/EvaluationLogger",
+                          "weave/reference/typescript-sdk/classes/MessagesPrompt",
+                          "weave/reference/typescript-sdk/classes/ScoreLogger",
+                          "weave/reference/typescript-sdk/classes/StringPrompt",
+                          "weave/reference/typescript-sdk/classes/WeaveClient",
+                          "weave/reference/typescript-sdk/classes/WeaveObject"
                         ]
                       },
                       {
                         "group": "Functions",
                         "pages": [
-                          "weave/reference/typescript-sdk/weave/functions/init",
-                          "weave/reference/typescript-sdk/weave/functions/login",
-                          "weave/reference/typescript-sdk/weave/functions/op",
-                          "weave/reference/typescript-sdk/weave/functions/requireCurrentCallStackEntry",
-                          "weave/reference/typescript-sdk/weave/functions/requireCurrentChildSummary",
-                          "weave/reference/typescript-sdk/weave/functions/weaveAudio",
-                          "weave/reference/typescript-sdk/weave/functions/weaveImage",
-                          "weave/reference/typescript-sdk/weave/functions/wrapOpenAI"
+                          "weave/reference/typescript-sdk/functions/init",
+                          "weave/reference/typescript-sdk/functions/login",
+                          "weave/reference/typescript-sdk/functions/op",
+                          "weave/reference/typescript-sdk/functions/requireCurrentCallStackEntry",
+                          "weave/reference/typescript-sdk/functions/requireCurrentChildSummary",
+                          "weave/reference/typescript-sdk/functions/weaveAudio",
+                          "weave/reference/typescript-sdk/functions/weaveImage",
+                          "weave/reference/typescript-sdk/functions/wrapOpenAI"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "weave/reference/typescript-sdk/weave/interfaces/CallSchema",
-                          "weave/reference/typescript-sdk/weave/interfaces/CallsFilter",
-                          "weave/reference/typescript-sdk/weave/interfaces/WeaveAudio",
-                          "weave/reference/typescript-sdk/weave/interfaces/WeaveImage"
+                          "weave/reference/typescript-sdk/interfaces/CallSchema",
+                          "weave/reference/typescript-sdk/interfaces/CallsFilter",
+                          "weave/reference/typescript-sdk/interfaces/WeaveAudio",
+                          "weave/reference/typescript-sdk/interfaces/WeaveImage"
                         ]
                       },
                       {
                         "group": "Type Aliases",
                         "pages": [
-                          "weave/reference/typescript-sdk/weave/type-aliases/Op",
-                          "weave/reference/typescript-sdk/weave/type-aliases/OpDecorator"
+                          "weave/reference/typescript-sdk/type-aliases/Op",
+                          "weave/reference/typescript-sdk/type-aliases/OpDecorator"
                         ]
                       }
                     ]
                   },
                   {
                     "group": "Service API",
-                    "openapi": "https://trace.wandb.ai/openapi.json"
+                    "pages": [
+                      "weave/reference/service-api"
+                    ],
+                    "openapi": {
+                      "source": "https://trace.wandb.ai/openapi.json"
+                    }
                   }
                 ]
               },
@@ -2314,7 +2318,6 @@
       "source": "/guides/track/:slug*",
       "destination": "/models/track/:slug*"
     },
-
     {
       "source": "/guides/runs/:slug*",
       "destination": "/models/runs/:slug*"
