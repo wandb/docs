@@ -68,13 +68,12 @@ def handle_inference_error(error):
     if "401" in error_str:
         # Invalid authentication
         raise ValueError("Check your API key and project configuration")
+    elif "402" in error_str:
+        # Out of credits
+        raise ValueError("Insufficient credits")
     elif "429" in error_str:
-        if "quota" in error_str:
-            # Out of credits
-            raise ValueError("Insufficient credits")
-        else:
-            # Rate limited
-            return "retry"
+        # Rate limited
+        return "retry"
     elif "500" in error_str or "503" in error_str:
         # Server error
         return "retry"

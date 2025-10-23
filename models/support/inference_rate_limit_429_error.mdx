@@ -2,11 +2,8 @@
 title: Why am I getting rate limit errors (429) with W&B Inference?
 ---
 
-Rate limit errors (429) occur when you exceed concurrency limits or run out of credits.
+Rate limit errors (429) occur when you exceed concurrency limits.
 
-## Types of 429 errors
-
-### Concurrency limit reached
 **Error:** "Concurrency limit reached for requests"
 
 **Solution:**
@@ -14,22 +11,6 @@ Rate limit errors (429) occur when you exceed concurrency limits or run out of c
 - Add delays between requests
 - Implement exponential backoff
 - Note: Rate limits apply per W&B project
-
-### Quota exceeded
-**Error:** "You exceeded your current quota, please check your plan and billing details"
-
-**Solution:**
-- Check your credit balance in the W&B Billing page
-- Purchase more credits or upgrade your plan
-- Request a limit increase from support
-
-### Personal account limitation
-**Error:** "W&B Inference isn't available for personal accounts"
-
-**Solution:**
-- Switch to a non-personal account
-- Create a Team to access W&B Inference
-- Personal entities were deprecated in May 2024
 
 ## Best practices to avoid rate limits
 
