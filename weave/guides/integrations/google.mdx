@@ -8,7 +8,7 @@ description: "Use Weave to trace and log Google GenAI model calls"
 </a>
 
 <Note>
-You can experiment with Google AI models on Weave without any set up using the [LLM Playground](../tools/playground.mdx).
+You can experiment with Google AI models on Weave without any set up using the [LLM Playground](../tools/playground).
 </Note>
 
 This page describes how to use W&B Weave with the Google Vertex AI API and the Google Gemini API.
@@ -94,7 +94,7 @@ recommend_places_to_visit("Kolkata")
 
 Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](../core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app. 
 
-In addition to versioning code and capturing inputs/outputs, [`Model`](../core-types/models)s capture structured parameters that control your application’s behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve`, and [`Evaluation`](../core-types/evaluations.mdx)s.
+In addition to versioning code and capturing inputs/outputs, [`Model`](../core-types/models)s capture structured parameters that control your application’s behavior, making it easy to find what parameters worked best. You can also use Weave Models with `serve`, and [`Evaluation`](../core-types/evaluations)s.
 
 In the example below, you can experiment with `CityVisitRecommender`. Every time you change one of these, you'll get a new _version_ of `CityVisitRecommender`.
 
