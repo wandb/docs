@@ -115,7 +115,7 @@ The TypeScript SDK provides two API patterns:
 1. **Fire-and-forget API** (recommended for most cases): Use `logPrediction()` without `await` for synchronous, non-blocking logging
 2. **Awaitable API**: Use `logPredictionAsync()` with `await` when you need to ensure operations complete before proceeding
 
-Use **fire-and-forget** when you need:
+We recommend **fire-and-forget** for:
 - **High throughput**: Process multiple predictions in parallel without waiting for each logging operation
 - **Minimal code disruption**: Add evaluation logging without restructuring your existing async/await flow
 - **Simplicity**: Less boilerplate code and cleaner syntax for most evaluation scenarios
