@@ -37,10 +37,10 @@ For a Python code demonstrating the described workflow, see the [Basic example](
 
 ## Basic example
 
-### Python
+The following example shows how to use `EvaluationLogger` to log predictions and scores inline with your existing code.
 
-The following example shows how to use `EvaluationLogger` to log predictions and scores inline with your existing Python code.
-
+<Tabs>
+<Tab title="Python">
 The `user_model` model function is defined and applied to a list of inputs. For each example:
 
 - The input and output are logged using `log_prediction`.
@@ -108,20 +108,21 @@ eval_logger.log_summary(summary_stats)
 
 print("Evaluation logging complete. View results in the Weave UI.")
 ```
-
-### TypeScript
-
-The TypeScript SDK provides the same functionality with two API patterns:
+</Tab>
+<Tab title="TypeScript">
+The TypeScript SDK provides two API patterns:
 
 1. **Fire-and-forget API** (recommended for most cases): Use `logPrediction()` without `await` for synchronous, non-blocking logging
 2. **Awaitable API**: Use `logPredictionAsync()` with `await` when you need to ensure operations complete before proceeding
 
-**Why use the fire-and-forget pattern?**
+Use **fire-and-forget** when you need:
 - **High throughput**: Process multiple predictions in parallel without waiting for each logging operation
 - **Minimal code disruption**: Add evaluation logging without restructuring your existing async/await flow
 - **Simplicity**: Less boilerplate code and cleaner syntax for most evaluation scenarios
 
 The fire-and-forget pattern is safe because `logSummary()` automatically waits for all pending operations to complete before aggregating results.
+
+The following example evaluates model predictions with the fire-and-forget pattern. It sets up an evaluation logger, runs a simple model on three test samples, and then logs the prediction without using await:
 
 ```typescript lines
 import weave from 'weave';
@@ -181,8 +182,9 @@ await evalLogger.logSummary(summaryStats);
 console.log('Evaluation logging complete. View results in the Weave UI.');
 ```
 
-**Alternative: Using the awaitable API**
-If you need to ensure each operation completes before proceeding (e.g., for error handling or sequential dependencies), use the awaitable API:
+Use awaitable API when you need to ensure each operation completes before proceeding, such as when managing error handling or sequential dependencies. 
+
+In the the following example, instead of calling `logPrediction()` without `await`, it uses `logPredictionAsync()` with `await` to ensure each operation completes before proceeding to the next one:
 
 ```typescript lines
 // Use logPredictionAsync instead of logPrediction
@@ -192,15 +194,17 @@ const scoreLogger = await evalLogger.logPredictionAsync(inputs, modelOutput);
 await scoreLogger.logScore('correctness', correctnessScore);
 await scoreLogger.finish();
 ```
+</Tab>
+</Tabs>
 
 ## Advanced usage
 
 ### Get outputs before logging
 
-#### Python
-
 You can first compute your model outputs, then separately log predictions and scores. This allows for better separation of evaluation and logging logic.
 
+<Tabs>
+<Tab title="Python">
 ```python lines
 # Initialize EvaluationLogger BEFORE calling the model to ensure token tracking
 ev = EvaluationLogger(
@@ -218,10 +222,11 @@ for pred, output in zip(preds, outputs):
 
 ev.log_summary()
 ```
+</Tab>
+<Tab title="TypeScript">
+The fire-and-forget pattern excels when processing multiple predictions in parallel.
 
-#### TypeScript
-
-The fire-and-forget pattern is particularly powerful when processing multiple predictions in parallel:
+The following example batch-processes evaluations in parallel by creating multiple concurrent instances of the `EvaluationLogger`:
 
 ```typescript lines
 // Initialize EvaluationLogger BEFORE calling the model to ensure token tracking
@@ -231,7 +236,7 @@ const ev = new EvaluationLogger({
   dataset: 'example_dataset'
 });
 
-// Model outputs (e.g. OpenAI calls) must happen after logger init for token tracking
+// Model outputs (OpenAI calls) must happen after logger init for token tracking
 const outputs = await Promise.all(
   yourDataset.map(inputs => yourOutputGenerator(inputs))
 );
@@ -253,12 +258,16 @@ preds.forEach((pred, i) => {
 await ev.logSummary();
 ```
 
+You can use the fire-and-forget pattern to process as many evaluations in parallel as your compute resources allow.
+</Tab>
+</Tabs>
+
 ### Log rich media
 
 Inputs, outputs, and scores can include rich media such as images, videos, audio, or structured tables. Simply pass a dict or media object into the `log_prediction` or `log_score` methods.
 
-#### Python
-
+<Tabs>
+<Tab title="Python">
 ```python lines
 import io
 import wave
@@ -324,6 +333,8 @@ for inputs in rich_media_dataset:
 
 ev.log_summary()
 ```
+</Tab>
+</Tabs>
 
 ### Log and compare multiple evaluations
 
@@ -339,8 +350,8 @@ With `EvaluationLogger`, you can log and compare multiple evaluations.
 
    For more information on comparisons, see [Comparisons](../tools/comparison)
 
-#### Python
-
+<Tabs>
+<Tab title="Python">
 ```python lines
 import weave
 
@@ -352,7 +363,13 @@ models = [
 
 for model in models:
     # EvalLogger must be initialized before model calls to capture tokens
-    ev = EvaluationLogger(model=model, dataset="example_dataset")
+    ev = EvaluationLogger(
+        name="comparison-eval",
+        model=model, 
+        dataset="example_dataset",
+        scorers=["greater_than_3_scorer", "greater_than_5_scorer", "greater_than_7_scorer"],
+        eval_attributes={"experiment_id": "exp_123"}
+    )
     for inputs in your_dataset:
         output = your_output_generator(**inputs)
         pred = ev.log_prediction(inputs=inputs, output=output)
@@ -363,11 +380,8 @@ for model in models:
 
     ev.log_summary()
 ```
-
-#### TypeScript
-
-The TypeScript SDK supports the same comparison workflow. You can pass rich configuration including metadata:
-
+</Tab>
+<Tab title="TypeScript">
 ```typescript lines
 import weave from 'weave';
 import {EvaluationLogger} from 'weave/evaluationLogger';
@@ -406,6 +420,8 @@ for (const model of models) {
   await ev.logSummary();
 }
 ```
+</Tab>
+</Tabs>
 <Frame>
 ![The Evals tab](/weave/guides/evaluation/img/evals_tab.png)
 </Frame>
@@ -415,14 +431,14 @@ for (const model of models) {
 </Frame>
 ## Usage tips
 
-### Python
+<Tabs>
+<Tab title="Python">
 - Call `finish()` promptly after each prediction.
 - Use `log_summary` to capture metrics not tied to single predictions (e.g., overall latency).
 - Rich media logging is great for qualitative analysis.
-
-### TypeScript
-- **Fire-and-forget pattern (recommended)**: Use `logPrediction()`, `logScore()`, and `finish()` without `await` for cleaner code and better performance. The `logSummary()` method automatically waits for all pending operations to complete.
-- **When to use awaitable API**: Use `logPredictionAsync()` with `await` when you need to handle errors immediately or have sequential dependencies between logging operations.
-- **Auto-finish behavior**: While we recommend explicitly calling `finish()` on each prediction for clarity, `logSummary()` will automatically finish any unfinished predictions. However, once `finish()` is called on a prediction, no more scores can be logged for it.
-- **Parallel processing**: The fire-and-forget pattern shines when processing multiple predictions in parallel, as shown in the test case with multiple threads. You can create multiple `ScoreLogger` instances simultaneously without blocking.
-- **Configuration options**: Take advantage of all configuration options including `name`, `description`, `dataset`, `model`, `scorers`, and `attributes` to organize and filter your evaluations in the Weave UI.
+</Tab>
+<Tab title="TypeScript">
+- **Auto-finish behavior**: While we recommend explicitly calling `finish()` on each prediction for clarity, `logSummary()` automatically finishes any unfinished predictions. However, once the script calls `finish()`, it cannot log anymore scores.
+- **Configuration options**: Use configuration options, including `name`, `description`, `dataset`, `model`, `scorers`, and `attributes` to organize and filter your evaluations in the Weave UI.
+</Tab>
+</Tabs>
