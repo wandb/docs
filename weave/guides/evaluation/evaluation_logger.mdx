@@ -236,7 +236,7 @@ const ev = new EvaluationLogger({
   dataset: 'example_dataset'
 });
 
-// Model outputs (OpenAI calls) must happen after logger init for token tracking
+// Model outputs, such as OpenAI calls, must happen after logger init for token tracking
 const outputs = await Promise.all(
   yourDataset.map(inputs => yourOutputGenerator(inputs))
 );
