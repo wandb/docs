@@ -55,9 +55,9 @@ The following table shows the availability of BYOB at each scope for each W&B de
 
 | W&B deployment type        | Instance level   | Team level | Additional information |
 |----------------------------|------------------|------------|------------------------|
-| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
-| Multi-tenant Cloud         | Not Applicable   | &check;<sup><a href="#footnote_1">1</a></sup> | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and GCP Storage. |
-| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, GCP Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
+| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
+| Multi-tenant Cloud         | Not Applicable   | &check;<sup><a href="#footnote_1">1</a></sup> | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and Google Cloud Storage. |
+| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
 
 <sup><a id="footnote_1">1</a>.</sup>Azure Blob Storage is not supported for team level BYOB on Multi-tenant Cloud.
 
@@ -296,11 +296,11 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
   
 For more details, see the [AWS Self-Managed hosting guide](/platform/hosting/hosting-options/).
 </Tab>
-<Tab title="GCP">
-For details, see [Create a bucket](https://cloud.google.com/storage/docs/creating-buckets) in the GCP documentation.
+<Tab title="Google Cloud">
+For details, see [Create a bucket](https://cloud.google.com/storage/docs/creating-buckets) in the Google Cloud documentation.
 1. Provision the GCS bucket.
 
-    Follow these steps to provision the GCS bucket in your GCP project:
+    Follow these steps to provision the GCS bucket in your Google Cloud project:
 
     1. Create the GCS bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
     1. Set encryption type to `Google-managed`.
@@ -337,7 +337,7 @@ For details, see [Create a bucket](https://cloud.google.com/storage/docs/creatin
           gsutil cors get gs://<bucket_name>
           ```
 
-1. If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), grant the `storage.admin` role to the GCP service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
+1. If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), grant the `storage.admin` role to the Google Cloud service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
 
     * For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
     * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
@@ -418,7 +418,7 @@ s3://<accessKey>:<secretAccessKey>@<s3_regional_url_endpoint>/<bucketName>?regio
 ```
 In the address, the `region` parameter is mandatory unless both your W&B instance and your storage bucket are deployed AWS, and the W&B instance's `AWS_REGION` matches the bucket's AWS S3 region.
 </Tab>
-<Tab title="GCP">
+<Tab title="Google Cloud">
 **Bucket format**:
 ```text
 gs://<serviceAccountEmail>:<urlEncodedPrivateKey>@<bucketName>
@@ -476,7 +476,7 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
 
 * [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
-* [GCP](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
+* [Google Cloud](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
 * Azure - [Instance level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob) or [Team level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector)
 </Note>
 
@@ -484,7 +484,7 @@ For Self-Managed, W&B recommends using the Terraform module managed by W&B to pr
 
 You can configure team level BYOB while creating a team using the W&B App. You have two options:
 - **Use an existing bucket**: You'll need to [determine the storage location](#determine-the-storage-address) for your bucket first.
-- **Create a new bucket** (Multi-tenant Cloud only): W&B can automatically create a bucket in your cloud provider when you create the team. This is supported for CoreWeave, AWS, and GCP.
+- **Create a new bucket** (Multi-tenant Cloud only): W&B can automatically create a bucket in your cloud provider when you create the team. This is supported for CoreWeave, AWS, and Google Cloud.
 
 <Note>
 - After a team is created, its storage cannot be changed.
@@ -509,18 +509,18 @@ Select your deployment type to continue.
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list. To add a new bucket, click **Add bucket** at the bottom, then provide the bucket's details.
 
-    Click **Cloud provider** and select **CoreWeave**, **AWS**, **GCP**, or **Azure**.
+    Click **Cloud provider** and select **CoreWeave**, **AWS**, **Google Cloud**, or **Azure**.
     
     If the cloud provider is not listed, ensure that you have followed step 1 to add the bucket path to the supported file stores for your instance. If the storage provider is still not listed, [contact support](mailto:support@wandb.ai) for assistance.
 1. Specify the bucket details.
     - For **CoreWeave**, provide only the bucket name.
-    - For Amazon S3, GCP, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
+    - For Amazon S3, Google Cloud, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
     - For Azure on W&B Dedicated or Self-Managed, set **Account name** to the Azure account and **Container name** to the Azure blob storage container.
     - Optionally, provide additional connection settings:
       - If applicable, set **Path** to the bucket sub-path.
       - **CoreWeave**: No additional connection settings required.
       - **AWS**: Set **KMS key ARN** to the ARN of your KMS encryption key.
-      - **GCP**: No additional connection settings required.
+      - **Google Cloud**: No additional connection settings required.
       - **Azure**: Specify values for **Tenant ID** and **Managed Identity Client ID**. These fields are mandatory unless you configured the connection string with `GORILLA_SUPPORTED_FILE_STORES`.
 1. Click **Create team**.
 
@@ -533,14 +533,14 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 1. Click **Bucket location**.
 1. To use an existing bucket, select it from the list.
 1. To create a new bucket, click **Add bucket** at the bottom, then:
-    1. Click **Cloud provider** and select **CoreWeave**, **AWS**, or **GCP**.
+    1. Click **Cloud provider** and select **CoreWeave**, **AWS**, or **Google Cloud**.
     1. Enter the bucket details:
         - **Name**: Enter the bucket name.
         - **Path** (optional): Enter a sub-path to use within the bucket.
     1. Provide additional connection settings for the chosen cloud provider:
         - CoreWeave: No additional settings required.
         - AWS: Optionally provide a **KMS key ARN** for encryption.
-        - GCP: No additional settings required.
+        - Google Cloud: No additional settings required.
     
     <Note>
     When you click **Create team**, W&B will automatically create the bucket in your cloud provider with the specified configuration.
