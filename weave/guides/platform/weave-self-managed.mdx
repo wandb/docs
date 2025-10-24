@@ -1,9 +1,9 @@
-----
--title: "W&B Weave Self-Managed"
--description: "Deploy and manage Weave on your own infrastructure"
-----
+---
+title: "W&B Weave Self-Managed"
+description: "Deploy and manage Weave on your own infrastructure"
+---
 
-Self-hosting W&B Weave allows you to have more control over its environment and configuration. This can be helpful for use cases that require isolation and additional security compliance. This guide explains how to deploy all the components required to run W&B Weave in a self-managed environment using the Altinity ClickHouse Operator.
+Self-hosting W&B Weave allows you to have more control over its environment and configuration. This can help you create a more isolated environment and meet additional security compliance. This document guides you through how to deploy all the components required to run W&B Weave in a self-managed environment using the Altinity ClickHouse Operator.
 
 Self-managed Weave deployments rely on [ClickHouseDB](https://clickhouse.com/) to manage its backend. This deployment uses:
 
@@ -14,58 +14,35 @@ Self-managed Weave deployments rely on [ClickHouseDB](https://clickhouse.com/) t
 
 <Tip>
 For a detailed reference architecture, see [W&B Self-Managed Reference Architecture](https://docs.wandb.ai/guides/hosting/self-managed/ref-arch/#models-and-weave).
-<Tip />
+</Tip>
 
-## Important Notes
+## Important Setup Notes
 
-<Warning>
-Configuration Customization Required
-The configurations provided in this guide (including security contexts, pod anti-affinity rules, resource allocations, naming conventions, and storage classes) are **reference examples only**.
+The configuration examples in this guide are for reference only. Because each organization's Kubernetes environment is unique, your self-hosted instance will likely require you to adjust:
 
-- **Security & Compliance**: Adjust security contexts, runAsUser/fsGroup values, and other security settings according to your organization's security policies and Kubernetes/OpenShift requirements.
+- **Security & Compliance**: Security contexts, `runAsUser`/`fsGroup` values, and other security settings according to your organization's security policies and Kubernetes/OpenShift requirements.
 - **Resource Sizing**: The resource allocations shown are starting points. **Consult with your W&B Solutions Architect team** for proper sizing based on your expected trace volume and performance requirements.
 - **Infrastructure Specifics**: Update storage classes, node selectors, and other infrastructure-specific settings to match your environment.
 
-Each organization's Kubernetes environment is unique - treat these configurations as templates to be adapted, not prescriptive solutions.
-<Warning />
+These configurations in this guide should be treated like templates, not prescriptive solutions.
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    W&B Platform (wandb)                     │
-│  ┌────────────┐  ┌────────────┐  ┌────────────────────┐     │
-│  │ weave-trace│──│  app/api   │──│  console/parquet   │     │
-│  └──────┬─────┘  └────────────┘  └────────────────────┘     │
-└─────────┼────────────────────────────────────────────────---┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────┐
-│              ClickHouse Cluster (clickhouse)                │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
-│  │ ch-server-0  │  │ ch-server-1  │  │ ch-server-2  │       │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘       │
-│         │                 │                 │               │
-│         └─────────────────┼─────────────────┘               │
-│                           │                                 │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │           ClickHouse Keeper Cluster                  │   │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐            │   │
-│  │  │ keeper-0 │  │ keeper-1 │  │ keeper-2 │            │   │
-│  │  └──────────┘  └──────────┘  └──────────┘            │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────┬───────────────────────────────────────────────┘
-              │
-              ▼
-      ┌───────────────┐
-      │  S3 Storage   │
-      │  (AWS/MinIO)  │
-      └───────────────┘
+```mermaid
+graph TD
+    A["W&B Platform (wandb)<br/>weave-trace · app/API · console/parquet"] --> B["ClickHouse Cluster"]
+    B --> C["ch-server-0"]
+    B --> D["ch-server-1"]
+    B --> E["ch-server-2"]
+    C --> F["ClickHouse Keeper Cluster<br/>keeper-0 · keeper-1 · keeper-2"]
+    D --> F
+    E --> F
+    F --> G["S3 Storage<br/>(AWS/MinIO)"]
 ```
 
 ## Prerequisites
 
-### Required Resources
+Self-managed Weave instances require the following resources:
 
 - **Kubernetes Cluster**: Version 1.24+
 - **Kubernetes Nodes**: Multi-node cluster (minimum 3 nodes recommended for high availability)
@@ -74,11 +51,13 @@ Each organization's Kubernetes environment is unique - treat these configuration
 - **W&B Platform**: Already installed and running (see [W&B Self-Managed Deployment Guide](https://docs.wandb.ai/guides/hosting/hosting-options/self-managed/))
 - **W&B License**: Weave-enabled license from W&B Support
 
-:::warning Resource Sizing
-Do not make sizing decisions based on this prerequisites list alone. See the detailed [Resource Requirements](#resource-requirements) section below for proper cluster sizing guidance. Resource needs vary significantly based on trace volume and usage patterns.
-:::
+<Warning>
+Do not make sizing decisions based on these prerequisites list alone. Resource needs vary significantly based on trace volume and usage patterns. See the detailed [Resource Requirements](#resource-requirements) section for explicit cluster-sizing guidance.
+</Warning>
 
 ### Required Tools
+
+To set up your instance, you need the following tools:
 
 - `kubectl` configured with cluster access
 - `helm` v3.0+
@@ -86,10 +65,12 @@ Do not make sizing decisions based on this prerequisites list alone. See the det
 
 ### Network Requirements
 
+Your Kubernetes cluster requires the following network setup:
+
 - Pods in the `clickhouse` namespace must communicate with pods in the `wandb` namespace
 - ClickHouse nodes must communicate with each other on ports 8123, 9000, 9009, and 2181
 
-## Deployment Steps
+## Deploy your self-managed Weave instance
 
 ### Step 1: Deploy Altinity ClickHouse Operator
 
@@ -131,9 +112,7 @@ metrics:
 nameOverride: "wandb"
 ```
 
-:::info OpenShift Configuration
 The `containerSecurityContext` values shown here work for most Kubernetes distributions. For **OpenShift**, you may need to adjust `runAsUser` and `fsGroup` to match your project's assigned UID range.
-:::
 
 #### 1.3 Install the operator
 
@@ -652,9 +631,9 @@ kubectl get svc -n clickhouse | grep keeper
 kubectl get pods -n clickhouse -l app=clickhouse-keeper
 ```
 
-:::important Keeper Hostname Matching
-The Keeper hostnames in ch-server.yaml **must exactly match** the actual service names created by the Keeper deployment, or ClickHouse servers will fail to connect to the coordination service.
-:::
+<Note>
+The Keeper hostnames in `ch-server.yaml` **must exactly match** the actual service names created by the Keeper deployment, or ClickHouse servers will fail to connect to the coordination service.
+</Note>
 
 #### 4.5 Deploy ClickHouse cluster
 
@@ -779,9 +758,9 @@ spec:
 - `WF_CLICKHOUSE_REPLICATED: "true"` - **Required** for replicated setup
 - `WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster"` - **Must match** the cluster name in ch-server.yaml
 
-:::info Configuration Note
+<Note>
 Security contexts, resource allocations, and other Kubernetes-specific configurations shown above are reference examples. Customize them according to your organization's requirements and consult with your W&B Solutions Architect team for proper resource sizing.
-:::
+</Note>
 
 #### 5.3 Apply the updated configuration
 
@@ -845,8 +824,6 @@ In the W&B Console:
 
 1. Go to **Top Right Menu** → **Organization Dashboard**
 2. Verify that **Weave access** is enabled
-
-![Weave Organization Dashboard](../../media/weave-self-managed/weave-org-dashboard.png)
 
 #### 7.3 Test Weave functionality
 
@@ -1024,7 +1001,7 @@ weave-trace:
 
 ## Resource Requirements
 
-:::warning Resource Sizing Guidance
+<Warning>
 The resource allocations below are **example starting points only**. Actual requirements vary significantly based on:
 
 - Trace ingestion volume (traces per second)
@@ -1033,7 +1010,7 @@ The resource allocations below are **example starting points only**. Actual requ
 - Number of concurrent users
 
 **Always consult with your W&B Solutions Architect team** to determine appropriate sizing for your specific use case. Under-provisioned resources can lead to performance issues, while over-provisioning wastes infrastructure costs.
-:::
+</Warning>
 
 ### Minimum Production Setup
 
@@ -1059,15 +1036,13 @@ For production workloads with high trace volume:
 
 _Suitable for: High-volume production environments_
 
-:::info Ultra-High Volume Deployments
 For ultra-high volume deployments, contact your W&B Solutions Architect team for custom sizing recommendations based on your specific trace volume and performance requirements.
-:::
 
 ## Advanced Configuration
 
-:::info
-Advanced configuration changes should be made in consultation with your W&B Solutions Architect team to ensure they align with your performance and reliability requirements.
-:::
+This section covers customization options for self-managed Weave deployments, including scaling ClickHouse capacity through vertical scaling or horizontal scaling, updating ClickHouse versions by modifying image tags in both keeper and server configurations, and monitoring ClickHouse health.
+
+We recommend consulting with your W&B Solutions Architect team when making advanced changes to your instance to ensure they align with your performance and reliability requirements.
 
 ### Scaling ClickHouse
 
@@ -1101,7 +1076,7 @@ image: clickhouse/clickhouse-keeper:25.3.5.42   # Keeper version
 image: clickhouse/clickhouse-server:25.3.5.42   # Server version
 ```
 
-**Note**: Keeper and server versions should match or keeper version should be >= server version for compatibility.
+Keeper and server versions should match or keeper version should be >= server version for compatibility.
 
 ### Monitoring ClickHouse
 
