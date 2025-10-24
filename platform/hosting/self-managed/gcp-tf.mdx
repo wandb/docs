@@ -1,6 +1,6 @@
 ---
-description: Hosting W&B Server on GCP.
-title: Deploy W&B Platform on GCP
+description: Hosting W&B Server on Google Cloud.
+title: Deploy W&B Platform on Google Cloud
 ---
 
 <Note>
@@ -8,7 +8,7 @@ W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud]
 </Note>
 
 
-If you've determined to Self-Managed W&B Server, W&B recommends using the [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on GCP.
+If you've determined to Self-Managed W&B Server, W&B recommends using the [W&B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on Google Cloud.
 
 The module documentation is extensive and contains all available options that can be used.
 
@@ -32,7 +32,7 @@ Other deployment options can also include the following optional components:
 
 ## Pre-requisite permissions
 
-The account that will run the terraform need to have the role `roles/owner` in the GCP project used.
+The account that will run the terraform need to have the role `roles/owner` in the Google Cloud project used.
 
 ## General steps
 
@@ -42,7 +42,7 @@ The steps on this topic are common for any deployment option covered by this doc
    - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
    - We recommend creating a Git repository with the code that will be used, but you can keep your files locally.
    - Create a project in [Google Cloud Console](https://console.cloud.google.com/)
-   - Authenticate with GCP (make sure to [install gcloud](https://cloud.google.com/sdk/docs/install) before)
+   - Authenticate with Google Cloud (make sure to [install gcloud](https://cloud.google.com/sdk/docs/install) before)
      `gcloud auth application-default login`
 2. Create the `terraform.tfvars` file.
 
@@ -196,7 +196,7 @@ module "wandb" {
 
 Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
 
-The GCP resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section](#deployment---recommended-20-mins)
+The Google Cloud resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section](#deployment---recommended-20-mins)
 
 ```
 [...]
@@ -228,7 +228,7 @@ The [Terraform Module](https://github.com/wandb/terraform-google-wandb) provides
 
 ## Manual configuration
 
-To use a GCP Storage bucket as a file storage backend for W&B, you will need to create a:
+To use a Google Cloud Storage bucket as a file storage backend for W&B, you will need to create a:
 
 * [PubSub Topic and Subscription](#create-pubsub-topic-and-subscription)
 * [Storage Bucket](#create-storage-bucket)
@@ -239,7 +239,7 @@ To use a GCP Storage bucket as a file storage backend for W&B, you will need to 
 
 Follow the procedure below to create a PubSub topic and subscription:
 
-1. Navigate to the Pub/Sub service within the GCP Console 
+1. Navigate to the Pub/Sub service within the Google Cloud Console 
 2. Select **Create Topic** and provide a name for your topic. 
 3. At the bottom of the page, select **Create subscription**. Ensure **Delivery Type** is set to **Pull**.
 4. Click **Create**.
@@ -256,7 +256,7 @@ Ensure that the service account or account that your instance is running has bot
 * `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
 
 <Note>
-Your instance also needs the `iam.serviceAccounts.signBlob` permission in GCP to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
+Your instance also needs the `iam.serviceAccounts.signBlob` permission in Google Cloud to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
 </Note>
 
 3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
@@ -275,7 +275,7 @@ cors:
 
 Note that the scheme, host, and port of the values for the origin must match exactly. 
 
-4. Make sure you have `gcloud` installed, and logged into the correct GCP Project. 
+4. Make sure you have `gcloud` installed, and logged into the correct Google Cloud project. 
 5. Next, run the following:
 
 ```bash
@@ -289,7 +289,7 @@ Follow the procedure below in your command line to create a notification stream 
 You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.
 </Note>
 
-1. Log into your GCP Project.
+1. Log into your Google Cloud project.
 2. Run the following in your terminal:
 
 ```bash
@@ -309,7 +309,7 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 3. Provide the name of the GCS bucket
 
 <Frame>
-    <img src="/images/hosting/configure_file_store_gcp.png" alt="GCP file storage configuration"  />
+    <img src="/images/hosting/configure_file_store_gcp.png" alt="Google Cloud file storage configuration"  />
 </Frame>
 
 4. Press **Update settings** to apply the new settings.

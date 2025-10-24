@@ -36,7 +36,7 @@ Due to a release versioning issue, 0.60.0 is the next major release after 0.58.0
 <Update label="v0.58.1" description="September 4, 2024">
 ## Features
 * W&B now supports sub-path for **Secure storage connector i.e. Bring your own bucket** capability. You can now provide a sub-path when configuring a bucket at the instance or team level. This is only available for new bucket configurations and not for existing configured buckets.
-* W&B-managed storage on newer Dedicated Cloud instances in GCP & Azure will by default be encrypted with **W&B managed cloud-native keys**. This is already available on AWS instances. Each instance storage is encrypted with a key unique to the instance. Until now, all instances on GCP & Azure relied on default cloud provider-managed encryption keys.
+* W&B-managed storage on newer Dedicated Cloud instances in Google Cloud & Azure will by default be encrypted with **W&B managed cloud-native keys**. This is already available on AWS instances. Each instance storage is encrypted with a key unique to the instance. Until now, all instances on Google Cloud & Azure relied on default cloud provider-managed encryption keys.
 * Makes the fields in the run config and summary copyable on click.
 * If you're using W&B kubernetes operator for a Self-Managed instance, you can now optionally use a custom CA for the controller manager.
 * We've modified the W&B kubernetes operator to run in a non-root context by default, aligning with OpenShift's Security Context Constraints (SCCs). This change ensures smoother deployment of Self-Managed instances on OpenShift by adhering to its security policies.
@@ -61,9 +61,9 @@ Due to a release versioning issue, 0.60.0 is the next major release after 0.58.0
 * Pass in artifact metadata in webhook payload via `${artifact_metadata.KEY}`.
 * Added GPU memory usage panels to the RunSystemMetrics component, enhancing GPU metrics visualization for runs in the app frontend.
 * Mobile users now enjoy a much smoother, more intuitive Workspace experience.
-* If you're using W&B Dedicated Cloud on GCP or Azure, you can now enable private connectivity for your instance, thus ensuring that all traffic from your AI workloads and optionally browser clients only transit the cloud provider private network. Refer to [Private connectivity](https://docs.wandb.ai/platform/hosting/data-security/private-connectivity) and reach out to your W&B team for any questions.
+* If you're using W&B Dedicated Cloud on Google Cloud or Azure, you can now enable private connectivity for your instance, thus ensuring that all traffic from your AI workloads and optionally browser clients only transit the cloud provider private network. Refer to [Private connectivity](https://docs.wandb.ai/platform/hosting/data-security/private-connectivity) and reach out to your W&B team for any questions.
 * Team-level service accounts are now shown separately in a new tab in the team settings view. The service accounts are not listed in the Members tab anymore. Also, the API key is now hidden and can only be copied by team admins.
-* Dedicated Cloud is now available in GCP's Seoul region.
+* Dedicated Cloud is now available in Google Cloud's Seoul region.
 
 ## Fixes
 
@@ -89,7 +89,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 
 * The new Full Fidelity line plot in W&B Experiments enhances the visibility of training metrics by aggregating all data along the x-axis, displaying the minimum, maximum, and average values within each bucket, allowing users to easily spot outliers and zoom into high-fidelity details without downsampling loss.  [Learn more in our documentation](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling).
 * You can now use [cross-cloud storage buckets for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-Managed instances. For example, in a W&B instance on AWS, you can now configure Azure Blob Storage or Google Cloud Storage for team-level BYOB, and so on for each cross-cloud combination. 
-* In the same vein, you can now use [S3-compatible storage buckets like MinIO for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-Managed instances. For example, in a W&B instance on GCP, you can configure a MinIO bucket hosted in cloud or on-prem for team-level BYOB.
+* In the same vein, you can now use [S3-compatible storage buckets like MinIO for team-level BYOB (secure storage connector)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) in Dedicated Cloud and Self-Managed instances. For example, in a W&B instance on Google Cloud, you can configure a MinIO bucket hosted in cloud or on-prem for team-level BYOB.
 * Admins can now automate full deletion of users in their Dedicated Cloud or Self-Managed instances using the [SCIM API's DELETE User endpoint](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user). The user deactivation operation has been reimplemented using the [PATCH User endpoint](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user), along with the introduction of [user reactivation operation](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user).
 * If you use the SCIM API, you will also see a couple of minor improvements:
   The API now has a more pertinent error message in case of authentication failures.
@@ -160,7 +160,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 * Cloning a run with Launch now pre-selects the overrides, queue, and template variable values used by the cloned run.
 * Instance admins will now see a `Teams` tab in the organization dashboard. It can be used to join a specific team when needed, whether it's to monitor the team activity as per organizational guidelines or to help the team when team admins are not available. 
 * SCIM User API now returns the `groups` attribute as part of the GET endpoint, which includes the id of the groups / teams a user is part of.
-* All Dedicated Cloud instances on GCP are now managed using the new [W&B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/). With that, the new Parquet Store service is also available. 
+* All Dedicated Cloud instances on Google Cloud are now managed using the new [W&B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/). With that, the new Parquet Store service is also available. 
   Parquet store allows performant & cost efficient storage of run history data in parquet format in the blob storage. Dedicated Cloud instances on AWS & Azure are already managed using the operator and include the parquet store.
 * Dedicated Cloud instances on AWS have been updated to use the latest version of the relational data storage, and the compute infrastructure has been upgraded to a newer generation with better performance.
 
@@ -204,7 +204,7 @@ Due to a release versioning issue, 0.56.0 is the next major release after 0.54.0
 * Service accounts can now use the Report API to create reports.
 * Use the new role management API to automate managing the custom roles.
 * Enable Kubernetes Operator for Dedicated Cloud deployments on AWS.
-* Configure a non-conflicting IP address range for managed cache used in Dedicated Cloud deployments on GCP.
+* Configure a non-conflicting IP address range for managed cache used in Dedicated Cloud deployments on Google Cloud.
 
 ## Fixes
 * Update the add runset button clickable area in reports
@@ -516,7 +516,7 @@ Fixed issue where API keys were logged for recently logged in users. Check for `
   ![Image showing Launch agent logs in GUI](https://github.com/wandb/server/assets/97066933/9d68dc0d-54c9-4024-a108-ffb5a1500fa8)
   </Frame>
 
-  [W&B Launch](https://docs.wandb.ai/guides/launch) allows you to push machine learning jobs to a wide range of specialized compute environments.  With this update, you can now use W&B to monitor and debug jobs running in these remote environments, without needing to log into your AWS or GCP console.
+  [W&B Launch](https://docs.wandb.ai/guides/launch) allows you to push machine learning jobs to a wide range of specialized compute environments.  With this update, you can now use W&B to monitor and debug jobs running in these remote environments, without needing to log into your AWS or Google Cloud console.
 
 ## Fixes
 - Logs tab is no longer trimmed to 1000 rows.

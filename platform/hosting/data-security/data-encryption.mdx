@@ -4,10 +4,10 @@ title: Data encryption in Dedicated Cloud
 
 W&B uses a W&B-managed cloud-native key to encrypt the W&B-managed database and object storage in every [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), by using the customer-managed encryption key (CMEK) capability in each cloud. In this case, W&B acts as a `customer` of the cloud provider, while providing the W&B platform as a service to you. Using a W&B-managed key means that W&B has control over the keys that it uses to encrypt the data in each cloud, thus doubling down on its promise to provide a highly safe and secure platform to all of its customers.
 
-W&B uses a `unique key` to encrypt the data in each customer instance, providing another layer of isolation between Dedicated Cloud tenants. The capability is available on AWS, Azure and GCP.
+W&B uses a `unique key` to encrypt the data in each customer instance, providing another layer of isolation between Dedicated Cloud tenants. The capability is available on AWS, Azure and Google Cloud.
 
 <Note>
-Dedicated Cloud instances on GCP and Azure that W&B provisioned before August 2024 use the default cloud provider managed key for encrypting the W&B-managed database and object storage. Only new instances that W&B has been creating starting August 2024 use the W&B-managed cloud-native key for the relevant encryption.
+Dedicated Cloud instances on Google Cloud and Azure that W&B provisioned before August 2024 use the default cloud provider managed key for encrypting the W&B-managed database and object storage. Only new instances that W&B has been creating starting August 2024 use the W&B-managed cloud-native key for the relevant encryption.
 
 Dedicated Cloud instances on AWS have been using the W&B-managed cloud-native key for encryption from before August 2024.
 </Note>
