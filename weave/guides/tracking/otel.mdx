@@ -272,3 +272,21 @@ python opentelemetry_example.py
 ```
 
 The span attribute prefixes `gen_ai` and `openinference` are used to determine which convention to use, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
+
+
+### Link traces to W&B training runs
+
+You can associate your OpenTelemetry traces with specific [W&B training runs](/models/track/create-an-experiment) by adding the `wb_run_id` attribute to your spans. This allows you to track inference traces with training runs in the W&B UI.
+
+For example, if you're running inference using a model from a specific W&B training run, include that run's ID to link the inference traces back to the training run in the W&B UI.
+
+**Supported attributes:**
+- `wb_run_id`
+- `wandb.wb_run_id`
+
+The following example how to set the wb_run_id span attribute on an OpenTelemetry trace to link it with a specific W&B training run.
+
+```python lines {4}
+
+```
+
