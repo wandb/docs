@@ -59,38 +59,134 @@ jobs:
           fi
       
       - name: Validate changed MDX files
+        id: validate
         if: steps.changed-files.outputs.has_changes == 'true'
         run: |
           echo "Validating MDX files for parsing errors..."
-          node scripts/validate-mdx.js --ci ${{ steps.changed-files.outputs.files }}
+          
+          # Run validation and capture output
+          if node scripts/validate-mdx.js --ci ${{ steps.changed-files.outputs.files }} 2>&1 | tee validation-output.txt; then
+            echo "validation_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "validation_passed=false" >> $GITHUB_OUTPUT
+            # Extract error details for the comment
+            ERROR_OUTPUT=$(cat validation-output.txt)
+            # Escape special characters for GitHub output
+            ERROR_OUTPUT="${ERROR_OUTPUT//'%'/'%25'}"
+            ERROR_OUTPUT="${ERROR_OUTPUT//$'\n'/'%0A'}"
+            ERROR_OUTPUT="${ERROR_OUTPUT//$'\r'/'%0D'}"
+            echo "error_details=$ERROR_OUTPUT" >> $GITHUB_OUTPUT
+          fi
       
-      - name: Comment on PR if validation fails
-        if: failure() && steps.changed-files.outputs.has_changes == 'true'
+      - name: Manage PR comment
+        if: steps.changed-files.outputs.has_changes == 'true'
         uses: actions/github-script@v7
         with:
           script: |
-            const comment = `## ❌ MDX Validation Failed
+            const botCommentIdentifier = '<!-- mdx-lint-bot -->';
             
-            One or more MDX files in this PR contain parsing errors. Please check the workflow logs for details.
+            // Find existing bot comments
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
             
-            Common causes of MDX parsing errors:
+            const botComments = comments.filter(comment => 
+              comment.body.includes(botCommentIdentifier) && 
+              comment.user.type === 'Bot'
+            );
+            
+            if ('${{ steps.validate.outputs.validation_passed }}' === 'false') {
+              // Validation failed - post or update error comment
+              const errorDetails = `${{ steps.validate.outputs.error_details }}`;
+              
+              // Parse the error output to extract file names and errors
+              const lines = errorDetails.split('%0A');
+              let errorSummary = [];
+              let currentFile = null;
+              
+              for (const line of lines) {
+                // Check if line contains a file path with an error marker
+                if (line.includes('✗') || line.includes('✓')) {
+                  const match = line.match(/[✗✓]\s+(.+\.mdx)/);
+                  if (match) {
+                    currentFile = match[1];
+                  }
+                }
+                // Check if line contains an error message
+                if (line.includes('Error:') && currentFile) {
+                  const errorMsg = line.replace(/.*Error:\s*/, '').trim();
+                  errorSummary.push(`- **${currentFile}**: ${errorMsg}`);
+                }
+              }
+              
+              const errorList = errorSummary.length > 0 
+                ? '### Files with errors:\n\n' + errorSummary.join('\n')
+                : 'Check the workflow logs for detailed error information.';
+              
+              const comment = `${botCommentIdentifier}
+            ## ❌ MDX Validation Failed
+            
+            One or more MDX files in this PR contain parsing errors.
+            
+            ${errorList}
+            
+            ### Common causes of MDX parsing errors:
             - Missing closing tags (e.g., \`<Frame\` instead of \`<Frame>\`)
             - Unclosed JSX components
             - Invalid JSX syntax in MDX content
             - Malformed frontmatter
             
-            To test locally, run:
+            ### To test locally:
             \`\`\`bash
-            npm run validate:mdx
+            npm run validate:mdx ${errorSummary.map(e => e.match(/\*\*(.+?)\*\*/)?.[1] || '').filter(f => f).join(' ')}
             \`\`\`
             `;
+              
+              if (botComments.length > 0) {
+                // Update existing comment
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComments[0].id,
+                  body: comment
+                });
+              } else {
+                // Create new comment
+                await github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: comment
+                });
+              }
+            } else {
+              // Validation passed - remove error comments and optionally post success
+              if (botComments.length > 0) {
+                // Delete all bot comments
+                for (const comment of botComments) {
+                  await github.rest.issues.deleteComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: comment.id
+                  });
+                }
+                
+                // Post a success comment (optional - can be removed if you prefer silent success)
+                const successComment = `${botCommentIdentifier}
+            ## ✅ MDX Validation Passed
             
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
+            All MDX files in this PR are valid and ready for review.`;
+                
+                await github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: successComment
+                });
+              }
+            }
       
       - name: Success message
         if: success() && steps.changed-files.outputs.has_changes == 'true'
