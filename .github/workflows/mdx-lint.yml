@@ -1,0 +1,98 @@
+name: MDX Lint
+
+# Run on pull requests that modify MDX files
+on:
+  pull_request:
+    paths:
+      - '**.mdx'
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  lint-mdx:
+    name: Validate MDX Files
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch the base branch to compare changes
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          # Install MDX compiler and dependencies
+          npm install --no-save @mdx-js/mdx glob
+      
+      - name: Get changed MDX files
+        id: changed-files
+        run: |
+          # Get list of changed MDX files between base and head
+          echo "Identifying changed MDX files..."
+          
+          # Make the script executable
+          chmod +x scripts/get-changed-mdx-files.sh
+          
+          # Get changed files
+          CHANGED_FILES=$(./scripts/get-changed-mdx-files.sh "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
+          
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No MDX files changed in this PR"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changed MDX files:"
+            echo "$CHANGED_FILES"
+            
+            # Convert newlines to spaces for passing to the validation script
+            CHANGED_FILES_SPACE=$(echo "$CHANGED_FILES" | tr '\n' ' ')
+            echo "files=$CHANGED_FILES_SPACE" >> $GITHUB_OUTPUT
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Validate changed MDX files
+        if: steps.changed-files.outputs.has_changes == 'true'
+        run: |
+          echo "Validating MDX files for parsing errors..."
+          node scripts/validate-mdx.js --ci ${{ steps.changed-files.outputs.files }}
+      
+      - name: Comment on PR if validation fails
+        if: failure() && steps.changed-files.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## ❌ MDX Validation Failed
+            
+            One or more MDX files in this PR contain parsing errors. Please check the workflow logs for details.
+            
+            Common causes of MDX parsing errors:
+            - Missing closing tags (e.g., \`<Frame\` instead of \`<Frame>\`)
+            - Unclosed JSX components
+            - Invalid JSX syntax in MDX content
+            - Malformed frontmatter
+            
+            To test locally, run:
+            \`\`\`bash
+            npm run validate:mdx
+            \`\`\`
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Success message
+        if: success() && steps.changed-files.outputs.has_changes == 'true'
+        run: |
+          echo "✅ All MDX files validated successfully!"

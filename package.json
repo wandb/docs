@@ -1,5 +1,14 @@
 {
+  "scripts": {
+    "validate:mdx": "node scripts/validate-mdx.js",
+    "validate:mdx:all": "node scripts/validate-mdx.js '**/*.mdx'",
+    "validate:mdx:changed": "bash scripts/get-changed-mdx-files.sh | xargs -r node scripts/validate-mdx.js"
+  },
   "dependencies": {
     "sharp": "^0.34.2"
+  },
+  "devDependencies": {
+    "@mdx-js/mdx": "^3.0.0",
+    "glob": "^10.3.10"
   }
 }
