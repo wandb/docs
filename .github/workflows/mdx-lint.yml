@@ -120,14 +120,17 @@ jobs:
               console.log(`Found ${comments.length} total comments`);
               
               const botComments = comments.filter(comment => 
-                comment.body.includes(botCommentIdentifier) && 
-                comment.user.type === 'Bot'
+                comment.body && comment.body.includes(botCommentIdentifier)
               );
               
               console.log(`Found ${botComments.length} bot comments`);
             
-            if ('${{ steps.validate.outputs.validation_passed }}' === 'false') {
+            const validationPassed = '${{ steps.validate.outputs.validation_passed }}';
+            console.log('Validation passed:', validationPassed);
+            
+            if (validationPassed === 'false') {
               // Validation failed - post or update error comment
+              console.log('Validation failed, preparing error comment...');
               const errorDetails = `${{ steps.validate.outputs.error_details }}`;
               
               // Parse the error output to extract file names and errors
@@ -175,20 +178,24 @@ jobs:
               
               if (botComments.length > 0) {
                 // Update existing comment
+                console.log('Updating existing comment with ID:', botComments[0].id);
                 await github.rest.issues.updateComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   comment_id: botComments[0].id,
                   body: comment
                 });
+                console.log('Comment updated successfully');
               } else {
                 // Create new comment
-                await github.rest.issues.createComment({
+                console.log('Creating new comment...');
+                const result = await github.rest.issues.createComment({
                   issue_number: context.issue.number,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   body: comment
                 });
+                console.log('Comment created successfully with ID:', result.data.id);
               }
             } else {
               // Validation passed - remove error comments and optionally post success
