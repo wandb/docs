@@ -2475,6 +2475,30 @@
       "destination": "/models"
     },
     {
+      "source": "/guides/core/automations/:slug*",
+      "destination": "/models/automations/:slug*"
+    },
+    {
+      "source": "/guides/core/artifacts/:slug*",
+      "destination": "/models/artifacts/:slug*"
+    },
+    {
+      "source": "/guides/core/registry/:slug*",
+      "destination": "/models/registry/:slug*"
+    },
+    {
+      "source": "/guides/core/reports/:slug*",
+      "destination": "/models/automations/:slug*"
+    },
+        {
+      "source": "/guides/core/tables/:slug*",
+      "destination": "/models/tables/:slug*"
+    },
+    {
+      "source": "/guides",
+      "destination": "/models"
+    },
+    {
       "source": "/models/core",
       "destination": "/models"
     }
