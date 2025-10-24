@@ -80,9 +80,8 @@ jobs:
             ERROR_OUTPUT="${ERROR_OUTPUT//$'\r'/'%0D'}"
             echo "error_details=$ERROR_OUTPUT" >> $GITHUB_OUTPUT
             
-            # Exit with error to fail the job
-            echo "❌ MDX validation failed. See details above."
-            exit 1
+            # Don't exit here - let the comment be posted first
+            echo "❌ MDX validation failed. See details in PR comment."
           fi
       
       - name: Manage PR comment
@@ -195,7 +194,12 @@ jobs:
               }
             }
       
-      - name: Success message
-        if: success() && steps.changed-files.outputs.has_changes == 'true'
+      - name: Check validation result
+        if: steps.changed-files.outputs.has_changes == 'true'
         run: |
-          echo "✅ All MDX files validated successfully!"
+          if [ "${{ steps.validate.outputs.validation_passed }}" = "false" ]; then
+            echo "❌ Failing job due to MDX validation errors"
+            exit 1
+          else
+            echo "✅ All MDX files validated successfully!"
+          fi
