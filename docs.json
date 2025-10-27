@@ -2490,7 +2490,7 @@
       "source": "/guides/core/reports/:slug*",
       "destination": "/models/automations/:slug*"
     },
-        {
+    {
       "source": "/guides/core/tables/:slug*",
       "destination": "/models/tables/:slug*"
     },
