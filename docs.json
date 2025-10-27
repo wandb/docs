@@ -2262,6 +2262,10 @@
       "source": "/app/:slug*",
       "destination": "/models/app/:slug*"
     },
+        {
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
     {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
