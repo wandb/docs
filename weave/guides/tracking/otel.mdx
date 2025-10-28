@@ -276,7 +276,7 @@ The span attribute prefixes `gen_ai` and `openinference` are used to determine w
 
 ## Attribute Mappings
 
-Weave automatically maps OpenTelemetry span attributes from various instrumentation frameworks to its internal data model. This enables seamless integration with popular observability tools like OpenInference, Vercel AI SDK, MLflow, Vertex AI, and Traceloop without requiring you to modify your existing schemas. When multiple attribute names map to the same field, Weave applies them in priority order, allowing frameworks to coexist in the same traces.
+Weave automatically maps OpenTelemetry span attributes from various instrumentation frameworks to its internal data model. This enables integration with observability tools like OpenInference, Vercel AI SDK, MLflow, Vertex AI, and Traceloop without requiring you to modify your existing schemas. When multiple attribute names map to the same field, Weave applies them in priority order, allowing frameworks to coexist in the same traces.
 
 | Attribute Field Name              | W&B Mapping                   | Description                                 | Type                        | Example                                        
 |:----------------------------------|:------------------------------|:--------------------------------------------|:----------------------------|:-----------------------------------------------
