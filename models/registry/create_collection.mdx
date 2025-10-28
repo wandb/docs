@@ -46,7 +46,7 @@ artifact = wandb.Artifact(
 </Note>
  
 
-When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to. .
+When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to.
 
 Before you link an artifact to a collection or create a new collection, [investigate the types of artifacts that collection accepts](#check-the-types-of-artifact-that-a-collection-accepts).
 
@@ -107,7 +107,7 @@ Interactively or programmatically create a collection within a registry. You can
 
 ### Programmatically create a collection
 
-Use the `wandb.init.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
+Use the `wandb.Run.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
 
 ```python
 f"wandb-registry-{registry_name}/{collection_name}"
@@ -147,7 +147,7 @@ run.finish()
 
 The following steps describe how to interactively create a collection using the W&B Registry:
 
-1. Navigate to the **Registry** App in the W&B App UI.
+1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Select a registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 

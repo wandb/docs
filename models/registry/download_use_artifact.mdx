@@ -44,7 +44,7 @@ fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)
 download_path = fetched_artifact.download()  
 ```
 
-The `.use_artifact()` method both creates a [run](/models/runs/) and marks the artifact you download as the input to that run. 
+The `wandb.Run.use_artifact()` method both creates a [run](/models/runs/) and marks the artifact you download as the input to that run. 
 Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
 
 If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:
@@ -82,7 +82,7 @@ run = wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME)
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
 # Access an artifact and mark it as input to your run for lineage tracking
-fetched_artifact = run.use_artifact(artifact_or_name = name)  
+fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
 
 # Download artifact. Returns path to downloaded contents
 downloaded_path = fetched_artifact.download()  
@@ -91,7 +91,7 @@ downloaded_path = fetched_artifact.download()
 
 
 
-See [`use_artifact`](/models/ref/python/experiments/run#use_artifact) and [`Artifact.download()`](/models/ref/python/experiments/artifact#download) in the API Reference for parameters and return type.
+See [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) and [`Artifact.download()`](/models/ref/python/experiments/artifact#download) in the API Reference for parameters and return type.
 
 <Note>
 **Users with a personal entity that belong to multiple organizations**
