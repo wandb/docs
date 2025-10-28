@@ -9,7 +9,7 @@ This feature is only accessible via the Python SDK.
 
 Some organizations process Personally Identifiable Information (PII) such as names, phone numbers, and email addresses in their Large Language Model (LLM) workflows. Storing this data in Weights & Biases (W&B) Weave poses compliance and security risks.
 
-The _Sensitive Data Protection_ feature allows you to automatically redact Personally Identifiable Information (PII) from a [trace](/weave/guides/tracking/index) before it is sent to Weave servers. This feature integrates [Microsoft Presidio](https://microsoft.github.io/presidio/) into the Weave Python SDK, which means that you can control redaction settings at the SDK level.
+The _Sensitive Data Protection_ feature allows you to automatically redact Personally Identifiable Information (PII) from a [trace](/weave/guides/tracking) before it is sent to Weave servers. This feature integrates [Microsoft Presidio](https://microsoft.github.io/presidio/) into the Weave Python SDK, which means that you can control redaction settings at the SDK level.
 
 The Sensitive Data Protection feature introduces the following functionality to the Python SDK:
 
@@ -94,28 +94,29 @@ You can extend this list with your own custom keys that you want to redact from 
 
 ```python lines
 import weave
+from weave.utils import sanitize
 
-client = weave.init("my-project")
+client = weave.init("my-project", settings={"redact_pii": True})
 
 # Add custom keys to redact
-weave.trace.sanitize.REDACT_KEYS.add("client_id")
-weave.trace.sanitize.REDACT_KEYS.add("whatever_else")
+sanitize.add_redact_key("client_id")
+sanitize.add_redact_key("token")
 
 client_id = "123"
-whatever_else = "456"
+token = "789"
 
-@weave.op()
-def test():
-    a = client_id
-    b = whatever_else
-    return 1
+@weave.op
+def test(client_id, token):
+    return client_id + token
+
+test(client_id, token)
 ```
 
-When viewed in the Weave UI, the values of `client_id` and `whatever_else` will appear as `"REDACTED"`:
+When viewed in the Weave UI, the values of `client_id` and `token` appear as `"REDACTED"`:
 
 ```python lines
 client_id = "REDACTED"
-whatever_else = "REDACTED"
+token = "REDACTED"
 ```
 
 ## Usage information

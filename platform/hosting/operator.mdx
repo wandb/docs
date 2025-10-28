@@ -10,7 +10,7 @@ Use the W&B Kubernetes Operator to simplify deploying, administering, troublesho
 The W&B Server architecture and design continuously evolves to expand AI developer tooling capabilities, and to provide appropriate primitives for high performance, better scalability, and easier administration. That evolution applies to the compute services, relevant storage and the connectivity between them. To help facilitate continuous updates and improvements across deployment types, W&B users a Kubernetes operator.
 
 <Note>
-W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, GCP and Azure public clouds.
+W&B uses the operator to deploy and manage Dedicated Cloud instances on AWS, Google Cloud and Azure public clouds.
 </Note>
 
 For more information about Kubernetes operators, see [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) in the Kubernetes documentation.
@@ -166,17 +166,17 @@ Note that the configuration options are the same as described in [Configuration 
 To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedicated Cloud” installations for customers,  follow those links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
-- [GCP](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
+- [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
 ### Deploy W&B with W&B Cloud Terraform modules
 
-W&B provides a set of Terraform Modules for AWS, GCP and Azure. Those modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with those official W&B cloud-specific Terraform Modules with the following versions:
+W&B provides a set of Terraform Modules for AWS, Google Cloud and Azure. Those modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with those official W&B cloud-specific Terraform Modules with the following versions:
 
 | Terraform Registry                                                  | Source Code                                      | Version |
 | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
 | [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
 | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
-| [GCP](https://github.com/wandb/terraform-google-wandb)              | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
+| [Google Cloud](https://github.com/wandb/terraform-google-wandb)              | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
@@ -294,7 +294,7 @@ The W&B Operator is the default and recommended installation method for W&B Serv
 
 - If you used the official W&B Cloud Terraform Modules, navigate to the appropriate documentation and follow the steps there:
   - [AWS](#migrate-to-operator-based-aws-terraform-modules)
-  - [GCP](#migrate-to-operator-based-gcp-terraform-modules)
+  - [Google Cloud](#migrate-to-operator-based-google-cloud-terraform-modules)
   - [Azure](#migrate-to-operator-based-azure-terraform-modules)
 - If you used the [W&B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb),  continue [here](#migrate-to-operator-based-helm-chart).
 - If you used the [W&B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest),  continue [here](#migrate-to-operator-based-terraform-helm-chart).
@@ -305,7 +305,7 @@ The W&B Operator is the default and recommended installation method for W&B Serv
 
 For a detailed description of the migration process,  continue [here](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb).
 
-### Migrate to Operator-based GCP Terraform Modules
+### Migrate to Operator-based Google Cloud Terraform Modules
 
 Reach out to [Customer Support](mailto:support@wandb.com) or your W&B team if you have any questions or need assistance.
 
@@ -401,7 +401,7 @@ spec:
 Find the full set of values in the [W&B Helm repository](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml). **Change only those values you need to override**.
 
 ### Complete example 
-This example configuration deploys W&B to GCP Anthos using Google Cloud Storage:
+This example configuration deploys W&B to Google Cloud Anthos using Google Cloud Storage:
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -454,7 +454,7 @@ global:
     region: ""
 ```
 
-**GCP**
+**Google Cloud**
 ```yaml
 global:
   bucket:

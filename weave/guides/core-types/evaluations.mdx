@@ -8,10 +8,10 @@ _Evaluation-driven LLM application development_ helps you systematically improve
 In Weave, the core of the workflow is the _`Evaluation` object_, which defines:
 
 - A [`Dataset`](../core-types/datasets) or list of dictionaries for test examples.
-- One or more [scoring functions](../evaluation/scorers.mdx).
+- One or more [scoring functions](../evaluation/scorers).
 - Optional configuration like [input preprocessing](#format-dataset-rows-before-evaluating).
 
-Once you’ve defined the `Evaluation`, you can run it against a [`Model`](../core-types/models.mdx) object or any custom function containing LLM application logic. Each call to `.evaluate()` triggers an _evaluation run_. Think of the `Evaluation` object as a blueprint, and each run as a measurement of how your application performs under that setup.
+Once you’ve defined the `Evaluation`, you can run it against a [`Model`](../core-types/models) object or any custom function containing LLM application logic. Each call to `.evaluate()` triggers an _evaluation run_. Think of the `Evaluation` object as a blueprint, and each run as a measurement of how your application performs under that setup.
 
 To get started with evaluations, complete the following steps:
 
@@ -61,7 +61,7 @@ evaluation.evaluate(model, __weave={"display_name": "My Evaluation Run"})
 
 ## 2. Define a datset of test examples
 
-First, define a [Dataset](../core-types/datasets.mdx) object or list of dictionaries with a collection of examples to be evaluated. These examples are often failure cases that you want to test for, these are similar to unit tests in Test-Driven Development (TDD).
+First, define a [Dataset](../core-types/datasets) object or list of dictionaries with a collection of examples to be evaluated. These examples are often failure cases that you want to test for, these are similar to unit tests in Test-Driven Development (TDD).
 
 The following examples shows a dataset defined as a list of dictionaries:
 
@@ -75,7 +75,7 @@ examples = [
 
 ## 3. Define scoring functions
 
-Then, create one or more [scoring functions](../evaluation/scorers.mdx). These are used to score each example in the `Dataset`. Each scoring function must have a `output`, and return a dictionary with the scores. Optionally, you can include other inputs from your examples.
+Then, create one or more [scoring functions](../evaluation/scorers). These are used to score each example in the `Dataset`. Each scoring function must have a `output`, and return a dictionary with the scores. Optionally, you can include other inputs from your examples.
 
 Scoring functions need to have a `output` keyword argument, but the other arguments are user defined and are taken from the dataset examples. It will only take the necessary keys by using a dictionary key based on the argument name.
 
@@ -298,8 +298,8 @@ See our [Using HuggingFace datasets in evaluations cookbook](/weave/cookbooks/hf
 
 ### Saved views 
 
-You can save your Evals table configurations, filters, and sorts as _saved views_ for quick access to your preferred setup. You can configure and access saved views via the UI and the Python SDK. For more information, see [Saved Views](/weave/guides/tools/saved-views.mdx).
+You can save your Evals table configurations, filters, and sorts as _saved views_ for quick access to your preferred setup. You can configure and access saved views via the UI and the Python SDK. For more information, see [Saved Views](/weave/guides/tools/saved-views).
 
 ### Imperative evaluations (`EvaluationLogger`)
 
-If you prefer a more flexible evaluation framework, check out Weave's [`EvaluationLogger`](../evaluation/evaluation_logger.mdx). The imperative approach offers more flexibility for complex workflows, while the standard evaluation framework provides more structure and guidance.
+If you prefer a more flexible evaluation framework, check out Weave's [`EvaluationLogger`](../evaluation/evaluation_logger). The imperative approach offers more flexibility for complex workflows, while the standard evaluation framework provides more structure and guidance.
