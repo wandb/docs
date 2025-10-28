@@ -64,8 +64,8 @@ builder:
 
 The agent uses boto3 to load the default AWS credentials. See the [boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) for more information on how to configure default AWS credentials.
 </Tab>
-<Tab title="GCP">
-The Google Cloud environment requires region and project keys. Set `region` to the region that the agent runs in. Set `project` to the Google Cloud project that the agent runs in. The agent uses `google.auth.default()` in Python to load the default credentials.
+<Tab title="Google Cloud">
+The Google Cloud environment requires region and project keys. Set `region` to the region that the agent runs in. Set `project` to the Google Cloud project that the agent runs in. The agent uses `google.auth.default()` in Python to load the default credentials.
 
 ```yaml title="launch-config.yaml"
 environment:
@@ -83,7 +83,7 @@ builder:
   build-context-store: gs://<bucket-name>/<path>
 ```
 
-See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default GCP credentials so they are available to the agent.
+See the [`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) for more information on how to configure default Google Cloud credentials so they are available to the agent.
 </Tab>
 <Tab title="Azure">
 The Azure environment does not require any additional keys. When the agent starts, it use `azure.identity.DefaultAzureCredential()` to load the default Azure credentials.
@@ -144,7 +144,7 @@ Below are the permissions that are generally required by launch agents to intera
 }
 ```
 </Tab>
-<Tab title="GCP">
+<Tab title="Google Cloud">
 ```js
 artifactregistry.dockerimages.list;
 artifactregistry.repositories.downloadArtifacts;
@@ -185,8 +185,8 @@ The recommended context store for the Kaniko builder on AWS is Amazon S3. The fo
 }
 ```
 </Tab>
-<Tab title="GCP">
-On GCP, the following IAM permissions are required for the agent to upload build contexts to GCS:
+<Tab title="Google Cloud">
+On Google Cloud, the following IAM permissions are required for the agent to upload build contexts to GCS:
 
 ```js
 storage.buckets.get;

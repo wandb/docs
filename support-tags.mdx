@@ -1123,13 +1123,12 @@ def handle_inference_error(error):
     if "401" in error_str:
         # Invalid authentication
         raise ValueError("Check your API key and project configuration")
+    elif "402" in error_str:
+        # Out of credits
+        raise ValueError("Insufficient credits")
     elif "429" in error_str:
-        if "quota" in error_str:
-            # Out of credits
-            raise ValueError("Insufficient credits")
-        else:
-            # Rate limited
-            return "retry"
+        # Rate limited
+        return "retry"
     elif "500" in error_str or "503" in error_str:
         # Server error
         return "retry"
@@ -1157,6 +1156,23 @@ client = openai.OpenAI(
 - Use async operations for better concurrency handling
 - Implement circuit breakers for production systems
 - Cache responses when appropriate to reduce API calls
+</Accordion>
+</Update>
+
+
+<Update tags={["Inference"]}>
+<Accordion title="Why am I getting insufficient quota errors (402) with W&B Inference?">
+
+Insufficient quota errors (402) occur when you do not have remaining credits in your plan.
+
+**Error:** "You exceeded your current quota, please check your plan and billing details"
+
+**Solution:**
+
+- Check your credit balance in the W&B Billing page
+- Purchase more credits or upgrade your plan
+- Request a limit increase from [support](https://wandb.ai/site/contact)
+
 </Accordion>
 </Update>
 
@@ -1201,7 +1217,7 @@ This is determined by your IP address location at the time of the API request.
 <Update tags={["Inference"]}>
 <Accordion title="Why isn't W&B Inference available for my personal account?">
 
-Personal accounts don't support W&B Inference. You'll see this 429 error: "W&B Inference isn't available for personal accounts. Please switch to a non-personal account to access W&B Inference."
+Personal accounts don't support W&B Inference. You'll see this 403 error: "W&B Inference isn't available for personal accounts. Please switch to a non-personal account to access W&B Inference."
 
 ## Background
 
@@ -1247,11 +1263,8 @@ If you're having trouble creating a team or switching from a personal account, c
 <Update tags={["Inference"]}>
 <Accordion title="Why am I getting rate limit errors (429) with W&B Inference?">
 
-Rate limit errors (429) occur when you exceed concurrency limits or run out of credits.
+Rate limit errors (429) occur when you exceed concurrency limits.
 
-## Types of 429 errors
-
-### Concurrency limit reached
 **Error:** "Concurrency limit reached for requests"
 
 **Solution:**
@@ -1259,22 +1272,6 @@ Rate limit errors (429) occur when you exceed concurrency limits or run out of c
 - Add delays between requests
 - Implement exponential backoff
 - Note: Rate limits apply per W&B project
-
-### Quota exceeded
-**Error:** "You exceeded your current quota, please check your plan and billing details"
-
-**Solution:**
-- Check your credit balance in the W&B Billing page
-- Purchase more credits or upgrade your plan
-- Request a limit increase from support
-
-### Personal account limitation
-**Error:** "W&B Inference isn't available for personal accounts"
-
-**Solution:**
-- Switch to a non-personal account
-- Create a Team to access W&B Inference
-- Personal entities were deprecated in May 2024
 
 ## Best practices to avoid rate limits
 

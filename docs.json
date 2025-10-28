@@ -739,7 +739,7 @@
             "tab": "W&B Weave",
             "icon": "/icons/cropped-weave.svg",
             "pages": [
-              "weave/index",
+              "weave",
               "weave/quickstart",
               "weave/quickstart-inference",
               {
@@ -752,7 +752,7 @@
                       {
                         "group": "Tracing & Debugging",
                         "pages": [
-                          "weave/guides/tracking/index",
+                          "weave/guides/tracking",
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/costs",
                           "weave/guides/core-types/media",
@@ -819,7 +819,7 @@
                   {
                     "group": "Integrations",
                     "pages": [
-                      "weave/guides/integrations/index",
+                      "weave/guides/integrations",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -871,7 +871,7 @@
                   {
                     "group": "Enterprise",
                     "pages": [
-                      "weave/guides/platform/index",
+                      "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
@@ -888,7 +888,7 @@
               {
                 "group": "Cookbooks",
                 "pages": [
-                  "weave/cookbooks/index",
+                  "weave/cookbooks",
                   {
                     "group": "Getting Started",
                     "pages": [
@@ -1201,7 +1201,7 @@
           {
             "tab": "Platform",
             "pages": [
-              "ja/index",
+              "ja",
               {
                 "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                 "pages": [
@@ -1722,7 +1722,7 @@
           {
             "tab": "Platform",
             "pages": [
-              "ko/index",
+              "ko",
               {
                 "group": "Deployment Options",
                 "pages": [
@@ -2263,6 +2263,10 @@
       "destination": "/models/app/:slug*"
     },
     {
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2339,8 +2343,8 @@
       "destination": "/training/:slug*"
     },
     {
-      "source": "/guides/models/evaluate-models",
-      "destination": "/models/evaluate-models"
+      "source": "/guides/models/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/launch-library/:slug*",
@@ -2472,6 +2476,30 @@
     },
     {
       "source": "/guides/core",
+      "destination": "/models"
+    },
+    {
+      "source": "/guides/core/automations/:slug*",
+      "destination": "/models/automations/:slug*"
+    },
+    {
+      "source": "/guides/core/artifacts/:slug*",
+      "destination": "/models/artifacts/:slug*"
+    },
+    {
+      "source": "/guides/core/registry/:slug*",
+      "destination": "/models/registry/:slug*"
+    },
+    {
+      "source": "/guides/core/reports/:slug*",
+      "destination": "/models/automations/:slug*"
+    },
+    {
+      "source": "/guides/core/tables/:slug*",
+      "destination": "/models/tables/:slug*"
+    },
+    {
+      "source": "/guides",
       "destination": "/models"
     },
     {
