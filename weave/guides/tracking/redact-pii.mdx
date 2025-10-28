@@ -105,7 +105,7 @@ sanitize.add_redact_key("token")
 client_id = "123"
 token = "789"
 
-@weave.op()
+@weave.op
 def test(client_id, token):
     return client_id + token
 
