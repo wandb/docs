@@ -15,7 +15,7 @@ If you are looking to simplify user management in your organization, refer to [A
 
 ## Change the name of your organization
 <Note>
-The following workflow only applies to W&B Multi-tenant SaaS Cloud.
+The following workflow only applies to W&B Multi-tenant Cloud.
 </Note>
 
 1. Navigate to https://wandb.ai/home.
@@ -51,7 +51,7 @@ The proceeding table summarizes how seats work for Models and Weave:
 admins can invite users to their organization, as well as specific teams within the organization.
 
 <Tabs>
-<Tab title="Multi-tenant SaaS Cloud">
+<Tab title="Multi-tenant Cloud">
 1. Navigate to https://wandb.ai/home.
 1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Users**.
 3. Select **Invite new user**.
@@ -62,7 +62,7 @@ admins can invite users to their organization, as well as specific teams within 
 
 W&B sends an invite link using a third-party email server to the user's email after you select the **Send invite** button. A user can access your organization once they accept the invite.
 </Tab>
-<Tab title="Dedicated or Self-Managed">
+<Tab title="Dedicated Cloud or Self-Managed">
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Select the **Add user** button
 3. Within the modal that appears, provide the email of the new user in the **Email** field.
@@ -92,11 +92,13 @@ Auto-provisioning users with SSO is on by default for Dedicated Cloud instances 
 The proceeding tabs describe how to turn off SSO based on deployment type:
 
 <Tabs>
-<Tab title="Dedicated Cloud">
-Reach out to your W&B team if you are on Dedicated Cloud instance and you want to turn off auto provisioning with SSO.
+<Tab title="Multi-tenant Cloud">
+Auto provisioning with SSO is not configurable for Multi-tenant Cloud. Contact your W&B team for assistance.
 </Tab>
-<Tab title="Self-Managed">
-Use the W&B Console to turn off auto provisioning with SSO:
+<Tab title="Dedicated Cloud or Self-Managed">
+For Dedicated Cloud instances, reach out to your W&B team if you want to turn off auto provisioning with SSO.
+
+For Self-Managed deployments, use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
 2. Choose **Security** 
@@ -120,7 +122,7 @@ Organization admins can compose a new role based on either the View-Only or Memb
 To create a custom role:
 
 <Tabs>
-<Tab title="Multi-tenant SaaS Cloud">
+<Tab title="Multi-tenant Cloud">
 1. Navigate to https://wandb.ai/home.
 1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
 1. Click **Roles**.
@@ -131,7 +133,7 @@ To create a custom role:
 1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
 1. Click **Create Role**.
 </Tab>
-<Tab title="Dedicated or Self-Managed">
+<Tab title="Dedicated Cloud or Self-Managed">
 Use the W&B Console to turn off auto provisioning with SSO:
 
 1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
@@ -156,8 +158,8 @@ Domains are unique identifiers. This means that you can not use a domain that is
 </Note>
 
 <Tabs>
-<Tab title="Multi-tenant SaaS Cloud">
-Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B SaaS cloud organization. This helps all your employees join the right organization and ensures that new users do not create assets outside of your company jurisdiction. 
+<Tab title="Multi-tenant Cloud">
+Domain capture lets you automatically add people with a company email address, such as  `@example.com`, to your W&B Multi-tenant Cloud organization. This helps all your employees join the right organization and ensures that new users do not create assets outside of your company jurisdiction. 
 
 This table summarizes the behavior of new and existing users with and without domain capture enabled:
 
@@ -182,12 +184,12 @@ You must enable domain matching within a team's settings before you can automati
 2. Select **Team settings** in the global navigation on the left side of the team's dashboard.
 3. Within the **Privacy** section, toggle the "Recommend new users with matching email domains join this team upon signing up" option.
 </Tab>
-<Tab title="Dedicated or Self-Managed">
-Reach out to your W&B Account Team if you use Dedicated or Self-Managed deployment type to configure domain capture. Once configured, your W&B SaaS instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated or Self-Managed instance.
+<Tab title="Dedicated Cloud or Self-Managed">
+Reach out to your W&B Account Team if you use Dedicated Cloud or Self-Managed deployment type to configure domain capture. Once configured, your W&B Multi-tenant Cloud instance automatically prompts users who create a W&B account with your company email address to contact your admin to request access to your Dedicated Cloud or Self-Managed instance.
 
 | | With domain capture | Without domain capture |
 | ----- | ----- | -----|
-| New users | Users who sign up for W&B on SaaS cloud from verified domains are automatically prompted to contact an admin with an email address you customize. They can still create an organizations on SaaS cloud to trial the product. | Users can create W&B SaaS cloud accounts without learning their company has a centralized dedicated instance. | 
+| New users | Users who sign up for W&B on Multi-tenant Cloud from verified domains are automatically prompted to contact an admin with an email address you customize. They can still create an organizations on Multi-tenant Cloud to trial the product. | Users can create W&B Multi-tenant Cloud accounts without learning their company has a centralized dedicated instance. | 
 | Existing users | Existing W&B users may be spread across multiple organizations and teams.| Existing W&B users may be spread across multiple organizations and teams.|
 </Tab>
 </Tabs>
@@ -227,7 +229,7 @@ A user within an organization has one of the proceeding model seat or weave acce
 
 Model seat type and weave access type are defined at the organization level, and inherited by the team. If you want to change a user's seat type, navigate to the organization settings and follow the proceeding steps:
 
-1. For SaaS users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For other Dedicated and Self-Managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
+1. For Multi-tenant Cloud users, navigate to your organization's settings at `https://wandb.ai/account-settings/<organization>/settings`. Ensure to replace the values enclosed in angle brackets (`<>`) with your organization name. For Dedicated Cloud and Self-Managed deployments, navigate to `https://<your-instance>.wandb.io/org/dashboard`.
 2. Select the **Users** tab.
 3. From the **Role** dropdown, select the seat type you want to assign to the user.
 
