@@ -3,7 +3,10 @@ title: View an automation's history
 ---
 
 <Note>
-This feature is available only for W&B Enterprise Cloud customers.
+This feature requires an Enterprise license. It is available only for:
+- W&B Multi-tenant Cloud
+- W&B Dedicated Cloud
+- W&B Self-Managed v0.75.0+
 </Note>
 
 This page describes how to view and understand the execution history of your W&B [automations](/models/automations) and track what triggered an automation, what actions were taken, and whether they succeeded or failed.
@@ -71,19 +74,10 @@ You can view automation history from multiple locations in the W&B interface:
 
 Each automation execution has one of the following statuses:
 
-- **Success**: The automation completed all actions successfully.
+- **Finished**: The automation completed all actions successfully.
 - **Failed**: The automation encountered an error and could not complete.
 - **Pending**: The automation is queued for execution.
-- **Running**: The automation is currently executing.
 
-### Execution timeline
-
-For each execution, you can view:
-
-1. **Trigger time**: The exact timestamp when the event occurred.
-1. **Execution time**: When the automation started processing.
-1. **Completion time**: When the automation finished (for completed executions).
-1. **Duration**: Total time taken to execute the automation.
 
 ### Detailed execution information
 
@@ -103,25 +97,14 @@ Click on any execution in the history to view:
   - Response status (for webhooks)
   - Any error messages or stack traces (for failed executions)
 
-## Filtering and searching
+## Searching
 
-The automation history interface provides several ways to find specific executions:
-
-- **Filter by status**: Show only successful, failed, pending, or running executions.
-- **Filter by date range**: View executions within a specific time period.
-- **Filter by automation**: Show executions for specific automations.
-- **Search**: Search for executions by automation name, event type, or entity name.
+To find an automation execution, you can search by automation name, or you can sort the list of executions by any column.
 
 ## Troubleshooting failed executions
 
 When an automation fails, the execution history provides debugging information:
 
-### Common failure reasons
-
-- **Authentication errors**: The webhook or Slack integration lacks proper credentials.
-- **Network errors**: The target endpoint is unreachable.
-- **Timeout**: The webhook took too long to respond.
-- **Invalid payload**: The webhook rejected the request due to malformed data.
 
 ### Debugging steps
 
@@ -134,17 +117,7 @@ When an automation fails, the execution history provides debugging information:
 
 ## Retention and limits
 
-- **History retention**: Execution history is retained for 90 days.
-- **Maximum executions**: Each automation can have up to 1000 executions in its history.
-- **Rate limiting**: Automations are subject to rate limits to prevent excessive executions.
 
-## Best practices
-
-1. **Regular monitoring**: Check automation history regularly to ensure automations are working as expected.
-1. **Set up alerts**: Create automations to notify you when other automations fail.
-1. **Test thoroughly**: Use test events to verify automation behavior before deploying to production.
-1. **Document automations**: Include clear descriptions in your automations to make troubleshooting easier.
-1. **Clean up old automations**: Delete or disable automations that are no longer needed to reduce clutter in the history.
 
 ## Next steps
 
