@@ -1,0 +1,153 @@
+---
+title: View an automation's history
+---
+
+<Note>
+This feature is available only for W&B Enterprise Cloud customers.
+</Note>
+
+This page describes how to view and understand the execution history of your W&B [automations](/models/automations) and track what triggered an automation, what actions were taken, and whether they succeeded or failed.
+
+## Overview
+
+Each executed automation generates a record that includes:
+- **Execution timestamp**: When the automation was triggered.
+- **Triggering event**: The specific event triggered the automation.
+- **Status**: The execution's status. See [Execution status](#execution-status).
+- **Action details**: Information about what action was performed, such as notifying a Slack channel or running a webhook.
+- **Result details**: Additional information, if any, about the final outcome of executing the automation, including the error for a failed execution.
+
+## View automation history
+
+You can view automation history from multiple locations in the W&B interface:
+
+### From the Automations tab
+
+<Tabs>
+<Tab title="Registry">
+1. Navigate to your registry by clicking on **Registry** in the left sidebar.
+1. Select your registry from the list.
+1. Click **Automations** tab to view the registry's automations. In each row, the **Last execution** column shows when the automation last executed.
+1. In the **Automations history** tab, view all executions of the registry's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
+</Tab>
+<Tab title="Project">
+1. Navigate to your project from the W&B home page or by using the project selector.
+1. Click the **Automations** tab in the project navigation bar (located alongside Overview, Workspace, Runs, etc.). The project's automations display.
+
+    - Find the automation you want to investigate. You can use the search bar to filter by automation name, and you can sort by the last triggered date to find recently executed automations.
+
+    - Click an automation name to open its details page.
+1. In the **History** tab, view all executions of the project's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
+</Tab>
+</Tabs>
+
+### From the automation details page
+
+1. Navigate to your project or registry.
+1. Click the **Automations** tab.
+1. Click on an automation name to open its details page.
+1. The **Execution history** section shows all executions for this specific automation.
+
+### From a specific entity
+
+<Tabs>
+<Tab title="Registry">
+1. Navigate to your registry.
+1. Select a specific registered model or artifact collection.
+1. Click the **...** menu in the top right.
+1. Select **View history** to see all automation executions related to this entity.
+</Tab>
+<Tab title="Project">
+1. Navigate to your project.
+1. Select a specific run or artifact.
+1. In the Overview tab, look for the **Triggered automations** section.
+1. Click on any listed automation to view its execution details.
+</Tab>
+</Tabs>
+
+## Understanding execution details
+
+### Execution status
+
+Each automation execution has one of the following statuses:
+
+- **Success**: The automation completed all actions successfully.
+- **Failed**: The automation encountered an error and could not complete.
+- **Pending**: The automation is queued for execution.
+- **Running**: The automation is currently executing.
+
+### Execution timeline
+
+For each execution, you can view:
+
+1. **Trigger time**: The exact timestamp when the event occurred.
+1. **Execution time**: When the automation started processing.
+1. **Completion time**: When the automation finished (for completed executions).
+1. **Duration**: Total time taken to execute the automation.
+
+### Detailed execution information
+
+Click on any execution in the history to view:
+
+- **Event details**: The specific event that triggered the automation, including:
+  - Event type (e.g., "New artifact version", "Run completed")
+  - Entity information (run ID, artifact name, etc.)
+  - User who triggered the event (if applicable)
+
+- **Action details**: Information about what the automation attempted to do:
+  - Action type (Slack notification or webhook)
+  - Target (Slack channel or webhook URL)
+  - Payload sent (for webhooks)
+
+- **Result information**:
+  - Response status (for webhooks)
+  - Any error messages or stack traces (for failed executions)
+
+## Filtering and searching
+
+The automation history interface provides several ways to find specific executions:
+
+- **Filter by status**: Show only successful, failed, pending, or running executions.
+- **Filter by date range**: View executions within a specific time period.
+- **Filter by automation**: Show executions for specific automations.
+- **Search**: Search for executions by automation name, event type, or entity name.
+
+## Troubleshooting failed executions
+
+When an automation fails, the execution history provides debugging information:
+
+### Common failure reasons
+
+- **Authentication errors**: The webhook or Slack integration lacks proper credentials.
+- **Network errors**: The target endpoint is unreachable.
+- **Timeout**: The webhook took too long to respond.
+- **Invalid payload**: The webhook rejected the request due to malformed data.
+
+### Debugging steps
+
+1. Click on the failed execution to view details.
+1. Review the error message and stack trace.
+1. Check the event and action configuration.
+1. Verify that any required secrets are properly configured.
+1. For webhooks, confirm the endpoint is accessible and accepting requests.
+1. For Slack notifications, verify the channel exists and the bot has permission to post.
+
+## Retention and limits
+
+- **History retention**: Execution history is retained for 90 days.
+- **Maximum executions**: Each automation can have up to 1000 executions in its history.
+- **Rate limiting**: Automations are subject to rate limits to prevent excessive executions.
+
+## Best practices
+
+1. **Regular monitoring**: Check automation history regularly to ensure automations are working as expected.
+1. **Set up alerts**: Create automations to notify you when other automations fail.
+1. **Test thoroughly**: Use test events to verify automation behavior before deploying to production.
+1. **Document automations**: Include clear descriptions in your automations to make troubleshooting easier.
+1. **Clean up old automations**: Delete or disable automations that are no longer needed to reduce clutter in the history.
+
+## Next steps
+
+- [Create an automation](/models/automations/create-automations)
+- Learn about [Automation events and scopes](/models/automations/automation-events)
+- [Create a secret](/platform/secrets)
