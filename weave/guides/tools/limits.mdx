@@ -5,7 +5,7 @@ description: A list of Weave's limitations, known issues, and expected behaviors
 
 * For retryable requests, Weave retries requests starting at 1 second after receiving the first error and then doubles the amount of time between attempts up to 5 minutes. Requests timeout after 36 hours.
 
-* Instead of raising exceptions, [`.call()`](../../guides/tracking/tracing#creating-calls) captures exceptions and stores them in the `call.exception`. If you need to raise exceptions during execution, set the [`__should_raise` parameter](../../reference/python-sdk/weave/trace/weave.trace.op#function-call), like this:
+* Instead of raising exceptions, [`.call()`](/weave/guides/tracking/tracing#creating-calls) captures exceptions and stores them in the `call.exception`. If you need to raise exceptions during execution, set the [`__should_raise` parameter](/weave/reference/python-sdk/trace/op#function-call), like this:
 
     ```python showLineNumbers
     # This raises exceptions
