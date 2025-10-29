@@ -34,7 +34,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     **Notes:**
 
-    - The `score` method expects an input column named `context`. If your dataset uses a different name, use the `column_map` attribute to map `context` to the dataset column.
+    - The `score` method expects an input column named `context`. If your dataset uses a different name, [use the `column_map` attribute](#use-column-mapping) to map `context` to the dataset column.
 
     Here you have an example in the context of an evaluation:
 
@@ -98,7 +98,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
     **Notes:**
 
     - The scorer uses litellm internally.
-    - The `score` method expects the original text (the one being summarized) to be present in the `input` column. Use `column_map` if your dataset uses a different name.
+    - The `score` method expects the original text (the one being summarized) to be present in the `input` column. [Use `column_map`](#use-column-mapping) if your dataset uses a different name.
 
     Here you have an example usage in the context of an evaluation:
 
@@ -193,21 +193,6 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
     **Parameters:**
 
     - `threshold` (float): The minimum cosine similarity score (between -1 and 1) needed to consider the two texts similar (defaults to `0.5`).
-
-    **Column Mapping:**
-
-    You can use the `column_map` attribute to tell the scorer which dataset columns to use. The available keys for `column_map` are:
-    - `output` (required): Model prediction
-    - `target` (required): Reference answer to compare with
-
-    An example of using `column_map`:
-
-    ```python
-    similarity_scorer.column_map = {
-        "output": "model_output",  # The model's generated text
-        "target": "answer"        # The expected or reference response
-    }
-    ```
 
     **Example Usage:**
 
@@ -370,7 +355,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     **Notes:**
 
-    - Expects a `context` column in your dataset. Use the `column_map` attribute if the column name is different.
+    - Expects a `context` column in your dataset. [Use the `column_map` attribute](#use-column-mapping) if the column name is different.
 
     ---
 
@@ -400,7 +385,7 @@ description: "Use Weave's predefined scorers for evaluating your AI applications
 
     **Notes:**
 
-    - Expects a `context` column in your dataset. Use `column_map` if a different name is used.
+    - Expects a `context` column in your dataset. [Use the `column_map` attribute](#use-column-mapping) if the column name is different.
     - Customize the `relevancy_prompt` to define how relevancy is assessed.
 
     Here is an example usage in the context of an evaluation:
@@ -468,4 +453,23 @@ from weave.scorers import SummarizationScorer
 summarization_scorer = SummarizationScorer(
     model_id="anthropic/claude-3-5-sonnet-20240620"
 )
+```
+
+## Use column mapping
+
+You can use the `column_map` attribute to tell the scorer which dataset columns to use. The available keys for `column_map` are:
+- `output` (required): Model prediction
+- `target` (required): Reference answer to compare with
+
+The following example maps the `output` and `target` columns to a dataset's `model_output` and `answer` columns, respectively:
+
+```python
+from weave.scorers import EmbeddingSimilarityScorer
+
+similarity_scorer = EmbeddingSimilarityScorer()
+
+similarity_scorer.column_map = {
+    "output": "model_output",  # The model's generated text
+    "target": "answer"        # The expected or reference response
+}
 ```
