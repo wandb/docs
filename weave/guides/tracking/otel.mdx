@@ -273,6 +273,72 @@ python opentelemetry_example.py
 
 The span attribute prefixes `gen_ai` and `openinference` are used to determine which convention to use, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
 
+## Organizing traces into threads
+
+You can organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads) by adding specific span attributes. This allows you to group related operations (like multi-turn conversations or user sessions) and visualize them in Weave's thread UI.
+
+Add the following attributes to your OTEL spans to enable thread grouping:
+
+- `wandb.thread_id`: Groups spans into a specific thread
+- `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
+
+The following example shows how...
+
+```python lines
+import base64
+from opentelemetry import trace
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+
+# Setup (same as examples above)
+WANDB_BASE_URL = "https://trace.wandb.ai"
+PROJECT_ID = "<your-entity>/<your-project>"
+WANDB_API_KEY = "<your-wandb-api-key>"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+tracer_provider = trace_sdk.TracerProvider()
+exporter = OTLPSpanExporter(
+    endpoint=f"{WANDB_BASE_URL}/otel/v1/traces",
+    headers={
+        "Authorization": f"Basic {AUTH}",
+        "project_id": PROJECT_ID,
+    }
+)
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+trace.set_tracer_provider(tracer_provider)
+tracer = trace.get_tracer(__name__)
+
+# Create a multi-turn conversation in a thread
+thread_id = "conversation_123"
+
+# First turn
+with tracer.start_as_current_span("process_user_message") as span:
+    span.set_attribute("wandb.thread_id", thread_id)
+    span.set_attribute("wandb.is_turn", True)
+    # Your logic here...
+    print("Processing: Hello!")
+
+# Second turn
+with tracer.start_as_current_span("process_user_message") as span:
+    span.set_attribute("wandb.thread_id", thread_id)
+    span.set_attribute("wandb.is_turn", True)
+    # Your logic here...
+    print("Processing: How are you?")
+```
+
+After sending these traces, you can view them in the Weave UI under the **Threads** tab, where they'll be grouped by `thread_id` and each turn will appear as a separate row.
+
+## Organizing OTEL traces into threads
+
+You can organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads) by adding specific span attributes. This allows you to group related operations (like multi-turn conversations or user sessions) and visualize them in Weave's thread UI.
+
+Add the following attributes to your OTEL spans to enable thread grouping:
+
+- `wandb.thread_id`: Groups spans into a specific thread
+- `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
+
+The following example shows how...
 
 ## Attribute Mappings
 
@@ -293,54 +359,54 @@ Weave supports attribute conventions from the following observability frameworks
 
 ### Attribute Reference
 
-| Attribute Field Name              | W&B Mapping                   | Description                                 | Type                        | Example                                        
-|:----------------------------------|:------------------------------|:--------------------------------------------|:----------------------------|:-----------------------------------------------
-| `ai.prompt`                       | `inputs`                      | User prompt text or messages.               | String, list, dict          | `"Write a short haiku about summer."`          
-| `gen_ai.prompt`                   | `inputs`                      | AI model prompt or message array.           | List, dict, string          | `[{"role":"user","content":"abc"}]`            
-| `input.value`                     | `inputs`                      | Input value for model invocation.           | String, list, dict          | `{"text":"Tell a joke"}`                       
-| `mlflow.spanInputs`               | `inputs`                      | Span input data.                            | String, list, dict          | `["prompt text"]`                              
-| `traceloop.entity.input`          | `inputs`                      | Entity input data.                          | String, list, dict          | `"Translate this to French"`                    
-| `gcp.vertex.agent.tool_call_args` | `inputs`                      | Tool call arguments.                        | Dict                        | `{"args":{"query":"weather in SF"}}`           
-| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLM request payload.                        | Dict                        | `{"contents":[{"role":"user","parts":[...]}]}` 
-| `input`                           | `inputs`                      | Generic input value.                        | String, list, dict          | `"Summarize this text"`                        
-| `inputs`                          | `inputs`                      | Generic input array.                        | List, dict, string          | `["Summarize this text"]`                      
-| `ai.response`                     | `outputs`                     | Model response text or data.                | String, list, dict          | `"Here is a haiku..."`                         
-| `gen_ai.completion`               | `outputs`                     | AI completion result.                       | String, list, dict          | `"Completion text"`                            
-| `output.value`                    | `outputs`                     | Output value from model.                    | String, list, dict          | `{"text":"Answer text"}`                       
-| `mlflow.spanOutputs`              | `outputs`                     | Span output data.                           | String, list, dict          | `["answer"]`                                   
-| `gen_ai.content.completion`       | `outputs`                     | Content completion result.                  | String                      | `"Answer text"`                                
-| `traceloop.entity.output`         | `outputs`                     | Entity output data.                         | String, list, dict          | `"Answer text"`                                
-| `gcp.vertex.agent.tool_response`  | `outputs`                     | Tool execution response.                    | Dict, string                | `{"toolResponse":"ok"}`                        
-| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLM response payload.                       | Dict, string                | `{"candidates":[...]}`                         
-| `output`                          | `outputs`                     | Generic output value.                       | String, list, dict          | `"Answer text"`                                
-| `outputs`                         | `outputs`                     | Generic output array.                       | List, dict, string          | `["Answer text"]`                              
-| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | Number of input tokens consumed.            | Int                         | `42`                                           
-| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | Number of prompt tokens consumed.           | Int                         | `30`                                           
-| `llm.token_count.prompt`          | `usage.prompt_tokens`         | Prompt token count.                         | Int                         | `30`                                           
-| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | Prompt tokens consumed.                     | Int                         | `30`                                           
-| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | Number of completion tokens generated.      | Int                         | `40`                                           
-| `llm.token_count.completion`      | `usage.completion_tokens`     | Completion token count.                     | Int                         | `40`                                           
-| `ai.usage.completionTokens`       | `usage.completion_tokens`     | Completion tokens generated.                | Int                         | `40`                                           
-| `llm.usage.total_tokens`          | `usage.total_tokens`          | Total tokens used in request.               | Int                         | `70`                                           
-| `llm.token_count.total`           | `usage.total_tokens`          | Total token count.                          | Int                         | `70`                                           
-| `gen_ai.system`                   | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               
-| `llm.system`                      | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               
-| `weave.span.kind`                 | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        
-| `traceloop.span.kind`             | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        
-| `openinference.span.kind`         | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        
-| `gen_ai.response.model`           | `attributes.model`            | Model identifier.                           | String                      | `"gpt-4o"`                                     
-| `llm.model_name`                  | `attributes.model`            | Model identifier.                           | String                      | `"gpt-4o-mini"`                                
-| `ai.model.id`                     | `attributes.model`            | Model identifier.                           | String                      | `"gpt-4o"`                                     
-| `llm.provider`                    | `attributes.provider`         | Model provider name.                        | String                      | `"openai"`                                     
-| `ai.model.provider`               | `attributes.provider`         | Model provider name.                        | String                      | `"openai"`                                     
-| `gen_ai.request`                  | `attributes.model_parameters` | Model generation parameters.                | Dict                        | `{"temperature":0.7,"max_tokens":256}`         
-| `llm.invocation_parameters`       | `attributes.model_parameters` | Model invocation parameters.                | Dict                        | `{"temperature":0.2}`                          
-| `wandb.display_name`              | `display_name`                | Custom display name for UI.                 | String                      | `"User Message"`                               
-| `gcp.vertex.agent.session_id`     | `thread_id`                   | Session or thread identifier.               | String                      | `"thread_123"`                                 
-| `wandb.thread_id`                 | `thread_id`                   | Thread identifier for conversations.        | String                      | `"thread_123"`                                 
-| `wb_run_id`                       | `wb_run_id`                   | Associated W&B run identifier.              | String                      | `"abc123"`                                     
-| `wandb.wb_run_id`                 | `wb_run_id`                   | Associated W&B run identifier.              | String                      | `"abc123"`                                     
-| `gcp.vertex.agent.session_id`     | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         
-| `wandb.is_turn`                   | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         
-| `langfuse.startTime`              | `start_time` (override)       | Override span start timestamp.              | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       
-| `langfuse.endTime`                | `end_time` (override)         | Override span end timestamp.                | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       
+| Attribute Field Name              | W&B Mapping                   | Description                                 | Type                        | Example                                        |
+|:----------------------------------|:------------------------------|:--------------------------------------------|:----------------------------|:-----------------------------------------------|
+| `ai.prompt`                       | `inputs`                      | User prompt text or messages.               | String, list, dict          | `"Write a short haiku about summer."`          |
+| `gen_ai.prompt`                   | `inputs`                      | AI model prompt or message array.           | List, dict, string          | `[{"role":"user","content":"abc"}]`            |
+| `input.value`                     | `inputs`                      | Input value for model invocation.           | String, list, dict          | `{"text":"Tell a joke"}`                       |
+| `mlflow.spanInputs`               | `inputs`                      | Span input data.                            | String, list, dict          | `["prompt text"]`                              |
+| `traceloop.entity.input`          | `inputs`                      | Entity input data.                          | String, list, dict          | `"Translate this to French"`                   |
+| `gcp.vertex.agent.tool_call_args` | `inputs`                      | Tool call arguments.                        | Dict                        | `{"args":{"query":"weather in SF"}}`           |
+| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLM request payload.                        | Dict                        | `{"contents":[{"role":"user","parts":[...]}]}` |
+| `input`                           | `inputs`                      | Generic input value.                        | String, list, dict          | `"Summarize this text"`                        |
+| `inputs`                          | `inputs`                      | Generic input array.                        | List, dict, string          | `["Summarize this text"]`                      |
+| `ai.response`                     | `outputs`                     | Model response text or data.                | String, list, dict          | `"Here is a haiku..."`                         |
+| `gen_ai.completion`               | `outputs`                     | AI completion result.                       | String, list, dict          | `"Completion text"`                            |
+| `output.value`                    | `outputs`                     | Output value from model.                    | String, list, dict          | `{"text":"Answer text"}`                       |
+| `mlflow.spanOutputs`              | `outputs`                     | Span output data.                           | String, list, dict          | `["answer"]`                                   |
+| `gen_ai.content.completion`       | `outputs`                     | Content completion result.                  | String                      | `"Answer text"`                                |
+| `traceloop.entity.output`         | `outputs`                     | Entity output data.                         | String, list, dict          | `"Answer text"`                                |
+| `gcp.vertex.agent.tool_response`  | `outputs`                     | Tool execution response.                    | Dict, string                | `{"toolResponse":"ok"}`                        |
+| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLM response payload.                       | Dict, string                | `{"candidates":[...]}`                         |
+| `output`                          | `outputs`                     | Generic output value.                       | String, list, dict          | `"Answer text"`                                |
+| `outputs`                         | `outputs`                     | Generic output array.                       | List, dict, string          | `["Answer text"]`                              |
+| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | Number of input tokens consumed.            | Int                         | `42`                                           |
+| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | Number of prompt tokens consumed.           | Int                         | `30`                                           |
+| `llm.token_count.prompt`          | `usage.prompt_tokens`         | Prompt token count.                         | Int                         | `30`                                           |
+| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | Prompt tokens consumed.                     | Int                         | `30`                                           |
+| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | Number of completion tokens generated.      | Int                         | `40`                                           |
+| `llm.token_count.completion`      | `usage.completion_tokens`     | Completion token count.                     | Int                         | `40`                                           |
+| `ai.usage.completionTokens`       | `usage.completion_tokens`     | Completion tokens generated.                | Int                         | `40`                                           |
+| `llm.usage.total_tokens`          | `usage.total_tokens`          | Total tokens used in request.               | Int                         | `70`                                           |
+| `llm.token_count.total`           | `usage.total_tokens`          | Total token count.                          | Int                         | `70`                                           |
+| `gen_ai.system`                   | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               |
+| `llm.system`                      | `attributes.system`           | System prompt or instructions.              | String                      | `"You are a helpful assistant."`               |
+| `weave.span.kind`                 | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        |
+| `traceloop.span.kind`             | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        |
+| `openinference.span.kind`         | `attributes.kind`             | Span type or category.                      | String                      | `"llm"`                                        |
+| `gen_ai.response.model`           | `attributes.model`            | Model identifier.                           | String                      | `"gpt-4o"`                                     |
+| `llm.model_name`                  | `attributes.model`            | Model identifier.                           | String                      | `"gpt-4o-mini"`                                |
+| `ai.model.id`                     | `attributes.model`            | Model identifier.                           | String                      | `"gpt-4o"`                                     |
+| `llm.provider`                    | `attributes.provider`         | Model provider name.                        | String                      | `"openai"`                                     |
+| `ai.model.provider`               | `attributes.provider`         | Model provider name.                        | String                      | `"openai"`                                     |
+| `gen_ai.request`                  | `attributes.model_parameters` | Model generation parameters.                | Dict                        | `{"temperature":0.7,"max_tokens":256}`         |
+| `llm.invocation_parameters`       | `attributes.model_parameters` | Model invocation parameters.                | Dict                        | `{"temperature":0.2}`                          |
+| `wandb.display_name`              | `display_name`                | Custom display name for UI.                 | String                      | `"User Message"`                               |
+| `gcp.vertex.agent.session_id`     | `thread_id`                   | Session or thread identifier.               | String                      | `"thread_123"`                                 |
+| `wandb.thread_id`                 | `thread_id`                   | Thread identifier for conversations.        | String                      | `"thread_123"`                                 |
+| `wb_run_id`                       | `wb_run_id`                   | Associated W&B run identifier.              | String                      | `"abc123"`                                     |
+| `wandb.wb_run_id`                 | `wb_run_id`                   | Associated W&B run identifier.              | String                      | `"abc123"`                                     |
+| `gcp.vertex.agent.session_id`     | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         |
+| `wandb.is_turn`                   | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         |
+| `langfuse.startTime`              | `start_time` (override)       | Override span start timestamp.              | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
+| `langfuse.endTime`                | `end_time` (override)         | Override span end timestamp.                | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
