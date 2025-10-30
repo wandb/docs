@@ -273,62 +273,6 @@ python opentelemetry_example.py
 
 The span attribute prefixes `gen_ai` and `openinference` are used to determine which convention to use, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
 
-## Organizing traces into threads
-
-You can organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads) by adding specific span attributes. This allows you to group related operations (like multi-turn conversations or user sessions) and visualize them in Weave's thread UI.
-
-Add the following attributes to your OTEL spans to enable thread grouping:
-
-- `wandb.thread_id`: Groups spans into a specific thread
-- `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
-
-The following example shows how...
-
-```python lines
-import base64
-from opentelemetry import trace
-from opentelemetry.sdk import trace as trace_sdk
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor
-
-# Setup (same as examples above)
-WANDB_BASE_URL = "https://trace.wandb.ai"
-PROJECT_ID = "<your-entity>/<your-project>"
-WANDB_API_KEY = "<your-wandb-api-key>"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
-
-tracer_provider = trace_sdk.TracerProvider()
-exporter = OTLPSpanExporter(
-    endpoint=f"{WANDB_BASE_URL}/otel/v1/traces",
-    headers={
-        "Authorization": f"Basic {AUTH}",
-        "project_id": PROJECT_ID,
-    }
-)
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
-trace.set_tracer_provider(tracer_provider)
-tracer = trace.get_tracer(__name__)
-
-# Create a multi-turn conversation in a thread
-thread_id = "conversation_123"
-
-# First turn
-with tracer.start_as_current_span("process_user_message") as span:
-    span.set_attribute("wandb.thread_id", thread_id)
-    span.set_attribute("wandb.is_turn", True)
-    # Your logic here...
-    print("Processing: Hello!")
-
-# Second turn
-with tracer.start_as_current_span("process_user_message") as span:
-    span.set_attribute("wandb.thread_id", thread_id)
-    span.set_attribute("wandb.is_turn", True)
-    # Your logic here...
-    print("Processing: How are you?")
-```
-
-After sending these traces, you can view them in the Weave UI under the **Threads** tab, where they'll be grouped by `thread_id` and each turn will appear as a separate row.
-
 ## Organizing OTEL traces into threads
 
 You can organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads) by adding specific span attributes. This allows you to group related operations (like multi-turn conversations or user sessions) and visualize them in Weave's thread UI.
@@ -543,6 +487,8 @@ if __name__ == "__main__":
     main()
 ```
 </Accordion>
+
+After sending these traces, you can view them in the Weave UI under the **Threads** tab, where they'll be grouped by `thread_id` and each turn will appear as a separate row.
 
 ## Attribute Mappings
 
