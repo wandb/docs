@@ -338,7 +338,211 @@ Add the following attributes to your OTEL spans to enable thread grouping:
 - `wandb.thread_id`: Groups spans into a specific thread
 - `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
 
-The following example shows how...
+The following code shows four examples of how to organize OTEL traces into Weave threads using `wandb.thread_id` (to group related operations) and `wandb.is_turn` (to mark high-level operations that appear as rows in the thread view). The examples perform the following:
+
+* **Example 1**: Traces a basic single-turn thread
+* **Example 2**: Traces a multi-turn conversation sharing one thread ID
+* **Example 3**: Traces deeply nested operations where only the outermost span is marked as a turn
+* **Example 4**: Traces background operations that belong to a thread but aren't turns
+
+<Accordion title="Click to open the code example">
+
+```python lines
+import base64
+import json
+import os
+from opentelemetry import trace
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+
+# Configuration
+ENTITY = "YOUR_ENTITY"
+PROJECT = "YOUR_PROJECT"
+PROJECT_ID = f"{ENTITY}/{PROJECT}"
+WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+# Set up OTLP endpoint and headers
+OTEL_EXPORTER_OTLP_ENDPOINT="https://trace.wandb.ai/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# Initialize tracer provider
+tracer_provider = trace_sdk.TracerProvider()
+
+# Configure the OTLP exporter
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Add the exporter to the tracer provider
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+
+# Optionally, print the spans to the console
+tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+
+# Set the tracer provider
+trace.set_tracer_provider(tracer_provider)
+
+# Create a tracer from the global tracer provider
+tracer = trace.get_tracer(__name__)
+
+# Example 1: Traces a basic single-turn thread
+def example_1_basic_thread_and_turn():
+    """Example 1: Basic thread with a single turn"""
+    print("\n=== Example 1: Basic Thread and Turn ===")
+
+    # Create a thread context
+    thread_id = "thread_example_1"
+
+    # This span represents a turn (direct child of thread)
+    with tracer.start_as_current_span("process_user_message") as turn_span:
+        # Set thread attributes
+        turn_span.set_attribute("wandb.thread_id", thread_id)
+        turn_span.set_attribute("wandb.is_turn", True)
+
+        # Add some example attributes
+        turn_span.set_attribute("input.value", "Hello, help me with setup")
+
+        # Simulate some work with nested spans
+        with tracer.start_as_current_span("generate_response") as nested_span:
+            # This is a nested call within the turn, so is_turn should be false or unset
+            nested_span.set_attribute("wandb.thread_id", thread_id)
+            # wandb.is_turn is not set or set to False for nested calls
+
+            response = "I'll help you get started with the setup process."
+            nested_span.set_attribute("output.value", response)
+
+        turn_span.set_attribute("output.value", response)
+        print(f"Turn completed in thread: {thread_id}")
+
+# Example 2: Traces a multi-turn conversation sharing one thread ID
+def example_2_multiple_turns():
+    """Example 2: Multiple turns in a single thread"""
+    print("\n=== Example 2: Multiple Turns in Thread ===")
+
+    thread_id = "thread_conversation_123"
+
+    # Turn 1
+    with tracer.start_as_current_span("process_message_turn1") as turn1_span:
+        turn1_span.set_attribute("wandb.thread_id", thread_id)
+        turn1_span.set_attribute("wandb.is_turn", True)
+        turn1_span.set_attribute("input.value", "What programming languages do you recommend?")
+
+        # Nested operations
+        with tracer.start_as_current_span("analyze_query") as analyze_span:
+            analyze_span.set_attribute("wandb.thread_id", thread_id)
+            # No is_turn attribute or set to False for nested spans
+
+        response1 = "I recommend Python for beginners and JavaScript for web development."
+        turn1_span.set_attribute("output.value", response1)
+        print(f"Turn 1 completed in thread: {thread_id}")
+
+    # Turn 2
+    with tracer.start_as_current_span("process_message_turn2") as turn2_span:
+        turn2_span.set_attribute("wandb.thread_id", thread_id)
+        turn2_span.set_attribute("wandb.is_turn", True)
+        turn2_span.set_attribute("input.value", "Can you explain Python vs JavaScript?")
+
+        # Nested operations
+        with tracer.start_as_current_span("comparison_analysis") as compare_span:
+            compare_span.set_attribute("wandb.thread_id", thread_id)
+            compare_span.set_attribute("wandb.is_turn", False)  # Explicitly false for nested
+
+        response2 = "Python excels at data science while JavaScript dominates web development."
+        turn2_span.set_attribute("output.value", response2)
+        print(f"Turn 2 completed in thread: {thread_id}")
+
+# Example 3: Traces deeply nested operations where only the outermost span is marked as a turn
+def example_3_complex_nested_structure():
+    """Example 3: Complex nested structure with multiple levels"""
+    print("\n=== Example 3: Complex Nested Structure ===")
+
+    thread_id = "thread_complex_456"
+
+    # Turn with multiple levels of nesting
+    with tracer.start_as_current_span("handle_complex_request") as turn_span:
+        turn_span.set_attribute("wandb.thread_id", thread_id)
+        turn_span.set_attribute("wandb.is_turn", True)
+        turn_span.set_attribute("input.value", "Analyze this code and suggest improvements")
+
+        # Level 1 nested operation
+        with tracer.start_as_current_span("code_analysis") as analysis_span:
+            analysis_span.set_attribute("wandb.thread_id", thread_id)
+            # No is_turn for nested operations
+
+            # Level 2 nested operation
+            with tracer.start_as_current_span("syntax_check") as syntax_span:
+                syntax_span.set_attribute("wandb.thread_id", thread_id)
+                syntax_span.set_attribute("result", "No syntax errors found")
+
+            # Another Level 2 nested operation
+            with tracer.start_as_current_span("performance_check") as perf_span:
+                perf_span.set_attribute("wandb.thread_id", thread_id)
+                perf_span.set_attribute("result", "Found 2 optimization opportunities")
+
+        # Another Level 1 nested operation
+        with tracer.start_as_current_span("generate_suggestions") as suggest_span:
+            suggest_span.set_attribute("wandb.thread_id", thread_id)
+            suggestions = ["Use list comprehension", "Consider caching results"]
+            suggest_span.set_attribute("suggestions", json.dumps(suggestions))
+
+        turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
+        print(f"Complex turn completed in thread: {thread_id}")
+
+# Example 4: Traces background operations that belong to a thread but aren't turns
+def example_4_non_turn_operations():
+    """Example 4: Operations that are part of a thread but not turns"""
+    print("\n=== Example 4: Non-Turn Thread Operations ===")
+
+    thread_id = "thread_background_789"
+
+    # Background operation that's part of thread but not a turn
+    with tracer.start_as_current_span("background_indexing") as bg_span:
+        bg_span.set_attribute("wandb.thread_id", thread_id)
+        # wandb.is_turn is unset or false - this is not a turn
+        bg_span.set_attribute("wandb.is_turn", False)
+        bg_span.set_attribute("operation", "Indexing conversation history")
+        print(f"Background operation in thread: {thread_id}")
+
+    # Actual turn in the same thread
+    with tracer.start_as_current_span("user_query") as turn_span:
+        turn_span.set_attribute("wandb.thread_id", thread_id)
+        turn_span.set_attribute("wandb.is_turn", True)
+        turn_span.set_attribute("input.value", "Search my previous conversations")
+        turn_span.set_attribute("output.value", "Found 5 relevant conversations")
+        print(f"Turn completed in thread: {thread_id}")
+
+
+def main():
+    """Run all examples"""
+    print("Starting OpenTelemetry Threads Examples")
+    print("======================================")
+
+    # Run examples
+    example_1_basic_thread_and_turn()
+    example_2_multiple_turns()
+    example_3_complex_nested_structure()
+    example_4_non_turn_operations()
+
+    print("\n======================================")
+    print("All examples completed!")
+    print("\nKey points demonstrated:")
+    print("1. wandb.thread_id groups related spans into threads")
+    print("2. wandb.is_turn=true marks top-level operations as turns")
+    print("3. Nested spans within turns should have is_turn unset or false")
+    print("4. Multiple turns can share the same thread_id")
+    print("5. Non-turn operations can be part of a thread")
+
+
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
 
 ## Attribute Mappings
 
