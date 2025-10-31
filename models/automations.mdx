@@ -8,7 +8,7 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 <EnterpriseCloudOnly/>
 </Info>
 
-This page describes _automations_ in W&B. [Create an automation](/models/automations/create-automations/) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact](/models/artifacts/) artifact version is created or when a [run metric](/models/runs/) meets or changes by a threshold.
+This page describes _automations_ in W&B. [Create an automation](/models/automations/create-automations/) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B.
 
 For example, an automation can notify a Slack channel when a new version is created, trigger an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
 
@@ -21,11 +21,10 @@ Looking for companion tutorials for automations?
 
 ## Automation events
 
-Automations can be triggered by events related to these W&B entities:
+Automations can be triggered by events related to runs or artifacts in a project or registry. An automation can start:
 
-- **Runs**: Trigger when a run meets or changes by a threshold on a specific metric. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
-- **Artifacts**: Trigger when a new artifact version is created or when a specific alias is added to an artifact version. For example, trigger when a new model version is created or when the `production` alias is added to a model.
-- **Registries**: Trigger when a new model version is linked to a registry or when an alias is added to a model version in the registry. For example, trigger when a new model version is linked to the `Model Registry` or when the `production` alias is added to a model version in the registry.
+- When a run metric meets a defined absolute or relative threshold. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
+- When an artifact event occurs in a project or registry. For example, trigger when a new model version is created or when the `production` alias is added to a model.
 
 For more details, see [Automation events and scopes](/models/automations/automation-events/).
 
