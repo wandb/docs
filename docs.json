@@ -762,6 +762,7 @@
                           "weave/guides/tracking/threads",
                           "weave/guides/tracking/trace-plots",
                           "weave/guides/tracking/otel",
+                          "weave/guides/tools/attributes",
                           "weave/guides/tools/weave-in-workspaces"
                         ]
                       },
@@ -787,6 +788,7 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
+                      "weave/guides/tools/attributes",
                       "weave/tutorial-eval",
                       "weave/tutorial-rag"
                     ]
