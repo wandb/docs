@@ -241,13 +241,14 @@ The Usage panel provides a code snippet for downloading the artifact for use out
     <img src="/images/app_ui/files_panel.png" alt="Artifact files panel"  />
 </Frame>
 
-The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration. You can navigate through this file tree and view the contents directly in the W&B web app.
+The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration.
 
-[Tables](/models/tables/tables-walkthrough/) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](/models/tables/visualize-tables/).
 
-<Frame>
-    <img src="/images/app_ui/files_panel_table.png" alt="Artifact table view"  />
-</Frame>
+To view files logged to an artifact:
+
+1. Select the **Artifacts** tab from the project sidebar.
+2. Select an artifact from the list to view the details page for the latest version of that artifact.
+3. Select the **Files** tab to view all files associated with that artifact.
 
 ### Lineage panel
 
