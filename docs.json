@@ -881,7 +881,8 @@
                     "pages": [
                       "weave/guides/core-types/env-vars",
                       "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs"
+                      "weave/guides/tracking/faqs",
+                      "weave/guides/tools/limits"
                     ]
                   }
                 ]
