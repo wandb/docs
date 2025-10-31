@@ -96,7 +96,8 @@ Drag and drop panels to reorder and organize into sections. You can also click t
 
 ### Resize panels
 
-All panels maintain the same size, and there are pages of panels. Resize the section by clicking and dragging the lower right corner of the section.
+All panels maintain the same size, and there are pages of panels. 
+Resize the section by clicking and dragging the lower right corner of the section, which will display a corner icon when hovering.
 
 <Frame>
     <img src="/images/app_ui/resize-panel.png" alt="Resizing panels"  />
@@ -144,7 +145,7 @@ Sort all rows in a Table by the value in a given column using one of these optio
 1. Click the **Sort** button and select the desired columns from the drop-down. You can use this panel to sort by multiple columns in priority order. 
 
 <Frame>
-    <img src="/images/data_vis/data_vis_sort_kebob.png" alt="Configuring a table sort"  />
+    <img src="/images/data_vis/data_vis_sort_kebob.png" alt="Configuring a run table sort"  />
 </Frame>
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.
@@ -152,23 +153,14 @@ The preceding image demonstrates how to view sorting options for a Table column 
 <Tab title="Filter">
 Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
 
-<Frame>
-    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
-</Frame>
-
-Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
-
-|                   | Column name | Binary relation    | Value       |
-| -----------       | ----------- | ----------- | ----------- |
-| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
-
-
-The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+Click **New filter** to add one or more filters to your rows. 
+Three dropdown menus will appear that enable the configuration of a filter.
+From left to right they are: column name, operator, and the filter value.
 
 <Frame>
-    <img src="/images/data_vis/filter_example.png" alt="Filtering runs by validation loss"  />
+    <img src="/images/data_vis/filter.png" alt="Configuring a run table filter"  />
 </Frame>
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
+
 </Tab>
 <Tab title="Group">
 Group all rows by the value in a particular column with the **Group by** button in a column header. 
