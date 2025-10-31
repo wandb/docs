@@ -738,7 +738,7 @@
             "tab": "W&B Weave",
             "icon": "/icons/cropped-weave.svg",
             "pages": [
-              "weave/index",
+              "weave",
               "weave/quickstart",
               "weave/quickstart-inference",
               {
@@ -751,7 +751,7 @@
                       {
                         "group": "Tracing & Debugging",
                         "pages": [
-                          "weave/guides/tracking/index",
+                          "weave/guides/tracking",
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/costs",
                           "weave/guides/core-types/media",
@@ -818,7 +818,7 @@
                   {
                     "group": "Integrations",
                     "pages": [
-                      "weave/guides/integrations/index",
+                      "weave/guides/integrations",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -870,7 +870,7 @@
                   {
                     "group": "Enterprise",
                     "pages": [
-                      "weave/guides/platform/index",
+                      "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
@@ -879,7 +879,8 @@
                     "pages": [
                       "weave/guides/core-types/env-vars",
                       "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs"
+                      "weave/guides/tracking/faqs",
+                      "weave/guides/tools/limits"
                     ]
                   }
                 ]
@@ -887,7 +888,7 @@
               {
                 "group": "Cookbooks",
                 "pages": [
-                  "weave/cookbooks/index",
+                  "weave/cookbooks",
                   {
                     "group": "Getting Started",
                     "pages": [
@@ -1200,7 +1201,7 @@
           {
             "tab": "Platform",
             "pages": [
-              "ja/index",
+              "ja",
               {
                 "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                 "pages": [
@@ -1721,7 +1722,7 @@
           {
             "tab": "Platform",
             "pages": [
-              "ko/index",
+              "ko",
               {
                 "group": "Deployment Options",
                 "pages": [
