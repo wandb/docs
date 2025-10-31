@@ -18,19 +18,37 @@ description: A list of Weave's limitations, known issues, and expected behaviors
 
     ```python
     import weave
-
+    
     class MyObj:
+        """An object with a large string attribute."""
         def __init__(self, x: int):
             self.x = x
-
+    
         def __repr__(self):
             return f"MyObj(x={self.x})"
-
+    
         def to_dict(self):
             return {"x": self.x}
-
+    
     @weave.op()
     def make_my_obj():
-        x = "s" * 10_000
+        x = "a" * 10_000
         return MyObj(x)
+    
+    def main():
+        weave.init("<entity/project>")
+    
+        # Define a traceable operation that processes MyObj
+        @weave.op()
+        def process_obj(obj: MyObj) -> int:
+            return len(obj.x)
+    
+        # Create and process a large MyObj instance
+        large_obj = make_my_obj()
+        length = process_obj(large_obj)
+        print(f"Length of x in MyObj: {length}")
+        print("dict:", large_obj.to_dict())
+    
+    if __name__ == "__main__":
+        main()
     ```
