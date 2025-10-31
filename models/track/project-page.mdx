@@ -259,17 +259,6 @@ The lineage panel provides a view of all of the artifacts associated with a proj
 
 Click the Explode toggle to view all of the individual artifact versions and the specific runs that connect them.
 
-### Action History Audit tab
-
-<Frame>
-    <img src="/images/app_ui/action_history_audit_tab_1.png" alt="Action history audit"  />
-</Frame>
-
-<Frame>
-    <img src="/images/app_ui/action_history_audit_tab_2.png" alt="Action history"  />
-</Frame>
-
-The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
 
 ### Versions tab
 
@@ -277,7 +266,16 @@ The action history audit tab shows all of the alias actions and membership chang
     <img src="/images/app_ui/versions_tab.png" alt="Artifact versions tab"  />
 </Frame>
 
-The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
+The versions tab shows all versions of the artifact. Select an artifact to view the details for that specific version. 
+
+1. Select the **Artifacts** tab from the project sidebar.
+2. Select an artifact from the list to view the details page for the latest version of that artifact.
+3. Select the **Versions** tab to view all versions of that artifact.
+4. From the dropdown (next to the artifact name), select **All Versions**. 
+
+
+For example, the previous image shows different model artifact versions for a model artifact named `"zoo-wyhak4p0"`.
+
 
 ## Create a project
 You can create a project in the W&B App or programmatically by specifying a project in a call to `wandb.init()`.
