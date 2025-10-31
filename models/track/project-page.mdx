@@ -24,19 +24,27 @@ Each project contains the following tabs:
 * [Artifacts](#artifacts-tab): Contains all runs and the artifacts associated with that run
 
 ## Overview tab
+W&B creates a project for you when you initialize a run with the name you provide for the project field.
 
-* **Project name**: The name of the project. W&B creates a project for you when you initialize a run with the name you provide for the project field. You can change the name of the project at any time by selecting the **Edit** button in the upper right corner.
-* **Description**: A description of the project.
+From the **Overview** tab, you can find the project name and manage the project.
+- To change the project's name, description, or team, click **Edit** in the upper right corner.
+- To undelete recently deleted runs, click  **...** in the upper right corner, then click **Undelete recently deleted runs**.
+- To delete the project, click  **...** in the upper right corner, then click **Delete project**. Read the confirmation dialog and follow the instructions. Deleting a project is not reversible.
+
+The rest of the **Overview** page is divided into **Details** and **Project Roles** tabs.
+
+### Details
+Details about the project include:
+
 * **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility](/platform/hosting/iam/access-management/restricted-projects) for more information.
 * **Last active**: Timestamp of the last time data is logged to this project
-* **Owner**: The entity that owns this project
 * **Contributors**: The number of users that contribute to this project
 * **Total runs**: The total number of runs in this project
 * **Total compute**: we add up all the run times in your project to get this total
-* **Undelete runs**: Click the dropdown menu and click "Undelete all runs" to recover deleted runs in your project.
-* **Delete project**: click the dot menu in the right corner to delete a project
 
-[View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
+The **Details** tab also includes instructions for accessing and exporting the project's data and metrics, downloading the best model from a sweep, and more. 
+
+[View a live example project](https://app.wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
     <img src="/images/track/overview_tab_image.png" alt="Project overview tab"  />
@@ -45,6 +53,9 @@ Each project contains the following tabs:
 To change a project's privacy from the **Overview** tab:
 
 <ProjectVisibilitySettings/>
+
+### Project roles
+The **Project roles** tab is visible only to the project owner and those with the **Admin** role. List and search for users with access to the project or change a member's role.
 
 ## Workspace tab
 
