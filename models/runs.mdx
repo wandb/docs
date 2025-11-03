@@ -146,7 +146,8 @@ For example, consider the following code snippet:
 ```python title="basic.py"
 import wandb
 
-run = wandb.init(entity="wandbee", project="awesome-project")
+with wandb.init(entity="wandbee", project="awesome-project") as run:
+    # Your code here
 ```
 The code snippet produces the following output:
 
@@ -157,20 +158,6 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
 Since the preceding code did not specify an argument for the id parameter, W&B creates a unique run ID. Where `nico` is the entity that logged the run, `awesome-project` is the name of the project the run is logged to, `exalted-darkness-6` is the name of the run, and `pgbn9y21` is the run ID.
-
-<Note>
-**Notebook users**
-
-Specify `run.finish()` at the end of your run to mark the run finished. This helps ensure that the run is properly logged to your project and does not continue in the background.
-
-```python title="notebook.ipynb"
-import wandb
-
-run = wandb.init(entity="<entity>", project="<project>")
-# Training code, logging, and so forth
-run.finish()
-```
-</Note>
 
 If you [group runs](/models/runs/grouping/) into experiments, you can move a run into or out of a group or from one group to another.
 
