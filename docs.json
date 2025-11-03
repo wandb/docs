@@ -2506,6 +2506,10 @@
     {
       "source": "/models/core",
       "destination": "/models"
+    },
+    {
+      "source": "/inference/response-settings",
+      "destination": "/inference"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
