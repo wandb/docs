@@ -38,7 +38,7 @@ Choose to authenticate using a user identity or a service account, after reviewi
 - Authorization header payload: Users encode `username:API-KEY`; service accounts encode `:API-KEY` (leading colon).
 - Scope and permissions: Both require admin privileges; service accounts are organization-scoped and headless, providing clearer audit trails for automation.
 - Where to get credentials: Users copy their API key from User Settings; service account keys are in the organization’s Service account tab.
-- Multi-tenant Cloud org targeting: For multi-org admins, set the Default API organization to ensure requests affect the intended org.
+- Multi-tenant Cloud: If you have access to more than one Multi-tenant Cloud organizations, you must set the Default API organization to ensure that SCIM API calls are routed to the intended organization.
 
 ### Users
 Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
