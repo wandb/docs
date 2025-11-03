@@ -42,7 +42,7 @@ run = wandb.init(
    )  
 
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-# artifact_name = '<artifact_name>' # Copy and paste Full name specified on the Registry App
+# artifact_name = '<artifact_name>' # Copy and paste Full name specified in the W&B Registry UI
 fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
 download_path = fetched_artifact.download()  
 ```
@@ -126,7 +126,7 @@ Where the `ORG_NAME` is the display name of your organization. Multi-tenant SaaS
 
 W&B creates a code snippet that you can copy and paste into your Python script, notebook, or terminal to download an artifact linked to a registry.
 
-1. Navigate to the Registry App.
+1. Navigate to the W&B Registry.
 2. Select the name of the registry that contains your artifact.
 3. Select the name of the collection.
 4. From the list of artifact versions, select the version you want to access.
