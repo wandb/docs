@@ -228,9 +228,8 @@ parameters:
 {/* For example, the proceeding code snippets show a sweep config both in a YAML config file and a Python script. */}
 
 
-
-When a sweep sets a nested parameter, W&B applies that subtree to the run config rather than deep-merging it with your defaults. As
-a result, keys present under the same parent in `wandb.init(config=...)` may not be preserved.
+<Warning>
+Nested parameters defined in sweep configuration overwrite keys specified in a W&B run configuration.
 
 As an example, suppose you have `train.py` script that initializes a run with a nested default:
 
@@ -239,7 +238,7 @@ def main():
     run = wandb.init(config={"nested_param": {"manual_key": 1}})
 ```
 
-Your sweep configuration (Python dict form) defines nested parameters under a top-level `"parameters"` key:
+Your sweep configuration defines nested parameters under a top-level `"parameters"` key:
 
 ```python
 sweep_configuration = {
@@ -260,13 +259,12 @@ sweep_configuration = {
 
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
 wandb.agent(sweep_id, function=main, count=4)
-
 ```
 
 During a sweep run, `run.config["nested_param"]` reflects the subtree defined by the
 sweep (`learning_rate`, `double_nested_param`) config and does not include `manual_key` defined
 in `wandb.init(config=...)`.
-
+</Warning>
 
 ## Sweep configuration template
 
