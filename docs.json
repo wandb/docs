@@ -17,7 +17,7 @@
   },
   "styling": {
     "eyebrows": "breadcrumbs",
-    "stylesheet": "/github-link.css"
+    "stylesheet": "/button-links.css"
   },
   "logo": {
     "light": "/icons/logo_light.svg",
