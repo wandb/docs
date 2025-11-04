@@ -1,35 +1,80 @@
 ---
-description: Traverse automatically created direct acyclic W&B Artifact graphs.
-title: Explore artifact graphs
+description: Traverse direct acyclic W&B Artifact graphs.
+title: Explore artifact lineage graphs
 ---
 
-W&B automatically tracks the artifacts a given run logged as well as the artifacts a given run uses. These artifacts can include datasets, models, evaluation results, or more. You can explore an artifact's lineage to track and manage the various artifacts produced throughout the machine learning lifecycle.
+W&B tracks the inputs and outputs of runs using directed acyclic graphs (DAGs) called _lineage graphs_. Lineage graphs are visual representations of the relationships between artifacts and runs in an ML experiment. They show how data and models
+flow through different stages of the ML lifecycle, from raw data ingestion to model training and evaluation.
 
-## Lineage
-Tracking an artifact's lineage has several key benefits:
+Tracking artifact lineage provides several key advantages:
 
-- Reproducibility: By tracking the lineage of all artifacts, teams can reproduce experiments, models, and results, which is essential for debugging, experimentation, and validating machine learning models.
+* **Reproducibility:** Enables teams to reproduce experiments, models, and results for debugging, experimentation, and validation.
+* **Version control:** Tracks changes to artifacts over time, allowing teams to revert to previous data or model versions when needed.
+* **Auditing:** Maintains a detailed record of artifacts and transformations to support compliance and governance.
+* **Collaboration:** Improves teamwork by making experiment history transparent, reducing duplicated effort, and accelerating development.
 
-- Version Control: Artifact lineage involves versioning artifacts and tracking their changes over time. This allows teams to roll back to previous versions of data or models if needed.
 
-- Auditing: Having a detailed history of the artifacts and their transformations enables organizations to comply with regulatory and governance requirements.
+##  View an artifact's lineage graph
 
-- Collaboration and Knowledge Sharing: Artifact lineage facilitates better collaboration among team members by providing a clear record of attempts as well as what worked, and what didn’t. This helps in avoiding duplication of efforts and accelerates the development process.
+To view an artifact's lineage graph:
 
-### Finding an artifact's lineage
-When selecting an artifact in the **Artifacts** tab, you can see your artifact's lineage. This graph view shows a general overview of your pipeline. 
-
-To view an artifact graph:
-
-1. Navigate to your project in the W&B App UI
-2. Choose the artifact icon on the left panel.
-3. Select **Lineage**.
+1. Navigate to the W&B App.
+2. Select the project that contains the run or artifact you want to explore.
+3. Click on the **Artifacts** tab on the left sidebar.
+4. Select the **Lineage** tab.
 
 <Frame>
     <img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab"  />
 </Frame>
 
-### Navigating the lineage graph
+
+## Enable lineage graph tracking 
+
+To enable lineage graph tracking, you need to mark artifacts as [inputs](/models/artifacts/explore-and-traverse-an-artifact-graph) or
+[outputs](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) of a run using the W&B Python SDK.
+
+###  Track the input of a run
+
+Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/ref/python/experiments/run/#method-runuse_artifact)
+method. Specify the name of the artifact and an optional alias to reference a specific version of that artifact. The name of the
+artifact is in the format `<artifact_name>:<version>` or `<artifact_name>:<alias>`.
+
+Replace values enclosed in angle brackets (`< >`) with your values:
+
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # Get artifact, mark it as a dependency
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
+```
+
+
+###  Track the output of a run
+
+Use [`wandb.Run.log_artifact()`](/ref/python/experiments/run#log_artifact) to declare an artifact as an output of a run. First,
+create an artifact with the [`wandb.Artifact()`](/ref/python/experiments/artifact/#wandb.Artifact) constructor. Then, log the
+artifact as an output of the run with `wandb.Run.log_artifact()`.
+
+Replace values enclosed in angle brackets (`< >`) with your values:
+
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(entity="<entity>", project="<project>") as run:
+  
+  # Create an artifact
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
+
+  # Log the artifact as an output of the run
+  run.log_artifact(artifact_or_path = artifact)
+```
+
+
+## Navigate lineage graphs
 
 The artifact or job type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
 
@@ -51,7 +96,7 @@ For a more detailed view, click any individual artifact or run to get more infor
     <img src="/images/artifacts/lineage3a.gif" alt="Previewing a run"  />
 </Frame>
 
-### Artifact clusters
+##  Artifact clusters
 
 When a level of the graph has five or more runs or artifacts, it creates a cluster. A cluster has a search bar to find specific versions of runs or artifacts and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. 
 
@@ -61,24 +106,16 @@ Clicking on a node opens a preview with an overview of the node. Clicking on the
     <img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster"  />
 </Frame>
 
-## Use the API to track lineage
-You can also navigate a graph using the [W&B API](/models/ref/python/public-api/api). 
+## Programmatically navigate an artifact graph
+You can programmatically navigate a graph using the W&B Python SDK.
 
-Create an artifact. First, create a run with `wandb.init`. Then,create a new artifact or retrieve an existing one with `wandb.Artifact`. Next, add files to the artifact with `.add_file`. Finally, log the artifact to the run with `.log_artifact`. The finished code looks something like this:
-
-```python
-with wandb.init() as run:
-    artifact = wandb.Artifact("artifact_name", "artifact_type")
-
-    # Add Files and Assets to the artifact using
-    # `.add`, `.add_file`, `.add_dir`, and `.add_reference`
-    artifact.add_file("image1.png")
-    run.log_artifact(artifact)
-```
 
 Use the artifact object's [`logged_by`](/models/ref/python/experiments/artifact#logged_by) and [`used_by`](/models/ref/python/experiments/artifact#used_by) methods to walk the graph from the artifact:
 
 ```python
+with wandb.init() as run:
+    artifact = run.use_artifact("artifact_name:latest")
+
 # Walk up and down the graph from an artifact:
 producer_run = artifact.logged_by()
 consumer_runs = artifact.used_by()

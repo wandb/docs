@@ -10,8 +10,8 @@ Use a lineage graph to visualize a linked artifact's history. Audit a collection
 Within a collection in the W&B Registry, you can view a history of the artifacts that an ML experiment uses. This history is called a _lineage graph_.
 
 A lineage graph shows:
-* If a run used an [artifact as an input](/models/registry/lineage#track-the-input-of-a-run).
-* If a run created an [artifact as an output](/models/registry/lineage#track-the-output-of-a-run).
+* If a run used an [artifact as an input](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run).
+* If a run created an [artifact as an output](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run).
 
 In other words, a lineage graph shows the input and output of a run.
 
@@ -37,6 +37,10 @@ To view a lineage graph for an artifact in a collection:
 5. Select a node to view detailed information about the run or artifact.
 
 
+<Info>
+See [Enable lineage graph tracking](/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) in [Explore artifact lineage graphs](/models/artifacts/explore-and-traverse-an-artifact-graph) to learn how to track the input and output of a run using the W&B Python SDK.
+</Info>
+
 The following image shows the expanded detailed view of a run (`rural-feather-20`) when you select a node in the lineage graph:
 
 <Frame>
@@ -54,49 +58,6 @@ The following image shows the expanded detailed view of an artifact (`zoo-ylbchv
 <Info>
 You can also view lineage graphs for artifacts you log to W&B that are not part of a collection. See E[xplore artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph) for more information.
 </Info>
-
-
-### Track the input of a run
-
-Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/ref/python/experiments/run/#method-runuse_artifact)
-method. Specify the name of the artifact and an optional alias to reference a specific version of that artifact. The name of the
-artifact is in the format `<artifact_name>:<version>` or `<artifact_name>:<alias>`.
-
-Replace values enclosed in angle brackets (`< >`) with your values:
-
-```python
-import wandb
-
-# Initialize a run
-with wandb.init(entity="<entity>", project="<project>") as run:
-  # Get artifact, mark it as a dependency
-  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
-```
-
-
-### Track the output of a run
-
-Use [`wandb.Run.log_artifact()`](/ref/python/experiments/run#log_artifact) to declare an artifact as an output of a run. First,
-create an artifact with the [`wandb.Artifact()`](/ref/python/experiments/artifact/#wandb.Artifact) constructor. Then, log the
-artifact as an output of the run with `wandb.Run.log_artifact()`.
-
-Replace values enclosed in angle brackets (`< >`) with your values:
-
-```python
-import wandb
-
-# Initialize a run
-with wandb.init(entity="<entity>", project="<project>") as run:
-  
-  # Create an artifact
-  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
-  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
-
-  # Log the artifact as an output of the run
-  run.log_artifact(artifact_or_path = artifact)
-```
-
-For more information on about creating artifacts, see [Create an artifact](/models/artifacts/construct-an-artifact/).
  
 
 ## Audit a collection's history
