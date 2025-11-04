@@ -21,6 +21,84 @@ See the following quickstart docs to install and learn how integrate Weave into 
 * [Track LLM inputs and outputs](/weave/quickstart)
 * [Learn Weave with W&B inference](/weave/quickstart-inference)
 
+You can also review the following Python code example to understand how Weave is implemented into Python code:
+
+<Accordion title="Send requests to OpenAI and evaluate their responses" >
+
+The following example sends simple math questions to OpenAI and then evaluates the responses for correctness (in parallel) using the built-in `CorrectnessScorer()`:
+
+```python lines
+import weave
+from openai import OpenAI
+from weave import Scorer
+import asyncio
+
+# Initialize Weave
+weave.init("parallel-evaluation")
+
+# Create OpenAI client
+client = OpenAI()
+
+# Define your model as a weave.op function
+@weave.op
+def math_model(question: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {"role": "user", "content": question}
+        ]
+    )
+    return response.choices[0].message.content
+
+# Create a dataset with questions and expected answers
+dataset = [
+    {"question": "What is 2+2?", "expected": "4"},
+    {"question": "What is 5+3?", "expected": "8"},
+    {"question": "What is 10-7?", "expected": "3"},
+    {"question": "What is 12*3?", "expected": "36"},
+    {"question": "What is 100/4?", "expected": "25"},
+]
+
+# Define a class-based scorer
+class CorrectnessScorer(Scorer):
+    """Scorer that checks if the answer is correct"""
+    
+    @weave.op
+    def score(self, question: str, expected: str, output: str) -> dict:
+        """Check if the model output contains the expected answer"""
+        import re
+        
+        # Extract numbers from the output
+        numbers = re.findall(r'\d+', output)
+        
+        if numbers:
+            answer = numbers[0]
+            correct = answer == expected
+        else:
+            correct = False
+        
+        return {
+            "correct": correct,
+            "extracted_answer": numbers[0] if numbers else None,
+            "contains_expected": expected in output
+        }
+
+# Instantiate the scorer
+correctness_scorer = CorrectnessScorer()
+
+# Create an evaluation
+evaluation = weave.Evaluation(
+    dataset=dataset,
+    scorers=[correctness_scorer]
+)
+
+# Run the evaluation - automatically evaluates examples in parallel
+asyncio.run(evaluation.evaluate(math_model))
+```
+
+To use this example, follow the [installation instructions](/weave/quickstart#1-install-w%26b-weave-and-create-an-api-key) in the first step of the quickstart. You also need an [OpenAI API key](https://platform.openai.com/api-keys). 
+</Accordion>
+
 ## Advanced guides
 
 Explore advanced topics:
