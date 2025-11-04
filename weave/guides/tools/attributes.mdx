@@ -62,7 +62,7 @@ with weave.attributes({
 
 ## Global attributes
 
-Global attributes are set during Weave initialization and automatically apply to **all** traces and evaluations in your project. This is useful for project-wide metadata like environment, deployment version, or team information.
+When you set global attributes during Weave initialization, they automatically apply to **all** traces and evaluations in your project. This is useful for propagating project-wide metadata like environment, deployment version, or team information.
 
 ```python
 import weave
@@ -91,7 +91,7 @@ asyncio.run(evaluation.evaluate(model))  # Has all global attributes
 
 ### Combine global and per-call attributes
 
-You can use both global attributes and per-call attributes together. Per-call attributes with the same key override global attributes:
+You can use global attributes and per-call attributes together. Per-call attributes with the same key override global attributes:
 
 ```python
 import weave
