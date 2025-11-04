@@ -597,14 +597,13 @@ PATCH /scim/Users
 ```
 ```json
 {
-    "active": false,
-    "displayName": "Dev User 2",
-    "emails": {
-        "Value": "dev-user2@example.com",
-        "Display": "",
-        "Type": "",
-        "Primary": true
-    }
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "value": {"active": true}
+        }
+    ]
 }
 ```
 </Tab>
@@ -615,7 +614,16 @@ PATCH /scim/Users
 Reactivates a previously deactivated user in your organization.
 
 <Note>
-User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization.
+User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error:
+```json
+{
+    "schemas": [
+        "urn:ietf:params:scim:api:messages:2.0:Error"
+    ],
+    "detail": "User reactivation operations are not supported in SaaS Cloud",
+    "status": "400"
+}
+```
 </Note>
 
 #### Endpoint
