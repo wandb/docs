@@ -1,4 +1,5 @@
 .colab-link,
+.try-product-link,
 .github-source-link {
   display: flex;
   align-items: center;
@@ -22,12 +23,14 @@
 }
 
 .colab-link:hover,
+.try-product-link:hover,
 .github-source-link:hover {
   background-color: rgba(255, 255, 255, 0.8);
   border-color: rgba(230, 228, 224, 1);
 }
 
 .dark .colab-link,
+.dark .try-product-link,
 .dark .github-source-link {
   color: rgb(214, 211, 209);
   background-color: rgba(39, 39, 42, 0.5);
@@ -35,6 +38,7 @@
 }
 
 .dark .colab-link:hover,
+.dark .try-product-link:hover,
 .dark .github-source-link:hover {
   background-color: rgba(39, 39, 42, 0.8);
   border-color: rgba(63, 63, 70, 1);
