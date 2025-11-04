@@ -9,16 +9,11 @@ Use a lineage graph to visualize a linked artifact's history. Audit a collection
 
 Within a collection in the W&B Registry, you can view a history of the artifacts that an ML experiment uses. This history is called a _lineage graph_.
 
-<Info>
-You can also view lineage graphs for artifacts you log to W&B that are not part of a collection.
-</Info>
-
 A lineage graph shows:
 * If a run used an [artifact as an input](/models/registry/lineage#track-the-input-of-a-run).
 * If a run created an [artifact as an output](/models/registry/lineage#track-the-output-of-a-run).
 
 In other words, a lineage graph shows the input and output of a run.
-
 
 For example, the following image shows a typical lineage graph for artifacts created and used throughout an ML experiment:
 
@@ -55,7 +50,10 @@ The following image shows the expanded detailed view of an artifact (`zoo-ylbchv
     <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details"  />
 </Frame>
 
-Once you are in an artifact's lineage graph page, you can view additional information about any node in that lineage graph. 
+
+<Info>
+You can also view lineage graphs for artifacts you log to W&B that are not part of a collection. See E[xplore artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph) for more information.
+</Info>
 
 
 ### Track the input of a run
