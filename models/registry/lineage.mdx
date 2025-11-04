@@ -1,11 +1,11 @@
 ---
-description: Use lineage maps to visualize linked artifacts' history and audit a collection's history to track changes made to artifacts in that collection.
-title: Lineage maps and audit history
+description: Use lineage graphs to visualize linked artifacts' history and audit a collection's history to track changes made to artifacts in that collection.
+title: Lineage graphs and audit history
 ---
 
-Use a lineage map to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection.
+Use a lineage graph to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection.
 
-## Lineage maps
+## Lineage graphs
 
 Within a collection in the W&B Registry, you can view a history of the artifacts that an ML experiment uses. This history is called a _lineage graph_.
 
@@ -31,6 +31,31 @@ From left to right, the image shows:
 2. The "rural-feather-20" run uses the `split_zoo_dataset:v4` artifact for training.
 3. The output of the "rural-feather-20" run is a model artifact called `zoo-ylbchv20:v0`.
 4. A run called "northern-lake-21" uses the model artifact `zoo-ylbchv20:v0` to evaluate the model.
+
+
+To view a lineage graph for an artifact in a collection:
+
+1. Navigate to the W&B Registry.
+2. Select the collection that contains the artifact.
+3. From the dropdown, select the artifact version you want to view its lineage graph.
+4. Select the **Lineage** tab.
+5. Select a node to view detailed information about the run or artifact.
+
+
+The following image shows the expanded detailed view of a run (`rural-feather-20`) when you select a node in the lineage graph:
+
+<Frame>
+    <img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node"  />
+</Frame>
+
+
+The following image shows the expanded detailed view of an artifact (`zoo-ylbchv20:v0`) when you select an artifact node in the lineage graph:
+
+<Frame>
+    <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details"  />
+</Frame>
+
+Once you are in an artifact's lineage graph page, you can view additional information about any node in that lineage graph. 
 
 
 ### Track the input of a run
@@ -74,33 +99,6 @@ with wandb.init(entity="<entity>", project="<project>") as run:
 ```
 
 For more information on about creating artifacts, see [Create an artifact](/models/artifacts/construct-an-artifact/).
-
-
-### View lineage graphs in a collection
-
-View the lineage of an artifact linked to a collection in the W&B Registry.
-
-1. Navigate to the W&B Registry.
-2. Select the collection that contains the artifact.
-3. From the dropdown, select the artifact version you want to view its lineage graph.
-4. Select the **Lineage** tab.
-5. Select a node to view detailed information about the run or artifact.
-
-
-The following image shows the expanded detailed view of a run (`rural-feather-20`) when you select a node in the lineage graph:
-
-<Frame>
-    <img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node"  />
-</Frame>
-
-
-The following image shows the expanded detailed view of an artifact (`zoo-ylbchv20:v0`) when you select an artifact node in the lineage graph:
-
-<Frame>
-    <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details"  />
-</Frame>
-
-Once you are in an artifact's lineage graph page, you can view additional information about any node in that lineage graph. 
  
 
 ## Audit a collection's history
