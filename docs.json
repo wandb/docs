@@ -16,7 +16,8 @@
     }
   },
   "styling": {
-    "eyebrows": "breadcrumbs"
+    "eyebrows": "breadcrumbs",
+    "stylesheet": "/button-links.css"
   },
   "logo": {
     "light": "/icons/logo_light.svg",
@@ -882,7 +883,8 @@
                     "pages": [
                       "weave/guides/core-types/env-vars",
                       "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs"
+                      "weave/guides/tracking/faqs",
+                      "weave/guides/tools/limits"
                     ]
                   }
                 ]
@@ -2479,6 +2481,14 @@
     {
       "source": "/models/core",
       "destination": "/models"
+    },
+    {
+      "source": "/inference/response-settings",
+      "destination": "/inference"
+    },
+    {
+      "source": "/platform/hosting/self-managed/install-on-public-cloud",
+      "destination": "/platform/hosting/self-managed"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
