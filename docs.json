@@ -114,6 +114,7 @@
                   "platform/hosting/privacy-settings",
                   "platform/hosting/smtp",
                   "platform/hosting/env-vars",
+                  "platform/hosting/enterprise-licenses",
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
