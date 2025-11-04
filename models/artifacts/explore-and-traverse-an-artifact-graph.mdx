@@ -107,20 +107,14 @@ Clicking on a node opens a preview with an overview of the node. Clicking on the
 </Frame>
 
 ## Programmatically navigate an artifact graph
-You can programmatically navigate a graph using the W&B Python SDK.
-
-
-Use the artifact object's [`logged_by`](/models/ref/python/experiments/artifact#logged_by) and [`used_by`](/models/ref/python/experiments/artifact#used_by) methods to walk the graph from the artifact:
+Programmatically navigate a graph using the W&B Python SDK. Use an artifact object's
+[`logged_by()`](/models/ref/python/experiments/artifact#method-artifact-logged-by) and [`used_by()`](/models/ref/python/experiments/artifact#method-artifact-used-by) methods to walk the graph:
 
 ```python
 with wandb.init() as run:
     artifact = run.use_artifact("artifact_name:latest")
 
-# Walk up and down the graph from an artifact:
-producer_run = artifact.logged_by()
-consumer_runs = artifact.used_by()
+    # Walk up and down the graph from an artifact:
+    producer_run = artifact.logged_by()
+    consumer_runs = artifact.used_by()
 ```
-## Next steps
-- [Explore artifacts in more detail](/models/artifacts/artifacts-walkthrough/)
-- [Manage artifact storage](/models/artifacts/delete-artifacts/)
-- [Explore an artifacts project](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)
