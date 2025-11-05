@@ -3,11 +3,11 @@ title: Enterprise Licenses
 description: Learn about W&B Enterprise licenses, what features they include, and how to obtain and configure them.
 ---
 
-An Enterprise license unlocks advanced W&B features designed for organizations that need enhanced capabilities in areas of security, compliance, or administrative. See the list of [Enterprise features](#enterprise-features).
+An Enterprise license unlocks W&B features designed for organizations that need enhanced capabilities in areas of security, compliance, or administrative. See the list of [Enterprise features](#enterprise-features).
 
 - **Security**: Enhanced authentication, encryption, and access controls.
 - **Compliance**: Audit logging, HIPAA compliance options, and data governance controls.
-- **Administration**: Advanced user management features like SCIM provisioning, custom roles, and automation capabilities.
+- **Administration**: User management features like SCIM provisioning, custom roles, and automation capabilities.
 
 This page provides a comprehensive overview of Enterprise licenses, including what features they enable, how to obtain them, and how to configure them for your deployment.
 
@@ -15,24 +15,21 @@ This page provides a comprehensive overview of Enterprise licenses, including wh
 Enterprise licenses are available for W&B Dedicated Cloud and Self-Managed deployments.
 
 - [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) provides single-tenant infrastructure managed by W&B, deployed in Google Cloud. Dedicated Cloud deployments automatically include an Enterprise license. No additional configuration is required, and all Enterprise features are available immediately upon provisioning.
-- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) is deployed on your own infrastructure, providing full control over your deployment and data. Air-gapped deployments are supported. To access Enterprise features on W&B Self-Managed, you must obtain and configure an Enterprise license. Without an Enterprise license, Self-Managed deployments operate with limited features.
+- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) is deployed on your own infrastructure, providing full control over your deployment and data. Air-gapped deployments are supported. Without an Enterprise license, [Enterprise features](#enterprise-features) are unavailable.
 
 ## Obtain an Enterprise license
-This section explains how to obtain an Enterprise license. Select a tab to continue.
+This section explains how to obtain an Enterprise license. Based on your use case, select a tab to continue.
 
 <Tabs>
 <Tab title="Dedicated Cloud">
-W&B Dedicated Cloud includes an Enterprise license and no action is required. To get started with Dedicated Cloud:
+W&B Dedicated Cloud includes an Enterprise license and no action is required. [Start an Enterprise trial](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) or contact [Sales](https://wandb.ai/site/contact-sales) to discuss your requirements.
 
-1. Contact [Sales](https://wandb.ai/site/contact-sales) to discuss your requirements.
-2. Work with W&B to provision your dedicated instance.
-3. All Enterprise features will be enabled upon deployment.
 </Tab>
 <Tab title="Self-Managed">
-To obtain an Enterprise license for Self-Managed deployments:
+Request an Enterprise license for W&B Self-Managed:
 
-- To request an Enterprise trial license for evaluation purposes, visit the [Self-Managed Enterprise Trial form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or contact [Sales](mailto:sales@wandb.ai).
-- To request an Enterprise license for a production deployment, contact [Sales](https://wandb.ai/site/contact-sales) to discuss your deployment requirements and sizing and receive your license details.
+- **Evaluation**: Submit the [Request a trial license](https://wandb.ai/site/for-enterprise/self-hosted-trial) or contact [Sales](mailto:sales@wandb.ai) to discuss your requirements.
+- **Production**: Contact [Sales](https://wandb.ai/site/contact-sales) to discuss your deployment requirements and sizing and receive your license details.
 
 <Warning>Store license keys securely and treat them as sensitive credentials.</Warning>
 
@@ -40,7 +37,10 @@ To obtain an Enterprise license for Self-Managed deployments:
 </Tabs>
 
 ## Configure an Enterprise license
-After you [obtain an Enterprise license](#obtain-an-enterprise-license) for W&B Self-Managed, you can configure it programmatically using your deployment tool, such as Helm or Terraform, or you can configure it in the W&B App after deployment. Select a tab to continue.
+
+<Info>This section is relevant only for W&B Self-Managed.</Info>
+
+After you [obtain an Enterprise license](#obtain-an-enterprise-license), you can configure it programmatically or you can configure it in the W&B App after deployment. Select a tab for instructions.
 
 <Tabs>
 <Tab title="Helm">
@@ -94,57 +94,24 @@ docker run -d \
 
 Next, [verify your Enterprise license](#verify-or-update-an-enterprise-license).
 
-## Verify or update an Enterprise license
+## Verify and manage an Enterprise license
 
-As an instance admin, follow these steps to verify that your Enterprise license is active:
+As an instance or organization admin, follow these steps to verify and manage your Enterprise license:
 1. In the W&B App, click your user profile icon in the top right, then click **System Console**.
-1. Go to the **License** tab.
-1. To verify the license key, click **View license online**. If the license is not configured correctly, see [Common issues](#common-issues).
-1. To update the license key, click **Update License**. This is required if your previous license expires and you [renew it](#renew-an-enterprise-license).
+1. Go to the **License** tab. A dashboard summarizes the license's entitlements, expiration, and usage over time. If you see an error, see [Common issues](#common-issues).
+1. For detailed information about the license and its entitlements, click **View license online**.
 
-## Renew an Enterprise license
-A trial or production Enterprise license has an expiration date. To ensure uninterrupted service W&B contacts you:
-- 30 days before the license expires
-- When the license has expired
+    From this page, you can also order a new trial or production license. At the top of the page, click **New license order** and submit the form.
+1. To renew an expired license or to update the license key, click **Update License**.
+    <Tip>
+    To ensure uninterrupted service W&B contacts you:
+    - 30 days before the license expires
+    - When the license has expired
+    </Tip>
 
-To renew your license:
-1. Contact your account team or [Support](mailto:support@wandb.ai) to obtain a new license key.
-1. Follow the steps to [update the license](#verify-or-update-an-enterprise-license).
 
 ## Enterprise features
-The following features require an Enterprise license:
-
-### Security & Authentication
-- **Single Sign-On (SSO)**: Integration with identity providers like Okta, Auth0, and others
-- **SCIM Provisioning**: Automated user provisioning and deprovisioning
-- **Service Accounts**: Non-human accounts for CI/CD and automation
-- **IP Allowlisting**: Restrict access based on IP addresses (Self-Managed only)
-
-### Access Management
-- **Custom Roles**: Create fine-grained roles beyond the default Member/Admin/View-Only roles
-- **View-Only Users**: Read-only access for stakeholders who need visibility without edit permissions
-- **Team-level Access Controls**: Advanced permissions at the team level
-- **Project-level Access Controls**: Granular permissions for individual projects
-
-### Data & Compliance
-- **Audit Logs**: Detailed logs of user actions for compliance and security monitoring
-- **HIPAA Compliance**: Available with specific configuration options
-- **Customer-Managed Encryption Keys (CMEK)**: Use your own encryption keys for data at rest
-- **Bring Your Own Bucket (BYOB)**: Store artifacts in your own cloud storage (via Secure Storage Connector)
-- **Data Retention Controls**: Configure custom data retention policies
-
-### Operations & Administration
-- **Automations**: Trigger workflows based on events (Pro and Enterprise for Cloud)
-- **Advanced Organization Dashboard**: Enhanced visibility into organization usage
-- **Priority Support**: Faster response times and dedicated support channels
-- **MySQL Database Support**: Use MySQL instead of Postgres (Self-Managed only)
-- **S3-compatible Storage**: Use S3 or compatible object storage (Self-Managed only)
-
-### Performance & Scale
-- **Dedicated Resources**: Guaranteed compute and storage resources (Dedicated Cloud)
-- **Custom Rate Limits**: Higher API rate limits for enterprise workloads
-- **Multi-region Deployment**: Deploy across multiple regions (Dedicated Cloud)
-
+For a full, categorized list of available Enterprise features, see the [Pricing](https://wandb.ai/site/pricing/) page, then click **Cloud-hosted** or **Privately-hosted**.
 ## Common Issues
 
 ### License Not Recognized
