@@ -24,15 +24,15 @@ This section explains how to obtain an Enterprise license. Select a tab to conti
 <Tab title="Dedicated Cloud">
 W&B Dedicated Cloud includes an Enterprise license and no action is required. To get started with Dedicated Cloud:
 
-1. [Contact W&B Sales](https://wandb.ai/site/contact-sales) to discuss your requirements
-2. Work with the W&B team to provision your dedicated instance
-3. All Enterprise features will be enabled upon deployment
+1. Contact [Sales](https://wandb.ai/site/contact-sales) to discuss your requirements.
+2. Work with W&B to provision your dedicated instance.
+3. All Enterprise features will be enabled upon deployment.
 </Tab>
 <Tab title="Self-Managed">
 To obtain an Enterprise license for Self-Managed deployments:
 
 - To request an Enterprise trial license for evaluation purposes, visit the [Self-Managed Enterprise Trial form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or contact [Sales](mailto:sales@wandb.ai).
-- To request an Enterprise license for a production deployment, contact [W&B Sales](https://wandb.ai/site/contact-sales) to discuss your deployment requirements and sizing and receive your license details.
+- To request an Enterprise license for a production deployment, contact [Sales](https://wandb.ai/site/contact-sales) to discuss your deployment requirements and sizing and receive your license details.
 
 <Warning>Store license keys securely and treat them as sensitive credentials.</Warning>
 
@@ -45,31 +45,31 @@ After you [obtain an Enterprise license](#obtain-an-enterprise-license) for W&B 
 <Tabs>
 <Tab title="Helm">
 1. Update your `values.yaml` file:
-```yaml
-wandb:
-  license: "YOUR_LICENSE_KEY_HERE"
-```
+    ```yaml
+    wandb:
+      license: "YOUR_LICENSE_KEY_HERE"
+    ```
 
 2. Upgrade your Helm release:
-```bash
-helm upgrade wandb wandb/wandb \
-  --namespace wandb \
-  --reuse-values \
-  --set license=$LICENSE_KEY
-```
+    ```bash
+    helm upgrade wandb wandb/wandb \
+      --namespace wandb \
+      --reuse-values \
+      --set license=$LICENSE_KEY
+    ```
 </Tab>
 <Tab title="Terraform">
 1. Update your Terraform variables:
-```hcl
-variable "license" {
-  default = "YOUR_LICENSE_KEY_HERE"
-}
-```
+    ```hcl
+    variable "license" {
+      default = "YOUR_LICENSE_KEY_HERE"
+    }
+    ```
 
 2. Apply the Terraform configuration:
-```bash
-terraform apply -var="license=$LICENSE_KEY"
-```
+    ```bash
+    terraform apply -var="license=$LICENSE_KEY"
+    ```
 </Tab>
 <Tab title="W&B App">
 For existing deployments without environment variable configuration:
