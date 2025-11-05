@@ -235,7 +235,8 @@ As an example, suppose you have `train.py` script that initializes a run with a 
 
 ```python
 def main():
-    run = wandb.init(config={"nested_param": {"manual_key": 1}})
+    with  wandb.init(config={"nested_param": {"manual_key": 1}}) as run:
+        # Your training code here
 ```
 
 Your sweep configuration defines nested parameters under a top-level `"parameters"` key:

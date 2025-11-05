@@ -57,29 +57,29 @@ The following code snippet demonstrates how to link an artifact version to a col
 import wandb
 
 # Initialize a run
-run = wandb.init(entity = "<team_entity>", project = "<project_name>")
+with wandb.init(entity = "<team_entity>", project = "<project_name>") as run:
 
-# Create an artifact object
-# The type parameter specifies both the type of the 
-# artifact object and the collection type
-artifact = wandb.Artifact(name = "<name>", type = "<type>")
+    # Create an artifact object
+    # The type parameter specifies both the type of the 
+    # artifact object and the collection type
+    artifact = wandb.Artifact(name = "<name>", type = "<type>")
 
-# Add the file to the artifact object. 
-# Specify the path to the file on your local machine.
-artifact.add_file(local_path = "<local_path_to_artifact>")
+    # Add the file to the artifact object. 
+    # Specify the path to the file on your local machine.
+    artifact.add_file(local_path = "<local_path_to_artifact>")
 
-# Specify the collection and registry to link the artifact to
-REGISTRY_NAME = "<registry_name>"
-COLLECTION_NAME = "<collection_name>"
-target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+    # Specify the collection and registry to link the artifact to
+    REGISTRY_NAME = "<registry_name>"
+    COLLECTION_NAME = "<collection_name>"
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-# Link the artifact version to the collection
-# Add one or more aliases to this artifact version
-run.link_artifact(
-    artifact = artifact, 
-    target_path = target_path, 
-    aliases = ["<alias_1>", "<alias_2>"]
-    )
+    # Link the artifact version to the collection
+    # Add one or more aliases to this artifact version
+    run.link_artifact(
+        artifact = artifact, 
+        target_path = target_path, 
+        aliases = ["<alias_1>", "<alias_2>"]
+        )
 ```
 </Tab>
 </Tabs>
@@ -138,30 +138,30 @@ The following code snippet shows how to create an artifact version and add custo
 import wandb
 
 # Initialize a run
-run = wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment")
+with wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment") as run:
 
-# Create an artifact object
-# The type parameter specifies both the type of the 
-# artifact object and the collection type
-artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
+    # Create an artifact object
+    # The type parameter specifies both the type of the 
+    # artifact object and the collection type
+    artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
 
-# Add the file to the artifact object. 
-# Specify the path to the file on your local machine.
-artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
-artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
+    # Add the file to the artifact object. 
+    # Specify the path to the file on your local machine.
+    artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
+    artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
 
-# Specify the collection and registry to link the artifact to
-REGISTRY_NAME = "Model"
-COLLECTION_NAME = "Zoo_Classifier_Models"
-target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+    # Specify the collection and registry to link the artifact to
+    REGISTRY_NAME = "Model"
+    COLLECTION_NAME = "Zoo_Classifier_Models"
+    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-# Link the artifact version to the collection
-# Add one or more aliases to this artifact version
-run.link_artifact(
-    artifact = artifact,
-    target_path = target_path,
-    aliases = ["production-us", "production-eu"]
-    )
+    # Link the artifact version to the collection
+    # Add one or more aliases to this artifact version
+    run.link_artifact(
+        artifact = artifact,
+        target_path = target_path,
+        aliases = ["production-us", "production-eu"]
+        )
 ```
 
 1. First, you create an artifact object (`wandb.Artifact()`).

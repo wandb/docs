@@ -107,10 +107,10 @@ with wandb.init(project="my_project") as run:
     )
 
     # Initialize the Run
-    run = wandb.init()
+    with wandb.init() as run:
 
-    # Log the updated table to W&B
-    run.log({table_name: best_checkpt_table})
+        # Log the updated table to W&B
+        run.log({table_name: best_checkpt_table})
 ```
 
 ## Retrieve data

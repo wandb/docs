@@ -45,13 +45,13 @@ For more information about W&B Artifacts, see the [Artifacts chapter](/models/ar
 
 ```python
 # Start a W&B run to log data
-run = wandb.init(project="tables-walkthrough")
+with wandb.init(project="tables-walkthrough") as run:
 
-# Log the table to visualize with a run...
-run.log({"iris": iris_table})
+    # Log the table to visualize with a run...
+    run.log({"iris": iris_table})
 
-# and Log as an Artifact to increase the available row limit!
-run.log_artifact(iris_table_artifact)
+    # and Log as an Artifact to increase the available row limit!
+    run.log_artifact(iris_table_artifact)
 ```
 
 The `wandb.init()` API spawns a new background process to log data to a Run, and it synchronizes data to wandb.ai (by default). View live visualizations on your W&B Workspace Dashboard. The following image demonstrates the output of the code snippet demonstration.
@@ -82,16 +82,13 @@ iris_table_artifact.add(iris_table, "iris_table")
 iris_table_artifact.add_file("iris.csv")
 
 # Start a W&B run to log data
-run = wandb.init(project="tables-walkthrough")
+with wandb.init(project="tables-walkthrough") as run:
 
-# Log the table to visualize with a run...
-run.log({"iris": iris_table})
+    # Log the table to visualize with a run...
+    run.log({"iris": iris_table})
 
-# and Log as an Artifact to increase the available row limit!
-run.log_artifact(iris_table_artifact)
-
-# Finish the run (useful in notebooks)
-run.finish()
+    # and Log as an Artifact to increase the available row limit!
+    run.log_artifact(iris_table_artifact)
 ```
 
 ## Import and log your CSV of Experiments
@@ -158,9 +155,9 @@ for i, row in loaded_experiment_df.iterrows():
 2. Next, start a new W&B Run to track and log to W&B with [`wandb.init()`](/models/ref/python/functions/init):
 
     ```python
-    run = wandb.init(
+    with wandb.init(
         project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
-    )
+    ) as run:
     ```
 
 As an experiment runs, you might want to log every instance of your metrics so they are available to view, query, and analyze with W&B. Use the [`run.log()`](/models/ref/python/experiments/run/#method-runlog) command to accomplish this:
@@ -209,17 +206,16 @@ for i, row in loaded_experiment_df.iterrows():
     for summary_col in SUMMARY_COLS:
         summaries[summary_col] = row[summary_col]
 
-    run = wandb.init(
+    with  wandb.init(
         project=PROJECT_NAME, name=run_name, tags=tags, notes=notes, config=config
-    )
+    ) as run:
 
-    for key, val in metrics.items():
-        if isinstance(val, list):
-            for _val in val:
-                run.log({key: _val})
-        else:
-            run.log({key: val})
+        for key, val in metrics.items():
+            if isinstance(val, list):
+                for _val in val:
+                    run.log({key: _val})
+            else:
+                run.log({key: val})
 
-    run.summary.update(summaries)
-    run.finish()
+        run.summary.update(summaries)
 ```

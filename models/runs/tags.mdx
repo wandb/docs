@@ -19,11 +19,12 @@ You can add tags to a run when it is created:
 ```python
 import wandb
 
-run = wandb.init(
+with wandb.init(
   entity="entity",
   project="<project-name>",
   tags=["tag1", "tag2"]
-)
+) as run:
+    # Your training code here
 ```
 
 You can also update the tags after you initialize a run. For example, the proceeding code snippet shows how to update a tag if a particular metrics crosses a pre-defined threshold:
@@ -31,25 +32,20 @@ You can also update the tags after you initialize a run. For example, the procee
 ```python
 import wandb
 
-run = wandb.init(
-  entity="entity", 
-  project="capsules", 
-  tags=["debug"]
-  )
+with wandb.init(entity="entity", project="capsules", tags=["debug"]) as run:
 
-# python logic to train model
-
-if current_loss < threshold:
-    run.tags = run.tags + ("release_candidate",)
+  # python logic to train model
+  if current_loss < threshold:
+      run.tags = run.tags + ("release_candidate",)
 ```
 </Tab>
 <Tab title="Public API">
 After you create a run, you can update tags using [the Public API](/models/track/public-api-guide/). For example:
 
 ```python
-run = wandb.Api().run("{entity}/{project}/{run-id}")
-run.tags.append("tag1")  # you can choose tags based on run data here
-run.update()
+with wandb.Api().run("{entity}/{project}/{run-id}") as run:
+  run.tags.append("tag1")  # you can choose tags based on run data here
+  run.update()
 ```
 </Tab>
 <Tab title="Project page">
