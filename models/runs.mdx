@@ -361,12 +361,21 @@ A workspace is limited to displaying a maximum of 1000 runs, regardless of its c
 
 #### Add or remove columns
 
-To customize which columns are visible in the Runs table or Workspace:
+Add or remove columns in the **Runs** tab or **Workspace** tab to customize which properties associated with your project are visible. For both cases, you can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+
+To add a columns in the Runs table or Workspace:
 1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
-1. Above the list of runs, click **Columns**.
-1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
-1. Click **Done** to close the column browser.
+1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
+1. Select the name of a property within the **Hidden** section of the modal.
+1. Drag columns to change their order.
+1. Click **Close**.
+
+
+To remove columns in the Runs table or Workspace:
+1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
+1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
+1. Select the name of a property within the **Visible & Pinned** section of the modal.
+1. Click **Close**.
 
 #### Sort runs by column
 
@@ -377,15 +386,16 @@ To sort the list of runs by any visible column:
 
 #### Pin columns
 
-Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab or **Workspace** tab. If you pin a column in the **Runs** tab, it is also pinned in the **Workspace** tab. Similarly, if you pin a column in the **Workspace** tab, it is also pinned in the **Runs** tab.
 
 To pin a column:
-1. In the project sidebar, navigate to the **Runs** tab.
-1. Click **Pin column**.
+1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
+1. Click the **Columns** (six horizontal dashes) button.
+1. Within the **Visible & Pinned** section of the modal, click on the pin icon next to the column name you want to pin.
 
 To unpin a column:
 1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
-1. Hover over the column name, then click its action `...` menu.
+1. Either hover over the column name, then click its action `...` menu, or click the **Columns** (six horizontal dashes) button and click on the pin icon next to the column name you want to unpin.
 1. Click **Unpin column**.
 
 #### Customize run name truncation
