@@ -91,7 +91,7 @@ print(artifact_type.name for artifact_type in artifact_types)
 ```
 
 <Note>
-Note that you do not initialize a run with the proceeding code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
+Note that you do not initialize a run with the following code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
 </Note>
 </Tab>
 </Tabs>
@@ -119,7 +119,7 @@ Where `registry_name` is the name of the registry and `collection_name` is the n
 W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
 </Note>
 
-The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
+The following code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb

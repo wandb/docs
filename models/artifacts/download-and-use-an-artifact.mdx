@@ -12,7 +12,7 @@ Team members with view-only seats cannot download artifacts.
 
 ### Download and use an artifact stored on W&B
 
-Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to export (or update data) already saved in W&B. For more information, see the W&B [Public API Reference guide](/models/ref/python/public-api/).
+Download and use an artifact stored in W&B either inside or outside of a W&B Run. Use the Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to export (or update data) already saved in W&B.
 
 <Tabs>
 <Tab title="During a run">
@@ -25,7 +25,7 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     # See next step
 ```
 
-Indicate the artifact you want to use with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method. This returns a run object. In the proceeding code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
+Indicate the artifact you want to use with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) method. This returns a run object. In the following code snippet specifies an artifact called `'bike-dataset'` with the alias `'latest'`:
 
 ```python
 # Indicate the artifact to use. Format is "name:alias"
@@ -39,9 +39,9 @@ Use the object returned to download all the contents of the artifact:
 datadir = artifact.download()
 ```
 
-You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory. For more information, see the [Python SDK Reference Guide](/models/ref/python/experiments/artifact#download).
+You can optionally pass a path to the root parameter to download the contents of the artifact to a specific directory.
 
-Use the [`wandb.Artifact.get_entry()`](/models/ref/python/experiments/artifact#get_entry) method to download only subset of files:
+Use the [`wandb.Artifact.get_entry()`](/models/ref/python/experiments/artifact#get_entry) method to download only a subset of files:
 
 ```python
 # Download a specific file

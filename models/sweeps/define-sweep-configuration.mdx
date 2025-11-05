@@ -21,7 +21,7 @@ Both sweep configuration format options (YAML and Python dictionary) utilize key
 Use top-level keys within your sweep configuration to define qualities of your sweep search such as the name of the sweep ([`name`](./sweep-config-keys) key), the parameters to search through ([`parameters`](./sweep-config-keys#parameters) key), the methodology to search the parameter space ([`method`](./sweep-config-keys#method) key), and more. 
 
 
-For example, the proceeding code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
+For example, the following code snippets show the same sweep configuration defined within a YAML file and within a Python dictionary. Within the sweep configuration there are five top level keys specified: `program`, `name`, `method`, `metric` and `parameters`. 
 
 
 <Tabs>
@@ -50,7 +50,7 @@ parameters:
 <Tab title="Python script or notebook">
 Define a sweep in a Python dictionary data structure if you define training algorithm in a Python script or notebook. 
 
-The proceeding code snippet stores a sweep configuration in a variable named `sweep_configuration`:
+The following code snippet stores a sweep configuration in a variable named `sweep_configuration`:
 
 ```python title="train.py"
 sweep_configuration = {
@@ -225,7 +225,7 @@ parameters:
    3. Specify one or more values to explore. The value (or values) should be inline with the distribution key.  
       1. (Optional) Use an additional parameters key under the top level parameter name to delineate a nested parameter. */}
 
-{/* For example, the proceeding code snippets show a sweep config both in a YAML config file and a Python script. */}
+{/* For example, the following code snippets show a sweep config both in a YAML config file and a Python script. */}
 
 
 <Warning>

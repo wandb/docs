@@ -1,10 +1,9 @@
 ---
-description: Create, construct a W&B Artifact. Learn how to add one or more files
-  or a URI reference to an Artifact.
+description: Create and log a W&B Artifact. Learn how to add one or more files or a URI reference to an Artifact.
 title: Create an artifact
 ---
 
-Use the W&B Python SDK to construct artifacts from [W&B Runs](/models/ref/python/experiments/run). You can add [files, directories, URIs, and files from parallel runs to artifacts](#add-files-to-an-artifact). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server](/platform/hosting/hosting-options/self-managed).
+Use the W&B Python SDK to construct artifacts from [W&B Runs](/models/ref/python/experiments/run). You can add [files, directories, URIs, and files from parallel runs to artifacts](#add-files-to-an-artifact). After you add a file to an artifact, save the artifact to the W&B Server or [your own private server](/platform/hosting/hosting-options/self-managed). Each artifact is associated with a run.
 
 For information on how to track external files, such as files stored in Amazon S3, see the [Track external files](./track-external-files) page.
 
@@ -21,9 +20,7 @@ Initialize the [`wandb.Artifact()`](/models/ref/python/experiments/artifact) cla
 
 
 <Note>
-The "name" and "type" you provide is used to create a directed acyclic graph. This means you can view the lineage of an artifact on the W&B App. 
-
-See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
+W&B uses the "name" and "type" you provide to create a directed acyclic graph. View the lineage of an artifact on the W&B App. See the [Explore and traverse artifact graphs](./explore-and-traverse-an-artifact-graph) for more information.
 </Note>
 
 
@@ -33,35 +30,57 @@ Artifacts can not have the same name, even if you specify a different type for t
 
 You can optionally provide a description and metadata when you initialize an artifact object. For more information on available attributes and parameters, see the [`wandb.Artifact`](/models/ref/python/experiments/artifact) Class definition in the Python SDK Reference Guide.
 
-The proceeding example demonstrates how to create a dataset artifact:
+Copy and paste the following code snippet to create an artifact object. Replace the `<name>` and `<type>` placeholders with your own values.:
 
 ```python
 import wandb
 
-artifact = wandb.Artifact(name="<replace>", type="<replace>")
+# Create an artifact object
+artifact = wandb.Artifact(name="<name>", type="<type>")
 ```
-
-Replace the string arguments in the preceding code snippet with your own name and type.
 
 ### 2. Add one more files to the artifact
 
-Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
+Add files, directories, external URI references (such as Amazon S3) and more to your artifact object.
+
+To add a single file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
 
 ```python
-artifact.add_file(local_path="hello_world.txt", name="optional-name")
+artifact.add_file(local_path="path/to/file.txt", name="<name>")
 ```
 
-You can also add multiple files with the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method. To add files, see [Update an artifact](./update-an-artifact).
+See the next section, [Add a single file](/models/artifacts/construct-an-artifact#add-a-single-file), for more information on adding different file types to an artifact.
+
+To add a directory, use the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method:
+
+```python
+artifact.add_dir(local_path="path/to/directory", name="<name>")
+```
+
+See the next section, [Add multiple files](/models/artifacts/construct-an-artifact#add-multiple-files), for more information on adding different file types to an artifact.
 
 ### 3. Save your artifact to the W&B server
 
-Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
+Finally, save your artifact to the W&B server. Use a run objects [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 
 ```python
-# Create a W&B Run. Replace 'job-type'.
-with wandb.init(project="artifacts-example", job_type="job-type") as run:
+with wandb.init(project="<project>", job_type="<job-type>") as run:
     run.log_artifact(artifact)
 ```
+
+Putting this all together, the following code snippet demonstrates how to create a dataset artifact, add a file to the artifact, and save the artifact to W&B:
+
+```python
+import wandb
+
+artifact = wandb.Artifact(name="<name>", type="<type>")
+artifact.add_file(local_path="path/to/file.txt", name="<name>")
+artifact.add_dir(local_path="path/to/directory", name="<name>")
+
+with wandb.init(project="<project>", job_type="<job-type>") as run:
+    run.log_artifact(artifact)
+```
+
 
 <Note>
 **When to use `Artifact.save()` or `wandb.Run.log_artifact()`**
@@ -107,7 +126,7 @@ project-directory
 
 ### Add a single file
 
-The proceeding code snippet demonstrates how to add a single, local file to your artifact:
+The following code snippet demonstrates how to add a single, local file to your artifact:
 
 ```python
 # Add a single file
@@ -146,7 +165,7 @@ new/path/file.txt
 
 ### Add multiple files
 
-The proceeding code snippet demonstrates how to add an entire, local directory to your artifact:
+The following code snippet demonstrates how to add an entire, local directory to your artifact:
 
 ```python
 # Recursively add a directory
