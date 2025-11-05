@@ -17,7 +17,7 @@ Enterprise licenses are available for W&B Dedicated Cloud and Self-Managed deplo
 - [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) provides single-tenant infrastructure managed by W&B, deployed in Google Cloud. Dedicated Cloud deployments automatically include an Enterprise license. No additional configuration is required, and all Enterprise features are available immediately upon provisioning.
 - [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) is deployed on your own infrastructure, providing full control over your deployment and data. Air-gapped deployments are supported. To access Enterprise features on W&B Self-Managed, you must obtain and configure an Enterprise license. Without an Enterprise license, Self-Managed deployments operate with limited features.
 
-## Obtain an Enterprise License
+## Obtain an Enterprise license
 This section explains how to obtain an Enterprise license. Select a tab to continue.
 
 <Tabs>
@@ -70,7 +70,6 @@ variable "license" {
 ```bash
 terraform apply -var="license=$LICENSE_KEY"
 ```
-</Tab>
 </Tab>
 <Tab title="W&B App">
 For existing deployments without environment variable configuration:

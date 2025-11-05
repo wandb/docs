@@ -89,7 +89,6 @@
                       {
                         "group": "Install on public cloud",
                         "pages": [
-                          "platform/hosting/self-managed/install-on-public-cloud",
                           "platform/hosting/self-managed/aws-tf",
                           "platform/hosting/self-managed/gcp-tf",
                           "platform/hosting/self-managed/azure-tf"
