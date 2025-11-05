@@ -45,12 +45,9 @@ For example, the proceeding code snippet shows how to log a file called `dataset
 ```python
 import wandb
 
-run = wandb.init(project="artifacts-example", job_type="add-dataset")
-artifact = wandb.Artifact(name="example_artifact", type="dataset")
-artifact.add_file(local_path="./dataset.h5", name="training_dataset")
-artifact.save()
-
-# Logs the artifact version "my_data" as a dataset with data from dataset.h5
+with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
+    artifact = wandb.Artifact(name="example_artifact", type="dataset")
+    artifact.add_file(local_path="./dataset.h5", name="training_dataset")
 ```
 
 - The `type` of the artifact affects how it appears in the W&B platform. If you do not specify a `type`, it defaults to `unspecified`.
@@ -66,9 +63,10 @@ Indicate the artifact you want to mark as input to your run with the [`use_artif
 Following the preceding code snippet, this next code block shows how to use the `training_dataset` artifact: 
 
 ```python
-artifact = run.use_artifact(
-    "training_dataset:latest"
-)  # returns a run object using the "my_data" artifact
+with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
+    artifact = run.use_artifact(
+        "training_dataset:latest"
+    )  # returns a run object using the "my_data" artifact
 ```
 This returns an artifact object.
 

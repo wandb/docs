@@ -45,27 +45,26 @@ Replace the string arguments in the preceding code snippet with your own name an
 
 ### 2. Add one more files to the artifact
 
-Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the [`add_file`](/models/ref/python/experiments/artifact#add_file) method:
+Add files, directories, external URI references (such as Amazon S3) and more with artifact methods. For example, to add a single text file, use the artifact object's [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) method:
 
 ```python
 artifact.add_file(local_path="hello_world.txt", name="optional-name")
 ```
 
-You can also add multiple files with the [`add_dir`](/models/ref/python/experiments/artifact#add_dir) method. To add files, see [Update an artifact](./update-an-artifact).
+You can also add multiple files with the [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) method. To add files, see [Update an artifact](./update-an-artifact).
 
 ### 3. Save your artifact to the W&B server
 
-Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
+Finally, save your artifact to the W&B server. Artifacts are associated with a run. Therefore, use a run objects [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) method to save the artifact.
 
 ```python
 # Create a W&B Run. Replace 'job-type'.
-run = wandb.init(project="artifacts-example", job_type="job-type")
-
-run.log_artifact(artifact)
+with wandb.init(project="artifacts-example", job_type="job-type") as run:
+    run.log_artifact(artifact)
 ```
 
 <Note>
-**When to use Artifact.save() or wandb.Run.log_artifact()**
+**When to use `Artifact.save()` or `wandb.Run.log_artifact()`**
 
 - Use `Artifact.save()` to update an existing artifact without creating a new run.
 - Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.

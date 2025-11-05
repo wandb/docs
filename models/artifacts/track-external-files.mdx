@@ -3,17 +3,16 @@ description: Track files saved in an external bucket, HTTP file server, or an NF
 title: Track external files
 ---
 
-Use **reference artifacts** to track and use files saved outside of W&B servers, for example in CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
+Use *reference artifacts* to track and use files saved outside of W&B servers. Common external storage solutions include: CoreWeave AI Object Storage, an Amazon Simple Storage Service (Amazon S3) bucket, GCS bucket, Azure blob, HTTP file server, or NFS share.
 
-W&B logs metadata about the the object, such as the object's ETag and size. If object versioning is enabled on the bucket, the version ID is also logged.
 
 <Note>
 If you log an artifact that does not track external files, W&B saves the artifact's files to W&B servers. This is the default behavior when you log artifacts with the W&B Python SDK.
 
-See the [Artifacts quickstart](/models/artifacts/artifacts-walkthrough/) for information on how to save files and directories to W&B servers instead.
+If you log an artifact that does tracks external files, W&B logs metadata about the the object, such as the object's ETag and size. If object versioning is enabled on the bucket, the version ID is also logged.
 </Note>
 
-The following describes how to construct reference artifacts.
+The following sections describe how to track external reference artifacts.
 
 ## Track an artifact in an external bucket
 
@@ -21,27 +20,26 @@ Use the W&B Python SDK to track references to files stored outside of W&B.
 
 1. Initialize a run with `wandb.init()`.
 2. Create an artifact object with `wandb.Artifact()`.
-3. Specify the reference to the bucket path with the artifact object's `add_reference()` method.
+3. Specify the reference to the bucket path with the artifact object's `wandb.Artifact.add_reference()` method.
 4. Log the artifact's metadata with `run.log_artifact()`.
 
 ```python
 import wandb
 
 # Initialize a W&B run
-run = wandb.init()
+with wandb.init(project="my-project") as run:
 
-# Create an artifact object
-artifact = wandb.Artifact(name="name", type="type")
+  # Create an artifact object
+  artifact = wandb.Artifact(name="name", type="type")
 
-# Add a reference to the bucket path
-artifact.add_reference(uri = "uri/to/your/bucket/path")
+  # Add a reference to the bucket path
+  artifact.add_reference(uri = "uri/to/your/bucket/path")
 
-# Log the artifact's metadata
-run.log_artifact(artifact)
-run.finish()
+  # Log the artifact's metadata
+  run.log_artifact(artifact)
 ```
 
-Suppose your bucket has the following directory structure:
+As an example, suppose your bucket has the following directory structure:
 
 ```text
 s3://my-bucket
@@ -52,16 +50,22 @@ s3://my-bucket
   |---- cnn/
 ```
 
-The `datasets/mnist/` directory contains a collection of images. Track the directory as a dataset with `wandb.Artifact.add_reference()`. The following code sample creates a reference artifact `mnist:latest` using the artifact object's `add_reference()` method.
+The `datasets/mnist/` directory contains a collection of images. To track the image `datasets/mnist/` directory as a dataset artifact, specify:
+
+1. Provide a name for the artifact, such as `"mnist"`.
+1. Set the `type` parameter to `"dataset"` when you construct the artifact object (`wandb.Artifact(type="dataset")`).
+1. Provide the path to the `datasets/mnist/` directory as an Amazon S3 URI (`s3://my-bucket/datasets/mnist/`) when you call `wandb.Artifact.add_reference()`.
+1. Log the artifact with `run.log_artifact()`.
+
+The following code sample creates a reference artifact `mnist:latest`:
 
 ```python
 import wandb
 
-run = wandb.init()
-artifact = wandb.Artifact(name="mnist", type="dataset")
-artifact.add_reference(uri="s3://my-bucket/datasets/mnist")
-run.log_artifact(artifact)
-run.finish()
+with wandb.init(project="my-project") as run:
+  artifact = wandb.Artifact(name="mnist", type="dataset")
+  artifact.add_reference(uri="s3://my-bucket/datasets/mnist")
+  run.log_artifact(artifact)
 ```
 
 Within the W&B App, you can look through the contents of the reference artifact using the file browser, [explore the full dependency graph](/models/artifacts/explore-and-traverse-an-artifact-graph/), and scan through the versioned history of your artifact. The W&B App does not render rich media such as images, audio, and so forth because the data itself is not contained within the artifact.
@@ -71,7 +75,7 @@ W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave St
 </Note>
 
 <Warning>
-By default, W&B imposes a 10,000 object limit when adding an object prefix. You can adjust this limit by specifying `max_objects=` when you call `add_reference()`.
+By default, W&B imposes a 10,000 object limit when adding an object prefix. You can adjust this limit by specifying `max_objects=` when you call `wandb.Artifact.add_reference()`.
 </Warning>
 
 ## Download an artifact from an external bucket
@@ -83,9 +87,9 @@ The following code sample shows how to download a reference artifact. The the AP
 ```python
 import wandb
 
-run = wandb.init()
-artifact = run.use_artifact("mnist:latest", type="dataset")
-artifact_dir = artifact.download()
+with wandb.init(project="my-project") as run:
+  artifact = run.use_artifact("mnist:latest", type="dataset")
+  artifact_dir = artifact.download()
 ```
 
 <Note>
@@ -102,17 +106,16 @@ The following code sample uploads a dataset to an Amazon S3 bucket, tracks it wi
 import boto3
 import wandb
 
-run = wandb.init()
+with wandb.init() as run:
+  # Training here...
 
-# Training here...
+  s3_client = boto3.client("s3")
+  s3_client.upload_file(file_name="my_model.h5", bucket="my-bucket", object_name="models/cnn/my_model.h5")
 
-s3_client = boto3.client("s3")
-s3_client.upload_file(file_name="my_model.h5", bucket="my-bucket", object_name="models/cnn/my_model.h5")
-
-# Log the model artifact
-model_artifact = wandb.Artifact("cnn", type="model")
-model_artifact.add_reference("s3://my-bucket/models/cnn/")
-run.log_artifact(model_artifact)
+  # Log the model artifact
+  model_artifact = wandb.Artifact("cnn", type="model")
+  model_artifact.add_reference("s3://my-bucket/models/cnn/")
+  run.log_artifact(model_artifact)
 ```
 
 At a later point, you can download the model artifact. Specify the name of the artifact and its type:
@@ -120,9 +123,9 @@ At a later point, you can download the model artifact. Specify the name of the a
 ```python
 import wandb
 
-run = wandb.init()
-artifact = run.use_artifact(artifact_or_name = "cnn", type="model")
-datadir = artifact.download()
+with wandb.init() as run:
+  artifact = run.use_artifact(artifact_or_name = "cnn", type="model")
+  datadir = artifact.download()
 ```
 
 <Note>
@@ -151,71 +154,75 @@ Rich media such as images, audio, video, and point clouds may fail to render in 
 If rich media such as images, audio, video, and point clouds does not render in the App UI, ensure that `app.wandb.ai` is allowlisted in your bucket's CORS policy.
 </Warning>
 
+
 ## Track an artifact in a filesystem
 
-Another common pattern for fast access to datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an even simpler solution than a cloud storage bucket because from the perspective of the training script, the files look just like they are sitting on your local filesystem. Luckily, that ease of use extends into using Artifacts to track references to file systems, whether they are mounted or not.
+A common pattern for accessing datasets is to expose an NFS mount point to a remote filesystem on all machines running training jobs. This can be an alternative solution to a cloud storage bucket because from the perspective of the training script, the files seem local to your filesystem.
+
+W&B Artifacts can be used to track references to file systems, regardless if they are mounted or not.
 
 Suppose you have a filesystem mounted at `/mount` with the following structure:
 
-```bash
+```text
 mount
 |datasets/
-		|-- mnist/
+  |-- mnist/
 |models/
-		|-- cnn/
+  |-- cnn/
 ```
 
-Within `mnist/` is a dataset, a collection of images. You can track it with an artifact:
+Within `mnist/` is a dataset, a collection of images. 
+
+You can track it with an artifact. Specify the path to the `datasets/mnist/` directory as a filesystem URI (`file:///mount/datasets/mnist/`) when you call `wandb.Artifact.add_reference()`.
 
 ```python
 import wandb
 
-run = wandb.init()
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_reference("file:///mount/datasets/mnist/")
-run.log_artifact(artifact)
+with wandb.init() as run:
+  artifact = wandb.Artifact("mnist", type="dataset")
+  artifact.add_reference("file:///mount/datasets/mnist/")
+  run.log_artifact(artifact)
 ```
 <Warning>
-By default, W&B imposes a 10,000 file limit when adding a reference to a directory. You can adjust this limit by specifying `max_objects=` when you call `add_reference()`.
+By default, W&B imposes a 10,000 file limit when adding a reference to a directory. You can adjust this limit by specifying `max_objects=` when you call `wandb.Artifact.add_reference()`.
 </Warning>
 
 Note the triple slash in the URL. The first component is the `file://` prefix that denotes the use of filesystem references. The second component begins the path to the dataset, `/mount/datasets/mnist/`.
 
-The resulting artifact `mnist:latest` looks and acts like a regular artifact. The only difference is that the artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
+The artifact that is created (`mnist:latest`) behaves similar to a regular artifact. The only difference is that the artifact only consists of metadata about the files, such as their sizes and MD5 checksums. The files themselves never leave your system.
 
 You can interact with this artifact just as you would a normal artifact. In the UI, you can browse the contents of the reference artifact using the file browser, explore the full dependency graph, and scan through the versioned history of your artifact. However, the UI cannot render rich media such as images, audio, because the data itself is not contained within the artifact.
 
 Downloading a reference artifact:
 
 ```python
-import wandb
-
-run = wandb.init()
-artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
-artifact_dir = artifact.download()
+with wandb.init() as run:
+  artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
+  artifact_dir = artifact.download()
 ```
 
-For a filesystem reference, a `download()` operation copies the files from the referenced paths to construct the artifact directory. In the above example, the contents of `/mount/datasets/mnist` are copied into the directory `artifacts/mnist:v0/`. If an artifact contains a reference to a file that was overwritten, then `download()` will throw an error because the artifact can no longer be reconstructed.
+For filesystem references, calling `Artifact.download()` method copies the files from the referenced paths to construct the artifact directory. In the previous example, the contents of `/mount/datasets/mnist` are copied into the directory `artifacts/mnist:v0/`. If an artifact contains a reference to a file that was overwritten, then `download()` will throw an error because the artifact can no longer be reconstructed.
 
 Putting it all together, you can use the following code to track a dataset under a mounted filesystem that feeds into a training job:
 
 ```python
-import wandb
+with wandb.init() as run:
 
-run = wandb.init()
+  # Create an artifact object
+  artifact = wandb.Artifact("mnist", type="dataset")
 
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_reference("file:///mount/datasets/mnist/")
+  # Add a reference to the dataset directory
+  artifact.add_reference("file:///mount/datasets/mnist/")
 
-# Track the artifact and mark it as an input to
-# this run in one swoop. A new artifact version
-# is only logged if the files under the directory
-# changed.
-run.use_artifact(artifact)
+  # Track the artifact and mark it as an input to
+  # this run in one swoop. A new artifact version
+  # is only logged if the files under the directory
+  # changed.
+  run.use_artifact(artifact)
 
-artifact_dir = artifact.download()
+  artifact_dir = artifact.download()
 
-# Perform training here...
+  # Perform training here...
 ```
 
 To track a model, log the model artifact after the training script writes the model files to the mount point:
@@ -223,15 +230,20 @@ To track a model, log the model artifact after the training script writes the mo
 ```python
 import wandb
 
-run = wandb.init()
+with wandb.init() as run:
 
-# Training here...
+  # Training here...
 
-# Write model to disk
+  # Write model to disk
 
-model_artifact = wandb.Artifact("cnn", type="model")
-model_artifact.add_reference("file:///mount/cnn/my_model.h5")
-run.log_artifact(model_artifact)
+  # Create an artifact object
+  model_artifact = wandb.Artifact("cnn", type="model")
+
+  # Add a reference to the model file path
+  model_artifact.add_reference("file:///mount/cnn/my_model.h5")
+
+  # Log the artifact to W&B
+  run.log_artifact(model_artifact)
 ```
 
 

@@ -214,7 +214,8 @@ You can specify your own run ID by passing the `id` parameter to the [`wandb.ini
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
+with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
+    # Your code here
 ```
 
 You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:
