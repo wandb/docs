@@ -361,32 +361,6 @@ However, often LLM applications have additional logic (such as pre/post processi
   </Tab>
 </Tabs>
 
-#### Attributes
-
-<Tabs>
-  <Tab title="Python">
-    When calling tracked functions, you can add additional metadata to the call by using [`weave.attributes`](/weave/reference/python-sdk/#function-attributes) context manager. In the example below, we add an `env` attribute to the call specified as `'production'`.
-
-    ```python lines lines
-    # ... continued from above ...
-
-    # Add additional attributes to the call
-    with weave.attributes({'env': 'production'}):
-        print(my_function.call("World")
-    ```
-
-    <Tip>
-    `call.attributes` cannot be modified once the call starts. Use this
-    context manager to set any metadata before invoking the op.
-    </Tip>
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
-    ```
-  </Tab>
-</Tabs>
-
 #### Trace parallel (multi-threaded) function calls
 
 <Tabs>
