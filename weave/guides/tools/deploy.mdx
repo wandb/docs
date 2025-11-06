@@ -1,5 +1,5 @@
 ---
-title: "Deploy"
+title: "Deploy to Google Cloud"
 description: "Deploy your Weave models to cloud platforms"
 ---
 
@@ -9,18 +9,14 @@ description: "Deploy your Weave models to cloud platforms"
 `weave deploy` requires your machine to have `gcloud` installed and configured. `weave deploy gcp` will use pre-configured configuration when not directly specified by command line arguments.
 </Note>
 
-Given a Weave ref to any Weave Model you can run:
+To deploy a Weave model to Google Cloud, run:
 
 ```
 weave deploy gcp <ref>
 ```
 
-to deploy a gcp cloud function that serves your model. The last line of the deployment will look like `Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!
+Once deployed, the terminal returns a URL using the following schema:
 
-Run
-
+``` 
+Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!
 ```
-weave deploy gcp --help
-```
-
-to see all command line options.

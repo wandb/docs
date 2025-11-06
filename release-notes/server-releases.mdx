@@ -10,6 +10,11 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.75.2" description="November 5, 2025">
+- Fixed a bug where a team service account's API key was not visible to team Admin users who were also organization Admins.
+- Fixed a bug where the (min, max) range shown in a tooltip for a plot with multiple run groups could show the same values for all groups.
+- Fixed a bug where Parquet files for deleted runs were not completely garbage collected and the error `delete parquet history does not currently support partial deletes` was logged repeatedly.
+</Update>
 <Update label="v0.75.0" description="October 28, 2025">
 W&B v0.75 enhances Registry with a new Restricted Viewer role, the ability to star registries, and programmatic Registry access control over SCIM. The new automation execution history view helps you to understand and debug your automations. Visualize config-driven effects with semantic coloring by config properties such as hyperparameters, view full-fidelity plots for system metrics, and more.
 

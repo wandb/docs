@@ -35,6 +35,7 @@ forked_run = wandb.init(
     entity="your_entity_name",
     fork_from=f"{original_run.id}?_step=200",
 )
+forked_run.finish()
 ```
 
 ## Continue from a forked run
