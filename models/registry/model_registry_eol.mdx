@@ -24,7 +24,7 @@ The following table summarizes the key differences between the legacy Model Regi
 | Registry Scope |Only supports model versioning  | Supports models, datasets, custom artifacts, and more |
 | Automations | Registry-level automations | Registry- and collection-level automations supported and copied during migration |
 | Search & Discoverability | Limited search and discoverability | Central search within W&B Registry across all registries in the organization |
-| API Compatibility | Uses `wandb.init.link_model()` and MR-specific patterns | Modern SDK APIs (`link_artifact()`, `use_artifact()`) with auto-redirection |
+| API Compatibility | Uses `wandb.Run.link_model()` and MR-specific patterns | Modern SDK APIs (`link_artifact()`, `use_artifact()`) with auto-redirection |
 | Migration | End-of-life | Automatically migrated and enhanced — data is copied, not deleted |
 
 ## Preparing for the migration

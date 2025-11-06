@@ -292,7 +292,6 @@
                     "group": "Registry",
                     "pages": [
                       "models/registry",
-                      "models/registry/registry_types",
                       "models/registry/create_registry",
                       "models/registry/configure_registry",
                       "models/registry/create_collection",
