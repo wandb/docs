@@ -1,0 +1,45 @@
+.colab-link,
+.try-product-link,
+.github-source-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border: 1px solid rgba(230, 228, 224, 0.7);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: Inter, "Inter Fallback";
+  color: rgb(87, 85, 81);
+  background-color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  line-height: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+  width: 25%;
+  min-width: fit-content;
+}
+
+.colab-link:hover,
+.try-product-link:hover,
+.github-source-link:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(230, 228, 224, 1);
+}
+
+.dark .colab-link,
+.dark .try-product-link,
+.dark .github-source-link {
+  color: rgb(214, 211, 209);
+  background-color: rgba(39, 39, 42, 0.5);
+  border: 1px solid rgba(63, 63, 70, 0.7);
+}
+
+.dark .colab-link:hover,
+.dark .try-product-link:hover,
+.dark .github-source-link:hover {
+  background-color: rgba(39, 39, 42, 0.8);
+  border-color: rgba(63, 63, 70, 1);
+}

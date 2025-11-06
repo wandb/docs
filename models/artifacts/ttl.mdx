@@ -2,9 +2,9 @@
 description: Time to live policies (TTL)
 title: Manage artifact data retention
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
-
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" icon="python"/>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" />
 
 Schedule when artifacts are deleted from W&B with a W&B Artifact time-to-live (TTL) policy. When you delete an artifact, W&B marks that artifact as a *soft-delete*. In other words, the artifact is marked for deletion but files are not immediately deleted from storage. For more information on how W&B deletes artifacts, see the [Delete artifacts](./delete-artifacts) page.
 
@@ -32,9 +32,9 @@ You can check an Artifact's type on the [W&B platform](/models/artifacts/explore
 ```python
 import wandb
 
-run = wandb.init(project="<my-project-name>")
-artifact = run.use_artifact(artifact_or_name="<my-artifact-name>")
-print(artifact.type)
+with wandb.init(project="<my-project-name>") as run:
+    artifact = run.use_artifact(artifact_or_name="<my-artifact-name>")
+    print(artifact.type)
 ```
 
 Replace the values enclosed with `<>` with your own.
@@ -82,12 +82,12 @@ The following code snippet demonstrates how to create an artifact and set a TTL 
 import wandb
 from datetime import timedelta
 
-run = wandb.init(project="<my-project-name>", entity="<my-entity>")
-artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
-artifact.add_file("<my_file>")
+with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
+    artifact = wandb.Artifact(name="<artifact-name>", type="<type>")
+    artifact.add_file("<my_file>")
 
-artifact.ttl = timedelta(days=30)  # Set TTL policy
-run.log_artifact(artifact)
+    artifact.ttl = timedelta(days=30)  # Set TTL policy
+    run.log_artifact(artifact)
 ```
 
 The preceding code snippet sets the TTL policy for the artifact to 30 days. In other words, W&B deletes the artifact after 30 days.
