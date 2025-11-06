@@ -6,9 +6,9 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
 
-W&B Registry is a curated central repository of [W&B Artifact](/models/artifacts/) versions within your organization. Users who [have permission](/models/registry/configure_registry/) within your organization can [download and use artifacts](/models/registry/download_use_artifact/), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
+W&B Registry is a curated central repository of [W&B Artifact versions](/models/artifacts/create-a-new-artifact-version) within your organization. Users who [have permission](/models/registry/configure_registry/) within your organization can [download and use artifacts](/models/registry/download_use_artifact/), share, and collaboratively manage the lifecycle of all artifacts, regardless of the team that user belongs to.
 
-You can use the Registry to [track artifact versions](/models/registry/link_version/), audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD](/models/automations/).
+Use the Registry to track artifact versions, audit the history of an artifact's usage and changes, ensure governance and compliance of your artifacts, and [automate downstream processes such as model CI/CD](/models/automations/).
 
 In summary, use W&B Registry to:
 
@@ -26,13 +26,10 @@ The following image shows the W&B Registry landing page. A registry called `Mode
     <img src="/images/registry/registry_landing_page.png" alt="W&B Registry"  />
 </Frame>
 
-
-
-
 ## Learn the basics
-Each organization initially contains two registries that you can use to organize your model and dataset artifacts called **Models** and **Datasets**, respectively. You can create [additional registries to organize other artifact types based on your organization's needs](/models/registry/registry_types/). 
+Each organization initially contains two registries that you can use to organize your model and dataset artifacts called **Models** and **Datasets**, respectively. You can create [additional registries to organize other artifact types based on your organization's needs](/models/registry/create_registry). 
 
-Each [registry](/models/registry/configure_registry/) consists of one or more [collections](/models/registry/create_collection/). Each collection represents a distinct task or use case.
+Each [*registry*](/models/registry/configure_registry/) consists of one or more [*collections*](/models/registry/create_collection/). Each collection represents a distinct task or use case.
 
 {/* <Frame>
     <img src="/images/registry/homepage_registry.png" alt="W&B Registry"  />
@@ -46,7 +43,7 @@ Once you log an artifact to W&B, you can then link that specific artifact versio
 The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
 </Note>
 
-As an example, the following code example shows how to log and link a model artifact called "my_model.txt" to a collection named "first-collection" within a registry [called "model"](/models/registry/registry_types/):
+As an example, the following code example logs and links a model artifact called `"my_model.txt"` to a collection named `"first-collection"` within a registry called `"model"`:
 
 1. Initialize a W&B Run with `wandb.init()`.
 2. Log the artifact to W&B with `wandb.Run.log()`.
@@ -84,18 +81,14 @@ with wandb.init(project="registry_quickstart") as run:
     )
 ```
 
-W&B automatically creates a collection for you if the collection you specify in the returned run object's `link_artifact(target_path = "")` method does not exist within the registry you specify.
+W&B automatically creates a collection for you if the collection you specify in the returned run object's `wandb.Run.link_artifact(target_path = "")` method does not exist within the registry you specify.
+
+Continuing from the previous example, after you run the script, navigate to W&B Registry to view artifact versions that you and other members of your organization publish. Select **Registry** in the left sidebar below **Applications**. Select the `"Model"` registry. Within the registry, you should see the `"first-collection"` collection with your linked artifact version.
+
+Once you link an artifact version to a collection within a registry, members of your organization can [view](/models/registry/lineage), [download](/models/registry/search_registry), [organize](/models/registry/organize-with-tags), and manage your artifact versions, create downstream automations, and more if they have the proper permissions.
 
 <Note>
-The URL that your terminal prints directs you to the project where W&B stores your artifact.
-</Note>
-
-Navigate to W&B Registry to view artifact versions that you and other members of your organization publish. To do so, first navigate to W&B. Select **Registry** in the left sidebar below **Applications**. Select the "Model" registry. Within the registry, you should see the "first-collection" collection with your linked artifact version.
-
-Once you link an artifact version to a collection within a registry, members of your organization can view, download, and manage your artifact versions, create downstream automations, and more if they have the proper permissions.
-
-<Note>
-If an artifact version logs metrics (such as by using `run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the collection's page. Refer to [View linked artifacts in a registry](/models/registry/link_version/#view-linked-artifacts-in-a-registry).
+If an artifact version logs metrics (such as by using `wandb.Run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the collection's page. Refer to [View linked artifacts in a registry](/models/registry/link_version/#view-linked-artifacts-in-a-registry).
 </Note>
 
 ## Enable W&B Registry
