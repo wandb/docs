@@ -37,10 +37,10 @@ class ChatModel(weave.Model):
     
     def model_post_init(self, __context):
         # Download model from W&B Models Registry
-        run = wandb.init(project="your-project", job_type="model_download")
-        artifact = run.use_artifact(self.model_name)
-        self.model_path = artifact.download()
-        # Initialize your model here
+        with wandb.init(project="your-project", job_type="model_download") as run:
+            artifact = run.use_artifact(self.model_name)
+            self.model_path = artifact.download()
+            # Initialize your model here
     
     @weave.op()
     async def predict(self, query: str) -> str:
