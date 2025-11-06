@@ -1,18 +1,21 @@
 ---
-description: Create a lineage map in the W&B Registry.
-title: Create and view lineage maps
+description: Use lineage graphs to visualize a linked artifact's history and audit a collection's history.
+title: Lineage graphs and audit history
 ---
+
+Use a lineage graph to visualize a linked artifact's history. Audit a collection's history to track changes made to artifacts in that collection.
+
+## Lineage graphs
 
 Within a collection in the W&B Registry, you can view a history of the artifacts that an ML experiment uses. This history is called a _lineage graph_.
 
-<Info>
-You can also view lineage graphs for artifacts you log to W&B that are not part of a collection.
-</Info>
+A lineage graph shows:
+* Artifacts used as [inputs to a run](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run).
+* Artifacts created as [outputs from a run](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run).
 
-Lineage graphs can show the specific run that logs an artifact. In addition, lineage graphs can also show which run used an artifact as an input. In other words, lineage graphs can show the input and output of a run. 
+In other words, a lineage graph shows the input and output of a run.
 
-
-For example, the proceeding image shows artifacts created and used throughout an ML experiment:
+For example, the following image shows a typical lineage graph for artifacts created and used throughout an ML experiment:
 
 <Frame>
     <img src="/images/registry/registry_lineage.png" alt="Registry lineage"  />
@@ -25,64 +28,57 @@ From left to right, the image shows:
 4. A run called "northern-lake-21" uses the model artifact `zoo-ylbchv20:v0` to evaluate the model.
 
 
-## Track the input of a run
-
-Mark an artifact as an input or dependency of a run with the `wandb.init.use_artifact` API.
-
-The proceeding code snippet shows how to use the `use_artifact`. Replace values enclosed in angle brackets (`< >`) with your values:
-
-```python
-import wandb
-
-# Initialize a run
-run = wandb.init(project="<project>", entity="<entity>")
-
-# Get artifact, mark it as a dependency
-artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
-```
-
-
-## Track the output of a run
-
-Use ([`wandb.init.log_artifact`](/models/ref/python/experiments/run#log_artifact)) to declare an artifact as an output of a run.
-
-The proceeding code snippet shows how to use the `wandb.init.log_artifact` API. Ensure to replace values enclosed in angle brackets (`< >`) with your values:
-
-```python
-import wandb
-
-# Initialize a run
-run = wandb.init(entity  "<entity>", project = "<project>",)
-artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
-artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
-
-# Log the artifact as an output of the run
-run.log_artifact(artifact_or_path = artifact)
-```
-
-For more information on about creating artifacts, see [Create an artifact](/models/artifacts/construct-an-artifact/).
-
-
-## View lineage graphs in a collection
-
-View the lineage of an artifact linked to a collection in the W&B Registry.
+To view a lineage graph for an artifact in a collection:
 
 1. Navigate to the W&B Registry.
 2. Select the collection that contains the artifact.
-3. From the dropdown, click the artifact version you want to view its lineage graph.
-4. Select the "Lineage" tab.
+3. From the dropdown, select the artifact version you want to view its lineage graph.
+4. Select the **Lineage** tab.
+5. Select a node to view detailed information about the run or artifact.
 
 
-Once you are in an artifact's lineage graph page, you can view additional information about any node in that lineage graph. 
- 
-Select a run node to view that run's details, such as the run's ID, the run's name, the run's state, and more. As an example, the proceeding image shows information about the `rural-feather-20` run:
+<Info>
+See [Enable lineage graph tracking](/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) to learn how to track the input and output of a run using the W&B Python SDK.
+</Info>
+
+The following image shows the expanded detailed view of a run (`rural-feather-20`) when you select a node in the lineage graph:
 
 <Frame>
     <img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node"  />
 </Frame>
 
-Select an artifact node to view that artifact's details, such as its full name, type, creation time, and associated aliases.
+
+The following image shows the expanded detailed view of an artifact (`zoo-ylbchv20:v0`) when you select an artifact node in the lineage graph:
 
 <Frame>
     <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details"  />
 </Frame>
+
+
+<Info>
+You can also view lineage graphs for artifacts you log to W&B that are not part of a collection. See E[xplore artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph) for more information.
+</Info>
+ 
+
+## Audit a collection's history
+
+View actions that members of your organization take on that collection. You can view:
+
+- If an alias was added or removed from an artifact version.
+- If an artifact version was added or removed from a collection.
+
+For both actions, you can view the user that performed the action and the date the action occurred.
+
+To view a collection's action history:
+
+1. Navigate to the W&B Registry.
+2. Select the collection you want to view its action history.
+3. Select the dropdown menu next to the collection name.
+4. Select the **Action History** option.
+
+{/* Select a run node to view that run's details, such as the run's ID, the run's name, the run's state, and more. As an example, the proceeding image shows information about the `rural-feather-20` run:
+
+
+
+Select an artifact node to view that artifact's details, such as its full name, type, creation time, and associated aliases. */}
+
