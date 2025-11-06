@@ -81,9 +81,6 @@ W&B Artifacts support any Amazon S3 compatible interface, including CoreWeave St
 By default, W&B imposes a 10,000 object limit when adding an object prefix. You can adjust this limit by specifying `max_objects=` when you call `wandb.Artifact.add_reference()`.
 </Warning>
 
-
-
-
 ## Download an artifact from an external bucket
 
 W&B  retrieves the files from the underlying bucket when it downloads a reference artifact using the metadata recorded when the artifact is logged. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time an artifact was logged. As you evolve the contents of your bucket, you can always point to the exact version of your data a given model was trained on,  because the artifact serves as a snapshot of your bucket during the training run.
