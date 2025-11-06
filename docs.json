@@ -62,7 +62,7 @@
               "index",
               "get-started",
               {
-                "group": "Deployment Options",
+                "group": "Deployment options",
                 "pages": [
                   "platform/hosting",
                   "platform/hosting/hosting-options/multi_tenant_cloud",
