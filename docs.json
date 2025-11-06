@@ -739,7 +739,7 @@
             "tab": "W&B Weave",
             "icon": "/icons/cropped-weave.svg",
             "pages": [
-              "weave/index",
+              "weave",
               "weave/quickstart",
               "weave/quickstart-inference",
               {
@@ -752,7 +752,7 @@
                       {
                         "group": "Tracing & Debugging",
                         "pages": [
-                          "weave/guides/tracking/index",
+                          "weave/guides/tracking",
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/costs",
                           "weave/guides/core-types/media",
@@ -821,7 +821,7 @@
                   {
                     "group": "Integrations",
                     "pages": [
-                      "weave/guides/integrations/index",
+                      "weave/guides/integrations",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -873,7 +873,7 @@
                   {
                     "group": "Enterprise",
                     "pages": [
-                      "weave/guides/platform/index",
+                      "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
@@ -891,7 +891,7 @@
               {
                 "group": "Cookbooks",
                 "pages": [
-                  "weave/cookbooks/index",
+                  "weave/cookbooks",
                   {
                     "group": "Getting Started",
                     "pages": [
