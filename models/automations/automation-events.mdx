@@ -27,11 +27,10 @@ Regular expressions are supported for aliases and tags.
 
 ## Run status change
 <Note>
-- Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
-- A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
+Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
 </Note>
 
-In a project, an automation can start when a run changes its [status](/models/runs/#run-states) to **Running**, **Finished**, or **Failed**. An automation cannot start when a run's status is **Killed**.
+In a project, an automation can start when a run changes its [status](/models/runs/#run-states) to **Running**, **Finished**, or **Failed**. An automation cannot start when a run's status is **Killed**. This status indicates that the run was stopped forcibly by an admin user.
 
 Optionally, you can further limit the runs that can trigger an automation by specifying a [user or run name filter](#run-filters).
 

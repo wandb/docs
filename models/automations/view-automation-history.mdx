@@ -22,7 +22,7 @@ Each executed automation generates a record that includes:
 
 ## View automation history
 
-You can view automation history from multiple locations in the W&B interface:
+You can view automation history from multiple locations in the W&B App:
 
 ### From the Automations tab
 
@@ -34,13 +34,12 @@ You can view automation history from multiple locations in the W&B interface:
 1. In the **Automations history** tab, view all executions of the registry's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
 </Tab>
 <Tab title="Project">
-1. Navigate to your project from the W&B home page or by using the project selector.
-1. Click the **Automations** tab in the project navigation bar (located alongside Overview, Workspace, Runs, etc.). The project's automations display.
+1. Click the **Automations** tab in the left navigation. The project's automations display.
 
     - Find the automation you want to investigate. You can use the search bar to filter by automation name, and you can sort by the last triggered date to find recently executed automations.
 
-    - Click an automation name to open its details page.
-1. In the **History** tab, view all executions of the project's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
+    - Click an automation's name to view or edit its configuration.
+1. In the **History** tab, view all executions of the project's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status. Click an execution timestamp to view details about a particular execution.
 </Tab>
 </Tabs>
 
@@ -48,8 +47,8 @@ You can view automation history from multiple locations in the W&B interface:
 
 1. Navigate to your project or registry.
 1. Click the **Automations** tab.
-1. Click on an automation name to open its details page.
-1. The **Execution history** section shows all executions for this specific automation.
+1. Click an automation name to view or edit its configuration.
+1. The **Execution history** section shows all executions for this specific automation. lick an execution timestamp to view details about a particular execution.
 
 ### From a specific entity
 
@@ -101,19 +100,6 @@ Click on any execution in the history to view:
 
 To find an automation execution, you can search by automation name, or you can sort the list of executions by any column.
 
-## Troubleshooting failed executions
-
-When an automation fails, the execution history provides debugging information:
-
-
-### Debugging steps
-
-1. Click on the failed execution to view details.
-1. Review the error message and stack trace.
-1. Check the event and action configuration.
-1. Verify that any required secrets are properly configured.
-1. For webhooks, confirm the endpoint is accessible and accepting requests.
-1. For Slack notifications, verify the channel exists and the bot has permission to post.
 
 
 
