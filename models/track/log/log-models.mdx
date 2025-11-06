@@ -33,16 +33,16 @@ Ensure to replace values enclosed in `<>` with your own.
 import wandb
 
 # Initialize a W&B run
-run = wandb.init(project="<your-project>", entity="<your-entity>")
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-# Log the model
-run.log_model(path="<path-to-model>", name="<name>")
+    # Log the model
+    run.log_model(path="<path-to-model>", name="<name>")
 ```
 
 Optionally provide a name for the model artifact for the `name` parameter. If `name` is not specified, W&B will use the basename of the input path prepended with the run ID as the name. 
 
 <Note>
-Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`use_model`](/models/ref/python/experiments/run#use_model) method.
+Keep track of the `name` that you, or W&B assigns, to the model. You will need the name of the model to retrieve the model path with the [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) method.
 </Note>
 
 See [`log_model`](/models/ref/python/experiments/run#log_model) in the API Reference for parameters.
@@ -60,41 +60,40 @@ from tensorflow.keras import layers
 config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
 # Initialize a W&B run
-run = wandb.init(entity="charlie", project="mnist-experiments", config=config)
+with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
 
-# Hyperparameters
-loss = run.config["loss"]
-optimizer = run.config["optimizer"]
-metrics = ["accuracy"]
-num_classes = 10
-input_shape = (28, 28, 1)
+    # Hyperparameters
+    loss = run.config["loss"]
+    optimizer = run.config["optimizer"]
+    metrics = ["accuracy"]
+    num_classes = 10
+    input_shape = (28, 28, 1)
 
-# Training algorithm
-model = keras.Sequential(
-    [
-        layers.Input(shape=input_shape),
-        layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Flatten(),
-        layers.Dropout(0.5),
-        layers.Dense(num_classes, activation="softmax"),
-    ]
-)
+    # Training algorithm
+    model = keras.Sequential(
+        [
+            layers.Input(shape=input_shape),
+            layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+            layers.MaxPooling2D(pool_size=(2, 2)),
+            layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+            layers.MaxPooling2D(pool_size=(2, 2)),
+            layers.Flatten(),
+            layers.Dropout(0.5),
+            layers.Dense(num_classes, activation="softmax"),
+        ]
+    )
 
-# Configure the model for training
-model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+    # Configure the model for training
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-# Save model
-model_filename = "model.h5"
-local_filepath = "./"
-full_path = os.path.join(local_filepath, model_filename)
-model.save(filepath=full_path)
+    # Save model
+    model_filename = "model.h5"
+    local_filepath = "./"
+    full_path = os.path.join(local_filepath, model_filename)
+    model.save(filepath=full_path)
 
-# Log the model to the W&B run
-run.log_model(path=full_path, name="MNIST")
-run.finish()
+    # Log the model to the W&B run
+    run.log_model(path=full_path, name="MNIST")
 ```
 
 When the user called `log_model`, a model artifact named `MNIST` was created and the file `model.h5` was added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
@@ -121,10 +120,10 @@ Ensure to replace other the values enclosed in `<>` with your own:
 import wandb
 
 # Initialize a run
-run = wandb.init(project="<your-project>", entity="<your-entity>")
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-# Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name="<your-model-name>")
+    # Access and download model. Returns path to downloaded artifact
+    downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
 The [use_model](/models/ref/python/experiments/run#use_model) function returns the path of downloaded model files. Keep track of this path if you want to link this model later. In the preceding code snippet, the returned path is stored in a variable called `downloaded_model_path`.
@@ -133,7 +132,7 @@ The [use_model](/models/ref/python/experiments/run#use_model) function returns t
 
 <summary>Example: Download and use a logged model</summary>
 
-For example, in the proceeding code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
+For example, in the following code snippet a user called the `use_model` API. They specified the name of the model artifact they want to fetch and they also provided a version/alias. They then stored the path that is returned from the API to the `downloaded_model_path` variable.
 
 ```python
 import wandb
@@ -144,9 +143,9 @@ alias = "latest"  # semantic nickname or identifier for the model version
 model_artifact_name = "fine-tuned-model"
 
 # Initialize a run
-run = wandb.init(project=project, entity=entity)
-# Access and download model. Returns path to downloaded artifact
-downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+with wandb.init(project=project, entity=entity) as run:
+    # Access and download model. Returns path to downloaded artifact
+    downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
 ```
 </details>
 
@@ -168,17 +167,17 @@ Use the [Registry](/models/registry/) to organize your best models by task, mana
 
 A *Registered Model* is a collection or folder of linked model versions in the [Model Registry](/models/registry/model_registry/). Registered models typically represent candidate models for a single modeling use case or task. 
 
-The proceeding code snippet shows how to link a model with the [`link_model`](/models/ref/python/experiments/run#link_model) API. Ensure to replace other the values enclosed in `<>` with your own:
+The following code snippet shows how to link a model with the [`link_model`](/models/ref/python/experiments/run#link_model) API. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
 
-run = wandb.init(entity="<your-entity>", project="<your-project>")
-run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
-run.finish()
+with wandb.init(entity="<your-entity>", project="<your-project>") as run:
+    # Link the model to the W&B Model Registry
+    run.link_model(path="<path-to-model>", registered_model_name="<registered-model-name>")
 ```
 
-See [`link_model`](/models/ref/python/experiments/run#link_model) in the API Reference guide for optional parameters.
+See [`wandb.Run.link_model()`](/models/ref/python/experiments/run#link_model) in the API Reference guide for optional parameters.
 
 If the `registered-model-name` matches the name of a registered model that already exists within the Model Registry, the model will be linked to that registered model. If no such registered model exists, a new one will be created and the model will be the first one linked. 
 
@@ -189,9 +188,9 @@ For example, suppose you have an existing registered model named "Fine-Tuned-Rev
 
 <summary>Example: Log and link a model to the W&B Model Registry</summary>
 
-For example, the proceeding code snippet logs model files and links the model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
+For example, the following code snippet logs model files and links the model to a registered model name `"Fine-Tuned-Review-Autocompletion"`. 
 
-To do this, a user calls the `link_model` API. When they call the API, they provide a local filepath that points the content of the model (`path`) and they provide a name for the registered model to link it to (`registered_model_name`). 
+To do this, a user calls the `wandb.Run.link_model()`. When they call the `wandb.Run.link_model()`, W&B provides a local filepath that points the content of the model (`path`) and W&B provides a name for the registered model to link it to (`registered_model_name`). 
 
 ```python
 import wandb
@@ -199,9 +198,8 @@ import wandb
 path = "/local/dir/model.pt"
 registered_model_name = "Fine-Tuned-Review-Autocompletion"
 
-run = wandb.init(project="llm-evaluation", entity="noa")
-run.link_model(path=path, registered_model_name=registered_model_name)
-run.finish()
+with wandb.init(project="llm-evaluation", entity="<your-entity>") as run:
+    run.link_model(path=path, registered_model_name=registered_model_name)
 ```
 
 <Note>

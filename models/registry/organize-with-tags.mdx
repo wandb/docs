@@ -61,7 +61,7 @@ collection.save()
 
 Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
 
-For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section](#add-a-tag-to-a-collection): 
+For example, the following code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to a collection section](#add-a-tag-to-a-collection): 
 
 ```python
 collection.tags = [*collection.tags, "new-tag", "other-tag"]
@@ -143,7 +143,7 @@ Like other artifacts, you can fetch an artifact from W&B without creating a run 
 Copy and paste an appropriate code cells below to add or modify an artifact version's tag. Replace the values in `<>` with your own.
 
 
-The proceeding code snippet shows how to fetch an artifact and add a tag without creating a new run:
+The following code snippet shows how to fetch an artifact and add a tag without creating a new run:
 ```python title="Add a tag to an artifact version without creating a new run"
 import wandb
 
@@ -161,7 +161,7 @@ artifact.save()
 ```
 
 
-The proceeding code snippet shows how to fetch an artifact and add a tag by creating a new run:
+The following code snippet shows how to fetch an artifact and add a tag by creating a new run:
 
 ```python title="Add a tag to an artifact version during a run"
 import wandb
@@ -171,13 +171,13 @@ REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
-run = wandb.init(entity = "<entity>", project="<project>")
+with wandb.init(entity = "<entity>", project="<project>") as run:
 
-artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+    artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
-artifact = run.use_artifact(artifact_or_name = artifact_name)
-artifact.tags = ["tag2"] # Provide one or more tags in a list
-artifact.save()
+    artifact = run.use_artifact(artifact_or_name = artifact_name)
+    artifact.tags = ["tag2"] # Provide one or more tags in a list
+    artifact.save()
 ```
 </Tab>
 </Tabs>
@@ -189,7 +189,7 @@ artifact.save()
 
 Update a tag programmatically by reassigning or by mutating the `tags` attribute. W&B recommends, and it is good Python practice, that you reassign the `tags` attribute instead of in-place mutation.
 
-For example, the proceeding code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to an artifact version section](#add-a-tag-to-an-artifact-version): 
+For example, the following code snippet shows common ways to update a list with reassignment. For brevity, we continue the code example from the [Add a tag to an artifact version section](#add-a-tag-to-an-artifact-version): 
 
 ```python
 artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
@@ -237,7 +237,7 @@ Like other artifacts, you can fetch an artifact from W&B without creating a run 
 
 Copy and paste an appropriate code cells below to add or modify an artifact version's tag. Replace the values in `<>` with your own.
 
-The proceeding code snippet shows how to fetch and view an artifact version's tags without creating a new run:
+The following code snippet shows how to fetch and view an artifact version's tags without creating a new run:
 
 ```python title="Add a tag to an artifact version without creating a new run"
 import wandb
@@ -255,7 +255,7 @@ print(artifact.tags)
 ```
 
 
-The proceeding code snippet shows how to fetch and view artifact version's tags by creating a new run:
+The following code snippet shows how to fetch and view artifact version's tags by creating a new run:
 
 ```python title="Add a tag to an artifact version during a run"
 import wandb
@@ -265,12 +265,12 @@ REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
-run = wandb.init(entity = "<entity>", project="<project>")
+with wandb.init(entity = "<entity>", project="<project>") as run:
 
-artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+    artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
-artifact = run.use_artifact(artifact_or_name = artifact_name)
-print(artifact.tags)
+    artifact = run.use_artifact(artifact_or_name = artifact_name)
+    print(artifact.tags)
 ```
 </Tab>
 </Tabs>

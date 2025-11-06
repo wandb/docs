@@ -44,7 +44,7 @@ Once you log an artifact to W&B, you can then link that specific artifact versio
 The term "link" refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection.
 </Note>
 
-As an example, the proceeding code example shows how to log and link a model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry](/models/registry/registry_types/):
+As an example, the following code example shows how to log and link a model artifact called "my_model.txt" to a collection named "first-collection" in the [core registry](/models/registry/registry_types/):
 
 1. Initialize a W&B Run.
 2. Log the artifact to W&B.
@@ -58,29 +58,29 @@ import wandb
 import random
 
 # Initialize a W&B Run to track the artifact
-run = wandb.init(project="registry_quickstart") 
+with wandb.init(project="registry_quickstart") as run:
 
-# Create a simulated model file so that you can log it
-with open("my_model.txt", "w") as f:
-   f.write("Model: " + str(random.random()))
+    # Create a simulated model file so that you can log it
+    with open("my_model.txt", "w") as f:
+    f.write("Model: " + str(random.random()))
 
-# Log the artifact to W&B
-logged_artifact = run.log_artifact(
-    artifact_or_path="./my_model.txt", 
-    name="gemma-finetuned", 
-    type="model" # Specifies artifact type
-)
+    # Log the artifact to W&B
+    logged_artifact = run.log_artifact(
+        artifact_or_path="./my_model.txt", 
+        name="gemma-finetuned", 
+        type="model" # Specifies artifact type
+    )
 
-# Specify the name of the collection and registry
-# you want to publish the artifact to
-COLLECTION_NAME = "first-collection"
-REGISTRY_NAME = "model"
+    # Specify the name of the collection and registry
+    # you want to publish the artifact to
+    COLLECTION_NAME = "first-collection"
+    REGISTRY_NAME = "model"
 
-# Link the artifact to the registry
-run.link_artifact(
-    artifact=logged_artifact, 
-    target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
-)
+    # Link the artifact to the registry
+    run.link_artifact(
+        artifact=logged_artifact, 
+        target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+    )
 ```
 
 W&B automatically creates a collection for you if the collection you specify in the returned run object's `link_artifact(target_path = "")` method does not exist within the registry you specify.

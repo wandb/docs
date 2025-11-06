@@ -63,7 +63,7 @@ The URL W&B returns in the terminal to redirects you to the run's workspace in t
     <img src="/images/runs/single-run-call.png" alt="Single run workspace"  />
 </Frame>
 
-Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
+Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the following code snippet:
 
 ```python
 import wandb
@@ -120,7 +120,7 @@ As another example, during a [sweep](/models/sweeps/), W&B explores a hyperparam
 
 ## Initialize a W&B Run
 
-Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). The following code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
@@ -214,7 +214,8 @@ You can specify your own run ID by passing the `id` parameter to the [`wandb.ini
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
+with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
+    # Your code here
 ```
 
 You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:

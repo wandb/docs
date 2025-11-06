@@ -212,16 +212,14 @@ You can confirm the name of your team by:
 #### Log from a team entity
 1. Specify the team as the entity when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init). If you do not specify the `entity` when you initialize a run, the run uses your default entity which may or may not be your team entity.
 
-  ```python 
-  import wandb   
+    ```python 
+    import wandb   
 
-  run = wandb.init(
-    entity='<team_entity>', 
-    project='<project_name>'
-    )
-  ```
+    with wandb.init(entity='<team_entity>', project='<project_name>') as run:
+        # Log your artifact here
+    ```
 
-2. Log the artifact to the run either with run.log_artifact or by creating an Artifact object and then adding files to it with:
+2. Log the artifact to the run either with `wandb.Run.log_artifact()` or by creating an Artifact object and then adding files to it with:
 
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
