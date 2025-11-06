@@ -271,3 +271,26 @@ with wandb.init(group=group_name) as run:
     # to this version.
     run.finish_artifact(artifact)
 ```
+
+## Find path for logged artifacts and other metadata
+
+The following code snippet shows how to use the [W&B Public API](/models/ref/python/public-api/) to list the files in a run, including their names and URLs. Replace the `<entity/project/run-id>` placeholder with your own values:
+
+```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# Example run object
+run = Api().run("<entity/project/run-id>")
+
+# Create a Files object to iterate over files in the run
+files = Files(api.client, run)
+
+# Iterate over files
+for file in files:
+    print(f"File Name: {file.name}")
+    print(f"File URL: {file.url}")
+    print(f"Path to file in the bucket: {file.direct_url}")
+```
+
+See the [File](/models/ref/python/public-api/File) Class for more information on available attributes and methods.

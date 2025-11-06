@@ -114,9 +114,9 @@ From here, you can see details about every run you've done. In this screenshot, 
 </Frame>
 
 
-## Publish the model to the Model registry
+## Publish the model to the W&B Registry
 
-To share the model with others in your organization, publish it to a [collection](/models/registry/create_collection/) using `wandb.Run.link_artifact()`. The following code links the artifact to the [core Model registry](/models/registry/registry_types/#core-registry), making it accessible to your team.
+To share the model with others in your organization, publish it to a [collection](/models/registry/create_collection/) using `wandb.Run.link_artifact()`. The following code links the artifact to a [registry](/models/registry), making it accessible to your team.
 
 ```python
 # Artifact name specifies the specific artifact version within our team's project

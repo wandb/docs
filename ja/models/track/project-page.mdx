@@ -78,10 +78,6 @@ A *プロジェクト* は、結果の可視化、実験の比較、アーティ
 * **Delete section**: セクション全体とすべてのチャートを削除します。これは、ワークスペースバーのページ下部にあるアンドゥボタンで取り消すことができます。
 * **Add panel**: プラスボタンをクリックしてセクションにパネルを追加します。
 
-<Frame>
-    <img src="/images/app_ui/add-section.gif"  />
-</Frame>
-
 ### Move panels between sections
 
 ドラッグアンドドロップしてセクションに整理します。また、パネルの右上隅にある「Move」ボタンをクリックしてセクションを選択し、パネルを移動します。
@@ -160,10 +156,6 @@ Runs タブをカスタマイズすると、そのカスタマイズは[Workspac
 
 式エディタは、オートコンプリートを使用して、列名と論理述語構造などの用語ごとのオプションのリストを表示します。複数の論理述部を使用して「ands」または「or」で式を組み合わせることができます（場合によっては括弧を使用します）。
 
-<Frame>
-    <img src="/images/data_vis/filter_example.png"  />
-</Frame>
-上の画像は、`val_loss` 列に基づいたフィルターを示しています。このフィルターは、1以下の検証損失を持つ run を表示します。
 </Tab>
 <Tab title="Group">
 特定の列の値で **Group by** ボタンを使い、すべての行をグループ化します。
@@ -196,13 +188,7 @@ Runs タブをカスタマイズすると、そのカスタマイズは[Workspac
 
 プロジェクトに関連付けられたすべての[Artifacts](/ja/models/track/project-page/#artifacts-tab)をトレーニングデータセットや [ファインチューンされたモデル](/ja/models/core/registry/)から[メトリクスやメディアのテーブル](/ja/models/tables/tables-walkthrough/)まで表示します。
 
-### Overview パネル
 
-<Frame>
-    <img src="/images/app_ui/overview_panel.png"  />
-</Frame>
-
-概要パネルでは、アーティファクトの名前やバージョン、変更を検出し重複を防止するために使用されるハッシュダイジェスト、作成日、およびエイリアスなど、アーティファクトに関するさまざまな高レベル情報を見つけることができます。ここでエイリアスを追加または削除し、バージョンおよびアーティファクト全体に対してメモを取ることができます。
 
 ### Metadata パネル
 
@@ -228,12 +214,7 @@ Usage パネルは、ウェブアプリの外部で、例えばローカルマ�
 
 ファイルパネルは、アーティファクトに関連付けられたファイルとフォルダを一覧表示します。W&B は特定のファイルを run 用に自動的にアップロードします。例えば、`requirements.txt` は run が使用した各ライブラリのバージョンを示し、`wandb-metadata.json` および `wandb-summary.json` は run に関する情報を含みます。他のファイルもアーティファクトやメディアなど、run の設定に応じてアップロードされる場合があります。このファイルツリーをナビゲートし、W&B ウェブアプリで直接内容を確認することができます。
 
-Artifacts に関連付けられた[テーブル](/ja/models/tables/tables-walkthrough/)は、このコンテキストでは特にリッチでインタラクティブです。Artifacts で Tables を使用する方法についての詳細は[こちら](/ja/models/tables/visualize-tables/)から学べます。
-
-<Frame>
-    <img src="/images/app_ui/files_panel_table.png"  />
-</Frame>
-
+Artifacts に関連付けられた[テーブル](/ja/models/tables/tables-walkthrough/)は、このコンテキストでは特にリッチでインタラクティブです。
 ### Lineage パネル
 
 <Frame>
@@ -244,17 +225,6 @@ Artifacts に関連付けられた[テーブル](/ja/models/tables/tables-walkth
 
 個々のアーティファクトバージョンとそれらを接続する特定の run を表示するには、爆発切り替えをクリックしてください。
 
-### Action History Audit タブ
-
-<Frame>
-    <img src="/images/app_ui/action_history_audit_tab_1.png"  />
-</Frame>
-
-<Frame>
-    <img src="/images/app_ui/action_history_audit_tab_2.png"  />
-</Frame>
-
-アクションヒストリー監査タブは、コレクションのすべてのエイリアスアクションとメンバーシップの変更を示しており、リソースの進化全体を監査できます。
 
 ### Versions タブ
 
@@ -303,15 +273,7 @@ Artifacts に関連付けられた[テーブル](/ja/models/tables/tables-walkth
 
 プロジェクトを削除するには、オーバービュータブの右の三点リーダーをクリックします。
 
-<Frame>
-    <img src="/images/app_ui/howto_delete_project.gif"  />
-</Frame>
 
-プロジェクトが空の場合は、右上のドロップダウンメニューをクリックして **Delete project** を選択し、削除できます。
-
-<Frame>
-    <img src="/images/app_ui/howto_delete_project_2.png"  />
-</Frame>
 
 ## プロジェクトにメモを追加する
 
