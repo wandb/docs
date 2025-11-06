@@ -1,0 +1,34 @@
+name: Lychee production link checker
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 0 1 * *" # In UTC, currently 12:05 AM on the 1st of each month
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write # required for peter-evans/create-issue-from-file
+    steps:
+      # check URLs with Lychee
+      - uses: actions/checkout@v4
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: "--threads 5 --max-retries 5 --retry-wait-time 2 -f markdown --output=./lychee-report.md --base-url='http://docs.wandb.ai' 'http://docs.wandb.ai'"
+          fail: false
+        env:
+          # to be used in case rate limits are surpassed
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Create Issue From File
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Fix broken linksin docs.wandb.ai
+          content-filepath: ./lychee-report.md
+          labels: report, automated issue
