@@ -1,8 +1,3 @@
-# URLs that don't start with http or do start with /
-# because they are checked by mint broken-links
-^(?!https?://)
-^/
-
 # W&B production URLs
 ^https://(api|app|deploy|docs|www)\.wandb\.(ai|com)
 ^https://wandb\.(ai|com)
