@@ -762,8 +762,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x107126830>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x117d3c160>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x1048856c0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x105292c20>
 ) → Artifact | None
 ```
 
@@ -1056,7 +1056,7 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 **Args:**
  
- - `artifact_or_name`:  The name of the artifact to use. May be prefixed  with the name of the project the artifact was logged to  (`<entity>` or `<entity>/<project>`). If no entity is specified in the name, the Run or API setting's entity is used.  Valid names can be in the following forms 
+ - `artifact_or_name`:  The name of the artifact to use. May be prefixed  with the name of the project the artifact was logged to  ("<entity>" or "<entity>/<project>"). If no  entity is specified in the name, the Run or API setting's entity is used.  Valid names can be in the following forms 
     - name:version 
     - name:alias 
  - `type`:  The type of artifact to use. 
