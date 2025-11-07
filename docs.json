@@ -767,7 +767,6 @@
                   {
                     "group": "Traces and Logs",
                     "pages": [
-                      "weave/tutorial-tracing_2",
                       "weave/guides/tracking",
                       "weave/guides/tracking/tracing",
                       "weave/guides/tracking/costs",
@@ -886,7 +885,8 @@
                     "pages": [
                       "weave/cookbooks/Intro_to_Weave_Hello_Trace",
                       "weave/cookbooks/Intro_to_Weave_Hello_Eval",
-                      "weave/tutorial-weave_models"
+                      "weave/tutorial-weave_models",
+                      "weave/tutorial-tracing_2"
                     ]
                   },
                   {
