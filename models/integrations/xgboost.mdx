@@ -2,7 +2,9 @@
 description: Track your trees with W&B.
 title: XGBoost
 ---
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" icon="python"/>
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
 
 The `wandb` library has a `WandbCallback` callback for logging metrics, configs and saved boosters from training with XGBoost. Here you can see a [live W&B Dashboard](https://wandb.ai/morg/credit_scorecard) with outputs from the XGBoost `WandbCallback`.
 
@@ -58,7 +60,7 @@ For additional examples, check out the [repository of examples on GitHub](https:
 
 Attaining the maximum performance out of models requires tuning hyperparameters, like tree depth and learning rate. W&B [Sweeps](/models/sweeps/) is a powerful toolkit for configuring, orchestrating, and analyzing large hyperparameter testing experiments.
 
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" icon="python"/>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 
 You can also try this [XGBoost & Sweeps Python script](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py).
 
