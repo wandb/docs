@@ -18,7 +18,9 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          args: "--threads 5 --max-retries 5 --retry-wait-time 2 -f markdown --output=./lychee-report.md --include '^https?://' --include '^http?://' --base-url='http://docs.wandb.ai' 'http://docs.wandb.ai'"
+          args: "--threads 5 --max-retries 5 --retry-wait-time 2 --include '^https?://' --include '^http?://' --base-url='http://docs.wandb.ai' 'http://docs.wandb.ai'"
+          output: ./lychee-report.md
+          format: markdown
           fail: false
         env:
           # to be used in case rate limits are surpassed
@@ -28,6 +30,6 @@ jobs:
         if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@v5
         with:
-          title: Fix broken linksin docs.wandb.ai
+          title: Fix broken links in docs.wandb.ai
           content-filepath: ./lychee-report.md
           labels: report, automated issue

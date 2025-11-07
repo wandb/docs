@@ -15,8 +15,8 @@ jobs:
     if: |
       github.event.deployment_status.state == 'success' && 
       github.event.deployment.environment == 'staging' &&
-      contains(github.event.deployment_status.creator.login, 'mintlify' &&
-      contains(github.event.deployment_status.environment_url, 'mintlify'))
+      contains(github.event.deployment_status.creator.login, 'mintlify') &&
+      contains(github.event.deployment_status.environment_url, 'mintlify')
     steps:
       # check URLs with Lychee
       - uses: actions/checkout@v4
@@ -25,7 +25,8 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          args: "--threads 5 --max-retries 5 --retry-wait-time 2 -f markdown --include '^https?://' --include '^http?://' --base-url='$PREVIEW_URL' '$PREVIEW_URL'"
+          args: "--threads 5 --max-retries 5 --retry-wait-time 2 --include '^https?://' --include '^http?://' --base-url='$PREVIEW_URL' '$PREVIEW_URL'"
+          format: markdown
           fail: false
         env:
           # to be used in case rate limits are surpassed
