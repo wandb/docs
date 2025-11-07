@@ -25,7 +25,6 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           args: "--threads 5 --max-retries 5 --retry-wait-time 2 -f markdown --include '^https?://' --include '^http?://' --base-url='$PREVIEW_URL' '$PREVIEW_URL'"
           fail: false
         env:

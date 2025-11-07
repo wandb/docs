@@ -18,7 +18,6 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           args: "--threads 5 --max-retries 5 --retry-wait-time 2 -f markdown --output=./lychee-report.md --include '^https?://' --include '^http?://' --base-url='http://docs.wandb.ai' 'http://docs.wandb.ai'"
           fail: false
         env:
