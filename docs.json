@@ -1054,7 +1054,13 @@
             "pages": [
               "inference",
               "inference/prerequisites",
-              "inference/models",
+              {
+                "group": "Available Models",
+                "pages": [
+                  "inference/models",
+                  "inference/ui-guide"
+                ]
+              },
               {
                 "group": "Response Settings",
                 "pages": [
@@ -1076,8 +1082,7 @@
                   "inference/api-reference/errors"
                 ]
               },
-              "inference/examples",
-              "inference/ui-guide"
+              "inference/examples"
             ]
           },
           {
