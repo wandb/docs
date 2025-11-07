@@ -114,9 +114,9 @@ From here, you can see details about every run you've done. In this screenshot, 
 </Frame>
 
 
-## Publish the model to the Model registry
+## Publish the model to the W&B Registry
 
-To share the model with others in your organization, publish it to a [collection](/models/registry/create_collection/) using `wandb.Run.link_artifact()`. The following code links the artifact to the [core Model registry](/models/registry/registry_types/#core-registry), making it accessible to your team.
+To share the model with others in your organization, publish it to a [collection](/models/registry/create_collection/) using `wandb.Run.link_artifact()`. The following code links the artifact to a [registry](/models/registry), making it accessible to your team.
 
 ```python
 # Artifact name specifies the specific artifact version within our team's project
@@ -130,10 +130,9 @@ COLLECTION_NAME = "DemoModels"  # Name of the collection in the registry
 target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 print("Target path: ", target_path)
 
-run = wandb.init(entity=TEAM_ENTITY, project=PROJECT)
-model_artifact = run.use_artifact(artifact_or_name=artifact_name, type="model")
-run.link_artifact(artifact=model_artifact, target_path=target_path)
-run.finish()
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
+    model_artifact = run.use_artifact(artifact_or_name=artifact_name, type="model")
+    run.link_artifact(artifact=model_artifact, target_path=target_path)
 ```
 
 After running `wandb.Run.link_artifact()`, the model artifact will be in the `DemoModels` collection in your registry. From there, you can view details such as the version history, [lineage map](/models/registry/lineage/), and other [metadata](/models/registry/registry_cards/). 
@@ -152,9 +151,9 @@ VERSION = 0 # Version of the artifact to retrieve
 model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 print(f"Model artifact name: {model_artifact_name}")
 
-run = wandb.init(entity=TEAM_ENTITY, project=PROJECT)
-registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
-local_model_path = registry_model.download()
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
+    registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
+    local_model_path = registry_model.download()
 ```
 
 For more information on how to retrieve artifacts from a registry, see [Download an artifact from a registry](/models/registry/download_use_artifact/).

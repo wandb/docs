@@ -41,19 +41,17 @@ import wandb
 import random
 
 # Start a new W&B run
-run = wandb.init(project="models_quickstart")
+with wandb.init(project="models_quickstart") as run:
 
-# Simulate logging model metrics
-run.log({"acc": random.random()})
+  # Simulate logging model metrics
+  run.log({"acc": random.random()})
 
-# Create a simulated model file
-with open("my_model.h5", "w") as f:
-    f.write("Model: " + str(random.random()))
+  # Create a simulated model file
+  with open("my_model.h5", "w") as f:
+      f.write("Model: " + str(random.random()))
 
-# Log and link the model to the Model Registry
-run.link_model(path="./my_model.h5", registered_model_name="MNIST")
-
-run.finish()
+  # Log and link the model to the Model Registry
+  run.link_model(path="./my_model.h5", registered_model_name="MNIST")
 ```
 
 4. **Connect model transitions to CI/CD workflows**: transition candidate models through workflow stages and [automate downstream actions](/models/automations/) with webhooks.

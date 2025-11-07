@@ -2,9 +2,6 @@ name: Update Service API Documentation
 
 on:
   workflow_dispatch:
-  schedule:
-    # Run weekly on Mondays at 9 AM UTC
-    - cron: '0 9 * * 1'
   workflow_call:
 
 jobs:
@@ -37,7 +34,7 @@ jobs:
       id: sync-spec
       run: |
         echo "Syncing OpenAPI specification from remote service..."
-        OUTPUT=$(python scripts/reference-generation/sync_openapi_spec.py 2>&1)
+        OUTPUT=$(python scripts/reference-generation/weave/sync_openapi_spec.py 2>&1)
         echo "$OUTPUT"
         
         # Check if spec changed
@@ -53,12 +50,12 @@ jobs:
       if: steps.sync-spec.outputs.spec_changed == 'true'
       run: |
         echo "Updating Service API landing page with current endpoints..."
-        python scripts/reference-generation/update_service_api_landing.py
+        python scripts/reference-generation/weave/update_service_api_landing.py
         
     - name: Fix Service API Links
       run: |
         echo "Converting Service API links to fully qualified URLs..."
-        python scripts/reference-generation/fix_service_api_links.py
+        python scripts/reference-generation/weave/fix_service_api_links.py
         
     - name: Check for changes
       id: check-changes

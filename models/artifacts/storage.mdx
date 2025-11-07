@@ -27,7 +27,7 @@ Depending on the machine on `wandb` is initialized on, these default folders may
 
 W&B caches artifact files to speed up downloads across versions that share files in common. Over time this cache directory can become large. Run the [`wandb artifact cache cleanup`](/models/ref/cli/wandb-artifact/wandb-artifact-cache/) command to prune the cache and to remove any files that have not been used recently.
 
-The proceeding code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
+The following code snippet demonstrates how to limit the size of the cache to 1GB. Copy and paste the code snippet into your terminal:
 
 ```bash
 $ wandb artifact cache cleanup 1GB

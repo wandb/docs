@@ -1,0 +1,141 @@
+---
+title: Enterprise Licenses
+description: Learn about W&B Enterprise licenses, what features they include, and how to obtain and configure them.
+---
+
+An Enterprise license unlocks W&B features designed for organizations that need enhanced capabilities in areas of security, compliance, or administrative. See the list of [Enterprise features](#enterprise-features).
+
+- **Security**: Enhanced authentication, encryption, and access controls.
+- **Compliance**: Audit logging, HIPAA compliance options, and data governance controls.
+- **Administration**: User management features like SCIM provisioning, custom roles, and automation capabilities.
+
+This page provides a comprehensive overview of Enterprise licenses, including what features they enable, how to obtain them, and how to configure them for your deployment.
+
+## Deployment Options
+Enterprise licenses are available for W&B Dedicated Cloud and Self-Managed deployments.
+
+- [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) provides single-tenant infrastructure managed by W&B, deployed in Google Cloud. Dedicated Cloud deployments automatically include an Enterprise license. No additional configuration is required, and all Enterprise features are available immediately upon provisioning.
+- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) is deployed on your own infrastructure, providing full control over your deployment and data. Air-gapped deployments are supported. Without an Enterprise license, [Enterprise features](#enterprise-features) are unavailable.
+
+## Obtain an Enterprise license
+This section explains how to obtain an Enterprise license. Based on your use case, select a tab to continue.
+
+<Tabs>
+<Tab title="Dedicated Cloud">
+W&B Dedicated Cloud includes an Enterprise license and no action is required. [Start an Enterprise trial](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) or contact [Sales](https://wandb.ai/site/contact-sales) to discuss your requirements.
+
+</Tab>
+<Tab title="Self-Managed">
+Request an Enterprise license:
+
+- **Evaluation**: Submit the [Request a trial license](https://wandb.ai/site/for-enterprise/self-hosted-trial) or contact [Sales](mailto:sales@wandb.ai) to discuss your requirements.
+- **Production**: Contact [Sales](https://wandb.ai/site/contact-sales) to discuss your deployment requirements and sizing and receive your license details.
+
+<Warning>Store license keys securely and treat them as sensitive credentials.</Warning>
+
+</Tab>
+</Tabs>
+
+## Configure an Enterprise license
+
+<Info>This section is relevant only for W&B Self-Managed.</Info>
+
+After you [obtain an Enterprise license](#obtain-an-enterprise-license), you can configure it programmatically or you can configure it in the W&B App after deployment. Select a tab for instructions.
+
+<Tabs>
+<Tab title="Helm">
+1. Update your `values.yaml` file:
+    ```yaml
+    wandb:
+      license: "YOUR_LICENSE_KEY_HERE"
+    ```
+
+2. Upgrade your Helm release:
+    ```bash
+    helm upgrade wandb wandb/wandb \
+      --namespace wandb \
+      --reuse-values \
+      --set license=$LICENSE_KEY
+    ```
+</Tab>
+<Tab title="Terraform">
+1. Update your Terraform variables:
+    ```hcl
+    variable "license" {
+      default = "YOUR_LICENSE_KEY_HERE"
+    }
+    ```
+
+2. Apply the Terraform configuration:
+    ```bash
+    terraform apply -var="license=$LICENSE_KEY"
+    ```
+</Tab>
+<Tab title="W&B App">
+For existing deployments without environment variable configuration:
+
+1. Log in as an admin user
+2. Navigate to **System Settings**
+3. Find the **License** section
+4. Enter your new license key
+5. Save the changes
+</Tab>
+<Tab title="Docker">
+<Warning>Deploying W&B on Docker is deprecated. W&B strongly encourages migrating to a [Kubernetes Operator]() deployment managed by Helm or Terraform. Refer to [Reference architecture](/platform/hosting/self-managed/ref-arch.mdx) or contact [Support](mailto:support@wandb.ai) for guidance.</Warning>
+Set the license key as an environment variable:
+```bash
+docker run -d \
+  -e LICENSE="YOUR_LICENSE_KEY_HERE" \
+  -e OTHER_ENV_VARS \
+  wandb/local
+```
+</Tab>
+</Tabs>
+
+Next, [verify your Enterprise license](#verify-or-update-an-enterprise-license).
+
+## Verify and manage an Enterprise license
+
+As an instance or organization admin, follow these steps to verify and manage your Enterprise license:
+1. In the W&B App, click your user profile icon in the top right, then click **System Console**.
+1. Go to the **License** tab. A dashboard summarizes the license's entitlements, expiration, and usage over time. If you see an error, see [Common issues](#common-issues).
+1. For detailed information about the license and its entitlements, click **View license online**.
+
+    From this page, you can also order a new trial or production license. At the top of the page, click **New license order** and submit the form.
+1. To renew an expired license or to update the license key, click **Update License**.
+    <Tip>
+    To ensure uninterrupted service W&B contacts you:
+    - 30 days before the license expires
+    - When the license has expired
+    </Tip>
+
+
+## Enterprise features
+For a full, categorized list of available Enterprise features, see the [Pricing](https://wandb.ai/site/pricing/) page, then click **Cloud-hosted** or **Privately-hosted**.
+
+## Common Issues
+
+
+### License Not Recognized
+- Verify the license key is correctly formatted (no extra spaces)
+- Ensure the license hasn't expired
+- Check that the license is set in the correct configuration location
+
+### Features Not Available After Setting License
+- Restart your W&B services after setting the license
+- Verify the license includes the specific features you're trying to access
+- Check system logs for any license validation errors
+
+### License Expiration Warnings
+- Monitor the System Settings page for expiration notifications
+- Set up alerts for license expiration in your monitoring system
+- Keep your account team contact information up to date
+
+### Get support
+For assistance with Enterprise licenses, contact your account team, [Sales](mailto:sales@wandb.ai), or [Support](mailto:support@wandb.ai).
+
+## Additional resources
+- [W&B Pricing](/pricing)
+- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed)
+- [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud)
+- [Security & Compliance](/security)
