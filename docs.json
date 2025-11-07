@@ -881,7 +881,7 @@
                 "pages": [
                   "weave/cookbooks",
                   {
-                    "group": "Getting Started",
+                    "group": "Weave Fundamentals",
                     "pages": [
                       "weave/cookbooks/Intro_to_Weave_Hello_Trace",
                       "weave/cookbooks/Intro_to_Weave_Hello_Eval",
@@ -890,7 +890,7 @@
                     ]
                   },
                   {
-                    "group": "Evaluations & Datasets",
+                    "group": "Evaluations Basics",
                     "pages": [
                       "weave/cookbooks/leaderboard_quickstart",
                       "weave/cookbooks/hf_dataset_evals",
