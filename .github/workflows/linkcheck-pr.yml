@@ -25,11 +25,9 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          args: "--threads 5 --max-retries 5 --retry-wait-time 2 --include '^https?://' --include '^http?://' --base-url='$PREVIEW_URL' '$PREVIEW_URL'"
+          args: "--threads 5 --max-retries 5 --retry-wait-time 2 --include '^https?://' --include '^http?://' --base-url='${{ github.event.deployment_status.environment_url }}' '${{ github.event.deployment_status.environment_url }}'"
           format: markdown
           fail: false
         env:
           # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          PREVIEW_URL: ${{github.event.deployment_status.environment_url}}
-
