@@ -1058,7 +1058,6 @@
               {
                 "group": "Response Settings",
                 "pages": [
-                  "inference/response-settings",
                   "inference/response-settings/json-mode",
                   "inference/response-settings/reasoning",
                   "inference/response-settings/streaming",
@@ -1204,7 +1203,6 @@
           {
             "tab": "Platform",
             "pages": [
-              "ja/index",
               {
                 "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                 "pages": [
@@ -1725,7 +1723,6 @@
           {
             "tab": "Platform",
             "pages": [
-              "ko/index",
               {
                 "group": "Deployment Options",
                 "pages": [
