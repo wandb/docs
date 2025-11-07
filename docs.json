@@ -16,7 +16,8 @@
     }
   },
   "styling": {
-    "eyebrows": "breadcrumbs"
+    "eyebrows": "breadcrumbs",
+    "stylesheet": "/button-links.css"
   },
   "logo": {
     "light": "/icons/logo_light.svg",
@@ -61,7 +62,7 @@
               "index",
               "get-started",
               {
-                "group": "Deployment Options",
+                "group": "Deployment options",
                 "pages": [
                   "platform/hosting",
                   "platform/hosting/hosting-options/multi_tenant_cloud",
@@ -88,7 +89,6 @@
                       {
                         "group": "Install on public cloud",
                         "pages": [
-                          "platform/hosting/self-managed/install-on-public-cloud",
                           "platform/hosting/self-managed/aws-tf",
                           "platform/hosting/self-managed/gcp-tf",
                           "platform/hosting/self-managed/azure-tf"
@@ -114,6 +114,7 @@
                   "platform/hosting/privacy-settings",
                   "platform/hosting/smtp",
                   "platform/hosting/env-vars",
+                  "platform/hosting/enterprise-licenses",
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
@@ -291,7 +292,6 @@
                     "group": "Registry",
                     "pages": [
                       "models/registry",
-                      "models/registry/registry_types",
                       "models/registry/create_registry",
                       "models/registry/configure_registry",
                       "models/registry/create_collection",
@@ -739,7 +739,7 @@
             "tab": "W&B Weave",
             "icon": "/icons/cropped-weave.svg",
             "pages": [
-              "weave/index",
+              "weave",
               "weave/quickstart",
               "weave/quickstart-inference",
               {
@@ -752,7 +752,7 @@
                       {
                         "group": "Tracing & Debugging",
                         "pages": [
-                          "weave/guides/tracking/index",
+                          "weave/guides/tracking",
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/costs",
                           "weave/guides/core-types/media",
@@ -762,6 +762,7 @@
                           "weave/guides/tracking/threads",
                           "weave/guides/tracking/trace-plots",
                           "weave/guides/tracking/otel",
+                          "weave/guides/tools/attributes",
                           "weave/guides/tools/weave-in-workspaces"
                         ]
                       },
@@ -787,6 +788,7 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
+                      "weave/guides/tools/attributes",
                       "weave/tutorial-eval",
                       "weave/tutorial-rag"
                     ]
@@ -819,7 +821,7 @@
                   {
                     "group": "Integrations",
                     "pages": [
-                      "weave/guides/integrations/index",
+                      "weave/guides/integrations",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -871,7 +873,7 @@
                   {
                     "group": "Enterprise",
                     "pages": [
-                      "weave/guides/platform/index",
+                      "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
@@ -880,7 +882,8 @@
                     "pages": [
                       "weave/guides/core-types/env-vars",
                       "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs"
+                      "weave/guides/tracking/faqs",
+                      "weave/guides/tools/limits"
                     ]
                   }
                 ]
@@ -888,7 +891,7 @@
               {
                 "group": "Cookbooks",
                 "pages": [
-                  "weave/cookbooks/index",
+                  "weave/cookbooks",
                   {
                     "group": "Getting Started",
                     "pages": [
@@ -2263,10 +2266,6 @@
       "destination": "/models/app/:slug*"
     },
     {
-      "source": "/guides/app/settings-page/:slug*",
-      "destination": "/platform/app/settings-page/:slug*"
-    },
-    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2343,8 +2342,8 @@
       "destination": "/training/:slug*"
     },
     {
-      "source": "/guides/models/:slug*",
-      "destination": "/models/:slug*"
+      "source": "/guides/models/evaluate-models",
+      "destination": "/models/evaluate-models"
     },
     {
       "source": "/launch-library/:slug*",
@@ -2479,32 +2478,16 @@
       "destination": "/models"
     },
     {
-      "source": "/guides/core/automations/:slug*",
-      "destination": "/models/automations/:slug*"
-    },
-    {
-      "source": "/guides/core/artifacts/:slug*",
-      "destination": "/models/artifacts/:slug*"
-    },
-    {
-      "source": "/guides/core/registry/:slug*",
-      "destination": "/models/registry/:slug*"
-    },
-    {
-      "source": "/guides/core/reports/:slug*",
-      "destination": "/models/automations/:slug*"
-    },
-    {
-      "source": "/guides/core/tables/:slug*",
-      "destination": "/models/tables/:slug*"
-    },
-    {
-      "source": "/guides",
-      "destination": "/models"
-    },
-    {
       "source": "/models/core",
       "destination": "/models"
+    },
+    {
+      "source": "/inference/response-settings",
+      "destination": "/inference"
+    },
+    {
+      "source": "/platform/hosting/self-managed/install-on-public-cloud",
+      "destination": "/platform/hosting/self-managed"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"

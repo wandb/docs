@@ -10,6 +10,76 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.75.2" description="November 5, 2025">
+- Fixed a bug where a team service account's API key was not visible to team Admin users who were also organization Admins.
+- Fixed a bug where the (min, max) range shown in a tooltip for a plot with multiple run groups could show the same values for all groups.
+- Fixed a bug where Parquet files for deleted runs were not completely garbage collected and the error `delete parquet history does not currently support partial deletes` was logged repeatedly.
+</Update>
+<Update label="v0.75.0" description="October 28, 2025">
+W&B v0.75 enhances Registry with a new Restricted Viewer role, the ability to star registries, and programmatic Registry access control over SCIM. The new automation execution history view helps you to understand and debug your automations. Visualize config-driven effects with semantic coloring by config properties such as hyperparameters, view full-fidelity plots for system metrics, and more.
+
+## Support and end of life
+- W&B Server v0.61 and below reached end of life on October 28, 2025.
+- W&B Server v0.63 is scheduled to reach end of life on November 26, 2025.
+
+A W&B Server release is supported for 12 months from its initial release date. As a reminder, customers using [Self-managed](/platform/hosting/hosting-options/self-managed) are responsible to upgrade to a [supported release](/release-notes) in time to maintain support.
+
+Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
+
+## Upcoming changes
+In the next W&B Server release, we'll roll out an update to workspace navigation that makes moving between multi-run and single-run workspaces easier—see this [preview video](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b). 
+
+Part of this change is included in Server v0.75: the left sidebar now indicates whether you are viewing the **Project** or a single **Run**. This upcoming navigation change coincides with a unification of single-run and multi-run saved views, so that changes to plots and layouts in one carry over to the other to save repetitive configuration. As part of this change, existing single-run saved views will be lost, and you will need to recreate the ones you still need.
+
+![Upcoming navigation sidebar update](/images/release-notes/v0-75-0/navigation-sidebar-upcoming-update.png)
+
+## Security
+- You can configure the [federated identity](/platform/hosting/iam/identity_federation) audience by setting the environment variable `FEDERATED_AUTH_AUDIENCES` to a comma-separated list of audiences. The audience specifies allowable recipients for the identity token.
+
+## Features
+- **Registry access control updates:**
+    - **Programmatic registry access control:** [Registry roles](/models/registry/configure_registry#details-about-registry-roles) are now included in the SCIM schema. While [creating](/platform/hosting/iam/scim#create-user) or updating a user, you can configure their Registry roles, and Registry roles are returned when you [retrieve a user](/platform/hosting/iam/scim#get-user).
+    - **Restrict Registry access:** Where you don't want to grant full Registry access, you can now grant a new Registry role, [Restricted Viewer](/models/registry/configure_registry). This role provides read-only access to registry artifacts without the ability to create, update, or delete collections, automations, or other registry resources. This is useful for sensitive or regulated registry content.
+    - [**Expanded Registry access:**](https://wandb.ai/wandb_fc/product-announcements-fc/reports/Registry-for-W-B-Models-viewers-Faster-discovery-cleaner-handoffs--VmlldzoxNDc4MzM5Mg) Now, any user with the Models **Viewer** role is also a full Registry **Member**, so they can browse, compare, and use models and artifacts by default. A Models **Viewer** can be assigned a different Registry role, like **Restricted Viewer**, **Viewer**, or **Admin**. This unlocks full Registry value for everyone in your organization.
+- **Starred registries:** To help you navigate Registry as you scale, you can now star registries. From the Registry landing page, hover over a registry's card, then click the star outline. From an individual registry page, click the star outline at the top of the page. Starred registries appear at the top of the Registry landing page in alphabetical order.
+    
+    ![Starred registries](/images/release-notes/v0-75-0/starred-registries.png)
+    
+- **Automation execution history:** View execution history for your project or registry [Automations](/models/automations/automation-events) from the **Automation history** tab. All automation runs display in reverse chronological order, with status and key details at a glance. To help you understand and debug automations, a detailed view shows the execution's conditions, actions, and results.
+- In the **Organization dashboard**, you can now invite multiple users to your organization at once by specifying a comma-separated list of email addresses, and you can optionally add the invited users to teams at the same time.
+- **Semantic legend updates:**
+    - Semantic legends for runs now support coloring plots based on config values such as hyperparameters. Visualize config-driven effects by coloring runs based on a chosen hyperparameter like learning rate, batch size, or model family to visually spot config-driven effects.
+        
+        ![Semantic legend config coloring](/images/release-notes/v0-75-0/semantic-legend-config-coloring.gif)
+        
+    - You can now configure semantic legends when viewing another user's workspace.
+- The new full-screen image browser simplifies inspection and comparison of logged images. Previously available only in **Dedicated Cloud**, the feature is now also available in **Self-Managed**.
+    - **True full-Screen view:** Inspect image details more easily with edge-to-edge full-screen viewing. No more cramped panels.
+    - **Step slider in full-screen view:** Move through steps efficiently with an embedded slider to see how outputs evolve.
+    - **Quickly move through runs or steps:** In full-screen view, use the keyboard **left / right arrow** keys to move through runs, and use **Cmd + left / right arrow** (macOS) or **Ctrl + left / right arrow** (Windows / Linux) to move through steps of the same image.
+- **Full-fidelity rendering for system metrics:** Charts for system metrics, like GPU, CPU, or memory, have a new detailed rendering mode that preserves fine-grained signal for deep inspection and analysis.
+- Run history export to Parquet has been improved. Now run history export is asynchronous by default in all deployments. Also, when exporting run history, if a run has not been logged in 7 or more days and after history about the run has been completely exported, history about the run is automatically dropped from MySQL.
+
+## Fixes
+- You can now toggle the **Show original** line plot setting for all plots in the workspace or a section.
+- Fixed a bug in Reports where pinning all columns in the run selector could break the report's layout.
+- Fixed a bug where a pinned column could be expanded beyond the boundaries of the run selector.
+- Fixed a bug where changing the run name while also editing the **Notes** field could revert the run name change.
+- Fixed a bug where incorrect values could appear when plotting grouped runs with the X axis set to **Relative Wall Time**.
+- Fixed a bug where group pagination controls were missing.
+- Fixed a bug where a report could not be published if BYOB storage is configured with S3-compatible storage configured with a bucket subpath. This impacts CoreWeave AI Object Storage, Amazon S3 storage, and S3-compatible storage like MinIO.
+- Fixed a bug that could prevent a system metrics chart from loading if smoothing is turned on.
+- Fixed a bug that could prevent a chart with multiple Y axes from loading if smoothing is turned on.
+- In full-fidelity mode, line plot tooltips now show min and max bounds.
+- The hover highlight interaction has been improved for grouped run plots.
+- Fixed a bug that could prevent a grouped plot from rendering if the X-axis name is a substring of the Y axis name.
+- Fixed a bug that could cause hidden or deselected runs to appear as gray points instead of being hidden.
+- Fixed a bug that could prevent a media panel from opening in full screen if you would need to scroll to view it.
+- To help you visualize spikes in line plots with dense comparisons more clearly, the min and max shading in line plots has been improved.
+- To efficiently recover from deep tweaks or experiments, you can now revert the X axis in the line plot editor.
+- Fixed a bug where the access type for a core registry could be set incorrectly if the registry was created during artifact linking. This bug could cause membership management issues and prevent the registry from functioning.
+</Update>
+
 <Update label="v0.74.1" description="October 2, 2025">
 - Fixed a bug that could prevent an organization admin from accessing the Organization Dashboard.
 - Fixed a bug introduced in 0.73.0 that allowed deletion of previously exported Parquet files.
@@ -231,7 +301,7 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
 - **CoreWeave infrastructure monitoring**: During a [W&B Run](/models/runs/) on CoreWeave infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure, allowing for observation of infrastructure alerts such as GPU failures, thermal violations, and more. If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to resolve some issues automatically, and W&B surfaces that information in the run’s page. W&B provides a link to the SLURM job’s Grafana dashboard for system-level details about the run. Learn more at [Visualize CoreWeave infrastructure alerts](/models/app/features/panels/line-plot/).
 - **CoreWeave external file tracking**: You can now track external files stored in CoreWeave AI Object Storage with reference artifacts. Learn more at [Track external files](/models/artifacts/track-external-files/).
 - **CoreWeave BYOB support**: Dedicated Cloud and Self-Managed now support CoreWeave AI Object Storage for Instance and Team level BYOB. CoreWeave Team level BYOB on Multi-tenant Cloud is coming soon. Learn more at [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector).
-- **Bulk media settings**: Just like line plots, you can now manage all your media panel settings at once—across an entire workspace or a specific section.   Easily configure media panels to display by epoch or arrange them into customized grid patterns without adjusting each panel separately. Individual panel settings override the global settings.
+- **Bulk media settings**: Just like line plots, you can now manage all your media panel settings at once—across an entire workspace or a specific section. Easily configure media panels to display by epoch or arrange them into customized grid patterns without adjusting each panel separately. Individual panel settings override the global settings.
 - Use **Workspace templates** to quickly create workspaces using the same settings as an existing workspace. Currently, a workspace template can define custom line plot settings. Learn more at [Workspace templates](/models/track/workspaces/#workspace-templates).
 - With **incremental table logging**, you can log batches of rows to a table during a machine learning experiment. This is ideal for monitoring long-running jobs or when working with large tables that would be inefficient to log during the run for updates. Within the UI, the table is updated with new rows as they are logged, so you can view the latest data without having to wait for the entire run to finish. You can step through the increments to view the table at different points in time. Learn more at [Log tables](/models/track/log/log-tables/#adding-data-incrementally).
 
@@ -353,7 +423,7 @@ v0.68.0 introduced a bug, fixed in [v0.68.1](#0_68_1), that could prevent media 
 - Line plots now support **synchronized zooming** mode, where zooming to a given range on one plot automatically zooms into the same range on all other line plots with a common x-axis. Turn this on in the [workspace display settings for line plots](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace).
 - Line plots now support formatting custom metrics as timestamps. This is useful when synchronizing or uploading runs from a different system.
 - You can now slide through [media panels](/models/app/features/panels/media/) using non-`_step` fields such as `epoch` or `train/global_step` (or anything else).
-- In Tables and plots in [Query Panels](/models/app/features/panels/query-panels/) that use `runs` or `runs.history` expressions, a step slider allows you to step through the progress on your metrics, text, or media through the course of your runs. The slider supports stepping through  non-`_step` metrics.
+- In Tables and plots in [Query Panels](/models/app/features/panels/query-panels/) that use `runs` or `runs.history` expressions, a step slider allows you to step through the progress on your metrics, text, or media through the course of your runs. The slider supports stepping through non-`_step` metrics.
 - You can now customize [bar chart](/models/app/features/panels/bar-plot/) labels using a font size control.
 
 ### Private preview
@@ -415,7 +485,7 @@ Private preview features are available by invitation only. To request enrollment
 - An automation can now notify a Slack channel for artifact events. When creating an automation, select “Slack notification” for the Action type.
 - Registry now supports global search by default, allowing you to search across all registries by registry name, collection name, alias, or tag.
 - In Tables and Query panels that use the `runs` expression, you can use the new Runs History step slider and drop-down controls to view a table of metrics at each step of a run.
-- Playground in W&B Weave supports new models: OpenAI's `gpt-4.5-preview`  and Deepseek's `deepseek-chat` and `deepseek-reasoner`.
+- Playground in W&B Weave supports new models: OpenAI's `gpt-4.5-preview` and Deepseek's `deepseek-chat` and `deepseek-reasoner`.
 - Weave tracing has two new agent framework integrations: CrewAI and OpenAI’s Agent SDK.
 - In the Weave UI, you can now build Datasets from traces. [Learn more](/weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui)
 - The Weave Python SDK now provides a way to filter the inputs and outputs of your Weave data to ensure sensitive data does not leave your network perimeter. You can configure to redact sensitive data. Learn more: /weave/guides/tracking/redact-pii/
@@ -447,7 +517,7 @@ Private preview features are available by invitation only. To request enrollment
 
 <Update label="v0.66.0" description="March 06, 2025">
 ## Features
-- In tables and query panels,  columns you derive from other columns now persist, so you can use them for filtering or in query panel plots.
+- In tables and query panels, columns you derive from other columns now persist, so you can use them for filtering or in query panel plots.
 
 ## Security
 - Limited the maximum depth for a GraphQL document to 20.
@@ -484,21 +554,4 @@ The release includes the following additional updates:
 * Fixed an issue where users creating custom roles including the `Create Artifact` permission were not able to log artifacts to a project.
 * Fixed the issue with metadata logging for files in instances that have subpath support configured for BYOB.
 * Block webhook deletion if used by organization registry automations.
-</Update>
-
-<Update label="v0.61.0.0" description="October 17, 2024">
-## Features
-
-**This is a mini-feature and patch release, delivered at a different schedule than the monthly W&B server major releases**
-
-* Organization admins can now configure Models seats and access control for both Models & [W&B Weave](/weave/) in a seamless manner from their organization dashboard. This change allows for a efficient user management when [Weave](/weave/) is enabled for a Dedicated Cloud or Self-Managed instance.
-    * [Weave](/weave/) pricing is consumption-based rather than based on number of seats used. Seat management only applies to the Models product.
-* You can now configure [access roles at the project level for team and restricted scoped projects](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/). It allows assigning different access roles to a user within different projects in the same team, and thus adding another strong control to conform to enterprise governance needs.
-
-
-## Fixes
-
-* Fixed an issue where underlying database schema changes as part of release upgrades could timeout during platform startup time.
-* Added more performance improvements to the underlying parquet store service, to further improve the chart loading times for users. Parquet store service is only available on Dedicated Cloud, and Self-Managed instances based on [W&B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator).
-* Addressed the high CPU utilization issue for the underlying parquet store service, to make the efficient chart loading more reliable for users. Parquet store service is only available on Dedicated Cloud, and Self-Managed instances based on [W&B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator).
 </Update>

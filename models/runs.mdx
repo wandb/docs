@@ -63,7 +63,7 @@ The URL W&B returns in the terminal to redirects you to the run's workspace in t
     <img src="/images/runs/single-run-call.png" alt="Single run workspace"  />
 </Frame>
 
-Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
+Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the following code snippet:
 
 ```python
 import wandb
@@ -120,7 +120,7 @@ As another example, during a [sweep](/models/sweeps/), W&B explores a hyperparam
 
 ## Initialize a W&B Run
 
-Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). The following code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
@@ -146,7 +146,8 @@ For example, consider the following code snippet:
 ```python title="basic.py"
 import wandb
 
-run = wandb.init(entity="wandbee", project="awesome-project")
+with wandb.init(entity="wandbee", project="awesome-project") as run:
+    # Your code here
 ```
 The code snippet produces the following output:
 
@@ -157,20 +158,6 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
 Since the preceding code did not specify an argument for the id parameter, W&B creates a unique run ID. Where `nico` is the entity that logged the run, `awesome-project` is the name of the project the run is logged to, `exalted-darkness-6` is the name of the run, and `pgbn9y21` is the run ID.
-
-<Note>
-**Notebook users**
-
-Specify `run.finish()` at the end of your run to mark the run finished. This helps ensure that the run is properly logged to your project and does not continue in the background.
-
-```python title="notebook.ipynb"
-import wandb
-
-run = wandb.init(entity="<entity>", project="<project>")
-# Training code, logging, and so forth
-run.finish()
-```
-</Note>
 
 If you [group runs](/models/runs/grouping/) into experiments, you can move a run into or out of a group or from one group to another.
 
@@ -227,7 +214,8 @@ You can specify your own run ID by passing the `id` parameter to the [`wandb.ini
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
+with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
+    # Your code here
 ```
 
 You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:
@@ -374,12 +362,21 @@ A workspace is limited to displaying a maximum of 1000 runs, regardless of its c
 
 #### Add or remove columns
 
-To customize which columns are visible in the Runs table or Workspace:
+Add or remove columns in the **Runs** tab or **Workspace** tab to customize which properties associated with your project are visible. For both cases, you can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+
+To add a columns in the Runs table or Workspace:
 1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
-1. Above the list of runs, click **Columns**.
-1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
-1. Click **Done** to close the column browser.
+1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
+1. Select the name of a property within the **Hidden** section of the modal.
+1. Drag columns to change their order.
+1. Click **Close**.
+
+
+To remove columns in the Runs table or Workspace:
+1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
+1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
+1. Select the name of a property within the **Visible & Pinned** section of the modal.
+1. Click **Close**.
 
 #### Sort runs by column
 
@@ -390,15 +387,16 @@ To sort the list of runs by any visible column:
 
 #### Pin columns
 
-Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab or **Workspace** tab. If you pin a column in the **Runs** tab, it is also pinned in the **Workspace** tab. Similarly, if you pin a column in the **Workspace** tab, it is also pinned in the **Runs** tab.
 
 To pin a column:
-1. In the project sidebar, navigate to the **Runs** tab.
-1. Click **Pin column**.
+1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
+1. Click the **Columns** (six horizontal dashes) button.
+1. Within the **Visible & Pinned** section of the modal, click on the pin icon next to the column name you want to pin.
 
 To unpin a column:
 1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
-1. Hover over the column name, then click its action `...` menu.
+1. Either hover over the column name, then click its action `...` menu, or click the **Columns** (six horizontal dashes) button and click on the pin icon next to the column name you want to unpin.
 1. Click **Unpin column**.
 
 #### Customize run name truncation
@@ -508,10 +506,6 @@ Select **Add filter** to add one or more filters to your rows. Three dropdown me
 
 The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
-<Frame>
-    <img src="/images/data_vis/filter_example.png" alt="Run filtering example"  />
-</Frame>
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
 </Tab>
 <Tab title="Group">
 Group all rows by the value in a particular column with the **Group by** button above the dashboard. 

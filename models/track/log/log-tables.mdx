@@ -2,8 +2,9 @@
 description: Log tables with W&B.
 title: Log tables
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" icon="python"/>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 Use `wandb.Table` to log data to visualize and query with W&B. In this guide, learn how to:
 
 1. [Create Tables](./log-tables#create-tables)
@@ -19,7 +20,7 @@ Use the `wandb.Table` constructor in one of two ways:
 
 1. **List of Rows:**
 
-   Log named columns and rows of data. For example the proceeding code snippet generates a table with two rows and three columns:
+   Log named columns and rows of data. For example the following code snippet generates a table with two rows and three columns:
 
    ```python
    wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
@@ -106,10 +107,10 @@ with wandb.init(project="my_project") as run:
     )
 
     # Initialize the Run
-    run = wandb.init()
+    with wandb.init() as run:
 
-    # Log the updated table to W&B
-    run.log({table_name: best_checkpt_table})
+        # Log the updated table to W&B
+        run.log({table_name: best_checkpt_table})
 ```
 
 ## Retrieve data
@@ -189,7 +190,7 @@ You can join tables you have locally constructed or tables you have retrieved fr
 
 To join two Tables you have logged previously in an artifact context, fetch them from the artifact and join the result into a new Table. 
 
-For example, the proceeding code example demonstrates how to read one Table of original songs called `'original_songs'` and another Table of synthesized versions of the same songs called `'synth_songs'`. The code joins the two tables on `"song_id"`, and uploads the resulting table as a new W&B Table:
+For example, the following code example demonstrates how to read one Table of original songs called `'original_songs'` and another Table of synthesized versions of the same songs called `'synth_songs'`. The code joins the two tables on `"song_id"`, and uploads the resulting table as a new W&B Table:
 
 ```python
 import wandb

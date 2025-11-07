@@ -1,13 +1,8 @@
 ---
-menu:
-  default:
-    identifier: search_registry
-    parent: registry
 title: Find registry items 
-weight: 7
 --- 
 
-Use the [global search bar in the W&B Registry App](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use MongoDB-style queries to [filter registries, collections, and artifact versions](./search_registry#query-registry-items-with-mongodb-style-queries) based on specific criteria using the W&B Python SDK.
+Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use MongoDB-style queries to [filter registries, collections, and artifact versions](./search_registry#query-registry-items-with-mongodb-style-queries) based on specific criteria using the W&B Python SDK.
 
 
 Only items that you have permission to view appear in the search results.
@@ -16,7 +11,7 @@ Only items that you have permission to view appear in the search results.
 
 To search for a registry item:
 
-1. Navigate to the W&B Registry App.
+1. Navigate to the W&B Registry.
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
 
 Search results appear below the search bar if the term you specify matches an existing registry, collection name, artifact version tag, collection tag, or alias.
@@ -37,7 +32,7 @@ The following table lists query names you can use based on the type of item you 
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
-The proceeding code examples demonstrate some common search scenarios. 
+The following code examples demonstrate some common search scenarios. 
 
 To use the `wandb.Api().registries()` method, first import the W&B Python SDK ([`wandb`](/models/ref/python/)) library:
 ```python
@@ -138,4 +133,4 @@ artifacts = api.registries().collections().versions(filter=artifact_filters)
 
 Specify the date and time in the format `YYYY-MM-DD HH:MM:SS`. You can omit the hours, minutes, and seconds if you want to filter by date only.
 
-See the MongoDB documentation for more information on [query comparisons](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/).
+See the MongoDB documentation for more information on [query predicates](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/logical/).
