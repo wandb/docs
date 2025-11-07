@@ -1,0 +1,34 @@
+name: Lychee PR link checker
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+
+    # Only run when Mintlify PR deployment succeeds
+    if: |
+      github.event.deployment_status.state == 'success' && 
+      github.event.deployment.environment == 'staging' &&
+      contains(github.event.deployment_status.creator.login, 'mintlify' &&
+      contains(github.event.deployment_status.environment_url, 'mintlify'))
+    steps:
+      # check URLs with Lychee
+      - uses: actions/checkout@v4
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: "--threads 5 --max-retries 5 --retry-wait-time 2 -f markdown --include '^https?://' --include '^http?://' --base-url='$PREVIEW_URL' '$PREVIEW_URL'"
+          fail: false
+        env:
+          # to be used in case rate limits are surpassed
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PREVIEW_URL: ${{github.event.deployment_status.environment_url}}
+
