@@ -375,8 +375,8 @@ __init__(
  - `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): OpenMetrics `/metrics` endpoints to monitor for system metrics.
  - `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
    Supports two formats:
-   - {"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}
-   - ("metric regex pattern 1", "metric regex pattern 2", ...)
+   - `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
+   - `("metric regex pattern 1", "metric regex pattern 2", ...)`
  - `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]): HTTP headers to add to OpenMetrics requests.
  - `x_stats_disk_paths` (Optional[Sequence]): System paths to monitor for disk usage.
  - `x_stats_cpu_count` (Optional[int]): System CPU count.
@@ -419,7 +419,7 @@ Check if a private field is provided and assign to the corresponding public one.
 
 This is a compatibility layer to handle previous versions of the settings.
 
-<!-- lazydoc-ignore: internal -->
+
 
 
 
