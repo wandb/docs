@@ -89,7 +89,6 @@
                       {
                         "group": "Install on public cloud",
                         "pages": [
-                          "platform/hosting/self-managed/install-on-public-cloud",
                           "platform/hosting/self-managed/aws-tf",
                           "platform/hosting/self-managed/gcp-tf",
                           "platform/hosting/self-managed/azure-tf"
@@ -115,6 +114,7 @@
                   "platform/hosting/privacy-settings",
                   "platform/hosting/smtp",
                   "platform/hosting/env-vars",
+                  "platform/hosting/enterprise-licenses",
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
