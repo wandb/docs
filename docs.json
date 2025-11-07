@@ -62,7 +62,7 @@
               "index",
               "get-started",
               {
-                "group": "Deployment options",
+                "group": "Deployment Options",
                 "pages": [
                   "platform/hosting",
                   "platform/hosting/hosting-options/multi_tenant_cloud",
@@ -89,6 +89,7 @@
                       {
                         "group": "Install on public cloud",
                         "pages": [
+                          "platform/hosting/self-managed/install-on-public-cloud",
                           "platform/hosting/self-managed/aws-tf",
                           "platform/hosting/self-managed/gcp-tf",
                           "platform/hosting/self-managed/azure-tf"
@@ -114,7 +115,6 @@
                   "platform/hosting/privacy-settings",
                   "platform/hosting/smtp",
                   "platform/hosting/env-vars",
-                  "platform/hosting/enterprise-licenses",
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
@@ -292,6 +292,7 @@
                     "group": "Registry",
                     "pages": [
                       "models/registry",
+                      "models/registry/registry_types",
                       "models/registry/create_registry",
                       "models/registry/configure_registry",
                       "models/registry/create_collection",
@@ -740,46 +741,48 @@
             "icon": "/icons/cropped-weave.svg",
             "pages": [
               "weave",
-              "weave/quickstart",
-              "weave/quickstart-inference",
+              {
+                "group": "Quickstarts",
+                "pages": [
+                  "weave/quickstart",
+                  "weave/quickstart-inference"
+                ]
+              },
+              "weave/guides/tools/playground",
+              "weave/guides/tools/evaluation_playground",
               {
                 "group": "Guides",
                 "pages": [
                   {
-                    "group": "Iteration",
+                    "group": "Trace and Debug LLM Responses",
                     "pages": [
                       "weave/tutorial-tracing_2",
-                      {
-                        "group": "Tracing & Debugging",
-                        "pages": [
-                          "weave/guides/tracking",
-                          "weave/guides/tracking/tracing",
-                          "weave/guides/tracking/costs",
-                          "weave/guides/core-types/media",
-                          "weave/guides/tools/saved-views",
-                          "weave/guides/tools/comparison",
-                          "weave/guides/tracking/trace-tree",
-                          "weave/guides/tracking/threads",
-                          "weave/guides/tracking/trace-plots",
-                          "weave/guides/tracking/otel",
-                          "weave/guides/tools/attributes",
-                          "weave/guides/tools/weave-in-workspaces"
-                        ]
-                      },
-                      {
-                        "group": "Version Control for Models & Prompts",
-                        "pages": [
-                          "weave/tutorial-weave_models",
-                          "weave/guides/core-types/models",
-                          "weave/guides/core-types/prompts",
-                          "weave/guides/tracking/objects",
-                          "weave/guides/tracking/ops"
-                        ]
-                      }
+                      "weave/guides/tracking",
+                      "weave/guides/tracking/tracing",
+                      "weave/guides/tracking/costs",
+                      "weave/guides/core-types/media",
+                      "weave/guides/tools/saved-views",
+                      "weave/guides/tools/comparison",
+                      "weave/guides/tracking/trace-tree",
+                      "weave/guides/tracking/threads",
+                      "weave/guides/tracking/trace-plots",
+                      "weave/guides/tracking/otel",
+                      "weave/guides/tools/attributes",
+                      "weave/guides/tools/weave-in-workspaces"
                     ]
                   },
                   {
-                    "group": "Evaluation",
+                    "group": "Track versions of your app",
+                    "pages": [
+                      "weave/tutorial-weave_models",
+                      "weave/guides/core-types/models",
+                      "weave/guides/core-types/prompts",
+                      "weave/guides/tracking/objects",
+                      "weave/guides/tracking/ops"
+                    ]
+                  },
+                  {
+                    "group": "Evaluate LLM app performance",
                     "pages": [
                       "weave/guides/core-types/evaluations",
                       "weave/guides/core-types/datasets",
@@ -794,28 +797,22 @@
                     ]
                   },
                   {
-                    "group": "Productionization",
+                    "group": "Set Up Guardrails and Monitoring",
                     "pages": [
-                      {
-                        "group": "Collect Feedback & Examples",
-                        "pages": [
-                          "weave/guides/tracking/feedback",
-                          "weave/guides/tracking/redact-pii"
-                        ]
-                      },
-                      {
-                        "group": "Online Evaluation",
-                        "pages": [
-                          "weave/guides/evaluation/guardrails_and_monitors"
-                        ]
-                      },
-                      {
-                        "group": "Tools & Utilities",
-                        "pages": [
-                          "weave/guides/tools/playground",
-                          "weave/guides/tools/evaluation_playground"
-                        ]
-                      }
+                      "weave/guides/tracking/feedback",
+                      "weave/guides/tracking/redact-pii",
+                      "weave/guides/evaluation/guardrails_and_monitors"
+                    ]
+                  },
+                  {
+                    "group": "Platform Details & Options",
+                    "pages": [
+                      "weave/guides/platform",
+                      "weave/guides/platform/weave-self-managed",
+                      "weave/guides/core-types/env-vars",
+                      "weave/guides/troubleshooting",
+                      "weave/guides/tracking/faqs",
+                      "weave/guides/tools/limits"
                     ]
                   },
                   {
@@ -868,22 +865,6 @@
                           "weave/guides/integrations/mcp"
                         ]
                       }
-                    ]
-                  },
-                  {
-                    "group": "Enterprise",
-                    "pages": [
-                      "weave/guides/platform",
-                      "weave/guides/platform/weave-self-managed"
-                    ]
-                  },
-                  {
-                    "group": "Tools & Resources",
-                    "pages": [
-                      "weave/guides/core-types/env-vars",
-                      "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs",
-                      "weave/guides/tools/limits"
                     ]
                   }
                 ]
@@ -1204,7 +1185,7 @@
           {
             "tab": "Platform",
             "pages": [
-              "ja/index",
+              "ja",
               {
                 "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                 "pages": [
@@ -1725,7 +1706,7 @@
           {
             "tab": "Platform",
             "pages": [
-              "ko/index",
+              "ko",
               {
                 "group": "Deployment Options",
                 "pages": [
