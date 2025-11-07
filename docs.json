@@ -783,7 +783,7 @@
                     ]
                   },
                   {
-                    "group": "Tracking",
+                    "group": "Version Control",
                     "pages": [
                       "weave/guides/core-types/models",
                       "weave/guides/core-types/prompts",
