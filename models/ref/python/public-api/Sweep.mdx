@@ -7,10 +7,6 @@ python_object_type: class
 
 
 
-
-
-
-
 ## <kbd>class</kbd> `Sweep`
 The set of runs associated with the sweep. 
 
@@ -115,11 +111,11 @@ Return the best run sorted by the metric defined in config or the order passed i
 ```python
 get(
     client: 'RetryingClient',
-    entity: Optional[str] = None,
-    project: Optional[str] = None,
-    sid: Optional[str] = None,
-    order: Optional[str] = None,
-    query: Optional[str] = None,
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    sid: 'str | None' = None,
+    order: 'str | None' = None,
+    query: 'str | None' = None,
     **kwargs
 )
 ```

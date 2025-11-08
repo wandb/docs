@@ -7,10 +7,6 @@ python_object_type: class
 
 
 
-
-
-
-
 ## <kbd>class</kbd> `Sweeps`
 A lazy iterator over a collection of `Sweep` objects. 
 
@@ -34,10 +30,10 @@ for sweep in sweeps:
 
 ```python
 __init__(
-    client: wandb.apis.public.api.RetryingClient,
-    entity: str,
-    project: str,
-    per_page: int = 50
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    per_page: 'int' = 50
 ) → Sweeps
 ```
 

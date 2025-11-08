@@ -7,10 +7,6 @@ python_object_type: class
 
 
 
-
-
-
-
 ## <kbd>class</kbd> `Projects`
 An lazy iterator of `Project` objects. 
 
@@ -20,9 +16,9 @@ An iterable interface to access projects created and saved by the entity.
 
 ```python
 __init__(
-    client: wandb.apis.public.api.RetryingClient,
-    entity: str,
-    per_page: int = 50
+    client: 'RetryingClient',
+    entity: 'str',
+    per_page: 'int' = 50
 ) → Projects
 ```
 

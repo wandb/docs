@@ -7,10 +7,6 @@ python_object_type: class
 
 
 
-
-
-
-
 ## <kbd>class</kbd> `Project`
 A project is a namespace for runs.
 
@@ -18,10 +14,10 @@ A project is a namespace for runs.
 
 ```python
 __init__(
-    client: wandb.apis.public.api.RetryingClient,
-    entity: str,
-    project: str,
-    attrs: dict
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    attrs: 'dict'
 ) → Project
 ```
 
