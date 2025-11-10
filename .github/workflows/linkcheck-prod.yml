@@ -12,7 +12,7 @@ jobs:
       issues: write # required for peter-evans/create-issue-from-file
     steps:
       # check URLs with Lychee
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Link Checker
         id: lychee
