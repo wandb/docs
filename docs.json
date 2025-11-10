@@ -906,7 +906,7 @@
                     ]
                   },
                   {
-                    "group": "Models & Prompts",
+                    "group": "Prompt Engineering",
                     "pages": [
                       "weave/cookbooks/Models_and_Weave_Integration_Demo",
                       "weave/cookbooks/chain_of_density",
