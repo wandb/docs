@@ -1,3 +1,2 @@
-# Required approvers. Last matching line wins
-# so they all need to be on a single line
-* @wandb/docs-team @johndmulhausen @ngrayluna @mdlinville @dbrian57
+# Required approvers. Last matching line wins.
+* @wandb/docs-team
