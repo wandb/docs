@@ -8,7 +8,6 @@ This page includes release notes for the W&B Python SDK (`wandb` package). For W
 
 <Update label="v0.22.3" description="October 28, 2025">
 
-View the [v0.22.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.3) on GitHub.
 
 ## Added
 
@@ -31,22 +30,26 @@ View the [v0.22.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.3
 - Fixed uploading GCS folder references via `artifact.add_reference`.
 - The SDK now correctly infers notebooks paths in Jupyter sessions, using th server's root directory, so code saving works in subdirectories (e.g. `code/nested/<notebook>.ipynb`).
 
+View the [v0.22.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.22.2" description="October 07, 2025">
 
-View the [v0.22.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.2) on GitHub.
 
 ## Fixed
 
 - Possibly fixed some cases where the `output.log` file was not being uploaded.
 - Fixed excessive data uploads when calling `run.save()` repeatedly on unchanged files.
 
+View the [v0.22.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.22.1" description="September 29, 2025">
 
-View the [v0.22.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.1) on GitHub.
 
 ## Added
 
@@ -59,11 +62,13 @@ View the [v0.22.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.1
 
 - `Api.artifact_exists()` and `Api.artifact_collection_exists()` now raise on encountering timeout errors, rather than (potentially erroneously) returning `False`.
 
+View the [v0.22.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.22.0" description="September 18, 2025">
 
-View the [v0.22.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.0) on GitHub.
 
 ## Notable Changes
 
@@ -79,21 +84,25 @@ This version removes support of MacOS 10.
 - Fix `Api().runs()` for wandb server &lt;  0.51.0 (when `project.internalId` was added to gql API).
 - Sweeps: `command` run scripts that `import readline` whether directly or indirectly (e.g. `import torch` on Python 3.13) should no longer deadlock.
 
+View the [v0.22.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.21.4" description="September 11, 2025">
 
-View the [v0.21.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.4) on GitHub.
 
 ## Added
 
 - Add DSPy integration: track evaluation metrics over time, log predictions and program signature evolution to W&B Tables, and save DSPy programs as W&B Artifacts (complete program or state as JSON/PKL).
 
+View the [v0.21.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.21.3" description="August 30, 2025">
 
-View the [v0.21.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.3) on GitHub.
 
 ## Changed
 
@@ -103,11 +112,13 @@ View the [v0.21.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.3
 
 - The message "Changes to your wandb environment variables will be ignored" is no longer printed when nothing changed.
 
+View the [v0.21.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.21.2" description="August 28, 2025">
 
-View the [v0.21.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.2) on GitHub.
 
 ## Notable Changes
 
@@ -128,11 +139,13 @@ This version raises errors that would previously have been suppressed during cal
 - Dataclasses in a run's `config` no long raise `Object of type ... is not JSON serializable` when containing real classes as fields to the dataclass.
 - `Artifact.link()` and `Run.link_artifact()` should be faster on server versions 0.74.0+, requiring 4-5 fewer unnecessary blocking GraphQL requests.
 
+View the [v0.21.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.21.1" description="August 07, 2025">
 
-View the [v0.21.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.1) on GitHub.
 
 ## Notable Changes
 
@@ -167,11 +180,13 @@ The default ordering for `Api().runs(...)` and `Api().sweeps(...)` is now ascend
 - Calling `load()` function on a public API run object no longer throws `TypeError`.
 - When a Sweeps run function called by `wandb.agent()` API throws an exception, it will now appear on the logs page for the run. (This previously only happened for runs called by the `wandb agent` CLI command.).
 
+View the [v0.21.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.21.0" description="July 01, 2025">
 
-View the [v0.21.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.0) on GitHub.
 
 ## Notable Changes
 
@@ -205,11 +220,13 @@ This version removes the legacy implementation of the `service` process. This is
 - Correctly parse the `x_extra_http_headers` setting from the env variable.
 - `.length` calls the W&B backend to load the length of objects when no data has been loaded rather than returning `None`.
 
+View the [v0.21.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.20.1" description="June 04, 2025">
 
-View the [v0.20.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.20.1) on GitHub.
 
 ## Fixed
 
@@ -218,11 +235,13 @@ View the [v0.20.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.20.1
 - wandb.Table: Added new constructor param, `log_mode`, with options `"IMMUTABLE"` and `"MUTABLE"`. `IMMUTABLE` log mode (default) is existing behavior that only allows a table to be logged once. `MUTABLE` log mode allows the table to be logged again if it has been mutated. (@domphan-wandb in https://github.com/wandb/wandb/pull/9758)
 - wandb.Table: Added a new `log_mode`, `"INCREMENTAL"`, which logs newly added table data incrementally. (@domphan-wandb in https://github.com/wandb/wandb/pull/9810)
 
+View the [v0.20.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.20.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.20.0" description="June 03, 2025">
 
-View the [v0.20.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.20.0) on GitHub.
 
 ## Notable Changes
 
@@ -271,11 +290,13 @@ This version removes the ability to disable the `service` process. This is a bre
 - Logging a `Table` (or other objects that create internal artifacts) no longer raises `ValueError` when logged from a run whose ID contains special characters.
 - `wandb.Api` initialized with the `base_url` now respects the provided url, rather than the last login url.
 
+View the [v0.20.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.20.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.11" description="May 07, 2025">
 
-View the [v0.19.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.11) on GitHub.
 
 ## Added
 
@@ -303,11 +324,13 @@ View the [v0.19.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.
 - Calling `file.delete()` on files queried via `api.Runs(...)` no longer raises `CommError`.
     - Bug introduced in 0.19.1
 
+View the [v0.19.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.11) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.10" description="April 22, 2025">
 
-View the [v0.19.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.10) on GitHub.
 
 ## Added
 
@@ -338,11 +361,13 @@ View the [v0.19.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.
 - Fix base_url setting was not provided to wandb.login.
 - `wandb.Html()` no longer raises `IsADirectoryError` with a value that matched a directory on the users system.
 
+View the [v0.19.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.10) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.9" description="April 01, 2025">
 
-View the [v0.19.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.9) on GitHub.
 
 ## Added
 
@@ -370,11 +395,13 @@ View the [v0.19.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.9
     - Bug introduced in 0.19.1
 - Fixed media files not displaying in the UI when logging to a run with a custom storage bucket.
 
+View the [v0.19.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.9) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.8" description="March 04, 2025">
 
-View the [v0.19.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.8) on GitHub.
 
 ## Fixed
 
@@ -384,11 +411,13 @@ View the [v0.19.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.8
 
 - The system monitor now samples metrics every 15 seconds by default, up from 10 seconds.
 
+View the [v0.19.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.8) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.7" description="February 21, 2025">
 
-View the [v0.19.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.7) on GitHub.
 
 ## Added
 
@@ -409,11 +438,13 @@ View the [v0.19.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.7
 - `wandb.setup()` correctly starts up the internal service process; this semantic was unintentionally broken in 0.19.2.
 - Fixed `TypeError: Object of type ... is not JSON serializable` when using numpy number types as values.
 
+View the [v0.19.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.7) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.6" description="February 05, 2025">
 
-View the [v0.19.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.6) on GitHub.
 
 ## Added
 
@@ -430,11 +461,13 @@ View the [v0.19.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.6
 - Artifact.add_reference, when used with file URIs for a directory and the name parameter, was incorrectly adding the value of `name` to the path of the file references.
 - Fixed a bug causing `Artifact.add_reference()` with `checksum=False` to log new versions of local reference artifacts without changes to the reference URI.
 
+View the [v0.19.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.5" description="January 29, 2025">
 
-View the [v0.19.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.5) on GitHub.
 
 ## Added
 
@@ -449,32 +482,38 @@ View the [v0.19.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.5
 - Expand sanitization rules for logged table artifact name to allow for hyphens and dots. This update brings the rules up-to-date with the current rules for artifact names. (Allowing letters, numbers, underscores, hyphens, and dots).
 - Correctly handle run rewind settings `fork_from` and `resume_from`.
 
+View the [v0.19.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.4" description="January 16, 2025">
 
-View the [v0.19.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.4) on GitHub.
 
 ## Fixed
 
 - Fix incorrectly reported device counts and duty cycle measurements for TPUs with single devices per chip / multiple devices on the host and make TPU metrics sampling more robust.
 - Handle non-consecutive TPU device IDs in system monitor.
 
+View the [v0.19.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.3" description="January 13, 2025">
 
-View the [v0.19.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.3) on GitHub.
 
 ## Fixed
 
 - Fix `wandb.Settings` update regression in `wandb.integration.metaflow`.
 
+View the [v0.19.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.2" description="January 07, 2025">
 
-View the [v0.19.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.2) on GitHub.
 
 ## Added
 
@@ -506,11 +545,13 @@ View the [v0.19.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.2
 - Bump `github.com/go-git/go-git` version to 5.13.0 to address CVE-2025-21613.
 - Bump `golang.org/x/net` version to 0.33.0 to address CVE-2024-45338.
 
+View the [v0.19.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.1" description="December 13, 2024">
 
-View the [v0.19.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.1) on GitHub.
 
 ## Fixed
 
@@ -526,11 +567,13 @@ View the [v0.19.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.1
 
 - Bump `golang.org/x/crypto` version to 0.31.0 to address CVE-2024-45337.
 
+View the [v0.19.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.19.0" description="December 05, 2024">
 
-View the [v0.19.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.0) on GitHub.
 
 ## Notable Changes
 
@@ -554,11 +597,13 @@ This version adds pydantic>=2.6,&lt;33 as a dependency.
 - Debug printing for hyperband stopping algorithm printed one char per line.
 - Include the missing `log_params` argument when calling lightgbm's `wandb_callback` function.
 
+View the [v0.19.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.19.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.7" description="November 13, 2024">
 
-View the [v0.18.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.7) on GitHub.
 
 ## Added
 
@@ -576,11 +621,13 @@ View the [v0.18.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.7
 
 - Fix `api.artifact()` to correctly pass the `enable_tracking` argument to the `Artifact._from_name()` method.
 
+View the [v0.18.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.7) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.6" description="November 06, 2024">
 
-View the [v0.18.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.6) on GitHub.
 
 ## Added
 
@@ -601,21 +648,25 @@ View the [v0.18.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.6
 - Added internal method, `api._artifact()`, to fetch artifacts so that usage events are not created if not called by an external user.
 - Changed default `mode` in `Artifact.new_file()` from `'w'` to `'x'` to accurately reflect existing default behavior.
 
+View the [v0.18.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.5" description="October 17, 2024">
 
-View the [v0.18.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.5) on GitHub.
 
 ## Fixed
 
 - Import `Literal` from `typing_extensions` in Python 3.7; broken in 0.18.4.
 
+View the [v0.18.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.4" description="October 17, 2024">
 
-View the [v0.18.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.4) on GitHub.
 
 ## Added
 
@@ -635,11 +686,13 @@ View the [v0.18.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.4
 
 - Updated minimum version of `sentry-sdk` to 2.0.0 to address deprecation warnings.
 
+View the [v0.18.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.3" description="October 01, 2024">
 
-View the [v0.18.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.3) on GitHub.
 
 ## Added
 
@@ -657,11 +710,13 @@ View the [v0.18.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.3
 
 - After `artifact = run.log_artifact()`, you must use `artifact.wait()` before operations that rely on the artifact having been uploaded. Previously, this wasn't necessary in some cases because `run.log_artifact()` blocked other operations on the run.
 
+View the [v0.18.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.2" description="September 27, 2024">
 
-View the [v0.18.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.2) on GitHub.
 
 ## Added
 
@@ -679,11 +734,13 @@ View the [v0.18.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.2
 - Fix `OSError` from calling `Artifact.add_file` with file paths on mounted filesystems.
 - Restored compatibility for macOS versions &lt;== 10.15 for wandb-core.
 
+View the [v0.18.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.1" description="September 16, 2024">
 
-View the [v0.18.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.1) on GitHub.
 
 ## Fixed
 
@@ -696,11 +753,13 @@ View the [v0.18.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.1
 - Remove sentry logging for sendLinkArtifact.
 - Default to capturing requirements.txt in Run.log_code.
 
+View the [v0.18.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.18.0" description="September 11, 2024">
 
-View the [v0.18.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.0) on GitHub.
 
 ## Notable Changes
 
@@ -718,11 +777,13 @@ This version switches `wandb` to a new backend by enabling `wandb.require("core"
 
 - The new "core" backend, previously activated using wandb.require("core"), is now used by default. To revert to the legacy behavior, add `wandb.require("legacy-service")` at the beginning of your script. Note: In a future minor release, the option to disable this new behavior will be removed.
 
+View the [v0.18.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.9" description="September 05, 2024">
 
-View the [v0.17.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.9) on GitHub.
 
 ## Changed
 
@@ -732,11 +793,13 @@ View the [v0.17.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.9
 
 - `define_metric(summary='best', goal=...)` is deprecated and soon will be removed, use `define_metric(summary='min')` or `define_metric(summary='min')` instead.
 
+View the [v0.17.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.9) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.8" description="August 28, 2024">
 
-View the [v0.17.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.8) on GitHub.
 
 ## Added
 
@@ -755,11 +818,13 @@ View the [v0.17.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.8
 
 - Ability to disable the service process (`WANDB__DISABLE_SERVICE`) is deprecated and will be removed in the next minor release.
 
+View the [v0.17.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.8) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.7" description="August 15, 2024">
 
-View the [v0.17.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.7) on GitHub.
 
 ## Fixed
 
@@ -768,11 +833,13 @@ View the [v0.17.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.7
 - Correctly upload empty files when using core.
 - Fix occasional "send on closed channel" panic when finishing a run using core.
 
+View the [v0.17.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.7) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.6" description="August 08, 2024">
 
-View the [v0.17.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.6) on GitHub.
 
 ## Added
 
@@ -791,11 +858,13 @@ View the [v0.17.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.6
 - Correctly handle directory stubs when logging external artifact in azure storage account with Hierarchical Namespace enabled.
 - Docstring in `api.runs()` regarding default sort order, missed in https://github.com/wandb/wandb/pull/7675.
 
+View the [v0.17.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.5" description="July 19, 2024">
 
-View the [v0.17.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.5) on GitHub.
 
 ## Added
 
@@ -812,11 +881,13 @@ View the [v0.17.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.5
 - Fix creating or updating an artifact with the `incremental=True` flag.
 - Use filled resource_arg macros when submitting W&B Launch jobs to AmazonSageMaker.
 
+View the [v0.17.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.4" description="July 03, 2024">
 
-View the [v0.17.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.4) on GitHub.
 
 ## Added
 
@@ -828,11 +899,13 @@ View the [v0.17.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.4
 - Fix an occasional race condition when using `core` that could affect run logs.
 - Fix OSError on `Artifact.download(skip_cache=True)` when encountering different filesystems.
 
+View the [v0.17.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.3" description="June 24, 2024">
 
-View the [v0.17.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.3) on GitHub.
 
 ## Fixed
 
@@ -840,11 +913,13 @@ View the [v0.17.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.3
 - With core enabled, nested `tqdm` bars show up correctly in the Logs tab.
 - Fix W&B Launch registry ECR regex separating tag on forward slash and period.
 
+View the [v0.17.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.2" description="June 17, 2024">
 
-View the [v0.17.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.2) on GitHub.
 
 ## Added
 
@@ -861,11 +936,13 @@ View the [v0.17.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.2
 
 - Upgrade github.com/vektah/gqlparser/v2 from 2.5.11 to 2.5.16.
 
+View the [v0.17.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.1" description="June 07, 2024">
 
-View the [v0.17.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.1) on GitHub.
 
 ## Added
 
@@ -902,11 +979,13 @@ View the [v0.17.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.1
 
 - Deprecated `ArtifactCollection.change_type()` in favor of `ArtifactCollection.save()`.
 
+View the [v0.17.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.17.0" description="May 07, 2024">
 
-View the [v0.17.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.0) on GitHub.
 
 ## Notable Changes
 
@@ -943,11 +1022,13 @@ This version packages the `wandb-core` binary, formerly installed by the `wandb-
 - Removed the `[async]` extra and the `_async_upload_concurrency_limit` setting.
 - Removed undocumented settings: `_except_exit` and `problem`.
 
+View the [v0.17.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.16.6" description="April 03, 2024">
 
-View the [v0.16.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.6) on GitHub.
 
 ## Added
 
@@ -971,11 +1052,13 @@ View the [v0.16.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.6
 - Fixed job artifact download failing silently and causing run crash when using W&B Launch by @KyleGoyette https://github.com/wandb/wandb/pull/7285.
 - Fix handling of saving training files to Artifacts in the OpenAI Fine-Tuning integration.
 
+View the [v0.16.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.16.5" description="March 25, 2024">
 
-View the [v0.16.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.5) on GitHub.
 
 ## Added
 
@@ -997,11 +1080,13 @@ View the [v0.16.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.5
 
 - When printing run's information in the terminal remove links to jobs.
 
+View the [v0.16.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.16.4" description="March 05, 2024">
 
-View the [v0.16.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.4) on GitHub.
 
 ## Added
 
@@ -1038,11 +1123,13 @@ View the [v0.16.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.4
 - Fix stream releasing probe handle too early.
 - Always attempt to pull latest image for local container.
 
+View the [v0.16.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.16.3" description="February 06, 2024">
 
-View the [v0.16.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.3) on GitHub.
 
 ## Enhancements
 
@@ -1082,16 +1169,12 @@ View the [v0.16.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.3
 - Typo in cli.py.
 - Remove deadsnakes from accelerator build step.
 
-##  Docs
-
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.16.2...v0.16.3
+View the [v0.16.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.3) on GitHub.
 
 </Update>
 
 <Update label="v0.16.2" description="January 09, 2024">
 
-View the [v0.16.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.2) on GitHub.
 
 ## Enhancements
 
@@ -1132,17 +1215,12 @@ View the [v0.16.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.2
 - Fix error logging matplotlib scatter plot if the minimum version of plotly library is not met.
 - Allow overriding the default .netrc location with NETRC env var.
 
-##  Docs
-
-- Update the `README-libwandb-cpp.md` doc.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.16.1...v0.16.2
+View the [v0.16.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.2) on GitHub.
 
 </Update>
 
 <Update label="v0.16.1" description="December 05, 2023">
 
-View the [v0.16.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.1) on GitHub.
 
 ## Enhancements
 
@@ -1173,17 +1251,12 @@ View the [v0.16.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.1
 - Make old settings more robust.
 - Handle tags when resuming a run.
 
-##  Docs
-
-- Fix doc-string typo in a keras callback.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.16.0...v0.16.1
+View the [v0.16.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.1) on GitHub.
 
 </Update>
 
 <Update label="v0.16.0" description="November 07, 2023">
 
-View the [v0.16.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.0) on GitHub.
 
 ## Enhancements
 
@@ -1226,18 +1299,12 @@ View the [v0.16.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.0
 - Add warning when `log_code` can't locate any files.
 - Adjust ipython hooks for v8.17.
 
-##  Docs
-
-- Fix `Graph` docstring.
-- Fix suggested command for uploading artifacts.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.12...v0.16.0
+View the [v0.16.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.0) on GitHub.
 
 </Update>
 
 <Update label="v0.15.12" description="October 03, 2023">
 
-View the [v0.15.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.12) on GitHub.
 
 ## Enhancements
 
@@ -1261,16 +1328,12 @@ View the [v0.15.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.
 - Fix graphql type mapping.
 - Fix concurrency limit in uploader.
 
-##  Docs
-
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.11...v0.15.12
+View the [v0.15.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.12) on GitHub.
 
 </Update>
 
 <Update label="v0.15.11" description="September 21, 2023">
 
-View the [v0.15.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.11) on GitHub.
 
 ## Enhancements
 
@@ -1295,23 +1358,17 @@ View the [v0.15.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.
 - Add environment variable to configure batch size for download urls.
 - Fail rqis if no run is created.
 
-##  Docs
-
-- Add docs on running nexus-related system tests locally.
-- Add user-facing Nexus docs for Beta release.
-- Fix pip install nexus instruction.
 
 ##  Cleanup
 
 - Update README.md.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.10...v0.15.11
+View the [v0.15.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.11) on GitHub.
 
 </Update>
 
 <Update label="v0.15.10" description="September 06, 2023">
 
-View the [v0.15.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.10) on GitHub.
 
 ## Enhancements
 
@@ -1383,23 +1440,17 @@ View the [v0.15.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.
 - Update report id validation and encoding.
 - Add support for propagating messages from the internal process.
 
-##  Docs
-
-- Add package level docstrings for filestream.
-- Add basic developer guide.
-- Added more context for launch job describe description.
 
 ##  Cleanup
 
 - Fix to new ruff rule E721 additions.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.9...v0.15.10
+View the [v0.15.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.10) on GitHub.
 
 </Update>
 
 <Update label="v0.15.9" description="August 28, 2023">
 
-View the [v0.15.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.9) on GitHub.
 
 ## Enhancements
 
@@ -1414,13 +1465,12 @@ View the [v0.15.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.9
 - Avoid error at end of run with bigints.
 - Manually created image jobs can rerun correctly.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.8...v0.15.9
+View the [v0.15.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.9) on GitHub.
 
 </Update>
 
 <Update label="v0.15.8" description="August 01, 2023">
 
-View the [v0.15.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.8) on GitHub.
 
 ## Enhancements
 
@@ -1448,32 +1498,23 @@ View the [v0.15.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.8
 - Drop S3 bucket versioning check.
 - Speed up import time and fix `pkg_resources` DeprecationWarning.
 
-##  Docs
-
-
-##  Cleanup
-
-- Revert job re-queuing implementation on pod disconnect.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.7...v0.15.8
+View the [v0.15.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.8) on GitHub.
 
 </Update>
 
 <Update label="v0.15.7" description="July 25, 2023">
 
-View the [v0.15.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.7) on GitHub.
 
 ##  Fixes
 
 - Images not syncing until the end run (revert #5777).
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.6...v0.15.7
+View the [v0.15.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.7) on GitHub.
 
 </Update>
 
 <Update label="v0.15.6" description="July 24, 2023">
 
-View the [v0.15.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.6) on GitHub.
 
 ## Enhancements
 
@@ -1490,20 +1531,12 @@ View the [v0.15.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.6
 - Make LightGBM callback compatible with 4.0.0.
 - Use default settings for project retrieval if available.
 
-##  Docs
-
-
-##  Cleanup
-
-- Revert job re-queuing implementation on pod disconnect.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.5...v0.15.6
+View the [v0.15.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.6) on GitHub.
 
 </Update>
 
 <Update label="v0.15.5" description="July 05, 2023">
 
-View the [v0.15.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.5) on GitHub.
 
 ## Enhancements
 
@@ -1535,18 +1568,12 @@ View the [v0.15.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.5
 - Correct launch sweep author to personal username.
 - Change artifact methods and attributes to private.
 
-##  Docs
-
-- Update docs.
-- Fix comment about total retry time.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.4...v0.15.5
+View the [v0.15.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.5) on GitHub.
 
 </Update>
 
 <Update label="v0.15.4" description="June 06, 2023">
 
-View the [v0.15.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.4) on GitHub.
 
 ## Enhancements
 
@@ -1593,16 +1620,12 @@ View the [v0.15.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.4
 - Prevent errors by checking for `wandb.run` in Gym integration.
 - Fix wandb tfevent sync issue.
 
-##  Docs
-
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.3...v0.15.4
+View the [v0.15.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.4) on GitHub.
 
 </Update>
 
 <Update label="v0.15.3" description="May 17, 2023">
 
-View the [v0.15.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.3) on GitHub.
 
 ##  Fixes
 
@@ -1611,26 +1634,24 @@ View the [v0.15.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.3
 - Update `WandbTracer` to work with new langchain version.
 - Update summary for changed keys only.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.2...v0.15.3
+View the [v0.15.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.3) on GitHub.
 
 </Update>
 
 <Update label="v0.15.2" description="May 05, 2023">
 
-View the [v0.15.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.2) on GitHub.
 
 ##  Fixes
 
 - Update WandbTracer for new langchain release by @parambharat @tssweeney in https://github.com/wandb/wandb/pull/5467.
 - Fix error message in langchain wandb_tracer version check.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.1...v0.15.2
+View the [v0.15.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.2) on GitHub.
 
 </Update>
 
 <Update label="v0.15.1" description="May 02, 2023">
 
-View the [v0.15.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.1) on GitHub.
 
 ## Enhancements
 
@@ -1664,17 +1685,12 @@ View the [v0.15.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.1
 - Filter AWS Trainium metrics by local rank if executed with torchrun.
 - Inform users about WandbTracer incompatibility with LangChain > 0.0.153.
 
-##  Docs
-
-- Update docstrings of the Keras callbacks.
-
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.15.0...v0.15.1
+View the [v0.15.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.1) on GitHub.
 
 </Update>
 
 <Update label="v0.15.0" description="April 19, 2023">
 
-View the [v0.15.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.0) on GitHub.
 
 ## Enhancements
 
@@ -1686,25 +1702,23 @@ View the [v0.15.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.0
 - Add function signature wrapper to the patched openai methods.
 - Adjust OpenAI autolog public API to improve user experience by @dmitryduev @kptkin @raubitsj in https://github.com/wandb/wandb/pull/5381.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.14.2...v0.15.0
+View the [v0.15.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.0) on GitHub.
 
 </Update>
 
 <Update label="v0.14.2" description="April 07, 2023">
 
-View the [v0.14.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.2) on GitHub.
 
 ##  Fixes
 
 - Fix `wandb sync` regression.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.14.1...v0.14.2
+View the [v0.14.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.2) on GitHub.
 
 </Update>
 
 <Update label="v0.14.1" description="April 05, 2023">
 
-View the [v0.14.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.1) on GitHub.
 
 ## Enhancements
 
@@ -1728,23 +1742,18 @@ View the [v0.14.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.1
 - Make `wandb.log()` handle empty string values properly.
 - Raise exception when accessing methods and attributes of a finished run.
 
-##  Docs
-
-- Add documentation for launch.
-- Convert docstrings to Google convention.
 
 ##  Cleanup
 
 - Use 'secrets' module instead of custom random token generator.
 - Move \_manifest_json_from_proto to sender.py.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.14.0...v0.14.1
+View the [v0.14.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.1) on GitHub.
 
 </Update>
 
 <Update label="v0.14.0" description="March 14, 2023">
 
-View the [v0.14.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.0) on GitHub.
 
 ## Enhancements
 
@@ -1768,13 +1777,12 @@ View the [v0.14.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.0
 - Hide unsupported launch CLI options.
 - Make launch image builder install Pytorch properly with dependencies on different hardware.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.11...v0.14.0
+View the [v0.14.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.14.0) on GitHub.
 
 </Update>
 
 <Update label="v0.13.11" description="March 07, 2023">
 
-View the [v0.13.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.11) on GitHub.
 
 ## Enhancements
 
@@ -1823,10 +1831,6 @@ View the [v0.13.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.
 - Topological ordering of `wandb.Settings`.
 - Avoid lazy loading for tensorboard patching.
 
-##  Docs
-
-- Formatted wandb.apis.public.Run.history docstring.
-- Raise ArtifactFinalizedError instead of ValueError.
 
 ##  Cleanup
 
@@ -1844,13 +1848,12 @@ View the [v0.13.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.
 - Remove unused #noqa directives.
 - Disable sentry tracking when testing.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.10...v0.13.11
+View the [v0.13.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.11) on GitHub.
 
 </Update>
 
 <Update label="v0.13.10" description="February 07, 2023">
 
-View the [v0.13.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.10) on GitHub.
 
 ## Enhancements
 
@@ -1912,11 +1915,13 @@ View the [v0.13.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.
 - Internally use Future to communicate success/failure of commit, not threading.Event.
 - Use stdlib ThreadPoolExecutor in StepUpload instead of managing our own.
 
+View the [v0.13.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.10) on GitHub.
+
+
 </Update>
 
 <Update label="v0.13.9" description="January 11, 2023">
 
-View the [v0.13.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.9) on GitHub.
 
 ##  Fixes
 
@@ -1924,13 +1929,12 @@ View the [v0.13.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.9
 - Restore 'util.generate_id' for legacy / user code.
 - Replace `release` with `abandon` when releasing mailbox handle during init.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.8...v0.13.9
+View the [v0.13.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.9) on GitHub.
 
 </Update>
 
 <Update label="v0.13.8" description="January 10, 2023">
 
-View the [v0.13.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.8) on GitHub.
 
 ## Enhancements
 
@@ -1963,9 +1967,6 @@ View the [v0.13.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.8
 - Add `AttributeError` to the list of handled exceptions when saving a keras model.
 - Remove args from jobs.
 
-##  Docs
-
-- Fix typo in docs.
 
 ##  Dev
 
@@ -2017,25 +2018,23 @@ View the [v0.13.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.8
 - Install tox into proper env in dev env setup tool.
 - Clean up the init and run logic.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.7...v0.13.8
+View the [v0.13.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.8) on GitHub.
 
 </Update>
 
 <Update label="v0.13.7" description="December 14, 2022">
 
-View the [v0.13.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.7) on GitHub.
 
 ##  Fixes
 
 - Revert `Circular reference detected` change to resolve `Object of type Tensor is not JSON serializable`.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.6...v0.13.7
+View the [v0.13.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.7) on GitHub.
 
 </Update>
 
 <Update label="v0.13.6" description="December 06, 2022">
 
-View the [v0.13.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.6) on GitHub.
 
 ## Enhancements
 
@@ -2059,9 +2058,6 @@ View the [v0.13.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.6
 - Update gym integration to match last version.
 - Harden internal thread management in SystemMetrics.
 
-##  Docs
-
-- Correct parameter name in docstring example.
 
 ##  Dev
 
@@ -2091,13 +2087,12 @@ View the [v0.13.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.6
 - Turn on linting for internal_api.py.
 - Remove dependency on six by modifying vendored libs.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.5...v0.13.6
+View the [v0.13.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.6) on GitHub.
 
 </Update>
 
 <Update label="v0.13.5" description="November 03, 2022">
 
-View the [v0.13.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.5) on GitHub.
 
 ## Enhancements
 
@@ -2135,13 +2130,12 @@ View the [v0.13.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.5
 - Refactor system metrics monitoring and probing.
 - Fix gitattribute for protobuf generated files.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.4...v0.13.5
+View the [v0.13.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.5) on GitHub.
 
 </Update>
 
 <Update label="v0.13.4" description="October 05, 2022">
 
-View the [v0.13.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.4) on GitHub.
 
 ## Enhancements
 
@@ -2183,13 +2177,12 @@ View the [v0.13.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.4
 - Introduce str NewTypes and use them for various Artifact fields.
 - Add type annotations to get better IDE hints for boto3 usage.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.3...v0.13.4
+View the [v0.13.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.4) on GitHub.
 
 </Update>
 
 <Update label="v0.13.3" description="September 08, 2022">
 
-View the [v0.13.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.3) on GitHub.
 
 ## Enhancement
 
@@ -2273,37 +2266,34 @@ View the [v0.13.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.3
 - Fixes RecursionError when printing public API User object without email fetched.
 - Fixes deserialization of numeric column names.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.2...v0.13.3
+View the [v0.13.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.3) on GitHub.
 
 </Update>
 
 <Update label="v0.13.2" description="August 22, 2022">
 
-View the [v0.13.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.2) on GitHub.
 
 ## Bug Fix
 
 - Fix issue triggered by colab update by using default file and catching exceptions.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.1...v0.13.2
+View the [v0.13.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.2) on GitHub.
 
 </Update>
 
 <Update label="v0.13.1" description="August 05, 2022">
 
-View the [v0.13.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.1) on GitHub.
 
 ## Bug Fix
 
 - Prevents run.log() from mutating passed in arguments.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.13.0...v0.13.1
+View the [v0.13.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.1) on GitHub.
 
 </Update>
 
 <Update label="v0.13.0" description="August 04, 2022">
 
-View the [v0.13.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.0) on GitHub.
 
 ## Enhancement
 
@@ -2353,13 +2343,12 @@ View the [v0.13.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.0
 - Renames `wandb local` to `wandb server`.
 - Updates README badges.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.21...v0.13.0
+View the [v0.13.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.0) on GitHub.
 
 </Update>
 
 <Update label="v0.12.21" description="July 05, 2022">
 
-View the [v0.12.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.21) on GitHub.
 
 ## Enhancement
 
@@ -2399,37 +2388,34 @@ View the [v0.12.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Replaces deprecated threading aliases.
 - Updates the `sdk` readme to the renamed (local -> server) commands.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.20...v0.12.21
+View the [v0.12.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.21) on GitHub.
 
 </Update>
 
 <Update label="v0.12.20" description="June 29, 2022">
 
-View the [v0.12.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.20) on GitHub.
 
 ## Bug Fix
 
 - Retry `commit_artifact` on conflict-error.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.19...v0.12.20
+View the [v0.12.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.20) on GitHub.
 
 </Update>
 
 <Update label="v0.12.19" description="June 22, 2022">
 
-View the [v0.12.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.19) on GitHub.
 
 ## Bug Fix
 
 - Fix regression in s3 reference upload for folders.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.18...v0.12.19
+View the [v0.12.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.19) on GitHub.
 
 </Update>
 
 <Update label="v0.12.18" description="June 09, 2022">
 
-View the [v0.12.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.18) on GitHub.
 
 ## Enhancement
 
@@ -2478,25 +2464,23 @@ View the [v0.12.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Ditch `dateutil` from the requirements.
 - Add deprecated string to `Table.add_row`.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.17...v0.12.18
+View the [v0.12.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.18) on GitHub.
 
 </Update>
 
 <Update label="v0.12.17" description="May 26, 2022">
 
-View the [v0.12.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.17) on GitHub.
 
 ## Bug Fix
 
 - Update requirements to fix incompatibility with protobuf >= 4.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.16...v0.12.17
+View the [v0.12.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.17) on GitHub.
 
 </Update>
 
 <Update label="v0.12.16" description="May 03, 2022">
 
-View the [v0.12.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.16) on GitHub.
 
 ## Enhancement
 
@@ -2532,49 +2516,45 @@ View the [v0.12.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Add type annotations to DirWatcher.
 - Improve wandb.log() docstring to use the correct argument name.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.15...v0.12.16
+View the [v0.12.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.16) on GitHub.
 
 </Update>
 
 <Update label="v0.12.15" description="April 21, 2022">
 
-View the [v0.12.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.15) on GitHub.
 
 ## Enhancement
 
 - Optimize wandb.Image logging when linked to an artifact.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.14...v0.12.15
+View the [v0.12.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.15) on GitHub.
 
 </Update>
 
 <Update label="v0.12.14" description="April 08, 2022">
 
-View the [v0.12.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.14) on GitHub.
 
 ## Bug Fix
 
 - Fix regression: disable saving history step in artifacts.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.13...v0.12.14
+View the [v0.12.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.14) on GitHub.
 
 </Update>
 
 <Update label="v0.12.13" description="April 07, 2022">
 
-View the [v0.12.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.13) on GitHub.
 
 ## Bug Fix
 
 - Revert strictened api_key validation.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.12...v0.12.13
+View the [v0.12.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.13) on GitHub.
 
 </Update>
 
 <Update label="v0.12.12" description="April 05, 2022">
 
-View the [v0.12.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.12) on GitHub.
 
 ## Enhancement
 
@@ -2608,13 +2588,12 @@ View the [v0.12.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Workaround for MoviePy's Unclosed Writer.
 - Improve handling of Run objects when service is not enabled.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.11...v0.12.12
+View the [v0.12.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.12) on GitHub.
 
 </Update>
 
 <Update label="v0.12.11" description="March 01, 2022">
 
-View the [v0.12.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.11) on GitHub.
 
 ## Enhancement
 
@@ -2644,13 +2623,12 @@ View the [v0.12.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Fix issue where sagemaker run ids break run queues.
 - Fix encoding exception when using %%capture magic.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.10...v0.12.11
+View the [v0.12.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.11) on GitHub.
 
 </Update>
 
 <Update label="v0.12.10" description="February 01, 2022">
 
-View the [v0.12.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.10) on GitHub.
 
 ## Enhancement
 
@@ -2673,25 +2651,23 @@ View the [v0.12.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.
 - Drop python2 backport deps (enum34, subprocess32, configparser).
 - Settings refactor.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.9...v0.12.10
+View the [v0.12.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.10) on GitHub.
 
 </Update>
 
 <Update label="v0.12.9" description="December 16, 2021">
 
-View the [v0.12.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.9) on GitHub.
 
 ## Bug Fix
 
 - Fix regression in `upload_file()` exception handler.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.8...v0.12.9
+View the [v0.12.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.9) on GitHub.
 
 </Update>
 
 <Update label="v0.12.8" description="December 16, 2021">
 
-View the [v0.12.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.8) on GitHub.
 
 ## Enhancement
 
@@ -2716,13 +2692,12 @@ View the [v0.12.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.8
 - Fix `from wandb import magic` to not require tensorflow.
 - Fix launch permission error.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.7...v0.12.8
+View the [v0.12.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.8) on GitHub.
 
 </Update>
 
 <Update label="v0.12.7" description="November 18, 2021">
 
-View the [v0.12.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.7) on GitHub.
 
 ## Bug Fix
 
@@ -2751,13 +2726,12 @@ View the [v0.12.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.7
 - Improve usage and error messages for anonymous mode.
 - Add example on how to find runs with wandb.Api().runs(...) matching a regex.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.6...v0.12.7
+View the [v0.12.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.7) on GitHub.
 
 </Update>
 
 <Update label="v0.12.6" description="October 27, 2021">
 
-View the [v0.12.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.6) on GitHub.
 
 ## Bug Fix
 
@@ -2769,13 +2743,12 @@ View the [v0.12.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.6
 
 - Add metric names to pr curve charts in tensorboard.
 
-**Full Changelog**: https://github.com/wandb/wandb/compare/v0.12.5...v0.12.6
+View the [v0.12.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.6) on GitHub.
 
 </Update>
 
 <Update label="v0.12.5" description="October 19, 2021">
 
-View the [v0.12.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.5) on GitHub.
 
 ## Bug Fix
 
@@ -2794,21 +2767,25 @@ View the [v0.12.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.5
 - Add ability to delete artifacts with aliases: `artifact.delete(delete_aliases=True)`.
 - Add `unwatch()` method to the Run object.
 
+View the [v0.12.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.12.4" description="October 05, 2021">
 
-View the [v0.12.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.4) on GitHub.
 
 ## Bug Fix
 
 - Fix regression introduced in 0.12.2 causing network access when `WANDB_MODE=offline`.
 
+View the [v0.12.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.12.3" description="September 30, 2021">
 
-View the [v0.12.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.3) on GitHub.
 
 ## Bug Fix
 
@@ -2825,11 +2802,13 @@ View the [v0.12.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.3
 - Manage api keys via the api `api.user("username_or_email").generate_api_key()`.
 - Add pytorch profiling trace support with `wandb.profiler.torch_trace_handler()`.
 
+View the [v0.12.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.12.2" description="September 15, 2021">
 
-View the [v0.12.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.2) on GitHub.
 
 ## Bug Fix
 
@@ -2847,11 +2826,13 @@ View the [v0.12.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.2
 - Add support for jupyter notebooks in launch.
 - Add `wandb.login()` timeout option.
 
+View the [v0.12.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.12.1" description="August 26, 2021">
 
-View the [v0.12.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.1) on GitHub.
 
 ## Bug Fix
 
@@ -2871,11 +2852,13 @@ View the [v0.12.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.1
 - Add warnings that public API requests are timing out and allow override.
 - Improve error handling in local controller sweeps engine.
 
+View the [v0.12.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.12.0" description="August 10, 2021">
 
-View the [v0.12.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.0) on GitHub.
 
 ###  No Longer Supported
 
@@ -2890,21 +2873,25 @@ View the [v0.12.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.0
 
 - Improve run execution time calculation.
 
+View the [v0.12.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.12.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.11.2" description="August 02, 2021">
 
-View the [v0.11.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.2) on GitHub.
 
 ## Bug Fix
 
 - Restore vendored graphql-core library because of network regression.
 
+View the [v0.11.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.11.1" description="July 29, 2021">
 
-View the [v0.11.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.1) on GitHub.
 
 ## Deprecated
 
@@ -2925,11 +2912,13 @@ View the [v0.11.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.1
 - Improve Stable-Baselines3 API by auto log model's name and always upload models at the end of training.
 - Implements the sweep local controller using wandb/sweeps.
 
+View the [v0.11.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.11.0" description="July 15, 2021">
 
-View the [v0.11.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.0) on GitHub.
 
 ###  No Longer Supported
 
@@ -2949,11 +2938,13 @@ View the [v0.11.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.0
 - Expose sweep state via the public API.
 - Improve performance of sweep run fetches via the API.
 
+View the [v0.11.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.11.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.33" description="June 28, 2021">
 
-View the [v0.10.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.33) on GitHub.
 
 ## Bug Fix
 
@@ -2970,11 +2961,13 @@ View the [v0.10.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Increase config debounce interval to 30s to reduce load on WB/backend.
 - Improve reliability of CLI in generating sweeps with names, programs, and settings.
 
+View the [v0.10.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.33) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.32" description="June 10, 2021">
 
-View the [v0.10.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.32) on GitHub.
 
 ## Bug Fix
 
@@ -2993,11 +2986,13 @@ View the [v0.10.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Improve wandb sync to handle errors.
 - Add ability to label scripts and repositories who use wandb.
 
+View the [v0.10.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.32) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.31" description="May 27, 2021">
 
-View the [v0.10.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.31) on GitHub.
 
 ## Bug Fix
 
@@ -3015,11 +3010,13 @@ View the [v0.10.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Add command line for sweep control.
 - Add support to load artifact collection properties.
 
+View the [v0.10.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.31) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.30" description="May 07, 2021">
 
-View the [v0.10.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.30) on GitHub.
 
 ## Bug Fix
 
@@ -3038,22 +3035,26 @@ View the [v0.10.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 
 - Allow renaming groups with public api.
 
+View the [v0.10.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.30) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.29" description="May 03, 2021">
 
-View the [v0.10.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.29) on GitHub.
 
 ## Bug Fix
 
 - Fix more network handling issues causing runs to be marked crashed (wandb sync to recover).
 - Improve logging and exception handling to improve reporting and logging of crashed processes.
 
+View the [v0.10.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.29) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.28" description="April 28, 2021">
 
-View the [v0.10.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.28) on GitHub.
 
 ## Bug Fix
 
@@ -3068,11 +3069,13 @@ View the [v0.10.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Add experimental incremental artifact support.
 - Improve warnings when logging is being rate limited.
 
+View the [v0.10.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.28) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.27" description="April 19, 2021">
 
-View the [v0.10.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.27) on GitHub.
 
 ## Bug Fix
 
@@ -3085,11 +3088,13 @@ View the [v0.10.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Integrate DSViz into Keras WandbCallback.
 - Add support for conda dependencies (user submit).
 
+View the [v0.10.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.27) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.26" description="April 13, 2021">
 
-View the [v0.10.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.26) on GitHub.
 
 ## Bug Fix
 
@@ -3102,11 +3107,13 @@ View the [v0.10.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 
 - Improve error messages when using public api history accessors.
 
+View the [v0.10.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.26) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.25" description="April 05, 2021">
 
-View the [v0.10.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.25) on GitHub.
 
 ## Bug Fix
 
@@ -3118,11 +3125,13 @@ View the [v0.10.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Release `run.define_metric()` to simplify custom x-axis and more.
 - Add column operators `add_column`, `get_column`, `get_index` to `wandb.Table()`.
 
+View the [v0.10.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.25) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.24" description="March 30, 2021">
 
-View the [v0.10.24 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.24) on GitHub.
 
 ## Bug Fix
 
@@ -3136,11 +3145,13 @@ View the [v0.10.24 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Add bracket notation to artifacts.
 - Improve URL validation when specifying server url to `wandb login`.
 
+View the [v0.10.24 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.24) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.23" description="March 22, 2021">
 
-View the [v0.10.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.23) on GitHub.
 
 ## Bug Fix
 
@@ -3157,11 +3168,13 @@ View the [v0.10.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Add experimental `run._define_metric()` support.
 - Warn and ignore unsupported multiprocess `wandb.log()` calls.
 
+View the [v0.10.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.23) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.22" description="March 09, 2021">
 
-View the [v0.10.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.22) on GitHub.
 
 ## Bug Fix
 
@@ -3175,11 +3188,13 @@ View the [v0.10.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 
 - Allow syncing of tfevents with `wandb sync --sync-tensorboard`.
 
+View the [v0.10.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.22) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.21" description="March 02, 2021">
 
-View the [v0.10.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.21) on GitHub.
 
 ## Bug Fix
 
@@ -3194,11 +3209,13 @@ View the [v0.10.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Custom chart support tensorboard `pr_curves` plugin.
 - Support saving entire code directory in an artifact.
 
+View the [v0.10.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.21) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.20" description="February 22, 2021">
 
-View the [v0.10.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.20) on GitHub.
 
 ## Bug Fix
 
@@ -3211,21 +3228,25 @@ View the [v0.10.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Add `group` and `job_type` to Run object in the export API.
 - Improve artifact docstrings.
 
+View the [v0.10.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.20) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.19" description="February 14, 2021">
 
-View the [v0.10.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.19) on GitHub.
 
 ## Bug Fix
 
 - Fix artifact manifest files incorrectly named with patch suffix.
 
+View the [v0.10.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.19) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.18" description="February 08, 2021">
 
-View the [v0.10.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.18) on GitHub.
 
 ## Enhancement
 
@@ -3240,22 +3261,26 @@ View the [v0.10.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Improve `wandb verify` to better handle network issues and report errors.
 - Made file downloads more deterministic with respect to filesystem caches.
 
+View the [v0.10.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.18) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.17" description="February 01, 2021">
 
-View the [v0.10.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.17) on GitHub.
 
 ## Bug Fix
 
 - Fix regression seen with python 3.5.
 - Silence vendored watchdog warnings on mac.
 
+View the [v0.10.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.17) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.16" description="February 01, 2021">
 
-View the [v0.10.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.16) on GitHub.
 
 ## Enhancement
 
@@ -3275,11 +3300,13 @@ View the [v0.10.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fixed WANDB_SILENT in Spyder IDE.
 - Reference file:// artifacts respect the `name` attribute.
 
+View the [v0.10.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.16) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.15" description="January 24, 2021">
 
-View the [v0.10.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.15) on GitHub.
 
 ## Enhancement
 
@@ -3293,11 +3320,13 @@ View the [v0.10.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fix artifacts with checkpoints to be more robust when overwriting files.
 - Fix artifacts recycled id issue.
 
+View the [v0.10.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.15) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.14" description="January 15, 2021">
 
-View the [v0.10.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.14) on GitHub.
 
 ## Enhancement
 
@@ -3308,11 +3337,13 @@ View the [v0.10.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fix wandb config regressions introduced in 0.10.13.
 - Rollback changes supporting media with slashes in keys.
 
+View the [v0.10.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.14) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.13" description="January 11, 2021">
 
-View the [v0.10.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.13) on GitHub.
 
 ## Enhancement
 
@@ -3331,11 +3362,13 @@ View the [v0.10.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fix `wandb online` to renable logging.
 - Multiple artifact fixes.
 
+View the [v0.10.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.13) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.12" description="December 03, 2020">
 
-View the [v0.10.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.12) on GitHub.
 
 ## Enhancement
 
@@ -3356,11 +3389,13 @@ View the [v0.10.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fix artifact from_id query.
 - Fix handling of Tables with different image paths.
 
+View the [v0.10.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.12) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.11" description="November 18, 2020">
 
-View the [v0.10.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.11) on GitHub.
 
 ## Enhancement
 
@@ -3376,11 +3411,13 @@ View the [v0.10.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fix issue where vendored libraries interfered with python path.
 - Fix various exceptions (divide by zero, int conversion, TypeError).
 
+View the [v0.10.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.11) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.10" description="November 09, 2020">
 
-View the [v0.10.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.10) on GitHub.
 
 ## Enhancement
 
@@ -3392,11 +3429,13 @@ View the [v0.10.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.
 - Fix for fastai 2.1.5 (removed log_args).
 - Fixed media logging when directories are changed.
 
+View the [v0.10.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.10) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.9" description="November 04, 2020">
 
-View the [v0.10.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.9) on GitHub.
 
 ## Enhancement
 
@@ -3418,11 +3457,13 @@ View the [v0.10.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.9
 - Avoid creating spurious wandb directories.
 - Fix collections import issue when using an old version of six.
 
+View the [v0.10.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.9) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.8" description="October 22, 2020">
 
-View the [v0.10.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.8) on GitHub.
 
 ## Enhancement
 
@@ -3437,21 +3478,25 @@ View the [v0.10.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.8
 - Improve symlink handling when called in thread context.
 - Fix issues when changing directories before calling wandb.init().
 
+View the [v0.10.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.8) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.7" description="October 15, 2020">
 
-View the [v0.10.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.7) on GitHub.
 
 ## Bug Fix
 
 - Fix issue when checking for updated releases on pypi.
 
+View the [v0.10.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.7) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.6" description="October 15, 2020">
 
-View the [v0.10.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.6) on GitHub.
 
 ## Bug Fix
 
@@ -3463,11 +3508,13 @@ View the [v0.10.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.6
 - Improve artifact error messages.
 - Fix loading of config-defaults.yaml and specified list of yaml config files.
 
+View the [v0.10.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.5" description="October 07, 2020">
 
-View the [v0.10.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.5) on GitHub.
 
 ## Enhancement
 
@@ -3481,21 +3528,25 @@ View the [v0.10.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.5
 - Fix sagemaker login issues.
 - Fix issue where plots were not uploaded until the end of run.
 
+View the [v0.10.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.4" description="September 29, 2020">
 
-View the [v0.10.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.4) on GitHub.
 
 ## Bug Fix
 
 - Fix an issue where wandb.init(allow_val_change=) throws exception.
 
+View the [v0.10.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.3" description="September 29, 2020">
 
-View the [v0.10.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.3) on GitHub.
 
 ## Enhancement
 
@@ -3513,11 +3564,13 @@ View the [v0.10.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.3
 - Fix predicted bounding boxes overwritten by ground truth boxes.
 - Add missing save_code parameter to wandb.init().
 
+View the [v0.10.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.2" description="September 20, 2020">
 
-View the [v0.10.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.2) on GitHub.
 
 ## Enhancement
 
@@ -3533,11 +3586,13 @@ View the [v0.10.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.2
 - Tensorboard now logging images before end of program.
 - Fix resume issues dealing with config and summary metrics.
 
+View the [v0.10.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.1" description="September 16, 2020">
 
-View the [v0.10.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.1) on GitHub.
 
 ## Enhancement
 
@@ -3552,11 +3607,13 @@ View the [v0.10.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.1
 - Fix issue where we were ignoring settings changes.
 - Fix artifact download issues.
 
+View the [v0.10.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.10.0" description="September 11, 2020">
 
-View the [v0.10.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.0) on GitHub.
 
 ## Enhancement
 
@@ -3572,11 +3629,13 @@ View the [v0.10.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.0
 
 - Many bugs fixed due to simplifying logic.
 
+View the [v0.10.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.7" description="September 08, 2020">
 
-View the [v0.9.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.7) on GitHub.
 
 ## Enhancement
 
@@ -3587,11 +3646,13 @@ View the [v0.9.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.7) 
 
 - Print meaningful error message when runs are queried with `summary` instead of `summary_metrics`.
 
+View the [v0.9.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.7) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.6" description="August 28, 2020">
 
-View the [v0.9.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.6) on GitHub.
 
 ## Enhancement
 
@@ -3604,11 +3665,13 @@ View the [v0.9.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.6) 
 - Fix yaml parsing error handling logic.
 - Bad spelling in torch docstring, thanks @mkkb473.
 
+View the [v0.9.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.5" description="August 17, 2020">
 
-View the [v0.9.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.5) on GitHub.
 
 ## Enhancement
 
@@ -3623,11 +3686,13 @@ View the [v0.9.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.5) 
 - Fix mask numeric types, thanks @numpee.
 - Fix artifact reference naming mixup.
 
+View the [v0.9.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.4" description="July 24, 2020">
 
-View the [v0.9.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.4) on GitHub.
 
 ## Enhancement
 
@@ -3642,11 +3707,13 @@ View the [v0.9.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.4) 
 - Correctly return artifact metadata in public api.
 - Fix matplotlib / plotly rendering error.
 
+View the [v0.9.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.3" description="July 10, 2020">
 
-View the [v0.9.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.3) on GitHub.
 
 ## Enhancement
 
@@ -3684,11 +3751,13 @@ wandb.Api().Artifact().file()
 - Fix encoding of numpy arrays to JSON.
 - Fix string comparison error message.
 
+View the [v0.9.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.2" description="June 29, 2020">
 
-View the [v0.9.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.2) on GitHub.
 
 ## Enhancement
 
@@ -3706,22 +3775,26 @@ View the [v0.9.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.2) 
 - Segmentation masks now handle non-unint8 data.
 - Fixed path parsing logic in `api.runs()`.
 
+View the [v0.9.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.1" description="June 09, 2020">
 
-View the [v0.9.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.1) on GitHub.
 
 ## Bug Fix
 
 - Fix issue where files were always logged to latest run in a project.
 - Fix issue where url was not display url on first call to wandb.init.
 
+View the [v0.9.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.9.0" description="June 05, 2020">
 
-View the [v0.9.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.0) on GitHub.
 
 ## Bug Fix
 
@@ -3734,11 +3807,13 @@ View the [v0.9.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.0) 
 - Wandb.Artifact is now generally available!
 - Feature_importances now supports CatBoost, thanks @neomatrix369.
 
+View the [v0.9.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.36" description="May 11, 2020">
 
-View the [v0.8.36 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.36) on GitHub.
 
 ## Bug Fix
 
@@ -3752,11 +3827,13 @@ View the [v0.8.36 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.36
 - We now support global settings on boot to enable code saving on the server.
 - New `code_save=True` argument to wandb.init to enable code saving manually.
 
+View the [v0.8.36 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.36) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.35" description="May 01, 2020">
 
-View the [v0.8.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.35) on GitHub.
 
 ## Bug Fix
 
@@ -3764,11 +3841,13 @@ View the [v0.8.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.35
 - Fixed jupyter integration in PyCharm shells.
 - Made session history saving handle None metadata in outputs.
 
+View the [v0.8.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.35) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.34" description="April 28, 2020">
 
-View the [v0.8.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.34) on GitHub.
 
 ## Enhancement
 
@@ -3782,11 +3861,13 @@ View the [v0.8.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.34
 - Fixed thread errors in jupyter.
 - Ensure final history rows aren't dropped in jupyter.
 
+View the [v0.8.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.33" description="April 24, 2020">
 
-View the [v0.8.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.33) on GitHub.
 
 ## Enhancement
 
@@ -3800,21 +3881,25 @@ View the [v0.8.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.33
 - Handle nan values in pytorch histograms.
 - Fix handling of binary image masks.
 
+View the [v0.8.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.33) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.32" description="April 14, 2020">
 
-View the [v0.8.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.32) on GitHub.
 
 ## Enhancement
 
 - Improve semantic segmentation image mask logging.
 
+View the [v0.8.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.32) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.31" description="March 19, 2020">
 
-View the [v0.8.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.31) on GitHub.
 
 ## Enhancement
 
@@ -3824,11 +3909,13 @@ View the [v0.8.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.31
 
 - Parse "tensor" protobufs, fixing issues with tensorboard syncing in 2.1.
 
+View the [v0.8.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.31) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.30" description="March 19, 2020">
 
-View the [v0.8.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.30) on GitHub.
 
 ## Enhancement
 
@@ -3841,11 +3928,13 @@ View the [v0.8.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.30
 
 - Avoid accidently picking up global debugging logs.
 
+View the [v0.8.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.30) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.29" description="March 05, 2020">
 
-View the [v0.8.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.29) on GitHub.
 
 ## Enhancement
 
@@ -3860,11 +3949,13 @@ View the [v0.8.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.29
 - Fix sweep config command handling.
 - Fix tensorflow string logging.
 
+View the [v0.8.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.29) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.28" description="February 21, 2020">
 
-View the [v0.8.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.28) on GitHub.
 
 ## Enhancement
 
@@ -3875,21 +3966,25 @@ View the [v0.8.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.28
 
 - Fix situations where uncommitted data from wandb.log() is not persisted.
 
+View the [v0.8.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.28) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.27" description="February 11, 2020">
 
-View the [v0.8.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.27) on GitHub.
 
 ## Bug Fix
 
 - Fix dependency conflict with new versions of six package.
 
+View the [v0.8.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.27) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.26" description="February 10, 2020">
 
-View the [v0.8.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.26) on GitHub.
 
 ## Enhancement
 
@@ -3902,32 +3997,38 @@ View the [v0.8.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.26
 - Improved compatibility with python 3.8.
 - Fix model logging under windows.
 
+View the [v0.8.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.26) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.25" description="February 04, 2020">
 
-View the [v0.8.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.25) on GitHub.
 
 ## Bug Fix
 
 - Fix exception when using wandb.watch() in a notebook.
 - Improve support for sparse tensor gradient logging on GPUs.
 
+View the [v0.8.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.25) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.24" description="February 03, 2020">
 
-View the [v0.8.24 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.24) on GitHub.
 
 ## Bug Fix
 
 - Relax version dependency for PyYAML for users with old environments.
 
+View the [v0.8.24 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.24) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.23" description="February 03, 2020">
 
-View the [v0.8.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.23) on GitHub.
 
 ## Enhancement
 
@@ -3942,11 +4043,13 @@ View the [v0.8.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.23
 - Fix "W&B process failed to launch" problems.
 - Improved ability to log large model graphs and plots.
 
+View the [v0.8.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.23) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.22" description="January 24, 2020">
 
-View the [v0.8.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.22) on GitHub.
 
 ## Enhancement
 
@@ -3958,11 +4061,13 @@ View the [v0.8.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.22
 - Fix logging of eager tensorflow tensors.
 - Fix jupyter issues with logging notebook name and wandb.watch().
 
+View the [v0.8.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.22) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.21" description="January 15, 2020">
 
-View the [v0.8.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.21) on GitHub.
 
 ## Enhancement
 
@@ -3973,11 +4078,13 @@ View the [v0.8.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.21
 - Fix agent "flapping" detection.
 - Fix local controller not starting when sweep is pending.
 
+View the [v0.8.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.21) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.20" description="January 10, 2020">
 
-View the [v0.8.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.20) on GitHub.
 
 ## Enhancement
 
@@ -3990,11 +4097,13 @@ View the [v0.8.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.20
 
 - Prevent sweep agent from failing continuously when misconfigured.
 
+View the [v0.8.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.20) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.19" description="December 18, 2019">
 
-View the [v0.8.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.19) on GitHub.
 
 ## Enhancement
 
@@ -4007,11 +4116,13 @@ View the [v0.8.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.19
 - Fix repeated wandb.Api().Run(id).scan_history() calls get updated data.
 - Fix early_terminate/hyperband in notebook/python environments.
 
+View the [v0.8.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.19) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.18" description="December 04, 2019">
 
-View the [v0.8.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.18) on GitHub.
 
 ## Enhancement
 
@@ -4022,11 +4133,13 @@ View the [v0.8.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.18
 
 - Wandb.init(sync_tensorboard=True) works again for TensorFlow 2.0.
 
+View the [v0.8.18 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.18) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.17" description="December 02, 2019">
 
-View the [v0.8.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.17) on GitHub.
 
 ## Enhancement
 
@@ -4038,22 +4151,26 @@ View the [v0.8.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.17
 - TQDM progress bars update logs properly.
 - Oversized summary or history logs are now dropped which prevents retry hanging.
 
+View the [v0.8.17 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.17) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.16" description="November 21, 2019">
 
-View the [v0.8.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.16) on GitHub.
 
 ## Bug Fix
 
 - Fix regression syncing some versions of Tensorboard since 0.8.13.
 - Fix network error in Jupyter.
 
+View the [v0.8.16 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.16) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.15" description="November 05, 2019">
 
-View the [v0.8.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.15) on GitHub.
 
 ## Bug Fix
 
@@ -4066,11 +4183,13 @@ View the [v0.8.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.15
 - Added best_run() to wandb.sweep() public Api objects.
 - Remove internal tracking keys from wandb.config objects in the public Api.
 
+View the [v0.8.15 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.15) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.14" description="November 01, 2019">
 
-View the [v0.8.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.14) on GitHub.
 
 ## Bug Fix
 
@@ -4098,11 +4217,13 @@ View the [v0.8.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.14
 - Added wandb.unwatch to remove hooks from pytorch models.
 - Store the framework used in config.\_wandb.
 
+View the [v0.8.14 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.14) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.13" description="October 15, 2019">
 
-View the [v0.8.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.13) on GitHub.
 
 ## Bug Fix
 
@@ -4129,11 +4250,13 @@ View the [v0.8.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.13
 - Nice error message when wandb.log is called without a dict.
 - Keras callback has a new `log_batch_frequency` for logging metrics every N batches.
 
+View the [v0.8.13 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.13) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.12" description="September 20, 2019">
 
-View the [v0.8.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.12) on GitHub.
 
 ## Bug Fix
 
@@ -4143,11 +4266,13 @@ View the [v0.8.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.12
 
 - Improved onboarding flow when creating new accounts and entering api_key.
 
+View the [v0.8.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.12) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.11" description="September 19, 2019">
 
-View the [v0.8.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.11) on GitHub.
 
 ## Bug Fix
 
@@ -4158,11 +4283,13 @@ View the [v0.8.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.11
 
 - Added recording of spell.run id in config.
 
+View the [v0.8.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.11) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.10" description="September 13, 2019">
 
-View the [v0.8.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.10) on GitHub.
 
 ## Bug Fix
 
@@ -4192,11 +4319,13 @@ View the [v0.8.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.10
 - All images are now rendered as PNG to avoid JPEG artifacts.
 - Public api now has a projects field.
 
+View the [v0.8.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.10) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.9" description="August 19, 2019">
 
-View the [v0.8.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.9) on GitHub.
 
 ## Bug Fix
 
@@ -4212,11 +4341,13 @@ View the [v0.8.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.9) 
 - Small files are batch uploaded as gzipped tarballs.
 - TensorBoardX gifs are logged to wandb.
 
+View the [v0.8.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.9) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.8" description="August 13, 2019">
 
-View the [v0.8.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.8) on GitHub.
 
 ## Bug Fix
 
@@ -4238,11 +4369,13 @@ View the [v0.8.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.8) 
 - Anonymous login support for easier onboarding.
 - Calling wandb.init multiple times in jupyter doesn't error out.
 
+View the [v0.8.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.8) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.7" description="August 07, 2019">
 
-View the [v0.8.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.7) on GitHub.
 
 ## Bug Fix
 
@@ -4256,11 +4389,13 @@ View the [v0.8.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.7) 
 - Wandb.summary prints helpful errors if used before calling init.
 - Filestream api points to new url on the backend.
 
+View the [v0.8.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.7) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.6" description="July 31, 2019">
 
-View the [v0.8.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.6) on GitHub.
 
 ## Bug Fix
 
@@ -4284,11 +4419,13 @@ View the [v0.8.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.6) 
 - Sync the main file to wandb if code saving is enabled and it's untracked by git.
 - XGBoost callback: wandb.xgboost.wandb_callback().
 
+View the [v0.8.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.6) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.5" description="July 12, 2019">
 
-View the [v0.8.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.5) on GitHub.
 
 ## Bug Fix
 
@@ -4304,11 +4441,13 @@ View the [v0.8.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.5) 
 - Added input_type and output_type to the Keras callback for simpler config.
 - Public api supports retrieving specific keys and custom xaxis.
 
+View the [v0.8.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.5) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.4" description="July 08, 2019">
 
-View the [v0.8.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.4) on GitHub.
 
 ## Bug Fix
 
@@ -4325,11 +4464,13 @@ View the [v0.8.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.4) 
 - Cli now supports local installs of the backend.
 - Fastai callback supports logging example images.
 
+View the [v0.8.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.4) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.3" description="June 26, 2019">
 
-View the [v0.8.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.3) on GitHub.
 
 ## Bug Fix
 
@@ -4344,11 +4485,13 @@ View the [v0.8.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.3) 
 - New helper function for handling hyperparameters in sweeps `wandb.config.user_items()`.
 - Better mocking for improved testing.
 
+View the [v0.8.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.2" description="June 20, 2019">
 
-View the [v0.8.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.2) on GitHub.
 
 ## Bug Fix
 
@@ -4377,11 +4520,13 @@ View the [v0.8.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.2) 
 - Wandb.init now accepts a notes argument.
 - The cli replaced the message argument with notes and name.
 
+View the [v0.8.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.1" description="May 23, 2019">
 
-View the [v0.8.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.1) on GitHub.
 
 ## Bug Fix
 
@@ -4398,11 +4543,13 @@ View the [v0.8.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.1) 
 - Wandb sync accepts an --ignore argument with globs to skip files.
 - Run.summary now has an items() method for iterating over all keys.
 
+View the [v0.8.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.8.0" description="May 17, 2019">
 
-View the [v0.8.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.0) on GitHub.
 
 ## Bug Fix
 
@@ -4431,11 +4578,13 @@ View the [v0.8.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.0) 
 - Added environment variable for minimum time to run before considering crashed.
 - Added flake8 tests to CI, thanks @cclauss!
 
+View the [v0.8.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.7.3" description="April 15, 2019">
 
-View the [v0.7.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.3) on GitHub.
 
 ## Bug Fix
 
@@ -4453,11 +4602,13 @@ View the [v0.7.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.3) 
 - Deprecated wandb.Table.add_row in favor of wandb.Table.add_data.
 - Initial support for a fast.ai callback thanks to @borisdayma!
 
+View the [v0.7.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.3) on GitHub.
+
+
 </Update>
 
 <Update label="v0.7.2" description="March 19, 2019">
 
-View the [v0.7.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.2) on GitHub.
 
 ## Bug Fix
 
@@ -4467,11 +4618,13 @@ View the [v0.7.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.2) 
 - Added entrypoint shell script to manifest.
 - Strip newlines from cuda version.
 
+View the [v0.7.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.2) on GitHub.
+
+
 </Update>
 
 <Update label="v0.7.1" description="March 14, 2019">
 
-View the [v0.7.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.1) on GitHub.
 
 ## Bug Fix
 
@@ -4479,11 +4632,13 @@ View the [v0.7.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.1) 
 - Fix app_url for private cloud login flow.
 - Don't retry 404's when starting sweep agents.
 
+View the [v0.7.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.1) on GitHub.
+
+
 </Update>
 
 <Update label="v0.7.0" description="February 28, 2019">
 
-View the [v0.7.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.0) on GitHub.
 
 ## Bug Fix
 
@@ -4502,71 +4657,85 @@ View the [v0.7.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.0) 
 - The export api now supports docker-like paths, i.e. username/project:run_id.
 - Better first time user messages and login info.
 
+View the [v0.7.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.0) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.35" description="January 29, 2019">
 
-View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
 
 ## Bug Fix
 
 - Improve error reporting for sweeps.
 
+View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.35" description="January 29, 2019">
 
-View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
 
 ## Bug Fix
 
 - Improve error reporting for sweeps.
 
+View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.35" description="January 29, 2019">
 
-View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
 
 ## Bug Fix
 
 - Improve error reporting for sweeps.
 
+View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.35" description="January 29, 2019">
 
-View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
 
 ### Bug Fix
 
 - Improve error reporting for sweeps.
 
-</Update>
-
-<Update label="v0.6.35" description="January 29, 2019">
-
 View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
 
-## Bug Fix
-
-- Improve error reporting for sweeps.
 
 </Update>
 
 <Update label="v0.6.35" description="January 29, 2019">
 
-View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
 
 ## Bug Fix
 
 - Improve error reporting for sweeps.
 
+View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
+
+
+</Update>
+
+<Update label="v0.6.35" description="January 29, 2019">
+
+
+## Bug Fix
+
+- Improve error reporting for sweeps.
+
+View the [v0.6.35 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.35) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.34" description="January 23, 2019">
 
-View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
 
 ## Bug Fix
 
@@ -4583,11 +4752,13 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
+View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.34" description="January 23, 2019">
 
-View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
 
 ## Bug Fix
 
@@ -4604,11 +4775,13 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
+View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.34" description="January 23, 2019">
 
-View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
 
 ## Bug Fix
 
@@ -4625,11 +4798,13 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
+View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.34" description="January 23, 2019">
 
-View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
 
 ### Bug Fix
 
@@ -4646,11 +4821,13 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 - wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
+View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.34" description="January 23, 2019">
 
-View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
 
 ## Bug Fix
 
@@ -4667,11 +4844,13 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
+View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.34" description="January 23, 2019">
 
-View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
 
 ## Bug Fix
 
@@ -4688,71 +4867,85 @@ View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34
 - Wandb.tensorflow and wandb.tensorboard can now be accessed without directly importing.
 - `wandb sync` will now traverse a wandb run directory and sync all runs.
 
+View the [v0.6.34 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.34) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.33" description="January 22, 2019">
 
-View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
 
 ## Bug Fix
 
 - Fixed race where wandb process could hang at the end of a run.
 
+View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.33" description="January 22, 2019">
 
-View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
 
 ## Bug Fix
 
 - Fixed race where wandb process could hang at the end of a run.
 
+View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.33" description="January 22, 2019">
 
-View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
 
 ## Bug Fix
 
 - Fixed race where wandb process could hang at the end of a run.
 
+View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.33" description="January 22, 2019">
 
-View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
 
 ### Bug Fix
 
 - Fixed race where wandb process could hang at the end of a run.
 
-</Update>
-
-<Update label="v0.6.33" description="January 22, 2019">
-
 View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
 
-## Bug Fix
-
-- Fixed race where wandb process could hang at the end of a run.
 
 </Update>
 
 <Update label="v0.6.33" description="January 22, 2019">
 
-View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
 
 ## Bug Fix
 
 - Fixed race where wandb process could hang at the end of a run.
+
+View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
+
+
+</Update>
+
+<Update label="v0.6.33" description="January 22, 2019">
+
+
+## Bug Fix
+
+- Fixed race where wandb process could hang at the end of a run.
+
+View the [v0.6.33 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.33) on GitHub.
+
 
 </Update>
 
 <Update label="v0.6.32" description="December 22, 2018">
 
-View the [v0.6.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.32) on GitHub.
 
 ## Bug Fix
 
@@ -4766,11 +4959,13 @@ View the [v0.6.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.32
 - New run.step property to use for setting an initial epoch on resuming.
 - Made Keras callback save the best model as it improves.
 
+View the [v0.6.32 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.32) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.31" description="December 20, 2018">
 
-View the [v0.6.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.31) on GitHub.
 
 ## Bug Fix
 
@@ -4788,11 +4983,13 @@ View the [v0.6.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.31
 - Added glob support to wandb.save, files save as they're written to.
 - Added wandb.restore for pulling files on resume.
 
+View the [v0.6.31 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.31) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.30" description="December 06, 2018">
 
-View the [v0.6.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.30) on GitHub.
 
 ## Bug Fix
 
@@ -4809,21 +5006,25 @@ View the [v0.6.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.30
 - Detect when running as TFJob and auto group.
 - New Kubeflow module with initial helpers for pipelines.
 
+View the [v0.6.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.30) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.29" description="November 26, 2018">
 
-View the [v0.6.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.29) on GitHub.
 
 ## Bug Fix
 
 - Fixed history / summary bug.
 
+View the [v0.6.29 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.29) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.28" description="November 24, 2018">
 
-View the [v0.6.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.28) on GitHub.
 
 ## Enhancement
 
@@ -4839,11 +5040,13 @@ View the [v0.6.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.28
 - Fixed PyTorch 0.3 support.
 - File download API supports WANDB_API_KEY authentication.
 
+View the [v0.6.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.28) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.27" description="November 13, 2018">
 
-View the [v0.6.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.27) on GitHub.
 
 ## Enhancement
 
@@ -4856,11 +5059,13 @@ View the [v0.6.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.27
 
 - Show ongoing media file uploads in final upload progress.
 
+View the [v0.6.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.27) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.26" description="November 09, 2018">
 
-View the [v0.6.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.26) on GitHub.
 
 ## Enhancement
 
@@ -4870,11 +5075,13 @@ View the [v0.6.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.26
 
 - Pass username header in filestream API.
 
+View the [v0.6.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.26) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.25" description="November 08, 2018">
 
-View the [v0.6.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.25) on GitHub.
 
 ## Enhancement
 
@@ -4891,11 +5098,13 @@ View the [v0.6.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.25
 - Handle non-existing git binary.
 - Fix issue where sometimes the same image was logged twice during a Keras step.
 
+View the [v0.6.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.25) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.23" description="October 19, 2018">
 
-View the [v0.6.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.23) on GitHub.
 
 ## Enhancement
 
@@ -4907,43 +5116,51 @@ View the [v0.6.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.23
 
 - `wandb restore` handles the case of not being run from within a git repo.
 
+View the [v0.6.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.23) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.22" description="October 18, 2018">
 
-View the [v0.6.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.22) on GitHub.
 
 ## Bug Fix
 
 - We now open stdout and stderr in raw mode in Python 2 ensuring tools like bpdb work.
 
+View the [v0.6.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.22) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.21" description="October 12, 2018">
 
-View the [v0.6.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.21) on GitHub.
 
 ## Enhancement
 
 - Catastrophic errors are now reported to Sentry unless WANDB_ERROR_REPORTING is set to false.
 - Improved error handling and messaging on startup.
 
+View the [v0.6.21 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.21) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.20" description="October 05, 2018">
 
-View the [v0.6.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.20) on GitHub.
 
 ## Bug Fix
 
 - The first image when calling wandb.log was not being written, now it is.
 - `wandb.log` and `run.summary` now remove whitespace from keys.
 
+View the [v0.6.20 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.20) on GitHub.
+
+
 </Update>
 
 <Update label="v0.6.19" description="October 05, 2018">
 
-View the [v0.6.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.19) on GitHub.
 
 ## Bug Fix
 
@@ -4959,5 +5176,8 @@ View the [v0.6.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.19
 - The Data API now supports `per_page` and `order` options to the `api.runs` method.
 - Initial support for wandb.Table logging.
 - Initial support for matplotlib logging.
+
+View the [v0.6.19 changelog](https://github.com/wandb/wandb/releases/tag/v0.6.19) on GitHub.
+
 
 </Update>
