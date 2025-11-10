@@ -6,6 +6,33 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="v0.22.3" description="October 28, 2025">
+
+View the [v0.22.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.3) on GitHub.
+
+## Added
+
+- Settings `console_chunk_max_seconds` and `console_chunk_max_bytes` for size- and time-based multipart console logs file chunking.
+- Registry API query methods (`Api.registries()`, `Registry.{collections,versions}()`, `Api.registries().{collections,versions}()`) now accept a `per_page` keyword arg to override the default batch size for paginated results.
+
+## Changed
+
+- API keys longer than 40 characters are now supported.
+
+## Fixed
+
+- `run.config` now properly returns a dict when calling `artifact.logged_by()` in v0.22.1.
+- `wandb.Api(api_key=...)` now prioritizes the explicitly provided API key over thread-local cached credentials.
+- Fixed a rare deadlock in `console_capture.py`.
+
+    If you dump thread tracebacks during the deadlock and see the `wandb-AsyncioManager-main` thread stuck on a line in `console_capture.py`: this is now fixed.
+- Fixed an issue where TensorBoard sync would sometimes stop working if the tfevents files were being written live.
+- `Artifact.manifest` delays downloading **and** generating the download URL for the artifact manifest until it's first used. If the manifest has not been locally modified, `Artifact.size` and `Artifact.digest` can return without waiting to fetch the full manifest.
+- Fixed uploading GCS folder references via `artifact.add_reference`.
+- The SDK now correctly infers notebooks paths in Jupyter sessions, using th server's root directory, so code saving works in subdirectories (e.g. `code/nested/<notebook>.ipynb`).
+
+</Update>
+
 <Update label="v0.22.2" description="October 07, 2025">
 
 View the [v0.22.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.22.2) on GitHub.
