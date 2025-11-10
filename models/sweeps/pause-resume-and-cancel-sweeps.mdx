@@ -37,6 +37,10 @@ Finish a sweep to stop creating new runs while letting currently executing runs 
 wandb sweep --stop entity/project/sweep_ID
 ```
 
+<Warning>
+W&B does not terminate active [sweeps](/models/sweeps) or agents when you delete a project.
+</Warning>
+
 ### Cancel a sweep
 
 Cancel a sweep to immediately kill all running runs and stop creating new runs. This is the only sweep command that forcibly terminates existing runs. Use the [`wandb sweep --cancel`](/models/ref/cli/wandb-sweep) command to cancel a sweep. Provide the sweep ID that you want to cancel.
@@ -46,6 +50,10 @@ wandb sweep --cancel entity/project/sweep_ID
 ```
 
 For a full list of CLI command options, see the [wandb sweep](/models/ref/cli/wandb-sweep) CLI Reference Guide.
+
+<Warning>
+W&B does not terminate active [sweeps](/models/sweeps) or agents when you delete a project.
+</Warning>
 
 ## Understanding sweep and run statuses
 
