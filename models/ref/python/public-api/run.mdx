@@ -3,10 +3,9 @@ title: Run
 namespace: public_apis_namespace
 python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
-
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
 
 
 
@@ -23,7 +22,8 @@ __init__(
     project: 'str',
     run_id: 'str',
     attrs: 'Mapping | None' = None,
-    include_sweeps: 'bool' = True
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True
 )
 ```
 
@@ -56,7 +56,7 @@ __init__(
  - `path` (str):  Unique identifier [entity]/[project]/[run_id] 
  - `notes` (str):  Notes about the run 
  - `read_only` (boolean):  Whether the run is editable 
- - `history_keys` (str):  Keys of the history metrics that have been logged with `wandb.log({key:  value})` 
+ - `history_keys` (str):  Keys of the history metrics that have been logged with `wandb.log({"key":  "value"})` 
  - `metadata` (str):  Metadata about the run from wandb-metadata.json 
 
 
@@ -64,6 +64,12 @@ Initialize a Run object.
 
 Run is always initialized by calling api.runs() where api is an instance of wandb.Api. 
 
+
+---
+
+### <kbd>property</kbd> Run.config
+
+Get run config. Auto-loads full data if in lazy mode. 
 
 ---
 
@@ -106,6 +112,12 @@ The path of the run. The path is a list containing the entity, project, and run_
 
 ---
 
+### <kbd>property</kbd> Run.rawconfig
+
+Get raw run config including internal keys. Auto-loads full data if in lazy mode. 
+
+---
+
 ### <kbd>property</kbd> Run.state
 
 The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
@@ -120,7 +132,25 @@ The unique storage identifier for the run.
 
 ### <kbd>property</kbd> Run.summary
 
-A mutable dict-like property that holds summary values associated with the run. 
+Get run summary metrics. Auto-loads full data if in lazy mode. 
+
+---
+
+### <kbd>property</kbd> Run.summary_metrics
+
+Get run summary metrics. Auto-loads full data if in lazy mode. 
+
+---
+
+### <kbd>property</kbd> Run.sweep_name
+
+Get sweep name. Always available since sweepName is in lightweight fragment. 
+
+---
+
+### <kbd>property</kbd> Run.system_metrics
+
+Get run system metrics. Auto-loads full data if in lazy mode. 
 
 ---
 
@@ -257,9 +287,30 @@ This is simpler and faster if you are ok with the history records being sampled.
 load(force=False)
 ```
 
+Load run data using appropriate fragment based on lazy mode. 
+
+---
+
+### <kbd>method</kbd> `Run.load_full_data`
+
+```python
+load_full_data(force: 'bool' = False) → dict[str, Any]
+```
+
+Load full run data including heavy fields like config, systemMetrics, summaryMetrics. 
+
+This method is useful when you initially used lazy=True for listing runs, but need access to the full data for specific runs. 
 
 
 
+**Args:**
+ 
+ - `force`:  Force reload even if data is already loaded 
+
+
+
+**Returns:**
+ The loaded run attributes 
 
 ---
 
@@ -493,3 +544,4 @@ wait_until_finished()
 ```
 
 Check the state of the run until it is finished. 
+
