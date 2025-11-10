@@ -3,10 +3,9 @@ title: Sweep
 namespace: public_apis_namespace
 python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
-
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
 
 
 
@@ -115,11 +114,11 @@ Return the best run sorted by the metric defined in config or the order passed i
 ```python
 get(
     client: 'RetryingClient',
-    entity: Optional[str] = None,
-    project: Optional[str] = None,
-    sid: Optional[str] = None,
-    order: Optional[str] = None,
-    query: Optional[str] = None,
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    sid: 'str | None' = None,
+    order: 'str | None' = None,
+    query: 'str | None' = None,
     **kwargs
 )
 ```
