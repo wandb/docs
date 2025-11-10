@@ -1,8 +1,11 @@
 ---
-title: "Settings"
+title: Settings
+namespace: python_sdk_actions
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py" />
 
 
 
@@ -151,7 +154,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 16976,
+    x_stats_pid: 'int' = 48520,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -169,6 +172,7 @@ __init__(
     x_stats_coreweave_metadata_endpoint: 'str' = '/api/v2/cloud-init/meta-data',
     x_stats_track_process_tree: 'bool' = False,
     x_sync: 'bool' = False,
+    x_sync_dir_suffix: 'str' = '',
     x_update_finish_state: 'bool' = True
 ) → None
 ```
@@ -372,10 +376,10 @@ __init__(
    - `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
  - `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): OpenMetrics `/metrics` endpoints to monitor for system metrics.
-- `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
-  Supports two formats:
-  - `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
-  - `("metric regex pattern 1", "metric regex pattern 2", ...)`
+ - `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]): Filter to apply to metrics collected from OpenMetrics `/metrics` endpoints.
+   Supports two formats:
+   - `{"metric regex pattern, including endpoint name as prefix": {"label": "label value regex pattern"}}`
+   - `("metric regex pattern 1", "metric regex pattern 2", ...)`
  - `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]): HTTP headers to add to OpenMetrics requests.
  - `x_stats_disk_paths` (Optional[Sequence]): System paths to monitor for disk usage.
  - `x_stats_cpu_count` (Optional[int]): System CPU count.
@@ -397,6 +401,9 @@ __init__(
    from the process with PID `x_stats_pid` and all of its descendants.
    This can have a performance overhead and is disabled by default.
 
+ - `x_sync_dir_suffix` (str): Suffix to add to the run's directory name (sync_dir).
+   This is set in wandb.init() to avoid naming conflicts.
+   If set, it is joined to the default name with a dash.
  - `x_update_finish_state` (bool): Flag to indicate whether this process can update the run's final state on the server.
    Set to False in distributed training when only the main process should determine the final state.
 
@@ -416,11 +423,6 @@ Check if a private field is provided and assign to the corresponding public one.
 This is a compatibility layer to handle previous versions of the settings.
 
 
-### <kbd>method</kbd> `Settings.validate_skip_transaction_log`
-
-```python
-validate_skip_transaction_log() → None
-```
 
 
 
@@ -451,31 +453,7 @@ validate_skip_transaction_log() → None
 
 
 
-### <kbd>classmethod</kbd> `Settings.validate_run_tags`
 
-```python
-validate_run_tags(
-    value
-) → None
-```
-
-Validate run tags.
-
-Validates that each tag:
-- Is between 1 and 64 characters in length (inclusive)
-- Converts single string values to tuple format
-- Preserves None values
-
-**Args:**
- 
- - `value`: A string, list, tuple, or None representing tags
-
-**Returns:**
- - tuple: A tuple of validated tags, or None 
-
-**Raises:**
- - `ValueError`: If any tag is empty or exceeds 64 characters
-   {/* lazydoc-ignore-classmethod`: internal */}
 
 ### <kbd>property</kbd> `Settings.colab_url`
 
@@ -607,64 +585,9 @@ Full path to the wandb directory.
 **Returns:**
  - `str`: The wandb_dir property value.
 
-### <kbd>method</kbd> `Settings.update_from_system_config_file`
 
-```python
-update_from_system_config_file() → None
-```
 
-Update settings from the system config file.
 
-### <kbd>method</kbd> `Settings.update_from_workspace_config_file`
 
-```python
-update_from_workspace_config_file() → None
-```
 
-Update settings from the workspace config file.
 
-### <kbd>method</kbd> `Settings.update_from_env_vars`
-
-```python
-update_from_env_vars(
-    environ: 'Dict[str, Any]'
-) → None
-```
-
-Update settings from environment variables.
-
-### <kbd>method</kbd> `Settings.update_from_system_environment`
-
-```python
-update_from_system_environment() → None
-```
-
-Update settings from the system environment.
-
-### <kbd>method</kbd> `Settings.update_from_dict`
-
-```python
-update_from_dict(
-    settings: 'Dict[str, Any]'
-) → None
-```
-
-Update settings from a dictionary.
-
-### <kbd>method</kbd> `Settings.update_from_settings`
-
-```python
-update_from_settings(
-    settings: 'Settings'
-) → None
-```
-
-Update settings from another instance of `Settings`.
-
-### <kbd>method</kbd> `Settings.to_proto`
-
-```python
-to_proto() → wandb_settings_pb2.Settings
-```
-
-Generate a protobuf representation of the settings.
