@@ -1,0 +1,34 @@
+/* Custom table styling for better column and row differentiation */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Add vertical borders between columns */
+table td,
+table th {
+  border-right: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* Remove border from last column */
+table td:last-child,
+table th:last-child {
+  border-right: none;
+}
+
+/* Alternating row colors for better readability */
+table tbody tr:nth-child(even) {
+  background-color: var(--table-row-even, rgba(0, 0, 0, 0.02));
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  table td,
+  table th {
+    border-right: 1px solid var(--border-color-dark, #374151);
+  }
+  
+  table tbody tr:nth-child(even) {
+    background-color: var(--table-row-even-dark, rgba(255, 255, 255, 0.05));
+  }
+}
