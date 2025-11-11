@@ -25,6 +25,16 @@ table td {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Table header background - filled/darker background */
+table th {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode - darker header background */
+.dark table th {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 /* Ensure column borders match row borders (faint style) */
 table th:not(:last-child),
 table td:not(:last-child) {
