@@ -6,6 +6,7 @@ mode: wide
 import {Banner} from "/snippets/Banner.jsx";
 import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
+import {Marimo} from "/snippets/Marimo.jsx";
 
 <HomeWrapper>
 <Banner home title="Weights & Biases Documentation" background="/images/support/support_banner.png">
@@ -77,8 +78,7 @@ Choose the product for which you need documentation.
 
 ## Marimo test
 
-<div>
-<marimo-iframe>
+<Marimo>
 ```python
 import marimo as mo
 ```
@@ -90,5 +90,4 @@ slider
 ```python
 slider.value * "🍃"
 ```
-</marimo-iframe>
-</div>
+</Marimo>
