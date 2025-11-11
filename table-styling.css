@@ -17,7 +17,7 @@ table {
 table th,
 table td {
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.75rem !important;
 }
 
 /* Dark mode - use faint borders */
