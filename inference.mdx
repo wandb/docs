@@ -41,6 +41,10 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
+<Note>
+**Troubleshooting**: If you encounter an error stating "the inference gateway is not enabled for your organization", your organization needs to have the inference gateway enabled. Contact your W&B administrator or [W&B support](mailto:support@wandb.com) for assistance. See [API Errors](/inference/api-reference/errors/) for more details.
+</Note>
+
 ## Next steps
 
 1. Review the [available models](/inference/models) and [usage information and limits](/inference/usage-limits/)
