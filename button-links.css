@@ -1,0 +1,48 @@
+/* Custom button link styles */
+.button-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+/* Table styling - use consistent faint border colors for both rows and columns */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Apply faint border color to all table cells */
+table th,
+table td {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode - use faint borders */
+.dark table th,
+.dark table td {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure column borders match row borders (faint style) */
+table th:not(:last-child),
+table td:not(:last-child) {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark table th:not(:last-child),
+.dark table td:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Row borders - keep faint */
+table tr:not(:last-child) th,
+table tr:not(:last-child) td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark table tr:not(:last-child) th,
+.dark table tr:not(:last-child) td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
