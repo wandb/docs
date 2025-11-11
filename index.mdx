@@ -6,7 +6,6 @@ mode: wide
 import {Banner} from "/snippets/Banner.jsx";
 import {HomeWrapper} from "/snippets/home.jsx";
 import {ProductCard} from "/snippets/ProductCard.jsx";
-import {MarimoInline} from "/snippets/MarimoInline.jsx";
 import {Marimo} from "/snippets/Marimo.jsx";
 
 <HomeWrapper>
@@ -77,21 +76,6 @@ Choose the product for which you need documentation.
 </div>
 </HomeWrapper>
 
-## Marimo Interactive Example (External File)
+## Marimo Interactive Example
 
 <Marimo file="/marimo-examples/slider-example.txt" />
-
-## Marimo Interactive Example (Inline)
-
-<MarimoInline content={`\`\`\`python
-import marimo as mo
-\`\`\`
-
-\`\`\`python
-slider = mo.ui.slider(1, 10)
-slider
-\`\`\`
-
-\`\`\`python
-slider.value * "🍃"
-\`\`\``} />

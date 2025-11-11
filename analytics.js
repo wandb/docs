@@ -22,23 +22,6 @@ script2.onload = () => {
 
 // First, process any Marimo placeholders BEFORE loading the Marimo script
 async function processMarimoPlaceholders() {
-  // Handle inline Marimo elements
-  const inlineMarimos = document.querySelectorAll('[data-marimo-inline]');
-  inlineMarimos.forEach(wrapper => {
-    const content = wrapper.getAttribute('data-marimo-content');
-    if (!content) return;
-    
-    // Create marimo-iframe with the inline content
-    const marimoIframe = document.createElement('marimo-iframe');
-    marimoIframe.textContent = content;
-    
-    // Replace the wrapper with marimo-iframe
-    if (wrapper.parentNode) {
-      wrapper.parentNode.replaceChild(marimoIframe, wrapper);
-      console.log('Created marimo-iframe from inline content');
-    }
-  });
-  
   // Handle file-based Marimo elements
   const fileBasedMarimos = document.querySelectorAll('[data-marimo-file]');
   const promises = [];
@@ -72,7 +55,21 @@ async function processMarimoPlaceholders() {
         
         // Create marimo-iframe with the fetched content
         const marimoIframe = document.createElement('marimo-iframe');
-        marimoIframe.textContent = content;
+        
+        // Parse the markdown content and create HTML elements
+        // Extract code blocks from the markdown
+        const codeBlockRegex = /```python\n([\s\S]*?)\n```/g;
+        let match;
+        while ((match = codeBlockRegex.exec(content)) !== null) {
+          const pre = document.createElement('pre');
+          const code = document.createElement('code');
+          code.className = 'language-python';
+          code.textContent = match[1]; // Just the code content
+          pre.appendChild(code);
+          marimoIframe.appendChild(pre);
+        }
+        
+        console.log('Created marimo-iframe with', marimoIframe.children.length, 'code blocks');
         
         // Replace the wrapper with marimo-iframe
         currentWrapper.parentNode.replaceChild(marimoIframe, currentWrapper);
@@ -106,11 +103,10 @@ function initializeMarimo() {
   // Wait a bit for React components to render
   setTimeout(() => {
     const fileBasedMarimos = document.querySelectorAll('[data-marimo-file]');
-    const inlineMarimos = document.querySelectorAll('[data-marimo-inline]');
-    console.log(`Found ${fileBasedMarimos.length} file-based and ${inlineMarimos.length} inline Marimo elements`);
+    console.log(`Found ${fileBasedMarimos.length} Marimo file elements`);
     
-    if (fileBasedMarimos.length === 0 && inlineMarimos.length === 0) {
-      console.log('No Marimo elements found. They may not have rendered yet.');
+    if (fileBasedMarimos.length === 0) {
+      console.log('No Marimo file elements found. They may not have rendered yet.');
       // Try again in a bit (max 10 attempts)
       if (!marimoInitialized) {
         setTimeout(initializeMarimo, 500);

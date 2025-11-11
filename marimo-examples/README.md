@@ -1,26 +1,20 @@
 # Marimo Examples
 
-This folder contains raw Marimo notebook code that can be embedded in MDX files without Mintlify processing them.
+This folder contains Marimo notebook code that can be embedded in MDX files.
 
 ## Usage
 
-In your MDX file, use the Marimo component with the `file` prop:
+In your MDX file, import and use the Marimo component:
 
 ```mdx
+import {Marimo} from "/snippets/Marimo.jsx";
+
 <Marimo file="/marimo-examples/slider-example.txt" />
 ```
 
-## Why External Files?
+## File Format
 
-Storing Marimo code in external `.txt` files avoids:
-- Mintlify's markdown processing adding "Copy" buttons
-- Complex escaping of backticks in MDX
-- Rendering issues during build
-
-## Creating New Examples
-
-1. Create a new `.txt` file in this folder
-2. Write your Marimo code using standard markdown code blocks:
+Files should contain markdown-formatted Python code blocks:
 
 ```
 \`\`\`python
@@ -32,13 +26,16 @@ import marimo as mo
 \`\`\`
 ```
 
-3. Reference it in your MDX:
+Each code block becomes a cell in the Marimo notebook.
 
-```mdx
-<Marimo file="/marimo-examples/your-example.txt" />
-```
+## How It Works
+
+1. The Marimo component fetches the `.txt` file
+2. Parses the markdown to extract Python code blocks
+3. Creates proper HTML elements (`<pre><code class="language-python">`)
+4. Marimo's script processes these and creates an interactive notebook
 
 ## Available Examples
 
-- `slider-example.txt` - Interactive slider demo
+- `slider-example.txt` - Interactive slider demo with emoji output
 - `hello-world.txt` - Basic text input example
