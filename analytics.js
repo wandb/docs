@@ -22,6 +22,23 @@ script2.onload = () => {
 
 // First, process any Marimo placeholders BEFORE loading the Marimo script
 async function processMarimoPlaceholders() {
+  // Handle inline Marimo elements
+  const inlineMarimos = document.querySelectorAll('[data-marimo-inline]');
+  inlineMarimos.forEach(wrapper => {
+    const content = wrapper.getAttribute('data-marimo-content');
+    if (!content) return;
+    
+    // Create marimo-iframe with the inline content
+    const marimoIframe = document.createElement('marimo-iframe');
+    marimoIframe.textContent = content;
+    
+    // Replace the wrapper with marimo-iframe
+    if (wrapper.parentNode) {
+      wrapper.parentNode.replaceChild(marimoIframe, wrapper);
+      console.log('Created marimo-iframe from inline content');
+    }
+  });
+  
   // Handle file-based Marimo elements
   const fileBasedMarimos = document.querySelectorAll('[data-marimo-file]');
   const promises = [];
@@ -30,8 +47,10 @@ async function processMarimoPlaceholders() {
     const file = wrapper.getAttribute('data-marimo-file');
     if (!file) return;
     
+    console.log(`Attempting to fetch Marimo content from: ${file}`);
     const promise = fetch(file)
       .then(response => {
+        console.log(`Fetch response for ${file}: ${response.status} ${response.statusText}`);
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
@@ -87,10 +106,11 @@ function initializeMarimo() {
   // Wait a bit for React components to render
   setTimeout(() => {
     const fileBasedMarimos = document.querySelectorAll('[data-marimo-file]');
-    console.log(`Found ${fileBasedMarimos.length} data-marimo-file elements`);
+    const inlineMarimos = document.querySelectorAll('[data-marimo-inline]');
+    console.log(`Found ${fileBasedMarimos.length} file-based and ${inlineMarimos.length} inline Marimo elements`);
     
-    if (fileBasedMarimos.length === 0) {
-      console.log('No Marimo file elements found. They may not have rendered yet.');
+    if (fileBasedMarimos.length === 0 && inlineMarimos.length === 0) {
+      console.log('No Marimo elements found. They may not have rendered yet.');
       // Try again in a bit (max 10 attempts)
       if (!marimoInitialized) {
         setTimeout(initializeMarimo, 500);
