@@ -37,6 +37,34 @@ document.body.appendChild(script3);
 
 script3.onload = () => {
   console.log('Loaded Marimo script!');
+  
+  // Wait a bit for the page to fully render, then convert and process
+  setTimeout(() => {
+    // Convert data-marimo divs to marimo-iframe elements
+    const marimoWrappers = document.querySelectorAll('[data-marimo="iframe"]');
+    marimoWrappers.forEach(wrapper => {
+      // Create marimo-iframe element
+      const marimoIframe = document.createElement('marimo-iframe');
+      
+      // Move all children from wrapper to marimo-iframe
+      while (wrapper.firstChild) {
+        marimoIframe.appendChild(wrapper.firstChild);
+      }
+      
+      // Replace the wrapper with marimo-iframe
+      wrapper.parentNode.replaceChild(marimoIframe, wrapper);
+    });
+    
+    console.log(`Converted ${marimoWrappers.length} Marimo wrappers to iframes`);
+    
+    // Trigger DOMContentLoaded again to make marimo process the new elements
+    // The marimo script listens for this event
+    const event = new Event('DOMContentLoaded', {
+      bubbles: true,
+      cancelable: false
+    });
+    document.dispatchEvent(event);
+  }, 100); // Small delay to ensure everything is rendered
 };
 
 // Sync consent categories

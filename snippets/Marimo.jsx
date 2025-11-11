@@ -1,14 +1,13 @@
+import React from 'react';
+
 /**
- * Marimo component - simplest possible implementation
- * Just wraps children in marimo-iframe element
- * https://docs.marimo.io/guides/publishing/from_code_snippets/
+ * Marimo component - uses data attributes to avoid custom element issues
+ * The marimo script will process elements with data-marimo attribute
  */
 export const Marimo = ({ children }) => {
   return (
-    <div>
-      <marimo-iframe>
-        {children}
-      </marimo-iframe>
+    <div className="marimo-wrapper" data-marimo="iframe">
+      {children}
     </div>
   );
 };
