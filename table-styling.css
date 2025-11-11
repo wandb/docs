@@ -35,6 +35,15 @@ table th {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
+/* Alternating row colors */
+table tbody tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dark table tbody tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
 /* Ensure column borders match row borders (faint style) */
 table th:not(:last-child),
 table td:not(:last-child) {
