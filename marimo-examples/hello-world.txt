@@ -1,0 +1,16 @@
+```python
+import marimo as mo
+```
+
+```python
+mo.md("# Hello, Marimo!")
+```
+
+```python
+name = mo.ui.text(placeholder="Enter your name")
+name
+```
+
+```python
+mo.md(f"Hello, {name.value or 'World'}!")
+```

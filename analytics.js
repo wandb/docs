@@ -20,52 +20,147 @@ script2.onload = () => {
 };
 
 
-// load Marimo config script
-const script4 = document.createElement('script');
-script4.type = "text/x-marimo-snippets-config";
-script4.textContent = `
+// First, process any Marimo placeholders BEFORE loading the Marimo script
+async function processMarimoPlaceholders() {
+  // Handle file-based Marimo elements
+  const fileBasedMarimos = document.querySelectorAll('[data-marimo-file]');
+  const promises = [];
+  
+  fileBasedMarimos.forEach(wrapper => {
+    const file = wrapper.getAttribute('data-marimo-file');
+    if (!file) return;
+    
+    const promise = fetch(file)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.text();
+      })
+      .then(content => {
+        // Re-query the element to make sure it still exists
+        const currentWrapper = document.querySelector(`[data-marimo-file="${file}"]`);
+        
+        if (!currentWrapper) {
+          console.warn(`Wrapper for ${file} no longer exists in DOM, skipping`);
+          return;
+        }
+        
+        if (!currentWrapper.parentNode) {
+          console.warn(`Wrapper for ${file} has no parent node, skipping`);
+          return;
+        }
+        
+        // Create marimo-iframe with the fetched content
+        const marimoIframe = document.createElement('marimo-iframe');
+        marimoIframe.textContent = content;
+        
+        // Replace the wrapper with marimo-iframe
+        currentWrapper.parentNode.replaceChild(marimoIframe, currentWrapper);
+        console.log(`Created marimo-iframe from ${file} with ${content.length} characters of content`);
+      })
+      .catch(err => {
+        console.error(`Failed to load Marimo content from ${file}:`, err);
+        if (wrapper && wrapper.parentNode) {
+          wrapper.innerHTML = `<div style="color: red;">Failed to load notebook from ${file}: ${err.message}</div>`;
+        }
+      });
+    
+    promises.push(promise);
+  });
+  
+  // Wait for all file-based Marimos to load
+  await Promise.all(promises);
+  console.log(`Processed ${fileBasedMarimos.length} marimo-file elements`);
+}
+
+// Keep track of whether we've already initialized
+let marimoInitialized = false;
+
+// Wait for DOM to be ready, then process everything
+function initializeMarimo() {
+  if (marimoInitialized) {
+    console.log('Marimo already initialized, skipping');
+    return;
+  }
+  
+  // Wait a bit for React components to render
+  setTimeout(() => {
+    const fileBasedMarimos = document.querySelectorAll('[data-marimo-file]');
+    console.log(`Found ${fileBasedMarimos.length} data-marimo-file elements`);
+    
+    if (fileBasedMarimos.length === 0) {
+      console.log('No Marimo file elements found. They may not have rendered yet.');
+      // Try again in a bit (max 10 attempts)
+      if (!marimoInitialized) {
+        setTimeout(initializeMarimo, 500);
+      }
+      return;
+    }
+    
+    marimoInitialized = true;
+    processMarimoPlaceholders().then(() => {
+      // load Marimo config script
+      const script4 = document.createElement('script');
+      script4.type = "text/x-marimo-snippets-config";
+      script4.textContent = `
 configureMarimoButtons({title: "Open in a marimo notebook"});
 configureMarimoIframes({height: "400px"});
-`;
-document.body.appendChild(script4);
-
-// Load third script (Marimo)
-const script3 = document.createElement('script');
-script3.src = "https://cdn.jsdelivr.net/npm/@marimo-team/marimo-snippets@1";
-script3.type = "text/javascript";
-document.body.appendChild(script3);
-
-script3.onload = () => {
-  console.log('Loaded Marimo script!');
-  
-  // Wait a bit for the page to fully render, then convert and process
-  setTimeout(() => {
-    // Convert data-marimo divs to marimo-iframe elements
-    const marimoWrappers = document.querySelectorAll('[data-marimo="iframe"]');
-    marimoWrappers.forEach(wrapper => {
-      // Create marimo-iframe element
-      const marimoIframe = document.createElement('marimo-iframe');
+      `;
+      document.body.appendChild(script4);
       
-      // Move all children from wrapper to marimo-iframe
-      while (wrapper.firstChild) {
-        marimoIframe.appendChild(wrapper.firstChild);
+      // Check if Marimo script already exists
+      if (document.querySelector('script[src*="marimo-snippets"]')) {
+        console.log('Marimo script already loaded, triggering DOMContentLoaded');
+        setTimeout(() => {
+          document.dispatchEvent(new Event('DOMContentLoaded'));
+        }, 100);
+        return;
       }
       
-      // Replace the wrapper with marimo-iframe
-      wrapper.parentNode.replaceChild(marimoIframe, wrapper);
+      // NOW load the Marimo script - it will find our marimo-iframe elements
+      const script3 = document.createElement('script');
+      script3.src = "https://cdn.jsdelivr.net/npm/@marimo-team/marimo-snippets@1";
+      script3.type = "text/javascript";
+      document.body.appendChild(script3);
+      
+      script3.onload = () => {
+        console.log('Loaded Marimo script!');
+        
+        // The Marimo script listens for DOMContentLoaded, but if that's already fired,
+        // we need to manually trigger processing
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          // DOM is already loaded, manually trigger the event
+          setTimeout(() => {
+            console.log('Triggering DOMContentLoaded for Marimo...');
+            document.dispatchEvent(new Event('DOMContentLoaded'));
+            
+            // Check if it worked
+            setTimeout(() => {
+              const frames = document.querySelectorAll('iframe[src*="marimo.app"]');
+              if (frames.length > 0) {
+                console.log(`Success! Marimo created ${frames.length} interactive iframe(s)`);
+              } else {
+                console.log('Marimo iframes not created yet. The script may process them on its own timing.');
+              }
+            }, 500);
+          }, 100);
+        }
+      };
     });
-    
-    console.log(`Converted ${marimoWrappers.length} Marimo wrappers to iframes`);
-    
-    // Trigger DOMContentLoaded again to make marimo process the new elements
-    // The marimo script listens for this event
-    const event = new Event('DOMContentLoaded', {
-      bubbles: true,
-      cancelable: false
-    });
-    document.dispatchEvent(event);
-  }, 100); // Small delay to ensure everything is rendered
-};
+  }, 500); // Wait for React to render
+}
+
+// Start the process when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    // DOM is ready but React might not have rendered yet
+    setTimeout(initializeMarimo, 500);
+  });
+} else {
+  // DOM is already loaded, but wait for React
+  setTimeout(initializeMarimo, 500);
+}
 
 // Sync consent categories
 function wpConsentSync() {
