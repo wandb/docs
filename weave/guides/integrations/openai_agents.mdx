@@ -25,14 +25,12 @@ In the following codes sample, an OpenAI Agent is created and integrated with We
 
 ```python lines
 from pydantic import BaseModel
-from agents import Agent, Runner, function_tool, set_trace_processors
+from agents import Agent, Runner, function_tool
 import agents
 import weave
-from weave.integrations.openai_agents.openai_agents import WeaveTracingProcessor
 import asyncio
 
 weave.init("openai-agents")
-set_trace_processors([WeaveTracingProcessor()])
 
 class Weather(BaseModel):
     city: str
