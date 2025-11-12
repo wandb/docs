@@ -419,7 +419,6 @@
                           "models/integrations/mmf",
                           "models/integrations/paddledetection",
                           "models/integrations/paddleocr",
-                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/skorch",
@@ -2305,6 +2304,10 @@
       "source": "/guides/integrations/:slug*",
       "destination": "/models/integrations/:slug*"
     },
+    {
+      "source": "/guides/integrations/pytorch",
+      "destination": "/models/integrations"
+    },    
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
