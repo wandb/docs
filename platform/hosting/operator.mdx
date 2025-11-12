@@ -3,6 +3,13 @@ description: Deploy W&B Platform with Kubernetes Operator
 title: Run W&B Server on Kubernetes
 ---
 
+import SelfManagedNetworkingRequirements from "/snippets/en/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/en/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/en/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedRedisRequirements from "/snippets/en/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/en/_includes/self-managed-object-storage-requirements.mdx";
+import SelfManagedVerifyInstallation from "/snippets/en/_includes/self-managed-verify-installation.mdx";
+
 ## W&B Kubernetes Operator
 
 Use the W&B Kubernetes Operator to simplify deploying, administering, troubleshooting, and scaling your W&B Server deployments on Kubernetes. You can think of the operator as a smart assistant for your W&B instance.
@@ -53,25 +60,77 @@ Configuration specifications follow a hierarchical model where higher-level spec
 
 This hierarchical model ensures that configurations are flexible and customizable to meet varying needs while maintaining a manageable and systematic approach to upgrades and changes.
 
-### Requirements to use the W&B Kubernetes Operator
-Satisfy the following requirements to deploy W&B with the W&B Kubernetes operator:
+## Before you begin
+1. Refer to the [reference architecture](/platform/hosting/self-managed/ref-arch/#infrastructure-requirements) for complete infrastructure requirements, including:
+  - Software version requirements (Kubernetes, MySQL, Redis, Helm)
+  - Hardware requirements (CPU architecture, sizing recommendations)
+  - Networking, SSL/TLS, and DNS requirements
+1. [Obtain a valid W&B Server license](/platform/hosting/hosting-options/self-managed#obtain-your-wb-server-license).
+1. See the following sections and the [bare-metal installation guide](/platform/hosting/self-managed/bare-metal/) for detailed instructions to set up and configure W&B Self-Managed. Depending on the installation method, you might need to install additional software or meet additional requirements.
 
-Refer to the [reference architecture](/platform/hosting/self-managed/ref-arch/#infrastructure-requirements). In addition, [obtain a valid W&B Server license](/platform/hosting/hosting-options/self-managed#obtain-your-wb-server-license).
+### MySQL Database
+<SelfManagedMysqlRequirements/>
 
-See the [bare-metal installation guide](/platform/hosting/self-managed/bare-metal/) for a detailed explanation on how to set up and configure a Self-Managed installation.
+### Redis
+<SelfManagedRedisRequirements/>
 
-Depending on the installation method, you might need to meet the following requirements:
-* Kubectl installed and configured with the correct Kubernetes cluster context.
-* Helm is installed.
+See the [External Redis configuration section](#external-redis) for details on how to configure an external Redis instance.
+
+### Object storage
+<SelfManagedObjectStorageRequirements/>
+
+See the [Object storage configuration section](#object-storage-bucket) for details on how to configure object storage in Helm values.
+
+### Networking requirements
+<SelfManagedNetworkingRequirements/>
+
+For load balancer and ingress controller options and configuration examples, see the [reference architecture load balancer section](/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress).
+
+### SSL/TLS requirements
+<SelfManagedSslTlsRequirements/>
 
 ### Air-gapped installations
 See the [Deploy W&B in airgapped environment with Kubernetes](/platform/hosting/self-managed/operator-airgapped/) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
-## Deploy W&B Server application
-This section describes different ways to deploy the W&B Kubernetes operator.
+### OpenShift Kubernetes clusters
+
+W&B supports deployment on [OpenShift Kubernetes clusters](https://www.redhat.com/en/technologies/cloud-computing/openshift) in cloud, on-premises, and air-gapped environments.
+
 <Note>
-The W&B Operator is the default and recommended installation method for W&B Server.
+W&B recommends you install with the official W&B Helm chart.
 </Note>
+
+#### Run the container as an un-privileged user
+
+By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
+
+<Note>
+W&B must start as the root group (`$GID=0`) for file system permissions to function properly.
+</Note>
+
+An example security context for Kubernetes looks similar to the following:
+
+```yaml
+spec:
+  securityContext:
+    runAsUser: 100000
+    runAsGroup: 0
+```
+
+## Deploy W&B Server application
+
+<Note>
+**The W&B Kubernetes Operator with Helm is the recommended installation method** for all W&B Self-Managed deployments, including cloud, on-premises, and air-gapped environments.
+</Note>
+
+This section describes different ways to deploy the W&B Kubernetes operator:
+- **Helm CLI**: Direct deployment using Helm commands
+- **Helm Terraform Module**: Infrastructure-as-code deployment
+- **W&B Cloud Terraform Modules**: Complete infrastructure + application deployment for AWS, Google Cloud, and Azure
+
+For deployment-specific considerations, also see:
+- [Deploy W&B Platform On-premises](/platform/hosting/self-managed/bare-metal/) for datacenter/bare-metal environments
+- [Kubernetes operator for air-gapped instances](/platform/hosting/self-managed/operator-airgapped/) for disconnected environments
 
 ### Deploy W&B with Helm CLI
 W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
@@ -184,48 +243,7 @@ For a detailed description on how to use these modules, refer to the [Self-Manag
 
 ### Verify the installation
 
-To verify the installation, W&B recommends using the [W&B CLI](/models/ref/cli/). The verify command executes several tests that verify all components and configurations. 
-
-<Note>
-This step assumes that the first admin user account is created with the browser.
-</Note>
-
-Follow these steps to verify the installation:
-
-1. Install the W&B CLI:
-    ```shell
-    pip install wandb
-    ```
-2. Log in to W&B:
-    ```shell
-    wandb login --host=https://YOUR_DNS_DOMAIN
-    ```
-
-    For example:
-    ```shell
-    wandb login --host=https://wandb.company-name.com
-    ```
-
-3. Verify the installation:
-    ```shell
-    wandb verify
-    ```
-
-A successful installation and fully working W&B deployment shows the following output:
-
-```console
-Default host selected:  https://wandb.company-name.com
-Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
-Checking if logged in...................................................✅
-Checking signed URL upload..............................................✅
-Checking ability to send large payloads through proxy...................✅
-Checking requests to base url...........................................✅
-Checking requests made over signed URLs.................................✅
-Checking CORs configuration of the bucket...............................✅
-Checking wandb package version is up to date............................✅
-Checking logged metrics, saving and downloading a file..................✅
-Checking artifact save and download workflows...........................✅
-``` 
+<SelfManagedVerifyInstallation/> 
 
 ## Access the W&B Management Console
 The W&B Kubernetes operator comes with a management console. It is located at `${HOST_URI}/console`, for example `https://wandb.company-name.com/console`.

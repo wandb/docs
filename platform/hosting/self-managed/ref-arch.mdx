@@ -3,6 +3,9 @@ title: Reference Architecture
 description: W&B Reference Architecture
 ---
 
+import SelfManagedVersionRequirements from "/snippets/en/_includes/self-managed-version-requirements.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/en/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/en/_includes/self-managed-ssl-tls-requirements.mdx";
 
 This page describes a reference architecture for a W&B deployment and outlines the recommended infrastructure and resources to support a production deployment of the platform.
 
@@ -43,15 +46,39 @@ The W&B Server application is deployed as a [Kubernetes Operator](/platform/host
 - A fully configured and functioning Ingress controller.
 - The capability to provision Persistent Volumes.
 
+W&B supports deployment on [OpenShift Kubernetes clusters](https://www.redhat.com/en/technologies/cloud-computing/openshift) in cloud, on-premises, and air-gapped environments. For specific configuration instructions, see the [OpenShift section](/platform/hosting/operator/#openshift-kubernetes-clusters) in the Operator guide.
+
 ### MySQL
 W&B stores metadata in a MySQL database. The database's performance and storage requirements depend on the shapes of the model parameters and related metadata. For example, the database grows in size as you track more training runs, and load on the database increases based on queries in run tables, user workspaces, and reports.
 
-Consider the following when you deploy a Self-Managed MySQL database:
+**W&B strongly recommends using managed database services** (such as AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, or Azure Database for MySQL) for production deployments. Managed services provide automated backups, monitoring, high availability, patching, and significantly reduce operational complexity. See the [Cloud provider instance recommendations](#cloud-provider-instance-recommendations) section below for specific service recommendations.
+
+If you choose to deploy a self-managed MySQL database, consider the following:
 
 - **Backups**. You should periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
 - **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
 - **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
 - **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
+
+#### MySQL database creation
+
+For instructions to manually create the MySQL database and user, see the [bare-metal guide MySQL database section](/platform/hosting/self-managed/bare-metal/#mysql-database).
+
+#### MySQL configuration parameters
+
+If you are running your own MySQL instance, configure MySQL with these settings:
+
+```
+binlog_format = 'ROW'
+binlog_row_image = 'MINIMAL'
+innodb_flush_log_at_trx_commit = 1
+innodb_online_alter_log_max_size = 268435456
+max_prepared_stmt_count = 1048576
+sort_buffer_size = '67108864'
+sync_binlog = 1
+```
+
+These settings have been validated by W&B for optimal performance and reliability.
 
 ### Redis
 W&B depends on a single-node Redis 7.x deployment used by W&B's components for job queuing and data caching. For convenience during testing and development of proofs of concept, W&B Self-Managed includes a local Redis deployment that is not appropriate for production deployments.
@@ -73,37 +100,113 @@ W&B requires object storage with pre-signed URL and CORS support, deployed in on
 - S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
 
 ### Versions
-| Software     | Minimum version                              |
-| ------------ | -------------------------------------------- |
-| Kubernetes   | v1.29                                        |
-| MySQL        | v8.0.x is required, v8.0.32 or newer; v8.0.44 or newer is recommended.<br/>Aurora MySQL 3.x releases, must be v3.05.2 or newer  |
-| Redis        | v7.x                                         |
+<SelfManagedVersionRequirements/>
 
 ### Networking
 
-For a networked deployment, egress to these endpoints is required during _both_ installation and runtime:
-* https://deploy.wandb.ai
-* https://charts.wandb.ai
-* https://docker.io
-* https://quay.io
-* `https://gcr.io`
-
-To learn about air-gapped deployments, refer to [Kubernetes operator for air-gapped instances](/platform/hosting/self-managed/operator-airgapped/).
-Access to W&B and to the object storage is required for the training infrastructure and for each system that tracks the needs of experiments.
+<SelfManagedNetworkingRequirements/>
 
 ### DNS
 The fully qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
 
-### SSL/TLS
-W&B requires a valid signed SSL/TLS certificate for secure communication between clients and the server. SSL/TLS termination must occur on the ingress/load balancer. The W&B Server application does not terminate SSL or TLS connections.
+### Load balancer and ingress
 
-Please note: W&B does not recommend the use self-signed certificates and custom CAs.
+Run a load balancer that stops network requests at the appropriate network boundary. Ensure that all machines used to execute machine learning payloads, and the devices used to access the service through web browsers, can communicate to this endpoint.
+
+Common load balancer and ingress controller options include:
+1. [Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)
+2. [Istio](https://istio.io)
+3. [Caddy](https://caddyserver.com)
+4. [Cloudflare](https://www.cloudflare.com/load-balancing/)
+5. [Apache](https://www.apache.org)
+6. [HAProxy](https://www.haproxy.org)
+
+#### Example nginx configuration
+
+The following is an example configuration using nginx as a reverse proxy:
+
+```nginx
+events {}
+http {
+    # If we receive X-Forwarded-Proto, pass it through; otherwise, pass along the
+    # scheme used to connect to this server
+    map $http_x_forwarded_proto $proxy_x_forwarded_proto {
+        default $http_x_forwarded_proto;
+        ''      $scheme;
+    }
+
+    # Also, in the above case, force HTTPS
+    map $http_x_forwarded_proto $sts {
+        default '';
+        "https" "max-age=31536000; includeSubDomains";
+    }
+
+    # If we receive X-Forwarded-Host, pass it though; otherwise, pass along $http_host
+    map $http_x_forwarded_host $proxy_x_forwarded_host {
+        default $http_x_forwarded_host;
+        ''      $http_host;
+    }
+
+    # If we receive X-Forwarded-Port, pass it through; otherwise, pass along the
+    # server port the client connected to
+    map $http_x_forwarded_port $proxy_x_forwarded_port {
+        default $http_x_forwarded_port;
+        ''      $server_port;
+    }
+
+    # If we receive Upgrade, set Connection to "upgrade"; otherwise, delete any
+    # Connection header that may have been passed to this server
+    map $http_upgrade $proxy_connection {
+        default upgrade;
+        '' close;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name         www.example.com;
+        ssl_certificate     www.example.com.crt;
+        ssl_certificate_key www.example.com.key;
+
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        proxy_set_header Host $http_host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $proxy_connection;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
+        proxy_set_header X-Forwarded-Host $proxy_x_forwarded_host;
+
+        location / {
+            proxy_pass  http://$YOUR_UPSTREAM_SERVER_IP:8080/;
+        }
+
+        keepalive_timeout 10;
+    }
+}
+```
+
+### SSL/TLS
+<SelfManagedSslTlsRequirements/>
 
 ### Supported CPU architectures
 W&B runs on the Intel (x86) CPU architecture. ARM is not supported.
 
-## Infrastructure provisioning
-Terraform is the recommended way to deploy W&B for production. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within Self-Managed cloud accounts](/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts).
+## Deployment method
+
+### Recommended: W&B Kubernetes Operator with Helm
+The recommended installation method for W&B Self-Managed is using the **W&B Kubernetes Operator**, deployed via Helm. This approach provides:
+- Automated updates and management of W&B components
+- Simplified configuration and deployment
+- Support for all deployment scenarios (cloud, on-premises, air-gapped)
+
+For detailed installation instructions, see:
+- [Run W&B Server on Kubernetes (Operator)](/platform/hosting/operator/) - Primary installation guide
+- [Deploy W&B Platform On-premises](/platform/hosting/self-managed/bare-metal/) - For datacenter/bare-metal specific considerations
+- [Kubernetes operator for air-gapped instances](/platform/hosting/self-managed/operator-airgapped/) - For disconnected environments
+
+### Infrastructure provisioning
+Terraform is the recommended way to provision infrastructure for W&B production deployments. Using Terraform, you define the required resources, their references to other resources, and their dependencies. W&B provides Terraform modules for the major cloud providers. For details, refer to [Deploy W&B Server within Self-Managed cloud accounts](/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts).
 
 ## Sizing
 Use the following general guidelines as a starting point when planning a deployment. W&B recommends that you monitor all components of a new deployment closely and that you make adjustments based on observed usage patterns. Continue to monitor production deployments over time and make adjustments as needed to maintain optimal performance.
