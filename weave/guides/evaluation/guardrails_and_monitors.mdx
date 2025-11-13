@@ -7,33 +7,19 @@ description: "Ensure LLM safety and measure output quality in production applica
 ![Feedback](/images/guardrails_scorers.png)
 </Frame>
 
-## Introduction
+Weave's powerful scoring framework can help you develop guardrails and monitors that improve your LLM application's output quality and ensure they're generating safe, appropriate content. This guide shows you how to use custom Weave scorers to build guardrails and monitors that can:
 
-Building production LLM applications? Two questions likely keep you up at night:
-1. How do you ensure your LLMs generate safe, appropriate content?
-2. How do you measure and improve output quality over time?
+* Block toxic content in responses
+* Redact PII and sensitive data from being shared in responses
+* Track and ensure accuracy of information
+* Sample and monitor only a certain volume of calls to your application to reduce costs
 
-Weave's unified scoring system answers both questions through a simple yet powerful framework. Whether you need active safety controls (guardrails) or passive quality monitoring, this guide will show you how to implement robust evaluation systems for your LLM applications.
+## Guardrails vs. Monitors
 
-The foundation of Weave's evaluation system is the [**Scorer**](./scorers) - a component that evaluates your function's inputs and outputs to measure quality, safety, or any other metric you care about. Scorers are versatile and can be used in two ways:
+This document teaches how to use Weave's [Scorer](/weave/guides/evaluation/scorers) component to create:
 
-- **As Guardrails**: Block or modify unsafe content before it reaches users
-- **As Monitors**: Track quality metrics over time to identify trends and improvements
-
-<Note>
-**Terminology**
-Throughout this guide, we'll refer to functions decorated with `@weave.op` as "ops". These are regular Python functions that have been enhanced with Weave's tracking capabilities.
-</Note>
-
-#### Ready-to-Use Scorers
-While this guide shows you how to create custom scorers, Weave comes with a variety of [predefined scorers](./builtin_scorers) that you can use right away, including:
-- [Hallucination detection](./builtin_scorers#hallucinationfreescorer)
-- [Summarization quality](./builtin_scorers#summarizationscorer)
-- [Embedding similarity](./builtin_scorers#embeddingsimilarityscorer)
-- [Relevancy evaluation](./builtin_scorers#ragas---contextrelevancyscorer)
-- And more!
-
-### Guardrails vs. Monitors: When to Use Each
+- **Guardrails**: Block or modify unsafe content before it reaches users
+- **Monitors**: Track quality metrics over time to identify trends and improvements
 
 While scorers power both guardrails and monitors, they serve different purposes:
 
@@ -46,62 +32,49 @@ While scorers power both guardrails and monitors, they serve different purposes:
 | **Control Flow** | Can block/modify outputs | No impact on application flow |
 | **Resource Usage** | Must be efficient | Can use more resources if needed |
 
-For example, a toxicity scorer could be used:
-- **As a Guardrail**: Block toxic content immediately
-- **As a Monitor**: Track toxicity levels over time
+For example, you could use a toxicity scorer both as a guardrail to block toxic content immediately, and as a monitor to track toxicity levels over time.
 
-<Note>
-Every scorer result is automatically stored in Weave's database. This means your guardrails double as monitors without any extra work! You can always analyze historical scorer results, regardless of how they were originally used.
-</Note>
+Every scorer result is automatically stored in Weave's database. This means your guardrails double as monitors without any extra work and you can always analyze historical scorer results, regardless of how they were originally used.
 
-### Using the `.call()` Method
+## Getting Started
 
-To use scorers with Weave ops, you'll need access to both the operation's result and its tracking information. The `.call()` method provides both:
-
-```python lines
-# Instead of calling the op directly:
-result = generate_text(input)  # Primary way to call the op but doesn't give access to the Call object
-
-# Use the .call() method to get both result and Call object:
-result, call = generate_text.call(input)  # Now you can use the call object with scorers
-```
-
-<Tip>
-**Why Use `.call()`?**
-The Call object is essential for associating the score with the call in the database. While you can directly call the scoring function, this would not be associated with the call, and therefore not searchable, filterable, or exportable for later analysis.
-
-For more details about Call objects, see the [Calls guide section on Call objects](../tracking/tracing#getting-a-handle-to-the-call-object-during-execution).
-</Tip>
-
-## Getting Started with Scorers
-
-### Basic Example
-
-Here's a simple example showing how to use `.call()` with a scorer:
+The following example demonstrates a basic scorer used assess and log a response's length:
 
 ```python lines
 import weave
 from weave import Scorer
 
+@weave.op
+def generate_text(prompt: str) -> str:
+    return "Hello, world!"  # <-- This return value...
+
 class LengthScorer(Scorer):
     @weave.op
     def score(self, output: str) -> dict:
-        """A simple scorer that checks output length."""
+        #              ^^^^^^
+        #              ...automatically gets passed here as 'output'
+        print(f"Received output: {output}")  # Would print "Hello, world!"
         return {
             "length": len(output),
             "is_short": len(output) < 100
         }
 
-@weave.op
-def generate_text(prompt: str) -> str:
-    return "Hello, world!"
-
-# Get both result and Call object
 result, call = generate_text.call("Say hello")
+# result = "Hello, world!"
+# call contains trace info + the result
 
-# Now you can apply scorers
 await call.apply_scorer(LengthScorer())
+# Weave automatically passes "Hello, world!" as the output parameter
 ```
+
+When run, the code uses `@weave.op` to trace the `generate_text()` function. The `.call()` method returns two values: the function's result and a Call object containing trace metadata. 
+
+When you invoke `call.apply_scorer(LengthScorer())`, Weave automatically:
+1. Extracts the function's output from the Call object
+2. Passes it to the scorer's `score()` method as the `output` parameter
+3. Associates the resulting score with the traced call in the database
+
+This association between scores and traces is a fundamental part of Weave's value. Without the Call object, scores would be isolated data points with no connection to the original function execution, making them impossible to query or analyze over time.
 
 ## Using Scorers as Guardrails
 
