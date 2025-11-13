@@ -16,7 +16,8 @@
     }
   },
   "styling": {
-    "eyebrows": "breadcrumbs"
+    "eyebrows": "breadcrumbs",
+    "stylesheet": "/button-links.css"
   },
   "logo": {
     "light": "/icons/logo_light.svg",
@@ -61,7 +62,7 @@
               "index",
               "get-started",
               {
-                "group": "Deployment Options",
+                "group": "Deployment options",
                 "pages": [
                   "platform/hosting",
                   "platform/hosting/hosting-options/multi_tenant_cloud",
@@ -88,7 +89,6 @@
                       {
                         "group": "Install on public cloud",
                         "pages": [
-                          "platform/hosting/self-managed/install-on-public-cloud",
                           "platform/hosting/self-managed/aws-tf",
                           "platform/hosting/self-managed/gcp-tf",
                           "platform/hosting/self-managed/azure-tf"
@@ -104,16 +104,19 @@
               {
                 "group": "Configure W&B",
                 "pages": [
-                  "platform/app/settings-page/user-settings",
-                  "platform/app/settings-page/billing-settings",
-                  "platform/app/settings-page/emails",
-                  "platform/app/settings-page/teams",
-                  "platform/app/settings-page/storage",
-                  "platform/app/settings-page/anon",
-                  "platform/secrets",
-                  "platform/hosting/privacy-settings",
-                  "platform/hosting/smtp",
-                  "platform/hosting/env-vars",
+                  {
+                    "group": "Settings",
+                    "pages": [
+                      "platform/app/settings-page",
+                      "platform/app/settings-page/user-settings",
+                      "platform/app/settings-page/billing-settings",
+                      "platform/app/settings-page/emails",
+                      "platform/app/settings-page/teams",
+                      "platform/secrets",
+                      "platform/app/settings-page/storage",
+                      "platform/app/settings-page/anon"
+                    ]
+                  },
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
@@ -291,7 +294,6 @@
                     "group": "Registry",
                     "pages": [
                       "models/registry",
-                      "models/registry/registry_types",
                       "models/registry/create_registry",
                       "models/registry/configure_registry",
                       "models/registry/create_collection",
@@ -416,7 +418,6 @@
                           "models/integrations/mmf",
                           "models/integrations/paddledetection",
                           "models/integrations/paddleocr",
-                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/skorch",
@@ -606,28 +607,28 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/ArtifactCollection",
-                          "models/ref/python/public-api/ArtifactCollections",
-                          "models/ref/python/public-api/ArtifactFiles",
+                          "models/ref/python/public-api/artifactcollection",
+                          "models/ref/python/public-api/artifactcollections",
+                          "models/ref/python/public-api/artifactfiles",
                           "models/ref/python/public-api/artifacts",
-                          "models/ref/python/public-api/ArtifactType",
-                          "models/ref/python/public-api/ArtifactTypes",
+                          "models/ref/python/public-api/artifacttype",
+                          "models/ref/python/public-api/artifacttypes",
                           "models/ref/python/public-api/automations",
-                          "models/ref/python/public-api/BetaReport",
-                          "models/ref/python/public-api/File",
+                          "models/ref/python/public-api/betareport",
+                          "models/ref/python/public-api/file",
                           "models/ref/python/public-api/files",
-                          "models/ref/python/public-api/Member",
-                          "models/ref/python/public-api/Project",
+                          "models/ref/python/public-api/member",
+                          "models/ref/python/public-api/project",
                           "models/ref/python/public-api/projects",
-                          "models/ref/python/public-api/Registry",
+                          "models/ref/python/public-api/registry",
                           "models/ref/python/public-api/reports",
-                          "models/ref/python/public-api/Run",
-                          "models/ref/python/public-api/RunArtifacts",
+                          "models/ref/python/public-api/run",
+                          "models/ref/python/public-api/runartifacts",
                           "models/ref/python/public-api/runs",
-                          "models/ref/python/public-api/Sweep",
+                          "models/ref/python/public-api/sweep",
                           "models/ref/python/public-api/sweeps",
-                          "models/ref/python/public-api/Team",
-                          "models/ref/python/public-api/User"
+                          "models/ref/python/public-api/team",
+                          "models/ref/python/public-api/user"
                         ]
                       }
                     ]
@@ -762,6 +763,7 @@
                           "weave/guides/tracking/threads",
                           "weave/guides/tracking/trace-plots",
                           "weave/guides/tracking/otel",
+                          "weave/guides/tools/attributes",
                           "weave/guides/tools/weave-in-workspaces"
                         ]
                       },
@@ -787,6 +789,7 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
+                      "weave/guides/tools/attributes",
                       "weave/tutorial-eval",
                       "weave/tutorial-rag"
                     ]
@@ -1056,7 +1059,6 @@
               {
                 "group": "Response Settings",
                 "pages": [
-                  "inference/response-settings",
                   "inference/response-settings/json-mode",
                   "inference/response-settings/reasoning",
                   "inference/response-settings/streaming",
@@ -1202,7 +1204,6 @@
           {
             "tab": "Platform",
             "pages": [
-              "ja",
               {
                 "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                 "pages": [
@@ -1301,9 +1302,9 @@
                   "ja/platform/app/settings-page/billing-settings",
                   "ja/platform/app/settings-page/emails",
                   "ja/platform/app/settings-page/teams",
+                  "ja/platform/secrets",
                   "ja/platform/app/settings-page/storage",
                   "ja/platform/app/settings-page/anon",
-                  "ja/platform/secrets",
                   "ja/platform/hosting/privacy-settings",
                   "ja/platform/hosting/smtp",
                   "ja/platform/hosting/env-vars"
@@ -1723,7 +1724,6 @@
           {
             "tab": "Platform",
             "pages": [
-              "ko",
               {
                 "group": "Deployment Options",
                 "pages": [
@@ -1821,9 +1821,9 @@
                   "ko/platform/app/settings-page/billing-settings/",
                   "ko/platform/app/settings-page/emails/",
                   "ko/platform/app/settings-page/teams/",
+                  "ko/platform/secrets",
                   "ko/platform/app/settings-page/storage/",
                   "ko/platform/app/settings-page/anon/",
-                  "ko/platform/secrets",
                   "ko/platform/hosting/privacy-settings",
                   "ko/platform/hosting/smtp",
                   "ko/platform/hosting/env-vars"
@@ -2264,10 +2264,6 @@
       "destination": "/models/app/:slug*"
     },
     {
-      "source": "/guides/app/settings-page/:slug*",
-      "destination": "/platform/app/settings-page/:slug*"
-    },
-    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2308,6 +2304,10 @@
       "destination": "/models/integrations/:slug*"
     },
     {
+      "source": "/guides/integrations/pytorch",
+      "destination": "/models/integrations"
+    },    
+    {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
     },
@@ -2344,8 +2344,8 @@
       "destination": "/training/:slug*"
     },
     {
-      "source": "/guides/models/:slug*",
-      "destination": "/models/:slug*"
+      "source": "/guides/models/evaluate-models",
+      "destination": "/models/evaluate-models"
     },
     {
       "source": "/launch-library/:slug*",
@@ -2480,32 +2480,16 @@
       "destination": "/models"
     },
     {
-      "source": "/guides/core/automations/:slug*",
-      "destination": "/models/automations/:slug*"
-    },
-    {
-      "source": "/guides/core/artifacts/:slug*",
-      "destination": "/models/artifacts/:slug*"
-    },
-    {
-      "source": "/guides/core/registry/:slug*",
-      "destination": "/models/registry/:slug*"
-    },
-    {
-      "source": "/guides/core/reports/:slug*",
-      "destination": "/models/automations/:slug*"
-    },
-    {
-      "source": "/guides/core/tables/:slug*",
-      "destination": "/models/tables/:slug*"
-    },
-    {
-      "source": "/guides",
-      "destination": "/models"
-    },
-    {
       "source": "/models/core",
       "destination": "/models"
+    },
+    {
+      "source": "/inference/response-settings",
+      "destination": "/inference"
+    },
+    {
+      "source": "/platform/hosting/self-managed/install-on-public-cloud",
+      "destination": "/platform/hosting/self-managed"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
