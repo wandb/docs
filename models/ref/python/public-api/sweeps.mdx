@@ -3,10 +3,9 @@ title: Sweeps
 namespace: public_apis_namespace
 python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
-
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
 
 
 
@@ -34,10 +33,10 @@ for sweep in sweeps:
 
 ```python
 __init__(
-    client: wandb.apis.public.api.RetryingClient,
-    entity: str,
-    project: str,
-    per_page: int = 50
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    per_page: 'int' = 50
 ) → Sweeps
 ```
 

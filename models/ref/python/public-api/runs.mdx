@@ -3,10 +3,9 @@ title: Runs
 namespace: public_apis_namespace
 python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
-
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
 
 
 
@@ -28,7 +27,8 @@ __init__(
     filters: 'dict[str, Any] | None' = None,
     order: 'str' = '+created_at',
     per_page: 'int' = 50,
-    include_sweeps: 'bool' = True
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True
 )
 ```
 
@@ -127,4 +127,16 @@ Return sampled history metrics for all runs that fit the filters conditions.
  - `pandas.DataFrame`:  If `format="pandas"`, returns a `pandas.DataFrame`  of history metrics. 
  - `polars.DataFrame`:  If `format="polars"`, returns a `polars.DataFrame`  of history metrics. 
  - `list of dicts`:  If `format="default"`, returns a list of dicts  containing history metrics with a `run_id` key. 
+
+---
+
+### <kbd>method</kbd> `Runs.upgrade_to_full`
+
+```python
+upgrade_to_full()
+```
+
+Upgrade this Runs collection from lazy to full mode. 
+
+This switches to fetching full run data and upgrades any already-loaded Run objects to have full data. Uses parallel loading for better performance when upgrading multiple runs. 
 

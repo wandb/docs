@@ -105,16 +105,19 @@
               {
                 "group": "Configure W&B",
                 "pages": [
-                  "platform/app/settings-page/user-settings",
-                  "platform/app/settings-page/billing-settings",
-                  "platform/app/settings-page/emails",
-                  "platform/app/settings-page/teams",
-                  "platform/app/settings-page/storage",
-                  "platform/app/settings-page/anon",
-                  "platform/secrets",
-                  "platform/hosting/privacy-settings",
-                  "platform/hosting/smtp",
-                  "platform/hosting/env-vars",
+                  {
+                    "group": "Settings",
+                    "pages": [
+                      "platform/app/settings-page",
+                      "platform/app/settings-page/user-settings",
+                      "platform/app/settings-page/billing-settings",
+                      "platform/app/settings-page/emails",
+                      "platform/app/settings-page/teams",
+                      "platform/secrets",
+                      "platform/app/settings-page/storage",
+                      "platform/app/settings-page/anon"
+                    ]
+                  },
                   {
                     "group": "Identity and access management (IAM)",
                     "pages": [
@@ -417,7 +420,6 @@
                           "models/integrations/mmf",
                           "models/integrations/paddledetection",
                           "models/integrations/paddleocr",
-                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/skorch",
@@ -607,28 +609,28 @@
                         "pages": [
                           "models/ref/python/public-api",
                           "models/ref/python/public-api/api",
-                          "models/ref/python/public-api/ArtifactCollection",
-                          "models/ref/python/public-api/ArtifactCollections",
-                          "models/ref/python/public-api/ArtifactFiles",
+                          "models/ref/python/public-api/artifactcollection",
+                          "models/ref/python/public-api/artifactcollections",
+                          "models/ref/python/public-api/artifactfiles",
                           "models/ref/python/public-api/artifacts",
-                          "models/ref/python/public-api/ArtifactType",
-                          "models/ref/python/public-api/ArtifactTypes",
+                          "models/ref/python/public-api/artifacttype",
+                          "models/ref/python/public-api/artifacttypes",
                           "models/ref/python/public-api/automations",
-                          "models/ref/python/public-api/BetaReport",
-                          "models/ref/python/public-api/File",
+                          "models/ref/python/public-api/betareport",
+                          "models/ref/python/public-api/file",
                           "models/ref/python/public-api/files",
-                          "models/ref/python/public-api/Member",
-                          "models/ref/python/public-api/Project",
+                          "models/ref/python/public-api/member",
+                          "models/ref/python/public-api/project",
                           "models/ref/python/public-api/projects",
-                          "models/ref/python/public-api/Registry",
+                          "models/ref/python/public-api/registry",
                           "models/ref/python/public-api/reports",
-                          "models/ref/python/public-api/Run",
-                          "models/ref/python/public-api/RunArtifacts",
+                          "models/ref/python/public-api/run",
+                          "models/ref/python/public-api/runartifacts",
                           "models/ref/python/public-api/runs",
-                          "models/ref/python/public-api/Sweep",
+                          "models/ref/python/public-api/sweep",
                           "models/ref/python/public-api/sweeps",
-                          "models/ref/python/public-api/Team",
-                          "models/ref/python/public-api/User"
+                          "models/ref/python/public-api/team",
+                          "models/ref/python/public-api/user"
                         ]
                       }
                     ]
@@ -1050,7 +1052,6 @@
               {
                 "group": "Response Settings",
                 "pages": [
-                  "inference/response-settings",
                   "inference/response-settings/json-mode",
                   "inference/response-settings/reasoning",
                   "inference/response-settings/streaming",
@@ -1196,7 +1197,6 @@
           {
             "tab": "Platform",
             "pages": [
-              "ja",
               {
                 "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
                 "pages": [
@@ -1295,9 +1295,9 @@
                   "ja/platform/app/settings-page/billing-settings",
                   "ja/platform/app/settings-page/emails",
                   "ja/platform/app/settings-page/teams",
+                  "ja/platform/secrets",
                   "ja/platform/app/settings-page/storage",
                   "ja/platform/app/settings-page/anon",
-                  "ja/platform/secrets",
                   "ja/platform/hosting/privacy-settings",
                   "ja/platform/hosting/smtp",
                   "ja/platform/hosting/env-vars"
@@ -1717,7 +1717,6 @@
           {
             "tab": "Platform",
             "pages": [
-              "ko",
               {
                 "group": "Deployment Options",
                 "pages": [
@@ -1815,9 +1814,9 @@
                   "ko/platform/app/settings-page/billing-settings/",
                   "ko/platform/app/settings-page/emails/",
                   "ko/platform/app/settings-page/teams/",
+                  "ko/platform/secrets",
                   "ko/platform/app/settings-page/storage/",
                   "ko/platform/app/settings-page/anon/",
-                  "ko/platform/secrets",
                   "ko/platform/hosting/privacy-settings",
                   "ko/platform/hosting/smtp",
                   "ko/platform/hosting/env-vars"
@@ -2297,6 +2296,10 @@
       "source": "/guides/integrations/:slug*",
       "destination": "/models/integrations/:slug*"
     },
+    {
+      "source": "/guides/integrations/pytorch",
+      "destination": "/models/integrations"
+    },    
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
