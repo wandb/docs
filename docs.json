@@ -418,7 +418,6 @@
                           "models/integrations/mmf",
                           "models/integrations/paddledetection",
                           "models/integrations/paddleocr",
-                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/skorch",
@@ -1113,8 +1112,19 @@
             "icon": "/icons/cropped-reports.svg",
             "pages": [
               "release-notes",
-              "release-notes/server-releases",
-              "release-notes/server-releases-archived",
+              {
+                "group": "W&B Server",
+                "pages": [
+                  "release-notes/server-releases",
+                  "release-notes/server-releases-archived"
+                ]
+              },
+              {
+                "group": "W&B SDK",
+                "pages": [
+                  "release-notes/sdk-releases"
+                ]
+              },
               "release-notes/release-policies"
             ]
           },
@@ -2304,6 +2314,10 @@
       "source": "/guides/integrations/:slug*",
       "destination": "/models/integrations/:slug*"
     },
+    {
+      "source": "/guides/integrations/pytorch",
+      "destination": "/models/integrations"
+    },    
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"

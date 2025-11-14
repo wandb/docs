@@ -8,7 +8,11 @@ This page describes how to view activity in your W&B organization. Select your d
 
 <Tabs>
 <Tab title="Dedicated Cloud / Self-Managed">
-1. Navigate to the **Organization Dashboard** at `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name. The **Users** tab opens by default and lists every user in the organization.
+1. Navigate to the **Organization Dashboard**:
+   - **Dedicated Cloud**: `https://<org-name>.io/org/dashboard/`. Replace `<org-name>` with your organization name.
+   - **Self-Managed**: `https://<YOUR-W&B-SERVER-IP>/org/dashboard`. Replace `<YOUR-W&B-SERVER-IP>` with your deployment's IP address.
+
+   The **Users** tab opens by default and lists every user in the organization.
 2. To sort the list by user status, click the **Last Active** column header. Each user's status is one of the following:
    * **Invite pending**: An invitation was sent but not yet accepted.
    * **A timestamp**: The user accepted the invitation and has signed in at least once. The timestamp indicates the most recent activity.
@@ -39,13 +43,13 @@ A user is _active_ if they perform any auditable action scoped to the organizati
 <Tab title="Dedicated Cloud / Self-Managed">
 Use the **Activity** tab to see how many users have been active during a given period.
 
-1. Open the **Organization Dashboard** (`https://<org-name>.io/org/dashboard/`).
+1. Open the **Organization Dashboard**. See [View user activity](#view-user-activity).
 2. Click **Activity**.
 3. Review the following plots:
    * **Total active users**: unique active users during the selected period (defaults to 3 months).
    * **Users active over time**: fluctuation of active users over the period (defaults to 6 months). Hover over a point to see the exact count on that date.
 
-To change the period, use the drop-down above a plot. Options are Last 30 days, Last 3 months, Last 6 months, Last 12 months, and All time.
+To change the reporting period, use the drop-down above a plot. Options are Last 30 days, Last 3 months, Last 6 months, Last 12 months, and All time.
 </Tab>
 <Tab title="Multi-tenant Cloud">
 Use the **Activity Dashboard** to view aggregate activity.
@@ -66,7 +70,7 @@ From the **Users** tab you can download a CSV that lists each user's details (us
 
 <Tabs>
 <Tab title="Dedicated Cloud / Self-Managed">
-1. In the **Users** tab, click the **…** actions menu next to **Invite new user**.
+1. In the **Users** tab, click the **…** action menu next to **Invite new user**.
 2. Click **Export as CSV**.
 
 ### Export CSV schema
@@ -81,7 +85,7 @@ The CSV export uses the comma (`,`) as the separator, encloses strings in double
 - `"Last Active"`
 </Tab>
 <Tab title="Multi-tenant Cloud">
-1. In the **Users** tab, click the **…** actions menu in the upper-right corner.
+1. In the **Users** tab, click the **…** action menu in the upper-right corner.
 2. Select **Export as CSV** to download the file.
 
 ### Export CSV schema
