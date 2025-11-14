@@ -127,12 +127,8 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 4. On the "Register an application" screen, configure the following:
    - **Name**: Enter a descriptive name (e.g., "Weights and Biases application")
    - **Supported account types**: Keep the default "Single tenant" or modify as needed
-   - **Redirect URI**: Select platform type **Web** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
+   - **Redirect URI**: Select platform type **Single-page application** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
    - Click **Register**
-
-   <Frame>
-   <img src="/images/hosting/entra_register_an_application.png" alt="Application registration form"  />
-   </Frame>
 
 5. After registration, note the following values from the Overview page:
    - **Application (client) ID** - This is your OIDC Client ID
@@ -146,10 +142,6 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
    - Select **Authentication** from the left sidebar
    - Under **Front-channel logout URL**, enter `https://YOUR_W_AND_B_URL/logout`
    - Click **Save**
-
-   <Frame>
-   <img src="/images/hosting/entra_logout_url.png" alt="Front-channel logout URL configuration"  />
-   </Frame>
 
 7. Create a client secret:
    - Select **Certificates & secrets** from the left sidebar
