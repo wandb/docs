@@ -1,31 +1,39 @@
 ---
-title: "Serverless LoRA Inference"
-linkTitle: "Serverless LoRA Inference"
+title: "Use Serverless LoRAs with Inference"
+linkTitle: "Use Serverless LoRA Inference"
 description: >
   Bring your own custom LoRA for serving fine-tuned models on W&B Inference.
 ---
 
 LoRA (Low-Rank Adaptation) weights are lightweight model updates that allow you to efficiently fine-tune large language models. Instead of updating all of a model's parameters, LoRA methods train small sets of additional weights, significantly reducing compute and storage requirements. These adapter weights can then be merged with or dynamically applied to a base model at inference time.
 
+This allows you to do things like multi-tenant customer personalization where you can serve personalized LLM responses for customers without having to deploy multiple bespoke versions of the same model.
+
 W&B Inference lets you serve your custom fine-tuned LoRA weights on fully managed CoreWeave GPU clusters, with no infrastructure to provision or manage. 
 
-## At a glance
+## Why you should use W&B Inference for custom models
 
-1. Upload your adapter weights as a W&B artifact 
+- **Version control for serving:** The artifact URI explicitly includes the project, run, and version (:v10), providing traceability back to the training and hyperparameters used to create the LoRA weights.
+- **Serverless inference (zero infra to manage):** You avoid the complexity of setting up and scaling serving infrastructure for every LoRA iteration. The system handles dynamic loading and hot-swapping of your weights in the background.
+- **Accelerated iteration:** Because only the small LoRA weights are updated and managed via artifacts, you can cycle from training to production validation instantly.
+
+## Workflow overview
+
+1. Train or upload your adapter weights as a W&B artifact
 2. Use the artifact URI as the model name in the OpenAI-compatible API
 3. We hot-load your adapter onto a preloaded base model and return the response
 
-Minimal example (after publishing an adapter):
+The following example demonstrates how to call your custom LoRA model using W&B Inference:
 
 ```python
 from openai import OpenAI
 
-model_name = f"wandb-artifact:///{TEAM}/{PROJECT}/qwen_lora:latest"
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/qwen_lora:latest"
 
 client = OpenAI(
     base_url="https://api.inference.wandb.ai/v1",
     api_key=API_KEY,
-    project=f"{TEAM}/{PROJECT}",
+    project=f"{WB_TEAM}/{WB_PROJECT}",
 )
 
 resp = client.chat.completions.create(
@@ -35,62 +43,68 @@ resp = client.chat.completions.create(
 print(resp.choices[0].message.content)
 ```
 
-## Choose your path
+Check out this [getting started notebook](https://wandb.me/lora_nb) for an interactive demonstration of how to create a LoRA and upload it to W&B as an artifact.
 
-- Option A: Train with W&B Training (serverless RL). Your adapter becomes a W&B artifact; use the artifact URI directly. Learn more in [W&B Training](/training).
-- Option B: Upload your own adapter. Upload as a W&B artifact of type `lora` and include `wandb.base_model` metadata matching a supported base model.
+## Prerequisites
 
-## Upload your own adapter
+To get started with using LoRA's in your W&B Inference requests, you need:
 
-Here’s a Quickstart for you to create and call your first LoRA: [Getting Started notebook](https://wandb.me/lora_nb)
+* A [W&B API key](/models/integrations/add-wandb-to-any-library#create-an-api-key)
+* A [W&B project](/models/track/project-page)
+* **Python 3.8+** with packages:
+  `pip install wandb openai`
+
+
+## How to add LoRAs and use them
+
+You can add LoRAs to your W&B account and start using them using two methods:
+
+<Tabs>
+  <Tab title="Upload Your Own Adapter">
+    Upload your own LoRA adapter as a W&B artifact. This option is perfect if you've trained your LoRA elsewhere (local environment, cloud provider, or third-party service).
+
+    This Python code uploads your locally-stored LoRA adapter weights to W&B as a versioned artifact. It creates a `lora` type artifact with the required metadata (base model and storage region), adds your adapter files from a local directory, and logs it to your W&B project for use with inference.
+
+    ```python
+    import wandb
+
+    run = wandb.init(entity=WB_TEAM, project=WB_PROJECT)
+
+    artifact = wandb.Artifact(
+        "qwen_lora",
+        type="lora",
+        metadata={"wandb.base_model": "Qwen/Qwen2.5-14B-Instruct"},
+        storage_region="coreweave-us",
+    )
+
+    artifact.add_dir("<path-to-lora-weights>")
+    run.log_artifact(artifact)
+    ```
+
+    ### Key Requirements
+
+    To use your own LoRAs with Inference:
+
+    * The LoRA must have been trained using one of the models listed in the [Supported Base Models section](#supported-base-models).
+    * A LoRA saved as a PEFT-style adapter and `lora` type artifact in your W&B account.
+    * The LoRA must be stored in the `storage_region="coreweave-us"` for low latency.
+    * Specify which model the LoRA was trained on in its metadata at `wandb.base_model`. The string must exactly match one of those in the [Supported Base Models section](#supported-base-models).
+  </Tab>
+  <Tab title="Train with W&B Training">
+    Train a new LoRA with [W&B Training (serverless RL)](/training). Your adapter automatically becomes a W&B artifact that you can use directly.
+
+    For detailed information on how to train your own adapter, see [OpenPipe's ART quickstart](https://art.openpipe.ai/getting-started/quick-start).
+
+    Once training is complete, your LoRA is automatically available as an artifact.
+  </Tab>
+</Tabs>
+
+Once your LoRA has been added to your project as an artifact, use the artifact's URI in your inference calls, like this:
 
 ```python
-import wandb
-
-run = wandb.init(entity=TEAM, project=PROJECT)
-
-artifact = wandb.Artifact(
-    "qwen_lora",
-    type="lora",
-    metadata={"wandb.base_model": "Qwen/Qwen2.5-14B-Instruct"},
-    storage_region="coreweave-us",
-)
-
-artifact.add_dir("<path-to-lora-weights>")
-run.log_artifact(artifact)
+# After training completes, use your artifact directly
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
 ```
-
-## Requirements
-
-- Artifact type: `lora`
-- Files: PEFT-style adapters, see [Getting Started notebook](https://wandb.me/lora_nb)
-- Metadata: `wandb.base_model` must exactly match a supported base model string
-- Storage: `storage_region="coreweave-us"` (required for low-latency serving)
-
-## How it works
-
-Bring your LoRA from anywhere: W&B Models, W&B Serverless RL, your own training environment, or a third party. If you trained the LoRA on W&B Models or Serverless RL, you’re all set; your LoRA adapter is already a W&B Models artifact. If you trained elsewhere, simply upload it as an artifact using the wandb SDK. Then call our API with the base model and artifact reference. 
-
-W&B Inference hot-loads the adapter at request time onto a preloaded base model running on CoreWeave GPUs, executes your prompt, and returns the output. That means no clusters to provision, no images to build, and no endpoints to manage. 
-
-Because adapters are attached dynamically, you can roll out improvements by bumping the artifact version, enabling a clean handoff from training to production and a frictionless path to serving multiple fine-tuned variants without standing up separate deployments.
-
-LoRAs are the definitive solution for managing and deploying customized model variants, enabling lightning-fast deployment cycles. We use W&B artifacts as a version-controlled storage layer for your fine-tuned LoRAs, which we make available for dynamic serving at inference time on powerful, hosted base models.
-
-## Step-by-step breakdown
-
-| **Step** | **Impact** |
-| --- | --- |
-| Train or create your LoRA weights | For fine-tuning, a GPU environment (like T4) is needed. |
-| Upload the LoRA weights to W&B | The weights are logged as a W&B artifact of type ‘lora’, enabling lineage and versioning. |
-| Set the artifact's storage region to coreweave-us | This step is critical; it places the versioned LoRA files in the high-performance storage required by our integrated inference cluster. |
-| Send an inference request | The service pulls and applies the specified LoRA version to the base model dynamically, on demand. |
-
-## Why you should use W&B Inference for custom models
-
-- **Version control for serving:** The artifact URI explicitly includes the project, run, and version (:v10), providing traceability back to the training and hyperparameters used to create the LoRA weights.
-- **Serverless inference (zero infra to manage):** You avoid the complexity of setting up and scaling serving infrastructure for every LoRA iteration. The system handles dynamic loading and hot-swapping of your weights in the background.
-- **Accelerated iteration:** Because only the small LoRA weights are updated and managed via artifacts, you can cycle from training to production validation instantly.
 
 ## Supported Base Models
 
@@ -100,7 +114,10 @@ Inference is currently configured for the following LLMs (exact strings must be 
 - `Qwen/Qwen2.5-14B-Instruct`
 - `meta-llama/Llama-3.1-8B-Instruct`
 
-## Get started
+## Pricing information
 
-To get started, check out this [getting started notebook](https://wandb.me/lora_nb).
+Using LoRAs with W&B Inference charges standard rates for the following things:
 
+* [Training the LoRA](https://wandb.ai/site/pricing/reinforcement-learning/) (if you didn't bring your own)
+* [Storage](https://wandb.ai/site/pricing/) of the LoRA as an artifact
+* [Requests](/inference/usage-limits#account-tiers-and-default-usage-caps) to the Inference service
