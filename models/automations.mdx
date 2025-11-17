@@ -21,10 +21,11 @@ Looking for companion tutorials for automations?
 
 ## Automation events
 
-Automations can be triggered by events related to runs or artifacts in a collection, project, or registry. An automation can start:
+Automations can be triggered by events related to runs or artifacts in a collection, project, or registry. For example, an automation can start:
 
+- When a run's status changes to **Running**, **Finished**, **Failed**.
 - When a run metric meets a defined absolute or relative threshold. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
-- When an event occurs in a project or registry. For example, trigger when a new version of a model artifact is created or when the `production` alias is added to a model artifact.
+- When an artifact version is created, linked, or tagged in a project, registry, or collection. For example, trigger when a new version of a model artifact is created or when the `production` alias is added to a model artifact.
 
 For more details, see [Automation events and scopes](/models/automations/automation-events/).
 
