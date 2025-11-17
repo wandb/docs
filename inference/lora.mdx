@@ -73,7 +73,7 @@ You can add LoRAs to your W&B account and start using them using two methods:
     artifact = wandb.Artifact(
         "qwen_lora",
         type="lora",
-        metadata={"wandb.base_model": "Qwen/Qwen2.5-14B-Instruct"},
+        metadata={"wandb.base_model": "OpenPipe/Qwen3-14B-Instruct"},
         storage_region="coreweave-us",
     )
 
@@ -112,6 +112,7 @@ Inference is currently configured for the following LLMs (exact strings must be 
 
 - `OpenPipe/Qwen3-14B-Instruct`
 - `Qwen/Qwen2.5-14B-Instruct`
+- `meta-llama/Llama-3.1-70B-Instruct`
 - `meta-llama/Llama-3.1-8B-Instruct`
 
 ## Pricing information
