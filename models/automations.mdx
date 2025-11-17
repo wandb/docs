@@ -8,41 +8,30 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 <EnterpriseCloudOnly/>
 </Info>
 
-This page describes _automations_ in W&B. [Create an automation](/models/automations/create-automations/) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B.
+This page describes _automations_ in W&B. [Create an automation](/models/automations/create-automations/) to trigger workflow steps, such as automated model testing and deployment, based on an event in W&B, such as when an [artifact](/models/artifacts/) artifact version is created or when a [run metric](/models/runs/) meets or changes by a threshold.
 
 For example, an automation can notify a Slack channel when a new version is created, trigger an automated testing webhook when the `production` alias is added to an artifact, or start a validation job only when a run's `loss` is within acceptable bounds.
 
-<Info>
-Looking for companion tutorials for automations? 
-- [Learn to automatically trigger a Github Action for model evaluation and deployment](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
-- [Watch a video demonstrating automatically deploying a model to a Sagemaker endpoint](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
-- [Watch a video series introducing automations](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared).
-</Info>
+## Overview
+An automation can start when a specific [event](/models/automations/automation-events/) occurs in a registry or project.
 
-## Automation events
+In a [Registry](/models/registry/), an automation can start:
+- When a new artifact version is linked to a collection. For example, trigger testing and validation workflows for new candidate models.
+- When an alias is added to an artifact version. For example, trigger a deployment workflow when an alias is added to a model version.
 
-Automations can be triggered by events related to runs or artifacts in a collection, project, or registry. An automation can start:
+In a [project](/models/track/project-page/), an automation can start:
+- When a new version is added to an artifact. For example, start a training job when a new version of a dataset artifact is added to a given collection.
+- When an alias is added to an artifact version. For example, trigger a PII redaction workflow when the alias "redaction" is added to a dataset artifact.
+- When a tag is added to an artifact version. For example, trigger a geo-specific workflow when the tag "europe" is added to an artifact version.
+- When a metric for a run meets or exceeds a configured threshold.
+- When a metric for a run changes by a configured threshold.
+- When a run's status changes to **Running**, **Failed**, or **Finished**.
 
-- When a run metric meets a defined absolute or relative threshold. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
-- When an event occurs in a project or registry. For example, trigger when a new version of a model artifact is created or when the `production` alias is added to a model artifact.
+Optionally, you can:
+- Filter artifacts, aliases, or tags by name
+- Filter runs by user or run name.
 
 For more details, see [Automation events and scopes](/models/automations/automation-events/).
-
-## Automation actions
-
-When an event triggers an automation, it can perform one of these actions:
-
-### Slack notification
-Send a message to a Slack channel with details about the triggering event. The message summarizes the event, with a link to view more details in W&B.
-
-### Webhook
-Call a webhook URL with a JSON payload containing information about the triggering event. This enables integration with external systems like CI/CD pipelines, model deployment services, or custom workflows. The body of the webhook request may be any JSON-serializable payload.
-
-For implementation details, see:
-- [Create a Slack automation](/models/automations/create-automations/slack/)
-- [Create a webhook automation](/models/automations/create-automations/webhook/)
-
-## How automations work
 
 To [create an automation](/models/automations/create-automations/), you:
 
@@ -57,6 +46,5 @@ To [create an automation](/models/automations/create-automations/), you:
 
 ## Next steps
 - [Create an automation](/models/automations/create-automations/).
-- [View an automation's history](/models/automations/view-automation-history) to track executions and debug issues.
 - Learn about [Automation events and scopes](/models/automations/automation-events/).
 - [Create a secret](/platform/secrets/).
