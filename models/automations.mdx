@@ -21,10 +21,10 @@ Looking for companion tutorials for automations?
 
 ## Automation events
 
-Automations can be triggered by events related to runs or artifacts in a project or registry. An automation can start:
+Automations can be triggered by events related to runs or artifacts in a collection, project, or registry. An automation can start:
 
 - When a run metric meets a defined absolute or relative threshold. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
-- When an artifact event occurs in a project or registry. For example, trigger when a new model version is created or when the `production` alias is added to a model.
+- When an event occurs in a project or registry. For example, trigger when a new version of a model artifact is created or when the `production` alias is added to a model artifact.
 
 For more details, see [Automation events and scopes](/models/automations/automation-events/).
 
@@ -33,11 +33,10 @@ For more details, see [Automation events and scopes](/models/automations/automat
 When an event triggers an automation, it can perform one of these actions:
 
 ### Slack notification
-Send a message to a Slack channel with details about the triggering event. The message includes relevant information such as the entity name, user who triggered the event, and a link to view more details in W&B.
+Send a message to a Slack channel with details about the triggering event. The message summarizes the event, with a link to view more details in W&B.
 
 ### Webhook
-Call a webhook URL with a JSON payload containing information about the triggering event. This enables integration with external systems like CI/CD pipelines, model deployment services, or custom workflows. The webhook payload includes:
-- Event details (type, entity information)
+Call a webhook URL with a JSON payload containing information about the triggering event. This enables integration with external systems like CI/CD pipelines, model deployment services, or custom workflows. The body of the webhook request may be any JSON-serializable payload.
 
 For implementation details, see:
 - [Create a Slack automation](/models/automations/create-automations/slack/)

@@ -7,16 +7,8 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 <EnterpriseCloudOnly/>
 </Info>
 
-An automation can start when a specific event occurs within a project or registry. Learn more about automations in the [Automations overview](/models/automations/) or [Create an automation](/models/automations/create-automations/).
+An automation starts when a specific event occurs within a project, registry, or collection. For example, when an artifact version is created, aliased, tagged, or linked, when a run's status changes, or when a run metric meets or changes by a given threshold. Learn more about automations in the [Automations overview](/models/automations/) or [Create an automation](/models/automations/create-automations/).
 
-| Action                                           | Registry scope | Project scope |
-|--------------------------------------------------|----------------|---------------|
-| [Artifact version](#artifact-events) linked      | ✓              |               |
-| [Artifact version](#artifact-events) aliased     | ✓              | ✓             |
-| [Artifact version](#artifact-events) created     |                | ✓             |
-| [Artifact version](#artifact-events) tagged      |                | ✓             |
-| [Run status](#run-status-change) changed         |                | ✓             |
-| [Run metric](#run-metrics-change) threshold met  |                | ✓             |
 
 ## Artifact events
 In a particular registry, an automation can start when an artifact version is linked or aliased. Automations in a given registry apply to all of the registry's collections.
