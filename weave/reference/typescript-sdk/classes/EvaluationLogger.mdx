@@ -19,12 +19,12 @@ const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
 
 for (const example of streamingData) {
   const output = await myModel.predict(example);
-  const pred = await ev.logPrediction(example, output);
+  const pred = ev.logPrediction(example, output);
 
   if (shouldScore(output)) {
-    await pred.logScore("accuracy", calculateAccuracy(output));
+    pred.logScore("accuracy", calculateAccuracy(output));
   }
-  await pred.finish();
+  pred.finish();
 }
 
 await ev.logSummary();
@@ -39,6 +39,7 @@ await ev.logSummary();
 ### Methods
 
 - [logPrediction](./EvaluationLogger#logprediction)
+- [logPredictionAsync](./EvaluationLogger#logpredictionasync)
 - [logSummary](./EvaluationLogger#logsummary)
 
 ## Constructors
@@ -59,17 +60,57 @@ await ev.logSummary();
 
 #### Defined in
 
-[evaluationLogger.ts:502](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluationLogger.ts#L502)
+[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L554)
 
 ## Methods
 
 ### logPrediction
 
-▸ **logPrediction**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./ScoreLogger)\>
+▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./ScoreLogger)
 
-Log a prediction with its input and output.
+Log a prediction with its input and output (synchronous version).
 Creates a predict_and_score call (with child predict call).
-Returns a ScoreLogger for adding scores.
+Returns a ScoreLogger immediately for adding scores.
+
+This method returns the ScoreLogger synchronously. Operations on the
+ScoreLogger (logScore, finish) will be queued and executed when initialization completes.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+#### Returns
+
+[`ScoreLogger`](./ScoreLogger)
+
+`Example`
+
+```ts
+// Fire-and-forget style
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // Waits for everything
+```
+
+#### Defined in
+
+[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L641)
+
+___
+
+### logPredictionAsync
+
+▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./ScoreLogger)\>
+
+Log a prediction with its input and output (async version).
+Like logPrediction() but returns a Promise that resolves when
+the prediction call is fully initialized.
+
+Use this if you need to await the initialization before proceeding.
 
 #### Parameters
 
@@ -82,9 +123,18 @@ Returns a ScoreLogger for adding scores.
 
 `Promise`\<[`ScoreLogger`](./ScoreLogger)\>
 
+`Example`
+
+```ts
+// Awaitable style
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
 #### Defined in
 
-[evaluationLogger.ts:579](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluationLogger.ts#L579)
+[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L666)
 
 ___
 
@@ -94,6 +144,9 @@ ___
 
 Log a summary and finalize the evaluation.
 Creates a summarize call and finishes the evaluate call.
+
+This method can be called without await (fire-and-forget), but internally
+it will wait for all pending operations to complete.
 
 #### Parameters
 
@@ -107,4 +160,4 @@ Creates a summarize call and finishes the evaluate call.
 
 #### Defined in
 
-[evaluationLogger.ts:669](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluationLogger.ts#L669)
+[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L767)
