@@ -28,8 +28,6 @@ title: "Service API"
 description: "REST API endpoints for the Weave service"
 ---
 
-# Weave Service API
-
 The Weave Service API provides REST endpoints for interacting with the Weave tracing service.
 
 ## Available Endpoints

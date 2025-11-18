@@ -255,8 +255,9 @@ description: "TypeScript SDK reference"
             # Just ensure .md extension is removed (already done above)
             pass
         
-        # Write as .mdx file
-        mdx_file = md_file.with_suffix('.mdx')
+        # Write as .mdx file with lowercase filename (avoid Git case sensitivity issues)
+        lowercase_stem = md_file.stem.lower()
+        mdx_file = md_file.parent / f"{lowercase_stem}.mdx"
         mdx_file.write_text(content)
         
         # Remove original .md file
@@ -314,17 +315,18 @@ description: "TypeScript SDK reference"
 
 {func_content.replace(f'### {func_name}', f'# {func_name}')}"""
             
-            # Write the function file
-            func_file = functions_dir / f"{func_name}.mdx"
+            # Write the function file with lowercase filename (avoid Git case sensitivity issues)
+            func_filename = func_name.lower()
+            func_file = functions_dir / f"{func_filename}.mdx"
             func_file.write_text(func_file_content)
-            functions_found.append(func_name)
-            print(f"    ✓ Extracted {func_name}.mdx")
+            functions_found.append(func_filename)
+            print(f"    ✓ Extracted {func_filename}.mdx")
         
         if functions_found:
             # Remove the detailed function documentation from index
             content = function_pattern.sub('', content)
             
-            # Update the Functions section with links
+            # Update the Functions section with links (functions_found already has lowercase names)
             functions_section = "\n### Functions\n\n"
             for func in functions_found:
                 functions_section += f"- [{func}](functions/{func})\n"
@@ -363,17 +365,18 @@ description: "TypeScript SDK reference"
 
 {alias_content.replace(f'### {alias_name}', f'# {alias_name}')}"""
             
-            # Write the type alias file
-            alias_file = type_aliases_dir / f"{alias_name}.mdx"
+            # Write the type alias file with lowercase filename (avoid Git case sensitivity issues)
+            alias_filename = alias_name.lower()
+            alias_file = type_aliases_dir / f"{alias_filename}.mdx"
             alias_file.write_text(alias_file_content)
-            print(f"    ✓ Extracted {alias_name}.mdx")
+            print(f"    ✓ Extracted {alias_filename}.mdx")
         
         # Remove all extracted type aliases from index
         content = type_alias_pattern.sub('', content)
             
-        # Update Type Aliases section with links to all extracted type aliases
+        # Update Type Aliases section with links to all extracted type aliases (use lowercase filenames)
         if type_aliases:
-            type_aliases_links = [f"- [{name}](type-aliases/{name})" for _, name in type_aliases if _.startswith(f"### {name}\n\nƬ ")]
+            type_aliases_links = [f"- [{name}](type-aliases/{name.lower()})" for _, name in type_aliases if _.startswith(f"### {name}\n\nƬ ")]
             if type_aliases_links:
                 type_aliases_section = "\n### Type Aliases\n\n" + "\n".join(sorted(type_aliases_links)) + "\n"
                 
