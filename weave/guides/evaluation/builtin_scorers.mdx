@@ -457,9 +457,9 @@ summarization_scorer = SummarizationScorer(
 
 ## Use column mapping
 
-You can use the `column_map` attribute to tell the scorer which dataset columns to use. The available keys for `column_map` are:
-- `output` (required): Model prediction
-- `target` (required): Reference answer to compare with
+You can use the `column_map` attribute to tell the scorer which dataset columns to use. The `column_map` attribute requires you to set the following keys:
+- `output`: Model prediction
+- `target`: Reference answer to compare with
 
 The following example maps the `output` and `target` columns to a dataset's `model_output` and `answer` columns, respectively:
 
