@@ -25,6 +25,10 @@ await pred.finish(); // Finalizes the prediction
 
 - [constructor](./ScoreLogger#constructor)
 
+### Accessors
+
+- [isFinishCalled](./ScoreLogger#isfinishcalled)
+
 ### Methods
 
 - [finish](./ScoreLogger#finish)
@@ -34,13 +38,12 @@ await pred.finish(); // Finalizes the prediction
 
 ### constructor
 
-• **new ScoreLogger**(`predMeta`, `evalLogger`): [`ScoreLogger`](./ScoreLogger)
+• **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./ScoreLogger)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `predMeta` | `PredictAndScoreCallMetadata` |
 | `evalLogger` | [`EvaluationLogger`](./EvaluationLogger) |
 
 #### Returns
@@ -49,7 +52,24 @@ await pred.finish(); // Finalizes the prediction
 
 #### Defined in
 
-[evaluationLogger.ts:317](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluationLogger.ts#L317)
+[evaluationLogger.ts:319](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L319)
+
+## Accessors
+
+### isFinishCalled
+
+• `get` **isFinishCalled**(): `boolean`
+
+Check if finish() has been called.
+Used by EvaluationLogger to detect unfinished predictions.
+
+#### Returns
+
+`boolean`
+
+#### Defined in
+
+[evaluationLogger.ts:349](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L349)
 
 ## Methods
 
@@ -67,7 +87,7 @@ Updates incremental aggregates and frees memory.
 
 #### Defined in
 
-[evaluationLogger.ts:410](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluationLogger.ts#L410)
+[evaluationLogger.ts:451](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L451)
 
 ___
 
@@ -91,4 +111,4 @@ Creates a scorer call as a child of predict_and_score.
 
 #### Defined in
 
-[evaluationLogger.ts:332](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluationLogger.ts#L332)
+[evaluationLogger.ts:360](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L360)

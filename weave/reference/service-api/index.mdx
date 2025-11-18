@@ -1,0 +1,37 @@
+---
+title: "Service API"
+description: "REST API endpoints for the Weave service"
+---
+
+# Weave Service API
+
+The Weave Service API provides REST endpoints for interacting with the Weave tracing service.
+
+## Available Endpoints
+
+This documentation is automatically generated from the OpenAPI specification at https://trace.wandb.ai/openapi.json.
+
+The API includes endpoints for:
+- **Calls**: Start, end, update, query, and manage traces
+- **Tables**: Create, update, and query data tables
+- **Files**: Upload and manage file attachments
+- **Objects**: Store and retrieve versioned objects
+- **Feedback**: Collect and query user feedback
+- **Costs**: Track and query usage costs
+- **Inference**: OpenAI-compatible inference endpoints
+
+## Authentication
+
+Most endpoints require authentication. Include your W&B API key in the request headers:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://trace.wandb.ai
+```
