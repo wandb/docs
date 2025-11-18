@@ -129,12 +129,8 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
                             # Update Python SDK
                             for page in reference_pages:
                                 if isinstance(page, dict) and page.get("group") == "Python SDK":
-                                    # Keep the index page if it exists
-                                    new_pages = []
-                                    for existing_page in page.get("pages", []):
-                                        if isinstance(existing_page, str) and existing_page.endswith("/index"):
-                                            new_pages.append(existing_page)
-                                            break
+                                    # Always start with the root page
+                                    new_pages = ["weave/reference/python-sdk"]
                                     
                                     # Add the grouped modules
                                     if "Core" in python_modules and python_modules["Core"]:
@@ -168,11 +164,8 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
                             # Update TypeScript SDK
                             for page in reference_pages:
                                 if isinstance(page, dict) and page.get("group") == "TypeScript SDK":
-                                    # Keep the index and README if they exist
-                                    new_pages = []
-                                    for existing_page in page.get("pages", []):
-                                        if isinstance(existing_page, str) and (existing_page.endswith("/index") or existing_page.endswith("/README")):
-                                            new_pages.append(existing_page)
+                                    # Always start with the root page
+                                    new_pages = ["weave/reference/typescript-sdk"]
                                     
                                     # Add the categorized items with proper casing
                                     if "classes" in typescript_items and typescript_items["classes"]:
