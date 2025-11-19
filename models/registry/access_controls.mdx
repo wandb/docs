@@ -1,0 +1,29 @@
+---
+description: Use registry role based access controls (RBAC) to control who can
+  update protected aliases.
+title: Manage data governance and access control
+---
+
+Use *protected aliases* to represent key stages of your development pipeline. Only Registry Admins can add, modify, or remove protected aliases. Registry admins can define and use protected aliases. W&B blocks non admin users from adding or removing protected aliases from artifact versions.
+
+<Note>
+Only team admins or current registry admins can manage the list of registry admins.
+</Note>
+
+For example, suppose you set `staging` and `production` as protected aliases. Any member of your team can add new artifact versions. However, only admins can add a `staging` or `production` alias.
+
+
+## Set up access control
+The following steps describe how to set up access controls for your team’s registry.
+
+1. Navigate to the [W&B Registry](https://wandb.ai/registry/).
+2. Select the gear button on the top right of the page.
+3. Select the **Manage registry admins** button. 
+4. Within the **Members** tab, select the users you want to grant access to add and remove protected aliases from artifact versions.
+
+
+## Add protected aliases
+1. Navigate to the [W&B Registry](https://wandb.ai/registry/).
+2. Select the gear button on the top right of the page.
+3. Scroll down to the **Protected Aliases** section.
+4. Click on the plus icon (**+**) icon to add new a new alias.

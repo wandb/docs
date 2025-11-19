@@ -305,7 +305,6 @@
                       "models/registry/registry_cards",
                       "models/registry/lineage",
                       "models/registry/delete_registry",
-                      "models/registry/model_registry_eol",
                       {
                         "group": "Model registry",
                         "pages": [
