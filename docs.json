@@ -1112,8 +1112,19 @@
             "icon": "/icons/cropped-reports.svg",
             "pages": [
               "release-notes",
-              "release-notes/server-releases",
-              "release-notes/server-releases-archived",
+              {
+                "group": "W&B Server",
+                "pages": [
+                  "release-notes/server-releases",
+                  "release-notes/server-releases-archived"
+                ]
+              },
+              {
+                "group": "W&B SDK",
+                "pages": [
+                  "release-notes/sdk-releases"
+                ]
+              },
               "release-notes/release-policies"
             ]
           },

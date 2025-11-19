@@ -65,12 +65,12 @@ TTL ポリシーを設定または編集できる人を定義できるのはチ�
 W&B Python SDK を使用してアーティファクトを作成する際に TTL ポリシーを定義します。TTL ポリシーは通常日数で定義されます。    
 
 <Note>
-アーティファクト作成時に TTL ポリシーを定義することは、通常の[アーティファクトを作成](/ja/models/artifacts/construct-an-artifact.md)する方法に似ています。例外は、アーティファクトの `ttl` 属性に時間差を渡す点です。
+アーティファクト作成時に TTL ポリシーを定義することは、通常の[アーティファクトを作成](/ja/models/artifacts/construct-an-artifact)する方法に似ています。例外は、アーティファクトの `ttl` 属性に時間差を渡す点です。
 </Note>
 
 手順は次のとおりです：
 
-1. [アーティファクトを作成](/ja/models/artifacts/construct-an-artifact.md)します。
+1. [アーティファクトを作成](/ja/models/artifacts/construct-an-artifact)します。
 2. ファイル、ディレクトリ、または参照など、アーティファクトにコンテンツを[追加](/ja/models/artifacts/construct-an-artifact/#add-files-to-an-artifact)します。
 3. Python の標準ライブラリの一部である [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) データ型で TTL の期限を定義します。
 4. [アーティファクトをログ](/ja/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server)します。

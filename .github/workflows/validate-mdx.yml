@@ -1,0 +1,25 @@
+name: Validate MDX
+on:
+  pull_request:
+    paths:
+      - '**.mdx'
+
+jobs:
+  validate-mdx:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+      - name: Cache Mintlify CLI
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-mintlify-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-mintlify-
+      - name: Install Mintlify CLI
+        run: npm install -g mintlify
+      - name: Validate MDX with Mintlify
+        run: ./scripts/mdx-validation/validate-mdx-mintlify.sh
