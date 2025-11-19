@@ -250,33 +250,6 @@ print(response.choices[0].message.tool_calls)
 ```
 </CodeGroup>
 
-## Logging additional data
-
-You can log additional data to your traces by using the `weave.log` function.
-
-<CodeGroup>
-```python Python
-from openai import OpenAI
-import weave
-
-client = OpenAI()
-weave.init('logging-bot')
-
-# Log additional data
-weave.log({"user_id": "123", "session_id": "abc"})
-
-response = client.chat.completions.create(
-    model="gpt-4",
-    messages=[
-        {
-            "role": "user",
-            "content": "Hello, how are you?"
-        }
-    ]
-)
-```
-</CodeGroup>
-
 ## Batch API
 
 Weave also supports the OpenAI Batch API for processing multiple requests.
