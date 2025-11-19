@@ -245,7 +245,7 @@ Returns a collection of matching artifact collections.
  
  - `project_name`:  The name of the project to filter on. 
  - `type_name`:  The name of the artifact type to filter on. 
- - `per_page`:  Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -357,7 +357,7 @@ Return an `Artifacts` collection.
 
 
 **Args:**
- type_name: The type of artifacts to fetch. name: The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. per_page: Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason  to change this. tags: Only return artifacts with all of these tags. 
+ type_name: The type of artifacts to fetch. name: The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. per_page: Sets the page size for query pagination. Usually  there is no reason to change this. tags: Only return artifacts with all of these tags. 
 
 
 
@@ -954,7 +954,7 @@ Get projects for a given entity.
 **Args:**
  
  - `entity`:  Name of the entity requested.  If None, will fall back to  the default entity passed to `Api`.  If no default entity,  will raise a `ValueError`. 
- - `per_page`:  Sets the page size for query pagination. If set to `None`,  use the default size. Usually there is no reason to change this. 
+ - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -987,7 +987,8 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 ```python
 registries(
     organization: 'str | None' = None,
-    filter: 'dict[str, Any] | None' = None
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'int' = 100
 ) → Registries
 ```
 
@@ -1001,6 +1002,7 @@ Use the iterator to search and filter registries, collections, or artifact versi
  
  - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
  - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `per_page`:  Sets the page size for query pagination. 
 
 
 
@@ -1099,7 +1101,7 @@ Note: `wandb.Api.reports()` API is in beta and will likely change in future rele
  
  - `path`:  The path to the project the report resides in. Specify the  entity that created the project as a prefix followed by a  forward slash. 
  - `name`:  Name of the report requested. 
- - `per_page`:  Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason to  change this. 
+ - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
