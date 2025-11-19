@@ -2299,15 +2299,15 @@
     {
       "source": "/guides/integrations/pytorch",
       "destination": "/models/integrations"
-    },
-    {
-      "source": "/models/registry/model_registry/:slug*",
-      "destination": "/models/registry/:slug*"
-    },    
+    },   
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
     },
+    {
+      "source": "/models/registry/model_registry/:slug*",
+      "destination": "/models/registry"
+    }, 
     {
       "source": "/guides/registry/:slug*",
       "destination": "/models/registry/:slug*"
