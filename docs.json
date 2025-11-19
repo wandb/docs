@@ -308,8 +308,6 @@
                       {
                         "group": "Model registry",
                         "pages": [
-                          "models/registry/model_registry/notifications",
-                          "models/registry/model_registry/access_controls"
                         ]
                       }
                     ]
