@@ -304,12 +304,7 @@
                       "models/registry/organize-with-tags",
                       "models/registry/registry_cards",
                       "models/registry/lineage",
-                      "models/registry/delete_registry",
-                      {
-                        "group": "Model registry",
-                        "pages": [
-                        ]
-                      }
+                      "models/registry/delete_registry"
                     ]
                   },
                   {
