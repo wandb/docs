@@ -39,7 +39,7 @@ To begin tracking your code and logging traces to Weave:
 
 1. Import the `weave` library into your code
 2. Call `weave.init('your_wb_team/project_name')` in your code to track calls to a specific W&B team and project. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
-3. **(Optional)** Add the `@weave.op()` decorator to specific functions you want to track. If you do not add `@weave.op()`, Weave automatically tracks the inputs, outputs, and code of your top-level functions. The decorator has the following syntax in TypeScript: `weave.op(your_function)`
+3. **(Optional)** Add the [`@weave.op()` decorator](/weave/guides/tracking/ops) to specific functions you want to track. If you do not add `@weave.op()`, Weave automatically tracks the inputs, outputs, and code of your top-level functions. The decorator has the following syntax in TypeScript: `weave.op(your_function)`
 
 The following example code sends a request to OpenAI (requires [OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key)). The system prompt asks it to extract dinosaur names from the input and identify each dinosaur's diet (herbivore or carnivore).
 
