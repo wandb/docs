@@ -9,9 +9,8 @@ W&B Weave makes it easy to track and evaluate your LLM applications. Follow thes
 - [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/intro_notebook.ipynb)
 - [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/intro_notebook.ipynb)
 
-## 1. Install W&B Weave and create an API Key
 
-**Install weave**
+## Install Weave
 
 First install the weave library:
 
@@ -28,40 +27,37 @@ First install the weave library:
   </Tab>
 </Tabs>
 
-**Get your API key**
+## Get your API key
 
-Then, create a [Weights & Biases (W&B) account](https://wandb.ai) and [copy your API key](https://wandb.ai/authorize).
+Then, create a [Weights & Biases (W&B) account](https://wandb.ai) and [copy your API key](https://wandb.ai/authorize). 
 
-## 2. Log a trace to a new project
+Once you have secured your API key, you can either set it as an environment variable or enter it when prompted as your code runs. As a best practice, we recommend setting it as the environment variable `WANDB_API_KEY`. Weave automatically searches for this variable upon execution.
 
-To get started with tracking your first project with Weave:
+## Log a trace to a new project
 
-1. Import the `weave` library
-2. Call `weave.init('project-name')` to start tracking
-    - When you run your code, Weave prompts you to log in with your API key if you are not yet logged in on your machine.
-    - To log to a specific W&B Team name, replace `project-name` with `team-name/project-name`. If you don't specify a W&B team, your default entity is used. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
-    
-    **NOTE:** In automated environments, you can define the environment variable `WANDB_API_KEY` with your API key to login without prompting.
-3. Add the `@weave.op()` decorator to the Python functions you want to track
+To begin tracking your code and logging traces to Weave:
 
-The following example trace calls to OpenAI and requires an [OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key).
+1. Import the `weave` library into your code
+2. Call `weave.init('your_wb_team/project_name')` in your code to track calls to a specific W&B team and project. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
+3. **(Optional)** Add the `@weave.op()` decorator to specific functions you want to track. If you do not add `@weave.op()`, Weave automatically tracks the inputs, outputs, and code of your top-level functions. The decorator has to following syntax in TypeScript: `weave.op(your_function)`
 
-<Tip>
-Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started without external API keys.
-</Tip>
+The following example code sends a request to OpenAI (requires [OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key)). The system prompt asks it to extract dinosaur names from the input and identify whether each is an herbivore or carnivore.
+
+To track your first project with Weave, run the following example code:
 
 <Tabs>
   <Tab title="Python">
-    ```python
-    # highlight-next-line
+    ```python lines {1-2,7,9-10,26-27}
+    # Imports the Weave library
     import weave
     from openai import OpenAI
 
     client = OpenAI()
 
-    # Weave will track the inputs, outputs and code of this function
-    # highlight-next-line
-    @weave.op()
+    # Weave automatically tracks the inputs, outputs and code of this function
+
+    # Uncomment @weave.op() to specifically track the `extract_dinos` function
+    # @weave.op()
     def extract_dinos(sentence: str) -> dict:
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -80,10 +76,8 @@ Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started w
             )
         return response.choices[0].message.content
 
-
-    # Initialise the weave project
-    # highlight-next-line
-    weave.init('jurassic-park')
+    # Initializes Weave, and sets the team and project to log data to
+    weave.init('quickstart_team/jurassic-park')
 
     sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
@@ -92,17 +86,16 @@ Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started w
     result = extract_dinos(sentence)
     print(result)
     ```
-    When you call the `extract_dinos` function Weave will output a link to view your trace.
   </Tab>
   <Tab title="TypeScript">
-    ```typescript
-    import OpenAI from 'openai';
-    // highlight-next-line
+    ```typescript lines {1-2,7-8,20,24-25}
+    // Imports the Weave library
     import * as weave from 'weave';
+    import OpenAI from 'openai';
     
-    // highlight-next-line
     const openai = new OpenAI();
-  
+
+    // Weave automatically tracks the inputs, outputs and code of this function  
     async function extractDinos(input: string) {
       const response = await openai.chat.completions.create({
         model: 'gpt-4o',
@@ -115,12 +108,13 @@ Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started w
       });
       return response.choices[0].message.content;
     }
-    // highlight-next-line
     const extractDinosOp = weave.op(extractDinos);
 
     async function main() {
-      // highlight-next-line
-      await weave.init('examples');
+
+      // Initializes Weave, and sets the team and project to log data to
+      await weave.init('quickstart_team/jurassic-park');
+
       const result = await extractDinosOp(
         'I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.'
       );
@@ -130,26 +124,23 @@ Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started w
     main();
 
     ```
-    When you call the `extractDinos` function, Weave outputs a link to view your trace.
   </Tab>
 </Tabs>
 
-## 3. Automated LLM library logging
+When you call the `extract_dinos` function, Weave outputs links to view your traces in the terminal.
 
-Weave automatically tracks calls made to OpenAI, Anthropic and [many more LLM libraries](/weave/guides/integrations) and logs their **LLM metadata**, **token usage** and **cost**. If your LLM library isn't currently one of our integrations you can track calls to other LLMs libraries or frameworks easily by wrapping them with `@weave.op()`.
+## See traces of your application in your project
 
-## 4. See traces of your application in your project
-
-Once you've configured your Weave in your project, Weave automatically captures the input & output data, and logs any changes made to the code.
+Click the link in your terminal or paste it into your browser to open the Weave UI. In the **Traces** panel of the Weave UI, you can click on the trace to see its data, such as its input, output, latency, and token usage.
 
 ![Weave Trace Outputs 1](/images/tutorial_trace_1.png)
 
 ## Learn more about Traces
 
-- [Logging Traces](/weave/quickstart-tracing) - Deeper dive into tracing
-- [Explore integrations](/weave/guides/integrations/) - Connect more LLM providers and frameworks
-- Try the [Playground](/weave/guides/tools/playground) to test different models on logged traces
+- Learn how to [decorate your functions and retrieve call information](/weave/quickstart-tracing).
+- Try the [Playground](/weave/guides/tools/playground) to test different models on logged traces.
+- [Explore integrations](/weave/guides/integrations/). Weave automatically tracks calls made to OpenAI, Anthropic and many more LLM libraries. If your LLM library isn't currently one of our integrations you can track calls to other LLMs libraries or frameworks easily by wrapping them with `@weave.op()`.
 
-## Dive into Evals
+## Next Steps
 
 [Get started evaluating your app](/weave/tutorial-eval) and then see how to [evaluate a RAG application](/weave/tutorial-rag).
