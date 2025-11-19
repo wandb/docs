@@ -295,7 +295,6 @@
                     "group": "Registry",
                     "pages": [
                       "models/registry",
-                      "models/registry/registry_types",
                       "models/registry/create_registry",
                       "models/registry/configure_registry",
                       "models/registry/create_collection",
@@ -747,53 +746,48 @@
                 "group": "Get Started",
                 "pages": [
                   "weave/install-weave",
-                  {
-                    "group": "Quickstarts",
-                    "pages": [
-                      "weave/quickstart",
-                      "weave/quickstart-inference"
-                    ]
-                  },
-                  {
-                    "group": "Playground",
-                    "pages": [
-                      "weave/guides/tools/playground",
-                      "weave/guides/tools/evaluation_playground"
-                    ]
-                  }
+                  "weave/quickstart",
+                  "weave/tutorial-eval",
+                  "weave/tutorial-rag"
                 ]
               },
               {
                 "group": "Guides",
                 "pages": [
                   {
-                    "group": "Traces and Logs",
+                    "group": "Iteration",
                     "pages": [
-                      "weave/guides/tracking",
-                      "weave/guides/tracking/tracing",
-                      "weave/guides/tracking/costs",
-                      "weave/guides/core-types/media",
-                      "weave/guides/tools/saved-views",
-                      "weave/guides/tools/comparison",
-                      "weave/guides/tracking/trace-tree",
-                      "weave/guides/tracking/threads",
-                      "weave/guides/tracking/trace-plots",
-                      "weave/guides/tracking/otel",
-                      "weave/guides/tools/attributes",
-                      "weave/guides/tools/weave-in-workspaces"
+                      {
+                        "group": "Tracing & Debugging",
+                        "pages": [
+                          "weave/guides/tracking",
+                          "weave/guides/tracking/tracing",
+                          "weave/guides/tracking/costs",
+                          "weave/guides/core-types/media",
+                          "weave/guides/tools/saved-views",
+                          "weave/guides/tools/comparison",
+                          "weave/guides/tracking/trace-tree",
+                          "weave/guides/tracking/threads",
+                          "weave/guides/tracking/trace-plots",
+                          "weave/guides/tracking/otel",
+                          "weave/guides/tools/attributes",
+                          "weave/guides/tools/weave-in-workspaces"
+                        ]
+                      },
+                      {
+                        "group": "Version Control for Models & Prompts",
+                        "pages": [
+                          "weave/tutorial-weave_models",
+                          "weave/guides/core-types/models",
+                          "weave/guides/core-types/prompts",
+                          "weave/guides/tracking/objects",
+                          "weave/guides/tracking/ops"
+                        ]
+                      }
                     ]
                   },
                   {
-                    "group": "Version Control",
-                    "pages": [
-                      "weave/guides/core-types/models",
-                      "weave/guides/core-types/prompts",
-                      "weave/guides/tracking/objects",
-                      "weave/guides/tracking/ops"
-                    ]
-                  },
-                  {
-                    "group": "Evaluations",
+                    "group": "Evaluation",
                     "pages": [
                       "weave/guides/core-types/evaluations",
                       "weave/guides/core-types/datasets",
@@ -881,57 +875,32 @@
               {
                 "group": "Tutorials",
                 "pages": [
-                  "weave/cookbooks",
                   {
-                    "group": "Weave Fundamentals",
+                    "group": "Getting Started",
                     "pages": [
-                      "weave/cookbooks/Intro_to_Weave_Hello_Trace",
-                      "weave/cookbooks/Intro_to_Weave_Hello_Eval",
-                      "weave/tutorial-weave_models",
-                      "weave/tutorial-tracing_2"
-                    ]
+                      "weave/install-weave",
+                      "weave/quickstart",
+                      "weave/tutorial-eval",
+                      "weave/tutorial-rag"                    ]
                   },
                   {
-                    "group": "Evaluations Basics",
+                    "group": "Examples",
                     "pages": [
-                      "weave/cookbooks/leaderboard_quickstart",
-                      "weave/cookbooks/hf_dataset_evals",
-                      "weave/cookbooks/import_from_csv",
-                      "weave/tutorials/tutorial-eval",
-                      "weave/tutorial-rag"
-                    ]
-                  },
-                  {
-                    "group": "Models & Prompts",
-                    "pages": [
-                      "weave/cookbooks/Models_and_Weave_Integration_Demo",
+                      "weave/cookbooks/ocr-pipeline",
                       "weave/cookbooks/chain_of_density",
                       "weave/cookbooks/dspy_prompt_optimization",
-                      "weave/cookbooks/notdiamond_custom_routing"
+                      "weave/cookbooks/audio_with_weave",
+                      "weave/cookbooks/multi-agent-structured-output"
                     ]
                   },
                   {
                     "group": "Advanced Topics",
                     "pages": [
-                      "weave/cookbooks/multi-agent-structured-output",
-                      "weave/cookbooks/codegen",
-                      "weave/cookbooks/ocr-pipeline",
-                      "weave/cookbooks/audio_with_weave"
-                    ]
-                  },
-                  {
-                    "group": "Production & Monitoring",
-                    "pages": [
-                      "weave/cookbooks/online_monitoring",
                       "weave/cookbooks/feedback_prod",
+                      "weave/cookbooks/online_monitoring",
                       "weave/cookbooks/scorers_as_guardrails",
                       "weave/cookbooks/custom_model_cost",
-                      "weave/cookbooks/pii"
-                    ]
-                  },
-                  {
-                    "group": "API & Integration",
-                    "pages": [
+                      "weave/cookbooks/pii",
                       "weave/cookbooks/weave_via_service_api"
                     ]
                   }

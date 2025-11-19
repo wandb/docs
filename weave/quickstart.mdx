@@ -1,12 +1,8 @@
 ---
-title: "Track LLM inputs & outputs"
-description: "Follow these steps to track your first call"
+title: "Track LLM apps"
+description: "Begin debugging LLM apps by adding tracing."
 mode: "wide"
 ---
-
-<Tip>
-Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started without external API keys.
-</Tip>
 
 W&B Weave makes it easy to track and evaluate your LLM applications. Follow these steps to track your first call. 
 
@@ -49,6 +45,10 @@ To get started with tracking your first project with Weave:
 3. Add the `@weave.op()` decorator to the Python functions you want to track
 
 The following example trace calls to OpenAI and requires an [OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key).
+
+<Tip>
+Try our [W&B Inference quickstart](/weave/quickstart-inference) to get started without external API keys.
+</Tip>
 
 <Tabs>
   <Tab title="Python">
@@ -144,12 +144,12 @@ Once you've configured your Weave in your project, Weave automatically captures 
 
 ![Weave Trace Outputs 1](/images/tutorial_trace_1.png)
 
-## Next steps
+## Learn more about Traces
 
-Now that you've seen Weave in action, try the W&B Inference service for easier experimentation. [Get Started with W&B Inference](/weave/quickstart-inference) - no need to manage multiple API keys, and free credits are included.
-
-Continue learning:
-- [Track flows and app metadata](/weave/tutorial-tracing_2) - Dive deeper into tracing complex applications
-- [Build evaluations](/weave/tutorial-eval) - Learn systematic model evaluation  
+- [Logging Traces](/weave/quickstart-tracing) - Deeper dive into tracing
 - [Explore integrations](/weave/guides/integrations/) - Connect more LLM providers and frameworks
-- Try the [Playground](/weave/guides/tools/playground) to test different models 
+- Try the [Playground](/weave/guides/tools/playground) to test different models on logged traces
+
+## Dive into Evals
+
+[Get started evaluating your app](/weave/tutorial-eval) and then see how to [evaluate a RAG application](/weave/tutorial-rag).
