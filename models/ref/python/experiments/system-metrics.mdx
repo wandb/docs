@@ -12,6 +12,65 @@ This page provides detailed information about the system metrics that are tracke
 `wandb` automatically logs system metrics every 15 seconds.
 </Note>
 
+## View system metrics
+You can view and monitor system metrics using the W&B App or the `wandb beta leet` terminal UI in your terminal.
+
+<Tabs>
+<Tab title="App">
+
+To view system metrics in the W&B App:
+
+1. Navigate to your project in the W&B App.
+2. Select a run from the **Runs** table.
+3. In the workspace, look for the **System** section which displays charts for:
+   - GPU utilization and memory
+   - CPU usage
+   - Memory usage
+   - Disk I/O
+   - Network traffic
+
+You can customize which system metrics to display by adding panels to your workspace. See [Panels](/models/app/features/panels/) for more information on creating and customizing visualizations.
+
+</Tab>
+<Tab title="LEET">
+
+To view system metrics locally in your terminal using the `wandb beta leet` terminal UI:
+
+1. Navigate to the directory containing your run or `.wandb` file.
+2. Run one of the following commands:
+
+   ```bash
+   # Look for the latest run in current directory
+   wandb beta leet
+   
+   # Specify a run directory
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   
+   # Specify a .wandb file
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   ```
+
+![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
+
+LEET displays system metrics in the **right sidebar**, showing:
+- GPU utilization (%) and memory usage (GB)
+- CPU usage
+- RAM usage (GB)
+- Disk I/O
+- Network activity
+
+Get started with these keyboard shortcuts:
+- `]` - Toggle the right sidebar on/off
+- `alt+n` / `alt+pgdown` - Navigate to next system metrics page
+- `alt+N` / `alt+pgup` - Navigate to previous system metrics page
+- `C` - Configure the number of columns in the system metrics grid
+- `R` - Configure the number of rows in the system metrics grid
+
+See [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) for more details.
+
+</Tab>
+</Tabs>
+
 ## CPU
 
 ### Process CPU Percent (CPU)

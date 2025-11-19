@@ -332,26 +332,71 @@ See [State fields](#run-states) for a full list of possible run states.
 
 ## View logged runs
 
-View a information about a specific run such as the state of the run, artifacts logged to the run, log files recorded during the run, and more. 
+View information about a specific run such as the state of the run, artifacts logged to the run, metrics, system metrics, and more.
 
-<Frame>
-    <img src="/images/runs/demo-project.gif" alt="Project navigation demo"  />
-</Frame>
+You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
 
-To view a specific run:
+<Tabs>
+<Tab title="App">
+
+To view a specific run in the W&B App:
 
 1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within the project sidebar, select the **Workspace** tab.
 4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
 
-Note that the URL path of a specific run has the proceeding format:
+<Frame>
+    <img src="/images/runs/demo-project.gif" alt="Project navigation demo"  />
+</Frame>
+
+The URL path of a specific run has the proceeding format:
 
 ```text
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 ```
 
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
+
+</Tab>
+<Tab title="LEET">
+
+To view a run locally in your terminal using the `wandb beta leet` terminal UI:
+
+1. Navigate to the directory containing your run, or note the path to the run directory or `.wandb` file.
+2. Run one of the following commands:
+
+   ```bash
+   # Look for the latest run in current directory
+   wandb beta leet
+   
+   # Specify a run directory
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   
+   # Specify a .wandb file
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   ```
+
+![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
+
+LEET displays a three-panel interface:
+
+- **Left sidebar**: Run overview with environment variables, configuration, and summary statistics
+- **Center panel**: Metrics grid with Braille-style line charts showing your logged metrics
+- **Right sidebar**: System metrics including GPU/CPU/RAM utilization
+
+Get started with these keyboard shortcuts:
+
+- `h` or `?` - View all keyboard shortcuts
+- `/` - Filter metrics by pattern
+- `[` / `]` - Toggle left/right sidebars
+- `n` / `N` - Navigate between metric pages
+- `q` - Quit
+
+See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for more details.
+
+</Tab>
+</Tabs>
 
 ### Customize how runs are displayed
 This section shows how to customize how runs are displayed in your project's workspace and runs table.

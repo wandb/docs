@@ -113,6 +113,12 @@ From here, you can see details about every run you've done. In this screenshot, 
     <img src="/images/quickstart/quickstart_image.png" />
 </Frame>
 
+<Tip>
+Without leaving your terminal, you can view and monitor runs using the `wandb beta leet` terminal UI.
+![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
+
+See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for details.
+</Tip>
 
 ## Publish the model to the W&B Registry
 
@@ -159,6 +165,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
 For more information on how to retrieve artifacts from a registry, see [Download an artifact from a registry](/models/registry/download_use_artifact/).
 
 Depending on your machine learning framework, you may need to recreate the model architecture before loading the weights. This is left as an exercise for the reader, as it depends on the specific framework and model you are using. 
+
 
 ## Share your finds with a report
 
