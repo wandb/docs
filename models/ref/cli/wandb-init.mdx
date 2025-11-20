@@ -1,24 +1,32 @@
 ---
 title: "wandb init"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-init.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbInit from "/snippets/en/_includes/cli/wandb-init.mdx";
 
-`wandb init [OPTIONS]`
+<WandbInit/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Configure a directory with Weights & Biases
 
+## Usage
 
-**Options**
+```bash
+wandb init [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-p, --project` | The project to use. |
-| `-e, --entity` | The entity to scope the project to. |
-| `--reset` | Reset settings |
-| `-m, --mode` | Can be "online", "offline" or "disabled". Defaults to   online. |
-
-
-
+| `--project`, `-p` | The project to use. |
+| `--entity`, `-e` | The entity to scope the project to. |
+| `--reset` | Reset settings (default: False) |
+| `--mode`, `-m` | Can be "online", "offline" or "disabled". Defaults to online. |

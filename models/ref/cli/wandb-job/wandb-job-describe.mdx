@@ -1,21 +1,29 @@
 ---
 title: "wandb job describe"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-job-describe.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbJobDescribe from "/snippets/en/_includes/cli/wandb-job-describe.mdx";
 
-`wandb job describe [OPTIONS] JOB`
+<WandbJobDescribe/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-Describe a launch job. Provide the launch job in the form of:
-entity/project/job-name:alias-or-version
+Describe a launch job. Provide the launch job in the form of: entity/project/job-name:alias-or-version
 
+## Usage
 
-**Options**
+```bash
+wandb describe JOB
+```
 
-| **Option** | **Description** |
-| :--- | :--- |
+## Arguments
 
-
-
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `JOB` | No description available | Yes |
