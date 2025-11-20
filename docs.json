@@ -304,25 +304,7 @@
                       "models/registry/organize-with-tags",
                       "models/registry/registry_cards",
                       "models/registry/lineage",
-                      "models/registry/delete_registry",
-                      "models/registry/model_registry_eol",
-                      {
-                        "group": "Model registry",
-                        "pages": [
-                          "models/registry/model_registry",
-                          "models/registry/model_registry/walkthrough",
-                          "models/registry/model_registry/model-management-concepts",
-                          "models/registry/model_registry/log-model-to-experiment",
-                          "models/registry/model_registry/create-registered-model",
-                          "models/registry/model_registry/link-model-version",
-                          "models/registry/model_registry/organize-models",
-                          "models/registry/model_registry/model-lineage",
-                          "models/registry/model_registry/create-model-cards",
-                          "models/registry/model_registry/consume-models",
-                          "models/registry/model_registry/notifications",
-                          "models/registry/model_registry/access_controls"
-                        ]
-                      }
+                      "models/registry/delete_registry"
                     ]
                   },
                   {
@@ -2318,11 +2300,15 @@
     {
       "source": "/guides/integrations/pytorch",
       "destination": "/models/integrations"
-    },    
+    },   
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
     },
+    {
+      "source": "/models/registry/model_registry/:slug*",
+      "destination": "/models/registry"
+    }, 
     {
       "source": "/guides/registry/:slug*",
       "destination": "/models/registry/:slug*"
