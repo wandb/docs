@@ -336,6 +336,15 @@
                     ]
                   },
                   {
+                    "group": "LLM Evaluation Jobs",
+                    "pages": [
+                      "models/launch",
+                      "models/launch/evaluate-model-checkpoint",
+                      "models/launch/evaluate-hosted-model",
+                      "models/launch/evaluations"
+                    ]
+                  },
+                  {
                     "group": "W&B App UI",
                     "pages": [
                       "models/app/features/cascade-settings",
