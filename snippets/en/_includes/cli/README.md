@@ -35,17 +35,10 @@ The CLI reference pages (`models/ref/cli/`) are auto-generated from the W&B CLI 
 To add introductory content for a command:
 
 1. Create a new file: `wandb-{command-name}.mdx`
-2. Write the intro content in MDX format (can include markdown, code blocks, etc.)
-3. Run the CLI docs generator: `python scripts/cli-docs-generator.py`
-4. The generator will automatically detect and include your snippet
+2. Write the intro content in MDX format (can include markdown, code blocks, etc.).
+3. In the generated CLI reference for the command, uncomment the lines to include and use the snippet. No need to regenerate all of the references.
+4. Next time the references are generated, the generator will automatically detect and include your snippet.
 
-## Current Snippets
-
-- `wandb-docker-run.mdx` - Environment variables explanation
-- `wandb-docker.mdx` - Container usage examples
-- `wandb-login.mdx` - Authentication and server deployment details
-- `wandb-sync.mdx` - Synchronization examples
-- `wandb-verify.mdx` - Detailed list of verification checks
 
 ## Guidelines
 
