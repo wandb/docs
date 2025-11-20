@@ -176,12 +176,13 @@ def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
     
     return info
 
-def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "") -> str:
+def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project_root: Path = None) -> str:
     """Generate markdown content for a command.
     
     Args:
         cmd_info: Command information dictionary
         file_dir_path: Directory path where this file will be located (e.g., "wandb-artifact" for files in that dir)
+        project_root: Project root path for finding snippets
     """
     lines = []
     
@@ -189,14 +190,42 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "") -> str:
     lines.append("---")
     # Fix title to show 'wandb' instead of 'cli'
     title = cmd_info['full_name'].replace('cli', 'wandb')
-    lines.append(f"title: {title}")
+    lines.append(f"title: \"{title}\"")
     lines.append("---")
-    lines.append("")
     
-    # Command description
-    if cmd_info['help']:
-        lines.append(cmd_info['help'])
+    # Check if there's a snippet file for this command
+    command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
+    snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
+    
+    if snippet_path and snippet_path.exists():
+        # Add import and include the snippet
+        # Convert command name to PascalCase for the component name
+        component_name = ''.join(word.capitalize() for word in command_name.split('-'))
+        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
         lines.append("")
+        lines.append(f"<{component_name}/>")
+        lines.append("")
+    else:
+        # Add commented-out template for adding intro content later
+        lines.append("{/*")
+        lines.append(f"  To add introductory content for this command:")
+        lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
+        lines.append(f"  2. Add your intro content to that file")
+        lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
+        lines.append("")
+        component_name = ''.join(word.capitalize() for word in command_name.split('-'))
+        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append("")
+        lines.append(f"<{component_name}/>")
+        lines.append("")
+        lines.append(f"  The snippet will be auto-detected on the next regeneration.")
+        lines.append("*/}")
+        lines.append("")
+        
+        # Command description from CLI (only if no snippet)
+        if cmd_info['help']:
+            lines.append(cmd_info['help'])
+            lines.append("")
     
     # Usage section
     lines.append("## Usage")
@@ -301,9 +330,9 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
     if subcommands_only:
         # For subcommand index pages
         title = f"{cmd_info['full_name']}".replace('cli', 'wandb')
-        lines.append(f"title: {title}")
+        lines.append(f"title: \"{title}\"")
     else:
-        lines.append("title: CLI overview")
+        lines.append("title: \"CLI overview\"")
         lines.append("description: Use the W&B Command Line Interface (CLI) to log in, run jobs, execute sweeps, and more using shell commands")
     lines.append("---")
     lines.append("")
@@ -453,7 +482,7 @@ def extract_manual_content(file_path: Path) -> tuple[Optional[str], Optional[str
     
     return (content_before, content_after)
 
-def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: str = "", file_dir_path: str = ""):
+def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: str = "", file_dir_path: str = "", project_root: Path = None):
     """Write documentation files for a command and its subcommands.
     
     For Mintlify, the structure is:
@@ -467,6 +496,7 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
         output_dir: Base output directory for files
         parent_path: Accumulated path prefix for file naming (e.g., "artifact-" for cache in artifact)
         file_dir_path: Directory path where files are located relative to models/ref/cli/ (e.g., "wandb-artifact")
+        project_root: Project root path for finding snippets
     """
     cmd_name = cmd_info['name']
     
@@ -489,7 +519,7 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
         
         # Process top-level commands (alphabetically sorted)
         for name, subcmd_info in sorted(cmd_info['subcommands'].items()):
-            write_command_docs(subcmd_info, output_dir, "", "")
+            write_command_docs(subcmd_info, output_dir, "", "", project_root)
     else:
         # Determine if this command has subcommands
         has_subcommands = cmd_info['is_group'] and cmd_info['subcommands']
@@ -518,18 +548,18 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
                 # Check if this subcommand also has subcommands
                 if subcmd_info['is_group'] and subcmd_info['subcommands']:
                     # Handle nested command groups recursively
-                    write_command_docs(subcmd_info, cmd_dir, f"{parent_path}{cmd_name}-", new_file_dir_path)
+                    write_command_docs(subcmd_info, cmd_dir, f"{parent_path}{cmd_name}-", new_file_dir_path, project_root)
                 else:
                     # Write single subcommand file in the directory
                     subcmd_path = cmd_dir / f"wandb-{parent_path}{cmd_name}-{subcmd_name}.mdx"
                     with open(subcmd_path, 'w') as f:
-                        f.write(generate_markdown(subcmd_info, file_dir_path=new_file_dir_path))
+                        f.write(generate_markdown(subcmd_info, file_dir_path=new_file_dir_path, project_root=project_root))
                     print(f"Generated: {subcmd_path}")
         else:
             # Write single command file
             cmd_path = output_dir / f"wandb-{parent_path}{cmd_name}.mdx"
             with open(cmd_path, 'w') as f:
-                f.write(generate_markdown(cmd_info, file_dir_path=file_dir_path))
+                f.write(generate_markdown(cmd_info, file_dir_path=file_dir_path, project_root=project_root))
             print(f"Generated: {cmd_path}")
 
 def build_nav_structure(cmd_info: Dict[str, Any], parent_path: str = "") -> List[Union[str, Dict[str, Any]]]:
@@ -725,7 +755,7 @@ def main():
         
         # Generate documentation files
         print("Generating markdown files...")
-        write_command_docs(cli_info, output_dir)
+        write_command_docs(cli_info, output_dir, "", "", project_root)
         
         print(f"\n✅ Documentation generated successfully in {output_dir}")
         # Count both .mdx files in output_dir and the cli.mdx in parent
