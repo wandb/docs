@@ -1,23 +1,21 @@
 ---
-title: "wandb server start"
+title: wandb server start
 ---
-
-**Usage**
-
-`wandb server start [OPTIONS]`
-
-**Summary**
 
 Start a local W&B server
 
+## Usage
 
-**Options**
+```bash
+wandb start [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-p, --port` | The host port to bind W&B server on |
-| `-e, --env` | Env vars to pass to wandb/local |
-| `--daemon / --no-daemon` | Run or don't run in daemon mode |
-
-
-
+| `--port`, `-p` | The host port to bind W&B server on (default: 8080) |
+| `--env`, `-e` | Env vars to pass to wandb/local (default: []) |
+| `--daemon` | Run or don't run in daemon mode (default: True) |
+| `--upgrade` | Upgrade to the most recent version (default: False) |
+| `--edge` | Run the bleeding edge (default: False) |

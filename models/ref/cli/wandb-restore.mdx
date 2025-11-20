@@ -1,26 +1,26 @@
 ---
-title: "wandb restore"
+title: wandb restore
 ---
 
-**Usage**
+Restore code, config and docker state for a run. Retrieves code from latest commit if code was not saved with `wandb.save()` or `wandb.init(save_code=True)`.
 
-`wandb restore [OPTIONS] RUN`
+## Usage
 
-**Summary**
+```bash
+wandb restore RUN [OPTIONS]
+```
 
-Restore code, config and docker state for a run. Retrieves code from latest
-commit if code was not saved with `wandb.save()` or
-`wandb.init(save_code=True)`.
+## Arguments
 
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `RUN` | No description available | Yes |
 
-**Options**
+## Options
 
-| **Option** | **Description** |
+| Option | Description |
 | :--- | :--- |
-| `--no-git` | Don't restore git state |
-| `--branch / --no-branch` | Whether to create a branch or checkout detached |
-| `-p, --project` | The project you wish to upload to. |
-| `-e, --entity` | The entity to scope the listing to. |
-
-
-
+| `--no-git` | Don't restore git state (default: False) |
+| `--branch` | Whether to create a branch or checkout detached (default: True) |
+| `--project`, `-p` | The project you wish to upload to. |
+| `--entity`, `-e` | The entity to scope the listing to. |

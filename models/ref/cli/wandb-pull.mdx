@@ -1,22 +1,24 @@
 ---
-title: "wandb pull"
+title: wandb pull
 ---
-
-**Usage**
-
-`wandb pull [OPTIONS] RUN`
-
-**Summary**
 
 Pull files from Weights & Biases
 
+## Usage
 
-**Options**
+```bash
+wandb pull RUN [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `RUN` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-p, --project` | The project you want to download. |
-| `-e, --entity` | The entity to scope the listing to. |
-
-
-
+| `--project`, `-p` | The project you want to download. |
+| `--entity`, `-e` | The entity to scope the listing to. (default: models) |

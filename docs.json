@@ -623,9 +623,11 @@
                       {
                         "group": "wandb artifact",
                         "pages": [
+                          "models/ref/cli/wandb-artifact",
                           {
-                            "group": "wandb artifact cache",
+                            "group": "artifact cache",
                             "pages": [
+                              "models/ref/cli/wandb-artifact/wandb-artifact-cache",
                               "models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
                             ]
                           },
@@ -637,6 +639,8 @@
                       {
                         "group": "wandb beta",
                         "pages": [
+                          "models/ref/cli/wandb-beta",
+                          "models/ref/cli/wandb-beta/wandb-beta-leet",
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -649,23 +653,25 @@
                       {
                         "group": "wandb job",
                         "pages": [
+                          "models/ref/cli/wandb-job",
                           "models/ref/cli/wandb-job/wandb-job-create",
                           "models/ref/cli/wandb-job/wandb-job-describe",
                           "models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "models/ref/cli/wandb-launch",
-                      "models/ref/cli/wandb-launch-agent",
-                      "models/ref/cli/wandb-launch-sweep",
+                      "models/ref/cli/wandb-local",
                       "models/ref/cli/wandb-login",
+                      "models/ref/cli/wandb-off",
                       "models/ref/cli/wandb-offline",
+                      "models/ref/cli/wandb-on",
                       "models/ref/cli/wandb-online",
+                      "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
                       "models/ref/cli/wandb-restore",
-                      "models/ref/cli/wandb-scheduler",
                       {
                         "group": "wandb server",
                         "pages": [
+                          "models/ref/cli/wandb-server",
                           "models/ref/cli/wandb-server/wandb-server-start",
                           "models/ref/cli/wandb-server/wandb-server-stop"
                         ]
@@ -2299,7 +2305,7 @@
     {
       "source": "/guides/integrations/pytorch",
       "destination": "/models/integrations"
-    },   
+    },
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
@@ -2307,7 +2313,7 @@
     {
       "source": "/models/registry/model_registry/:slug*",
       "destination": "/models/registry"
-    }, 
+    },
     {
       "source": "/guides/registry/:slug*",
       "destination": "/models/registry/:slug*"

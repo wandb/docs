@@ -1,21 +1,23 @@
 ---
-title: "wandb artifact cache cleanup"
+title: wandb artifact cache cleanup
 ---
-
-**Usage**
-
-`wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
-
-**Summary**
 
 Clean up less frequently used files from the artifacts cache
 
+## Usage
 
-**Options**
+```bash
+wandb cleanup TARGET_SIZE [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `TARGET_SIZE` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--remove-temp / --no-remove-temp` | Remove temp files |
-
-
-
+| `--remove-temp` | Remove temp files (default: False) |

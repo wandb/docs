@@ -1,25 +1,31 @@
 ---
-title: "wandb login"
+title: wandb login
 ---
 
-**Usage**
+Verify and store your API key for authentication with W&B services.
 
-`wandb login [OPTIONS] [KEY]...`
+By default, only store credentials locally without verifying them with W&B. To verify credentials, set `--verify=True`.
 
-**Summary**
+For server deployments (dedicated cloud or customer-managed instances), specify the host URL using the `--host` flag. You can also set environment variables `WANDB_BASE_URL` and `WANDB_API_KEY` instead of running the `login` command with host parameters.
 
-Login to Weights & Biases
+## Usage
 
+```bash
+wandb login [KEY] [OPTIONS]
+```
 
-**Options**
+## Arguments
 
-| **Option** | **Description** |
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `KEY` | No description available | No |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--cloud` | Login to the cloud instead of local |
-| `--host, --base-url` | Login to a specific instance of W&B |
+| `--cloud` | Login to the cloud instead of local (default: False) |
+| `--host`, `--base-url` | Login to a specific instance of W&B |
 | `--relogin` | Force relogin if already logged in. |
-| `--anonymously` | Log in anonymously |
-| `--verify / --no-verify` | Verify login credentials |
-
-
-
+| `--anonymously` | Log in anonymously (default: False) |
+| `--verify` | Verify login credentials (default: False) |
