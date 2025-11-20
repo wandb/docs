@@ -39,7 +39,7 @@ To begin tracking your code and logging traces to Weave:
 
 1. Import the `weave` library into your code.
 2. Call `weave.init('your_wb_team/project_name')` in your code to send tracking information to your W&B [team](/platform/app/settings-page/teams) and [project](/platform/hosting/iam/org_team_struct#project). If you do not set a team, the traces are sent to your [default team](/platform/app/settings-page/user-settings/#default-team). If the specified project does not exist in your team, Weave creates it.
-3. **(Optional)** Add the [`@weave.op()` decorator](/weave/guides/tracking/ops) to specific functions you want to track. If you do not add `@weave.op()`, Weave automatically tracks the inputs, outputs, and code of your top-level functions. The decorator has the following syntax in TypeScript: `weave.op(your_function)`
+3. Add the [`@weave.op()` decorator](/weave/guides/tracking/ops) to specific functions you want to track. While Weave automatically tracks calls to supported LLMs, adding the Weave decorator allows you to track the inputs, outputs, and code of specific functions. The decorator uses the following syntax in TypeScript: `weave.op(your_function)`
 
 The following example code sends a request to OpenAI (requires [OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key)) and Weave records the request's tracing information. The request asks the OpenAI model to extract dinosaur names from the input and identify each dinosaur's diet (herbivore or carnivore).
 
@@ -55,9 +55,7 @@ Run the following example code to track your first project with Weave:
     client = OpenAI()
 
     # Weave automatically tracks the inputs, outputs and code of this function
-
-    # Uncomment @weave.op() to specifically track the `extract_dinos` function
-    # @weave.op()
+    @weave.op()
     def extract_dinos(sentence: str) -> dict:
         response = client.chat.completions.create(
             model="gpt-4o",
