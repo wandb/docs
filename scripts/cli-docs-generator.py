@@ -313,7 +313,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
     
     return "\n".join(lines)
 
-def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = False, content_before: str = None, content_after: str = None, file_dir_path: str = "") -> str:
+def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = False, content_before: str = None, content_after: str = None, file_dir_path: str = "", wandb_version: str = None) -> str:
     """Generate index markdown for a command group.
     
     Args:
@@ -322,6 +322,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         content_before: Manual content to preserve before auto-generated content
         content_after: Manual content to preserve after auto-generated content
         file_dir_path: Directory path where this file will be located (e.g., "wandb-artifact" for files in that dir)
+        wandb_version: W&B SDK version string (e.g., "0.23.0")
     """
     lines = []
     
@@ -332,8 +333,12 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         title = f"{cmd_info['full_name']}".replace('cli', 'wandb')
         lines.append(f"title: \"{title}\"")
     else:
-        lines.append("title: \"CLI overview\"")
-        lines.append("description: Use the W&B Command Line Interface (CLI) to log in, run jobs, execute sweeps, and more using shell commands")
+        # Main CLI landing page - include version in title
+        if wandb_version:
+            lines.append(f"title: \"CLI Reference SDK {wandb_version}\"")
+        else:
+            lines.append("title: \"CLI Reference\"")
+        lines.append("description: \"Use the W&B Command Line Interface (CLI) to log in, run jobs, execute sweeps, and more using shell commands\"")
     lines.append("---")
     lines.append("")
     
@@ -482,7 +487,7 @@ def extract_manual_content(file_path: Path) -> tuple[Optional[str], Optional[str
     
     return (content_before, content_after)
 
-def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: str = "", file_dir_path: str = "", project_root: Path = None):
+def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: str = "", file_dir_path: str = "", project_root: Path = None, wandb_version: str = None):
     """Write documentation files for a command and its subcommands.
     
     For Mintlify, the structure is:
@@ -497,6 +502,7 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
         parent_path: Accumulated path prefix for file naming (e.g., "artifact-" for cache in artifact)
         file_dir_path: Directory path where files are located relative to models/ref/cli/ (e.g., "wandb-artifact")
         project_root: Project root path for finding snippets
+        wandb_version: W&B SDK version string (only used for main CLI page)
     """
     cmd_name = cmd_info['name']
     
@@ -512,14 +518,14 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
         
         index_path.parent.mkdir(parents=True, exist_ok=True)
         with open(index_path, 'w') as f:
-            f.write(generate_index_markdown(cmd_info, content_before=content_before, content_after=content_after, file_dir_path=""))
+            f.write(generate_index_markdown(cmd_info, content_before=content_before, content_after=content_after, file_dir_path="", wandb_version=wandb_version))
         print(f"Generated: {index_path}")
         if content_before or content_after:
             print(f"  ✓ Preserved manual content")
         
         # Process top-level commands (alphabetically sorted)
         for name, subcmd_info in sorted(cmd_info['subcommands'].items()):
-            write_command_docs(subcmd_info, output_dir, "", "", project_root)
+            write_command_docs(subcmd_info, output_dir, "", "", project_root, wandb_version)
     else:
         # Determine if this command has subcommands
         has_subcommands = cmd_info['is_group'] and cmd_info['subcommands']
@@ -548,7 +554,7 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
                 # Check if this subcommand also has subcommands
                 if subcmd_info['is_group'] and subcmd_info['subcommands']:
                     # Handle nested command groups recursively
-                    write_command_docs(subcmd_info, cmd_dir, f"{parent_path}{cmd_name}-", new_file_dir_path, project_root)
+                    write_command_docs(subcmd_info, cmd_dir, f"{parent_path}{cmd_name}-", new_file_dir_path, project_root, wandb_version)
                 else:
                     # Write single subcommand file in the directory
                     subcmd_path = cmd_dir / f"wandb-{parent_path}{cmd_name}-{subcmd_name}.mdx"
@@ -746,8 +752,12 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     try:
-        # Import W&B CLI - the cli module contains a Click group called 'cli'
+        # Import W&B CLI and get version
+        import wandb
         from wandb.cli.cli import cli as wandb_cli
+        
+        wandb_version = wandb.__version__
+        print(f"Generating documentation for W&B CLI version {wandb_version}")
         
         # Extract command information
         print("Extracting CLI structure...")
@@ -755,7 +765,7 @@ def main():
         
         # Generate documentation files
         print("Generating markdown files...")
-        write_command_docs(cli_info, output_dir, "", "", project_root)
+        write_command_docs(cli_info, output_dir, "", "", project_root, wandb_version)
         
         print(f"\n✅ Documentation generated successfully in {output_dir}")
         # Count both .mdx files in output_dir and the cli.mdx in parent
