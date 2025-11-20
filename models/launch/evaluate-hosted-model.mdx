@@ -1,0 +1,47 @@
+---
+description: "Evaluate a hosted API model using infrastructure managed by CoreWeave"
+title: "Evaluate a hosted API model"
+---
+import ReviewEvaluationResults from "/snippets/en/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/en/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/en/_includes/llm-eval-jobs/export-evaluation.mdx";
+
+
+This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a hosted API model at a publicly-accessible URL, using infrastructure managed by CoreWeave. To evaluate a model checkpoint instead, see [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint) instead.
+
+## Prerequisites
+1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
+1. A team admin must add an OpenAI API key as a [team-scoped secret](/platform/secrets#add-a-secret). This is required by many benchmarks for scoring. Any team member can specify the secret when configuring an evaluation job.
+1. To authenticate to the hosted API model endpoint, a team admin must add the API key as a [team-scoped secret](/platform/secrets#add-a-secret).
+1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
+
+## Evaluate your model
+Follow these steps to set up and launch an evaluation:
+
+1. Log in to W&B, then click **Launch** in the left navigation. The **LLM Evaluation Jobs** page displays.
+1. Click **Evaluate hosted API model** to set up the evaluation.
+1. Select a destination project where the evaluation run and results will be saved.
+1. In the **Model** section, specify the base URL and model name to evaluate, and select the API key to use for authentication.
+1. Click **Select evaluations**, then select up to six benchmarks to run.
+1. If you select one or more benchmarks that require an OpenAI API key for scoring, the **Scorer API key** field displays. Click it, then select the OpenAI API key's secret by name. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.
+1. Optionally, limit the maximum number of samples to evaluate by setting **Sample limit** to an integer greater than 0. Otherwise, all samples in the task are included.
+1. To create a leaderboard automatically, click **Publish results to leaderboard**. It will display as a panel in the workspace and you can also add it to a report.
+1. Click **Launch** to add the evaluation run to the job queue.
+
+This example runs two benchmarks against OpenAI model `openai/gpt-4o`.
+
+![Example hosted API model evaluation job](/images/models/llm-evaluation-jobs/evaluate-hosted-model-example.png)
+
+The run's logs and artifacts are saved in the destination project you selected. To view the status of recent evaluations, open the queue by clicking the circular arrows at the top of the page. For running or finished jobs, click a run name to [review the results](#review-the-results).
+
+To open the run in the destination workspace automatically when it finishes, select **Open automatically after launch** and leave the run queue open.
+
+<Tip>
+After you run an evaluation once, the model artifact details and the selected benchmarks you select are automatically set to the last values you used.
+</Tip>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />
