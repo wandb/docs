@@ -14,13 +14,15 @@ To authenticate your machine with W&B, you must first generate an API key at htt
 
 ### Install and import packages
 
-Install the W&B library.
+Install the W&B Python SDK using pip:
 
-```
+```bash
 pip install wandb
 ```
 
-### Import W&B Python SDK:
+### Import W&B Python SDK
+
+The following code snippet demonstrates how to import the W&B Python SDK and initialize a run. Replace `<team_entity>` with your team entity name.
 
 ```python
 import wandb
@@ -33,4 +35,41 @@ project = "my-awesome-project"
 
 with wandb.init(entity=entity, project=project) as run:
    run.log({"accuracy": 0.9, "loss": 0.1})
-````
+```
+
+### Install optional dependencies
+
+Install compatible versions of optional dependencies for enhanced functionality. To install an optional dependency, use the following command, replacing `extra` with the desired package:
+
+```bash
+pip install wandb[extra]
+```
+
+For example, to install W&B with Google Cloud Storage support, run:
+
+```bash
+pip install wandb[gcp]
+```
+
+Install more than one optional dependency by separating them with commas:
+
+```bash
+pip install wandb[gcp,aws,media]
+```
+
+#### Supported optional dependencies
+
+| Package | Purpose |
+|---------|---------|
+| `kubeflow` | Integrations for Kubeflow and object storage access. |
+| `gcp` |  Google Cloud Storage support. |
+| `aws` | AWS S3 and other AWS service support. |
+| `azure` | Azure Blob Storage support. |
+| `media` | Packages for media handling, video/image processing, plotting, and cheminformatics (RDKit).|
+| `sweeps`| Manage sweeps. |
+| `launch` | Installs cloud providers and orchestration platforms (includes many cloud SDKs, notebook tools, and orchestration clients). Note: tornado has a Python-version marker. |
+| `perf` | High-performance JSON serializer. |
+| `importers` | Data import and helper utilities. |
+| `workspaces` | W&B Reports and Workspaces SDK. |
+
+See `optional-dependencies` in the [W&B Python SDK GitHub repository](https://github.com/wandb/wandb/blob/main/pyproject.toml#L61) for an up-to-date list of optional dependencies.
