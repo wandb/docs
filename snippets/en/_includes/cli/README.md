@@ -34,7 +34,7 @@ The CLI reference pages (`models/ref/cli/`) are auto-generated from the W&B CLI 
 
 To add introductory content for a command:
 
-1. Create a new file: `wandb-{command-name}.mdx`
+1. Create a new snippet with the correct naming: `wandb-{command-name}.mdx`.
 2. Write the intro content in MDX format (can include markdown, code blocks, etc.).
 3. In the generated CLI reference for the command, uncomment the lines to include and use the snippet. No need to regenerate all of the references.
 4. Next time the references are generated, the generator will automatically detect and include your snippet.
