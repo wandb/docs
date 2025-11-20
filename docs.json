@@ -1038,6 +1038,7 @@
               "inference",
               "inference/prerequisites",
               "inference/models",
+              "inference/lora",
               {
                 "group": "Response Settings",
                 "pages": [
