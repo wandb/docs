@@ -41,19 +41,19 @@ with wandb.init(entity=entity, project=project) as run:
 
 Install optional dependencies that extend the functionality of the W&B Python SDK. Use the following command to install an optional dependency. Replace `extra` with the desired [optional dependency](#supported-optional-dependencies):
 
-```bash
+```shell
 pip install wandb[extra]
 ```
 
 For example, to install W&B with Google Cloud Storage support, run:
 
-```bash
+```shell
 pip install wandb[gcp]
 ```
 
 Install more than one optional dependency by separating them with commas:
 
-```bash
+```shell
 pip install wandb[gcp,aws,media]
 ```
 
@@ -70,9 +70,7 @@ The following table lists supported dependencies for the W&B Python SDK:
 | `media` | Packages for media handling, video/image processing, plotting, and cheminformatics (RDKit).| [numpy](https://pypi.org/project/numpy/), [moviepy](https://pypi.org/project/moviepy/), [imageio](https://pypi.org/project/ImageIO/), [pillow](https://pypi.org/project/pillow/), [bokeh](https://pypi.org/project/bokeh/), [soundfile](https://pypi.org/project/soundfile/), [plotly](https://pypi.org/project/plotly/), [rdkit](https://pypi.org/project/rdkit/) |
 | `sweeps`| Manage sweeps. | [sweeps](https://pypi.org/project/sweeps/) | 
 | `launch` | Installs cloud providers and orchestration platforms | [awscli](https://pypi.org/project/awscli/), [azure-identity](https://pypi.org/project/azure-identity/), [azure-containerregistry](https://pypi.org/project/azure-containerregistry/), and more |
-| `models`| |  [cloudpickle](https://pypi.org/project/cloudpickle/) |
 | `perf` | High-performance JSON serializer. | [orjson](https://pypi.org/project/orjson/) |
-| `importers` | Data import and helper utilities. | [polars](https://pypi.org/project/polars/), [rich](https://pypi.org/project/rich/), [filelock](https://pypi.org/project/filelock/), [mlflow](https://pypi.org/project/mlflow/), [tenacity](https://pypi.org/project/tenacity/) |
 | `workspaces` | W&B Reports and Workspaces SDK. | [wandb-workspaces](https://pypi.org/project/wandb-workspaces/) |
 
 See `optional-dependencies` in the [W&B Python SDK GitHub repository](https://github.com/wandb/wandb/blob/main/pyproject.toml#L61) for an up-to-date list of optional dependencies.
