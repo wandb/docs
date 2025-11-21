@@ -21,7 +21,7 @@ __init__(
     organization: 'str',
     entity: 'str',
     name: 'str',
-    attrs: 'dict[str, Any] | None' = None
+    attrs: 'RegistryFragment | None' = None
 )
 ```
 
@@ -34,10 +34,14 @@ __init__(
 
 ### <kbd>property</kbd> Registry.allow_all_artifact_types
 
-Returns whether all artifact types are allowed in the registry. 
+Return whether all artifact types are allowed in the registry. 
 
-If `True` then artifacts of any type can be added to this registry. If `False` then artifacts are restricted to the types in `artifact_types` for this registry. 
+If `True`, artifacts of any type can be added. If `False`, artifacts are restricted to the types listed in `artifact_types`. 
 
+
+
+**Returns:**
+ - `bool`: The allow_all_artifact_types property value.
 ---
 
 ### <kbd>property</kbd> Registry.artifact_types
@@ -112,6 +116,16 @@ Full name of the registry including the `wandb-registry-` prefix.
  - `str`: The full_name property value.
 ---
 
+### <kbd>property</kbd> Registry.id
+
+The unique ID for this registry. 
+
+
+
+**Returns:**
+ - `str`: The id property value.
+---
+
 ### <kbd>property</kbd> Registry.name
 
 Name of the registry without the `wandb-registry-` prefix. 
@@ -170,10 +184,60 @@ Visibility of the registry.
  - `Literal['organization', 'restricted']`: The visibility property value.
 ---
 
+### <kbd>method</kbd> `Registry.add_members`
+
+```python
+add_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+```
+
+Adds users or teams to this registry. 
+
+
+
+**Args:**
+ 
+ - `members`:  The users or teams to add to the registry. Accepts  `User` objects, `Team` objects, or their string IDs. 
+
+
+
+**Returns:**
+ This registry for further method chaining, if needed. 
+
+
+
+**Raises:**
+ 
+ - `TypeError`:  If no members are passed as arguments. 
+ - `ValueError`:  If unable to infer or parse the user or team IDs. 
+
+
+
+**Examples:**
+ ```python
+import wandb
+
+api = wandb.Api()
+
+# Fetch an existing registry
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.add_members(user1, user2)
+
+my_team = api.team(name="my-team")
+registry.add_members(my_team)
+``` 
+
+---
+
 ### <kbd>method</kbd> `Registry.collections`
 
 ```python
-collections(filter: 'dict[str, Any] | None' = None) → Collections
+collections(
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'PositiveInt' = 100
+) → Collections
 ```
 
 Returns the collections belonging to the registry. 
@@ -190,7 +254,7 @@ create(
     visibility: "Literal['organization', 'restricted']",
     description: 'str | None' = None,
     artifact_types: 'list[str] | None' = None
-)
+) → Self
 ```
 
 Create a new registry. 
@@ -238,7 +302,64 @@ Delete the registry. This is irreversible.
 load() → None
 ```
 
-Load the registry attributes from the backend to reflect the latest saved state. 
+Load registry attributes from the backend. 
+
+---
+
+### <kbd>method</kbd> `Registry.members`
+
+```python
+members() → list[UserMember | TeamMember]
+```
+
+Returns the current members (users and teams) of this registry. 
+
+---
+
+### <kbd>method</kbd> `Registry.remove_members`
+
+```python
+remove_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+```
+
+Removes users or teams from this registry. 
+
+
+
+**Args:**
+ 
+ - `members`:  The users or teams to remove from the registry. Accepts  `User` objects, `Team` objects, or their string IDs. 
+
+
+
+**Returns:**
+ This registry for further method chaining, if needed. 
+
+
+
+**Raises:**
+ 
+ - `TypeError`:  If no members are passed as arguments. 
+ - `ValueError`:  If unable to infer or parse the user or team IDs. 
+
+
+
+**Examples:**
+ ```python
+import wandb
+
+api = wandb.Api()
+
+# Fetch an existing registry
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.remove_members(user1, user2)
+
+old_team = api.team(name="old-team")
+registry.remove_members(old_team)
+``` 
 
 ---
 
@@ -252,10 +373,83 @@ Save registry attributes to the backend.
 
 ---
 
+### <kbd>method</kbd> `Registry.team_members`
+
+```python
+team_members() → list[TeamMember]
+```
+
+Returns the current member teams of this registry. 
+
+---
+
+### <kbd>method</kbd> `Registry.update_member`
+
+```python
+update_member(
+    member: 'User | UserMember | Team | TeamMember | str',
+    role: 'MemberRole | str'
+) → Self
+```
+
+Updates the role of a member (user or team) within this registry. 
+
+
+
+**Args:**
+ 
+ - `member`:  The user or team to update the role of.  Accepts a `User` object, `Team` object, or their string ID. 
+ - `role`:  The new role to assign to the member. May be one of: 
+        - "admin" 
+        - "member" 
+        - "viewer" 
+        - "restricted_viewer" (if supported by the W&B server) 
+
+
+
+**Returns:**
+ This registry for further method chaining, if needed. 
+
+
+
+**Raises:**
+ 
+ - `ValueError`:  If unable to infer the user or team ID. 
+
+
+
+**Examples:**
+ Make all users in the registry admins: ```python
+import wandb
+
+api = wandb.Api()
+
+# Fetch an existing registry
+registry = api.registry(name="my-registry", organization="my-org")
+
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+``` 
+
+---
+
+### <kbd>method</kbd> `Registry.user_members`
+
+```python
+user_members() → list[UserMember]
+```
+
+Returns the current member users of this registry. 
+
+---
+
 ### <kbd>method</kbd> `Registry.versions`
 
 ```python
-versions(filter: 'dict[str, Any] | None' = None) → Versions
+versions(
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'PositiveInt' = 100
+) → Versions
 ```
 
 Returns the versions belonging to the registry. 

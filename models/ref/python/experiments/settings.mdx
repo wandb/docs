@@ -34,7 +34,7 @@ The settings are organized into three categories:
 __init__(
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'Literal['must', 'allow', 'never'] | None' = None,
+    anonymous: 'Literal['allow', 'must', 'never'] | None' = None,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     base_url: 'str' = 'https://api.wandb.ai',
@@ -42,6 +42,8 @@ __init__(
     config_paths: 'Sequence | None' = None,
     console: 'Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']' = 'auto',
     console_multipart: 'bool' = False,
+    console_chunk_max_bytes: 'int' = 0,
+    console_chunk_max_seconds: 'int' = 0,
     credentials_file: 'str' = None,
     disable_code: 'bool' = False,
     disable_git: 'bool' = False,
@@ -154,7 +156,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 48520,
+    x_stats_pid: 'int' = 42802,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -182,7 +184,7 @@ __init__(
  - `allow_offline_artifacts` (bool): Flag to allow table artifacts to be synced in offline mode.
    To revert to the old behavior, set this to False.
  - `allow_val_change` (bool): Flag to allow modification of `Config` values after they've been set.
- - `anonymous` (Optional[Literal['must', 'allow', 'never']]): Controls anonymous data logging.
+ - `anonymous` (Optional[Literal['allow', 'must', 'never']]): Controls anonymous data logging.
    Possible values are:
    - "never": requires you to link your W&B account before
    tracking the run, so you don't accidentally create an anonymous
@@ -199,17 +201,38 @@ __init__(
  - `config_paths` (Optional[Sequence]): Paths to files to load configuration from into the `Config` object.
  - `console` (Literal['auto', 'off', 'wrap', 'redirect', 'wrap_raw', 'wrap_emu']): The type of console capture to be applied.
    Possible values are:
-   "auto" - Automatically selects the console capture method based on the
+   - "auto" - Automatically selects the console capture method based on the
    system environment and settings.
-   "off" - Disables console capture.
-   "redirect" - Redirects low-level file descriptors for capturing output.
-   "wrap" - Overrides the write methods of sys.stdout/sys.stderr. Will be
+   - "off" - Disables console capture.
+   - "redirect" - Redirects low-level file descriptors for capturing output.
+   - "wrap" - Overrides the write methods of sys.stdout/sys.stderr. Will be
    mapped to either "wrap_raw" or "wrap_emu" based on the state of the system.
-   "wrap_raw" - Same as "wrap" but captures raw output directly instead of
+   - "wrap_raw" - Same as "wrap" but captures raw output directly instead of
    through an emulator. Derived from the `wrap` setting and should not be set manually.
-   "wrap_emu" - Same as "wrap" but captures output through an emulator.
+   - "wrap_emu" - Same as "wrap" but captures output through an emulator.
    Derived from the `wrap` setting and should not be set manually.
- - `console_multipart` (bool): Whether to produce multipart console log files.
+ - `console_multipart` (bool): Enable multipart console logging.
+   When True, the SDK writes console output to timestamped files
+   under the `logs/` directory instead of a single `output.log`.
+   Each part is uploaded as soon as it is closed, giving users live
+   access to logs while the run is active. Rollover cadence is
+   controlled by `console_chunk_max_bytes` and/or `console_chunk_max_seconds`.
+   If both limits are `0`, all logs are uploaded once at run finish.
+   Note: Uploaded chunks are immutable; terminal control sequences
+   that modify previous lines (e.g., progress bars using carriage returns)
+   only affect the current chunk.
+ - `console_chunk_max_bytes` (int): Size-based rollover threshold for multipart console logs, in bytes.
+   Starts a new console log file when the current part reaches this
+   size. Has an effect only when `console_multipart` is `True`.
+   Can be combined with `console_chunk_max_seconds`; whichever limit is
+   hit first triggers the rollover. A value of `0` disables the
+   size-based limit.
+ - `console_chunk_max_seconds` (int): Time-based rollover threshold for multipart console logs, in seconds.
+   Starts a new console log file after this many seconds have elapsed
+   since the current part began. Requires `console_multipart` to be
+   `True`.  May be used with `console_chunk_max_bytes`; the first limit
+   reached closes the part. A value of `0` disables the time-based
+   limit.
  - `credentials_file` (str): Path to file for writing temporary access tokens.
  - `disable_code` (bool): Whether to disable capturing the code.
  - `disable_git` (bool): Whether to disable capturing the git state.
@@ -409,49 +432,6 @@ __init__(
 
 **Returns:**
  An `Settings` object.
-
-### <kbd>classmethod</kbd> `Settings.catch_private_settings`
-
-```python
-catch_private_settings(
-    values
-) → None
-```
-
-Check if a private field is provided and assign to the corresponding public one.
-
-This is a compatibility layer to handle previous versions of the settings.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
