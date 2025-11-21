@@ -363,11 +363,13 @@ Where values enclosed in angle brackets (`< >`) are placeholders for the actual 
 
 To view a run locally in your terminal using the `wandb beta leet` terminal UI:
 
-1. Navigate to the directory containing your run, or note the path to the run directory or `.wandb` file.
-2. Run one of the following commands:
+1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log with the suffix `.wandb`.
+
+    If you did not start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
+2. Start `wandb beta leet` using one of these commands:
 
    ```bash
-   # Look for the latest run in current directory
+   # View the latest run, stored in ./wandb/latest-run/
    wandb beta leet
    
    # Specify a run directory
@@ -391,7 +393,7 @@ Get started with these keyboard shortcuts:
 - `/` - Filter metrics by pattern
 - `[` / `]` - Toggle left/right sidebars
 - `n` / `N` - Navigate between metric pages
-- `q` - Quit
+- `q` / `CMD+C` - Quit
 
 See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for more details.
 

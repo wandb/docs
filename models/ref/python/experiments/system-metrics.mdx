@@ -13,7 +13,7 @@ This page provides detailed information about the system metrics that are tracke
 </Note>
 
 ## View system metrics
-You can view and monitor system metrics using the W&B App or the `wandb beta leet` terminal UI in your terminal.
+You can view and monitor system metrics using the W&B App or the `wandb beta leet` terminal UI.
 
 <Tabs>
 <Tab title="App">
@@ -34,13 +34,15 @@ You can customize which system metrics to display by adding panels to your works
 </Tab>
 <Tab title="LEET">
 
-To view system metrics locally in your terminal using the `wandb beta leet` terminal UI:
+To view system metrics for a run in your terminal using the `wandb beta leet` terminal UI:
 
-1. Navigate to the directory containing your run or `.wandb` file.
-2. Run one of the following commands:
+1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log with the suffix `.wandb`.
+
+    If you did not start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
+2. Start `wandb beta leet` using one of these commands:
 
    ```bash
-   # Look for the latest run in current directory
+   # View the latest run, stored in ./wandb/latest-run/
    wandb beta leet
    
    # Specify a run directory
