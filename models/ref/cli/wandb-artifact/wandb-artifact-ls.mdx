@@ -1,21 +1,35 @@
 ---
 title: "wandb artifact ls"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
 
-`wandb artifact ls [OPTIONS] PATH`
+<WandbArtifactLs/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 List all artifacts in a wandb project
 
+## Usage
 
-**Options**
+```bash
+wandb ls PATH [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `PATH` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-t, --type` | The type of artifacts to list |
-
-
-
+| `--type`, `-t` | The type of artifacts to list |
