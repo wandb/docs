@@ -6,13 +6,13 @@ The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune mo
 
 > After performing your training and fine-tuning operations with this SDK, you can use [the Public API](/models/ref/python/public-api) to query and analyze the data that was logged, and [the Reports and Workspaces API](/models/ref/wandb_workspaces) to generate a web-publishable [report](/models/reports/) summarizing your work.
 
-## Installation and setup
 
-### Sign up and create an API key
+
+## Sign up and create an API key
 
 To authenticate your machine with W&B, you must first generate an API key at https://wandb.ai/authorize.
 
-### Install and import packages
+## Install and import packages
 
 Install the W&B Python SDK using pip:
 
@@ -20,7 +20,7 @@ Install the W&B Python SDK using pip:
 pip install wandb
 ```
 
-### Import W&B Python SDK
+## Import W&B Python SDK
 
 The following code snippet demonstrates how to import the W&B Python SDK and initialize a run. Replace `<team_entity>` with your team entity name.
 
@@ -37,7 +37,7 @@ with wandb.init(entity=entity, project=project) as run:
    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-### Install optional dependencies
+## Install optional dependencies
 
 Install optional dependencies that extend the functionality of the W&B Python SDK. Use the following command to install an optional dependency. Replace `extra` with the desired [optional dependency](#supported-optional-dependencies):
 
@@ -57,7 +57,7 @@ Install more than one optional dependency by separating them with commas:
 pip install wandb[gcp,aws,media]
 ```
 
-#### Supported optional dependencies
+### Supported optional dependencies
 
 The following table lists supported dependencies for the W&B Python SDK:
 
