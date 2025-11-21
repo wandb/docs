@@ -1,9 +1,16 @@
 ---
-description: Learn about the keyboard shortcuts available in the W&B App.
+description: Learn about the keyboard shortcuts available in W&B.
 title: Keyboard shortcuts
 ---
 
-The W&B App supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This reference guide covers all available keyboard shortcuts organized by functional area.
+import LEETShortcuts from "/snippets/en/_includes/leet-keyboard-shortcuts.mdx";
+
+W&B supports keyboard shortcuts to help you navigate and interact with experiments, workspaces, and data more efficiently. This reference guide covers keyboard shortcuts for the W&B App and the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI.
+
+<Tabs>
+<Tab title="App">
+
+These keyboard shortcuts work in the W&B App.
 
 ## Workspace Management
 
@@ -42,4 +49,14 @@ The W&B App supports keyboard shortcuts to help you navigate and interact with e
 
 - Most keyboard shortcuts use **Cmd** on macOS and **Ctrl** on Windows/Linux
 - The W&B App implements custom handling for some browser default shortcuts.
-- Some shortcuts are context-sensitive and only work in specific areas of the application 
+- Some shortcuts are context-sensitive and only work in specific areas of the application
+
+</Tab>
+<Tab title="LEET">
+
+These keyboard shortcuts work in the W&B LEET (Lightweight Experiment Exploration Tool) terminal UI. To launch LEET, run `wandb beta leet` in your terminal. For more information, see [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet/).
+
+<LEETShortcuts />
+
+</Tab>
+</Tabs>
