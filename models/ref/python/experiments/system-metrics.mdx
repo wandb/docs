@@ -36,7 +36,7 @@ You can customize which system metrics to display by adding panels to your works
 
 To view system metrics for a run in your terminal using the `wandb beta leet` terminal UI:
 
-1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log with the suffix `.wandb`.
+1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log named in the format `run-<run-ID>.wandb`.
 
     If you did not start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
 2. Start `wandb beta leet` using one of these commands:
