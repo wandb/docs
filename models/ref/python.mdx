@@ -39,7 +39,7 @@ with wandb.init(entity=entity, project=project) as run:
 
 ### Install optional dependencies
 
-Install compatible versions of optional dependencies for enhanced functionality. To install an optional dependency, use the following command, replacing `extra` with the desired package:
+Install optional dependencies that extend the functionality of the W&B Python SDK. Use the following command to install an optional dependency. Replace `extra` with the desired [optional dependency](#supported-optional-dependencies):
 
 ```bash
 pip install wandb[extra]
@@ -59,17 +59,20 @@ pip install wandb[gcp,aws,media]
 
 #### Supported optional dependencies
 
-| Package | Purpose |
-|---------|---------|
-| `kubeflow` | Integrations for Kubeflow and object storage access. |
-| `gcp` |  Google Cloud Storage support. |
-| `aws` | AWS S3 and other AWS service support. |
-| `azure` | Azure Blob Storage support. |
-| `media` | Packages for media handling, video/image processing, plotting, and cheminformatics (RDKit).|
-| `sweeps`| Manage sweeps. |
-| `launch` | Installs cloud providers and orchestration platforms (includes many cloud SDKs, notebook tools, and orchestration clients). Note: tornado has a Python-version marker. |
-| `perf` | High-performance JSON serializer. |
-| `importers` | Data import and helper utilities. |
-| `workspaces` | W&B Reports and Workspaces SDK. |
+The following table lists supported dependencies for the W&B Python SDK:
+
+| Package | Purpose | Packages included |
+|---------|---------| ------------------|
+| `kubeflow` | Integrations for Kubeflow and object storage access. | [kubernetes](https://pypi.org/project/kubernetes/), [minio](https://pypi.org/project/minio/), [google-cloud-storage](https://pypi.org/project/google-cloud-storage/), [sh](https://pypi.org/project/sh/) |
+| `gcp` |  Google Cloud Storage support. | [google-cloud-storage](https://pypi.org/project/google-cloud-storage/) |
+| `aws` | AWS S3 and other AWS service support. | [boto3](https://pypi.org/project/boto3/), [botocore](https://pypi.org/project/botocore/) |
+| `azure` | Azure Blob Storage support. | [azure-identity](https://pypi.org/project/azure-identity/), [azure-storage-blob](https://pypi.org/project/azure-storage-blob/) |
+| `media` | Packages for media handling, video/image processing, plotting, and cheminformatics (RDKit).| [numpy](https://pypi.org/project/numpy/), [moviepy](https://pypi.org/project/moviepy/), [imageio](https://pypi.org/project/ImageIO/), [pillow](https://pypi.org/project/pillow/), [bokeh](https://pypi.org/project/bokeh/), [soundfile](https://pypi.org/project/soundfile/), [plotly](https://pypi.org/project/plotly/), [rdkit](https://pypi.org/project/rdkit/) |
+| `sweeps`| Manage sweeps. | [sweeps](https://pypi.org/project/sweeps/) | 
+| `launch` | Installs cloud providers and orchestration platforms | [awscli](https://pypi.org/project/awscli/), [azure-identity](https://pypi.org/project/azure-identity/), [azure-containerregistry](https://pypi.org/project/azure-containerregistry/), and more |
+| `models`| |  [cloudpickle](https://pypi.org/project/cloudpickle/) |
+| `perf` | High-performance JSON serializer. | [orjson](https://pypi.org/project/orjson/) |
+| `importers` | Data import and helper utilities. | [polars](https://pypi.org/project/polars/), [rich](https://pypi.org/project/rich/), [filelock](https://pypi.org/project/filelock/), [mlflow](https://pypi.org/project/mlflow/), [tenacity](https://pypi.org/project/tenacity/) |
+| `workspaces` | W&B Reports and Workspaces SDK. | [wandb-workspaces](https://pypi.org/project/wandb-workspaces/) |
 
 See `optional-dependencies` in the [W&B Python SDK GitHub repository](https://github.com/wandb/wandb/blob/main/pyproject.toml#L61) for an up-to-date list of optional dependencies.
