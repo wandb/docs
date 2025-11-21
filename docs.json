@@ -745,7 +745,6 @@
               {
                 "group": "Get Started",
                 "pages": [
-                  "weave/install-weave",
                   "weave/quickstart",
                   "weave/tutorial-eval",
                   "weave/tutorial-rag"
