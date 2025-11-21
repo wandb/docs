@@ -109,27 +109,11 @@ with wandb.init(project=project, config=config) as run:
         print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
         run.log({"accuracy": acc, "loss": loss})
 ```
-View recorded metrics such as accuracy and loss, and observe how they changed during each training step. You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
-<Tabs>
-<Tab title="App">
 Visit [wandb.ai/home](https://wandb.ai/home). The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 <Frame>
     <img src="/images/quickstart/quickstart_image.png" alt="Shows loss and accuracy tracked from each run."  />
 </Frame>
-</Tab>
-<Tab title="LEET">
-In your terminal, start the `wandb beta leet` terminal UI:
-```bash
-wandb beta leet
-```
-
-![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
-
-See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for details.
-
-</Tab>
-</Tabs>
 
 ## Next steps
 
