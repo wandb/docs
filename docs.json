@@ -2480,8 +2480,8 @@
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/guides/core",
-      "destination": "/models"
+      "source": "/guides/core/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/models/core",
