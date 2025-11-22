@@ -2264,10 +2264,6 @@
       "destination": "/models/app/:slug*"
     },
     {
-      "source": "/guides/app/pages/:slug*",
-      "destination": "/models/app/features/:slug*"
-    },
-    {
       "source": "/guides/app/settings-page/:slug*",
       "destination": "/platform/app/settings-page/:slug*"
     },
