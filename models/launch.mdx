@@ -1,0 +1,50 @@
+---
+description: Evaluate model checkpoints or hosted API models within W&B and analyze the results using automatically generated leaderboards.
+title: LLM Evaluation Jobs
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+
+[W&B LLM Evaluation Jobs](/models/launch) provides access to a comprehensive suite of [standardized evaluation benchmarks](/models/launch/evaluations) to evaluate your model's performace from within W&B, without the complexity of deploying and maintaining advanced compute infrastructure yourself.
+After the evaluation completes, automatically generated leaderboards simplify analysis of the results.
+
+<Note>
+LLM Evaluation Jobs is in **Preview**. During the preview period, there is no charge to try it out.
+</Note>
+
+{/*
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" />
+<TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
+</CardGroup>
+*/}
+
+## How it works
+Evaluate a model checkpoint or a publicly accessible hosted OpenAI-compatible model in just a few steps:
+
+1. Set up the evaluation programmatically or in the W&B App, defining the benchmarks to run and whether to generate a leaderboard.
+1. Run the evaluation.
+1. View and analyze the results and leaderboard.
+
+Each time you run an evaluation with the same destination project, the leaderboard is updated automatically.
+
+## Next steps
+- Learn more about the [available evaluation benchmarks](/models/launch/evaluations)
+- [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint)
+- [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model)
+
+## More details
+
+### Pricing
+LLM Evaluation Jobs is in **Preview**. During the preview period, there is no charge for LLM Evaluation Jobs.
+
+### Requirements
+- To evaluate an OpenAI-compatible API-hosted model:
+  - The model must be accessible at a public URL.
+  - The API key for the model must be available as a team secret. An organization admin or team admin can create a team secret.
+- To evaluate model checkpoint:
+  - The model weights must be packaged as a VLLM-compatible artifact.
+
+### Limitations
+- The maximum size for a model to evaluate is 86 GB, including context.
+- Each job is limited to two GPUs.
