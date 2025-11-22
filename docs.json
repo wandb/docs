@@ -2281,7 +2281,7 @@
     },
     {
       "source": "/guides/app/:slug*",
-      "destination": "/models/app/features/:slug*"
+      "destination": "/models/app/:slug*"
     },
     {
       "source": "/quickstart/",
