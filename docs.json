@@ -384,6 +384,7 @@
               {
                 "group": "Integrations",
                 "pages": [
+                  "models/integrations",
                   "models/integrations/add-wandb-to-any-library",
                   {
                     "group": "ML Frameworks and Libraries",
@@ -1205,27 +1206,27 @@
             "tab": "Platform",
             "pages": [
               {
-                "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
+                "group": "デプロイメントオプション",
                 "pages": [
                   "ja/platform/hosting",
                   {
-                    "group": "\u30c7\u30d7\u30ed\u30a4\u30e1\u30f3\u30c8\u30aa\u30d7\u30b7\u30e7\u30f3",
+                    "group": "デプロイメントオプション",
                     "pages": [
                       "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "\u81ea\u5df1\u7ba1\u7406",
+                        "group": "自己管理",
                         "pages": [
                           "ja/platform/hosting/hosting-options/self-managed",
                           "ja/platform/hosting/self-managed/ref-arch",
                           {
-                            "group": "W&B \u30b5\u30fc\u30d0\u30fc\u3092 Kubernetes \u3067\u5b9f\u884c\u3059\u308b",
+                            "group": "W&B サーバーを Kubernetes で実行する",
                             "pages": [
                               "ja/platform/hosting/operator",
                               "ja/platform/hosting/self-managed/operator-airgapped"
                             ]
                           },
                           {
-                            "group": "\u30d1\u30d6\u30ea\u30c3\u30af \u30af\u30e9\u30a6\u30c9\u306b\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u3059\u308b",
+                            "group": "パブリック クラウドにインストールする",
                             "pages": [
                               "ja/platform/hosting/self-managed/aws-tf",
                               "ja/platform/hosting/self-managed/gcp-tf",
@@ -1237,7 +1238,7 @@
                         ]
                       },
                       {
-                        "group": "\u5c02\u7528\u30af\u30e9\u30a6\u30c9",
+                        "group": "専用クラウド",
                         "pages": [
                           "ja/platform/hosting/hosting-options/dedicated_cloud",
                           "ja/platform/hosting/hosting-options/dedicated_regions",
@@ -1247,11 +1248,11 @@
                     ]
                   },
                   {
-                    "group": "\u30a2\u30a4\u30c7\u30f3\u30c6\u30a3\u30c6\u30a3\u3068\u30a2\u30af\u30bb\u30b9\u7ba1\u7406 (IAM)",
+                    "group": "アイデンティティとアクセス管理 (IAM)",
                     "pages": [
                       "ja/platform/hosting/iam/org_team_struct",
                       {
-                        "group": "\u8a8d\u8a3c",
+                        "group": "認証",
                         "pages": [
                           "ja/platform/hosting/iam/authentication",
                           "ja/platform/hosting/iam/ldap",
@@ -1261,7 +1262,7 @@
                         ]
                       },
                       {
-                        "group": "\u30a2\u30af\u30bb\u30b9\u7ba1\u7406",
+                        "group": "アクセス管理",
                         "pages": [
                           "ja/platform/hosting/iam/access-management-intro",
                           "ja/platform/hosting/iam/access-management/manage-organization",
@@ -1274,7 +1275,7 @@
                     ]
                   },
                   {
-                    "group": "\u30c7\u30fc\u30bf\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3",
+                    "group": "データセキュリティ",
                     "pages": [
                       "ja/platform/hosting/data-security/secure-storage-connector",
                       "ja/platform/hosting/data-security/presigned-urls",
@@ -1284,7 +1285,7 @@
                     ]
                   },
                   {
-                    "group": "\u76e3\u8996\u3068\u5229\u7528\u72b6\u6cc1",
+                    "group": "監視と利用状況",
                     "pages": [
                       "ja/platform/hosting/monitoring-usage",
                       "ja/platform/hosting/monitoring-usage/audit-logging",
@@ -1316,12 +1317,12 @@
             "tab": "W&B Models",
             "pages": [
               {
-                "group": "W&B \u30e2\u30c7\u30eb",
+                "group": "W&B モデル",
                 "pages": [
                   "ja/models",
                   "ja/models/quickstart",
                   {
-                    "group": "\u5b9f\u9a13\u7ba1\u7406",
+                    "group": "実験管理",
                     "pages": [
                       "ja/models/track",
                       "ja/models/track/create-an-experiment",
@@ -1329,7 +1330,7 @@
                       "ja/models/track/project-page",
                       "ja/models/track/workspaces",
                       {
-                        "group": "runs \u3068\u306f\u4f55\u3067\u3059\u304b\uff1f",
+                        "group": "runs とは何ですか?",
                         "pages": [
                           "ja/models/runs",
                           "ja/models/runs/tags",
@@ -1344,7 +1345,7 @@
                       },
                       "ja/models/track/jupyter",
                       {
-                        "group": "\u30ed\u30b0 \u30aa\u30d6\u30b8\u30a7\u30af\u30c8 \u3068 \u30e1\u30c7\u30a3\u30a2",
+                        "group": "ログ オブジェクト と メディア",
                         "pages": [
                           "ja/models/track/log",
                           "ja/models/track/log/plots",
@@ -1364,7 +1365,7 @@
                     ]
                   },
                   {
-                    "group": "\u30c6\u30fc\u30d6\u30eb",
+                    "group": "テーブル",
                     "pages": [
                       "ja/models/tables",
                       "ja/models/tables/tables-walkthrough",
@@ -1374,13 +1375,13 @@
                     ]
                   },
                   {
-                    "group": "\u30b9\u30a4\u30fc\u30d7",
+                    "group": "スイープ",
                     "pages": [
                       "ja/models/sweeps",
                       "ja/models/sweeps/walkthrough",
                       "ja/models/sweeps/add-w-and-b-to-your-code",
                       {
-                        "group": "Sweep configuration \u3092\u5b9a\u7fa9\u3059\u308b",
+                        "group": "Sweep configuration を定義する",
                         "pages": [
                           "ja/models/sweeps/define-sweep-configuration",
                           "ja/models/sweeps/sweep-config-keys"
@@ -1409,7 +1410,7 @@
                       "ja/models/artifacts/create-a-new-artifact-version",
                       "ja/models/artifacts/track-external-files",
                       {
-                        "group": "\u30c7\u30fc\u30bf\u3092\u7ba1\u7406\u3059\u308b",
+                        "group": "データを管理する",
                         "pages": [
                           "ja/models/artifacts/ttl",
                           "ja/models/artifacts/storage",
@@ -1422,7 +1423,7 @@
                     ]
                   },
                   {
-                    "group": "\u30ec\u30dd\u30fc\u30c8",
+                    "group": "レポート",
                     "pages": [
                       "ja/models/reports",
                       "ja/models/reports/create-a-report",
@@ -1435,7 +1436,7 @@
                     ]
                   },
                   {
-                    "group": "\u30ec\u30b8\u30b9\u30c8\u30ea",
+                    "group": "レジストリ",
                     "pages": [
                       "ja/models/core/registry",
                       "ja/models/core/registry/registry_types",
@@ -1450,7 +1451,7 @@
                       "ja/models/core/registry/lineage",
                       "ja/models/core/registry/model_registry_eol",
                       {
-                        "group": "\u30e2\u30c7\u30eb\u30ec\u30b8\u30b9\u30c8\u30ea",
+                        "group": "モデルレジストリ",
                         "pages": [
                           "ja/models/core/registry/model_registry",
                           "ja/models/core/registry/model_registry/walkthrough",
@@ -1469,11 +1470,11 @@
                     ]
                   },
                   {
-                    "group": "\u30aa\u30fc\u30c8\u30e1\u30fc\u30b7\u30e7\u30f3",
+                    "group": "オートメーション",
                     "pages": [
                       "ja/models/core/automations",
                       {
-                        "group": "\u81ea\u52d5\u5316\u306e\u4f5c\u6210",
+                        "group": "自動化の作成",
                         "pages": [
                           "ja/models/core/automations/create-automations",
                           "ja/models/core/automations/create-automations/slack",
@@ -1484,14 +1485,14 @@
                     ]
                   },
                   {
-                    "group": "W&B \u30a2\u30d7\u30ea UI \u30ea\u30d5\u30a1\u30ec\u30f3\u30b9",
+                    "group": "W&B アプリ UI リファレンス",
                     "pages": [
                       {
-                        "group": "\u30d1\u30cd\u30eb",
+                        "group": "パネル",
                         "pages": [
                           "ja/models/app/features/panels",
                           {
-                            "group": "\u6298\u308c\u7dda\u30b0\u30e9\u30d5",
+                            "group": "折れ線グラフ",
                             "pages": [
                               "ja/models/app/features/panels/line-plot",
                               "ja/models/app/features/panels/line-plot/reference",
@@ -1506,7 +1507,7 @@
                           "ja/models/app/features/panels/parameter-importance",
                           "ja/models/app/features/panels/run-comparer",
                           {
-                            "group": "\u30af\u30a8\u30ea\u30d1\u30cd\u30eb",
+                            "group": "クエリパネル",
                             "pages": [
                               "ja/models/app/features/panels/query-panels",
                               "ja/models/app/features/panels/query-panels/embedding-projector"
@@ -1515,7 +1516,7 @@
                         ]
                       },
                       {
-                        "group": "\u30ab\u30b9\u30bf\u30e0\u30c1\u30e3\u30fc\u30c8",
+                        "group": "カスタムチャート",
                         "pages": [
                           "ja/models/app/features/custom-charts/",
                           "ja/models/app/features/custom-charts/walkthrough"
@@ -1527,12 +1528,12 @@
                 ]
               },
               {
-                "group": "\u53c2\u7167",
+                "group": "参照",
                 "pages": [
                   "ja/models/ref",
                   "ja/models/ref/js",
                   {
-                    "group": "Python \u30e9\u30a4\u30d6\u30e9\u30ea",
+                    "group": "Python ライブラリ",
                     "pages": [
                       "ja/models/ref/python",
                       "ja/models/ref/python/init/",
@@ -1548,7 +1549,7 @@
                       "ja/models/ref/python/run/",
                       "ja/models/ref/python/sweep/",
                       {
-                        "group": "wandb_\u30ef\u30fc\u30af\u30b9\u30da\u30fc\u30b9",
+                        "group": "wandb_ワークスペース",
                         "pages": [
                           "ja/models/ref/python/wandb_workspaces",
                           "ja/models/ref/python/wandb_workspaces/workspaces/",
@@ -1558,7 +1559,7 @@
                       "ja/models/ref/python/watch/",
                       "ja/models/ref/python/artifact/",
                       {
-                        "group": "\u30a4\u30f3\u30dd\u30fc\u30c8\uff06\u30a8\u30af\u30b9\u30dd\u30fc\u30c8 API",
+                        "group": "インポート&エクスポート API",
                         "pages": [
                           "ja/models/ref/python/public-api",
                           "ja/models/ref/python/public-api/api/",
@@ -1575,7 +1576,7 @@
                         ]
                       },
                       {
-                        "group": "\u30a4\u30f3\u30c6\u30b0\u30ec\u30fc\u30b7\u30e7\u30f3",
+                        "group": "インテグレーション",
                         "pages": [
                           {
                             "group": "keras",
@@ -1590,7 +1591,7 @@
                       },
                       "ja/models/ref/python/agent/",
                       {
-                        "group": "\u30c7\u30fc\u30bf\u30bf\u30a4\u30d7",
+                        "group": "データタイプ",
                         "pages": [
                           "ja/models/ref/python/data-types",
                           "ja/models/ref/python/data-types/boundingboxes2d/",
@@ -1616,7 +1617,7 @@
                     ]
                   },
                   {
-                    "group": "\u30af\u30a8\u30ea\u5f0f\u8a00\u8a9e",
+                    "group": "クエリ式言語",
                     "pages": [
                       "ja/models/ref/query-panel",
                       "ja/models/ref/query-panel/float/",
@@ -1646,7 +1647,7 @@
                     ]
                   },
                   {
-                    "group": "\u30b3\u30de\u30f3\u30c9\u30e9\u30a4\u30f3 \u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9",
+                    "group": "コマンドライン インターフェース",
                     "pages": [
                       "ja/models/ref/cli",
                       "ja/models/ref/cli/wandb-disabled/",
@@ -1660,11 +1661,11 @@
                       "ja/models/ref/cli/wandb-sync/",
                       "ja/models/ref/cli/wandb-verify/",
                       {
-                        "group": "wandb \u30a2\u30fc\u30c6\u30a3\u30d5\u30a1\u30af\u30c8",
+                        "group": "wandb アーティファクト",
                         "pages": [
                           "ja/models/ref/cli/wandb-artifact",
                           {
-                            "group": "wandb \u30a2\u30fc\u30c6\u30a3\u30d5\u30a1\u30af\u30c8 cache",
+                            "group": "wandb アーティファクト cache",
                             "pages": [
                               "ja/models/ref/cli/wandb-artifact/wandb-artifact-cache",
                               "ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup/"
@@ -1676,7 +1677,7 @@
                         ]
                       },
                       {
-                        "group": "wandb \u30b5\u30fc\u30d0\u30fc",
+                        "group": "wandb サーバー",
                         "pages": [
                           "ja/models/ref/cli/wandb-server",
                           "ja/models/ref/cli/wandb-server/wandb-server-start/",
@@ -1685,7 +1686,7 @@
                       },
                       "ja/models/ref/cli/wandb-agent/",
                       {
-                        "group": "wandb \u30d9\u30fc\u30bf\u7248",
+                        "group": "wandb ベータ版",
                         "pages": [
                           "ja/models/ref/cli/wandb-beta",
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync/"
@@ -1697,7 +1698,7 @@
                       "ja/models/ref/cli/wandb-online/",
                       "ja/models/ref/cli/wandb-controller/",
                       {
-                        "group": "wandb \u30b8\u30e7\u30d6",
+                        "group": "wandb ジョブ",
                         "pages": [
                           "ja/models/ref/cli/wandb-job",
                           "ja/models/ref/cli/wandb-job/wandb-job-create/",
