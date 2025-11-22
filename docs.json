@@ -2512,6 +2512,34 @@
       "destination": "/weave/cookbooks/:slug*"
     },
     {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/models/app/pages/workspaces",
+      "destination": "/models/app/features/cascade-settings"
+    },
+    {
+      "source": "/models/ref/python/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/guides/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/models/integrations/openai",
+      "destination": "/models/integrations/openai-api"
+    },
+    {
+      "source": "/platform/hosting/how-to-guides/*",
+      "destination": "/platform/hosting"
+    },
+    {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
       "destination": "/platform/hosting/self-managed"
     }
