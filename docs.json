@@ -2492,6 +2492,14 @@
       "destination": "/inference"
     },
     {
+      "source": "/weave/reference/gen_notebooks/intro_notebook",
+      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/:slug*",
+      "destination": "/weave/cookbooks/:slug*"
+    },
+    {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
       "destination": "/platform/hosting/self-managed"
     }

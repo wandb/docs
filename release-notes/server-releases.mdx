@@ -11,6 +11,66 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.76.0" description="November 20, 2025">
+**November 20, 2025**
+
+W&B v0.76 delivers a major boost to experiment insight and productivity, introducing smarter media tools, smoother workflows, and powerful new interfaces. Multi-video sync with autoplay and looping enables quick, side-by-side evaluation, while simplified workspace navigation keeps you moving effortlessly between views. Plus, the new LEET terminal UI brings fast, real-time run insights directly to your command line.
+
+## Support and end of life
+
+- W&B Server v0.63 and below reached end of life on November 20, 2025.
+- W&B Server v0.65 is scheduled to reach end of life on January 30, 2026.
+
+## Features
+
+- **Multi-video Sync**: Play and control multiple video panels together for qualitative evaluation and comparison of training runs, analysis of model behavior across experiments, and evaluation of multimodal model checkpoints.
+    
+    With synchronized video playback, you can play, pause, scrub, and adjust the speed of multiple videos in sync, enabling true side-by-side comparison for quick visual QA to evaluate style, timing, motion, and more.
+    
+    <Frame>
+    ![Animation demonstrating video playback sync](/images/release-notes/v0-76-0/video_playback_sync_demo.gif)
+    </Frame>
+    
+    To try it, go to **Settings** → **Media.** Currently available in Dedicated Cloud only.
+    
+- **Autoplay and loop** media in video panels in a workspace or section. Currently available in Dedicated Cloud only.
+- Now in Dedicated Cloud, updates to workspace navigation simplify moving between multi-run and single-run workspaces and ensuring view changes are saved between both ([quick demo video](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)).
+    - Single-run and multi-run saved views now use shared configuration details to reduce repetitive setup tasks.
+    - Existing single-run saved views are removed, and you will need to recreate the ones you still need.
+    
+    <Frame>![Screenshot showing navigation updates for single-run views](/images/release-notes/v0-76-0/workspace-navigation-single-run-view.png)</Frame>
+    
+    These updates are expected in W&B Self-Managed in January 2026.
+    
+- You can now copy a run’s name or path from the run selector menu. This update also fixed a bug where a copied run name would include the run name twice.
+    
+    <Frame>![Screenshot demonstrating copying a run's name or path](/images/release-notes/v0-76-0/copy_runs.gif)</Frame>
+    
+- [W&B Lightweight Experiment Exploration Tool (LEET)](/models/ref/cli/wandb-beta/wandb-beta-leet) (Beta) is a fast terminal UI for observing your ML training runs, including stats, metrics, and system health. It reads and visualizes live log files to provide a fast, customizable, browser-free experience in real time.
+    
+    LEET presents an interactive, three-pane dashboard that updates live as your run progresses.
+    <Frame><iframe src="https://www.loom.com/embed/ad07286ea6ae480b8f06e931bffa5a44" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{width: "100%", height: "300px"}}></iframe></Frame>
+    To try it, install [W&B SDK version 0.23.0](/models/ref/python) or later.
+    
+- We’ve recently released [Workspaces and Reports SDK v0.20.0](/models/ref/wandb_workspaces) v0.20.0, which includes the ability to pin sections and columns programmatically. See [Install Workspaces And Reports API](/models/ref/wandb_workspaces#installation-and-setup).
+
+## Fixes
+
+- Min and max values now display on grouped line charts to help with comparisons.
+- Reports now truncate long media panel titles for cleaner presentation.
+- [Semantic legends](/models/runs/color-code-runs#set-a-configuration-key) now allow editing the upper bounds of buckets.
+- Fixed a bug when switching semantic colors from *iscrete to continuous values.
+- Fixed a bug that could cause flickering when resizing charts in full-screen mode.
+- Fixed a bug that could cause rendering issues when the y axis is set to `_step.`
+- Fixed a bug that could prevent the media step slider from updating to show the latest incoming data if it is set to the maximum value.
+- Fixed a bug where image smoothing settings were not always applied to image panels with smoothing turned on.
+- Fixed a bug where media panels in grid view could take up too much vertical space, causing excessive scrolling.
+- Fixed minor display issues when rendering and refreshing automations.
+- Fixed minor UI bugs when linking artifacts, including scrolling and count rendering issues.
+- Fixed a bug that could prevent non-ASCII characters from displaying in HTML table media panels.
+- Updated the **Edit run name** action to make it more clear whether you are updating the run's display name for the workspace or the underlying run name across the project.
+</Update>
+
 <Update label="v0.75.2" description="November 5, 2025">
 - Fixed a bug where a team service account's API key was not visible to team Admin users who were also organization Admins.
 - Fixed a bug where the (min, max) range shown in a tooltip for a plot with multiple run groups could show the same values for all groups.
@@ -22,8 +82,6 @@ W&B v0.75 enhances Registry with a new Restricted Viewer role, the ability to st
 ## Support and end of life
 - W&B Server v0.61 and below reached end of life on October 28, 2025.
 - W&B Server v0.63 is scheduled to reach end of life on November 26, 2025.
-
-A W&B Server release is supported for 12 months from its initial release date. As a reminder, customers using [Self-managed](/platform/hosting/hosting-options/self-managed) are responsible to upgrade to a [supported release](/release-notes) in time to maintain support.
 
 Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
 
@@ -532,27 +590,4 @@ Private preview features are available by invitation only. To request enrollment
 - You can now configure whether the **Log Scale setting** for line plots is enabled by default at the level of the workspace or section. 
   - To configure the behavior for a workspace, click the action `...` menu for the workspace, click **Line plots**, then toggle **Log scale** for the X or Y axis.
   - To configure the behavior for a section, click the gear icon for the section, then toggle **Log scale** for the X or Y axis.
-</Update>
-
-<Update label="v0.63.0" description="December 10, 2024">
-## Features
-
-**[W&B Weave](https://wandb.ai/site/weave/) is now generally available (GA) in Dedicated Cloud on AWS. Reach out to your W&B team if your teams are looking to build Generative AI apps with confidence and putting those in production.**
-
-<Frame>
-![Weave UI](https://github.com/user-attachments/assets/22786cbc-7d69-4505-b329-78cb87734d19)
-</Frame>
-
-The release includes the following additional updates:
-
-* W&B Models now seamlessly integrates with **_Azure public cloud_**. You could now create a Dedicated Cloud instance in an Azure region directly from your Azure subscription and manage it as an Azure ISV resource. [This integration is in private preview](https://wandb.ai/site/partners/azure).
-* Ability to assign x_label, e.g. node-0, in run settings object to distinguish logs and metrics by label, e.g. node, in distributed runs. Enables grouping system metrics and console logs by label for visualization in the workspace.
-* **_Coming soon_** with a patch release this week, you will be able to use organization-level service accounts to automate your W&B workloads across all teams in your instance. You would still be able to use existing team-level service accounts if you would like more control over the access scope of a service account.
-    * Allow org-level service accounts to interact with Registry. Such service accounts can be invited to a registry using the invite modal and are displayed in the members table along with respective organization roles.
-
-## Fixes
-
-* Fixed an issue where users creating custom roles including the `Create Artifact` permission were not able to log artifacts to a project.
-* Fixed the issue with metadata logging for files in instances that have subpath support configured for BYOB.
-* Block webhook deletion if used by organization registry automations.
 </Update>
