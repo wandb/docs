@@ -2264,8 +2264,24 @@
       "destination": "/models/app/:slug*"
     },
     {
+      "source": "/guides/app/pages/:slug*",
+      "destination": "/models/app/features/:slug*"
+    },
+    {
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/guides/app/console-logs",
+      "destination": "/models/app/console-logs"
+    },
+    {
+      "source": "/guides/app/keyboard-shortcuts",
+      "destination": "/models/app/keyboard-shortcuts"
+    },
+    {
       "source": "/guides/app/:slug*",
-      "destination": "/models/app/:slug*"
+      "destination": "/models/app/features/:slug*"
     },
     {
       "source": "/quickstart/",
