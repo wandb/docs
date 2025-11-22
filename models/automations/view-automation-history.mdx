@@ -1,0 +1,107 @@
+---
+title: View an automation's history
+---
+
+<Note>
+This feature requires an Enterprise license. It is available only for:
+- W&B Multi-tenant Cloud
+- W&B Dedicated Cloud
+- W&B Self-Managed v0.75.0+
+</Note>
+
+This page describes how to view and understand the execution history of your W&B [automations](/models/automations), including what triggered an automation, what actions were taken, and whether they succeeded or failed.
+
+## Overview
+
+Each executed automation generates a record that includes:
+- **Execution timestamp**: When the automation was triggered.
+- **Triggering event**: The specific event triggered the automation.
+- **Status**: The execution's status. See [Execution status](#execution-status).
+- **Action details**: Information about what action was performed, such as notifying a Slack channel or running a webhook.
+- **Result details**: Additional information, if any, about the final outcome of executing the automation, including the error for a failed execution.
+
+## View automation history
+
+You can view automation history from multiple locations in the W&B App:
+
+### From the Automations tab
+
+<Tabs>
+<Tab title="Registry">
+1. Navigate to your registry by clicking on **Registry** in the left sidebar.
+1. Select your registry from the list.
+1. Click **Automations** tab to view the registry's automations. In each row, the **Last execution** column shows when the automation last executed.
+1. In the **Automations history** tab, view all executions of the registry's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
+</Tab>
+<Tab title="Project">
+1. Click the **Automations** tab in the left navigation. The project's automations display.
+
+    - Find the automation you want to investigate. You can use the search bar to filter by automation name, and you can sort by the last triggered date to find recently executed automations.
+
+    - Click an automation's name to view or edit its configuration.
+1. In the **History** tab, view all executions of the project's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status. Click an execution timestamp to view details about a particular execution.
+</Tab>
+</Tabs>
+
+### From the automation details page
+
+1. Navigate to your project or registry.
+1. Click the **Automations** tab.
+1. Click an automation name to view or edit its configuration.
+1. The **Execution history** section shows all executions for this specific automation. lick an execution timestamp to view details about a particular execution.
+
+### From a specific entity
+
+<Tabs>
+<Tab title="Registry">
+1. Navigate to your registry.
+1. Select a specific registered model or artifact collection.
+1. Click the **...** menu in the top right.
+1. Select **View history** to see all automation executions related to this entity.
+</Tab>
+<Tab title="Project">
+1. Navigate to your project.
+1. Select a specific run or artifact.
+1. In the Overview tab, look for the **Triggered automations** section.
+1. Click on any listed automation to view its execution details.
+</Tab>
+</Tabs>
+
+## Understanding execution details
+
+### Execution status
+
+Each automation execution has one of the following statuses:
+
+- **Finished**: The automation completed all actions successfully.
+- **Failed**: The automation encountered an error and terminated unsuccessfully.
+- **Pending**: The automation is queued for execution.
+
+
+### Execution details
+
+Click on any execution in the history to view:
+
+- **Event details**: The specific event that triggered the automation, including:
+  - Event type (e.g., "New artifact version", "Run completed")
+  - Entity information (run ID, artifact name, etc.)
+  - User who triggered the event (if applicable)
+
+- **Action details**: Information about what the automation attempted to do:
+  - Action type (Slack notification or webhook)
+  - Target (Slack channel or webhook URL)
+  - Payload sent (for webhooks)
+
+- **Result information**:
+  - Response status (for webhooks)
+  - Any error messages or stack traces (for failed executions)
+
+## Find an automation execution
+
+To find an automation execution, you can search by automation name, or you can sort the list of executions by any column.
+
+## Next steps
+
+- [Create an automation](/models/automations/create-automations)
+- Learn about [Automation events and scopes](/models/automations/automation-events)
+- [Create a secret](/platform/secrets)
