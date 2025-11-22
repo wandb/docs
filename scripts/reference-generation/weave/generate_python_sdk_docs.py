@@ -255,6 +255,10 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
     # Remove <b>` at the start of lines that don't have a closing </b>
     content = re.sub(r'^- <b>`([^`\n]*?)$', r'- \1', content, flags=re.MULTILINE)
     
+    # Remove malformed table separators that lazydocs sometimes generates
+    # These appear as standalone lines with just dashes (------) which break markdown parsing
+    content = re.sub(r'\n\s*------+\s*\n', '\n\n', content)
+    
     # Fix parameter lists that have been broken by lazydocs
     # Strategy: Parse all parameters into a structured format, then reconstruct them properly
     def fix_parameter_lists(text):
