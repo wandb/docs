@@ -869,6 +869,7 @@
                   {
                     "group": "Tools & Resources",
                     "pages": [
+                      "weave/guides/platform/weave-projects",
                       "weave/guides/core-types/env-vars",
                       "weave/guides/troubleshooting",
                       "weave/guides/tracking/faqs",
