@@ -46,6 +46,10 @@ First, install the required dependencies:
 pip install openai openinference-instrumentation-openai opentelemetry-exporter-otlp-proto-http
 ```
 
+<Warning>
+**Performance Recommendation**: Always use `BatchSpanProcessor` instead of `SimpleSpanProcessor` when sending traces to Weave. `SimpleSpanProcessor` exports spans synchronously and can cause performance issues. `BatchSpanProcessor` batches spans asynchronously, which is more efficient and recommended for production use.
+</Warning>
+
 Next, paste the following code into a python file such as `openinference_example.py`
 
 ```python lines
@@ -53,7 +57,7 @@ import base64
 import openai
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk import trace as trace_sdk
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 from openinference.instrumentation.openai import OpenAIInstrumentor
 
 OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
@@ -80,10 +84,10 @@ exporter = OTLPSpanExporter(
 )
 
 # Add the exporter to the tracer provider
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console.
-tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
 OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
 
@@ -127,7 +131,7 @@ import base64
 import openai
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk import trace as trace_sdk
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 from opentelemetry.instrumentation.openai import OpenAIInstrumentor
 
 OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
@@ -154,10 +158,10 @@ exporter = OTLPSpanExporter(
 )
 
 # Add the exporter to the tracer provider
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console.
-tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
 OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
 
@@ -203,7 +207,7 @@ import openai
 from opentelemetry import trace
 from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 
 OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
 WANDB_BASE_URL = "https://trace.wandb.ai"
@@ -229,10 +233,10 @@ exporter = OTLPSpanExporter(
 )
 
 # Add the exporter to the tracer provider
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console.
-tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
 trace.set_tracer_provider(tracer_provider)
 # Creates a tracer from the global tracer provider
@@ -298,7 +302,7 @@ import os
 from opentelemetry import trace
 from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 
 # Configuration
 ENTITY = "YOUR_ENTITY"
@@ -324,10 +328,10 @@ exporter = OTLPSpanExporter(
 )
 
 # Add the exporter to the tracer provider
-tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console
-tracer_provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
 # Set the tracer provider
 trace.set_tracer_provider(tracer_provider)
