@@ -7,15 +7,11 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-This page lists the evaluation benchmarks [W&B LLM Evaluation Jobs](/models/launch) provides.
-
-## Available benchmarks
+This page lists the evaluation benchmarks [W&B LLM Evaluation Jobs](/models/launch) provides by category.
 
 {/* Src: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json */}
 
-These sections list the available benchmarks in each category.
-
-### Knowledge
+## Knowledge
 
 Evaluate factual knowledge across various domains like science, language, and general reasoning.
 
@@ -40,7 +36,7 @@ Evaluate factual knowledge across various domains like science, language, and ge
 | [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/) | `simpleqa_verified` | Verified subset of SimpleQA with validated answers |
 | [WorldSense](https://github.com/facebookresearch/worldsense) | `worldsense` | Evaluates understanding of world knowledge and common sense |
 
-### Reasoning
+## Reasoning
 
 Evaluate logical thinking, problem-solving, and common-sense reasoning capabilities.
 
@@ -60,7 +56,7 @@ Evaluate logical thinking, problem-solving, and common-sense reasoning capabilit
 | [PIQA](https://yonatanbisk.com/piqa/) | `piqa` | Physical commonsense reasoning |
 | [WinoGrande](https://winogrande.allenai.org/) | `winogrande` | Commonsense reasoning via pronoun resolution |
 
-### Math
+## Math
 
 Evaluate mathematical problem-solving at various difficulty levels, from grade school to competition-level problems.
 
@@ -76,7 +72,7 @@ Evaluate mathematical problem-solving at various difficulty levels, from grade s
 | [MATH](https://github.com/hendrycks/math) | `math` | Competition-level mathematics problems |
 | [MGSM](https://github.com/google-research/url-nlp/tree/main/mgsm) | `mgsm` | Multilingual Grade School Math |
 
-### Code
+## Code
 
 Evaluate programming and software development capabilities like debugging, code execution prediction, and function calling.
 
@@ -86,7 +82,7 @@ Evaluate programming and software development capabilities like debugging, code 
 | [InfiniteBench Code Debug](https://arxiv.org/abs/2402.13718) | `infinite_bench_code_debug` | Long-context code debugging tasks |
 | [InfiniteBench Code Run](https://arxiv.org/abs/2402.13718) | `infinite_bench_code_run` | Long-context code execution prediction |
 
-### Reading
+## Reading
 
 Evaluate reading comprehension and information extraction from complex texts.
 
@@ -99,7 +95,7 @@ Evaluate reading comprehension and information extraction from complex texts.
 | [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/) | `race_h` | Reading comprehension from English exams (high difficulty) |
 | [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/) | `squad` | Stanford Question Answering Dataset: extractive question answering on Wikipedia articles |
 
-### Long context
+## Long context
 
 Evaluate the ability to process and reason over extended contexts, including retrieval and pattern recognition.
 
@@ -112,7 +108,7 @@ Evaluate the ability to process and reason over extended contexts, including ret
 | [InfiniteBench Passkey](https://arxiv.org/abs/2402.13718) | `infinite_bench_passkey` | Retrieval of information from long context |
 | [NIAH](https://arxiv.org/abs/2406.07230) | `niah` | Needle in a Haystack: long-context retrieval test |
 
-### Safety
+## Safety
 
 Evaluate alignment, bias detection, harmful content resistance, and truthfulness.
 
@@ -143,7 +139,7 @@ Evaluate alignment, bias detection, harmful content resistance, and truthfulness
 | [WMDP Cyber](https://www.wmdp.ai/) | `wmdp_cyber` | Tests hazardous knowledge in cybersecurity |
 | [XSTest](https://arxiv.org/abs/2308.01263) | `xstest` | Exaggerated safety test for over-refusal detection |
 
-### Domain-Specific
+## Domain-Specific
 
 Evaluate specialized knowledge in medicine, chemistry, law, biology, and other professional fields.
 
@@ -168,7 +164,7 @@ Evaluate specialized knowledge in medicine, chemistry, law, biology, and other p
 | [SEC-QA v2](https://arxiv.org/abs/2406.14806) | `sec_qa_v2` | Updated SEC filing benchmark |
 | [SEC-QA v2 (5-shot)](https://arxiv.org/abs/2406.14806) | `sec_qa_v2_5_shot` | SEC-QA v2 with 5 examples |
 
-### Multimodal
+## Multimodal
 
 Evaluate vision and language understanding combining visual and textual inputs.
 
@@ -181,7 +177,7 @@ Evaluate vision and language understanding combining visual and textual inputs.
 | [V*Star Bench Attribute Recognition](https://arxiv.org/abs/2411.10006) | `vstar_bench_attribute_recognition` | Visual attribute recognition tasks |
 | [V*Star Bench Spatial Relationship](https://arxiv.org/abs/2411.10006) | `vstar_bench_spatial_relationship_reasoning` | Spatial reasoning with visual inputs |
 
-### Instruction Following
+## Instruction Following
 
 Evaluate adherence to specific instructions and formatting requirements.
 
@@ -189,7 +185,7 @@ Evaluate adherence to specific instructions and formatting requirements.
 |------------|---------|-------------|
 | [IFEval](https://arxiv.org/abs/2311.07911) | `ifeval` | Tests precise instruction-following capabilities |
 
-### System
+## System
 
 Basic system validation and pre-flight checks.
 
@@ -197,24 +193,9 @@ Basic system validation and pre-flight checks.
 |------------|---------|-------------|
 | [Pre-Flight](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` | Basic system check and validation test |
 
-## Specifying evaluation tasks
-
-When configuring an evaluation job programmatically, specify tasks by Task ID. You can select multiple evaluations to run in a single job. For example:
-
-```json
-{
-  "tasks": ["gsm8k", "mmlu_5_shot", "hellaswag"],
-  "limit": 100,
-  "model": {
-    "model_name": "openai/gpt-4o",
-    "base_url": "https://api.openai.com/v1",
-    "api_key_var": "OPENAI_API_KEY"
-  }
-}
-```
 
 ## Next steps
 
 - [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint)
 - [Evaluate a hosted API model](/models/launch/evaluate-hosted-model)
-- View details about specific LLM evaluation benchmarks at [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/)
+- View details about specific benchmarks at [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/)

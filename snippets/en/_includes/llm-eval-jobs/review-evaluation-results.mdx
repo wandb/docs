@@ -1,19 +1,19 @@
 ## Review evaluation results
-Review your evaluation results in the destination project's workspace.
+Review your evaluation job results in the destination project's workspace.
 
-1. Click the recent runs list (circular arrows icon) at the top of the page. Evaluation jobs appear with other runs in the project. From here, you can click **Leaderboard** to open the leaderboard in full screen, or click a run name to open it in the project in single-run view.
-1. View a leaderboard together with other panels in the workspace. The panel that appears in the workspace is the traces panel. The leaderboard can be accessed from the Weave section of the side nav or via the popover. By default, it appears in the **Evaluations** section. See [Customize a leaderboard](#customize-a-leaderboard).
-    <Tip>To give feedback about a benchmark from the leaderboard, click the emoji icon or the chat icon in the **Feedback** column.</Tip>
-1. Click the **Overview** tab to view detailed information about the run, including its configuration and summary metrics.
-1. Click the **Logs** tab to view, search, or download the run's debug logs.
-1. Click the **Files** tab to browse, view, or download the run's files, including code, log, configuration, and other output files.
-1. Click the name of a run to open its single-run view.
+1. Click the circular arrow icon at the top of the page to open the recent run modal. Evaluation jobs appear with other runs in the project. If the evaluation job has a leaderboard, click **Leaderboard** to open the leaderboard in full screen, or click a run name to open it in the project in single-run view.
+1. View a leaderboard together with other panels in the workspace or in the **Traces** tab of the **Weave** sidebar panel. By default, it appears in the **Evaluations** section. See [Customize a leaderboard](#customize-a-leaderboard).
+    <Tip>To give feedback about a result from the leaderboard, click the emoji icon or the chat icon in the **Feedback** column.</Tip>
+1. Click the **Overview** tab to view detailed information about the evaluation job, including its configuration and summary metrics.
+1. Click the **Logs** tab to view, search, or download the evaluation job's debug logs.
+1. Click the **Files** tab to browse, view, or download the evaluation job's files, including code, log, configuration, and other output files.
+1. Click the run name of an evaluation job to open the workspace in single-run workspace view.
 
 ## Customize a leaderboard
-The leaderboard gathers all evaluations sent to a given project, with one row per benchmark per evaluation job run. Columns display details like the trace, input values, and output values. For more information about leaderboards, see [Leaderboards in Weave](https://docs.wandb.ai/weave/guides/core-types/leaderboards).
+The leaderboard shows results for all evaluation jobs sent to a given project, with one row per benchmark per evaluation job. Columns display details like the trace, input values, and output values for the evaluation job. For more information about leaderboards, see [Leaderboards in Weave](/weave/guides/core-types/leaderboards).
 
-- By default, all evaluation runs are displayed. Filter or search for a run using the run selector at the left.
-- By default, all evaluation runs are ungrouped. To group runs by a column, click the **Group** icon. You can show or hide a group, or expand a group to view its runs.
+- By default, all evaluation jobs are displayed. Filter or search for an evaluation job using the run selector at the left.
+- By default, evaluation jobs are ungrouped. To group by one or more columns, click the **Group** icon. You can show or hide a group, or expand a group to view its runs.
 - By default, all operations are displayed. To display only a single operation, click **All ops** and select an operation.
 - To sort by a column, click the column heading. To customize the display of columns, click **Columns**.
   - By default, headers are organized in a single level. You can increase the header depth to organize related headers together.
@@ -22,7 +22,7 @@ The leaderboard gathers all evaluations sent to a given project, with one row pe
 
 ## Export a leaderboard
 To export a leaderboard:
-1. Click the download icon, located neaer the **Columns** button.
+1. Click the download icon, located near the **Columns** button.
 1. To optimize the export size, only the trace roots are exported by default. To export full traces, turn off **Trace roots only**.
 1. To optimize the export size, feedback and costs are not exported by default. To include them in the export, toggle **Feedback** or **Costs**.
 1. By default, the export is in JSONL format. To customize the format, click **Export to file** and select a format.

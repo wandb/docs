@@ -18,18 +18,18 @@ import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 ## How it works
 Evaluate a model checkpoint or a publicly accessible hosted OpenAI-compatible model in just a few steps:
 
-1. Set up an evaluation job programmatically or in the W&B App, defining the benchmarks to run and whether to generate a leaderboard.
+1. Set up an evaluation job in the W&B App. Define its benchmarks and configuration, such as whether to generate a leaderboard.
 1. Launch the evaluation job.
 1. View and analyze the results and leaderboard.
 
 Each time you launch an evaluation job with the same destination project, the leaderboard is updated automatically.
 
 <Frame>
-![Example leaderboard](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+![Example evalution job leaderboard](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
 </Frame>
 
 ## Next steps
-- Learn more about the [available evaluation benchmarks](/models/launch/evaluations)
+- Browse the [Evaluation benchmark catalog](/models/launch/evaluations)
 - [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint)
 - [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model)
 
@@ -45,9 +45,9 @@ An individual evaluation job has these limits:
 
 ### Requirements
 - To evaluate a model checkpoint, the model weights must be packaged as a VLLM-compatible artifact.
-- To evaluate an OpenAI-compatible model, it must be accessible at a public URL, and the API key to authenticate to it must be available as a team secret. An organization admin or team admin can create a team secret.
-- Certain benchmarks use OpenAI for scoring. To run these benchmarks the OpenAI API key must be available to as a team secret.
-- Certain benchmarks require access to gated datasets in Hugging Face. To run these benchmarks, a Hugging Face user access token with access to the relevant data must be available as a team secret and must request access to the relevant dataset.
+- To evaluate an OpenAI-compatible model, it must be accessible at a public URL, and the API key for authentication must be available as a team secret. An organization admin or team admin can create a team secret.
+- Certain benchmarks use OpenAI for scoring. To run these benchmarks, an OpenAI API key must be available to as a team secret.
+- Certain benchmarks require access to gated datasets in Hugging Face. To run these benchmarks, a Hugging Face user access token with access to the relevant data must be available as a team secret.
 
 For more details about meeting these requirements, see:
 - [Evaluate a model checkpoint](/models/launch/evaluate-hosted-model)
