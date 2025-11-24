@@ -19,7 +19,7 @@ jobs:
       contains(github.event.deployment_status.environment_url, 'mintlify')
     steps:
       # check URLs with Lychee
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Link Checker
         id: lychee
