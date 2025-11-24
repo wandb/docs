@@ -11,8 +11,10 @@ This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a se
 
 ## Prerequisites
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
-1. A team admin must add an OpenAI API key as a [team-scoped secret](/platform/secrets#add-a-secret). This is required by many benchmarks for scoring. Any team member can specify the secret when configuring an evaluation job.
-1. To authenticate to the hosted API model endpoint, a team admin must add the API key as a [team-scoped secret](/platform/secrets#add-a-secret).
+1. To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
+    - **OpenAPI API key**: Used by many benchmarks for scoring. Required if the field **Scorer API key** appears after you select a benchmark.
+    - **Hugging Face Dataset token**: Used by benchmarks like `lingoly` and `lingoly2` to access Hugging Face data. Required if the field **Hugging Face Token** appears after selecting a benchmark. See the Hugging Face documentation for [User access tokens](https://huggingface.co/docs/hub/en/security-tokens).
+1. Create a new [W&B project](/models/track/project-page) for the evaluation results. From the left navigation, click **Create new project**.
 1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
 
 ## Evaluate your model
@@ -22,23 +24,22 @@ Follow these steps to set up and launch an evaluation:
 1. Click **Evaluate hosted API model** to set up the evaluation.
 1. Select a destination project where the evaluation run and results will be saved.
 1. In the **Model** section, specify the base URL and model name to evaluate, and select the API key to use for authentication.
+      - To evaluate a model provided by [W&B Inference](/inference), set the base URL to `https://api.inference.wandb.ai/v1` and specify the model name in the format `openai-api/wandb/<model_id>`. Refer to the [Inference model catalog](/inference/models) for details.</Tip>
+      - To evaluate a publicly hosted model, prefix the model name with the model provider. For example, specify an OpenAI model using the format `openai/<model-name>`. For a comprehensive list of hosted model providers and models, see [AI Security Institute's model provider reference](https://inspect.aisi.org.uk/providers.html).
+      - To use the OpenRouter provider, prefix the model name with `openrouter` in the format `openrouter/<model-name>`.
+      - To evaluate a custom OpenAPI-compliant model, specify the model name in the format `openai-api/<model-name>`.
 1. Click **Select evaluations**, then select up to six benchmarks to run.
 1. If you select one or more benchmarks that require an OpenAI API key for scoring, the **Scorer API key** field displays. Click it, then select the OpenAI API key's secret by name. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.
-1. Optionally, limit the maximum number of samples to evaluate by setting **Sample limit** to an integer greater than 0. Otherwise, all samples in the task are included.
-1. To create a leaderboard automatically, click **Publish results to leaderboard**. It will display as a panel in the workspace and you can also add it to a report.
-1. Click **Launch** to add the evaluation run to the job queue.
+1. Optionally, set **Sample limit** to a positive integer to limit the maximum number of benchmark samples to evaluate. Otherwise, all samples in the task are included.
+1. To create a leaderboard automatically, click **Publish results to leaderboard**. The leaderboard will display all evaluations together in a workspace panel, and you can also share it in a report.
+1. Click **Launch** to run the evaluation.
+1. Track the status recent evaluations by clicking the circular arrows at the top of the page. Click the name of a **Running** run to view results as they come in, or a **Finished** run to view the full results.
 
-This example runs two benchmarks against OpenAI model `openai/gpt-4o`.
+This example job runs the `simpleqa` benchmark against the OpenAI model `o4-mini`:
+![Example hosted model evaluation job](/images/models/llm-evaluation-jobs/hosted-model-job-example.png)
 
-![Example hosted API model evaluation job](/images/models/llm-evaluation-jobs/evaluate-hosted-model-example.png)
-
-The run's logs and artifacts are saved in the destination project you selected. To view the status of recent evaluations, open the queue by clicking the circular arrows at the top of the page. For running or finished jobs, click a run name to [review the results](#review-the-results).
-
-To open the run in the destination workspace automatically when it finishes, select **Open automatically after launch** and leave the run queue open.
-
-<Tip>
-After you run an evaluation once, the model artifact details and the selected benchmarks you select are automatically set to the last values you used.
-</Tip>
+This example leaderboard visualizes the performance of several OpenAI models together:
+![Example leaderboard visualizing the performance of several hosted models](/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png)
 
 <ReviewEvaluationResults />
 

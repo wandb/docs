@@ -1,16 +1,30 @@
 ## Review evaluation results
 Review your evaluation results in the destination project's workspace.
 
-1. Click the circular arrows at the top of the page to open the recent runs queue.
-1. Click the name of a run to open its single-run view.
-1. If you published a leaderboard, click the **Charts** tab to view and interact with it. The leaderboard appears in the **Evaluation** section of both the single-run view and the workspace.
-
-    If you published a leaderboard for a run, a quick link to the leaderboard displays in the queue after the run finishes.
-
-    The leaderboard includes one row per benchmark per run. Each time you run an evaluation with the same destination project, the leaderboard is updated automatically. You can customize and pin columns, filter by operation or column, specify how many steps to show, and more. Leaderboards support full screen view, and you can add a leaderboard to a report.
-
+1. Click the circular arrows at the top of the page to open the recent evaluation jobs queue. From here, you can click **Leaderboard** to open the leaderboard in full screen, or click a run name to open it in the project in single-run view.
+1. View a leaderboard together with other panels in the workspace. By default, it appears in the **Evaluations** section. See [Custmize a leaderboard](#customize-a-leaderboard).
     <Tip>To give feedback about a benchmark from the leaderboard, click the emoji icon or the chat icon in the **Feedback** column.</Tip>
-1. To export the leaderboard, click the download icon. You can customize the export format and other details, then copy the Python code or `curl` command to run to export the leaderboard.
 1. Click the **Overview** tab to view detailed information about the run, including its configuration and summary metrics.
 1. Click the **Logs** tab to view, search, or download the run's debug logs.
 1. Click the **Files** tab to browse, view, or download the run's files, including code, log, configuration, and other output files.
+1. Click the name of a run to open its single-run view.
+
+## Customize a leaderboard
+The leaderboard gathers all evaluations sent to a given project, with one row per benchmark per evaluation job run. Columns display details like the trace, input values, and output values.
+
+- By default, all evaluation runs are displayed. Filter or search for a run using the run selector at the left.
+- By default, all evaluation runs are ungrouped. To group runs by a column, click the **Group** icon. You can show or hide a group, or expand a group to view its runs.
+- By default, all operations are displayed. To display only a single operation, click **All ops** and select an operation.
+- To sort by a column, click the column heading. To customize the display of columns, click **Columns**.
+  - By default, headers are organized in a single level. You can increase the header depth to organize related headers together.
+  - Select or deselect individual columns to show or hide them, or show or hide all columns with a click.
+  - Pin columns to display them before unpinned columns.
+
+## Export a leaderboard
+To export a leaderboard:
+1. Click the download icon, located neaer the **Columns** button.
+1. To optimize the export size, only the trace roots are exported by default. To export full traces, turn off **Trace roots only**.
+1. To optimize the export size, feedback and costs are not exported by default. To include them in the export, toggle **Feedback** or **Costs**.
+1. By default, the export is in JSONL format. To customize the format, click **Export to file** and select a format.
+1. To export the leaderboard in your browser, click **Export**.
+1. To export the leaderboard programmatically, select **Python** or **cURL**, then click **Copy** and run the script or command.

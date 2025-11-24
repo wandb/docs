@@ -10,9 +10,12 @@ This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a se
 
 ## Prerequisites
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
-1. A team admin must add an OpenAI API key as a [team-scoped secret](/platform/secrets#add-a-secret). This is required by many benchmarks for scoring. Any team member can specify the secret when configuring an evaluation job.
-1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
+1. To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
+    - **OpenAPI API key**: Used by many benchmarks for scoring. Required if the field **Scorer API key** appears after you select a benchmark.
+    - **Hugging Face Dataset token**: Used by benchmarks like `lingoly` and `lingoly2` to access Hugging Face data. Required if the field **Hugging Face Token** appears after selecting a benchmark. See the Hugging Face documentation for [User access tokens](https://huggingface.co/docs/hub/en/security-tokens).
+1. Create a new [W&B project](/models/track/project-page) for the evaluation results. From the left navigation, click **Create new project**.
 1. Package the model in VLLM-compatible format and save it as an artifact in W&B. An attempt to benchmark any other type of artifact will fail. See [Example: Prepare a model](#example-prepare-your-model) for one approach.
+1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
 
 ## Evaluate your model
 Follow these steps to set up and launch an evaluation:
@@ -23,21 +26,20 @@ Follow these steps to set up and launch an evaluation:
 1. In the **Model artifact** section, specify the project, artifact, and version of the prepared model to evaluate.
 1. Click **Evaluations**, then select up to six benchmarks to run.
 1. If you select one or more benchmarks that require an OpenAI API key, the **Scorer API key** field displays. Click it, then select the OpenAI API key's secret by name. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.
-1. Optionally, limit the maximum number of samples to evaluate by setting **Sample limit** to an integer greater than 0. Otherwise, all samples in the task are included.
-1. To create a leaderboard automatically, click **Publish results to leaderboard**. It will display as a panel in the workspace and you can also add it to a report.
-1. Click **Launch** to add the evaluation run to the job queue.
-
-This example runs two benchmarks against an artifact.
-
-![Example model checkpoint evaluation job](/images/models/llm-evaluation-jobs/evaluate-model-checkpoint-example.png)
-
-The run's logs and artifacts are saved in the destination project you selected. To view the status of recent evaluations, open the queue by clicking the circular arrows at the top of the page. For running or finished jobs, click a run name to [review the results](#review-the-results).
-
-To open the run in the destination workspace automatically when it finishes, select **Open automatically after launch** and leave the run queue open.
+1. Optionally, set **Sample limit** to a positive integer to limit the maximum number of benchmark samples to evaluate. Otherwise, all samples in the task are included.
+1. To create a leaderboard automatically, click **Publish results to leaderboard**. The leaderboard will display all evaluations together in a workspace panel, and you can also share it in a report.
+1. Click **Launch** to add the evaluation to the job queue.
+1. To track the status of the evaluation job, click the the circular arrows at the top of the page. Click the name of a finished run to open it in the project, where you can view the results, leaderboard, configuration, and logs. For details, see [View the results](#view-the-results).
 
 <Tip>
-After you evaluate your first model, the model artifact details and the selected benchmarks you select are automatically set to the last values you used.
+After you evaluate your first model, many fields are pre-filled with the most recent values when you configure your next evaluation job.
 </Tip>
+
+This example job runs two benchmarks against an artifact:
+![Example model checkpoint evaluation job](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)
+
+This example leaderboard visualizes the performance of several models together:
+![Example leaderboard visualizing the performance of several models against several benchmark tasks](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
 
 <ReviewEvaluationResults />
 
@@ -46,6 +48,7 @@ After you evaluate your first model, the model artifact details and the selected
 <ExportEvaluation />
 
 ## Example: Prepare a model
+
 To prepare your model, you load it in W&B, package the model weights in VLLM-compatible format, and save the result. This example shows one way to do this:
 
 ```python
