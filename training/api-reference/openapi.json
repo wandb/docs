@@ -290,6 +290,54 @@
         }
       }
     },
+    "/v1/preview/models/{model_id}": {
+      "delete": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Delete Model",
+        "description": "Delete a model, all its checkpoints, artifacts, and the associated W&B run.",
+        "operationId": "delete_model_v1_preview_models__model_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteModelResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/preview/models/{model_id}/log": {
       "post": {
         "tags": [
@@ -2675,6 +2723,31 @@
         ],
         "title": "DeleteCheckpointsResponse",
         "description": "Schema for delete checkpoints response."
+      },
+      "DeleteModelResponse": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "deleted_checkpoints": {
+            "type": "integer",
+            "title": "Deleted Checkpoints"
+          },
+          "deleted_run": {
+            "type": "boolean",
+            "title": "Deleted Run"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "deleted_checkpoints",
+          "deleted_run"
+        ],
+        "title": "DeleteModelResponse",
+        "description": "Schema for delete model response."
       },
       "ExperimentalTrainingConfig": {
         "properties": {
