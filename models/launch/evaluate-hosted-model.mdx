@@ -26,7 +26,7 @@ Follow these steps to set up and launch an evaluation job:
 1. Click **Evaluate hosted API model** to set up the evaluation.
 1. Select a destination project where the evaluation run and results will be saved.
 1. In the **Model** section, specify the base URL and model name to evaluate, and select the API key to use for authentication.
-      - To evaluate a model provided by [W&B Inference](/inference), set the base URL to `https://api.inference.wandb.ai/v1` and specify the model name in the format `openai-api/wandb/<model_id>`. Refer to the [Inference model catalog](/inference/models) for details.</Tip>
+      - To evaluate a model provided by [W&B Inference](/inference), set the base URL to `https://api.inference.wandb.ai/v1` and specify the model name in the format `openai-api/wandb/<model_id>`. Refer to the [Inference model catalog](/inference/models) for details.
       - To evaluate a publicly hosted model, prefix the model name with the model provider. For example, specify an OpenAI model using the format `openai/<model-name>`. For a comprehensive list of hosted model providers and models, see [AI Security Institute's model provider reference](https://inspect.aisi.org.uk/providers.html).
       - To use the OpenRouter provider, prefix the model name with `openrouter` in the format `openrouter/<model-name>`.
       - To evaluate a custom OpenAPI-compliant model, specify the model name in the format `openai-api/<model-name>`.
