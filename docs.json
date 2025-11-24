@@ -304,25 +304,7 @@
                       "models/registry/organize-with-tags",
                       "models/registry/registry_cards",
                       "models/registry/lineage",
-                      "models/registry/delete_registry",
-                      "models/registry/model_registry_eol",
-                      {
-                        "group": "Model registry",
-                        "pages": [
-                          "models/registry/model_registry",
-                          "models/registry/model_registry/walkthrough",
-                          "models/registry/model_registry/model-management-concepts",
-                          "models/registry/model_registry/log-model-to-experiment",
-                          "models/registry/model_registry/create-registered-model",
-                          "models/registry/model_registry/link-model-version",
-                          "models/registry/model_registry/organize-models",
-                          "models/registry/model_registry/model-lineage",
-                          "models/registry/model_registry/create-model-cards",
-                          "models/registry/model_registry/consume-models",
-                          "models/registry/model_registry/notifications",
-                          "models/registry/model_registry/access_controls"
-                        ]
-                      }
+                      "models/registry/delete_registry"
                     ]
                   },
                   {
@@ -402,6 +384,7 @@
               {
                 "group": "Integrations",
                 "pages": [
+                  "models/integrations",
                   "models/integrations/add-wandb-to-any-library",
                   {
                     "group": "ML Frameworks and Libraries",
@@ -641,9 +624,11 @@
                       {
                         "group": "wandb artifact",
                         "pages": [
+                          "models/ref/cli/wandb-artifact",
                           {
-                            "group": "wandb artifact cache",
+                            "group": "artifact cache",
                             "pages": [
+                              "models/ref/cli/wandb-artifact/wandb-artifact-cache",
                               "models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
                             ]
                           },
@@ -655,6 +640,8 @@
                       {
                         "group": "wandb beta",
                         "pages": [
+                          "models/ref/cli/wandb-beta",
+                          "models/ref/cli/wandb-beta/wandb-beta-leet",
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -667,23 +654,25 @@
                       {
                         "group": "wandb job",
                         "pages": [
+                          "models/ref/cli/wandb-job",
                           "models/ref/cli/wandb-job/wandb-job-create",
                           "models/ref/cli/wandb-job/wandb-job-describe",
                           "models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "models/ref/cli/wandb-launch",
-                      "models/ref/cli/wandb-launch-agent",
-                      "models/ref/cli/wandb-launch-sweep",
+                      "models/ref/cli/wandb-local",
                       "models/ref/cli/wandb-login",
+                      "models/ref/cli/wandb-off",
                       "models/ref/cli/wandb-offline",
+                      "models/ref/cli/wandb-on",
                       "models/ref/cli/wandb-online",
+                      "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
                       "models/ref/cli/wandb-restore",
-                      "models/ref/cli/wandb-scheduler",
                       {
                         "group": "wandb server",
                         "pages": [
+                          "models/ref/cli/wandb-server",
                           "models/ref/cli/wandb-server/wandb-server-start",
                           "models/ref/cli/wandb-server/wandb-server-stop"
                         ]
@@ -1056,6 +1045,7 @@
               "inference",
               "inference/prerequisites",
               "inference/models",
+              "inference/lora",
               {
                 "group": "Response Settings",
                 "pages": [
@@ -2275,6 +2265,18 @@
       "destination": "/models/app/:slug*"
     },
     {
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/guides/app/console-logs",
+      "destination": "/models/app/console-logs"
+    },
+    {
+      "source": "/guides/app/keyboard-shortcuts",
+      "destination": "/models/app/keyboard-shortcuts"
+    },
+    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2317,10 +2319,14 @@
     {
       "source": "/guides/integrations/pytorch",
       "destination": "/models/integrations"
-    },    
+    },
     {
       "source": "/guides/launch/:slug*",
       "destination": "/platform/launch/:slug*"
+    },
+    {
+      "source": "/models/registry/model_registry/:slug*",
+      "destination": "/models/registry"
     },
     {
       "source": "/guides/registry/:slug*",
@@ -2355,8 +2361,8 @@
       "destination": "/training/:slug*"
     },
     {
-      "source": "/guides/models/evaluate-models",
-      "destination": "/models/evaluate-models"
+      "source": "/guides/models/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/launch-library/:slug*",
@@ -2487,8 +2493,8 @@
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/guides/core",
-      "destination": "/models"
+      "source": "/guides/core/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/models/core",
@@ -2497,6 +2503,42 @@
     {
       "source": "/inference/response-settings",
       "destination": "/inference"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/intro_notebook",
+      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/:slug*",
+      "destination": "/weave/cookbooks/:slug*"
+    },
+    {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/models/app/pages/workspaces",
+      "destination": "/models/app/features/cascade-settings"
+    },
+    {
+      "source": "/models/ref/python/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/guides/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/models/integrations/openai",
+      "destination": "/models/integrations/openai-api"
+    },
+    {
+      "source": "/platform/hosting/how-to-guides/*",
+      "destination": "/platform/hosting"
     },
     {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",

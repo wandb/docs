@@ -27,7 +27,7 @@ __init__(
  
  - `event_type` (Literal[LINK_ARTIFACT]): 
  - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): The scope of the event.
- - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, Dict[str, Any], FilterExpr]): Additional condition(s), if any, that must be met for this event to trigger an automation.
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, Dict[str, Any], FilterExpr]): Additional conditions(s), if any, that are required for this event to trigger.
 
 **Returns:**
  An `OnLinkArtifact` object.

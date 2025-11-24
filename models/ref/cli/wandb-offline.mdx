@@ -1,20 +1,25 @@
 ---
 title: "wandb offline"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-offline.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbOffline from "/snippets/en/_includes/cli/wandb-offline.mdx";
 
-`wandb offline [OPTIONS]`
+<WandbOffline/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-Disable W&B sync
+Save data logged to W&B locally without uploading it to the cloud.
 
+Use `wandb online` or `wandb sync` to upload offline runs.
 
-**Options**
+## Usage
 
-| **Option** | **Description** |
-| :--- | :--- |
-
-
-
+```bash
+wandb offline
+```
