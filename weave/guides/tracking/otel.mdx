@@ -47,7 +47,7 @@ pip install openai openinference-instrumentation-openai opentelemetry-exporter-o
 ```
 
 <Warning>
-**Performance Recommendation**: Always use `BatchSpanProcessor` instead of `SimpleSpanProcessor` when sending traces to Weave. `SimpleSpanProcessor` exports spans synchronously and can cause performance issues. `BatchSpanProcessor` batches spans asynchronously, which is more efficient and recommended for production use.
+**Performance Recommendation**: Always use `BatchSpanProcessor` instead of `SimpleSpanProcessor` when sending traces to Weave. `SimpleSpanProcessor` exports spans synchronously, potentially impacting the performance of other workloads. These examples illustrate `BatchSpanProcessor`, which is recommended in production because it batches spans asynchronously and efficiently.
 </Warning>
 
 Next, paste the following code into a python file such as `openinference_example.py`
@@ -277,20 +277,20 @@ python opentelemetry_example.py
 
 The span attribute prefixes `gen_ai` and `openinference` are used to determine which convention to use, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
 
-## Organizing OTEL traces into threads
+## Organize OTEL traces into threads
 
-You can organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads) by adding specific span attributes. This allows you to group related operations (like multi-turn conversations or user sessions) and visualize them in Weave's thread UI.
+Add specific span attributes to organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads), then use Weave's Thread UI to analyze related operations like multi-turn conversations or user sessions in Weave's thread UI.
 
 Add the following attributes to your OTEL spans to enable thread grouping:
 
 - `wandb.thread_id`: Groups spans into a specific thread
 - `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
 
-The following code shows four examples of how to organize OTEL traces into Weave threads using `wandb.thread_id` (to group related operations) and `wandb.is_turn` (to mark high-level operations that appear as rows in the thread view). The examples perform the following:
+The following code shows several examples of organizing OTEL traces into Weave threads. They use `wandb.thread_id` to group related operations,  and  use `wandb.is_turn` to view high level operations as rows in the thread view. Each example performs the followingmark high-level operations that appear as rows in the thread view). 
 
 * **Example 1**: Traces a basic single-turn thread
 * **Example 2**: Traces a multi-turn conversation sharing one thread ID
-* **Example 3**: Traces deeply nested operations where only the outermost span is marked as a turn
+* **Example 3**: Traces deeply nested operations and marks only the outermost span as a turn.
 * **Example 4**: Traces background operations that belong to a thread but aren't turns
 
 <Accordion title="Click to open the code example">
