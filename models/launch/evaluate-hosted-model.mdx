@@ -15,7 +15,7 @@ This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a se
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
 1. To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
     - **OpenAPI API key**: Used by many benchmarks for scoring. Required if the field **Scorer API key** appears after you select a benchmark.
-    - **Hugging Face user access token**: Used by benchmarks like `lingoly` and `lingoly2` to access Hugging Face data. Required if the field **Hugging Face Token** appears after selecting a benchmark. See the [Hugging Face documentation](https://huggingface.co/docs/hub/en/security-tokens).
+    - **Hugging Face user access token**: Used by benchmarks like `lingoly` and `lingoly2` to access gated Hugging Face data. Required if the field **Hugging Face Token** appears after selecting a benchmark. The API key must have access to the gated dataset in Hugging Face. See the Hugging Face documentation for [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) and [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user).
 1. Create a new [W&B project](/models/track/project-page) for the evaluation results. From the left navigation, click **Create new project**.
 1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
 

@@ -46,8 +46,9 @@ An individual evaluation job has these limits:
 ### Requirements
 - To evaluate a model checkpoint, the model weights must be packaged as a VLLM-compatible artifact.
 - To evaluate an OpenAI-compatible model, it must be accessible at a public URL, and the API key to authenticate to it must be available as a team secret. An organization admin or team admin can create a team secret.
-- Certain benchmarks use OpenAI for scoring or access datasets in Hugging Face. To run these benchmarks, the relevant API keys must be available as team secrets.
+- Certain benchmarks use OpenAI for scoring. To run these benchmarks the OpenAI API key must be available to as a team secret.
+- Certain benchmarks require access to gated datasets in Hugging Face. To run these benchmarks, a Hugging Face user access token with access to the relevant data must be available as a team secret and must request access to the relevant dataset.
 
-For more details about a given requirement, see:
+For more details about meeting these requirements, see:
 - [Evaluate a model checkpoint](/models/launch/evaluate-hosted-model)
 - [Evaluate a hosted API model](/models/launch/evaluate-model-checkpoint)
