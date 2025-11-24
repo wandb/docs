@@ -288,12 +288,10 @@ Add the following attributes to your OTEL spans to enable thread grouping:
 
 The following code shows several examples of organizing OTEL traces into Weave threads. They use `wandb.thread_id` to group related operations,  and  use `wandb.is_turn` to view high level operations as rows in the thread view. Each example performs the followingmark high-level operations that appear as rows in the thread view). 
 
-* **Example 1**: Traces a basic single-turn thread
-* **Example 2**: Traces a multi-turn conversation sharing one thread ID
-* **Example 3**: Traces deeply nested operations and marks only the outermost span as a turn.
-* **Example 4**: Traces background operations that belong to a thread but aren't turns
 
-<Accordion title="Click to open the code example">
+<Accordion title="Initial set up">
+
+Use this configuration to run these examples:
 
 ```python lines
 import base64
@@ -338,8 +336,11 @@ trace.set_tracer_provider(tracer_provider)
 
 # Create a tracer from the global tracer provider
 tracer = trace.get_tracer(__name__)
+```
+</Accordion>
 
-# Example 1: Traces a basic single-turn thread
+<Accordion title="Trace a basic single-turn thread">
+```python lines
 def example_1_basic_thread_and_turn():
     """Example 1: Basic thread with a single turn"""
     print("\n=== Example 1: Basic Thread and Turn ===")
@@ -368,7 +369,15 @@ def example_1_basic_thread_and_turn():
         turn_span.set_attribute("output.value", response)
         print(f"Turn completed in thread: {thread_id}")
 
-# Example 2: Traces a multi-turn conversation sharing one thread ID
+def main():
+    example_1_basic_thread_and_turn<A()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+<Accordion title="Trace a multi-turn conversation sharing one thread ID">
+```python lines
 def example_2_multiple_turns():
     """Example 2: Multiple turns in a single thread"""
     print("\n=== Example 2: Multiple Turns in Thread ===")
@@ -405,7 +414,15 @@ def example_2_multiple_turns():
         turn2_span.set_attribute("output.value", response2)
         print(f"Turn 2 completed in thread: {thread_id}")
 
-# Example 3: Traces deeply nested operations where only the outermost span is marked as a turn
+def main():
+    example_2_multiple_turns()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+<Accordion title="Trace deeply nested operations and mark only the outermost span as a turn">
+```python lines
 def example_3_complex_nested_structure():
     """Example 3: Complex nested structure with multiple levels"""
     print("\n=== Example 3: Complex Nested Structure ===")
@@ -442,7 +459,16 @@ def example_3_complex_nested_structure():
         turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
         print(f"Complex turn completed in thread: {thread_id}")
 
-# Example 4: Traces background operations that belong to a thread but aren't turns
+def main():
+    example_3_complex_nested_structure()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+<Accordion title="Trace background operations that belong to a thread but aren't turns">
+
+```python lines
 def example_4_non_turn_operations():
     """Example 4: Operations that are part of a thread but not turns"""
     print("\n=== Example 4: Non-Turn Thread Operations ===")
@@ -465,28 +491,8 @@ def example_4_non_turn_operations():
         turn_span.set_attribute("output.value", "Found 5 relevant conversations")
         print(f"Turn completed in thread: {thread_id}")
 
-
 def main():
-    """Run all examples"""
-    print("Starting OpenTelemetry Threads Examples")
-    print("======================================")
-
-    # Run examples
-    example_1_basic_thread_and_turn()
-    example_2_multiple_turns()
-    example_3_complex_nested_structure()
     example_4_non_turn_operations()
-
-    print("\n======================================")
-    print("All examples completed!")
-    print("\nKey points demonstrated:")
-    print("1. wandb.thread_id groups related spans into threads")
-    print("2. wandb.is_turn=true marks top-level operations as turns")
-    print("3. Nested spans within turns should have is_turn unset or false")
-    print("4. Multiple turns can share the same thread_id")
-    print("5. Non-turn operations can be part of a thread")
-
-
 if __name__ == "__main__":
     main()
 ```
@@ -564,3 +570,8 @@ Weave supports attribute conventions from the following observability frameworks
 | `wandb.is_turn`                   | `is_turn`                     | Marks span as conversation turn.            | Boolean                     | `true`                                         |
 | `langfuse.startTime`              | `start_time` (override)       | Override span start timestamp.              | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
 | `langfuse.endTime`                | `end_time` (override)         | Override span end timestamp.                | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
+
+
+## Limitations
+
+* The Weave UI does not support rendering OTEL trace tool calls the Chat view. They appear as raw JSON, instead.
