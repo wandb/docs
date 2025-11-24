@@ -1,22 +1,36 @@
 ---
 title: "wandb pull"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
 
-`wandb pull [OPTIONS] RUN`
+<WandbPull/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Pull files from Weights & Biases
 
+## Usage
 
-**Options**
+```bash
+wandb pull RUN [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `RUN` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-p, --project` | The project you want to download. |
-| `-e, --entity` | The entity to scope the listing to. |
-
-
-
+| `--project`, `-p` | The project you want to download. |
+| `--entity`, `-e` | The entity to scope the listing to. (default: models) |
