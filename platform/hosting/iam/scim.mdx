@@ -38,7 +38,7 @@ Choose to authenticate using a user identity or a service account, after reviewi
 - Authorization header payload: Users encode `username:API-KEY`; service accounts encode `:API-KEY` (leading colon).
 - Scope and permissions: Both require admin privileges; service accounts are organization-scoped and headless, providing clearer audit trails for automation.
 - Where to get credentials: Users copy their API key from User Settings; service account keys are in the organization’s Service account tab.
-- SaaS Cloud org targeting: For multi-org admins, set the Default API organization to ensure requests affect the intended org.
+- Multi-tenant Cloud: If you have access to more than one Multi-tenant Cloud organizations, you must set the Default API organization to ensure that SCIM API calls are routed to the intended organization.
 
 ### Users
 Use your personal admin credentials when performing interactive admin tasks. Construct the HTTP `Authorization` header as `Basic <base64(username:API-KEY)>`.
@@ -503,7 +503,10 @@ PATCH /scim/Users/abc
 
 ### Deactivate user
 
-Deactivates a user in your organization.
+Deactivates a user in your organization. The actual result differs by deployment type:
+
+- **Dedicated Cloud** / **Self-Managed**: Sets the user's `active` field to `false`. To restore a deactivated user's access your organization, see [Reactivate user](#reactivate-user).
+- **Multi-tenant Cloud**: Removes the user from the organization. To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization.
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -516,14 +519,11 @@ Deactivates a user in your organization.
 | `op` | string | Yes | `replace` |
 | `value` | object | Yes | Object with `{"active": false}` |
 
-<Note>
-User deactivation and reactivation operations are not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud).
-</Note>
 
 #### Example
 
 <Tabs>
-<Tab title="Deactivate User Request">
+<Tab title="Deactivate User Request (Dedicated/Self-Managed)">
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -540,14 +540,36 @@ PATCH /scim/Users/abc
 }
 ```
 </Tab>
-<Tab title="Deactivate User Response">
+<Tab title="Deactivate User Request (Multi-tenant)">
+```bash
+PATCH /scim/Users
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "value": {"active": false}
+        }
+    ]
+}
+```
+</Tab>
+</Tabs>
+
+#### Response
+
+<Tabs>
+<Tab title="Deactivate User Response (Dedicated/Self-Managed)">
 ```bash
 (Status 200)
 ```
 
 ```json
 {
-    "active": true,
+    "active": false,
     "displayName": "Dev User 1",
     "emails": {
         "Value": "dev-user1@example.com",
@@ -569,11 +591,40 @@ PATCH /scim/Users/abc
 }
 ```
 </Tab>
+<Tab title="Deactivate User Response (Multi-tenant)">
+```bash
+(Status 200)
+```
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "value": {"active": true}
+        }
+    ]
+}
+```
+</Tab>
 </Tabs>
 
 ### Reactivate User
 
 Reactivates a previously deactivated user in your organization.
+
+<Note>
+User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error:
+```json
+{
+    "schemas": [
+        "urn:ietf:params:scim:api:messages:2.0:Error"
+    ],
+    "detail": "User reactivation operations are not supported in SaaS Cloud",
+    "status": "400"
+}
+```
+</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -586,10 +637,6 @@ Reactivates a previously deactivated user in your organization.
 | `op` | string | Yes | `replace` |
 | `value` | object | Yes | Object with `{"active": true}` |
 
-<Note>
-User deactivation and reactivation operations are not supported in [SaaS Cloud](/platform/hosting/hosting-options/multi_tenant_cloud).
-</Note>
-
 #### Example
 
 <Tabs>
@@ -597,7 +644,6 @@ User deactivation and reactivation operations are not supported in [SaaS Cloud](
 ```bash
 PATCH /scim/Users/abc
 ```
-
 ```json
 {
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
@@ -1875,17 +1921,18 @@ The SCIM API returns standard SCIM error responses:
 
 W&B maintains two separate SCIM API implementations, and the features differ between them:
 
-| Feature | Dedicated Cloud | Self-Managed |
-|---------|-------------------|------------|
-| Update user email | - | &check; |
-| Update user display name | - | &check; |
-| User deactivation/reactivation | - | &check; |
-| Multiple emails per user | &check; | - |
+| Feature                   | Dedicated Cloud | Self-Managed |
+|---------------------------|-----------------|--------------|
+| Update user email         |        -        |    &check;   |
+| Update user display name  |        -        |    &check;   |
+| User deactivation         |    &check;      |    &check;   |
+| User reactivation         |        -        |    &check;   |
+| Multiple emails per user  |    &check;      |      -       |
 
 ## Limitations
 
-- **Maximum results**: 9999 items per request
-- **Single-tenant environments**: Only support one email per user
-- **Team deletion**: Not supported via SCIM (use the W&B web interface)
-- **User deactivation/reactivation**: Not supported in SaaS Cloud environments
-- **Seat limits**: Operations may fail if organization seat limits are reached
+- **Maximum results**: 9999 items per request.
+- **Single-tenant environments**: Only support one email per user.
+- **Team deletion**: Not supported via SCIM (use the W&B web interface).
+- **User reactivation**: Not supported in Multi-tenant Cloud environments.
+- **Seat limits**: Operations may fail if organization seat limits are reached.

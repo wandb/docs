@@ -1,22 +1,36 @@
 ---
 title: "wandb artifact get"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-get.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbArtifactGet from "/snippets/en/_includes/cli/wandb-artifact-get.mdx";
 
-`wandb artifact get [OPTIONS] PATH`
+<WandbArtifactGet/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Download an artifact from wandb
 
+## Usage
 
-**Options**
+```bash
+wandb get PATH [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `PATH` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
 | `--root` | The directory you want to download the artifact to |
 | `--type` | The type of artifact you are downloading |
-
-
-

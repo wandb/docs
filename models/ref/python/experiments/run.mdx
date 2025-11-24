@@ -1,8 +1,11 @@
 ---
-title: "Run"
+title: Run
+namespace: python_sdk_actions
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
 
 
 
@@ -10,20 +13,20 @@ title: "Run"
 ## <kbd>class</kbd> `Run`
 A unit of computation logged by W&B. Typically, this is an ML experiment. 
 
-Call [`wandb.init()`](https://docs.wandb.ai/models/ref/python/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). W&B recommends using a context (`with` statement) manager to automatically finish the run. 
+Call [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) to create a new run. `wandb.init()` starts a new run and returns a `wandb.Run` object. Each run is associated with a unique ID (run ID). W&B recommends using a context (`with` statement) manager to automatically finish the run. 
 
-For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/models/track/log/distributed-training) for more information. 
+For distributed training experiments, you can either track each process separately using one run per process or track all processes to a single run. See [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) for more information. 
 
-You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/models/track/launch) or [`wandb.init`](https://docs.wandb.ai/models/ref/python/init/) API reference page or more information. 
+You can log data to a run with `wandb.Run.log()`. Anything you log using `wandb.Run.log()` is sent to that run. See [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) or [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API reference page or more information. 
 
-There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/models/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
+There is a another `Run` object in the [`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) namespace. Use this object is to interact with runs that have already been created. 
 
 
 
 **Attributes:**
  
  - `summary`:  (Summary) A summary of the run, which is a dictionary-like  object. For more information, see 
- - `[Log summary metrics](https`: //docs.wandb.ai/models/track/log/log-summary/). 
+ - `[Log summary metrics](https`: //docs.wandb.ai/guides/track/log/log-summary/). 
 
 
 
@@ -122,7 +125,7 @@ Name of the job type associated with the run.
 
 View a run's job type in the run's Overview page in the W&B App. 
 
-You can use this to categorize runs by their job type, such as "training", "evaluation", or "inference". This is useful for organizing and filtering runs in the W&B UI, especially when you have multiple runs with different job types in the same project. For more information, see [Organize runs](https://docs.wandb.ai/models/runs/#organize-runs). 
+You can use this to categorize runs by their job type, such as "training", "evaluation", or "inference". This is useful for organizing and filtering runs in the W&B UI, especially when you have multiple runs with different job types in the same project. For more information, see [Organize runs](https://docs.wandb.ai/guides/runs/#organize-runs). 
 
 
 
@@ -423,17 +426,19 @@ link_artifact(
 ) → Artifact
 ```
 
-Link the given artifact to a portfolio (a promoted collection of artifacts). 
+Link the artifact to a collection. 
 
-Linked artifacts are visible in the UI for the specified portfolio. 
+The term “link” refers to pointers that connect where W&B stores the artifact and where the artifact is accessible in the registry. W&B does not duplicate artifacts when you link an artifact to a collection. 
+
+View linked artifacts in the Registry UI for the specified collection. 
 
 
 
 **Args:**
  
- - `artifact`:  the (public or local) artifact which will be linked 
- - `target_path`:  `str` - takes the following forms: `{portfolio}`, `{project}/{portfolio}`,  or `{entity}/{project}/{portfolio}` 
- - `aliases`:  `List[str]` - optional alias(es) that will only be applied on this linked artifact  inside the portfolio. The alias "latest" will always be applied to the latest version of an artifact that is linked. 
+ - `artifact`:  The artifact object to link to the collection. 
+ - `target_path`:  The path of the collection. Path consists of the prefix  "wandb-registry-" along with the registry name and the  collection name `wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`. 
+ - `aliases`:  Add one or more aliases to the linked artifact. The  "latest" alias is automatically applied to the most recent artifact  you link. 
 
 
 
@@ -501,7 +506,7 @@ log(
 
 Upload run data. 
 
-Use `log` to log data from runs, such as scalars, images, video, histograms, plots, and tables. See [Log objects and media](https://docs.wandb.ai/models/track/log) for code snippets, best practices, and more. 
+Use `log` to log data from runs, such as scalars, images, video, histograms, plots, and tables. See [Log objects and media](https://docs.wandb.ai/guides/track/log) for code snippets, best practices, and more. 
 
 Basic usage: 
 
@@ -514,9 +519,9 @@ with wandb.init() as run:
 
 The previous code snippet saves the loss and accuracy to the run's history and updates the summary values for these metrics. 
 
-Visualize logged data in a workspace at [wandb.ai](https://wandb.ai), or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting) of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with the [Public API](https://docs.wandb.ai/models/track/public-api-guide). 
+Visualize logged data in a workspace at [wandb.ai](https://wandb.ai), or locally on a [self-hosted instance](https://docs.wandb.ai/guides/hosting) of the W&B app, or export data to visualize and explore locally, such as in a Jupyter notebook, with the [Public API](https://docs.wandb.ai/guides/track/public-api-guide). 
 
-Logged values don't have to be scalars. You can log any [W&B supported Data Type](https://docs.wandb.ai/models/ref/python/data-types/) such as images, audio, video, and more. For example, you can use `wandb.Table` to log structured data. See [Log tables, visualize and query data](https://docs.wandb.ai/models/tables/tables-walkthrough) tutorial for more details. 
+Logged values don't have to be scalars. You can log any [W&B supported Data Type](https://docs.wandb.ai/ref/python/data-types/) such as images, audio, video, and more. For example, you can use `wandb.Table` to log structured data. See [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) tutorial for more details. 
 
 W&B organizes metrics with a forward slash (`/`) in their name into sections named using the text before the final slash. For example, the following results in two sections named "train" and "validate": 
 
@@ -537,7 +542,7 @@ Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a secti
 
 `run.log()` is not intended to be called more than a few times per second. For optimal performance, limit your logging to once every N iterations, or collect data over multiple iterations and log it in a single step. 
 
-By default, each call to `log` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/models/track/log/customize-logging-axes/) for more details. 
+By default, each call to `log` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) for more details. 
 
 In many cases, it is better to treat the W&B step like you'd treat a timestamp rather than a training step. 
 
@@ -566,7 +571,7 @@ with wandb.init() as run:
      run.log({"accuracy": 0.8}, step=current_step)
      current_step += 1
      run.log({"train-loss": 0.4}, step=current_step)
-     run.log({"accuracy": 0.9}, step=current_step)
+     run.log({"accuracy": 0.9}, step=current_step, commit=True)
 ``` 
 
 
@@ -581,7 +586,7 @@ with wandb.init() as run:
 
 
 **Examples:**
- For more and more detailed examples, see [our guides to logging](https://docs.wandb.com/models/track/log). 
+ For more and more detailed examples, see [our guides to logging](https://docs.wandb.com/guides/track/log). 
 
 Basic usage 
 
@@ -762,8 +767,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x104a016c0>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10572a680>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x1065727a0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x107249360>
 ) → Artifact | None
 ```
 
@@ -924,6 +929,8 @@ A `base_path` may be provided to control the directory structure of uploaded fil
 
 When given an absolute path or glob and no `base_path`, one directory level is preserved as in the example above. 
 
+Files are automatically deduplicated: calling `save()` multiple times on the same file without modifications will not re-upload it. 
+
 
 
 **Args:**
@@ -953,10 +960,10 @@ run.save("these/are/myfiles/*")
 run.save("these/are/myfiles/*", base_path="these")
 # => Saves files in an "are/myfiles/" folder in the run.
 
-run.save("/User/username/Documents/run123/*.txt")
+run.save("/Users/username/Documents/run123/*.txt")
 # => Saves files in a "run123/" folder in the run. See note below.
 
-run.save("/User/username/Documents/run123/*.txt", base_path="/User")
+run.save("/Users/username/Documents/run123/*.txt", base_path="/Users")
 # => Saves files in a "username/Documents/run123/" folder in the run.
 
 run.save("files/*/saveme.txt")
@@ -1056,7 +1063,7 @@ Call `download` or `file` on the returned object to get the contents locally.
 
 **Args:**
  
- - `artifact_or_name`:  The name of the artifact to use. May be prefixed  with the name of the project the artifact was logged to  ("`<entity>`" or "`<entity>/<project>`"). If no  entity is specified in the name, the Run or API setting's entity is used.  Valid names can be in the following forms 
+ - `artifact_or_name`:  The name of the artifact to use. May be prefixed  with the name of the project the artifact was logged to  ("entity" or "entity/project"). If no  entity is specified in the name, the Run or API setting's entity is used.  Valid names can be in the following forms 
     - name:version 
     - name:alias 
  - `type`:  The type of artifact to use. 

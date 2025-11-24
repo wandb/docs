@@ -1,13 +1,16 @@
 ---
-title: "MetricThresholdFilter"
+title: MetricThresholdFilter
+namespace: automations_namespace
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
 
 
 
 ## <kbd>class</kbd> `MetricThresholdFilter`
-Defines a filter that compares a run metric against a user-defined threshold value.
+Filter that compares a metric value against a user-defined threshold.
 
 
 ### <kbd>method</kbd> `MetricThresholdFilter.__init__`
@@ -27,7 +30,7 @@ __init__(
  - `name` (str): 
  - `agg` (Optional[Agg]): 
  - `window` (int): 
- - `cmp` (Literal['$gte', '$gt', '$lt', '$lte']): Comparison operator used to compare the metric value (left) vs. the threshold value (right).
+ - `cmp` (Literal['$gte', '$gt', '$lt', '$lte']): Comparison operator between the metric value (left) vs. the threshold (right).
  - `threshold` (Union[Annotated, Annotated]): 
 
 **Returns:**

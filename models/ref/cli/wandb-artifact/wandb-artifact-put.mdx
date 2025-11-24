@@ -1,28 +1,42 @@
 ---
 title: "wandb artifact put"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-put.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbArtifactPut from "/snippets/en/_includes/cli/wandb-artifact-put.mdx";
 
-`wandb artifact put [OPTIONS] PATH`
+<WandbArtifactPut/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Upload an artifact to wandb
 
+## Usage
 
-**Options**
+```bash
+wandb put PATH [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `PATH` | No description available | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-n, --name` | The name of the artifact to push:   project/artifact_name |
-| `-d, --description` | A description of this artifact |
-| `-t, --type` | The type of the artifact |
-| `-a, --alias` | An alias to apply to this artifact |
+| `--name`, `-n` | The name of the artifact to push: project/artifact_name |
+| `--description`, `-d` | A description of this artifact |
+| `--type`, `-t` | The type of the artifact (default: dataset) |
+| `--alias`, `-a` | An alias to apply to this artifact (default: ['latest']) |
 | `--id` | The run you want to upload to. |
-| `--resume` | Resume the last run from your current   directory. |
-| `--skip_cache` | Skip caching while uploading artifact files. |
-| `--policy [mutable|immutable]` | Set the storage policy while uploading   artifact files. |
-
-
-
+| `--resume` | Resume the last run from your current directory. |
+| `--skip_cache` | Skip caching while uploading artifact files. (default: False) |
+| `--policy` | Set the storage policy while uploading artifact files. (default: mutable) |

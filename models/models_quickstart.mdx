@@ -69,7 +69,7 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
         y_pred = model(xb)  # Model prediction
         loss = (yb - y_pred) ** 2  # Mean Squared Error loss
 
-        print(f"epoch={epoch}, loss={y_pred}")
+        print(f"epoch={epoch}, loss={loss}")
         # Log epoch and loss to W&B
         run.log({
             "epoch": epoch,
@@ -159,6 +159,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
 For more information on how to retrieve artifacts from a registry, see [Download an artifact from a registry](/models/registry/download_use_artifact/).
 
 Depending on your machine learning framework, you may need to recreate the model architecture before loading the weights. This is left as an exercise for the reader, as it depends on the specific framework and model you are using. 
+
 
 ## Share your finds with a report
 
