@@ -2,15 +2,11 @@
 description: Evaluate model checkpoints or hosted API models within W&B and analyze the results using automatically generated leaderboards.
 title: LLM Evaluation Jobs
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
-[W&B LLM Evaluation Jobs](/models/launch) provides access to a comprehensive suite of [standardized evaluation benchmarks](/models/launch/evaluations) to evaluate your model's performace from within W&B, without the complexity of deploying and maintaining advanced compute infrastructure yourself.
-After the evaluation completes, automatically generated leaderboards simplify analysis of the results.
+[W&B LLM Evaluation Jobs](/models/launch) is a framework for measuring and analyzing how an LLM model performs, using infrastructure managed by CoreWeave. Run a comprehensive suite of modern, industry-standard [model evaluation benchmarks](/models/launch/evaluations), then view and analyze and share your model's performance over time using automatic leaderboards and charts in W&B. LLM Evaluation Jobs removes the complexity of deploying and maintaining advanced compute infrastructure yourself.
 
-<Note>
-LLM Evaluation Jobs is in **Preview**. During the preview period, there is no charge to try it out.
-</Note>
+<PreviewLink />
 
 {/*
 <CardGroup cols={4}>
@@ -22,11 +18,13 @@ LLM Evaluation Jobs is in **Preview**. During the preview period, there is no ch
 ## How it works
 Evaluate a model checkpoint or a publicly accessible hosted OpenAI-compatible model in just a few steps:
 
-1. Set up the evaluation programmatically or in the W&B App, defining the benchmarks to run and whether to generate a leaderboard.
-1. Run the evaluation.
+1. Set up an evaluation job programmatically or in the W&B App, defining the benchmarks to run and whether to generate a leaderboard.
+1. Launch the evaluation job.
 1. View and analyze the results and leaderboard.
 
-Each time you run an evaluation with the same destination project, the leaderboard is updated automatically.
+Each time you launch an evaluation job with the same destination project, the leaderboard is updated automatically.
+
+![Example leaderboard](/images/models/llm-evaluation-jobs/example-leaderboard.png)
 
 ## Next steps
 - Learn more about the [available evaluation benchmarks](/models/launch/evaluations)
@@ -36,15 +34,18 @@ Each time you run an evaluation with the same destination project, the leaderboa
 ## More details
 
 ### Pricing
-LLM Evaluation Jobs is in **Preview**. During the preview period, there is no charge for LLM Evaluation Jobs.
+LLM Evaluation Jobs is in **Preview**. During the preview period, there is no charge.
 
-### Requirements
-- To evaluate an OpenAI-compatible API-hosted model:
-  - The model must be accessible at a public URL.
-  - The API key for the model must be available as a team secret. An organization admin or team admin can create a team secret.
-- To evaluate model checkpoint:
-  - The model weights must be packaged as a VLLM-compatible artifact.
-
-### Limitations
+### Job limits
+An individual evaluation job has these limits:
 - The maximum size for a model to evaluate is 86 GB, including context.
 - Each job is limited to two GPUs.
+
+### Requirements
+- To evaluate a model checkpoint, the model weights must be packaged as a VLLM-compatible artifact.
+- To evaluate an OpenAI-compatible model, it must be accessible at a public URL, and the API key to authenticate to it must be available as a team secret. An organization admin or team admin can create a team secret.
+- Certain benchmarks use OpenAI for scoring or access datasets in Hugging Face. To run these benchmarks, the relevant API keys must be available as team secrets.
+
+For more details about a given requirement, see:
+- [Evaluate a model checkpoint](/models/launch/evaluate-hosted-model)
+- [Evaluate a hosted API model](/models/launch/evaluate-model-checkpoint)

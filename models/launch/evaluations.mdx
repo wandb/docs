@@ -1,10 +1,13 @@
 ---
-title: "Available Evaluation Benchmarks"
+title: "Evaluation benchmark catalog"
 description: >
   Browse the evaluation benchmarks available through W&B LLM Evaluation Jobs
 ---
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
-[W&B LLM Evaluation Jobs](/models/launch) provides access to a comprehensive suite of standardized evaluation benchmarks to test different capabilities of language models, from reasoning and knowledge to safety and specialized benchmarks.
+<PreviewLink />
+
+This page lists the evaluation benchmarks [W&B LLM Evaluation Jobs](/models/launch) provides.
 
 ## Available benchmarks
 
@@ -20,14 +23,14 @@ Evaluate factual knowledge across various domains like science, language, and ge
 |------------|---------|-------------|
 | [BoolQ](https://github.com/google-research-datasets/boolean-questions) | `boolq` | Boolean yes/no questions from natural language queries |
 | [GPQA Diamond](https://arxiv.org/abs/2311.12022) | `gpqa_diamond` | Graduate-level science questions (highest quality subset) |
-| HLE | `hle` | Human-level evaluation benchmark |
-| Lingoly | `lingoly` | Linguistics olympiad problems |
-| Lingoly Too | `lingoly_too` | Extended linguistics challenge problems |
-| MMIU | `mmiu` | Massive Multitask Language Understanding benchmark |
+| [HLE](https://arxiv.org/abs/2501.14249) | `hle` | Human-level evaluation benchmark |
+| [Lingoly](https://arxiv.org/abs/2406.06196) | `lingoly` | Linguistics olympiad problems |
+| [Lingoly Too](https://arxiv.org/abs/2503.02972) | `lingoly_too` | Extended linguistics challenge problems |
+| [MMIU](https://arxiv.org/abs/2408.02718) | `mmiu` | Massive Multitask Language Understanding benchmark |
 | [MMLU (0-shot)](https://github.com/hendrycks/test) | `mmlu_0_shot` | Massive Multitask Language Understanding without examples |
 | [MMLU (5-shot)](https://github.com/hendrycks/test) | `mmlu_5_shot` | Massive Multitask Language Understanding with 5 examples |
 | [MMLU-Pro](https://arxiv.org/abs/2406.01574) | `mmlu_pro` | More challenging version of MMLU |
-| ONET M6 | `onet_m6` | Occupational knowledge benchmark |
+| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6` | Occupational knowledge benchmark |
 | [PAWS](https://github.com/google-research-datasets/paws) | `paws` | Paraphrase adversarial word substitution |
 | [SevenLLM MCQ (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_en` | Multiple choice questions in English |
 | [SevenLLM MCQ (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_zh` | Multiple choice questions in Chinese |
@@ -107,7 +110,7 @@ Evaluate the ability to process and reason over extended contexts, including ret
 | [InfiniteBench LongDialogue QA (English)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longdialogue_qa_eng` | Question answering over long dialogues |
 | [InfiniteBench Number String](https://arxiv.org/abs/2402.13718) | `infinite_bench_number_string` | Number pattern recognition in long sequences |
 | [InfiniteBench Passkey](https://arxiv.org/abs/2402.13718) | `infinite_bench_passkey` | Retrieval of information from long context |
-| NIAH | `niah` | Needle in a Haystack: long-context retrieval test |
+| [NIAH](https://arxiv.org/abs/2406.07230) | `niah` | Needle in a Haystack: long-context retrieval test |
 
 ### Safety
 
@@ -117,24 +120,24 @@ Evaluate alignment, bias detection, harmful content resistance, and truthfulness
 |------------|---------|-------------|
 | [AgentHarm](https://arxiv.org/abs/2410.09024) | `agentharm` | Tests model resistance to harmful agent behavior and misuse scenarios |
 | [AgentHarm Benign](https://arxiv.org/abs/2410.09024) | `agentharm_benign` | Benign baseline for AgentHarm to measure false positive rates |
-| Agentic Misalignment | `agentic_misalignment` | Evaluates potential misalignment in agentic behavior |
-| AHB | `ahb` | Agent Harmful Behavior: tests resistance to harmful agentic actions |
+| [Agentic Misalignment](https://arxiv.org/abs/2510.05179) | `agentic_misalignment` | Evaluates potential misalignment in agentic behavior |
+| [AHB](https://arxiv.org/abs/2503.04804) | `ahb` | Agent Harmful Behavior: tests resistance to harmful agentic actions |
 | [AIRBench](https://arxiv.org/abs/2410.02407) | `air_bench` | Tests adversarial instruction resistance |
-| BBEH | `bbeh` | Bias Benchmark for Evaluating Harmful behavior |
-| BBEH Mini | `bbeh_mini` | Smaller version of BBEH benchmark |
+| [BBEH](https://arxiv.org/abs/2502.19187) | `bbeh` | Bias Benchmark for Evaluating Harmful behavior |
+| [BBEH Mini](https://arxiv.org/abs/2502.19187) | `bbeh_mini` | Smaller version of BBEH benchmark |
 | [BBQ](https://arxiv.org/abs/2110.08193) | `bbq` | Bias Benchmark for Question Answering |
 | [BOLD](https://arxiv.org/abs/2101.11718) | `bold` | Bias in Open-Ended Language Generation Dataset |
-| CYSE3 Visual Prompt Injection | `cyse3_visual_prompt_injection` | Tests resistance to visual prompt injection attacks |
+| [CYSE3 Visual Prompt Injection](https://arxiv.org/abs/2408.01605) | `cyse3_visual_prompt_injection` | Tests resistance to visual prompt injection attacks |
 | [Make Me Pay](https://arxiv.org/abs/2410.08691) | `make_me_pay` | Tests resistance to financial scam and fraud scenarios |
-| MASK | `mask` | Tests model's handling of sensitive information |
-| Personality BFI | `personality_BFI` | Big Five personality trait assessment |
-| Personality TRAIT | `personality_TRAIT` | Comprehensive personality trait evaluation |
+| [MASK](https://arxiv.org/abs/2503.03750) | `mask` | Tests model's handling of sensitive information |
+| [Personality BFI](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/personality) | `personality_BFI` | Big Five personality trait assessment |
+| [Personality TRAIT](https://arxiv.org/abs/2406.14703) | `personality_TRAIT` | Comprehensive personality trait evaluation |
 | SOSBench | `sosbench` | Safety and oversight stress test |
 | [StereoSet](https://stereoset.mit.edu/) | `stereoset` | Measures stereotypical biases in language models |
 | [StrongREJECT](https://arxiv.org/abs/2402.10260) | `strong_reject` | Tests model's ability to reject harmful requests |
 | [Sycophancy](https://arxiv.org/abs/2310.13548) | `sycophancy` | Evaluates tendency toward sycophantic behavior |
 | [TruthfulQA](https://github.com/sylinrl/TruthfulQA) | `truthfulqa` | Tests model truthfulness and resistance to falsehoods |
-| UCCB | `uccb` | Unsafe Content Classification Benchmark |
+| [UCCB](https://huggingface.co/datasets/CraneAILabs/UCCB) | `uccb` | Unsafe Content Classification Benchmark |
 | [WMDP Bio](https://www.wmdp.ai/) | `wmdp_bio` | Tests hazardous knowledge in biology |
 | [WMDP Chem](https://www.wmdp.ai/) | `wmdp_chem` | Tests hazardous knowledge in chemistry |
 | [WMDP Cyber](https://www.wmdp.ai/) | `wmdp_cyber` | Tests hazardous knowledge in cybersecurity |
@@ -192,7 +195,7 @@ Basic system validation and pre-flight checks.
 
 | Evaluation | Task ID | Description |
 |------------|---------|-------------|
-| Pre-Flight | `pre_flight` | Basic system check and validation test |
+| [Pre-Flight](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` | Basic system check and validation test |
 
 ## Specifying evaluation tasks
 
