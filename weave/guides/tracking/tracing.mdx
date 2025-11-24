@@ -50,7 +50,7 @@ There are three main ways to create Calls in Weave:
 
     # Initialize Weave Tracing
     weave.init('intro-example')
-
+"
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
@@ -124,7 +124,7 @@ However, often LLM applications have additional logic (such as pre/post processi
         return f"Hello, {name}!"
 
     # Call your function -- Weave will automatically track inputs and outputs
-    print(my_function("World")
+    print(my_function("World"))
     ```
 
     You can also track [methods on classes](#4-track-class-and-object-methods).
@@ -238,7 +238,7 @@ However, often LLM applications have additional logic (such as pre/post processi
     </Note>
     ```python lines lines
     # Notice that we pass the `instance` as the first argument.
-    print(instance.my_method.call(instance, "World")
+    print(instance.my_method.call(instance, "World"))
     ```
 
     ```python lines lines
@@ -417,7 +417,7 @@ You can also manually create Calls using the API directly.
             client.finish_call(call, output="Hello, World!")
 
         # Call your function
-        print(my_function("World")
+        print(my_function("World"))
         ```
 
     </Tab>
