@@ -514,7 +514,7 @@ Deactivates a user in your organization. The actual result differs by deployment
 - **Dedicated Cloud** / **Self-Managed**: Sets the user's `active` field to `false`. To restore a deactivated user's access your organization, see [Reactivate user](#reactivate-user).
 - **Multi-tenant Cloud**: Removes the user from the organization. To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization.
 
-<Note>This operation works for users only, not service accounts. Delete a service account in the settings for the W&B Team.</Note>
+<Note>This operation works for users only, not service accounts. Deactivate a service account in the settings for the W&B Team.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
