@@ -134,7 +134,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         base: main  # <-- Add this line to explicitly target main
-        branch: update-reference-docs-${{ github.run_number }}
+        branch: update-reference-docs-1
         commit-message: "chore: Update reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         title: "Update Weave reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         draft: true
