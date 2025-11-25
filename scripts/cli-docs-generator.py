@@ -236,7 +236,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
     if cmd_info['name'] in ['wandb', 'cli']:
         usage = "wandb"
     else:
-        usage = f"wandb {cmd_info['name']}"
+        usage = cmd_info['full_name'].replace('cli', 'wandb')
     
     # Add arguments to usage
     for arg in cmd_info['arguments']:
