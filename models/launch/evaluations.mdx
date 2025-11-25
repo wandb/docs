@@ -12,9 +12,10 @@ This page lists the evaluation benchmarks [W&B LLM Evaluation Jobs](/models/laun
 To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
     - If a benchmark has `true` in the **OpenAI Model Scorer** column, the benchmark uses OpenAI models for scoring. An organization or team admin must add an OpenAI API key as a team secret. When you configure an evaluation job with a benchmark with this requirement, set the **Scorer API key** field to the secret.
     - If a benchmark has a link in the **Gated Hugging Face Dataset** column, the benchmark requires access to a gated Hugging Face dataset. An organization or team admin must request access to the dataset in Hugging Face, create a Hugging Face user access token, and configure a team secret with the access key. When you configure a benchmark with this requirement, set the **Hugging Face Token** field to the secret.
-{/* Src: 
-Benchmark list: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
-OpenAI and Hugging Face requirements: https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
+
+{/*
+    Benchmark list: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
+    OpenAI and Hugging Face requirements: https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
 */}
 
 ## Knowledge
