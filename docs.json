@@ -730,8 +730,15 @@
             "icon": "/icons/cropped-weave.svg",
             "pages": [
               "weave",
-              "weave/quickstart",
-              "weave/quickstart-inference",
+              {
+                "group": "Get Started",
+                "pages": [
+                  "weave/quickstart",
+                  "weave/tutorial-eval",
+                  "weave/tutorial-rag",
+                  "weave/quickstart-inference"
+                ]
+              },
               {
                 "group": "Guides",
                 "pages": [
