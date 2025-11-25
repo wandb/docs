@@ -14,10 +14,10 @@ This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a se
 ## Prerequisites
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
 1. To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
-    - **OpenAPI API key**: Used by many benchmarks for scoring. Required if the field **Scorer API key** appears after you select a benchmark.
-    - **Hugging Face user access token**: Used by benchmarks like `lingoly` and `lingoly2` to access gated Hugging Face data. Required if the field **Hugging Face Token** appears after selecting a benchmark. The API key must have access to the gated dataset in Hugging Face. See the Hugging Face documentation for [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) and [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user).
+    - An **OpenAPI API key**: Used by benchmarks that use OpenAI models for scoring. Required if the field **Scorer API key** appears after you select a benchmark.
+    - A **Hugging Face user access token**: Required for certain benchmarks like `lingoly` and `lingoly2` that require access to one or more gated Hugging Face datasets. Required if the field **Hugging Face Token** appears after selecting a benchmark. The API key must have access to the relevant dataset. See the Hugging Face documentation for [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) and [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user).
 1. Create a new [W&B project](/models/track/project-page) for the evaluation results. From the left navigation, click **Create new project**.
-1. Package the model in VLLM-compatible format and save it as an artifact in W&B. An attempt to benchmark any other type of artifact will fail. See [Example: Prepare a model](#example-prepare-your-model) for one approach.
+1. Package the model in VLLM-compatible format and save it as an artifact in W&B. An attempt to benchmark any other type of artifact will fail. For one approach, see [Example: Prepare a model](#example-prepare-your-model) at the end of this page.
 1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
 
 ## Evaluate your model
@@ -28,12 +28,12 @@ Follow these steps to set up and launch an evaluation job:
 1. Select a destination project where the evaluation results will be sent.
 1. In the **Model artifact** section, specify the project, artifact, and version of the prepared model to evaluate.
 1. Click **Evaluations**, then select up to four benchmarks.
-1. If you select benchmarks that require an OpenAI API key, the **Scorer API key** field displays. Click it, then select the OpenAI API key's secret by name. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.
+1. If you select benchmarks that use OpenAI models for scoring, the **Scorer API key** field displays. Click it, then select the OpenAI API key's secret by name. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.
 1. If you select benchmarks that require access to gated datasets in Hugging Face, a **Hugging Face token** field displays. [Request access to the relevant dataset](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user), then select the secret that contains the Hugging Face user access token.
 1. Optionally, set **Sample limit** to a positive integer to limit the maximum number of benchmark samples to evaluate. Otherwise, all samples in the task are included.
 1. To create a leaderboard automatically, click **Publish results to leaderboard**. The leaderboard will display all evaluations together in a workspace panel, and you can also share it in a report.
 1. Click **Launch** to launch the evaluation job.
-1. Click the circular arrow icon at the top of the page to open the recent run modal. Evaluation jobs appear with other runs in the project. Click the name of a finished run to open it in single-run view, or click the **Leaderboard** link to open the leaderboard directly. For details, see [View the results](#view-the-results).
+1. Click the circular arrow icon at the top of the page to open the recent run modal. Evaluation jobs appear with your other recent runs. Click the name of a finished run to open it in single-run view, or click the **Leaderboard** link to open the leaderboard directly. For details, see [View the results](#view-the-results).
 
 <Tip>
 After you evaluate your first model, many fields are pre-filled with the most recent values when you configure your next evaluation job.
