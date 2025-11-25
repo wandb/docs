@@ -1,11 +1,15 @@
+""""Generate a markdown table of SDK extras from pyproject.toml.
+
+This script reads the `pyproject.toml` file to extract optional dependencies (extras)
+and generates a markdown table listing each extra along with the packages it includes.
+
+Note that this script excludes certain extras defined in the EXCLUDE list.
+"""
 import os
 import re
 import tomli
 
-pyproject_path = "./pyproject.toml"
-output_path = "../snippets/en/_includes/python-sdk-extras.mdx"
-version_specifiers = [">=", "<=", "==", "~=", ">", "<", "!="]
-
+# W&B Python SDK Extras to exclude from the table.
 EXCLUDE = ["models", "kubeflow", "launch", "importers", "perf"]
 
 def header():
@@ -23,7 +27,7 @@ def header_row(head_topics: int = 2):
     """
     return "|---------"*head_topics + "|\n"
 
-def make_table_row(extra, packages):
+def make_table_row(extra: str, packages: str) -> str:
     """Generate a markdown table row for the given extra and packages.
     
     Args:
@@ -57,8 +61,6 @@ def make_dep_link(deps: list[str]) -> str:
         str: A string of markdown links for the dependencies.
     """
     print(f"Creating dependency links for: {deps}")
-
-    print("These are deps" , deps)
     dep_names = [dep.split(" ")[0] for dep in deps]
     return ", ".join(
         f"[{name}](https://pypi.org/project/{name}/)" for name in dep_names
@@ -92,6 +94,11 @@ def generate_table(pyproject_path: str) -> list[str]:
 
 
 def main():
+    # Pyproject.toml is expected to be in the same directory as this script.
+    pyproject_path = "./pyproject.toml"
+
+    # Output path for the generated markdown table.
+    output_path = "../snippets/en/_includes/python-sdk-extras.mdx"
 
     # Create the output file if it doesn't exist
     if not os.path.exists(output_path):
@@ -108,4 +115,5 @@ def main():
     print(f"Markdown table written to '{output_path}'.")
 
 if __name__ == "__main__":
+    # To do: Add argument parsing for custom paths
     main()
