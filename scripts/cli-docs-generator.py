@@ -221,11 +221,11 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append(f"  The snippet will be auto-detected on the next regeneration.")
         lines.append("*/}")
         lines.append("")
-        
-        # Command description from CLI (only if no snippet)
-        if cmd_info['help']:
-            lines.append(cmd_info['help'])
-            lines.append("")
+    
+    # Command description from CLI (always shown, appears after any manual snippet content)
+    if cmd_info['help']:
+        lines.append(cmd_info['help'])
+        lines.append("")
     
     # Usage section
     lines.append("## Usage")
@@ -345,6 +345,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
     command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
     snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
     
+    # Add snippet or template for manual content
     if snippet_path and snippet_path.exists():
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
@@ -354,7 +355,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append(f"<{component_name}/>")
         lines.append("")
     elif not subcommands_only:
-        # Only show commented template for main CLI page
+        # For main CLI page only, show commented template when no snippet exists
         lines.append("{/*")
         lines.append(f"  To add introductory content for this command:")
         lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
@@ -368,6 +369,12 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append("")
         lines.append(f"  The snippet will be auto-detected on the next regeneration.")
         lines.append("*/}")
+        lines.append("")
+    
+    # Always show command description from CLI help (extracted from Python module)
+    # This appears after any manual snippet content
+    if cmd_info['help']:
+        lines.append(cmd_info['help'])
         lines.append("")
     
     # Usage section
