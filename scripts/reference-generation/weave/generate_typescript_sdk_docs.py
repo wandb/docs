@@ -228,24 +228,27 @@ description: "TypeScript SDK reference"
         content = re.sub(r'\]\(\.\./index', '](../', content)
         content = re.sub(r'\]\(README', '](typescript-sdk', content)
         
-        # 3. Fix same-directory links (e.g., WeaveObject -> ./WeaveObject)
+        # 3. Fix same-directory links (e.g., WeaveObject -> ./weaveobject)
         # For links to class names (start with capital letter) that don't have a path
-        content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', r'](./\1\2)', content)
+        # Use lowercase for filenames to avoid Git case-sensitivity issues
+        content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', lambda m: f'](./{m.group(1).lower()}{m.group(2) or ""})', content)
         
         # 4. Fix cross-directory links based on file location
+        # Use lowercase for filenames to avoid Git case-sensitivity issues
         if '/functions/' in str(md_file):
             # Functions linking to classes/interfaces need ../
-            content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
-            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](../interfaces/\1)', content)
+            content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
         elif '/type-aliases/' in str(md_file):
             # Type aliases linking to classes need ../
-            content = re.sub(r'\]\(classes/([^)]+)\)', r'](../classes/\1)', content)
+            content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
         elif md_file.name == 'README.md' or md_file.name == 'index.mdx':
             # Index/README will become landing page, so needs ./typescript-sdk/ prefix
-            content = re.sub(r'\]\(classes/([^)]+)\)', r'](./typescript-sdk/classes/\1)', content)
-            content = re.sub(r'\]\(interfaces/([^)]+)\)', r'](./typescript-sdk/interfaces/\1)', content)
-            content = re.sub(r'\]\(functions/([^)]+)\)', r'](./typescript-sdk/functions/\1)', content)
-            content = re.sub(r'\]\(type-aliases/([^)]+)\)', r'](./typescript-sdk/type-aliases/\1)', content)
+            # Use lowercase filenames to avoid Git case-sensitivity issues
+            content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/classes/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/functions/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
         
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
