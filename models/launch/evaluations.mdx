@@ -1,13 +1,13 @@
 ---
 title: "Evaluation benchmark catalog"
 description: >
-  Browse the evaluation benchmarks available through W&B LLM Evaluation Jobs
+  Browse the evaluation benchmarks available through LLM Evaluation Jobs
 ---
 import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
 <Note><PreviewLink /></Note>
 
-This page lists the evaluation benchmarks [W&B LLM Evaluation Jobs](/models/launch) provides by category.
+This page lists the evaluation benchmarks [LLM Evaluation Jobs](/models/launch) provides by category.
 
 To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job.
     - If a benchmark has `true` in the **OpenAI Model Scorer** column, the benchmark uses OpenAI models for scoring. An organization or team admin must add an OpenAI API key as a team secret. When you configure an evaluation job with a benchmark with this requirement, set the **Scorer API key** field to the secret.
