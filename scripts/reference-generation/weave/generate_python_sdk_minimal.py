@@ -25,9 +25,21 @@ def install_weave(version="latest"):
 
 def get_docstring(obj):
     """Extract and format docstring for MDX compatibility."""
+    import re
+    
     doc = inspect.getdoc(obj)
     if not doc:
         return "No description available."
+    
+    # Remove Pydantic documentation links that reference non-existent concept pages
+    # These come from Pydantic's own docstrings and aren't relevant for our docs
+    # Pattern: [text](../concepts/anything.md) or similar concept page links
+    doc = re.sub(r'\[([^\]]+)\]\(\.\./concepts/[^\)]+\)', r'\1', doc)
+    doc = re.sub(r'\[([^\]]+)\]\(\./concepts/[^\)]+\)', r'\1', doc)
+    doc = re.sub(r'\[([^\]]+)\]\(concepts/[^\)]+\)', r'\1', doc)
+    
+    # Remove "Usage Documentation" admonition blocks that contain broken links
+    doc = re.sub(r'!!! abstract "Usage Documentation"\s+\[`[^`]+`\]\([^\)]+\)\s*\n\s*\n', '', doc)
     
     # Escape curly braces for MDX (they're interpreted as JSX expressions)
     # We need to be careful to only escape braces that aren't in code blocks

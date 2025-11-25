@@ -214,12 +214,9 @@ description: "TypeScript SDK reference"
         # Fix parameter tables
         content = re.sub(r'\|\s*:--\s*\|', '| --- |', content)
         
-        # Fix internal links to use relative paths
-        # Keep relative links as-is for files in subdirectories
-        # TypeDoc generates links like ../classes/WeaveObject.md which are already relative
-        # We just need to remove the .md extension
+        # Fix internal links to use relative paths with lowercase filenames
+        # TypeDoc generates links like ../classes/WeaveObject.md which need fixing
         
-        # Fix internal links
         # 1. Remove .md extensions from all links
         content = re.sub(r'\.md(#[^)]+)?\)', r'\1)', content)
         
@@ -228,27 +225,30 @@ description: "TypeScript SDK reference"
         content = re.sub(r'\]\(\.\./index', '](../', content)
         content = re.sub(r'\]\(README', '](typescript-sdk', content)
         
-        # 3. Fix same-directory links (e.g., WeaveObject -> ./weaveobject)
-        # For links to class names (start with capital letter) that don't have a path
-        # Use lowercase for filenames to avoid Git case-sensitivity issues
+        # 3. Fix all TypeDoc-generated links to lowercase
+        # Paths that already have directory structure (../classes/, ../interfaces/, etc.)
+        content = re.sub(r'\]\(\.\./classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
+        content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
+        content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](../functions/{m.group(1).lower()}{m.group(2) or ""})', content)
+        content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](../type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
+        
+        # 4. Fix relative links without ../ prefix (same directory or subdirectory)
+        content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
+        content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
+        content = re.sub(r'\]\(functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](../functions/{m.group(1).lower()}{m.group(2) or ""})', content)
+        content = re.sub(r'\]\(type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](../type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
+        
+        # 5. Fix same-directory class/interface links (start with capital letter, no path separator)
         content = re.sub(r'\]\(([A-Z][a-zA-Z]+)(#[^)]+)?\)', lambda m: f'](./{m.group(1).lower()}{m.group(2) or ""})', content)
         
-        # 4. Fix cross-directory links based on file location
-        # Use lowercase for filenames to avoid Git case-sensitivity issues
-        if '/functions/' in str(md_file):
-            # Functions linking to classes/interfaces need ../
-            content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
-            content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](../interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
-        elif '/type-aliases/' in str(md_file):
-            # Type aliases linking to classes need ../
-            content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](../classes/{m.group(1).lower()}{m.group(2) or ""})', content)
-        elif md_file.name == 'README.md' or md_file.name == 'index.mdx':
-            # Index/README will become landing page, so needs ./typescript-sdk/ prefix
-            # Use lowercase filenames to avoid Git case-sensitivity issues
-            content = re.sub(r'\]\(classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/classes/{m.group(1).lower()}{m.group(2) or ""})', content)
-            content = re.sub(r'\]\(interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
-            content = re.sub(r'\]\(functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/functions/{m.group(1).lower()}{m.group(2) or ""})', content)
-            content = re.sub(r'\]\(type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
+        # 6. Special fix for README/landing page - it becomes typescript-sdk.mdx at parent level
+        if md_file.name == 'README.md':
+            # The landing page will be at weave/reference/typescript-sdk.mdx
+            # so links to subdirectories need ./typescript-sdk/ prefix
+            content = re.sub(r'\]\(\.\./classes/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/classes/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/functions/{m.group(1).lower()}{m.group(2) or ""})', content)
+            content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
         
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
@@ -309,6 +309,14 @@ def extract_members_to_separate_files(docs_path):
             func_content = match.group(1)
             func_name = match.group(2)
             
+            # Fix links when moving from landing page to functions subdirectory
+            # ./typescript-sdk/classes/X -> ../classes/X
+            # ./typescript-sdk/interfaces/X -> ../interfaces/X
+            func_content = func_content.replace('./typescript-sdk/classes/', '../classes/')
+            func_content = func_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
+            func_content = func_content.replace('./typescript-sdk/type-aliases/', '../type-aliases/')
+            func_content = func_content.replace('./typescript-sdk/functions/', './')
+            
             # Create the function file content
             func_title = func_name
             func_file_content = f"""---
@@ -330,9 +338,10 @@ description: "TypeScript SDK reference"
             content = function_pattern.sub('', content)
             
             # Update the Functions section with links (functions_found already has lowercase names)
+            # The landing page is at typescript-sdk.mdx, so links need ./typescript-sdk/ prefix
             functions_section = "\n### Functions\n\n"
             for func in functions_found:
-                functions_section += f"- [{func}](functions/{func})\n"
+                functions_section += f"- [{func}](./typescript-sdk/functions/{func})\n"
             
             # Replace existing Functions section with links
             content = re.sub(
@@ -359,6 +368,14 @@ description: "TypeScript SDK reference"
             # Skip if it's not a type alias (e.g., if it's a function or class)
             if not alias_content.startswith(f"### {alias_name}\n\nƬ "):
                 continue
+            
+            # Fix links when moving from landing page to type-aliases subdirectory
+            # ./typescript-sdk/classes/X -> ../classes/X
+            # ./typescript-sdk/interfaces/X -> ../interfaces/X
+            alias_content = alias_content.replace('./typescript-sdk/classes/', '../classes/')
+            alias_content = alias_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
+            alias_content = alias_content.replace('./typescript-sdk/functions/', '../functions/')
+            alias_content = alias_content.replace('./typescript-sdk/type-aliases/', './')
                 
             # Create the type alias file content
             alias_file_content = f"""---
@@ -378,8 +395,9 @@ description: "TypeScript SDK reference"
         content = type_alias_pattern.sub('', content)
             
         # Update Type Aliases section with links to all extracted type aliases (use lowercase filenames)
+        # The landing page is at typescript-sdk.mdx, so links need ./typescript-sdk/ prefix
         if type_aliases:
-            type_aliases_links = [f"- [{name}](type-aliases/{name.lower()})" for _, name in type_aliases if _.startswith(f"### {name}\n\nƬ ")]
+            type_aliases_links = [f"- [{name}](./typescript-sdk/type-aliases/{name.lower()})" for _, name in type_aliases if _.startswith(f"### {name}\n\nƬ ")]
             if type_aliases_links:
                 type_aliases_section = "\n### Type Aliases\n\n" + "\n".join(sorted(type_aliases_links)) + "\n"
                 
