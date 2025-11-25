@@ -8,7 +8,68 @@ description: "Python SDK reference for weave.trace.op"
 
 ---
 
-<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/op.py#L1096"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L94"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `DisplayNameFuncError`
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L255"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `OpCallError`
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L199"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `OpKwargs`
+TypedDict for op() keyword arguments. 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L104"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `Sentinel`
+Sentinel(package: 'str', path: 'str', name: 'str') 
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/../../../../weave/trace/op/__init__"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(package: 'str', path: 'str', name: 'str') → None
+```
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L193"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+## <kbd>class</kbd> `WeaveKwargs`
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1359"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `as_op`
+
+```python
+as_op(fn: 'Callable[P, R]') → Op[P, R]
+```
+
+Given a @weave.op() decorated function, return its Op. 
+
+@weave.op() decorated functions are instances of Op already, so this function should be a no-op at runtime. But you can use it to satisfy type checkers if you need to access OpDef attributes in a typesafe way. 
+
+**Args:**
+ 
+
+ - <b>`fn`</b>: A weave.op() decorated function.
+**Returns:**
+ The Op of the function. 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1108"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>function</kbd> `call`
 
@@ -39,7 +100,7 @@ result, call = add.call(1, 2)
 
 ---
 
-<a href="https://github.com/wandb/weave/blob/0.52.10/weave/trace/op.py#L1142"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1154"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
 
 ### <kbd>function</kbd> `calls`
 
@@ -60,3 +121,135 @@ calls = add.calls()
 for call in calls:
      print(call)
 ```
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1305"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `get_captured_code`
+
+```python
+get_captured_code(op: 'Op') → str
+```
+
+Get the captured code of the op. 
+
+This only works when you get an op back from a ref.  The pattern is: 
+
+ref = weave.publish(func) op = ref.get() captured_code = op.get_captured_code() 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1351"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `is_op`
+
+```python
+is_op(obj: 'Any') → TypeIs[Op]
+```
+
+Check if an object is an Op. 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L386"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `is_placeholder_call`
+
+```python
+is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
+```
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L354"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `is_tracing_setting_disabled`
+
+```python
+is_tracing_setting_disabled() → bool
+```
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1322"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `maybe_bind_method`
+
+```python
+maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
+```
+
+Bind a function to any object (even if it's not a class). 
+
+If self is None, return the function as is. 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1334"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `maybe_unbind_method`
+
+```python
+maybe_unbind_method(oplike: 'Op | MethodType | partial') → Op
+```
+
+Unbind an Op-like method or partial to a plain Op function. 
+
+For: 
+- methods, remove set `self` param 
+- partials, remove any preset params 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L1178"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `op`
+
+```python
+op(
+    func: 'Callable[P, R] | None' = None,
+    name: 'str | None' = None,
+    call_display_name: 'str | CallDisplayNameFunc | None' = None,
+    postprocess_inputs: 'PostprocessInputsFunc | None' = None,
+    postprocess_output: 'PostprocessOutputFunc | None' = None,
+    tracing_sample_rate: 'float' = 1.0,
+    enable_code_capture: 'bool' = True,
+    accumulator: 'Callable[[Any | None, Any], Any] | None' = None
+) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
+```
+
+A decorator to weave op-ify a function or method. Works for both sync and async. Automatically detects iterator functions and applies appropriate behavior. 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L379"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `placeholder_call`
+
+```python
+placeholder_call() → Call
+```
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L211"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `setup_dunder_weave_dict`
+
+```python
+setup_dunder_weave_dict(d: 'WeaveKwargs | None' = None) → WeaveKwargs
+```
+
+Sets up a __weave dict used to pass WeaveKwargs to ops. 
+
+---
+
+<a href="https://github.com/wandb/weave/blob/0.52.17/weave/trace/op.py#L365"><img align="right" src="https://img.shields.io/badge/-source-cccccc?style=flat-square" /></a>
+
+### <kbd>function</kbd> `should_skip_tracing_for_op`
+
+```python
+should_skip_tracing_for_op(op: 'Op') → bool
+```
+
