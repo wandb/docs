@@ -42,7 +42,7 @@ with weave.attributes({'env': 'production', 'user_id': '12345'}):
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
-  await init('dans-test-team/attribute-check');
+  await init('your-team/attribute-example');
 
   const myFunction = op(async function myFunction(name: string) {
     return `Hello, ${name}!`;
@@ -94,7 +94,7 @@ with weave.attributes({
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
-  await init('dans-test-team/attribute-check');
+  await init('your-team/attribute-example');
 
   const processData = op(async function processData(data: string) {
     return data.toUpperCase();
@@ -165,7 +165,7 @@ asyncio.run(evaluation.evaluate(model))  # Has all global attributes
 import {init, op, withAttributes} from 'weave';
 
 async function main() {
-    await init('dans-test-team/attribute-check', {
+    await init('your-team/attribute-example', {
         globalAttributes: {
             env: 'production',
             app_version: '2.1.0',
@@ -223,7 +223,7 @@ import {init, op, withAttributes} from 'weave';
 
 async function main() {
     // Set global attributes
-    await init('dans-test-team/attribute-check', {
+    await init('your-team/attribute-example', {
     globalAttributes: {
         env: 'production',
         app_version: '2.1.0'
