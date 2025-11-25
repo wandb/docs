@@ -118,7 +118,7 @@ GET /scim/Users/abc
 
 Retrieves a list of all users in your organization.
 
-<Note>This operation does not retrieve team service accounts.</Note>
+<Note>This operation does not retrieve service accounts.</Note>
 
 #### Filter users
 
@@ -514,7 +514,7 @@ Deactivates a user in your organization. The actual result differs by deployment
 - **Dedicated Cloud** / **Self-Managed**: Sets the user's `active` field to `false`. To restore a deactivated user's access your organization, see [Reactivate user](#reactivate-user).
 - **Multi-tenant Cloud**: Removes the user from the organization. To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization.
 
-<Note>This operation works for users only, not service accounts. Deactivate a service account in the settings for the W&B Team.</Note>
+<Note>This operation works for users only, not service accounts. Deactivating a service account is not supported. Manage team service accounts in the settings for the W&B Team.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -622,7 +622,7 @@ PATCH /scim/Users
 Reactivates a previously deactivated user in your organization.
 
 <Note>
-- User reactivation works for users only, not service accounts. Reactivate a service account in the settings for the W&B Team.
+- User reactivation works for users only, not service accounts. Reactivation is not supported for service accounts. Manage service accounts in the settings for the W&B Team.
 
 - User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error:
     ```json
@@ -701,7 +701,7 @@ PATCH /scim/Users/abc
 
 Assigns an organization-level role to a user.
 
-<Note>This operation works for users only, not service accounts. Assign roles to a service account in the settings for the W&B Team.</Note>
+<Note>This operation works for users only, not service accounts. Custom roles are not supported for service accounts.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -782,7 +782,7 @@ PATCH /scim/Users/abc
 
 Assigns a team-level role to a user.
 
-<Note>This operation works for users only, not service accounts. Assign roles to a service account in the settings for the W&B Team.</Note>
+<Note>This operation works for users only, not service accounts. Custom roles are not supported for service accounts.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -865,7 +865,7 @@ PATCH /scim/Users/abc
 
 Adds a user to a registry with an assigned registry-level role.
 
-<Note>This operation works for users only, not service accounts. Assign roles to a service account in the settings for the W&B Team.</Note>
+<Note>This operation works for users only, not service accounts. Custom roles are not supported for service accounts.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
