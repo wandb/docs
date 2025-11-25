@@ -21,8 +21,8 @@ Usage::
         y: int
         label: str
 
-    a: Point2D = {'x': 1, 'y': 2, 'label': 'good'}  # OK
-    b: Point2D = {'z': 3, 'label': 'bad'}           # Fails type check
+    a: Point2D = \{'x': 1, 'y': 2, 'label': 'good'\}  # OK
+    b: Point2D = \{'z': 3, 'label': 'bad'\}           # Fails type check
 
     assert Point2D(x=1, y=2, label='first') == dict(x=1, y=2, label='first')
 
@@ -31,7 +31,7 @@ the Point2D.__required_keys__ and Point2D.__optional_keys__ frozensets.
 TypedDict supports two additional equivalent forms::
 
     Point2D = TypedDict('Point2D', x=int, y=int, label=str)
-    Point2D = TypedDict('Point2D', {'x': int, 'y': int, 'label': str})
+    Point2D = TypedDict('Point2D', \{'x': int, 'y': int, 'label': str\})
 
 By default, all keys must be present in a TypedDict. It is possible
 to override this by specifying totality.
@@ -424,7 +424,7 @@ example for annotating a decorator::
    def add_logging(f: Callable[P, T]) -> Callable[P, T]:
        '''A type-safe decorator to add logging to a function.'''
        def inner(*args: P.args, **kwargs: P.kwargs) -> T:
-           logging.info(f'{f.__name__} was called')
+           logging.info(f'\{f.__name__\} was called')
            return f(*args, **kwargs)
        return inner
 
@@ -530,7 +530,7 @@ dict() -> new empty dictionary
 dict(mapping) -> new dictionary initialized from a mapping object's
     (key, value) pairs
 dict(iterable) -> new dictionary initialized as if via:
-    d = {}
+    d = \{\}
     for k, v in iterable:
         d[k] = v
 dict(**kwargs) -> new dictionary initialized with the name=value pairs

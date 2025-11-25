@@ -204,7 +204,7 @@ Examples:
     ...     return 1
     >>> foo()
 
-### `thread(thread_id: 'str | None | object' = <object object at 0x1104b62e0>) -> 'Iterator[ThreadContext]'`
+### `thread(thread_id: 'str | None | object' = <object object at 0x10b9772d0>) -> 'Iterator[ThreadContext]'`
 
 Context manager for setting thread_id on calls within the context.
 
@@ -3109,12 +3109,12 @@ Returns:
     ScoreLogger if output provided, PredictionContext if not.
 
 Example (direct):
-    pred = ev.log_prediction({'q': '...'}, output="answer")
+    pred = ev.log_prediction(\{'q': '...'\}, output="answer")
     pred.log_score("correctness", 0.9)
     pred.finish()
 
 Example (context manager):
-    with ev.log_prediction({'q': '...'}) as pred:
+    with ev.log_prediction(\{'q': '...'\}) as pred:
         response = model(...)
         pred.output = response
         pred.log_score("correctness", 0.9)
@@ -6653,7 +6653,7 @@ the form "Thread-N" where N is a small decimal number.
 *args* is the argument tuple for the target invocation. Defaults to ().
 
 *kwargs* is a dictionary of keyword arguments for the target
-invocation. Defaults to {}.
+invocation. Defaults to \{\}.
 
 If a subclass overrides the constructor, it must make sure to invoke
 the base class constructor (Thread.__init__()) before doing anything

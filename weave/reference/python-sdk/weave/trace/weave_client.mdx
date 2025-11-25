@@ -21,8 +21,8 @@ Usage::
         y: int
         label: str
 
-    a: Point2D = {'x': 1, 'y': 2, 'label': 'good'}  # OK
-    b: Point2D = {'z': 3, 'label': 'bad'}           # Fails type check
+    a: Point2D = \{'x': 1, 'y': 2, 'label': 'good'\}  # OK
+    b: Point2D = \{'z': 3, 'label': 'bad'\}           # Fails type check
 
     assert Point2D(x=1, y=2, label='first') == dict(x=1, y=2, label='first')
 
@@ -31,7 +31,7 @@ the Point2D.__required_keys__ and Point2D.__optional_keys__ frozensets.
 TypedDict supports two additional equivalent forms::
 
     Point2D = TypedDict('Point2D', x=int, y=int, label=str)
-    Point2D = TypedDict('Point2D', {'x': int, 'y': int, 'label': str})
+    Point2D = TypedDict('Point2D', \{'x': int, 'y': int, 'label': str\})
 
 By default, all keys must be present in a TypedDict. It is possible
 to override this by specifying totality.
@@ -304,19 +304,19 @@ Returns:
 Examples:
     >>> # Combining status counts from multiple runs
     >>> dicts = [
-    ...     {"status_counts": {"SUCCESS": 5, "FAILED": 1}},
-    ...     {"status_counts": {"SUCCESS": 3, "FAILED": 2, "PENDING": 1}}
+    ...     \{"status_counts": \{"SUCCESS": 5, "FAILED": 1\}\},
+    ...     \{"status_counts": \{"SUCCESS": 3, "FAILED": 2, "PENDING": 1\}\}
     ... ]
     >>> sum_dict_leaves(dicts)
-    {'status_counts': {'SUCCESS': 8, 'FAILED': 3, 'PENDING': 1}}
+    \{'status_counts': \{'SUCCESS': 8, 'FAILED': 3, 'PENDING': 1\}\}
 
     >>> # Combining metrics with nested structure
     >>> dicts = [
-    ...     {"metrics": {"accuracy": 0.95, "loss": 0.1, "details": {"precision": 0.9, "recall": 0.8}}},
-    ...     {"metrics": {"accuracy": 0.97, "loss": 0.08, "details": {"precision": 0.92, "f1": 0.85}}}
+    ...     \{"metrics": \{"accuracy": 0.95, "loss": 0.1, "details": \{"precision": 0.9, "recall": 0.8\}\}\},
+    ...     \{"metrics": \{"accuracy": 0.97, "loss": 0.08, "details": \{"precision": 0.92, "f1": 0.85\}\}\}
     ... ]
     >>> sum_dict_leaves(dicts)
-    {'metrics': {'accuracy': 1.92, 'loss': 0.18, 'details': {'precision': 1.82, 'recall': 0.8, 'f1': 0.85}}}
+    \{'metrics': \{'accuracy': 1.92, 'loss': 0.18, 'details': \{'precision': 1.82, 'recall': 0.8, 'f1': 0.85\}\}\}
 
 ### `to_json(obj: 'Any', project_id: 'str', client: 'WeaveClient', use_dictify: 'bool' = False) -> 'Any'`
 
