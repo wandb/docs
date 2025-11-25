@@ -961,14 +961,6 @@
                         "pages": [
                           "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
-                      },
-                      {
-                        "group": "Other",
-                        "pages": [
-                          "weave/reference/python-sdk/weave/trace/op",
-                          "weave/reference/python-sdk/weave/trace/weave_client",
-                          "weave/reference/python-sdk/weave/trace_server/trace_server_interface"
-                        ]
                       }
                     ]
                   },
