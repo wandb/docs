@@ -8,7 +8,7 @@ Watch a [video demonstrating SCIM in action](https://www.youtube.com/watch?v=Nw3
 
 ## Overview
 
-The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B teams.
+The System for Cross-domain Identity Management (SCIM) API allows instance or organization admins to manage users, groups, and custom roles in their W&B organization. SCIM groups map to W&B Teams.
 
 W&B's SCIM API is compatible with major identity providers including Okta, enabling automated user provisioning and deprovisioning. For SSO configuration with Okta and other identity providers, see the [SSO documentation](/platform/hosting/iam/sso/).
 
@@ -64,6 +64,8 @@ The SCIM user resource maps to W&B users. Use these endpoints to manage users in
 
 Retrieves information for a specific user in your organization.
 
+<Note>This operation does not retrieve team service accounts.</Note>
+
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: GET
@@ -115,6 +117,8 @@ GET /scim/Users/abc
 ### List users
 
 Retrieves a list of all users in your organization.
+
+<Note>This operation does not retrieve team service accounts.</Note>
 
 #### Filter users
 
@@ -331,6 +335,8 @@ For assistance with developing operational procedures, or to restore admin acces
 
 Fully deletes a user from your organization.
 
+<Note>This operation works for users only, not service accounts. Delete a service account in the settings for the W&B Team.</Note>
+
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: DELETE
@@ -508,6 +514,8 @@ Deactivates a user in your organization. The actual result differs by deployment
 - **Dedicated Cloud** / **Self-Managed**: Sets the user's `active` field to `false`. To restore a deactivated user's access your organization, see [Reactivate user](#reactivate-user).
 - **Multi-tenant Cloud**: Removes the user from the organization. To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization.
 
+<Note>This operation works for users only, not service accounts. Delete a service account in the settings for the W&B Team.</Note>
+
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
 - **Method**: PATCH
@@ -614,16 +622,18 @@ PATCH /scim/Users
 Reactivates a previously deactivated user in your organization.
 
 <Note>
-User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error:
-```json
-{
-    "schemas": [
-        "urn:ietf:params:scim:api:messages:2.0:Error"
-    ],
-    "detail": "User reactivation operations are not supported in SaaS Cloud",
-    "status": "400"
-}
-```
+- User reactivation works for users only, not service accounts. Reactivate a service account in the settings for the W&B Team.
+
+- User reactivation is not supported in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). To restore the user's access, re-add them to your organization. See [Create user](#create-user-request-multi-tenant). In Multi-tenant Cloud, a user's account is not managed by the organization. An attempt to reactivate a user results in a HTTP `400` error:
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:Error"
+        ],
+        "detail": "User reactivation operations are not supported in SaaS Cloud",
+        "status": "400"
+    }
+    ```
 </Note>
 
 #### Endpoint
@@ -690,6 +700,8 @@ PATCH /scim/Users/abc
 ### Assign Organization Role
 
 Assigns an organization-level role to a user.
+
+<Note>This operation works for users only, not service accounts. Assign roles to a service account in the settings for the W&B Team.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -769,6 +781,8 @@ PATCH /scim/Users/abc
 ### Assign Team Role
 
 Assigns a team-level role to a user.
+
+<Note>This operation works for users only, not service accounts. Assign roles to a service account in the settings for the W&B Team.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -850,6 +864,8 @@ PATCH /scim/Users/abc
 ### Add to Registry
 
 Adds a user to a registry with an assigned registry-level role.
+
+<Note>This operation works for users only, not service accounts. Assign roles to a service account in the settings for the W&B Team.</Note>
 
 #### Endpoint
 - **URL**: `<host-url>/scim/Users/{id}`
@@ -934,7 +950,8 @@ PATCH /scim/Users/abc
 Removes a user from a registry.
 
 <Note>
-The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `"registryRoles[registryName eq \"{registry_name}\"]"` to remove a user from a specific registry, or `"registryRoles"` to remove the user from all registries.
+- The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `"registryRoles[registryName eq \"{registry_name}\"]"` to remove a user from a specific registry, or `"registryRoles"` to remove the user from all registries.
+- This operation works for users only, not service accounts. Remove service accounts from a registry in the settings for the W&B Team.</Note>
 </Note>
 
 #### Endpoint
@@ -1252,11 +1269,12 @@ POST /scim/Groups
 - **Supported Operations**: `add` member, `remove` member, `replace` members
 
 <Note>
-The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
+- The remove operations follow RFC 7644 SCIM protocol specifications. Use the filter syntax `members[value eq "{user_id}"]` to remove a specific user, or `members` to remove all users from the team.
 
-**User Identification**: The `{user_id}` in member operations can be either:
-- A W&B user ID
-- An email address (e.g., "user@example.com")
+    **User Identification**: The `{user_id}` in member operations can be either:
+    - A W&B user ID
+    - An email address (e.g., "user@example.com")
+- These operations work for users only, not service accounts. Update a team's service accounts in the settings for the W&B Team.</Note>
 </Note>
 
 
@@ -1267,6 +1285,8 @@ Replace `{team_id}` with the actual team ID and `{user_id}` with the actual user
 ### Replace team members
 
 Replaces all members of a team with a new list.
+
+<Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
 
 - **Endpoint**: **`<host-url>/scim/Groups/{id}`**
 - **Method**: PUT
@@ -1334,6 +1354,8 @@ PUT /scim/Groups/{team_id}
 
 Adding `dev-user2` to `acme-devs`:
 
+<Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
+
 <Tabs>
 <Tab title="Request">
 ```bash
@@ -1398,6 +1420,8 @@ PATCH /scim/Groups/{team_id}
 
 Removing `dev-user2` from `acme-devs`:
 
+<Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
+
 <Tabs>
 <Tab title="Request">
 ```bash
@@ -1448,6 +1472,8 @@ PATCH /scim/Groups/{team_id}
 **Removing all users from a team**
 
 Removing all users from `acme-devs`:
+
+<Note>This operation works for users only, not service accounts. Manage service accounts in the settings for the W&B Team.</Note>
 
 <Tabs>
 <Tab title="Request">
