@@ -11,11 +11,44 @@ W&B Weave is an observability and evaluation platform that helps you track, eval
 
 ## Get Started
 
-W&B Weave provides Python and TypeScript libraries.
+The following quickstart docs guide you through how to use Weave's suite of tools.
 
-To install the Weave library, run the following command:
+<CardGroup cols={4}>
+  <Card
+    title="Track LLM inputs & outputs"
+    icon="chart-line"
+    href="/weave/quickstart"
+  >
+    Begin debugging LLM apps by adding tracing to track inputs, outputs, latency, and token usage.
+  </Card>
 
-First install the Weave library:
+  <Card
+    title="Get started evaluating your app"
+    icon="clipboard-check"
+    href="/weave/tutorial-eval"
+  >
+    Learn how to build an evaluation pipeline with Weave Models and Evaluations to test your application.
+  </Card>
+
+  <Card
+    title="Evaluate a RAG application"
+    icon="search"
+    href="/weave/tutorial-rag"
+  >
+    Build and evaluate RAG applications using Weave with LLM judges to measure retrieval quality.
+  </Card>
+  <Card
+    title="Learn Weave with W&B Inference"
+    icon="rocket"
+    href="/weave/quickstart-inference"
+  >
+    Build and trace LLM applications using live open-source models without managing infrastructure or API keys.
+  </Card>
+</CardGroup>
+
+## Install Weave
+
+W&B Weave provides Python and TypeScript libraries. To install the Weave library, run the following command:
 
 <Tabs>
   <Tab title="Python">
@@ -32,11 +65,8 @@ First install the Weave library:
 
 To start using the Weave library, create a [Weights & Biases (W&B) account](https://wandb.ai) and [obtain a copy your API key](https://wandb.ai/authorize). The API key allows you to authenticate to your W&B account and start sending data to it.
 
+
 ## Next Steps
 
 Once you have completed the steps above, see the following quickstarts to learn how to add Weave to your code:
 
-* [Track LLM inputs & outputs](/weave/quickstart)
-* [Learn Weave with W&B Inference](/weave/quickstart-inference)
-* [Get started evaluating your app](/weave/tutorial-eval)
-* [Evaluate a RAG application](/weave/tutorial-rag).
