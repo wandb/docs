@@ -7,9 +7,9 @@ import RerunEvaluation from "/snippets/en/_includes/llm-eval-jobs/rerun-evaluati
 import ExportEvaluation from "/snippets/en/_includes/llm-eval-jobs/export-evaluation.mdx";
 import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
-<PreviewLink />
+<Note><PreviewLink /></Note>
 
-This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a hosted API model at a publicly-accessible URL, using infrastructure managed by CoreWeave. To evaluate a model checkpoint instead, see [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint) instead.
+This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a hosted API model at a publicly-accessible URL, using infrastructure managed by CoreWeave. To evaluate a model checkpoint saved as a W&B artifact, see [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint) instead.
 
 ## Prerequisites
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
@@ -28,9 +28,9 @@ Follow these steps to set up and launch an evaluation job:
 1. Select a destination project to save the evaluation results to.
 1. In the **Model** section, specify the base URL and model name to evaluate, and select the API key to use for authentication.
       - To evaluate a model provided by [W&B Inference](/inference), set the base URL to `https://api.inference.wandb.ai/v1` and specify the model name in the following syntax: `openai-api/wandb/<model_id>`. Refer to the [Inference model catalog](/inference/models) for details.
-      - To evaluate a publicly hosted model, prefix the model name with the model provider. For example, specify an OpenAI model using the format `openai/<model-name>`. For a comprehensive list of hosted model providers and models, see [AI Security Institute's model provider reference](https://inspect.aisi.org.uk/providers.html).
-      - To use the OpenRouter provider, prefix the model name with `openrouter` in the format `openrouter/<model-name>`.
-      - To evaluate a custom OpenAPI-compliant model, specify the model name in the format `openai-api/<model-name>`.
+      - To evaluate a publicly hosted model, prefix the model name with the model provider. For example, specify an OpenAI mode in the following syntax:  `openai/<model-name>`. For a comprehensive list of hosted model providers and models, see [AI Security Institute's model provider reference](https://inspect.aisi.org.uk/providers.html).
+      - To use the OpenRouter provider, prefix the model name with `openrouter` in the following syntax: `openrouter/<model-name>`.
+      - To evaluate a custom OpenAPI-compliant model, specify the model name in the following syntax: `openai-api/<model-name>`.
 1. Click **Select evaluations**, then select up to four benchmarks to run.
 1. If you select benchmarks that use OpenAI models for scoring, the **Scorer API key** field displays. Click it, then select the `OPENAI_API_KEY` secret. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.
 1. If you select benchmarks that require access to gated datasets in Hugging Face, a **Hugging Face token** field displays. [Request access to the relevant dataset](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user), then select the secret that contains the Hugging Face user access token.

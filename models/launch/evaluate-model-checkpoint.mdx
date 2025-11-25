@@ -7,9 +7,9 @@ import RerunEvaluation from "/snippets/en/_includes/llm-eval-jobs/rerun-evaluati
 import ExportEvaluation from "/snippets/en/_includes/llm-eval-jobs/export-evaluation.mdx";
 import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
-<PreviewLink />
+<Note><PreviewLink /></Note>
 
-This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a model checkpoint using infrastructure managed by CoreWeave. To evaluate a hosted API model instead, see [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model) instead.
+This page shows how to use [W&B LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a model checkpoint in W&B, using infrastructure managed by CoreWeave. To evaluate a hosted API model served at a publicly-accessible URL, see [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model) instead.
 
 ## Prerequisites
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
@@ -25,7 +25,7 @@ Follow these steps to set up and launch an evaluation job:
 
 1. Log in to W&B, then click **Launch** in the left navigation. The **LLM Evaluation Jobs** page displays.
 1. Click **Evaluate model checkpoint** to set up the evaluation job.
-1. Select a destination project where the evaluation results will be sent.
+1. Select a destination project to save the evaluation results to.
 1. In the **Model artifact** section, specify the project, artifact, and version of the prepared model to evaluate.
 1. Click **Evaluations**, then select up to four benchmarks.
 1. If you select benchmarks that use OpenAI models for scoring, the **Scorer API key** field displays. Click it, then select the `OPENAI_API_KEY` secret. For convenience, a team admin can create a secret from this drawer by clicking **Create secret**.

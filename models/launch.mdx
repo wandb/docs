@@ -4,9 +4,9 @@ title: LLM Evaluation Jobs
 ---
 import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
 
-[W&B LLM Evaluation Jobs](/models/launch) is a framework for measuring and analyzing how an LLM model performs, using infrastructure managed by CoreWeave. Run a comprehensive suite of modern, industry-standard [model evaluation benchmarks](/models/launch/evaluations), then view and analyze and share your model's performance using automatic leaderboards and charts in W&B. LLM Evaluation Jobs removes the complexity of deploying and maintaining advanced compute infrastructure yourself.
+[W&B LLM Evaluation Jobs](/models/launch) is a benchmarking framework for evaluating an LLM model's performance, using infrastructure managed by CoreWeave. Choose from a comprehensive suite of modern, industry-standard [model evaluation benchmarks](/models/launch/evaluations), then view, analyze, and share the results using automatic leaderboards and charts in W&B. LLM Evaluation Jobs removes the complexity of deploying and maintaining GPU  infrastructure yourself.
 
-<PreviewLink />
+<Note><PreviewLink /></Note>
 
 {/*
 <CardGroup cols={4}>
@@ -36,7 +36,7 @@ Each time you launch an evaluation job with the same destination project, the pr
 ## More details
 
 ### Pricing
-LLM Evaluation Jobs is in **Preview**. During the preview period, there is no charge.
+<PreviewLink />
 
 ### Job limits
 An individual evaluation job has these limits:
@@ -46,7 +46,7 @@ An individual evaluation job has these limits:
 ### Requirements
 - To evaluate a model checkpoint, the model weights must be packaged as a VLLM-compatible artifact. See [Example: Prepare a model](/models/launch/evaluate-model-checkpoint#example-prepare-a-model) for details and example code.
 - To evaluate an OpenAI-compatible model, it must be accessible at a public URL, and an organization or team admin must configure a team secret with the the API key for authentication.
-- Certain benchmarks use OpenAI models for scoring. To run these benchmarks, an organization or team admin must configure a team secret with the the API key. This requirement is documented in [Evaluation benchmark catalog](/models/launch/evaluations).
+- Certain benchmarks use OpenAI models for scoring. To run these benchmarks, an organization or team admin must configure a team secret with the API key. This requirement is documented in [Evaluation benchmark catalog](/models/launch/evaluations).
 - Certain benchmarks require access to gated datasets in Hugging Face. To run one of these benchmarks, an organization or team admin must request access to the gated dataset in Hugging face, generate a Hugging Face user access token, and configure it as a team secret. This requirement is documented in [Evaluation benchmark catalog](/models/launch/evaluations).
 
 For more details and instructions for meeting these requirements, see:
