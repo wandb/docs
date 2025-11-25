@@ -103,7 +103,6 @@ jobs:
           if [ -n "${{ steps.create-pr.outputs.pull-request-number }}" ]; then
             PR_URL="https://github.com/${{ github.repository }}/pull/${{ steps.create-pr.outputs.pull-request-number }}"
             echo "📝 PR created successfully!"
-            echo "🔗 Review the changes at: $PR_URL"
             echo "::notice title=Pull Request Created::A PR has been created for SDK extras updates: $PR_URL"
           fi
         else
