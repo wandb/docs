@@ -3,13 +3,23 @@ title: "Build an evaluation pipeline"
 description: "Learn how to build an evaluation pipeline with Weave Models and Evaluations"
 ---
 
-import WeaveInstall from "/snippets/en/_includes/weave-install.mdx";
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/en/_includes/github-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
+<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
+</div>
 
 Evaluations help you iterate and improve your applications by testing them against a set of examples after you make changes. Weave provides first-class support for tracking evaluations with `Model` and `Evaluation` classes. The APIs are designed with minimal assumptions, allowing flexibility for a wide array of use cases.
 
 ![Evals hero](/images/evals-hero.png)
 
-The guide walks you through how to:
+
+## What you'll learn:
+
+This guide shows you how to:
 
 * Set up a `Model`
 * Create a dataset to test an LLM's responses against
@@ -17,12 +27,8 @@ The guide walks you through how to:
 * Run an evaluation that tests the model against dataset using the scoring function and an additional built-in scorer
 * View the results of the evaluation in the Weave UI
 
-You can open this quickstart as an interactive notebook:
 
-- [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb)
-- [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb)
-
-<WeaveInstall/>
+<WeaveQuickstartPrereqs/>
 
 ## Import the necessary libraries and functions
 
@@ -111,7 +117,8 @@ You can instantiate `Model` objects like this:
 <Tabs>
   <Tab title="Python">
   ```python lines
-  weave.init('eval_pipeline_quickstart')
+  # Set your team and project name
+  weave.init('<team-name>/eval_pipeline_quickstart')
 
   model = ExtractFruitsModel(
       model_name='gpt-3.5-turbo-1106',

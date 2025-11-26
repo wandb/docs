@@ -3,18 +3,30 @@ title: "Evaluate RAG applications"
 description: "Build and evaluate RAG applications using Weave with LLM judges"
 ---
 
-import WeaveInstall from "/snippets/en/_includes/weave-install.mdx";
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/en/_includes/github-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
+<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
+</div>
 
 Retrieval Augmented Generation (RAG) is a common way of building Generative AI applications that have access to custom knowledge bases.
 
-In this example, we'll show an example that has a retrieval step to get documents. By tracking this, you can debug your app and see what documents were pulled into the LLM context.
-We'll also show how to evaluate it using an LLM judge.
-
 ![Evals hero](/images/evals-hero.png)
 
-Check out the [RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) for a more advanced dive into practical RAG techniques for engineers, where you'll learn production-ready solutions from Weights & Biases, Cohere and Weaviate to optimize performance, cut costs, and enhance the accuracy and relevance of your applications.
+## What you'll learn:
 
-<WeaveInstall/>
+This guide shows you how to:
+
+* Build a knowledge base
+* Create a RAG application with a retrieval step that finds relevant documents
+* Track retrieval steps with Weave
+* Evaluate RAG applications using an LLM judge to measure context precision
+* Define custom scoring functions
+
+<WeaveQuickstartPrereqs/>
 
 ## Build a knowledge base
 
@@ -106,7 +118,7 @@ First, we compute the embeddings for our articles. You would typically do this o
 
 ## Create a RAG app
 
-Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.op()` decorator and we create our `Model` class. We call `weave.init('rag-qa')` to begin tracking all the inputs and outputs of our functions for later inspection.
+Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.op()` decorator and we create our `Model` class. We call `weave.init('<team-name>/rag-quickstart')` to begin tracking all the inputs and outputs of our functions for later inspection. If you do not specify a team name, the output is recorded to your [W&B default team or entity](/platform/app/settings-page/user-settings#default-team).
 
 <Tabs>
   <Tab title="Python">
@@ -117,7 +129,6 @@ Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.
     import numpy as np
     import asyncio
 
-    # highlight-next-line
     @weave.op()
     def get_most_relevant_document(query):
         openai = OpenAI()
@@ -135,12 +146,10 @@ Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.
         most_relevant_doc_index = np.argmax(similarities)
         return articles[most_relevant_doc_index]
 
-    # highlight-next-line
     class RAGModel(Model):
         system_message: str
         model_name: str = "gpt-3.5-turbo-1106"
 
-    # highlight-next-line
         @weave.op()
         def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
             from openai import OpenAI
@@ -163,9 +172,9 @@ Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.
             )
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
-
-    # highlight-next-line
-    weave.init('rag-qa')
+    
+    # Set your team and project names
+    weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
     )
@@ -238,7 +247,6 @@ As we did in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), 
     import weave
     import asyncio
 
-    # highlight-next-line
     @weave.op()
     async def context_precision_score(question, output):
         context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
@@ -276,9 +284,7 @@ As we did in the [Build an Evaluation pipeline tutorial](/weave/tutorial-eval), 
         {"question": "Which company achieved the first U.S. moon landing since 1972?"},
         {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
     ]
-    # highlight-next-line
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    # highlight-next-line
     asyncio.run(evaluation.evaluate(model)) # note: you'll need to define a model to evaluate
     ```
 
@@ -474,7 +480,6 @@ Here, we show the code in it's entirety.
     article_embeddings = docs_to_embeddings(articles) # Note: you would typically do this once with your articles and put the embeddings & metadata in a database
 
     # We've added a decorator to our retrieval step
-    # highlight-next-line
     @weave.op()
     def get_most_relevant_document(query):
         openai = OpenAI()
@@ -493,14 +498,11 @@ Here, we show the code in it's entirety.
         return articles[most_relevant_doc_index]
 
     # We create a Model subclass with some details about our app, along with a predict function that produces a response
-    # highlight-next-line
     class RAGModel(Model):
         system_message: str
         model_name: str = "gpt-3.5-turbo-1106"
 
-    # highlight-next-line
         @weave.op()
-    # highlight-next-line
         def predict(self, question: str) -> dict: # note: `question` will be used later to select data from our evaluation rows
             from openai import OpenAI
             context = get_most_relevant_document(question)
@@ -523,17 +525,14 @@ Here, we show the code in it's entirety.
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
 
-    # highlight-next-line
-    weave.init('rag-qa')
-    # highlight-next-line
+    # Set your team and project names
+    weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
     )
 
     # Here is our scoring function uses our question and output to product a score
-    # highlight-next-line
     @weave.op()
-    # highlight-next-line
     async def context_precision_score(question, output):
         context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
         Output in only valid JSON format.
@@ -572,9 +571,7 @@ Here, we show the code in it's entirety.
     ]
 
     # We define an Evaluation object and pass our example questions along with scoring functions
-    # highlight-next-line
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    # highlight-next-line
     asyncio.run(evaluation.evaluate(model))
     ```
 
@@ -733,7 +730,8 @@ Here, we show the code in it's entirety.
     });
 
     async function main() {
-        await weave.init('rag-qa-ts');
+        # Set your team and project names
+        await weave.init('<team-name>/rag-quickstart');
         
         const articleEmbeddings = await docsToEmbeddings(articles);
         
@@ -767,3 +765,7 @@ Here, we show the code in it's entirety.
 
 We've learned how to build observability into different steps of our applications, like the retrieval step in this example.
 We've also learned how to build more complex scoring functions, like an LLM judge, for doing automatic evaluation of application responses.
+
+## Next Steps
+
+Check out the [RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) for a more advanced dive into practical RAG techniques for engineers, where you'll learn production-ready solutions from Weights & Biases, Cohere and Weaviate to optimize performance, cut costs, and enhance the accuracy and relevance of your applications.
