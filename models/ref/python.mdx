@@ -40,7 +40,6 @@ with wandb.init(entity=entity, project=project) as run:
 
 ## Install optional dependencies
 
-If needed, you can install optional dependencies that extend the functionality of the W&B Python SDK. Use the following command to install an optional dependency. Replace `extra` with the desired [optional dependency](#supported-optional-dependencies):
 If needed, you can install optional dependencies that extend the functionality of the W&B Python SDK. Replace `extra` with the desired [optional dependency](#supported-optional-dependencies):
 
 ```shell
@@ -59,12 +58,17 @@ Install more than one optional dependency by separating them with commas:
 pip install wandb[gcp,aws,media]
 ```
 
+Use extras when you need deeper integration with specific platforms or features. For example:
+
+* Install `gcp` if you store datasets, models, or artifacts in Google Cloud Storage.
+* Install `aws` if you use Amazon S3 or other AWS-backed storage in your workflows.
+* Install `media` if you frequently log large or complex media (`images`, `audio`, `video`) and want better format support.
+
 ### Supported optional dependencies
 
-The following table lists supported dependencies for the W&B Python SDK:
+The following table lists supported dependencies for the W&B Python SDK and the extras you can install:
 
-
-
+{/* python-extras-start */}
 | Extra | Packages included |
 |---------|---------|
 | `gcp` | [google-cloud-storage](https://pypi.org/project/google-cloud-storage/) |
