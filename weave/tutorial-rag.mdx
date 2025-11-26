@@ -3,6 +3,8 @@ title: "Evaluate RAG applications"
 description: "Build and evaluate RAG applications using Weave with LLM judges"
 ---
 
+import WeaveInstall from "/snippets/en/_includes/weave-install.mdx";
+
 Retrieval Augmented Generation (RAG) is a common way of building Generative AI applications that have access to custom knowledge bases.
 
 In this example, we'll show an example that has a retrieval step to get documents. By tracking this, you can debug your app and see what documents were pulled into the LLM context.
@@ -12,7 +14,9 @@ We'll also show how to evaluate it using an LLM judge.
 
 Check out the [RAG++ course](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) for a more advanced dive into practical RAG techniques for engineers, where you'll learn production-ready solutions from Weights & Biases, Cohere and Weaviate to optimize performance, cut costs, and enhance the accuracy and relevance of your applications.
 
-## 1. Build a knowledge base
+<WeaveInstall/>
+
+## Build a knowledge base
 
 First, we compute the embeddings for our articles. You would typically do this once with your articles and put the embeddings & metadata in a database, but here we're doing it every time we run our script for simplicity.
 
@@ -100,7 +104,7 @@ First, we compute the embeddings for our articles. You would typically do this o
   </Tab>
 </Tabs>
 
-## 2. Create a RAG app
+## Create a RAG app
 
 Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.op()` decorator and we create our `Model` class. We call `weave.init('rag-qa')` to begin tracking all the inputs and outputs of our functions for later inspection.
 
@@ -219,7 +223,7 @@ Next, we wrap our retrieval function `get_most_relevant_document` with a `weave.
   </Tab>
 </Tabs>
 
-## 3. Evaluating with an LLM Judge
+## Evaluating with an LLM Judge
 
 When there aren't simple ways to evaluate your application, one approach is to use an LLM to evaluate aspects of it. Here is an example of using an LLM judge to try to measure the context precision by prompting it to verify if the context was useful in arriving at the given answer. This prompt was augmented from the popular [RAGAS framework](https://docs.ragas.io/).
 
@@ -420,7 +424,7 @@ To use this as a scorer, you would initialize it and pass it to `scorers` argume
   </Tab>
 </Tabs>
 
-## 4. Pulling it all together
+## Pulling it all together
 
 To get the same result for your RAG apps:
 

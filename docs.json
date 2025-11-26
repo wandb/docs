@@ -785,9 +785,7 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
-                      "weave/guides/tools/attributes",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/guides/tools/attributes"
                     ]
                   },
                   {
