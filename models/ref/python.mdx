@@ -2,7 +2,6 @@
 title: Python SDK 0.23.0
 module:
 ---
-import PythonSDKExtras from '/snippets/en/_includes/python-sdk-extras.mdx'
 
 The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune models, and manage models from experimentation to production. 
 
@@ -63,7 +62,14 @@ pip install wandb[gcp,aws,media]
 
 The following table lists supported dependencies for the W&B Python SDK:
 
-<PythonSDKExtras/>
 
-
-
+{/* python-extras-start */}
+| Extra | Packages included |
+|---------|---------|
+| `gcp` | [google-cloud-storage](https://pypi.org/project/google-cloud-storage/) |
+| `aws` | [boto3](https://pypi.org/project/boto3/), [botocore](https://pypi.org/project/botocore/) |
+| `azure` | [azure-identity](https://pypi.org/project/azure-identity/), [azure-storage-blob](https://pypi.org/project/azure-storage-blob/) |
+| `media` | [numpy](https://pypi.org/project/numpy/), [moviepy](https://pypi.org/project/moviepy/), [imageio](https://pypi.org/project/imageio/), [pillow](https://pypi.org/project/pillow/), [bokeh](https://pypi.org/project/bokeh/), [soundfile](https://pypi.org/project/soundfile/), [plotly](https://pypi.org/project/plotly/), [rdkit](https://pypi.org/project/rdkit/) |
+| `sweeps` | [sweeps](https://pypi.org/project/sweeps/) |
+| `workspaces` | [wandb-workspaces](https://pypi.org/project/wandb-workspaces/) |
+{/* python-extras-end */}
