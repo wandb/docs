@@ -1,21 +1,19 @@
 ---
-title: "Compare model performance using the Evaluation Playground"
+title: "Evaluate and compare model performance using Playground"
 description: "Compare and evaluate model performance without code using Weave's interactive playground, running evaluations with custom datasets and LLM judges to test system prompts, models, and scoring criteria in a visual interface."
 ---
 
-# Evaluation Playground
+The Playground allows you to access existing models and compare their performance using evaluation datasets and LLM scoring judges. This enables you to start experimenting with and comparing your models without setting up any code. You can also save the models, scorers, and datasets you develop in the playground for later development and deployment.
 
-The Evaluation Playground allows you to access existing models and compare their performance using evaluation datasets and LLM scoring judges. This enables you to start experimenting with and comparing your models without setting up any code. You can also save the models, scorers, and datasets you develop in the playground for later development and deployment.
-
-For example, you can open the Evaluation Playground, add two models you've previously saved, and then evaluate their performance based on a new or previously saved question-answer style evaluation dataset. You can then add a new model in the interface, add system prompts to it, and then run a new evaluation on all three models to see how they perform against one another.
+For example, you can open the Playground, add two models you've previously saved, and then evaluate their performance based on a new or previously saved question-answer style evaluation dataset. You can then add a new model in the interface, add system prompts to it, and then run a new evaluation on all three models to see how they perform against one another.
 
 <Frame>
-![Evaluation Playground Interface](../evaluation/img/eval-playground-ui.png)
+![Evaluation tab of Playground interface](../evaluation/img/eval-playground-ui.png)
 </Frame>
 
-## Set up an evaluation in the playground
+## Set up an evaluation in the Playground
 
-To set up an evaluation in the Evaluation Playground:
+To set up an evaluation in the Playground:
 
 1. Open [the Weave UI](https://wandb.ai/wandb/quickstart_playground/weave/playground), and then open the project that you want to perform the evaluation in. This opens the Traces page. 
 2. From the Traces page, click the **Playground** icon in the left-menu, and then select the **Evaluate** tab on the Playground page. On the Evaluate page, you can either: 
@@ -58,7 +56,7 @@ It is also important to appropriately name the columns in your dataset `user_inp
 
 [Models](/weave/guides/core-types/models), in the context of Weave, are a combination of an AI model (such as GPT) and the environment (in this case the system prompt) that defines how the model operates during the evaluation. You can select existing models in your project or create new ones to evaluate, and you can add multiple models at once to evaluate them simultaneously with the same dataset and scorer. **You can only use models created using the playground feature.**
 
-To add a model in the **Models** section of the Evaluation Playground:
+To add a model in the **Models** section:
 
 1. Click **Add Model** and either select **New Model** or an existing model from the dropdown menu.
 2. If you selected **New Model**, configure the following fields:
@@ -75,7 +73,7 @@ To add a model in the **Models** section of the Evaluation Playground:
 
 [Scorers](../evaluation/scorers) use LLM judges to measure and assess the quality of AI model outputs. You can select existing scorers in your project or create new ones to evaluate your models with.
 
-To add a scorer in the Evaluation Playground: 
+To add a scorer: 
 
 1. Click **Add Scorer** and then configure the following fields:
     * **Name**: Add a descriptive name to your scorer.
@@ -101,7 +99,7 @@ To add a scorer in the Evaluation Playground:
 
 Once you've set up your datasets, models, and scorers, you can run the evaluation. 
 
-* To run the evaluation in the Evaluation Playground, click **Run eval**. 
+* To run the evaluation in the Playground, click **Run eval**. 
 
 Weave runs an individual evaluation for each model you've added and collects metrics on each request made using the dataset. Weave saves each of these evaluations in the **Evals** section for later review.
 

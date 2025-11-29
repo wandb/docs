@@ -62,7 +62,7 @@
               "index",
               "get-started",
               {
-                "group": "Deployment options",
+                "group": "Deployment Options",
                 "pages": [
                   "platform/hosting",
                   "platform/hosting/hosting-options/multi_tenant_cloud",
@@ -89,6 +89,7 @@
                       {
                         "group": "Install on public cloud",
                         "pages": [
+                          "platform/hosting/self-managed/install-on-public-cloud",
                           "platform/hosting/self-managed/aws-tf",
                           "platform/hosting/self-managed/gcp-tf",
                           "platform/hosting/self-managed/azure-tf"
@@ -730,15 +731,20 @@
             "icon": "/icons/cropped-weave.svg",
             "pages": [
               "weave",
-              "weave/quickstart",
-              "weave/quickstart-inference",
+              {
+                "group": "Get Started",
+                "pages": [
+                  "weave/quickstart",
+                  "weave/tutorial-eval",
+                  "weave/tutorial-rag"
+                ]
+              },
               {
                 "group": "Guides",
                 "pages": [
                   {
                     "group": "Iteration",
                     "pages": [
-                      "weave/tutorial-tracing_2",
                       {
                         "group": "Tracing & Debugging",
                         "pages": [
@@ -778,34 +784,15 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
-                      "weave/guides/tools/attributes",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/guides/tools/attributes"
                     ]
                   },
                   {
-                    "group": "Productionization",
+                    "group": "Guardrails and Monitoring",
                     "pages": [
-                      {
-                        "group": "Collect Feedback & Examples",
-                        "pages": [
-                          "weave/guides/tracking/feedback",
-                          "weave/guides/tracking/redact-pii"
-                        ]
-                      },
-                      {
-                        "group": "Online Evaluation",
-                        "pages": [
-                          "weave/guides/evaluation/guardrails_and_monitors"
-                        ]
-                      },
-                      {
-                        "group": "Tools & Utilities",
-                        "pages": [
-                          "weave/guides/tools/playground",
-                          "weave/guides/tools/evaluation_playground"
-                        ]
-                      }
+                      "weave/guides/tracking/feedback",
+                      "weave/guides/tracking/redact-pii",
+                      "weave/guides/evaluation/guardrails_and_monitors"
                     ]
                   },
                   {
@@ -861,15 +848,10 @@
                     ]
                   },
                   {
-                    "group": "Enterprise",
+                    "group": "Platform Details & Options",
                     "pages": [
                       "weave/guides/platform",
-                      "weave/guides/platform/weave-self-managed"
-                    ]
-                  },
-                  {
-                    "group": "Tools & Resources",
-                    "pages": [
+                      "weave/guides/platform/weave-self-managed",
                       "weave/guides/core-types/env-vars",
                       "weave/guides/troubleshooting",
                       "weave/guides/tracking/faqs",
@@ -879,55 +861,34 @@
                 ]
               },
               {
-                "group": "Cookbooks",
+                "group": "Tutorials",
                 "pages": [
-                  "weave/cookbooks",
                   {
                     "group": "Getting Started",
                     "pages": [
-                      "weave/cookbooks/Intro_to_Weave_Hello_Trace",
-                      "weave/cookbooks/Intro_to_Weave_Hello_Eval"
-                    ]
+                      "weave/install-weave",
+                      "weave/quickstart",
+                      "weave/tutorial-eval",
+                      "weave/tutorial-rag"                    ]
                   },
                   {
-                    "group": "Evaluations & Datasets",
+                    "group": "Examples",
                     "pages": [
-                      "weave/cookbooks/leaderboard_quickstart",
-                      "weave/cookbooks/hf_dataset_evals",
-                      "weave/cookbooks/import_from_csv"
-                    ]
-                  },
-                  {
-                    "group": "Models & Prompts",
-                    "pages": [
-                      "weave/cookbooks/Models_and_Weave_Integration_Demo",
+                      "weave/cookbooks/ocr-pipeline",
                       "weave/cookbooks/chain_of_density",
                       "weave/cookbooks/dspy_prompt_optimization",
-                      "weave/cookbooks/notdiamond_custom_routing"
+                      "weave/cookbooks/audio_with_weave",
+                      "weave/cookbooks/multi-agent-structured-output"
                     ]
                   },
                   {
                     "group": "Advanced Topics",
                     "pages": [
-                      "weave/cookbooks/multi-agent-structured-output",
-                      "weave/cookbooks/codegen",
-                      "weave/cookbooks/ocr-pipeline",
-                      "weave/cookbooks/audio_with_weave"
-                    ]
-                  },
-                  {
-                    "group": "Production & Monitoring",
-                    "pages": [
-                      "weave/cookbooks/online_monitoring",
                       "weave/cookbooks/feedback_prod",
+                      "weave/cookbooks/online_monitoring",
                       "weave/cookbooks/scorers_as_guardrails",
                       "weave/cookbooks/custom_model_cost",
-                      "weave/cookbooks/pii"
-                    ]
-                  },
-                  {
-                    "group": "API & Integration",
-                    "pages": [
+                      "weave/cookbooks/pii",
                       "weave/cookbooks/weave_via_service_api"
                     ]
                   }
