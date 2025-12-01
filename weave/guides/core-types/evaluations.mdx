@@ -170,7 +170,11 @@ asyncio.run(evaluation.evaluate(model))
 You can set the `trials` parameter on the `Evaluation` object to run each example multiple times.
 
 ```python lines
-evaluation = Evaluation(dataset=examples, scorers=[match_score], trials=3)
+evaluation = Evaluation(
+    dataset=examples,
+    scorers=[match_score],
+    trials=3
+)
 ```
 
 Each example will be passed to the `model` three times, and each run will be scored and displayed independently in Weave.

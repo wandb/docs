@@ -109,7 +109,6 @@ with wandb.init(project=project, config=config) as run:
         print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
         run.log({"accuracy": acc, "loss": loss})
 ```
-
 Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 <Frame>
