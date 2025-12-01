@@ -36,7 +36,7 @@ Each time you launch an evaluation job with the same destination project, the pr
 ## More details
 
 ### Pricing
-<PreviewLink />
+LLM Evaluation Jobs evaluates a model checkpoint or hosted API against popular benchmarks on fully-managed CoreWeave compute, with no infrastructure to manage. You pay only for resources consumed, not idle time. Pricing has two components: compute and storage. Compute is free during public preview, and we will announce pricing at general availability. Stored results include metrics and per-example traces saved in Models runs. Storage is billed monthly based on data volume. During the preview period, LLM Evaluation Jobs is available for Multi-tenant Cloud only. See the [Pricing](https://wandb.ai/pricing) page for details.
 
 ### Job limits
 An individual evaluation job has these limits:
@@ -46,7 +46,7 @@ An individual evaluation job has these limits:
 ### Requirements
 - To evaluate a model checkpoint, the model weights must be packaged as a VLLM-compatible artifact. See [Example: Prepare a model](/models/launch/evaluate-model-checkpoint#example-prepare-a-model) for details and example code.
 - To evaluate an OpenAI-compatible model, it must be accessible at a public URL, and an organization or team admin must configure a team secret with the the API key for authentication.
-- Certain benchmarks use OpenAI models for scoring. To run these benchmarks, an organization or team admin must configure a team secret with the API key. See the [Evaluation benchmark catalog](/models/launch/evaluations) to determine whether a benchmark has this requirement.
+- Certain benchmarks use OpenAI models for scoring. To run these benchmarks, an organization or team admin must configure team secrets with the required API keys. See the [Evaluation benchmark catalog](/models/launch/evaluations) to determine whether a benchmark has this requirement.
 - Certain benchmarks require access to gated datasets in Hugging Face. To run one of these benchmarks, an organization or team admin must request access to the gated dataset in Hugging face, generate a Hugging Face user access token, and configure it as a team secret. See the [Evaluation benchmark catalog](/models/launch/evaluations) to determine whether a benchmark has this requirement.
 
 For more details and instructions for meeting these requirements, see:
