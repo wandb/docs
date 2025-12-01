@@ -2550,6 +2550,26 @@
       "destination": "/platform/hosting"
     },
     {
+      "source": "/integrations/jupyter.html",
+      "destination": "/models/track/jupyter"
+    },
+    {
+      "source": "/models/track/launch/*",
+      "destination": "/platform/launch"
+    },
+    {
+      "source": "/library/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/models/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/_print/*",
+      "destination": "javascript:window.print()"
+    },
+    {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
       "destination": "/platform/hosting/self-managed"
     }
