@@ -11,8 +11,6 @@ This feature requires an Enterprise license. It is available only for:
 
 This page describes how to view and understand the execution history of your W&B [automations](/models/automations), including what triggered an automation, what actions were taken, and whether they succeeded or failed.
 
-## Overview
-
 Each executed automation generates a record that includes:
 - **Execution timestamp**: When the automation was triggered.
 - **Triggering event**: The specific event triggered the automation.
@@ -20,56 +18,24 @@ Each executed automation generates a record that includes:
 - **Action details**: Information about what action was performed, such as notifying a Slack channel or running a webhook.
 - **Result details**: Additional information, if any, about the final outcome of executing the automation, including the error for a failed execution.
 
-## View automation history
-
-You can view automation history from multiple locations in the W&B App:
-
-### From the Automations tab
+Select a tab for details.
 
 <Tabs>
 <Tab title="Registry">
 1. Navigate to your registry by clicking on **Registry** in the left sidebar.
 1. Select your registry from the list.
-1. Click **Automations** tab to view the registry's automations. In each row, the **Last execution** column shows when the automation last executed.
-1. In the **Automations history** tab, view all executions of the registry's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status.
+1. View the registry's automations in the **Automations** tab. Click the **Last execution** timestamp to view the execution history details. You can use the search bar to filter by automation name, and you can sort by the last triggered date to find recently executed automations.
+1. View the registry's automation executions in reverse chronological order in the **Automations history** tab, including the event, action, and status. Click an execution timestamp to view details about a particular execution.
+
+<Tip>If a collection has associated automation executions, the icon ![Collection automation execution symbol, a circle with a right-pointing arrow](/images/automations/collection-automation-execution-icon) displays, along with the number of associated executions.</Tip>
 </Tab>
 <Tab title="Project">
-1. Click the **Automations** tab in the left navigation. The project's automations display.
-
-    - Find the automation you want to investigate. You can use the search bar to filter by automation name, and you can sort by the last triggered date to find recently executed automations.
-
-    - Click an automation's name to view or edit its configuration.
+1. Click the **Automations** tab in the left navigation. The project's automations display. Click the **Last execution** timestamp to view the execution history details. You can use the search bar to filter by automation name, and you can sort by the last triggered date to find recently executed automations.
 1. In the **History** tab, view all executions of the project's automations in reverse chronological order, starting with the most recent execution. Each execution's metadata displays, including the event, action, and status. Click an execution timestamp to view details about a particular execution.
 </Tab>
 </Tabs>
 
-### From the automation details page
-
-1. Navigate to your project or registry.
-1. Click the **Automations** tab.
-1. Click an automation name to view or edit its configuration.
-1. The **Execution history** section shows all executions for this specific automation. lick an execution timestamp to view details about a particular execution.
-
-### From a specific entity
-
-<Tabs>
-<Tab title="Registry">
-1. Navigate to your registry.
-1. Select a specific registered model or artifact collection.
-1. Click the **...** menu in the top right.
-1. Select **View history** to see all automation executions related to this entity.
-</Tab>
-<Tab title="Project">
-1. Navigate to your project.
-1. Select a specific run or artifact.
-1. In the Overview tab, look for the **Triggered automations** section.
-1. Click on any listed automation to view its execution details.
-</Tab>
-</Tabs>
-
 ## Understanding execution details
-
-### Execution status
 
 Each automation execution has one of the following statuses:
 
@@ -77,10 +43,7 @@ Each automation execution has one of the following statuses:
 - **Failed**: The automation encountered an error and terminated unsuccessfully.
 - **Pending**: The automation is queued for execution.
 
-
-### Execution details
-
-Click on any execution in the history to view:
+Click on any execution in the history to view details:
 
 - **Event details**: The specific event that triggered the automation, including:
   - Event type (e.g., "New artifact version", "Run completed")
@@ -95,10 +58,6 @@ Click on any execution in the history to view:
 - **Result information**:
   - Response status (for webhooks)
   - Any error messages or stack traces (for failed executions)
-
-## Find an automation execution
-
-To find an automation execution, you can search by automation name, or you can sort the list of executions by any column.
 
 ## Next steps
 
