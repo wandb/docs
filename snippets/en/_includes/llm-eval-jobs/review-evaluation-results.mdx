@@ -1,0 +1,30 @@
+## Review evaluation results
+Review your evaluation job results in W&B Models in the destination project's workspace.
+
+1. Click the circular arrow icon at the top of the page to open the recent run modal, where evaluation jobs appear with other runs in the project. If the evaluation job has a leaderboard, click **Leaderboard** to open the leaderboard in full screen, or click a run name to open it in the project in single-run view.
+1. View the evaluation job's traces in the **Evaluations** section of a workspace or in the **Traces** tab of the **Weave** sidebar panel.
+1. Click the **Overview** tab to view detailed information about the evaluation job, including its configuration and summary metrics.
+1. Click the **Logs** tab to view, search, or download the evaluation job's debug logs.
+1. Click the **Files** tab to browse, view, or download the evaluation job's files, including code, log, configuration, and other output files.
+
+## Customize a leaderboard
+The leaderboard shows results for all evaluation jobs sent to a given project, with one row per benchmark per evaluation job. Columns display details like the trace, input values, and output values for the evaluation job. For more information about leaderboards, see [Leaderboards in Weave](/weave/guides/core-types/leaderboards).
+
+<Tip>To give feedback about a result from the leaderboard, click the emoji icon or the chat icon in the **Feedback** column.</Tip>
+
+- By default, all evaluation jobs are displayed. Filter or search for an evaluation job using the run selector at the left.
+- By default, evaluation jobs are ungrouped. To group by one or more columns, click the **Group** icon. You can show or hide a group, or expand a group to view its runs.
+- By default, all operations are displayed. To display only a single operation, click **All ops** and select an operation.
+- To sort by a column, click the column heading. To customize the display of columns, click **Columns**.
+  - By default, headers are organized in a single level. You can increase the header depth to organize related headers together.
+  - Select or deselect individual columns to show or hide them, or show or hide all columns with a click.
+  - Pin columns to display them before unpinned columns.
+
+## Export a leaderboard
+To export a leaderboard:
+1. Click the download icon, located near the **Columns** button.
+1. To optimize the export size, only the trace roots are exported by default. To export full traces, turn off **Trace roots only**.
+1. To optimize the export size, feedback and costs are not exported by default. To include them in the export, toggle **Feedback** or **Costs**.
+1. By default, the export is in JSONL format. To customize the format, click **Export to file** and select a format.
+1. To export the leaderboard in your browser, click **Export**.
+1. To export the leaderboard programmatically, select **Python** or **cURL**, then click **Copy** and run the script or command.

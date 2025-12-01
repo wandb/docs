@@ -1,23 +1,33 @@
 ---
 title: "wandb server start"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-server-start.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbServerStart from "/snippets/en/_includes/cli/wandb-server-start.mdx";
 
-`wandb server start [OPTIONS]`
+<WandbServerStart/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Start a local W&B server
 
+## Usage
 
-**Options**
+```bash
+wandb server start [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-p, --port` | The host port to bind W&B server on |
-| `-e, --env` | Env vars to pass to wandb/local |
-| `--daemon / --no-daemon` | Run or don't run in daemon mode |
-
-
-
+| `--port`, `-p` | The host port to bind W&B server on (default: 8080) |
+| `--env`, `-e` | Env vars to pass to wandb/local (default: []) |
+| `--daemon` | Run or don't run in daemon mode (default: True) |
+| `--upgrade` | Upgrade to the most recent version (default: False) |
+| `--edge` | Run the bleeding edge (default: False) |

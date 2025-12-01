@@ -1,0 +1,121 @@
+---
+title: "Use Serverless LoRA Inference"
+linkTitle: "Use Serverless LoRA Inference"
+description: >
+  Bring your own custom LoRA for serving fine-tuned models on W&B Inference.
+---
+
+LoRA (Low-Rank Adaptation) lets you personalize large language models by training and storing only a lightweight ‘add-on’ instead of a full new model. This makes customization faster, cheaper, and easier to deploy.
+
+You can train or upload a LoRA to give a base model new capabilities, such as specializing it for customer support, creative writing, or a particular technical field. This allows you to adapt the model’s behavior without having to retrain or redeploy the entire model.
+
+## Why use W&B Inference for LoRAs?
+
+- Upload once, deploy instantly — no servers to manage.
+- Track exactly which version is live with artifact versioning.
+- Update models in seconds by swapping small LoRA files instead of the full model weights.
+
+## Workflow
+
+1. Upload your LoRA weights as a W&B artifact
+2. Reference the artifact URI as your model name in the API
+3. W&B dynamically loads your weights for inference
+
+Here's an example of calling your custom LoRA model using W&B Inference:
+
+```python
+from openai import OpenAI
+
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/qwen_lora:latest"
+
+client = OpenAI(
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key=API_KEY,
+    project=f"{WB_TEAM}/{WB_PROJECT}",
+)
+
+resp = client.chat.completions.create(
+    model=model_name,
+    messages=[{"role": "user", "content": "Say 'Hello World!'"}],
+)
+print(resp.choices[0].message.content)
+```
+
+Check out this [getting started notebook](https://wandb.me/lora_nb) for an interactive demonstration of how to create a LoRA and upload it to W&B as an artifact.
+
+## Prerequisites
+
+You need:
+
+* A [W&B API key](/models/integrations/add-wandb-to-any-library#create-an-api-key)
+* A [W&B project](/models/track/project-page)
+* **Python 3.8+** with `openai` and `wandb` packages:
+  `pip install wandb openai`
+
+
+## How to add LoRAs and use them
+
+You can add LoRAs to your W&B account and start using them with two methods:
+
+<Tabs>
+  <Tab title="Upload a LoRA you trained elsewhere">
+    Upload your own custom LoRA directory as a W&B artifact. This is perfect if you've trained your LoRA elsewhere (local environment, cloud provider, or partner service).
+
+    This Python code uploads your locally stored LoRA weights to W&B as a versioned artifact. It creates a `lora` type artifact with the required metadata (base model and storage region), adds your LoRA files from a local directory, and logs it to your W&B project for use with inference.
+
+    ```python
+    import wandb
+
+    run = wandb.init(entity=WB_TEAM, project=WB_PROJECT)
+
+    artifact = wandb.Artifact(
+        "qwen_lora",
+        type="lora",
+        metadata={"wandb.base_model": "OpenPipe/Qwen3-14B-Instruct"},
+        storage_region="coreweave-us",
+    )
+
+    artifact.add_dir("<path-to-lora-weights>")
+    run.log_artifact(artifact)
+    ```
+
+    ### Key Requirements
+
+    To use your own LoRAs with Inference:
+
+    * The LoRA must have been trained using one of the models listed in the [Supported Base Models section](#supported-base-models).
+    * A LoRA saved in PEFT format as a `lora` type artifact in your W&B account.
+    * The LoRA must be stored in the `storage_region="coreweave-us"` for low latency.
+    * When uploading, include the name of the base model you trained it on (for example, `meta-llama/Llama-3.1-8B-Instruct`). This ensures W&B can load it with the correct model.
+  </Tab>
+  <Tab title="Train a new LoRA with W&B">
+    Train a new LoRA with [W&B Training (serverless RL)](/training). Your LoRA automatically becomes a W&B artifact that you can use directly.
+
+    For detailed information on how to train your own LoRA, see [OpenPipe's ART quickstart](https://art.openpipe.ai/getting-started/quick-start).
+
+    Once training is complete, your LoRA is automatically available as an artifact.
+  </Tab>
+</Tabs>
+
+Once your LoRA has been added to your project as an artifact, use the artifact's URI in your inference calls, like this:
+
+```python
+# After training completes, use your artifact directly
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
+```
+
+## Supported Base Models
+
+Inference is currently configured for the following LLMs (exact strings must be used in `wandb.base_model`). More models coming soon:
+
+- `OpenPipe/Qwen3-14B-Instruct`
+- `Qwen/Qwen2.5-14B-Instruct`
+- `meta-llama/Llama-3.1-70B-Instruct`
+- `meta-llama/Llama-3.1-8B-Instruct`
+
+## Pricing
+
+Serverless LoRA Inference is simple and cost-effective: you pay only for storage and the inference you actually run, rather than for always-on servers or dedicated GPU instances.
+
+- [**Storage**](https://wandb.ai/site/pricing/) - Storing LoRA weights is inexpensive, especially compared to maintaining your own GPU infrastructure.
+- **Inference usage** - Calls that use LoRA artifacts are billed at the same rates as [standard model inference](/inference/usage-limits#account-tiers-and-default-usage-caps). There are no extra fees for serving custom LoRAs.
