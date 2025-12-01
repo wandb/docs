@@ -32,6 +32,12 @@ This tab appears for images and point clouds logged with segmentation masks or b
 - Search and filter overlays by name.
 - Customize overlay colors.
 
+### Sync
+This tab appears in the workspace and section settings.
+- **Sync slider by key**: Configure whether the step sliders for videos in the section move in sync.
+- **Sync video playback**: Configure whether videos in the section play in sync. Not customizable at the section level. Appears only if the workspace has video media panels.
+- **Loop videos**: Configure whether videos in the section restart automatically and play continuously until stopped. Not customizable at the section level. Appears only if the workspace has video media panels.
+
 ### Display
 Customize the panel's overall appearance and behavior.
 - Configure the panel's title.
@@ -85,8 +91,9 @@ For details about each setting, refer to [Configure a media panel](#configure-a-
 ## Interact with a media panel
 - Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
 - To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
-- To move a media panel's step slider, use **CMD + left or right arrow key** (macOS) or **Ctrl + left or right arrow key** (Windows / Linux). If **Sync slider by key (Step)** is turned on for the section or workspace, moving the step slider in one media panel also moves the step slider in other media panels with the same step slider key.
-- Use the stepper at the top of a media panel to step through media runs. To move the step slider, use the UI controls or 
+- To move a media panel's step slider, use **CMD + left or right arrow key** (macOS) or **Ctrl + left or right arrow key** (Windows / Linux). If **Sync slider by key** is turned on for the section or workspace, moving the step slider in one media panel also moves the step slider in other media panels with the same step slider key.
+- Use the stepper at the top of a media panel to step through media runs. To move the step slider, use the UI controls.
+- Use the media controls to play, pause, or stop video playback. If **Sync video playback** is turned on, all videos in the section play in sync. If **Loop videos** is turned on, videos in the section restart automatically and play continuously until stopped.
 - To configure a media panel, hover over it and click the gear icon at the top.
 - For an image that was logged with segmentation masks, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
 - For an image or point cloud that was logged with bounding boxes, you can customize their appearance or turn each one on or off. Hover over the panel, then click the lower gear icon.
