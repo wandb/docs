@@ -2566,8 +2566,12 @@
       "destination": "/platform/app/settings-page/:slug*"
     },
     {
-      "source": "/_print/*",
-      "destination": "javascript:window.print()"
+      "source": "/_print/:slug*",
+      "destination": "/:slug*"
+    },
+    {
+      "source": "/docs/*",
+      "destination": "/models"
     },
     {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
