@@ -336,6 +336,15 @@
                     ]
                   },
                   {
+                    "group": "LLM Evaluation Jobs",
+                    "pages": [
+                      "models/launch",
+                      "models/launch/evaluate-model-checkpoint",
+                      "models/launch/evaluate-hosted-model",
+                      "models/launch/evaluations"
+                    ]
+                  },
+                  {
                     "group": "W&B App UI",
                     "pages": [
                       "models/app/features/cascade-settings",
@@ -384,6 +393,7 @@
               {
                 "group": "Integrations",
                 "pages": [
+                  "models/integrations",
                   "models/integrations/add-wandb-to-any-library",
                   {
                     "group": "ML Frameworks and Libraries",
@@ -2264,6 +2274,18 @@
       "destination": "/models/app/:slug*"
     },
     {
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/guides/app/console-logs",
+      "destination": "/models/app/console-logs"
+    },
+    {
+      "source": "/guides/app/keyboard-shortcuts",
+      "destination": "/models/app/keyboard-shortcuts"
+    },
+    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2348,8 +2370,8 @@
       "destination": "/training/:slug*"
     },
     {
-      "source": "/guides/models/evaluate-models",
-      "destination": "/models/evaluate-models"
+      "source": "/guides/models/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/launch-library/:slug*",
@@ -2480,8 +2502,8 @@
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/guides/core",
-      "destination": "/models"
+      "source": "/guides/core/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/models/core",
@@ -2490,6 +2512,42 @@
     {
       "source": "/inference/response-settings",
       "destination": "/inference"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/intro_notebook",
+      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/:slug*",
+      "destination": "/weave/cookbooks/:slug*"
+    },
+    {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/models/app/pages/workspaces",
+      "destination": "/models/app/features/cascade-settings"
+    },
+    {
+      "source": "/models/ref/python/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/guides/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
+      "source": "/models/integrations/openai",
+      "destination": "/models/integrations/openai-api"
+    },
+    {
+      "source": "/platform/hosting/how-to-guides/*",
+      "destination": "/platform/hosting"
     },
     {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
