@@ -223,7 +223,9 @@ description: "TypeScript SDK reference"
         # 2. Fix links to README/index to point to landing page
         content = re.sub(r'\]\(\.\./README', '](../', content)
         content = re.sub(r'\]\(\.\./index', '](../', content)
-        content = re.sub(r'\]\(README', '](typescript-sdk', content)
+        # Don't convert self-referential README anchor links - they'll be fixed later in extract_members_to_separate_files()
+        # Only convert non-anchor README links
+        content = re.sub(r'\]\(README\)', '](typescript-sdk)', content)
         
         # 3. Fix all TypeDoc-generated links to lowercase
         # Paths that already have directory structure (../classes/, ../interfaces/, etc.)
@@ -249,6 +251,25 @@ description: "TypeScript SDK reference"
             content = re.sub(r'\]\(\.\./interfaces/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/interfaces/{m.group(1).lower()}{m.group(2) or ""})', content)
             content = re.sub(r'\]\(\.\./functions/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/functions/{m.group(1).lower()}{m.group(2) or ""})', content)
             content = re.sub(r'\]\(\.\./type-aliases/([^)#]+)(#[^)]+)?\)', lambda m: f'](./typescript-sdk/type-aliases/{m.group(1).lower()}{m.group(2) or ""})', content)
+            
+            # Fix self-referential anchor links like (README#anchor) that appear in Table of Contents
+            # We'll scan the content to determine if each anchor refers to a function or type alias
+            # First, extract all type alias names (they have the Ƭ symbol)
+            type_alias_names = set()
+            type_alias_matches = re.findall(r'###\s+([A-Za-z][A-Za-z0-9]*)\n\nƬ', content)
+            for name in type_alias_matches:
+                type_alias_names.add(name.lower())
+            
+            # Now convert README anchor links to proper paths based on whether they're type aliases or functions
+            def fix_readme_anchor(match):
+                anchor = match.group(1).lower()
+                if anchor in type_alias_names:
+                    return f'](./typescript-sdk/type-aliases/{anchor})'
+                else:
+                    # Assume it's a function if not a type alias
+                    return f'](./typescript-sdk/functions/{anchor})'
+            
+            content = re.sub(r'\]\(README#([a-zA-Z][a-zA-Z0-9-]*)\)', fix_readme_anchor, content)
         
         # Special handling for index files (README.md)
         # These files are at the root level and link directly to subdirectories
@@ -298,9 +319,10 @@ def extract_members_to_separate_files(docs_path):
         functions_dir.mkdir(exist_ok=True)
         
         # Find and extract each function section
-        # Pattern to match function sections (from ### functionName to the next ### or end)
+        # Pattern to match function sections (from ### functionName followed by ▸ symbol to the next ### or end)
+        # The ▸ symbol (U+25B8) is used by TypeDoc to mark function signatures
         function_pattern = re.compile(
-            r'(### (init|login|op|requireCurrentCallStackEntry|requireCurrentChildSummary|weaveAudio|weaveImage|wrapOpenAI)\n.*?)(?=\n### |\Z)',
+            r'(### ([a-zA-Z][a-zA-Z0-9]*)\n\n▸.*?)(?=\n### |\Z)',
             re.DOTALL
         )
         
@@ -445,12 +467,19 @@ def organize_for_mintlify(temp_output, final_output):
         else:
             shutil.copy2(item, dest)
     
-    # Move README.mdx to typescript-sdk.mdx landing page if it exists
-    readme_path = final_path / "README.mdx"
+    # Move readme.mdx to typescript-sdk.mdx landing page if it exists
+    # Check for both uppercase and lowercase versions (case sensitivity)
+    readme_path = final_path / "readme.mdx"
+    readme_path_upper = final_path / "README.mdx"
+    
     if readme_path.exists():
         landing_path = final_path.parent / "typescript-sdk.mdx"
         readme_path.rename(landing_path)
-        print("  ✓ Created typescript-sdk.mdx landing page from README")
+        print("  ✓ Created typescript-sdk.mdx landing page from readme.mdx")
+    elif readme_path_upper.exists():
+        landing_path = final_path.parent / "typescript-sdk.mdx"
+        readme_path_upper.rename(landing_path)
+        print("  ✓ Created typescript-sdk.mdx landing page from README.mdx")
     
     # Extract functions and type aliases to separate files if they're consolidated
     extract_members_to_separate_files(final_path)
