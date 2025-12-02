@@ -339,6 +339,11 @@ def extract_members_to_separate_files(docs_path):
             func_content = func_content.replace('./typescript-sdk/type-aliases/', '../type-aliases/')
             func_content = func_content.replace('./typescript-sdk/functions/', './')
             
+            # Fix anchor links to readme/landing page
+            # Links like (./readme#anchor) need to point to type-aliases (which is where they're extracted to)
+            func_content = re.sub(r'\]\(\./readme#([^)]+)\)', r'](../type-aliases/\1)', func_content)
+            func_content = re.sub(r'\]\(readme#([^)]+)\)', r'](../type-aliases/\1)', func_content)
+            
             # Fix TypeDoc-generated anchor links like (typescript-sdk#op) -> (../type-aliases/op)
             func_content = re.sub(r'\]\(typescript-sdk#([^)]+)\)', r'](../type-aliases/\1)', func_content)
             
@@ -401,6 +406,11 @@ description: "TypeScript SDK reference"
             alias_content = alias_content.replace('./typescript-sdk/interfaces/', '../interfaces/')
             alias_content = alias_content.replace('./typescript-sdk/functions/', '../functions/')
             alias_content = alias_content.replace('./typescript-sdk/type-aliases/', './')
+            
+            # Fix anchor links to readme/landing page
+            # Links like (./readme#anchor) stay within type-aliases (self-referential)
+            alias_content = re.sub(r'\]\(\./readme#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
+            alias_content = re.sub(r'\]\(readme#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
             
             # Fix TypeDoc-generated anchor links like (typescript-sdk#op) -> (./op)
             alias_content = re.sub(r'\]\(typescript-sdk#([^)]+)\)', lambda m: f'](./{m.group(1).lower()})', alias_content)
