@@ -1,0 +1,419 @@
+---
+title: "weave"
+description: "TypeScript SDK reference"
+---
+
+weave
+
+
+
+## Table of contents
+
+### Classes
+
+- [Dataset](./typescript-sdk/classes/dataset)
+- [Evaluation](./typescript-sdk/classes/evaluation)
+- [EvaluationLogger](./typescript-sdk/classes/evaluationlogger)
+- [MessagesPrompt](./typescript-sdk/classes/messagesprompt)
+- [ObjectRef](./typescript-sdk/classes/objectref)
+- [ScoreLogger](./typescript-sdk/classes/scorelogger)
+- [StringPrompt](./typescript-sdk/classes/stringprompt)
+- [WeaveClient](./typescript-sdk/classes/weaveclient)
+- [WeaveObject](./typescript-sdk/classes/weaveobject)
+
+### Interfaces
+
+- [CallSchema](./typescript-sdk/interfaces/callschema)
+- [CallsFilter](./typescript-sdk/interfaces/callsfilter)
+- [WeaveAudio](./typescript-sdk/interfaces/weaveaudio)
+- [WeaveImage](./typescript-sdk/interfaces/weaveimage)
+
+### Type Aliases
+
+- [Op](typescript-sdk#op)
+- [OpDecorator](typescript-sdk#opdecorator)
+
+### Functions
+
+- [init](typescript-sdk#init)
+- [login](typescript-sdk#login)
+- [op](typescript-sdk#op-1)
+- [requireCurrentCallStackEntry](typescript-sdk#requirecurrentcallstackentry)
+- [requireCurrentChildSummary](typescript-sdk#requirecurrentchildsummary)
+- [weaveAudio](typescript-sdk#weaveaudio)
+- [weaveImage](typescript-sdk#weaveimage)
+- [withAttributes](typescript-sdk#withattributes)
+- [wrapOpenAI](typescript-sdk#wrapopenai)
+
+## Type Aliases
+
+### Op
+
+Ƭ **Op**\<`T`\>: \{ `__boundThis?`: [`WeaveObject`](./typescript-sdk/classes/weaveobject) ; `__isOp`: ``true`` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` \| `Promise`\<`OpRef`\> ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`\<`T`\>  } & `T` & (...`args`: `Parameters`\<`T`\>) => `ReturnType`\<`T`\> extends `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### Defined in
+
+[opType.ts:7](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/opType.ts#L7)
+
+___
+
+### OpDecorator
+
+Ƭ **OpDecorator**\<`T`\>: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) => `T` \| `void` & (`target`: `Object`, `propertyKey`: `string` \| `symbol`, `descriptor`: `TypedPropertyDescriptor`\<`T`\>) => `TypedPropertyDescriptor`\<`T`\> \| `void`
+
+Helper type for decorators
+This represents a decorator function that can be used with both legacy and Stage 3 decorators.
+
+For Stage 3 decorators:
+  target: The function being decorated (T)
+  context: MethodDecoratorContext
+
+For legacy decorators:
+  target: The prototype (instance methods) or constructor (static methods)
+  propertyKey: The method name
+  descriptor: The property descriptor containing the method
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### Defined in
+
+[opType.ts:41](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/opType.ts#L41)
+
+## Functions
+
+### init
+
+▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](./typescript-sdk/classes/weaveclient)\>
+
+Initialize the Weave client, which is required for weave tracing to work.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
+| `settings?` | `SettingsInit` | (Optional) Weave tracing settings |
+
+#### Returns
+
+`Promise`\<[`WeaveClient`](./typescript-sdk/classes/weaveclient)\>
+
+A promise that resolves to the initialized Weave client.
+
+`Throws`
+
+If the initialization fails
+
+#### Defined in
+
+[clientApi.ts:83](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/clientApi.ts#L83)
+
+___
+
+### login
+
+▸ **login**(`apiKey`, `host?`): `Promise`\<`void`\>
+
+Log in to Weights & Biases (W&B) using the provided API key.
+This function attempts to save the credentials to your netrc file for future use,
+but will continue even if it cannot write to the file system.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `apiKey` | `string` | Your W&B API key. |
+| `host?` | `string` | (Optional) The host name (usually only needed if you're using a custom W&B server). |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+`Throws`
+
+If the API key is not specified or if the connection to the weave trace server cannot be verified.
+
+#### Defined in
+
+[clientApi.ts:23](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/clientApi.ts#L23)
+
+___
+
+### op
+
+▸ **op**\<`T`\>(`fn`, `options?`): [`Op`](typescript-sdk#op)\<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `fn` | `T` |
+| `options?` | `OpOptions`\<`T`\> |
+
+#### Returns
+
+[`Op`](typescript-sdk#op)\<`T`\>
+
+#### Defined in
+
+[op.ts:369](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/op.ts#L369)
+
+▸ **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](typescript-sdk#op)\<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `thisArg` | `any` |
+| `fn` | `T` |
+| `options?` | `OpOptions`\<`T`\> |
+
+#### Returns
+
+[`Op`](typescript-sdk#op)\<`T`\>
+
+#### Defined in
+
+[op.ts:374](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/op.ts#L374)
+
+▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `target` | `Object` |
+| `propertyKey` | `string` \| `symbol` |
+| `descriptor` | `TypedPropertyDescriptor`\<`any`\> |
+
+#### Returns
+
+`TypedPropertyDescriptor`\<`any`\>
+
+#### Defined in
+
+[op.ts:380](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/op.ts#L380)
+
+▸ **op**\<`T`\>(`value`, `context`): [`Op`](typescript-sdk#op)\<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `T` |
+| `context` | `MethodDecoratorContext` |
+
+#### Returns
+
+[`Op`](typescript-sdk#op)\<`T`\>
+
+#### Defined in
+
+[op.ts:386](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/op.ts#L386)
+
+▸ **op**(`options`): `MethodDecorator`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | `Partial`\<`OpOptions`\<`any`\>\> |
+
+#### Returns
+
+`MethodDecorator`
+
+#### Defined in
+
+[op.ts:391](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/op.ts#L391)
+
+___
+
+### requireCurrentCallStackEntry
+
+▸ **requireCurrentCallStackEntry**(): `CallStackEntry`
+
+#### Returns
+
+`CallStackEntry`
+
+#### Defined in
+
+[clientApi.ts:147](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/clientApi.ts#L147)
+
+___
+
+### requireCurrentChildSummary
+
+▸ **requireCurrentChildSummary**(): `Object`
+
+#### Returns
+
+`Object`
+
+#### Defined in
+
+[clientApi.ts:159](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/clientApi.ts#L159)
+
+___
+
+### weaveAudio
+
+▸ **weaveAudio**(`options`): [`WeaveAudio`](./typescript-sdk/interfaces/weaveaudio)
+
+Create a new WeaveAudio object
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `options` | `WeaveAudioInput` | The options for this media type - data: The raw audio data as a Buffer - audioType: (Optional) The type of audio file, currently only 'wav' is supported |
+
+#### Returns
+
+[`WeaveAudio`](./typescript-sdk/interfaces/weaveaudio)
+
+`Example`
+
+```ts
+const audioBuffer = fs.readFileSync('path/to/audio.wav');
+const weaveAudio = weaveAudio({ data: audioBuffer });
+```
+
+#### Defined in
+
+[media.ts:62](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/media.ts#L62)
+
+___
+
+### weaveImage
+
+▸ **weaveImage**(`options`): [`WeaveImage`](./typescript-sdk/interfaces/weaveimage)
+
+Create a new WeaveImage object
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `options` | `WeaveImageInput` | The options for this media type - data: The raw image data as a Buffer - imageType: (Optional) The type of image file, currently only 'png' is supported |
+
+#### Returns
+
+[`WeaveImage`](./typescript-sdk/interfaces/weaveimage)
+
+`Example`
+
+```ts
+const imageBuffer = fs.readFileSync('path/to/image.png');
+const weaveImage = weaveImage({ data: imageBuffer });
+```
+
+#### Defined in
+
+[media.ts:28](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/media.ts#L28)
+
+___
+
+### withAttributes
+
+▸ **withAttributes**\<`T`\>(`attrs`, `fn`): `Promise`\<`T`\> \| `T`
+
+Attach attributes to the current execution context so that any calls created
+inside `fn` automatically inherit them. Attributes are written to the call
+record on the trace server and surface in the Weave UI/filtering, so they’re
+ideal for tagging runs with request IDs, tenants, experiments, etc.
+
+Example:
+```ts
+await withAttributes({requestId: 'abc'}, async () => {
+  await myOp();
+});
+```
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `attrs` | `Record`\<`string`, `any`\> |
+| `fn` | () => `T` \| `Promise`\<`T`\> |
+
+#### Returns
+
+`Promise`\<`T`\> \| `T`
+
+#### Defined in
+
+[clientApi.ts:193](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/clientApi.ts#L193)
+
+___
+
+### wrapOpenAI
+
+▸ **wrapOpenAI**\<`T`\>(`openai`): `T`
+
+Wraps the OpenAI API to enable function tracing for OpenAI calls.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `OpenAIAPI` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `openai` | `T` |
+
+#### Returns
+
+`T`
+
+`Example`
+
+```ts
+const openai = wrapOpenAI(new OpenAI());
+const result = await openai.chat.completions.create({
+  model: 'gpt-3.5-turbo',
+  messages: [{ role: 'user', content: 'Hello, world!' }]
+});
+```
+
+#### Defined in
+
+[integrations/openai.ts:469](https://github.com/wandb/weave/blob/59275c4ace6796dcd3326129c65c6483942e3ba2/sdks/node/src/integrations/openai.ts#L469)
