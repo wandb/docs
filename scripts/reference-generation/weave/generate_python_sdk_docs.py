@@ -230,7 +230,10 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
                 continue
             
             obj = getattr(module, name)
-            if hasattr(obj, "__module__") and obj.__module__ != module_name:
+            
+            # For the root "weave" module, include re-exported items from submodules
+            # Otherwise, only include items that belong to this specific module
+            if module_name != "weave" and hasattr(obj, "__module__") and obj.__module__ != module_name:
                 continue
             
             sections.append(process_object(obj, generator, module_name))
