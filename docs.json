@@ -401,18 +401,9 @@
                       {
                         "group": "ML Frameworks",
                         "pages": [
-                          "models/integrations/catalyst",
-                          "models/integrations/deepchem",
-                          "models/integrations/dspy",
                           "models/integrations/keras",
-                          "models/integrations/lightgbm",
-                          "models/integrations/mmengine",
-                          "models/integrations/mmf",
-                          "models/integrations/paddledetection",
-                          "models/integrations/paddleocr",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
-                          "models/integrations/skorch",
                           "models/integrations/tensorflow",
                           "models/integrations/xgboost"
                         ]
@@ -420,22 +411,11 @@
                       {
                         "group": "ML Libraries",
                         "pages": [
-                          "models/integrations/deepchecks",
-                          "models/integrations/huggingface",
                           "models/integrations/diffusers",
-                          "models/integrations/autotrain",
-                          "models/integrations/fastai",
-                          "models/integrations/fastai/v1",
-                          "models/integrations/composer",
-                          "models/integrations/openai-gym",
-                          "models/integrations/prodigy",
-                          "models/integrations/pytorch-geometric",
-                          "models/integrations/torchtune",
-                          "models/integrations/scikit",
                           "models/integrations/simpletransformers",
-                          "models/integrations/spacy",
-                          "models/integrations/stable-baselines-3",
-                          "models/integrations/ultralytics"
+                          "models/integrations/huggingface",
+                          "models/integrations/openai-gym",
+                          "models/integrations/pytorch-geometric"
                         ]
                       }
                     ]
@@ -443,30 +423,14 @@
                   {
                     "group": "Cloud Platforms",
                     "pages": [
-                      "models/integrations/sagemaker",
-                      "models/integrations/databricks",
                       "models/integrations/azure-openai-fine-tuning",
                       "models/integrations/openai-fine-tuning",
-                      "models/integrations/cohere-fine-tuning",
-                      "models/integrations/openai-api",
-                      "models/integrations/nim"
-                    ]
-                  },
-                  {
-                    "group": "Workflow Orchestration",
-                    "pages": [
-                      "models/integrations/kubeflow-pipelines-kfp",
-                      "models/integrations/metaflow",
-                      "models/integrations/dagster",
-                      "models/integrations/hydra"
+                      "models/integrations/openai-api"
                     ]
                   },
                   {
                     "group": "Other",
                     "pages": [
-                      "models/integrations/docker",
-                      "models/integrations/tensorboard",
-                      "models/integrations/w-and-b-for-julia",
                       "models/integrations/yolox",
                       "models/integrations/yolov5"
                     ]
@@ -492,9 +456,6 @@
                   {
                     "group": "Framework Tutorials",
                     "pages": [
-                      "models/tutorials/keras",
-                      "models/tutorials/keras_models",
-                      "models/tutorials/keras_tables",
                       "models/tutorials/pytorch",
                       "models/tutorials/lightning",
                       "models/tutorials/tensorflow",
