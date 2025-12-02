@@ -18,6 +18,7 @@ This page includes release notes for supported releases of W&B Server.
 - Fixed a bug where importing a line plot from a workspace to a report could get stuck if extreme outliers were hidden in the plot.
 - Fixed a bug that could prevent a table panel from resizing correctly if its height was reduced.
 - Fixed a bug where mask overlays could overflow an image with a caption.
+- When a client cancels a GraphQL operation, it is now correctly reported as a `4xx` HTTP client error rather than a `5xx` HTTP server error. 
 </Update>
 
 <Update label="v0.76.0" description="November 20, 2025">
