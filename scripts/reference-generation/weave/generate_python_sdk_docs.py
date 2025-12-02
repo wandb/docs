@@ -262,6 +262,12 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
     # These appear as standalone lines with just dashes (------) which break markdown parsing
     content = re.sub(r'\n\s*------+\s*\n', '\n\n', content)
     
+    # Fix lazydocs bug: inline code fences in Examples sections
+    # lazydocs incorrectly wraps text after colons (like "Basic usage:") with inline backticks
+    # Pattern: " text: ``` code```" should be "text:\n```python\ncode"
+    # This happens when lazydocs misapplies _RE_ARGSTART in Examples sections
+    content = re.sub(r'^ ([\w\s]+): ``` (.*?)```\n(    >>> )', r' \1:\n\n```python\n\2\n\3', content, flags=re.MULTILINE)
+    
     # Fix parameter lists that have been broken by lazydocs
     # Strategy: Parse all parameters into a structured format, then reconstruct them properly
     def fix_parameter_lists(text):
