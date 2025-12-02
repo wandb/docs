@@ -39,7 +39,7 @@ Run the following example code to track your first project with Weave:
 
 <Tabs>
   <Tab title="Python">
-    ```python lines {1-2,7,9-10,26-27}
+    ```python lines {1-2,7-8,27-28}
     # Imports the Weave library
     import weave
     from openai import OpenAI
@@ -117,7 +117,33 @@ Run the following example code to track your first project with Weave:
   </Tab>
 </Tabs>
 
-When you call the `extract_dinos` function, Weave outputs links to view your traces in the terminal.
+When you call the `extract_dinos` function, Weave outputs links to view your traces in the terminal. The output looks like this:
+
+```shell
+weave:  $ pip install weave --upgrade
+weave: Logged in as Weights & Biases user: example-username.
+weave: View Weave data at https://wandb.ai/your-team/traces-quickstart/weave
+weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c96-8b42-931a32f900b7
+{
+  "dinosaurs": [
+    {
+      "name": "Tyrannosaurus rex",
+      "common_name": "T. rex",
+      "diet": "carnivore"
+    },
+    {
+      "name": "Triceratops",
+      "common_name": "Trike",
+      "diet": "herbivore"
+    },
+    {
+      "name": "Brachiosaurus",
+      "common_name": "Brachi",
+      "diet": "herbivore"
+    }
+  ]
+}
+```
 
 ## See traces of your application in your project
 

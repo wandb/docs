@@ -64,7 +64,7 @@ The following example model uses OpenAI to extract the names, colors, and flavor
 
 <Tabs>
   <Tab title="Python">
-  ```python lines {5,9}
+  ```python lines {1,5}
   class ExtractFruitsModel(weave.Model):
       model_name: str
       prompt_template: str
@@ -87,7 +87,7 @@ The following example model uses OpenAI to extract the names, colors, and flavor
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript
+  ```typescript lines {9}
   // Note: weave.Model is not supported in TypeScript yet.
   // Instead, wrap your model-like function with weave.op
 
@@ -195,14 +195,14 @@ Then create your dataset using the `weave.Dataset()` class and publish it:
 
 <Tabs>
   <Tab title="Python">
-  ```python lines {4}
+  ```python lines {2}
   weave.init('eval_pipeline_quickstart')
   dataset = weave.Dataset(name='fruits', rows=examples)
   weave.publish(dataset)
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript lines
+  ```typescript lines {3-6}
   import * as weave from 'weave';
   await weave.init('eval_pipeline_quickstart');
   const dataset = new weave.Dataset({
@@ -252,7 +252,7 @@ The following example runs an evaluation of `ExtractFruitsModel` on the `fruits`
 
 <Tabs>
   <Tab title="Python">
-  ```python lines
+  ```python lines {3-10}
   weave.init('eval_pipeline_quickstart')
 
   evaluation = weave.Evaluation(
@@ -269,7 +269,7 @@ The following example runs an evaluation of `ExtractFruitsModel` on the `fruits`
   ```
   </Tab>
   <Tab title="TypeScript">
-  ```typescript
+  ```typescript lines {5-9}
   import * as weave from 'weave';
 
   await weave.init('eval_pipeline_quickstart');

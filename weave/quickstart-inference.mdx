@@ -23,13 +23,7 @@ This guide shows you how to:
 - Evaluate model performance on a dataset
 - View your results in the Weave UI
 
-## Prerequisites
-
-- A [W&B account](https://wandb.ai/signup)
-- Python 3.8+ or Node.js 18+
-- Required packages installed:
-  - **Python**: `pip install weave openai`
-  - **TypeScript**: `npm install weave openai`
+<WeaveQuickstartPrereqs/>
 
 ## Trace your first LLM call
 
@@ -327,7 +321,7 @@ console.log(await deepseekModel(testQuestion));
 </Tab>
 </Tabs>
 
-## Step 4: Evaluate model performance
+## Evaluate model performance
 
 Evaluate how well a model performs on a Q&A task using Weave's built-in `EvaluationLogger`. This provides structured evaluation tracking with automatic aggregation, token usage capture, and rich comparison features in the UI.
 
