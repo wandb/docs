@@ -11,7 +11,7 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
 <GitHubLink url="https://github.com/wandb/docs/blob/weave/onboarding-revamp/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
 </div>
 
-This guide shows you how to use W&B Weave with [W&B Inference](https://docs.wandb.ai/inference/). Using W&B Inference, you can build and trace LLM applications using live open-source models without setting up your own infrastructure or managing API keys from multiple providers. Just obtain your W&B API key and use it to interact with [all models hosted by W&B Inference](https://docs.wandb.ai/inference/models/).
+This guide shows you how to use W&B Weave with [W&B Inference](https://docs.wandb.ai/inference/). Use W&B Inference, to build and trace LLM applications using live open-source models without setting up your own infrastructure or managing API keys from multiple providers. With your W&B API key, you can interact with [all models hosted by W&B Inference](https://docs.wandb.ai/inference/models/).
 
 ## What you'll learn
 
@@ -33,7 +33,7 @@ This guide shows you how to:
 
 ## Trace your first LLM call
 
-Start with a basic example that uses Llama 3.1-8B through W&B Inference. 
+To begin, copy and paste the following code example. The code example uses Llama 3.1-8B from W&B Inference. 
 
 When you run this code, Weave:
 - Traces your LLM call automatically
@@ -78,7 +78,7 @@ print(result)
 import * as weave from 'weave';
 import OpenAI from 'openai';
 
-// Initialize Weave - replace with your-team/your-project
+// Initialize Weave - Replace values enclosed in "<>" with your own.
 await weave.init("<team-name>/inference-quickstart")
 
 // Create an OpenAI-compatible client pointing to W&B Inference
@@ -116,7 +116,7 @@ Next, try running this code, which is a basic summarization app that shows how W
 import weave
 import openai
 
-# Initialize Weave - replace with your-team/your-project
+# Initialize Weave - Replace values enclosed in "<>" with your own.
 weave.init("<team-name>/inference-quickstart")
 
 client = openai.OpenAI(
