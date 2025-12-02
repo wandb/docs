@@ -444,11 +444,6 @@
                   {
                     "group": "Fundamentals",
                     "pages": [
-                      "models/tutorials/experiments",
-                      "models/tutorials/tables",
-                      "models/tutorials/sweeps",
-                      "models/tutorials/artifacts",
-                      "models/tutorials/workspaces",
                       "models/tutorials/weave_models_registry",
                       "models/evaluate-models"
                     ]
@@ -456,12 +451,8 @@
                   {
                     "group": "Framework Tutorials",
                     "pages": [
-                      "models/tutorials/pytorch",
-                      "models/tutorials/lightning",
-                      "models/tutorials/tensorflow",
                       "models/tutorials/tensorflow_sweeps",
-                      "models/tutorials/xgboost_sweeps",
-                      "models/tutorials/huggingface"
+                      "models/tutorials/xgboost_sweeps"
                     ]
                   },
                   {
