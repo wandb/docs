@@ -17,7 +17,7 @@ import sys
 from typing import Optional, Tuple
 
 # Remote OpenAPI spec URL
-REMOTE_SPEC_URL = "https://raw.githubusercontent.com/wandb/weave/refs/heads/master/tools/codegen/openapi.json"
+REMOTE_SPEC_URL = "https://raw.githubusercontent.com/wandb/docs/refs/heads/main/weave/reference/service-api/openapi.json"
 
 
 def fetch_remote_spec(url: str = REMOTE_SPEC_URL) -> dict:
