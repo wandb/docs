@@ -25,17 +25,17 @@ To fork a run, use the `fork_from` argument in [`wandb.init()`](/models/ref/pyth
 import wandb
 
 # Initialize a run to be forked later
-original_run = wandb.init(project="your_project_name", entity="your_entity_name")
-# ... perform training or logging ...
-original_run.finish()
+with wandb.init(project="your_project_name", entity="your_entity_name") as original_run:
+    # ... perform training or logging ...
+    pass
 
 # Fork the run from a specific step
-forked_run = wandb.init(
+with wandb.init(
     project="your_project_name",
     entity="your_entity_name",
     fork_from=f"{original_run.id}?_step=200",
-)
-forked_run.finish()
+) as forked_run:
+    pass
 ```
 
 ## Continue from a forked run
@@ -48,29 +48,32 @@ import wandb
 import math
 
 # Initialize the first run and log some metrics
-run1 = wandb.init("your_project_name", entity="your_entity_name")
-for i in range(300):
-    run1.log({"metric": i})
-run1.finish()
+with wandb.init(project="your_project_name", entity="your_entity_name") as run1:
+    for i in range(300):
+        run1.log({"metric": i})
 
 # Fork from the first run at a specific step and log the metric starting from step 200
-run2 = wandb.init(
-    "your_project_name", entity="your_entity_name", fork_from=f"{run1.id}?_step=200"
-)
+with wandb.init(
+    project="your_project_name", 
+    entity="your_entity_name", 
+    fork_from=f"{run1.id}?_step=200"
+) as run2:
+    # Continue logging in the new run
+    # For the first few steps, log the metric as is from run1
+    # After step 250, start logging the spikey pattern
+    for i in range(200, 300):
+        if i < 250:
+            # Continue logging from run1 without spikes
+            metric_value = i
+        else:
+            # Introduce the spikey behavior starting from step 250
+            metric_value = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
 
-# Continue logging in the new run
-# For the first few steps, log the metric as is from run1
-# After step 250, start logging the spikey pattern
-for i in range(200, 300):
-    if i < 250:
-        run2.log({"metric": i})  # Continue logging from run1 without spikes
-    else:
-        # Introduce the spikey behavior starting from step 250
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
-        run2.log({"metric": subtle_spike})
-    # Additionally log the new metric at all steps
-    run2.log({"additional_metric": i * 1.1})
-run2.finish()
+        # Log both metrics in a single call to ensure they're logged at the same step
+        run2.log({
+            "metric": metric_value,
+            "additional_metric": i * 1.1
+        })
 ```
 
 <Note>
