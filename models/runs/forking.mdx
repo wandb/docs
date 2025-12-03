@@ -25,7 +25,10 @@ To fork a run, use the `fork_from` argument in [`wandb.init()`](/models/ref/pyth
 import wandb
 
 # Initialize a run to be forked later
-with wandb.init(project="your_project_name", entity="your_entity_name") as original_run:
+with wandb.init(
+    project="your_project_name",
+    entity="your_entity_name"
+) as original_run:
     # ... perform training or logging ...
     pass
 
@@ -48,7 +51,10 @@ import wandb
 import math
 
 # Initialize the first run and log some metrics
-with wandb.init(project="your_project_name", entity="your_entity_name") as run1:
+with wandb.init(
+    project="your_project_name",
+    entity="your_entity_name"
+) as run1:
     for i in range(300):
         run1.log({"metric": i})
 
