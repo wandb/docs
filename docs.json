@@ -2562,6 +2562,10 @@
     {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
       "destination": "/platform/hosting/self-managed"
+    },
+    {
+      "source": "/platform/hosting/secure-storage-connector",
+      "destination": "/platform/hosting/data-security/secure-storage-connector"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
