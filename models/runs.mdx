@@ -63,7 +63,7 @@ The URL W&B returns in the terminal to redirects you to the run's workspace in t
     <img src="/images/runs/single-run-call.png" alt="Single run workspace"  />
 </Frame>
 
-Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the proceeding code snippet:
+Logging a metrics at a single point of time might not be that useful. A more realistic example in the case of training discriminative models is to log metrics at regular intervals. For example, consider the following code snippet:
 
 ```python
 import wandb
@@ -120,7 +120,7 @@ As another example, during a [sweep](/models/sweeps/), W&B explores a hyperparam
 
 ## Initialize a W&B Run
 
-Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). The proceeding code snippet shows how to import the W&B Python SDK and initialize a run. 
+Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). The following code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
 
@@ -214,7 +214,8 @@ You can specify your own run ID by passing the `id` parameter to the [`wandb.ini
 ```python 
 import wandb
 
-run = wandb.init(entity="<project>", project="<project>", id="<run-id>")
+with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
+    # Your code here
 ```
 
 You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:
@@ -226,16 +227,9 @@ https://wandb.ai/<entity>/<project>/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the entity, project, and run ID.
 
 ## Name your run 
-The name of a run is a human-readable, non-unique identifier. 
-
-By default, W&B generates a random run name when you initialize a new run. The name of a run appears within your project's workspace and at the top of the [run's overview page](#overview-tab).
-
-<Note>
-Use run names as a way to quickly identify a run in your project workspace.
-</Note>
+In a project, each run has a human-readable non-unique run name. By default, W&B generates a random run name when you initialize a new run without specifying a run name. The name of a run appears within your project's workspace and at the top of the [run's overview page](#overview-tab).
 
 You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`](/models/ref/python/functions/init) method. 
-
 
 ```python 
 import wandb
@@ -244,30 +238,41 @@ with wandb.init(entity="<project>", project="<project>", name="<run-name>") as r
     # Your code here
 ```
 
+In a workspace, each run also has a run display name, which defaults to the same value as the run name. Use the run display name to override the run name displayed in that workspace without renaming the run in the project.
+
+<Note>
+Use run names and display names as a way to quickly identify a run in your project workspace.
+</Note>
+
+
 ### Rename a run
 
-After you initialize a run, you can rename it from your workspace or its **Runs** page.
+This section shows how to rename a run from a workspace or a report.
 
+<Tabs>
+<Tab title="Workspace">
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab from the project sidebar.
 1. Search or scroll to the run you want to rename.
 
-    Hover over the run name, click the three vertical dots, then select the scope:
-    - **Rename run for project**: The run is renamed across the project.
-    - **Rename run for workspace**: The run is renamed only in this workspace.
-1. Type a new name for the run. To generate a new random name, leave the field blank.
-1. Submit the form. The run's new name displays. An information icon appears next to a run that has a custom name in the workspace. Hover over it for more details.
+    Hover over the run name, click the three vertical dots, then click **Rename run**.
+1. To change the run name, update the **Run name** field. To customize the run display name in this workspace, update the **Display name** field.
+1. Click **Save**.
 
-You can also rename a run from a run set in a [report](/models/reports/edit-a-report/):
+A customized run display name displays in italic font, and an information icon appears next to a customized run display name. Hover over the icon for details.
+</Tab>
+<Tab title="Report">
+To rename a run from a run set in a [report](/models/reports/edit-a-report/):
 
-1. In the report, click the pencil icon to open the report editor.
-1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then select either:
-
-  - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
-  - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
-
-  Submit the form.
+1. Click the pencil icon to open the report editor.
+1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then click **Edit run name**.
+1. To change the run name, update the **Run name** field. To customize the run display name in this workspace, update the **Display name** field.
+1. Click **Save**.
 1. Click **Publish report**.
+
+A customized run display name displays in italic font, and an information icon appears next to a customized run display name. Hover over the icon for details.
+</Tab>
+</Tabs>
 
 ## Add a note to a run
 Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.
@@ -331,26 +336,73 @@ See [State fields](#run-states) for a full list of possible run states.
 
 ## View logged runs
 
-View a information about a specific run such as the state of the run, artifacts logged to the run, log files recorded during the run, and more. 
+View information about a specific run such as the state of the run, artifacts logged to the run, metrics, system metrics, and more.
 
-<Frame>
-    <img src="/images/runs/demo-project.gif" alt="Project navigation demo"  />
-</Frame>
+You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
 
-To view a specific run:
+<Tabs>
+<Tab title="App">
+
+To view a specific run in the W&B App:
 
 1. Navigate to the [W&B App](https://wandb.ai/home).
 2. Navigate to the W&B project you specified when you initialized the run.
 3. Within the project sidebar, select the **Workspace** tab.
 4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
 
-Note that the URL path of a specific run has the proceeding format:
+<Frame>
+    <img src="/images/runs/demo-project.gif" alt="Project navigation demo"  />
+</Frame>
+
+The URL path of a specific run has the proceeding format:
 
 ```text
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 ```
 
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
+
+</Tab>
+<Tab title="LEET">
+
+To view a run locally in your terminal using the `wandb beta leet` terminal UI:
+
+1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log named in the format `run-<run-ID>.wandb`.
+
+    If you did not start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
+2. Start `wandb beta leet` using one of these commands:
+
+   ```bash
+   # View the latest run, stored in ./wandb/latest-run/
+   wandb beta leet
+   
+   # Specify a run directory
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   
+   # Specify a .wandb file
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   ```
+
+![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
+
+LEET displays a three-panel interface:
+
+- **Left sidebar**: Run overview with environment variables, configuration, and summary statistics
+- **Center panel**: Metrics grid with Braille-style line charts showing your logged metrics
+- **Right sidebar**: System metrics including GPU/CPU/RAM utilization
+
+Get started with these keyboard shortcuts:
+
+- `h` or `?` - View all keyboard shortcuts
+- `/` - Filter metrics by pattern
+- `[` / `]` - Toggle left/right sidebars
+- `n` / `N` - Navigate between metric pages
+- `q` / `CMD+C` - Quit
+
+See the [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) reference for more details.
+
+</Tab>
+</Tabs>
 
 ### Customize how runs are displayed
 This section shows how to customize how runs are displayed in your project's workspace and runs table.
@@ -361,12 +413,21 @@ A workspace is limited to displaying a maximum of 1000 runs, regardless of its c
 
 #### Add or remove columns
 
-To customize which columns are visible in the Runs table or Workspace:
+Add or remove columns in the **Runs** tab or **Workspace** tab to customize which properties associated with your project are visible. For both cases, you can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+
+To add a columns in the Runs table or Workspace:
 1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
-1. Above the list of runs, click **Columns**.
-1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
-1. Click **Done** to close the column browser.
+1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
+1. Select the name of a property within the **Hidden** section of the modal.
+1. Drag columns to change their order.
+1. Click **Close**.
+
+
+To remove columns in the Runs table or Workspace:
+1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
+1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
+1. Select the name of a property within the **Visible & Pinned** section of the modal.
+1. Click **Close**.
 
 #### Sort runs by column
 
@@ -377,15 +438,16 @@ To sort the list of runs by any visible column:
 
 #### Pin columns
 
-Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab and are not shown on the **Workspace** tab.
+Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab or **Workspace** tab. If you pin a column in the **Runs** tab, it is also pinned in the **Workspace** tab. Similarly, if you pin a column in the **Workspace** tab, it is also pinned in the **Runs** tab.
 
 To pin a column:
-1. In the project sidebar, navigate to the **Runs** tab.
-1. Click **Pin column**.
+1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
+1. Click the **Columns** (six horizontal dashes) button.
+1. Within the **Visible & Pinned** section of the modal, click on the pin icon next to the column name you want to pin.
 
 To unpin a column:
 1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
-1. Hover over the column name, then click its action `...` menu.
+1. Either hover over the column name, then click its action `...` menu, or click the **Columns** (six horizontal dashes) button and click on the pin icon next to the column name you want to unpin.
 1. Click **Unpin column**.
 
 #### Customize run name truncation
@@ -495,10 +557,6 @@ Select **Add filter** to add one or more filters to your rows. Three dropdown me
 
 The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
-<Frame>
-    <img src="/images/data_vis/filter_example.png" alt="Run filtering example"  />
-</Frame>
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
 </Tab>
 <Tab title="Group">
 Group all rows by the value in a particular column with the **Group by** button above the dashboard. 

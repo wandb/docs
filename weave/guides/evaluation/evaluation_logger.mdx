@@ -1,5 +1,5 @@
 ---
-title: "EvaluationLogger"
+title: "Log evaluation data from your code"
 description: "Flexible, incremental way to log evaluation data from Python and TypeScript code"
 ---
 
@@ -198,6 +198,72 @@ await scoreLogger.finish();
 </Tabs>
 
 ## Advanced usage
+
+The `EvaluationLogger` offers flexible patterns beyond the basic workflow to accommodate more complex evaluation scenarios. This section covers advanced techniques including using context managers for automatic resource management, separating model execution from logging, working with rich media data, and comparing multiple model evaluations side-by-side.
+
+### Using context managers
+
+The `EvaluationLogger` supports context managers (`with` statements) for both predictions and scores. This can provide cleaner code, automatic resource cleanup, and better tracking of nested operations like LLM judge calls.
+
+Using `with` statements in this context provides:
+- Automatic `finish()` calls when exiting the context
+- Better token/cost tracking for nested LLM calls
+- Setting output after model execution within the prediction context
+
+<Tabs>
+<Tab title="Python">
+```python lines {16,24,31,40}
+import openai
+import weave
+
+weave.init("nested-evaluation-example")
+oai = openai.OpenAI()
+
+# Initialize the logger
+ev = weave.EvaluationLogger(
+    model="gpt-4o-mini",
+    dataset="joke_dataset"
+)
+
+user_prompt = "Tell me a joke"
+
+# Use context manager for prediction - no need to call finish()
+with ev.log_prediction(inputs={"user_prompt": user_prompt}) as pred:
+    # Make your model call within the context
+    result = oai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": user_prompt}],
+    )
+
+    # Set the output after the model call
+    pred.output = result.choices[0].message.content
+
+    # Log simple scores
+    pred.log_score("correctness", 1.0)
+    pred.log_score("ambiguity", 0.3)
+    
+    # Use nested context manager for scores that require LLM calls
+    with pred.log_score("llm_judge") as score:
+        judge_result = oai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Rate how funny the joke is from 1-5"},
+                {"role": "user", "content": pred.output},
+            ],
+        )
+        # Set the score value after computation
+        score.value = judge_result.choices[0].message.content
+
+# finish() is automatically called when exiting the 'with' block
+
+ev.log_summary({"avg_score": 1.0})
+```
+
+This pattern ensures that all nested operations are tracked and attributed to the parent prediction, giving you accurate token usage and cost data in the Weave UI.
+</Tab>
+</Tabs>
+
+
 
 ### Get outputs before logging
 

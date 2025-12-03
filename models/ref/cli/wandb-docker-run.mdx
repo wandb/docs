@@ -1,26 +1,24 @@
 ---
 title: "wandb docker-run"
 ---
+import WandbDockerRun from "/snippets/en/_includes/cli/wandb-docker-run.mdx";
 
-**Usage**
+<WandbDockerRun/>
 
-`wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...`
+Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER environment variables.
 
-**Summary**
-
-Wrap `docker run` and adds WANDB_API_KEY and WANDB_DOCKER environment
-variables.
-
-This will also set the runtime to nvidia if the nvidia-docker executable is
-present on the system and --runtime wasn't set.
+This will also set the runtime to nvidia if the nvidia-docker executable is present on the system and --runtime wasn't set.
 
 See `docker run --help` for more details.
 
+## Usage
 
-**Options**
+```bash
+wandb docker-run [DOCKER_RUN_ARGS]
+```
 
-| **Option** | **Description** |
-| :--- | :--- |
+## Arguments
 
-
-
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `DOCKER_RUN_ARGS` | No description available | No |

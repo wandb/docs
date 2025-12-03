@@ -24,19 +24,27 @@ Each project contains the following tabs:
 * [Artifacts](#artifacts-tab): Contains all runs and the artifacts associated with that run
 
 ## Overview tab
+W&B creates a project for you when you initialize a run with the name you provide for the project field.
 
-* **Project name**: The name of the project. W&B creates a project for you when you initialize a run with the name you provide for the project field. You can change the name of the project at any time by selecting the **Edit** button in the upper right corner.
-* **Description**: A description of the project.
+From the **Overview** tab, you can find the project name and manage the project.
+- To change the project's name, description, or team, click **Edit** in the upper right corner.
+- To undelete recently deleted runs, click  **...** in the upper right corner, then click **Undelete recently deleted runs**.
+- To delete the project, click  **...** in the upper right corner, then click **Delete project**. Read the confirmation dialog and follow the instructions. Deleting a project is not reversible.
+
+The rest of the **Overview** page is divided into **Details** and **Project Roles** tabs.
+
+### Details
+Details about the project include:
+
 * **Project visibility**: The visibility of the project. The visibility setting that determines who can access it. See [Project visibility](/platform/hosting/iam/access-management/restricted-projects) for more information.
 * **Last active**: Timestamp of the last time data is logged to this project
-* **Owner**: The entity that owns this project
 * **Contributors**: The number of users that contribute to this project
 * **Total runs**: The total number of runs in this project
 * **Total compute**: we add up all the run times in your project to get this total
-* **Undelete runs**: Click the dropdown menu and click "Undelete all runs" to recover deleted runs in your project.
-* **Delete project**: click the dot menu in the right corner to delete a project
 
-[View a live example](https://app.wandb.ai/example-team/sweep-demo/overview)
+The **Details** tab also includes instructions for accessing and exporting the project's data and metrics, downloading the best model from a sweep, and more. 
+
+[View a live example project](https://app.wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
     <img src="/images/track/overview_tab_image.png" alt="Project overview tab"  />
@@ -45,6 +53,9 @@ Each project contains the following tabs:
 To change a project's privacy from the **Overview** tab:
 
 <ProjectVisibilitySettings/>
+
+### Project roles
+The **Project roles** tab is visible only to the project owner and those with the **Admin** role. List and search for users with access to the project or change a member's role.
 
 ## Workspace tab
 
@@ -86,24 +97,21 @@ Each section has options in the upper right corner:
 * **Delete section**: Remove the whole section and all the charts. This can be undone with the undo button at the bottom of the page in the workspace bar.
 * **Add panel**: Click the plus button to add a panel to the section.
 
-<Frame>
-    <img src="/images/app_ui/add-section.gif" alt="Adding workspace section"  />
-</Frame>
-
 ### Move panels between sections
 
 Drag and drop panels to reorder and organize into sections. You can also click the "Move" button in the upper right corner of a panel to select a section to move the panel to.
 
 <Frame>
-    <img src="/images/app_ui/move-panel.gif" alt="Moving panels between sections"  />
+    <img src="/images/app_ui/move-panel.png" alt="Moving panels between sections"  />
 </Frame>
 
 ### Resize panels
 
-All panels maintain the same size, and there are pages of panels. You can resize the panels by clicking and dragging the lower right corner. Resize the section by clicking and dragging the lower right corner of the section.
+All panels maintain the same size, and there are pages of panels. 
+Resize the section by clicking and dragging the lower right corner of the section, which will display a corner icon when hovering.
 
 <Frame>
-    <img src="/images/app_ui/resize-panel.gif" alt="Resizing panels"  />
+    <img src="/images/app_ui/resize-panel.png" alt="Resizing panels"  />
 </Frame>
 
 ### Search for metrics
@@ -142,14 +150,13 @@ When you customize the Runs tab, the customization is also reflected in the **Ru
   - Click the pin icon next to a visible column to pin it.
 </Tab>
 <Tab title="Sort">
-Sort all rows in a Table by the value in a given column. 
+Sort all rows in a Table by the value in a given column using one of these options:
 
-1. Hover your mouse over the column title. A kebab menu will appear (three vertical docs).
-2. Select on the kebab menu (three vertical dots).
-3. Choose **Sort Asc** or **Sort Desc** to sort the rows in ascending or descending order, respectively. 
+1. Click on the kebab (three vertical dot) menu when hovering over any column header to quickly sort the table by that column's values.
+1. Click the **Sort** button and select the desired columns from the drop-down. You can use this panel to sort by multiple columns in priority order. 
 
 <Frame>
-    <img src="/images/data_vis/data_vis_sort_kebob.png" alt="Confident predictions"  />
+    <img src="/images/data_vis/data_vis_sort_kebob.png" alt="Configuring a run table sort"  />
 </Frame>
 
 The preceding image demonstrates how to view sorting options for a Table column called `val_acc`.
@@ -157,32 +164,22 @@ The preceding image demonstrates how to view sorting options for a Table column 
 <Tab title="Filter">
 Filter all rows by an expression with the **Filter** button on the top left of the dashboard. 
 
-<Frame>
-    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
-</Frame>
-
-Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
-
-|                   | Column name | Binary relation    | Value       |
-| -----------       | ----------- | ----------- | ----------- |
-| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
-
-
-The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+Click **New filter** to add one or more filters to your rows. 
+Three dropdown menus will appear that enable the configuration of a filter.
+From left to right they are: column name, operator, and the filter value.
 
 <Frame>
-    <img src="/images/data_vis/filter_example.png" alt="Filtering runs by validation loss"  />
+    <img src="/images/data_vis/filter.png" alt="Configuring a run table filter"  />
 </Frame>
-The preceding image shows a filter that is based on the `val_loss` column. The filter shows runs with a validation loss less than or equal to 1.
+
 </Tab>
 <Tab title="Group">
-Group all rows by the value in a particular column with the **Group by** button in a column header. 
+Click the **Group** button above the table to group all rows by the value in a particular column. 
 
 <Frame>
     <img src="/images/data_vis/group.png" alt="Error distribution analysis"  />
 </Frame>
 
-By default, this turns other numeric columns into histograms showing the distribution of values for that column across the group. Grouping is helpful for understanding higher-level patterns in your data.
 </Tab>
 </Tabs>
 
@@ -192,8 +189,12 @@ By default, this turns other numeric columns into histograms showing the distrib
 ## Automations tab
 Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations](/models/automations/).
 
+## Sweeps tab
+
+Start a new [sweep](/models/sweeps/) from your project.
+
 <Frame>
-    <img src="/images/app_ui/automations_tab.png" alt="Automation tab"  />
+    <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab"  />
 </Frame>
 
 ## Reports tab
@@ -204,25 +205,12 @@ See all the snapshots of results in one place, and share findings with your team
     <img src="/images/app_ui/reports-tab.png" alt="Reports tab"  />
 </Frame>
 
-## Sweeps tab
-
-Start a new [sweep](/models/sweeps/) from your project.
-
-<Frame>
-    <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab"  />
-</Frame>
+To view a report, select the **Reports** tab from the project sidebar, then select a report from the list.
 
 ## Artifacts tab
 
 View all [artifacts](/models/artifacts/) associated with a project, from training datasets and [fine-tuned models](/models/registry/) to [tables of metrics and media](/models/tables/tables-walkthrough/).
 
-### Overview panel
-
-<Frame>
-    <img src="/images/app_ui/overview_panel.png" alt="Artifact overview panel"  />
-</Frame>
-
-On the overview panel, you'll find a variety of high-level information about the artifact, including its name and version, the hash digest used to detect changes and prevent duplication, the creation date, and any aliases. You can add or remove aliases here, take notes on both the version as well as the artifact as a whole.
 
 ### Metadata panel
 
@@ -230,7 +218,14 @@ On the overview panel, you'll find a variety of high-level information about the
     <img src="/images/app_ui/metadata_panel.png" alt="Artifact metadata panel"  />
 </Frame>
 
-The metadata panel provides access to the artifact's metadata, which is provided when the artifact is constructed. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact. Additionally, you can see the configuration for the run which produced the artifact as well as the history metrics at the time of logging the artifact.
+The metadata panel provides access to the artifact's metadata. This metadata might include configuration arguments required to reconstruct the artifact, URLs where more information can be found, or metrics produced during the run which logged the artifact.
+View the configuration for the run that produced the artifact as well as history metrics.
+
+To view an artifact's metadata:
+
+1. Select the **Artifacts** tab from the project sidebar.
+2. Select an artifact from the list to view the details page for the latest version of that artifact.
+3. Select the **Metadata** tab to view the metadata associated with that artifact.
 
 ### Usage panel
 
@@ -238,7 +233,13 @@ The metadata panel provides access to the artifact's metadata, which is provided
     <img src="/images/app_ui/usage_panel.png" alt="Artifact usage panel"  />
 </Frame>
 
-The Usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
+The usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
+
+To view the art
+
+1. Select the **Artifacts** tab from the project sidebar.
+2. Select an artifact from the list to view the details page for the latest version of that artifact.
+3. Select the **Usage** tab to view the code snippet and related runs.
 
 ### Files panel
 
@@ -246,13 +247,14 @@ The Usage panel provides a code snippet for downloading the artifact for use out
     <img src="/images/app_ui/files_panel.png" alt="Artifact files panel"  />
 </Frame>
 
-The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration. You can navigate through this file tree and view the contents directly in the W&B web app.
+The files panel lists the files and folders associated with the artifact. W&B uploads certain files for a run automatically. For example, `requirements.txt` shows the versions of each library the run used, and `wandb-metadata.json`, and `wandb-summary.json` include information about the run. Other files may be uploaded, such as artifacts or media, depending on the run's configuration.
 
-[Tables](/models/tables/tables-walkthrough/) associated with artifacts are particularly rich and interactive in this context. Learn more about using Tables with Artifacts [here](/models/tables/visualize-tables/).
 
-<Frame>
-    <img src="/images/app_ui/files_panel_table.png" alt="Artifact table view"  />
-</Frame>
+To view files logged to an artifact:
+
+1. Select the **Artifacts** tab from the project sidebar.
+2. Select an artifact from the list to view the details page for the latest version of that artifact.
+3. Select the **Files** tab to view all files associated with that artifact.
 
 ### Lineage panel
 
@@ -264,17 +266,6 @@ The lineage panel provides a view of all of the artifacts associated with a proj
 
 Click the Explode toggle to view all of the individual artifact versions and the specific runs that connect them.
 
-### Action History Audit tab
-
-<Frame>
-    <img src="/images/app_ui/action_history_audit_tab_1.png" alt="Action history audit"  />
-</Frame>
-
-<Frame>
-    <img src="/images/app_ui/action_history_audit_tab_2.png" alt="Action history"  />
-</Frame>
-
-The action history audit tab shows all of the alias actions and membership changes for a Collection so you can audit the entire evolution of the resource.
 
 ### Versions tab
 
@@ -282,7 +273,16 @@ The action history audit tab shows all of the alias actions and membership chang
     <img src="/images/app_ui/versions_tab.png" alt="Artifact versions tab"  />
 </Frame>
 
-The versions tab shows all versions of the artifact as well as columns for each of the numeric values of the Run History at the time of logging the version. This allows you to compare performance and quickly identify versions of interest.
+The versions tab shows all versions of the artifact. Select an artifact to view the details for that specific version. 
+
+1. Select the **Artifacts** tab from the project sidebar.
+2. Select an artifact from the list to view the details page for the latest version of that artifact.
+3. Select the **Versions** tab to view all versions of that artifact.
+4. From the dropdown (next to the artifact name), select **All Versions**. 
+
+
+For example, the previous image shows different model artifact versions for a model artifact named `"zoo-wyhak4p0"`.
+
 
 ## Create a project
 You can create a project in the W&B App or programmatically by specifying a project in a call to `wandb.init()`.
@@ -368,17 +368,19 @@ Confirm that your project appears on the landing page of your organization by cl
 
 You can delete your project by clicking the three dots on the right of the overview tab.
 
+1. Navigate to your W&B project
+2. Select the **Overview** tab from the project sidebar.
+3. Choose the dot menu in the upper right hand corner.
+4. Select **Delete project** from the dropdown menu.
+
+
 <Frame>
-    <img src="/images/app_ui/howto_delete_project.gif" alt="Delete project workflow"  />
+    <img src="/images/app_ui/delete_project.png"  />
 </Frame>
 
-If the project is empty, you can delete it by clicking the dropdown menu in the top-right and selecting **Delete project**.
-
-<Frame>
-    <img src="/images/app_ui/howto_delete_project_2.png" alt="Delete empty project"  />
-</Frame>
-
-
+<Warning>
+W&B does not terminate active [sweeps](/models/sweeps) or agents when you delete a project.
+</Warning>
 
 ## Add notes to a project
 

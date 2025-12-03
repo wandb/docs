@@ -6,8 +6,7 @@ title: Resume a run
 Specify how a run should behave in the event that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
 
 ```python
-run = wandb.init(entity="<entity>", \ 
-        project="<project>", id="<run ID>", resume="<resume>")
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="<resume>") as run:
 ```
 
 <Note>
@@ -41,8 +40,7 @@ If a run is stopped, crashes, or fails, you can resume it using the same run ID.
 The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
-run = wandb.init(entity="<entity>", \ 
-        project="<project>", id="<run ID>", resume="must")
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must") as run:
 ```
 
 <Warning>
@@ -60,8 +58,8 @@ Set the `resume` parameter to `"allow"` (`resume="allow"`) when you initialize a
 ```python
 import wandb
 
-run = wandb.init(entity="<entity>", \ 
-        project="<project>", id="<run ID>", resume="allow")
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
+        # Your training code here
 ```
 
 
@@ -75,8 +73,8 @@ The following code snippet shows how to specify a W&B run ID with the Python SDK
 Replace values enclosed within `<>` with your own:
 
 ```python
-run = wandb.init(entity="<entity>", \ 
-        project="<project>", id="<run ID>", resume="<resume>")
+with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="<resume>") as run:
+        # Your training code here
 ```
 </Tab>
 <Tab title="Shell script">
@@ -118,8 +116,8 @@ Automatically requeue interrupted [sweep](/models/sweeps/) runs. This is particu
 Use the [`mark_preempting`](/models/ref/python/experiments/run#mark_preempting) function to automatically requeue interrupted sweep runs. For example:
 
 ```python
-run = wandb.init()  # Initialize a run
-run.mark_preempting()
+with wandb.init() as run:
+    run.mark_preempting()
 ```
 The following table outlines how W&B handles runs based on the exit status of the a sweep run.
 

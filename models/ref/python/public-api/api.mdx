@@ -3,10 +3,9 @@ title: Api
 namespace: public_apis_namespace
 python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
-
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py" />
 
 
 
@@ -27,9 +26,9 @@ wandb.Api()
 
 ```python
 __init__(
-    overrides: Optional[Dict[str, Any]] = None,
-    timeout: Optional[int] = None,
-    api_key: Optional[str] = None
+    overrides: 'dict[str, Any] | None' = None,
+    timeout: 'int | None' = None,
+    api_key: 'str | None' = None
 ) → None
 ```
 
@@ -42,19 +41,9 @@ Initialize the API.
  - `overrides`:  You can set `base_url` if you are 
  - `using a W&B server other than `https`: //api.wandb.ai`. You can also set defaults for `entity`, `project`, and `run`. 
  - `timeout`:  HTTP timeout in seconds for API requests. If not  specified, the default timeout will be used. 
- - `api_key`:  API key to use for authentication. If not provided,  the API key from the current environment or configuration will be used. 
+ - `api_key`:  API key to use for authentication. If not provided,  the API key from the current environment or configuration will be used.  Prompts for an API key if none is provided  or configured in the environment. 
 
 
----
-
-### <kbd>property</kbd> Api.api_key
-
-Returns W&B API key. 
-
-
-
-**Returns:**
- - `str | None`: The api_key property value.
 ---
 
 ### <kbd>property</kbd> Api.client
@@ -103,13 +92,13 @@ Returns the viewer object.
 
 
 **Returns:**
- - `public.User`: The viewer property value.
+ - `User`: The viewer property value.
 ---
 
 ### <kbd>method</kbd> `Api.artifact`
 
 ```python
-artifact(name: str, type: Optional[str] = None)
+artifact(name: 'str', type: 'str | None' = None)
 ```
 
 Returns a single artifact. 
@@ -165,7 +154,7 @@ wandb.Api().artifact(name="entity/project/artifact:version")
 ### <kbd>method</kbd> `Api.artifact_collection`
 
 ```python
-artifact_collection(type_name: str, name: str) → public.ArtifactCollection
+artifact_collection(type_name: 'str', name: 'str') → ArtifactCollection
 ```
 
 Returns a single artifact collection by type. 
@@ -208,7 +197,7 @@ artifact_example.download()
 ### <kbd>method</kbd> `Api.artifact_collection_exists`
 
 ```python
-artifact_collection_exists(name: str, type: str) → bool
+artifact_collection_exists(name: 'str', type: 'str') → bool
 ```
 
 Whether an artifact collection exists within a specified project and entity. 
@@ -242,10 +231,10 @@ wandb.Api.artifact_collection_exists(type="type", name="collection_name")
 
 ```python
 artifact_collections(
-    project_name: str,
-    type_name: str,
-    per_page: int = 50
-) → public.ArtifactCollections
+    project_name: 'str',
+    type_name: 'str',
+    per_page: 'int' = 50
+) → ArtifactCollections
 ```
 
 Returns a collection of matching artifact collections. 
@@ -256,7 +245,7 @@ Returns a collection of matching artifact collections.
  
  - `project_name`:  The name of the project to filter on. 
  - `type_name`:  The name of the artifact type to filter on. 
- - `per_page`:  Sets the page size for query pagination.  None will use the default size.  Usually there is no reason to change this. 
+ - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -268,7 +257,7 @@ Returns a collection of matching artifact collections.
 ### <kbd>method</kbd> `Api.artifact_exists`
 
 ```python
-artifact_exists(name: str, type: Optional[str] = None) → bool
+artifact_exists(name: 'str', type: 'str | None' = None) → bool
 ```
 
 Whether an artifact version exists within the specified project and entity. 
@@ -302,10 +291,7 @@ wandb.Api().artifact_exists("entity/project/artifact:alias")
 ### <kbd>method</kbd> `Api.artifact_type`
 
 ```python
-artifact_type(
-    type_name: str,
-    project: Optional[str] = None
-) → public.ArtifactType
+artifact_type(type_name: 'str', project: 'str | None' = None) → ArtifactType
 ```
 
 Returns the matching `ArtifactType`. 
@@ -327,7 +313,7 @@ Returns the matching `ArtifactType`.
 ### <kbd>method</kbd> `Api.artifact_types`
 
 ```python
-artifact_types(project: Optional[str] = None) → public.ArtifactTypes
+artifact_types(project: 'str | None' = None) → ArtifactTypes
 ```
 
 Returns a collection of matching artifact types. 
@@ -359,11 +345,11 @@ Deprecated. Use `Api.artifacts(type_name, name)` method instead.
 
 ```python
 artifacts(
-    type_name: str,
-    name: str,
-    per_page: int = 50,
-    tags: Optional[List[str]] = None
-) → public.Artifacts
+    type_name: 'str',
+    name: 'str',
+    per_page: 'int' = 50,
+    tags: 'list[str] | None' = None
+) → Artifacts
 ```
 
 Return an `Artifacts` collection. 
@@ -371,7 +357,7 @@ Return an `Artifacts` collection.
 
 
 **Args:**
- type_name: The type of artifacts to fetch. name: The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. per_page: Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason  to change this. tags: Only return artifacts with all of these tags. 
+ type_name: The type of artifacts to fetch. name: The artifact's collection name. Optionally append the  entity that logged the artifact as a prefix followed by  a forward slash. per_page: Sets the page size for query pagination. Usually  there is no reason to change this. tags: Only return artifacts with all of these tags. 
 
 
 
@@ -394,7 +380,7 @@ wandb.Api().artifacts(type_name="type", name="entity/project/artifact_name")
 ### <kbd>method</kbd> `Api.automation`
 
 ```python
-automation(name: str, entity: Optional[str] = None) → Automation
+automation(name: 'str', entity: 'str | None' = None) → Automation
 ```
 
 Returns the only Automation matching the parameters. 
@@ -436,10 +422,10 @@ automation = api.automation(name="other-automation", entity="my-team")
 
 ```python
 automations(
-    entity: Optional[str] = None,
-    name: Optional[str] = None,
-    per_page: int = 50
-) → Iterator[ForwardRef('Automation')]
+    entity: 'str | None' = None,
+    name: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[Automation]
 ```
 
 Returns an iterator over all Automations that match the given parameters. 
@@ -478,8 +464,8 @@ automations = api.automations(entity="my-team")
 ```python
 create_automation(
     obj: 'NewAutomation',
-    fetch_existing: bool = False,
-    **kwargs: typing_extensions.Unpack[ForwardRef('WriteAutomationsKwargs')]
+    fetch_existing: 'bool' = False,
+    **kwargs: 'Unpack[WriteAutomationsKwargs]'
 ) → Automation
 ```
 
@@ -536,12 +522,12 @@ automation = api.create_automation(
 
 ```python
 create_custom_chart(
-    entity: str,
-    name: str,
-    display_name: str,
-    spec_type: Literal['vega2'],
-    access: Literal['private', 'public'],
-    spec: Union[str, dict]
+    entity: 'str',
+    name: 'str',
+    display_name: 'str',
+    spec_type: "Literal['vega2']",
+    access: "Literal['private', 'public']",
+    spec: 'str | dict'
 ) → str
 ```
 
@@ -614,7 +600,7 @@ Create a custom chart preset and return its id.
 ### <kbd>method</kbd> `Api.create_project`
 
 ```python
-create_project(name: str, entity: str) → None
+create_project(name: 'str', entity: 'str') → None
 ```
 
 Create a new project. 
@@ -632,11 +618,11 @@ Create a new project.
 
 ```python
 create_registry(
-    name: str,
-    visibility: Literal['organization', 'restricted'],
-    organization: Optional[str] = None,
-    description: Optional[str] = None,
-    artifact_types: Optional[List[str]] = None
+    name: 'str',
+    visibility: "Literal['organization', 'restricted']",
+    organization: 'str | None' = None,
+    description: 'str | None' = None,
+    artifact_types: 'list[str] | None' = None
 ) → Registry
 ```
 
@@ -682,9 +668,9 @@ registry = api.create_registry(
 
 ```python
 create_run(
-    run_id: Optional[str] = None,
-    project: Optional[str] = None,
-    entity: Optional[str] = None
+    run_id: 'str | None' = None,
+    project: 'str | None' = None,
+    entity: 'str | None' = None
 ) → public.Run
 ```
 
@@ -709,12 +695,12 @@ Create a new run.
 
 ```python
 create_run_queue(
-    name: str,
+    name: 'str',
     type: 'public.RunQueueResourceType',
-    entity: Optional[str] = None,
-    prioritization_mode: Optional[ForwardRef('public.RunQueuePrioritizationMode')] = None,
-    config: Optional[dict] = None,
-    template_variables: Optional[dict] = None
+    entity: 'str | None' = None,
+    prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None,
+    config: 'dict | None' = None,
+    template_variables: 'dict | None' = None
 ) → public.RunQueue
 ```
 
@@ -746,7 +732,7 @@ Create a new run queue in W&B Launch.
 ### <kbd>method</kbd> `Api.create_team`
 
 ```python
-create_team(team: str, admin_username: Optional[str] = None) → public.Team
+create_team(team: 'str', admin_username: 'str | None' = None) → Team
 ```
 
 Create a new team. 
@@ -768,7 +754,7 @@ Create a new team.
 ### <kbd>method</kbd> `Api.create_user`
 
 ```python
-create_user(email: str, admin: Optional[bool] = False)
+create_user(email: 'str', admin: 'bool | None' = False) → User
 ```
 
 Create a new user. 
@@ -790,7 +776,7 @@ Create a new user.
 ### <kbd>method</kbd> `Api.delete_automation`
 
 ```python
-delete_automation(obj: Union[ForwardRef('Automation'), str]) → Literal[True]
+delete_automation(obj: 'Automation | str') → Literal[True]
 ```
 
 Delete an automation. 
@@ -823,7 +809,7 @@ The api object keeps a local cache of runs, so if the state of the run may chang
 ### <kbd>method</kbd> `Api.from_path`
 
 ```python
-from_path(path: str)
+from_path(path: 'str')
 ```
 
 Return a run, sweep, project or report from a path. 
@@ -867,9 +853,9 @@ report = api.from_path("team/project/reports/report_name")
 
 ```python
 integrations(
-    entity: Optional[str] = None,
-    per_page: int = 50
-) → Iterator[ForwardRef('Integration')]
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[Integration]
 ```
 
 Return an iterator of all integrations for an entity. 
@@ -892,7 +878,7 @@ Return an iterator of all integrations for an entity.
 ### <kbd>method</kbd> `Api.job`
 
 ```python
-job(name: Optional[str], path: Optional[str] = None) → public.Job
+job(name: 'str | None', path: 'str | None' = None) → public.Job
 ```
 
 Return a `Job` object. 
@@ -914,7 +900,7 @@ Return a `Job` object.
 ### <kbd>method</kbd> `Api.list_jobs`
 
 ```python
-list_jobs(entity: str, project: str) → List[Dict[str, Any]]
+list_jobs(entity: 'str', project: 'str') → list[dict[str, Any]]
 ```
 
 Return a list of jobs, if any, for the given entity and project. 
@@ -936,7 +922,7 @@ Return a list of jobs, if any, for the given entity and project.
 ### <kbd>method</kbd> `Api.project`
 
 ```python
-project(name: str, entity: Optional[str] = None) → public.Project
+project(name: 'str', entity: 'str | None' = None) → public.Project
 ```
 
 Return the `Project` with the given name (and entity, if given). 
@@ -958,7 +944,7 @@ Return the `Project` with the given name (and entity, if given).
 ### <kbd>method</kbd> `Api.projects`
 
 ```python
-projects(entity: Optional[str] = None, per_page: int = 200) → public.Projects
+projects(entity: 'str | None' = None, per_page: 'int' = 200) → public.Projects
 ```
 
 Get projects for a given entity. 
@@ -968,7 +954,7 @@ Get projects for a given entity.
 **Args:**
  
  - `entity`:  Name of the entity requested.  If None, will fall back to  the default entity passed to `Api`.  If no default entity,  will raise a `ValueError`. 
- - `per_page`:  Sets the page size for query pagination. If set to `None`,  use the default size. Usually there is no reason to change this. 
+ - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -981,10 +967,10 @@ Get projects for a given entity.
 
 ```python
 queued_run(
-    entity: str,
-    project: str,
-    queue_name: str,
-    run_queue_item_id: str,
+    entity: 'str',
+    project: 'str',
+    queue_name: 'str',
+    run_queue_item_id: 'str',
     project_queue=None,
     priority=None
 )
@@ -1000,8 +986,9 @@ Parses paths of the form `entity/project/queue_id/run_queue_item_id`.
 
 ```python
 registries(
-    organization: Optional[str] = None,
-    filter: Optional[Dict[str, Any]] = None
+    organization: 'str | None' = None,
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'int' = 100
 ) → Registries
 ```
 
@@ -1015,6 +1002,7 @@ Use the iterator to search and filter registries, collections, or artifact versi
  
  - `organization`:  (str, optional) The organization of the registry to fetch.  If not specified, use the organization specified in the user's settings. 
  - `filter`:  (dict, optional) MongoDB-style filter to apply to each object in the lazy registry iterator.  Fields available to filter for registries are  `name`, `description`, `created_at`, `updated_at`.  Fields available to filter for collections are  `name`, `tag`, `description`, `created_at`, `updated_at`  Fields available to filter for versions are  `tag`, `alias`, `created_at`, `updated_at`, `metadata` 
+ - `per_page`:  Sets the page size for query pagination. 
 
 
 
@@ -1060,7 +1048,7 @@ api.registries(filter={"name": {"$regex": "model"}}).versions(
 ### <kbd>method</kbd> `Api.registry`
 
 ```python
-registry(name: str, organization: Optional[str] = None) → Registry
+registry(name: 'str', organization: 'str | None' = None) → Registry
 ```
 
 Return a registry given a registry name. 
@@ -1097,9 +1085,9 @@ registry.save()
 
 ```python
 reports(
-    path: str = '',
-    name: Optional[str] = None,
-    per_page: int = 50
+    path: 'str' = '',
+    name: 'str | None' = None,
+    per_page: 'int' = 50
 ) → public.Reports
 ```
 
@@ -1113,7 +1101,7 @@ Note: `wandb.Api.reports()` API is in beta and will likely change in future rele
  
  - `path`:  The path to the project the report resides in. Specify the  entity that created the project as a prefix followed by a  forward slash. 
  - `name`:  Name of the report requested. 
- - `per_page`:  Sets the page size for query pagination. If set to  `None`, use the default size. Usually there is no reason to  change this. 
+ - `per_page`:  Sets the page size for query pagination.  Usually there is no reason to change this. 
 
 
 
@@ -1155,7 +1143,7 @@ Return a single run by parsing path in the form `entity/project/run_id`.
 ### <kbd>method</kbd> `Api.run_queue`
 
 ```python
-run_queue(entity: str, name: str)
+run_queue(entity: 'str', name: 'str')
 ```
 
 Return the named `RunQueue` for entity. 
@@ -1168,11 +1156,12 @@ See `Api.create_run_queue` for more information on how to create a run queue.
 
 ```python
 runs(
-    path: Optional[str] = None,
-    filters: Optional[Dict[str, Any]] = None,
-    order: str = '+created_at',
-    per_page: int = 50,
-    include_sweeps: bool = True
+    path: 'str | None' = None,
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True
 )
 ```
 
@@ -1221,6 +1210,7 @@ For more complex filtering, you can use MongoDB query operators. For details, se
  - `order`:  (str) Order can be `created_at`, `heartbeat_at`, `config.*.value`, or `summary_metrics.*`.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is run.created_at from oldest to newest. 
  - `per_page`:  (int) Sets the page size for query pagination. 
  - `include_sweeps`:  (bool) Whether to include the sweep runs in the results. 
+ - `lazy`:  (bool) Whether to use lazy loading for faster performance.  When True (default), only essential run metadata is loaded initially.  Heavy fields like config, summaryMetrics, and systemMetrics are loaded  on-demand when accessed. Set to False for full data upfront. 
 
 
 
@@ -1276,9 +1266,9 @@ api.runs(path="my_entity/project", order="+summary_metrics.loss")
 
 ```python
 slack_integrations(
-    entity: Optional[str] = None,
-    per_page: int = 50
-) → Iterator[ForwardRef('SlackIntegration')]
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[SlackIntegration]
 ```
 
 Returns an iterator of Slack integrations for an entity. 
@@ -1355,7 +1345,7 @@ Sync a local directory containing tfevent files to wandb.
 ### <kbd>method</kbd> `Api.team`
 
 ```python
-team(team: str) → public.Team
+team(team: 'str') → Team
 ```
 
 Return the matching `Team` with the given name. 
@@ -1378,8 +1368,8 @@ Return the matching `Team` with the given name.
 ```python
 update_automation(
     obj: 'Automation',
-    create_missing: bool = False,
-    **kwargs: typing_extensions.Unpack[ForwardRef('WriteAutomationsKwargs')]
+    create_missing: 'bool' = False,
+    **kwargs: 'Unpack[WriteAutomationsKwargs]'
 ) → Automation
 ```
 
@@ -1441,13 +1431,13 @@ updated_automation = api.update_automation(
 
 ```python
 upsert_run_queue(
-    name: str,
-    resource_config: dict,
+    name: 'str',
+    resource_config: 'dict',
     resource_type: 'public.RunQueueResourceType',
-    entity: Optional[str] = None,
-    template_variables: Optional[dict] = None,
-    external_links: Optional[dict] = None,
-    prioritization_mode: Optional[ForwardRef('public.RunQueuePrioritizationMode')] = None
+    entity: 'str | None' = None,
+    template_variables: 'dict | None' = None,
+    external_links: 'dict | None' = None,
+    prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None
 )
 ```
 
@@ -1480,7 +1470,7 @@ Upsert a run queue in W&B Launch.
 ### <kbd>method</kbd> `Api.user`
 
 ```python
-user(username_or_email: str) → Optional[ForwardRef('public.User')]
+user(username_or_email: 'str') → User | None
 ```
 
 Return a user from a username or email address. 
@@ -1503,7 +1493,7 @@ This function only works for local administrators. Use `api.viewer`  to get your
 ### <kbd>method</kbd> `Api.users`
 
 ```python
-users(username_or_email: str) → List[ForwardRef('public.User')]
+users(username_or_email: 'str') → list[User]
 ```
 
 Return all users from a partial username or email address query. 
@@ -1527,9 +1517,9 @@ This function only works for local administrators. Use `api.viewer`  to get your
 
 ```python
 webhook_integrations(
-    entity: Optional[str] = None,
-    per_page: int = 50
-) → Iterator[ForwardRef('WebhookIntegration')]
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[WebhookIntegration]
 ```
 
 Returns an iterator of webhook integrations for an entity. 

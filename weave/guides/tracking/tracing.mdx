@@ -50,7 +50,7 @@ There are three main ways to create Calls in Weave:
 
     # Initialize Weave Tracing
     weave.init('intro-example')
-
+"
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
@@ -124,7 +124,7 @@ However, often LLM applications have additional logic (such as pre/post processi
         return f"Hello, {name}!"
 
     # Call your function -- Weave will automatically track inputs and outputs
-    print(my_function("World")
+    print(my_function("World"))
     ```
 
     You can also track [methods on classes](#4-track-class-and-object-methods).
@@ -238,7 +238,7 @@ However, often LLM applications have additional logic (such as pre/post processi
     </Note>
     ```python lines lines
     # Notice that we pass the `instance` as the first argument.
-    print(instance.my_method.call(instance, "World")
+    print(instance.my_method.call(instance, "World"))
     ```
 
     ```python lines lines
@@ -361,32 +361,6 @@ However, often LLM applications have additional logic (such as pre/post processi
   </Tab>
 </Tabs>
 
-#### Attributes
-
-<Tabs>
-  <Tab title="Python">
-    When calling tracked functions, you can add additional metadata to the call by using [`weave.attributes`](/weave/reference/python-sdk/#function-attributes) context manager. In the example below, we add an `env` attribute to the call specified as `'production'`.
-
-    ```python lines lines
-    # ... continued from above ...
-
-    # Add additional attributes to the call
-    with weave.attributes({'env': 'production'}):
-        print(my_function.call("World")
-    ```
-
-    <Tip>
-    `call.attributes` cannot be modified once the call starts. Use this
-    context manager to set any metadata before invoking the op.
-    </Tip>
-  </Tab>
-  <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
-    ```
-  </Tab>
-</Tabs>
-
 #### Trace parallel (multi-threaded) function calls
 
 <Tabs>
@@ -443,7 +417,7 @@ You can also manually create Calls using the API directly.
             client.finish_call(call, output="Hello, World!")
 
         # Call your function
-        print(my_function("World")
+        print(my_function("World"))
         ```
 
     </Tab>
@@ -503,7 +477,7 @@ You can also track class and object methods.
     instance = MyClass()
 
     # Call your method -- Weave will automatically track inputs and outputs
-    print(instance.my_method("World")
+    print(instance.my_method("World"))
     ```
 
     </Tab>
@@ -839,7 +813,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
 
     </Tab>
     <Tab title="TypeScript">
-    To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/WeaveClient#getcalls) method.
+    To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method.
     ```typescript
     import * as weave from 'weave'
 
@@ -1032,38 +1006,45 @@ To use the code sample:
 ## Configure autopatching
 
 By default, Weave automatically patches and tracks calls to common LLM libraries like `openai`, `anthropic`, `cohere`, and `mistral`.
-You can control this behavior using the `autopatch_settings` argument in `weave.init`.
+
+<Warning>
+The `autopatch_settings` argument is deprecated. Use `implicitly_patch_integrations=False` to disable implicit patching, or call specific patch functions like `patch_openai(settings={...})` to configure settings per integration.
+</Warning>
 
 ### Disable all autopatching
 
-```python lines lines
-weave.init(..., autopatch_settings={"disable_autopatch": True})
+```python lines
+weave.init(..., implicitly_patch_integrations=False)
 ```
 
-### Disable a specific integration
+### Enable specific integrations
 
-```python lines lines
-weave.init(..., autopatch_settings={"openai": {"enabled": False}})
+```python lines
+import weave
+
+weave.init(..., implicitly_patch_integrations=False)
+
+# Then manually patch only the integrations you want
+weave.integrations.patch_anthropic()
+weave.integrations.patch_cohere()
 ```
 
-### Post-process inputs and outputs 
+### Post-process inputs and outputs
 
-You can also customize how post-process inputs and outputs (e.g. for PII data) are handled during autopatching:
+You can customize how inputs and outputs (such as for PII data) are handled by passing settings to the patch function:
 
-```python lines lines
+```python lines
+import weave.integrations
+
 def redact_inputs(inputs: dict) -> dict:
     if "email" in inputs:
         inputs["email"] = "[REDACTED]"
     return inputs
 
-weave.init(
-    ...,
-    autopatch_settings={
-        "openai": {
-            "op_settings": {
-                "postprocess_inputs": redact_inputs,
-            }
-        }
+weave.init(...)
+weave.integrations.patch_openai(
+    settings={
+        "op_settings": {"postprocess_inputs": redact_inputs}
     }
 )
 ```

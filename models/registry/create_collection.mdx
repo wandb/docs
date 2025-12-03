@@ -5,7 +5,7 @@ title: Create a collection
 
 A *collection* is a set of linked artifact versions within a registry. Each collection represents a distinct task or use case. 
 
-For example, within the core Dataset registry you might have multiple collections. Each collection contains a different dataset such as MNIST, CIFAR-10, or ImageNet.
+For example, within a registry you might have multiple collections. Each collection contains a different dataset such as MNIST, CIFAR-10, or ImageNet.
 
 As another example, you might have a registry called "chatbot" that contains a collection for model artifacts, another collection for dataset artifacts, and another collection for fine-tuned model artifacts.
 
@@ -32,21 +32,21 @@ You specify an artifact's type when you create that artifact object. Note the `t
 import wandb
 
 # Initialize a run
-run = wandb.init(
+with wandb.init(
   entity = "<team_entity>",
   project = "<project>"
-  )
+  ) as run:
 
-# Create an artifact object
-artifact = wandb.Artifact(
-    name="<artifact_name>", 
-    type="<artifact_type>"
-    )
+  # Create an artifact object
+  artifact = wandb.Artifact(
+      name="<artifact_name>", 
+      type="<artifact_type>"
+      )
 ```
 </Note>
  
 
-When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to. .
+When you create a collection, you can select from a list of predefined artifact types. The artifact types available to you depend on the registry that the collection belongs to.
 
 Before you link an artifact to a collection or create a new collection, [investigate the types of artifacts that collection accepts](#check-the-types-of-artifact-that-a-collection-accepts).
 
@@ -91,7 +91,7 @@ print(artifact_type.name for artifact_type in artifact_types)
 ```
 
 <Note>
-Note that you do not initialize a run with the proceeding code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
+Note that you do not initialize a run with the following code snippet. This is because it is unnecessary to create a run if you are only querying the W&B API and not tracking an experiment, artifact and so on.
 </Note>
 </Tab>
 </Tabs>
@@ -107,7 +107,7 @@ Interactively or programmatically create a collection within a registry. You can
 
 ### Programmatically create a collection
 
-Use the `wandb.init.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
+Use the `wandb.Run.link_artifact()` method to link an artifact to a collection. Specify both the collection and the registry to the `target_path` field as a path that takes the form of:
 
 ```python
 f"wandb-registry-{registry_name}/{collection_name}"
@@ -119,35 +119,33 @@ Where `registry_name` is the name of the registry and `collection_name` is the n
 W&B automatically creates a collection for you if you try to link an artifact to a collection that does not exist. If you specify a collection that does exists, W&B links the artifact to the existing collection.
 </Note>
 
-The proceeding code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
+The following code snippet shows how to programmatically create a collection. Ensure to replace other the values enclosed in `<>` with your own:
 
 ```python
 import wandb
 
 # Initialize a run
-run = wandb.init(entity = "<team_entity>", project = "<project>")
+with wandb.init(entity = "<team_entity>", project = "<project>") as run:
 
-# Create an artifact object
-artifact = wandb.Artifact(
-  name = "<artifact_name>",
-  type = "<artifact_type>"
-  )
+  # Create an artifact object
+  artifact = wandb.Artifact(
+    name = "<artifact_name>",
+    type = "<artifact_type>"
+    )
 
-registry_name = "<registry_name>"
-collection_name = "<collection_name>"
-target_path = f"wandb-registry-{registry_name}/{collection_name}"
+  registry_name = "<registry_name>"
+  collection_name = "<collection_name>"
+  target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-# Link the artifact to a collection
-run.link_artifact(artifact = artifact, target_path = target_path)
-
-run.finish()
+  # Link the artifact to a collection
+  run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
 ### Interactively create a collection
 
 The following steps describe how to interactively create a collection using the W&B Registry:
 
-1. Navigate to the **Registry** App in the W&B App UI.
+1. Navigate to the W&B Registry at https://wandb.ai/registry/.
 2. Select a registry.
 3. Click on the **Create collection** button in the upper right hand corner.
 4. Provide a name for your collection in the **Name** field. 

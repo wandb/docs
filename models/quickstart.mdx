@@ -48,25 +48,40 @@ wandb.login()
 </Tab>
 </Tabs>
 
-## Start a run and track hyperparameters
+## Initialize a run and track hyperparameters
 
-In your Python script or notebook, initialize a W&B run object with [`wandb.init()`](/models/ref/python/experiments/run/). Use a dictionary for the `config` parameter to specify hyperparameter names and values.
+In your Python script or notebook, initialize a W&B run object with [`wandb.init()`](/models/ref/python/experiments/run/). Use a dictionary for the `config` parameter
+to specify hyperparameter names and values. Within the `with` statement, you can log metrics and other information to W&B.
 
 ```python
-run = wandb.init(
-    project="my-awesome-project",  # Specify your project
-    config={                        # Track hyperparameters and metadata
-        "learning_rate": 0.01,
-        "epochs": 10,
-    },
-)
+import wandb
+
+wandb.login()
+
+# Project that the run is recorded to
+project = "my-awesome-project"
+
+# Dictionary with hyperparameters
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    # Training code here
+    # Log values to W&B with run.log()
+    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-A [run](/models/runs/) serves as the core element of W&B, used to [track metrics](/models/track/), [create logs](/models/track/log/), and more.
+See the next section for a complete example that simulates a training run and logs accuracy and loss metrics to W&B.
 
-## Assemble the components
+<Info>
+A [run](/models/runs/) is a core element of W&B. You use runs to [track metrics](/models/track/), [create logs](/models/track/log/), track artifacts, and more.
+</Info>
 
-This mock training script logs simulated accuracy and loss metrics to W&B:
+## Create a machine learning training experiment
+
+This mock training script logs simulated accuracy and loss metrics to W&B. Copy and paste the following code into a Python script or notebook cell and run it:
 
 ```python
 import wandb
@@ -94,7 +109,6 @@ with wandb.init(project=project, config=config) as run:
         print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
         run.log({"accuracy": acc, "loss": loss})
 ```
-
 Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 <Frame>

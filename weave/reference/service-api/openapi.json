@@ -5,99 +5,6 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/health": {
-      "get": {
-        "tags": [
-          "Service"
-        ],
-        "summary": "Read Root",
-        "operationId": "read_root_health_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/version": {
-      "get": {
-        "tags": [
-          "Service"
-        ],
-        "summary": "Read Version",
-        "operationId": "read_version_version_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/geolocate": {
-      "get": {
-        "tags": [
-          "Service"
-        ],
-        "summary": "Get Caller Location",
-        "description": "Lookup the geographic location of a user based on their IP address.\n\nThis API exists for debugging purposes and may not be available in the future.",
-        "operationId": "get_caller_location_geolocate_get",
-        "parameters": [
-          {
-            "name": "ip",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "IP address to geolocate, defaults to client IP address",
-              "examples": [
-                "1.2.3.4"
-              ],
-              "title": "Ip"
-            },
-            "description": "IP address to geolocate, defaults to client IP address"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeolocationRes"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/server_info": {
       "get": {
         "tags": [
@@ -115,23 +22,90 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
       }
     },
-    "/otel/v1/traces": {
-      "post": {
+    "/health": {
+      "get": {
         "tags": [
-          "OpenTelemetry"
+          "Service"
         ],
-        "summary": "Export Trace",
-        "operationId": "export_trace_otel_v1_traces_post",
+        "summary": "Read Root",
+        "operationId": "read_root_health_get",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Read Root Health Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/otel/v1/trace": {
+      "post": {
+        "tags": [
+          "OpenTelemetry"
+        ],
+        "summary": "Export Trace",
+        "operationId": "export_trace_otel_v1_trace_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtelExportReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtelExportRes"
+                }
               }
             }
           },
@@ -429,128 +403,6 @@
         ]
       }
     },
-    "/inference/router/openrouter/models": {
-      "get": {
-        "tags": [
-          "Inference"
-        ],
-        "summary": "Inference Router Openrouter Models",
-        "description": "Returns a list of models that are available to be used with OpenRouter.\n\nThis API is available without authentication.",
-        "operationId": "inference_router_openrouter_models_inference_router_openrouter_models_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RouterOpenRouterModelsRes"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/inference/v1{path}": {
-      "get": {
-        "tags": [
-          "Inference"
-        ],
-        "summary": "Inference Get",
-        "description": "OpenAI-compatible APIs.",
-        "operationId": "inference_get_inference_v1_path__get",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Inference"
-        ],
-        "summary": "Inference Post",
-        "description": "OpenAI-compatible APIs.",
-        "operationId": "inference_post_inference_v1_path__post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompletionsCreateRequestInputs"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/calls/query_stats": {
       "post": {
         "tags": [
@@ -633,10 +485,15 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/jsonl": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CallSchema"
+                  }
+                }
               }
             }
           },
@@ -929,52 +786,6 @@
         ]
       }
     },
-    "/table/create_from_digests": {
-      "post": {
-        "tags": [
-          "Tables"
-        ],
-        "summary": "Table Create From Digests",
-        "operationId": "table_create_from_digests_table_create_from_digests_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TableCreateFromDigestsReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TableCreateRes"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
     "/table/query": {
       "post": {
         "tags": [
@@ -1021,6 +832,65 @@
         ]
       }
     },
+    "/table/query_stream": {
+      "post": {
+        "summary": "Table Query Stream",
+        "operationId": "table_query_stream_table_query_stream_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accept",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "application/jsonl",
+              "title": "Accept"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TableQueryReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stream of data in JSONL format",
+            "content": {
+              "application/jsonl": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/table/query_stats": {
       "post": {
         "tags": [
@@ -1045,52 +915,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TableQueryStatsRes"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
-    "/table/query_stats_batch": {
-      "post": {
-        "tags": [
-          "Tables"
-        ],
-        "summary": "Table Query Stats Batch",
-        "operationId": "table_query_stats_batch_table_query_stats_batch_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TableQueryStatsBatchReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TableQueryStatsBatchRes"
                 }
               }
             }
@@ -1224,57 +1048,9 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Binary file content stream",
             "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
-    "/files/query_stats": {
-      "post": {
-        "tags": [
-          "Files"
-        ],
-        "summary": "Files Stats",
-        "operationId": "files_stats_files_query_stats_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FilesStatsReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FilesStatsRes"
-                }
-              }
+              "application/octet-stream": {}
             }
           },
           "422": {
@@ -1480,53 +1256,6 @@
         ]
       }
     },
-    "/feedback/batch/create": {
-      "post": {
-        "tags": [
-          "Feedback"
-        ],
-        "summary": "Feedback Create Batch",
-        "description": "Add multiple feedback items to calls or objects.",
-        "operationId": "feedback_create_batch_feedback_batch_create_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FeedbackCreateBatchReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackCreateBatchRes"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
     "/feedback/query": {
       "post": {
         "tags": [
@@ -1667,6 +1396,102 @@
         ]
       }
     },
+    "/completions/create": {
+      "post": {
+        "tags": [
+          "Completions"
+        ],
+        "summary": "Completions Create",
+        "operationId": "completions_create_completions_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompletionsCreateReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompletionsCreateRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/completions/create_stream": {
+      "post": {
+        "tags": [
+          "Completions"
+        ],
+        "summary": "Completions Create Stream",
+        "operationId": "completions_create_stream_completions_create_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompletionsCreateReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Stream of data in JSONL format",
+            "content": {
+              "application/jsonl": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/threads/stream_query": {
       "post": {
         "tags": [
@@ -1686,147 +1511,15 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Stream of data in JSONL format",
             "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
+              "application/jsonl": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
-    "/evaluations/evaluate_model": {
-      "post": {
-        "tags": [
-          "Evaluations"
-        ],
-        "summary": "Evaluate Model",
-        "operationId": "evaluate_model_evaluations_evaluate_model_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EvaluateModelReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EvaluateModelRes"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
-    "/evaluations/status": {
-      "post": {
-        "tags": [
-          "Evaluations"
-        ],
-        "summary": "Evaluation Status",
-        "operationId": "evaluation_status_evaluations_status_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EvaluationStatusReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EvaluationStatusRes"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBasic": []
-          }
-        ]
-      }
-    },
-    "/image/create": {
-      "post": {
-        "tags": [
-          "Images"
-        ],
-        "summary": "Image Create",
-        "operationId": "image_create_image_create_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ImageGenerationCreateReq"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ImageGenerationCreateRes"
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array"
                 }
               }
             }
@@ -1903,6 +1596,11 @@
         "title": "AndOperation",
         "description": "Logical AND. All conditions must evaluate to true.\n\nExample:\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
       },
+      "BaseModel": {
+        "properties": {},
+        "type": "object",
+        "title": "BaseModel"
+      },
       "Body_file_create_file_create_post": {
         "properties": {
           "project_id": {
@@ -1973,6 +1671,7 @@
             "title": "Batch"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "batch"
@@ -2162,10 +1861,12 @@
             "title": "Started At"
           },
           "attributes": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Attributes"
           },
           "inputs": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Inputs"
           },
@@ -2202,6 +1903,7 @@
             "title": "Output"
           },
           "summary": {
+            "additionalProperties": true,
             "type": "object"
           },
           "wb_user_id": {
@@ -2408,8 +2110,17 @@
         "title": "CallsDeleteReq"
       },
       "CallsDeleteRes": {
-        "properties": {},
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "The number of calls deleted"
+          }
+        },
         "type": "object",
+        "required": [
+          "num_deleted"
+        ],
         "title": "CallsDeleteRes"
       },
       "CallsFilter": {
@@ -2842,6 +2553,49 @@
         ],
         "title": "CallsQueryStatsRes"
       },
+      "CompletionsCreateReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/CompletionsCreateRequestInputs"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
+          },
+          "track_llm_call": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Llm Call",
+            "description": "Whether to track this LLM call in the trace server",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "inputs"
+        ],
+        "title": "CompletionsCreateReq"
+      },
       "CompletionsCreateRequestInputs": {
         "properties": {
           "model": {
@@ -2986,6 +2740,7 @@
           "logit_bias": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -3008,6 +2763,7 @@
           "response_format": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {},
@@ -3046,6 +2802,7 @@
                 "type": "string"
               },
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -3090,6 +2847,7 @@
           "extra_headers": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -3138,6 +2896,31 @@
           "model"
         ],
         "title": "CompletionsCreateRequestInputs"
+      },
+      "CompletionsCreateRes": {
+        "properties": {
+          "response": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Response"
+          },
+          "weave_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weave Call Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "response"
+        ],
+        "title": "CompletionsCreateRes"
       },
       "ContainsOperation": {
         "properties": {
@@ -3713,18 +3496,144 @@
         ],
         "title": "CostQueryRes"
       },
-      "Datacenter": {
+      "DatasetCreateBody": {
         "properties": {
-          "country_code": {
-            "type": "string",
-            "title": "Country Code"
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "The name of this dataset.  Datasets with the same name will be versioned together."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "A description of this dataset"
+          },
+          "rows": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Rows",
+            "description": "Dataset rows"
           }
         },
         "type": "object",
         "required": [
-          "country_code"
+          "rows"
         ],
-        "title": "Datacenter"
+        "title": "DatasetCreateBody"
+      },
+      "DatasetCreateRes": {
+        "properties": {
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the created dataset"
+          },
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The ID of the created dataset"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the created dataset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "digest",
+          "object_id",
+          "version_index"
+        ],
+        "title": "DatasetCreateRes"
+      },
+      "DatasetDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of dataset versions deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "DatasetDeleteRes"
+      },
+      "DatasetReadRes": {
+        "properties": {
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The dataset ID"
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the dataset object"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the object"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the object was created"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the dataset"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the dataset"
+          },
+          "rows": {
+            "type": "string",
+            "title": "Rows",
+            "description": "Reference to the dataset rows data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "object_id",
+          "digest",
+          "version_index",
+          "created_at",
+          "name",
+          "rows"
+        ],
+        "title": "DatasetReadRes"
       },
       "EndedCallSchemaForInsert": {
         "properties": {
@@ -3877,19 +3786,80 @@
         "title": "EqOperation",
         "description": "Equality check between two operands.\n\nExample:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
       },
-      "EvaluateModelReq": {
+      "EvaluationCreateReq": {
         "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of this evaluation.  Evaluations with the same name will be versioned together."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "A description of this evaluation"
+          },
+          "dataset": {
+            "type": "string",
+            "title": "Dataset",
+            "description": "Reference to the dataset (weave:// URI)"
+          },
+          "scorers": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scorers",
+            "description": "List of scorer references (weave:// URIs)"
+          },
+          "trials": {
+            "type": "integer",
+            "title": "Trials",
+            "description": "Number of trials to run",
+            "default": 1
+          },
+          "evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Name",
+            "description": "Name for the evaluation run"
+          },
+          "eval_attributes": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eval Attributes",
+            "description": "Optional attributes for the evaluation"
+          },
           "project_id": {
             "type": "string",
-            "title": "Project Id"
-          },
-          "evaluation_ref": {
-            "type": "string",
-            "title": "Evaluation Ref"
-          },
-          "model_ref": {
-            "type": "string",
-            "title": "Model Ref"
+            "title": "Project Id",
+            "description": "The `entity/project` where this evaluation will be saved"
           },
           "wb_user_id": {
             "anyOf": [
@@ -3904,63 +3874,89 @@
             "description": "Do not set directly. Server will automatically populate this field."
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
-          "project_id",
-          "evaluation_ref",
-          "model_ref"
+          "name",
+          "dataset",
+          "project_id"
         ],
-        "title": "EvaluateModelReq"
+        "title": "EvaluationCreateReq"
       },
-      "EvaluateModelRes": {
+      "EvaluationCreateRes": {
         "properties": {
-          "call_id": {
+          "digest": {
             "type": "string",
-            "title": "Call Id"
+            "title": "Digest",
+            "description": "The digest of the created evaluation"
+          },
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The ID of the created evaluation"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the created evaluation"
+          },
+          "evaluation_ref": {
+            "type": "string",
+            "title": "Evaluation Ref",
+            "description": "Full reference to the created evaluation"
           }
         },
         "type": "object",
         "required": [
-          "call_id"
+          "digest",
+          "object_id",
+          "version_index",
+          "evaluation_ref"
         ],
-        "title": "EvaluateModelRes"
+        "title": "EvaluationCreateRes"
       },
-      "EvaluationStatusComplete": {
+      "EvaluationDeleteRes": {
         "properties": {
-          "code": {
-            "type": "string",
-            "enum": [
-              "complete"
-            ],
-            "const": "complete",
-            "title": "Code",
-            "default": "complete"
-          },
-          "output": {
-            "type": "object",
-            "title": "Output"
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of evaluation versions deleted"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
-          "output"
+          "num_deleted"
         ],
-        "title": "EvaluationStatusComplete"
+        "title": "EvaluationDeleteRes"
       },
-      "EvaluationStatusFailed": {
+      "EvaluationReadRes": {
         "properties": {
-          "code": {
+          "object_id": {
             "type": "string",
-            "enum": [
-              "failed"
-            ],
-            "const": "failed",
-            "title": "Code",
-            "default": "failed"
+            "title": "Object Id",
+            "description": "The evaluation ID"
           },
-          "error": {
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the evaluation"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the evaluation"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the evaluation was created"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the evaluation"
+          },
+          "description": {
             "anyOf": [
               {
                 "type": "string"
@@ -3969,134 +3965,265 @@
                 "type": "null"
               }
             ],
-            "title": "Error"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "title": "EvaluationStatusFailed"
-      },
-      "EvaluationStatusNotFound": {
-        "properties": {
-          "code": {
-            "type": "string",
-            "enum": [
-              "not_found"
-            ],
-            "const": "not_found",
-            "title": "Code",
-            "default": "not_found"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "title": "EvaluationStatusNotFound"
-      },
-      "EvaluationStatusReq": {
-        "properties": {
-          "project_id": {
-            "type": "string",
-            "title": "Project Id"
+            "title": "Description",
+            "description": "A description of the evaluation"
           },
-          "call_id": {
+          "dataset": {
             "type": "string",
-            "title": "Call Id"
+            "title": "Dataset",
+            "description": "Dataset reference (weave:// URI)"
+          },
+          "scorers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorers",
+            "description": "List of scorer references (weave:// URIs)"
+          },
+          "trials": {
+            "type": "integer",
+            "title": "Trials",
+            "description": "Number of trials"
+          },
+          "evaluation_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Name",
+            "description": "Name for the evaluation run"
+          },
+          "evaluate_op": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluate Op",
+            "description": "Evaluate op reference (weave:// URI)"
+          },
+          "predict_and_score_op": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predict And Score Op",
+            "description": "Predict and score op reference (weave:// URI)"
+          },
+          "summarize_op": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summarize Op",
+            "description": "Summarize op reference (weave:// URI)"
           }
         },
-        "additionalProperties": false,
         "type": "object",
         "required": [
-          "project_id",
-          "call_id"
+          "object_id",
+          "digest",
+          "version_index",
+          "created_at",
+          "name",
+          "dataset",
+          "scorers",
+          "trials"
         ],
-        "title": "EvaluationStatusReq"
+        "title": "EvaluationReadRes"
       },
-      "EvaluationStatusRes": {
+      "EvaluationRunCreateBody": {
         "properties": {
+          "evaluation": {
+            "type": "string",
+            "title": "Evaluation",
+            "description": "Reference to the evaluation (weave:// URI)"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "Reference to the model (weave:// URI)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation",
+          "model"
+        ],
+        "title": "EvaluationRunCreateBody"
+      },
+      "EvaluationRunCreateRes": {
+        "properties": {
+          "evaluation_run_id": {
+            "type": "string",
+            "title": "Evaluation Run Id",
+            "description": "The ID of the created evaluation run"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_run_id"
+        ],
+        "title": "EvaluationRunCreateRes"
+      },
+      "EvaluationRunDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of evaluation runs deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "EvaluationRunDeleteRes"
+      },
+      "EvaluationRunFinishBody": {
+        "properties": {
+          "summary": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary",
+            "description": "Optional summary dictionary for the evaluation run"
+          }
+        },
+        "type": "object",
+        "title": "EvaluationRunFinishBody",
+        "description": "Request body for finishing an evaluation run via REST API.\n\nThis model excludes project_id and evaluation_run_id since they come from the URL path in RESTful endpoints."
+      },
+      "EvaluationRunFinishRes": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the evaluation run was finished successfully"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "EvaluationRunFinishRes"
+      },
+      "EvaluationRunReadRes": {
+        "properties": {
+          "evaluation_run_id": {
+            "type": "string",
+            "title": "Evaluation Run Id",
+            "description": "The evaluation run ID"
+          },
+          "evaluation": {
+            "type": "string",
+            "title": "Evaluation",
+            "description": "Reference to the evaluation (weave:// URI)"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "Reference to the model (weave:// URI)"
+          },
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/EvaluationStatusNotFound"
+                "type": "string"
               },
               {
-                "$ref": "#/components/schemas/EvaluationStatusRunning"
-              },
-              {
-                "$ref": "#/components/schemas/EvaluationStatusFailed"
-              },
-              {
-                "$ref": "#/components/schemas/EvaluationStatusComplete"
+                "type": "null"
               }
             ],
-            "title": "Status"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status"
-        ],
-        "title": "EvaluationStatusRes"
-      },
-      "EvaluationStatusRunning": {
-        "properties": {
-          "code": {
-            "type": "string",
-            "enum": [
-              "running"
+            "title": "Status",
+            "description": "Status of the evaluation run"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
             ],
-            "const": "running",
-            "title": "Code",
-            "default": "running"
+            "title": "Started At",
+            "description": "When the evaluation run started"
           },
-          "completed_rows": {
-            "type": "integer",
-            "title": "Completed Rows"
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At",
+            "description": "When the evaluation run finished"
           },
-          "total_rows": {
+          "summary": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary",
+            "description": "Summary data for the evaluation run"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_run_id",
+          "evaluation",
+          "model"
+        ],
+        "title": "EvaluationRunReadRes"
+      },
+      "ExportTracePartialSuccess": {
+        "properties": {
+          "rejected_spans": {
             "type": "integer",
-            "title": "Total Rows"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "completed_rows",
-          "total_rows"
-        ],
-        "title": "EvaluationStatusRunning"
-      },
-      "FeedbackCreateBatchReq": {
-        "properties": {
-          "batch": {
-            "items": {
-              "$ref": "#/components/schemas/FeedbackCreateReq"
-            },
-            "type": "array",
-            "title": "Batch"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "batch"
-        ],
-        "title": "FeedbackCreateBatchReq"
-      },
-      "FeedbackCreateBatchRes": {
-        "properties": {
-          "res": {
-            "items": {
-              "$ref": "#/components/schemas/FeedbackCreateRes"
-            },
-            "type": "array",
-            "title": "Res"
+            "title": "Rejected Spans"
+          },
+          "error_message": {
+            "type": "string",
+            "title": "Error Message"
           }
         },
         "type": "object",
         "required": [
-          "res"
+          "rejected_spans",
+          "error_message"
         ],
-        "title": "FeedbackCreateBatchRes"
+        "title": "ExportTracePartialSuccess"
       },
       "FeedbackCreateReq": {
         "properties": {
@@ -4151,6 +4278,7 @@
             ]
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload",
             "examples": [
@@ -4254,6 +4382,7 @@
             "title": "Wb User Id"
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           }
@@ -4387,6 +4516,7 @@
         "properties": {
           "result": {
             "items": {
+              "additionalProperties": true,
               "type": "object"
             },
             "type": "array",
@@ -4452,6 +4582,7 @@
             ]
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload",
             "examples": [
@@ -4560,6 +4691,7 @@
             "title": "Wb User Id"
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           }
@@ -4604,120 +4736,6 @@
           "digest"
         ],
         "title": "FileCreateRes"
-      },
-      "FilesStatsReq": {
-        "properties": {
-          "project_id": {
-            "type": "string",
-            "title": "Project Id"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "project_id"
-        ],
-        "title": "FilesStatsReq"
-      },
-      "FilesStatsRes": {
-        "properties": {
-          "total_size_bytes": {
-            "type": "integer",
-            "title": "Total Size Bytes"
-          }
-        },
-        "type": "object",
-        "required": [
-          "total_size_bytes"
-        ],
-        "title": "FilesStatsRes"
-      },
-      "Geolocation": {
-        "properties": {
-          "file_index": {
-            "type": "integer",
-            "title": "File Index",
-            "description": "row in CSV file"
-          },
-          "range_start_int": {
-            "type": "integer",
-            "title": "Range Start Int",
-            "description": "Start of IP range as integer"
-          },
-          "range_end_int": {
-            "type": "integer",
-            "title": "Range End Int",
-            "description": "End of IP range as integer"
-          },
-          "range_start_ip": {
-            "type": "string",
-            "title": "Range Start Ip",
-            "description": "Start of IP range in dotted decimal notation"
-          },
-          "range_end_ip": {
-            "type": "string",
-            "title": "Range End Ip",
-            "description": "End of IP range in dotted decimal notation"
-          },
-          "country_code": {
-            "type": "string",
-            "title": "Country Code",
-            "description": "2-letter country code in ISO 3166-1 Alpha 2 format"
-          },
-          "country_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country Name",
-            "description": "Country name, None if could not be determined"
-          }
-        },
-        "type": "object",
-        "required": [
-          "file_index",
-          "range_start_int",
-          "range_end_int",
-          "range_start_ip",
-          "range_end_ip",
-          "country_code"
-        ],
-        "title": "Geolocation"
-      },
-      "GeolocationRes": {
-        "properties": {
-          "ip": {
-            "type": "string",
-            "title": "Ip",
-            "description": "Resolved IP address, useful for debugging"
-          },
-          "location": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Geolocation"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Information about the location of the IP address, None if could not be determined"
-          },
-          "allowed": {
-            "type": "boolean",
-            "title": "Allowed",
-            "description": "Whether the IP address is allowed to be used for inference.",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "ip"
-        ],
-        "title": "GeolocationRes"
       },
       "GetFieldOperator": {
         "properties": {
@@ -4930,101 +4948,6 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
-      "ImageGenerationCreateReq": {
-        "properties": {
-          "project_id": {
-            "type": "string",
-            "title": "Project Id"
-          },
-          "inputs": {
-            "$ref": "#/components/schemas/ImageGenerationRequestInputs"
-          },
-          "wb_user_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Wb User Id",
-            "description": "Do not set directly. Server will automatically populate this field."
-          },
-          "track_llm_call": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Track Llm Call",
-            "description": "Whether to track this image generation call in the trace server",
-            "default": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "project_id",
-          "inputs"
-        ],
-        "title": "ImageGenerationCreateReq"
-      },
-      "ImageGenerationCreateRes": {
-        "properties": {
-          "response": {
-            "type": "object",
-            "title": "Response"
-          },
-          "weave_call_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Weave Call Id"
-          }
-        },
-        "type": "object",
-        "required": [
-          "response"
-        ],
-        "title": "ImageGenerationCreateRes"
-      },
-      "ImageGenerationRequestInputs": {
-        "properties": {
-          "model": {
-            "type": "string",
-            "title": "Model"
-          },
-          "prompt": {
-            "type": "string",
-            "title": "Prompt"
-          },
-          "n": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "N"
-          }
-        },
-        "type": "object",
-        "required": [
-          "model",
-          "prompt"
-        ],
-        "title": "ImageGenerationRequestInputs"
-      },
       "InOperation": {
         "properties": {
           "$in": {
@@ -5189,6 +5112,7 @@
             "title": "Total Tokens"
           }
         },
+        "additionalProperties": true,
         "type": "object",
         "title": "LLMUsageSchema"
       },
@@ -5233,6 +5157,167 @@
         ],
         "title": "LiteralOperation",
         "description": "Represents a constant value in the query language.\n\nThis can be any standard JSON-serializable value.\n\nExample:\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
+      },
+      "ModelCreateBody": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of this model. Models with the same name will be versioned together."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "A description of this model"
+          },
+          "source_code": {
+            "type": "string",
+            "title": "Source Code",
+            "description": "Complete source code for the Model class including imports"
+          },
+          "attributes": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attributes",
+            "description": "Additional attributes to be stored with the model"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "source_code"
+        ],
+        "title": "ModelCreateBody"
+      },
+      "ModelCreateRes": {
+        "properties": {
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the created model"
+          },
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The ID of the created model"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the created model"
+          },
+          "model_ref": {
+            "type": "string",
+            "title": "Model Ref",
+            "description": "Full reference to the created model"
+          }
+        },
+        "type": "object",
+        "required": [
+          "digest",
+          "object_id",
+          "version_index",
+          "model_ref"
+        ],
+        "title": "ModelCreateRes"
+      },
+      "ModelDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of model versions deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "ModelDeleteRes"
+      },
+      "ModelReadRes": {
+        "properties": {
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The model ID"
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the model"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the object"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the model was created"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the model"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the model"
+          },
+          "source_code": {
+            "type": "string",
+            "title": "Source Code",
+            "description": "The source code of the model"
+          },
+          "attributes": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attributes",
+            "description": "Additional attributes stored with the model"
+          }
+        },
+        "type": "object",
+        "required": [
+          "object_id",
+          "digest",
+          "version_index",
+          "created_at",
+          "name",
+          "source_code"
+        ],
+        "title": "ModelReadRes"
       },
       "NotOperation": {
         "properties": {
@@ -5307,6 +5392,17 @@
           "digest": {
             "type": "string",
             "title": "Digest"
+          },
+          "object_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Object Id"
           }
         },
         "type": "object",
@@ -5837,6 +5933,118 @@
         "type": "object",
         "title": "ObjectVersionFilter"
       },
+      "OpCreateBody": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "The name of this op. Ops with the same name will be versioned together."
+          },
+          "source_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Code",
+            "description": "Complete source code for this op, including imports"
+          }
+        },
+        "type": "object",
+        "title": "OpCreateBody",
+        "description": "Request body for creating an Op object via REST API.\n\nThis model excludes project_id since it comes from the URL path in RESTful endpoints."
+      },
+      "OpCreateRes": {
+        "properties": {
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the created op"
+          },
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The ID of the created op"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the created op"
+          }
+        },
+        "type": "object",
+        "required": [
+          "digest",
+          "object_id",
+          "version_index"
+        ],
+        "title": "OpCreateRes",
+        "description": "Response model for creating an Op object."
+      },
+      "OpDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of op versions deleted from this op"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "OpDeleteRes"
+      },
+      "OpReadRes": {
+        "properties": {
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The op ID"
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the op"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of this op"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When this op was created"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "The actual op source code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "object_id",
+          "digest",
+          "version_index",
+          "created_at",
+          "code"
+        ],
+        "title": "OpReadRes",
+        "description": "Response model for reading an Op object.\n\nThe code field contains the actual source code of the op."
+      },
       "OrOperation": {
         "properties": {
           "$or": {
@@ -5888,44 +6096,199 @@
         "title": "OrOperation",
         "description": "Logical OR. At least one condition must be true.\n\nExample:\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
       },
-      "Pricing": {
+      "OtelExportReq": {
         "properties": {
-          "prompt": {
+          "project_id": {
             "type": "string",
-            "title": "Prompt"
+            "title": "Project Id"
           },
-          "completion": {
-            "type": "string",
-            "title": "Completion"
+          "traces": {
+            "title": "Traces"
           },
-          "image": {
-            "type": "string",
-            "title": "Image"
+          "wb_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Run Id"
           },
-          "request": {
-            "type": "string",
-            "title": "Request"
-          },
-          "input_cache_reads": {
-            "type": "string",
-            "title": "Input Cache Reads"
-          },
-          "input_cache_writes": {
-            "type": "string",
-            "title": "Input Cache Writes"
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
           }
         },
         "type": "object",
         "required": [
-          "prompt",
-          "completion",
-          "image",
-          "request",
-          "input_cache_reads",
-          "input_cache_writes"
+          "project_id",
+          "traces"
         ],
-        "title": "Pricing",
-        "description": "All pricing values are in USD per 1 token.\n\nPricing fields are in string format to avoid floating point precision issues."
+        "title": "OtelExportReq"
+      },
+      "OtelExportRes": {
+        "properties": {
+          "partial_success": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExportTracePartialSuccess"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The details of a partially successful export request. When None or rejected_spans is 0, the request was fully accepted."
+          }
+        },
+        "type": "object",
+        "title": "OtelExportRes"
+      },
+      "PredictionCreateBody": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "The model reference (weave:// URI)"
+          },
+          "inputs": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Inputs",
+            "description": "The inputs to the prediction"
+          },
+          "output": {
+            "title": "Output",
+            "description": "The output of the prediction"
+          },
+          "evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Id",
+            "description": "Optional evaluation run ID to link this prediction as a child call"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model",
+          "inputs",
+          "output"
+        ],
+        "title": "PredictionCreateBody",
+        "description": "Request body for creating a Prediction via REST API.\n\nThis model excludes project_id since it comes from the URL path in RESTful endpoints."
+      },
+      "PredictionCreateRes": {
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "title": "Prediction Id",
+            "description": "The prediction ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id"
+        ],
+        "title": "PredictionCreateRes"
+      },
+      "PredictionDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of predictions deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "PredictionDeleteRes"
+      },
+      "PredictionFinishRes": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the prediction was finished successfully"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "PredictionFinishRes"
+      },
+      "PredictionReadRes": {
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "title": "Prediction Id",
+            "description": "The prediction ID"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "The model reference (weave:// URI)"
+          },
+          "inputs": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Inputs",
+            "description": "The inputs to the prediction"
+          },
+          "output": {
+            "title": "Output",
+            "description": "The output of the prediction"
+          },
+          "evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Id",
+            "description": "Evaluation run ID if this prediction is linked to one"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id",
+          "model",
+          "inputs",
+          "output"
+        ],
+        "title": "PredictionReadRes"
       },
       "Query": {
         "properties": {
@@ -5997,130 +6360,257 @@
         ],
         "title": "RefsReadBatchRes"
       },
-      "RouterOpenRouterModel": {
+      "ScoreCreateBody": {
         "properties": {
-          "id": {
+          "prediction_id": {
             "type": "string",
-            "title": "Id"
+            "title": "Prediction Id",
+            "description": "The prediction ID"
+          },
+          "scorer": {
+            "type": "string",
+            "title": "Scorer",
+            "description": "The scorer reference (weave:// URI)"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "The value of the score"
+          },
+          "evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Id",
+            "description": "Optional evaluation run ID to link this score as a child call"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id",
+          "scorer",
+          "value"
+        ],
+        "title": "ScoreCreateBody",
+        "description": "Request body for creating a Score via REST API.\n\nThis model excludes project_id since it comes from the URL path in RESTful endpoints."
+      },
+      "ScoreCreateRes": {
+        "properties": {
+          "score_id": {
+            "type": "string",
+            "title": "Score Id",
+            "description": "The score ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score_id"
+        ],
+        "title": "ScoreCreateRes"
+      },
+      "ScoreDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of scores deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "ScoreDeleteRes"
+      },
+      "ScoreReadRes": {
+        "properties": {
+          "score_id": {
+            "type": "string",
+            "title": "Score Id",
+            "description": "The score ID"
+          },
+          "scorer": {
+            "type": "string",
+            "title": "Scorer",
+            "description": "The scorer reference (weave:// URI)"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "The value of the score"
+          },
+          "evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Id",
+            "description": "Evaluation run ID if this score is linked to one"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
+          }
+        },
+        "type": "object",
+        "required": [
+          "score_id",
+          "scorer",
+          "value"
+        ],
+        "title": "ScoreReadRes"
+      },
+      "ScorerCreateBody": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of this scorer.  Scorers with the same name will be versioned together."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "A description of this scorer"
+          },
+          "op_source_code": {
+            "type": "string",
+            "title": "Op Source Code",
+            "description": "Complete source code for the Scorer.score op including imports"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "op_source_code"
+        ],
+        "title": "ScorerCreateBody"
+      },
+      "ScorerCreateRes": {
+        "properties": {
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the created scorer"
+          },
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The ID of the created scorer"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the created scorer"
+          },
+          "scorer": {
+            "type": "string",
+            "title": "Scorer",
+            "description": "Full reference to the created scorer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "digest",
+          "object_id",
+          "version_index",
+          "scorer"
+        ],
+        "title": "ScorerCreateRes"
+      },
+      "ScorerDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "Number of scorer versions deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "ScorerDeleteRes"
+      },
+      "ScorerReadRes": {
+        "properties": {
+          "object_id": {
+            "type": "string",
+            "title": "Object Id",
+            "description": "The scorer ID"
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "The digest of the scorer"
+          },
+          "version_index": {
+            "type": "integer",
+            "title": "Version Index",
+            "description": "The version index of the object"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the scorer was created"
           },
           "name": {
             "type": "string",
-            "title": "Name"
+            "title": "Name",
+            "description": "The name of the scorer"
           },
-          "created": {
-            "type": "integer",
-            "title": "Created"
-          },
-          "input_modalities": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Input Modalities"
-          },
-          "output_modalities": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Output Modalities"
-          },
-          "quantization": {
-            "type": "string",
-            "enum": [
-              "int4",
-              "int8",
-              "fp4",
-              "fp6",
-              "fp8",
-              "fp16",
-              "bf16",
-              "fp32"
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
             ],
-            "title": "Quantization"
+            "title": "Description",
+            "description": "Description of the scorer"
           },
-          "context_length": {
-            "type": "integer",
-            "title": "Context Length"
-          },
-          "max_output_length": {
-            "type": "integer",
-            "title": "Max Output Length"
-          },
-          "pricing": {
-            "$ref": "#/components/schemas/Pricing"
-          },
-          "supported_sampling_parameters": {
-            "items": {
-              "type": "string",
-              "enum": [
-                "temperature",
-                "top_p",
-                "top_k",
-                "repetition_penalty",
-                "frequency_penalty",
-                "presence_penalty",
-                "stop",
-                "seed"
-              ]
-            },
-            "type": "array",
-            "title": "Supported Sampling Parameters"
-          },
-          "supported_features": {
-            "items": {
-              "type": "string",
-              "enum": [
-                "tools",
-                "json_mode",
-                "structured_outputs",
-                "web_search",
-                "reasoning"
-              ]
-            },
-            "type": "array",
-            "title": "Supported Features"
-          },
-          "datacenters": {
-            "items": {
-              "$ref": "#/components/schemas/Datacenter"
-            },
-            "type": "array",
-            "title": "Datacenters"
+          "score_op": {
+            "type": "string",
+            "title": "Score Op",
+            "description": "The Scorer.score op reference"
           }
         },
         "type": "object",
         "required": [
-          "id",
+          "object_id",
+          "digest",
+          "version_index",
+          "created_at",
           "name",
-          "created",
-          "input_modalities",
-          "output_modalities",
-          "quantization",
-          "context_length",
-          "max_output_length",
-          "pricing",
-          "supported_sampling_parameters",
-          "supported_features",
-          "datacenters"
+          "score_op"
         ],
-        "title": "RouterOpenRouterModel"
-      },
-      "RouterOpenRouterModelsRes": {
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/RouterOpenRouterModel"
-            },
-            "type": "array",
-            "title": "Data"
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "RouterOpenRouterModelsRes"
+        "title": "ScorerReadRes"
       },
       "ServerInfoRes": {
         "properties": {
@@ -6240,12 +6730,26 @@
             "title": "Started At"
           },
           "attributes": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Attributes"
           },
           "inputs": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Inputs"
+          },
+          "otel_dump": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Otel Dump"
           },
           "wb_user_id": {
             "anyOf": [
@@ -6305,6 +6809,9 @@
             "additionalProperties": {
               "type": "integer"
             },
+            "propertyNames": {
+              "$ref": "#/components/schemas/TraceStatus"
+            },
             "type": "object",
             "title": "Status Counts"
           }
@@ -6328,6 +6835,7 @@
       "TableAppendSpecPayload": {
         "properties": {
           "row": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Row"
           }
@@ -6337,28 +6845,6 @@
           "row"
         ],
         "title": "TableAppendSpecPayload"
-      },
-      "TableCreateFromDigestsReq": {
-        "properties": {
-          "project_id": {
-            "type": "string",
-            "title": "Project Id"
-          },
-          "row_digests": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Row Digests"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "project_id",
-          "row_digests"
-        ],
-        "title": "TableCreateFromDigestsReq"
       },
       "TableCreateReq": {
         "properties": {
@@ -6413,6 +6899,7 @@
             "title": "Index"
           },
           "row": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Row"
           }
@@ -6564,73 +7051,6 @@
         ],
         "title": "TableQueryRes"
       },
-      "TableQueryStatsBatchReq": {
-        "properties": {
-          "project_id": {
-            "type": "string",
-            "title": "Project Id",
-            "description": "The ID of the project",
-            "examples": [
-              "my_entity/my_project"
-            ]
-          },
-          "digests": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Digests",
-            "description": "The digests of the tables to query",
-            "default": [],
-            "examples": [
-              "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
-              "smirva431etnsroatsratlrampgrmeangmpr5344aplatmipa31ltvsmi\u0435\u0440\u0430noa"
-            ]
-          },
-          "include_storage_size": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Include Storage Size",
-            "description": "If true, the `storage_size_bytes` column is returned.",
-            "default": false
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "project_id"
-        ],
-        "title": "TableQueryStatsBatchReq"
-      },
-      "TableQueryStatsBatchRes": {
-        "properties": {
-          "tables": {
-            "items": {
-              "$ref": "#/components/schemas/TableStatsRow"
-            },
-            "type": "array",
-            "title": "Tables"
-          }
-        },
-        "type": "object",
-        "required": [
-          "tables"
-        ],
-        "title": "TableQueryStatsBatchRes"
-      },
       "TableQueryStatsReq": {
         "properties": {
           "project_id": {
@@ -6732,6 +7152,7 @@
           },
           "rows": {
             "items": {
+              "additionalProperties": true,
               "type": "object"
             },
             "type": "array",
@@ -6744,35 +7165,6 @@
           "rows"
         ],
         "title": "TableSchemaForInsert"
-      },
-      "TableStatsRow": {
-        "properties": {
-          "count": {
-            "type": "integer",
-            "title": "Count"
-          },
-          "digest": {
-            "type": "string",
-            "title": "Digest"
-          },
-          "storage_size_bytes": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Storage Size Bytes"
-          }
-        },
-        "type": "object",
-        "required": [
-          "count",
-          "digest"
-        ],
-        "title": "TableStatsRow"
       },
       "TableUpdateReq": {
         "properties": {
@@ -7018,10 +7410,6 @@
       "HTTPBasic": {
         "type": "http",
         "scheme": "basic"
-      },
-      "HTTPBearer": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }

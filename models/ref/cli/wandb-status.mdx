@@ -1,21 +1,29 @@
 ---
 title: "wandb status"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-status.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbStatus from "/snippets/en/_includes/cli/wandb-status.mdx";
 
-`wandb status [OPTIONS]`
+<WandbStatus/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Show configuration settings
 
+## Usage
 
-**Options**
+```bash
+wandb status [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--settings / --no-settings` | Show the current settings |
-
-
-
+| `--settings` | Show the current settings (default: True) |

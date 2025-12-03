@@ -2,14 +2,17 @@
 description: Track machine learning experiments with W&B.
 title: Experiments overview
 ---
-<CardGroup cols={2}>
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" icon="python"/>
-<Card title="Try in W&B" href="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" icon="sliders-up"/>
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" />
+<TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
 Track machine learning experiments with a few lines of code. You can then review the results in an [interactive dashboard](/models/track/workspaces/) or export your data to Python for programmatic access using our [Public API](/models/ref/python/public-api/). 
 
-Utilize W&B Integrations if you use popular frameworks such as [PyTorch](/models/integrations/pytorch), [Keras](/models/integrations/keras), or [Scikit](/models/integrations/scikit). See our [Integration guides](/models/integrations) for a full list of integrations and information on how to add W&B to your code.
+Utilize W&B Integrations if you use popular frameworks such as [Keras](/models/integrations/keras), or [Scikit](/models/integrations/scikit). See our [Integration guides](/models/integrations) for a full list of integrations and information on how to add W&B to your code.
 
 <Frame>
     <img src="/images/experiments/experiments_landing_page.png" alt="Experiments dashboard"  />

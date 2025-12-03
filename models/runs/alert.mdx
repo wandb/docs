@@ -2,8 +2,9 @@
 description: Send alerts, triggered from your Python code, to your Slack or email
 title: Send an alert
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
-<Card title="Try in Colab" href="https://wandb.me/alerts-colab" icon="python"/>
+<ColabLink url="https://wandb.me/alerts-colab" />
 
 Create alerts with Slack or email if your run crashes or with a custom trigger. For example, you can create an alert if the gradient of your training loop starts to blow up (reports NaN) or a step in your ML pipeline completes. Alerts apply to all projects where you initialize runs, including both personal and team projects.
 
@@ -21,16 +22,11 @@ For example, an automation can notify a Slack channel when a new version is crea
 
 Read the [Automations overview](/models/automations/) or [create an automation](/models/automations/create-automations/).
 </Note>
-
-
-## Create an alert
-
 <Note>
 The following guide only applies to alerts in Multi-tenant Cloud.
 
 If you're using [W&B Server](/platform/hosting/) in your Private Cloud or on W&B Dedicated Cloud, refer to [Configure Slack alerts in W&B Server](/platform/hosting/monitoring-usage/slack-alerts) to set up Slack alerts.
 </Note>
-
 To set up an alert, take these steps, which are detailed in the following sections:
 
 1. Turn on Alerts in your W&B [User Settings](https://wandb.ai/settings).
@@ -59,8 +55,8 @@ Add `run.alert()` to your code (either in a Notebook or Python script) wherever 
 ```python
 import wandb
 
-run = wandb.init()
-run.alert(title="High Loss", text="Loss is increasing rapidly")
+with wandb.init() as run:
+    run.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
 ### 3. Test the configuration
@@ -75,15 +71,15 @@ This simple alert sends a warning when accuracy falls below a threshold. In this
 import wandb
 from wandb import AlertLevel
 
-run = wandb.init()
+with wandb.init() as run:
 
-if acc < threshold:
-    run.alert(
-        title="Low accuracy",
-        text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
-        level=AlertLevel.WARN,
-        wait_duration=300,
-    )
+    if acc < threshold:
+        run.alert(
+            title="Low accuracy",
+            text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
+            level=AlertLevel.WARN,
+            wait_duration=300,
+        )
 ```
 
 

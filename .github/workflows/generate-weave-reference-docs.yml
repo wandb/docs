@@ -15,7 +15,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
       
@@ -133,6 +133,7 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        base: main
         commit-message: "chore: Update reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         title: "Update Weave reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         draft: true

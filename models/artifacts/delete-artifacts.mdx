@@ -93,7 +93,7 @@ for artifact in run.logged_artifacts():
 
 ### Delete multiple artifact versions with a specific alias
 
-The proceeding code demonstrates how to delete multiple artifact versions that have a specific alias. Provide the entity, project name, and run ID that created the artifacts. Replace the deletion logic with your own:
+The following code demonstrates how to delete multiple artifact versions that have a specific alias. Provide the entity, project name, and run ID that created the artifacts. Replace the deletion logic with your own:
 
 ```python
 import wandb
@@ -109,7 +109,7 @@ for artifact_version in runs.logged_artifacts():
 
 ### Protected aliases and deletion permissions
 
-Artifacts with protected aliases have special deletion restrictions. [Protected aliases](/models/registry/model_registry/access_controls/) are aliases in the Model Registry that registry admins can set to prevent unauthorized deletion.
+Artifacts with protected aliases have special deletion restrictions. [Protected aliases](/models/registry/aliases#protected-aliases) are aliases in the W&B Registry that registry admins can set to prevent unauthorized deletion.
 
 <Note>
 **Important considerations for protected aliases:**

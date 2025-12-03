@@ -13,7 +13,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
       
@@ -72,9 +72,10 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        base: main
         commit-message: "chore: Update Training API documentation"
         title: "Update Training API documentation"
-        draft: false
+        draft: true
         body: |
           This PR updates the Training API documentation based on the latest OpenAPI specification.
           
