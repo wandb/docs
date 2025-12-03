@@ -332,7 +332,17 @@
                           "models/automations/create-automations/webhook"
                         ]
                       },
+                      "models/automations/view-automation-history",
                       "models/automations/automation-events"
+                    ]
+                  },
+                  {
+                    "group": "LLM Evaluation Jobs",
+                    "pages": [
+                      "models/launch",
+                      "models/launch/evaluate-model-checkpoint",
+                      "models/launch/evaluate-hosted-model",
+                      "models/launch/evaluations"
                     ]
                   },
                   {
@@ -966,6 +976,14 @@
                         "pages": [
                           "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
+                      },
+                      {
+                        "group": "Other",
+                        "pages": [
+                          "weave/reference/python-sdk/weave/trace/op",
+                          "weave/reference/python-sdk/weave/trace/weave_client",
+                          "weave/reference/python-sdk/weave/trace_server/trace_server_interface"
+                        ]
                       }
                     ]
                   },
@@ -976,14 +994,15 @@
                       {
                         "group": "Classes",
                         "pages": [
-                          "weave/reference/typescript-sdk/classes/Dataset",
-                          "weave/reference/typescript-sdk/classes/Evaluation",
-                          "weave/reference/typescript-sdk/classes/EvaluationLogger",
-                          "weave/reference/typescript-sdk/classes/MessagesPrompt",
-                          "weave/reference/typescript-sdk/classes/ScoreLogger",
-                          "weave/reference/typescript-sdk/classes/StringPrompt",
-                          "weave/reference/typescript-sdk/classes/WeaveClient",
-                          "weave/reference/typescript-sdk/classes/WeaveObject"
+                          "weave/reference/typescript-sdk/classes/dataset",
+                          "weave/reference/typescript-sdk/classes/evaluation",
+                          "weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "weave/reference/typescript-sdk/classes/messagesprompt",
+                          "weave/reference/typescript-sdk/classes/objectref",
+                          "weave/reference/typescript-sdk/classes/scorelogger",
+                          "weave/reference/typescript-sdk/classes/stringprompt",
+                          "weave/reference/typescript-sdk/classes/weaveclient",
+                          "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
                       {
@@ -992,27 +1011,27 @@
                           "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/login",
                           "weave/reference/typescript-sdk/functions/op",
-                          "weave/reference/typescript-sdk/functions/requireCurrentCallStackEntry",
-                          "weave/reference/typescript-sdk/functions/requireCurrentChildSummary",
-                          "weave/reference/typescript-sdk/functions/weaveAudio",
-                          "weave/reference/typescript-sdk/functions/weaveImage",
-                          "weave/reference/typescript-sdk/functions/wrapOpenAI"
+                          "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
+                          "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "weave/reference/typescript-sdk/functions/weaveaudio",
+                          "weave/reference/typescript-sdk/functions/weaveimage",
+                          "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "weave/reference/typescript-sdk/interfaces/CallSchema",
-                          "weave/reference/typescript-sdk/interfaces/CallsFilter",
-                          "weave/reference/typescript-sdk/interfaces/WeaveAudio",
-                          "weave/reference/typescript-sdk/interfaces/WeaveImage"
+                          "weave/reference/typescript-sdk/interfaces/callschema",
+                          "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
                       {
                         "group": "Type Aliases",
                         "pages": [
-                          "weave/reference/typescript-sdk/type-aliases/Op",
-                          "weave/reference/typescript-sdk/type-aliases/OpDecorator"
+                          "weave/reference/typescript-sdk/type-aliases/op",
+                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
                         ]
                       }
                     ]

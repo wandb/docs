@@ -57,7 +57,7 @@ const results = await evaluation.evaluate({ model });
 
 ## Hierarchy
 
-- [`WeaveObject`](./WeaveObject)
+- [`WeaveObject`](./weaveobject)
 
   ↳ `Evaluation`
 
@@ -65,28 +65,28 @@ const results = await evaluation.evaluate({ model });
 
 ### Constructors
 
-- [constructor](./Evaluation#constructor)
+- [constructor](./evaluation#constructor)
 
 ### Properties
 
-- [\_\_savedRef](./Evaluation#__savedref)
+- [\_\_savedRef](./evaluation#__savedref)
 
 ### Accessors
 
-- [description](./Evaluation#description)
-- [name](./Evaluation#name)
+- [description](./evaluation#description)
+- [name](./evaluation#name)
 
 ### Methods
 
-- [evaluate](./Evaluation#evaluate)
-- [predictAndScore](./Evaluation#predictandscore)
-- [saveAttrs](./Evaluation#saveattrs)
+- [evaluate](./evaluation#evaluate)
+- [predictAndScore](./evaluation#predictandscore)
+- [saveAttrs](./evaluation#saveattrs)
 
 ## Constructors
 
 ### constructor
 
-• **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): [`Evaluation`](./Evaluation)\<`R`, `E`, `M`\>
+• **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): [`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
 
 #### Type parameters
 
@@ -104,29 +104,29 @@ const results = await evaluation.evaluate({ model });
 
 #### Returns
 
-[`Evaluation`](./Evaluation)\<`R`, `E`, `M`\>
+[`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
 
 #### Overrides
 
-[WeaveObject](./WeaveObject).[constructor](./WeaveObject#constructor)
+[WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
 
 #### Defined in
 
-[evaluation.ts:148](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluation.ts#L148)
+[evaluation.ts:148](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluation.ts#L148)
 
 ## Properties
 
 ### \_\_savedRef
 
-• `Optional` **\_\_savedRef**: `ObjectRef` \| `Promise`\<`ObjectRef`\>
+• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
 #### Inherited from
 
-[WeaveObject](./WeaveObject).[__savedRef](./WeaveObject#__savedref)
+[WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
 
 #### Defined in
 
-[weaveObject.ts:49](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L49)
+[weaveObject.ts:49](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L49)
 
 ## Accessors
 
@@ -144,7 +144,7 @@ WeaveObject.description
 
 #### Defined in
 
-[weaveObject.ts:76](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L76)
+[weaveObject.ts:76](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L76)
 
 ___
 
@@ -162,7 +162,7 @@ WeaveObject.name
 
 #### Defined in
 
-[weaveObject.ts:72](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L72)
+[weaveObject.ts:72](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L72)
 
 ## Methods
 
@@ -185,7 +185,7 @@ WeaveObject.name
 
 #### Defined in
 
-[evaluation.ts:163](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluation.ts#L163)
+[evaluation.ts:163](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluation.ts#L163)
 
 ___
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-[evaluation.ts:231](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/evaluation.ts#L231)
+[evaluation.ts:231](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluation.ts#L231)
 
 ___
 
@@ -222,8 +222,8 @@ ___
 
 #### Inherited from
 
-[WeaveObject](./WeaveObject).[saveAttrs](./WeaveObject#saveattrs)
+[WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
 
 #### Defined in
 
-[weaveObject.ts:53](https://github.com/wandb/weave/blob/5d9590d2658eeb69c9c9f04342e107bf9a0a4c90/sdks/node/src/weaveObject.ts#L53)
+[weaveObject.ts:53](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L53)

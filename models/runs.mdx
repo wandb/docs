@@ -227,16 +227,9 @@ https://wandb.ai/<entity>/<project>/<run-id>
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the entity, project, and run ID.
 
 ## Name your run 
-The name of a run is a human-readable, non-unique identifier. 
-
-By default, W&B generates a random run name when you initialize a new run. The name of a run appears within your project's workspace and at the top of the [run's overview page](#overview-tab).
-
-<Note>
-Use run names as a way to quickly identify a run in your project workspace.
-</Note>
+In a project, each run has a human-readable non-unique run name. By default, W&B generates a random run name when you initialize a new run without specifying a run name. The name of a run appears within your project's workspace and at the top of the [run's overview page](#overview-tab).
 
 You can specify a name for your run by passing the `name` parameter to the [`wandb.init()`](/models/ref/python/functions/init) method. 
-
 
 ```python 
 import wandb
@@ -245,30 +238,41 @@ with wandb.init(entity="<project>", project="<project>", name="<run-name>") as r
     # Your code here
 ```
 
+In a workspace, each run also has a run display name, which defaults to the same value as the run name. Use the run display name to override the run name displayed in that workspace without renaming the run in the project.
+
+<Note>
+Use run names and display names as a way to quickly identify a run in your project workspace.
+</Note>
+
+
 ### Rename a run
 
-After you initialize a run, you can rename it from your workspace or its **Runs** page.
+This section shows how to rename a run from a workspace or a report.
 
+<Tabs>
+<Tab title="Workspace">
 1. Navigate to your W&B project.
 1. Select the **Workspace** or **Runs** tab from the project sidebar.
 1. Search or scroll to the run you want to rename.
 
-    Hover over the run name, click the three vertical dots, then select the scope:
-    - **Rename run for project**: The run is renamed across the project.
-    - **Rename run for workspace**: The run is renamed only in this workspace.
-1. Type a new name for the run. To generate a new random name, leave the field blank.
-1. Submit the form. The run's new name displays. An information icon appears next to a run that has a custom name in the workspace. Hover over it for more details.
+    Hover over the run name, click the three vertical dots, then click **Rename run**.
+1. To change the run name, update the **Run name** field. To customize the run display name in this workspace, update the **Display name** field.
+1. Click **Save**.
 
-You can also rename a run from a run set in a [report](/models/reports/edit-a-report/):
+A customized run display name displays in italic font, and an information icon appears next to a customized run display name. Hover over the icon for details.
+</Tab>
+<Tab title="Report">
+To rename a run from a run set in a [report](/models/reports/edit-a-report/):
 
-1. In the report, click the pencil icon to open the report editor.
-1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then select either:
-
-  - **Rename run for project**: rename the run across the entire project. To generate a new random name, leave the field blank.
-  - **Rename run for panel grid** rename the run only in the report, preserving the existing name in other contexts. Generating a new random name is not supported.
-
-  Submit the form.
+1. Click the pencil icon to open the report editor.
+1. In the run set, find the run to rename. Hover over the report name, click the three vertical dots, then click **Edit run name**.
+1. To change the run name, update the **Run name** field. To customize the run display name in this workspace, update the **Display name** field.
+1. Click **Save**.
 1. Click **Publish report**.
+
+A customized run display name displays in italic font, and an information icon appears next to a customized run display name. Hover over the icon for details.
+</Tab>
+</Tabs>
 
 ## Add a note to a run
 Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.

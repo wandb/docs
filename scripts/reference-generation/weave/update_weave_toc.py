@@ -30,17 +30,15 @@ def get_generated_python_modules():
         parts = list(rel_path.parts)
         parts[-1] = parts[-1].replace('.mdx', '')
         
-        # Determine the group based on path
-        if len(parts) >= 2:
-            if parts[0] == "weave":
-                if parts[1] == "trace":
-                    group = "Core"
-                elif parts[1] == "trace_server":
-                    group = "Trace Server"
-                elif parts[1] == "trace_server_bindings":
-                    group = "Trace Server Bindings"
-                else:
-                    group = "Other"
+        # Determine the group based on path structure
+        # Paths are relative to python-sdk/, so parts[0] is the module directory
+        if len(parts) >= 1:
+            if parts[0] == "trace":
+                group = "Core"
+            elif parts[0] == "trace_server":
+                group = "Trace Server"
+            elif parts[0] == "trace_server_bindings":
+                group = "Trace Server Bindings"
             else:
                 group = "Other"
         else:
@@ -131,12 +129,8 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
                             # Update Python SDK
                             for page in reference_pages:
                                 if isinstance(page, dict) and page.get("group") == "Python SDK":
-                                    # Keep the index page if it exists
-                                    new_pages = []
-                                    for existing_page in page.get("pages", []):
-                                        if isinstance(existing_page, str) and existing_page.endswith("/index"):
-                                            new_pages.append(existing_page)
-                                            break
+                                    # Always start with the root page
+                                    new_pages = ["weave/reference/python-sdk"]
                                     
                                     # Add the grouped modules
                                     if "Core" in python_modules and python_modules["Core"]:
@@ -170,11 +164,8 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
                             # Update TypeScript SDK
                             for page in reference_pages:
                                 if isinstance(page, dict) and page.get("group") == "TypeScript SDK":
-                                    # Keep the index and README if they exist
-                                    new_pages = []
-                                    for existing_page in page.get("pages", []):
-                                        if isinstance(existing_page, str) and (existing_page.endswith("/index") or existing_page.endswith("/README")):
-                                            new_pages.append(existing_page)
+                                    # Always start with the root page
+                                    new_pages = ["weave/reference/typescript-sdk"]
                                     
                                     # Add the categorized items with proper casing
                                     if "classes" in typescript_items and typescript_items["classes"]:
@@ -205,26 +196,8 @@ def update_docs_json(python_modules, typescript_items, service_endpoints):
                                     print(f"✓ Updated TypeScript SDK with {sum(len(items) for items in typescript_items.values())} items")
                                     updated = True
                             
-                            # Update Service API
-                            for page in reference_pages:
-                                if isinstance(page, dict) and page.get("group") == "Service API":
-                                    # Point to the versioned OpenAPI spec in the Weave repo
-                                    # This spec already has the necessary filters applied
-                                    import os
-                                    version = os.environ.get('WEAVE_VERSION', 'latest')
-                                    
-                                    # The version should already be resolved by the Python SDK generation
-                                    # which converts "latest" to an actual version number
-                                    if version and version != "latest":
-                                        # Use the specific version tag
-                                        openapi_url = f"https://raw.githubusercontent.com/wandb/weave/v{version}/sdks/node/weave.openapi.json"
-                                    else:
-                                        # Fallback to master if somehow we don't have a version
-                                        openapi_url = "https://raw.githubusercontent.com/wandb/weave/master/sdks/node/weave.openapi.json"
-                                    
-                                    page["openapi"] = openapi_url
-                                    print(f"✓ Updated Service API to use versioned OpenAPI spec: {openapi_url}")
-                                    updated = True
+                            # Note: Service API OpenAPI configuration is managed by sync_openapi_spec.py
+                            # We don't modify it here to preserve the local vs remote spec choice
                             
                             break
                     break

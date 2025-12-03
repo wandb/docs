@@ -1,0 +1,163 @@
+---
+title: "Class: EvaluationLogger"
+description: "TypeScript SDK reference"
+---
+
+[weave](../) / EvaluationLogger
+
+
+
+EvaluationLogger enables incremental logging of predictions and scores.
+
+Unlike the traditional Evaluation class which requires upfront dataset and batch processing,
+EvaluationLogger allows you to log predictions as they happen, with flexible scoring.
+
+`Example`
+
+```ts
+const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
+
+for (const example of streamingData) {
+  const output = await myModel.predict(example);
+  const pred = ev.logPrediction(example, output);
+
+  if (shouldScore(output)) {
+    pred.logScore("accuracy", calculateAccuracy(output));
+  }
+  pred.finish();
+}
+
+await ev.logSummary();
+```
+
+## Table of contents
+
+### Constructors
+
+- [constructor](./evaluationlogger#constructor)
+
+### Methods
+
+- [logPrediction](./evaluationlogger#logprediction)
+- [logPredictionAsync](./evaluationlogger#logpredictionasync)
+- [logSummary](./evaluationlogger#logsummary)
+
+## Constructors
+
+### constructor
+
+• **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options` | `EvaluationLoggerOptions` |
+
+#### Returns
+
+[`EvaluationLogger`](./evaluationlogger)
+
+#### Defined in
+
+[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L554)
+
+## Methods
+
+### logPrediction
+
+▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+
+Log a prediction with its input and output (synchronous version).
+Creates a predict_and_score call (with child predict call).
+Returns a ScoreLogger immediately for adding scores.
+
+This method returns the ScoreLogger synchronously. Operations on the
+ScoreLogger (logScore, finish) will be queued and executed when initialization completes.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+#### Returns
+
+[`ScoreLogger`](./scorelogger)
+
+`Example`
+
+```ts
+// Fire-and-forget style
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // Waits for everything
+```
+
+#### Defined in
+
+[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L641)
+
+___
+
+### logPredictionAsync
+
+▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
+
+Log a prediction with its input and output (async version).
+Like logPrediction() but returns a Promise that resolves when
+the prediction call is fully initialized.
+
+Use this if you need to await the initialization before proceeding.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+#### Returns
+
+`Promise`\<[`ScoreLogger`](./scorelogger)\>
+
+`Example`
+
+```ts
+// Awaitable style
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
+#### Defined in
+
+[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L666)
+
+___
+
+### logSummary
+
+▸ **logSummary**(`summary?`): `Promise`\<`void`\>
+
+Log a summary and finalize the evaluation.
+Creates a summarize call and finishes the evaluate call.
+
+This method can be called without await (fire-and-forget), but internally
+it will wait for all pending operations to complete.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `summary?` | `Record`\<`string`, `any`\> |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+#### Defined in
+
+[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/evaluationLogger.ts#L767)
