@@ -58,7 +58,8 @@ with wandb.init(
     for i in range(300):
         run1.log({"metric": i})
 
-# Fork from the first run at a specific step and log the metric starting from step 200
+# Fork from the first run at a specific step and log the
+# metric starting from step 200
 with wandb.init(
     project="your_project_name", 
     entity="your_entity_name", 
@@ -75,7 +76,8 @@ with wandb.init(
             # Introduce the spikey behavior starting from step 250
             metric_value = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
 
-        # Log both metrics in a single call to ensure they're logged at the same step
+        # Log both metrics in a single call to ensure they're
+        # logged at the same step
         run2.log({
             "metric": metric_value,
             "additional_metric": i * 1.1
