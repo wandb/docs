@@ -1,5 +1,5 @@
 ---
-title: "Tracing Quickstart"
+title: "Tracing Basics"
 description: "Track and monitor your AI application's execution with Weave tracing"
 ---
 
@@ -16,8 +16,7 @@ description: "Track and monitor your AI application's execution with Weave traci
 ![Weave Calls Screenshot](/images/screenshots/calls_filter.png)
 </Frame>
 
-<Info>
-**Calls**
+
 Calls are the fundamental building block in Weave. They represent a single execution of a function, including:
 - Inputs (arguments)
 - Outputs (return value) 
@@ -26,7 +25,7 @@ Calls are the fundamental building block in Weave. They represent a single execu
 Calls are similar to spans in the [OpenTelemetry](https://opentelemetry.io) data model. A Call can:
 - Belong to a Trace (a collection of calls in the same execution context)
 - Have parent and child Calls, forming a tree structure
-</Info>
+
 
 ## Creating Calls
 
@@ -97,12 +96,7 @@ There are three main ways to create Calls in Weave:
   </Tab>
 </Tabs>
 
-#### Summary
-
-You can store metrics or other post-call values in the `summary`
-dictionary of a Call. Modify `call.summary` during execution and any
-values you add will be merged with Weave's computed summary data when
-the call finishes.
+You can store metrics or other post-call values in the `summary` dictionary of a Call. Modify `call.summary` during execution and any values you add will be merged with Weave's computed summary data when the call finishes.
 
 ### 2. Decorating and wrapping functions
 
@@ -261,7 +255,7 @@ However, often LLM applications have additional logic (such as pre/post processi
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
   </Tab>
 </Tabs>
@@ -355,9 +349,15 @@ However, often LLM applications have additional logic (such as pre/post processi
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+  To override the default name of a call, use the `callDisplayName` option when calling `weave.op()`.
+
+    ```typescript lines {2}
+    const extractDinosOp = weave.op(extractDinos, {
+    callDisplayName: (input: string) => `Your New Display Name`
+    });
     ```
+
+    You can also [update a call's display name](/weave/guides/tracking/tracing#set-display-name) after execution.
   </Tab>
 </Tabs>
 
@@ -392,6 +392,11 @@ However, often LLM applications have additional logic (such as pre/post processi
 
     ![The Trace UI, showing a single parent call for `outer`, with five nested child calls.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
   </Tab>
+  <Tab title="TypeScript">
+  ```plaintext
+  This feature is not available in the TypeScript SDK yet.
+  ```
+  </Tab>
 </Tabs>
 
 ### 3. Manual Call tracking
@@ -424,7 +429,7 @@ You can also manually create Calls using the API directly.
     <Tab title="TypeScript">
 
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
 
     </Tab>
@@ -521,6 +526,7 @@ You can also track class and object methods.
 </Tabs>
 
 ## Viewing Calls
+
 <Tabs>
     <Tab title="Web App">
     To view a call in the web app:
@@ -580,64 +586,72 @@ You can also track class and object methods.
 
 You can use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
 
-Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
-    
-```python lines
-import weave
+<Tabs>
+    <Tab title="Python">
+    Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
+        
+    ```python lines
+    import weave
 
-def postprocess_inputs(query) -> weave.Markdown:
-    search_box = f"""
-**Search Query:**
-``+`
-{query}
-``+`
-"""
-    return {"search_box": weave.Markdown(search_box),
-            "query": query}
+    def postprocess_inputs(query) -> weave.Markdown:
+        search_box = f"""
+    **Search Query:**
+    ``+`
+    {query}
+    ``+`
+    """
+        return {"search_box": weave.Markdown(search_box),
+                "query": query}
 
-def postprocess_output(docs) -> weave.Markdown:
-    formatted_docs = f"""
-# {docs[0]["title"]}
+    def postprocess_output(docs) -> weave.Markdown:
+        formatted_docs = f"""
+    # {docs[0]["title"]}
 
-{docs[0]["content"]}
+    {docs[0]["content"]}
 
-[Read more]({docs[0]["url"]})
+    [Read more]({docs[0]["url"]})
 
----
+    ---
 
-# {docs[1]["title"]}
+    # {docs[1]["title"]}
 
-{docs[1]["content"]}
+    {docs[1]["content"]}
 
-[Read more]({docs[1]["url"]})
-"""
-    return weave.Markdown(formatted_docs)
+    [Read more]({docs[1]["url"]})
+    """
+        return weave.Markdown(formatted_docs)
 
-@weave.op(
-    postprocess_inputs=postprocess_inputs,
-    postprocess_output=postprocess_output,
-)
-def rag_step(query):
-    # example newspaper articles of the companies on the S&P 500 
-    docs = [
-        {
-            "title": "OpenAI",
-            "content": "OpenAI is a company that makes AI models.",
-            "url": "https://www.openai.com",
-        },
-        {
-            "title": "Google",
-            "content": "Google is a company that makes search engines.",
-            "url": "https://www.google.com",
-        },
-    ]
-    return docs
+    @weave.op(
+        postprocess_inputs=postprocess_inputs,
+        postprocess_output=postprocess_output,
+    )
+    def rag_step(query):
+        # example newspaper articles of the companies on the S&P 500 
+        docs = [
+            {
+                "title": "OpenAI",
+                "content": "OpenAI is a company that makes AI models.",
+                "url": "https://www.openai.com",
+            },
+            {
+                "title": "Google",
+                "content": "Google is a company that makes search engines.",
+                "url": "https://www.google.com",
+            },
+        ]
+        return docs
 
-if __name__ == "__main__":
-    weave.init('markdown_renderers')
-    rag_step("Tell me about OpenAI")
-```
-
+    if __name__ == "__main__":
+        weave.init('markdown_renderers')
+        rag_step("Tell me about OpenAI")
+    ```
+    </Tab>
+    <Tab title="Typescript">
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+    </Tab>
+</Tabs>
 In the following screenshot, you can view the difference between the unformatted and formatted outputs, respectively.
 
 ![A call rendered in the Weave UI using the code sample.](/weave/guides/tracking/imgs/md-call-render.png)
@@ -675,9 +689,19 @@ You can perform all of these mutations from the UI by navigating to the call det
     ```
     </Tab>
     <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+     To set the display name of a call, use the [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) method:
+     
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // Initialize the client
+    const client = await weave.init('your-project-name')
+
+    // Update the display name of a call by its ID
+    await client.updateCall('call-uuid-here', 'My Custom Display Name')
     ```
+
+    You cannot currently set
     </Tab>
     <Tab title="HTTP API">
     To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
@@ -721,7 +745,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
     </Tab>
     <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
     </Tab>
     <Tab title="HTTP API">
@@ -774,7 +798,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
     </Tab>
     <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
     </Tab>
 </Tabs>
@@ -931,124 +955,139 @@ With Weave, you can trace function calls in your code and link them directly to 
 When you trace a function with @weave.op() and call it inside a wandb.init() context, Weave automatically associates the trace with the W&B run. 
 Links to any associated runs are shown in the Traces table.
 
-### Python example
+<Tabs>
+    <Tab title="Python">
+    The following Python code shows how traced operations are linked to W&B
+    runs when executed inside a `wandb.init()` context. These traces appear in the
+    Weave UI and are associated with the corresponding run.
 
-The following Python code shows how traced operations are linked to W&B
-runs when executed inside a `wandb.init()` context. These traces appear in the
-Weave UI and are associated with the corresponding run.
+    ```python lines 
+    import wandb
+    import weave
 
-```python lines 
-import wandb
-import weave
+    def example_wandb(projname):
+        # Split projname into entity and project
+        entity, project = projname.split("/", 1)
 
-def example_wandb(projname):
-    # Split projname into entity and project
-    entity, project = projname.split("/", 1)
+        # Initialize Weave context for tracing
+        weave.init(projname)
 
-    # Initialize Weave context for tracing
-    weave.init(projname)
+        # Define a traceable operation
+        @weave.op()
+        def say(message: str) -> str:
+            return f"I said: {message}"
 
-    # Define a traceable operation
-    @weave.op()
-    def say(message: str) -> str:
-        return f"I said: {message}"
+        # First W&B run
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 1",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world!")
+            say("How are you!")
+            run.log({"messages": 2})
 
-    # First W&B run
-    with wandb.init(
-        entity=entity,
-        project=project,
-        notes="Experiment 1",
-        tags=["baseline", "paper1"],
-    ) as run:
-        say("Hello, world!")
-        say("How are you!")
-        run.log({"messages": 2})
+        # Second W&B run
+        with wandb.init(
+            entity=entity,
+            project=project,
+            notes="Experiment 2",
+            tags=["baseline", "paper1"],
+        ) as run:
+            say("Hello, world from experiment 2!")
+            say("How are you!")
+            run.log({"messages": 2})
 
-    # Second W&B run
-    with wandb.init(
-        entity=entity,
-        project=project,
-        notes="Experiment 2",
-        tags=["baseline", "paper1"],
-    ) as run:
-        say("Hello, world from experiment 2!")
-        say("How are you!")
-        run.log({"messages": 2})
+    if __name__ == "__main__":
+        # Replace this with your actual W&B username/project
+        example_wandb("your-username/your-project")
+    ```
 
-if __name__ == "__main__":
-    # Replace this with your actual W&B username/project
-    example_wandb("your-username/your-project")
-```
+    To use the code sample:
 
-To use the code sample:
+    1. In the terminal, install dependencies:
 
-1. In the terminal, install dependencies:
+    ```bash
+    pip install wandb weave
+    ```
 
-   ```bash
-   pip install wandb weave
-   ```
+    2. Log in to W&B:
 
-2. Log in to W&B:
+    ```bash
+    wandb login
+    ```
 
-   ```bash
-   wandb login
-   ```
+    3. In the script, replace `your-username/your-project` with your actual W&B entity/project.
+    4. Run the script:
 
-3. In the script, replace `your-username/your-project` with your actual W&B entity/project.
-4. Run the script:
-
-   ```bash
-   python weave_trace_with_wandb.py
-   ```
-5. Visit [https://weave.wandb.ai](https://weave.wandb.ai) and select your project.
-6. In the **Traces** tab, view the trace output. Links to any associated runs are shown in the Traces table.
+    ```bash
+    python weave_trace_with_wandb.py
+    ```
+    5. Visit [https://weave.wandb.ai](https://weave.wandb.ai) and select your project.
+    6. In the **Traces** tab, view the trace output. Links to any associated runs are shown in the Traces table.
+    </Tab>
+    <Tab title="TypeScript">
+    ```plaintext
+    This feature is not available for the TypeScript SDK yet.
+    ```
+    </Tab>
+</Tabs>
 
 ## Configure autopatching
 
 By default, Weave automatically patches and tracks calls to common LLM libraries like `openai`, `anthropic`, `cohere`, and `mistral`.
 
-<Warning>
-The `autopatch_settings` argument is deprecated. Use `implicitly_patch_integrations=False` to disable implicit patching, or call specific patch functions like `patch_openai(settings={...})` to configure settings per integration.
-</Warning>
+<Tabs>
+    <Tab title="Python">
+    <Warning>
+    The `autopatch_settings` argument is deprecated. Use `implicitly_patch_integrations=False` to disable implicit patching, or call specific patch functions like `patch_openai(settings={...})` to configure settings per integration.
+    </Warning>
 
-### Disable all autopatching
+    ### Disable all autopatching
 
-```python lines
-weave.init(..., implicitly_patch_integrations=False)
-```
+    ```python lines
+    weave.init(..., implicitly_patch_integrations=False)
+    ```
 
-### Enable specific integrations
+    ### Enable specific integrations
 
-```python lines
-import weave
+    ```python lines
+    import weave
 
-weave.init(..., implicitly_patch_integrations=False)
+    weave.init(..., implicitly_patch_integrations=False)
 
-# Then manually patch only the integrations you want
-weave.integrations.patch_anthropic()
-weave.integrations.patch_cohere()
-```
+    # Then manually patch only the integrations you want
+    weave.integrations.patch_anthropic()
+    weave.integrations.patch_cohere()
+    ```
 
-### Post-process inputs and outputs
+    ### Post-process inputs and outputs
 
-You can customize how inputs and outputs (such as for PII data) are handled by passing settings to the patch function:
+    You can customize how inputs and outputs (such as for PII data) are handled by passing settings to the patch function:
 
-```python lines
-import weave.integrations
+    ```python lines
+    import weave.integrations
 
-def redact_inputs(inputs: dict) -> dict:
-    if "email" in inputs:
-        inputs["email"] = "[REDACTED]"
-    return inputs
+    def redact_inputs(inputs: dict) -> dict:
+        if "email" in inputs:
+            inputs["email"] = "[REDACTED]"
+        return inputs
 
-weave.init(...)
-weave.integrations.patch_openai(
-    settings={
-        "op_settings": {"postprocess_inputs": redact_inputs}
-    }
-)
-```
-
+    weave.init(...)
+    weave.integrations.patch_openai(
+        settings={
+            "op_settings": {"postprocess_inputs": redact_inputs}
+        }
+    )
+    ```
+    </Tab>
+    <Tab title="TypeScript">
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+    </Tab>
+</Tabs>
 For more details, see [How to use Weave with PII data](/weave/cookbooks/pii).
 
 ## FAQs
@@ -1067,12 +1106,21 @@ In situations where you want to unconditionally disable tracing for the entire p
 
 Sometimes, you may want to conditionally enable tracing for a specific initialization based on some condition. In this case, you can initialize the client with the `disabled` flag in init settings.
 
+<Tabs>
+<Tab title="Python">
 ```python lines
 import weave
 
 # Initialize the client
 client = weave.init(..., settings={"disabled": True})
 ```
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available for the TypeScript SDK yet.
+```
+</Tab>
+</Tabs>
 
 #### Context manager
 
