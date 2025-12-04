@@ -1,0 +1,43 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "marimo",
+#     "numpy==2.2.6",
+#     "wandb==0.22.3",
+# ]
+# ///
+
+
+```python
+import wandb
+import random
+```
+
+```python
+key="replace-with-your-key"
+wandb.login(key=key)
+```
+
+
+```python
+# Project that the run is recorded to
+entity="entity"
+project = "my-awesome-project"
+
+# Dictionary with hyperparameters
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # Simulate a training run
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
+```
