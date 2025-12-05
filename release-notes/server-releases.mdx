@@ -11,6 +11,19 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.76.1" description="December 4, 2025">
+**December 4, 2025**
+
+## Fixes
+- Fixed a bug where importing a line plot from a workspace to a report could get stuck if extreme outliers were hidden in the plot.
+- Fixed a bug that could prevent a table panel from resizing correctly if its height was reduced.
+- Fixed a bug where mask overlays could overflow an image with a caption.
+- Fixed a bug where a run note's edit box's size was too narrow for comfortable editing. Now the edit box uses the same dimensions as the text in display mode.
+- Fixed a bug where clicking the **Service Accounts** tab in the Organization Dashboard could cause the page to crash.
+- Fixed a caching bug where the wrong run's logs could display when viewing run logs and switching from one run to another.
+- When a client cancels a GraphQL operation, it is now correctly reported as a `4xx` HTTP client error rather than a `5xx` HTTP server error. 
+</Update>
+
 <Update label="v0.76.0" description="November 20, 2025">
 **November 20, 2025**
 
