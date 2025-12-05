@@ -18,6 +18,28 @@ cleanup() {
 # Trap to ensure cleanup
 trap cleanup EXIT INT TERM
 
+# Check if there are any MDX files in the changeset
+if [ -n "$GITHUB_BASE_REF" ]; then
+  # In a PR context, check changed files
+  echo "Checking for changed MDX files in PR..."
+  
+  # Get the list of changed files
+  CHANGED_MDX=$(git diff --name-only "origin/$GITHUB_BASE_REF"...HEAD -- '*.mdx' 2>/dev/null | grep -E '\.mdx$' || true)
+  
+  if [ -z "$CHANGED_MDX" ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "NO MDX FILES CHANGED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "No MDX files found in this PR. Skipping validation."
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    exit 0
+  fi
+  
+  echo "Found changed MDX files:"
+  echo "$CHANGED_MDX" | sed 's/^/  /'
+  echo ""
+fi
+
 echo "Starting Mintlify validation..."
 echo ""
 echo "Running: mint dev --no-open (will run for ${PARSE_TIME}s to parse all files)"
@@ -54,4 +76,3 @@ else
   echo "No parsing errors detected by Mintlify"
   exit 0
 fi
-
