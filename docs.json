@@ -2293,6 +2293,10 @@
       "destination": "/platform/app/settings-page/:slug*"
     },
     {
+      "source": "/models/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
       "source": "/guides/app/console-logs",
       "destination": "/models/app/console-logs"
     },
