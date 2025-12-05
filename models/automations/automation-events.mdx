@@ -12,15 +12,6 @@ An automation can start when a specific event occurs within a project or registr
 ## Registry
 This section describes the scopes and events for an automation in a [Registry](/models/registry/).
 
-1. Navigate to the W&B Registry at `https://wandb.ai/registry/`.
-1. Click the name of a registry, then view and create automations in the **Automations** tab.
-
-<Frame>
-![Screenshot of the Registry Automations tab with an automation](/images/automations/registry_automations_tab.png)
-</Frame>
-
-Learn more about [creating automations](/models/automations/create-automations/).
-
 ### Scopes
 A [Registry](/models/registry/) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
@@ -32,22 +23,13 @@ A Registry automation can watch for these events:
 ## Project
 This section describes the scopes and events for an automation in a [project](/models/track/project-page/).
 
-1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
-1. View and create automations in the **Automations** tab.
-
-<Frame>
-![Screenshot of the Project Automations tab with an automation](/images/automations/project_automations_tab.png)
-</Frame>
-
-Learn more about [creating automations](/models/automations/create-automations/).
-
 ### Scopes
 A project-level automation watches for the event taking place on any collection in the project. Depending on the event you specify, you can further limit the scope of the automation.
 
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created. To limit the automation's scope, select a specific artifact in the **Artifact filter** field.
+- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a point in time.
 - **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
 

@@ -230,7 +230,10 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
                 continue
             
             obj = getattr(module, name)
-            if hasattr(obj, "__module__") and obj.__module__ != module_name:
+            
+            # For the root "weave" module, include re-exported items from submodules
+            # Otherwise, only include items that belong to this specific module
+            if module_name != "weave" and hasattr(obj, "__module__") and obj.__module__ != module_name:
                 continue
             
             sections.append(process_object(obj, generator, module_name))
@@ -254,6 +257,16 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
     # Fix unclosed <b> tags that break MDX parsing
     # Remove <b>` at the start of lines that don't have a closing </b>
     content = re.sub(r'^- <b>`([^`\n]*?)$', r'- \1', content, flags=re.MULTILINE)
+    
+    # Remove malformed table separators that lazydocs sometimes generates
+    # These appear as standalone lines with just dashes (------) which break markdown parsing
+    content = re.sub(r'\n\s*------+\s*\n', '\n\n', content)
+    
+    # Fix lazydocs bug: inline code fences in Examples sections
+    # lazydocs incorrectly wraps text after colons (like "Basic usage:") with inline backticks
+    # Pattern: " text: ``` code```" should be "text:\n```python\ncode"
+    # This happens when lazydocs misapplies _RE_ARGSTART in Examples sections
+    content = re.sub(r'^ ([\w\s]+): ``` (.*?)```\n(    >>> )', r' \1:\n\n```python\n\2\n\3', content, flags=re.MULTILINE)
     
     # Fix parameter lists that have been broken by lazydocs
     # Strategy: Parse all parameters into a structured format, then reconstruct them properly
