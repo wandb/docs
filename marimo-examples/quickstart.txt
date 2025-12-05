@@ -9,12 +9,13 @@
 
 
 ```python
+import ssl
 import wandb
 import random
 ```
 
 ```python
-key="replace-with-your-key"
+key = input("Enter your W&B API key: ")
 wandb.login(key=key)
 ```
 
