@@ -163,6 +163,10 @@ def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
     
     # Extract parameters
     for param in cmd.params:
+        # Skip hidden parameters (they don't show in --help)
+        if isinstance(param, click.Option) and getattr(param, 'hidden', False):
+            continue
+            
         param_info = get_param_info(param)
         if isinstance(param, click.Option):
             info['options'].append(param_info)
