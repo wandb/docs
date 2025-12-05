@@ -952,6 +952,7 @@
                 "group": "Reference",
                 "pages": [
                   "weave/reference",
+                  "weave/reference/sdk-comparison",
                   {
                     "group": "Python SDK",
                     "pages": [

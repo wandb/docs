@@ -1,0 +1,182 @@
+---
+title: "Python vs TypeScript SDK Comparison"
+description: "Feature comparison between Weave Python and TypeScript SDKs"
+---
+
+This page provides a side-by-side comparison of features available in the Weave Python and TypeScript SDKs to help you understand capabilities and limitations when choosing between them.
+
+## Legend
+
+| Symbol | Meaning |
+|--------|---------|
+| ✅ | Fully supported |
+| ⚠️ | Partial support / workaround available |
+| ❌ | Not available |
+
+---
+
+## Initialization & Authentication
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Initialize client | ✅ `weave.init()` | ✅ `weave.init()` | |
+| Login with API key | ✅ Environment variable | ✅ `weave.login()` | TS has explicit login function |
+| Global attributes on init | ✅ `global_attributes` param | ❌ | Use `withAttributes` in TS |
+| Custom settings | ✅ `settings` param | ✅ `settings` param | |
+| Finish/shutdown | ✅ `weave.finish()` | ❌ | TS uses `waitForBatchProcessing()` |
+
+---
+
+## Tracing & Ops
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Decorate functions | ✅ `@weave.op` | ✅ `weave.op()` | TS uses wrapper function |
+| Decorate async functions | ✅ | ✅ | |
+| Decorate class methods | ✅ `@weave.op` | ✅ `@weave.op` decorator | TS requires v5.0+ for decorators |
+| Decorate static methods | ✅ | ✅ | |
+| Generator function tracing | ✅ | ❌ | |
+| Custom op name | ✅ `@weave.op(name="...")` | ⚠️ Limited | |
+| Tracing sample rate | ✅ `tracing_sample_rate` | ❌ | |
+| Code capture | ✅ `enable_code_capture` | ✅ Automatic | |
+| Disable tracing | ✅ `WEAVE_DISABLED=true` | ❌ | |
+| Postprocess inputs/outputs | ✅ `postprocess_inputs` | ❌ | |
+
+---
+
+## Call Management
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Get call by ID | ✅ `client.get_call()` | ✅ `client.getCall()` | |
+| Query calls | ✅ `client.get_calls()` | ✅ `client.getCalls()` | |
+| Calls iterator | ✅ Pagination built-in | ✅ `client.getCallsIterator()` | |
+| Filter calls | ✅ `CallsFilter` | ✅ `CallsFilter` | |
+| Include costs | ✅ `include_costs` | ✅ `includeCosts` | |
+| Export to pandas | ✅ `.to_pandas()` | ❌ | |
+| **Get call during execution** | ✅ `weave.require_current_call()` | ⚠️ `requireCurrentCallStackEntry()` | TS returns limited info |
+| **Get call + result together** | ✅ `op.call()` → `(result, call)` | ❌ | Key Python advantage |
+| Set display name (after) | ✅ `call.set_display_name()` | ✅ `call.setDisplayName()` | |
+| Set display name (on call) | ✅ `__weave={"display_name": ...}` | ❌ | |
+| Set display name (decorator) | ✅ `call_display_name` param | ❌ | |
+| Delete call | ✅ `call.delete()` | ❌ | |
+| Delete multiple calls | ✅ `client.delete_calls()` | ❌ | |
+
+---
+
+## Attributes & Metadata
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Set attributes (context manager) | ✅ `with weave.attributes({...})` | ✅ `withAttributes({...}, fn)` | Different syntax |
+| Get current attributes | ✅ | ⚠️ `client.getCurrentAttributes()` | Undocumented in TS |
+| Thread context | ✅ `with weave.thread()` | ❌ | |
+| Call summary | ✅ Modifiable during execution | ✅ | |
+
+---
+
+## Objects & Publishing
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Publish objects | ✅ `weave.publish()` | ✅ `client.publish()` | |
+| Get objects by ref | ✅ `weave.get()` | ✅ `client.get()` | |
+| Create ref | ✅ `weave.ref()` | ✅ `ObjectRef` | |
+| `Object` base class | ✅ | ✅ `WeaveObject` | |
+
+---
+
+## Datasets
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Create dataset | ✅ `weave.Dataset()` | ✅ `new weave.Dataset()` | |
+| Add rows | ✅ `dataset.add_rows()` | ❌ | |
+| Select rows | ✅ `dataset.select()` | ❌ | |
+| From pandas | ✅ `Dataset.from_pandas()` | ❌ | |
+| To pandas | ✅ `dataset.to_pandas()` | ❌ | |
+| From HuggingFace | ✅ `Dataset.from_hf()` | ❌ | |
+| To HuggingFace | ✅ `dataset.to_hf()` | ❌ | |
+| From calls | ✅ `Dataset.from_calls()` | ❌ | |
+
+---
+
+## Model Class
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Model base class | ✅ `weave.Model` | ❌ | Major gap in TS |
+| Predict method | ✅ `model.predict()` | ❌ | |
+| Model versioning | ✅ Automatic | ❌ | |
+
+---
+
+## Evaluation
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Evaluation class | ✅ `weave.Evaluation` | ✅ `weave.Evaluation` | |
+| Run evaluation | ✅ `evaluation.evaluate()` | ✅ `evaluation.evaluate()` | |
+| Custom scorers (functions) | ✅ `@weave.op` functions | ✅ `weave.op()` functions | |
+| Scorer base class | ✅ `weave.Scorer` | ❌ | |
+| Built-in scorers | ✅ Many available | ❌ | |
+| Preprocess model input | ✅ `preprocess_model_input` | ❌ | |
+| Multiple trials | ✅ `trials` param | ❌ | |
+| Get evaluation results | ✅ `get_eval_results()` | ❌ | |
+| Get score calls | ✅ `get_score_calls()` | ❌ | |
+| **EvaluationLogger (imperative)** | ✅ | ✅ | |
+| **ScoreLogger** | ✅ | ✅ | |
+
+---
+
+## Prompts
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| StringPrompt | ✅ | ✅ | |
+| MessagesPrompt | ✅ | ✅ | |
+| Prompt formatting | ✅ `.format()` | ✅ `.format()` | |
+
+---
+
+## Feedback & Annotations
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Add reaction | ✅ `call.feedback.add_reaction()` | ❌ | |
+| Add note | ✅ `call.feedback.add_note()` | ❌ | |
+| Add custom feedback | ✅ `call.feedback.add()` | ❌ | |
+| Query feedback | ✅ `client.get_feedback()` | ❌ | |
+| Human annotations | ✅ `AnnotationSpec` | ❌ | |
+| Add score to call | ⚠️ Via feedback | ✅ `client.addScore()` | TS has direct method |
+
+---
+
+## Media Types
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| Image support | ✅ PIL images | ✅ `weaveImage()` | |
+| Audio support | ✅ Wave files | ✅ `weaveAudio()` | |
+
+---
+
+## Integrations (Auto-patching)
+
+| Feature | Python | TypeScript | Notes |
+|---------|--------|------------|-------|
+| OpenAI | ✅ Automatic | ✅ `wrapOpenAI()` | |
+| Anthropic | ✅ Automatic | ❌ | |
+| Cohere | ✅ Automatic | ❌ | |
+| Mistral | ✅ Automatic | ❌ | |
+| Google Gemini | ✅ Automatic | ❌ | |
+| AWS Bedrock | ✅ Automatic | ❌ | |
+| LiteLLM | ✅ Automatic | ❌ | |
+| LlamaIndex | ✅ | ❌ | |
+| LangChain | ✅ | ❌ | |
+| DSPy | ✅ | ❌ | |
+| Instructor | ✅ | ❌ | |
+| CrewAI | ✅ | ❌ | |
+| Configure autopatch | ✅ `autopatch_settings` | ❌ | |
+| Disable autopatch | ✅ `implicitly_patch_integrations=False` | N/A | TS requires explicit wrap |
+
