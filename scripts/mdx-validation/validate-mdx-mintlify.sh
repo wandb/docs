@@ -46,7 +46,19 @@ echo "Running: mint dev --no-open (will run for ${PARSE_TIME}s to parse all file
 echo ""
 
 # Run mint dev with tee to force output writing, timeout after PARSE_TIME seconds
-timeout --preserve-status ${PARSE_TIME}s mint dev --no-open 2>&1 | tee "$LOGFILE" > /dev/null || true
+# Use timeout if available (Linux), otherwise use gtimeout (macOS with coreutils), or perl as fallback
+if command -v timeout > /dev/null 2>&1; then
+  timeout --preserve-status ${PARSE_TIME}s mint dev --no-open 2>&1 | tee "$LOGFILE" > /dev/null || true
+elif command -v gtimeout > /dev/null 2>&1; then
+  gtimeout --preserve-status ${PARSE_TIME}s mint dev --no-open 2>&1 | tee "$LOGFILE" > /dev/null || true
+else
+  # Fallback: run mint dev in background and kill after PARSE_TIME
+  mint dev --no-open 2>&1 | tee "$LOGFILE" > /dev/null &
+  PID=$!
+  sleep ${PARSE_TIME}
+  kill "$PID" 2>/dev/null || true
+  wait "$PID" 2>/dev/null || true
+fi
 
 echo ""
 echo "✓ Mintlify finished parsing"
@@ -69,10 +81,28 @@ if grep -q "parsing error" "$LOGFILE"; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
   exit 1
-else
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "✅ MINTLIFY VALIDATION PASSED"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "No parsing errors detected by Mintlify"
-  exit 0
 fi
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ MINTLIFY PARSING VALIDATION PASSED"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "No parsing errors detected by Mintlify"
+echo ""
+
+# Run broken links check
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "CHECKING FOR BROKEN LINKS"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Running: mint broken-links"
+echo ""
+
+# Run mint broken-links - it will exit with non-zero if broken links are found
+mint broken-links
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ ALL VALIDATION CHECKS PASSED"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "- No parsing errors"
+echo "- No broken links"
+exit 0
