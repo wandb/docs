@@ -9,16 +9,15 @@ This page includes release notes for the W&B Python SDK (`wandb` package). For W
 <Update label="v0.23.1" description="December 2, 2025">
 ## Added
 
-- Regex support in metrics and run overview filters in W&B LEET TUI.
-- Chart inspection in W&B LEET TUI: right-click and drag to show (x, y) at the nearest data point; hold Alt for synchronized inspection across all visible charts.
+- Regex support in metrics and run overview filters in `wandb beta leet` command.
+- Chart inspection in `wandb beta leet` command: right-click and drag to show (x, y) at the nearest data point; hold Alt for synchronized inspection across all visible charts.
 - The Automations API now supports creating and editing automations that trigger on run states.
 - The Automations API now supports basic zscore automation events.
-- Simplified the syntax for creating z-score metric automation triggers in the Automations API.
 - `beta_history_scan` method to `Run` objects for faster history scanning performance with `wandb.Api`.
 
 ## Changed
 
-- `wandb.Api()` now raises a `UsageError` if `WANDB_IDENTITY_TOKEN_FILE` is set and an explicit API key is not provided. Previously, an explicit API key was required.
+- `wandb.Api()` now raises a `UsageError` if `WANDB_IDENTITY_TOKEN_FILE` is set and an explicit API key is not provided
 
 ## Deprecated
 
