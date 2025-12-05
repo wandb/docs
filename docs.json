@@ -332,6 +332,7 @@
                           "models/automations/create-automations/webhook"
                         ]
                       },
+                      "models/automations/view-automation-history",
                       "models/automations/automation-events"
                     ]
                   },
@@ -739,8 +740,15 @@
             "icon": "/icons/cropped-weave.svg",
             "pages": [
               "weave",
-              "weave/quickstart",
-              "weave/quickstart-inference",
+              {
+                "group": "Get Started",
+                "pages": [
+                  "weave/quickstart",
+                  "weave/tutorial-eval",
+                  "weave/tutorial-rag",
+                  "weave/quickstart-inference"
+                ]
+              },
               {
                 "group": "Guides",
                 "pages": [
@@ -787,9 +795,7 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
-                      "weave/guides/tools/attributes",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/guides/tools/attributes"
                     ]
                   },
                   {
@@ -2284,6 +2290,10 @@
     },
     {
       "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/models/app/settings-page/:slug*",
       "destination": "/platform/app/settings-page/:slug*"
     },
     {
