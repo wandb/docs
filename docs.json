@@ -2575,6 +2575,30 @@
     {
       "source": "/platform/hosting/secure-storage-connector",
       "destination": "/platform/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "source": "/integrations/jupyter.html",
+      "destination": "/models/track/jupyter"
+    },
+    {
+      "source": "/models/track/launch/*",
+      "destination": "/platform/launch"
+    },
+    {
+      "source": "/library/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/models/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/_print/:slug*",
+      "destination": "/:slug*"
+    },
+    {
+      "source": "/docs/*",
+      "destination": "/models"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
