@@ -113,8 +113,7 @@
                       "platform/app/settings-page/emails",
                       "platform/app/settings-page/teams",
                       "platform/secrets",
-                      "platform/app/settings-page/storage",
-                      "platform/app/settings-page/anon"
+                      "platform/app/settings-page/storage"
                     ]
                   },
                   {
