@@ -18,13 +18,11 @@ When you publish one of these objects with `weave.publish`, it appears in your W
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {5,7,18}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     system_prompt = weave.StringPrompt("You speak like a pirate")
-    # highlight-next-line
     weave.publish(system_prompt, name="pirate_prompt")
 
     from openai import OpenAI
@@ -35,7 +33,6 @@ When you publish one of these objects with `weave.publish`, it appears in your W
       messages=[
         {
           "role": "system",
-          # highlight-next-line
           "content": system_prompt.format()
         },
         {
@@ -93,11 +90,10 @@ When you publish one of these objects with `weave.publish`, it appears in your W
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {5,22}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     prompt = weave.MessagesPrompt([
         {
             "role": "system",
@@ -115,7 +111,6 @@ When you publish one of these objects with `weave.publish`, it appears in your W
 
     response = client.chat.completions.create(
       model="gpt-4o",
-      # highlight-next-line
       messages=prompt.format(),
     )
     ```
@@ -165,11 +160,10 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {5,17}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     prompt = weave.StringPrompt("Solve the equation {equation}")
     weave.publish(prompt, name="calculator_prompt")
 
@@ -181,7 +175,6 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
       messages=[
         {
           "role": "user",
-          # highlight-next-line
           "content": prompt.format(equation="1 + 1 = ?")
         }
       ],
@@ -189,7 +182,7 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines {9,25}
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -197,7 +190,6 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
       // weave.init returns a client instance
       const weaveClient = await weave.init('wandb/prompt-examples');
 
-      // highlight-next-line
       const prompt = new weave.StringPrompt({
         content: 'Solve the equation {equation}',
       });
@@ -213,7 +205,6 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
         messages: [
           {
             role: "user",
-            // highlight-next-line
             content: prompt.format({ equation: "1 + 1 = ?" })
           }
         ],
@@ -229,11 +220,10 @@ This also works with `MessagesPrompt`.
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {5,23}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     prompt = weave.MessagesPrompt([
     {
         "role": "system",
@@ -251,13 +241,12 @@ This also works with `MessagesPrompt`.
 
     response = client.chat.completions.create(
       model="gpt-4o",
-      # highlight-next-line
       messages=prompt.format(scene="A dog is lying on a dock next to a fisherman."),
     )
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines {9,31}
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -265,7 +254,6 @@ This also works with `MessagesPrompt`.
       // weave.init returns a client instance
       const weaveClient = await weave.init('wandb/prompt-examples');
 
-      // highlight-next-line
       const prompt = new weave.MessagesPrompt({
         messages: [
           {
@@ -287,7 +275,6 @@ This also works with `MessagesPrompt`.
 
       const response = await client.chat.completions.create({
         model: "gpt-4o",
-        // highlight-next-line
         messages: prompt.format({ scene: "A dog is lying on a dock next to a fisherman." }),
       });
     }
