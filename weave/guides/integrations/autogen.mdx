@@ -35,10 +35,8 @@ os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
 
 Initialize Weave at the beginning of your script to start capturing traces.
 
-```python lines
-# highlight-next-line
+```python lines {2,4}
 import weave
-# highlight-next-line
 weave.init("autogen-demo")
 ```
 
@@ -166,7 +164,6 @@ from autogen_agentchat.teams import RoundRobinGroupChat
 # we add this weave op here because we want to trace the entire group chat
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op
 async def run_round_robin_group_chat(model_name="gpt-4o"):
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -214,7 +211,6 @@ from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
 # the memory add calls along with the memory get calls under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op
 async def run_memory_agent(model_name="gpt-4o"):
     user_memory = ListMemory()
@@ -270,8 +266,7 @@ Retrieval Augmented Generation (RAG) workflows, including document indexing and 
 The RAG example requires `chromadb`. Install it with `pip install chromadb`.
 </Note>
 
-```python lines
-# highlight-next-line
+```python lines {1,66}
 # !pip install -q chromadb 
 # Ensure chromadb is installed in your environment: `pip install chromadb`
 
@@ -336,7 +331,6 @@ class SimpleDocumentIndexer:
                 print(f"Error indexing {source}: {str(e)}")
         return total_chunks
 
-# highlight-next-line
 @weave.op
 async def run_rag_agent(model_name="gpt-4o"):
     rag_memory = ChromaDBVectorMemory(
@@ -388,7 +382,7 @@ asyncio.run(run_rag_agent())
 
 Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Using `@weave.op()` around the runtime execution function can group related traces.
 
-```python lines
+```python lines {51}
 from dataclasses import dataclass
 from typing import Callable
 
@@ -438,7 +432,6 @@ class Checker(RoutedAgent):
 # the entire agent runtime call under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op
 async def run_agent_runtime() -> None:
     runtime = SingleThreadedAgentRuntime()
@@ -469,7 +462,7 @@ asyncio.run(run_agent_runtime())
 
 Complex agent workflows, defining sequences of agent interactions, can be traced. `@weave.op()` can be used to provide a high-level trace for the entire workflow.
 
-```python lines
+```python lines {109}
 
 from autogen_core import TopicId, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
@@ -577,7 +570,6 @@ class UserAgent(RoutedAgent):
 # the entire agent workflow under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op(call_display_name="Sequential Agent Workflow")
 async def run_agent_workflow(model_name="gpt-4o"):
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -613,7 +605,7 @@ This example involves code execution using Docker and may not work in all enviro
 
 Weave traces the generation and execution of code by AutoGen agents.
 
-```python lines
+```python lines {70}
 
 import tempfile
 from autogen_core import DefaultTopicId
@@ -682,7 +674,6 @@ class Executor(RoutedAgent):
 # the entire code gen workflow under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op(call_display_name="CodeGen Agent Workflow")
 async def run_codegen(model_name="gpt-4o"): # Updated model
     work_dir = tempfile.mkdtemp()
