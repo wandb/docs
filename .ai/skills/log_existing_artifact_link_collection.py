@@ -6,11 +6,10 @@ project, and version.
 import wandb
 
 # Construct the full artifact name with version
-REGISTRY_NAME = "<registry_name>"  # Specify the registry name
-COLLECTION_NAME = "<collection_name>" # Specify the collection name
-VERSION = 0 # Specify the version of the artifact to use
-artifact_name_registry = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
-
+registry_name = "<registry_name>"  # Specify the registry name
+collection_name = "<collection_name>" # Specify the collection name
+version = 0 # Specify the version of the artifact to use
+artifact_name_registry = f"wandb-registry-{registry_name}/{collection_name}:v{version}"
 
 # Initialize a W&B run in the different team and project
 with wandb.init(entity="<entity>", project="<project>") as run:

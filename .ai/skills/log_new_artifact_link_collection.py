@@ -16,6 +16,6 @@ collection_name = "<collection_name>"
 target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
 # Initialize a run
-with wandb.init(entity = "<team_entity>", project = "<project>") as run:
+with wandb.init(entity = "<entity>", project = "<project>") as run:
   # Link the artifact to a collection. If the collection does not exist, W&B creates it.
   run.link_artifact(artifact = artifact, target_path = target_path)

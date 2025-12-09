@@ -1,6 +1,6 @@
 """
 Creates and logs a W&B artifact. First create an
-artifact object. Next, add files or directories to it.
+artifact object. Next, add files, directories, or external references to the artifact.
 Finally, log the artifact to a W&B run.
 """
 import wandb
