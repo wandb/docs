@@ -17,7 +17,7 @@ Weave simplifies this process by automatically capturing traces for your [Verdic
 
 To get started, simply call `weave.init(project=...)` at the beginning of your script. Use the `project` argument to log to a specific W&B Team name with `team-name/project-name` or do `project-name` to log to your default team/entity.
 
-```python lines {8}
+```python lines {7}
 import weave
 from verdict import Pipeline
 from verdict.common.judge import JudgeUnit
@@ -43,7 +43,7 @@ print(output)
 
 To track metadata from your Verdict pipeline calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a pipeline run or evaluation batch.
 
-```python lines {8,15}
+```python lines {7,14}
 import weave
 from verdict import Pipeline
 from verdict.common.judge import JudgeUnit
@@ -161,7 +161,7 @@ Organizing and evaluating AI systems with multiple pipeline components can be ch
 
 The following example demonstrates wrapping a Verdict pipeline in a `WeaveModel`:
 
-```python lines {8,11,16}
+```python lines {8,10,14}
 import asyncio
 import weave
 from verdict import Pipeline

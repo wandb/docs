@@ -35,7 +35,7 @@ os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
 
 Initialize Weave at the beginning of your script to start capturing traces.
 
-```python lines {2,4}
+```python lines {2}
 import weave
 weave.init("autogen-demo")
 ```
@@ -266,7 +266,7 @@ Retrieval Augmented Generation (RAG) workflows, including document indexing and 
 The RAG example requires `chromadb`. Install it with `pip install chromadb`.
 </Note>
 
-```python lines {1,66}
+```python lines {1,65}
 # !pip install -q chromadb 
 # Ensure chromadb is installed in your environment: `pip install chromadb`
 
@@ -382,7 +382,7 @@ asyncio.run(run_rag_agent())
 
 Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Using `@weave.op()` around the runtime execution function can group related traces.
 
-```python lines {51}
+```python lines {50}
 from dataclasses import dataclass
 from typing import Callable
 
@@ -462,7 +462,7 @@ asyncio.run(run_agent_runtime())
 
 Complex agent workflows, defining sequences of agent interactions, can be traced. `@weave.op()` can be used to provide a high-level trace for the entire workflow.
 
-```python lines {109}
+```python lines {108}
 
 from autogen_core import TopicId, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
@@ -605,7 +605,7 @@ This example involves code execution using Docker and may not work in all enviro
 
 Weave traces the generation and execution of code by AutoGen agents.
 
-```python lines {70}
+```python lines {69}
 
 import tempfile
 from autogen_core import DefaultTopicId

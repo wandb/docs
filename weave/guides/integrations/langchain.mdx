@@ -18,7 +18,7 @@ Weave simplifies this process by automatically capturing traces for your [LangCh
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name that will help you organize your traces.
 
-```python lines {7}
+```python lines {6}
 import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -40,7 +40,7 @@ print(output)
 
 To track metadata from your LangChain calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a chain or a single request.
 
-```python lines {7,15}
+```python lines {6,13}
 import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -80,7 +80,7 @@ In addition to automatic tracing, you can manually trace calls using the `WeaveT
 
 You can pass the `WeaveTracer` callback to individual LangChain components to trace specific requests.
 
-```python lines {12,15,18,25}
+```python lines {11,13,15,22}
 import os
 
 os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
@@ -111,7 +111,7 @@ llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for la
 
 Alternatively, you can use the `weave_tracing_enabled` context manager to enable tracing for specific blocks of code.
 
-```python lines {12,20}
+```python lines {11,18}
 import os
 
 os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
@@ -163,7 +163,7 @@ Organizing and evaluating LLMs in applications for various use cases is challeng
 
 The following example demonstrates wrapping a Langchain chain in a `WeaveModel`:
 
-```python lines {11,14,19}
+```python lines {10,12,16}
 import json
 import asyncio
 

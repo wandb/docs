@@ -9,7 +9,7 @@ OpenRouter offers a Rest API and an OpenAI SDK compatibility ([docs](https://doc
 
 To switch your OpenAI SDK code to OpenRouter, switch out the API key to your [OpenRouter API](https://openrouter.ai/docs/api-keys) key, `base_url` to `https://openrouter.ai/api/v1`, and model to one of their many [chat models](https://openrouter.ai/docs/models). When you call `weave.init()`, provide a project name for your traces. If not specified, your default entity is used. To find or update your default entity, refer to [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) in the W&B Models documentation.
 
-```python lines {6,12,14,16,18}
+```python lines {5,10-12}
 import os
 import openai
 import weave

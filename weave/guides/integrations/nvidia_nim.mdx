@@ -19,7 +19,7 @@ It’s important to store traces of LLM applications in a central database, both
 
     Start capturing by calling `weave.init(<project-name>)` with a project name your choice.
 
-    ```python lines {5}
+    ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import weave
     client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.8, max_tokens=64, top_p=1)
@@ -56,7 +56,7 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have 2 functions wrapped with op. This helps us see how intermediate steps, like the retrieval step in a RAG app, are affecting how our app behaves.
 
-    ```python lines {2,11,33,50}
+    ```python lines {1,9,11,29,31,33}
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import requests, random

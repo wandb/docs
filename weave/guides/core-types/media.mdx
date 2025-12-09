@@ -43,7 +43,7 @@ The following example draws a basic image and then logs it to Weave using the `C
 
 ## Images
 
-```python lines {17,24}
+```python lines {16,23}
 import weave
 from weave import Content
 from PIL import Image, ImageDraw
@@ -510,7 +510,7 @@ This example generates and logs AI-created audio using the `Content` annotation:
   </Tab>
 </Tabs>
 
-```python lines {11-12}
+```python lines {11}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -689,7 +689,7 @@ This example generates self-contained HTML pages using [W&B Inference](https://d
   </Tab>
 </Tabs>
 
-```python lines {18}
+```python lines {21}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -798,7 +798,7 @@ content.model_dump()  # Dumps the model attributes to JSON
 Weave can detect most binary mimetypes, but custom mimetypes and text documents such as markdown may not be automatically detected, requiring you to manually specify the mimetype or extension of your file.
 
 #### Custom Mimetypes with Type Annotations
-```python lines {7-9}
+```python lines {7}
 import weave
 from weave import Content
 from pathlib import Path
