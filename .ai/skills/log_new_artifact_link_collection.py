@@ -5,10 +5,7 @@ collection does not exist, W&B creates it.
 import wandb
 
 # Create an artifact object
-artifact = wandb.Artifact(
-  name = "<artifact_name>",
-  type = "<artifact_type>"
-)
+artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
 
 # Define registry and collection names
 registry_name = "<registry_name>"
