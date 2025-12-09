@@ -1,0 +1,24 @@
+"""
+Creates and logs a W&B artifact. First create an
+artifact object. Next, add files or directories to it.
+Finally, log the artifact to a W&B run.
+"""
+import wandb
+
+# Create an artfiact object
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# Add one or more files to the artifact
+artifact.add_file(local_path="data/file1.csv")
+
+# Recursively add a directory to the artifact
+artifact.add_dir(local_path="data/directory")
+
+# Add external URI reference to the artifact
+artifact.add_reference(uri="s3://my-bucket/path/to/data.csv")
+
+with wandb.init(project="<project>") as run:
+    # Training and logging code goes here
+
+    # Example of logging an artifact
+    run.log_artifact(artifact)
