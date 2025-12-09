@@ -91,6 +91,7 @@ GET /scim/Users/abc
 ```json
 {
     "active": true,
+    "daysActive": 42,
     "displayName": "Dev User 1",
     "emails": {
         "Value": "dev-user1@example.com",
@@ -99,6 +100,7 @@ GET /scim/Users/abc
         "Primary": true
     },
     "id": "abc",
+    "lastActiveAt": "2023-10-15T14:32:10Z",
     "meta": {
         "resourceType": "User",
         "created": "2023-10-01T00:00:00Z",
@@ -111,8 +113,18 @@ GET /scim/Users/abc
     "userName": "dev-user1"
 }
 ```
+
+The response includes details about the user's activity in the organization:
+- **`daysActive`**: Total number of days the user has been active in the organization.
+- **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user has never been active.
+
+The definition of "active" differs by deployment type:
+- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
+- **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
+
 </Tab>
 </Tabs>
+
 
 ### List users
 
@@ -155,6 +167,7 @@ GET /scim/Users
     "Resources": [
         {
             "active": true,
+            "daysActive": 42,
             "displayName": "Dev User 1",
             "emails": {
                 "Value": "dev-user1@example.com",
@@ -163,6 +176,7 @@ GET /scim/Users
                 "Primary": true
             },
             "id": "abc",
+            "lastActiveAt": "2023-10-15T14:32:10Z",
             "meta": {
                 "resourceType": "User",
                 "created": "2023-10-01T00:00:00Z",
@@ -183,6 +197,15 @@ GET /scim/Users
     "totalResults": 1
 }
 ```
+
+The response includes details about each user's activity in the organization:
+- **`daysActive`**: Total number of days the user has been active in the organization.
+- **`lastActiveAt`**: ISO 8601 timestamp of the user's most recent activity. Returns `null` if the user has never been active.
+
+The definition of "active" differs by deployment type:
+- **Dedicated Cloud / Self-Managed**: A user is active if they sign in, open any page in the W&B App, log runs, use the SDK, or interact with the W&B server in any way.
+- **Multi-tenant Cloud**: A user is active if they perform any auditable action scoped to the organization after May 8, 2025. See [Audit logging actions](/platform/hosting/monitoring-usage/audit-logging#actions) for the full list.
+
 </Tab>
 </Tabs>
 
