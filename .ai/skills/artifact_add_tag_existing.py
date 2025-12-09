@@ -1,7 +1,6 @@
 """
 Adds a tag to an existing W&B artifact.
 """
-
 import wandb
 
 # Retrieve an existing artifact and add a tag to it
