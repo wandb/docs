@@ -17,14 +17,13 @@ Weave simplifies this process by automatically capturing traces for your [Verdic
 
 To get started, simply call `weave.init(project=...)` at the beginning of your script. Use the `project` argument to log to a specific W&B Team name with `team-name/project-name` or do `project-name` to log to your default team/entity.
 
-```python lines
+```python lines {8}
 import weave
 from verdict import Pipeline
 from verdict.common.judge import JudgeUnit
 from verdict.schema import Schema
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("verdict_demo")
 
 # Create a simple evaluation pipeline
@@ -44,14 +43,13 @@ print(output)
 
 To track metadata from your Verdict pipeline calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a pipeline run or evaluation batch.
 
-```python lines
+```python lines {8,15}
 import weave
 from verdict import Pipeline
 from verdict.common.judge import JudgeUnit
 from verdict.schema import Schema
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("verdict_demo")
 
 pipeline = Pipeline()
@@ -59,7 +57,6 @@ pipeline = pipeline >> JudgeUnit().prompt("Evaluate sentiment: {source.text}")
 
 data = Schema.of(text="I love this product!")
 
-# highlight-next-line
 with weave.attributes({"evaluation_type": "sentiment", "batch_id": "batch_001"}):
     output = pipeline.run(data)
 
@@ -86,7 +83,7 @@ You can view the traces in the Weave web interface, showing the hierarchical str
 
 Here's a more complex example showing how Weave traces nested pipeline operations:
 
-```python lines
+```python lines {8}
 import weave
 from verdict import Pipeline, Layer
 from verdict.common.judge import JudgeUnit
@@ -94,7 +91,6 @@ from verdict.transform import MeanPoolUnit
 from verdict.schema import Schema
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("verdict_demo")
 
 # Create a complex pipeline with multiple steps
@@ -136,7 +132,7 @@ No additional configuration is needed - Weave will automatically:
 
 If you're using custom Verdict tracers in your application, Weave's `VerdictTracer` can work alongside them:
 
-```python lines
+```python lines {8}
 import weave
 from verdict import Pipeline
 from verdict.common.judge import JudgeUnit
@@ -144,7 +140,6 @@ from verdict.util.tracing import ConsoleTracer
 from verdict.schema import Schema
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("verdict_demo")
 
 # You can still use Verdict's built-in tracers
@@ -166,7 +161,7 @@ Organizing and evaluating AI systems with multiple pipeline components can be ch
 
 The following example demonstrates wrapping a Verdict pipeline in a `WeaveModel`:
 
-```python lines
+```python lines {8,11,16}
 import asyncio
 import weave
 from verdict import Pipeline
@@ -174,15 +169,12 @@ from verdict.common.judge import JudgeUnit
 from verdict.schema import Schema
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("verdict_demo")
 
-# highlight-next-line
 class TextQualityEvaluator(weave.Model):
     judge_prompt: str
     pipeline_name: str
 
-# highlight-next-line
     @weave.op()
     async def predict(self, text: str) -> dict:
         pipeline = Pipeline(name=self.pipeline_name)
@@ -218,7 +210,7 @@ This code creates a model that can be visualized in the Weave UI, showing both t
 
 Evaluations help you measure the performance of your evaluation pipelines themselves. By using the [`weave.Evaluation`](/weave/guides/core-types/evaluations) class, you can capture how well your Verdict pipelines perform on specific tasks or datasets:
 
-```python lines
+```python lines {8}
 import asyncio
 import weave
 from verdict import Pipeline
@@ -226,7 +218,6 @@ from verdict.common.judge import JudgeUnit
 from verdict.schema import Schema
 
 # Initialize Weave
-# highlight-next-line
 weave.init("verdict_demo")
 
 # Create evaluation model
@@ -283,13 +274,12 @@ This creates an evaluation trace that shows how your Verdict pipeline performs a
 ### Performance Monitoring
 Weave automatically captures timing information for all pipeline operations. You can use this to identify performance bottlenecks:
 
-```python lines
+```python lines {6}
 import weave
 from verdict import Pipeline, Layer
 from verdict.common.judge import JudgeUnit
 from verdict.schema import Schema
 
-# highlight-next-line
 weave.init("verdict_demo")
 
 # Create a pipeline that might have performance variations
@@ -310,13 +300,12 @@ for i in range(3):
 ### Error Handling
 Weave automatically captures exceptions that occur during pipeline execution:
 
-```python lines
+```python lines {6}
 import weave
 from verdict import Pipeline
 from verdict.common.judge import JudgeUnit
 from verdict.schema import Schema
 
-# highlight-next-line
 weave.init("verdict_demo")
 
 pipeline = Pipeline()
