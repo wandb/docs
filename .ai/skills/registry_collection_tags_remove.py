@@ -1,12 +1,12 @@
 """
-Add tags to a collection in a registry.
+Remove a tag from a collection in a registry.
 """
 import wandb
 
 # Define registry and collection details
+collection_name = "<collection_name>"
 collection_type = "<collection_type>"
 registry_name = "<registry_name>"
-collection_name = "<collection_name>"
 
 # Construct the full registry path
 registry_path = f"wandb-registry-{registry_name}/{collection_name}"
@@ -17,5 +17,5 @@ collection = wandb.Api().artifact_collection(
   name = registry_path
   )
 
-collection.tags = ["<tag>"]
+collection.tags.remove("<tag>")
 collection.save()

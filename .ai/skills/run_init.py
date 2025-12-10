@@ -1,4 +1,10 @@
-"""Initializes a W&B run and logs a metric."""
+"""
+Initializes a W&B run.
+
+W&B automatically creates the project if it does not exist. Note that this
+file only initializes the experiment; you can add code to log metrics,
+artifacts, etc., within the `with` block.
+"""
 import wandb
 
 # Note the usage of `with` statement to ensure proper resource management.

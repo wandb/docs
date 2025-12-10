@@ -1,7 +1,6 @@
 """
 Ceates a W&B registry collection and links an artifact to it.
 """
-
 import wandb
 
 # Create an artifact object
