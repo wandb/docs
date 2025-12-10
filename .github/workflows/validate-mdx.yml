@@ -1,8 +1,6 @@
 name: Validate MDX
 on:
   pull_request:
-    paths:
-      - '**.mdx'
 
 jobs:
   validate-mdx:
