@@ -1,7 +1,6 @@
 """
 Add a tag to an artifact when logging it to W&B.
 """
-
 import wandb
 
 # Create an artifact
