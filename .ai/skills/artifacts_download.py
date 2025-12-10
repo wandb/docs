@@ -1,5 +1,6 @@
 """
-Downloads files or entire artifacts from W&B.
+Downloads files or entire artifacts from W&B. The same
+logic applies to external artifacts.
 """
 
 import wandb    

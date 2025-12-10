@@ -1,5 +1,6 @@
 """
-Downloads specific files or sub-folders from W&B artifacts.
+Downloads specific files or sub-folders from W&B artifacts. The same
+logic applies to external artifacts.
 """
 import wandb
 
