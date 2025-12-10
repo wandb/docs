@@ -2476,6 +2476,10 @@
       "destination": "/models/registry"
     },
     {
+      "source": "/models/hosting/:slug*",
+      "destination": "/platform/hosting/:slug*"
+    },
+    {
       "source": "/models/track/launch/*",
       "destination": "/platform/launch"
     },
