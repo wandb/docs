@@ -2307,6 +2307,10 @@
       "source": "/getting-started/",
       "destination": "/get-started/"
     },
+        {
+      "source": "/guides/models/:slug*",
+      "destination": "/models/:slug*"
+    },
     {
       "source": "/guides/:slug*",
       "destination": "/models/:slug*"
