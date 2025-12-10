@@ -2308,10 +2308,6 @@
       "destination": "/get-started/"
     },
     {
-      "source": "/guides/:slug*",
-      "destination": "/models/:slug*"
-    },
-    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2430,6 +2426,10 @@
     {
       "source": "/guides/training/:slug*",
       "destination": "/training/:slug*"
+    },
+    {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
     },
     {
       "source": "/inference/response-settings",
