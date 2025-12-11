@@ -1,0 +1,579 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created_date": "2025-12-11T11:46:37.169721",
+    "last_updated": "2025-12-11T11:46:37.169735",
+    "description": "W&B SDK code generation evaluation benchmark for teaching core concepts",
+    "sdk_version": ">=0.18.0",
+    "num_examples": 30
+  },
+  "examples": [
+    {
+      "id": "artifact_add_alias",
+      "category": "artifacts",
+      "difficulty": "intermediate",
+      "prompt": "Add one or more aliases to an artifact when logging it to W&B.",
+      "reference_code": "import wandb\n\n# Create an artifact\nartifact = wandb.Artifact(name=\"<artifact_name>\", type=\"<artifact_type>\")\n# Add files to the artifact\nartifact.add_file(\"<file_path>\")\n\nwith wandb.init(project=\"<project>\") as run:\n    # Log the artifact with aliases\n    run.log_artifact(artifact, aliases=[\"<alias1>\", \"<alias2>\"])",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact",
+        "artifact.add_file",
+        "run.log_artifact"
+      ],
+      "source_file": "artifact_add_alias.py",
+      "placeholders": {
+        "<artifact_type>": "Artifact Type",
+        "<alias1>": "Alias1",
+        "<file_path>": "File Path",
+        "<artifact_name>": "Artifact Name",
+        "<project>": "Project",
+        "<alias2>": "Alias2"
+      }
+    },
+    {
+      "id": "artifact_add_alias_existing",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Adds an alias to an existing W&B artifact.",
+      "reference_code": "import wandb\n\n# Retrieve an existing artifact and add an alias to it\nartifact = wandb.Api().artifact(\"entity/project/artifact:version\")\nartifact.aliases = [\"<new-alias>\"]\nartifact.save()",
+      "key_concepts": [
+        "wandb.Api",
+        "artifact.save",
+        "artifact aliases"
+      ],
+      "source_file": "artifact_add_alias_existing.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ],
+      "placeholders": {
+        "<new-alias>": "New-Alias"
+      }
+    },
+    {
+      "id": "artifact_add_tag",
+      "category": "artifacts",
+      "difficulty": "intermediate",
+      "prompt": "Add a tag to an artifact when logging it to W&B.",
+      "reference_code": "import wandb\n\n# Create an artifact\nartifact = wandb.Artifact(name=\"<artifact_name>\", type=\"<artifact_type>\")\n\n# Log the artifact with tags\nwith wandb.init(project=\"<project>\") as run:\n    run.log_artifact(artifact, tags=[\"<tag1>\", \"<tag2>\"])",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact",
+        "run.log_artifact"
+      ],
+      "source_file": "artifact_add_tag.py",
+      "placeholders": {
+        "<tag2>": "Tag2",
+        "<artifact_type>": "Artifact Type",
+        "<artifact_name>": "Artifact Name",
+        "<project>": "Project",
+        "<tag1>": "Tag1"
+      }
+    },
+    {
+      "id": "artifact_add_tag_existing",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Adds a tag to an existing W&B artifact.",
+      "reference_code": "import wandb\n\n# Retrieve an existing artifact and add a tag to it\nartifact = wandb.Api().artifact(\"entity/project/artifact:version\")\nartifact.tags = [\"new-tag\"]\nartifact.save()",
+      "key_concepts": [
+        "wandb.Api",
+        "artifact.save"
+      ],
+      "source_file": "artifact_add_tag_existing.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ]
+    },
+    {
+      "id": "artifact_create",
+      "category": "artifacts",
+      "difficulty": "intermediate",
+      "prompt": "Creates and logs a W&B artifact. First create an\nartifact object. Next, add files, directories, or external references to the artifact.\nFinally, log the artifact to a W&B run.",
+      "reference_code": "import wandb\n\n# Create an artfiact object\nartifact = wandb.Artifact(name=\"<artifact_name>\", type=\"<artifact_type>\")\n\n# Add one or more files to the artifact\nartifact.add_file(local_path=\"data/file1.csv\")\n\n# Recursively add a directory to the artifact\nartifact.add_dir(local_path=\"data/directory\")\n\n# Add external URI reference to the artifact\nartifact.add_reference(uri=\"s3://my-bucket/path/to/data.csv\")\n\nwith wandb.init(project=\"<project>\") as run:\n    # Training and logging code goes here\n\n    # Example of logging an artifact\n    run.log_artifact(artifact)",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact",
+        "artifact.add_file",
+        "artifact.add_dir",
+        "artifact.add_reference",
+        "run.log_artifact"
+      ],
+      "source_file": "artifact_create.py",
+      "placeholders": {
+        "<artifact_name>": "Artifact Name",
+        "<artifact_type>": "Artifact Type",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "artifact_create_track_external",
+      "category": "artifacts",
+      "difficulty": "intermediate",
+      "prompt": "Tracks an external artifact by adding a reference to a cloud storage bucket path.",
+      "reference_code": "import wandb\n\n# Create an artifact object\nartifact = wandb.Artifact(name=\"<artifact_name>\", type=\"<artifact_type>\")\n\n# Add a reference to the bucket path\nartifact.add_reference(uri = \"uri/to/your/bucket/path\")\n\n# Initialize a W&B run\nwith wandb.init(project=\"<project>\") as run:\n\n  # Log the artifact's metadata\n  run.log_artifact(artifact)",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact",
+        "artifact.add_reference",
+        "run.log_artifact"
+      ],
+      "source_file": "artifact_create_track_external.py",
+      "placeholders": {
+        "<artifact_name>": "Artifact Name",
+        "<artifact_type>": "Artifact Type",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "artifact_delete",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Delete specific artifact version from a W&B run. Set delete_aliaes to `True` \nif the artifact has an alias attached to it.",
+      "reference_code": "import wandb\n\n# Initialize W&B API\napi = wandb.Api()\n\n# Get the run by its path. Consists of <entity>/<project>/<run_path>\nruns = api.run(\"<entity>/<project>/<run_path>\")\n\n# wandb.Api().Run.logged_artifacts() returns a list of artifact versions\n# that consists of artifact name and version <artifact_name>:v<version_number>\nfor artifact_version in runs.logged_artifacts():\n    # Index the last two characters of the artifact version name (str) that\n    # consists of the version number\n    if artifact_version.name[-2:] == \"v\"+ \"<version_number>\":\n        artifact_version.delete(delete_aliases=True)",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "artifact_delete.py",
+      "placeholders": {
+        "<run_path>": "Run Path",
+        "<artifact_name>": "Artifact Name",
+        "<version_number>": "Version Number",
+        "<entity>": "Entity",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "artifact_delete_collection",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Delete an artifact collection from W&B.",
+      "reference_code": "import wandb\n\n# Initialize W&B API\napi = wandb.Api()\n\n# Delete an artifact collection by its name and type\n# Name format: <entity>/<project>/<run_path>\ncollection = api.artifact_collection(\n    name=\"<entity>/<project>/<run_path>\",\n    type_name=\"<artifact_type>\"\n)\n\ncollection.delete()",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "artifact_delete_collection.py",
+      "placeholders": {
+        "<run_path>": "Run Path",
+        "<project>": "Project",
+        "<artifact_type>": "Artifact Type",
+        "<entity>": "Entity"
+      }
+    },
+    {
+      "id": "artifact_download_partial",
+      "category": "artifacts",
+      "difficulty": "basic",
+      "prompt": "Downloads specific files or sub-folders from W&B artifacts. The same\nlogic applies to external artifacts.",
+      "reference_code": "import wandb\n\nwith wandb.init(project=\"<project>\") as run:\n    # Indicate the artifact to use. Format is \"name:alias\"\n    artifact = run.use_artifact(\"<artifact_name>:<alias>\")\n\n    # Download a specific file or sub-folder\n    artifact.download(path_prefix=\"<file_name>\") # downloads only the specified file or folder",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "artifact_download_partial.py",
+      "placeholders": {
+        "<artifact_name>": "Artifact Name",
+        "<file_name>": "File Name",
+        "<alias>": "Alias",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "artifact_ttl",
+      "category": "artifacts",
+      "difficulty": "intermediate",
+      "prompt": "Create and log an artifact with a TTL policy in W&B.",
+      "reference_code": "import wandb\nfrom datetime import timedelta\n\n# Create an artifact with TTL policy\nartifact = wandb.Artifact(name=\"<artifact_name>\", type=\"<artifact_type>\")\nartifact.add_file(\"<file_path>\")\nartifact.ttl = timedelta(days=30)  # Set TTL policy\n\nwith wandb.init(project=\"<project>\", entity=\"<entity>\") as run:\n    # Log the artifact with TTL\n    run.log_artifact(artifact)",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact",
+        "artifact.add_file",
+        "run.log_artifact"
+      ],
+      "source_file": "artifact_ttl.py",
+      "placeholders": {
+        "<artifact_type>": "Artifact Type",
+        "<file_path>": "File Path",
+        "<artifact_name>": "Artifact Name",
+        "<entity>": "Entity",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "artifact_ttl_existing",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Update the TTL policy of an existing artifact in W&B.",
+      "reference_code": "import wandb\nfrom datetime import timedelta\n\n# Initialize the W&B API\napi = wandb.Api()\n\n# Retrieve the existing artifact\nartifact = api.artifact(\"<entity/project/artifact:alias>\")\n\n# Add or update the TTL policy. Specify the desired duration.\nartifact.ttl = timedelta(days=365)  # Delete in one year\n\n# Save the updated artifact\nartifact.save()",
+      "key_concepts": [
+        "wandb.Api",
+        "artifact.save",
+        "api.artifact"
+      ],
+      "source_file": "artifact_ttl_existing.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ],
+      "placeholders": {
+        "<entity/project/artifact:alias>": "Entity Or Project Or Artifact:Alias"
+      }
+    },
+    {
+      "id": "artifact_update",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Update an existing W&B artifact's description within a W&B run.\n\nThis code initializes a W&B run, retrieves the specified artifact by name and alias,\nupdates its description, and saves the changes.",
+      "reference_code": "import wandb\n\nwith wandb.init(entity=\"<entity>\", project=\"<project>\") as run:\n    # Retrieve the artifact by name and alias\n    artifact = run.use_artifact(artifact_or_name=\"<artifact>:<alias>\")\n    # Update the artifact's description\n    artifact.description = \"<description>\"\n    # Save the updated artifact\n    artifact.save()",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "artifact.save"
+      ],
+      "source_file": "artifact_update.py",
+      "placeholders": {
+        "<description>": "Description",
+        "<entity>": "Entity",
+        "<alias>": "Alias",
+        "<project>": "Project",
+        "<artifact>": "Artifact"
+      }
+    },
+    {
+      "id": "artifact_update_existing",
+      "category": "artifacts",
+      "difficulty": "advanced",
+      "prompt": "Given an existing artifact, update its description, metadata, and aliases\nwithout creating a new run.",
+      "reference_code": "import wandb\n\napi = wandb.Api()\n\nartifact = api.artifact(name=\"<entity/project/artifact:alias>\")\n\n# Update the description\nartifact.description = \"My new description\"\n\n# Selectively update metadata keys\nartifact.metadata[\"oldKey\"] = \"new value\"\n\n# Replace the metadata entirely\nartifact.metadata = {\"newKey\": \"new value\"}\n\n# Add an alias\nartifact.aliases.append(\"best\")\n\n# Remove an alias\nartifact.aliases.remove(\"latest\")\n\n# Completely replace the aliases\nartifact.aliases = [\"replaced\"]\n\n# Persist all artifact modifications\nartifact.save()",
+      "key_concepts": [
+        "wandb.Api",
+        "artifact.save",
+        "api.artifact",
+        "artifact metadata",
+        "artifact aliases"
+      ],
+      "source_file": "artifact_update_existing.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ],
+      "placeholders": {
+        "<entity/project/artifact:alias>": "Entity Or Project Or Artifact:Alias"
+      }
+    },
+    {
+      "id": "artifacts_download",
+      "category": "artifacts",
+      "difficulty": "basic",
+      "prompt": "Downloads files or entire artifacts from W&B. The same\nlogic applies to external artifacts.",
+      "reference_code": "import wandb    \n\nwith wandb.init(project=\"<project>\") as run:\n    # Indicate the artifact to use. Format is \"name:alias\"\n    artifact = run.use_artifact(\"<artifact_name>:<alias>\")\n\n    # Downloads file from the artifact at path name\n    # If artifact.add_reference() was used, returns the reference URL\n    entry = artifact.get_entry(\"<file_name>\")\n\n    # Download the entire artifact\n    datadir = artifact.download()",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "artifact.add_reference"
+      ],
+      "source_file": "artifacts_download.py",
+      "placeholders": {
+        "<artifact_name>": "Artifact Name",
+        "<file_name>": "File Name",
+        "<alias>": "Alias",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "experiments_create",
+      "category": "experiments",
+      "difficulty": "basic",
+      "prompt": "Create an experiment in W&B. If the project does not exist, W&B creates it.\n\nNote that this file only initializes the experiment; you can add code to log metrics,\nartifacts, etc., within the `with` block.",
+      "reference_code": "import wandb\n\n# Initialize a W&B run\nwith wandb.init(project=\"<project>\") as run:\n    # Experiment code goes here\n    pass",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "experiments_create.py",
+      "placeholders": {
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "log_custom_summary_metric",
+      "category": "logging",
+      "difficulty": "basic",
+      "prompt": "Log a custom summary metric to W&B.",
+      "reference_code": "import wandb\nimport random \n\nwith wandb.init(project=\"<project>\") as run:\n    # Log a custom summary metric with a random integer value between 1 and 10\n    run.summary[\"<metric_name>\"] = random.randint(1, 10)",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "log_custom_summary_metric.py",
+      "placeholders": {
+        "<metric_name>": "Metric Name",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "log_existing_artifact_link_collection",
+      "category": "logging",
+      "difficulty": "advanced",
+      "prompt": "Download and log an existing artifact from a W&B registry collection.\nReplace the placeholders with actual registry, collection names, entity,\nproject, and version.",
+      "reference_code": "import wandb\n\n# Construct the full artifact name with version\nregistry_name = \"<registry_name>\"  # Specify the registry name\ncollection_name = \"<collection_name>\" # Specify the collection name\nversion = 0 # Specify the version of the artifact to use\nartifact_name_registry = f\"wandb-registry-{registry_name}/{collection_name}:v{version}\"\n\n# Initialize a W&B run in the different team and project\nwith wandb.init(entity=\"<entity>\", project=\"<project>\") as run:\n    # Use the model artifact from the registry\n    registry_model = run.use_artifact(artifact_or_name=artifact_name_registry)\n\n    # Download the model to a local directory\n    local_model_path = registry_model.download()",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "log_existing_artifact_link_collection.py",
+      "placeholders": {
+        "<registry_name>": "Registry Name",
+        "<project>": "Project",
+        "<entity>": "Entity",
+        "<collection_name>": "Collection Name"
+      }
+    },
+    {
+      "id": "log_hyperparameter",
+      "category": "logging",
+      "difficulty": "basic",
+      "prompt": "Initializes a W&B run and logs hyperparameters.",
+      "reference_code": "\"\"\"Initializes a W&B run and logs hyperparameters.\"\"\"\nimport wandb\n\nconfig = {\n    \"learning_rate\": 0.01,\n    \"batch_size\": 32,\n    \"optimizer\": \"adam\",\n}\n\nwith wandb.init(project=\"<project>\", config=config) as run:\n    # Training and logging code goes here\n    pass",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "log_hyperparameter.py",
+      "placeholders": {
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "log_metric",
+      "category": "logging",
+      "difficulty": "basic",
+      "prompt": "Initializes a W&B run and logs a metric.",
+      "reference_code": "\"\"\"Initializes a W&B run and logs a metric.\"\"\"\nimport wandb\n\nwith wandb.init(project=\"<project>\") as run:\n    # Training and logging code goes here\n\n    # Example of logging a metric\n    run.log({\"accuracy\": 0.95})",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "run.log"
+      ],
+      "source_file": "log_metric.py",
+      "placeholders": {
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "log_table",
+      "category": "logging",
+      "difficulty": "intermediate",
+      "prompt": "Log a table to W&B.",
+      "reference_code": "import wandb\n\n# Create a table object with two columns and two rows of data\nmy_table = wandb.Table(\n    columns=[\"a\", \"b\"],\n    data=[[\"a1\", \"b1\"], [\"a2\", \"b2\"]],\n    log_mode=\"<log_mode>\"\n    )\n\n# Start a new run\nwith wandb.init(project=\"<project>\") as run:\n    # Log the table to W&B\n    run.log({\"<table_name>\": my_table})",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "run.log",
+        "wandb.Table"
+      ],
+      "source_file": "log_table.py",
+      "placeholders": {
+        "<table_name>": "Table Name",
+        "<log_mode>": "Log Mode",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "registry_add_annotation",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Add an description to a collection in a registry.",
+      "reference_code": "import wandb\n\n# Define registry and collection details\ncollection_type = \"<collection_type>\"\nregistry_name = \"<registry_name>\"\ncollection_name = \"<collection_name>\"\n\n# Construct the full registry path\nregistry_path = f\"wandb-registry-{registry_name}/{collection_name}\"\n\n# Initialize W&B API\napi = wandb.Api()\n\n# Retrieve the artifact collection\ncollection = api.artifact_collection(\n  type_name = collection_type, \n  name = registry_path\n  )\n\n# Add description annotation to the collection object\ncollection.description = \"<description>\"\n\n# Save the updated collection\ncollection.save()",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "registry_add_annotation.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ],
+      "placeholders": {
+        "<description>": "Description",
+        "<registry_name>": "Registry Name",
+        "<collection_type>": "Collection Type",
+        "<collection_name>": "Collection Name"
+      }
+    },
+    {
+      "id": "registry_collection_create",
+      "category": "registry",
+      "difficulty": "intermediate",
+      "prompt": "Ceates a W&B registry collection and links an artifact to it.",
+      "reference_code": "import wandb\n\n# Create an artifact object\nartifact = wandb.Artifact(name = \"<artifact_name>\", type = \"<artifact_type>\")\n\nregistry_name = \"<registry_name>\"\ncollection_name = \"<collection_name>\"\nregistry_path = f\"wandb-registry-{registry_name}/{collection_name}\"\n\n# Initialize a run\nwith wandb.init(entity = \"<entity>\", project = \"<project>\") as run:\n\n  # Link the artifact to a collection. If the collection does not exist, W&B creates it.\n  run.link_artifact(artifact = artifact, target_path = registry_path)",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact"
+      ],
+      "source_file": "registry_collection_create.py",
+      "placeholders": {
+        "<registry_name>": "Registry Name",
+        "<artifact_type>": "Artifact Type",
+        "<collection_name>": "Collection Name",
+        "<artifact_name>": "Artifact Name",
+        "<entity>": "Entity",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "registry_collection_tags_add",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Add tags to a collection in a registry.",
+      "reference_code": "import wandb\n\n# Define registry and collection details\ncollection_name = \"<collection_name>\"\ncollection_type = \"<collection_type>\"\nregistry_name = \"<registry_name>\"\n\n# Construct the full registry path\nregistry_path = f\"wandb-registry-{registry_name}/{collection_name}\"\n\n# Retrieve the artifact collection\ncollection = wandb.Api().artifact_collection(\n  type_name = collection_type, \n  name = registry_path\n  )\n\ncollection.tags = [\"<tag>\"]\ncollection.save()",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "registry_collection_tags_add.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ],
+      "placeholders": {
+        "<collection_name>": "Collection Name",
+        "<collection_type>": "Collection Type",
+        "<registry_name>": "Registry Name",
+        "<tag>": "Tag"
+      }
+    },
+    {
+      "id": "registry_collection_tags_remove",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Remove a tag from a collection in a registry.",
+      "reference_code": "import wandb\n\n# Define registry and collection details\ncollection_name = \"<collection_name>\"\ncollection_type = \"<collection_type>\"\nregistry_name = \"<registry_name>\"\n\n# Construct the full registry path\nregistry_path = f\"wandb-registry-{registry_name}/{collection_name}\"\n\n# Retrieve the artifact collection\ncollection = wandb.Api().artifact_collection(\n  type_name = collection_type, \n  name = registry_path\n  )\n\ncollection.tags.remove(\"<tag>\")\ncollection.save()",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "registry_collection_tags_remove.py",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to call artifact.save() to persist changes"
+        }
+      ],
+      "placeholders": {
+        "<collection_name>": "Collection Name",
+        "<collection_type>": "Collection Type",
+        "<registry_name>": "Registry Name",
+        "<tag>": "Tag"
+      }
+    },
+    {
+      "id": "registry_create",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Create a new registry in W&B. If the registry does not exist, W&B creates it.",
+      "reference_code": "import wandb\n\n# Initialize W&B API\napi = wandb.Api()\n\n# Create a new registry\nregistry = api.create_registry(\n    name=\"<registry_name>\",\n    visibility=\"<visibility>\",  # e.g., \"public\" or \"private\"\n)",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "registry_create.py",
+      "placeholders": {
+        "<registry_name>": "Registry Name",
+        "<visibility>": "Visibility"
+      }
+    },
+    {
+      "id": "registry_delete",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Delete a registry from W&B.",
+      "reference_code": "import wandb\n\n# Define registry and collection details\nregistry_name = \"<registry_name>\"\ncollection_name = \"<collection_name>\"\n\n# Construct the full registry path\nregistry_path = f\"wandb-registry-{registry_name}/{collection_name}\"\n\n# Initialize the W&B API\napi = wandb.Api()\n\n# Fetch the registry you want to delete\nfetched_registry = api.registry(\"<registry_name>\")\n\n# Deleting a registry\nfetched_registry.delete()",
+      "key_concepts": [
+        "wandb.Api"
+      ],
+      "source_file": "registry_delete.py",
+      "placeholders": {
+        "<registry_name>": "Registry Name",
+        "<collection_name>": "Collection Name"
+      }
+    },
+    {
+      "id": "registry_link_artifact_existing",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Create a W&B artifact and link it to a collection in a registry. If the\ncollection does not exist, W&B creates it.",
+      "reference_code": "import wandb\n\n# Create an artifact object\nartifact = wandb.Artifact(name = \"<artifact_name>\", type = \"<artifact_type>\")\n\n# Define registry and collection names\nregistry_name = \"<registry_name>\"\ncollection_name = \"<collection_name>\"\ntarget_path = f\"wandb-registry-{registry_name}/{collection_name}\"\n\n# Initialize a run\nwith wandb.init(entity = \"<entity>\", project = \"<project>\") as run:\n  # Link the artifact to a collection. If the collection does not exist, W&B creates it.\n  run.link_artifact(artifact = artifact, target_path = target_path)",
+      "key_concepts": [
+        "wandb.init",
+        "context manager",
+        "wandb.Artifact"
+      ],
+      "source_file": "registry_link_artifact_existing.py",
+      "placeholders": {
+        "<registry_name>": "Registry Name",
+        "<artifact_type>": "Artifact Type",
+        "<collection_name>": "Collection Name",
+        "<artifact_name>": "Artifact Name",
+        "<entity>": "Entity",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "registry_use_linked_artifact",
+      "category": "registry",
+      "difficulty": "advanced",
+      "prompt": "Retrieve a specific version of an artifact from a registry collection.",
+      "reference_code": "import wandb\n\n# Define registry, collection, and artifact version details\nregistry = \"<registry_name>\"\ncollection = \"<collection_name>\"\nversion = \"<version>\"\n\n# Construct the full artifact name with version\nartifact_name = f\"wandb-registry-{registry}/{collection}:{version}\"\n\n# Initialize W&B API\napi = wandb.Api()\n\n# Retrieve the artifact from the specified registry collection and version\nartifact = api.artifact(name = artifact_name)",
+      "key_concepts": [
+        "wandb.Api",
+        "api.artifact"
+      ],
+      "source_file": "registry_use_linked_artifact.py",
+      "placeholders": {
+        "<registry_name>": "Registry Name",
+        "<version>": "Version",
+        "<collection_name>": "Collection Name"
+      }
+    },
+    {
+      "id": "run_fork",
+      "category": "runs",
+      "difficulty": "basic",
+      "prompt": "Fork an existing W&B run from a specific step.",
+      "reference_code": "\"\"\"Fork an existing W&B run from a specific step.\"\"\"\n\nimport wandb\n\n# Initialize a run to be forked later\nwith wandb.init(project=\"<project>\", entity=\"<entity>\") as original_run:\n    # Training and logging code goes here.\n    pass\n\n# Fork the run from a specific step\nwith wandb.init(project=\"<project>\",entity=\"<entity>\", fork_from=f\"{original_run.id}?_step=200\") as forked_run:\n    # Training and logging code goes here.\n    pass",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "run_fork.py",
+      "placeholders": {
+        "<entity>": "Entity",
+        "<project>": "Project"
+      }
+    },
+    {
+      "id": "run_init",
+      "category": "runs",
+      "difficulty": "basic",
+      "prompt": "Initializes a W&B run.\n\nW&B automatically creates the project if it does not exist. Note that this\nfile only initializes the experiment; you can add code to log metrics,\nartifacts, etc., within the `with` block.",
+      "reference_code": "import wandb\n\n# Note the usage of `with` statement to ensure proper resource management.\nwith wandb.init(project=\"<project>\") as run:\n    # Training and logging code goes here\n    pass",
+      "key_concepts": [
+        "wandb.init",
+        "context manager"
+      ],
+      "source_file": "run_init.py",
+      "placeholders": {
+        "<project>": "Project"
+      }
+    }
+  ]
+}
