@@ -1,0 +1,107 @@
+---
+title: Registry
+description: Work with W&B Model Registry to organize and manage model versions.
+---
+
+import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
+import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
+import ExperimentsCreate from '/snippets/en/_includes/code-examples/experiments_create.mdx';
+import LogCustomSummaryMetric from '/snippets/en/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogExistingArtifactLinkCollection from '/snippets/en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHyperparameter from '/snippets/en/_includes/code-examples/log_hyperparameter.mdx';
+import LogMetric from '/snippets/en/_includes/code-examples/log_metric.mdx';
+import LogTable from '/snippets/en/_includes/code-examples/log_table.mdx';
+import RegistryAddAnnotation from '/snippets/en/_includes/code-examples/registry_add_annotation.mdx';
+import RegistryCollectionCreate from '/snippets/en/_includes/code-examples/registry_collection_create.mdx';
+import RegistryCollectionTagsAdd from '/snippets/en/_includes/code-examples/registry_collection_tags_add.mdx';
+import RegistryCollectionTagsRemove from '/snippets/en/_includes/code-examples/registry_collection_tags_remove.mdx';
+import RegistryCreate from '/snippets/en/_includes/code-examples/registry_create.mdx';
+import RegistryDelete from '/snippets/en/_includes/code-examples/registry_delete.mdx';
+import RegistryLinkArtifactExisting from '/snippets/en/_includes/code-examples/registry_link_artifact_existing.mdx';
+import RegistryUseLinkedArtifact from '/snippets/en/_includes/code-examples/registry_use_linked_artifact.mdx';
+import RunFork from '/snippets/en/_includes/code-examples/run_fork.mdx';
+import RunInit from '/snippets/en/_includes/code-examples/run_init.mdx';
+
+Work with W&B Model Registry to organize and manage model versions.
+
+[← Back to Cheat Sheet](/models/ref/sdk-coding-cheat-sheet)
+
+---
+
+## Quick Navigation
+
+- [Registry - Basic Operations](#registry-basic-operations)
+- [Registry - Collections](#registry-collections)
+
+---
+
+## Registry - Basic Operations
+
+### Create a new registry in W&B with specified visibility
+
+<RegistryCreate />
+
+---
+
+### Delete a registry from W&B
+
+<RegistryDelete />
+
+---
+
+## Registry - Collections
+
+### Create a registry collection and link an artifact to it
+
+<RegistryCollectionCreate />
+
+---
+
+### Link an existing artifact to a registry collection
+
+<RegistryLinkArtifactExisting />
+
+---
+
+### Add a description annotation to a registry collection
+
+<RegistryAddAnnotation />
+
+---
+
+### Add tags to a registry collection
+
+<RegistryCollectionTagsAdd />
+
+---
+
+### Remove tags from a registry collection
+
+<RegistryCollectionTagsRemove />
+
+---
+
+### Use an artifact that is linked to a registry collection
+
+<RegistryUseLinkedArtifact />
+
+---
+
+### Log an existing artifact and link it to a registry collection
+
+<LogExistingArtifactLinkCollection />
+
+---
+

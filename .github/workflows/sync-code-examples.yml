@@ -1,0 +1,124 @@
+name: Sync Code Examples from docs-code-eval
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  sync-examples:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Run sync script
+        run: |
+          chmod +x scripts/sync_code_examples.sh
+          ./scripts/sync_code_examples.sh
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes detected"
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  No changes detected"
+          fi
+      
+      - name: Get change summary
+        if: steps.check_changes.outputs.changes == 'true'
+        id: change_summary
+        run: |
+          # Count changed files
+          CHANGED_FILES=$(git status --porcelain | wc -l | tr -d ' ')
+          CHANGED_PY=$(git status --porcelain | grep '\.py$' | wc -l | tr -d ' ')
+          
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "changed_py=$CHANGED_PY" >> $GITHUB_OUTPUT
+          
+          # Get short summary
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          echo "Synced $CHANGED_FILES file(s) from docs-code-eval:" >> $GITHUB_OUTPUT
+          echo "- $CHANGED_PY Python example(s) updated" >> $GITHUB_OUTPUT
+          echo "- Cheat sheet regenerated" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            Sync code examples from docs-code-eval
+            
+            Auto-sync of ground truth examples from docs-code-eval repository.
+            Updated ${{ steps.change_summary.outputs.changed_files }} file(s).
+          branch: sync-code-examples-${{ github.run_number }}
+          delete-branch: true
+          draft: true
+          title: "🔄 Sync code examples from docs-code-eval"
+          body: |
+            ## 🔄 Automated Code Examples Sync
+            
+            This PR syncs ground truth code examples from the [docs-code-eval](https://github.com/wandb/docs-code-eval) repository.
+            These examples are used to build the SDK coding cheat sheet.
+            
+            ### Changes
+            
+            ${{ steps.change_summary.outputs.summary }}
+            
+            ### Files Updated
+            
+            - **MDX Snippets**: `snippets/en/_includes/code-examples/*.mdx`
+            - **Cheat Sheet Pages**: `models/ref/sdk-coding-cheat-sheet/*.mdx`
+            - **Metadata**: `snippets/code-examples/llm_evaluation_tasks.csv`
+            
+            ### Review Checklist
+            
+            - [ ] Verify code examples are correct
+            - [ ] Check cheat sheet rendering
+            - [ ] Ensure all examples have proper placeholders
+            - [ ] Confirm difficulty levels are appropriate
+            
+            ### How This Works
+            
+            This PR was automatically created by the [Sync Code Examples](.github/workflows/sync-code-examples.yml) workflow, which:
+            
+            1. Clones the latest `docs-code-eval` repository
+            2. Creates MDX snippet wrappers from ground truth examples
+            3. Regenerates the SDK coding cheat sheet pages
+            4. Creates this draft PR if changes are detected
+            
+            ### Manual Sync
+            
+            You can trigger this workflow manually from the [Actions tab](../../actions/workflows/sync-code-examples.yml).
+            
+            ---
+            
+            🤖 *This is a draft PR. Review the changes and mark as ready when satisfied.*
+          labels: |
+            documentation
+            automated
+            code-examples
+      
+      - name: Summary
+        run: |
+          if [[ "${{ steps.check_changes.outputs.changes }}" == "true" ]]; then
+            echo "✅ Draft PR created with synced code examples"
+            echo "📝 Review the PR and mark as ready when satisfied"
+          else
+            echo "✅ Code examples are already up to date"
+            echo "ℹ️  No changes needed"
+          fi
