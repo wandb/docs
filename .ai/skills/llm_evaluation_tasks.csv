@@ -1,0 +1,32 @@
+Category,Task Description,Difficulty,Reference Script
+Run Management,Initialize a W&B run with proper resource management,Easy,run_init.py
+Run Management,Create a W&B experiment in a project,Easy,experiments_create.py
+Run Management,Fork an existing W&B run from a specific step,Medium,run_fork.py
+Logging,Log a single metric to W&B,Easy,log_metric.py
+Logging,Log hyperparameters to a W&B run using a config dictionary,Easy,log_hyperparameter.py
+Logging,Log a table with columns and data to W&B,Easy,log_table.py
+Logging,Log a custom summary metric to W&B,Easy,log_custom_summary_metric.py
+Artifact - Creation,Create a W&B artifact and add a single file to it,Easy,artifact_create.py
+Artifact - Creation,Create a W&B artifact that includes files and directories and external references,Medium,artifact_create.py
+Artifact - Creation,Track an external artifact by adding a reference to cloud storage,Easy,artifact_create_track_external.py
+Artifact - Metadata,Add aliases to an artifact when logging it to W&B,Easy,artifact_add_alias.py
+Artifact - Metadata,Add aliases to an existing artifact in W&B,Easy,artifact_add_alias_existing.py
+Artifact - Metadata,Add tags to an artifact when logging it to W&B,Easy,artifact_add_tag.py
+Artifact - Metadata,Add tags to an existing artifact in W&B,Easy,artifact_add_tag_existing.py
+Artifact - Metadata,Create an artifact with a TTL policy to automatically expire after a certain time,Medium,artifact_ttl.py
+Artifact - Metadata,Set a TTL policy on an existing artifact,Medium,artifact_ttl_existing.py
+Artifact - Updates,Update an existing artifact's description,Easy,artifact_update.py
+Artifact - Updates,Update an existing artifact's description using the API,Easy,artifact_update_existing.py
+Artifact - Downloads,Download specific files or subfolders from a W&B artifact,Easy,artifact_download_partial.py
+Artifact - Downloads,Download artifacts from W&B,Easy,artifacts_download.py
+Artifact - Deletion,Delete a specific artifact version from a W&B run,Medium,artifact_delete.py
+Artifact - Deletion,Delete an artifact collection from W&B,Easy,artifact_delete_collection.py
+Registry - Basic Operations,Create a new registry in W&B with specified visibility,Easy,registry_create.py
+Registry - Basic Operations,Delete a registry from W&B,Easy,registry_delete.py
+Registry - Collections,Create a registry collection and link an artifact to it,Medium,registry_collection_create.py
+Registry - Collections,Link an existing artifact to a registry collection,Medium,registry_link_artifact_existing.py
+Registry - Collections,Add a description annotation to a registry collection,Medium,registry_add_annotation.py
+Registry - Collections,Add tags to a registry collection,Easy,registry_collection_tags_add.py
+Registry - Collections,Remove tags from a registry collection,Easy,registry_collection_tags_remove.py
+Registry - Collections,Use an artifact that is linked to a registry collection,Medium,registry_use_linked_artifact.py
+Registry - Collections,Log an existing artifact and link it to a registry collection,Hard,log_existing_artifact_link_collection.py
