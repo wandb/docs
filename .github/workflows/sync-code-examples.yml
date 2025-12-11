@@ -81,8 +81,8 @@ jobs:
             
             ### Files Updated
             
-            - **MDX Snippets**: `snippets/en/_includes/code-examples/*.mdx`
-            - **Cheat Sheet Pages**: `models/ref/sdk-coding-cheat-sheet/*.mdx`
+            - **Code Examples**: `snippets/code-examples/*.py`
+            - **Cheat Sheet**: `models/ref/sdk-coding-cheat-sheet.mdx`
             - **Metadata**: `snippets/code-examples/llm_evaluation_tasks.csv`
             
             ### Review Checklist
@@ -97,8 +97,8 @@ jobs:
             This PR was automatically created by the [Sync Code Examples](.github/workflows/sync-code-examples.yml) workflow, which:
             
             1. Clones the latest `docs-code-eval` repository
-            2. Creates MDX snippet wrappers from ground truth examples
-            3. Regenerates the SDK coding cheat sheet pages
+            2. Copies ground truth examples from `ground_truth/`
+            3. Regenerates the SDK coding cheat sheet
             4. Creates this draft PR if changes are detected
             
             ### Manual Sync
