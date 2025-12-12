@@ -12,6 +12,84 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
+def convert_to_imperative(text: str) -> str:
+    """Convert a descriptive sentence to imperative form.
+    
+    Examples:
+        "Creates and logs a W&B artifact" -> "Create and log a W&B artifact"
+        "Adds an alias" -> "Add an alias"
+        "Downloads files" -> "Download files"
+    """
+    # Replace common present tense verbs throughout the text (not just at start)
+    # This handles both first verbs and verbs in compound phrases like "creates and logs"
+    verb_replacements = {
+        r'\binitializes\b': 'initialize',
+        r'\bInitializes\b': 'Initialize',
+        r'\bcreates\b': 'create',
+        r'\bCreates\b': 'Create',
+        r'\badds\b': 'add',
+        r'\bAdds\b': 'Add',
+        r'\bdownloads\b': 'download',
+        r'\bDownloads\b': 'Download',
+        r'\bdeletes\b': 'delete',
+        r'\bDeletes\b': 'Delete',
+        r'\btracks\b': 'track',
+        r'\bTracks\b': 'Track',
+        r'\bupdates\b': 'update',
+        r'\bUpdates\b': 'Update',
+        r'\bremoves\b': 'remove',
+        r'\bRemoves\b': 'Remove',
+        r'\blinks\b': 'link',
+        r'\bLinks\b': 'Link',
+        r'\blogs\b': 'log',
+        r'\bLogs\b': 'Log',
+        r'\bretrieves\b': 'retrieve',
+        r'\bRetrieves\b': 'Retrieve',
+        r'\bfetches\b': 'fetch',
+        r'\bFetches\b': 'Fetch',
+        r'\bgets\b': 'get',
+        r'\bGets\b': 'Get',
+        r'\bsets\b': 'set',
+        r'\bSets\b': 'Set',
+        r'\bceates\b': 'create',  # Handle typo
+        r'\bCeates\b': 'Create',  # Handle typo
+    }
+    
+    result = text
+    for pattern, replacement in verb_replacements.items():
+        result = re.sub(pattern, replacement, result)
+    
+    return result
+
+
+def remove_wandb_from_heading(text: str) -> str:
+    """Remove 'W&B' from heading text since it's already mentioned in the intro.
+    
+    Examples:
+        "Create and log a W&B artifact" -> "Create and log an artifact"
+        "Initialize a W&B run" -> "Initialize a run"
+        "Delete from W&B" -> "Delete"
+        "Log to W&B" -> "Log"
+    """
+    # Remove "W&B " when followed by a word
+    result = re.sub(r'\bW&B\s+', '', text)
+    
+    # Remove phrases like "from W&B", "to W&B", "in W&B" at the end
+    result = re.sub(r'\s+(from|to|in)\s+W&B$', '', result)
+    result = re.sub(r'\s+(from|to|in)\s+W&B\s+', r' ', result)
+    
+    # Remove "when logging it to W&B"
+    result = re.sub(r'\s+when\s+logging\s+it\s+to\s+W&B', '', result)
+    
+    # Fix articles:
+    # "a artifact/experiment/existing" -> "an artifact/experiment/existing"
+    result = re.sub(r'\ba\s+(artifact|experiment|existing)', r'an \1', result)
+    # "an description/registry/run" -> "a description/registry/run" (fix typos)
+    result = re.sub(r'\ban\s+(description|registry|run|tag|label|table|metric)', r'a \1', result)
+    
+    return result
+
+
 def extract_docstring_first_line(py_content: str) -> Optional[str]:
     """Extract the first sentence of the Python docstring from Python code."""
     # Match docstring (single or multi-line)
@@ -35,6 +113,9 @@ def extract_docstring_first_line(py_content: str) -> Optional[str]:
     # Clean up: remove trailing period, collapse whitespace
     first_sentence = re.sub(r'\s+', ' ', first_sentence)
     first_sentence = first_sentence.rstrip('.')
+    
+    # Convert to imperative form
+    first_sentence = convert_to_imperative(first_sentence)
     
     return first_sentence
 
@@ -220,39 +301,30 @@ description: {description}
     content += "[← Back to Cheat Sheet](/models/ref/sdk-coding-cheat-sheet)\n\n"
     content += "---\n\n"
     
-    # Generate table of contents for subcategories
-    if len(subcategories) > 1:
-        content += "## Quick Navigation\n\n"
-        for sub_cat in sorted(subcategories.keys()):
-            anchor = sub_cat.lower().replace(' ', '-').replace('--', '-').replace('--', '-')
-            content += f"- [{sub_cat}](#{anchor})\n"
-        content += "\n---\n\n"
-    
-    # Generate sections for each subcategory
+    # Generate flat list of all tasks across subcategories
+    all_tasks = []
     for sub_cat in sorted(subcategories.keys()):
-        tasks = subcategories[sub_cat]
+        all_tasks.extend(subcategories[sub_cat])
+    
+    # Add each task as an H2
+    for task in all_tasks:
+        # Remove W&B from headings (already mentioned in intro paragraph)
+        heading = remove_wandb_from_heading(task['description'])
+        content += f"## {heading}\n\n"
         
-        # Only show subcategory header if there are multiple subcategories
-        if len(subcategories) > 1:
-            content += f"## {sub_cat}\n\n"
+        # Check if Python file exists
+        py_file = py_snippets_dir / task['script']
+        if py_file.exists():
+            # Use CodeSnippet component with filename
+            content += f'<CodeSnippet file="{task["script"]}" />\n\n'
+        else:
+            # Fallback if file doesn't exist
+            content += "```python\n"
+            content += f"# Code example: {task['script']}\n"
+            content += "# (Python snippet not found)\n"
+            content += "```\n\n"
         
-        # Add tasks for this subcategory
-        for task in tasks:
-            content += f"### {task['description']}\n\n"
-            
-            # Check if Python file exists
-            py_file = py_snippets_dir / task['script']
-            if py_file.exists():
-                # Use CodeSnippet component with filename
-                content += f'<CodeSnippet file="{task["script"]}" />\n\n'
-            else:
-                # Fallback if file doesn't exist
-                content += "```python\n"
-                content += f"# Code example: {task['script']}\n"
-                content += "# (Python snippet not found)\n"
-                content += "```\n\n"
-            
-            content += "---\n\n"
+        content += "---\n\n"
     
     return content
 
