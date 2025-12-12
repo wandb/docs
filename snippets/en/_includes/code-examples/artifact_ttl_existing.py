@@ -1,4 +1,3 @@
-```python
 """
 Update the TTL policy of an existing artifact in W&B.
 """
@@ -16,4 +15,3 @@ artifact.ttl = timedelta(days=365)  # Delete in one year
 
 # Save the updated artifact
 artifact.save()
-```

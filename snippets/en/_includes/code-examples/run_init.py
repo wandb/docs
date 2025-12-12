@@ -1,4 +1,3 @@
-```python
 """
 Initializes a W&B run.
 
@@ -12,4 +11,3 @@ import wandb
 with wandb.init(project="<project>") as run:
     # Training and logging code goes here
     pass
-```

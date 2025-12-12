@@ -1,4 +1,3 @@
-```python
 """
 Given an existing artifact, update its description, metadata, and aliases
 without creating a new run.
@@ -29,4 +28,3 @@ artifact.aliases = ["replaced"]
 
 # Persist all artifact modifications
 artifact.save()
-```

@@ -1,4 +1,3 @@
-```python
 """
 Adds a tag to an existing W&B artifact.
 """
@@ -8,4 +7,3 @@ import wandb
 artifact = wandb.Api().artifact("entity/project/artifact:version")
 artifact.tags = ["new-tag"]
 artifact.save()
-```

@@ -1,4 +1,3 @@
-```python
 """Fork an existing W&B run from a specific step."""
 
 import wandb
@@ -12,4 +11,3 @@ with wandb.init(project="<project>", entity="<entity>") as original_run:
 with wandb.init(project="<project>",entity="<entity>", fork_from=f"{original_run.id}?_step=200") as forked_run:
     # Training and logging code goes here.
     pass
-```

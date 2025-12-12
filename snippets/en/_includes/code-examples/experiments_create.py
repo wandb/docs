@@ -1,4 +1,3 @@
-```python
 """
 Create an experiment in W&B. If the project does not exist, W&B creates it.
 
@@ -11,4 +10,3 @@ import wandb
 with wandb.init(project="<project>") as run:
     # Experiment code goes here
     pass
-```

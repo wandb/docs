@@ -3,36 +3,7 @@ title: Artifacts
 description: Create, update, download, and manage W&B Artifacts for data versioning.
 ---
 
-import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
-import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
-import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
-import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
-import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
-import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
-import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
-import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
-import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
-import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
-import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
-import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
-import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
-import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
-import ExperimentsCreate from '/snippets/en/_includes/code-examples/experiments_create.mdx';
-import LogCustomSummaryMetric from '/snippets/en/_includes/code-examples/log_custom_summary_metric.mdx';
-import LogExistingArtifactLinkCollection from '/snippets/en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
-import LogHyperparameter from '/snippets/en/_includes/code-examples/log_hyperparameter.mdx';
-import LogMetric from '/snippets/en/_includes/code-examples/log_metric.mdx';
-import LogTable from '/snippets/en/_includes/code-examples/log_table.mdx';
-import RegistryAddAnnotation from '/snippets/en/_includes/code-examples/registry_add_annotation.mdx';
-import RegistryCollectionCreate from '/snippets/en/_includes/code-examples/registry_collection_create.mdx';
-import RegistryCollectionTagsAdd from '/snippets/en/_includes/code-examples/registry_collection_tags_add.mdx';
-import RegistryCollectionTagsRemove from '/snippets/en/_includes/code-examples/registry_collection_tags_remove.mdx';
-import RegistryCreate from '/snippets/en/_includes/code-examples/registry_create.mdx';
-import RegistryDelete from '/snippets/en/_includes/code-examples/registry_delete.mdx';
-import RegistryLinkArtifactExisting from '/snippets/en/_includes/code-examples/registry_link_artifact_existing.mdx';
-import RegistryUseLinkedArtifact from '/snippets/en/_includes/code-examples/registry_use_linked_artifact.mdx';
-import RunFork from '/snippets/en/_includes/code-examples/run_fork.mdx';
-import RunInit from '/snippets/en/_includes/code-examples/run_init.mdx';
+import { CodeSnippet } from '/snippets/CodeSnippet.jsx';
 
 Create, update, download, and manage W&B Artifacts for data versioning.
 
@@ -52,101 +23,95 @@ Create, update, download, and manage W&B Artifacts for data versioning.
 
 ## Artifact - Creation
 
-### Create a W&B artifact and add a single file to it
+### Creates and logs a W&B artifact
 
-<ArtifactCreate />
-
----
-
-### Create a W&B artifact that includes files and directories and external references
-
-<ArtifactCreate />
+<CodeSnippet file="artifact_create.py" />
 
 ---
 
-### Track an external artifact by adding a reference to cloud storage
+### Tracks an external artifact by adding a reference to a cloud storage bucket path
 
-<ArtifactCreateTrackExternal />
+<CodeSnippet file="artifact_create_track_external.py" />
 
 ---
 
 ## Artifact - Deletion
 
-### Delete a specific artifact version from a W&B run
+### Delete specific artifact version from a W&B run
 
-<ArtifactDelete />
+<CodeSnippet file="artifact_delete.py" />
 
 ---
 
 ### Delete an artifact collection from W&B
 
-<ArtifactDeleteCollection />
+<CodeSnippet file="artifact_delete_collection.py" />
 
 ---
 
 ## Artifact - Downloads
 
-### Download specific files or subfolders from a W&B artifact
+### Downloads specific files or sub-folders from W&B artifacts
 
-<ArtifactDownloadPartial />
+<CodeSnippet file="artifact_download_partial.py" />
 
 ---
 
-### Download artifacts from W&B
+### Downloads files or entire artifacts from W&B
 
-<ArtifactsDownload />
+<CodeSnippet file="artifacts_download.py" />
 
 ---
 
 ## Artifact - Metadata
 
-### Add aliases to an artifact when logging it to W&B
+### Add one or more aliases to an artifact when logging it to W&B
 
-<ArtifactAddAlias />
-
----
-
-### Add aliases to an existing artifact in W&B
-
-<ArtifactAddAliasExisting />
+<CodeSnippet file="artifact_add_alias.py" />
 
 ---
 
-### Add tags to an artifact when logging it to W&B
+### Adds an alias to an existing W&B artifact
 
-<ArtifactAddTag />
-
----
-
-### Add tags to an existing artifact in W&B
-
-<ArtifactAddTagExisting />
+<CodeSnippet file="artifact_add_alias_existing.py" />
 
 ---
 
-### Create an artifact with a TTL policy to automatically expire after a certain time
+### Add a tag to an artifact when logging it to W&B
 
-<ArtifactTtl />
+<CodeSnippet file="artifact_add_tag.py" />
 
 ---
 
-### Set a TTL policy on an existing artifact
+### Adds a tag to an existing W&B artifact
 
-<ArtifactTtlExisting />
+<CodeSnippet file="artifact_add_tag_existing.py" />
+
+---
+
+### Create and log an artifact with a TTL policy in W&B
+
+<CodeSnippet file="artifact_ttl.py" />
+
+---
+
+### Update the TTL policy of an existing artifact in W&B
+
+<CodeSnippet file="artifact_ttl_existing.py" />
 
 ---
 
 ## Artifact - Updates
 
-### Update an existing artifact's description
+### Update an existing W&B artifact's description within a W&B run
 
-<ArtifactUpdate />
+<CodeSnippet file="artifact_update.py" />
 
 ---
 
-### Update an existing artifact's description using the API
+### Given an existing artifact, update its description, metadata, and aliases without creating a new run
 
-<ArtifactUpdateExisting />
+<CodeSnippet file="artifact_update_existing.py" />
 
 ---
 

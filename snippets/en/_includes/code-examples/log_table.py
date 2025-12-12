@@ -1,4 +1,3 @@
-```python
 """
 Log a table to W&B.
 """
@@ -15,4 +14,3 @@ my_table = wandb.Table(
 with wandb.init(project="<project>") as run:
     # Log the table to W&B
     run.log({"<table_name>": my_table})
-```

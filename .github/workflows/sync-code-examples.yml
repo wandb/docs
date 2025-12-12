@@ -81,9 +81,8 @@ jobs:
             
             ### Files Updated
             
-            - **Code Examples**: `snippets/code-examples/*.py`
-            - **Cheat Sheet**: `models/ref/sdk-coding-cheat-sheet.mdx`
-            - **Metadata**: `snippets/code-examples/llm_evaluation_tasks.csv`
+            - **Code Examples**: `snippets/en/_includes/code-examples/*.mdx`
+            - **Cheat Sheet**: `models/ref/sdk-coding-cheat-sheet/`
             
             ### Review Checklist
             

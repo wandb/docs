@@ -1,4 +1,3 @@
-```python
 """
 Download and log an existing artifact from a W&B registry collection.
 Replace the placeholders with actual registry, collection names, entity,
@@ -19,4 +18,3 @@ with wandb.init(entity="<entity>", project="<project>") as run:
 
     # Download the model to a local directory
     local_model_path = registry_model.download()
-```

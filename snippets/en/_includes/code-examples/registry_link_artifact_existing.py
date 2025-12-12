@@ -1,4 +1,3 @@
-```python
 """
 Create a W&B artifact and link it to a collection in a registry. If the
 collection does not exist, W&B creates it.
@@ -17,4 +16,3 @@ target_path = f"wandb-registry-{registry_name}/{collection_name}"
 with wandb.init(entity = "<entity>", project = "<project>") as run:
   # Link the artifact to a collection. If the collection does not exist, W&B creates it.
   run.link_artifact(artifact = artifact, target_path = target_path)
-```

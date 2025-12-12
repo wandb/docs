@@ -1,4 +1,3 @@
-```python
 """
 Creates and logs a W&B artifact. First create an
 artifact object. Next, add files, directories, or external references to the artifact.
@@ -23,4 +22,3 @@ with wandb.init(project="<project>") as run:
 
     # Example of logging an artifact
     run.log_artifact(artifact)
-```

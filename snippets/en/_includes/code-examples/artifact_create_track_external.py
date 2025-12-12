@@ -1,4 +1,3 @@
-```python
 """
 Tracks an external artifact by adding a reference to a cloud storage bucket path.
 """
@@ -16,4 +15,3 @@ with wandb.init(project="<project>") as run:
 
   # Log the artifact's metadata
   run.log_artifact(artifact)
-```

@@ -1,4 +1,3 @@
-```python
 """
 Add a tag to an artifact when logging it to W&B.
 """
@@ -10,4 +9,3 @@ artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
 # Log the artifact with tags
 with wandb.init(project="<project>") as run:
     run.log_artifact(artifact, tags=["<tag1>", "<tag2>"])
-```

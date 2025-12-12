@@ -1,4 +1,3 @@
-```python
 """
 Delete specific artifact version from a W&B run. Set delete_aliaes to `True` 
 if the artifact has an alias attached to it.
@@ -18,4 +17,3 @@ for artifact_version in runs.logged_artifacts():
     # consists of the version number
     if artifact_version.name[-2:] == "v"+ "<version_number>":
         artifact_version.delete(delete_aliases=True)
-```

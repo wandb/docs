@@ -1,4 +1,3 @@
-```python
 """
 Delete a registry from W&B.
 """
@@ -19,4 +18,3 @@ fetched_registry = api.registry("<registry_name>")
 
 # Deleting a registry
 fetched_registry.delete()
-```

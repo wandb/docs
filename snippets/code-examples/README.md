@@ -1,15 +1,14 @@
 # W&B SDK code examples
 
-This directory contains metadata for code examples synced from the [docs-code-eval](https://github.com/wandb/docs-code-eval) repository. These examples serve dual purposes:
+This directory contains code examples synced from the [docs-code-eval](https://github.com/wandb/docs-code-eval) repository. These examples serve dual purposes:
 
 1. **Ground truth for LLM evaluation**: For benchmarking a code generation model's capability to generate W&B code examples.
 2. **SDK coding cheat sheet reference**: To help readers and LLMs write W&B code.
 
 ## Files
 
-- **`llm_evaluation_tasks.csv`**: Metadata about each example (category, difficulty, description)
-
-- **`snippets/en/_incxludes/code-examplees`**: The actual code examples.
+- **`snippets/en/_includes/code-examples/`**: Python code examples synced from docs-code-eval.
+- **`snippets/CodeSnippet.jsx`**: Auto-generated React component that imports all code examples.
 
 ## Syncing examples
 
@@ -37,9 +36,9 @@ To update these examples manually from the latest version in `docs-code-eval`, r
 This script will:
 
 1. Clone the latest `docs-code-eval` repository (temporarily).
-2. Create MDX snippet wrappers from ground truth examples in `snippets/en/_includes/code-examples/`.
-3. Copy the task metadata CSV to `snippets/code-examples/`.
-4. Use the MDX snippets and CSV metadata to generate the cheat sheet pages at `models/ref/sdk-coding-cheat-sheet/` and the landing page at `models/ref/sdk-coding-cheat-sheet.mdx`.
+2. Copy Python files from `ground_truth/` to `snippets/en/_includes/code-examples/`.
+3. Generate the `CodeSnippet.jsx` component with imports for all Python files.
+4. Generate the cheat sheet pages at `models/ref/sdk-coding-cheat-sheet/` by extracting metadata directly from the Python docstrings.
 5. Clean up the temporary clone.
 
 The changes are ready to commit, push the branch, and create a PR.
@@ -52,7 +51,7 @@ To update individual examples:
 2. Run the sync script in the `wandb/docs` repository to sync the code examples.
 3. Commit the updated files, push the branch, and create a PR.
 
-**Do not edit the MDX snippets directly in the docs repo** (`snippets/en/_includes/code-examples/`) because they will be overwritten on the next sync.
+**Do not edit the Python files or CodeSnippet.jsx directly in the docs repo** as they will be overwritten on the next sync. Make changes in the upstream `docs-code-eval` repository.
 
 ## Example structure
 
@@ -70,7 +69,7 @@ import wandb
 # Uses <placeholder> syntax for values users should replace
 ```
 
-During sync, these are converted to MDX snippets that wrap the code in a Python code block.
+During sync, these are copied directly as `.py` files and imported into the `CodeSnippet.jsx` component.
 
 Examples are organized into these categories, each with a landing page:
 

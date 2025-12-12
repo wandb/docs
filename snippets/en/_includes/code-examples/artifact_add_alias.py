@@ -1,4 +1,3 @@
-```python
 """
 Add one or more aliases to an artifact when logging it to W&B.
 """
@@ -12,4 +11,3 @@ artifact.add_file("<file_path>")
 with wandb.init(project="<project>") as run:
     # Log the artifact with aliases
     run.log_artifact(artifact, aliases=["<alias1>", "<alias2>"])
-```

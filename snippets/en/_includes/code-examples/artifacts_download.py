@@ -1,4 +1,3 @@
-```python
 """
 Downloads files or entire artifacts from W&B. The same
 logic applies to external artifacts.
@@ -16,4 +15,3 @@ with wandb.init(project="<project>") as run:
 
     # Download the entire artifact
     datadir = artifact.download()
-```

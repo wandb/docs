@@ -1,4 +1,3 @@
-```python
 """
 Update an existing W&B artifact's description within a W&B run.
 
@@ -14,4 +13,3 @@ with wandb.init(entity="<entity>", project="<project>") as run:
     artifact.description = "<description>"
     # Save the updated artifact
     artifact.save()
-```

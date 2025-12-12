@@ -1,4 +1,3 @@
-```python
 """
 Create a new registry in W&B. If the registry does not exist, W&B creates it.
 """
@@ -12,4 +11,3 @@ registry = api.create_registry(
     name="<registry_name>",
     visibility="<visibility>",  # e.g., "public" or "private"
 )
-```

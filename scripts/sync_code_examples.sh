@@ -9,8 +9,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DOCS_ROOT="$(dirname "$SCRIPT_DIR")"
 SUBMODULE_PATH="$DOCS_ROOT/.temp_code_eval"
 EVAL_REPO_URL="https://github.com/wandb/docs-code-eval.git"
-TARGET_SNIPPETS_DIR="$DOCS_ROOT/snippets/code-examples"
-CSV_FILE="llm_evaluation_tasks.csv"
 
 echo "🔄 Syncing code examples from docs-code-eval..."
 
@@ -24,36 +22,20 @@ fi
 echo "   Cloning docs-code-eval repository..."
 git clone --depth 1 "$EVAL_REPO_URL" "$SUBMODULE_PATH" --quiet
 
-# Create target directory if it doesn't exist
-mkdir -p "$TARGET_SNIPPETS_DIR"
+# Copy Python files directly
+echo "   Copying Python code examples..."
+PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/en/_includes/code-examples"
+mkdir -p "$PY_SNIPPETS_DIR"
 
-# Create MDX wrappers from Python files (don't copy the Python files themselves)
-echo "   Creating MDX snippet wrappers..."
-MDX_SNIPPETS_DIR="$DOCS_ROOT/snippets/en/_includes/code-examples"
-mkdir -p "$MDX_SNIPPETS_DIR"
+# Copy Python files
+cp "$SUBMODULE_PATH/ground_truth/"*.py "$PY_SNIPPETS_DIR/"
 
-for pyfile in "$SUBMODULE_PATH/ground_truth/"*.py; do
-    if [ -f "$pyfile" ]; then
-        filename=$(basename "$pyfile")
-        basename="${filename%.py}"
-        mdxfile="$MDX_SNIPPETS_DIR/${basename}.mdx"
-        
-        # Create MDX wrapper with code block
-        cat > "$mdxfile" << EOF
-\`\`\`python
-$(cat "$pyfile")
-\`\`\`
-EOF
-    fi
-done
+PY_COUNT=$(ls -1 "$PY_SNIPPETS_DIR"/*.py 2>/dev/null | wc -l | tr -d ' ')
+echo "   ✓ Copied $PY_COUNT Python code examples"
 
-MDX_COUNT=$(ls -1 "$MDX_SNIPPETS_DIR"/*.mdx 2>/dev/null | wc -l | tr -d ' ')
-echo "   ✓ Created $MDX_COUNT MDX snippet wrappers"
-
-# Copy the CSV for metadata
-echo "   Copying task metadata..."
-cp "$SUBMODULE_PATH/$CSV_FILE" "$TARGET_SNIPPETS_DIR/"
-echo "   ✓ Copied task metadata CSV"
+# Generate CodeSnippet component with all imports
+echo "   Generating CodeSnippet component..."
+python3 "$SCRIPT_DIR/generate_code_snippet_component.py"
 
 # Clean up
 echo "   Cleaning up temporary clone..."

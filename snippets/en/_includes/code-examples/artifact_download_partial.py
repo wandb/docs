@@ -1,4 +1,3 @@
-```python
 """
 Downloads specific files or sub-folders from W&B artifacts. The same
 logic applies to external artifacts.
@@ -11,4 +10,3 @@ with wandb.init(project="<project>") as run:
 
     # Download a specific file or sub-folder
     artifact.download(path_prefix="<file_name>") # downloads only the specified file or folder
-```

@@ -1,4 +1,3 @@
-```python
 """
 Retrieve a specific version of an artifact from a registry collection.
 """
@@ -18,4 +17,3 @@ api = wandb.Api()
 
 # Retrieve the artifact from the specified registry collection and version
 artifact = api.artifact(name = artifact_name)
-```

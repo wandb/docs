@@ -1,4 +1,3 @@
-```python
 """
 Delete an artifact collection from W&B.
 """
@@ -15,4 +14,3 @@ collection = api.artifact_collection(
 )
 
 collection.delete()
-```

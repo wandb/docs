@@ -3,36 +3,7 @@ title: Registry
 description: Work with W&B Model Registry to organize and manage model versions.
 ---
 
-import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
-import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
-import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
-import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
-import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
-import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
-import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
-import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
-import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
-import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
-import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
-import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
-import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
-import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
-import ExperimentsCreate from '/snippets/en/_includes/code-examples/experiments_create.mdx';
-import LogCustomSummaryMetric from '/snippets/en/_includes/code-examples/log_custom_summary_metric.mdx';
-import LogExistingArtifactLinkCollection from '/snippets/en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
-import LogHyperparameter from '/snippets/en/_includes/code-examples/log_hyperparameter.mdx';
-import LogMetric from '/snippets/en/_includes/code-examples/log_metric.mdx';
-import LogTable from '/snippets/en/_includes/code-examples/log_table.mdx';
-import RegistryAddAnnotation from '/snippets/en/_includes/code-examples/registry_add_annotation.mdx';
-import RegistryCollectionCreate from '/snippets/en/_includes/code-examples/registry_collection_create.mdx';
-import RegistryCollectionTagsAdd from '/snippets/en/_includes/code-examples/registry_collection_tags_add.mdx';
-import RegistryCollectionTagsRemove from '/snippets/en/_includes/code-examples/registry_collection_tags_remove.mdx';
-import RegistryCreate from '/snippets/en/_includes/code-examples/registry_create.mdx';
-import RegistryDelete from '/snippets/en/_includes/code-examples/registry_delete.mdx';
-import RegistryLinkArtifactExisting from '/snippets/en/_includes/code-examples/registry_link_artifact_existing.mdx';
-import RegistryUseLinkedArtifact from '/snippets/en/_includes/code-examples/registry_use_linked_artifact.mdx';
-import RunFork from '/snippets/en/_includes/code-examples/run_fork.mdx';
-import RunInit from '/snippets/en/_includes/code-examples/run_init.mdx';
+import { CodeSnippet } from '/snippets/CodeSnippet.jsx';
 
 Work with W&B Model Registry to organize and manage model versions.
 
@@ -49,59 +20,53 @@ Work with W&B Model Registry to organize and manage model versions.
 
 ## Registry - Basic Operations
 
-### Create a new registry in W&B with specified visibility
+### Add an description to a collection in a registry
 
-<RegistryCreate />
+<CodeSnippet file="registry_add_annotation.py" />
+
+---
+
+### Create a new registry in W&B
+
+<CodeSnippet file="registry_create.py" />
 
 ---
 
 ### Delete a registry from W&B
 
-<RegistryDelete />
+<CodeSnippet file="registry_delete.py" />
+
+---
+
+### Create a W&B artifact and link it to a collection in a registry
+
+<CodeSnippet file="registry_link_artifact_existing.py" />
+
+---
+
+### Retrieve a specific version of an artifact from a registry collection
+
+<CodeSnippet file="registry_use_linked_artifact.py" />
 
 ---
 
 ## Registry - Collections
 
-### Create a registry collection and link an artifact to it
+### Ceates a W&B registry collection and links an artifact to it
 
-<RegistryCollectionCreate />
-
----
-
-### Link an existing artifact to a registry collection
-
-<RegistryLinkArtifactExisting />
+<CodeSnippet file="registry_collection_create.py" />
 
 ---
 
-### Add a description annotation to a registry collection
+### Add tags to a collection in a registry
 
-<RegistryAddAnnotation />
-
----
-
-### Add tags to a registry collection
-
-<RegistryCollectionTagsAdd />
+<CodeSnippet file="registry_collection_tags_add.py" />
 
 ---
 
-### Remove tags from a registry collection
+### Remove a tag from a collection in a registry
 
-<RegistryCollectionTagsRemove />
-
----
-
-### Use an artifact that is linked to a registry collection
-
-<RegistryUseLinkedArtifact />
-
----
-
-### Log an existing artifact and link it to a registry collection
-
-<LogExistingArtifactLinkCollection />
+<CodeSnippet file="registry_collection_tags_remove.py" />
 
 ---
 
