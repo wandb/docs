@@ -12,6 +12,8 @@
  * AUTO-GENERATED: Do not edit manually. Run sync_code_examples.sh to regenerate.
  */
 
+import React from 'react';
+
 // Import all MDX-wrapped code examples
 import ArtifactAddAlias from './en/_includes/code-examples/artifact_add_alias.mdx';
 import ArtifactAddAliasExisting from './en/_includes/code-examples/artifact_add_alias_existing.mdx';
@@ -80,7 +82,7 @@ const snippets = {
 
 export const CodeSnippet = ({ file }) => {
   const Component = snippets[file];
-  
+
   if (!Component) {
     return (
       <div style={{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}>
@@ -88,6 +90,8 @@ export const CodeSnippet = ({ file }) => {
       </div>
     );
   }
-  
+
   return <Component />;
 };
+
+export default CodeSnippet;
