@@ -12,8 +12,6 @@
  * AUTO-GENERATED: Do not edit manually. Run sync_code_examples.sh to regenerate.
  */
 
-import React from 'react';
-
 // Import all MDX-wrapped code examples
 import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
 import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
