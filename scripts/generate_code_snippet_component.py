@@ -45,8 +45,8 @@ export const CodeSnippet = ({{ file }}) => {{
   
   if (!content) {{
     return (
-      <div style={{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}>
-        <p style={{ margin: 0, color: '#c00' }}>Code snippet not found: {{file}}</p>
+      <div style={{{{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}}}>
+        <p style={{{{ margin: 0, color: '#c00' }}}}>Code snippet not found: {{file}}</p>
       </div>
     );
   }}
