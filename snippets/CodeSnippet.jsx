@@ -82,7 +82,7 @@ const snippets = {
 
 export const CodeSnippet = ({ file }) => {
   const Component = snippets[file];
-  
+
   if (!Component) {
     return (
       <div style={{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}>
@@ -90,7 +90,7 @@ export const CodeSnippet = ({ file }) => {
       </div>
     );
   }
-  
+
   return <Component />;
 };
 
