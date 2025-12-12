@@ -50,6 +50,31 @@ To understand how W&B manages updates on Dedicated Cloud, refer to the [server r
 
 Security controls for W&B Dedicated Cloud are periodically audited internally and externally. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the security and compliance documents for your product assessment exercise.
 
+## Data retention policy
+By default, a Dedicated Cloud instance retains the following items for 7 days after deletion:
+- Runs and history
+- Non-artifact run files, such as media, configuration files, and log files
+- Artifacts and artifact references
+
+Until this period elapses, these items can be restored. Contact [support](mailto:support@wandb.ai) or your AISE for assistance.
+
+To meet your data retention requirements, you can change the data retention period for your Dedicated Cloud instance. Depending on your use case, select the **Environment variable** or **Helm** tab for details.
+
+<Tabs>
+<Tab title="Environment variable">
+To change the data retention policy, set the environment variable `GORILLA_DATA_RETENTION_PERIOD` to a number of hours. For example, to retain deleted data for 14 days (336 hours):
+```bash
+export GORILLA_DATA_RETENTION_PERIOD="336h"
+```
+</Tab>
+<Tab title="Helm">
+To change the data retention policy, set the Helm value `env.dataRetentionPeriod` to a number of hours. For example, to retain deleted data for 14 days (336 hours):
+```helm
+env: dataRetentionPeriod: "336h"
+```
+</Tab>
+</Tabs>
+
 ## Migration options
 
 Migration to Dedicated Cloud from a [Self-Managed instance](/platform/hosting/hosting-options/self-managed) or [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) is supported, subject to specific limits and migration-related constraints
