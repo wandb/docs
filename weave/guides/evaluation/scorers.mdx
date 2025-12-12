@@ -88,14 +88,13 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Example:
 
-    ```python lines
+    ```python lines {7}
     import weave
     from openai import OpenAI
     from weave import Scorer
 
     llm_client = OpenAI()
 
-    #highlight-next-line
     class SummarizationScorer(Scorer):
         model_id: str = "gpt-4o"
         system_prompt: str = "Evaluate whether the summary is good."

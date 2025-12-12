@@ -43,7 +43,7 @@ The following example draws a basic image and then logs it to Weave using the `C
 
 ## Images
 
-```python lines
+```python lines {16,23}
 import weave
 from weave import Content
 from PIL import Image, ImageDraw
@@ -59,14 +59,12 @@ img.save("sample_image.png")
 
 # Method 1: Content annotation (recommended)
 @weave.op
-# highlight-next-line
 def load_image_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
     with open(path, 'rb') as f:
         return f.read()
 
 # Method 2: PIL Image object  
 @weave.op
-# highlight-next-line
 def load_image_pil(path: Annotated[str, Content]) -> Image.Image:
     return Image.open(path)
 
@@ -216,7 +214,7 @@ Log videos by annotating functions with `Annotated[bytes, Content]` types. Weave
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {15}
 import weave
 from weave import Content
 from typing import Annotated
@@ -232,7 +230,6 @@ def download_big_buck_bunny():
         f.write(response.content)
 
 @weave.op
-# highlight-next-line
 def load_video_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
     """Load a video file from disk"""
     with open(path, 'rb') as f:
@@ -260,7 +257,7 @@ The following example shows how to log video within a video-understanding projec
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {25}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -285,7 +282,6 @@ def download_youtube_video(url: str) -> bytes:
         return f.read()
 
 @weave.op
-# highlight-next-line
 def analyze_video(video: Annotated[bytes, Content]) -> str:
     with open("temp_analysis_video.mp4", "wb") as f:
         f.write(video)
@@ -335,7 +331,7 @@ The following example shows how stores copies of the input PDF and CSV files, an
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {25}
 import weave
 from weave import Content
 from typing import Annotated
@@ -360,7 +356,6 @@ def create_sample_csv():
     df.to_csv("sample_data.csv", index=False)
 
 @weave.op
-# highlight-next-line
 def load_document(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
     with open(path, 'rb') as f:
         return f.read()
@@ -389,7 +384,7 @@ This example demonstrates how to log documents within a Retrieval-Augmented Gene
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {27}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -416,7 +411,6 @@ def create_absurd_company_handbook():
     c.save()
 
 @weave.op
-# highlight-next-line
 def create_and_query_document(pdf_path: Annotated[str, Content], question: str) -> str:
     """Extract text from PDF and use RAG to answer questions"""
     with open(pdf_path, 'rb') as file:
@@ -472,7 +466,7 @@ The following code snippet generates a sine wave, records it, and then logs the 
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {20}
 import weave
 from weave import Content
 import wave
@@ -492,7 +486,6 @@ with wave.open("beep.wav", 'wb') as f:
     f.writeframes(audio_data.tobytes())
 
 @weave.op
-# highlight-next-line
 def load_audio(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
     with open(path, 'rb') as f:
         return f.read()
@@ -517,7 +510,7 @@ This example generates and logs AI-created audio using the `Content` annotation:
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {11}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -528,7 +521,6 @@ client = OpenAI()
 weave.init("media-logging")
 
 @weave.op
-# highlight-next-line
 def generate_demo(
     intended_topic: str,
     voice: str = "coral"
@@ -650,7 +642,7 @@ Log interactive HTML by annotating functions with `Annotated[str, Content[Litera
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {8}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -658,7 +650,6 @@ from typing import Annotated, Literal
 weave.init('media-logging')
 
 @weave.op
-# highlight-next-line
 def create_simple_html() -> Annotated[str, Content[Literal['html']]]:
     html_content = """
     <!DOCTYPE html>
@@ -698,7 +689,7 @@ This example generates self-contained HTML pages using [W&B Inference](https://d
   </Tab>
 </Tabs>
 
-```python lines
+```python lines {21}
 import weave
 from weave import Content
 from typing import Annotated, Literal
@@ -719,7 +710,6 @@ weave.init("media-logging")
 weave.publish(prompt_template, name="generate_prompt")
 
 @weave.op
-# highlight-next-line
 def generate_html(prompt: str, template: weave.StringPrompt) -> Annotated[str, Content[Literal['html']]]:
     response = client.chat.completions.create(
         model="Qwen/Qwen3-Coder-480B-A35B-Instruct",
@@ -759,14 +749,13 @@ Type annotations automatically detect the proper constructor to use, while direc
 
 The Weave Content API is designed to primarily be used through type annotations, which signal to Weave that traced inputs and outputs should be processed and stored as content blobs.
 
-```python lines
+```python lines {7}
 import weave
 from weave import Content
 from pathlib import Path
 from typing import Annotated
 
 @weave.op
-# highlight-next-line
 def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
     data = Path(path).read_bytes()
     return data
@@ -809,14 +798,13 @@ content.model_dump()  # Dumps the model attributes to JSON
 Weave can detect most binary mimetypes, but custom mimetypes and text documents such as markdown may not be automatically detected, requiring you to manually specify the mimetype or extension of your file.
 
 #### Custom Mimetypes with Type Annotations
-```python lines
+```python lines {7}
 import weave
 from weave import Content
 from pathlib import Path
 from typing import Annotated, Literal
 
 @weave.op
-# highlight-next-line
 def markdown_content(
     path: Annotated[str, Content[Literal['md']]]
 ) -> Annotated[str, Content[Literal['text/markdown']]]:

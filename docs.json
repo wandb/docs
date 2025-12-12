@@ -520,6 +520,16 @@
                   {
                     "group": "Python",
                     "pages": [
+                      {
+                        "group": "SDK Coding Cheat Sheet",
+                        "pages": [
+                          "models/ref/sdk-coding-cheat-sheet",
+                          "models/ref/sdk-coding-cheat-sheet/runs",
+                          "models/ref/sdk-coding-cheat-sheet/logging",
+                          "models/ref/sdk-coding-cheat-sheet/artifacts",
+                          "models/ref/sdk-coding-cheat-sheet/registry"
+                        ]
+                      },
                       "models/ref/python",
                       {
                         "group": "Global Functions",
@@ -2308,10 +2318,6 @@
       "destination": "/get-started/"
     },
     {
-      "source": "/guides/:slug*",
-      "destination": "/models/:slug*"
-    },
-    {
       "source": "/guides/app/:slug*",
       "destination": "/models/app/:slug*"
     },
@@ -2432,6 +2438,10 @@
       "destination": "/training/:slug*"
     },
     {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
       "source": "/inference/response-settings",
       "destination": "/inference"
     },
@@ -2474,6 +2484,10 @@
     {
       "source": "/models/registry/model_registry/:slug*",
       "destination": "/models/registry"
+    },
+    {
+      "source": "/models/hosting/:slug*",
+      "destination": "/platform/hosting/:slug*"
     },
     {
       "source": "/models/track/launch/*",
