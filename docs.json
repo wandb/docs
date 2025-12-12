@@ -520,6 +520,16 @@
                   {
                     "group": "Python",
                     "pages": [
+                      {
+                        "group": "SDK Coding Cheat Sheet",
+                        "pages": [
+                          "models/ref/sdk-coding-cheat-sheet",
+                          "models/ref/sdk-coding-cheat-sheet/runs",
+                          "models/ref/sdk-coding-cheat-sheet/logging",
+                          "models/ref/sdk-coding-cheat-sheet/artifacts",
+                          "models/ref/sdk-coding-cheat-sheet/registry"
+                        ]
+                      },
                       "models/ref/python",
                       {
                         "group": "Global Functions",
