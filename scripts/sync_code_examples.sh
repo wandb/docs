@@ -22,16 +22,31 @@ fi
 echo "   Cloning docs-code-eval repository..."
 git clone --depth 1 "$EVAL_REPO_URL" "$SUBMODULE_PATH" --quiet
 
-# Copy Python files directly
-echo "   Copying Python code examples..."
+# Copy Python files and create MDX wrappers
+echo "   Copying Python code examples and creating MDX wrappers..."
 PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/en/_includes/code-examples"
 mkdir -p "$PY_SNIPPETS_DIR"
 
-# Copy Python files
-cp "$SUBMODULE_PATH/ground_truth/"*.py "$PY_SNIPPETS_DIR/"
+# Copy Python files and create MDX wrappers
+for pyfile in "$SUBMODULE_PATH/ground_truth/"*.py; do
+    if [ -f "$pyfile" ]; then
+        filename=$(basename "$pyfile")
+        
+        # Copy the Python file
+        cp "$pyfile" "$PY_SNIPPETS_DIR/"
+        
+        # Create MDX wrapper
+        mdxfile="$PY_SNIPPETS_DIR/${filename%.py}.mdx"
+        cat > "$mdxfile" << EOF
+\`\`\`python
+$(cat "$pyfile")
+\`\`\`
+EOF
+    fi
+done
 
 PY_COUNT=$(ls -1 "$PY_SNIPPETS_DIR"/*.py 2>/dev/null | wc -l | tr -d ' ')
-echo "   ✓ Copied $PY_COUNT Python code examples"
+echo "   ✓ Copied $PY_COUNT Python code examples and created MDX wrappers"
 
 # Generate CodeSnippet component with all imports
 echo "   Generating CodeSnippet component..."

@@ -6,89 +6,88 @@
  * allowing cheat sheet pages to reference snippets by filename without
  * needing individual import statements.
  * 
+ * Note: Python files are kept as source of truth, with MDX wrappers
+ * generated for compatibility with Mintlify's import system.
+ * 
  * AUTO-GENERATED: Do not edit manually. Run sync_code_examples.sh to regenerate.
  */
 
-// Import all Python code examples as raw text
-import artifact_add_alias from './en/_includes/code-examples/artifact_add_alias.py?raw';
-import artifact_add_alias_existing from './en/_includes/code-examples/artifact_add_alias_existing.py?raw';
-import artifact_add_tag from './en/_includes/code-examples/artifact_add_tag.py?raw';
-import artifact_add_tag_existing from './en/_includes/code-examples/artifact_add_tag_existing.py?raw';
-import artifact_create from './en/_includes/code-examples/artifact_create.py?raw';
-import artifact_create_track_external from './en/_includes/code-examples/artifact_create_track_external.py?raw';
-import artifact_delete from './en/_includes/code-examples/artifact_delete.py?raw';
-import artifact_delete_collection from './en/_includes/code-examples/artifact_delete_collection.py?raw';
-import artifact_download_partial from './en/_includes/code-examples/artifact_download_partial.py?raw';
-import artifact_ttl from './en/_includes/code-examples/artifact_ttl.py?raw';
-import artifact_ttl_existing from './en/_includes/code-examples/artifact_ttl_existing.py?raw';
-import artifact_update from './en/_includes/code-examples/artifact_update.py?raw';
-import artifact_update_existing from './en/_includes/code-examples/artifact_update_existing.py?raw';
-import artifacts_download from './en/_includes/code-examples/artifacts_download.py?raw';
-import experiments_create from './en/_includes/code-examples/experiments_create.py?raw';
-import log_custom_summary_metric from './en/_includes/code-examples/log_custom_summary_metric.py?raw';
-import log_existing_artifact_link_collection from './en/_includes/code-examples/log_existing_artifact_link_collection.py?raw';
-import log_hyperparameter from './en/_includes/code-examples/log_hyperparameter.py?raw';
-import log_metric from './en/_includes/code-examples/log_metric.py?raw';
-import log_table from './en/_includes/code-examples/log_table.py?raw';
-import registry_add_annotation from './en/_includes/code-examples/registry_add_annotation.py?raw';
-import registry_collection_create from './en/_includes/code-examples/registry_collection_create.py?raw';
-import registry_collection_tags_add from './en/_includes/code-examples/registry_collection_tags_add.py?raw';
-import registry_collection_tags_remove from './en/_includes/code-examples/registry_collection_tags_remove.py?raw';
-import registry_create from './en/_includes/code-examples/registry_create.py?raw';
-import registry_delete from './en/_includes/code-examples/registry_delete.py?raw';
-import registry_link_artifact_existing from './en/_includes/code-examples/registry_link_artifact_existing.py?raw';
-import registry_use_linked_artifact from './en/_includes/code-examples/registry_use_linked_artifact.py?raw';
-import run_fork from './en/_includes/code-examples/run_fork.py?raw';
-import run_init from './en/_includes/code-examples/run_init.py?raw';
+// Import all MDX-wrapped code examples
+import ArtifactAddAlias from './en/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from './en/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from './en/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from './en/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactCreate from './en/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from './en/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from './en/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from './en/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from './en/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactTtl from './en/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from './en/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from './en/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from './en/_includes/code-examples/artifact_update_existing.mdx';
+import ArtifactsDownload from './en/_includes/code-examples/artifacts_download.mdx';
+import ExperimentsCreate from './en/_includes/code-examples/experiments_create.mdx';
+import LogCustomSummaryMetric from './en/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogExistingArtifactLinkCollection from './en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHyperparameter from './en/_includes/code-examples/log_hyperparameter.mdx';
+import LogMetric from './en/_includes/code-examples/log_metric.mdx';
+import LogTable from './en/_includes/code-examples/log_table.mdx';
+import RegistryAddAnnotation from './en/_includes/code-examples/registry_add_annotation.mdx';
+import RegistryCollectionCreate from './en/_includes/code-examples/registry_collection_create.mdx';
+import RegistryCollectionTagsAdd from './en/_includes/code-examples/registry_collection_tags_add.mdx';
+import RegistryCollectionTagsRemove from './en/_includes/code-examples/registry_collection_tags_remove.mdx';
+import RegistryCreate from './en/_includes/code-examples/registry_create.mdx';
+import RegistryDelete from './en/_includes/code-examples/registry_delete.mdx';
+import RegistryLinkArtifactExisting from './en/_includes/code-examples/registry_link_artifact_existing.mdx';
+import RegistryUseLinkedArtifact from './en/_includes/code-examples/registry_use_linked_artifact.mdx';
+import RunFork from './en/_includes/code-examples/run_fork.mdx';
+import RunInit from './en/_includes/code-examples/run_init.mdx';
 
 // Map filenames to imported content
 const snippets = {
-  'artifact_add_alias.py': artifact_add_alias,
-  'artifact_add_alias_existing.py': artifact_add_alias_existing,
-  'artifact_add_tag.py': artifact_add_tag,
-  'artifact_add_tag_existing.py': artifact_add_tag_existing,
-  'artifact_create.py': artifact_create,
-  'artifact_create_track_external.py': artifact_create_track_external,
-  'artifact_delete.py': artifact_delete,
-  'artifact_delete_collection.py': artifact_delete_collection,
-  'artifact_download_partial.py': artifact_download_partial,
-  'artifact_ttl.py': artifact_ttl,
-  'artifact_ttl_existing.py': artifact_ttl_existing,
-  'artifact_update.py': artifact_update,
-  'artifact_update_existing.py': artifact_update_existing,
-  'artifacts_download.py': artifacts_download,
-  'experiments_create.py': experiments_create,
-  'log_custom_summary_metric.py': log_custom_summary_metric,
-  'log_existing_artifact_link_collection.py': log_existing_artifact_link_collection,
-  'log_hyperparameter.py': log_hyperparameter,
-  'log_metric.py': log_metric,
-  'log_table.py': log_table,
-  'registry_add_annotation.py': registry_add_annotation,
-  'registry_collection_create.py': registry_collection_create,
-  'registry_collection_tags_add.py': registry_collection_tags_add,
-  'registry_collection_tags_remove.py': registry_collection_tags_remove,
-  'registry_create.py': registry_create,
-  'registry_delete.py': registry_delete,
-  'registry_link_artifact_existing.py': registry_link_artifact_existing,
-  'registry_use_linked_artifact.py': registry_use_linked_artifact,
-  'run_fork.py': run_fork,
-  'run_init.py': run_init,
+  'artifact_add_alias.py': ArtifactAddAlias,
+  'artifact_add_alias_existing.py': ArtifactAddAliasExisting,
+  'artifact_add_tag.py': ArtifactAddTag,
+  'artifact_add_tag_existing.py': ArtifactAddTagExisting,
+  'artifact_create.py': ArtifactCreate,
+  'artifact_create_track_external.py': ArtifactCreateTrackExternal,
+  'artifact_delete.py': ArtifactDelete,
+  'artifact_delete_collection.py': ArtifactDeleteCollection,
+  'artifact_download_partial.py': ArtifactDownloadPartial,
+  'artifact_ttl.py': ArtifactTtl,
+  'artifact_ttl_existing.py': ArtifactTtlExisting,
+  'artifact_update.py': ArtifactUpdate,
+  'artifact_update_existing.py': ArtifactUpdateExisting,
+  'artifacts_download.py': ArtifactsDownload,
+  'experiments_create.py': ExperimentsCreate,
+  'log_custom_summary_metric.py': LogCustomSummaryMetric,
+  'log_existing_artifact_link_collection.py': LogExistingArtifactLinkCollection,
+  'log_hyperparameter.py': LogHyperparameter,
+  'log_metric.py': LogMetric,
+  'log_table.py': LogTable,
+  'registry_add_annotation.py': RegistryAddAnnotation,
+  'registry_collection_create.py': RegistryCollectionCreate,
+  'registry_collection_tags_add.py': RegistryCollectionTagsAdd,
+  'registry_collection_tags_remove.py': RegistryCollectionTagsRemove,
+  'registry_create.py': RegistryCreate,
+  'registry_delete.py': RegistryDelete,
+  'registry_link_artifact_existing.py': RegistryLinkArtifactExisting,
+  'registry_use_linked_artifact.py': RegistryUseLinkedArtifact,
+  'run_fork.py': RunFork,
+  'run_init.py': RunInit,
 };
 
 export const CodeSnippet = ({ file }) => {
-  const content = snippets[file];
-
-  if (!content) {
+  const Component = snippets[file];
+  
+  if (!Component) {
     return (
       <div style={{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}>
         <p style={{ margin: 0, color: '#c00' }}>Code snippet not found: {file}</p>
       </div>
     );
   }
-
-  return (
-    <pre>
-      <code className="language-python">{content}</code>
-    </pre>
-  );
+  
+  return <Component />;
 };
