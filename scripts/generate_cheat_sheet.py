@@ -221,7 +221,7 @@ def organize_by_main_category(tasks: List[Dict]) -> Dict[str, Dict[str, List[Dic
 
 def get_code_snippet_import() -> str:
     """Generate import statement for the CodeSnippet component."""
-    return "import { CodeSnippet } from '../../../snippets/CodeSnippet.jsx';"
+    return "import { CodeSnippet } from '/snippets/CodeSnippet.jsx';"
 
 
 def generate_landing_page(main_categories: Dict[str, Dict[str, List[Dict]]]) -> str:
