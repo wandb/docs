@@ -3,95 +3,76 @@ title: Artifacts
 description: Create, update, download, and manage W&B Artifacts for data versioning.
 ---
 
-import { CodeSnippet } from '/snippets/CodeSnippet.jsx';
+import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
+import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
 
 Create, update, download, and manage W&B Artifacts for data versioning.
 
-[← Back to Cheat Sheet](/models/ref/sdk-coding-cheat-sheet)
-
----
-
 ## Create and log an artifact
 
-<CodeSnippet file="artifact_create.py" />
-
----
+<ArtifactCreate />
 
 ## Track an external artifact by adding a reference to a cloud storage bucket path
 
-<CodeSnippet file="artifact_create_track_external.py" />
-
----
+<ArtifactCreateTrackExternal />
 
 ## Delete specific artifact version from a run
 
-<CodeSnippet file="artifact_delete.py" />
-
----
+<ArtifactDelete />
 
 ## Delete an artifact collection
 
-<CodeSnippet file="artifact_delete_collection.py" />
-
----
+<ArtifactDeleteCollection />
 
 ## Download specific files or sub-folders from artifacts
 
-<CodeSnippet file="artifact_download_partial.py" />
-
----
+<ArtifactDownloadPartial />
 
 ## Download files or entire artifacts
 
-<CodeSnippet file="artifacts_download.py" />
-
----
+<ArtifactsDownload />
 
 ## Add one or more aliases to an artifact when logging it
 
-<CodeSnippet file="artifact_add_alias.py" />
-
----
+<ArtifactAddAlias />
 
 ## Add an alias to an existing artifact
 
-<CodeSnippet file="artifact_add_alias_existing.py" />
-
----
+<ArtifactAddAliasExisting />
 
 ## Add a tag to an artifact when logging it
 
-<CodeSnippet file="artifact_add_tag.py" />
-
----
+<ArtifactAddTag />
 
 ## Add a tag to an existing artifact
 
-<CodeSnippet file="artifact_add_tag_existing.py" />
-
----
+<ArtifactAddTagExisting />
 
 ## Create and log an artifact with a TTL policy
 
-<CodeSnippet file="artifact_ttl.py" />
-
----
+<ArtifactTtl />
 
 ## Update the TTL policy of an existing artifact
 
-<CodeSnippet file="artifact_ttl_existing.py" />
-
----
+<ArtifactTtlExisting />
 
 ## Update an existing artifact's description within a run
 
-<CodeSnippet file="artifact_update.py" />
-
----
+<ArtifactUpdate />
 
 ## Given an existing artifact, update its description, metadata, and aliases without creating a new run
 
-<CodeSnippet file="artifact_update_existing.py" />
-
----
+<ArtifactUpdateExisting />
 

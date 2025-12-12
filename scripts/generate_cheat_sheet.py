@@ -219,9 +219,16 @@ def organize_by_main_category(tasks: List[Dict]) -> Dict[str, Dict[str, List[Dic
     return organized
 
 
-def get_code_snippet_import() -> str:
-    """Generate import statement for the CodeSnippet component."""
-    return "import { CodeSnippet } from '/snippets/CodeSnippet.jsx';"
+def get_all_imports(tasks: List[Dict]) -> str:
+    """Generate import statements for all MDX snippets."""
+    imports = []
+    for task in tasks:
+        # Convert filename to component name (PascalCase)
+        component_name = ''.join(word.capitalize() for word in task['script'].replace('.py', '').replace('-', '_').split('_'))
+        mdx_file = task['script'].replace('.py', '.mdx')
+        imports.append(f"import {component_name} from '/snippets/en/_includes/code-examples/{mdx_file}';")
+    
+    return '\n'.join(imports)
 
 
 def generate_landing_page(main_categories: Dict[str, Dict[str, List[Dict]]]) -> str:
@@ -283,28 +290,24 @@ def generate_category_page(main_cat: str, subcategories: Dict[str, List[Dict]], 
     title = category_titles.get(main_cat, main_cat)
     description = category_descriptions.get(main_cat, f'Code examples for {main_cat}')
     
-    # Generate import for CodeSnippet component
-    code_snippet_import = get_code_snippet_import()
+    # Generate flat list of all tasks across subcategories
+    all_tasks = []
+    for sub_cat in sorted(subcategories.keys()):
+        all_tasks.extend(subcategories[sub_cat])
+    
+    # Generate imports for all MDX snippets
+    imports = get_all_imports(all_tasks)
     
     content = f"""---
 title: {title}
 description: {description}
 ---
 
-{code_snippet_import}
+{imports}
 
 {description}
 
 """
-    
-    # Add navigation back to main page
-    content += "[← Back to Cheat Sheet](/models/ref/sdk-coding-cheat-sheet)\n\n"
-    content += "---\n\n"
-    
-    # Generate flat list of all tasks across subcategories
-    all_tasks = []
-    for sub_cat in sorted(subcategories.keys()):
-        all_tasks.extend(subcategories[sub_cat])
     
     # Add each task as an H2
     for task in all_tasks:
@@ -312,19 +315,18 @@ description: {description}
         heading = remove_wandb_from_heading(task['description'])
         content += f"## {heading}\n\n"
         
-        # Check if Python file exists
-        py_file = py_snippets_dir / task['script']
-        if py_file.exists():
-            # Use CodeSnippet component with filename
-            content += f'<CodeSnippet file="{task["script"]}" />\n\n'
+        # Check if MDX file exists
+        mdx_file = py_snippets_dir / task['script'].replace('.py', '.mdx')
+        if mdx_file.exists():
+            # Convert filename to component name
+            component_name = ''.join(word.capitalize() for word in task['script'].replace('.py', '').replace('-', '_').split('_'))
+            content += f'<{component_name} />\n\n'
         else:
             # Fallback if file doesn't exist
             content += "```python\n"
             content += f"# Code example: {task['script']}\n"
-            content += "# (Python snippet not found)\n"
+            content += "# (MDX snippet not found)\n"
             content += "```\n\n"
-        
-        content += "---\n\n"
     
     return content
 

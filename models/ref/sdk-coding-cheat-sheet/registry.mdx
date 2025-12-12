@@ -3,59 +3,46 @@ title: Registry
 description: Work with W&B Model Registry to organize and manage model versions.
 ---
 
-import { CodeSnippet } from '/snippets/CodeSnippet.jsx';
+import RegistryAddAnnotation from '/snippets/en/_includes/code-examples/registry_add_annotation.mdx';
+import RegistryCreate from '/snippets/en/_includes/code-examples/registry_create.mdx';
+import RegistryDelete from '/snippets/en/_includes/code-examples/registry_delete.mdx';
+import RegistryLinkArtifactExisting from '/snippets/en/_includes/code-examples/registry_link_artifact_existing.mdx';
+import RegistryUseLinkedArtifact from '/snippets/en/_includes/code-examples/registry_use_linked_artifact.mdx';
+import RegistryCollectionCreate from '/snippets/en/_includes/code-examples/registry_collection_create.mdx';
+import RegistryCollectionTagsAdd from '/snippets/en/_includes/code-examples/registry_collection_tags_add.mdx';
+import RegistryCollectionTagsRemove from '/snippets/en/_includes/code-examples/registry_collection_tags_remove.mdx';
 
 Work with W&B Model Registry to organize and manage model versions.
 
-[← Back to Cheat Sheet](/models/ref/sdk-coding-cheat-sheet)
-
----
-
 ## Add a description to a collection in a registry
 
-<CodeSnippet file="registry_add_annotation.py" />
-
----
+<RegistryAddAnnotation />
 
 ## Create a new registry
 
-<CodeSnippet file="registry_create.py" />
-
----
+<RegistryCreate />
 
 ## Delete a registry
 
-<CodeSnippet file="registry_delete.py" />
-
----
+<RegistryDelete />
 
 ## Create an artifact and link it to a collection in a registry
 
-<CodeSnippet file="registry_link_artifact_existing.py" />
-
----
+<RegistryLinkArtifactExisting />
 
 ## Retrieve a specific version of an artifact from a registry collection
 
-<CodeSnippet file="registry_use_linked_artifact.py" />
-
----
+<RegistryUseLinkedArtifact />
 
 ## Create a registry collection and link an artifact to it
 
-<CodeSnippet file="registry_collection_create.py" />
-
----
+<RegistryCollectionCreate />
 
 ## Add tags to a collection in a registry
 
-<CodeSnippet file="registry_collection_tags_add.py" />
-
----
+<RegistryCollectionTagsAdd />
 
 ## Remove a tag from a collection in a registry
 
-<CodeSnippet file="registry_collection_tags_remove.py" />
-
----
+<RegistryCollectionTagsRemove />
 
