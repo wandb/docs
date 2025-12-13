@@ -528,58 +528,58 @@ You can also track class and object methods.
 ## Viewing Calls
 
 <Tabs>
-    <Tab title="Web App">
-    To view a call in the web app:
-    1. Navigate to your project's "Traces" tab
-    2. Find the call you want to view in the list
-    3. Click on the call to open its details page
-    
-    The details page will show the call's inputs, outputs, runtime, and any additional metadata.
-    
-    ![View Call in Web App](/images/screenshots/basic_call.png)
-    </Tab>
-    <Tab title="Python">
-    To view a call using the Python API, you can use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
+<Tab title="Web App">
+To view a call in the web app:
+1. Navigate to your project's "Traces" tab
+2. Find the call you want to view in the list
+3. Click on the call to open its details page
 
-    ```python lines
-    import weave
+The details page will show the call's inputs, outputs, runtime, and any additional metadata.
 
-    # Initialize the client
-    client = weave.init("your-project-name")
+![View Call in Web App](/images/screenshots/basic_call.png)
+</Tab>
+<Tab title="Python">
+To view a call using the Python API, you can use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
 
-    # Get a specific call by its ID
-    call = client.get_call("call-uuid-here")
+```python lines
+import weave
 
-    print(call)
-    ```
-    </Tab>
-    <Tab title="TypeScript">
-    ```typescript lines
-    import * as weave from 'weave'
+# Initialize the client
+client = weave.init("your-project-name")
 
-    // Initialize the client
-    const client = await weave.init('intro-example')
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
 
-    // Get a specific call by its ID
-    const call = await client.getCall('call-uuid-here')
+print(call)
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave'
 
-    console.log(call)
-    ```
-    </Tab>
+// Initialize the client
+const client = await weave.init('intro-example')
 
-    <Tab title="HTTP API">
-    To view a call using the Service API, you can make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
+// Get a specific call by its ID
+const call = await client.getCall('call-uuid-here')
 
-    ```bash
-    curl -L 'https://trace.wandb.ai/call/read' \
-    -H 'Content-Type: application/json' \
-    -H 'Accept: application/json' \
-    -d '{
-        "project_id": "string",
-        "id": "string",
-    }'
-    ```
-    </Tab>
+console.log(call)
+```
+</Tab>
+
+<Tab title="HTTP API">
+To view a call using the Service API, you can make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
+
+```bash
+curl -L 'https://trace.wandb.ai/call/read' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "id": "string",
+}'
+```
+</Tab>
 </Tabs>
 
 ### Customize rendered traces with `weave.Markdown`
@@ -587,70 +587,70 @@ You can also track class and object methods.
 You can use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
 
 <Tabs>
-    <Tab title="Python">
-    Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
-        
-    ```python lines
-    import weave
+<Tab title="Python">
+Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
+    
+```python lines
+import weave
 
-    def postprocess_inputs(query) -> weave.Markdown:
-        search_box = f"""
-    **Search Query:**
-    ``+`
-    {query}
-    ``+`
-    """
-        return {"search_box": weave.Markdown(search_box),
-                "query": query}
+def postprocess_inputs(query) -> weave.Markdown:
+    search_box = f"""
+**Search Query:**
+``+`
+{query}
+``+`
+"""
+    return {"search_box": weave.Markdown(search_box),
+            "query": query}
 
-    def postprocess_output(docs) -> weave.Markdown:
-        formatted_docs = f"""
-    # {docs[0]["title"]}
+def postprocess_output(docs) -> weave.Markdown:
+    formatted_docs = f"""
+# {docs[0]["title"]}
 
-    {docs[0]["content"]}
+{docs[0]["content"]}
 
-    [Read more]({docs[0]["url"]})
+[Read more]({docs[0]["url"]})
 
-    ---
+---
 
-    # {docs[1]["title"]}
+# {docs[1]["title"]}
 
-    {docs[1]["content"]}
+{docs[1]["content"]}
 
-    [Read more]({docs[1]["url"]})
-    """
-        return weave.Markdown(formatted_docs)
+[Read more]({docs[1]["url"]})
+"""
+    return weave.Markdown(formatted_docs)
 
-    @weave.op(
-        postprocess_inputs=postprocess_inputs,
-        postprocess_output=postprocess_output,
-    )
-    def rag_step(query):
-        # example newspaper articles of the companies on the S&P 500 
-        docs = [
-            {
-                "title": "OpenAI",
-                "content": "OpenAI is a company that makes AI models.",
-                "url": "https://www.openai.com",
-            },
-            {
-                "title": "Google",
-                "content": "Google is a company that makes search engines.",
-                "url": "https://www.google.com",
-            },
-        ]
-        return docs
+@weave.op(
+    postprocess_inputs=postprocess_inputs,
+    postprocess_output=postprocess_output,
+)
+def rag_step(query):
+    # example newspaper articles of the companies on the S&P 500 
+    docs = [
+        {
+            "title": "OpenAI",
+            "content": "OpenAI is a company that makes AI models.",
+            "url": "https://www.openai.com",
+        },
+        {
+            "title": "Google",
+            "content": "Google is a company that makes search engines.",
+            "url": "https://www.google.com",
+        },
+    ]
+    return docs
 
-    if __name__ == "__main__":
-        weave.init('markdown_renderers')
-        rag_step("Tell me about OpenAI")
-    ```
-    </Tab>
-    <Tab title="Typescript">
-    ```plaintext
-    This feature is not available in the TypeScript SDK yet.
-    ```
-    </Tab>
+if __name__ == "__main__":
+    weave.init('markdown_renderers')
+    rag_step("Tell me about OpenAI")
+```
+</Tab>
+<Tab title="Typescript">
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+</Tab>
 </Tabs>
 In the following screenshot, you can view the difference between the unformatted and formatted outputs, respectively.
 
@@ -1086,7 +1086,7 @@ weave.integrations.patch_openai(
 ```plaintext
 This feature is not available in the TypeScript SDK yet.
 ```
-    </Tab>
+</Tab>
 </Tabs>
 For more details, see [How to use Weave with PII data](/weave/cookbooks/pii).
 
