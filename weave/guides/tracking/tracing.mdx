@@ -716,7 +716,7 @@ curl -L 'https://trace.wandb.ai/call/update' \
     "display_name": "string",
 }'
 ```
-    </Tab>}
+    </Tab>
 </Tabs>
 
 ### Add feedback 
@@ -1083,9 +1083,25 @@ weave.integrations.patch_openai(
 ```
 </Tab>
 <Tab title="TypeScript">
-```plaintext
-This feature is not available in the TypeScript SDK yet.
+
+The TypeScript SDK only supports autopatching for OpenAI. OpenAI is automatically patched when you import Weave and doesn't require any additional configuration.
+
+Additionally, the TypeScript SDK doesn't support:
+- Configuring or disabling autopatching
+- Input/output post-processing
+
+For edge cases where automatic patching doesn't work (ESM, bundlers like Next.js), use explicit wrapping:
+
+```typescript
+import OpenAI from 'openai'
+import * as weave from 'weave'
+import { wrapOpenAI } from 'weave'
+
+const client = wrapOpenAI(new OpenAI())
+await weave.init('your-team/my-project')
 ```
+
+For more details on ESM setup and troubleshooting, see the [TypeScript SDK Integration Guide](/weave/guides/integrations/js).
 </Tab>
 </Tabs>
 For more details, see [How to use Weave with PII data](/weave/cookbooks/pii).
