@@ -260,7 +260,7 @@ However, often LLM applications have additional logic (such as pre/post processi
   </Tab>
 </Tabs>
 
-#### Call display name
+#### Set call display name at execution
 
 <Tabs>
   <Tab title="Python">
@@ -701,10 +701,6 @@ const client = await weave.init('your-project-name')
 await client.updateCall('call-uuid-here', 'My Custom Display Name')
 ```
 
-<Note>
-The TypeScript SDK does not support setting the display name at call time via a decorator option or `__weave` parameter.
-</Note>
-
 </Tab>
 <Tab title="HTTP API">
 To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
@@ -721,6 +717,8 @@ curl -L 'https://trace.wandb.ai/call/update' \
 ```
     </Tab>
 </Tabs>
+
+You can also [set a call's display name at execution](#set-call-display-name-at-execution).
 
 ### Add feedback 
 
