@@ -136,12 +136,17 @@ You can edit most `.mdx` files in the repo directly. Content in a few directorie
 
 ## AI resources
 
-The `.ai/` directory contains experimental resources specifically designed for AI agents working with this repository. These include:
+The `AGENTS.md` file contains guidance and style conventions specifically designed for AI agents working with this repository. This includes:
 
-- **[Runbooks](.ai/runbooks/)**: Step-by-step instructions for complex, recurring tasks (e.g., testing GitHub Actions changes)
-- **[Style guide](.ai/style-guide.md)**: Quick reference for AI agents on wandb/docs style conventions
+- Project context and your role as a W&B docs team member
+- Core principles for writing clear, accurate documentation
+- Comprehensive style guide with examples
+- Code formatting standards and best practices
+- Collaboration guidelines
 
-If you're using an AI agent to help with documentation tasks, provide these resources as context to ensure consistent, high-quality contributions. Agents do not discover or load the prompts in `.ai/` automatically. See the [.ai/README.md](.ai/README.md) for more details.
+For complex, multi-step procedures, see the `runbooks/` directory which contains step-by-step instructions for tasks like testing GitHub Actions changes.
+
+If you're using an AI agent to help with documentation tasks, provide `AGENTS.md` as context to ensure consistent, high-quality contributions.
 
 ## License
 
