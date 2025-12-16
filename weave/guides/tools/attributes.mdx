@@ -250,7 +250,7 @@ main().catch(console.error);
 
 ## Get attributes during execution
 
-You can return the current set of attributes being logged with your call. This can help you debug your calls or context for conditional logic.
+Return the current set of attributes logged to your call. This can help you debug your calls or context for conditional logic.
 
 <Tabs>
 <Tab title="Python">
@@ -286,7 +286,7 @@ with weave.attributes({
 ```
 
 This outputs:
-```
+```shell
 Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
 Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'experiment': 'exp-456'}
 ```
@@ -297,7 +297,7 @@ Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'ex
 </Tab>
 <Tab title="TypeScript">
 
-In TypeScript, you can get the current attributes using `client.getCurrentAttributes()`. Unlike Python, this can be called from anywhere within a `withAttributes()` context, not just inside an op.
+In TypeScript, you can get the current attributes using `client.getCurrentAttributes()`. Unlike Python, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
 
 ```typescript lines
 import * as weave from 'weave';
@@ -343,7 +343,7 @@ main().catch(console.error);
 ```
 
 This outputs:
-```
+```shell
 Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }
 Attributes inside op: { env: 'production', version: '1.0.0', region: 'us-west-2' }
 Nested attributes: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
