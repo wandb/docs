@@ -2462,6 +2462,18 @@
       "destination": "/models/ref/python/functions/init"
     },
     {
+      "source": "/models/app/features/panels/line-plot#debug-infrastructure-issues",
+      "destination": "/models/runs#debug-infrastructure-issues"
+    },
+    {
+      "source": "/models/app/features/panels/line-plot#find-infrastructure-issues-in-a-run",
+      "destination": "/models/runs#find-infrastructure-issues-in-a-run"
+    },
+    {
+      "source": "/models/app/features/panels/line-plot#visualize-coreweave-infrastructure-alerts",
+      "destination": "/models/runs#visualize-coreweave-infrastructure-alerts"
+    },
+    {
       "source": "/models/app/pages/workspaces",
       "destination": "/models/app/features/cascade-settings"
     },
