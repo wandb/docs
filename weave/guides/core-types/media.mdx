@@ -13,35 +13,41 @@ W&B Weave supports logging and has dedicated displays for numerous content types
 
 ## Overview
 
-The easiest way to log media in Weave is to use type annotations like `Annotated[bytes, Content]` or `Annotated[str, Content]` as input or return types in your ops. You can also annotate path arguments with `Annotated[str, Content]` and Weave will automatically open, detect and display the media for you within your trace.
+<Tabs>
+<Tab title="Python">
+
+Use type annotations like `Annotated[bytes, Content]` or `Annotated[str, Content]` as input or return types in your ops to log media to Weave. You can also annotate path arguments with `Annotated[str, Content]` to have Weave automatically open, detect and display the media within your trace.
 
 The examples in this guide use annotations. We recommend using annotations because they are the simplest way to start logging your media. For more advanced configurations, see the [Content API section](#using-the-contents-api).
+</Tab>
+<Tab title="TypeScript">
+The TypeScript SDK provides dedicated functions for logging media:
+- `weave.weaveImage({ data: Buffer })` - for images (PNG format)
+- `weave.weaveAudio({ data: Buffer })` - for audio (WAV format)
 
-Each media section in this guide contains a basic quick-start code snippet and a usable example.
+<Note>
+The TypeScript SDK currently supports images and audio only. Video, documents, and HTML logging are available in the Weave Python SDK.
+</Note>
+
+</Tab>
+</Tabs>
+
+Each media section demonstrates how to log that media type with practical examples.
 
 ## Images
 
-### Quickstart
+The following examples demonstrate how to generate and log images to Weave's UI.
 
+<Frame>
+![Screenshot of pumpkin cat trace view](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
+</Frame>
+
+<Tabs>
+
+<Tab title="Python">
 Log images by annotating functions with `Annotated[bytes, Content]` types or filepaths with `Annotated[str, Content]`. 
 
 The following example draws a basic image and then logs it to Weave using the `Content` annotation:
-
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave pillow
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave pillow
-    ```
-  </Tab>
-</Tabs>
-
-
-## Images
 
 ```python lines {16,23}
 import weave
@@ -72,25 +78,13 @@ result1 = load_image_content("sample_image.png")
 result2 = load_image_pil("sample_image.png")
 ```
 
-The following example shows how to log an image generated via the OpenAI DALL-E API:
+Weave logs the image and returns a link to view the image in the terminal.
 
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave pillow openai requests
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave pillow openai requests
-    ```
-  </Tab>
-</Tabs>
+### Example
 
-<Tabs>
-  <Tab title="Python">
-  
-    ```python lines
+The following example generates a picture of a cat and logs it to Weave:
+
+```python lines
 import weave
 from weave import Content
 from typing import Annotated
@@ -114,48 +108,7 @@ def generate_image(prompt: str) -> Annotated[bytes, Content]:
     return image_response.content
 
 generate_image("a cat with a pumpkin hat")
-    ```
-
-  </Tab>
-  <Tab title="TypeScript">
-
-    ```typescript lines
-    import {OpenAI} from 'openai';
-    import * as weave from 'weave';
-
-    async function main() {
-        const client = await weave.init('image-example');
-        const openai = new OpenAI();
-
-        const generateImage = weave.op(async (prompt: string) => {
-            const response = await openai.images.generate({
-                model: 'dall-e-3',
-                prompt: prompt,
-                size: '1024x1024',
-                quality: 'standard',
-                n: 1,
-            });
-            const imageUrl = response.data[0].url;
-            const imgResponse = await fetch(imageUrl);
-            const data = Buffer.from(await imgResponse.arrayBuffer());
-
-            return weave.weaveImage({data});
-        });
-
-        generateImage('a cat with a pumpkin hat');
-    }
-
-    main();
-    ```
-
-  </Tab>
-</Tabs>
-This image is logged to Weave and automatically displayed in the UI. 
-
-<Frame>
-![Screenshot of pumpkin cat trace view](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
-</Frame>
-
+```
 
 ### Resize large images before logging
 
@@ -178,7 +131,7 @@ class ImageResult:
 # Resize helper
 def resize_image(image: Image.Image, max_size=(512, 512)) -> Image.Image:
     image = image.copy()
-    image.thumbnail(max_size, Image.ANTIALIAS)
+    image.thumbnail(max_size, Image.Resampling.LANCZOS)
     return image
 
 # Postprocess output to resize image before logging
@@ -195,24 +148,86 @@ def generate_large_image() -> ImageResult:
 generate_large_image()
 ```
 
-## Video
+Weave logs the resized image and returns a link to view it in the terminal.
 
-Log videos by annotating functions with `Annotated[bytes, Content]` types. Weave automatically handles `mp4` videos. Here's a simple example:
+</Tab>
+<Tab title="TypeScript">
 
-### Quickstart
+The following example logs an image using the `weaveImage` function:
 
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave requests
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave requests
-    ```
+```typescript
+import * as weave from 'weave';
+import * as fs from 'fs';
+
+async function main() {
+    await weave.init('media-logging');
+
+    // Load and log an image using weaveImage
+    const loadImage = weave.op(async function loadImage(path: string) {
+        const data = fs.readFileSync(path);
+        return weave.weaveImage({ data });
+    });
+
+    // Assuming you have a PNG image file
+    await loadImage('sample_image.png');
+}
+
+main();
+```
+
+Weave logs the image and returns a link to view the image in the terminal.
+
+### Example
+
+The following example logs an image generated via the OpenAI DALL-E API using the `weaveImage` function:
+
+```typescript lines
+import {OpenAI} from 'openai';
+import * as weave from 'weave';
+
+async function main() {
+    await weave.init('image-example');
+    const openai = new OpenAI();
+
+    const generateImage = weave.op(async (prompt: string) => {
+        const response = await openai.images.generate({
+            model: 'dall-e-3',
+            prompt: prompt,
+            size: '1024x1024',
+            quality: 'standard',
+            n: 1,
+        });
+        const imageUrl = response.data[0].url;
+        const imgResponse = await fetch(imageUrl);
+        const data = Buffer.from(await imgResponse.arrayBuffer());
+
+        return weave.weaveImage({data});
+    });
+
+    generateImage('a cat with a pumpkin hat');
+}
+
+main();
+```
+
+<Note>
+The TypeScript SDK currently only supports PNG images via `weaveImage()`. For other formats, convert to PNG first.
+</Note>
   </Tab>
 </Tabs>
+
+## Video
+
+The following examples demonstrate how to generate and log videos to Weave's UI.
+
+<Frame>
+![Video logging in Weave](/images/weave/video.png)
+</Frame>
+
+<Tabs>
+<Tab title="Python">
+
+Log videos by annotating functions with `Annotated[bytes, Content]` types. Weave automatically handles `mp4` videos. Here's a simple example:
 
 ```python lines {15}
 import weave
@@ -239,23 +254,11 @@ download_big_buck_bunny()
 bunny_video = load_video_content("big_buck_bunny.mp4")
 ```
 
+Weave logs the video and returns a link to view the video in the terminal.
+
 ### Example
 
 The following example shows how to log video within a video-understanding project:
-
-
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave google-genai yt-dlp requests
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave google-genai yt-dlp requests
-    ```
-  </Tab>
-</Tabs>
 
 ```python lines {25}
 import weave
@@ -303,33 +306,31 @@ def analyze_video(video: Annotated[bytes, Content]) -> str:
 video_data = download_youtube_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 result = analyze_video(video_data)
 ```
-<Frame>
-![Video logging in Weave](/images/weave/video.png)
-</Frame>
+
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available in the Weave TypeScript SDK yet.
+```
+  </Tab>
+</Tabs>
 
 ## Documents
+
+The following examples generate and log documents to Weave's UI.
+
+<Frame>
+![PDF document logging in Weave](/images/weave/pdf.png)
+</Frame>
+
+<Tabs>
+<Tab title="Python">
 
 Log documents by annotating functions with `Annotated[bytes, Content]` types, or by specifying the document type with `Annotated[str, Content[Literal['text']]`. 
 
 Weave automatically handles `pdf`, `csv`, `md`, `text`, `json`, `xml` file types. You can also log using file paths with `Annotated[str, Content]`.
 
-
-### Quickstart
-
-The following example shows how stores copies of the input PDF and CSV files, and then stores the file contents returned by the function:
-
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave reportlab pandas
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave reportlab pandas
-    ```
-  </Tab>
-</Tabs>
+The following example shows how to store copies of the input PDF and CSV files, and then stores the file contents returned by the function:
 
 ```python lines {25}
 import weave
@@ -370,19 +371,6 @@ csv_result = load_document("sample_data.csv")
 ### Example
 
 This example demonstrates how to log documents within a Retrieval-Augmented Generation (RAG) system:
-
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave openai reportlab PyPDF2
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave openai reportlab PyPDF2
-    ```
-  </Tab>
-</Tabs>
 
 ```python lines {27}
 import weave
@@ -439,32 +427,32 @@ hr_response = create_and_query_document(
 )
 ```
 
-<Frame>
-![PDF document logging in Weave](/images/weave/pdf.png)
-</Frame>
+</Tab>
+
+<Tab title="TypeScript">
+```plaintext
+This feature is not available in the Weave TypeScript SDK yet.
+```
+</Tab>
+</Tabs>
+
 
 ## Audio
 
-Log audio to Weave by annotating functions with `Annotated[bytes, Content]` types, or by specifying the document type with `Annotated[str, Content[Literal['mp3']]`. 
+The following examples demonstrate how to log audio to Weave.
+
+<Frame>
+![Screenshot of audio trace view](/weave/guides/core-types/imgs/audio-trace.png)
+</Frame>
+
+<Tabs>
+<Tab title="Python">
+
+Log audio to Weave by annotating functions with `Annotated[bytes, Content]` types, or by specifying the audio type with `Annotated[str, Content[Literal['mp3']]`. 
 
 Weave automatically handles `mp3`, `wav`, `flac`, `ogg` and `m4a` file types. You can also log using file paths with `Annotated[str, Content]`.
 
-### Quickstart
-
 The following code snippet generates a sine wave, records it, and then logs the audio to Weave:
-
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave numpy
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave numpy
-    ```
-  </Tab>
-</Tabs>
 
 ```python lines {20}
 import weave
@@ -496,19 +484,6 @@ result = load_audio("beep.wav")
 ### Example
 
 This example generates and logs AI-created audio using the `Content` annotation:
-
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave openai
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave openai
-    ```
-  </Tab>
-</Tabs>
 
 ```python lines {11}
 import weave
@@ -543,104 +518,122 @@ def generate_demo(
 demo1 = generate_demo("machine learning best practices")
 ```
 
+This audio is logged to Weave and automatically displayed in the UI, along with an audio player. In the audio player, you can view and download the raw audio waveform.
+
 <Frame>
 ![Audio logging in Weave](/images/weave/audio.png)
 </Frame>
 
-<Tabs>
-  <Tab title="Python">
-  
-    ```python lines
-    import weave
-    from openai import OpenAI
-    import wave
+The following example shows how to log audio using streaming response from the OpenAI API:
 
-    weave.init("audio-example")
-    client = OpenAI()
+```python lines
+import weave
+from openai import OpenAI
+import wave
 
-    @weave.op
-    def make_audio_file_streaming(text: str) -> wave.Wave_read:
-        with client.audio.speech.with_streaming_response.create(
-            model="tts-1",
-            voice="alloy",
-            input=text,
-            response_format="wav",
-        ) as res:
-            res.stream_to_file("output.wav")
+weave.init("audio-example")
+client = OpenAI()
 
-        # return a wave.Wave_read object to be logged as audio
-        return wave.open("output.wav")
+@weave.op
+def make_audio_file_streaming(text: str) -> wave.Wave_read:
+    with client.audio.speech.with_streaming_response.create(
+        model="tts-1",
+        voice="alloy",
+        input=text,
+        response_format="wav",
+    ) as res:
+        res.stream_to_file("output.wav")
 
-    make_audio_file_streaming("Hello, how are you?")
-    ```
+    # return a wave.Wave_read object to be logged as audio
+    return wave.open("output.wav")
 
-  </Tab>
-  <Tab title="TypeScript">
+make_audio_file_streaming("Hello, how are you?")
+```
 
-    ```typescript lines
-    import {OpenAI} from 'openai';
-    import * as weave from 'weave';
 
-    async function main() {
-        await weave.init('audio-example');
-        const openai = new OpenAI();
+</Tab>
+<Tab title="TypeScript">
 
-        const makeAudioFileStreaming = weave.op(async function audio(text: string) {
-            const response = await openai.audio.speech.create({
-                model: 'tts-1',
-                voice: 'alloy',
-                input: text,
-                response_format: 'wav',
-            });
+<Note>
+The TypeScript SDK currently only supports WAV audio via `weaveAudio()`. For other formats, convert to WAV first.
+</Note>
 
-            const chunks: Uint8Array[] = [];
-            for await (const chunk of response.body) {
-                chunks.push(chunk);
-            }
-            return weave.weaveAudio({data: Buffer.concat(chunks)});
+The following example loads an existing audio file and logs it to Weave:
+
+```typescript
+import * as weave from 'weave';
+import * as fs from 'fs';
+
+async function main() {
+    await weave.init('media-logging');
+
+    // Load and log audio using weaveAudio
+    const loadAudio = weave.op(async function loadAudio(path: string) {
+        const data = fs.readFileSync(path);
+        return weave.weaveAudio({ data });
+    });
+
+    // Assuming you have a WAV audio file
+    await loadAudio('beep.wav');
+}
+
+main();
+```
+
+### Example
+
+The following example generates audio using OpenAI's TTS API and logs it to Weave:
+
+```typescript lines
+import {OpenAI} from 'openai';
+import * as weave from 'weave';
+
+async function main() {
+    await weave.init('audio-example');
+    const openai = new OpenAI();
+
+    const makeAudioFileStreaming = weave.op(async function audio(text: string) {
+        const response = await openai.audio.speech.create({
+            model: 'tts-1',
+            voice: 'alloy',
+            input: text,
+            response_format: 'wav',
         });
 
-        await makeAudioFileStreaming('Hello, how are you?');
-    }
+        const chunks: Uint8Array[] = [];
+        for await (const chunk of response.body) {
+            chunks.push(chunk);
+        }
+        return weave.weaveAudio({data: Buffer.concat(chunks)});
+    });
 
-    main();
-    ```
+    await makeAudioFileStreaming('Hello, how are you?');
+}
 
-  </Tab>
+main();
+```
+
+</Tab>
 </Tabs>
-
-This audio is logged to Weave and automatically displayed in the UI, along with an audio player. In the audio player, you can view and download the raw audio waveform.
-
-<Frame>
-![Screenshot of audio trace view](/weave/guides/core-types/imgs/audio-trace.png)
-</Frame>
 
 <Tip>
 Try our cookbook for [Audio Logging](/weave/cookbooks/audio_with_weave). The cookbook also includes an advanced example of a Real Time Audio API based assistant integrated with Weave.
 </Tip>
 
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/audio_with_weave.ipynb" icon="python"/>
-
-
 ## HTML
 
-Log interactive HTML by annotating functions with `Annotated[str, Content[Literal['html']]`.
+The following examples demonstrate how to generate and log HTML to Weave's UI.
 
-
-### Quickstart
+<Frame>
+![HTML logging in Weave](/images/weave/html.png)
+</Frame>
 
 <Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave
-    ```
-  </Tab>
-</Tabs>
+<Tab title="Python">
+
+Log interactive HTML by annotating functions with `Annotated[bytes, Content[Literal['html']]]`.
+
+The following example creates a simple HTML page and logs it to Weave:
 
 ```python lines {8}
 import weave
@@ -650,7 +643,7 @@ from typing import Annotated, Literal
 weave.init('media-logging')
 
 @weave.op
-def create_simple_html() -> Annotated[str, Content[Literal['html']]]:
+def create_simple_html() -> Annotated[bytes, Content[Literal['html']]]:
     html_content = """
     <!DOCTYPE html>
     <html>
@@ -676,19 +669,6 @@ result = create_simple_html()
 
 This example generates self-contained HTML pages using [W&B Inference](https://docs.wandb.ai/inference/) and logs the pages to Weave:
 
-<Tabs>
-  <Tab title="pip">
-    ```bash
-    pip install weave openai wandb
-    ```
-  </Tab>
-  <Tab title="uv">
-    ```bash
-    uv add weave openai wandb
-    ```
-  </Tab>
-</Tabs>
-
 ```python lines {21}
 import weave
 from weave import Content
@@ -710,7 +690,7 @@ weave.init("media-logging")
 weave.publish(prompt_template, name="generate_prompt")
 
 @weave.op
-def generate_html(prompt: str, template: weave.StringPrompt) -> Annotated[str, Content[Literal['html']]]:
+def generate_html(prompt: str, template: weave.StringPrompt) -> Annotated[bytes, Content[Literal['html']]]:
     response = client.chat.completions.create(
         model="Qwen/Qwen3-Coder-480B-A35B-Instruct",
         messages=[
@@ -725,11 +705,16 @@ prompt = "Weights & Biases UI but with multi-run selection and plots, but it loo
 result = generate_html(prompt, prompt_template)
 ```
 
-This HTML is logged to Weave and automatically displayed in the UI. Clicking the `file_name.html` cell in the table opens it in full screen. You can also download the raw `.html` file.
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available in the Weave TypeScript SDK yet.
+```
+  </Tab>
+</Tabs>
 
-<Frame>
-![HTML logging in Weave](/images/weave/html.png)
-</Frame>
+
+This HTML is logged to Weave and automatically displayed in the UI. Clicking the `file_name.html` cell in the table opens it in full screen. You can also download the raw `.html` file.
 
 ## Using the Contents API
 
