@@ -24,7 +24,7 @@ Projects store the following information and resources:
 
 ## Creating and using projects
 
-Weave projects exist within [teams](/platform/hosting/iam/org_team_struct#team) (also called entities) in your W&B organization. The full project path follows this format:
+A Weave project is owned and managed by a [team](/platform/hosting/iam/org_team_struct#team) (also called an entity) in your W&B organization. The full project path follows this format:
 
 ```
 team-name/project-name
@@ -32,7 +32,7 @@ team-name/project-name
 
 For example, a team called `my-team` with a project called `llm-chatbot` has the project path `my-team/llm-chatbot`.
 
-To associate traces, evaluations, or any other resources with a project, you must pass the project's path as a string when you initialize Weave in your code, like this:
+To associate traces, evaluations, and other resources with a project, pass the project's path as a string when you initialize Weave in your code:
 
 <Tabs>
     <Tab title="Python">
@@ -55,9 +55,9 @@ If you don't specify a team name, Weave uses your [default entity](/platform/app
 
 ## Viewing projects in the UI
 
-Access your projects in the Weave UI:
+Access a project in the Weave UI:
 
-1. Navigate to [wandb.ai](https://wandb.ai)
+1. Navigate to [wandb.ai](https://wandb.ai).
 2. Select your project from the **Projects** sidebar. This opens the project's overview page.
 3. From the overview page, you can: 
     * Review your projects's statistics, such as the total number of traces logged to the project and how much storage the project is using.
@@ -65,5 +65,5 @@ Access your projects in the Weave UI:
     * Navigate to recently logged traces, evaluations, models, and datasets.
 
 <Frame>
-![Weave project](imgs/weave-project.png)
+![Weave project](/weave/guides/platform/imgs/weave-project.png)
 </Frame>
