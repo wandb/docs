@@ -12,22 +12,22 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `OnAddArtifactAlias`
 A new alias is assigned to an artifact.
 
-Examples:
-    Define an event that triggers whenever the alias "prod" is assigned to
-    any artifact in the collection "my-collection":
+**Examples:**
+Define an event that triggers whenever the alias "prod" is assigned to
+any artifact in the collection "my-collection":
 
-    ```python
-    from wandb import Api
-    from wandb.automations import OnAddArtifactAlias, ArtifactEvent
+```python
+from wandb import Api
+from wandb.automations import OnAddArtifactAlias, ArtifactEvent
 
-    api = Api()
-    collection = api.artifact_collection(name="my-collection", type_name="model")
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
 
-    event = OnAddArtifactAlias(
-        scope=collection,
-        filter=ArtifactEvent.alias.eq("prod"),
-    )
-    ```
+event = OnAddArtifactAlias(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
 
 
 ### <kbd>method</kbd> `OnAddArtifactAlias.__init__`

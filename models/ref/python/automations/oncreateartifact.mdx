@@ -12,19 +12,19 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `OnCreateArtifact`
 A new artifact is created.
 
-Examples:
-    Define an event that triggers when a new artifact is created in the
-    collection "my-collection":
+**Examples:**
+Define an event that triggers when a new artifact is created in the
+collection "my-collection":
 
-    ```python
-    from wandb import Api
-    from wandb.automations import OnCreateArtifact
+```python
+from wandb import Api
+from wandb.automations import OnCreateArtifact
 
-    api = Api()
-    collection = api.artifact_collection(name="my-collection", type_name="model")
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
 
-    event = OnCreateArtifact(scope=collection)
-    ```
+event = OnCreateArtifact(scope=collection)
+```
 
 
 ### <kbd>method</kbd> `OnCreateArtifact.__init__`
