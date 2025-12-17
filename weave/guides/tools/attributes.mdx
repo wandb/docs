@@ -248,3 +248,106 @@ main().catch(console.error);
 </Tab>
 </Tabs>
 
+## Get attributes during execution
+
+Return the current set of attributes logged to your call. This can help you debug your calls or context for conditional logic.
+
+<Tabs>
+<Tab title="Python">
+
+The following example sets the Weave decorator to log the `process_data` function, configures attributes to log, and then returns them on execution.
+
+```python lines 
+import weave
+
+weave.init("your-team/your-project")
+
+@weave.op
+def process_data(data: str):
+    # Get the current call inside the op
+    call = weave.get_current_call()
+    if call:
+        print(f"Attributes: {call.attributes}")
+    return data.upper()
+
+# Set attributes and execute the function
+with weave.attributes({
+    "env": "production",
+    "version": "1.0.0",
+    "region": "us-west-2"
+}):
+    process_data("hello")
+    
+    with weave.attributes({
+        "version": "1.1.0",
+        "experiment": "exp-456"
+    }):
+        process_data("world")
+```
+
+This outputs:
+```shell
+Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
+Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'experiment': 'exp-456'}
+```
+
+<Note>
+`weave.get_current_call()` only works **inside** a `@weave.op` decorated function. Outside of an op, it returns `None`.
+</Note>
+</Tab>
+<Tab title="TypeScript">
+
+Using the Weave TypeScript SDK, you can get the current attributes using `client.getCurrentAttributes()`. Unlike the Weave Python SDK, you can access TypeScript attributes within a `withAttributes()` context, not just inside an op.
+
+```typescript lines
+import * as weave from 'weave';
+import { withAttributes } from 'weave';
+
+async function main() {
+  const client = await weave.init('your-team/your-project');
+
+  const processData = weave.op(async function processData(data: string) {
+    // You can also access attributes inside an op
+    const attrs = client.getCurrentAttributes();
+    console.log('Attributes inside op:', attrs);
+    return data.toUpperCase();
+  });
+
+  // Set attributes and execute the function
+  await withAttributes(
+    {
+      env: 'production',
+      version: '1.0.0',
+      region: 'us-west-2'
+    },
+    async () => {
+      // Get attributes from anywhere in the context
+      console.log('Current attributes:', client.getCurrentAttributes());
+      await processData('hello');
+
+      await withAttributes(
+        {
+          version: '1.1.0',
+          experiment: 'exp-456'
+        },
+        async () => {
+          console.log('Nested attributes:', client.getCurrentAttributes());
+          await processData('world');
+        }
+      );
+    }
+  );
+}
+
+main().catch(console.error);
+```
+
+This outputs:
+```shell
+Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+Attributes inside op: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+Nested attributes: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+Attributes inside op: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+```
+</Tab>
+</Tabs>
