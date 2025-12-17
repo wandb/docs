@@ -7,7 +7,7 @@ description: "Use Weave to automatically track and log LLM calls made via the An
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-When you call `weave.init()`, Weave automatically tracks and logs LLM calls made via the Anthropic SDK for both [Python](https://github.com/anthropics/anthropic-sdk-python) and [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave does this by automatically invoking Anthropic's `Messages.create` method.
+When you call `weave.init()`, Weave automatically tracks and logs LLM calls made with the Anthropic SDK for both [Python](https://github.com/anthropics/anthropic-sdk-python) and [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave does this by automatically invoking Anthropic's `Messages.create` method.
 
 ## Traces
 
@@ -164,7 +164,7 @@ The `weave.Model` class is only available in the Weave Python SDK. For TypeScrip
 
 Organizing experimentation is difficult when there are many moving pieces. By using the [`Model`](/weave/guides/core-types/models) class, you can capture and organize the experimental details of your app like your system prompt or the model you're using. This helps organize and compare different iterations of your app. 
 
-In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application's behavior. This can help you find which at parameters work best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
+In addition to versioning code and capturing inputs/outputs, [`Model`](/weave/guides/core-types/models)s capture structured parameters that control your application's behavior. This can help you find which parameters work best. You can also use Weave Models with `serve`, and [`Evaluation`](/weave/guides/core-types/evaluations)s.
 
 In the following example, you can experiment with `model` and `temperature`:
 
