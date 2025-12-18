@@ -5,11 +5,11 @@ description: "Log media returned in your traces, such as images and videos."
 
 W&B Weave supports logging and has dedicated displays for numerous content types such as videos, images, audio files, PDFs, CSVs and HTML.
 
-- **[Images](#images)** 
-- **[Video](#video)** 
-- **[Documents](#documents)**
-- **[Audio](#audio)**
-- **[HTML](#html)**
+- **[Images](#log-images)** 
+- **[Video](#log-video)** 
+- **[Documents](#log-documents)**
+- **[Audio](#log-audio)**
+- **[HTML](#log-html)**
 
 ## Overview
 
@@ -55,7 +55,7 @@ from weave import Content
 from PIL import Image, ImageDraw
 from typing import Annotated
 
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 # Create and save a sample image
 img = Image.new('RGB', (200, 100), color='lightblue')
@@ -92,7 +92,7 @@ import openai
 import requests
 
 client = openai.OpenAI()
-weave.init("media-logging")
+weave.init("your-team-name/your-project-name")
 
 @weave.op
 def generate_image(prompt: str) -> Annotated[bytes, Content]:
@@ -120,7 +120,7 @@ from typing import Any
 from PIL import Image
 import weave
 
-weave.init('image-resize-example')
+weave.init('your-team-name/your-project-name')
 
 # Custom output type
 @dataclass
@@ -160,7 +160,7 @@ import * as weave from 'weave';
 import * as fs from 'fs';
 
 async function main() {
-    await weave.init('media-logging');
+    await weave.init('your-team-name/your-project-name');
 
     // Load and log an image using weaveImage
     const loadImage = weave.op(async function loadImage(path: string) {
@@ -186,7 +186,7 @@ import {OpenAI} from 'openai';
 import * as weave from 'weave';
 
 async function main() {
-    await weave.init('image-example');
+    await weave.init('your-team-name/your-project-name');
     const openai = new OpenAI();
 
     const generateImage = weave.op(async (prompt: string) => {
@@ -235,7 +235,7 @@ from weave import Content
 from typing import Annotated
 import requests
 
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 def download_big_buck_bunny():
     """Download Big Buck Bunny sample video"""
@@ -272,7 +272,7 @@ import time
 
 # Note: Get your API key from https://aistudio.google.com/app/apikey
 client = genai.Client()
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 def download_youtube_video(url: str) -> bytes:
     ydl_opts = {
@@ -340,7 +340,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import pandas as pd
 
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 def create_sample_pdf():
     c = canvas.Canvas("sample_document.pdf", pagesize=letter)
@@ -382,7 +382,7 @@ from reportlab.lib.pagesizes import letter
 import PyPDF2
 
 client = openai.OpenAI()
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 def create_absurd_company_handbook():
     """Create a fictional company handbook with ridiculous policies"""
@@ -461,7 +461,7 @@ import wave
 import numpy as np
 from typing import Annotated
 
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 # Create simple beep audio file
 frames = np.sin(2 * np.pi * 440 * np.linspace(0, 1, 44100))
@@ -493,7 +493,7 @@ from pathlib import Path
 from openai import OpenAI
 
 client = OpenAI()
-weave.init("media-logging")
+weave.init("your-team-name/your-project-name")
 
 @weave.op
 def generate_demo(
@@ -531,7 +531,7 @@ import weave
 from openai import OpenAI
 import wave
 
-weave.init("audio-example")
+weave.init("your-team-name/your-project-name")
 client = OpenAI()
 
 @weave.op
@@ -565,7 +565,7 @@ import * as weave from 'weave';
 import * as fs from 'fs';
 
 async function main() {
-    await weave.init('media-logging');
+    await weave.init('your-team-name/your-project-name');
 
     // Load and log audio using weaveAudio
     const loadAudio = weave.op(async function loadAudio(path: string) {
@@ -589,7 +589,7 @@ import {OpenAI} from 'openai';
 import * as weave from 'weave';
 
 async function main() {
-    await weave.init('audio-example');
+    await weave.init('your-team-name/your-project-name');
     const openai = new OpenAI();
 
     const makeAudioFileStreaming = weave.op(async function audio(text: string) {
@@ -640,7 +640,7 @@ import weave
 from weave import Content
 from typing import Annotated, Literal
 
-weave.init('media-logging')
+weave.init('your-team-name/your-project-name')
 
 @weave.op
 def create_simple_html() -> Annotated[bytes, Content[Literal['html']]]:
@@ -686,7 +686,7 @@ client = openai.OpenAI(
     project="wandb/test-html",
 )
 
-weave.init("media-logging")
+weave.init("your-team-name/your-project-name")
 weave.publish(prompt_template, name="generate_prompt")
 
 @weave.op
