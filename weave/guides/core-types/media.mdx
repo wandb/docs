@@ -3,7 +3,7 @@ title: "Log media"
 description: "Log media returned in your traces, such as images and videos."
 ---
 
-W&B Weave supports logging and has dedicated displays for numerous content types such as videos, images, audio files, PDFs, CSVs and HTML. Each section of this guide demonstrates how to configure Weave to log each media type and provides a use case example.
+W&B Weave supports logging and has dedicated displays for numerous content types such as videos, images, audio files, PDFs, CSVs and HTML. Each section of this guide provides a basic configuration example and a more advanced example of how to log the media type.
 
 - **[Images](#log-images)** 
 - **[Video](#log-video)** 
@@ -26,7 +26,7 @@ The TypeScript SDK provides dedicated functions for logging media:
 - `weave.weaveAudio({ data: Buffer })` - for audio (WAV format)
 
 <Note>
-The TypeScript SDK currently supports images and audio only. Video, documents, and HTML logging are available in the Weave Python SDK.
+The TypeScript SDK currently only supports logging images and audio. Video, documents, and HTML logging are available in the Weave Python SDK.
 </Note>
 
 </Tab>
@@ -210,9 +210,6 @@ async function main() {
 main();
 ```
 
-<Note>
-The TypeScript SDK currently only supports PNG images via `weaveImage()`. For other formats, convert to PNG first.
-</Note>
   </Tab>
 </Tabs>
 
@@ -553,10 +550,6 @@ make_audio_file_streaming("Hello, how are you?")
 
 </Tab>
 <Tab title="TypeScript">
-
-<Note>
-The TypeScript SDK currently only supports WAV audio via `weaveAudio()`. For other formats, convert to WAV first.
-</Note>
 
 The following example loads an existing audio file and logs it to Weave:
 
