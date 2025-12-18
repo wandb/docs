@@ -7,11 +7,11 @@ description: "Use Weave to automatically track and log LLM calls made via the An
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-When you call `weave.init()`, Weave automatically tracks and logs LLM calls made with the Anthropic SDK for both [Python](https://github.com/anthropics/anthropic-sdk-python) and [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave does this by automatically invoking Anthropic's `Messages.create` method.
+When you integrate Weave into your code, it automatically tracks and logs LLM calls made with the Anthropic SDK for both [Python](https://github.com/anthropics/anthropic-sdk-python) and [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave does this by automatically invoking Anthropic's `Messages.create` method.
 
 ## Traces
 
-Weave automatically captures traces for the Anthropic SDK when you call `weave.init("your-team-name/your-project-name")` in your code. If you don't specify a team when you call `weave.init()`, Weave logs output to your [default W&B entity](/platform/app/settings-page/user-settings/#default-team).
+Weave automatically captures traces for the Anthropic SDK when you add `weave.init("your-team-name/your-project-name")` to your code. If you don't specify a team name as an argument in `weave.init()`, Weave logs output to your [default W&B entity](/platform/app/settings-page/user-settings/#default-team). If you don't specify a project name, Weave fails to initialize.
 
 The following examples demonstrate how to integrate Weave into a basic call to Anthropic:
 
@@ -69,7 +69,7 @@ console.log(message.content);
   </Tab>
 </Tabs>
 
-By including `weave.init()` in the code, Weave automatically captures tracing information and outputs links to view the that information in the Weave UI.
+By including `weave.init()` in the code, Weave automatically captures tracing information and outputs links. You can view the traces in the Weave UI by clicking on the links.
 
 [![anthropic_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
