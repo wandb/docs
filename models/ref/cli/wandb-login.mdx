@@ -5,6 +5,12 @@ import WandbLogin from "/snippets/en/_includes/cli/wandb-login.mdx";
 
 <WandbLogin/>
 
+Verify and store your API key for authentication with W&B services.
+
+By default, only store credentials locally without verifying them with W&B. To verify credentials, set `--verify=True`.
+
+For server deployments (dedicated cloud or customer-managed instances), specify the host URL using the `--host` flag. You can also set environment variables `WANDB_BASE_URL` and `WANDB_API_KEY` instead of running the `login` command with host parameters.
+
 ## Usage
 
 ```bash
@@ -24,5 +30,4 @@ wandb login [KEY] [OPTIONS]
 | `--cloud` | Login to the cloud instead of local (default: False) |
 | `--host`, `--base-url` | Login to a specific instance of W&B |
 | `--relogin` | Force relogin if already logged in. |
-| `--anonymously` | Log in anonymously (default: False) |
 | `--verify` | Verify login credentials (default: False) |

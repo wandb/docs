@@ -15,7 +15,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
       
@@ -30,7 +30,7 @@ jobs:
         node-version: '18'
         
     - name: Cache Python dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('scripts/reference-generation/weave/requirements.txt') }}
@@ -130,9 +130,10 @@ jobs:
         
     - name: Create Pull Request
       id: create-pr
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        base: main
         commit-message: "chore: Update reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         title: "Update Weave reference documentation (Weave ${{ steps.python-sdk.outputs.actual_version || steps.version.outputs.version }})"
         draft: true

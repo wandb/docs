@@ -1,0 +1,15 @@
+```python
+"""
+Create a new registry in W&B. If the registry does not exist, W&B creates it.
+"""
+import wandb
+
+# Initialize W&B API
+api = wandb.Api()
+
+# Create a new registry
+registry = api.create_registry(
+    name="<registry_name>",
+    visibility="<visibility>",  # e.g., "public" or "private"
+)
+```

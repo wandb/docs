@@ -10,7 +10,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
       
@@ -71,12 +71,13 @@ jobs:
     - name: Create Pull Request
       if: steps.check-changes.outputs.has_changes == 'true'
       id: create-pr
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        base: main
         commit-message: "chore: Update Service API documentation"
         title: "Update Service API documentation"
-        draft: false
+        draft: true
         body: |
           This PR updates the Service API documentation based on the latest OpenAPI specification.
           

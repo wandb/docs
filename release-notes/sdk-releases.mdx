@@ -6,9 +6,53 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="v0.23.1" description="December 2, 2025">
+## Added
+
+- Regex support in metrics and run overview filters in `wandb beta leet` command.
+- Chart inspection in `wandb beta leet` command: right-click and drag to show (x, y) at the nearest data point; hold Alt for synchronized inspection across all visible charts.
+- The Automations API now supports creating and editing automations that trigger on run states.
+- The Automations API now supports basic zscore automation events.
+- `beta_history_scan` method to `Run` objects for faster history scanning performance with `wandb.Api`.
+
+## Changed
+
+- `wandb.Api()` now raises a `UsageError` if `WANDB_IDENTITY_TOKEN_FILE` is set and an explicit API key is not provided.
+
+## Deprecated
+
+- Anonymous mode is deprecated and will emit warnings. This deprecation includes the `anonymous` setting, the `WANDB_ANONYMOUS` environment variable, `wandb.init(anonymous=...)`, and commands `wandb login --anonymously` and `wandb.login(anonymous=...)`.
+
+## Fixed
+
+- `wandb.Image()` no longer prints a deprecation warning.
+- `Registry.description` and `ArtifactCollection.description` no longer reject empty strings.
+- Instantiating `Artifact` objects is now significantly faster.
+- `wandb.Run.save()` now falls back to hardlinks and, if needed, copying (downgrading the 'live' file policy to 'now', if applicable) when symlinks are disabled or unavailable (e.g., cross‑volume or no Developer Mode on Windows).
+- Artifact collection aliases are now fetched lazily on accessing `ArtifactCollection.aliases` instead of on instantiating `ArtifactCollection`, improving performance of `Api.artifact_collections()`, `Api.registries().collections()`, etc.
+- Use explicitly provided API key in `wandb.init(settings=wandb.Settings(api_key="..."))` for login. Use the key from run when logging artifacts via `run.log_artifact`.
+- W&B LEET TUI correctly displays negative Y axis tick values and base/display units of certain system metrics.
+- Fixed a rare infinite loop in `console_capture.py`.
+- File upload/download now respects `WANDB_X_EXTRA_HTTP_HEADERS` except for [reference artifacts](/models/artifacts/track-external-files).
+</Update>
+
+<Update label="v0.23.0" description="November 11, 2025">
+## Added
+
+- Experimental `wandb beta leet` command - Lightweight Experiment Exploration Tool - a terminal UI for viewing W&B runs locally with real-time metrics visualization and system monitoring.
+- The registry API now supports programmatic management of user and team members of individual registries.
+- `Registry.id` has been added as a (read-only) property of `Registry` objects.
+
+## Fixed
+
+- `Artifact.files()` now has a correct `len()` when filtering by the `names` parameter.
+- The numerator for file upload progress no longer occasionally exceeds the total file size.
+- `Artifact.link()` now logs unsaved artifacts instead of raising an error, consistent with the behavior of `Run.link_artifact()`.
+- Automatic code saving now works when running ipython notebooks in VSCode's Jupyter notebook extension.
+- Logging an artifact with infinite floats in `Artifact.metadata` now raises a `ValueError` early, instead of waiting on request retries to time out.
+</Update>
+
 <Update label="v0.22.3" description="October 28, 2025">
-
-
 ## Added
 
 - Settings `console_chunk_max_seconds` and `console_chunk_max_bytes` for size- and time-based multipart console logs file chunking.

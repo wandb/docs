@@ -112,42 +112,6 @@ For Self-Managed deployments, use the W&B Console to turn off auto provisioning 
 Auto provisioning with SSO is useful for adding users to an organization at scale because organization admins do not need to generate individual user invitations.
 </Note>
 
-### Create custom roles
-<Note>
-An Enterprise license is required to create or assign custom roles on Dedicated Cloud or Self-Managed deployments.
-</Note>
-
-Organization admins can compose a new role based on either the View-Only or Member role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. Custom roles are created at the organization level but are assigned at the team level.
-
-To create a custom role:
-
-<Tabs>
-<Tab title="Multi-tenant Cloud">
-1. Navigate to https://wandb.ai/home.
-1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
-1. Click **Roles**.
-1. In the **Custom roles** section, click **Create a role**.
-1. Provide a name for the role. Optionally provide a description.
-1. Choose the role to base the custom role on, either **Viewer** or **Member**.
-1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
-1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
-1. Click **Create Role**.
-</Tab>
-<Tab title="Dedicated Cloud or Self-Managed">
-Use the W&B Console to turn off auto provisioning with SSO:
-
-1. Navigate to `https://<org-name>.io/console/settings/`. Replace `<org-name>` with your organization name.
-1. In the **Custom roles** section, click **Create a role**.
-1. Provide a name for the role. Optionally provide a description.
-1. Choose the role to base the custom role on, either **Viewer** or **Member**.
-1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
-1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
-1. Click **Create Role**.
-</Tab>
-</Tabs>
-
-A team admin can now assign the custom role to members of a team from the [Team settings](#invite-users-to-a-team).
-
 ### Domain capture
 Domain capture helps your employees join the your companies organization to ensure new users do not create assets outside of your company jurisdiction. 
 
@@ -208,7 +172,7 @@ A user within an organization can have one of the proceeding roles:
 | admin| A instance admin who can add or remove other users to the organization, change user roles, manage custom roles, add teams and more. W&B recommends ensuring there is more than one admin in the event that your admin is unavailable. |
 | Member | A regular user of the organization, invited by an instance admin. A organization member cannot invite other users or manage existing users in the organization. |
 | Viewer (Enterprise-only feature) | A view-only user of your organization, invited by an instance admin. A viewer only has read access to the organization and the underlying teams that they are a member of. |
-|Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams.|
+|Custom Roles (Enterprise-only feature) | Custom roles allow organization admins to compose new roles by inheriting from the preceding View-Only or Member roles, and adding additional permissions to achieve fine-grained access control. Team admins can then assign any of those custom roles to users in their respective teams. See also [Add and manage custom roles](#add-and-manage-custom-roles)|
 
 To change a user's role:
 
@@ -333,10 +297,37 @@ Remove a user from a team using the team's dashboard. W&B preserves runs created
 4. Hover your mouse next to the name of the user you want to delete. Select the ellipses or three dots icon (**...**) when it appears. 
 5. From the dropdown, select **Remove user**. 
 
+## Add and manage custom roles
+<Note>
+An Enterprise license is required to create or assign custom roles on Dedicated Cloud or Self-Managed deployments.
+</Note>
 
-{/* To do as a follow up */}
-{/* ### Manage team storage
+Organization admins can compose a new role based on either the View-Only or Member role and add additional permissions to achieve fine-grained access control. Team admins can assign a custom role to a team member. Custom roles are created at the organization level but are assigned at the team level.
 
-## Create and assign custom roles
+To create a custom role:
 
-## Privacy */}
+<Tabs>
+<Tab title="Multi-tenant Cloud">
+1. Navigate to https://wandb.ai/home.
+1. In the upper right corner of the page, select the **User menu** dropdown. Within the **Account** section of the dropdown, select **Settings**.
+1. Click **Roles**.
+1. In the **Custom roles** section, click **Create a role**.
+1. Provide a name for the role. Optionally provide a description.
+1. Choose the role to base the custom role on, either **Viewer** or **Member**.
+1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
+1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
+1. Click **Create Role**.
+</Tab>
+<Tab title="Dedicated Cloud or Self-Managed">
+
+1. Navigate to `https://<org-name>.wandb.io/org/settings/`. Replace `<org-name>` with your organization name.
+1. In the **Custom roles** section, click **Create a role**.
+1. Provide a name for the role. Optionally provide a description.
+1. Choose the role to base the custom role on, either **Viewer** or **Member**.
+1. To add permissions, click the **Search permissions** field, then select one or more permissions to add.
+1. Review the **Custom role permissions** section, which summarizes the permissions the role has.
+1. Click **Create Role**.
+</Tab>
+</Tabs>
+
+A team admin can now assign the custom role to members of a team from the [Team settings](#invite-users-to-a-team).
