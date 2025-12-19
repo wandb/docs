@@ -164,7 +164,7 @@ If you [group runs](/models/runs/grouping/) into experiments, you can move a run
 Each run has a state that describes the current status of the run. See [Run states](#run-states) for a full list of possible run states.
 
 ## Run states
-The proceeding table describes the possible states a run can be in: 
+The following table describes the possible states a run can be in: 
 
 | State | Description |
 | ----- | ----- |
@@ -201,7 +201,7 @@ If you do not specify a run ID when you initialize a run, W&B generates a random
 
 W&B displays the unique run ID in the **Run path** field. The run path consists of the name of your team, the name of the project, and the run ID. The unique ID is the last part of the run path.
 
-For example, in the proceeding image, the unique run ID is `9mxi1arc`:
+For example, in the following image, the unique run ID is `9mxi1arc`:
 
 <Frame>
     <img src="/images/runs/unique-run-id.png" alt="Run ID location"  />
@@ -218,7 +218,7 @@ with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
     # Your code here
 ```
 
-You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The proceeding cell shows the URL path for a specific run:
+You can use a run's unique ID to directly navigate to the run's overview page in the W&B App. The following cell shows the URL path for a specific run:
 
 ```text title="W&B App URL for a specific run"
 https://wandb.ai/<entity>/<project>/<run-id>
@@ -252,7 +252,7 @@ This section shows how to rename a run from a workspace or a report.
 <Tabs>
 <Tab title="Workspace">
 1. Navigate to your W&B project.
-1. Select the **Workspace** or **Runs** tab from the project sidebar.
+1. Select the **Workspace** or **Runs** tab.
 1. Search or scroll to the run you want to rename.
 
     Hover over the run name, click the three vertical dots, then click **Rename run**.
@@ -307,28 +307,30 @@ Navigate to the W&B App to confirm the run is no longer active:
   <Note>
 You can find the name of the run that you stop from the output of your terminal or code editor. For example, in the preceding example, the name of the run is `legendary-meadow-2`.
 </Note>
-3. Choose the **Overview** tab from the project sidebar.
+3. Choose the **Overview** tab.
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
-<Frame>
+{/* <Frame>
     <img src="/images/runs/stop-run-terminal.png" alt="Run stopped via terminal"  />
-</Frame>
+</Frame> */}
+
 </Tab>
 <Tab title="W&B App">
 1. Navigate to the project that your run is logging to.
 2. Select the run you want to stop within the run selector.
-3. Choose the **Overview** tab from the project sidebar.
+3. Choose the **Overview** tab.
 4. Select the top button next to the **State** field.
-<Frame>
+
+{/* <Frame>
     <img src="/images/runs/stop-run-manual.png" alt="Manual run stop button"  />
-</Frame>
+</Frame> */}
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
-<Frame>
+{/* <Frame>
     <img src="/images/runs/stop-run-manual-status.png" alt="Run status after manual stop"  />
-</Frame>
+</Frame> */}
 </Tab>
 </Tabs>
 
@@ -354,7 +356,7 @@ To view a specific run in the W&B App:
     <img src="/images/runs/demo-project.gif" alt="Project navigation demo"  />
 </Frame>
 
-The URL path of a specific run has the proceeding format:
+The URL path of a specific run has the following format:
 
 ```text
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
@@ -479,7 +481,7 @@ Use the **Overview** tab to learn about specific run information in a project, s
 * **W&B CLI version**: The W&B CLI version installed on the machine that hosted the run command.
 * **Git state**: The most recent git commit SHA of a repository or working directory where the run is initialized. This field is empty if you do not enable Git when you create the run or if the git information is not available.
 
-W&B stores the proceeding information below the overview section:
+W&B stores the following information below the overview section:
 
 * **Artifact Outputs**: Artifact outputs produced by the run.
 * **Config**: List of config parameters saved with [`wandb.Run.config`](/models/track/config/).
@@ -511,7 +513,7 @@ Use the Runs tab to filter, group, and sort your runs.
 {/* [Try these yourself →](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) */}
 
 
-The proceeding tabs demonstrate some common actions you can take in the Runs tab.
+The following tabs demonstrate some common actions you can take in the Runs tab.
 
 <Tabs>
 <Tab title="Customize columns">
@@ -607,7 +609,7 @@ View [example artifact graphs](/models/artifacts/explore-and-traverse-an-artifac
 Delete one or more runs from a project with the W&B App.
 
 1. Navigate to the project that contains the runs you want to delete.
-2. Select the **Runs** tab from the project sidebar.
+2. Select the **Runs** tab.
 3. Select the checkbox next to the runs you want to delete.
 4. Choose the **Delete** button (trash can icon) above the table.
 5. From the modal that appears, choose **Delete**.
