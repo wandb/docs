@@ -53,7 +53,7 @@ def training_step(epoch, lr):
     loss = 1.0 / (epoch + 1) + random.uniform(-0.1, 0.1)
     
     # Evaluation with traces
-    eval_results = evaluate_model(f"checkpoint_{epoch}", epoch)
+    eval_results = l(f"checkpoint_{epoevaluate_modech}", epoch)
     
     return {
         "loss": loss,
@@ -86,3 +86,92 @@ To navigate to a workspace from the UI:
 3. If you've set up your workspace as an automatic workspace, the workspace automatically populates with data visualizations and information about your run. The trace data for your run is under the **Weave** section of the workspace. If your workspace is a manual workspace, you can add Weave panels to by clicking **Add panels** and selecting new panels from the **Weave** section of the Add Panels menu.
 
 For more information about workspaces, see [View experiments results](https://docs.wandb.ai/models/track/workspaces).
+
+## Reference W&B artifacts in a Weave trace
+
+Associating W&B artifacts with Weave traces allows you to link models that you've trained with their output. This can help you better organize and track your model's performance over time.
+
+For example, if you've trained two versions of a model (`v1` and `v2`), you can add the `v1` artifact name as an attribute of the trace when you query the `v1` model. This helps you associate the model's output with the correct model version. Associating an artifact with a trace adds a clickable link to the artifact in the Weave UI. 
+
+To associate an artifact with a trace, construct the artifact's URL by concatenating the `wandb-artifact:///` prefix with the artifact's full name using the following syntax: `wandb-artifact:///<full-path-of-artifact>`. Then pass it to Weave in one of two ways:
+
+* As an arbitrary attribute
+* As an attribute of a `Model`
+
+You can locate the artifact's full name in its details page in the W&B UI. It looks like this: `<entity>/<project>/<artifact_name>:<version>`. You can copy the full name from the artifact's details page in the W&B UI.
+
+### Add it as an attribute of a trace
+
+To add an artifact as an attribute of a trace, pass it as a key-value pair to the `weave.attributes()` context manager:
+
+<Tabs>
+<Tab title="Python">
+```python lines {10}
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+@weave.op
+def my_function(name: str):
+    return f"Hello, {name}!"
+
+# Add an arbitrary key-name and the artifact's URL as the value
+with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
+    result = my_function("World")
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines {12}
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+  await init('wandb/docs');
+
+  const myFunction = op(async function myFunction(name: string) {
+    return `Hello, ${name}!`;
+  });
+
+  // Add an arbitrary key-name and the artifact's URL as the value
+  const result = await withAttributes(
+    {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
+    async () => myFunction('World')
+  );
+
+  console.log('Result:', result);
+}
+
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+### Add an artifact as an attribute of a `Model`
+
+To add an artifact as an attribute of a `Model`, pass the artifact URL when you instantiate the model:
+
+<Note>
+The `Model` class is currently only supported in the Weave Python SDK.
+</Note>
+
+```python lines {7,17}
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+class MyModel(weave.Model):
+    # Store the artifact reference as a model attribute
+    artifact_id: str
+    temperature: float = 0.7
+    
+    @weave.op
+    def predict(self, query: str) -> str:
+        # Your model inference logic here
+        return f"Response to: {query}"
+
+# Pass the artifact's URL as an attribute of the model
+model = MyModel(
+    artifact_id="wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"
+)
+
+result = model.predict("Hello, World!")
+```
