@@ -16,9 +16,9 @@ W&B Weave supports logging and displaying numerous content types, with dedicated
 <Tabs>
 <Tab title="Python">
 
-To log media to Weave, add type annotations like `Annotated[bytes, Content]` or `Annotated[str, Content]` as input or return types in your ops. If you annotate path arguments with `Annotated[str, Content]`, Weave automatically opens, detects, and displays the media within your trace.
-
 The examples in this guide use annotations. We recommend using annotations because they are the simplest way to start logging your media. For more advanced configurations, see the [Content API section](#using-the-contents-api).
+
+To log media to Weave, add type annotations like `Annotated[bytes, Content]` or `Annotated[str, Content]` as input or return types in your ops. If you annotate path arguments with `Annotated[str, Content]`, Weave automatically opens, detects, and displays the media within your trace.
 </Tab>
 <Tab title="TypeScript">
 The TypeScript SDK provides dedicated functions for logging media:
@@ -34,7 +34,7 @@ The TypeScript SDK currently supports logging images and audio. To log videos, d
 
 The following sections provide practical examples of logging each type of media.
 
-## Log Images
+## Log images
 
 The following examples demonstrate how to generate and log images to Weave's UI.
 
@@ -80,7 +80,7 @@ result2 = load_image_pil("sample_image.png")
 
 Weave logs the image and returns a link to the trace where you can view the image.
 
-### Example
+### Advanced Example: Generate an image with DALL-E and log it to Weave
 
 The following example generates a picture of a cat and logs it to Weave:
 
@@ -110,7 +110,7 @@ def generate_image(prompt: str) -> Annotated[bytes, Content]:
 generate_image("a cat with a pumpkin hat")
 ```
 
-### Resize large images before logging
+### Advanced Example: Resize large images before logging
 
 It can be helpful to resize images before logging to reduce UI rendering cost and storage impact. You can use `postprocess_output` in your `@weave.op` to resize an image.
 
@@ -177,7 +177,7 @@ main();
 
 Weave logs the image and returns a link to the trace where you can view the image.
 
-### Example
+### Advanced Example: Log an image generated via the OpenAI DALL-E API
 
 The following example logs an image generated via the OpenAI DALL-E API using the `weaveImage` function:
 
@@ -213,7 +213,7 @@ main();
   </Tab>
 </Tabs>
 
-## Log Video
+## Log video
 
 The following examples demonstrate how to generate and log videos to Weave's UI.
 
@@ -253,7 +253,7 @@ bunny_video = load_video_content("big_buck_bunny.mp4")
 
 Weave logs the video and returns a link to the trace where you can view the video.
 
-### Example
+### Advanced Example: Log a video within a video analysis project
 
 The following example shows how to log video within a video-understanding project:
 
@@ -312,7 +312,7 @@ This feature is not available in the Weave TypeScript SDK yet.
   </Tab>
 </Tabs>
 
-## Log Documents
+## Log documents
 
 The following examples generate and log documents to Weave's UI.
 
@@ -365,7 +365,7 @@ pdf_result = load_document("sample_document.pdf")
 csv_result = load_document("sample_data.csv")
 ```
 
-### Example
+### Advanced Example: Log documents within a RAG system
 
 This example demonstrates how to log documents within a Retrieval-Augmented Generation (RAG) system:
 
@@ -434,7 +434,7 @@ This feature is not available in the Weave TypeScript SDK yet.
 </Tabs>
 
 
-## Log Audio
+## Log audio
 
 The following examples demonstrate how to log audio to Weave.
 
@@ -478,7 +478,7 @@ def load_audio(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
 result = load_audio("beep.wav")
 ```
 
-### Example
+### Advanced Example: Generate and log AI-created audio
 
 This example generates and logs AI-created audio using the `Content` annotation:
 
@@ -573,7 +573,7 @@ async function main() {
 main();
 ```
 
-### Example
+### Advanced Example: Generate audio using OpenAI's TTS API and log it to Weave
 
 The following example generates audio using OpenAI's TTS API and logs it to Weave:
 
@@ -658,7 +658,7 @@ def create_simple_html() -> Annotated[bytes, Content[Literal['html']]]:
 result = create_simple_html()
 ```
 
-### Example
+### Advanced Example: Generate self-contained HTML pages using W&B Inference and log them to Weave
 
 This example generates self-contained HTML pages using [W&B Inference](https://docs.wandb.ai/inference/) and logs the pages to Weave:
 
@@ -723,7 +723,7 @@ There are two primary ways to use the Content API: type annotations and direct i
 
 Type annotations automatically detect the proper constructor to use, while direct initialization provides more fine-grained control and lets you take advantage of runtime features of the Content API in your code.
 
-### Type Annotations
+### Type annotations
 
 The Weave Content API is designed to primarily be used through type annotations, which signal to Weave that traced inputs and outputs should be processed and stored as content blobs.
 
@@ -743,7 +743,7 @@ def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Conten
 bytes_data = content_annotation('./path/to/your/file.mp4')
 ```
 
-### Direct Initialization
+### Direct initialization
 
 If you want to take advantage of features, such as:
 - Opening a file with a default application (such as a PDF viewer)
@@ -771,11 +771,11 @@ content.open()  # Opens the file in your PDF viewer
 content.model_dump()  # Dumps the model attributes to JSON
 ```
 
-### Custom Mimetypes
+### Custom mimetypes
 
 Weave can detect most binary mimetypes, but custom mimetypes and text documents such as markdown may not be automatically detected, requiring you to manually specify the mimetype or extension of your file.
 
-#### Custom Mimetypes with Type Annotations
+#### Custom mimetypes with type annotations
 ```python lines {7}
 import weave
 from weave import Content
@@ -791,7 +791,7 @@ def markdown_content(
 markdown_content('path/to/your/document.md')
 ```
 
-#### Custom Mimetypes with Direct Initialization
+#### Custom mimetypes with direct initialization
 
 ```python lines
 video_bytes = Path('/path/to/video.mp4').read_bytes()
@@ -821,13 +821,13 @@ For a comprehensive list of class attributes and methods, view the [Content refe
 | `path`      | `str \| None`    | Source file path, if applicable         |
 | `digest`    | `str`            | SHA256 hash of the content              |
 
-#### Utility Methods
+#### Utility methods
 
 - `save(dest: str | Path) -> None`: Save content to a file
 - `open() -> bool`: Open file using system default application (requires the content to have been saved or loaded from a path)
 - `as_string() -> str`: Display the data as a string (bytes are decoded using the encoding attribute)
 
-#### Initialization Methods
+#### Initialization methods
 
 Create `content` object from a file path:
 
@@ -861,7 +861,7 @@ content = Content.from_base64(base64_string)
 print(content.metadata)
 ```
 
-### Adding Custom Metadata
+### Adding custom metadata
 
 You can attach custom metadata to any Content object:
 
