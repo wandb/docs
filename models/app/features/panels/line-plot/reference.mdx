@@ -12,7 +12,7 @@ This page provides comprehensive details for line plot settings. For more detail
     <img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis"  />
 </Frame>
 
-Set the x-axis to any value logged with `wandb.log()` as a number.
+Set the x-axis to any value logged with `wandb.Run.log()` as a number.
 
 Available time-based x-axis options:
 * **Step**: Increments each time `wandb.Run.log()` is called. Reflects the number of training steps logged from your model. (Default)
@@ -24,7 +24,7 @@ Available time-based x-axis options:
 
 ### Y-axis
 
-Set the y-axis variables to any value logged with `wandb.log()` as a number, array of numbers, or histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
+Set the y-axis variables to any value logged with `wandb.Run.log()` as a number, array of numbers, or histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
 
 <Note>
 Customize the color of your y-axis lines by changing the run color in the runs table.
@@ -52,8 +52,8 @@ Available smoothing methods:
 
 Rescale the plot to exclude outliers from the default plot min and max scale. The setting's impact depends on the plot's sampling mode:
 
-* **Random sampling mode**: When enabled, only points from 5% to 95% are shown. Outliers are not formatted differently from other points when shown.
-* **Full fidelity mode**: All points are always shown, condensed to the last value in each bucket. When enabled, the minimum and maximum bounds of each bucket are shaded. Otherwise, no area is shaded.
+- **Random sampling mode**: Ignoring outliers omits points below 5% and above 95% from the plot.
+- **Full fidelity mode**: Ignoring outliers shows all points, condensed down to the last value in each bucket, and shades the area below 5% and above 95%.
 
 ### Max runs or groups
 
@@ -133,7 +133,7 @@ Add custom calculated expressions to create derived metrics.
 
 Plot values derived from metrics. For example, calculate `1-accuracy` or other arithmetic expressions. Currently only works when plotting a single metric.
 
-Supported operators: `+`, `-`, `*`, `/`, `%`, and `**` (for powers).
+Supported operators: `+`, `-`, `*`, `/`, `%`, and `**` (for exponents).
 
 You can calculate custom lines using both logged metrics and configuration values like hyperparameters.
 

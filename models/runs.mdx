@@ -635,7 +635,7 @@ The **Overall Grafana view** at the top of the drawer redirects you to the SLURM
     <img src="/images/app_ui/cw_wb_observability.png"  />
 </Frame>
 
-The **All Issues** list all issues that occurs during the run in chronological order, with the most recent issue at the top. The list contains the job issue and node issue alerts. Within each issue alert is the name of the issue, the timestamp when the issue occurred, a link to the Grafana dashboard for that issue, and a brief summary that describes the issue.
+**All Issues** lists all issues that occur during the run in chronological order, with the most recent issue at the top. The list contains the job issue and node issue alerts. Each issue alert includes the issue name, the timestamp of the issue, a link to the Grafana dashboard for that issue, and a brief summary.
 
 The following table shows example alerts for each category of infrastructure issues:
 
@@ -656,8 +656,6 @@ For detailed information on error types, see the [SLURM Job Metrics on the CoreW
 Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job's [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
 
 <Note>
-**Note**
-
 The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.
 </Note>
 
