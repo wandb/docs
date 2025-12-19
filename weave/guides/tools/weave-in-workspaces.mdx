@@ -53,7 +53,7 @@ def training_step(epoch, lr):
     loss = 1.0 / (epoch + 1) + random.uniform(-0.1, 0.1)
     
     # Evaluation with traces
-    eval_results = l(f"checkpoint_{epoevaluate_modech}", epoch)
+    eval_results = evaluate_model(f"checkpoint_{epoch}", epoch)
     
     return {
         "loss": loss,
@@ -89,9 +89,9 @@ For more information about workspaces, see [View experiments results](https://do
 
 ## Reference W&B artifacts in a Weave trace
 
-Associating W&B artifacts with Weave traces allows you to link models that you've trained with their output. This can help you better organize and track your model's performance over time.
+You can reference W&B artifacts (models, datasets, checkpoints) in your Weave traces. This creates a clickable link in the Weave UI that navigates directly to the artifact's details page, helping you track which artifact versions were used during specific operations.
 
-For example, if you've trained two versions of a model (`v1` and `v2`), you can add the `v1` artifact name as an attribute of the trace when you query the `v1` model. This helps you associate the model's output with the correct model version. Associating an artifact with a trace adds a clickable link to the artifact in the Weave UI. 
+For example, if you've trained two versions of a model (`v1` and `v2`), you can add the `v1` artifact reference as an attribute of the trace when you query that model. This helps you trace exactly which artifact version produced a given output.
 
 To associate an artifact with a trace, construct the artifact's URL by concatenating the `wandb-artifact:///` prefix with the artifact's full name using the following syntax: `wandb-artifact:///<full-path-of-artifact>`. Then pass it to Weave in one of two ways:
 
