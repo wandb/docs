@@ -584,6 +584,17 @@ Choose the **Download** button in the upper right hand corner to download the lo
 
 View an example logs tab [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
 
+#### Log storage and display limits
+
+W&B applies the following limits to run logs:
+
+| Limit | Description |
+| ----- | ----- |
+| **UI display limit** | The Logs tab displays only the last 10,000 log lines. If your run has more lines, you cannot view or search them in the UI. |
+| **Storage limit** | W&B stores up to 100,000 log lines per run. If your run produces more than 100,000 lines, only the last captured 90,000-100,000 lines are retained. Earlier lines are not stored. |
+
+To access all log lines, including those beyond the UI display and storage limits, download the log file using the **Download** button.
+
 ### Files tab
 Use the **Files tab** to view files associated with a specific run such as model checkpoints, validation set examples, and more
 
