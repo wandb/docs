@@ -19,8 +19,7 @@ Available time-based x-axis options:
 * **Relative Time (Wall)**: Clock time since the process started. If you start a run, pause it for a day, then resume and log, that point appears at 24 hours.
 * **Relative Time (Process)**: Time inside the running process. If you start a run, run for 10 seconds, pause for a day, then resume, that point appears at 10 seconds.
 * **Wall Time**: Minutes elapsed since the start of the first run on the graph.
-
-**X range**: From the smallest to largest value of your x-axis by default. You can customize the minimum and maximum values.
+* **X range**: From the smallest to largest value of your x-axis by default. You can customize the minimum and maximum values.
 
 ### Y-axis
 
@@ -30,7 +29,8 @@ Set the y-axis variables to any value logged with `wandb.Run.log()` as a number,
 Customize the color of your y-axis lines by changing the run color in the runs table.
 </Note>
 
-**Y range**: Default is from the smallest positive value of your metrics (inclusive of 0) to the largest value of your metrics. You can customize the minimum and maximum values.
+Available y-axis options:
+* **Y range**: Default is from the smallest positive value of your metrics (inclusive of 0) to the largest value of your metrics. You can customize the minimum and maximum values.
 
 ### Point aggregation method
 
@@ -43,10 +43,12 @@ Choose the sampling mode for displaying data points:
 Set the [smoothing coefficient](/models/support/formula_smoothing_algorithm/) between 0 and 1, where 0 is no smoothing and 1 is maximum smoothing.
 
 Available smoothing methods:
-* **Time weighted EMA** (default)
+* **Time weighted EMA** (default): a technique for smoothing time series data by exponentially decaying the weight of previous points.
+* **Running average**: replaces a point with the average of points in a window before and after the given x value.
+* **Gaussian**: computes a weighted average of the points, where the weights correspond to a gaussian distribution with the standard deviation specified as the smoothing parameter.
 * **No smoothing**
-* **Running average**
-* **Gaussian**
+
+For comprehensive details, see [Smooth line plots](/models/app/features/panels/line-plot/smoothing).
 
 ### Ignore outliers
 
@@ -66,7 +68,6 @@ A workspace is limited to displaying a maximum of 1000 runs, regardless of its c
 ### Chart type
 
 Choose the plot style:
-
 - **Line plot**
     <Frame>
         <img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot style"  />
@@ -79,6 +80,8 @@ Choose the plot style:
     <Frame>
         <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style"  />
     </Frame>
+
+Configure the chart type in the **Data** tab. Refer to [](/models/app/features/panels/line-plot#individual-line-plot).
 
 ## Grouping settings
 Aggregate all runs by turning on grouping, or group over an individual variable. When you turn on grouping in the runs table, the groups automatically populate into the graph.
