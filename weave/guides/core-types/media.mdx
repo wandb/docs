@@ -3,7 +3,7 @@ title: "Log media"
 description: "Log media returned in your traces, such as images and videos."
 ---
 
-W&B Weave supports logging and has dedicated displays for numerous content types such as videos, images, audio files, PDFs, CSVs and HTML. Each section of this guide provides a basic configuration example and a more advanced example of how to log the media type.
+W&B Weave supports logging and displaying numerous content types, with dedicated functions for displaying videos, images, audio clips, PDFs, CSV data, and HTML. This guide provides basic and advanced examples for logging and displaying each media type.
 
 - **[Images](#log-images)** 
 - **[Video](#log-video)** 
@@ -16,7 +16,7 @@ W&B Weave supports logging and has dedicated displays for numerous content types
 <Tabs>
 <Tab title="Python">
 
-Use type annotations like `Annotated[bytes, Content]` or `Annotated[str, Content]` as input or return types in your ops to log media to Weave. You can also annotate path arguments with `Annotated[str, Content]` to have Weave automatically open, detect and display the media within your trace.
+To log media to Weave, add type annotations like `Annotated[bytes, Content]` or `Annotated[str, Content]` as input or return types in your ops. If you annotate path arguments with `Annotated[str, Content]`, Weave automatically opens, detects, and displays the media within your trace.
 
 The examples in this guide use annotations. We recommend using annotations because they are the simplest way to start logging your media. For more advanced configurations, see the [Content API section](#using-the-contents-api).
 </Tab>
@@ -26,13 +26,13 @@ The TypeScript SDK provides dedicated functions for logging media:
 - `weave.weaveAudio({ data: Buffer })` - for audio (WAV format)
 
 <Note>
-The TypeScript SDK currently only supports logging images and audio. Video, documents, and HTML logging are available in the Weave Python SDK.
+The TypeScript SDK currently supports logging images and audio. To log videos, documents, or HTML, use the Weave Python SDK instead.
 </Note>
 
 </Tab>
 </Tabs>
 
-Each media section demonstrates how to log that media type with practical examples.
+The following sections provide practical examples of logging each type of media.
 
 ## Log Images
 
