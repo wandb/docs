@@ -172,10 +172,10 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
       - **Multi-tenant Cloud**: `arn:aws:iam::wandb:static/wandb-integration-public`
       - **Dedicated Cloud** or **Self-Managed**: `arn:aws:iam::wandb:static/wandb-integration`
     - `<wb-org-id>`:
-      - **Multi-tenant Cloud**: The organization ID from [Step 1](#coreweave-org-id).
-      - **Dedicated Cloud** or **Self-Managed**: The customer namespace from [Step 2](#coreweave-customer-namespace).
+      - **Multi-tenant Cloud**: The organization ID from [Provision your bucket](#coreweave-org-id).
+      - **Dedicated Cloud** or **Self-Managed**: The customer namespace from [Provision your bucket](#coreweave-customer-namespace).
 1. **Dedicated Cloud**: Contact [support](mailto:support@wandb.ai) to complete additional steps.
-1. **Self-Managed**: Update your W&B deployment to set the environment variable `GORILLA_SUPPORTED_FILE_STORES` to the exact string `cw://` and restart W&B. Otherwise, CoreWeave will not appear as an option when you configure team storage.
+1. <a id="set-environment-variable"></a>**Self-Managed**: Update your W&B deployment to set the environment variable `GORILLA_SUPPORTED_FILE_STORES` to the exact string `cw://` and restart W&B. Otherwise, CoreWeave will not appear as an option when you configure team storage.
 
 Next, [configure W&B](#configure-byob).
 </Tab>
@@ -475,8 +475,8 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 <Note>
 For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
 
-* [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/modules/secure_storage_connector)
-* [Google Cloud](https://github.com/wandb/terraform-google-wandb/tree/main/modules/secure_storage_connector)
+* [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/examples/byob)
+* [Google Cloud](https://github.com/wandb/terraform-google-wandb/tree/main/examples/byob)
 * Azure - [Instance level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob) or [Team level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector)
 </Note>
 
@@ -511,7 +511,7 @@ Select your deployment type to continue.
 
     Click **Cloud provider** and select **CoreWeave**, **AWS**, **Google Cloud**, or **Azure**.
     
-    If the cloud provider is not listed, ensure that you have followed step 1 to add the bucket path to the supported file stores for your instance. If the storage provider is still not listed, [contact support](mailto:support@wandb.ai) for assistance.
+    If the cloud provider is not listed, ensure that you have followed the instructions in [Provision your bucket](#set-environment-variable) to add the bucket path to the supported file stores for your instance. If the storage provider is still not listed, [contact support](mailto:support@wandb.ai) for assistance.
 1. Specify the bucket details.
     - For **CoreWeave**, provide only the bucket name.
     - For Amazon S3, Google Cloud, or S3-compatible storage, provide the full bucket path you [determined earlier](#determine-the-storage-address).
@@ -554,8 +554,7 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 </Tabs>
 
 ## Troubleshooting
-<details open>
-<summary>Connecting to CoreWeave AI Object Storage</summary>
+This section helps troubleshoot problems connecting to CoreWeave AI Object Storage.
 
 - **Connection errors**
   - Verify that your W&B instance can connect to CoreWeave network endpoints.
@@ -573,5 +572,3 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
   - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.
-
-</details>
