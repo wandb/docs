@@ -7,7 +7,7 @@ title: Fork a run
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-Explore different parameters or models from a specific point in an experiment without impacting the original run. To do this, "fork" from an existing W&B run. When you fork from a run, W&B creates a new run based on the the source run's `run ID` and `step`.
+Explore different parameters or models from a specific point in an experiment without impacting the original run. To do this, "fork" from an existing W&B run. When you fork from a run, W&B creates a new run based on the the source run's `run ID` and `step`. After you initialize a forked run, you can continue logging to the new run independently from the source run.
 
 {/* Use `fork_from` when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run. */}
 
@@ -16,16 +16,17 @@ Explore different parameters or models from a specific point in an experiment wi
 * Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
 </Note>
 
-
-## Start a forked run
-
-Use the `fork_from` parameter in [`wandb.init()`](/models/ref/python/functions/init) to fork from an existing run. Specify the source run's unique `run ID` and the `step` you want to start the forked run from.
+Use the `fork_from` parameter in [`wandb.init()`](/models/ref/python/functions/init) to fork from an existing run. Specify the source run's unique `run ID` and the `step` you want to start the forked run from. 
 
 <Note>
 See [Unique run identifiers](/models/runs/run-identifiers#unique-run-identifiers) to learn more about run IDs and how to locate them.
 </Note>
 
-The following code snippet shows how to fork a run that was logged to W&B. Replace `<source-run-id>`, `<project>`, and `<entity>` with your own values.
+## Fork from a previously logged run
+
+The following code snippet demonstrates how to fork from a run that you previously logged to W&B. This might occur if you want to fork from a run in a different script or notebook. Or if someone else logged the source run that you want to fork from.
+
+Replace `<source-run-id>`, `<project>`, and `<entity>` with your own values.
 
 ```python
 import wandb
@@ -45,10 +46,9 @@ with wandb.init(
     pass
 ```
 
-The following code snippet shows how to fork from a run created in the same script. In this example, you:
+## Fork from a run in the same script
 
-1. Intialize the source run
-1. Initialize the forked run using the `fork_from` parameter to specify the source run's ID and the step to fork from.
+The following code snippet shows how to fork from a run within the same script. This might occur if you want explore different parameters or models from a specific point within the same script or notebook.
 
 ```python
 import wandb
@@ -74,12 +74,13 @@ with wandb.init(
     pass
 ```
 
-Note that you use the `original_run.id` property to obtain the unique run ID of the source run.
+Note that you use the `original_run.id` property to obtain the unique run ID of the original run.
 
-## Continue from a forked run
-After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics. 
+## Example script
 
-For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200:
+For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200. 
+
+Copy and paste the following code into a Python script or notebook cell. Replace `<project>` and `<entity>` with your own values.
 
 ```python
 import wandb
@@ -96,8 +97,8 @@ with wandb.init(
 # Fork from the first run at a specific step and log the
 # metric starting from step 200
 with wandb.init(
-    project="your_project_name", 
-    entity="your_entity_name", 
+    project="<project>", 
+    entity="<entity>", 
     fork_from=f"{run1.id}?_step=200"
 ) as run2:
     # Continue logging in the new run
