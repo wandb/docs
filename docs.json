@@ -196,6 +196,8 @@
                         "group": "What are runs?",
                         "pages": [
                           "models/runs",
+                          "models/runs/initialize_run",
+                          "models/runs/run-identifiers",
                           "models/runs/tags",
                           "models/runs/multiple-runs-per-process",
                           "models/runs/run-colors",
