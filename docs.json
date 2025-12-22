@@ -206,7 +206,11 @@
                           "models/runs/resuming",
                           "models/runs/rewind",
                           "models/runs/color-code-runs",
-                          "models/runs/alert"
+                          "models/runs/alert",
+                          "models/runs/delete-runs",
+                          "models/runs/stop-runs",
+                          "models/runs/customize-run-display",
+                          "models/runs/view-logged-runs"
                         ]
                       },
                       {

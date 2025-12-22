@@ -1,0 +1,56 @@
+---
+title: Stop runs
+---
+
+# Stop a run
+Stop a run from the W&B App or programmatically.
+
+<Tabs>
+<Tab title="Programmatically">
+1. Navigate to the terminal or code editor where you initialized the run.
+2. Press `Ctrl+D` to stop the run.
+
+For example, following the preceding instructions, your terminal might looks similar to the following: 
+
+```bash
+KeyboardInterrupt
+wandb: 🚀 View run legendary-meadow-2 at: https://wandb.ai/nico/history-blaster-4/runs/o8sdbztv
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other file(s)
+wandb: Find logs at: ./wandb/run-20241106_095857-o8sdbztv/logs
+```
+
+Navigate to the W&B App to confirm the run is no longer active:
+
+1. Navigate to the project that your run was logging to.
+2. Select the name of the run. 
+  <Note>
+You can find the name of the run that you stop from the output of your terminal or code editor. For example, in the preceding example, the name of the run is `legendary-meadow-2`.
+</Note>
+3. Choose the **Overview** tab.
+
+Next to the **State** field, the run's state changes from `running` to `Killed`.
+
+{/* <Frame>
+    <img src="/images/runs/stop-run-terminal.png" alt="Run stopped via terminal"  />
+</Frame> */}
+
+</Tab>
+<Tab title="W&B App">
+1. Navigate to the project that your run is logging to.
+2. Select the run you want to stop within the run selector.
+3. Choose the **Overview** tab.
+4. Select the top button next to the **State** field.
+
+{/* <Frame>
+    <img src="/images/runs/stop-run-manual.png" alt="Manual run stop button"  />
+</Frame> */}
+
+Next to the **State** field, the run's state changes from `running` to `Killed`.
+
+{/* <Frame>
+    <img src="/images/runs/stop-run-manual-status.png" alt="Run status after manual stop"  />
+</Frame> */}
+</Tab>
+</Tabs>
+
+See [State fields](#run-states) for a full list of possible run states.
