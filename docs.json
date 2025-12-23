@@ -196,27 +196,22 @@
                         "group": "What are runs?",
                         "pages": [
                           "models/runs",
-                          "models/runs/initialize_run",
-                          "models/runs/multiple-runs-per-process",
                           "models/runs/run-identifiers",
-                          "models/runs/tags",
-
-                          
+                          "models/runs/initialize_run",
+                          "models/runs/view-logged-runs",
                           "models/runs/forking",
-                          "models/runs/grouping",
-                          
                           "models/runs/resuming",
                           "models/runs/rewind",
-                          
+                          "models/runs/grouping",
                           "models/runs/filter-runs",
                           "models/runs/search-runs",
                           "models/runs/stop-runs",
                           "models/runs/delete-runs",
+                          "models/runs/tags",
                           "models/runs/manage-runs",
                           "models/runs/run-colors",
                           "models/runs/color-code-runs",                          
                           "models/runs/customize-run-display",
-                          "models/runs/view-logged-runs",
                           "models/runs/alert"
                         ]
                       },

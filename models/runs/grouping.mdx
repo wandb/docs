@@ -1,9 +1,13 @@
 ---
 description: Group training and evaluation runs into larger experiments
-title: Organize runs
+title: Group runs
 ---
 
 Add a group name or job type to your runs to organize them into larger experiments. This is useful for organizing runs for distributed training, multiple processes, or k-fold cross-validation.
+{/* 
+### Define groups using environment variables
+
+Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
 ## Group runs programmatically
 
