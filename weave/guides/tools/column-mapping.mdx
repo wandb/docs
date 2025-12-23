@@ -1,0 +1,21 @@
+---
+title: "Map columns in datasets"
+description: "Map columns in datasets to different names. This helps you align the column names in your dataset with the column names expected by the scorer."
+---
+
+You can use the `column_map` attribute to tell the scorers which dataset columns to use. The `column_map` attribute requires you to set the following keys:
+- `output`: Model prediction
+- `target`: Reference answer to compare with
+
+The following example maps the `output` and `target` columns to a dataset's `model_output` and `answer` columns, respectively:
+
+```python
+from weave.scorers import EmbeddingSimilarityScorer
+
+similarity_scorer = EmbeddingSimilarityScorer()
+
+similarity_scorer.column_map = {
+    "output": "model_output",  # The model's generated text
+    "target": "answer"        # The expected or reference response
+}
+```
