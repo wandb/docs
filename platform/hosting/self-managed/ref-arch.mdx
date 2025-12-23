@@ -97,7 +97,7 @@ W&B requires object storage with pre-signed URL and CORS support, deployed in on
 - [Amazon S3](https://aws.amazon.com/s3/) is an object storage service offering industry-leading scalability, data availability, security, and performance.
 - [Google Cloud Storage](https://cloud.google.com/storage) is a managed service for storing unstructured data at scale.
 - [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs) is a cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
-- S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
+- S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/), or other enterprise-grade solutions hosted in your cloud or on-premises infrastructure.
 
 ### Versions
 <SelfManagedVersionRequirements/>
@@ -111,86 +111,97 @@ The fully qualified domain name (FQDN) of the W&B deployment must resolve to the
 
 ### Load balancer and ingress
 
-Run a load balancer that stops network requests at the appropriate network boundary. Ensure that all machines used to execute machine learning payloads, and the devices used to access the service through web browsers, can communicate to this endpoint.
+The W&B Kubernetes Operator exposes services using a Kubernetes ingress controller, which routes to service endpoints based on URL paths with different ports. The ingress controller must be accessible by all machines that execute machine learning payloads or access the service through web browsers.
 
-Common load balancer and ingress controller options include:
-1. [Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)
-2. [Istio](https://istio.io)
-3. [Caddy](https://caddyserver.com)
-4. [Cloudflare](https://www.cloudflare.com/load-balancing/)
-5. [Apache](https://www.apache.org)
-6. [HAProxy](https://www.haproxy.org)
+#### Ingress controller requirements
 
-#### Example nginx configuration
+Your Kubernetes cluster must have an `IngressClass` available. Common ingress controller options include:
+- [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
+- [Istio](https://istio.io)
+- [Traefik](https://traefik.io/)
+- Cloud provider ingress controllers (AWS ALB, GCP Ingress, Azure Application Gateway)
 
-The following is an example configuration using nginx as a reverse proxy:
+#### W&B service routing
 
-```nginx
-events {}
-http {
-    # If we receive X-Forwarded-Proto, pass it through; otherwise, pass along the
-    # scheme used to connect to this server
-    map $http_x_forwarded_proto $proxy_x_forwarded_proto {
-        default $http_x_forwarded_proto;
-        ''      $scheme;
-    }
+The W&B Operator automatically routes requests to multiple backend services based on path:
 
-    # Also, in the above case, force HTTPS
-    map $http_x_forwarded_proto $sts {
-        default '';
-        "https" "max-age=31536000; includeSubDomains";
-    }
+| Path | Service | Default port | Purpose |
+|------|---------|------|---------|
+| `/` | `wandb-app` | 8080 | Main web application UI |
+| `/api` | `wandb-api` | 8081 | API service |
+| `/graphql` | `wandb-api` | 8081 | GraphQL API endpoint |
+| `/graphql2` | `wandb-api` | 8081 | GraphQL API v2 endpoint |
+| `/console` | `wandb-console` | 8082 | System Console |
+| `/traces` | `wandb-weave-trace` | 8722 | Weave tracing service (if enabled) |
 
-    # If we receive X-Forwarded-Host, pass it though; otherwise, pass along $http_host
-    map $http_x_forwarded_host $proxy_x_forwarded_host {
-        default $http_x_forwarded_host;
-        ''      $http_host;
-    }
+#### Example ingress configuration
 
-    # If we receive X-Forwarded-Port, pass it through; otherwise, pass along the
-    # server port the client connected to
-    map $http_x_forwarded_port $proxy_x_forwarded_port {
-        default $http_x_forwarded_port;
-        ''      $server_port;
-    }
+The following shows an example ingress resource created by the W&B Operator:
 
-    # If we receive Upgrade, set Connection to "upgrade"; otherwise, delete any
-    # Connection header that may have been passed to this server
-    map $http_upgrade $proxy_connection {
-        default upgrade;
-        '' close;
-    }
-
-    server {
-        listen 443 ssl;
-        server_name         www.example.com;
-        ssl_certificate     www.example.com.crt;
-        ssl_certificate_key www.example.com.key;
-
-        proxy_http_version 1.1;
-        proxy_buffering off;
-        proxy_set_header Host $http_host;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $proxy_connection;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
-        proxy_set_header X-Forwarded-Host $proxy_x_forwarded_host;
-
-        location / {
-            proxy_pass  http://$YOUR_UPSTREAM_SERVER_IP:8080/;
-        }
-
-        keepalive_timeout 10;
-    }
-}
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wandb
+  namespace: wandb
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: wandb.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-app
+            port:
+              number: 8080
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-api
+            port:
+              number: 8081
+      - path: /graphql
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-api
+            port:
+              number: 8081
+      - path: /graphql2
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-api
+            port:
+              number: 8081
+      - path: /console
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-console
+            port:
+              number: 8082
+  tls:
+  - hosts:
+    - wandb.example.com
+    secretName: wandb-tls
 ```
+
+<Note>
+The W&B Operator creates and manages the ingress configuration automatically. You typically do not need to create ingress resources manually. Ensure your cluster has a functioning ingress controller and the appropriate `IngressClass` configured.
+</Note>
 
 ### SSL/TLS
 <SelfManagedSslTlsRequirements/>
 
 ### Supported CPU architectures
-W&B runs on the Intel (x86) CPU architecture. ARM is not supported.
+W&B runs on Intel and AMD 64-bit architecture. ARM is not supported.
 
 ## Deployment method
 

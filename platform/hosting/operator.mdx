@@ -108,14 +108,34 @@ By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID
 W&B must start as the root group (`$GID=0`) for file system permissions to function properly.
 </Note>
 
-An example security context for Kubernetes looks similar to the following:
+Configure security contexts for each W&B component. For example, to configure the API component:
 
 ```yaml
-spec:
-  securityContext:
-    runAsUser: 100000
-    runAsGroup: 0
+api:
+  install: true
+  image:
+    repository: wandb/megabinary
+    tag: 0.74.1
+  pod:
+    securityContext:
+      fsGroup: 10001
+      fsGroupChangePolicy: Always
+      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 10001
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
 ```
+
+If needed, configure a custom security context for other components like `app` or `console`. For details, see [Custom security context](#custom-security-context).
 
 ## Deploy W&B Server application
 
@@ -721,6 +741,32 @@ global:
 ```
 
 ### LDAP
+
+<Warning>
+LDAP configuration support in the current Helm chart is limited. Contact W&B Support or your AISE for assistance configuring LDAP.
+</Warning>
+
+Configure LDAP by setting environment variables in `global.extraEnv`:
+
+```yaml
+global:
+  extraEnv:
+    LDAP_ADDRESS: ldaps://ldap.company.example.com
+    LDAP_BASE_DN: cn=accounts,dc=company,dc=example,dc=com
+    LDAP_USER_BASE_DN: cn=users,cn=accounts,dc=company,dc=example,dc=com
+    LDAP_GROUP_BASE_DN: cn=groups,cn=accounts,dc=company,dc=example,dc=com
+    LDAP_BIND_DN: uid=ldapbind,cn=sysaccounts,cn=etc,dc=company,dc=example,dc=com
+    LDAP_BIND_PW: ********************
+    LDAP_ATTRIBUTES: email=mail,name=cn
+    LDAP_TLS_ENABLE: "true"
+    LDAP_LOGIN: "true"
+    LDAP_USER_OBJECT_CLASS: user
+    LDAP_GROUP_OBJECT_CLASS: group
+```
+
+<accordion title="Legacy LDAP configuration">
+This legacy approach is no longer recommended. This section is provided for reference.
+
 **Without TLS**
 ```yaml
 global:
@@ -778,6 +824,7 @@ global:
         name: "ldap-tls-cert"
         key: "certificate.crt"
 ```
+</accordion>
 
 ### OIDC SSO
 
