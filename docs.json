@@ -197,7 +197,8 @@
                         "pages": [
                           "models/runs",
                           "models/runs/run-identifiers",
-                          "models/runs/initialize_run",
+                          "models/runs/initialize-run",
+                          "models/runs/run-states",
                           "models/runs/view-logged-runs",
                           "models/runs/forking",
                           "models/runs/resuming",
