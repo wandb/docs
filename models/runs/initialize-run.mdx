@@ -4,7 +4,7 @@ title: Initialize runs
 
 Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). 
 
-By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one, depending on the configuration.  To manage multiple active runs in the same process, see [W&B Run Contexts](/models/runs/initialize_run).
+By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one, depending on the configuration.  To manage multiple active runs in the same process, see [Multiple runs in one process](/models/runs/initialize-run#multiple-runs-in-one-process).
 
 ## Single run per process
 
