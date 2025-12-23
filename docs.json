@@ -209,6 +209,7 @@
                           "models/runs/rewind",
                           
                           "models/runs/filter-runs",
+                          "models/runs/search-runs",
                           "models/runs/stop-runs",
                           "models/runs/delete-runs",
                           "models/runs/manage-runs",

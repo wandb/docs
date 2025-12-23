@@ -151,31 +151,13 @@ Notes that you add to a specific run appear on the run page in the **Overview** 
 4. Choose the **Overview** tab
 5. Select the pencil icon next to the **Description** field and add your notes
 
+## Export runs table to CSV
 
+Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
-
-
-## Organize runs 
-
-This section provides instructions on how to organize runs using groups and job types. By assigning runs to groups (for example, experiment names) and specifying job types (for example, preprocessing, training, evaluation, debugging), you can streamline your workflow and improve model comparison.
-
-### Assign a group or job type to a run
-
-Each run in W&B can be categorized by **group** and a **job type**:
-
-- **Group**: a broad category for the experiment, used to organize and filter runs.
-- **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
-
-The following [example workspace](https://wandb.ai/stacey/model_iterz?workspace=user-stacey), trains a baseline model using increasing amounts of data from the Fashion-MNIST dataset. The workspace uses colors to represent the amount of data used:
-
-- **Yellow to dark green** indicate increasing amounts of data for the baseline model.
-- **Light blue to violet to magenta** indicate amounts of data for a more complex "double" model with additional parameters.
-
-Use W&B's filtering options and search bar to compare runs based on specific conditions, such as:
-- Training on the same dataset.
-- Evaluating on the same test set.
-
-When you apply filters, the **Table** view is updated automatically. This allows you to identify performance differences between models, such as determining which classes are significantly more challenging for one model compared to another.
+<Frame>
+    <img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV"  />
+</Frame>
 
 {/* ### Search runs
 

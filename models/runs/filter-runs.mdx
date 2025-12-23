@@ -1,15 +1,12 @@
 ---
-description: How to use the sidebar and table on the project page
-title: Filter and search runs
+description: Filter runs based on their status, tags, regular expressions (RegEx), or other properties in the W&B App.
+title: Filter runs
 ---
 
-Use your project page to gain insights from runs logged to W&B. You can filter and search runs from both the **Workspace** page and the **Runs** page.
-
-## Filter runs
 
 Filter runs based on their status, [tags](#filter-runs-with-tags), [regular expressions (RegEx)](#filter-runs-with-regular-expressions-regex) or other properties with the filter button.
 
-See Customize run colors for more information on how to [edit, randomize, and reset run colors](/models/runs/run-colors/).
+{/* See Customize run colors for more information on how to [edit, randomize, and reset run colors](/models/runs/run-colors/). */}
 
 ### Filter runs with tags
 
@@ -32,47 +29,6 @@ If regex doesn't provide you the desired results, you can make use of [tags](/mo
 3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
 4. Enter your regular expression in the search box.
 
-## Search runs
-
-Use regular expressions (RegEx) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
-
-## Group runs
-
-To group runs by one or more columns (including hidden columns):
-
-1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
-1. Select one or more columns to group results by.
-1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
-
-## Sort runs by minimum and maximum values
-Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
-
-The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
-
-1. Hover your mouse over the column with the metric you want to sort with.
-2. Select the kebab menu (three vertical lines).
-3. From the dropdown, select either **Show min** or **Show max**.
-4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
-
-<Frame>
-    <img src="/images/app_ui/runs_min_max.gif" alt="Sort by min/max values"  />
-</Frame>
-
-## Search End Time for runs
-
-We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
-
-<Frame>
-    <img src="/images/app_ui/search_run_endtime.png" alt="End Time column"  />
-</Frame>
-
-## Export runs table to CSV
-
-Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
-
-<Frame>
-    <img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV"  />
-</Frame>
 
 {/*
 ## Edit run colors
