@@ -5,167 +5,228 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
-Use W&B for machine learning experiment tracking, dataset versioning, and project collaboration.
+# **Integrate Weights & Biases with PyTorch**
+
+This guide demonstrates how to integrate [Weights & Biases (W\&B)](https://wandb.ai/) into your PyTorch pipeline. W\&B helps you track machine learning experiments, visualize model performance, and ensure reproducibility across teams.
 
 <Frame>
-    <img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B"  />
+  <img src="https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=06138cad556d6b611c67d197c0406e85" alt="Benefits of using W&B" data-og-width="4672" width="4672" data-og-height="816" height="816" data-path="images/tutorials/huggingface-why.png" data-optimize="true" data-opv="3" srcset="https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?w=280&fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=6612bd2fa9d5a4198e3139edded59ef0 280w, https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?w=560&fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=e83c4de9475a8b4e9f168135bd0ee2d0 560w, https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?w=840&fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=5fab76ec40b48cf98967db9f2c62a5c2 840w, https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?w=1100&fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=ce8091e543a985878e9bb1309e71996a 1100w, https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?w=1650&fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=7c240551b54641445fa1482845b3b245 1650w, https://mintcdn.com/wb-21fd5541/_OEDykSS2PIumrEw/images/tutorials/huggingface-why.png?w=2500&fit=max&auto=format&n=_OEDykSS2PIumrEw&q=85&s=f92e5b0e020f9425dc531c46fae66d07 2500w" />
 </Frame>
-
-This Colab notebook introduces the `WandbModelCheckpoint` callback. Use this callback to log your model checkpoints to W&B [Artifacts](/models/artifacts/).
-
-## Setup and Installation
-
-First, let us install the latest version of W&B. We will then authenticate this colab instance to use W&B.
+_The W&B ecosystem: Connecting your PyTorch training script to a centralized dashboard for experiment tracking and model management._
 
 
-```python
-!pip install -qq -U wandb
+## **Before you begin**
+
+This guide is intended for **machine learning engineers** and **data scientists** who are familiar with PyTorch and Python. Using W\&B allows you to move beyond manual logging in spreadsheets to an automated, central dashboard for all your model metadata.
+
+By the end of this guide, you will know how to:
+
+* Initialize a W\&B run and configure hyperparameters.  
+* Define and "watch" a PyTorch model for gradient tracking.  
+* Track real-time metrics and save model artifacts for reproducibility.
+
+## **Contents**
+
+* [Prerequisites](#prerequisites)
+* [Step 1: Install and Authenticate](#step-1-install-and-authenticate)
+* [Step 2: Define Model and Data](#step-2-define-model-and-data)
+* [Step 3: Initialize the Run and Hyperparameters](#step-3-initialize-the-run-and-hyperparameters)
+* [Step 4: Track Metrics and Gradients](#step-4-track-metrics-and-gradients)
+* [Step 5: Version and Save the Model](#step-5-version-and-save-the-model)
+* [Advanced Configuration](#advanced-configuration)
+* [Next Steps](#next-steps)
+
+## **Prerequisites**
+
+* A W\&B account.  
+* A Python environment with `torch` and `torchvision` installed.
+
+## **Step 1: Install and Authenticate**
+
+Install the `wandb` and `onnx` libraries and log in to your account.
+
+```python  theme={null}
+\# Install dependencies  
+pip install wandb onnx \-Uq
 ```
 
-
-```python
-import os
-import tensorflow as tf
-from tensorflow.keras import layers
-from tensorflow.keras import models
-import tensorflow_datasets as tfds
-
-# W&B related imports
-import wandb
-from wandb.integration.keras import WandbMetricsLogger
-from wandb.integration.keras import WandbModelCheckpoint
-```
-
-If this is your first time using W&B or you are not logged in, the link that appears after running `wandb.login()` will take you to sign-up/login page. Signing up for a [free account](https://wandb.ai/signup) is as easy as a few clicks.
-
-
-```python
+```python  theme={null}
+import wandb  
 wandb.login()
 ```
 
-## Hyperparameters
+## **Step 2: Define Model and Data**
 
-Use of proper config system is a recommended best practice for reproducible machine learning. We can track the hyperparameters for every experiment using W&B. In this colab we will be using simple Python `dict` as our config system.
+The following boilerplate defines a standard Convolutional Neural Network (CNN) and data loaders for the MNIST dataset.
 
+```python  theme={null}
+import torch  
+import torch.nn as nn  
+import torchvision  
+import torchvision.transforms as transforms
 
-```python
-configs = dict(
-    num_classes = 10,
-    shuffle_buffer = 1024,
-    batch_size = 64,
-    image_size = 28,
-    image_channels = 1,
-    earlystopping_patience = 3,
-    learning_rate = 1e-3,
-    epochs = 10
-)
+\# Select device  
+device \= torch.device("cuda" if torch.cuda.is\_available() else "cpu")
+
+class ConvNet(nn.Module):  
+    def \_\_init\_\_(self, kernels, classes):  
+        super(ConvNet, self).\_\_init\_\_()  
+        self.layer1 \= nn.Sequential(  
+            nn.Conv2d(1, kernels\[0\], kernel\_size=5, stride=1, padding=2),  
+            nn.ReLU(),  
+            nn.MaxPool2d(kernel\_size=2, stride=2))  
+        self.layer2 \= nn.Sequential(  
+            nn.Conv2d(kernels\[0\], kernels\[1\], kernel\_size=5, stride=1, padding=2),  
+            nn.ReLU(),  
+            nn.MaxPool2d(kernel\_size=2, stride=2))  
+        self.fc \= nn.Linear(7 \* 7 \* kernels\[1\], classes)
+
+    def forward(self, x):  
+        out \= self.layer1(x)  
+        out \= self.layer2(out)  
+        out \= out.reshape(out.size(0), \-1)  
+        out \= self.fc(out)  
+        return out
+
+def make\_loader(config, train=True):  
+    full\_dataset \= torchvision.datasets.MNIST(root=".", train=train,   
+                                            transform=transforms.ToTensor(), download=True)  
+    return torch.utils.data.DataLoader(dataset=full\_dataset,   
+                                     batch\_size=config.batch\_size,   
+                                     shuffle=True,   
+                                     pin\_memory=True, num\_workers=2)
 ```
 
-## Dataset
+## **Step 3: Initialize the Run and Hyperparameters**
 
-In this colab, we will be using [Fashion-MNIST](https://www.tensorflow.org/datasets/catalog/fashion_mnist) dataset from TensorFlow Dataset catalog. We aim to build a simple image classification pipeline using TensorFlow/Keras.
+Initialize a W\&B run to track your experiment. Use the `config` dictionary to capture hyperparameters, which allows you to filter and query runs in the W\&B dashboard.
 
+```python  theme={null}
+\# Define experiment metadata and hyperparameters  
+config \= {  
+    "epochs": 5,  
+    "classes": 10,  
+    "kernels": \[16, 32\],  
+    "batch\_size": 128,  
+    "learning\_rate": 0.005,  
+    "dataset": "MNIST",  
+    "architecture": "CNN"  
+}
 
-```python
-train_ds, valid_ds = tfds.load('fashion_mnist', split=['train', 'test'])
+def model\_pipeline(hyperparameters):  
+    \# Initialize a new W\&B run. Replace \<PROJECT\_NAME\> with your project title.  
+    with wandb.init(project="\<PROJECT\_NAME\>", config=hyperparameters) as run:  
+        config \= run.config
+
+        \# Build model, data, and optimizer  
+        train\_loader \= make\_loader(config, train=True)  
+        test\_loader \= make\_loader(config, train=False)  
+        model \= ConvNet(config.kernels, config.classes).to(device)  
+        criterion \= nn.CrossEntropyLoss()  
+        optimizer \= torch.optim.Adam(model.parameters(), lr=config.learning\_rate)  
+          
+        \# Train and track performance  
+        train(model, train\_loader, criterion, optimizer, config)
+
+        \# Evaluate final performance  
+        test(model, test\_loader)
+
+    return model
 ```
 
+## **Step 4: Track Metrics and Gradients**
 
-```python
-AUTOTUNE = tf.data.AUTOTUNE
+Use `wandb.watch` to log model gradients and `wandb.log` to capture training metrics such as loss and accuracy.
 
+<Frame>
+  <img src="https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=43f22fd680e4d32eeee7fa3e6300f33e" alt="PyTorch training dashboard" data-og-width="1920" width="1920" data-og-height="1080" height="1080" data-path="images/tutorials/pytorch-2.png" data-optimize="true" data-opv="3" srcset="https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?w=280&fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=f895c9e63246957fb4b807a13f6cfb7a 280w, https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?w=560&fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=edad665516e9391b3429b6e55578c57e 560w, https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?w=840&fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=224463b912e2ed31e6d7ea3988dc7ae8 840w, https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?w=1100&fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=27a9239d5ddf140d26fbcc2448b0283a 1100w, https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?w=1650&fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=b3a1d1916cf4c830f5525af2105ca308 1650w, https://mintcdn.com/wb-21fd5541/wYBIlf7cqDpGjWr9/images/tutorials/pytorch-2.png?w=2500&fit=max&auto=format&n=wYBIlf7cqDpGjWr9&q=85&s=de8742628a29857ea27893ba58c093fc 2500w" />
+</Frame>
+_A sample W&B dashboard visualizing real-time training loss, accuracy curves, and model gradients captured via `wandb.watch`.
 
-def parse_data(example):
-    # Get image
-    image = example["image"]
-    # image = tf.image.convert_image_dtype(image, dtype=tf.float32)
+```python  theme={null}
+def train(model, loader, criterion, optimizer, config):  
+    \# Log gradients and topology  
+    wandb.watch(model, criterion, log="all", log\_freq=10)
 
-    # Get label
-    label = example["label"]
-    label = tf.one_hot(label, depth=configs["num_classes"])
+    example\_ct \= 0  
+    for epoch in range(config.epochs):  
+        for images, labels in loader:  
+            loss \= train\_batch(images, labels, model, optimizer, criterion)  
+            example\_ct \+= len(images)  
+              
+            \# Log metrics to the dashboard every 25 batches  
+            wandb.log({"epoch": epoch, "loss": loss}, step=example\_ct)
 
-    return image, label
+def train\_batch(images, labels, model, optimizer, criterion):  
+    images, labels \= images.to(device), labels.to(device)  
+    outputs \= model(images)  
+    loss \= criterion(outputs, labels)
 
-
-def get_dataloader(ds, configs, dataloader_type="train"):
-    dataloader = ds.map(parse_data, num_parallel_calls=AUTOTUNE)
-
-    if dataloader_type=="train":
-        dataloader = dataloader.shuffle(configs["shuffle_buffer"])
-      
-    dataloader = (
-        dataloader
-        .batch(configs["batch_size"])
-        .prefetch(AUTOTUNE)
-    )
-
-    return dataloader
+    optimizer.zero\_grad()  
+    loss.backward()  
+    optimizer.step()  
+    return loss
 ```
 
+## **Step 5: Version and Save the Model**
 
-```python
-trainloader = get_dataloader(train_ds, configs)
-validloader = get_dataloader(valid_ds, configs, dataloader_type="valid")
+Export your model to the ONNX format and use `wandb.save` to upload the file. This associates the model artifact directly with the training run.
+
+```python  theme={null}
+def test(model, test\_loader):  
+    model.eval()  
+    with torch.no\_grad():  
+        correct, total \= 0, 0  
+        for images, labels in test\_loader:  
+            images, labels \= images.to(device), labels.to(device)  
+            outputs \= model(images)  
+            \_, predicted \= torch.max(outputs.data, 1\)  
+            total \+= labels.size(0)  
+            correct \+= (predicted \== labels).sum().item()
+
+    accuracy \= correct / total  
+    wandb.log({"test\_accuracy": accuracy})
+
+    \# Export and save the model  
+    torch.onnx.export(model, images, "model.onnx")  
+    wandb.save("model.onnx")
 ```
 
-## Model
+## **Best Practices for Reproducibility**
 
+Set random seeds to ensure deterministic behavior across runs.
 
-```python
-def get_model(configs):
-    backbone = tf.keras.applications.mobilenet_v2.MobileNetV2(weights='imagenet', include_top=False)
-    backbone.trainable = False
+**Note:** While seeds improve reproducibility, some GPU operations remain non-deterministic. See the [PyTorch randomness guide](https://pytorch.org/docs/stable/notes/randomness.html) for details.
+```python  theme={null}
+import random  
+import numpy as np
 
-    inputs = layers.Input(shape=(configs["image_size"], configs["image_size"], configs["image_channels"]))
-    resize = layers.Resizing(32, 32)(inputs)
-    neck = layers.Conv2D(3, (3,3), padding="same")(resize)
-    preprocess_input = tf.keras.applications.mobilenet.preprocess_input(neck)
-    x = backbone(preprocess_input)
-    x = layers.GlobalAveragePooling2D()(x)
-    outputs = layers.Dense(configs["num_classes"], activation="softmax")(x)
-
-    return models.Model(inputs=inputs, outputs=outputs)
+torch.backends.cudnn.deterministic \= True  
+random.seed(hash("setting random seeds") % 2\*\*32 \- 1\)  
+np.random.seed(hash("improves reproducibility") % 2\*\*32 \- 1\)  
+torch.manual\_seed(hash("by removing variation") % 2\*\*32 \- 1\)  
+torch.cuda.manual\_seed\_all(hash("across runs") % 2\*\*32 \- 1\)
 ```
 
+## **Advanced Configuration**
 
-```python
-tf.keras.backend.clear_session()
-model = get_model(configs)
-model.summary()
+### **Hyperparameter Sweeps**
+
+Automate model tuning by defining a search strategy and running an agent.
+
+```python  theme={null}
+sweep\_id \= wandb.sweep(sweep\_config)  
+wandb.agent(sweep\_id, function=train)
 ```
 
-## Compile Model
+### **Environment Settings**
 
+* **Offline Mode:** Set `WANDB\_MODE=dryrun` to train without internet. Use `wandb sync` to upload data later.  
+* **Headless Authentication:** Use the `WANDB\_API\_KEY` environment variable for automated clusters.
 
-```python
-model.compile(
-    optimizer = "adam",
-    loss = "categorical_crossentropy",
-    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
-)
-```
+## **Next steps**
 
-## Train
+* Learn how to use [W\&B Artifacts](https://docs.wandb.ai/guides/artifacts) for dataset versioning.  
+* Explore [W\&B PyTorch Examples](https://www.google.com/search?q=https://github.com/wandb/examples/tree/master/colabs/pytorch) on GitHub.
 
-
-```python
-# Initialize a W&B Run
-run = wandb.init(
-    project = "intro-keras",
-    config = configs
-)
-
-# Train your model
-model.fit(
-    trainloader,
-    epochs = configs["epochs"],
-    validation_data = validloader,
-    callbacks = [
-        WandbMetricsLogger(log_freq=10),
-        WandbModelCheckpoint(filepath="models/model.keras") # Notice the use of WandbModelCheckpoint here
-    ]
-)
-
-# Close the W&B Run
-run.finish()
-```
+[Back to top](#integrate-weights--biases-with-pytorch)
