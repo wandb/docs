@@ -1,0 +1,54 @@
+## Store and handle API keys securely
+
+API keys provide access to your W&B account and should be protected like passwords. Follow these best practices:
+
+### Recommended storage methods
+
+- **Secrets manager**: Use a dedicated secrets management system such as [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [HashiCorp Vault](https://www.vaultproject.io/), [Azure Key Vault](https://azure.microsoft.com/en-us/products/key-vault), or [Google Secret Manager](https://cloud.google.com/security/products/secret-manager).
+- **Password manager**: Use a reputable password manager application.
+- **OS-level keychains**: Store keys in macOS Keychain, Windows Credential Manager, or Linux secret service. Not typically appropriate for production.
+
+### What to avoid
+
+- Never commit API keys to version control systems such as Git.
+- Do not store API keys in plain text configuration files.
+- Do not pass API keys on the command line, because they will be visible in the output of OS commands like `ps`.
+- Avoid sharing API keys through email, chat, or other unencrypted channels.
+- Do not hard-code API keys in your source code.
+
+If an API key is exposed, delete the API key from your W&B account immediately and contact [support](mailto:support@wandb.ai) or your AISE.
+
+### Environment variables
+
+When using API keys in your code, pass them through environment variables:
+
+```bash
+export WANDB_API_KEY="your-api-key-here"
+```
+
+This approach keeps keys out of your source code and makes it easier to rotate them when needed.
+
+<Warning>
+Avoid setting the environment variable in line with the command, because it will be visible in the output of OS commands like `ps`:
+
+```bash
+# Avoid this pattern, which can expose the API key in process managers
+export WANDB_API_KEY="your-api-key-here" ./my-script.sh
+```
+</Warning>
+
+### SDK version compatibility
+
+New API keys are longer than legacy keys. When authenticating with older versions of the `wandb` or `weave` SDKs, you may encounter an API key length error.
+
+**Solution**: Update to a newer SDK version:
+- `wandb` SDK v0.22.3+
+
+    ```bash
+    pip install --upgrade wandb==0.22.3
+    ```
+- `weave` SDK v0.52.17+
+    ```bash
+    pip install --upgrade weave==0.52.17
+    ```
+If you cannot upgrade the SDK immediately, set the API key using the `WANDB_API_KEY` environment variable as a workaround.

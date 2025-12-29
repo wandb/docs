@@ -2491,6 +2491,10 @@
       "destination": "/platform/hosting/:slug*"
     },
     {
+      "source": "models/support/rotate_revoke_access",
+      "destination": "/models/support/find_api_key"
+    },
+    {
       "source": "/models/track/launch/*",
       "destination": "/platform/launch"
     },

@@ -1,12 +1,45 @@
 ---
-title: How do I find my API key?
+title: How do I create and manage API keys?
 ---
 
-To find your API key for Weights and Biases (W&B):
+import ApiKeyFind from "/snippets/en/_includes/api-key-find.mdx";
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
 
-- Navigate to the [W&B authorization page](https://wandb.ai/authorize). Log in if necessary.
-- Alternatively, access your profile:
-  1. Click your user profile in the upper right corner.
-  2. Select "User Settings."
-  3. Scroll to the "Danger Zone" section.
-  4. Click "Reveal" next to "API Keys."
+## Create a new API key
+
+<ApiKeyCreate/>
+
+## Find your API keys
+
+<ApiKeyFind/>
+
+## Delete an API key
+
+To revoke access, delete the API key:
+
+### Personal API keys
+
+1. Navigate to [wandb.ai/authorize](https://wandb.ai/authorize) or go to **User Settings** and scroll to the **API Keys** section.
+2. Find the key you want to delete in the API keys table.
+3. Click the delete button next to the key.
+4. Confirm the deletion.
+
+### Service account API keys
+
+For information about managing service account API keys, see [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts).
+
+<Warning>
+Deleting an API key immediately revokes access for any scripts or services using that key. Ensure you have updated all systems to use a new key before deleting the old one.
+</Warning>
+
+## Replace an API key
+
+To replace (rotate) an API key:
+
+1. [Create a new API key](#create-a-new-api-key).
+2. Update all scripts, services, and environments to use the new API key.
+3. Test that the new API key works in all locations.
+4. Delete the old API key.
+
+<ApiKeySecurity/>
