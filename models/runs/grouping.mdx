@@ -1,23 +1,29 @@
 ---
-description: Group training and evaluation runs into larger experiments
-title: Group runs
+description: 
+title: Organize runs
 ---
 
-Add a group name or job type to your runs to organize them into larger experiments. This is useful for organizing runs for distributed training, multiple processes, or k-fold cross-validation.
+Organize your runs into *groups*. A group is a collection of runs that share a common purpose, such as training runs for a specific model or evaluation runs for a specific dataset.
+
 {/* 
 ### Define groups using environment variables
 
 Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
-## Group runs programmatically
+## Organize runs into groups
 
-Each run can be categorized by **group** and a **job type**:
+You can add runs to a group programmatically using the W&B Python SDK or interactively in the W&B App.
 
-- **Group**: a broad category for the experiment, used to organize and filter runs.
-- **Job type**: the function of the run, such as `preprocessing`, `training`, or `evaluation`.
+<Note>
+W&B stores group names as a run [`wandb.Run.group`](/models/ref/python/experiments/run#property-run-group) property.
+</Note>
 
-### Group name
-Add a group name to a run by passing the `group` parameter to `wandb.init()`:
+
+<Tabs>
+<Tab title="Python SDK">
+Programmatically add one or more runs to a group with the W&B Python SDK. Pass the name of your group as an argument to the `group` parameter when you initialize a run with `wandb.init(group="")`. The name you provide is used to organize and filter runs in the W&B App.
+
+The following example creates three groups named `A`, `B`, and `C`. Each group contains three runs.
 
 ```python
 import wandb
@@ -36,11 +42,65 @@ for group in ["A", "B", "C"]:
                 })
 ```
 
+Within the project's workspace, you can view runs organized by group. The following image shows the runs table grouped by the group name. Three groups named `A`, `B`, and `C` appear in the runs table, each containing three runs.
 
-### Job type
-Add a job type to a run by passing the `job_type` parameter to `wandb.init()`. For example, the following code snippet creates runs with job types of either `training` or `evaluation`:
+<Frame>
+    <img src="/images/runs/group_name_3_groups.png" alt="Runs table grouped by group name"  />
+</Frame>
+</Tab>
+<Tab title="W&B App">
+
+1. Navigate to your W&B project.
+2. Select the **Runs** tab from the project sidebar.
+3. Above the list of runs, click the **Group** button.
+4. Click the checkbox next to one or more runs you want to group.
+5. Select **Move to group**.
+6. In the modal, select an existing group or create a new group.
+</Tab>
+</Tabs>
+
+
+### View runs in groups
+
+View runs organized by group in the W&B App:
+
+1. In your project sidebar, select the **Runs** tab.
+2. Above the list of runs, click the **Group** button.
+3. From the dropdown, select either **Group**.
+
+### Move runs between groups
+
+Move runs in one group to another group:
+
+1. Navigate to your W&B project.
+1. Select the **Runs** tab from the project sidebar.
+1. Select one or more runs by clicking their checkboxes.
+1. Above the table, click **Move to group**.
+1. Within the modal, select the target group or create a new group.
+1. Click **Move**.
+
+### Remove a group
+
+1. Navigate to your W&B project.
+1. Select the **Runs** tab from the project sidebar.
+1. Above the list of runs, click the **Group** button.
+1. From the dropdown, select the **X** next to the name of the group you want to remove.
+
+### Delete a group
+To delete a group, remove all runs from it. This automatically deletes the group.
+
+## Organize runs by job type
+
+Organize runs by their *job type*. A job type indicates the function of a run, such as `preprocessing`, `training`, or `evaluation`. 
+
+Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`. For example, the following code snippet creates runs with job types of either `training` or `evaluation`:
 
 ```python
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
 for job_type in ["training", "evaluation"]:
     for i in range(2):
         with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
@@ -53,50 +113,19 @@ for job_type in ["training", "evaluation"]:
 
 ```
 
-Within the W&B App, you can [view runs organized by group or job type](/models/runs/grouping#view-runs-by-group-or-job-type). The following image shows runs organized by the job type:
+The following image shows runs organized by the job type:
 
 <Frame>
     <img src="/images/runs/group_job_type.png" alt="Ungrouped runs table"  />
-</Frame> 
+</Frame>
 
+### View runs organized by job type
 
-### View runs by group or job type
+View runs organized by group in the W&B App:
 
-1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
-2. Above the list of runs, click the **Group** button (it looks like a lined sheet of paper).
-3. From the dropdown, select either **Group** or **Job Type**.
-
-
-{/* Note: I think this we removed */}
-{/* ## Create a group
-
-You can interactively create run groups in the W&B App. To create a new run group:
-
-1. Navigate to your W&B project.
-1. Select the **Workspace** or **Runs** tab from the project sidebar.
-1. Click **New group**. Type a group name, then submit the form. */}
-
-## Remove run group
-
-1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
-2. Above the list of runs, click the **Group** button (it looks like a lined sheet of paper).
-3. From the dropdown, click the **X** next to the name of the group you want to remove.
-
-## Delete a run group
-To delete a group, remove all runs from it. This automatically deletes the group.
-
-
-## Move runs between groups
-
-Move runs in one group to another group:
-
-1. Navigate to your W&B project.
-1. Select the **Workspace** or **Runs** tab from the project sidebar.
-1. Select one or more runs by clicking their checkboxes.
-1. Above the table, click **Move to group**.
-1. Within the modal, select the target group or create a new group.
-1. Click **Move**.
-
+1. In your project sidebar, select the **Runs** tab.
+2. Above the list of runs, click the **Group** button.
+3. From the dropdown, select either **Job Type**.
 
 {/* ############### */}
 {/* Things to remove */}
