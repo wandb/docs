@@ -104,6 +104,31 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 ![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
 </Frame>
 
+#### Run metrics z-score change
+<Note>
+Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+</Note>
+
+For **Run metrics z-score threshold met** events, the automation triggers when a metric's z-score (standard score) exceeds a specified threshold. A z-score indicates how many standard deviations a value is from the mean of all values for that metric across runs in the project.
+
+To create a z-score automation, you configure:
+1. The target z-score threshold, expressed as a positive float value (for example, 2.0).
+1. The window of logged values that determine the mean value (defaults to 30).
+1. The comparison to make:
+   - Above (trigger when performance is unusually high)
+   - Below (trigger when performance is unusually low)
+   - Both
+
+For example, trigger an automation when `accuracy` has a z-score above 2, indicating the run is performing significantly better than typical runs in the project.
+
+**Understanding z-0score values:**
+- A z-score of 0 means the metric is at the average.
+- A z-score of +2.0 means the metric is 2 standard deviations above average.
+- A z-score of -2.0 means the metric is 2 standard deviations below average.
+- Values beyond ±2 are often considered statistically significant outliers.
+
+Automations based on z-score keep your team informed about unusual performance without checking absolute thresholds, which may vary as your model or training process evolves.
+
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 

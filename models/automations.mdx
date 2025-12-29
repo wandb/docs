@@ -24,6 +24,7 @@ Looking for companion tutorials for automations?
 Automations can be triggered by events related to runs or artifacts in a collection, project, or registry. An automation can start:
 
 - When a run metric meets a defined absolute or relative threshold. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
+- When a run's z-score (standard score) deviates from the mean by a given amount. A z-score of 0 indicates that the result aligns with the mean. A z-score of +2 means that the result is two standard deviations higher than the mean, and a z-score of -2 means that the result is two standard deviations lower than the mean.
 - When an event occurs in a project or registry. For example, trigger when a new version of a model artifact is created or when the `production` alias is added to a model artifact.
 
 For more details, see [Automation events and scopes](/models/automations/automation-events/).
