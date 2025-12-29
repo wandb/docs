@@ -10,7 +10,7 @@ Line plots display by default for metrics logged with `wandb.Run.log()` over tim
 </Frame>
 
 <Tip>
-For [runs](/models/runs) that execute on [CoreWeave](https://coreweave.com) infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. If an error occurs, W&B populates infrastructure information onto your run's plots in your project's workspace. For details, see [Visualize CoreWeave infrastructure alerts](models/runs.#visualize-coreweave-infrastructure-alerts).
+For [runs](/models/runs) that execute on [CoreWeave](https://coreweave.com) infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. If an error occurs, W&B populates infrastructure information onto your run's plots in your project's workspace. For details, see [Visualize CoreWeave infrastructure alerts](/models/runs#visualize-coreweave-infrastructure-alerts).
 </Tip>
 
 ## Edit line plot settings
@@ -126,7 +126,15 @@ If you'd like to see the absolute time that an experiment has taken, or see what
     <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X-axis time options"  />
 </Frame>
 
-To use a custom x-axis, log the metric in the same call to `wandb.Run.log()` where you log the y-axis.
+To use a custom x-axis, log the metric in the same call to `wandb.Run.log()` where you log the y-axis. For example:
+
+```python
+with wandb.init() as run:
+    for i in range(100):
+        run.log({"accuracy": acc, "custom_x": i * 10})
+```
+
+For more details, see [Customize log axes](/models/track/log/customize-logging-axes#customize-log-axes).
 
 
 ## Zoom

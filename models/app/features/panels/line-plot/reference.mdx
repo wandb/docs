@@ -105,6 +105,11 @@ Customize the legend to show any config value logged and metadata from the runs,
 
 Define a template for the legend name.
 
+1. Click the gear icon to open the plot settings.
+1. Go to the **Display preferences** tab.
+1. Expand **Advanced legend**, then specify the legend template.
+1. Click **Apply**.
+
 Example:
 
 `${run:displayName} - ${config:dropout}` produces a legend name like `royal-sweep - 0.5`, where `royal-sweep` is the run name and `0.5` is the config parameter named `dropout`.
@@ -112,6 +117,11 @@ Example:
 ### Point-specific values
 
 Set values inside `[[ ]]` to display point-specific values in the crosshair when hovering over a chart.
+
+1. Click the gear icon to open the plot settings.
+1. Go to the **Display preferences** tab.
+1. At the bottom of the tab, configure point-specific values for one or more of the plot's metrics.
+1. Click **Apply**.
 
 Example: `[[ $x: $y ($original) ]]` displays something like "2: 3 (2.9)"
 
