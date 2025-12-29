@@ -12,7 +12,7 @@ This page provides comprehensive details for line plot settings. For more detail
     <img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis"  />
 </Frame>
 
-Set the x-axis to any value logged with `wandb.Run.log()` as a number.
+Set the range of the x-axis to any integer or float value you logged with `wandb.Run.log()`.
 
 Available time-based x-axis options:
 * **Step**: Increments each time `wandb.Run.log()` is called. Reflects the number of training steps logged from your model. (Default)
@@ -23,7 +23,7 @@ Available time-based x-axis options:
 
 ### Y-axis
 
-Set the y-axis variables to any value logged with `wandb.Run.log()` as a number, array of numbers, or histogram of numbers. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
+Set the y-axis variables to any integer or float value you logged with`wandb.Run.log()`. Specify a single value, array of values, or histogram of values. If you logged more than 1500 points for a variable, W&B samples down to 1500 points.
 
 <Note>
 Customize the color of your y-axis lines by changing the run color in the runs table.
