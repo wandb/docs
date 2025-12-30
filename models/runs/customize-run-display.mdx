@@ -7,24 +7,22 @@ description: This section shows how to customize how runs are displayed in your 
 A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
 </Note> */}
 
-The **Runs** table shows details about all of your runs in a given project. 
+View all runs logged to your W&B project in the **Runs** tab of your project sidebar. The *Runs table* shows details about all of your runs in a project. Use the Runs table to compare runs, sort runs by specific columns, and organize runs into groups.
 
-To view all runs logged to your project, navigate to your W&B project and select the **Runs** tab from the project sidebar. To view a specific run's details, click the run's name in the **Name** column. For more information, refer to [View a specific logged run](/models/runs/view-logged-runs/).
-
-<Note>
-Note that the terms "Runs tab" and "Runs table" are used interchangeably to refer to the same feature in the W&B App.
-</Note>
+To view a specific run's details, click the run's name in the **Name** column. For more information, refer to [View a specific run logged to a project](/models/runs/view-logged-runs/).
 
 <Frame>
     <img src="/images/runs/run_table_all.png" alt="Runs table"  />
 </Frame>
 
 
-When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab](#workspace-tab).
+<Note>
+W&B persists customizations you make in the Runs table in the Runs selector of the Workspace tab.
+</Note>
 
 ## Add columns
 
-Add columns in the Runs table to customize which properties associated with your project are visible. You can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+Add columns in the Runs table to customize which properties associated with your project are visible.
 
 To add a columns in the Runs table:
 1. In the project sidebar, select the **Runs** tab.
@@ -35,7 +33,7 @@ To add a columns in the Runs table:
 
 ## Remove columns
 
-Remove columns in the Runs table to customize which properties associated with your project are visible. You can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+Remove columns in the Runs table to customize which properties associated with your project are visible.
 
 To remove columns in the Runs table:
 1. In the project sidebar, select the **Runs** tab.
@@ -91,4 +89,5 @@ The following animation shows sorting runs by the maximum value of a logged metr
 
 Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
-
+1. In the project sidebar, select the **Runs** tab.
+1. Above the list of runs, click the **Download** (downward arrow) button.

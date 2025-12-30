@@ -4,11 +4,17 @@ title: Initialize runs
 
 Initialize a W&B Run with [`wandb.init()`](/models/ref/python/functions/init). 
 
-By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one, depending on the configuration.  To manage multiple active runs in the same process, see [Multiple runs in one process](/models/runs/initialize-run#multiple-runs-in-one-process).
+By default, W&B assumes each Python process has only one active run at a time when you call `wandb.init()`. If you call `wandb.init()` again, W&B will either return the same run or finish the old run before starting a new one. How W&B handles multiple calls to `wandb.init()` in the same process depends on the environment (notebook vs. non-notebook) and the `reinit` configuration. 
+
+To manage multiple active runs in the same process, see [Multiple runs in one process](/models/runs/initialize-run#multiple-runs-in-one-process).
+
+<Note>
+W&B recommends using a `with` block when calling `wandb.init()`. This ensures that W&B properly finalizes the run and uploads all data when the block ends.
+</Note>
 
 ## Single run per process
 
-For example, consider the following code snippet:
+The following code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 {/* The following code snippet shows how to import the W&B Python SDK and initialize a run. 
 
@@ -36,7 +42,6 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
 The output shows that W&B logs the run `exalted-darkness-6` to the project `awesome-project` under the entity `nico`. `pgbn9y21` is the unique run ID that W&B generates for this run.
-
 
 {/* TEMP */}
 ## Multiple runs in one process
@@ -78,20 +83,23 @@ W&B does not support `create_new` mode for [W&B Integrations](/models/integratio
 - Use `wandb.init()` with the `reinit` argument directly:
    ```python
    import wandb
-   wandb.init(reinit="<create_new|finish_previous|return_previous>")
+   with wandb.init(reinit="<create_new|finish_previous|return_previous>") as run:
+       # Your code here
    ```
 - Use `wandb.init()` and pass a `wandb.Settings` object to the `settings` parameter. Specify `reinit` in the `Settings` object:
 
    ```python
    import wandb
-   wandb.init(settings=wandb.Settings(reinit="<create_new|finish_previous|return_previous>"))
+   with wandb.init(settings=wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
+       # Your code here
    ```
 
 - Use `wandb.setup()` to set the `reinit` option globally for all runs in the current process. This is useful if you want to configure the behavior once and have it apply to all subsequent `wandb.init()` calls in that process.
 
    ```python
    import wandb
-   wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>"))
+   with wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
+        # Your code here
    ```
 
 - Specify the desired value for `reinit` in the environment variable `WANDB_REINIT`. Defining an environment variable applies the `reinit` option to `wandb.init()` calls.
