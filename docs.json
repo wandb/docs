@@ -151,7 +151,8 @@
                       "platform/hosting/data-security/private-connectivity",
                       "platform/hosting/data-security/data-encryption"
                     ]
-                  }
+                  },
+                  "platform/hosting/env-vars"
                 ]
               },
               {
