@@ -10,10 +10,10 @@ View information about a specific run such as the state of the run, artifacts lo
 
 You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
 
-After you select a run, explore its properties by navigating through the tabs: Overview, Logs, Files, Code, and Artifacts.
-
 <Tabs>
 <Tab title="WA&B App">
+
+Navigate to a run's workspace in the W&B App to view detailed information about the run.
 
 To view a specific run in the W&B App:
 
@@ -22,17 +22,15 @@ To view a specific run in the W&B App:
 3. Within the project sidebar, select the **Workspace** tab.
 4. Within the run selector, click the run you want to view, or enter a partial run name to filter for matching runs.
 
-<Frame>
-    <img src="/images/runs/demo-project.gif" alt="Project navigation demo"  />
-</Frame>
-
-The URL path of a specific run has the following format:
+Alternatively, you can directly access a specific run's workspace by entering its URL in your browser. The URL path of a specific run has the following format:
 
 ```text
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 ```
 
 Where values enclosed in angle brackets (`< >`) are placeholders for the actual values of the team name, project name, and run ID.
+
+After you select a run, explore its properties by navigating through the tabs: [Overview](/models/runs/view-logged-runs#overview), [Logs](/models/runs/view-logged-runs#logs), [Files](/models/runs/view-logged-runs#files), [Code](/models/runs/view-logged-runs#code), and [Artifacts](/models/runs/view-logged-runs#artifacts).
 
 </Tab>
 <Tab title="LEET">

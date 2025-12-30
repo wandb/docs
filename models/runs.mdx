@@ -19,13 +19,13 @@ Each run has a [unique identifier known as a *run ID*](/models/runs/run-identifi
 
 Each run also has a human-readable, non-unique [run name](/models/runs/run-identifiers#run-name). You can specify a name for your run or let W&B randomly generate one for you. You can rename a run after initializing it.
 
-W&B logs your run to a [*project*](/models/track/project-page/). You specify the project when you initialize the run with `wandb.init(project=)`. W&B creates a new project if the project does not exist. If the project does exist, W&B logs the run to the project specified.
+W&B logs your run to a [*project*](/models/track/project-page/). You specify the project when you initialize the run with `wandb.init(project="")`. W&B creates a new project if the project does not exist. If the project does exist, W&B logs the run to the project you specified.
 
 <Note>
 If you do not specify a project name, W&B stores the run in a project called `Uncategorized`.
 </Note>
 
-Use the run object returned by `wandb.init()` to log metrics, artifacts, and other information to the run. Anything you log with `wandb.Run.log()` is recorded to that run.
+`wandb.init()` returns a `wandb.Run` object that contains properties of the run, such as its ID, name, configuration, and state. Use the run object to log metrics, artifacts, and other information to the run with methods such as `wandb.Run.log()`, `wandb.Run.log_code()`, and `wandb.Run.use_artifact()`.
 
 Each run has a state that describes the current status of the run. See [Run states](/models/runs/run-states) for a full list of possible run states.
 
@@ -71,7 +71,7 @@ wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other fil
 wandb: Find logs at: ./wandb/run-20241105_111006-1jx1ud12/logs
 ```
 
-The URL W&B returns in the terminal to redirects you to the run's workspace in the W&B App UI. Note that the panels generated in the workspace corresponds to the single point.
+W&B returns two URLs in the terminal output. The first URL directs you to the [specific run's workspace](/models/runs/view-logged-runs), and the second URL directs you to the [project](//models/track/project-page) page.
 
 <Frame>
     <img src="/images/runs/single-run-call.png" alt="Single run workspace"  />
@@ -139,11 +139,3 @@ Notes that you add to a specific run appear on the run page in the **Overview** 
 3. Select the run you want to add a note to from the run selector
 4. Choose the **Overview** tab
 5. Select the pencil icon next to the **Description** field and add your notes
-
-{/* ### Search runs
-
-Search for a specific run by name in the sidebar. You can use regex to filter down your visible runs. The search box affects which runs are shown on the graph. Here's an example:
-
-### Filter runs
-
-### Organize runs */}
