@@ -1,8 +1,9 @@
 ---
-title: Move runs
+title: Move runs between projects and teams
+description: Learn how to move runs between projects and teams using the W&B App or the W&B Python SDK.
 ---
 
-This page shows how to move a run from one project to another, into or out of a team, or from one team to another. You must have access to the run at its current and new locations.
+Move runs from one project to another, or between teams, using either the W&B App or the W&B Python SDK. You must have access to the run at its current and new locations.
 
 <Note>
 When you move a run, historical artifacts associated with it are not moved. To move an artifact manually, you can use the [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK command or the [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) to download the artifact, then use [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put/) or the `Api.artifact` API to upload it to the run's new location.

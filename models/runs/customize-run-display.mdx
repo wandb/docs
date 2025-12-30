@@ -1,36 +1,79 @@
 ---
-title: Customize columns and run display
-description: This section shows how to customize how runs are displayed in your project's workspace and runs table
+title: View runs in your project's runs table
+description: This section shows how to customize how runs are displayed in your project's runs table
 ---
 
+{/* <Note>
+A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+</Note> */}
 
-This section shows how to customize how runs are displayed in your project's workspace and runs table.
+The **Runs** table shows details about all of your runs in a given project. 
+
+To view all runs logged to your project, navigate to your W&B project and select the **Runs** tab from the project sidebar. To view a specific run's details, click the run's name in the **Name** column. For more information, refer to [View a specific logged run](/models/runs/view-logged-runs/).
 
 <Note>
-A workspace is limited to displaying a maximum of 1000 runs, regardless of its configuration.
+Note that the terms "Runs tab" and "Runs table" are used interchangeably to refer to the same feature in the W&B App.
 </Note>
 
-## Add or remove columns
+<Frame>
+    <img src="/images/runs/run_table_all.png" alt="Runs table"  />
+</Frame>
 
-Add or remove columns in the **Runs** tab or **Workspace** tab to customize which properties associated with your project are visible. For both cases, you can optionally search by column name using fuzzy search, an exact match, or regular expressions.
 
-To add a columns in the Runs table or Workspace:
-1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
+When you customize the Runs tab, the customization is also reflected in the **Runs** selector of the [Workspace tab](#workspace-tab).
+
+## Add columns
+
+Add columns in the Runs table to customize which properties associated with your project are visible. You can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+
+To add a columns in the Runs table:
+1. In the project sidebar, select the **Runs** tab.
 1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
 1. Select the name of a property within the **Hidden** section of the modal.
 1. Drag columns to change their order.
 1. Click **Close**.
 
+## Remove columns
 
-To remove columns in the Runs table or Workspace:
-1. In the project sidebar, select either the **Runs** tab or the **Workspace** tab.
+Remove columns in the Runs table to customize which properties associated with your project are visible. You can optionally search by column name using fuzzy search, an exact match, or regular expressions.
+
+To remove columns in the Runs table:
+1. In the project sidebar, select the **Runs** tab.
 1. Above the list of runs, click the **Columns** (six horizontal dashes) button.
 1. Select the name of a property within the **Visible & Pinned** section of the modal.
 1. Click **Close**.
 
+## Move columns
+To move columns in the Runs table:
+1. In the project sidebar, select the **Runs** tab.
+1. Drag a column to the left or right.
+
+## Pin columns
+
+Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the Runs tab. If you pin a column in the **Runs** tab, it is also pinned in the **Workspace** tab. Similarly, if you pin a column in the **Workspace** tab, it is also pinned in the **Runs** tab.
+
+To pin a column:
+1. In the project sidebar, navigate to the **Runs** tab.
+1. Click the **Columns** (six horizontal dashes) button.
+1. Within the **Visible & Pinned** section of the modal, click on the pin icon next to the column name you want to pin.
+
+To unpin a column:
+1. In the project sidebar, navigate to the **Runs** tab.
+1. Either hover over the column name, then click its action `...` menu, or click the **Columns** (six horizontal dashes) button and click on the pin icon next to the column name you want to unpin.
+1. Click **Unpin column**.
+
+## Hide columns
+
+To hide columns in the Runs table:
+1. In the project sidebar, select the **Runs** tab.
+1. Hover over the column name, click the action menu `...` that appears.
+1. Click **Hide column**.
+
+To view all columns that are currently hidden, click **Columns**.
+
 ## Sort runs by column
 
-Sort runs by any visible column in the **Runs** tab or **Workspace** tab. This is particularly useful if you want to view the best (or worst) recorded value.
+Sort runs by any visible column in the Runs table. This is particularly useful if you want to view the best (or worst) recorded value.
 
 To sort the list of runs by any visible column:
 
@@ -44,25 +87,11 @@ The following animation shows sorting runs by the maximum value of a logged metr
     <img src="/images/app_ui/runs_min_max.gif" alt="Sort by min/max values"  />
 </Frame>
 
-## Pin columns
+## Export runs table to CSV
 
-Pinned columns are shown on the left-hand side. Unpinned columns are shown on the right-hand side of the **Runs** tab or **Workspace** tab. If you pin a column in the **Runs** tab, it is also pinned in the **Workspace** tab. Similarly, if you pin a column in the **Workspace** tab, it is also pinned in the **Runs** tab.
+Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
 
-To pin a column:
-1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
-1. Click the **Columns** (six horizontal dashes) button.
-1. Within the **Visible & Pinned** section of the modal, click on the pin icon next to the column name you want to pin.
+<Frame>
+    <img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV"  />
+</Frame>
 
-To unpin a column:
-1. In the project sidebar, navigate to the **Workspace** or **Runs** tab.
-1. Either hover over the column name, then click its action `...` menu, or click the **Columns** (six horizontal dashes) button and click on the pin icon next to the column name you want to unpin.
-1. Click **Unpin column**.
-
-
-{/* ## Customize columns in runs table
-To customize which columns are visible:
-1. Above the list of runs, click **Columns**.
-1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-  
-    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
-1. Click **Done** to close the column browser. */}

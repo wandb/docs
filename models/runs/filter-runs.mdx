@@ -16,18 +16,36 @@ Filter runs based on their tags with the filter button.
 2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
 3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
 
+<Frame>
+    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags"  />
+</Frame>
+
 ### Filter runs with regex
 
 If regex doesn't provide you the desired results, you can make use of [tags](/models/runs/filter-runs/#filter-runs-with-tags) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
 
-<Frame>
-    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags"  />
-</Frame>
 
 1. Click on the **Runs** tab from the project sidebar.
 2. Click on the search box at the top of the runs table.
 3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
 4. Enter your regular expression in the search box.
+
+### Filter runs by other properties
+
+Filter all rows by an expression with the **Filter** button above the dashboard. 
+
+<Frame>
+    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
+</Frame>
+
+Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
+
+|                   | Column name | Binary relation    | Value       |
+| -----------       | ----------- | ----------- | ----------- |
+| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+
+
+The expression editor shows a list of options for each term using autocomplete on column names and logical predicate structure. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
 
 
 {/*

@@ -200,6 +200,7 @@
                           "models/runs/initialize-run",
                           "models/runs/run-states",
                           "models/runs/view-logged-runs",
+                          "models/runs/customize-run-display",
                           "models/runs/forking",
                           "models/runs/resuming",
                           "models/runs/rewind",
@@ -211,8 +212,7 @@
                           "models/runs/tags",
                           "models/runs/manage-runs",
                           "models/runs/run-colors",
-                          "models/runs/color-code-runs",                          
-                          "models/runs/customize-run-display",
+                          "models/runs/color-code-runs",
                           "models/runs/alert"
                         ]
                       },

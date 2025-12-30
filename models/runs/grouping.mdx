@@ -1,5 +1,5 @@
 ---
-description: 
+description: Organize your runs into groups. Learn how to set up and manage groups using the W&B App or the W&B Python SDK.
 title: Organize runs
 ---
 
@@ -60,7 +60,7 @@ Within the project's workspace, you can view runs organized by group. The follow
 </Tabs>
 
 
-### View runs in groups
+### View groups
 
 View runs organized by group in the W&B App:
 
@@ -92,6 +92,10 @@ To delete a group, remove all runs from it. This automatically deletes the group
 ## Organize runs by job type
 
 Organize runs by their *job type*. A job type indicates the function of a run, such as `preprocessing`, `training`, or `evaluation`. 
+
+<Note>
+W&B stores job types as a run [`wandb.Run.job_type`](/models/ref/python/experiments/run#property-run-job-type) property.
+</Note>
 
 Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`. For example, the following code snippet creates runs with job types of either `training` or `evaluation`:
 
@@ -147,3 +151,43 @@ View runs organized by group in the W&B App:
     <img src="/images/track/distributed_training_wgrouping_2.png" alt="Group details page"  />
 </Frame>
 */}
+
+{/* <Frame>
+    <img src="/images/data_vis/group.png" alt="Error distribution analysis"  />
+</Frame> */}
+
+
+{/* /images/app_ui/wandb_run_page_log_tab.png */}
+
+{/* /images/app_ui/wandb_run_page_files_tab.png */}
+
+{/* /images/app_ui/artifacts_tab.png */}
+
+{/* <Frame>
+    <img src="/images/data_vis/group.png" alt="Error distribution analysis"  />
+</Frame> */}
+
+{/* <Frame>
+    <img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab"  />
+</Frame>
+
+
+<Frame>
+    <img src="/images/app_ui/wandb-run-page-workspace-tab.png" alt="Run workspace tab"  />
+</Frame>
+
+<Frame>
+    <img src="/images/runs/run-table-example.png" alt="Runs table"  />
+</Frame> */}
+
+
+
+
+
+
+
+
+
+
+
+
