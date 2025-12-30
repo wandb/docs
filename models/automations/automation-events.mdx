@@ -2,6 +2,7 @@
 title: Automation events and scopes
 ---
 import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+import MultiTenantCloudOnly from "/snippets/en/_includes/multi-tenant-cloud-only.mdx";
 
 <Info>
 <EnterpriseCloudOnly/>
@@ -38,7 +39,7 @@ An automation can be triggered by a change in a [run's status](/models/#run-stat
 
 #### Run status change
 <Note>
-- Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+- <MultiTenantCloudOnly/>
 - A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
 </Note>
 
@@ -52,7 +53,7 @@ Because run status is a property of the entire run, you can create a run status 
 
 #### Run metrics change
 <Note>
-Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+<MultiTenantCloudOnly/>
 </Note>
 
 Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric](/models/ref/python/experiments/system-metrics) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
@@ -106,7 +107,7 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 
 #### Run metrics z-score change
 <Note>
-Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+<MultiTenantCloudOnly/>
 </Note>
 
 W&B can trigger an automation when a metric’s z-score (standard score) exceeds a specified threshold. A z-score measures how many standard deviations the value is from the mean for that metric across a configurable window of runs in the project (defaults to 30 runs).
