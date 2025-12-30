@@ -109,7 +109,13 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
 </Note>
 
-For **Run metrics z-score threshold met** events, the automation triggers when a metric's z-score (standard score) exceeds a specified threshold. A z-score indicates how many standard deviations a value is from the mean of all values for that metric across runs in the project.
+W&B can trigger an automation when a metric’s z-score (standard score) exceeds a specified threshold. A z-score measures how many standard deviations the value is from the mean for that metric across a configurable window of runs in the project (defaults to 30 runs).
+
+To use a z-score as an event trigger, select the **Run metrics z-score threshold met** event.
+
+Automations based on z-score keep your team informed about unusual performance without checking absolute thresholds, which may vary as your model or training process evolves.
+
+You can create a run metrics z-score automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
 
 To create a z-score automation, you configure:
 1. The target z-score threshold, expressed as a positive float value (for example, 2.0).
@@ -117,11 +123,11 @@ To create a z-score automation, you configure:
 1. The comparison to make:
    - Above (trigger when performance is unusually high)
    - Below (trigger when performance is unusually low)
-   - Both
+   - Either above or below
 
-For example, trigger an automation when `accuracy` has a z-score above 2, indicating the run is performing significantly better than typical runs in the project.
+For example, trigger an automation when `accuracy` has a z-score above 2, which means the run is performing significantly better than other runs in the project.
 
-**Understanding z-0score values:**
+**Understanding z-score values:**
 - A z-score of 0 means the metric is at the average.
 - A z-score of +2.0 means the metric is 2 standard deviations above average.
 - A z-score of -2.0 means the metric is 2 standard deviations below average.
