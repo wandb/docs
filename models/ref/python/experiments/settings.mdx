@@ -34,7 +34,7 @@ The settings are organized into three categories:
 __init__(
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'Literal['allow', 'must', 'never'] | None' = None,
+    anonymous: 'object' = <object object at 0x104a1e110>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     base_url: 'str' = 'https://api.wandb.ai',
@@ -111,6 +111,7 @@ __init__(
     symlink: 'bool' = None,
     sync_tensorboard: 'bool | None' = None,
     table_raise_on_max_row_limit_exceeded: 'bool' = False,
+    use_dot_wandb: 'bool | None' = None,
     username: 'str | None' = None,
     x_cli_only_mode: 'bool' = False,
     x_disable_meta: 'bool' = False,
@@ -156,7 +157,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 42802,
+    x_stats_pid: 'int' = 55923,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -184,16 +185,7 @@ __init__(
  - `allow_offline_artifacts` (bool): Flag to allow table artifacts to be synced in offline mode.
    To revert to the old behavior, set this to False.
  - `allow_val_change` (bool): Flag to allow modification of `Config` values after they've been set.
- - `anonymous` (Optional[Literal['allow', 'must', 'never']]): Controls anonymous data logging.
-   Possible values are:
-   - "never": requires you to link your W&B account before
-   tracking the run, so you don't accidentally create an anonymous
-   run.
-   - "allow": lets a logged-in user track runs with their account, but
-   lets someone who is running the script without a W&B account see
-   the charts in the UI.
-   - "must": sends the run to an anonymous account instead of to a
-   signed-up user account.
+ - `anonymous` (object): Deprecated and will be removed.
  - `api_key` (Optional[str]): The W&B API key.
  - `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Mapping of Azure account URLs to their corresponding access keys for Azure integration.
  - `base_url` (str): The URL of the W&B backend for data synchronization.
@@ -331,6 +323,9 @@ __init__(
  - `symlink` (bool): Whether to use symlinks (True by default except on Windows).
  - `sync_tensorboard` (Optional[bool]): Whether to synchronize TensorBoard logs with W&B.
  - `table_raise_on_max_row_limit_exceeded` (bool): Whether to raise an exception when table row limits are exceeded.
+ - `use_dot_wandb` (Optional[bool]): Whether to use a hidden `.wandb` or visible `wandb` directory for run data.
+   If True, the SDK uses `.wandb`. If False, `wandb`.
+   If not set, defaults to `.wandb` if it already exists, otherwise `wandb`.
  - `username` (Optional[str]): Username.
 
  - `x_disable_meta` (bool): Flag to disable the collection of system metadata.
@@ -432,6 +427,47 @@ __init__(
 
 **Returns:**
  An `Settings` object.
+
+
+### <kbd>method</kbd> `Settings.validate_mutual_exclusion_of_branching_args`
+
+```python
+validate_mutual_exclusion_of_branching_args() → Self
+```
+
+Check if `fork_from`, `resume`, and `resume_from` are mutually exclusive.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
