@@ -12,12 +12,29 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `OnRunMetric`
 A run metric satisfies a user-defined condition.
 
+Examples:
+    Define an event that triggers for any run in project "my-project" when
+    the average of the last 5 values of metric "my-metric" exceeds 123.45:
+
+    ```python
+    from wandb import Api
+    from wandb.automations import OnRunMetric, RunEvent
+
+    api = Api()
+    project = api.project(name="my-project")
+
+    event = OnRunMetric(
+        scope=project,
+        filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
+    )
+    ```
+
 
 ### <kbd>method</kbd> `OnRunMetric.__init__`
 
 ```python
 __init__(
-    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE]',
+    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
     scope: 'ProjectScope',
     filter: 'RunMetricFilter'
 ) → None
@@ -25,7 +42,7 @@ __init__(
 
 **Args:**
  
- - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE]): 
+ - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]): 
  - `scope` (ProjectScope): The scope of the event: must be a project.
  - `filter` (RunMetricFilter): Run and/or metric condition(s) that must be satisfied for this event to trigger.
 

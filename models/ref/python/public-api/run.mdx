@@ -23,7 +23,8 @@ __init__(
     run_id: 'str',
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
-    lazy: 'bool' = True
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
 )
 ```
 
@@ -56,7 +57,7 @@ __init__(
  - `path` (str):  Unique identifier [entity]/[project]/[run_id] 
  - `notes` (str):  Notes about the run 
  - `read_only` (boolean):  Whether the run is editable 
- - `history_keys` (str):  Keys of the history metrics that have been logged with `wandb.log({"key":  "value"})` 
+ - `history_keys` (str):  Keys of the history metrics that have been `logged` with `wandb.log({"key": "value"})` 
  - `metadata` (str):  Metadata about the run from wandb-metadata.json 
 
 
@@ -167,6 +168,39 @@ The run URL is generated from the entity, project, and run_id. For SaaS users, i
 This API is deprecated. Use `entity` instead. 
 
 
+
+---
+
+### <kbd>method</kbd> `Run.beta_scan_history`
+
+```python
+beta_scan_history(
+    keys: 'list[str] | None' = None,
+    page_size=1000,
+    min_step=0,
+    max_step=None,
+    use_cache=True
+) → public.BetaHistoryScan
+```
+
+Returns an iterable collection of all history records for a run. 
+
+This function is still in development and may not work as expected. It uses wandb-core to read history from a run's exported parquet history locally. 
+
+
+
+**Args:**
+ 
+ - `keys`:  list of metrics to read from the run's history.  if no keys are provided then all metrics will be returned. 
+ - `page_size`:  the number of history records to read at a time. 
+ - `min_step`:  The minimum step to start reading history from (inclusive). 
+ - `max_step`:  The maximum step to read history up to (exclusive). 
+ - `use_cache`:  When set to True, checks the WANDB_CACHE_DIR for a run history.  If the run history is not found in the cache, it will be downloaded from the server.  If set to False, the run history will be downloaded every time. 
+
+
+
+**Returns:**
+ A BetaHistoryScan object, which can be iterator over to get history records. 
 
 ---
 
