@@ -28,7 +28,7 @@ W&B integrates with [Databricks](https://www.databricks.com/) by customizing the
     # without security add-on
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # Add your api_key from: https://app.wandb.ai/authorize
+    # Create an API key at https://wandb.ai/settings
     databricks secrets put --scope wandb --key api_key
     ```
 

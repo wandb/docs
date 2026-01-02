@@ -105,14 +105,14 @@ Before using Weave with PII data, review the best practices for using Weave with
 !pip install cryptography                   # to encrypt our data
 ```
 
-2. Set up your API keys. You can find your API keys at the following links.
+2. Create API keys at:
 
-   - [W&B](https://wandb.ai/authorize)
-   - [Anthropic](https://console.anthropic.com/settings/keys).
+   - [W&B User Settings](https://wandb.ai/settings)
+   - [Anthropic Console](https://console.anthropic.com/settings/keys)
 
 ```python lines
 %%capture
-# @title Make sure to set up set up your API keys correctly
+# @title Set up your API keys correctly
 # See: https://pypi.org/project/set-env-colab-kaggle-dotenv/ for usage instructions.
 
 from set_env import set_env
@@ -751,4 +751,3 @@ for entry in pii_data:
     encrypted_input = EncryptedSentimentAnalysisInput.encrypt(entry["text"])
     await model.predict(encrypted_input)
 ```
-

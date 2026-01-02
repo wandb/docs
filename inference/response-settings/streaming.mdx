@@ -19,7 +19,7 @@ too long before output starts.
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Available from https://wandb.ai/authorize
+        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
     )
 
     stream = client.chat.completions.create(

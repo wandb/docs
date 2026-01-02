@@ -33,7 +33,7 @@ weave.init("<your-team>/<your-project>")
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
+    # Create an API key at https://wandb.ai/settings
     api_key="<your-api-key>",
 
     # Optional: Team and project for usage tracking
@@ -94,7 +94,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Get your API key from https://wandb.ai/authorize
+            # Create an API key at https://wandb.ai/settings
             api_key="<your-api-key>",
             # Optional: Team and project for usage tracking
             project="<your-team>/<your-project>",

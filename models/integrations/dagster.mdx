@@ -22,12 +22,12 @@ You will need the following resources to use Dagster within W&B:
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
 3. **W&B project**: The name of the project where [W&B Runs](/models/runs/) are stored.
 
-Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it. The proceeding instructions demonstrate how to get an API key: 
+Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it.
 
-### How to get an API key
+### Set up your API key
 1. [Log in to W&B](https://wandb.ai/login). Note: if you are using W&B Server ask your admin for the instance host name.
-2. Collect your API key by navigating to the [authorize page](https://wandb.ai/authorize) or in your user/team settings. For a production environment we recommend using a [service account](/models/support/service_account_useful/) to own that key. 
-3. Set an environment variable for that API key export `WANDB_API_KEY=YOUR_KEY`.
+2. Create an API key at [User Settings](https://wandb.ai/settings). For a production environment we recommend using a [service account](/models/support/service_account_useful/) to own that key.
+3. Set an environment variable for that API key: `export WANDB_API_KEY=YOUR_KEY`.
 
 
 The proceeding examples demonstrate where to specify your API key in your Dagster code. Make sure to specify your entity and project name within the `wandb_config` nested dictionary. You can pass different `wandb_config` values to different ops/assets if you want to use a different W&B Project. For more information about possible keys you can pass, see the Configuration section below.

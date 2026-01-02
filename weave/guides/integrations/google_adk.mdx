@@ -62,7 +62,7 @@ from opentelemetry import trace
 WANDB_BASE_URL = "https://trace.wandb.ai"
 # Your W&B entity/project name e.g. "myteam/myproject"
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
-# Your W&B API key (found at https://wandb.ai/authorize)
+# Create a W&B API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
