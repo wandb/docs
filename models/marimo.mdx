@@ -1,0 +1,58 @@
+---
+title: Marimo demos
+description: Examples of Marimo rendering code snippets from molab notebooks and Marimo files.
+---
+import {Marimo} from "/snippets/Marimo.jsx";
+
+## Marimo preview using molab notebook URLs
+
+The following examples are rendered using iframes that link to molab notebook. Note that, these are static iframes and do not have the interactive features of Marimo.
+
+### Matplotlib example
+
+<iframe
+  src="https://molab.marimo.io/notebooks/nb_q39KFSmwYeH911tr97Sq5e"
+  sandbox="allow-scripts"
+  width="100%"
+  height="600"
+></iframe>
+
+### Quickstart
+<iframe
+  src="https://molab.marimo.io/notebooks/nb_6iQ9rKkdccZnbQKyMrBeAN"
+  sandbox="allow-scripts"
+  width="100%"
+  height="600"
+></iframe>
+
+## Marimo preview using molab app mode
+
+The following examples are rendered using iframes that link to molab notebook in app mode. If it works, these should be interactive.
+
+### Matplotlib example
+
+<iframe
+  src="https://molab.marimo.io/notebooks/nb_q39KFSmwYeH911tr97Sq5e/app"
+  sandbox="allow-scripts"
+  width="100%"
+  height="600"
+></iframe>
+
+### Quickstart
+<iframe
+  src="https://molab.marimo.io/notebooks/nb_6iQ9rKkdccZnbQKyMrBeAN/app"
+  sandbox="allow-scripts"
+  width="100%"
+  height="600"
+></iframe>
+
+
+## Marimo preview injecting Marimo examples
+
+The following examples use Marimo to render code snippets directly from the Marimo files in the `/marimo-examples/` directory. To do this, we defined a `Marimo` React component that takes a `file` prop pointing to the Marimo file location. Note that these Marimo renderings have the full interactive features of Marimo.
+
+### Matplotlib example
+<Marimo file="/marimo-examples/matplotlib.txt" />
+
+### Quickstart
+<Marimo file="/marimo-examples/quickstart.txt" />
