@@ -1,0 +1,8 @@
+W&B depends on a single-node Redis 7.x deployment used by W&B's components for job queuing and data caching. For convenience during testing and development of proofs of concept, W&B Self-Managed includes a local Redis deployment that is not appropriate for production deployments.
+
+For production deployments, W&B can connect to a Redis instance in the following environments:
+
+- [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
+- [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+- [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+- Redis deployment hosted in your cloud or on-premise infrastructure
