@@ -20,10 +20,10 @@ The `EvaluationLogger` offers flexibility while the standard framework offers st
 ## Basic workflow
 
 1. _Initialize the logger:_ Create an instance of `EvaluationLogger`, optionally providing metadata about the `model` and `dataset`. Defaults will be used if omitted.
-    :::important Track token usage and cost
+    <Note>
     To capture token usage and cost for LLM calls (e.g. OpenAI), initialize `EvaluationLogger` before any LLM invocations**. 
     If you call your LLM first and then log predictions afterward, token and cost data are not captured.
-    :::
+    </Note>
 2. _Log predictions:_ Call `log_prediction` for each input/output pair from your system.
 3. _Log scores:_ Use the returned `ScoreLogger` to `log_score` for the prediction. Multiple scores per prediction are supported.
 4. _Finish prediction:_ Always call `finish()` after logging scores for a prediction to finalize it.
@@ -53,7 +53,7 @@ import weave
 from openai import OpenAI
 from weave import EvaluationLogger
 
-weave.init('my-project')
+weave.init('your-team/your-project')
 
 # Initialize EvaluationLogger BEFORE calling the model to ensure token tracking
 eval_logger = EvaluationLogger(
@@ -124,12 +124,11 @@ The fire-and-forget pattern is safe because `logSummary()` automatically waits f
 
 The following example evaluates model predictions with the fire-and-forget pattern. It sets up an evaluation logger, runs a simple model on three test samples, and then logs the prediction without using await:
 
-```typescript lines
-import weave from 'weave';
+```typescript lines {36,50}
+import weave, {EvaluationLogger} from 'weave';
 import OpenAI from 'openai';
-import {EvaluationLogger} from 'weave/evaluationLogger';
 
-await weave.init('my-project');
+await weave.init('your-team/your-project');
 
 // Initialize EvaluationLogger BEFORE calling the model to ensure token tracking
 const evalLogger = new EvaluationLogger({
@@ -138,7 +137,7 @@ const evalLogger = new EvaluationLogger({
   dataset: 'my_dataset'
 });
 
-// Example input data (this can be any data structure you want)
+// Example input data
 const evalSamples = [
   {inputs: {a: 1, b: 2}, expected: 3},
   {inputs: {a: 2, b: 3}, expected: 5},
@@ -152,7 +151,6 @@ const userModel = weave.op(async function userModel(a: number, b: number): Promi
     messages: [{role: 'user', content: `What is ${a}+${b}?`}],
     model: 'gpt-4o-mini'
   });
-  // Use the response in some way (here we just return a + b for simplicity)
   return a + b;
 });
 
@@ -175,7 +173,6 @@ for (const sample of evalSamples) {
 }
 
 // logSummary waits for all pending operations to complete internally
-// Weave auto-aggregates the 'correctness' scores logged above.
 const summaryStats = {subjective_overall_score: 0.8};
 await evalLogger.logSummary(summaryStats);
 
@@ -260,6 +257,63 @@ ev.log_summary({"avg_score": 1.0})
 ```
 
 This pattern ensures that all nested operations are tracked and attributed to the parent prediction, giving you accurate token usage and cost data in the Weave UI.
+</Tab>
+<Tab title="TypeScript">
+TypeScript doesn't have Python's `with` statement pattern for context managers. Instead, use the fire-and-forget pattern with explicit `finish()` calls.
+
+The following example logs a prediction, adds simple scores and an LLM judge score, then finalizes the prediction with `finish()`:
+
+```typescript lines {43}
+import weave from 'weave';
+import OpenAI from 'openai';
+import {EvaluationLogger} from 'weave/evaluationLogger';
+
+await weave.init('your-team/your-project');
+const oai = new OpenAI();
+
+// Initialize the logger
+const ev = new EvaluationLogger({
+  name: 'joke-eval',
+  model: 'gpt-4o-mini',
+  dataset: 'joke_dataset',
+});
+
+const userPrompt = 'Tell me a joke';
+
+// Get model output
+const result = await oai.chat.completions.create({
+  model: 'gpt-4o-mini',
+  messages: [{role: 'user', content: userPrompt}],
+});
+
+const modelOutput = result.choices[0].message.content;
+
+// Log prediction with output
+const pred = ev.logPrediction({user_prompt: userPrompt}, modelOutput);
+
+// Log simple scores
+pred.logScore('correctness', 1.0);
+pred.logScore('ambiguity', 0.3);
+
+// For LLM judge scores, make the call and log the result
+const judgeResult = await oai.chat.completions.create({
+  model: 'gpt-4o-mini',
+  messages: [
+    {role: 'system', content: 'Rate how funny the joke is from 1-5'},
+    {role: 'user', content: modelOutput || ''},
+  ],
+});
+pred.logScore('llm_judge', judgeResult.choices[0].message.content);
+
+// Explicitly call finish when done scoring
+pred.finish();
+
+await ev.logSummary({avg_score: 1.0});
+```
+
+<Note>
+While TypeScript doesn't have automatic cleanup with context managers, `logSummary()` automatically finishes any unfinished predictions before aggregating results. You can rely on this behavior if you prefer not to call `finish()` explicitly.
+</Note>
 </Tab>
 </Tabs>
 
@@ -400,6 +454,60 @@ for inputs in rich_media_dataset:
 ev.log_summary()
 ```
 </Tab>
+<Tab title="TypeScript">
+The TypeScript SDK supports logging images and audio using the `weaveImage` and `weaveAudio` functions. The following example loads image and audio files, processes them through a model, and logs the results with scores.
+
+```typescript lines
+import weave, {EvaluationLogger} from 'weave';
+import * as fs from 'fs';
+
+await weave.init('your-team/your-project');
+
+// Load images and audio from files
+const richMediaDataset = [
+  {
+    image: weave.weaveImage({data: fs.readFileSync('sample1.png')}),
+    audio: weave.weaveAudio({data: fs.readFileSync('sample1.wav')}),
+  },
+  {
+    image: weave.weaveImage({data: fs.readFileSync('sample2.png')}),
+    audio: weave.weaveAudio({data: fs.readFileSync('sample2.wav')}),
+  },
+];
+
+// Model that processes media and returns results
+const yourOutputGenerator = weave.op(
+  async (inputs: {image: any; audio: any}) => {
+    const result = Math.floor(Math.random() * 10);
+    return {
+      result,
+      image: inputs.image,
+      audio: inputs.audio,
+    };
+  },
+  {name: 'yourOutputGenerator'}
+);
+
+const ev = new EvaluationLogger({
+  name: 'rich-media-eval',
+  model: 'example_model',
+  dataset: 'example_dataset',
+});
+
+for (const inputs of richMediaDataset) {
+  const output = await yourOutputGenerator(inputs);
+
+  // Log prediction with rich media in both inputs and outputs
+  const pred = ev.logPrediction(inputs, output);
+  pred.logScore('greater_than_5_scorer', output.result > 5);
+  pred.logScore('greater_than_7_scorer', output.result > 7);
+  pred.finish();
+}
+
+await ev.logSummary();
+```
+
+</Tab>
 </Tabs>
 
 ### Log and compare multiple evaluations
@@ -453,7 +561,7 @@ import weave from 'weave';
 import {EvaluationLogger} from 'weave/evaluationLogger';
 import {WeaveObject} from 'weave/weaveObject';
 
-await weave.init('my-project');
+await weave.init('your-team/your-project');
 
 const models = [
   'model1',
