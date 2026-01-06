@@ -24,6 +24,7 @@ Looking for companion tutorials for automations?
 Automations can be triggered by events related to runs or artifacts in a collection, project, or registry. An automation can start:
 
 - When a run metric meets a defined absolute or relative threshold. For example, trigger when a run's `loss` is less than 0.01 or when a run's `accuracy` improves by 5%.
+- When a run's z-score (standard score) deviates from the mean by a given amount. A z-score of 0 indicates that the result aligns with the mean. A z-score of +2 means that the result is two standard deviations higher than the mean, and a z-score of -2 means that the result is two standard deviations lower than the mean.
 - When an event occurs in a project or registry. For example, trigger when a new version of a model artifact is created or when the `production` alias is added to a model artifact.
 
 For more details, see [Automation events and scopes](/models/automations/automation-events/).
@@ -53,7 +54,7 @@ To [create an automation](/models/automations/create-automations/), you:
     1. Define the action to take when the event occurs (posting to a Slack channel or running a webhook). For a webhook, specify a secret to use for the access token and/or a secret to send with the payload, if required.
 
 ## Limitations
-[Run metric automations](/models/automations/automation-events/#run-metrics-events) are currently supported only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+[Run metric automations](/models/automations/automation-events/#run-metrics-events) and [run metrics z-score change automations](/models/automations/automation-events/#run-metrics-z-score-change-automations) are currently supported only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
 
 ## Next steps
 - [Create an automation](/models/automations/create-automations/).
