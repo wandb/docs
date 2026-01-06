@@ -38,9 +38,9 @@ with wandb.init(entity=entity, project=project) as run:
    run.log({"accuracy": 0.9, "loss": 0.1})
 ```
 
-## Install optional dependencies
+## Python SDK extras
 
-If needed, you can install optional dependencies that extend the functionality of the W&B Python SDK. Replace `extra` with the desired [optional dependency](#supported-optional-dependencies):
+Install optional Python extras to extend the functionality of the W&B Python SDK. Specify the name of the extra you want to install within square brackets after `wandb`. The syntax is as follows:
 
 ```shell
 pip install wandb[extra]
@@ -58,23 +58,15 @@ Install more than one optional dependency by separating them with commas:
 pip install wandb[gcp,aws,media]
 ```
 
-Use extras when you need deeper integration with specific platforms or features. For example:
-
-* Install `gcp` if you store datasets, models, or artifacts in Google Cloud Storage.
-* Install `aws` if you use Amazon S3 or other AWS-backed storage in your workflows.
-* Install `media` if you frequently log large or complex media (`images`, `audio`, `video`) and want better format support.
-
-### Supported optional dependencies
-
-The following table lists supported dependencies for the W&B Python SDK and the extras you can install:
+The following table lists Python SDK extras and their suggested use cases.
 
 {/* python-extras-start */}
-| Extra | Packages included |
-|---------|---------|
-| `gcp` | [google-cloud-storage](https://pypi.org/project/google-cloud-storage/) |
-| `aws` | [boto3](https://pypi.org/project/boto3/), [botocore](https://pypi.org/project/botocore/) |
-| `azure` | [azure-identity](https://pypi.org/project/azure-identity/), [azure-storage-blob](https://pypi.org/project/azure-storage-blob/) |
-| `media` | [numpy](https://pypi.org/project/numpy/), [moviepy](https://pypi.org/project/moviepy/), [imageio](https://pypi.org/project/imageio/), [pillow](https://pypi.org/project/pillow/), [bokeh](https://pypi.org/project/bokeh/), [soundfile](https://pypi.org/project/soundfile/), [plotly](https://pypi.org/project/plotly/), [rdkit](https://pypi.org/project/rdkit/) |
-| `sweeps` | [sweeps](https://pypi.org/project/sweeps/) |
-| `workspaces` | [wandb-workspaces](https://pypi.org/project/wandb-workspaces/) |
+| Extra | Packages included | Install if you |
+|---------|---------|---------|
+| `gcp` | [google-cloud-storage](https://pypi.org/project/google-cloud-storage/) | Use `gs://` artifact references. |
+| `aws` | [boto3](https://pypi.org/project/boto3/), [botocore](https://pypi.org/project/botocore/) | Use `s3://` artifact references. |
+| `azure` | [azure-identity](https://pypi.org/project/azure-identity/), [azure-storage-blob](https://pypi.org/project/azure-storage-blob/) | Use Azure Blob Storage artifact references. |
+| `media` | [numpy](https://pypi.org/project/numpy/), [moviepy](https://pypi.org/project/moviepy/), [imageio](https://pypi.org/project/imageio/), [pillow](https://pypi.org/project/pillow/), [bokeh](https://pypi.org/project/bokeh/), [soundfile](https://pypi.org/project/soundfile/), [plotly](https://pypi.org/project/plotly/), [rdkit](https://pypi.org/project/rdkit/) | Log images, video, audio, or plots from raw data (numpy arrays, tensors). |
+| `sweeps` | [sweeps](https://pypi.org/project/sweeps/) | Run local sweep controller (`wandb.controller()`). |
+| `workspaces` | [wandb-workspaces](https://pypi.org/project/wandb-workspaces/) | Programmatically manage workspaces. |
 {/* python-extras-end */}

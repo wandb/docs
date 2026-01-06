@@ -12,11 +12,21 @@ import tomli
 # W&B Python SDK Extras to exclude from the table.
 EXCLUDE = ["models", "kubeflow", "launch", "importers", "perf"]
 
+DESCRIPTION = {
+    "aws" : "Use `s3://` artifact references.",
+    "gcp" : "Use `gs://` artifact references.",
+    "azure" : "Use Azure Blob Storage artifact references.",
+    "media" : "Log images, video, audio, or plots from raw data (numpy arrays, tensors).",
+    "sweeps" : "Run local sweep controller (`wandb.controller()`).",
+    "workspaces" : "Programmatically manage workspaces.",
+}
+
+
 def header():
     """Return the markdown table headers."""
-    return "| Extra | Packages included |\n"
+    return "| Extra | Packages included | Install if you |\n"
 
-def header_row(head_topics: int = 2):
+def header_row(head_topics: int = 3) -> str:
     """Return the markdown table header row.
     
     Args:
@@ -37,7 +47,7 @@ def make_table_row(extra: str, packages: str) -> str:
     Returns:
         str: A markdown table row.
     """
-    return f"| `{extra}` | {packages} |\n"
+    return f"| `{extra}` | {packages} | {DESCRIPTION.get(extra, '')} |\n"
 
 def clean_deps(deps: list[str]) -> list[str]:
     """Remove version specifiers from a list of dependency strings.
