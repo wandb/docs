@@ -6,7 +6,9 @@ title: Resume a run
 Specify how a run should behave in the event that run stops or crashes. To resume or enable a run to automatically resume, you will need to specify the unique run ID associated with that run for the `id` parameter:
 
 ```python
+import wandb
 with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="<resume>") as run:
+        # Your training code here
 ```
 
 <Note>
@@ -41,6 +43,7 @@ The following code snippet shows how to accomplish this with the W&B Python SDK:
 
 ```python
 with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="must") as run:
+        # Your training code here
 ```
 
 <Warning>
