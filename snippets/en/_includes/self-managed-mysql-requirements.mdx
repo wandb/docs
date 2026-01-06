@@ -1,4 +1,4 @@
-W&B requires an external MySQL database. For convenience during testing and development of proofs of concept, W&B Self-Managed can deploy a local MySQL instance (`mysql.install: true` in Helm configuration), but **this is not appropriate for production deployments**.
+W&B requires an external MySQL database. 
 
 For production, W&B strongly recommends using managed database services:
 - [AWS RDS Aurora MySQL](https://aws.amazon.com/rds/aurora/)
@@ -7,4 +7,4 @@ For production, W&B strongly recommends using managed database services:
 
 Managed database services provide automated backups, monitoring, high availability, patching, and reduce operational overhead.
 
-See the [reference architecture](/platform/hosting/self-managed/ref-arch/#mysql) for complete MySQL requirements, including sizing recommendations and configuration parameters. For database creation SQL, see the [bare-metal guide](/platform/hosting/self-managed/bare-metal/#mysql-database).
+See the [reference architecture](/platform/hosting/self-managed/ref-arch/#mysql) for complete MySQL requirements, including sizing recommendations and configuration parameters. For database creation SQL, see the [bare-metal guide](/platform/hosting/self-managed/bare-metal/#mysql-database). For questions about your deployment's database configuration, contact [support](mailto:support@wandb.com) or your AISE.

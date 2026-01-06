@@ -464,6 +464,16 @@ spec:
         password: 8wtX6cJHizAZvYScjDzZcUarK4zZGjpV
         port: 3306
         user: wandb
+      redis:
+        host: redis.example.com
+        port: 6379
+        password: password
+      api:
+        enabled: true
+      glue:
+        enabled: true
+      executor:
+        enabled: true
       license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
     ingress:
       annotations:
@@ -628,7 +638,7 @@ In case of Nginx you might have to add the following annotation:
 ```
 ingress:
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 64m
+    nginx.ingress.kubernetes.io/proxy-body-size: 0
 ```
 
 ### Custom Kubernetes ServiceAccounts

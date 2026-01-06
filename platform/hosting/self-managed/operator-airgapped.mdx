@@ -66,6 +66,7 @@ You are responsible for tracking the W&B Operator's requirements and maintaining
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
+* [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary)
 
 ### Dependencies
 
@@ -85,19 +86,23 @@ To extract the complete list of required images and versions from the Helm chart
 
     ```bash
     # Extract image references from the Helm chart
-    helm show values wandb/operator | grep -E 'repository:|tag:'
-    helm show values wandb/operator-wandb | grep -E 'repository:|tag:'
+    helm show values wandb/operator \
+      | awk -F': *' '/^[[:space:]]*repository:/{print $2}' \
+      | grep -E '^wandb/' \
+      | sort -u
     ```
 
     The list might look similar to the following. Image versions may vary.
 
-    - `wandb/controller:1.16.1`
-    - `wandb/local:0.62.2`
-    - `wandb/console:2.13.1`
-    - `docker.io/bitnamilegacy/redis:7.2.4-debian-12-r9`
-    - `quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0`
-    - `quay.io/prometheus/prometheus:v2.47.0`
-    - `otel/opentelemetry-collector-contrib:0.97.0`
+    ```text
+    wandb/anaconda2
+    wandb/console
+    wandb/frontend-nginx
+    wandb/local
+    wandb/megabinary
+    wandb/weave-python
+    wandb/weave-trace
+    ```
 
 
 ## Step 3: Prepare internal Helm chart repository
@@ -137,7 +142,7 @@ Replace the tag with the version that is available in your internal registry.
 
 Install the operator and the CRD:
 ```bash
-helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
+helm upgrade --install operator local-repo/operator -n wandb --create-namespace -f values.yaml
 ```
 
 For full details about the supported values, refer to the [Kubernetes operator GitHub repository](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
@@ -191,14 +196,18 @@ spec:
         password: password
         port: 3306
         user: wandb
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: password
+      api:
+        enabled: true
+      glue:
+        enabled: true
+      executor:
+        enabled: true
       extraEnv:
         ENABLE_REGISTRY_UI: 'true'
-    
-    # MySQL configuration
-    # Setting install: true deploys a local MySQL instance for testing/development only.
-    # For production, use an external managed MySQL service (RDS Aurora, Cloud SQL, Azure Database for MySQL) and set install: false.
-    mysql:
-      install: false
 
     app:
       image:
@@ -210,9 +219,50 @@ spec:
         repository: registry.yourdomain.com/console
         tag: 2.12.2
 
+    api:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    executor:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    glue:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    parquet:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    weave:
+      image:
+        repository: registry.yourdomain.com/weave-python
+        tag: 0.59.2
+
+    otel:
+      image:
+        repository: registry.yourdomain.com/otel/opentelemetry-collector-contrib
+        tag: 0.97.0
+
+    prometheus:
+      server:
+        image:
+          repository: registry.yourdomain.com/prometheus/prometheus
+          tag: v2.47.0
+      configmapReload:
+        prometheus:
+          image:
+            repository: registry.yourdomain.com/prometheus-operator/prometheus-config-reloader
+            tag: v0.67.0
+
     ingress:
       annotations:
-        nginx.ingress.kubernetes.io/proxy-body-size: 64m
+        nginx.ingress.kubernetes.io/proxy-body-size: 0
       class: nginx
 
     
@@ -220,7 +270,7 @@ spec:
 
 To deploy the W&B platform, the Kubernetes Operator uses the values from your CR to configure the `operator-wandb` Helm chart from your internal repository.
 
-Replace all tags/versions with the versions that are available in your internal registry.
+Replace all tags and versions with the versions available in your internal registry. The example above shows the most commonly used components. Depending on your deployment needs, you may also need to configure image repositories for additional components such as `settingsMigrationJob`, `weave-trace`, `filestream`, and others. Refer to the [W&B Helm repository values file](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) for the complete list of configurable components.
 
 
 ## Step 8: Deploy the W&B platform

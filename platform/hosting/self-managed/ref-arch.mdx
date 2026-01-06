@@ -55,10 +55,10 @@ W&B stores metadata in a MySQL database. The database's performance and storage 
 
 If you choose to deploy a self-managed MySQL database, consider the following:
 
-- **Backups**. You should periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
-- **Performance.** The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
-- **Monitoring.** The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
-- **Availability.** Depending on your availability and durability requirements you might want to configure a hot standby on a separate machine that streams all updates in realtime from the primary server and can be used to failover to in the event that the primary server crashes or become corrupted.
+- **Backups**: You should periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
+- **Performance**: The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
+- **Monitoring**: The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
+- **Availability**: To meet your availability and durability requirements, W&B recommends configuring a hot standby Server deployment on a separate machine that streams all updates in realtime from the primary deployment, and is ready to fail over if the primary server crashes, become corrupted, or experiences sustained downtime. Note that W&B does not support a multi-master topology or read-only replicas.
 
 #### MySQL database creation
 
