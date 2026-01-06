@@ -40,16 +40,16 @@ jobs:
 
     - name: Copy pyproject.toml to scripts directory
       run: |
-        echo "Copying wandb/pyproject.toml to scripts/"
-        cp wandb-repo/pyproject.toml scripts/pyproject.toml
-        echo "✅ File copied successfully"
+        echo "Copying wandb/pyproject.toml to docs/scripts/"
+        cp wandb/pyproject.toml docs/scripts/pyproject.toml
+        echo "File copied successfully"
 
     - name: Generate SDK Extras Table
       run: |
         echo "Generating SDK extras table from pyproject.toml..."
         cd scripts
         python generate_sdk_extras_table.py
-        echo "✅ SDK extras table generated"
+        echo "SDK extras table generated"
 
     - name: Check for changes
       id: check-changes
@@ -102,10 +102,10 @@ jobs:
         if [ "${{ steps.check-changes.outputs.has_changes }}" == "true" ]; then
           if [ -n "${{ steps.create-pr.outputs.pull-request-number }}" ]; then
             PR_URL="https://github.com/${{ github.repository }}/pull/${{ steps.create-pr.outputs.pull-request-number }}"
-            echo "📝 PR created successfully!"
+            echo "PR created successfully!"
             echo "::notice title=Pull Request Created::A PR has been created for SDK extras updates: $PR_URL"
           fi
         else
-          echo "✅ SDK extras documentation is up to date"
+          echo "SDK extras documentation is up to date"
           echo "::notice title=No Updates Needed::SDK extras documentation is already up to date"
         fi
