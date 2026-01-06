@@ -47,11 +47,10 @@ Check out this [getting started notebook](https://wandb.me/lora_nb) for an inter
 
 You need:
 
-* A [W&B API key](/models/integrations/add-wandb-to-any-library#create-an-api-key)
-* A [W&B project](/models/track/project-page)
-* **Python 3.8+** with `openai` and `wandb` packages:
+- A [W&B API key](/models/integrations/add-wandb-to-any-library#create-an-api-key)
+- A [W&B project](/models/track/project-page)
+- **Python 3.8+** with `openai` and `wandb` packages:
   `pip install wandb openai`
-
 
 ## How to add LoRAs and use them
 
@@ -87,6 +86,7 @@ You can add LoRAs to your W&B account and start using them with two methods:
     * A LoRA saved in PEFT format as a `lora` type artifact in your W&B account.
     * The LoRA must be stored in the `storage_region="coreweave-us"` for low latency.
     * When uploading, include the name of the base model you trained it on (for example, `meta-llama/Llama-3.1-8B-Instruct`). This ensures W&B can load it with the correct model.
+
   </Tab>
   <Tab title="Train a new LoRA with W&B">
     Train a new LoRA with [W&B Training (serverless RL)](/training). Your LoRA automatically becomes a W&B artifact that you can use directly.
@@ -94,6 +94,7 @@ You can add LoRAs to your W&B account and start using them with two methods:
     For detailed information on how to train your own LoRA, see [OpenPipe's ART quickstart](https://art.openpipe.ai/getting-started/quick-start).
 
     Once training is complete, your LoRA is automatically available as an artifact.
+
   </Tab>
 </Tabs>
 
