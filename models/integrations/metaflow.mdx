@@ -2,6 +2,9 @@
 description: How to integrate W&B with Metaflow.
 title: Metaflow
 ---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
 ## Overview
 
 [Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.com) for creating and running ML workflows.
@@ -17,13 +20,10 @@ This integration lets users apply decorators to Metaflow [steps and flows](https
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-<Note>
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
-</Note>
+<ApiKeyCreateStreamlined/>
 
 1. Click your user profile icon in the upper right corner.
 1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
 ### Install the `wandb` library and log in
 
@@ -197,4 +197,4 @@ We currently support these types:
 
 Yes. If you have an artifact that is an output of step A and an input to step B, we automatically construct the lineage DAG for you.
 
-For an example of this behavior, please see this[ notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)
+For an example of this behavior, please see this [notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) and its corresponding [W&B Artifacts page](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)
