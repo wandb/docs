@@ -5,6 +5,7 @@ title: How do I create and manage API keys?
 import ApiKeyFind from "/snippets/en/_includes/api-key-find.mdx";
 import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
 import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
+import ServiceAccountApiKeyDelete from "/snippets/en/_includes/service-account-api-key-delete.mdx";
 
 ## Create a new API key
 
@@ -16,21 +17,22 @@ import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
 
 ## Delete an API key
 
-To revoke access, delete the API key:
-
-### Personal API keys
-
-1. Navigate to [wandb.ai/settings](https://wandb.ai/settings).
-1. In the the **API Keys** section, click the delete button next to the key you want to delete.
-4. Confirm the deletion.
-
-### Service account API keys
-
-For information about managing service account API keys, see [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts).
-
 <Warning>
 Deleting an API key immediately revokes access for any scripts or services using that key. Ensure you have updated all systems to use a new key before deleting the old one.
 </Warning>
+
+To revoke access, delete the API key. Select the **Personal API key** or **Service Account API key** tab for details.
+
+<Tabs>
+  <Tab title="Personal API key">
+1. Navigate to [wandb.ai/settings](https://wandb.ai/settings).
+1. In the the **API Keys** section, click the delete button next to the key you want to delete.
+  </Tab>
+  <Tab title="Service account API key">
+<ServiceAccountApiKeyDelete/>
+Learn more about [using service accounts to automate workflows](/platform/hosting/iam/service-accounts).
+  </Tab>
+</Tabs>
 
 ## Replace an API key
 
