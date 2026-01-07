@@ -739,7 +739,11 @@ Assigns an organization-level role to a user.
 | `value` | string | Yes | Role name (`admin` or `member`) |
 
 <Note>
-The `viewer` role is deprecated and can no longer be set in the UI. W&B assigns the `member` role to a user if you attempt to assign the `viewer` role using SCIM. The user is automatically provisioned with Models and Weave seats if possible. Otherwise, a `Seat limit reached` error is logged. For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
+The organization-scoped `viewer` role is deprecated and can no longer be assigned in the UI. If you use SCIM to assign the `viewer` role to a user:
+- They are assigned the `member` role in the organization.
+- They are assigned a Models `viewer` seat, instead of a `full` seat. This allows view-only access to Models and full access to Registry. If no Models seats are available, a `Seat limit reached` error is logged and the member is added with no Models access. This can be updated later if a seat is available.
+- They are assigned a Weave `viewer` seat, instead of a `full` seat. This allows view-only access to Weave. If no Weave seats are available, a `Seat limit reached` error is logged and the member is added with no Weave access. This can be updated later if a seat is available.
+- For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
 </Note>
 
 #### Example
