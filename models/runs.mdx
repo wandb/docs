@@ -340,6 +340,10 @@ View information about a specific run such as the state of the run, artifacts lo
 
 You can view and monitor runs using the W&B App or the `wandb beta leet` terminal UI.
 
+<Tip>
+For runs that execute on [CoreWeave](https://coreweave.com) infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. If an error occurs, W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run's page. For details, see [Visualize CoreWeave infrastructure alerts](#visualize-coreweave-infrastructure-alerts).
+</Tip>
+
 <Tabs>
 <Tab title="App">
 
@@ -601,6 +605,63 @@ The **Artifacts** tab lists the input and output [artifacts](/models/artifacts/)
 </Frame>
 
 View [example artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/).
+
+## Visualize CoreWeave infrastructure alerts
+
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run](/models/runs/), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure.
+
+<Note>
+This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
+</Note>
+
+If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run's page.
+
+### Find infrastructure issues in a run
+
+W&B surfaces both SLURM job issues and cluster node issues. View infrastructure errors in a run:
+
+1. Navigate to your project on the W&B App. 
+2. Select the **Workspace** tab to view your project's workspace.
+3. Search and select the name of the run that contains an infrastructure issue. If CoreWeave detected an infrastructure issue, one or more red vertical lines with an exclamation mark overlay the run's plots. 
+4. Select an issue on a plot or select the **Issues** button in the top right of the page. A drawer appears that lists each issue reported by CoreWeave. 
+
+<Tip>
+To views runs with infrastructure issues at a glance, pin the **Issues** column to your W&B Workspace to view runs that logged an issue at a glance. For more information about how to pin a column, see [Customize how runs are displayed](/models/runs/#customize-how-runs-are-displayed).
+</Tip>
+
+The **Overall Grafana view** at the top of the drawer redirects you to the SLURM job's Grafana dashboard, which contains system-level details about the run. The **Issues summary** describes the root error that the SLURM job reported to CoreWeave Mission Control. The summary section also describes any attempts to automatically resolve the error made by CoreWeave.
+
+<Frame>
+    <img src="/images/app_ui/cw_wb_observability.png"  />
+</Frame>
+
+**All Issues** lists all issues that occur during the run in chronological order, with the most recent issue at the top. The list contains the job issue and node issue alerts. Each issue alert includes the issue name, the timestamp of the issue, a link to the Grafana dashboard for that issue, and a brief summary.
+
+The following table shows example alerts for each category of infrastructure issues:
+
+| Category | Example alerts |
+| -------- | ------------- |
+| Node Availability & Readiness | `KubeNodeNotReadyHGX`, `NodeExtendedDownTime` |
+| GPU/Accelerator Errors | `GPUFallenOffBusHGX`, `GPUFaultHGX`, `NodeTooFewGPUs` |
+| Hardware Errors | `HardwareErrorFatal`, `NodeRAIDMemberDegraded` |
+| Networking & DNS | `NodeDNSFailureHGX`, `NodeEthFlappingLegacyNonGPU` |
+| Power, Cooling, and Management | `NodeCPUHZThrottle`, `RedfishDown` |
+| DPU & NVSwitch | `DPUNcoreVersionBelowDesired`, `NVSwitchFaultHGX` |
+| Miscellaneous | `NodePCISpeedRootGBT`, `NodePCIWidthRootSMC` |
+
+For detailed information on error types, see the [SLURM Job Metrics on the CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts#job-info-alerts).
+
+### Debug infrastructure issues
+
+Each run that you create in W&B corresponds to a single SLURM job in CoreWeave. You can view a failed job's [Grafana](https://grafana.com/) dashboard or discover more information about a single node. The link within the **Overview** section of the **Issues** drawer links to the SLURM job Grafana dashboard. Expand the **All Issues** dropdown to view both job and node issues and their respective Grafana dashboards. 
+
+<Note>
+The Grafana dashboard is only available for W&B users with a CoreWeave account. Contact W&B to configure Grafana with your W&B organization.
+</Note>
+
+Depending on the issue, you may need to adjust the SLURM job configuration, investigate the node's status, restart the job, or take other actions as needed.
+
+For more information about CoreWeave SLURM jobs in Grafana, see Slurm/Job Metrics on the [CoreWeave Docs](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts). See [Job info: alerts](https://docs.coreweave.com/docs/observability/managed-grafana/sunk/slurm-job-metrics#job-info-alerts#job-info-alerts) for detailed information about job alerts.
 
 ## Delete runs
 
