@@ -31,7 +31,7 @@ Standard W&B authentication is used. You must have write permissions to the proj
 ## Examples:
 
 You must modify the following fields before you can run the code samples below:
-1. `WANDB_API_KEY`: You can get this from [https://wandb.ai/authorize](https://wandb.ai/authorize).
+1. `WANDB_API_KEY`: You can get this from [User Settings](https://wandb.ai/settings).
 2. Entity: You can only log traces to the project under an entity that you have access to. You can find your entity name by visiting your W&N dashboard at [https://wandb.ai/home], and checking the **Teams** field in the left sidebar.
 3. Project Name: Choose a fun name!
 4. `OPENAI_API_KEY`: You can obtain this from the [OpenAI dashboard](https://platform.openai.com/api-keys).
@@ -66,7 +66,7 @@ PROJECT_ID = "<your-entity>/<your-project>"
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
-# Can be found at https://wandb.ai/authorize
+# Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = "<your-wandb-api-key>"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
 
@@ -140,7 +140,7 @@ PROJECT_ID = "<your-entity>/<your-project>"
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
-# Can be found at https://wandb.ai/authorize
+# Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = "<your-wandb-api-key>"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
 
@@ -215,7 +215,7 @@ PROJECT_ID = "<your-entity>/<your-project>"
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
-# Can be found at https://wandb.ai/authorize
+# Create an API key at https://wandb.ai/settings
 WANDB_API_KEY = "<your-wandb-api-key>"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
 

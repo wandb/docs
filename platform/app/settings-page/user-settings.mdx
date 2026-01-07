@@ -5,6 +5,9 @@ description: Manage your profile information, account defaults, alerts, particip
 title: Manage user settings
 ---
 
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
+
 Navigate to your user profile page and select your user icon on the top right corner. From the dropdown, choose **Settings**.
 
 ## Profile
@@ -58,6 +61,42 @@ The **Teams** section lists all of your teams.
 <Note>
 To create or manage a team, see [Manage teams](/platform/app/settings-page/teams/).
 </Note>
+
+## API keys
+
+The **API Keys** section allows you to manage your personal API keys for authenticating with W&B services.
+
+### View your API keys
+
+The API keys table displays:
+- **Key ID**: The first part of each API key, used for identification
+- **Name**: A descriptive name you provided when creating the key
+- **Created**: When the key was created
+- **Last used**: The most recent usage timestamp
+
+<Note>
+The table shows only the key ID (first part of the key) for security. The full secret API key is only displayed once when you create it.
+</Note>
+
+Enter a partial key name or ID to search filter the list of API keys.
+
+### Create a new API key
+
+<ApiKeyCreate/>
+
+### Delete an API key
+
+To revoke access by deleting an API key:
+
+1. Find the key you want to delete in the API keys table.
+2. Click the delete button next to the key.
+3. Confirm the deletion.
+
+<Warning>
+Deleting an API key immediately revokes access for any scripts or services using that key. Ensure you have updated all systems to use a new key before deleting the old one.
+</Warning>
+
+<ApiKeySecurity/>
 
 ## Beta features
 
