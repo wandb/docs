@@ -1048,6 +1048,8 @@
               {
                 "group": "Details & Support",
                 "pages": [
+                  "weave/details/features",
+                  "https://wandb.ai/site/pricing/",
                   "weave/guides/tools/limits",
                   "weave/guides/core-types/env-vars",
                   "weave/guides/troubleshooting",
