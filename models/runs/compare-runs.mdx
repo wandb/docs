@@ -3,7 +3,7 @@ description: Pin important runs and compare other runs against a baseline refere
 title: Pin and compare runs against a baseline
 sidebarTitle: Pin and compare runs
 ---
-import PreviewLink from '/snippets/en/_includes/pinned-and-baseline-runs/preview.mdx';
+import CloudOnly from '/snippets/en/_includes/pinned-and-baseline-runs/cloud-only.mdx';
 
 
 This page shows how to keep track of important runs and set a baseline reference run to efficiently evaluate model experiments.
@@ -17,11 +17,10 @@ In a workspace with many runs, it can be difficult to keep track of your best pe
 
 These features are particularly useful for:
 - Comparing new experiments against your production model.
-- Tracking multiple candidate models during hyperparameter tuning.
-- Keeping failed experiments visible as reminders of what not to try.
+- Tracking multiple candidate models during experimentation.
 - Evaluating whether new runs improve on your best results.
 
-<PreviewLink/>
+<CloudOnly/>
 See [Limitations](#limitations).
 
 ## Pin runs
@@ -34,11 +33,11 @@ To pin a run:
 2. In the run selector or runs table, find the run you want to pin.
 3. Click the action `...` menu, then select **Pin run**.
 
-Pinned runs appear at the top of the run selector with a pin icon, separated from other runs by a visual divider.
+Pinned runs appear at the top of the run selector with a circular pin icon, separated from other runs by a visual divider.
 
 {/*![Runs table with pinned runs](TODO)*/}
 
-To unpin a run, follow the same procedure, but select **Unpin run** instead.
+To unpin a run, click the pin icon, or follow the procedure to pin the run, but select **Unpin run** instead.
 
 ## Manage the baseline run
 
@@ -55,7 +54,7 @@ To set a baseline run:
 2. In the run selector or runs table, find the run you want to use as your baseline.
 3. Click the action `...` menu, then select **Set as baseline**.
 
-The baseline run appears at the top of the run selector, separated from other runs by a visual divider. The baseline run has a bookmark icon instead of a pin.
+The baseline run appears at the top of the run selector, separated from other runs by a visual divider. The baseline run has a bookmark icon instead of a circle.
 
 {/*![Runs table with a baseline run and pinned runs](TODO)*/}
 
@@ -64,7 +63,7 @@ Only one run can be the baseline at a time. To change which run is your baseline
 
 1. Navigate to your workspace.
 2. In the run selector or runs table, find the run you want to use as your new baseline.
-3. Click the action `...` menu, then select **Set as baseline**.
+3. Click the action `...` menu, then select **Replace baseline**.
 
 The new run becomes the baseline. Depending on its configuration, the previous baseline run appears alongside other pinned or unpinned runs.
 
@@ -80,7 +79,7 @@ Depending on its configuration, the previous baseline run appears alongside othe
 ## Compare runs to the baseline
 This section shows how to see at a glance whether new runs are improving on your baseline.
 
-The baseline run is always visible. In line plots, lines for the baseline run appear bolder than other lines.
+The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
 
 - Hover over a part of the plot that does not have a line to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
   {/*![Demo showing details for all visible runs at a given point]*/}
@@ -93,18 +92,14 @@ The baseline run is always visible. In line plots, lines for the baseline run ap
 ## Use cases
 This section describes some scenarios where pinned and baseline runs can help guide your experiments.
 
-- **Track production models**: Ensure new models meet your quality bar before deployment.
-  1. Pin your current production model.
-  2. Set it as the baseline.
-  3. Compare all experiments against your deployed model to identify candidates that outperform production.
+- **Track production models**: Ensure that new models meet your quality bar before deployment.
+  1. Set your production model as the baseline.
+  2. Compare all experiments against your deployed model to identify candidates that outperform production.
 - **Compare hyperparameter experiments**: Evaluate hyperparameter sweeps or manual experiments against your best-known configuration.
   1. Set your best known configuration as the baseline.
   2. Pin promising candidates as you discover them.
   3. Use the line plots to visually compare runs against the baseline.
   4. Continue to update the baseline as you find better configurations.
-- **Document failed experiments**: Keep track of approaches that don't work, to help your team avoid repeating mistakes.
-  1. Pin runs that performed poorly.
-  2. Add notes explaining why the experiment failed.
 
 ## Example workflow
 This section illustrates how pinned and baseline runs can help you to compare runs.
@@ -177,7 +172,7 @@ This section illustrates how pinned and baseline runs can help you to compare ru
 {/* TODO screenshot */}
 
 ## Limitations
-<PreviewLink/>
+<CloudOnly/>
 
 The following features are not yet supported for pinned and baseline runs:
 
