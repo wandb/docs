@@ -801,7 +801,12 @@
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
                       "weave/guides/tools/attributes",
-                      "weave/guides/tools/column-mapping",
+                      "weave/guides/tools/column-mapping"
+                    ]
+                  },
+                  {
+                    "group": "Experiment with prompts and models",
+                    "pages": [
                       "weave/guides/tools/playground",
                       "weave/guides/tools/evaluation_playground"
                     ]
