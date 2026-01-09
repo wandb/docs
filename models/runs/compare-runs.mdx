@@ -45,7 +45,10 @@ You can designate one run as the baseline for the workspace to use it as a refer
 
 In the runs selector and runs table, the baseline run appears at the top alongside pinned runs, and has a bookmark icon instead of a pin.
 
-In line plots, lines for the baseline run appear bolder than other lines. Hover over the baseline run's line to see details. Hover over another run's line to visually compare it with the baseline. When comparing a run with the baseline, other pinned and visible runs appear with reduced saturation.
+In line plots, lines for the baseline run appear bolder than other lines. When hovering over the plot or legend, the baseline run's line is dashed.
+
+- Hover over the baseline run's legend label to see the line in detail.
+- Hover over the baseline run's line to see details about a point. Hover over another run's line to visually compare it with the baseline. When you hover over the plot, the baseline line is a heavy dashed line, and the other run's line is also displayed prominently. Other pinned and visible runs appear with reduced saturation.
 
 ### Set a baseline run
 To set a baseline run:
@@ -83,10 +86,10 @@ The baseline run is always visible in line plots for metrics the run has logged.
 
 - Hover over a part of the plot to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
   {/*![Demo showing details for all visible runs at a given point]*/}
-- Hover over the baseline run's label in the legend to display a tooltip with its value. Lines for other visible runs appear with reduced saturation.
+- Hover over the baseline run's legend to display the line prominently. It appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
   {/*![Demo showing details for the baseline run](TODO)*/}
   Tooltips show the baseline value at a given point on the y-axis.
-- Hover over another run's label in the legend to display a tooltip with values for both that run and the baseline. Lines for other visible runs appear with reduced saturation.
+- Hover over another run's legend label to display that run's line prominently and compare it with the baseline, which appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
   {/*![Demo of comparing another run with the baseline](TODO)*/}
 
 ## Use cases
