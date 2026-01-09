@@ -822,7 +822,7 @@
                     ]
                   },
                   {
-                    "group": "Run in production",
+                    "group": "Monitor and collect feedback",
                     "pages": [
                           "weave/guides/tracking/feedback",
                           "weave/guides/tracking/redact-pii",
