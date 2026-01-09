@@ -4,16 +4,20 @@ description: >
   Learn how to create a fine-tuned LoRA to use with W&B Inference.
 ---
 
-W&B Inference allows you to use a custom LoRA with some base models. Step-by-step instructions can be found in the [Use Serverless LoRA Inference](/inference/lora) guide. There are multiple ways to create a compatible LoRA. One recommended way is to use [W&B Training](/training) which provides serverless reinforcement learning. This tutorial demonstrates an alternate approach using supervised post-training
-via the [TRL](https://huggingface.co/docs/trl/index) library. Specifically, we will use a dataset of 100 query/response pairs to tune our model to respond as it it was a (rather cartoonish) cowboy.
+W&B Inference allows you to use a custom LoRA with some base models. This tutorial demonstrates how to create a fine-tuned LoRA using using supervised post-training
+via the [TRL](https://huggingface.co/docs/trl/index) library. This example uses a dataset of query/response pairs to fine-tune a model to respond like a cowboy.
+
+You can also create a LoRA using [W&B Training](/training) which provides serverless reinforcement learning.
 
 ## Post-training dataset
 
-One hundred examples should be sufficient to achieve the desired effect. An example:
+The following data set contains 100 query and response pairs that are formatted as a list of messages, such as:
 
 > User: "What is your favorite color?"
 
 > Assistant: "Well, pardner, my favorite color's the blazin' orange of a desert sunset…"
+
+The Lo
 
 The example file contains one JSON object per line. Save the following data as `cowboy_examples.jsonl`.
 
