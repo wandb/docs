@@ -203,6 +203,7 @@
                           "models/runs/filter-runs",
                           "models/runs/forking",
                           "models/runs/grouping",
+                          "models/runs/compare-runs",
                           "models/runs/manage-runs",
                           "models/runs/resuming",
                           "models/runs/rewind",
