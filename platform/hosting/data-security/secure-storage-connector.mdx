@@ -45,19 +45,19 @@ For example, suppose you have a team called Kappa in your organization. Your org
 
 ### Availability matrix
 W&B can connect to the following storage providers:
-- [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) is a high-performance, S3-compatible object storage service optimized for AI workloads.
-- [Amazon S3](https://aws.amazon.com/s3/) is an object storage service offering industry-leading scalability, data availability, security, and performance.
-- [Google Cloud Storage](https://cloud.google.com/storage) is a managed service for storing unstructured data at scale.
-- [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs) is a cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
-- S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises.
+- [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage): High-performance, S3-compatible object storage service optimized for AI workloads.
+- [Amazon S3](https://aws.amazon.com/s3/): Object storage service offering industry-leading scalability, data availability, security, and performance.
+- [Google Cloud Storage](https://cloud.google.com/storage): Managed service for storing unstructured data at scale.
+- [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs): Cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
+- S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) or other enterprise-grade solutions hosted in your cloud or on-premises infrastructure.
 
 The following table shows the availability of BYOB at each scope for each W&B deployment type.
 
 | W&B deployment type        | Instance level   | Team level | Additional information |
 |----------------------------|------------------|------------|------------------------|
-| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or on-premises infrastructure. |
+| Dedicated Cloud            | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) hosted in your cloud or on-premises infrastructure. |
 | Multi-tenant Cloud         | Not Applicable   | &check;<sup><a href="#footnote_1">1</a></sup> | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and Google Cloud Storage. |
-| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage like [MinIO](https://github.com/minio/minio) hosted in your cloud or infrastructure on your premises. |
+| Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) hosted in your cloud or on-premises infrastructure. |
 
 <sup><a id="footnote_1">1</a>.</sup>Azure Blob Storage is not supported for team level BYOB on Multi-tenant Cloud.
 
@@ -438,7 +438,9 @@ s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>&t
 In the address, the `region` parameter is mandatory.
 
 <Note>
-This section is for S3-compatible storage buckets that are not hosted in S3, like [MinIO](https://github.com/minio/minio) hosted on your premises. For storage buckets hosted in AWS S3, see the **AWS** tab instead.
+This section is for S3-compatible storage buckets that are not hosted in S3, such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) or other enterprise-grade S3-compatible solutions hosted on your premises. For storage buckets hosted in AWS S3, see the **AWS** tab instead.
+
+MinIO Open Source is in [maintenance mode](https://github.com/minio/minio) with no active development or pre-compiled binaries. For production deployments, use enterprise-grade S3-compatible solutions.
 
 For Cloud-native storage buckets with an optional S3-compatible mode, use the Cloud-native protocol specifier when possible. For example, use `cw://` for a CoreWeave bucket, rather than `s3://`.
 </Note>
