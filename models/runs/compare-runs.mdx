@@ -35,7 +35,9 @@ To pin a run:
 
 Pinned runs appear at the top of the run selector with a circular pin icon, separated from other runs by a visual divider.
 
-{/*![Runs table with pinned runs](TODO)*/}
+<Frame>
+![Runs table with pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+</Frame>
 
 To unpin a run, click the pin icon, or follow the procedure to pin the run, but select **Unpin run** instead.
 
@@ -47,8 +49,9 @@ In the runs selector and runs table, the baseline run appears at the top alongsi
 
 In line plots, lines for the baseline run appear bolder than other lines. When hovering over the plot or legend, the baseline run's line is dashed.
 
-- Hover over the baseline run's legend label to see the line in detail.
-- Hover over the baseline run's line to see details about a point. Hover over another run's line to visually compare it with the baseline. When you hover over the plot, the baseline line is a heavy dashed line, and the other run's line is also displayed prominently. Other pinned and visible runs appear with reduced saturation.
+<Frame>
+![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+</Frame>
 
 ### Set a baseline run
 To set a baseline run:
@@ -59,7 +62,9 @@ To set a baseline run:
 
 The baseline run appears at the top of the run selector, separated from other runs by a visual divider. The baseline run has a bookmark icon instead of a circle.
 
-{/*![Runs table with a baseline run and pinned runs](TODO)*/}
+<Frame>
+![Runs table with a baseline run and pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
+</Frame>
 
 ### Change the baseline run
 Only one run can be the baseline at a time. To change which run is your baseline:
@@ -85,12 +90,17 @@ This section shows how to see at a glance whether new runs are improving on your
 The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
 
 - Hover over a part of the plot to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
-  {/*![Demo showing details for all visible runs at a given point]*/}
-- Hover over the baseline run's legend to display the line prominently. It appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
-  {/*![Demo showing details for the baseline run](TODO)*/}
-  Tooltips show the baseline value at a given point on the y-axis.
+  <Frame>
+  ![Demo showing details for all visible runs at a given point](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
+  </Frame>
+- Hover over the baseline run's legend label to display the line prominently. It appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
+  <Frame>
+  ![Demo showing details for the baseline run](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
+  </Frame>
 - Hover over another run's legend label to display that run's line prominently and compare it with the baseline, which appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
-  {/*![Demo of comparing another run with the baseline](TODO)*/}
+  <Frame>
+  ![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+  </Frame>
 
 ## Use cases
 This section describes some scenarios where pinned and baseline runs can help guide your experiments.
