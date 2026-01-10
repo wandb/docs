@@ -1,0 +1,52 @@
+---
+title: "Fundamental Components of Weave"
+description: "Learn about the fundamental building blocks that you need to integrate Weave into your application."
+---
+
+Weave is built on three foundational primitives that work together across all features:
+
+### Ops
+
+An **Op** is a versioned, tracked function. When you decorate a function with `@weave.op()` (Python) or wrap it with `weave.op()` (TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata.
+
+```python
+import weave
+
+@weave.op()
+def generate_response(prompt: str) -> str:
+    # Your LLM logic here
+    return response
+```
+
+Ops are the building blocks of tracing, evaluation scorers, and any tracked computation.
+
+### Objects
+
+An **Object** is versioned, serializable data. Weave automatically versions objects when they change, creating an immutable history. Objects include:
+
+- **Datasets**: Collections of examples for evaluation
+- **Models**: Configurations and parameters for your LLM logic
+- **Prompts**: Versioned prompt templates
+
+```python
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+### Calls
+
+A **Call** is a logged execution of an Op. Every time an Op runs, Weave creates a Call that captures:
+
+- Input arguments
+- Output value
+- Timing and latency
+- Parent-child relationships (for nested calls)
+- Any errors that occurred
+
+Calls form the backbone of Weave's tracing system and provide the data for debugging, analysis, and evaluation.
