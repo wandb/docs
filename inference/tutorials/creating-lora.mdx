@@ -11,7 +11,7 @@ You can also create a LoRA using [W&B Training](/training) which provides server
 
 ## Post-training dataset
 
-The following data set contains 100 query and response pairs that are formatted as a list of messages, such as:
+The following dataset contains 100 query and response pairs that are formatted as a list of messages, such as:
 
 > User: "What is your favorite color?"
 
@@ -126,10 +126,10 @@ The example file contains one JSON object per line. Save the following data in y
 
 This script trains a LoRA adapter on examples from the JSONL file and uploads it to W&B as an artifact for use with the W&B Inference API or Playground.
 
-At a high level this script does the following:
+At a high level, this script does the following:
 
 1. Logs in to W&B. The [Hugging Face Transformers integration](https://docs.wandb.ai/models/integrations/huggingface) of W&B Models will automatically record training progress and metrics.
-2. Load the base model - in this case, [OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct) - from Hugging Face.
+2. Loads the base model ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) from Hugging Face.
 3. Configure the LoRA using hyperparameters such as rank and alpha defined as constants near the top of the file.
 4. Load the examples from the file into a Dataset and then run [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer). By default all examples will be used.
 5. Save the LoRA and upload it to W&B as an Artifact so it can be used with W&B Inference.
@@ -137,7 +137,7 @@ At a high level this script does the following:
 When the script completes, open the last printed URL in your browser to see the persisted Artifact. It looks like this:
 `Artifact URL: https://wandb.ai/<yourentity>/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
 
-Save the following program as `create_lora.py` and update the `ENTITY` value with your W&B entity. To simplify executionm the script uses [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) to declare dependencies. 
+Save the following program as `create_lora.py` and update the `ENTITY` value with your W&B entity. To simplify execution the script uses [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) to declare dependencies. 
 
 ```python title="create_lora.py" expandable lines highlight={36}
 # /// script
@@ -360,7 +360,7 @@ Run the script using `uv`:
 uv run create_lora.py cowboy_examples.jsonl
 ```
 
-Execution time depends on hardware. You can add the `--max-examples=10` argument to speed speed up training but it affects how well the LLM responds in character.
+Execution time depends on hardware. You can add the `--max-examples=10` argument to speed up training but it affects how well the LLM responds in character.
 
 ## Using the LoRA
 
@@ -373,4 +373,4 @@ To use your newly created LoRA from code, see the [Use Serverless LoRA Inference
 Once you have created the LoRA, you can experiment with its training, such as:
 
 - Training the LoRA with a smaller number of examples to see if it still provides the desired effect.
-- Change the responses in the dataset to showcase another character, such as a pirate or a ninja.
+- Changing the responses in the dataset to showcase another character, such as a pirate or a ninja.
