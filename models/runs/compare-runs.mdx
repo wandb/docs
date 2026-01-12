@@ -1,14 +1,10 @@
 ---
-description: Pin important runs and compare other runs against a baseline reference.
+description: Learn how to use pinned and baseline runs to keep track of important runs and set a baseline reference run to efficiently evaluate model experiments.
 title: Pin and compare runs against a baseline
 sidebarTitle: Pin and compare runs
 ---
 import CloudOnly from '/snippets/en/_includes/pinned-and-baseline-runs/cloud-only.mdx';
 import PinRunsCondensed from '/snippets/en/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
-
-This page shows how to keep track of important runs and set a baseline reference run to efficiently evaluate model experiments.
-
-## Overview
 
 In a workspace with many runs, it can be difficult to keep track of your best performers, production models, failed experiments, or important reference points. The W&B App provides features to help organize and compare runs:
 
@@ -77,8 +73,6 @@ To remove the baseline designation:
 Depending on its configuration, the previous baseline run appears alongside other pinned or unpinned runs.
 
 ## Compare runs to the baseline
-This section shows how to see at a glance whether new runs are improving on your baseline.
-
 The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
 
 - Hover over a part of the plot to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
@@ -109,7 +103,7 @@ This section describes some scenarios where pinned and baseline runs can help gu
 ## Example workflow
 This section illustrates how pinned and baseline runs can help you to compare runs.
 
-1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs.
+1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs. Replace placeholders surrounded with angle brackets (`<>`) with your own values.
 
     ```python
     import wandb
@@ -127,7 +121,8 @@ This section illustrates how pinned and baseline runs can help you to compare ru
         
         with wandb.init(
           # Replace with your team and project name
-            project="my-team/hyperparameter-tuning",
+            project="hyperparameter-tuning",
+            entity="<team>",
             name=run_name,
             config=config,
             tags=tags or []
