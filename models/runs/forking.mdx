@@ -13,7 +13,7 @@ Explore different parameters or models from a specific point in an experiment wi
 
 <Note>
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires monotonically increasing steps. Attempting to set a fork point with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) is not supported, because it would disrupt the essential chronological order of run history and system metrics.
 </Note>
 
 Use the `fork_from` parameter in [`wandb.init()`](/models/ref/python/functions/init) to fork from an existing run. Specify the source run's unique `run ID` and the `step` you want to start the forked run from. 
@@ -24,7 +24,7 @@ See [Unique run identifiers](/models/runs/run-identifiers#unique-run-identifiers
 
 ## Fork from a previously logged run
 
-The following code snippet demonstrates how to fork from a run that you previously logged to W&B. This might occur if you want to fork from a run in a different script or notebook. Or if someone else logged the source run that you want to fork from.
+The following code snippet shows how to fork from a run that was previously logged to W&B. Use this approach to fork from a run in a different script or notebook, or from a run logged by a different user or service account.
 
 Replace `<source-run-id>`, `<project>`, and `<entity>` with your own values.
 
@@ -74,7 +74,7 @@ with wandb.init(
     pass
 ```
 
-Note that you use the `original_run.id` property to obtain the unique run ID of the original run.
+Use the `original_run.id` property to obtain the unique run ID of the original run.
 
 ## Example script
 
