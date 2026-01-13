@@ -1,0 +1,181 @@
+---
+description: Learn how to use pinned and baseline runs to keep track of important runs and efficiently evaluate model experiments.
+title: Pin and compare runs
+---
+import CloudOnly from '/snippets/en/_includes/pinned-and-baseline-runs/cloud-only.mdx';
+import PinRunsCondensed from '/snippets/en/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
+
+In a workspace with many runs, it can be difficult to keep track of your best performers, production models, failed experiments, or important reference points. The W&B App provides features to help organize and compare runs:
+
+- **Pinned runs**: Pin a maximum of 5 runs to keep them visible in the workspace and at the top of the runs list.
+- **Baseline run**: Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list. In line plots, the baseline appears with visually distinct styling to help with comparison.
+
+These features are particularly useful for:
+- Comparing new experiments against your production model.
+- Tracking multiple candidate models during experimentation.
+- Evaluating whether new runs improve on your best results.
+
+<CloudOnly/>
+See [Limitations](#limitations).
+
+## Pin runs
+
+<PinRunsCondensed/>
+
+<Frame>
+![Runs table with pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+</Frame>
+
+To unpin a run, click the pin icon, or follow the procedure to pin the run, but select **Unpin run** instead.
+
+## Manage the baseline run
+
+You can designate one run as the baseline for the workspace to use it as a reference point for evaluating other runs in your workspace.
+
+In the runs selector and runs table, the baseline run appears at the top alongside pinned runs, and has a bookmark icon instead of a pin.
+
+In line plots, lines for the baseline run appear bolder than other lines. When hovering over the plot or legend, the baseline run's line is dashed.
+
+<Frame>
+![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+</Frame>
+
+### Set a baseline run
+To set a baseline run:
+
+1. Navigate to your workspace.
+2. In the run selector or runs table, find the run you want to use as your baseline.
+3. Click the action `...` menu, then select **Set as baseline**.
+
+The baseline run appears at the top of the run selector, separated from other runs by a visual divider. The baseline run has a bookmark icon instead of a circle.
+
+<Frame>
+![Runs table with a baseline run and pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
+</Frame>
+
+### Change the baseline run
+Only one run can be the baseline at a time. To change which run is your baseline:
+
+1. Navigate to your workspace.
+2. In the run selector or runs table, find the run you want to use as your new baseline.
+3. Click the action `...` menu, then select **Replace baseline**.
+
+The new run becomes the baseline. Depending on its configuration, the previous baseline run appears alongside other pinned or unpinned runs.
+
+### Remove the baseline designation
+To remove the baseline designation:
+
+1. Navigate to your workspace.
+2. In the run selector or runs table, find the run you want to use as your new baseline.
+3. Click the action `...` menu, then select **Remove baseline**.
+
+Depending on its configuration, the previous baseline run appears alongside other pinned or unpinned runs.
+
+## Compare runs to the baseline
+The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
+
+- Hover over a part of the plot to display a tooltip with values for all visible runs, including the baseline run and pinned runs.
+  <Frame>
+  ![Demo showing details for all visible runs at a given point](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
+  </Frame>
+- Hover over the baseline run's legend label to display the line prominently. It appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
+  <Frame>
+  ![Demo showing details for the baseline run](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
+  </Frame>
+- Hover over another run's legend label to display that run's line prominently and compare it with the baseline, which appears as a heavy dashed line. Lines for other visible runs appear with reduced saturation.
+  <Frame>
+  ![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+  </Frame>
+
+## Use cases
+This section describes some scenarios where pinned and baseline runs can help guide your experiments.
+
+- **Track production models**: Ensure that new models meet your quality bar before deployment.
+  1. Set your production model as the baseline.
+  2. Compare all experiments against your deployed model to identify candidates that outperform production.
+- **Compare hyperparameter experiments**: Evaluate hyperparameter sweeps or manual experiments against your best-known configuration.
+  1. Set your best known configuration as the baseline.
+  2. Pin promising candidates as you discover them.
+  3. Use the line plots to visually compare runs against the baseline.
+  4. Continue to update the baseline as you find better configurations.
+
+## Example workflow
+This section illustrates how pinned and baseline runs can help you to compare runs.
+
+1. Run this example code, which simulates a hyperparameter-tuning scenario with a series of runs. Replace placeholders surrounded with angle brackets (`<>`) with your own values.
+
+    ```python
+    import wandb
+    import random
+    import math
+
+    def train_model(learning_rate, batch_size, run_name, tags=None):
+        """Simulate training a model with given hyperparameters."""
+        config = {
+            "learning_rate": learning_rate,
+            "batch_size": batch_size,
+            "optimizer": "adam",
+            "architecture": "resnet50"
+        }
+        
+        with wandb.init(
+          # Replace with your team and project name
+            project="hyperparameter-tuning",
+            entity="<team>",
+            name=run_name,
+            config=config,
+            tags=tags or []
+        ) as run:
+            # Simulate training loop
+            for epoch in range(50):
+                # Simulated metrics
+                accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+                loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+                
+                run.log({
+                    "epoch": epoch,
+                    "accuracy": accuracy,
+                    "loss": loss
+                })
+
+    # Create baseline run with standard configuration
+    train_model(
+        learning_rate=0.001,
+        batch_size=64,
+        run_name="baseline-config",
+        tags=["baseline", "production"]
+    )
+
+    # Experiment with different learning rates
+    train_model(
+        learning_rate=0.003,
+        batch_size=64,
+        run_name="lr-experiment-0.003",
+        tags=["experiment"]
+    )
+
+    train_model(
+        learning_rate=0.0001,
+        batch_size=64,
+        run_name="lr-experiment-0.0001",
+        tags=["experiment"]
+    )
+    ```
+
+    After running this code, your workspace has three runs.
+2. Set `baseline-config` as your baseline run.
+3. Pin `baseline-config` to keep it visible.
+4. Compare the experiment runs against the baseline using the line plots in the workspace.
+5. Pin promising experiments for further investigation. In this example, after 50 epochs, `lr-experiment-0.003` has the highest accuracy (`~0.64`) and the lowest loss (`~0.86`).
+
+{/* TODO screenshot */}
+
+## Limitations
+<CloudOnly/>
+
+The following features are not yet supported for pinned and baseline runs:
+
+- **Grouping**: When [viewing runs](/models/runs#view-logged-runs) in the run selector or runs table, if runs are grouped by a column, pinned and baseline runs are not visually distinct from other runs.
+- **Reports**: In a run set in a [W&B Report](/models/reports), pinned and baseline runs are not visually distinct from other runs.
+- **Workspace view only**: The baseline does not appear when viewing a single run's workspace.
+- **Line plots only**: Baseline comparison is available only for line plots, and is not yet available for other panels such as bar plots or media panels.
