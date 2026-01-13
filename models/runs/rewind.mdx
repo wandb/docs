@@ -18,11 +18,6 @@ W&B currently does not support:
 * **Artifact association**: W&B associates artifacts with the source run that produces them.
 </Warning>
 
-<Note>
-* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
-* You must use monotonically increasing steps. This does not work with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) because it disrupts the required chronological order of run history and system metrics.
-</Note>
-
 {/* #### Manage runs */}
 When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
 
@@ -32,14 +27,19 @@ When you rewind a run, W&B resets the state of the run to the specified step, pr
 <Note>
 **Rewind and forking compatibility**
 
-Forking compliments a rewind.
+Forking complements a rewind.
 
 When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
 When you  rewind a run, W&B lets you correct or modify the run history itself.
 </Note>
 
+## Prerequisites
 
+Before you rewind a run, ensure you meet the following prerequisites:
+
+* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
+* You must use monotonically increasing steps. This does not work with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) because it disrupts the required chronological order of run history and system metrics.
 
 ## Rewind a run
 

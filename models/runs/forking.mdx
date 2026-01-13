@@ -7,9 +7,7 @@ title: Fork a run
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-Explore different parameters or models from a specific point in an experiment without impacting the original run. To do this, "fork" from an existing W&B run. When you fork from a run, W&B creates a new run based on the the source run's `run ID` and `step`. After you initialize a forked run, you can continue logging to the new run independently from the source run.
-
-{/* Use `fork_from` when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run. */}
+Explore different parameters or models from a specific point in an experiment without impacting the original run. To do this, *fork* from an existing W&B run. When you fork from a run, W&B creates a new run based on the the source run's `run ID` and `step`. After you initialize a forked run, you can continue logging to the new run independently from the source run.
 
 <Note>
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5

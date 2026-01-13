@@ -11,6 +11,11 @@ A run's ID uniquely identifies the run. By default, W&B generates a [random and 
 
 ### Find a run's ID
 
+Find a run's unique ID programmatically with the W&B Python SDK or interactively in the W&B App.
+
+
+<Tabs>
+<Tab title="Python SDK">
 When you initialize a run, W&B returns the unique run ID in the terminal. For example, consider the following code snippet that initializes a W&B run:
 
 ```python
@@ -30,7 +35,8 @@ wandb: 🚀 View run at https://wandb.ai/nico/awesome-project/runs/1jx1ud12
 ```
 
 The last part of the run URL (`1jx1ud12`) is the unique run ID.
-
+</Tab>
+<Tab title="W&B App">
 You can also find a run's unique ID in the W&B App:
 
 1. Navigate to the [W&B App](https://wandb.ai/home).
@@ -46,6 +52,8 @@ For example, in the following image, the unique run ID is `9mxi1arc`:
 <Frame>
     <img src="/images/runs/unique-run-id.png" alt="Run ID location"  />
 </Frame>
+</Tab>
+</Tabs>
 
 <Tip>
 Use a run's unique ID to directly navigate to that run's overview page in the W&B App. The following code block shows the format of a URL path for a run:
