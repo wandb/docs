@@ -12,6 +12,20 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `OnCreateArtifact`
 A new artifact is created.
 
+Examples:
+    Define an event that triggers when a new artifact is created in the
+    collection "my-collection":
+
+    ```python
+    from wandb import Api
+    from wandb.automations import OnCreateArtifact
+
+    api = Api()
+    collection = api.artifact_collection(name="my-collection", type_name="model")
+
+    event = OnCreateArtifact(scope=collection)
+    ```
+
 
 ### <kbd>method</kbd> `OnCreateArtifact.__init__`
 
@@ -19,7 +33,7 @@ A new artifact is created.
 __init__(
     event_type: 'Literal[CREATE_ARTIFACT]' = CREATE_ARTIFACT,
     scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope',
-    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | dict[str, Any] | FilterExpr' = And([])
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
 ) → None
 ```
 
@@ -27,7 +41,7 @@ __init__(
  
  - `event_type` (Literal[CREATE_ARTIFACT]): 
  - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope]): The scope of the event: must be an artifact collection.
- - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, Dict[str, Any], FilterExpr]): Additional conditions(s), if any, that are required for this event to trigger.
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): Additional conditions(s), if any, that are required for this event to trigger.
 
 **Returns:**
  An `OnCreateArtifact` object.

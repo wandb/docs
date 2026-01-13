@@ -587,12 +587,15 @@
                           "models/ref/python/automations/automation",
                           "models/ref/python/automations/donothing",
                           "models/ref/python/automations/metricchangefilter",
+                          "models/ref/python/automations/metriczscorefilter",
                           "models/ref/python/automations/metricthresholdfilter",
                           "models/ref/python/automations/newautomation",
                           "models/ref/python/automations/onaddartifactalias",
                           "models/ref/python/automations/oncreateartifact",
                           "models/ref/python/automations/onlinkartifact",
                           "models/ref/python/automations/onrunmetric",
+                          "models/ref/python/automations/onrunstate",
+                          "models/ref/python/automations/runstatefilter",
                           "models/ref/python/automations/sendnotification",
                           "models/ref/python/automations/sendwebhook"
                         ]
@@ -812,7 +815,8 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
-                      "weave/guides/tools/attributes"
+                      "weave/guides/tools/attributes",
+                      "weave/guides/tools/column-mapping"
                     ]
                   },
                   {
@@ -2500,6 +2504,10 @@
     {
       "source": "/models/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
+    },
+    {
+      "source": "models/support/rotate_revoke_access",
+      "destination": "/models/support/find_api_key"
     },
     {
       "source": "/models/track/launch/*",
