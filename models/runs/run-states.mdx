@@ -1,9 +1,9 @@
 ---
 title: Run states
-description: Learn about the different states a W&B run can have and what they mean.
+description: Learn about the different states a W&B run can have.
 ---
 
-[Run states](/models/runs/run-states#run-states) indicate the current status of a W&B run. You can [view the state](/models/runs/run-states#view-the-state-of-a-run) of a run in the W&B App or programmatically using the W&B Python SDK.
+The [Run state](/models/runs/run-states#run-states) indicates the current status of a W&B run. You can [view the state](/models/runs/run-states#view-the-state-of-a-run) of a run in the W&B App or programmatically using the W&B Python SDK.
 
 ## Run states
 The following table describes the possible states a run can be in: 
@@ -38,7 +38,7 @@ Programmatically or interactively view a run's state with the Python SDK or W&B 
 
 Use the `state` property of the [`wandb.Api.Run`](/models/ref/python/public-api/runs) object to access the current state of a run.
 
-Copy and paste the following code snippet into your Python environment. Replace the values enclosed in angle brackets (`< >`) with your own values:
+The following code snippet retrieves and prints the state of all runs in a specified project. Copy and paste the following code snippet into your Python environment. Replace the values enclosed in angle brackets (`< >`) with your own values:
 
 ```python
 import wandb
@@ -53,6 +53,9 @@ for run in runs:
     print(f"Run state: {run.state}")
     print()
 ```
+
+You can 
+
 </Tab>
 <Tab title="W&B App">
 

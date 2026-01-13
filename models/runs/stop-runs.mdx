@@ -1,42 +1,26 @@
 ---
 title: Stop runs
-description: Learn how to stop runs programmatically using the W&B Python SDK or manually from the W&B App.
+description: Stop runs programmatically using the W&B Python SDK or manually from the W&B App.
 ---
 
-Stop a run programmatically with the W&B Python SDK or manually from the W&B App.
+Stop a run programmatically with the W&B Python SDK or interactively in the W&B App.
+
+<Note tip>
+Check the [run's state](/models/runs/run-states#view-the-state-of-a-run) before you stop a run.
+</Note>
+
 
 <Tabs>
 <Tab title="Python SDK">
 1. Navigate to the terminal or code editor where you initialized the run.
 2. Press `Ctrl+D` to stop the run.
 
-For example, following the previous instructions, your terminal might looks similar to the following: 
-
-```bash
-KeyboardInterrupt
-wandb: 🚀 View run legendary-meadow-2 at: https://wandb.ai/nico/history-blaster-4/runs/o8sdbztv
-wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other file(s)
-wandb: Find logs at: ./wandb/run-20241106_095857-o8sdbztv/logs
-```
-
-Navigate to the W&B App to confirm the run is no longer active:
-
-1. Navigate to the project that your run was logging to.
-2. Select the name of the run. 
-  <Note>
-You can find the name of the run that you stop from the output of your terminal or code editor. For example, in the preceding example, the name of the run is `legendary-meadow-2`.
-</Note>
-3. Choose the **Overview** tab.
-
-Next to the **State** field, the run's state changes from `running` to `Killed`.
-
-
 </Tab>
 <Tab title="W&B App">
 1. Navigate to the project that your run is logging to.
 2. Select the run you want to stop within the run selector.
 3. Choose the **Overview** tab.
-4. Select the top button next to the **State** field.
+4. Select the stop button next to the **State** field.
 
 Next to the **State** field, the run's state changes from `running` to `Killed`.
 
