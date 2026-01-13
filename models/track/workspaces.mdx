@@ -71,13 +71,48 @@ Use _workspace templates_ to quickly create workspaces using the same settings a
 By default, new workspaces use these default settings for line plots:
 
 | Setting | Default |
-|-------|----------
-| X axis             | Step |
-| Smoothing type     | Time weight EMA |
-| Smoothing weight   | 0 |
-| Max runs           | 10 |
+|-------|------------|
 | Grouping in charts | on |
 | Group aggregation  | Mean |
+
+
+| X axis       | Default      |
+|--------------|--------------|
+| Value        | Step  |
+| Log scale    | false |
+
+| Y axis       | Default      |
+|--------------|--------------|
+| Log scale    | false        |
+
+| Smoothing    | Default      |
+|--------------|--------------|
+| Type         | Time weight EMA  |
+| Weight       | 0                |
+| Show original after smoothing| Off |
+
+| Max number of runs | Default|
+|--------------|--------------|
+| Max runs     | 20           |
+
+| Data         | Default      |
+|--------------|--------------|
+| Point aggregation    | Full fidelity |
+
+| Grouping     | Default      |
+|--------------|--------------|
+| Use grouping in charts   | On   |
+| Group aggregation        | Mean |
+
+| Display preferences | Default |
+|--------------|--------------|
+| Color run names          | On  |
+| Display full run name    | Off |
+| Show X range in tooltip  | Off |
+| Tooltip runs             | Default |
+| Sync zoom across charts  | Off |
+| Show higlighted run only | Off | 
+
 
 ### Configure your workspace template
 1. Open any workspace or create a new one.
