@@ -2494,6 +2494,10 @@
       "destination": "/models/registry"
     },
     {
+      "source": "/models/runs/multiple-runs-per-process",
+      "destination" : "/models/runs/initialize-run"
+    },    
+    {
       "source": "/models/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
     },
