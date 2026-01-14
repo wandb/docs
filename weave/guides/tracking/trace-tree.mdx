@@ -18,12 +18,11 @@ To enter the Trace view:
 
 The Traces page is composed of three core panels:
 
-- _Left panel_: A sortable, paginated list of all trace runs for the project.
+- **Left panel**: A sortable, paginated list of all trace runs for the project.
   - This traces table includes additional data such as tokens, cost, and latency.
-- _Center panel_: Interactive trace view for a selected trace. The trace tree shows a hierarchy of all the methods tracked within the trace. 
-  - The trace tree displays ops, which are `@weave.op()`-decorated functions, that were called during the trace. 
-  - A Weave op is a versioned function that automatically logs all calls.
-- _Right panel_: Details for a selected op within the selected trace.
+- **Center panel**: Interactive trace view for a selected trace. The trace tree shows a hierarchy of all the methods tracked within the trace. 
+  - The trace tree displays [ops](/weave/guides/tracking/ops#automatically-track-function-calls-using-ops), which are `@weave.op()`-decorated functions, that were called during the trace. 
+- **Right panel**: Details for a selected op within the selected trace.
 
 <Frame>
 ![Traces page showing a selected trace and selected op details ](/weave/guides/tracking/imgs/trace-tree-full.png)
@@ -32,13 +31,13 @@ The Traces page is composed of three core panels:
 
 ### Filter within a trace
 
-- _Regex filter by name(s)_: Use the text field above the trace tree to filter ops by name or type, such as `tool`, `openai.response.create`.
-- _Metrics_: Control whether to display the following data metrics when available: cost, tokens, and latency.
+- **Regex filter by name(s)**: Use the text field above the trace tree to filter ops by name or type, such as `tool`, `openai.response.create`.
+- **Metrics**: Control whether to display the following data metrics when available: cost, tokens, and latency.
 
 ### Navigate a trace
 The trace tree shows a hierarchy of all the methods tracked within the trace. To move up/down the tree, use `Cmd` (macOS) or `Alt` (Windows/Linux) + Up Arrow (↑) / Down Arrow (↓).
 
-There are several scrubbers available below the trace tree.  These scrubbers provide rapid navigation across states within the trace tree.  You can use the sliders to navigate strategically through your trace.
+There are several scrubbers below the trace tree that provide rapid navigation across states within it.  You can use the sliders to strategically navigate through your trace.
 
 Expand the panel to see all available scrubbers:
 - **Timeline**: Chronological order of events within the trace.
@@ -90,7 +89,7 @@ After you have selected an op in the trace tree, details for that op display in 
 
 - **Call**: The input and output to the op execution.
 - **Code**: The code that was used when the call was made.
-- **Feedback**: Any available feedback for the op. You can provide feedback directly within Weave or through the API.
-- **Scores**: Any available scores for the op. Calls are scored by running Evaluations.
+- **Feedback**: Any available [feedback](/weave/guides/tracking/feedback) for the op. You can provide feedback directly within Weave or through the API.
+- **Scores**: Any available [scores](/weave/guides/evaluation/scorers) for the op. Calls are scored by running Evaluations.
 - **Summary**:  General information about the op.
 - **Use:** Code snippets that you can use to programmatically retrieve the call and add reactions, notes, or feedback.
