@@ -1,0 +1,53 @@
+# Lychee link checker configuration
+# See https://lychee.cli.rs/guides/config/ for full documentation
+
+# Base URL for resolving relative links
+# This will be overridden at runtime by the workflows
+base_url = 'https://docs.wandb.ai'
+
+# Don't check heading anchors (fragments) - Mintlify generates these dynamically
+include_fragments = false
+
+# Suppress progress bars in CI for cleaner logs
+no_progress = true
+
+# Exclude private/internal network links
+exclude_all_private = true
+
+# Retry configuration for handling transient failures
+max_retries = 5
+retry_wait_time = 2
+
+# Accept these HTTP status codes as valid
+accept = [
+  200, # OK
+  429, # Too Many Requests (rate limit - treat as success)
+]
+
+# Only check HTTP/HTTPS URLs
+scheme = [
+  "https",
+  "http",
+]
+
+# Only check URLs matching these patterns (required when checking URL lists)
+include = [
+  '^https?://',  # Match all http:// and https:// URLs
+]
+
+# Logging verbosity
+verbose = "info"
+
+# URL patterns to exclude from checking
+exclude = [
+  # Exclude images - Mintlify rewrites paths during build
+  '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
+]
+
+# File/directory paths to exclude from checking
+exclude_path = [
+  # Exclude non-documentation directories
+  "scripts",
+  "node_modules",
+  ".github",
+]
