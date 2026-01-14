@@ -41,10 +41,21 @@ W&B uses full fidelity mode by default. To configure it manually, follow these s
 ### Configure shading
 
 The shaded areas of a full-fidelity line plot can show:
-- **Min/Max**
-- **Standard deviation**
-- **Standard error**
-- **None** (the default)
+- **Min/Max**: For each X-axis point, shade the area between the minimum and maximum values. The shaded area shows all points from the lowest to the highest value in each bucket:
+    $$
+    \text{Min/Max Range} = [\min(x_1, x_2, \ldots, x_n),\ \max(x_1, x_2, \ldots, x_n)]
+    $$
+    where $x_1, x_2, \ldots, x_n$ are the values in a given bucket.
+
+- **Standard deviation**: For each X-axis point, calculate the variability of the values using standard deviation, and shade the resulting area.
+    $$
+    SD = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i - \overline{x})^2}
+    $$
+- **Standard error**: For each X-axis point, calculate the likelihood of a sampling error by dividing the value by the square root of the sample size:
+    $$
+    SE = \frac{SD}{\sqrt{n}}
+    $$
+- **None**: No shading (the default).
 
 The proceeding image shows a blue line plot. The light blue shaded area represents the minimum and maximum values for each bucket.
 
