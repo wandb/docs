@@ -138,7 +138,7 @@ python openinference_example.py
 The TypeScript implementation of this example contains the following key differences from the Python implementation:
 
 * OpenAI must be imported before registering instrumentation (ESM modules require this).
-* Uses @opentelemetry/exporter-trace-otlp-proto (protobuf format) instead of the HTTP exporter, since W&B's endpoint only accepts protobuf.
+* Uses `@opentelemetry/exporter-trace-otlp-proto` (protobuf format) instead of the HTTP exporter, since W&B's endpoint only accepts protobuf.
 * Requires explicit `provider.shutdown()` with a delay before shutdown to ensure spans are flushed, since `BatchSpanProcessor` flushes asynchronously.
 
 Paste the following code into a TypeScript file such as `openinference_example.ts`:
