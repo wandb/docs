@@ -1,6 +1,10 @@
 name: Generate Weave references
 
 on:
+  # TODO: Remove push trigger after testing
+  push:
+    branches:
+      - weave/ref-source-link-fix
   workflow_dispatch:
     inputs:
       weave_version:
