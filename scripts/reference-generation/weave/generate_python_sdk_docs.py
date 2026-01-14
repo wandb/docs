@@ -199,7 +199,7 @@ description: "Python SDK reference for {module_name}"
 def generate_module_docs(module, module_name: str, src_root_path: str, version: str = "master") -> str:
     """Generate documentation for a single module."""
     # Use the specific version tag for source links
-    src_url = f"https://github.com/wandb/weave/blob/{version}"
+    src_url = f"https://github.com/wandb/weave/blob/v{version}"
     if version == "latest":
         src_url = "https://github.com/wandb/weave/blob/master"
     
