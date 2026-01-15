@@ -166,13 +166,27 @@ def fix_code_fence_indentation(text: str) -> str:
 
 
 def convert_source_badges_to_buttons(content: str) -> str:
-
-    # Convert source badge images to text-based buttons.
-    pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/>\s*</a>'
+    """Convert shields.io source badge images to text-based buttons.
     
+    This avoids Mintlify's image lightbox from triggering when clicking source links.
+    
+    Converts:
+        <a href="..."><img ... src="...badge/-source..." /></a>
+    To:
+        <a href="..." class="source-link">Source</a>
+    """
+    pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/>\s*</a>'
     replacement = r'<a href="\1" class="source-link">Source</a>'
     
-    return re.sub(pattern, replacement, content)
+    # Debug: count matches before conversion
+    matches_before = len(re.findall(pattern, content))
+    result = re.sub(pattern, replacement, content)
+    matches_after = content.count('class="source-link"')
+    
+    if matches_before > 0:
+        print(f"      [DEBUG] Source badge conversion: {matches_before} badges found, converted to text buttons")
+    
+    return result
 
 
 def convert_docusaurus_to_mintlify(content: str, module_name: str) -> str:
