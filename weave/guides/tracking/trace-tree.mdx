@@ -1,92 +1,95 @@
 ---
-title: "Navigate the Trace View"
-description: "Make sense of complex execution paths in your LLM and agentic apps"
+title: "Navigate the Weave Trace view"
+description: "Use Weave's Trace view to make sense of complex execution paths in your LLM and agentic apps."
 ---
 
-The Weave Trace view is designed to help you make sense of complex execution paths in your LLM and agentic apps. Whether you're debugging an agentic app with dozens of nested calls, or tracking the flow of a single model prediction, the Trace view provides a clear breakdown, while also providing alternate ways to view and understand your application flow.
+The Weave Trace view is designed to help you make sense of complex execution paths in your LLM and agentic apps. Whether you're debugging an agentic app with dozens of nested calls, or tracking the flow of a single model prediction, the Trace view provides a clear visualization of what happened. It also provides alternate ways to view and understand your application flow.
 
-This guide describes how to move through the trace stack, filter and search for ops, switch between visual representations, and more.
+This guide describes how to move through the trace stack, filter and search for functions called by your code, switch between visual representations, and more.
 
 ## Get started
 
 To enter the Trace view:
-1. Navigate to the **Traces** tab.
-2. Click on any trace to open the Trace view. The Trace view pops out and displays a hierarchical breakdown of the trace execution.
+1. Navigate to [https://wandb.ai](https://wandb.ai) and select your project.
+2. In the sidebar menu, choose **Traces** to view all traces saved for your project.
+3. Choose a trace to open the Trace Details view. The Trace Details view displays additional panels with a hierarchical breakdown of the trace execution.
 
 ## Traces page overview
 
 The Traces page is composed of three core panels:
 
-- _Left sidebar_: A sortable, paginated list of all trace runs for the project.
-- _Center panel_: Interactive [trace view](#trace-view-navigation) showing the stack and ops hierarchy for a selected trace. 
-- _Right panel_: Detailed view for a selected op (Call, Code, Feedback, Scores, Summary, Use).
+- **Left panel**: A sortable, paginated list of all trace runs for the project.
+  - This traces table includes additional data such as tokens, cost, and latency.
+- **Center panel**: Interactive trace view for a selected trace. The trace tree shows a hierarchy of all the methods tracked within the trace. 
+  - The trace tree displays [ops](/weave/guides/tracking/ops#automatically-track-function-calls-using-ops), which are `@weave.op()`-decorated functions, that were called during the trace. 
+- **Right panel**: Details for a selected op within the selected trace.
 
 <Frame>
-![Trace page panels](/weave/guides/tracking/imgs/trace-tree-full.png)
+![Traces page showing a selected trace and selected op details ](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
-## Trace view navigation
 
-- _Breadcrumbs_: At the top of the center panel, navigate up and down the trace stack via the breadcrumb trail.
-- _Stack arrows_: Use the `↑` and `↓` buttons to move up and down the stack.
-- _Double-click_: Double-click on an op to focus the view exclusively on that substack.
-- _"Jump to Top" Button_: Return to the root of the trace stack.
+### Filter within a trace
 
-### Filter and search
+- **Regex filter by name(s)**: Use the text field above the trace tree to filter ops by name or type, such as `tool`, `openai.response.create`.
+- **Metrics**: Control whether to display the following data metrics when available: cost, tokens, and latency.
 
-- _Filter an op by name_: Use the input bar above the trace tree to search for ops of a specific type (e.g., `tool`, `openai.response.create`).
-- _Filter persistence_: Selecting ops across traces retains the sub-path context for easier comparison.
+### Navigate a trace
+The trace tree shows a hierarchy of all the methods tracked within the trace. To move up/down the tree, use `Cmd` (macOS) or `Alt` (Windows/Linux) + Up Arrow (↑) / Down Arrow (↓).
 
-<Frame>
-![Filter an op by name](/weave/guides/tracking/imgs/trace-tree-filter.png)
-</Frame>
+There are several scrubbers below the trace tree that provide rapid navigation across states within it.  You can use the sliders to strategically navigate through your trace.
 
-### Scrubbers and contextual navigation
-
-The panel below the tree includes multiple scrubbers for navigating across calls:
-
-- **Timeline**: Chronological order of events.
-- **Peers**: Ops sharing the same type.
-- **Siblings**: Ops with the same parent.
+Expand the panel to see all available scrubbers:
+- **Timeline**: Chronological order of events within the trace.
+- **Peers**: Ops sharing the same type. For example, if you were examining details of a function called `predict`, you can use this scrubber to immediately jump to the next execution of `predict` within the trace.
+- **Siblings**: Ops with the same parent.  Use this scrubber to iterate over ops nested under the parent function call.
 - **Stack**: Traverse up/down the call stack.
-
-To view the available scrubbers, click the **^** button at the bottom of the panel.
-
-Each scrubber has a slider and **>** jump buttons to move step-by-step.
+- **Path**: (Only available in code composition view) Iterate through all calls with the same code path as the selected call.
 
 <Frame>
-![Trace panel scrubbers](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
+![Trace tree panel showing search filter and scrubbers](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
 </Frame>
 
-### Alternate trace tree views
+### Alternative trace tree views
 
-You can switch between multiple visual representations of the trace tree depending on your needs. To switch to an alternate trace view, click one of available options (default trace view, code composition, flame graph, graph view) in the upper right corner 
+At the top of the panel, you can switch between multiple visual representations of the trace tree depending on your needs. Switch between views based on your debugging needs. Use **code composition view** to understand call logic, **flame graph view** for to understand performance over time, and **graph view** to understand structure.
 
 #### Traces (default)
 
-The default view showing, stack hierarchy, cost per op, execution time, and status indicators.
+The default view of the trace tree shows stack hierarchy, cost per op (if available), execution time, and status indicators.
 
-#### Code view
+#### Code composition view
 
-In the code view, boxes represent ops and their nested calls. This is helpful for visualizing flow of function calls. In this view, you can click on a box to drill into that op and filter the call path.
+In the code composition view, boxes represent ops and their nested calls. This is helpful for visualizing flow of function calls. In this view, you can select a box to drill into that op and filter the call path.
 
 <Frame>
-![Trace panel code view](/weave/guides/tracking/imgs/trace-tree-code-view.png)
+![Trace view showing the code view of a trace](/weave/guides/tracking/imgs/trace-tree-code-view.png)
 </Frame>
 
 #### Flame graph
 
-The flame graph view provides a timeline-based visualization of execution depth and duration. This is helpful for when trying to understand performance diagnostics over time. You can click into frames to isolate sub-traces.
+The flame graph view provides a timeline-based visualization of execution depth and duration. This is helpful for when trying to understand performance diagnostics over time. You can select into frames to isolate sub-traces.
 
 <Frame>
-![Trace panel flame graph](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
+![Trace view showing a flame graph of ops within a trace](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
 </Frame>
 
 #### Graph view
 
 The graph view shows hierarchical relationships between ops. This is useful for understanding parent/child relationships.
 
-## Usage tips and tricks
+<Frame>
+![Trace view showing a functional graph view of ops and relationships within a trace](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
+</Frame>
 
-- Use the **"Filter by op name”** search bar at the top of the trace tree view to quickly isolate relevant tool or LLM calls.
-- Switch between views based on your debugging need. Use **Code View** for call logic, **Flame Graph** for to understand performance over time, and **Graph View** to understand structure.
+
+### View details for a trace op
+
+After you have selected an op in the trace tree, details for that op display in the next panel. These details are grouped into the following tabs:
+
+- **Call**: The input and output to the op execution.
+- **Code**: The code that was used when the call was made.
+- **Feedback**: Any available [feedback](/weave/guides/tracking/feedback) for the op. You can provide feedback directly within Weave or through the API.
+- **Scores**: Any available [scores](/weave/guides/evaluation/scorers) for the op. Calls are scored by running Evaluations.
+- **Summary**:  General information about the op.
+- **Use:** Code snippets that you can use to programmatically retrieve the call and add reactions, notes, or feedback.
