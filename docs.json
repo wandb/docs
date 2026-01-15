@@ -29,7 +29,12 @@
     "decoration": "gradient"
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude"]
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
   },
   "navbar": {
     "links": [
@@ -161,7 +166,12 @@
               },
               {
                 "group": "Resources",
-                "pages": ["pricing", "blog", "courses", "security"]
+                "pages": [
+                  "pricing",
+                  "blog",
+                  "courses",
+                  "security"
+                ]
               }
             ]
           },
@@ -874,7 +884,9 @@
                       },
                       {
                         "group": "Protocols",
-                        "pages": ["weave/guides/integrations/mcp"]
+                        "pages": [
+                          "weave/guides/integrations/mcp"
+                        ]
                       }
                     ]
                   },
@@ -945,7 +957,9 @@
                   },
                   {
                     "group": "API & Integration",
-                    "pages": ["weave/cookbooks/weave_via_service_api"]
+                    "pages": [
+                      "weave/cookbooks/weave_via_service_api"
+                    ]
                   }
                 ]
               },
@@ -1039,7 +1053,9 @@
                   },
                   {
                     "group": "Service API",
-                    "pages": ["weave/reference/service-api"],
+                    "pages": [
+                      "weave/reference/service-api"
+                    ],
                     "openapi": {
                       "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
@@ -1049,11 +1065,15 @@
               },
               {
                 "group": "Open Source",
-                "pages": ["weave/open-source"]
+                "pages": [
+                  "weave/open-source"
+                ]
               },
               {
                 "group": "Community",
-                "pages": ["weave/community"]
+                "pages": [
+                  "weave/community"
+                ]
               }
             ]
           },
@@ -1110,7 +1130,9 @@
               },
               {
                 "group": "API Reference",
-                "pages": ["training/api-reference"],
+                "pages": [
+                  "training/api-reference"
+                ],
                 "openapi": {
                   "source": "training/api-reference/openapi.json",
                   "directory": "training/api-reference"
@@ -1132,7 +1154,9 @@
               },
               {
                 "group": "W&B SDK",
-                "pages": ["release-notes/sdk-releases"]
+                "pages": [
+                  "release-notes/sdk-releases"
+                ]
               },
               "release-notes/release-policies"
             ]
