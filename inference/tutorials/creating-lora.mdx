@@ -78,7 +78,7 @@ This script trains a LoRA adapter on examples from the JSONL file and uploads it
 
 At a high level, this script does the following:
 
-1. Logs in to W&B. The [Hugging Face Transformers integration](https://docs.wandb.ai/models/integrations/huggingface) of W&B Models will automatically record training progress and metrics.
+1. Logs in to W&B. The [Hugging Face Transformers integration](https://docs.wandb.ai/models/integrations/huggingface) of W&B Models automatically records training progress and metrics.
 2. Loads the base model ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) from Hugging Face.
 3. Configure the LoRA using hyperparameters such as rank and alpha defined as constants near the top of the file.
 4. Load the examples from the file into a Dataset and then run [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer). By default all examples will be used.
