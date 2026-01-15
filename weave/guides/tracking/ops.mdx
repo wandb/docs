@@ -72,7 +72,7 @@ A Weave op is a versioned function that automatically logs all calls.
 
 ## Apply kinds and colors
 
-To better organize your ops in the Weave UI, you can apply custom kinds and colors to them by adding the `kind` and `color` arguments to the `@weave.op` decorators. For example, the following code applies a `LLM` kind and a `blue` color to the parent function, and a `sync` kind and a `red` color to a nested function:
+To better organize your ops in the Weave UI, you can apply custom kinds and colors to them by adding the `kind` and `color` arguments to the `@weave.op` decorators. For example, the following code applies an `LLM` kind and a `blue` color to the parent function, and a `tool` kind and a `red` color to a nested function:
 
 <Tabs>
 <Tab title="Python">
@@ -83,13 +83,13 @@ weave.init("<your-team-name>/<your-project-name>")
 
 @weave.op(kind="LLM", color="blue")
 def llm_func():
-    @weave.op(kind="sync", color="red")
-    def sync_func():
-        return "sync result"
+    @weave.op(kind="tool", color="red")
+    def tool_func():
+        return "tool result"
 
-    sync_result = sync_func()
+    tool_result = tool_func()
     
-    return f"llm result with {sync_result}"
+    return f"llm result with {tool_result}"
 
 llm_func()
 ```
@@ -104,8 +104,25 @@ This feature is not available in TypeScript yet.
 This applies the colors and kinds to your ops in the Weave UI, like this:
 
 <Frame>
-![The Weave UI, showing a parent call with a `LLM` kind and a `blue` color, and a nested call with a `sync` kind and a `red` color.](/images/weave/weave_colors_kinds.png)
+![The Weave UI, showing a parent call with a `LLM` kind and a `blue` color, and a nested call with a `tool` kind and a `red` color.](/images/weave/weave_colors_kinds.png)
 </Frame>
+
+The available kinds are:
+
+* `agent`
+* `llm`
+* `tool`
+* `search`
+
+The available colors are:
+
+* `red`
+* `orange`
+* `yellow`
+* `green`
+* `blue`
+* `purple`
+
 
 ## Customize logged inputs and outputs
 
