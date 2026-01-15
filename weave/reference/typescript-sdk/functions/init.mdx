@@ -14,7 +14,7 @@ Initialize the Weave client, which is required for weave tracing to work.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `project` | `string` | The W&B project name (can be project or entity/project). If you don't specify a W&B team (e.g., 'team/project'), your default entity is used. To find or update your default entity, refer to User Settings at https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
-| `settings?` | `Settings` | (Optional) Weave tracing settings |
+| `settings?` | `SettingsInit` | (Optional) Weave tracing settings |
 
 #### Returns
 
@@ -28,6 +28,6 @@ If the initialization fails
 
 #### Defined in
 
-[clientApi.ts:83](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/clientApi.ts#L83)
+[clientApi.ts:83](https://github.com/wandb/weave/blob/92085cf4db1000f134eceaf075d305fd96d1d96b/sdks/node/src/clientApi.ts#L83)
 
 ___
