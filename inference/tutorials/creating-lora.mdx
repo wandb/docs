@@ -81,7 +81,7 @@ At a high level, this script does the following:
 1. Logs in to W&B. The [Hugging Face Transformers integration](https://docs.wandb.ai/models/integrations/huggingface) of W&B Models automatically records training progress and metrics.
 2. Loads the base model ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) from Hugging Face.
 3. Configures the LoRA using hyperparameters, such as rank and alpha defined as constants near the top of the file.
-4. Load the examples from the file into a Dataset and then run [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer). By default all examples will be used.
+4. Loads the examples from the file into a dataset and then runs [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer). By default, the script uses all examples.
 5. Save the LoRA and upload it to W&B as an Artifact so it can be used with W&B Inference.
 
 When the script completes, open the last printed URL in your browser to see the persisted Artifact. It looks like this:
