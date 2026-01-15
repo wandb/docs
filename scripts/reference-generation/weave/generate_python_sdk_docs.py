@@ -166,8 +166,8 @@ def fix_code_fence_indentation(text: str) -> str:
 
 
 def convert_source_badges_to_buttons(content: str) -> str:
-    
-    # Convert source badge images to text-based buttons.
+
+    # Convert source badge images to text-based buttons
     pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/>\s*</a>'
     
     replacement = r'<a href="\1" class="source-link">Source</a>'
