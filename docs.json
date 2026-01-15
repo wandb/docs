@@ -1097,6 +1097,10 @@
               },
               "inference/usage-limits",
               {
+                "group": "Tutorials",
+                "pages": ["inference/tutorials/creating-lora"]
+              },
+              {
                 "group": "API Reference",
                 "pages": [
                   "inference/api-reference",
