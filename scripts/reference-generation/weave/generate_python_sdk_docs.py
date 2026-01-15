@@ -165,6 +165,16 @@ def fix_code_fence_indentation(text: str) -> str:
     return "\n".join(result_lines)
 
 
+def convert_source_badges_to_buttons(content: str) -> str:
+    
+    # Convert source badge images to text-based buttons.
+    pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/>\s*</a>'
+    
+    replacement = r'<a href="\1" class="source-link">Source</a>'
+    
+    return re.sub(pattern, replacement, content)
+
+
 def convert_docusaurus_to_mintlify(content: str, module_name: str) -> str:
     """Convert Docusaurus markdown to Mintlify MDX format."""
     # Remove the sidebar_label frontmatter (Mintlify uses title)
@@ -370,6 +380,9 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
         return '\n'.join(fixed_lines)
     
     content = fix_parameter_lists(content)
+    
+    # Convert source badge images to text buttons (avoids Mintlify lightbox issue)
+    content = convert_source_badges_to_buttons(content)
     
     # Convert to Mintlify format
     content = convert_docusaurus_to_mintlify(content, module_name)
