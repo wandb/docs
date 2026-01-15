@@ -56,8 +56,8 @@ W&B stores metadata in a MySQL database. The database's performance and storage 
 If you choose to deploy a self-managed MySQL database, consider the following:
 
 - **Backups**: You should periodically back up the database to a separate facility. W&B recommends daily backups with at least 1 week of retention.
-- **Performance**: The disk the server is running on should be fast. W&B recommends running the database on an SSD or accelerated NAS.
-- **Monitoring**: The database should be monitored for load. If CPU usage is sustained at > 40% of the system for more than 5 minutes it is likely a good indication the server is resource starved.
+- **Performance**: The database requires fast storage hardware, such as SSD or accelerated NAS.
+- **Monitoring**: The database requires adequate CPU resources. Monitor the database server's CPU load. If CPU usage is sustained at > 90% of the system for more than 5 minutes, consider adding CPU capacity.
 - **Availability**: To meet your availability and durability requirements, W&B recommends configuring a hot standby Server deployment on a separate machine that streams all updates in realtime from the primary deployment, and is ready to fail over if the primary server crashes, become corrupted, or experiences sustained downtime. Note that W&B does not support a multi-master topology or read-only replicas.
 
 #### MySQL database creation
@@ -111,7 +111,7 @@ The fully qualified domain name (FQDN) of the W&B deployment must resolve to the
 
 ### Load balancer and ingress
 
-The W&B Kubernetes Operator exposes services using a Kubernetes ingress controller, which routes to service endpoints based on URL paths with different ports. The ingress controller must be accessible by all machines that execute machine learning payloads or access the service through web browsers.
+The W&B Kubernetes Operator can expose services using a Kubernetes ingress controller, which routes to service endpoints based on URL paths with different ports. The ingress controller must be accessible by all machines that execute machine learning payloads or access the service through web browsers.
 
 #### Ingress controller requirements
 
