@@ -166,19 +166,19 @@ def fix_code_fence_indentation(text: str) -> str:
 
 
 def convert_source_badges_to_buttons(content: str) -> str:
-    """Convert shields.io source badge images to text-based buttons.
+    """Convert shields.io source badge images to SourceLink components.
     
     This avoids Mintlify's image lightbox from triggering when clicking source links.
     
     Converts:
         <a href="..."><img ... src="...badge/-source..." ></a>
     To:
-        <a href="..." class="source-link">Source</a>
+        <SourceLink url="..." />
     """
     # Pattern matches both self-closing (/>) and non-self-closing (>) img tags
     # lazydocs generates non-self-closing tags: <img ... >
     pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/?>\s*</a>'
-    replacement = r'<a href="\1" class="source-link">Source</a>'
+    replacement = r'<SourceLink url="\1" />'
     return re.sub(pattern, replacement, content)
 
 
@@ -206,6 +206,8 @@ def convert_docusaurus_to_mintlify(content: str, module_name: str) -> str:
 title: "{title}"
 description: "Python SDK reference for {module_name}"
 ---
+
+import {{ SourceLink }} from '/snippets/en/_includes/source-link.mdx';
 
 """
         content = frontmatter + content
