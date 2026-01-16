@@ -6,13 +6,14 @@ title: Overview
 
 A *run* is a single unit of computation logged by W&B. You can think of a W&B Run as an atomic element of your whole project. In other words, each run is a record of a specific computation, such as training a model and logging the results, hyperparameter sweeps, and so forth.
 
-Some common reasons for initiating a run include: 
+Common use cases for initializing and logging to a run include: 
 
-* Training a model
-* Changing a hyperparameter and conducting a new experiment
+* Training a model and [recording metrics](/models/ref/python/experiments/run#method-run-log) such as accuracy and loss
+* Conducting [hyperparameter tuning](/models/sweeps/) and running new experiments
 * Conducting a new machine learning experiment with a different model
-* Logging data or a model as a [W&B Artifact](/models/artifacts/)
-* [Downloading a W&B Artifact](/models/artifacts/download-and-use-an-artifact/)
+* Tracking and saving datasets and models as [W&B Artifacts](/models/artifacts/)
+* [Downloading and using](/models/artifacts/download-and-use-an-artifact/) datasets or models used by other members of your team as W&B Artifacts
+
 
 To initialize a W&B run, call the [`wandb.init()`](/models/ref/python/functions/init) method from the W&B Python SDK. This starts a new run and returns a `wandb.Run` object that you can use to log metrics, artifacts, and other information to the run. For more information about initializing a run, see [Initialize runs](/models/runs/initialize-run).
 
@@ -130,11 +131,11 @@ Copy and paste the URL that W&B prints from the previous output into your browse
     <img src="/images/runs/run_log_example_2.png" alt="Training run with logged metrics"  />
 </Frame>
 
-## Add a note to a run
+{/* ## Add a note to a run
 Notes that you add to a specific run appear on the run page in the **Overview** tab and in the table of runs on the project page.
 
 1. Navigate to your W&B project
 2. Select the **Workspace** tab from the project sidebar
 3. Select the run you want to add a note to from the run selector
 4. Choose the **Overview** tab
-5. Select the pencil icon next to the **Description** field and add your notes
+5. Select the pencil icon next to the **Description** field and add your notes */}

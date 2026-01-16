@@ -14,18 +14,7 @@ W&B recommends using a `with` block when calling `wandb.init()`. This ensures th
 
 ## Single run per process
 
-The following code snippet shows how to import the W&B Python SDK and initialize a run. 
-
-{/* The following code snippet shows how to import the W&B Python SDK and initialize a run. 
-
-Ensure to replace values enclosed in angle brackets (`< >`) with your own values:
-
-```python
-import wandb
-
-with wandb.init(entity="<entity>", project="<project>") as run:
-    # Your code here
-``` */}
+The following example code snippet shows how to import the W&B Python SDK and initialize a run. 
 
 ```python title="basic.py"
 import wandb
@@ -43,7 +32,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 
 The output shows that W&B logs the run `exalted-darkness-6` to the project `awesome-project` under the entity `nico`. `pgbn9y21` is the unique run ID that W&B generates for this run.
 
-{/* TEMP */}
+
 ## Multiple runs in one process
 
 Manage multiple runs in a single Python process. This is useful for workflows where you want to keep a primary process active while creating short-lived secondary processes for sub-tasks. Some use cases include:
