@@ -87,29 +87,46 @@ jobs:
             **/*.md
             **/*.mdx
 
-      - name: Get PR number from deployment
+      - name: Get PR number
         id: get-pr
         uses: actions/github-script@v8
         with:
           script: |
-            const sha = context.payload.deployment.sha;
-            
-            // Find PR(s) associated with this deployment commit SHA
-            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: sha,
-            });
-            
-            const pr = prs[0];
-            if (pr) {
-              core.info(`Found PR #${pr.number}`);
-              core.setOutput('pr_number', pr.number);
-              return pr.number;
-            } else {
-              core.warning(`No PR found for commit ${sha}`);
-              return null;
+            // For pull_request events, get PR number directly
+            if (context.eventName === 'pull_request') {
+              const prNumber = context.payload.pull_request.number;
+              core.info(`PR number from pull_request event: ${prNumber}`);
+              core.setOutput('pr_number', prNumber);
+              return prNumber;
             }
+            
+            // For deployment_status events, find PR from commit SHA
+            if (context.eventName === 'deployment_status') {
+              const sha = context.payload.deployment?.sha;
+              if (!sha) {
+                core.warning('No deployment SHA found');
+                return null;
+              }
+              
+              const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: sha,
+              });
+              
+              const pr = prs[0];
+              if (pr) {
+                core.info(`Found PR #${pr.number} for deployment`);
+                core.setOutput('pr_number', pr.number);
+                return pr.number;
+              } else {
+                core.warning(`No PR found for commit ${sha}`);
+                return null;
+              }
+            }
+            
+            core.warning(`Unsupported event type: ${context.eventName}`);
+            return null;
 
       - name: Link Checker
         id: lychee
@@ -130,31 +147,33 @@ jobs:
             ${{ steps.changed-files.outputs.all_changed_files || '.' }}
 
       - name: Comment on PR with results
-        if: steps.get-pr.outputs.pr_number
+        if: steps.get-pr.outputs.pr_number && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch')
         uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
             const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
-            const exitCode = ${{ steps.lychee.outputs.exit_code }};
-            const deployUrl = '${{ github.event.deployment_status.environment_url }}';
+            const exitCode = parseInt('${{ steps.lychee.outputs.exit_code }}') || 0;
+            const deployUrl = '${{ steps.pr-context.outputs.deploy_url || github.event.deployment_status.environment_url }}';
             
             const identifier = '<!-- lychee-link-checker-comment -->';
             let commentBody = identifier + '\n';
+            
+            const checkedAgainst = deployUrl || 'https://docs.wandb.ai';
             
             if (exitCode === 0) {
               // Success - no broken links
               commentBody += '## 🔗 Link Checker Results\n\n';
               commentBody += '✅ **All links are valid!**\n\n';
               commentBody += 'No broken links were detected.\n';
-              commentBody += `\n_Checked deployment: ${deployUrl}_\n`;
+              commentBody += `\n_Checked against: ${checkedAgainst}_\n`;
             } else {
               // Issues found
               try {
                 const report = fs.readFileSync('./lychee/out.md', 'utf8');
                 commentBody += '## 🔗 Link Checker Results\n\n';
                 commentBody += '⚠️ **Some issues were detected**\n\n';
-                commentBody += `_Checked deployment: ${deployUrl}_\n\n`;
+                commentBody += `_Checked against: ${checkedAgainst}_\n\n`;
                 commentBody += '---\n\n';
                 commentBody += report;
               } catch (e) {
