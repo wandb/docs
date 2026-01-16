@@ -26,8 +26,8 @@ accept = [
 
 # Only check HTTP/HTTPS URLs
 scheme = [
-  "https",
   "http",
+  "https",
 ]
 
 # Only check URLs matching these patterns (required when checking URL lists)
@@ -42,12 +42,31 @@ verbose = "info"
 exclude = [
   # Exclude images - Mintlify rewrites paths during build
   '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
+
+  # Example URLs used in generated docs
+  'https://kubeflow.mysite.com',
+  'https://my-fake-url.com',
+  'https://my.domain.net',
+  'https://wiki.python.org/moin/UsingPickle',
+
+  # Social media
+  'https://discord.com',
+  'https://x.com',
+
+  # Third party URLs
+  'https://auth0.com/docs',
+  'https://cognito-idp.us-east-1.amazonaws.com',
+
+  # W&B production URLs
+  '^https://github\.com/wandb',
+  '^https://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+  '^https://wandb\.(ai|com)',
 ]
 
 # File/directory paths to exclude from checking
 exclude_path = [
   # Exclude non-documentation directories
-  "scripts",
-  "node_modules",
   ".github",
+  "node_modules",
+  "scripts",
 ]
