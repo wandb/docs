@@ -6,6 +6,7 @@ on:
 permissions:
   contents: read
   deployments: read
+  pull-requests: write
 
 jobs:
   linkChecker:
@@ -18,8 +19,31 @@ jobs:
       contains(github.event.deployment_status.creator.login, 'mintlify') &&
       contains(github.event.deployment_status.environment_url, 'mintlify')
     steps:
-      # check URLs with Lychee
       - uses: actions/checkout@v6
+
+      - name: Get PR number from deployment
+        id: get-pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const sha = context.payload.deployment.sha;
+            
+            // Find PR(s) associated with this deployment commit SHA
+            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+            });
+            
+            const pr = prs[0];
+            if (pr) {
+              core.info(`Found PR #${pr.number}`);
+              core.setOutput('pr_number', pr.number);
+              return pr.number;
+            } else {
+              core.warning(`No PR found for commit ${sha}`);
+              return null;
+            }
 
       - name: Link Checker
         id: lychee
@@ -32,3 +56,65 @@ jobs:
           # to be used in case rate limits are surpassed
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+      - name: Comment on PR with results
+        if: steps.get-pr.outputs.pr_number
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
+            const exitCode = ${{ steps.lychee.outputs.exit_code }};
+            const deployUrl = '${{ github.event.deployment_status.environment_url }}';
+            
+            const identifier = '<!-- lychee-link-checker-comment -->';
+            let commentBody = identifier + '\n';
+            
+            if (exitCode === 0) {
+              // Success - no broken links
+              commentBody += '## 🔗 Link Checker Results\n\n';
+              commentBody += '✅ **All links are valid!**\n\n';
+              commentBody += 'No broken links were detected.\n';
+              commentBody += `\n_Checked deployment: ${deployUrl}_\n`;
+            } else {
+              // Issues found
+              try {
+                const report = fs.readFileSync('./lychee/out.md', 'utf8');
+                commentBody += '## 🔗 Link Checker Results\n\n';
+                commentBody += '⚠️ **Some issues were detected**\n\n';
+                commentBody += `_Checked deployment: ${deployUrl}_\n\n`;
+                commentBody += '---\n\n';
+                commentBody += report;
+              } catch (e) {
+                commentBody += '## 🔗 Link Checker Results\n\n';
+                commentBody += '⚠️ Link checker found issues but could not read report.\n';
+              }
+            }
+            
+            // Find and update existing comment, or create new one
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            
+            const existingComment = comments.find(comment =>
+              comment.body?.includes(identifier) && comment.user?.login === 'github-actions[bot]'
+            );
+            
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: commentBody
+              });
+              core.info(`Updated comment ${existingComment.id} on PR #${prNumber}`);
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: commentBody
+              });
+              core.info(`Created new comment on PR #${prNumber}`);
+            }
