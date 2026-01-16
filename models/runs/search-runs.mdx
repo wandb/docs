@@ -1,15 +1,24 @@
 ---
 title: "Search runs"
-description: Learn how to search runs using regular expressions and export the runs table to CSV in the W&B App.
+description: "Learn how to search for specific runs by name or ID in your project's Runs table or Workspace."
 ---
 
+Use the search box within your project's Runs table or Workspace to find specific [runs by name or ID](/models/runs/run-identifiers).
 
-Use regular expressions (RegEx) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+<Note>
+By default, the search box uses regular expressions (RegEx) to match your query against run names or IDs.
+</Note>
+
+## Search for runs by name or ID
+1. Click either the **Runs** tab or **Workspace** from the project sidebar.
+2. Click on the search box at the top of the runs table.
+3. Enter the run name or run ID you want to search for.
+
+## Turn off regular expressions search
+
+1. Click either the **Runs** tab or **Workspace** from the project sidebar.
+2. Click on the search box at the top of the runs table.
+3. Toggle off the **RegEx** toggle (.*) so that it is gray.
 
 
-## Search for runs by end time
-The **End Time** column logs the last heartbeat from the client process. The column [is hidden by default](/models/track/project-page#customize-columns).
 
-<Frame>
-    <img src="/images/app_ui/search_run_endtime.png" alt="End Time column"  />
-</Frame>

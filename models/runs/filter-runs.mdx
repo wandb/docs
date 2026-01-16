@@ -1,54 +1,72 @@
 ---
-description: Filter runs based on their status, tags, regular expressions (RegEx), or other properties in the W&B App.
+description: Learn how to filter runs in the Runs table using the expression editor.
 title: Filter runs
 ---
 
-Filter runs based on their status, [tags](#filter-runs-with-tags), [regular expressions (RegEx)](#filter-runs-with-regular-expressions-regex) or other properties with the filter button.
+Filter runs based on their name, state, [tags](#filter-runs-with-tags), or other properties with the expression editor in the Runs Table.
 
-{/* See Customize run colors for more information on how to [edit, randomize, and reset run colors](/models/runs/run-colors/). */}
+When you add a filter, you first choose a field (for example, tags, timestamp, or entity). Each field has an underlying type, such as text, time, or ID.
 
-### Filter runs with tags
+The list of operators you see (for example, is, in, &ge;, within last) depends on this type. After you choose a field, the UI only shows operators that are valid for that field’s type.
 
-Filter runs based on their tags with the filter button.
+## Common operators by type
 
-1. Click on the **Runs** tab from the project sidebar.
-2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
-3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
+| Filter type | Example fields | Common operators | Example usage |
+| ----------- | -------------- | ---------------- | ------------- |
+| Tags        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
+| Time        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
+| String      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
 
-<Frame>
-    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
-</Frame>
+<Note>
+The above table shows only a subset of available fields and operators. The expression editor shows all available fields and operators.
+</Note>
 
-### Filter runs with regex
+## Create a filter expression
 
-If regex doesn't provide you the desired results, you can make use of [tags](/models/runs/filter-runs/#filter-runs-with-tags) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+1. Navigate to the **Runs** tab from the project sidebar.
+2. Select the **Filter** button, which looks like a funnel, above the runs table.
+3. From left to right, select a column name, a logical operator, and a filter value to create a filter expression.
+4. Optionally select **New Filter** to apply additional filters.
 
-
-1. Click on the **Runs** tab from the project sidebar.
-2. Click on the search box at the top of the runs table.
-3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
-4. Enter your regular expression in the search box.
-
-### Filter runs by other properties
-You can filter runs by other properties such as run name, ID, or metrics using the filter button.
-
-## Search runs
-
-Filter all rows by an expression with the **Filter** button above the dashboard. 
+The following image filters runs based on loss values less than or equal to `1`:
 
 <Frame>
     <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
 </Frame>
 
-Select **Add filter** to add one or more filters to your rows. Three dropdown menus will appear. From left to right the filter types are based on: Column name, Operator , and Values
 
-|                   | Column name | Binary relation    | Value       |
-| -----------       | ----------- | ----------- | ----------- |
-| Accepted values   | String       |  &equals;, &ne;, &le;, &ge;, IN, NOT IN,  | Integer, float, string, timestamp, null |
+The following sections show some examples of how to filter runs in the Runs table.
 
 
-The expression editor shows a list of options for each term. Column names and logical predicate structures are completed automatically as you type. You can connect multiple logical predicates into one expression using "and" or "or" (and sometimes parentheses).
+### Example: Filter runs with tags
 
+Filter runs based on their tags:
+
+1. Click on the **Runs** tab from the project sidebar.
+2. Select the **Filter** button, which looks like a funnel, above the runs table.
+3. From left to right, select `"Tags"` from the dropdown menu select a logic operator.
+4. Select is, is not, in, or not in from the second dropdown menu.
+5. Enter the tag name you want to filter by from the third dropdown menu.
+
+<Frame>
+    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
+</Frame>
+
+
+## Default filters
+
+By default, W&B provides the following filters:
+
+* **Show only my works**: Shows only runs created by the current user.
+* **Hide crashed runs**: Hides runs with the `crashed` state.
+
+Default filters appear as toggles below the **New filter** button in the filter expression editor.
+
+## Remove a filter
+
+To remove a filter from the Runs table:
+1. Click on the **Filter** button, which looks like a funnel, above the runs table.
+2. Select the `x` icon next to the filter you want to remove.
 
 {/*
 ## Edit run colors
