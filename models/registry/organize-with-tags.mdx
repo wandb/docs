@@ -38,11 +38,10 @@ Use the W&B App UI to add a tag to a collection:
 import wandb
 
 COLLECTION_TYPE = "<collection_type>"
-ORG_NAME = "<org_name>"
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 
-full_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+full_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
 collection = wandb.Api().artifact_collection(
   type_name = COLLECTION_TYPE, 
@@ -148,12 +147,11 @@ The following code snippet shows how to fetch an artifact and add a tag without 
 import wandb
 
 ARTIFACT_TYPE = "<TYPE>"
-ORG_NAME = "<org_name>"
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
-artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
 artifact = wandb.Api().artifact(name = artifact_name, type = ARTIFACT_TYPE)
 artifact.tags = ["tag2"] # Provide one or more tags in a list
@@ -166,14 +164,13 @@ The following code snippet shows how to fetch an artifact and add a tag by creat
 ```python title="Add a tag to an artifact version during a run"
 import wandb
 
-ORG_NAME = "<org_name>"
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
 with wandb.init(entity = "<entity>", project="<project>") as run:
 
-    artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+    artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
     artifact = run.use_artifact(artifact_or_name = artifact_name)
     artifact.tags = ["tag2"] # Provide one or more tags in a list
@@ -243,12 +240,11 @@ The following code snippet shows how to fetch and view an artifact version's tag
 import wandb
 
 ARTIFACT_TYPE = "<TYPE>"
-ORG_NAME = "<org_name>"
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
-artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
 artifact = wandb.Api().artifact(name = artifact_name, type = artifact_type)
 print(artifact.tags)
@@ -260,14 +256,13 @@ The following code snippet shows how to fetch and view artifact version's tags b
 ```python title="Add a tag to an artifact version during a run"
 import wandb
 
-ORG_NAME = "<org_name>"
 REGISTRY_NAME = "<registry_name>"
 COLLECTION_NAME = "<collection_name>"
 VERSION = "<artifact_version>"
 
 with wandb.init(entity = "<entity>", project="<project>") as run:
 
-    artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+    artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 
     artifact = run.use_artifact(artifact_or_name = artifact_name)
     print(artifact.tags)
