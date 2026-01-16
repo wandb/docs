@@ -205,6 +205,7 @@
                           "models/runs/forking",
                           "models/runs/resuming",
                           "models/runs/rewind",
+                          "models/runs/compare-runs",
                           "models/runs/grouping",
                           "models/runs/filter-runs",
                           "models/runs/search-runs",
@@ -1102,6 +1103,10 @@
                 ]
               },
               "inference/usage-limits",
+              {
+                "group": "Tutorials",
+                "pages": ["inference/tutorials/creating-lora"]
+              },
               {
                 "group": "API Reference",
                 "pages": [
