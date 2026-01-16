@@ -1,0 +1,72 @@
+# Lychee link checker configuration
+# See https://lychee.cli.rs/guides/config/ for full documentation
+
+# Base URL for resolving relative links
+# This will be overridden at runtime by the workflows
+base_url = 'https://docs.wandb.ai'
+
+# Don't check heading anchors (fragments) - Mintlify generates these dynamically
+include_fragments = false
+
+# Suppress progress bars in CI for cleaner logs
+no_progress = true
+
+# Exclude private/internal network links
+exclude_all_private = true
+
+# Retry configuration for handling transient failures
+max_retries = 5
+retry_wait_time = 2
+
+# Accept these HTTP status codes as valid
+accept = [
+  200, # OK
+  429, # Too Many Requests (rate limit - treat as success)
+]
+
+# Only check HTTP/HTTPS URLs
+scheme = [
+  "http",
+  "https",
+]
+
+# Only check URLs matching these patterns (required when checking URL lists)
+include = [
+  '^https?://',  # Match all http:// and https:// URLs
+]
+
+# Logging verbosity
+verbose = "info"
+
+# URL patterns to exclude from checking
+exclude = [
+  # Exclude images - Mintlify rewrites paths during build
+  '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
+
+  # Example URLs used in generated docs
+  'https://kubeflow.mysite.com',
+  'https://my-fake-url.com',
+  'https://my.domain.net',
+  'https://wiki.python.org/moin/UsingPickle',
+
+  # Social media
+  'https://discord.com',
+  'https://x.com',
+
+  # Third party URLs
+  'https://auth0.com/docs',
+  'https://cognito-idp.us-east-1.amazonaws.com',
+
+  # W&B production URLs
+  '^https://github\.com/wandb',
+  '^https://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+  '^https://wandb\.(ai|com)',
+]
+
+# File/directory paths to exclude from checking
+exclude_path = [
+  # Exclude non-documentation directories
+  ".github",
+  "node_modules",
+  "scripts",
+]
