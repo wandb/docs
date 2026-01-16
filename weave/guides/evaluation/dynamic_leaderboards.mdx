@@ -1,6 +1,6 @@
 ---
 title: "Dynamic Leaderboards in Evaluations"
-description: "Dynamic Leaderboards let you configure, customize, save, and update leaderboard views directly from an evaluation."
+description: "Dynamic Leaderboards let you configure, customize, save, and update Leaderboard views directly from an evaluation."
 ---
 
 
@@ -14,21 +14,29 @@ When your project contains Weave Evaluation data, you can use the evaluation tab
 1. Navigate to [wandb.ai](https://wandb.ai).
 2. In the Weave sidebar menu, click **Evaluations**.
 3. Apply filters to the evaluation table to narrow the data to the models, datasets, or runs you want to compare.
-4. Once your filters are applied, click **Visualize**. Weave automatically creates a Leaderboard panel using only the data currently filtered in the table.
-5. At the top of the Leaderboard panel, click **Configure** to open the **Edit Leaderboard** panel.   **Edit Leaderboard** gives you fine-grained control over how models, datasets, scorers, and metrics appear.
+4. In the **evaluation table toolbar**, click **Visualize**. 
+   Weave automatically creates a Leaderboard panel using only the data currently filtered in the table.
+5. In the Leaderboard panel header, click **Configure** to open the **Edit Leaderboard** panel.   
+   The **Edit Leaderboard** panel gives you fine-grained control over how models, datasets, scorers, and metrics appear.
 
-The following shows the **Edit Leaderboard** panel with four configuration tabs: Models, Datasets, Scorers, and Metrics.
+The following shows how a filtered evaluation table is visualized as a Leaderboard and where to configure the resulting Leaderboard.
 
 <Frame>
-![Access the Edit Leaderboard panel through Evaluations -> Visualize -> Configure](/weave/guides/evaluation/img/edit-leaderboard.png)
+![Evaluations page showing the evaluation table with filters applied, the Visualize button in the table toolbar, and the resulting Leaderboard panel on the right with the Configure button in the panel header.](/weave/guides/evaluation/img/configure-leaderboard.png)
 </Frame>
 
 ### Configure Leaderboard elements with visibility and custom names
 
+The following shows the **Edit Leaderboard** panel with four configuration tabs: Models, Datasets, Scorers, and Metrics.
+
+<Frame>
+![Evaluations page showing the Edit Leaderboard panel open on the right, with tabs for Models, Datasets, Scorers, and Metrics used to configure the leaderboard.](/weave/guides/evaluation/img/edit-leaderboard.png)
+</Frame>
+
 In the **Edit Leaderboard** panel, you can:
 
 - **Activate/deactivate display**  
-  Select which models, datasets, scorers, and metrics appear in the leaderboard by checking or unchecking them.
+  Select which models, datasets, scorers, and metrics appear in the Leaderboard by checking or unchecking them.
 
 - **Rename models, datasets, and scorers**  
   Assign display-friendly names (for example, renaming a model run to `GPT-4` or a dataset to `JokesV1`).
@@ -50,9 +58,9 @@ In the **Edit Leaderboard** panel, for each metric, you can specify whether:
 
 This setting directly affects Leaderboard coloring:
 
-- Green highlights the *better* value
-- Red highlights the *worse* value
-- Colors automatically invert when you switch between “higher is better” and “lower is better”
+- Green highlights the *better* value.
+- Red highlights the *worse* value.
+- Colors automatically invert when you switch between “higher is better” and “lower is better”.
 
 This ensures that visual cues remain accurate across different types of metrics (for example, accuracy vs. latency or error rate).
 
@@ -67,9 +75,9 @@ The saved Leaderboard view captures:
 - Metric direction settings (higher or lower is better)
 - Applied filters
 
-### Switch between views
+### Switch between saved views
 
-Saved views appear in the Weave Evaluations views drop-down at the top left of the Evaluations page. You can:
+Click the **menu icon (☰)** next to the Evaluations page title to open saved views. You can:
 
 - Return to the **default** view to see the full dataset.
 - Reopen a saved view to restore all customizations instantly.
