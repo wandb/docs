@@ -1,6 +1,15 @@
 name: Validate MDX
 on:
   pull_request:
+  push:
+    branches:
+      - '**'
+      - '!main'
+  workflow_dispatch:
+
+concurrency:
+  group: validate-mdx-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-mdx:
