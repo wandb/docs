@@ -351,7 +351,7 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
 
 1. Provision the Azure Blob Storage container.
 
-    If you're not using [this Terraform module](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), follow the steps below to provision an Azure Blob Storage container in your Azure subscription:
+    For Self-Managed deployments, and for Dedicated Cloud deployments that are not using [this Terraform module](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob), follow the steps below to provision an Azure Blob Storage container in your Azure subscription:
 
     1. Create a container with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
     1. Configure the CORS policy on the container.
@@ -374,7 +374,7 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
 
 **Team level BYOB**:
 
-W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) to provision the Azure Blob Storage container along with the necessary access mechanism and permissions. If you use [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), provide the OIDC issuer URL for your instance. Make a note of the following details:
+For Dedicated Cloud deployments, W&B recommends that you use [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) to provision the Azure Blob Storage container with the necessary access mechanism and permissions. For Dedicated Cloud deployments that do not use Terraform, or for Self-Managed deployments, provision the bucket by following the steps for provisioning instance-level storage. Provide the OIDC issuer URL for your instance. Make a note of the following details:
 
 * Storage account name
 * Storage container name
@@ -473,14 +473,6 @@ For **Self-Managed**, you can configure instance level BYOB using the W&B App:
 1. Enter the **Bucket Name**.
 1. Optionally, enter the **Path** to use in the new bucket.
 1. Click **Save**
-
-<Note>
-For Self-Managed, W&B recommends using the Terraform module managed by W&B to provision a storage bucket along with the necessary access mechanism and related IAM permissions:
-
-* [AWS](https://github.com/wandb/terraform-aws-wandb/tree/main/examples/byob)
-* [Google Cloud](https://github.com/wandb/terraform-google-wandb/tree/main/examples/byob)
-* Azure - [Instance level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob) or [Team level BYOB](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector)
-</Note>
 
 ### Team level BYOB
 
