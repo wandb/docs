@@ -998,14 +998,6 @@
                         "pages": [
                           "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
-                      },
-                      {
-                        "group": "Other",
-                        "pages": [
-                          "weave/reference/python-sdk/weave/trace/op",
-                          "weave/reference/python-sdk/weave/trace/weave_client",
-                          "weave/reference/python-sdk/weave/trace_server/trace_server_interface"
-                        ]
                       }
                     ]
                   },
@@ -1037,6 +1029,7 @@
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
+                          "weave/reference/typescript-sdk/functions/withattributes",
                           "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -1105,7 +1098,9 @@
               "inference/usage-limits",
               {
                 "group": "Tutorials",
-                "pages": ["inference/tutorials/creating-lora"]
+                "pages": [
+                  "inference/tutorials/creating-lora"
+                ]
               },
               {
                 "group": "API Reference",
