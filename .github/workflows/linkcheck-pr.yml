@@ -87,6 +87,47 @@ jobs:
             **/*.md
             **/*.mdx
 
+      - name: Get PR number
+        id: get-pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            // For pull_request events, get PR number directly
+            if (context.eventName === 'pull_request') {
+              const prNumber = context.payload.pull_request.number;
+              core.info(`PR number from pull_request event: ${prNumber}`);
+              core.setOutput('pr_number', prNumber);
+              return prNumber;
+            }
+            
+            // For deployment_status events, find PR from commit SHA
+            if (context.eventName === 'deployment_status') {
+              const sha = context.payload.deployment?.sha;
+              if (!sha) {
+                core.warning('No deployment SHA found');
+                return null;
+              }
+              
+              const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: sha,
+              });
+              
+              const pr = prs[0];
+              if (pr) {
+                core.info(`Found PR #${pr.number} for deployment`);
+                core.setOutput('pr_number', pr.number);
+                return pr.number;
+              } else {
+                core.warning(`No PR found for commit ${sha}`);
+                return null;
+              }
+            }
+            
+            core.warning(`Unsupported event type: ${context.eventName}`);
+            return null;
+
       - name: Link Checker
         id: lychee
         if: steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
