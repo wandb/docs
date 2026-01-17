@@ -71,6 +71,23 @@ def clean_text(text: str) -> str:
     text = text.replace('|', '\\|')
     return text
 
+def clean_text_for_table(text: str) -> str:
+    """Clean text for use in markdown table cells.
+    
+    Collapses all whitespace (including newlines) into single spaces,
+    suitable for inline table cell content.
+    """
+    if not text:
+        return ""
+    
+    # Strip and collapse all whitespace (spaces, tabs, newlines) into single spaces
+    text = re.sub(r'\s+', ' ', text.strip())
+    
+    # Escape pipe characters for markdown tables
+    text = text.replace('|', '\\|')
+    
+    return text
+
 def get_brief_description(text: str) -> str:
     """Get just the first sentence or line for table display."""
     if not text:
@@ -269,7 +286,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append("| :--- | :--- | :--- |")
         for arg in cmd_info['arguments']:
             required = "Yes" if arg['required'] else "No"
-            desc = arg['help'] or "No description available"
+            desc = clean_text_for_table(arg['help']) if arg['help'] else "No description available"
             lines.append(f"| `{arg['name'].upper()}` | {desc} | {required} |")
         lines.append("")
     
@@ -280,7 +297,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append("| Option | Description |")
         lines.append("| :--- | :--- |")
         for opt in cmd_info['options']:
-            desc = opt['help'] or "No description available"
+            desc = clean_text_for_table(opt['help']) if opt['help'] else "No description available"
             if opt['default_str']:
                 desc += opt['default_str']
             lines.append(f"| {opt['opts_str']} | {desc} |")
@@ -405,7 +422,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append("| Option | Description |")
         lines.append("| :--- | :--- |")
         for opt in cmd_info['options']:
-            desc = opt['help'] or "No description available"
+            desc = clean_text_for_table(opt['help']) if opt['help'] else "No description available"
             if opt['default_str']:
                 desc += opt['default_str']
             lines.append(f"| {opt['opts_str']} | {desc} |")
