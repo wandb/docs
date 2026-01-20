@@ -1,0 +1,13 @@
+For a networked deployment, egress to these endpoints is required during _both_ installation and runtime:
+* https://deploy.wandb.ai
+* https://charts.wandb.ai
+* https://quay.io (used for Prometheus images)
+
+<Note>
+Additional container registries may be required depending on your deployment configuration:
+- `https://gcr.io` is needed when deploying Bufstream and etcd for Weave online evaluations.
+</Note>
+
+To learn about air-gapped deployments, refer to [Kubernetes operator for air-gapped instances](/platform/hosting/self-managed/operator-airgapped/).
+
+Access to W&B and to the object storage is required for the training infrastructure and for each system that tracks the needs of experiments.

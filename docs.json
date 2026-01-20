@@ -197,15 +197,23 @@
                         "group": "What are runs?",
                         "pages": [
                           "models/runs",
-                          "models/runs/tags",
-                          "models/runs/multiple-runs-per-process",
-                          "models/runs/run-colors",
-                          "models/runs/filter-runs",
+                          "models/runs/run-identifiers",
+                          "models/runs/initialize-run",
+                          "models/runs/run-states",
+                          "models/runs/view-logged-runs",
+                          "models/runs/customize-run-display",
                           "models/runs/forking",
-                          "models/runs/grouping",
-                          "models/runs/manage-runs",
                           "models/runs/resuming",
                           "models/runs/rewind",
+                          "models/runs/compare-runs",
+                          "models/runs/grouping",
+                          "models/runs/filter-runs",
+                          "models/runs/search-runs",
+                          "models/runs/stop-runs",
+                          "models/runs/delete-runs",
+                          "models/runs/tags",
+                          "models/runs/manage-runs",
+                          "models/runs/run-colors",
                           "models/runs/color-code-runs",
                           "models/runs/alert"
                         ]
@@ -990,14 +998,6 @@
                         "pages": [
                           "weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
                         ]
-                      },
-                      {
-                        "group": "Other",
-                        "pages": [
-                          "weave/reference/python-sdk/weave/trace/op",
-                          "weave/reference/python-sdk/weave/trace/weave_client",
-                          "weave/reference/python-sdk/weave/trace_server/trace_server_interface"
-                        ]
                       }
                     ]
                   },
@@ -1029,6 +1029,7 @@
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
+                          "weave/reference/typescript-sdk/functions/withattributes",
                           "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -1095,6 +1096,12 @@
                 ]
               },
               "inference/usage-limits",
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "inference/tutorials/creating-lora"
+                ]
+              },
               {
                 "group": "API Reference",
                 "pages": [
@@ -2490,6 +2497,10 @@
       "source": "/models/registry/model_registry/:slug*",
       "destination": "/models/registry"
     },
+    {
+      "source": "/models/runs/multiple-runs-per-process",
+      "destination" : "/models/runs/initialize-run"
+    },    
     {
       "source": "/models/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
