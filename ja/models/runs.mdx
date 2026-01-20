@@ -269,24 +269,16 @@ W&B App UI に移動して run がもはやアクティブではないことを�
 
 **State** フィールドの隣で、run の状態が `running` から `Killed` に変わります。
 
-<Frame>
-    <img src="/images/runs/stop-run-terminal.png"  />
-</Frame>
 </Tab>
 <Tab title="W&B App">
 1. run のログを記録していたプロジェクトに移動します。
 2. run セレクタ内で停止したい run を選択します。
 3. プロジェクトのサイドバーから **Overview** タブを選択します。
 4. **State** フィールドの隣の上部ボタンを選択します。
-<Frame>
-    <img src="/images/runs/stop-run-manual.png"  />
-</Frame>
+
 
 **State** フィールドの隣で、run の状態が `running` から `Killed` に変わります。
 
-<Frame>
-    <img src="/images/runs/stop-run-manual-status.png"  />
-</Frame>
 </Tab>
 </Tabs>
 
@@ -295,10 +287,6 @@ W&B App UI に移動して run がもはやアクティブではないことを�
 ## ログ記録された runs を見る
 
 run の状態、run にログ記録されたアーティファクト、run 中に記録されたログファイルなど、特定の run に関する情報を表示します。
-
-<Frame>
-    <img src="/images/runs/demo-project.gif"  />
-</Frame>
 
 特定の run を表示するには：
 
@@ -344,18 +332,10 @@ W&B は概要セクションの下に次の情報を保存します：
 * **Config**: [`wandb.config`](/ja/models/track/config/)で保存された設定パラメータのリスト。
 * **Summary**: [`wandb.log()`](/ja/models/track/log/)で保存されたサマリーパラメータのリスト。デフォルトでは、W&B はこの値を最後にログ記録した値に設定します。
 
-<Frame>
-    <img src="/images/app_ui/wandb_run_overview_page.png" alt="W&B Dashboard run overview tab"  />
-</Frame>
-
 こちらでプロジェクトの概要の例を確認できます [here](https://wandb.ai/stacey/deep-drive/overview)。
 
 ### Workspace タブ
 Workspace タブを使用して、生成されたプロットやカスタムプロット、システムメトリクスなどの可視化を表示、検索、グループ化、および配置してください。
-
-<Frame>
-    <img src="/images/app_ui/wandb-run-page-workspace-tab.png"  />
-</Frame>
 
 こちらでワークスペースの例を確認できます [here](https://wandb.ai/stacey/deep-drive/workspace?nw=nwuserstacey)
 
@@ -417,10 +397,6 @@ Table のある列の値で全行を並べ替えます。
 <Tab title="グループ">
 ダッシュボード上の **Group by** ボタンを使用して、特定の列の値で全行をグループ化します。
 
-<Frame>
-    <img src="/images/data_vis/group.png" alt="The truth distribution shows small errors: 8s and 2s are confused for 7s and 9s for 2s."  />
-</Frame>
-
 デフォルトでは、これにより他の数値列が、その列のグループ全体の値の分布を示すヒストグラムに変わります。グループ化は、データ内のより高水準のパターンを理解するのに役立ちます。
 </Tab>
 </Tabs>
@@ -431,7 +407,7 @@ Table のある列の値で全行を並べ替えます。
 右上の「ダウンロード」ボタンを選択してログファイルをダウンロードします。
 
 <Frame>
-    <img src="/images/app_ui/wandb_run_page_log_tab.png"  />
+    <img src="/images/runs/run_logs_info.png"  />
 </Frame>
 
 ログタブの例はこちらから見ることができます [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
@@ -439,17 +415,13 @@ Table のある列の値で全行を並べ替えます。
 ### Files タブ
 **Files tab** を使用して、特定の run に関連付けられたファイル（モデルチェックポイント、検証セット例など）を表示してください。
 
-<Frame>
-    <img src="/images/app_ui/wandb_run_page_files_tab.png"  />
-</Frame>
-
 ファイルタブの例はこちらから見ることができます [here](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images).
 
 ### Artifacts タブ
 **Artifacts** タブには、指定した run の入力および出力 [Artifacts](/ja/models/artifacts/) が一覧表示されます。
 
 <Frame>
-    <img src="/images/app_ui/artifacts_tab.png"  />
+    <img src="/images/runs/runs_artifacts_info.png"  />
 </Frame>
 
 Artifacts タブの例はこちらから見ることができます [here](https://wandb.ai/stacey/artifact_july_demo/runs/2cslp2rt/artifacts).

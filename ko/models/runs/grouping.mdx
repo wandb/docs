@@ -29,15 +29,7 @@ description: 트레이닝 및 평가 run을 그룹화하여 더 큰 Experiments�
 
 `wandb.init()` 에서 그룹화를 설정하면 UI에서 기본적으로 Runs 가 그룹화됩니다. 테이블 상단의 **Group** 버튼을 클릭하여 이를 켜거나 끌 수 있습니다. 그룹화를 설정한 [샘플 코드](http://wandb.me/grouping)에서 생성된 [예제 프로젝트](https://wandb.ai/carey/group-demo?workspace=user-carey)가 있습니다. 사이드바에서 각 "Group" 행을 클릭하여 해당 experiment 에 대한 전용 그룹 페이지로 이동할 수 있습니다.
 
-<Frame>
-    <img src="/images/track/distributed_training_wgrouping_1.png"  />
-</Frame>
-
 위의 프로젝트 페이지에서 왼쪽 사이드바의 **Group** 을 클릭하여 [이 페이지](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey)와 같은 전용 페이지로 이동할 수 있습니다.
-
-<Frame>
-    <img src="/images/track/distributed_training_wgrouping_2.png"  />
-</Frame>
 
 ## UI에서 동적으로 그룹화
 
@@ -46,22 +38,10 @@ description: 트레이닝 및 평가 run을 그룹화하여 더 큰 Experiments�
 * **사이드바**: Runs 는 에포크 수별로 그룹화됩니다.
 * **그래프**: 각 선은 그룹의 평균을 나타내고 음영은 분산을 나타냅니다. 이 동작은 그래프 설정에서 변경할 수 있습니다.
 
-<Frame>
-    <img src="/images/track/demo_grouping.png"  />
-</Frame>
-
 ## 그룹화 끄기
 
 언제든지 그룹화 버튼을 클릭하고 그룹 필드를 지우면 테이블과 그래프가 그룹 해제된 상태로 돌아갑니다.
 
-<Frame>
-    <img src="/images/track/demo_no_grouping.png"  />
-</Frame>
-
 ## 그룹화 그래프 설정
 
 그래프 오른쪽 상단 모서리에 있는 편집 버튼을 클릭하고 **Advanced** 탭을 선택하여 선과 음영을 변경합니다. 각 그룹에서 선의 평균, 최소값 또는 최대값을 선택할 수 있습니다. 음영의 경우 음영을 끄고 최소값과 최대값, 표준 편차 및 표준 오차를 표시할 수 있습니다.
-
-<Frame>
-    <img src="/images/track/demo_grouping_options_for_line_plots.gif"  />
-</Frame>
