@@ -197,16 +197,23 @@
                         "group": "What are runs?",
                         "pages": [
                           "models/runs",
-                          "models/runs/tags",
-                          "models/runs/multiple-runs-per-process",
-                          "models/runs/run-colors",
-                          "models/runs/filter-runs",
+                          "models/runs/run-identifiers",
+                          "models/runs/initialize-run",
+                          "models/runs/run-states",
+                          "models/runs/view-logged-runs",
+                          "models/runs/customize-run-display",
                           "models/runs/forking",
-                          "models/runs/grouping",
-                          "models/runs/compare-runs",
-                          "models/runs/manage-runs",
                           "models/runs/resuming",
                           "models/runs/rewind",
+                          "models/runs/compare-runs",
+                          "models/runs/grouping",
+                          "models/runs/filter-runs",
+                          "models/runs/search-runs",
+                          "models/runs/stop-runs",
+                          "models/runs/delete-runs",
+                          "models/runs/tags",
+                          "models/runs/manage-runs",
+                          "models/runs/run-colors",
                           "models/runs/color-code-runs",
                           "models/runs/alert"
                         ]
@@ -810,7 +817,8 @@
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
                       "weave/guides/tools/attributes",
-                      "weave/guides/tools/column-mapping"
+                      "weave/guides/tools/column-mapping",
+                      "weave/guides/evaluation/dynamic_leaderboards"
                     ]
                   },
                   {
@@ -2490,6 +2498,10 @@
       "source": "/models/registry/model_registry/:slug*",
       "destination": "/models/registry"
     },
+    {
+      "source": "/models/runs/multiple-runs-per-process",
+      "destination" : "/models/runs/initialize-run"
+    },    
     {
       "source": "/models/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
