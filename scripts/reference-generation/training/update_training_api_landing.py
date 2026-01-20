@@ -55,31 +55,24 @@ def parse_endpoints(spec: dict) -> Dict[str, List[Tuple[str, str, str, str]]]:
     return endpoints_by_tag
 
 
-def generate_endpoint_url(operation_id: str, tag: str, path: str) -> str:
-    """Generate the Mintlify URL for an endpoint based on its operation ID and tag."""
-    # Map tags to URL segments
-    tag_mapping = {
-        "Chat": "chat",
-        "Completions": "completions",
-        "Models": "models",
-        "Jobs": "jobs",
-        "Training": "training",
-        "Inference": "inference",
-        "Health": "health",
-        "Service": "service",
-    }
+def generate_endpoint_url(summary: str, tag: str, path: str) -> str:
+    """Generate the Mintlify URL for an endpoint based on its summary and tag.
     
-    tag_segment = tag_mapping.get(tag, tag.lower().replace(" ", "-"))
+    Mintlify generates URL slugs from the operation summary (title), not operationId.
+    """
+    # Convert tag to URL segment (Mintlify lowercases and hyphenates)
+    tag_segment = tag.lower().replace(" ", "-")
     
-    # Convert operation_id to URL slug
-    # Remove the suffix like _get, _post, etc.
-    url_slug = re.sub(r'_(get|post|put|delete|patch)$', '', operation_id)
-    # Replace underscores with hyphens
-    url_slug = url_slug.replace('_', '-')
-    
-    # If no operation_id, use the path to generate a slug
-    if not url_slug:
-        # Convert path like /v1/chat/completions to chat-completions
+    # Convert summary to URL slug (Mintlify lowercases and hyphenates the title)
+    # Example: "Create Chat Completion" -> "create-chat-completion"
+    if summary:
+        url_slug = summary.lower().replace(" ", "-")
+        # Remove any non-alphanumeric characters except hyphens
+        url_slug = re.sub(r'[^a-z0-9-]', '', url_slug)
+        # Collapse multiple hyphens
+        url_slug = re.sub(r'-+', '-', url_slug)
+    else:
+        # Fallback: use path to generate a slug
         url_slug = path.strip('/').replace('/v1/', '').replace('/', '-')
     
     return f"https://docs.wandb.ai/training/api-reference/{tag_segment}/{url_slug}"
@@ -104,7 +97,7 @@ def generate_endpoints_section(endpoints: Dict[str, List[Tuple[str, str, str, st
         lines.append(f"\n### {category}\n\n")
         
         for method, path, operation_id, summary in endpoints[category]:
-            url = generate_endpoint_url(operation_id, category, path)
+            url = generate_endpoint_url(summary, category, path)
             lines.append(f"- **[{method} {path}]({url})** - {summary}\n")
     
     return "".join(lines)
