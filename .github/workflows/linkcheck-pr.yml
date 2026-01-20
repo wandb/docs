@@ -42,7 +42,7 @@ jobs:
       - name: Resolve PR and deployment URL
         id: pr-context
         if: github.event_name == 'deployment_status'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { owner, repo } = context.repo;
