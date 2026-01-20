@@ -13,6 +13,45 @@ Line plots display by default for metrics logged with `wandb.Run.log()` over tim
 For [runs](/models/runs) that execute on [CoreWeave](https://coreweave.com) infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. If an error occurs, W&B populates infrastructure information onto your run's plots in your project's workspace. For details, see [Visualize CoreWeave infrastructure alerts](/models/runs#visualize-coreweave-infrastructure-alerts).
 </Tip>
 
+## Add a line plot
+
+This section shows how to create a line plot for a single metric or multiple metrics.
+
+<Tabs>
+<Tab title="Single-metric line plot">
+In an [automatic workspace](/models/app/features/panels#workspace-modes), a single-metric line plot is created automatically for each logged metric. Follow these steps to re-add a line plot that was deleted from an automatic workspace, or to add a line plot to a manual workspace.
+
+1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
+
+    To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
+1. To add a single-metric plot with default settings, click **Quick panel builder**.
+    1. In the **Single-key panels** tab, hover over a metric, then click **Add**. Repeat this step for each panel you want to add.
+    1. Click **Create &lt;number&gt; panels**.
+1. To add a custom line plot instead, click **Line plot**.
+    1. Configure the line plot's data, grouping, and display preferences using the corresponding tabs. For details, see [Edit line plot settings](#edit-line-plot-settings).
+    1. To add calculated expressions to the x or y axis, click **Expressions**. [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) are supported.
+Select the type of panel to add, such as a chart. The panel's configuration details appear, with defaults selected.
+1. Optionally, customize the panel and its display preferences. Configuration options depend on the type of panel you select. To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](/models/app/features/panels/line-plot/) or [Bar plots](/models/app/features/panels/bar-plot/).
+    1. Click **Apply**.
+</Tab>
+<Tab title="Multi-metric line plot">
+
+<Note>
+This feature is in preview, available by invitation only. To request enrollment, contact [support](mailto:support@wandb.com) or your AISE.
+</Note>
+
+In an [automatic workspace](/models/app/features/panels#workspace-modes), a single-metric line plot is created automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a JavaScript regular expression. You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs efficiently.
+
+1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
+
+    To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
+1. Click **Quick panel builder**, then click the **Multi-metric panels** tab.
+1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. The plot will include lines for all metrics that match the expression, including metrics logged in the future. As you type, the UI updates to show which metrics match the expression.
+1. To optionally remove duplicate single-metric panels when the multi-metric plot is created, toggle **Clean up auto-generated panels**. A preview shows which panels will be cleaned up. <Note>When this option is turned on, a single-metric plot will not be created for a newly logged metric that matches the expression. Instead, it will be included only in this multi-metric plot.</Note>
+1. Click **Create &lt;number&gt; panels**.
+</Tab>
+</Tabs>
+
 ## Edit line plot settings
 
 This section shows how to edit the settings for an individual line plot panel, all line plot panels in a section, or all line plot panels in a workspace. For comprehensive details about line plot settings, see [Line plot reference](/models/app/features/panels/line-plot/reference).
@@ -46,7 +85,6 @@ To customize the default settings for all line plots in a workspace:
 1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.
     - For details about each **Data** setting, see the [Line plot reference](/models/app/features/panels/line-plot/reference).
     - For details about each **Display preferences** section, refer to [Workspace display preferences](../#configure-workspace-layout). At the workspace level, you can configure the default **Zooming** behavior for line plots. This setting controls whether to synchronize zooming across line plots with a matching x-axis key. Disabled by default.
-
 
 ## Visualize average values on a plot
 
