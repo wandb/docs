@@ -38,6 +38,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 - [get](./objectref#get)
 - [ui\_url](./objectref#ui_url)
 - [uri](./objectref#uri)
+- [fromUri](./objectref#fromuri)
 
 ## Constructors
 
@@ -59,7 +60,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 #### Defined in
 
-[weaveObject.ts:25](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L25)
+[weaveObject.ts:26](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L26)
 
 ## Properties
 
@@ -69,7 +70,7 @@ const uri = ref.uri(); // weave:///my-project/object/abc123:def456
 
 #### Defined in
 
-[weaveObject.ts:28](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L28)
+[weaveObject.ts:29](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L29)
 
 ___
 
@@ -79,7 +80,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:27](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L27)
+[weaveObject.ts:28](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L28)
 
 ___
 
@@ -89,7 +90,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:26](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L26)
+[weaveObject.ts:27](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L27)
 
 ## Methods
 
@@ -103,7 +104,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:42](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L42)
+[weaveObject.ts:66](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L66)
 
 ___
 
@@ -117,7 +118,7 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:37](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L37)
+[weaveObject.ts:61](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L61)
 
 ___
 
@@ -131,4 +132,38 @@ ___
 
 #### Defined in
 
-[weaveObject.ts:33](https://github.com/wandb/weave/blob/01ba25415eecdd98ace095491cc3bdfc7f4ba384/sdks/node/src/weaveObject.ts#L33)
+[weaveObject.ts:57](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L57)
+
+___
+
+### fromUri
+
+▸ **fromUri**(`uri`): [`ObjectRef`](./objectref)
+
+Creates an ObjectRef from a Weave URI string.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `uri` | `string` | A Weave URI in the format: weave:///entity/project/object/name:digest |
+
+#### Returns
+
+[`ObjectRef`](./objectref)
+
+A new ObjectRef instance
+
+`Throws`
+
+Error if the URI format is invalid or not an object ref
+
+`Example`
+
+```ts
+const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
+```
+
+#### Defined in
+
+[weaveObject.ts:44](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L44)
