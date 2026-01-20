@@ -118,6 +118,19 @@ Follow the procedure below to set up Okta for authorization:
 The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
 </Tab>
 <Tab title="Entra">
+Azure AD (Entra ID) supports two OIDC configuration modes for W&B Server. Choose the configuration that matches your security requirements:
+
+- **Public Client (no secret)**: Uses PKCE without a client secret. Simpler to configure, suitable for most deployments.
+- **Confidential Client (with secret)**: Uses PKCE with a client secret for enhanced security. Required if you need to set the `GORILLA_OIDC_SECRET` environment variable.
+
+<Warning>
+Do not mix configurations. If you select "Single-page application" in Azure AD, do not provide a client secret. If you need a client secret, you must select "Web" as the platform type.
+</Warning>
+
+<Tabs>
+<Tab title="Public client">
+Use this configuration if you do not need to specify a client secret. This configuration is suitable for deployments without advanced security requirements.
+
 1. Log in to the [Azure Portal](https://portal.azure.com/).
 
 2. Navigate to **Microsoft Entra ID** service and select **App registrations** from the left sidebar.
@@ -125,9 +138,45 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 3. Click **New registration** at the top of the page.
 
 4. On the "Register an application" screen, configure the following:
-   - **Name**: Enter a descriptive name (e.g., "Weights and Biases application")
+   - **Name**: Enter a descriptive name (for example, "Weights and Biases application")
    - **Supported account types**: Keep the default "Single tenant" or modify as needed
    - **Redirect URI**: Select platform type **Single-page application** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
+   - Click **Register**
+
+5. After registration, note the following values from the Overview page:
+   - **Application (client) ID** - This is your OIDC Client ID
+   - **Directory (tenant) ID** - This is used for your OIDC Issuer URL
+
+   <Frame>
+   <img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs"  />
+   </Frame>
+
+6. Configure authentication settings:
+   - Select **Authentication** from the left sidebar
+   - Under **Front-channel logout URL**, enter `https://YOUR_W_AND_B_URL/logout`
+   - Click **Save**
+
+You should now have collected two essential values:
+- **OIDC Client ID**: The Application (client) ID from step 5
+- **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5)
+
+When configuring W&B Server, use:
+- **Auth Method**: `pkce`
+- **OIDC Client Secret**: Leave empty (do not set `GORILLA_OIDC_SECRET`)
+</Tab>
+<Tab title="Confidential client">
+Use this configuration if you need to specify a client secret, due to security or compliance requirements.
+
+1. Log in to the [Azure Portal](https://portal.azure.com/).
+
+2. Navigate to **Microsoft Entra ID** service and select **App registrations** from the left sidebar.
+
+3. Click **New registration** at the top of the page.
+
+4. On the "Register an application" screen, configure the following:
+   - **Name**: Enter a descriptive name (for example, "Weights and Biases application")
+   - **Supported account types**: Keep the default "Single tenant" or modify as needed
+   - **Redirect URI**: Select platform type **Web** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
    - Click **Register**
 
 5. After registration, note the following values from the Overview page:
@@ -146,7 +195,7 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 7. Create a client secret:
    - Select **Certificates & secrets** from the left sidebar
    - Click **New client secret**
-   - Add a description (e.g., "wandb")
+   - Add a description (for example, "wandb")
    - Choose an expiration period
    - Click **Add**
    - **Important**: Copy and save the secret **Value** immediately (not the Secret ID)
@@ -160,13 +209,15 @@ You should now have collected three essential values:
 - **OIDC Client Secret**: The secret value from step 7
 - **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5)
 
+When configuring W&B Server, use:
+- **Auth Method**: `pkce`
+- **OIDC Client Secret**: Set the `GORILLA_OIDC_SECRET` environment variable to the secret value from step 7
+
 <Note>
 The v2.0 endpoint supports both personal Microsoft accounts and work/school accounts. If your organization requires the v1.0 endpoint, use `https://login.microsoftonline.com/{TenantID}` instead.
 </Note>
-
-When configuring W&B Server, use:
-- **Auth Method**: `pkce` (recommended for Entra ID)
-- **OIDC Client Secret**: Required for Entra ID applications
+</Tab>
+</Tabs>
 </Tab>
 </Tabs>
 
@@ -179,15 +230,14 @@ To set up SSO, you need administrator privileges and the following information:
 - OIDC Client Secret (optional; depends on how you have setup your IdP) 
 
 If your IdP requires a OIDC Client Secret, specify it by passing the [environment variables](/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`.
-- In the UI, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `GORILLA_OIDC_SECRET` to the `extraENV` section as shown below.
+- In the W&B App, go to **System Console** > **Settings** > **Advanced** > **User Spec** and add `GORILLA_OIDC_SECRET` to the `extraENV` section as shown below.
 - In Helm, configure `values.global.extraEnv` as shown below.
-
-```yaml
-values:
-  global:
-    extraEnv:
-      GORILLA_OIDC_SECRET="<your_secret>"
-```
+    ```yaml
+    values:
+    global:
+        extraEnv:
+        GORILLA_OIDC_SECRET="<your_secret>"
+    ```
 
 <Note>
 If you're unable to log in to your instance after configuring SSO, you can restart the instance with the `LOCAL_RESTORE=true` environment variable set. This outputs a temporary password to the containers logs and disables SSO. Once you've resolved any issues with SSO, you must remove that environment variable to enable SSO again.
