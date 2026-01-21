@@ -1,6 +1,6 @@
 ---
 description: Delete artifacts interactively with the App UI or programmatically with
-  the W&B SDK/
+  the W&B SDK.
 title: Delete an artifact
 ---
 
@@ -72,6 +72,10 @@ The following code example demonstrates how to delete artifacts that have aliase
 ```python
 import wandb
 
+# Initialize W&B API
+api = wandb.Api(overrides={"project": "project_name", "entity": "entity"})
+
+# Get the run by its path. Consists of <entity>/<project>/<run_path>
 run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
@@ -83,6 +87,10 @@ Set the `delete_aliases` parameter to the boolean value, `True` to delete aliase
 ```python
 import wandb
 
+# Initialize W&B API
+api = wandb.Api(overrides={"project": "project_name", "entity": "entity"})
+
+# Get the run by its path. Consists of <entity>/<project>/<run_path>
 run = api.run("entity/project/run_id")
 
 for artifact in run.logged_artifacts():
@@ -98,10 +106,14 @@ The following code demonstrates how to delete multiple artifact versions that ha
 ```python
 import wandb
 
-runs = api.run("entity/project_name/run_id")
+# Initialize W&B API
+api = wandb.Api(overrides={"project": "project_name", "entity": "entity"})
+
+# Get the run by its path. Consists of <entity>/<project>/<run_path>
+run = api.run("entity/project/run_id")
 
 # Delete artifact ith alias 'v3' and 'v4
-for artifact_version in runs.logged_artifacts():
+for artifact_version in run.logged_artifacts():
     # Replace with your own deletion logic.
     if artifact_version.name[-2:] == "v3" or artifact_version.name[-2:] == "v4":
         artifact.delete(delete_aliases=True)
@@ -126,11 +138,11 @@ The following code snippet demonstrates how to delete all versions of an artifac
 ```python
 import wandb
 
-# Provide your entity and a project name when you
-# use wandb.Api methods.
+# Initialize W&B API
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
 
 artifact_type, artifact_name = "<>"  # provide type and name
+
 for v in api.artifact_versions(artifact_type, artifact_name):
     # Clean up versions that don't have an alias such as 'latest'.
     # NOTE: You can put whatever deletion logic you want here.
@@ -151,9 +163,11 @@ You can also delete artifact collection programmatically with the [delete()](/mo
 ```python
 import wandb
 
-# Provide your entity and a project name when you
-# use wandb.Api methods.
+# Initialize W&B API
 api = wandb.Api(overrides={"project": "project", "entity": "entity"})
+
+# Get the artifact collection by its path. Consists of
+# <entity>/<project>/<artifact_collection_name>
 collection = api.artifact_collection(
     "<artifact_type>", "entity/project/artifact_collection_name"
 )
