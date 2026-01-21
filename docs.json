@@ -758,15 +758,14 @@
                 "pages": [
                   "weave/quickstart",
                   "weave/tutorial-eval",
-                  "weave/tutorial-rag",
-                  "weave/quickstart-inference"
+                  "weave/tutorial-rag"
                 ]
               },
               {
                 "group": "Concepts",
                 "pages": [
-                  "weave/guides/getting-started/what-is-weave",
-                  "weave/guides/getting-started/fundamental-components"
+                  "weave/concepts/what-is-weave",
+                  "weave/concepts/fundamental-components"
                 ]
               },
               {
@@ -775,9 +774,9 @@
                   {
                     "group": "Track your application",
                     "pages": [
-                      "weave/tutorial-tracing_2",
                       "weave/guides/tracking",
                       "weave/guides/tracking/tracing",
+                      "weave/tutorial-tracing_2",
                       "weave/guides/tracking/costs",
                       "weave/guides/core-types/media",
                       "weave/guides/tools/saved-views",
@@ -785,7 +784,6 @@
                       "weave/guides/tracking/trace-tree",
                       "weave/guides/tracking/threads",
                       "weave/guides/tracking/trace-plots",
-                      "weave/guides/tracking/otel",
                       "weave/guides/tools/attributes",
                       "weave/guides/tools/weave-in-workspaces"
                     ]
@@ -808,7 +806,8 @@
                     "group": "Experiment with prompts and models",
                     "pages": [
                       "weave/guides/tools/playground",
-                      "weave/guides/tools/evaluation_playground"
+                      "weave/guides/tools/evaluation_playground",
+                      "weave/quickstart-inference"
                     ]
                   },
                   {
@@ -826,7 +825,8 @@
                     "pages": [
                           "weave/guides/tracking/feedback",
                           "weave/guides/tracking/redact-pii",
-                          "weave/guides/evaluation/guardrails_and_monitors"
+                          "weave/guides/evaluation/guardrails_and_monitors",
+                          "weave/guides/tracking/otel"
                     ]
                   },
                   {
@@ -891,7 +891,7 @@
                 ]
               },
               {
-                "group": "Tutorials",
+                "group": "Cookbooks",
                 "pages": [
                   "weave/cookbooks",
                   {
