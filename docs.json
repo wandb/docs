@@ -887,7 +887,8 @@
                       "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
-                  }
+                  },
+                  "weave/guides/core-types/env-vars"
                 ]
               },
               {
@@ -1048,10 +1049,8 @@
               {
                 "group": "Details & Support",
                 "pages": [
-                  "weave/details/features",
-                  "https://wandb.ai/site/pricing/",
+                  "pricing",
                   "weave/guides/tools/limits",
-                  "weave/guides/core-types/env-vars",
                   "weave/guides/troubleshooting",
                   "weave/guides/tracking/faqs"
                 ]
