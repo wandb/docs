@@ -1,82 +1,82 @@
 ---
-title: 申し訳ありませんが、私は提供された文書の翻訳を行うためのテキストが不足しています。何か特定のテキストまたは文書を提供していただければ、それを翻訳いたします。それに基づいて正確な翻訳を提供できますので、どうぞよろしくお願いします。
+title: File
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+## <kbd>class</kbd> `File`
+W&B に保存されたファイル。
+
+W&B に格納されている単一のファイルを表します。ファイルの メタデータ への アクセス が含まれます。ファイルは特定の Run に関連付けられており、テキストファイル、 モデル の重み、 Datasets 、 可視化 、その他の Artifacts を含めることができます。ファイルのダウンロード、ファイルの削除、およびファイルプロパティへの アクセス が可能です。
+
+特定の Run に ログ 記録された特定のファイルを特定するために、 辞書 で1つ以上の属性を指定します。以下の キー を使用して検索できます：
+
+- id (str): ファイルを含む Run の ID
+- name (str): ファイル名
+- url (str): ファイルへのパス
+- direct_url (str): バケット 内のファイルへのパス
+- sizeBytes (int): バイト単位のファイルサイズ
+- md5 (str): ファイルの md5
+- mimetype (str): ファイルの mimetype
+- updated_at (str): 最終更新のタイムスタンプ
+- path_uri (str): バケット 内のファイルへのパス。現在は S3 オブジェクト とリファレンスファイルのみ利用可能です。
+
+**Args:**
+
+ - `client`: ファイルを含む Run オブジェクト
+ - `attrs` (dict): ファイルを定義する属性の 辞書
+ - `run`: ファイルを含む Run オブジェクト
+
+### <kbd>property</kbd> File.path_uri
+
+ストレージ バケット 内のファイルへの URI パスを返します。
+
+**Returns:**
+
+ - `str`: ファイルが S3 に保存されている場合は S3 URI (例: 's3://bucket/path/to/file')、リファレンスファイルの場合は直接 URL、利用不可の場合は空の文字列。
+
+**Returns:**
+ - `str`: path_uri プロパティの 値 。
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L110-L263" icon="github"/>
+### <kbd>property</kbd> File.size
 
-File は wandb によって保存されたファイルに関連付けられているクラスです。
+バイト単位のファイルサイズを返します。
 
-```python
-File(
-    client, attrs, run=None
-)
-```
+---
 
-| 属性 | Description |
-| :--- | :--- |
-|  `path_uri` |  ストレージバケット内のファイルへの URI パスを返します。 |
-
-## メソッド
-
-### `delete`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L193-L223)
+### <kbd>method</kbd> `File.delete`
 
 ```python
 delete()
 ```
 
-### `display`
+W&B サーバー からファイルを削除します。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+---
 
-```python
-display(
-    height=420, hidden=(False)
-) -> bool
-```
-
-このオブジェクトを jupyter で表示します。
-
-### `download`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L152-L191)
+### <kbd>method</kbd> `File.download`
 
 ```python
 download(
-    root: str = ".",
-    replace: bool = (False),
-    exist_ok: bool = (False),
-    api: Optional[Api] = None
-) -> io.TextIOWrapper
+    root: 'str' = '.',
+    replace: 'bool' = False,
+    exist_ok: 'bool' = False,
+    api: 'Api | None' = None
+) → io.TextIOWrapper
 ```
 
-wandb サーバーから run によって以前に保存されたファイルをダウンロードします。
+以前に Run によって保存されたファイルを wandb サーバー からダウンロードします。
 
-| 引数 | Description |
-| :--- | :--- |
-|  replace (boolean): `True` の場合、ローカルファイルが存在するときにダウンロードがそのファイルを上書きします。デフォルトは `False`。root (str): ファイルを保存するローカルディレクトリー。デフォルトは "."。exist_ok (boolean): `True` の場合、ファイルが既に存在しているときに ValueError を発生させず、replace=True でない限り再ダウンロードしません。デフォルトは `False`。api (Api, optional): 指定された場合、ファイルをダウンロードするのに使用される `Api` インスタンス。 |
+**Args:**
 
-| Raises | Description |
-| :--- | :--- |
-|  ファイルが既に存在し、replace=False でかつ exist_ok=False の場合に `ValueError` を発生させます。 |
+ - `root`: ファイルを保存するローカル ディレクトリー 。デフォルトはカレントワーキング ディレクトリー (".") です。
+ - `replace`: `True` の場合、ローカルファイルが存在すればダウンロードで上書きします。デフォルトは `False` です。
+ - `exist_ok`: `True` の場合、ファイルが既に存在しても ValueError を発生させず、 `replace=True` でない限り再ダウンロードもしません。デフォルトは `False` です。
+ - `api`: 指定された場合、ファイルのダウンロードに使用される `Api` インスタンス。
 
-### `snake_to_camel`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
-
-```python
-snake_to_camel(
-    string
-)
-```
-
-### `to_html`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L39-L40)
-
-```python
-to_html(
-    *args, **kwargs
-)
-```
+**Raises:**
+ ファイルが既に存在し、 `replace=False` かつ `exist_ok=False` の場合に `ValueError` を発生させます。

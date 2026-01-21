@@ -1,19 +1,21 @@
 ---
 title: W&B Models
-no_list: true
+mode: wide
 ---
 
-W&B Models는 모델을 정리하고 생산성 및 협업을 향상시키며 프로덕션 규모로 ML을 제공하려는 ML 개발자를 위한 기록 시스템입니다.
+W&B Models는 모델을 체계적으로 관리하고, 생산성과 협업 효율을 높이며, 대규모 프로덕션 ML을 구현하고자 하는 기계학습 개발자를 위한 기록 시스템(system of record)입니다.
 
-<Frame>
-    <img src="/images/general/architecture.png"  />
-</Frame>
+<img 
+    src="/images/general/architecture.png"
+    alt="W&B Models architecture diagram"
+    style={{width: "450px"}}
+/>
 
-W&B Models를 사용하면 다음을 수행할 수 있습니다.
+W&B Models를 통해 다음을 수행할 수 있습니다: 
 
-- 모든 [ML Experiments](/ko/models/track/)를 추적하고 시각화합니다.
-- [하이퍼파라미터 Sweeps](/ko/models/sweeps/)를 사용하여 모델을 대규모로 최적화하고 파인튜닝합니다.
-- DevOps 및 배포에 대한 원활한 핸드오프 지점을 통해 [모든 모델의 중앙 집중식 허브를 유지 관리](/ko/models/core/registry/)합니다.
-- [모델 CI/CD](/ko/models/core/automations/)를 위한 핵심 워크플로우를 트리거하는 사용자 지정 자동화를 구성합니다.
+- 모든 [ML 실험(experiments)](/models/track/)을 추적하고 시각화합니다.
+- [하이퍼파라미터 탐색(sweeps)](/models/sweeps/)을 통해 대규모로 모델을 최적화하고 파인튜닝합니다.
+- [모든 모델을 중앙 집중식 허브에서 관리](/models/registry/)하며, DevOps 및 배포 단계로의 원활한 인계 지점을 마련합니다.
+- [모델 CI/CD](/models/automations/)를 위한 주요 워크플로우를 트리거하는 커스텀 자동화를 구성합니다.
 
-기계 학습 개발자는 W&B Models를 사용하여 ML 기록 시스템으로 Experiments를 추적 및 시각화하고, 모델 버전 및 계보를 관리하고, 하이퍼파라미터를 최적화합니다.
+기계학습 개발자들은 실험을 추적 및 시각화하고, 모델 버전과 계보(lineage)를 관리하며, 하이퍼파라미터를 최적화하기 위한 ML 기록 시스템으로 W&B Models를 활용하고 있습니다.

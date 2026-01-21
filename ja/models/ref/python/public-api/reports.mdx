@@ -1,0 +1,49 @@
+---
+title: Reports
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+## <kbd>class</kbd> `Reports`
+Reports は、 `BetaReport` オブジェクト のレイジーイテレータ（遅延イテレータ）です。
+
+### <kbd>method</kbd> `Reports.__init__`
+
+```python
+__init__(client, project, name=None, entity=None, per_page=50)
+```
+
+**Args:**
+
+ - `client` (`wandb.apis.internal.Api`): 使用する API クライアントインスタンス。
+ - `project` (`wandb.sdk.internal.Project`): レポートを取得する Projects 。
+ - `name` (str, optional): フィルタリングに使用するレポート名。 `None` の場合、すべてのレポートを取得します。
+ - `entity` (str, optional): プロジェクトの Entities 名。デフォルトはプロジェクトのエンティティです。
+ - `per_page` (int): 1ページあたりに取得するレポート数（デフォルトは50）。
+
+---
+
+### <kbd>property</kbd> Reports.length
+
+---
+
+### <kbd>method</kbd> `Reports.convert_objects`
+
+```python
+convert_objects()
+```
+
+GraphQL の edge を File オブジェクト に変換します。
+
+---
+
+### <kbd>method</kbd> `Reports.update_variables`
+
+```python
+update_variables()
+```
+
+ページネーションのための GraphQL クエリ変数を更新します。

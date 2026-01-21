@@ -1,8 +1,5 @@
 ---
-title: ランをタグでグループ化できますか？
-support:
-  - runs
-toc_hide: true
-type: docs
+title: タグで run をグループ化できますか？
 ---
-run は複数のタグを持つことができるため、タグによるグループ化はサポートされていません。これらの run に対して [`config`](/ja/models/track/config/) オブジェクトに値を追加し、この config 値でグループ化してください。これは [API](/ja/models/track/config/#set-the-configuration-after-your-run-has-finished) を使用して達成できます。
+
+1つの run に複数のタグを設定できるため、タグによるグループ化はサポートされていません。代わりに、これらの run の [`config`](/models/track/config/) オブジェクトに値を追加し、その設定値でグループ化してください。これは [API](/models/track/config/#set-the-configuration-after-your-run-has-finished) を使用して実行できます。

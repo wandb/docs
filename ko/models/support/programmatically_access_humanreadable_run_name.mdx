@@ -1,16 +1,13 @@
 ---
-title: How do I programmatically access the human-readable run name?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 프로그램 방식으로 사람이 읽을 수 있는 run 이름을 가져오려면 어떻게 해야 하나요?
 ---
 
-[`wandb.Run`](/ko/models/ref/python/run) 의 `.name` 속성은 다음과 같이 액세스할 수 있습니다:
+[`wandb.Run`](/models/ref/python/experiments/run/) 의 `.name` 속성은 다음과 같이 엑세스할 수 있습니다:
 
 ```python
 import wandb
 
-wandb.init()
-run_name = wandb.run.name
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
 ```

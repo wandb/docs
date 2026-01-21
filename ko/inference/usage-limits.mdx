@@ -1,0 +1,47 @@
+---
+title: 사용 정보 및 제한 사항
+description: thoughtful outlines tube sugar <thought> W&B Inference의 요금 체계, 사용량 제한
+  및 계정 제한 사항 이해하기
+linkTitle: Usage & Limits
+---
+
+W&B Inference를 사용하기 전에 요금, 제한 사항 및 기타 중요한 사용 정보를 확인하세요.
+
+## 요금 (Pricing)
+
+상세한 모델별 요금 정보는 [W&B Inference pricing](https://wandb.ai/site/pricing/inference) 페이지를 방문하세요.
+
+## 크레딧 추가 구매
+
+한시적으로 Free, Pro 및 Academic 플랜에서 W&B Inference 크레딧이 제공됩니다. Enterprise 플랜의 제공 여부는 다를 수 있습니다. 크레딧이 소진된 경우:
+
+- **Free 계정**은 W&B Inference를 계속 사용하기 위해 (**Billing** 탭에서) 종량제(pay-as-you-go)를 활성화하거나 유료 플랜으로 업그레이드해야 합니다. [종량제 활성화 또는 업그레이드하기](https://wandb.ai/subscriptions)
+- **Pro 플랜 사용자**는 [모델별 요금](https://wandb.ai/site/pricing/inference)에 따라 초과 사용분에 대해 매월 청구됩니다.
+- **Enterprise 계정**은 담당 어카운트 이그제큐티브(Account Executive)에게 문의하세요.
+
+## 계정 등급 및 기본 사용 한도
+
+각 계정 등급에는 비용 관리 및 예기치 않은 청구를 방지하기 위한 기본 지출 한도가 설정되어 있습니다. 유료 Inference 엑세스를 위해서는 선결제가 필요합니다.
+
+한도 변경이 필요한 경우, 담당 어카운트 이그제큐티브 또는 지원 팀에 문의하여 한도를 조정하세요.
+
+| 계정 등급 | 기본 한도 | 한도 변경 방법 |
+|--------------|-------------|---------------------|
+| Free | 월 $100 | Pro 또는 Enterprise로 업그레이드 |
+| Pro | 월 $6,000 | 담당 어카운트 이그제큐티브 또는 지원 팀에 수동 검토 문의 |
+| Enterprise | 연 $700,000 | 담당 어카운트 이그제큐티브 또는 지원 팀에 수동 검토 문의 |
+
+## 동시성 제한 (Concurrency limits)
+
+속도 제한(rate limit)을 초과하면 API는 `429 Concurrency limit reached for requests` 응답을 반환합니다. 이 오류를 해결하려면 동시 요청 수를 줄이세요. 자세한 문제 해결 방법은 [W&B Inference 지원 문서](/inference/support)를 참조하세요.
+
+W&B는 Projects 단위로 속도 제한을 적용합니다. 예를 들어, 한 팀에 3개의 Projects 가 있는 경우 각 Projects 는 개별적인 속도 제한 할당량을 가집니다.
+
+## 지리적 제한
+
+Inference 서비스는 지원되는 지리적 위치에서만 사용할 수 있습니다. 자세한 내용은 [서비스 약관](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)을 참조하세요.
+
+## 다음 단계
+
+- 시작하기 전에 [사전 요구 사항](/inference/prerequisites/)을 검토하세요.
+- [사용 가능한 Models](/inference/models) 및 해당 모델의 특정 요금을 확인하세요.

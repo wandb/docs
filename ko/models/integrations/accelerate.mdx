@@ -1,0 +1,83 @@
+---
+title: Hugging Face Accelerate
+description: 단순하고 효율적이며 적응 유연한 대규모 트레이닝 및 추론
+---
+
+Hugging Face Accelerate는 동일한 PyTorch 코드를 모든 분산 설정 환경에서 실행할 수 있도록 지원하는 라이브러리로, 대규모 모델 트레이닝 및 추론 과정을 단순화합니다.
+
+Accelerate에는 W&B Tracker가 포함되어 있으며, 아래에서 사용법을 설명합니다. [Hugging Face의 Accelerate Trackers](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking)에서 더 자세한 내용을 확인할 수 있습니다.
+
+## Accelerate로 로그 시작하기
+
+Accelerate와 W&B를 함께 사용하려면 아래의 의사 코드를 참고하세요:
+
+```python
+from accelerate import Accelerator
+
+# Accelerator 오브젝트가 wandb로 로그를 기록하도록 설정합니다
+accelerator = Accelerator(log_with="wandb")
+
+# wandb 파라미터와 설정 정보를 전달하여 wandb run을 초기화합니다
+accelerator.init_trackers(
+    project_name="my_project", 
+    config={"dropout": 0.1, "learning_rate": 1e-2}
+    init_kwargs={"wandb": {"entity": "my-wandb-team"}}
+    )
+
+...
+
+# `accelerator.log`를 호출하여 wandb에 로그를 기록합니다. `step`은 선택 사항입니다
+accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
+
+
+# wandb tracker가 올바르게 종료되도록 합니다
+accelerator.end_training()
+```
+
+상세 단계는 다음과 같습니다:
+1. Accelerator 클래스를 초기화할 때 `log_with="wandb"`를 전달합니다.
+2. [`init_trackers`](https://huggingface.co/docs/accelerate/main/en/package_reference/accelerator#accelerate.Accelerator.init_trackers) 메소드를 호출하고 다음 항목들을 전달합니다:
+- `project_name`을 통한 프로젝트 이름
+- `init_kwargs`에 중첩된 딕셔너리 형태로 [`wandb.init()`](/models/ref/python/functions/init)에 전달할 파라미터들
+- `config`를 통해 wandb run에 로그로 남기고 싶은 기타 실험 설정 정보
+3. `.log` 메소드를 사용하여 Weights & Biases에 로그를 기록합니다. `step` 인수는 선택 사항입니다.
+4. 트레이닝이 끝나면 `.end_training`을 호출합니다.
+
+## W&B tracker 엑세스하기
+
+W&B tracker에 엑세스하려면 `Accelerator.get_tracker()` 메소드를 사용하세요. Tracker의 `.name` 속성에 해당하는 문자열을 전달하면 `main` 프로세스의 tracker를 반환합니다.
+
+```python
+wandb_tracker = accelerator.get_tracker("wandb")
+
+```
+이후에는 평소와 같이 wandb의 run 오브젝트를 사용할 수 있습니다:
+
+```python
+wandb_tracker.log_artifact(some_artifact_to_log)
+```
+
+<Warning>
+Accelerate에 내장된 tracker는 자동으로 적절한 프로세스에서 실행됩니다. 따라서 메인 프로세스에서만 실행되어야 하는 tracker인 경우 자동으로 그렇게 처리됩니다.
+
+만약 Accelerate의 래핑(wrapping)을 완전히 제거하고 싶다면, 다음과 같이 동일한 결과를 얻을 수 있습니다:
+
+```python
+wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)
+with accelerator.on_main_process:
+    wandb_tracker.log_artifact(some_artifact_to_log)
+```
+</Warning>
+
+## Accelerate 관련 기사
+다음은 유용한 Accelerate 관련 아티클입니다.
+
+<details>
+
+<summary>HuggingFace Accelerate Super Charged With W&B</summary>
+
+* 이 아티클에서는 HuggingFace Accelerate가 제공하는 기능과 W&B에 결과를 기록하면서 분산 트레이닝 및 평가를 수행하는 것이 얼마나 간단한지 살펴봅니다.
+
+[Hugging Face Accelerate Super Charged with W&B 리포트](https://wandb.ai/gladiator/HF%20Accelerate%20+%20W&B/reports/Hugging-Face-Accelerate-Super-Charged-with-Weights-Biases--VmlldzoyNzk3MDUx?utm_source=docs&utm_medium=docs&utm_campaign=accelerate-docs)를 읽어보세요.
+</details>
+<br /><br />

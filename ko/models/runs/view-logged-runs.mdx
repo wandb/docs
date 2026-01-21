@@ -1,0 +1,137 @@
+---
+title: 프로젝트 내 특정 run 보기
+description: W&B App 또는 LEET 터미널 UI를 사용하여 로그된 특정 run과 그 속성을 확인하는 방법을 알아보세요.
+---
+
+현재 상태, Artifacts, 메트릭 등 특정 run에 대한 정보를 확인하세요.
+
+
+## 로그된 run 보기
+
+W&B 앱 또는 `wandb beta leet` 터미널 UI를 사용하여 Runs를 보고 모니터링할 수 있습니다.
+
+<Tabs>
+<Tab title="W&B App">
+
+W&B 앱에서 특정 run을 보려면 다음 단계를 따르세요:
+
+1. [W&B 앱](https://wandb.ai/home)으로 이동합니다.
+2. run을 초기화할 때 지정한 W&B 프로젝트로 이동합니다.
+3. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
+4. run 셀렉터에서 보려는 run을 클릭하거나, run 이름의 일부를 입력하여 일치하는 Runs를 필터링합니다.
+
+또는 브라우저에 URL을 입력하여 특정 run의 워크스페이스에 직접 엑세스할 수 있습니다. 특정 run의 URL 경로는 다음과 같은 형식입니다:
+
+```text
+https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
+```
+
+꺽쇠괄호(`< >`)로 묶인 값을 실제 팀 이름, 프로젝트 이름 및 [run ID](/models/runs/run-identifiers#run-id)로 바꿉니다.
+
+[Overview](/models/runs/view-logged-runs#overview), [Logs](/models/runs/view-logged-runs#logs), [Files](/models/runs/view-logged-runs#files), [Code](/models/runs/view-logged-runs#code), 그리고 [Artifacts](/models/runs/view-logged-runs#artifacts) 탭을 탐색하여 run의 속성을 확인해 보세요.
+
+</Tab>
+<Tab title="LEET">
+
+`wandb beta leet` 터미널 UI를 사용하여 터미널에서 로컬로 run을 보려면 다음 단계를 따르세요:
+
+1. 스크립트에서 로컬로 run을 시작한 경우, 코드를 실행한 디렉토리로 이동합니다. 해당 디렉토리에는 각 run별 하위 디렉토리와 `latest-run/` 심볼릭 링크가 포함된 `wandb/` 디렉토리가 있습니다. 각 run 디렉토리에는 `run-<run-ID>.wandb` 형식의 트랜잭션 로그가 포함되어 있습니다.
+
+    로컬에서 run을 시작하지 않고 대신 `.wandb` 트랜잭션 로그 파일을 다운로드한 경우, 해당 파일의 위치를 메모해 둡니다.
+2. 다음 커맨드 중 하나를 사용하여 `wandb beta leet`를 시작합니다:
+
+   ```bash
+   # ./wandb/latest-run/에 저장된 최신 run 보기
+   wandb beta leet
+   
+   # run 디렉토리 지정
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   
+   # .wandb 파일 지정
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   ```
+
+![LEET 터미널 UI에서 run을 보는 모습을 보여주는 스크린샷](/images/leet/leet-tui.png)
+
+LEET는 세 개의 패널 인터페이스를 표시합니다:
+
+- **왼쪽 사이드바**: 환경 변수, 설정 및 요약 통계가 포함된 run 개요
+- **중앙 패널**: 로그된 메트릭을 보여주는 브라이유(Braille) 스타일 선 차트가 있는 메트릭 그리드
+- **오른쪽 사이드바**: GPU/CPU/RAM 사용률을 포함한 시스템 메트릭
+
+다음 키보드 단축키로 시작하세요:
+
+- `h` 또는 `?` - 모든 키보드 단축키 보기
+- `/` - 패턴별로 메트릭 필터링
+- `[` / `]` - 왼쪽/오른쪽 사이드바 토글
+- `n` / `N` - 메트릭 페이지 간 이동
+- `q` / `CMD+C` - 종료
+
+자세한 내용은 [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) 레퍼런스를 참조하세요.
+
+</Tab>
+</Tabs>
+
+
+### Overview
+**Overview** 탭을 사용하여 다음과 같은 프로젝트 내 특정 run 정보를 확인할 수 있습니다:
+
+* **Author**: run을 생성한 W&B Entity입니다.
+* **Command**: run을 초기화하는 커맨드입니다.
+* **Description**: 사용자가 제공한 run에 대한 설명입니다. run을 생성할 때 설명을 지정하지 않으면 이 필드는 비어 있습니다. W&B 앱이나 Python SDK를 사용하여 프로그래밍 방식으로 run에 설명을 추가할 수 있습니다.
+* **Tracked Hours**: 일시 중지나 대기 시간을 제외하고 run이 활발하게 컴퓨팅하거나 데이터를 로깅하는 시간입니다. 이 메트릭은 run에 소요된 실제 계산 시간을 이해하는 데 도움이 됩니다.
+* **Runtime**: run의 시작부터 끝까지의 총 시간을 측정합니다. 일시 중지되거나 리소스를 대기하는 시간을 포함하여 run이 진행된 실제 시간(wall-clock time)입니다. 이 메트릭은 run에 경과된 전체 시간을 제공합니다.
+* **Git repository**: run과 연결된 git 저장소입니다. 이 필드를 보려면 [git을 활성화](/platform/app/settings-page/user-settings/#personal-github-integration)해야 합니다.
+* **Host name**: W&B가 run을 컴퓨팅하는 위치입니다. 로컬 머신에서 run을 초기화한 경우 머신의 이름이 표시됩니다.
+* **Name**: run의 이름입니다.
+* **OS**: run을 초기화한 운영 체제입니다.
+* **Python executable**: run을 시작하는 커맨드입니다.
+* **Python version**: run을 생성한 Python 버전을 지정합니다.
+* **Run path**: `entity/project/run-ID` 형식의 고유한 run 식별자입니다.
+* **Start time**: run을 초기화한 타임스탬프입니다.
+* **State**: [run의 상태](/models/runs/run-states)입니다.
+* **System hardware**: W&B가 run을 컴퓨팅하는 데 사용하는 하드웨어입니다.
+* **Tags**: 문자열 리스트입니다. 태그는 관련 Runs를 함께 구성하거나 `baseline` 또는 `production`과 같은 임시 레이블을 적용하는 데 유용합니다.
+* **W&B CLI version**: run 커맨드를 호스팅한 머신에 설치된 W&B CLI 버전입니다.
+* **Git state**: run이 초기화된 저장소 또는 작업 디렉토리의 가장 최근 git 커밋 SHA입니다. run 생성 시 Git을 활성화하지 않았거나 git 정보를 사용할 수 없는 경우 이 필드는 비어 있습니다.
+
+W&B는 개요 섹션 아래에 다음 정보를 저장합니다:
+
+* **Artifact Outputs**: run에 의해 생성된 Artifact 출력입니다.
+* **Config**: [`wandb.Run.config`](/models/track/config/)로 저장된 설정 파라미터 리스트입니다.
+* **Summary**: [`wandb.Run.log()`](/models/track/log/)로 저장된 요약 파라미터 리스트입니다. 기본적으로 W&B는 이 값을 마지막으로 로그된 값으로 설정합니다.
+
+프로젝트 개요 예시는 [여기](https://wandb.ai/stacey/deep-drive/overview)에서 확인할 수 있습니다. 
+
+
+### Logs 
+**Log** 탭은 표준 출력(`stdout`) 및 표준 에러(`stderr`)와 같이 커맨드라인에 출력된 내용을 보여줍니다. 
+
+<Frame>
+    <img src="/images/runs/run_logs_info.png" alt="Run logs tab" />
+</Frame>
+
+오른쪽 상단 모서리에 있는 **Download** 버튼을 클릭하여 로그 파일을 다운로드합니다.
+
+로그 탭 예시는 [여기](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs)에서 확인할 수 있습니다.
+
+### Files
+**Files** 탭을 사용하여 모델 체크포인트, 검증 세트 예시 등 특정 run과 관련된 파일을 확인하세요.
+
+<Frame>
+    <img src="/images/runs/runs_files_info.png" alt="Run files tab" />
+</Frame>
+
+파일 탭 예시는 [여기](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images)에서 확인할 수 있습니다. 
+
+### Code
+**Code** 탭은 특정 run과 관련된 코드 파일을 표시합니다. 여기에는 실행된 메인 스크립트뿐만 아니라 run 환경의 일부였던 추가 코드 파일이 포함됩니다.
+
+
+### Artifacts
+
+**Artifacts** 탭은 지정된 run에 대한 입력 및 출력 [Artifacts](/models/artifacts/)를 나열합니다.
+
+<Frame>
+    <img src="/images/runs/runs_artifacts_info.png" alt="Run artifacts tab" />
+</Frame>

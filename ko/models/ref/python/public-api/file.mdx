@@ -1,82 +1,83 @@
 ---
-title: File
+title: 파일
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+## <kbd>class</kbd> `File`
+W&B에 저장된 파일입니다.
+
+W&B에 저장된 단일 파일을 나타냅니다. 파일 메타데이터에 대한 엑세스를 포함합니다. 파일은 특정 run 과 연결되며 텍스트 파일, 모델 가중치, Datasets, 시각화 및 기타 Artifacts 를 포함할 수 있습니다. 파일을 다운로드하거나 삭제할 수 있으며 파일 속성에 엑세스할 수 있습니다.
+
+특정 run 에 로그된 특정 파일을 찾으려면 사전 에 하나 이상의 속성을 지정하세요. 다음 키를 사용하여 검색할 수 있습니다:
+
+- id (str): 파일을 포함하는 run 의 ID
+- name (str): 파일 이름
+- url (str): 파일 경로
+- direct_url (str): 버킷 내 파일 경로
+- sizeBytes (int): 바이트 단위의 파일 크기
+- md5 (str): 파일의 md5
+- mimetype (str): 파일의 mimetype
+- updated_at (str): 마지막 업데이트 타임스탬프
+- path_uri (str): 버킷 내 파일 경로, 현재 S3 오브젝트 및 참조 파일에 대해서만 사용 가능
+
+**Args:**
+
+- `client`: 파일을 포함하는 run 오브젝트
+- `attrs` (dict): 파일을 정의하는 속성 사전
+- `run`: 파일을 포함하는 run 오브젝트
+
+### <kbd>property</kbd> File.path_uri
+
+스토리지 버킷 내 파일의 URI 경로를 반환합니다.
+
+**Returns:**
+
+- `str`: 파일이 S3에 저장된 경우 S3 URI(예: 's3://bucket/path/to/file'), 참조 파일인 경우 direct URL, 사용 불가능한 경우 빈 문자열을 반환합니다.
+
+**Returns:**
+- `str`: path_uri 속성 값.
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L110-L263" icon="github"/>
+### <kbd>property</kbd> File.size
 
-File은 wandb에 의해 저장된 파일과 연결된 클래스입니다.
+바이트 단위의 파일 크기를 반환합니다.
 
-```python
-File(
-    client, attrs, run=None
-)
-```
+---
 
-| 속성 | Description |
-| :--- | :--- |
-|  `path_uri` | 스토리지 버킷에 있는 파일의 uri 경로를 반환합니다. |
-
-## 메소드
-
-### `delete`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L193-L223)
+### <kbd>method</kbd> `File.delete`
 
 ```python
 delete()
 ```
 
-### `display`
+W&B 서버 에서 파일을 삭제합니다.
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+---
 
-```python
-display(
-    height=420, hidden=(False)
-) -> bool
-```
-
-Jupyter에서 이 오브젝트를 표시합니다.
-
-### `download`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L152-L191)
+### <kbd>method</kbd> `File.download`
 
 ```python
 download(
-    root: str = ".",
-    replace: bool = (False),
-    exist_ok: bool = (False),
-    api: Optional[Api] = None
-) -> io.TextIOWrapper
+    root: 'str' = '.',
+    replace: 'bool' = False,
+    exist_ok: 'bool' = False,
+    api: 'Api | None' = None
+) → io.TextIOWrapper
 ```
 
-wandb 서버에서 run에 의해 이전에 저장된 파일을 다운로드합니다.
+이전에 run 에 의해 저장된 파일을 wandb 서버 에서 다운로드합니다.
 
-| Args | Description |
-| :--- | :--- |
-|  replace (boolean): `True`인 경우, 다운로드는 로컬 파일이 존재하면 덮어씁니다. 기본값은 `False`입니다. root (str): 파일을 저장할 로컬 디렉토리입니다. 기본값은 "."입니다. exist_ok (boolean): `True`인 경우, 파일이 이미 존재하면 ValueError를 발생시키지 않으며 replace=True가 아니면 다시 다운로드하지 않습니다. 기본값은 `False`입니다. api (Api, optional): 주어진 경우, 파일을 다운로드하는 데 사용되는 `Api` 인스턴스입니다. |
+**Args:**
 
-| Raises | Description |
-| :--- | :--- |
-|  파일이 이미 존재하고 replace=False 및 exist_ok=False인 경우 `ValueError`가 발생합니다. |
+- `root`: 파일을 저장할 로컬 디렉토리. 기본값은 현재 작업 디렉토리(".")입니다.
+- `replace`: `True`인 경우, 로컬 파일이 존재하면 다운로드 시 덮어씁니다. 기본값은 `False`입니다.
+- `exist_ok`: `True`인 경우, 파일이 이미 존재해도 ValueError를 발생시키지 않으며 replace=True가 아닌 한 다시 다운로드하지 않습니다. 기본값은 `False`입니다.
+- `api`: 지정된 경우, 파일을 다운로드하는 데 사용되는 `Api` 인스턴스입니다.
 
-### `snake_to_camel`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
-
-```python
-snake_to_camel(
-    string
-)
-```
-
-### `to_html`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L39-L40)
-
-```python
-to_html(
-    *args, **kwargs
-)
-```
+**Raises:**
+파일이 이미 존재하고 `replace=False` 및 `exist_ok=False`인 경우 `ValueError`가 발생합니다.

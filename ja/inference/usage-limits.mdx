@@ -1,0 +1,46 @@
+---
+title: 使用情報と制限事項
+description: W&B Inference の料金体系、使用制限、およびアカウント制限について理解する
+linkTitle: Usage & Limits
+---
+
+W&B Inference を使用する前に、料金、制限、およびその他の重要な使用情報についてご確認ください。
+
+## 料金
+
+詳細なモデルの料金情報については、[W&B Inference pricing](https://wandb.ai/site/pricing/inference) をご覧ください。
+
+## クレジットの追加購入
+
+W&B Inference のクレジットは、期間限定で Free、Pro、および Academic プランに付属しています。Enterprise での利用可能性は異なる場合があります。クレジットがなくなった場合：
+
+- **Free アカウント** の場合、W&B Inference の使用を継続するには、従量課金制（**Billing** タブから設定可能）を有効にするか、有料プランにアップグレードする必要があります。[従量課金制の有効化またはアップグレード](https://wandb.ai/subscriptions)
+- **Pro プランの Users** は、[モデル別の料金](https://wandb.ai/site/pricing/inference) に基づいて、超過分が毎月請求されます
+- **Enterprise アカウント** の場合は、担当の営業担当者にお問い合わせください
+
+## アカウントティアとデフォルトの使用上限
+
+各アカウントティアには、コストを管理し、予期しない請求を防ぐためのデフォルトの支出上限が設定されています。W&B では、有料の Inference アクセスのために事前支払いが必要です。
+
+上限の変更が必要な場合は、担当の営業担当者またはサポートにお問い合わせください。
+
+| アカウントティア | デフォルトの上限 | 上限の変更方法 |
+|--------------|-------------|---------------------|
+| Free | $100/月 | Pro または Enterprise へのアップグレード |
+| Pro | $6,000/月 | 担当の営業担当者またはサポートに連絡し、手動審査を依頼 |
+| Enterprise | $700,000/年 | 担当の営業担当者またはサポートに連絡し、手動審査を依頼 |
+
+## 同時実行制限
+
+レート制限を超えると、API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを解決するには、同時リクエストの数を減らしてください。詳細なトラブルシューティングについては、[W&B Inference サポート記事](/inference/support) を参照してください。
+
+W&B は、W&B Projects ごとにレート制限を適用します。例えば、1つの Teams 内に 3つの Projects がある場合、各 Project が独自のレート制限クォータを持ちます。
+
+## 地理的な制限
+
+Inference サービスは、サポートされている地理的な場所からのみ利用可能です。詳細については、[利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) を参照してください。
+
+## 次のステップ
+
+- 開始する前に [前提条件](/inference/prerequisites/) を確認してください。
+- [利用可能な Models](/inference/models) とそれぞれの具体的な料金を確認してください。

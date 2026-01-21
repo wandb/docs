@@ -1,0 +1,33 @@
+---
+title: weaveAudio
+description: TypeScript SDK 레퍼런스
+---
+
+# weaveAudio
+
+▸ **weaveAudio**(`options`): [`WeaveAudio`](../interfaces/weaveaudio)
+
+새로운 WeaveAudio 오브젝트를 생성합니다.
+
+#### 파라미터
+
+| 이름 | 타입 | 설명 |
+| :------ | :------ | :------ |
+| `options` | `WeaveAudioInput` | 이 미디어 타입에 대한 옵션들 - data: Buffer 형식의 로우(raw) 오디오 데이터 - audioType: (선택 사항) 오디오 파일의 타입으로, 현재는 'wav'만 지원됩니다. |
+
+#### 반환 값
+
+[`WeaveAudio`](../interfaces/weaveaudio)
+
+`Example`
+
+```ts
+const audioBuffer = fs.readFileSync('path/to/audio.wav');
+const weaveAudio = weaveAudio({ data: audioBuffer });
+```
+
+#### 정의 위치
+
+[media.ts:62](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/media.ts#L62)
+
+___
