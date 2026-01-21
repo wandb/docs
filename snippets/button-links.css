@@ -43,3 +43,35 @@
   background-color: rgba(39, 39, 42, 0.8);
   border-color: rgba(63, 63, 70, 1);
 }
+
+/* Compact source link for SDK reference docs */
+.source-link {
+  float: right;
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid rgba(230, 228, 224, 0.7);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgb(87, 85, 81);
+  background-color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.source-link:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(230, 228, 224, 1);
+  text-decoration: none;
+}
+
+.dark .source-link {
+  color: rgb(214, 211, 209);
+  background-color: rgba(39, 39, 42, 0.5);
+  border: 1px solid rgba(63, 63, 70, 0.7);
+}
+
+.dark .source-link:hover {
+  background-color: rgba(39, 39, 42, 0.8);
+  border-color: rgba(63, 63, 70, 1);
+}

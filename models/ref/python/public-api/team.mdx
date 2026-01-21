@@ -18,7 +18,11 @@ This class provides methods to manage W&B teams, including creating teams, invit
 ### <kbd>method</kbd> `Team.__init__`
 
 ```python
-__init__(client, name, attrs=None)
+__init__(
+    client: 'RetryingClient',
+    name: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
 ```
 
 **Args:**
@@ -46,7 +50,7 @@ __init__(client, name, attrs=None)
 ### <kbd>classmethod</kbd> `Team.create`
 
 ```python
-create(api, team, admin_username=None)
+create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
 ```
 
 Create a new team. 
@@ -69,7 +73,7 @@ Create a new team.
 ### <kbd>method</kbd> `Team.create_service_account`
 
 ```python
-create_service_account(description)
+create_service_account(description: 'str') → Member | None
 ```
 
 Create a service account for the team. 
@@ -90,7 +94,7 @@ Create a service account for the team.
 ### <kbd>method</kbd> `Team.invite`
 
 ```python
-invite(username_or_email, admin=False)
+invite(username_or_email: 'str', admin: 'bool' = False) → bool
 ```
 
 Invite a user to a team. 
