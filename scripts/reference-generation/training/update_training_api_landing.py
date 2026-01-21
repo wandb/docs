@@ -5,11 +5,10 @@ Update the Training API landing page with the current endpoints from the OpenAPI
 This script fetches the OpenAPI spec (either from local file or remote URL) and
 updates the Available Endpoints section in the training/api-reference.mdx landing page.
 """
-
+import requests
 import json
 import re
 from pathlib import Path
-import requests
 from typing import Dict, List, Tuple
 
 
@@ -23,6 +22,7 @@ def fetch_openapi_spec() -> dict:
             return json.load(f)
     
     # Fallback to remote
+    import requests  # Only import if needed for remote fetch
     print("  Fetching remote OpenAPI spec from https://api.training.wandb.ai/openapi.json")
     response = requests.get("https://api.training.wandb.ai/openapi.json")
     response.raise_for_status()
@@ -117,8 +117,10 @@ def update_landing_page(endpoints_section: str):
     # Check if there's already an Available Endpoints section
     if "## Available Endpoints" in content:
         # Replace existing section
-        pattern = r'## Available Endpoints\n.*?(?=\n##|\Z)'
-        new_content = re.sub(pattern, endpoints_section.rstrip(), content, flags=re.DOTALL)
+        # Use (?=\n## [^#]) to only stop at level-2 headers (## ), not level-3 (###)
+        pattern = r'## Available Endpoints\n.*?(?=\n## [^#]|\Z)'
+        # Ensure proper trailing newline before the next section
+        new_content = re.sub(pattern, endpoints_section.rstrip() + "\n", content, flags=re.DOTALL)
     else:
         # Add the section before "## Related Resources" if it exists
         if "## Related Resources" in content:
