@@ -1050,9 +1050,9 @@
                 "group": "Details & Support",
                 "pages": [
                   "pricing",
-                  "weave/guides/tools/limits",
+                  "weave/details/limits",
                   "weave/guides/troubleshooting",
-                  "weave/guides/tracking/faqs"
+                  "weave/details/faqs"
                 ]
               },
               {
@@ -2610,6 +2610,14 @@
     {
       "source": "/weave/reference/gen_notebooks/intro_notebook",
       "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/guides/tracking/faqs",
+      "destination": "weave/details/faqs"
+    },
+    {
+      "source": "/weave/guides/tools/limits",
+      "destination": "/weave/details/limits"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
