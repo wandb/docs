@@ -13,21 +13,21 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 A run metric satisfies a user-defined condition.
 
 Examples:
-    Define an event that triggers for any run in project "my-project" when
-    the average of the last 5 values of metric "my-metric" exceeds 123.45:
+Define an event that triggers for any run in project "my-project" when
+the average of the last 5 values of metric "my-metric" exceeds 123.45:
 
-    ```python
-    from wandb import Api
-    from wandb.automations import OnRunMetric, RunEvent
+```python
+from wandb import Api
+from wandb.automations import OnRunMetric, RunEvent
 
-    api = Api()
-    project = api.project(name="my-project")
+api = Api()
+project = api.project(name="my-project")
 
-    event = OnRunMetric(
-        scope=project,
-        filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
-    )
-    ```
+event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
+)
+```
 
 
 ### <kbd>method</kbd> `OnRunMetric.__init__`

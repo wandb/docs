@@ -18,7 +18,8 @@ agent(
     function: Optional[Callable] = None,
     entity: Optional[str] = None,
     project: Optional[str] = None,
-    count: Optional[int] = None
+    count: Optional[int] = None,
+    forward_signals: bool = False
 ) → None
 ```
 
@@ -35,3 +36,4 @@ The sweep agent uses the `sweep_id` to know which sweep it is a part of, what fu
  - `entity`:  The username or team name where you want to send W&B  runs created by the sweep to. Ensure that the entity you  specify already exists. If you don't specify an entity,  the run will be sent to your default entity,  which is usually your username. 
  - `project`:  The name of the project where W&B runs created from  the sweep are sent to. If the project is not specified, the  run is sent to a project labeled "Uncategorized". 
  - `count`:  The number of sweep config trials to try. 
+ - `forward_signals`:  Whether to forward signals the agent receives  to the child processes. Only supported by CLI agent. 
