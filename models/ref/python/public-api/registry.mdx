@@ -17,7 +17,7 @@ A single registry in the Registry.
 
 ```python
 __init__(
-    client: 'Client',
+    client: 'RetryingClient',
     organization: 'str',
     entity: 'str',
     name: 'str',
@@ -248,7 +248,7 @@ Returns the collections belonging to the registry.
 
 ```python
 create(
-    client: 'Client',
+    client: 'RetryingClient',
     organization: 'str',
     name: 'str',
     visibility: "Literal['organization', 'restricted']",

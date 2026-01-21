@@ -13,21 +13,21 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 A new artifact is linked to a collection.
 
 Examples:
-    Define an event that triggers when an artifact is linked to the
-    collection "my-collection" with the alias "prod":
+Define an event that triggers when an artifact is linked to the
+collection "my-collection" with the alias "prod":
 
-    ```python
-    from wandb import Api
-    from wandb.automations import OnLinkArtifact, ArtifactEvent
+```python
+from wandb import Api
+from wandb.automations import OnLinkArtifact, ArtifactEvent
 
-    api = Api()
-    collection = api.artifact_collection(name="my-collection", type_name="model")
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
 
-    event = OnLinkArtifact(
-        scope=collection,
-        filter=ArtifactEvent.alias.eq("prod"),
-    )
-    ```
+event = OnLinkArtifact(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
 
 
 ### <kbd>method</kbd> `OnLinkArtifact.__init__`

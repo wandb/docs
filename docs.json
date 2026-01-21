@@ -817,7 +817,8 @@
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
                       "weave/guides/tools/attributes",
-                      "weave/guides/tools/column-mapping"
+                      "weave/guides/tools/column-mapping",
+                      "weave/guides/evaluation/dynamic_leaderboards"
                     ]
                   },
                   {
