@@ -13,21 +13,21 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 A run state changes.
 
 Examples:
-    Define an event that triggers for any run in project "my-project" when
-    its state changes to "finished" (i.e. succeeded) or "failed":
+Define an event that triggers for any run in project "my-project" when
+its state changes to "finished" (i.e. succeeded) or "failed":
 
-    ```python
-    from wandb import Api
-    from wandb.automations import OnRunState
+```python
+from wandb import Api
+from wandb.automations import OnRunState
 
-    api = Api()
-    project = api.project(name="my-project")
+api = Api()
+project = api.project(name="my-project")
 
-    event = OnRunState(
-        scope=project,
-        filter=RunEvent.state.in_(["finished", "failed"]),
-    )
-    ```
+event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["finished", "failed"]),
+)
+```
 
 
 ### <kbd>method</kbd> `OnRunState.__init__`
