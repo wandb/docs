@@ -1,10 +1,13 @@
 ---
 title: Find registry items
-description: "Learn how to search for registries, collections, and artifact versions in the W&B Registry using the global search bar or MongoDB-style queries."
+description: "Learn how to search for registries, collections, and artifact versions in the W&B Registry using the global search bar or queries."
 ---
 
-Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use MongoDB-style queries to [filter registries, collections, and artifact versions](./search_registry#query-registry-items-with-mongodb-style-queries) based on specific criteria using the W&B Python SDK.
+Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use queries to [filter registries, collections, and artifact versions](/models/registry/search_registry#query-registry-items) based on specific criteria using the W&B Python SDK.
 
+<Info>
+The syntax and available operators you can use to query  W&B registry is similar, but not identical, to MongoDB queries.
+</Info>
 
 Only items that you have permission to view appear in the search results.
 
@@ -61,8 +64,6 @@ W&B supports the following comparison and logical operators for filtering regist
 | `$gte` | Greater than or equal to |
 | `$lt` | Less than |
 | `$lte` | Less than or equal to |
-| `$in` | In array |
-| `$nin` | Not in array |
 
 #### Logical operators
 
@@ -79,8 +80,7 @@ W&B supports the following comparison and logical operators for filtering regist
 | ----- | ----- |
 | `$regex` | Regular expression pattern matching |
 | `$exists` | Field exists/doesn't exist |
-| `$contains` | Array contains value |
-
+| `$contains` | String contains value |
 
 ### Example queries
 
