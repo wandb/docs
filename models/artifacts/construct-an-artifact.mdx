@@ -145,7 +145,7 @@ artifact.add_file(local_path="path/file.format")
 For example, suppose you had a file called `'hello.txt'` in your working local directory.
 
 ```python
-artifact.add_file("hello.txt")  # Added as `hello.txt'
+artifact.add_file("hello.txt")
 ```
 
 The artifact now has the following content:
@@ -154,11 +154,11 @@ The artifact now has the following content:
 hello.txt
 ```
 
-Optionally, pass a different name to the `name` parameter to rename the file within the artifact object itself:
+Optionally, pass a different name to the `name` parameter to rename the file within the artifact object itself. Continuing the previous example:
 
 ```python
 artifact.add_file(
-    local_path="path/file.txt", 
+    local_path="hello.txt", 
     name="new/path/hello_world.txt"
     )
 ```
