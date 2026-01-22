@@ -23,11 +23,15 @@ We show you how to integrate W&B with your PyTorch code to add experiment tracki
 # import the library
 import wandb
 
+# capture a dictionary of hyperparameters with config
+config = {
+    "learning_rate": 0.001,
+    "epochs": 100,
+    "batch_size": 128
+}
+
 # start a new experiment
-with wandb.init(project="new-sota-model") as run:
- 
-    # capture a dictionary of hyperparameters with config
-    run.config = {"learning_rate": 0.001, "epochs": 100, "batch_size": 128}
+with wandb.init(project="new-sota-model", config=config) as run:
 
     # set up model and data
     model, dataloader = get_model(), get_data()
