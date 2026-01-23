@@ -1,25 +1,26 @@
 ---
-description: Keep your pages in W&B faster and more responsive by logging within these
-  suggested bounds.
-title: Experiments limits and performance
+description: Learn how W&B logging scales and see recommended limits for metrics, runs, and workspace performance.
+title: Experiment limits and performance
 ---
+
+The following sections describe recommended limits and performance considerations when logging experiment data to W&B.
 
 ## How W&B counts logged data
 
 W&B organizes logged data along three dimensions:
 
-* **Steps**: The number of times you call `wandb.Run.log()` with `commit=True` (or allow an implicit commit).
+* **Steps**: The number of times you call [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log) with `commit=True` (or allow an implicit commit).
 * **Metrics**: The number of distinct metric keys you log (for example, `loss`, `accuracy`, or `eval/precision`).
 * **Logged points**: The total number of metric values recorded, calculated as:
    ```text
    logged points = steps × metrics
    ```
 
-These dimensions scale differently and have different performance considerations.
+These dimensions [scale differently](/models/track/limits#logging-at-scale) and have different performance considerations.
 
 ### Logging at scale
 
-As your experiments scale, W&B handles logging across steps, metrics, and total logged points in the following ways:
+W&B handles logging across steps, metrics, and total logged points in the following ways at scale:
 
 * **Steps**: Can scale into the millions per run.
 * **Metrics**: For best performance, keep the number of distinct metrics under 100,000 per run.
@@ -35,24 +36,44 @@ The following table summarizes recommended limits for logging at scale:
 
 | Dimension              | Guidance at scale                         |
 |-----------------------|--------------------------------------------|
-| Steps per run         | Millions per run are common                |
+| Steps per run         | Millions of steps per run are common       |
 | Distinct metrics      | Fewer than 100,000 per run                 |
 | Scalars per metric    | Fewer than 100,000 values                  |
 | Media per metric      | Fewer than 50,000 values                   |
 | Histograms per metric | Fewer than 10,000 values                   |
 | Total logged points   | Hundreds of millions or more possible      |
 
+See [Logging limits and considerations](/models/track/limits#logging-limits-and-considerations) for details on each dimension.
+
 ## Logging limits and considerations
 
-Use `wandb.Run.log()` to track experiment metrics.
+The following sections describe recommended limits for logging experiment data to W&B and how those limits impact performance.
 
 ### Distinct metric count
 
-Each distinct metric is multiplied by the number of steps in a run. For example, logging 10,000 metrics over 1 million steps produces 10 billion logged points.
+A distinct metric is a unique metric key logged in a run. Each unique key name counts as one metric, regardless of how often you log it or what values it contains.
 
-If you need very long runs, focus on logging a smaller, stable set of metrics.
+For example, the following code snippet logs two distinct metrics: `accuracy` and `loss`.
 
-For faster performance, keep the total number of distinct metrics in a project under 10,000. This project-level guidance is more conservative than the per-run limits described earlier, because project workspaces aggregate metrics across many runs.
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log(
+        {
+            "accuracy": 0.9,
+            "loss": 0.1,
+        }
+    )
+```
+
+W&B flattens nested dictionaries when you log metrics. Each key in the flattened dictionary also counts as a distinct metric. This means that if you pass a dictionary, W&B flattens it into dot-separated metric names.
+
+<Note>
+Metric names must follow certain naming constraints imposed by GraphQL. See [Metric naming constraints](/models/track/log/#metric-naming-constraints) for details.
+</Note>
+
+The following example logs a nested dictionary. W&B first flattens the dictionary, then logs each key as a distrinct metric. In this case, the W&B logs: `a`, `b.c`, and `b.d`.
 
 ```python
 import wandb
@@ -69,11 +90,15 @@ with wandb.init() as run:
     )
 ```
 
-<Note>
-W&B automatically flattens nested values. This means that if you pass a dictionary, W&B turns it into a dot-separated name. For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots.
-</Note>
+Each distinct metric is multiplied by the number of steps in a run. For example, logging 10,000 metrics over 1 million steps produces 10 billion logged points.
 
-Metric names must follow certain naming constraints imposed by GraphQL. See [Metric naming constraints](/models/track/log/#metric-naming-constraints) for details.
+{/* For config values, W&B supports 3 dots in the name. For summary values, W&B supports 4 dots. */}
+
+Logging too many distinct metrics can slow down your project's workspace and run pages.
+
+<Tip>
+For optimal performance, keep the total number of distinct metrics in a project under 10,000. This project-level guidance is more conservative than the per-run limits described earlier, because project workspaces aggregate metrics across many runs.
+</Tip>
 
 {/* ### Log media with same metric name
 Log related media to the same metric name:
@@ -87,7 +112,7 @@ for i, img in enumerate(images):
     run.log({"pred_imgs": [wandb.Image(image) for image in images]})
 ``` */}
 
-If your workspace suddenly slows down, check whether recent runs have unintentionally logged thousands of new metrics. (This is easiest to spot by seeing sections with thousands of plots that have only one or two runs visible on them.) If they have, consider deleting those runs and recreating them with the desired metrics.
+If your workspace suddenly slows down, check whether recent runs have unintentionally logged thousands of new metrics. One way to check is to look at your project's workspace. If your workspace has thousands of plots that have only one or two runs visible on them, this may indicate an issue. If this case, consider deleting those runs and recreating them with the desired metrics.
 
 ### Value width
 
@@ -115,59 +140,80 @@ Data is saved and tracked even if you log values wider than the recommended amou
 
 ### Metric frequency
 
-Pick a logging frequency that is appropriate to the metric you are logging. As a general rule, log wider or heavier values less frequently than narrow values.
+Pick a logging frequency that is appropriate to your metric.
 
-The following recommendations apply **per metric key, per run**:
+
+<Tip>
+W&B recommends that you log large or complex values (for example, images, audio, or histograms) less frequently than small scalar values, such as loss or accuracy.
+</Tip>
+
+
+The following recommendations apply per metric key, per run:
 
 * **Scalars**: Fewer than 100,000 logged values per metric
 * **Media**: Fewer than 50,000 logged values per metric
 * **Histograms**: Fewer than 10,000 logged values per metric
 
+These limits apply to each metric independently. For example, logging 1,000 scalar metrics for 100,000 steps produces 100 million logged points. 
 
-These limits apply to each metric independently. For example, logging 1,000 scalar metrics for 100,000 steps produces 100 million logged points. This scale is supported, but workspaces load faster when you plot only a focused subset of metrics.
+The following example shows how to log different metric types at different frequencies to stay within recommended per-metric limits.
+
+W&B suggests that you use separate `wandb.Run.log()` calls with `commit=False` to associate less frequent metrics with an existing step without logging them at every step.
 
 
 ```python
 import wandb
 
 with wandb.init(project="metric-frequency") as run:
-    # Not recommended
+    # Not recommended: logs all metric types at the same frequency.
+    # This results in logging expensive values (images, histograms)
+    # at every step.
     run.log(
         {
-            "scalar": 1,  # 100,000 scalars
-            "media": wandb.Image(...),  # 100,000 images
-            "histogram": wandb.Histogram(...),  # 100,000 histograms
+            "scalar": 1, # Logged every step
+            "media": wandb.Image(...),  # Logged every step (too frequent)
+            "histogram": wandb.Histogram(...),  # Logged every step (too frequent)
         }
     )
 
-    # Recommended
-    run.log(
-        {
-            "scalar": 1,  # 100,000 scalars
-        },
-        commit=True,
-    )  # Commit batched, per-step metrics together
+with wandb.init(project="metric-frequency") as run:
+    # Recommended: log different metric types at different frequencies
+    # with separate `wandb.Run.log()` calls and `commit=False`.
 
+    # Log scalar metrics frequently (for example, every step).
     run.log(
         {
-            "media": wandb.Image(...),  # 50,000 images
+            "scalar": 1,
         },
-        commit=False,
+        commit=True, # Commit batched, per-step metrics together
+    )  
+
+    # Log media less frequently and associate it with an existing step.
+    run.log(
+        {
+            "media": wandb.Image(...),
+        },
+        commit=False, # Do not commit a new step for less frequent metrics
     )
     
+    # Log histograms less frequently to avoid large volumes of data.
     run.log(
         {
-            "histogram": wandb.Histogram(...),  # 10,000 histograms
+            "histogram": wandb.Histogram(...),
         },
-        commit=False,
+        commit=False, # Do not commit a new step for less frequent metrics
     )
 ```
 
+{/* This scale is supported, but workspaces load faster when you plot only a focused subset of metrics. */}
+
+{/* W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines. */}
+
+Your workspace performance may degrade if you log too many values for a given metric. For example, logging 1 million histogram values for a single metric can slow down the run page for that run.
+
+
 {/* Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](/models/ref/python/experiments/run/#method-runlog) for `run.log` for more details. */}
 
-<Note>
-W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines.
-</Note>
 
 ### Config size
 
