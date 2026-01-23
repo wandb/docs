@@ -1119,9 +1119,7 @@ For more information, see [Trace data is truncated](/weave/guides/troubleshootin
 
 In situations where you want to unconditionally disable tracing for the entire program, you can set the environment variable `WEAVE_DISABLED=true`.
 
-<Info>
 `WEAVE_DISABLED` is read only once, at function-defintion time. This variable cannot be used to toggle tracing at runtime.
-</Info>
 
 #### Client initialization
 
@@ -1151,7 +1149,7 @@ To conditionally disable tracing for a specific block of code, you can use a tra
 import weave
 from weave.trace.context.call_context import tracing_disabled
 
-client = weave.init('your-project-name')
+client = weave.init('your-team/your-project-name')
 
 @weave.op
 def my_op():
