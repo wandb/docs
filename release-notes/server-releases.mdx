@@ -11,6 +11,89 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.77.0" description="January 21, 2026">
+**January 21, 2026**
+
+W&B 0.77 introduces security and usability improvements designed to keep your organization safe and productive.
+
+This release includes security enhancements to API keys, streamlined navigation with shared configuration between single-run and multi-run workspaces, new line plot shading options, and general availability of media panel sync and looping, plus key quality-of-life improvements and bug fixes.
+
+## Support and end of life
+
+- W&B Server v0.65 and below will reach end of life on January 30, 2026.
+
+Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
+
+## Upcoming changes
+
+- Coming soon, the Registry UI will be faster to navigate and easier to scan.
+  - Improved type-ahead search, redesigned Registry and Collection cards, and new Registry icons help visually distinguish assets using smart ranking initially, with AI ranking coming soon.
+  - Registry icons will be auto-generated initially and can be customized by Registry Admins at any time.
+  
+  These updates are expected in the next release. Contact [support](mailto:support@wandb.com) or your AISE to learn more.
+  
+  <Frame>
+  ![Animation demonstrating Registry UI improvements](/images/release-notes/v0-77-0/registry-ui-improvements.gif)
+  </Frame>
+
+## Security
+
+- We've rolled out updates to API keys across W&B to improve security and key management for both personal and service accounts. These changes align with modern security best practices while giving teams more flexibility and safer automation.
+  
+  **What's important to know**
+  
+  - API keys are shown only once, and you must immediately copy and save after creation.
+  - Existing keys can't be copied anymore, and you must generate new keys.
+  - Rename or delete keys anytime.
+  - Service accounts now support multiple API keys.
+  
+  See [Sign up and create an API key](/models/quickstart#sign-up-and-create-an-api-key).
+
+## Features
+- **Updated workspace navigation.** We've aligned multi-run and single-run workspace views, so when you drill into a single run, you'll see the same layout and configuration of panels as you've configured for the multi-run view, including any custom charts, layouts, and settings. This helps you stay in context and avoid re-work around configuring your views. See this [video](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b) to understand the changes, including to the location of navigation buttons.
+  <Frame>
+  ![Screenshot showing updated workspace navigation](/images/release-notes/v0-77-0/workspace-navigation-update.png)
+  </Frame>
+- Section-level [video playback sync and looping](/models/app/features/panels/media#sync) are generally available. By default, videos in a section play in sync.
+- In full-fidelity line plots for grouped runs, you can now configure the shaded area to show **Min/Max**, **Standard Deviation**, **Standard Error**, or **None**. See [Sampling](/models/app/features/panels/line-plot/sampling).
+
+### Registry
+- [Artifact lineage graphs](/models/artifacts/explore-and-traverse-an-artifact-graph) in Registry now support drag-and-drop repositioning and hiding of items.
+- In a parallel coordinate plot, you can now **Cmd+Click** (macOS) or **Ctrl+Click** (Linux / Windows) on a line to open the associated run details page in a new tab for further inspection. Not yet supported for grouped plots.
+  <Frame>
+  ![Animation demonstrating clicking a line in a parallel coordinate plot to open run details](/images/release-notes/v0-77-0/pcp-click-to-run-detail.gif)
+  </Frame>
+- To make setting up an automation more efficient, the app now suggests metrics on which to base it.
+- When viewing an artifact version, you can now create a new registry and link the artifact version to it in a single operation.
+
+### Weave
+- Weave onboarding pages in the empty state in the W&B App now include TypeScript example code alongside the Python example code.
+- Weave call logs now support continuous scrolling by default. Previously, you could view only the most recent 10,000 lines of logs.
+- Bar charts and radar charts in the [Evaluation](/weave/guides/core-types/evaluations) comparison page now support resizing and displaying in full-screen view, and when you hover over an area of the chart, a tooltip displays details.
+- [Weave Playground](https://wandb.ai/site/playground/) includes new models:
+  - GPT 5.2
+  - Grok 4.1
+  - Opus 4.5
+- You can now create and save a new prompt from [Weave Playground](https://wandb.ai/site/playground/).
+
+## Fixes
+- Fixed a bug where a run's **Notes** text field was too narrow when editing. Now, the text box uses the same width when viewing and editing.
+- Fixed a bug where the resolution of images in a PDF export of a W&B Report was too low.
+- Fixed a bug that could prevent line charts in a Report from updating in sync with run selector changes.
+- Fixed a bug where outliers in a Report appeared for line plots without an option to hide them.
+- Fixed a bug where line plots with multiple runsets in a Report could show incorrect data for runs that shared the same name across runsets. Runs are now uniquely keyed by runset and name.
+
+### Weave
+- Fixed a bug where the Weave UI in Dedicated Cloud showed links to W&B Inference, which is not available in Dedicated Cloud.
+- Fixed a bug where bar charts in the [Evaluation](/weave/guides/core-types/evaluations) comparison page could be resized too narrowly if the details drawer is open.
+- Fixed a UI bug where the cursor could disappear from the visible portion of the screen when typing in [Weave Playground](https://wandb.ai/site/playground/).
+- Fixed a bug where you could not edit template variables when loading a call in [Weave Playground](https://wandb.ai/site/playground/).
+- Fixed a bug where the operation selector was not being set when navigating from the [Evaluation](/weave/guides/core-types/evaluations) overview to the detailed view of a child trace. This made it difficult to tell which trace was selected, and caused some columns to appear empty.
+- Fixed a bug where clicking **Delete** on an [Evaluation](/weave/guides/core-types/evaluations) comparison view page did not actually delete the comparison view.
+- Fixed a bug where [Evaluation](/weave/guides/core-types/evaluations) results with a custom type could display a blank `CellValue` field instead of the custom type.
+- Fixed a bug where left-pinned cells could appear transparent in **runs as rows** display mode.
+</Update>
+
 <Update label="v0.76.3" description="December 17, 2025">
 **December 17, 2025**
 
