@@ -156,10 +156,11 @@ The following recommendations apply per metric key, per run:
 
 These limits apply to each metric independently. For example, logging 1,000 scalar metrics for 100,000 steps produces 100 million logged points. 
 
+Your workspace performance may degrade if you log too many values for a given metric. For example, logging 1 million histogram values for a single metric can slow down the run page for that run.
+
+To stay within recommended per-metric limits, W&B suggests that you use separate `wandb.Run.log()` calls with `commit=False` to associate less frequent metrics with an existing step without logging them at every step.
+
 The following example shows how to log different metric types at different frequencies to stay within recommended per-metric limits.
-
-W&B suggests that you use separate `wandb.Run.log()` calls with `commit=False` to associate less frequent metrics with an existing step without logging them at every step.
-
 
 ```python
 import wandb
@@ -209,7 +210,7 @@ with wandb.init(project="metric-frequency") as run:
 
 {/* W&B continues to accept your logged data but pages may load more slowly if you exceed guidelines. */}
 
-Your workspace performance may degrade if you log too many values for a given metric. For example, logging 1 million histogram values for a single metric can slow down the run page for that run.
+
 
 
 {/* Enable batching in calls to `run.log` by passing `commit=False` to minimize the total number of API calls for a given step. See [the docs](/models/ref/python/experiments/run/#method-runlog) for `run.log` for more details. */}
@@ -217,7 +218,7 @@ Your workspace performance may degrade if you log too many values for a given me
 
 ### Config size
 
-Limit the total size of your run config to less than 10 MB. Logging large values could slow down your project workspaces and runs table operations.
+Limit the total size of your run config to less than 10 MB. Logging config values greater than 10 MB may slow down your project workspaces and runs table operations.
 
 ```python
 import wandb 
@@ -253,6 +254,23 @@ with open("large_config.json", "r") as f:
 
 ## Workspace performance 
 
+Workspace performance depends on the number of runs, metrics, panels, and files in a project, as well as how they are organized and visualized.
+
+### Summary of performance factors
+
+The following table summarizes recommended guidance for workspace performance:
+
+| Factor            | Recommended guidance                                  | Why it matters                                   |
+|------------------|--------------------------------------------------------|--------------------------------------------------|
+| Run count        | Fewer than 100,000 runs per project (SaaS Cloud)      | Large run sets slow workspace loading and queries |
+|                  | Fewer than 10,000 runs (Dedicated or Self-Managed)    |                                                  |
+| Panel count      | Use manual workspaces for large projects              | Too many panels increase load and render time    |
+| Section count    | Avoid one section per metric                          | Hundreds of sections degrade workspace performance |
+| Metric count     | Use manual mode for 5,000–100,000 metrics per run     | Plotting many metrics slows workspace rendering  |
+| File count       | Fewer than 1,000 files per run                        | Large file lists slow run page loading            |
+| Visualization type | Use workspaces for analysis, reports for presentation | Workspaces are optimized for high-density analysis |
+
+
 ### Run count
 
 To reduce loading times, keep the total number of runs in a single project under:
@@ -264,8 +282,6 @@ Run counts over these thresholds can slow down operations that involve project w
 
 If your team accesses the same set of runs frequently, such as the set of recent runs, consider [moving less frequently used runs in bulk](/models/runs/manage-runs/) to a new "archive" project, leaving a smaller set of runs in your working project.
 
-### Workspace performance
-This section gives tips for optimizing the performance of your workspace.
 
 ### Panel count
 By default, a workspace is _automatic_, and generates standard panels for each logged key. If a workspace for a large project includes panels for many logged keys, the workspace may be slow to load and use. To improve performance, you can:
@@ -281,7 +297,7 @@ To learn more about configuring your workspace, refer to [Panels](/models/app/fe
 
 ### Section count
 
-Having hundreds of sections in a workspace can hurt performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric.
+Hundreds of sections in a workspace can impact performance. Consider creating sections based on high-level groupings of metrics and avoiding an anti-pattern of one section for each metric.
 
 If you find you have too many sections and performance is slow, consider the workspace setting to create sections by prefix rather than suffix, which can result in fewer sections and better performance.
 
