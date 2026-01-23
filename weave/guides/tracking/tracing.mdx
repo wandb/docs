@@ -1119,6 +1119,10 @@ For more information, see [Trace data is truncated](/weave/guides/troubleshootin
 
 In situations where you want to unconditionally disable tracing for the entire program, you can set the environment variable `WEAVE_DISABLED=true`.
 
+<Info>
+`WEAVE_DISABLED` is read only once, at function-defintion time. This variable cannot be used to toggle tracing at runtime.
+</Info>
+
 #### Client initialization
 
 Sometimes, you may want to conditionally enable tracing for a specific initialization based on some condition. In this case, you can initialize the client with the `disabled` flag in init settings.
@@ -1141,7 +1145,12 @@ This feature is not available for the TypeScript SDK yet.
 
 #### Context manager
 
-Finally, you may want to conditionally disable tracing for a single function based on some application logic. In this case, you can use the context manager `with set_tracing_enabled(False)` which can be imported from `weave.trace.context.call_context`.
+To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Weave provides two equivalent options for this purpose:
+
+- `with set_tracing_enabled(False)`
+- `with tracing_disabled()`
+
+Both context managers suppress tracing **only for the function calls executed inside the `with` block**. They are intended to be used in application code to scope which calls should not be logged.
 
 ```python lines
 import weave
@@ -1155,6 +1164,16 @@ def my_op():
 
 with set_tracing_enabled(False):
     my_op()
+```
+
+Although tracing behavior is fixed when functions are defined, these context managers can still be used for runtime control when combined with application logic. For example, you can wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
+
+```python lines
+if should_trace:
+    func()
+else:
+    with tracing_disabled():
+        func()
 ```
 
 ### How do I capture information about a Call?
