@@ -163,14 +163,11 @@ A monitor is a background process that:
 - Scores a subset of calls using an _LLM-as-a-judge_ scorer, which is an LLM model with a specific prompt tailored to the ops you want to score 
 - Runs automatically each time the specified `weave.op` is called, no need to manually call `.apply_scorer()`
 
-Monitors are ideal for:
-- Evaluating and tracking production behavior
-- Catching regressions or drift
-- Collecting real-world performance data over time
-
-Learn how to [create a monitor in general](#create-a-monitor) or try out the [end-to-end example of creating a truthfulness monitor](#example-create-a-truthfulness-monitor).
+You can create monitors to observe and judge both text and audio. For example, you can create a monitor that checks the text responses of a support chatbot for toxicity. You can also create a monitor that passes an MP3 or WAV file to an LLM judge to check for the quality of an AI drive-thru assistant's responses during customer orders.
 
 ### Create a monitor
+
+To create a monitor:
 
 1. From the left menu, select the **Monitors** tab.
 2. From the monitors page, click **New Monitor**.
@@ -190,10 +187,7 @@ Learn how to [create a monitor in general](#create-a-monitor) or try out the [en
             </Tip>
    - **LLM-as-a-Judge configuration**: 
         - **Scorer name**: Valid scorer names must start with a letter or number and can only contain letters, numbers, hyphens, and underscores.
-        - **Judge model**: Select the model that will score your ops. Three types of models are available:
-            - [Saved models](../tools/playground#saved-models)
-            - Models from providers configured by your W&B admin
-            - [W&B Inference models](../integrations/inference)
+        - **Judge model**: Select the model to score your ops. The menu contains any commercial LLM models you have configured in your W&B account and [W&B Inference models](/inference/models). To filter for audio-enabled models that you can audio files to, type **audio** into the search bar.
         
         For the selected model, configure the following settings:
             - **Configuration name**
