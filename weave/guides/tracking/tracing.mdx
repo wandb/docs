@@ -1145,35 +1145,30 @@ This feature is not available for the TypeScript SDK yet.
 
 #### Context manager
 
-To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Weave provides two equivalent options for this purpose:
-
-- `with set_tracing_enabled(False)`
-- `with tracing_disabled()`
-
-Both context managers suppress tracing **only for the function calls executed inside the `with` block**. They are intended to be used in application code to scope which calls should not be logged.
+To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. It is intended to be used in application code to scope which calls should not be logged.
 
 ```python lines
 import weave
-from weave.trace.context.call_context import set_tracing_enabled
+from weave.trace.context.call_context import tracing_disabled
 
-client = weave.init(...)
+client = weave.init('your-project-name')
 
 @weave.op
 def my_op():
     ...
 
-with set_tracing_enabled(False):
+with tracing_disabled():
     my_op()
 ```
 
-Although tracing behavior is fixed when functions are defined, these context managers can still be used for runtime control when combined with application logic. For example, you can wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
+Although tracing behavior is fixed when functions are defined, this can be used for runtime control when combined with application logic. For example, you can wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
 
 ```python lines
 if should_trace:
-    func()
+    my_op()
 else:
     with tracing_disabled():
-        func()
+        my_op()
 ```
 
 ### How do I capture information about a Call?
