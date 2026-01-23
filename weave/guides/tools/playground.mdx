@@ -81,11 +81,6 @@ You can switch the LLM using the **Select a model** dropdown in the prompt heade
 - X.AI
 
 
-{/* USE make update_playground_models */}
-{/* LLM_LIST_START, DON'T EDIT THIS SECTION */}
-{/*  Removed list of models since it changes so frequently 1/2026. Leaving surrounding wrapper because it implies there is a script to pull this from somewhere? in case we want it back someday. */}
-{/* LLM_LIST_END, DON'T EDIT THIS SECTION */}
-
 The available models depend on the providers configured for your team.
 
 ## Customize Playground settings
@@ -96,10 +91,10 @@ You can experiment with different parameter values for your selected model. To a
 
 1. In the prompt header (top of main panel), click the **Chat settings (<Icon icon="sliders" iconType="regular" />)** button to open the **Chat settings** panel.
 2. In the **Chat settings** panel, adjust parameters as desired. You can also toggle Weave call tracking on or off, and [add a function](#add-a-function).
-3. Changes are applied automatically.  Click **Chat settings** again, or the **x** in the upper right corner, to close the panel.  The hover text for the **Chat settings** button updates to display the settings you have changed.
+3. Changes are applied automatically.  Click **Chat settings** again, or the **x** in the upper-right corner, to close the panel.  The hover text for the **Chat settings** button updates to display the settings you have changed.
 
 
-If you leave the page, your settings will be lost.  To save your settings, [save your model](#save-a-model).
+If you leave the page, your settings will be lost. To save your settings, [save your model](#save-a-model).
 If you want to discard your changed settings and start over, refresh the page.
 
 <Frame>
@@ -120,9 +115,9 @@ You can test how different models use functions based on input it receives from 
 ## Message controls
 ### Prompt definition area
 
-The **Prompt definition area** defines the instructions that shape model behavior for the duration of an interaction.
+The **Prompt definition area** lets you define the instructions that shape the model's behavior throughout an interaction.
 
-Use this area to provide context that applies consistently before any messages are exchanged. This includes role definition, tone and style guidance, behavioral constraints, and output requirements.  Changes made here affect all subsequent interactions unless modified.
+Use this area to provide context that applies consistently before any messages are exchanged. This includes role definition, tone and style guidance, behavioral constraints, and output requirements. Changes made here affect all subsequent interactions unless modified.
 
 It includes:
 - **Prompt selector**: Select an existing saved prompt or create a new one.
@@ -162,6 +157,7 @@ It supports selecting the message role and submitting messages for execution. Mo
 ## View message history
 
 To view message history, click the **History (<Icon icon="clock-rotate-left" iconType="light" />)** button in the right-side Playground toolbar.  This opens a History panel showing all messages sent for the current project.  
+
 Selecting an item from the history automatically loads it into an additional chat panel for comparison. 
 
 ## Compare LLMs
@@ -206,7 +202,7 @@ Now, you can test the custom provider model(s) using standard Playground feature
 
 To edit information for a [previously created custom provider](#add-a-custom-provider), do the following:
 
-1. In the prompt header, click the **Select a model** dropdown.  Then select **+Configure providers**.
+1. In the prompt header, click the **Select a model** dropdown. Then select **+Configure providers**.
   * Alternatively, in the sidebar menu, you can select **Project**, and then select the **AI Providers** tab.
 2. In the **Custom providers** table, find the custom provider you want to update.
 3. In the **Last Updated** column of the entry for your custom provider, click the edit button (the pencil icon).
