@@ -175,8 +175,7 @@ const exporter = new OTLPTraceExporter({
 
 const provider = new NodeTracerProvider({
   spanProcessors: [
-    new BatchSpanProcessor(exporter),
-    new BatchSpanProcessor(new ConsoleSpanExporter()),
+    new BatchSpanProcessor(exporter)
   ],
 });
 
@@ -189,17 +188,8 @@ openAIInstrumentation.setTracerProvider(provider);
 // Manually instrument OpenAI since we're using ESM
 openAIInstrumentation.manuallyInstrument(OpenAI);
 
-console.log("Instrumentation registered. Is patched?", isPatched());
-
 async function main() {
   console.log("OpenAI is patched?", isPatched());
-  
-  // Create a manual span to verify pipeline works
-  const tracer = trace.getTracer("test-tracer");
-  const manualSpan = tracer.startSpan("manual-test-span");
-  manualSpan.setAttribute("test", "manual span works");
-  manualSpan.end();
-  console.log("Manual span created");
   
   const client = new OpenAI({ apiKey: OPENAI_API_KEY });
   
@@ -215,14 +205,16 @@ async function main() {
   console.log("Waiting for spans to flush...");
 }
 
-await main();
+(async () => {
+  await main();
 
-// Give spans time to flush
-console.log("Waiting 2 seconds for spans to flush...");
-await new Promise(resolve => setTimeout(resolve, 2000));
+  // Give spans time to flush
+  console.log("Waiting 2 seconds for spans to flush...");
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-await provider.shutdown(); // flush all pending spans before exit
-console.log("Shutdown complete");
+  await provider.shutdown(); // flush all pending spans before exit
+  console.log("Shutdown complete");
+})();
 ```
 
 Run the code:
@@ -396,12 +388,14 @@ async function main() {
   console.log(); // newline after streaming
 }
 
-await main();
+(async () => {
+  await main();
 
-// Give spans time to flush
-await new Promise(resolve => setTimeout(resolve, 2000));
+  // Give spans time to flush
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-await provider.shutdown(); // flush all pending spans before exit
+  await provider.shutdown(); // flush all pending spans before exit
+})();
 ```
 
 Run the code:
