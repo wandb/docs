@@ -1,0 +1,97 @@
+---
+title: Slack 자동화 만들기
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+이 페이지는 Slack [automation](/models/automations/)을 생성하는 방법을 설명합니다. Webhook automation을 생성하려면 대신 [Create a webhook automation](/models/automations/create-automations/webhook/)을 참조하세요.
+
+Slack automation 생성은 크게 다음과 같은 단계로 진행됩니다:
+1. [Slack 인테그레이션 추가](#add-a-slack-integration): W&B가 Slack 인스턴스 및 채널에 게시할 수 있도록 권한을 부여합니다.
+1. [Automation 생성](#create-an-automation): 모니터링할 [event](/models/automations/automation-events/)와 알림을 보낼 채널을 정의합니다.
+
+## Slack 인테그레이션 추가
+Teams 어드민은 팀에 Slack 인테그레이션을 추가할 수 있습니다.
+
+1. W&B에 로그인하고 **Team Settings**로 이동합니다.
+1. **Slack channel integrations** 섹션에서 **Connect Slack**을 클릭하여 새로운 Slack 인스턴스를 추가합니다. 기존 Slack 인스턴스에 채널을 추가하려면 **New integration**을 클릭합니다.
+
+    ![팀의 두 가지 Slack 인테그레이션을 보여주는 스크린샷](/images/automations/slack_integrations.png)
+1. 필요한 경우 브라우저에서 Slack에 로그인합니다. 메시지가 표시되면 선택한 Slack 채널에 게시할 수 있도록 W&B에 권한을 부여합니다. 페이지 내용을 읽은 후 **Search for a channel**을 클릭하고 채널 이름을 입력하기 시작합니다. 목록에서 채널을 선택한 다음 **Allow**를 클릭합니다.
+1. Slack에서 선택한 채널로 이동합니다. `[Your Slack handle] added an integration to this channel: Weights & Biases`와 같은 게시물이 보이면 인테그레이션이 올바르게 설정된 것입니다.
+
+이제 설정한 Slack 채널로 알림을 보내는 [automation을 생성](#create-an-automation)할 수 있습니다.
+
+## Slack 인테그레이션 확인 및 관리
+Teams 어드민은 팀의 Slack 인스턴스와 채널을 확인하고 관리할 수 있습니다.
+
+1. W&B에 로그인하고 **Team Settings**로 이동합니다.
+1. **Slack channel integrations** 섹션에서 각 Slack 대상을 확인합니다.
+1. 휴지통 아이콘을 클릭하여 대상을 삭제합니다.
+
+## Automation 생성
+[Slack 인테그레이션을 추가](#add-a-slack-integreation)한 후, **Registry** 또는 **Project**를 선택하고 다음 단계에 따라 Slack 채널로 알림을 보내는 automation을 생성합니다.
+
+<Tabs>
+<Tab title="Registry">
+Registry 어드민은 해당 registry에서 automation을 생성할 수 있습니다.
+
+1. W&B에 로그인합니다.
+1. Registry 이름을 클릭하여 세부 정보를 확인합니다.
+1. Registry 범위의 automation을 생성하려면 **Automations** 탭을 클릭한 다음 **Create automation**을 클릭합니다. Registry 범위로 설정된 automation은 모든 컬렉션(향후 생성될 컬렉션 포함)에 자동으로 적용됩니다.
+1. 모니터링할 [event](/models/automations/automation-events/#registry-events)를 선택합니다.
+
+   이벤트에 따라 표시되는 추가 필드를 작성합니다. 예를 들어, **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
+
+   **Next step**을 클릭합니다.
+1. [Slack 인테그레이션](#add-a-slack-integration)을 소유한 Teams를 선택합니다.
+1. **Action type**을 **Slack notification**으로 설정합니다. Slack 채널을 선택한 다음 **Next step**을 클릭합니다.
+1. Automation의 이름을 입력합니다. 선택 사항으로 설명을 작성할 수 있습니다.
+1. **Create automation**을 클릭합니다.
+</Tab>
+<Tab title="Project">
+W&B 어드민은 프로젝트에서 automation을 생성할 수 있습니다.
+
+1. W&B에 로그인합니다.
+1. 프로젝트 페이지로 이동하여 **Automations** 탭을 클릭한 다음 **Create automation**을 클릭합니다.
+
+    또는 Workspace의 라인 플롯에서 해당 차트가 보여주는 메트릭에 대해 [run metric automation](/models/automations/automation-events/#run-events)을 빠르게 생성할 수 있습니다. 패널 위에 마우스를 올린 다음 패널 상단의 종 모양 아이콘을 클릭하세요.
+    <Frame>
+    <img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation 종 모양 아이콘 위치"  />
+    </Frame>
+1. 모니터링할 [event](/models/automations/automation-events/#project)를 선택합니다.
+
+    1. 표시되는 추가 필드를 작성합니다. 예를 들어, **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
+
+        1. Run에 의해 트리거되는 automation의 경우, 선택적으로 하나 이상의 run 필터를 지정할 수 있습니다.
+
+            - **Filter to one user's runs**: 특정 사용자가 생성한 run만 포함합니다. 토글을 클릭하여 필터를 켠 다음 사용자 이름을 지정합니다.
+            - **Filter on run name**: 이름이 지정된 정규 표현식과 일치하는 run만 포함합니다. 토글을 클릭하여 필터를 켠 다음 정규 표현식을 지정합니다.
+    1. **Next step**을 클릭합니다.
+1. [Slack 인테그레이션](#add-a-slack-integration)을 소유한 Teams를 선택합니다.
+1. **Action type**을 **Slack notification**으로 설정합니다. Slack 채널을 선택한 다음 **Next step**을 클릭합니다.
+1. Automation의 이름을 입력합니다. 선택 사항으로 설명을 작성할 수 있습니다.
+1. **Create automation**을 클릭합니다.
+</Tab>
+</Tabs>
+
+## Automation 확인 및 관리
+
+<Tabs>
+<Tab title="Registry">
+Registry의 **Automations** 탭에서 registry의 automation을 관리합니다.
+- Automation의 세부 정보를 보려면 이름을 클릭합니다.
+- Automation을 수정하려면 액션 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+- Automation을 삭제하려면 액션 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 확인 절차가 필요합니다.
+</Tab>
+<Tab title="Project">
+W&B 어드민은 프로젝트의 **Automations** 탭에서 프로젝트의 automation을 확인하고 관리할 수 있습니다.
+
+- Automation의 세부 정보를 보려면 이름을 클릭합니다.
+- Automation을 수정하려면 액션 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+- Automation을 삭제하려면 액션 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 확인 절차가 필요합니다.
+</Tab>
+</Tabs>

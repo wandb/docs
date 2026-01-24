@@ -1,0 +1,182 @@
+---
+title: Run 고정 및 비교
+description: Pinned Runs와 베이스라인 (baseline) 을 사용하여 중요한 Runs를 추적하고 모델 Experiments를 효율적으로
+  평가하는 방법을 알아보세요.
+---
+import CloudOnly from '/snippets/en/_includes/pinned-and-baseline-runs/cloud-only.mdx';
+import PinRunsCondensed from '/snippets/en/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
+
+많은 Run 이 포함된 Workspace 에서는 성능이 가장 좋은 모델, 프로덕션 모델, 실패한 실험 또는 중요한 기준점을 추적하기 어려울 수 있습니다. W&B App은 Run 을 구성하고 비교하는 데 도움이 되는 기능을 제공합니다:
+
+- **Pinned runs**: 최대 5개의 Run 을 고정(Pin)하여 Workspace 와 Run 리스트 상단에 항상 표시되도록 유지합니다.
+- **Baseline run**: 비교를 위한 기준점으로 baseline run 을 지정합니다. baseline run 은 Workspace 와 Run 리스트 상단에 항상 표시됩니다. 라인 플롯에서 baseline 은 비교를 돕기 위해 시각적으로 구별되는 스타일로 나타납니다.
+
+이 기능들은 특히 다음과 같은 경우에 유용합니다:
+- 새로운 실험을 프로덕션 모델과 비교할 때.
+- 실험 과정에서 여러 후보 모델을 추적할 때.
+- 새로운 Run 이 기존의 최상위 결과를 개선하는지 평가할 때.
+
+<CloudOnly/>
+[제한 사항](#limitations)을 참조하세요.
+
+## Run 고정 (Pin runs)
+
+<PinRunsCondensed/>
+
+<Frame>
+![고정된 Run이 있는 Run 테이블](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+</Frame>
+
+Run 고정을 해제하려면 핀 아이콘을 클릭하거나, Run 을 고정할 때와 동일한 절차를 따르되 **Unpin run**을 선택하세요.
+
+## Baseline run 관리하기
+
+Workspace 에서 하나의 Run 을 baseline 으로 지정하여 Workspace 내의 다른 Run 들을 평가하기 위한 기준점으로 사용할 수 있습니다.
+
+Run 선택기 및 Run 테이블에서 baseline run 은 고정된 Run 들과 함께 상단에 표시되며, 핀 대신 북마크 아이콘이 표시됩니다.
+
+라인 플롯에서 baseline run 의 선은 다른 선들보다 굵게 표시됩니다. 플롯이나 범례(legend) 위로 마우스를 가져가면 baseline run 의 선이 점선으로 바뀝니다.
+
+<Frame>
+![다른 Run과 baseline을 비교하는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+</Frame>
+
+### Baseline run 설정하기
+baseline run 을 설정하려면:
+
+1. Workspace 로 이동합니다.
+2. Run 선택기 또는 Run 테이블에서 baseline 으로 사용할 Run 을 찾습니다.
+3. 액션 `...` 메뉴를 클릭한 다음 **Set as baseline**을 선택합니다.
+
+baseline run 은 시각적 구분선으로 다른 Run 들과 분리되어 Run 선택기 상단에 나타납니다. baseline run 은 원형 아이콘 대신 북마크 아이콘을 가집니다.
+
+<Frame>
+![baseline run과 고정된 Run이 있는 Run 테이블](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
+</Frame>
+
+### Baseline run 변경하기
+한 번에 하나의 Run 만 baseline 이 될 수 있습니다. baseline run 을 변경하려면:
+
+1. Workspace 로 이동합니다.
+2. Run 선택기 또는 Run 테이블에서 새로운 baseline 으로 사용할 Run 을 찾습니다.
+3. 액션 `...` 메뉴를 클릭한 다음 **Replace baseline**을 선택합니다.
+
+새로운 Run 이 baseline 이 됩니다. 설정에 따라 이전의 baseline run 은 고정되었거나 고정되지 않은 다른 Run 들과 함께 표시됩니다.
+
+### Baseline 지정 해제하기
+baseline 지정을 제거하려면:
+
+1. Workspace 로 이동합니다.
+2. Run 선택기 또는 Run 테이블에서 현재 baseline 으로 설정된 Run 을 찾습니다.
+3. 액션 `...` 메뉴를 클릭한 다음 **Remove baseline**을 선택합니다.
+
+설정에 따라 이전의 baseline run 은 고정되었거나 고정되지 않은 다른 Run 들과 함께 표시됩니다.
+
+## Baseline과 Run 비교하기
+baseline run 은 해당 Run 이 로그를 기록한 메트릭에 대한 라인 플롯에서 항상 시각화됩니다. 라인 플롯에서 baseline run 의 선은 다른 선들보다 굵게 표시됩니다.
+
+- 플롯의 특정 부분에 마우스를 가져가면 baseline run 과 고정된 Run 을 포함하여 표시된 모든 Run 의 값을 툴팁으로 보여줍니다.
+  <Frame>
+  ![특정 시점에서 표시된 모든 Run의 세부 정보를 보여주는 데모](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
+  </Frame>
+- baseline run 의 범례 레이블에 마우스를 가져가면 해당 선이 강조되어 표시됩니다. 굵은 점선으로 나타나며, 다른 Run 의 선들은 채도가 낮아집니다.
+  <Frame>
+  ![baseline run의 세부 정보를 보여주는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
+  </Frame>
+- 다른 Run 의 범례 레이블에 마우스를 가져가면 해당 Run 의 선이 강조되어 표시되며, 굵은 점선으로 표시된 baseline 과 비교할 수 있습니다. 다른 Run 의 선들은 채도가 낮아집니다.
+  <Frame>
+  ![다른 Run과 baseline을 비교하는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+  </Frame>
+
+## 유스 케이스
+이 섹션에서는 고정된 Run 과 baseline run 이 실험을 가이드하는 데 도움이 되는 몇 가지 시나리오를 설명합니다.
+
+- **프로덕션 모델 추적**: 새로운 모델이 배포 전에 품질 기준을 충족하는지 확인합니다.
+  1. 프로덕션 모델을 baseline 으로 설정합니다.
+  2. 모든 실험을 배포된 모델과 비교하여 프로덕션보다 성능이 우수한 후보를 식별합니다.
+- **하이퍼파라미터 실험 비교**: 하이퍼파라미터 스윕이나 수동 실험을 가장 잘 알려진 설정(best-known configuration)과 비교하여 평가합니다.
+  1. 가장 잘 알려진 설정을 baseline 으로 설정합니다.
+  2. 유망한 후보를 발견할 때마다 고정(Pin)합니다.
+  3. 라인 플롯을 사용하여 baseline 과 Run 들을 시각적으로 비교합니다.
+  4. 더 나은 설정을 찾으면 baseline 을 지속적으로 업데이트합니다.
+
+## 예시 워크플로우
+이 섹션에서는 고정된 Run 과 baseline run 이 Run 비교에 어떻게 도움이 되는지 보여줍니다.
+
+1. 일련의 Run 을 통해 하이퍼파라미터 튜닝 시나리오를 시뮬레이션하는 다음 예제 코드를 실행합니다. 꺾쇠괄호 (`<>`)로 둘러싸인 자리 표시자를 실제 값으로 바꿉니다.
+
+    ```python
+    import wandb
+    import random
+    import math
+
+    def train_model(learning_rate, batch_size, run_name, tags=None):
+        """주어진 하이퍼파라미터로 모델 트레이닝을 시뮬레이션합니다."""
+        config = {
+            "learning_rate": learning_rate,
+            "batch_size": batch_size,
+            "optimizer": "옵티마이저",
+            "architecture": "아키텍처"
+        }
+        
+        with wandb.init(
+          # 팀 및 프로젝트 이름으로 교체하세요
+            project="hyperparameter-tuning",
+            entity="<team>",
+            name=run_name,
+            config=config,
+            tags=tags or []
+        ) as run:
+            # 트레이닝 루프 시뮬레이션
+            for epoch in range(50):
+                # 메트릭 시뮬레이션
+                accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+                loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+                
+                run.log({
+                    "epoch": epoch,
+                    "accuracy": accuracy,
+                    "loss": loss
+                })
+
+    # 표준 설정으로 baseline run 생성
+    train_model(
+        learning_rate=0.001,
+        batch_size=64,
+        run_name="baseline-config",
+        tags=["baseline", "production"]
+    )
+
+    # 다양한 학습률로 실험
+    train_model(
+        learning_rate=0.003,
+        batch_size=64,
+        run_name="lr-experiment-0.003",
+        tags=["experiment"]
+    )
+
+    train_model(
+        learning_rate=0.0001,
+        batch_size=64,
+        run_name="lr-experiment-0.0001",
+        tags=["experiment"]
+    )
+    ```
+
+    이 코드를 실행한 후, Workspace 에는 세 개의 Run 이 생깁니다.
+2. `baseline-config`를 baseline run 으로 설정합니다.
+3. `baseline-config`를 고정(Pin)하여 계속 표시되도록 합니다.
+4. Workspace 의 라인 플롯을 사용하여 실험 Run 들을 baseline 과 비교합니다.
+5. 추가 조사가 필요한 유망한 실험들을 고정합니다. 이 예시에서 50 에포크 후에 `lr-experiment-0.003`이 가장 높은 정확도 (`~0.64`)와 가장 낮은 손실 (`~0.86`)을 기록합니다.
+
+{/* TODO screenshot */}
+
+## 제한 사항
+<CloudOnly/>
+
+고정된 Run 및 baseline run 에 대해 다음 기능은 아직 지원되지 않습니다:
+
+- **그룹화 (Grouping)**: Run 선택기 또는 Run 테이블에서 [Run을 볼 때](/models/runs#view-logged-runs), Run 이 특정 컬럼으로 그룹화되어 있으면 고정된 Run 과 baseline run 이 다른 Run 과 시각적으로 구별되지 않습니다.
+- **Reports**: [W&B Report](/models/reports)의 Run 세트 내에서 고정된 Run 과 baseline run 은 다른 Run 과 시각적으로 구별되지 않습니다.
+- **Workspace 뷰 전용**: 단일 Run 의 Workspace 를 볼 때는 baseline 이 나타나지 않습니다.
+- **라인 플롯 전용**: baseline 비교는 라인 플롯에서만 가능하며, 바 차트나 미디어 패널 등 다른 패널에서는 아직 사용할 수 없습니다.

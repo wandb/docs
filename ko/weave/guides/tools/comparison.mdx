@@ -1,0 +1,131 @@
+---
+title: Trace 및 기타 로그 정보 비교
+description: 코드, traces, prompts, 모델 그리고 설정을 시각적으로 비교하고 차이점을 분석하세요
+---
+
+Weave Comparison 기능을 사용하면 코드, traces, prompts, Models, 그리고 모델 설정을 시각적으로 비교하고 차이점(diff)을 확인할 수 있습니다. 두 오브젝트를 나란히(side-by-side) 비교하거나, 더 큰 오브젝트 세트를 분석하여 차이점, 패턴 및 트렌드를 식별할 수 있습니다.
+
+이 가이드에서는 비교를 시작하는 단계와 베이스라인 비교, 숫자형 diff 포맷팅 등 비교 뷰를 사용자에 맞게 조정하는 데 사용할 수 있는 액션들을 다룹니다.
+
+## Comparison 뷰 엑세스
+
+1. 사이드바에서 비교하려는 오브젝트 유형(예: **Traces**, **Models** 등)을 선택합니다.
+2. 비교할 오브젝트를 선택합니다. 선택 방법은 비교하려는 오브젝트 유형에 따라 다릅니다:
+   - **Traces**의 경우, Traces 컬럼의 해당 행에 있는 체크박스를 선택하여 비교할 traces를 선택합니다.
+   - **Models**와 같은 오브젝트의 경우, 모델 Versions 페이지로 이동하여 비교하려는 버전 옆의 체크박스를 선택합니다.
+3. **Compare**를 클릭하여 Comparison 뷰를 엽니다. 이제 [사용 가능한 액션](#available-actions)을 사용하여 뷰를 세부 조정할 수 있습니다.
+
+## 사용 가능한 액션
+
+Comparison 뷰에서는 비교 중인 오브젝트 수에 따라 여러 액션을 사용할 수 있습니다. [사용 참고 사항](#usage-notes)을 반드시 확인하세요.
+
+- [diff 표시 변경](#change-the-diff-display)
+- [나란히 표시 (side-by-side)](#display-side-by-side)
+- [통합 뷰로 표시 (unified)](#display-in-a-unified-view)
+- [베이스라인 설정](#set-a-baseline)
+- [베이스라인 제거](#remove-a-baseline)
+- [비교 순서 변경](#change-the-comparison-order)
+- [숫자형 diff 표시 포맷 변경](#change-numeric-diff-display-format)
+- [베이스라인 또는 이전 항목과 비교](#compare-with-baseline-or-previous)
+- [다중 오브젝트 비교에서 특정 쌍 비교](#compare-a-pair-from-a-multi-object-comparison)
+- [비교에서 오브젝트 제거](#remove-an-object-from-comparison)
+
+### diff 표시 변경
+
+기본적으로 **Diff only**는 꺼져 있습니다. 변경된 행만 표시되도록 테이블 행을 필터링하려면 **Diff only**를 켭니다.
+
+### 나란히 표시 (side-by-side)
+
+이 옵션은 두 개의 오브젝트를 비교하거나, [다중 오브젝트 비교에서 특정 쌍](#compare-a-pair-from-a-multi-object-comparison)을 비교할 때만 사용할 수 있습니다.
+
+각 오브젝트를 별도의 컬럼에서 나란히 비교하려면 **Side-by-side**를 선택합니다.
+
+<Frame>
+![두 오브젝트의 Side-by-side Comparison 뷰](/weave/guides/tools/imgs/comparison-2objs-sidebyside.png)
+</Frame>
+
+### 통합 뷰로 표시 (unified)
+
+이 옵션은 두 개의 오브젝트를 비교하거나, [다중 오브젝트 비교에서 특정 쌍](#compare-a-pair-from-a-multi-object-comparison)을 비교할 때만 사용할 수 있습니다.
+
+각 오브젝트를 통합된 하나의 뷰에서 비교하려면 **Unified**를 선택합니다.
+
+<Frame>
+![두 오브젝트의 Unified Comparison 뷰](/weave/guides/tools/imgs/comparison-2objs-unified.png)
+</Frame>
+
+### 베이스라인 설정
+
+기본적으로 Comparison 뷰의 각 오브젝트는 바로 왼쪽의 오브젝트와 비교됩니다. 하지만 특정 오브젝트를 _베이스라인_ 으로 설정할 수 있으며, 이 경우 모든 오브젝트가 뷰의 가장 왼쪽 오브젝트와 비교됩니다.
+오브젝트를 베이스라인으로 설정하려면 다음을 수행하세요:
+
+1. Comparison 뷰 상단 바에서 베이스라인으로 설정하려는 오브젝트 위에 마우스를 올립니다.
+2. ID 오른쪽에 있는 점 세 개를 클릭합니다.
+   ![베이스라인 설정 옵션 표시.](/weave/guides/tools/imgs/comparison-2objs-baseline.png)
+3. 드롭다운에서 **Make baseline**을 선택합니다. 베이스라인 오브젝트가 상단 바의 가장 왼쪽에 배치되고 ID 옆에 `Baseline`이 표시되도록 UI가 새로고침됩니다.
+    ![베이스라인 설정 완료.](/weave/guides/tools/imgs/comparison-2objs-baseline-set.png)
+
+### 베이스라인 제거
+
+오브젝트를 베이스라인에서 제거하려면 다음을 수행하세요:
+
+1. Comparison 뷰 상단 바에서 베이스라인 오브젝트 위에 마우스를 올립니다.
+2. ID 오른쪽에 있는 점 세 개를 클릭합니다.
+3. 드롭다운에서 **Remove baseline**을 선택합니다. 이제 call ID 옆에 `Baseline`이 더 이상 표시되지 않습니다.
+
+### 비교 순서 변경
+
+비교 순서를 변경하려면 다음을 수행하세요:
+
+1. Comparison 뷰 상단 바에서 순서를 변경하려는 ID 위에 마우스를 올립니다.
+2. ID 왼쪽에 있는 점 여섯 개를 클릭합니다.
+   ![순서 설정.](/weave/guides/tools/imgs/comparison-2objs-reorder.png)
+3. 선택한 오브젝트의 위치에 따라 ID를 왼쪽이나 오른쪽으로 드래그합니다.
+4. 원하는 위치에 ID를 놓습니다. 업데이트된 비교 순서에 따라 UI가 새로고침됩니다.
+
+### 숫자형 diff 표시 포맷 변경
+
+`completion_tokens` 및 `total_tokens`와 같은 숫자 값의 경우, diff를 정수 또는 퍼센트로 볼 수 있습니다. 또한 양수 값은 배수(multiplier)로 볼 수도 있습니다. 숫자형 diff의 표시 포맷을 변경하려면 다음을 수행하세요:
+
+1. Comparison 테이블에서 diff 표시 포맷을 업데이트하려는 숫자 값을 찾습니다.
+    ![정수로 표시된 숫자 값.](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png)
+2. diff 값을 클릭합니다. 포맷이 정수 또는 퍼센트로 자동 업데이트됩니다.
+    ![퍼센트로 업데이트된 숫자 값.](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png)
+
+### 베이스라인 또는 이전 항목과 비교
+
+이 옵션은 3개 이상의 오브젝트를 비교할 때만 사용할 수 있습니다. [ID 오른쪽의 점 3개를 클릭하여 기존 베이스라인을 설정](#set-a-baseline)하거나 [제거](#remove-a-baseline)할 수도 있습니다.
+
+3개 이상의 오브젝트로 베이스라인 비교를 수행하려면 다음을 수행하세요:
+
+1. Comparison 뷰의 오른쪽 상단 모서리에 있는 드롭다운을 클릭합니다. 현재 뷰 설정에 따라 드롭다운 제목은 **Compare with previous** 또는 **Compare with baseline**입니다.
+2. 현재 뷰 설정에 따라 **Compare with previous** 또는 **Compare with baseline**을 선택합니다.
+   - **Compare with baseline**: 가장 왼쪽의 오브젝트를 베이스라인으로 설정합니다. 가장 왼쪽 컬럼이 베이스라인이 되도록 테이블이 업데이트됩니다.
+   - **Compare with previous**: 어떤 오브젝트도 베이스라인으로 설정되지 않습니다.
+
+### 다중 오브젝트 비교에서 특정 쌍 비교
+
+이 옵션은 3개 이상의 오브젝트를 비교할 때만 사용할 수 있습니다.
+
+3개 이상의 오브젝트를 비교할 때 단일 오브젝트를 이전 오브젝트 또는 베이스라인과 비교할 수 있습니다. 이렇게 하면 Comparison 테이블 뷰가 두 개의 오브젝트 비교와 동일하게 변경됩니다. 다중 오브젝트 비교에서 특정 쌍의 오브젝트를 비교하려면 다음을 수행하세요:
+
+1. Comparison 뷰 상단 바에서 이전 항목 또는 베이스라인과 비교하려는 ID를 찾습니다.
+2. 해당 항목을 선택하려면 ID를 클릭합니다. 2-way 비교 테이블로 UI가 새로고침됩니다.
+    ![다중 오브젝트 비교에서 한 쌍 비교하기.](/weave/guides/tools/imgs/comparsion-7objs-diffonly-subset.png)
+
+비교를 위해 선택한 처음 6개의 오브젝트가 테이블에 표시되도록 뷰를 재설정하려면 ID를 다시 클릭하세요.
+
+### 비교에서 오브젝트 제거
+
+이 옵션은 3개 이상의 오브젝트를 비교할 때만 사용할 수 있습니다.
+
+비교에서 오브젝트를 제거하려면 다음을 수행하세요:
+
+1. Comparison 뷰 상단 바에서 비교에서 제거하려는 오브젝트를 찾습니다.
+2. ID 오른쪽에 있는 점 세 개를 클릭합니다.
+3. 드롭다운에서 **Remove object from comparison**을 선택합니다. 제거된 오브젝트가 더 이상 포함되지 않은 업데이트된 테이블로 UI가 새로고침됩니다.
+
+## 사용 참고 사항
+
+ - Comparison 기능은 UI에서만 사용할 수 있습니다.
+ - 원하는 만큼 많은 오브젝트를 비교할 수 있습니다. 하지만 UI에는 최대 6개까지만 표시됩니다. 6개 이상의 오브젝트를 비교할 때 표시되지 않는 오브젝트를 비교 테이블에서 보려면, 해당 오브젝트가 왼쪽에서 오른쪽으로 처음 6개 안에 들도록 [비교 순서를 변경](#change-the-comparison-order)하거나, 쉬운 보기를 위해 [다중 오브젝트 비교에서 특정 쌍을 선택](#compare-a-pair-from-a-multi-object-comparison)하세요.

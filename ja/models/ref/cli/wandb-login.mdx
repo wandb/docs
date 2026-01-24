@@ -1,22 +1,33 @@
 ---
-title: wandb ログイン
+title: wandb login
 ---
+import WandbLogin from "/snippets/en/_includes/cli/wandb-login.mdx";
 
-**使用方法**
+<WandbLogin/>
 
-`wandb login [OPTIONS] [KEY]...`
+W&B サービスで認証を行うための APIキー を検証し、保存します。
 
-**概要**
+デフォルトでは、W&B による検証を行わずに資格情報をローカルにのみ保存します。資格情報を検証するには、`--verify=True` を設定してください。
 
-Weights & Biases へログイン
+サーバー デプロイメント（専用クラウド または顧客管理インスタンス）の場合は、`--host` フラグを使用してホスト URL を指定します。また、ホスト パラメータ を指定して `login` コマンドを実行する代わりに、環境 変数 `WANDB_BASE_URL` および `WANDB_API_KEY` を設定することも可能です。
 
+## 使用法
 
-**オプション**
+```bash
+wandb login [KEY] [OPTIONS]
+```
 
-| **オプション** | **説明** |
+## 引数
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `KEY` | 説明なし | いいえ |
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--cloud` | ローカルではなくクラウドにログイン |
-| `--host, --base-url` | W&B の特定のインスタンスにログイン |
-| `--relogin` | すでにログインしている場合でも再ログインを強制 |
-| `--anonymously` | 匿名でログイン |
-| `--verify / --no-verify` | ログイン資格情報を確認 |
+| `--cloud` | ローカルではなく クラウド にログインします (デフォルト: False) |
+| `--host`, `--base-url` | W&B の特定のインスタンスにログインします |
+| `--relogin` | すでにログインしている場合に強制的に再ログインします |
+| `--verify` | ログイン資格情報を検証します (デフォルト: False) |

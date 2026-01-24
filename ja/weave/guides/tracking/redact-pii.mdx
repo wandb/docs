@@ -1,0 +1,125 @@
+---
+title: トレース から PII を編集する
+description: トレース から個人を特定できる情報（PII）を自動的に匿名化する
+---
+
+<Warning>
+この機能は Python SDK を通じてのみ利用可能です。
+</Warning>
+
+組織によっては、Large Language Model (LLM) のワークフロー内で、名前、電話番号、メールアドレスなどの個人識別情報 (PII) を処理することがあります。これらのデータが Weights & Biases (W&B) Weave に保存されることは、コンプライアンスやセキュリティ上のリスクを伴います。
+
+「機密データ保護 (Sensitive Data Protection) 」機能を使用すると、[トレース](/weave/guides/tracking) が Weave サーバーに送信される前に、PII を自動的に秘匿化（マスク）できます。この機能は [Microsoft Presidio](https://microsoft.github.io/presidio/) を Weave Python SDK に統合しており、SDK レベルで秘匿化の設定を制御できます。
+
+機密データ保護機能により、Python SDK に以下の機能が導入されます。
+
+- `weave.init` 呼び出し時にオン/オフを切り替え、PII 秘匿化を有効にする `redact_pii` 設定。
+- `redact_pii = True` の場合に、[一般的なエンティティ](#entities-redacted-by-default) を自動的に秘匿化。
+- 設定可能な `redact_pii_fields` 設定を使用して、秘匿化するフィールドをカスタマイズ。
+
+## PII 秘匿化を有効にする
+
+Weave で機密データ保護機能の使用を開始するには、以下の手順に従ってください。
+
+1. 必要な依存関係をインストールします。
+
+    ```bash
+    pip install presidio-analyzer presidio-anonymizer
+    ```
+
+2. `weave.init` の呼び出しを修正して、秘匿化を有効にします。`redact_pii=True` の場合、[一般的なエンティティはデフォルトで秘匿化されます](#entities-redacted-by-default)。
+
+    ```python lines
+    import weave
+
+    weave.init("my-project", settings={"redact_pii": True})
+    ```
+
+3. (オプション) `redact_pii_fields` パラメータを使用して、秘匿化するフィールドをカスタマイズします。
+
+    ```python lines
+    weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
+    ```
+
+    検出および秘匿化が可能なエンティティの完全なリストについては、[Presidio がサポートする PII エンティティ](https://microsoft.github.io/presidio/supported_entities/) を参照してください。
+
+## デフォルトで秘匿化されるエンティティ
+
+PII 秘匿化が有効な場合、以下のエンティティが自動的に秘匿化されます。
+
+- `CREDIT_CARD`
+- `CRYPTO`
+- `EMAIL_ADDRESS`
+- `ES_NIF`
+- `FI_PERSONAL_IDENTITY_CODE`
+- `IBAN_CODE`
+- `IN_AADHAAR`
+- `IN_PAN`
+- `IP_ADDRESS`
+- `LOCATION`
+- `PERSON`
+- `PHONE_NUMBER`
+- `UK_NHS`
+- `UK_NINO`
+- `US_BANK_NUMBER`
+- `US_DRIVER_LICENSE`
+- `US_PASSPORT`
+- `US_SSN`
+
+## `REDACT_KEYS` による機密キーの秘匿化
+
+PII の秘匿化に加えて、Weave SDK は `REDACT_KEYS` を使用したカスタムキーの秘匿化もサポートしています。これは、PII カテゴリには該当しないものの、プライベートに保つ必要がある追加の機密データを保護したい場合に便利です。例としては以下が挙げられます。
+
+- APIキー
+- 認証ヘッダー
+- トークン
+- 内部 ID
+- 設定値 (Config values)
+
+### 定義済みの `REDACT_KEYS`
+
+Weave はデフォルトで、以下の機密キーを自動的に秘匿化します。
+
+```json
+[
+  "api_key",
+  "auth_headers",
+  "authorization"
+]
+```
+
+### 独自のキーを追加する
+
+トレースから秘匿化したい独自のカスタムキーをこのリストに追加できます。
+
+```python lines
+import weave
+from weave.utils import sanitize
+
+client = weave.init("my-project", settings={"redact_pii": True})
+
+# 秘匿化するカスタムキーを追加
+sanitize.add_redact_key("client_id")
+sanitize.add_redact_key("token")
+
+client_id = "123"
+token = "789"
+
+@weave.op
+def test(client_id, token):
+    return client_id + token
+
+test(client_id, token)
+```
+
+Weave の UI で確認すると、`client_id` と `token` の値は `"REDACTED"` と表示されます。
+
+```python lines
+client_id = "REDACTED"
+token = "REDACTED"
+```
+
+## 利用に関する情報
+
+- この機能は Python SDK でのみ利用可能です。
+- 秘匿化を有効にすると、Presidio の依存関係により処理時間が増加します。

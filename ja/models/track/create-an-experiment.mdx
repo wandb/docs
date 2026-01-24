@@ -1,25 +1,25 @@
 ---
-title: 実験を作成する
-description: W&B 実験を作成します。
+title: 実験 を作成する
+description: W&B Experiment を作成します。
 ---
 
-W&B Python SDKを使用して、機械学習実験をトラックします。その後、インタラクティブなダッシュボードで結果を確認するか、データをPythonにエクスポートしてプログラムでアクセスできます（[W&B Public API](/ja/models/ref/python/public-api/)を参照）。
+W&B Python SDKを使用して、機械学習の Experiments を追跡できます。その後、インタラクティブなダッシュボードで結果を確認したり、[W&B Public API](/models/ref/python/public-api/) を使用してプログラムからデータにアクセスするために Python へデータをエクスポートしたりできます。
 
-このガイドでは、W&Bのビルディングブロックを使用してW&B Experimentを作成する方法を説明します。
+このガイドでは、W&B の構成要素を使用して W&B Experiment を作成する方法を説明します。
 
-## W&B Experimentの作成方法
+## W&B Experiment の作成方法
 
-W&B Experimentを次の4つのステップで作成します：
+W&B Experiment は次の4つのステップで作成します。
 
-1. [W&B Runを初期化](#initialize-a-wb-run)
-2. [ハイパーパラメータの辞書をキャプチャ](#capture-a-dictionary-of-hyperparameters)
-3. [トレーニングループ内でメトリクスをログ](#log-metrics-inside-your-training-loop)
-4. [アーティファクトをW&Bにログ](#log-an-artifact-to-wb)
+1. [W&B Run の初期化](#initialize-a-wb-run)
+2. [ハイパーパラメーターの辞書の取得](#capture-a-dictionary-of-hyperparameters)
+3. [トレーニングループ内でのメトリクスのログ記録](#log-metrics-inside-your-training-loop)
+4. [W&B への Artifacts のログ記録](#log-an-artifact-to-wb)
 
-### W&B Runを初期化
-[`wandb.init()`](/ja/models/ref/python/init)を使用してW&B Runを作成します。
+### W&B Run の初期化
+[`wandb.init()`](/models/ref/python/functions/init) を使用して W&B Run を作成します。
 
-以下のスニペットは、`“cat-classification”`という名前のW&Bプロジェクトで、`“My first experiment”`という説明を持つrunを作成し、これを識別するのに役立てます。タグ`“baseline”`と`“paper1”`は、このrunが将来的な論文の出版を意図したベースライン実験であることを思い出すために含まれています。
+以下のスニペットでは、run を識別しやすくするために、`“cat-classification”` という名前の W&B Projects 内に `“My first experiment”` という説明付きで run を作成します。また、この run が将来の論文発表のためのベースライン実験であることを忘れないように、`“baseline”` と `“paper1”` というタグを含めています。
 
 ```python
 import wandb
@@ -32,14 +32,14 @@ with wandb.init(
     ...
 ```
 
-`wandb.init()`は、[Run](/ja/models/ref/python/run)オブジェクトを返します。
+`wandb.init()` は [Run](/models/ref/python/experiments/run) オブジェクトを返します。
 
 <Note>
-注意: `wandb.init()`を呼び出したときにプロジェクトが既に存在している場合、Runは既存のプロジェクトに追加されます。例えば、既に`“cat-classification”`という名前のプロジェクトがある場合、そのプロジェクトは既存のままで削除されず、新しいrunがそのプロジェクトに追加されます。
+注意: `wandb.init()` を呼び出した際に指定したプロジェクトが既に存在する場合、run は既存の Projects に追加されます。例えば、既に `“cat-classification”` というプロジェクトがある場合、そのプロジェクトは削除されず、新しい run がそこに追加されます。
 </Note>
 
-### ハイパーパラメータの辞書をキャプチャ
-学習率やモデルタイプといったハイパーパラメータの辞書を保存します。設定でキャプチャしたモデル設定は、後で結果の整理やクエリに役立ちます。
+### ハイパーパラメーターの辞書の取得
+学習率やモデルタイプなどのハイパーパラメーターの辞書を保存します。config で取得したモデルの設定は、後で結果を整理したりクエリしたりする際に役立ちます。
 
 ```python
 with wandb.init(
@@ -49,10 +49,10 @@ with wandb.init(
     ...
 ```
 
-実験を設定する方法の詳細については、[Configure Experiments](/ja/models/track/config/)を参照してください。
+実験の設定方法の詳細については、[Configure Experiments](./config) を参照してください。
 
-### トレーニングループ内でメトリクスをログ
-[`run.log()`](/ja/models/ref/python/log)を呼び出して、精度や損失といった各トレーニングステップに関するメトリクスをログします。
+### トレーニングループ内でのメトリクスのログ記録
+[`run.log()`](/models/ref/python/experiments/run/#method-runlog) を呼び出して、精度（accuracy）や損失（loss）などの各トレーニングステップに関するメトリクスをログに記録します。
 
 ```python
 model, dataloader = get_model(), get_data()
@@ -63,19 +63,23 @@ for epoch in range(run.config.epochs):
         run.log({"accuracy": accuracy, "loss": loss})
 ```
 
-W&Bでログできるさまざまなデータタイプの詳細については、[Log Data During Experiments](/ja/models/track/log/)を参照してください。
+W&B でログを記録できるさまざまなデータ型の詳細については、[Log Data During Experiments](/models/track/log/) を参照してください。
 
-### アーティファクトをW&Bにログ
-オプションでW&Bアーティファクトをログします。アーティファクトは、データセットやモデルのバージョン管理を容易にします。
+### W&B への Artifacts のログ記録
+任意で W&B Artifacts をログに記録します。Artifacts を使用すると、Datasets や Models のバージョン管理が簡単になります。
+
 ```python
-# 任意のファイルまたはディレクトリを保存できます。この例では、モデルがONNXファイルを出力するsave()メソッドを持つと仮定しています。
+# 任意のファイルやディレクトリーを保存できます。この例では、
+# モデルに ONNX ファイルを出力する save() メソッドがあると仮定します。
 model.save("path_to_model.onnx")
 run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
-[Artifacts](/ja/models/artifacts/)や[Registry](/ja/models/core/registry/)でのモデルのバージョン管理について詳しく学んでください。
+[Artifacts](/models/artifacts/) の詳細、または [Registry](/models/registry/) でのモデルのバージョン管理について詳しく学びましょう。
+
 
 ### すべてをまとめる
-前述のコードスニペットを使った完全なスクリプトは以下の通りです：
+これまでのコードスニペットをまとめたフルスクリプトは以下の通りです。
+
 ```python
 import wandb
 
@@ -83,52 +87,53 @@ with wandb.init(
     project="cat-classification",
     notes="",
     tags=["baseline", "paper1"],
-    # runのハイパーパラメータを記録
+    # Runのハイパーパラメーターを記録
     config={"epochs": 100, "learning_rate": 0.001, "batch_size": 128},
 ) as run:
-    # モデルとデータをセットアップ
+    # モデルとデータのセットアップ
     model, dataloader = get_model(), get_data()
 
-    # モデルのパフォーマンスを可視化するためにメトリクスをログしながらトレーニングを実行
+    # モデルのパフォーマンスを可視化するためにメトリクスをログに記録しながらトレーニングを実行
     for epoch in range(run.config["epochs"]):
         for batch in dataloader:
             loss, accuracy = model.training_step()
             run.log({"accuracy": accuracy, "loss": loss})
 
-    # 訓練済みモデルをアーティファクトとしてアップロード
+    # トレーニング済みモデルを Artifact としてアップロード
     model.save("path_to_model.onnx")
     run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```
 
-## 次のステップ：実験を可視化
-W&Bダッシュボードを使用して、機械学習モデルの結果を整理し可視化する中央の場所として利用します。[parallel coordinates plots](/ja/models/app/features/panels/parallel-coordinates/)、[parameter importance analyzes](/ja/models/app/features/panels/parameter-importance/)、および[その他の](/ja/models/app/features/panels/)ようなリッチでインタラクティブなグラフを数クリックで構築します。
+## 次のステップ：実験の可視化
+W&B ダッシュボードを、機械学習モデルの結果を整理・可視化するための中心的な場所として活用してください。数回のクリックで、[平行座標プロット](/models/app/features/panels/parallel-coordinates/)、[パラメータの重要度分析](/models/app/features/panels/parameter-importance/)、[その他のグラフタイプ](/models/app/features/panels/) などの豊富なインタラクティブなグラフを作成できます。
 
 <Frame>
-    <img src="/images/sweeps/quickstart_dashboard_example.png" alt="クイックスタートスイープダッシュボードの例"  />
+    <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example"  />
 </Frame>
 
-実験や特定runの表示方法についての詳細は、[Visualize results from experiments](/ja/models/track/workspaces/)を参照してください。
+Experiments や特定の Runs を表示する方法の詳細については、[Visualize results from experiments](/models/track/workspaces/) を参照してください。
+
 
 ## ベストプラクティス
-以下は、実験を作成する際に考慮すべきいくつかのガイドラインです：
+実験を作成する際に考慮すべき、推奨されるガイドラインを以下に示します。
 
-1. **Runを終了させる**: `wandb.init()`を`with`文で使用して、コードが完了したときや例外が発生したときにrunを自動的に終了させます。
-    * Jupyterノートブックでは、Runオブジェクトを自分で管理する方が便利な場合があります。この場合、Runオブジェクトで`finish()`を明示的に呼び出して完了をマークできます：
+1. **Runs を終了させる**: `with` ステートメント内で `wandb.init()` を使用すると、コードが完了するか例外が発生したときに、自動的に run が終了としてマークされます。
+    * Jupyter Notebook では、Run オブジェクトを自分で管理する方が便利な場合があります。この場合、Run オブジェクトに対して明示的に `finish()` を呼び出して完了をマークできます。
 
         ```python
-        # ノートブックセル内で：
+        # Notebook のセル内で:
         run = wandb.init()
 
-        # 別のセルで：
+        # 別のセル内で:
         run.finish()
         ```
-2. **Config**: ハイパーパラメータ、アーキテクチャー、データセット、およびモデルの再現に使用したい他のすべてのものをトラックします。これらは列に表示され、アプリ内で動的にrunをグループ化、並べ替え、およびフィルタリングするためにconfig列を使用します。
-3. **プロジェクト**: プロジェクトは比較可能な一連の実験です。各プロジェクトは専用のダッシュボードページを持ち、異なるモデルバージョンを比較するrunの異なるグループを簡単にオンオフできます。
-4. **ノート**: スクリプトから直接クイックコミットメッセージを設定します。ノートを編集し、W&Bアプリのrunのオーバービューセクションでアクセスします。
-5. **タグ**: ベースラインrunとお気に入りのrunを識別します。タグを使用してrunをフィルタリングできます。タグは後で、プロジェクトのダッシュボードのオーバービューセクションで編集できます。
-6. **実験を比較するために複数のrunセットを作成**: 実験を比較するときは、メトリクスを比較しやすくするために複数のrunセットを作成します。runセットを同じグラフまたは一連のグラフでオンオフできます。
+2. **Config**: ハイパーパラメーター、アーキテクチャー、データセット、その他モデルを再現するために必要なものを追跡します。これらは列として表示されます。config の列を使用して、アプリ内で動的に run をグループ化、ソート、フィルタリングできます。
+3. **Project**: Projects は、一緒に比較できる一連の Experiments です。各プロジェクトには専用のダッシュボードページがあり、異なる run のグループを簡単にオン・オフして、異なるモデルバージョンを比較できます。
+4. **Notes**: スクリプトから直接、簡単なコミットメッセージのようなメモを設定できます。W&B アプリの run の Overview セクションでノートを編集したりアクセスしたりできます。
+5. **Tags**: ベースラインの run やお気に入りの run を特定します。タグを使用して run をフィルタリングできます。タグは、後で W&B アプリのプロジェクトダッシュボードの Overview セクションで編集可能です。
+6. **比較のために複数の run set を作成する**: 実験を比較する際は、メトリクスを比較しやすくするために複数の run set を作成してください。同じグラフやグラフグループ内で run set の表示・非表示を切り替えることができます。
 
-以下のコードスニペットは、上記のベストプラクティスを使用してW&B Experimentを定義する方法を示しています：
+以下のコードスニペットは、上記のベストプラクティスを使用して W&B Experiment を定義する方法を示しています。
 
 ```python
 import wandb
@@ -149,4 +154,4 @@ with wandb.init(
     ...
 ```
 
-W&B Experimentを定義する際に利用可能なパラメータの詳細については、[`wandb.init`](/ja/models/ref/python/init) APIドキュメントを[APIリファレンスガイド](/ja/models/ref/python/)で参照してください。
+W&B Experiment を定義する際に利用可能なパラメータの詳細については、[API Reference Guide](/models/ref/python/) の [`wandb.init()`](/models/ref/python/functions/init) API ドキュメントを参照してください。

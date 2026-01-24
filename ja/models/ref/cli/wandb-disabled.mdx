@@ -2,16 +2,29 @@
 title: wandb disabled
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-disabled.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb disabled [OPTIONS]`
+import WandbDisabled from "/snippets/en/_includes/cli/wandb-disabled.mdx";
 
-**概要**
+<WandbDisabled/>
+
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 W&B を無効化します。
 
-**オプション**
+## 使用法
 
-| **オプション** | **説明** |
+```bash
+wandb disabled [OPTIONS]
+```
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--service` | W&B サービスを無効化します  [デフォルト: True] |
+| `--service` | W&B サービスを無効化する (デフォルト: True) |

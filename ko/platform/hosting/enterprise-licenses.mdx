@@ -1,0 +1,144 @@
+---
+title: 엔터프라이즈 라이선스
+description: start_thought W&B Enterprise 라이선스, 포함된 기능, 라이선스를 취득하고 구성하는 방법에 대해 알아보세요.
+---
+
+Enterprise 라이선스는 보안, 컴플라이언스 또는 관리 영역에서 향상된 기능이 필요한 조직을 위해 설계된 W&B 기능들을 활성화합니다. [Enterprise 기능](#enterprise-features) 목록을 확인하세요.
+
+- **보안**: 강화된 인증, 암호화 및 access 제어.
+- **컴플라이언스**: 감사 log 기록, HIPAA 준수 옵션 및 data 거버넌스 제어.
+- **관리**: SCIM 프로비저닝, 사용자 정의 역할 및 자동화 기능과 같은 Users 관리 기능.
+
+이 페이지는 Enterprise 라이선스에 대한 포괄적인 개요를 제공하며, 활성화되는 기능, 획득 방법 및 배포를 위한 설정 방법을 포함합니다.
+
+## 배포 옵션
+Enterprise 라이선스는 W&B 전용 클라우드 및 Self-Managed 배포에서 사용할 수 있습니다.
+
+- [W&B 전용 클라우드](/platform/hosting/hosting-options/dedicated_cloud)는 Google Cloud에 배포되고 W&B가 관리하는 싱글 테넌트 인프라를 제공합니다. 전용 클라우드 배포에는 Enterprise 라이선스가 자동으로 포함됩니다. 별도의 설정이 필요하지 않으며, 프로비저닝 즉시 모든 Enterprise 기능을 사용할 수 있습니다.
+- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed)는 귀하의 자체 인프라에 배포되어 배포 환경과 data에 대한 완전한 제어권을 제공합니다. 에어갭(Air-gapped) 배포가 지원됩니다. Enterprise 라이선스가 없으면 [Enterprise 기능](#enterprise-features)을 사용할 수 없습니다.
+
+## Enterprise 라이선스 획득
+이 섹션은 Enterprise 라이선스를 획득하는 방법을 설명합니다. 유스 케이스에 따라 탭을 선택하여 계속 진행하세요.
+
+<Tabs>
+<Tab title="전용 클라우드">
+W&B 전용 클라우드에는 Enterprise 라이선스가 포함되어 있으며 별도의 조치가 필요하지 않습니다. [Enterprise 트라이얼 시작하기](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) 또는 [영업팀](https://wandb.ai/site/contact-sales)에 문의하여 요구 사항을 논의하세요.
+
+</Tab>
+<Tab title="Self-Managed">
+Enterprise 라이선스 요청:
+
+- **평가**: [트라이얼 라이선스 요청](https://wandb.ai/site/for-enterprise/self-hosted-trial)을 제출하거나 [영업팀](mailto:sales@wandb.ai)에 문의하여 요구 사항을 논의하세요.
+- **프로덕션**: [영업팀](https://wandb.ai/site/contact-sales)에 문의하여 배포 요구 사항 및 규모를 논의하고 라이선스 상세 정보를 받으세요.
+
+<Warning>라이선스 키를 안전하게 보관하고 민감한 자격 증명으로 취급하세요.</Warning>
+
+</Tab>
+</Tabs>
+
+## Enterprise 라이선스 설정
+
+<Info>이 섹션은 W&B Self-Managed에만 해당됩니다.</Info>
+
+[Enterprise 라이선스를 획득](#obtain-an-enterprise-license)한 후, 프로그래밍 방식으로 설정하거나 배포 후 W&B 앱에서 설정할 수 있습니다. 안내를 보려면 탭을 선택하세요.
+
+<Tabs>
+<Tab title="Helm">
+1. `values.yaml` 파일을 업데이트합니다:
+    ```yaml
+    wandb:
+      license: "YOUR_LICENSE_KEY_HERE"
+    ```
+
+2. Helm 릴리스를 업그레이드합니다:
+    ```bash
+    # Helm 릴리스 업그레이드
+    helm upgrade wandb wandb/wandb \
+      --namespace wandb \
+      --reuse-values \
+      --set license=$LICENSE_KEY
+    ```
+</Tab>
+<Tab title="Terraform">
+1. Terraform 변수를 업데이트합니다:
+    ```hcl
+    variable "license" {
+      default = "YOUR_LICENSE_KEY_HERE"
+    }
+    ```
+
+2. Terraform 설정을 적용합니다:
+    ```bash
+    # Terraform 설정 적용
+    terraform apply -var="license=$LICENSE_KEY"
+    ```
+</Tab>
+<Tab title="W&B 앱">
+환경 변수 설정이 없는 기존 배포의 경우:
+
+1. 관리자 사용자로 로그인합니다
+2. **System Settings**로 이동합니다
+3. **License** 섹션을 찾습니다
+4. 새 라이선스 키를 입력합니다
+5. 변경 사항을 저장합니다
+</Tab>
+<Tab title="Docker">
+<Warning>Docker에 W&B를 배포하는 방식은 더 이상 권장되지 않습니다(deprecated). W&B는 Helm 또는 Terraform으로 관리되는 [Kubernetes Operator]() 배포로 마이그레이션할 것을 강력히 권장합니다. [참조 아키텍처](/platform/hosting/self-managed/ref-arch.mdx)를 참조하거나 [지원팀](mailto:support@wandb.ai)에 문의하여 안내를 받으세요.</Warning>
+라이선스 키를 환경 변수로 설정합니다:
+```bash
+# Docker run 명령어로 라이선스 설정
+docker run -d \
+  -e LICENSE="YOUR_LICENSE_KEY_HERE" \
+  -e OTHER_ENV_VARS \
+  wandb/local
+```
+</Tab>
+</Tabs>
+
+다음으로, [Enterprise 라이선스를 확인](#verify-or-update-an-enterprise-license)하세요.
+
+## Enterprise 라이선스 확인 및 관리
+
+인스턴스 또는 조직 관리자로서 다음 단계에 따라 Enterprise 라이선스를 확인하고 관리하세요:
+1. W&B 앱에서 오른쪽 상단의 사용자 프로필 아이콘을 클릭한 다음 **System Console**을 클릭합니다.
+1. **License** 탭으로 이동합니다. 대시보드에서 라이선스의 권한, 만료일 및 시간 경과에 따른 사용량 요약을 확인할 수 있습니다. 오류가 발생하면 [일반적인 문제](#common-issues)를 참조하세요.
+1. 라이선스 및 해당 권한에 대한 자세한 정보를 보려면 **View license online**을 클릭합니다.
+
+    이 페이지에서 새로운 트라이얼 또는 프로덕션 라이선스를 주문할 수도 있습니다. 페이지 상단에서 **New license order**를 클릭하고 양식을 제출하세요.
+1. 만료된 라이선스를 갱신하거나 라이선스 키를 업데이트하려면 **Update License**를 클릭합니다.
+    <Tip>
+    중단 없는 서비스를 보장하기 위해 W&B는 다음 시점에 연락을 드립니다:
+    - 라이선스 만료 30일 전
+    - 라이선스가 만료되었을 때
+    </Tip>
+
+
+## Enterprise 기능
+사용 가능한 Enterprise 기능의 전체 목록은 [가격 정책](https://wandb.ai/site/pricing/) 페이지를 방문하여 **Cloud-hosted** 또는 **Privately-hosted**를 클릭하여 확인하세요.
+
+## 일반적인 문제
+
+
+### 라이선스가 인식되지 않음
+- 라이선스 키 형식이 올바른지 확인하세요 (추가 공백 없음)
+- 라이선스가 만료되지 않았는지 확인하세요
+- 라이선스가 올바른 설정 위치에 지정되었는지 확인하세요
+
+### 라이선스 설정 후 기능을 사용할 수 없음
+- 라이선스 설정 후 W&B 서비스를 재시작하세요
+- 라이선스에 액세스하려는 특정 기능이 포함되어 있는지 확인하세요
+- 라이선스 검증 오류가 있는지 시스템 로그를 확인하세요
+
+### 라이선스 만료 경고
+- System Settings 페이지에서 만료 알림을 모니터링하세요
+- 모니터링 시스템에서 라이선스 만료에 대한 알림을 설정하세요
+- 계정 담당 팀의 연락처 정보를 최신 상태로 유지하세요
+
+### 지원 받기
+Enterprise 라이선스와 관련하여 도움이 필요하시면 귀하의 계정 팀, [영업팀](mailto:sales@wandb.ai) 또는 [지원팀](mailto:support@wandb.ai)에 문의하세요.
+
+## 추가 리소스
+- [W&B 가격 정책](/pricing)
+- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed)
+- [W&B 전용 클라우드](/platform/hosting/hosting-options/dedicated_cloud)
+- [보안 및 컴플라이언스](/security)

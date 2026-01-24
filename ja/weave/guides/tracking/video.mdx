@@ -1,0 +1,100 @@
+---
+title: ビデオのログ設定
+description: moviepy を使用して Weave で動画を自動的に ログ に記録する
+---
+
+Weave は [`moviepy`](https://zulko.github.io/moviepy/) を使用してビデオを自動的にログに記録します。これにより、ビデオの入力と出力をトレースされた関数に渡すことができ、Weave がビデオデータのアップロードと保存を自動的に処理します。
+
+<Note>
+ビデオのサポートは現在 Python でのみ利用可能です。
+</Note>
+
+## 利用の前提条件
+
+1. `weave` と `moviepy==1.0.3` をインストールします。
+2. W&B アカウントを作成します。
+
+## サポートされているビデオタイプ
+
+Weave は、以下のような `moviepy` のビデオクリップオブジェクトを認識します。
+
+- ビデオファイルからロードされた `VideoFileClip`
+- `ImageClip`、`ColorClip`、`TextClip` などのメモリ内クリップ
+
+### ファイルベースのクリップの直接アップロード
+
+クリップが `VideoFileClip` であり、サポートされている拡張子を持つ有効なファイル名がある場合、Weave はそのファイルを直接アップロードします。
+
+**サポートされているファイル拡張子:**
+
+- `.mp4`
+- `.webm`
+- `.gif`
+
+### メモリ内クリップのサポート
+
+ビデオオブジェクトがメモリ内にある（ディスク上にファイルがない）場合、Weave はそれを `.mp4` ファイルとしてエンコードし、自動的にアップロードを処理します。これは以下のタイプのクリップに適用されます。
+
+- `ImageClip`
+- `ColorClip`
+- `TextClip`
+
+## 例: ビデオ関数のトレース
+
+以下のコードサンプルは、Weave でビデオ プロセッシング 関数をトレースする方法を示しています。このコードサンプルでは以下のことを行います。
+
+1. `video-test` という名前の Weave Projects を初期化します。
+2. `weave.op` として追跡される `get_video` 関数を定義し、ロードされた `VideoFileClip` から 1 秒間のサブクリップを `VideoClip` として抽出します。
+3. Weave でクリップをアップロードし、追跡します。
+4. ビデオが見つからない場合、ダミーの MP4 ビデオを自動的に生成します。
+
+<Warning>
+スレッドセーフの問題を避けるため、`VideoFileClip` オブジェクトを Weave `op` の外で作成するのではなく、常にパスを渡すようにしてください。
+</Warning>
+
+以下の コード snippet を使用する前に、[利用の前提条件](#usage-prerequisites) を完了してください。
+
+```python lines
+import os
+import weave
+from moviepy.editor import VideoFileClip, ColorClip, VideoClip
+
+# プロジェクト名を更新するか、'video-test' という名前の新しいプロジェクトを作成します
+weave.init('video-test')
+
+@weave.op
+def get_video(clip: VideoFileClip) -> VideoClip:
+    """クリップを直接渡すのではなく、パスによってビデオを処理します。
+
+    これにより、VideoFileClip が Weave op のスレッドコンテキスト内で作成および管理され、
+    スレッドセーフの問題を回避できます。
+    """
+    new_clip = clip.subclip(0, 1)
+    return new_clip
+
+if __name__ == "__main__":
+    os.makedirs("videos", exist_ok=True)
+
+    # MP4 ファイルを指すようにパスを更新してください
+    video_path = './videos/example.mp4'
+
+    # ビデオが存在しない場合はダミービデオを生成します
+    # ダミービデオの内容: 5秒間表示される赤い正方形
+    if not os.path.isfile(video_path):
+        print("No video found. Creating dummy video...")
+        dummy_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=5)
+        dummy_clip.write_videofile(video_path, fps=24)
+
+    clip = VideoFileClip(video_path, has_mask=False, audio=True)
+    get_video(clip) 
+```
+
+コードサンプルが正常に実行されると、プロジェクトの **Traces** テーブルにあるリンクをクリックしてビデオを表示できます。
+
+<Frame>
+![Traces テーブル内のビデオ プロセッシング 関数のトレース。](/weave/guides/tracking/imgs/video-trace.png)
+</Frame>
+
+<Frame>
+![Weave にアップロードされ、Traces ポップアウトで表示された MP4 ビデオ。](/weave/guides/tracking/imgs/video-trace-popout.png)
+</Frame>

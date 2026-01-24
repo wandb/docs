@@ -1,0 +1,114 @@
+---
+title: Koog
+description: Weave 의 내장 OpenTelemetry 지원을 통해 Kotlin 기반 Koog 에이전트를 추적하세요. 단일 run 및
+  복잡한 워크플로우 실행, 툴 호출, 프롬프트, 그리고 완성을 캡처하여 Kotlin AI 애플리케이션의 완전한 가시성을 확보할 수 있습니다.
+---
+
+[Koog](https://docs.koog.ai/)는 단일 실행 및 복잡한 워크플로우 에이전트를 구축하기 위한 Kotlin 기반 프레임워크입니다. Koog는 기본 제공 OpenTelemetry (OTEL) 지원 기능을 포함하고 있으며 trace를 Weave 로 직접 내보낼 수 있어, 프롬프트, 완료(completions), tool 호출 및 엔드투엔드 에이전트 실행에 대한 풍부한 가시성을 제공합니다.
+
+Weave exporter를 활성화하면 Koog가 OpenTelemetry span을 Weave 프로젝트로 전달하여 성능을 디버깅 및 분석하고 더 빠르게 반복할 수 있습니다.
+
+<Frame>
+![Koog](/weave/guides/integrations/imgs/koog.png)
+</Frame>
+
+## 사전 요구 사항
+
+에이전트를 실행하기 전에 다음 환경 변수를 설정하세요:
+
+```bash
+export WEAVE_API_KEY="<your-api-key>"
+export WEAVE_ENTITY="<your-entity>"           # W&B 팀/엔티티
+export WEAVE_PROJECT_NAME="koog-tracing"      # 프로젝트 이름; 처음 사용 시 생성됨
+```
+
+## Koog 설치 (Gradle)
+
+Kotlin 프로젝트에 Koog를 추가하세요 (Kotlin DSL 예시):
+
+```kotlin
+dependencies {
+    implementation("ai.koog:koog-agents:LATEST_VERSION")
+}
+```
+
+추가적인 설치 정보는 [Koog 문서](https://docs.koog.ai/)를 참조하세요.
+
+## Weave export 활성화 (OpenTelemetry)
+
+Koog의 OpenTelemetry 기능을 설치하고 Weave exporter를 추가합니다. 이는 Weave의 OpenTelemetry 엔드포인트를 사용하여 Koog span을 Weave trace에 매핑합니다.
+
+다음 예시는 `addWeaveExporter`를 사용하는 방법을 보여줍니다:
+
+```kotlin
+fun main() = runBlocking {
+    val apiKey = "api-key"
+    val entity = System.getenv()["WEAVE_ENTITY"] ?: throw IllegalArgumentException("WEAVE_ENTITY is not set")
+    val projectName = System.getenv()["WEAVE_PROJECT_NAME"] ?: "koog-tracing"
+
+    val agent = AIAgent(
+        executor = simpleOpenAIExecutor(apiKey),
+        llmModel = OpenAIModels.CostOptimized.GPT4oMini,
+        systemPrompt = "You are a code assistant. Provide concise code examples."
+    ) {
+        install(OpenTelemetry) {
+            addWeaveExporter()
+        }
+    }
+
+    println("Running agent with Weave tracing")
+
+    val result = agent.run("""
+        Create a Python function to calculate fibonacci numbers efficiently,
+        include error handling, type hints, and unit tests.
+        Verify the implementation works for n=50.
+    """)
+
+    println("Result: $result\nSee traces on https://wandb.ai/$entity/$projectName/weave/traces")
+}
+```
+
+이 함수는 Weave 환경 변수를 자동으로 읽어오지만, 다음과 같이 exporter에 대한 [특정 파라미터](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds))를 구성할 수도 있습니다:
+
+```kotlin
+install(OpenTelemetry) {
+    addWeaveExporter(
+        weaveOtelBaseUrl = "https://trace.wandb.ai",
+        weaveEntity = System.getenv()["WEAVE_ENTITY"],
+        weaveProjectName = System.getenv()["WEAVE_PROJECT_NAME"],
+        weaveApiKey = System.getenv()["WEAVE_API_KEY"],
+        timeout = 10.seconds
+    )
+}
+```
+
+위의 예시는 다음과 같습니다:
+
+- `weaveEntity` 및 `weaveProjectName`을 사용하여 특정 팀과 프로젝트로 trace를 라우팅합니다.
+- `weaveOtelBaseUrl`을 trace 엔드포인트로 설정합니다 (예: `https://<your-subdomain>.wandb.io/<path>`). 전용 Weave 인스턴스를 사용하는 경우 이 파라미터를 사용하세요.
+
+Koog를 Weave와 처음 사용하신다면 다음 문서를 검토하는 것을 권장합니다:
+* exporter에 대한 추가 정보는 [Koog의 Weave exporter 가이드](https://docs.koog.ai/opentelemetry-weave-exporter/)를 참조하세요.
+* OpenTelemetry가 Koog와 어떻게 작동하는지에 대한 핵심 개념은 [Koog의 OpenTelemetry 지원 가이드](https://docs.koog.ai/opentelemetry-support/)를 참조하세요.
+* Weave가 OTLP 데이터를 수집하는 방식에 대한 정보는 [Weave OTEL 문서](../tracking/otel)를 참조하세요.
+
+## 추적되는 항목
+
+활성화되면 Koog의 Weave exporter는 다음을 포함하여 Koog의 일반 OTEL 인테그레이션과 동일한 span을 캡처합니다:
+
+- 에이전트 수명 주기 이벤트 (시작, 중지, 오류)
+- LLM 상호작용 (프롬프트, 완료, 토큰 사용량, 지연 시간)
+- Tool 및 API 호출 (함수 호출 및 외부 요청)
+- 시스템 컨텍스트 (모델 이름, Koog 버전, 환경 메타데이터)
+
+Weave UI에서 이러한 trace를 시각화하여 성능과 품질을 파악할 수 있습니다. Weave를 사용한 trace 캡처에 대한 도입부는 [Weave의 tracing 개요](../tracking/tracing)를 참조하세요.
+
+## 예제 노트북
+
+Weave로 trace를 스트리밍하는 [실행 가능한 노트북](https://docs.koog.ai/examples/Weave/)은 Koog 문서를 참조하세요.
+
+## 문제 해결
+
+- trace가 누락된 경우, 먼저 `WEAVE_API_KEY`, `WEAVE_ENTITY`, `WEAVE_PROJECT_NAME`이 올바르게 설정되었는지 확인하세요.
+- 사용자 환경에서 `https://trace.wandb.ai`에 접속 가능한지, exporter가 위에 설명된 대로 구성되었는지 확인하세요.
+- 추가적인 문제 해결 및 샘플링 가이드는 Koog의 [OpenTelemetry 지원](https://docs.koog.ai/opentelemetry-support/)을 참조하세요.

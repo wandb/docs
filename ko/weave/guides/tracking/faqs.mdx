@@ -1,0 +1,152 @@
+---
+title: 자주 묻는 질문 (FAQs)
+description: Weave tracing 에 관한 자주 묻는 질문에 대한 답변입니다.
+---
+
+이 페이지는 Weave tracing에 대한 자주 묻는 질문의 답변을 제공합니다.
+
+## Weave는 함수에 대해 어떤 정보를 캡처하나요?
+
+함수는 데코레이터를 통해 수동으로 또는 활성화된 인테그레이션의 일부로 자동으로 Weave [Op](/weave/guides/tracking/ops)로 지정될 수 있습니다. Op가 실행될 때, Weave는 분석을 지원하기 위해 상세한 정보를 캡처합니다. Weave는 기본값과 다른 내용을 로깅하고 싶은 경우를 대비하여 로깅되는 항목에 대해 세밀한 제어 기능을 제공합니다. 설정 예시는 아래를 참조하세요.
+
+- **코드 캡처** - Weave는 Op 소스 코드의 표현(representation)을 캡처합니다. 여기에는 인라인 주석뿐만 아니라 변수의 값이나 호출된 non-Op 함수의 소스를 재귀적으로 캡처하는 것이 포함됩니다. 코드 캡처를 통해 변경 사항이 소스 제어 시스템에 저장되지 않았더라도 함수가 무엇을 하고 있었는지 확인할 수 있습니다. 코드 캡처는 Op 버전 관리의 일부로 사용되어, 시간 경과에 따른 코드의 평가를 이해할 수 있게 해줍니다. 코드 캡처가 비활성화된 경우 대신 해시 값이 사용됩니다.
+
+- **함수 이름, 입력 및 출력** - 함수의 이름이 캡처되지만 [재정의(overridden)](/weave/guides/tracking/tracing/#call-display-name)할 수 있습니다. 입력 및 출력의 JSON 기반 표현이 캡처됩니다. 입력의 경우 값 외에도 인수(argument) 이름이 캡처됩니다. Weave를 사용하면 입력 및 출력의 [로깅을 커스터마이징](/weave/guides/tracking/ops#customize-logged-inputs-and-outputs)할 수 있습니다. 로깅되는 내용을 추가/제거/수정하는 함수를 지정할 수 있습니다.
+
+- **Op 호출 계층 구조** - 하나의 Op가 실행되는 컨텍스트 내에서 다른 Op가 호출될 때, 중간에 non-Op 함수가 실행되는 경우에도 이 관계가 캡처됩니다. Op 호출 간의 이 관계는 "Trace tree"를 제공하는 데 사용됩니다.
+
+- **실행 상태 및 예외** - Weave는 함수가 실행 중인지, 완료되었는지 또는 오류가 발생했는지를 추적합니다. 실행 중에 예외가 발생하면 오류 메시지와 스택 트레이스가 기록됩니다.
+
+- **시스템 정보** - Weave는 상세한 버전 정보를 포함하여 클라이언트가 실행 중인 운영 체제에 대한 정보를 캡처할 수 있습니다.
+
+- **클라이언트 정보** - Weave는 사용 중인 프로그래밍 언어와 해당 언어 및 Weave 클라이언트 라이브러리의 상세 버전 정보와 같은 Weave 클라이언트 자체에 대한 정보를 캡처할 수 있습니다.
+
+- **타이밍** - 실행 시작 및 종료 시간이 캡처되며 레이턴시 계산에도 사용됩니다.
+
+- **토큰 사용량** - 일부 [인테그레이션](/weave/guides/integrations/)에서는 LLM 토큰 사용량이 자동으로 로그에 기록될 수 있습니다.
+
+- **User 및 run 컨텍스트** - 로깅은 W&B User 계정과 연결됩니다. 이는 모든 wandb Run 컨텍스트와 함께 캡처됩니다.
+
+- **파생 정보** - Weave는 로깅된 원시 정보로부터 파생된 정보를 계산할 수 있습니다. 예를 들어, 사용된 토큰과 모델에 대한 지식을 기반으로 예상 비용을 계산할 수 있습니다. 또한 Weave는 여러 호출에 걸쳐 일부 정보를 집계합니다.
+
+- **선택한 추가 정보** - 호출의 일부로 [`weave.attributes`를 사용하여 커스텀 메타데이터](/weave/guides/core-types/models#track-production-calls)를 로깅하거나 호출에 [피드백](/weave/guides/tracking/feedback#add-feedback-to-a-call)을 추가하도록 선택할 수 있습니다.
+
+## 코드 캡처를 어떻게 비활성화할 수 있나요?
+
+Weave 클라이언트 초기화 중에 코드 캡처를 비활성화할 수 있습니다: `weave.init("entity/project", settings={"capture_code": False})`.
+또한 [환경 변수](/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false`를 사용할 수 있습니다.
+
+## 시스템 정보 캡처를 어떻게 비활성화할 수 있나요?
+
+Weave 클라이언트 초기화 중에 시스템 정보 캡처를 비활성화할 수 있습니다: `weave.init("entity/project", settings={"capture_system_info": False})`.
+
+## 클라이언트 정보 캡처를 어떻게 비활성화할 수 있나요?
+
+Weave 클라이언트 초기화 중에 클라이언트 정보 캡처를 비활성화할 수 있습니다: `weave.init("entity/project", settings={"capture_client_info": False})`.
+
+## UI에서 Python datetime 값을 어떻게 렌더링하나요?
+
+Python의 `datetime.datetime`(타임존 정보 포함)을 사용하고, `weave.publish(...)`를 사용하여 오브젝트를 게시하세요. Weave는 이 타입을 인식하고 타임스탬프로 렌더링합니다.
+
+## UI에서 Markdown을 어떻게 렌더링하나요?
+
+저장하기 전에 문자열을 `weave.Markdown(...)`으로 감싸고, `weave.publish(...)`를 사용하여 저장하세요. Weave는 오브젝트의 타입을 사용하여 렌더링 방식을 결정하며, `weave.Markdown`은 알려진 UI 렌더러에 매핑됩니다. 해당 값은 UI에서 포맷된 Markdown 오브젝트로 표시됩니다. 전체 코드 샘플은 [Viewing calls](./tracing.mdx#viewing-calls)를 참조하세요.
+
+## Weave가 함수의 실행 속도에 영향을 미치나요?
+
+Weave 로깅의 오버헤드는 일반적으로 LLM을 호출하는 것에 비해 무시할 수 있는 수준입니다.
+Op 실행 속도에 미치는 영향을 최소화하기 위해, Weave의 네트워크 활동은 백그라운드 스레드에서 발생합니다.
+프로그램이 종료될 때 대기 중인 나머지 데이터가 로깅되는 동안 일시 정지된 것처럼 보일 수 있습니다.
+
+## Weave 데이터 인제스트(ingestion)는 어떻게 계산되나요?
+
+인제스트된 바이트는 귀하를 대신하여 수신, 프로세스 및 저장하는 바이트로 정의됩니다. 여기에는 trace 메타데이터, LLM 입력/출력 및 귀하가 Weave에 명시적으로 로그를 남긴 기타 정보가 포함되지만, 통신 오버헤드(예: HTTP 헤더)나 장기 저장소에 보관되지 않는 다른 데이터는 포함되지 않습니다. 바이트는 수신 및 저장되는 시점에 단 한 번만 "인제스트된" 것으로 계산됩니다.
+
+## Pairwise evaluation이란 무엇이며 어떻게 하나요?
+
+Weave [evaluation](/weave/guides/core-types/evaluations)에서 모델을 [스코어링](/weave/guides/evaluation/scorers)할 때, 절대값 메트릭(예: 모델 A의 경우 `9/10`, 모델 B의 경우 `8/10`)은 상대적인 메트릭(예: 모델 A가 모델 B보다 성능이 좋음)보다 할당하기 어려운 경우가 많습니다. _Pairwise evaluation_을 사용하면 두 모델의 출력을 서로 상대적으로 순위를 매겨 비교할 수 있습니다. 이 접근 방식은 텍스트 생성, 요약 또는 질의응답과 같은 주관적인 작업에 대해 어떤 모델이 더 나은 성능을 보이는지 결정하려 할 때 특히 유용합니다. Pairwise evaluation을 통해 특정 입력에 대해 어떤 모델이 가장 적합한지 보여주는 상대적 선호도 순위를 얻을 수 있습니다.
+
+<Warning>
+이 접근 방식은 임시 방편이며 향후 릴리스에서 변경될 수 있습니다. 저희는 pairwise evaluation을 지원하기 위해 더 견고한 API를 적극적으로 개발하고 있습니다. 업데이트를 기대해 주세요!
+</Warning>
+
+다음 코드 샘플은 `PreferenceScorer`라는 [클래스 기반 scorer](/weave/guides/evaluation/scorers#class-based-scorers)를 생성하여 Weave에서 pairwise evaluation을 구현하는 방법을 보여줍니다. `PreferenceScorer`는 두 모델 `ModelA`와 `ModelB`를 비교하고, 입력 텍스트의 명시적인 힌트를 기반으로 모델 출력의 상대적 점수를 반환합니다.
+
+```python lines
+from weave import Model, Evaluation, Scorer, Dataset
+from weave.flow.model import ApplyModelError, apply_model_async
+
+class ModelA(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model A" in input_text:
+            return {"response": "This is a great answer from Model A"}
+        return {"response": "Meh, whatever"}
+
+class ModelB(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model B" in input_text:
+            return {"response": "This is a thoughtful answer from Model B"}
+        return {"response": "I don't know"}
+
+class PreferenceScorer(Scorer):
+    @weave.op
+    async def _get_other_model_output(self, example: dict) -> Any:
+        """비교를 위해 다른 모델로부터 출력을 가져옵니다.
+        인수:
+            example: 다른 모델을 통해 실행할 입력 예시 데이터
+        반환:
+            다른 모델의 출력
+        """
+
+        other_model_result = await apply_model_async(
+            self.other_model,
+            example,
+            None,
+        )
+
+        if isinstance(other_model_result, ApplyModelError):
+            return None
+
+        return other_model_result.model_output
+
+    @weave.op
+    async def score(self, output: dict, input_text: str) -> dict:
+        """기본 모델의 출력과 다른 모델의 출력을 비교합니다.
+        인수:
+            output (dict): 기본 모델의 출력.
+            input_text (str): 출력을 생성하는 데 사용된 입력 텍스트.
+        반환:
+            dict: 비교 결과와 이유를 포함하는 평탄한 사전(flat dictionary).
+        """
+        other_output = await self._get_other_model_output(
+            {"input_text": input_text}
+        )
+        if other_output is None:
+            return {"primary_is_better": False, "reason": "Other model failed"}
+
+        if "Prefer model A" in input_text:
+            primary_is_better = True
+            reason = "Model A gave a great answer"
+        else:
+            primary_is_better = False
+            reason = "Model B is preferred for this type of question"
+
+        return {"primary_is_better": primary_is_better, "reason": reason}
+
+dataset = Dataset(
+    rows=[
+        {"input_text": "Prefer model A: Question 1"},  # 모델 A 승리
+        {"input_text": "Prefer model A: Question 2"},  # 모델 A 승리
+        {"input_text": "Prefer model B: Question 3"},  # 모델 B 승리
+        {"input_text": "Prefer model B: Question 4"},  # 모델 B 승리
+    ]
+)
+
+model_a = ModelA()
+model_b = ModelB()
+pref_scorer = PreferenceScorer(other_model=model_b)
+evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
+evaluation.evaluate(model_a)
+```

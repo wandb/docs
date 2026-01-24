@@ -1,137 +1,134 @@
 ---
-title: Kubernetes operator for air-gapped instances
-description: Kubernetes Operator를 사용하여 W&B 플랫폼 배포 (에어 갭)
+title: 에어갭(Air-gapped) 인스턴스를 위한 Kubernetes operator
+description: Kubernetes Operator를 이용한 W&B 플랫폼 배포 (에어갭 환경)
 ---
+
+import SelfManagedVersionRequirements from "/snippets/en/_includes/self-managed-version-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/en/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/en/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/en/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/en/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/en/_includes/self-managed-object-storage-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/en/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedVerifyInstallation from "/snippets/en/_includes/self-managed-verify-installation.mdx";
 
 ## 도입
 
-본 가이드는 에어 갭(air-gapped) 고객 관리 환경에 W&B 플랫폼을 배포하는 단계별 지침을 제공합니다.
+이 가이드는 인터넷 연결이 제한된(air-gapped) 고객 관리형 환경에서 W&B 플랫폼을 배포하는 단계별 지침을 제공합니다.
 
-Helm 차트와 컨테이너 이미지를 호스팅하려면 내부 저장소 또는 레지스트리를 사용하세요. Kubernetes 클러스터에 적절한 엑세스 권한을 가진 셸 콘솔에서 모든 코맨드를 실행합니다.
+내부 저장소 또는 레지스트리를 사용하여 Helm 차트와 컨테이너 이미지를 호스팅하세요. Kubernetes 클러스터에 대한 적절한 엑세스 권한이 있는 셸 콘솔에서 모든 코맨드를 실행합니다.
 
-Kubernetes 애플리케이션을 배포하는 데 사용하는 모든 지속적 배포 툴링에서 유사한 코맨드를 활용할 수 있습니다.
+Kubernetes 애플리케이션을 배포하는 데 사용하는 모든 지속적 인도(continuous delivery) 툴에서도 유사한 코맨드를 활용할 수 있습니다.
 
-## 1단계: 전제 조건
+## 1단계: 필수 조건
 
 시작하기 전에 환경이 다음 요구 사항을 충족하는지 확인하세요.
 
-- Kubernetes 버전 >= 1.28
-- Helm 버전 >= 3
+### 버전 요구 사항
+<SelfManagedVersionRequirements/>
+
+### SSL/TLS 요구 사항
+<SelfManagedSslTlsRequirements/>
+
+### 하드웨어 요구 사항
+
+<SelfManagedHardwareRequirements/>
+
+### MySQL 데이터베이스
+
+<SelfManagedMysqlRequirements/>
+
+### Redis
+
+<SelfManagedRedisRequirements/>
+
+### 오브젝트 스토리지
+
+<SelfManagedObjectStorageRequirements/>
+
+### 추가 요구 사항
 - 필요한 W&B 이미지가 있는 내부 컨테이너 레지스트리에 대한 엑세스
-- W&B Helm 차트에 대한 내부 Helm 저장소에 대한 엑세스
+- W&B Helm 차트를 위한 내부 Helm 저장소에 대한 엑세스
+
+네트워킹 및 로드 밸런서 설정을 포함한 전체 인프라 요구 사항은 [참조 아키텍처](/platform/hosting/self-managed/ref-arch/#infrastructure-requirements)를 참조하세요.
+
+<Note>
+W&B는 에어갭(air-gapped) OpenShift Kubernetes 클러스터에 배포할 수 있습니다. 자세한 내용은 [참조 아키텍처](/platform/hosting/self-managed/ref-arch/#kubernetes)를 참조하고, 에어갭 OpenShift 배포에 맞게 조정할 수 있는 특정 설정 지침은 Operator 가이드의 [OpenShift 섹션](/platform/hosting/operator/#openshift-kubernetes-clusters)을 검토하세요.
+</Note>
 
 ## 2단계: 내부 컨테이너 레지스트리 준비
 
-배포를 진행하기 전에 다음 컨테이너 이미지가 내부 컨테이너 레지스트리에서 사용 가능한지 확인해야 합니다.
+성공적인 에어갭 배포를 위해 다음 컨테이너 이미지가 내부 컨테이너 레지스트리에 준비되어 있어야 합니다.
+
+사용자는 W&B Operator의 요구 사항을 추적하고 컨테이너 레지스트리를 최신 이미지로 정기적으로 유지 관리할 책임이 있습니다. 필요한 컨테이너 이미지 및 버전의 최신 목록은 Helm 차트를 참조하거나 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에게 문의하세요.
+
+### 핵심 W&B 구성 요소 컨테이너
 * [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller)
 * [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local)
 * [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console)
-* [`docker.io/bitnami/redis`](https://hub.docker.com/r/bitnami/redis)
-* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)
-* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus)
-* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader)
+* [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary)
 
-이러한 이미지는 W&B 컴포넌트의 성공적인 배포에 매우 중요합니다. W&B는 WSM을 사용하여 컨테이너 레지스트리를 준비하는 것을 권장합니다.
+### 종속성
 
-조직에서 이미 내부 컨테이너 레지스트리를 사용하는 경우 이미지를 추가할 수 있습니다. 그렇지 않으면 다음 섹션에 따라 WSM을 사용하여 컨테이너 저장소를 준비하세요.
+* [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis): 테스트 및 개발 중 로컬 Redis 배포에 필요합니다. 로컬 Redis 배포를 사용하려면 이 이미지가 컨테이너 레지스트리에 있는지 확인하세요. 프로덕션 Redis 요구 사항은 필수 조건의 [Redis 섹션](#redis)을 참조하세요.
+* [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib): W&B는 Kubernetes 레이어의 리소스에서 메트릭과 로그를 수집하여 W&B에 표시하기 위해 OpenTelemetry 에이전트에 의존합니다.
+* [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus): W&B는 다양한 구성 요소에서 메트릭을 캡처하여 W&B에 표시하기 위해 Prometheus에 의존합니다.
+* [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader): Prometheus의 필수 종속성입니다.
 
-[WSM 사용](#list-images-and-their-versions) 또는 조직의 자체 프로세스를 사용하여 Operator의 요구 사항을 추적하고 이미지 업그레이드를 확인하고 다운로드하는 것은 사용자의 책임입니다.
 
-### WSM 설치
+### 필요한 이미지 가져오기
 
-다음 방법 중 하나를 사용하여 WSM을 설치합니다.
+Helm 차트 값에서 필요한 이미지 및 버전의 전체 목록을 추출하려면 다음을 수행하세요.
 
-<Note>
-WSM을 사용하려면 Docker가 설치되어 있어야 합니다.
-</Note>
+1. [W&B Helm 차트 저장소](https://github.com/wandb/helm-charts)에서 W&B Operator 및 플랫폼 Helm 차트를 다운로드합니다.
 
-#### Bash
-GitHub에서 직접 Bash 스크립트를 실행합니다.
+2. `values.yaml` 파일을 검사하여 모든 컨테이너 이미지와 버전을 확인합니다.
 
-```bash
-curl -sSL https://raw.githubusercontent.com/wandb/wsm/main/install.sh | bash
-```
-스크립트는 스크립트를 실행한 폴더에 바이너리를 다운로드합니다. 다른 폴더로 이동하려면 다음을 실행합니다.
+    ```bash
+    # Helm 차트에서 이미지 참조 추출
+    helm show values wandb/operator \
+      | awk -F': *' '/^[[:space:]]*repository:/{print $2}' \
+      | grep -E '^wandb/' \
+      | sort -u
+    ```
 
-```bash
-sudo mv wsm /usr/local/bin
-```
+    목록은 다음과 유사할 수 있습니다. 이미지 버전은 다를 수 있습니다.
 
-#### GitHub
-W&B 관리 `wandb/wsm` GitHub 저장소( `https://github.com/wandb/wsm` )에서 WSM을 다운로드하거나 복제합니다. 최신 릴리스는 `wandb/wsm` [릴리스 노트](https://github.com/wandb/wsm/releases)를 참조하세요.
+    ```text
+    wandb/anaconda2
+    wandb/console
+    wandb/frontend-nginx
+    wandb/local
+    wandb/megabinary
+    wandb/weave-python
+    wandb/weave-trace
+    ```
 
-### 이미지 및 해당 버전 나열
-
-`wsm list`를 사용하여 최신 이미지 버전 목록을 가져옵니다.
-
-```bash
-wsm list
-```
-
-출력은 다음과 같습니다.
-
-```text
-:package: 배포에 필요한 모든 이미지를 나열하는 프로세스를 시작합니다...
-Operator Images:
-  wandb/controller:1.16.1
-W&B Images:
-  wandb/local:0.62.2
-  docker.io/bitnami/redis:7.2.4-debian-12-r9
-  quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
-  quay.io/prometheus/prometheus:v2.47.0
-  otel/opentelemetry-collector-contrib:0.97.0
-  wandb/console:2.13.1
-다음은 W&B를 배포하는 데 필요한 이미지입니다. 이러한 이미지가 내부 컨테이너 레지스트리에서 사용 가능한지 확인하고 values.yaml을 적절하게 업데이트하십시오.
-```
-
-### 이미지 다운로드
-
-`wsm download`를 사용하여 최신 버전의 모든 이미지를 다운로드합니다.
-
-```bash
-wsm download
-```
-
-출력은 다음과 같습니다.
-
-```text
-Downloading operator helm chart
-Downloading wandb helm chart
-✓ wandb/controller:1.16.1
-✓ docker.io/bitnami/redis:7.2.4-debian-12-r9
-✓ otel/opentelemetry-collector-contrib:0.97.0
-✓ quay.io/prometheus-operator/prometheus-config-reloader:v0.67.0
-✓ wandb/console:2.13.1
-✓ quay.io/prometheus/prometheus:v2.47.0
-
-  Done! Installed 7 packages.
-```
-
-WSM은 각 이미지에 대해 `.tgz` 아카이브를 `bundle` 디렉토리에 다운로드합니다.
 
 ## 3단계: 내부 Helm 차트 저장소 준비
 
-컨테이너 이미지와 함께 다음 Helm 차트가 내부 Helm 차트 저장소에서 사용 가능한지 확인해야 합니다. 마지막 단계에서 소개된 WSM 툴은 Helm 차트도 다운로드할 수 있습니다. 또는 여기에서 다운로드하세요.
+컨테이너 이미지와 함께 다음 Helm 차트도 내부 Helm 차트 저장소에 준비되어 있어야 합니다. 다음 위치에서 다운로드하세요.
 
 - [W&B Operator](https://github.com/wandb/helm-charts/tree/main/charts/operator)
 - [W&B Platform](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
 
-`operator` 차트는 컨트롤러 관리자라고도 하는 W&B Operator를 배포하는 데 사용됩니다. `platform` 차트는 CRD(사용자 정의 리소스 정의)에 구성된 값을 사용하여 W&B 플랫폼을 배포하는 데 사용됩니다.
+
+`operator` 차트는 Controller Manager라고도 불리는 W&B Operator를 배포하는 데 사용됩니다. `platform` 차트는 사용자 정의 리소스 정의(CRD)에 설정된 값을 사용하여 W&B 플랫폼을 배포하는 데 사용됩니다.
 
 ## 4단계: Helm 저장소 설정
 
-이제 내부 저장소에서 W&B Helm 차트를 가져오도록 Helm 저장소를 구성합니다. 다음 코맨드를 실행하여 Helm 저장소를 추가하고 업데이트합니다.
+이제 내부 저장소에서 W&B Helm 차트를 가져오도록 Helm 저장소를 설정합니다. 다음 코맨드를 실행하여 Helm 저장소를 추가하고 업데이트합니다.
 
 ```bash
 helm repo add local-repo https://charts.yourdomain.com
 helm repo update
 ```
 
-## 5단계: Kubernetes operator 설치
+## 5단계: Kubernetes Operator 설치
 
-컨트롤러 관리자라고도 하는 W&B Kubernetes operator는 W&B 플랫폼 컴포넌트 관리를 담당합니다. 에어 갭 환경에 설치하려면 내부 컨테이너 레지스트리를 사용하도록 구성해야 합니다.
+Controller Manager라고도 하는 W&B Kubernetes Operator는 W&B 플랫폼 구성 요소를 관리하는 역할을 합니다. 에어갭 환경에 설치하려면 내부 컨테이너 레지스트리를 사용하도록 설정해야 합니다.
 
-이렇게 하려면 내부 컨테이너 레지스트리를 사용하도록 기본 이미지 설정을 재정의하고 예상되는 배포 유형을 나타내기 위해 `airgapped: true` 키를 설정해야 합니다. 아래와 같이 `values.yaml` 파일을 업데이트합니다.
+이를 위해 기본 이미지 설정을 내부 컨테이너 레지스트리를 사용하도록 재정의하고, 예상되는 배포 유형을 나타내기 위해 `airgapped: true` 키를 설정해야 합니다. 아래와 같이 `values.yaml` 파일을 업데이트하세요.
 
 ```yaml
 image:
@@ -140,22 +137,30 @@ image:
 airgapped: true
 ```
 
-태그를 내부 레지스트리에서 사용 가능한 버전으로 바꿉니다.
+태그를 내부 레지스트리에서 사용 가능한 버전으로 교체하세요.
 
-operator 및 CRD를 설치합니다.
+Operator 및 CRD를 설치합니다.
 ```bash
-helm upgrade --install operator wandb/operator -n wandb --create-namespace -f values.yaml
+helm upgrade --install operator local-repo/operator -n wandb --create-namespace -f values.yaml
 ```
 
 지원되는 값에 대한 자세한 내용은 [Kubernetes operator GitHub 저장소](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)를 참조하세요.
 
-## 6단계: W&B 사용자 정의 리소스 구성
+## 6단계: MySQL 데이터베이스 설정
 
-W&B Kubernetes operator를 설치한 후에는 내부 Helm 저장소 및 컨테이너 레지스트리를 가리키도록 사용자 정의 리소스(CR)를 구성해야 합니다.
+W&B 사용자 정의 리소스를 설정하기 전에 외부 MySQL 데이터베이스를 설정해야 합니다. 프로덕션 배포의 경우 W&B는 관리형 데이터베이스 서비스를 사용할 것을 강력히 권장합니다. 직접 MySQL 인스턴스를 운영하는 경우 데이터베이스와 사용자를 생성하세요.
 
-이 구성은 Kubernetes operator가 W&B 플랫폼의 필요한 컴포넌트를 배포할 때 내부 레지스트리 및 저장소를 사용하도록 보장합니다.
+<SelfManagedMysqlDatabaseCreation/>
 
-이 예제 CR을 `wandb.yaml`이라는 새 파일에 복사합니다.
+MySQL 설정 파라미터는 [참조 아키텍처 MySQL 설정 섹션](/platform/hosting/self-managed/ref-arch/#mysql-configuration-parameters)을 참조하세요.
+
+## 7단계: W&B Custom Resource 설정
+
+W&B Kubernetes Operator를 설치한 후, 내부 Helm 저장소와 컨테이너 레지스트리를 가리키도록 Custom Resource(CR)를 설정해야 합니다.
+
+이 설정은 Kubernetes Operator가 W&B 플랫폼의 필요한 구성 요소를 배포할 때 내부 레지스트리와 저장소를 사용하도록 보장합니다.
+
+이 예시 CR을 `wandb.yaml`이라는 새 파일에 복사합니다.
 
 ```yaml
 apiVersion: apps.wandb.com/v1
@@ -180,7 +185,7 @@ spec:
       bucket:
         accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        name: s3.yourdomain.com:port #Ex.: s3.yourdomain.com:9000
+        name: s3.yourdomain.com:port #예: s3.yourdomain.com:9000
         path: bucket_name
         provider: s3
         region: us-east-1
@@ -190,12 +195,18 @@ spec:
         password: password
         port: 3306
         user: wandb
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: password
+      api:
+        enabled: true
+      glue:
+        enabled: true
+      executor:
+        enabled: true
       extraEnv:
         ENABLE_REGISTRY_UI: 'true'
-    
-    # If install: true, Helm installs a MySQL database for the deployment to use. Set to `false` to use your own external MySQL deployment.
-    mysql:
-      install: false
 
     app:
       image:
@@ -207,40 +218,88 @@ spec:
         repository: registry.yourdomain.com/console
         tag: 2.12.2
 
+    api:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    executor:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    glue:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    parquet:
+      image:
+        repository: registry.yourdomain.com/megabinary
+        tag: 0.59.2
+
+    weave:
+      image:
+        repository: registry.yourdomain.com/weave-python
+        tag: 0.59.2
+
+    otel:
+      image:
+        repository: registry.yourdomain.com/otel/opentelemetry-collector-contrib
+        tag: 0.97.0
+
+    prometheus:
+      server:
+        image:
+          repository: registry.yourdomain.com/prometheus/prometheus
+          tag: v2.47.0
+      configmapReload:
+        prometheus:
+          image:
+            repository: registry.yourdomain.com/prometheus-operator/prometheus-config-reloader
+            tag: v0.67.0
+
     ingress:
       annotations:
-        nginx.ingress.kubernetes.io/proxy-body-size: 64m
+        nginx.ingress.kubernetes.io/proxy-body-size: 0
       class: nginx
 
     
 ```
 
-W&B 플랫폼을 배포하기 위해 Kubernetes Operator는 CR의 값을 사용하여 내부 저장소에서 `operator-wandb` Helm 차트를 구성합니다.
+W&B 플랫폼을 배포하기 위해 Kubernetes Operator는 CR의 값을 사용하여 내부 저장소의 `operator-wandb` Helm 차트를 설정합니다.
 
-모든 태그/버전을 내부 레지스트리에서 사용 가능한 버전으로 바꿉니다.
+모든 태그와 버전을 내부 레지스트리에서 사용 가능한 버전으로 교체하세요. 위의 예시는 가장 일반적으로 사용되는 구성 요소를 보여줍니다. 배포 요구 사항에 따라 `settingsMigrationJob`, `weave-trace`, `filestream` 등과 같은 추가 구성 요소에 대한 이미지 레지스트리를 설정해야 할 수도 있습니다. 설정 가능한 구성 요소의 전체 목록은 [W&B Helm 저장소 values 파일](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml)을 참조하세요.
 
-앞의 구성 파일 작성에 대한 자세한 내용은 [여기](/ko/platform/hosting/operator/#configuration-reference-for-wb-server)에서 확인할 수 있습니다.
 
-## 7단계: W&B 플랫폼 배포
+## 8단계: W&B 플랫폼 배포
 
-이제 Kubernetes operator와 CR이 구성되었으므로 `wandb.yaml` 구성을 적용하여 W&B 플랫폼을 배포합니다.
+이제 Kubernetes Operator와 CR이 설정되었으므로, `wandb.yaml` 설정을 적용하여 W&B 플랫폼을 배포합니다.
 
 ```bash
 kubectl apply -f wandb.yaml
 ```
 
+## 9단계: 설치 확인
+
+<SelfManagedVerifyInstallation/>
+
 ## FAQ
 
-배포 프로세스 중에 자주 묻는 질문(FAQ) 및 문제 해결 팁은 아래를 참조하십시오.
+배포 프로세스 중에 자주 묻는 질문(FAQ) 및 문제 해결 팁을 참조하세요.
 
-### 다른 ingress 클래스가 있습니다. 해당 클래스를 사용할 수 있습니까?
-예, `values.yaml`에서 ingress 설정을 수정하여 ingress 클래스를 구성할 수 있습니다.
+### 다른 ingress 클래스가 있습니다. 해당 클래스를 사용할 수 있나요?
+예, `values.yaml`의 ingress 설정을 수정하여 ingress 클래스를 구성할 수 있습니다.
 
-### 인증서 번들에 인증서가 두 개 이상 있습니다. 작동합니까?
-`values.yaml`의 `customCACerts` 섹션에서 인증서를 여러 항목으로 분할해야 합니다.
+### 인증서 번들에 두 개 이상의 인증서가 있습니다. 작동할까요?
+`values.yaml`의 `customCACerts` 섹션에서 인증서를 여러 엔트리로 분할해야 합니다.
 
-### Kubernetes operator가 무인 업데이트를 적용하지 못하도록 하는 방법은 무엇입니까? 가능합니까?
-W&B 콘솔에서 자동 업데이트를 해제할 수 있습니다. 지원되는 버전에 대한 질문은 W&B 팀에 문의하십시오. 또한 W&B는 지난 6개월 동안 릴리스된 플랫폼 버전을 지원합니다. W&B는 주기적인 업그레이드를 수행하는 것이 좋습니다.
+### Kubernetes Operator가 의도하지 않은 업데이트를 적용하지 못하도록 하려면 어떻게 해야 하나요? 가능합니까?
+W&B 콘솔에서 자동 업데이트를 끌 수 있습니다. 지원되는 버전에 대한 질문은 W&B 팀에 문의하세요. W&B는 초기 출시일로부터 12개월 동안 주요 W&B 서버 릴리스를 지원합니다. **Self-Managed** 인스턴스를 사용하는 고객은 지원을 유지하기 위해 제때 업그레이드할 책임이 있습니다. 지원되지 않는 버전에 머물지 않도록 하세요. [릴리스 정책 및 프로세스](/release-notes/release-policies)를 참조하세요.
 
-### 환경이 퍼블릭 저장소에 연결되어 있지 않은 경우 배포가 작동합니까?
-구성에서 `airgapped`를 `true`로 설정하면 Kubernetes operator는 내부 리소스만 사용하고 퍼블릭 저장소에 연결을 시도하지 않습니다.
+<Note>
+W&B는 **Self-Managed** 인스턴스를 사용하는 고객이 지원을 유지하고 최신 기능, 성능 개선 및 픽스를 받기 위해 최소 분기별로 한 번씩 최신 릴리스로 배포를 업데이트할 것을 강력히 권장합니다.
+</Note>
+
+### 환경이 공용 저장소에 연결되지 않은 경우에도 배포가 작동합니까?
+설정에서 `airgapped`를 `true`로 설정하면 Kubernetes Operator는 내부 리소스만 사용하며 공용 저장소에 연결을 시도하지 않습니다.

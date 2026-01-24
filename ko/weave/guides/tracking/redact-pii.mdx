@@ -1,0 +1,128 @@
+---
+title: Trace에서 PII 데이터 마스킹하기
+description: Traces에서 개인 식별 정보(PII)를 자동으로 마스킹합니다
+---
+
+<Warning>
+이 기능은 Python SDK를 통해서만 엑세스할 수 있습니다.
+</Warning>
+
+일부 조직은 Large Language Model (LLM) 워크플로우에서 이름, 전화번호, 이메일 주소와 같은 개인정보(PII)를 처리합니다. 이러한 데이터를 Weights & Biases (W&B) Weave 에 저장하는 것은 컴플라이언스 및 보안 리스크를 초래할 수 있습니다.
+
+_Sensitive Data Protection_ 기능을 사용하면 [trace](/weave/guides/tracking) 가 Weave 서버로 전송되기 전에 자동으로 개인정보(PII)를 마스킹(redact)할 수 있습니다. 이 기능은 [Microsoft Presidio](https://microsoft.github.io/presidio/) 를 Weave Python SDK에 통합하여, SDK 레벨에서 마스킹 설정을 제어할 수 있도록 합니다.
+
+Sensitive Data Protection 기능은 Python SDK에 다음과 같은 기능을 도입합니다:
+
+- `weave.init` 호출 시 켜거나 끌 수 있는 `redact_pii` 설정으로 PII 마스킹을 활성화합니다.
+- `redact_pii = True` 일 때 [기본 엔티티](#entities-redacted-by-default) 를 자동으로 마스킹합니다.
+- 구성 가능한 `redact_pii_fields` 설정을 사용하여 마스킹 필드를 커스터마이징할 수 있습니다.
+
+## PII 마스킹 활성화하기
+
+Weave 에서 Sensitive Data Protection 기능을 시작하려면 다음 단계를 완료하세요:
+
+1. 필요한 종속성을 설치합니다:
+
+    ```bash
+    pip install presidio-analyzer presidio-anonymizer
+    ```
+
+2. 마스킹을 활성화하도록 `weave.init` 호출을 수정합니다. `redact_pii=True` 설정 시, [기본적으로 일반적인 엔티티들이 마스킹됩니다](#entities-redacted-by-default):
+
+    ```python lines
+    import weave
+
+    # redact_pii 설정을 True로 하여 프로젝트 초기화
+    weave.init("my-project", settings={"redact_pii": True})
+    ```
+
+3. (선택 사항) `redact_pii_fields` 파라미터를 사용하여 마스킹 필드를 커스터마이징합니다:
+
+    ```python lines
+    # 특정 PII 엔티티만 마스킹하도록 설정
+    weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
+    ```
+
+    탐지 및 마스킹 가능한 엔티티의 전체 목록은 [Presidio에서 지원하는 PII 엔티티](https://microsoft.github.io/presidio/supported_entities/) 를 참조하세요.
+
+## 기본으로 마스킹되는 엔티티
+
+PII 마스킹이 활성화되면 다음 엔티티들이 자동으로 마스킹됩니다:
+
+- `CREDIT_CARD`
+- `CRYPTO`
+- `EMAIL_ADDRESS`
+- `ES_NIF`
+- `FI_PERSONAL_IDENTITY_CODE`
+- `IBAN_CODE`
+- `IN_AADHAAR`
+- `IN_PAN`
+- `IP_ADDRESS`
+- `LOCATION`
+- `PERSON`
+- `PHONE_NUMBER`
+- `UK_NHS`
+- `UK_NINO`
+- `US_BANK_NUMBER`
+- `US_DRIVER_LICENSE`
+- `US_PASSPORT`
+- `US_SSN`
+
+## `REDACT_KEYS`를 사용한 민감한 키 마스킹
+
+PII 마스킹 외에도 Weave SDK는 `REDACT_KEYS`를 사용하여 사용자 정의 키의 마스킹을 지원합니다. 이는 PII 범주에 속하지는 않지만 비공개로 유지해야 하는 추가적인 민감 데이터를 보호하려는 경우에 유용합니다. 예시는 다음과 같습니다:
+
+- API 키
+- 인증 헤더
+- 토큰
+- 내부 ID
+- 설정 값 (Config values)
+
+### 사전 정의된 `REDACT_KEYS`
+
+Weave 는 기본적으로 다음의 민감한 키들을 자동으로 마스킹합니다:
+
+```json
+[
+  "api_key",
+  "auth_headers",
+  "authorization"
+]
+```
+
+### 사용자 정의 키 추가하기
+
+trace 에서 마스킹하려는 사용자 정의 키를 이 목록에 추가하여 확장할 수 있습니다:
+
+```python lines
+import weave
+from weave.utils import sanitize
+
+# 프로젝트 초기화 및 PII 마스킹 활성화
+client = weave.init("my-project", settings={"redact_pii": True})
+
+# 마스킹할 커스텀 키 추가
+sanitize.add_redact_key("client_id")
+sanitize.add_redact_key("token")
+
+client_id = "123"
+token = "789"
+
+@weave.op
+def test(client_id, token):
+    return client_id + token
+
+test(client_id, token)
+```
+
+Weave UI에서 확인하면 `client_id`와 `token`의 값은 `"REDACTED"`로 표시됩니다:
+
+```python lines
+client_id = "REDACTED"
+token = "REDACTED"
+```
+
+## 사용 안내
+
+- 이 기능은 Python SDK에서만 사용할 수 있습니다.
+- 마스킹을 활성화하면 Presidio 종속성으로 인해 처리(processing) 시간이 늘어납니다.

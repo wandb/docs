@@ -1,0 +1,173 @@
+---
+title: 레지스트리 엑세스 구성하기
+---
+
+registry 관리자는 registry의 설정을 구성하여 [registry 역할을 설정](/models/registry/configure_registry/#configure-registry-roles)하거나, registry에 [사용자를 추가](/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry) 또는 [사용자를 제거](/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry)할 수 있습니다.
+
+## 사용자 관리
+
+### 사용자 또는 팀 추가
+
+Registry 관리자는 개별 사용자 또는 팀 전체를 registry에 추가할 수 있습니다. Registry에 사용자나 팀을 추가하는 방법은 다음과 같습니다:
+
+1. W&B Registry로 이동합니다.
+2. 사용자나 팀을 추가하려는 registry를 선택합니다.
+3. 오른쪽 상단에 있는 톱니바퀴 아이콘을 클릭하여 registry 설정에 엑세스합니다.
+4. **Registry access** 섹션에서 **Add access**를 클릭합니다.
+5. **Include users and teams** 필드에 하나 이상의 사용자 이름, 이메일 또는 팀 이름을 지정합니다.
+6. **Add access**를 클릭합니다.
+
+<Frame>
+    <img src="/images/registry/add_team_registry.gif" alt="Adding teams to registry"  />
+</Frame>
+
+[registry의 사용자 역할 설정](/models/registry/configure_registry/#configure-registry-roles) 또는 [registry 역할 권한](/models/registry/configure_registry/#registry-role-permissions)에 대해 자세히 알아보세요.
+
+### 사용자 또는 팀 제거
+Registry 관리자는 registry에서 개별 사용자 또는 팀 전체를 제거할 수 있습니다. Registry에서 사용자나 팀을 제거하려면 다음 단계를 따르세요:
+
+1. https://wandb.ai/registry/ 에서 W&B Registry로 이동합니다.
+2. 사용자를 제거하려는 registry를 선택합니다.
+3. 오른쪽 상단에 있는 톱니바퀴 아이콘을 클릭하여 registry 설정에 엑세스합니다.
+4. **Registry access** 섹션으로 이동하여 제거하려는 사용자 이름, 이메일 또는 팀을 입력합니다.
+5. **Delete** 버튼을 클릭합니다.
+
+<Note>
+팀에서 사용자를 제거하면 해당 사용자의 registry 엑세스 권한도 제거됩니다.
+</Note>
+
+### Registry 소유자 변경
+
+Registry 관리자는 **Restricted Viewer** 또는 **Viewer**를 포함한 모든 멤버를 registry 소유자로 지정할 수 있습니다. Registry 소유권은 주로 책임 소재를 명확히 하기 위한 목적이며, 사용자에게 할당된 역할에서 부여된 권한 이상의 추가 권한을 제공하지는 않습니다.
+
+소유자를 변경하려면:
+1. https://wandb.ai/registry/ 에서 W&B Registry로 이동합니다.
+2. 구성하려는 registry를 선택합니다.
+3. 오른쪽 상단에 있는 톱니바퀴 아이콘을 클릭합니다.
+4. **Registry members and roles** 섹션으로 스크롤합니다.
+5. 멤버 행 위로 마우스를 가져갑니다.
+6. 행 끝에 있는 **...** 작업 메뉴를 클릭한 다음 **Make owner**를 클릭합니다.
+
+
+## Registry 역할 설정
+
+이 섹션에서는 Registry 멤버의 역할을 설정하는 방법을 설명합니다. 각 역할의 기능, 우선순위, 기본값 등을 포함한 Registry 역할에 대한 자세한 정보는 [Registry 역할에 대한 상세 정보](#details-about-registry-roles)를 참조하세요.
+
+1. https://wandb.ai/registry/ 에서 W&B Registry로 이동합니다.
+2. 구성하려는 registry를 선택합니다.
+3. 오른쪽 상단에 있는 톱니바퀴 아이콘을 클릭합니다.
+4. **Registry members and roles** 섹션으로 스크롤합니다.
+5. **Member** 필드 내에서 권한을 수정하려는 사용자 또는 팀을 검색합니다.
+6. **Registry role** 열에서 사용자의 역할을 클릭합니다.
+7. 드롭다운에서 사용자에게 할당할 역할을 선택합니다.
+
+## Registry 역할에 대한 상세 정보
+
+다음 섹션에서는 Registry 역할에 대한 자세한 정보를 제공합니다.
+
+<Note>
+사용자의 [팀 내 역할](/platform/app/settings-page/teams/#team-roles-and-permissions)은 registry에서의 역할과 아무런 영향이나 관계가 없습니다.
+</Note>
+
+### 기본 역할
+W&B는 사용자 또는 팀이 registry에 추가될 때 자동으로 기본 **registry 역할**을 할당합니다. 이 역할에 따라 해당 registry에서 수행할 수 있는 작업이 결정됩니다.
+
+| Entity                                 | 기본 registry 역할<br />(전용 클라우드 / Self-Managed)               | 기본 registry 역할<br />(Multi-tenant Cloud)            |
+|----------------------------------------|---------------------------------------------------------------------------|------------------------------------------------------------|
+| Team                                   | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 이하) | Restricted Viewer                               |
+| User 또는 서비스 계정 (관리자 아님)    | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x 이하) | Restricted Viewer                               |
+| 서비스 계정 (관리자 아님)            | Member<sup><a href="#service_account_footnote">1</a></sup>                | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| Org 관리자                              | Admin                                                       | Admin                                           |
+
+<a id="service_account_footnote">1</a>: 서비스 계정은 **Viewer** 또는 **Restricted Viewer** 역할을 가질 수 없습니다.
+
+Registry 관리자는 registry의 사용자 및 팀에 역할을 할당하거나 수정할 수 있습니다.
+자세한 내용은 [registry의 사용자 역할 설정](/models/registry/configure_registry/#configure-registry-roles)을 참조하세요.
+
+### 역할 권한
+다음 표는 각 Registry 역할과 각 역할에 제공되는 권한을 나열합니다:
+
+| 권한                                                                                                            | 권한 그룹 | Restricted Viewer<br />(Multi-tenant Cloud, 초대 시) | Viewer | Member | Admin |
+|-----------------------------------------------------------------------------------------------------------------------|------------------|------------------------------------------------------------|:------:|:------:|:-----:|
+| 컬렉션 상세 정보 보기                                                                                           | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
+| 연결된 artifact 상세 정보 보기                                                                                      | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
+| 사용: use_artifact를 통해 registry의 artifact 사용                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
+| 연결된 artifact 다운로드                                                                                            | Read             |                                                            |   ✓    |   ✓    |   ✓   |
+| artifact 파일 뷰어에서 파일 다운로드                                                                         | Read             |                                                            |   ✓    |   ✓    |   ✓   |
+| registry 검색                                                                                                     | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
+| registry 설정 및 사용자 목록 보기                                                                              | Read             | ✓                                                          |   ✓    |   ✓    |   ✓   |
+| 컬렉션에 대한 새 자동화 생성                                                                              | Create           |                                                            |        |   ✓    |   ✓   |
+| 새 버전 추가 시 Slack 알림 켜기                                                               | Create           |                                                            |        |   ✓    |   ✓   |
+| 새 컬렉션 생성                                                                                               | Create           |                                                            |        |   ✓    |   ✓   |
+| 새 registry 생성                                                                                                 | Create           |                                                            |        |   ✓    |   ✓   |
+| 컬렉션 카드(설명) 편집                                                                                    | Update           |                                                            |        |   ✓    |   ✓   |
+| 연결된 artifact 설명 편집                                                                                | Update           |                                                            |        |   ✓    |   ✓   |
+| 컬렉션 태그 추가 또는 삭제                                                                                      | Update           |                                                            |        |   ✓    |   ✓   |
+| 연결된 artifact에서 에일리어스 추가 또는 삭제                                                                         | Update           |                                                            |        |   ✓    |   ✓   |
+| 연결된 artifact에서 [보호된 에일리어스](/models/registry/aliases#protected-aliases) 추가 또는 삭제                  | Update           |                                                            |        |        |   ✓   |
+| [보호된 에일리어스](/models/registry/aliases#protected-aliases) 생성 또는 삭제                                      | Update           |                                                            |        |        |   ✓   |
+| 새 artifact 연결                                                                                                   | Update           |                                                            |        |   ✓    |   ✓   |
+| registry에 허용된 유형 목록 편집                                                                                | Update           |                                                            |        |   ✓    |   ✓   |
+| registry 이름 편집                                                                                                    | Update           |                                                            |        |   ✓    |   ✓   |
+| 컬렉션 삭제                                                                                                   | Delete           |                                                            |        |   ✓    |   ✓   |
+| 자동화 삭제                                                                                                  | Delete           |                                                            |        |   ✓    |   ✓   |
+| registry에서 artifact 연결 해제                                                                                    | Delete           |                                                            |        |   ✓    |   ✓   |
+| registry에 허용되는 artifact 유형 편집                                                                           | Admin            |                                                            |        |        |   ✓   |
+| registry 가시성 변경 (Organization 또는 Restricted)                                                               | Admin            |                                                            |        |        |   ✓   |
+| registry에 사용자 추가                                                                                               | Admin            |                                                            |        |        |   ✓   |
+| registry에서 사용자의 역할 할당 또는 변경                                                                          | Admin            |                                                            |        |        |   ✓   |
+
+### 상속된 Registry 역할
+Registry 멤버 목록에는 각 사용자의 행에서 역할 드롭다운 옆에 상속된(유효한) registry 역할이 (연한 회색으로) 표시됩니다.
+
+<Frame>
+    <img src="/images/registry/role_conflict.png" alt="Registry membership list showing the user's effective registry role"  />
+</Frame>
+
+특정 registry에서 사용자의 유효 역할은 조직, registry, 그리고 registry를 소유한 팀에서의 역할 중 상속되었거나 명시적으로 할당된 역할 중에서 _가장 높은_ 역할과 일치합니다. 예를 들어:
+
+- 팀을 소유한 특정 registry에서 **Viewer** 역할을 가진 팀 **Admin** 또는 조직 **Admin**은 해당 registry의 **Admin** 역할을 실질적으로 가집니다.
+- 팀에서 **Member** 역할을 가진 registry **Viewer**는 해당 registry의 **Member** 역할을 실질적으로 가집니다.
+- 특정 registry에서 **Member** 역할을 가진 팀 **Viewer**는 해당 registry의 **Member** 역할을 실질적으로 가집니다.
+
+### Restricted Viewer 역할 상세 정보
+**Restricted Viewer** 역할은 정식 버전(GA)으로 제공됩니다. 전용 클라우드 및 Self-Managed의 경우 Server v0.75.0 이상이 필요합니다.
+
+이 역할은 컬렉션, 자동화 또는 기타 registry 리소스를 생성, 업데이트 또는 삭제할 수 있는 권한 없이 registry artifact에 대한 읽기 전용 엑세스를 제공합니다.
+
+**Viewer**와 달리 **Restricted Viewer**는 다음을 수행할 수 없습니다:
+- artifact 파일을 다운로드하거나 파일 내용에 엑세스할 수 없습니다.
+- W&B SDK에서 `wandb.Run.use_artifact()`로 artifact를 사용할 수 없습니다.
+
+#### SDK 호환성
+
+<Note>
+
+**SDK 버전 요구 사항**
+
+**Restricted Viewer**로서 SDK를 사용하여 artifact에 엑세스하려면 W&B SDK 버전 0.19.9 이상을 사용해야 합니다. 그렇지 않으면 일부 SDK 코맨드에서 권한 오류가 발생합니다.
+
+</Note>
+
+**Restricted Viewer**가 SDK를 사용할 때 일부 기능은 사용할 수 없거나 다르게 작동합니다.
+
+다음 메소드는 사용할 수 없으며 권한 오류가 발생합니다:
+- [`Run.use_artifact()`](/models/ref/python/experiments/run/#method-runuse_artifact)
+- [`Artifact.download()`](/models/ref/python/experiments/artifact/#method-artifactdownload)
+- [`Artifact.file()`](/models/ref/python/experiments/artifact/#method-artifactfile)
+- [`Artifact.files()`](/models/ref/python/experiments/artifact/#method-artifactfiles)
+
+다음 메소드는 artifact 메타데이터로 제한됩니다:
+- [`Artifact.get_entry()`](/models/ref/python/experiments/artifact/#method-artifactget_entry)
+- [`Artifact.get_path()`](/models/ref/python/experiments/artifact/#method-artifactget_path)
+- [`Artifact.get()`](/models/ref/python/experiments/artifact/#method-artifactget)
+- [`Artifact.verify()`](/models/ref/python/experiments/artifact/#method-artifactverify)
+
+### 교차 Registry 권한
+
+사용자는 서로 다른 registry에서 서로 다른 역할을 가질 수 있습니다. 예를 들어, 사용자가 Registry A에서는 **Restricted Viewer**이지만 Registry B에서는 **Viewer**일 수 있습니다. 이 경우:
+
+- 두 registry 모두에 연결된 동일한 artifact는 서로 다른 엑세스 수준을 갖게 됩니다.
+- Registry A에서 사용자는 **Restricted Viewer**이므로 파일을 다운로드하거나 artifact를 사용할 수 없습니다.
+- Registry B에서 사용자는 **Viewer**이므로 파일을 다운로드하고 artifact를 사용할 수 있습니다.
+- 즉, 엑세스 권한은 artifact가 엑세스되는 registry에 의해 결정됩니다.

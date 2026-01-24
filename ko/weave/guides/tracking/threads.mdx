@@ -1,0 +1,626 @@
+---
+title: 스레드 추적
+description: Threads 를 사용하여 LLM 애플리케이션의 멀티 턴 대화를 추적하고 분석하세요.
+---
+
+W&B Weave _Threads_ 를 사용하면 LLM 애플리케이션에서 멀티턴 대화를 추적하고 분석할 수 있습니다. Threads는 관련된 호출들을 공유된 `thread_id` 아래에 그룹화하여, 전체 세션을 시각화하고 턴 전반에 걸친 대화 수준의 메트릭을 추적할 수 있게 해줍니다. 프로그래밍 방식으로 Threads를 생성하고 Weave UI에서 시각화할 수 있습니다.
+
+Threads를 시작하려면 다음을 수행하세요:
+
+1. Threads의 기본 사항을 익히십시오.
+   - [유스 케이스](#use-cases)
+   - [정의](#definitions)
+   - [UI 경험](#ui-overview)
+   - [API 사양](#api-specification)
+2. 일반적인 사용 패턴과 실제 유스 케이스를 보여주는 코드 샘플을 시도해 보세요.
+   - [기본 사용 예시](#basic-thread-creation)
+- [고급 사용 예시](#manual-agent-loop-implementation)
+
+## 유스 케이스
+
+Threads는 다음과 같은 항목을 정리하고 분석하고 싶을 때 유용합니다:
+
+- 멀티턴 대화
+- 세션 기반 워크플로우
+- 일련의 관련된 작업 시퀀스.
+
+Threads를 사용하면 컨텍스트별로 호출을 그룹화할 수 있어, 여러 단계에 걸쳐 시스템이 어떻게 응답하는지 더 쉽게 이해할 수 있습니다. 예를 들어, 단일 User 세션, 에이전트의 결정 체인 또는 인프라와 비즈니스 로직 레이어에 걸친 복잡한 요청을 추적할 수 있습니다.
+
+애플리케이션을 Threads와 턴으로 구조화함으로써 Weave UI에서 더 깔끔한 메트릭과 향상된 가시성을 얻을 수 있습니다. 모든 저수준 작업을 확인하는 대신, 중요한 고수준 단계에 집중할 수 있습니다.
+
+## 정의
+
+### Thread
+
+_Thread_ 는 공통된 대화 컨텍스트를 공유하는 관련 호출들의 논리적 그룹입니다. Thread는 다음과 같은 특징을 가집니다:
+
+- 고유한 `thread_id`를 가짐
+- 하나 이상의 _턴(turns)_ 을 포함함
+- 호출 간에 컨텍스트를 유지함
+- 전체 User 세션 또는 상호작용 흐름을 나타냄
+
+### Turn
+
+_Turn_ 은 Thread 내의 고수준 작업으로, UI의 thread 뷰에서 개별 행으로 표시됩니다. 각 Turn은 다음과 같은 특징을 가집니다:
+
+- 대화나 워크플로우의 한 논리적 단계를 나타냄
+- Turn은 thread 컨텍스트의 직접적인 자식이며, 중첩된 저수준 호출을 포함할 수 있습니다(thread 수준 통계에는 표시되지 않음).
+
+### Call
+
+_Call_ 은 애플리케이션에서 `@weave.op` 데코레이터가 지정된 모든 함수 실행을 의미합니다.
+
+- _Turn calls_ 는 새로운 턴을 시작하는 최상위 작업입니다.
+- _Nested calls_ 는 턴 내의 저수준 작업입니다.
+
+### Trace
+
+_Trace_ 는 단일 작업에 대한 전체 호출 스택을 캡처합니다. Threads는 동일한 논리적 대화나 세션의 일부인 Traces를 함께 그룹화합니다. 즉, thread는 대화의 각 부분을 나타내는 여러 개의 턴으로 구성됩니다. Traces에 대한 자세한 정보는 [Tracing 개요](/weave/guides/tracking/tracing)를 참조하세요.
+
+## UI 개요
+
+Weave 사이드바에서 **Threads** 를 선택하여 [Threads 리스트 뷰](#threads-list-view)에 액세스합니다.
+
+<Frame>
+![Weave 사이드바의 Threads 아이콘](/weave/guides/tracking/imgs/threads-sidebar.png)
+</Frame>
+
+### Threads 리스트 뷰
+
+- 프로젝트의 최근 Threads를 나열합니다.
+- 열에는 턴 수, 시작 시간 및 마지막 업데이트 시간이 포함됩니다.
+- 행을 클릭하면 해당 [상세 드로어(detail drawer)](#threads-detail-drawer)가 열립니다.
+
+<Frame>
+![Threads 리스트 뷰](/weave/guides/tracking/imgs/threads-list.png)
+</Frame>
+
+### Threads 상세 드로어
+
+- 행을 클릭하면 해당 행의 상세 드로어가 열립니다.
+- thread 내의 모든 턴을 보여줍니다.
+- 턴은 시작 시간순으로 나열됩니다 (기간이나 종료 시간이 아님).
+- 호출 수준의 메타데이터(지연 시간, 입력, 출력)를 포함합니다.
+- 선택적으로 로그된 메시지 내용이나 구조화된 데이터를 보여줍니다.
+- 턴의 전체 실행 내용을 보려면 상세 드로어에서 해당 턴을 열 수 있습니다. 이를 통해 특정 턴 중에 발생한 모든 중첩된 작업을 자세히 살펴볼 수 있습니다.
+- 턴에 LLM 호출에서 추출된 메시지가 포함된 경우 오른쪽 채팅 창에 표시됩니다. 이러한 메시지는 일반적으로 지원되는 인테그레이션(예: `openai.ChatCompletion.create`)을 통한 호출에서 생성되며, 표시되려면 특정 기준을 충족해야 합니다. 자세한 내용은 [Chat 뷰 동작](#chat-view-behavior)을 참조하세요.
+
+### Chat 뷰 동작
+
+채팅 창에는 각 턴 동안 발생한 LLM 호출에서 추출된 구조화된 메시지 데이터가 표시됩니다. 이 뷰는 상호작용을 대화형 스타일로 렌더링하여 보여줍니다.
+
+<Frame>
+![Chat 뷰](/weave/guides/tracking/imgs/threads-chat-view.png)
+</Frame>
+
+#### 무엇이 메시지로 간주되나요?
+
+메시지는 LLM 제공자와의 직접적인 상호작용(예: 프롬프트 전송 및 응답 수신)을 나타내는 턴 내의 호출에서 추출됩니다. 다른 호출 내에 더 이상 중첩되지 않은 호출만 메시지로 표시됩니다. 이는 중간 단계나 집계된 내부 로직이 중복되는 것을 방지하기 위함입니다.
+
+일반적으로 메시지는 다음과 같이 자동으로 패치된 서드파티 SDK에서 생성됩니다:
+- `openai.ChatCompletion.create`
+- `anthropic.Anthropic.completion`
+
+#### 메시지가 없는 경우 어떻게 되나요?
+
+턴에서 메시지가 생성되지 않으면 채팅 창에 해당 턴에 대한 빈 메시지 섹션이 표시됩니다. 하지만 채팅 창에는 동일한 thread의 다른 턴에서 생성된 메시지가 여전히 포함될 수 있습니다.
+
+#### Turn 및 Chat 상호작용
+
+- 턴을 클릭하면 채팅 창이 해당 턴의 메시지 위치로 스크롤됩니다 (고정 동작).
+- 채팅 창을 스크롤하면 왼쪽 리스트에서 해당하는 턴이 강조 표시됩니다.
+
+#### Trace 뷰로 이동 및 복귀
+
+턴을 클릭하여 전체 Trace를 열 수 있습니다.
+
+왼쪽 상단에 뒤로 가기 버튼이 나타나 thread 상세 뷰로 돌아갈 수 있습니다. UI 상태(스크롤 위치 등)는 전환 시 유지되지 않습니다.
+
+<Frame>
+![Threads 드로어 뷰](/weave/guides/tracking/imgs/threads-drawer.png)
+</Frame>
+
+## SDK 사용법
+
+이 섹션의 각 예시는 애플리케이션에서 턴과 Threads를 구성하기 위한 서로 다른 전략을 보여줍니다. 대부분의 예시에서는 스텁 함수 내에 고유한 LLM 호출이나 시스템 동작을 제공해야 합니다.
+
+- 세션이나 대화를 추적하려면 `weave.thread()` 컨텍스트 매니저를 사용하세요.
+- 논리적 작업에 `@weave.op` 데코레이터를 지정하여 턴이나 중첩된 호출로 추적하세요.
+- `thread_id`를 전달하면 Weave는 해당 블록의 모든 작업을 동일한 thread 아래에 그룹화합니다. `thread_id`를 생략하면 Weave가 고유한 ID를 자동으로 생성합니다.
+
+`weave.thread()`의 반환 값은 `thread_id` 속성을 가진 `ThreadContext` 오브젝트이며, 이를 로그하거나 재사용하거나 다른 시스템에 전달할 수 있습니다.
+
+중첩된 `weave.thread()` 컨텍스트는 동일한 `thread_id`가 재사용되지 않는 한 항상 새로운 thread를 시작합니다. 자식 컨텍스트를 종료해도 부모 컨텍스트가 중단되거나 덮어쓰여지지 않습니다. 이를 통해 앱 로직에 따라 포크된 thread 구조나 계층화된 thread 오케스트레이션이 가능합니다.
+
+### 기본 thread 생성
+
+다음 코드 샘플은 `weave.thread()`를 사용하여 하나 이상의 작업을 공유된 `thread_id` 아래에 그룹화하는 방법을 보여줍니다. 이는 애플리케이션에서 Threads를 사용하는 가장 간단한 방법입니다.
+
+```python lines
+import weave
+
+@weave.op
+def say_hello(name: str) -> str:
+    # 인사말을 반환합니다.
+    return f"Hello, {name}!"
+
+# 새로운 thread 컨텍스트 시작
+with weave.thread() as thread_ctx:
+    print(f"Thread ID: {thread_ctx.thread_id}")
+    say_hello("Bill Nye the Science Guy")
+```
+
+
+### 수동 에이전트 루프 구현
+
+이 예시는 `@weave.op` 데코레이터와 `weave.thread()` 컨텍스트 관리를 사용하여 대화형 에이전트를 수동으로 정의하는 방법을 보여줍니다. `process_user_message`를 호출할 때마다 thread에 새로운 턴이 생성됩니다. 고유한 에이전트 루프를 구축하고 컨텍스트와 중첩 방식을 완전히 제어하고 싶을 때 이 패턴을 사용하세요.
+
+단기 상호작용에는 자동 생성된 thread ID를 사용하고, 세션 간에 thread 컨텍스트를 유지하려면 사용자 정의 세션 ID(예: `user_session_123`)를 전달하세요.
+
+```python lines
+import weave
+
+class ConversationAgent:
+    @weave.op
+    def process_user_message(self, message: str) -> str:
+        """
+        TURN-LEVEL OPERATION: 이 함수는 하나의 대화 턴을 나타냅니다.
+        이 함수만 thread 통계에 집계됩니다.
+        """
+        # 사용자 메시지 저장
+        # 중첩된 호출을 통해 AI 응답 생성
+        response = self._generate_response(message)
+        # 어시스턴트 응답 저장
+        return response
+
+    @weave.op
+    def _generate_response(self, message: str) -> str:
+        """NESTED CALL: 구현 세부 사항이며, thread 통계에는 집계되지 않습니다."""
+        context = self._retrieve_context(message)     # 또 다른 중첩 호출
+        intent = self._classify_intent(message)       # 또 다른 중첩 호출
+        response = self._call_llm(message, context)   # LLM 호출 (중첩됨)
+        return self._format_response(response)        # 최종 중첩 호출
+
+    @weave.op
+    def _retrieve_context(self, message: str) -> str:
+        # 벡터 DB 조회, 지식 베이스 쿼리 등
+        return "retrieved_context"
+
+    @weave.op
+    def _classify_intent(self, message: str) -> str:
+        # 의도 분류 로직
+        return "general_inquiry"
+
+    @weave.op
+    def _call_llm(self, message: str, context: str) -> str:
+        # OpenAI/Anthropic 등의 API 호출
+        return "llm_response"
+
+    @weave.op
+    def _format_response(self, response: str) -> str:
+        # 응답 포맷팅 로직
+        return f"Formatted: {response}"
+
+# 사용법: Thread 컨텍스트가 자동으로 설정됨
+agent = ConversationAgent()
+
+# thread 컨텍스트 설정 - process_user_message 호출마다 하나의 턴이 됨
+with weave.thread() as thread_ctx:  # thread_id 자동 생성
+    print(f"Thread ID: {thread_ctx.thread_id}")
+
+    # process_user_message를 호출할 때마다 1개의 턴과 여러 개의 중첩 호출이 생성됨
+    agent.process_user_message("Hello, help with setup")           # Turn 1
+    agent.process_user_message("What languages do you recommend?") # Turn 2
+    agent.process_user_message("Explain Python vs JavaScript")     # Turn 3
+
+# 결과: 3개의 턴, 총 약 15-20개의 호출(중첩 호출 포함)이 포함된 Thread
+
+# 대안: 세션 추적을 위해 명시적인 thread_id 사용
+session_id = "user_session_123"
+with weave.thread(session_id) as thread_ctx:
+    print(f"Session Thread ID: {thread_ctx.thread_id}")  # "user_session_123"
+
+    agent.process_user_message("Continue our previous conversation")  # 이 세션의 Turn 1
+    agent.process_user_message("Can you summarize what we discussed?") # 이 세션의 Turn 2
+```
+
+### 호출 깊이가 불균형한 수동 에이전트
+
+이 예시는 thread 컨텍스트가 적용되는 방식에 따라 호출 스택의 서로 다른 깊이에서 턴이 정의될 수 있음을 보여줍니다. 이 샘플은 두 제공자(OpenAI 및 Anthropic)를 사용하며, 각 제공자는 턴 경계에 도달하기 전까지 서로 다른 호출 깊이를 가집니다.
+
+모든 턴은 동일한 `thread_id`를 공유하지만, 제공자 로직에 따라 스택의 서로 다른 레벨에서 턴 경계가 나타납니다. 이는 백엔드마다 호출을 다르게 추적해야 하면서도 여전히 동일한 thread로 그룹화하고 싶을 때 유용합니다.
+
+```python lines 
+import weave
+import random
+import asyncio
+
+class OpenAIProvider:
+    """OpenAI 브랜치: 턴 경계까지 2단계 깊이의 호출 체인"""
+
+    @weave.op
+    def route_to_openai(self, user_input: str, thread_id: str) -> str:
+        """Level 1: OpenAI 요청 라우팅 및 준비"""
+        # 입력 유효성 검사, 라우팅 로직, 기본 전처리
+        print(f"  L1: Routing to OpenAI for: {user_input}")
+
+        # 여기가 턴 경계입니다 - thread 컨텍스트로 래핑
+        with weave.thread(thread_id):
+            # Level 2를 직접 호출 - 호출 체인 깊이 형성
+            return self.execute_openai_call(user_input)
+
+    @weave.op
+    def execute_openai_call(self, user_input: str) -> str:
+        """Level 2: TURN BOUNDARY - OpenAI API 호출 실행"""
+        print(f"    L2: Executing OpenAI API call")
+        response = f"OpenAI GPT-4 response: {user_input}"
+        return response
+
+
+class AnthropicProvider:
+    """Anthropic 브랜치: 턴 경계까지 3단계 깊이의 호출 체인"""
+
+    @weave.op
+    def route_to_anthropic(self, user_input: str, thread_id: str) -> str:
+        """Level 1: Anthropic 요청 라우팅 및 준비"""
+        # 입력 유효성 검사, 라우팅 로직, 제공자 선택
+        print(f"  L1: Routing to Anthropic for: {user_input}")
+
+        # Level 2 호출 - 호출 체인 깊이 형성
+        return self.authenticate_anthropic(user_input, thread_id)
+
+    @weave.op
+    def authenticate_anthropic(self, user_input: str, thread_id: str) -> str:
+        """Level 2: Anthropic 인증 및 설정 처리"""
+        print(f"    L2: Authenticating with Anthropic")
+
+        # 인증, 속도 제한, 세션 관리
+        auth_token = "anthropic_key_xyz_authenticated"
+
+         # 여기가 턴 경계입니다 - Level 3에서 thread 컨텍스트로 래핑
+        with weave.thread(thread_id):
+            # Level 3 호출 - 호출 체인 추가 중첩
+            return self.execute_anthropic_call(user_input, auth_token)
+
+    @weave.op
+    def execute_anthropic_call(self, user_input: str, auth_token: str) -> str:
+        """Level 3: TURN BOUNDARY - Anthropic API 호출 실행"""
+        print(f"      L3: Executing Anthropic API call with auth")
+        response = f"Anthropic Claude response (auth: {auth_token[:15]}...): {user_input}"
+        return response
+
+
+class MultiProviderAgent:
+    """호출 체인 깊이가 서로 다른 제공자 간을 라우팅하는 메인 에이전트"""
+
+    def __init__(self):
+        self.openai_provider = OpenAIProvider()
+        self.anthropic_provider = AnthropicProvider()
+
+    def handle_conversation_turn(self, user_input: str, thread_id: str) -> str:
+        """
+        호출 체인 깊이가 불균형한 서로 다른 제공자로 라우팅합니다.
+        각 체인의 서로 다른 중첩 레벨에서 thread 컨텍스트가 적용됩니다.
+        """
+        # 데모를 위해 제공자를 무작위로 선택
+        use_openai = random.choice([True, False])
+
+        if use_openai:
+            print(f"Choosing OpenAI (2-level call chain)")
+            # OpenAI: Level 1 → Level 2 (턴 경계)
+            response = self.openai_provider.route_to_openai(user_input, thread_id)
+            return f"[OpenAI Branch] {response}"
+        else:
+            print(f"Choosing Anthropic (3-level call chain)")
+            # Anthropic: Level 1 → Level 2 → Level 3 (턴 경계)
+            response = self.anthropic_provider.route_to_anthropic(user_input, thread_id)
+            return f"[Anthropic Branch] {response}"
+
+
+async def main():
+    agent = MultiProviderAgent()
+    conversation_id = "nested_depth_conversation_999"
+
+    # 호출 체인 깊이가 서로 다른 멀티턴 대화
+    conversation_turns = [
+        "What's deep learning?",
+        "Explain neural network backpropagation",
+        "How do attention mechanisms work?",
+        "What's the transformer architecture?",
+        "Compare CNNs vs RNNs"
+    ]
+
+    print(f"Starting conversation: {conversation_id}")
+
+    for i, user_input in enumerate(conversation_turns, 1):
+        print(f"\\n--- Turn {i} ---")
+        print(f"User: {user_input}")
+
+        # 서로 다른 호출 체인 깊이에서도 동일한 thread_id 사용
+        response = agent.handle_conversation_turn(user_input, conversation_id)
+        print(f"Agent: {response}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
+# 예상 결과: 5개의 턴이 포함된 단일 thread
+# - OpenAI 턴: 호출 체인의 Level 2에서 thread 컨텍스트 설정
+#   Call stack: route_to_openai() → execute_openai_call() ← 여기에 thread 컨텍스트
+# - Anthropic 턴: 호출 체인의 Level 3에서 thread 컨텍스트 설정
+#   Call stack: route_to_anthropic() → authenticate_anthropic() → execute_anthropic_call() ← 여기에 thread 컨텍스트
+# - 모든 턴이 thread_id "nested_depth_conversation_999"를 공유함
+# - 서로 다른 호출 스택 깊이에서 턴 경계가 표시됨
+# - 호출 체인의 보조 작업은 턴이 아닌 중첩 호출로 추적됨
+```
+
+### 이전 세션 재개
+
+가끔 이전에 시작된 세션을 재개하고 동일한 thread에 호출을 계속 추가해야 할 때가 있습니다. 반면, 기존 세션을 재개할 수 없어 대신 새로운 thread를 시작해야 하는 경우도 있습니다.
+
+선택적 thread 재개를 구현할 때, `thread_id` 파라미터를 `None`으로 남겨두지 **마십시오**. 그렇게 하면 thread 그룹화 기능 자체가 비활성화됩니다. 대신 항상 유효한 thread ID를 제공하십시오. 새로운 thread를 생성해야 하는 경우 `generate_id()`와 같은 함수를 사용하여 고유 식별자를 생성하십시오.
+
+`thread_id`가 지정되지 않으면 Weave의 내부 구현은 자동으로 임의의 UUID v7을 생성합니다. 사용자 정의 `generate_id()` 함수에서 이 동작을 복제하거나 선호하는 고유 문자열 값을 사용할 수 있습니다.
+
+
+```python lines
+import weave
+import uuidv7
+import argparse
+
+def generate_id():
+    """UUID v7을 사용하여 고유한 thread ID를 생성합니다."""
+    return str(uuidv7.uuidv7())
+
+@weave.op
+def load_history(session_id):
+    """주어진 세션에 대한 대화 기록을 로드합니다."""
+    # 여기에 구현 코드를 작성하세요.
+    return []
+
+# 세션 재개를 위한 커맨드라인 인수 파싱
+parser = argparse.ArgumentParser()
+parser.add_argument("--session-id", help="재개할 기존 세션 ID")
+args = parser.parse_args()
+
+# thread ID 결정: 기존 세션 재개 또는 새로 생성
+if args.session_id:
+    thread_id = args.session_id
+    print(f"Resuming session: {thread_id}")
+else:
+    thread_id = generate_id()
+    print(f"Starting new session: {thread_id}")
+
+# 호출 추적을 위한 thread 컨텍스트 설정
+with weave.thread(thread_id) as thread_ctx:
+    # 대화 기록 로드 또는 초기화
+    history = load_history(thread_id)
+    print(f"Active thread ID: {thread_ctx.thread_id}")
+    
+    # 여기에 애플리케이션 로직 작성...
+```
+
+### 중첩된 Threads
+
+이 예시는 여러 개의 조정된 Threads를 사용하여 복잡한 애플리케이션을 구조화하는 방법을 보여줍니다.
+
+각 레이어는 고유한 thread 컨텍스트에서 실행되어 관심사를 깔끔하게 분리할 수 있습니다. 부모 애플리케이션 thread는 공유된 `ThreadContext`를 사용하여 thread ID를 설정함으로써 이러한 레이어들을 조정합니다. 시스템의 서로 다른 부분을 독립적으로 분석하거나 모니터링하면서도 이를 하나의 공유 세션에 묶고 싶을 때 이 패턴을 사용하세요.
+
+```python lines
+import weave
+from contextlib import contextmanager
+from typing import Dict
+
+# 중첩된 Threads 조정을 위한 전역 thread 컨텍스트
+class ThreadContext:
+    def __init__(self):
+        self.app_thread_id = None
+        self.infra_thread_id = None
+        self.logic_thread_id = None
+
+    def setup_for_request(self, request_id: str):
+        self.app_thread_id = f"app_{request_id}"
+        self.infra_thread_id = f"{self.app_thread_id}_infra"
+        self.logic_thread_id = f"{self.app_thread_id}_logic"
+
+# 전역 인스턴스
+thread_ctx = ThreadContext()
+
+class InfrastructureLayer:
+    """전용 thread에서 모든 인프라 작업을 처리합니다."""
+
+    @weave.op
+    def authenticate_user(self, user_id: str) -> Dict:
+        # 인증 로직...
+        return {"user_id": user_id, "authenticated": True}
+
+    @weave.op
+    def call_payment_gateway(self, amount: float) -> Dict:
+        # 결제 처리...
+        return {"status": "approved", "amount": amount}
+
+    @weave.op
+    def update_inventory(self, product_id: str, quantity: int) -> Dict:
+        # 재고 관리...
+        return {"product_id": product_id, "updated": True}
+
+    def execute_operations(self, user_id: str, order_data: Dict) -> Dict:
+        """전용 thread 컨텍스트에서 모든 인프라 작업을 실행합니다."""
+        with weave.thread(thread_ctx.infra_thread_id):
+            auth_result = self.authenticate_user(user_id)
+            payment_result = self.call_payment_gateway(order_data["amount"])
+            inventory_result = self.update_inventory(order_data["product_id"], order_data["quantity"])
+
+            return {
+                "auth": auth_result,
+                "payment": payment_result,
+                "inventory": inventory_result
+            }
+
+
+class BusinessLogicLayer:
+    """전용 thread에서 비즈니스 로직을 처리합니다."""
+
+    @weave.op
+    def validate_order(self, order_data: Dict) -> Dict:
+        # 유효성 검사 로직...
+        return {"valid": True}
+
+    @weave.op
+    def calculate_pricing(self, order_data: Dict) -> Dict:
+        # 가격 계산...
+        return {"total": order_data["amount"], "tax": order_data["amount"] * 0.08}
+
+    @weave.op
+    def apply_business_rules(self, order_data: Dict) -> Dict:
+        # 비즈니스 규칙...
+        return {"rules_applied": ["standard_processing"], "priority": "normal"}
+
+    def execute_logic(self, order_data: Dict) -> Dict:
+        """전용 thread 컨텍스트에서 모든 비즈니스 로직을 실행합니다."""
+        with weave.thread(thread_ctx.logic_thread_id):
+            validation = self.validate_order(order_data)
+            pricing = self.calculate_pricing(order_data)
+            rules = self.apply_business_rules(order_data)
+
+            return {"validation": validation, "pricing": pricing, "rules": rules}
+
+
+class OrderProcessingApp:
+    """메인 애플리케이션 오케스트레이터"""
+
+    def __init__(self):
+        self.infra = InfrastructureLayer()
+        self.business = BusinessLogicLayer()
+
+    @weave.op
+    def process_order(self, user_id: str, order_data: Dict) -> Dict:
+        """메인 주문 처리 - 앱 thread에서 하나의 턴이 됩니다."""
+
+        # 전용 Threads에서 중첩된 작업 실행
+        infra_results = self.infra.execute_operations(user_id, order_data)
+        logic_results = self.business.execute_logic(order_data)
+
+        # 최종 오케스트레이션
+        return {
+            "order_id": f"order_12345",
+            "status": "completed",
+            "infra_results": infra_results,
+            "logic_results": logic_results
+        }
+
+
+# 전역 thread 컨텍스트 조정을 통한 사용법
+def handle_order_request(request_id: str, user_id: str, order_data: Dict):
+    # 이 요청에 대한 thread 컨텍스트 설정
+    thread_ctx.setup_for_request(request_id)
+
+    # 앱 thread 컨텍스트에서 실행
+    with weave.thread(thread_ctx.app_thread_id):
+        app = OrderProcessingApp()
+        result = app.process_order(user_id, order_data)
+        return result
+
+# 사용 예시
+order_result = handle_order_request(
+    request_id="req_789",
+    user_id="user_001",
+    order_data={"product_id": "laptop", "quantity": 1, "amount": 1299.99}
+)
+
+# 예상 Thread 구조:
+#
+# App Thread: app_req_789
+# └── Turn: process_order() ← 메인 오케스트레이션
+#
+# Infra Thread: app_req_789_infra
+# ├── Turn: authenticate_user() ← 인프라 작업 1
+# ├── Turn: call_payment_gateway() ← 인프라 작업 2
+# └── Turn: update_inventory() ← 인프라 작업 3
+#
+# Logic Thread: app_req_789_logic
+# ├── Turn: validate_order() ← 비즈니스 로직 작업 1
+# ├── Turn: calculate_pricing() ← 비즈니스 로직 작업 2
+# └── Turn: apply_business_rules() ← 비즈니스 로직 작업 3
+#
+# 이점:
+# - Threads 간 관심사의 명확한 분리
+# - thread ID를 파라미터로 계속 전달할 필요 없음
+# - 앱/인프라/로직 레이어의 독립적인 모니터링
+# - thread 컨텍스트를 통한 전역 조정
+```
+
+## API 사양
+
+## 엔드포인트
+
+엔드포인트: `POST /threads/query`
+
+### 요청 스키마
+
+```python lines
+class ThreadsQueryReq:
+    project_id: str
+    limit: Optional[int] = None
+    offset: Optional[int] = None
+    sort_by: Optional[list[SortBy]] = None  # 지원 필드: thread_id, turn_count, start_time, last_updated
+    sortable_datetime_after: Optional[datetime] = None   # granule 최적화로 thread 필터링
+    sortable_datetime_before: Optional[datetime] = None  # granule 최적화로 thread 필터링
+```
+
+### 응답 스키마
+
+```python lines
+class ThreadSchema:
+    thread_id: str           # thread의 고유 식별자
+    turn_count: int          # 이 thread의 턴 호출 횟수
+    start_time: datetime     # 이 thread에서 턴 호출이 가장 먼저 시작된 시간
+    last_updated: datetime   # 이 thread에서 턴 호출이 가장 늦게 종료된 시간
+
+class ThreadsQueryRes:
+    threads: List[ThreadSchema]
+```
+
+### 최근 활성 Threads 쿼리
+
+이 예시는 가장 최근에 업데이트된 50개의 Threads를 가져옵니다. `my-project`를 실제 프로젝트 ID로 바꾸세요.
+
+```python lines
+# 가장 최근에 활성화된 threads 가져오기
+response = client.threads_query(ThreadsQueryReq(
+    project_id="my-project",
+    sort_by=[SortBy(field="last_updated", direction="desc")],
+    limit=50
+))
+
+for thread in response.threads:
+    print(f"Thread {thread.thread_id}: {thread.turn_count} turns, last active {thread.last_updated}")
+```
+
+### 활동 수준별 Threads 쿼리
+
+이 예시는 턴 수가 많은 순으로 가장 활발한 20개의 Threads를 가져옵니다.
+
+```python lines
+# 활동량이 가장 많은 (턴 수가 가장 많은) threads 가져오기
+response = client.threads_query(ThreadsQueryReq(
+    project_id="my-project",
+    sort_by=[SortBy(field="turn_count", direction="desc")],
+    limit=20
+))
+```
+
+### 최근 Threads만 쿼리
+
+이 예시는 지난 24시간 이내에 시작된 Threads를 반환합니다. `timedelta`의 `days` 값을 조정하여 시간 범위를 변경할 수 있습니다.
+
+```python lines
+from datetime import datetime, timedelta
+
+# 지난 24시간 동안 시작된 threads 가져오기
+yesterday = datetime.now() - timedelta(days=1)
+response = client.threads_query(ThreadsQueryReq(
+    project_id="my-project",
+    sortable_datetime_after=yesterday,
+    sort_by=[SortBy(field="start_time", direction="desc")]
+))
+```

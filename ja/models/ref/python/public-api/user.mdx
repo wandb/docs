@@ -1,0 +1,148 @@
+---
+title: Users
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+
+## <kbd>class</kbd> `User`
+認証および管理機能を備えた W&B Users を表すクラスです。
+
+このクラスは、ユーザーの作成、API キーの管理、チーム メンバーシップへのアクセスなど、W&B Users を管理するためのメソッドを提供します。ユーザー属性を処理するために Attrs から継承しています。
+
+### <kbd>method</kbd> `User.__init__`
+
+```python
+__init__(client: 'RetryingClient', attrs: 'MutableMapping[str, Any]')
+```
+
+**Args:**
+ 
+ - `client`: (`wandb.apis.internal.Api`) 使用するクライアントインスタンス
+ - `attrs`: (dict) ユーザー属性
+
+
+
+**Note:**
+
+> 一部の操作には管理者権限が必要です。
+
+
+
+
+
+
+
+---
+
+### <kbd>property</kbd> User.api_keys
+
+ユーザーに関連付けられている API キー名のリスト。
+
+
+
+**Returns:**
+ ユーザーに関連付けられている API キーの名前。ユーザーが API キーを持っていない場合、または API キー データが読み込まれていない場合は空のリストを返します。
+
+
+
+**Returns:**
+ - `list[str]`: api_keys プロパティの値。
+---
+
+### <kbd>property</kbd> User.teams
+
+ユーザーがメンバーとして所属している Teams 名のリスト。
+
+
+
+**Returns:**
+ ユーザーが所属する Teams の名前。ユーザーがチームメンバーシップを持っていない場合、またはチームデータが読み込まれていない場合は空のリストを返します。
+
+
+
+**Returns:**
+ - `list[str]`: teams プロパティの値。
+---
+
+### <kbd>property</kbd> User.user_api
+
+ユーザーの資格情報を使用した API のインスタンス。
+
+
+
+
+
+**Returns:**
+ - `Api | None`: user_api プロパティの値。
+---
+
+### <kbd>classmethod</kbd> `User.create`
+
+```python
+create(api: 'Api', email: 'str', admin: 'bool' = False) → Self
+```
+
+新しいユーザーを作成します。
+
+
+
+**Args:**
+ 
+ - `api` (`Api`): 使用する API インスタンス
+ - `email` (str): チームの名前
+ - `admin` (bool): このユーザーをグローバルなインスタンス管理者にするかどうか
+
+
+
+**Returns:**
+ `User` オブジェクト
+
+---
+
+### <kbd>method</kbd> `User.delete_api_key`
+
+```python
+delete_api_key(api_key: 'str') → bool
+```
+
+ユーザーの API キーを削除します。
+
+
+
+**Args:**
+ 
+ - `api_key` (str): 削除する API キーの名前。これは `api_keys` プロパティによって返される名前のいずれかである必要があります。
+
+
+
+**Returns:**
+ 成功したかどうかを示すブール値
+
+
+
+**Raises:**
+ api_key が見つからない場合は ValueError
+
+---
+
+### <kbd>method</kbd> `User.generate_api_key`
+
+```python
+generate_api_key(description: 'str | None' = None) → str | None
+```
+
+新しい API キーを生成します。
+
+
+
+**Args:**
+ 
+ - `description` (str, optional): 新しい API キーの説明。これは API キーの目的を特定するために使用できます。
+
+
+
+**Returns:**
+ 新しい API キー。失敗した場合は None

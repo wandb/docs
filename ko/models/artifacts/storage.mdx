@@ -1,33 +1,33 @@
 ---
-title: Manage artifact storage and memory allocation
-description: W&B Artifacts 의 스토리지, 메모리 할당을 관리합니다.
+title: Artifact 스토리지 관리 및 메모리 할당
+description: W&B Artifacts 의 스토리지 및 메모리 할당을 관리합니다.
 ---
 
-W&B는 기본적으로 미국에 위치한 개인 Google Cloud Storage 버킷에 아티팩트 파일을 저장합니다. 모든 파일은 저장 및 전송 중에 암호화됩니다.
+W&B는 기본적으로 미국에 위치한 프라이빗 Google Cloud Storage 버킷에 아티팩트 파일을 저장합니다. 모든 파일은 저장 시 및 전송 중에 암호화됩니다.
 
-민감한 파일의 경우, [Private Hosting](/ko/platform/hosting/)을 설정하거나 [reference artifacts](/ko/models/artifacts/track-external-files/)를 사용하는 것이 좋습니다.
+민감한 파일의 경우, [Private Hosting](/platform/hosting/)을 설정하거나 [reference artifacts](/models/artifacts/track-external-files/)를 사용하는 것을 권장합니다.
 
-트레이닝 중에 W&B는 로그, 아티팩트 및 설정 파일을 다음 로컬 디렉토리에 로컬로 저장합니다.
+트레이닝 중에 W&B는 로그, Artifacts 및 설정 파일을 다음의 로컬 디렉토리에 저장합니다:
 
-| 파일 | 기본 위치 | 기본 위치를 변경하려면 다음을 설정하십시오: |
+| 파일 | 기본 위치 | 기본 위치 변경을 위한 설정: |
 | ---- | ---------------- | ------------------------------- |
-| logs | `./wandb` | `wandb.init`의 `dir` 또는 `WANDB_DIR` 환경 변수를 설정하십시오. |
+| logs | `./wandb` | `wandb.init`의 `dir` 또는 `WANDB_DIR` 환경 변수 설정 |
 | artifacts | `~/.cache/wandb` | `WANDB_CACHE_DIR` 환경 변수 |
 | configs | `~/.config/wandb` | `WANDB_CONFIG_DIR` 환경 변수 |
-| 업로드를 위한 Staging artifacts | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 환경 변수 |
-| 다운로드된 artifacts | `./artifacts` | `WANDB_ARTIFACT_DIR` 환경 변수 |
+| 업로드를 위한 스테이징 아티팩트 | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 환경 변수 |
+| 다운로드된 아티팩트 | `./artifacts` | `WANDB_ARTIFACT_DIR` 환경 변수 |
 
-환경 변수를 사용하여 W&B를 구성하는 방법에 대한 전체 가이드는 [환경 변수 참조](/ko/models/track/environment-variables/)를 참조하십시오.
+환경 변수를 사용하여 W&B를 설정하는 방법에 대한 전체 가이드는 [environment variables reference](/models/track/environment-variables/)를 참조하세요.
 
 <Warning>
-`wandb`가 초기화된 머신에 따라 이러한 기본 폴더가 파일 시스템의 쓰기 가능한 부분에 위치하지 않을 수 있습니다. 이로 인해 오류가 발생할 수 있습니다.
+`wandb`가 초기화되는 머신에 따라, 이러한 기본 폴더가 파일 시스템의 쓰기 가능한 위치에 있지 않을 수 있습니다. 이 경우 에러가 발생할 수 있습니다.
 </Warning>
 
 ### 로컬 아티팩트 캐시 정리
 
-W&B는 공통 파일을 공유하는 버전 간의 다운로드 속도를 높이기 위해 아티팩트 파일을 캐시합니다. 시간이 지남에 따라 이 캐시 디렉토리가 커질 수 있습니다. [`wandb artifact cache cleanup`](/ko/models/ref/cli/wandb-artifact/wandb-artifact-cache/) 명령을 실행하여 캐시를 정리하고 최근에 사용되지 않은 파일을 제거하십시오.
+W&B는 파일을 공유하는 버전 간의 다운로드 속도를 높이기 위해 아티팩트 파일을 캐시합니다. 시간이 지남에 따라 이 캐시 디렉토리는 용량이 커질 수 있습니다. [`wandb artifact cache cleanup`](/models/ref/cli/wandb-artifact/wandb-artifact-cache/) 코맨드를 실행하여 캐시를 정리하고 최근에 사용되지 않은 파일들을 삭제하세요.
 
-다음 코드 조각은 캐시 크기를 1GB로 제한하는 방법을 보여줍니다. 코드 조각을 복사하여 터미널에 붙여넣으십시오:
+다음 코드조각은 캐시 크기를 1GB로 제한하는 방법을 보여줍니다. 터미널에 코드조각을 복사하여 붙여넣으세요:
 
 ```bash
 $ wandb artifact cache cleanup 1GB

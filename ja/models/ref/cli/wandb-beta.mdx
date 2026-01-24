@@ -1,22 +1,20 @@
 ---
-title: wandb ベータ版
+title: wandb beta
 ---
 
-**使い方**
+wandb CLI コマンドのベータ版です。
 
-`wandb beta [OPTIONS] COMMAND [ARGS]...`
+これらのコマンドは、wandb の今後のリリースにおいて変更されたり、完全に動作しなくなったりする可能性があります。
 
-**概要**
+## 使用法
 
-wandb CLI コマンドのベータ版です。wandb-core が必要です。
+```bash
+wandb beta COMMAND [ARGS]...
+```
 
-**オプション**
+## コマンド
 
-| **オプション** | **説明** |
+| コマンド | 説明 |
 | :--- | :--- |
-
-**コマンド**
-
-| **コマンド** | **説明** |
-| :--- | :--- |
-| sync | トレーニング run を W&B にアップロードします |
+| [leet](/models/ref/cli/wandb-beta/wandb-beta-leet) | W&B LEET（Lightweight Experiment Exploration Tool）を ローンンチ します。 |
+| [sync](/models/ref/cli/wandb-beta/wandb-beta-sync) | PATHS で指定された .wandb ファイルをアップロードします。 |

@@ -1,28 +1,29 @@
 ---
-title: アーティファクトのエイリアスを作成する
-description: W&B アーティファクトのカスタムエイリアスを作成します。
+title: Artifact のエイリアスを作成する
+description: W&B Artifacts に対してカスタム エイリアス を作成します。
 ---
 
-エイリアスを特定のバージョンへのポインターとして使用します。デフォルトでは、`Run.log_artifact` はログされたバージョンに `latest` エイリアスを追加します。
+エイリアスは、特定のバージョンを指し示すポインタとして使用します。デフォルトでは、 `wandb.Run.log_artifact()` はログに記録されたバージョンに `latest` エイリアスを追加します。
 
-アーティファクトバージョン `v0` は、アーティファクトを初めてログする際に作成され、アーティファクトに付随します。W&B は、同じアーティファクトに再度ログを行うときにコンテンツのチェックサムを行います。アーティファクトが変更された場合、W&B は新しいバージョン `v1` を保存します。
+初めて Artifact をログに記録すると、W&B は Artifact バージョン `v0` を作成して紐付けます。同じ Artifact に対して再度ログを記録すると、W&B はコンテンツのチェックサムを確認します。Artifact が変更されている場合、W&B は新しいバージョン `v1` を保存します。
 
-例えば、トレーニングスクリプトがデータセットの最新バージョンを取得する場合、そのアーティファクトを使用するときに `latest` を指定します。次のコード例は、エイリアス `latest` を持つデータセットアーティファクト `bike-dataset` をダウンロードする方法を示しています。
+例えば、トレーニングスクリプトでデータセットの最新バージョンを取得したい場合は、その Artifact を使用する際に `latest` を指定します。以下のコード例は、 `latest` エイリアスを持つ `bike-dataset` という名前の最新のデータセット Artifact をダウンロードする方法を示しています。
 
 ```python
 import wandb
 
-run = wandb.init(project="<example-project>")
-
-artifact = run.use_artifact("bike-dataset:latest")
-
-artifact.download()
+with wandb.init(project="<project>") as run:
+    # "bike-dataset:latest" という名前の Artifact を使用
+    artifact = run.use_artifact("bike-dataset:latest")
+    artifact.download()
 ```
 
-アーティファクトバージョンにカスタムエイリアスを適用することもできます。例えば、モデルのチェックポイントがメトリック AP-50 で最高であることを示すために、文字列 `'best-ap50'` をエイリアスとしてモデルアーティファクトにログを記録する際に追加できます。
+また、 Artifact バージョンにカスタムエイリアスを適用することもできます。例えば、あるモデルのチェックポイントがメトリクス AP-50 で最高値であったことをマークしたい場合、モデルの Artifact をログに記録する際に `'best-ap50'` という文字列をエイリアスとして追加できます。
 
 ```python
-artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")
-artifact.add_file("model.h5")
-run.log_artifact(artifact, aliases=["latest", "best-ap50"])
+with wandb.init(project="<project>") as run:
+    artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")
+    artifact.add_file("model.h5")
+    # ログ記録時に "latest" と "best-ap50" エイリアスを付与
+    run.log_artifact(artifact, aliases=["latest", "best-ap50"])
 ```

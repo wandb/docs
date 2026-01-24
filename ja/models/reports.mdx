@@ -1,57 +1,57 @@
 ---
-title: レポート
-description: 機械学習プロジェクトのためのプロジェクト管理とコラボレーションツール
+title: Reports の概要
+description: 機械学習 プロジェクト のための、プロジェクト管理およびコラボレーション ツール
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
 
-<CardGroup cols={2}>
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" icon="python"/>
-<Card title="Try in W&B" href="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" icon="sliders-up"/>
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
+<TryProductLink url="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" />
 </CardGroup>
 
-W&B Reportsを使って：
-- Runsを整理する。
-- 可視化を埋め込み、自動化する。
-- 学びを説明する。
-- LaTeXのzipファイルやPDFとして、共同作業者と更新を共有する。
+W&B Reports を使用すると、以下のことが可能になります：
+- Runs の整理。
+- 可視化（visualization）の埋め込みと自動化。
+- 分析による 学び の記述。
+- コラボレーターとの進捗共有（LaTeX の zip ファイルや PDF 形式）。
 
+{/* {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} */}
 
-
-次の画像は、トレーニング中にW&Bにログされたメトリクスから作成されたレポートの一部を示しています。
+以下の画像は、トレーニング中に W&B に ログ された メトリクス から作成された レポート の一部を示しています。
 
 <Frame>
-    <img src="/images/reports/safe-lite-benchmark-with-comments.png" max-width="90%"  />
+    <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="ベンチマーク結果を含む W&B レポート" max-width="90%"  />
 </Frame>
 
-上記の画像が撮影されたレポートは[こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM)からご覧いただけます。
+上記の画像の元となった レポート は [こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) からご覧いただけます。
 
 ## 仕組み
+数回のクリックで、コラボレーション可能な レポート を作成できます。
 
-簡単なクリック操作で共同レポートを作成することができます。
-
-1. W&B App内のW&Bプロジェクトワークスペースに移動します。
-2. ワークスペースの右上にある**Create report**ボタンをクリックします。
+1. W&B App で W&B Projects の Workspace に移動します。
+2. Workspace の右上にある **Create report** ボタンをクリックします。
 
 <Frame>
-    <img src="/images/reports/create_a_report_button.png" max-width="90%"  />
+    <img src="/images/reports/create_a_report_button.png" alt="Create report ボタン" max-width="90%"  />
 </Frame>
 
-3. **Create Report**と題したモーダルが表示されます。レポートに追加したいチャートとパネルを選択してください。（後でチャートとパネルを追加または削除することができます）。
-4. **Create report**をクリックします。
-5. レポートを希望の状態に編集します。
-6. **Publish to project**をクリックします。
-7. **Share**ボタンをクリックし、共同作業者とレポートを共有します。
+3. **Create Report** というタイトルのモーダルが表示されます。 レポート に追加したいチャートや パネル を選択します（チャートや パネル は後で追加・削除が可能です）。
+4. **Create report** をクリックします。
+5. レポート をお好みの状態に編集します。
+6. **Publish to project** をクリックします。
+7. **Share** ボタンをクリックして、コラボレーターに レポート を共有します。
 
-W&B Python SDKを使用して、インタラクティブにまたプログラム的にReportsを作成する方法については、[Create a report](/ja/models/reports/create-a-report/)ページをご覧ください。
+W&B Python SDK を使用して、対話的またはプログラムによって レポート を作成する方法の詳細については、 [Create a report](/models/reports/create-a-report/) ページを参照してください。
 
 ## 開始方法
+ユースケース に応じて、W&B Reports を使い始めるための以下のリソースを活用してください：
 
-ユースケースに応じて、W&B Reportsを開始するための以下のリソースを探索してください：
+* [ビデオデモ](https://www.youtube.com/watch?v=2xeJIv_K_eI) で W&B Reports の概要を確認する。
+* [Reports gallery](/models/reports/reports-gallery/) で公開されている レポート の例を見る。
+* [Programmatic Workspaces](/models/tutorials/workspaces) チュートリアルで、 Workspace の作成とカスタマイズ方法を学ぶ。
+* [W&B Fully Connected](https://wandb.me/fc) で厳選された レポート を読む。
 
-* W&B Reportsの概要をつかむために、[ビデオデモンストレーション](https://www.youtube.com/watch?v=2xeJIv_K_eI)をご覧ください。
-* ライブレポートの例を見たい方は、[Reports gallery](/ja/models/reports/reports-gallery/)を探索してください。
-* ワークスペースの作成とカスタマイズ方法を学ぶためには、[Programmatic Workspaces](/ja/tutorials/workspaces)チュートリアルを試してください。
-* [W&B Fully Connected](http://wandb.me/fc)でキュレーションされたReportsをお読みください。
+## 推奨されるプラクティスとヒント
 
-## ベストプラクティスとヒント
-
-Experimentsとログに関するベストプラクティスとヒントについては、[Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports)をご覧ください。
+Experiments や ログ に関する ベストプラスティス とヒントについては、 [Best Practices: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports) を参照してください。

@@ -1,15 +1,15 @@
 ---
-title: テーブル データをエクスポート
-description: テーブルからデータをエクスポートする方法。
+title: テーブルデータの書き出し
+description: テーブル から データ をエクスポートする方法。
 ---
 
-すべての W&B Artifacts 同様に、Tables は pandas データフレームに変換して、データのエクスポートを簡単に行うことができます。
+すべての W&B Artifacts と同様に、Tables は pandas の DataFrame に変換して簡単にデータをエクスポートできます。
 
 ## `table` を `artifact` に変換する
-まず、テーブルをアーティファクトに変換する必要があります。これを行う最も簡単な方法は `artifact.get(table, "table_name")` を使用することです：
+まず、テーブルを アーティファクト に変換する必要があります。最も簡単な方法は、`artifact.get(table, "table_name")` を使用することです。
 
 ```python
-# 新しいテーブルを作成してログします。
+# 新しいテーブルを作成してログを記録します
 with wandb.init() as r:
     artifact = wandb.Artifact("my_dataset", type="dataset")
     table = wandb.Table(
@@ -18,29 +18,29 @@ with wandb.init() as r:
     artifact.add(table, "my_table")
     wandb.log_artifact(artifact)
 
-# 作成したアーティファクトを使用してテーブルを取得します。
+# 作成したアーティファクトを使用して、テーブルを取得します
 with wandb.init() as r:
     artifact = r.use_artifact("my_dataset:latest")
     table = artifact.get("my_table")
 ```
 
-## `artifact` をデータフレームに変換する
-次に、テーブルをデータフレームに変換します：
+## `artifact` を DataFrame に変換する
+次に、テーブルを DataFrame に変換します。
 
 ```python
-# 前のコード例から続けて：
+# 前のコード例の続き：
 df = table.get_dataframe()
 ```
 
-## データをエクスポート
-現在、データフレームがサポートする任意のメソッドを使用してエクスポートできます：
+## データをエクスポートする
+これで、DataFrame がサポートする任意のメソッドを使用してエクスポートできます。
 
 ```python
-# テーブルデータを .csv に変換
+# テーブルデータを .csv に変換します
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
 # 次のステップ
-- `artifacts` に関する [リファレンスドキュメント](/ja/models/artifacts/construct-an-artifact/) をチェックしてください。
-- [Tables Walkthrough](/ja/models/tables/tables-walkthrough/) ガイドを確認してください。
-- [データフレーム](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) リファレンスドキュメントを参照してください。
+- `artifacts` に関する [リファレンスドキュメント](/models/artifacts/construct-an-artifact/) を確認してください。
+- [Tables ウォークスルー](/models/tables/tables-walkthrough/) ガイドをご覧ください。
+- [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) のリファレンスドキュメントを確認してください。

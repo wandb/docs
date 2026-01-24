@@ -1,9 +1,5 @@
 ---
-title: Can we flag boolean variables as hyperparameters?
-support:
-- sweeps
-toc_hide: true
-type: docs
+title: 불리언(boolean) 변수를 하이퍼파라미터로 플래그 지정할 수 있나요?
 ---
 
-구성의 코맨드 섹션에서 `${args_no_boolean_flags}` 매크로를 사용하여 하이퍼파라미터를 부울 플래그로 전달합니다. 이 매크로는 부울 파라미터를 자동으로 플래그로 포함합니다. `param`이 `True`이면 코맨드는 `--param`을 받습니다. `param`이 `False`이면 플래그는 생략됩니다.
+설정의 command 섹션에서 `${args_no_boolean_flags}` 매크로를 사용하여 하이퍼파라미터를 불리언(boolean) 플래그로 전달하세요. 이 매크로는 불리언 파라미터를 플래그로 자동 포함합니다. 만약 `param` 이 `True` 이면 코맨드에 `--param` 이 추가됩니다. `param` 이 `False` 이면 해당 플래그는 생략됩니다.

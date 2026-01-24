@@ -1,0 +1,207 @@
+---
+title: Model Context Protocol (MCP) 와 Weave
+description: Weave를 사용하여 MCP 클라이언트와 MCP 서버 사이의 활동을 Trace 하세요
+---
+
+<a target="_blank" href="https://colab.research.google.com/drive/174VzXlU5Qcgvjt4OoIWN-guTxJcOefAh?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+Model Context Protocol (MCP)는 AI 애플리케이션이 대규모 언어 모델 (LLM)과 정보를 교환할 수 있도록 하는 표준화된 통신 프로토콜입니다. 하드웨어 호환성을 혁신적으로 바꾼 범용 커넥터와 유사하게, MCP는 LLM이 각 서비스마다 맞춤형 인테그레이션을 구축할 필요 없이 다양한 데이터 소스에 엑세스하고 외부 툴과 상호작용할 수 있는 인터페이스를 제공합니다.
+
+Weave 인테그레이션을 사용하면 MCP 클라이언트와 MCP 서버 간의 활동을 추적할 수 있습니다. 이를 통해 MCP 기반 시스템 전체에서 툴 호출, 리소스 엑세스 및 프롬프트 생성에 대한 상세한 가시성을 확보할 수 있습니다.
+
+## 작동 방식
+
+<Warning>
+현재 이 인테그레이션은 클라이언트 측과 서버 측 작업을 별도로 캡처하며, 이들 간의 상호작용에 대한 엔드투엔드 가시성은 제공하지 않습니다. 엔드투엔드 관측성을 지원하기 위해 MCP에 OpenTelemetry 트레이스 지원을 추가하자는 제안이 진행 중입니다. 자세한 내용은 [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269)를 참조하세요.
+</Warning>
+
+Weave 인테그레이션은 핵심 메소드에 [`weave.op()`](../tracking/ops) 데코레이터를 패치하여 Model Context Protocol (MCP)의 주요 구성 요소를 자동으로 추적합니다. 구체적으로는 [`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) 및 [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84) 클래스의 메소드를 패치합니다.
+
+이 인테그레이션을 통해 Weave는 다음 MCP 구성 요소를 추적합니다:
+
+- [Tools](https://modelcontextprotocol.io/docs/concepts/tools)
+- [Resources](https://modelcontextprotocol.io/docs/concepts/resources)
+- [Prompts](https://modelcontextprotocol.io/docs/concepts/prompts)
+
+[![mcp_trace_timeline.png](/weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png)](https://wandb.ai/ayut/mcp_example/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fmcp_example%2Fop%2Frun_client%3A*%22%5D%7D&peekPath=%2Fayut%2Fmcp_example%2Fcalls%2F01966bbe-cc5e-7012-b45f-bf10617d8c1e%3FhideTraceTree%3D0)
+
+## 인테그레이션 사용하기
+
+Weave 인테그레이션은 MCP 서버와 클라이언트 모두에서 작동합니다. 설치가 완료되면 `weave`를 임포트하고 초기화하는 단 두 줄의 코드만으로 트레이싱을 활성화할 수 있습니다.
+
+### 사전 요구 사항
+
+시작하기 전에 필요한 패키지를 설치하세요:
+
+```bash
+pip install -qq "mcp[cli]" weave
+```
+
+### 설정
+
+MCP 인테그레이션은 환경 변수를 통해 설정할 수 있습니다:
+
+- `MCP_TRACE_LIST_OPERATIONS`: 서버와 클라이언트 양측에서 리스트 작업(`list_tools`, `list_resources`, `list_prompts`)을 추적하려면 `true`로 설정하세요.
+
+### 서버 측 인테그레이션
+
+MCP 서버를 추적하려면 기존 `FastMCP` 설정에 Weave를 임포트하고 클라이언트를 초기화하는 두 줄의 코드를 추가하세요. 추가하고 나면 툴, 리소스, 프롬프트 작업이 자동으로 추적됩니다.
+
+```python lines
+# Weave 임포트 (트레이싱에 필요)
+import weave
+from mcp.server.fastmcp import FastMCP
+
+# 프로젝트 이름으로 Weave 초기화
+weave_client = weave.init("my-project")
+
+# MCP 서버 설정
+mcp = FastMCP("Demo")
+
+# 툴 정의 (이 호출은 추적됩니다)
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """두 숫자를 더합니다."""
+    return a + b
+
+# 리소스 정의 (이 호출은 추적됩니다)
+@mcp.resource("greeting://{name}")
+def get_greeting(name: str) -> str:
+    """개인화된 인사말을 반환합니다."""
+    return f"Hello, {name}!"
+
+# 프롬프트 정의 (이 호출은 추적됩니다)
+@mcp.prompt()
+def review_code(code: str) -> str:
+    """코드 리뷰를 위한 프롬프트를 반환합니다."""
+    return f"Please review this code:\n\n{code}"
+
+# 서버 시작
+mcp.run(transport="stdio")
+```
+
+### 클라이언트 측 인테그레이션
+
+클라이언트 측에서도 Weave를 임포트하고 초기화하는 두 가지 변경만 필요합니다. 모든 툴 호출, 리소스 엑세스, 프롬프트 요청이 자동으로 추적됩니다.
+
+```python lines
+# Weave 임포트 (트레이싱에 필요)
+import weave
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+# 프로젝트 이름으로 Weave 초기화
+weave_client = weave.init("my-project")
+
+# MCP 클라이언트 설정 및 실행
+async with stdio_client(server_params) as (read, write):
+    async with ClientSession(read, write) as session:
+        # 세션 초기화
+        await session.initialize()
+        
+        # 툴 호출 (이 호출은 추적됩니다)
+        result = await session.call_tool("add", arguments={"a": 1, "b": 2})
+        
+        # 리소스 읽기 (이 호출은 추적됩니다)
+        resource = await session.read_resource("greeting://user")
+        
+        # 프롬프트 가져오기 (이 호출은 추적됩니다)
+        prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
+```
+
+## 튜토리얼: `mcp_demo` 예시
+
+[`mcp_example`](https://github.com/wandb/weave/tree/master/examples/mcp_demo)은 트레이싱을 위한 Model Context Protocol (MCP)과 Weave 간의 인테그레이션을 보여줍니다. 클라이언트와 서버 구성 요소 모두를 인스트루먼트하여 상호작용의 상세한 트레이스를 캡처하는 방법을 보여줍니다.
+
+### 예시 실행하기
+
+1. `weave` 리포지토리를 클론하고 `mcp_demo` 예시 디렉토리로 이동합니다:
+
+   ```bash
+   git clone https://github.com/wandb/weave
+   cd weave/examples/mcp_demo
+   ```
+
+   예시에는 두 개의 주요 파일이 포함되어 있습니다:
+
+    - `example_server.py`: `FastMCP`로 빌드된 데모 MCP 서버입니다. 툴, 리소스, 프롬프트를 정의합니다.
+    - `example_client.py`: 서버에 연결하고 해당 구성 요소와 상호작용하는 클라이언트입니다.
+
+2. 필요한 종속성을 수동으로 설치합니다:
+
+   ```bash
+   pip install mcp[cli] weave
+   ```
+
+3. 데모 실행:
+
+   ```bash
+   python example_client.py example_server.py
+   ```
+
+   이 코맨드는 클라이언트와 서버를 모두 실행합니다. 클라이언트는 다양한 기능을 테스트할 수 있는 대화형 CLI를 시작합니다.
+
+### 클라이언트 CLI 코맨드
+
+클라이언트 인터페이스는 다음 코맨드를 지원합니다:
+
+| 코맨드 | 설명 |
+|-----------------------|-----------------------------------------|
+| `tools`              | 사용 가능한 툴 목록 표시 |
+| `resources`          | 사용 가능한 리소스 목록 표시 |
+| `prompts`            | 사용 가능한 프롬프트 목록 표시 |
+| `add <a> <b>`        | 두 숫자 더하기 |
+| `bmi <weight> <height>` | 체질량 지수(BMI) 계산 |
+| `weather <city>`     | 도시의 날씨 데이터 가져오기 |
+| `greeting <name>`    | 개인화된 인사말 가져오기 |
+| `user <id>`          | 사용자 프로필 조회 |
+| `config`             | 앱 설정 가져오기 |
+| `code-review <code>` | 코드 리뷰 프롬프트 생성 |
+| `debug <error>`      | 디버깅 프롬프트 생성 |
+| `demo`               | 사용 가능한 모든 기능의 전체 데모 실행. 각 기능을 순차적으로 실행하고 Weave UI에서 상호작용의 전체 트레이스 타임라인을 생성합니다. |
+| `q`                  | 세션 종료 |
+
+### 예시 이해하기
+
+`example_server.py` 서버는 다음을 정의합니다:
+
+- _Tools_: `add()`, `calculate_bmi()`, `fetch_weather()`와 같은 함수
+- _Resources_: `greeting://{name}`, `config://app`, `users://{id}/profile`과 같은 엔드포인트
+- _Prompts_: `review_code()` 및 `debug_error()`와 같은 템플릿
+
+`weave.init()`으로 클라이언트를 초기화하면 모든 서버 측 작업이 Weave에 의해 자동으로 추적됩니다.
+
+`example_client.py` 클라이언트는 다음 방법을 보여줍니다:
+
+- MCP 서버에 연결하기
+- 사용 가능한 툴, 리소스, 프롬프트 검색하기
+- 파라미터를 사용하여 툴 호출하기
+- 리소스 URI에서 읽기
+- 인수를 사용하여 프롬프트 생성하기
+- 커스텀 메소드/함수에 [`weave.op()`](../tracking/ops) 사용 예시 보여주기
+
+Weave는 클라이언트와 서버 간의 상호작용에 대한 완전한 뷰를 제공하기 위해 모든 클라이언트 측 호출을 추적합니다.
+
+## FAQ
+
+### MCP 트레이싱이 왜 필요한가요?
+
+LLM 애플리케이션 개발자로서 귀하는 다음 세 가지 범주 중 하나에 속할 것입니다:
+
+- _MCP 서버 측 개발자_: MCP 클라이언트에 여러 툴, 리소스 및 프롬프트를 노출하려고 합니다. 기존 애플리케이션의 툴, 리소스 등을 노출하거나, 에이전트를 구축했거나 오케스트레이터 에이전트에 의해 오케스트레이션되는 여러 에이전트를 보유하고 있습니다.
+
+- _MCP 클라이언트 측 개발자_: 클라이언트 측 애플리케이션을 여러 MCP 서버에 연결하려고 합니다. 클라이언트 측 로직의 핵심 부분은 어떤 툴을 호출할지 또는 어떤 리소스를 가져올지 결정하기 위해 LLM 호출을 하는 것입니다.
+
+- _MCP 서버 및 클라이언트 개발자_: 서버와 클라이언트를 모두 개발하고 있습니다.
+
+처음 두 범주 중 하나에 속한다면, 각 툴이 언제 호출되는지, 실행 워크플로우는 어떤지, 토큰 수, 그리고 서버 또는 클라이언트 측 로직의 다양한 구성 요소의 지연 시간을 알고 싶을 것입니다.
+
+서버와 클라이언트를 모두 개발하는 경우, 통합된 트레이스 타임라인을 볼 수 있는 기능을 통해 서버와 클라이언트 측 로직을 모두 빠르게 반복 개발할 수 있습니다.
+
+어떤 경우든, 관측성 레이어를 통해 다음을 수행할 수 있습니다:
+
+- 애플리케이션을 빠르게 반복 개발
+- 워크플로우 또는 실행 로직 감사
+- 병목 현상 식별

@@ -1,0 +1,177 @@
+---
+title: 'Class: StringPrompt'
+description: TypeScript SDK 레퍼런스
+---
+
+[weave](../) / StringPrompt
+
+## Hierarchy
+
+- `Prompt`
+
+  ↳ `StringPrompt`
+
+## 목차
+
+### 생성자 (Constructors)
+
+- [constructor](./stringprompt#constructor)
+
+### 속성 (Properties)
+
+- [\_\_savedRef](./stringprompt#__savedref)
+- [content](./stringprompt#content)
+
+### 접근자 (Accessors)
+
+- [description](./stringprompt#description)
+- [name](./stringprompt#name)
+
+### 메소드 (Methods)
+
+- [format](./stringprompt#format)
+- [saveAttrs](./stringprompt#saveattrs)
+- [get](./stringprompt#get)
+
+## 생성자 (Constructors)
+
+### constructor
+
+• **new StringPrompt**(`parameters`): [`StringPrompt`](./stringprompt)
+
+#### 파라미터
+
+| 이름 | 타입 |
+| :------ | :------ |
+| `parameters` | `StringPromptParameters` |
+
+#### 반환 값
+
+[`StringPrompt`](./stringprompt)
+
+#### 재정의 (Overrides)
+
+Prompt.constructor
+
+#### 정의 위치
+
+[prompt.ts:17](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L17)
+
+## 속성 (Properties)
+
+### \_\_savedRef
+
+• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+
+#### 상속 원본
+
+Prompt.\_\_savedRef
+
+#### 정의 위치
+
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
+
+___
+
+### content
+
+• **content**: `string`
+
+#### 정의 위치
+
+[prompt.ts:15](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L15)
+
+## 접근자 (Accessors)
+
+### description
+
+• `get` **description**(): `undefined` \| `string`
+
+#### 반환 값
+
+`undefined` \| `string`
+
+#### 상속 원본
+
+Prompt.description
+
+#### 정의 위치
+
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
+
+___
+
+### name
+
+• `get` **name**(): `string`
+
+#### 반환 값
+
+`string`
+
+#### 상속 원본
+
+Prompt.name
+
+#### 정의 위치
+
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+
+## 메소드 (Methods)
+
+### format
+
+▸ **format**(`values?`): `string`
+
+#### 파라미터
+
+| 이름 | 타입 |
+| :------ | :------ |
+| `values` | `Record`\<`string`, `any`\> |
+
+#### 반환 값
+
+`string`
+
+#### 정의 위치
+
+[prompt.ts:22](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L22)
+
+___
+
+### saveAttrs
+
+▸ **saveAttrs**(): `Object`
+
+#### 반환 값
+
+`Object`
+
+#### 상속 원본
+
+Prompt.saveAttrs
+
+#### 정의 위치
+
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+
+___
+
+### get
+
+▸ **get**(`client`, `uri`): `Promise`\<[`StringPrompt`](./stringprompt)\>
+
+#### 파라미터
+
+| 이름 | 타입 |
+| :------ | :------ |
+| `client` | [`WeaveClient`](./weaveclient) |
+| `uri` | `string` |
+
+#### 반환 값
+
+`Promise`\<[`StringPrompt`](./stringprompt)\>
+
+#### 정의 위치
+
+[prompt.ts:26](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L26)

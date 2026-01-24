@@ -1,0 +1,152 @@
+---
+title: 콘솔 로그
+---
+
+실험을 실행할 때 콘솔에 출력되는 다양한 메시지를 확인할 수 있습니다. W&B는 콘솔 로그를 캡처하여 W&B 앱에 표시합니다. 이 메시지들을 사용하여 실험의 behavior 를 모니터링하고 디버깅하세요.
+
+## 콘솔 로그 보기
+
+W&B 앱에서 run 의 콘솔 로그에 엑세스하는 방법은 다음과 같습니다:
+
+1. W&B 앱에서 해당 **Projects** 로 이동합니다.
+2. **Runs** 테이블에서 특정 run 을 선택합니다.
+3. 프로젝트 사이드바에서 **Logs** 탭을 클릭합니다.
+
+<Note>
+W&B는 run 하나당 최대 100,000행의 로그를 저장합니다. W&B 앱에서는 한 번에 최대 10,000행의 로그를 표시합니다. 로그를 스크롤하여 이전 행을 표시하면 저장된 모든 로그 행을 확인할 수 있습니다.
+</Note>
+
+{/* ## Console log fields
+
+Within the W&B App you can modify the fields shown in the console logs table. */}
+
+## 콘솔 로그 유형
+
+W&B는 정보 메시지, 경고, 에러 등 여러 유형의 콘솔 로그를 캡처하며, 로그의 심각도를 나타내는 접두사를 함께 표시합니다.
+
+### 정보 메시지 (Informational messages)
+정보 메시지는 run 의 진행 상황과 상태에 대한 업데이트를 제공합니다. 일반적으로 `wandb:` 접두사가 붙습니다.
+
+```text
+wandb: Starting Run: abc123
+wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
+```
+
+### 경고 메시지 (Warning messages)
+실행을 중단시키지는 않지만 잠재적인 문제에 대한 경고는 `WARNING:` 접두사가 붙습니다.
+
+```text
+WARNING Found .wandb file, not streaming tensorboard metrics.
+WARNING These runs were logged with a previous version of wandb.
+```
+
+### 에러 메시지 (Error messages)
+심각한 문제에 대한 에러 메시지는 `ERROR:` 접두사가 붙습니다. 이는 run 이 성공적으로 완료되지 못하게 할 수 있는 문제를 나타냅니다.
+
+```text
+ERROR Unable to save notebook session history.
+ERROR Failed to save notebook.
+```
+
+## 콘솔 로그 설정
+
+코드 내에서 `wandb.Settings` 오브젝트를 `wandb.init()` 에 전달하여 W&B가 콘솔 로그를 처리하는 방식을 구성할 수 있습니다. `wandb.Settings` 내에서 다음 파라미터를 설정하여 콘솔 로그 behavior 를 제어할 수 있습니다:
+
+- `show_errors`: `True` 로 설정하면 W&B 앱에 에러 메시지가 표시됩니다. `False` 로 설정하면 에러 메시지가 표시되지 않습니다.
+- `silent`: `True` 로 설정하면 모든 W&B 콘솔 출력이 억제됩니다. 이는 콘솔 noise 를 최소화하려는 production 환경에서 유용합니다.
+- `show_warnings`: `True` 로 설정하면 W&B 앱에 경고 메시지가 표시됩니다. `False` 로 설정하면 경고 메시지가 표시되지 않습니다.
+- `show_info`: `True` 로 설정하면 W&B 앱에 정보 메시지가 표시됩니다. `False` 로 설정하면 정보 메시지가 표시되지 않습니다.
+
+다음 예시는 이러한 설정들을 구성하는 방법을 보여줍니다:
+
+```python
+import wandb
+
+settings = wandb.Settings(
+    show_errors=True,  # W&B 앱에 에러 메시지 표시
+    silent=False,      # 모든 W&B 콘솔 출력 비활성화
+    show_warnings=True # W&B 앱에 경고 메시지 표시
+)
+
+with wandb.init(settings=settings) as run:
+    # 여기에 트레이닝 코드를 작성하세요
+    run.log({"accuracy": 0.95})
+```
+
+## 커스텀 로깅
+
+W&B는 애플리케이션의 콘솔 로그를 캡처하지만, 사용자의 자체 로깅 설정에는 간섭하지 않습니다. Python의 내장 `print()` 함수나 `logging` 모듈을 사용하여 메시지를 로그할 수 있습니다.
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    for i in range(100, 1000, 100):
+        # 이 로그는 W&B에 기록되는 동시에 콘솔에도 출력됩니다
+        run.log({"epoch": i, "loss": 0.1 * i})
+        print(f"epoch: {i} loss: {0.1 * i}")
+```
+
+콘솔 로그는 다음과 유사하게 표시됩니다:
+
+```text
+1 epoch:  100 loss: 1.3191105127334595
+2 epoch:  200 loss: 0.8664389848709106
+3 epoch:  300 loss: 0.6157898902893066
+4 epoch:  400 loss: 0.4961796700954437
+5 epoch:  500 loss: 0.42592573165893555
+6 epoch:  600 loss: 0.3771176040172577
+7 epoch:  700 loss: 0.3393910825252533
+8 epoch:  800 loss: 0.3082585036754608
+9 epoch:  900 loss: 0.28154927492141724
+```
+
+## 타임스탬프
+
+각 콘솔 로그 엔트리에는 타임스탬프가 자동으로 추가됩니다. 이를 통해 각 로그 메시지가 생성된 시점을 추적할 수 있습니다.
+
+콘솔 로그의 타임스탬프 표시 여부를 토글할 수 있습니다. 콘솔 페이지 왼쪽 상단의 **Timestamp visible** 드롭다운을 선택하세요. 타임스탬프를 표시하거나 숨기도록 선택할 수 있습니다.
+
+## 콘솔 로그 검색
+
+콘솔 로그 페이지 상단의 검색 바를 사용하여 키워드로 로그를 필터링할 수 있습니다. 특정 용어, 라벨 또는 에러 메시지를 검색할 수 있습니다.
+
+## 커스텀 라벨로 필터링
+
+<Warning>
+`x_` 접두사가 붙은 파라미터(예: `x_label`)는 퍼블릭 프리뷰 상태입니다. 의견이 있으시면 [W&B 리포지토리의 GitHub 이슈](https://github.com/wandb/wandb)를 생성해 주세요.
+</Warning>
+
+`wandb.Settings` 의 `x_label` 인수로 전달한 라벨을 기반으로 콘솔 로그 페이지 상단의 UI 검색 바에서 로그를 필터링할 수 있습니다.
+
+```python
+import wandb
+
+# 메인 노드에서 run 초기화
+with wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="custom_label"  # (선택 사항) 로그 필터링을 위한 커스텀 라벨
+    )
+) as run:
+    # 여기에 코드를 작성하세요
+```
+
+## 콘솔 로그 다운로드
+
+W&B 앱에서 run 의 콘솔 로그를 다운로드하는 방법은 다음과 같습니다:
+
+1. W&B 앱에서 해당 **Projects** 로 이동합니다.
+2. **Runs** 테이블에서 특정 run 을 선택합니다.
+3. 프로젝트 사이드바에서 **Logs** 탭을 클릭합니다.
+4. 콘솔 로그 페이지 오른쪽 상단의 다운로드 버튼을 클릭합니다.
+
+## 콘솔 로그 복사
+
+W&B 앱에서 run 의 콘솔 로그를 복사하는 방법은 다음과 같습니다:
+
+1. W&B 앱에서 해당 **Projects** 로 이동합니다.
+2. **Runs** 테이블에서 특정 run 을 선택합니다.
+3. 프로젝트 사이드바에서 **Logs** 탭을 클릭합니다.
+4. 콘솔 로그 페이지 오른쪽 상단의 복사 버튼을 클릭합니다.

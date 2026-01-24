@@ -1,0 +1,92 @@
+---
+title: 'TypeScript SDK: Third-Party 인테그레이션 가이드'
+description: Weave TypeScript SDK를 사용한 서드파티 라이브러리 통합
+---
+
+이 가이드는 Weave TypeScript SDK 를 사용하여 타사 라이브러리(예: OpenAI)를 인테그레이션하는 방법을 설명합니다. Weave 는 자동 인스트루멘테이션(instrumentation)을 지원하여 설정을 간소화하고 수동 설정의 필요성을 줄여줍니다.
+
+<Warning>
+**변경 사항**
+[PR #4554](https://github.com/wandb/weave/pull/4554)부터, Weave 가 로드될 때 OpenAI 와 같은 지원 라이브러리가 자동으로 패치됩니다. 이전과 같이 라이브러리를 수동으로 래핑할 필요가 없습니다:
+
+```ts lines
+weave.wrapOpenAI(new OpenAI());
+```
+
+일반적으로 Weave 가 이를 자동으로 처리합니다. 하지만 [엣지 케이스](#advanced-usage)가 발생할 수 있습니다.
+</Warning>
+
+## 사용 방법
+
+CommonJS 와 ESM 을 모두 사용할 수 있습니다.
+
+### CommonJS 
+
+CommonJS 의 경우 특별한 설정이 필요하지 않습니다. 자동 패치가 즉시 작동합니다. Weave 를 설치하기만 하면 됩니다:
+
+```bash
+npm install weave
+```
+
+### ESM 
+
+ESM 의 경우, Node 의 `--import` 플래그를 사용하여 자동 인스트루멘테이션을 활성화하세요. `weave` 패키지가 설치되어 있다면 `weave/instrument` 모듈을 사용할 수 있습니다.
+
+1. Weave 설치:
+    ```bash
+    npm install weave
+    ```
+2. `weave/instrument` 모듈 임포트:
+    ```bash
+    node --import=weave/instrument dist/main.js
+    ```
+
+## 고급 사용법 및 문제 해결
+
+이 섹션에서는 TypeScript SDK 의 자동 패치가 예상대로 작동하지 않는 엣지 케이스와 해결 방법을 다룹니다. 예를 들어, ESM 전용 환경, Next.js 와 같은 번들러 설정, 또는 제한된 런타임 환경으로 인해 예기치 않은 문제가 발생할 수 있습니다. 추적이 누락되거나 인테그레이션 이슈가 발생하는 경우 여기에서 시작하세요.
+
+### `NODE_OPTIONS` 사용 (ESM 전용)
+
+<Warning>
+`NODE_OPTIONS` 사용 시 주의하세요. 이는 환경 내의 모든 Node.js 프로세스에 영향을 미치며 사이드 이펙트를 유발할 수 있습니다.
+</Warning>
+
+ESM 프로젝트를 사용 중이고 CLI 툴이나 프레임워크의 제약으로 인해 CLI 플래그를 전달할 수 없는 경우, `NODE_OPTIONS` 환경 변수를 설정하세요:
+
+```bash
+export NODE_OPTIONS="--import=weave/instrument"
+```
+
+
+### 번들러 호환성
+
+Next.js 와 같은 일부 프레임워크 및 번들러는 런타임 시 Node 가 타사 라이브러리를 패치하는 기능을 방해하는 방식으로 라이브러리를 번들링할 수 있습니다.
+
+이러한 경우 다음 단계를 시도해 보세요:
+
+1. 번들러 설정에서 LLM 라이브러리를 외부(external)로 표시합니다. 이렇게 하면 라이브러리가 번들링되지 않으므로, Weave 가 런타임에 이를 올바르게 패치할 수 있습니다.
+
+   다음 예시는 `next.config.js` 설정에서 `openai` 패키지를 외부 패키지로 표시하여 번들링을 방지하는 방법을 보여줍니다. 모듈이 런타임에 로드되므로 Weave 가 자동으로 패치하고 추적할 수 있습니다. 자동 인스트루멘테이션을 활성화하려면 Next.js 와 같은 프레임워크를 사용할 때 이 설정을 적용하세요.
+
+    ```js
+    externals: {
+    'openai': 'commonjs openai'
+    }
+    ```
+
+
+2. 여전히 패치에 실패하면 [수동 인스트루멘테이션](#manual-patching-fallback-option)으로 대체하세요.
+
+
+### 수동 패치 (대체 옵션)
+
+<Warning>
+수동 패치는 이전 방식이며 자동 패치가 작동하지 않는 경우에만 사용해야 합니다.
+</Warning>
+
+일부 경우에는 여전히 수동 인스트루멘테이션을 사용해야 할 수도 있습니다:
+
+```ts lines
+import { wrapOpenAI } from 'weave';
+const client = wrapOpenAI(new OpenAI());
+```

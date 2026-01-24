@@ -1,0 +1,136 @@
+---
+title: 레지스트리 항목 찾기
+---
+
+W&B Registry 의 [글로벌 검색 바](./search_registry#search-for-registry-items)를 사용하여 레지스트리, 컬렉션, artifact 버전 태그, 컬렉션 태그 또는 에일리어스를 찾을 수 있습니다. W&B Python SDK 를 사용하여 특정 기준에 따라 [레지스트리, 컬렉션 및 artifact 버전을 필터링](./search_registry#query-registry-items-with-mongodb-style-queries)하기 위해 MongoDB 스타일의 쿼리를 사용할 수 있습니다.
+
+사용자가 볼 수 있는 권한이 있는 항목만 검색 결과에 나타납니다.
+
+## 레지스트리 항목 검색
+
+레지스트리 항목을 검색하려면 다음을 수행하세요:
+
+1. W&B Registry 로 이동합니다.
+2. 페이지 상단의 검색 바에 검색어를 입력합니다. Enter 를 눌러 검색합니다.
+
+지정한 검색어가 기존 레지스트리, 컬렉션 이름, artifact 버전 태그, 컬렉션 태그 또는 에일리어스와 일치하면 검색 바 아래에 검색 결과가 나타납니다.
+
+<Frame>
+    <img src="/images/registry/search_registry.gif" alt="Searching within a Registry"  />
+</Frame>
+
+## MongoDB 스타일 쿼리로 레지스트리 항목 쿼리
+
+[`wandb.Api().registries()`](/models/ref/python/public-api/api#registries) 와 [쿼리 서술어 (query predicates)](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate)를 사용하여 하나 이상의 [MongoDB 스타일 쿼리](https://www.mongodb.com/docs/compass/current/query/filter/)를 기반으로 레지스트리, 컬렉션 및 artifact 버전을 필터링할 수 있습니다.
+
+다음 표는 필터링하려는 항목 유형에 따라 사용할 수 있는 쿼리 이름을 나열합니다:
+
+| | 쿼리 이름 |
+| ----- | ----- |
+| registries | `name`, `description`, `created_at`, `updated_at` |
+| collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
+| versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
+
+다음 코드 예제는 몇 가지 일반적인 검색 시나리오를 보여줍니다.
+
+`wandb.Api().registries()` 메소드를 사용하려면 먼저 W&B Python SDK ([`wandb`](/models/ref/python/)) 라이브러리를 임포트하세요:
+
+```python
+import wandb
+
+# (선택 사항) 가독성을 위해 wandb.Api() 클래스의 인스턴스를 생성합니다
+api = wandb.Api()
+```
+
+`model` 문자열을 포함하는 모든 레지스트리 필터링:
+
+```python
+# `model` 문자열을 포함하는 모든 레지스트리 필터링
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# 필터와 일치하는 모든 레지스트리의 반복 가능한 객체(iterable)를 반환합니다
+registries = api.registries(filter=registry_filters)
+```
+
+레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함된 모든 컬렉션 필터링:
+
+```python
+# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 
+# 포함된 모든 컬렉션을 필터링합니다
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# 필터와 일치하는 모든 컬렉션의 반복 가능한 객체를 반환합니다
+collections = api.registries().collections(filter=collection_filters)
+```
+
+레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함되어 있고 `cnn` 태그를 보유한 모든 컬렉션 필터링:
+
+```python
+# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함되어 있고 
+# `cnn` 태그를 보유한 모든 컬렉션을 필터링합니다
+collection_filters = {
+    "name": {"$regex": "yolo"},
+    "tag": "cnn"
+}
+
+# 필터와 일치하는 모든 컬렉션의 반복 가능한 객체를 반환합니다
+collections = api.registries().collections(filter=collection_filters)
+```
+
+`model` 문자열을 포함하고 `image-classification` 태그 또는 `latest` 에일리어스를 가진 모든 artifact 버전 찾기:
+
+```python
+# `model` 문자열을 포함하고 `image-classification` 태그 또는 
+# `latest` 에일리어스를 가진 모든 artifact 버전을 찾습니다
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# 논리적 $or 연산자를 사용하여 artifact 버전을 필터링합니다
+version_filters = {
+    "$or": [
+        {"tag": "image-classification"},
+        {"alias": "production"}
+    ]
+}
+
+# 필터와 일치하는 모든 artifact 버전의 반복 가능한 객체를 반환합니다
+artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
+```
+
+논리 쿼리 연산자에 대한 자세한 내용은 [MongoDB 문서](https://www.mongodb.com/docs/manual/reference/operator/query-logical/)를 참조하세요.
+
+이전 코드조각의 `artifacts` 반복 가능한 객체에 있는 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, `name`, `collection`, `aliases`, `tags`, `created_at` 등과 같은 각 artifact 의 속성에 엑세스할 수 있습니다:
+
+```python
+for art in artifacts:
+    print(f"artifact name: {art.name}")
+    print(f"collection artifact belongs to: { art.collection.name}")
+    print(f"artifact aliases: {art.aliases}")
+    print(f"tags attached to artifact: {art.tags}")
+    print(f"artifact created at: {art.created_at}\n")
+```
+
+artifact 오브젝트 속성의 전체 목록은 API 레퍼런스 문서의 [Artifacts Class](/models/ref/python/experiments/artifact/)를 참조하세요.
+
+레지스트리나 컬렉션에 관계없이 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 artifact 버전 필터링:
+
+```python
+# 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 artifact 버전을 찾습니다.
+
+artifact_filters = {
+    "alias": "latest",
+    "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
+}
+
+# 필터와 일치하는 모든 artifact 버전의 반복 가능한 객체를 반환합니다
+artifacts = api.registries().collections().versions(filter=artifact_filters)
+```
+
+날짜와 시간을 `YYYY-MM-DD HH:MM:SS` 형식으로 지정하세요. 날짜로만 필터링하려면 시, 분, 초를 생략할 수 있습니다.
+
+[쿼리 서술어](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/logical/)에 대한 자세한 내용은 MongoDB 문서를 참조하세요.

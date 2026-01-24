@@ -1,0 +1,109 @@
+---
+title: TensorBoard
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorboard/TensorBoard_and_Weights_and_Biases.ipynb" />
+
+<Note>
+W&B は、W&B マルチテナント SaaS において埋め込み TensorBoard をサポートしています。
+</Note>
+
+TensorBoard の ログ を クラウド にアップロードすることで、同僚やクラスメートと 結果 を素早く共有し、一元化された場所で 分析 を管理できます。
+
+<Frame>
+    <img src="/images/integrations/tensorboard_oneline_code.webp" alt="TensorBoard integration code"  />
+</Frame>
+
+## はじめに
+
+```python
+import wandb
+
+# `sync_tensorboard=True` を指定して wandb run を開始します
+wandb.init(project="my-project", sync_tensorboard=True) as run:
+  # TensorBoard を使用したトレーニングコード
+  ...
+
+```
+
+[TensorBoard インテグレーションの run 例](https://wandb.ai/rymc/simple-tensorboard-example/runs/oab614zf/tensorboard) を確認してください。
+
+run が終了すると、W&B 上で TensorBoard イベントファイルに アクセス でき、ネイティブの W&B チャートで メトリクス を可視化できます。また、システムの CPU や GPU の使用率、 `git` の状態、 run で使用された ターミナル の コマンド など、追加の有用な情報も併せて確認できます。
+
+<Note>
+W&B は、TensorFlow のすべての バージョン で TensorBoard をサポートしています。また、PyTorch を使用した TensorBoard 1.14 以降、および TensorBoardX もサポートしています。
+</Note>
+
+## よくある質問
+
+### TensorBoard にログされていないメトリクスを W&B にログするにはどうすればよいですか？
+
+TensorBoard にログされていない追加のカスタム メトリクス をログする必要がある場合は、コード内で `wandb.Run.log()` を呼び出すことができます。例： `run.log({"custom": 0.8})`
+
+TensorBoard を同期している場合、 `run.log()` 内の step 引数 の設定は無効になります。別のステップ数を設定したい場合は、次のように step メトリクス と一緒に メトリクス をログしてください。
+
+`run.log({"custom": 0.8, "global_step": global_step})`
+
+### `wandb` と併用する場合、TensorBoard をどのように設定しますか？
+
+TensorBoard のパッチ適用の方法をより詳細に制御したい場合は、 `wandb.init` に `sync_tensorboard=True` を渡す代わりに、 `wandb.tensorboard.patch` を呼び出すことができます。
+
+```python
+import wandb
+
+wandb.tensorboard.patch(root_logdir="<logging_directory>")
+run = wandb.init()
+
+# ノートブックで実行している場合は、wandb run を終了して TensorBoard ログを W&B にアップロードします
+run.finish()
+```
+
+この メソッド に `tensorboard_x=False` を渡すとバニラな TensorBoard がパッチされるようになり、PyTorch で TensorBoard > 1.14 を使用している場合は `pytorch=True` を渡すことで適切にパッチされるようになります。これらのオプションは、インポートされているライブラリの バージョン に応じてスマートなデフォルト値が設定されます。
+
+デフォルトでは、 `tfevents` ファイルとすべての `.pbtxt` ファイルも同期されます。これにより、お客様に代わって TensorBoard インスタンスを ローンチ することが可能になります。 run ページに [TensorBoard タブ](https://www.wandb.com/articles/hosted-tensorboard) が表示されます。この 振る舞い は、 `wandb.tensorboard.patch` に `save=False` を渡すことで無効にできます。
+
+```python
+import wandb
+
+run = wandb.init()
+wandb.tensorboard.patch(save=False, tensorboard_x=True)
+
+# ノートブックで実行している場合は、wandb run を終了して TensorBoard ログを W&B にアップロードします
+run.finish()
+```
+
+<Warning>
+`tf.summary.create_file_writer` を呼び出す前、または `torch.utils.tensorboard` を介して `SummaryWriter` を構築する **前** に、 `wandb.init()` または `wandb.tensorboard.patch` を呼び出す必要があります。
+</Warning>
+
+### 過去の TensorBoard runs を同期するにはどうすればよいですか？
+
+ローカルに保存されている既存の `tfevents` ファイルがあり、それらを W&B にインポートしたい場合は、 `wandb sync log_dir` を実行します。ここで `log_dir` は `tfevents` ファイルが含まれているローカルの ディレクトリー です。
+
+### Google Colab や Jupyter で TensorBoard を使用するにはどうすればよいですか？
+
+Jupyter や Colabノートブック で コード を実行している場合は、トレーニングの最後に必ず `wandb.Run.finish()` を呼び出してください。これにより wandb run が終了し、TensorBoard ログが W&B にアップロードされて可視化できるようになります。 `.py` スクリプト を実行する場合、 スクリプト が終了すると wandb は自動的に終了するため、これは必要ありません。
+
+ノートブック 環境でシェル コマンド を実行するには、 `!wandb sync directoryname` のように、先頭に `!` を付ける必要があります。
+
+### PyTorch で TensorBoard を使用するにはどうすればよいですか？
+
+PyTorch の TensorBoard インテグレーション を使用する場合、PyTorch Profiler の JSON ファイルを手動でアップロードする必要がある場合があります。
+
+```python
+with wandb.init(project="my-project", sync_tensorboard=True) as run:
+    run.save(glob.glob(f"runs/*.pt.trace.json")[0], base_path=f"runs")
+```
+
+### クラウドに保存されている tfevents ファイルを同期できますか？
+
+`wandb` 0.20.0 以降では、S3、GCS、または Azure に保存されている `tfevents` ファイルの同期をサポートしています。 `wandb` は、各 クラウド プロバイダーのデフォルトの認証情報を使用します。対応する コマンド は以下の表の通りです。
+
+| クラウドプロバイダー | 認証情報 | ログディレクトリの形式 |
+| -------------- | --------------------------------------- | ------------------------------------- |
+| S3 | `aws configure` | `s3://bucket/path/to/logs` |
+| GCS | `gcloud auth application-default login` | `gs://bucket/path/to/logs` |
+| Azure | `az login`[^1] | `az://account/container/path/to/logs` |
+
+[^1]: また、 `AZURE_STORAGE_ACCOUNT` と `AZURE_STORAGE_KEY` の 環境 変数を 設定 する必要があります。

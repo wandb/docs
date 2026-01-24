@@ -1,0 +1,181 @@
+---
+title: run の固定と比較
+description: pinned や baseline を使用して重要な run を追跡し、モデルの実験（ Experiments ）を効率的に評価する方法について学びます。
+---
+import CloudOnly from '/snippets/en/_includes/pinned-and-baseline-runs/cloud-only.mdx';
+import PinRunsCondensed from '/snippets/en/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
+
+多数の Runs が存在する Workspace では、最高のパフォーマンスを出したモデル、プロダクション環境のモデル、失敗した Experiments 、あるいは重要な参照ポイントを把握し続けるのが難しくなることがあります。W&B App は、Runs を整理して比較するのに役立つ以下の機能を提供しています。
+
+- **Pinned runs**: 最大 5 つまでの Runs をピン留めし、Workspace や Runs リストの最上部に常に表示させることができます。
+- **Baseline run**: 比較の基準点として 1 つの Baseline run を指定できます。Baseline run は常に Workspace と Runs リストの最上部に表示されます。折れ線グラフ（line plots）では、Baseline は視覚的に区別されたスタイルで表示され、比較を容易にします。
+
+これらの機能は、特に以下のようなケースで有用です：
+- 新しい Experiments をプロダクションモデルと比較する。
+- 実験中に複数の候補モデルを追跡する。
+- 新しい Runs がこれまでの最高結果を改善しているかどうかを評価する。
+
+<CloudOnly/>
+[制限事項](#limitations) を参照してください。
+
+## Pin runs
+
+<PinRunsCondensed/>
+
+<Frame>
+![Runs table with pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+</Frame>
+
+Run のピン留めを解除するには、ピンアイコンをクリックするか、ピン留めと同じ手順で **Unpin run** を選択します。
+
+## Manage the baseline run
+
+Workspace 内で 1 つの Run を Baseline として指定し、他の Runs を評価するための基準点として使用できます。
+
+Run セレクターおよび Runs テーブルにおいて、Baseline run は Pinned runs と並んで最上部に表示され、ピンの代わりにブックマークアイコンが表示されます。
+
+折れ線グラフでは、Baseline run の線は他の線よりも太く表示されます。グラフや凡例の上にマウスを置くと、Baseline run の線は破線で表示されます。
+
+<Frame>
+![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+</Frame>
+
+### Baseline run を設定する
+Baseline run を設定する手順は以下の通りです：
+
+1. Workspace に移動します。
+2. Run セレクターまたは Runs テーブルで、Baseline として使用したい Run を見つけます。
+3. アクションメニュー（`...`）をクリックし、**Set as baseline** を選択します。
+
+Baseline run は Run セレクターの最上部に表示され、他の Runs とは仕切り線で区切られます。Baseline run には円の代わりにブックマークアイコンが表示されます。
+
+<Frame>
+![Runs table with a baseline run and pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
+</Frame>
+
+### Baseline run を変更する
+一度に設定できる Baseline run は 1 つだけです。Baseline を変更するには：
+
+1. Workspace に移動します。
+2. Run セレクターまたは Runs テーブルで、新しい Baseline として使用したい Run を見つけます。
+3. アクションメニュー（`...`）をクリックし、**Replace baseline** を選択します。
+
+新しい Run が Baseline になります。以前の Baseline run は、その設定（ピン留めの有無）に応じて、他の Runs と共に表示されます。
+
+### Baseline の指定を解除する
+Baseline の指定を解除するには：
+
+1. Workspace に移動します。
+2. Run セレクターまたは Runs テーブルで、現在の Baseline run を見つけます。
+3. アクションメニュー（`...`）をクリックし、**Remove baseline** を選択します。
+
+指定解除された Run は、その設定に応じて他の Runs と共に表示されます。
+
+## Compare runs to the baseline
+その Run がログを記録しているメトリクスの折れ線グラフにおいて、Baseline run は常に表示されます。折れ線グラフでは、Baseline run の線は他の線よりも太く表示されます。
+
+- グラフの一部にマウスを置くと、Baseline run や Pinned runs を含む、表示されているすべての Runs の値をツールチップで表示します。
+  <Frame>
+  ![Demo showing details for all visible runs at a given point](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
+  </Frame>
+- Baseline run の凡例ラベルにマウスを置くと、その線が強調表示されます。太い破線として表示され、他の表示されている Runs の線は彩度が下がって表示されます。
+  <Frame>
+  ![Demo showing details for the baseline run](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
+  </Frame>
+- 他の Run の凡例ラベルにマウスを置くと、その Run の線が強調表示され、太い破線として表示される Baseline と比較できます。他の表示されている Runs の線は彩度が下がって表示されます。
+  <Frame>
+  ![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+  </Frame>
+
+## Use cases
+このセクションでは、Pinned runs と Baseline runs が Experiments の指針となるいくつかのシナリオについて説明します。
+
+- **プロダクションモデルの追跡**: デプロイ前に、新しいモデルが品質基準を満たしていることを確認します。
+  1. プロダクションモデルを Baseline に設定します。
+  2. すべての Experiments をデプロイ済みモデルと比較し、プロダクションを上回る候補を特定します。
+- **ハイパーパラメーター実験の比較**: ハイパーパラメーター探索（Sweeps）や手動の実験を、既知の最良の設定と比較して評価します。
+  1. 既知の最良の設定を Baseline に設定します。
+  2. 有望な候補が見つかったら、それらをピン留め（Pin）します。
+  3. 折れ線グラフを使用して、Runs を Baseline と視覚的に比較します。
+  4. より良い設定が見つかるたびに、Baseline を更新し続けます。
+
+## Example workflow
+このセクションでは、Pinned runs と Baseline runs を使用して Runs を比較する方法を例示します。
+
+1. 以下のサンプルコードを実行します。これは、一連の Runs を用いてハイパーパラメーターチューニングのシナリオをシミュレートするものです。角括弧（`<>`）で囲まれたプレースホルダーを自身の値に置き換えてください。
+
+    ```python
+    import wandb
+    import random
+    import math
+
+    def train_model(learning_rate, batch_size, run_name, tags=None):
+        """与えられたハイパーパラメーターでモデルのトレーニングをシミュレートします。"""
+        config = {
+            "learning_rate": learning_rate,
+            "batch_size": batch_size,
+            "optimizer": "adam",
+            "architecture": "resnet50"
+        }
+        
+        with wandb.init(
+          # チーム名とプロジェクト名に置き換えてください
+            project="hyperparameter-tuning",
+            entity="<team>",
+            name=run_name,
+            config=config,
+            tags=tags or []
+        ) as run:
+            # トレーニングループのシミュレーション
+            for epoch in range(50):
+                # メトリクスのシミュレーション
+                accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
+                loss = 1.0 * math.exp(-learning_rate * epoch / 10)
+                
+                run.log({
+                    "epoch": epoch,
+                    "accuracy": accuracy,
+                    "loss": loss
+                })
+
+    # 標準的な設定で Baseline run を作成
+    train_model(
+        learning_rate=0.001,
+        batch_size=64,
+        run_name="baseline-config",
+        tags=["baseline", "production"]
+    )
+
+    # 異なる学習率での実験
+    train_model(
+        learning_rate=0.003,
+        batch_size=64,
+        run_name="lr-experiment-0.003",
+        tags=["experiment"]
+    )
+
+    train_model(
+        learning_rate=0.0001,
+        batch_size=64,
+        run_name="lr-experiment-0.0001",
+        tags=["experiment"]
+    )
+    ```
+
+    このコードを実行すると、Workspace に 3 つの Runs が作成されます。
+2. `baseline-config` を Baseline run として設定します。
+3. `baseline-config` をピン留め（Pin）して、常に表示されるようにします。
+4. Workspace の折れ線グラフを使用して、実験の Runs を Baseline と比較します。
+5. さらなる調査のために有望な実験をピン留めします。この例では、50 エポック終了後、`lr-experiment-0.003` が最も高い精度（約 0.64）と最も低い損失（約 0.86）を示しています。
+
+{/* TODO screenshot */}
+
+## Limitations
+<CloudOnly/>
+
+以下の機能は、現在 Pinned runs および Baseline runs ではサポートされていません。
+
+- **Grouping**: Run セレクターや Runs テーブルで [Runs を表示](/models/runs#view-logged-runs) する際、列でグループ化されている場合、Pinned runs や Baseline runs は他の Runs と視覚的に区別されません。
+- **Reports**: [W&B Report](/models/reports) 内の Run set では、Pinned runs や Baseline runs は他の Runs と視覚的に区別されません。
+- **Workspace 表示のみ**: 個別の Run の Workspace を表示している場合、Baseline は表示されません。
+- **折れ線グラフのみ**: Baseline との比較は折れ線グラフ（line plots）でのみ利用可能であり、棒グラフやメディアパネルなどの他のパネルではまだ利用できません。

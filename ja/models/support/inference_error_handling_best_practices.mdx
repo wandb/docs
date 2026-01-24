@@ -1,0 +1,103 @@
+---
+title: W&B 推論エラーを処理するためのベストプラクティスは何ですか？
+---
+
+W&B Inferenceのエラーを適切に処理し、信頼性の高い アプリケーション を維持するために、以下の ベストプラクティス に従ってください。
+
+## 1. 常にエラーハンドリングを実装する
+
+API呼び出しを try-except ブロックで囲みます。
+
+```python
+import openai
+
+try:
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=messages
+    )
+except Exception as e:
+    print(f"Error: {e}")
+    # エラーを適切に処理します
+```
+
+## 2. 指数バックオフを用いたリトライロジックの使用
+
+```python
+import time
+from typing import Optional
+
+def call_inference_with_retry(
+    client, 
+    messages, 
+    model: str,
+    max_retries: int = 3,
+    base_delay: float = 1.0
+) -> Optional[str]:
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            
+            # 指数バックオフによる遅延時間の計算
+            delay = base_delay * (2 ** attempt)
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
+            time.sleep(delay)
+    
+    return None
+```
+
+## 3. 使用状況のモニタリング
+
+- W&B の Billing ページでクレジットの使用状況を追跡する
+- 制限に達する前にアラートを設定する
+- アプリケーション 内で API の使用状況を ログ に記録する
+
+## 4. 特定のエラーコードの処理
+
+```python
+def handle_inference_error(error):
+    error_str = str(error)
+    
+    if "401" in error_str:
+        # 認証エラー
+        raise ValueError("APIキー と プロジェクト の 設定 を確認してください")
+    elif "402" in error_str:
+        # クレジット不足
+        raise ValueError("クレジットが不足しています")
+    elif "429" in error_str:
+        # レート制限
+        return "retry"
+    elif "500" in error_str or "503" in error_str:
+        # サーバー エラー
+        return "retry"
+    else:
+        # 未知のエラー
+        raise
+```
+
+## 5. 適切なタイムアウトの設定
+
+ユースケース に合わせて適切なタイムアウトを 設定 します。
+
+```python
+# 長いレスポンスの場合
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="your-api-key",
+    timeout=60.0  # 60秒のタイムアウト
+)
+```
+
+## その他のヒント
+
+- デバッグのためにタイムスタンプ付きでエラーを ログ に記録する
+- より良い並行処理のために非同期操作（async）を使用する
+- プロダクション システムにはサーキットブレーカーを実装する
+- API呼び出しを減らすため、必要に応じてレスポンスをキャッシュする

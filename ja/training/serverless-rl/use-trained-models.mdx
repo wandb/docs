@@ -1,0 +1,77 @@
+---
+title: 学習済み Models を使用する
+description: トレーニングした Models に対して推論リクエストを作成する
+---
+
+Serverless RL を使用してモデルをトレーニングすると、そのモデルは自動的に推論に利用可能になります。
+
+トレーニング済みモデルにリクエストを送信するには、以下が必要です。
+*   [W&B APIキー](https://wandb.ai/settings)
+*   [Training API](/training/api-reference) のベース URL：`https://api.training.wandb.ai/v1/`
+*   モデルのエンドポイント
+
+モデルのエンドポイントは以下のスキーマを使用します。
+
+```
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
+```
+
+このスキーマは以下の要素で構成されています。
+
+*   W&B の Entity (チーム) 名
+*   モデルに関連付けられた Project の名前
+*   トレーニング済みモデルの名前
+*   デプロイしたいモデルのトレーニングステップ (通常、Evaluations で最もパフォーマンスが高かったステップ)
+
+例えば、W&B のチーム名が `email-specialists`、プロジェクト名が `mail-search`、トレーニング済みモデルの名前が `agent-001` で、ステップ 25 のモデルをデプロイしたい場合、エンドポイントは以下のようになります。
+
+```
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
+```
+
+エンドポイントを取得したら、通常の推論ワークフローに統合できます。以下の例では、cURL リクエストまたは [Python OpenAI SDK](https://github.com/openai/openai-python) を使用して、トレーニング済みモデルに推論リクエストを送信する方法を示します。
+
+### cURL
+
+```shell
+curl https://api.training.wandb.ai/v1/chat/completions \
+    -H "Authorization: Bearer $WANDB_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+            "model": "wandb-artifact://<entity>/<project>/<model-name>:<step>",
+            "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Summarize our training run."}
+            ],
+            "temperature": 0.7,
+            "top_p": 0.95
+        }'
+```
+
+### OpenAI SDK
+
+```python
+from openai import OpenAI
+
+WANDB_API_KEY = "your-wandb-api-key"
+ENTITY = "my-entity"
+PROJECT = "my-project"
+
+client = OpenAI(
+    base_url="https://api.training.wandb.ai/v1",
+    api_key=WANDB_API_KEY
+)
+
+response = client.chat.completions.create(
+    model=f"wandb-artifact:///{ENTITY}/{PROJECT}/my-model:step100",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarize our training run."},
+    ],
+    temperature=0.7,
+    top_p=0.95,
+)
+
+# レスポンスを表示
+print(response.choices[0].message.content)
+```

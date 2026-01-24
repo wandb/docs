@@ -1,0 +1,325 @@
+---
+title: Webhook オートメーションの作成
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+このページでは、webhook [automation](/models/automations/) の作成方法について説明します。Slack のオートメーションを作成する場合は、代わりに [Create a Slack automation](/models/automations/create-automations/slack/) を参照してください。
+
+ハイレベルな手順として、webhook オートメーションを作成するには以下のステップを踏みます：
+1. 必要に応じて、アクセストークン、パスワード、SSH キーなど、オートメーションで必要となる機密文字列ごとに [W&B secret を作成](/platform/secrets/) します。Secrets は **Team Settings** で定義されます。
+2. [webhook を作成](#create-a-webhook) して、エンドポイントと認証の詳細を定義し、インテグレーションが必要な secrets へのアクセスを許可します。
+3. [オートメーションを作成](#create-an-automation) して、監視する [event](/models/automations/automation-events/) と W&B が送信するペイロードを定義します。オートメーションに、ペイロードに必要な secrets へのアクセスを許可します。
+
+## webhook を作成する
+チーム管理者は、チームに webhook を追加できます。
+
+<Note>
+webhook が Bearer トークンを必要とする場合、またはそのペイロードが機密文字列を必要とする場合は、webhook を作成する前に [それを含む secret を作成](/platform/secrets/#add-a-secret) してください。1 つの webhook に対して、最大 1 つのアクセストークンと 1 つのその他の secret を設定できます。webhook の認証および認可要件は、webhook のサービスによって決定されます。
+</Note>
+
+1. W&B にログインし、**Team Settings** ページに移動します。
+1. **Webhooks** セクションで、**New webhook** をクリックします。
+1. webhook の名前を入力します。 
+1. webhook のエンドポイント URL を入力します。
+1. webhook が Bearer トークンを必要とする場合は、**Access token** をそのトークンを含む [secret](/platform/secrets/) に設定します。webhook オートメーションを使用すると、W&B は `Authorization: Bearer` HTTP ヘッダーにアクセストークンを設定し、`${ACCESS_TOKEN}` [ペイロード変数](#payload-variables) でトークンにアクセスできます。W&B が webhook サービスに送信する `POST` リクエストの構造の詳細については、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+1. webhook がペイロード内でパスワードやその他の機密文字列を必要とする場合は、**Secret** をその文字列を含む secret に設定します。その webhook を使用するオートメーションを設定する際、名前の前に `$` を付けることで、その secret に [ペイロード変数](#payload-variables) としてアクセスできます。
+
+    webhook のアクセストークンが secret に保存されている場合は、次のステップも完了して secret をアクセストークンとして指定する必要があります。
+1. W&B がエンドポイントに接続し、認証できることを確認します：
+    1. オプションで、テスト用のペイロードを提供します。ペイロード内で webhook がアクセス権を持つ secret を参照するには、その名前の前に `$` を付けます。このペイロードはテスト目的でのみ使用され、保存されません。オートメーションのペイロードは、[オートメーションを作成](#create-a-webhook-automation) する際に設定します。`POST` リクエスト内で secret とアクセストークンがどこに指定されているかについては、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+    1. **Test** をクリックします。W&B は、設定した資格情報を使用して webhook のエンドポイントへの接続を試みます。ペイロードが提供されている場合、W&B はそれを送信します。
+
+    テストが成功しない場合は、webhook の設定を確認して再試行してください。必要に応じて、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+
+<Frame>
+![チーム内の2つのwebhookを示すスクリーンショット](/images/automations/webhooks.png)
+</Frame>
+
+これで、その webhook を使用する [オートメーションを作成](#create-a-webhook-automation) できるようになりました。
+
+## オートメーションを作成する
+[webhook を設定](#create-a-webhook) した後、**Registry** または **Project** を選択し、以下の手順に従って webhook をトリガーするオートメーションを作成します。
+
+<Tabs>
+<Tab title="Registry">
+Registry の管理者は、そのレジストリ内にオートメーションを作成できます。Registry のオートメーションは、将来追加されるものも含め、レジストリ内のすべてのコレクションに適用されます。
+
+1. W&B にログインします。
+1. レジストリ名をクリックして詳細を表示します。 
+1. レジストリをスコープとしたオートメーションを作成するには、**Automations** タブをクリックし、**Create automation** をクリックします。 
+
+1. 監視する [event](/models/automations/automation-events/#registry-events) を選択します。
+
+    表示される追加フィールドに入力します。例えば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
+
+    **Next step** をクリックします。
+1. [webhook](#create-a-webhook) を所有するチームを選択します。
+1. **Action type** を **Webhooks** に設定し、使用する [webhook](#create-a-webhook) を選択します。
+1. webhook にアクセストークンを設定した場合、`${ACCESS_TOKEN}` [ペイロード変数](#payload-variables) でそのトークンにアクセスできます。webhook に secret を設定した場合、名前の前に `$` を付けることでペイロード内でその secret にアクセスできます。webhook の要件は、webhook のサービスによって決定されます。
+1. **Next step** をクリックします。
+1. オートメーションの名前を入力します。オプションで説明を入力します。**Create automation** をクリックします。
+</Tab>
+<Tab title="Project">
+W&B の管理者は、プロジェクト内にオートメーションを作成できます。
+
+1. W&B にログインし、プロジェクトページに移動します。
+1. サイドバーで **Automations** をクリックし、**Create automation** をクリックします。
+
+    または、ワークスペースのラインプロットから、表示されているメトリクスに対する [run metric automation](/models/automations/automation-events/#run-events) を素早く作成できます。パネルの上にカーソルを置き、パネル上部のベルアイコンをクリックします。
+    <Frame>
+    <img src="/images/automations/run_metric_automation_from_panel.png" alt="オートメーションのベルアイコンの場所"  />
+    </Frame>
+1. アーティファクトのエイリアスが追加されたときや、run のメトリクスが特定の閾値に達したときなど、監視する [event](/models/automations/automation-events/#project) を選択します。
+
+    1. イベントに応じて表示される追加フィールドに入力します。例えば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
+
+        1. run によってトリガーされるオートメーションの場合、オプションで 1 つ以上の run フィルターを指定します。
+
+            - **Filter to one user's runs**: 指定したユーザーによって作成された run のみに限定します。トグルをクリックしてフィルターをオンにし、ユーザー名を指定します。
+            - **Filter on run name**: 名前が指定した正規表現に一致する run のみに限定します。トグルをクリックしてフィルターをオンにし、正規表現を指定します。
+
+          オートメーションは、将来追加されるものも含め、プロジェクト内のすべてのコレクションに適用されます。
+    1. **Next step** をクリックします。
+1. [webhook](#create-a-webhook) を所有するチームを選択します。
+1. **Action type** を **Webhooks** に設定し、使用する [webhook](#create-a-webhook) を選択します。 
+1. webhook がペイロードを必要とする場合は、ペイロードを作成して **Payload** フィールドに貼り付けます。webhook にアクセストークンを設定した場合、`${ACCESS_TOKEN}` [ペイロード変数](#payload-variables) でそのトークンにアクセスできます。webhook に secret を設定した場合、名前の前に `$` を付けることでペイロード内でその secret にアクセスできます。webhook の要件は、webhook のサービスによって決定されます。
+1. **Next step** をクリックします。
+1. オートメーションの名前を入力します。オプションで説明を入力します。**Create automation** をクリックします。
+</Tab>
+</Tabs>
+
+## オートメーションの表示と管理
+<Tabs>
+<Tab title="Registry">
+レジストリの **Automations** タブから、レジストリのオートメーションを管理します。
+
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、アクションメニュー（`...`）をクリックし、**Edit automation** をクリックします。
+- オートメーションを削除するには、アクションメニュー（`...`）をクリックし、**Delete automation** をクリックします。確認が必要です。
+</Tab>
+<Tab title="Project">
+W&B の管理者は、プロジェクトの **Automations** タブからプロジェクトのオートメーションを表示・管理できます。
+
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、アクションメニュー（`...`）をクリックし、**Edit automation** をクリックします。
+- オートメーションを削除するには、アクションメニュー（`...`）をクリックし、**Delete automation** をクリックします。確認が必要です。
+</Tab>
+</Tabs>
+
+## ペイロードリファレンス
+これらのセクションを使用して、webhook のペイロードを作成してください。webhook とそのペイロードのテストに関する詳細は、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+
+### ペイロード変数
+このセクションでは、webhook のペイロードを作成するために使用できる変数について説明します。
+
+| 変数 | 詳細 |
+|----------|---------|
+| `${project_name}`             | アクションをトリガーした変更を所有するプロジェクトの名前。 |
+| `${entity_name}`              | アクションをトリガーした変更を所有する Entity またはチームの名前。 |
+| `${event_type}`               | アクションをトリガーしたイベントのタイプ。 |
+| `${event_author}`             | アクションをトリガーしたユーザー。 |
+| `${alias}`                    | オートメーションが **An artifact alias is added** イベントによってトリガーされた場合、Artifacts のエイリアスが含まれます。それ以外のオートメーションでは、この変数は空白になります。 |
+| `${tag}`                      | オートメーションが **An artifact tag is added** イベントによってトリガーされた場合、Artifacts のタグが含まれます。それ以外のオートメーションでは、この変数は空白になります。 |
+| `${artifact_collection_name}` | アーティファクトバージョンがリンクされているアーティファクトコレクションの名前。 |
+| `${artifact_metadata.<KEY>}`  | アクションをトリガーしたアーティファクトバージョンからの任意のトップレベルメタデータキーの値。 `<KEY>` をトップレベルメタデータキーの名前に置き換えてください。webhook のペイロードでは、トップレベルのメタデータキーのみが使用可能です。 |
+| `${artifact_version}`         | アクションをトリガーしたアーティファクトバージョンの [`Wandb.Artifact`](/models/ref/python/experiments/artifact.md/) 表現。 |
+| `${artifact_version_string}` | アクションをトリガーしたアーティファクトバージョンの `string` 表現。 |
+| `${ACCESS_TOKEN}` | [webhook](#create-a-webhook) で設定されている場合、アクセストークンの値。アクセストークンは自動的に `Authorization: Bearer` HTTP ヘッダーで渡されます。 |
+| `${SECRET_NAME}` | 設定されている場合、[webhook](#create-a-webhook) で設定された secret の値。 `SECRET_NAME` を secret の名前に置き換えてください。 |
+
+### ペイロードの例
+このセクションでは、いくつかの一般的なユースケースにおける webhook ペイロードの例を示します。これらの例では、[ペイロード変数](#payload-variables) の使用方法を実演しています。
+
+<Tabs>
+<Tab title="GitHub repository dispatch">
+<Note>
+アクセストークンに、GitHub Actions ワークフローをトリガーするために必要な権限セットがあることを確認してください。詳細については、[GitHub Docs を参照してください](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event)。
+</Note>
+
+W&B から repository dispatch を送信して GitHub Action をトリガーします。例えば、`on` キーのトリガーとして repository dispatch を受け入れる GitHub ワークフローファイルがあるとします：
+
+```yaml
+on:
+repository_dispatch:
+  types: BUILD_AND_DEPLOY
+```
+
+リポジトリのペイロードは以下のようになります：
+
+```json
+{
+  "event_type": "BUILD_AND_DEPLOY",
+  "client_payload": 
+  {
+    "event_author": "${event_author}",
+    "artifact_version": "${artifact_version}",
+    "artifact_version_string": "${artifact_version_string}",
+    "artifact_collection_name": "${artifact_collection_name}",
+    "project_name": "${project_name}",
+    "entity_name": "${entity_name}"
+    }
+}
+```
+
+<Note>
+webhook ペイロードの `event_type` キーは、GitHub ワークフローの YAML ファイル内の `types` フィールドと一致する必要があります。
+</Note>
+
+レンダリングされたテンプレート文字列の内容と配置は、オートメーションが設定されているイベントまたはモデルバージョンによって異なります。 `${event_type}` は `LINK_ARTIFACT` または `ADD_ARTIFACT_ALIAS` のいずれかとしてレンダリングされます。マッピングの例を以下に示します：
+
+```text
+${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+${event_author} --> "<wandb-user>"
+${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
+${artifact_version_string} --> "<entity>/model-registry/<registered_model_name>:<alias>"
+${artifact_collection_name} --> "<registered_model_name>"
+${project_name} --> "model-registry"
+${entity_name} --> "<entity>"
+```
+
+テンプレート文字列を使用して、W&B から GitHub Actions やその他のツールに動的にコンテキストを渡します。それらのツールが Python スクリプトを呼び出せる場合、[W&B API](/models/artifacts/download-and-use-an-artifact/) を通じて Registered Models のアーティファクトを利用できます。
+
+- repository dispatch に関する詳細は、[GitHub Marketplace の公式ドキュメント](https://github.com/marketplace/actions/repository-dispatch) を参照してください。
+
+- モデルの評価とデプロイのためのオートメーション作成ガイドである、動画 [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74&ab_channel=Weights%26Biases) および [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA&ab_channel=Weights%26Biases) をご覧ください。 
+
+- Model CI に GitHub Actions の webhook オートメーションを使用する方法を示した W&B [レポート](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) を確認してください。Modal Labs の webhook を使用してモデル CI を作成する方法については、こちらの [GitHub リポジトリ](https://github.com/hamelsmu/wandb-modal-webhook) をチェックしてください。
+</Tab>
+<Tab title="Microsoft Teams notification">
+このペイロードの例は、webhook を使用して Teams チャンネルに通知する方法を示しています：
+
+```json 
+{
+"@type": "MessageCard",
+"@context": "http://schema.org/extensions",
+"summary": "New Notification",
+"sections": [
+  {
+    "activityTitle": "Notification from WANDB",
+    "text": "This is an example message sent via Teams webhook.",
+    "facts": [
+      {
+        "name": "Author",
+        "value": "${event_author}"
+      },
+      {
+        "name": "Event Type",
+        "value": "${event_type}"
+      }
+    ],
+    "markdown": true
+  }
+]
+}
+```
+
+（上記の Teams の例のように）実行時にテンプレート文字列を使用して、W&B のデータをペイロードに挿入できます。
+</Tab>
+<Tab title="Slack notifications">
+<Note>
+このセクションは歴史的な経緯のために提供されています。現在 Slack との統合に webhook を使用している場合、W&B は設定を更新して代わりに [新しい Slack インテグレーション](#create-a-slack-automation) を使用することを推奨します。
+</Note>
+
+[Slack API ドキュメント](https://api.slack.com/messaging/webhooks) に記載されている手順に従って、Slack アプリをセットアップし、incoming webhook インテグレーションを追加してください。 `Bot User OAuth Token` の下に指定された secret が、W&B webhook のアクセストークンとして設定されていることを確認してください。 
+
+以下はペイロードの例です：
+
+```json
+{
+    "text": "New alert from WANDB!",
+"blocks": [
+    {
+            "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "Registry event: ${event_type}"
+        }
+    },
+        {
+            "type":"section",
+            "text": {
+            "type": "mrkdwn",
+            "text": "New version: ${artifact_version_string}"
+        }
+        },
+        {
+        "type": "divider"
+    },
+        {
+            "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "Author: ${event_author}"
+        }
+        }
+    ]
+}
+```
+</Tab>
+</Tabs>
+
+## webhook のトラブルシューティング
+W&B App UI でインタラクティブに、または Bash スクリプトでプログラム的に、webhook のトラブルシューティングを行います。新しい webhook を作成する際、または既存の webhook を編集する際にトラブルシューティングを行うことができます。
+
+W&B が `POST` リクエストに使用する形式の詳細については、**Bash script** タブを参照してください。
+
+<Tabs>
+<Tab title="W&B App UI">
+チーム管理者は、W&B App UI を使用してインタラクティブに webhook をテストできます。 
+
+1. W&B の Team Settings ページに移動します。
+2. **Webhooks** セクションまでスクロールします。
+3. webhook 名の横にある横三点リーダー（ミートボールアイコン）をクリックします。
+4. **Test** を選択します。
+5. 表示される UI パネルから、表示されたフィールドに POST リクエストを貼り付けます。 
+    <Frame>
+    <img src="/images/models/webhook_ui.png" alt="webhook ペイロードのテストのデモ"  />
+    </Frame>
+6. **Test webhook** をクリックします。W&B App UI 内に、エンドポイントからのレスポンスが投稿されます。
+    <Frame>
+    <img src="/images/models/webhook_ui_testing.gif" alt="webhook テストのデモ"  />
+    </Frame>
+
+デモンストレーションについては、動画 [Testing Webhooks in W&B](https://www.youtube.com/watch?v=bl44fDpMGJw&ab_channel=Weights%26Biases) をご覧ください。
+</Tab>
+<Tab title="Bash script">
+このシェルスクリプトは、webhook オートメーションがトリガーされたときに W&B が送信するリクエストと同様の `POST` リクエストを生成する一つの方法を示しています。
+
+以下のコードをシェルスクリプトにコピー＆ペーストして、webhook のトラブルシューティングを行ってください。以下の項目に独自の値を指定してください：
+
+* `ACCESS_TOKEN`
+* `SECRET`
+* `PAYLOAD`
+* `API_ENDPOINT`
+
+
+```bash webhook_test.sh
+#!/bin/bash
+
+# アクセストークンと secret
+ACCESS_TOKEN="your_api_key"
+SECRET="your_api_secret"
+
+# 送信したいデータ（例：JSON形式）
+PAYLOAD='{"key1": "value1", "key2": "value2"}'
+
+# HMAC署名を生成
+# セキュリティのため、Wandbはペイロードとwebhookに関連付けられた
+# 共有シークレットキーから、HMAC SHA-256アルゴリズムを使用して計算された
+# X-Wandb-Signatureをヘッダーに含めます。
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst \
+-sha256 -hmac "$SECRET" -binary | base64)
+
+# cURLリクエストを実行
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "X-Wandb-Signature: $SIGNATURE" \
+  -d "$PAYLOAD" API_ENDPOINT
+```
+</Tab>
+</Tabs>

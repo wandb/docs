@@ -1,34 +1,34 @@
 ---
-title: Prometheus モニタリングを使用する
+title: Prometheus によるモニタリングの使用
 ---
 
-[Prometheus](https://prometheus.io/docs/introduction/overview/) を W&B サーバーと一緒に使用します。Prometheus のインストールは [Kubernetes ClusterIP サービス](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225) として公開されます。
+W&B Server で [Prometheus](https://prometheus.io/docs/introduction/overview/) を使用します。Prometheus のインストールは [kubernetes ClusterIP サービス](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225) として公開されます。
 
 <Warning>
-Prometheus モニタリングは [セルフマネージドインスタンス](/ja/platform/hosting/hosting-options/self-managed) でのみ利用可能です。
+Prometheus モニタリングは [セルフマネージドインスタンス](/platform/hosting/hosting-options/self-managed) でのみ利用可能です。
 </Warning>
 
-以下の手順に従って、Prometheus メトリクスエンドポイント (`/metrics`) にアクセスします：
+Prometheus の メトリクス エンドポイント (`/metrics`) に アクセス するには、以下の手順に従ってください。
 
-1. Kubernetes CLI ツールキットの [kubectl](https://kubernetes.io/docs/reference/kubectl/) を使用してクラスターに接続します。詳細については、Kubernetes の [クラスターへのアクセス](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) ドキュメントを参照してください。
-2. クラスターの内部アドレスを見つけます：
+1. Kubernetes CLI ツールキットである [kubectl](https://kubernetes.io/docs/reference/kubectl/) を使用して クラスター に接続します。詳細については、Kubernetes の [Accessing Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) ドキュメントを参照してください。
+2. 以下の コマンド で クラスター の内部 アドレス を確認します。
 
     ```bash
     kubectl describe svc prometheus
     ```
 
-3. Kubernetes クラスターで実行中のコンテナ内でシェルセッションを開始し、[`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands) を使用して、`<internal address>/metrics` エンドポイントにアクセスします。
+3. [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands) を使用して、Kubernetes クラスター 内で実行されているコンテナ内でシェルセッションを開始します。`<internal address>/metrics` のエンドポイントを叩きます。
 
-   以下のコマンドをコピーしてターミナルで実行し、`<internal address>` を内部アドレスに置き換えます：
+   以下の コマンド をコピーして ターミナル で実行し、`<internal address>` を実際の内部 アドレス に置き換えてください。
 
    ```bash
    kubectl exec <internal address>/metrics
    ```
 
-テストポッドが開始され、ネットワーク内の何かにアクセスするためだけに exec することができます：
+ネットワーク内のあらゆるリソースに アクセス するためだけに exec できるテスト用 Pod が起動します。
 
 ```bash
 kubectl run -it testpod --image=alpine bin/ash --restart=Never --rm
 ```
 
-そこから、ネットワークへのアクセスを内部に保つか、kubernetes nodeport サービスで自分で公開するかを選択できます。
+そこから、ネットワーク内部への アクセス を維持するか、Kubernetes nodeport サービス を使用して自身で公開するかを選択できます。

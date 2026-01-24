@@ -1,0 +1,46 @@
+---
+title: Dockerfile を指定して、 W&B に Docker イメージをビルドさせることはできますか？
+---
+
+この機能は、要件は安定しているものの、コードベースが頻繁に変更される プロジェクト に適しています。
+
+<Warning>
+マウントを使用するように Dockerfile をフォーマットしてください。詳細については、Docker 公式ドキュメントの [Mounts に関するドキュメント](https://docs.docker.com/build/guide/mounts/) を参照してください。
+</Warning>
+
+Dockerfile の設定が完了したら、以下の 3 つのいずれかの方法で W&B に指定します。
+
+* Dockerfile.wandb を使用する
+* W&B CLI を使用する
+* W&B App を使用する
+
+<Tabs>
+<Tab title="Dockerfile.wandb">
+W&B run のエントリーポイントと同じ ディレクトリー に `Dockerfile.wandb` ファイルを含めます。W&B は、組み込みの Dockerfile の代わりにこのファイルを使用します。
+</Tab>
+<Tab title="W&B CLI">
+`wandb launch` コマンドで `--dockerfile` フラグを使用して、ジョブをキューに入れます。
+
+```bash
+wandb launch --dockerfile path/to/Dockerfile
+```
+</Tab>
+<Tab title="W&B app">
+W&B App でジョブをキューに追加する際、**Overrides** セクションで Dockerfile のパスを指定します。 キー を `"dockerfile"`、値 を Dockerfile へのパスとした キー / 値 ペアとして入力してください。
+
+次の JSON は、ローカル ディレクトリー にある Dockerfile を含める方法を示しています。
+
+```json title="Launch job W&B App"
+{
+  "args": [],
+  "run_config": {
+    "lr": 0,
+    "batch_size": 0,
+    "epochs": 0
+  },
+  "entrypoint": [],
+  "dockerfile": "./Dockerfile"
+}
+```
+</Tab>
+</Tabs>

@@ -1,10 +1,5 @@
 ---
-title: My run's state is `crashed` on the UI but is still running on my machine. What
-  do I do to get my data back?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: UI에서 제 Run 의 상태가 `crashed` 로 표시되지만 제 기기에서는 여전히 실행 중입니다. 데이터를 복구하려면 어떻게 해야 하나요?
 ---
 
-트레이닝 도중 머신 연결이 끊겼을 가능성이 있습니다. [`wandb sync [PATH_TO_RUN]`](/ko/models/ref/cli/wandb-sync) 을 실행하여 데이터를 복구하세요. 해당 run의 경로는 실행 중인 Run ID와 일치하는 `wandb` 디렉토리의 폴더입니다.
+트레이닝 중에 머신과의 연결이 끊어졌을 가능성이 높습니다. [`wandb sync [PATH_TO_RUN]`](/models/ref/cli/wandb-sync) 명령어를 실행하여 데이터를 복구하세요. Run 경로는 `wandb` 디렉토리 내에 있는 폴더로, 현재 진행 중인 Run 의 Run ID 와 일치하는 이름을 가집니다.

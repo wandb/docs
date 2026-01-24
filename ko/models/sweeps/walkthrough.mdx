@@ -1,32 +1,30 @@
 ---
-title: 'Tutorial: Define, initialize, and run a sweep'
-description: Sweeps 퀵스타트 는 스윕을 정의, 초기화 및 실행하는 방법을 보여줍니다. 주요 단계는 다음과 같습니다.
+title: '튜토리얼: Sweep 정의, 초기화 및 실행'
+description: Sweeps 퀵스타트에서는 Sweeps 를 정의, 초기화 및 실행하는 방법을 보여줍니다. 여기에는 네 가지 주요 단계가 있습니다.
 ---
 
-이 페이지에서는 스윕을 정의하고 초기화하고 실행하는 방법을 보여줍니다. 주요 단계는 네 가지입니다.
+이 페이지에서는 Sweeps 를 정의, 초기화 및 실행하는 방법을 설명합니다. 주요 단계는 다음과 같이 네 가지입니다.
 
 1. [트레이닝 코드 설정](#set-up-your-training-code)
-2. [스윕 구성으로 검색 공간 정의](#define-the-search-space-with-a-sweep-configuration)
-3. [스윕 초기화](#initialize-the-sweep)
-4. [스윕 에이전트 시작](#start-the-sweep)
+2. [sweep configuration으로 검색 공간 정의](#define-the-search-space-with-a-sweep-configuration)
+3. [Sweep 초기화](#initialize-the-sweep)
+4. [Sweep 에이전트 시작](#start-the-sweep)
 
-다음 코드를 Jupyter Notebook 또는 Python 스크립트에 복사하여 붙여넣으세요.
+다음 코드를 복사하여 Jupyter 노트북이나 Python 스크립트에 붙여넣으세요:
 
 ```python
-# W&B Python 라이브러리를 임포트하고 W&B에 로그인합니다
+# W&B Python 라이브러리 임포트 및 W&B 로그인
 import wandb
 
-wandb.login()
-
-# 1: objective/트레이닝 함수 정의
+# 1: 목적/트레이닝 함수 정의
 def objective(config):
     score = config.x**3 + config.y
     return score
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 
 # 2: 검색 공간 정의
 sweep_configuration = {
@@ -38,43 +36,43 @@ sweep_configuration = {
     },
 }
 
-# 3: 스윕 시작
+# 3: Sweep 시작
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
-다음 섹션에서는 코드 샘플의 각 단계를 분석하고 설명합니다.
+다음 섹션에서는 코드 샘플의 각 단계를 자세히 설명합니다.
 
 ## 트레이닝 코드 설정
-`wandb.config`에서 하이퍼파라미터 값을 가져와 모델을 트레이닝하고 메트릭을 반환하는 트레이닝 함수를 정의합니다.
+`wandb.Run.config` 에서 하이퍼파라미터 값을 가져와 모델을 트레이닝하고 메트릭을 반환하는 트레이닝 함수를 정의합니다.
 
-선택적으로 W&B Run의 출력을 저장할 프로젝트 이름을 제공합니다([`wandb.init`](/ko/models/ref/python/init)의 project 파라미터). 프로젝트가 지정되지 않은 경우 run은 "Uncategorized" 프로젝트에 배치됩니다.
+선택 사항으로 W&B Run 의 결과가 저장될 Projects 이름을 지정할 수 있습니다 ([`wandb.init()`](/models/ref/python/functions/init) 의 project 파라미터). 프로젝트를 지정하지 않으면 run 은 "Uncategorized" 프로젝트에 배치됩니다.
 
 <Note>
-스윕과 run은 모두 동일한 project에 있어야 합니다. 따라서 W&B를 초기화할 때 제공하는 이름은 스윕을 초기화할 때 제공하는 project 이름과 일치해야 합니다.
+Sweep 과 Run 은 반드시 동일한 프로젝트 내에 있어야 합니다. 따라서 W&B 를 초기화할 때 제공하는 이름은 sweep 을 초기화할 때 제공하는 프로젝트 이름과 일치해야 합니다.
 </Note>
 
 ```python
-# 1: objective/트레이닝 함수 정의
+# 1: 목적/트레이닝 함수 정의
 def objective(config):
     score = config.x**3 + config.y
     return score
 
 
 def main():
-    wandb.init(project="my-first-sweep")
-    score = objective(wandb.config)
-    wandb.log({"score": score})
+    with wandb.init(project="my-first-sweep") as run:
+        score = objective(run.config)
+        run.log({"score": score})
 ```
 
-## 스윕 구성으로 검색 공간 정의
+## sweep configuration으로 검색 공간 정의
 
-사전에서 스윕할 하이퍼파라미터를 지정합니다. 구성 옵션은 [스윕 구성 정의](/ko/models/sweeps/define-sweep-configuration/)을 참조하세요.
+딕셔너리 형태로 스윕할 하이퍼파라미터를 지정합니다. 설정 옵션에 대한 자세한 내용은 [Define sweep configuration](/models/sweeps/define-sweep-configuration/) 을 참조하세요.
 
-다음 예제는 랜덤 검색(`'method':'random'`)을 사용하는 스윕 구성을 보여줍니다. 스윕은 배치 크기, 에포크 및 학습률에 대해 구성에 나열된 임의의 값 집합을 무작위로 선택합니다.
+위의 예시는 랜덤 검색 (`'method':'random'`) 을 사용하는 sweep configuration 을 보여줍니다. 이 sweep 은 설정에 나열된 배치 크기, 에포크, 학습률 값 중에서 무작위로 값을 선택합니다.
 
-W&B는 `metric` 키에 `“goal": "minimize"`가 연결되어 있을 때 지정된 메트릭을 최소화합니다. 이 경우 W&B는 메트릭 `score`(`"name": "score"`)를 최소화하도록 최적화합니다.
+W&B 는 `metric` 키에 `"goal": "minimize"` 가 설정되어 있으면 해당 메트릭을 최소화합니다. 이 경우, W&B 는 `score` (`"name": "score"`) 메트릭을 최소화하도록 최적화합니다.
 
 ```python
 # 2: 검색 공간 정의
@@ -88,36 +86,51 @@ sweep_configuration = {
 }
 ```
 
-## 스윕 초기화
+## Sweep 초기화
 
-W&B는 클라우드(표준), 로컬(로컬)에서 하나 이상의 머신에서 스윕을 관리하기 위해 _Sweep Controller_ 를 사용합니다. Sweep Controller에 대한 자세한 내용은 [로컬에서 검색 및 중지 알고리즘](/ko/models/sweeps/local-controller/)을 참조하세요.
+W&B 는 클라우드(표준) 또는 하나 이상의 머신에 걸친 로컬(local) 환경에서 sweep 을 관리하기 위해 _Sweep Controller_ 를 사용합니다. Sweep 컨트롤러에 대한 자세한 내용은 [Search and stop algorithms locally](./local-controller) 를 참조하세요.
 
-스윕을 초기화하면 스윕 식별 번호가 반환됩니다.
+sweep 을 초기화하면 sweep ID 번호가 반환됩니다:
 
 ```python
 sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
 ```
 
-스윕 초기화에 대한 자세한 내용은 [스윕 초기화](/ko/models/sweeps/walkthrough/#%EC%8A%A4%EC%9C%95-%EC%B4%88%EA%B8%B0%ED%99%94)을 참조하세요.
+sweep 초기화에 대한 자세한 내용은 [Initialize sweeps](./initialize-sweeps) 를 참조하세요.
 
-## 스윕 시작
+## Sweep 시작
 
-[`wandb.agent`](/ko/models/ref/python/agent) API 호출을 사용하여 스윕을 시작합니다.
+[`wandb.agent()`](/models/ref/python/functions/agent) API 호출을 사용하여 sweep 을 시작합니다.
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
 ```
 
+<Warning>
+**멀티프로세싱**
+
+Python 표준 라이브러리의 `multiprocessing` 이나 PyTorch 의 `pytorch.multiprocessing` 패키지를 사용하는 경우, `wandb.agent()` 와 `wandb.sweep()` 호출을 `if __name__ == '__main__':` 으로 감싸야 합니다. 예시:
+
+```python
+if __name__ == '__main__':
+    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+```
+
+코드를 이 규칙으로 감싸면 스크립트가 직접 실행될 때만 실행되고, 워커 프로세스에서 모듈로 임포트될 때는 실행되지 않도록 보장합니다.
+
+멀티프로세싱에 대한 자세한 내용은 [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) 또는 [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) 을 참조하세요. `if __name__ == '__main__':` 규칙에 대한 정보는 https://realpython.com/if-name-main-python/ 을 참조하세요.
+</Warning>
+
 ## 결과 시각화 (선택 사항)
 
-프로젝트를 열어 W&B App 대시보드에서 실시간 결과를 확인하세요. 몇 번의 클릭만으로 [평행 좌표 플롯](/ko/models/app/features/panels/parallel-coordinates/), [파라미터 중요도 분석](/ko/models/app/features/panels/parameter-importance/) 및 [기타](/ko/models/app/features/panels/)와 같은 풍부한 인터랙티브 차트를 구성합니다.
+W&B 앱 대시보드에서 실시간 결과를 확인하려면 Projects 를 여세요. 몇 번의 클릭만으로 [평행 좌표 플롯](/models/app/features/panels/parallel-coordinates/), [파라미터 중요도 분석](/models/app/features/panels/parameter-importance/) 및 [기타 차트 유형](/models/app/features/panels/) 과 같은 풍부한 인터랙티브 차트를 구성할 수 있습니다.
 
 <Frame>
     <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example"  />
 </Frame>
 
-결과 시각화 방법에 대한 자세한 내용은 [스윕 결과 시각화](/ko/models/sweeps/visualize-sweep-results/)를 참조하세요. 대시보드 예제는 샘플 [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3)를 참조하세요.
+결과 시각화 방법에 대한 자세한 내용은 [Visualize sweep results](./visualize-sweep-results) 를 참조하세요. 대시보드 예시는 이 샘플 [Sweeps Project](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3) 를 참조하세요.
 
 ## 에이전트 중지 (선택 사항)
 
-터미널에서 `Ctrl+C`를 눌러 현재 run을 중지합니다. 다시 누르면 에이전트가 종료됩니다.
+터미널에서 `Ctrl+C` 를 눌러 현재 run 을 중지합니다. 한 번 더 누르면 에이전트가 종료됩니다.

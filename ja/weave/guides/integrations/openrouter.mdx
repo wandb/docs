@@ -1,0 +1,43 @@
+---
+title: OpenRouter
+description: 自動 Weave インテグレーションを備えた OpenRouter の統合インターフェースを使用して、多数の LLM を利用する
+---
+
+Openrouter.ai は、多くの LLM のための統合インターフェースです。OpenAI GPT-4、Anthropic Claude、Google Gemini などの基盤モデルだけでなく、LLama-3 や Mixtral などのオープンソースモデル、さらには [他にも多数](https://openrouter.ai/models) のモデルをサポートしており、一部のモデルは無料で提供されています。
+
+OpenRouter は REST API と OpenAI SDK 互換性 ([ドキュメント](https://docs.together.ai/docs/openai-api-compatibility)) を提供しており、Weave はこれを自動的に検出してインテグレーションします（詳細は OpenRouter の [クイックスタート](https://openrouter.ai/docs/quick-start) を参照してください）。
+
+OpenAI SDK のコードを OpenRouter に切り替えるには、APIキー を [OpenRouter API](https://openrouter.ai/docs/api-keys) キーに、`base_url` を `https://openrouter.ai/api/v1` に、そして model を多数ある [チャットモデル](https://openrouter.ai/docs/models) のいずれかに変更します。`weave.init()` を呼び出す際に、Traces のための プロジェクト 名を指定してください。指定しない場合は、デフォルトの Entities が使用されます。デフォルトの Entities を確認または更新するには、W&B Models ドキュメントの [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
+
+```python lines {5,10-12}
+import os
+import openai
+import weave
+
+weave.init('openrouter-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1",
+)
+chat_completion = client.chat.completions.create(
+    extra_headers={
+    "HTTP-Referer": $YOUR_SITE_URL, # オプション。openrouter.ai のランキングにあなたのアプリを含める場合に使用します。
+    "X-Title": $YOUR_APP_NAME, # オプション。openrouter.ai のランキングに表示されます。
+    },
+    model="meta-llama/llama-3.1-8b-instruct:free",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
+これは開始するための簡単な例ですが、より複雑な ユースケース で Weave を独自の関数と統合する方法については、[OpenAI](/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。

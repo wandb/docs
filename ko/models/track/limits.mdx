@@ -1,166 +1,199 @@
 ---
-title: Experiments limits and performance
-description: 제안된 범위 내에서 로깅하여 W&B에서 페이지를 더 빠르고 반응적으로 유지하세요.
+title: Experiments 제한 및 성능
+description: 이 제안된 한도 내에서 로그를 기록하여 W&B 페이지를 더 빠르고 반응성 있게 유지하세요.
 ---
 
-다음과 같은 권장 범위 내에서 로깅하면 W&B에서 페이지를 더 빠르고 응답성 좋게 유지할 수 있습니다.
+{/* ## 빠른 페이지를 위한 모범 사례 */}
 
-## 로깅 고려 사항
+다음 제안된 범위를 준수하여 로깅함으로써 W&B 페이지를 더 빠르고 반응성 있게 유지하세요.
 
-`wandb.log`를 사용하여 실험 메트릭을 추적합니다. 한 번 로깅되면 이러한 메트릭은 차트를 생성하고 테이블에 표시됩니다. 너무 많은 데이터를 로깅하면 앱이 느려질 수 있습니다.
+## 로깅 시 고려 사항
 
-### 고유한 메트릭 수
+실험 메트릭을 추적하려면 `wandb.Run.log()`를 사용하세요.
 
-더 빠른 성능을 위해 프로젝트의 총 고유 메트릭 수를 10,000개 미만으로 유지하십시오.
+### 고유 메트릭 수
+
+더 빠른 성능을 위해 프로젝트 내 고유 메트릭(distinct metrics)의 총 수를 10,000개 미만으로 유지하세요.
 
 ```python
 import wandb
 
-wandb.log(
-    {
-        "a": 1,  # "a"는 고유한 메트릭입니다.
-        "b": {
-            "c": "hello",  # "b.c"는 고유한 메트릭입니다.
-            "d": [1, 2, 3],  # "b.d"는 고유한 메트릭입니다.
-        },
-    }
-)
+with wandb.init() as run:
+    run.log(
+        {
+            "a": 1,  # "a"는 고유 메트릭입니다.
+            "b": {
+                "c": "hello",  # "b.c"는 고유 메트릭입니다.
+                "d": [1, 2, 3],  # "b.d"는 고유 메트릭입니다.
+            },
+        }
+    )
 ```
 
 <Note>
-W&B는 중첩된 값을 자동으로 평면화합니다. 즉, dictionary를 전달하면 W&B는 이를 점으로 구분된 이름으로 바꿉니다. config 값의 경우 W&B는 이름에 점 3개를 지원합니다. summary 값의 경우 W&B는 점 4개를 지원합니다.
+W&B는 중첩된 값을 자동으로 평탄화(flatten)합니다. 즉, 사전(dictionary)을 전달하면 W&B는 이를 점(dot)으로 구분된 이름으로 바꿉니다. config 값의 경우 W&B는 이름에 최대 3개의 점을 지원합니다. 요약(summary) 값의 경우 W&B는 최대 4개의 점을 지원합니다.
 </Note>
 
-워크스페이스가 갑자기 느려지면 최근의 runs이 의도치 않게 수천 개의 새로운 메트릭을 로깅했는지 확인하십시오. (수천 개의 플롯이 있는 섹션에 하나 또는 두 개의 runs만 표시되는지 확인하면 가장 쉽게 알 수 있습니다.) 그렇다면 해당 runs을 삭제하고 원하는 메트릭으로 다시 만드는 것을 고려하십시오.
+메트릭 이름은 GraphQL에서 부과하는 특정 명명 제약 조건을 따라야 합니다. 자세한 내용은 [메트릭 명명 제약 조건](/models/track/log/#metric-naming-constraints)을 참조하세요.
 
-### 값 너비
-
-단일 로깅된 값의 크기를 1MB 미만으로 제한하고 단일 `wandb.log` 호출의 총 크기를 25MB 미만으로 제한합니다. 이 제한은 `wandb.Image`, `wandb.Audio` 등과 같은 `wandb.Media` 유형에는 적용되지 않습니다.
+{/* ### 동일한 메트릭 이름으로 미디어 로깅
+관련 미디어를 동일한 메트릭 이름으로 로깅하세요:
 
 ```python
-# ❌ 권장하지 않음
-wandb.log({"wide_key": range(10000000)})
+for i, img in enumerate(images):
+    # 권장되지 않음
+    run.log({f"pred_img_{i}": wandb.Image(image)})
 
-# ❌ 권장하지 않음
-with f as open("large_file.json", "r"):
-    large_data = json.load(f)
-    wandb.log(large_data)
+    # 권장됨
+    run.log({"pred_imgs": [wandb.Image(image) for image in images]})
+``` */}
+
+Workspace가 갑자기 느려지면, 최근의 Runs가 의도치 않게 수천 개의 새로운 메트릭을 로깅했는지 확인하세요. (이는 한두 개의 run만 표시되는 수천 개의 플롯이 포함된 섹션을 확인하면 가장 쉽게 발견할 수 있습니다.) 만약 그렇다면, 해당 Runs를 삭제하고 원하는 메트릭으로 다시 생성하는 것을 고려해 보세요.
+
+### 값 너비 (Value width)
+
+단일 로깅 값의 크기를 1MB 미만으로, 단일 `wandb.Run.log()` 호출의 총 크기를 25MB 미만으로 제한하세요. 이 제한은 `wandb.Image`, `wandb.Audio` 등과 같은 `wandb.Media` 유형에는 적용되지 않습니다.
+
+```python
+import wandb
+
+with wandb.init(project="wide-values") as run:
+
+    # 권장되지 않음
+    run.log({"wide_key": range(10000000)})
+
+    # 권장되지 않음
+    with open("large_file.json", "r") as f:
+        large_data = json.load(f)
+        run.log(large_data)
 ```
 
-넓은 값은 넓은 값이 있는 메트릭뿐만 아니라 run의 모든 메트릭에 대한 플롯 로드 시간에 영향을 줄 수 있습니다.
+너비가 넓은 값은 해당 메트릭뿐만 아니라 run의 모든 메트릭에 대한 플롯 로드 시간에 영향을 줄 수 있습니다.
 
 <Note>
-권장량보다 넓은 값을 로깅하더라도 데이터는 저장되고 추적됩니다. 그러나 플롯 로드 속도가 느려질 수 있습니다.
+권장량보다 넓은 값을 로깅하더라도 데이터는 저장되고 추적됩니다. 하지만 플롯 로드 속도가 느려질 수 있습니다.
 </Note>
 
 ### 메트릭 빈도
 
-로깅하는 메트릭에 적합한 로깅 빈도를 선택하십시오. 일반적으로 메트릭이 넓을수록 로깅 빈도를 줄여야 합니다. W&B는 다음을 권장합니다.
+로깅하는 메트릭에 적합한 로깅 빈도를 선택하세요. 일반적인 규칙으로, 너비가 넓은 값은 좁은 값보다 덜 빈번하게 로깅하세요. W&B는 다음을 권장합니다:
 
-- 스칼라: 메트릭당 로깅된 포인트 \<100,000개
-- 미디어: 메트릭당 로깅된 포인트 \<50,000개
-- 히스토그램: 메트릭당 로깅된 포인트 \<10,000개
+- Scalars: 메트릭당 \<100,000개의 로깅 포인트
+- Media: 메트릭당 \<50,000개의 로깅 포인트
+- Histograms: 메트릭당 \<10,000개의 로깅 포인트
 
 ```python
-# 총 1백만 단계의 트레이닝 루프
-for step in range(1000000):
-    # ❌ 권장하지 않음
-    wandb.log(
+import wandb
+
+with wandb.init(project="metric-frequency") as run:
+    # 권장되지 않음
+    run.log(
         {
-            "scalar": step,  # 스칼라 100,000개
-            "media": wandb.Image(...),  # 이미지 100,000개
-            "histogram": wandb.Histogram(...),  # 히스토그램 100,000개
+            "scalar": 1,  # 100,000 scalars
+            "media": wandb.Image(...),  # 100,000 images
+            "histogram": wandb.Histogram(...),  # 100,000 histograms
         }
     )
 
-    # ✅ 권장
-    if step % 1000 == 0:
-        wandb.log(
-            {
-                "histogram": wandb.Histogram(...),  # 히스토그램 10,000개
-            },
-            commit=False,
-        )
-    if step % 200 == 0:
-        wandb.log(
-            {
-                "media": wandb.Image(...),  # 이미지 50,000개
-            },
-            commit=False,
-        )
-    if step % 100 == 0:
-        wandb.log(
-            {
-                "scalar": step,  # 스칼라 100,000개
-            },
-            commit=True,
-        )  # 일괄 처리된 단계별 메트릭을 함께 커밋합니다.
+    # 권장됨
+    run.log(
+        {
+            "scalar": 1,  # 100,000 scalars
+        },
+        commit=True,
+    )  # 스텝별 메트릭을 한 번에 배치로 커밋합니다.
+
+    run.log(
+        {
+            "media": wandb.Image(...),  # 50,000 images
+        },
+        commit=False,
+    )
+    
+    run.log(
+        {
+            "histogram": wandb.Histogram(...),  # 10,000 histograms
+        },
+        commit=False,
+    )
 ```
 
+{/* 특정 스텝에 대한 총 API 호출 횟수를 최소화하려면 `run.log` 호출 시 `commit=False`를 전달하여 배칭을 활성화하세요. 자세한 내용은 `run.log`에 대한 [문서](/models/ref/python/experiments/run/#method-runlog)를 참조하세요. */}
+
 <Note>
-지침을 초과하더라도 W&B는 로깅된 데이터를 계속 수락하지만 페이지 로드 속도가 느려질 수 있습니다.
+가이드라인을 초과하더라도 W&B는 로깅된 데이터를 계속 수락하지만 페이지 로드 속도가 느려질 수 있습니다.
 </Note>
 
-### config 크기
+### Config 크기
 
-run config의 총 크기를 10MB 미만으로 제한하십시오. 큰 값을 로깅하면 프로젝트 워크스페이스 및 runs 테이블 작업 속도가 느려질 수 있습니다.
+run config의 총 크기를 10MB 미만으로 제한하세요. 큰 값을 로깅하면 프로젝트 Workspaces 및 Runs 테이블 작업이 느려질 수 있습니다.
 
 ```python
-# ✅ 권장
-wandb.init(
+import wandb 
+
+# 권장됨
+with wandb.init(
+    project="config-size",
     config={
         "lr": 0.1,
         "batch_size": 32,
         "epochs": 4,
     }
-)
+) as run:
+    # 트레이닝 코드를 여기에 작성하세요.
+    pass
 
-# ❌ 권장하지 않음
-wandb.init(
+# 권장되지 않음
+with wandb.init(
+    project="config-size",
     config={
-        "steps": range(10000000),
+        "large_list": list(range(10000000)),  # 큰 리스트
+        "large_string": "a" * 10000000,  # 큰 문자열
     }
-)
+) as run:
+    # 트레이닝 코드를 여기에 작성하세요.
+    pass
 
-# ❌ 권장하지 않음
-with f as open("large_config.json", "r"):
+# 권장되지 않음
+with open("large_config.json", "r") as f:
     large_config = json.load(f)
     wandb.init(config=large_config)
 ```
 
-## 워크스페이스 고려 사항
+## Workspace 고려 사항 
+
 
 ### Run 수
 
-로드 시간을 줄이려면 단일 프로젝트의 총 run 수를 다음 미만으로 유지하십시오.
+로딩 시간을 줄이려면 단일 프로젝트의 총 Runs 수를 다음 미만으로 유지하세요:
 
 - SaaS Cloud에서 100,000개
-- 전용 클라우드 또는 자체 관리에서 10,000개
+- 전용 클라우드 또는 Self-Managed에서 10,000개
 
-이러한 임계값을 초과하는 Run 수는 프로젝트 워크스페이스 또는 runs 테이블과 관련된 작업 속도를 늦출 수 있습니다. 특히 runs을 그룹화하거나 runs 중에 많은 수의 고유한 메트릭을 수집하는 경우에 그렇습니다. [메트릭 수](#metric-count) 섹션도 참조하십시오.
+이 임계값을 초과하는 Run 수는 프로젝트 Workspaces 또는 Runs 테이블과 관련된 작업, 특히 Runs를 그룹화하거나 실행 중에 다수의 고유 메트릭을 수집할 때 속도를 늦출 수 있습니다. [메트릭 수](#metric-count) 섹션도 참조하세요.
 
-팀이 최근 runs 집합과 같이 동일한 runs 집합에 자주 액세스하는 경우 [덜 자주 사용하는 runs을 대량으로 이동](/ko/models/runs/manage-runs/)하는 것을 고려하여 새로운 "보관" 프로젝트로 이동하고 작업 프로젝트에 더 작은 runs 집합을 남겨두십시오.
+팀에서 최근 Runs 세트와 같이 동일한 Runs 세트에 자주 엑세스하는 경우, 자주 사용하지 않는 Runs를 [새로운 "archive" 프로젝트로 일괄 이동](/models/runs/manage-runs/)하여 작업 프로젝트에 더 적은 수의 Runs만 남겨두는 것을 고려해 보세요.
 
-### 워크스페이스 성능
-이 섹션에서는 워크스페이스의 성능을 최적화하기 위한 팁을 제공합니다.
+### Workspace 성능
+이 섹션에서는 Workspace 성능을 최적화하기 위한 팁을 제공합니다.
 
 #### 패널 수
-기본적으로 워크스페이스는 _자동_이며 로깅된 각 키에 대해 표준 패널을 생성합니다. 대규모 프로젝트의 워크스페이스에 많은 로깅된 키에 대한 패널이 포함되어 있으면 워크스페이스 로드 및 사용 속도가 느려질 수 있습니다. 성능을 향상시키려면 다음을 수행할 수 있습니다.
+기본적으로 Workspace는 _자동(automatic)_ 모드이며, 로깅된 각 키에 대해 표준 패널을 생성합니다. 대규모 프로젝트의 Workspace에 로깅된 많은 키에 대한 패널이 포함되어 있으면 Workspace 로드 및 사용 속도가 느려질 수 있습니다. 성능을 개선하려면 다음을 수행할 수 있습니다:
 
-1. 워크스페이스를 수동 모드로 재설정합니다. 수동 모드에는 기본적으로 패널이 포함되어 있지 않습니다.
-2. [빠른 추가](/ko/models/app/features/panels/#quick-add)를 사용하여 시각화해야 하는 로깅된 키에 대한 패널을 선택적으로 추가합니다.
+1. Workspace를 수동(manual) 모드로 재설정합니다. 수동 모드에서는 기본적으로 패널이 포함되지 않습니다.
+1. [Quick add](/models/app/features/panels/#quick-add)를 사용하여 시각화가 필요한 로깅된 키에 대한 패널만 선택적으로 추가합니다.
 
 <Note>
-사용하지 않는 패널을 하나씩 삭제하는 것은 성능에 거의 영향을 미치지 않습니다. 대신 워크스페이스를 재설정하고 필요한 패널만 선택적으로 다시 추가하십시오.
+사용하지 않는 패널을 하나씩 삭제하는 것은 성능에 큰 영향을 미치지 않습니다. 대신 Workspace를 재설정하고 필요한 패널만 선택적으로 다시 추가하세요.
 </Note>
 
-워크스페이스 구성에 대한 자세한 내용은 [패널](/ko/models/app/features/panels/)을 참조하십시오.
+Workspace 구성에 대해 자세히 알아보려면 [패널](/models/app/features/panels/)을 참조하세요.
 
 #### 섹션 수
 
-워크스페이스에 수백 개의 섹션이 있으면 성능이 저하될 수 있습니다. 메트릭의 상위 수준 그룹화를 기반으로 섹션을 만들고 각 메트릭에 대해 하나의 섹션을 만드는 안티 패턴을 피하십시오.
+Workspace에 수백 개의 섹션이 있으면 성능이 저하될 수 있습니다. 메트릭의 상위 레벨 그룹화를 기반으로 섹션을 생성하고, 각 메트릭마다 하나의 섹션을 만드는 안티 패턴을 피하세요.
 
-섹션이 너무 많고 성능이 느린 경우 접미사가 아닌 접두사로 섹션을 만드는 워크스페이스 설정을 고려하십시오. 이렇게 하면 섹션 수가 줄어들고 성능이 향상될 수 있습니다.
+섹션이 너무 많고 성능이 느리다면, 접미사(suffix) 대신 접두사(prefix)로 섹션을 생성하도록 Workspace 설정을 변경하는 것을 고려해 보세요. 이렇게 하면 섹션 수가 줄어들고 성능이 향상될 수 있습니다.
 
 <Frame>
     <img src="/images/track/section_prefix_toggle.gif" alt="섹션 생성 토글"  />
@@ -168,94 +201,108 @@ with f as open("large_config.json", "r"):
 
 ### 메트릭 수
 
-Run당 5000~100,000개의 메트릭을 로깅하는 경우 W&B는 [수동 워크스페이스](/models/app/features/panels/#workspace-modes)를 사용하는 것이 좋습니다. 수동 모드에서는 다양한 메트릭 집합을 탐색하도록 선택할 때 패널을 대량으로 쉽게 추가하고 제거할 수 있습니다. 더 집중적인 플롯 집합을 사용하면 워크스페이스 로드 속도가 빨라집니다. 플롯되지 않은 메트릭은 평소와 같이 계속 수집 및 저장됩니다.
+run당 5,000개에서 100,000개 사이의 메트릭을 로깅할 때, W&B는 [수동 Workspace](/models/app/features/panels/#workspace-modes) 사용을 권장합니다. 수동 모드에서는 다양한 메트릭 세트를 탐색하기 위해 패널을 대량으로 쉽게 추가하고 제거할 수 있습니다. 집중된 플롯 세트를 사용하면 Workspace가 더 빨리 로드됩니다. 플롯되지 않은 메트릭도 평소와 같이 수집되고 저장됩니다.
 
-워크스페이스를 수동 모드로 재설정하려면 워크스페이스의 작업 `...` 메뉴를 클릭한 다음 **워크스페이스 재설정**을 클릭합니다. 워크스페이스를 재설정해도 runs에 대한 저장된 메트릭에는 영향을 미치지 않습니다. [워크스페이스 관리에 대해 자세히 알아보십시오](/ko/models/app/features/panels/).
+Workspace를 수동 모드로 재설정하려면 Workspace의 액션 `...` 메뉴를 클릭한 다음 **Reset workspace**를 클릭하세요. Workspace를 재설정해도 Runs에 대해 저장된 메트릭에는 영향을 미치지 않습니다. [Workspace 패널 관리](/models/app/features/panels/)를 참조하세요.
 
 ### 파일 수
 
-단일 run에 대해 업로드된 총 파일 수를 1,000개 미만으로 유지하십시오. 많은 수의 파일을 로깅해야 하는 경우 W&B Artifacts를 사용할 수 있습니다. 단일 run에서 1,000개가 넘는 파일을 초과하면 run 페이지 속도가 느려질 수 있습니다.
+단일 run에 대해 업로드되는 총 파일 수를 1,000개 미만으로 유지하세요. 많은 수의 파일을 로깅해야 할 때는 W&B Artifacts를 사용할 수 있습니다. 단일 run에서 1,000개 파일을 초과하면 run 페이지 속도가 느려질 수 있습니다.
 
-### 리포트 대 워크스페이스
+### Reports vs. Workspaces
 
-리포트는 패널, 텍스트 및 미디어를 임의로 배열하여 동료와 통찰력을 쉽게 공유할 수 있는 자유 형식의 컴포지션입니다.
+Report는 패널, 텍스트, 미디어를 임의로 배치할 수 있는 자유 형식의 구성 요소로, 동료와 통찰력을 쉽게 공유할 수 있게 해줍니다.
 
-대조적으로 워크스페이스는 수백에서 수십만 개의 runs에 걸쳐 수십에서 수천 개의 메트릭을 고밀도로 효율적으로 분석할 수 있습니다. 워크스페이스는 리포트에 비해 최적화된 캐싱, 쿼리 및 로드 기능을 제공합니다. 워크스페이스는 주로 프레젠테이션보다는 분석에 사용되는 프로젝트에 권장되거나 20개 이상의 플롯을 함께 표시해야 하는 경우에 권장됩니다.
+반면에 Workspace는 수백에서 수십만 개의 Runs에 걸쳐 수십에서 수천 개의 메트릭을 고밀도로 효율적으로 분석할 수 있게 해줍니다. Workspaces는 Reports와 비교했을 때 최적화된 캐싱, 쿼리 및 로딩 기능을 갖추고 있습니다. 프레젠테이션보다는 주로 분석을 목적으로 하는 프로젝트나 20개 이상의 플롯을 동시에 보여줘야 하는 경우 Workspace를 권장합니다.
 
 ## Python 스크립트 성능
 
-Python 스크립트의 성능이 저하되는 몇 가지 방법이 있습니다.
+Python 스크립트 성능이 저하되는 몇 가지 요인은 다음과 같습니다:
 
-1. 데이터 크기가 너무 큽니다. 데이터 크기가 크면 트레이닝 루프에 >1ms의 오버헤드가 발생할 수 있습니다.
-2. 네트워크 속도와 W&B 백엔드 구성 방법
-3. `wandb.log`를 초당 몇 번 이상 호출합니다. 이는 `wandb.log`가 호출될 때마다 트레이닝 루프에 작은 대기 시간이 추가되기 때문입니다.
-
-<Note>
-잦은 로깅으로 인해 트레이닝 runs 속도가 느려지나요? 로깅 전략을 변경하여 더 나은 성능을 얻는 방법에 대한 [이 Colab](http://wandb.me/log-hf-colab)을 확인하십시오.
-</Note>
-
-W&B는 속도 제한 외에는 어떠한 제한도 주장하지 않습니다. W&B Python SDK는 제한을 초과하는 요청에 대해 지수 "백오프" 및 "재시도"를 자동으로 완료합니다. W&B Python SDK는 커맨드라인에 "네트워크 실패"로 응답합니다. 유료 계정이 아닌 경우 W&B는 사용량이 합리적인 임계값을 초과하는 극단적인 경우에 연락할 수 있습니다.
-
-## 속도 제한
-
-W&B SaaS Cloud API는 시스템 무결성을 유지하고 가용성을 보장하기 위해 속도 제한을 구현합니다. 이 측정은 단일 사용자가 공유 인프라에서 사용 가능한 리소스를 독점하는 것을 방지하여 모든 사용자가 서비스에 액세스할 수 있도록 보장합니다. 다양한 이유로 더 낮은 속도 제한이 발생할 수 있습니다.
+1. 데이터 크기가 너무 큼: 데이터 크기가 너무 크면 트레이닝 루프에 1ms 이상의 오버헤드가 발생할 수 있습니다.
+2. 네트워크 속도 및 W&B 백엔드 구성 방식
+3. 초당 몇 번 이상 `wandb.Run.log()`를 호출하는 경우: `wandb.Run.log()`가 호출될 때마다 트레이닝 루프에 약간의 지연 시간(latency)이 추가되기 때문입니다.
 
 <Note>
-속도 제한은 변경될 수 있습니다.
+잦은 로깅으로 인해 트레이닝 run 속도가 느려지나요? 로깅 전략을 변경하여 더 나은 성능을 얻는 방법은 [이 Colab](https://wandb.me/log-hf-colab)을 확인하세요.
 </Note>
 
-### 속도 제한 HTTP 헤더
+W&B는 rate limiting 이외의 어떠한 제한도 두지 않습니다. W&B Python SDK는 한도를 초과하는 요청에 대해 자동으로 지수 "백오프(backoff)" 및 "재시도(retry)"를 수행합니다. W&B Python SDK는 커맨드라인에 "Network failure"라고 응답합니다. 무료 계정의 경우, 사용량이 합리적인 임계값을 초과하는 극단적인 경우 W&B에서 연락을 드릴 수 있습니다.
 
-이전 표에서는 속도 제한 HTTP 헤더에 대해 설명합니다.
+## Rate limits
 
-| 헤더 이름          | 설명                                                                                   |
-| ------------------- | ------------------------------------------------------------------------------------- |
-| RateLimit-Limit     | 시간 창당 사용 가능한 할당량으로, 0~1000 범위로 조정됩니다.                           |
-| RateLimit-Remaining | 현재 속도 제한 창의 할당량으로, 0~1000 범위로 조정됩니다.                           |
-| RateLimit-Reset     | 현재 할당량이 재설정될 때까지의 시간(초)                                               |
+W&B SaaS Cloud API는 시스템 무결성을 유지하고 가용성을 보장하기 위해 rate limit을 구현합니다. 이 조치는 단일 사용자가 공유 인프라의 가용 자원을 독점하는 것을 방지하여 모든 사용자가 서비스를 계속 이용할 수 있도록 보장합니다. 다양한 이유로 더 낮은 rate limit이 적용될 수 있습니다.
 
-### 메트릭 로깅 API의 속도 제한
+<Note>
+Rate limits는 변경될 수 있습니다.
+</Note>
 
-스크립트의 `wandb.log` 호출은 메트릭 로깅 API를 사용하여 트레이닝 데이터를 W&B에 로깅합니다. 이 API는 온라인 또는 [오프라인 동기화](/ko/models/ref/cli/wandb-sync)를 통해 사용됩니다. 두 경우 모두 롤링 시간 창에서 속도 제한 할당량을 부과합니다. 여기에는 총 요청 크기 및 요청 속도에 대한 제한이 포함되며, 후자는 시간 기간 내의 요청 수를 나타냅니다.
+Rate limit에 도달하면 HTTP `429` `Rate limit exceeded` 오류가 발생하며 응답에는 [rate limit HTTP headers](#rate-limit-http-headers)가 포함됩니다.
 
-W&B는 W&B 프로젝트당 속도 제한을 적용합니다. 따라서 팀에 3개의 프로젝트가 있는 경우 각 프로젝트에는 자체 속도 제한 할당량이 있습니다. [팀 및 엔터프라이즈 요금제](https://wandb.ai/site/pricing) 사용자는 무료 요금제 사용자보다 더 높은 속도 제한을 받습니다.
+### Rate limit HTTP headers
 
-메트릭 로깅 API를 사용하는 동안 속도 제한에 도달하면 표준 출력에 오류를 나타내는 관련 메시지가 표시됩니다.
+다음 표는 rate limit HTTP 헤더에 대해 설명합니다:
 
-### 메트릭 로깅 API 속도 제한을 초과하지 않기 위한 제안
+| 헤더 이름           | 설명                                                                           |
+| ------------------- | ------------------------------------------------------------------------------ |
+| RateLimit-Limit     | 시간 윈도우당 사용 가능한 쿼터 양, 0에서 1000 사이의 범위로 스케일링됨         |
+| RateLimit-Remaining | 현재 rate limit 윈도우의 남은 쿼터 양, 0에서 1000 사이의 범위로 스케일링됨     |
+| RateLimit-Reset     | 현재 쿼터가 재설정될 때까지 남은 초 단위 시간                                |
 
-속도 제한을 초과하면 속도 제한이 재설정될 때까지 `run.finish()`가 지연될 수 있습니다. 이를 방지하려면 다음 전략을 고려하십시오.
+### 메트릭 로깅 API의 Rate limits
 
-- W&B Python SDK 버전 업데이트: 최신 버전의 W&B Python SDK를 사용하고 있는지 확인하십시오. W&B Python SDK는 정기적으로 업데이트되며 요청을 정상적으로 재시도하고 할당량 사용량을 최적화하기 위한 향상된 메커니즘이 포함되어 있습니다.
-- 메트릭 로깅 빈도 줄이기:
-  할당량을 보존하기 위해 메트릭 로깅 빈도를 최소화합니다. 예를 들어, 모든 에포크 대신 5개의 에포크마다 메트릭을 로깅하도록 코드를 수정할 수 있습니다.
+`wandb.Run.log()`는 트레이닝 데이터를 W&B에 로깅합니다. 이 API는 온라인 또는 [오프라인 동기화](/models/ref/cli/wandb-sync)를 통해 작동합니다. 어떤 경우이든 롤링 시간 윈도우 내에서 rate limit 쿼터 제한을 부과합니다. 여기에는 총 요청 크기 및 요청 속도(일정 시간 동안의 요청 수)에 대한 제한이 포함됩니다.
+
+W&B는 W&B 프로젝트별로 rate limits를 적용합니다. 따라서 팀에 3개의 프로젝트가 있는 경우 각 프로젝트는 자체 rate limit 쿼터를 갖습니다. [유료 플랜](https://wandb.ai/site/pricing) 사용자는 무료 플랜보다 더 높은 rate limits를 갖습니다.
+
+Rate limit에 도달하면 HTTP `429` `Rate limit exceeded` 오류가 발생하며 응답에는 [rate limit HTTP headers](#rate-limit-http-headers)가 포함됩니다.
+
+### 메트릭 로깅 API rate limit을 준수하기 위한 제안
+
+Rate limit을 초과하면 rate limit이 재설정될 때까지 `run.finish()`가 지연될 수 있습니다. 이를 방지하기 위해 다음 전략을 고려해 보세요:
+
+- W&B Python SDK 버전 업데이트: 최신 버전의 W&B Python SDK를 사용하고 있는지 확인하세요. W&B Python SDK는 정기적으로 업데이트되며 요청을 원활하게 재시도하고 쿼터 사용을 최적화하는 향상된 메커니즘을 포함하고 있습니다.
+- 메트릭 로깅 빈도 감소:
+  쿼터를 절약하기 위해 메트릭 로깅 빈도를 최소화하세요. 예를 들어, 매 에포크마다 메트릭을 로깅하는 대신 다섯 에포크마다 로깅하도록 코드를 수정할 수 있습니다:
 
 ```python
-if epoch % 5 == 0:  # 5개의 에포크마다 메트릭 로깅
-    wandb.log({"acc": accuracy, "loss": loss})
+import wandb
+import random
+
+with wandb.init(project="basic-intro") as run:
+    for epoch in range(10):
+        # 트레이닝 및 평가 시뮬레이션
+        accuracy = 1 - 2 ** -epoch - random.random() / epoch
+        loss = 2 ** -epoch + random.random() / epoch
+
+        # 5 에포크마다 메트릭 로깅
+        if epoch % 5 == 0:
+            run.log({"acc": accuracy, "loss": loss})
 ```
 
-- 수동 데이터 동기화: 속도 제한이 있는 경우 W&B는 run 데이터를 로컬에 저장합니다. 커맨드 `wandb sync <run-file-path>`를 사용하여 데이터를 수동으로 동기화할 수 있습니다. 자세한 내용은 [`wandb sync`](/ko/models/ref/cli/wandb-sync) 참조를 참조하십시오.
+- 수동 데이터 동기화: rate limited 상태인 경우 W&B는 run 데이터를 로컬에 저장합니다. `wandb sync <run-file-path>` 커맨드를 사용하여 데이터를 수동으로 동기화할 수 있습니다. 자세한 내용은 [`wandb sync`](/models/ref/cli/wandb-sync) 참조를 확인하세요.
 
-### GraphQL API의 속도 제한
+### GraphQL API의 Rate limits
 
-W&B Models UI 및 SDK의 [공용 API](https://docs.wandb.ai/models/ref/python/public-api/api)는 서버에 GraphQL 요청을 보내 데이터를 쿼리하고 수정합니다. SaaS Cloud의 모든 GraphQL 요청에 대해 W&B는 권한이 없는 요청에 대해 IP 어드레스당, 권한이 있는 요청에 대해 사용자당 속도 제한을 적용합니다. 제한은 고정 시간 창 내의 요청 속도(초당 요청)를 기반으로 하며, 요금제에 따라 기본 제한이 결정됩니다. 프로젝트 경로(예: 리포트, runs, 아티팩트)를 지정하는 관련 SDK 요청의 경우 W&B는 데이터베이스 쿼리 시간으로 측정하여 프로젝트당 속도 제한을 적용합니다.
+W&B Models UI 및 SDK의 [공용 API](/models/ref/python/public-api/api)는 데이터 쿼리 및 수정을 위해 서버에 GraphQL 요청을 보냅니다. SaaS Cloud의 모든 GraphQL 요청에 대해 W&B는 권한이 없는 요청의 경우 IP 주소별로, 권한이 있는 요청의 경우 사용자별로 rate limits를 적용합니다. 제한은 고정된 시간 윈도우 내의 요청 속도(초당 요청 수)를 기준으로 하며, 요금제에 따라 기본 한도가 결정됩니다. 프로젝트 경로를 지정하는 관련 SDK 요청(예: reports, runs, artifacts)의 경우 W&B는 데이터베이스 쿼리 시간을 기준으로 프로젝트별 rate limits를 적용합니다.
 
-[팀 및 엔터프라이즈 요금제](https://wandb.ai/site/pricing) 사용자는 무료 요금제 사용자보다 더 높은 속도 제한을 받습니다.
-W&B Models SDK의 공용 API를 사용하는 동안 속도 제한에 도달하면 표준 출력에 오류를 나타내는 관련 메시지가 표시됩니다.
+[Teams 및 Enterprise 플랜](https://wandb.ai/site/pricing) 사용자는 무료 플랜 사용자보다 더 높은 rate limits를 적용받습니다.
+W&B Models SDK의 공용 API를 사용하는 동안 rate limit에 도달하면 표준 출력에 해당 오류를 나타내는 메시지가 표시됩니다.
 
-### GraphQL API 속도 제한을 초과하지 않기 위한 제안
+Rate limit에 도달하면 HTTP `429` `Rate limit exceeded` 오류가 발생하며 응답에는 [rate limit HTTP headers](#rate-limit-http-headers)가 포함됩니다.
 
-W&B Models SDK의 [공용 API](https://docs.wandb.ai/models/ref/python/public-api/api)를 사용하여 많은 양의 데이터를 가져오는 경우 요청 사이에 최소 1초 이상 기다리는 것을 고려하십시오. `429` 상태 코드를 받거나 응답 헤더에 `RateLimit-Remaining=0`이 표시되면 재시도하기 전에 `RateLimit-Reset`에 지정된 시간(초) 동안 기다리십시오.
+#### GraphQL API rate limit을 준수하기 위한 제안
+
+W&B Models SDK의 [공용 API](/models/ref/python/public-api/api)를 사용하여 대량의 데이터를 가져오는 경우, 요청 사이에 최소 1초 이상 기다리는 것을 고려해 보세요. HTTP `429` `Rate limit exceeded` 오류가 발생하거나 응답 헤더에서 `RateLimit-Remaining=0`을 확인한 경우, 재시도하기 전에 `RateLimit-Reset`에 지정된 시간만큼 기다리세요.
 
 ## 브라우저 고려 사항
 
-W&B 앱은 메모리 사용량이 많을 수 있으며 Chrome에서 가장 잘 작동합니다. 컴퓨터의 메모리에 따라 W&B가 3개 이상의 탭에서 동시에 활성화되어 있으면 성능이 저하될 수 있습니다. 예기치 않게 느린 성능이 발생하는 경우 다른 탭이나 애플리케이션을 닫는 것을 고려하십시오.
+W&B 앱은 메모리를 많이 사용할 수 있으며 Chrome에서 가장 잘 작동합니다. 컴퓨터의 메모리에 따라 W&B를 3개 이상의 탭에서 동시에 실행하면 성능이 저하될 수 있습니다. 예상치 않게 성능이 느려지면 다른 탭이나 애플리케이션을 닫는 것을 고려해 보세요.
 
-## W&B에 성능 문제 보고
+## W&B에 성능 문제 보고하기
 
-W&B는 성능을 중요하게 생각하고 지연에 대한 모든 리포트를 조사합니다. 조사를 신속하게 처리하기 위해 로드 시간이 느린 경우 주요 메트릭 및 성능 이벤트를 캡처하는 W&B의 기본 제공 성능 로거를 호출하는 것을 고려하십시오. 로드 속도가 느린 페이지에 URL 파라미터 `&PERF_LOGGING`을 추가한 다음 콘솔 출력을 계정 팀 또는 지원팀과 공유하십시오.
+W&B는 성능 문제를 심각하게 받아들이며 모든 지연 보고를 조사합니다. 조사를 신속하게 진행하기 위해, 로딩 속도가 느린 경우를 보고할 때 주요 메트릭과 성능 이벤트를 캡처하는 W&B의 내장 성능 로거를 실행하는 것을 고려해 보세요. 로딩이 느린 페이지 URL 파라미터에 `&PERF_LOGGING`을 추가한 다음, 콘솔 출력을 담당 팀이나 지원팀에 공유해 주세요.
 
 <Frame>
-    <img src="/images/track/adding_perf_logging.gif" alt="PERF_LOGGING 추가"  />
+    <img src="/images/track/adding_perf_logging.gif" alt="PERF_LOGGING 추가하기"  />
 </Frame>

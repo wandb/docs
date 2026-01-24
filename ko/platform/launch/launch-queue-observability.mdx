@@ -1,0 +1,86 @@
+---
+title: Launch queue 모니터링
+---
+
+인터랙티브한 **Queue monitoring dashboard**를 사용하여 Launch queue가 과부하 상태인지 또는 유휴 상태인지 확인하고, 실행 중인 워크로드를 시각화하며, 비효율적인 작업을 찾아낼 수 있습니다. Launch queue 대시보드는 특히 컴퓨팅 하드웨어나 클라우드 리소스를 효과적으로 사용하고 있는지 판단하는 데 유용합니다.
+
+더 심층적인 분석을 위해, 해당 페이지는 W&B 실험 추적 Workspace 및 Datadog, NVIDIA Base Command 또는 클라우드 콘솔과 같은 외부 인프라 모니터링 제공업체로 연결되는 링크를 제공합니다.
+
+<Note>
+Queue monitoring dashboard는 현재 W&B Multi-tenant Cloud 배포 옵션에서만 사용할 수 있습니다.
+</Note>
+
+## 대시보드 및 플롯
+**Monitor** 탭을 사용하여 지난 7일 동안 발생한 queue의 활동을 확인할 수 있습니다. 왼쪽 패널을 사용하여 시간 범위, 그룹화 및 필터를 제어하세요.
+
+대시보드에는 성능 및 효율성에 관한 자주 묻는 질문에 답할 수 있는 여러 플롯이 포함되어 있습니다. 다음 섹션에서는 queue 대시보드의 UI 요소를 설명합니다.
+
+### Job status
+**Job status** 플롯은 각 시간 간격 내에서 실행 중, 대기 중, 대기열에 추가됨(queued) 또는 완료된 작업의 수를 보여줍니다. **Job status** 플롯을 사용하여 queue의 유휴 기간을 파악하세요.
+
+<Frame>
+    <img src="/images/launch/launch_obs_jobstatus.png" alt="Job status timeline"  />
+</Frame>
+
+예를 들어, DGX BasePod와 같은 고정 리소스가 있다고 가정해 보겠습니다. 고정 리소스가 있는 queue에서 유휴 상태가 관찰되면, 이는 Sweeps와 같이 우선순위가 낮고 선점 가능한(pre-emptible) Launch 작업을 실행할 기회임을 시사할 수 있습니다.
+
+반대로, 클라우드 리소스를 사용 중이고 주기적으로 활동이 급증하는 것을 본다면, 특정 시간에 리소스를 예약하여 비용을 절감할 기회일 수 있습니다.
+
+플롯 오른쪽의 키(key)는 어떤 색상이 [Launch 작업의 상태](./launch-view-jobs#check-the-status-of-a-job)를 나타내는지 보여줍니다.
+
+<Note>
+`Queued` 항목은 워크로드를 다른 queue로 옮길 기회를 나타낼 수 있습니다. 실패 건수의 급증은 Launch 작업 설정에 도움이 필요한 Users를 식별하는 데 도움이 됩니다.
+</Note>
+
+### Queued time
+
+**Queued time** 플롯은 특정 날짜 또는 시간 범위 동안 Launch 작업이 queue에서 대기한 시간(초 단위)을 보여줍니다.
+
+<Frame>
+    <img src="/images/launch/launch_obs_queuedtime.png" alt="Queued time metrics"  />
+</Frame>
+
+x축은 사용자가 지정한 시간 프레임을 나타내며, y축은 Launch 작업이 Launch queue에 머문 시간(초)을 나타냅니다. 예를 들어, 어느 날 10개의 Launch 작업이 대기열에 있다고 가정해 보겠습니다. 이 10개의 작업이 각각 평균 60초씩 대기했다면 **Queue time** 플롯은 600초로 표시됩니다.
+
+<Note>
+**Queued time** 플롯을 사용하여 긴 대기 시간으로 인해 영향을 받는 Users를 파악하세요.
+</Note>
+
+왼쪽 바의 `Grouping` 컨트롤을 사용하여 각 작업의 색상을 맞춤 설정할 수 있습니다. 이는 어떤 Users와 작업이 부족한 queue 용량으로 인해 어려움을 겪고 있는지 식별하는 데 특히 유용합니다.
+
+### Job runs
+
+<Frame>
+    <img src="/images/launch/launch_obs_jobruns2.png" alt="Job runs timeline"  />
+</Frame>
+
+이 플롯은 특정 기간 동안 실행된 모든 작업의 시작과 종료를 보여주며, 각 Run마다 별도의 색상이 지정됩니다. 이를 통해 특정 시간에 queue가 어떤 워크로드를 처리(processing)하고 있었는지 한눈에 쉽게 확인할 수 있습니다.
+
+패널 오른쪽 하단의 선택 툴을 사용하여 작업을 드래그하면 아래 테이블에 세부 정보가 표시됩니다.
+
+### CPU 및 GPU 사용량
+**GPU use by a job**, **CPU use by a job**, **GPU memory by job**, **System memory by job** 플롯을 사용하여 Launch 작업의 효율성을 확인하세요.
+
+<Frame>
+    <img src="/images/launch/launch_obs_gpu.png" alt="GPU usage metrics"  />
+</Frame>
+
+예를 들어, **GPU memory by job**을 사용하여 W&B Run이 완료되는 데 시간이 오래 걸렸는지, 그리고 CPU 코어 사용률이 낮았는지 여부를 확인할 수 있습니다.
+
+각 플롯의 x축은 Launch 작업에 의해 생성된 W&B Run의 지속 시간(초)을 나타냅니다. 데이터 포인트 위에 마우스를 올리면 Run ID, 해당 Run이 속한 Projects, W&B Run을 생성한 Launch 작업 등 W&B Run에 대한 정보를 볼 수 있습니다.
+
+### Errors
+
+**Errors** 패널은 특정 Launch queue에서 발생한 오류를 보여줍니다. 구체적으로는 오류 발생 타임스탬프, 오류가 발생한 Launch 작업의 이름, 생성된 오류 메시지를 표시합니다. 기본적으로 오류는 최신순으로 정렬됩니다.
+
+<Frame>
+    <img src="/images/launch/launch_obs_errors.png" alt="Error logs panel"  />
+</Frame>
+
+**Errors** 패널을 사용하여 문제를 겪고 있는 Users를 식별하고 차단을 해제하세요.
+
+## 외부 링크
+
+Queue 관측성 대시보드의 뷰는 모든 queue 유형에 대해 일관되게 제공되지만, 많은 경우 환경별 모니터로 직접 이동하는 것이 유용할 수 있습니다. 이를 위해 queue 관측성 대시보드에서 직접 콘솔 링크를 추가할 수 있습니다.
+
+페이지 하단에서 `Manage Links`를 클릭하여 패널을 엽니다. 원하는 페이지의 전체 URL을 추가한 후 라벨을 입력하세요. 추가된 링크는 **External Links** 섹션에 표시됩니다.

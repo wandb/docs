@@ -1,0 +1,32 @@
+---
+title: デプロイメントオプション
+---
+
+このセクションでは、 W&B をデプロイするためのさまざまな方法について説明します。
+
+## W&B Multi-tenant Cloud
+[W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud) は、アップグレード、メンテナンス、プラットフォームのセキュリティ、キャパシティプランニングを含め、 W&B によって完全に管理されます。 Multi-tenant Cloud は、 W&B の Google Cloud アカウント上の [Google Cloud の北米リージョン](https://cloud.google.com/compute/docs/regions-zones) にデプロイされています。 [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) をオプションで使用すると、 W&B Artifacts やその他の関連する機密データを、お客様自身のクラウドまたは オンプレミス の インフラストラクチャー に保存することができます。
+
+[W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud) を参照するか、 [無料で開始](https://app.wandb.ai/login?signup=true) してください。
+
+## W&B Dedicated Cloud
+[W&B Dedicated Cloud](/platform/hosting/#wb-dedicated-cloud) は、エンタープライズ組織を念頭に置いて設計された、 シングルテナント でフルマネージドな プラットフォーム です。 W&B Dedicated Cloud は、 W&B の AWS、 Google Cloud 、または Azure アカウントにデプロイされます。 専用クラウド は、 Multi-tenant Cloud よりも柔軟性が高く、 W&B Self-Managed よりも複雑さを抑えた環境を提供します。アップグレード、メンテナンス、プラットフォームのセキュリティ、およびキャパシティプランニングは W&B によって管理されます。各 Dedicated Cloud インスタンスは、他の W&B Dedicated Cloud インスタンスから隔離されたネットワーク、計算リソース、およびストレージを保持します。
+
+W&B 固有の メタデータ および データ は隔離された クラウド ストレージに保存され、隔離された クラウド コンピューティングサービスを使用して処理されます。 [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) をオプションで使用すると、 Artifacts やその他の関連する機密データを、お客様自身のクラウドまたは オンプレミス の インフラストラクチャー に保存することができます。
+
+W&B Dedicated Cloud には [エンタープライズライセンス](/platform/hosting/hosting-options/self-managed/) が含まれており、重要なセキュリティ機能やその他のエンタープライズ向けの機能をサポートしています。
+
+高度なセキュリティやコンプライアンス要件を持つ組織向けに、 HIPAA 準拠、シングルサインオン、カスタマー管理暗号化キー (CMEK) などの機能が **Enterprise** サポートで利用可能です。 [詳細情報をリクエスト](https://wandb.ai/site/contact) してください。
+
+[W&B Dedicated Cloud](/platform/hosting/#wb-dedicated-cloud) を参照するか、 [無料で開始](https://app.wandb.ai/login?signup=true) してください。
+
+## W&B Self-Managed
+[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/) は、お客様の オンプレミス またはお客様が管理する クラウド インフラストラクチャー 上で、すべてお客様自身によって管理されます。お客様の IT/DevOps/MLOps チームは以下の責任を負います：
+- デプロイメント のプロビジョニング。
+- 組織のポリシーおよび（該当する場合は） [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に従った インフラストラクチャー のセキュリティ保護。
+- アップグレードの管理およびパッチの適用。
+- Self-Managed W&B Server インスタンスの継続的なメンテナンス。
+
+オプションで W&B Self-Managed のエンタープライズライセンスを取得できます。エンタープライズライセンスには、重要なセキュリティ機能やその他のエンタープライズ向けの機能へのサポートが含まれています。
+
+[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/) を参照するか、 [リファレンス アーキテクチャー](/platform/hosting/self-managed/ref-arch/) ガイド をご確認ください。

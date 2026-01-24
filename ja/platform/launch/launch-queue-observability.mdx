@@ -1,0 +1,88 @@
+---
+title: Launch キューの監視
+---
+
+インタラクティブな **Queue monitoring dashboard** を使用すると、 Launch のキューが混雑しているかアイドル状態かを確認したり、実行中のワークロードを可視化したり、非効率なジョブを特定したりできます。Launch キューダッシュボードは、計算ハードウェアや クラウド リソースを効果的に活用できているかを判断する際に特に役立ちます。
+
+より詳細な分析を行うために、このページからは W&B の 実験管理 Workspace や、Datadog、NVIDIA Base Command、クラウド コンソールなどの外部インフラ監視プロバイダーへのリンクが提供されています。
+
+<Note>
+Queue monitoring dashboard は、現在 W&B Multi-tenant Cloud デプロイメントオプションでのみ利用可能です。
+</Note>
+
+## ダッシュボードとプロット
+**Monitor** タブを使用して、過去 7 日間に発生したキューのアクティビティを表示します。左側のパネルを使用して、時間範囲、グループ化、およびフィルターを制御します。
+
+ダッシュボードには、パフォーマンスと効率に関する よくある質問 に答えるための多数のプロットが含まれています。以下のセクションでは、キューダッシュボードの UI 要素について説明します。
+
+### Job status
+**Job status** プロットは、各時間間隔で実行中、保留中、キュー投入済み、または完了したジョブの数を示します。**Job status** プロットを使用して、キューのアイドル期間を特定します。
+
+<Frame>
+    <img src="/images/launch/launch_obs_jobstatus.png" alt="Job status timeline"  />
+</Frame>
+
+例えば、DGX BasePod のような固定リソースがある場合、その固定リソースでアイドル状態のキューが観察されれば、スイープのような優先度の低いプリエンプティブルな Launch ジョブを実行する機会があることを示唆している可能性があります。
+
+一方で、クラウド リソースを使用していて、アクティビティが定期的に急増する場合は、特定の時間にリソースを予約することでコストを削減できる可能性があることを示唆しています。
+
+プロットの右側には、[Launch ジョブのステータス](./launch-view-jobs#check-the-status-of-a-job) を表す色の凡例が表示されます。
+
+<Note>
+`Queued` のアイテムは、ワークロードを他のキューに移動させる機会を示している可能性があります。失敗の急増は、Launch ジョブのセットアップでサポートが必要な Users を特定するのに役立ちます。
+</Note>
+
+### Queued time
+
+**Queued time** プロットは、特定の期間において Launch ジョブがキューに留まっていた時間（秒単位）を示します。
+
+<Frame>
+    <img src="/images/launch/launch_obs_queuedtime.png" alt="Queued time metrics"  />
+</Frame>
+
+x 軸は指定した時間枠を示し、y 軸は Launch ジョブが Launch キューにいた時間（秒単位）を示します。例えば、ある日に 10 個の Launch ジョブがキューに入っていたとします。それら 10 個のジョブが平均して各 60 秒間待機した場合、**Queue time** プロットには 600 秒と表示されます。
+
+<Note>
+**Queued time** プロットを使用して、長い待ち時間の影響を受けている Users を特定します。
+</Note>
+
+左バーの `Grouping` コントロールを使用して、各ジョブの色をカスタマイズできます。
+
+これは、どの Users やジョブがキュー容量不足の影響を強く受けているかを特定するのに特に役立ちます。
+
+### Job runs
+
+<Frame>
+    <img src="/images/launch/launch_obs_jobruns2.png" alt="Job runs timeline"  />
+</Frame>
+
+このプロットは、ある期間内に実行されたすべてのジョブの開始と終了を、各 Runs ごとに異なる色で示します。これにより、特定の時間にキューがどのようなワークロードを プロセッシング していたかを一目で簡単に確認できます。
+
+パネル右下の Select ツールを使用してジョブをなぞる（ブラッシングする）と、下の表に詳細が表示されます。
+
+### CPU および GPU の使用率
+**GPU use by a job**、**CPU use by a job**、**GPU memory by job**、および **System memory by job** を使用して、Launch ジョブの効率を確認します。
+
+<Frame>
+    <img src="/images/launch/launch_obs_gpu.png" alt="GPU usage metrics"  />
+</Frame>
+
+例えば、**GPU memory by job** を使用して、W&B Run の完了に長い時間がかかったかどうか、また CPU コアの使用率が低くなかったかどうかを確認できます。
+
+各プロットの x 軸は、（Launch ジョブによって作成された）W&B Run の継続時間を秒単位で示します。データポイントにマウスを合わせると、Run ID、その Run が属する Projects、その Run を作成した Launch ジョブなどの W&B Run に関する情報を表示できます。
+
+### Errors
+
+**Errors** パネルは、特定の Launch キューで発生したエラーを表示します。具体的には、エラーが発生したタイムスタンプ、エラーの発生元となった Launch ジョブの名前、および生成されたエラーメッセージが表示されます。デフォルトでは、エラーは新しい順に並べられています。
+
+<Frame>
+    <img src="/images/launch/launch_obs_errors.png" alt="Error logs panel"  />
+</Frame>
+
+**Errors** パネルを使用して、Users の問題を特定し、ブロックを解除します。
+
+## 外部リンク
+
+キューの可観測性ダッシュボードのビューはすべてのキュータイプで一貫していますが、多くの場合、環境固有のモニターに直接ジャンプできると便利です。これを実現するには、キューの可観測性ダッシュボードから直接コンソールへのリンクを追加します。
+
+ページの下部にある `Manage Links` をクリックしてパネルを開きます。目的のページのフル URL を追加し、次にラベルを追加します。追加したリンクは **External Links** セクションに表示されます。
