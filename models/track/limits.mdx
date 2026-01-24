@@ -349,17 +349,19 @@ W&B does not assert any limits beyond rate limiting. The W&B Python SDK automati
 
 ## API rate limits
 
-W&B SaaS Cloud API implements a rate limit to maintain system integrity and ensure availability. This measure prevents any single user from monopolizing available resources in the shared infrastructure, ensuring that the service remains accessible to all users. You may encounter a lower rate limit for a variety of reasons.
+W&B applies API rate limits on SaaS Cloud to protect system reliability and ensure fair access across shared infrastructure. Rate limits prevent any single user or project from consuming a disproportionate share of resources. 
+
+W&B returns a `429 Rate limit exceeded` error along with the [relevant HTTP headers](#rate-limit-http-headers) when you exceed rate limits.
+
+Depending on your usage patterns, plan, or request type, you may encounter lower rate limits.
 
 <Note>
 Rate limits are subject to change.
 </Note>
 
-If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers](#rate-limit-http-headers).
-
 ### Rate limit HTTP headers
 
-The preceding table describes rate limit HTTP headers:
+The following table describes the HTTP headers returned when a request is rate limited:
 
 | Header name         | Description                                                                             |
 | ------------------- | --------------------------------------------------------------------------------------- |
@@ -369,45 +371,51 @@ The preceding table describes rate limit HTTP headers:
 
 ### Metric logging API rate limits
 
-`wandb.Run.log()` logs your training data to W&B. This API is engaged through either online or [offline syncing](/models/ref/cli/wandb-sync). In either case, it imposes a rate limit quota limit in a rolling time window. This includes limits on total request size and request rate, where latter refers to the number of requests in a time duration.
+W&B enforces rate limits in a rolling time window when you log metrics using the W&B Python SDK. Rate limits apply to both online logging (using `wandb.init()` and `wandb.Run.log()`) and offline syncing (using the `wandb sync` CLI command). Limits apply to both:
 
-W&B applies rate limits per W&B project. So if you have 3 projects in a team, each project has its own rate limit quota. Users on [Paid plans](https://wandb.ai/site/pricing) have higher rate limits than Free plans.
+* The total size of logged requests
+* The request rate (number of requests per unit time)
 
-If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers](#rate-limit-http-headers).
+W&B applies metric logging rate limits per project. If your team uses multiple projects, each project has its own independent quota. Users on [paid plans](https://wandb.ai/site/pricing) have higher rate limits than Free plans.
 
 #### Suggestions for staying under the metrics logging API rate limit
 
 Exceeding the rate limit may delay `run.finish()` until the rate limit resets. To avoid this, consider the following strategies:
 
-- Update your W&B Python SDK version: Ensure you are using the latest version of the W&B Python SDK. The W&B Python SDK is regularly updated and includes enhanced mechanisms for gracefully retrying requests and optimizing quota usage.
-- Reduce metric logging frequency:
-  Minimize the frequency of logging metrics to conserve your quota. For example, you can modify your code to log metrics every five epochs instead of every epoch:
+- Update your W&B Python SDK version: Use the latest version of the SDK, which includes improvements for request batching, retries, and quota usage.
+- Reduce metric logging frequency: Log metrics less frequently to conserve quota. For example, log metrics every five epochs instead of every epoch:
+    ```python
+    import wandb
+    import random
 
-```python
-import wandb
-import random
+    with wandb.init(project="basic-intro") as run:
+        for epoch in range(10):
+            # Simulate training and evaluation
+            accuracy = 1 - 2 ** -epoch - random.random() / epoch
+            loss = 2 ** -epoch + random.random() / epoch
 
-with wandb.init(project="basic-intro") as run:
-    for epoch in range(10):
-        # Simulate training and evaluation
-        accuracy = 1 - 2 ** -epoch - random.random() / epoch
-        loss = 2 ** -epoch + random.random() / epoch
+            # Log metrics every 5 epochs
+            if epoch % 5 == 0:
+                run.log({"acc": accuracy, "loss": loss})
+    ```
 
-        # Log metrics every 5 epochs
-        if epoch % 5 == 0:
-            run.log({"acc": accuracy, "loss": loss})
-```
-
-- Manual data syncing: W&B store your run data locally if you are rate limited. You can manually sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](/models/ref/cli/wandb-sync) reference.
+- Use manual syncing: W&B stores your run data locally if you hit a rate limit. You can sync your data with the command `wandb sync <run-file-path>`. For more details, see the [`wandb sync`](/models/ref/cli/wandb-sync) reference.
 
 ### GraphQL API rate limits
 
-The W&B Models UI and SDK’s [public API](/models/ref/python/public-api/api) make GraphQL requests to the server for querying and modifying data. For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
+The W&B Models App and [Public API](/models/ref/python/public-api/api) make GraphQL to query and modify data. W&B enforces rate limits for GraphQL requests on SaaS Cloud to protect backend performance.
 
-Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
-When you hit the rate limit while using the W&B Models SDK's public API, you see a relevant message indicating the error in the standard output.
+W&B applies different rate limits based on the type of request:
 
-If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers](#rate-limit-http-headers).
+* Unauthorized requests: Limited per IP address
+* Authorized requests: Limited per user
+* Project-scoped SDK requests (such as reports, runs, or artifacts): Limited per project based on database query time
+
+Your pricing plan determines the default rate limits. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing/) receive higher limits than users on the Free plan.
+
+{/* For all GraphQL requests in SaaS Cloud, W&B applies rate limits per IP address for unauthorized requests and per user for authorized requests. The limit is based on request rate (request per second) within a fixed time window, where your pricing plan determines the default limits. For relevant SDK requests that specify a project path (for example, reports, runs, artifacts), W&B applies rate limits per project, measured by database query time.
+
+{/* If you encounter a rate limit, you receive a HTTP `429` `Rate limit exceeded` error and the response includes [rate limit HTTP headers](#rate-limit-http-headers). */}
 
 #### Suggestions for staying under the GraphQL API rate limit
 
