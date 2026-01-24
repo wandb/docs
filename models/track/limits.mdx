@@ -283,6 +283,8 @@ The following table summarizes recommended guidance for workspace performance:
 | Visualization type | Use workspaces for analysis, reports for presentation | Workspaces are optimized for high-density analysis |
 
 
+The following sections describe each factor in more detail.
+
 ### Run count
 
 To reduce loading times, keep the total number of runs in a single project under:
@@ -403,7 +405,7 @@ Exceeding the rate limit may delay `run.finish()` until the rate limit resets. T
 
 ### GraphQL API rate limits
 
-The W&B Models App and [Public API](/models/ref/python/public-api/api) make GraphQL to query and modify data. W&B enforces rate limits for GraphQL requests on SaaS Cloud to protect backend performance.
+The W&B App and [Public API](/models/ref/python/public-api/api) make GraphQL to query and modify data. W&B enforces rate limits for GraphQL requests on SaaS Cloud to protect backend performance.
 
 W&B applies different rate limits based on the type of request:
 
@@ -419,7 +421,7 @@ Your pricing plan determines the default rate limits. Users on [Teams and Enterp
 
 #### Suggestions for staying under the GraphQL API rate limit
 
-If you are fetching a large volume of data using the W&B Models SDK's [public API](/models/ref/python/public-api/api), consider waiting at least one second between requests. If you receive a HTTP `429` `Rate limit exceeded` error or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying.
+Wait at least one second between requests if you fetch large volumes of data using the W&B Public API. If you receive an HTTP `429` error or see `RateLimit-Remaining=0` in the response headers, wait for the number of seconds specified in `RateLimit-Reset` before retrying the request.
 
 ## Browser considerations
 
