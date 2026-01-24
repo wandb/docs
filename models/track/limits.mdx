@@ -9,12 +9,20 @@ The following sections describe recommended limits and performance consideration
 
 W&B organizes logged data along three dimensions:
 
-* **Steps**: The number of times you call [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log) with `commit=True` (or allow an implicit commit).
+* **Steps**: The number of time steps in a run that you finalize by committing logged data. Each step represents a single time index (such as a training step or epoch) and is finalized when you call `wandb.Run.log()` with `commit=True`, or implicitly when `commit` and `step` are not specified.
 * **Metrics**: The number of distinct metric keys you log (for example, `loss`, `accuracy`, or `eval/precision`).
 * **Logged points**: The total number of metric values recorded, calculated as:
    ```text
    logged points = steps × metrics
    ```
+
+{/* <Info>
+W&B creates a new step when it finalizes the current step. A step is finalized when:
+
+* You call `wandb.Run.log(..., commit=True)`, or
+* You call `wandb.Run.log(...)` without specifying commit and you do not specify step (implicit commit).
+</Info> */}
+
 
 These dimensions [scale differently](/models/track/limits#logging-at-scale) and have different performance considerations.
 
@@ -159,6 +167,10 @@ These limits apply to each metric independently. For example, logging 1,000 scal
 Your workspace performance may degrade if you log too many values for a given metric. For example, logging 1 million histogram values for a single metric can slow down the run page for that run.
 
 To stay within recommended per-metric limits, W&B suggests that you use separate `wandb.Run.log()` calls with `commit=False` to associate less frequent metrics with an existing step without logging them at every step.
+
+<Tip>
+Calling `wandb.Run.log()` multiple times with `commit=False` adds data to the same step without increasing the step count.
+</Tip>
 
 The following example shows how to log different metric types at different frequencies to stay within recommended per-metric limits.
 
