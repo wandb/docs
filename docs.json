@@ -411,6 +411,7 @@
                         "group": "ML Frameworks",
                         "pages": [
                           "models/integrations/keras",
+                          "models/tutorials/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/tensorflow",
@@ -464,7 +465,6 @@
                   {
                     "group": "Framework Tutorials",
                     "pages": [
-                      "models/tutorials/pytorch",
                       "models/tutorials/tensorflow_sweeps",
                       "models/tutorials/xgboost_sweeps"
                     ]
