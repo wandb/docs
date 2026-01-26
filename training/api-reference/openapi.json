@@ -563,6 +563,9 @@
     },
     "/v1/health": {
       "get": {
+        "tags": [
+          "health"
+        ],
         "summary": "Health Check",
         "operationId": "health_check_v1_health_get",
         "responses": {
@@ -579,6 +582,9 @@
     },
     "/v1/system-check": {
       "get": {
+        "tags": [
+          "health"
+        ],
         "summary": "System Check",
         "description": "Check health of all system components.\n\nReturns:\n    JSON with status of:\n    - api: Always true (if endpoint is reachable)\n    - database: Whether DB connection works\n    - cpu_queue: Success, duration, and any errors\n    - gpu_queue: Success, duration, and any errors\n\nReturns HTTP 503 if any checks fail.",
         "operationId": "system_check_v1_system_check_get",
