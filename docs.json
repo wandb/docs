@@ -420,11 +420,13 @@
                       {
                         "group": "ML Libraries",
                         "pages": [
+                          "/models/integrations/accelerate",
                           "models/integrations/diffusers",
                           "models/integrations/simpletransformers",
                           "models/integrations/huggingface",
                           "models/integrations/openai-gym",
-                          "models/integrations/pytorch-geometric"
+                          "models/integrations/pytorch-geometric",
+                          "models/integrations/stable-baselines-3"
                         ]
                       }
                     ]
@@ -440,8 +442,10 @@
                   {
                     "group": "Other",
                     "pages": [
+                      "models/integrations/hydra",
                       "models/integrations/yolox",
-                      "models/integrations/yolov5"
+                      "models/integrations/yolov5",
+                      "models/integrations/ultralytics"
                     ]
                   }
                 ]
@@ -460,6 +464,7 @@
                   {
                     "group": "Framework Tutorials",
                     "pages": [
+                      "models/tutorials/pytorch",
                       "models/tutorials/tensorflow_sweeps",
                       "models/tutorials/xgboost_sweeps"
                     ]
