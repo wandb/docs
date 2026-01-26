@@ -3,6 +3,8 @@ description: Visualize metrics, customize axes, and compare multiple lines on a 
 title: Line plots overview
 ---
 
+import LinePlotCaptureGroups from "/snippets/en/_includes/line-plot-capture-groups.mdx";
+
 Line plots display by default for metrics logged with `wandb.Run.log()` over time. You can customize a line plot to compare multiple lines, calculate custom axes, and rename labels.
 
 <Frame>
@@ -46,9 +48,41 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), a sing
 
     To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
 1. Click **Quick panel builder**, then click the **Multi-metric panels** tab.
-1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. The plot will include lines for all metrics that match the expression, including metrics logged in the future. As you type, the UI updates to show which metrics match the expression.
+1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. The plot name will show the regular expression the plot uses, and the plot will include lines for all metrics that match the expression, including metrics logged in the future. As you type, the UI updates to show which metrics match the expression.
 1. To optionally remove duplicate single-metric panels when the multi-metric plot is created, toggle **Clean up auto-generated panels**. A preview shows which panels will be cleaned up. <Note>When this option is turned on, a single-metric plot will not be created for a newly logged metric that matches the expression. Instead, it will be included only in this multi-metric plot.</Note>
 1. Click **Create &lt;number&gt; panels**.
+
+### More about multi-metric regular expressions
+
+Multi-metric line plots use [JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) to match metric names. These section demonstrate some common use cases and gives more details about how the regular expressions work, such as how capture groups affect the panels that are created.
+
+#### Common use cases
+This section shows some ways you can use multi-metric panels to help you analyze your experiment results.
+
+**Compare metrics across layers or model components**
+Instead of creating separate panels for each layer's metrics, you can view them together in a single panel. For example, if you log metrics with consistent naming, like `layer_0_loss`, `layer_1_loss`, and `layer_2_loss` in this Python example code, you can use the regex `layer_\d+_loss` to display all layer losses on one plot.
+```python
+with wandb.init(project="multi-layer-model") as run:
+    for step in range(100):
+        run.log({
+            "layer_0_loss": loss_0,
+            "layer_1_loss": loss_1,
+            "layer_2_loss": loss_2,
+            "step": step
+        })
+    ```
+
+**Group related metrics by prefix or suffix**
+Match all metrics that share a common naming pattern. For example:
+- `train_.*` matches all training metrics like `train_loss`, `train_accuracy`, `train_f1_score`
+- `.*_accuracy` matches accuracy metrics across different datasets like `train_accuracy`, `val_accuracy`, `test_accuracy`
+
+**Match specific metric variations**
+Use alternation to match only the metrics you want. For example, `(layer_0|layer_10)_loss` matches just the first and tenth layer losses, excluding intermediate layers.
+
+#### Understanding capture groups
+<LinePlotCaptureGroups/>
+
 </Tab>
 </Tabs>
 
