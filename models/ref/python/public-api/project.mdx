@@ -20,7 +20,7 @@ __init__(
     client: 'RetryingClient',
     entity: 'str',
     project: 'str',
-    attrs: 'dict'
+    attrs: 'Mapping[str, Any]'
 ) → Project
 ```
 
@@ -57,6 +57,10 @@ A single project associated with an entity.
 
 Returns the path of the project. The path is a list containing the entity and project name. 
 
+
+
+**Returns:**
+ - `list[str]`: The path property value.
 ---
 
 ### <kbd>property</kbd> Project.url
@@ -65,12 +69,16 @@ Returns the URL of the project.
 
 
 
+
+
+**Returns:**
+ - `str`: The url property value.
 ---
 
 ### <kbd>method</kbd> `Project.artifacts_types`
 
 ```python
-artifacts_types(per_page=50)
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
 Returns all artifact types associated with this project. 
@@ -80,7 +88,7 @@ Returns all artifact types associated with this project.
 ### <kbd>method</kbd> `Project.sweeps`
 
 ```python
-sweeps(per_page=50)
+sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
 Return a paginated collection of sweeps in this project. 

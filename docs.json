@@ -766,48 +766,38 @@
                 "pages": [
                   "weave/quickstart",
                   "weave/tutorial-eval",
-                  "weave/tutorial-rag",
-                  "weave/quickstart-inference"
+                  "weave/tutorial-rag"
+                ]
+              },
+              {
+                "group": "Concepts",
+                "pages": [
+                  "weave/concepts/what-is-weave",
+                  "weave/concepts/fundamental-components"
                 ]
               },
               {
                 "group": "Guides",
                 "pages": [
                   {
-                    "group": "Iteration",
+                    "group": "Track your application",
                     "pages": [
+                      "weave/guides/tracking",
+                      "weave/guides/tracking/tracing",
                       "weave/tutorial-tracing_2",
-                      {
-                        "group": "Tracing & Debugging",
-                        "pages": [
-                          "weave/guides/tracking",
-                          "weave/guides/tracking/tracing",
-                          "weave/guides/tracking/costs",
-                          "weave/guides/core-types/media",
-                          "weave/guides/tools/saved-views",
-                          "weave/guides/tools/comparison",
-                          "weave/guides/tracking/trace-tree",
-                          "weave/guides/tracking/threads",
-                          "weave/guides/tracking/trace-plots",
-                          "weave/guides/tracking/otel",
-                          "weave/guides/tools/attributes",
-                          "weave/guides/tools/weave-in-workspaces"
-                        ]
-                      },
-                      {
-                        "group": "Version Control for Models & Prompts",
-                        "pages": [
-                          "weave/tutorial-weave_models",
-                          "weave/guides/core-types/models",
-                          "weave/guides/core-types/prompts",
-                          "weave/guides/tracking/objects",
-                          "weave/guides/tracking/ops"
-                        ]
-                      }
+                      "weave/guides/tracking/costs",
+                      "weave/guides/core-types/media",
+                      "weave/guides/tools/saved-views",
+                      "weave/guides/tools/comparison",
+                      "weave/guides/tracking/trace-tree",
+                      "weave/guides/tracking/threads",
+                      "weave/guides/tracking/trace-plots",
+                      "weave/guides/tools/attributes",
+                      "weave/guides/tools/weave-in-workspaces"
                     ]
                   },
                   {
-                    "group": "Evaluation",
+                    "group": "Evaluate your application",
                     "pages": [
                       "weave/guides/core-types/evaluations",
                       "weave/guides/core-types/datasets",
@@ -822,32 +812,34 @@
                     ]
                   },
                   {
-                    "group": "Productionization",
+                    "group": "Experiment with prompts and models",
                     "pages": [
-                      {
-                        "group": "Collect Feedback & Examples",
-                        "pages": [
-                          "weave/guides/tracking/feedback",
-                          "weave/guides/tracking/redact-pii"
-                        ]
-                      },
-                      {
-                        "group": "Online Evaluation",
-                        "pages": [
-                          "weave/guides/evaluation/guardrails_and_monitors"
-                        ]
-                      },
-                      {
-                        "group": "Tools & Utilities",
-                        "pages": [
-                          "weave/guides/tools/playground",
-                          "weave/guides/tools/evaluation_playground"
-                        ]
-                      }
+                      "weave/guides/tools/playground",
+                      "weave/guides/tools/evaluation_playground",
+                      "weave/quickstart-inference"
                     ]
                   },
                   {
-                    "group": "Integrations",
+                    "group": "Version your work",
+                    "pages": [
+                      "weave/tutorial-weave_models",
+                      "weave/guides/core-types/models",
+                      "weave/guides/core-types/prompts",
+                      "weave/guides/tracking/objects",
+                      "weave/guides/tracking/ops"
+                    ]
+                  },
+                  {
+                    "group": "Monitor and collect feedback",
+                    "pages": [
+                          "weave/guides/tracking/feedback",
+                          "weave/guides/tracking/redact-pii",
+                          "weave/guides/evaluation/guardrails_and_monitors",
+                          "weave/guides/tracking/otel"
+                    ]
+                  },
+                  {
+                    "group": "Integrate with your LLM provider and frameworks",
                     "pages": [
                       "weave/guides/integrations",
                       {
@@ -899,21 +891,13 @@
                     ]
                   },
                   {
-                    "group": "Enterprise",
+                    "group": "Deploy and scale",
                     "pages": [
                       "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
-                  {
-                    "group": "Tools & Resources",
-                    "pages": [
-                      "weave/guides/core-types/env-vars",
-                      "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs",
-                      "weave/guides/tools/limits"
-                    ]
-                  }
+                  "weave/guides/core-types/env-vars"
                 ]
               },
               {
@@ -921,7 +905,7 @@
                 "pages": [
                   "weave/cookbooks",
                   {
-                    "group": "Getting Started",
+                    "group": "Weave fundamentals",
                     "pages": [
                       "weave/cookbooks/Intro_to_Weave_Hello_Trace",
                       "weave/cookbooks/Intro_to_Weave_Hello_Eval"
@@ -1062,6 +1046,15 @@
                       "directory": "weave/reference/service-api"
                     }
                   }
+                ]
+              },
+              {
+                "group": "Details & Support",
+                "pages": [
+                  "pricing",
+                  "weave/details/limits",
+                  "weave/guides/troubleshooting",
+                  "weave/details/faqs"
                 ]
               },
               {
@@ -2629,6 +2622,14 @@
     {
       "source": "/weave/reference/gen_notebooks/intro_notebook",
       "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/guides/tracking/faqs",
+      "destination": "weave/details/faqs"
+    },
+    {
+      "source": "/weave/guides/tools/limits",
+      "destination": "/weave/details/limits"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
