@@ -169,7 +169,7 @@ For example:
 - Match all metrics that share a common naming pattern. For example:
     - `train_.*` matches all training metrics like `train_loss`, `train_accuracy`, `train_f1_score`
     - `.*_accuracy` matches accuracy metrics across different datasets like `train_accuracy`, `val_accuracy`, `test_accuracy`
-- Use alternation to match only the metrics you want. For example, `(layer_0|layer_10)_loss` matches just the first and tenth layer losses, excluding intermediate layers.
+- Use alternation to match only the metrics you want. For example, the non-capture group `(?:layer_0|layer_10)_loss` matches only the first and tenth layer losses, excluding intermediate layers.
 
 #### Capture groups
 <LinePlotCaptureGroups/>
