@@ -165,6 +165,23 @@ def fix_code_fence_indentation(text: str) -> str:
     return "\n".join(result_lines)
 
 
+def convert_source_badges_to_buttons(content: str) -> str:
+    """Convert shields.io source badge images to SourceLink components.
+    
+    This avoids Mintlify's image lightbox from triggering when clicking source links.
+    
+    Converts:
+        <a href="..."><img ... src="...badge/-source..." ></a>
+    To:
+        <SourceLink url="..." />
+    """
+    # Pattern matches both self-closing (/>) and non-self-closing (>) img tags
+    # lazydocs generates non-self-closing tags: <img ... >
+    pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/?>\s*</a>'
+    replacement = r'<SourceLink url="\1" />'
+    return re.sub(pattern, replacement, content)
+
+
 def convert_docusaurus_to_mintlify(content: str, module_name: str) -> str:
     """Convert Docusaurus markdown to Mintlify MDX format."""
     # Remove the sidebar_label frontmatter (Mintlify uses title)
@@ -190,6 +207,8 @@ title: "{title}"
 description: "Python SDK reference for {module_name}"
 ---
 
+import {{ SourceLink }} from '/snippets/en/_includes/source-link.mdx';
+
 """
         content = frontmatter + content
     
@@ -199,7 +218,7 @@ description: "Python SDK reference for {module_name}"
 def generate_module_docs(module, module_name: str, src_root_path: str, version: str = "master") -> str:
     """Generate documentation for a single module."""
     # Use the specific version tag for source links
-    src_url = f"https://github.com/wandb/weave/blob/{version}"
+    src_url = f"https://github.com/wandb/weave/blob/v{version}"
     if version == "latest":
         src_url = "https://github.com/wandb/weave/blob/master"
     
@@ -230,7 +249,10 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
                 continue
             
             obj = getattr(module, name)
-            if hasattr(obj, "__module__") and obj.__module__ != module_name:
+            
+            # For the root "weave" module, include re-exported items from submodules
+            # Otherwise, only include items that belong to this specific module
+            if module_name != "weave" and hasattr(obj, "__module__") and obj.__module__ != module_name:
                 continue
             
             sections.append(process_object(obj, generator, module_name))
@@ -254,6 +276,16 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
     # Fix unclosed <b> tags that break MDX parsing
     # Remove <b>` at the start of lines that don't have a closing </b>
     content = re.sub(r'^- <b>`([^`\n]*?)$', r'- \1', content, flags=re.MULTILINE)
+    
+    # Remove malformed table separators that lazydocs sometimes generates
+    # These appear as standalone lines with just dashes (------) which break markdown parsing
+    content = re.sub(r'\n\s*------+\s*\n', '\n\n', content)
+    
+    # Fix lazydocs bug: inline code fences in Examples sections
+    # lazydocs incorrectly wraps text after colons (like "Basic usage:") with inline backticks
+    # Pattern: " text: ``` code```" should be "text:\n```python\ncode"
+    # This happens when lazydocs misapplies _RE_ARGSTART in Examples sections
+    content = re.sub(r'^ ([\w\s]+): ``` (.*?)```\n(    >>> )', r' \1:\n\n```python\n\2\n\3', content, flags=re.MULTILINE)
     
     # Fix parameter lists that have been broken by lazydocs
     # Strategy: Parse all parameters into a structured format, then reconstruct them properly
@@ -357,6 +389,9 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
         return '\n'.join(fixed_lines)
     
     content = fix_parameter_lists(content)
+    
+    # Convert source badge images to text buttons (avoids Mintlify lightbox issue)
+    content = convert_source_badges_to_buttons(content)
     
     # Convert to Mintlify format
     content = convert_docusaurus_to_mintlify(content, module_name)

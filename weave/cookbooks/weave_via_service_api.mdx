@@ -35,7 +35,7 @@ Additionally, you must set the following variables:
 
 - `project_id`: The name of the W&B project that you want to log your traces to.
 - `team_id`: Your W&B team name.
-- `wandb_token`: Your [W&B authorization token](https://wandb.ai/authorize).
+- `wandb_token`: Your [W&B API key](https://wandb.ai/settings).
 
 ```python lines
 import datetime
@@ -153,9 +153,9 @@ else:
 ## Complex trace
 The following sections walk you through creating a more complex trace with child spans, similar to a mult-operation RAG lookup.
 
-1. [Start a complex trace](#complex-trace)
-2. [Add a child span: RAG document lookup](#add-a-child-span-to-a-complex-trace-rag-document-lookup)
-3. [Add a child span: LLM completion call](#add-a-child-span-to-a-complex-trace-llm-completion-call)
+1. [Start a complex trace](#start-a-complex-trace)
+2. [Add a child span for a RAG document lookup](#add-a-child-span-for-a-rag-document-lookup)
+3. [Add a child span for an LLM completion call](#add-a-child-span-for-an-llm-completion-call)
 4. [End a complex trace](#end-a-complex-trace)
 
 ### Start a complex trace 
@@ -197,9 +197,9 @@ else:
     exit()
 ```
 
-### Add a child span to a complex trace: RAG document lookup
+### Add a child span for a RAG document lookup
 
-The following code demonstrates how to add a child span to the parent trace started in the previous step. This step models a the RAG document lookup sub-operation in the overarching workflow.
+The following code demonstrates how to add a child span to the complex parent trace started in the previous step. This step models a the RAG document lookup sub-operation in the overarching workflow.
 
 The child trace is initiated with the `payload_child_start` object, which includes:
 - `trace_id`: Links this child span to the parent trace.
@@ -266,9 +266,9 @@ else:
     print(response.text)
 ```
 
-### Add a child span to a complex trace: LLM completion call
+### Add a child span for an LLM completion call
 
-The following code demonstrates how to add another child span to the parent trace, representing an LLM completion call. This step models the AI's response generation based on document context retrieved in the previous RAG operation.
+The following code demonstrates how to add another child span to the complex parent trace, representing an LLM completion call. This step models the AI's response generation based on document context retrieved in the previous RAG operation.
 
 The LLM completion trace is initiated with the `payload_child_start` object, which includes:
 - `trace_id`: Links this child span to the parent trace.

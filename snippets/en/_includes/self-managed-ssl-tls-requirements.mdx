@@ -1,0 +1,8 @@
+W&B requires a valid signed SSL/TLS certificate for secure communication between clients and the server. SSL/TLS termination must occur on the ingress/load balancer. The W&B Server application does not terminate SSL or TLS connections.
+
+**Important**: W&B does not support self-signed certificates and custom CAs. Using self-signed certificates will cause challenges for users and is not supported.
+
+If possible, using a service like [Let's Encrypt](https://letsencrypt.org) is a great way to provide trusted certificates to your load balancer. Services like Caddy and Cloudflare manage SSL for you.
+
+If your security policies require SSL communication within your trusted networks, consider using a tool like Istio and [side car containers](https://istio.io/latest/docs/reference/config/networking/sidecar/).
+

@@ -23,7 +23,8 @@ __init__(
     run_id: 'str',
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
-    lazy: 'bool' = True
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
 )
 ```
 
@@ -56,7 +57,7 @@ __init__(
  - `path` (str):  Unique identifier [entity]/[project]/[run_id] 
  - `notes` (str):  Notes about the run 
  - `read_only` (boolean):  Whether the run is editable 
- - `history_keys` (str):  Keys of the history metrics that have been logged with `wandb.log({"key":  "value"})` 
+ - `history_keys` (str):  History metric keys logged with `wandb.Run.log({"key": "value"})` 
  - `metadata` (str):  Metadata about the run from wandb-metadata.json 
 
 
@@ -71,18 +72,30 @@ Run is always initialized by calling api.runs() where api is an instance of wand
 
 Get run config. Auto-loads full data if in lazy mode. 
 
+
+
+**Returns:**
+ - `dict[str, Any]`: The config property value.
 ---
 
 ### <kbd>property</kbd> Run.entity
 
 The entity associated with the run. 
 
+
+
+**Returns:**
+ - `str`: The entity property value.
 ---
 
 ### <kbd>property</kbd> Run.id
 
 The unique identifier for the run. 
 
+
+
+**Returns:**
+ - `str`: The id property value.
 ---
 
 
@@ -90,6 +103,10 @@ The unique identifier for the run.
 
 Returns the last step logged in the run's history. 
 
+
+
+**Returns:**
+ - `int`: The lastHistoryStep property value.
 ---
 
 ### <kbd>property</kbd> Run.metadata
@@ -98,60 +115,100 @@ Metadata about the run from wandb-metadata.json.
 
 Metadata includes the run's description, tags, start time, memory usage and more. 
 
+
+
+**Returns:**
+ - `dict[str, Any] | None`: The metadata property value.
 ---
 
 ### <kbd>property</kbd> Run.name
 
 The name of the run. 
 
+
+
+**Returns:**
+ - `str | None`: The name property value.
 ---
 
 ### <kbd>property</kbd> Run.path
 
 The path of the run. The path is a list containing the entity, project, and run_id. 
 
+
+
+**Returns:**
+ - `list[str]`: The path property value.
 ---
 
 ### <kbd>property</kbd> Run.rawconfig
 
 Get raw run config including internal keys. Auto-loads full data if in lazy mode. 
 
+
+
+**Returns:**
+ - `dict[str, Any]`: The rawconfig property value.
 ---
 
 ### <kbd>property</kbd> Run.state
 
 The state of the run. Can be one of: Finished, Failed, Crashed, or Running. 
 
+
+
+**Returns:**
+ - `str`: The state property value.
 ---
 
 ### <kbd>property</kbd> Run.storage_id
 
 The unique storage identifier for the run. 
 
+
+
+**Returns:**
+ - `str`: The storage_id property value.
 ---
 
 ### <kbd>property</kbd> Run.summary
 
 Get run summary metrics. Auto-loads full data if in lazy mode. 
 
+
+
+**Returns:**
+ - `HTTPSummary`: The summary property value.
 ---
 
 ### <kbd>property</kbd> Run.summary_metrics
 
 Get run summary metrics. Auto-loads full data if in lazy mode. 
 
+
+
+**Returns:**
+ - `dict[str, Any]`: The summary_metrics property value.
 ---
 
 ### <kbd>property</kbd> Run.sweep_name
 
 Get sweep name. Always available since sweepName is in lightweight fragment. 
 
+
+
+**Returns:**
+ - `str | None`: The sweep_name property value.
 ---
 
 ### <kbd>property</kbd> Run.system_metrics
 
 Get run system metrics. Auto-loads full data if in lazy mode. 
 
+
+
+**Returns:**
+ - `dict[str, Any]`: The system_metrics property value.
 ---
 
 ### <kbd>property</kbd> Run.url
@@ -160,6 +217,10 @@ The URL of the run.
 
 The run URL is generated from the entity, project, and run_id. For SaaS users, it takes the form of `https://wandb.ai/entity/project/run_id`. 
 
+
+
+**Returns:**
+ - `str`: The url property value.
 ---
 
 ### <kbd>property</kbd> Run.username
@@ -167,6 +228,43 @@ The run URL is generated from the entity, project, and run_id. For SaaS users, i
 This API is deprecated. Use `entity` instead. 
 
 
+
+
+
+**Returns:**
+ - `str`: The username property value.
+---
+
+### <kbd>method</kbd> `Run.beta_scan_history`
+
+```python
+beta_scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.BetaHistoryScan
+```
+
+Returns an iterable collection of all history records for a run. 
+
+This function is still in development and may not work as expected. It uses wandb-core to read history from a run's exported parquet history locally. 
+
+
+
+**Args:**
+ 
+ - `keys`:  list of metrics to read from the run's history.  if no keys are provided then all metrics will be returned. 
+ - `page_size`:  the number of history records to read at a time. 
+ - `min_step`:  The minimum step to start reading history from (inclusive). 
+ - `max_step`:  The maximum step to read history up to (exclusive). 
+ - `use_cache`:  When set to True, checks the WANDB_CACHE_DIR for a run history.  If the run history is not found in the cache, it will be downloaded from the server.  If set to False, the run history will be downloaded every time. 
+
+
+
+**Returns:**
+ A BetaHistoryScan object, which can be iterator over to get history records. 
 
 ---
 
@@ -179,7 +277,7 @@ create(
     project: 'str | None' = None,
     entity: 'str | None' = None,
     state: "Literal['running', 'pending']" = 'running'
-)
+) → Self
 ```
 
 Create a run for the given project. 
@@ -189,7 +287,7 @@ Create a run for the given project.
 ### <kbd>method</kbd> `Run.delete`
 
 ```python
-delete(delete_artifacts=False)
+delete(delete_artifacts: 'bool' = False) → None
 ```
 
 Delete the given run from the wandb backend. 
@@ -205,7 +303,7 @@ Delete the given run from the wandb backend.
 ### <kbd>method</kbd> `Run.file`
 
 ```python
-file(name)
+file(name: 'str') → public.File
 ```
 
 Return the path of a file with a given name in the artifact. 
@@ -230,7 +328,7 @@ files(
     names: 'list[str] | None' = None,
     pattern: 'str | None' = None,
     per_page: 'int' = 50
-)
+) → public.Files
 ```
 
 Returns a `Files` object for all files in the run which match the given criteria. 
@@ -255,7 +353,13 @@ You can specify a list of exact file names to match, or a pattern to match again
 ### <kbd>method</kbd> `Run.history`
 
 ```python
-history(samples=500, keys=None, x_axis='_step', pandas=True, stream='default')
+history(
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    pandas: 'bool' = True,
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame
 ```
 
 Return sampled history metrics for a run. 
@@ -284,7 +388,7 @@ This is simpler and faster if you are ok with the history records being sampled.
 ### <kbd>method</kbd> `Run.load`
 
 ```python
-load(force=False)
+load(force: 'bool' = False) → dict[str, Any]
 ```
 
 Load run data using appropriate fragment based on lazy mode. 
@@ -321,7 +425,7 @@ log_artifact(
     artifact: 'wandb.Artifact',
     aliases: 'Collection[str] | None' = None,
     tags: 'Collection[str] | None' = None
-)
+) → wandb.Artifact
 ```
 
 Declare an artifact as output of a run. 
@@ -391,7 +495,7 @@ for logged_artifact in finished_run.logged_artifacts():
 ### <kbd>method</kbd> `Run.save`
 
 ```python
-save()
+save() → None
 ```
 
 Persist changes to the run object to the W&B backend. 
@@ -401,7 +505,12 @@ Persist changes to the run object to the W&B backend.
 ### <kbd>method</kbd> `Run.scan_history`
 
 ```python
-scan_history(keys=None, page_size=1000, min_step=None, max_step=None)
+scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int | None' = None,
+    max_step: 'int | None' = None
+) → Iterator[dict[str, Any]]
 ```
 
 Returns an iterable collection of all history records for a run. 
@@ -436,7 +545,7 @@ losses = [row["Loss"] for row in history]
 ### <kbd>method</kbd> `Run.to_html`
 
 ```python
-to_html(height=420, hidden=False)
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
 Generate HTML containing an iframe displaying this run. 
@@ -446,7 +555,7 @@ Generate HTML containing an iframe displaying this run.
 ### <kbd>method</kbd> `Run.update`
 
 ```python
-update()
+update() → None
 ```
 
 Persist changes to the run object to the wandb backend. 
@@ -456,7 +565,7 @@ Persist changes to the run object to the wandb backend.
 ### <kbd>method</kbd> `Run.upload_file`
 
 ```python
-upload_file(path, root='.')
+upload_file(path: 'str', root: 'str' = '.') → public.File
 ```
 
 Upload a local file to W&B, associating it with this run. 
@@ -478,7 +587,10 @@ Upload a local file to W&B, associating it with this run.
 ### <kbd>method</kbd> `Run.use_artifact`
 
 ```python
-use_artifact(artifact, use_as=None)
+use_artifact(
+    artifact: 'wandb.Artifact',
+    use_as: 'str | None' = None
+) → wandb.Artifact
 ```
 
 Declare an artifact as an input to a run. 
@@ -540,7 +652,7 @@ test_artifact
 ### <kbd>method</kbd> `Run.wait_until_finished`
 
 ```python
-wait_until_finished()
+wait_until_finished() → None
 ```
 
 Check the state of the run until it is finished. 

@@ -113,8 +113,7 @@
                       "platform/app/settings-page/emails",
                       "platform/app/settings-page/teams",
                       "platform/secrets",
-                      "platform/app/settings-page/storage",
-                      "platform/app/settings-page/anon"
+                      "platform/app/settings-page/storage"
                     ]
                   },
                   {
@@ -152,7 +151,8 @@
                       "platform/hosting/data-security/private-connectivity",
                       "platform/hosting/data-security/data-encryption"
                     ]
-                  }
+                  },
+                  "platform/hosting/env-vars"
                 ]
               },
               {
@@ -197,15 +197,23 @@
                         "group": "What are runs?",
                         "pages": [
                           "models/runs",
-                          "models/runs/tags",
-                          "models/runs/multiple-runs-per-process",
-                          "models/runs/run-colors",
-                          "models/runs/filter-runs",
+                          "models/runs/run-identifiers",
+                          "models/runs/initialize-run",
+                          "models/runs/run-states",
+                          "models/runs/view-logged-runs",
+                          "models/runs/customize-run-display",
                           "models/runs/forking",
-                          "models/runs/grouping",
-                          "models/runs/manage-runs",
                           "models/runs/resuming",
                           "models/runs/rewind",
+                          "models/runs/compare-runs",
+                          "models/runs/grouping",
+                          "models/runs/filter-runs",
+                          "models/runs/search-runs",
+                          "models/runs/stop-runs",
+                          "models/runs/delete-runs",
+                          "models/runs/tags",
+                          "models/runs/manage-runs",
+                          "models/runs/run-colors",
                           "models/runs/color-code-runs",
                           "models/runs/alert"
                         ]
@@ -332,6 +340,7 @@
                           "models/automations/create-automations/webhook"
                         ]
                       },
+                      "models/automations/view-automation-history",
                       "models/automations/automation-events"
                     ]
                   },
@@ -472,6 +481,16 @@
                   {
                     "group": "Python",
                     "pages": [
+                      {
+                        "group": "SDK Coding Cheat Sheet",
+                        "pages": [
+                          "models/ref/sdk-coding-cheat-sheet",
+                          "models/ref/sdk-coding-cheat-sheet/runs",
+                          "models/ref/sdk-coding-cheat-sheet/logging",
+                          "models/ref/sdk-coding-cheat-sheet/artifacts",
+                          "models/ref/sdk-coding-cheat-sheet/registry"
+                        ]
+                      },
                       "models/ref/python",
                       {
                         "group": "Global Functions",
@@ -521,12 +540,15 @@
                           "models/ref/python/automations/automation",
                           "models/ref/python/automations/donothing",
                           "models/ref/python/automations/metricchangefilter",
+                          "models/ref/python/automations/metriczscorefilter",
                           "models/ref/python/automations/metricthresholdfilter",
                           "models/ref/python/automations/newautomation",
                           "models/ref/python/automations/onaddartifactalias",
                           "models/ref/python/automations/oncreateartifact",
                           "models/ref/python/automations/onlinkartifact",
                           "models/ref/python/automations/onrunmetric",
+                          "models/ref/python/automations/onrunstate",
+                          "models/ref/python/automations/runstatefilter",
                           "models/ref/python/automations/sendnotification",
                           "models/ref/python/automations/sendwebhook"
                         ]
@@ -691,46 +713,43 @@
             "icon": "/icons/cropped-weave.svg",
             "pages": [
               "weave",
-              "weave/quickstart",
-              "weave/quickstart-inference",
+              {
+                "group": "Get Started",
+                "pages": [
+                  "weave/quickstart",
+                  "weave/tutorial-eval",
+                  "weave/tutorial-rag"
+                ]
+              },
+              {
+                "group": "Concepts",
+                "pages": [
+                  "weave/concepts/what-is-weave",
+                  "weave/concepts/fundamental-components"
+                ]
+              },
               {
                 "group": "Guides",
                 "pages": [
                   {
-                    "group": "Iteration",
+                    "group": "Track your application",
                     "pages": [
+                      "weave/guides/tracking",
+                      "weave/guides/tracking/tracing",
                       "weave/tutorial-tracing_2",
-                      {
-                        "group": "Tracing & Debugging",
-                        "pages": [
-                          "weave/guides/tracking",
-                          "weave/guides/tracking/tracing",
-                          "weave/guides/tracking/costs",
-                          "weave/guides/core-types/media",
-                          "weave/guides/tools/saved-views",
-                          "weave/guides/tools/comparison",
-                          "weave/guides/tracking/trace-tree",
-                          "weave/guides/tracking/threads",
-                          "weave/guides/tracking/trace-plots",
-                          "weave/guides/tracking/otel",
-                          "weave/guides/tools/attributes",
-                          "weave/guides/tools/weave-in-workspaces"
-                        ]
-                      },
-                      {
-                        "group": "Version Control for Models & Prompts",
-                        "pages": [
-                          "weave/tutorial-weave_models",
-                          "weave/guides/core-types/models",
-                          "weave/guides/core-types/prompts",
-                          "weave/guides/tracking/objects",
-                          "weave/guides/tracking/ops"
-                        ]
-                      }
+                      "weave/guides/tracking/costs",
+                      "weave/guides/core-types/media",
+                      "weave/guides/tools/saved-views",
+                      "weave/guides/tools/comparison",
+                      "weave/guides/tracking/trace-tree",
+                      "weave/guides/tracking/threads",
+                      "weave/guides/tracking/trace-plots",
+                      "weave/guides/tools/attributes",
+                      "weave/guides/tools/weave-in-workspaces"
                     ]
                   },
                   {
-                    "group": "Evaluation",
+                    "group": "Evaluate your application",
                     "pages": [
                       "weave/guides/core-types/evaluations",
                       "weave/guides/core-types/datasets",
@@ -740,37 +759,39 @@
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
                       "weave/guides/tools/attributes",
-                      "weave/tutorial-eval",
-                      "weave/tutorial-rag"
+                      "weave/guides/tools/column-mapping",
+                      "weave/guides/evaluation/dynamic_leaderboards"
                     ]
                   },
                   {
-                    "group": "Productionization",
+                    "group": "Experiment with prompts and models",
                     "pages": [
-                      {
-                        "group": "Collect Feedback & Examples",
-                        "pages": [
-                          "weave/guides/tracking/feedback",
-                          "weave/guides/tracking/redact-pii"
-                        ]
-                      },
-                      {
-                        "group": "Online Evaluation",
-                        "pages": [
-                          "weave/guides/evaluation/guardrails_and_monitors"
-                        ]
-                      },
-                      {
-                        "group": "Tools & Utilities",
-                        "pages": [
-                          "weave/guides/tools/playground",
-                          "weave/guides/tools/evaluation_playground"
-                        ]
-                      }
+                      "weave/guides/tools/playground",
+                      "weave/guides/tools/evaluation_playground",
+                      "weave/quickstart-inference"
                     ]
                   },
                   {
-                    "group": "Integrations",
+                    "group": "Version your work",
+                    "pages": [
+                      "weave/tutorial-weave_models",
+                      "weave/guides/core-types/models",
+                      "weave/guides/core-types/prompts",
+                      "weave/guides/tracking/objects",
+                      "weave/guides/tracking/ops"
+                    ]
+                  },
+                  {
+                    "group": "Monitor and collect feedback",
+                    "pages": [
+                          "weave/guides/tracking/feedback",
+                          "weave/guides/tracking/redact-pii",
+                          "weave/guides/evaluation/guardrails_and_monitors",
+                          "weave/guides/tracking/otel"
+                    ]
+                  },
+                  {
+                    "group": "Integrate with your LLM provider and frameworks",
                     "pages": [
                       "weave/guides/integrations",
                       {
@@ -822,21 +843,13 @@
                     ]
                   },
                   {
-                    "group": "Enterprise",
+                    "group": "Deploy and scale",
                     "pages": [
                       "weave/guides/platform",
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
-                  {
-                    "group": "Tools & Resources",
-                    "pages": [
-                      "weave/guides/core-types/env-vars",
-                      "weave/guides/troubleshooting",
-                      "weave/guides/tracking/faqs",
-                      "weave/guides/tools/limits"
-                    ]
-                  }
+                  "weave/guides/core-types/env-vars"
                 ]
               },
               {
@@ -844,7 +857,7 @@
                 "pages": [
                   "weave/cookbooks",
                   {
-                    "group": "Getting Started",
+                    "group": "Weave fundamentals",
                     "pages": [
                       "weave/cookbooks/Intro_to_Weave_Hello_Trace",
                       "weave/cookbooks/Intro_to_Weave_Hello_Eval"
@@ -932,14 +945,15 @@
                       {
                         "group": "Classes",
                         "pages": [
-                          "weave/reference/typescript-sdk/classes/Dataset",
-                          "weave/reference/typescript-sdk/classes/Evaluation",
-                          "weave/reference/typescript-sdk/classes/EvaluationLogger",
-                          "weave/reference/typescript-sdk/classes/MessagesPrompt",
-                          "weave/reference/typescript-sdk/classes/ScoreLogger",
-                          "weave/reference/typescript-sdk/classes/StringPrompt",
-                          "weave/reference/typescript-sdk/classes/WeaveClient",
-                          "weave/reference/typescript-sdk/classes/WeaveObject"
+                          "weave/reference/typescript-sdk/classes/dataset",
+                          "weave/reference/typescript-sdk/classes/evaluation",
+                          "weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "weave/reference/typescript-sdk/classes/messagesprompt",
+                          "weave/reference/typescript-sdk/classes/objectref",
+                          "weave/reference/typescript-sdk/classes/scorelogger",
+                          "weave/reference/typescript-sdk/classes/stringprompt",
+                          "weave/reference/typescript-sdk/classes/weaveclient",
+                          "weave/reference/typescript-sdk/classes/weaveobject"
                         ]
                       },
                       {
@@ -948,27 +962,28 @@
                           "weave/reference/typescript-sdk/functions/init",
                           "weave/reference/typescript-sdk/functions/login",
                           "weave/reference/typescript-sdk/functions/op",
-                          "weave/reference/typescript-sdk/functions/requireCurrentCallStackEntry",
-                          "weave/reference/typescript-sdk/functions/requireCurrentChildSummary",
-                          "weave/reference/typescript-sdk/functions/weaveAudio",
-                          "weave/reference/typescript-sdk/functions/weaveImage",
-                          "weave/reference/typescript-sdk/functions/wrapOpenAI"
+                          "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
+                          "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "weave/reference/typescript-sdk/functions/weaveaudio",
+                          "weave/reference/typescript-sdk/functions/weaveimage",
+                          "weave/reference/typescript-sdk/functions/withattributes",
+                          "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "weave/reference/typescript-sdk/interfaces/CallSchema",
-                          "weave/reference/typescript-sdk/interfaces/CallsFilter",
-                          "weave/reference/typescript-sdk/interfaces/WeaveAudio",
-                          "weave/reference/typescript-sdk/interfaces/WeaveImage"
+                          "weave/reference/typescript-sdk/interfaces/callschema",
+                          "weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "weave/reference/typescript-sdk/interfaces/weaveimage"
                         ]
                       },
                       {
                         "group": "Type Aliases",
                         "pages": [
-                          "weave/reference/typescript-sdk/type-aliases/Op",
-                          "weave/reference/typescript-sdk/type-aliases/OpDecorator"
+                          "weave/reference/typescript-sdk/type-aliases/op",
+                          "weave/reference/typescript-sdk/type-aliases/opdecorator"
                         ]
                       }
                     ]
@@ -983,6 +998,15 @@
                       "directory": "weave/reference/service-api"
                     }
                   }
+                ]
+              },
+              {
+                "group": "Details & Support",
+                "pages": [
+                  "pricing",
+                  "weave/details/limits",
+                  "weave/guides/troubleshooting",
+                  "weave/details/faqs"
                 ]
               },
               {
@@ -1018,6 +1042,12 @@
                 ]
               },
               "inference/usage-limits",
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "inference/tutorials/creating-lora"
+                ]
+              },
               {
                 "group": "API Reference",
                 "pages": [
@@ -2222,12 +2252,32 @@
   },
   "redirects": [
     {
+      "source": "/_print/:slug*",
+      "destination": "/:slug*"
+    },
+    {
       "source": "/app/:slug*",
       "destination": "/models/app/:slug*"
     },
     {
-      "source": "/guides/app/settings-page/:slug*",
-      "destination": "/platform/app/settings-page/:slug*"
+      "source": "/artifacts/:slug*",
+      "destination": "/models/artifacts/:slug*"
+    },
+    {
+      "source": "/deployment/*",
+      "destination": "/platform/hosting/"
+    },
+    {
+      "source": "/docs/*",
+      "destination": "/models"
+    },
+    {
+      "source": "/getting-started/",
+      "destination": "/get-started/"
+    },
+    {
+      "source": "/guides/app/:slug*",
+      "destination": "/models/app/:slug*"
     },
     {
       "source": "/guides/app/console-logs",
@@ -2238,20 +2288,8 @@
       "destination": "/models/app/keyboard-shortcuts"
     },
     {
-      "source": "/guides/app/:slug*",
-      "destination": "/models/app/:slug*"
-    },
-    {
-      "source": "/quickstart/",
-      "destination": "/models/quickstart"
-    },
-    {
-      "source": "/guides/models_quickstart",
-      "destination": "/models/models_quickstart"
-    },
-    {
-      "source": "/artifacts/:slug*",
-      "destination": "/models/artifacts/:slug*"
+      "source": "/guides/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
     },
     {
       "source": "/guides/artifacts/:slug*",
@@ -2262,16 +2300,16 @@
       "destination": "/models/automations/:slug*"
     },
     {
+      "source": "/guides/core/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
       "source": "/guides/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
     },
     {
       "source": "/guides/inference/:slug*",
       "destination": "/inference/:slug*"
-    },
-    {
-      "source": "/inference/support",
-      "destination": "/inference"
     },
     {
       "source": "/guides/integrations/:slug*",
@@ -2286,8 +2324,12 @@
       "destination": "/platform/launch/:slug*"
     },
     {
-      "source": "/models/registry/model_registry/:slug*",
-      "destination": "/models/registry"
+      "source": "/guides/models/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/guides/models_quickstart",
+      "destination": "/models/models_quickstart"
     },
     {
       "source": "/guides/registry/:slug*",
@@ -2298,84 +2340,32 @@
       "destination": "/models/reports/:slug*"
     },
     {
-      "source": "/guides/secrets",
-      "destination": "/platform/secrets"
-    },
-    {
-      "source": "/guides/track/:slug*",
-      "destination": "/models/track/:slug*"
+      "source": "/guides/reports/reports-faq/",
+      "destination": "/models/support/"
     },
     {
       "source": "/guides/runs/:slug*",
       "destination": "/models/runs/:slug*"
     },
     {
+      "source": "/guides/secrets",
+      "destination": "/platform/secrets"
+    },
+    {
+      "source": "/guides/self-hosted/*",
+      "destination": "/platform/hosting/hosting-options/self-managed"
+    },
+    {
       "source": "/guides/sweeps/:slug*",
       "destination": "/models/sweeps/:slug*"
     },
     {
-      "source": "/guides/tables/:slug*",
-      "destination": "/models/tables/:slug*"
-    },
-    {
-      "source": "/guides/training/:slug*",
-      "destination": "/training/:slug*"
-    },
-    {
-      "source": "/guides/models/:slug*",
-      "destination": "/models/:slug*"
-    },
-    {
-      "source": "/launch-library/:slug*",
-      "destination": "/platform/launch/launch-library/:slug*"
-    },
-    {
-      "source": "/ref/python/:slug*",
-      "destination": "/models/ref/python/:slug*"
-    },
-    {
-      "source": "/ref/cli/:slug*",
-      "destination": "/models/ref/cli/:slug*"
-    },
-    {
-      "source": "/ref/query-panel/:slug*",
-      "destination": "/models/ref/query-panel/:slug*"
-    },
-    {
-      "source": "/ref/release-notes/*",
-      "destination": "/release-notes/"
-    },
-    {
-      "source": "/ref/training",
-      "destination": "/training/api-reference"
-    },
-    {
-      "source": "/ref/wandb_workspaces/:slug*",
-      "destination": "/models/ref/wandb_workspaces/:slug*"
-    },
-    {
-      "source": "/tutorials/:slug*",
-      "destination": "/models/tutorials/:slug*"
-    },
-    {
-      "source": "/support/*",
-      "destination": "/models/support"
-    },
-    {
-      "source": "/deployment/*",
-      "destination": "/platform/hosting/"
-    },
-    {
-      "source": "/getting-started/",
-      "destination": "/get-started/"
-    },
-    {
-      "source": "/guides/reports/reports-faq/",
-      "destination": "/models/support/"
-    },
-    {
       "source": "/guides/sweeps/faq/",
       "destination": "/models/support/"
+    },
+    {
+      "source": "/guides/tables/:slug*",
+      "destination": "/models/tables/:slug*"
     },
     {
       "source": "/guides/technical-faq/admin/",
@@ -2398,20 +2388,108 @@
       "destination": "/models/support/"
     },
     {
+      "source": "/guides/track/:slug*",
+      "destination": "/models/track/:slug*"
+    },
+    {
+      "source": "/guides/training/:slug*",
+      "destination": "/training/:slug*"
+    },
+    {
+      "source": "/guides/:slug*",
+      "destination": "/models/:slug*"
+    },
+    {
+      "source": "/inference/response-settings",
+      "destination": "/inference"
+    },
+    {
+      "source": "/inference/support",
+      "destination": "/inference"
+    },
+    {
+      "source": "/integrations/jupyter.html",
+      "destination": "/models/track/jupyter"
+    },
+    {
+      "source": "/launch-library/:slug*",
+      "destination": "/platform/launch/launch-library/:slug*"
+    },
+    {
+      "source": "/library/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/models/app/pages/workspaces",
+      "destination": "/models/app/features/cascade-settings"
+    },
+    {
+      "source": "/models/app/settings-page/:slug*",
+      "destination": "/platform/app/settings-page/:slug*"
+    },
+    {
+      "source": "/models/core",
+      "destination": "/models"
+    },
+    {
+      "source": "/models/integrations/openai",
+      "destination": "/models/integrations/openai-api"
+    },
+    {
+      "source": "/models/ref/python/init",
+      "destination": "/models/ref/python/functions/init"
+    },
+    {
+      "source": "/models/registry/model_registry/:slug*",
+      "destination": "/models/registry"
+    },
+    {
+      "source": "/models/runs/multiple-runs-per-process",
+      "destination" : "/models/runs/initialize-run"
+    },    
+    {
+      "source": "/models/hosting/:slug*",
+      "destination": "/platform/hosting/:slug*"
+    },
+    {
+      "source": "models/support/rotate_revoke_access",
+      "destination": "/models/support/find_api_key"
+    },
+    {
+      "source": "/models/track/launch/*",
+      "destination": "/platform/launch"
+    },
+    {
+      "source": "/platform/hosting/how-to-guides/*",
+      "destination": "/platform/hosting"
+    },
+    {
+      "source": "/platform/hosting/secure-storage-connector",
+      "destination": "/platform/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "source": "/platform/hosting/self-managed/install-on-public-cloud",
+      "destination": "/platform/hosting/self-managed"
+    },
+    {
+      "source": "/quickstart/",
+      "destination": "/models/quickstart"
+    },
+    {
+      "source": "/ref/cli/:slug*",
+      "destination": "/models/ref/cli/:slug*"
+    },
+    {
       "source": "/ref/data_types/",
       "destination": "/models/ref/python/data-types/"
     },
     {
-      "source": "/sweeps/faq/",
-      "destination": "/models/support/"
-    },
-    {
-      "source": "/wandb/",
-      "destination": "/models/ref/python/"
-    },
-    {
       "source": "/ref/public-api/:slug*",
       "destination": "/models/ref/python/public-api/:slug*"
+    },
+    {
+      "source": "/ref/python/:slug*",
+      "destination": "/models/ref/python/:slug*"
     },
     {
       "source": "/ref/python/classes/:slug*",
@@ -2424,6 +2502,14 @@
     {
       "source": "/ref/python/wandb_workspaces/:slug*",
       "destination": "/models/ref/wandb_workspaces/:slug*"
+    },
+    {
+      "source": "/ref/query-panel/:slug*",
+      "destination": "/models/ref/query-panel/:slug*"
+    },
+    {
+      "source": "/ref/release-notes/*",
+      "destination": "/release-notes/"
     },
     {
       "source": "/ref/release-notes/0.3/*",
@@ -2454,56 +2540,48 @@
       "destination": "/release-notes/server-releases-archived/"
     },
     {
-      "source": "/guides/core/:slug*",
-      "destination": "/models/:slug*"
+      "source": "/ref/training",
+      "destination": "/training/api-reference"
     },
     {
-      "source": "/models/core",
-      "destination": "/models"
-    },
-    {
-      "source": "/inference/response-settings",
-      "destination": "/inference"
-    },
-    {
-      "source": "/weave/reference/gen_notebooks/intro_notebook",
-      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
-    },
-    {
-      "source": "/weave/reference/gen_notebooks/:slug*",
-      "destination": "/weave/cookbooks/:slug*"
-    },
-    {
-      "source": "/guides/:slug*",
-      "destination": "/models/:slug*"
-    },
-    {
-      "source": "/models/app/pages/workspaces",
-      "destination": "/models/app/features/cascade-settings"
-    },
-    {
-      "source": "/models/ref/python/init",
-      "destination": "/models/ref/python/functions/init"
-    },
-    {
-      "source": "/guides/self-hosted/*",
-      "destination": "/platform/hosting/hosting-options/self-managed"
+      "source": "/ref/wandb_workspaces/:slug*",
+      "destination": "/models/ref/wandb_workspaces/:slug*"
     },
     {
       "source": "/self-hosted/*",
       "destination": "/platform/hosting/hosting-options/self-managed"
     },
     {
-      "source": "/models/integrations/openai",
-      "destination": "/models/integrations/openai-api"
+      "source": "/support/*",
+      "destination": "/models/support"
     },
     {
-      "source": "/platform/hosting/how-to-guides/*",
-      "destination": "/platform/hosting"
+      "source": "/sweeps/faq/",
+      "destination": "/models/support/"
     },
     {
-      "source": "/platform/hosting/self-managed/install-on-public-cloud",
-      "destination": "/platform/hosting/self-managed"
+      "source": "/tutorials/:slug*",
+      "destination": "/models/tutorials/:slug*"
+    },
+    {
+      "source": "/wandb/",
+      "destination": "/models/ref/python/"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/:slug*",
+      "destination": "/weave/cookbooks/:slug*"
+    },
+    {
+      "source": "/weave/reference/gen_notebooks/intro_notebook",
+      "destination": "/weave/cookbooks/Intro_to_Weave_Hello_Trace"
+    },
+    {
+      "source": "/weave/guides/tracking/faqs",
+      "destination": "weave/details/faqs"
+    },
+    {
+      "source": "/weave/guides/tools/limits",
+      "destination": "/weave/details/limits"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"

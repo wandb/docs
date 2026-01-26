@@ -1,5 +1,5 @@
 ---
-description: Forking a W&B run
+description: Explore different parameters or models from a specific point in an experiment without impacting the original run.
 title: Fork a run
 ---
 
@@ -7,70 +7,117 @@ title: Fork a run
 The ability to fork a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-Use `fork_from` when you initialize a run with [`wandb.init()`](/models/ref/python/functions/init) to "fork" from an existing W&B run. When you fork from a run, W&B creates a new run using the `run ID` and `step` of the source run.
+You can explore different parameters or models from a specific point in an experiment without affecting the original run. To do this, fork an existing W&B run.
 
-Forking a run enables you to explore different parameters or models from a specific point in an experiment without impacting the original run.
+When you fork a run, W&B creates a new run using the source run’s run ID and a specified step. The forked run includes all data from the source run up to that step. After the fork step, you can log new data to the forked run independently of the original run.
 
 <Note>
 * Forking a run requires [`wandb`](https://pypi.org/project/wandb/) SDK version >= 0.16.5
-* Forking a run requires monotonically increasing steps. You can not use non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) to set a fork point because it would disrupt the essential chronological order of run history and system metrics.
+* Forking a run requires monotonically increasing steps. You cannot fork from a run that uses non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric). Non-monotonic steps break the chronological order of run history and system metrics.
 </Note>
 
+Use the `fork_from` parameter in [`wandb.init()`](/models/ref/python/functions/init) to fork from an existing run. Specify the source run's unique `run ID` and the `step` you want to start the forked run from. 
 
-## Start a forked run
+<Note>
+See [Unique run identifiers](/models/runs/run-identifiers#unique-run-identifiers) to learn more about run IDs and how to locate them.
+</Note>
 
-To fork a run, use the `fork_from` argument in [`wandb.init()`](/models/ref/python/functions/init) and specify the source `run ID` and the `step` from the source run to fork from:
+## Fork from a previously logged run
+
+The following code snippet shows how to fork from a run that was previously logged to W&B. Use this approach to fork from a run in a different script or notebook, or from a run logged by a different user or service account.
+
+Replace `<source-run-id>`, `<project>`, and `<entity>` with your own values.
 
 ```python
 import wandb
 
-# Initialize a run to be forked later
-original_run = wandb.init(project="your_project_name", entity="your_entity_name")
-# ... perform training or logging ...
-original_run.finish()
+# The unique ID of the source run to fork from
+source_run_id = "<source-run-id>"
 
-# Fork the run from a specific step
-forked_run = wandb.init(
-    project="your_project_name",
-    entity="your_entity_name",
-    fork_from=f"{original_run.id}?_step=200",
-)
-forked_run.finish()
+# Specify the step to fork from
+fork_step = 200
+
+# Fork the run
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{source_run_id}?_step={fork_step}",
+) as forked_run:
+    pass
 ```
 
-## Continue from a forked run
-After initializing a forked run, you can continue logging to the new run. You can log the same metrics for continuity and introduce new metrics. 
+## Fork from a run in the same script
 
-For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200:
+The following code snippet shows how to fork from a run within the same script. This might occur if you want explore different parameters or models from a specific point within the same script or notebook.
+
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as original_run:
+    # ...training logic goes here ...
+    pass
+
+# Specify the step to fork from
+fork_step = 200
+
+# Use the original run's ID and specify the step to fork from
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{original_run.id}?_step={fork_step}",
+) as forked_run:
+    # ...training logic goes here ...
+    pass
+```
+
+Use the `original_run.id` property to obtain the unique run ID of the original run.
+
+### Example script
+
+For example, the following code example shows how to first fork a run and then how to log metrics to the forked run starting from a training step of 200. 
+
+Copy and paste the following code into a Python script or notebook cell. Replace `<project>` and `<entity>` with your own values.
 
 ```python
 import wandb
 import math
 
 # Initialize the first run and log some metrics
-run1 = wandb.init("your_project_name", entity="your_entity_name")
-for i in range(300):
-    run1.log({"metric": i})
-run1.finish()
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as run1:
+    for i in range(300):
+        run1.log({"metric": i})
 
-# Fork from the first run at a specific step and log the metric starting from step 200
-run2 = wandb.init(
-    "your_project_name", entity="your_entity_name", fork_from=f"{run1.id}?_step=200"
-)
+# Fork from the first run at a specific step and log the
+# metric starting from step 200
+with wandb.init(
+    project="<project>", 
+    entity="<entity>", 
+    fork_from=f"{run1.id}?_step=200"
+) as run2:
+    # Continue logging in the new run
+    # For the first few steps, log the metric as is from run1
+    # After step 250, start logging the spikey pattern
+    for i in range(200, 300):
+        if i < 250:
+            # Continue logging from run1 without spikes
+            metric_value = i
+        else:
+            # Introduce the spikey behavior starting from step 250
+            metric_value = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
 
-# Continue logging in the new run
-# For the first few steps, log the metric as is from run1
-# After step 250, start logging the spikey pattern
-for i in range(200, 300):
-    if i < 250:
-        run2.log({"metric": i})  # Continue logging from run1 without spikes
-    else:
-        # Introduce the spikey behavior starting from step 250
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
-        run2.log({"metric": subtle_spike})
-    # Additionally log the new metric at all steps
-    run2.log({"additional_metric": i * 1.1})
-run2.finish()
+        # Log both metrics in a single call to ensure they're
+        # logged at the same step
+        run2.log({
+            "metric": metric_value,
+            "additional_metric": i * 1.1
+        })
 ```
 
 <Note>

@@ -1,0 +1,21 @@
+```python
+"""
+Retrieve a specific version of an artifact from a registry collection.
+"""
+
+import wandb
+
+# Define registry, collection, and artifact version details
+registry = "<registry_name>"
+collection = "<collection_name>"
+version = "<version>"
+
+# Construct the full artifact name with version
+artifact_name = f"wandb-registry-{registry}/{collection}:{version}"
+
+# Initialize W&B API
+api = wandb.Api()
+
+# Retrieve the artifact from the specified registry collection and version
+artifact = api.artifact(name = artifact_name)
+```

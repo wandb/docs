@@ -1,19 +1,27 @@
 name: Validate MDX
 on:
   pull_request:
-    paths:
-      - '**.mdx'
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: validate-mdx-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-mdx:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: '20'
       - name: Cache Mintlify CLI
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.npm
           key: ${{ runner.os }}-mintlify-${{ hashFiles('**/package-lock.json') }}

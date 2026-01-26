@@ -538,7 +538,7 @@ with wandb.init() as run:
      )
 ``` 
 
-Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a section named "a/b". 
+Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a section named "a". 
 
 `run.log()` is not intended to be called more than a few times per second. For optimal performance, limit your logging to once every N iterations, or collect data over multiple iterations and log it in a single step. 
 
@@ -767,8 +767,8 @@ Declare an artifact as an output of a run.
 log_code(
     root: 'str | None' = '.',
     name: 'str | None' = None,
-    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x1065727a0>,
-    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x107249360>
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x104911ab0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ff604c0>
 ) → Artifact | None
 ```
 

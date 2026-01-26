@@ -26,11 +26,10 @@ If you don't specify a W&B team when you call `weave.init()`, your default entit
 Weave automatically patches OpenAI whether imported before or after `weave.init()`:
 
 <CodeGroup>
-```python Python
+```python Python lines {4}
 from openai import OpenAI
 import weave
 
-# highlight-next-line
 weave.init('emoji-bot')  # OpenAI is automatically patched!
 
 client = OpenAI()
@@ -78,12 +77,10 @@ openai.chat.completions.create(
 
 You can still explicitly patch if you want fine-grained control:
 
-```python lines
+```python lines {3,4}
 import weave
 
-# highlight-next-line
 weave.init('emoji-bot')
-# highlight-next-line
 weave.integrations.patch_openai()  # Enable OpenAI tracing
 
 from openai import OpenAI

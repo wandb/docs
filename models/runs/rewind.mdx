@@ -1,9 +1,14 @@
 ---
-description: Rewind
+description: Rewind a run to correct or modify its history without losing original data.
 title: Rewind a run
 ---
 
-# Rewind a run
+Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
+rewind a run, you can log new data from that point in time. W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
+- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
+- **Summary metrics**: Recomputed based on the newly logged history.
+- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
+
 <Warning>
 The option to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 
@@ -12,17 +17,6 @@ W&B currently does not support:
 * **System metrics rewind**: W&B logs only new system metrics after the rewind point.
 * **Artifact association**: W&B associates artifacts with the source run that produces them.
 </Warning>
-
-<Note>
-* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
-* You must use monotonically increasing steps. This does not work with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) because it disrupts the required chronological order of run history and system metrics.
-</Note>
-
-Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
-rewind a run, you can log new data from that point in time. W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
-- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
-- **Summary metrics**: Recomputed based on the newly logged history.
-- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
 
 {/* #### Manage runs */}
 When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
@@ -33,14 +27,19 @@ When you rewind a run, W&B resets the state of the run to the specified step, pr
 <Note>
 **Rewind and forking compatibility**
 
-Forking compliments a rewind.
+Forking complements a rewind.
 
 When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
 When you  rewind a run, W&B lets you correct or modify the run history itself.
 </Note>
 
+## Prerequisites
 
+Before you rewind a run, ensure you meet the following prerequisites:
+
+* To rewind a run, you must have [W&B Python SDK](https://pypi.org/project/wandb/) version >= `0.17.1`.
+* You must use monotonically increasing steps. This does not work with non-monotonic steps defined with [`define_metric()`](/models/ref/python/experiments/run#define_metric) because it disrupts the required chronological order of run history and system metrics.
 
 ## Rewind a run
 
@@ -77,8 +76,7 @@ run2.finish()
 
 ## View an archived run
 
-
-After you rewind a run, you can explore archived run with the W&B App UI. Follow these steps to view archived runs:
+After you rewind a run, you can explore the original archived run in the W&B App. Follow these steps to view an archived run:
 
 1. **Access the Overview Tab:** Navigate to the [**Overview** tab](./#overview-tab) on the run's page. This tab provides a comprehensive view of the run's details and history.
 2. **Locate the Forked From field:** Within the **Overview** tab, find the `Forked From` field. This field captures the history of the resumptions. The **Forked From** field includes a link to the source run, allowing you to trace back to the original run and understand the entire rewind history.

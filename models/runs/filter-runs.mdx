@@ -1,78 +1,72 @@
 ---
-description: How to use the sidebar and table on the project page
-title: Filter and search runs
+description: Learn how to filter runs in the Runs table using the expression editor.
+title: Filter runs
 ---
 
-Use your project page to gain insights from runs logged to W&B. You can filter and search runs from both the **Workspace** page and the **Runs** page.
+Filter runs based on their name, state, [tags](#filter-runs-with-tags), or other properties with the expression editor in the Runs Table.
 
-## Filter runs
+When you add a filter, you first choose a field (for example, tags, timestamp, or entity). Each field has an underlying type, such as text, time, or ID.
 
-Filter runs based on their status, [tags](#filter-runs-with-tags), [regular expressions (RegEx)](#filter-runs-with-regular-expressions-regex) or other properties with the filter button.
+The list of operators you see (for example, is, in, &ge;, within last) depends on this type. After you choose a field, the UI only shows operators that are valid for that field’s type.
 
-See Customize run colors for more information on how to [edit, randomize, and reset run colors](/models/runs/run-colors/).
+## Common operators by type
 
-### Filter runs with tags
+| Filter type | Example fields | Common operators | Example usage |
+| ----------- | -------------- | ---------------- | ------------- |
+| Tags        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
+| Time        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
+| String      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
 
-Filter runs based on their tags with the filter button.
+<Note>
+The above table shows only a subset of available fields and operators. The expression editor shows all available fields and operators.
+</Note>
+
+## Create a filter expression
+
+1. Navigate to the **Runs** tab from the project sidebar.
+2. Select the **Filter** button, which looks like a funnel, above the runs table.
+3. From left to right, select a column name, a logical operator, and a filter value to create a filter expression.
+4. Optionally select **New Filter** to apply additional filters.
+
+The following image filters runs based on loss values less than or equal to `1`:
+
+<Frame>
+    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
+</Frame>
+
+
+The following sections show some examples of how to filter runs in the Runs table.
+
+
+### Example: Filter runs with tags
+
+Filter runs based on their tags:
 
 1. Click on the **Runs** tab from the project sidebar.
-2. Select the **Filter** button, which looks like a funnel, at the top of the runs table.
-3. From left to right, select `"Tags"` from the dropdown menu, select a logic operator, and select a filter search value.
-
-### Filter runs with regex
-
-If regex doesn't provide you the desired results, you can make use of [tags](/models/runs/filter-runs/#filter-runs-with-tags) to filter out the runs in Runs Table. Tags can be added either on run creation or after they're finished. Once the tags are added to a run, you can add a tag filter as shown in the gif below.
+2. Select the **Filter** button, which looks like a funnel, above the runs table.
+3. From left to right, select `"Tags"` from the dropdown menu select a logic operator.
+4. Select is, is not, in, or not in from the second dropdown menu.
+5. Enter the tag name you want to filter by from the third dropdown menu.
 
 <Frame>
-    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags"  />
+    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
 </Frame>
 
-1. Click on the **Runs** tab from the project sidebar.
-2. Click on the search box at the top of the runs table.
-3. Ensure that the **RegEx** toggle (.*) is enabled (the toggle should be blue).
-4. Enter your regular expression in the search box.
 
-## Search runs
+## Default filters
 
-Use regular expressions (RegEx) to find runs with the regular expression you specify. When you type a query in the search box, that will filter down the visible runs in the graphs on the workspace as well as filtering the rows of the table.
+By default, W&B provides the following filters:
 
-## Group runs
+* **Show only my works**: Shows only runs created by the current user.
+* **Hide crashed runs**: Hides runs with the `crashed` state.
 
-To group runs by one or more columns (including hidden columns):
+Default filters appear as toggles below the **New filter** button in the filter expression editor.
 
-1. Below the search box, click the **Group** button, which looks like a lined sheet of paper.
-1. Select one or more columns to group results by.
-1. Each set of grouped runs is collapsed by default. To expand it, click the arrow next to the group name.
+## Remove a filter
 
-## Sort runs by minimum and maximum values
-Sort the runs table by the minimum or maximum value of a logged metric. This is particularly useful if you want to view the best (or worst) recorded value.
-
-The following steps describe how to sort the run table by a specific metric based on the minimum or maximum recorded value:
-
-1. Hover your mouse over the column with the metric you want to sort with.
-2. Select the kebab menu (three vertical lines).
-3. From the dropdown, select either **Show min** or **Show max**.
-4. From the same dropdown, select **Sort by asc** or **Sort by desc** to sort in ascending or descending order, respectively. 
-
-<Frame>
-    <img src="/images/app_ui/runs_min_max.gif" alt="Sort by min/max values"  />
-</Frame>
-
-## Search End Time for runs
-
-We provide a column named `End Time` that logs that last heartbeat from the client process. The field is hidden by default.
-
-<Frame>
-    <img src="/images/app_ui/search_run_endtime.png" alt="End Time column"  />
-</Frame>
-
-## Export runs table to CSV
-
-Export the table of all your runs, hyperparameters, and summary metrics to a CSV with the download button.
-
-<Frame>
-    <img src="/images/app_ui/export_to_csv.gif" alt="Modal with preview of export to CSV"  />
-</Frame>
+To remove a filter from the Runs table:
+1. Click on the **Filter** button, which looks like a funnel, above the runs table.
+2. Select the `x` icon next to the filter you want to remove.
 
 {/*
 ## Edit run colors

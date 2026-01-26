@@ -11,6 +11,36 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.76.3" description="December 17, 2025">
+**December 17, 2025**
+
+## Fixes
+- Fixed a display bug that could occur on macOS when scroll bars are configured to always display. If a workspace has a [Query panel](/models/app/features/panels/query-panels), zooming out in the workspace could trigger a resize loop where the query panel table size oscillates several times a second.
+- Fixed a bug where W&B Inference erroneously appeared in the Dedicated Cloud UI. Inference is not available in Dedicated Cloud.
+</Update>
+
+<Update label="v0.76.2" description="December 10, 2025">
+**December 10, 2025**
+
+## Fixes
+- Replaced inaccurate usage cards in the **Organization Dashboard** page with a link to the **Usage** page. This was a UI bug only, with no impact on billing.
+- Fixed a bug that could lead to a situation where Parquet reads were turned off but exports were turned on.
+- Fixed a nil pointer dereference when manually upserting a run without any run config in the pending state.
+</Update>
+
+<Update label="v0.76.1" description="December 4, 2025">
+**December 4, 2025**
+
+## Fixes
+- Fixed a bug where importing a line plot from a workspace to a report could get stuck if extreme outliers were hidden in the plot.
+- Fixed a bug that could prevent a table panel from resizing correctly if its height was reduced.
+- Fixed a bug where mask overlays could overflow an image with a caption.
+- Fixed a bug where a run note's edit box's size was too narrow for comfortable editing. Now the edit box uses the same dimensions as the text in display mode.
+- Fixed a bug where clicking the **Service Accounts** tab in the Organization Dashboard could cause the page to crash.
+- Fixed a caching bug where the wrong run's logs could display when viewing run logs and switching from one run to another.
+- When a client cancels a GraphQL operation, it is now correctly reported as a `4xx` HTTP client error rather than a `5xx` HTTP server error. 
+</Update>
+
 <Update label="v0.76.0" description="November 20, 2025">
 **November 20, 2025**
 
