@@ -5,7 +5,9 @@ title: Line plots overview
 
 import LinePlotCaptureGroups from "/snippets/en/_includes/line-plot-capture-groups.mdx";
 
-Line plots display by default for metrics logged with `wandb.Run.log()` over time. You can customize a line plot to compare multiple lines, calculate custom axes, and rename labels.
+Line plots display by default for metrics logged with `wandb.Run.log()` over time. Line plots support plotting multiple metrics, calculating custom axes, and more.
+
+This page shows how to create, configure, and manage line plots in a [workspace](/models/track/workspaces).
 
 <Frame>
     <img src="/images/app_ui/line_plot_example.png" alt="Line plot example"  />
@@ -23,6 +25,7 @@ This section shows how to create a line plot for a single metric or multiple met
 <Tab title="Single-metric line plot">
 In an [automatic workspace](/models/app/features/panels#workspace-modes), a single-metric line plot is created automatically for each logged metric. Follow these steps to re-add a line plot that was deleted from an automatic workspace, or to add a line plot to a manual workspace.
 
+1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
 
     To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
@@ -32,9 +35,9 @@ In an [automatic workspace](/models/app/features/panels#workspace-modes), a sing
 1. To add a custom line plot instead, click **Line plot**.
     1. Configure the line plot's data, grouping, and display preferences using the corresponding tabs. For details, see [Edit line plot settings](#edit-line-plot-settings).
     1. To add calculated expressions to the x or y axis, click **Expressions**. [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) are supported.
-Select the type of panel to add, such as a chart. The panel's configuration details appear, with defaults selected.
+Select the type of panel to add, such as a chart. The panel's configuration details appear with selected defaults.
 1. Optionally, customize the panel and its display preferences. Configuration options depend on the type of panel you select. To learn more about the options for each type of panel, refer to the relevant section below, such as [Line plots](/models/app/features/panels/line-plot/) or [Bar plots](/models/app/features/panels/bar-plot/).
-    1. Click **Apply**.
+1. Click **Apply**.
 </Tab>
 <Tab title="Multi-metric line plot">
 
@@ -44,11 +47,12 @@ This feature is in preview, available by invitation only. To request enrollment,
 
 In an [automatic workspace](/models/app/features/panels#workspace-modes), a single-metric line plot is created automatically for each logged metric. This section shows how to create a single line plot that shows multiple metrics together, defined by a JavaScript regular expression. You can optionally consolidate many single-metric plots into a single multi-metric plot. This can improve the performance of a workspace with many logged metrics, and can help you analyze the results of your runs efficiently.
 
+1. Navigate to your workspace.
 1. To add a line plot globally, click **Add panels** in the control bar near the panel search field.
 
     To add a line plot directly to a section instead, click the section's action `...` menu, then click **+ Add panels**.
 1. Click **Quick panel builder**, then click the **Multi-metric panels** tab.
-1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. The plot name will show the regular expression the plot uses, and the plot will include lines for all metrics that match the expression, including metrics logged in the future. As you type, the UI updates to show which metrics match the expression.
+1. In **Regex** enter an expression in [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) format. As you type, the UI updates to show which metrics match the expression. By default, the plot name shows the regular expression used by the plot. The plot includes lines for all metrics that match the expression, including metrics logged in the future.
 1. To optionally remove duplicate single-metric panels when the multi-metric plot is created, toggle **Clean up auto-generated panels**. A preview shows which panels will be cleaned up. <Note>When this option is turned on, a single-metric plot will not be created for a newly logged metric that matches the expression. Instead, it will be included only in this multi-metric plot.</Note>
 1. Click **Create &lt;number&gt; panels**.
 
@@ -93,6 +97,7 @@ This section shows how to edit the settings for an individual line plot panel, a
 ### Individual line plot
 A line plot's individual settings override the line plot settings for the section or the workspace. To customize a line plot:
 
+1. Navigate to your workspace.
 1. Hover your mouse over the panel, then click the gear icon.
 1. Within the drawer that appears, select a tab to edit its settings.
 1. Click **Apply**.
@@ -109,12 +114,16 @@ For detailed information about each setting, see the [Line plot reference](/mode
 ### All line plots in a section
 
 To customize the default settings for all line plots in a section, overriding workspace settings for line plots:
+
+1. Navigate to your workspace.
 1. Click the section's gear icon to open its settings.
 1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the section. For details about each **Data** setting, see the [Line plot reference](/models/app/features/panels/line-plot/reference). For details about each display preference, refer to [Configure section layout](../#configure-section-layout).
 
 ### All line plots in a workspace 
 To customize the default settings for all line plots in a workspace:
-1. Click the workspace's settings, which has a gear with the label **Settings**.
+
+1. Navigate to your workspace.
+1. Click the workspace settings icon, which has a gear with the label **Settings**.
 1. Click **Line plots**.
 1. Within the drawer that appears, select the **Data** or **Display preferences** tabs to configure the default settings for the workspace.
     - For details about each **Data** setting, see the [Line plot reference](/models/app/features/panels/line-plot/reference).
@@ -156,12 +165,12 @@ with wandb.init() as run:
     <img src="/images/app_ui/visualization_add.gif" alt="Adding visualization panels"  />
 </Frame>
 
+1. Navigate to your workspace.
 1. Select the **Add panels** button in the top right corner of the page.
-2. From the left panel that appears, expand the Evaluation dropdown.
-3. Select **Run comparer**
+1. From the left panel that appears, expand the Evaluation dropdown.
+1. Select **Run comparer**
 
-
-## Change the color of the line plots
+## Change the colors of the lines
 
 Sometimes the default color of runs is not helpful for comparison. To help overcome this, wandb provides two instances with which one can manually change the colors.
 
@@ -169,20 +178,21 @@ Sometimes the default color of runs is not helpful for comparison. To help overc
 <Tab title="From the run table">
 Each run is given a random color by default upon initialization.
 
-  <Frame>
-    <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs"  />
+<Frame>
+<img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs"  />
 </Frame>
 
   Upon clicking any of the colors, a color palette appears from which we can manually choose the color we want.
 
-  <Frame>
-    <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette"  />
+<Frame>
+<img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette"  />
 </Frame>
 </Tab>
 <Tab title="From the chart legend settings">
+1. Navigate to your workspace.
 1. Hover your mouse over the panel you want to edit its settings for.
-2. Select the pencil icon that appears.
-3. Choose the **Legend** tab.
+1. Select the pencil icon that appears.
+1. Choose the **Legend** tab.
 
 <Frame>
     <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="Line plot legend settings"  />
@@ -230,6 +240,7 @@ Use [Automations](/models/automations/) to notify your team when a run metric me
 
 From a line plot, you can quickly create a [run metrics notification](/models/automations/automation-events/#run-events) for the metric it shows:
 
+1. Navigate to your workspace.
 1. Hover over the panel, then click the bell icon.
 1. Configure the automation using the basic or advanced configuration controls. For example, apply a run filter to limit the scope of the automation, or configure an absolute threshold.
 
