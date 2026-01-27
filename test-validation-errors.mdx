@@ -1,0 +1,57 @@
+---
+title: Test validation errors
+description: This file intentionally contains errors for testing mint validate
+# Missing closing quotes and invalid YAML syntax
+broken: "unclosed quote
+---
+
+# Test file with intentional validation errors
+
+This file contains various types of errors that `mint validate` should catch.
+
+## Unclosed JSX component
+
+<Note>
+This note component is not properly closed
+
+## Invalid component syntax
+
+<Tip title="Broken tip
+Missing closing bracket and quote
+
+## Broken internal link
+
+Check out our [nonexistent page](/this/path/does/not/exist.mdx) for more info.
+
+## Malformed code block
+
+```python
+def broken_function():
+    print("This code block is missing closing backticks
+
+## Unclosed emphasis
+
+This has *unclosed emphasis that continues forever
+
+## Invalid nested components
+
+<Accordion title="Broken accordion">
+  <Note>
+    Nested component without proper closing
+  </Accordion>
+</Note>
+
+## HTML-style comment without closing
+
+<!-- This comment is never closed
+
+## Double opening tag
+
+<Card>
+<Card>
+Only one closing tag
+</Card>
+
+## Reference to invalid snippet
+
+<Snippet file="this-snippet-does-not-exist.mdx" />
