@@ -7,7 +7,7 @@ import PinRunsCondensed from '/snippets/en/_includes/pinned-and-baseline-runs/pi
 
 In a workspace with many runs, it can be difficult to keep track of your best performers, production models, failed experiments, or important reference points. The W&B App provides features to help organize and compare runs:
 
-- **Pinned runs**: Pin a maximum of 5 runs to keep them visible in the workspace and at the top of the runs list.
+- **Pinned runs**: Pin up to 6 runs to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline uses a pinning slot.
 - **Baseline run**: Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list. In line plots, the baseline appears with visually distinct styling to help with comparison.
 
 These features are particularly useful for:
@@ -60,16 +60,16 @@ Only one run can be the baseline at a time. To change which run is your baseline
 2. In the run selector or runs table, find the run you want to use as your new baseline.
 3. Click the action `...` menu, then select **Replace baseline**.
 
-The new run becomes the baseline. Depending on its configuration, the previous baseline run appears alongside other pinned or unpinned runs.
+The new run becomes the baseline. The previous baseline is automatically pinned if a pinning slot is available, so you can find it easily. To ensure the previous baseline is pinned, make sure you have a free pinning slot available before changing the baseline.
 
 ### Remove the baseline designation
 To remove the baseline designation:
 
 1. Navigate to your workspace.
-2. In the run selector or runs table, find the run you want to use as your new baseline.
+2. In the run selector or runs table, find the current baseline run.
 3. Click the action `...` menu, then select **Remove baseline**.
 
-Depending on its configuration, the previous baseline run appears alongside other pinned or unpinned runs.
+The previous baseline is automatically pinned if a pinning slot is available, so you can find it easily. To ensure the previous baseline is pinned, make sure you have a free pinning slot available before removing the baseline designation.
 
 ## Compare runs to the baseline
 The baseline run is always visible in line plots for metrics the run has logged. In line plots, lines for the baseline run appear bolder than other lines.
