@@ -28,6 +28,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-mintlify-
       - name: Install Mintlify CLI
-        run: npm install -g mintlify
+        run: npm install -g mint
       - name: Validate MDX with Mintlify
         run: ./scripts/mdx-validation/validate-mdx-mintlify.sh
