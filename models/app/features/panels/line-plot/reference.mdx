@@ -1,6 +1,7 @@
 ---
 title: Line plot reference
 ---
+import LinePlotCaptureGroups from "/snippets/en/_includes/line-plot-capture-groups.mdx";
 
 This page provides comprehensive details for line plot settings. For more details about working with line plots, see the [Line plots overview](/models/app/features/panels/line-plot).
 
@@ -159,3 +160,16 @@ Rescale the x-axis using calculated values with custom expressions.
 Useful variables:
 * `_step`: The default x-axis value.
 * `${summary:value}`: Reference summary values.
+
+### Multi-metric panel expressions
+Use a regular expression to create a single line plot that shows multiple metrics together (including matching metrics logged in the future). For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-line-plot).
+
+For example:
+- Instead of creating separate panels for each layer's metrics, you can view them together in a single panel. For example, if you log metrics with consistent naming, like `layer_0_loss`, `layer_1_loss`, and `layer_2_loss`, you can use a regex like `layer_\d+_loss` to display all layer losses on one plot.
+- Match all metrics that share a common naming pattern. For example:
+    - `train_.*` matches all training metrics like `train_loss`, `train_accuracy`, `train_f1_score`
+    - `.*_accuracy` matches accuracy metrics across different datasets like `train_accuracy`, `val_accuracy`, `test_accuracy`
+- Use alternation to match only the metrics you want. For example, the non-capture group `(?:layer_0|layer_10)_loss` matches only the first and tenth layer losses, excluding intermediate layers.
+
+#### Capture groups
+<LinePlotCaptureGroups/>
