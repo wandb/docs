@@ -1,0 +1,220 @@
+---
+title: Access W&B docs programmatically
+description: Connect your IDE or LLM application to W&B's Model Context Protocol (MCP) server to provide your agent requests with more context about W&B products.
+---
+
+The W&B MCP (Model Context Protocol) server lets you query and analyze your Weights & Biases data and provide W&B documentation as additional context using when using AI assistants and IDEs. Use it to analyze experiments, debug traces, create reports, and get help with integrating your applications with W&B features.
+
+## Prerequisites
+
+Before you begin, get your W&B API key from [wandb.ai/authorize](https://wandb.ai/authorize).
+
+## Configure your MCP client to use the W&B MCP server
+
+W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no installation. The following instructions show how to configure the hosted server with various AI assistants and IDEs.
+
+<Tabs>
+<Tab title="Cursor">
+1. Open Cursor Settings using `Cmd+,` (macOS) or `Ctrl+,` (Windows/Linux).
+2. Navigate to **Features**, then **Model Context Protocol**.
+3. Click **Install from Registry** or **Add MCP Server**.
+4. Search for "wandb" or enter:
+   - **Name**: `wandb`
+   - **URL**: `https://mcp.withwandb.com/mcp`
+   - **API Key**: Your W&B API key
+
+### Manual configuration
+
+To configure the MCP server for a specific project, add the following to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "wandb": {
+      "url": "https://mcp.withwandb.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_WANDB_API_KEY"
+      }
+    }
+  }
+}
+```
+
+To enable the server globally for all Cursor projects, add the configuration to `~/.cursor/mcp.json`.
+
+</Tab>
+<Tab title="Claude Desktop">
+Add the following to your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "wandb": {
+      "url": "https://mcp.withwandb.com/mcp",
+      "apiKey": "YOUR_WANDB_API_KEY"
+    }
+  }
+}
+```
+
+After saving the configuration, restart Claude Desktop to activate the MCP server.
+</Tab>
+<Tab title="VS Code">
+Add the following to your VS Code settings:
+
+**macOS/Linux**: `~/.config/Code/User/settings.json`
+
+**Windows**: `%APPDATA%\Code\User\settings.json`
+
+```json
+{
+  "mcp.servers": {
+    "wandb": {
+      "url": "https://mcp.withwandb.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_WANDB_API_KEY"
+      }
+    }
+  }
+}
+```
+</Tab>
+<Tab title="OpenAI">
+Use the MCP server with the OpenAI Responses API:
+
+```python
+from openai import OpenAI
+import os
+
+client = OpenAI()
+
+resp = client.responses.create(
+    model="gpt-4o",
+    tools=[{
+        "type": "mcp",
+        "server_label": "wandb",
+        "server_description": "Query W&B data",
+        "server_url": "https://mcp.withwandb.com/mcp",
+        "authorization": os.getenv("WANDB_API_KEY"),
+        "require_approval": "never",
+    }],
+    input="How many traces are in wandb-smle/hiring-agent-demo-public?",
+)
+
+print(resp.output_text)
+```
+
+<Note>
+OpenAI's MCP integration is server-side, so localhost URLs do not work. Use the hosted server URL.
+</Note>
+</Tab>
+<Tab title="Gemini CLI">
+Install the W&B MCP extension with a single command:
+
+```bash
+# Set your API key
+export WANDB_API_KEY="your-api-key-here"
+
+# Install the extension
+gemini extensions install https://github.com/wandb/wandb-mcp-server
+```
+
+The extension uses the hosted server configuration automatically.
+</Tab>
+<Tab title="Mistral LeChat">
+In LeChat settings, add an MCP server with the following configuration:
+
+- **URL**: `https://mcp.withwandb.com/mcp`
+- **API Key**: Your W&B API key
+</Tab>
+</Tabs>
+
+## Local development setup
+
+If you need to run the MCP server locally for development, testing, or air-gapped environments, you can install and run it on your machine.
+
+### Prerequisites
+
+- Python 3.10 or higher
+- [uv](https://docs.astral.sh/uv/) (recommended) or pip
+
+To install `uv`, run the following `cURL` command:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### Install the MCP server
+
+To install the W&B MCP server on your local machine:
+ 
+1. run one of the following commands:
+
+<Tabs>
+<Tab title="uv">
+```bash
+uv install wandb-mcp-server
+```
+</Tab>
+<Tab title="pip">
+```bash
+pip install wandb-mcp-server
+```
+</Tab>
+<Tab title="Install directly from GitHub">
+```bash
+pip install git+https://github.com/wandb/wandb-mcp-server
+```
+</Tab>
+</Tabs>
+
+2. Once you have successfully installed the server, add the following JSON object to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "wandb": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/wandb/wandb-mcp-server",
+        "wandb_mcp_server"
+      ],
+      "env": {
+        "WANDB_API_KEY": "YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+The code tells your MCP client, such as Cursor, to use the local W&B MCP server instead of the server hosted by W&B at `https://mcp.withwandb.com/mcp`.
+
+3. For web-based clients or testing, run the server with HTTP transport:
+
+```bash
+uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
+```
+
+To expose the local server to external clients like OpenAI, use ngrok:
+
+```bash
+# Start the HTTP server
+uvx wandb-mcp-server --transport http --port 8080
+
+# In another terminal, expose with ngrok
+ngrok http 8080
+```
+
+If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
+
+
+## Usage tips
+
+- **Provide your W&B project and entity name**: Specify the W&B entity and project in your queries for accurate results.
+- **Avoid overly broad questions**: Instead of "what is my best evaluation?", ask "what eval had the highest f1 score?"
+- **Verify data retrieval**: When asking broad questions like "what are my best performing runs?", ask the assistant to confirm it retrieved all available runs.

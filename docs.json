@@ -164,6 +164,7 @@
                   "platform/hosting/monitoring-usage/org_dashboard"
                 ]
               },
+              "platform/mcp-server",
               {
                 "group": "Resources",
                 "pages": [
