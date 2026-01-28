@@ -23,15 +23,19 @@ jobs:
   linkChecker:
     runs-on: ubuntu-latest
     
-    # Run on: manual trigger, successful Mintlify deployment, or PR events (for forks)
+    # Run on:
+    # 1. Manual trigger (workflow_dispatch)
+    # 2. Successful Mintlify deployment (for non-fork PRs)
+    # 3. PR events from forks only (since forks don't get Mintlify previews)
     if: |
       github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'pull_request' ||
       (github.event_name == 'deployment_status' && 
        github.event.deployment_status.state == 'success' && 
        github.event.deployment.environment == 'staging' &&
        contains(github.event.deployment_status.creator.login, 'mintlify') &&
-       contains(github.event.deployment_status.environment_url, 'mintlify'))
+       contains(github.event.deployment_status.environment_url, 'mintlify')) ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.fork == true)
     
     steps:
       - uses: actions/checkout@v6
@@ -140,8 +144,9 @@ jobs:
           format: markdown
           # GitHub token for API rate limiting
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Override base_url with deployment URL (if available) or use production
-          # For forks without Mintlify preview: checks against production site
+          # Use deployment URL (from Mintlify preview) or fallback to production
+          # Non-fork PRs wait for deployment and use preview URL
+          # Fork PRs run immediately and check against production (no preview available)
           args: >-
             --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
             ${{ steps.changed-files.outputs.all_changed_files || '.' }}
