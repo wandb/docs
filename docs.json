@@ -426,8 +426,7 @@
                           "models/integrations/simpletransformers",
                           "models/integrations/huggingface",
                           "models/integrations/openai-gym",
-                          "models/integrations/pytorch-geometric",
-                          "models/integrations/stable-baselines-3"
+                          "models/integrations/pytorch-geometric"
                         ]
                       }
                     ]
@@ -445,8 +444,7 @@
                     "pages": [
                       "models/integrations/hydra",
                       "models/integrations/yolox",
-                      "models/integrations/yolov5",
-                      "models/integrations/ultralytics"
+                      "models/integrations/yolov5"
                     ]
                   }
                 ]
