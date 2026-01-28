@@ -242,11 +242,12 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append(f"  The snippet will be auto-detected on the next regeneration.")
         lines.append("*/}")
         lines.append("")
-    
-    # Command description from CLI (always shown, appears after any manual snippet content)
-    if cmd_info['help']:
-        lines.append(cmd_info['help'])
-        lines.append("")
+        
+        # Only add CLI help text when there's no snippet file
+        # (When a snippet exists, it should contain any necessary intro content)
+        if cmd_info['help']:
+            lines.append(cmd_info['help'])
+            lines.append("")
     
     # Usage section
     lines.append("## Usage")
@@ -367,7 +368,8 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
     snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
     
     # Add snippet or template for manual content
-    if snippet_path and snippet_path.exists():
+    has_snippet = snippet_path and snippet_path.exists()
+    if has_snippet:
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
@@ -392,9 +394,9 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append("*/}")
         lines.append("")
     
-    # Always show command description from CLI help (extracted from Python module)
-    # This appears after any manual snippet content
-    if cmd_info['help']:
+    # Only add CLI help text when there's no snippet file
+    # (When a snippet exists, it should contain any necessary intro content)
+    if not has_snippet and cmd_info['help']:
         lines.append(cmd_info['help'])
         lines.append("")
     
