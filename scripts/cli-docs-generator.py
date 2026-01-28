@@ -34,54 +34,98 @@ import sys
 import argparse
 import shutil
 import json
+import inspect
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Union
 import click
 from click.core import Command, Group
 
 def clean_text(text: str) -> str:
-    """Clean and format text for markdown."""
+    """Clean and format text for markdown.
+    
+    Uses inspect.cleandoc() to handle dedenting docstrings, then detects and converts
+    indented code blocks to fenced code blocks for Mintlify compatibility.
+    
+    Mintlify doesn't support implicit indented code blocks, so we convert them to
+    triple-backtick fenced blocks. Regular paragraphs are collapsed into single lines.
+    """
     if not text:
         return ""
     
-    # First, normalize line endings and strip the whole text
-    text = text.strip()
+    # Use inspect.cleandoc() to clean and dedent the docstring
+    # This handles common leading whitespace removal like most doc generators
+    text = inspect.cleandoc(text)
     
     # Split into paragraphs (separated by blank lines)
     paragraphs = re.split(r'\n\s*\n', text)
     
-    # Clean each paragraph: remove extra spaces within lines, but keep paragraph structure
     cleaned_paragraphs = []
     for paragraph in paragraphs:
-        # Replace multiple spaces/tabs with single space, but keep newlines
+        if not paragraph.strip():
+            continue
+        
         lines = paragraph.split('\n')
-        cleaned_lines = []
-        for line in lines:
-            # Clean up spaces within the line
-            cleaned_line = re.sub(r'[ \t]+', ' ', line.strip())
-            if cleaned_line:  # Only add non-empty lines
-                cleaned_lines.append(cleaned_line)
-        if cleaned_lines:
-            cleaned_paragraphs.append(' '.join(cleaned_lines))
+        
+        # Detect if this paragraph is a code block
+        # After cleandoc(), code blocks still have relative indentation (4+ spaces)
+        is_code_block = _is_code_block(lines)
+        
+        if is_code_block:
+            # Convert indented code block to fenced code block for Mintlify
+            code_lines = [line.strip() for line in lines if line.strip()]
+            if code_lines:
+                fenced_block = '```bash\n' + '\n'.join(code_lines) + '\n```'
+                cleaned_paragraphs.append(fenced_block)
+        else:
+            # Regular paragraph: collapse into single line
+            cleaned_text = ' '.join(line.strip() for line in lines if line.strip())
+            # Normalize whitespace
+            cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
+            if cleaned_text:
+                cleaned_paragraphs.append(cleaned_text)
     
     # Join paragraphs with double newlines for markdown
-    text = '\n\n'.join(cleaned_paragraphs)
+    result = '\n\n'.join(cleaned_paragraphs)
     
     # Escape pipe characters for markdown tables
-    text = text.replace('|', '\\|')
-    return text
+    result = result.replace('|', '\\|')
+    return result
+
+
+def _is_code_block(lines: List[str]) -> bool:
+    """Detect if a paragraph is a code block based on indentation.
+    
+    After inspect.cleandoc(), code blocks still have relative indentation.
+    Code blocks typically have 4+ spaces of indentation for all lines.
+    """
+    if not lines:
+        return False
+    
+    non_empty_lines = [line for line in lines if line.strip()]
+    if not non_empty_lines:
+        return False
+    
+    # Check if all non-empty lines start with significant indentation (4+ spaces)
+    min_indent = min(len(line) - len(line.lstrip()) for line in non_empty_lines)
+    
+    # Code blocks have at least 4 spaces of indentation
+    # Regular text paragraphs have 0 spaces after cleandoc()
+    return min_indent >= 4
 
 def clean_text_for_table(text: str) -> str:
     """Clean text for use in markdown table cells.
     
-    Collapses all whitespace (including newlines) into single spaces,
+    Uses inspect.cleandoc() then collapses all whitespace into single spaces,
     suitable for inline table cell content.
     """
     if not text:
         return ""
     
-    # Strip and collapse all whitespace (spaces, tabs, newlines) into single spaces
-    text = re.sub(r'\s+', ' ', text.strip())
+    # Clean and dedent the text
+    text = inspect.cleandoc(text)
+    
+    # Collapse all whitespace (spaces, tabs, newlines) into single spaces
+    text = re.sub(r'\s+', ' ', text)
     
     # Escape pipe characters for markdown tables
     text = text.replace('|', '\\|')
@@ -89,33 +133,28 @@ def clean_text_for_table(text: str) -> str:
     return text
 
 def get_brief_description(text: str) -> str:
-    """Get just the first sentence or line for table display."""
+    """Get just the first sentence for table display.
+    
+    Extracts and returns the first sentence from the text, suitable for
+    brief descriptions in command tables.
+    """
     if not text:
         return "No description available"
     
-    # First clean the text but without escaping pipes yet
-    text = text.strip()
+    # Clean and dedent the text
+    text = inspect.cleandoc(text)
     
-    # Split into paragraphs
+    # Split into paragraphs and get the first one
     paragraphs = re.split(r'\n\s*\n', text)
-    if not paragraphs:
+    if not paragraphs or not paragraphs[0].strip():
         return "No description available"
     
-    # Get the first paragraph
-    first_para = paragraphs[0]
+    # Collapse the first paragraph into a single line
+    first_para = re.sub(r'\s+', ' ', paragraphs[0].strip())
     
-    # Clean up spaces in the first paragraph
-    first_para = re.sub(r'[ \t\n]+', ' ', first_para.strip())
-    
-    # Try to get just the first sentence
-    # Look for sentence endings
+    # Extract the first sentence
     sentence_match = re.match(r'^(.*?[.!?])\s', first_para + ' ')
-    if sentence_match:
-        first_sentence = sentence_match.group(1)
-    else:
-        # If no sentence ending found, take the whole first paragraph
-        # but limit to reasonable length
-        first_sentence = first_para
+    first_sentence = sentence_match.group(1) if sentence_match else first_para
     
     # Limit length for table display
     max_length = 150
