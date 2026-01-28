@@ -832,10 +832,10 @@
                   {
                     "group": "Monitor and collect feedback",
                     "pages": [
-                          "weave/guides/tracking/feedback",
-                          "weave/guides/tracking/redact-pii",
-                          "weave/guides/evaluation/guardrails_and_monitors",
-                          "weave/guides/tracking/otel"
+                      "weave/guides/tracking/feedback",
+                      "weave/guides/tracking/redact-pii",
+                      "weave/guides/evaluation/guardrails_and_monitors",
+                      "weave/guides/tracking/otel"
                     ]
                   },
                   {
@@ -2493,8 +2493,8 @@
     },
     {
       "source": "/models/runs/multiple-runs-per-process",
-      "destination" : "/models/runs/initialize-run"
-    },    
+      "destination": "/models/runs/initialize-run"
+    },
     {
       "source": "/models/hosting/:slug*",
       "destination": "/platform/hosting/:slug*"
