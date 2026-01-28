@@ -40,29 +40,97 @@ import click
 from click.core import Command, Group
 
 def clean_text(text: str) -> str:
-    """Clean and format text for markdown."""
+    """Clean and format text for markdown.
+    
+    Preserves indented code blocks (lines with 8+ spaces or relative indentation > 4) while
+    cleaning regular paragraph text. Handles Click docstrings where regular paragraphs
+    are indented with 4 spaces and code examples with 8+ spaces.
+    """
     if not text:
         return ""
     
     # First, normalize line endings and strip the whole text
     text = text.strip()
     
+    # Detect and remove common leading indentation (from Python docstrings)
+    lines = text.split('\n')
+    # Find minimum indentation of non-empty lines
+    indents = []
+    for line in lines:
+        if line.strip():  # Skip empty lines
+            # Count leading spaces
+            indent = len(line) - len(line.lstrip())
+            indents.append(indent)
+    
+    if indents:
+        min_indent = min(indents)
+        # Remove the common indentation from all lines
+        dedented_lines = []
+        for line in lines:
+            if line.strip():  # Non-empty lines
+                dedented_lines.append(line[min_indent:])
+            else:  # Empty lines
+                dedented_lines.append('')
+        text = '\n'.join(dedented_lines)
+    
     # Split into paragraphs (separated by blank lines)
     paragraphs = re.split(r'\n\s*\n', text)
     
-    # Clean each paragraph: remove extra spaces within lines, but keep paragraph structure
+    # Clean each paragraph
     cleaned_paragraphs = []
     for paragraph in paragraphs:
-        # Replace multiple spaces/tabs with single space, but keep newlines
         lines = paragraph.split('\n')
-        cleaned_lines = []
+        
+        # Determine the minimum indentation within this paragraph
+        para_indents = []
         for line in lines:
-            # Clean up spaces within the line
-            cleaned_line = re.sub(r'[ \t]+', ' ', line.strip())
-            if cleaned_line:  # Only add non-empty lines
-                cleaned_lines.append(cleaned_line)
-        if cleaned_lines:
-            cleaned_paragraphs.append(' '.join(cleaned_lines))
+            if line.strip():
+                indent = len(line) - len(line.lstrip())
+                para_indents.append(indent)
+        
+        if not para_indents:
+            continue
+            
+        para_min_indent = min(para_indents)
+        
+        # Code blocks have 8+ spaces OR relative indentation after removing paragraph base
+        # This handles Click docstrings where regular text has 4 spaces and code has 8
+        is_code_block = para_min_indent >= 8 or (
+            para_min_indent >= 4 and 
+            any(len(line) - len(line.lstrip()) >= para_min_indent + 4 
+                for line in lines if line.strip())
+        )
+        
+        # Special case: if minimum indentation is exactly 4 and all lines have exactly 4 or less,
+        # treat as regular text (this is Click's formatting for regular paragraphs)
+        if para_min_indent == 4 and all(
+            len(line) - len(line.lstrip()) <= 4 or not line.strip()
+            for line in lines
+        ):
+            is_code_block = False
+        
+        if is_code_block:
+            # Code block: convert to fenced code block for Mintlify MDX
+            # Mintlify doesn't support indented code blocks, requires fenced blocks
+            code_lines = []
+            for line in lines:
+                if line.strip():
+                    # Remove all indentation from code lines
+                    code_lines.append(line.strip())
+            if code_lines:
+                # Wrap in triple backticks for fenced code block
+                fenced_block = '```bash\n' + '\n'.join(code_lines) + '\n```'
+                cleaned_paragraphs.append(fenced_block)
+        else:
+            # Regular paragraph: dedent and collapse into single line
+            cleaned_lines = []
+            for line in lines:
+                # Strip all leading whitespace and clean
+                cleaned_line = re.sub(r'[ \t]+', ' ', line.strip())
+                if cleaned_line:
+                    cleaned_lines.append(cleaned_line)
+            if cleaned_lines:
+                cleaned_paragraphs.append(' '.join(cleaned_lines))
     
     # Join paragraphs with double newlines for markdown
     text = '\n\n'.join(cleaned_paragraphs)
