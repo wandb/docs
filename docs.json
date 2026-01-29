@@ -215,7 +215,8 @@
                           "models/runs/manage-runs",
                           "models/runs/run-colors",
                           "models/runs/color-code-runs",
-                          "models/runs/alert"
+                          "models/runs/alert",
+                          "models/runs/infrastructure-alerts"
                         ]
                       },
                       {
