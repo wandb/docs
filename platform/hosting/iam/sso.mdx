@@ -2,23 +2,23 @@
 title: Configure SSO with OIDC
 ---
 
-W&B Server's support for OpenID Connect (OIDC) compatible identity providers allows for management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, and Entra.
+W&B's support for OpenID Connect (OIDC) compatible identity providers allows for management of user identities and group memberships through external identity providers like Okta, Keycloak, Auth0, Google, and Entra.
 
 ## OpenID Connect (OIDC)
 
-W&B Server supports the following OIDC authentication flows for integrating with external Identity Providers (IdPs).
+W&B supports the following OIDC authentication flows for integrating with external Identity Providers (IdPs).
 1. Implicit Flow with Form Post 
 2. Authorization Code Flow with Proof Key for Code Exchange (PKCE)
 
-These flows authenticate users and provide W&B Server with the necessary identity information (in the form of ID tokens) to manage access control.
+These flows authenticate users and provide W&B with the necessary identity information (in the form of ID tokens) to manage access control.
 
-The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B Server uses this token to authenticate the user and map them to appropriate roles or groups in the system.
+The ID token is a JWT that contains the user's identity information, such as their name, username, email, and group memberships. W&B uses this token to authenticate the user and map them to appropriate roles or groups in the system.
 
-In the context of W&B Server, access tokens authorize requests to APIs on behalf of the user, but since W&B Server’s primary concern is user authentication and identity, it only requires the ID token.
+In the context of W&B, access tokens authorize requests to APIs on behalf of the user, but since W&B’s primary concern is user authentication and identity, it only requires the ID token.
 
 You can use environment variables to [configure IAM options](/platform/hosting/iam/advanced_env_vars) for your [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instance.
 
-To assist with configuring Identity Providers for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
+To assist with configuring Identity Providers for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) W&B installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
 ## Configure your IdP
 This section shows how to configure your identity provider (IdP) for OIDC. Select the tab for your IdP for details.
@@ -124,7 +124,7 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 Next, [Set up SSO in W&B](#set-up-sso-in-w%26b).
 </Tab>
 <Tab title="Entra">
-Azure AD (Entra ID) supports two OIDC configuration modes for W&B Server. Choose the configuration that matches your security requirements:
+Azure AD (Entra ID) supports two OIDC configuration modes for W&B. Choose the configuration that matches your security requirements:
 
 - [Public Client](#public-client): Uses PKCE without a client secret. Simpler to configure, suitable for most deployments.
 - [Confidential Client](#confidential-client): Uses PKCE with a client secret for enhanced security. Required if you need to set the `GORILLA_OIDC_SECRET` environment variable.
@@ -160,7 +160,7 @@ Make a note of the following details:
 - **OIDC Client ID**: The Application (client) ID from step 5
 - **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5)
 
-When configuring W&B Server, use:
+When configuring W&B, use:
 - **Auth Method**: `pkce`
 - **OIDC Client Secret**: Leave empty (do not set `GORILLA_OIDC_SECRET`)
 
@@ -202,7 +202,7 @@ Make a note of the following details:
 - **OIDC Client Secret**: The secret value from step 7.
 - **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5).
 
-When configuring W&B Server, use:
+When configuring W&B, use:
 - **Auth Method**: `pkce`
 - **OIDC Client Secret**: Set the `GORILLA_OIDC_SECRET` environment variable to the secret value from step 7
 
@@ -289,4 +289,4 @@ If you're unable to log in to your instance after configuring SSO, you can resta
 </Note>
 
 ## Security Assertion Markup Language (SAML)
-W&B Server does not support SAML.
+W&B does not support SAML.
