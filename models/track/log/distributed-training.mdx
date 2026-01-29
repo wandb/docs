@@ -10,11 +10,15 @@ During a distributed training experiment, you train a model using multiple machi
    * Track each process separately using one run per process. You can optionally group them together in the W&B App UI.
    * Track all processes to a single run.
 
-<Note>
-Each concurrent connection takes compute, memory, and network resources. W&B recommends that you limit the maximum number of concurrent client connections as appropriate for your workload and that you monitor resource usage over time. W&B has tested with a hard limit of 300 concurrent client connections in **Dedicated Cloud**.
+<Tip>
+**Concurrent connections**
 
-In **Multi-tenant Cloud** organizations, keep in mind that client connections for distributed training are subject to [rate limits](/models/track/limits#rate-limits). Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
-</Note>
+Each concurrent connection takes compute, memory, and network resources. Even empty client connections that don't log metrics regularly push system metric updates, leading to slower performance when loading charts.
+
+W&B recommends that you limit the maximum number of concurrent client connections as appropriate for your workload and that you monitor resource usage over time. W&B has tested with a hard limit of 300 concurrent client connections in **Dedicated Cloud**.
+
+In **Multi-tenant Cloud** organizations, client connections for distributed training are subject to the same [rate limits](/models/track/limits#rate-limits) as regular training runs. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
+</Tip>
 
 {/* The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
 
