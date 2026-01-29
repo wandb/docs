@@ -10,9 +10,8 @@ on:
   deployment_status:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - '**.md'
-      - '**.mdx'
+    # No paths filter - we check paths inside the job for fork PRs only
+    # This prevents "Skipped" status for same-repo PRs
 
 permissions:
   contents: read
@@ -23,21 +22,43 @@ jobs:
   linkChecker:
     runs-on: ubuntu-latest
     
-    # Run on: manual trigger, successful Mintlify deployment, or PR events (for forks)
+    # Run on:
+    # 1. Manual trigger (workflow_dispatch)
+    # 2. Successful Mintlify deployment (for same-repo PRs - waits for preview URL)
+    # 3. PR events from forks only (no Mintlify preview, checks against production)
     if: |
       github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'pull_request' ||
       (github.event_name == 'deployment_status' && 
        github.event.deployment_status.state == 'success' && 
        github.event.deployment.environment == 'staging' &&
        contains(github.event.deployment_status.creator.login, 'mintlify') &&
-       contains(github.event.deployment_status.environment_url, 'mintlify'))
+       contains(github.event.deployment_status.environment_url, 'mintlify')) ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.fork == true)
     
     steps:
       - uses: actions/checkout@v6
         with:
           # Needed to diff base..head for the associated PR
           fetch-depth: 0
+
+      - name: Early exit if no docs changed (fork PRs only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true
+        id: fork-docs-check
+        uses: tj-actions/changed-files@v47.0.1
+        with:
+          files: |
+            **/*.md
+            **/*.mdx
+
+      - name: Report no changes (fork PRs only)
+        if: |
+          github.event_name == 'pull_request' && 
+          github.event.pull_request.head.repo.fork == true && 
+          steps.fork-docs-check.outputs.any_changed != 'true'
+        run: |
+          echo "✓ No documentation files (.md/.mdx) changed in this fork PR."
+          echo "Link check not needed - exiting successfully."
 
       - name: Resolve PR and deployment URL
         id: pr-context
@@ -78,7 +99,15 @@ jobs:
 
       - name: Get changed documentation files
         id: changed-files
-        if: steps.pr-context.outputs.pr_number != '' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
+        # Skip this for fork PRs with no doc changes (already checked above)
+        # For deployment_status and workflow_dispatch, always run
+        if: |
+          (github.event_name == 'pull_request' && 
+           github.event.pull_request.head.repo.fork == true && 
+           steps.fork-docs-check.outputs.any_changed == 'true') ||
+          (github.event_name == 'deployment_status' && 
+           steps.pr-context.outputs.pr_number != '') ||
+          github.event_name == 'workflow_dispatch'
         uses: tj-actions/changed-files@v47.0.1
         with:
           base_sha: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
@@ -130,7 +159,17 @@ jobs:
 
       - name: Link Checker
         id: lychee
-        if: steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
+        # Run if:
+        # - Fork PR with doc changes
+        # - Deployment status event with doc changes  
+        # - Manual workflow dispatch
+        if: |
+          (github.event_name == 'pull_request' && 
+           github.event.pull_request.head.repo.fork == true && 
+           steps.fork-docs-check.outputs.any_changed == 'true') ||
+          (github.event_name == 'deployment_status' && 
+           steps.changed-files.outputs.any_changed == 'true') ||
+          github.event_name == 'workflow_dispatch'
         uses: lycheeverse/lychee-action@v2
         with:
           fail: false
@@ -140,115 +179,78 @@ jobs:
           format: markdown
           # GitHub token for API rate limiting
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Override base_url with deployment URL (if available) or use production
-          # For forks without Mintlify preview: checks against production site
+          # Use deployment URL (from Mintlify preview) or fallback to production
+          # Same-repo PRs: Wait for deployment and use preview URL
+          # Fork PRs: Run immediately and check against production (no preview available)
           args: >-
             --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
-            ${{ steps.changed-files.outputs.all_changed_files || '.' }}
+            ${{ steps.fork-docs-check.outputs.all_changed_files || steps.changed-files.outputs.all_changed_files || '.' }}
 
-      - name: Comment PR with link check results
-        if: (steps.pr-context.outputs.pr_number != '' || github.event_name == 'pull_request') && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch')
+      - name: Comment on PR with results
+        # Comment if link checker ran
+        if: |
+          steps.get-pr.outputs.pr_number && 
+          (steps.lychee.conclusion == 'success' || 
+           steps.lychee.conclusion == 'failure')
         uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
+            const prNumber = parseInt('${{ steps.get-pr.outputs.pr_number }}');
+            const exitCode = parseInt('${{ steps.lychee.outputs.exit_code }}') || 0;
+            const deployUrl = '${{ steps.pr-context.outputs.deploy_url || github.event.deployment_status.environment_url }}';
+            
             const identifier = '<!-- lychee-link-checker-comment -->';
-
             let commentBody = identifier + '\n';
-
-            const isFork = context.payload.pull_request?.head?.repo?.fork || false;
-            const deployUrl = '${{ steps.pr-context.outputs.deploy_url }}';
-
-            if (${{ steps.lychee.outputs.exit_code }} === 0) {
+            
+            const checkedAgainst = deployUrl || 'https://docs.wandb.ai';
+            
+            if (exitCode === 0) {
               // Success - no broken links
               commentBody += '## 🔗 Link Checker Results\n\n';
               commentBody += '✅ **All links are valid!**\n\n';
-              commentBody += 'No broken links were detected in the changed files.\n';
-              if (isFork && !deployUrl) {
-                commentBody += '\n_Note: Checked against production site (https://docs.wandb.ai) since preview deployments are not available for forks._\n';
-              }
-              
-              // Check if there were redirects in the report
+              commentBody += 'No broken links were detected.\n';
+              commentBody += `\n_Checked against: ${checkedAgainst}_\n`;
+            } else {
+              // Issues found
               try {
                 const report = fs.readFileSync('./lychee/out.md', 'utf8');
-                if (report.includes('Redirect') || report.includes('redirect')) {
-                  commentBody += '\n\n> [!TIP]\n';
-                  commentBody += '> **Redirects detected**: If you see redirects for internal docs.wandb.ai links, check if they have trailing slashes.\n';
-                  commentBody += '> \n';
-                  commentBody += '> Mintlify automatically removes trailing slashes, causing redirects like:\n';
-                  commentBody += '> - `https://docs.wandb.ai/models/` → `https://docs.wandb.ai/models`\n';
-                  commentBody += '> \n';
-                  commentBody += '> **Fix**: Remove trailing slashes from links to avoid unnecessary redirects.\n';
-                }
+                commentBody += '## 🔗 Link Checker Results\n\n';
+                commentBody += '⚠️ **Some issues were detected**\n\n';
+                commentBody += `_Checked against: ${checkedAgainst}_\n\n`;
+                commentBody += '---\n\n';
+                commentBody += report;
               } catch (e) {
-                // Ignore if report file doesn't exist
+                commentBody += '## 🔗 Link Checker Results\n\n';
+                commentBody += '⚠️ Link checker found issues but could not read report.\n';
               }
-            } else {
-              // Issues found - include report
-              const report = fs.readFileSync('./lychee/out.md', 'utf8');
-
-              commentBody += '## 🔗 Link Checker Results\n\n';
-              commentBody += '> [!NOTE]\n';
-              if (isFork && !deployUrl) {
-                commentBody += '> This PR is from a fork, so links were checked against the **production site** (https://docs.wandb.ai).\n';
-                commentBody += '> \n';
-                commentBody += '> Links to **newly created files** in this PR will be reported as broken until the PR is merged.\n';
-              } else {
-                commentBody += '> Links to **newly created files** in this PR may be reported as broken because this checks links against the **preview deployment**.\n';
-              }
-              commentBody += '> \n';
-              commentBody += '> Warnings about **new** files in this PR can be safely ignored.\n\n';
-              
-              // Add trailing slash tip if redirects are present
-              if (report.includes('Redirect') || report.includes('redirect')) {
-                commentBody += '> [!TIP]\n';
-                commentBody += '> **Redirects detected**: If you see redirects for internal docs.wandb.ai links, check if they have trailing slashes.\n';
-                commentBody += '> \n';
-                commentBody += '> Mintlify automatically removes trailing slashes, causing redirects like:\n';
-                commentBody += '> - `https://docs.wandb.ai/models/` → `https://docs.wandb.ai/models`\n';
-                commentBody += '> - `/weave/quickstart/` → `/weave/quickstart`\n';
-                commentBody += '> \n';
-                commentBody += '> **Fix**: Remove trailing slashes from links to avoid unnecessary redirects.\n\n';
-              }
-              
-              commentBody += '---\n\n';
-              commentBody += report;
             }
-
-            // Determine PR number
-            const prNumber = Number('${{ steps.pr-context.outputs.pr_number }}') || 
-                           context.payload.pull_request?.number;
             
-            if (!prNumber) {
-              core.info('No PR number available, skipping comment');
-              return;
-            }
-
-            // Find existing comment
+            // Find and update existing comment, or create new one
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
             });
-
+            
             const existingComment = comments.find(comment =>
               comment.body?.includes(identifier) && comment.user?.login === 'github-actions[bot]'
             );
-
+            
             if (existingComment) {
-              // Update existing comment
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: existingComment.id,
                 body: commentBody
               });
+              core.info(`Updated comment ${existingComment.id} on PR #${prNumber}`);
             } else {
-              // Create new comment
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: prNumber,
                 body: commentBody
               });
+              core.info(`Created new comment on PR #${prNumber}`);
             }

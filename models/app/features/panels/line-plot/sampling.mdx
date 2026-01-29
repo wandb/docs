@@ -15,9 +15,47 @@ There are three main advantages to using full fidelity mode for point aggregatio
 * Configure how minimum and maximum points render: use the W&B App to interactively decide whether you want to show extreme (min/max) values as a shaded area.
 * Explore your data without losing data fidelity: W&B recalculates x-axis bucket sizes when you zoom into specific data points. This helps ensure that you can explore your data without losing accuracy. Caching is used to store previously computed aggregations to help reduce loading times which is particularly useful if you are navigating through large datasets.
 
-### Configure how minimum and maximum points render
+### Turn on full fidelity
+W&B uses full fidelity mode by default. To configure it manually, follow these steps:
 
-Show or hide minimum and maximum values with shaded areas around your line plots.
+<Tabs>
+<Tab title="All charts in a workspace">
+1. Navigate to your workspace.
+3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
+4. From the UI slider that appears, select **Line plots**
+5. Choose **Full fidelity** from the **Point aggregation** section.
+6. Configure the **Smoothing** algorithm and settings.
+7. Set **Aggregation** to **Mean**, **Min**, or **Max**.
+8. Click **Apply**.
+</Tab>
+<Tab title="Individual chart in a workspace">
+1. Navigate to your workspace.
+2. Select on the **Workspace** icon on the left tab
+3. Hover over the line plot panel you want to configure, then click the gear icon.
+4. Within the modal that appears, set **Point aggregation method** to **Full fidelity**.
+5. Configure the **Smoothing** algorithm and settings.
+6. Click **Apply**.
+</Tab>
+</Tabs>
+
+### Configure shading
+
+The shaded areas of a full-fidelity line plot can show:
+- **Min/Max**: For each X-axis point, shade the area between the minimum and maximum values. The shaded area shows all points from the lowest to the highest value in each bucket:
+    $$
+    \text{Min/Max Range} = [\min(x_1, x_2, \ldots, x_n),\ \max(x_1, x_2, \ldots, x_n)]
+    $$
+    where $x_1, x_2, \ldots, x_n$ are the values in a given bucket.
+
+- **Standard deviation**: For each X-axis point, calculate the variability of the values using standard deviation, and shade the resulting area.
+    $$
+    SD = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i - \overline{x})^2}
+    $$
+- **Standard error**: For each X-axis point, calculate the likelihood of a sampling error by dividing the value by the square root of the sample size:
+    $$
+    SE = \frac{SD}{\sqrt{n}}
+    $$
+- **None**: No shading (the default).
 
 The proceeding image shows a blue line plot. The light blue shaded area represents the minimum and maximum values for each bucket.
 
@@ -25,30 +63,15 @@ The proceeding image shows a blue line plot. The light blue shaded area represen
     <img src="/images/app_ui/shaded-areas.png" alt="Shaded confidence areas"  />
 </Frame>
 
-There are three ways to render minimum and maximum values in your line plots:
+To configure shading:
 
-* **Never**: The min/max values are not displayed as a shaded area. Only show the aggregated line across the x-axis bucket.
-* **On hover**: The shaded area for min/max values appears dynamically when you hover over the chart. This option keeps the view uncluttered while allowing you to inspect ranges interactively.
-* **Always**: The min/max shaded area is consistently displayed for every bucket in the chart, helping you visualize the full range of values at all times. This can introduce visual noise if there are many runs visualized in the chart.
-
-By default, the minimum and maximum values are not displayed as shaded areas. To view one of the shaded area options, follow these steps:
-
-<Tabs>
-<Tab title="All charts in a workspace">
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Select the gear icon on the top right corner of the screen next to the left of the **Add panels** button.
-4. From the UI slider that appears, select **Line plots**
-5. Within the **Point aggregation** section, choose **On over** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
-</Tab>
-<Tab title="Individual chart in a workspace">
-1. Navigate to your W&B project
-2. Select on the **Workspace** icon on the left tab
-3. Select the line plot panel you want to enable full fidelity mode for
-4. Within the modal that appears, select **On hover** or **Always** from the **Show min/max values as a shaded area** dropdown menu.
-</Tab>
-</Tabs>
-
+1. Navigate to your workspace.
+2. Hover over a line plot, then click the gear icon.
+3. In the **Data** tab, set **Point aggregation** to **Full fidelity** if necessary, then configure the smoothing algorithm.
+4. In the **Grouping** tab, turn on **Group runs**. Optionally, set **Group by** to a run attribute.
+5. Set **Agg** to **Mean** (default), **Min**, or **Max**.
+6. Set **Range** to **Min/Max**, **Std Dev**, **Std Err**, or **None**.
+7. Click **Apply**.
 
 ### Explore your data without losing data fidelity
 
