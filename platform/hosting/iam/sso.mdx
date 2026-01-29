@@ -75,6 +75,8 @@ Follow the procedure below to set up AWS Cognito for authorization:
     </Frame>
 
     Do not use the "Cognito domain" for the IDP URL. Cognito provides it's discovery document at `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
+
+Next, [Set up SSO in W&B](#set-up-sso-in-w%26b).
 </Tab>
 <Tab title="Okta">
 Follow the procedure below to set up Okta for authorization: 
@@ -118,6 +120,8 @@ Follow the procedure below to set up Okta for authorization:
     </Frame>
 
 The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replace COMPANY with the corresponding value. Make note of it.
+
+Next, [Set up SSO in W&B](#set-up-sso-in-w%26b).
 </Tab>
 <Tab title="Entra">
 Azure AD (Entra ID) supports two OIDC configuration modes for W&B Server. Choose the configuration that matches your security requirements:
@@ -129,35 +133,30 @@ Azure AD (Entra ID) supports two OIDC configuration modes for W&B Server. Choose
 Do not mix configurations. If you select "Single-page application" in Azure AD, do not provide a client secret. If you need a client secret, you must select "Web" as the platform type.
 </Warning>
 
-### Public client
+<AccordionGroup>
+<Accordion title="Public client" defaultOpen="true">
 Use this configuration if you do not need to specify a client secret. This configuration is suitable for deployments without advanced security requirements.
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
-
 2. Navigate to **Microsoft Entra ID** service and select **App registrations** from the left sidebar.
-
 3. Click **New registration** at the top of the page.
-
 4. On the "Register an application" screen, configure the following:
-   - **Name**: Enter a descriptive name (for example, "Weights and Biases application")
-   - **Supported account types**: Keep the default "Single tenant" or modify as needed
-   - **Redirect URI**: Select platform type **Single-page application** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
-   - Click **Register**
-
+   - **Name**: Enter a descriptive name.
+   - **Supported account types**: Keep the default "Single tenant" or modify as needed.
+   - **Redirect URI**: Select platform type **Single-page application** and enter `https://YOUR_W_AND_B_URL/oidc/callback`.
+   - Click **Register**.
 5. After registration, note the following values from the Overview page:
-   - **Application (client) ID** - This is your OIDC Client ID
-   - **Directory (tenant) ID** - This is used for your OIDC Issuer URL
-
+   - **Application (client) ID**: Your OIDC Client ID.
+   - **Directory (tenant) ID**: Your OIDC Issuer URL.
    <Frame>
    <img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs"  />
    </Frame>
-
 6. Configure authentication settings:
-   - Select **Authentication** from the left sidebar
-   - Under **Front-channel logout URL**, enter `https://YOUR_W_AND_B_URL/logout`
-   - Click **Save**
+   - Select **Authentication** from the left sidebar.
+   - Under **Front-channel logout URL**, enter `https://YOUR_W_AND_B_URL/logout`.
+   - Click **Save**.
 
-You should now have collected two essential values:
+Make a note of the following details:
 - **OIDC Client ID**: The Application (client) ID from step 5
 - **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5)
 
@@ -165,51 +164,43 @@ When configuring W&B Server, use:
 - **Auth Method**: `pkce`
 - **OIDC Client Secret**: Leave empty (do not set `GORILLA_OIDC_SECRET`)
 
-
-### Confidential client
-Use this configuration if you need to specify a client secret, due to security or compliance requirements.
+Next, [Set up SSO in W&B](#set-up-sso-in-w%26b).
+</Accordion>
+<Accordion title="Confidential client">
+Use this configuration if you need to authenticate using a client secret.
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
-
 2. Navigate to **Microsoft Entra ID** service and select **App registrations** from the left sidebar.
-
 3. Click **New registration** at the top of the page.
-
 4. On the "Register an application" screen, configure the following:
-   - **Name**: Enter a descriptive name (for example, "Weights and Biases application")
-   - **Supported account types**: Keep the default "Single tenant" or modify as needed
-   - **Redirect URI**: Select platform type **Web** and enter `https://YOUR_W_AND_B_URL/oidc/callback`
-   - Click **Register**
-
+   - **Name**: Enter a descriptive name.
+   - **Supported account types**: Keep the default "Single tenant" or modify as needed.
+   - **Redirect URI**: Select platform type **Web** and enter `https://YOUR_W_AND_B_URL/oidc/callback`.
+   - Click **Register**.
 5. After registration, note the following values from the Overview page:
-   - **Application (client) ID** - This is your OIDC Client ID
-   - **Directory (tenant) ID** - This is used for your OIDC Issuer URL
-
+   - **Application (client) ID**: Your OIDC Client ID.
+   - **Directory (tenant) ID**: Your OIDC Issuer URL.
    <Frame>
    <img src="/images/hosting/entra_app_overview_make_note.png" alt="Application and Directory IDs"  />
    </Frame>
-
 6. Configure authentication settings:
-   - Select **Authentication** from the left sidebar
-   - Under **Front-channel logout URL**, enter `https://YOUR_W_AND_B_URL/logout`
+   - Select **Authentication** from the left sidebar.
+   - Under **Front-channel logout URL**, enter `https://<YOUR_W_AND_B_URL>/logout`.
    - Click **Save**
-
 7. Create a client secret:
-   - Select **Certificates & secrets** from the left sidebar
-   - Click **New client secret**
-   - Add a description (for example, "wandb")
-   - Choose an expiration period
-   - Click **Add**
-   - **Important**: Copy and save the secret **Value** immediately (not the Secret ID)
-
+   - Select **Certificates & secrets** from the left sidebar.
+   - Click **New client secret**.
+   - Add a description for the secret.
+   - Choose an expiration period.
+   - Click **Add**. <Warning>Copy and save the secret **Value** immediately (not the Secret ID)</Warning>.
    <Frame>
    <img src="/images/hosting/entra_make_note_of_secret_value.png" alt="Client secret value"  />
    </Frame>
 
-You should now have collected three essential values:
-- **OIDC Client ID**: The Application (client) ID from step 5
-- **OIDC Client Secret**: The secret value from step 7
-- **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5)
+Make a note of the following details:
+- **OIDC Client ID**: The Application (client) ID from step 5.
+- **OIDC Client Secret**: The secret value from step 7.
+- **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` (replace {TenantID} with your Directory ID from step 5).
 
 When configuring W&B Server, use:
 - **Auth Method**: `pkce`
@@ -219,10 +210,13 @@ When configuring W&B Server, use:
 The v2.0 endpoint supports both personal Microsoft accounts and work/school accounts. If your organization requires the v1.0 endpoint, use `https://login.microsoftonline.com/{TenantID}` instead.
 </Note>
 
+Next, [Set up SSO in W&B](#set-up-sso-in-w%26b).
+</Accordion>
+</AccordionGroup>
 </Tab>
 </Tabs>
 
-## Set up SSO on the W&B Server
+## Set up SSO in W&B
 
 To set up SSO, you need administrator privileges and the following information:
 - OIDC Client ID
