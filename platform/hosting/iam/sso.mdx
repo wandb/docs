@@ -20,6 +20,8 @@ You can use environment variables to [configure IAM options](/platform/hosting/i
 
 To assist with configuring Identity Providers for [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) W&B Server installations, follow these guidelines to follow for various IdPs. If you’re using the SaaS version of W&B, reach out to [support@wandb.com](mailto:support@wandb.com) for assistance in configuring an Auth0 tenant for your organization.
 
+## Configure your IdP
+This section shows how to configure your identity provider (IdP) for OIDC. Select the tab for your IdP for details.
 <Tabs>
 <Tab title="Cognito">
 Follow the procedure below to set up AWS Cognito for authorization: 
@@ -120,15 +122,14 @@ The OIDC issuer URL has the following format: `https://COMPANY.okta.com`. Replac
 <Tab title="Entra">
 Azure AD (Entra ID) supports two OIDC configuration modes for W&B Server. Choose the configuration that matches your security requirements:
 
-- **Public Client (no secret)**: Uses PKCE without a client secret. Simpler to configure, suitable for most deployments.
-- **Confidential Client (with secret)**: Uses PKCE with a client secret for enhanced security. Required if you need to set the `GORILLA_OIDC_SECRET` environment variable.
+- [Public Client](#public-client): Uses PKCE without a client secret. Simpler to configure, suitable for most deployments.
+- [Confidential Client](#confidential-client): Uses PKCE with a client secret for enhanced security. Required if you need to set the `GORILLA_OIDC_SECRET` environment variable.
 
 <Warning>
 Do not mix configurations. If you select "Single-page application" in Azure AD, do not provide a client secret. If you need a client secret, you must select "Web" as the platform type.
 </Warning>
 
-<Tabs>
-<Tab title="Public client">
+### Public client
 Use this configuration if you do not need to specify a client secret. This configuration is suitable for deployments without advanced security requirements.
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
@@ -163,8 +164,9 @@ You should now have collected two essential values:
 When configuring W&B Server, use:
 - **Auth Method**: `pkce`
 - **OIDC Client Secret**: Leave empty (do not set `GORILLA_OIDC_SECRET`)
-</Tab>
-<Tab title="Confidential client">
+
+
+### Confidential client
 Use this configuration if you need to specify a client secret, due to security or compliance requirements.
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
@@ -216,8 +218,7 @@ When configuring W&B Server, use:
 <Note>
 The v2.0 endpoint supports both personal Microsoft accounts and work/school accounts. If your organization requires the v1.0 endpoint, use `https://login.microsoftonline.com/{TenantID}` instead.
 </Note>
-</Tab>
-</Tabs>
+
 </Tab>
 </Tabs>
 
