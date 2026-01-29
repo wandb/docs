@@ -1,0 +1,17 @@
+Capture groups in your regular expression control how multi-metric panels are created. This behavior can be confusing if you're not expecting it.
+
+- **Capture groups create multiple panels**
+    When your regular expression includes parentheses that form a capture group, the UI creates a separate panel for each unique value captured by that group.
+
+    For example, the expression `(layer_0|layer_10)_loss` includes a capture group and will create two separate panels:
+    1. One panel for metrics matching `layer_0`.
+    2. One panel for metrics matching `layer_10`.
+
+- **Non-capturing groups keep metrics together**
+    To match multiple alternatives without creating separate panels, use a non-capturing group with the `?:` syntax. The expression `(?:layer_0|layer_10)_loss` matches the same metrics as the previous example, but displays them together in a single panel.
+
+Here's the difference:
+- `(layer_0|layer_10)_loss` - Creates two panels, one for each layer.
+- `(?:layer_0|layer_10)_loss` - Creates one panel showing both layers together.
+
+This gives you flexibility to choose the approach that best fits your analysis needs. Use capture groups when you want to separate metrics into distinct panels. Use non-capturing groups when you want to compare metrics together on a single plot.

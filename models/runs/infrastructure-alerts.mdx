@@ -1,0 +1,12 @@
+---
+title: Visualize CoreWeave infrastructure alerts
+description: 
+---
+
+Observe infrastructure alerts such as GPU failures, thermal violations, and more during machine learning experiments you log to W&B. During a [W&B run](/models/runs), [CoreWeave Mission Control](https://coreweave.com/mission-control) monitors your compute infrastructure.
+
+<Note>
+This feature is in Preview and only available when training on a CoreWeave cluster. Contact your W&B representative for access.
+</Note>
+
+If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to automatically resolve some issues, and W&B surfaces that information in the run’s page.
