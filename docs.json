@@ -2333,6 +2333,10 @@
       "destination": "/models/app/console-logs"
     },
     {
+      "source": "/guides/app/features/panels/line-plot/#visualize-coreweave-infrastructure-alerts",
+      "destination": "/models/runs/infrastructure-alerts"
+    },
+    {
       "source": "/guides/app/keyboard-shortcuts",
       "destination": "/models/app/keyboard-shortcuts"
     },
