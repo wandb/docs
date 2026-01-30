@@ -275,14 +275,14 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 
 ## Upgrade W&B Server
 
-W&B is upgrade automatically by the W&B Operator if you wish to disable the automatic updates it's necessary to override the images using the system console and update the `UserSpec`.
+The Operator upgrades W&B automatically by the W&B Operator. To turn this off, you can update the user spec to override the images from the system console.
 
-Steps to pin the images to a certain version:
+To pin the images to a specific version:
 
 1. Access the ActiveSpec in the system console `https://<W&B URL>/console/settings/advanced/spec/active`
-2. Copy all components image configuration. Ex.:
+2. Copy the components image configuration, which looks similar to:
 
-```
+```yaml
   api:
     image:
       tag: 0.75.2
@@ -301,7 +301,7 @@ Steps to pin the images to a certain version:
 
 3. Paste the component configuration replacing the image tag in the `UserSpec`
 
-```
+```yaml
 chart: {}
 values:
   api:
@@ -329,4 +329,4 @@ values:
      />
    </Frame>
 
-After these steps the W&B Operator will reconcile the configuration and pin the image version according to the configuartion override in the `UserSpec`
+The W&B Operator reconciles the configuration and pins the image to the specified version.
