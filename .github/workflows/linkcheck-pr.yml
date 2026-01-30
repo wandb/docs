@@ -87,12 +87,23 @@ jobs:
             if (!pr) {
               core.warning(`No PR associated with commit ${sha}. Skipping linkcheck + PR comment.`);
               core.setOutput('pr_number', '');
+              core.setOutput('pr_closed', 'false');
               core.setOutput('deploy_url', deployUrl);
+              return;
+            }
+
+            // Check if PR is already merged/closed - preview likely torn down
+            if (pr.state === 'closed') {
+              core.warning(`PR #${pr.number} is already ${pr.merged_at ? 'merged' : 'closed'}. Preview likely torn down. Skipping link check.`);
+              core.setOutput('pr_number', '');
+              core.setOutput('pr_closed', 'true');
+              core.setOutput('deploy_url', '');
               return;
             }
 
             core.info(`Associated PR: #${pr.number} (${pr.html_url})`);
             core.setOutput('pr_number', String(pr.number));
+            core.setOutput('pr_closed', 'false');
             core.setOutput('base_sha', pr.base.sha);
             core.setOutput('head_sha', pr.head.sha);
             core.setOutput('deploy_url', deployUrl);
@@ -161,15 +172,16 @@ jobs:
         id: lychee
         # Run if:
         # - Fork PR with doc changes
-        # - Deployment status event with doc changes  
+        # - Deployment status event with doc changes (and PR not closed)
         # - Manual workflow dispatch
         if: |
-          (github.event_name == 'pull_request' && 
-           github.event.pull_request.head.repo.fork == true && 
-           steps.fork-docs-check.outputs.any_changed == 'true') ||
-          (github.event_name == 'deployment_status' && 
-           steps.changed-files.outputs.any_changed == 'true') ||
-          github.event_name == 'workflow_dispatch'
+          steps.pr-context.outputs.pr_closed != 'true' &&
+          ((github.event_name == 'pull_request' && 
+            github.event.pull_request.head.repo.fork == true && 
+            steps.fork-docs-check.outputs.any_changed == 'true') ||
+           (github.event_name == 'deployment_status' && 
+            steps.changed-files.outputs.any_changed == 'true') ||
+           github.event_name == 'workflow_dispatch')
         uses: lycheeverse/lychee-action@v2
         with:
           fail: false
