@@ -3,11 +3,14 @@ title: Access W&B docs programmatically
 description: Connect your IDE or LLM application to W&B's Model Context Protocol (MCP) server to provide your agent requests with more context about W&B products.
 ---
 
+import McpConfig from '/snippets/en/_includes/mcp-config.mdx';
+
 The W&B MCP (Model Context Protocol) server lets you query and analyze your W&B data from your IDE or MCP client. It also provides your client with programmatic access to W&B's documentation, giving it additional context and accuracy when generating responses to W&B-related queries. Use can it to analyze experiments, debug traces, create reports, and get help with integrating your applications with W&B features.
 
 ## Prerequisites
 
-Before you begin, get your W&B API key from [wandb.ai/authorize](https://wandb.ai/authorize).
+* Get your W&B API key from [wandb.ai/authorize](https://wandb.ai/authorize).
+* Set your key as an environment variable named `WANDB_API_KEY`.
 
 ## Configure your MCP client to use the W&B MCP server
 
@@ -15,76 +18,46 @@ W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no
 
 <Tabs>
 <Tab title="Cursor">
-1. Open Cursor Settings using `Cmd+,` (macOS) or `Ctrl+,` (Windows/Linux).
-2. Navigate to **Features**, then **Model Context Protocol**.
-3. Click **Install from Registry** or **Add MCP Server**.
-4. Search for "wandb" or enter:
-   - **Name**: `wandb`
-   - **URL**: `https://mcp.withwandb.com/mcp`
-   - **API Key**: Your W&B API key
+1. On macOS, open the **Cursor** menu, select `Settings`, and then select **Cursor Settings**. One Windows or Linux, open the **Preferences** menu, select **Settings**, and then select **Cursor Settings**.
+2. From the Cursor Settings menu, select **Tools and MCP**. This opens the Tools menu. 
+3. In the Installed MCP Servers section, select **Add Custom MCP**. This opens the `mcp.json` configuration file.
+4. In the configuration file, in the `mcpServers` JSON object, add the following `wandb` object, like this:
 
-### Manual configuration
+<McpConfig/>
 
-To configure the MCP server for a specific project, add the following to `.cursor/mcp.json`:
+5. Restart Cursor to make the changes take effect.
+6. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
 
-```json
-{
-  "mcpServers": {
-    "wandb": {
-      "url": "https://mcp.withwandb.com/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_WANDB_API_KEY"
-      }
-    }
-  }
-}
-```
-
-To enable the server globally for all Cursor projects, add the configuration to `~/.cursor/mcp.json`.
+For more detailed information, see [Cursor's documentation](https://cursor.com/docs/context/mcp).
 
 </Tab>
 <Tab title="Claude Desktop">
-Add the following to your Claude Desktop configuration file:
 
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+1. Locate the Claude Desktop configuration file:
+  * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+  * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+2. Then open the file in a text editor and add the following JSON code to the file:
+  <McpConfig/>
 
-```json
-{
-  "mcpServers": {
-    "wandb": {
-      "url": "https://mcp.withwandb.com/mcp",
-      "apiKey": "YOUR_WANDB_API_KEY"
-    }
-  }
-}
-```
+3. Save changes to the file and then restart Claude Desktop.
+4. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
 
-After saving the configuration, restart Claude Desktop to activate the MCP server.
+For more detailed instructions, see [Claude Desktop's documentation](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp).
 </Tab>
 <Tab title="VS Code">
-Add the following to your VS Code settings:
+1. Open the Command Palette by pressing **Ctrl+Shift+P** (Windows/Linux) or **Cmd+Shift+P** (macOS).
+2. Type **"MCP: Open User Configuration"** and select it. This opens the MCP configuration file.
+3. Add the following configuration to the file:
+<McpConfig/>
+3. Save changes to the file and then restart VS Code.
+4. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
 
-**macOS/Linux**: `~/.config/Code/User/settings.json`
+For detailed instructions, see [VS Code's documentation](https://code.visualstudio.com/docs/copilot/customization/mcp-servers).
 
-**Windows**: `%APPDATA%\Code\User\settings.json`
-
-```json
-{
-  "mcp.servers": {
-    "wandb": {
-      "url": "https://mcp.withwandb.com/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_WANDB_API_KEY"
-      }
-    }
-  }
-}
-```
 </Tab>
 <Tab title="OpenAI">
-Use the MCP server with the OpenAI Responses API:
+Add the MCP server in the `tools` field of your OpenAI responses configuration, like this:
 
 ```python
 from openai import OpenAI
@@ -102,38 +75,48 @@ resp = client.responses.create(
         "authorization": os.getenv("WANDB_API_KEY"),
         "require_approval": "never",
     }],
-    input="How many traces are in wandb-smle/hiring-agent-demo-public?",
+    input="List the projects in my W&B account.",
 )
 
 print(resp.output_text)
 ```
 
 <Note>
-OpenAI's MCP integration is server-side, so localhost URLs do not work. Use the hosted server URL.
+OpenAI's uses server-side MCP integration and do not work with localhost URLs. We recommend using the hosted server URL.
 </Note>
+
 </Tab>
 <Tab title="Gemini CLI">
-Install the W&B MCP extension with a single command:
+1. Install the W&B MCP extension with a single command:
 
-```bash
-# Set your API key
-export WANDB_API_KEY="your-api-key-here"
+  ```bash
+  # Install the extension
+  gemini extensions install https://github.com/wandb/wandb-mcp-server
+  ```
+2. Once installed, restart the Gemini CLI.
+3. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
 
-# Install the extension
-gemini extensions install https://github.com/wandb/wandb-mcp-server
-```
-
-The extension uses the hosted server configuration automatically.
+For more detailed information, see [Gemini's documentation](https://geminicli.com/docs/tools/mcp-server/).
 </Tab>
 <Tab title="Mistral LeChat">
-In LeChat settings, add an MCP server with the following configuration:
+1. Open the **Intelligence** menu, then select **Add Connector**. This opens the Connector window.
+2. Select the **Custom MCP Connector** tab, and then configure the fields using the following values:
 
-- **URL**: `https://mcp.withwandb.com/mcp`
-- **API Key**: Your W&B API key
+  - **Connector Server**: `https://mcp.withwandb.com/mcp`
+  - **Description**: (Optional) A brief arbitrary description of the connection.
+  - **Authentication Method**: Select **API Token Authentication**. This opens additional fields.
+  - **Header name**: Leave the default value, **Authorization**.
+  - **Header type**: Select **Bearer**.
+  - **Header value**: Enter your W&B API token.
+
+3. Once you have configured all of the fields, select **Create**. LeChat adds the MCP server to your configuration.
+4. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
+
+For more detailed information, see [LeChat's documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
 </Tab>
 </Tabs>
 
-## Local development setup
+## Set up a local version of the W&B MCP server
 
 If you need to run the MCP server locally for development, testing, or air-gapped environments, you can install and run it on your machine.
 
@@ -142,13 +125,13 @@ If you need to run the MCP server locally for development, testing, or air-gappe
 - Python 3.10 or higher
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
-To install `uv`, run the following `cURL` command:
+To install uv, run the following cURL command:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Install the MCP server
+### Install the MCP server on your local machine
 
 To install the W&B MCP server on your local machine:
  
