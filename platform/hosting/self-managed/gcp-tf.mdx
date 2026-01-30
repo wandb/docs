@@ -3,12 +3,7 @@ description: Hosting W&B Server on Google Cloud.
 title: Deploy W&B Platform on Google Cloud
 ---
 
-<Note>
-  W&B recommends fully managed deployment options such as [W&B Multi-tenant
-  Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated
-  Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types.
-  W&B fully managed services are simple and secure to use, with minimum to no
-  configuration required.
+<Note> W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 </Note>
 
 If you've determined to Self-Managed W&B Server, W&B recommends using the [W&B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on Google Cloud.
@@ -206,12 +201,7 @@ Ensure that the service account or account that your instance is running has bot
 - access to the bucket you created in the previous step
 - `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
 
-<Note>
-  Your instance also needs the `iam.serviceAccounts.signBlob` permission in
-  Google Cloud to create signed file URLs. Add `Service Account Token Creator`
-  role to the service account or IAM member that your instance is running as to
-  enable permission.
-</Note>
+<Note>Your instance also needs the `iam.serviceAccounts.signBlob` permission in Google Cloud to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.</Note>
 
 3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
 
@@ -240,10 +230,7 @@ gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 
 Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic.
 
-<Note>
-  You must use the CLI to create a notification stream. Ensure you have `gcloud`
-  installed.
-</Note>
+<Note> You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.</Note>
 
 1. Log into your Google Cloud project.
 2. Run the following in your terminal:
@@ -264,12 +251,7 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 2. Select the provider `Google Cloud Storage (gcs)`,
 3. Provide the name of the GCS bucket
 
-<Frame>
-  <img
-    src="/images/hosting/configure_file_store_gcp.png"
-    alt="Google Cloud file storage configuration"
-  />
-</Frame>
+<Frame><img src="/images/hosting/configure_file_store_gcp.png" alt="Google Cloud file storage configuration"/></Frame>
 
 4. Press **Update settings** to apply the new settings.
 
@@ -279,7 +261,7 @@ The Operator upgrades W&B automatically by the W&B Operator. To turn this off, y
 
 To pin the images to a specific version:
 
-1. Access the ActiveSpec in the system console `https://<W&B URL>/console/settings/advanced/spec/active`
+1. Access the ActiveSpec in the system console `https://<W&B URL>/console/settings/advanced/spec/active`.
 2. Copy the components image configuration, which looks similar to:
 
 ```yaml
@@ -292,14 +274,9 @@ To pin the images to a specific version:
           tag: 0.75.2
 ```
 
-<Frame>
-  <img
-    src="/images/hosting/active_spec.png"
-    alt="W&B System Console - ActiveSpec"
-  />
-</Frame>
+<Frame><img src="/images/hosting/active_spec.png" alt="W&B System Console - ActiveSpec"/></Frame>
 
-3. Paste the component configuration replacing the image tag in the `UserSpec`
+3. Paste the component configuration replacing the image tag in the `UserSpec`.
 
 ```yaml
 chart: {}
@@ -313,20 +290,10 @@ values:
           tag: 0.76.3
 ```
 
-<Frame>
-  <img
-    src="/images/hosting/user_spec.png"
-    alt="W&B System Console - UserSpec"
-  />
-</Frame>
+<Frame><img src="/images/hosting/user_spec.png" alt="W&B System Console - UserSpec"/></Frame>
 
-4. Click Save
+4. Click Save.
 5. Access the tab `Operator` and click `Trigger reapply`.
-   <Frame>
-     <img
-       src="/images/hosting/operator.png"
-       alt="W&B System Console - Operator"
-     />
-   </Frame>
+   <Frame><img src="/images/hosting/operator.png" alt="W&B System Console - Operator"/></Frame>
 
 The W&B Operator reconciles the configuration and pins the image to the specified version.
