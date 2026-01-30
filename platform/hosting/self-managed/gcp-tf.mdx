@@ -4,9 +4,12 @@ title: Deploy W&B Platform on Google Cloud
 ---
 
 <Note>
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+  W&B recommends fully managed deployment options such as [W&B Multi-tenant
+  Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated
+  Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types.
+  W&B fully managed services are simple and secure to use, with minimum to no
+  configuration required.
 </Note>
-
 
 If you've determined to Self-Managed W&B Server, W&B recommends using the [W&B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on Google Cloud.
 
@@ -62,7 +65,6 @@ The steps on this topic are common for any deployment option covered by this doc
    The variables defined here need to be decided before the deployment because. The `namespace` variable will be a string that will prefix all resources created by Terraform.
 
    The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-gcp.wandb.ml`
-
 
 3. Create the file `variables.tf`
 
@@ -179,17 +181,16 @@ The [Terraform Module](https://github.com/wandb/terraform-google-wandb) provides
 
 To use a Google Cloud Storage bucket as a file storage backend for W&B, you will need to create a:
 
-* [PubSub Topic and Subscription](#create-pubsub-topic-and-subscription)
-* [Storage Bucket](#create-storage-bucket)
-* [PubSub Notification](#create-pubsub-notification)
-
+- [PubSub Topic and Subscription](#create-pubsub-topic-and-subscription)
+- [Storage Bucket](#create-storage-bucket)
+- [PubSub Notification](#create-pubsub-notification)
 
 ### Create PubSub Topic and Subscription
 
 Follow the procedure below to create a PubSub topic and subscription:
 
-1. Navigate to the Pub/Sub service within the Google Cloud Console 
-2. Select **Create Topic** and provide a name for your topic. 
+1. Navigate to the Pub/Sub service within the Google Cloud Console
+2. Select **Create Topic** and provide a name for your topic.
 3. At the bottom of the page, select **Create subscription**. Ensure **Delivery Type** is set to **Pull**.
 4. Click **Create**.
 
@@ -198,14 +199,18 @@ Make sure the service account or account that your instance is running has the `
 ### Create Storage Bucket
 
 1. Navigate to the **Cloud Storage Buckets** page.
-2. Select **Create bucket** and provide a name for your bucket. Ensure you choose a **Standard** [storage class](https://cloud.google.com/storage/docs/storage-classes). 
+2. Select **Create bucket** and provide a name for your bucket. Ensure you choose a **Standard** [storage class](https://cloud.google.com/storage/docs/storage-classes).
 
 Ensure that the service account or account that your instance is running has both:
-* access to the bucket you created in the previous step
-* `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
+
+- access to the bucket you created in the previous step
+- `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
 
 <Note>
-Your instance also needs the `iam.serviceAccounts.signBlob` permission in Google Cloud to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
+  Your instance also needs the `iam.serviceAccounts.signBlob` permission in
+  Google Cloud to create signed file URLs. Add `Service Account Token Creator`
+  role to the service account or IAM member that your instance is running as to
+  enable permission.
 </Note>
 
 3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
@@ -222,9 +227,9 @@ cors:
    - Content-Type
 ```
 
-Note that the scheme, host, and port of the values for the origin must match exactly. 
+Note that the scheme, host, and port of the values for the origin must match exactly.
 
-4. Make sure you have `gcloud` installed, and logged into the correct Google Cloud project. 
+4. Make sure you have `gcloud` installed, and logged into the correct Google Cloud project.
 5. Next, run the following:
 
 ```bash
@@ -232,10 +237,12 @@ gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 ```
 
 ### Create PubSub Notification
-Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic. 
+
+Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic.
 
 <Note>
-You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.
+  You must use the CLI to create a notification stream. Ensure you have `gcloud`
+  installed.
 </Note>
 
 1. Log into your Google Cloud project.
@@ -253,12 +260,15 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 
 ### Configure W&B server
 
-1. Finally, navigate to the W&B `System Connections` page at `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`. 
-2. Select the provider `Google Cloud Storage (gcs)`, 
+1. Finally, navigate to the W&B `System Connections` page at `http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`.
+2. Select the provider `Google Cloud Storage (gcs)`,
 3. Provide the name of the GCS bucket
 
 <Frame>
-    <img src="/images/hosting/configure_file_store_gcp.png" alt="Google Cloud file storage configuration"  />
+  <img
+    src="/images/hosting/configure_file_store_gcp.png"
+    alt="Google Cloud file storage configuration"
+  />
 </Frame>
 
 4. Press **Update settings** to apply the new settings.
@@ -268,8 +278,10 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 W&B is upgrade automatically by the W&B Operator if you wish to disable the automatic updates it's necessary to override the images using the system console and update the `UserSpec`.
 
 Steps to pin the images to a certain version:
+
 1. Access the ActiveSpec in the system console `https://<W&B URL>/console/settings/advanced/spec/active`
 2. Copy all components image configuration. Ex.:
+
 ```
   api:
     image:
@@ -279,11 +291,16 @@ Steps to pin the images to a certain version:
         image:
           tag: 0.75.2
 ```
+
 <Frame>
-    <img src="/images/hosting/active_spec.png" alt="W&B System Console - ActiveSpec"  />
+  <img
+    src="/images/hosting/active_spec.png"
+    alt="W&B System Console - ActiveSpec"
+  />
 </Frame>
 
 3. Paste the component configuration replacing the image tag in the `UserSpec`
+
 ```
 chart: {}
 values:
@@ -295,14 +312,21 @@ values:
         image:
           tag: 0.76.3
 ```
+
 <Frame>
-    <img src="/images/hosting/user_spec.png" alt="W&B System Console - UserSpec"  />
+  <img
+    src="/images/hosting/user_spec.png"
+    alt="W&B System Console - UserSpec"
+  />
 </Frame>
 
 4. Click Save
 5. Access the tab `Operator` and click `Trigger reapply`.
-<Frame>
-    <img src="/images/hosting/active_spec.png" alt="W&B System Console - Operator"  />
-</Frame>
+   <Frame>
+     <img
+       src="/images/hosting/operator.png"
+       alt="W&B System Console - Operator"
+     />
+   </Frame>
 
 After these steps the W&B Operator will reconcile the configuration and pin the image version according to the configuartion override in the `UserSpec`
