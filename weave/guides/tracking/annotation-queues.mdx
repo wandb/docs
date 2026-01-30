@@ -1,0 +1,83 @@
+---
+title: "Set up annotation review queues"
+description: "Create annotation queues, route traces to domain experts, and export structured feedback."
+---
+
+## Overview
+
+Annotation queues let you route selected traces to domain experts for structured review without requiring them to navigate the full Weave UI. As an engineer, you define what feedback is collected, select which traces require review, and later export completed annotations for analysis or dataset creation.
+
+This workflow supports expert evaluation of model outputs such as correctness, quality, policy adherence, or domain-specific criteria.
+
+---
+
+## End-to-end workflow
+
+As the engineer, you are responsible for the following lifecycle:
+
+1. Define annotation fields and create an annotation queue.
+2. Load traces into the queue for review.
+3. Monitor progress while domain experts complete reviews.
+4. Filter and export completed annotations.
+
+---
+
+## Define annotation fields
+
+Annotation fields define the feedback annotators provide for each trace item. Fields are reusable across queues and projects.
+
+Common field types include:
+- Boolean judgments such as correctness or acceptability.
+- Numeric or integer scores such as quality or confidence.
+- Categorical labels such as failure mode or intent.
+- Free-form text for qualitative feedback.
+
+Define fields before creating a queue so they can be selected during queue setup.
+
+---
+
+## Create an annotation queue
+
+An annotation queue groups:
+- A set of annotation fields.
+- Instructions that provide task context for annotators.
+- A collection of trace items awaiting review.
+
+Queues are scoped to a project and can be reused across multiple review cycles.
+
+---
+
+## Add traces to a queue
+
+Traces are added from the Traces view after filtering to the subset that requires expert review.
+
+When adding traces, you control:
+- Which trace inputs are visible to annotators.
+- Which outputs or model responses are reviewed.
+- Which queue receives the selected items.
+
+This allows you to present annotators with only the context needed to make accurate judgments.
+
+---
+
+## Monitor review progress
+
+Queue status reflects overall review progress:
+- **Not started**: Items exist but no annotations have been submitted.
+- **In progress**: At least one item has been reviewed.
+- **Completed**: All items have been reviewed.
+
+Progress indicators help determine when sufficient feedback is available for downstream use.
+
+---
+
+## Filter and export annotations
+
+Completed annotations are stored as structured metadata on traces.
+
+You can:
+- Filter traces by queue membership and annotation completion.
+- Save filtered views for reuse.
+- Export annotated traces to datasets for evaluation or training workflows.
+
+This connects expert human feedback directly to model evaluation and iteration.
