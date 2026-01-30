@@ -81,14 +81,7 @@
                       "platform/hosting/self-managed/ref-arch",
                       "platform/hosting/self-managed/requirements",
                       "platform/hosting/self-managed/operator",
-                      {
-                        "group": "Install on public cloud",
-                        "pages": [
-                          "platform/hosting/self-managed/aws-tf",
-                          "platform/hosting/self-managed/gcp-tf",
-                          "platform/hosting/self-managed/azure-tf"
-                        ]
-                      },
+                      "platform/hosting/self-managed/cloud-deployments/terraform",
                       "platform/hosting/self-managed/bare-metal",
                       "platform/hosting/self-managed/operator-airgapped",
                       "platform/hosting/server-upgrade-process",
