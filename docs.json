@@ -79,6 +79,7 @@
                     "pages": [
                       "platform/hosting/hosting-options/self-managed",
                       "platform/hosting/self-managed/ref-arch",
+                      "platform/hosting/self-managed/requirements",
                       {
                         "group": "Run W&B Server on Kubernetes",
                         "pages": [
