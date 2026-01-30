@@ -80,13 +80,7 @@
                       "platform/hosting/hosting-options/self-managed",
                       "platform/hosting/self-managed/ref-arch",
                       "platform/hosting/self-managed/requirements",
-                      {
-                        "group": "Run W&B Server on Kubernetes",
-                        "pages": [
-                          "platform/hosting/operator",
-                          "platform/hosting/self-managed/operator-airgapped"
-                        ]
-                      },
+                      "platform/hosting/self-managed/operator",
                       {
                         "group": "Install on public cloud",
                         "pages": [
@@ -96,6 +90,7 @@
                         ]
                       },
                       "platform/hosting/self-managed/bare-metal",
+                      "platform/hosting/self-managed/operator-airgapped",
                       "platform/hosting/server-upgrade-process",
                       "platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]

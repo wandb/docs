@@ -1,13 +1,12 @@
 ---
 description: Deploy W&B Platform with Kubernetes Operator
-title: Run W&B Server on Kubernetes
+title: Deploy W&B with Kubernetes Operator
 ---
 
-import SelfManagedNetworkingRequirements from "/snippets/en/_includes/self-managed-networking-requirements.mdx";
-import SelfManagedSslTlsRequirements from "/snippets/en/_includes/self-managed-ssl-tls-requirements.mdx";
 import SelfManagedMysqlRequirements from "/snippets/en/_includes/self-managed-mysql-requirements.mdx";
 import SelfManagedRedisRequirements from "/snippets/en/_includes/self-managed-redis-requirements.mdx";
 import SelfManagedObjectStorageRequirements from "/snippets/en/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/en/_includes/byob-provisioning-link.mdx";
 import SelfManagedVerifyInstallation from "/snippets/en/_includes/self-managed-verify-installation.mdx";
 
 ## W&B Kubernetes Operator
@@ -52,7 +51,7 @@ Refer to the [configuration specification hierarchy](#configuration-specificatio
 The deployment consists of multiple pods, one per service. Each pod's name is prefixed with `wandb-`.
 
 ### Configuration specification hierarchy
-Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here’s how it works:
+Configuration specifications follow a hierarchical model where higher-level specifications override lower-level ones. Here's how it works:
 
 - **Release Channel Values**: This base level configuration sets default values and configurations based on the release channel set by W&B for the deployment.
 - **User Input Values**: Users can override the default settings provided by the Release Channel Spec through the System Console.
@@ -61,36 +60,35 @@ Configuration specifications follow a hierarchical model where higher-level spec
 This hierarchical model ensures that configurations are flexible and customizable to meet varying needs while maintaining a manageable and systematic approach to upgrades and changes.
 
 ## Before you begin
-1. Refer to the [reference architecture](/platform/hosting/self-managed/ref-arch/#infrastructure-requirements) for complete infrastructure requirements, including:
+
+Before deploying W&B with the Kubernetes Operator, ensure your infrastructure meets all requirements:
+
+1. **Review infrastructure requirements**: See the [Self-Managed infrastructure requirements](/platform/hosting/self-managed/requirements/) page for comprehensive details on:
   - Software version requirements (Kubernetes, MySQL, Redis, Helm)
   - Hardware requirements (CPU architecture, sizing recommendations)
+  - Kubernetes cluster configuration
   - Networking, SSL/TLS, and DNS requirements
-1. [Obtain a valid W&B Server license](/platform/hosting/hosting-options/self-managed#obtain-your-wb-server-license).
-1. See the following sections and the [bare-metal installation guide](/platform/hosting/self-managed/bare-metal/) for detailed instructions to set up and configure W&B Self-Managed. Depending on the installation method, you might need to install additional software or meet additional requirements.
+2. **Obtain a W&B Server license**: See [Obtain your W&B Server license](/platform/hosting/hosting-options/self-managed#obtain-your-wb-server-license).
+3. **Provision external services**: Set up MySQL, Redis, and object storage before deployment.
+
+For additional context, see the [reference architecture](/platform/hosting/self-managed/ref-arch/) page.
 
 ### MySQL Database
 <SelfManagedMysqlRequirements/>
 
+For complete MySQL setup instructions including configuration parameters and database creation, see the [MySQL section in the requirements page](/platform/hosting/self-managed/requirements/#mysql-database).
+
 ### Redis
 <SelfManagedRedisRequirements/>
 
-See the [External Redis configuration section](#external-redis) for details on how to configure an external Redis instance.
+See the [External Redis configuration section](#external-redis) for details on how to configure an external Redis instance in Helm values.
 
 ### Object storage
 <SelfManagedObjectStorageRequirements/>
 
+<ByobProvisioningLink/>
+
 See the [Object storage configuration section](#object-storage-bucket) for details on how to configure object storage in Helm values.
-
-### Networking requirements
-<SelfManagedNetworkingRequirements/>
-
-For load balancer and ingress controller options and configuration examples, see the [reference architecture load balancer section](/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress).
-
-### SSL/TLS requirements
-<SelfManagedSslTlsRequirements/>
-
-### Air-gapped installations
-See the [Deploy W&B in airgapped environment with Kubernetes](/platform/hosting/self-managed/operator-airgapped/) tutorial on how to install the W&B Kubernetes Operator in an airgapped environment.
 
 ### OpenShift Kubernetes clusters
 
@@ -100,7 +98,7 @@ W&B supports deployment on [OpenShift Kubernetes clusters](https://www.redhat.co
 W&B recommends you install with the official W&B Helm chart.
 </Note>
 
-#### Run the container as an unprivileged user
+#### Run the container as an un-privileged user
 
 By default, containers use a `$UID` of 999. Specify `$UID` >= 100000 and a `$GID` of 0 if your orchestrator requires the container run with a non-root user.
 
@@ -137,25 +135,25 @@ api:
 
 If needed, configure a custom security context for other components like `app` or `console`. For details, see [Custom security context](#custom-security-context).
 
-## Deploy W&B Server
+## Deploy W&B Server application
 
 <Note>
 **The W&B Kubernetes Operator with Helm is the recommended installation method** for all W&B Self-Managed deployments, including cloud, on-premises, and air-gapped environments.
 </Note>
 
-This section describes different ways to deploy the W&B Kubernetes operator:
-- **Helm CLI**: Direct deployment using Helm commands
-- **Helm Terraform Module**: Infrastructure-as-code deployment
-- **W&B Cloud Terraform Modules**: Complete infrastructure + application deployment for AWS, Google Cloud, and Azure
+Choose your deployment method:
+
+<Tabs>
+<Tab title="Helm CLI">
+
+W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD.
 
 For deployment-specific considerations, also see:
-- [Deploy W&B Platform On-premises](/platform/hosting/self-managed/bare-metal/) for datacenter/bare-metal environments
-- [Kubernetes operator for air-gapped instances](/platform/hosting/self-managed/operator-airgapped/) for disconnected environments
+- [Deploy on Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes/) for standard on-premises environments
+- [Deploy in air-gapped environment](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) for disconnected environments
+- [Deploy with Terraform on public cloud](/platform/hosting/self-managed/cloud-deployments/terraform/) for AWS, Google Cloud, or Azure
 
-### Deploy W&B with Helm CLI
-W&B provides a Helm Chart to deploy the W&B Kubernetes operator to a Kubernetes cluster. This approach allows you to deploy W&B Server with Helm CLI or a continuous delivery tool like ArgoCD. Make sure that the above mentioned requirements are in place.
-
-Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
+Follow these steps to install the W&B Kubernetes Operator with Helm CLI:
 
 1. Add the W&B Helm repository. The W&B Helm chart is available in the W&B Helm repository:
     ```shell
@@ -203,12 +201,24 @@ Follow those steps to install the W&B Kubernetes Operator with Helm CLI:
 
 5. To verify the installation using the web UI, create the first admin user account, then follow the verification steps outlined in [Verify the installation](#verify-the-installation).
 
+</Tab>
 
-### Deploy W&B with Helm Terraform Module
+<Tab title="Terraform">
 
-This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb). 
+Deploy W&B using Terraform for infrastructure-as-code deployments. Choose between:
+- **Helm Terraform Module**: Deploys the operator to existing Kubernetes infrastructure
+- **Cloud Terraform Modules**: Complete infrastructure + application deployment for AWS, Google Cloud, and Azure
 
-The following code can be used as a starting point and includes all necessary configuration options for a production grade deployment. 
+For deployment-specific considerations, also see:
+- [Deploy on Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes/) for standard on-premises environments
+- [Deploy in air-gapped environment](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) for disconnected environments
+- [Deploy with Terraform on public cloud](/platform/hosting/self-managed/cloud-deployments/terraform/) for AWS, Google Cloud, or Azure
+
+#### Helm Terraform Module
+
+This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
+
+The following code can be used as a starting point and includes all necessary configuration options for a production grade deployment: 
 
 ```hcl
 module "wandb" {
@@ -240,26 +250,29 @@ module "wandb" {
 }
 ```
 
-Note that the configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-operator), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
+Note that the configuration options are the same as described in [Configuration Reference](#configuration-reference-for-wb-server), but that the syntax has to follow the HashiCorp Configuration Language (HCL). The Terraform module creates the W&B custom resource definition (CRD).
 
-To see how W&B&Biases themselves use the Helm Terraform module to deploy “Dedicated Cloud” installations for customers,  follow those links:
+To see how W&B themselves use the Helm Terraform module to deploy Dedicated Cloud installations for customers, follow these links:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
 - [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
 - [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
 
-### Deploy W&B with W&B Cloud Terraform modules
+#### Cloud Terraform Modules
 
-W&B provides a set of Terraform Modules for AWS, Google Cloud and Azure. Those modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with those official W&B cloud-specific Terraform Modules with the following versions:
+W&B provides a set of Terraform Modules for AWS, Google Cloud and Azure. These modules deploy entire infrastructures including Kubernetes clusters, load balancers, MySQL databases and so on as well as the W&B Server application. The W&B Kubernetes Operator is already pre-baked with these official W&B cloud-specific Terraform Modules with the following versions:
 
 | Terraform Registry                                                  | Source Code                                      | Version |
 | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
 | [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
 | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
-| [Google Cloud](https://github.com/wandb/terraform-google-wandb)              | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
+| [Google Cloud](https://github.com/wandb/terraform-google-wandb)     | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
 
 This integration ensures that W&B Kubernetes Operator is ready to use for your instance with minimal setup, providing a streamlined path to deploying and managing W&B Server in your cloud environment.
 
-For a detailed description on how to use these modules, refer to the [Self-Managed installations section](/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-self-managed-cloud-accounts) in the docs.
+For detailed instructions on using these cloud-specific modules, see [Deploy with Terraform on public cloud](/platform/hosting/self-managed/cloud-deployments/terraform/).
+
+</Tab>
+</Tabs>
 
 ### Verify the installation
 
@@ -519,7 +532,7 @@ global:
     secretKey: ""
 ```
 
-**Other providers (Minio, Ceph, etc.)**
+**Other providers (Minio, Ceph, and other S3-compatible storage)**
 
 For other S3 compatible providers, set the bucket configuration as follows:
 ```yaml
@@ -604,7 +617,7 @@ To identify the ingress class,  see this FAQ [entry](#how-to-identify-the-kubern
 
 ```yaml
 global:
-# IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
+# IMPORTANT: Ingress is on the same level in the YAML as 'global' (not a child)
 ingress:
   class: ""
 ```
@@ -620,7 +633,7 @@ kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert w
 Reference the secret in the ingress configuration
 ```yaml
 global:
-# IMPORTANT: Ingress is on the same level in the YAML as ‘global’ (not a child)
+# IMPORTANT: Ingress is on the same level in the YAML as 'global' (not a child)
 ingress:
   class: ""
   annotations:
@@ -1030,13 +1043,13 @@ data:
 ```
 
 <Note>
-Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
+Each key in the ConfigMap must end with `.crt` (for example, `my-cert.crt` or `ca-cert1.crt`). This naming convention is required for `update-ca-certificates` to parse and add each certificate to the system CA store.
 </Note>
 
 ## FAQ
 
 ### What is the purpose/role of each individual pod?
-* **`wandb-app`**: the core of W&B, including the GraphQL API and frontend application. It powers most of our platform’s functionality.
+* **`wandb-app`**: the core of W&B, including the GraphQL API and frontend application. It powers most of our platform's functionality.
 * **`wandb-console`**: the administration console, accessed via `/console`. 
 * **`wandb-otel`**: the OpenTelemetry agent, which collects metrics and logs from resources at the Kubernetes layer for display in the administration console.
 * **`wandb-prometheus`**: the Prometheus server, which captures metrics from various components for display in the administration console.
@@ -1048,7 +1061,7 @@ Each key in the ConfigMap must end with `.crt` (e.g., `my-cert.crt` or `ca-cert1
 See [Accessing the W&B Kubernetes Operator Management Console](#access-the-wb-management-console).
 
 
-### How to access the W&B Operator Console if Ingress doesn’t work
+### How to access the W&B Operator Console if Ingress doesn't work
 
 Execute the following command on a host that can reach the Kubernetes cluster:
 
