@@ -22,6 +22,7 @@ The Terraform Module will deploy the following `mandatory` components:
 - Cloud SQL for MySQL
 - Cloud Storage Bucket
 - Google Kubernetes Engine
+- Memorystore for Redis
 - KMS Crypto Key
 - Load Balancer
 
@@ -136,7 +137,7 @@ This is the most straightforward deployment option configuration that will creat
    # Spin up all required services
    module "wandb" {
      source  = "wandb/wandb/google"
-     version = "~> 5.0"
+     version = "~> 10.0"
 
      namespace   = var.namespace
      license     = var.license
@@ -166,58 +167,6 @@ This is the most straightforward deployment option configuration that will creat
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
-
-## Deployment with REDIS Cache
-
-Another deployment option uses `Redis` to cache the SQL queries and speedup the application response when loading the metrics for the experiments.
-
-You need to add the option `create_redis = true` to the same `main.tf` file specified in the recommended [Deployment option section](#deployment---recommended-20-mins) to enable the cache.
-
-```
-[...]
-
-module "wandb" {
-  source  = "wandb/wandb/google"
-  version = "~> 1.0"
-
-  namespace    = var.namespace
-  license      = var.license
-  domain_name  = var.domain_name
-  subdomain    = var.subdomain
-  allowed_inbound_cidrs = ["*"]
-  #Enable Redis
-  create_redis = true
-
-}
-[...]
-```
-
-## Deployment with External Queue
-
-Deployment option 3 consists of enabling the external `message broker`. This is optional because the W&B brings embedded a broker. This option doesn't bring a performance improvement.
-
-The Google Cloud resource that provides the message broker is the `Pub/Sub`, and to enable it, you will need to add the option `use_internal_queue = false` to the same `main.tf` specified in the recommended [Deployment option section](#deployment---recommended-20-mins)
-
-```
-[...]
-
-module "wandb" {
-  source  = "wandb/wandb/google"
-  version = "~> 1.0"
-
-  namespace          = var.namespace
-  license            = var.license
-  domain_name        = var.domain_name
-  subdomain          = var.subdomain
-  allowed_inbound_cidrs = ["*"]
-  #Create and use Pub/Sub
-  use_internal_queue = false
-
-}
-
-[...]
-
-```
 
 ## Other deployment options
 
@@ -316,21 +265,44 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
 
 ## Upgrade W&B Server
 
-Follow the steps outlined here to update W&B:
+W&B is upgrade automatically by the W&B Operator if you wish to disable the automatic updates it's necessary to override the images using the system console and update the `UserSpec`.
 
-1. Add `wandb_version` to your configuration in your `wandb_app` module. Provide the version of W&B you want to upgrade to. For example, the following line specifies W&B version `0.48.1`:
+Steps to pin the images to a certain version:
+1. Access the ActiveSpec in the system console `https://<W&B URL>/console/settings/advanced/spec/active`
+2. Copy all components image configuration. Ex.:
+```
+  api:
+    image:
+      tag: 0.75.2
+    initContainers:
+      init-db:
+        image:
+          tag: 0.75.2
+```
+<Frame>
+    <img src="/images/hosting/active_spec.png" alt="W&B System Console - ActiveSpec"  />
+</Frame>
 
-  ```
-  module "wandb_app" {
-      source  = "wandb/wandb/kubernetes"
-      version = "~>5.0"
+3. Paste the component configuration replacing the image tag in the `UserSpec`
+```
+chart: {}
+values:
+  api:
+    image:
+      tag: 0.76.3
+    initContainers:
+      init-db:
+        image:
+          tag: 0.76.3
+```
+<Frame>
+    <img src="/images/hosting/user_spec.png" alt="W&B System Console - UserSpec"  />
+</Frame>
 
-      license       = var.license
-      wandb_version = "0.58.1"
-  ```
+4. Click Save
+5. Access the tab `Operator` and click `Trigger reapply`.
+<Frame>
+    <img src="/images/hosting/active_spec.png" alt="W&B System Console - Operator"  />
+</Frame>
 
-  <Note>
-Alternatively, you can add the `wandb_version` to the `terraform.tfvars` and create a variable with the same name and instead of using the literal value, use the `var.wandb_version`
-</Note>
-
-2. After you update your configuration, complete the steps described in the [Deployment option section](#deployment---recommended-20-mins).
+After these steps the W&B Operator will reconcile the configuration and pin the image version according to the configuartion override in the `UserSpec`
