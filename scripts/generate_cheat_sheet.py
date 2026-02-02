@@ -6,6 +6,7 @@ Scans MDX snippet files and creates a comprehensive cheat sheet
 with a landing page and category-specific pages.
 """
 
+import inspect
 import json
 import re
 from pathlib import Path
@@ -91,7 +92,11 @@ def remove_wandb_from_heading(text: str) -> str:
 
 
 def extract_docstring_first_line(py_content: str) -> Optional[str]:
-    """Extract the first sentence of the Python docstring from Python code."""
+    """Extract the first sentence of the Python docstring from Python code.
+    
+    Uses inspect.cleandoc() to properly clean and dedent docstrings,
+    following standard Python documentation practices.
+    """
     # Match docstring (single or multi-line)
     # Single-line: """text"""
     # Multi-line: """\ntext\n..."""
@@ -99,20 +104,19 @@ def extract_docstring_first_line(py_content: str) -> Optional[str]:
     if not docstring_match:
         return None
     
-    docstring = docstring_match.group(1).strip()
+    # Use inspect.cleandoc() to clean and dedent the docstring
+    docstring = inspect.cleandoc(docstring_match.group(1))
     
     # Get first sentence (up to period followed by space/newline, or end of string)
-    # This handles both single-line and multi-line docstrings
     sentence_match = re.match(r'^(.*?\.(?:\s|$))', docstring, re.DOTALL)
     if sentence_match:
         first_sentence = sentence_match.group(1).strip()
     else:
         # No period found, use the whole docstring
-        first_sentence = docstring.strip()
+        first_sentence = docstring
     
-    # Clean up: remove trailing period, collapse whitespace
-    first_sentence = re.sub(r'\s+', ' ', first_sentence)
-    first_sentence = first_sentence.rstrip('.')
+    # Collapse whitespace and remove trailing period
+    first_sentence = re.sub(r'\s+', ' ', first_sentence).rstrip('.')
     
     # Convert to imperative form
     first_sentence = convert_to_imperative(first_sentence)
