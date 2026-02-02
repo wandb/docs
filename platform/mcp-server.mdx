@@ -12,7 +12,7 @@ The W&B MCP (Model Context Protocol) server lets you query and analyze your W&B 
 * Get your W&B API key from [wandb.ai/authorize](https://wandb.ai/authorize).
 * Set your key as an environment variable named `WANDB_API_KEY`.
 
-## Configure your MCP client to use the W&B MCP server
+## Configure your MCP client to use the W&B's remote MCP server
 
 W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no installation. The following instructions show how to configure the hosted server with various AI assistants and IDEs.
 
@@ -102,12 +102,12 @@ For more detailed information, see [Gemini's documentation](https://geminicli.co
 1. Open the **Intelligence** menu, then select **Add Connector**. This opens the Connector window.
 2. Select the **Custom MCP Connector** tab, and then configure the fields using the following values:
 
-  - **Connector Server**: `https://mcp.withwandb.com/mcp`
-  - **Description**: (Optional) A brief arbitrary description of the connection.
-  - **Authentication Method**: Select **API Token Authentication**. This opens additional fields.
-  - **Header name**: Leave the default value, **Authorization**.
-  - **Header type**: Select **Bearer**.
-  - **Header value**: Enter your W&B API token.
+    - **Connector Server**: `https://mcp.withwandb.com/mcp`
+    - **Description**: (Optional) A brief arbitrary description of the connection.
+    - **Authentication Method**: Select **API Token Authentication**. This opens additional fields.
+    - **Header name**: Leave the default value, **Authorization**.
+    - **Header type**: Select **Bearer**.
+    - **Header value**: Enter your W&B API token.
 
 3. Once you have configured all of the fields, select **Create**. LeChat adds the MCP server to your configuration.
 4. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
@@ -131,7 +131,7 @@ To install uv, run the following cURL command:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Install the MCP server on your local machine
+### Install the W&B MCP server on your local machine
 
 To install the W&B MCP server on your local machine:
  
