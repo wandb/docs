@@ -166,15 +166,35 @@ Within the primary node, initialize a W&B run with [`wandb.init()`](/models/ref/
 1. The `mode` parameter set to `"shared"` to enable shared mode.
 2. A unique label for [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638). You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
 3. Set the [`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) parameter to `True` to indicate that this is the primary node.
+    <Info>
+    `x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
+    </Info>
 4. Optionally provide a list of GPU indexes ([0,1,2]) to `x_stats_gpu_device_ids` to specify which GPUs W&B tracks metrics for. If you do not provide a list, W&B tracks metrics for all GPUs on the machine.
 
 Make note of the run ID of the primary node. Each worker node needs the run ID of the primary node.
 
-<Note>
-`x_primary=True` distinguishes a primary node from worker nodes. Primary nodes are the only nodes that upload files shared across nodes such as configuration files, telemetry and more. Worker nodes do not upload these files.
-</Note>
+<Tip>
+Store the run ID of the primary node in an environment variable (e.g., WANDB_RUN_ID) that worker nodes can read. For example:
+```python
+import wandb
+import os
+
+# Primary node
+run = wandb.init( ... )
+os.environ['WANDB_RUN_ID'] = run.id
+
+# Worker node
+run = wandb.init( ... , id=os.environ['WANDB_RUN_ID'])
+```
+</Tip>
+
 
 For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/python/functions/init) and provide the following:
+
+<Tip>
+Use the same entity and project for all nodes.  Run IDs are scoped to an `entity/project` combination, so mismatched values will create a new run instead of joining the existing one.
+</Tip>
+
 1. A `wandb.Settings` object to the `settings` parameter (`wandb.init(settings=wandb.Settings()`) with:
    * The `mode` parameter set to `"shared"` to enable shared mode.
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
@@ -182,16 +202,34 @@ For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/pyt
 2. Pass the run ID used by the primary node to the `id` parameter.
 3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/evaluate-models/#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
-<Note>
-* Use the same entity and project for all nodes. This helps ensure the correct run ID is found.
-* Consider defining an environment variable on each worker node to set the run ID of the primary node.
-</Note>
+
 
 The following sample code demonstrates the high level requirements for tracking multiple processes to a single run:
 
+<Warning>                                                                                                                                                   
+**Environment variable inheritance** 
+                                                                                                                       
+Worker processes may inherit W&B-related environment variables (such as `WANDB_SERVICE`) from parent processes in distributed environments. This can cause 
+initialization conflicts.
+
+Clear inherited W&B environment variables (such as `WANDB_SERVICE`) before calling `wandb.init()` on worker nodes to avoid initialization conflicts:
+
+```python                                                                                                                                                   
+import os                                                                                                                                                   
+os.environ.pop('WANDB_SERVICE', None)                                                                                                                    
+```
+</Warning>
+
 ```python
+import os
 import wandb
 
+# Clear inherited W&B environment variables to avoid environment conflicts.
+# Add this line before calling wandb.init() on worker nodes.                                                                                            
+os.environ.pop('WANDB_SERVICE', None) 
+
+# Specify your W&B entity and project.
+# Recommened to use the same entity and project for all nodes.
 entity = "<team_entity>"
 project = "<project_name>"
 
@@ -223,7 +261,12 @@ run = wandb.init(
 run = wandb.init(
     entity=entity, # Use the same entity as the primary node
     project=project, # Use the same project as the primary node
-	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
+	settings=wandb.Settings(
+        x_label="rank_2", 
+        mode="shared", 
+        x_primary=False,
+        x_update_finish_state=False,  # Prevent worker from prematurely finishing the run
+        ),
 	id=run_id,
 )
 ```
