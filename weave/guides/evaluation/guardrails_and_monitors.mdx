@@ -56,10 +56,10 @@ To create a monitor in Weave:
    - **LLM-as-a-judge configuration**:
      - **Scorer name**: Must start with a letter or number. Can contain letters, numbers, hyphens, and underscores.
      - **Judge model**: Select the model to score your ops. The menu contains any commercial LLM models you have configured in your W&B account and [W&B Inference models](/inference/models). Audio-enabled models have an **Audio Input** label beside their names. For the selected model, configure the following settings:
-     - **Configuration name**: A name for this model configuration.
-     - **System prompt**: Defines the judging model's role and persona, for example, "You are an impartial AI judge."
-     - **Response format**: The format the judge should output its response in, such as a `json_object` or plain `text`.
-     - **Scoring prompt**: The evaluation task used to score your ops. You can reference variables from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`." See [Prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts).
+        - **Configuration name**: A name for this model configuration.
+        - **System prompt**: Defines the judging model's role and persona, for example, "You are an impartial AI judge."
+        - **Response format**: The format the judge should output its response in, such as a `json_object` or plain `text`.
+        - **Scoring prompt**: The evaluation task used to score your ops. You can reference variables from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`." See [Prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts).
 
 Once you have configured the monitor's fields, click **Create monitor**. This adds the monitor to your Weave project. When your code starts generating traces, you can review the scores in the **Traces** tab by selecting the monitor's name and reviewing the data in the resulting panel.
 
