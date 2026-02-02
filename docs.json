@@ -588,6 +588,8 @@
                           "models/ref/python/automations",
                           "models/ref/python/automations/automation",
                           "models/ref/python/automations/donothing",
+                          "models/ref/python/public-api/downloadhistoryresult",
+                          "models/ref/python/public-api/incompleterunhistoryerror",
                           "models/ref/python/automations/metricchangefilter",
                           "models/ref/python/automations/metriczscorefilter",
                           "models/ref/python/automations/metricthresholdfilter",
@@ -1130,10 +1132,7 @@
                 "pages": [
                   "training/api-reference"
                 ],
-                "openapi": {
-                  "source": "training/api-reference/openapi.json",
-                  "directory": "training/api-reference"
-                }
+                "openapi": "training/api-reference/openapi.json"
               }
             ]
           },
