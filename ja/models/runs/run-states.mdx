@@ -33,8 +33,8 @@ Sweep と Run のステータスがどのように相互作用するかの詳細
 
 Python SDK または W&B App を使用して、プログラムまたはインタラクティブに Run の状態を確認できます。
 
-{{< tabpane >}}
-{{% tab header="Python SDK" %}}
+<Tabs>
+<Tab title="Python SDK">
 
 [`wandb.Api.Run`](/models/ref/python/public-api/runs) オブジェクトの `state` プロパティを使用して、 Run の現在の状態にアクセスします。
 
@@ -56,8 +56,8 @@ for run in runs:
 
 さまざまな条件に基づいてプロジェクトから Run を取得するために、異なるフィルタを適用できます。プログラムで Run をフィルタリングする方法の詳細については、 [Filter runs](/models/runs/filter-runs) を参照してください。
 
-{{% /tab %}}
-{{% tab header="W&B App" %}}
+</Tab>
+<Tab title="W&B App">
 
 W&B App から Run の状態を確認します。
 
@@ -69,5 +69,5 @@ W&B App から Run の状態を確認します。
 
 **State** フィールドの横で、 Run の現在の状態を確認できます。
 
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

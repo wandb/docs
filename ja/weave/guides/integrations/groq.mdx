@@ -42,7 +42,7 @@ chat_completion = client.chat.completions.create(
 )
 ```
 
-| ![](./imgs/groq/groq_weave_dasboard.png) |
+| ![](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
 |---|
 | Weave は、 Groq ライブラリ を介して行われたすべての LLM 呼び出しを追跡し、ログを記録します。 Weave のウェブインターフェースで トレース を確認できます。 |
 
@@ -89,7 +89,7 @@ recommend_places_to_visit("Paris")
 recommend_places_to_visit("Kolkata")
 ```
 
-| ![](./imgs/groq/groq_weave_tracing.png) |
+| ![](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
 |---|
 | `recommend_places_to_visit` 関数を `@weave.op` でデコレートすることで、その入力、出力、および関数内で行われたすべての内部 LM 呼び出しが トレース されます。 |
 
@@ -136,7 +136,7 @@ print(city_recommender.predict("San Francisco"))
 print(city_recommender.predict("Los Angeles"))
 ```
 
-| ![](./imgs/groq/groq_weave_model.png) |
+| ![](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
 |---|
 | [`Models`](../core-types/models) を使用した呼び出しの トレース と バージョン管理 |
 
@@ -144,7 +144,7 @@ print(city_recommender.predict("Los Angeles"))
 
 任意の `weave.Model` オブジェクトへの Weave リファレンスがあれば、 FastAPI サーバーを立ち上げて [serve](https://wandb.github.io/weave/guides/tools/serve) することができます。
 
-| [![dspy_weave_model_serve.png](./imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
+| [![dspy_weave_model_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
 |---|
 | WeaveModel の Weave リファレンスは、 UI で モデル に移動してコピーすることで取得できます。 |
 

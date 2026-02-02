@@ -84,12 +84,12 @@ response = huggingface_client.chat_completion(
 上記の コード を実行すると、Weave は Hugging Face Inference Client で行われたすべての LLM 呼び出しを追跡し、ログ に記録します。これらの Traces は Weave のウェブインターフェースで確認できます。
 
 <Frame>
-![Weave は各推論呼び出しをログに記録し、入力、出力、メタデータに関する詳細を提供します。](./imgs/huggingface/trace_call.png)
+![Weave は各推論呼び出しをログに記録し、入力、出力、メタデータに関する詳細を提供します。](/weave/guides/integrations/imgs/huggingface/trace_call.png)
 </Frame>
 
 Weave は各推論呼び出しを ログ に記録し、入力、出力、メタデータ に関する詳細を提供します。
 
-![Weave は UI 上で呼び出しをチャットビューとしてもレンダリングし、モデルとのチャット履歴全体を表示します。](./imgs/huggingface/trace_chat.png)
+![Weave は UI 上で呼び出しをチャットビューとしてもレンダリングし、モデルとのチャット履歴全体を表示します。](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
 Weave は UI 上で呼び出しをチャットビューとしてもレンダリングし、モデル とのチャット履歴全体を表示します。
 
 ## 関数のトレース
@@ -161,7 +161,7 @@ response = generate_image_and_check_correctness("A cute puppy")
 Weave は `@weave.op` でラップされたすべての関数呼び出しを ログ に記録するようになり、Weave UI で実行の詳細を 分析 できます。
 
 <Frame>
-![Weave は @weave.op でラップされたすべての関数呼び出しをログに記録し、Weave UI で実行の詳細を分析できるようにします。また、Weave は関数の実行をキャプチャして可視化し、アプリケーション内のデータフローとロジックを理解するのに役立ちます。](./imgs/huggingface/trace_ops.png)
+![Weave は @weave.op でラップされたすべての関数呼び出しをログに記録し、Weave UI で実行の詳細を分析できるようにします。また、Weave は関数の実行をキャプチャして可視化し、アプリケーション内のデータフローとロジックを理解するのに役立ちます。](/weave/guides/integrations/imgs/huggingface/trace_ops.png)
 Weave は関数の実行をキャプチャして可視化し、アプリケーション内の データ フローとロジックを理解するのに役立ちます。
 </Frame>
 
@@ -213,5 +213,5 @@ rich.print(city_visit_recommender.predict("Paris"))
 Weave は自動的に Models を ログ に記録し、異なる バージョン を追跡するため、パフォーマンスや 実験 履歴の 分析 が容易になります。
 
 <Frame>
-![Weave は自動的にモデルをログに記録し、異なるバージョンを追跡するため、パフォーマンスや実験履歴の分析が容易になります。](./imgs/huggingface/trace_model.png)
+![Weave は自動的にモデルをログに記録し、異なるバージョンを追跡するため、パフォーマンスや実験履歴の分析が容易になります。](/weave/guides/integrations/imgs/huggingface/trace_model.png)
 </Frame>

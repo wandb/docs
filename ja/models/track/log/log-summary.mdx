@@ -75,7 +75,7 @@ with wandb.init() as run:
 
 summary の値は、Run の **Overview** ページまたは プロジェクト の Runs テーブルで確認できます。
 
-{< tabpane >}{% tab header="Run Overview" %}
+<Tabs><Tab title="Run Overview">
 1. W&B App に移動します。
 2. **Workspace** タブを選択します。
 3. Runs のリストから、summary の値を ログ 記録した Run の名前をクリックします。
@@ -85,13 +85,13 @@ summary の値は、Run の **Overview** ページまたは プロジェクト �
 <Frame>
     <img src="/images/track/customize_summary.png" alt="Run overview"  />
 </Frame>
-{% /tab %}
-{% tab header="Run Table" %}
+</Tab>
+<Tab title="Run Table">
 1. W&B App に移動します。
 2. **Runs** タブを選択します。
 3. Runs テーブル内で、summary 値の名前に基づいた列で summary の値を確認できます。
-{% /tab %}
-{% tab header="W&B Public API" %}
+</Tab>
+<Tab title="W&B Public API">
 W&B Public API を使用して、Run の summary 値を取得できます。
 
 次のコード例は、W&B Public API と pandas を使用して、特定の Run に ログ 記録された summary 値を取得する方法の 1 つを示しています。
@@ -135,4 +135,4 @@ df = pd.DataFrame(all_runs)
 # 列名（run）に基づいて行を取得し、辞書に変換
 df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
 ```
-{% /tab %}{< /tabpane >}
+</Tab></Tabs>

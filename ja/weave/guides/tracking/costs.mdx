@@ -5,8 +5,8 @@ description: Weave における LLM オペレーションのコストを追跡�
 
 ## カスタムコストの追加
 
-{{< tabpane >}}
-{{% tab header="Python" %}}
+<Tabs>
+<Tab title="Python">
 [`add_cost`](/weave/reference/python-sdk/trace/weave_client#method-add-cost) メソッドを使用して、カスタムコストを追加できます。
 必須のフィールドは `llm_id`、`prompt_token_cost`、および `completion_token_cost` の3つです。
 `llm_id` は LLM の名前（例：`gpt-4o`）です。`prompt_token_cost` と `completion_token_cost` は、その LLM のトークンあたりのコストです（LLM の価格が100万トークン単位で指定されている場合は、必ず 値 を変換してください）。
@@ -33,20 +33,20 @@ client.add_cost(
 )
 ```
 
-{{% /tab %}}
-{{% tab header="TypeScript" %}}
+</Tab>
+<Tab title="TypeScript">
 
 ```plaintext
 この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
 ```
 
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## コストの照会
 
-{{< tabpane >}}
-{{% tab header="Python" %}}
+<Tabs>
+<Tab title="Python">
 [`query_costs`](/weave/reference/python-sdk/trace/weave_client#method-query-costs) メソッドを使用して、コストを照会できます。
 コストを照会する方法はいくつかあり、単一のコスト ID を渡すか、LLM モデル名のリストを渡すことができます。
 
@@ -60,20 +60,20 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 cost = client.query_costs(costs[0].id)
 ```
 
-{{% /tab %}}
-{{% tab header="TypeScript" %}}
+</Tab>
+<Tab title="TypeScript">
 
 ```plaintext
 この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
 ```
 
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## カスタムコストの削除
 
-{{< tabpane >}}
-{{% tab header="Python" %}}
+<Tabs>
+<Tab title="Python">
 [`purge_costs`](/weave/reference/python-sdk/trace/weave_client#method-purge-costs) メソッドを使用して、カスタムコストを削除できます。コスト ID のリストを渡すと、それらの ID を持つコストが削除されます。
 
 ```python lines
@@ -85,20 +85,20 @@ costs = client.query_costs(llm_ids=["your_model_name"])
 client.purge_costs([cost.id for cost in costs])
 ```
 
-{{% /tab %}}
-{{% tab header="TypeScript" %}}
+</Tab>
+<Tab title="TypeScript">
 
 ```plaintext
 この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
 ```
 
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## Projects のコスト計算
 
-{{< tabpane >}}
-{{% tab header="Python" %}}
+<Tabs>
+<Tab title="Python">
 少しの設定を行い、`calls_query` を使用して `include_costs=True` を追加することで、プロジェクトのコストを計算できます。
 
 ```python lines
@@ -136,15 +136,15 @@ def get_costs_for_project(project_name: str):
 get_costs_for_project("my_custom_cost_model")
 ```
 
-{{% /tab %}}
-{{% tab header="TypeScript" %}}
+</Tab>
+<Tab title="TypeScript">
 
 ```plaintext
 この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
 ```
 
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## カスタムコストを使用したカスタムモデルのセットアップ
 

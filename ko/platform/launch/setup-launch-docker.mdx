@@ -101,17 +101,17 @@ W&B CLI를 사용하여 Docker를 컴퓨팅 리소스로 사용하는 큐를 생
 
 다음 탭은 W&B CLI와 YAML 설정 파일을 사용하여 핵심 에이전트 옵션을 지정하는 방법을 보여줍니다:
 
-{< tabpane >}{% tab header="W&B CLI" %}
+<Tabs><Tab title="W&B CLI">
 ```bash
 wandb launch-agent -q <queue-name> --max-jobs <n>
 ```
-{% /tab %}{% tab header="설정 파일" %}
+</Tab><Tab title="설정 파일">
 ```yaml title="launch-config.yaml"
 max_jobs: <n concurrent jobs>
 queues:
 	- <queue-name>
 ```
-{% /tab %}{< /tabpane >}
+</Tab></Tabs>
 
 ## Docker 이미지 빌더
 

@@ -43,7 +43,7 @@ user_info = client.chat.completions.create(
 )
 ```
 
-| ![](./imgs/instructor/instructor_lm_trace.gif)                                                                        |
+| ![](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif)                                                                        |
 |-----------------------------------------------------------------------------------------------------------------------|
 | 이제 Weave 가 Instructor를 사용하여 이루어진 모든 LLM 호출을 추적하고 로그를 남깁니다. Weave 웹 인터페이스에서 trace를 확인할 수 있습니다. |
 
@@ -90,7 +90,7 @@ def extract_person(text: str) -> Person:
 person = extract_person("My name is John and I am 20 years old")
 ```
 
-| ![](./imgs/instructor/instructor_op_trace.png) |
+| ![](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png) |
 |---|
 | `extract_person` 함수에 `@weave.op` 데코레이터를 추가하면 입력, 출력 및 함수 내부에서 이루어진 모든 내부 LM 호출을 추적합니다. 또한 Weave 는 Instructor에 의해 생성된 구조화된 오브젝트를 자동으로 추적하고 버전을 관리합니다. |
 
@@ -154,7 +154,7 @@ model = PersonExtractor(openai_model="gpt-4", max_retries=2)
 asyncio.run(model.predict("John is 30 years old"))
 ```
 
-| ![](./imgs/instructor/instructor_weave_model.png) |
+| ![](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
 |---------------------------------------------------------------------------|
 | [`Model`](../core-types/models) 을 사용한 호출 추적 및 버전 관리 |
 
@@ -162,7 +162,7 @@ asyncio.run(model.predict("John is 30 years old"))
 
 `weave.Model` 오브젝트에 대한 weave reference가 주어지면, fastapi 서버를 띄우고 이를 [`serve`](https://wandb.github.io/weave/guides/tools/serve) 할 수 있습니다.
 
-| [![](./imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
+| [![](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 모델로 이동하여 UI에서 복사함으로써 모든 `weave.Model` 의 weave reference를 찾을 수 있습니다.                                                      |
 

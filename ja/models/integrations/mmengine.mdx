@@ -13,27 +13,33 @@ title: MMEngine
 
 `openmim` と `wandb` をインストールします。
 
-{< tabpane >}{% tab header="Command Line" %}
+<Tabs>
+<Tab title="Command Line">
 ``` bash
 pip install -q -U openmim wandb
 ```
-{% /tab %}{% tab header="Notebook" %}
+</Tab>
+<Tab title="Notebook">
 ``` bash
 !pip install -q -U openmim wandb
 ```
-{% /tab %}{< /tabpane >}
+</Tab>
+</Tabs>
 
 次に、`mim` を使用して `mmengine` と `mmcv` をインストールします。
 
-{< tabpane >}{% tab header="Command Line" %}
+<Tabs>
+<Tab title="Command Line">
 ``` bash
 mim install -q mmengine mmcv
 ```
-{% /tab %}{% tab header="Notebook" %}
+</Tab>
+<Tab title="Notebook">
 ``` bash
 !mim install -q mmengine mmcv
 ```
-{% /tab %}{< /tabpane >}
+</Tab>
+</Tabs>
 
 ## MMEngine Runner で WandbVisBackend を使用する
 
@@ -60,9 +66,9 @@ mim install -q mmengine mmcv
     visualizer = Visualizer.get_instance(**visualization_cfg)
     ```
 
-    {< note >}
+    <Note>
     `init_kwargs` には、[W&B run の初期化](/models/ref/python/functions/init) 用の入力パラメータとして引数の辞書を渡します。
-    {< /note >}
+    </Note>
 
 2. `visualizer` を使用して `runner` を初期化し、 `runner.train()` を呼び出します。
 

@@ -8,8 +8,8 @@ title: レジストリを作成する
 
 W&B Registry UI または W&B Python SDK を使用して、プログラムからレジストリを作成できます。
 
-{{< tabpane >}}
-{{% tab header="W&B Registry UI" %}}
+<Tabs>
+<Tab title="W&B Registry UI">
 1. https://wandb.ai/registry/ から W&B Registry にアクセスします。
 2. **Create registry** ボタンをクリックします。
 3. **Name** フィールドにレジストリ名を入力します。
@@ -18,8 +18,8 @@ W&B Registry UI または W&B Python SDK を使用して、プログラムから
 6. **Accepted artifacts type** ドロップダウンから、**All types** または **Specify types** のいずれかを選択します。
 7. （**Specify types** を選択した場合）レジストリが受け入れる Artifacts のタイプを1つ以上追加します。
 8. **Create registry** ボタンをクリックします。
-{{% /tab %}}
-{{% tab header="Python SDK" %}}
+</Tab>
+<Tab title="Python SDK">
 [`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) メソッドを使用して、プログラムからレジストリを作成します。`name` パラメータに名前を、`visibility` パラメータに [公開範囲](#visibility-types) をそれぞれ指定します。
 
 以下の コード ブロックをコピーして貼り付けます。 `<>` で囲まれた 値 を独自のものに置き換えてください。
@@ -35,12 +35,12 @@ registry = wandb.Api().create_registry(
 ```
 
 レジストリ作成時に指定できる パラメータ の完全なリストについては、[`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) メソッドリファレンスを参照してください。
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
-{{% alert %}}
+<Warning>
 Artifacts のタイプは、一度レジストリの 設定 に保存されると、そのレジストリから削除することはできません。
-{{% /alert %}}
+</Warning>
 
 例えば、以下の画像は `Fine_Tuned_Models` という名前のレジストリを作成しようとしているところです。このレジストリは **Restricted**（制限付き）に設定されており、手動で追加されたメンバーのみが アクセス できます。
 <Frame>

@@ -7,8 +7,8 @@ Tool calling（ツール呼び出し）を使用すると、モデルのレス�
 
 関数を呼び出すには、モデルへのリクエストの一部として関数とその 引数 を指定します。モデルは、リクエストを処理するために関数を実行する必要があるかどうかを判断し、必要に応じて関数の 引数 の 値 を指定します。
 
-{{< tabpane >}}
-{{% tab header="Python" %}}
+<Tabs>
+<Tab title="Python">
 ```python
 import openai
 
@@ -44,8 +44,8 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.tool_calls)
 ```
-{{% /tab %}}
-{{% tab header="Bash" %}}
+</Tab>
+<Tab title="Bash">
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -75,5 +75,5 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
         ],
   }'
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

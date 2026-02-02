@@ -84,12 +84,12 @@ response = huggingface_client.chat_completion(
 위의 코드가 실행된 후, Weave는 Hugging Face Inference Client로 수행된 모든 LLM 호출을 추적하고 로그합니다. Weave 웹 인터페이스에서 이러한 트레이스를 확인할 수 있습니다.
 
 <Frame>
-![Weave는 각 인퍼런스 호출을 로그하여 입력, 출력 및 메타데이터에 대한 상세 정보를 제공합니다.](./imgs/huggingface/trace_call.png)
+![Weave는 각 인퍼런스 호출을 로그하여 입력, 출력 및 메타데이터에 대한 상세 정보를 제공합니다.](/weave/guides/integrations/imgs/huggingface/trace_call.png)
 </Frame>
 
 Weave는 각 인퍼런스 호출을 로그하여 입력, 출력 및 메타데이터에 대한 상세 정보를 제공합니다.
 
-![Weave는 또한 UI에서 호출을 채팅 뷰로 렌더링하여 모델과의 전체 채팅 기록을 표시합니다.](./imgs/huggingface/trace_chat.png)
+![Weave는 또한 UI에서 호출을 채팅 뷰로 렌더링하여 모델과의 전체 채팅 기록을 표시합니다.](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
 Weave는 또한 UI에서 호출을 채팅 뷰로 렌더링하여 모델과의 전체 채팅 기록을 표시합니다.
 
 ## 함수 추적 (Trace a function)
@@ -161,7 +161,7 @@ response = generate_image_and_check_correctness("A cute puppy")
 이제 Weave는 `@weave.op`로 감싸진 모든 함수 호출을 로그하여, Weave UI에서 실행 세부 정보를 분석할 수 있게 합니다.
 
 <Frame>
-![Weave는 이제 @weave.op로 감싸진 모든 함수 호출을 로그하여 Weave UI에서 실행 세부 정보를 분석할 수 있게 합니다. 또한 Weave는 함수 실행을 캡처하고 시각화하여 애플리케이션 내의 데이터 흐름과 로직을 이해하는 데 도움을 줍니다.](./imgs/huggingface/trace_ops.png)
+![Weave는 이제 @weave.op로 감싸진 모든 함수 호출을 로그하여 Weave UI에서 실행 세부 정보를 분석할 수 있게 합니다. 또한 Weave는 함수 실행을 캡처하고 시각화하여 애플리케이션 내의 데이터 흐름과 로직을 이해하는 데 도움을 줍니다.](/weave/guides/integrations/imgs/huggingface/trace_ops.png)
 Weave는 또한 함수 실행을 캡처하고 시각화하여 애플리케이션 내의 데이터 흐름과 로직을 이해하는 데 도움을 줍니다.
 </Frame>
 
@@ -213,5 +213,5 @@ rich.print(city_visit_recommender.predict("Paris"))
 Weave는 자동으로 모델을 로그하고 다양한 버전을 추적하여, 성능 분석과 실험 이력 확인을 용이하게 합니다.
 
 <Frame>
-![Weave는 자동으로 모델을 로그하고 다양한 버전을 추적하여 성능 분석과 실험 이력을 쉽게 분석할 수 있게 합니다.](./imgs/huggingface/trace_model.png)
+![Weave는 자동으로 모델을 로그하고 다양한 버전을 추적하여 성능 분석과 실험 이력을 쉽게 분석할 수 있게 합니다.](/weave/guides/integrations/imgs/huggingface/trace_model.png)
 </Frame>

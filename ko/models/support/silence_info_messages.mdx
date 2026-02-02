@@ -21,17 +21,17 @@ logger.setLevel(logging.ERROR)
 
 로그 출력을 대폭 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하십시오. 로그 출력을 완전히 끄려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하십시오. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정해야 합니다.
 
-{{< tabpane >}}
-{{% tab header="Notebook" %}}
+<Tabs>
+<Tab title="Notebook">
 ```python
 %env WANDB_SILENT=True
 ```
-{{% /tab %}}
-{{% tab header="Python" %}}
+</Tab>
+<Tab title="Python">
 ```python
 import os
 
 os.environ["WANDB_SILENT"] = "True"
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

@@ -4,8 +4,8 @@ title: Plotly や Bokeh のチャートを テーブル に追加するにはど
 
 Plotly や Bokeh の図を直接 テーブル に統合することはサポートされていません。代わりに、図を HTML としてエクスポートし、その HTML を テーブル に含めます。以下に、インタラクティブな Plotly および Bokeh チャートを使用した例を示します。
 
-{{< tabpane >}}
-{{% tab header="Using Plotly" %}}
+<Tabs>
+<Tab title="Using Plotly">
 ```python
 import wandb
 import plotly.express as px
@@ -33,8 +33,8 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     run.log({"test_table": table})
 
 ```
-{{% /tab %}}
-{{% tab header="Using Bokeh" %}}
+</Tab>
+<Tab title="Using Bokeh">
 ```python
 from scipy.signal import spectrogram
 import holoviews as hv
@@ -69,5 +69,5 @@ with wandb.init(project="audio_test") as run:
     my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
     run.log({"audio_table": my_table})
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

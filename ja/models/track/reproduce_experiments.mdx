@@ -18,15 +18,15 @@ Experiments を再現する手順：
 
 次に、指定されたハッシュで Experiments の コード をダウンロードするか、Experiments のリポジトリ全体をクローンします。
 
-{{< tabpane >}}
-{{% tab header="Python スクリプトまたはノートブックをダウンロード" %}}
+<Tabs>
+<Tab title="Python スクリプトまたはノートブックをダウンロード">
 Experiments の Python スクリプトまたは ノートブック をダウンロードします：
 
 1. **Command** フィールドで、Experiments を作成した スクリプト 名をメモします。
 2. 左の ナビゲーションバー で **Code** タブを選択します。
 3. スクリプト または ノートブック に対応するファイルの横にある **Download** をクリックします。
-{{% /tab %}}
-{{% tab header="GitHub" %}}
+</Tab>
+<Tab title="GitHub">
 チームメンバーが Experiments 作成時に使用した GitHub リポジトリをクローンします。手順は以下の通りです：
 
 1. 必要に応じて、チームメンバーが Experiments 作成に使用した GitHub リポジトリへの アクセス 権を取得します。
@@ -39,8 +39,8 @@ Experiments の Python スクリプトまたは ノートブック をダウン�
     ```bash
     git checkout -b "<run-name>" 0123456789012345678901234567890123456789
     ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 5. 左の ナビゲーションバー で **Files** を選択します。
 6. `requirements.txt` ファイルをダウンロードし、作業 ディレクトリー に保存します。この ディレクトリー には、クローンした GitHub リポジトリ、またはダウンロードした Python スクリプト か ノートブック が含まれている必要があります。
@@ -52,18 +52,18 @@ Experiments の Python スクリプトまたは ノートブック をダウン�
 
 9. コード と依存関係が揃ったので、スクリプト または ノートブック を実行して Experiments を再現できます。リポジトリをクローンした場合は、スクリプト または ノートブック がある ディレクトリー に移動する必要があるかもしれません。それ以外の場合は、作業 ディレクトリー から スクリプト または ノートブック を実行できます。
 
-{{< tabpane >}}
-{{% tab header="Python ノートブック" %}}
+<Tabs>
+<Tab title="Python ノートブック">
 Python ノートブック をダウンロードした場合は、ノートブック をダウンロードした ディレクトリー に移動し、ターミナル で以下の コマンド を実行します：
 ```bash
 jupyter notebook
 ```
-{{% /tab %}}
-{{% tab header="Python スクリプト" %}}
+</Tab>
+<Tab title="Python スクリプト">
 Python スクリプト をダウンロードした場合は、スクリプト をダウンロードした ディレクトリー に移動し、ターミナル で以下の コマンド を実行します。 `<>` で囲まれた 値 を自身のものに置き換えてください：
 
 ```bash
 python <your-script-name>.py
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>

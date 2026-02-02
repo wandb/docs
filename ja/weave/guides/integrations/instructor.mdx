@@ -42,7 +42,7 @@ user_info = client.chat.completions.create(
 )
 ```
 
-| ![](./imgs/instructor/instructor_lm_trace.gif)                                                                        |
+| ![](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif)                                                                        |
 |-----------------------------------------------------------------------------------------------------------------------|
 | Weave は、Instructor を使用して行われたすべての LLM 呼び出しを追跡し、ログを記録します。Weave の Web インターフェースで トレース を確認できます。 |
 
@@ -89,7 +89,7 @@ def extract_person(text: str) -> Person:
 person = extract_person("My name is John and I am 20 years old")
 ```
 
-| ![](./imgs/instructor/instructor_op_trace.png) |
+| ![](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png) |
 |---|
 | `extract_person` 関数を `@weave.op` でデコレートすることで、その入力、出力、および関数内で行われるすべての内部 LM 呼び出しが トレース されます。Weave はまた、Instructor によって生成された構造化 オブジェクト を自動的に追跡し、バージョン管理 します。 |
 
@@ -153,7 +153,7 @@ model = PersonExtractor(openai_model="gpt-4", max_retries=2)
 asyncio.run(model.predict("John is 30 years old"))
 ```
 
-| ![](./imgs/instructor/instructor_weave_model.png) |
+| ![](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
 |---------------------------------------------------------------------------|
 | [`Model`](../core-types/models) を使用した呼び出しの トレース と バージョン管理 |
 
@@ -161,7 +161,7 @@ asyncio.run(model.predict("John is 30 years old"))
 
 `weave.Model` オブジェクト の Weave リファレンスを指定することで、FastAPI サーバーを起動して [`serve`](https://wandb.github.io/weave/guides/tools/serve) することができます。
 
-| [![](./imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
+| [![](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 任意の `weave.Model` の Weave リファレンスは、モデル に移動して UI からコピーすることで確認できます。                                                      |
 

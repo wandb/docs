@@ -15,8 +15,8 @@ description: OpenAI 互換エンドポイントを使用して chat completions 
 
 ## リクエストの例
 
-{{< tabpane >}}
-{{% tab header="Python" %}}
+<Tabs>
+<Tab title="Python">
 ```python
 import openai
 
@@ -43,8 +43,8 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
-{{% /tab %}}
-{{% tab header="Bash" %}}
+</Tab>
+<Tab title="Bash">
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -58,8 +58,8 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
     ]
   }'
 ```
-{{% /tab %}}
-{{< /tabpane >}}
+</Tab>
+</Tabs>
 
 ## レスポンス形式
 

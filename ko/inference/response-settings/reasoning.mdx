@@ -9,39 +9,39 @@ description: W&B Inference 응답에서 추론(Reasoning) 과정을 반환하고
 
 추론 정보는 응답의 `reasoning_content` 필드에서 확인할 수 있습니다. 이 필드는 다른 모델의 출력에는 포함되지 않습니다.
 
-{< tabpane >}
-  {< tab header="Python" >}
-    ```python
-    import openai
+<Tabs>
+<Tab title="Python">
+```python
+import openai
 
-    client = openai.OpenAI(
-        base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings 에서 API 키를 생성하세요.
-    )
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",  # https://wandb.ai/settings 에서 API 키를 생성하세요.
+)
 
-    response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
-        messages=[
-            {"role": "user", "content": "3.11 and 3.8, which is greater?"}
-        ],
-    )
+response = client.chat.completions.create(
+    model="openai/gpt-oss-20b",
+    messages=[
+        {"role": "user", "content": "3.11 and 3.8, which is greater?"}
+    ],
+)
 
-    print(response.choices[0].message.reasoning_content)
-    print("--------------------------------")
-    print(response.choices[0].message.content)
-    ```
-  {< /tab >}
-  {< tab header="Bash" >}
-    ```bash
-    curl https://api.inference.wandb.ai/v1/chat/completions \
-      -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -d '{
-        "model": "openai/gpt-oss-20b",
-        "messages": [
-          { "role": "user", "content": "3.11 and 3.8, which is greater?" }
-        ],
-      }'
-    ```
-  {< /tab >}
-{< /tabpane >}
+print(response.choices[0].message.reasoning_content)
+print("--------------------------------")
+print(response.choices[0].message.content)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -d '{
+    "model": "openai/gpt-oss-20b",
+    "messages": [
+      { "role": "user", "content": "3.11 and 3.8, which is greater?" }
+    ],
+  }'
+```
+</Tab>
+</Tabs>

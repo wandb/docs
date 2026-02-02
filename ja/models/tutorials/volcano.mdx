@@ -31,8 +31,8 @@ title: Volcano を使用したマルチノード Launch ジョブの実行
 
 このチュートリアルでは、[Volcano の PyTorch プラグイン](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin) を利用したマルチノード PyTorch トレーニング用の設定を使用します。以下の設定を YAML または JSON としてコピー＆ペーストしてください。
 
-{< tabpane >}
-{< tab header="YAML" >}
+<Tabs>
+<Tab title="YAML">
 ```yaml
 kind: Job
 spec:
@@ -74,8 +74,8 @@ metadata:
   namespace: wandb
 apiVersion: batch.volcano.sh/v1alpha1
 ```
-{< /tab >}
-{< tab header="JSON" >}
+</Tab>
+<Tab title="JSON">
 ```json
 {
   "kind": "Job",
@@ -142,8 +142,8 @@ apiVersion: batch.volcano.sh/v1alpha1
   "apiVersion": "batch.volcano.sh/v1alpha1"
 }
 ```
-{< /tab >}
-{< /tabpane >}
+</Tab>
+</Tabs>
 
 ドロワーの下部にある **Create queue** ボタンをクリックして、キューの作成を完了します。
 
@@ -159,9 +159,9 @@ Kubernetes クラスターに Volcano をインストールするには、[公�
 
 Volcano の PyTorch プラグインは、PyTorch コードが DDP（Distributed Data Parallel）を正しく使用している限り、`MASTER_ADDR`、`RANK`、`WORLD_SIZE` などの PyTorch DDP の動作に必要な環境変数を自動的に設定します。カスタム Python コードで DDP を使用する方法の詳細については、[PyTorch のドキュメント](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) を参照してください。
 
-{{% alert %}}
+<Warning>
 Volcano の PyTorch プラグインは、[PyTorch Lightning の `Trainer` を介したマルチノードトレーニング](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes) とも互換性があります。
-{{% /alert %}}
+</Warning>
 
 ## Launch
 
