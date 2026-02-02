@@ -34,6 +34,8 @@ When deciding which to use, it's important to know that:
 * Guardrails require code changes and are only needed when you must take action based on scores.
 * Every scorer result is automatically stored in Weave’s database. This means your guardrails double as monitors without any extra configuration. You can always analyze historical scorer results, regardless of how they were originally used.
 
+You can create monitors to observe and judge both text and audio. For example, you can create a monitor that checks the text responses of a support chatbot for toxicity. You can also create a monitor that passes an MP3 or WAV file to an LLM judge to check for the quality of an AI drive-thru assistant’s responses during customer orders.
+
 ## How to create a monitor in Weave
 
 To create a monitor in Weave:
@@ -53,10 +55,7 @@ To create a monitor in Weave:
        </Tip>
    - **LLM-as-a-judge configuration**:
      - **Scorer name**: Must start with a letter or number. Can contain letters, numbers, hyphens, and underscores.
-     - **Judge model**: Select the model that scores your ops. Options include:
-       - [Saved models](../tools/playground#saved-models)
-       - Models from providers configured by your W&B admin
-       - [W&B Inference models](../integrations/inference)
+     - **Judge model**: Select the model to score your ops. The menu contains any commercial LLM models you have configured in your W&B account and [W&B Inference models](/inference/models). Audio-enabled models have an **Audio Input** label beside their names. For the selected model, configure the following settings:
      - **Configuration name**: A name for this model configuration.
      - **System prompt**: Defines the judging model's role and persona, for example, "You are an impartial AI judge."
      - **Response format**: The format the judge should output its response in, such as a `json_object` or plain `text`.
