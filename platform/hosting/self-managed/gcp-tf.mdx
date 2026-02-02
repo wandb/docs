@@ -3,7 +3,8 @@ description: Hosting W&B Server on Google Cloud.
 title: Deploy W&B Platform on Google Cloud
 ---
 
-<Note> W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+<Note>
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 </Note>
 
 If you've determined to Self-Managed W&B Server, W&B recommends using the [W&B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) to deploy the platform on Google Cloud.
@@ -201,7 +202,9 @@ Ensure that the service account or account that your instance is running has bot
 - access to the bucket you created in the previous step
 - `storage.objectAdmin` role on this bucket. For details, see https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add
 
-<Note>Your instance also needs the `iam.serviceAccounts.signBlob` permission in Google Cloud to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.</Note>
+<Note>
+Your instance also needs the `iam.serviceAccounts.signBlob` permission in Google Cloud to create signed file URLs. Add `Service Account Token Creator` role to the service account or IAM member that your instance is running as to enable permission.
+</Note>
 
 3. Enable CORS access. This can only be done using the command line. First, create a JSON file with the following CORS configuration.
 
@@ -230,7 +233,9 @@ gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 
 Follow the procedure below in your command line to create a notification stream from the Storage Bucket to the Pub/Sub topic.
 
-<Note> You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.</Note>
+<Note> 
+You must use the CLI to create a notification stream. Ensure you have `gcloud` installed.
+</Note>
 
 1. Log into your Google Cloud project.
 2. Run the following in your terminal:
