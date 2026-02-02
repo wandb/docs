@@ -10,9 +10,8 @@ on:
   deployment_status:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - '**.md'
-      - '**.mdx'
+    # No paths filter - we check paths inside the job for fork PRs only
+    # This prevents "Skipped" status for same-repo PRs
 
 permissions:
   contents: read
@@ -23,21 +22,43 @@ jobs:
   linkChecker:
     runs-on: ubuntu-latest
     
-    # Run on: manual trigger, successful Mintlify deployment, or PR events (for forks)
+    # Run on:
+    # 1. Manual trigger (workflow_dispatch)
+    # 2. Successful Mintlify deployment (for same-repo PRs - waits for preview URL)
+    # 3. PR events from forks only (no Mintlify preview, checks against production)
     if: |
       github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'pull_request' ||
       (github.event_name == 'deployment_status' && 
        github.event.deployment_status.state == 'success' && 
        github.event.deployment.environment == 'staging' &&
        contains(github.event.deployment_status.creator.login, 'mintlify') &&
-       contains(github.event.deployment_status.environment_url, 'mintlify'))
+       contains(github.event.deployment_status.environment_url, 'mintlify')) ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.fork == true)
     
     steps:
       - uses: actions/checkout@v6
         with:
           # Needed to diff base..head for the associated PR
           fetch-depth: 0
+
+      - name: Early exit if no docs changed (fork PRs only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true
+        id: fork-docs-check
+        uses: tj-actions/changed-files@v47.0.1
+        with:
+          files: |
+            **/*.md
+            **/*.mdx
+
+      - name: Report no changes (fork PRs only)
+        if: |
+          github.event_name == 'pull_request' && 
+          github.event.pull_request.head.repo.fork == true && 
+          steps.fork-docs-check.outputs.any_changed != 'true'
+        run: |
+          echo "✓ No documentation files (.md/.mdx) changed in this fork PR."
+          echo "Link check not needed - exiting successfully."
 
       - name: Resolve PR and deployment URL
         id: pr-context
@@ -66,19 +87,38 @@ jobs:
             if (!pr) {
               core.warning(`No PR associated with commit ${sha}. Skipping linkcheck + PR comment.`);
               core.setOutput('pr_number', '');
+              core.setOutput('pr_closed', 'false');
               core.setOutput('deploy_url', deployUrl);
+              return;
+            }
+
+            // Check if PR is already merged/closed - preview likely torn down
+            if (pr.state === 'closed') {
+              core.warning(`PR #${pr.number} is already ${pr.merged_at ? 'merged' : 'closed'}. Preview likely torn down. Skipping link check.`);
+              core.setOutput('pr_number', '');
+              core.setOutput('pr_closed', 'true');
+              core.setOutput('deploy_url', '');
               return;
             }
 
             core.info(`Associated PR: #${pr.number} (${pr.html_url})`);
             core.setOutput('pr_number', String(pr.number));
+            core.setOutput('pr_closed', 'false');
             core.setOutput('base_sha', pr.base.sha);
             core.setOutput('head_sha', pr.head.sha);
             core.setOutput('deploy_url', deployUrl);
 
       - name: Get changed documentation files
         id: changed-files
-        if: steps.pr-context.outputs.pr_number != '' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
+        # Skip this for fork PRs with no doc changes (already checked above)
+        # For deployment_status and workflow_dispatch, always run
+        if: |
+          (github.event_name == 'pull_request' && 
+           github.event.pull_request.head.repo.fork == true && 
+           steps.fork-docs-check.outputs.any_changed == 'true') ||
+          (github.event_name == 'deployment_status' && 
+           steps.pr-context.outputs.pr_number != '') ||
+          github.event_name == 'workflow_dispatch'
         uses: tj-actions/changed-files@v47.0.1
         with:
           base_sha: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
@@ -130,7 +170,18 @@ jobs:
 
       - name: Link Checker
         id: lychee
-        if: steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
+        # Run if:
+        # - Fork PR with doc changes
+        # - Deployment status event with doc changes (and PR not closed)
+        # - Manual workflow dispatch
+        if: |
+          steps.pr-context.outputs.pr_closed != 'true' &&
+          ((github.event_name == 'pull_request' && 
+            github.event.pull_request.head.repo.fork == true && 
+            steps.fork-docs-check.outputs.any_changed == 'true') ||
+           (github.event_name == 'deployment_status' && 
+            steps.changed-files.outputs.any_changed == 'true') ||
+           github.event_name == 'workflow_dispatch')
         uses: lycheeverse/lychee-action@v2
         with:
           fail: false
@@ -140,14 +191,19 @@ jobs:
           format: markdown
           # GitHub token for API rate limiting
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Override base_url with deployment URL (if available) or use production
-          # For forks without Mintlify preview: checks against production site
+          # Use deployment URL (from Mintlify preview) or fallback to production
+          # Same-repo PRs: Wait for deployment and use preview URL
+          # Fork PRs: Run immediately and check against production (no preview available)
           args: >-
             --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
-            ${{ steps.changed-files.outputs.all_changed_files || '.' }}
+            ${{ steps.fork-docs-check.outputs.all_changed_files || steps.changed-files.outputs.all_changed_files || '.' }}
 
       - name: Comment on PR with results
-        if: steps.get-pr.outputs.pr_number && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch')
+        # Comment if link checker ran
+        if: |
+          steps.get-pr.outputs.pr_number && 
+          (steps.lychee.conclusion == 'success' || 
+           steps.lychee.conclusion == 'failure')
         uses: actions/github-script@v8
         with:
           script: |
