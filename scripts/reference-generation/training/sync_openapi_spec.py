@@ -44,6 +44,31 @@ def spec_hash(spec: dict) -> str:
     return hashlib.sha256(spec_str.encode()).hexdigest()
 
 
+def patch_spec(spec: dict) -> dict:
+    """
+    Apply patches to the OpenAPI spec to fix known issues.
+    
+    This is a workaround until the upstream Training API is fixed.
+    """
+    patched = False
+    
+    # Fix missing tags on health endpoints
+    health_endpoints = ["/v1/health", "/v1/system-check"]
+    for path in health_endpoints:
+        if path in spec.get("paths", {}):
+            for method in ["get", "post", "put", "delete", "patch"]:
+                if method in spec["paths"][path]:
+                    if "tags" not in spec["paths"][path][method]:
+                        spec["paths"][path][method]["tags"] = ["health"]
+                        print(f"  ✓ Added missing 'health' tag to {method.upper()} {path}")
+                        patched = True
+    
+    if patched:
+        print("  ℹ Applied patches to fix upstream OpenAPI spec issues")
+    
+    return spec
+
+
 def compare_specs(local_spec: dict, remote_spec: dict) -> Tuple[bool, list]:
     """
     Compare local and remote specs.
@@ -137,6 +162,9 @@ def main():
         else:
             print("  ✗ No local spec and couldn't fetch remote spec")
             return 1
+    
+    # Apply patches to fix known issues
+    remote_spec = patch_spec(remote_spec)
     
     # Load local spec
     local_spec = load_local_spec(local_spec_path)
