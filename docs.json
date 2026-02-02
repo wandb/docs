@@ -1132,10 +1132,7 @@
                 "pages": [
                   "training/api-reference"
                 ],
-                "openapi": {
-                  "source": "training/api-reference/openapi.json",
-                  "directory": "training/api-reference"
-                }
+                "openapi": "training/api-reference/openapi.json"
               }
             ]
           },
