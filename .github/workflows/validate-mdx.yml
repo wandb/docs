@@ -3,8 +3,7 @@ on:
   pull_request:
   push:
     branches:
-      - '**'
-      - '!main'
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -21,14 +20,36 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '20'
+      
+      - name: Get npm paths and cache key
+        id: npm-config
+        run: |
+          echo "date=$(date +%Y)-$(( $(date +%j) / 4 ))" >> "$GITHUB_OUTPUT"
+          echo "npm_prefix=$(npm config get prefix)" >> "$GITHUB_OUTPUT"
+          echo "npm_cache=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+      
       - name: Cache Mintlify CLI
+        id: cache-mint
         uses: actions/cache@v5
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-mintlify-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            ${{ steps.npm-config.outputs.npm_cache }}
+            ${{ steps.npm-config.outputs.npm_prefix }}/lib/node_modules/mint
+            ${{ steps.npm-config.outputs.npm_prefix }}/bin/mint
+          # 4-day cache - expires every 4 days to get latest mint version
+          key: ${{ runner.os }}-mint-${{ steps.npm-config.outputs.date }}
           restore-keys: |
-            ${{ runner.os }}-mintlify-
-      - name: Install Mintlify CLI
-        run: npm install -g mintlify
+            ${{ runner.os }}-mint-
+      
+      - name: Install Mintlify CLI (latest)
+        if: steps.cache-mint.outputs.cache-hit != 'true'
+        run: npm install -g mint@latest --loglevel=error --no-fund --no-audit
+      
+      - name: Verify Mintlify CLI (from cache)
+        if: steps.cache-mint.outputs.cache-hit == 'true'
+        run: |
+          echo "Using cached Mintlify CLI"
+          mint --version
+      
       - name: Validate MDX with Mintlify
         run: ./scripts/mdx-validation/validate-mdx-mintlify.sh

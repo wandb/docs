@@ -56,6 +56,8 @@ exclude = [
   # Third party URLs
   'https://auth0.com/docs',
   'https://cognito-idp.us-east-1.amazonaws.com',
+  'https://portal.azure.com',
+  'https://hhs.gov',
 
   # W&B production URLs
   '^https://github\.com/wandb',

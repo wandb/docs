@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 from pathlib import Path
 from typing import List, Optional
 
@@ -109,7 +110,11 @@ def install_dependencies(weave_version="latest"):
 
 
 def fix_code_fence_indentation(text: str) -> str:
-    """Fix code fence indentation issues in markdown."""
+    """Fix code fence indentation issues in markdown.
+    
+    Uses textwrap.dedent() to remove common leading whitespace from code blocks,
+    following standard Python text processing patterns.
+    """
     lines = text.split("\n")
     result_lines = []
     i = 0
@@ -135,29 +140,18 @@ def fix_code_fence_indentation(text: str) -> str:
                 code_lines = lines[i + 1 : closing_fence_idx]
                 
                 if code_lines:
-                    # Find the minimum indentation
-                    min_indent = float("inf")
-                    for code_line in code_lines:
-                        if code_line.strip():
-                            indent = len(code_line) - len(code_line.lstrip())
-                            min_indent = min(min_indent, indent)
+                    # Use textwrap.dedent() to remove common leading whitespace
+                    code_text = "\n".join(code_lines)
+                    dedented_code = textwrap.dedent(code_text)
+                    deindented_code_lines = dedented_code.split("\n")
                     
-                    if min_indent != float("inf"):
-                        # De-indent the code block
-                        deindented_code_lines = []
-                        for code_line in code_lines:
-                            if code_line.strip():
-                                deindented_code_lines.append(code_line[min_indent:])
-                            else:
-                                deindented_code_lines.append(code_line)
-                        
-                        # Add the fences and code
-                        result_lines.append(fence_content)
-                        result_lines.extend(deindented_code_lines)
-                        result_lines.append("```")
-                        
-                        i = closing_fence_idx + 1
-                        continue
+                    # Add the fences and code
+                    result_lines.append(fence_content)
+                    result_lines.extend(deindented_code_lines)
+                    result_lines.append("```")
+                    
+                    i = closing_fence_idx + 1
+                    continue
         
         result_lines.append(line)
         i += 1
