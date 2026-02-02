@@ -7,9 +7,9 @@ Customize your W&B Tables to answer questions about your machine learning model'
 
 Interactively explore your data to:
 
-* Compare changes precisely across models, epochs, or individual examples
+* [Compare two W&B Tables](#table-comparison-options) logged as artifact versions to analyze changes in your data or model performance.
 * Understand higher-level patterns in your data
-* Capture and communicate your insights with visual samples
+* [View how values you log to a table change throughout your runs](#visualize-how-values-change-throughout-your-runs).
 
 <Note>
 W&B Tables posses the following behaviors:
@@ -19,7 +19,7 @@ W&B Tables posses the following behaviors:
 For information on how to save your current W&B Table view, see [Save your view](#save-your-view).
 </Note>
 
-The following sections describe how to visualize and analyze W&B Tables.
+
 
 ## Table comparison options
 
@@ -48,6 +48,8 @@ In the following image we demonstrate a model's predictions on MNIST validation 
     <img src="/images/data_vis/preds_2.png" alt="Model prediction comparison" max-width="90%"  />
 </Frame>
 
+
+
 ### Merged view
 {/* To do, add steps */}
 Initially you see both tables merged together. The first table selected has index 0 and a blue highlight, and the second table has index 1 and a yellow highlight. [View a live example of merged tables here](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
@@ -75,9 +77,6 @@ To view the two tables side-by-side, change the first dropdown from "Merge Table
 
 * **compare the tables at a glance**: apply any operations (sort, filter, group) to both tables in tandem and spot any changes or differences quickly. For example, view the incorrect predictions grouped by guess, the hardest negatives overall, the confidence score distribution by true label, etc.
 * **explore two tables independently**: scroll through and focus on the side/rows of interest
-
-The following section describes two common use cases for comparing W&B Tables: [comparing tables across time](#compare-tables-across-time) and [comparing tables across model variants](#compare-tables-across-model-variants).
-
 
 ## Compare artifacts
 
@@ -110,9 +109,6 @@ For example, compare predictions between a `baseline` and a new model variant, `
 </Frame>
 </Tab>
 </Tabs>
-
-
-
 
 ## Visualize how values change throughout your runs
 
