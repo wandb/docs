@@ -39,6 +39,10 @@
   "navbar": {
     "links": [
       {
+        "label": "Connect to W&B's MCP Server",
+        "href": "https://docs.wandb.ai/platform/mcp-server"
+      },
+      {
         "label": "Log in",
         "href": "https://app.wandb.ai/login?_gl=1*8ninq0*_ga*MTE3ODEwNDkyLjE3MzQwMjk0NjA.*_ga_JH1SJHJQXJ*MTczNDA2Mzc4OS4yLjEuMTczNDA2MzkxMC42MC4wLjA.*_ga_GMYDGNGKDT*MTczNDA2Mzc4OS4zLjEuMTczNDA2Mzg2Ny4wLjAuMA..*_gcl_au*MTc0Mjk3ODgzMi4xNzM0MDI5NDYw"
       }
@@ -61,6 +65,7 @@
             "pages": [
               "index",
               "get-started",
+              "platform/mcp-server",
               {
                 "group": "Deployment options",
                 "pages": [
@@ -164,7 +169,6 @@
                   "platform/hosting/monitoring-usage/org_dashboard"
                 ]
               },
-              "platform/mcp-server",
               {
                 "group": "Resources",
                 "pages": [
