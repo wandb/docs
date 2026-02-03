@@ -53,7 +53,7 @@ W&B can connect to the following storage providers:
 - [Amazon S3](https://aws.amazon.com/s3/): Object storage service offering industry-leading scalability, data availability, security, and performance.
 - [Google Cloud Storage](https://cloud.google.com/storage): Managed service for storing unstructured data at scale.
 - [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): Cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
-- S3-compatible storage such as [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor) or other enterprise-grade solutions hosted in your cloud or on-premises infrastructure.
+- S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) or other enterprise-grade solutions hosted in your cloud or on-premises infrastructure.
 
 The following table shows the availability of BYOB at each scope for each W&B deployment type.
 
@@ -80,9 +80,9 @@ After [verifying availability](#availability-matrix), you are ready to provision
 - A CoreWeave account with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
 - Your W&B instance must be able to connect to CoreWeave network endpoints.
 
-For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/products/storage/object-storage/buckets/create-bucket) in the CoreWeave documentation.
+For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/buckets/create-bucket) in the CoreWeave documentation.
 
-1. <a id="coreweave-org-id" aria-label="CoreWeave organization ID"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
+1. <a id="coreweave-org-id"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
     1. Log in to the [W&B App](https://wandb.ai/site).
     1. In the left navigation, click **Create a new team**.
     1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
@@ -117,7 +117,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
 
-1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs](./presigned-urls) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/products/storage/object-storage/auth-access/bucket-access/bucket-policies) in the CoreWeave documentation.
+1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs](./presigned-urls) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/bucket-access/bucket-policies) in the CoreWeave documentation.
 
     ```json
     {
@@ -571,7 +571,7 @@ This section helps troubleshoot problems connecting to CoreWeave AI Object Stora
   - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
-  - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/products/storage/object-storage/auth-access/manage-access-keys/about) in the CoreWeave documentation.
+  - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) in the CoreWeave documentation.
 
 ### Google Cloud
 This section helps troubleshoot problems connecting to Google Cloud Storage.
