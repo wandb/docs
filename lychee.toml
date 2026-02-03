@@ -19,10 +19,9 @@ max_retries = 5
 retry_wait_time = 2
 
 # Accept these HTTP status codes as valid
-accept = [
-  200, # OK
-  429, # Too Many Requests (rate limit - treat as success)
-]
+# 200 = OK
+# 429 = Too Many Requests (rate limit - treat as success)
+accept = [200, 429]
 
 # Only check HTTP/HTTPS URLs
 scheme = [
@@ -36,32 +35,28 @@ include = [
 ]
 
 # Logging verbosity
-verbose = "warn"
+verbose = "error"
 
 # URL patterns to exclude from checking
+# Images - Mintlify rewrites paths during build
+# Example URLs used in generated docs
+# Social media URLs
+# Third party URLs that timeout or rate-limit
+# W&B production URLs (checked separately)
 exclude = [
-  # Exclude images - Mintlify rewrites paths during build
   '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
-
-  # Example URLs used in generated docs
   'https://kubeflow.mysite.com',
-  'https://my-fake-url.com',
-  'https://my.domain.net',
+  'my-fake-url\.com',
+  'my\.domain\.net',
   'https://wiki.python.org/moin/UsingPickle',
-
-  # Social media
-  'https://discord.com',
-  'https://x.com',
-
-  # Third party URLs
-  'https://auth0.com/docs',
+  'discord\.com',
+  'https?://x\.com',
+  'auth0\.com/docs',
   'https://cognito-idp.us-east-1.amazonaws.com',
-  'https://www.netapp.com',
-  'https://portal.azure.com',
-  'https://hhs.gov',
-
-  # W&B production URLs
-  '^https://github\.com/wandb',
+  'netapp\.com',
+  'portal\.azure\.com',
+  'hhs\.gov',
+  '^https://([^/]+\.)?github\.com/wandb',
   '^https://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
   '^https://wandb\.(ai|com)',
 ]
