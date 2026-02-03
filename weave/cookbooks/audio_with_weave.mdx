@@ -149,11 +149,10 @@ prompt_endpoint_and_log_trace(
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
 
-# Advanced Usage: Realtime Audio API with Weave
+## Advanced Usage: Realtime Audio API with Weave
 
 <img src="https://i.imgur.com/ZiW3IVu.png"/>
-<details>
-<summary> (Advanced) Realtime Audio API with Weave </summary>
+
 OpenAI's realtime API is a highly functional and reliable conversational API for building realtime audio and text assistants.
 
 Please note:
@@ -231,8 +230,7 @@ OUTPUT_DEVICE_CHANNELS = 1  # Set to 1 for mono output
 
 The OpenAI Python SDK does not yet provide Realtime API support. We implement the complete OAI Realtime API schema in Pydantic for greater legibility, and may deprecate once official support is released.
 
-<details>
-<summary> Pydantic Schema for OpenAI Realtime API (OpenAI's SDK lacks Realtime API support) </summary>
+### Pydantic Schema for OpenAI Realtime API
 
 ```python lines
 from enum import Enum
@@ -773,8 +771,6 @@ def parse_server_event(event_data: dict) -> ServerEvent:
         raise ValueError(f"Failed to parse event of type {event_type}: {str(e)}") from e
 ```
 
-</details>
-
 ## Audio Stream Writer (To Disk and In Memory)
 
 ```python lines
@@ -1098,6 +1094,3 @@ else:
         "WebSocket connection failed. Please check your API key and internet connection."
     )
 ```
-
-</details>
-
