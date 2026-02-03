@@ -1,0 +1,193 @@
+---
+description: Deploy W&B Platform on on-premises Kubernetes infrastructure
+title: Deploy on On-Premises Kubernetes
+---
+
+import ByobProvisioningLink from "/snippets/en/_includes/byob-provisioning-link.mdx";
+import SelfManagedVerifyInstallation from "/snippets/en/_includes/self-managed-verify-installation.mdx";
+
+<Note>
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+</Note>
+
+This guide provides instructions for deploying W&B Platform on on-premises Kubernetes infrastructure, including datacenter and private cloud environments.
+
+For air-gapped or fully disconnected environments, see the [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) guide.
+
+Reach out to the W&B [Sales](mailto:contact@wandb.com) to learn more.
+
+## Prerequisites
+
+Before deploying W&B on your on-premises Kubernetes infrastructure, ensure your environment meets all requirements. For complete details, see the [Requirements](/platform/hosting/self-managed/requirements) page, which covers:
+
+- Kubernetes cluster requirements (versions, ingress, persistent volumes)
+- MySQL database configuration
+- Redis requirements
+- Object storage setup
+- SSL/TLS certificates
+- Networking and load balancer configuration
+- Hardware sizing recommendations
+
+Additionally, refer to the [Reference Architecture](/platform/hosting/self-managed/ref-arch) for infrastructure guidelines and best practices.
+
+### Object storage provisioning
+
+W&B requires S3-compatible object storage. For detailed provisioning instructions for various storage providers, see:
+
+<ByobProvisioningLink/>
+
+After provisioning your object storage, you'll configure it in the W&B Custom Resource as described in the deployment steps below.
+
+## Deploy W&B with the Kubernetes Operator
+
+The recommended method for deploying W&B on Kubernetes is using the **W&B Kubernetes Operator**. The operator manages the W&B platform components and simplifies deployment, updates, and maintenance.
+
+### Choose your deployment method
+
+The W&B Operator can be deployed using two methods:
+
+1. **Helm CLI** - Direct deployment using Helm commands
+2. **Terraform** - Infrastructure-as-code deployment using Terraform
+
+For complete deployment instructions, including step-by-step guides for both methods, see [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator).
+
+The operator guide covers:
+- Installing the operator
+- Configuring the W&B Custom Resource (CR)
+- Object storage configuration
+- MySQL and Redis connection settings
+- SSL/TLS certificate configuration
+- Ingress and networking setup
+- Updates and maintenance
+
+### On-premises specific considerations
+
+When deploying on on-premises infrastructure, pay special attention to the following:
+
+#### Load balancer configuration
+
+On-premises Kubernetes clusters typically require manual load balancer configuration. Options include:
+
+- **External load balancer**: Configure an existing hardware or software load balancer (F5, HAProxy, etc.)
+- **Nginx Ingress Controller**: Deploy nginx-ingress-controller with NodePort or host networking
+- **MetalLB**: For bare-metal Kubernetes clusters, MetalLB provides load balancer services
+
+For detailed load balancer configuration examples, see the [Reference Architecture networking section](/platform/hosting/self-managed/ref-arch#networking).
+
+#### Persistent storage
+
+Ensure your Kubernetes cluster has a StorageClass configured for persistent volumes. W&B components may require persistent storage for caching and temporary data.
+
+Common on-premises storage options:
+- NFS-based storage classes
+- Ceph/Rook storage
+- Local persistent volumes
+- Enterprise storage solutions (NetApp, Pure Storage, etc.)
+
+#### DNS and certificate management
+
+For on-premises deployments:
+- Configure internal DNS records to point to your W&B hostname
+- Provision SSL/TLS certificates from your internal Certificate Authority (CA)
+- If using self-signed certificates, configure the operator to trust your CA certificate
+
+See the [SSL/TLS requirements](/platform/hosting/self-managed/requirements#ssl-tls) for certificate configuration details.
+
+### OpenShift deployments
+
+W&B fully supports deployment on OpenShift Kubernetes clusters. OpenShift deployments require additional security context configurations due to OpenShift's stricter security policies.
+
+For OpenShift-specific configuration details, see:
+- [Operator guide OpenShift section](/platform/hosting/self-managed/operator#openshift-kubernetes-clusters)
+- [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped#openshift-configuration) for comprehensive OpenShift examples
+
+## Object storage configuration
+
+After provisioning your object storage bucket (see [Prerequisites](#object-storage-provisioning) above), configure it in your W&B Custom Resource.
+
+### AWS S3 (on-premises)
+
+For on-premises AWS S3 (via Outposts or compatible storage):
+
+```yaml
+bucket:
+  kmsKey: <kms key arn>  # Optional KMS key for encryption
+  name: <bucket name>    # Example: wandb
+  path: ""               # Keep as empty string
+  provider: s3
+  region: <region>       # Example: us-east-1
+```
+
+### S3-compatible storage (MinIO, Ceph, NetApp, etc.)
+
+For S3-compatible storage systems:
+
+```yaml
+bucket:
+  kmsKey: null
+  name: <s3 endpoint>    # Example: s3.example.com:9000
+  path: <bucket name>    # Example: wandb
+  provider: s3
+  region: <region>       # Example: us-east-1
+```
+
+To enable TLS for S3-compatible storage, append `?tls=true` to the bucket path:
+
+```yaml
+bucket:
+  path: "wandb?tls=true"
+```
+
+<Warning>
+The certificate must be trusted. Self-signed certificates require additional configuration. See the [SSL/TLS requirements](/platform/hosting/self-managed/requirements#ssl-tls) for details.
+</Warning>
+
+### Important considerations for on-premises object storage
+
+When running your own object storage, consider:
+
+1. **Storage capacity and performance**: Monitor disk capacity carefully. Average W&B usage results in tens to hundreds of gigabytes. Heavy usage could result in petabytes of storage consumption.
+2. **Fault tolerance**: At minimum, use RAID arrays for physical disks. For S3-compatible storage, use distributed or highly available configurations.
+3. **Availability**: Configure monitoring to ensure the storage remains available.
+
+### MinIO considerations
+
+<Warning>
+MinIO Open Source is in [maintenance mode](https://github.com/minio/minio) with no active development. Pre-compiled binaries are no longer provided, and only critical security fixes are considered case-by-case. For production deployments, W&B recommends using managed object storage services or [MinIO Enterprise (AIStor)](https://min.io/product/aistor).
+</Warning>
+
+Enterprise alternatives for on-premises object storage include:
+- [Amazon S3 on Outposts](https://aws.amazon.com/s3/outposts/)
+- [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)
+- MinIO Enterprise (AIStor)
+- [Dell ECS](https://www.dell.com/en-us/dt/storage/ecs/index.htm)
+
+If you are using an existing MinIO deployment or MinIO Enterprise, you can create a bucket using the MinIO client:
+
+```bash
+mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
+mc mb --region=us-east-1 local/wandb-files
+```
+
+## Verify your installation
+
+After deploying W&B, verify the installation is working correctly:
+
+<SelfManagedVerifyInstallation/>
+
+## Next steps
+
+After successful deployment:
+
+1. **Configure user authentication**: Set up [SSO](/platform/hosting/iam/sso) or other authentication methods
+2. **Set up monitoring**: Configure monitoring for your W&B instance and infrastructure
+3. **Plan for updates**: Review the [Server upgrade process](/platform/hosting/server-upgrade-process) and establish an update cadence
+4. **Configure backups**: Establish backup procedures for your MySQL database
+
+## Getting help
+
+If you encounter issues during deployment:
+
+- Check the [Reference Architecture](/platform/hosting/self-managed/ref-arch) for infrastructure guidance
+- Review the [Operator guide](/platform/hosting/self-managed/operator) for configuration details
+- Contact [W&B Support](mailto:support@wandb.com) or your assigned W&B support engineer

@@ -1,0 +1,855 @@
+---
+description: Deploy W&B Platform in air-gapped and disconnected Kubernetes environments
+title: Deploy on Air-Gapped Kubernetes
+---
+
+import SelfManagedVersionRequirements from "/snippets/en/_includes/self-managed-version-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/en/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/en/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/en/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/en/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/en/_includes/self-managed-object-storage-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/en/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedVerifyInstallation from "/snippets/en/_includes/self-managed-verify-installation.mdx";
+
+## Introduction
+
+This guide provides step-by-step instructions to deploy the W&B Platform in air-gapped, fully disconnected, or restricted network customer-managed environments. Air-gapped deployments are common in:
+
+- Secure government facilities
+- Financial institutions with strict network isolation
+- Healthcare organizations with compliance requirements
+- Industrial control systems (ICS) environments
+- Research facilities with classified networks
+
+Use an internal container registry and Helm repository to host the required W&B images and charts. Run these commands in a shell console with proper access to the Kubernetes cluster.
+
+You can adapt these commands to work with any CI/CD tooling you use to deploy Kubernetes applications.
+
+For standard on-premises Kubernetes deployments with internet connectivity, see [Deploy on On-Premises Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes).
+
+## Prerequisites
+
+Before starting, ensure your air-gapped environment meets the following requirements.
+
+### Version requirements
+
+<SelfManagedVersionRequirements/>
+
+### SSL/TLS requirements
+
+<SelfManagedSslTlsRequirements/>
+
+### Hardware requirements
+
+<SelfManagedHardwareRequirements/>
+
+### MySQL database
+
+<SelfManagedMysqlRequirements/>
+
+For MySQL configuration parameters for self-managed instances, see the [reference architecture MySQL configuration section](/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters).
+
+### Redis
+
+<SelfManagedRedisRequirements/>
+
+### Object storage
+
+<SelfManagedObjectStorageRequirements/>
+
+For detailed object storage provisioning guidance, see the [Bring Your Own Bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) guide. In air-gapped environments, you'll typically use on-premises S3-compatible storage such as MinIO Enterprise, NetApp StorageGRID, or Dell ECS.
+
+### Air-gapped specific requirements
+
+In addition to the standard requirements above, air-gapped deployments require:
+
+- **Internal container registry**: Access to a private container registry (Harbor, JFrog Artifactory, Nexus, etc.) with all required W&B images
+- **Internal Helm repository**: Access to a private Helm chart repository with W&B Helm charts
+- **Image transfer capability**: A method to transfer container images from an internet-connected system to your air-gapped registry
+- **License file**: A valid W&B Enterprise license (contact your W&B account team)
+
+For complete infrastructure requirements, including networking and load balancer configuration, see the [reference architecture](/platform/hosting/self-managed/ref-arch#infrastructure-requirements).
+
+## Prepare your air-gapped environment
+
+### Step 1: Set up internal container registry
+
+For a successful air-gapped deployment, all required container images must be available in your air-gapped container registry.
+
+<Note>
+You are responsible for tracking the W&B Operator's requirements and maintaining your container registry with updated images regularly. For the most current list of required container images and versions, refer to the Helm chart, or contact [W&B Support](mailto:support@wandb.com) or your assigned W&B support engineer.
+</Note>
+
+#### Core W&B component containers
+
+The following core images are required:
+
+- [`docker.io/wandb/controller`](https://hub.docker.com/r/wandb/controller) - W&B Kubernetes Operator
+- [`docker.io/wandb/local`](https://hub.docker.com/r/wandb/local) - W&B application server
+- [`docker.io/wandb/console`](https://hub.docker.com/r/wandb/console) - W&B management console
+- [`docker.io/wandb/megabinary`](https://hub.docker.com/r/wandb/megabinary) - W&B microservices (API, executor, glue, parquet)
+
+#### Dependency containers
+
+The following third-party dependency images are required:
+
+- [`docker.io/bitnamilegacy/redis`](https://hub.docker.com/r/bitnamilegacy/redis) - Required for local Redis deployment during testing and development. For production Redis requirements, see the [Redis section](#redis) in Prerequisites.
+- [`docker.io/otel/opentelemetry-collector-contrib`](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) - OpenTelemetry agent for collecting metrics and logs
+- [`quay.io/prometheus/prometheus`](https://quay.io/repository/prometheus/prometheus) - Prometheus for metrics collection
+- [`quay.io/prometheus-operator/prometheus-config-reloader`](https://quay.io/repository/prometheus-operator/prometheus-config-reloader) - Prometheus dependency
+
+#### Get the complete image list
+
+To extract the complete list of required images and versions from the Helm chart:
+
+1. On an internet-connected system, download the W&B Helm charts from the [W&B Helm charts repository](https://github.com/wandb/helm-charts):
+
+   ```bash
+   # Clone the helm-charts repository
+   git clone https://github.com/wandb/helm-charts.git
+   cd helm-charts
+   ```
+
+2. Inspect the `values.yaml` files to identify all container images and their versions:
+
+   ```bash
+   # Extract image references from the operator chart
+   helm show values charts/operator | grep -E "repository:|tag:" | grep -v "^#"
+
+   # Extract image references from the platform chart
+   helm show values charts/operator-wandb | grep -E "repository:|tag:" | grep -v "^#"
+   ```
+
+   Alternatively, use this command to extract just the repository names (without version tags):
+
+   ```bash
+   helm show values charts/operator-wandb \
+     | awk -F': *' '/^[[:space:]]*repository:/{print $2}' \
+     | grep -v "^#" \
+     | sort -u
+   ```
+
+   The list of repositories will look similar to the following:
+
+   ```text
+   wandb/controller
+   wandb/local
+   wandb/console
+   wandb/megabinary
+   wandb/weave-python
+   wandb/weave-trace
+   otel/opentelemetry-collector-contrib
+   prometheus/prometheus
+   prometheus-operator/prometheus-config-reloader
+   bitnamilegacy/redis
+   ```
+
+   To get the specific version tags for each image, use the first command above (`grep -E "repository:|tag:"`), which will show both repository names and their corresponding version tags.
+
+#### Transfer images to air-gapped registry
+
+1. On an internet-connected system, pull and save all required images. 
+
+    <Note>
+    Replace version numbers in the examples below with the actual versions from your Helm chart inspection in step 2 above. The versions shown here are examples and will become outdated.
+    </Note>
+
+    Use shell variables to manage versions consistently:
+
+    ```bash
+    # Set version variables (update these based on your Helm chart versions)
+    CONTROLLER_VERSION="1.13.3"
+    APP_VERSION="0.59.2"
+    CONSOLE_VERSION="2.12.2"
+
+    # Pull images
+    docker pull wandb/controller:${CONTROLLER_VERSION}
+    docker pull wandb/local:${APP_VERSION}
+    docker pull wandb/console:${CONSOLE_VERSION}
+    docker pull wandb/megabinary:${APP_VERSION}
+    # ... pull all other required images with their versions
+
+    # Save images to .tar files
+    docker save wandb/controller:${CONTROLLER_VERSION} -o wandb-controller-${CONTROLLER_VERSION}.tar
+    docker save wandb/local:${APP_VERSION} -o wandb-local-${APP_VERSION}.tar
+    docker save wandb/console:${CONSOLE_VERSION} -o wandb-console-${CONSOLE_VERSION}.tar
+    docker save wandb/megabinary:${APP_VERSION} -o wandb-megabinary-${APP_VERSION}.tar
+    # ... save all other images
+    ```
+
+2. Transfer the `.tar` files to your air-gapped environment using your approved method (USB drive, secure file transfer, etc.).
+
+3. In your air-gapped environment, load and push images to your internal registry:
+
+    ```bash
+    # Set the same version variables used above
+    CONTROLLER_VERSION="1.13.3"
+    APP_VERSION="0.59.2"
+    CONSOLE_VERSION="2.12.2"
+    INTERNAL_REGISTRY="registry.yourdomain.com"
+
+    # Load images
+    docker load -i wandb-controller-${CONTROLLER_VERSION}.tar
+    docker load -i wandb-local-${APP_VERSION}.tar
+    docker load -i wandb-console-${CONSOLE_VERSION}.tar
+    docker load -i wandb-megabinary-${APP_VERSION}.tar
+    # ... load all other images
+
+    # Tag for internal registry
+    docker tag wandb/controller:${CONTROLLER_VERSION} ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+    docker tag wandb/local:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+    docker tag wandb/console:${CONSOLE_VERSION} ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+    docker tag wandb/megabinary:${APP_VERSION} ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+    # ... tag all other images
+
+    # Push to internal registry
+    docker push ${INTERNAL_REGISTRY}/wandb/controller:${CONTROLLER_VERSION}
+    docker push ${INTERNAL_REGISTRY}/wandb/local:${APP_VERSION}
+    docker push ${INTERNAL_REGISTRY}/wandb/console:${CONSOLE_VERSION}
+    docker push ${INTERNAL_REGISTRY}/wandb/megabinary:${APP_VERSION}
+    # ... push all other images
+    ```
+
+### Step 2: Set up internal Helm chart repository
+
+Along with the container images, ensure the following Helm charts are available in your internal Helm repository:
+
+- [W&B Operator chart](https://github.com/wandb/helm-charts/tree/main/charts/operator)
+- [W&B Platform chart](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)
+
+1. On an internet-connected system, download the charts:
+
+   ```bash
+   # Add W&B Helm repository
+   helm repo add wandb https://wandb.github.io/helm-charts
+   helm repo update
+
+   # Download the charts
+   helm pull wandb/operator --version 1.13.3
+   helm pull wandb/operator-wandb --version 0.18.0
+   ```
+
+2. Transfer the `.tgz` chart files to your air-gapped environment and upload them to your internal Helm repository according to your repository's procedures.
+
+   The `operator` chart deploys the W&B Kubernetes Operator (Controller Manager). The `operator-wandb` chart deploys the W&B Platform using the values configured in the Custom Resource (CR).
+
+### Step 3: Configure Helm repository access
+
+1. In your air-gapped environment, configure Helm to use your internal repository:
+
+   ```bash
+   helm repo add local-repo https://charts.yourdomain.com
+   helm repo update
+   ```
+
+2. Verify the charts are available:
+
+   ```bash
+   helm search repo local-repo/operator
+   helm search repo local-repo/operator-wandb
+   ```
+
+## Deploy W&B in air-gapped environment
+
+### Step 4: Install the Kubernetes Operator
+
+The W&B Kubernetes Operator (controller manager) manages the W&B platform components. To install it in an air-gapped environment, configure it to use your internal container registry.
+
+1. Create a `values.yaml` file with the following content:
+
+   ```yaml
+   image:
+     repository: registry.yourdomain.com/wandb/controller
+     tag: 1.13.3
+
+   airgapped: true
+   ```
+
+   <Note>
+   Replace the repository and tag with the actual versions you transferred to your internal registry in Step 1. The version shown here (`1.13.3`) is an example and will become outdated.
+   </Note>
+
+2. Install the operator and Custom Resource Definition (CRD):
+
+   ```bash
+   helm upgrade --install operator local-repo/operator \
+     --namespace wandb \
+     --create-namespace \
+     --values values.yaml
+   ```
+
+3. Verify the operator is running:
+
+   ```bash
+   kubectl get pods -n wandb
+   ```
+
+   You should see the operator pod in a `Running` state.
+
+For full details about supported values, refer to the [Kubernetes operator GitHub repository values file](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml).
+
+### Step 5: Set up MySQL database
+
+Before configuring the W&B Custom Resource, set up an external MySQL database. For production deployments, W&B strongly recommends using managed database services where available. However, if you are running your own MySQL instance, create the database and user:
+
+<SelfManagedMysqlDatabaseCreation/>
+
+For MySQL configuration parameters, see the [reference architecture MySQL configuration section](/platform/hosting/self-managed/ref-arch#mysql-configuration-parameters).
+
+### Step 6: Configure W&B Custom Resource
+
+After installing the W&B Kubernetes Operator, configure the Custom Resource (CR) to point to your internal Helm repository and container registry.
+
+This configuration ensures the Kubernetes operator uses your internal registry and repository when deploying the required components of the W&B platform.
+
+<Note>
+The example configuration below includes image version tags that will become outdated. Replace all `tag:` values with the actual versions you transferred to your internal registry in Step 1.
+</Note>
+
+Create a file named `wandb.yaml` with the following content:
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/instance: wandb
+    app.kubernetes.io/name: weightsandbiases
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.yourdomain.com
+      license: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      
+      bucket:
+        accessKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+      
+      api:
+        enabled: true
+      
+      glue:
+        enabled: true
+      
+      executor:
+        enabled: true
+      
+      extraEnv:
+        ENABLE_REGISTRY_UI: 'true'
+
+    # Configure all component images to use internal registry
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+
+    api:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    executor:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    glue:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    parquet:
+      image:
+        repository: registry.yourdomain.com/wandb/megabinary
+        tag: 0.59.2
+
+    weave:
+      image:
+        repository: registry.yourdomain.com/wandb/weave-python
+        tag: 0.59.2
+
+    otel:
+      image:
+        repository: registry.yourdomain.com/otel/opentelemetry-collector-contrib
+        tag: 0.97.0
+
+    prometheus:
+      server:
+        image:
+          repository: registry.yourdomain.com/prometheus/prometheus
+          tag: v2.47.0
+      configmapReload:
+        prometheus:
+          image:
+            repository: registry.yourdomain.com/prometheus-operator/prometheus-config-reloader
+            tag: v0.67.0
+
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: 0
+      class: nginx
+```
+
+<Note>
+Replace all placeholder values (hostnames, passwords, tags, etc.) with your actual configuration values. The example above shows the most commonly used components.
+</Note>
+
+Depending on your deployment needs, you may also need to configure image repositories for additional components such as:
+- `settingsMigrationJob`
+- `weave-trace`
+- `filestream`
+- `flat-runs-table`
+
+Refer to the [W&B Helm repository values file](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml) for the complete list of configurable components.
+
+### Step 7: Deploy the W&B platform
+
+1. Apply the W&B Custom Resource to deploy the platform:
+
+   ```bash
+   kubectl apply -f wandb.yaml
+   ```
+
+2. Monitor the deployment progress:
+
+   ```bash
+   # Watch pods being created
+   kubectl get pods -n wandb --watch
+
+   # Check deployment status
+   kubectl get weightsandbiases -n wandb
+
+   # View operator logs
+   kubectl logs -n wandb deployment/wandb-operator-controller-manager
+   ```
+
+   The deployment may take several minutes as the operator creates all necessary components.
+
+## OpenShift configuration
+
+W&B fully supports deployment on air-gapped OpenShift Kubernetes clusters. OpenShift deployments require additional security context configurations due to OpenShift's stricter security policies.
+
+### OpenShift security context constraints
+
+OpenShift uses Security Context Constraints (SCCs) to control pod permissions. By default, OpenShift assigns the `restricted` SCC to pods, which prevents running as root and requires specific user IDs.
+
+#### Option 1: Use restricted SCC (recommended)
+
+Configure W&B components to run with the restricted SCC by setting appropriate security contexts in your Custom Resource:
+
+```yaml
+spec:
+  values:
+    # Configure security contexts for all pods
+    app:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # Repeat for other components: api, executor, glue, parquet, weave
+```
+
+#### Option 2: Create custom SCC (if required)
+
+If your deployment requires capabilities not available in the `restricted` SCC, create a custom SCC:
+
+```yaml
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: wandb-scc
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: false
+allowPrivilegedContainer: false
+allowedCapabilities: []
+defaultAddCapabilities: []
+fsGroup:
+  type: MustRunAs
+  ranges:
+    - min: 1000
+      max: 65535
+readOnlyRootFilesystem: false
+requiredDropCapabilities:
+  - ALL
+runAsUser:
+  type: MustRunAsRange
+  uidRangeMin: 1000
+  uidRangeMax: 65535
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+volumes:
+  - configMap
+  - downwardAPI
+  - emptyDir
+  - persistentVolumeClaim
+  - projected
+  - secret
+```
+
+1. Apply the SCC:
+
+   ```bash
+   oc apply -f wandb-scc.yaml
+   ```
+
+2. Bind the SCC to the W&B service accounts:
+
+   ```bash
+   oc adm policy add-scc-to-user wandb-scc -z wandb-app -n wandb
+   oc adm policy add-scc-to-user wandb-scc -z wandb-console -n wandb
+   ```
+
+### OpenShift routes
+
+OpenShift uses Routes instead of standard Kubernetes Ingress. Configure W&B to use OpenShift Routes:
+
+```yaml
+spec:
+  values:
+    ingress:
+      enabled: false
+    
+    route:
+      enabled: true
+      host: wandb.apps.openshift.yourdomain.com
+      tls:
+        enabled: true
+        termination: edge
+        insecureEdgeTerminationPolicy: Redirect
+```
+
+### OpenShift image pull configuration
+
+If your OpenShift cluster uses an internal image registry with authentication:
+
+1. Create an image pull secret:
+
+   ```bash
+   kubectl create secret docker-registry wandb-registry-secret \
+     --docker-server=registry.yourdomain.com \
+     --docker-username=<username> \
+     --docker-password=<password> \
+     --namespace=wandb
+   ```
+
+2. Reference the secret in your Custom Resource:
+
+   ```yaml
+   spec:
+     values:
+       imagePullSecrets:
+         - name: wandb-registry-secret
+   ```
+
+### OpenShift complete example
+
+Here's a complete example CR for OpenShift air-gapped deployment:
+
+<Note>
+Replace all `tag:` values in this example with the actual versions you transferred to your internal registry in Step 1. The versions shown are examples and will become outdated.
+</Note>
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  name: wandb
+  namespace: wandb
+
+spec:
+  chart:
+    url: https://charts.yourdomain.com
+    name: operator-wandb
+    version: 0.18.0
+
+  values:
+    global:
+      host: https://wandb.apps.openshift.yourdomain.com
+      license: <your-license>
+      
+      bucket:
+        accessKey: <your-access-key>
+        secretKey: <your-secret-key>
+        name: s3.yourdomain.com:9000
+        path: wandb
+        provider: s3
+        region: us-east-1
+      
+      mysql:
+        database: wandb
+        host: mysql.yourdomain.com
+        password: <your-mysql-password>
+        port: 3306
+        user: wandb
+      
+      redis:
+        host: redis.yourdomain.com
+        port: 6379
+        password: <your-redis-password>
+
+    # OpenShift-specific: Use Routes instead of Ingress
+    ingress:
+      enabled: false
+    
+    route:
+      enabled: true
+      host: wandb.apps.openshift.yourdomain.com
+      tls:
+        enabled: true
+        termination: edge
+
+    # Image pull secret for internal registry
+    imagePullSecrets:
+      - name: wandb-registry-secret
+
+    # Security contexts for OpenShift restricted SCC
+    app:
+      image:
+        repository: registry.yourdomain.com/wandb/local
+        tag: 0.59.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    console:
+      image:
+        repository: registry.yourdomain.com/wandb/console
+        tag: 2.12.2
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+
+    # Repeat security contexts for: api, executor, glue, parquet, weave
+    # (abbreviated for clarity)
+```
+
+<Note>
+<!-- TODO: Add additional OpenShift security context examples from field engineering Google Doc -->
+Contact [W&B Support](mailto:support@wandb.com) or your assigned W&B support engineer for comprehensive OpenShift configuration examples tailored to your security requirements.
+</Note>
+
+## Verify your installation
+
+After deploying W&B, verify the installation is working correctly:
+
+<SelfManagedVerifyInstallation/>
+
+### Additional air-gapped verification
+
+For air-gapped deployments, also verify:
+
+1. **Image pull**: Confirm all pods successfully pulled images from your internal registry:
+
+   ```bash
+   kubectl get pods -n wandb -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.phase}{"\t"}{.status.containerStatuses[*].image}{"\n"}{end}'
+   ```
+
+   All images should point to your internal registry and all pods should be in `Running` state.
+
+2. **External connectivity**: Verify W&B is not attempting external connections (it shouldn't in air-gapped mode):
+
+   ```bash
+   kubectl logs -n wandb deployment/wandb-app --tail=100 | grep -i "connection"
+   ```
+
+3. **License validation**: Access the W&B console and verify your license is active.
+
+## Troubleshooting
+
+### Image pull errors
+
+If pods fail to pull images:
+
+1. Verify images exist in your internal registry
+2. Check image pull secret is correctly configured
+3. Verify network connectivity from Kubernetes nodes to registry
+4. Check registry authentication credentials
+
+   ```bash
+   # Test image pull manually
+   kubectl run test-pull --image=registry.yourdomain.com/wandb/local:0.59.2 --namespace=wandb
+   kubectl logs test-pull -n wandb
+   kubectl delete pod test-pull -n wandb
+   ```
+
+### OpenShift SCC errors
+
+If pods fail with permission errors on OpenShift:
+
+```bash
+# Check which SCC is being used
+oc get pod <pod-name> -n wandb -o yaml | grep scc
+
+# Check service account permissions
+oc describe scc wandb-scc
+oc get rolebinding -n wandb
+```
+
+### Helm chart not found
+
+If the operator cannot find the platform chart:
+
+1. Verify the chart repository URL in the Custom Resource
+2. Check that the operator pod can reach your internal Helm repository
+3. Verify the chart exists in your repository:
+
+   ```bash
+   helm search repo local-repo/operator-wandb
+   ```
+
+## Frequently asked questions
+
+### Can I use a different ingress class?
+
+Yes, configure your ingress class by modifying the ingress settings in your Custom Resource:
+
+```yaml
+spec:
+  values:
+    ingress:
+      class: your-ingress-class
+```
+
+### How do I handle certificate bundles with multiple certificates?
+
+Split the certificates into multiple entries in the `customCACerts` section:
+
+```yaml
+spec:
+  values:
+    customCACerts:
+      cert1.crt: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+      cert2.crt: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+```
+
+### How do I prevent automatic updates?
+
+Configure the operator to not automatically update W&B:
+
+1. Set `airgapped: true` in the operator installation (this disables automatic update checks)
+2. Control version updates by manually updating the `spec.chart.version` in your Custom Resource
+3. Optionally, disable automatic updates from the W&B System Console
+
+See [Disable automatic app version updates](/platform/hosting/self-managed/disable-automatic-app-version-updates) for more details.
+
+<Note>
+W&B strongly recommends customers with Self-Managed instances update their deployments with the latest release at minimum once per quarter to maintain support and receive the latest features, performance improvements, and fixes. W&B supports a major release for 12 months from its initial release date. Refer to [Release policies and processes](/release-notes/release-policies).
+</Note>
+
+### Does the deployment work with no connection to public repositories?
+
+Yes. When `airgapped: true` is set in the operator configuration, the Kubernetes operator uses only your internal resources and does not attempt to connect to public repositories.
+
+### How do I update W&B in an air-gapped environment?
+
+To update W&B:
+
+1. Pull new container images on an internet-connected system
+2. Transfer images to your air-gapped registry
+3. Upload new Helm charts to your internal repository
+4. Update the `spec.chart.version` and image tags in your Custom Resource
+5. Apply the updated Custom Resource
+
+   The operator will perform a rolling update of the W&B components.
+
+## Next steps
+
+After successful deployment:
+
+1. **Configure user authentication**: Set up [SSO](/platform/hosting/iam/sso) or other authentication methods
+2. **Set up monitoring**: Configure monitoring for your W&B instance and infrastructure
+3. **Plan for updates**: Review the [Server upgrade process](/platform/hosting/server-upgrade-process) and establish an update cadence
+4. **Configure backups**: Establish backup procedures for your MySQL database
+5. **Document your process**: Create runbooks for your specific air-gapped update procedures
+
+## Getting help
+
+If you encounter issues during deployment:
+
+- Review the [Reference Architecture](/platform/hosting/self-managed/ref-arch) for infrastructure guidance
+- Check the [Operator guide](/platform/hosting/self-managed/operator) for configuration details
+- Contact [W&B Support](mailto:support@wandb.com) or your assigned W&B support engineer
+- For OpenShift-specific issues, reference Red Hat OpenShift documentation

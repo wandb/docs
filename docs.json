@@ -82,8 +82,8 @@
                       "platform/hosting/self-managed/requirements",
                       "platform/hosting/self-managed/operator",
                       "platform/hosting/self-managed/cloud-deployments/terraform",
-                      "platform/hosting/self-managed/bare-metal",
-                      "platform/hosting/self-managed/operator-airgapped",
+                      "platform/hosting/self-managed/on-premises-deployments/kubernetes",
+                      "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "platform/hosting/server-upgrade-process",
                       "platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]
