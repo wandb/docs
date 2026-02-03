@@ -110,16 +110,9 @@ The following two methods should be used together in order to improve performanc
 
 ### Flushing
 
-When running evaluations with large datasets, you may experience a long period of time before program execution completes while the dataset is being uploaded in background threads. This generally occurs when main thread execution finishes before background cleanup is complete.
+When running evaluations with large datasets, you may experience a long period of time before program execution, while the dataset is being uploaded in background threads. This generally occurs when main thread execution finished before background cleanup is complete. Calling `client.flush()` will force all background tasks to be processed in the main thread, ensuring parallel processing during main thread execution. This can improve performance when user code completes before data has been uploaded to the server.
 
-Weave performs network uploads in background threads to minimize impact on your application's performance. Calling `client.flush()` or `client.finish()` will force all background tasks to be processed, ensuring parallel processing during main thread execution. This can improve performance when user code completes before data has been uploaded to the server.
-
-**Available methods:**
-
-- `client.flush()`: Simple, silent flushing (recommended for CI environments)
-- `client.finish()`: Includes progress feedback with a progress bar or status callbacks (useful for interactive scripts)
-
-**Example:**
+Example:
 
 ```python lines
 client = weave.init("fast-upload")
