@@ -3958,7 +3958,76 @@
     },
     {
       "source": "weave/guides/tracking",
-      "destination": "weave/concepts/what-is-weave"
+      "destination": "weave/concepts/what-is-weave""source": "/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
+    },
+    {
+      "source": "/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/ja/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/ko/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
