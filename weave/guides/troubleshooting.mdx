@@ -110,9 +110,16 @@ The following two methods should be used together in order to improve performanc
 
 ### Flushing
 
-When running evaluations with large datasets, you may experience a long period of time before program execution, while the dataset is being uploaded in background threads. This generally occurs when main thread execution finished before background cleanup is complete. Calling `client.flush()` will force all background tasks to be processed in the main thread, ensuring parallel processing during main thread execution. This can improve performance when user code completes before data has been uploaded to the server.
+When running evaluations with large datasets, you may experience a long period of time before program execution completes while the dataset is being uploaded in background threads. This generally occurs when main thread execution finishes before background cleanup is complete.
 
-Example:
+Weave performs network uploads in background threads to minimize impact on your application's performance. Calling `client.flush()` or `client.finish()` will force all background tasks to be processed, ensuring parallel processing during main thread execution. This can improve performance when user code completes before data has been uploaded to the server.
+
+**Available methods:**
+
+- `client.flush()`: Simple, silent flushing (recommended for CI environments)
+- `client.finish()`: Includes progress feedback with a progress bar or status callbacks (useful for interactive scripts)
+
+**Example:**
 
 ```python lines
 client = weave.init("fast-upload")
@@ -145,4 +152,65 @@ To resolve this issue, increase the system limit for open files to `65,536` usin
 
 ```bash
 ulimit -n 65536
+```
+
+## Trace data loss in worker processes
+
+Weave performs network uploads in background threads to minimize impact on your application's performance. However, when using worker processes like Celery, multiprocessing, or other task queue systems, the worker process may exit before background threads finish uploading traces, causing trace data to be lost.
+
+To prevent data loss in worker processes, call `client.flush()` or `client.finish()` before the worker task completes. This ensures all background uploads complete before the process exits.
+
+**Available methods:**
+
+- `client.flush()`: Simple, silent flushing. (recommended for worker processes and CI environments)
+- `client.finish()`: Includes progress feedback with a progress bar or status callbacks (useful for interactive scripts)
+
+Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
+
+The following example demonstrates how to use `client.finish()` to ensure all traces are uploaded before tasks complete:
+
+```python lines
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    client = weave.init("your-team-name/your-project-name")
+    
+    try:
+        # Your task logic that creates traces
+        result = your_processing_function(input_data)
+        
+        # Ensure all traces are uploaded before task completes
+        client.finish()
+        
+        return result
+    finally:
+        pass
+```
+
+The following example demonstrates how to use `client.flush()` with a multiprocessing application:
+
+```python lines
+import multiprocessing
+import weave
+
+def worker_function(data):
+    client = weave.init("your-team-name/your-project-name")
+    
+    try:
+        # Your processing logic
+        result = process_data(data)
+        
+        # Flush before worker process exits
+        client.flush()
+        return result
+    finally:
+        pass
+
+if __name__ == '__main__':
+    with multiprocessing.Pool() as pool:
+        results = pool.map(worker_function, data_list)
 ```
