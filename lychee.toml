@@ -20,8 +20,9 @@ retry_wait_time = 2
 
 # Accept these HTTP status codes as valid
 # 200 = OK
+# 403 = Forbidden (can be a false positive - treat as success)
 # 429 = Too Many Requests (rate limit - treat as success)
-accept = [200, 429]
+accept = [200, 403, 429]
 
 # Only check HTTP/HTTPS URLs
 scheme = [
