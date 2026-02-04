@@ -412,7 +412,7 @@
                         "group": "ML Frameworks",
                         "pages": [
                           "models/integrations/keras",
-                          "models/tutorials/pytorch",
+                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
                           "models/integrations/tensorflow",
@@ -2537,10 +2537,6 @@
       "destination": "/models/integrations"
     },
     {
-      "source": "/models/integrations/pytorch-geometric",
-      "destination": "/models/integrations"
-    },
-    {
       "source": "/models/integrations/sagemaker",
       "destination": "/models/integrations"
     },
@@ -2571,6 +2567,10 @@
     {
       "source": "/models/integrations/w-and-b-for-julia",
       "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/pytorch",
+      "destination": "/models/integrations/pytorch"
     },
     {
       "source": "/models/ref/python/init",
