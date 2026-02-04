@@ -422,7 +422,8 @@
                       {
                         "group": "ML Libraries",
                         "pages": [
-                          "/models/integrations/accelerate",
+                          "models/tutorials/huggingface",
+                          "models/integrations/accelerate",
                           "models/integrations/diffusers",
                           "models/integrations/simpletransformers",
                           "models/integrations/huggingface",
