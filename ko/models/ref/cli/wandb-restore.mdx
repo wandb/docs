@@ -2,20 +2,38 @@
 title: wandb restore
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-restore.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb restore [OPTIONS] RUN`
+import WandbRestore from "/snippets/en/_includes/cli/wandb-restore.mdx";
 
-**요약**
+<WandbRestore/>
 
-run에 대한 코드, config, Docker 상태 복원
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
+Run 의 코드, config 및 docker 상태를 복구합니다. `wandb.save()` 또는 `wandb.init(save_code=True)`를 통해 코드가 저장되지 않은 경우, 마지막 커밋에서 코드를 가져옵니다.
 
-**옵션**
+## Usage
 
-| **옵션** | **설명** |
+```bash
+wandb restore RUN [OPTIONS]
+```
+
+## Arguments
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `RUN` | 설명 없음 | Yes |
+
+## Options
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `--no-git` | Git 상태를 복원하지 않습니다. |
-| `--branch / --no-branch` | branch를 만들지 분리된 checkout을 할지 여부 |
-| `-p, --project` | 업로드하려는 project입니다. |
-| `-e, --entity` | 목록의 범위를 지정할 entity입니다. |
+| `--no-git` | git 상태를 복구하지 않습니다 (기본값: False) |
+| `--branch` | 브랜치를 생성할지 또는 detached 상태로 체크아웃할지 여부 (기본값: True) |
+| `--project`, `-p` | 업로드할 Projects 를 지정합니다. |
+| `--entity`, `-e` | 리스트를 조회할 Entities 를 지정합니다. |

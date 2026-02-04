@@ -1,0 +1,112 @@
+---
+title: Ray Tune
+description: W&B を Ray Tune と統合する方法。
+---
+
+W&B は、2つの軽量なインテグレーションを提供することで [Ray](https://github.com/ray-project/ray) と連携します。
+
+- `WandbLoggerCallback` 関数は、Tune に報告されたメトリクスを自動的に Wandb API にログ記録します。
+- `setup_wandb()` 関数は、Function API と併用でき、Tune のトレーニング情報を使用して Wandb API を自動的に初期化します。通常通り Wandb API を使用でき、例えば `run.log()` を使ってトレーニング プロセス をログ記録することが可能です。
+
+## インテグレーションの設定
+
+```python
+from ray.air.integrations.wandb import WandbLoggerCallback
+```
+
+Wandb の 設定 は、`tune.run()` の config パラメータに wandb キーを渡すことで行われます（以下の例を参照）。
+
+wandb config エントリの内容は、キーワード引数として `wandb.init()` に渡されます。ただし、以下の設定は例外で、`WandbLoggerCallback` 自体の設定に使用されます。
+
+### パラメータ
+
+`project (str)`: Wandb Projects の名前。必須。
+
+`api_key_file (str)`: Wandb APIキー を含むファイルへのパス。
+
+`api_key (str)`: Wandb APIキー。`api_key_file` を設定する代わりに使用します。
+
+`excludes (list)`: ログから除外するメトリクスのリスト。
+
+`log_config (bool)`: 結果辞書の config パラメータをログに記録するかどうか。デフォルトは False です。
+
+`upload_checkpoints (bool)`: True の場合、モデルの チェックポイント が Artifacts としてアップロードされます。デフォルトは False です。
+
+### 例
+
+```python
+from ray import tune, train
+from ray.air.integrations.wandb import WandbLoggerCallback
+
+
+def train_fc(config):
+    for i in range(10):
+        # メトリクスを報告
+        train.report({"mean_accuracy": (i + config["alpha"]) / 10})
+
+
+tuner = tune.Tuner(
+    train_fc,
+    param_space={
+        "alpha": tune.grid_search([0.1, 0.2, 0.3]),
+        "beta": tune.uniform(0.5, 1.0),
+    },
+    run_config=train.RunConfig(
+        callbacks=[
+            WandbLoggerCallback(
+                project="<your-project>", api_key="<your-api-key>", log_config=True
+            )
+        ]
+    ),
+)
+
+results = tuner.fit()
+```
+
+## setup_wandb
+
+```python
+from ray.air.integrations.wandb import setup_wandb
+```
+
+このユーティリティ関数は、Ray Tune で使用するために Wandb を初期化するのに役立ちます。基本的な使い方は、トレーニング関数内で `setup_wandb()` を呼び出します。
+
+```python
+from ray.air.integrations.wandb import setup_wandb
+
+
+def train_fn(config):
+    # wandb を初期化
+    wandb = setup_wandb(config)
+    run = wandb.init(
+        project=config["wandb"]["project"],
+        api_key_file=config["wandb"]["api_key_file"],
+    )
+
+    for i in range(10):
+        loss = config["a"] + config["b"]
+        # run.log を使用してログを記録
+        run.log({"loss": loss})
+        tune.report(loss=loss)
+    run.finish()
+
+
+tuner = tune.Tuner(
+    train_fn,
+    param_space={
+        # ここで探索空間を定義
+        "a": tune.choice([1, 2, 3]),
+        "b": tune.choice([4, 5, 6]),
+        # wandb の設定
+        "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
+    },
+)
+results = tuner.fit()
+```
+
+## サンプルコード
+
+インテグレーションの動作を確認するためのサンプルをいくつか用意しました。
+
+* [Colab](https://wandb.me/raytune-colab): インテグレーションを試せるシンプルな デモ。
+* [Dashboard](https://wandb.ai/anmolmann/ray_tune): この例から生成された ダッシュボード を表示。

@@ -1,0 +1,92 @@
+---
+title: W&B ドキュメント
+description: ''
+mode: wide
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+<br/>
+<Banner home title="Weights & Biases ドキュメント" background="/images/support/support_banner.png">
+ドキュメントが必要な製品を選択してください。
+</Banner>
+<br/>
+<br/>
+
+<HomeWrapper padding="mint-px-4 md:mint-px-24">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard
+        title="W&B Models"
+        iconSrc="icons/Name=Models, Mode=Dark.svg"
+        href="/ko/models/"
+        subtitle="AI モデル開発"
+    >
+        W&B Models を使用して AI モデルの開発を管理しましょう。 
+        主な機能には、トレーニング、ファインチューニング、 Reports の作成、ハイパーパラメーター探索（ Sweeps ）の自動化、 
+        そしてバージョン管理と再現性のための Model Registry の活用が含まれます。
+        <br/>
+        <br/>
+        • <a href="/ko/models/">概要</a><br/>
+        • <a href="/ko/models/quickstart/">クイックスタート</a><br/>
+        • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube チュートリアル</a><br/>
+        • <a href="https://wandb.ai/site/courses/101/">オンラインコース</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Weave"
+        iconSrc="icons/Name=Weave, Mode=Dark.svg"
+        href="/weave"
+        subtitle="アプリでの AI モデル活用"
+    >
+        W&B Weave を使用して、コード内での AI モデルの挙動を管理しましょう。 
+        主な機能には、トレース、出力の評価、コスト見積もり、および様々な大規模言語モデル（LLM）や 
+        設定を比較するためのプレイグラウンドが含まれます。
+        <br/>
+        <br/>
+        • <a href="/weave/">概要</a><br/>
+        • <a href="/weave/quickstart">クイックスタート</a><br/>
+        • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube デモ</a><br/>
+        • <a href="/weave/guides/tools/playground/">プレイグラウンドを試す</a><br/>
+        • <a href="/weave/quickstart">W&B Runs で Weave を使用する</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Inference"
+        iconSrc="icons/Name=Inference, Mode=Dark.svg"
+        href="/inference/"
+        subtitle="基盤モデルへのアクセス"
+    >
+        W&B Inference を使用して、OpenAI 互換の API 経由で主要なオープンソース基盤モデルにアクセスしましょう。 
+        主な機能には、複数のモデルオプション、使用状況の追跡、およびトレースと評価のための Weave との統合が含まれます。
+        <br/>
+        <br/>
+        • <a href="/inference/">概要</a><br/>
+        • <a href="/inference/models/">利用可能なモデル</a><br/>
+        • <a href="/inference/api-reference/">API リファレンス</a><br/>
+        • <a href="https://wandb.ai/inference">プレイグラウンドで試す</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Training"
+        iconSrc="icons/Name=Models, Mode=Dark.svg"
+        href="/training/"
+        subtitle="モデルのポストトレーニング"
+    >
+        現在パブリックプレビュー中の W&B Training を使用して、サーバーレス強化学習（RL）で大規模言語モデルをポストトレーニングしましょう。 
+        主な機能には、フルマネージドな GPU インフラストラクチャ、ART および RULER との統合、 
+        マルチターンエージェントタスクのためのオートスケーリングが含まれます。
+        <br/>
+        <br/>
+        • <a href="/training/">概要</a><br/>
+        • <a href="/training/prerequisites/">前提条件</a><br/>
+        • <a href="/training/serverless-rl/">サーバーレス RL</a><br/>
+        • <a href="/training/api-reference/">API リファレンス</a>
+    </ProductCard>
+</div>
+</HomeWrapper>
+</HomeWrapper>
+<br/>
+<br/>

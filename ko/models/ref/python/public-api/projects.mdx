@@ -1,72 +1,60 @@
 ---
-title: Projects
+title: 프로젝트
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+## <kbd>class</kbd> `Projects`
+`Project` 오브젝트의 지연 이터레이터 (lazy iterator)입니다.
+
+해당 Entities 가 생성하고 저장한 Projects 에 엑세스하기 위한 이터러블 인터페이스입니다.
+
+### <kbd>method</kbd> `Projects.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    per_page: 'int' = 50
+) → Projects
+```
+
+**Args:**
+
+ - `client` (`wandb.apis.internal.Api`): 사용할 API 클라이언트 인스턴스입니다.
+ - `entity` (str): Projects 를 가져올 Entities 이름 (사용자 이름 또는 Teams)입니다.
+ - `per_page` (int): 요청당 가져올 Projects 의 수입니다 (기본값은 50).
+
+**Example:**
+ ```python
+from wandb.apis.public.api import Api
+
+# 이 entity에 속한 projects 찾기
+projects = Api().projects(entity="entity")
+
+# 파일들에 대해 반복문 실행
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+``` 
+
+`Project` 오브젝트의 이터러블 컬렉션입니다.
+
+**Args:**
+
+ - `client`: W&B에 쿼리하는 데 사용되는 API 클라이언트입니다.
+ - `entity`: Projects 를 소유한 Entities 입니다.
+ - `per_page`: API 요청당 가져올 Projects 의 수입니다.
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L20-L76" icon="github"/>
+### <kbd>property</kbd> Projects.cursor
 
-`Project` 오브젝트의 반복 가능한 컬렉션입니다.
+---
 
-```python
-Projects(
-    client, entity, per_page=50
-)
-```
-
-| 속성 | Description |
-| :--- | :--- |
-
-## 메소드
-
-### `convert_objects`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L69-L73)
-
-```python
-convert_objects()
-```
-
-### `next`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
-
-```python
-next()
-```
-
-### `update_variables`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
-
-```python
-update_variables()
-```
-
-### `__getitem__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
-
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| 클래스 변수 |  |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+### <kbd>property</kbd> Projects.more

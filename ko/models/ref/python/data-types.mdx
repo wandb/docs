@@ -1,41 +1,59 @@
 ---
-title: Data Types
+title: 데이터 유형 개요
+description: 미디어 및 구조화된 데이터 로그를 위한 W&B Python SDK의 데이터 유형
+module: wandb.sdk.data_types
+no_list: true
 ---
 
-이 모듈은 풍부하고 인터랙티브한 시각화 자료를 W&B에 로깅하기 위한 데이터 유형을 정의합니다.
+W&B의 Data Types는 Runs 에 로그를 남기기 위해 미디어 및 구조화된 데이터를 래핑하는 클래스입니다. 이들은 W&B UI에서 시각화 컴포넌트를 포함하며 데이터 직렬화, 저장 및 검색을 처리합니다.
 
-데이터 유형에는 이미지, 오디오 및 비디오와 같은 일반적인 미디어 유형, 테이블 및 HTML과 같은 정보에 대한 유연한 컨테이너 등이 있습니다.
+## Available Data Types
 
-미디어 로깅에 대한 자세한 내용은 [가이드](https://docs.wandb.com/models/track/log/media)를 참조하세요.
+| Data Type | Description |
+|-----------|-------------|
+| [`Image`](/models/ref/python/data-types/image) | 마스크, 바운딩 박스, 세그멘테이션을 지원하는 이미지를 로그합니다. |
+| [`Video`](/models/ref/python/data-types/video) | 모델 출력 또는 데이터셋 샘플을 위한 비디오 데이터를 추적합니다. |
+| [`Audio`](/models/ref/python/data-types/audio) | 오디오 처리 작업을 위한 오디오 샘플을 로그합니다. |
+| [`Table`](/models/ref/python/data-types/table) | 혼합 미디어 유형을 포함할 수 있는 테이블을 생성합니다. |
+| [`Plotly`](/models/ref/python/data-types/plotly) | 데이터 시각화를 위한 Plotly 차트를 로그합니다. |
+| [`Html`](/models/ref/python/data-types/html) | 사용자 정의 HTML 콘텐츠를 임베드합니다. |
+| [`Object3D`](/models/ref/python/data-types/object3d) | 3D 포인트 클라우드 및 메시를 시각화합니다. |
+| [`Molecule`](/models/ref/python/data-types/molecule) | 계산 화학을 위한 분자 구조를 로그합니다. |
 
-인터랙티브한 데이터셋 및 모델 분석을 위한 구조화된 데이터 로깅에 대한 자세한 내용은 [W&B Tables 가이드](https://docs.wandb.com/models/tables/)를 참조하세요.
+## Examples
 
-이러한 모든 특수 데이터 유형은 WBValue의 서브클래스입니다. 모든 데이터 유형은 JSON으로 직렬화됩니다. 이는 wandb가 오브젝트를 로컬에 저장하고 W&B 서버에 업로드하는 데 사용하는 형식이기 때문입니다.
+이 예제는 `Image` 를 사용합니다:
 
-## 클래스
+```python
+import wandb
+import matplotlib.pyplot as plt
 
-[`class Audio`](/ko/models/ref/python/data-types/audio/): 오디오 클립을 위한 Wandb 클래스입니다.
+# 데모 목적으로 이미지를 생성합니다
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
 
-[`class BoundingBoxes2D`](/ko/models/ref/python/data-types/boundingboxes2d/): W&B에 로깅하기 위해 2D 바운딩 박스 오버레이가 있는 이미지 포맷입니다.
+# 새로운 run 초기화
+with wandb.init(project="awesome-project") as run:
 
-[`class Graph`](/ko/models/ref/python/data-types/graph/): 그래프를 위한 Wandb 클래스입니다.
+    # 이미지 로그
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
+```
 
-[`class Histogram`](/ko/models/ref/python/data-types/histogram/): 히스토그램을 위한 wandb 클래스입니다.
+이 예제는 텍스트와 레이블이 혼합된 테이블을 로그하기 위해 `Table` 을 사용합니다:
 
-[`class Html`](/ko/models/ref/python/data-types/html/): 임의의 html을 위한 Wandb 클래스입니다.
+```python
+import wandb
 
-[`class Image`](/ko/models/ref/python/data-types/image/): W&B에 로깅하기 위한 이미지 포맷입니다.
+# 새로운 run 초기화
+with wandb.init(project="visualize-predictions", name="tables") as run:
 
-[`class ImageMask`](/ko/models/ref/python/data-types/imagemask/): W&B에 로깅하기 위한 이미지 마스크 또는 오버레이 포맷입니다.
+    # 리스트의 리스트를 사용하여 테이블 데이터 생성
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
 
-[`class Molecule`](/ko/models/ref/python/data-types/molecule/): 3D 분자 데이터를 위한 Wandb 클래스입니다.
-
-[`class Object3D`](/ko/models/ref/python/data-types/object3d/): 3D 포인트 클라우드를 위한 Wandb 클래스입니다.
-
-[`class Plotly`](/ko/models/ref/python/data-types/plotly/): Plotly 플롯을 위한 Wandb 클래스입니다.
-
-[`class Table`](/ko/models/ref/python/data-types/table/): 테이블 형식의 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
-
-[`class Video`](/ko/models/ref/python/data-types/video/): W&B에 로깅하기 위한 비디오 포맷입니다.
-
-[`class WBTraceTree`](/ko/models/ref/python/data-types/wbtracetree/): 추적 트리 데이터를 위한 미디어 오브젝트입니다.
+    # `wandb.Table.add_data()` 메소드를 사용하여 테이블 데이터 생성
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```

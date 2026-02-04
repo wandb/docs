@@ -1,18 +1,30 @@
 ---
-title: wandb ステータス
+title: wandb status
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-status.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb status [OPTIONS]`
+import WandbStatus from "/snippets/en/_includes/cli/wandb-status.mdx";
 
-**概要**
+<WandbStatus/>
 
-設定の表示
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
+設定 情報を表示します
 
-**オプション**
+## 使用法
 
-| **オプション** | **説明** |
+```bash
+wandb status [OPTIONS]
+```
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--settings / --no-settings` | 現在の設定を表示 |
+| `--settings` | 現在の 設定 を表示します (デフォルト: True) |

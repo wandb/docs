@@ -1,72 +1,66 @@
 ---
 title: ファイル
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+## <kbd>class</kbd> `Files`
+`File` オブジェクトのコレクションに対するレイジーイテレーター（遅延イテレーター）です。
+
+Runs の実行中に W&B にアップロードされたファイルへのアクセスと管理を行います。大量のファイルコレクションを反復処理する際、ページネーションを自動的に処理します。
+
+**Example:**
+ ```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# Run オブジェクトの例
+run = Api().run("entity/project/run-id")
+
+# Run 内のファイルを反復処理するための Files オブジェクトを作成
+files = Files(api.client, run)
+
+# ファイルを反復処理
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # ファイルをダウンロード
+     file.download(root="download_directory", replace=True)
+``` 
+
+### <kbd>method</kbd> `Files.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    run: 'Run',
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    upload: 'bool' = False,
+    pattern: 'str | None' = None
+)
+```
+
+`File` オブジェクトのコレクションに対するレイジーイテレーターを初期化します。
+
+ファイルは必要に応じて W&B サーバー からページ単位で取得されます。
+
+**Args:**
+ 
+ - `client`: ファイルを含む Run オブジェクト
+ - `run`: ファイルを含む Run オブジェクト
+ - `names` (list, optional): ファイルをフィルタリングするためのファイル名のリスト
+ - `per_page` (int, optional): 1ページあたりに取得するファイル数
+ - `upload` (bool, optional): `True` の場合、各ファイルのアップロード URL を取得します
+ - `pattern` (str, optional): W&B からファイルを返す際に一致させるパターン。このパターンは MySQL の LIKE 構文を使用するため、たとえば ".json" で終わるすべてのファイルに一致させるには "%.json" となります。`names` と `pattern` の両方が指定された場合、ValueError が発生します。
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L44-L107" icon="github"/>
+### <kbd>property</kbd> Files.length
 
-`File` オブジェクトの反復可能なコレクション。
-
-```python
-Files(
-    client, run, names=None, per_page=50, upload=(False)
-)
-```
-
-| 属性 | Description |
-| :--- | :--- |
-
-## メソッド
-
-### `convert_objects`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L100-L104)
-
-```python
-convert_objects()
-```
-
-### `next`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
-
-```python
-next()
-```
-
-### `update_variables`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L97-L98)
-
-```python
-update_variables()
-```
-
-### `__getitem__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
-
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+---

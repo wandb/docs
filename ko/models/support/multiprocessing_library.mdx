@@ -1,16 +1,12 @@
 ---
-title: Does W&B use the `multiprocessing` library?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: W&B는 `multiprocessing` 라이브러리를 사용하나요?
 ---
 
-예, W&B는 `multiprocessing` 라이브러리를 사용합니다. 다음과 같은 오류 메시지는 가능한 문제를 나타냅니다.
+네, W&B는 `multiprocessing` 라이브러리를 사용합니다. 다음과 같은 에러 메시지가 표시된다면 문제가 발생했을 가능성이 있습니다:
 
 ```
 An attempt has been made to start a new process before the current process 
 has finished its bootstrapping phase.
 ```
 
-이 문제를 해결하려면 `if __name__ == "__main__":` 를 사용하여 진입점 보호를 추가하십시오. 이 보호는 스크립트에서 직접 W&B를 실행할 때 필요합니다.
+이 문제를 해결하려면 `if __name__ == "__main__":`을 사용하여 엔트리 포인트 보호(entry point protection) 코드를 추가하세요. 스크립트에서 직접 W&B를 run 할 때는 이 보호 코드가 반드시 필요합니다.

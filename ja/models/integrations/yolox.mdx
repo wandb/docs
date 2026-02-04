@@ -1,0 +1,87 @@
+---
+title: YOLOX
+description: W&B を YOLOX と統合する方法。
+---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) は、強力な オブジェクト検出 パフォーマンスを備えた YOLO のアンカーフリーバージョンです。 YOLOX の W&B インテグレーション を使用すると、トレーニング、検証、およびシステムに関連する メトリクス の ログ 記録を有効にでき、単一の コマンドライン 引数 で 予測 をインタラクティブに検証できます。
+
+## サインアップと APIキー の作成
+
+APIキー は、W&B に対してマシンを認証します。 ユーザー プロフィールから APIキー を生成できます。
+
+<ApiKeyCreateStreamlined/>
+
+1. 右上隅にある ユーザー プロフィールアイコンをクリックします。
+1. **User Settings** を選択し、 **API Keys** セクションまでスクロールします。
+
+## `wandb` ライブラリのインストールとログイン
+
+ローカルに `wandb` ライブラリをインストールしてログインするには：
+
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) に APIキー を設定します。
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. `wandb` ライブラリをインストールしてログインします。
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+## メトリクス の ログ 記録
+
+`--logger wandb` コマンドライン 引数 を使用して、wandb による ログ 記録を有効にします。 オプションとして、 [`wandb.init()`](/models/ref/python/functions/init) が期待するすべての 引数 を渡すこともできます。 各 引数 の前に `wandb-` を付けてください。
+
+`num_eval_imges` は、 モデルの評価 のために W&B Tables に ログ 記録される 検証セット の画像と 予測 の数を制御します。
+
+```shell
+# wandbにログイン
+wandb login
+
+# `wandb` logger引数を指定してyoloxトレーニングスクリプトを呼び出す
+python tools/train.py .... --logger wandb \
+                wandb-project <project-name> \
+                wandb-entity <entity>
+                wandb-name <run-name> \
+                wandb-id <run-id> \
+                wandb-save_dir <save-dir> \
+                wandb-num_eval_imges <num-images> \
+                wandb-log_checkpoints <bool>
+```
+
+## 例
+
+[YOLOX のトレーニングおよび検証メトリクスを表示したダッシュボードの例 ->](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+
+<Frame>
+    <img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX training dashboard"  />
+</Frame>
+
+この W&B インテグレーション に関する質問や問題がありますか？ [YOLOX リポジトリ](https://github.com/Megvii-BaseDetection/YOLOX) で issue を作成してください。

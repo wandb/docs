@@ -1,13 +1,8 @@
 ---
-title: How can I resume a sweep using Python code?
-support:
-- sweeps
-- python
-toc_hide: true
-type: docs
+title: Python 코드를 사용하여 어떻게 Sweeps 를 재개할 수 있나요?
 ---
 
-스윕을 재개하려면 `sweep_id`를 `wandb.agent()` 함수에 전달하세요.
+스윕을 재개하려면 `sweep_id`를 `wandb.agent()` 함수에 전달하십시오.
 
 ```python
 import wandb
@@ -15,7 +10,7 @@ import wandb
 sweep_id = "your_sweep_id"
 
 def train():
-    # 트레이닝 코드
+    # 여기에 트레이닝 코드를 작성하세요
     pass
 
 wandb.agent(sweep_id=sweep_id, function=train)

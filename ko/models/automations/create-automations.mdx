@@ -1,0 +1,58 @@
+---
+title: 개요
+description: ML 워크플로우 를 간소화하기 위한 W&B 자동화 기능을 생성하고 관리하세요
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+이 페이지는 W&B [automations](/models/automations/)를 생성하고 관리하는 방법에 대한 개요를 제공합니다. 더 자세한 지침은 [Slack automation 생성하기](/models/automations/create-automations/slack/) 또는 [Webhook automation 생성하기](/models/automations/create-automations/webhook/)를 참조하세요.
+
+<Note>
+automations 관련 튜토리얼을 찾고 계신가요?
+- [모델 평가 및 배포를 위한 Github Action 자동 트리거 방법 알아보기](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
+- [Sagemaker 엔드포인트에 모델을 자동으로 배포하는 데모 영상 시청하기](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
+- [automations를 소개하는 비디오 시리즈 시청하기](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared).
+</Note>
+
+## 요구 사항
+- Teams 어드민은 팀의 Projects에 대한 automations뿐만 아니라 webhooks, secrets, Slack 인테그레이션과 같은 automation 구성 요소를 생성하고 관리할 수 있습니다. [Team settings](/platform/app/settings-page/teams/)를 참조하세요.
+- Registry automation을 생성하려면 Registry에 대한 access 권한이 있어야 합니다. [Registry access 설정하기](/models/registry/configure_registry/#registry-roles)를 참조하세요.
+- Slack automation을 생성하려면 선택한 Slack 인스턴스 및 채널에 게시할 수 있는 권한이 있어야 합니다.
+
+## Automation 생성하기
+Project 또는 Registry의 **Automations** 탭에서 automation을 생성합니다. 대략적으로 다음 단계에 따라 automation을 생성할 수 있습니다:
+
+1. 필요한 경우, access 토큰, 비밀번호 또는 SSH 키와 같이 automation에 필요한 각 민감한 문자열에 대해 [W&B secret을 생성](/platform/secrets/)하세요. Secrets는 **Team Settings**에서 정의됩니다. Secrets는 주로 webhook automations에서 사용됩니다.
+1. 팀 수준의 webhook 또는 Slack 인테그레이션을 구성하여 W&B가 사용자를 대신해 Slack에 게시하거나 webhook을 실행할 수 있도록 권한을 부여합니다. 하나의 webhook 또는 Slack 인테그레이션을 여러 automations에서 사용할 수 있습니다. 이러한 작업은 **Team Settings**에서 정의됩니다.
+1. Project 또는 Registry에서 감시할 이벤트와 수행할 작업(Slack 게시 또는 webhook 실행 등)을 지정하여 automation을 생성합니다. Webhook automation을 생성할 때 전송할 페이로드를 설정합니다.
+
+또는 Workspace의 라인 플롯에서 해당 지표에 대한 [run metric automation](/models/automations/automation-events/#run-events)을 빠르게 생성할 수 있습니다:
+
+1. 패널 위에 마우스를 올린 다음, 패널 상단의 종 모양 아이콘을 클릭합니다.
+
+    <Frame>
+    <img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location"  />
+    </Frame>
+1. 기본 또는 고급 설정 컨트롤을 사용하여 automation을 구성합니다. 예를 들어, automation의 범위를 제한하기 위해 run 필터를 적용하거나 절대 임계값을 설정합니다.
+
+자세한 내용은 다음을 참조하세요:
+
+- [Slack automation 생성하기](/models/automations/create-automations/slack/)
+- [Webhook automation 생성하기](/models/automations/create-automations/webhook/)
+
+## Automations 보기 및 관리
+Project 또는 Registry의 **Automations** 탭에서 automations를 확인하고 관리합니다.
+
+- Automation의 상세 정보를 보려면 이름을 클릭합니다.
+- Automation의 실행 기록을 보려면 이름을 클릭하고 **History** 탭을 선택합니다. 자세한 내용은 [Automation 기록 보기](/models/automations/view-automation-history)를 참조하세요.
+- Automation을 편집하려면 액션 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+- Automation을 삭제하려면 액션 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다.
+
+## 다음 단계
+- [automation 이벤트 및 범위](/models/automations/automation-events/)에 대해 더 알아보기
+- [Slack automation 생성하기](/models/automations/create-automations/slack/).
+- [Webhook automation 생성하기](/models/automations/create-automations/webhook/).
+- [Secret 생성하기](/platform/secrets/).

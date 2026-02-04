@@ -1,0 +1,189 @@
+---
+title: 保存されたビューの作成と管理
+description: トレースされた関数呼び出しや 評価 (Evaluations) とのインタラクション方法をカスタマイズする
+---
+
+Weave において、 _saved views_ （保存済みビュー）を使用すると、トレースされた関数呼び出しや評価（Evaluations）との対話方法をカスタマイズできます。保存済みビューを定義することで、フィルタ、ソート、列の表示設定を構成し、関連するデータに素早くアクセスできるようになります。
+
+ビューの作成、修正、保存は、Weave Python SDK または UI から直接行うことができます。Python SDK はプログラムによるフィルタリングやクエリのきめ細かな制御を提供し、UI では **Traces** や **Evals** タブでさまざまなテーブル構成を簡単に探索・保存できます。
+
+このガイドでは以下を説明します：
+
+- [Python SDK で保存済みビューを作成・修正する方法](#saved-views-in-the-python-sdk)
+- [Weave UI で保存済みビューを作成・操作する方法](#saved-views-in-the-ui)
+
+## Saved views in the Python SDK
+
+Weave の `SavedView` クラスは、トレースおよび Evals データのビューを保存、フィルタリング、ソート、およびカスタマイズする方法を提供します。
+
+### `SavedView` の初期化
+
+Weave プロジェクトで `SavedView` インスタンスを初期化します。
+
+```python lines
+import weave
+# プロジェクトを初期化
+client = weave.init(<my_project>)
+
+view = weave.SavedView()
+```
+
+### `SavedView` をグリッドとして可視化する
+
+`.to_grid()` を使用して、保存済みビューをグリッド形式で表示します。`limit` 引数で表示する最大行数を指定できます。
+
+```python lines
+view.to_grid(limit=5)
+```
+
+`.show()` を使用してグリッド表示を出力します。
+
+```python lines
+view.to_grid().show()
+```
+
+### 表示する列を設定する
+
+`.set_columns()` を使用して、ビューに表示する列を設定します。表示したい 1 つ以上の列を指定します。
+
+```python lines
+view.set_columns("id", "op_name")
+```
+
+### 列を追加する
+
+`.add_column()` を使用して、ビューに 1 つ以上の新しい列を追加します。追加したい列を指定します。
+
+```python lines
+# フィールド指定子とラベル "Created" を持つ列を追加
+view.add_column("Created")
+# オプションで、第2引数を追加して新しい列に異なるラベル名を指定できます。デフォルトではフィールド指定子がラベルに使用されます。
+```
+
+### 列をソートする
+
+`.sort_by()` を使用して、特定の列に基づいて結果をソートします。ソートする列名とソート順（`asc` または `desc`）を指定します。
+
+```python lines
+view.sort_by("started_at", "desc")
+```
+
+### オペレーション名でフィルタリングする
+
+Weave では、すべてのトレースや eval はオペレーション名に関連付けられています。
+`.filter_op()` を使用して、特定のオペレーションが実行された呼び出しのみを含むように `SavedView` をフィルタリングします。
+
+```python lines
+view.filter_op("Evaluation.predict_and_score")
+```
+
+### 演算子と条件でフィルタリングする
+
+`.add_filter()` を使用して、ビューにカスタムフィルタを適用します。[サポートされているフィルタ演算子](#filter-operators)のいずれかと条件を使用してフィルタを定義します。
+
+```python lines
+view.add_filter("output.model_latency", ">=", 5)
+```
+
+#### フィルタ演算子
+
+| 演算子 | 説明 | 例 |
+|----------|-------------|---------|
+| `"contains"` | 文字列に部分文字列が含まれているかチェックします。 | `view.add_filter("output.status", "contains", "error")` |
+| `"equals"` | 文字列が指定された値と完全に一致するかチェックします。 | `view.add_filter("input.category", "equals", "Alice")` |
+| `"in"` | 文字列が値のリストに含まれているかチェックします。 | `view.add_filter("category", "in", ["A", "B", "C"])` |
+| `"="` | 数値が値と等しいかチェックします。 | `view.add_filter("output.score", "=", 80)` |
+| `"≠", "!="` | 数値が値と等しくないかチェックします。 | `view.add_filter("metrics.loss", "!=", 0.5)` |
+| `"<"` | 数値が値より小さいかチェックします。 | `view.add_filter("age", "<", 30)` |
+| `"≤", "<="` | 数値が値以下かチェックします。 | `view.add_filter("metric.value", "<=", 100)` |
+| `">"` | 数値が値より大きいかチェックします。 | `view.add_filter("output.score", ">", 90)` |
+| `"≥", ">="` | 数値が値以上かチェックします。 | `view.add_filter("output.model_latency", ">=", 5)` |
+| `"is"` | boolean フィールドが `True` または `False` かチェックします。 | `view.add_filter("is_active", "is", True)` |
+| `"after"` | 日付が指定されたタイムスタンプより後かチェックします。 | `view.add_filter("started_at", "after", "2024-01-01")` |
+| `"before"` | 日付が指定されたタイムスタンプより前かチェックします。 | `view.add_filter("ended_at", "before", "2024-12-31")` |
+| `"is empty"` | フィールドが空（`None` または `""`）かチェックします。 | `view.add_filter("comments", "is empty", None)` |
+| `"is not empty"` | フィールドが空でないかチェックします。 | `view.add_filter("attachments", "is not empty", None)` |
+
+### フィルタの削除
+
+`.remove_filter()` を使用して、インデックスまたはフィールド名で特定のフィルタをビューから削除します。
+
+```python lines
+view.remove_filter("output.model_latency")
+```
+
+`.remove_filters()` を使用してすべてのフィルタを削除します。
+
+```python lines
+view.remove_filters()
+```
+
+### 保存済みビューを保存する
+
+`.save()` を使用して、保存済みビューを Weave に公開（保存）します。
+
+```python lines
+view.save()
+```
+
+### 関数呼び出しの取得
+
+`.get_calls()` を使用して、保存済みビューのフィルタに一致する関数呼び出しを取得します。`limit` や `offset` などのオプションパラメータを指定できます。
+
+```python lines
+calls = view.get_calls(limit=10)
+```
+
+## Saved views in the UI
+
+Weave UI では、保存済みビューの作成、読み込み、名前変更、編集が可能です。より細かな制御が必要な場合は、[Python SDK](#saved-views-in-the-python-sdk) を使用してください。
+
+### 保存済みビューの作成
+
+1. **Traces** または **Evals** タブに移動します。
+2. テーブル構成の以下の変数を調整します：
+   - フィルタ
+   - ソート順
+   - ページサイズ
+   - 列の表示設定
+   - 列の固定（ピン留め）
+3. 次のいずれかのオプションを使用してビューを保存します：
+   - 右上隅にある **Save view** をクリックします。
+   - **Save view** の左側にあるハンバーガーメニューをクリックします。ドロップダウンメニューで **+ Save as new view** をクリックします。
+
+### 保存済みビューの読み込み
+
+1. **Traces** または **Evals** タブに移動します。
+2. タブタイトルの左側にあるハンバーガーメニューをクリックします。すべての保存済みビューを表示するドロップダウンメニューが表示されます。
+3. アクセスしたいビューをクリックします。保存されたビューが **Traces** または **Evals** タブに表示されます。
+
+### 保存済みビューの名前変更
+
+1. [保存済みビューの読み込み](#load-a-saved-view)に記載されている手順に従います。
+2. **Traces** または **Evals** タブの左上隅にあるビュー名をクリックします。
+3. ビューの新しい名前を入力します。
+4. 新しいビュー名を保存するには、 **Enter** キーを押します。
+
+### 保存済みビューの編集
+
+1. [保存済みビューの読み込み](#load-a-saved-view)に記載されている手順に従います。
+2. テーブル構成を調整します。
+3. 右上隅にある **Save view** をクリックします。
+
+### 保存済みビューの削除
+
+<Warning>
+ビューが自分やチームにとってもはや有用でないと判断した場合は、削除することができます。この操作は取り消せません。
+</Warning>
+
+1. **Traces** または **Evals** タブに移動します。
+2. 削除したいビューを[読み込み](#load-a-saved-view)ます。
+3. **Save view** の左側にあるハンバーガーメニューをクリックします。
+4. ドロップダウンメニューで **Delete view** をクリックします。
+5. ポップアップモーダルで **Delete view** をクリックして確定します。または、 **Cancel** をクリックして削除を中止します。
+
+### デフォルトビューに戻る
+
+1. **Traces** または **Evals** タブに移動します。
+2. **Traces** または **Evals** タブの右側にあるハンバーガーメニューをクリックします。すべての保存済みビューを表示するドロップダウンメニューが表示されます。
+3. メニューの下部にある **Traces** または **Evals** をクリックします。デフォルトのビューが表示されます。

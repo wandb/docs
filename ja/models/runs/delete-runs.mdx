@@ -1,0 +1,60 @@
+---
+title: Run の削除
+description: W&B App を使用して、 W&B プロジェクトから Runs を削除する方法について説明します。
+---
+
+W&B App を使用して、 Projects から 1 つ以上の Runs を削除します。
+
+1. 削除したい Runs が含まれる Project に移動します。
+2. **Runs** タブを選択します。
+3. 削除したい Runs の隣にあるチェックボックスを選択します。
+4. テーブルの上にある **Delete** ボタン（ゴミ箱アイコン）を選択します。
+5. 表示されるドロワーから **Delete** を選択します。
+
+<Note>
+Run ID は、 Run を削除した後でも再利用することはできません。再利用しようとすると、その Run はエラーで失敗します。
+</Note>
+
+<Note>
+大量の Runs を含む Projects の場合、検索バーを使用して Regex（正規表現）で削除対象の Runs を絞り込むか、フィルターボタンを使用してステータス、タグ、その他のプロパティに基づいて Runs をフィルタリングできます。
+</Note>
+
+### Run 削除のフローチャート
+
+以下の図は、関連する Artifacts や モデルレジストリ のリンクの処理を含む、 Run 削除の完全な プロセス を示しています。
+
+```mermaid
+graph TB
+    Start([ユーザーが<br/>Run の削除を開始]) --> RunSelect[削除する Runs<br/>を選択]
+    
+    RunSelect --> DeletePrompt{関連する Artifacts<br/>も削除しますか？}
+    
+    DeletePrompt -->|No| DeleteRunOnly[Run のみ削除<br/><br/>- Run のメタデータを削除<br/>- Artifacts は保持される<br/>- 引き続き Artifacts にアクセス可能]
+    
+    DeletePrompt -->|Yes| CheckArtifacts[関連する Artifacts<br/>を確認]
+    
+    CheckArtifacts --> HasRegistry{Artifacts が<br/>モデルレジストリ にリンクされていますか？}
+    
+    HasRegistry -->|Yes| RegistryWarning[⚠️ 警告<br/><br/>レジストリ内のモデルが削除されます<br/>プロダクション環境のエイリアスに影響します]
+    HasRegistry -->|No| DirectDelete
+    
+    RegistryWarning --> ConfirmRegistry{レジストリモデルの<br/>削除を確定しますか？}
+    
+    ConfirmRegistry -->|No| DeleteRunOnly
+    ConfirmRegistry -->|Yes| DirectDelete[Run と Artifacts を削除<br/><br/>- Run のメタデータを削除<br/>- Artifacts は完全に削除<br/>- レジストリのリンクを削除<br/>- 復元不可]
+    
+    DeleteRunOnly --> PartialEnd([Run 削除完了<br/>Artifacts は維持])
+    DirectDelete --> FullEnd([Run と Artifacts を<br/>完全に削除完了])
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
+
+<Warning>
+Run を削除し、同時に関連する Artifacts の削除を選択した場合、それらの Artifacts は完全に削除され、後で Run を復元したとしても元に戻すことはできません。これには、 モデルレジストリ にリンクされている Artifacts も含まれます。
+</Warning>

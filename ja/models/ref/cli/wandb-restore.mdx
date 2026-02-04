@@ -2,19 +2,38 @@
 title: wandb restore
 ---
 
-**使い方**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-restore.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb restore [OPTIONS] RUN`
+import WandbRestore from "/snippets/en/_includes/cli/wandb-restore.mdx";
 
-**概要**
+<WandbRestore/>
 
-run のコード、config、docker 状態を復元します
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+Run のコード、設定（config）、および Docker の状態を復元します。 `wandb.save()` や `wandb.init(save_code=True)` でコードが保存されていなかった場合は、最新のコミットからコードを取得します。
 
-| **オプション** | **説明** |
+## Usage
+
+```bash
+wandb restore RUN [OPTIONS]
+```
+
+## Arguments
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `RUN` | 説明はありません | はい |
+
+## Options
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--no-git` | git 状態を復元しない |
-| `--branch / --no-branch` | ブランチを作成するか、デタッチされた状態にチェックアウトするか |
-| `-p, --project` | アップロードしたいプロジェクト。 |
-| `-e, --entity` | リストを特定のエンティティに絞り込むためのエンティティ。 |
+| `--no-git` | git の状態を復元しない（デフォルト: False） |
+| `--branch` | ブランチを作成するか、デタッチドヘッドでチェックアウトするか（デフォルト: True） |
+| `--project`, `-p` | アップロード先の Projects 。 |
+| `--entity`, `-e` | リストのスコープ対象となる Entities 。 |

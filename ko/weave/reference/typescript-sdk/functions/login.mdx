@@ -1,0 +1,32 @@
+---
+title: 로그인
+description: TypeScript SDK 레퍼런스
+---
+
+# login
+
+▸ **login**(`apiKey`, **host?**): `Promise`\<`void`\>
+
+제공된 API 키를 사용하여 Weights & Biases (W&B) 에 로그인합니다.
+이 함수는 나중에 사용할 수 있도록 자격 증명을 netrc 파일에 저장을 시도하며, 파일 시스템에 쓸 수 없는 경우에도 계속 진행됩니다.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `apiKey` | `string` | 사용자의 W&B API 키. |
+| `host?` | `string` | (선택 사항) 호스트 이름 (일반적으로 커스텀 W&B 서버를 사용하는 경우에만 필요함). |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+`Throws`
+
+API 키가 지정되지 않았거나 Weave 트레이스 서버로의 연결을 확인할 수 없는 경우 발생합니다.
+
+#### Defined in
+
+[clientApi.ts:23](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L23)
+
+___
