@@ -1,107 +1,142 @@
 ---
-title: Sweep
+title: 스윕
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+## <kbd>class</kbd> `Sweep`
+Sweeps 와 관련된 Runs 의 집합입니다.
+
+**Attributes:**
+
+ - `runs` (Runs): Runs 의 리스트
+ - `id` (str): Sweep ID
+ - `project` (str): Sweep 이 속한 Project 의 이름
+ - `config` (dict): Sweep 구성 (sweep configuration) 을 포함하는 사전 (dictionary)
+ - `state` (str): Sweep 의 상태. "Finished", "Failed", "Crashed", 또는 "Running" 이 될 수 있습니다.
+ - `expected_run_count` (int): Sweep 에 대해 예상되는 Runs 의 수
+
+### <kbd>method</kbd> `Sweep.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    sweep_id: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
+```
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L30-L240" icon="github"/>
+### <kbd>property</kbd> Sweep.config
 
-스윕과 관련된 run들의 집합입니다.
+Sweep 에 사용된 Sweep 구성 (sweep configuration) 입니다.
+
+---
+
+### <kbd>property</kbd> Sweep.entity
+
+Sweep 과 관련된 Entities 입니다.
+
+**Returns:**
+ - `str`: entity 속성 값.
+---
+
+### <kbd>property</kbd> Sweep.expected_run_count
+
+Sweep 에서 예상되는 Runs 의 수를 반환하거나, 무제한 Runs 인 경우 None 을 반환합니다.
+
+**Returns:**
+ - `int | None`: expected_run_count 속성 값.
+---
+
+### <kbd>property</kbd> Sweep.name
+
+Sweep 의 이름입니다.
+
+다음 우선순위에 따라 존재하는 첫 번째 이름을 반환합니다:
+
+1. 사용자가 수정한 표시 이름 (display name) 2. 생성 시 설정된 이름 3. Sweep ID
+
+---
+
+### <kbd>property</kbd> Sweep.order
+
+Sweep 의 정렬 키 (order key) 를 반환합니다.
+
+---
+
+### <kbd>property</kbd> Sweep.path
+
+Project 의 경로를 반환합니다.
+
+경로는 Entities, Project 이름, 그리고 Sweep ID 를 포함하는 리스트입니다.
+
+---
+
+### <kbd>property</kbd> Sweep.url
+
+Sweep 의 URL 입니다.
+
+Sweep URL 은 Entities, Project, "sweeps" 라는 용어, 그리고 Sweep ID 를 기반으로 생성됩니다. SaaS 사용자의 경우, `https://wandb.ai/entity/project/sweeps/sweeps_ID` 형식을 가집니다.
+
+---
+
+### <kbd>property</kbd> Sweep.username
+
+더 이상 사용되지 않습니다 (Deprecated). 대신 `Sweep.entity` 를 사용하세요.
+
+**Returns:**
+ - `str`: username 속성 값.
+---
+
+### <kbd>method</kbd> `Sweep.best_run`
 
 ```python
-Sweep(
-    client, entity, project, sweep_id, attrs=None
-)
+best_run(order=None)
 ```
 
-#### 예시:
+구성(config)에 정의된 메트릭 또는 전달된 정렬 순서에 따라 가장 우수한 Run 을 반환합니다.
 
-다음과 같이 인스턴스화합니다:
+---
 
-```
-api = wandb.Api()
-sweep = api.sweep(path / to / sweep)
-```
-
-| 속성 | Description |
-| :--- | :--- |
-|  `runs` |  (`Runs`) run들의 목록 |
-|  `id` |  (str) 스윕 ID |
-|  `project` |  (str) 프로젝트 이름 |
-|  `config` |  (str) 스윕 구성의 사전 |
-|  `state` |  (str) 스윕의 상태 |
-|  `expected_run_count` |  (int) 스윕에 예상되는 run의 수 |
-
-## 메소드
-
-### `best_run`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L125-L148)
+### <kbd>classmethod</kbd> `Sweep.get`
 
 ```python
-best_run(
-    order=None
-)
-```
-
-구성에서 정의된 메트릭 또는 전달된 순서에 따라 정렬된 최상의 run을 반환합니다.
-
-### `display`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
-
-```python
-display(
-    height=420, hidden=(False)
-) -> bool
-```
-
-이 오브젝트를 jupyter에 표시합니다.
-
-### `get`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L173-L222)
-
-```python
-@classmethod
 get(
-    client, entity=None, project=None, sid=None, order=None, query=None, **kwargs
+    client: 'RetryingClient',
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    sid: 'str | None' = None,
+    order: 'str | None' = None,
+    query: 'Document | None' = None,
+    **kwargs
 )
 ```
 
 클라우드 백엔드에 대해 쿼리를 실행합니다.
 
-### `load`
+**Args:**
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L106-L114)
+ - `client`: 쿼리 실행에 사용할 클라이언트.
+ - `entity`: Project 를 소유한 Entities (사용자 이름 또는 팀).
+ - `project`: Sweep 을 가져올 Project 의 이름.
+ - `sid`: 쿼리할 Sweep ID.
+ - `order`: Sweep 의 Runs 가 반환되는 순서.
+ - `query`: 실행에 사용할 쿼리.
+ - `**kwargs`: 쿼리에 전달할 추가 키워드 인수 (arguments).
 
-```python
-load(
-    force: bool = (False)
-)
-```
+---
 
-### `snake_to_camel`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
-
-```python
-snake_to_camel(
-    string
-)
-```
-
-### `to_html`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/sweeps.py#L224-L232)
+### <kbd>method</kbd> `Sweep.to_html`
 
 ```python
-to_html(
-    height=420, hidden=(False)
-)
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-이 스윕을 표시하는 iframe을 포함하는 HTML을 생성합니다.
-
-| 클래스 변수 |  |
-| :--- | :--- |
-|  `LEGACY_QUERY`<a id="LEGACY_QUERY"></a> |   |
-|  `QUERY`<a id="QUERY"></a> |   |
+이 Sweep 을 표시하는 iframe 을 포함한 HTML 을 생성합니다.

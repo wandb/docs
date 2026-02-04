@@ -1,0 +1,482 @@
+# W&B Inference
+
+_W&B Inference_ は、W&B Weave および OpenAI 互換の API を通じて、主要なオープンソースの基盤モデルへのアクセスを提供します。W&B Inference を使用すると、以下のことが可能になります：
+
+- ホスティングプロバイダーへの登録やモデルのセルフホストを行うことなく、AI アプリケーションやエージェントを開発できます。
+- W&B Weave Playground でサポートされているモデルを試用できます。
+
+<Warning>
+W&B Inference クレジットは、Free、Pro、および Academic プランに期間限定で含まれています。Enterprise プランでの利用可能性は異なる場合があります。クレジットが消費された後は以下のようになります：
+
+- Free アカウントが Inference の利用を継続するには、Pro プランにアップグレードする必要があります。
+- Pro プランのユーザーには、モデルごとの価格に基づき、Inference の超過分が月単位で請求されます。
+
+詳細については、[価格ページ](https://wandb.ai/site/pricing/) および [W&B Inference モデルコスト](https://wandb.ai/site/pricing/inference) を参照してください。
+</Warning>
+
+Weave を使用することで、W&B Inference を活用したアプリケーションの トレース、評価、監視、および反復的な改善が可能になります。
+
+| モデル | モデル ID (API 利用時) | タイプ | コンテキストウィンドウ | パラメータ | 説明 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| DeepSeek R1-0528 | deepseek-ai/DeepSeek-R1-0528 | テキスト | 161K | 37B - 680B (Active - Total) | 複雑なコーディング、数学、構造化文書の分析など、精密な推論タスクに最適化されています。 |
+| DeepSeek V3-0324 | deepseek-ai/DeepSeek-V3-0324 | テキスト | 161K | 37B - 680B (Active - Total) | 高度な言語処理と包括的な文書分析向けに調整された、堅牢な Mixture-of-Experts モデルです。 |
+| Llama 3.1 8B | meta-llama/Llama-3.1-8B-Instruct | テキスト | 128K | 8B (Total) | 応答性の高い多言語チャットボットとの対話に最適化された、効率的な対話型モデルです。 |
+| Llama 3.3 70B | meta-llama/Llama-3.3-70B-Instruct | テキスト | 128K | 70B (Total) | 対話タスク、詳細な指示への追従、コーディングに優れた多言語モデルです。 |
+| Llama 4 Scout | meta-llama/Llama-4-Scout-17B-16E-Instruct | テキスト, ビジョン | 64K | 17B - 109B (Active - Total) | テキストと画像の理解を統合したマルチモーダルモデルで、視覚的なタスクや複合的な分析に理想的です。 |
+| Phi 4 Mini | microsoft/Phi-4-mini-instruct | テキスト | 128K | 3.8B (Active - Total) | リソース制約のある環境での高速なレスポンスに適した、コンパクトで効率的なモデルです。 |
+
+このガイドでは、以下の情報を提供します：
+
+- [前提条件](#prerequisites)
+  - [Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python)
+- [API 仕様](#api-specification)
+  - [エンドポイント](#endpoint)
+  - [利用可能なメソッド](#available-methods)
+      - [Chat completions](#chat-completions)
+      - [サポートされているモデルの一覧表示](#list-supported-models)
+- [使用例](#usage-examples)
+- [UI](#ui)
+  - [Inference サービスへのアクセス](#access-the-inference-service)
+  - [Playground でモデルを試す](#try-a-model-in-the-playground)
+  - [複数のモデルを比較する](#compare-multiple-models)
+  - [請求および使用状況情報の確認](#view-billing-and-usage-information)
+- [使用上の情報と制限](#usage-information-and-limits)
+- [API エラー](#api-errors)
+
+## 前提条件
+
+API または W&B Weave UI を通じて W&B Inference サービスにアクセスするには、以下の前提条件が必要です。
+
+1. W&B アカウント。登録は [こちら](https://app.wandb.ai/login?signup=true&_gl=1*1yze8dp*_ga*ODIxMjU5MTk3LjE3NDk0OTE2NDM.*_ga_GMYDGNGKDT*czE3NDk4NDYxMzgkbzEyJGcwJHQxNzQ5ODQ2MTM4JGo2MCRsMCRoMA..*_ga_JH1SJHJQXJ*czE3NDk4NDU2NTMkbzI1JGcxJHQxNzQ5ODQ2MTQ2JGo0NyRsMCRoMA..*_gcl_au*MTE4ODk1MzY1OC4xNzQ5NDkxNjQzLjk1ODA2MjQwNC4xNzQ5NTgyMTUzLjE3NDk1ODIxNTM.) から。
+2. W&B APIキー。[ユーザー設定 (User Settings)](https://wandb.ai/settings) で APIキー を作成してください。
+3. W&B Projects。
+4. Python 経由で Inference サービスを使用する場合は、[Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python) を参照してください。
+
+### Python 経由で API を使用するための追加の前提条件
+
+Python 経由で Inference API を使用するには、まず一般的な前提条件を完了させてください。次に、ローカル環境に `openai` と `weave` ライブラリをインストールします。
+
+```bash
+pip install openai weave
+```
+
+<Note>
+`weave` ライブラリは、LLM アプリケーションをトレースするために Weave を使用する場合にのみ必要です。Weave の使い始めについては、[Weave クイックスタート](/weave/quickstart) を参照してください。
+
+W&B Inference サービスを Weave と共に使用する方法を示す使用例については、[API 使用例](#usage-examples) を参照してください。
+</Note>
+
+## API 仕様
+
+このセクションでは、API の仕様情報と API の使用例を提供します。
+
+- [エンドポイント](#endpoint)
+- [利用可能なメソッド](#available-methods)
+- [使用例](#usage-examples)
+
+### エンドポイント
+
+Inference サービスには、以下のエンドポイントからアクセスできます。
+
+```plaintext
+https://api.inference.wandb.ai/v1
+```
+
+<Warning>
+このエンドポイントにアクセスするには、Inference サービスのクレジットが割り当てられた W&B アカウント、有効な W&B APIキー、および W&B Entities (「チーム」とも呼ばれます) と Projects が必要です。このガイドのコードサンプルでは、Entities (チーム) と プロジェクトは `<your-team>\<your-project>` と表記されています。
+</Warning>
+
+### 利用可能なメソッド
+
+Inference サービスは、以下の API メソッドをサポートしています。
+
+- [Chat completions](#chat-completions)
+- [サポートされているモデルの一覧表示](#list-supported-models)
+
+#### Chat completions
+
+利用可能な主要な API メソッドは `/chat/completions` で、サポートされているモデルにメッセージを送信して補完を受け取るための OpenAI 互換のリクエスト形式をサポートしています。W&B Inference サービスを Weave と共に使用する方法を示す使用例については、[API 使用例](#usage-examples) を参照してください。
+
+Chat completion を作成するには、以下が必要です。
+
+- Inference サービスのベース URL `https://api.inference.wandb.ai/v1`
+- あなたの W&B APIキー `<your-api-key>`
+- あなたの W&B Entities 名と Projects 名 `<your-team>/<your-project>`
+- 使用したいモデルの ID。以下のいずれかです：
+  - `meta-llama/Llama-3.1-8B-Instruct`
+  - `deepseek-ai/DeepSeek-V3-0324`
+  - `meta-llama/Llama-3.3-70B-Instruct`
+  - `deepseek-ai/DeepSeek-R1-0528`
+  - `meta-llama/Llama-4-Scout-17B-16E-Instruct`
+  - `microsoft/Phi-4-mini-instruct`
+
+<Tabs>
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -H "OpenAI-Project: <your-team>/<your-project>" \
+      -d '{
+        "model": "<model-id>",
+        "messages": [
+          { "role": "system", "content": "You are a helpful assistant." },
+          { "role": "user", "content": "Tell me a joke." }
+        ]
+      }'
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python lines
+    import openai
+
+    client = openai.OpenAI(
+        # カスタムベース URL は W&B Inference を指します
+        base_url='https://api.inference.wandb.ai/v1',
+
+        # https://wandb.ai/settings で APIキー を作成してください
+        # 安全のため、代わりに環境変数 OPENAI_API_KEY に設定することを検討してください
+        api_key="<your-api-key>",
+
+        # 使用状況の追跡のためにチームとプロジェクトが必要です
+        project="<your-team>/<your-project>",
+    )
+
+    # <model-id> を以下のいずれかの値に置き換えてください:
+    # meta-llama/Llama-3.1-8B-Instruct
+    # deepseek-ai/DeepSeek-V3-0324
+    # meta-llama/Llama-3.3-70B-Instruct
+    # deepseek-ai/DeepSeek-R1-0528
+    # meta-llama/Llama-4-Scout-17B-16E-Instruct
+    # microsoft/Phi-4-mini-instruct
+
+    response = client.chat.completions.create(
+        model="<model-id>",
+        messages=[
+            {"role": "system", "content": "<your-system-prompt>"},
+            {"role": "user", "content": "<your-prompt>"}
+        ],
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+</Tabs>
+
+#### サポートされているモデルの一覧表示
+
+API を使用して、現在利用可能なすべてのモデルとその ID を照会します。これは、モデルを動的に選択したり、環境で何が利用可能かを確認したりするのに便利です。
+
+<Tabs>
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/models \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -H "OpenAI-Project: <your-team>/<your-project>" \
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python lines
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="<your-api-key>",
+        project="<your-team>/<your-project>"
+    )
+
+    response = client.models.list()
+
+    for model in response.data:
+        print(model.id)
+    ```
+  </Tab>
+</Tabs>
+
+## 使用例
+
+このセクションでは、W&B Inference を Weave と共に使用する方法を示すいくつかの例を紹介します。
+
+- [基本例: Weave で Llama 3.1 8B をトレースする](#basic-example-trace-llama-31-8b-with-weave)
+- [高度な例: 推論サービスで Weave Evaluations と Leaderboards を使用する](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service)
+
+### 基本例: Weave で Llama 3.1 8B をトレースする
+
+以下の Python コードサンプルは、W&B Inference API を使用して **Llama 3.1 8B** モデルにプロンプトを送信し、Weave でその呼び出しを トレース する方法を示しています。トレース を使用すると、LLM 呼び出しの完全な入出力をキャプチャし、パフォーマンスを監視し、Weave UI で結果を分析できます。
+
+<Tip>
+[Weave でのトレース](../tracking/tracing.mdx) について詳しくはこちら。
+</Tip>
+
+この例では：
+
+- OpenAI 互換クライアントを使用して chat completion リクエストを行う、`@weave.op()` デコレータが付いた関数 `run_chat` を定義します。
+- トレース は記録され、あなたの W&B Entities および Projects `project="<your-team>/<your-project>` に関連付けられます。
+- 関数は Weave によって自動的にトレースされるため、その入力、出力、レイテンシ、およびメタデータ（モデル ID など）が ログ されます。
+- 結果は ターミナル に出力され、指定されたプロジェクトの下の [https://wandb.ai](https://wandb.ai) にある **Traces** タブに トレース が表示されます。
+
+この例を使用するには、[一般的な前提条件](#prerequisites) と [Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python) を完了させておく必要があります。
+
+```python lines
+import weave
+import openai
+
+# トレース用の Weave チームとプロジェクトを設定
+weave.init("<your-team>/<your-project>")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings で APIキー を作成してください
+    api_key="<your-api-key>",
+
+    # W&B inference の使用状況追跡のために必要です
+    project="wandb/inference-demo",
+)
+
+# Weave でモデル呼び出しをトレースする
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# トレースされた呼び出しを実行してログを記録
+output = run_chat()
+print(output)
+```
+
+コードサンプルを実行すると、ターミナルに出力されたリンク（例：`https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`）をクリックするか、以下のようにして Weave で トレース を確認できます。
+
+1. [https://wandb.ai](https://wandb.ai) にアクセスします。
+2. **Traces** タブを選択して、Weave トレース を表示します。
+
+次に、[高度な例](#advanced-example-use-weave-evaluations-and-leaderboards-with-the-inference-service) を試してみてください。
+
+<Frame>
+![トレースの表示](/weave/guides/integrations/imgs/image.png)
+</Frame>
+
+### 高度な例: 推論サービスで Weave Evaluations と Leaderboards を使用する
+
+Inference サービスで Weave を使用して [モデル呼び出しをトレースする](../tracking/tracing.mdx) ことに加えて、[パフォーマンスを評価 (evaluate) し](../core-types/evaluations.mdx)、[リーダーボードを公開する](../core-types/leaderboards.mdx) こともできます。以下の Python コードサンプルでは、シンプルな Q&A データセットで 2 つのモデルを比較します。
+
+この例を使用するには、[一般的な前提条件](#prerequisites) と [Python 経由で API を使用するための追加の前提条件](#additional-prerequisites-for-using-the-api-via-python) を完了させておく必要があります。
+
+```python lines
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# トレース用の Weave チームとプロジェクトを設定
+weave.init("<your-team>/<your-project>")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # https://wandb.ai/settings で APIキー を作成してください
+            api_key="<your-api-key>",
+            # W&B inference の使用状況追跡のために必要です
+            project="<your-team>/<your-project>",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
+
+以下のコードサンプルを実行した後、[https://wandb.ai/](https://wandb.ai/) の W&B アカウントにアクセスし、以下の操作を行います。
+
+- **Traces** タブに移動して [トレースを表示](../tracking/tracing.mdx)
+- **Evals** タブに移動して [モデルの評価を表示](../core-types/evaluations.mdx)
+- **Leaders** タブに移動して [生成されたリーダーボードを表示](../core-types/leaderboards.mdx)
+
+<Frame>
+![モデルの評価を表示](/weave/guides/integrations/imgs/inference-advanced-evals.png)
+</Frame>
+<Frame>
+![トレースを表示](/weave/guides/integrations/imgs/inference-advanced-leaderboard.png)
+</Frame>
+
+## UI
+
+以下のセクションでは、W&B UI から Inference サービスを使用する方法について説明します。UI 経由で Inference サービスにアクセスする前に、[前提条件](#prerequisites) を完了させてください。
+
+### Inference サービスへのアクセス
+
+Weave UI の 2 つの異なる場所から Inference サービスにアクセスできます。
+
+- [直接リンク](#direct-link)
+- [Inference タブから](#from-the-inference-tab)
+- [Playground タブから](#from-the-playground-tab)
+
+#### 直接リンク
+
+[https://wandb.ai/inference](https://wandb.ai/inference) にアクセスしてください。
+
+#### Inference タブから
+
+1. [https://wandb.ai/](https://wandb.ai/) で W&B アカウントにアクセスします。
+2. 左側のサイドバーから **Inference** を選択します。利用可能なモデルとモデル情報のページが表示されます。
+
+<Frame>
+![Inference タブ](/weave/guides/integrations/imgs/inference-ui.png)
+</Frame>
+
+#### Playground タブから
+
+1. 左側のサイドバーから **Playground** を選択します。Playground のチャット UI が表示されます。
+2. LLM のドロップダウンリストから **W&B Inference** にマウスを合わせます。利用可能な W&B Inference モデルのドロップダウンが右側に表示されます。
+3. W&B Inference モデルのドロップダウンから、以下の操作が可能です：
+   - 利用可能なモデル名をクリックして、[Playground で試用する](#try-a-model-in-the-playground)。
+   - [Playground で 1 つ以上のモデルを比較する](#compare-multiple-models)。
+
+<Frame>
+![Playground の Inference モデルドロップダウン](/weave/guides/integrations/imgs/inference-playground.png)
+</Frame>
+
+### Playground でモデルを試す
+
+[アクセスオプションのいずれかを使用してモデルを選択](#access-the-inference-service)したら、Playground でモデルを試すことができます。以下の操作が可能です。
+
+- [モデルの設定とパラメータのカスタマイズ](../tools/playground#customize-settings)
+- [メッセージの追加、再試行、編集、削除](../tools/playground#message-controls)
+- [カスタム設定でのモデルの保存と再利用](../tools/playground#saved-models)
+- [複数のモデルを比較する](#compare-multiple-models)
+
+<Frame>
+![Playground で Inference モデルを使用する](/weave/guides/integrations/imgs/inference-playground-single.png)
+</Frame>
+
+### 複数のモデルを比較する
+
+Playground では、複数の Inference モデルを比較できます。比較ビューには 2 つの異なる場所からアクセスできます。
+
+- [Inference タブから比較ビューにアクセスする](#access-the-compare-view-from-the-inference-tab)
+- [Playground タブから比較ビューにアクセスする](#access-the-compare-view-from-the-playground-tab)
+
+#### Inference タブから比較ビューにアクセスする
+
+1. 左側のサイドバーから **Inference** を選択します。利用可能なモデルとモデル情報のページが表示されます。
+2. 比較するモデルを選択するには、モデルカードの任意の場所（モデル名以外）をクリックします。選択されたことを示すために、モデルカードの境界線が青色で強調表示されます。
+3. 比較したい各モデルについて、ステップ 2 を繰り返します。
+4. 選択されたいずれかのカードで、**Compare N models in the Playground** ボタン（`N` は比較するモデルの数。例：3 つのモデルが選択されている場合、ボタンは **Compare 3 models in the Playground** と表示されます）をクリックします。比較ビューが開きます。
+
+これで、Playground でモデルを比較し、[Playground でモデルを試す](#try-a-model-in-the-playground) で説明されている機能を使用できるようになります。
+
+<Frame>
+![Playground で比較する複数のモデルを選択する](/weave/guides/integrations/imgs/inference-playground-compare.png)
+</Frame>
+
+#### Playground タブから比較ビューにアクセスする
+
+1. 左側のサイドバーから **Playground** を選択します。Playground のチャット UI が表示されます。
+2. LLM のドロップダウンリストから **W&B Inference** にマウスを合わせます。利用可能な W&B Inference モデルのドロップダウンが右側に表示されます。
+3. ドロップダウンから **Compare** を選択します。**Inference** タブが表示されます。
+4. 比較するモデルを選択するには、モデルカードの任意の場所（モデル名以外）をクリックします。モデルカードの境界線が青色で強調表示されます。
+5. 比較したい各モデルについて、ステップ 4 を繰り返します。
+6. 選択されたいずれかのカードで、**Compare N models in the Playground** ボタンをクリックします。比較ビューが開きます。
+
+これで、Playground でモデルを比較し、[Playground でモデルを試す](#try-a-model-in-the-playground) で説明されている機能を使用できるようになります。
+
+### 請求および使用状況情報の確認
+
+Organization 管理者は、現在の Inference クレジット残高、使用履歴、および今後の請求（該当する場合）を W&B UI から直接確認できます。
+
+1. W&B UI で、W&B **Billing** ページに移動します。
+2. 右下隅に Inference の請求情報カードが表示されます。ここから以下の操作が可能です。
+- Inference 請求情報カードの **View usage** ボタンをクリックして、時間の経過に伴う使用状況を確認します。
+- 有料プランを利用している場合は、今後の推論料金を確認します。
+
+<Tip>
+[モデルごとの価格内訳については、Inference 価格ページをご覧ください](https://wandb.ai/site/pricing/inference)
+</Tip>
+
+## 使用上の情報と制限
+
+以下のセクションでは、重要な使用上の情報と制限について説明します。サービスを使用する前に、これらの情報を確認してください。
+
+### 地理的制限
+
+Inference サービスは、サポートされている地理的場所からのみアクセス可能です。詳細については、[サービス利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) を参照してください。
+
+### 同時実行制限
+
+公正な利用と安定したパフォーマンスを確保するため、W&B Inference API はユーザーおよびプロジェクトレベルでレート制限を適用しています。これらの制限は以下のことに役立ちます。
+
+- 誤用を防ぎ、API の安定性を保護する
+- すべてのユーザーがアクセスできるようにする
+- インフラストラクチャの負荷を効果的に管理する
+
+レート制限を超えると、API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを解決するには、同時リクエストの数を減らしてください。
+
+### 価格
+
+モデルの価格情報については、[https://wandb.ai/site/pricing/inference](https://wandb.ai/site/pricing/inference) をご覧ください。
+
+## API エラー
+
+| エラーコード | メッセージ | 原因 | 解決策 |
+| :--- | :--- | :--- | :--- |
+| 401 | Invalid Authentication | 認証資格情報が無効であるか、W&B プロジェクトの Entities または名前が正しくありません。 | 正しい APIキー が使用されているか、および/または W&B プロジェクト名と Entities が正しいことを確認してください。 |
+| 403 | Country, region, or territory not supported | サポートされていない場所から API にアクセスしています。 | [地理的制限](#geographic-restrictions) を参照してください。 |
+| 429 | Concurrency limit reached for requests | 同時リクエスト数が多すぎます。 | 同時リクエストの数を減らしてください。 |
+| 429 | You exceeded your current quota, please check your plan and billing details | クレジットが不足しているか、月間の支出上限に達しました。 | クレジットをさらに購入するか、制限を引き上げてください。 |
+| 500 | The server had an error while processing your request | サーバー内部エラー。 | 少し待ってから再試行し、問題が解決しない場合はサポートにお問い合わせください。 |
+| 503 | The engine is currently overloaded, please try again later | サーバーが高トラフィックを経験しています。 | 少し時間を置いてからリクエストを再試行してください。 |

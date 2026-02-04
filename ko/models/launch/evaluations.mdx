@@ -1,0 +1,207 @@
+---
+title: 평가 벤치마크 카탈로그
+description: thoughtful_thought LLM Evaluation Jobs를 통해 이용 가능한 평가 벤치마크를 살펴보세요.
+---
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+이 페이지는 [LLM Evaluation Jobs](/models/launch)에서 카테고리별로 제공하는 평가 벤치마크 목록을 안내합니다.
+
+특정 벤치마크를 실행하려면 팀 관리자가 필요한 API 키를 [팀 범위 secret](/platform/secrets#add-a-secret)으로 추가해야 합니다. 모든 팀 멤버는 평가 job을 구성할 때 이 secret을 지정할 수 있습니다.
+    - 벤치마크의 **OpenAI Model Scorer** 열에 `true`가 표시된 경우, 해당 벤치마크는 점수 산정을 위해 OpenAI 모델을 사용합니다. 조직 또는 팀 관리자는 OpenAI API 키를 팀 secret으로 추가해야 합니다. 이 요구 사항이 있는 벤치마크로 평가 job을 구성할 때는 **Scorer API key** 필드를 해당 secret으로 설정하세요.
+    - 벤치마크의 **Gated Hugging Face Dataset** 열에 링크가 있는 경우, 해당 벤치마크는 액세스가 제한된(gated) Hugging Face 데이터셋에 대한 권한이 필요합니다. 조직 또는 팀 관리자는 Hugging Face에서 데이터셋에 대한 엑세스를 요청하고, Hugging Face 사용자 엑세스 토큰을 생성한 후, 엑세스 키를 포함한 팀 secret을 구성해야 합니다. 이 요구 사항이 있는 벤치마크를 구성할 때는 **Hugging Face Token** 필드를 해당 secret으로 설정하세요.
+
+{/*
+    Benchmark list: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
+    OpenAI and Hugging Face requirements: https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
+*/}
+
+## Knowledge
+
+과학, 언어, 일반 상식 등 다양한 도메인에 걸친 사실적 지식을 평가합니다.
+
+| 평가 | Task ID | OpenAI Model Scorer | Gated Hugging Face 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [BoolQ](https://github.com/google-research-datasets/boolean-questions) | `boolq` | | | 자연어 쿼리 기반의 Boolean Yes/No 질문 |
+| [GPQA Diamond](https://arxiv.org/abs/2311.12022) | `gpqa_diamond` | | | 대학원 수준의 과학 질문 (최고 품질 서브셋) |
+| [HLE](https://arxiv.org/abs/2501.14249) | `hle` | | Yes | 인간 수준의 평가(Human-level evaluation) 벤치마크 |
+| [Lingoly](https://arxiv.org/abs/2406.06196) | `lingoly` | | Yes | 언어학 올림피아드 문제 |
+| [Lingoly Too](https://arxiv.org/abs/2503.02972) | `lingoly_too` | | Yes | 확장된 언어학 챌린지 문제 |
+| [MMIU](https://arxiv.org/abs/2408.02718) | `mmiu` | | | 대규모 멀티태스크 언어 이해 벤치마크 |
+| [MMLU (0-shot)](https://github.com/hendrycks/test) | `mmlu_0_shot` | | | 예시가 없는 대규모 멀티태스크 언어 이해 평가 |
+| [MMLU (5-shot)](https://github.com/hendrycks/test) | `mmlu_5_shot` | | | 5개의 예시가 포함된 대규모 멀티태스크 언어 이해 평가 |
+| [MMLU-Pro](https://arxiv.org/abs/2406.01574) | `mmlu_pro` | | | MMLU의 더 어려운 버전 |
+| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6` | | | 직업 지식 벤치마크 |
+| [PAWS](https://github.com/google-research-datasets/paws) | `paws` | | | 문구 변형 적대적 단어 교체 (Paraphrase adversarial word substitution) |
+| [SevenLLM MCQ (영어)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_en` | | | 영어로 된 객관식 질문 |
+| [SevenLLM MCQ (중국어)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_zh` | | | 중국어로 된 객관식 질문 |
+| [SevenLLM QA (영어)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_en` | | | 영어 질의응답 |
+| [SevenLLM QA (중국어)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_zh` | | | 중국어 질의응답 |
+| [SimpleQA](https://openai.com/index/introducing-simpleqa/) | `simpleqa` | Yes | | 직설적인 사실 기반 질의응답 |
+| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/) | `simpleqa_verified` | | | 검증된 답변이 포함된 SimpleQA의 검증된 서브셋 |
+| [WorldSense](https://github.com/facebookresearch/worldsense) | `worldsense` | | | 세상에 대한 지식 및 상식 이해도 평가 |
+
+## Reasoning
+
+논리적 사고, 문제 해결 및 상식 추론 능력을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [AGIE AQUA-RAT](https://arxiv.org/abs/1705.04146) | `agie_aqua_rat` | | | 근거가 포함된 대수학 질의응답 |
+| [AGIE LogiQA (영어)](https://arxiv.org/abs/2007.08124) | `agie_logiqa_en` | | | 영어로 된 논리 추론 질문 |
+| [AGIE LSAT Analytical Reasoning](https://www.lsac.org/) | `agie_lsat_ar` | | | LSAT 분석적 추론 (논리 게임) 문제 |
+| [AGIE LSAT Logical Reasoning](https://www.lsac.org/) | `agie_lsat_lr` | | | LSAT 논리적 추론 질문 |
+| [ARC Challenge](https://allenai.org/data/arc) | `arc_challenge` | | | 추론이 필요한 고난도 과학 질문 (AI2 Reasoning Challenge) |
+| [ARC Easy](https://allenai.org/data/arc) | `arc_easy` | | | ARC 데이터셋 중 비교적 쉬운 과학 질문 세트 |
+| [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard) | `bbh` | | | BIG-Bench Hard: BIG-Bench 중 도전적인 태스크들 |
+| [CoCoNot](https://arxiv.org/abs/2310.03697) | `coconot` | | | 반사실적(Counterfactual) 상식 추론 벤치마크 |
+| [CommonsenseQA](https://www.tau-nlp.sites.tau.ac.il/commonsenseqa) | `commonsense_qa` | | | 상식 추론 질문 |
+| [HellaSwag](https://arxiv.org/abs/1905.07830) | `hellaswag` | | | 상식적인 자연어 추론 |
+| [MUSR](https://arxiv.org/abs/2310.16049) | `musr` | | | 다단계 추론 벤치마크 |
+| [PIQA](https://yonatanbisk.com/piqa/) | `piqa` | | | 물리적 상식 추론 |
+| [WinoGrande](https://winogrande.allenai.org/) | `winogrande` | | | 대명사 해소(Pronoun resolution)를 통한 상식 추론 |
+
+## Math
+
+초등 수학부터 경시 수준 문제까지 다양한 난이도의 수학적 문제 해결 능력을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [AGIE Math](https://arxiv.org/abs/2410.12211) | `agie_math` | | | AGIE 벤치마크 세트의 고급 수학적 추론 |
+| [AGIE SAT Math](https://collegereadiness.collegeboard.org/sat) | `agie_sat_math` | | | SAT 수학 문제 |
+| [AIME 2024](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2024` | | | 2024년 미국 수학 초청 시험(AIME) 문제 |
+| [AIME 2025](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2025` | | | 2025년 미국 수학 초청 시험(AIME) 문제 |
+| [GSM8K](https://github.com/openai/grade-school-math) | `gsm8k` | | | Grade School Math 8K: 다단계 초등 수학 문장제 문제 |
+| [InfiniteBench Math Calc](https://arxiv.org/abs/2402.13718) | `infinite_bench_math_calc` | | | 긴 컨텍스트에서의 수학적 계산 |
+| [InfiniteBench Math Find](https://arxiv.org/abs/2402.13718) | `infinite_bench_math_find` | | | 긴 컨텍스트에서의 수학적 패턴 찾기 |
+| [MATH](https://github.com/hendrycks/math) | `math` | | | 경시 대회 수준의 수학 문제 |
+| [MGSM](https://github.com/google-research/url-nlp/tree/main/mgsm) | `mgsm` | | | 다국어 초등 수학 (Multilingual Grade School Math) |
+
+## Code
+
+디버깅, 코드 실행 예측, 함수 호출(function calling) 등 프로그래밍 및 소프트웨어 개발 역량을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [BFCL](https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html) | `bfcl` | | | Berkeley Function Calling Leaderboard: 함수 호출 및 툴 사용 능력을 테스트 |
+| [InfiniteBench Code Debug](https://arxiv.org/abs/2402.13718) | `infinite_bench_code_debug` | | | 긴 컨텍스트 기반 코드 디버깅 태스크 |
+| [InfiniteBench Code Run](https://arxiv.org/abs/2402.13718) | `infinite_bench_code_run` | | | 긴 컨텍스트 기반 코드 실행 예측 |
+
+## Reading
+
+복잡한 텍스트에서의 독해력 및 정보 추출 능력을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [AGIE LSAT Reading Comprehension](https://www.lsac.org/) | `agie_lsat_rc` | | | LSAT 독해 지문 및 질문 |
+| [AGIE SAT English](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en` | | | 지문이 포함된 SAT 독해 및 작문 질문 |
+| [AGIE SAT English (지문 없음)](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en_without_passage` | | | 지문이 제공되지 않는 SAT 영어 질문 |
+| [DROP](https://allenai.org/data/drop) | `drop` | | | 수치적 추론이 필요한 독해 평가 (Discrete Reasoning Over Paragraphs) |
+| [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/) | `race_h` | | | 영어 시험 기반 독해 평가 (고난도) |
+| [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/) | `squad` | | | Stanford Question Answering Dataset: 위키피디아 기사 기반의 추출적 질의응답 |
+
+## Long context
+
+검색(retrieval) 및 패턴 인식을 포함하여 확장된 컨텍스트를 처리하고 추론하는 능력을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [InfiniteBench KV Retrieval](https://arxiv.org/abs/2402.13718) | `infinite_bench_kv_retrieval` | | | 긴 컨텍스트에서의 Key-Value 검색 |
+| [InfiniteBench LongBook (영어)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longbook_choice_eng` | | | 긴 책 내용에 대한 객관식 질문 |
+| [InfiniteBench LongDialogue QA (영어)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longdialogue_qa_eng` | | | 긴 대화 내용에 대한 질의응답 |
+| [InfiniteBench Number String](https://arxiv.org/abs/2402.13718) | `infinite_bench_number_string` | | | 긴 시퀀스에서의 숫자 패턴 인식 |
+| [InfiniteBench Passkey](https://arxiv.org/abs/2402.13718) | `infinite_bench_passkey` | | | 긴 컨텍스트로부터 정보 검색 |
+| [NIAH](https://arxiv.org/abs/2406.07230) | `niah` | | | Needle in a Haystack: 긴 컨텍스트 검색 테스트 |
+
+## Safety
+
+정렬(alignment), 바이어스 탐지, 유해 콘텐츠 거부 및 진실성을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [AgentHarm](https://arxiv.org/abs/2410.09024) | `agentharm` | Yes | | 유해한 에이전트 행동 및 오용 시나리오에 대한 모델의 저항성 테스트 |
+| [AgentHarm Benign](https://arxiv.org/abs/2410.09024) | `agentharm_benign` | Yes | | 오탐지율을 측정하기 위한 AgentHarm의 양성(benign) 베이스라인 |
+| [Agentic Misalignment](https://arxiv.org/abs/2510.05179) | `agentic_misalignment` | | | 에이전트 행동의 잠재적 불일치(misalignment) 평가 |
+| [AHB](https://arxiv.org/abs/2503.04804) | `ahb` | | | Agent Harmful Behavior: 유해한 에이전트 행동에 대한 저항성 테스트 |
+| [AIRBench](https://arxiv.org/abs/2410.02407) | `air_bench` | | | 적대적 지시(adversarial instruction) 저항성 테스트 |
+| [BBEH](https://arxiv.org/abs/2502.19187) | `bbeh` | | | 유해 행동 평가를 위한 바이어스 벤치마크 |
+| [BBEH Mini](https://arxiv.org/abs/2502.19187) | `bbeh_mini` | | | BBEH 벤치마크의 소형 버전 |
+| [BBQ](https://arxiv.org/abs/2110.08193) | `bbq` | | | 질의응답을 위한 바이어스 벤치마크 (Bias Benchmark for Question Answering) |
+| [BOLD](https://arxiv.org/abs/2101.11718) | `bold` | | | 개방형 언어 생성 데이터셋의 바이어스 평가 |
+| [CYSE3 Visual Prompt Injection](https://arxiv.org/abs/2408.01605) | `cyse3_visual_prompt_injection` | | | 시각적 프롬프트 인젝션 공격에 대한 저항성 테스트 |
+| [Make Me Pay](https://arxiv.org/abs/2410.08691) | `make_me_pay` | | | 금융 사기 및 사기 시나리오에 대한 저항성 테스트 |
+| [MASK](https://arxiv.org/abs/2503.03750) | `mask` | Yes | Yes | 모델의 민감 정보 처리 능력 테스트 |
+| [Personality BFI](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/personality) | `personality_BFI` | | | Big Five 성격 특성 평가 |
+| [Personality TRAIT](https://arxiv.org/abs/2406.14703) | `personality_TRAIT` | | Yes | 종합적인 성격 특성 평가 |
+| SOSBench | `sosbench` | Yes | | 안전 및 감독 스트레스 테스트 |
+| [StereoSet](https://github.com/moinnadeem/StereoSet) | `stereoset` | | | 언어 모델의 고정관념적 바이어스 측정 |
+| [StrongREJECT](https://arxiv.org/abs/2402.10260) | `strong_reject` | | | 유해한 요청을 거부하는 모델의 능력 테스트 |
+| [Sycophancy](https://arxiv.org/abs/2310.13548) | `sycophancy` | | | 아첨하는 행동(sycophantic behavior)에 대한 경향 평가 |
+| [TruthfulQA](https://github.com/sylinrl/TruthfulQA) | `truthfulqa` | | | 모델의 진실성 및 거짓에 대한 저항성 테스트 |
+| [UCCB](https://huggingface.co/datasets/CraneAILabs/UCCB) | `uccb` | | | 안전하지 않은 콘텐츠 분류 벤치마크 |
+| [WMDP Bio](https://www.wmdp.ai/) | `wmdp_bio` | | | 생물학 분야의 위험 지식 테스트 |
+| [WMDP Chem](https://www.wmdp.ai/) | `wmdp_chem` | | | 화학 분야의 위험 지식 테스트 |
+| [WMDP Cyber](https://www.wmdp.ai/) | `wmdp_cyber` | | | 사이버 보안 분야의 위험 지식 테스트 |
+| [XSTest](https://arxiv.org/abs/2308.01263) | `xstest` | Yes | | 과도한 거부 탐지를 위한 과장된 안전성 테스트 |
+
+## Domain-Specific
+
+의학, 화학, 법률, 생물학 및 기타 전문 분야의 특화된 지식을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [ChemBench](https://arxiv.org/abs/2404.01475) | `chembench` | | | 화학 지식 및 문제 해결 벤치마크 |
+| [HealthBench](https://arxiv.org/abs/2406.09746) | `healthbench` | Yes | | 헬스케어 및 의학 지식 평가 |
+| [HealthBench Consensus](https://arxiv.org/abs/2406.09746) | `healthbench_consensus` | Yes | | 전문가 합의가 포함된 헬스케어 질문 |
+| [HealthBench Hard](https://arxiv.org/abs/2406.09746) | `healthbench_hard` | Yes | | 도전적인 헬스케어 시나리오 |
+| [LabBench Cloning Scenarios](https://arxiv.org/abs/2407.10362) | `lab_bench_cloning_scenarios` | | | 실험실 실험 계획 및 클로닝 |
+| [LabBench DBQA](https://arxiv.org/abs/2407.10362) | `lab_bench_dbqa` | | | 실험실 시나리오에 대한 데이터베이스 질의응답 |
+| [LabBench FigQA](https://arxiv.org/abs/2407.10362) | `lab_bench_figqa` | | | 과학적 컨텍스트에서의 도표 해석 |
+| [LabBench LitQA](https://arxiv.org/abs/2407.10362) | `lab_bench_litqa` | | | 연구를 위한 문헌 기반 질의응답 |
+| [LabBench ProtocolQA](https://arxiv.org/abs/2407.10362) | `lab_bench_protocolqa` | | | 실험실 프로토콜 이해 |
+| [LabBench SeqQA](https://arxiv.org/abs/2407.10362) | `lab_bench_seqqa` | | | 생물학적 시퀀스 분석 질문 |
+| [LabBench SuppQA](https://arxiv.org/abs/2407.10362) | `lab_bench_suppqa` | | | 보충 자료 해석 |
+| [LabBench TableQA](https://arxiv.org/abs/2407.10362) | `lab_bench_tableqa` | | | 과학 논문의 표 해석 |
+| [MedQA](https://github.com/jind11/MedQA) | `medqa` | | | 의사 면허 시험 질문 |
+| [PubMedQA](https://pubmedqa.github.io/) | `pubmedqa` | | | 연구 초록 기반의 생의학 질의응답 |
+| [SEC-QA v1](https://arxiv.org/abs/2406.14806) | `sec_qa_v1` | | | SEC 공시 서류 질의응답 |
+| [SEC-QA v1 (5-shot)](https://arxiv.org/abs/2406.14806) | `sec_qa_v1_5_shot` | | | 5개의 예시가 포함된 SEC-QA |
+| [SEC-QA v2](https://arxiv.org/abs/2406.14806) | `sec_qa_v2` | | | 업데이트된 SEC 공시 서류 벤치마크 |
+| [SEC-QA v2 (5-shot)](https://arxiv.org/abs/2406.14806) | `sec_qa_v2_5_shot` | | | 5개의 예시가 포함된 SEC-QA v2 |
+
+## Multimodal
+
+시각적 입력과 텍스트 입력을 결합하여 비전 및 언어 이해 능력을 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [DocVQA](https://www.docvqa.org/) | `docvqa` | | | Document Visual Question Answering: 문서 이미지에 대한 질문 |
+| [MathVista](https://mathvista.github.io/) | `mathvista` | | | 시각적 컨텍스트를 결합한 수학적 추론 |
+| [MMMU Multiple Choice](https://mmmu-benchmark.github.io/) | `mmmu_multiple_choice` | | | 객관식 형식의 멀티모달 이해 |
+| [MMMU Open](https://mmmu-benchmark.github.io/) | `mmmu_open` | | | 개방형 응답 형식의 멀티모달 이해 |
+| [V*Star Bench Attribute Recognition](https://arxiv.org/abs/2411.10006) | `vstar_bench_attribute_recognition` | | | 시각적 속성 인식 태스크 |
+| [V*Star Bench Spatial Relationship](https://arxiv.org/abs/2411.10006) | `vstar_bench_spatial_relationship_reasoning` | | | 시각적 입력을 통한 공간 추론 |
+
+## Instruction Following
+
+특정 지침 및 형식 요구 사항에 대한 준수 여부를 평가합니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [IFEval](https://arxiv.org/abs/2311.07911) | `ifeval` | | | 정밀한 지시 준수 능력을 테스트 |
+
+## System
+
+기본 시스템 검증 및 사전 점검입니다.
+
+| 평가 | Task ID | OpenAI Scorer | Gated HF 데이터셋 | 설명 |
+|------------|---------|---------------|------------------|-------------|
+| [Pre-Flight](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` | | | 기본 시스템 체크 및 유효성 검사 테스트 |
+
+
+## 다음 단계
+
+- [모델 체크포인트 평가](/models/launch/evaluate-model-checkpoint)
+- [호스팅된 API 모델 평가](/models/launch/evaluate-hosted-model)
+- 특정 벤치마크에 대한 자세한 내용은 [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/)에서 확인하세요.

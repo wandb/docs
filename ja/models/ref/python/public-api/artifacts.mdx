@@ -1,0 +1,33 @@
+---
+title: アーティファクト
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+## <kbd>class</kbd> `Artifacts`
+Project に関連付けられた Artifact バージョンのイテラブルなコレクションです。
+
+オプションでフィルタを渡すことで、特定の条件に基づいて結果を絞り込むことができます。
+
+**Args:**
+ 
+ - `client`: W&B へのクエリに使用するクライアントインスタンス。
+ - `entity`: Project を所有する Entity（Users または Teams）。
+ - `project`: Artifact を検索する Projects の名前。
+ - `collection_name`: クエリ対象の Artifact コレクションの名前。
+ - `type`: クエリ対象の Artifact のタイプ。一般的な例として "dataset" や "model" があります。
+ - `filters`: クエリに適用するフィルタのオプションのマッピング。
+ - `order`: 結果の順序を指定するオプションの文字列。
+ - `per_page`: 1ページあたりに取得する Artifact バージョンの数。デフォルトは 50。
+ - `tags`: Artifact をタグでフィルタリングするためのオプションの文字列または文字列のリスト。
+
+### <kbd>property</kbd> Artifacts.cursor
+
+---
+
+### <kbd>property</kbd> Artifacts.more
+
+---

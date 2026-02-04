@@ -1,0 +1,93 @@
+---
+title: BetaReport
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+## <kbd>class</kbd> `BetaReport`
+BetaReport は、 W&B で作成された Reports に関連付けられたクラスです。
+
+レポートの属性（名前、説明、ユーザー、 spec 、タイムスタンプ）へのアクセスや、関連する Runs やセクションの取得、レポートを HTML としてレンダリングするためのメソッドを提供します。
+
+**Attributes:**
+
+ - `id` (string): レポートの一意識別子。
+ - `display_name` (string): 人間が読みやすいレポートの表示名。
+ - `name` (string): レポートの名前。よりユーザーフレンドリーな名前が必要な場合は `display_name` を使用してください。
+ - `description` (string): レポートの説明。
+ - `user` (User): レポートを作成した Users 情報（ユーザー名、メールアドレス）を含む辞書。
+ - `spec` (dict): レポートの spec 。
+ - `url` (string): レポートの URL 。
+ - `updated_at` (string): 最終更新時のタイムスタンプ。
+ - `created_at` (string): レポート作成時のタイムスタンプ。
+
+### <kbd>method</kbd> `BetaReport.__init__`
+
+```python
+__init__(client, attrs, entity=None, project=None)
+```
+
+---
+
+### <kbd>property</kbd> BetaReport.created_at
+
+---
+
+### <kbd>property</kbd> BetaReport.description
+
+---
+
+### <kbd>property</kbd> BetaReport.display_name
+
+---
+
+### <kbd>property</kbd> BetaReport.id
+
+---
+
+### <kbd>property</kbd> BetaReport.name
+
+---
+
+### <kbd>property</kbd> BetaReport.sections
+
+レポートからパネルセクション（グループ）を取得します。
+
+---
+
+### <kbd>property</kbd> BetaReport.spec
+
+---
+
+### <kbd>property</kbd> BetaReport.updated_at
+
+---
+
+### <kbd>property</kbd> BetaReport.url
+
+---
+
+### <kbd>property</kbd> BetaReport.user
+
+---
+
+### <kbd>method</kbd> `BetaReport.runs`
+
+```python
+runs(section, per_page=50, only_selected=True)
+```
+
+レポートのセクションに関連付けられた Runs を取得します。
+
+---
+
+### <kbd>method</kbd> `BetaReport.to_html`
+
+```python
+to_html(height=1024, hidden=False)
+```
+
+このレポートを表示する iframe を含む HTML を生成します。

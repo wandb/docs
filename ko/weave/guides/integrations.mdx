@@ -1,0 +1,102 @@
+---
+title: 인테그레이션 개요
+description: Weave의 자동 패칭 기능을 통해 OpenAI, Anthropic, Google AI 및 주요 오케스트레이션 툴을 포함한
+  30개 이상의 프로바이더와 프레임워크 전반에서 코드 변경 없이 LLM 호출을 원활하게 추적하고 모니터링하세요.
+---
+
+# Integrations
+
+Weave 는 기본적으로 지원되는 모든 인테그레이션에 대해 **자동 암시적 패칭 (automatic implicit patching)** 을 제공합니다.
+
+**암시적 패칭 (자동):** 라이브러리가 임포트되는 시점에 상관없이 자동으로 패치됩니다.
+
+```python lines
+# 옵션 1: weave.init() 이전에 임포트
+import openai
+import weave
+weave.init('my-project')  # OpenAI가 자동으로 패치됩니다!
+
+# 옵션 2: weave.init() 이후에 임포트
+import weave
+weave.init('my-project')
+import anthropic  # 임포트 훅을 통해 자동으로 패치됩니다!
+```
+
+**암시적 패칭 비활성화:** 명시적인 제어를 선호하는 경우 자동 패칭을 비활성화할 수 있습니다.
+
+```python lines
+import weave
+
+# 옵션 1: settings 파라미터를 통한 설정
+weave.init('my-project', settings={'implicitly_patch_integrations': False})
+
+# 옵션 2: 환경 변수를 통한 설정
+# 스크립트를 실행하기 전에 WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false 로 설정하세요.
+
+# 암시적 패칭이 비활성화된 경우, 인테그레이션을 명시적으로 패치해야 합니다.
+import openai
+weave.patch_openai()  # OpenAI 트레이싱을 위해 이제 필수입니다.
+```
+
+**명시적 패칭 (수동):** 세밀한 제어를 위해 인테그레이션을 명시적으로 패치할 수 있습니다.
+
+```python lines
+import weave
+weave.init('my-project')
+weave.integrations.patch_openai()  # OpenAI 트레이싱 활성화
+weave.integrations.patch_anthropic()  # Anthropic 트레이싱 활성화
+```
+
+W&B Weave 는 인기 있는 LLM 제공업체 및 오케스트레이션 프레임워크를 위한 로그 인테그레이션을 제공합니다. 이러한 인테그레이션을 통해 다양한 라이브러리를 통해 이루어지는 호출을 원활하게 트레이스할 수 있으며, AI 애플리케이션을 모니터링하고 분석하는 능력을 향상시킬 수 있습니다.
+
+## LLM Providers
+
+LLM 제공업체는 예측값 생성을 위한 대규모 언어 모델에 대한 엑세스를 제공하는 벤더입니다. Weave 는 이러한 제공업체와 통합되어 해당 API와의 상호작용을 로그하고 트레이스합니다.
+
+- **[W&B Inference Service](https://docs.wandb.ai/inference/)**
+- **[Amazon Bedrock](/weave/guides/integrations/bedrock)**
+- **[Anthropic](/weave/guides/integrations/anthropic)**
+- **[Cerebras](/weave/guides/integrations/cerebras)**
+- **[Cohere](/weave/guides/integrations/cohere)**
+- **[Google](/weave/guides/integrations/google)**
+- **[Groq](/weave/guides/integrations/groq)**
+- **[Hugging Face Hub](/weave/guides/integrations/huggingface)**
+- **[LiteLLM](/weave/guides/integrations/litellm)**
+- **[Microsoft Azure](/weave/guides/integrations/azure)**
+- **[MistralAI](/weave/guides/integrations/mistral)**
+- **[NVIDIA NIM](/weave/guides/integrations/nvidia_nim)**
+- **[OpenAI](/weave/guides/integrations/openai)**
+- **[OpenRouter](/weave/guides/integrations/openrouter)**
+- **[Together AI](/weave/guides/integrations/together_ai)**
+
+**[Local Models](/weave/guides/integrations/local_models)**: 자체 인프라에서 모델을 실행하는 경우에 사용합니다.
+
+## Frameworks
+
+프레임워크는 AI 애플리케이션의 실제 실행 파이프라인을 오케스트레이션하는 데 도움을 줍니다. 복잡한 워크플로우를 구축하기 위한 툴과 추상화를 제공합니다. Weave 는 이러한 프레임워크와 통합되어 전체 파이프라인을 트레이스합니다.
+
+- **[OpenAI Agents SDK](/weave/guides/integrations/openai_agents)**
+- **[LangChain](/weave/guides/integrations/langchain)**
+- **[LlamaIndex](/weave/guides/integrations/llamaindex)**
+- **[DSPy](/weave/guides/integrations/dspy)**
+- **[Instructor](/weave/guides/integrations/instructor)**
+- **[CrewAI](/weave/guides/integrations/crewai)**
+- **[Smolagents](/weave/guides/integrations/smolagents)**
+- **[PydanticAI](/weave/guides/integrations/pydantic_ai)**
+- **[Google Agent Development Kit (ADK)](/weave/guides/integrations/google_adk)**
+- **[AutoGen](/weave/guides/integrations/autogen)**
+- **[Verdict](/weave/guides/integrations/verdict)**
+- **[TypeScript SDK](/weave/guides/integrations/js)**
+- **[Agno](/weave/guides/integrations/agno)**
+- **[Koog](/weave/guides/integrations/koog)**
+
+## RL Frameworks
+- **[Verifiers](/weave/guides/integrations/verifiers)**
+
+## Protocols
+
+Weave 는 AI 애플리케이션과 지원 서비스 간의 통신을 가능하게 하는 표준화된 프로토콜과 통합됩니다.
+
+- **[Model Context Protocol (MCP)](/weave/guides/integrations/mcp)**
+
+위 목록에서 인테그레이션을 선택하여 선호하는 LLM 제공업체, 프레임워크 또는 프로토콜과 함께 Weave 를 사용하는 방법에 대해 자세히 알아보세요. LLM API에 직접 엑세스하든, 복잡한 파이프라인을 구축하든, 표준화된 프로토콜을 사용하든, Weave 는 AI 애플리케이션을 효과적으로 트레이스하고 분석할 수 있는 툴을 제공합니다.

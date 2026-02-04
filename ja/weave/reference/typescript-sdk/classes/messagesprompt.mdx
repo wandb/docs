@@ -1,0 +1,177 @@
+---
+title: 'Class: MessagesPrompt'
+description: TypeScript SDK リファレンス
+---
+
+[weave](../) / MessagesPrompt
+
+## 階層
+
+- `Prompt`
+
+  ↳ `MessagesPrompt`
+
+## 目次
+
+### コンストラクタ
+
+- [constructor](./messagesprompt#constructor)
+
+### プロパティ
+
+- [\_\_savedRef](./messagesprompt#__savedref)
+- [messages](./messagesprompt#messages)
+
+### アクセサ
+
+- [description](./messagesprompt#description)
+- [name](./messagesprompt#name)
+
+### メソッド
+
+- [format](./messagesprompt#format)
+- [saveAttrs](./messagesprompt#saveattrs)
+- [get](./messagesprompt#get)
+
+## コンストラクタ
+
+### constructor
+
+• **new MessagesPrompt**(`parameters`): [`MessagesPrompt`](./messagesprompt)
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `parameters` | `MessagesPromptParameters` |
+
+#### 戻り値
+
+[`MessagesPrompt`](./messagesprompt)
+
+#### オーバーライド
+
+Prompt.constructor
+
+#### 定義箇所
+
+[prompt.ts:40](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L40)
+
+## プロパティ
+
+### \_\_savedRef
+
+• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+
+#### 継承元
+
+Prompt.\_\_savedRef
+
+#### 定義箇所
+
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
+
+___
+
+### messages
+
+• **messages**: `Record`\<`string`, `any`\>[]
+
+#### 定義箇所
+
+[prompt.ts:38](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L38)
+
+## アクセサ
+
+### description
+
+• `get` **description**(): `undefined` \| `string`
+
+#### 戻り値
+
+`undefined` \| `string`
+
+#### 継承元
+
+Prompt.description
+
+#### 定義箇所
+
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
+
+___
+
+### name
+
+• `get` **name**(): `string`
+
+#### 戻り値
+
+`string`
+
+#### 継承元
+
+Prompt.name
+
+#### 定義箇所
+
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+
+## メソッド
+
+### format
+
+▸ **format**(`values?`): `Record`\<`string`, `any`\>[]
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `values` | `Record`\<`string`, `any`\> |
+
+#### 戻り値
+
+`Record`\<`string`, `any`\>[]
+
+#### 定義箇所
+
+[prompt.ts:67](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L67)
+
+___
+
+### saveAttrs
+
+▸ **saveAttrs**(): `Object`
+
+#### 戻り値
+
+`Object`
+
+#### 継承元
+
+Prompt.saveAttrs
+
+#### 定義箇所
+
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+
+___
+
+### get
+
+▸ **get**(`client`, `uri`): `Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `client` | [`WeaveClient`](./weaveclient) |
+| `uri` | `string` |
+
+#### 戻り値
+
+`Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+#### 定義箇所
+
+[prompt.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L73)

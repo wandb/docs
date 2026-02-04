@@ -1,0 +1,55 @@
+---
+title: 前提条件
+description: W&B Inference を使用するための 環境 を設定する
+linkTitle: Prerequisites
+---
+
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+
+API または UI を通じて W&B Inference サービスを利用する前に、以下の手順を完了してください。
+
+<Tip>
+開始する前に、[利用情報と制限](/inference/usage-limits/) を確認し、コストと制限事項を理解してください。
+</Tip>
+
+## W&B アカウントと プロジェクト の設定
+
+W&B Inference にアクセスするには、以下の項目が必要です。
+
+1. **W&B アカウント**  
+   [W&B](https://app.wandb.ai/login?signup=true) でサインアップしてください。
+
+2. **W&B APIキー**  
+   
+   <ApiKeyCreate/>
+
+3. **W&B プロジェクト**  
+   使用状況を追跡するために、W&B アカウントで プロジェクト を作成してください。
+
+## 環境 の設定 (Python)
+
+Python で Inference API を使用するには、以下の手順も必要です。
+
+1. 上記の一般的な要件を完了する
+
+2. 必要な ライブラリ をインストールする：
+
+   ```bash
+   pip install openai weave
+   ```
+
+<Note>
+**注意**
+
+`weave` ライブラリ は任意ですが、推奨されます。これにより、LLM アプリケーション をトレースできます。詳細は [Weave クイックスタート](/models/quickstart/) を参照してください。
+
+Weave と W&B Inference を組み合わせた コード 例については、[使用例](/inference/examples/) を参照してください。
+</Note>
+
+## 次のステップ
+
+前提条件を完了した後は：
+
+- [API リファレンス](/inference/api-reference/) で利用可能なエンドポイントを確認する
+- [使用例](/inference/examples/) で実際の動作を試す
+- [UI ガイド](/inference/ui-guide/) を使用して、ウェブインターフェースから Models にアクセスする

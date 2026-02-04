@@ -1,0 +1,37 @@
+---
+title: SageMaker
+description: W&B を Amazon SageMaker と統合する方法。
+---
+
+W&B は [Amazon SageMaker](https://aws.amazon.com/sagemaker/) と連携しており、ハイパーパラメーターの自動読み込み、分散実行された Runs のグルーピング、およびチェックポイントからの実行再開を自動的に行います。
+
+## 認証
+
+W&B はトレーニングスクリプトからの相対パスで `secrets.env` という名前のファイルを検索し、`wandb.init()` が呼び出されたときにそれらを環境変数にロードします。実験を起動するために使用するスクリプト内で `wandb.sagemaker_auth(path="source_dir")` を呼び出すことで、`secrets.env` ファイルを生成できます。このファイルは必ず `.gitignore` に追加してください！
+
+## 既存の Estimator
+
+SageMaker の事前設定済み Estimator を使用している場合は、ソースディレクトリに wandb を含む `requirements.txt` を追加する必要があります。
+
+```text
+wandb
+```
+
+Python 2 を実行している Estimator を使用している場合は、wandb をインストールする前に、この [wheel](https://pythonwheels.com) から直接 `psutil` をインストールする必要があります。
+
+```text
+https://wheels.galaxyproject.org/packages/psutil-5.4.8-cp27-cp27mu-manylinux1_x86_64.whl
+wandb
+```
+
+完全なサンプルについては [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) を確認し、詳細は [ブログ](https://wandb.ai/site/articles/running-sweeps-with-sagemaker) をご覧ください。
+
+また、SageMaker と W&B を使用した感情分析器のデプロイに関する [Deploy Sentiment Analyzer Using SageMaker and W&B チュートリアル](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) も併せてご参照ください。
+
+<Warning>
+W&B の sweep agent は、SageMaker インテグレーションがオフになっている場合にのみ、SageMaker ジョブ内で期待通りに動作します。`wandb.init` の呼び出しを以下のように修正して、SageMaker インテグレーションをオフにしてください。
+
+```python
+wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))
+```
+</Warning>

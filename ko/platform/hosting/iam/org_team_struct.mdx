@@ -1,29 +1,29 @@
 ---
-title: Identity and access management (IAM)
+title: ID 및 엑세스 관리 (IAM)
 ---
 
-W&B 플랫폼은 W&B 내에 세 가지 IAM 범위, 즉 [Organizations](#organization), [Teams](#team) 및 [Projects](#project)를 가지고 있습니다.
+W&B 플랫폼은 W&B 내에서 세 가지 IAM 스코프를 가집니다: [Organizations](#organization), [Teams](#team), 그리고 [Projects](#project).
 
 ## Organization
 
-*Organization* 은 W&B 계정 또는 인스턴스의 루트 범위입니다. 계정 또는 인스턴스의 모든 작업은 사용자 관리, 팀 관리, 팀 내 프로젝트 관리, 사용량 추적 등을 포함하여 해당 루트 범위 내에서 수행됩니다.
+*Organization*은 W&B 계정 또는 인스턴스의 최상위 스코프입니다. 사용자 관리, 팀 관리, 팀 내 프로젝트 관리, 사용량 추적 등 계정 또는 인스턴스 내의 모든 작업은 이 루트 스코프의 컨텍스트 내에서 이루어집니다.
 
-[Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 사용하는 경우, 각 Organization은 사업부, 개인 사용자, 다른 기업과의 합작 파트너십 등에 해당할 수 있습니다.
+[Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)를 사용하는 경우, 각각 비즈니스 단위, 개인 사용자, 타사와의 공동 파트너십 등에 해당하는 여러 개의 organization을 가질 수 있습니다.
 
-[전용 클라우드(Dedicated Cloud)](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [자체 관리 인스턴스](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우, 하나의 Organization에 해당합니다. 회사는 여러 사업부 또는 부서에 매핑하기 위해 여러 개의 전용 클라우드(Dedicated Cloud) 또는 자체 관리 인스턴스를 가질 수 있지만, 이는 사업 또는 부서 전체에서 AI 실무자를 관리하는 선택적인 방법입니다.
+[Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed instance](/platform/hosting/hosting-options/self-managed)를 사용하는 경우, 이는 하나의 organization에 해당합니다. 비즈니스 단위나 부서별로 AI 전문가들을 관리하기 위해 여러 개의 Dedicated Cloud 또는 Self-Managed 인스턴스를 운영할 수도 있지만, 이는 선택 사항입니다.
 
-자세한 내용은 [Organizations 관리](/ko/platform/hosting/iam/access-management/manage-organization/)를 참조하십시오.
+더 자세한 정보는 [Manage organizations](./access-management/manage-organization)를 참조하세요.
 
 ## Team
 
-*Team* 은 Organization 내의 하위 범위로, 사업부/기능, 부서 또는 회사 내 프로젝트 팀에 매핑될 수 있습니다. 배포 유형 및 가격 계획에 따라 Organization 내에 여러 개의 Team이 있을 수 있습니다.
+*Team*은 organization 내의 서브 스코프로, 회사의 비즈니스 단위/기능, 부서 또는 프로젝트 팀에 매핑될 수 있습니다. 배포 유형 및 요금제에 따라 organization 내에 하나 이상의 팀을 가질 수 있습니다.
 
-AI 프로젝트는 Team 컨텍스트 내에서 구성됩니다. Team 내의 엑세스 제어는 Team 관리자가 관리하며, 이들은 상위 Organization 수준의 관리자일 수도 아닐 수도 있습니다.
+AI 프로젝트는 팀의 컨텍스트 내에서 조직됩니다. 팀 내의 엑세스 제어는 팀 관리자(team admins)에 의해 관리되며, 이들은 상위 organization 수준의 관리자일 수도 있고 아닐 수도 있습니다.
 
-자세한 내용은 [Team 추가 및 관리](/ko/platform/hosting/iam/access-management/manage-organization/#add-and-manage-teams)를 참조하십시오.
+더 자세한 정보는 [Add and manage teams](./access-management/manage-organization#add-and-manage-teams)를 참조하세요.
 
 ## Project
 
-*Project* 는 Team 내의 하위 범위로, 특정 의도된 결과를 가진 실제 AI 프로젝트에 매핑됩니다. Team 내에 여러 개의 Project가 있을 수 있습니다. 각 Project에는 누가 엑세스할 수 있는지 결정하는 가시성 모드가 있습니다.
+*Project*는 팀 내의 서브 스코프로, 특정한 목표 결과를 가진 실제 AI 프로젝트에 매핑됩니다. 한 팀 내에 여러 개의 프로젝트를 가질 수 있습니다. 각 프로젝트에는 엑세스 권한을 결정하는 공개 모드(visibility mode)가 있습니다.
 
-모든 Project는 [Workspaces](/ko/models/track/workspaces/) 및 [Reports](/ko/models/reports/)로 구성되며, 관련 [Artifacts](/ko/models/artifacts/), [Sweeps](/ko/models/sweeps/) 및 [Automations](/ko/models/core/automations/)에 연결됩니다.
+모든 프로젝트는 [Workspaces](/models/track/workspaces/)와 [Reports](/models/reports/)로 구성되며, 관련 [Artifacts](/models/artifacts/), [Sweeps](/models/sweeps/), 그리고 [Automations](/models/automations/)에 연결됩니다.

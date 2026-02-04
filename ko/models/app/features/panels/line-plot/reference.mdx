@@ -1,95 +1,159 @@
 ---
-title: Line plot reference
+title: Line plot 참조 가이드
 ---
 
-## X축
+이 페이지는 line plot 설정에 대한 포괄적인 세부 정보를 제공합니다. line plot 작업에 대한 자세한 내용은 [Line plots 개요](/models/app/features/panels/line-plot)를 참조하세요.
+
+## 데이터 설정
+
+### X-축
 
 <Frame>
     <img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis"  />
 </Frame>
 
-W&B.log 로 기록한 값이 항상 숫자로 기록되는 한, 선 그래프의 X축을 원하는 값으로 설정할 수 있습니다.
+x-축의 범위를 `wandb.Run.log()`로 로그한 정수 또는 실수 값으로 설정하세요.
 
-## Y축 변수
+사용 가능한 시간 기반 x-축 옵션:
+* **Step**: `wandb.Run.log()`가 호출될 때마다 증가합니다. 모델에서 로그된 트레이닝 스텝 수를 반영합니다. (기본값)
+* **Relative Time (Wall)**: 프로세스가 시작된 이후의 시계 시간입니다. run을 시작하고 하루 동안 일시 중지한 후 다시 시작하여 로그하면, 해당 지점은 24시간으로 표시됩니다.
+* **Relative Time (Process)**: 실행 중인 프로세스 내부의 시간입니다. run을 시작하고 10초 동안 실행한 후 하루 동안 일시 중지했다가 다시 시작하면, 해당 지점은 10초로 표시됩니다.
+* **Wall Time**: 그래프의 첫 번째 run이 시작된 이후 경과된 시간(분)입니다.
+* **X range**: 기본적으로 x-축의 최소값부터 최대값까지입니다. 최소값과 최대값을 사용자가 지정할 수 있습니다.
 
-wandb.log 로 기록한 값이 숫자, 숫자 배열 또는 숫자 히스토그램인 경우 Y축 변수를 원하는 값으로 설정할 수 있습니다. 변수에 대해 1500개 이상의 포인트를 기록한 경우 W&B 는 1500개 포인트로 샘플링합니다.
+### Y-축
+
+y-축 변수를 `wandb.Run.log()`로 로그한 정수 또는 실수 값으로 설정하세요. 단일 값, 값의 배열 또는 값의 히스토그램을 지정할 수 있습니다. 변수에 대해 1500개 이상의 포인트를 로그한 경우, W&B는 1500개 포인트로 다운샘플링합니다.
 
 <Note>
-Runs 테이블에서 run 의 색상을 변경하여 Y축 선의 색상을 변경할 수 있습니다.
+Runs table에서 run 색상을 변경하여 y-축 라인의 색상을 커스텀하세요.
 </Note>
 
-## X 범위 및 Y 범위
+사용 가능한 y-축 옵션:
+* **Y range**: 기본값은 메트릭의 최소 양수 값(0 포함)부터 메트릭의 최대 값까지입니다. 최소값과 최대값을 사용자가 지정할 수 있습니다.
 
-플롯의 X 및 Y의 최대값과 최소값을 변경할 수 있습니다.
+### 포인트 집계 메소드
 
-X 범위의 기본값은 X축의 최소값에서 최대값까지입니다.
+데이터 포인트를 표시하기 위한 샘플링 모드를 선택하세요:
+* **Random sampling** (기본값): [Random sampling](/models/app/features/panels/line-plot/sampling/#random-sampling)을 참조하세요.
+* **Full fidelity**: [Full fidelity](/models/app/features/panels/line-plot/sampling/#full-fidelity)를 참조하세요.
 
-Y 범위의 기본값은 메트릭의 최소값과 0부터 메트릭의 최대값까지입니다.
+### Smoothing
 
-## 최대 Runs/그룹
+[smoothing 계수](/models/support/formula_smoothing_algorithm/)를 0과 1 사이로 설정하세요. 0은 smoothing 없음, 1은 최대 smoothing을 의미합니다.
 
-기본적으로 10개의 run 또는 run 그룹만 플롯됩니다. Runs은 run 테이블 또는 run 세트의 맨 위에서 가져오므로 run 테이블 또는 run 세트를 정렬하면 표시되는 run 을 변경할 수 있습니다.
+사용 가능한 smoothing 메소드:
+* **Time weighted EMA** (기본값): 이전 포인트의 가중치를 기하급수적으로 감소시켜 시계열 데이터를 부드럽게 만드는 기법입니다.
+* **Running average**: 주어진 x 값 앞뒤 윈도우 내 포인트들의 평균으로 포인트를 대체합니다.
+* **Gaussian**: 포인트들의 가중 평균을 계산하며, 이때 가중치는 smoothing 파라미터로 지정된 표준 편차를 갖는 가우시안 분포를 따릅니다.
+* **No smoothing**
 
-## 범례
+자세한 내용은 [Smooth line plots](/models/app/features/panels/line-plot/smoothing)를 참조하세요.
 
-차트의 범례를 제어하여 생성 시간 또는 run 을 생성한 user 와 같은 run 의 모든 config 값과 메타 데이터를 표시할 수 있습니다.
+### 이상치 무시 (Ignore outliers)
+
+기본 플롯의 최소 및 최대 스케일에서 이상치를 제외하도록 플롯의 크기를 다시 조정합니다. 이 설정의 영향은 플롯의 샘플링 모드에 따라 다릅니다:
+
+- **Random sampling 모드**: 이상치 무시를 선택하면 플롯에서 하위 5% 미만 및 상위 95% 초과 포인트가 생략됩니다.
+- **Full fidelity 모드**: 이상치 무시를 선택하면 모든 포인트가 표시되지만, 각 버킷의 마지막 값으로 응축되어 표시되며 하위 5% 및 상위 95% 영역에 음영이 처리됩니다.
+
+### 최대 Runs 또는 그룹
+
+기본적으로 플롯에는 run list 또는 run set의 처음 10개 Runs 또는 그룹만 포함됩니다. 표시할 Runs 또는 그룹을 제어하려면 정렬 순서를 변경하세요.
+
+<Note>
+Workspace는 설정과 관계없이 최대 1000개의 Runs를 표시하는 것으로 제한됩니다.
+</Note>
+
+### 차트 유형
+
+플롯 스타일을 선택하세요:
+- **Line plot**
+    <Frame>
+        <img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot style"  />
+    </Frame>
+- **Area plot**
+    <Frame>
+        <img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot style"  />
+    </Frame>
+- **Percentage area plot:**
+    <Frame>
+        <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style"  />
+    </Frame>
+
+**Data** 탭에서 차트 유형을 설정하세요. [](/models/app/features/panels/line-plot#individual-line-plot)를 참조하세요.
+
+## 그룹화 설정
+그룹화를 켜서 모든 Runs를 집계하거나, 개별 변수에 대해 그룹화하세요. Runs table에서 그룹화를 켜면 그룹이 그래프에 자동으로 채워집니다.
+
+- **Group by**: 컬럼을 선택하세요. 해당 컬럼에서 동일한 값을 가진 모든 Runs가 함께 그룹화됩니다.
+- **Aggregation**: 그래프 상의 라인 값입니다. 옵션으로 그룹의 평균(mean), 중앙값(median), 최소값(min), 최대값(max)이 있습니다.
+
+## 차트 설정
+제목 및 범례 표시 여부를 설정하세요:
+
+- **Panel title**: 패널 상단에 표시되는 제목입니다.
+- **X-axis title**: x-축의 레이블입니다.
+- **Y-axis title**: y-축의 레이블입니다.
+- **Legend**: 범례를 표시하거나 숨기고, 위치를 설정합니다.
+
+## 범례(Legend) 설정
+
+로그된 모든 설정 값과 생성 시간 또는 run을 생성한 사용자(User)와 같은 Runs의 메타데이터를 표시하도록 범례를 커스텀하세요.
+
+### 범례 템플릿
+
+범례 이름에 대한 템플릿을 정의합니다.
+
+1. 기어 아이콘을 클릭하여 플롯 설정을 엽니다.
+1. **Display preferences** 탭으로 이동합니다.
+1. **Advanced legend**를 확장한 다음 범례 템플릿을 지정합니다.
+1. **Apply**를 클릭합니다.
 
 예시:
 
-`${run:displayName} - ${config:dropout}` 은 각 run 에 대한 범례 이름을 `royal-sweep - 0.5` 와 같이 만듭니다. 여기서 `royal-sweep` 은 run 이름이고 `0.5` 는 `dropout` 이라는 config 파라미터입니다.
+`${run:displayName} - ${config:dropout}`은 `royal-sweep - 0.5`와 같은 범례 이름을 생성합니다. 여기서 `royal-sweep`은 run 이름이고 `0.5`는 `dropout`이라는 하이퍼파라미터 이름입니다.
 
-`[[ ]]` 안에 값을 설정하여 차트 위로 마우스를 가져갈 때 십자선에 특정 포인트 값을 표시할 수 있습니다. 예를 들어 `\[\[ $x: $y ($original) ]]` 은 "2: 3 (2.9)" 와 같이 표시됩니다.
+### 포인트별 값
 
-`[[ ]]` 내에서 지원되는 값은 다음과 같습니다.
+`[[ ]]` 안에 값을 설정하여 차트 위에 마우스를 올렸을 때 십자선에 포인트별 값을 표시합니다.
 
-| 값           | 의미                                         |
-| ------------- | ------------------------------------------- |
-| `${x}`        | X 값                                         |
-| `${y}`        | Y 값 (스무딩 조정 포함)                       |
-| `${original}` | Y 값 (스무딩 조정 미포함)                    |
-| `${mean}`     | 그룹화된 run 의 평균                          |
-| `${stddev}`   | 그룹화된 run 의 표준 편차                       |
-| `${min}`      | 그룹화된 run 의 최소값                         |
-| `${max}`      | 그룹화된 run 의 최대값                         |
-| `${percent}`  | 합계의 백분율 (누적 영역 차트의 경우)           |
+1. 기어 아이콘을 클릭하여 플롯 설정을 엽니다.
+1. **Display preferences** 탭으로 이동합니다.
+1. 탭 하단에서 하나 이상의 플롯 메트릭에 대해 포인트별 값을 설정합니다.
+1. **Apply**를 클릭합니다.
 
-## 그룹화
+예시: `[[ $x: $y ($original) ]]`은 "2: 3 (2.9)"와 같이 표시됩니다.
 
-그룹화를 켜서 모든 run 을 집계하거나 개별 변수별로 그룹화할 수 있습니다. 테이블 내에서 그룹화하여 그룹화를 켤 수도 있으며 그룹이 그래프에 자동으로 채워집니다.
+`[[ ]]` 내부에서 지원되는 값:
 
-## 스무딩
+| 값 | 의미 |
+| ------------ | ------------------------------------------ |
+| `${x}` | X 값 |
+| `${y}` | Y 값 (smoothing 조정 포함) |
+| `${original}` | smoothing 조정을 포함하지 않은 Y 값 |
+| `${mean}` | 그룹화된 Runs의 평균 |
+| `${stddev}` | 그룹화된 Runs의 표준 편차 |
+| `${min}` | 그룹화된 Runs의 최소값 |
+| `${max}` | 그룹화된 Runs의 최대값 |
+| `${percent}` | 전체에 대한 백분율 (누적 영역 차트용) |
 
-[스무딩 계수](/ko/models/support/formula_smoothing_algorithm/)를 0과 1 사이로 설정할 수 있습니다. 여기서 0은 스무딩 없음, 1은 최대 스무딩입니다.
+## 표현식 (Expressions)
 
-## 이상치 무시
+파생된 메트릭을 생성하기 위해 커스텀 계산 표현식을 추가하세요.
 
-기본 플롯 최소 및 최대 스케일에서 이상치를 제외하도록 플롯의 스케일을 다시 조정합니다. 플롯에 대한 설정의 영향은 플롯의 샘플링 모드에 따라 다릅니다.
+### Y-축 표현식
 
-- [임의 샘플링 모드](/ko/models/app/features/panels/line-plot/sampling/#random-sampling)를 사용하는 플롯의 경우 **이상치 무시**를 활성화하면 5%에서 95%의 포인트만 표시됩니다. 이상치가 표시되더라도 다른 포인트와 다르게 서식이 지정되지는 않습니다.
-- [전체 충실도 모드](/ko/models/app/features/panels/line-plot/sampling/#full-fidelity)를 사용하는 플롯의 경우 모든 포인트가 항상 표시되며 각 버킷의 마지막 값으로 압축됩니다. **이상치 무시**를 활성화하면 각 버킷의 최소 및 최대 경계가 음영 처리됩니다. 그렇지 않으면 영역이 음영 처리되지 않습니다.
+메트릭에서 파생된 값을 플롯합니다. 예를 들어, `1-accuracy` 또는 기타 산술 표현식을 계산합니다. 현재는 단일 메트릭을 플롯할 때만 작동합니다.
 
-## 표현식
+지원되는 연산자: `+`, `-`, `*`, `/`, `%`, `**` (지수).
 
-표현식을 사용하면 1-정확도와 같은 메트릭에서 파생된 값을 플롯할 수 있습니다. 현재 단일 메트릭을 플롯하는 경우에만 작동합니다. 간단한 산술 표현식 +, -, \*, / 및 %는 물론 거듭제곱에 대한 \*\*를 수행할 수 있습니다.
+로그된 메트릭과 하이퍼파라미터와 같은 설정 값을 모두 사용하여 커스텀 라인을 계산할 수 있습니다.
 
-## 플롯 스타일
+### X-축 표현식
 
-선 그래프의 스타일을 선택합니다.
+커스텀 표현식을 사용한 계산된 값으로 x-축의 크기를 다시 조정합니다.
 
-**선 그래프:**
-
-<Frame>
-    <img src="/images/app_ui/plot_style_line_plot.png"  />
-</Frame>
-
-**영역 그래프:**
-
-<Frame>
-    <img src="/images/app_ui/plot_style_area_plot.png"  />
-</Frame>
-
-**백분율 영역 그래프:**
-
-<Frame>
-    <img src="/images/app_ui/plot_style_percentage_plot.png"  />
-</Frame>
+유용한 변수:
+* `_step`: 기본 x-축 값입니다.
+* `${summary:value}`: 요약(summary) 값을 참조합니다.

@@ -1,13 +1,8 @@
 ---
-title: How can I delete multiple runs in bulk instead of one at a time?
-support:
-- projects
-- runs
-toc_hide: true
-type: docs
+title: 한 번에 하나씩 삭제하지 않고 여러 개의 Runs 를 대량으로 삭제하려면 어떻게 해야 하나요?
 ---
 
-[public API](/ko/models/ref/python/public-api/api)를 사용하여 단일 작업에서 여러 개의 runs을 삭제합니다.
+[public API](/models/ref/python/public-api/api) 를 사용하여 단일 작업으로 여러 개의 Runs 를 삭제할 수 있습니다:
 
 ```python
 import wandb
@@ -15,6 +10,8 @@ import wandb
 api = wandb.Api()
 runs = api.runs('<entity>/<project>')
 for run in runs:
+    # 조건에 따라
     if <condition>:
+        # run 삭제
         run.delete()
 ```

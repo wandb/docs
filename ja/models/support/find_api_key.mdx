@@ -1,16 +1,46 @@
 ---
-title: APIキーをどのように見つけるのですか？
-support:
-  - security
-  - user management
-toc_hide: true
-type: docs
+title: APIキー の作成と管理はどのように行いますか？
 ---
-W&B（Weights and バイアス）の APIキーを見つけるには、次の手順に従います。
 
-- W&Bにログイン：[https://wandb.ai/authorize](https://wandb.ai/authorize)
-- または、プロフィールにアクセス：
-  1. 右上のユーザープロフィールをクリック。
-  2. 「ユーザー設定」を選択。
-  3. 「Danger Zone」セクションまでスクロール。
-  4. 「APIキー」の横にある「Reveal」をクリック。
+import ApiKeyFind from "/snippets/en/_includes/api-key-find.mdx";
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
+import ServiceAccountApiKeyDelete from "/snippets/en/_includes/service-account-api-key-delete.mdx";
+
+## 新しい APIキー を作成する
+
+<ApiKeyCreate/>
+
+## APIキー を確認する
+
+<ApiKeyFind/>
+
+## APIキー を削除する
+
+<Warning>
+APIキー を削除すると、その キー を使用しているすべての スクリプト やサービスからの アクセス 権が即座に無効になります。古い キー を削除する前に、すべてのシステムを新しい キー を使用するように更新したことを確認してください。
+</Warning>
+
+アクセス 権を無効にするには、APIキー を削除します。詳細については、**Personal API key** または **Service Account API key** タブを選択してください。
+
+<Tabs>
+  <Tab title="Personal API key">
+1. [wandb.ai/settings](https://wandb.ai/settings) に移動します。
+1. **API Keys** セクションで、削除したい キー の横にある削除ボタンをクリックします。
+  </Tab>
+  <Tab title="Service account API key">
+<ServiceAccountApiKeyDelete/>
+[サービスアカウントを使用してワークフローを自動化する](/platform/hosting/iam/service-accounts) 方法についての詳細はこちらをご覧ください。
+  </Tab>
+</Tabs>
+
+## APIキー を置換（ローテーション）する
+
+APIキー を置換（ローテーション）するには：
+
+1. [新しい APIキー を作成します](#create-a-new-api-key)。
+2. すべての スクリプト、サービス、および 環境 を新しい APIキー を使用するように更新します。
+3. すべての場所で新しい APIキー が正常に動作することをテストします。
+4. 古い APIキー を削除します。
+
+<ApiKeySecurity/>

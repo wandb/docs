@@ -1,44 +1,89 @@
 ---
-title: Manage users, groups, and roles with SCIM
+title: SCIM을 사용하여 Users, 그룹 및 역할 관리
 ---
 
 <Note>
-[SCIM이 작동하는 것을 보여주는 비디오](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12분)를 시청하세요.
+[SCIM 작동 시연 비디오](https://www.youtube.com/watch?v=Nw3QBqV0I-o) (12분)를 시청하세요.
 </Note>
 
-SCIM(System for Cross-domain Identity Management) API를 통해 인스턴스 또는 organization 관리자는 W&B organization에서 사용자, 그룹 및 사용자 지정 역할을 관리할 수 있습니다. SCIM 그룹은 W&B Teams에 매핑됩니다.
+## 개요
 
-SCIM API는 `<host-url>/scim/`에서 액세스할 수 있으며 [RC7643 프로토콜](https://www.rfc-editor.org/rfc/rfc7643)에서 찾을 수 있는 필드의 서브셋으로 `/Users` 및 `/Groups` 엔드포인트를 지원합니다. 또한 공식 SCIM 스키마의 일부가 아닌 `/Roles` 엔드포인트도 포함합니다. W&B는 W&B organization에서 사용자 지정 역할의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
+SCIM (System for Cross-domain Identity Management) API를 사용하면 인스턴스 또는 조직 관리자가 W&B 조직 내의 Users, Groups 및 커스텀 역할을 관리할 수 있습니다. SCIM 그룹은 W&B Teams에 매핑됩니다.
+
+W&B의 SCIM API는 Okta를 포함한 주요 ID 제공업체와 호환되어 사용자 프로비저닝 및 프로비저닝 해제를 자동화할 수 있습니다. Okta 및 기타 ID 제공업체와의 SSO 설정에 대해서는 [SSO 문서](/platform/hosting/iam/sso/)를 참조하세요.
+
+SCIM API와 상호작용하는 방법을 보여주는 실용적인 Python 예제는 [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) 저장소를 방문하세요.
+
+### 지원 기능
+- **필터링**: API는 `/Users` 및 `/Groups` 엔드포인트에 대한 필터링을 지원합니다.
+- **PATCH 작업**: 리소스의 부분 업데이트를 위한 PATCH를 지원합니다.
+- **ETag 지원**: 충돌 감지를 위해 ETag를 사용한 조건부 업데이트를 지원합니다.
+- **서비스 계정 인증**: 조직 서비스 계정으로 API에 엑세스할 수 있습니다.
 
 <Note>
-여러 Enterprise [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization의 관리자인 경우 SCIM API 요청이 전송되는 organization을 구성해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭합니다. 설정 이름은 **Default API organization**입니다. 이는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud), [Self-Managed instances](/ko/platform/hosting/hosting-options/self-managed) 및 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 포함한 모든 호스팅 옵션에 필요합니다. SaaS Cloud에서 organization 관리자는 SCIM API 요청이 올바른 organization으로 이동하도록 사용자 설정에서 기본 organization을 구성해야 합니다.
+여러 개의 Enterprise [Multi-tenant SaaS](/platform/hosting/hosting-options/multi_tenant_cloud) 조직의 관리자인 경우, API 키를 사용한 SCIM API 요청이 올바른 조직에 적용되도록 대상 조직을 설정해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭하고 **Default API organization** 설정을 확인하세요.
 
-선택한 호스팅 옵션은 이 페이지의 예제에서 사용되는 `<host-url>` 자리 표시자의 값을 결정합니다.
+선택한 호스팅 옵션에 따라 이 페이지의 예제에 사용된 `<host-url>` 자리표시자 값이 결정됩니다.
 
-또한 예제에서는 `abc` 및 `def`와 같은 사용자 ID를 사용합니다. 실제 요청 및 응답에는 사용자 ID에 대한 해시된 값이 있습니다.
+또한 예제에서는 `abc` 및 `def`와 같은 사용자 ID를 사용합니다. 실제 요청 및 응답에서는 사용자 ID에 대해 해시된 값을 가집니다.
 </Note>
 
 ## 인증
 
-Organization 또는 인스턴스 관리자는 API 키로 기본 인증을 사용하여 SCIM API에 액세스할 수 있습니다. HTTP 요청의 `Authorization` 헤더를 `Basic` 문자열 뒤에 공백, 그런 다음 `username:API-KEY` 형식으로 base-64로 인코딩된 문자열로 설정합니다. 즉, 사용자 이름과 API 키를 `:` 문자로 구분된 값으로 바꾸고 결과를 base-64로 인코딩합니다. 예를 들어 `demo:p@55w0rd`로 인증하려면 헤더는 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`여야 합니다.
+주요 차이점을 검토한 후 사용자 ID 또는 서비스 계정 중 하나를 선택하여 인증하세요.
 
-## 사용자 리소스
+### 주요 차이점
+- 사용 대상: 사용자는 대화형의 일회성 관리 작업에 적합하며, 서비스 계정은 자동화 및 인테그레이션 (CI/CD, 프로비저닝 툴)에 적합합니다.
+- 자격 증명: 사용자는 사용자 이름과 API 키를 전송하고, 서비스 계정은 API 키만 전송합니다 (사용자 이름 없음).
+- 권한 부여 헤더 페이로드: 사용자는 `username:API-KEY`를 인코딩하고, 서비스 계정은 `:API-KEY` (앞에 콜론 포함)를 인코딩합니다.
+- 범위 및 권한: 둘 다 관리자 권한이 필요합니다. 서비스 계정은 조직 범위이며 헤드리스(headless) 방식으로 자동화를 위한 명확한 감사 추적을 제공합니다.
+- 자격 증명 획득처: 사용자는 User Settings에서 API 키를 복사합니다. 서비스 계정 키는 조직의 Service account 탭에 있습니다.
+- Multi-tenant Cloud: 둘 이상의 Multi-tenant Cloud 조직에 액세스할 수 있는 경우, SCIM API 호출이 의도한 조직으로 라우팅되도록 Default API organization을 설정해야 합니다.
 
-SCIM 사용자 리소스는 W&B Users에 매핑됩니다.
+### Users
+대화형 관리 작업을 수행할 때는 개인 관리자 자격 증명을 사용하세요. HTTP `Authorization` 헤더를 `Basic <base64(username:API-KEY)>` 형식으로 구성합니다.
 
-### 사용자 가져오기
+예를 들어, `demo:p@55w0rd`로 인증하는 경우:
+```bash
+Authorization: Basic ZGVtbzpwQDU1dzByZA==
+```
 
--   **엔드포인트:** **`<host-url>/scim/Users/{id}`**
--   **메서드**: GET
--   **설명**: 사용자 고유 ID를 제공하여 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 특정 사용자에 대한 정보를 검색합니다.
--   **요청 예시**:
+### 서비스 계정
+자동화 또는 인테그레이션을 위해서는 조직 범위의 서비스 계정을 사용하세요. HTTP `Authorization` 헤더를 `Basic <base64(:API-KEY)>`로 구성합니다 (앞의 콜론과 비어 있는 사용자 이름에 주의하세요). 서비스 계정 API 키는 조직 대시보드의 **Service account** 탭에서 찾을 수 있습니다. [조직 범위 서비스 계정](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts)을 참조하세요.
 
+예를 들어, API 키 `sa-p@55w0rd`로 인증하는 경우:
+```bash
+Authorization: Basic OnNhLXBANTV3MHJk
+```
+
+## 사용자 관리
+
+SCIM 사용자 리소스는 W&B Users에 매핑됩니다. 다음 엔드포인트를 사용하여 조직의 사용자를 관리하세요.
+
+### 사용자 조회
+
+조직 내 특정 사용자의 정보를 검색합니다.
+
+<Note>이 작업은 서비스 계정을 검색하지 않습니다.</Note>
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: GET
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+
+#### 예시
+
+<Tabs>
+<Tab title="사용자 조회 요청">
 ```bash
 GET /scim/Users/abc
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="사용자 조회 응답">
 ```bash
 (Status 200)
 ```
@@ -46,14 +91,16 @@ GET /scim/Users/abc
 ```json
 {
     "active": true,
+    "daysActive": 42,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
     },
     "id": "abc",
+    "lastActiveAt": "2023-10-15T14:32:10Z",
     "meta": {
         "resourceType": "User",
         "created": "2023-10-01T00:00:00Z",
@@ -67,19 +114,50 @@ GET /scim/Users/abc
 }
 ```
 
-### 사용자 목록
+응답에는 조직 내 사용자 활동에 대한 상세 정보가 포함됩니다:
+- **`daysActive`**: 사용자가 조직에서 활동한 총 일수입니다.
+- **`lastActiveAt`**: 사용자의 가장 최근 활동의 ISO 8601 타임스탬프입니다. 활동한 적이 없는 경우 `null`을 반환합니다.
 
--   **엔드포인트:** **`<host-url>/scim/Users`**
--   **메서드**: GET
--   **설명**: [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 모든 사용자 목록을 검색합니다.
--   **요청 예시**:
+"활동 중(active)"의 정의는 배포 유형에 따라 다릅니다:
+- **Dedicated Cloud / Self-Managed**: 사용자가 로그인하거나, W&B 앱의 페이지를 열거나, runs를 로그하거나, SDK를 사용하거나, 어떤 방식으로든 W&B 서버와 상호작용하면 활동 중인 것으로 간주됩니다.
+- **Multi-tenant Cloud**: 사용자가 2025년 5월 8일 이후 조직 범위 내에서 감사 가능한 작업을 수행하면 활동 중인 것으로 간주됩니다. 전체 목록은 [감사 로그 작업](/platform/hosting/monitoring-usage/audit-logging#actions)을 참조하세요.
 
+</Tab>
+</Tabs>
+
+
+### 사용자 목록 조회
+
+조직 내 모든 사용자 목록을 검색합니다.
+
+<Note>이 작업은 서비스 계정을 검색하지 않습니다.</Note>
+
+#### 사용자 필터링
+
+`/Users` 엔드포인트는 사용자 이름 또는 이메일로 사용자 필터링을 지원합니다:
+
+- `userName eq "value"` - 사용자 이름으로 필터링
+- `emails.value eq "value"` - 이메일 주소로 필터링
+
+##### 예시
+```bash
+GET /scim/Users?filter=userName eq "john.doe"
+GET /scim/Users?filter=emails.value eq "john@example.com"
+```
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users`
+- **메소드**: GET
+
+#### 예시
+
+<Tabs>
+<Tab title="사용자 목록 요청">
 ```bash
 GET /scim/Users
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="사용자 목록 응답">
 ```bash
 (Status 200)
 ```
@@ -89,14 +167,16 @@ GET /scim/Users
     "Resources": [
         {
             "active": true,
+            "daysActive": 42,
             "displayName": "Dev User 1",
             "emails": {
-                "Value": "dev-user1@test.com",
+                "Value": "dev-user1@example.com",
                 "Display": "",
                 "Type": "",
                 "Primary": true
             },
             "id": "abc",
+            "lastActiveAt": "2023-10-15T14:32:10Z",
             "meta": {
                 "resourceType": "User",
                 "created": "2023-10-01T00:00:00Z",
@@ -118,41 +198,78 @@ GET /scim/Users
 }
 ```
 
+응답에는 각 사용자의 조직 내 활동에 대한 상세 정보가 포함됩니다. (`daysActive`, `lastActiveAt` 등에 대한 정의는 위와 동일합니다.)
+
+</Tab>
+</Tabs>
+
 ### 사용자 생성
 
--   **엔드포인트**: **`<host-url>/scim/Users`**
--   **메서드**: POST
--   **설명**: 새 사용자 리소스를 만듭니다.
--   **지원되는 필드**:
+조직에 새 사용자를 생성합니다.
 
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| emails | 다중 값 배열 | 예( `primary` 이메일이 설정되었는지 확인) |
-| userName | 문자열 | 예 |
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users`
+- **메소드**: POST
 
--   **요청 예시**:
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `emails` | array | 예 | 이메일 오브젝트 배열. 기본 이메일이 포함되어야 함 |
+| `userName` | string | 예 | 새 사용자의 사용자 이름 |
 
+#### 예시
+
+<Tabs>
+<Tab title="사용자 생성 요청 (Dedicated/Self-Managed)">
 ```bash
 POST /scim/Users
 ```
 
 ```json
 {
-  "schemas": [
-    "urn:ietf:params:scim:schemas:core:2.0:User"
-  ],
-  "emails": [
-    {
-      "primary": true,
-      "value": "admin-user2@test.com"
-    }
-  ],
-  "userName": "dev-user2"
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user2@example.com"
+        }
+    ],
+    "userName": "dev-user2"
 }
 ```
+</Tab>
+<Tab title="사용자 생성 요청 (Multi-tenant)">
+```bash
+POST /scim/Users
+```
 
--   **응답 예시**:
+```json
+{
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "emails": [
+        {
+            "primary": true,
+            "value": "dev-user2@example.com"
+        }
+    ],
+    "userName": "dev-user2",
+    "urn:ietf:params:scim:schemas:extension:teams:2.0:User": {
+        "teams": ["my-team"]
+    }
+}
+```
+</Tab>
+</Tabs>
 
+#### 응답
+
+<Tabs>
+<Tab title="사용자 생성 응답 (Dedicated/Self-Managed)">
 ```bash
 (Status 201)
 ```
@@ -162,7 +279,7 @@ POST /scim/Users
     "active": true,
     "displayName": "Dev User 2",
     "emails": {
-        "Value": "dev-user2@test.com",
+        "Value": "dev-user2@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -179,46 +296,259 @@ POST /scim/Users
     "userName": "dev-user2"
 }
 ```
+</Tab>
+<Tab title="사용자 생성 응답 (Multi-tenant)">
+```bash
+(Status 201)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 2",
+    "emails": {
+        "Value": "dev-user2@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "def",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "location": "Users/def"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:teams:2.0:User"
+    ],
+    "userName": "dev-user2",
+    "organizationRole": "member",
+    "teamRoles": [
+        {
+            "teamName": "my-team",
+            "roleName": "member"
+        }
+    ],
+    "groups": [
+        {
+            "value": "my-team-id"
+        }
+    ]
+}
+```
+</Tab>
+</Tabs>
 
 ### 사용자 삭제
 
--   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
--   **메서드**: DELETE
--   **설명**: 사용자 고유 ID를 제공하여 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) organization 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 사용자를 완전히 삭제합니다. 필요한 경우 [사용자 생성](#create-user) API를 사용하여 사용자를 organization 또는 인스턴스에 다시 추가합니다.
--   **요청 예시**:
+<Warning>
+**관리자 엑세스 유지**
+
+인스턴스 또는 조직에는 항상 최소 한 명 이상의 관리자 사용자가 존재해야 합니다. 그렇지 않으면 아무도 조직의 W&B 계정을 설정하거나 유지 관리할 수 없습니다. 조직에서 SCIM 또는 다른 자동화된 프로세스를 사용하여 사용자의 프로비저닝을 해제하는 경우, 실수로 인스턴스 또는 조직의 마지막 남은 관리자가 제거될 수 있습니다.
+
+운영 절차 개발에 대한 도움이 필요하거나 관리자 엑세스를 복구하려면 [지원팀](mailto:support@wandb.com)에 문의하세요.
+</Warning>
+
+조직에서 사용자를 완전히 삭제합니다.
+
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정은 W&B Team 설정에서 삭제하세요.</Note>
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: DELETE
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 삭제할 사용자의 고유 ID |
+
+#### 예시
+
+<Tabs>
+<Tab title="사용자 삭제 요청">
+```bash
+DELETE /scim/Users/abc
+```
+</Tab>
+<Tab title="사용자 삭제 응답">
+```bash
+(Status 204)
+```
+</Tab>
+</Tabs>
 
 <Note>
 사용자를 일시적으로 비활성화하려면 `PATCH` 엔드포인트를 사용하는 [사용자 비활성화](#deactivate-user) API를 참조하세요.
 </Note>
 
-```bash
-DELETE /scim/Users/abc
-```
+### 사용자 이메일 업데이트
+사용자의 기본 이메일 주소를 업데이트합니다.
+사용자 계정이 조직에 의해 관리되지 않는 **Multi-tenant Cloud에서는 지원되지 않습니다**.
 
--   **응답 예시**:
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+| `op` | string | 예 | `replace` |
+| `path` | string | 예 | `emails` |
+| `value` | array | 예 | 새 이메일 오브젝트가 포함된 배열 |
+
+#### 예시
+
+<Tabs>
+<Tab title="이메일 업데이트 요청">
+```bash
+PATCH /scim/Users/abc
+```
 
 ```json
-(Status 204)
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "emails",
+            "value": [
+                {
+                    "value": "newemail@example.com",
+                    "primary": true
+                }
+            ]
+        }
+    ]
+}
 ```
+</Tab>
+<Tab title="이메일 업데이트 응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "newemail@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1"
+}
+```
+</Tab>
+</Tabs>
+
+### 사용자 표시 이름 업데이트
+
+사용자의 표시 이름을 업데이트합니다.
+사용자 계정이 조직에 의해 관리되지 않는 **Multi-tenant Cloud에서는 지원되지 않습니다**.
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+| `op` | string | 예 | `replace` |
+| `path` | string | 예 | `displayName` |
+| `value` | string | 예 | 새 표시 이름 |
+
+#### 예시
+
+<Tabs>
+<Tab title="표시 이름 업데이트 요청">
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "displayName",
+            "value": "John Doe"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="표시 이름 업데이트 응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "John Doe",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2025-7-01T00:00:00Z",
+        "lastModified": "2025-7-01T00:00:00Z",
+        "location": "users/dev-user1"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1"
+}
+```
+</Tab>
+</Tabs>
 
 ### 사용자 비활성화
 
--   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
--   **메서드**: PATCH
--   **설명**: 사용자 고유 ID를 제공하여 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 사용자를 일시적으로 비활성화합니다. 필요한 경우 [사용자 다시 활성화](#reactivate-user) API를 사용하여 사용자를 다시 활성화합니다.
--   **지원되는 필드**:
+조직에서 사용자를 비활성화합니다. 실제 결과는 배포 유형에 따라 다릅니다:
 
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| op | 문자열 | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
-| value | 오브젝트 | 사용자를 비활성화해야 함을 나타내는 오브젝트 `{"active": false}`입니다. |
+- **Dedicated Cloud** / **Self-Managed**: 사용자의 `active` 필드를 `false`로 설정합니다. 비활성화된 사용자의 조직 엑세스를 복구하려면 [사용자 활성화](#reactivate-user)를 참조하세요.
+- **Multi-tenant Cloud**: 조직에서 사용자를 제거합니다. 사용자의 엑세스를 복구하려면 조직에 다시 추가해야 합니다. [사용자 생성](#create-user-request-multi-tenant)을 참조하세요. Multi-tenant Cloud에서는 사용자의 계정이 조직에 의해 관리되지 않습니다.
 
-<Note>
-사용자 비활성화 및 재활성화 작업은 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 지원되지 않습니다.
-</Note>
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정 비활성화는 지원되지 않습니다. 팀 서비스 계정은 W&B Team 설정에서 관리하세요.</Note>
 
--   **요청 예시**:
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
 
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 비활성화할 사용자의 고유 ID |
+| `op` | string | 예 | `replace` |
+| `value` | object | 예 | `{"active": false}`가 포함된 오브젝트 |
+
+
+#### 예시
+
+<Tabs>
+<Tab title="사용자 비활성화 요청 (Dedicated/Self-Managed)">
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -234,20 +564,40 @@ PATCH /scim/Users/abc
     ]
 }
 ```
+</Tab>
+<Tab title="사용자 비활성화 요청 (Multi-tenant)">
+```bash
+PATCH /scim/Users
+```
 
--   **응답 예시**:
-    이것은 User 오브젝트를 반환합니다.
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "value": {"active": false}
+        }
+    ]
+}
+```
+</Tab>
+</Tabs>
 
+#### 응답
+
+<Tabs>
+<Tab title="사용자 비활성화 응답 (Dedicated/Self-Managed)">
 ```bash
 (Status 200)
 ```
 
 ```json
 {
-    "active": true,
+    "active": false,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -265,29 +615,11 @@ PATCH /scim/Users/abc
     "userName": "dev-user1"
 }
 ```
-
-### 사용자 다시 활성화
-
--   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
--   **메서드**: PATCH
--   **설명**: 사용자 고유 ID를 제공하여 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스에서 비활성화된 사용자를 다시 활성화합니다.
--   **지원되는 필드**:
-
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| op | 문자열 | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
-| value | 오브젝트 | 사용자를 다시 활성화해야 함을 나타내는 오브젝트 `{"active": true}`입니다. |
-
-<Note>
-사용자 비활성화 및 재활성화 작업은 [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 지원되지 않습니다.
-</Note>
-
--   **요청 예시**:
-
+</Tab>
+<Tab title="사용자 비활성화 응답 (Multi-tenant)">
 ```bash
-PATCH /scim/Users/abc
+(Status 200)
 ```
-
 ```json
 {
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
@@ -299,10 +631,59 @@ PATCH /scim/Users/abc
     ]
 }
 ```
+</Tab>
+</Tabs>
 
--   **응답 예시**:
-    이것은 User 오브젝트를 반환합니다.
+### 사용자 활성화
 
+조직에서 이전에 비활성화된 사용자를 다시 활성화합니다.
+
+<Note>
+- 사용자 활성화는 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정에 대해서는 활성화가 지원되지 않습니다. 서비스 계정은 W&B Team 설정에서 관리하세요.
+
+- 사용자 활성화는 [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)에서 지원되지 않습니다. 사용자의 엑세스를 복구하려면 조직에 다시 추가해야 합니다. [사용자 생성](#create-user-request-multi-tenant)을 참조하세요. Multi-tenant Cloud에서는 사용자의 계정이 조직에 의해 관리되지 않습니다. 사용자를 활성화하려고 시도하면 HTTP `400` 오류가 발생합니다:
+    ```json
+    {
+        "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:Error"
+        ],
+        "detail": "User reactivation operations are not supported in SaaS Cloud",
+        "status": "400"
+    }
+    ```
+</Note>
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 활성화할 사용자의 고유 ID |
+| `op` | string | 예 | `replace` |
+| `value` | object | 예 | `{"active": true}`가 포함된 오브젝트 |
+
+#### 예시
+
+<Tabs>
+<Tab title="사용자 활성화 요청">
+```bash
+PATCH /scim/Users/abc
+```
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "value": {"active": true}
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="사용자 활성화 응답">
 ```bash
 (Status 200)
 ```
@@ -312,7 +693,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -330,22 +711,39 @@ PATCH /scim/Users/abc
     "userName": "dev-user1"
 }
 ```
+</Tab>
+</Tabs>
 
-### 사용자에게 organization 수준 역할 할당
+### 조직 역할 할당
 
--   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
--   **메서드**: PATCH
--   **설명**: 사용자에게 organization 수준 역할을 할당합니다. 역할은 [여기](/ko/platform/hosting/iam/access-management/manage-organization/#invite-a-user)에 설명된 대로 `admin`, `viewer` 또는 `member` 중 하나일 수 있습니다. [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 사용자 설정에서 SCIM API에 대한 올바른 organization을 구성했는지 확인합니다.
--   **지원되는 필드**:
+사용자에게 조직 수준의 역할을 할당합니다.
 
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| op | 문자열 | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
-| path | 문자열 | 역할 할당 작업이 적용되는 범위입니다. 허용되는 유일한 값은 `organizationRole`입니다. |
-| value | 문자열 | 사용자에게 할당할 미리 정의된 organization 수준 역할입니다. `admin`, `viewer` 또는 `member` 중 하나일 수 있습니다. 이 필드는 미리 정의된 역할에 대해 대소문자를 구분하지 않습니다. |
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 커스텀 역할은 서비스 계정에 대해 지원되지 않습니다.</Note>
 
--   **요청 예시**:
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
 
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+| `op` | string | 예 | `replace` |
+| `path` | string | 예 | `organizationRole` |
+| `value` | string | 예 | 역할 이름 (`admin` 또는 `member`) |
+
+<Note>
+조직 범위의 `viewer` 역할은 더 이상 지원되지 않으며 UI에서 할당할 수 없습니다. SCIM을 사용하여 사용자에게 `viewer` 역할을 할당하는 경우:
+- 조직에서 `member` 역할이 할당됩니다.
+- `full` 시트 대신 Models `viewer` 시트가 할당됩니다. 이를 통해 Models에 대한 읽기 전용 엑세스와 Registry에 대한 전체 엑세스가 가능합니다. 사용 가능한 Models 시트가 없으면 `Seat limit reached` 오류가 로그에 기록되고 Models 엑세스 권한 없이 멤버가 추가됩니다. 이는 나중에 시트가 생기면 업데이트할 수 있습니다.
+- `full` 시트 대신 Weave `viewer` 시트가 할당됩니다. 이를 통해 Weave에 대한 읽기 전용 엑세스가 가능합니다. 사용 가능한 Weave 시트가 없으면 `Seat limit reached` 오류가 로그에 기록되고 Weave 엑세스 권한 없이 멤버가 추가됩니다.
+- 조직 수준에서 볼 수 있는 registries에 대해 Registry `viewer` 역할이 할당됩니다.
+</Note>
+
+#### 예시
+
+<Tabs>
+<Tab title="조직 역할 할당 요청">
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -357,15 +755,13 @@ PATCH /scim/Users/abc
         {
             "op": "replace",
             "path": "organizationRole",
-            "value": "admin" // 사용자의 organization 범위 역할을 admin으로 설정합니다.
+            "value": "admin"
         }
     ]
 }
 ```
-
--   **응답 예시**:
-    이것은 User 오브젝트를 반환합니다.
-
+</Tab>
+<Tab title="조직 역할 할당 응답">
 ```bash
 (Status 200)
 ```
@@ -375,7 +771,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -391,31 +787,40 @@ PATCH /scim/Users/abc
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "userName": "dev-user1",
-    "teamRoles": [  // 사용자가 속한 모든 Teams에서 사용자의 역할을 반환합니다.
+    "teamRoles": [
         {
             "teamName": "team1",
             "roleName": "admin"
         }
     ],
-    "organizationRole": "admin" // organization 범위에서 사용자의 역할을 반환합니다.
+    "organizationRole": "admin"
 }
 ```
+</Tab>
+</Tabs>
 
-### 사용자에게 팀 수준 역할 할당
+### 팀 역할 할당
 
--   **엔드포인트**: **`<host-url>/scim/Users/{id}`**
--   **메서드**: PATCH
--   **설명**: 사용자에게 팀 수준 역할을 할당합니다. 역할은 [여기](/ko/platform/hosting/iam/access-management/manage-organization/#invite-a-user)에 설명된 대로 `admin`, `viewer`, `member` 또는 사용자 지정 역할 중 하나일 수 있습니다. [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 사용자 설정에서 SCIM API에 대한 올바른 organization을 구성했는지 확인합니다.
--   **지원되는 필드**:
+사용자에게 팀 수준의 역할을 할당합니다.
 
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| op | 문자열 | 작업 유형. 허용되는 유일한 값은 `replace`입니다. |
-| path | 문자열 | 역할 할당 작업이 적용되는 범위입니다. 허용되는 유일한 값은 `teamRoles`입니다. |
-| value | 오브젝트 배열 | 오브젝트가 `teamName` 및 `roleName` 속성으로 구성된 단일 오브젝트 배열입니다. `teamName`은 사용자가 역할을 보유하는 팀의 이름이고, `roleName`은 `admin`, `viewer`, `member` 또는 사용자 지정 역할 중 하나일 수 있습니다. 이 필드는 미리 정의된 역할에 대해 대소문자를 구분하지 않고 사용자 지정 역할에 대해 대소문자를 구분합니다. |
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 커스텀 역할은 서비스 계정에 대해 지원되지 않습니다.</Note>
 
--   **요청 예시**:
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
 
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+| `op` | string | 예 | `replace` |
+| `path` | string | 예 | `teamRoles` |
+| `value` | array | 예 | `teamName`과 `roleName`이 포함된 오브젝트 배열 |
+
+#### 예시
+
+<Tabs>
+<Tab title="팀 역할 할당 요청">
 ```bash
 PATCH /scim/Users/abc
 ```
@@ -429,18 +834,16 @@ PATCH /scim/Users/abc
             "path": "teamRoles",
             "value": [
                 {
-                    "roleName": "admin", // 역할 이름은 미리 정의된 역할에 대해 대소문자를 구분하지 않고 사용자 지정 역할에 대해 대소문자를 구분합니다.
-                    "teamName": "team1" // 팀 team1에서 사용자의 역할을 admin으로 설정합니다.
+                    "roleName": "admin",
+                    "teamName": "team1"
                 }
             ]
         }
     ]
 }
 ```
-
--   **응답 예시**:
-    이것은 User 오브젝트를 반환합니다.
-
+</Tab>
+<Tab title="팀 역할 할당 응답">
 ```bash
 (Status 200)
 ```
@@ -450,7 +853,7 @@ PATCH /scim/Users/abc
     "active": true,
     "displayName": "Dev User 1",
     "emails": {
-        "Value": "dev-user1@test.com",
+        "Value": "dev-user1@example.com",
         "Display": "",
         "Type": "",
         "Primary": true
@@ -466,32 +869,64 @@ PATCH /scim/Users/abc
         "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
     "userName": "dev-user1",
-    "teamRoles": [  // 사용자가 속한 모든 Teams에서 사용자의 역할을 반환합니다.
+    "teamRoles": [
         {
             "teamName": "team1",
             "roleName": "admin"
         }
     ],
-    "organizationRole": "admin" // organization 범위에서 사용자의 역할을 반환합니다.
+    "organizationRole": "admin"
 }
 ```
+</Tab>
+</Tabs>
 
-## 그룹 리소스
 
-SCIM 그룹 리소스는 W&B Teams에 매핑됩니다. 즉, W&B 배포에서 SCIM 그룹을 만들면 W&B Team이 생성됩니다. 다른 그룹 엔드포인트에도 동일하게 적용됩니다.
+### Registry에 추가
 
-### 팀 가져오기
+할당된 registry 수준의 역할과 함께 사용자를 registry에 추가합니다.
 
--   **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
--   **메서드**: GET
--   **설명**: 팀의 고유 ID를 제공하여 팀 정보를 검색합니다.
--   **요청 예시**:
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 커스텀 역할은 서비스 계정에 대해 지원되지 않습니다.</Note>
 
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+| `op` | string | 예 | `add` |
+| `path` | string | 예 | `registryRoles` |
+| `value` | array | 예 | `registryName`과 `roleName`이 포함된 오브젝트 배열 |
+
+#### 예시
+
+<Tabs>
+<Tab title="Registry 추가 요청">
 ```bash
-GET /scim/Groups/ghi
+PATCH /scim/Users/abc
 ```
 
--   **응답 예시**:
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles",
+            "value": [
+                {
+                    "roleName": "admin",
+                    "registryName": "hello-registry"
+                }
+            ]
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="Registry 추가 응답">
 
 ```bash
 (Status 200)
@@ -499,7 +934,210 @@ GET /scim/Groups/ghi
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "registryRoles": [
+        {
+            "registryName": "hello-registry",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin"
+}
+```
+</Tab>
+</Tabs>
+
+
+### Registry에서 제거
+
+Registry에서 사용자를 제거합니다.
+
+<Note>
+- 제거 작업은 RFC 7644 SCIM 프로토콜 사양을 따릅니다. 특정 registry에서 사용자를 제거하려면 `"registryRoles[registryName eq \"{registry_name}\"]"` 필터 구문을 사용하고, 모든 registries에서 사용자를 제거하려면 `"registryRoles"`를 사용하세요.
+- 이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. Registry에서 서비스 계정을 제거하려면 W&B Team 설정에서 수행하세요.
+</Note>
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Users/{id}`
+- **메소드**: PATCH
+
+#### 파라미터
+| 파라미터 | 타입 | 필수 여부 | 설명 |
+|-----------|------|----------|-------------|
+| `id` | string | 예 | 사용자의 고유 ID |
+| `op` | string | 예 | `remove` |
+| `path` | string | 예 | `"registryRoles[registryName eq \"{registry_name}\"]"` 또는 `"registryRoles"` |
+
+#### 예시
+
+<Tabs>
+<Tab title="Registry 제거 요청">
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles[registryName eq \"goodbye-registry\"]"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="Registry 제거 응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "registryRoles": [
+        {
+            "registryName": "hello-registry",
+            "roleName": "admin"
+        }
+    ],
+    "organizationRole": "admin"
+}
+```
+</Tab>
+</Tabs>
+
+<Tabs>
+<Tab title="모든 Registry 제거 요청">
+```bash
+PATCH /scim/Users/abc
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "replace",
+            "path": "registryRoles"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="모든 Registry 제거 응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "active": true,
+    "displayName": "Dev User 1",
+    "emails": {
+        "Value": "dev-user1@example.com",
+        "Display": "",
+        "Type": "",
+        "Primary": true
+    },
+    "id": "abc",
+    "meta": {
+        "resourceType": "User",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:00:00Z",
+        "location": "Users/abc"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User"
+    ],
+    "userName": "dev-user1",
+    "organizationRole": "admin"
+}
+```
+</Tab>
+</Tabs>
+
+## Group 리소스
+
+IAM에서 SCIM 그룹을 생성하면 W&B Team이 생성되어 매핑되며, 기타 SCIM 그룹 작업은 해당 팀에 대해 수행됩니다.
+
+### 서비스 계정
+
+SCIM을 사용하여 W&B Team을 생성하면, 팀 리소스에 대한 서비스 계정의 엑세스를 유지하기 위해 모든 조직 수준의 서비스 계정이 자동으로 팀에 추가됩니다.
+
+### 그룹 필터링
+
+`/Groups` 엔드포인트는 특정 팀을 검색하기 위한 필터링을 지원합니다:
+
+#### 지원되는 필터
+- `displayName eq "value"` - 팀 표시 이름으로 필터링
+
+#### 예시
+```bash
+GET /scim/Groups?filter=displayName eq "engineering-team"
+```
+
+### 팀 조회
+
+팀의 고유 ID를 제공하여 팀 정보를 검색합니다.
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Groups/{id}`
+- **메소드**: GET
+
+#### 예시
+
+<Tabs>
+<Tab title="요청">
+```bash
+GET /scim/Groups/ghi
+```
+</Tab>
+<Tab title="응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": [
         {
@@ -520,20 +1158,26 @@ GET /scim/Groups/ghi
     ]
 }
 ```
+</Tab>
+</Tabs>
 
-### 팀 목록
+### 팀 목록 조회
 
--   **엔드포인트**: **`<host-url>/scim/Groups`**
--   **메서드**: GET
--   **설명**: 팀 목록을 검색합니다.
--   **요청 예시**:
+팀 목록을 검색합니다.
 
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Groups`
+- **메소드**: GET
+
+#### 예시
+
+<Tabs>
+<Tab title="요청">
 ```bash
 GET /scim/Groups
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 200)
 ```
@@ -542,7 +1186,7 @@ GET /scim/Groups
 {
     "Resources": [
         {
-            "displayName": "wandb-devs",
+            "displayName": "acme-devs",
             "id": "ghi",
             "members": [
                 {
@@ -571,23 +1215,26 @@ GET /scim/Groups
     "totalResults": 1
 }
 ```
+</Tab>
+</Tabs>
 
 ### 팀 생성
 
--   **엔드포인트**: **`<host-url>/scim/Groups`**
--   **메서드**: POST
--   **설명**: 새 팀 리소스를 만듭니다.
--   **지원되는 필드**:
+- **엔드포인트**: **`<host-url>/scim/Groups`**
+- **메소드**: POST
+- **설명**: 새로운 팀 리소스를 생성합니다.
+- **지원 필드**:
 
-| 필드 | 유형 | 필수 |
+| 필드 | 타입 | 필수 여부 |
 | --- | --- | --- |
-| displayName | 문자열 | 예 |
-| members | 다중 값 배열 | 예( `value` 하위 필드는 필수이며 사용자 ID에 매핑됨) |
+| `displayName` | String | 예 |
+| `members` | 다중값 배열 | 예 (`value` 서브 필드는 필수이며 사용자 ID에 매핑됨) |
+#### 예시
 
--   **요청 예시**:
+`dev-user2`를 멤버로 하는 `wandb-support`라는 이름의 팀을 생성합니다.
 
-`dev-user2`를 멤버로 하여 `wandb-support`라는 팀을 만듭니다.
-
+<Tabs>
+<Tab title="요청">
 ```bash
 POST /scim/Groups
 ```
@@ -603,9 +1250,8 @@ POST /scim/Groups
     ]
 }
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 201)
 ```
@@ -633,47 +1279,135 @@ POST /scim/Groups
     ]
 }
 ```
+</Tab>
+</Tabs>
 
 ### 팀 업데이트
 
--   **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
--   **메서드**: PATCH
--   **설명**: 기존 팀의 멤버십 목록을 업데이트합니다.
--   **지원되는 작업**: 멤버 `add`, 멤버 `remove`
--   **요청 예시**:
+- **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
+- **메소드**: PATCH
+- **설명**: 기존 팀의 멤버십 목록을 업데이트합니다.
+- **지원 작업**: 멤버 `add`, 멤버 `remove`, 멤버 `replace`
 
-`wandb-devs`에 `dev-user2`를 추가합니다.
+<Note>
+- 제거 작업은 RFC 7644 SCIM 프로토콜 사양을 따릅니다. 특정 사용자를 제거하려면 `members[value eq "{user_id}"]` 필터 구문을 사용하고, 팀의 모든 사용자를 제거하려면 `members`를 사용하세요.
 
+    **사용자 식별**: 멤버 작업에서 `{user_id}`는 다음 중 하나일 수 있습니다:
+    - W&B 사용자 ID
+    - 이메일 주소 (예: "user@example.com")
+- 이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 팀의 서비스 계정은 W&B Team 설정에서 업데이트하세요.
+</Note>
+
+
+<Info>
+요청 시 `{team_id}`는 실제 팀 ID로, `{user_id}`는 실제 사용자 ID 또는 이메일 주소로 바꾸세요.
+</Info>
+
+### 팀 멤버 교체
+
+팀의 모든 멤버를 새 목록으로 교체합니다.
+
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정은 W&B Team 설정에서 관리하세요.</Note>
+
+- **엔드포인트**: **`<host-url>/scim/Groups/{id}`**
+- **메소드**: PUT
+- **설명**: 팀 멤버십 목록 전체를 교체합니다.
+
+<Tabs>
+<Tab title="요청">
 ```bash
-PATCH /scim/Groups/ghi
+PUT /scim/Groups/{team_id}
 ```
 
 ```json
 {
-	"schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-	"Operations": [
-		{
-			"op": "add",
-			"path": "members",
-			"value": [
-	      {
-					"value": "def",
-				}
-	    ]
-		}
-	]
+    "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+    "displayName": "acme-devs",
+    "members": [
+        {
+            "value": "{user_id_1}"
+        },
+        {
+            "value": "{user_id_2}"
+        }
+    ]
 }
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 200)
 ```
 
 ```json
 {
-    "displayName": "wandb-devs",
+    "displayName": "acme-devs",
+    "id": "ghi",
+    "members": [
+        {
+            "Value": "user_id_1",
+            "Ref": "",
+            "Type": "",
+            "Display": "user1"
+        },
+        {
+            "Value": "user_id_2",
+            "Ref": "",
+            "Type": "",
+            "Display": "user2"
+        }
+    ],
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+</Tab>
+</Tabs>
+
+**팀에 사용자 추가**
+
+`acme-devs`에 `dev-user2` 추가:
+
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정은 W&B Team 설정에서 관리하세요.</Note>
+
+<Tabs>
+<Tab title="요청">
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "add",
+            "path": "members",
+            "value": [
+                {
+                    "value": "{user_id}"
+                }
+            ]
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "acme-devs",
     "id": "ghi",
     "members": [
         {
@@ -700,28 +1434,135 @@ PATCH /scim/Groups/ghi
     ]
 }
 ```
+</Tab>
+</Tabs>
+
+**팀에서 특정 사용자 제거**
+
+`acme-devs`에서 `dev-user2` 제거:
+
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정은 W&B Team 설정에서 관리하세요.</Note>
+
+<Tabs>
+<Tab title="요청">
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "remove",
+            "path": "members[value eq \"{user_id}\"]"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "acme-devs",
+    "id": "ghi",
+    "members": [
+        {
+            "Value": "abc",
+            "Display": "dev-user1"
+        }
+    ],
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+</Tab>
+</Tabs>
+
+**팀에서 모든 사용자 제거**
+
+`acme-devs`에서 모든 사용자 제거:
+
+<Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정은 W&B Team 설정에서 관리하세요.</Note>
+
+<Tabs>
+<Tab title="요청">
+```bash
+PATCH /scim/Groups/{team_id}
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
+        {
+            "op": "remove",
+            "path": "members"
+        }
+    ]
+}
+```
+</Tab>
+<Tab title="응답">
+```bash
+(Status 200)
+```
+
+```json
+{
+    "displayName": "acme-devs",
+    "id": "ghi",
+    "members": null,
+    "meta": {
+        "resourceType": "Group",
+        "created": "2023-10-01T00:00:00Z",
+        "lastModified": "2023-10-01T00:01:00Z",
+        "location": "Groups/ghi"
+    },
+    "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:Group"
+    ]
+}
+```
+</Tab>
+</Tabs>
 
 ### 팀 삭제
 
--   팀 삭제는 현재 SCIM API에서 지원되지 않습니다. 팀에 연결된 추가 데이터가 있기 때문입니다. 모든 항목을 삭제할지 확인하려면 앱에서 팀을 삭제하세요.
+- 팀 삭제는 현재 SCIM API에서 지원되지 않습니다. 팀과 연결된 추가 데이터가 있기 때문입니다. 모든 것을 삭제하려면 앱에서 팀을 삭제하세요.
 
 ## 역할 리소스
 
-SCIM 역할 리소스는 W&B 사용자 지정 역할에 매핑됩니다. 앞에서 언급했듯이 `/Roles` 엔드포인트는 공식 SCIM 스키마의 일부가 아니며 W&B는 W&B organization에서 사용자 지정 역할의 자동 관리를 지원하기 위해 `/Roles` 엔드포인트를 추가합니다.
+SCIM 역할 리소스는 W&B 커스텀 역할에 매핑됩니다. 앞서 언급했듯이 `/Roles` 엔드포인트는 공식 SCIM 스키마의 일부는 아니지만, W&B는 조직의 커스텀 역할을 자동화된 방식으로 관리할 수 있도록 `/Roles` 엔드포인트를 추가했습니다.
 
-### 사용자 지정 역할 가져오기
+### 커스텀 역할 조회
 
--   **엔드포인트:** **`<host-url>/scim/Roles/{id}`**
--   **메서드**: GET
--   **설명**: 역할의 고유 ID를 제공하여 사용자 지정 역할에 대한 정보를 검색합니다.
--   **요청 예시**:
+역할의 고유 ID를 제공하여 커스텀 역할에 대한 정보를 검색합니다.
 
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Roles/{id}`
+- **메소드**: GET
+
+#### 예시
+
+<Tabs>
+<Tab title="요청">
 ```bash
 GET /scim/Roles/abc
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 200)
 ```
@@ -730,7 +1571,7 @@ GET /scim/Roles/abc
 {
     "description": "A sample custom role for example",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member", // 사전 정의된 역할을 나타냄
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
@@ -742,13 +1583,13 @@ GET /scim/Roles/abc
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true // member 사전 정의 역할로부터 상속됨
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false // 관리자에 의해 추가된 커스텀 권한
         }
     ],
     "schemas": [
@@ -756,20 +1597,26 @@ GET /scim/Roles/abc
     ]
 }
 ```
+</Tab>
+</Tabs>
 
-### 사용자 지정 역할 목록
+### 커스텀 역할 목록 조회
 
--   **엔드포인트:** **`<host-url>/scim/Roles`**
--   **메서드**: GET
--   **설명**: W&B organization의 모든 사용자 지정 역할에 대한 정보를 검색합니다.
--   **요청 예시**:
+W&B 조직 내의 모든 커스텀 역할 정보를 검색합니다.
 
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Roles`
+- **메소드**: GET
+
+#### 예시
+
+<Tabs>
+<Tab title="요청">
 ```bash
 GET /scim/Roles
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 200)
 ```
@@ -780,7 +1627,7 @@ GET /scim/Roles
         {
             "description": "A sample custom role for example",
             "id": "Um9sZTo3",
-            "inheritedFrom": "member", // indicates the predefined role that the custom role inherits from
+            "inheritedFrom": "member", // 커스텀 역할이 상속받은 사전 정의된 역할
             "meta": {
                 "resourceType": "Role",
                 "created": "2023-11-20T23:10:14Z",
@@ -792,13 +1639,13 @@ GET /scim/Roles
             "permissions": [
                 {
                     "name": "artifact:read",
-                    "isInherited": true // inherited from member predefined role
+                    "isInherited": true
                 },
                 ...
                 ...
                 {
                     "name": "project:update",
-                    "isInherited": false // custom permission added by admin
+                    "isInherited": false
                 }
             ],
             "schemas": [
@@ -808,7 +1655,7 @@ GET /scim/Roles
         {
             "description": "Another sample custom role for example",
             "id": "Um9sZToxMg==",
-            "inheritedFrom": "viewer", // indicates the predefined role that the custom role inherits from
+            "inheritedFrom": "viewer",
             "meta": {
                 "resourceType": "Role",
                 "created": "2023-11-21T01:07:50Z",
@@ -819,13 +1666,13 @@ GET /scim/Roles
             "permissions": [
                 {
                     "name": "launchagent:read",
-                    "isInherited": true // inherited from viewer predefined role
+                    "isInherited": true
                 },
                 ...
                 ...
                 {
                     "name": "run:stop",
-                    "isInherited": false // custom permission added by admin
+                    "isInherited": false
                 }
             ],
             "schemas": [
@@ -841,23 +1688,26 @@ GET /scim/Roles
     "totalResults": 2
 }
 ```
+</Tab>
+</Tabs>
 
-### 사용자 지정 역할 생성
+### 커스텀 역할 생성
 
--   **엔드포인트**: **`<host-url>/scim/Roles`**
--   **메서드**: POST
--   **설명**: W&B organization에서 새 사용자 지정 역할을 만듭니다.
--   **지원되는 필드**:
+- **엔드포인트**: **`<host-url>/scim/Roles`**
+- **메소드**: POST
+- **설명**: W&B 조직에 새로운 커스텀 역할을 생성합니다.
+- **지원 필드**:
 
-| 필드 | 유형 | 필수 |
+| 필드 | 타입 | 필수 여부 |
 | --- | --- | --- |
-| name | 문자열 | 사용자 지정 역할의 이름 |
-| description | 문자열 | 사용자 지정 역할에 대한 설명 |
-| permissions | 오브젝트 배열 | 각 오브젝트에 `w&bobject:operation` 형식의 값이 있는 `name` 문자열 필드가 포함된 권한 오브젝트 배열입니다. 예를 들어 W&B Runs에 대한 삭제 작업에 대한 권한 오브젝트의 `name`은 `run:delete`입니다. |
-| inheritedFrom | 문자열 | 사용자 지정 역할이 상속할 미리 정의된 역할입니다. `member` 또는 `viewer`일 수 있습니다. |
+| `name` | String | 커스텀 역할의 이름 |
+| `description` | String | 커스텀 역할에 대한 설명 |
+| `permissions` | Object array | `w&bobject:operation` 형식의 `name` 문자열 필드를 가진 권한 오브젝트 배열. 예를 들어, W&B runs에 대한 삭제 작업 권한은 `name`이 `run:delete`가 됩니다. |
+| `inheritedFrom` | String | 커스텀 역할이 상속받을 사전 정의된 역할. `member` 또는 `viewer`가 될 수 있습니다. |
+#### 예시
 
--   **요청 예시**:
-
+<Tabs>
+<Tab title="요청">
 ```bash
 POST /scim/Roles
 ```
@@ -875,9 +1725,8 @@ POST /scim/Roles
     "inheritedFrom": "member"
 }
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 201)
 ```
@@ -886,7 +1735,7 @@ POST /scim/Roles
 {
     "description": "A sample custom role for example",
     "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
+    "inheritedFrom": "member",
     "meta": {
         "resourceType": "Role",
         "created": "2023-11-20T23:10:14Z",
@@ -898,13 +1747,13 @@ POST /scim/Roles
     "permissions": [
         {
             "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
+            "isInherited": true
         },
         ...
         ...
         {
             "name": "project:update",
-            "isInherited": false // custom permission added by admin
+            "isInherited": false
         }
     ],
     "schemas": [
@@ -912,42 +1761,21 @@ POST /scim/Roles
     ]
 }
 ```
+</Tab>
+</Tabs>
 
-### 사용자 지정 역할 삭제
+### 커스텀 역할 업데이트
 
--   **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
--   **메서드**: DELETE
--   **설명**: W&B organization에서 사용자 지정 역할을 삭제합니다. **주의해서 사용하세요**. 사용자 지정 역할이 상속된 미리 정의된 역할은 이제 작업 전에 사용자 지정 역할이 할당된 모든 사용자에게 할당됩니다.
--   **요청 예시**:
+#### 역할에 권한 추가
 
+- **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+- **메소드**: PATCH
+- **설명**: 기존 커스텀 역할에 권한을 추가합니다.
+
+<Tabs>
+<Tab title="요청">
 ```bash
-DELETE /scim/Roles/abc
-```
-
--   **응답 예시**:
-
-```bash
-(Status 204)
-```
-
-### 사용자 지정 역할 권한 업데이트
-
--   **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
--   **메서드**: PATCH
--   **설명**: W&B organization에서 사용자 지정 역할에 사용자 지정 권한을 추가하거나 제거합니다.
--   **지원되는 필드**:
-
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| operations | 오브젝트 배열 | 작업 오브젝트 배열 |
-| op | 문자열 | 작업 오브젝트 내의 작업 유형입니다. `add` 또는 `remove`일 수 있습니다. |
-| path | 문자열 | 작업 오브젝트의 정적 필드입니다. 허용되는 유일한 값은 `permissions`입니다. |
-| value | 오브젝트 배열 | 각 오브젝트에 `w&bobject:operation` 형식의 값이 있는 `name` 문자열 필드가 포함된 권한 오브젝트 배열입니다. 예를 들어 W&B Runs에 대한 삭제 작업에 대한 권한 오브젝트의 `name`은 `run:delete`입니다. |
-
--   **요청 예시**:
-
-```bash
-PATCH /scim/Roles/abc
+PATCH /scim/Roles/{role_id}
 ```
 
 ```json
@@ -955,123 +1783,203 @@ PATCH /scim/Roles/abc
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
     "Operations": [
         {
-            "op": "add", // 작업 유형을 나타냅니다. 다른 가능한 값은 `remove`입니다.
+            "op": "add",
             "path": "permissions",
             "value": [
                 {
                     "name": "project:delete"
+                },
+                {
+                    "name": "run:stop"
                 }
             ]
         }
     ]
 }
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 200)
 ```
 
+새로운 권한이 추가되어 업데이트된 역할이 반환됩니다.
+</Tab>
+</Tabs>
+
+#### 역할에서 권한 제거
+
+- **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+- **메소드**: PATCH
+- **설명**: 기존 커스텀 역할에서 권한을 제거합니다.
+
+<Tabs>
+<Tab title="요청">
+```bash
+PATCH /scim/Roles/{role_id}
+```
+
 ```json
 {
-    "description": "A sample custom role for example",
-    "id": "Um9sZTo3",
-    "inheritedFrom": "member", // indicates the predefined role
-    "meta": {
-        "resourceType": "Role",
-        "created": "2023-11-20T23:10:14Z",
-        "lastModified": "2023-11-20T23:31:23Z",
-        "location": "Roles/Um9sZTo3"
-    },
-    "name": "Sample custom role",
-    "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
-    "permissions": [
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
         {
-            "name": "artifact:read",
-            "isInherited": true // inherited from member predefined role
-        },
-        ...
-        ...
-        {
-            "name": "project:update",
-            "isInherited": false // existing custom permission added by admin before the update
-        },
-        {
-            "name": "project:delete",
-            "isInherited": false // new custom permission added by admin as part of the update
+            "op": "remove",
+            "path": "permissions",
+            "value": [
+                {
+                    "name": "project:update"
+                }
+            ]
         }
-    ],
-    "schemas": [
-        ""
     ]
 }
 ```
-
-### 사용자 지정 역할 메타데이터 업데이트
-
--   **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
--   **메서드**: PUT
--   **설명**: W&B organization에서 사용자 지정 역할의 이름, 설명 또는 상속된 역할을 업데이트합니다. 이 작업은 사용자 지정 역할의 기존 비상속 사용자 지정 권한에 영향을 미치지 않습니다.
--   **지원되는 필드**:
-
-| 필드 | 유형 | 필수 |
-| --- | --- | --- |
-| name | 문자열 | 사용자 지정 역할의 이름 |
-| description | 문자열 | 사용자 지정 역할에 대한 설명 |
-| inheritedFrom | 문자열 | 사용자 지정 역할이 상속할 미리 정의된 역할입니다. `member` 또는 `viewer`일 수 있습니다. |
-
--   **요청 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
-PUT /scim/Roles/abc
+(Status 200)
+```
+
+지정된 권한이 제거되어 업데이트된 역할이 반환됩니다.
+</Tab>
+</Tabs>
+
+### 커스텀 역할 교체
+
+- **엔드포인트**: **`<host-url>/scim/Roles/{id}`**
+- **메소드**: PUT
+- **설명**: 커스텀 역할 정의 전체를 교체합니다.
+
+<Tabs>
+<Tab title="요청">
+```bash
+PUT /scim/Roles/{role_id}
 ```
 
 ```json
 {
     "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Role"],
-    "name": "Sample custom role",
-    "description": "A sample custom role for example but now based on viewer",
+    "name": "Updated custom role",
+    "description": "Updated description for the custom role",
+    "permissions": [
+        {
+            "name": "project:read"
+        },
+        {
+            "name": "run:read"
+        },
+        {
+            "name": "artifact:read"
+        }
+    ],
     "inheritedFrom": "viewer"
 }
 ```
-
--   **응답 예시**:
-
+</Tab>
+<Tab title="응답">
 ```bash
 (Status 200)
 ```
 
-```json
+완전히 교체된 역할 정의가 반환됩니다.
+</Tab>
+</Tabs>
+
+### 커스텀 역할 삭제
+
+W&B 조직의 커스텀 역할을 삭제합니다. **주의해서 사용하세요**. 삭제 작업 후에는 해당 커스텀 역할을 할당받았던 모든 사용자에게 해당 커스텀 역할이 상속받았던 사전 정의된 역할이 할당됩니다.
+
+#### 엔드포인트
+- **URL**: `<host-url>/scim/Roles/{id}`
+- **메소드**: DELETE
+
+#### 예시
+
+<Tabs>
+<Tab title="요청">
+```bash
+DELETE /scim/Roles/abc
+```
+</Tab>
+<Tab title="응답">
+```bash
+(Status 204 No Content)
+```
+</Tab>
+</Tabs>
+
+## 고급 기능
+
+### ETag 지원
+
+SCIM API는 동시 수정 충돌을 방지하기 위한 조건부 업데이트용 ETag를 지원합니다. ETag는 `ETag` 응답 헤더와 `meta.version` 필드에 반환됩니다.
+
+#### ETag 사용법
+
+ETag를 사용하려면:
+
+1. **현재 ETag 획득**: 리소스를 GET할 때 응답의 ETag 헤더를 기록합니다.
+2. **조건부 업데이트**: 업데이트할 때 `If-Match` 헤더에 ETag를 포함합니다.
+
+#### 예시
+
+```
+# 사용자를 조회하고 ETag를 확인합니다.
+GET /scim/Users/abc
+# 응답 예시: ETag: W/"xyz123"
+
+# ETag를 사용하여 업데이트합니다.
+PATCH /scim/Users/abc
+If-Match: W/"xyz123"
+
 {
-    "description": "A sample custom role for example but now based on viewer", // changed the descripton per the request
-    "id": "Um9sZTo3",
-    "inheritedFrom": "viewer", // indicates the predefined role which is changed per the request
-    "meta": {
-        "resourceType": "Role",
-        "created": "2023-11-20T23:10:14Z",
-        "lastModified": "2023-11-20T23:31:23Z",
-        "location": "Roles/Um9sZTo3"
-    },
-    "name": "Sample custom role",
-    "organizationID": "T3JnYW5pemF0aW9uOjE0ODQ1OA==",
-    "permissions": [
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [
         {
-            "name": "artifact:read",
-            "isInherited": true // inherited from viewer predefined role
-        },
-        ... // Any permissions that are in member predefined role but not in viewer will not be inherited post the update
-        {
-            "name": "project:update",
-            "isInherited": false // custom permission added by admin
-        },
-        {
-            "name": "project:delete",
-            "isInherited": false // custom permission added by admin
+            "op": "replace",
+            "path": "organizationRole",
+            "value": "admin"
         }
-    ],
-    "schemas": [
-        ""
     ]
 }
 ```
+
+`412 Precondition Failed` 오류 응답은 조회한 이후에 리소스가 수정되었음을 나타냅니다.
+
+### 오류 처리
+
+SCIM API는 표준 SCIM 오류 응답을 반환합니다:
+
+| 상태 코드 | 설명 |
+|-------------|-------------|
+| `200` | 성공 |
+| `201` | 생성됨 |
+| `204` | 내용 없음 (성공적으로 삭제됨) |
+| `400` | 잘못된 요청 - 파라미터 또는 요청 본문이 유효하지 않음 |
+| `401` | 인증되지 않음 - 인증 실패 |
+| `403` | 금지됨 - 권한 부족 |
+| `404` | 찾을 수 없음 - 리소스가 존재하지 않음 |
+| `409` | 충돌 - 리소스가 이미 존재함 |
+| `412` | 전제 조건 실패 - ETag 불일치 |
+| `500` | 내부 서버 오류 |
+
+### 배포 유형별 구현 차이점
+
+W&B는 두 가지 별도의 SCIM API 구현을 유지 관리하며, 기능 차이는 다음과 같습니다:
+
+| 기능                   | Dedicated Cloud | Self-Managed |
+|---------------------------|-----------------|--------------|
+| 사용자 이메일 업데이트         |        -        |    &check;   |
+| 사용자 표시 이름 업데이트  |        -        |    &check;   |
+| 사용자 비활성화         |    &check;      |    &check;   |
+| 사용자 활성화         |        -        |    &check;   |
+| 사용자당 여러 이메일  |    &check;      |      -       |
+
+## 제한 사항
+
+- **최대 결과**: 요청당 9999개 항목.
+- **싱글 테넌트 환경**: 사용자당 하나의 이메일만 지원합니다.
+- **팀 삭제**: SCIM을 통해 지원되지 않습니다 (W&B 웹 인터페이스를 사용하세요).
+- **사용자 활성화**: Multi-tenant Cloud 환경에서는 지원되지 않습니다.
+- **시트 제한**: 조직의 시트 제한에 도달하면 작업이 실패할 수 있습니다.

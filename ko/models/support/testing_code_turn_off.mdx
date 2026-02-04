@@ -1,13 +1,9 @@
 ---
-title: Can I turn off wandb when testing my code?
-support:
-- artifacts
-toc_hide: true
-type: docs
+title: 코드를 테스트할 때 wandb를 끌 수 있나요?
 ---
 
-테스트 목적으로 W&B를 작동하지 않는(NOOP) 상태로 구성하려면 `wandb.init(mode="disabled")`를 사용하거나 `WANDB_MODE=disabled`를 설정하세요.
+테스트 목적으로 W&B를 no-operation (NOOP) 상태로 구성하려면 `wandb.init(mode="disabled")`를 사용하거나 `WANDB_MODE=disabled`로 설정하세요.
 
 <Note>
-`wandb.init(mode="disabled")`를 사용해도 W&B가 아티팩트를 `WANDB_CACHE_DIR`에 저장하는 것을 막을 수는 없습니다.
+`wandb.init(mode="disabled")`를 사용하더라도 W&B가 `WANDB_CACHE_DIR`에 Artifacts 를 저장하는 것은 방지되지 않습니다.
 </Note>

@@ -1,0 +1,193 @@
+---
+title: '튜토리얼: Kubernetes에서 W&B Launch 설정하기'
+---
+
+W&B Launch 를 사용하여 ML 워크로드를 Kubernetes 클러스터로 푸시할 수 있습니다. 이를 통해 ML 엔지니어는 Kubernetes로 이미 관리 중인 리소스를 W&B 내의 심플한 인터페이스에서 바로 사용할 수 있습니다.
+
+W&B는 W&B가 관리하는 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 통해 클러스터에 배포할 수 있는 [공식 Launch 에이전트 이미지](https://hub.docker.com/r/wandb/launch-agent)를 제공합니다.
+
+W&B는 [Kaniko](https://github.com/GoogleContainerTools/kaniko) 빌더를 사용하여 Launch 에이전트가 Kubernetes 클러스터에서 Docker 이미지를 빌드할 수 있도록 지원합니다. Launch 에이전트를 위한 Kaniko 설정 방법이나, job 빌드 기능을 끄고 사전 빌드된 Docker 이미지만 사용하는 방법은 [Advanced agent set up](./setup-agent-advanced)을 참조하세요.
+
+<Note>
+Helm을 설치하고 W&B Launch 에이전트 Helm 차트를 적용하거나 업그레이드하려면, Kubernetes 리소스를 생성, 업데이트 및 삭제할 수 있는 충분한 권한을 가진 클러스터에 대한 `kubectl` access 가 필요합니다. 일반적으로 cluster-admin 또는 이에 상응하는 권한을 가진 커스텀 역할의 사용자가 필요합니다.
+</Note>
+
+{/* Future: insert diagram here */}
+
+## Kubernetes를 위한 큐 설정
+
+Kubernetes 타겟 리소스에 대한 Launch 큐 설정은 [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 또는 [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)과 유사합니다.
+
+Launch 큐를 생성할 때 Kubernetes 워크로드 리소스 spec의 모든 측면을 제어할 수 있습니다.
+
+<Tabs>
+<Tab title="Kubernetes job spec">
+```yaml
+spec:
+  template:
+    spec:
+      containers:
+        - env:
+            - name: MY_ENV_VAR
+              value: some-value
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+metadata:
+  labels:
+    queue: k8s-test
+namespace: wandb
+```
+</Tab>
+<Tab title="Custom resource spec">
+일부 use case 에서는 `CustomResource` 정의를 사용하고 싶을 수 있습니다. 예를 들어 멀티 노드 분산 트레이닝을 수행하려는 경우 `CustomResource` 정의가 유용합니다. Volcano를 사용한 멀티 노드 job으로 Launch를 사용하는 튜토리얼에서 애플리케이션 예시를 확인하세요. 또 다른 use case 로는 W&B Launch 를 Kubeflow와 함께 사용하고 싶은 경우가 있을 수 있습니다.
+
+다음 YAML 스니펫은 Kubeflow를 사용하는 샘플 Launch 큐 설정을 보여줍니다.
+
+```yaml
+kubernetes:
+  kind: PyTorchJob
+  spec:
+    pytorchReplicaSpecs:
+      Master:
+        replicas: 1
+        template:
+          spec:
+            containers:
+              - name: pytorch
+                image: '${image_uri}'
+                imagePullPolicy: Always
+        restartPolicy: Never
+      Worker:
+        replicas: 2
+        template:
+          spec:
+            containers:
+              - name: pytorch
+                image: '${image_uri}'
+                imagePullPolicy: Always
+        restartPolicy: Never
+    ttlSecondsAfterFinished: 600
+  metadata:
+    name: '${run_id}-pytorch-job'
+  apiVersion: kubeflow.org/v1
+```
+</Tab>
+</Tabs>
+
+보안상의 이유로 W&B는 Launch 큐에 다음 리소스가 지정되지 않은 경우 이를 주입합니다.
+
+- `securityContext`
+- `backOffLimit`
+- `ttlSecondsAfterFinished`
+
+다음 YAML 스니펫은 이러한 값들이 launch 큐에서 어떻게 나타나는지 보여줍니다.
+
+```yaml title="example-spec.yaml"
+spec:
+  template:
+    `backOffLimit`: 0
+    ttlSecondsAfterFinished: 60
+    securityContext:
+      allowPrivilegeEscalation: False,
+      capabilities:
+        drop:
+          - ALL,
+      seccompProfile:
+        type: "RuntimeDefault"
+```
+
+## 큐 생성하기
+
+Kubernetes를 컴퓨팅 리소스로 사용하는 큐를 W&B 앱에서 생성합니다.
+
+1. [Launch 페이지](https://wandb.ai/launch)로 이동합니다.
+2. **Create Queue** 버튼을 클릭합니다.
+3. 큐를 생성할 **Entity** 를 선택합니다.
+4. **Name** 필드에 큐 이름을 입력합니다.
+5. **Resource** 로 **Kubernetes** 를 선택합니다.
+6. **Configuration** 필드 내에 [이전 섹션에서 설정한](#configure-a-queue-for-kubernetes) Kubernetes Job 워크플로우 spec 또는 Custom Resource spec을 입력합니다.
+
+## Helm으로 Launch 에이전트 설정하기
+
+W&B에서 제공하는 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 Kubernetes 클러스터에 Launch 에이전트를 배포합니다. `values.yaml` [파일](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)을 통해 launch 에이전트의 행동을 제어하세요.
+
+일반적으로 launch 에이전트 설정 파일(`~/.config/wandb/launch-config.yaml`)에 정의되는 내용을 `values.yaml` 파일의 `launchConfig` 키 안에 지정합니다.
+
+예를 들어, Kaniko Docker 이미지 빌더를 사용하는 EKS에서 Launch 에이전트를 실행할 수 있게 해주는 Launch 에이전트 설정이 다음과 같다고 가정해 보겠습니다.
+
+```yaml title="launch-config.yaml"
+queues:
+	- <queue name>
+max_jobs: <n concurrent jobs>
+environment:
+	type: aws
+	region: us-east-1
+registry:
+	type: ecr
+	uri: <my-registry-uri>
+builder:
+	type: kaniko
+	build-context-store: <s3-bucket-uri>
+```
+
+`values.yaml` 파일 내에서는 다음과 같이 구성될 수 있습니다.
+
+```yaml title="values.yaml"
+agent:
+  labels: {}
+  # W&B API 키
+  apiKey: ''
+  # 에이전트에 사용할 컨테이너 이미지
+  image: wandb/launch-agent:latest
+  # 에이전트 이미지의 Image pull policy
+  imagePullPolicy: Always
+  # 에이전트 spec을 위한 리소스 블록
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Launch 에이전트를 배포할 네임스페이스
+namespace: wandb
+
+# W&B API URL (여기에 자신의 URL을 설정하세요)
+baseUrl: https://api.wandb.ai
+
+# Launch 에이전트가 배포할 수 있는 추가 타겟 네임스페이스
+additionalTargetNamespaces:
+  - default
+  - wandb
+
+# 이 부분은 Launch 에이전트 설정의 실제 내용으로 설정되어야 합니다.
+launchConfig: |
+  queues:
+    - <queue name>
+  max_jobs: <n concurrent jobs>
+  environment:
+    type: aws
+    region: <aws-region>
+  registry:
+    type: ecr
+    uri: <my-registry-uri>
+  builder:
+    type: kaniko
+    build-context-store: <s3-bucket-uri>
+
+# Git 인증 정보 파일의 내용. 이는 k8s 시크릿에 저장되고
+# 에이전트 컨테이너에 마운트됩니다. 프라이빗 레포지토리를
+# 클론하려는 경우 이 값을 설정하세요.
+gitCreds: |
+
+# W&B 서비스 계정을 위한 어노테이션. GCP에서 workload identity를 설정할 때 유용합니다.
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account:
+    azure.workload.identity/client-id:
+
+# Azure와 함께 Kaniko를 사용하는 경우 Azure 스토리지 엑세스 키를 설정합니다.
+azureStorageAccessKey: ''
+```
+
+레지스트리, 환경 및 필수 에이전트 권한에 대한 자세한 정보는 [Advanced agent set up](./setup-agent-advanced)을 참조하세요.

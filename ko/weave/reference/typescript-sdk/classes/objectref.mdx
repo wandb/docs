@@ -1,0 +1,166 @@
+---
+title: '클래스: ObjectRef'
+description: TypeScript SDK 레퍼런스
+---
+
+[weave](../) / ObjectRef
+
+저장된 Weave 오브젝트에 대한 참조를 나타냅니다.
+
+일반적으로 최종 사용자는 이 클래스와 직접 상호작용할 필요가 없습니다.
+
+ObjectRef에는 Weave의 스토리지 시스템에서 저장된 오브젝트를 고유하게 식별하는 프로젝트 ID, 오브젝트 ID 및 digest가 포함되어 있습니다.
+
+`Example`
+
+```ts
+const ref = new ObjectRef('my-project', 'abc123', 'def456');
+const uri = ref.uri(); // weave:///my-project/object/abc123:def456
+```
+
+## Table of contents
+
+### Constructors
+
+- [constructor](./objectref#constructor)
+
+### Properties
+
+- [digest](./objectref#digest)
+- [objectId](./objectref#objectid)
+- [projectId](./objectref#projectid)
+
+### Methods
+
+- [get](./objectref#get)
+- [ui\_url](./objectref#ui_url)
+- [uri](./objectref#uri)
+- [fromUri](./objectref#fromuri)
+
+## Constructors
+
+### constructor
+
+• **new ObjectRef**(`projectId`, `objectId`, `digest`): [`ObjectRef`](./objectref)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `projectId` | `string` |
+| `objectId` | `string` |
+| `digest` | `string` |
+
+#### Returns
+
+[`ObjectRef`](./objectref)
+
+#### Defined in
+
+[weaveObject.ts:26](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L26)
+
+## Properties
+
+### digest
+
+• **digest**: `string`
+
+#### Defined in
+
+[weaveObject.ts:29](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L29)
+
+___
+
+### objectId
+
+• **objectId**: `string`
+
+#### Defined in
+
+[weaveObject.ts:28](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L28)
+
+___
+
+### projectId
+
+• **projectId**: `string`
+
+#### Defined in
+
+[weaveObject.ts:27](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L27)
+
+## Methods
+
+### get
+
+▸ **get**(): `Promise`\<`any`\>
+
+#### Returns
+
+`Promise`\<`any`\>
+
+#### Defined in
+
+[weaveObject.ts:66](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L66)
+
+___
+
+### ui\_url
+
+▸ **ui_url**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[weaveObject.ts:61](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L61)
+
+___
+
+### uri
+
+▸ **uri**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[weaveObject.ts:57](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L57)
+
+___
+
+### fromUri
+
+▸ **fromUri**(`uri`): [`ObjectRef`](./objectref)
+
+Weave URI 문자열로부터 ObjectRef를 생성합니다.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `uri` | `string` | 다음과 같은 형식의 Weave URI: weave:///entity/project/object/name:digest |
+
+#### Returns
+
+[`ObjectRef`](./objectref)
+
+새로운 ObjectRef 인스턴스
+
+`Throws`
+
+URI 형식이 유효하지 않거나 오브젝트 참조가 아닌 경우 Error를 발생시킵니다.
+
+`Example`
+
+```ts
+const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
+```
+
+#### Defined in
+
+[weaveObject.ts:44](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L44)
