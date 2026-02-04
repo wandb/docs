@@ -2437,7 +2437,139 @@
     },
     {
       "source": "/models/integrations/openai",
-      "destination": "/models/integrations/openai-api"
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/autotrain",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/catalyst",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/cohere-fine-tuning",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/composer",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/dagster",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/databricks",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/deepchecks",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/deepchem",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/docker",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/dspy",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/fastai",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/fastai/v1",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/hydra",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/kubeflow-pipelines-kfp",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/lightgbm",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/metaflow",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/mmengine",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/mmf",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/nim",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/openai-api",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/openai-gym",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/paddledetection",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/paddleocr",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/prodigy",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/pytorch-geometric",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/sagemaker",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/scikit",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/skorch",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/spacy",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/stable-baselines-3",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/tensorboard",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/ultralytics",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/integrations/w-and-b-for-julia",
+      "destination": "/models/integrations"
     },
     {
       "source": "/models/ref/python/init",
