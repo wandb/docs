@@ -168,6 +168,35 @@ jobs:
             core.warning(`Unsupported event type: ${context.eventName}`);
             return null;
 
+      - name: Debug - Show lychee config being used
+        if: |
+          steps.pr-context.outputs.pr_closed != 'true' &&
+          ((github.event_name == 'pull_request' && 
+            github.event.pull_request.head.repo.fork == true && 
+            steps.fork-docs-check.outputs.any_changed == 'true') ||
+           (github.event_name == 'deployment_status' && 
+            steps.changed-files.outputs.any_changed == 'true') ||
+           github.event_name == 'workflow_dispatch')
+        run: |
+          echo "=== Lychee Configuration Debug ==="
+          echo "Working directory: $(pwd)"
+          echo "Git HEAD commit: $(git rev-parse HEAD)"
+          echo "Git branch: $(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'detached HEAD')"
+          echo ""
+          if [ -f "lychee.toml" ]; then
+            echo "✓ lychee.toml found in working directory"
+            echo "Last modified by commit: $(git log -1 --format='%H %ai %s' -- lychee.toml)"
+            echo ""
+            echo "=== Current verbosity setting ==="
+            grep "^verbose = " lychee.toml || echo "No verbose setting found"
+            echo ""
+            echo "=== Last 5 exclude patterns ==="
+            grep -A 25 "^exclude = " lychee.toml | tail -6
+          else
+            echo "✗ lychee.toml not found in working directory!"
+          fi
+          echo "=================================="
+
       - name: Link Checker
         id: lychee
         # Run if:
@@ -195,6 +224,7 @@ jobs:
           # Same-repo PRs: Wait for deployment and use preview URL
           # Fork PRs: Run immediately and check against production (no preview available)
           args: >-
+            --config lychee.toml
             --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
             ${{ steps.fork-docs-check.outputs.all_changed_files || steps.changed-files.outputs.all_changed_files || '.' }}
 

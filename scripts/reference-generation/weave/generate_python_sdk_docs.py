@@ -238,6 +238,9 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
             sections.append(process_object(obj, generator, module_name))
     else:
         # Fall back to processing all public members
+        # Track objects we've already documented to avoid duplicates from aliases
+        documented_objects = set()
+        
         for name in dir(module):
             if name.startswith("_"):
                 continue
@@ -248,6 +251,13 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
             # Otherwise, only include items that belong to this specific module
             if module_name != "weave" and hasattr(obj, "__module__") and obj.__module__ != module_name:
                 continue
+            
+            # Skip if we've already documented this object (handles aliases)
+            # Use id() to check object identity, not equality
+            obj_id = id(obj)
+            if obj_id in documented_objects:
+                continue
+            documented_objects.add(obj_id)
             
             sections.append(process_object(obj, generator, module_name))
     

@@ -48,7 +48,7 @@ W&B can connect to the following storage providers:
 - [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage): High-performance, S3-compatible object storage service optimized for AI workloads.
 - [Amazon S3](https://aws.amazon.com/s3/): Object storage service offering industry-leading scalability, data availability, security, and performance.
 - [Google Cloud Storage](https://cloud.google.com/storage): Managed service for storing unstructured data at scale.
-- [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs): Cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
+- [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): Cloud-based object storage solution for storing massive amounts of unstructured data like text, binary data, images, videos, and logs.
 - S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) or other enterprise-grade solutions hosted in your cloud or on-premises infrastructure.
 
 The following table shows the availability of BYOB at each scope for each W&B deployment type.
@@ -76,10 +76,10 @@ After [verifying availability](#availability-matrix), you are ready to provision
 - A CoreWeave account with AI Object Storage enabled and with permission to create buckets, API access keys, and secret keys.
 - Your W&B instance must be able to connect to CoreWeave network endpoints.
 
-For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/create-bucket) in the CoreWeave documentation.
+For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/buckets/create-bucket) in the CoreWeave documentation.
 
 1. <a id="coreweave-org-id"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
-    1. Log in to the [W&B App](https://wandb.ai/).
+    1. Log in to the [W&B App](https://wandb.ai/site).
     1. In the left navigation, click **Create a new team**.
     1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
     1. Leave this page open. You will use it to [configure W&B](#configure-byob).
@@ -113,7 +113,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
     ```
     CoreWeave storage is S3-compatible. For details about CORS, refer to [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) in the AWS documentation.
 
-1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs](./presigned-urls) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy) in the CoreWeave documentation.
+1. Configure a bucket policy that grants the required permissions for your W&B deployment to access the bucket and generate [pre-signed URLs](./presigned-urls) that AI workloads in your cloud infrastructure or user browsers utilize to access the bucket. Refer to [Bucket Policy Reference](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/bucket-access/bucket-policies) in the CoreWeave documentation.
 
     ```json
     {
@@ -215,10 +215,10 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
 
     Replace `<Your_Account_Id>` and `<aws_kms_key.key.arn>` accordingly.
 
-    If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), replace `<aws_principal_and_role_arn>` with the corresponding value:
+    If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options#w%26b-multi-tenant-cloud) or [Dedicated Cloud](/platform/hosting/hosting-options#w%26b-dedicated-cloud), replace `<aws_principal_and_role_arn>` with the corresponding value:
 
-    * For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud): `arn:aws:iam::725579432336:role/WandbIntegration`
-    * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud): `arn:aws:iam::830241207209:root`
+    * **Multi-tenant Cloud**: `arn:aws:iam::725579432336:role/WandbIntegration`
+    * **Dedicated Cloud**: `arn:aws:iam::830241207209:root`
 
     This policy grants your AWS account full access to the key and also assigns the required permissions to the AWS account hosting the W&B Platform. Keep a record of the KMS Key ARN.
 
@@ -297,7 +297,7 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
 For more details, see the [AWS Self-Managed hosting guide](/platform/hosting/hosting-options/).
 </Tab>
 <Tab title="Google Cloud">
-For details, see [Create a bucket](https://cloud.google.com/storage/docs/creating-buckets) in the Google Cloud documentation.
+For details, see [Create a bucket](https://docs.cloud.google.com/storage/docs/creating-buckets) in the Google Cloud documentation.
 1. Provision the GCS bucket.
 
     Follow these steps to provision the GCS bucket in your Google Cloud project:
@@ -438,7 +438,7 @@ s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>&t
 In the address, the `region` parameter is mandatory.
 
 <Note>
-This section is for S3-compatible storage buckets that are not hosted in S3, such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) or other enterprise-grade S3-compatible solutions hosted on your premises. For storage buckets hosted in AWS S3, see the **AWS** tab instead.
+This section is for S3-compatible storage buckets that are not hosted in S3, such as [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor) or other enterprise-grade S3-compatible solutions hosted on your premises. For storage buckets hosted in AWS S3, see the **AWS** tab instead.
 
 MinIO Open Source is in [maintenance mode](https://github.com/minio/minio) with no active development or pre-compiled binaries. For production deployments, use enterprise-grade S3-compatible solutions.
 
@@ -565,4 +565,4 @@ This section helps troubleshoot problems connecting to CoreWeave AI Object Stora
   - Connecting to LOTA endpoints from W&B is not yet supported.  To express interest, [contact support](mailto:support@wandb.com).
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
-  - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys) in the CoreWeave documentation.
+  - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) in the CoreWeave documentation.
