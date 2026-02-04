@@ -1,29 +1,57 @@
 ---
-title: BYOB に事前署名済みの URL を使用してアクセスする
+title: 署名付き URL を使用した BYOB へのアクセス
 ---
 
-W&B は事前署名付き URL を使用して、AI ワークロードやユーザー ブラウザからの blob ストレージへのアクセスを簡素化します。事前署名付き URL の基本情報については、[AWS S3 の事前署名付き URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)、[Google Cloud Storage の署名付き URL](https://cloud.google.com/storage/docs/access-control/signed-urls)、[Azure Blob Storage の共有アクセス署名](https://learn.microsoft.com/azure/storage/common/storage-sas-overview) を参照してください。
+W&B は、AI ワークロードやユーザーブラウザから blob ストレージへのアクセスを簡素化するために、署名付き URL（pre-signed URL）を使用します。署名付き URL に関する基本的な情報は、各クラウドプロバイダーのドキュメントを参照してください。
 
-必要に応じて、ネットワーク内の AI ワークロードまたはユーザー ブラウザー クライアントが W&B プラットフォームから事前署名付き URL を要求します。その後、W&B プラットフォームは関連する blob ストレージにアクセスして、必要な権限で事前署名付き URL を生成し、クライアントに返します。クライアントは、事前署名付き URL を使用して blob ストレージにアクセスし、オブジェクトのアップロードまたは取得操作を行います。オブジェクトのダウンロードの URL は 1 時間で期限切れになり、巨大なオブジェクトをチャンクでアップロードするのに時間がかかる可能性があるため、オブジェクトのアップロードについては 24 時間有効です。
+- [AWS S3 の署名付き URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)（[CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) などの S3 互換ストレージにも適用されます）
+- [Google Cloud Storage の署名付き URL](https://cloud.google.com/storage/docs/access-control/signed-urls)
+- [Azure Blob Storage の Shared Access Signature](https://learn.microsoft.com/azure/storage/common/storage-sas-overview)
 
-## チームレベルのアクセス制御
+仕組み :
+1. 必要に応じて、ネットワーク内の AI ワークロードまたはユーザーブラウザクライアントが W&B に署名付き URL をリクエストします。
+1. W&B は、リクエストに応じて blob ストレージにアクセスし、必要な権限を持つ署名付き URL を生成して応答します。
+1. W&B はクライアントに署名付き URL を返します。
+1. クライアントは署名付き URL を使用して、blob ストレージへの読み取りまたは書き込みを行います。
 
-各事前署名付き URL は、W&B プラットフォームの[チームレベルのアクセス制御](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) に基づいて特定のバケットに限定されます。ユーザーが[セキュア ストレージ コネクタ](/ja/platform/hosting/data-security/secure-storage-connector/)を使用して blob ストレージ バケットにマッピングされているチームの一員であり、そのユーザーがそのチームにのみ属している場合、彼らの要求に対して生成された事前署名付き URL には、他のチームにマッピングされている blob ストレージ バケットにアクセスする権限がありません。
+署名付き URL の有効期限 :
+- **読み取り**: 1 時間
+- **書き込み**: 24 時間（大きな オブジェクト をチャンクに分けてアップロードするための時間を確保するため）
+
+## Team レベルのアクセス制御
+
+各署名付き URL は、W&B プラットフォームにおける [team レベルのアクセス制御](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) に基づき、特定の バケット に制限されます。ユーザーが [secure storage connector](./secure-storage-connector) を使用してストレージ バケット にマッピングされた Team に所属しており、かつその ユーザー がその Team にのみ所属している場合、そのリクエストに対して生成される署名付き URL は、他の Team にマッピングされたストレージ バケット にアクセスする権限を持ちません。
 
 <Note>
-W&B は、ユーザーを所属すべきチームのみに追加することを推奨します。
+W&B では、ユーザー を本来所属すべき Team にのみ追加することを推奨しています。
 </Note>
 
 ## ネットワーク制限
+W&B では、IAM ポリシーを使用して、署名付き URL を利用して外部ストレージにアクセスできるネットワークを制限することを推奨しています。これにより、W&B 専用の バケット へのアクセスを、AI ワークロードが実行されているネットワーク、または ユーザー のマシンにマッピングされたゲートウェイ IP アドレスからのみに限定することができます。
 
-W&B は、IAM ポリシーに基づくバケットの制限を使用して、事前署名付き URL を使用して blob ストレージにアクセスできるネットワークを制限することを推奨します。
-
-AWS の場合、[VPC または IP アドレスに基づくネットワーク制限](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities)を使用できます。これにより、あなたの AI ワークロードが稼働しているネットワークから、または W&B UI を使用してアーティファクトにアクセスする場合にユーザーマシンにマッピングされるゲートウェイの IP アドレスから、のみ W&B に特化したバケットにアクセスできることが保証されます。
+- CoreWeave AI Object Storage については、CoreWeave ドキュメントの [Bucket policy reference](https://docs.coreweave.com/docs/products/storage/object-storage/reference/bucket-policy#condition) を参照してください。
+- AWS S3 またはオンプレミスでホストされている MinIO などの S3 互換ストレージについては、[S3 ユーザーガイド](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrlUploadObject-LimitCapabilities)、[MinIO ドキュメント](https://github.com/minio/minio)、またはご利用の S3 互換ストレージプロバイダーのドキュメントを参照してください。
 
 ## 監査ログ
 
-W&B は、blob ストレージ固有の監査ログに加えて、[W&B 監査ログ](/ja/platform/hosting/monitoring-usage/audit-logging/)を使用することを推奨します。後者については、[AWS S3 のアクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)、[Google Cloud Storage の監査ログ](https://cloud.google.com/storage/docs/audit-logging)、[Azure blob storage の監視](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)を参照してください。管理者とセキュリティ チームは、W&B 製品でどのユーザーが何をしているかを追跡し、特定のユーザーに対していくつかの操作を制限する必要があると判断した場合に必要な対策を講じるために監査ログを使用できます。
+W&B では、[W&B 監査ログ](../monitoring-usage/audit-logging) と blob ストレージ固有の監査ログを併用することを推奨しています。blob ストレージの監査ログについては、各クラウドプロバイダーのドキュメントを参照してください。
+- [CoreWeave 監査ログ](https://docs.coreweave.com/docs/products/storage/object-storage/concepts/audit-logging#audit-logging-policies)
+- [AWS S3 アクセスログ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)
+- [Google Cloud Storage 監査ログ](https://cloud.google.com/storage/docs/audit-logging)
+- [Azure Blob Storage のモニタリング](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage)
+
+管理者およびセキュリティチームは、監査ログを使用して、どの ユーザー が W&B 製品内でどのような操作を行っているかを追跡し、特定の ユーザー に対して一部の操作を制限する必要があると判断した場合に適切な措置を講じることができます。
 
 <Note>
-事前署名付き URL は、W&B でサポートされている唯一の blob ストレージ アクセス メカニズムです。W&B は、リスク許容度に応じて、セキュリティ制御の上記リストの一部またはすべてを設定することを推奨します。
+W&B において、署名付き URL はサポートされている唯一の blob ストレージアクセス手法です。組織のニーズに応じて、上記のセキュリティ制御の一部またはすべてを設定することを推奨します。
 </Note>
+
+## 署名付き URL をリクエストしたユーザーの特定
+W&B が署名付き URL を返す際、URL 内のクエリ パラメータ にリクエストした ユーザー のユーザー名が含まれます。
+
+| ストレージプロバイダー | 署名付き URL クエリ パラメータ |
+|-----------------------------|-----------|
+| CoreWeave AI Object Storage | `X-User`  |
+| AWS S3 storage              | `X-User`  |
+| Google Cloud storage        | `X-User`  |
+| Azure  blob storage         | `scid`    |

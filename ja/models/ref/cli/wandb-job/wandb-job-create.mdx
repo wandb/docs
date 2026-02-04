@@ -2,30 +2,50 @@
 title: wandb job create
 ---
 
-**使用方法**
+{/*
+  このコマンドのイントロダクション・コンテンツを追加するには：
+  1. スニペットファイルを作成：/snippets/en/_includes/cli/wandb-job-create.mdx
+  2. そのファイルにイントロダクションの内容を追加
+  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
 
-`wandb job create [OPTIONS] {git|code|image} PATH`
+import WandbJobCreate from "/snippets/en/_includes/cli/wandb-job-create.mdx";
 
-**概要**
+<WandbJobCreate/>
 
-wandb run を使用せずにソースからジョブを作成します。
+  スニペットは次回の再生成時に自動的に検出されます。
+*/}
 
-ジョブには、git、code、または image の3種類があります。
+wandb run を介さずに、ソースからジョブを作成します。
 
-git: パス内またはメインの Python 実行可能ファイルを指すエントリポイントを明示的に指定した git ソースです。code: requirements.txt ファイルを含むコードパスです。image: Docker イメージです。
+ジョブには git、code、image の3つのタイプがあります。
 
-**オプション**
+git: git ソース。パス内または明示的に指定されたメインの Python 実行ファイルを指すエントリポイントを持ちます。code: requirements.txt ファイルを含むコードパス。image: Docker イメージ。
 
-| **オプション** | **説明** |
+## Usage
+
+```bash
+wandb job create JOB_TYPE PATH [OPTIONS]
+```
+
+## Arguments
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `JOB_TYPE` | 説明はありません | はい |
+| `PATH` | 説明はありません | はい |
+
+## Options
+
+| オプション | 説明 |
 | :--- | :--- |
-| `-p, --project` | ジョブをリストするプロジェクトを指定します。 |
-| `-e, --entity` | ジョブが属するエンティティ |
-| `-n, --name` | ジョブの名前 |
-| `-d, --description` | ジョブの説明 |
-| `-a, --alias` | ジョブのエイリアス |
-| `--entry-point` | スクリプトのエントリポイントで、実行可能ファイルとエントリポイントファイルを含みます。code または repo ジョブでは必須です。--build-context が提供されている場合、エントリポイントコマンド内のパスはビルドコンテキストに対して相対的なものになります。 |
-| `-g, --git-hash` | git ジョブのソースとして使用するコミット参照 |
-| `-r, --runtime` | ジョブを実行する Python ランタイム |
-| `-b, --build-context` | ジョブのソースコードのルートからビルドコンテキストへのパスです。提供されている場合、これが Dockerfile とエントリポイントのベースパスとして使用されます。 |
-| `--base-image` | ジョブに使用するベースイメージ。image ジョブとは互換性がありません。 |
-| `--dockerfile` | ジョブの Dockerfile へのパス。--build-context が提供されている場合、Dockerfile のパスはビルドコンテキストに対して相対的になります。 |
+| `--project`, `-p` | ジョブをリストアップしたい Projects 。 |
+| `--entity`, `-e` | ジョブが属する Entities |
+| `--name`, `-n` | ジョブの名前 |
+| `--description`, `-d` | ジョブの説明 |
+| `--alias`, `-a` | ジョブの エイリアス |
+| `--entry-point`, `-E` | 実行ファイルとエントリポイントファイルを含む、スクリプトへのエントリポイント。code または repo ジョブには必須です。--build-context が指定されている場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。 |
+| `--git-hash`, `-g` | git ジョブのソースとして使用するコミット参照 |
+| `--runtime`, `-r` | ジョブを実行する Python ランタイム |
+| `--build-context`, `-b` | ジョブソースコードのルートからのビルドコンテキストへのパス。指定された場合、これが Dockerfile とエントリポイントのベースパスとして使用されます。 |
+| `--base-image`, `-B` | ジョブに使用するベースイメージ。image ジョブとは併用できません。 |
+| `--dockerfile`, `-D` | ジョブの Dockerfile へのパス。--build-context が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。 |

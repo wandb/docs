@@ -1,0 +1,56 @@
+---
+title: W&B Inference
+description: W&B Weave 및 OpenAI 호환 API를 통해 오픈 소스 파운데이션 모델 에 엑세스하세요
+mode: wide
+---
+
+W&B Inference를 사용하면 W&B Weave 및 OpenAI 호환 API를 통해 주요 오픈 소스 파운데이션 모델에 엑세스할 수 있습니다. 다음이 가능합니다:
+
+- 호스팅 제공업체에 가입하거나 모델을 직접 호스팅하지 않고도 AI 애플리케이션 및 에이전트 구축
+- [W&B Weave Playground](/weave/guides/tools/playground)에서 [지원되는 모델](/inference/models) 사용해 보기
+
+Weave를 통해 W&B Inference 기반 애플리케이션을 추적, 평가, 모니터링 및 개선할 수 있습니다.
+
+
+## 퀵스타트
+
+다음은 Python을 사용한 간단한 예시입니다:
+
+```python
+import openai
+
+client = openai.OpenAI(
+    # 커스텀 base URL은 W&B Inference를 가리킵니다.
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings 에서 API 키를 생성하세요.
+    api_key="<your-api-key>",
+
+    # 선택 사항: 사용량 추적을 위한 Team 및 프로젝트
+    project="<your-team>/<your-project>",
+)
+
+response = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Tell me a joke."}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+## 다음 단계
+
+1. [사용 가능한 모델](/inference/models) 및 [사용 정보와 제한 사항](/inference/usage-limits/) 확인
+2. [사전 요구 사항](/inference/prerequisites/)을 사용하여 계정 설정
+3. [API](/inference/api-reference/) 또는 [UI](/inference/ui-guide/)를 통해 서비스 사용
+4. [사용 예시](/inference/examples/) 시도해 보기
+
+## 사용 세부 정보
+
+<Info>
+
+가격, 사용 제한 및 크레딧에 대한 정보는 [사용 정보 및 제한 사항](/inference/usage-limits/)을 참조하세요.
+</Info>

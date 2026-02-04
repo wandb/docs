@@ -1,155 +1,117 @@
 ---
-title: イメージ
+title: 画像
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L65-L689" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py" />
 
-W&B に画像をログするためのフォーマット。
+## <kbd>class</kbd> `Image`
+W&B に画像をログ記録するためのクラスです。
+
+### <kbd>method</kbd> `Image.__init__`
 
 ```python
-Image(
-    data_or_path: "ImageDataOrPathType",
+__init__(
+    data_or_path: 'ImageDataOrPathType',
     mode: Optional[str] = None,
     caption: Optional[str] = None,
     grouping: Optional[int] = None,
-    classes: Optional[Union['Classes', Sequence[dict]]] = None,
-    boxes: Optional[Union[Dict[str, 'BoundingBoxes2D'], Dict[str, dict]]] = None,
-    masks: Optional[Union[Dict[str, 'ImageMask'], Dict[str, dict]]] = None,
-    file_type: Optional[str] = None
-) -> None
+    classes: Optional[ForwardRef('Classes'), Sequence[dict]] = None,
+    boxes: Optional[Dict[str, ForwardRef('BoundingBoxes2D')], Dict[str, dict]] = None,
+    masks: Optional[Dict[str, ForwardRef('ImageMask')], Dict[str, dict]] = None,
+    file_type: Optional[str] = None,
+    normalize: bool = True
+) → None
 ```
 
-| Args | Description |
-| :--- | :--- |
-|  `data_or_path` |  (numpy array, string, io) 画像データの numpy 配列または PIL 画像を受け付けます。クラスはデータフォーマットを推測して変換します。|
-|  `mode` |  (string) 画像のための PIL モード。最も一般的なのは "L", "RGB", "RGBA" です。詳しくは https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes を参照してください。|
-|  `caption` |  (string) 画像表示用のラベル。|
+`wandb.Image` オブジェクトを初期化します。
 
-注意 : `wandb.Image` として `torch.Tensor` をログする際、画像は正規化されます。画像を正規化したくない場合は、テンソルを PIL Image に変換してください。
+このクラスは様々な画像データ形式を処理し、必要に応じてピクセル値を [0, 255] の範囲に自動的に正規化することで、 W&B バックエンドとの互換性を確保します。
 
-#### 例:
+* [0, 1] の範囲のデータは 255 倍され、 uint8 に変換されます。
+* [-1, 1] の範囲のデータは、 -1 を 0 に、 1 を 255 にマッピングすることで [0, 255] にスケール調整され、 uint8 に変換されます。
+* [-1, 1] 外かつ [0, 255] 外のデータは、 [0, 255] にクリップされ、 uint8 に変換されます（値が [0, 255] を超える場合は警告が表示されます）。
+* すでに [0, 255] の範囲にあるデータは、変更されずに uint8 に変換されます。
 
-### numpy 配列から wandb.Image を作成
+**arg:**
+
+ - `data_or_path`: 画像データの NumPy 配列 / PyTorch tensor 、 PIL 画像オブジェクト、または画像ファイルへのパスを受け取ります。 NumPy 配列または PyTorch tensor が提供された場合、画像データは指定された `file_type` で保存されます。 `normalize` が `False` に設定されていない限り、値が [0, 255] の範囲にない、またはすべての値が [0, 1] の範囲にある場合、画像ピクセル値は [0, 255] の範囲に正規化されます。
+    - PyTorch tensor は (channel, height, width) の形式である必要があります。
+    - NumPy 配列は (height, width, channel) の形式である必要があります。
+ - `mode`: 画像の PIL モード。一般的なものは "L"、 "RGB"、 "RGBA" です。
+ - 詳細については Pillow の公式ドキュメントを参照してください: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
+ - `caption`: 画像表示用のキャプション（ラベル）。
+ - `grouping`: 画像のグループ化番号。
+ - `classes`: バウンディングボックスや画像マスクのラベル付けに使用される、画像のクラス情報のリスト。
+ - `boxes`: 画像のバウンディングボックス情報を含む辞書。
+ - https://docs.wandb.ai/ref/python/data-types/boundingboxes2d/ を参照してください。
+ - `masks`: 画像のマスク情報を含む辞書。
+ - https://docs.wandb.ai/ref/python/data-types/imagemask/ を参照してください。
+ - `file_type`: 画像を保存するファイル形式。 `data_or_path` が画像ファイルへのパスである場合、このパラメータは効果がありません。
+ - `normalize`: `True` の場合、画像のピクセル値を [0, 255] の範囲に収まるように正規化します。正規化は `data_or_path` が numpy 配列または pytorch tensor の場合にのみ適用されます。
+
+**Examples:**
+NumPy 配列から `wandb.Image` を作成する
 
 ```python
 import numpy as np
 import wandb
 
+# run を初期化
 with wandb.init() as run:
     examples = []
     for i in range(3):
-        pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-        image = wandb.Image(pixels, caption=f"random field {i}")
-        examples.append(image)
+         # ランダムな画像データを生成
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    # データをログ記録
     run.log({"examples": examples})
-```
+``` 
 
-### PILImage から wandb.Image を作成
+PILImage から `wandb.Image` を作成する
 
 ```python
 import numpy as np
 from PIL import Image as PILImage
 import wandb
 
+# run を初期化
 with wandb.init() as run:
     examples = []
     for i in range(3):
-        pixels = np.random.randint(
-            low=0, high=256, size=(100, 100, 3), dtype=np.uint8
-        )
-        pil_image = PILImage.fromarray(pixels, mode="RGB")
-        image = wandb.Image(pil_image, caption=f"random field {i}")
-        examples.append(image)
+         pixels = np.random.randint(
+             low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    # データをログ記録
     run.log({"examples": examples})
-```
+``` 
 
-### .png (デフォルト) ではなく .jpg をログ
+デフォルトの .png ではなく .jpg でログ記録する
 
 ```python
 import numpy as np
 import wandb
 
+# run を初期化
 with wandb.init() as run:
     examples = []
     for i in range(3):
-        pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-        image = wandb.Image(pixels, caption=f"random field {i}", file_type="jpg")
-        examples.append(image)
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(
+             pixels, caption=f"random field {i}", file_type="jpg"
+         )
+         examples.append(image)
+    # データをログ記録
     run.log({"examples": examples})
-```
+``` 
 
-| Attributes | Description |
-| :--- | :--- |
 
-## メソッド
+---
 
-### `all_boxes`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L610-L631)
-
-```python
-@classmethod
-all_boxes(
-    images: Sequence['Image'],
-    run: "LocalRun",
-    run_key: str,
-    step: Union[int, str]
-) -> Union[List[Optional[dict]], bool]
-```
-
-### `all_captions`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L633-L637)
-
-```python
-@classmethod
-all_captions(
-    images: Sequence['Media']
-) -> Union[bool, Sequence[Optional[str]]]
-```
-
-### `all_masks`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L587-L608)
-
-```python
-@classmethod
-all_masks(
-    images: Sequence['Image'],
-    run: "LocalRun",
-    run_key: str,
-    step: Union[int, str]
-) -> Union[List[Optional[dict]], bool]
-```
-
-### `guess_mode`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L474-L486)
-
-```python
-guess_mode(
-    data: "np.ndarray"
-) -> str
-```
-
-np.array が表している画像の種類を推測します。
-
-### `to_uint8`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/image.py#L488-L511)
-
-```python
-@classmethod
-to_uint8(
-    data: "np.ndarray"
-) -> "np.ndarray"
-```
-
-画像データを uint8 に変換します。
-
-範囲 [0,1] の浮動小数点画像と範囲 [0,255] の整数画像を必要に応じてクリッピングして uint8 に変換します。
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `MAX_DIMENSION`<a id="MAX_DIMENSION"></a> |  `65500` |
-|  `MAX_ITEMS`<a id="MAX_ITEMS"></a> |  `108` |
+### <kbd>property</kbd> Image.image

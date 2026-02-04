@@ -1,0 +1,42 @@
+---
+title: W&B Inference 사용 중 왜 속도 제한 오류(429)가 발생하나요?
+---
+
+속도 제한 오류(429)는 동시성 제한을 초과했을 때 발생합니다.
+
+**오류 메시지:** "Concurrency limit reached for requests"
+
+**해결 방법:**
+- 병렬 요청 수를 줄입니다.
+- 요청 사이에 지연 시간을 추가합니다.
+- 지수 백오프(exponential backoff)를 구현합니다.
+- 참고: 속도 제한은 W&B Project 별로 적용됩니다.
+
+## 속도 제한을 피하기 위한 모범 사례
+
+1. **지수 백오프를 포함한 재시도 로직 구현:**
+   ```python
+   import time
+   
+   def retry_with_backoff(func, max_retries=3):
+       for i in range(max_retries):
+           try:
+               return func()
+           except Exception as e:
+               # 429 오류가 발생하고 최대 재시도 횟수에 도달하지 않은 경우
+               if "429" in str(e) and i < max_retries - 1:
+                   time.sleep(2 ** i)
+               else:
+                   raise
+   ```
+
+2. **병렬 요청 대신 배치 처리(batch processing) 사용**
+
+3. **W&B Billing 페이지에서 사용량 모니터링**
+
+## 기본 지출 한도 (Spending caps)
+
+- **Pro 계정:** 월 $6,000
+- **Enterprise 계정:** 연 $700,000
+
+제한을 조정하려면 담당 어카운트 이그제큐티브(AE) 또는 지원 팀에 문의하세요.

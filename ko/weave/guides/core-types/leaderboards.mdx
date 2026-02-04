@@ -1,0 +1,241 @@
+---
+title: 모델 비교 및 순위 지정
+description: 평가 메트릭을 바탕으로 다양한 모델 버전을 비교하고 순위 지정
+---
+
+Weave _Leaderboards_ 를 사용하여 여러 모델을 다양한 메트릭에 걸쳐 평가 및 비교하고 정확도, 생성 품질, 레이턴시 또는 커스텀 평가 로직을 측정하세요. Leaderboard는 모델 성능을 한곳에서 시각화하고, 시간에 따른 변화를 추적하며, 팀 전체의 벤치마크를 조율하는 데 도움을 줍니다.
+
+Leaderboards는 다음과 같은 경우에 이상적입니다:
+
+- 모델 성능 저하(regression) 추적
+- 공유 평가 워크플로우 조정
+
+<Note>
+Leaderboard 생성은 Weave UI와 Weave Python SDK에서만 가능합니다. TypeScript 사용자는 [Weave UI](#using-the-ui) 를 사용하여 Leaderboards를 생성하고 관리할 수 있습니다.
+</Note>
+
+## Leaderboard 생성하기
+
+[Weave UI](#ui) 또는 [프로그래밍 방식](#python) 으로 Leaderboard를 생성할 수 있습니다.
+
+### UI 사용하기
+
+Weave UI에서 직접 Leaderboards를 생성하고 커스텀하려면 다음 단계를 따르세요:
+
+1. Weave UI에서 **Leaders** 섹션으로 이동합니다. 보이지 않는 경우 **More** → **Leaders** 를 클릭합니다.
+2. **+ New Leaderboard** 를 클릭합니다.
+3. **Leaderboard Title** 필드에 설명이 포함된 이름(예: `summarization-benchmark-v1`)을 입력합니다.
+4. 선택 사항으로, 이 Leaderboard가 무엇을 비교하는지 설명하는 내용을 추가합니다.
+5. [열 추가](#add-columns) 를 통해 표시할 평가와 메트릭을 정의합니다.
+6. 레이아웃이 만족스러우면 Leaderboard를 저장하고 게시하여 다른 사람들과 공유하세요.
+
+#### 열 추가 (Add columns)
+
+Leaderboard의 각 열은 특정 평가의 메트릭을 나타냅니다. 열을 구성하려면 다음을 지정합니다:
+
+- **Evaluation**: 드롭다운에서 평가 run을 선택합니다 (이전에 생성되어 있어야 함).
+- **Scorer**: 해당 평가에서 사용된 스코어링 함수(예: `jaccard_similarity`, `simple_accuracy`)를 선택합니다.
+- **Metric**: 표시할 요약 메트릭을 선택합니다(예: `mean`, `true_fraction` 등).
+
+열을 더 추가하려면 **Add Column** 을 클릭합니다.
+
+열을 편집하려면 오른쪽에 있는 점 세 개 메뉴(`⋯`)를 클릭하세요. 다음 작업을 수행할 수 있습니다:
+
+- **Move before / after** – 열 순서 변경
+- **Duplicate** – 열 정의 복사
+- **Delete** – 열 삭제
+- **Sort ascending** – Leaderboard의 기본 정렬 설정 (다시 클릭하면 내림차순으로 전환)
+
+### Python
+
+<Tip>
+실행 가능한 전체 코드 샘플을 찾으시나요? [엔드투엔드 Python 예시](#end-to-end-python-example) 를 확인하세요.
+</Tip>
+
+Leaderboard를 생성하고 게시하려면 다음 단계를 따르세요:
+
+1. 테스트 데이터셋을 정의합니다. 내장된 [`Dataset`](./datasets) 을 사용하거나 입력과 타겟 리스트를 수동으로 정의할 수 있습니다:
+
+   ```python lines
+   dataset = [
+       {"input": "...", "target": "..."},
+       ...
+   ]
+   ```
+
+2. 하나 이상의 [scorers](../evaluation/scorers) 를 정의합니다:
+
+   ```python lines
+   @weave.op
+   def jaccard_similarity(target: str, output: str) -> float:
+       ...
+   ```
+
+3. [`Evaluation`](../core-types/evaluations) 을 생성합니다:
+
+   ```python lines
+   evaluation = weave.Evaluation(
+       name="My Eval",
+       dataset=dataset,
+       scorers=[jaccard_similarity],
+   )
+   ```
+
+4. 평가할 모델들을 정의합니다:
+
+   ```python lines
+   @weave.op
+   def my_model(input: str) -> str:
+       ...
+   ```
+
+5. 평가를 실행합니다:
+
+   ```python lines
+    async def run_all():
+        await evaluation.evaluate(model_vanilla)
+        await evaluation.evaluate(model_humanlike)
+        await evaluation.evaluate(model_messy)
+
+    asyncio.run(run_all())
+   ```
+
+6. Leaderboard를 생성합니다:
+
+   ```python lines
+   spec = leaderboard.Leaderboard(
+       name="My Leaderboard",
+       description="Evaluating models on X task",
+       columns=[
+           leaderboard.LeaderboardColumn(
+               evaluation_object_ref=get_ref(evaluation).uri(),
+               scorer_name="jaccard_similarity",
+               summary_metric_path="mean",
+           )
+       ]
+   )
+   ```
+
+7. Leaderboard를 게시합니다.
+
+   ```python lines
+   weave.publish(spec)
+   ```
+
+8. 결과를 가져옵니다:
+
+   ```python lines
+   results = leaderboard.get_leaderboard_results(spec, client)
+   print(results)
+   ```
+
+## 엔드투엔드 Python 예시
+
+다음 예시는 Weave Evaluations를 사용하며, 커스텀 메트릭을 사용하여 공유 데이터셋에서 세 가지 요약 모델을 비교하는 Leaderboard를 생성합니다. 작은 벤치마크를 만들고, 각 모델을 평가하며, [자카드 유사도(Jaccard similarity)](https://www.learndatasci.com/glossary/jaccard-similarity/) 로 각 모델의 점수를 매긴 후 결과를 Weave Leaderboard에 게시합니다.
+
+```python lines
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+import asyncio
+
+# 프로젝트 초기화
+client = weave.init("leaderboard-demo")
+
+# 데이터셋 정의
+dataset = [
+    {
+        "input": "Weave is a tool for building interactive LLM apps. It offers observability, trace inspection, and versioning.",
+        "target": "Weave helps developers build and observe LLM applications."
+    },
+    {
+        "input": "The OpenAI GPT-4o model can process text, audio, and vision inputs, making it a multimodal powerhouse.",
+        "target": "GPT-4o is a multimodal model for text, audio, and images."
+    },
+    {
+        "input": "The W&B team recently added native support for agents and evaluations in Weave.",
+        "target": "W&B added agents and evals to Weave."
+    }
+]
+
+# 스코어러 정의
+@weave.op
+def jaccard_similarity(target: str, output: str) -> float:
+    target_tokens = set(target.lower().split())
+    output_tokens = set(output.lower().split())
+    intersection = len(target_tokens & output_tokens)
+    union = len(target_tokens | output_tokens)
+    return intersection / union if union else 0.0
+
+# 평가 생성
+evaluation = weave.Evaluation(
+    name="Summarization Quality",
+    dataset=dataset,
+    scorers=[jaccard_similarity],
+)
+
+# 모델 정의
+@weave.op
+def model_vanilla(input: str) -> str:
+    return input[:50]
+
+@weave.op
+def model_humanlike(input: str) -> str:
+    if "Weave" in input:
+        return "Weave helps developers build and observe LLM applications."
+    elif "GPT-4o" in input:
+        return "GPT-4o supports text, audio, and vision input."
+    else:
+        return "W&B added agent support to Weave."
+
+@weave.op
+def model_messy(input: str) -> str:
+    return "Summarizer summarize models model input text LLMs."
+
+# 평가 실행
+async def run_all():
+    await evaluation.evaluate(model_vanilla)
+    await evaluation.evaluate(model_humanlike)
+    await evaluation.evaluate(model_messy)
+
+asyncio.run(run_all())
+
+# Leaderboard 스펙 정의
+spec = leaderboard.Leaderboard(
+    name="Summarization Model Comparison",
+    description="Evaluate summarizer models using Jaccard similarity on 3 short samples.",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="jaccard_similarity",
+            summary_metric_path="mean",
+        )
+    ]
+)
+
+# Leaderboard 게시
+weave.publish(spec)
+
+# 결과 조회 및 출력
+results = leaderboard.get_leaderboard_results(spec, client)
+print(results)
+```
+
+### Leaderboard 확인 및 해석
+
+스크립트 실행이 완료되면 Leaderboard를 확인하세요:
+
+1. **Weave UI** 에서 **Leaders** 탭으로 이동합니다. 보이지 않는 경우 **More** 를 클릭한 다음 **Leaders** 를 선택합니다.
+2. 생성한 Leaderboard의 이름(예: `Summarization Model Comparison`)을 클릭합니다.
+
+Leaderboard 테이블에서 각 행은 해당 모델(`model_humanlike`, `model_vanilla`, `model_messy`)을 나타냅니다. `mean` 열은 모델의 출력과 참조 요약본 사이의 평균 자카드 유사도를 보여줍니다.
+
+<Frame>
+![Weave UI의 Leaderboard 예시](/weave/guides/core-types/imgs/leaderboard-example.png)
+</Frame>
+
+이 예시의 경우:
+
+- `model_humanlike` 가 약 46%의 중첩도로 가장 우수한 성능을 보입니다.
+- `model_vanilla` (단순 절단 방식)는 약 21%를 기록했습니다.
+- 의도적으로 성능을 낮춘 `model_messy` 는 약 2%를 기록했습니다.

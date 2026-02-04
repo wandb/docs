@@ -1,17 +1,14 @@
 ---
-title: 分散トレーニングのようなマルチプロセッシングで wandb をどのように使用できますか？
-support:
-  - experiments
-toc_hide: true
-type: docs
+title: マルチプロセッシング（例：分散トレーニング）で wandb を使用するにはどうすればよいですか？
 ---
-トレーニングプログラムが複数のプロセスを使用する場合、`wandb.init()` なしでプロセスから wandb メソッド呼び出しを行わないようにプログラムを構築してください。
 
-マルチプロセスのトレーニングを管理するには、以下のアプローチを使用します。
+トレーニングプログラムで複数のプロセスを使用する場合、`wandb.init()` を呼び出していないプロセスから wandb メソッドを呼び出さないようにプログラムを構成してください。
 
-1. すべてのプロセスで `wandb.init` を呼び出し、[group](/ja/models/runs/grouping/) キーワード引数を使用して共有グループを作成します。各プロセスは独自の wandb run を持ち、UI はトレーニング プロセスを一緒にグループ化します。
-2. ただ一つのプロセスから `wandb.init` を呼び出し、[multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を通じてログ記録するデータを渡します。
+マルチプロセストレーニングを管理するには、以下のいずれかのアプローチを使用します：
+
+1. 全てのプロセスで `wandb.init` を呼び出し、[group](/models/runs/grouping/) 引数を使用して共有グループを作成します。各プロセスは独自の wandb run を持ち、UI 上でこれらのトレーニングプロセスがグループ化されます。
+2. 1 つのプロセスのみで `wandb.init` を呼び出し、[マルチプロセッシングキュー](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を介してログに記録するデータを渡します。
 
 <Note>
-これらのアプローチの詳細な説明と、Torch DDP のコード例を含む [分散トレーニングガイド](/ja/models/track/log/distributed-training/) を参照してください。
+Torch DDP を使用したコード例を含む、これらのアプローチの詳細な説明については、[Distributed Training Guide](/models/track/log/distributed-training/) を参照してください。
 </Note>

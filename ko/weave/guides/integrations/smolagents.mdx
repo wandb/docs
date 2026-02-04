@@ -1,0 +1,119 @@
+---
+title: Smolagents
+description: Weave 의 자동 트레이싱 기능을 사용하여 Smolagents 에이전트 기반 애플리케이션을 추적하고 분석하세요. 이를 통해
+  OpenAI, Hugging Face, Anthropic 등 다양한 LLM 제공업체에 걸친 툴 호출, 모델 추론, 그리고 멀티스텝 워크플로우를
+  캡처할 수 있습니다.
+---
+
+<Warning>
+이 페이지에 표시된 모든 코드 샘플은 Python으로 작성되었습니다.
+</Warning>
+
+이 페이지는 에이전트 기반 애플리케이션을 추적하고 분석하기 위해 [Smolagents](https://huggingface.co/docs/smolagents/en/index)를 W&B Weave와 통합하는 방법을 설명합니다. Weave의 tracing 및 버전 관리 기능을 사용하여 모델 추론을 로그하고, 함수 호출을 모니터링하며, 실험을 체계화하는 방법을 배우게 됩니다. 제공된 예시를 따라가며 귀중한 인사이트를 포착하고, 애플리케이션을 효율적으로 디버깅하며, 다양한 모델 설정을 비교해 보세요. 이 모든 과정은 Weave 웹 인터페이스 내에서 가능합니다.
+
+## 개요
+
+Smolagents는 강력한 에이전트 기반 애플리케이션을 구축하기 위해 최소한의 추상화를 제공하는 심플한 프레임워크입니다. OpenAI, Hugging Face Transformers, Anthropic과 같은 다양한 LLM 제공업체를 지원합니다.
+
+Weave는 [Smolagents](https://huggingface.co/docs/smolagents/en/index)에 대한 추적(traces)을 자동으로 캡처합니다. 추적을 시작하려면 `weave.init()`을 호출하고 평소와 같이 라이브러리를 사용하면 됩니다.
+
+## 사전 요구 사항
+
+1. Weave와 함께 Smolagents를 사용하기 전에 필요한 라이브러리를 설치하거나 최신 버전으로 업그레이드하세요. 다음 코맨드는 출력 메시지를 생략하고 `smolagents`, `openai`, `weave`를 설치하거나 업그레이드합니다.
+
+    ```python lines
+    pip install -U smolagents openai weave -qqq
+    ```
+
+2. Smolagents는 OpenAI, Hugging Face Transformers, Anthropic 등 여러 LLM 제공업체를 지원합니다. 해당 환경 변수를 설정하여 선택한 제공업체의 API 키를 설정하세요.
+
+    ```python lines
+    import os
+    import getpass
+
+    # 선택한 LLM 제공업체의 API 키를 입력하세요.
+    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
+    ```
+
+## 기본 tracing
+
+언어 모델 애플리케이션의 추적 기록을 중앙 위치에 저장하는 것은 개발 및 프로덕션 단계에서 필수적입니다. 이러한 추적 기록은 디버깅을 돕고 애플리케이션을 개선하기 위한 귀중한 데이터셋 역할을 합니다.
+
+Weave는 [Smolagents](https://huggingface.co/docs/smolagents/en/index)에 대한 추적을 자동으로 캡처합니다. 추적을 시작하려면 `weave.init()`을 호출하여 Weave를 초기화한 다음, 라이브러리를 평소처럼 사용하세요.
+
+다음 예시는 Weave를 사용하여 도구(tool)를 사용하는 LLM 에이전트의 추론 호출을 로그하는 방법을 보여줍니다. 이 시나리오에서는 다음과 같은 작업이 수행됩니다:
+
+- Smolagents의 `OpenAIServerModel`을 사용하여 언어 모델(OpenAI의 `gpt-4o`)을 정의합니다.
+- 에이전트가 필요할 때 호출할 수 있는 검색 도구(`DuckDuckGoSearchTool`)를 설정합니다.
+- 도구와 모델을 전달하여 `ToolCallingAgent`를 구성합니다.
+- 검색 도구를 트리거하는 쿼리를 에이전트를 통해 실행합니다.
+- Weave는 각 함수 및 모델 호출을 로그하여 웹 인터페이스에서 검토할 수 있도록 합니다.
+
+```python lines
+import weave
+from smolagents import DuckDuckGoSearchTool, OpenAIServerModel, ToolCallingAgent
+
+# Weave 초기화
+weave.init(project_name="smolagents")
+
+# Smolagents가 지원하는 LLM 제공업체 정의
+model = OpenAIServerModel(model_id="gpt-4o")
+
+# 쿼리에 기반한 DuckDuckGo 웹 검색 도구 정의
+search_tool = DuckDuckGoSearchTool()
+
+# 도구 호출 에이전트 정의
+agent = ToolCallingAgent(tools=[search_tool], model=model)
+answer = agent.run(
+    "Get me just the title of the page at url 'https://wandb.ai/geekyrakshit/story-illustration/reports/Building-a-GenAI-assisted-automatic-story-illustrator--Vmlldzo5MTYxNTkw'?"
+)
+```
+
+코드 샘플을 실행한 후, Weave 프로젝트 대시보드로 이동하여 추적 기록을 확인하세요.
+
+<Frame>
+![Weave는 각 추론 호출을 로그하여 입력, 출력 및 메타데이터에 대한 세부 정보를 제공합니다.](/weave/guides/integrations/imgs/smolagents-trace.png)
+</Frame>
+
+## 커스텀 도구 tracing
+
+`smolagents`의 `@tool` 데코레이터를 함수에 사용하거나 `smolagents.Tool` 클래스를 상속받아 에이전트 워크플로우를 위한 커스텀 도구를 선언할 수 있습니다.
+
+Weave는 Smolagents 워크플로우의 커스텀 도구 호출을 자동으로 추적합니다. 다음 예시는 Weave로 커스텀 Smolagents 도구 호출을 로그하는 방법을 보여줍니다:
+
+- 커스텀 `get_weather` 함수가 정의되고 Smolagents의 `@tool` 데코레이터가 적용되어 에이전트가 추론 과정의 일부로 이를 호출할 수 있게 합니다.
+- 이 함수는 위치와 섭씨 출력 여부를 결정하는 선택적 플래그를 인수로 받습니다.
+- `OpenAIServerModel`을 사용하여 언어 모델 인스턴스를 생성합니다.
+- 커스텀 도구와 모델을 사용하여 `ToolCallingAgent`를 생성합니다.
+- 에이전트가 쿼리를 실행하면 `get_weather` 도구를 선택하고 호출합니다.
+- Weave는 모델 추론과 커스텀 도구 호출을 모두 로그하며, 여기에는 인수와 반환 값이 포함됩니다.
+
+```python lines
+from typing import Optional
+
+import weave
+from smolagents import OpenAIServerModel, ToolCallingAgent, tool
+
+# Weave 초기화
+weave.init(project_name="smolagents")
+
+@tool
+def get_weather(location: str, celsius: Optional[bool] = False) -> str:
+    """
+    지정된 위치의 향후 며칠간 날씨를 가져옵니다.
+    Args:
+        location: 위치 정보.
+        celsius: 온도를 섭씨로 표시할지 여부.
+    """
+    return f"The weather in {location} is sunny with temperatures around 7°C."
+
+model = OpenAIServerModel(model_id="gpt-4o")
+agent = ToolCallingAgent(tools=[get_weather], model=model)
+answer = agent.run("What is the weather in Tokyo?")
+```
+
+코드 샘플을 실행한 후, Weave 프로젝트 대시보드로 이동하여 추적 기록을 확인하세요.
+
+<Frame>
+![Weave는 각 커스텀 도구 호출을 로그합니다.](/weave/guides/integrations/imgs/smolagents-custom-tool.png)
+</Frame>

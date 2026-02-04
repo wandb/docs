@@ -1,20 +1,25 @@
 ---
-title: Optimizing multiple metrics
-support:
-- sweeps
-- metrics
-toc_hide: true
-type: docs
+title: 다중 메트릭 최적화
 ---
 
-단일 run에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중치 합계를 사용하세요.
+단일 run 에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중치 합(weighted sum)을 사용하세요.
 
 ```python
-metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
-wandb.log({"metric_combined": metric_combined})
+with wandb.init() as run:
+  # 개별 메트릭 로그
+  metric_a = run.summary.get("metric_a", 0.5)
+  metric_b = run.summary.get("metric_b", 0.7)
+  # ... 필요에 따라 다른 메트릭을 로그합니다
+  metric_n = run.summary.get("metric_n", 0.9)
+
+  # 가중치를 사용하여 메트릭 결합
+  # 최적화 목표에 따라 가중치를 조정하세요
+  # 예를 들어, metric_a와 metric_n에 더 많은 비중을 두려면 다음과 같이 합니다:
+  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
+  run.log({"metric_combined": metric_combined})
 ```
 
-새로운 결합된 메트릭을 로그하고 최적화 목표로 설정하세요.
+새로 결합된 메트릭을 로그하고 이를 최적화 목표로 설정합니다:
 
 ```yaml
 metric:

@@ -1,35 +1,56 @@
 ---
-title: wandb sync
+title: ' thoughtful_thought
+
+  wandb sync'
 ---
+import WandbSync from "/snippets/en/_includes/cli/wandb-sync.mdx";
 
-**使用方法**
+<WandbSync/>
 
-`wandb sync [OPTIONS] [PATH]...`
+W&B の Runs データをクラウドに同期します。
 
-**概要**
+`PATH` が指定されている場合、そのパスで見つかった Runs を同期します。パスが指定されていない場合は、まず `./wandb` を探し、次に `wandb/` サブディレクトリーを探します。
 
-オフライン トレーニング ディレクトリーを W&B にアップロードします
+特定の Run を同期する場合：
 
+wandb sync ./wandb/run-20250813_124246-n67z9ude
 
-**オプション**
+または、以下の方法も同様です：
 
-| **オプション** | **説明** |
+wandb sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+
+## Usage
+
+```bash
+wandb sync [PATH] [OPTIONS]
+```
+
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `PATH` | 説明なし | No |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--id` | アップロードしたい run。 |
-| `-p, --project` | アップロードしたいプロジェクト。 |
-| `-e, --entity` | スコープにするエンティティ。 |
-| `--job_type` | 関連する runs をまとめる run のタイプを指定します。 |
-| `--sync-tensorboard / --no-sync-tensorboard` | tfevent ファイルを wandb にストリームします。 |
-| `--include-globs` | 含めるグロブのカンマ区切りのリスト。 |
-| `--exclude-globs` | 除外するグロブのカンマ区切りのリスト。 |
-| `--include-online / --no-include-online` | オンライン runs を含める |
-| `--include-offline / --no-include-offline` | オフライン runs を含める |
-| `--include-synced / --no-include-synced` | 同期済み runs を含める |
-| `--mark-synced / --no-mark-synced` | runs を同期済みとしてマークする |
-| `--sync-all` | 全ての runs を同期する |
-| `--clean` | 同期済み runs を削除する |
-| `--clean-old-hours` | 指定した時間より前に作成された runs を削除します。--clean フラグと一緒に使用します。 |
-| `--clean-force` | 確認プロンプトなしでクリーンする。 |
-| `--show` | 表示する runs の数 |
-| `--append` | run を追加する |
-| `--skip-console` | コンソールログをスキップする |
+| `--id` | アップロード先の Run ID。 |
+| `--project`, `-p` | アップロード先の Project。 |
+| `--entity`, `-e` | 対象となる Entity。 |
+| `--job_type` | 関連する Runs をグループ化するための実行タイプを指定します。 |
+| `--sync-tensorboard` | tfevent ファイルを wandb にストリームします。 |
+| `--include-globs` | 含めるパターンのカンマ区切りリスト（glob 形式）。 |
+| `--exclude-globs` | 除外するパターンのカンマ区切りリスト（glob 形式）。 |
+| `--include-online` | オンラインの Runs を含める。 |
+| `--include-offline` | オフラインの Runs を含める。 |
+| `--include-synced` | 同期済みの Runs を含める。 |
+| `--mark-synced` | Runs を同期済みとしてマークする（デフォルト: True）。 |
+| `--sync-all` | すべての Runs を同期する（デフォルト: False）。 |
+| `--clean` | 同期済みの Runs を削除する（デフォルト: False）。 |
+| `--clean-old-hours` | 指定した時間より前に作成された Runs を削除します。--clean フラグと一緒に使用します。（デフォルト: 24） |
+| `--clean-force` | 確認プロンプトを表示せずに削除を実行する（デフォルト: False）。 |
+| `--show` | 表示する Runs の数（デフォルト: 5）。 |
+| `--append` | Run を追記する（デフォルト: False）。 |
+| `--skip-console` | コンソールログをスキップする（デフォルト: False）。 |
+| `--replace-tags` | 'old_tag1=new_tag1,old_tag2=new_tag2' の形式でタグを置換します。 |

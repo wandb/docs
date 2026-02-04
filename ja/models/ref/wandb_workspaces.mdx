@@ -1,0 +1,87 @@
+---
+title: Reports と Workspace API の概要
+description: W&B Reports と Workspaces API を使用して、 Reports と Workspace をプログラムで作成・管理します。
+---
+
+`wandb_workspaces` からアクセスできる W&B Reports および Workspaces API を使用すると、 学び を Web 上で共有するための [Reports](/models/reports/) を作成したり、 トレーニング や ファインチューニング を行った [Workspace](/models/app/features/cascade-settings/) をカスタマイズしたりできます。
+
+
+<Card title="ソースコードを見る" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github"/>
+
+<Note>
+W&B Report および Workspace API はパブリックプレビュー版です。
+</Note>
+
+## インストールとセットアップ
+
+### サインアップと APIキー の作成
+
+マシンを W&B で認証するには、まず [User Settings](https://wandb.ai/settings) で APIキー を生成する必要があります。
+
+### パッケージのインストールとインポート
+
+W&B Report および Workspaces ライブラリ をインストールします。
+
+```python
+pip install wandb-workspaces
+```
+
+### Report の作成
+
+Report を作成するには、 チーム の Entities を指定し、 Report の名前を入力します。括弧内のテキストを実際の 値 に置き換えてください。
+
+```python
+import wandb_workspaces.reports.v2 as wr 
+# 作成
+report = wr.Report(
+    entity="<team_entity>",
+    project="<project_name>",
+    title='Quickstart Report',
+    description="That was easy!"
+)
+
+# レポートを保存
+report.save()
+```
+
+次に、 Report にブロックや パネル を追加します。例えば、以下の コード は目次、見出し、段落を含む Report を作成します。
+
+```python
+report.blocks = [
+    wr.TableOfContents(),
+    wr.H1("Text and images example"),
+    wr.P("Lorem ipsum dolor sit amet."),
+]
+report.save()
+```
+
+エンドツーエンドの例については、 [Reports API Quickstart](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) Google Colab を参照してください。
+
+### Workspace の作成
+
+以下の コード は、折れ線グラフ、棒グラフ、スカラーチャートの3つの パネル を含むセクションを持つ Workspace を作成する方法を示しています。括弧内のテキストを実際の 値 に置き換えてください。
+
+```python
+# インポート方法
+import wandb_workspaces.workspaces as ws
+
+# Workspace の作成
+ws.Workspace(
+     entity="<team_entity>", # Workspace を所有する entity
+     project="<project_name>", # Workspace が関連付けられている project
+     sections=[
+         ws.Section(
+             name="<Validation Metrics>",
+             panels=[
+                 wr.LinePlot(x="Step", y=["<val_loss>"]),
+                 wr.BarPlot(metrics=["<val_accuracy>"]),
+                 wr.ScalarChart(metric="<f1_score>", groupby_aggfunc="<mean>"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
+
+エンドツーエンドの例については、 [Workspace API Quickstart](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) Google Colab を参照してください。

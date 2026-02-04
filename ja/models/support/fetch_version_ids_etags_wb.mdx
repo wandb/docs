@@ -1,14 +1,13 @@
 ---
-title: W&B でこれらのバージョン ID と ETag を取得するにはどうすればよいですか？
-support:
-  - artifacts
-toc_hide: true
-type: docs
+title: W&B でこれらの Version ID や ETag を取得するにはどうすればよいですか？
 ---
-W&Bでアーティファクト参照がログされ、バケットでバージョン管理が有効になっている場合、バージョンIDがAmazon S3 UIに表示されます。これらのバージョンIDとETagsをW&Bで取得するには、アーティファクトを取得し、対応するマニフェストエントリにアクセスします。例えば:
+
+Artifact のリファレンスが W&B にログ記録され、バケットで バージョン管理 が有効になっている場合、バージョン ID が Amazon S3 の UI に表示されます。W&B でこれらの バージョン ID や ETag を取得するには、Artifact を取得して対応するマニフェストエントリに アクセス します。例：
 
 ```python
+# artifactを取得
 artifact = run.use_artifact("my_table:latest")
+# 各エントリのマニフェストからversionIDとetagを取得
 for entry in artifact.manifest.entries.values():
     versionID = entry.extra.get("versionID")
     etag = entry.extra.get("etag")

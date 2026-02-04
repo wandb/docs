@@ -1,357 +1,564 @@
 ---
 title: Run
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+## <kbd>class</kbd> `Run`
+Entity および Project に関連付けられた単一の Run です。
+
+### <kbd>method</kbd> `Run.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    run_id: 'str',
+    attrs: 'Mapping | None' = None,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
+)
+```
+
+**引数:**
+
+ - `client`: W&B API クライアント。
+ - `entity`: Run に関連付けられた Entity。
+ - `project`: Run に関連付けられた Project。
+ - `run_id`: Run の一意識別子。
+ - `attrs`: Run の属性。
+ - `include_sweeps`: Run に Sweeps を含めるかどうか。
+
+**Attributes:**
+
+ - `tags` ([str]): Run に関連付けられたタグのリスト
+ - `url` (str): この Run の URL
+ - `id` (str): Run の一意識別子（デフォルトは8文字）
+ - `name` (str): Run の名前
+ - `state` (str): 状態。running, finished, crashed, killed, preempting, preempted のいずれか
+ - `config` (dict): Run に関連付けられたハイパーパラメーターの辞書
+ - `created_at` (str): Run が開始されたときの ISO タイムスタンプ
+ - `system_metrics` (dict): Run に対して記録された最新のシステムメトリクス
+ - `summary` (dict): 現在のサマリーを保持する、変更可能な辞書形式のプロパティ。update を呼び出すと変更が保存されます。
+ - `project` (str): Run に関連付けられた Project
+ - `entity` (str): Run に関連付けられた Entity の名前
+ - `project_internal_id` (int): Project の内部 ID
+ - `user` (str): Run を作成した User の名前
+ - `path` (str): 一意識別子 [entity]/[project]/[run_id]
+ - `notes` (str): Run に関するノート
+ - `read_only` (boolean): Run が編集可能かどうか
+ - `history_keys` (str): `wandb.Run.log({"key": "value"})` でログ記録された履歴メトリクスキー
+ - `metadata` (str): wandb-metadata.json からの Run に関するメタデータ
+
+Run オブジェクトを初期化します。
+
+Run は常に、wandb.Api のインスタンスである api から api.runs() を呼び出すことによって初期化されます。
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L276-L1007" icon="github"/>
+### <kbd>property</kbd> Run.config
 
-エンティティおよびプロジェクトに関連付けられた単一の run。
+Run の config を取得します。レイジーモード（lazy mode）の場合は、自動的に全データをロードします。
+
+**戻り値:**
+ - `dict[str, Any]`: config プロパティの値。
+---
+
+### <kbd>property</kbd> Run.entity
+
+Run に関連付けられた Entity。
+
+**戻り値:**
+ - `str`: entity プロパティの値。
+---
+
+### <kbd>property</kbd> Run.id
+
+Run の一意識別子。
+
+**戻り値:**
+ - `str`: id プロパティの値。
+---
+
+### <kbd>property</kbd> Run.lastHistoryStep
+
+Run の履歴に記録された最後のステップを返します。
+
+**戻り値:**
+ - `int`: lastHistoryStep プロパティの値。
+---
+
+### <kbd>property</kbd> Run.metadata
+
+wandb-metadata.json から取得した Run に関するメタデータ。
+
+メタデータには、Run の説明、タグ、開始時間、メモリ使用量などが含まれます。
+
+**戻り値:**
+ - `dict[str, Any] | None`: metadata プロパティの値。
+---
+
+### <kbd>property</kbd> Run.name
+
+Run の名前。
+
+**戻り値:**
+ - `str | None`: name プロパティの値。
+---
+
+### <kbd>property</kbd> Run.path
+
+Run のパス。パスは entity、project、run_id を含むリストです。
+
+**戻り値:**
+ - `list[str]`: path プロパティの値。
+---
+
+### <kbd>property</kbd> Run.rawconfig
+
+内部キーを含む生の Run config を取得します。レイジーモードの場合は、自動的に全データをロードします。
+
+**戻り値:**
+ - `dict[str, Any]`: rawconfig プロパティの値。
+---
+
+### <kbd>property</kbd> Run.state
+
+Run の状態。Finished, Failed, Crashed, Running のいずれかになります。
+
+**戻り値:**
+ - `str`: state プロパティの値。
+---
+
+### <kbd>property</kbd> Run.storage_id
+
+Run の一意のストレージ識別子。
+
+**戻り値:**
+ - `str`: storage_id プロパティの値。
+---
+
+### <kbd>property</kbd> Run.summary
+
+Run のサマリーメトリクスを取得します。レイジーモードの場合は、自動的に全データをロードします。
+
+**戻り値:**
+ - `HTTPSummary`: summary プロパティの値。
+---
+
+### <kbd>property</kbd> Run.summary_metrics
+
+Run のサマリーメトリクスを取得します。レイジーモードの場合は、自動的に全データをロードします。
+
+**戻り値:**
+ - `dict[str, Any]`: summary_metrics プロパティの値。
+---
+
+### <kbd>property</kbd> Run.sweep_name
+
+Sweep 名を取得します。sweepName は軽量なフラグメントに含まれているため、常に利用可能です。
+
+**戻り値:**
+ - `str | None`: sweep_name プロパティの値。
+---
+
+### <kbd>property</kbd> Run.system_metrics
+
+Run のシステムメトリクスを取得します。レイジーモードの場合は、自動的に全データをロードします。
+
+**戻り値:**
+ - `dict[str, Any]`: system_metrics プロパティの値。
+---
+
+### <kbd>property</kbd> Run.url
+
+Run の URL。
+
+Run の URL は、entity、project、run_id から生成されます。SaaS ユーザーの場合、`https://wandb.ai/entity/project/run_id` という形式になります。
+
+**戻り値:**
+ - `str`: url プロパティの値。
+---
+
+### <kbd>property</kbd> Run.username
+
+この API は非推奨です。代わりに `entity` を使用してください。
+
+**戻り値:**
+ - `str`: username プロパティの値。
+---
+
+### <kbd>method</kbd> `Run.beta_scan_history`
 
 ```python
-Run(
-    client: "RetryingClient",
-    entity: str,
-    project: str,
-    run_id: str,
-    attrs: Optional[Mapping] = None,
-    include_sweeps: bool = (True)
-)
+beta_scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.BetaHistoryScan
 ```
 
-| 属性 | Description |
-| :--- | :--- |
+Run のすべての履歴レコードのイテラブルなコレクションを返します。
 
-## メソッド
+この関数はまだ開発中であり、期待通りに動作しない可能性があります。wandb-core を使用して、ローカルにエクスポートされた Run の parquet 履歴から履歴を読み取ります。
 
-### `create`
+**引数:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L377-L417)
+ - `keys`: Run の履歴から読み取るメトリクスのリスト。キーが指定されない場合、すべてのメトリクスが返されます。
+ - `page_size`: 一度に読み取る履歴レコードの数。
+ - `min_step`: 履歴の読み取りを開始する最小ステップ（含む）。
+ - `max_step`: 履歴を読み取る最大ステップ（含まない）。
+ - `use_cache`: True に設定すると、WANDB_CACHE_DIR に Run の履歴があるか確認します。キャッシュに履歴が見つからない場合は、サーバーからダウンロードされます。False に設定すると、履歴は毎回ダウンロードされます。
+
+**戻り値:**
+ 履歴レコードを取得するために反復処理可能な BetaHistoryScan オブジェクト。
+
+---
+
+### <kbd>classmethod</kbd> `Run.create`
 
 ```python
-@classmethod
 create(
-    api, run_id=None, project=None, entity=None
-)
+    api: 'public.Api',
+    run_id: 'str | None' = None,
+    project: 'str | None' = None,
+    entity: 'str | None' = None,
+    state: "Literal['running', 'pending']" = 'running'
+) → Self
 ```
 
-指定されたプロジェクトのために run を作成します。
+指定された Project に対して Run を作成します。
 
-### `delete`
+---
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L540-L568)
+### <kbd>method</kbd> `Run.delete`
 
 ```python
-delete(
-    delete_artifacts=(False)
-)
+delete(delete_artifacts: 'bool' = False) → None
 ```
 
-指定された run を wandb バックエンドから削除します。
+wandb バックエンドから指定された Run を削除します。
 
-### `display`
+**引数:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+ - `delete_artifacts` (bool, オプション): Run に関連付けられた Artifacts も削除するかどうか。
+
+---
+
+### <kbd>method</kbd> `Run.file`
 
 ```python
-display(
-    height=420, hidden=(False)
-) -> bool
+file(name: 'str') → public.File
 ```
 
-このオブジェクトを Jupyter で表示します。
+Artifact 内の指定された名前を持つファイルのパスを返します。
 
-### `file`
+**引数:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L632-L642)
+ - `name` (str): 要求されたファイルの名前。
 
-```python
-file(
-    name
-)
-```
+**戻り値:**
+ name 引数に一致する `File`。
 
-指定された名前のファイルのパスをアーティファクトで返します。
+---
 
-| 引数 | Description |
-| :--- | :--- |
-|  name (str): 要求されたファイルの名前。 |
-
-| 戻り値 | Description |
-| :--- | :--- |
-|  指定された name 引数と一致する `File`。 |
-
-### `files`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L619-L630)
+### <kbd>method</kbd> `Run.files`
 
 ```python
 files(
-    names=None, per_page=50
-)
+    names: 'list[str] | None' = None,
+    pattern: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.Files
 ```
 
-指定された名前のすべてのファイルのファイルパスを返します。
+指定された条件に一致する Run 内のすべてのファイルに対して `Files` オブジェクトを返します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  names (list): 要求されたファイルの名前、指定されていない場合はすべてのファイルを返す。 per_page (int): ページあたりの結果数。 |
+一致させる正確なファイル名のリスト、または照合するパターンを指定できます。両方が指定された場合、パターンは無視されます。
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  `Files` オブジェクトで、これは `File` オブジェクトのイテレータです。 |
+**引数:**
 
-### `history`
+ - `names` (list): 要求されたファイルの名前。空の場合はすべてのファイルを返します。
+ - `pattern` (str, オプション): W&B からファイルを返す際に一致させるパターン。このパターンは MySQL の LIKE 構文を使用するため、.json で終わるすべてのファイルに一致させるには "%.json" となります。names と pattern の両方が指定された場合、ValueError が発生します。
+ - `per_page` (int): 1ページあたりの結果数。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L668-L708)
+**戻り値:**
+ `File` オブジェクトを反復処理するイテレータである `Files` オブジェクト。
+
+---
+
+### <kbd>method</kbd> `Run.history`
 
 ```python
 history(
-    samples=500, keys=None, x_axis="_step", pandas=(True), stream="default"
-)
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    pandas: 'bool' = True,
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame
 ```
 
-run のサンプル化された履歴メトリクスを返します。
+Run のサンプリングされた履歴メトリクスを返します。
 
-履歴レコードがサンプリングされることを許容できる場合、こちらの方が簡単で高速です。
+履歴レコードがサンプリングされても問題ない場合は、この方法がよりシンプルで高速です。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `samples` |  (int, オプション) 返すサンプル数 |
-|  `pandas` |  (bool, オプション) パンダのデータフレームを返す |
-|  `keys` |  (list, オプション) 特定のキーのメトリクスのみを返す |
-|  `x_axis` |  (str, オプション) xAxis として使用するメトリクス、デフォルトは _step |
-|  `stream` |  (str, オプション) メトリクス用の "default"、マシンメトリクス用の "system" |
+**引数:**
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  `pandas.DataFrame` |  pandas=True の場合は歴史メトリクスの `pandas.DataFrame` を返します。 pandas=False の場合は歴史メトリクスの辞書のリストを返します。 |
+ - `samples `: (int, オプション) 返すサンプルの数
+ - `pandas `: (bool, オプション) pandas dataframe を返すかどうか
+ - `keys `: (list, オプション) 特定のキーのメトリクスのみを返す
+ - `x_axis `: (str, オプション) xAxis として使用するメトリクス。デフォルトは _step
+ - `stream `: (str, オプション) メトリクスには "default"、マシンメトリクスには "system" を指定
 
-### `load`
+**戻り値:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L419-L488)
+ - `pandas.DataFrame`: pandas=True の場合、履歴メトリクスの `pandas.DataFrame` を返します。
+ - `list of dicts`: pandas=False の場合、履歴メトリクスの辞書のリストを返します。
+
+---
+
+### <kbd>method</kbd> `Run.load`
 
 ```python
-load(
-    force=(False)
-)
+load(force: 'bool' = False) → dict[str, Any]
 ```
 
-### `log_artifact`
+レイジーモードに基づいた適切なフラグメントを使用して Run データをロードします。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L860-L905)
+---
+
+### <kbd>method</kbd> `Run.load_full_data`
+
+```python
+load_full_data(force: 'bool' = False) → dict[str, Any]
+```
+
+config, systemMetrics, summaryMetrics などの重いフィールドを含む、すべての Run データをロードします。
+
+このメソッドは、最初に lazy=True を使用して Run をリストしたが、特定の Run の全データにアクセスする必要がある場合に便利です。
+
+**引数:**
+
+ - `force`: データが既にロードされている場合でも強制的に再ロードします
+
+**戻り値:**
+ ロードされた Run 属性
+
+---
+
+### <kbd>method</kbd> `Run.log_artifact`
 
 ```python
 log_artifact(
-    artifact: "wandb.Artifact",
-    aliases: Optional[Collection[str]] = None,
-    tags: Optional[Collection[str]] = None
-)
+    artifact: 'wandb.Artifact',
+    aliases: 'Collection[str] | None' = None,
+    tags: 'Collection[str] | None' = None
+) → wandb.Artifact
 ```
 
-アーティファクトを run の出力として宣言します。
+Artifact を Run の出力として宣言します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  artifact (`Artifact`): `wandb.Api().artifact(name)` から返されたアーティファクト。 aliases (list, オプション): このアーティファクトに適用するエイリアス。 |
-|  `tags` |  (list, オプション) このアーティファクトに適用するタグ。 |
+**引数:**
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  `Artifact` オブジェクト。 |
+ - `artifact` (`Artifact`): `wandb.Api().artifact(name)` から返された Artifact。
+ - `aliases` (list, オプション): この Artifact に適用するエイリアス。
+ - `tags`: (list, オプション) この Artifact に適用するタグ（ある場合）。
 
-### `logged_artifacts`
+**戻り値:**
+ `Artifact` オブジェクト。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L766-L798)
+---
+
+### <kbd>method</kbd> `Run.logged_artifacts`
 
 ```python
-logged_artifacts(
-    per_page: int = 100
-) -> public.RunArtifacts
+logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
-この run によってログされているすべてのアーティファクトを取得します。
+この Run によってログ記録されたすべての Artifacts を取得します。
 
-run 中にログされたすべての出力アーティファクトを取得します。取得した結果はページネーションされ、イテレートするか、単一のリストにまとめることができます。
+Run 中にログ記録されたすべての出力 Artifacts を取得します。反復処理したり、単一のリストに収集したりできるページ分割された結果を返します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `per_page` |  API リクエストごとに取得するアーティファクトの数。 |
+**引数:**
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  この run 中に出力として記録されたすべての Artifact オブジェクトのイテレート可能なコレクション。 |
+ - `per_page`: 1回の API リクエストで取得する Artifact の数。
 
-#### 例:
+**戻り値:**
+ この Run 中に出力としてログ記録されたすべての Artifact オブジェクトのイテラブルなコレクション。
 
-```
->>> import wandb
->>> import tempfile
->>> with tempfile.NamedTemporaryFile(
-...     mode="w", delete=False, suffix=".txt"
-... ) as tmp:
-...     tmp.write("これはテストアーティファクトです")
-...     tmp_path = tmp.name
->>> run = wandb.init(project="artifact-example")
->>> artifact = wandb.Artifact("test_artifact", type="dataset")
->>> artifact.add_file(tmp_path)
->>> run.log_artifact(artifact)
->>> run.finish()
->>> api = wandb.Api()
->>> finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
->>> for logged_artifact in finished_run.logged_artifacts():
-...     print(logged_artifact.name)
-test_artifact
-```
+**例:**
+ ```python
+import wandb
+import tempfile
 
-### `save`
+with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as tmp:
+    tmp.write("This is a test artifact")
+    tmp_path = tmp.name
+run = wandb.init(project="artifact-example")
+artifact = wandb.Artifact("test_artifact", type="dataset")
+artifact.add_file(tmp_path)
+run.log_artifact(artifact)
+run.finish()
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L570-L571)
+api = wandb.Api()
+
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+
+for logged_artifact in finished_run.logged_artifacts():
+    print(logged_artifact.name)
+``` 
+
+---
+
+### <kbd>method</kbd> `Run.save`
 
 ```python
-save()
+save() → None
 ```
 
-### `scan_history`
+Run オブジェクトへの変更を W&B バックエンドに保存します。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L710-L764)
+---
+
+### <kbd>method</kbd> `Run.scan_history`
 
 ```python
 scan_history(
-    keys=None, page_size=1000, min_step=None, max_step=None
-)
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int | None' = None,
+    max_step: 'int | None' = None
+) → Iterator[dict[str, Any]]
 ```
 
-run のすべての履歴レコードをイテレート可能なコレクションで返します。
+Run のすべての履歴レコードのイテラブルなコレクションを返します。
 
-#### 例:
+**引数:**
 
-例として全ての損失値をエクスポート
+ - `keys` ([str], オプション): これらのキーのみを取得し、すべてのキーが定義されている行のみを取得します。
+ - `page_size` (int, オプション): API から取得するページのサイズ。
+ - `min_step` (int, オプション): 一度にスキャンする最小ページ数。
+ - `max_step` (int, オプション): 一度にスキャンする最大ページ数。
+
+**戻り値:**
+ 履歴レコード（dict）を反復処理するイテラブルなコレクション。
+
+**例:**
+ サンプル Run のすべての loss 値をエクスポートする
 
 ```python
-run = api.run("l2k2/examples-numpy-boston/i0wt6xua")
+run = api.run("entity/project-name/run-id")
 history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
-```
+``` 
 
-| 引数 | Description |
-| :--- | :--- |
-|  keys ([str], オプション): これらのキーのみをフェッチし、これらの定義されたすべてのキーを含む行のみをフェッチします。 page_size (int, オプション): API からフェッチするページのサイズ。 min_step (int, オプション): 一度にスキャンするページの最小数。 max_step (int, オプション): 一度にスキャンするページの最大数。 |
+---
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  履歴レコード (辞書) のイテレート可能なコレクション。 |
-
-### `snake_to_camel`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+### <kbd>method</kbd> `Run.to_html`
 
 ```python
-snake_to_camel(
-    string
-)
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-### `to_html`
+この Run を表示する iframe を含む HTML を生成します。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L993-L1001)
+---
+
+### <kbd>method</kbd> `Run.update`
 
 ```python
-to_html(
-    height=420, hidden=(False)
-)
+update() → None
 ```
 
-この run を表示する iframe を含む HTML を生成します。
+Run オブジェクトへの変更を wandb バックエンドに保存します。
 
-### `update`
+---
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L512-L538)
+### <kbd>method</kbd> `Run.upload_file`
 
 ```python
-update()
+upload_file(path: 'str', root: 'str' = '.') → public.File
 ```
 
-run オブジェクトに対する変更を wandb バックエンドに保存します。
+ローカルファイルを W&B にアップロードし、この Run に関連付けます。
 
-### `upload_file`
+**引数:**
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L644-L666)
+ - `path` (str): アップロードするファイルへのパス。絶対パスまたは相対パスを指定できます。
+ - `root` (str): ファイルを保存する際の基準となるルートパス。例えば、ファイルを Run 内で "my_dir/file.txt" として保存したく、現在 "my_dir" にいる場合は、root を "../" に設定します。デフォルトはカレントディレクトリ (".") です。
 
-```python
-upload_file(
-    path, root="."
-)
-```
+**戻り値:**
+ アップロードされたファイルを表す `File` オブジェクト。
 
-ファイルをアップロードします。
+---
 
-| 引数 | Description |
-| :--- | :--- |
-|  path (str): アップロードするファイルの名前。 root (str): ファイルを保存するルートパス。例: ファイルを "my_dir/file.txt" として保存したい場合で、現在 "my_dir" にいる場合は、 root を "../" に設定します。 |
-
-| 戻り値 | Description |
-| :--- | :--- |
-|  指定された name 引数に一致する `File`。 |
-
-### `use_artifact`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L827-L858)
+### <kbd>method</kbd> `Run.use_artifact`
 
 ```python
 use_artifact(
-    artifact, use_as=None
-)
+    artifact: 'wandb.Artifact',
+    use_as: 'str | None' = None
+) → wandb.Artifact
 ```
 
-アーティファクトを run への入力として宣言します。
+Artifact を Run の入力として宣言します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  artifact (`Artifact`): `wandb.Api().artifact(name)` から返されたアーティファクト。 use_as (string, オプション): スクリプトでアーティファクトがどのように使用されるかを識別する文字列。 run で使用されるアーティファクトを簡単に識別するために、ベータ版の wandb launch 機能のアーティファクト交換機能を使用します。 |
+**引数:**
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  `Artifact` オブジェクト。 |
+ - `artifact` (`Artifact`): `wandb.Api().artifact(name)` から返された Artifact
+ - `use_as` (string, オプション): スクリプト内で Artifact がどのように使用されるかを識別する文字列。ベータ版の wandb launch 機能の Artifact 入れ替え機能を使用する際に、Run で使用される Artifact を簡単に区別するために使用されます。
 
-### `used_artifacts`
+**戻り値:**
+ `Artifact` オブジェクト。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L800-L825)
+---
+
+### <kbd>method</kbd> `Run.used_artifacts`
 
 ```python
-used_artifacts(
-    per_page: int = 100
-) -> public.RunArtifacts
+used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
-この run で明示的に使用されているアーティファクトを取得します。
+この Run で明示的に使用された Artifacts を取得します。
 
-run 中に明示的に使用された入力アーティファクトのみを取得します。通常は `run.use_artifact()` を通じて宣言される。取得した結果はページネーションされ、イテレートするか、単一のリストにまとめることができます。
+Run 中に明示的に使用が宣言された入力 Artifacts（通常は `run.use_artifact()` 経由）のみを取得します。反復処理したり、単一のリストに収集したりできるページ分割された結果を返します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `per_page` |  API リクエストごとに取得するアーティファクトの数。 |
+**引数:**
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  この run 中に入力として明示的に使用された Artifact オブジェクトのイテレート可能なコレクション。 |
+ - `per_page`: 1回の API リクエストで取得する Artifact の数。
 
-#### 例:
+**戻り値:**
+ この Run で入力として明示的に使用された Artifact オブジェクトのイテラブルなコレクション。
 
-```
->>> import wandb
->>> run = wandb.init(project="artifact-example")
->>> run.use_artifact("test_artifact:latest")
->>> run.finish()
->>> api = wandb.Api()
->>> finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
->>> for used_artifact in finished_run.used_artifacts():
-...     print(used_artifact.name)
+**例:**
+ ```python
+import wandb
+
+run = wandb.init(project="artifact-example")
+run.use_artifact("test_artifact:latest")
+run.finish()
+
+api = wandb.Api()
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+for used_artifact in finished_run.used_artifacts():
+    print(used_artifact.name)
 test_artifact
-```
+``` 
 
-### `wait_until_finished`
+---
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L490-L510)
+### <kbd>method</kbd> `Run.wait_until_finished`
 
 ```python
-wait_until_finished()
+wait_until_finished() → None
 ```
+
+Run が終了するまでその状態を確認します。

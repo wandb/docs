@@ -1,19 +1,19 @@
 ---
-title: Track Jupyter notebooks
-description: Jupyter 와 W&B를 함께 사용하여 노트북을 벗어나지 않고도 대화형 시각화 를 얻으세요.
+title: Jupyter 노트북 트래킹
+description: W&B를 Jupyter와 함께 사용하면 노트북을 벗어나지 않고도 대화형 시각화 도구를 활용할 수 있습니다.
 ---
 
-Jupyter와 W&B를 함께 사용하면 노트북에서 나가지 않고도 대화형 시각화 자료를 얻을 수 있습니다. 사용자 정의 분석, Experiments, 프로토타입을 모두 결합하여 완벽하게 로그할 수 있습니다.
+Jupyter와 함께 W&B를 사용하여 노트북을 벗어나지 않고도 대화형 시각화를 확인하세요. 커스텀 분석, 실험, 프로토타입을 결합하고 모든 과정을 빠짐없이 로그로 남길 수 있습니다.
 
-## Jupyter 노트북과 W&B의 유스 케이스
+## Jupyter 노트북에서 W&B를 사용하는 유스 케이스
 
-1. **반복적인 실험**: 파라미터를 조정하여 Experiments를 실행하고 다시 실행하면 수동으로 메모하지 않아도 수행하는 모든 Runs가 자동으로 W&B에 저장됩니다.
-2. **코드 저장**: 모델을 재현할 때 노트북에서 어떤 셀이 어떤 순서로 실행되었는지 알기 어렵습니다. [설정 페이지](/ko/platform/app/settings-page/)에서 코드 저장을 켜면 각 experiment에 대한 셀 실행 기록이 저장됩니다.
-3. **사용자 정의 분석**: Runs가 W&B에 기록되면 API에서 데이터프레임을 가져와 사용자 정의 분석을 수행한 다음 해당 결과를 W&B에 기록하여 리포트에 저장하고 공유하기 쉽습니다.
+1.  **반복적인 실험**: 실험을 실행하고 재실행하며 파라미터를 조정하세요. 별도의 수동 메모 없이도 수행한 모든 run이 W&B에 자동으로 저장됩니다.
+2.  **코드 저장**: 모델을 재현할 때 노트북의 어떤 셀이 어떤 순서로 실행되었는지 파악하기 어려울 수 있습니다. [설정 페이지](/platform/app/settings-page/)에서 코드 저장을 활성화하여 각 실험에 대한 셀 실행 기록을 저장하세요.
+3.  **커스텀 분석**: run이 W&B에 로그되면 API를 통해 데이터프레임을 가져와 커스텀 분석을 수행하기 쉽습니다. 그 결과를 다시 W&B에 로그하여 저장하고 리포트로 공유할 수 있습니다.
 
 ## 노트북에서 시작하기
 
-다음 코드로 노트북을 시작하여 W&B를 설치하고 계정을 연결합니다.
+노트북 시작 부분에 다음 코드를 입력하여 W&B를 설치하고 계정을 연결하세요:
 
 ```notebook
 !pip install wandb -qqq
@@ -21,7 +21,7 @@ import wandb
 wandb.login()
 ```
 
-다음으로 experiment를 설정하고 하이퍼파라미터를 저장합니다.
+다음으로, 실험을 설정하고 하이퍼파라미터를 저장합니다:
 
 ```python
 wandb.init(
@@ -34,64 +34,66 @@ wandb.init(
 )
 ```
 
-`wandb.init()`를 실행한 후 `%%wandb`로 새 셀을 시작하여 노트북에서 라이브 그래프를 확인합니다. 이 셀을 여러 번 실행하면 데이터가 Run에 추가됩니다.
+`wandb.init()` 을 실행한 후, 새 셀을 `%%wandb` 로 시작하면 노트북에서 실시간 그래프를 볼 수 있습니다. 이 셀을 여러 번 실행하면 데이터가 해당 run에 추가됩니다.
 
 ```notebook
 %%wandb
 
-# Your training loop here
+# 여기에 트레이닝 루프 작성
 ```
 
-[예제 노트북](http://wandb.me/jupyter-interact-colab)에서 직접 사용해 보세요.
+이 [예제 노트북](https://wandb.me/jupyter-interact-colab)에서 직접 체험해 보세요.
 
 <Frame>
-    <img src="/images/track/jupyter_widget.png"  />
+    <img src="/images/track/jupyter_widget.png" alt="Jupyter W&B widget"  />
 </Frame>
 
-### 노트북에서 직접 라이브 W&B 인터페이스 렌더링
+### 노트북에서 직접 실시간 W&B 인터페이스 렌더링하기
 
-`%wandb` 매직을 사용하여 기존의 대시보드, Sweeps 또는 리포트를 노트북에서 직접 표시할 수도 있습니다.
+`%wandb` 매직 명령어를 사용하여 기존 대시보드, Sweeps 또는 Reports를 노트북에 직접 표시할 수도 있습니다:
 
 ```notebook
-# Display a project workspace
+# 프로젝트 워크스페이스 표시
 %wandb USERNAME/PROJECT
-# Display a single run
+# 단일 run 표시
 %wandb USERNAME/PROJECT/runs/RUN_ID
-# Display a sweep
+# sweep 표시
 %wandb USERNAME/PROJECT/sweeps/SWEEP_ID
-# Display a report
+# 리포트 표시
 %wandb USERNAME/PROJECT/reports/REPORT_ID
-# Specify the height of embedded iframe
+# 임베디드 iframe의 높이 지정
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-`%%wandb` 또는 `%wandb` 매직의 대안으로 `wandb.init()`를 실행한 후 `wandb.run`으로 셀을 종료하여 인라인 그래프를 표시하거나 API에서 반환된 리포트, 스윕 또는 Run 오브젝트에서 `ipython.display(...)`를 호출할 수 있습니다.
+`%%wandb` 또는 `%wandb` 매직 명령어 대신, `wandb.init()` 실행 후 셀 끝에 `wandb.Run.finish()` 를 추가하여 인라인 그래프를 표시하거나, API에서 반환된 리포트, sweep 또는 run 오브젝트에 대해 `ipython.display(...)` 를 호출할 수 있습니다.
 
 ```python
-# Initialize wandb.run first
-wandb.init()
+import wandb
+from IPython.display import display
+# run 초기화
+run = wandb.init()
 
-# If cell outputs wandb.run, you'll see live graphs
-wandb.run
+# 셀 출력 결과로 run.finish()가 호출되면 실시간 그래프를 볼 수 있습니다.
+run.finish()
 ```
 
 <Note>
-W&B로 무엇을 할 수 있는지 더 자세히 알고 싶으신가요? [데이터 및 미디어 로깅 가이드](/ko/models/track/log/)를 확인하거나, [자주 사용하는 ML 툴킷과 통합하는 방법](/ko/guides/integrations/)을 배우거나, [참조 문서](/ko/models/ref/python/) 또는 [예제 리포지토리](https://github.com/wandb/examples)로 바로 이동하세요.
+W&B로 무엇을 더 할 수 있는지 알고 싶으신가요? [데이터 및 미디어 로깅 가이드](/models/track/log/)를 확인하거나, [선호하는 ML 툴킷과의 인테그레이션 방법](/models/integrations)을 알아보세요. 또는 [레퍼런스 문서](/models/ref/python/)나 [예제 레포지토리](https://github.com/wandb/examples)를 바로 살펴보실 수 있습니다.
 </Note>
 
 ## W&B의 추가 Jupyter 기능
 
-1. **Colab에서 간편한 인증**: Colab에서 `wandb.init`를 처음 호출하면 브라우저에서 W&B에 로그인한 경우 런타임이 자동으로 인증됩니다. Run 페이지의 Overview 탭에서 Colab 링크를 볼 수 있습니다.
-2. **Jupyter Magic**: 대시보드, Sweeps 및 리포트를 노트북에서 직접 표시합니다. `%wandb` 매직은 프로젝트, Sweeps 또는 리포트의 경로를 허용하고 W&B 인터페이스를 노트북에서 직접 렌더링합니다.
-3. **dockerized Jupyter 실행**: `wandb docker --jupyter`를 호출하여 docker 컨테이너를 시작하고, 코드를 마운트하고, Jupyter가 설치되었는지 확인하고, 포트 8888에서 시작합니다.
-4. **두려움 없이 임의의 순서로 셀 실행**: 기본적으로 Run이 `finished`로 표시될 때까지 `wandb.init`가 다음에 호출될 때까지 기다립니다. 이를 통해 여러 셀(예: 데이터 설정, 트레이닝, 테스트)을 원하는 순서로 실행하고 모두 동일한 Run에 기록할 수 있습니다. [설정](https://app.wandb.ai/settings)에서 코드 저장을 켜면 실행된 셀도 순서대로, 그리고 실행된 상태로 기록하여 가장 비선형적인 파이프라인도 재현할 수 있습니다. Jupyter 노트북에서 Run을 수동으로 완료하려면 `run.finish`를 호출합니다.
+1.  **Colab에서의 간편한 인증**: Colab에서 `wandb.init` 을 처음 호출할 때, 브라우저에서 W&B에 로그인되어 있다면 런타임 인증이 자동으로 이루어집니다. run 페이지의 Overview 탭에서 해당 Colab으로 연결되는 링크를 확인할 수 있습니다.
+2.  **Jupyter Magic**: 대시보드, Sweeps 및 Reports를 노트북에 직접 표시합니다. `%wandb` 매직 명령어는 프로젝트, Sweeps 또는 Reports의 경로를 인자로 받아 W&B 인터페이스를 노트북 내에 직접 렌더링합니다.
+3.  **docker 기반 Jupyter 실행**: `wandb docker --jupyter` 를 호출하여 docker 컨테이너를 실행하고, 코드를 마운트하며, Jupyter 설치를 확인한 후 8888 포트에서 실행합니다.
+4.  **자유로운 셀 실행 순서**: 기본적으로 W&B는 다음번 `wandb.init` 이 호출될 때까지 기다렸다가 현재 run을 `finished` 로 표시합니다. 이를 통해 데이터 설정, 트레이닝, 테스트 등 여러 셀을 원하는 순서대로 실행하더라도 모두 동일한 run에 로그할 수 있습니다. [사용자 설정](https://wandb.ai/settings)에서 코드 저장을 활성화하면 실행된 셀의 순서와 상태가 로그되어, 매우 비선형적인 파이프라인이라도 재현이 가능해집니다. Jupyter 노트북에서 수동으로 run을 완료하려면 `run.finish` 를 호출하세요.
 
 ```python
 import wandb
 
 run = wandb.init()
 
-# training script and logging goes here
+# 트레이닝 스크립트 및 로그 코드가 여기에 들어갑니다.
 
 run.finish()
 ```

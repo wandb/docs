@@ -1,22 +1,22 @@
 ---
-title: wandb launch-agent
+title: "wandb launch-agent"
 ---
 
-**사용법**
+W&B launch 에이전트를 실행합니다.
 
-`wandb launch-agent [OPTIONS]`
+## Usage
 
-**요약**
+```bash
+wandb launch-agent [OPTIONS]
+```
 
-W&B Launch 에이전트를 실행합니다.
+## Options
 
-**옵션**
-
-| **옵션** | **설명** |
+| Option | Description |
 | :--- | :--- |
-| `-q, --queue` | 에이전트가 감시할 큐의 이름입니다. 다중 `-q` 플래그가 지원됩니다. |
-| `-e, --entity` | 사용할 엔티티입니다. 기본적으로 현재 로그인한 사용자입니다. |
-| `-l, --log-file` | 내부 에이전트 로그의 대상입니다. stdout의 경우 -를 사용하십시오. 기본적으로 모든 에이전트 로그는 wandb/ 하위 디렉토리 또는 WANDB_DIR (설정된 경우)의 debug.log로 이동합니다. |
-| `-j, --max-jobs` | 이 에이전트가 병렬로 실행할 수 있는 최대 Launch 작업 수입니다. 기본값은 1입니다. 상한이 없도록 -1로 설정합니다. |
-| `-c, --config` | 사용할 에이전트 구성 yaml 파일의 경로입니다. |
-| `-v, --verbose` | 자세한 출력을 표시합니다. |
+| `--queue`, `-q` | 에이전트가 모니터링할 큐의 이름입니다. 여러 개의 -q 플래그를 지원합니다. |
+| `--entity`, `-e` | 사용할 Entity입니다. 기본값은 현재 로그인된 사용자입니다. |
+| `--log-file`, `-l` | 내부 에이전트 로그의 저장 위치입니다. stdout을 사용하려면 -를 입력하세요. 기본적으로 모든 에이전트 로그는 wandb/ 하위 디렉토리의 debug.log 또는 설정된 경우 WANDB_DIR로 전송됩니다. |
+| `--max-jobs`, `-j` | 이 에이전트가 병렬로 실행할 수 있는 최대 launch 작업 수입니다. 기본값은 1입니다. 상한선을 없애려면 -1로 설정하세요. |
+| `--config`, `-c` | 사용할 에이전트 설정 yaml 파일의 경로입니다. |
+| `--verbose`, `-v` | 상세 출력을 표시합니다 (기본값: 0). |
