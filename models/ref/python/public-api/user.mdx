@@ -63,32 +63,6 @@ A `wandb.Api` instance using the user's credentials.
  - `Api | None`: The user_api property value.
 ---
 
-### <kbd>classmethod</kbd> `User.create`
-
-```python
-create(api: 'Api', email: 'str', admin: 'bool' = False) → Self
-```
-
-Create a new user. 
-
-This is an internal method. Use the `create_user()` method of `wandb.Api` instead. 
-
-
-
-**Args:**
- 
- - `api`:  The API instance to use to create the user. 
- - `email`:  The email for the user. 
- - `admin`:  Whether this user should be a global instance admin. 
-
-
-
-**Returns:**
- A `User` object. 
-
-<!-- lazydoc-ignore: internal --> 
-
----
 
 ### <kbd>method</kbd> `User.delete_api_key`
 
