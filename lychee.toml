@@ -45,6 +45,7 @@ verbose = "error"
 # Third party URLs that timeout or rate-limit
 # W&B production URLs (checked separately)
 exclude = [
+  '0\.0\.0\.0',
   '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
   'https://kubeflow.mysite.com',
   'my-fake-url\.com',
