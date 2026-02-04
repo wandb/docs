@@ -1,0 +1,35 @@
+---
+title: "Model Lifecycle"
+linkTitle: "Lifecycle"
+description: >
+  Learn about model lifecycle and retirement
+---
+
+New models are frequently evaluated and released as part of the W&B Inference catalog.
+
+Older models are regularly reviewed, and may be retired to prioritize the most in demand and highest quality offerings.
+
+## Terminology
+
+Models in W&B Inference use the following terminology for the stages of their lifecycle.
+
+* Generally Available: The model is fully supported and is recommended for use.
+* Deprecated: The model is scheduled for removal. Customers should update to a recommended replacement as soon as possible.
+* Retired: This model is no longer available. Any requests to retired models will fail.
+
+## Deprecation Process
+
+When deprecating a model, W&B will provide at least two weeks of notice on this page before the model is retired.
+
+We will additionally attempt to notify recent users of a deprecated model via email
+and provide recommendations for replacement models.
+
+While the model is in the deprecated stage it will continue to serve requests.
+Once the model is retired it will return an HTTP 404 status code for all requests.
+
+
+## Deprecated Models
+
+| Deprecation date | Model ID                    | Recommended replacement         |
+|------------------|-----------------------------|---------------------------------|
+| 2026-02-05       | `Qwen/Qwen2.5-14B-Instruct` | `OpenPipe/Qwen3-14B-Instruct`   |
