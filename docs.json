@@ -427,7 +427,8 @@
                           "models/integrations/simpletransformers",
                           "models/integrations/huggingface",
                           "models/integrations/openai-gym",
-                          "models/integrations/pytorch-geometric"
+                          "models/integrations/pytorch-geometric",
+                          "models/integrations/torchtune"
                         ]
                       }
                     ]
