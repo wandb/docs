@@ -3,47 +3,38 @@ title: "Review items in an annotation queue"
 description: "Evaluate trace items and submit structured feedback using a simplified review interface."
 ---
 
-## Overview
 
 Annotation queues provide a focused review interface for domain experts. You review one item at a time, examine the provided context, and submit structured feedback using predefined fields.
 
 You do not need to understand the underlying model or tracing system to complete reviews.
 
----
 
-## Review workflow
+## Annotation workflow
 
 As an annotator, your task consists of:
 
-1. Opening the shared annotation queue.
-2. Reviewing each item in sequence.
-3. Submitting feedback using the provided annotation fields.
+1. Open the shared annotation queue.
+2. Review each item. You can move forward and backward through items in the queue at any time.
+3. Submit feedback using the provided annotation fields.
 
-Your progress is saved automatically as you move through the queue.
+Your progress is saved automatically after you submit an item. If you need to pause and resume your work later, the review automatically resumes at the first incomplete item. Once all items have been reviewed, the Annotation Queue table reflects completion of the work.
 
----
 
-## Review a queue item
 
-For each item, the review interface shows:
-- Selected input context, such as prompts, documents, or images.
-- The corresponding model output or decision.
-- An annotation form with clearly labeled fields.
+### Review a queue item
 
-Complete each field according to the instructions provided for the queue, then submit the review to continue.
+For each item, the review interface shows two panes:
+- A trace pane showing selected input context (such as prompts, documents, or images) and the corresponding model response or decision.
+- An item pane containing an annotation entry form containing annotation fields.
 
----
+Complete each annotation field according to the instructions provided for the queue, then click **Submit and next** to save this item and continue to the next.
 
-## Navigate and inspect context
+<Frame>
+  ![Annotation queue review interface for a single trace item, showing a trace information pane alongside an annotation form pane where reviewers submit structured feedback and move through the queue.](./imgs/AnnotationSubmitItem.png)
+</Frame>
 
-You can move forward and backward through items in the queue at any time.
+<Tip>
+In the trace pane header, you can click the Trace ID suffix (for example, "b3ea") to open a panel showing the full trace details for the call.
+</Tip>
 
-If additional context is needed, you can open the full trace view from the item header to inspect execution details, intermediate steps, or related metadata.
-
----
-
-## Completion and progress
-
-Your personal progress is tracked within the queue. Once all items have been reviewed, the queue reflects completion for your account.
-
-No additional action is required after submitting reviews.
+If any annotator has already reviewed an item in the queue, both pane headers of the review interface are decorated with "Has feedback" and "Response submitted" indicators.
