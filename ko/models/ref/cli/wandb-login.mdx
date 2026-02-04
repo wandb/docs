@@ -1,22 +1,33 @@
 ---
 title: wandb login
 ---
+import WandbLogin from "/snippets/en/_includes/cli/wandb-login.mdx";
 
-**사용법**
+<WandbLogin/>
 
-`wandb login [OPTIONS] [KEY]...`
+W&B 서비스 인증을 위해 API 키를 확인하고 저장합니다.
 
-**요약**
+기본적으로 W&B의 확인 절차 없이 로컬에만 자격 증명을 저장합니다. 자격 증명을 확인하려면 `--verify=True`로 설정하세요.
 
-Weights & Biases 에 로그인합니다.
+서버 배포 (전용 클라우드 또는 고객 관리형 인스턴스)의 경우, `--host` 플래그를 사용하여 호스트 URL을 지정하세요. `login` 코맨드를 호스트 파라미터와 함께 실행하는 대신 `WANDB_BASE_URL` 및 `WANDB_API_KEY` 환경 변수를 설정할 수도 있습니다.
 
+## Usage
 
-**옵션**
+```bash
+wandb login [KEY] [OPTIONS]
+```
 
-| **옵션** | **설명** |
+## Arguments
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `KEY` | 설명 없음 | 아니요 |
+
+## Options
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `--cloud` | 로컬 대신 클라우드에 로그인합니다. |
-| `--host, --base-url` | 특정 W&B 인스턴스에 로그인합니다. |
-| `--relogin` | 이미 로그인한 경우 강제로 다시 로그인합니다. |
-| `--anonymously` | 익명으로 로그인합니다. |
-| `--verify / --no-verify` | 로그인 자격 증명을 확인합니다. |
+| `--cloud` | 로컬 대신 클라우드에 로그인 (기본값: False) |
+| `--host`, `--base-url` | 특정 W&B 인스턴스에 로그인 |
+| `--relogin` | 이미 로그인된 경우 강제로 다시 로그인 |
+| `--verify` | 로그인 자격 증명 확인 (기본값: False) |

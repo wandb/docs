@@ -1,0 +1,576 @@
+---
+title: OpenTelemetry Traces를 Weave로 전송하기
+description: 전용 엔드포인트를 통해 OpenTelemetry 호환 trace 데이터를 수집하세요.
+---
+
+## 개요
+Weave는 전용 엔드포인트를 통해 OpenTelemetry 호환 trace 데이터의 ingestion을 지원합니다. 이 엔드포인트를 사용하면 OTLP(OpenTelemetry Protocol) 형식의 trace 데이터를 Weave 프로젝트로 직접 전송할 수 있습니다.
+
+## 엔드포인트 세부 정보
+
+**경로**: `/otel/v1/traces`
+**메소드**: POST
+**Content-Type**: `application/x-protobuf`
+**기본 URL**: OTEL trace 엔드포인트의 기본 URL은 W&B 배포 유형에 따라 다릅니다:
+
+- 멀티 테넌트 클라우드:  
+  `https://trace.wandb.ai/otel/v1/traces`
+
+- Dedicated Cloud 및 셀프 매니지드 인스턴스:  
+  `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`
+
+`<your-subdomain>`을 조직의 고유한 W&B 도메인(예: `acme.wandb.io`)으로 바꾸세요.
+
+## 인증
+표준 W&B 인증이 사용됩니다. trace 데이터를 전송하려는 프로젝트에 대해 쓰기 권한이 있어야 합니다.
+
+## 필수 헤더
+- `project_id: <your_entity>/<your_project_name>`
+- `Authorization=Basic <Base64 Encoding of api:$WANDB_API_KEY>`
+
+## 예시:
+
+아래 코드 샘플을 실행하기 전에 다음 필드를 수정해야 합니다:
+1. `WANDB_API_KEY`: [User Settings](https://wandb.ai/settings)에서 키를 가져올 수 있습니다.
+2. Entity: 엑세스 권한이 있는 Entity 하위의 프로젝트로만 trace를 로그할 수 있습니다. [https://wandb.ai/home]에서 W&B 대시보드를 방문하여 왼쪽 사이드바의 **Teams** 필드를 확인하면 Entity 이름을 찾을 수 있습니다.
+3. 프로젝트 이름: 원하는 이름을 선택하세요!
+4. `OPENAI_API_KEY`: [OpenAI 대시보드](https://platform.openai.com/api-keys)에서 가져올 수 있습니다.
+
+### OpenInference 인스트루먼테이션:
+
+이 예시는 OpenAI 인스트루먼테이션을 사용하는 방법을 보여줍니다. 공식 리포지토리(https://github.com/Arize-ai/openinference)에서 더 많은 예시를 확인할 수 있습니다.
+
+먼저, 필요한 종속성을 설치합니다:
+
+```bash
+pip install openai openinference-instrumentation-openai opentelemetry-exporter-otlp-proto-http
+```
+
+<Warning>
+**성능 권장 사항**: Weave에 trace를 보낼 때는 항상 `SimpleSpanProcessor` 대신 `BatchSpanProcessor`를 사용하세요. `SimpleSpanProcessor`는 span을 동기적으로 내보내므로 다른 워크로드의 성능에 영향을 줄 수 있습니다. 이 예시들은 span을 비동기적이고 효율적으로 배치 처리하므로 프로덕션에서 권장되는 `BatchSpanProcessor`를 사용합니다.
+</Warning>
+
+다음으로, 아래 코드를 `openinference_example.py`와 같은 파이썬 파일에 붙여넣습니다.
+
+```python lines
+import base64
+import openai
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+from openinference.instrumentation.openai import OpenAIInstrumentor
+
+OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
+WANDB_BASE_URL = "https://trace.wandb.ai"
+PROJECT_ID = "<your-entity>/<your-project>"
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+# https://wandb.ai/settings 에서 API 키를 생성하세요
+WANDB_API_KEY = "<your-wandb-api-key>"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+tracer_provider = trace_sdk.TracerProvider()
+
+# OTLP 엑스포터 구성
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Tracer provider에 엑스포터 추가
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+# 선택적으로 콘솔에 span 출력
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+def main():
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}],
+        max_tokens=20,
+        stream=True,
+        stream_options={"include_usage": True},
+    )
+    for chunk in response:
+        if chunk.choices and (content := chunk.choices[0].delta.content):
+            print(content, end="")
+
+if __name__ == "__main__":
+    main()
+```
+
+마지막으로 위에서 지정한 필드를 올바른 값으로 설정한 후 코드를 실행합니다:
+
+```bash
+python openinference_example.py
+```
+
+### OpenLLMetry 인스트루먼테이션:
+
+다음 예시는 OpenAI 인스트루먼테이션을 사용하는 방법을 보여줍니다. 추가 예시는 [https://github.com/traceloop/openllmetry/tree/main/packages](https://github.com/traceloop/openllmetry/tree/main/packages)에서 확인할 수 있습니다.
+
+먼저 필요한 종속성을 설치합니다:
+
+```bash
+pip install openai opentelemetry-instrumentation-openai opentelemetry-exporter-otlp-proto-http
+```
+
+다음으로, 아래 코드를 `openllmetry_example.py`와 같은 파이썬 파일에 붙여넣습니다. 이 코드는 `OpenAIInstrumentor`를 `openinference.instrumentation.openai` 대신 `opentelemetry.instrumentation.openai`에서 가져온다는 점을 제외하면 위와 동일합니다.
+
+```python lines
+import base64
+import openai
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+from opentelemetry.instrumentation.openai import OpenAIInstrumentor
+
+OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
+WANDB_BASE_URL = "https://trace.wandb.ai"
+PROJECT_ID = "<your-entity>/<your-project>"
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+# https://wandb.ai/settings 에서 API 키를 생성하세요
+WANDB_API_KEY = "<your-wandb-api-key>"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+tracer_provider = trace_sdk.TracerProvider()
+
+# OTLP 엑스포터 구성
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Tracer provider에 엑스포터 추가
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+# 선택적으로 콘솔에 span 출력
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+def main():
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}],
+        max_tokens=20,
+        stream=True,
+        stream_options={"include_usage": True},
+    )
+    for chunk in response:
+        if chunk.choices and (content := chunk.choices[0].delta.content):
+            print(content, end="")
+
+if __name__ == "__main__":
+    main()
+```
+
+필드를 설정한 후 코드를 실행합니다:
+
+```bash
+python openllmetry_example.py
+```
+
+### 인스트루먼테이션 없이 사용하기
+
+인스트루먼테이션 패키지 대신 OTEL을 직접 사용하고 싶다면 그렇게 할 수 있습니다. Span 속성은 [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/)에 설명된 OpenTelemetry 시맨틱 규칙에 따라 파싱됩니다.
+
+먼저, 필요한 종속성을 설치합니다:
+
+```bash
+pip install openai opentelemetry-sdk opentelemetry-api opentelemetry-exporter-otlp-proto-http
+```
+
+다음으로, 아래 코드를 `opentelemetry_example.py`와 같은 파이썬 파일에 붙여넣습니다.
+
+```python lines
+import json
+import base64
+import openai
+from opentelemetry import trace
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+
+OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+WANDB_BASE_URL = "https://trace.wandb.ai"
+PROJECT_ID = "<your-entity>/<your-project>"
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+# https://wandb.ai/settings 에서 API 키를 생성하세요
+WANDB_API_KEY = "<your-wandb-api-key>"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+tracer_provider = trace_sdk.TracerProvider()
+
+# OTLP 엑스포터 구성
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# Tracer provider에 엑스포터 추가
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+# 선택적으로 콘솔에 span 출력
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+trace.set_tracer_provider(tracer_provider)
+# 글로벌 tracer provider에서 tracer 생성
+tracer = trace.get_tracer(__name__)
+tracer.start_span('name=standard-span')
+
+def my_function():
+    with tracer.start_as_current_span("outer_span") as outer_span:
+        client = openai.OpenAI()
+        input_messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}]
+        # 사이드 패널에만 표시됩니다
+        outer_span.set_attribute("input.value", json.dumps(input_messages))
+        # 규칙을 따르며 대시보드에 표시됩니다
+        outer_span.set_attribute("gen_ai.system", 'openai')
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=input_messages,
+            max_tokens=20,
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+        out = ""
+        for chunk in response:
+            if chunk.choices and (content := chunk.choices[0].delta.content):
+                out += content
+        # 사이드 패널에만 표시됩니다
+        outer_span.set_attribute("output.value", json.dumps({"content": out}))
+
+if __name__ == "__main__":
+    my_function()
+```
+
+설정 후 코드를 실행합니다:
+
+```bash
+python opentelemetry_example.py
+```
+
+Span 속성 접두사인 `gen_ai` 및 `openinference`는 trace를 해석할 때 어떤 규칙을 사용할지 결정하는 데 사용됩니다. 어떤 키도 감지되지 않으면 모든 span 속성이 trace 뷰에 표시됩니다. trace를 선택하면 사이드 패널에서 전체 span을 확인할 수 있습니다.
+
+## OTEL trace를 thread로 구성하기
+
+특정 span 속성을 추가하여 OpenTelemetry trace를 [Weave threads](/weave/guides/tracking/threads)로 구성한 다음, Weave의 Thread UI를 사용하여 멀티-턴 대화 또는 사용자 세션과 같은 관련 작업을 분석할 수 있습니다.
+
+thread 그룹화를 활성화하려면 OTEL span에 다음 속성을 추가하세요:
+
+- `wandb.thread_id`: span을 특정 thread로 그룹화합니다.
+- `wandb.is_turn`: span을 대화 턴으로 표시합니다 (thread 뷰에서 행으로 나타납니다).
+
+다음 코드는 OTEL trace를 Weave threads로 구성하는 여러 예시를 보여줍니다. 관련 작업을 그룹화하기 위해 `wandb.thread_id`를 사용하고, 상위 수준 작업을 thread 뷰의 행으로 보기 위해 `wandb.is_turn`을 사용합니다.
+
+
+<Accordion title="초기 설정">
+
+이 예시들을 실행하기 위해 다음 설정을 사용하세요:
+
+```python lines
+import base64
+import json
+import os
+from opentelemetry import trace
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+
+# 설정
+ENTITY = "YOUR_ENTITY"
+PROJECT = "YOUR_PROJECT"
+PROJECT_ID = f"{ENTITY}/{PROJECT}"
+WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+# OTLP 엔드포인트 및 헤더 설정
+OTEL_EXPORTER_OTLP_ENDPOINT="https://trace.wandb.ai/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# tracer provider 초기화
+tracer_provider = trace_sdk.TracerProvider()
+
+# OTLP 엑스포터 구성
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# tracer provider에 엑스포터 추가
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+# 선택적으로 콘솔에 span 출력
+tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+# tracer provider 설정
+trace.set_tracer_provider(tracer_provider)
+
+# 글로벌 tracer provider에서 tracer 생성
+tracer = trace.get_tracer(__name__)
+```
+</Accordion>
+
+<Accordion title="기본 단일 턴 thread 추적">
+```python lines
+def example_1_basic_thread_and_turn():
+    """예시 1: 단일 턴을 가진 기본 thread"""
+    print("\n=== 예시 1: 기본 Thread와 턴 ===")
+
+    # thread 컨텍스트 생성
+    thread_id = "thread_example_1"
+
+    # 이 span은 턴을 나타냄 (thread의 직계 자식)
+    with tracer.start_as_current_span("process_user_message") as turn_span:
+        # thread 속성 설정
+        turn_span.set_attribute("wandb.thread_id", thread_id)
+        turn_span.set_attribute("wandb.is_turn", True)
+
+        # 예시 속성 추가
+        turn_span.set_attribute("input.value", "Hello, help me with setup")
+
+        # 중첩된 span으로 작업 시뮬레이션
+        with tracer.start_as_current_span("generate_response") as nested_span:
+            # 턴 내의 중첩된 호출이므로 is_turn은 false 또는 설정하지 않음
+            nested_span.set_attribute("wandb.thread_id", thread_id)
+            # wandb.is_turn은 중첩 호출에 대해 설정하지 않거나 False로 설정
+
+            response = "I'll help you get started with the setup process."
+            nested_span.set_attribute("output.value", response)
+
+        turn_span.set_attribute("output.value", response)
+        print(f"Thread에서 턴 완료: {thread_id}")
+
+def main():
+    example_1_basic_thread_and_turn()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+<Accordion title="하나의 thread ID를 공유하는 멀티 턴 대화 추적">
+```python lines
+def example_2_multiple_turns():
+    """예시 2: 단일 thread 내의 여러 턴"""
+    print("\n=== 예시 2: Thread 내 여러 턴 ===")
+
+    thread_id = "thread_conversation_123"
+
+    # 턴 1
+    with tracer.start_as_current_span("process_message_turn1") as turn1_span:
+        turn1_span.set_attribute("wandb.thread_id", thread_id)
+        turn1_span.set_attribute("wandb.is_turn", True)
+        turn1_span.set_attribute("input.value", "What programming languages do you recommend?")
+
+        # 중첩 작업
+        with tracer.start_as_current_span("analyze_query") as analyze_span:
+            analyze_span.set_attribute("wandb.thread_id", thread_id)
+            # 중첩 span에 대해서는 is_turn 속성 없음 또는 False로 설정
+
+        response1 = "I recommend Python for beginners and JavaScript for web development."
+        turn1_span.set_attribute("output.value", response1)
+        print(f"Thread에서 턴 1 완료: {thread_id}")
+
+    # 턴 2
+    with tracer.start_as_current_span("process_message_turn2") as turn2_span:
+        turn2_span.set_attribute("wandb.thread_id", thread_id)
+        turn2_span.set_attribute("wandb.is_turn", True)
+        turn2_span.set_attribute("input.value", "Can you explain Python vs JavaScript?")
+
+        # 중첩 작업
+        with tracer.start_as_current_span("comparison_analysis") as compare_span:
+            compare_span.set_attribute("wandb.thread_id", thread_id)
+            compare_span.set_attribute("wandb.is_turn", False)  # 중첩 작업에 대해 명시적 False
+
+        response2 = "Python excels at data science while JavaScript dominates web development."
+        turn2_span.set_attribute("output.value", response2)
+        print(f"Thread에서 턴 2 완료: {thread_id}")
+
+def main():
+    example_2_multiple_turns()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+<Accordion title="깊게 중첩된 작업을 추적하고 가장 바깥쪽 span만 턴으로 표시">
+```python lines
+def example_3_complex_nested_structure():
+    """예시 3: 여러 레벨의 복잡한 중첩 구조"""
+    print("\n=== 예시 3: 복잡한 중첩 구조 ===")
+
+    thread_id = "thread_complex_456"
+
+    # 여러 레벨의 중첩을 가진 턴
+    with tracer.start_as_current_span("handle_complex_request") as turn_span:
+        turn_span.set_attribute("wandb.thread_id", thread_id)
+        turn_span.set_attribute("wandb.is_turn", True)
+        turn_span.set_attribute("input.value", "Analyze this code and suggest improvements")
+
+        # 레벨 1 중첩 작업
+        with tracer.start_as_current_span("code_analysis") as analysis_span:
+            analysis_span.set_attribute("wandb.thread_id", thread_id)
+            # 중첩 작업에 대해 is_turn 없음
+
+            # 레벨 2 중첩 작업
+            with tracer.start_as_current_span("syntax_check") as syntax_span:
+                syntax_span.set_attribute("wandb.thread_id", thread_id)
+                syntax_span.set_attribute("result", "No syntax errors found")
+
+            # 또 다른 레벨 2 중첩 작업
+            with tracer.start_as_current_span("performance_check") as perf_span:
+                perf_span.set_attribute("wandb.thread_id", thread_id)
+                perf_span.set_attribute("result", "Found 2 optimization opportunities")
+
+        # 또 다른 레벨 1 중첩 작업
+        with tracer.start_as_current_span("generate_suggestions") as suggest_span:
+            suggest_span.set_attribute("wandb.thread_id", thread_id)
+            suggestions = ["Use list comprehension", "Consider caching results"]
+            suggest_span.set_attribute("suggestions", json.dumps(suggestions))
+
+        turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
+        print(f"Thread에서 복잡한 턴 완료: {thread_id}")
+
+def main():
+    example_3_complex_nested_structure()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+<Accordion title="thread에 속하지만 턴이 아닌 백그라운드 작업 추적">
+
+```python lines
+def example_4_non_turn_operations():
+    """예시 4: thread의 일부이지만 턴은 아닌 작업"""
+    print("\n=== 예시 4: 턴이 아닌 Thread 작업 ===")
+
+    thread_id = "thread_background_789"
+
+    # thread의 일부이지만 턴은 아닌 백그라운드 작업
+    with tracer.start_as_current_span("background_indexing") as bg_span:
+        bg_span.set_attribute("wandb.thread_id", thread_id)
+        # wandb.is_turn은 설정되지 않거나 false - 이것은 턴이 아님
+        bg_span.set_attribute("wandb.is_turn", False)
+        bg_span.set_attribute("operation", "Indexing conversation history")
+        print(f"Thread 내 백그라운드 작업: {thread_id}")
+
+    # 동일한 thread의 실제 턴
+    with tracer.start_as_current_span("user_query") as turn_span:
+        turn_span.set_attribute("wandb.thread_id", thread_id)
+        turn_span.set_attribute("wandb.is_turn", True)
+        turn_span.set_attribute("input.value", "Search my previous conversations")
+        turn_span.set_attribute("output.value", "Found 5 relevant conversations")
+        print(f"Thread에서 턴 완료: {thread_id}")
+
+def main():
+    example_4_non_turn_operations()
+if __name__ == "__main__":
+    main()
+```
+</Accordion>
+
+이러한 trace를 전송한 후 Weave UI의 **Threads** 탭에서 확인할 수 있으며, 여기서 `thread_id`별로 그룹화되고 각 턴은 별개의 행으로 표시됩니다.
+
+## 속성 매핑
+
+Weave는 다양한 인스트루먼테이션 프레임워크의 OpenTelemetry span 속성을 내부 데이터 모델로 자동 매핑합니다. 여러 속성 이름이 동일한 필드에 매핑될 경우 Weave는 우선순위에 따라 적용하여 동일한 trace 내에서 프레임워크가 공존할 수 있도록 합니다.
+
+### 지원되는 프레임워크
+
+Weave는 다음 관측성 프레임워크 및 SDK의 속성 규칙을 지원합니다:
+
+- **OpenTelemetry GenAI**: 생성형 AI에 대한 표준 시맨틱 규칙 (`gen_ai.*`)
+- **OpenInference**: Arize AI의 인스트루먼테이션 라이브러리 (`input.value`, `output.value`, `llm.*`, `openinference.*`)
+- **Vercel AI SDK**: Vercel의 AI SDK 속성 (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)
+- **MLflow**: MLflow 트래킹 속성 (`mlflow.spanInputs`, `mlflow.spanOutputs`)
+- **Traceloop**: OpenLLMetry 인스트루먼테이션 (`traceloop.entity.*`, `traceloop.span.kind`)
+- **Google Vertex AI**: Vertex AI 에이전트 속성 (`gcp.vertex.agent.*`)
+- **OpenLit**: OpenLit 관측성 속성 (`gen_ai.content.completion`)
+- **Langfuse**: Langfuse 트레이싱 속성 (`langfuse.startTime`, `langfuse.endTime`)
+
+### 속성 참조
+
+| 속성 필드 이름 | W&B 매핑 | 설명 | 유형 | 예시 |
+|:---|:---|:---|:---|:---|
+| `ai.prompt` | `inputs` | 사용자 프롬프트 텍스트 또는 메시지. | String, list, dict | `"Write a short haiku about summer."` |
+| `gen_ai.prompt` | `inputs` | AI 모델 프롬프트 또는 메시지 배열. | List, dict, string | `[{"role":"user","content":"abc"}]` |
+| `input.value` | `inputs` | 모델 호출을 위한 입력 값. | String, list, dict | `{"text":"Tell a joke"}` |
+| `mlflow.spanInputs` | `inputs` | Span 입력 데이터. | String, list, dict | `["prompt text"]` |
+| `traceloop.entity.input` | `inputs` | Entity 입력 데이터. | String, list, dict | `"Translate this to French"` |
+| `gcp.vertex.agent.tool_call_args` | `inputs` | 툴 호출 인수. | Dict | `{"args":{"query":"weather in SF"}}` |
+| `gcp.vertex.agent.llm_request` | `inputs` | LLM 요청 페이로드. | Dict | `{"contents":[{"role":"user","parts":[...]}]}` |
+| `input` | `inputs` | 일반적인 입력 값. | String, list, dict | `"Summarize this text"` |
+| `inputs` | `inputs` | 일반적인 입력 배열. | List, dict, string | `["Summarize this text"]` |
+| `ai.response` | `outputs` | 모델 응답 텍스트 또는 데이터. | String, list, dict | `"Here is a haiku..."` |
+| `gen_ai.completion` | `outputs` | AI completion 결과. | String, list, dict | `"Completion text"` |
+| `output.value` | `outputs` | 모델의 출력 값. | String, list, dict | `{"text":"Answer text"}` |
+| `mlflow.spanOutputs` | `outputs` | Span 출력 데이터. | String, list, dict | `["answer"]` |
+| `gen_ai.content.completion` | `outputs` | 콘텐츠 completion 결과. | String | `"Answer text"` |
+| `traceloop.entity.output` | `outputs` | Entity 출력 데이터. | String, list, dict | `"Answer text"` |
+| `gcp.vertex.agent.tool_response` | `outputs` | 툴 실행 응답. | Dict, string | `{"toolResponse":"ok"}` |
+| `gcp.vertex.agent.llm_response` | `outputs` | LLM 응답 페이로드. | Dict, string | `{"candidates":[...]}` |
+| `output` | `outputs` | 일반적인 출력 값. | String, list, dict | `"Answer text"` |
+| `outputs` | `outputs` | 일반적인 출력 배열. | List, dict, string | `["Answer text"]` |
+| `gen_ai.usage.input_tokens` | `usage.input_tokens` | 사용된 입력 토큰 수. | Int | `42` |
+| `gen_ai.usage.prompt_tokens` | `usage.prompt_tokens` | 사용된 프롬프트 토큰 수. | Int | `30` |
+| `llm.token_count.prompt` | `usage.prompt_tokens` | 프롬프트 토큰 수. | Int | `30` |
+| `ai.usage.promptTokens` | `usage.prompt_tokens` | 사용된 프롬프트 토큰. | Int | `30` |
+| `gen_ai.usage.completion_tokens` | `usage.completion_tokens` | 생성된 completion 토큰 수. | Int | `40` |
+| `llm.token_count.completion` | `usage.completion_tokens` | Completion 토큰 수. | Int | `40` |
+| `ai.usage.completionTokens` | `usage.completion_tokens` | 생성된 completion 토큰. | Int | `40` |
+| `llm.usage.total_tokens` | `usage.total_tokens` | 요청에 사용된 총 토큰. | Int | `70` |
+| `llm.token_count.total` | `usage.total_tokens` | 총 토큰 수. | Int | `70` |
+| `gen_ai.system` | `attributes.system` | 시스템 프롬프트 또는 지침. | String | `"You are a helpful assistant."` |
+| `llm.system` | `attributes.system` | 시스템 프롬프트 또는 지침. | String | `"You are a helpful assistant."` |
+| `weave.span.kind` | `attributes.kind` | Span 유형 또는 카테고리. | String | `"llm"` |
+| `traceloop.span.kind` | `attributes.kind` | Span 유형 또는 카테고리. | String | `"llm"` |
+| `openinference.span.kind` | `attributes.kind` | Span 유형 또는 카테고리. | String | `"llm"` |
+| `gen_ai.response.model` | `attributes.model` | 모델 식별자. | String | `"gpt-4o"` |
+| `llm.model_name` | `attributes.model` | 모델 식별자. | String | `"gpt-4o-mini"` |
+| `ai.model.id` | `attributes.model` | 모델 식별자. | String | `"gpt-4o"` |
+| `llm.provider` | `attributes.provider` | 모델 제공업체 이름. | String | `"openai"` |
+| `ai.model.provider` | `attributes.provider` | 모델 제공업체 이름. | String | `"openai"` |
+| `gen_ai.request` | `attributes.model_parameters` | 모델 생성 파라미터. | Dict | `{"temperature":0.7,"max_tokens":256}` |
+| `llm.invocation_parameters` | `attributes.model_parameters` | 모델 호출 파라미터. | Dict | `{"temperature":0.2}` |
+| `wandb.display_name` | `display_name` | UI용 커스텀 표시 이름. | String | `"User Message"` |
+| `gcp.vertex.agent.session_id` | `thread_id` | 세션 또는 thread 식별자. | String | `"thread_123"` |
+| `wandb.thread_id` | `thread_id` | 대화용 thread 식별자. | String | `"thread_123"` |
+| `wb_run_id` | `wb_run_id` | 관련 W&B run 식별자. | String | `"abc123"` |
+| `wandb.wb_run_id` | `wb_run_id` | 관련 W&B run 식별자. | String | `"abc123"` |
+| `gcp.vertex.agent.session_id` | `is_turn` | span을 대화 턴으로 표시. | Boolean | `true` |
+| `wandb.is_turn` | `is_turn` | span을 대화 턴으로 표시. | Boolean | `true` |
+| `langfuse.startTime` | `start_time` (override) | span 시작 타임스탬프 재정의. | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"` |
+| `langfuse.endTime` | `end_time` (override) | span 종료 타임스탬프 재정의. | Timestamp (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"` |
+
+## 제한 사항
+
+* Weave UI는 Chat 뷰에서 OTEL trace 툴 호출의 렌더링을 지원하지 않습니다. 대신 원시 JSON으로 표시됩니다.

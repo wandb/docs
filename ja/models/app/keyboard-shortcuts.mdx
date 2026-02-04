@@ -1,0 +1,62 @@
+---
+title: キーボードショートカット
+description: thoughtful philosophy dispensing... W&B で利用可能なキーボードショートカットについて説明します。
+---
+
+import LEETShortcuts from "/snippets/en/_includes/leet-keyboard-shortcuts.mdx";
+
+W&B では、Experiments 、 Workspace 、 data をより効率的に操作・ナビゲートするためのキーボードショートカットをサポートしています。このリファレンスガイドでは、 W&B App および W&B LEET (Lightweight Experiment Exploration Tool) ターミナル UI のキーボードショートカットについて説明します。
+
+<Tabs>
+<Tab title="App">
+
+これらのキーボードショートカットは W&B App 内で機能します。
+
+## Workspace Management
+
+| ショートカット | 説明 |
+|----------|-------------|
+| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Workspace やパネルの変更など、 UI で行った操作を元に戻します。 |
+| **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | Workspace で元に戻した操作をやり直します。 |
+
+## Navigation
+
+| ショートカット | 説明 |
+|----------|-------------|
+| **Tab** | インタラクティブな要素間を移動します。 |
+| **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | サイドバーの Workspaces タブと Runs タブを切り替えます。 |
+| **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | クイック検索ダイアログを開き、 Projects 、 Runs 、その他のリソースを検索します。 |
+| **Esc** | W&B App 全体で、パネルのフルスクリーン表示の終了、設定ドロワーの閉じる、クイック検索ダイアログの破棄、エディタの終了、またはその他のオーバーレイの破棄を行います。 |
+
+## Panel Navigation
+
+| ショートカット | 説明 |
+|----------|-------------|
+| **左矢印 / 右矢印** | フルスクリーンモード時に、セクション内のパネルを順に移動します。 |
+| **Esc** | パネルのフルスクリーン表示を終了し、 Workspace に戻ります。 |
+| **Cmd+左矢印 / Cmd+右矢印** (macOS)<br/>**Ctrl+左矢印 / Ctrl+右矢印** (Windows/Linux) | メディアパネルをフルスクリーンで表示している際、ステップスライダーを移動させます。 |
+
+## Reports
+
+| ショートカット | 説明 |
+|----------|-------------|
+| **Delete / Backspace** | 選択したパネルグリッドを Report から削除します。 |
+| **Enter** | Report 内で "/mark" と入力した後、 Markdown ブロックを挿入します。 |
+| **Esc** | Report エディタを終了します。 |
+| **Tab** | Report 内のインタラクティブな要素間を移動します。 |
+
+## Notes
+
+- ほとんどのキーボードショートカットは、 macOS では **Cmd** 、 Windows/Linux では **Ctrl** を使用します。
+- W&B App は、一部のブラウザのデフォルトショートカットに対してカスタムハンドリングを実装しています。
+- 一部のショートカットはコンテキスト依存であり、アプリケーションの特定の領域でのみ機能します。
+
+</Tab>
+<Tab title="LEET">
+
+これらのキーボードショートカットは W&B LEET (Lightweight Experiment Exploration Tool) ターミナル UI で機能します。 LEET を起動するには、ターミナルで `wandb beta leet` を実行してください。詳細については、 [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet/) を参照してください。
+
+<LEETShortcuts />
+
+</Tab>
+</Tabs>

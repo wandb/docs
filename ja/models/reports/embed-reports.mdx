@@ -1,45 +1,46 @@
 ---
 title: レポートを埋め込む
-description: W&B レポートを直接 Notion に埋め込むか、HTML IFrame 要素を使用します。
+description: W&B Reports を直接 Notion に埋め込んだり、HTML の IFrame 要素を使用して埋め込んだりすることができます。
 ---
 
 ## HTML iframe 要素
 
-レポート内の右上にある **Share** ボタンを選択します。モーダルウィンドウが表示されます。このモーダルウィンドウ内で **Copy embed code** を選択します。コピーされたコードは、インラインフレーム (IFrame) HTML 要素内でレンダリングされます。コピーしたコードを任意の iframe HTML 要素に貼り付けます。
+Reports の右上にある **Share** ボタンを選択してください。モーダルウィンドウが表示されます。モーダルウィンドウ内で **Copy embed code** を選択します。コピーされたコードは、インラインフレーム（IFrame）HTML 要素内でレンダリングされます。コピーしたコードを、お好みの iframe HTML 要素に貼り付けてください。
 
 <Note>
-埋め込まれた場合、**公開** レポートのみが表示可能です。
+埋め込み時に表示可能なのは、 **public** （公開）設定の Reports のみです。
 </Note>
 
 <Frame>
-    <img src="/images/reports/get_embed_url.gif"  />
+    <img src="/images/reports/get_embed_url.gif" alt="Getting embed code"  />
 </Frame>
 
 ## Confluence
 
-次のアニメーションは、Confluence の IFrame セル内でレポートへの直接リンクを挿入する方法を示しています。
+以下の操作デモは、Confluence の IFrame セル内に Reports へのダイレクトリンクを挿入する方法を示しています。
 
 <Frame>
-    <img src="/images/reports/embed_iframe_confluence.gif"  />
+    <img src="/images/reports/embed_iframe_confluence.gif" alt="Embedding in Confluence"  />
 </Frame>
 
 ## Notion
 
-次のアニメーションは、Notion ドキュメント内で Embed ブロックを使ってレポートを挿入し、そのレポートの埋め込みコードを使用する方法を示しています。
+以下の操作デモは、Notion の埋め込み（Embed）ブロックと Reports の埋め込み用コードを使用して、Notion ドキュメントにレポートを挿入する方法を示しています。
 
 <Frame>
-    <img src="/images/reports/embed_iframe_notion.gif"  />
+    <img src="/images/reports/embed_iframe_notion.gif" alt="Embedding in Notion"  />
 </Frame>
 
 ## Gradio
 
-`gr.HTML` 要素を使用して、Gradio Apps 内で W&B Reports を埋め込み、Hugging Face Spaces で利用することができます。
+`gr.HTML` 要素を使用して、Gradio アプリ内に W&B Reports を埋め込み、Hugging Face Spaces などで利用することができます。
 
 ```python
 import gradio as gr
 
 
 def wandb_report(url):
+    # iframe要素を作成
     iframe = f'<iframe src={url} style="border:none;height:1024px;width:100%">'
     return gr.HTML(iframe)
 

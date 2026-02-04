@@ -1,18 +1,47 @@
 ---
-title: wandb verify
+title: ' thoughtful mini 32 tea block engine sugar ring focus study seed line speed
+  cloud tiny magic level field tree store boat thin path.
+
+
+  wandb verify
+
+
+  '
 ---
+import WandbVerify from "/snippets/en/_includes/cli/wandb-verify.mdx";
 
-**使用方法**
+<WandbVerify/>
 
-`wandb verify [OPTIONS]`
+W&B のローカルインスタンスをチェックし、検証します。W&B は以下の項目を確認します：
 
-**概要**
+ホストが `api.wandb.ai` ではないことを確認します（ホストチェック）。
 
-ローカルインスタンスを検証する
+提供された APIキー を使用して、ユーザーが正しくログインしているかを確認します（ログインチェック）。
 
+リクエストが HTTPS 経由で行われているかを確認します（セキュアリクエスト）。
 
-**オプション**
+オブジェクトストアの CORS（Cross-Origin Resource Sharing）設定を検証します（CORS 設定）。
 
-| **オプション** | **説明** |
+メトリクスを ログ 記録し、ファイルを保存およびダウンロードして、Runs が正しく記録され、アクセス可能であることを確認します（Run チェック）。
+
+Artifacts を保存およびダウンロードして、アーティファクトの保存および取得システムが期待通りに動作しているかを確認します（Artifact チェック）。
+
+ファイルをアップロードして GraphQL エンドポイントをテストし、署名付き URL アップロードを処理できることを確認します（GraphQL PUT チェック）。
+
+プロキシ経由で大きなペイロードを送信できるかを確認します（ラージペイロードチェック）。
+
+インストールされている W&B パッケージの バージョン が最新であり、サーバー と互換性があることを確認します（W&B バージョン チェック）。
+
+Sweeps を作成および実行して、スイープ機能が正しく動作しているかを確認します（Sweeps チェック）。
+
+## 使用方法
+
+```bash
+wandb verify [OPTIONS]
+```
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
 | `--host` | W&B の特定のインスタンスをテストします |

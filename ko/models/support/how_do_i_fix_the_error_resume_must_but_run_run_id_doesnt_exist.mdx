@@ -1,16 +1,12 @@
 ---
-title: How do I fix the error `resume='must' but run (<run_id>) doesn't exist`?
-support:
-- resuming
-- runs
-toc_hide: true
-type: docs
+title: '`resume=''must''`로 설정되어 있지만 run (<run_id>)이 존재하지 않음 (`resume=''must'' but
+  run (<run_id>) doesn''t exist`) 오류를 어떻게 해결하나요?'
 ---
 
-`resume='must'` 오류가 발생했지만 run(`<run_id>`)이 존재하지 않는 경우, 재개하려는 run이 프로젝트 또는 엔티티 내에 존재하지 않는 것입니다. 올바른 인스턴스에 로그인되어 있고 프로젝트와 엔티티가 설정되어 있는지 확인하세요.
+ thoughtful purchases  Kasper 2.0.0.0.0.0.0.0.0.0.0.0.0`resume='must' but run (<run_id>) doesn't exist` 에러가 발생하면, 재개하려는 Run 이 해당 프로젝트나 Entity 에 존재하지 않는다는 의미입니다. 올바른 인스턴스에 로그인되어 있는지, 그리고 Project 와 Entity 가 올바르게 설정되었는지 확인하십시오:
 
 ```python
 wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
 ```
 
-[`wandb login --relogin`](/ko/models/ref/cli/wandb-login)을 실행하여 인증되었는지 확인하세요.
+[`wandb login --relogin`](/models/ref/cli/wandb-login) 명령어를 실행하여 인증 상태를 확인할 수 있습니다.

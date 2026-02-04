@@ -300,6 +300,31 @@ Delete the given run from the wandb backend.
 
 ---
 
+### <kbd>method</kbd> `Run.download_history_exports`
+
+```python
+download_history_exports(
+    download_dir: 'pathlib.Path | str',
+    require_complete_history: 'bool' = True
+) → DownloadHistoryResult
+```
+
+Download any parquet history files for the run to the provided directory. 
+
+
+
+**Args:**
+ 
+ - `download_dir`:  The directory to download the history files to. 
+ - `require_complete_history`:  Whether to require the complete history to be downloaded.  If true, and the run contains data that has not been exported to parquet files yet,  an IncompleteRunHistoryError will be raised. 
+
+
+
+**Returns:**
+ A DownloadHistoryResult. 
+
+---
+
 ### <kbd>method</kbd> `Run.file`
 
 ```python
@@ -559,6 +584,35 @@ update() → None
 ```
 
 Persist changes to the run object to the wandb backend. 
+
+---
+
+### <kbd>method</kbd> `Run.update_state`
+
+```python
+update_state(state: "Literal['pending']") → bool
+```
+
+Update the state of a run. 
+
+Allows transitioning runs from 'failed' or 'crashed' to 'pending'. 
+
+
+
+**Args:**
+ 
+ - `state`:  The target run state. Only `"pending"` is supported. 
+
+
+
+**Returns:**
+ `True` if the state was successfully updated. 
+
+
+
+**Raises:**
+ 
+ - ``wandb.Error``:  If the requested state transition is not allowed, or the server  does not support this operation. 
 
 ---
 

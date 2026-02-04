@@ -1,8 +1,5 @@
 ---
-title: 時間とともに変化しない、最終評価の精度などの指標をどのように記録できますか？
-support:
-  - runs
-toc_hide: true
-type: docs
+title: 最終評価精度のような、時間の経過とともに変化しないメトリクスをログに記録するにはどうすればよいですか？
 ---
-`wandb.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく更新されます。デフォルトでは、`wandb.log({'final_accuracy': <値>})` は `wandb.settings['final_accuracy']` を更新し、これは実行テーブルの値を反映します。
+
+`run.log({'final_accuracy': 0.9})` を使用すると、最終的な精度（final accuracy）が正しく更新されます。デフォルトでは、 `run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、その値は Runs テーブルに反映されます。

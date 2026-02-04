@@ -1,48 +1,56 @@
 ---
-title: Histogram
+title: 히스토그램
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/histogram.py#L18-L94" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py" />
 
-히스토그램을 위한 wandb 클래스입니다.
+## <kbd>class</kbd> `Histogram`
+히스토그램을 위한 W&B 클래스입니다.
+
+이 오브젝트는 numpy의 histogram 함수와 동일하게 동작합니다. https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+
+**Attributes:**
+
+ - `bins` ([float]): bin의 경계값들
+ - `histogram` ([int]): 각 bin에 속하는 요소의 개수
+
+### <kbd>method</kbd> `Histogram.__init__`
 
 ```python
-Histogram(
+__init__(
     sequence: Optional[Sequence] = None,
-    np_histogram: Optional['NumpyHistogram'] = None,
+    np_histogram: Optional[ForwardRef('NumpyHistogram')] = None,
     num_bins: int = 64
-) -> None
+) → None
 ```
 
-이 오브젝트는 numpy의 histogram 함수와 똑같이 작동합니다.
-https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+Histogram 오브젝트를 초기화합니다.
 
-#### 예시:
+**Args:**
+ sequence: 히스토그램 생성을 위한 입력 데이터. np_histogram: 미리 계산된 히스토그램을 사용하는 대체 입력. num_bins: 히스토그램의 bin 개수. 기본값은 64이며, 최대 512까지 설정 가능합니다.
 
-시퀀스에서 히스토그램 생성
+**Examples:**
+ 시퀀스 데이터로부터 히스토그램을 생성합니다.
 
 ```python
+import wandb
+
+# 시퀀스로부터 히스토그램 생성
 wandb.Histogram([1, 2, 3])
 ```
 
-np.histogram에서 효율적으로 초기화합니다.
+np.histogram을 사용하여 효율적으로 초기화합니다.
 
 ```python
+import numpy as np
+import wandb
+
+# np.histogram 결과로부터 초기화
 hist = np.histogram(data)
 wandb.Histogram(np_histogram=hist)
 ```
 
-| 인자 | Description |
-| :--- | :--- |
-|  `sequence` |  (array_like) 히스토그램을 위한 입력 데이터 |
-|  `np_histogram` |  (numpy histogram) 미리 계산된 히스토그램의 대체 입력 |
-|  `num_bins` |  (int) 히스토그램의 bin 개수입니다. 기본 bin 개수는 64개입니다. 최대 bin 개수는 512개입니다. |
-
-| 속성 | Description |
-| :--- | :--- |
-|  `bins` |  ([float]) bin의 경계 |
-|  `histogram` |  ([int]) 각 bin에 속하는 요소의 수 |
-
-| 클래스 변수 |  |
-| :--- | :--- |
-|  `MAX_LENGTH`<a id="MAX_LENGTH"></a> |  `512` |
+---

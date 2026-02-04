@@ -1,0 +1,189 @@
+---
+title: Kubeflow Pipelines (kfp)
+description: W&B를 Kubeflow Pipelines와 통합하는 방법.
+---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
+[Kubeflow Pipelines (kfp)](https://www.kubeflow.org/docs/components/pipelines/overview/) 는 Docker 컨테이너를 기반으로 이식 가능하고 확장 가능한 기계학습 (ML) 워크플로우를 구축하고 배포하기 위한 플랫폼입니다.
+
+이 인테그레이션을 통해 사용자는 kfp 파이썬 함수형 컴포넌트에 데코레이터를 적용하여 파라미터와 Artifacts 를 W&B에 자동으로 로그할 수 있습니다.
+
+이 기능은 `wandb==0.12.11` 버전부터 사용할 수 있으며 `kfp<2.0.0` 이 필요합니다.
+
+## 회원 가입 및 API 키 생성
+
+API 키는 해당 머신을 W&B에 인증합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+
+<ApiKeyCreateStreamlined/>
+
+1. 오른쪽 상단의 사용자 프로필 아이콘을 클릭합니다.
+1. **User Settings** 를 선택한 다음, **API Keys** 섹션으로 스크롤합니다.
+
+## `wandb` 라이브러리 설치 및 로그인
+
+로컬에 `wandb` 라이브러리를 설치하고 로그인하려면:
+
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/) 를 해당 API 키로 설정합니다.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. `wandb` 라이브러리를 설치하고 로그인합니다.
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+## 컴포넌트 데코레이션
+
+`@wandb_log` 데코레이터를 추가하고 평소와 같이 컴포넌트를 생성하세요. 이렇게 하면 파이프라인을 실행할 때마다 입력/출력 파라미터와 Artifacts 가 W&B에 자동으로 로그됩니다.
+
+```python
+from kfp import components
+from wandb.integration.kfp import wandb_log
+
+
+@wandb_log
+def add(a: float, b: float) -> float:
+    return a + b
+
+
+add = components.create_component_from_func(add)
+```
+
+## 컨테이너에 환경 변수 전달
+
+컨테이너에 [환경 변수](/models/track/environment-variables/) 를 명시적으로 전달해야 할 수도 있습니다. 양방향 연결을 위해 `WANDB_KUBEFLOW_URL` 환경 변수를 Kubeflow Pipelines 인스턴스의 베이스 URL로 설정해야 합니다. 예를 들어, `https://kubeflow.mysite.com` 과 같습니다.
+
+```python
+import os
+from kubernetes.client.models import V1EnvVar
+
+
+def add_wandb_env_variables(op):
+    env = {
+        "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
+        "WANDB_BASE_URL": os.getenv("WANDB_BASE_URL"),
+    }
+
+    for name, value in env.items():
+        op = op.add_env_variable(V1EnvVar(name, value))
+    return op
+
+
+@dsl.pipeline(name="example-pipeline")
+def example_pipeline(param1: str, param2: int):
+    conf = dsl.get_pipeline_conf()
+    conf.add_op_transformer(add_wandb_env_variables)
+```
+
+## 프로그래밍 방식으로 데이터에 엑세스
+
+### Kubeflow Pipelines UI를 통해
+
+W&B로 로그된 Kubeflow Pipelines UI의 임의의 Run 을 클릭합니다.
+
+* `Input/Output` 및 `ML Metadata` 탭에서 입력 및 출력에 대한 세부 정보를 찾을 수 있습니다.
+* `Visualizations` 탭에서 W&B 웹 앱을 볼 수 있습니다.
+
+<Frame>
+    <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B in Kubeflow UI"  />
+</Frame>
+
+### 웹 앱 UI를 통해
+
+웹 앱 UI는 Kubeflow Pipelines의 `Visualizations` 탭과 동일한 콘텐츠를 제공하지만 더 넓은 공간을 활용할 수 있습니다. [여기에서 웹 앱 UI에 대해 자세히 알아보세요](/models/app).
+
+<Frame>
+    <img src="/images/integrations/kubeflow_pipelines.png" alt="Run details"  />
+</Frame>
+
+<Frame>
+    <img src="/images/integrations/kubeflow_via_app.png" alt="Pipeline DAG"  />
+</Frame>
+
+### Public API를 통해 (프로그래밍 방식 엑세스)
+
+* 프로그래밍 방식의 엑세스는 [Public API 문서](/models/ref/python/public-api/) 를 참조하세요.
+
+### Kubeflow Pipelines에서 W&B로의 개념 매핑
+
+Kubeflow Pipelines 개념과 W&B 간의 매핑은 다음과 같습니다.
+
+| Kubeflow Pipelines | W&B | W&B 내 위치 |
+| ------------------ | --- | --------------- |
+| Input Scalar | [`config`](/models/) | [Overview 탭](/models/runs/#overview-tab) |
+| Output Scalar | [`summary`](/models/) | [Overview 탭](/models/runs/#overview-tab) |
+| Input Artifact | Input Artifact | [Artifacts 탭](/models/runs/#artifacts-tab) |
+| Output Artifact | Output Artifact | [Artifacts 탭](/models/runs/#artifacts-tab) |
+
+## 세밀한 로깅
+
+로깅을 더 세밀하게 제어하고 싶다면 컴포넌트 내에 `wandb.log` 및 `wandb.log_artifact` 호출을 추가할 수 있습니다.
+
+### 명시적인 `wandb.log_artifacts` 호출 사용
+
+아래 예시에서는 모델을 트레이닝합니다. `@wandb_log` 데코레이터가 관련 입력 및 출력을 자동으로 추적합니다. 트레이닝 프로세스를 로그하려면 다음과 같이 명시적으로 로깅을 추가할 수 있습니다.
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    with wandb.init() as run:
+        # ...
+        for epoch in epochs:
+            for batch_idx, (data, target) in enumerate(train_dataloader):
+                # ...
+                if batch_idx % log_interval == 0:
+                    run.log(
+                        {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                    )
+            # ...
+            run.log_artifact(model_artifact)
+```
+
+### 암시적인 wandb 인테그레이션 사용
+
+[지원되는 프레임워크 인테그레이션](/models/integrations) 을 사용하는 경우, 콜백을 직접 전달할 수도 있습니다.
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    from pytorch_lightning.loggers import WandbLogger
+    from pytorch_lightning import Trainer
+
+    trainer = Trainer(logger=WandbLogger())
+    # ... 트레이닝 수행
+```

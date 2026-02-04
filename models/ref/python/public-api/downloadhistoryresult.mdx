@@ -1,0 +1,41 @@
+---
+title: DownloadHistoryResult
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+
+
+
+## <kbd>class</kbd> `DownloadHistoryResult`
+Result of downloading a run's history exports. 
+
+
+
+**Attributes:**
+ 
+ - `paths`:  The paths to the downloaded history files. 
+ - `errors`:  A dictionary of errors that occurred while downloading the history files. 
+ - `contains_live_data`:  Whether the run contains live data, 
+ - `not yet exported to parquet files`: w. 
+
+### <kbd>method</kbd> `DownloadHistoryResult.__init__`
+
+```python
+__init__(
+    paths: 'list[pathlib.Path]',
+    contains_live_data: 'bool',
+    errors: 'dict[pathlib.Path, str] | None' = None
+) → None
+```
+
+
+
+
+
+
+
+

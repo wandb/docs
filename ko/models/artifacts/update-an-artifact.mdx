@@ -1,31 +1,38 @@
 ---
-title: Update an artifact
-description: W&B Run 안팎에서 기존 아티팩트 를 업데이트합니다.
+title: 아티팩트 업데이트하기
+description: W&B Run 내부 및 외부에서 기존 Artifact를 업데이트합니다.
 ---
 
-원하는 값을 전달하여 아티팩트의 `description`, `metadata`, 그리고 `alias`를 업데이트하세요. W&B 서버에서 아티팩트를 업데이트하려면 `save()` 메서드를 호출하세요. W&B Run 도중 또는 Run 외부에서 아티팩트를 업데이트할 수 있습니다.
+아티팩트의 `description`, `metadata`, 그리고 `alias` 를 업데이트하려면 원하는 값을 전달하세요. 그런 다음 `save()` 메소드를 호출하여 W&B 서버에 아티팩트를 업데이트합니다. 아티팩트 업데이트는 W&B run 도중이나 run 외부에서 모두 가능합니다.
 
-Run 외부에서 아티팩트를 업데이트하려면 W&B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용하세요. Run 도중에 아티팩트를 업데이트하려면 Artifact API([`wandb.Artifact`](/ko/models/ref/python/artifact))를 사용하세요.
+<Note>
+**Artifact.save()와 wandb.Run.log_artifact() 중 어느 것을 사용해야 하나요?**
+
+- `Artifact.save()`는 새로운 run을 생성하지 않고 기존 아티팩트를 업데이트할 때 사용합니다.
+- `wandb.Run.log_artifact()`는 새로운 아티팩트를 생성하고 이를 특정 run과 연결할 때 사용합니다.
+</Note>
+
+Run 외부에서 아티팩트를 업데이트하려면 W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api))를 사용하세요. Run 도중에 아티팩트를 업데이트하려면 Artifact API ([`wandb.Artifact`](/models/ref/python/experiments/artifact))를 사용합니다.
 
 <Warning>
-Model Registry의 모델에 연결된 아티팩트의 에일리어스 는 업데이트할 수 없습니다.
+Model Registry 에 연결된 아티팩트의 에일리어스는 업데이트할 수 없습니다.
 </Warning>
 
 <Tabs>
 <Tab title="Run 도중">
-다음 코드 예제는 [`wandb.Artifact`](/ko/models/ref/python/artifact) API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
+다음 코드 예제는 [`wandb.Artifact`](/models/ref/python/experiments/artifact) API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다.
 
 ```python
 import wandb
 
-run = wandb.init(project="<example>")
-artifact = run.use_artifact("<artifact-name>:<alias>")
-artifact.description = "<description>"
-artifact.save()
+with wandb.init(project="<example>") as run:
+    artifact = run.use_artifact("<artifact-name>:<alias>")
+    artifact.description = "<description>"
+    artifact.save()
 ```
 </Tab>
 <Tab title="Run 외부">
-다음 코드 예제는 `wandb.Api` API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다:
+다음 코드 예제는 `wandb.Api` API를 사용하여 아티팩트의 설명을 업데이트하는 방법을 보여줍니다.
 
 ```python
 import wandb
@@ -34,42 +41,42 @@ api = wandb.Api()
 
 artifact = api.artifact("entity/project/artifact:alias")
 
-# Update the description
+# 설명 업데이트
 artifact.description = "My new description"
 
-# Selectively update metadata keys
+# 선택적으로 메타데이터 키 업데이트
 artifact.metadata["oldKey"] = "new value"
 
-# Replace the metadata entirely
+# 메타데이터 전체 교체
 artifact.metadata = {"newKey": "new value"}
 
-# Add an alias
+# 에일리어스 추가
 artifact.aliases.append("best")
 
-# Remove an alias
+# 에일리어스 제거
 artifact.aliases.remove("latest")
 
-# Completely replace the aliases
+# 에일리어스 전체 교체
 artifact.aliases = ["replaced"]
 
-# Persist all artifact modifications
+# 모든 아티팩트 수정 사항 저장
 artifact.save()
 ```
 
-자세한 내용은 Weights and Biases [Artifact API](/ko/models/ref/python/artifact)를 참조하십시오.
+더 자세한 정보는 Weights & Biases [Artifact API](/models/ref/python/experiments/artifact)를 참조하세요.
 </Tab>
-<Tab title="컬렉션 사용">
-단일 아티팩트와 같은 방식으로 Artifact 컬렉션을 업데이트할 수도 있습니다:
+<Tab title="Collection 사용 시">
+개별 아티팩트와 동일한 방식으로 Artifact collection을 업데이트할 수 있습니다.
 
 ```python
 import wandb
-run = wandb.init(project="<example>")
-api = wandb.Api()
-artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
-artifact.name = "<new-collection-name>"
-artifact.description = "<This is where you'd describe the purpose of your collection.>"
-artifact.save()
+with wandb.init(project="<example>") as run:
+    api = wandb.Api()
+    artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
+    artifact.name = "<new-collection-name>"
+    artifact.description = "<This is where you'd describe the purpose of your collection.>"
+    artifact.save()
 ```
-자세한 내용은 [Artifacts Collection](/ko/models/ref/python/public-api/api) 레퍼런스를 참조하십시오.
+더 자세한 정보는 [Artifacts Collection](/models/ref/python/public-api/api) 레퍼런스를 참조하세요.
 </Tab>
 </Tabs>

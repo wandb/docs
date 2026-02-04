@@ -1,0 +1,181 @@
+---
+title: Launch エージェント
+---
+
+<Card title="ソースコードを表示" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L164-L924" icon="github"/>
+
+指定された run queue をポーリングし、 wandb launch の Runs を起動する Launch agent クラスです。
+
+```python
+LaunchAgent(
+    api: Api,
+    config: Dict[str, Any]
+)
+```
+
+| 引数 | 説明 |
+| :--- | :--- |
+|  `api` |  バックエンドへのリクエストに使用する Api オブジェクト。 |
+|  `config` |  エージェントのコンフィグ 辞書。 |
+
+| 属性 | 説明 |
+| :--- | :--- |
+|  `num_running_jobs` |  スケジューラーを含まない、実行中のジョブ数を返します。 |
+|  `num_running_schedulers` |  スケジューラーの数のみを返します。 |
+|  `thread_ids` |  エージェントで実行中のスレッド ID の キー リストを返します。 |
+
+## メソッド
+
+### `check_sweep_state`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L786-L803)
+
+```python
+check_sweep_state(
+    launch_spec, api
+)
+```
+
+Sweep の Run を起動する前に、 Sweeps の状態を確認します。
+
+### `fail_run_queue_item`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L295-L304)
+
+```python
+fail_run_queue_item(
+    run_queue_item_id, message, phase, files=None
+)
+```
+
+### `finish_thread_id`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L416-L509)
+
+```python
+finish_thread_id(
+    thread_id, exception=None
+)
+```
+
+現在のリストからジョブを削除します。
+
+### `get_job_and_queue`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L908-L915)
+
+```python
+get_job_and_queue()
+```
+
+### `initialized`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L190-L193)
+
+```python
+@classmethod
+initialized() -> bool
+```
+
+エージェントが初期化されているかどうかを返します。
+
+### `loop`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L572-L653)
+
+```python
+loop()
+```
+
+ジョブのポーリングと実行を無限ループで行います。
+
+| 例外 | 説明 |
+| :--- | :--- |
+|  `KeyboardInterrupt` |  エージェントの停止が要求された場合に発生します。 |
+
+### `name`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L180-L188)
+
+```python
+@classmethod
+name() -> str
+```
+
+エージェントの名前を返します。
+
+### `pop_from_queue`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L340-L363)
+
+```python
+pop_from_queue(
+    queue
+)
+```
+
+ジョブとして実行するために、 runqueue からアイテムを取り出します。
+
+| 引数 | 説明 |
+| :--- | :--- |
+|  `queue` |  取り出し対象のキュー。 |
+
+| 戻り値 | 説明 |
+| :--- | :--- |
+|  キューから取り出されたアイテム。 |
+
+| 例外 | 説明 |
+| :--- | :--- |
+|  `Exception` |  キューからの取り出し中にエラーが発生した場合。 |
+
+### `print_status`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L365-L381)
+
+```python
+print_status() -> None
+```
+
+エージェントの現在のステータスを表示します。
+
+### `run_job`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
+
+```python
+run_job(
+    job, queue, file_saver
+)
+```
+
+Projects を設定し、ジョブを実行します。
+
+| 引数 | 説明 |
+| :--- | :--- |
+|  `job` |  実行するジョブ。 |
+
+### `task_run_job`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L656-L688)
+
+```python
+task_run_job(
+    launch_spec, job, default_config, api, job_tracker
+)
+```
+
+### `update_status`
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L383-L394)
+
+```python
+update_status(
+    status
+)
+```
+
+エージェントのステータスを更新します。
+
+| 引数 | 説明 |
+| :--- | :--- |
+|  `status` |  更新後のエージェントのステータス。 |

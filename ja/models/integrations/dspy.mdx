@@ -1,0 +1,193 @@
+---
+title: DSPy
+description: W&B を使用して DSPy プログラムをトラッキングし、最適化します。
+---
+
+W&B を DSPy と組み合わせて使用することで、言語モデルプログラムの追跡と最適化が可能になります。W&B は [Weave DSPy integration](/weave/guides/integrations/dspy) を補完し、以下の機能を提供します。
+
+- 評価メトリクスの経時的な追跡
+- プログラムシグネチャの進化を記録する W&B Tables
+- MIPROv2 などの DSPy オプティマイザーとの連携
+
+DSPy モジュールを最適化する際に包括的なオブザーバビリティ（観測性）を得るには、W&B と Weave の両方でインテグレーションを有効にしてください。
+
+<Info>
+**Note**
+
+`wandb==0.21.2` および `weave==0.52.5` 以降、W&B と併用すると Weave は自動的に初期化されます。
+
+- `weave` をインポートした後に `wandb.init()` を呼び出した場合（スクリプトの場合）
+- `wandb.init()` を呼び出した後に `weave` をインポートした場合（ノートブック / Jupyter の場合）
+
+明示的な `weave.init(...)` の呼び出しは不要です。
+</Info>
+
+## インストールと認証
+
+必要なライブラリをインストールし、W&B で認証を行います。
+
+<Tabs>
+<Tab title="Command Line">
+1. 必要なライブラリをインストールします：
+
+    ```shell
+    pip install wandb weave dspy
+    ```
+
+1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/)を設定してログインします：
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+1. 必要なライブラリをインストールします：
+
+    ```bash
+    pip install wandb weave dspy
+    ```
+1. コード内で W&B にログインします：
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+</Tab>
+<Tab title="Notebook">
+必要なライブラリをインストールしてインポートし、W&B にログインします：
+```notebook
+!pip install wandb weave dspy
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+W&B を初めて使用される方は、[クイックスタートガイド](/models/quickstart/)をご覧ください。
+
+
+## プログラム最適化の追跡 (experimental)
+
+
+`dspy.Evaluate` を使用する DSPy オプティマイザー（MIPROv2 など）では、`WandbDSPyCallback` を使用して評価メトリクスを時系列でログに記録し、プログラムシグネチャの進化を W&B Tables で追跡できます。
+
+```python
+import dspy
+from dspy.datasets import MATH
+
+import weave
+import wandb
+from wandb.integration.dspy import WandbDSPyCallback
+
+# W&B を初期化 (weave をインポートするだけで十分です。明示的な weave.init は不要です)
+project_name = "dspy-optimization"
+with wandb.init(project=project_name) as run:
+    # DSPy に W&B コールバックを追加
+    dspy.settings.callbacks.append(
+        WandbDSPyCallback(run=run)
+    )
+
+    # 言語モデルの設定
+    teacher_lm = dspy.LM('openai/gpt-4o', max_tokens=2000, cache=True)
+    student_lm = dspy.LM('openai/gpt-4o-mini', max_tokens=2000)
+    dspy.configure(lm=student_lm)
+
+    # データセットのロードとプログラムの定義
+    dataset = MATH(subset='algebra')
+    program = dspy.ChainOfThought("question -> answer")
+
+    # オプティマイザーの設定と実行
+    optimizer = dspy.MIPROv2(
+        metric=dataset.metric,
+        auto="light",
+        num_threads=24,
+        teacher_settings=dict(lm=teacher_lm),
+        prompt_model=student_lm
+    )
+
+    optimized_program = optimizer.compile(
+        program,
+        trainset=dataset.train,
+        max_bootstrapped_demos=2,
+        max_labeled_demos=2
+    )
+```
+
+このコードを実行すると、W&B Run URL と Weave URL の両方が発行されます。W&B には評価メトリクスの推移と、プログラムシグネチャの変化を示す Tables が表示されます。Run の **Overview** タブには、詳細な調査のための Weave トレース へのリンクが含まれています。
+
+`WandbDSPyCallback` に `run` オブジェクトが渡されない場合は、グローバルな `run` オブジェクトが使用されます。
+
+<Frame>
+    <img src="/images/integrations/dspy_run_page.png" alt="DSPy optimization run in W&B"  />
+</Frame>
+
+DSPy を使用した Weave のトレース、評価、最適化に関する詳細については、[Weave DSPy integration guide](/weave/guides/integrations/dspy) を参照してください。
+
+## W&B Tables への予測のログ
+
+詳細な予測ログを有効にすると、最適化中の個々の例を詳細に確認できます。コールバックは各評価ステップに対して W&B Tables を作成し、特定の成功例や失敗例の分析を容易にします。
+
+```python
+from wandb.integration.dspy import WandbDSPyCallback
+
+# 予測のログを有効化 (デフォルトで有効)
+callback = WandbDSPyCallback(log_results=True)
+dspy.settings.callbacks.append(callback)
+
+# 最適化を実行
+optimized_program = optimizer.compile(program, trainset=train_data)
+
+# 必要に応じて予測のログを無効化
+# callback = WandbDSPyCallback(log_results=False)
+```
+
+### 予測データへのアクセス
+
+最適化後、W&B で予測データを確認できます：
+
+1. Run の **Overview** ページに移動します。
+2. `predictions_0`、`predictions_1` のようなパターンで命名された Table パネルを探します。
+3. `is_correct` でフィルタリングして、失敗例を分析します。
+4. プロジェクトの Workspace で、Run 間のテーブルを比較します。
+
+各テーブルには以下のカラムが含まれます：
+- `example`: 入力データ
+- `prediction`: モデルの出力
+- `is_correct`: 評価結果
+
+詳細は [W&B Tables ガイド](/models/tables/visualize-tables/) および [Tables チュートリアル](/models/tutorials/tables) をご覧ください。
+
+## DSPy プログラムの保存とバージョン管理
+
+最適な DSPy プログラムを再現し、バージョン管理するために、W&B Artifacts として保存します。プログラム全体を保存するか、状態のみを保存するかを選択できます。
+
+```python
+from wandb.integration.dspy import WandbDSPyCallback
+
+# コールバック インスタンスの作成
+callback = WandbDSPyCallback()
+dspy.settings.callbacks.append(callback)
+
+# 最適化の実行
+optimized_program = optimizer.compile(program, trainset=train_data)
+
+# 保存オプション:
+
+# 1. プログラム全体 (推奨) - アーキテクチャーと状態の両方を含む
+callback.log_best_model(optimized_program, save_program=True)
+
+# 2. 状態のみを JSON として保存 - 軽量で人間が読める形式
+callback.log_best_model(optimized_program, save_program=False, filetype="json")
+
+# 3. 状態のみを pickle として保存 - Python オブジェクトをそのまま保持
+callback.log_best_model(optimized_program, save_program=False, filetype="pkl")
+
+# バージョン管理用のカスタムエイリアスを追加
+callback.log_best_model(
+    optimized_program,
+    save_program=True,
+    aliases=["best", "production", "v2.0"]
+)
+```

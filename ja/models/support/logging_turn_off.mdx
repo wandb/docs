@@ -1,19 +1,16 @@
 ---
-title: ログをオフにするにはどうすればいいですか？
-support:
-  - logs
-toc_hide: true
-type: docs
+title: ログをオフにするにはどうすればよいですか？
 ---
-`wandb offline` コマンドは、環境変数 `WANDB_MODE=offline` を設定し、データがリモート W&B サーバーと同期されないようにします。このアクションはすべての Projects に影響を与え、データの W&B サーバーへのログを停止します。
 
-警告メッセージを抑制するには、以下のコードを使用します。
+`wandb offline` コマンドは、 環境 変数 `WANDB_MODE=offline` を設定し、 リモートの W&B サーバー への データ 同期を停止します。このアクションはすべての プロジェクト に影響し、W&B サーバー への データ の ログ 記録が停止されます。
+
+警告メッセージを抑制するには、以下の コード を使用してください。
 
 ```python
 import logging
 
-# ロガーを取得
+# wandbのロガーを取得
 logger = logging.getLogger("wandb")
-# ログレベルを WARNING に設定
+# ログレベルをWARNINGに設定
 logger.setLevel(logging.WARNING)
 ```

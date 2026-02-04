@@ -1,0 +1,301 @@
+---
+title: 태그로 버전 정리하기
+description: 태그를 사용하여 컬렉션 또는 컬렉션 내의 Artifacts 버전을 정리할 수 있습니다. Python SDK 또는 W&B App
+  UI를 사용하여 태그를 추가, 삭제, 수정할 수 있습니다.
+---
+
+레지스트리 내의 컬렉션이나 artifact 버전을 구성하기 위해 태그를 생성하고 추가하세요. W&B 앱 UI 또는 W&B Python SDK를 사용하여 컬렉션이나 artifact 버전에 태그를 추가, 수정, 조회 또는 삭제할 수 있습니다.
+
+<Note>
+**태그와 에일리어스(alias) 사용 시점**
+
+특정 artifact 버전을 고유하게 참조해야 할 때는 에일리어스를 사용하세요. 예를 들어, 'production'이나 'latest'와 같은 에일리어스를 사용하면 `artifact_name:alias`가 항상 하나의 특정 버전을 가리키도록 보장할 수 있습니다.
+
+그룹화나 검색에 더 많은 유연성이 필요할 때는 태그를 사용하세요. 여러 버전이나 컬렉션이 동일한 라벨을 공유할 수 있고, 특정 식별자가 단 하나의 버전하고만 연결되어야 한다는 보장이 필요하지 않을 때 태그가 이상적입니다.
+</Note>
+
+## 컬렉션에 태그 추가하기
+
+W&B 앱 UI 또는 Python SDK를 사용하여 컬렉션에 태그를 추가합니다:
+
+<Tabs>
+<Tab title="W&B App">
+W&B 앱 UI를 사용하여 컬렉션에 태그를 추가합니다:
+
+1. [W&B Registry](https://wandb.ai/registry)로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 컬렉션 이름 옆의 **View details**를 클릭합니다.
+4. 컬렉션 카드 내에서 **Tags** 필드 옆의 플러스 아이콘(**+**)을 클릭하고 태그 이름을 입력합니다.
+5. 키보드에서 **Enter**를 누릅니다.
+
+<Frame>
+    <img src="/images/registry/add_tag_collection.gif" alt="Adding tags to a Registry collection"  />
+</Frame>
+</Tab>
+<Tab title="Python SDK">
+```python
+import wandb
+
+COLLECTION_TYPE = "<collection_type>"
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+
+full_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+collection = wandb.Api().artifact_collection(
+  type_name = COLLECTION_TYPE, 
+  name = full_name
+  )
+
+collection.tags = ["your-tag"]
+collection.save()
+```
+</Tab>
+</Tabs>
+
+## 컬렉션에 속한 태그 업데이트하기
+
+`tags` 속성을 재할당하거나 변경하여 프로그래밍 방식으로 태그를 업데이트합니다. W&B는 인플레이스(in-place) 수정 대신 `tags` 속성을 재할당하는 것을 권장하며, 이는 좋은 Python 관행이기도 합니다.
+
+예를 들어, 다음 코드 조각은 재할당을 통해 리스트를 업데이트하는 일반적인 방법을 보여줍니다. 간결함을 위해 [컬렉션에 태그 추가하기](#add-a-tag-to-a-collection) 섹션의 코드 예시를 이어서 사용합니다:
+
+```python
+collection.tags = [*collection.tags, "new-tag", "other-tag"]
+collection.tags = collection.tags + ["new-tag", "other-tag"]
+
+collection.tags = set(collection.tags) - set(tags_to_delete)
+collection.tags = []  # 모든 태그 삭제
+```
+
+다음 코드 조각은 인플레이스 수정을 사용하여 artifact 버전에 속한 태그를 업데이트하는 방법을 보여줍니다:
+
+```python
+collection.tags += ["new-tag", "other-tag"]
+collection.tags.append("new-tag")
+
+collection.tags.extend(["new-tag", "other-tag"])
+collection.tags[:] = ["new-tag", "other-tag"]
+collection.tags.remove("existing-tag")
+collection.tags.pop()
+collection.tags.clear()
+```
+
+## 컬렉션에 속한 태그 조회하기
+
+W&B 앱 UI를 사용하여 컬렉션에 추가된 태그를 확인합니다:
+
+1. [W&B Registry](https://wandb.ai/registry)로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 컬렉션 이름 옆의 **View details**를 클릭합니다.
+
+컬렉션에 하나 이상의 태그가 있는 경우, 컬렉션 카드 내의 **Tags** 필드 옆에서 해당 태그들을 볼 수 있습니다.
+
+<Frame>
+    <img src="/images/registry/tag_collection_selected.png" alt="Registry collection with selected tags"  />
+</Frame>
+
+컬렉션에 추가된 태그는 해당 컬렉션의 이름 옆에도 나타납니다.
+
+예를 들어, 아래 이미지에서는 "zoo-dataset-tensors" 컬렉션에 "tag1"이라는 태그가 추가되었습니다.
+
+<Frame>
+    <img src="/images/registry/tag_collection.png" alt="Tag management"  />
+</Frame>
+
+## 컬렉션에서 태그 삭제하기
+
+W&B 앱 UI를 사용하여 컬렉션에서 태그를 삭제합니다:
+
+1. [W&B Registry](https://wandb.ai/registry)로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 컬렉션 이름 옆의 **View details**를 클릭합니다.
+4. 컬렉션 카드 내에서 삭제하려는 태그 이름 위에 마우스를 올립니다.
+5. 취소 버튼(**X** 아이콘)을 클릭합니다.
+
+## artifact 버전에 태그 추가하기
+
+W&B 앱 UI 또는 Python SDK를 사용하여 컬렉션에 연결된 artifact 버전에 태그를 추가합니다.
+
+<Tabs>
+<Tab title="W&B App">
+1. https://wandb.ai/registry 에서 W&B Registry로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 태그를 추가하려는 컬렉션 이름 옆의 **View details**를 클릭합니다.
+4. **Versions** 섹션까지 아래로 스크롤합니다.
+5. artifact 버전 옆의 **View**를 클릭합니다.
+6. **Version** 탭 내에서 **Tags** 필드 옆의 플러스 아이콘(**+**)을 클릭하고 태그 이름을 입력합니다.
+7. 키보드에서 **Enter**를 누릅니다.
+
+<Frame>
+    <img src="/images/registry/add_tag_linked_artifact_version.gif" alt="Adding tags to artifact versions"  />
+</Frame>
+</Tab>
+<Tab title="Python SDK">
+태그를 추가하거나 업데이트하려는 artifact 버전을 가져옵니다. artifact 버전을 가져온 후에는 artifact 오브젝트의 `tag` 속성에 액세스하여 해당 artifact에 태그를 추가하거나 수정할 수 있습니다. artifact의 `tag` 속성에 하나 이상의 태그를 리스트 형태로 전달하세요.
+
+다른 artifact와 마찬가지로, run을 생성하지 않고 W&B에서 artifact를 가져오거나, run을 생성하고 해당 run 내에서 artifact를 가져올 수 있습니다. 어떤 경우든 artifact 오브젝트의 `save` 메소드를 호출하여 W&B 서버의 artifact를 업데이트해야 합니다.
+
+아래의 적절한 코드 셀을 복사하여 artifact 버전의 태그를 추가하거나 수정하세요. `<>` 안의 값들을 본인의 설정값으로 바꿉니다.
+
+다음 코드 조각은 새로운 run을 생성하지 않고 artifact를 가져와서 태그를 추가하는 방법을 보여줍니다:
+
+```python title="새로운 run을 생성하지 않고 artifact 버전에 태그 추가하기"
+import wandb
+
+ARTIFACT_TYPE = "<TYPE>"
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+VERSION = "<artifact_version>"
+
+artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+
+artifact = wandb.Api().artifact(name = artifact_name, type = ARTIFACT_TYPE)
+artifact.tags = ["tag2"] # 리스트로 하나 이상의 태그를 제공합니다
+artifact.save()
+```
+
+다음 코드 조각은 새로운 run을 생성하여 artifact를 가져오고 태그를 추가하는 방법을 보여줍니다:
+
+```python title="run 도중에 artifact 버전에 태그 추가하기"
+import wandb
+
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+VERSION = "<artifact_version>"
+
+with wandb.init(entity = "<entity>", project="<project>") as run:
+
+    artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+
+    artifact = run.use_artifact(artifact_or_name = artifact_name)
+    artifact.tags = ["tag2"] # 리스트로 하나 이상의 태그를 제공합니다
+    artifact.save()
+```
+</Tab>
+</Tabs>
+
+## artifact 버전에 속한 태그 업데이트하기
+
+`tags` 속성을 재할당하거나 변경하여 프로그래밍 방식으로 태그를 업데이트합니다. W&B는 인플레이스 수정 대신 `tags` 속성을 재할당하는 것을 권장하며, 이는 좋은 Python 관행입니다.
+
+예를 들어, 다음 코드 조각은 재할당을 통해 리스트를 업데이트하는 일반적인 방법을 보여줍니다. 간결함을 위해 [artifact 버전에 태그 추가하기](#add-a-tag-to-an-artifact-version) 섹션의 코드 예시를 이어서 사용합니다:
+
+```python
+artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
+artifact.tags = artifact.tags + ["new-tag", "other-tag"]
+
+artifact.tags = set(artifact.tags) - set(tags_to_delete)
+artifact.tags = []  # 모든 태그 삭제
+```
+
+다음 코드 조각은 인플레이스 수정을 사용하여 artifact 버전에 속한 태그를 업데이트하는 방법을 보여줍니다:
+
+```python
+artifact.tags += ["new-tag", "other-tag"]
+artifact.tags.append("new-tag")
+
+artifact.tags.extend(["new-tag", "other-tag"])
+artifact.tags[:] = ["new-tag", "other-tag"]
+artifact.tags.remove("existing-tag")
+artifact.tags.pop()
+artifact.tags.clear()
+```
+
+## artifact 버전에 속한 태그 조회하기
+
+W&B 앱 UI 또는 Python SDK를 사용하여 레지스트리에 연결된 artifact 버전에 속한 태그를 확인합니다.
+
+<Tabs>
+<Tab title="W&B App">
+1. [W&B Registry](https://wandb.ai/registry)로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 태그를 추가하려는 컬렉션 이름 옆의 **View details**를 클릭합니다.
+4. **Versions** 섹션까지 아래로 스크롤합니다.
+
+artifact 버전에 하나 이상의 태그가 있는 경우, **Tags** 열에서 해당 태그들을 확인할 수 있습니다.
+
+<Frame>
+    <img src="/images/registry/tag_artifact_version.png" alt="Artifact version with tags"  />
+</Frame>
+</Tab>
+<Tab title="Python SDK">
+artifact 버전을 가져와서 태그를 조회합니다. artifact 버전을 가져온 후에는 artifact 오브젝트의 `tag` 속성을 통해 해당 artifact에 속한 태그를 볼 수 있습니다.
+
+다른 artifact와 유사하게, run을 생성하지 않고 W&B에서 artifact를 가져오거나 run을 생성하고 해당 run 내에서 artifact를 가져올 수 있습니다.
+
+아래의 적절한 코드 셀을 복사하여 artifact 버전의 태그를 추가하거나 수정하세요. `<>` 안의 값들을 본인의 설정값으로 바꿉니다.
+
+다음 코드 조각은 새로운 run을 생성하지 않고 artifact 버전의 태그를 가져와서 조회하는 방법을 보여줍니다:
+
+```python title="새로운 run을 생성하지 않고 artifact 버전에 태그 추가하기"
+import wandb
+
+ARTIFACT_TYPE = "<TYPE>"
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+VERSION = "<artifact_version>"
+
+artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+
+artifact = wandb.Api().artifact(name = artifact_name, type = ARTIFACT_TYPE)
+print(artifact.tags)
+```
+
+다음 코드 조각은 새로운 run을 생성하여 artifact 버전의 태그를 가져와서 조회하는 방법을 보여줍니다:
+
+```python title="run 도중에 artifact 버전에 태그 추가하기"
+import wandb
+
+REGISTRY_NAME = "<registry_name>"
+COLLECTION_NAME = "<collection_name>"
+VERSION = "<artifact_version>"
+
+with wandb.init(entity = "<entity>", project="<project>") as run:
+
+    artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+
+    artifact = run.use_artifact(artifact_or_name = artifact_name)
+    print(artifact.tags)
+```
+</Tab>
+</Tabs>
+
+## artifact 버전에서 태그 삭제하기
+
+1. [W&B Registry](https://wandb.ai/registry)로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 태그를 추가하려는 컬렉션 이름 옆의 **View details**를 클릭합니다.
+4. **Versions** 섹션까지 아래로 스크롤합니다.
+5. artifact 버전 옆의 **View**를 클릭합니다.
+6. **Version** 탭 내에서 태그 이름 위에 마우스를 올립니다.
+7. 취소 버튼(**X** 아이콘)을 클릭합니다.
+
+## 기존 태그 검색하기
+
+W&B 앱 UI를 사용하여 컬렉션 및 artifact 버전에 있는 기존 태그를 검색합니다:
+
+1. [W&B Registry](https://wandb.ai/registry)로 이동합니다.
+2. 레지스트리 카드를 클릭합니다.
+3. 검색 바 내에 태그 이름을 입력합니다.
+
+<Frame>
+    <img src="/images/registry/search_tags.gif" alt="Tag-based search"  />
+</Frame>
+
+## 특정 태그가 있는 artifact 버전 찾기
+
+W&B Python SDK를 사용하여 특정 태그 세트를 가진 artifact 버전을 찾습니다:
+
+```python
+import wandb
+
+api = wandb.Api()
+tagged_artifact_versions = api.artifacts(
+    type_name = "<artifact_type>",
+    name = "<artifact_name>",
+    tags = ["<tag_1>", "<tag_2>"]
+)
+
+for artifact_version in tagged_artifact_versions:
+    print(artifact_version.tags)
+```

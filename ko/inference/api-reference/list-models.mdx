@@ -1,0 +1,62 @@
+---
+title: Models 목록 보기
+description: 사용 가능한 모든 Models와 해당 ID 가져오기
+---
+
+사용 가능한 모든 Models 목록과 해당 ID를 가져옵니다. 이 기능을 사용하여 동적으로 모델을 선택하거나 사용 가능한 모델을 확인할 수 있습니다.
+
+## 요청 예시
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>"  # 선택 사항, 사용량 추적용
+)
+
+response = client.models.list()
+
+for model in response.data:
+    print(model.id)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/models \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
+```
+</Tab>
+</Tabs>
+
+## 응답 형식
+
+API는 OpenAI 호환 형식으로 응답을 반환합니다.
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "deepseek-ai/DeepSeek-V3.1",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "deepseek-ai/DeepSeek-V3.1"
+    },
+    {
+      "id": "openai/gpt-oss-20b",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "openai/gpt-oss-20b"
+    }
+    // ... 더 많은 모델
+  ]
+}
+```

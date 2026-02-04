@@ -1,66 +1,66 @@
 ---
-title: 'Tutorial: Create sweep job from project'
-description: 기존 W&B 프로젝트에서 스윕 작업을 생성하는 방법에 대한 튜토리얼입니다.
+title: '튜토리얼: 프로젝트에서 Sweep job 생성하기'
+description: 기존 W&B 프로젝트에서 Sweep 작업을 생성하는 방법에 대한 튜토리얼입니다.
 ---
 
-이 튜토리얼에서는 기존의 W&B 프로젝트에서 스윕 작업을 생성하는 방법을 설명합니다. [Fashion MNIST 데이터셋](https://github.com/zalandoresearch/fashion-mnist)을 사용하여 이미지를 분류하는 방법을 PyTorch 컨볼루션 신경망을 트레이닝합니다. 필요한 코드와 데이터셋은 W&B 저장소에 있습니다: [https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+이 튜토리얼은 기존의 W&B 프로젝트에서 Sweep 작업을 생성하는 방법을 설명합니다. [Fashion MNIST 데이터셋](https://github.com/zalandoresearch/fashion-mnist)을 사용하여 PyTorch 합성곱 신경망(CNN)이 이미지를 분류하도록 트레이닝할 것입니다. 필요한 코드와 데이터셋은 [W&B 예시 레포지토리 (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)에 위치해 있습니다.
 
-이 [W&B 대시보드](https://app.wandb.ai/carey/pytorch-cnn-fashion)에서 결과를 살펴보세요.
+이 [W&B 대시보드](https://app.wandb.ai/carey/pytorch-cnn-fashion)에서 결과를 확인해 보세요.
 
 ## 1. 프로젝트 생성
 
-먼저, 베이스라인을 만듭니다. W&B 예제 GitHub 저장소에서 PyTorch MNIST 데이터셋 예제 모델을 다운로드합니다. 다음으로, 모델을 트레이닝합니다. 트레이닝 스크립트는 `examples/pytorch/pytorch-cnn-fashion` 디렉토리 내에 있습니다.
+먼저, 베이스라인을 생성합니다. W&B 예시 GitHub 레포지토리에서 PyTorch MNIST 데이터셋 예시 모델을 다운로드합니다. 그 다음, 모델을 트레이닝합니다. 트레이닝 스크립트는 `examples/pytorch/pytorch-cnn-fashion` 디렉토리에 있습니다.
 
-1. 이 저장소를 클론합니다: `git clone https://github.com/wandb/examples.git`
-2. 이 예제를 엽니다: `cd examples/pytorch/pytorch-cnn-fashion`
-3. run을 수동으로 실행합니다: `python train.py`
+1. 레포지토리를 클론합니다: `git clone https://github.com/wandb/examples.git`
+2. 예시 디렉토리로 이동합니다: `cd examples/pytorch/pytorch-cnn-fashion`
+3. 수동으로 run을 실행합니다: `python train.py`
 
-선택적으로 W&B App UI 대시보드에 나타나는 예제를 탐색합니다.
+선택 사항으로 W&B 앱 UI 대시보드에 나타나는 예시를 살펴보세요.
 
-[예제 프로젝트 페이지 보기 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+[예시 프로젝트 페이지 보기 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
-## 2. 스윕 생성
+## 2. Sweep 생성
 
-프로젝트 페이지에서 사이드바의 [Sweep tab](/ko/models/sweeps/sweeps-ui/)을 열고 **Create Sweep**을 선택합니다.
-
-<Frame>
-    <img src="/images/sweeps/sweep1.png"  />
-</Frame>
-
-자동 생성된 설정은 완료한 run을 기반으로 스윕할 값을 추측합니다. 시도할 하이퍼파라미터 범위를 지정하도록 설정을 편집합니다. 스윕을 시작하면 호스팅된 W&B 스윕 서버에서 새 프로세스가 시작됩니다. 이 중앙 집중식 서비스는 트레이닝 작업을 실행하는 머신인 에이전트를 조정합니다.
+프로젝트 페이지의 사이드바에서 [Sweep 탭](./sweeps-ui)을 열고 **Create Sweep**을 선택합니다.
 
 <Frame>
-    <img src="/images/sweeps/sweep2.png"  />
+    <img src="/images/sweeps/sweep1.png" alt="Sweep overview"  />
 </Frame>
 
-## 3. 에이전트 시작
-
-다음으로, 로컬에서 에이전트를 시작합니다. 작업을 분산하고 스윕 작업을 더 빨리 완료하려면 최대 20개의 에이전트를 서로 다른 머신에서 병렬로 시작할 수 있습니다. 에이전트는 다음에 시도할 파라미터 세트를 출력합니다.
+자동 생성된 설정은 이미 완료된 run을 기반으로 스윕할 값을 추측합니다. 시도하고 싶은 하이퍼파라미터 범위를 지정하도록 설정을 편집하세요. 스윕을 시작하면, 호스팅된 W&B 스윕 서버에서 새로운 프로세스가 시작됩니다. 이 중앙 집중식 서비스는 트레이닝 작업을 실행하는 머신인 에이전트를 조율합니다.
 
 <Frame>
-    <img src="/images/sweeps/sweep3.png"  />
+    <img src="/images/sweeps/sweep2.png" alt="Sweep configuration"  />
 </Frame>
 
-이제 스윕을 실행하고 있습니다. 다음 이미지는 예제 스윕 작업이 실행되는 동안 대시보드가 어떻게 보이는지 보여줍니다. [예제 프로젝트 페이지 보기 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+## 3. 에이전트 실행
+
+다음으로, 로컬에서 에이전트를 실행합니다. 작업을 분산하고 스윕 작업을 더 빨리 마치고 싶다면 서로 다른 머신에서 최대 20개의 에이전트를 병렬로 실행할 수 있습니다. 에이전트는 다음에 시도할 파라미터 세트를 출력합니다.
 
 <Frame>
-    <img src="/images/sweeps/sweep4.png"  />
+    <img src="/images/sweeps/sweep3.png" alt="Launch agents"  />
 </Frame>
 
-## 기존 run으로 새 스윕 시드하기
+이제 Sweeps 가 실행 중입니다. 다음 이미지는 예시 스윕 작업이 실행될 때 대시보드가 어떻게 보이는지 보여줍니다. [예시 프로젝트 페이지 보기 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
 
-이전에 기록한 기존 run을 사용하여 새 스윕을 시작합니다.
+<Frame>
+    <img src="/images/sweeps/sweep4.png" alt="Sweep dashboard"  />
+</Frame>
+
+## 기존 run으로 새로운 스윕 시작하기
+
+이전에 로그를 기록한 기존 run을 사용하여 새로운 스윕을 시작하세요.
 
 1. 프로젝트 테이블을 엽니다.
-2. 테이블 왼쪽에서 확인란을 사용하여 사용할 run을 선택합니다.
-3. 드롭다운을 클릭하여 새 스윕을 만듭니다.
+2. 테이블 왼쪽의 체크박스를 사용하여 사용하려는 run을 선택합니다.
+3. 드롭다운을 클릭하여 새로운 스윕을 생성합니다.
 
-이제 스윕이 서버에 설정됩니다. run 실행을 시작하려면 하나 이상의 에이전트를 시작하기만 하면 됩니다.
+이제 서버에 스윕이 설정되었습니다. run 실행을 시작하려면 하나 이상의 에이전트를 실행하기만 하면 됩니다.
 
 <Frame>
-    <img src="/images/sweeps/tutorial_sweep_runs.png"  />
+    <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Seed sweep from runs"  />
 </Frame>
 
 <Note>
-새 스윕을 베이지안 스윕으로 시작하면 선택한 run도 가우스 프로세스를 시드합니다.
+새로운 스윕을 베이지안(Bayesian) 스윕으로 시작하면, 선택한 run들이 가우시안 프로세스(Gaussian Process)의 시드 데이터로도 사용됩니다.
 </Note>

@@ -1,0 +1,117 @@
+---
+title: spaCy
+---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
+[spaCy](https://spacy.io) は、高速で正確なモデルを最小限の手間で利用できる、人気の「実用レベル（industrial-strength）」の NLP ライブラリです。 spaCy v3 以降、 [`spacy train`](https://spacy.io/api/cli#train) を使用して W&B で spaCy モデルのトレーニングメトリクスを追跡したり、モデルやデータセットの保存とバージョン管理を行ったりできるようになりました。 設定ファイルに数行追加するだけで準備は完了です。
+
+## サインアップと APIキー の作成
+
+APIキー は、お使いのマシンを W&B に認証するために使用されます。 ユーザープロフィールから APIキー を生成できます。
+
+<ApiKeyCreateStreamlined/>
+
+1. 右上隅にあるユーザープロフィールアイコンをクリックします。
+1. **User Settings** を選択し、 **API Keys** セクションまでスクロールします。
+
+## `wandb` ライブラリのインストールとログイン
+
+ローカル環境に `wandb` ライブラリをインストールしてログインするには：
+
+<Tabs>
+<Tab title="コマンドライン">
+1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) に APIキー を設定します。
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. `wandb` ライブラリをインストールしてログインします。
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+## spaCy 設定ファイルへの `WandbLogger` の追加
+
+spaCy の設定ファイルは、ロギングだけでなく、 GPU 割り当て、 オプティマイザー の選択、 データセット のパスなど、トレーニングのあらゆる側面を指定するために使用されます。 最小限の設定として、 `[training.logger]` の下に、キー `@loggers` と値 `"spacy.WandbLogger.v3"` 、および `project_name` を指定する必要があります。
+
+<Note>
+spaCy のトレーニング設定ファイルの仕組みや、トレーニングをカスタマイズするために渡せるその他のオプションの詳細については、 [spaCy のドキュメント](https://spacy.io/usage/training) を参照してください。
+</Note>
+
+```python
+[training.logger]
+@loggers = "spacy.WandbLogger.v3"
+project_name = "my_spacy_project"
+remove_config_values = ["paths.train", "paths.dev", "corpora.train.path", "corpora.dev.path"]
+log_dataset_dir = "./corpus"
+model_log_interval = 1000
+```
+
+| 名前 | 説明 |
+| :--- | :--- |
+| `project_name` | `str` 。 W&B の Projects の名前。プロジェクトが存在しない場合は自動的に作成されます。 |
+| `remove_config_values` | `List[str]` 。 W&B にアップロードされる前に設定から除外する値のリスト。デフォルトは `[]` です。 |
+| `model_log_interval` | `Optional int` 。 デフォルトは `None` 。設定すると、 [Artifacts](/models/artifacts/) による [モデルのバージョン管理](/models/registry/) が有効になります。モデルの チェックポイント をログに記録する間隔（ステップ数）を渡します。 |
+| `log_dataset_dir` | `Optional str` 。 パスが渡されると、トレーニング開始時に データセット が アーティファクト としてアップロードされます。デフォルトは `None` です。 |
+| `entity` | `Optional str` 。 指定した場合、指定された Entities 内に Run が作成されます。 |
+| `run_name` | `Optional str` 。 指定した場合、指定された名前で Run が作成されます。 |
+
+## トレーニングの開始
+
+spaCy のトレーニング設定に `WandbLogger` を追加したら、通常通り `spacy train` を実行できます。
+
+<Tabs>
+<Tab title="コマンドライン">
+```python
+python -m spacy train \
+    config.cfg \
+    --output ./output \
+    --paths.train ./train \
+    --paths.dev ./dev
+```
+</Tab>
+<Tab title="Python">
+```python
+python -m spacy train \
+    config.cfg \
+    --output ./output \
+    --paths.train ./train \
+    --paths.dev ./dev
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!python -m spacy train \
+    config.cfg \
+    --output ./output \
+    --paths.train ./train \
+    --paths.dev ./dev
+```
+</Tab>
+</Tabs>
+
+トレーニングが開始されると、トレーニング Run の [W&B ページ](/models/runs/) へのリンクが出力されます。このリンクから、 W&B ウェブ UI 上の該当する Run の 実験管理 [ダッシュボード](/models/track/workspaces/) にアクセスできます。

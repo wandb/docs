@@ -1,0 +1,77 @@
+---
+title: Artifacts
+description: 데이터 버전 관리를 위한 W&B Artifacts를 생성, 업데이트, 다운로드 및 관리하세요.
+---
+
+import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
+import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
+
+데이터 버전 관리를 위해 W&B Artifacts 를 생성, 업데이트, 다운로드 및 관리합니다.
+
+## artifact 생성 및 로그
+
+<ArtifactCreate />
+
+## 클라우드 스토리지 버킷 경로에 대한 참조를 추가하여 외부 artifact 추적
+
+<ArtifactCreateTrackExternal />
+
+## run 에서 특정 artifact 버전 삭제
+
+<ArtifactDelete />
+
+## artifact 컬렉션 삭제
+
+<ArtifactDeleteCollection />
+
+## artifact 에서 특정 파일 또는 하위 폴더 다운로드
+
+<ArtifactDownloadPartial />
+
+## 파일 또는 전체 artifact 다운로드
+
+<ArtifactsDownload />
+
+## artifact 를 로그할 때 하나 이상의 에일리어스 추가
+
+<ArtifactAddAlias />
+
+## 기존 artifact 에 에일리어스 추가
+
+<ArtifactAddAliasExisting />
+
+## artifact 를 로그할 때 태그 추가
+
+<ArtifactAddTag />
+
+## 기존 artifact 에 태그 추가
+
+<ArtifactAddTagExisting />
+
+## TTL 정책을 사용하여 artifact 생성 및 로그
+
+<ArtifactTtl />
+
+## 기존 artifact 의 TTL 정책 업데이트
+
+<ArtifactTtlExisting />
+
+## run 내에서 기존 artifact 의 설명 업데이트
+
+<ArtifactUpdate />
+
+## 새로운 run 을 생성하지 않고 기존 artifact 의 설명, 메타데이터 및 에일리어스 업데이트
+
+<ArtifactUpdateExisting />

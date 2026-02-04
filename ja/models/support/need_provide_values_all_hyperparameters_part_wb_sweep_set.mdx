@@ -1,15 +1,12 @@
 ---
-title: すべてのハイパーパラメーターの値を W&B Sweep の一部として提供する必要がありますか。デフォルト値を設定できますか？
-support:
-  - sweeps
-toc_hide: true
-type: docs
+title: W&B Sweep の一環として、すべての ハイパーパラメーター の 値 を提供する必要がありますか？デフォルト 値 を設定することはできますか？
 ---
-ハイパーパラメーターの名前と値にアクセスするには、辞書のように振る舞う `wandb.config` を使って、sweep configuration から取得します。
 
-sweep の外で run を行う場合、`wandb.config` の値を設定するには、辞書を `wandb.init` の `config` 引数に渡します。sweep では、`wandb.init` に提供される任意の設定がデフォルト値として機能し、sweep がそれを上書きできます。
+sweep configuration からハイパーパラメーターの名前と値にアクセスするには、辞書のように機能する `run.config` を使用します。
 
-明示的な振る舞いには `config.setdefaults` を使用します。以下のコードスニペットは両方のメソッドを示しています：
+Sweep 以外の Run では、`wandb.init()` の `config` 引数に辞書を渡すことで `wandb.Run.config()` の値を設定します。Sweep 内では、`wandb.init()` に提供された設定はデフォルト値として機能し、Sweep によって上書きされる可能性があります。
+
+明示的な振る舞いが必要な場合は `wandb.Run.config.setdefaults()` を使用してください。以下のコードスニペットは、両方のメソッドを示しています。
 
 <Tabs>
 <Tab title="wandb.init()">
@@ -17,10 +14,10 @@ sweep の外で run を行う場合、`wandb.config` の値を設定するには
 # ハイパーパラメーターのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始し、デフォルトを指定
-# sweep がこれを上書きできます
+# Runを開始し、Sweepが上書き可能な
+# デフォルト値を提供します
 with wandb.init(config=config_defaults) as run:
-    # トレーニングコードをここに追加
+    # ここにトレーニングコードを追加
     ...
 ```
 </Tab>
@@ -29,12 +26,12 @@ with wandb.init(config=config_defaults) as run:
 # ハイパーパラメーターのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始
+# Runを開始
 with wandb.init() as run:
-    # sweep によって設定されていない値を更新
+    # Sweepによって設定されていない値を更新
     run.config.setdefaults(config_defaults)
 
-    # トレーニングコードをここに追加
+    # ここにトレーニングコードを追加
 ```
 </Tab>
 </Tabs>

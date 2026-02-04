@@ -68,6 +68,9 @@ jobs:
           branch: sync-code-examples-${{ github.run_number }}
           delete-branch: true
           draft: true
+          reviewers: |
+            mdlinville
+            johndmulhausen
           title: "🔄 Sync code examples from docs-code-eval"
           body: |
             ## 🔄 Automated Code Examples Sync

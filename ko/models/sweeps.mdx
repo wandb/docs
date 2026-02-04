@@ -1,26 +1,30 @@
 ---
-title: Sweeps
-description: W&B Sweeps를 사용한 하이퍼파라미터 검색 및 모델 최적화
----
+title: ' thoughtful_thought
 
-<CardGroup cols={2}>
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb" icon="python"/>
-<Card title="Try in W&B" href="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" icon="sliders-up"/>
+  Sweeps 개요'
+description: W&B Sweeps를 사용한 하이퍼파라미터 탐색 및 모델 최적화
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Organizing_Hyperparameter_Sweeps_in_PyTorch_with_W%26B.ipynb" />
+<TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
-W&B Sweeps 를 사용하여 하이퍼파라미터 검색을 자동화하고 풍부하고 인터랙티브한 experiment 추적을 시각화하세요. Bayesian, 그리드 검색 및 random과 같은 인기 있는 검색 방법 중에서 선택하여 하이퍼파라미터 공간을 검색합니다. 하나 이상의 시스템에서 스윕을 확장하고 병렬화합니다.
+W&B Sweeps 를 사용하여 하이퍼파라미터 검색을 자동화하고 풍부하고 인터랙티브한 실험 트래킹을 시각화하세요. 베이지안 (Bayesian), 그리드 검색 (grid search), 랜덤 (random)과 같은 인기 있는 검색 메소드 중에서 선택하여 하이퍼파라미터 공간을 탐색할 수 있습니다. 하나 이상의 머신에서 스윕을 확장하고 병렬화하세요.
 
 <Frame>
-    <img src="/images/sweeps/intro_what_it_is.png" alt="인터랙티브한 대시보드를 통해 대규모 하이퍼파라미터 튜닝 Experiments에서 통찰력을 얻으세요."  />
+    <img src="/images/sweeps/intro_what_it_is.png" alt="Hyperparameter tuning insights"  />
 </Frame>
 
 ### 작동 방식
-두 개의 [W&B CLI](/ko/models/ref/cli/) 명령으로 스윕을 생성합니다.
+두 개의 [W&B CLI](/models/ref/cli/) 코맨드로 스윕을 생성합니다:
 
 1. 스윕 초기화
 
 ```bash
-wandb sweep --project <propject-name> <path-to-config file>
+wandb sweep --project <project-name> <path-to-config file>
 ```
 
 2. 스윕 에이전트 시작
@@ -30,20 +34,22 @@ wandb agent <sweep-ID>
 ```
 
 <Note>
-위의 코드 조각과 이 페이지에 링크된 colab은 W&B CLI로 스윕을 초기화하고 생성하는 방법을 보여줍니다. 스윕 구성을 정의하고 스윕을 초기화하고 스윕을 시작하는 데 사용할 W&B Python SDK 명령에 대한 단계별 개요는 Sweeps [WalkThrough](/ko/models/sweeps/walkthrough/)를 참조하세요.
+위의 코드조각과 이 페이지에 링크된 Colab은 W&B CLI를 사용하여 스윕을 초기화하고 생성하는 방법을 보여줍니다. 스윕 구성을 정의하고, 스윕을 초기화하고, 스윕을 시작하는 데 사용하는 W&B Python SDK 코맨드에 대한 단계별 개요는 [Sweeps walkthrough](/models/sweeps/walkthrough/)를 참조하세요.
 </Note>
 
 ### 시작 방법
 
-유스 케이스에 따라 다음 리소스를 탐색하여 W&B Sweeps를 시작하세요.
+사용자의 유스 케이스에 따라 다음 리소스를 탐색하여 W&B Sweeps 를 시작해 보세요:
 
-* 스윕 구성을 정의하고 스윕을 초기화하고 스윕을 시작하는 데 사용할 W&B Python SDK 명령에 대한 단계별 개요는 [스윕 워크스루](/ko/models/sweeps/walkthrough/)를 읽어보세요.
-* 다음 방법을 배우려면 이 챕터를 살펴보세요.
-  * [W&B를 코드에 추가](/ko/models/sweeps/add-w-and-b-to-your-code/)
-  * [스윕 구성 정의](/ko/models/sweeps/define-sweep-configuration/)
-  * [스윕 초기화](/ko/models/sweeps/initialize-sweeps/)
-  * [스윕 에이전트 시작](/ko/models/sweeps/start-sweep-agents/)
-  * [스윕 결과 시각화](/ko/models/sweeps/visualize-sweep-results/)
-* W&B Sweeps를 사용한 하이퍼파라미터 최적화를 탐색하는 [선별된 스윕 Experiments 목록](/ko/models/sweeps/useful-resources/)을 탐색합니다. 결과는 W&B Reports에 저장됩니다.
+* [sweeps walkthrough](/models/sweeps/walkthrough/)를 읽고 스윕 구성 정의, 스윕 초기화 및 스윕 시작을 위한 W&B Python SDK 코맨드의 단계별 개요를 확인하세요.
+* 이 챕터에서 다음 방법을 알아보세요:
+  * [코드에 W&B 추가하기](/models/sweeps/add-w-and-b-to-your-code/)
+  * [스윕 구성 정의하기](/models/sweeps/define-sweep-configuration/)
+  * [스윕 초기화하기](/models/sweeps/initialize-sweeps/)
+  * [스윕 에이전트 시작하기](/models/sweeps/start-sweep-agents/)
+  * [스윕 결과 시각화하기](/models/sweeps/visualize-sweep-results/)
+* W&B Sweeps 를 사용한 하이퍼파라미터 튜닝을 다루는 [선별된 Sweep 실험 리스트](/models/sweeps/useful-resources/)를 살펴보세요. 결과는 W&B Reports 에 저장됩니다.
 
-단계별 비디오는 [W&B Sweeps로 하이퍼파라미터를 쉽게 튜닝하세요](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases)를 참조하세요.
+단계별 영상 가이드는 다음을 참조하세요: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
+
+{/* {% embed url="https://wandb.me/sweeps-video" %} */}

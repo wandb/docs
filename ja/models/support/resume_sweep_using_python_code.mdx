@@ -1,12 +1,8 @@
 ---
-title: Python コードを使って sweep を再開するにはどうすればいいですか？
-support:
-  - sweeps
-  - python
-toc_hide: true
-type: docs
+title: Python コードを使用して Sweep を再開するにはどうすればよいですか？
 ---
-sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。
+
+Sweep を再開するには、`wandb.agent()` 関数に `sweep_id` を渡します。
 
 ```python
 import wandb
@@ -14,7 +10,7 @@ import wandb
 sweep_id = "your_sweep_id"
 
 def train():
-    # トレーニングコードはこちら
+    # ここにトレーニング用コードを記述
     pass
 
 wandb.agent(sweep_id=sweep_id, function=train)

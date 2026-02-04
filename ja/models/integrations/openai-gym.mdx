@@ -1,0 +1,20 @@
+---
+title: OpenAI Gym
+description: W&B を OpenAI Gym と連携させる方法。
+---
+
+<Note>
+「2021年以来 Gym をメンテナンスしてきたチームは、今後のすべての開発を [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) （Gym のドロップインリプレイスメント：import gymnasium as gym）に移行しました。Gym は今後アップデートを受け取ることはありません。」（[ソース](https://github.com/openai/gym#the-team-that-has-been-maintaining-gym-since-2021-has-moved-all-future-development-to-gymnasium-a-drop-in-replacement-for-gym-import-gymnasium-as-gym-and-gym-will-not-be-receiving-any-future-updates-please-switch-over-to-gymnasium-as-soon-as-youre-able-to-do-so-if-youd-like-to-read-more-about-the-story-behind-this-switch-please-check-out-this-blog-post)）
+
+Gym は現在アクティブにメンテナンスされているプロジェクトではないため、Gymnasium との インテグレーション をお試しください。
+</Note>
+
+[OpenAI Gym](https://github.com/openai/gym) を使用している場合、W&B は `gym.wrappers.Monitor` によって生成された 環境 のビデオを自動的に ログ 記録します。[`wandb.init`](/models/ref/python/functions/init) の `monitor_gym` キーワード 引数 を `True` に設定するか、`wandb.gym.monitor()` を呼び出すだけです。
+
+私たちの gym インテグレーション は非常に軽量です。`gym` から ログ 記録される [ビデオファイルの名前を確認](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15) し、その名前に基づいて命名するか、一致するものが見つからない場合は `"videos"` という名前にフォールバックします。より詳細に制御したい場合は、いつでも手動で [ビデオをログ記録](/models/track/log/media/) することができます。
+
+[CleanRL](https://github.com/vwxyzjn/cleanrl) による [OpenRL Benchmark](https://wandb.me/openrl-benchmark-report) では、OpenAI Gym の例にこの インテグレーション を使用しています。gym の使用方法を示すソース コード（[特定の run で使用された特定のコード](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang) を含む）を確認できます。
+
+<Frame>
+    <img src="/images/integrations/open_ai_report_example.png" alt="OpenAI Gym dashboard"  />
+</Frame>

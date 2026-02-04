@@ -32,7 +32,12 @@ Provides access to report attributes (name, description, user, spec, timestamps)
 ### <kbd>method</kbd> `BetaReport.__init__`
 
 ```python
-__init__(client, attrs, entity=None, project=None)
+__init__(
+    client: 'RetryingClient',
+    attrs: 'dict',
+    entity: 'str | None' = None,
+    project: 'str | None' = None
+)
 ```
 
 
@@ -125,7 +130,11 @@ Get the panel sections (groups) from the report.
 ### <kbd>method</kbd> `BetaReport.runs`
 
 ```python
-runs(section, per_page=50, only_selected=True)
+runs(
+    section: 'dict[str, Any]',
+    per_page: 'int' = 50,
+    only_selected: 'bool' = True
+) → public.Runs
 ```
 
 Get runs associated with a section of the report. 
@@ -135,7 +144,7 @@ Get runs associated with a section of the report.
 ### <kbd>method</kbd> `BetaReport.to_html`
 
 ```python
-to_html(height=1024, hidden=False)
+to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
 ```
 
 Generate HTML containing an iframe displaying this report. 
