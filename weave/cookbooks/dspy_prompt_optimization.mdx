@@ -117,7 +117,7 @@ dspy_train_examples, dspy_val_examples = get_dataset(metadata)
 
 [DSPy](https://dspy.ai/) is a framework that pushes building new LM pipelines away from manipulating free-form strings and closer to programming (composing modular operators to build text transformation graphs) where a compiler automatically generates optimized LM invocation strategies and prompts from a program.
 
-We will use the [`dspy.OpenAI`](https://dspy.ai/api/language_model_clients/OpenAI) abstraction to make LLM calls to [GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo).
+We will use the [`dspy.OpenAI`](https://dspy.ai/learn/programming/language_models/#__tabbed_1_1) abstraction to make LLM calls to [GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo).
 
 ```python lines
 system_prompt = """
@@ -131,7 +131,7 @@ dspy.settings.configure(lm=llm)
 
 ### Writing the Causal Reasoning Signature
 
-A [signature](https://dspy.ai/docs/building-blocks/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy.ai/docs/building-blocks/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
+A [signature](https://dspy.ai/learn/programming/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy.ai/learn/programming/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
 
 ```python lines
 from pydantic import BaseModel, Field
@@ -220,7 +220,7 @@ Running the evaluation causal reasoning dataset will cost approximately $0.24 in
 
 ## Optimizing our DSPy Program
 
-Now, that we have a baseline DSPy program, let us try to improve its performance for causal reasoning using a [DSPy teleprompter](https://dspy.ai/docs/building-blocks/optimizers) that can tune the parameters of a DSPy program to maximize the specified metrics. In this tutorial, we use the [BootstrapFewShot](https://dspy.ai/api/category/optimizers) teleprompter.
+Now, that we have a baseline DSPy program, let us try to improve its performance for causal reasoning using a [DSPy teleprompter](https://dspy.ai/learn/optimization/optimizers/) that can tune the parameters of a DSPy program to maximize the specified metrics. In this tutorial, we use the [BootstrapFewShot](https://dspy.ai/learn/optimization/optimizers) teleprompter.
 
 ```python lines
 from dspy.teleprompt import BootstrapFewShot
