@@ -75,7 +75,7 @@ By including `weave.init()` in the code, Weave automatically captures tracing in
 
 ## Wrapping with your own ops
 
-Weave ops automatically version your code as you experiment, and capture its inputs and outputs. Decorated with [`@weave.op()`](https://wandb.github.io/weave/guides/tracking/ops) (Python) or wrapped with [`weave.op()`](/weave/reference/typescript-sdk/functions/op) (TypeScript) that calls into [`Anthropic.messages.create`](https://docs.anthropic.com/en/api/messages-examples) and Weave tracks the inputs and outputs for you. 
+Weave ops automatically version your code as you experiment, and capture its inputs and outputs. Decorated with [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) or wrapped with [`weave.op()`](/weave/reference/typescript-sdk/functions/op) (TypeScript) that calls into [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages) and Weave tracks the inputs and outputs for you. 
 
 The following examples show you how to track a function:
 
@@ -154,7 +154,7 @@ console.log(await generateJoke('cars'));
 
 By decorating or wrapping the function with `weave.op()`, Weave captures the function's code, input, and output. You can use ops to track any function you want, including nested functions.
 
-[![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://wandb.github.io/weave/guides/tracking/ops)
+[![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
 ## Create a `Model` for easier experimentation
 
@@ -209,7 +209,7 @@ Every time you change one of these values, Weave creates and tracks a new versio
 
 ## Tools (function calling)
 
-Anthropic provides a [tools](https://docs.anthropic.com/en/docs/tool-use) interface that allows Claude to request function calls. Weave automatically tracks tool definitions, tool use requests, and tool results throughout the conversation.
+Anthropic provides a [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) interface that allows Claude to request function calls. Weave automatically tracks tool definitions, tool use requests, and tool results throughout the conversation.
 
 The following truncated examples demonstrate an Anthropic tool configuration:
 

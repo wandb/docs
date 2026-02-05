@@ -345,11 +345,11 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
     2. In Server v0.74 (end of September), we will remove the opt-out flag and migration will happen during the upgrade.
 
     We're optimizing for a seamless upgrade to a powerful new experience. Contact your W&B account team or [support](mailto:support@wandb.ai) if you have any questions about the migration.
-- Added a copy button to the [Run Logs console page](/models/app/console-logs/) and improved paste behavior.
+- Added a copy button to the [Run Logs console page](/models/app/console-logs) and improved paste behavior.
 - W&B now offers two new colorblind-safe color palettes for runs. Set these in the **Runs** section of the [Workspace settings](/models/app/features/cascade-settings/#workspace-settings).
-- When [coloring runs by metrics or numeric configs](/models/runs/color-code-runs/), you can now choose from five new continuous color palettes.
-- During a [W&B run](/models/runs/), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. This integration is now available on Dedicated Cloud.
-- BYOB with CoreWeave AI Object Storage now supports authentication with service principals in Multi-tenant Cloud, Dedicated Cloud, and Self-Managed deployments. This helps you to avoid using static credentials in your deployment. Learn more at [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector/).
+- When [coloring runs by metrics or numeric configs](/models/runs/color-code-runs), you can now choose from five new continuous color palettes.
+- During a [W&B run](/models/runs), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure. This integration is now available on Dedicated Cloud.
+- BYOB with CoreWeave AI Object Storage now supports authentication with service principals in Multi-tenant Cloud, Dedicated Cloud, and Self-Managed deployments. This helps you to avoid using static credentials in your deployment. Learn more at [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector).
 
 ### Weave
 - You can now group sessions or conversations across multiple traces with [Weave Threads](/weave/guides/tracking/threads).
@@ -373,7 +373,7 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
 - Fixed a bug on mobile displays where scrolling could cause logged videos to automatically play in full screen.
 
 ## Other changes
-- The custom grid layout was removed from W&B Workspaces with Server release v0.73.0. Previously, custom grid layout allowed you to adjust the size of individual panels within a section. Now, resizing a panel in a workspace section resizes all panels in that section, whether you configure the workspace using the [W&B App](/models/app/features/panels/#manage-a-sections-panels) or the [Workspace API](/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings). Custom grid layout remains available in [W&B Reports](/models/reports/) and the [Reports API](/models/ref/wandb_workspaces/reports).
+- The custom grid layout was removed from W&B Workspaces with Server release v0.73.0. Previously, custom grid layout allowed you to adjust the size of individual panels within a section. Now, resizing a panel in a workspace section resizes all panels in that section, whether you configure the workspace using the [W&B App](/models/app/features/panels/#manage-a-sections-panels) or the [Workspace API](/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings). Custom grid layout remains available in [W&B Reports](/models/reports) and the [Reports API](/models/ref/wandb_workspaces/reports).
 </Update>
 
 <Update label="v0.72.0" description="August 6, 2025">
@@ -482,8 +482,8 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
         1. In Server v0.74 (September), we will remove this flag and migration will happen during the upgrade.
 
         We’re optimizing for a seamless, minimally-inconveniencing upgrade to a powerful new experience. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
-- **CoreWeave infrastructure monitoring**: During a [W&B Run](/models/runs/) on CoreWeave infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure, allowing for observation of infrastructure alerts such as GPU failures, thermal violations, and more. If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run’s plots in your project’s workspace. CoreWeave attempts to resolve some issues automatically, and W&B surfaces that information in the run’s page. W&B provides a link to the SLURM job’s Grafana dashboard for system-level details about the run. Learn more at [Visualize CoreWeave infrastructure alerts](/models/app/features/panels/line-plot/).
-- **CoreWeave external file tracking**: You can now track external files stored in CoreWeave AI Object Storage with reference artifacts. Learn more at [Track external files](/models/artifacts/track-external-files/).
+- **CoreWeave infrastructure monitoring**: During a [W&B Run](/models/runs) on CoreWeave infrastructure, [CoreWeave Mission Control](https://www.coreweave.com/mission-control) monitors your compute infrastructure, allowing for observation of infrastructure alerts such as GPU failures, thermal violations, and more. If an error occurs, CoreWeave sends that information to W&B. W&B populates infrastructure information onto your run's plots in your project's workspace. CoreWeave attempts to resolve some issues automatically, and W&B surfaces that information in the run's page. W&B provides a link to the SLURM job's Grafana dashboard for system-level details about the run. Learn more at [Visualize CoreWeave infrastructure alerts](/models/app/features/panels/line-plot).
+- **CoreWeave external file tracking**: You can now track external files stored in CoreWeave AI Object Storage with reference artifacts. Learn more at [Track external files](/models/artifacts/track-external-files).
 - **CoreWeave BYOB support**: Dedicated Cloud and Self-Managed now support CoreWeave AI Object Storage for Instance and Team level BYOB. CoreWeave Team level BYOB on Multi-tenant Cloud is coming soon. Learn more at [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector).
 - **Bulk media settings**: Just like line plots, you can now manage all your media panel settings at once—across an entire workspace or a specific section. Easily configure media panels to display by epoch or arrange them into customized grid patterns without adjusting each panel separately. Individual panel settings override the global settings.
 - Use **Workspace templates** to quickly create workspaces using the same settings as an existing workspace. Currently, a workspace template can define custom line plot settings. Learn more at [Workspace templates](/models/track/workspaces/#workspace-templates).
@@ -543,7 +543,7 @@ If you have questions or are experiencing issues with an upgrade, contact [suppo
 - Settings for all types of media panels have been reorganized and improved.
 - You can now customize the point and background colors for point cloud panels.
 - Team-level and organization-level service accounts can now interact with Registry.
-- Improved Exponentially-weighted Moving Average (EMA) smoothing provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing/) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance. This feature was in private preview in v0.68.x.
+- Improved Exponentially-weighted Moving Average (EMA) smoothing provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance. This feature was in private preview in v0.68.x.
 
 ### Private preview
 Private preview features are available by invitation only. To request enrollment in a private preview, contact [support](mailto:support@wandb.com) or your AISE.
@@ -556,7 +556,7 @@ Private preview features are available by invitation only. To request enrollment
 - PDFs and generic files are now supported.
 - The new [`EvaluationLogger` API](/weave/guides/evaluation/evaluation_logger) provides flexible imperative-style evaluation logging.
 - You can now import [human annotations](/weave/guides/tracking/feedback#add-human-annotations) into Weave datasets
-- [Playground](/weave/guides/tools/playground/) now supports saved configurations and prompts.
+- [Playground](/weave/guides/tools/playground) now supports saved configurations and prompts.
 - Decorators are now supported in TypeScript.
 - Added support for [tracing generator functions](/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions).
 - The new [`dataset.add_rows`](/weave/reference/python-sdk/#method-add-rows) helper improves the efficiency of appending to an existing dataset.
@@ -564,7 +564,7 @@ Private preview features are available by invitation only. To request enrollment
 
 ## Performance
 - With [`wandb` SDK](/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11, artifacts now download 3-5x faster on average. For example, an artifact that previously downloaded at around 100 MB/sec may now download at 450 MB/sec or faster. Actual download speeds vary based on factors such as your network and storage infrastructure.
-- Improved caching on [Project](/models/track/project-page/) and [User Settings](/platform/app/settings-page/user-settings/) pages.
+- Improved caching on [Project](/models/track/project-page) and [User Settings](/platform/app/settings-page/user-settings) pages.
 
 ## Fixes
 - Improved the startup process for the `weave-cache-clear` container to ensure compatibility with Python virtual environments.
@@ -606,31 +606,31 @@ v0.68.0 introduced a bug, fixed in [v0.68.1](#0_68_1), that could prevent media 
 - You can now move runs between `Groups`, one by one or in bulk. Also, you can now create new `Groups` after the initial logging time.
 - Line plots now support **synchronized zooming** mode, where zooming to a given range on one plot automatically zooms into the same range on all other line plots with a common x-axis. Turn this on in the [workspace display settings for line plots](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace).
 - Line plots now support formatting custom metrics as timestamps. This is useful when synchronizing or uploading runs from a different system.
-- You can now slide through [media panels](/models/app/features/panels/media/) using non-`_step` fields such as `epoch` or `train/global_step` (or anything else).
-- In Tables and plots in [Query Panels](/models/app/features/panels/query-panels/) that use `runs` or `runs.history` expressions, a step slider allows you to step through the progress on your metrics, text, or media through the course of your runs. The slider supports stepping through non-`_step` metrics.
-- You can now customize [bar chart](/models/app/features/panels/bar-plot/) labels using a font size control.
+- You can now slide through [media panels](/models/app/features/panels/media) using non-`_step` fields such as `epoch` or `train/global_step` (or anything else).
+- In Tables and plots in [Query Panels](/models/app/features/panels/query-panels) that use `runs` or `runs.history` expressions, a step slider allows you to step through the progress on your metrics, text, or media through the course of your runs. The slider supports stepping through non-`_step` metrics.
+- You can now customize [bar chart](/models/app/features/panels/bar-plot) labels using a font size control.
 
 ### Private preview
 Private preview features are available by invitation only. To request enrollment in a private preview, contact [support](mailto:support@wandb.com) or your AISE.
 
-- **Personal workspace templates** allow you to save your workspace setup so it is automatically applied to your new [projects](/models/track/project-page/). Initially, you can configure certain line plot settings such as the default X axis metric, smoothing algorithm, and smoothing factor.
-- **Improved Exponentially-weighted Moving Average (EMA) smoothing** provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing/) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance.
+- **Personal workspace templates** allow you to save your workspace setup so it is automatically applied to your new [projects](/models/track/project-page). Initially, you can configure certain line plot settings such as the default X axis metric, smoothing algorithm, and smoothing factor.
+- **Improved Exponentially-weighted Moving Average (EMA) smoothing** provides more reliable [smoothed lines](/models/app/features/panels/line-plot/smoothing) when operating on complete, unbinned data. In most cases, smoothing is handled at the back end for improved performance.
 
 ### Weave
-- Chat with fine-tuned models from within your W&B instance. [Playground](/weave/guides/tools/playground/) is now supported in Dedicated Cloud. Playground is a chat interface for comparing different LLMs on historical traces. Admins can add API keys to different model providers or hook up [custom hosted LLM providers](/weave/guides/tools/playground/#add-a-custom-provider) so your team can interact with them from within Weave.
-- Open Telemetry Support. Now you can log traces via OpenTelemetry (OTel). See [OpenTelemetry tracing](/weave/guides/tracking/otel/?utm_source=beamer&utm_medium=sidebar&utm_campaign=OpenTelemetry-support-in-Weave&utm_content=ctalink).
-- Weave [tracing](/weave/guides/tracking/) has new framework integrations: CrewAI, OpenAI’s Agent SDK, DSPy 2.x and Google's genai Python SDK.
+- Chat with fine-tuned models from within your W&B instance. [Playground](/weave/guides/tools/playground) is now supported in Dedicated Cloud. Playground is a chat interface for comparing different LLMs on historical traces. Admins can add API keys to different model providers or hook up [custom hosted LLM providers](/weave/guides/tools/playground/#add-a-custom-provider) so your team can interact with them from within Weave.
+- Open Telemetry Support. Now you can log traces via OpenTelemetry (OTel). See [OpenTelemetry tracing](/weave/guides/tracking/otel?utm_source=beamer&utm_medium=sidebar&utm_campaign=OpenTelemetry-support-in-Weave&utm_content=ctalink).
+- Weave [tracing](/weave/guides/tracking) has new framework integrations: CrewAI, OpenAI's Agent SDK, DSPy 2.x and Google's genai Python SDK.
 - Playground supports new [OpenAI models](/weave/guides/tools/playground/#openai): GPT‑4.1, GPT‑4.1 mini, and GPT‑4.1 nano.
 - Build labeled datasets directly from traces, with your annotations automatically converted into dataset columns. See [Dataset creation from traces](/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui).
 
 ## Security
-- Registry admins can now designate a [service account](/platform/hosting/iam/service-accounts/) in a registry as either a Registry Admin or a Member. Previously, the service account’s role was always Registry Admin. See [Registry service account configuration](/models/registry/configure_registry/).
+- Registry admins can now designate a [service account](/platform/hosting/iam/service-accounts) in a registry as either a Registry Admin or a Member. Previously, the service account's role was always Registry Admin. See [Registry service account configuration](/models/registry/configure_registry).
 
 ## Performance
 - Improved the performance of many workspace interactions, particularly in large workspaces. For example, expanding sections and using the run selector are significantly more responsive.
 - Improved Fork and Rewind Performance. 
 
-    [Forking](/models/runs/forking/) a run creates a new run that uses the same configuration as an existing run. Changes to the forked run do not the parent run, and vice versa. A pointer is maintained between the forked run and the parent. [Rewinding](/models/runs/rewind/) a run lets you log new data from that point in time without losing the existing data.
+    [Forking](/models/runs/forking) a run creates a new run that uses the same configuration as an existing run. Changes to the forked run do not the parent run, and vice versa. A pointer is maintained between the forked run and the parent. [Rewinding](/models/runs/rewind) a run lets you log new data from that point in time without losing the existing data.
 
     In projects with many nested forks, forking new runs is now much more efficient due to improvements in caching.
 

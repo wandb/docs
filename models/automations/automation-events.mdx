@@ -8,13 +8,13 @@ import MultiTenantCloudOnly from "/snippets/en/_includes/multi-tenant-cloud-only
 <EnterpriseCloudOnly/>
 </Info>
 
-An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview](/models/automations/) or [Create an automation](/models/automations/create-automations/).
+An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
 ## Registry
-This section describes the scopes and events for an automation in a [Registry](/models/registry/).
+This section describes the scopes and events for an automation in a [Registry](/models/registry).
 
 ### Scopes
-A [Registry](/models/registry/) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
+A [Registry](/models/registry) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
 ### Events <a id="registry-events" aria-label="Registry events"></a>
 A Registry automation can watch for these events:
@@ -22,7 +22,7 @@ A Registry automation can watch for these events:
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
 
 ## Project
-This section describes the scopes and events for an automation in a [project](/models/track/project-page/).
+This section describes the scopes and events for an automation in a [project](/models/track/project-page).
 
 ### Scopes
 A project-level automation watches for the event taking place on any collection in the project. Depending on the event you specify, you can further limit the scope of the automation.
@@ -142,11 +142,11 @@ This section describes how the automation selects runs to evaluate.
   - **Filter to one user's runs**: Include only runs created by the specified user.
   - **Filter on run name**: Include only runs whose names match the given regular expression.
 
-  For details, see [Create automations](/models/automations/create-automations/).
+  For details, see [Create automations](/models/automations/create-automations).
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24 hour period, a particular automation can fire at most once per run.
 
 ## Next steps
-- [Create a Slack automation](/models/automations/create-automations/slack/)
-- [Create a webhook automation](/models/automations/create-automations/webhook/)
+- [Create a Slack automation](/models/automations/create-automations/slack)
+- [Create a webhook automation](/models/automations/create-automations/webhook)

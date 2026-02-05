@@ -4,10 +4,10 @@ title: Dagster
 ---
 Use Dagster and W&B (W&B) to orchestrate your MLOps pipelines and maintain ML assets. The integration with W&B makes it easy within Dagster to:
 
-* Create and use a [W&B Artifact](/models/artifacts/).
-* Use and create Registered Models in [W&B Registry](/models/registry/).
+* Create and use a [W&B Artifact](/models/artifacts).
+* Use and create Registered Models in [W&B Registry](/models/registry).
 * Run training jobs on dedicated compute using [W&B Launch](/platform/launch).
-* Use the [wandb](/models/ref/python/) client in ops and assets.
+* Use the [wandb](/models/ref/python) client in ops and assets.
 
 The W&B Dagster integration provides a W&B-specific Dagster resource and IO Manager:
 
@@ -20,13 +20,13 @@ The following guide demonstrates how to satisfy prerequisites to use W&B in Dags
 You will need the following resources to use Dagster within W&B:
 1. **W&B API Key**.
 2. **W&B entity (user or team)**: An entity is a username or team name where you send W&B Runs and Artifacts. Make sure to create your account or team entity in the W&B App UI before you log runs. If you do not specify ain entity, the run will be sent to your default entity, which is usually your username. Change your default entity in your settings under **Project Defaults**.
-3. **W&B project**: The name of the project where [W&B Runs](/models/runs/) are stored.
+3. **W&B project**: The name of the project where [W&B Runs](/models/runs) are stored.
 
 Find your W&B entity by checking the profile page for that user or team in the W&B App. You can use a pre-existing W&B project or create a new one. New projects can be created on the W&B App homepage or on user/team profile page. If a project does not exist it will be automatically created when you first use it.
 
 ### Set up your API key
 1. [Log in to W&B](https://wandb.ai/login). Note: if you are using W&B Server ask your admin for the instance host name.
-2. Create an API key at [User Settings](https://wandb.ai/settings). For a production environment we recommend using a [service account](/models/support/service_account_useful/) to own that key.
+2. Create an API key at [User Settings](https://wandb.ai/settings). For a production environment we recommend using a [service account](/models/support/service_account_useful) to own that key.
 3. Set an environment variable for that API key: `export WANDB_API_KEY=YOUR_KEY`.
 
 
@@ -113,10 +113,10 @@ Note that we are configuring the IO Manager cache duration in this example contr
 ### Configuration
 The proceeding configuration options are used as settings on the W&B-specific Dagster resource and IO Manager provided by the integration.
 
-* `wandb_resource`: Dagster [resource](https://docs.dagster.io/concepts/resources) used to communicate with the W&B API. It automatically authenticates using the provided API key. Properties:
+* `wandb_resource`: Dagster [resource](https://docs.dagster.io/guides/build/external-resources) used to communicate with the W&B API. It automatically authenticates using the provided API key. Properties:
     * `api_key`: (str, required): a W&B API key necessary to communicate with the W&B API.
     * `host`: (str, optional): the API host server you wish to use. Only required if you are using W&B Server. It defaults to the Public Cloud host, `https://api.wandb.ai`.
-* `wandb_artifacts_io_manager`: Dagster [IO Manager](https://docs.dagster.io/concepts/io-management/io-managers) to consume W&B Artifacts. Properties:
+* `wandb_artifacts_io_manager`: Dagster [IO Manager](https://docs.dagster.io/guides/build/io-managers) to consume W&B Artifacts. Properties:
     * `base_dir`: (int, optional) Base directory used for local storage and caching. W&B Artifacts and W&B Run logs will be written and read from that directory. By default, it’s using the `DAGSTER_HOME` directory.
     * `cache_duration_in_minutes`: (int, optional) to define the amount of time W&B Artifacts and W&B Run logs should be kept in the local storage. Only files and directories that were not opened for that amount of time are removed from the cache. Cache purging happens at the end of an IO Manager execution. You can set it to 0, if you want to turn off caching completely. Caching improves speed when an Artifact is reused between jobs running on the same machine. It defaults to 30 days.
     * `run_id`: (str, optional): A unique ID for this run, used for resuming. It must be unique in the project, and if you delete a run you can't reuse the ID. Use the name field for a short descriptive name, or config for saving hyperparameters to compare across runs. The ID cannot contain the following special characters: `/\#?%:..` You need to set the Run ID when you are doing experiment tracking inside Dagster to allow the IO Manager to resume the run. By default it’s set to the Dagster Run ID e.g `7e4df022-1bf2-44b5-a383-bb852df4077e`.
@@ -127,7 +127,7 @@ The proceeding configuration options are used as settings on the W&B-specific Da
 
 The integration with W&B Artifact relies on a Dagster IO Manager.
 
-[IO Managers](https://docs.dagster.io/concepts/io-management/io-managers) are user-provided objects that are responsible for storing the output of an asset or op and loading it as input to downstream assets or ops. For example, an IO Manager might store and load objects from files on a filesystem.
+[IO Managers](https://docs.dagster.io/guides/build/io-managers) are user-provided objects that are responsible for storing the output of an asset or op and loading it as input to downstream assets or ops. For example, an IO Manager might store and load objects from files on a filesystem.
 
 The integration provides an IO Manager for W&B Artifacts. This allows any Dagster `@op` or `@asset` to create and consume W&B Artifacts natively. Here’s a simple example of an `@asset` producing a W&B Artifact of type dataset containing a Python list.
 
@@ -148,7 +148,7 @@ def create_dataset():
 You can annotate your `@op`, `@asset` and `@multi_asset` with a metadata configuration in order to write Artifacts. Similarly you can also consume W&B Artifacts even if they were created outside Dagster. 
 
 ## Write W&B Artifacts
-Before continuing, we recommend you to have a good understanding of how to use W&B Artifacts. Consider reading the [Guide on Artifacts](/models/artifacts/).
+Before continuing, we recommend you to have a good understanding of how to use W&B Artifacts. Consider reading the [Guide on Artifacts](/models/artifacts).
 
 Return an object from a Python function to write a W&B Artifact. The following objects are supported by W&B:
 * Python objects (int, dict, list…)
@@ -398,7 +398,7 @@ from dagster_wandb import WandbArtifactConfiguration
 
 ### Using partitions
 
-The integration natively supports [Dagster partitions](https://docs.dagster.io/concepts/partitions-schedules-sensors/partitions).
+The integration natively supports [Dagster partitions](https://docs.dagster.io/guides/build/partitions-and-backfills).
 
 The following is an example with a partitioned using `DailyPartitionsDefinition`.
 ```python
@@ -713,7 +713,7 @@ def use_onnx_model(context, my_onnx_model, my_test_set):
 
 ### Using partitions
 
-The integration natively supports [Dagster partitions](https://docs.dagster.io/concepts/partitions-schedules-sensors/partitions).
+The integration natively supports [Dagster partitions](https://docs.dagster.io/guides/build/partitions-and-backfills).
 
 You can selectively read one, multiple, or all partitions of an asset.
 
@@ -968,7 +968,7 @@ This allows you to take advantage of the integration to read externally created 
 You can train small models inside your Dagster cluster and you can run Dagster in a Kubernetes cluster with GPU nodes. We recommend using W&B Launch for large model training. This will prevent overloading your instance and provide access to more adequate compute. 
 
 7. When experiment tracking within Dagster, set your W&B Run ID to the value of your Dagster Run ID.
-We recommend that you both: make the [Run resumable](/models/runs/resuming/) and set the W&B Run ID to the Dagster Run ID or to a string of your choice. Following this recommendation ensures your W&B metrics and W&B Artifacts are stored in the same W&B Run when you train models inside of Dagster.
+We recommend that you both: make the [Run resumable](/models/runs/resuming) and set the W&B Run ID to the Dagster Run ID or to a string of your choice. Following this recommendation ensures your W&B metrics and W&B Artifacts are stored in the same W&B Run when you train models inside of Dagster.
 
 
 Either set the W&B Run ID to the Dagster Run ID.

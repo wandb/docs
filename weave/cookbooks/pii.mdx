@@ -108,7 +108,7 @@ Before using Weave with PII data, review the best practices for using Weave with
 2. Create API keys at:
 
    - [W&B User Settings](https://wandb.ai/settings)
-   - [Anthropic Console](https://console.anthropic.com/settings/keys)
+   - [Anthropic Console](https://platform.claude.com/settings/keys)
 
 ```python lines
 %%capture
@@ -411,9 +411,9 @@ client = weave.init(
 
 In the following examples, we will integrate our PII redaction and anonymization methods into Weave Models and preview the results in Weave Traces.
 
-First, we'll create a [Weave Model](https://wandb.github.io/weave/guides/core-types/models). A Weave Model is a combination of information like configuration settings, model weights, and code that defines how the model operates.
+First, we'll create a [Weave Model](https://docs.wandb.ai/weave/guides/core-types/models). A Weave Model is a combination of information like configuration settings, model weights, and code that defines how the model operates.
 
-In our model, we will include our predict function where the Anthropic API will be called. Anthropic's Claude Sonnet is used to perform sentiment analysis while tracing LLM calls using [Traces](https://wandb.github.io/weave/quickstart). Claude Sonnet will receive a block of text and output one of the following sentiment classifications: _positive_, _negative_, or _neutral_. Additionally, we will include our postprocessing functions to ensure that our PII data is redacted or anonymized before it is sent to the LLM.
+In our model, we will include our predict function where the Anthropic API will be called. Anthropic's Claude Sonnet is used to perform sentiment analysis while tracing LLM calls using [Traces](https://docs.wandb.ai/weave/quickstart). Claude Sonnet will receive a block of text and output one of the following sentiment classifications: _positive_, _negative_, or _neutral_. Additionally, we will include our postprocessing functions to ensure that our PII data is redacted or anonymized before it is sent to the LLM.
 
 Once you run this code, you will receive a links to the Weave project page, as well as the specific trace (LLM calls) you ran.
 

@@ -7,7 +7,7 @@ description: "Integrate Hugging Face Hub with W&B Weave to track and analyze you
 All code samples shown on this page are in Python.
 </Warning>
 
-This page explains how to integrate [Hugging Face Hub](https://hf.co/) with W&B Weave to track and analyze your machine learning applications. You'll learn how to log model inferences, monitor function calls, and organize experiments using Weave's tracing and versioning capabilities. By following the examples provided, you can capture valuable insights, debug your applications efficiently, and compare different model configurations—all within the Weave web interface.
+This page explains how to integrate [Hugging Face Hub](https://huggingface.co/) with W&B Weave to track and analyze your machine learning applications. You'll learn how to log model inferences, monitor function calls, and organize experiments using Weave's tracing and versioning capabilities. By following the examples provided, you can capture valuable insights, debug your applications efficiently, and compare different model configurations—all within the Weave web interface.
 
 <Tip>
 **Try Hugging Face Hub with Weave in Google Colab**
@@ -20,7 +20,7 @@ Do you want to experiment with Hugging Face Hub and Weave without any of the set
 
 ## Overview
 
-[Hugging Face Hub](https://hf.co/) is a machine learning platform for creators and collaborators, offering a vast collection of pre-trained models and datasets for various projects.
+[Hugging Face Hub](https://huggingface.co/) is a machine learning platform for creators and collaborators, offering a vast collection of pre-trained models and datasets for various projects.
 
 The `huggingface_hub` Python library provides a unified interface to run inference across multiple services for models hosted on the Hub. You can invoke these models using the [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client).
 
@@ -34,7 +34,7 @@ Weave will automatically capture traces for [`InferenceClient`](https://huggingf
     pip install -U huggingface_hub weave -qqq
     ```
 
-2. To use inference with a model on the Hugging Face Hub, set your [User Access Token](https://huggingface.co/docs/hub/security-tokens). You can either set the token from your [Hugging Face Hub Settings page](https://huggingface.co/settings/tokens) or programmatically. The following code sample prompts the user to enter their `HUGGINGFACE_TOKEN` and sets the token as an environment variable.
+2. To use inference with a model on the Hugging Face Hub, set your [User Access Token](https://huggingface.co/docs/hub/security-tokens). You can either set the token from your [Hugging Face Hub Settings page](https://huggingface.co/login?next=%2Fsettings%2Ftokens) or programmatically. The following code sample prompts the user to enter their `HUGGINGFACE_TOKEN` and sets the token as an environment variable.
 
     ```python lines
     import os
