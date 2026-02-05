@@ -155,7 +155,7 @@ To prevent data loss in worker processes, you must ensure that background upload
 These methods have different purposes:
 
 - `weave.flush()`: Simple, silent flushing. Recommended when Weave is integrated into worker processes or CI environments.
-- `weave.finish()`: Includes progress feedback with a progress bar or status callbacks. We recommend using this with interactive scripts.
+- `weave.finish()`: Includes progress feedback with a progress bar or status callbacks. Recommended for interactive scripts or notebooks.
 
 Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
 The following example demonstrates `client.finish()`:
