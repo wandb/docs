@@ -182,4 +182,13 @@ def process_task(input_data):
         pass
 ```
 
+You can also use the `with` context manager to automatically call `weave.finish()` on exit:
+
+```python lines
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+    # Automatically calls finish() on exit
+    return result
+```
+
 You can also improve the performance of your application using `weave.flush()`. See [Flushing](#flushing) for more information.
