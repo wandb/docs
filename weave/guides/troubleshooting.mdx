@@ -158,7 +158,7 @@ To prevent data loss in worker processes, call `client.flush()` or `client.finis
 - `weave.finish()`: Includes progress feedback with a progress bar or status callbacks. We recommend using this with interactive scripts.
 
 Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
-The following example demonstrates how to use `client.finish()` to ensure all traces are uploaded before tasks complete:
+The following example demonstrates `client.finish()`:
 
 ```python lines
 from celery import Celery
