@@ -149,7 +149,7 @@ ulimit -n 65536
 
 ## Trace data loss in worker processes
 
-Weave performs network uploads in background threads to minimize impact on your application's performance. However, when using worker processes like Celery, multiprocessing, or other task queue systems, the worker process may exit before background threads finish uploading traces, causing trace data to be lost.
+Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using a multiprocessing or task queue system or a worker processes like Celery, trace data will be lost if the worker process exits before background threads finish uploading traces.
 To prevent data loss in worker processes, call `client.flush()` or `client.finish()` before the worker task completes. This ensures all background uploads complete before the process exits.
 
 **Available methods:**
