@@ -150,16 +150,14 @@ ulimit -n 65536
 ## Trace data loss in worker processes
 
 Weave performs network uploads in background threads to minimize impact on your application's performance. However, when using worker processes like Celery, multiprocessing, or other task queue systems, the worker process may exit before background threads finish uploading traces, causing trace data to be lost.
-
 To prevent data loss in worker processes, call `client.flush()` or `client.finish()` before the worker task completes. This ensures all background uploads complete before the process exits.
 
 **Available methods:**
 
-- `client.flush()`: Simple, silent flushing. (recommended for worker processes and CI environments)
-- `client.finish()`: Includes progress feedback with a progress bar or status callbacks (useful for interactive scripts)
+- `weave.flush()`: Simple, silent flushing. We recommend this for when Weave is integrated into worker processes and CI environments.
+- `weave.finish()`: Includes progress feedback with a progress bar or status callbacks. We recommend using this with interactive scripts.
 
 Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
-
 The following example demonstrates how to use `client.finish()` to ensure all traces are uploaded before tasks complete:
 
 ```python lines
@@ -170,40 +168,18 @@ app = Celery('tasks')
 
 @app.task
 def process_task(input_data):
-    client = weave.init("your-team-name/your-project-name")
+    weave.init("your-team-name/your-project-name")
     
     try:
         # Your task logic that creates traces
         result = your_processing_function(input_data)
         
         # Ensure all traces are uploaded before task completes
-        client.finish()
+        weave.finish()
         
         return result
     finally:
         pass
 ```
 
-The following example demonstrates how to use `client.flush()` with a multiprocessing application:
-
-```python lines
-import multiprocessing
-import weave
-
-def worker_function(data):
-    client = weave.init("your-team-name/your-project-name")
-    
-    try:
-        # Your processing logic
-        result = process_data(data)
-        
-        # Flush before worker process exits
-        client.flush()
-        return result
-    finally:
-        pass
-
-if __name__ == '__main__':
-    with multiprocessing.Pool() as pool:
-        results = pool.map(worker_function, data_list)
-```
+You can also improve the performance of your application using `weave.flush()`. See [Flushing](#flushing) for more information.
