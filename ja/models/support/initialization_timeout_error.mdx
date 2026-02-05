@@ -1,23 +1,18 @@
 ---
-title: wandb で run の初期化タイムアウトエラーを解決するにはどうすればいいですか？
-support:
-  - connectivity
-  - crashing and hanging runs
-toc_hide: true
-type: docs
+title: wandb で run の初期化タイムアウトエラーを解決するにはどうすればよいですか？
 ---
-run の初期化タイムアウトエラーを解決するには、次の手順を実行してください。
 
-- **初期化を再試行する**: run を再起動してみてください。
-- **ネットワーク接続を確認する**: 安定したインターネット接続を確認してください。
-- **wandb のバージョンを更新する**: 最新バージョンの wandb をインストールしてください。
-- **タイムアウト設定を増やす**: `WANDB_INIT_TIMEOUT` 環境変数を修正します:
-  
+Runs の初期化タイムアウトエラーを解決するには、以下の手順に従ってください。
+
+- **初期化の再試行**: Runs の再起動を試みてください。
+- **ネットワーク接続の確認**: インターネット接続が安定していることを確認してください。
+- **wandb バージョンの更新**: 最新バージョンの wandb をインストールしてください。
+- **タイムアウト設定の延長**: 環境変数 `WANDB_INIT_TIMEOUT` を変更します：
   ```python
   import os
+  # タイムアウト時間を設定
   os.environ['WANDB_INIT_TIMEOUT'] = '600'
   ```
-
-- **デバッグを有効にする**: 詳細なログを取得するために `WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定します。
-- **設定を確認する**: API キーとプロジェクト設定が正しいことを確認してください。
-- **ログを確認する**: `debug.log`, `debug-internal.log`, `debug-core.log`, `output.log` を検査してエラーを確認してください。
+- **デバッグの有効化**: 詳細な ログ を取得するために、`WANDB_DEBUG=true` および `WANDB_CORE_DEBUG=true` を設定します。
+- **設定の確認**: APIキー と プロジェクト の 設定 が正しいことを確認してください。
+- **ログの確認**: エラーの詳細を確認するために、`debug.log`、`debug-internal.log`、`debug-core.log`、および `output.log` を調査してください。

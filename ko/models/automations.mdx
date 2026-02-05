@@ -1,0 +1,62 @@
+---
+title: Automations 개요
+description: thoughtful_thought W&B 내의 이벤트를 기반으로 워크플로우를 트리거하려면 W&B Automations를 사용하세요.
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+이 페이지는 W&B의 _automations_ (자동화)에 대해 설명합니다. W&B에서 발생한 이벤트를 기반으로 자동화된 모델 테스트 및 배포와 같은 워크플로우 단계를 트리거하려면 [automation 생성하기](/models/automations/create-automations/)를 참조하세요.
+
+예를 들어, automation을 통해 새로운 버전이 생성될 때 Slack 채널에 알림을 보내거나, 아티팩트에 `production` 에일리어스가 추가될 때 자동 테스트 webhook을 트리거하거나, run 의 `loss` 가 허용 가능한 범위 내에 있을 때만 검증 작업을 시작할 수 있습니다.
+
+<Info>
+automation 관련 튜토리얼을 찾고 계신가요?
+- [모델 평가 및 배포를 위한 Github Action 자동 트리거 방법 배우기](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
+- [Sagemaker 엔드포인트에 모델을 자동 배포하는 데모 영상 시청하기](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
+- [automation 도입을 위한 영상 시리즈 시청하기](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared).
+</Info>
+
+## Automation 이벤 트
+
+Automation은 컬렉션, 프로젝트 또는 레지스트리의 Runs 또는 Artifacts와 관련된 이벤트에 의해 트리거될 수 있습니다. 다음과 같은 경우 automation이 시작될 수 있습니다:
+
+- Run 메트릭이 정의된 절대적 또는 상대적 임계값을 충족할 때. 예를 들어, run 의 `loss` 가 0.01보다 작거나 run 의 `accuracy` 가 5% 향상될 때 트리거됩니다.
+- Run 의 z-score (표준 점수)가 평균에서 지정된 양만큼 벗어날 때. z-score가 0이면 결과가 평균과 일치함을 나타냅니다. z-score가 +2이면 결과가 평균보다 2 표준 편차 높음을 의미하고, -2이면 결과가 평균보다 2 표준 편차 낮음을 의미합니다.
+- 프로젝트 또는 레지스트리에서 이벤트가 발생할 때. 예를 들어, 모델 아티팩트의 새로운 버전이 생성되거나 모델 아티팩트에 `production` 에일리어스가 추가될 때 트리거됩니다.
+
+자세한 내용은 [Automation 이벤트 및 범위](/models/automations/automation-events/)를 참조하세요.
+
+## Automation 액션
+
+이벤트가 automation을 트리거하면 다음 액션 중 하나를 수행할 수 있습니다:
+
+### Slack 알림
+트리거된 이벤트에 대한 세부 정보가 포함된 메시지를 Slack 채널로 보냅니다. 메시지에는 이벤트 요약과 W&B에서 자세한 내용을 볼 수 있는 링크가 포함됩니다.
+
+### Webhook
+트리거된 이벤트에 대한 정보가 포함된 JSON 페이로드를 사용하여 webhook URL을 호출합니다. 이를 통해 CI/CD 파이프라인, 모델 배포 서비스 또는 커스텀 워크플로우와 같은 외부 시스템과 인테그레이션할 수 있습니다. webhook 요청의 본문은 JSON 직렬화가 가능한 모든 페이로드가 될 수 있습니다.
+
+구현 세부 사항은 다음을 참조하세요:
+- [Slack automation 생성하기](/models/automations/create-automations/slack/)
+- [Webhook automation 생성하기](/models/automations/create-automations/webhook/)
+
+## Automation 작동 방식
+
+[automation을 생성](/models/automations/create-automations/)하려면 다음 단계를 따릅니다:
+
+1. 필요한 경우, 엑세스 토큰, 비밀번호 또는 민감한 설정 세부 정보와 같이 automation에 필요한 민감한 문자열에 대해 [secrets](/platform/secrets/)를 구성합니다. Secrets는 **Team Settings**에서 정의됩니다. Secrets는 주로 webhook automation에서 자격 증명이나 토큰을 평문으로 노출하거나 페이로드에 하드코딩하지 않고 외부 서비스에 안전하게 전달하기 위해 사용됩니다.
+1. 팀 수준의 webhook 또는 Slack 인테그레이션을 설정하여 W&B가 사용자를 대신해 Slack에 게시하거나 webhook을 실행할 수 있도록 권한을 부여합니다. 단일 automation 액션 (webhook 또는 Slack 알림)은 여러 개의 automation에서 사용할 수 있습니다. 이러한 액션은 **Team Settings**에서 정의됩니다.
+1. 프로젝트 또는 레지스트리에서 automation을 생성합니다:
+    1. 새 아티팩트 버전이 추가되는 시점과 같이 감시할 [이벤트](#automation-events)를 정의합니다.
+    2. 이벤트 발생 시 수행할 액션 (Slack 채널 게시 또는 webhook 실행)을 정의합니다. Webhook의 경우, 필요한 경우 엑세스 토큰에 사용할 secret 및/또는 페이로드와 함께 보낼 secret을 지정합니다.
+
+## 제한 사항
+[Run 메트릭 automations](/models/automations/automation-events/#run-metrics-events) 및 [run 메트릭 z-score 변경 automations](/models/automations/automation-events/#run-metrics-z-score-change-automations)은 현재 [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud)에서만 지원됩니다.
+
+## 다음 단계
+- [Automation 생성하기](/models/automations/create-automations/).
+- [Automation 이벤트 및 범위](/models/automations/automation-events/)에 대해 알아보기.
+- [Secret 생성하기](/platform/secrets/).

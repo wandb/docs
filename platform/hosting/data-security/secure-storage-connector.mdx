@@ -304,6 +304,7 @@ For details, see [Create a bucket](https://docs.cloud.google.com/storage/docs/cr
 
     1. Create the GCS bucket with a name of your choice. Optionally create a folder which you can configure as sub-path to store all W&B files.
     1. Set encryption type to `Google-managed`.
+    1. Turn on soft deletion. See [Edit a bucket's soft delete policy](https://docs.cloud.google.com/storage/docs/use-soft-delete).
     1. Set the CORS policy with `gsutil`. This is not possible in the UI.
 
        1. Create a file called `cors-policy.json` locally.
@@ -548,6 +549,7 @@ If W&B encounters errors accessing the bucket or detects invalid settings, an er
 </Tabs>
 
 ## Troubleshooting
+### CoreWeave
 This section helps troubleshoot problems connecting to CoreWeave AI Object Storage.
 
 - **Connection errors**
@@ -566,3 +568,9 @@ This section helps troubleshoot problems connecting to CoreWeave AI Object Stora
 - **Access key and permission errors**
   - Verify that your CoreWeave API Access Key is not expired.
   - Verify that your CoreWeave API Access Key and Secret Key have sufficient permissions `GetObject`, `PutObject`, `DeleteObject`, `ListBucket`. The examples in this page meet this requirement. Refer to [Create and Manage Access Keys](https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about) in the CoreWeave documentation.
+
+### Google Cloud
+This section helps troubleshoot problems connecting to Google Cloud Storage.
+
+- `Bucket does not have soft deletion enabled`
+    Ensure that soft deletion is turned on for your Google Cloud Storage bucket. See [Edit a bucket's soft delete policy](https://docs.cloud.google.com/storage/docs/use-soft-delete).

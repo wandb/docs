@@ -2,17 +2,36 @@
 title: wandb pull
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb pull [OPTIONS] RUN`
+import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
 
-**요약**
+<WandbPull/>
 
-Weights & Biases에서 파일 가져오기
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**옵션**
+Weights & Biases 에서 파일을 가져옵니다.
 
-| **옵션** | **설명** |
+## 사용법
+
+```bash
+wandb pull RUN [OPTIONS]
+```
+
+## 인수
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `RUN` | 설명 없음 | 예 |
+
+## 옵션
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `-p, --project` | 다운로드하려는 project입니다. |
-| `-e, --entity` | 목록의 범위를 지정할 entity입니다. |
+| `--project`, `-p` | 다운로드할 프로젝트. |
+| `--entity`, `-e` | 목록 범위를 지정할 엔티티. (기본값: models) |

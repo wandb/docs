@@ -1,12 +1,9 @@
 ---
-title: コードをテストするときに wandb をオフにできますか？
-support:
-  - artifacts
-toc_hide: true
-type: docs
+title: コードのテスト時に wandb をオフにすることはできますか？
 ---
-`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定して、W&B をテスト目的で何もしない (NOOP) 状態に設定します。
+
+テスト目的で W&B を何もしない（NOOP）状態に設定するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定してください。
 
 <Note>
-`wandb.init(mode="disabled")` を使用しても、W&B が Artifacts を `WANDB_CACHE_DIR` に保存するのを防ぐことはできません。
+`wandb.init(mode="disabled")` を使用しても、W&B が `WANDB_CACHE_DIR` に Artifacts を保存するのを防ぐことはできません。
 </Note>

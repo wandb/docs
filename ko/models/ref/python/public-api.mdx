@@ -1,27 +1,134 @@
 ---
-title: Import & Export API
+title: Public API 개요
+description: W&B Public API를 사용하여 프로그래밍 방식으로 W&B 데이터에 엑세스하고 관리하세요.
+module: wandb.apis.public
+no_list: true
 ---
 
-## 클래스
+import PublicApiUse from "/snippets/en/_includes/public-api-use.mdx";
 
-[`class Api`](/ko/models/ref/python/public-api/api/): wandb 서버 를 쿼리하는 데 사용됩니다.
+W&B Public API 는 W&B 에 저장된 데이터를 쿼리, 내보내기 및 업데이트할 수 있는 프로그래밍 방식의 엑세스를 제공합니다. 이 API 를 사용하여 사후 분석, 데이터 내보내기, 그리고 Runs, Artifacts, Sweeps 의 프로그래밍 방식 관리를 수행할 수 있습니다. 메인 SDK 가 트레이닝 중 실시간 로깅을 담당하는 반면, Public API 는 과거 데이터 검색, 메타데이터 업데이트, Artifacts 관리 및 완료된 실험에 대한 분석을 가능하게 합니다. 메인 `Api` 클래스는 대부분의 기능에 대한 엔트리 포인트 역할을 합니다.
 
-[`class File`](/ko/models/ref/python/public-api/file/): File은 wandb에서 저장한 파일과 연결된 클래스입니다.
+<PublicApiUse/>
 
-[`class Files`](/ko/models/ref/python/public-api/files/): `File` 오브젝트 의 반복 가능한 컬렉션입니다.
+## 사용 가능한 컴포넌트
 
-[`class Job`](/ko/models/ref/python/public-api/job/)
+| 컴포넌트 | 설명 |
+|-----------|-------------|
+| [`Api`](/models/ref/python/public-api/api/) | Public API 의 메인 엔트리 포인트입니다. 조직 전체의 Runs, Projects 및 Artifacts 를 쿼리합니다. |
+| [`Runs`](/models/ref/python/public-api/runs/) | 기록(history), 로그, 메트릭을 포함하여 개별 트레이닝 Runs 를 엑세스하고 관리합니다. |
+| [`Artifacts`](/models/artifacts/) | 모델 Artifacts, Datasets 및 기타 버전 관리된 파일을 쿼리하고 다운로드합니다. |
+| [`Sweeps`](/models/sweeps/) | 하이퍼파라미터 스윕 데이터에 엑세스하고 최적화 결과를 분석합니다. |
+| [`Projects`](/models/ref/python/public-api/projects/) | Projects 를 관리하고 프로젝트 수준의 메타데이터 및 설정에 엑세스합니다. |
+| [`Reports`](/models/reports/create-a-report/) | W&B Reports 에 프로그래밍 방식으로 엑세스하고 관리합니다. |
+| [`Team`](/models/ref/python/public-api/team) | 팀 정보를 쿼리하고 팀 수준의 리소스를 관리합니다. |
+| [`User`](/models/ref/python/public-api/user) | 사용자 프로필 및 사용자별 데이터에 엑세스합니다. |
+| [`Files`](/models/ref/python/public-api/files/) | Runs 와 관련된 파일을 다운로드하고 관리합니다. |
+| `History` | 트레이닝 중 로깅된 상세 시계열 메트릭에 엑세스합니다 (Run.history 참고). |
+| [`Automations`](./automations/) | 자동화된 워크플로우 및 액션을 관리합니다. |
+| [`Integrations`](/models/integrations) | 서드파티 인테그레이션을 구성하고 관리합니다. |
 
-[`class Project`](/ko/models/ref/python/public-api/project/): Project는 Runs의 네임스페이스입니다.
+## 일반적인 유스 케이스
 
-[`class Projects`](/ko/models/ref/python/public-api/projects/): `Project` 오브젝트의 반복 가능한 컬렉션입니다.
+### 데이터 내보내기 및 분석
+- Jupyter 노트북에서의 분석을 위해 Run 기록을 DataFrames 로 내보내기
+- 커스텀 시각화 또는 리포팅을 위해 메트릭 다운로드
+- 여러 실험에 걸친 결과 집계
 
-[`class QueuedRun`](/ko/models/ref/python/public-api/queuedrun/): 엔티티 및 프로젝트와 연결된 단일 대기열에 있는 Run입니다. `run = queued_run.wait_until_running()` 또는 `run = queued_run.wait_until_finished()`를 호출하여 Run에 엑세스합니다.
+### 사후 업데이트
+- 완료 후 Run 메타데이터 업데이트
+- 완료된 실험에 태그 또는 노트 추가
+- Run 설정 또는 요약 수정
 
-[`class Run`](./run): 엔티티 및 프로젝트와 연결된 단일 Run입니다.
+### Artifact 관리
+- 버전 또는 에일리어스로 Artifacts 쿼리
+- 프로그래밍 방식으로 모델 체크포인트 다운로드
+- Artifact 계보 및 종속성 추적
 
-[`class RunQueue`](/ko/models/ref/python/public-api/runqueue/)
+### Sweep 분석
+- Sweeps 결과 및 가장 성능이 좋은 Runs 에 엑세스
+- 하이퍼파라미터 탐색 결과 내보내기
+- 파라미터 중요도 분석
 
-[`class Runs`](/ko/models/ref/python/public-api/runs/): 프로젝트와 연결된 Run의 반복 가능한 컬렉션이며, 선택적 필터입니다.
+## 인증
 
-[`class Sweep`](./sweep): 스윕 과 연결된 Run의 집합입니다.
+Public API 는 Python SDK 와 동일한 인증 메커니즘을 사용합니다. 다음과 같은 몇 가지 방법으로 인증할 수 있습니다.
+
+`WANDB_API_KEY` 환경 변수를 사용하여 API 키를 설정합니다:
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+`Api` 클래스를 초기화할 때 API 키를 직접 전달합니다:
+
+```python
+api = Api(api_key="your_api_key")
+```
+
+또는 `wandb.login()` 을 사용하여 현재 세션을 인증합니다:
+```python
+import wandb
+
+wandb.login()
+api = Api()
+```
+
+
+## 사용 예시
+
+
+### 이름과 에일리어스로 Artifact 다운로드하기
+
+다음 예시는 이름과 에일리어스를 사용하여 W&B 에 로깅된 Artifact 를 검색하고 해당 내용을 다운로드하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
+```
+
+### Registry 에서 Artifact 다운로드하기
+
+다음 예시는 W&B Registry 에서 연결된 Artifact 를 검색하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# Artifact 가져오기
+fetched_artifact = api.artifact(name = artifact_name)
+
+# Artifact 다운로드. 다운로드된 콘텐츠의 경로를 반환합니다.
+downloaded_path = fetched_artifact.download()
+```
+
+### W&B Registry 쿼리하기
+
+Mongo 스타일의 필터를 사용하여 W&B Registries, Collections 및 Artifacts 를 쿼리합니다. 다음 예시는 정규 표현식을 사용하여 이름으로 컬렉션을 필터링하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+# wandb API 초기화
+api = wandb.Api()
+
+# 레지스트리에 관계없이 컬렉션 이름에
+# `yolo` 문자열이 포함된 모든 컬렉션을 필터링합니다.
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# 필터와 일치하는 모든 컬렉션의 이터러블을 반환합니다.
+collections = api.registries().collections(filter=collection_filters)
+```
+
+레지스트리, 컬렉션 또는 Artifact 를 쿼리하는 방법에 대한 자세한 내용은 [Find registry items](/models/registry/search_registry) 를 참조하세요.

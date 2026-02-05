@@ -1,0 +1,96 @@
+---
+title: Automations 개요
+description: 'itn''t it? 내 생각에... 여기 있네: ML 파이프라인에서 자동화된 워크플로우를 생성하고 관리W&B Automations
+  API를 사용하여 ML 파이프라인에서 자동화된 워크플로우를 생성하고 관리하세요.'
+module: wandb.automations
+no_list: true
+---
+
+W&B Automations API를 사용하면 ML 파이프라인의 이벤트에 반응하는 자동화된 워크플로우를 프로그래밍 방식으로 생성하고 관리할 수 있습니다. 모델 성능 임계값 도달이나 아티팩트 생성과 같은 특정 조건이 충족될 때 실행될 액션을 설정하세요.
+
+### Core Classes
+
+| Class | 설명 |
+|-------|-------------|
+| [`Automation`](/models/ref/python/automations/automation/) | 설정 정보가 포함된 저장된 자동화 인스턴스를 나타냅니다. |
+| [`NewAutomation`](/models/ref/python/automations/newautomation/) | 새로운 자동화를 생성하기 위한 빌더 클래스입니다. |
+
+### Events (Triggers)
+
+| Event | 설명 |
+|-------|-------------|
+| [`OnRunMetric`](/models/ref/python/automations/onrunmetric/) | run 메트릭이 정의된 조건(임계값, 변경 등)을 충족할 때 트리거됩니다. |
+| [`OnCreateArtifact`](/models/ref/python/automations/oncreateartifact/) | 컬렉션에 새로운 아티팩트가 생성될 때 트리거됩니다. |
+| [`OnLinkArtifact`](/models/ref/python/automations/onlinkartifact/) | 아티팩트가 레지스트리에 링크될 때 트리거됩니다. |
+| [`OnAddArtifactAlias`](/models/ref/python/automations/onaddartifactalias/) | 아티팩트에 에일리어스가 추가될 때 트리거됩니다. |
+
+### Actions
+
+| Action | 설명 |
+|--------|-------------|
+| [`SendNotification`](/models/ref/python/automations/sendnotification/) | Slack 또는 기타 연동된 채널을 통해 알림을 보냅니다. |
+| [`SendWebhook`](/models/ref/python/automations/sendwebhook/) | 외부 서비스로 HTTP 웹훅 요청을 보냅니다. |
+| [`DoNothing`](/models/ref/python/automations/donothing/) | 자동화 설정을 테스트하기 위한 플레이스홀더 액션입니다. |
+
+### Filters
+
+| Filter | 설명 |
+|--------|-------------|
+| [`MetricThresholdFilter`](/models/ref/python/automations/metricthresholdfilter/) | 임계값 대비 메트릭 값 비교를 기반으로 run을 필터링합니다. |
+| [`MetricChangeFilter`](/models/ref/python/automations/metricchangefilter/) | 시간에 따른 메트릭 값의 변화를 기반으로 run을 필터링합니다. |
+
+## Common Use Cases
+
+### 모델 성능 모니터링
+- 모델 정확도가 임계값 아래로 떨어질 때 알림 전송
+- 트레이닝 손실(loss)이 정체될 때 팀에 알림
+- 성능 메트릭에 기반한 재학습 파이프라인 트리거
+
+### Artifact 관리
+- 새로운 모델 버전이 생성될 때 알림 전송
+- 아티팩트에 태그가 지정될 때 배포 워크플로우 트리거
+- 데이터셋이 업데이트될 때 다운스트림 처리 자동화
+
+### 실험 트래킹
+- 실패하거나 충돌한 run에 대한 알림
+- 장시간 실행되는 실험이 완료될 때 알림
+- 실험 메트릭에 대한 일일 요약 전송
+
+### 통합 워크플로우
+- 웹훅을 통해 외부 트래킹 시스템 업데이트
+- 모델 레지스트리를 배포 플랫폼과 동기화
+- W&B 이벤트를 기반으로 CI/CD 파이프라인 트리거
+
+## Example Usage
+
+다음 예시는 `custom-metric`이라는 메트릭이 10을 초과할 때마다 Slack 알림을 보내는 자동화를 생성합니다. `custom-metric`은 트레이닝 중에 `wandb.Run.log({"custom-metric": value })`를 사용하여 로그될 것으로 예상됩니다.
+
+```python
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
+
+api = wandb.Api()
+
+project = api.project("<my-project>", entity="<my-team>")
+
+# 팀의 첫 번째 Slack 인테그레이션을 사용합니다.
+slack_hook = next(api.slack_integrations(entity="<my-team>"))
+
+# 트리거 이벤트를 생성합니다.
+event = OnRunMetric(
+     scope=project,
+     filter=RunEvent.metric("custom-metric") > 10,
+)
+
+# 이벤트에 반응하는 액션을 생성합니다.
+action = SendNotification.from_integration(slack_hook)
+
+# 자동화를 생성합니다.
+automation = api.create_automation(
+     event >> action,
+     name="my-automation",
+     description="'custom-metric'이 10을 초과할 때마다 Slack 메시지를 보냅니다.",
+)
+```
+
+Automations API 사용에 대한 자세한 내용은 [Automations Guide](/models/automations/)를 참조하세요.

@@ -228,12 +228,27 @@ jobs:
             --base-url ${{ steps.pr-context.outputs.deploy_url || 'https://docs.wandb.ai' }}
             ${{ steps.fork-docs-check.outputs.all_changed_files || steps.changed-files.outputs.all_changed_files || '.' }}
 
+      - name: Skip comment for fork PR
+        if: |
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.fork == true &&
+          steps.get-pr.outputs.pr_number &&
+          (steps.lychee.conclusion == 'success' || 
+           steps.lychee.conclusion == 'failure')
+        run: |
+          echo "ℹ️  Skipping PR comment for fork PR #${{ steps.get-pr.outputs.pr_number }}"
+          echo "Fork PRs have restricted GITHUB_TOKEN permissions and cannot write comments."
+          echo "Link check completed successfully - see logs above for any issues."
+
       - name: Comment on PR with results
-        # Comment if link checker ran
+        # Comment if link checker ran and not a fork PR
+        # Skip for fork PRs to avoid "Resource not accessible by integration" error
         if: |
           steps.get-pr.outputs.pr_number && 
           (steps.lychee.conclusion == 'success' || 
-           steps.lychee.conclusion == 'failure')
+           steps.lychee.conclusion == 'failure') &&
+          (github.event_name != 'pull_request' || 
+           github.event.pull_request.head.repo.fork != true)
         uses: actions/github-script@v8
         with:
           script: |

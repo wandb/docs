@@ -1,0 +1,84 @@
+---
+title: レジストリを作成する
+---
+
+レジストリを使用することで、使用可能な Artifacts のタイプに対する柔軟性と制御が可能になり、レジストリの公開範囲を制限できるなど、多くのメリットが得られます。
+
+## レジストリの作成
+
+W&B Registry UI または W&B Python SDK を使用して、プログラムからレジストリを作成できます。
+
+<Tabs>
+<Tab title="W&B Registry UI">
+1. https://wandb.ai/registry/ から W&B Registry にアクセスします。
+2. **Create registry** ボタンをクリックします。
+3. **Name** フィールドにレジストリ名を入力します。
+4. 任意で、レジストリに関する説明を入力します。
+5. **Registry visibility** ドロップダウンから、レジストリを閲覧できる ユーザー を選択します。公開範囲のオプションの詳細については、[レジストリの公開範囲のタイプ](./configure_registry#registry-visibility-types) を参照してください。
+6. **Accepted artifacts type** ドロップダウンから、**All types** または **Specify types** のいずれかを選択します。
+7. （**Specify types** を選択した場合）レジストリが受け入れる Artifacts のタイプを1つ以上追加します。
+8. **Create registry** ボタンをクリックします。
+</Tab>
+<Tab title="Python SDK">
+[`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) メソッドを使用して、プログラムからレジストリを作成します。`name` パラメータに名前を、`visibility` パラメータに [公開範囲](#visibility-types) をそれぞれ指定します。
+
+以下の コード ブロックをコピーして貼り付けます。 `<>` で囲まれた 値 を独自のものに置き換えてください。
+
+```python
+import wandb
+
+# レジストリを作成する
+registry = wandb.Api().create_registry(
+    name="<registry_name>",
+    visibility="< 'restricted' | 'organization' >",
+)
+```
+
+レジストリ作成時に指定できる パラメータ の完全なリストについては、[`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) メソッドリファレンスを参照してください。
+</Tab>
+</Tabs>
+
+<Warning>
+Artifacts のタイプは、一度レジストリの 設定 に保存されると、そのレジストリから削除することはできません。
+</Warning>
+
+例えば、以下の画像は `Fine_Tuned_Models` という名前のレジストリを作成しようとしているところです。このレジストリは **Restricted**（制限付き）に設定されており、手動で追加されたメンバーのみが アクセス できます。
+<Frame>
+    <img src="/images/registry/create_registry.gif" alt="新しいレジストリの作成"  />
+</Frame>
+
+## 公開範囲のタイプ
+
+レジストリの *公開範囲* は、誰がそのレジストリに アクセス できるかを決定します。レジストリの公開範囲を制限することで、特定のメンバーだけがそのレジストリに アクセス できるように管理できます。
+
+レジストリには2つの公開範囲オプションがあります。
+
+| 公開範囲 | 説明 |
+| --- | --- | 
+| Restricted | 招待された組織メンバーのみがレジストリに アクセス できます。 | 
+| Organization | 組織内の全員がレジストリに アクセス できます。 |
+
+Team 管理者またはレジストリ管理者が、レジストリの公開範囲を設定できます。
+
+Restricted の公開範囲でレジストリを作成した ユーザー は、自動的にそのレジストリの管理者として追加されます。
+
+## レジストリの公開範囲を設定する
+
+Team 管理者またはレジストリ管理者は、レジストリの作成中または作成後に公開範囲を割り当てることができます。
+
+既存のレジストリの公開範囲を制限するには：
+
+1. https://wandb.ai/registry/ から W&B Registry にアクセスします。
+2. レジストリを選択します。
+3. 右上の歯車アイコンをクリックします。
+4. **Registry visibility** ドロップダウンから、希望する公開範囲を選択します。
+5. **Restricted visibility** を選択した場合：
+   1. このレジストリへの アクセス 権を付与したい組織のメンバーを追加します。 **Registry members and roles** セクションまでスクロールし、 **Add member** ボタンをクリックします。
+   2. **Member** フィールドに、追加したいメンバーのメールアドレスまたは ユーザー 名を入力します。
+   3. **Add new member** をクリックします。
+
+<Frame>
+    <img src="/images/registry/change_registry_visibility.gif" alt="レジストリの公開範囲設定をプライベートからパブリック、またはチーム制限アクセスに変更する"  />
+</Frame>
+
+Team 管理者がレジストリを作成する際に公開範囲を割り当てる方法の詳細については、 [レジストリの作成](./create_registry#create-a-custom-registry) を参照してください。

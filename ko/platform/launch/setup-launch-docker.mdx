@@ -1,0 +1,138 @@
+---
+title: '튜토리얼: Docker로 W&B Launch 설정하기'
+---
+
+다음 가이드는 로컬 머신에서 에이전트 환경과 큐의 타겟 리소스 모두에 Docker를 사용하도록 W&B Launch 를 설정하는 방법을 설명합니다.
+
+에이전트 환경과 작업 실행을 위해 동일한 로컬 머신에서 Docker를 사용하는 것은, Kubernetes와 같은 클러스터 관리 시스템이 없는 머신에 컴퓨팅 자원이 설치된 경우에 특히 유용합니다.
+
+또한 Docker 큐를 사용하여 고성능 워크스테이션에서 워크로드를 실행할 수도 있습니다.
+
+<Note>
+이 설정은 로컬 머신에서 실험을 수행하거나, SSH로 접속하는 원격 머신에서 Launch 작업을 제출하는 사용자들에게 일반적입니다.
+</Note>
+
+W&B Launch 에서 Docker를 사용하면, W&B는 먼저 이미지를 빌드한 다음 해당 이미지로부터 컨테이너를 빌드하고 실행합니다. 이미지는 Docker `docker run <image-uri>` 코맨드로 빌드됩니다. 큐 설정은 `docker run` 코맨드에 전달되는 추가 인수로 해석됩니다.
+
+{/* Future: Insert diagram */}
+
+## Docker 큐 설정하기
+
+
+Launch 큐 설정(Docker 타겟 리소스용)은 [`docker run`](/models/ref/cli/wandb-docker-run) CLI 코맨드에 정의된 것과 동일한 옵션을 허용합니다.
+
+에이전트는 큐 설정에 정의된 옵션을 수신합니다. 그런 다음 에이전트는 수신된 옵션을 Launch 작업 설정의 오버라이드와 병합하여 타겟 리소스(이 경우 로컬 머신)에서 실행될 최종 `docker run` 코맨드를 생성합니다.
+
+두 가지 구문 변환이 발생합니다:
+
+1. 반복되는 옵션은 큐 설정에서 리스트로 정의됩니다.
+2. 플래그 옵션은 큐 설정에서 값이 `true`인 불리언(Boolean)으로 정의됩니다.
+
+예를 들어, 다음과 같은 큐 설정은:
+
+```json
+{
+  "env": ["MY_ENV_VAR=value", "MY_EXISTING_ENV_VAR"],
+  "volume": "/mnt/datasets:/mnt/datasets",
+  "rm": true,
+  "gpus": "all"
+}
+```
+
+다음과 같은 `docker run` 코맨드로 이어집니다:
+
+```bash
+docker run \
+  --env MY_ENV_VAR=value \
+  --env MY_EXISTING_ENV_VAR \
+  --volume "/mnt/datasets:/mnt/datasets" \
+  --rm <image-uri> \
+  --gpus all
+```
+
+볼륨은 문자열 리스트 또는 단일 문자열로 지정할 수 있습니다. 여러 볼륨을 지정하는 경우 리스트를 사용하세요.
+
+Docker는 값이 할당되지 않은 환경 변수를 에이전트 환경에서 자동으로 전달합니다. 즉, 에이전트에 `MY_EXISTING_ENV_VAR` 환경 변수가 있는 경우, 해당 환경 변수를 컨테이너에서 사용할 수 있습니다. 이는 큐 설정에 노출하지 않고 다른 설정 키를 사용하려는 경우 유용합니다.
+
+`docker run` 코맨드의 `--gpus` 플래그를 사용하면 Docker 컨테이너에서 사용할 수 있는 GPU 를 지정할 수 있습니다. `gpus` 플래그 사용법에 대한 자세한 내용은 [Docker 문서](https://docs.docker.com/config/containers/resource_constraints/#gpu)를 참조하세요.
+
+
+<Note>
+* Docker 컨테이너 내에서 GPU 를 사용하려면 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)을 설치하세요.
+* 코드 또는 아티팩트 소스 작업에서 이미지를 빌드하는 경우, [에이전트](#configure-a-launch-agent-on-a-local-machine)가 사용하는 베이스 이미지를 NVIDIA Container Toolkit이 포함된 이미지로 오버라이드할 수 있습니다.
+  예를 들어, Launch 큐 내에서 베이스 이미지를 `tensorflow/tensorflow:latest-gpu`로 오버라이드할 수 있습니다:
+
+  ```json
+  {
+    "builder": {
+      "accelerator": {
+        "base_image": "tensorflow/tensorflow:latest-gpu"
+      }
+    }
+  }
+  ```
+</Note>
+
+
+
+
+## 큐 생성하기
+
+W&B CLI를 사용하여 Docker를 컴퓨팅 리소스로 사용하는 큐를 생성합니다:
+
+1. [Launch 페이지](https://wandb.ai/launch)로 이동합니다.
+2. **Create Queue** 버튼을 클릭합니다.
+3. 큐를 생성할 **Entity** 를 선택합니다.
+4. **Name** 필드에 큐 이름을 입력합니다.
+5. **Resource** 로 **Docker** 를 선택합니다.
+6. **Configuration** 필드에 Docker 큐 설정을 정의합니다.
+7. **Create Queue** 버튼을 클릭하여 큐를 생성합니다.
+
+## 로컬 머신에서 에이전트 설정하기
+
+`launch-config.yaml`이라는 이름의 YAML 설정 파일로 에이전트를 설정합니다. 기본적으로 W&B는 `~/.config/wandb/launch-config.yaml`에서 설정 파일을 확인합니다. 에이전트를 활성화할 때 선택적으로 다른 디렉토리를 지정할 수 있습니다.
+
+<Note>
+(설정 YAML 파일 대신) W&B CLI를 사용하여 에이전트의 주요 설정 옵션을 지정할 수 있습니다: 최대 작업 수, W&B entity, Launch 큐. 자세한 내용은 [`wandb launch-agent`](/models/ref/cli/wandb-launch-agent) 코맨드를 참조하세요.
+</Note>
+
+
+## 핵심 에이전트 설정 옵션
+
+다음 탭은 W&B CLI와 YAML 설정 파일을 사용하여 핵심 에이전트 옵션을 지정하는 방법을 보여줍니다:
+
+<Tabs><Tab title="W&B CLI">
+```bash
+wandb launch-agent -q <queue-name> --max-jobs <n>
+```
+</Tab><Tab title="설정 파일">
+```yaml title="launch-config.yaml"
+max_jobs: <n concurrent jobs>
+queues:
+	- <queue-name>
+```
+</Tab></Tabs>
+
+## Docker 이미지 빌더
+
+머신의 에이전트가 Docker 이미지를 빌드하도록 설정할 수 있습니다. 기본적으로 이러한 이미지는 머신의 로컬 이미지 저장소에 저장됩니다. 에이전트가 Docker 이미지를 빌드할 수 있도록 하려면 에이전트 설정의 `builder` 키를 `docker`로 설정하세요:
+
+```yaml title="launch-config.yaml"
+builder:
+	type: docker
+```
+
+에이전트가 Docker 이미지를 빌드하지 않고 레지스트리의 사전 빌드된 이미지를 사용하도록 하려면, 에이전트 설정의 `builder` 키를 `noop`으로 설정하세요.
+
+```yaml title="launch-config.yaml"
+builder:
+  type: noop
+```
+
+## 컨테이너 레지스트리
+
+Launch 는 Dockerhub, Google Container Registry, Azure Container Registry, Amazon ECR과 같은 외부 컨테이너 레지스트리를 사용합니다.  
+이미지를 빌드한 환경과 다른 환경에서 작업을 실행하려면, 에이전트가 컨테이너 레지스트리에서 이미지를 풀(pull)할 수 있도록 설정하세요. 
+
+
+에이전트를 클라우드 레지스트리와 연결하는 방법에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced#agent-configuration) 페이지를 참조하세요.

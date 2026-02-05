@@ -1,0 +1,267 @@
+---
+title: アーティファクト バージョン をコレクションにリンクする
+---
+
+Artifact のバージョンを組織内で利用可能にするには、W&B Registry の [コレクション](/models/registry/create_collection) に **リンク** します。リンクすることで、そのバージョンは [プライベートなプロジェクトレベルのスコープから、共有された組織レベルのスコープへ](/models/registry/create_registry#visibility-types) 移動します。Artifact バージョンのリンクは、[W&B Python SDK を使用してプログラムで行うか、W&B App でインタラクティブに](/models/registry/link_version#link-an-artifact-to-a-collection) 行うことができます。
+
+Artifact をリンクすると、W&B はソースとなる Artifact とコレクションのエントリの間に参照を作成します。リンクされたバージョンは、プロジェクト内の Run でログに記録されたソースの Artifact バージョンを指します。コレクション内のリンクされたバージョンと、それがログに記録されたプロジェクト内のソースバージョンの両方を確認できます。
+
+
+## Artifact をコレクションにリンクする
+
+ユースケースに合わせて、以下のタブに記載されている手順に従って Artifact バージョンをリンクしてください。
+
+<Note>
+開始する前に、以下を確認してください：
+* そのコレクションが許可している Artifact のタイプ。コレクションのタイプに関する詳細は、[コレクションの作成](./create_collection) 内の「Collection types」を参照してください。
+* コレクションが属する Registry が既に存在していること。Registry が存在するかどうかを確認するには、[Registry App に移動して](/models/registry/search_registry) Registry 名を検索してください。
+</Note>
+
+
+{/* <Note>
+If an artifact version logs metrics (such as by using `wandb.Run.log_artifact()`), you can view metrics for that version from its details page, and you can compare metrics across artifact versions from the artifact's page. Refer to [View linked artifacts in a registry](#view-linked-artifacts-in-a-registry).
+</Note> */}
+
+<Tabs>
+<Tab title="Python SDK">
+{/* <Note>
+Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
+</Note> */}
+
+[`wandb.Run.link_artifact()`](/ref/python/experiments/run#link_artifact") または [`wandb.Artifact.link()`](/ref/python/experiments/artifact#method-artifactlink") を使用して、Artifact バージョンをプログラムでコレクションにリンクします。
+
+
+<Note>
+[Run のコンテキスト内で](#link-an-artifact-version-within-the-context-of-a-run) Artifact バージョンをリンクするには `wandb.Run.link_artifact()` を使用します。[Run のコンテキスト外で](#link-an-artifact-version-outside-the-context-of-a-run) *既存の Artifact バージョン* をリンクするには `wandb.Artifact.link()` を使用します。
+</Note>
+
+
+{/* <Note>
+`wandb.Artifact.link()` does not require you to initialize a run with `wandb.init()`. `wandb.Run.link_artifact()` requires you to initialize a run with `wandb.init()`.
+</Note> */}
+
+どちらのアプローチでも、Artifact の名前 (`wandb.Artifact(name="<name>"`)、Artifact のタイプ (`wandb.Artifact(type="<type>"`)、およびリンク先のコレクションと Registry の `target_path` (`wandb.Artifact(target_path="<target_path>"`) を指定します。
+
+ターゲットパスは、プレフィックス `"wandb-registry"`、Registry 名、およびコレクション名をスラッシュで区切った形式で構成されます。
+
+{/* Use the `target_path` parameter to specify the collection and registry you want to link the artifact version to. The target path consists of the prefix "wandb-registry", the name of the registry, and the name of the collection separated by a forward slashes: */}
+
+```text
+wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+```
+
+### Run のコンテキスト内で Artifact バージョンをリンクする
+
+Run のコンテキスト内で Artifact バージョンをリンクするには、`wandb.Run.link_artifact()` を使用します。これを行うには、まず `wandb.init()` で Run を初期化します。次に、Artifact オブジェクトを作成してファイルを追加します。最後に、`wandb.Run.link_artifact()` メソッドを使用して Artifact バージョンをコレクションにリンクします。
+
+この方法を使用すると、W&B プロジェクトに Run が作成されます。Artifact バージョンはそのコレクションにリンクされ、その Run に関連付けられます。
+
+以下のコードスニペットをコピーして貼り付けてください。`<>` で囲まれた値はご自身のものに置き換えてください。
+
+```python
+import wandb
+
+entity = "<team_entity>"          # チームの entity
+project = "<project_name>"        # Artifact を含むプロジェクトの名前
+
+# Run を初期化
+with wandb.init(entity = entity, project = project) as run:
+
+  # Artifact オブジェクトを作成
+  # type パラメータは Artifact オブジェクトのタイプと
+  # コレクションのタイプの両方を指定します
+  artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+  # Artifact オブジェクトにファイルを追加
+  # ローカルマシンのファイルへのパスを指定します
+  artifact.add_file(local_path = "<local_path_to_artifact>")
+
+  # リンク先のコレクションと Registry を指定
+  REGISTRY_NAME = "<registry_name>"  
+  COLLECTION_NAME = "<collection_name>"
+  target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+  # Artifact をコレクションにリンク
+  run.link_artifact(artifact = artifact, target_path = target_path)
+```
+
+### Run のコンテキスト外で Artifact バージョンをリンクする
+
+Run のコンテキスト外で既存の Artifact バージョンをリンクするには、`wandb.Artifact.link()` を使用します。この方法では、`wandb.init()` で Run を初期化する必要はありません。つまり、W&B プロジェクトに Run は作成されません。言い換えると、Artifact バージョンは Run に関連付けられることなくコレクションにリンクされます。
+
+まず Artifact オブジェクトを作成し、ファイルを追加します。次に、`wandb.Artifact.link()` メソッドを使用して Artifact バージョンをコレクションにリンクします。
+
+以下のコードスニペットをコピーして貼り付けてください。`<>` で囲まれた値はご自身のものに置き換えてください。
+
+```python
+import wandb
+
+# Artifact オブジェクトを作成
+# type パラメータは Artifact オブジェクトのタイプと
+# コレクションのタイプの両方を指定します
+artifact = wandb.Artifact(name = "<name>", type = "<type>")
+
+# Artifact オブジェクトにファイルを追加
+# ローカルマシンのファイルへのパスを指定します
+artifact.add_file(local_path = "<local_path_to_artifact>")
+
+# リンク先のコレクションと Registry を指定
+REGISTRY_NAME = "<registry_name>"  
+COLLECTION_NAME = "<collection_name>"
+target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+
+# Artifact をコレクションにリンク
+artifact.link(target_path = target_path)
+```
+
+
+
+</Tab>
+<Tab title="W&B Registry">
+1. W&B Registry に移動します。
+    <Frame>
+    <img src="/images/registry/navigate_to_registry_app.png" alt="W&B Registry UI navigation"  />
+    </Frame>
+2. Artifact バージョンをリンクしたいコレクション名の横にマウスを合わせます。
+3. **View details** の横にあるミートボールメニューアイコン（横三点リーダー）を選択します。
+4. ドロップダウンから **Link new version** を選択します。
+5. 表示されるサイドバーの **Team** ドロップダウンからチーム名を選択します。
+5. **Project** ドロップダウンから、Artifact を含むプロジェクト名を選択します。 
+6. **Artifact** ドロップダウンから、Artifact 名を選択します。 
+7. **Version** ドロップダウンから、コレクションにリンクしたい Artifact バージョンを選択します。
+
+{/* TO DO insert gif */}
+</Tab>
+<Tab title="Artifact browser">
+1. W&B App のプロジェクトの Artifact ブラウザ（`https://wandb.ai/<entity>/<project>/artifacts`）に移動します。
+2. 左サイドバーの Artifacts アイコンを選択します。
+3. Registry にリンクしたい Artifact バージョンをクリックします。
+4. **Version overview** セクションで、**Link to registry** ボタンをクリックします。
+5. 画面右側に表示されるモーダルで、**Select a registered model** メニュードロップダウンから Artifact を選択します。 
+6. **Next step** をクリックします。
+7. (オプション) **Aliases** ドロップダウンからエイリアスを選択します。 
+8. **Link to registry** をクリックします。 
+
+{/* Update this gif */}
+{/* <Frame>
+    <img src="/images/models/manual_linking.gif"  />
+</Frame> */}
+</Tab>
+</Tabs>
+
+
+
+{/* <Note>
+**Linked vs source artifact versions**
+
+* Source version: the artifact version inside a team's project that is logged to a [run](/models/track/runs/).
+* Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
+</Note> */}
+
+Registry App では、[リンクされた Artifact のメタデータ、バージョンデータ、使用状況、リネージ情報などを表示](/models/registry/link_version#view-linked-artifacts-in-a-registry") できます。
+  
+## Registry でリンクされた Artifact を表示する
+
+W&B Registry で、リンクされた Artifact に関するメタデータ、リネージ、使用状況などの情報を表示できます。
+
+1. W&B Registry に移動します。
+2. Artifact をリンクした Registry の名前を選択します。
+3. コレクションの名前を選択します。
+4. コレクションの Artifact がメトリクスをログに記録している場合、**Show metrics** をクリックしてバージョン間でメトリクスを比較できます。
+4. Artifact バージョンのリストから、アクセスしたいバージョンを選択します。バージョン番号は、リンクされた各 Artifact バージョンに対して `v0` から順に割り当てられます。
+5. Artifact バージョンの詳細を表示するには、そのバージョンをクリックします。このページのタブから、そのバージョンのメタデータ（ログに記録されたメトリクスを含む）、リネージ、および使用状況情報を表示できます。
+
+**Version** タブ内の **Full Name** フィールドをメモしておいてください。リンクされた Artifact のフルネームは、Registry、コレクション名、および Artifact バージョンのエイリアスまたはインデックスで構成されます。
+
+```text title="Full name of a linked artifact"
+wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{INTEGER}
+```
+
+プログラムで Artifact バージョンにアクセスするには、リンクされた Artifact のフルネームが必要です。
+
+## トラブルシューティング 
+
+Artifact をリンクできない場合に再確認すべき一般的な事項を以下に挙げます。
+
+### 個人アカウントからの Artifact のログ記録
+
+個人の entity で W&B にログ記録された Artifact は、Registry にリンクできません。必ず組織内のチーム entity を使用して Artifact をログに記録してください。組織の Registry にリンクできるのは、組織のチーム内でログ記録された Artifact のみです。
+
+
+<Note>
+Registry にリンクしたい場合は、必ずチーム entity で Artifact をログに記録してください。
+</Note>
+
+
+#### チーム entity を見つける
+
+W&B はチーム名をチームの entity として使用します。例えば、チーム名が **team-awesome** の場合、チーム entity は `team-awesome` になります。
+
+以下の方法でチーム名を確認できます：
+
+1. チームの W&B プロフィールページに移動します。
+2. サイトの URL をコピーします。`https://wandb.ai/<team>` の形式になっており、`<team>` がチーム名とチーム entity の両方を表します。
+
+#### チーム entity からログを記録する
+1. [`wandb.init()`](/models/ref/python/functions/init) で Run を初期化する際に、チームを entity として指定します。Run の初期化時に `entity` を指定しない場合、Run はデフォルトの entity（チーム entity である場合とそうでない場合があります）を使用します。
+
+    ```python 
+    import wandb   
+
+    with wandb.init(entity='<team_entity>', project='<project_name>') as run:
+        # ここで Artifact をログに記録
+    ```
+
+2. `wandb.Run.log_artifact()` を使用するか、Artifact オブジェクトを作成して以下の方法でファイルを追加して、Run に Artifact をログ記録します。
+
+    ```python
+    artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
+    ```
+    Artifact のログ記録については、[Artifact の構築](/models/artifacts/construct-an-artifact/) を参照してください。
+3. Artifact が個人の entity にログ記録されている場合は、組織内の entity に再度ログ記録する必要があります。
+
+### W&B App UI で Registry のパスを確認する
+
+UI で Registry のパスを確認する方法は 2 つあります。空のコレクションを作成してコレクションの詳細を表示するか、コレクションのホームページにある自動生成されたコードをコピーして貼り付ける方法です。
+
+#### 自動生成されたコードをコピーして貼り付ける
+
+1. https://wandb.ai/registry/ で W&B Registry に移動します。
+2. Artifact をリンクしたい Registry をクリックします。
+3. ページの上部に自動生成されたコードブロックが表示されます。
+4. これをコードにコピーして貼り付け、パスの最後の部分をコレクションの名前に置き換えてください。
+
+<Frame>
+    <img src="/images/registry/get_autogenerated_code.gif" alt="Auto-generated code snippet"  />
+</Frame>
+
+#### 空のコレクションを作成する
+
+1. https://wandb.ai/registry/ で W&B Registry に移動します。
+2. Artifact をリンクしたい Registry をクリックします。
+4. 空のコレクションをクリックします。空のコレクションが存在しない場合は、新しいコレクションを作成します。
+5. 表示されるコードスニペット内で、`.link_artifact()` 内の `target_path` フィールドを確認します。
+6. (オプション) コレクションを削除します。
+
+<Frame>
+    <img src="/images/registry/check_empty_collection.gif" alt="Create an empty collection"  />
+</Frame>
+
+例えば、上記の手順を完了すると、`target_path` パラメータを含むコードブロックが見つかります。
+
+```python
+target_path = 
+      "smle-registries-bug-bash/wandb-registry-Golden Datasets/raw_images"
+```
+
+これを構成要素に分解すると、プログラムで Artifact をリンクするためのパスを作成する際に必要なものがわかります。
+
+```python
+ORG_ENTITY_NAME = "smle-registries-bug-bash"
+REGISTRY_NAME = "Golden Datasets"
+COLLECTION_NAME = "raw_images"
+```
+
+<Note>
+一時的なコレクションから取得したコレクション名を、Artifact をリンクしたい実際のコレクション名に置き換えるようにしてください。
+</Note>

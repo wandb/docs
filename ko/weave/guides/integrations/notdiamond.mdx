@@ -1,0 +1,110 @@
+---
+title: Not Diamond ¬◇
+description: Not Diamond을 사용하여 프롬프트를 요구 사항에 적합한 모델로 라우팅함으로써 정확도를 극대화하고 비용을 절감하세요.
+---
+
+복잡한 LLM 워크플로우를 구축할 때 Users 는 정확도, 비용 또는 호출 지연 시간에 따라 서로 다른 모델에 프롬프트를 보내야 할 수 있습니다. Users 는 [Not Diamond][nd]를 사용하여 이러한 워크플로우의 프롬프트를 니즈에 맞는 적절한 모델로 라우팅함으로써, 모델 비용을 절감하는 동시에 정확도를 극대화할 수 있습니다.
+
+## 시작하기
+
+[계정을 생성][account]하고 [API 키를 생성][keys]한 다음, API 키를 환경 변수에 `NOTDIAMOND_API_KEY`로 추가하세요.
+
+![[API 키 생성](/weave/guides/integrations/imgs/notdiamond/api-keys.png)]
+
+여기에서 다음을 수행할 수 있습니다:
+
+- [퀵스타트 가이드][quickstart guide] 시도하기,
+- W&B Weave 및 Not Diamond로 [커스텀 라우터 구축하기][custom router], 또는
+- [Not Diamond와 채팅][chat]하여 실제 라우팅 작동 확인하기
+
+## Tracing
+
+Weave는 [Not Diamond의 Python 라이브러리][python]와 통합되어 [API 호출을 자동으로 로그][ops]합니다. 워크플로우 시작 부분에서 `weave.init()`을 실행하기만 하면 평소와 같이 라우팅된 프로바이더를 계속 사용할 수 있습니다:
+
+```python lines
+from notdiamond import NotDiamond
+
+import weave
+# weave 초기화
+weave.init('notdiamond-quickstart')
+
+client = NotDiamond()
+session_id, provider = client.chat.completions.model_select(
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Concisely explain merge sort."}
+    ],
+    model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620']
+)
+
+print("LLM called: ", provider.provider)  # openai, anthropic 등
+print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 등
+```
+
+## 커스텀 라우팅
+
+또한 [Evaluations][evals] 데이터를 기반으로 자신만의 [커스텀 라우터][custom router]를 트레이닝할 수 있어, 특수한 유스 케이스에 대해 eval 성능에 따라 Not Diamond가 프롬프트를 라우팅하도록 설정할 수 있습니다.
+
+먼저 커스텀 라우터를 트레이닝하세요:
+
+```python lines
+from weave.flow.eval import EvaluationResults
+from weave.integrations.notdiamond.custom_router import train_router
+
+# gpt-4o 및 Claude 3.5 Sonnet에 대한 Evaluation 구축
+evaluation = weave.Evaluation(...)
+gpt_4o = weave.Model(...)
+sonnet = weave.Model(...)
+
+model_evals = {
+    'openai/gpt-4o': evaluation.get_eval_results(gpt_4o),
+    'anthropic/claude-3-5-sonnet-20240620': evaluation.get_eval_results(sonnet),
+}
+preference_id = train_router(
+    model_evals=model_evals,
+    prompt_column="prompt",
+    response_column="actual",
+    language="en",
+    maximize=True,
+)
+```
+
+어떤 `model_select` 요청에서든 이 preference ID를 재사용하면, evaluation 데이터에서 성능을 극대화하고 비용을 최소화하도록 프롬프트를 라우팅할 수 있습니다:
+
+```python lines
+from notdiamond import NotDiamond
+client = NotDiamond()
+
+import weave
+weave.init('notdiamond-quickstart')
+
+session_id, provider = client.chat.completions.model_select(
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Concisely explain merge sort."}
+    ],
+    model=['openai/gpt-4o', 'anthropic/claude-3-5-sonnet-20240620'],
+
+    # 이 preference ID를 전달하여 커스텀 라우터를 재사용합니다
+    preference_id=preference_id
+)
+
+print("LLM called: ", provider.provider)  # openai, anthropic 등
+print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 등
+```
+
+## 추가 지원
+
+추가 지원이 필요한 경우 [문서][docs]를 방문하거나 [메시지를 보내주세요][support].
+
+[account]: https://app.notdiamond.ai
+[chat]: https://chat.notdiamond.ai
+[custom router]: https://docs.notdiamond.ai/docs/router-training-quickstart
+[docs]: https://docs.notdiamond.ai
+[evals]: /weave/guides/core-types/evaluations
+[keys]: https://app.notdiamond.ai/keys
+[nd]: https://www.notdiamond.ai/
+[ops]: /weave/guides/tracking/ops
+[python]: https://github.com/Not-Diamond/notdiamond-python
+[quickstart guide]: https://docs.notdiamond.ai/docs/quickstart-routing
+[support]: mailto:support@notdiamond.ai

@@ -1,138 +1,137 @@
 ---
-title: Track user activity with audit logs
+title: Audit logs를 사용하여 User 활동 추적하기
 ---
 
-W&B 감사 로그를 사용하여 조직 내 사용자 활동을 추적하고 엔터프라이즈 거버넌스 요구 사항을 준수하십시오. 감사 로그는 JSON 형식으로 제공됩니다. [감사 로그 스키마](#audit-log-schema)를 참조하십시오.
+W&B 감사 로그(audit logs)를 사용하여 조직 내의 사용자 활동을 추적하고 엔터프라이즈 거버넌스 요구 사항을 준수하세요. 감사 로그는 JSON 형식으로 제공됩니다. [감사 로그 스키마](#audit-log-schema)를 참조하세요.
 
-감사 로그에 액세스하는 방법은 W&B 플랫폼 배포 유형에 따라 다릅니다.
+감사 로그에 액세스하는 방법은 W&B 플랫폼 배포 유형에 따라 다릅니다:
 
-| W&B Platform 배포 유형 | 감사 로그 엑세스 메커니즘 |
+| W&B 플랫폼 배포 유형 | 감사 로그 액세스 메커니즘 |
 |----------------------------|--------------------------------|
-| [자체 관리](/ko/platform/hosting/hosting-options/self-managed) | 10분마다 인스턴스 수준 버킷에 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 사용할 수도 있습니다. |
-| [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) ([보안 스토리지 커넥터 (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)) | 10분마다 인스턴스 수준 버킷 (BYOB)에 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용하여 사용할 수도 있습니다. |
-| W&B 관리 스토리지 (BYOB 없음)가 있는 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) | [API](#fetch-audit-logs-using-api)를 통해서만 사용할 수 있습니다. |
-| [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise 요금제에서만 사용할 수 있습니다. [API](#fetch-audit-logs-using-api)를 통해서만 사용할 수 있습니다.
+| [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) | <ul><li>[인스턴스 레벨 BYOB](/platform/hosting/data-security/secure-storage-connector): 10분마다 인스턴스 레벨 버킷(BYOB)으로 동기화됩니다. [API](#fetch-audit-logs-using-api)를 통해서도 사용 가능합니다.</li><li>기본 인스턴스 레벨 스토리지: [API](#fetch-audit-logs-using-api)를 통해서만 사용할 수 있습니다.</li></ul> |
+| [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise 플랜 전용입니다. [API](#fetch-audit-logs-using-api)를 통해서만 사용할 수 있습니다. |
+| [Self-Managed](/platform/hosting/hosting-options/self-managed) | 10분마다 인스턴스 레벨 버킷으로 동기화됩니다. [API](#fetch-audit-logs-using-api)를 통해서도 사용 가능합니다. |
 
-감사 로그를 가져온 후에는 [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) 또는 [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric)과 같은 툴을 사용하여 분석할 수 있습니다. 일부 감사 로그 분석 툴은 JSON을 지원하지 않습니다. 분석 전에 JSON 형식의 감사 로그를 변환하기 위한 지침 및 요구 사항은 분석 툴 설명서를 참조하십시오.
+감사 로그를 가져온 후에는 [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) 또는 [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric)과 같은 툴을 사용하여 분석할 수 있습니다. 일부 감사 로그 분석 툴은 JSON을 지원하지 않을 수 있습니다. 분석 전에 JSON 형식의 감사 로그를 변환하기 위한 가이드라인 및 요구 사항은 해당 분석 툴의 문서를 참조하세요.
 
-<Note>
-**감사 로그 보존**
+로그 형식에 대한 자세한 내용은 [감사 로그 스키마](#audit-log-schema) 및 [액션](#actions)을 참조하세요.
 
-특정 기간 동안 감사 로그를 보존해야 하는 경우 W&B는 스토리지 버킷 또는 감사 로깅 API를 사용하여 장기 스토리지로 로그를 주기적으로 전송하는 것이 좋습니다.
-
-[1996년 건강 보험 양도 및 책임에 관한 법률 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)의 적용을 받는 경우 감사 로그는 의무 보존 기간이 끝나기 전에 내부 또는 외부 행위자가 삭제하거나 수정할 수 없는 환경에서 최소 6년 동안 보존해야 합니다. [BYOB](/ko/platform/hosting/data-security/secure-storage-connector)가 있는 HIPAA 규정 준수 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 인스턴스의 경우 장기 보존 스토리지를 포함하여 관리형 스토리지에 대한 가드레일을 구성해야 합니다.
-</Note>
+## 감사 로그 보관
+- 감사 로그를 특정 기간 동안 보관해야 하는 경우, W&B는 스토리지 버킷이나 Audit Logging API를 사용하여 로그를 정기적으로 장기 스토리지로 전송할 것을 권장합니다.
+- [1996년 건강 보험 양도 및 책임에 관한 법률(HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)의 적용을 받는 경우, 감사 로그는 의무 보관 기간이 종료되기 전에 내부 또는 외부 행위자에 의해 삭제되거나 수정될 수 없는 환경에서 최소 6년 동안 보관되어야 합니다. [BYOB](/platform/hosting/data-security/secure-storage-connector)가 포함된 HIPAA 준수 [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) 인스턴스의 경우, 장기 보관 스토리지를 포함하여 관리형 스토리지에 대한 가드레일을 구성해야 합니다.
 
 ## 감사 로그 스키마
-이 표는 감사 로그 항목에 나타날 수 있는 모든 키를 알파벳순으로 보여줍니다. 작업 및 상황에 따라 특정 로그 항목에는 가능한 필드의 서브셋만 포함될 수 있습니다.
+이 표는 감사 로그 항목에 나타날 수 있는 모든 키를 알파벳 순으로 보여줍니다. 액션 및 상황에 따라 특정 로그 항목에는 가능한 필드의 서브셋만 포함될 수 있습니다.
 
 | 키 | 정의 |
 |---------| -------|
-|`action`                  | 이벤트의 [action](#actions).
-|`actor_email`             | 해당되는 경우, 작업을 시작한 사용자의 이메일 어드레스.
-|`actor_ip`                | 작업을 시작한 사용자의 IP 어드레스.
-|`actor_user_id`           | 해당되는 경우, 작업을 수행한 로그인한 사용자의 ID.
-|`artifact_asset`          | 해당되는 경우, 작업과 관련된 artifact ID.
-|`artifact_digest`         | 해당되는 경우, 작업과 관련된 artifact 다이제스트.
-|`artifact_qualified_name` | 해당되는 경우, 작업과 관련된 artifact의 전체 이름.
-|`artifact_sequence_asset` | 해당되는 경우, 작업과 관련된 artifact 시퀀스 ID.
-|`cli_version`             | 해당되는 경우, 작업을 시작한 Python SDK의 버전.
-|`entity_asset`            | 해당되는 경우, 작업과 관련된 entity 또는 팀 ID.
-|`entity_name`             | 해당되는 경우, entity 또는 팀 이름.
-|`project_asset`           | 작업과 관련된 project.
-|`project_name`            | 작업과 관련된 project 이름.
-|`report_asset`            | 작업과 관련된 report ID.
-|`report_name`             | 작업과 관련된 report 이름.
-|`response_code`           | 해당되는 경우, 작업에 대한 HTTP 응답 코드.
-|`timestamp`               | [RFC3339 형식](https://www.rfc-editor.org/rfc/rfc3339)의 이벤트 시간. 예를 들어, `2023-01-23T12:34:56Z`는 2023년 1월 23일 12:34:56 UTC를 나타냅니다.
-|`user_asset`              | 해당되는 경우, 작업이 영향을 미치는 user 에셋 (작업을 수행하는 user가 아님).
-|`user_email`              | 해당되는 경우, 작업이 영향을 미치는 user의 이메일 어드레스 (작업을 수행하는 user의 이메일 어드레스가 아님).
+|`action`                  | 이벤트의 [액션](#actions)입니다.
+|`actor_email`             | 해당되는 경우, 액션을 시작한 사용자의 이메일 주소입니다.
+|`actor_ip`                | 액션을 시작한 사용자의 IP 주소입니다.
+|`actor_user_id`           | 해당되는 경우, 액션을 수행한 로그인된 사용자의 ID입니다.
+|`artifact_asset`          | 해당되는 경우, 액션과 관련된 Artifact ID입니다.
+|`artifact_digest`         | 해당되는 경우, 액션과 관련된 Artifact 다이제스트입니다.
+|`artifact_qualified_name` | 해당되는 경우, 액션과 관련된 Artifact의 전체 이름입니다.
+|`artifact_sequence_asset` | 해당되는 경우, 액션과 관련된 Artifact 시퀀스 ID입니다.
+|`cli_version`             | 해당되는 경우, 액션을 시작한 Python SDK의 버전입니다.
+|`entity_asset`            | 해당되는 경우, 액션과 관련된 Entity 또는 팀 ID입니다.
+|`entity_name`             | 해당되는 경우, 액션과 관련된 Entity 또는 팀 이름입니다.
+|`project_asset`           | 해당되는 경우, 액션과 관련된 프로젝트입니다.
+|`project_name`            | 해당되는 경우, 액션과 관련된 프로젝트의 이름입니다.
+|`report_asset`            | 해당되는 경우, 액션과 관련된 리포트 ID입니다.
+|`report_name`             | 해당되는 경우, 액션과 관련된 리포트의 이름입니다.
+|`response_code`           | 해당되는 경우, 액션에 대한 HTTP 응답 코드입니다.
+|`timestamp`               | [RFC3339 형식](https://www.rfc-editor.org/rfc/rfc3339)의 이벤트 시간입니다. 예를 들어, `2023-01-23T12:34:56Z`는 2023년 1월 23일 12:34:56 UTC를 나타냅니다.
+|`user_asset`              | 해당되는 경우, 액션이 영향을 미치는 사용자 에셋입니다(액션을 수행하는 사용자가 아님).
+|`user_email`              | 해당되는 경우, 액션이 영향을 미치는 사용자의 이메일 주소입니다(액션을 수행하는 사용자의 이메일 주소가 아님).
 
 ### 개인 식별 정보 (PII)
 
-이메일 어드레스, project 이름, 팀 및 report와 같은 개인 식별 정보 (PII)는 API 엔드포인트 옵션을 통해서만 사용할 수 있습니다.
-- [자체 관리](/ko/platform/hosting/hosting-options/self-managed) 및
-  [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우 조직 관리자는 감사 로그를 가져올 때 [PII를 제외](#exclude-pii)할 수 있습니다.
-- [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 API 엔드포인트는 항상 PII를 포함하여 감사 로그에 대한 관련 필드를 반환합니다. 이는 구성할 수 없습니다.
+이메일 주소나 Projects, Teams, Reports의 이름과 같은 개인 식별 정보(PII)는 API 엔드포인트 옵션을 통해서만 사용할 수 있습니다.
+- [Self-Managed](/platform/hosting/hosting-options/self-managed) 및 [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud)의 경우, 조직 관리자는 감사 로그를 가져올 때 [PII를 제외](#exclude-pii)할 수 있습니다.
+- [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)의 경우, API 엔드포인트는 항상 PII를 포함하여 감사 로그와 관련된 필드를 반환합니다. 이는 구성할 수 없습니다.
+
+## 시작하기 전 주의사항
+1. 조직 레벨 관리자가 감사 로그를 가져올 수 있습니다. `403` 오류가 발생하면 귀하 또는 귀하의 서비스 계정에 적절한 권한이 있는지 확인하세요.
+1. **Multi-tenant Cloud**: 여러 Multi-tenant Cloud 조직의 멤버인 경우, 감사 로깅 API 호출이 라우팅되는 위치를 결정하는 **Default API organization**을 반드시 구성해야 합니다. 그렇지 않으면 다음과 같은 오류가 발생합니다:
+     ```text
+     user is associated with multiple organizations but no valid org ID found in user info
+     ```
+     기본 API 조직을 지정하려면:
+     1. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭합니다.
+     2. **Default API organization**에서 조직을 선택합니다.
+
+     이는 하나의 Multi-tenant Cloud 조직의 멤버만 될 수 있는 서비스 계정에는 적용되지 않습니다.
 
 ## 감사 로그 가져오기
-조직 또는 인스턴스 관리자는 `audit_logs/` 엔드포인트에서 감사 로깅 API를 사용하여 W&B 인스턴스에 대한 감사 로그를 가져올 수 있습니다.
+감사 로그를 가져오려면:
 
-<Note>
-- 관리자 이외의 사용자가 감사 로그를 가져오려고 하면 엑세스가 거부되었음을 나타내는 HTTP `403` 오류가 발생합니다.
+1. 해당 인스턴스의 올바른 API 엔드포인트를 확인합니다:
 
-- 여러 Enterprise [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 조직의 관리자인 경우 감사 로깅 API 요청이 전송되는 조직을 구성해야 합니다. 프로필 이미지를 클릭한 다음 **User Settings**를 클릭합니다. 설정 이름은 **Default API organization**입니다.
-</Note>
+- [Self-Managed](/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
+- [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud): `<instance-name>.wandb.io/admin/audit_logs`
+- [Multi-tenant Cloud (Enterprise 필요)](/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
-1. 인스턴스에 적합한 API 엔드포인트를 결정합니다.
+    다음 단계에서 `<API-endpoint>`를 귀하의 API 엔드포인트로 바꿉니다.
+1. (선택 사항) 엔드포인트에 추가할 쿼리 파라미터를 구성합니다. 다음 단계에서 `<parameters>`를 결과 문자열로 바꿉니다.
+    - `anonymize`: URL에 `anonymize=true` 파라미터가 포함되어 있으면 PII를 제거합니다. 그렇지 않으면 PII가 포함됩니다. [감사 로그를 가져올 때 PII 제외](#exclude-pii-when-fetching-audit-logs)를 참조하세요. PII를 포함한 모든 필드가 제공되는 Multi-tenant Cloud에서는 지원되지 않습니다.
+    - `numdays`와 `startDate`를 조합하여 가져올 로그의 날짜 범위를 구성합니다. 각 파라미터는 선택 사항이며 서로 상호 작용합니다.
+      - 두 파라미터가 모두 포함되지 않으면 오늘의 로그만 가져옵니다.
+      - `numDays`: `startDate`부터 며칠 전까지의 로그를 가져올지 나타내는 정수입니다. 생략하거나 `0`으로 설정하면 `startDate` 당일의 로그만 가져옵니다. **Multi-tenant Cloud** 조직은 최대 7일간의 감사 로그를 가져올 수 있습니다. 즉, `numDays=9`로 설정하더라도 유효 파라미터는 `numDays=7`이 됩니다.
+      - `startDate`: 가져올 로그의 가장 최근 날짜를 `startDate=YYYY-MM-DD` 형식으로 제어합니다. 생략하거나 오늘 날짜로 명시적으로 설정하면, 오늘부터 `numDays` 전까지의 로그를 가져옵니다(Multi-tenant Cloud의 경우 최대 `7`일).
+1. `<API-endpoint>?<parameters>` 형식으로 정규화된 엔드포인트 URL을 구성합니다.
+1. 웹 브라우저나 [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/) 또는 cURL과 같은 툴을 사용하여 정규화된 API 엔드포인트에 HTTP `GET` 요청을 실행합니다.
 
-    - [자체 관리](/ko/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
-    - [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud): `<wandb-platform-url>/admin/audit_logs`
-    - [SaaS Cloud (Enterprise 필요)](/ko/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
-
-    다음 단계에서 `<API-endpoint>`를 API 엔드포인트로 바꿉니다.
-2. 기본 엔드포인트에서 전체 API 엔드포인트를 구성하고 선택적으로 URL 파라미터를 포함합니다.
-    - `anonymize`: `true`로 설정하면 모든 PII를 제거합니다. 기본값은 `false`입니다. [감사 로그를 가져올 때 PII 제외](#exclude-pii)를 참조하십시오. SaaS Cloud에서는 지원되지 않습니다.
-    - `numDays`: 로그는 `today - numdays`부터 가장 최근까지 가져옵니다. 기본값은 `0`이며, `today`에 대한 로그만 반환합니다. SaaS Cloud의 경우 최대 7일 전의 감사 로그를 가져올 수 있습니다.
-    - `startDate`: `YYYY-MM-DD` 형식의 선택적 날짜입니다. [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서만 지원됩니다.
-
-      `startDate`와 `numDays`는 상호 작용합니다.
-        - `startDate`와 `numDays`를 모두 설정하면 `startDate`부터 `startDate` + `numDays`까지 로그가 반환됩니다.
-        - `startDate`를 생략했지만 `numDays`를 포함하면 `today`부터 `numDays`까지 로그가 반환됩니다.
-        - `startDate`와 `numDays`를 모두 설정하지 않으면 `today`에 대한 로그만 반환됩니다.
-
-3. 웹 브라우저 또는 [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/) 또는 cURL과 같은 툴을 사용하여 구성된 정규화된 전체 API 엔드포인트에서 HTTP `GET` 요청을 실행합니다.
-
-API 응답에는 줄 바꿈으로 구분된 JSON 오브젝트가 포함됩니다. 오브젝트에는 감사 로그가 인스턴스 수준 버킷에 동기화될 때와 마찬가지로 [스키마](#audit-log-schemag)에 설명된 필드가 포함됩니다. 이러한 경우 감사 로그는 버킷의 `/wandb-audit-logs` 디렉토리에 있습니다.
+API 응답에는 줄바꿈으로 구분된 JSON 오브젝트가 포함됩니다. 오브젝트에는 감사 로그가 인스턴스 레벨 버킷에 동기화될 때와 마찬가지로 [스키마](#audit-log-schema)에 설명된 필드가 포함됩니다. 이 경우 감사 로그는 버킷의 `/wandb-audit-logs` 디렉토리에 위치합니다.
 
 ### 기본 인증 사용
-API 키로 기본 인증을 사용하여 감사 로그 API에 액세스하려면 HTTP 요청의 `Authorization` 헤더를 `Basic` 문자열로 설정하고 공백을 추가한 다음 `username:API-KEY` 형식으로 base-64로 인코딩된 문자열을 설정합니다. 즉, 사용자 이름과 API 키를 `:` 문자로 구분된 값으로 바꾸고 결과를 base-64로 인코딩합니다. 예를 들어 `demo:p@55w0rd`로 인증하려면 헤더는 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`여야 합니다.
+감사 로그 API에 액세스하기 위해 API 키로 기본 인증(basic authentication)을 사용하려면, HTTP 요청의 `Authorization` 헤더를 `Basic` 문자열 뒤에 공백을 두고 `username:API-KEY` 형식을 base-64로 인코딩한 문자열로 설정하세요. 즉, 사용자 이름과 API 키를 `:` 문자로 구분한 값으로 바꾼 다음 그 결과를 base-64로 인코딩합니다. 예를 들어, `demo:p@55w0rd`로 인증하려면 헤더는 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`가 되어야 합니다.
 
-### 감사 로그를 가져올 때 PII 제외
-[자체 관리](/ko/platform/hosting/hosting-options/self-managed) 및 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우 W&B 조직 또는 인스턴스 관리자는 감사 로그를 가져올 때 PII를 제외할 수 있습니다. [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 API 엔드포인트는 항상 PII를 포함하여 감사 로그에 대한 관련 필드를 반환합니다. 이는 구성할 수 없습니다.
+### 감사 로그를 가져올 때 PII 제외 <a id="exclude-pii"></a>
+[Self-Managed](/platform/hosting/hosting-options/self-managed) 및 [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud)의 경우, W&B 조직 또는 인스턴스 관리자는 감사 로그를 가져올 때 PII를 제외할 수 있습니다. [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 API 엔드포인트는 항상 PII를 포함한 관련 필드를 반환하며 이는 구성할 수 없습니다.
 
-PII를 제외하려면 `anonymize=true` URL 파라미터를 전달합니다. 예를 들어 W&B 인스턴스 URL이 `https://mycompany.wandb.io`이고 지난 주 동안의 사용자 활동에 대한 감사 로그를 가져오고 PII를 제외하려면 다음과 같은 API 엔드포인트를 사용합니다.
+PII를 제외하려면 `anonymize=true` URL 파라미터를 전달하세요. 예를 들어, W&B 인스턴스 URL이 `https://mycompany.wandb.io`이고 지난 주 동안의 사용자 활동에 대한 감사 로그를 가져오면서 PII를 제외하려면 다음과 같은 API 엔드포인트를 사용합니다:
 
 ```text
-https://mycompany.wandb.io/admin/audit_logs?numDays=7&anonymize=true.
+https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameters>.
 ```
 
-## Actions
-이 표는 W&B에서 기록할 수 있는 가능한 actions를 알파벳순으로 설명합니다.
+## 액션
+이 표는 W&B에 기록될 수 있는 액션을 알파벳 순으로 설명합니다.
 
-|Action | 정의 |
+|액션 | 정의 |
 |-----|-----|
 | `artifact:create`             | Artifact가 생성되었습니다.
 | `artifact:delete   `          | Artifact가 삭제되었습니다.
-| `artifact:read`               | Artifact가 읽혔습니다.
-| `project:delete`              | Project가 삭제되었습니다.
-| `project:read`                | Project가 읽혔습니다.
-| `report:read`                 | Report가 읽혔습니다. <sup><a href="#1">1</a></sup>
-| `run:delete_many`             | Run 배치가 삭제되었습니다.
+| `artifact:read`               | Artifact를 읽었습니다.
+| `project:delete`              | 프로젝트가 삭제되었습니다.
+| `project:read`                | 프로젝트를 읽었습니다.
+| `report:read`                 | 리포트를 읽었습니다. <sup><a href="#1">1</a></sup>
+| `run:delete_many`             | 여러 Runs가 배치로 삭제되었습니다.
 | `run:delete`                  | Run이 삭제되었습니다.
 | `run:stop`                    | Run이 중지되었습니다.
-| `run:undelete_many`           | 휴지통에서 Run 배치가 복원되었습니다.
-| `run:update_many`             | Run 배치가 업데이트되었습니다.
+| `run:undelete_many`           | 여러 Runs가 휴지통에서 복구되었습니다.
+| `run:update_many`             | 여러 Runs가 배치로 업데이트되었습니다.
 | `run:update`                  | Run이 업데이트되었습니다.
 | `sweep:create_agent`          | 스윕 에이전트가 생성되었습니다.
-| `team:create_service_account` | 팀에 대한 서비스 계정이 생성되었습니다.
+| `team:create_service_account` | 팀을 위한 서비스 계정이 생성되었습니다.
 | `team:create`                 | 팀이 생성되었습니다.
 | `team:delete`                 | 팀이 삭제되었습니다.
-| `team:invite_user`            | User가 팀에 초대되었습니다.
-| `team:uninvite`               | User 또는 서비스 계정이 팀에서 초대 취소되었습니다.
-| `user:create_api_key`         | User에 대한 API 키가 생성되었습니다. <sup><a href="#1">1</a></sup>
-| `user:create`                 | User가 생성되었습니다. <sup><a href="#1">1</a></sup>
-| `user:deactivate`             | User가 비활성화되었습니다. <sup><a href="#1">1</a></sup>
-| `user:delete_api_key`         | User에 대한 API 키가 삭제되었습니다. <sup><a href="#1">1</a></sup>
-| `user:initiate_login`         | User가 로그인을 시작했습니다. <sup><a href="#1">1</a></sup>
-| `user:login`                  | User가 로그인했습니다. <sup><a href="#1">1</a></sup>
-| `user:logout`                 | User가 로그아웃했습니다. <sup><a href="#1">1</a></sup>
-| `user:permanently_delete`     | User가 영구적으로 삭제되었습니다. <sup><a href="#1">1</a></sup>
-| `user:reactivate`             | User가 다시 활성화되었습니다. <sup><a href="#1">1</a></sup>
-| `user:read`                   | User 프로필이 읽혔습니다. <sup><a href="#1">1</a></sup>
-| `user:update`                 | User가 업데이트되었습니다. <sup><a href="#1">1</a></sup>
+| `team:invite_user`            | 사용자가 팀에 초대되었습니다.
+| `team:uninvite`               | 사용자 또는 서비스 계정의 팀 초대가 취소되었습니다.
+| `user:create_api_key`         | 사용자를 위한 API 키가 생성되었습니다. <sup><a href="#1">1</a></sup>
+| `user:create`                 | 사용자가 생성되었습니다. <sup><a href="#1">1</a></sup>
+| `user:deactivate`             | 사용자가 비활성화되었습니다. <sup><a href="#1">1</a></sup>
+| `user:delete_api_key`         | 사용자의 API 키가 삭제되었습니다. <sup><a href="#1">1</a></sup>
+| `user:initiate_login`         | 사용자가 로그인을 시작했습니다. <sup><a href="#1">1</a></sup>
+| `user:login`                  | 사용자가 로그인했습니다. <sup><a href="#1">1</a></sup>
+| `user:logout`                 | 사용자가 로그아웃했습니다. <sup><a href="#1">1</a></sup>
+| `user:permanently_delete`     | 사용자가 영구적으로 삭제되었습니다. <sup><a href="#1">1</a></sup>
+| `user:reactivate`             | 사용자가 재활성화되었습니다. <sup><a href="#1">1</a></sup>
+| `user:read`                   | 사용자 프로필을 읽었습니다. <sup><a href="#1">1</a></sup>
+| `user:update`                 | 사용자가 업데이트되었습니다. <sup><a href="#1">1</a></sup>
 
-<a id="1">1</a>: [SaaS Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 감사 로그는 다음에 대해 수집되지 않습니다.
-- 공개 또는 퍼블릭 프로젝트.
-- `report:read` action.
-- 특정 조직에 연결되지 않은 `User` actions.
+<a id="1">1</a>: [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)에서는 다음 항목에 대해 감사 로그가 수집되지 않습니다:
+- 공개(Open) 또는 퍼블릭(Public) 프로젝트.
+- `report:read` 액션.
+- 특정 조직에 연결되지 않은 `User` 액션.

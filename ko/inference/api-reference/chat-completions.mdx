@@ -1,0 +1,90 @@
+---
+title: Chat Completions
+description: OpenAI 호환 엔드포인트를 사용하여 chat completions 생성하기
+---
+
+`/chat/completions` 엔드포인트를 사용하여 채팅 완성(chat completion)을 생성합니다. 이 엔드포인트는 메시지를 보내고 응답을 받는 데 OpenAI 형식을 따릅니다.
+
+## 요구 사항
+
+채팅 완성을 생성하려면 다음 사항이 필요합니다:
+- Inference 서비스 베이스 URL: `https://api.inference.wandb.ai/v1`
+- W&B API 키: `<your-api-key>`
+- 선택 사항: W&B 팀 및 프로젝트: `<your-team>/<your-project>`
+- [사용 가능한 모델](/inference/models) 리스트의 모델 ID
+
+## 요청 예시
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    # 커스텀 베이스 URL은 W&B Inference를 가리킵니다.
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings 에서 API 키를 생성하세요.
+    # 보안을 위해 환경 변수에 OPENAI_API_KEY로 설정하는 것을 권장합니다.
+    api_key="<your-api-key>",
+
+    # 선택 사항: 사용량 추적을 위한 팀 및 프로젝트
+    project="<your-team>/<your-project>",
+)
+
+# <model-id>를 사용 가능한 모델 리스트의 모델 ID로 교체하세요.
+response = client.chat.completions.create(
+    model="<model-id>",
+    messages=[
+        {"role": "system", "content": "<your-system-prompt>"},
+        {"role": "user", "content": "<your-prompt>"}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>" \
+  -d '{
+    "model": "<model-id>",
+    "messages": [
+      { "role": "system", "content": "You are a helpful assistant." },
+      { "role": "user", "content": "Tell me a joke." }
+    ]
+  }'
+```
+</Tab>
+</Tabs>
+
+## 응답 형식
+
+API는 OpenAI 호환 형식으로 응답을 반환합니다:
+
+```json
+{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here's a joke for you..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 50,
+    "total_tokens": 75
+  }
+}
+```
