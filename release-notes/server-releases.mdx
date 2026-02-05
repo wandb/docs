@@ -340,7 +340,7 @@ W&B v0.73 marks a significant milestone in the migration to W&B Registry from te
 In v0.73.0, resizing or reordering workspace panels may not be reflected in saved views. This bug is fixed in v0.73.1. If you experience this issue, upgrade to v0.73.1, which includes the fix. If you can't upgrade, contact [support](mailto:support@wandb.ai) for a workaround.
 
 ## Features
-- <a id="registry_ga_announcement"></a>We're migrating existing team-level Model Registry to W&B Registry in stages over the next several releases. **No action is needed on your end; W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.** Existing references to model collections in your old team-level Model Registry will still work.
+- <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement"></a>We're migrating existing team-level Model Registry to W&B Registry in stages over the next several releases. **No action is needed on your end; W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.** Existing references to model collections in your old team-level Model Registry will still work.
     1. Server v0.73 (this release) includes an opt-out environment variable that will migrate the team's Model Registry automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old Model Registry or the new Registry will fail with an error. **Artifact logging and retrieval will not be affected**.
     2. In Server v0.74 (end of September), we will remove the opt-out flag and migration will happen during the upgrade.
 
@@ -406,7 +406,7 @@ With W&B Server 0.71, Registry is turned on by default for all organizations. Fo
 - Over the next several releases, we will continue migrating existing team-level Model Registry to W&B Registry. For details and a reminder about the timeline, see the [W&B Registry GA announcement](#registry_ga_announcement) below.
 
 ## Features
-- <a id="registry_ga_announcement"></a> We’re migrating existing team-level Model Registry to W&B Registry in stages over the next several releases. **No action is needed on your end; W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.**  Existing references to model collections in your old team-level Model Registry will still work.
+- <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement"></a> We're migrating existing team-level Model Registry to W&B Registry in stages over the next several releases. **No action is needed on your end; W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.**  Existing references to model collections in your old team-level Model Registry will still work.
     1. In Server v0.71 (this release), Registry is now turned on by default for all organizations.
     2. Server v0.73 (August) will include an opt-out environment variable that will execute this migration automatically during the upgrade. Migration takes between 5 and 30 minutes for most organizations. During the migration, linking artifacts to either the old team’s Model Registry or the new Registry will fail with an error. **Artifact logging and retrieval will not be affected**.
     3. In Server v0.74 (September), we will remove this flag and migration will happen during the upgrade.
@@ -474,7 +474,7 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
 - Over the next several releases, we will migrate existing team-level Model Registry W&B Registry. For details and a timeline, see the [W&B Registry GA announcement](#registry_ga_announcement) below.
 
 ## Features
-- <a id="registry_ga_announcement"></a> **W&B Registry is now generally available**! Registry offers improved asset diversity, access management, and scalability, making it a true hub for collaborating on AI initiatives across large, diverse teams.
+- <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement"></a> **W&B Registry is now generally available**! Registry offers improved asset diversity, access management, and scalability, making it a true hub for collaborating on AI initiatives across large, diverse teams.
     - Registry can be turned on today with the `ENABLE_REGISTRY_UI` environment variable or by contacting your W&B support team.
     - We’re migrating existing team-level Model Registry assets to W&B Registry in stages over the next several releases. **No action is needed on your end. W&B will automatically copy Model Registry assets for each team to a corresponding automatically-created team-level private registry.**  Existing references to model collections in your old team-level Model Registry will still work.
         1. In Server v0.71, Registry will be on by default for all organizations.

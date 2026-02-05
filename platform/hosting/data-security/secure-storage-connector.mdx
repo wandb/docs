@@ -59,7 +59,7 @@ The following table shows the availability of BYOB at each scope for each W&B de
 | Multi-tenant Cloud         | Not Applicable   | &check;<sup><a href="#footnote_1">1</a></sup> | Team level BYOB is supported for CoreWeave AI Object Storage, Amazon S3, and Google Cloud Storage. |
 | Self-Managed               | &check;          | &check;    | Instance and team level BYOB are supported for CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, and S3-compatible storage such as [MinIO Enterprise (AIStor)](https://min.io/product/aistor) hosted in your cloud or on-premises infrastructure. |
 
-<sup><a id="footnote_1">1</a>.</sup>Azure Blob Storage is not supported for team level BYOB on Multi-tenant Cloud.
+<sup><a id="footnote_1" aria-label="Footnote 1">1</a>.</sup>Azure Blob Storage is not supported for team level BYOB on Multi-tenant Cloud.
 
 The following sections guide you through the process of setting up BYOB.
 
@@ -69,7 +69,7 @@ After [verifying availability](#availability-matrix), you are ready to provision
 
 <Tabs>
 <Tab title="CoreWeave">
-<a id="coreweave-requirements"></a>**Requirements**:
+<a id="coreweave-requirements" aria-label="CoreWeave requirements"></a>**Requirements**:
 - **Multi-tenant Cloud**, or
 - **Dedicated Cloud** v0.73.0 or above, or
 - **Self-Managed** v0.73.0 or above deployed with v0.33.14+ of the Helm chart
@@ -78,12 +78,12 @@ After [verifying availability](#availability-matrix), you are ready to provision
 
 For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/docs/products/storage/object-storage/buckets/create-bucket) in the CoreWeave documentation.
 
-1. <a id="coreweave-org-id"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
+1. <a id="coreweave-org-id" aria-label="CoreWeave organization ID"></a>**Multi-tenant Cloud**: Obtain your organization ID, which is required for your bucket policy.
     1. Log in to the [W&B App](https://wandb.ai/site).
     1. In the left navigation, click **Create a new team**.
     1. In the drawer that opens, copy the W&B organization ID, which is located above **Invite team members**.
     1. Leave this page open. You will use it to [configure W&B](#configure-byob).
-1. <a id="coreweave-customer-namespace"></a>**Dedicated Cloud** / **Self-Managed**: Obtain your customer namespace, which is required for your bucket policy.
+1. <a id="coreweave-customer-namespace" aria-label="CoreWeave customer namespace"></a>**Dedicated Cloud** / **Self-Managed**: Obtain your customer namespace, which is required for your bucket policy.
     1. In the W&B App, click your user profile icon, then click **System Console**.
     1. Click the **Authentication** tab.
     1. At the bottom of the page, copy the value for **Customer Namespace**. Keep this value for configuring the bucket policy. 
@@ -175,7 +175,7 @@ For details, see [Create a CoreWeave AI Object Storage bucket](https://docs.core
       - **Multi-tenant Cloud**: The organization ID from [Provision your bucket](#coreweave-org-id).
       - **Dedicated Cloud** or **Self-Managed**: The customer namespace from [Provision your bucket](#coreweave-customer-namespace).
 1. **Dedicated Cloud**: Contact [support](mailto:support@wandb.ai) to complete additional steps.
-1. <a id="set-environment-variable"></a>**Self-Managed**: Update your W&B deployment to set the environment variable `GORILLA_SUPPORTED_FILE_STORES` to the exact string `cw://` and restart W&B. Otherwise, CoreWeave will not appear as an option when you configure team storage.
+1. <a id="set-environment-variable" aria-label="Set environment variable"></a>**Self-Managed**: Update your W&B deployment to set the environment variable `GORILLA_SUPPORTED_FILE_STORES` to the exact string `cw://` and restart W&B. Otherwise, CoreWeave will not appear as an option when you configure team storage.
 
 Next, [configure W&B](#configure-byob).
 </Tab>
