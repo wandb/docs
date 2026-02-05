@@ -2,33 +2,34 @@
 title: "Model Lifecycle"
 linkTitle: "Lifecycle"
 description: >
-  Learn about model lifecycle and retirement
+  Learn about W&B Inference model lifecycle and retirement
 ---
 
 New models are frequently evaluated and released as part of the W&B Inference catalog.
 
-Older models are regularly reviewed, and may be retired to prioritize the most in demand and highest quality offerings.
+Older models are regularly reviewed and may be retired to prioritize the most in-demand and highest-quality offerings.
 
-## Terminology
+## Model Lifecycle Stages
 
-Models in W&B Inference use the following terminology for the stages of their lifecycle.
+Models in W&B Inference use the following terminology for the stages of their lifecycle:
 
-* Generally Available: The model is fully supported and is recommended for use.
-* Deprecated: The model is scheduled for removal. Customers should update to a recommended replacement as soon as possible.
-* Retired: This model is no longer available. Any requests to retired models will fail.
+* **Generally Available**: The model is fully supported and is recommended for use.
+* **Deprecated**: The model is scheduled for removal. Customers should update to a recommended replacement as soon as possible.
+* **Retired**: The model is no longer available. Any requests to retired models fail and return an `HTTP 404` status code for all requests.
 
 ## Deprecation Process
 
 When deprecating a model, W&B will provide at least two weeks of notice on this page before the model is retired.
 
-We will additionally attempt to notify recent users of a deprecated model via email
+We additionally attempt to notify recent users of a deprecated model via email
 and provide recommendations for replacement models.
 
-While the model is in the deprecated stage it will continue to serve requests.
-Once the model is retired it will return an HTTP 404 status code for all requests.
+Models that are in the **deprecated** stage continue to serve requests.
+
 
 
 ## Deprecated Models
+The following W&B Inference models are **deprecated**:
 
 | Deprecation date | Model ID                    | Recommended replacement         |
 |------------------|-----------------------------|---------------------------------|
