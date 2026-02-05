@@ -160,7 +160,7 @@ These methods have different purposes:
 Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
 The following example demonstrates `client.finish()`:
 
-```python lines
+```python lines {15}
 from celery import Celery
 import weave
 
@@ -184,10 +184,10 @@ def process_task(input_data):
 
 You can also use the `with` context manager to automatically call `weave.finish()` on exit:
 
-```python lines
+```python lines {1}
 with weave.init("your-team-name/your-project-name") as client:
     result = your_processing_function(input_data)
-    # Automatically calls finish() on exit
+
     return result
 ```
 
