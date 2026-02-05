@@ -1070,6 +1070,7 @@
               "inference",
               "inference/prerequisites",
               "inference/models",
+              "inference/lifecycle",
               "inference/lora",
               {
                 "group": "Response Settings",
