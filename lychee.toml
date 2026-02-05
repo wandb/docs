@@ -73,6 +73,8 @@ exclude = [
   '(http|https)://([^/]+\.)?github\.com/wandb',
   '(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
   '(http|https)://wandb\.(ai|com)',
+  # DSPy documentation - redirects from vercel.app to dspy.ai
+  '(http|https)://dspy-docs\.vercel\.app',
 ]
 
 # File/directory paths to exclude from checking

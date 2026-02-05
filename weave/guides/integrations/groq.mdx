@@ -40,7 +40,7 @@ chat_completion = client.chat.completions.create(
 )
 ```
 
-| ![Screenshot showing Groq Weave dashboard with tracked LLM calls](./imgs/groq/groq_weave_dasboard.png) |
+| ![Screenshot showing Groq Weave dashboard with tracked LLM calls](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
 |---|
 | Weave will now track and log all LLM calls made through the Groq library. You can view the traces in the Weave web interface. |
 
@@ -87,7 +87,7 @@ recommend_places_to_visit("Paris")
 recommend_places_to_visit("Kolkata")
 ```
 
-| ![Screenshot showing Groq Weave tracing with op decoration](./imgs/groq/groq_weave_tracing.png) |
+| ![Screenshot showing Groq Weave tracing with op decoration](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
 |---|
 | Decorating the `recommend_places_to_visit` function with `@weave.op` traces its inputs, outputs, and all internal LM calls made inside the function.  |
 
@@ -134,7 +134,7 @@ print(city_recommender.predict("San Francisco"))
 print(city_recommender.predict("Los Angeles"))
 ```
 
-| ![Screenshot showing Groq Weave Model tracing and versioning](./imgs/groq/groq_weave_model.png) |
+| ![Screenshot showing Groq Weave Model tracing and versioning](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
 |---|
 | Tracing and versioning your calls using a [`Model`](../core-types/models) |
 
@@ -142,7 +142,7 @@ print(city_recommender.predict("Los Angeles"))
 
 Given a weave reference to any `weave.Model` object, you can spin up a fastapi server and [serve](https://wandb.github.io/weave/guides/tools/serve) it.
 
-| [![dspy_weave_model_serve.png](./imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
+| [![dspy_weave_model_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
 |---|
 | You can find the weave reference of any WeaveModel by navigating to the model and copying it from the UI. |
 
