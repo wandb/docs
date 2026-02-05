@@ -1,0 +1,76 @@
+---
+title: 학습된 모델 사용하기
+description: 학습한 모델에 추론 요청 보내기
+---
+
+Serverless RL 로 모델 트레이닝을 마치면, 즉시 인퍼런스에 사용할 수 있습니다.
+
+트레이닝된 모델에 요청을 보내려면 다음 사항이 필요합니다:
+* [W&B API 키](https://wandb.ai/settings)
+* [Training API](/training/api-reference) 의 베이스 URL: `https://api.training.wandb.ai/v1/`
+* 모델의 엔드포인트(endpoint)
+
+모델의 엔드포인트는 다음 스키마를 사용합니다:
+
+```
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
+```
+
+이 스키마는 다음으로 구성됩니다:
+
+* W&B Entity (팀) 이름
+* 모델과 연결된 Projects 이름
+* 트레이닝된 Models 이름
+* 배포하고자 하는 모델의 트레이닝 step (일반적으로 평가 결과가 가장 좋았던 step을 선택합니다)
+
+예를 들어, W&B 팀 이름이 `email-specialists`이고, Projects 이름이 `mail-search`, 트레이닝된 Models 이름이 `agent-001`이며, step 25의 모델을 배포하려는 경우 엔드포인트는 다음과 같습니다:
+
+```
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
+```
+
+엔드포인트가 준비되면 일반적인 인퍼런스 워크플로우에 통합할 수 있습니다. 다음 예시는 cURL 요청이나 [Python OpenAI SDK](https://github.com/openai/openai-python)를 사용하여 트레이닝된 모델에 인퍼런스 요청을 보내는 방법을 보여줍니다.
+
+### cURL
+
+```shell
+curl https://api.training.wandb.ai/v1/chat/completions \
+    -H "Authorization: Bearer $WANDB_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+            "model": "wandb-artifact://<entity>/<project>/<model-name>:<step>",
+            "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Summarize our training run."}
+            ],
+            "temperature": 0.7,
+            "top_p": 0.95
+        }'
+```
+
+### OpenAI SDK
+
+```python
+from openai import OpenAI
+
+WANDB_API_KEY = "your-wandb-api-key"
+ENTITY = "my-entity"
+PROJECT = "my-project"
+
+client = OpenAI(
+    base_url="https://api.training.wandb.ai/v1",
+    api_key=WANDB_API_KEY
+)
+
+response = client.chat.completions.create(
+    model=f"wandb-artifact:///{ENTITY}/{PROJECT}/my-model:step100",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarize our training run."}, # 트레이닝 run 요약 요청
+    ],
+    temperature=0.7,
+    top_p=0.95,
+)
+
+print(response.choices[0].message.content)
+```

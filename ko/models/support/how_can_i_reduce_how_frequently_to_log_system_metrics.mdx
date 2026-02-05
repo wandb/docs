@@ -1,13 +1,8 @@
 ---
-title: How can I change how frequently to log system metrics?
-support:
-- metrics
-- runs
-toc_hide: true
-type: docs
+title: 시스템 메트릭을 로그하는 빈도를 어떻게 변경할 수 있나요?
 ---
 
-[시스템 메트릭](/ko/models/ref/system-metrics/)을 로깅하는 빈도를 설정하려면 `_stats_sampling_interval`을 초 단위로 나타낸 부동 소수점 숫자로 설정하세요. 기본값: `10.0`.
+[system metrics](/models/ref/python/experiments/system-metrics/) 로그 주기를 구성하려면 `_stats_sampling_interval`에 초 단위의 숫자를 float 형식으로 설정하세요. 기본값은 `10.0`입니다.
 
 ```python
 wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))

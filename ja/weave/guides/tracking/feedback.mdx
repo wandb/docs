@@ -1,0 +1,397 @@
+---
+title: フィードバックの収集とアノテーションの利用
+description: UI と SDK を通じて LLM アプリケーションのフィードバックを収集・分析します
+---
+
+LLM アプリケーションを効率的に評価するには、フィードバックを収集して分析するための堅牢なツールが必要です。 Weave は統合されたフィードバックシステムを提供しており、ユーザーは UI から直接、または SDK を通じてプログラムでコールフィードバックを提供できます。絵文字リアクション、テキストコメント、構造化データなど、さまざまなフィードバックタイプがサポートされており、チームは以下のことが可能になります。
+
+- パフォーマンス監視のための評価用 Datasets の構築。
+- LLM のコンテンツに関する問題の特定と効果的な解決。
+- ファインチューニングなどの高度なタスクのための例の収集。
+
+このガイドでは、UI と SDK の両方で Weave のフィードバック機能を使用する方法、フィードバックのクエリと管理、および詳細な評価のための人間によるアノテーションの使用方法について説明します。
+
+- [UI でフィードバックを提供する](#provide-feedback-in-the-ui)
+- [SDK 経由でフィードバックを提供する](#provide-feedback-via-the-sdk)
+- [人間によるアノテーションを追加する](#add-human-annotations)
+
+## UI でフィードバックを提供する
+
+Weave UI では、[コール詳細ページから](#from-the-call-details-page) または [アイコンを使用して](#use-the-icons) フィードバックを追加および表示できます。
+
+### コール詳細ページから
+
+1. サイドバーで **Traces** に移動します。
+2. フィードバックを追加したいコールの行を見つけます。
+3. コール詳細ページを開きます。
+4. コールの **Feedback** カラムを選択します。
+5. フィードバックの追加、表示、または削除を行います。
+   - コール詳細のフィードバックビューの右上隅にある _[アイコンを使用してフィードバックを追加および表示](#use-the-icons)_ します。
+   - _コール詳細のフィードバックテーブルからフィードバックを表示および削除_ します。該当するフィードバック行の右端のカラムにあるゴミ箱アイコンをクリックして、フィードバックを削除します。
+
+<Frame>
+![コール詳細のフィードバックタブのスクリーンショット](/weave/guides/tracking/imgs/feedback_tab.png)
+</Frame>
+
+### アイコンを使用する
+
+コールテーブルと個別のコール詳細ページの両方にあるアイコンを使用して、リアクションの追加・削除やノートの追加ができます。
+
+- _コールテーブル_: コールテーブルの該当する行の **Feedback** カラムにあります。
+- _コール詳細ページ_: 各コール詳細ページの右上隅にあります。
+
+リアクションを追加するには：
+
+1. 絵文字アイコンをクリックします。
+2. 承認（thumbs up）、非承認（thumbs down）を追加するか、**+** アイコンをクリックして他の絵文字を表示します。
+
+リアクションを削除するには：
+
+1. 削除したい絵文字リアクションにカーソルを合わせます。
+2. リアクションをクリックして削除します。
+
+> [コール詳細ページの **Feedback** カラム](#from-the-call-details-page) からフィードバックを削除することもできます。
+
+コメントを追加するには：
+
+1. コメントバブルアイコンをクリックします。
+2. テキストボックスにノートを追加します。
+3. ノートを保存するには、**Enter** キーを押します。追加のノートを入れることも可能です。
+
+<Warning>
+フィードバックノートの最大文字数は 1024 文字です。ノートがこの制限を超えると、作成されません。
+</Warning>
+
+<Frame>
+![フィードバックカラムがあるコールグリッドのスクリーンショット](/weave/guides/tracking/imgs/feedback_calls.png)
+</Frame>
+
+## SDK 経由でフィードバックを提供する
+
+> フィードバックの SDK 使用例は、UI のコール詳細ページの **Use** タブで確認できます。
+
+Weave SDK を使用して、プログラムでコールのフィードバックを追加、削除、およびクエリできます。
+
+### プロジェクトのフィードバックをクエリする
+
+SDK を使用して Weave プロジェクトのフィードバックをクエリできます。SDK は以下のフィードバッククエリ操作をサポートしています。
+
+- `client.get_feedback()`: プロジェクト内のすべてのフィードバックを返します。
+- `client.get_feedback("<feedback_uuid>")`: `<feedback_uuid>` で指定された特定のフィードバックオブジェクトをコレクションとして返します。
+- `client.get_feedback(reaction="<reaction_type>")`: 特定のリアクションタイプのすべてのフィードバックオブジェクトを返します。
+
+また、`client.get_feedback()` で各フィードバックオブジェクトの追加情報を取得できます。
+
+- `id`: フィードバックオブジェクトの ID。
+- `created_at`: フィードバックオブジェクトの作成時間情報。
+- `feedback_type`: フィードバックのタイプ（reaction、note、custom）。
+- `payload`: フィードバックのペイロード。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    import weave
+    client = weave.init('intro-example')
+
+    # プロジェクト内のすべてのフィードバックを取得
+    all_feedback = client.get_feedback()
+
+    # IDで特定のフィードバックオブジェクトを取得。
+    # APIはコレクションを返します。通常、含まれるアイテムは最大1つです。
+    one_feedback = client.get_feedback("<feedback_uuid>")[0]
+
+    # 特定のリアクションを持つすべてのフィードバックオブジェクトを検索。offsetとlimitを指定可能。
+    thumbs_up = client.get_feedback(reaction="👍", limit=10)
+
+    # 取得後、個々のフィードバックオブジェクトの詳細を表示。
+    for f in client.get_feedback():
+        print(f.id)
+        print(f.created_at)
+        print(f.feedback_type)
+        print(f.payload)
+    ```
+
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+### コールにフィードバックを追加する
+
+コールの UUID を使用して、コールにフィードバックを追加できます。特定のコールを取得するために UUID を使用するには、[コールの実行中または実行後に取得](#retrieve-the-call-uuid) してください。SDK はコールへのフィードバック追加のために以下の操作をサポートしています。
+
+- `call.feedback.add_reaction("<reaction_type>")`: 👍 などのサポートされている `<reaction_types>` (絵文字) を 1 つ追加します。
+- `call.feedback.add_note("<note>")`: ノートを追加します。
+- `call.feedback.add("<label>", <object>)`: `<label>` で指定されたカスタムフィードバック `<object>` を追加します。
+
+<Warning>
+フィードバックノートの最大文字数は 1024 文字です。ノートがこの制限を超えると、作成されません。
+</Warning>
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    import weave
+    client = weave.init('intro-example')
+
+    call = client.get_call("<call_uuid>")
+
+    # 絵文字リアクションの追加
+    call.feedback.add_reaction("👍")
+
+    # ノートの追加
+    call.feedback.add_note("this is a note")
+
+    # カスタムのキー/値ペアの追加
+    # 第1引数はユーザー定義の "type" 文字列。
+    # フィードバックは JSON シリアライズ可能で、シリアライズ時に 1 KB 未満である必要があります。
+    call.feedback.add("correctness", { "value": 5 })
+    ```
+
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+#### コールの UUID を取得する
+
+コールの直後にフィードバックを追加する必要があるシナリオでは、コールの実行中または実行後にプログラムでコールの UUID を取得できます。
+
+- [コール実行中に取得](#during-call-execution)
+- [コール実行後に取得](#after-call-execution)
+
+##### コール実行中に取得
+
+実行中に UUID を取得するには、現在のコールを取得して ID を返します。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+
+    import weave
+    weave.init("uuid")
+
+    @weave.op()
+    def simple_operation(input_value):
+        # 何らかの単純な処理を実行
+        output = f"Processed {input_value}"
+        # 現在のコールIDを取得
+        current_call = weave.require_current_call()
+        call_id = current_call.id
+        return output, call_id
+    ```
+
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+##### コール実行後に取得
+
+あるいは、`call()` メソッドを使用して操作を実行し、実行後に ID を取得することもできます。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    import weave
+    weave.init("uuid")
+
+    @weave.op()
+    def simple_operation(input_value):
+        return f"Processed {input_value}"
+
+    # 操作を実行し、結果とコールIDを取得
+    result, call = simple_operation.call("example input")
+    call_id = call.id
+    ```
+
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+### コールのフィードバックを削除する
+
+UUID を指定することで、特定のコールからフィードバックを削除できます。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    call.feedback.purge("<feedback_uuid>")
+    ```
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+## 人間によるアノテーションを追加する
+
+人間によるアノテーションは Weave UI でサポートされています。アノテーションを行うには、まず [UI](#create-a-human-annotation-scorer-in-the-ui) または [API](#create-a-human-annotation-scorer-using-the-api) を使用して Human Annotation scorer を作成する必要があります。その後、[UI で scorer を使用してアノテーションを作成](#use-the-human-annotation-scorer-in-the-ui) したり、[API を使用してアノテーション scorer を修正](#modify-a-human-annotation-scorer-using-the-api) したりできます。
+
+### UI で人間によるアノテーションの scorer を作成する
+
+UI で人間によるアノテーションの scorer を作成するには、以下の手順を行います。
+
+1. サイドバーで **Scorers** に移動します。
+2. 右上隅にある **+ Create scorer** をクリックします。
+3. 設定ページで以下を設定します。
+   - `Scorer type` を `Human annotation` に設定
+   - `Name` (名前)
+   - `Description` (説明)
+   - `Type` (タイプ): 収集されるフィードバックの型を決定します（例: `boolean`、`integer`）。
+4. **Create scorer** をクリックします。これで、[scorer を使用してアノテーションを作成](#use-the-human-annotation-scorer-in-the-ui) できるようになります。
+
+次の例では、人間のアノテーターが LLM が取り込んだドキュメントのタイプを選択するように求められます。そのため、スコア設定で選択された `Type` は、可能なドキュメントタイプを含む `enum` になっています。
+
+<Frame>
+![人間によるアノテーションの scorer フォーム](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
+</Frame>
+
+### UI で人間によるアノテーションの scorer を使用する
+
+[人間によるアノテーションの scorer を作成](#create-a-human-annotation-scorer-in-the-ui) すると、コール詳細ページの **Feedback** サイドバーに、設定されたオプションとともに自動的に表示されます。scorer を使用するには、以下の手順を行います。
+
+1. サイドバーで **Traces** に移動します。
+2. 人間によるアノテーションを追加したいコールの行を見つけます。
+3. コール詳細ページを開きます。
+4. 右上隅にある **Show feedback** ボタンをクリックします。
+
+   ![コールヘッダーのマーカーアイコン](/weave/guides/tracking/imgs/marker-icon.png)
+
+   利用可能な人間によるアノテーションの scorer がサイドバーに表示されます。
+
+   ![人間によるアノテーションの scorer フィードバックサイドバー](/weave/guides/tracking/imgs/full-feedback-sidebar.png)
+
+5. アノテーションを作成します。
+6. **Save** をクリックします。
+7. コール詳細ページで **Feedback** をクリックしてコールテーブルを表示します。新しいアノテーションがテーブルに表示されます。また、**Traces** のコールテーブルの **Annotations** カラムでもアノテーションを確認できます。
+
+   > 最新の情報を表示するには、コールテーブルをリフレッシュしてください。
+
+<Frame>
+![コールテーブルでの人間によるアノテーションの scorer フィードバック](/weave/guides/tracking/imgs/feedback-in-the-table.png)
+</Frame>
+
+### API を使用して人間によるアノテーションの scorer を作成する
+
+人間によるアノテーションの scorer は API を通じても作成できます。各 scorer は独自のオブジェクトであり、個別に作成・更新されます。プログラムで人間によるアノテーションの scorer を作成するには、以下の手順を行います。
+
+1. `weave.flow.annotation_spec` から `AnnotationSpec` クラスをインポートします。
+2. `weave` の `publish` メソッドを使用して scorer を作成します。
+
+次の例では、2 つの scorer が作成されます。最初の scorer `Temperature` は、LLM コールの知覚温度をスコアリングするために使用されます。2 番目の scorer `Tone` は、LLM のレスポンスのトーンをスコアリングするために使用されます。各 scorer は、関連付けられたオブジェクト ID (`temperature-scorer` および `tone-scorer`) を使用して `save` で作成されます。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    import weave
+    from weave.flow.annotation_spec import AnnotationSpec
+
+    client = weave.init("feedback-example")
+
+    spec1 = AnnotationSpec(
+      name="Temperature",
+      description="The perceived temperature of the llm call",
+      field_schema={
+        "type": "number",
+        "minimum": -1,
+        "maximum": 1,
+      }
+    )
+    spec2 = AnnotationSpec(
+      name="Tone",
+      description="The tone of the llm response",
+      field_schema={
+        "type": "string",
+        "enum": ["Aggressive", "Neutral", "Polite", "N/A"],
+      },
+    )
+    weave.publish(spec1, "temperature-scorer")
+    weave.publish(spec2, "tone-scorer")
+    ```
+
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+### API を使用して人間によるアノテーションの scorer を修正する
+
+[API を使用した人間によるアノテーションの scorer の作成](#create-a-human-annotation-scorer-using-the-api) の発展として、次の例では `publish` 時に元のオブジェクト ID (`temperature-scorer`) を使用して、`Temperature` scorer の更新バージョンを作成します。その結果、すべてのバージョンの履歴を持つ更新されたオブジェクトが作成されます。
+
+> 人間によるアノテーションの scorer のオブジェクト履歴は、**Scorers** タブの **Human annotations** で確認できます。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    import weave
+    from weave.flow.annotation_spec import AnnotationSpec
+
+    client = weave.init("feedback-example")
+
+    # scorer の新しいバージョンを作成
+    spec1 = AnnotationSpec(
+      name="Temperature",
+      description="The perceived temperature of the llm call",
+      field_schema={
+        "type": "integer",  # <<- タイプを integer に変更
+        "minimum": -1,
+        "maximum": 1,
+      }
+    )
+    weave.publish(spec1, "temperature-scorer")
+    ```
+
+  </Tab>
+  <Tab header="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+![人間によるアノテーションの scorer 履歴](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
+</Frame>
+
+### API を使用して人間によるアノテーションの scorer を使用する
+
+フィードバック API では、特別に構築された名前と `annotation_ref` フィールドを指定することで、人間によるアノテーションの scorer を使用できます。`annotation_spec_ref` は、UI で適切なタブを選択するか、`AnnotationSpec` の作成中に取得できます。
+
+<Tabs>
+  <Tab header="Python">
+    ```python lines
+    import weave
+
+    client = weave.init("feedback-example")
+
+    call = client.get_call("<call_id>")
+    annotation_spec = weave.ref("<annotation_spec_ref_uri>")
+
+    call.feedback.add(
+      feedback_type="wandb.annotation." + annotation_spec.name,
+      payload={"value": 1},
+      annotation_ref=annotation_spec.uri(),
+    )
+    ```
+
+  </Tab>
+</Tabs>

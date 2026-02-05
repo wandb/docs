@@ -1,0 +1,85 @@
+---
+title: 레지스트리 생성하기
+---
+
+레지스트리는 사용할 수 있는 Artifacts 유형에 대한 유연성과 제어권을 제공하며, 레지스트리의 가시성을 제한하는 등 다양한 기능을 지원합니다.
+
+## 레지스트리 생성하기
+
+W&B Registry UI 또는 W&B Python SDK를 사용하여 프로그래밍 방식으로 레지스트리를 생성할 수 있습니다.
+
+<Tabs>
+<Tab title=" W&B Registry UI">
+1. https://wandb.ai/registry/ 에 있는 W&B Registry로 이동합니다.
+2. **Create registry** 버튼을 클릭합니다.
+3. **Name** 필드에 레지스트리 이름을 입력합니다.
+4. (선택 사항) 레지스트리에 대한 설명을 입력합니다.
+5. **Registry visibility** 드롭다운에서 레지스트리를 볼 수 있는 대상을 선택합니다. 레지스트리 가시성 옵션에 대한 자세한 내용은 [Registry visibility types](./configure_registry#registry-visibility-types)를 참조하세요.
+6. **Accepted artifacts type** 드롭다운에서 **All types** 또는 **Specify types** 중 하나를 선택합니다.
+7. (**Specify types**를 선택한 경우) 레지스트리에서 허용할 하나 이상의 아티팩트 유형을 추가합니다.
+8. **Create registry** 버튼을 클릭합니다.
+</Tab>
+<Tab title="Python SDK">
+프로그래밍 방식으로 레지스트리를 생성하려면 [`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) 메소드를 사용하세요. `name` 및 `visibility` 파라미터에 각각 레지스트리의 이름과 [가시성](#visibility-types)을 제공합니다.
+
+아래 코드 블록을 복사하여 붙여넣으세요. `<>`로 둘러싸인 값들을 본인의 값으로 바꿉니다.
+
+```python
+import wandb
+
+# 레지스트리 생성
+registry = wandb.Api().create_registry(
+    name="<registry_name>",
+    visibility="< 'restricted' | 'organization' >",
+)
+```
+
+레지스트리 생성 시 제공할 수 있는 파라미터의 전체 목록은 [`wandb.Api().create_registry()`](/models/ref/python/#method-apicreate_registry) 메소드 레퍼런스를 참조하세요.
+</Tab>
+</Tabs>
+
+<Note>
+아티팩트 유형이 레지스트리 설정에 저장되면 해당 레지스트리에서 제거할 수 없습니다.
+</Note>
+
+예를 들어, 다음 이미지는 사용자가 생성하려는 `Fine_Tuned_Models`라는 이름의 레지스트리를 보여줍니다. 이 레지스트리는 수동으로 추가된 멤버만 엑세스할 수 있도록 **Restricted**로 설정되어 있습니다.
+<Frame>
+    <img src="/images/registry/create_registry.gif" alt="Creating a new registry"  />
+</Frame>
+
+## 가시성 유형
+
+레지스트리의 *가시성(visibility)*은 해당 레지스트리에 엑세스할 수 있는 사람을 결정합니다. 레지스트리의 가시성을 제한하면 지정된 멤버만 해당 레지스트리에 엑세스하도록 보장할 수 있습니다.
+
+레지스트리 가시성에는 두 가지 옵션이 있습니다: 
+
+| 가시성 | 설명 |
+| --- | --- | 
+| Restricted   | 초대된 조직 구성원만 레지스트리에 엑세스할 수 있습니다.| 
+| Organization | 조직 내의 모든 사용자가 레지스트리에 엑세스할 수 있습니다. |
+
+Teams 관리자 또는 레지스트리 관리자가 레지스트리의 가시성을 설정할 수 있습니다.
+
+Restricted 가시성으로 레지스트리를 생성한 Users는 해당 레지스트리의 관리자(registry admin)로 자동 추가됩니다. 
+
+
+## 레지스트리 가시성 설정하기
+
+Teams 관리자 또는 레지스트리 관리자는 레지스트리 생성 도중이나 생성 후에 레지스트리 가시성을 할당할 수 있습니다. 
+
+기존 레지스트리의 가시성을 제한하려면 다음 단계를 따르세요:
+
+1. https://wandb.ai/registry/ 에 있는 W&B Registry로 이동합니다.
+2. 레지스트리를 선택합니다.
+3. 오른쪽 상단의 기어 아이콘을 클릭합니다.
+4. **Registry visibility** 드롭다운에서 원하는 레지스트리 가시성을 선택합니다.
+5. **Restricted visibility**를 선택한 경우:
+   1. 이 레지스트리에 엑세스할 권한을 줄 조직 구성원을 추가합니다. **Registry members and roles** 섹션으로 스크롤하여 **Add member** 버튼을 클릭합니다. 
+   2. **Member** 필드에 추가하려는 멤버의 이메일 또는 사용자 이름을 입력합니다.
+   3. **Add new member**를 클릭합니다.
+
+<Frame>
+    <img src="/images/registry/change_registry_visibility.gif" alt="Changing registry visibility settings from private to public or team-restricted access"  />
+</Frame>
+
+Teams 관리자가 레지스트리를 생성할 때 가시성을 할당하는 방법에 대한 자세한 내용은 [Create a registry](./create_registry#create-a-custom-registry)를 참조하세요.

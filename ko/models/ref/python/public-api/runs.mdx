@@ -1,109 +1,89 @@
 ---
-title: Runs
+title: ' start_thought
+
+  Runs'
+namespace: public_apis_namespace
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L64-L273" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
 
-프로젝트 및 선택적 필터와 연결된 runs의 반복 가능한 컬렉션입니다.
+## <kbd>class</kbd> `Runs`
+프로젝트 및 선택적 필터와 연결된 `Run` 오브젝트의 지연 이터레이터(lazy iterator)입니다.
+
+Runs 는 필요에 따라 W&B 서버에서 페이지 단위로 가져옵니다.
+
+일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
+
+### <kbd>method</kbd> `Runs.__init__`
 
 ```python
-Runs(
-    client: "RetryingClient",
-    entity: str,
-    project: str,
-    filters: Optional[Dict[str, Any]] = None,
-    order: Optional[str] = None,
-    per_page: int = 50,
-    include_sweeps: bool = (True)
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
 )
 ```
 
-일반적으로 `Api`.runs 메소드를 통해 간접적으로 사용됩니다.
+**Args:**
+ 
+ - `client`:  (`wandb.apis.public.RetryingClient`) 요청에 사용할 API 클라이언트입니다.
+ - `entity`:  (str) 프로젝트를 소유한 엔티티(사용자 이름 또는 팀)입니다.
+ - `project`:  (str) runs 를 가져올 프로젝트의 이름입니다.
+ - `filters`:  (Optional[Dict[str, Any]]) runs 쿼리에 적용할 필터 사전입니다.
+ - `order`:  (str) 정렬 기준은 `created_at`, `heartbeat_at`, `config.*.value` 또는 `summary_metrics.*`가 될 수 있습니다. 정렬 기준 앞에 +를 붙이면 오름차순(기본값), -를 붙이면 내림차순입니다. 기본 정렬은 run.created_at 기준 과거순부터 최신순입니다.
+ - `per_page`:  (int) 요청당 가져올 runs 의 개수입니다(기본값은 50).
+ - `include_sweeps`:  (bool) runs 에 sweep 정보를 포함할지 여부입니다. 기본값은 True입니다.
 
-| 속성 | Description |
-| :--- | :--- |
+---
 
-## 메소드
+### <kbd>property</kbd> Runs.length
 
-### `convert_objects`
+---
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L141-L173)
-
-```python
-convert_objects()
-```
-
-### `histories`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L175-L270)
+### <kbd>method</kbd> `Runs.histories`
 
 ```python
 histories(
-    samples: int = 500,
-    keys: Optional[List[str]] = None,
-    x_axis: str = "_step",
-    format: Literal['default', 'pandas', 'polars'] = "default",
-    stream: Literal['default', 'system'] = "default"
-)
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    format: "Literal['default', 'pandas', 'polars']" = 'default',
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
 ```
 
-필터 조건에 맞는 모든 runs에 대해 샘플링된 히스토리 메트릭을 반환합니다.
+필터 조건에 맞는 모든 runs 에 대해 샘플링된 history 메트릭을 반환합니다.
 
-| Args | Description |
-| :--- | :--- |
-|  `samples` |  (int, optional) run 당 반환할 샘플 수 |
-|  `keys` |  (list[str], optional) 특정 키에 대한 메트릭만 반환 |
-|  `x_axis` |  (str, optional) 이 메트릭을 xAxis로 사용, 기본값은 _step |
-|  `format` |  (Literal, optional) 데이터를 반환할 형식, 옵션은 "default", "pandas", "polars" |
-|  `stream` |  (Literal, optional) 메트릭의 경우 "default", 머신 메트릭의 경우 "system" |
+**Args:**
+ 
+ - `samples`:  run 당 반환할 샘플의 수
+ - `keys`:  특정 키에 대한 메트릭만 반환
+ - `x_axis`:  xAxis로 사용할 메트릭이며 기본값은 _step입니다.
+ - `format`:  데이터를 반환할 형식으로 "default", "pandas", "polars" 중 선택 가능합니다.
+ - `stream`:  메트릭의 경우 "default", 머신 메트릭의 경우 "system"
 
-| 반환 값 |  |
-| :--- | :--- |
-|  `pandas.DataFrame` |  format="pandas"인 경우, 히스토리 메트릭의 `pandas.DataFrame`을 반환합니다. |
-|  `polars.DataFrame` |  format="polars"인 경우, 히스토리 메트릭의 `polars.DataFrame`을 반환합니다. list of dicts: format="default"인 경우, run_id 키가 있는 히스토리 메트릭을 포함하는 dicts 목록을 반환합니다. |
+**Returns:**
+ 
+ - `pandas.DataFrame`:  `format="pandas"`인 경우, history 메트릭의 `pandas.DataFrame`을 반환합니다.
+ - `polars.DataFrame`:  `format="polars"`인 경우, history 메트릭의 `polars.DataFrame`을 반환합니다.
+ - `list of dicts`:  `format="default"`인 경우, `run_id` 키를 포함한 history 메트릭의 사전 리스트를 반환합니다.
 
-### `next`
+---
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+### <kbd>method</kbd> `Runs.upgrade_to_full`
 
 ```python
-next()
+upgrade_to_full() → None
 ```
 
-### `update_variables`
+이 Runs 컬렉션을 lazy 모드에서 full 모드로 업그레이드합니다.
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
-
-```python
-update_variables()
-```
-
-### `__getitem__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
-
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| 클래스 변수 |  |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+전체 run 데이터를 가져오도록 전환하고 이미 로드된 모든 Run 오브젝트가 전체 데이터를 갖도록 업그레이드합니다. 여러 runs 를 업그레이드할 때 성능 향상을 위해 병렬 로딩을 사용합니다.

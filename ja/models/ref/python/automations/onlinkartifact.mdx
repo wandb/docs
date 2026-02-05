@@ -1,0 +1,46 @@
+---
+title: OnLinkArtifact
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+## <kbd>class</kbd> `OnLinkArtifact`
+新しい Artifact がコレクションにリンクされたときに発生するイベントです。
+
+例:
+"my-collection" という名前のコレクションに、"prod" という エイリアス で Artifact がリンクされたときにトリガーされるイベントを定義します。
+
+```python
+from wandb import Api
+from wandb.automations import OnLinkArtifact, ArtifactEvent
+
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
+
+event = OnLinkArtifact(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
+
+### <kbd>method</kbd> `OnLinkArtifact.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[LINK_ARTIFACT]' = LINK_ARTIFACT,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**Args:**
+ 
+ - `event_type` (Literal[LINK_ARTIFACT]): 
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): イベントのスコープ。
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーするために必要な追加条件（ある場合）。
+
+**Returns:**
+ `OnLinkArtifact` オブジェクト。

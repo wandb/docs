@@ -1,17 +1,16 @@
 ---
-title: sweep で最良の run から Artifacts を見つけるにはどうすればよいですか？
-support:
-  - artifacts
-toc_hide: true
-type: docs
+title: Sweep の中から最高の結果を出した Run の Artifact を見つけるにはどうすればよいですか？
 ---
-アーティファクトを sweep の中で最も良いパフォーマンスを示した run から取得するには、次のコードを使用します。
+
+Sweep 内で最もパフォーマンスの高い Run から Artifacts を取得するには、以下のコードを使用します。
 
 ```python
 api = wandb.Api()
 sweep = api.sweep("entity/project/sweep_id")
+# val_acc を基準に run をソートし、最良の run を取得します
 runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 best_run = runs[0]
+# 最良の run でログに記録されたアーティファクトをダウンロードします
 for artifact in best_run.logged_artifacts():
     artifact_path = artifact.download()
     print(artifact_path)

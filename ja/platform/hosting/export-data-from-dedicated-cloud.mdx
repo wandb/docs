@@ -1,19 +1,19 @@
 ---
-title: 専用クラウドからデータをエクスポートする
-description: 専用クラウドからデータをエクスポートする
+title: 専用クラウド からの データ エクスポート
+description: 専用クラウド からの データ エクスポート
 ---
 
-もし専用クラウドインスタンスで管理されているすべてのデータをエクスポートしたい場合、W&B SDK APIを使用して、[インポートおよびエクスポートAPI](/ja/models/ref/python/public-api/)を利用して runs、メトリクス、Artifacts などを抽出できます。以下の表は、いくつかの主要なエクスポートユースケースについて説明しています。
+Dedicated Cloud インスタンスで管理されているすべてのデータをエクスポートしたい場合は、W&B SDK API を使用して、[Import and Export API](/models/ref/python/public-api/) から Runs、メトリクス、Artifacts などを抽出できます。以下の表は、主要なエクスポートの use case をまとめたものです。
 
 | 目的 | ドキュメント |
 |---------|---------------|
-| プロジェクトのメタデータをエクスポート | [Projects API](/ja/models/ref/python/public-api/projects/) |
-| プロジェクト内の runs をエクスポート | [Runs API](/ja/models/ref/python/public-api/runs/) |
-| レポートをエクスポート | [Reports API](/ja/models/reports/clone-and-export-reports/) |
-| Artifacts をエクスポート | [Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [Download and use artifacts](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| プロジェクトのメタデータをエクスポートする | [Projects API](/models/ref/python/public-api/projects) |
+| プロジェクト内の Runs をエクスポートする | [Runs API](/models/ref/python/public-api/runs) |
+| Reports をエクスポートする | [Report and Workspace API](/models/reports/clone-and-export-reports/) |
+| Artifacts をエクスポートする | [Explore artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/), [Download and use artifacts](/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-専用クラウドで保管されている Artifacts を [Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) で管理している場合、W&B SDK APIを使用してアーティファクトをエクスポートする必要はないかもしれません。
+[Secure Storage Connector](/platform/app/settings-page/teams/#secure-storage-connector) を使用して Dedicated Cloud に保存されている Artifacts を管理している場合は、W&B SDK API を使用して Artifacts をエクスポートする必要がない場合があります。
 
 <Note>
-大量の runs や Artifacts などがある場合、W&B SDK APIを使用してすべてのデータをエクスポートするのは遅くなる可能性があります。W&Bは、専用クラウドインスタンスを圧迫しないように、適切なサイズのバッチでエクスポートプロセスを実行することを推奨しています。
+大量の Runs や Artifacts などがある場合、W&B SDK API を使用してすべてのデータをエクスポートすると時間がかかることがあります。Dedicated Cloud インスタンスに過度な負荷をかけないよう、エクスポートの process を適切なサイズのバッチに分けて実行することをお勧めします。
 </Note>

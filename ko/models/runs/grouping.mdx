@@ -1,47 +1,134 @@
 ---
-title: Group runs into experiments
-description: 트레이닝 및 평가 run을 그룹화하여 더 큰 Experiments로 구성
+title: Run 구성하기
+description: thoughtful_thought Run 을 그룹 및 기타 속성별로 정리합니다.
 ---
 
-개별 작업을 **wandb.init()** 에 고유한 **group** 이름을 전달하여 Experiments 로 그룹화합니다.
+여러분의 run을 *groups*로 정리하세요. group은 특정 모델을 위한 training run이나 특정 데이터셋을 위한 evaluation run과 같이 공통된 목적을 공유하는 run들의 집합입니다.
 
-## 유스 케이스
+또한 *job type*과 같은 다른 속성으로도 run을 구성할 수 있습니다. [Job types](/models/runs/grouping#organize-runs-by-job-type)은 `preprocessing`, `training`, 또는 `evaluation`과 같이 run의 기능을 나타냅니다.
 
-1. **분산 트레이닝:** Experiments 가 별도의 트레이닝 및 평가 스크립트로 분할되어 더 큰 전체의 일부로 보아야 하는 경우 그룹화를 사용합니다.
-2. **다중 프로세스**: 여러 개의 작은 프로세스를 하나의 experiment 로 그룹화합니다.
-3. **K-겹 교차 검증**: 더 큰 experiment 를 보기 위해 다른 임의 시드를 가진 Runs 를 함께 그룹화합니다. 다음은 스윕 및 그룹화를 사용한 k-겹 교차 검증의 [예제](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation)입니다.
+{/* 
+### Define groups using environment variables
 
-그룹화를 설정하는 세 가지 방법이 있습니다.
+Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
-### 1. 스크립트에서 그룹 설정
+## Organize runs into groups
 
-선택적 group 및 job_type 을 wandb.init() 에 전달합니다. 이렇게 하면 각 experiment 에 대한 전용 그룹 페이지가 제공되며, 여기에는 개별 Runs 가 포함됩니다. 예를 들면 다음과 같습니다. `wandb.init(group="experiment_1", job_type="eval")`
+W&B Python SDK를 사용하여 프로그래밍 방식으로 또는 W&B App에서 대화형으로 run을 group에 추가할 수 있습니다.
 
-### 2. 그룹 환경 변수 설정
+<Note>
+W&B는 group 이름을 run의 [`wandb.Run.group`](/models/ref/python/experiments/run#property-run-group) 속성으로 저장합니다.
+</Note>
 
-`WANDB_RUN_GROUP` 를 사용하여 Runs 에 대한 그룹을 환경 변수로 지정합니다. 자세한 내용은 [**환경 변수**](/ko/models/track/environment-variables/)**에 대한 문서를 확인하세요. Group** 은 프로젝트 내에서 고유해야 하며 그룹의 모든 Runs 에서 공유해야 합니다. `wandb.util.generate_id()` 를 사용하여 모든 프로세스에서 사용할 고유한 8자 문자열을 생성할 수 있습니다. 예를 들어 `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` 와 같습니다.
+<Tabs>
+<Tab title="Python SDK">
+W&B Python SDK를 사용하여 프로그래밍 방식으로 하나 이상의 run을 group에 추가합니다. `wandb.init(group="")`으로 run을 초기화할 때 group의 이름을 `group` 파라미터의 인수로 전달하세요. group 이름을 사용하여 W&B App에서 run을 정리하고 필터링할 수 있습니다.
 
-### 3. UI에서 그룹화 전환
+다음 예시는 `A`, `B`, `C`라는 이름의 세 가지 group을 생성합니다. 각 group에는 세 개의 run이 포함되어 있습니다.
 
-구성 열별로 동적으로 그룹화할 수 있습니다. 예를 들어 `wandb.config` 를 사용하여 배치 크기 또는 학습률을 로그하면 웹 앱에서 해당 하이퍼파라미터별로 동적으로 그룹화할 수 있습니다.
+```python
+import wandb
 
-## 그룹화를 사용한 분산 트레이닝
+entity = "<entity>"
+project = "<project>"
 
-`wandb.init()` 에서 그룹화를 설정하면 UI에서 기본적으로 Runs 가 그룹화됩니다. 테이블 상단의 **Group** 버튼을 클릭하여 이를 켜거나 끌 수 있습니다. 그룹화를 설정한 [샘플 코드](http://wandb.me/grouping)에서 생성된 [예제 프로젝트](https://wandb.ai/carey/group-demo?workspace=user-carey)가 있습니다. 사이드바에서 각 "Group" 행을 클릭하여 해당 experiment 에 대한 전용 그룹 페이지로 이동할 수 있습니다.
+for group in ["A", "B", "C"]:
+    for i in range(3):
+        # run을 초기화할 때 group 파라미터를 지정합니다.
+        with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
+            # 트레이닝 시뮬레이션
+            for step in range(100):
+                run.log({
+                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                    "loss": 1.0 - (step / 100) * 0.5
+                })
+```
 
-위의 프로젝트 페이지에서 왼쪽 사이드바의 **Group** 을 클릭하여 [이 페이지](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey)와 같은 전용 페이지로 이동할 수 있습니다.
+프로젝트의 Workspace 에서 group별로 정리된 run을 볼 수 있습니다. 다음 이미지는 group 이름으로 run 테이블을 구성한 모습을 보여줍니다. `A`, `B`, `C`라는 이름의 세 가지 group이 run 테이블에 나타나며, 각각 세 개의 run을 포함하고 있습니다.
 
-## UI에서 동적으로 그룹화
+<Frame>
+    <img src="/images/runs/group_name_3_groups.png" alt="Runs table grouped by group name"  />
+</Frame>
+</Tab>
+<Tab title="W&B App">
 
-예를 들어 하이퍼파라미터별로 열별로 Runs 를 그룹화할 수 있습니다. 다음은 그 모양의 예입니다.
+1. W&B 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+3. run 리스트 상단에서 **Group** 버튼을 클릭합니다.
+4. 그룹화하려는 하나 이상의 run 옆에 있는 체크박스를 클릭합니다.
+5. **Move to group**을 선택합니다.
+6. 서랍(drawer) 메뉴에서 기존 group을 선택하거나 새 group을 생성합니다.
+</Tab>
+</Tabs>
 
-* **사이드바**: Runs 는 에포크 수별로 그룹화됩니다.
-* **그래프**: 각 선은 그룹의 평균을 나타내고 음영은 분산을 나타냅니다. 이 동작은 그래프 설정에서 변경할 수 있습니다.
+### View groups
 
-## 그룹화 끄기
+W&B App에서 group별로 정리된 run을 확인하세요:
 
-언제든지 그룹화 버튼을 클릭하고 그룹 필드를 지우면 테이블과 그래프가 그룹 해제된 상태로 돌아갑니다.
+1. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+2. run 리스트 상단에서 **Group** 버튼을 클릭합니다.
+3. 드롭다운에서 **Group**을 선택합니다.
 
-## 그룹화 그래프 설정
+### Move runs between groups
 
-그래프 오른쪽 상단 모서리에 있는 편집 버튼을 클릭하고 **Advanced** 탭을 선택하여 선과 음영을 변경합니다. 각 그룹에서 선의 평균, 최소값 또는 최대값을 선택할 수 있습니다. 음영의 경우 음영을 끄고 최소값과 최대값, 표준 편차 및 표준 오차를 표시할 수 있습니다.
+Run을 한 group에서 다른 group으로 이동하기:
+
+1. W&B 프로젝트로 이동합니다.
+1. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+1. 체크박스를 클릭하여 하나 이상의 run을 선택합니다.
+1. 테이블 상단에서 **Move to group**을 클릭합니다.
+1. 서랍 메뉴 내에서 대상 group을 선택하거나 새 group을 생성합니다.
+1. **Move**를 클릭합니다.
+
+### Remove runs from a group
+
+1. W&B 프로젝트로 이동합니다.
+1. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+1. run 리스트 상단에서 **Group** 버튼을 클릭합니다.
+1. 드롭다운에서 제거하려는 group 이름 옆의 **X**를 클릭합니다.
+
+### Delete a group
+Group을 삭제하려면 해당 group에서 모든 run을 제거하세요. 그러면 group이 자동으로 삭제됩니다.
+
+## Organize runs by job type
+
+Run을 *job type*별로 정리하세요. job 유형은 `preprocessing`, `training`, 또는 `evaluation`과 같은 run의 기능을 나타냅니다.
+
+<Note>
+Run의 [`wandb.Run.job_type`](/models/ref/python/experiments/run#property-run-job-type) 속성에 엑세스하여 run의 job 유형을 확인할 수 있습니다.
+</Note>
+
+`wandb.init(job_type="")`에 `job_type` 파라미터를 전달하여 run에 job 유형을 추가합니다. 예를 들어, 다음 코드 조각은 `training` 또는 `evaluation` 중 하나의 job 유형을 가진 run을 생성합니다.
+
+```python
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+for job_type in ["training", "evaluation"]:
+    for i in range(2):
+        # job_type 파라미터를 사용하여 run의 역할을 명시합니다.
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # 프로세스 시뮬레이션
+            for step in range(50):
+                run.log({
+                    "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
+                    "metric2": 0.8 - (step / 50) * 0.3
+                })
+
+```
+
+다음 이미지는 job 유형별로 정리된 run을 보여줍니다.
+
+<Frame>
+    <img src="/images/runs/group_job_type.png" alt="Ungrouped runs table"  />
+</Frame>
+
+### View runs organized by job type
+
+W&B App에서 group별로 정리된 run을 확인하세요:
+
+1. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+2. run 리스트 상단에서 **Group** 버튼을 클릭합니다.
+3. 드롭다운에서 **Job Type**을 선택합니다.

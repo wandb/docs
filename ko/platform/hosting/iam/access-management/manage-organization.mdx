@@ -1,327 +1,329 @@
 ---
-title: Manage your organization
+title: 조직 관리하기
 ---
 
-Organizations의 관리자는 Organization 내에서 [개별 사용자를 관리](#add-and-manage-users)하고 [Teams를 관리](#add-and-manage-teams)할 수 있습니다.
+조직의 관리자로서 귀하는 조직 내 [개별 사용자를 관리](#add-and-manage-users)하고 [팀을 관리](#add-and-manage-teams)할 수 있습니다.
 
-Team 관리자는 [Teams를 관리](#add-and-manage-teams)할 수 있습니다.
+팀 관리자로서 귀하는 [팀을 관리](#add-and-manage-teams)할 수 있습니다.
 
 <Note>
-다음 워크플로우는 인스턴스 관리자 역할을 가진 사용자에게 적용됩니다. 인스턴스 관리자 권한이 있어야 한다고 생각되면 Organization의 관리자에게 문의하십시오.
+다음 워크플로우는 인스턴스 관리자 권한이 있는 사용자에게 적용됩니다. 인스턴스 관리자 권한이 필요하다고 생각되면 조직의 관리자에게 문의하세요.
 </Note>
 
-Organization에서 사용자 관리를 간소화하려면 [사용자 및 Team 관리 자동화](/ko/platform/hosting/iam/automate_iam/)를 참조하십시오.
+조직의 사용자 관리를 간소화하려면 [사용자 및 팀 관리 자동화](../automate_iam)를 참조하세요.
 
-## Organization 이름 변경
+{/* W&B assigns an Admin role to new users within an organization by default. */}
 
+## 조직 이름 변경하기
 <Note>
-다음 워크플로우는 W&B Multi-tenant SaaS Cloud에만 적용됩니다.
+다음 워크플로우는 W&B Multi-tenant Cloud에만 적용됩니다.
 </Note>
 
 1. https://wandb.ai/home 으로 이동합니다.
-2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운의 **Account** 섹션에서 **Settings**를 선택합니다.
-3. **Settings** 탭에서 **General**을 선택합니다.
-4. **Change name** 버튼을 선택합니다.
-5. 나타나는 모달에서 Organization의 새 이름을 입력하고 **Save name** 버튼을 선택합니다.
+2. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운의 **계정** 섹션에서 **설정**을 선택합니다.
+3. **설정** 탭에서 **일반**을 선택합니다.
+4. **이름 변경** 버튼을 선택합니다.
+5. 나타나는 모달창에 조직의 새 이름을 입력하고 **이름 저장** 버튼을 선택합니다.
 
 ## 사용자 추가 및 관리
 
-관리자는 Organization의 대시보드를 사용하여 다음을 수행할 수 있습니다.
-- 사용자 초대 또는 제거
-- 사용자의 Organization 역할 할당 또는 업데이트, 사용자 지정 역할 생성
-- 결제 관리자 할당
+관리자는 조직의 대시보드를 사용하여 다음을 수행할 수 있습니다.
+- 사용자 초대 또는 제거.
+- 사용자의 조직 역할 할당 또는 업데이트, 커스텀 역할 생성.
+- 결제 관리자 지정.
 
-Organization 관리자가 사용자를 Organization에 추가할 수 있는 방법은 여러 가지가 있습니다.
+조직 관리자가 조직에 사용자를 추가하는 방법에는 여러 가지가 있습니다.
 
-1. Member-by-invite
-2. SSO를 사용한 자동 프로비저닝
+1. 초대를 통한 멤버 추가
+2. SSO를 이용한 자동 프로비저닝
 3. 도메인 캡처
 
-### Seats 및 가격
+### Seats 및 요금 체계
 
-다음 표는 Models 및 Weave의 Seats 작동 방식을 요약한 것입니다.
+다음 표는 Models 및 Weave에 대한 seat 작동 방식을 요약한 것입니다.
 
 | 제품 | Seats | 비용 기준 |
 | ----- | ----- | ----- |
-| Models | 설정당 지불 | 보유한 Models 유료 Seats 수와 발생한 사용량에 따라 전체 구독 비용이 결정됩니다. 각 사용자는 Full, Viewer, No-Access의 세 가지 사용 가능한 Seat 유형 중 하나를 할당받을 수 있습니다. |
-| Weave | 무료 | 사용량 기준 |
+| Models | 세트당 결제 | 보유한 Models 유료 seat 수와 누적 사용량에 따라 전체 구독 비용이 결정됩니다. 각 사용자에게는 Full, Viewer, No-Access의 세 가지 seat 유형 중 하나를 할당할 수 있습니다. |
+| Weave | 무료 | 사용량 기반 |
 
-### 사용자 초대
+### 사용자 초대하기
 
-관리자는 사용자를 Organization 내의 특정 Teams뿐만 아니라 Organization에 초대할 수 있습니다.
+관리자는 조직뿐만 아니라 조직 내 특정 팀에 사용자를 초대할 수 있습니다.
 
 <Tabs>
-<Tab title="Multi-tenant SaaS Cloud">
+<Tab title="Multi-tenant Cloud">
 1. https://wandb.ai/home 으로 이동합니다.
-1. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운의 **Account** 섹션에서 **Users**를 선택합니다.
-3. **Invite new user**를 선택합니다.
-4. 나타나는 모달에서 **Email or username** 필드에 사용자의 이메일 또는 사용자 이름을 입력합니다.
-5. (권장) **Choose teams** 드롭다운 메뉴에서 사용자를 Team에 추가합니다.
-6. **Select role** 드롭다운에서 사용자에게 할당할 역할을 선택합니다. 사용자의 역할은 나중에 변경할 수 있습니다. 가능한 역할에 대한 자세한 내용은 [역할 할당](#assign-or-update-a-team-members-role)에 나열된 표를 참조하십시오.
-7. **Send invite** 버튼을 선택합니다.
+1. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운의 **계정** 섹션에서 **사용자**를 선택합니다.
+3. **새 사용자 초대**를 선택합니다.
+4. 나타나는 모달창의 **이메일 또는 사용자 이름** 필드에 사용자의 이메일 또는 사용자 이름을 입력합니다.
+5. (권장) **팀 선택** 드롭다운 메뉴에서 사용자를 팀에 추가합니다.
+6. **역할 선택** 드롭다운에서 사용자에게 할당할 역할을 선택합니다. 사용자의 역할은 나중에 변경할 수 있습니다. 가능한 역할에 대한 자세한 내용은 [역할 할당](#assign-or-update-a-team-members-role)에 나열된 표를 참조하세요.
+7. **초대 보내기** 버튼을 선택합니다.
 
-**Send invite** 버튼을 선택하면 W&B에서 타사 이메일 서버를 사용하여 사용자 이메일로 초대 링크를 보냅니다. 사용자는 초대를 수락하면 Organization에 액세스할 수 있습니다.
+**초대 보내기** 버튼을 선택하면 W&B는 타사 이메일 서버를 통해 사용자의 이메일로 초대 링크를 보냅니다. 사용자가 초대를 수락하면 조직에 엑세스할 수 있습니다.
 </Tab>
-<Tab title="Dedicated or Self-Managed">
-1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 Organization 이름으로 바꿉니다.
-2. **Add user** 버튼을 선택합니다.
-3. 나타나는 모달에서 **Email** 필드에 새 사용자의 이메일을 입력합니다.
-4. **Role** 드롭다운에서 사용자에게 할당할 역할을 선택합니다. 사용자의 역할은 나중에 변경할 수 있습니다. 가능한 역할에 대한 자세한 내용은 [역할 할당](#assign-or-update-a-team-members-role)에 나열된 표를 참조하십시오.
-5. W&B에서 타사 이메일 서버를 사용하여 사용자 이메일로 초대 링크를 보내려면 **Send invite email to user** 상자를 선택합니다.
-6. **Add new user** 버튼을 선택합니다.
+<Tab title="Dedicated Cloud 또는 Self-Managed">
+1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 조직 이름으로 바꿉니다.
+2. **사용자 추가** 버튼을 선택합니다.
+3. 나타나는 모달창의 **이메일** 필드에 새 사용자의 이메일을 입력합니다.
+4. **역할** 드롭다운에서 사용자에게 할당할 역할을 선택합니다. 사용자의 역할은 나중에 변경할 수 있습니다. 가능한 역할에 대한 자세한 내용은 [역할 할당](#assign-or-update-a-team-members-role)에 나열된 표를 참조하세요.
+5. W&B가 타사 이메일 서버를 사용하여 사용자의 이메일로 초대 링크를 보내길 원하면 **사용자에게 초대 이메일 보내기** 박스를 체크합니다.
+6. **새 사용자 추가** 버튼을 선택합니다.
 </Tab>
 </Tabs>
 
 ### 사용자 자동 프로비저닝
 
-SSO를 구성하고 SSO 제공업체에서 허용하는 경우 일치하는 이메일 도메인을 가진 W&B 사용자는 Single Sign-On (SSO)으로 W&B Organization에 로그인할 수 있습니다. SSO는 모든 Enterprise 라이선스에서 사용할 수 있습니다.
+SSO를 구성하고 SSO 제공업체가 허용하는 경우, 이메일 도메인이 일치하는 W&B 사용자는 Single Sign-On (SSO)으로 W&B 조직에 로그인할 수 있습니다. SSO는 모든 Enterprise 라이선스에서 사용할 수 있습니다.
 
 <Note>
-**인증을 위해 SSO 활성화**
+**인증을 위한 SSO 활성화**
 
-W&B는 사용자가 Single Sign-On (SSO)을 사용하여 인증할 것을 강력히 권장합니다. Organization에 대해 SSO를 활성화하려면 W&B Team에 문의하십시오.
+W&B는 사용자가 Single Sign-On (SSO)을 사용하여 인증할 것을 강력히 권장합니다. 조직에 SSO를 활성화하려면 W&B 팀에 문의하세요.
 
-Dedicated Cloud 또는 Self-Managed 인스턴스로 SSO를 설정하는 방법에 대한 자세한 내용은 [OIDC를 사용한 SSO](/ko/platform/hosting/iam/sso/) 또는 [LDAP를 사용한 SSO](/ko/platform/hosting/iam/ldap/)를 참조하십시오.
+Dedicated Cloud 또는 Self-Managed 인스턴스에서 SSO를 설정하는 방법에 대한 자세한 내용은 [OIDC를 통한 SSO](/platform/hosting/iam/sso/) 또는 [LDAP를 통한 SSO](/platform/hosting/iam/ldap/)를 참조하세요.
 </Note>
 
-W&B는 자동 프로비저닝 사용자에게 기본적으로 "Member" 역할을 할당합니다. 자동 프로비저닝 사용자의 역할은 언제든지 변경할 수 있습니다.
+W&B는 자동 프로비저닝 사용자에게 기본적으로 "Member" 역할을 할당합니다. 자동 프로비저닝된 사용자의 역할은 언제든지 변경할 수 있습니다.
 
-SSO를 통한 자동 프로비저닝 사용자는 Dedicated Cloud 인스턴스 및 Self-Managed 배포에서 기본적으로 켜져 있습니다. 자동 프로비저닝을 끌 수 있습니다. 자동 프로비저닝을 끄면 특정 사용자를 W&B Organization에 선택적으로 추가할 수 있습니다.
+Dedicated Cloud 인스턴스 및 Self-Managed 배포의 경우 SSO를 통한 자동 프로비저닝이 기본적으로 켜져 있습니다. 자동 프로비저닝을 끌 수 있습니다. 자동 프로비저닝을 끄면 특정 사용자를 W&B 조직에 선택적으로 추가할 수 있습니다.
 
-다음 탭에서는 배포 유형에 따라 SSO를 끄는 방법을 설명합니다.
+다음 탭은 배포 유형에 따라 자동 프로비저닝을 끄는 방법을 설명합니다.
 
 <Tabs>
-<Tab title="Dedicated Cloud">
-Dedicated Cloud 인스턴스를 사용 중이고 SSO를 통한 자동 프로비저닝을 끄려면 W&B Team에 문의하십시오.
+<Tab title="Multi-tenant Cloud">
+Multi-tenant Cloud에서는 SSO를 통한 자동 프로비저닝을 구성할 수 없습니다. 도움이 필요하시면 W&B 팀에 문의하세요.
 </Tab>
-<Tab title="Self-Managed">
-W&B Console을 사용하여 SSO를 통한 자동 프로비저닝을 끕니다.
+<Tab title="Dedicated Cloud 또는 Self-Managed">
+Dedicated Cloud 인스턴스의 경우, SSO를 통한 자동 프로비저닝을 끄려면 W&B 팀에 문의하세요.
 
-1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 Organization 이름으로 바꿉니다.
+Self-Managed 배포의 경우, W&B Console을 사용하여 SSO 자동 프로비저닝을 끕니다.
+
+1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 조직 이름으로 바꿉니다.
 2. **Security**를 선택합니다.
-3. **Disable SSO Provisioning**을 선택하여 SSO를 통한 자동 프로비저닝을 끕니다.
+3. **Disable SSO Provisioning**을 선택하여 SSO 자동 프로비저닝을 끕니다.
+
+{/* For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO. */}
 </Tab>
 </Tabs>
 
 <Note>
-SSO를 통한 자동 프로비저닝은 Organization 관리자가 개별 사용자 초대를 생성할 필요가 없기 때문에 대규모로 사용자를 Organization에 추가하는 데 유용합니다.
+SSO를 통한 자동 프로비저닝은 조직 관리자가 개별 사용자 초대를 생성할 필요가 없기 때문에 대규모로 사용자를 조직에 추가할 때 유용합니다.
 </Note>
-
-### 사용자 지정 역할 만들기
-
-<Note>
-Dedicated Cloud 또는 Self-Managed 배포에서 사용자 지정 역할을 만들거나 할당하려면 Enterprise 라이선스가 필요합니다.
-</Note>
-
-Organization 관리자는 View-Only 또는 Member 역할을 기반으로 새 역할을 구성하고 세분화된 엑세스 제어를 위해 추가 권한을 추가할 수 있습니다. Team 관리자는 Team member에게 사용자 지정 역할을 할당할 수 있습니다. 사용자 지정 역할은 Organization 수준에서 생성되지만 Team 수준에서 할당됩니다.
-
-사용자 지정 역할을 만들려면:
-
-<Tabs>
-<Tab title="Multi-tenant SaaS Cloud">
-1. https://wandb.ai/home 으로 이동합니다.
-1. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운의 **Account** 섹션에서 **Settings**를 선택합니다.
-1. **Roles**를 클릭합니다.
-1. **Custom roles** 섹션에서 **Create a role**을 클릭합니다.
-1. 역할 이름을 입력합니다. 선택적으로 설명을 입력합니다.
-1. 사용자 지정 역할의 기반으로 사용할 역할을 선택합니다 (**Viewer** 또는 **Member**).
-1. 권한을 추가하려면 **Search permissions** 필드를 클릭한 다음 추가할 권한을 하나 이상 선택합니다.
-1. 역할에 있는 권한을 요약하는 **Custom role permissions** 섹션을 검토합니다.
-1. **Create Role**을 클릭합니다.
-</Tab>
-<Tab title="Dedicated or Self-Managed">
-W&B Console을 사용하여 SSO를 통한 자동 프로비저닝을 끕니다.
-
-1. `https://<org-name>.io/console/settings/`로 이동합니다. `<org-name>`을 Organization 이름으로 바꿉니다.
-1. **Custom roles** 섹션에서 **Create a role**을 클릭합니다.
-1. 역할 이름을 입력합니다. 선택적으로 설명을 입력합니다.
-1. 사용자 지정 역할의 기반으로 사용할 역할을 선택합니다 (**Viewer** 또는 **Member**).
-1. 권한을 추가하려면 **Search permissions** 필드를 클릭한 다음 추가할 권한을 하나 이상 선택합니다.
-1. 역할에 있는 권한을 요약하는 **Custom role permissions** 섹션을 검토합니다.
-1. **Create Role**을 클릭합니다.
-</Tab>
-</Tabs>
-
-이제 Team 관리자는 [Team 설정](#invite-users-to-a-team)에서 Team의 구성원에게 사용자 지정 역할을 할당할 수 있습니다.
 
 ### 도메인 캡처
-
-도메인 캡처는 직원이 회사 Organization에 가입하여 새 사용자가 회사 관할 구역 외부에서 에셋을 생성하지 않도록 하는 데 도움이 됩니다.
+도메인 캡처는 직원이 회사의 조직에 가입하도록 도와주어, 새 사용자가 회사의 관할권 밖에서 자산을 생성하지 않도록 보장합니다.
 
 <Note>
-**도메인은 고유해야 합니다.**
+**도메인은 고유해야 합니다**
 
-도메인은 고유한 식별자입니다. 즉, 다른 Organization에서 이미 사용 중인 도메인은 사용할 수 없습니다.
+도메인은 고유한 식별자입니다. 즉, 다른 조직에서 이미 사용 중인 도메인은 사용할 수 없습니다.
 </Note>
 
 <Tabs>
-<Tab title="Multi-tenant SaaS Cloud">
-도메인 캡처를 사용하면 `@example.com`과 같은 회사 이메일 주소를 가진 사람들을 W&B SaaS Cloud Organization에 자동으로 추가할 수 있습니다. 이는 모든 직원이 올바른 Organization에 가입하고 새 사용자가 회사 관할 구역 외부에서 에셋을 생성하지 않도록 하는 데 도움이 됩니다.
+<Tab title="Multi-tenant Cloud">
+도메인 캡처를 사용하면 `@example.com`과 같은 회사 이메일 주소를 가진 사람들을 W&B Multi-tenant Cloud 조직에 자동으로 추가할 수 있습니다. 이는 모든 직원이 올바른 조직에 가입하도록 돕고 새 사용자가 회사 관할권 밖에서 자산을 생성하지 않도록 보장합니다.
 
-다음 표는 도메인 캡처 활성화 여부에 따른 신규 및 기존 사용자의 행동을 요약한 것입니다.
+이 표는 도메인 캡처 활성화 여부에 따른 신규 및 기존 사용자의 동작을 요약한 것입니다.
 
-| | 도메인 캡처 사용 | 도메인 캡처 사용 안 함 |
+| | 도메인 캡처 활성화 시 | 도메인 캡처 비활성화 시 |
 | ----- | ----- | ----- |
-| 신규 사용자 | 확인된 도메인에서 W&B에 가입하는 사용자는 Organization의 기본 Team에 자동으로 구성원으로 추가됩니다. Team 가입을 활성화하면 가입 시 추가 Team을 선택할 수 있습니다. 초대장을 통해 다른 Organization 및 Team에 가입할 수도 있습니다. | 사용자는 사용 가능한 중앙 집중식 Organization이 있는지 모르고 W&B 계정을 만들 수 있습니다. |
-| 초대된 사용자 | 초대된 사용자는 초대를 수락하면 자동으로 Organization에 가입합니다. 초대된 사용자는 Organization의 기본 Team에 자동으로 구성원으로 추가되지 않습니다. 초대장을 통해 다른 Organization 및 Team에 가입할 수도 있습니다. | 초대된 사용자는 초대를 수락하면 자동으로 Organization에 가입합니다. 초대장을 통해 다른 Organization 및 Team에 가입할 수도 있습니다. |
-| 기존 사용자 | 도메인의 확인된 이메일 주소를 가진 기존 사용자는 W&B 앱 내에서 Organization의 Teams에 가입할 수 있습니다. 기존 사용자가 Organization에 가입하기 전에 생성한 모든 데이터는 유지됩니다. W&B는 기존 사용자의 데이터를 마이그레이션하지 않습니다. | 기존 W&B 사용자는 여러 Organization 및 Teams에 분산될 수 있습니다. |
+| 신규 사용자 | 인증된 도메인으로 W&B에 가입한 사용자는 조직의 기본 팀에 멤버로 자동으로 추가됩니다. 가입 시 팀 가입 기능을 활성화한 경우 가입할 추가 팀을 선택할 수 있습니다. 초대장을 통해 다른 조직 및 팀에 가입하는 것도 여전히 가능합니다. | 사용자는 중앙 집중식 조직이 있다는 사실을 모른 채 W&B 계정을 생성할 수 있습니다. |
+| 초대된 사용자 | 초대된 사용자는 초대를 수락하면 자동으로 조직에 가입됩니다. 초대된 사용자는 조직의 기본 팀에 멤버로 자동으로 추가되지 않습니다. 초대장을 통해 다른 조직 및 팀에 가입하는 것도 여전히 가능합니다. | 초대된 사용자는 초대를 수락하면 자동으로 조직에 가입됩니다. 초대장을 통해 다른 조직 및 팀에 가입하는 것도 여전히 가능합니다. |
+| 기존 사용자 | 귀하의 도메인에서 인증된 이메일 주소를 가진 기존 사용자는 W&B App 내에서 조직의 팀에 가입할 수 있습니다. 기존 사용자가 조직에 가입하기 전에 생성한 모든 데이터는 유지됩니다. W&B는 기존 사용자의 데이터를 마이그레이션하지 않습니다. | 기존 W&B 사용자가 여러 조직과 팀에 흩어져 있을 수 있습니다. |
 
-초대받지 않은 신규 사용자가 Organization에 가입할 때 기본 Team에 자동으로 할당하려면:
+초대되지 않은 신규 사용자가 조직에 가입할 때 기본 팀에 자동으로 할당되도록 하려면 다음을 수행하세요.
 
 1. https://wandb.ai/home 으로 이동합니다.
-2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Settings**를 선택합니다.
-3. **Settings** 탭에서 **General**을 선택합니다.
-4. **Domain capture** 내에서 **Claim domain** 버튼을 선택합니다.
-5. **Default team** 드롭다운에서 새 사용자를 자동으로 가입시킬 Team을 선택합니다. 사용 가능한 Team이 없으면 Team 설정을 업데이트해야 합니다. [Teams 추가 및 관리](#add-and-manage-teams)의 지침을 참조하십시오.
-6. **Claim email domain** 버튼을 클릭합니다.
+2. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운에서 **설정**을 선택합니다.
+3. **설정** 탭에서 **일반**을 선택합니다.
+4. **도메인 캡처** 내에서 **도메인 점유(Claim domain)** 버튼을 선택합니다.
+5. **기본 팀** 드롭다운에서 신규 사용자가 자동으로 가입하길 원하는 팀을 선택합니다. 가용한 팀이 없는 경우 팀 설정을 업데이트해야 합니다. [팀 추가 및 관리](#add-and-manage-teams)의 지침을 참조하세요.
+6. **이메일 도메인 점유** 버튼을 클릭합니다.
 
-초대받지 않은 신규 사용자를 Team에 자동으로 할당하려면 먼저 Team 설정 내에서 도메인 일치를 활성화해야 합니다.
+초대되지 않은 신규 사용자를 해당 팀에 자동으로 할당하려면 먼저 팀 설정에서 도메인 일치를 활성화해야 합니다.
 
-1. `https://wandb.ai/<team-name>`에서 Team의 대시보드로 이동합니다. 여기서 `<team-name>`은 도메인 일치를 활성화할 Team의 이름입니다.
-2. Team 대시보드의 왼쪽 탐색 모음에서 **Team settings**를 선택합니다.
-3. **Privacy** 섹션 내에서 "가입 시 일치하는 이메일 도메인을 가진 새 사용자가 이 Team에 가입하도록 추천" 옵션을 토글합니다.
+1. `https://wandb.ai/<team-name>`의 팀 대시보드로 이동합니다. 여기서 `<team-name>`은 도메인 일치를 활성화하려는 팀의 이름입니다.
+2. 팀 대시보드 왼쪽의 글로벌 네비게이션에서 **팀 설정**을 선택합니다.
+3. **Privacy** 섹션에서 "이메일 도메인이 일치하는 신규 사용자가 가입 시 이 팀에 합류하도록 권장" 옵션을 토글합니다.
 </Tab>
-<Tab title="Dedicated or Self-Managed">
-도메인 캡처를 구성하려면 Dedicated 또는 Self-Managed 배포 유형을 사용하는 경우 W&B Account Team에 문의하십시오. 구성되면 W&B SaaS 인스턴스는 회사 이메일 주소로 W&B 계정을 만드는 사용자에게 관리자에게 연락하여 Dedicated 또는 Self-Managed 인스턴스에 대한 엑세스를 요청하라는 메시지를 자동으로 표시합니다.
+<Tab title="Dedicated Cloud 또는 Self-Managed">
+Dedicated Cloud 또는 Self-Managed 배포 유형을 사용하는 경우 도메인 캡처를 구성하려면 W&B 계정 팀에 문의하세요. 구성이 완료되면, 귀하의 회사 이메일 주소로 W&B 계정을 생성하는 사용자에게 관리자에게 연락하여 Dedicated Cloud 또는 Self-Managed 인스턴스에 대한 엑세스를 요청하도록 W&B Multi-tenant Cloud 인스턴스에서 자동으로 안내합니다.
 
-| | 도메인 캡처 사용 | 도메인 캡처 사용 안 함 |
+| | 도메인 캡처 활성화 시 | 도메인 캡처 비활성화 시 |
 | ----- | ----- | -----|
-| 신규 사용자 | 확인된 도메인에서 SaaS Cloud에서 W&B에 가입하는 사용자는 사용자 지정하는 이메일 주소로 관리자에게 연락하라는 메시지가 자동으로 표시됩니다. SaaS Cloud에서 Organizations을 만들어 제품을 트라이얼할 수도 있습니다. | 사용자는 회사에 중앙 집중식 Dedicated 인스턴스가 있다는 것을 모른 채 W&B SaaS Cloud 계정을 만들 수 있습니다. |
-| 기존 사용자 | 기존 W&B 사용자는 여러 Organization 및 Teams에 분산될 수 있습니다. | 기존 W&B 사용자는 여러 Organization 및 Teams에 분산될 수 있습니다. |
+| 신규 사용자 | Multi-tenant Cloud에서 인증된 도메인으로 가입하는 사용자에게 귀하가 맞춤 설정한 이메일 주소로 관리자에게 연락하도록 자동으로 안내합니다. 제품 트라이얼을 위해 Multi-tenant Cloud에서 조직을 생성하는 것은 여전히 가능합니다. | 사용자는 회사에 중앙 집중식 전용 인스턴스가 있다는 사실을 모른 채 W&B Multi-tenant Cloud 계정을 생성할 수 있습니다. |
+| 기존 사용자 | 기존 W&B 사용자가 여러 조직과 팀에 흩어져 있을 수 있습니다. | 기존 W&B 사용자가 여러 조직과 팀에 흩어져 있을 수 있습니다. |
 </Tab>
 </Tabs>
 
 ### 사용자의 역할 할당 또는 업데이트
 
-Organization의 모든 구성원은 W&B Models 및 Weave 모두에 대한 Organization 역할과 Seat를 갖습니다. 그들이 가지고 있는 Seat 유형은 그들의 결제 상태와 각 제품 라인에서 그들이 할 수 있는 작업을 결정합니다.
+조직의 모든 멤버는 W&B Models와 Weave 모두에 대해 조직 역할과 seat을 가집니다. 보유한 seat 유형에 따라 결제 상태와 각 제품군에서 수행할 수 있는 작업이 결정됩니다.
 
-사용자를 Organization에 초대할 때 처음으로 Organization 역할을 할당합니다. 나중에 사용자의 역할을 변경할 수 있습니다.
+사용자를 조직에 초대할 때 처음으로 조직 역할을 할당합니다. 사용자의 역할은 나중에 언제든지 변경할 수 있습니다.
 
-Organization 내의 사용자는 다음 역할 중 하나를 가질 수 있습니다.
+조직 내 사용자는 다음 역할 중 하나를 가질 수 있습니다.
 
 | 역할 | 설명 |
 | ----- | ----- |
-| admin | 다른 사용자를 Organization에 추가하거나 제거하고, 사용자 역할을 변경하고, 사용자 지정 역할을 관리하고, Teams를 추가할 수 있는 인스턴스 관리자입니다. W&B는 관리자가 부재중인 경우를 대비하여 둘 이상의 관리자가 있는지 확인하는 것이 좋습니다. |
-| Member | 인스턴스 관리자가 초대한 Organization의 일반 사용자입니다. Organization member는 다른 사용자를 초대하거나 Organization의 기존 사용자를 관리할 수 없습니다. |
-| Viewer (Enterprise 전용 기능) | 인스턴스 관리자가 초대한 Organization의 보기 전용 사용자입니다. Viewer는 Organization과 그들이 구성원인 기본 Teams에 대한 읽기 엑세스 권한만 있습니다. |
-| 사용자 지정 역할 (Enterprise 전용 기능) | 사용자 지정 역할을 통해 Organization 관리자는 이전 View-Only 또는 Member 역할에서 상속하고 세분화된 엑세스 제어를 위해 추가 권한을 추가하여 새 역할을 구성할 수 있습니다. 그런 다음 Team 관리자는 해당 사용자 지정 역할을 각 Teams의 사용자에게 할당할 수 있습니다. |
+| 관리자(admin) | 조직에 다른 사용자를 추가하거나 제거하고, 사용자 역할을 변경하고, 커스텀 역할을 관리하고, 팀을 추가하는 등의 작업을 수행할 수 있는 인스턴스 관리자입니다. W&B는 관리자가 부재할 경우를 대비해 관리자를 두 명 이상 지정할 것을 권장합니다. |
+| Member | 인스턴스 관리자가 초대한 조직의 일반 사용자입니다. 조직 멤버는 다른 사용자를 초대하거나 조직의 기존 사용자를 관리할 수 없습니다. |
+| Viewer (Enterprise 전용 기능) | 인스턴스 관리자가 초대한 조직의 뷰어 전용 사용자입니다. 뷰어는 조직 및 자신이 멤버로 속한 하위 팀에 대해 읽기 엑세스 권한만 가집니다. |
+| 커스텀 역할 (Enterprise 전용 기능) | 커스텀 역할을 통해 조직 관리자는 앞서 언급한 View-Only 또는 Member 역할을 상속받고 추가 권한을 더해 세밀한 엑세스 제어를 구현하는 새로운 역할을 구성할 수 있습니다. 팀 관리자는 해당 커스텀 역할을 각 팀의 사용자에게 할당할 수 있습니다. [커스텀 역할 추가 및 관리](#add-and-manage-custom-roles)를 참조하세요. |
 
-사용자의 역할을 변경하려면:
+사용자의 역할을 변경하려면 다음을 수행하세요.
 
 1. https://wandb.ai/home 으로 이동합니다.
-2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Users**를 선택합니다.
-4. 검색 창에 사용자의 이름 또는 이메일을 입력합니다.
-4. 사용자 이름 옆에 있는 **TEAM ROLE** 드롭다운에서 역할을 선택합니다.
+2. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운에서 **사용자**를 선택합니다.
+4. 검색창에 사용자의 이름 또는 이메일을 입력합니다.
+4. 사용자의 이름 옆에 있는 **TEAM ROLE** 드롭다운에서 역할을 선택합니다.
 
-### 사용자 엑세스 할당 또는 업데이트
+### 사용자의 엑세스 권한 할당 또는 업데이트
 
-Organization 내의 사용자는 다음 Models Seat 또는 Weave 엑세스 유형 중 하나를 갖습니다. full, viewer 또는 no access.
+조직 내 사용자는 Full, Viewer, No access 중 하나의 Model seat 또는 Weave 엑세스 유형을 가집니다.
 
 | Seat 유형 | 설명 |
 | ----- | ----- |
-| Full | 이 역할 유형을 가진 사용자는 Models 또는 Weave에 대한 데이터를 쓰고, 읽고, 내보낼 수 있는 모든 권한을 갖습니다. |
-| Viewer | Organization의 보기 전용 사용자입니다. Viewer는 Organization과 그들이 속한 기본 Teams에 대한 읽기 엑세스 권한만 있고 Models 또는 Weave에 대한 보기 전용 엑세스 권한만 있습니다. |
-| No access | 이 역할을 가진 사용자는 Models 또는 Weave 제품에 대한 엑세스 권한이 없습니다. |
+| Full | 이 역할 유형을 가진 사용자는 Models 또는 Weave에 대해 데이터를 쓰고, 읽고, 내보낼 수 있는 전체 권한을 가집니다. |
+| Viewer | 조직의 뷰어 전용 사용자입니다. 뷰어는 조직 및 자신이 속한 하위 팀에 대해 읽기 엑세스 권한만 가지며, Models 또는 Weave에 대해 뷰어 전용 권한을 가집니다. |
+| No access | 이 역할을 가진 사용자는 Models 또는 Weave 제품에 엑세스할 수 없습니다. |
 
-Model Seat 유형 및 Weave 엑세스 유형은 Organization 수준에서 정의되며 Team에서 상속됩니다. 사용자의 Seat 유형을 변경하려면 Organization 설정으로 이동하여 다음 단계를 따르십시오.
+Model seat 유형과 Weave 엑세스 유형은 조직 수준에서 정의되며 팀으로 상속됩니다. 사용자의 seat 유형을 변경하려면 조직 설정으로 이동하여 다음 단계를 따르세요.
 
-1. SaaS 사용자의 경우 `https://wandb.ai/account-settings/<organization>/settings`에서 Organization 설정으로 이동합니다. 꺾쇠 괄호 (`<>`)로 묶인 값을 Organization 이름으로 바꿔야 합니다. 다른 Dedicated 및 Self-Managed 배포의 경우 `https://<your-instance>.wandb.io/org/dashboard`로 이동합니다.
-2. **Users** 탭을 선택합니다.
-3. **Role** 드롭다운에서 사용자에게 할당할 Seat 유형을 선택합니다.
+1. Multi-tenant Cloud 사용자의 경우, `https://wandb.ai/account-settings/<organization>/settings`에서 조직 설정으로 이동합니다. 꺾쇠괄호(`<>`)로 묶인 값을 조직 이름으로 바꿔야 합니다. Dedicated Cloud 및 Self-Managed 배포의 경우, `https://<your-instance>.wandb.io/org/dashboard`로 이동합니다.
+2. **사용자** 탭을 선택합니다.
+3. **역할** 드롭다운에서 사용자에게 할당할 seat 유형을 선택합니다.
 
 <Note>
-Organization 역할과 구독 유형에 따라 Organization 내에서 사용할 수 있는 Seat 유형이 결정됩니다.
+조직 역할과 구독 유형에 따라 조직 내에서 사용 가능한 seat 유형이 결정됩니다.
 </Note>
 
-### 사용자 제거
+### 사용자 제거하기
 
 1. https://wandb.ai/home 으로 이동합니다.
-2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Users**를 선택합니다.
-4. 검색 창에 사용자의 이름 또는 이메일을 입력합니다.
-5. 나타날 때 줄임표 또는 세 개의 점 아이콘 (**...**)을 선택합니다.
-6. 드롭다운에서 **Remove member**를 선택합니다.
+2. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운에서 **사용자**를 선택합니다.
+4. 검색창에 사용자의 이름 또는 이메일을 입력합니다.
+5. 줄임표 또는 점 3개 아이콘(**...**)이 나타나면 선택합니다.
+6. 드롭다운에서 **멤버 제거**를 선택합니다.
 
-### 결제 관리자 할당
+### 결제 관리자 지정하기
+1. https://wandb.ai/home 으로 이동합니다.
+2. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운에서 **사용자**를 선택합니다.
+4. 검색창에 사용자의 이름 또는 이메일을 입력합니다.
+5. **결제 관리자** 열 아래에서 결제 관리자로 지정할 사용자를 선택합니다.
+
+## 팀 추가 및 관리
+조직의 대시보드를 사용하여 조직 내 팀을 생성하고 관리합니다. 조직 관리자 또는 팀 관리자는 다음을 수행할 수 있습니다.
+- 팀에 사용자를 초대하거나 팀에서 사용자를 제거합니다.
+- 팀 멤버의 역할을 관리합니다.
+- 사용자가 조직에 가입할 때 팀에 자동으로 추가되도록 설정합니다.
+- `https://wandb.ai/<team-name>`의 팀 대시보드에서 팀 스토리지를 관리합니다.
+
+### 팀 생성하기
+
+조직의 대시보드를 사용하여 팀을 생성합니다.
 
 1. https://wandb.ai/home 으로 이동합니다.
-2. 페이지 오른쪽 상단에서 **User menu** 드롭다운을 선택합니다. 드롭다운에서 **Users**를 선택합니다.
-4. 검색 창에 사용자의 이름 또는 이메일을 입력합니다.
-5. **Billing admin** 열에서 결제 관리자로 할당할 사용자를 선택합니다.
-
-## Teams 추가 및 관리
-
-Organization 대시보드를 사용하여 Organization 내에서 Teams를 만들고 관리합니다. Organization 관리자 또는 Team 관리자는 다음을 수행할 수 있습니다.
-- 사용자를 Team에 초대하거나 Team에서 사용자를 제거합니다.
-- Team member의 역할을 관리합니다.
-- 사용자가 Organization에 가입할 때 Team에 사용자를 자동으로 추가합니다.
-- `https://wandb.ai/<team-name>`에서 Team의 대시보드를 사용하여 Team 스토리지를 관리합니다.
-
-### Team 만들기
-
-Organization 대시보드를 사용하여 Team을 만듭니다.
-
-1. https://wandb.ai/home 으로 이동합니다.
-2. 왼쪽 네비게이션 패널의 **Teams** 아래에서 **Create a team to collaborate**를 선택합니다.
+2. 왼쪽 네비게이션 패널의 **Teams** 아래에서 **협업을 위한 팀 생성**을 선택합니다.
 <Frame>
-    <img src="/images/hosting/create_new_team.png"  />
+    <img src="/images/hosting/create_new_team.png" alt="새 팀 생성"  />
 </Frame>
-3. 나타나는 모달에서 **Team name** 필드에 Team 이름을 입력합니다.
+3. 나타나는 모달창의 **팀 이름** 필드에 팀 이름을 입력합니다.
 4. 스토리지 유형을 선택합니다.
-5. **Create team** 버튼을 선택합니다.
+5. **팀 생성** 버튼을 선택합니다.
 
-**Create team** 버튼을 선택하면 W&B에서 `https://wandb.ai/<team-name>`의 새 Team 페이지로 리디렉션합니다. 여기서 `<team-name>`은 Team을 만들 때 제공하는 이름으로 구성됩니다.
+**팀 생성** 버튼을 선택하면 W&B가 `https://wandb.ai/<team-name>`의 새 팀 페이지로 리디렉션합니다. 여기서 `<team-name>`은 팀 생성 시 입력한 이름입니다.
 
-Team이 있으면 해당 Team에 사용자를 추가할 수 있습니다.
+팀이 생성되면 해당 팀에 사용자를 추가할 수 있습니다.
 
-### Team에 사용자 초대
+### 팀에 사용자 초대하기
 
-Organization에서 Team에 사용자를 초대합니다. Team의 대시보드를 사용하여 이메일 주소 또는 W&B 사용자 이름(이미 W&B 계정이 있는 경우)을 사용하여 사용자를 초대합니다.
+조직 내 팀에 사용자를 초대합니다. 팀 대시보드를 사용하여 이미 W&B 계정이 있는 사용자의 이메일 주소나 W&B 사용자 이름을 사용하여 초대할 수 있습니다.
 
-1. `https://wandb.ai/<team-name>`로 이동합니다.
-2. 대시보드의 왼쪽 글로벌 네비게이션에서 **Team settings**를 선택합니다.
+1. `https://wandb.ai/<team-name>`으로 이동합니다.
+2. 대시보드 왼쪽의 글로벌 네비게이션에서 **팀 설정**을 선택합니다.
 <Frame>
-    <img src="/images/hosting/team_settings.png"  />
+    <img src="/images/hosting/team_settings.png" alt="팀 설정"  />
 </Frame>
-3. **Users** 탭을 선택합니다.
-4. **Invite a new user**를 선택합니다.
-5. 나타나는 모달에서 **Email or username** 필드에 사용자의 이메일을 입력하고 **Select a team** 역할 드롭다운에서 해당 사용자에게 할당할 역할을 선택합니다. 사용자가 Team에서 가질 수 있는 역할에 대한 자세한 내용은 [Team 역할](#assign-or-update-a-team-members-role)을 참조하십시오.
-6. **Send invite** 버튼을 클릭합니다.
+3. **사용자** 탭을 선택합니다.
+4. **새 사용자 초대**를 선택합니다.
+5. 나타나는 모달창의 **이메일 또는 사용자 이름** 필드에 사용자의 이메일을 입력하고 **팀 역할 선택** 드롭다운에서 해당 사용자에게 할당할 역할을 선택합니다. 사용자가 팀에서 가질 수 있는 역할에 대한 자세한 내용은 [팀 역할](#assign-or-update-a-team-members-role)을 참조하세요.
+6. **초대 보내기** 버튼을 선택합니다.
 
-기본적으로 Team 또는 인스턴스 관리자만 Team에 구성원을 초대할 수 있습니다. 이 동작을 변경하려면 [Team 설정](/ko/platform/hosting/iam/access-management/manage-organization/#invite-users-to-a-team)을 참조하십시오.
+기본적으로 팀 또는 인스턴스 관리자만 팀에 멤버를 초대할 수 있습니다. 이 동작을 변경하려면 [팀 설정](/platform/app/settings-page/teams#privacy)을 참조하세요.
 
-이메일 초대를 통해 수동으로 사용자를 초대하는 것 외에도 새 사용자의 [이메일이 Organization의 도메인과 일치하는 경우](#domain-capture) 새 사용자를 Team에 자동으로 추가할 수 있습니다.
+이메일 초대를 통해 수동으로 사용자를 초대하는 것 외에도, 새 사용자의 [이메일이 조직의 도메인과 일치하는 경우](#domain-capture) 새 사용자를 팀에 자동으로 추가할 수 있습니다.
 
-### 가입 시 Team Organization에 구성원 일치
+### 가입 중 팀 조직에 멤버 일치시키기
 
-새 사용자가 가입할 때 Organization 내에서 Teams를 검색할 수 있도록 허용합니다. 새 사용자는 Organization의 확인된 이메일 도메인과 일치하는 확인된 이메일 도메인이 있어야 합니다. 확인된 새 사용자는 W&B 계정에 가입할 때 Organization에 속한 확인된 Teams 목록을 볼 수 있습니다.
+조직 내 신규 사용자가 가입할 때 조직 내 팀을 검색할 수 있도록 허용합니다. 신규 사용자는 조직의 인증된 이메일 도메인과 일치하는 인증된 이메일 도메인을 가지고 있어야 합니다. 인증된 신규 사용자는 W&B 계정에 가입할 때 조직에 속한 인증된 팀 목록을 볼 수 있습니다.
 
-Organization 관리자는 도메인 클레임을 활성화해야 합니다. 도메인 캡처를 활성화하려면 [도메인 캡처](#domain-capture)에 설명된 단계를 참조하십시오.
+조직 관리자는 도메인 점유를 활성화해야 합니다. 도메인 캡처를 활성화하려면 [도메인 캡처](#domain-capture)에 설명된 단계를 따르세요.
 
-### Team member의 역할 할당 또는 업데이트
+### 팀 멤버의 역할 할당 또는 업데이트
 
-1. Team member 이름 옆에 있는 계정 유형 아이콘을 선택합니다.
-2. 드롭다운에서 해당 Team member가 가질 계정 유형을 선택합니다.
+1. 팀 멤버의 이름 옆에 있는 계정 유형 아이콘을 선택합니다.
+2. 드롭다운에서 해당 팀 멤버가 가질 계정 유형을 선택합니다.
 
-다음 표는 Team 구성원에게 할당할 수 있는 역할을 나열합니다.
+이 표는 팀 멤버에게 할당할 수 있는 역할을 나열합니다.
 
 | 역할 | 정의 |
 |-----------|---------------------------|
-| admin | Team에서 다른 사용자를 추가 및 제거하고, 사용자 역할을 변경하고, Team 설정을 구성할 수 있는 사용자입니다. |
-| Member | Team 관리자가 이메일 또는 Organization 수준 사용자 이름으로 초대한 Team의 일반 사용자입니다. member 사용자는 다른 사용자를 Team에 초대할 수 없습니다. |
-| View-Only (Enterprise 전용 기능) | Team 관리자가 이메일 또는 Organization 수준 사용자 이름으로 초대한 Team의 보기 전용 사용자입니다. 보기 전용 사용자는 Team과 그 내용에 대한 읽기 엑세스 권한만 있습니다. |
-| Service (Enterprise 전용 기능) | 서비스 작업자 또는 서비스 계정은 run 자동화 툴로 W&B를 활용하는 데 유용한 API 키입니다. Team의 서비스 계정에서 API 키를 사용하는 경우 환경 변수 `WANDB_USERNAME`을 설정하여 run을 적절한 사용자에게 올바르게 할당해야 합니다. |
-| 사용자 지정 역할 (Enterprise 전용 기능) | 사용자 지정 역할을 통해 Organization 관리자는 이전 View-Only 또는 Member 역할에서 상속하고 세분화된 엑세스 제어를 위해 추가 권한을 추가하여 새 역할을 구성할 수 있습니다. 그런 다음 Team 관리자는 해당 사용자 지정 역할을 각 Teams의 사용자에게 할당할 수 있습니다. 자세한 내용은 [이 문서](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3)를 참조하십시오. |
+| 관리자 | 팀에 다른 사용자를 추가 및 제거하고, 사용자 역할을 변경하며, 팀 설정을 구성할 수 있는 사용자입니다. |
+| Member | 팀 관리자가 이메일이나 조직 수준의 사용자 이름으로 초대한 팀의 일반 사용자입니다. 멤버 사용자는 다른 사용자를 팀에 초대할 수 없습니다. |
+| View-Only (Enterprise 전용 기능) | 팀 관리자가 이메일이나 조직 수준의 사용자 이름으로 초대한 팀의 뷰어 전용 사용자입니다. 뷰어 사용자는 팀과 그 콘텐츠에 대해 읽기 엑세스 권한만 가집니다. |
+| 커스텀 역할 (Enterprise 전용 기능) | 커스텀 역할을 통해 조직 관리자는 앞서 언급한 View-Only 또는 Member 역할을 상속받고 추가 권한을 더해 세밀한 엑세스 제어를 구현하는 새로운 역할을 구성할 수 있습니다. 팀 관리자는 해당 커스텀 역할을 각 팀의 사용자에게 할당할 수 있습니다. 자세한 내용은 [커스텀 역할 발표](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3)를 참조하세요. |
+
+<Info>
+서비스 계정은 사용자가 아니라 자동화를 위해 사용되는 비인간 정체성입니다. **서비스 계정**은 자동화된 워크플로우를 위한 API 키를 제공하며 사용자 라이선스를 소비하지 않습니다. 서비스 계정 생성 및 관리에 대한 포괄적인 정보는 [서비스 계정을 사용하여 워크플로우 자동화](/platform/hosting/iam/service-accounts/)를 참조하세요.
+</Info>
 
 <Note>
-Dedicated Cloud 또는 Self-Managed 배포의 Enterprise 라이선스만 Team 구성원에게 사용자 지정 역할을 할당할 수 있습니다.
+Dedicated Cloud 또는 Self-Managed 배포의 Enterprise 라이선스만 팀 멤버에게 커스텀 역할을 할당할 수 있습니다.
 </Note>
 
-### Team에서 사용자 제거
+### 팀에서 사용자 제거하기
+팀 대시보드를 사용하여 팀에서 사용자를 제거합니다. W&B는 해당 멤버가 팀을 떠나더라도 그 멤버가 생성한 Runs를 팀 내에 보존합니다.
 
-Team의 대시보드를 사용하여 Team에서 사용자를 제거합니다. W&B는 run을 생성한 구성원이 더 이상 해당 Team에 없더라도 Team에서 생성된 run을 보존합니다.
+1. `https://wandb.ai/<team-name>`으로 이동합니다.
+2. 왼쪽 네비게이션 바에서 **팀 설정**을 선택합니다.
+3. **사용자** 탭을 선택합니다.
+4. 삭제하려는 사용자의 이름 옆에 마우스를 올립니다. 줄임표 또는 점 3개 아이콘(**...**)이 나타나면 선택합니다.
+5. 드롭다운에서 **사용자 제거**를 선택합니다.
 
-1. `https://wandb.ai/<team-name>`로 이동합니다.
-2. 왼쪽 네비게이션 바에서 **Team settings**를 선택합니다.
-3. **Users** 탭을 선택합니다.
-4. 삭제할 사용자 이름 옆에 마우스를 가져갑니다. 나타날 때 줄임표 또는 세 개의 점 아이콘 (**...**)을 선택합니다.
-5. 드롭다운에서 **Remove user**를 선택합니다.
+## 커스텀 역할 추가 및 관리
+<Note>
+Dedicated Cloud 또는 Self-Managed 배포에서 커스텀 역할을 생성하거나 할당하려면 Enterprise 라이선스가 필요합니다.
+</Note>
+
+조직 관리자는 View-Only 또는 Member 역할을 기반으로 새 역할을 구성하고 추가 권한을 더해 세밀한 엑세스 제어를 구현할 수 있습니다. 팀 관리자는 팀 멤버에게 커스텀 역할을 할당할 수 있습니다. 커스텀 역할은 조직 수준에서 생성되지만 팀 수준에서 할당됩니다.
+
+커스텀 역할을 생성하려면 다음을 수행하세요.
+
+<Tabs>
+<Tab title="Multi-tenant Cloud">
+1. https://wandb.ai/home 으로 이동합니다.
+1. 페이지 오른쪽 상단에서 **사용자 메뉴** 드롭다운을 선택합니다. 드롭다운의 **계정** 섹션에서 **설정**을 선택합니다.
+1. **역할**을 클릭합니다.
+1. **커스텀 역할** 섹션에서 **역할 생성**을 클릭합니다.
+1. 역할의 이름을 입력합니다. 필요한 경우 설명을 입력합니다.
+1. 커스텀 역할의 기반이 될 역할로 **Viewer** 또는 **Member** 중 하나를 선택합니다.
+1. 권한을 추가하려면 **권한 검색** 필드를 클릭한 다음 추가할 권한을 하나 이상 선택합니다.
+1. 해당 역할이 가진 권한을 요약한 **커스텀 역할 권한** 섹션을 검토합니다.
+1. **역할 생성**을 클릭합니다.
+</Tab>
+<Tab title="Dedicated Cloud 또는 Self-Managed">
+
+1. `https://<org-name>.wandb.io/org/settings/`로 이동합니다. `<org-name>`을 조직 이름으로 바꿉니다.
+1. **커스텀 역할** 섹션에서 **역할 생성**을 클릭합니다.
+1. 역할의 이름을 입력합니다. 필요한 경우 설명을 입력합니다.
+1. 커스텀 역할의 기반이 될 역할로 **Viewer** 또는 **Member** 중 하나를 선택합니다.
+1. 권한을 추가하려면 **권한 검색** 필드를 클릭한 다음 추가할 권한을 하나 이상 선택합니다.
+1. 해당 역할이 가진 권한을 요약한 **커스텀 역할 권한** 섹션을 검토합니다.
+1. **역할 생성**을 클릭합니다.
+</Tab>
+</Tabs>
+
+이제 팀 관리자가 [팀 설정](#invite-users-to-a-team)에서 팀 멤버에게 커스텀 역할을 할당할 수 있습니다.

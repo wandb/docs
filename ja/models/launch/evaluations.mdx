@@ -1,0 +1,207 @@
+---
+title: 評価ベンチマークカタログ
+description: LLM Evaluation Jobs を通じて利用可能な評価ベンチマークを閲覧する
+---
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+このページでは、 [LLM Evaluation Jobs](/models/launch) が提供する評価ベンチマークをカテゴリ別にリストアップしています。
+
+特定のベンチマークを実行するには、チーム管理者が [チームスコープの secret](/platform/secrets#add-a-secret) として必要な API キーを追加する必要があります。チームメンバーは、評価ジョブを設定する際にその secret を指定できます。
+    - **OpenAI Model Scorer** カラムが `true` のベンチマークは、スコアリングに OpenAI モデルを使用します。組織またはチームの管理者は、OpenAI API キーをチーム secret として追加する必要があります。この要件があるベンチマークで評価ジョブを設定する場合は、 **Scorer API key** フィールドにその secret を設定してください。
+    - **Gated Hugging Face Dataset** カラムにリンクがあるベンチマークは、ゲート付きの Hugging Face データセットへのアクセスが必要です。組織またはチームの管理者は、Hugging Face でデータセットへのアクセスをリクエストし、Hugging Face ユーザーアクセストークンを作成して、そのアクセスキーをチーム secret として設定する必要があります。この要件があるベンチマークを設定する場合は、 **Hugging Face Token** フィールドにその secret を設定してください。
+
+{/*
+    Benchmark list: https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
+    OpenAI and Hugging Face requirements: https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
+*/}
+
+## Knowledge（知識）
+
+科学、言語、一般的な推論など、さまざまなドメインにわたる事実知識を評価します。
+
+| 評価 | タスク ID | OpenAI Model Scorer | Gated Hugging Face Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [BoolQ](https://github.com/google-research-datasets/boolean-questions) | `boolq` | | | 自然言語クエリからの 2 値（はい/いいえ）の質問 |
+| [GPQA Diamond](https://arxiv.org/abs/2311.12022) | `gpqa_diamond` | | | 大学院レベルの科学の質問（最高品質のサブセット） |
+| [HLE](https://arxiv.org/abs/2501.14249) | `hle` | | Yes | 人間レベルの評価ベンチマーク |
+| [Lingoly](https://arxiv.org/abs/2406.06196) | `lingoly` | | Yes | 言語学オリンピックの問題 |
+| [Lingoly Too](https://arxiv.org/abs/2503.02972) | `lingoly_too` | | Yes | 拡張された言語学チャレンジ問題 |
+| [MMIU](https://arxiv.org/abs/2408.02718) | `mmiu` | | | 大規模マルチタスク言語理解ベンチマーク |
+| [MMLU (0-shot)](https://github.com/hendrycks/test) | `mmlu_0_shot` | | | 例示なし（0-shot）での大規模マルチタスク言語理解 |
+| [MMLU (5-shot)](https://github.com/hendrycks/test) | `mmlu_5_shot` | | | 5 つの例示を伴う大規模マルチタスク言語理解 |
+| [MMLU-Pro](https://arxiv.org/abs/2406.01574) | `mmlu_pro` | | | MMLU のより難易度の高いバージョン |
+| [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6` | | | 職業知識ベンチマーク |
+| [PAWS](https://github.com/google-research-datasets/paws) | `paws` | | | 言い換えによる敵対的単語置換 |
+| [SevenLLM MCQ (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_en` | | | 英語の多肢選択式質問 |
+| [SevenLLM MCQ (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_zh` | | | 中国語の多肢選択式質問 |
+| [SevenLLM QA (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_en` | | | 英語の質問回答（QA） |
+| [SevenLLM QA (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_zh` | | | 中国語の質問回答（QA） |
+| [SimpleQA](https://openai.com/index/introducing-simpleqa/) | `simpleqa` | Yes | | 直接的な事実に関する質問回答 |
+| [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/) | `simpleqa_verified` | | | 検証済みの回答を含む SimpleQA のサブセット |
+| [WorldSense](https://github.com/facebookresearch/worldsense) | `worldsense` | | | 世界の知識と常識の理解度を評価 |
+
+## Reasoning（推論）
+
+論理的思考、問題解決、および常識的な推論能力を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [AGIE AQUA-RAT](https://arxiv.org/abs/1705.04146) | `agie_aqua_rat` | | | 根拠（rationale）を伴う代数の質問回答 |
+| [AGIE LogiQA (English)](https://arxiv.org/abs/2007.08124) | `agie_logiqa_en` | | | 英語の論理推論の質問 |
+| [AGIE LSAT Analytical Reasoning](https://www.lsac.org/) | `agie_lsat_ar` | | | LSAT 分析推論（ロジックパズル）の問題 |
+| [AGIE LSAT Logical Reasoning](https://www.lsac.org/) | `agie_lsat_lr` | | | LSAT 論理推論の質問 |
+| [ARC Challenge](https://allenai.org/data/arc) | `arc_challenge` | | | 推論を必要とする難易度の高い科学の質問（AI2 推論チャレンジ） |
+| [ARC Easy](https://allenai.org/data/arc) | `arc_easy` | | | ARC データセットからの比較的容易な科学の質問セット |
+| [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard) | `bbh` | | | BIG-Bench Hard: BIG-Bench からの難易度の高いタスク |
+| [CoCoNot](https://arxiv.org/abs/2310.03697) | `coconot` | | | 反実仮想的な常識推論ベンチマーク |
+| [CommonsenseQA](https://www.tau-nlp.sites.tau.ac.il/commonsenseqa) | `commonsense_qa` | | | 常識推論の質問 |
+| [HellaSwag](https://arxiv.org/abs/1905.07830) | `hellaswag` | | | 常識的な自然言語推論 |
+| [MUSR](https://arxiv.org/abs/2310.16049) | `musr` | | | 多段階推論ベンチマーク |
+| [PIQA](https://yonatanbisk.com/piqa/) | `piqa` | | | 物理的な常識推論 |
+| [WinoGrande](https://winogrande.allenai.org/) | `winogrande` | | | 代名詞の解消を通じた常識推論 |
+
+## Math（数学）
+
+小学校レベルから競技レベルの問題まで、さまざまな難易度の数学的問題解決能力を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [AGIE Math](https://arxiv.org/abs/2410.12211) | `agie_math` | | | AGIE ベンチマークスイートからの高度な数学的推論 |
+| [AGIE SAT Math](https://collegereadiness.collegeboard.org/sat) | `agie_sat_math` | | | SAT 数学の質問 |
+| [AIME 2024](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2024` | | | 2024 年のアメリカ招待数学検定（AIME）の問題 |
+| [AIME 2025](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2025` | | | 2025 年のアメリカ招待数学検定（AIME）の問題 |
+| [GSM8K](https://github.com/openai/grade-school-math) | `gsm8k` | | | Grade School Math 8K: 多段階の算数文章題 |
+| [InfiniteBench Math Calc](https://arxiv.org/abs/2402.13718) | `infinite_bench_math_calc` | | | 長いコンテキストにおける数学的計算 |
+| [InfiniteBench Math Find](https://arxiv.org/abs/2402.13718) | `infinite_bench_math_find` | | | 長いコンテキストにおける数学的パターンの発見 |
+| [MATH](https://github.com/hendrycks/math) | `math` | | | 競技レベルの数学問題 |
+| [MGSM](https://github.com/google-research/url-nlp/tree/main/mgsm) | `mgsm` | | | 多言語の小学校レベルの算数 |
+
+## Code（コード）
+
+デバッグ、コード実行予測、関数呼び出しなどのプログラミングおよびソフトウェア開発能力を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [BFCL](https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html) | `bfcl` | | | Berkeley Function Calling Leaderboard: 関数呼び出しとツール使用能力をテスト |
+| [InfiniteBench Code Debug](https://arxiv.org/abs/2402.13718) | `infinite_bench_code_debug` | | | 長いコンテキストでのコードデバッグタスク |
+| [InfiniteBench Code Run](https://arxiv.org/abs/2402.13718) | `infinite_bench_code_run` | | | 長いコンテキストでのコード実行予測 |
+
+## Reading（読解）
+
+複雑なテキストからの読解力と情報抽出能力を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [AGIE LSAT Reading Comprehension](https://www.lsac.org/) | `agie_lsat_rc` | | | LSAT の読解パッセージと質問 |
+| [AGIE SAT English](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en` | | | パッセージを含む SAT の読解および作文の質問 |
+| [AGIE SAT English (No Passage)](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en_without_passage` | | | パッセージを伴わない SAT 英語の質問 |
+| [DROP](https://allenai.org/data/drop) | `drop` | | | Discrete Reasoning Over Paragraphs: 数値的推論を必要とする読解 |
+| [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/) | `race_h` | | | 英語試験（難易度高）からの読解 |
+| [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/) | `squad` | | | Stanford Question Answering Dataset: Wikipedia 記事に対する抽出型の質問回答 |
+
+## Long context（長いコンテキスト）
+
+検索やパターン認識を含む、拡張されたコンテキストを処理し推論する能力を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [InfiniteBench KV Retrieval](https://arxiv.org/abs/2402.13718) | `infinite_bench_kv_retrieval` | | | 長いコンテキストにおけるキーバリュー検索 |
+| [InfiniteBench LongBook (English)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longbook_choice_eng` | | | 長い書籍に関する多肢選択式質問 |
+| [InfiniteBench LongDialogue QA (English)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longdialogue_qa_eng` | | | 長い対話に対する質問回答 |
+| [InfiniteBench Number String](https://arxiv.org/abs/2402.13718) | `infinite_bench_number_string` | | | 長いシーケンス内の数値パターン認識 |
+| [InfiniteBench Passkey](https://arxiv.org/abs/2402.13718) | `infinite_bench_passkey` | | | 長いコンテキストからの情報検索 |
+| [NIAH](https://arxiv.org/abs/2406.07230) | `niah` | | | Needle in a Haystack: 長いコンテキストの検索テスト |
+
+## Safety（安全性）
+
+アライメント、バイアス検出、有害コンテンツへの耐性、および真実性を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [AgentHarm](https://arxiv.org/abs/2410.09024) | `agentharm` | Yes | | 有害なエージェントの振る舞いや悪用シナリオに対するモデルの耐性をテスト |
+| [AgentHarm Benign](https://arxiv.org/abs/2410.09024) | `agentharm_benign` | Yes | | 偽陽性率を測定するための AgentHarm の良性ベースライン |
+| [Agentic Misalignment](https://arxiv.org/abs/2510.05179) | `agentic_misalignment` | | | エージェント的な振る舞いにおける潜在的なミスアライメントを評価 |
+| [AHB](https://arxiv.org/abs/2503.04804) | `ahb` | | | Agent Harmful Behavior: 有害なエージェントアクションに対する耐性をテスト |
+| [AIRBench](https://arxiv.org/abs/2410.02407) | `air_bench` | | | 敵対的な指示に対する耐性をテスト |
+| [BBEH](https://arxiv.org/abs/2502.19187) | `bbeh` | | | 有害な振る舞いを評価するためのバイアスベンチマーク |
+| [BBEH Mini](https://arxiv.org/abs/2502.19187) | `bbeh_mini` | | | BBEH ベンチマークの縮小版 |
+| [BBQ](https://arxiv.org/abs/2110.08193) | `bbq` | | | 質問回答に関するバイアスベンチマーク |
+| [BOLD](https://arxiv.org/abs/2101.11718) | `bold` | | | オープンエンドな言語生成におけるバイアスデータセット |
+| [CYSE3 Visual Prompt Injection](https://arxiv.org/abs/2408.01605) | `cyse3_visual_prompt_injection` | | | 視覚的なプロンプトインジェクション攻撃に対する耐性をテスト |
+| [Make Me Pay](https://arxiv.org/abs/2410.08691) | `make_me_pay` | | | 金銭詐欺や不正シナリオに対する耐性をテスト |
+| [MASK](https://arxiv.org/abs/2503.03750) | `mask` | Yes | Yes | モデルの機密情報の取り扱いをテスト |
+| [Personality BFI](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/personality) | `personality_BFI` | | | ビッグファイブ性格特性評価 |
+| [Personality TRAIT](https://arxiv.org/abs/2406.14703) | `personality_TRAIT` | | Yes | 包括的な性格特性評価 |
+| SOSBench | `sosbench` | Yes | | 安全性と監督のストレステスト |
+| [StereoSet](https://github.com/moinnadeem/StereoSet) | `stereoset` | | | 言語モデルにおけるステレオタイプ的なバイアスを測定 |
+| [StrongREJECT](https://arxiv.org/abs/2402.10260) | `strong_reject` | | | 有害なリクエストを拒絶するモデルの能力をテスト |
+| [Sycophancy](https://arxiv.org/abs/2310.13548) | `sycophancy` | | | お世辞（sycophantic）な振る舞いをする傾向を評価 |
+| [TruthfulQA](https://github.com/sylinrl/TruthfulQA) | `truthfulqa` | | | モデルの真実性と虚偽に対する耐性をテスト |
+| [UCCB](https://huggingface.co/datasets/CraneAILabs/UCCB) | `uccb` | | | 不安全なコンテンツの分類ベンチマーク |
+| [WMDP Bio](https://www.wmdp.ai/) | `wmdp_bio` | | | 生物学における危険な知識をテスト |
+| [WMDP Chem](https://www.wmdp.ai/) | `wmdp_chem` | | | 化学における危険な知識をテスト |
+| [WMDP Cyber](https://www.wmdp.ai/) | `wmdp_cyber` | | | サイバーセキュリティにおける危険な知識をテスト |
+| [XSTest](https://arxiv.org/abs/2308.01263) | `xstest` | Yes | | 過剰な拒絶を検出するための過剰安全テスト |
+
+## Domain-Specific（ドメイン特化）
+
+医学、化学、法学、生物学、およびその他の専門分野における専門知識を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [ChemBench](https://arxiv.org/abs/2404.01475) | `chembench` | | | 化学の知識と問題解決のベンチマーク |
+| [HealthBench](https://arxiv.org/abs/2406.09746) | `healthbench` | Yes | | ヘルスケアおよび医学知識の評価 |
+| [HealthBench Consensus](https://arxiv.org/abs/2406.09746) | `healthbench_consensus` | Yes | | 専門家の合意に基づくヘルスケアの質問 |
+| [HealthBench Hard](https://arxiv.org/abs/2406.09746) | `healthbench_hard` | Yes | | 難易度の高いヘルスケアシナリオ |
+| [LabBench Cloning Scenarios](https://arxiv.org/abs/2407.10362) | `lab_bench_cloning_scenarios` | | | 実験計画とクローニング |
+| [LabBench DBQA](https://arxiv.org/abs/2407.10362) | `lab_bench_dbqa` | | | ラボシナリオに関するデータベースの質問回答 |
+| [LabBench FigQA](https://arxiv.org/abs/2407.10362) | `lab_bench_figqa` | | | 科学的文脈における図の解釈 |
+| [LabBench LitQA](https://arxiv.org/abs/2407.10362) | `lab_bench_litqa` | | | 研究用文献に基づく質問回答 |
+| [LabBench ProtocolQA](https://arxiv.org/abs/2407.10362) | `lab_bench_protocolqa` | | | 実験プロトコルの理解 |
+| [LabBench SeqQA](https://arxiv.org/abs/2407.10362) | `lab_bench_seqqa` | | | 生物学的配列分析の質問 |
+| [LabBench SuppQA](https://arxiv.org/abs/2407.10362) | `lab_bench_suppqa` | | | 補足資料の解釈 |
+| [LabBench TableQA](https://arxiv.org/abs/2407.10362) | `lab_bench_tableqa` | | | 科学論文における表の解釈 |
+| [MedQA](https://github.com/jind11/MedQA) | `medqa` | | | 医師免許試験の質問 |
+| [PubMedQA](https://pubmedqa.github.io/) | `pubmedqa` | | | 研究アブストラクトからの生物医学的質問回答 |
+| [SEC-QA v1](https://arxiv.org/abs/2406.14806) | `sec_qa_v1` | | | SEC（米国証券取引委員会）提出書類の質問回答 |
+| [SEC-QA v1 (5-shot)](https://arxiv.org/abs/2406.14806) | `sec_qa_v1_5_shot` | | | 5 つの例示を伴う SEC-QA |
+| [SEC-QA v2](https://arxiv.org/abs/2406.14806) | `sec_qa_v2` | | | 更新された SEC 提出書類ベンチマーク |
+| [SEC-QA v2 (5-shot)](https://arxiv.org/abs/2406.14806) | `sec_qa_v2_5_shot` | | | 5 つの例示を伴う SEC-QA v2 |
+
+## Multimodal（マルチモーダル）
+
+視覚入力とテキスト入力を組み合わせた、画像と言語の理解度を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [DocVQA](https://www.docvqa.org/) | `docvqa` | | | Document Visual Question Answering: 文書画像に関する質問 |
+| [MathVista](https://mathvista.github.io/) | `mathvista` | | | 視覚的文脈を伴う数学的推論（視覚と数学の融合） |
+| [MMMU Multiple Choice](https://mmmu-benchmark.github.io/) | `mmmu_multiple_choice` | | | 多肢選択形式によるマルチモーダル理解 |
+| [MMMU Open](https://mmmu-benchmark.github.io/) | `mmmu_open` | | | 自由回答形式によるマルチモーダル理解 |
+| [V*Star Bench Attribute Recognition](https://arxiv.org/abs/2411.10006) | `vstar_bench_attribute_recognition` | | | 視覚的な属性認識タスク |
+| [V*Star Bench Spatial Relationship](https://arxiv.org/abs/2411.10006) | `vstar_bench_spatial_relationship_reasoning` | | | 視覚入力による空間推論 |
+
+## Instruction Following（指示追従）
+
+特定の指示やフォーマット要件への遵守度を評価します。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [IFEval](https://arxiv.org/abs/2311.07911) | `ifeval` | | | 正確な指示追従能力をテスト |
+
+## System（システム）
+
+基本的なシステムの検証と実行前チェックです。
+
+| 評価 | タスク ID | OpenAI Scorer | Gated HF Dataset | 説明 |
+|------------|---------|---------------|------------------|-------------|
+| [Pre-Flight](https://ukgovernmentbeis.github.io/inspect_evals/evals/knowledge/pre_flight/) | `pre_flight` | | | 基本的なシステムチェックと検証テスト |
+
+
+## 次のステップ
+
+- [モデルのチェックポイントを評価する](/models/launch/evaluate-model-checkpoint)
+- [ホストされた API モデルを評価する](/models/launch/evaluate-hosted-model)
+- 特定のベンチマークの詳細については [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/) を参照してください。

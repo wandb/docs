@@ -16,7 +16,13 @@ Reports is a lazy iterator of `BetaReport` objects.
 ### <kbd>method</kbd> `Reports.__init__`
 
 ```python
-__init__(client, project, name=None, entity=None, per_page=50)
+__init__(
+    client: 'RetryingClient',
+    project: 'Project',
+    name: 'str | None' = None,
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+)
 ```
 
 **Args:**
@@ -48,7 +54,7 @@ __init__(client, project, name=None, entity=None, per_page=50)
 ### <kbd>method</kbd> `Reports.convert_objects`
 
 ```python
-convert_objects()
+convert_objects() → list[BetaReport]
 ```
 
 Converts GraphQL edges to File objects. 
@@ -58,7 +64,7 @@ Converts GraphQL edges to File objects.
 ### <kbd>method</kbd> `Reports.update_variables`
 
 ```python
-update_variables()
+update_variables() → None
 ```
 
 Updates the GraphQL query variables for pagination. 

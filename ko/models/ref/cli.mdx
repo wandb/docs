@@ -1,42 +1,63 @@
 ---
-title: Command Line Interface
+title: CLI Reference SDK 0.24.0
+description: W&B Command Line Interface (CLI) 를 사용하여 셸 코맨드로 로그인, 작업 실행, Sweeps 실행
+  등을 수행하세요.
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb [OPTIONS] COMMAND [ARGS]...`
+import Wandb from "/snippets/en/_includes/cli/wandb.mdx";
 
-**옵션**
+<Wandb/>
 
-| **옵션** | **설명** |
+  The snippet will be auto-detected on the next regeneration.
+*/}
+
+## 사용법
+
+```bash
+wandb [OPTIONS] COMMAND [ARGS]...
+```
+
+## 옵션 (Options)
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `--version` | 버전을 표시하고 종료합니다. |
+| `--version` | 버전을 표시하고 종료합니다. (기본값: False) |
 
-**커맨드**
+## 명령어 (Commands)
 
-| **커맨드** | **설명** |
+| 명령어 | 설명 |
 | :--- | :--- |
-| agent | W&B 에이전트 를 실행합니다. |
-| artifact | Artifacts 와 상호 작용하기 위한 커맨드 |
-| beta | wandb CLI 커맨드의 베타 버전. |
-| controller | W&B 로컬 스윕 컨트롤러 를 실행합니다. |
-| disabled | W&B를 비활성화합니다. |
-| docker | docker 컨테이너 에서 코드를 실행합니다. |
-| docker-run | `docker run`을 래핑하고 WANDB_API_KEY 및 WANDB_DOCKER...를 추가합니다. |
-| enabled | W&B를 활성화합니다. |
-| init | Weights & Biases 로 디렉토리를 구성합니다. |
-| job | W&B jobs를 관리하고 보기 위한 커맨드 |
-| launch | W&B Job을 시작하거나 대기열에 넣습니다. |
-| launch-agent | W&B launch 에이전트 를 실행합니다. |
-| launch-sweep | W&B launch 스윕 을 실행합니다 (실험적). |
-| login | Weights & Biases 에 로그인합니다. |
-| offline | W&B 동기화를 비활성화합니다. |
-| online | W&B 동기화를 활성화합니다. |
-| pull | Weights & Biases 에서 파일을 가져옵니다. |
-| restore | run 에 대한 코드, 설정 및 docker 상태를 복원합니다. |
-| scheduler | W&B launch 스윕 스케줄러 를 실행합니다 (실험적). |
-| server | 로컬 W&B 서버 를 운영하기 위한 커맨드 |
-| status | 구성 설정을 표시합니다. |
-| sweep | 하이퍼파라미터 스윕 을 초기화합니다. |
-| sync | 오프라인 트레이닝 디렉토리를 W&B에 업로드합니다. |
-| verify | 로컬 인스턴스를 확인합니다. |
+| [agent](/models/ref/cli/wandb-agent) | W&B 에이전트를 실행합니다. |
+| [artifact](/models/ref/cli/wandb-artifact) | Artifacts 와 상호작용하기 위한 명령어입니다. |
+| [beta](/models/ref/cli/wandb-beta) | wandb CLI 명령어의 베타 버전입니다. |
+| [controller](/models/ref/cli/wandb-controller) | W&B 로컬 스윕 컨트롤러를 실행합니다. |
+| [disabled](/models/ref/cli/wandb-disabled) | Weights & Biases 를 비활성화합니다. |
+| [docker](/models/ref/cli/wandb-docker) | docker 컨테이너에서 코드를 실행합니다. |
+| [docker-run](/models/ref/cli/wandb-docker-run) | `docker run` 을 래핑하고 WANDB_API_KEY 및 WANDB_DOCKER 환경 변수를 추가합니다. |
+| [enabled](/models/ref/cli/wandb-enabled) | Weights & Biases 를 활성화합니다. |
+| [init](/models/ref/cli/wandb-init) | 디렉토리에 Weights & Biases 설정을 초기화합니다. |
+| [job](/models/ref/cli/wandb-job) | W&B jobs를 관리하고 확인하기 위한 명령어입니다. |
+| [launch](/models/ref/cli/wandb-launch) | W&B Job을 실행하거나 큐에 추가합니다. |
+| [launch-agent](/models/ref/cli/wandb-launch-agent) | W&B launch 에이전트를 실행합니다. |
+| [launch-sweep](/models/ref/cli/wandb-launch-sweep) | W&B launch 스윕을 실행합니다 (실험적 기능). |
+| [local](/models/ref/cli/wandb-local) | 로컬 W&B 컨테이너를 시작합니다 (더 이상 사용되지 않음, wandb server --help 참조). |
+| [login](/models/ref/cli/wandb-login) | W&B 서비스 인증을 위해 API 키를 확인하고 저장합니다. |
+| [off](/models/ref/cli/wandb-off) | 설명 없음 |
+| [offline](/models/ref/cli/wandb-offline) | W&B 에 로그된 데이터를 클라우드에 업로드하지 않고 로컬에 저장합니다. |
+| [on](/models/ref/cli/wandb-on) | 설명 없음 |
+| [online](/models/ref/cli/wandb-online) | `wandb offline` 설정을 취소합니다. |
+| [projects](/models/ref/cli/wandb-projects) | Projects 목록을 보여줍니다. |
+| [pull](/models/ref/cli/wandb-pull) | Weights & Biases 에서 파일을 가져옵니다. |
+| [restore](/models/ref/cli/wandb-restore) | 특정 Run 에 대한 코드, 설정 및 docker 상태를 복원합니다. |
+| [scheduler](/models/ref/cli/wandb-scheduler) | W&B launch 스윕 스케줄러를 실행합니다 (실험적 기능). |
+| [server](/models/ref/cli/wandb-server) | 로컬 W&B 서버 운영을 위한 명령어입니다. |
+| [status](/models/ref/cli/wandb-status) | 구성 설정을 보여줍니다. |
+| [sweep](/models/ref/cli/wandb-sweep) | 하이퍼파라미터 탐색을 초기화합니다. |
+| [sync](/models/ref/cli/wandb-sync) | W&B Run 데이터를 클라우드에 동기화합니다. |
+| [verify](/models/ref/cli/wandb-verify) | W&B 의 로컬 인스턴스를 확인하고 검증합니다. |

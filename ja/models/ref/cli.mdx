@@ -1,42 +1,62 @@
 ---
-title: コマンドライン インターフェース
+title: CLI リファレンス SDK 0.24.0
+description: W&B コマンドラインインターフェース（CLI）を使用すると、シェルのコマンドから、ログイン、ジョブの実行、Sweeps の実行などを行うことができます。
 ---
 
-**使用法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb [OPTIONS] COMMAND [ARGS]...`
+import Wandb from "/snippets/en/_includes/cli/wandb.mdx";
 
-**オプション**
+<Wandb/>
 
-| **オプション** | **説明** |
+  The snippet will be auto-detected on the next regeneration.
+*/}
+
+## 使い方
+
+```bash
+wandb [OPTIONS] COMMAND [ARGS]...
+```
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--version` | バージョンを表示して終了します。 |
+| `--version` | バージョンを表示して終了します。（デフォルト: False） |
 
-**コマンド**
+## コマンド
 
-| **コマンド** | **説明** |
+| コマンド | 説明 |
 | :--- | :--- |
-| agent | W&B エージェントを実行します |
-| artifact | アーティファクトと対話するためのコマンド |
-| beta | wandb CLI コマンドのベータバージョン。 |
-| controller | W&B ローカルsweepコントローラを実行します |
-| disabled | W&B を無効にします。 |
-| docker | コードをdockerコンテナで実行します。 |
-| docker-run | `docker run` をラップし、WANDB_API_KEY と WANDB_DOCKER を追加します... |
-| enabled | W&B を有効にします。 |
-| init | Weights & Biasesでディレクトリーを設定します |
-| job | W&B ジョブを管理および表示するためのコマンド |
-| launch | W&B Jobを起動またはキューに入れます。 |
-| launch-agent | W&B ローンンチ エージェントを実行します。 |
-| launch-sweep | W&B ローンンチ スウィープを実行します（実験的）。 |
-| login | Weights & Biases にログインします |
-| offline | W&B 同期を無効にします |
-| online | W&B 同期を有効にします |
-| pull | Weights & Biases からファイルを取得します |
-| restore | runのコード、設定、およびdocker状態を復元します |
-| scheduler | W&B ローンンチ スウィープ スケジューラを実行します（実験的） |
-| server | ローカル W&B サーバーを操作するためのコマンド |
-| status | 設定情報を表示します |
-| sweep | ハイパーパラメーター探索を初期化します。 |
-| sync | オフライントレーニングディレクトリーを W&B にアップロードします |
-| verify | ローカルインスタンスを検証します |
+| [agent](/models/ref/cli/wandb-agent) | W&B エージェント を実行します |
+| [artifact](/models/ref/cli/wandb-artifact) | アーティファクト を操作するためのコマンド |
+| [beta](/models/ref/cli/wandb-beta) | wandb CLI コマンドのベータ版です。 |
+| [controller](/models/ref/cli/wandb-controller) | W&B ローカル sweep コントローラ を実行します |
+| [disabled](/models/ref/cli/wandb-disabled) | W&B を無効にします。 |
+| [docker](/models/ref/cli/wandb-docker) | dockerコンテナ 内で コード を実行します。 |
+| [docker-run](/models/ref/cli/wandb-docker-run) | `docker run` をラップし、WANDB_API_KEY と WANDB_DOCKER 環境 変数を追加します。 |
+| [enabled](/models/ref/cli/wandb-enabled) | W&B を有効にします。 |
+| [init](/models/ref/cli/wandb-init) | ディレクトリー を Weights & Biases 用に 設定 します |
+| [job](/models/ref/cli/wandb-job) | W&B ジョブの管理と表示のためのコマンド |
+| [launch](/models/ref/cli/wandb-launch) | W&B ジョブを Launch またはキューに入れます。 |
+| [launch-agent](/models/ref/cli/wandb-launch-agent) | W&B launch agent を実行します。 |
+| [launch-sweep](/models/ref/cli/wandb-launch-sweep) | W&B launch sweep を実行します（実験的機能）。 |
+| [local](/models/ref/cli/wandb-local) | ローカル W&B コンテナを起動します（非推奨、wandb server --help を参照してください） |
+| [login](/models/ref/cli/wandb-login) | W&B サービスとの認証用 APIキー を検証し、保存します。 |
+| [off](/models/ref/cli/wandb-off) | 説明はありません |
+| [offline](/models/ref/cli/wandb-offline) | W&B に ログ 記録された データ を クラウド にアップロードせずにローカルに保存します。 |
+| [on](/models/ref/cli/wandb-on) | 説明はありません |
+| [online](/models/ref/cli/wandb-online) | `wandb offline` を解除します。 |
+| [projects](/models/ref/cli/wandb-projects) | Projects を一覧表示します |
+| [pull](/models/ref/cli/wandb-pull) | Weights & Biases からファイルをプルします |
+| [restore](/models/ref/cli/wandb-restore) | run の コード 、 設定 、docker の状態を復元します。 |
+| [scheduler](/models/ref/cli/wandb-scheduler) | W&B launch sweep スケジューラを実行します（実験的機能） |
+| [server](/models/ref/cli/wandb-server) | ローカル W&B サーバー を操作するためのコマンド |
+| [status](/models/ref/cli/wandb-status) | 設定 設定を表示します |
+| [sweep](/models/ref/cli/wandb-sweep) | ハイパーパラメーター探索 (sweep) を初期化します。 |
+| [sync](/models/ref/cli/wandb-sync) | W&B の run データ を クラウド に同期します。 |
+| [verify](/models/ref/cli/wandb-verify) | W&B のローカルインスタンスをチェックおよび検証します。 |

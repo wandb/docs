@@ -1,62 +1,71 @@
 ---
-title: スイープを CLI で管理する
-description: W&B Sweep を CLI で一時停止、再開、キャンセルします。
+title: Sweeps を管理する
+description: CLI を使用して W&B Sweep の一時停止、再開、およびキャンセルを行います。
 ---
 
-W&B Sweep を CLI で一時停止、再開、キャンセルすることができます。W&B Sweep を一時停止すると、新しい W&B Runs を再開するまで実行しないよう W&B エージェントに指示します。Sweep を再開すると、エージェントに新しい W&B Run の実行を続けるよう指示します。W&B Sweep を停止すると、W&B Sweep エージェントに新しい W&B Run の作成や実行を停止するように指示します。W&B Sweep をキャンセルすると、現在実行中の W&B Run を強制終了し、新しい Runs の実行を停止するよう Sweep エージェントに指示します。
+[W&B CLI](/models/ref/cli/wandb-sweep) を使用して、 Sweeps の一時停止、再開、およびキャンセルを行うことができます。CLI の `sweep` コマンドでは、`--pause` や `--resume` などのフラグを使用して、新しい W&B Runs を作成する能力を制御します。既存の Runs への影響は以下の通りです：
 
-それぞれの場合に、W&B Sweep を初期化したときに生成された W&B Sweep ID を指定します。新しいターミナルウィンドウを開いて、以下のコマンドを実行します。新しいターミナルウィンドウを開くと、現在のターミナルウィンドウに W&B Sweep が出力ステートメントを表示している場合でも、コマンドをより簡単に実行できます。
+- `--pause`:  Sweep を一時停止すると、再開するまで エージェント は新しい Runs を作成しません。実行中の既存の Runs は通常通り続行されます。
+- `--resume`:  Sweep を再開すると、 エージェント は探索戦略に従って新しい Runs の作成を続行します。
+- `--stop`:  Sweep を停止すると、 エージェント は新しい Runs の作成を停止します。実行中の既存の Runs は完了するまで続行されます。
+- `--cancel`:  Sweep をキャンセルすると、 エージェント は現在実行中のすべての Runs を即座に終了させ、新しい Runs の作成を停止します。
 
-スイープを一時停止、再開、およびキャンセルするための次のガイダンスを使用してください。
+Sweep の一時停止、再開、キャンセルの方法については、以下のガイドを参照してください。各ケースにおいて、 Sweep を初期化した際に生成された Sweep ID を指定する必要があります。
 
-### スイープを一時停止する
+### Sweep の一時停止
 
-W&B Sweep を一時的に停止して新しい W&B Run の実行を一時停止します。`wandb sweep --pause` コマンドを使用して W&B Sweep を一時停止します。一時停止したい W&B Sweep ID を指定します。
+Sweep を一時停止して、新しい Runs の作成を一時的に止めます。既に実行中の Runs は完了するまで実行され続けます。 Sweep を一時停止するには、[`wandb sweep --pause`](/models/ref/cli/wandb-sweep) コマンドを使用し、一時停止したい Sweep ID を指定します。
 
 ```bash
 wandb sweep --pause entity/project/sweep_ID
 ```
 
-### スイープを再開する
+### Sweep の再開
 
-一時停止している W&B Sweep を `wandb sweep --resume` コマンドで再開します。再開したい W&B Sweep ID を指定します。
+一時停止した Sweep を再開するには、[`wandb sweep --resume`](/models/ref/cli/wandb-sweep) コマンドを使用します。 Sweep は探索戦略に従って、再び新しい Runs の作成を開始します。再開したい Sweep ID を指定してください：
 
 ```bash
 wandb sweep --resume entity/project/sweep_ID
 ```
 
-### スイープを停止する
+### Sweep の停止
 
-W&B スイープを完了し、新しい W&B Runs の実行を停止し、現在実行中の Runs が終了するのを待ちます。
+新しい Runs の作成を停止しつつ、現在実行中の Runs を正常に終了させるには、 Sweep を終了（Stop）させます。[`wandb sweep --stop`](/models/ref/cli/wandb-sweep) コマンドを使用します：
 
 ```bash
 wandb sweep --stop entity/project/sweep_ID
 ```
 
-### スイープをキャンセルする
+<Warning>
+ Projects を削除しても、実行中の [Sweeps](/models/sweeps) や エージェント は終了しません。
+</Warning>
 
-すべての実行中の run を強制終了し、新しい run の実行を停止するためにスイープをキャンセルします。`wandb sweep --cancel` コマンドを使用して W&B Sweep をキャンセルします。キャンセルしたい W&B Sweep ID を指定します。
+### Sweep のキャンセル
+
+Sweep をキャンセルすると、実行中のすべての Runs を即座に終了させ、新しい Runs の作成を停止します。これは、既存の Runs を強制終了させる唯一の Sweep コマンドです。 Sweep をキャンセルするには、[`wandb sweep --cancel`](/models/ref/cli/wandb-sweep) コマンドを使用し、キャンセルしたい Sweep ID を指定します。
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-CLI コマンドオプションの全リストについては、[wandb sweep](/ja/models/ref/cli/wandb-sweep) CLI リファレンスガイドを参照してください。
+CLI コマンドオプションの全リストについては、[wandb sweep](/models/ref/cli/wandb-sweep) CLI リファレンスガイドを参照してください。
 
-### 複数のエージェントにわたってスイープを一時停止、再開、停止、キャンセルする
+<Warning>
+ Projects を削除しても、実行中の [Sweeps](/models/sweeps) や エージェント は終了しません。
+</Warning>
 
-単一のターミナルから複数のエージェントにわたって W&B Sweep を一時停止、再開、停止、またはキャンセルします。たとえば、マルチコアマシンを持っていると仮定します。W&B Sweep を初期化した後、ターミナルウィンドウを新たに開き、各新しいターミナルに Sweep ID をコピーします。
+## Sweep と Run のステータスの理解
 
-任意のターミナル内で、`wandb sweep` CLI コマンドを使用して W&B Sweep を一時停止、再開、停止、またはキャンセルします。たとえば、以下のコードスニペットは、CLI を使用して複数のエージェントにわたって W&B Sweep を一時停止する方法を示しています。
+Sweep は複数の Runs をオーケストレーションして ハイパーパラメーター の組み合わせを探索します。 Sweep のステータスと Run のステータスがどのように相互作用するかを理解することは、 ハイパーパラメーター 最適化を効果的に管理するために不可欠です。
 
-```
-wandb sweep --pause entity/project/sweep_ID
-```
+### 主な違い
 
-`--resume` フラグと共に Sweep ID を指定して、エージェントにわたって Sweep を再開します。
+- **Sweep status** は、新しい Runs を作成するかどうかを制御します (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed)
+- **Run status** は、個々の Runs の実行状態を反映します (Pending, Running, Finished, Failed, Crashed, Killed)
 
-```
-wandb sweep --resume entity/project/sweep_ID
-```
+### ベストプラクティス
 
-W&B エージェントを並列化する方法の詳細については、[Parallelize agents](/ja/models/sweeps/parallelize-agents/) を参照してください。
+- 実行中の実験を失わずに探索を一時的に中断したい場合は、キャンセルではなく `--pause` を使用してください。
+- 個々の Run のステータスを監視し、系統的な失敗がないか確認してください。
+- 満足のいく ハイパーパラメーター が見つかった場合は、正常終了させるために `--stop` を使用してください。
+- Runs が過剰なリソースを消費している場合やエラーが発生している場合などの緊急時には、`--cancel` を使用してください。

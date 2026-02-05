@@ -1,9 +1,5 @@
 ---
-title: What happens if I pass a class attribute into wandb.Run.log()?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: wandb.Run.log() 에 클래스 속성을 전달하면 어떻게 되나요?
 ---
 
-`wandb.log()`에 클래스 속성을 전달하지 마십시오. 속성은 네트워크 호출이 실행되기 전에 변경될 수 있습니다. 메트릭을 클래스 속성으로 저장할 때 `wandb.log()` 호출 시 로그된 메트릭이 속성 값과 일치하도록 깊은 복사본을 사용하십시오.
+`wandb.Run.log()`에 클래스 속성(attributes)을 직접 전달하지 마세요. 네트워크 호출이 실행되기 전에 속성값이 변경될 수 있습니다. 메트릭을 클래스 속성으로 저장하는 경우, `wandb.Run.log()`를 호출하는 시점의 속성값과 로그에 기록되는 메트릭 값이 일치하도록 deep copy를 사용하세요.
