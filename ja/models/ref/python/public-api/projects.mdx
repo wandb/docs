@@ -1,72 +1,60 @@
 ---
 title: プロジェクト
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+## <kbd>class</kbd> `Projects`
+`Project` オブジェクトのレイジーイテレータです。
+
+特定の Entity によって作成・保存された Projects にアクセスするためのイテレータインターフェースを提供します。
+
+### <kbd>method</kbd> `Projects.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    per_page: 'int' = 50
+) → Projects
+```
+
+**Args:**
+
+ - `client` (`wandb.apis.internal.Api`): 使用する API クライアントインスタンス。
+ - `entity` (str): Projects を取得する Entity 名（ユーザー名または Team 名）。
+ - `per_page` (int): 1リクエストあたりに取得する Projects の数（デフォルトは 50）。
+
+**Example:**
+ ```python
+from wandb.apis.public.api import Api
+
+# この Entity に属する Projects を検索する
+projects = Api().projects(entity="entity")
+
+# 各プロジェクトを反復処理する
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+``` 
+
+`Project` オブジェクトのイテラブルなコレクションです。
+
+**Args:**
+
+ - `client`: W&B へのクエリに使用される API クライアント。
+ - `entity`: Projects を所有する Entity。
+ - `per_page`: API への1リクエストあたりに取得する Projects の数。
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L20-L76" icon="github"/>
+### <kbd>property</kbd> Projects.cursor
 
-`Project` オブジェクトの反復可能なコレクション。
+---
 
-```python
-Projects(
-    client, entity, per_page=50
-)
-```
-
-| 属性 | Description |
-| :--- | :--- |
-
-## メソッド
-
-### `convert_objects`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L69-L73)
-
-```python
-convert_objects()
-```
-
-### `next`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
-
-```python
-next()
-```
-
-### `update_variables`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
-
-```python
-update_variables()
-```
-
-### `__getitem__`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
-
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+### <kbd>property</kbd> Projects.more

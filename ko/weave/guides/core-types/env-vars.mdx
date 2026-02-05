@@ -1,0 +1,46 @@
+---
+title: Weave 환경 변수 설정
+description: 환경 변수를 사용하여 런타임 시 Weave 의 행동을 구성하세요
+---
+
+Weave 는 행동을 구성하고 최적화하기 위한 일련의 환경 변수를 제공합니다. 특정 기능을 제어하기 위해 셸이나 스크립트 내에서 이러한 변수를 설정할 수 있습니다.
+
+```bash
+# 셸에서 환경 변수를 설정하는 예시
+export WEAVE_PARALLELISM=10  # 병렬 워커의 수를 제어합니다
+export WEAVE_PRINT_CALL_LINK=false  # call 링크 출력을 비활성화합니다
+```
+
+```python lines
+# Python에서 환경 변수를 설정하는 예시
+import os
+
+os.environ["WEAVE_PARALLELISM"] = "10"
+os.environ["WEAVE_PRINT_CALL_LINK"] = "false"
+```
+
+## 사용 가능한 환경 변수
+
+| 변수 | 타입 | 기본값 | 설명 |
+|----------|------|---------|-------------|
+| `WANDB_API_KEY` | `string` | `None` | 설정 시, API 키를 묻는 프롬프트 없이 W&B Weave 에 자동으로 로그인합니다. API 키를 생성하려면 W&B 계정에 로그인한 후 [User Settings](https://wandb.ai/settings) 로 이동하세요. |
+| `WEAVE_DISABLED` | `bool` | `false` | `true` 로 설정하면 모든 Weave 트레이싱을 비활성화합니다. Weave ops가 일반 함수처럼 동작합니다. |
+| `WEAVE_PRINT_CALL_LINK` | `bool` | `true` | Weave op를 호출할 때 Weave UI 링크를 출력할지 여부를 제어합니다. 다음과 같이 `weave.init()` 의 `settings` 인수를 구성하여 코드에서 직접 설정할 수도 있습니다: `weave.init("your-project-name", settings={"print_call_link": False})` |
+| `WEAVE_LOG_LEVEL` | `str` | `INFO` | weave 로거의 로그 레벨을 제어합니다. |
+| `WEAVE_CAPTURE_CODE` | `bool` | `true` | 나중에 다시 로드하여 사용할 수 있도록 ops의 코드를 저장할지 여부를 제어합니다. |
+| `WEAVE_DEBUG_HTTP` | `bool` | `false` | `true` 로 설정하면 디버깅을 위해 HTTP 요청 및 응답 로그를 켭니다. |
+| `WEAVE_PARALLELISM` | `int` | `20` | evaluations 에서 병렬로 실행할 예시의 수를 제어합니다. 예시를 순차적으로 실행하려면 `1` 로 설정하세요. |
+| `WEAVE_TRACE_LANGCHAIN` | `bool` | `true` | LangChain에 대한 전역 트레이싱을 제어합니다. LangChain 트레이싱을 명시적으로 비활성화하려면 `false` 로 설정하세요. |
+| `WEAVE_USE_SERVER_CACHE` | `bool` | `true` | 서버 응답 캐싱을 활성화합니다. 활성화하면 반복되는 쿼리에 대한 성능을 향상시키기 위해 서버의 응답이 디스크에 캐싱됩니다. |
+| `WEAVE_SERVER_CACHE_SIZE_LIMIT` | `int` | `1000000000` | 서버 캐시의 최대 크기 제한을 바이트 단위로 설정합니다. 캐시가 이 크기에 도달하면 새로운 데이터를 위한 공간을 확보하기 위해 오래된 항목이 자동으로 제거됩니다. 중요: 기본 구현은 이 설정과 관계없이 4MB까지 늘어나는 Write Ahead Log(WAL)가 있는 SQLite를 사용합니다. 이 WAL은 프로그램이 종료될 때 제거됩니다. |
+| `WEAVE_SERVER_CACHE_DIR` | `str` | `None` | 캐시 파일이 저장될 디렉토리를 지정합니다. 설정하지 않으면 임시 디렉토리가 사용됩니다. |
+| `WEAVE_MAX_CALLS_QUEUE_SIZE` | `int` | `100000` | calls 큐의 최대 크기를 설정합니다. 기본값은 100_000입니다. 값을 0으로 설정하면 큐가 제한 없이 늘어날 수 있음을 의미합니다. |
+| `WEAVE_RETRY_MAX_ATTEMPTS` | `int` | `3` | 실패한 요청에 대한 최대 재시도 횟수를 설정합니다. |
+| `WEAVE_RETRY_MAX_INTERVAL` | `float` | `300.0` | 재시도 간의 최대 간격을 초 단위로 설정합니다. |
+| `WANDB_BASE_URL` | `string` | `None` | Weave 호스트 URL을 설정합니다. `wandb.login()` 에서 호스트 URL을 입력하는 것과 동일합니다. `weave.init()` 을 사용하기 전에 `WANDB_BASE_URL` 과 `WANDB_API_KEY` 를 지정하여 Weave 에 자동으로 로그인하고 인증할 수 있습니다. |
+
+<Note>
+모든 불리언(boolean) 환경 변수는 다음 값을 허용합니다 (대소문자 구분 없음):
+- True의 경우: `true`, `1`, `yes`, `on`
+- False의 경우: `false`, `0`, `no`, `off`
+</Note>

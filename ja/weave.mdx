@@ -1,0 +1,59 @@
+---
+title: W&B Weave
+description: W&B Weave で言語モデルアプリのトラッキング、テスト、改善を行う
+mode: wide
+---
+
+W&B Weave は、LLM application の追跡、評価、改善を支援するオブザーバビリティ（可観測性）および評価プラットフォームです。Weave を使用すると、以下のことが可能になります。
+
+* LLM application の [オブザーブ（観察）とデバッグ](/weave/quickstart)
+* LLM 評価モデル（LLM judges）やカスタムスコアラーを使用した、アプリケーションの応答の [評価](/weave/tutorial-eval)
+
+## はじめに
+
+以下のドキュメントでは、Weave の一連のツールを使用するための基本的な方法をガイドします。
+
+<CardGroup cols={3}>
+  <Card
+    title="クイックスタート：LLM の入出力を追跡する"
+    icon="chart-line"
+    href="/weave/quickstart"
+  >
+    LLM への基本的な呼び出しをトレースし、W&B アカウントでデータを確認することから始めましょう。
+  </Card>
+
+  <Card
+    title="アプリの評価を始める"
+    icon="clipboard-check"
+    href="/weave/tutorial-eval"
+  >
+    Weave のスコアラーを使用して、アプリケーションのパフォーマンスをテストおよび追跡するための評価パイプラインを構築する方法を学びます。
+  </Card>
+
+  <Card
+    title="RAG アプリケーションを評価する"
+    icon="search"
+    href="/weave/tutorial-rag"
+  >
+    Weave と LLM judges を使用して RAG アプリケーションを構築・評価し、検索の質を測定します。
+  </Card>
+</CardGroup>
+
+## Weave のインストール
+
+W&B Weave は Python および TypeScript ライブラリを提供しています。Weave ライブラリをインストールするには、以下のコマンドを実行します。
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install weave
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```bash
+    pnpm install weave
+    ```
+  </Tab>
+</Tabs>
+
+Weave ライブラリの使用を開始するには、[Weights & Biases (W&B) アカウント](https://wandb.ai) を作成し、[ユーザー設定 (User Settings)](https://wandb.ai/settings) で [APIキー] を作成してください。APIキー を使用して W&B アカウントの認証を行い、データの送信を開始できます。

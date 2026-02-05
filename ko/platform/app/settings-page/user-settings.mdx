@@ -1,73 +1,131 @@
 ---
-title: Manage user settings
-description: 사용자 설정 에서 프로필 정보, 계정 기본값, 알림, 베타 제품 참여, GitHub 인테그레이션 , 저장소 사용량, 계정 활성화를
-  관리하고 팀 을 만드세요.
+title: 사용자 설정 관리
+description: 사용자 settings 에서 프로필 정보, 계정 기본값, 알림, 베타 제품 참여, GitHub integration, 스토리지
+  사용량, 계정 활성화를 관리하고 Teams 를 생성할 수 있습니다.
 ---
 
-사용자 프로필 페이지로 이동하여 오른쪽 상단 모서리에 있는 사용자 아이콘을 선택하세요. 드롭다운 메뉴에서 **설정**을 선택합니다.
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
 
-## 프로필
+사용자 프로필 페이지로 이동하여 오른쪽 상단 모서리에 있는 사용자 아이콘을 선택하세요. 드롭다운 메뉴에서 **Settings** 를 선택합니다.
 
-**프로필** 섹션에서는 계정 이름과 소속 기관을 관리하고 수정할 수 있습니다. 선택적으로 자기소개, 위치, 개인 또는 소속 기관 웹사이트 링크를 추가하고 프로필 이미지를 업로드할 수 있습니다.
+## Profile
 
-## 자기 소개 편집
+**Profile** 섹션에서는 계정 이름과 소속 기관을 관리하고 수정할 수 있습니다. 선택 사항으로 약력, 위치, 개인 또는 기관 웹사이트 링크를 추가하고 프로필 이미지를 업로드할 수 있습니다.
 
-자기 소개를 편집하려면 프로필 상단의 **편집**을 클릭합니다. 열리는 WYSIWYG 편집기는 Markdown을 지원합니다.
-1. 줄을 편집하려면 해당 줄을 클릭합니다. 시간을 절약하기 위해 `/`를 입력하고 목록에서 Markdown을 선택할 수 있습니다.
-1. 항목의 드래그 핸들을 사용하여 이동합니다.
-1. 블록을 삭제하려면 드래그 핸들을 클릭한 다음 **삭제**를 클릭합니다.
-1. 변경 사항을 저장하려면 **저장**을 클릭합니다.
+## Edit your intro
 
-### 소셜 배지 추가
+소개(intro)를 편집하려면 프로필 상단에 있는 **Edit** 을 클릭하세요. 열리는 WYSIWYG 에디터는 Markdown 을 지원합니다.
+1. 라인을 편집하려면 해당 라인을 클릭하세요. 시간을 절약하려면 `/` 를 입력하고 목록에서 Markdown 을 선택할 수 있습니다.
+2. 항목의 드래그 핸들을 사용하여 이동하세요.
+3. 블록을 삭제하려면 드래그 핸들을 클릭한 다음 **Delete** 를 클릭하세요.
+4. 변경 사항을 저장하려면 **Save** 를 클릭하세요.
 
-X에서 `@weights_biases` 계정에 대한 팔로우 배지를 추가하려면 배지 이미지를 가리키는 HTML `<img>` 태그가 있는 Markdown 스타일 링크를 추가할 수 있습니다.
+### 소셜 배지 추가하기
+
+X의 `@weights_biases` 계정에 대한 팔로우 배지를 추가하려면, 배지 이미지를 가리키는 HTML `<img>` 태그와 함께 Markdown 스타일의 링크를 추가할 수 있습니다:
 
 ```markdown
-[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases" >](https://x.com/intent/follow?screen_name=weights_biases)
+[![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
 ```
-`<img>` 태그에서 `width`, `height` 또는 둘 다 지정할 수 있습니다. 둘 중 하나만 지정하면 이미지 비율이 유지됩니다.
+`<img>` 태그에서 `width`, `height` 또는 둘 다 지정할 수 있습니다. 하나만 지정하면 이미지의 비율이 유지됩니다.
 
-## 팀
+## Default team
+하나 이상의 팀에 소속되어 있는 경우, **Default team** 섹션에서 run 또는 Weave trace가 팀을 지정하지 않을 때 사용할 기본 팀을 설정할 수 있습니다. 하나의 팀에만 소속되어 있는 경우 해당 팀이 기본값이 되며 이 섹션은 표시되지 않습니다.
 
-**팀** 섹션에서 새 팀을 만듭니다. 새 팀을 만들려면 **새 팀** 버튼을 선택하고 다음을 제공합니다.
+계속하려면 탭을 선택하세요.
 
-* **팀 이름** - 팀의 이름입니다. 팀 이름은 고유해야 합니다. 팀 이름은 변경할 수 없습니다.
-* **팀 유형** - **업무** 또는 **학술** 버튼을 선택합니다.
-* **회사/조직** - 팀의 회사 또는 조직 이름을 제공합니다. 드롭다운 메뉴를 선택하여 회사 또는 조직을 선택합니다. 선택적으로 새 조직을 제공할 수 있습니다.
+<Tabs>
+<Tab title="Multi-tenant Cloud">
+**Default location to create new projects in** 옆의 드롭다운을 클릭한 다음 기본 팀을 선택하세요.
+</Tab>
+<Tab title="Dedicated Cloud / Self-Managed">
+1. **Default location to create new projects in** 옆의 드롭다운을 클릭한 다음 기본 팀 또는 개인 Entities 를 선택하세요.
+2. (**선택 사항**) 관리자가 **Account** > **Settings** > **Privacy** 에서 공개 Projects 를 활성화한 경우, 새 Projects 의 기본 가시성을 설정하세요. **Default project privacy in your personal account** 옆의 버튼을 클릭한 다음 **Private** (기본값) 또는 **Public** 을 선택하세요.
+3. (**선택 사항**) 관리자가 **Account** > **Settings** > **Privacy** 에서 [기본 코드 저장 및 diff 확인](/models/app/features/panels/code/) 을 활성화한 경우, 사용자의 Runs 에 대해 이를 활성화하려면 **Enable code saving in your personal account** 를 클릭하세요.
+</Tab>
+</Tabs>
 
 <Note>
-관리 계정만 팀을 만들 수 있습니다.
+자동화된 환경에서 스크립트를 실행할 때 기본 팀을 지정하려면 `WANDB_ENTITY` [environment variable](https://docs.wandb.ai/models/track/environment-variables) 을 사용하여 기본 위치를 지정할 수 있습니다.
 </Note>
 
-## 베타 기능
+## Teams
+**Teams** 섹션에는 귀하의 모든 Teams 가 나열됩니다.
 
-**베타 기능** 섹션에서는 선택적으로 재미있는 추가 기능과 개발 중인 새 제품의 미리 보기를 활성화할 수 있습니다. 활성화하려는 베타 기능 옆에 있는 토글 스위치를 선택합니다.
+1. 팀 이름을 클릭하여 팀 페이지로 이동합니다.
+2. 추가 팀에 가입할 권한이 있는 경우, **We found teams for you to join** 옆의 **View teams** 를 클릭하세요.
+3. 선택 사항으로 **Hide teams in public profile** 을 활성화하세요.
 
-## 알림
+<Note>
+팀을 생성하거나 관리하려면 [Manage teams](/platform/app/settings-page/teams/) 를 참조하세요.
+</Note>
 
-[wandb.alert()](/ko/models/runs/alert/)을 사용하여 run이 충돌하거나 완료될 때 알림을 받고 사용자 정의 알림을 설정합니다. 이메일 또는 Slack을 통해 알림을 받습니다. 알림을 받을 이벤트 유형 옆에 있는 스위치를 토글합니다.
+## API keys
 
-* **Runs finished**: Weights & Biases run이 성공적으로 완료되었는지 여부.
-* **Run crashed**: run이 완료되지 못한 경우 알림.
+**API Keys** 섹션에서는 W&B 서비스 인증을 위한 개인 API 키 를 관리할 수 있습니다.
 
-알림을 설정하고 관리하는 방법에 대한 자세한 내용은 [wandb.alert로 알림 보내기](/ko/models/runs/alert/)를 참조하세요.
+### API 키 확인하기
 
-## 개인 GitHub 인테그레이션
+API 키 테이블에는 다음이 표시됩니다:
+- **Key ID**: 식별에 사용되는 각 API 키 의 첫 부분
+- **Name**: 키를 생성할 때 입력한 설명이 포함된 이름
+- **Created**: 키가 생성된 시점
+- **Last used**: 가장 최근에 사용된 타임스탬프
 
-개인 Github 계정을 연결합니다. Github 계정을 연결하려면:
+<Note>
+보안을 위해 테이블에는 키 ID(키의 첫 부분)만 표시됩니다. 전체 보안 API 키 는 생성할 때 한 번만 표시됩니다.
+</Note>
 
-1. **Github 연결** 버튼을 선택합니다. 그러면 OAuth (Open Authorization) 페이지로 리디렉션됩니다.
-2. **조직 엑세스** 섹션에서 엑세스 권한을 부여할 조직을 선택합니다.
-3. **wandb**를 **승인**합니다.
+API 키 목록을 검색하거나 필터링하려면 키 이름 또는 ID의 일부를 입력하세요.
+
+### 새 API 키 생성하기
+
+<ApiKeyCreate/>
+
+### API 키 삭제하기
+
+API 키 를 삭제하여 엑세스 권한을 취소하려면:
+
+1. API 키 테이블에서 삭제하려는 키를 찾습니다.
+2. 키 옆의 삭제 버튼을 클릭합니다.
+3. 삭제를 확인합니다.
+
+<Warning>
+API 키 를 삭제하면 해당 키를 사용하는 모든 스크립트 또는 서비스의 엑세스 권한이 즉시 취소됩니다. 이전 키를 삭제하기 전에 모든 시스템이 새 키를 사용하도록 업데이트되었는지 확인하세요.
+</Warning>
+
+<ApiKeySecurity/>
+
+## Beta features
+
+**Beta Features** 섹션에서는 선택 사항으로 재미있는 애드온이나 개발 중인 신제품의 미리보기를 활성화할 수 있습니다. 활성화하려는 베타 기능 옆의 토글 스위치를 선택하세요.
+
+## Alerts
+
+Runs 가 충돌하거나 종료될 때 알림을 받거나, [wandb.Run.alert()](/models/runs/alert/) 를 사용하여 커스텀 알림을 설정하세요. 이메일 또는 Slack을 통해 알림을 받을 수 있습니다. 알림을 받고 싶은 이벤트 유형 옆의 스위치를 토글하세요.
+
+* **Runs finished**: Weights and Biases run 이 성공적으로 종료되었는지 여부.
+* **Run crashed**: run 이 종료에 실패한 경우 알림.
+
+알림을 설정하고 관리하는 방법에 대한 자세한 내용은 [Send alerts with wandb.Run.alert()](/models/runs/alert/) 를 참조하세요.
+
+## Personal GitHub integration
+
+개인 GitHub 계정을 연결합니다. GitHub 계정을 연결하려면:
+
+1. **Connect Github** 버튼을 선택합니다. 그러면 OAuth(개방형 인증) 페이지로 리디렉션됩니다.
+2. **Organization access** 섹션에서 엑세스 권한을 부여할 조직을 선택합니다.
+3. **Authorize** **wandb** 를 선택합니다.
 
 ## 계정 삭제
 
-**계정 삭제** 버튼을 선택하여 계정을 삭제합니다.
+계정을 삭제하려면 **Delete Account** 버튼을 선택하세요.
 
 <Warning>
 계정 삭제는 되돌릴 수 없습니다.
 </Warning>
 
-## 저장 공간
+## Storage
 
-**저장 공간** 섹션에서는 계정이 Weights & Biases 서버에서 사용한 총 메모리 사용량을 설명합니다. 기본 저장 공간 플랜은 100GB입니다. 저장 공간 및 가격 책정에 대한 자세한 내용은 [가격](https://wandb.ai/site/pricing) 페이지를 참조하세요.
+**Storage** 섹션에는 Weights and Biases 서버에서 사용 중인 계정의 총 메모리 사용량이 표시됩니다. 기본 스토리지 플랜은 100GB입니다. 스토리지 및 요금에 대한 자세한 내용은 [Pricing](https://wandb.ai/site/pricing) 페이지를 참조하세요.

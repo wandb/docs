@@ -1,0 +1,67 @@
+---
+title: Weights & Biases 문서
+description: 모든 Weights & Biases 제품에 대한 문서를 확인하세요
+sidebarTitle: Home
+mode: wide
+---
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard
+        title="W&B Models"
+        iconSrc="icons/cropped-models.svg"
+        href="/models"
+        subtitle="AI 모델 개발"
+    >
+        W&B Models 를 사용하여 AI 모델 개발을 관리하세요. 트레이닝, 파인튜닝, 리포트 작성, 하이퍼파라미터 스윕 자동화, 그리고 버전 관리 및 재현성을 위한 모델 레지스트리 활용 등의 기능을 제공합니다.
+        <br/>
+        <br/>
+        • <a href="/models">Introduction</a><br/>
+        • <a href="/models/quickstart">Quickstart</a><br/>
+        • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube 튜토리얼</a><br/>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Weave"
+        iconSrc="icons/cropped-weave.svg"
+        href="/weave"
+        subtitle="애플리케이션에 AI 모델 적용"
+    >   
+        W&B Weave 를 사용하여 코드 내의 AI 모델을 관리하세요. 트레이싱, 출력 평가, 비용 추정은 물론, 다양한 대규모 언어 모델 (LLM) 과 설정을 비교할 수 있는 호스팅 인퍼런스 서비스 및 플레이그라운드 기능을 제공합니다.
+        <br/>
+        <br/>
+        • <a href="/weave">Introduction</a><br/>
+        • <a href="/weave/quickstart">Quickstart</a><br/>
+        • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube 데모</a><br/>
+    </ProductCard>
+    
+    <ProductCard
+        title="W&B Inference"
+        iconSrc="icons/cropped-inference.svg"
+        href="/inference"
+        subtitle="파운데이션 모델 엑세스"
+    >
+        W&B Inference 를 통해 OpenAI 호환 API로 주요 오픈소스 파운데이션 모델에 엑세스하세요. 다양한 모델 옵션, 사용량 추적, 트레이싱 및 평가를 위한 Weave 와의 인테그레이션 기능을 제공합니다.
+        <br/>
+        <br/>
+        • <a href="/inference">Introduction</a><br/>
+        • <a href="https://wandb.ai/inference">플레이그라운드에서 시도하기</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Training"
+        iconSrc="icons/cropped-training.svg"
+        href="/training"
+        subtitle="모델 사후 트레이닝"
+    >
+        현재 퍼블릭 프리뷰로 제공되는 W&B Training 을 사용하여 서버리스 강화학습 (RL) 으로 대규모 언어 모델을 사후 트레이닝하세요. 완전 관리형 GPU 인프라, ART 및 RULER 와의 인테그레이션, 멀티턴 에이전트 작업을 위한 자동 스케일링 기능을 제공합니다.
+        <br/>
+        <br/>
+        • <a href="/training">Introduction</a><br/>
+        • <a href="/training/prerequisites">Quickstart</a><br/>
+    </ProductCard>
+</div>
+</HomeWrapper>

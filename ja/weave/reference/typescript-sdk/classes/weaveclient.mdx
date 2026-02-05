@@ -1,0 +1,461 @@
+---
+title: 'Class: WeaveClient'
+description: TypeScript SDK リファレンス
+---
+
+[weave](../) / WeaveClient
+
+## 目次
+
+### コンストラクタ
+
+- [constructor](./weaveclient#constructor)
+
+### プロパティ
+
+- [projectId](./weaveclient#projectid)
+- [settings](./weaveclient#settings)
+- [traceServerApi](./weaveclient#traceserverapi)
+
+### メソッド
+
+- [addScore](./weaveclient#addscore)
+- [createCall](./weaveclient#createcall)
+- [finishCall](./weaveclient#finishcall)
+- [finishCallWithException](./weaveclient#finishcallwithexception)
+- [get](./weaveclient#get)
+- [getCall](./weaveclient#getcall)
+- [getCallStack](./weaveclient#getcallstack)
+- [getCalls](./weaveclient#getcalls)
+- [getCallsIterator](./weaveclient#getcallsiterator)
+- [getCurrentAttributes](./weaveclient#getcurrentattributes)
+- [publish](./weaveclient#publish)
+- [pushNewCall](./weaveclient#pushnewcall)
+- [runWithAttributes](./weaveclient#runwithattributes)
+- [runWithCallStack](./weaveclient#runwithcallstack)
+- [saveOp](./weaveclient#saveop)
+- [updateCall](./weaveclient#updatecall)
+- [waitForBatchProcessing](./weaveclient#waitforbatchprocessing)
+
+## コンストラクタ
+
+### constructor
+
+• **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `traceServerApi` | `Api`\<`any`\> |
+| `wandbServerApi` | `WandbServerApi` |
+| `projectId` | `string` |
+| `settings` | `Settings` |
+
+#### 返り値
+
+[`WeaveClient`](./weaveclient)
+
+#### 定義
+
+[weaveClient.ts:93](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L93)
+
+## プロパティ
+
+### projectId
+
+• **projectId**: `string`
+
+#### 定義
+
+[weaveClient.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L96)
+
+___
+
+### settings
+
+• **settings**: `Settings`
+
+#### 定義
+
+[weaveClient.ts:97](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L97)
+
+___
+
+### traceServerApi
+
+• **traceServerApi**: `Api`\<`any`\>
+
+#### 定義
+
+[weaveClient.ts:94](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L94)
+
+## メソッド
+
+### addScore
+
+▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
+
+コールにスコアラーの結果（例：スコアラーの出力）を追加します。
+命令型の評価において、スコアラーの結果を predict コールに紐付けるために使用されます。
+
+#### パラメータ
+
+| 名前 | 型 | 説明 |
+| :------ | :------ | :------ |
+| `predictCallId` | `string` | フィードバックを紐付ける predict コールの ID |
+| `scorerCallId` | `string` | フィードバックを生成したスコアラーコールの ID |
+| `runnableRefUri` | `string` | スコアラーの URI (Op または Object 参照) |
+| `scorerOutput` | `any` | スコアラーの出力 |
+
+#### 返り値
+
+`Promise`\<`string`\>
+
+#### 定義
+
+[weaveClient.ts:865](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L865)
+
+___
+
+### createCall
+
+▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `internalCall` | `InternalCall` |
+| `opRef` | `any` |
+| `params` | `any`[] |
+| `parameterNames` | `ParameterNamesOption` |
+| `thisArg` | `any` |
+| `currentCall` | `CallStackEntry` |
+| `parentCall` | `undefined` \| `CallStackEntry` |
+| `startTime` | `Date` |
+| `displayName?` | `string` |
+| `attributes?` | `Record`\<`string`, `any`\> |
+
+#### 返り値
+
+`Promise`\<`void`\>
+
+#### 定義
+
+[weaveClient.ts:720](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L720)
+
+___
+
+### finishCall
+
+▸ **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `call` | `InternalCall` |
+| `result` | `any` |
+| `currentCall` | `CallStackEntry` |
+| `parentCall` | `undefined` \| `CallStackEntry` |
+| `summarize` | `undefined` \| (`result`: `any`) => `Record`\<`string`, `any`\> |
+| `endTime` | `Date` |
+| `startCallPromise` | `Promise`\<`void`\> |
+
+#### 返り値
+
+`Promise`\<`void`\>
+
+#### 定義
+
+[weaveClient.ts:772](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L772)
+
+___
+
+### finishCallWithException
+
+▸ **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `call` | `InternalCall` |
+| `error` | `any` |
+| `currentCall` | `CallStackEntry` |
+| `parentCall` | `undefined` \| `CallStackEntry` |
+| `endTime` | `Date` |
+| `startCallPromise` | `Promise`\<`void`\> |
+
+#### 返り値
+
+`Promise`\<`void`\>
+
+#### 定義
+
+[weaveClient.ts:812](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L812)
+
+___
+
+### get
+
+▸ **get**(`ref`): `Promise`\<`any`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `ref` | [`ObjectRef`](./objectref) |
+
+#### 返り値
+
+`Promise`\<`any`\>
+
+#### 定義
+
+[weaveClient.ts:282](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L282)
+
+___
+
+### getCall
+
+▸ **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
+
+#### パラメータ
+
+| 名前 | 型 | デフォルト値 |
+| :------ | :------ | :------ |
+| `callId` | `string` | `undefined` |
+| `includeCosts` | `boolean` | `false` |
+
+#### 返り値
+
+`Promise`\<`Call`\>
+
+#### 定義
+
+[weaveClient.ts:213](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L213)
+
+___
+
+### getCallStack
+
+▸ **getCallStack**(): `CallStack`
+
+#### 返り値
+
+`CallStack`
+
+#### 定義
+
+[weaveClient.ts:636](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L636)
+
+___
+
+### getCalls
+
+▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
+
+#### パラメータ
+
+| 名前 | 型 | デフォルト値 |
+| :------ | :------ | :------ |
+| `filter` | [`CallsFilter`](../interfaces/callsfilter) | `{}` |
+| `includeCosts` | `boolean` | `false` |
+| `limit` | `number` | `1000` |
+
+#### 返り値
+
+`Promise`\<`Call`[]\>
+
+#### 定義
+
+[weaveClient.ts:223](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L223)
+
+___
+
+### getCallsIterator
+
+▸ **getCallsIterator**(`filter?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+
+#### パラメータ
+
+| 名前 | 型 | デフォルト値 |
+| :------ | :------ | :------ |
+| `filter` | [`CallsFilter`](../interfaces/callsfilter) | `{}` |
+| `includeCosts` | `boolean` | `false` |
+| `limit` | `number` | `1000` |
+
+#### 返り値
+
+`AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
+
+#### 定義
+
+[weaveClient.ts:237](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L237)
+
+___
+
+### getCurrentAttributes
+
+▸ **getCurrentAttributes**(): `Record`\<`string`, `any`\>
+
+#### 返り値
+
+`Record`\<`string`, `any`\>
+
+#### 定義
+
+[weaveClient.ts:640](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L640)
+
+___
+
+### publish
+
+▸ **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](./objectref)\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `obj` | `any` |
+| `objId?` | `string` |
+
+#### 返り値
+
+`Promise`\<[`ObjectRef`](./objectref)\>
+
+#### 定義
+
+[weaveClient.ts:201](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L201)
+
+___
+
+### pushNewCall
+
+▸ **pushNewCall**(): `Object`
+
+#### 返り値
+
+`Object`
+
+| 名前 | 型 |
+| :------ | :------ |
+| `currentCall` | `CallStackEntry` |
+| `newStack` | `CallStack` |
+| `parentCall?` | `CallStackEntry` |
+
+#### 定義
+
+[weaveClient.ts:644](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L644)
+
+___
+
+### runWithAttributes
+
+▸ **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
+
+#### 型パラメータ
+
+| 名前 |
+| :------ |
+| `T` |
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `attributes` | `Record`\<`string`, `any`\> |
+| `fn` | () => `T` |
+
+#### 返り値
+
+`T`
+
+#### 定義
+
+[weaveClient.ts:652](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L652)
+
+___
+
+### runWithCallStack
+
+▸ **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
+
+#### 型パラメータ
+
+| 名前 |
+| :------ |
+| `T` |
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `callStack` | `CallStack` |
+| `fn` | () => `T` |
+
+#### 返り値
+
+`T`
+
+#### 定義
+
+[weaveClient.ts:648](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L648)
+
+___
+
+### saveOp
+
+▸ **saveOp**(`op`, `objId?`): `Promise`\<`any`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `op` | [`Op`](../#op)\<(...`args`: `any`[]) => `any`\> |
+| `objId?` | `string` |
+
+#### 返り値
+
+`Promise`\<`any`\>
+
+#### 定義
+
+[weaveClient.ts:686](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L686)
+
+___
+
+### updateCall
+
+▸ **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `callId` | `string` |
+| `displayName` | `string` |
+
+#### 返り値
+
+`Promise`\<`void`\>
+
+#### 定義
+
+[weaveClient.ts:848](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L848)
+
+___
+
+### waitForBatchProcessing
+
+▸ **waitForBatchProcessing**(): `Promise`\<`void`\>
+
+#### 返り値
+
+`Promise`\<`void`\>
+
+#### 定義
+
+[weaveClient.ts:114](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L114)

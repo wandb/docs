@@ -1,0 +1,102 @@
+---
+title: 개발
+description: 로컬에서 변경 사항을 미리 확인하여 문서 업데이트하기
+---
+
+<Info>
+  **사전 요구 사항**: 진행하기 전에 Node.js (버전 19 이상)를 설치해 주세요. <br />
+  진행하기 전에 ```docs.json```으로 업그레이드하고 기존의 ```mint.json``` 파일을 삭제해 주세요.
+</Info>
+
+사용 중인 운영 체제에 Mintlify를 설치하고 실행하려면 다음 단계를 따르세요:
+
+**1단계**: Mintlify 설치:
+
+<CodeGroup>
+
+  ```bash npm
+  npm i -g mintlify
+  ```
+
+```bash yarn
+yarn global add mintlify
+```
+
+</CodeGroup>
+
+**2단계**: docs 디렉토리 ( `docs.json` 파일이 있는 위치)로 이동하여 다음 코맨드를 실행합니다:
+
+```bash
+mintlify dev
+```
+
+문서의 로컬 미리보기는 `http://localhost:3000`에서 확인할 수 있습니다.
+
+### 커스텀 포트
+
+기본적으로 Mintlify는 3000번 포트를 사용합니다. `--port` 플래그를 사용하여 Mintlify가 실행되는 포트를 사용자 정의할 수 있습니다. 예를 들어, 3333번 포트에서 Mintlify를 실행하려면 다음 코맨드를 사용하세요:
+
+```bash
+mintlify dev --port 3333
+```
+
+이미 사용 중인 포트에서 Mintlify를 실행하려고 하면, 다음으로 사용 가능한 포트를 사용합니다:
+
+```md
+Port 3000 is already in use. Trying 3001 instead.
+```
+
+## Mintlify 버전
+
+각 CLI 릴리즈는 특정 Mintlify 버전과 연결되어 있습니다. 로컬 웹사이트가 프로덕션 버전과 일치하지 않는 경우, CLI를 업데이트해 주세요:
+
+<CodeGroup>
+
+```bash npm
+npm i -g mintlify@latest
+```
+
+```bash yarn
+yarn global upgrade mintlify
+```
+
+</CodeGroup>
+
+## 링크 검증
+
+CLI를 사용하여 문서에 작성된 참조 링크를 검증할 수 있습니다. 깨진 링크를 식별하려면 다음 코맨드를 사용하세요:
+
+```bash
+mintlify broken-links
+```
+
+## 배포
+
+<Tip>
+  [Pro Plan](https://mintlify.com/pricing) 이상에서는 에디터를 무제한으로 사용할 수 있습니다.
+</Tip>
+
+배포가 성공하면 모든 체크를 통과했다는 확인 메시지가 표시됩니다.
+
+## 코드 포맷팅
+
+MDX를 인식하고 포맷팅하기 위해 IDE 확장을 사용하는 것이 좋습니다. VSCode 사용자의 경우, 구문 강조를 위한 [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)과 코드 포맷팅을 위한 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)를 고려해 보세요.
+
+## 문제 해결
+
+<AccordionGroup>
+  <Accordion title='오류: darwin-arm64 런타임을 사용하여 "sharp" 모듈을 로드할 수 없습니다'>
+
+    이는 Node 버전이 오래되었기 때문일 수 있습니다. 다음을 시도해 보세요:
+    1. 현재 설치된 Mintlify 버전을 제거합니다: `npm remove -g mintlify`
+    2. Node v19 이상으로 업그레이드합니다.
+    3. Mintlify를 재설치합니다: `npm install -g mintlify`
+  </Accordion>
+
+  <Accordion title="문제: 알 수 없는 오류가 발생합니다">
+  
+    해결 방법: 장치의 루트로 이동하여 \~/.mintlify 폴더를 삭제합니다. 그 후 `mintlify dev`를 다시 실행하세요.
+  </Accordion>
+</AccordionGroup>
+
+CLI 버전에서 변경된 내용이 궁금하신가요? [CLI 변경 이력을 확인해 보세요.](https://www.npmjs.com/package/mintlify?activeTab=versions)

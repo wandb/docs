@@ -1,0 +1,352 @@
+---
+title: 속성 정의 및 로그 생성
+description: 속성을 사용하여 trace 및 evaluation에 메타 데이터를 추가하세요.
+---
+
+Weave 의 Attributes를 사용하면 traces와 evaluations에 커스텀 메타데이터를 추가할 수 있습니다. 이 메타데이터에는 환경 이름, 모델 버전, 실험 ID, 사용자 ID 또는 기타 컨텍스트 정보가 포함될 수 있으며, 이를 통해 Weave 데이터를 구성, 필터링 및 분석하는 데 도움을 줍니다.
+
+Weave는 attributes를 추가하는 두 가지 방법을 제공합니다:
+
+* **Per-call attributes**: `weave.attributes()`를 사용하여 특정 연산이나 코드 블록에 메타데이터를 추가합니다.
+* **Global attributes**: 초기화 시 `global_attributes` 필드를 사용하여 프로젝트의 모든 traces와 evaluations에 적용되는 attributes를 설정합니다.
+
+UI에서 traces 및 evaluation 중에 로그된 모든 attributes를 확인할 수 있습니다. 이후 이를 사용하여 데이터를 필터링하고 그룹화할 수 있습니다.
+
+<Tip>
+`call.attributes`는 호출이 시작된 후에는 수정할 수 없습니다. op를 호출하기 전에 이 컨텍스트 매니저를 사용하여 메타데이터를 설정하세요.
+</Tip>
+
+## Per-call attributes
+
+`weave.attributes()` 컨텍스트 매니저를 사용하면 특정 추적 연산에 메타데이터를 추가할 수 있습니다. 이를 통해 특정 함수 호출이나 evaluation run에 컨텍스트 정보를 태깅할 수 있습니다.
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+weave.init("attribute-check")
+
+@weave.op
+def my_function(name: str):
+    return f"Hello, {name}!"
+
+# 특정 호출에 attributes 추가
+with weave.attributes({'env': 'production', 'user_id': '12345'}):
+    result = my_function("World")
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+  await init('your-team/attribute-example');
+
+  const myFunction = op(async function myFunction(name: string) {
+    return `Hello, ${name}!`;
+  });
+
+  // 특정 호출에 attributes 추가
+  const result = await withAttributes(
+    {env: 'production', user_id: '12345'},
+    async () => myFunction('World')
+  );
+
+  console.log('Result:', result);
+}
+
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+이 함수는 컨텍스트 매니저 블록(Python) 또는 콜백 함수(TypeScript) 내의 모든 추적 연산에 attributes를 첨부합니다.
+
+`weave.attributes()` 컨텍스트를 중첩해서 사용할 수도 있습니다. 내부 컨텍스트는 동일한 키에 대해 외부 컨텍스트를 덮어씁니다:
+
+<Tabs>
+<Tab title="Python">
+```python lines
+@weave.op
+def process_data(data: str):
+    return data.upper()
+
+# 외부 컨텍스트
+with weave.attributes({
+    "env": "production",
+    "version": "1.0.0",
+    "region": "us-west-2"
+}):
+    process_data("hello")  # 세 가지 attributes를 모두 가짐
+    
+    # 내부 컨텍스트가 'version'을 덮어씀
+    with weave.attributes({
+        "version": "1.1.0",
+        "experiment": "exp-456"
+    }):
+        process_data("world")  # env='production', version='1.1.0', region='us-west-2', experiment='exp-456'을 가짐
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+  await init('your-team/attribute-example');
+
+  const processData = op(async function processData(data: string) {
+    return data.toUpperCase();
+  });
+  
+  // 외부 컨텍스트
+  await withAttributes(
+    {
+      env: 'production',
+      version: '1.0.0',
+      region: 'us-west-2'
+    },
+    async () => {
+      await processData('hello');  // 세 가지 attributes를 모두 가짐
+      
+      // 내부 컨텍스트가 'version'을 덮어씀
+      await withAttributes(
+        {
+          version: '1.1.0',
+          experiment: 'exp-456'
+        },
+        async () => {
+          await processData('world');  // env='production', version='1.1.0', region='us-west-2', experiment='exp-456'을 가짐
+        }
+      );
+    }
+  );
+}
+
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+## Global attributes
+
+Weave 초기화 중에 global attributes를 설정하면, 프로젝트의 **모든** traces와 evaluations에 자동으로 적용됩니다. 이는 환경, 배포 버전 또는 팀 정보와 같이 프로젝트 전반에 걸친 메타데이터를 전파하는 데 유용합니다.
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+weave.init(
+    "my-project",
+    global_attributes={
+        "env": "production",
+        "app_version": "2.1.0",
+        "region": "us-west-2",
+        "team": "ml-platform"
+    }
+)
+
+# global_attributes 사전은 이제 이후의 모든 연산에 이러한 attributes를 적용합니다.
+@weave.op
+def my_function():
+    return "Hello"
+
+my_function()  # 자동으로 모든 global attributes를 가짐
+
+# Evaluations에도 global attributes가 적용됩니다.
+evaluation = weave.Evaluation(dataset=examples, scorers=[scorer])
+asyncio.run(evaluation.evaluate(model))  # 모든 global attributes를 가짐
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+    await init('your-team/attribute-example', {
+        globalAttributes: {
+            env: 'production',
+            app_version: '2.1.0',
+            region: 'us-west-2',
+            team: 'ml-platform'
+        }
+    });
+    
+    // globalAttributes 오브젝트는 이제 이후의 모든 연산에 이러한 attributes를 적용합니다.
+    const myFunction = op(async function myFunction() {
+        return 'Hello';
+    });
+    
+    const result = await myFunction();  // 자동으로 모든 global attributes를 가짐
+    console.log('Result:', result);
+}
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+### Global 및 per-call attributes 조합하기
+
+Global attributes와 per-call attributes를 함께 사용할 수 있습니다. 동일한 키를 가진 per-call attributes는 global attributes를 덮어씁니다:
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+# Global attributes 설정
+weave.init(
+    "my-project",
+    global_attributes={
+        "env": "production",
+        "app_version": "2.1.0"
+    }
+)
+
+@weave.op
+def process(data: str):
+    return data
+
+# 이 호출은 다음을 가집니다: env='production', app_version='2.1.0'
+process("test1")
+
+# 이 호출은 다음을 가집니다: env='staging', app_version='2.1.0', experiment='A'
+with weave.attributes({'env': 'staging', 'experiment': 'A'}):
+    process("test2")
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+    // Global attributes 설정
+    await init('your-team/attribute-example', {
+    globalAttributes: {
+        env: 'production',
+        app_version: '2.1.0'
+    }
+    });
+
+    const process = op(async function process(data: string) {
+    return data;
+    });
+
+    // 이 호출은 다음을 가집니다: env='production', app_version='2.1.0'
+    await process('test1');
+
+    // 이 호출은 다음을 가집니다: env='staging', app_version='2.1.0', experiment='A'
+    await withAttributes(
+    {env: 'staging', experiment: 'A'},
+    async () => process('test2')
+    );
+}
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+## 실행 중에 attributes 가져오기
+
+현재 call에 기록된 attributes 세트를 반환합니다. 이는 call을 디버깅하거나 조건부 로직을 위한 컨텍스트를 확인하는 데 도움이 될 수 있습니다.
+
+<Tabs>
+<Tab title="Python">
+
+다음 예제는 `process_data` 함수를 로그하도록 Weave 데코레이터를 설정하고, 로그할 attributes를 구성한 다음, 실행 시 이를 반환합니다.
+
+```python lines 
+import weave
+
+weave.init("your-team/your-project")
+
+@weave.op
+def process_data(data: str):
+    # op 내부에서 현재 call을 가져옵니다.
+    call = weave.get_current_call()
+    if call:
+        print(f"Attributes: {call.attributes}")
+    return data.upper()
+
+# attributes를 설정하고 함수를 실행합니다.
+with weave.attributes({
+    "env": "production",
+    "version": "1.0.0",
+    "region": "us-west-2"
+}):
+    process_data("hello")
+    
+    with weave.attributes({
+        "version": "1.1.0",
+        "experiment": "exp-456"
+    }):
+        process_data("world")
+```
+
+출력 결과:
+```shell
+Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
+Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'experiment': 'exp-456'}
+```
+
+<Note>
+`weave.get_current_call()`은 `@weave.op` 데코레이터가 적용된 함수 **내부**에서만 작동합니다. op 외부에서는 `None`을 반환합니다.
+</Note>
+</Tab>
+<Tab title="TypeScript">
+
+Weave TypeScript SDK를 사용하면 `client.getCurrentAttributes()`를 사용하여 현재 attributes를 가져올 수 있습니다. Weave Python SDK와 달리, TypeScript attributes는 op 내부뿐만 아니라 `withAttributes()` 컨텍스트 내의 어디에서나 액세스할 수 있습니다.
+
+```typescript lines
+import * as weave from 'weave';
+import { withAttributes } from 'weave';
+
+async function main() {
+  const client = await weave.init('your-team/your-project');
+
+  const processData = weave.op(async function processData(data: string) {
+    // op 내부에서도 attributes에 액세스할 수 있습니다.
+    const attrs = client.getCurrentAttributes();
+    console.log('Attributes inside op:', attrs);
+    return data.toUpperCase();
+  });
+
+  // attributes를 설정하고 함수를 실행합니다.
+  await withAttributes(
+    {
+      env: 'production',
+      version: '1.0.0',
+      region: 'us-west-2'
+    },
+    async () => {
+      // 컨텍스트 내 어디에서나 attributes를 가져옵니다.
+      console.log('Current attributes:', client.getCurrentAttributes());
+      await processData('hello');
+
+      await withAttributes(
+        {
+          version: '1.1.0',
+          experiment: 'exp-456'
+        },
+        async () => {
+          console.log('Nested attributes:', client.getCurrentAttributes());
+          await processData('world');
+        }
+      );
+    }
+  );
+}
+
+main().catch(console.error);
+```
+
+출력 결과:
+```shell
+Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+Attributes inside op: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+Nested attributes: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+Attributes inside op: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+```
+</Tab>
+</Tabs>

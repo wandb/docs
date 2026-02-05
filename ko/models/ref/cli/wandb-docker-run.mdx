@@ -1,20 +1,24 @@
 ---
 title: wandb docker-run
 ---
+import WandbDockerRun from "/snippets/en/_includes/cli/wandb-docker-run.mdx";
 
-**사용법**
+<WandbDockerRun/>
 
-`wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...`
+`docker run`을 래핑하여 WANDB_API_KEY 및 WANDB_DOCKER 환경 변수를 추가합니다.
 
-**요약**
+또한 시스템에 nvidia-docker 실행 파일이 존재하고 --runtime이 설정되지 않은 경우, 런타임을 nvidia로 설정합니다.
 
-`docker run`을 래핑하고 WANDB_API_KEY 및 WANDB_DOCKER 환경 변수를 추가합니다.
+자세한 내용은 `docker run --help`를 참조하세요.
 
-이것은 또한 시스템에 nvidia-docker 실행 파일이 있고 --runtime이 설정되지 않은 경우 런타임을 nvidia로 설정합니다.
+## Usage
 
-자세한 내용은 `docker run --help`를 참조하십시오.
+```bash
+wandb docker-run [DOCKER_RUN_ARGS]
+```
 
-**옵션**
+## Arguments
 
-| **옵션** | **설명** |
-| :--- | :--- |
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `DOCKER_RUN_ARGS` | 설명 없음 | No |

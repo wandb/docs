@@ -1,12 +1,8 @@
 ---
-title: W&B へのシステムメトリクスのログを無効にするにはどうすればいいですか？
-support:
-  - metrics
-  - runs
-toc_hide: true
-type: docs
+title: W&B へのシステム メトリクスのログ記録を無効にするにはどうすればよいですか？
 ---
-[システムメトリクス](/ja/models/ref/system-metrics/)のログを無効にするには、`_disable_stats` を `True` に設定します:
+
+[system metrics](/models/ref/python/experiments/system-metrics/) のログ収集を無効にするには、 `_disable_stats` を `True` に設定します。
 
 ```python
 wandb.init(settings=wandb.Settings(x_disable_stats=True))

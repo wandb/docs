@@ -1,0 +1,97 @@
+---
+title: Slack 自動化を作成する
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+このページでは、Slack [オートメーション](/models/automations/) を作成する方法について説明します。Webhook オートメーションを作成する場合は、代わりに [Create a webhook automation](/models/automations/create-automations/webhook/) を参照してください。
+
+Slack オートメーションの作成は、大きく分けて以下の手順で行います。
+1. [Slack インテグレーションの追加](#add-a-slack-integration): W&B が Slack インスタンスおよびチャンネルに投稿することを許可します。
+1. [オートメーションの作成](#create-an-automation): 監視対象となる [イベント](/models/automations/automation-events/) と通知先のチャンネルを定義します。
+
+## Slack インテグレーションの追加
+Team 管理者は、Team に Slack インテグレーションを追加できます。
+
+1. W&B にログインし、 **Team Settings** に移動します。
+1. **Slack channel integrations** セクションで、 **Connect Slack** をクリックして新しい Slack インスタンスを追加します。既存の Slack インスタンスにチャンネルを追加するには、 **New integration** をクリックします。
+
+    ![Screenshot showing two Slack integrations in a Team](/images/automations/slack_integrations.png)
+1. 必要に応じて、ブラウザで Slack にサインインします。プロンプトが表示されたら、選択した Slack チャンネルに W&B が投稿する権限を許可します。ページの内容を確認し、 **Search for a channel** をクリックしてチャンネル名を入力し始めます。リストからチャンネルを選択し、 **Allow** をクリックします。
+1. Slack で、選択したチャンネルに移動します。`[Your Slack handle] added an integration to this channel: Weights & Biases` のような投稿が表示されれば、インテグレーションは正しく設定されています。
+
+これで、設定した Slack チャンネルに通知する [オートメーションを作成](#create-an-automation) できるようになります。
+
+## Slack インテグレーションの表示と管理
+Team 管理者は、Team の Slack インスタンスとチャンネルを表示および管理できます。
+
+1. W&B にログインし、 **Team Settings** に移動します。
+1. **Slack channel integrations** セクションで各 Slack の送信先を確認します。
+1. ゴミ箱アイコンをクリックして、送信先を削除します。
+
+## オートメーションの作成
+[Slack インテグレーションを追加](#add-a-slack-integreation) した後、 **Registry** または **Project** を選択し、以下の手順に従って Slack チャンネルに通知するオートメーションを作成します。
+
+<Tabs>
+<Tab title="Registry">
+Registry 管理者は、その Registry 内でオートメーションを作成できます。
+
+1. W&B にログインします。
+1. Registry の名前をクリックして詳細を表示します。
+1. Registry スコープのオートメーションを作成するには、 **Automations** タブをクリックし、 **Create automation** をクリックします。Registry スコープのオートメーションは、そのすべてのコレクション（将来作成されるものを含む）に自動的に適用されます。
+1. 監視対象となる [イベント](/models/automations/automation-events/#registry-events) を選択します。
+
+   イベントに応じて表示される追加フィールドに入力します。例えば、 **An artifact alias is added** を選択した場合は、 **Alias regex** を指定する必要があります。
+
+   **Next step** をクリックします。
+1. [Slack インテグレーション](#add-a-slack-integration) を所有する Team を選択します。
+1. **Action type** を **Slack notification** に設定します。Slack チャンネルを選択し、 **Next step** をクリックします。
+1. オートメーションの名前を入力します。任意で説明を入力します。
+1. **Create automation** をクリックします。
+</Tab>
+<Tab title="Project">
+W&B 管理者は、Project 内でオートメーションを作成できます。
+
+1. W&B にログインします。
+1. Project ページに移動して **Automations** タブをクリックし、 **Create automation** をクリックします。
+
+    または、 Workspace のラインプロットから、表示されているメトリクスに対して [run メトリクスオートメーション](/models/automations/automation-events/#run-events) を素早く作成することもできます。パネルの上にカーソルを置き、パネル上部のベルアイコンをクリックします。
+    <Frame>
+    <img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location"  />
+    </Frame>
+1. 監視対象となる [イベント](/models/automations/automation-events/#project) を選択します。
+
+    1. 表示される追加フィールドに入力します。例えば、 **An artifact alias is added** を選択した場合は、 **Alias regex** を指定する必要があります。
+
+        1. Run によってトリガーされるオートメーションの場合、任意で 1 つ以上の Run フィルタを指定します。
+
+            - **Filter to one user's runs**: 指定したユーザーによって作成された Run のみを含めます。トグルをクリックしてフィルタをオンにし、ユーザー名を指定します。
+            - **Filter on run name**: 名前が指定された正規表現に一致する Run のみを含めます。トグルをクリックしてフィルタをオンにし、正規表現を指定します。
+    1. **Next step** をクリックします。
+1. [Slack インテグレーション](#add-a-slack-integration) を所有する Team を選択します。
+1. **Action type** を **Slack notification** に設定します。Slack チャンネルを選択し、 **Next step** をクリックします。
+1. オートメーションの名前を入力します。任意で説明を入力します。
+1. **Create automation** をクリックします。
+</Tab>
+</Tabs>
+
+## オートメーションの表示と管理
+
+<Tabs>
+<Tab title="Registry">
+Registry の **Automations** タブから Registry のオートメーションを管理します。
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、アクションメニュー `...` をクリックし、 **Edit automation** をクリックします。
+- オートメーションを削除するには、アクションメニュー `...` をクリックし、 **Delete automation** をクリックします。確認が必要です。
+</Tab>
+<Tab title="Project">
+W&B 管理者は、Project の **Automations** タブから Project のオートメーションを表示および管理できます。
+
+- オートメーションの詳細を表示するには、その名前をクリックします。
+- オートメーションを編集するには、アクションメニュー `...` をクリックし、 **Edit automation** をクリックします。
+- オートメーションを削除するには、アクションメニュー `...` をクリックし、 **Delete automation** をクリックします。確認が必要です。
+</Tab>
+</Tabs>

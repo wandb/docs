@@ -1,0 +1,27 @@
+---
+title: 特定の文字を含む メトリクス をソートしたりフィルタリングしたりできないのはなぜですか？
+---
+
+import Text from "/snippets/ja/_includes/metric-naming-rules.mdx";
+import Text2 from "/snippets/ja/_includes/metric-naming-examples.mdx";
+
+W&B におけるメトリクス名は、UI 上で適切に並べ替え（ソート）やフィルタリングを行えるように、GraphQL の命名規則に従う必要があります。
+
+## 有効なメトリクス名
+
+<Text/>
+
+これらのルールに従っていないメトリクスは、W&B UI でソートやフィルタリングができない場合があります。
+
+## 例
+
+<Text2/>
+
+## 推奨される解決策
+
+無効な文字をアンダースコアなどの有効な文字に置き換えてください。
+- `"test acc"` の代わりに `"test_acc"` を使用する
+- `"loss-train"` の代わりに `"loss_train"` を使用する
+- `"acc,val"` の代わりに `"acc_val"` を使用する
+
+詳細については、[Metric naming constraints](/models/track/log/#metric-naming-constraints)（英語）を参照してください。

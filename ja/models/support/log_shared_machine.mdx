@@ -1,10 +1,7 @@
 ---
-title: 共有マシンで正しい wandb User にログするにはどうすればよいですか？
-support:
-  - logs
-toc_hide: true
-type: docs
+title: 共有マシン上で、適切な wandb User としてログを記録するにはどうすればよいですか？
 ---
-共有マシンを使用する場合、`WANDB_API_KEY` 環境変数を設定して認証を行うことで、正しい WandB アカウントに run がログを生成するようにしてください。環境でソースされている場合、この変数はログイン時に正しい認証情報を提供します。あるいは、スクリプト内で直接環境変数を設定することもできます。
 
-`export WANDB_API_KEY=X` コマンドを実行し、X をあなたの API キーに置き換えてください。ログインしているユーザーは、自分の API キーを [wandb.ai/authorize](https://app.wandb.ai/authorize) で見つけることができます。
+共有マシンを使用する際は、認証用の `WANDB_API_KEY` 環境変数を設定することで、 Runs が正しい W&B アカウントに ログ を記録するようにしてください。この変数が 環境 で読み込まれている場合、ログイン時に正しい資格情報が提供されます。あるいは、 スクリプト 内で直接 環境 変数を設定することも可能です。
+
+`export WANDB_API_KEY=X` コマンド を実行し、X をご自身の APIキー に置き換えてください。 APIキー は [wandb.ai/settings](https://wandb.ai/settings) で作成できます。

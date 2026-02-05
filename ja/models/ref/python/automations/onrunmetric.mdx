@@ -1,0 +1,50 @@
+---
+title: OnRunMetric
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+
+## <kbd>class</kbd> `OnRunMetric`
+`OnRunMetric` は、 ユーザーが定義した条件を満たす run メトリクスを表します。
+
+例：
+Projects "my-project" 内の任意の run において、 メトリクス "my-metric" の直近 5 つの 値 の平均が 123.45 を超えたときにトリガーされるイベントを定義します：
+
+```python
+from wandb import Api
+from wandb.automations import OnRunMetric, RunEvent
+
+api = Api()
+project = api.project(name="my-project")
+
+event = OnRunMetric(
+    scope=project,
+    # "my-metric" の 5 つの平均が 123.45 より大きい（gt）場合にトリガー
+    filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
+)
+```
+
+
+### <kbd>method</kbd> `OnRunMetric.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
+    scope: 'ProjectScope',
+    filter: 'RunMetricFilter'
+) → None
+```
+
+**Args:**
+ 
+ - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]): イベントのタイプ。
+ - `scope` (ProjectScope): イベントのスコープ。 Projects である必要があります。
+ - `filter` (RunMetricFilter): このイベントがトリガーされるために満たす必要がある Run およびメトリクスの条件。
+
+**Returns:**
+ `OnRunMetric` オブジェクト。

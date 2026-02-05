@@ -1,0 +1,257 @@
+---
+title: fastai
+---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
+`WandbCallback` クラスを使用することで、 **fastai** を W&B とインテグレーションできます。詳細については、こちらの [例付きインタラクティブドキュメント](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA) をご覧ください。
+
+## サインアップと API キーの作成
+
+API キーは、お使いのマシンを W&B に対して認証するために使用されます。 API キーはユーザープロファイルから生成できます。
+
+<ApiKeyCreateStreamlined/>
+
+1. 右上隅にあるユーザープロファイルアイコンをクリックします。
+1. **User Settings** を選択し、 **API Keys** セクションまでスクロールします。
+
+## `wandb` ライブラリのインストールとログイン
+
+ローカルに `wandb` ライブラリをインストールしてログインするには：
+
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) を API キーに設定します。
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. `wandb` ライブラリをインストールしてログインします。
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+## `learner` または `fit` メソッドに `WandbCallback` を追加する
+
+```python
+import wandb
+from fastai.callback.wandb import *
+
+# wandb run のログ記録を開始
+wandb.init(project="my_project")
+
+# 1つのトレーニングフェーズのみログを記録する場合
+learn.fit(..., cbs=WandbCallback())
+
+# すべてのトレーニングフェーズで継続的にログを記録する場合
+learn = learner(..., cbs=WandbCallback())
+```
+
+<Note>
+Fastai のバージョン1を使用している場合は、 [Fastai v1 ドキュメント](/models/integrations/fastai/v1/) を参照してください。
+</Note>
+
+## WandbCallback の引数
+
+`WandbCallback` は以下の引数を受け取ります：
+
+| 引数 | 説明 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| log | モデルの何をログ記録するか： `gradients` , `parameters`, `all` または `None` (デフォルト)。損失とメトリクスは常にログに記録されます。 |
+| log_preds | 予測サンプルのログを記録するかどうか（デフォルトは `True` ）。 |
+| log_preds_every_epoch | 各エポックごとに予測をログ記録するか、終了時に記録するか（デフォルトは `False` ）。 |
+| log_model | モデルをログ記録するかどうか（デフォルトは False ）。これには `SaveModelCallback` も必要です。 |
+| model_name | 保存する `file` の名前。 `SaveModelCallback` を上書きします。 |
+| log_dataset | <ul><li><code>False</code> (デフォルト)</li><li><code>True</code> は learn.dls.path で参照されるフォルダをログに記録します。</li><li>ログに記録するフォルダを参照するために、パスを明示的に定義することもできます。</li></ul><p><em>注意: サブフォルダ "models" は常に無視されます。</em></p> |
+| dataset_name | ログに記録されるデータセットの名前（デフォルトは <code>folder name</code> ）。 |
+| valid_dl | 予測サンプルに使用されるアイテムを含む <code>DataLoaders</code> （デフォルトは <code>learn.dls.valid</code> からのランダムなアイテム）。 |
+| n_preds | ログに記録する予測の数（デフォルトは 36 ）。 |
+| seed | ランダムサンプルの定義に使用されます。 |
+
+カスタムワークフローでは、データセットとモデルを手動でログに記録できます：
+
+* `log_dataset(path, name=None, metadata={})`
+* `log_model(path, name=None, metadata={})`
+
+_注意: いかなるサブフォルダ "models" も無視されます。_
+
+## 分散トレーニング
+
+`fastai` はコンテキストマネージャー `distrib_ctx` を使用した分散トレーニングをサポートしています。W&B はこれを自動的にサポートしており、設定不要でマルチ GPU 実験を追跡できます。
+
+以下の最小構成の例を確認してください：
+
+<Tabs>
+<Tab title="Script">
+```python
+import wandb
+from fastai.vision.all import *
+from fastai.distributed import *
+from fastai.callback.wandb import WandbCallback
+
+# experiment="service" を指定して wandb.require を実行
+wandb.require(experiment="service")
+path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+
+def train():
+    dls = ImageDataLoaders.from_name_func(
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
+    wandb.init("fastai_ddp", entity="capecape")
+    cb = WandbCallback()
+    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+    with learn.distrib_ctx(sync_bn=False):
+        learn.fit(1)
+
+if __name__ == "__main__":
+    train()
+```
+
+次に、ターミナルで以下を実行します：
+
+```shell
+$ torchrun --nproc_per_node 2 train.py
+```
+
+この場合、マシンには 2 つの GPU が搭載されています。
+</Tab>
+<Tab title="Python notebook">
+ノートブック内で直接分散トレーニングを実行できるようになりました。
+
+```python
+import wandb
+from fastai.vision.all import *
+
+from accelerate import notebook_launcher
+from fastai.distributed import *
+from fastai.callback.wandb import WandbCallback
+
+wandb.require(experiment="service")
+path = untar_data(URLs.PETS) / "images"
+
+def train():
+    dls = ImageDataLoaders.from_name_func(
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
+    wandb.init("fastai_ddp", entity="capecape")
+    cb = WandbCallback()
+    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+    with learn.distrib_ctx(in_notebook=True, sync_bn=False):
+        learn.fit(1)
+
+# 2つのプロセスでランチャーを起動
+notebook_launcher(train, num_processes=2)
+```
+</Tab>
+</Tabs>
+
+### メインプロセスのみでログを記録する
+
+上記の例では、 `wandb` はプロセスごとに 1 つの run を開始します。トレーニングが終了すると、 2 つの run が作成されます。これが混乱を招く場合があり、メインプロセスのみでログを記録したいことがあります。その場合は、どのプロセスにいるかを手動で検出し、他のすべてのプロセスで run の作成（ `wandb.init` の呼び出し）を避ける必要があります。
+
+<Tabs>
+<Tab title="Script">
+```python
+import wandb
+from fastai.vision.all import *
+from fastai.distributed import *
+from fastai.callback.wandb import WandbCallback
+
+wandb.require(experiment="service")
+path = rank0_first(lambda: untar_data(URLs.PETS) / "images")
+
+def train():
+    cb = []
+    dls = ImageDataLoaders.from_name_func(
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
+    # ランク0（メインプロセス）のみ wandb を初期化
+    if rank_distrib() == 0:
+        run = wandb.init("fastai_ddp", entity="capecape")
+        cb = WandbCallback()
+    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+    with learn.distrib_ctx(sync_bn=False):
+        learn.fit(1)
+
+if __name__ == "__main__":
+    train()
+```
+ターミナルでの呼び出し：
+
+```
+$ torchrun --nproc_per_node 2 train.py
+```
+</Tab>
+<Tab title="Python notebook">
+```python
+import wandb
+from fastai.vision.all import *
+
+from accelerate import notebook_launcher
+from fastai.distributed import *
+from fastai.callback.wandb import WandbCallback
+
+wandb.require(experiment="service")
+path = untar_data(URLs.PETS) / "images"
+
+def train():
+    cb = []
+    dls = ImageDataLoaders.from_name_func(
+        path,
+        get_image_files(path),
+        valid_pct=0.2,
+        label_func=lambda x: x[0].isupper(),
+        item_tfms=Resize(224),
+    )
+    # ランク0（メインプロセス）のみ wandb を初期化
+    if rank_distrib() == 0:
+        run = wandb.init("fastai_ddp", entity="capecape")
+        cb = WandbCallback()
+    learn = vision_learner(dls, resnet34, metrics=error_rate, cbs=cb).to_fp16()
+    with learn.distrib_ctx(in_notebook=True, sync_bn=False):
+        learn.fit(1)
+
+notebook_launcher(train, num_processes=2)
+```
+</Tab>
+</Tabs>
+
+## 例
+
+* [Visualize, track, and compare Fastai models](https://app.wandb.ai/borisd13/demo_config/reports/Visualize-track-compare-Fastai-models--Vmlldzo4MzAyNA): 詳細にドキュメント化されたウォークスルー。
+* [Image Segmentation on CamVid](https://bit.ly/fastai-wandb): インテグレーションのサンプルユースケース。

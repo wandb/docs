@@ -1,18 +1,18 @@
 ---
-title: How do I find an artifact from the best run in a sweep?
-support:
-- artifacts
-toc_hide: true
-type: docs
+title: ' thoughtful_thought
+
+  Sweep 에서 가장 우수한 Run 의 Artifact 를 어떻게 찾나요?'
 ---
 
-스윕에서 가장 성능이 좋은 run에서 아티팩트를 검색하려면 다음 코드를 사용하세요.
+Sweep 에서 가장 성능이 좋은 Run 의 Artifacts 를 가져오려면 다음 코드를 사용하세요:
 
 ```python
 api = wandb.Api()
 sweep = api.sweep("entity/project/sweep_id")
+# val_acc를 기준으로 run을 정렬하여 가장 성능이 좋은 run을 선택합니다.
 runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
 best_run = runs[0]
+# best_run에서 로그된 아티팩트를 가져와 다운로드합니다.
 for artifact in best_run.logged_artifacts():
     artifact_path = artifact.download()
     print(artifact_path)

@@ -1,0 +1,68 @@
+---
+title: チーム設定の管理
+description: チームのメンバー、アバター、アラート、およびプライバシー 設定 を Team Settings ページで管理します。
+---
+
+import EnterpriseOnly from "/snippets/en/_includes/enterprise-only.mdx";
+
+# チーム設定
+
+メンバー、アバター、アラート、プライバシー、使用状況など、チームの設定を変更できます。Organization 管理者およびチーム管理者は、チームの設定を表示および編集できます。
+
+<Note>
+チーム設定の変更やチームからのメンバー削除は、管理者（Administration）アカウントタイプのみが実行可能です。
+</Note>
+
+## Members
+
+Members セクションには、すべての保留中の招待と、チームへの参加招待を承諾したメンバーのリストが表示されます。リスト内の各メンバーについて、名前、ユーザー名、メールアドレス、チームロール、および Organization から継承された Models と W&B Weave へのアクセス権限が表示されます。標準のチームロールである **Admin**、**Member**、**View-only** から選択できます。Organization で [カスタムロール](/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) が作成されている場合は、代わりにカスタムロールを割り当てることができます。
+
+チームの作成、チームの管理、チームメンバーシップおよびロールの管理に関する詳細は、[チームの追加と管理](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを招待できる権限の設定や、その他のチームのプライバシー設定については、[プライバシー](#privacy) を参照してください。
+
+## アバター
+
+**Avatar** セクションに移動して画像をアップロードすることで、アバターを設定できます。
+
+1. **Update Avatar** を選択して、ファイル選択ダイアログを表示します。
+2. ファイル選択ダイアログから、使用したい画像を選択します。
+
+## アラート
+
+Run がクラッシュしたとき、終了したとき、またはカスタムアラートを設定したときにチームに通知します。チームはメールまたは Slack でアラートを受け取ることができます。
+
+通知を受け取りたいイベントタイプの横にあるスイッチを切り替えます。Weights & Biases では、デフォルトで以下のイベントタイプオプションを提供しています。
+
+* **Runs finished**: Weights & Biases の Run が正常に終了したかどうか。
+* **Run crashed**: Run が正常に終了しなかった場合。
+
+アラートの設定と管理方法の詳細については、[`wandb.Run.alert()` によるアラートの送信](/models/evaluate-models/) を参照してください。
+
+## Slack 通知
+Registry やプロジェクトでイベントが発生したとき（新しい Artifact が作成されたときや、Run のメトリクスが定義されたしきい値に達したときなど）に、チームの [オートメーション](/models/automations/) が通知を送信する Slack の送信先を設定します。[Slack オートメーションの作成](/models/automations/create-automations/slack/) を参照してください。
+
+<Info>
+<EnterpriseOnly/>
+</Info>
+
+## Webhooks
+Registry やプロジェクトでイベントが発生したとき（新しい Artifact が作成されたときや、Run のメトリクスが定義されたしきい値に達したときなど）に、チームの [オートメーション](/models/automations/) が実行できる Webhook を設定します。[Webhook オートメーションの作成](/models/automations/create-automations/slack/) を参照してください。
+
+<Info>
+<EnterpriseOnly/>
+</Info>
+
+## プライバシー
+
+**Privacy** セクションに移動して、プライバシー設定を変更します。プライバシー設定を変更できるのは Organization 管理者のみです。
+
+- 今後のプロジェクトをパブリックにしたり、レポートを公開したりする機能をオフにします。
+- チーム管理者だけでなく、すべてのチームメンバーが他のメンバーを招待できるようにします。
+- コード保存がデフォルトでオンになるかどうかを管理します。
+
+## 使用状況
+
+**Usage** セクションには、チームが Weights & Biases サーバーで使用した総メモリ使用量が表示されます。デフォルトのストレージプランは 100GB です。ストレージと料金の詳細については、[料金ページ](https://wandb.ai/site/pricing) を参照してください。
+
+## ストレージ
+
+**Storage** セクションには、チームのデータに使用されているクラウドストレージバケットの設定が表示されます。詳細については、[Secure Storage Connector](/platform/app/settings-page/teams/#secure-storage-connector) を参照するか、セルフホスティングを利用している場合は [W&B Server](/platform/hosting/data-security/secure-storage-connector) のドキュメントを確認してください。

@@ -1,0 +1,36 @@
+---
+title: LightGBM
+description: W&B를 통해 tree 모델을 추적하세요.
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
+
+`wandb` 라이브러리는 [LightGBM](https://lightgbm.readthedocs.io/en/latest/)을 위한 전용 콜백을 포함하고 있습니다. 또한 W&B의 범용 로그 기능을 사용하여 하이퍼파라미터 스윕과 같은 대규모 실험을 간편하게 트래킹할 수 있습니다.
+
+```python
+from wandb.integration.lightgbm import wandb_callback, log_summary
+import lightgbm as lgb
+
+# W&B에 메트릭 로그 기록
+gbm = lgb.train(..., callbacks=[wandb_callback()])
+
+# 피처 중요도(feature importance) 플롯을 로그로 기록하고 W&B에 모델 체크포인트 업로드
+log_summary(gbm, save_model_checkpoint=True)
+```
+
+<Note>
+실행 가능한 코드 예시를 찾고 계신가요? [GitHub의 예제 레포지토리](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)를 확인해 보세요.
+</Note>
+
+## Sweeps를 이용한 하이퍼파라미터 튜닝
+
+모델에서 최상의 성능을 이끌어내기 위해서는 트리의 깊이나 학습률(learning rate)과 같은 하이퍼파라미터 튜닝이 필요합니다. W&B [Sweeps](/models/sweeps/)는 대규모 하이퍼파라미터 테스트 실험을 구성, 오케스트레이션 및 분석하기 위한 강력한 툴킷입니다.
+
+이러한 툴에 대해 더 자세히 알아보고 XGBoost와 함께 Sweeps를 사용하는 예시를 확인하려면, 아래의 대화형 Colab 노트북을 확인해 보세요.
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+<Frame>
+    <img src="/images/integrations/lightgbm_sweeps.png" alt="LightGBM performance comparison"  />
+</Frame>

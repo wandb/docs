@@ -1,23 +1,21 @@
 ---
-title: 'InitStartError: Error communicating with wandb process'
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 'InitStartError: wandb 프로세스 통신 오류'
 ---
 
-이 오류는 라이브러리가 데이터를 서버와 동기화하는 프로세스를 시작하는 데 문제가 발생했음을 나타냅니다.
+이 오류는 라이브러리가 데이터를 서버로 동기화하는 프로세스를 시작하는 과정에서 문제가 발생했음을 나타냅니다.
 
-다음 해결 방법은 특정 환경에서 문제를 해결합니다.
+특정 환경에서는 다음의 해결 방법을 통해 문제를 해결할 수 있습니다:
 
 <Tabs>
 <Tab title="Linux and OS X">
 ```python
 wandb.init(settings=wandb.Settings(start_method="fork"))
 ```
+
 </Tab>
 <Tab title="Google Colab">
-`0.13.0` 이전 버전의 경우 다음을 사용하세요.
+
+`0.13.0` 이전 버전의 경우 다음을 사용하세요:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))

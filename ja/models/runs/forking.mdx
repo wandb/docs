@@ -1,92 +1,131 @@
 ---
-title: run をフォークする
-description: W&B run をフォークする
+title: Run をフォークする
+description: オリジナルの run に影響を与えることなく、実験 内の特定の時点から異なる パラメータ や モデル を探索できます。
 ---
 
 <Warning>
-run をフォークする機能はプライベートプレビューです。この機能へのアクセスをリクエストするには、support@wandb.com まで W&B サポートにお問い合わせください。
+Run のフォーク機能はプライベートプレビュー版です。この機能へのアクセスを希望される場合は、W&B サポート（support@wandb.com）までご連絡ください。
 </Warning>
 
-run を初期化する際に `fork_from` を使用して、既存の W&B run から"フォーク"します。run をフォークすると、W&B はソース run の `run ID` と `step` を使用して新しい run を作成します。
+オリジナルの Run に影響を与えることなく、実験の特定のポイントから異なる パラメータ や モデル を探索することができます。これを行うには、既存の W&B Run をフォークします。
 
-run をフォークすることで、元の run に影響を与えずに、実験の特定のポイントから異なるパラメータやモデルを探索することができます。
+Run をフォークすると、W&B はソースとなる Run の Run ID と指定された ステップ を使用して、新しい Run を作成します。フォークされた Run には、そのステップまでのソース Run のすべての データ が含まれます。フォークしたステップ以降は、オリジナルの Run とは独立して、フォークされた Run に新しい データを ログ 記録できます。
 
 <Note>
-* run のフォークには [`wandb`](https://pypi.org/project/wandb/) SDK バージョン >= 0.16.5 が必要です
-* run のフォークには、単調に増加するステップが必要です。[`define_metric()`](/ja/models/ref/python/run#define_metric)で定義された非単調なステップを使用してフォークポイントを設定することはできません。これは、run 履歴およびシステムメトリクスの重要な時間的順序を乱すためです。
+* Run のフォークには、[`wandb`](https://pypi.org/project/wandb/) SDK バージョン 0.16.5 以上が必要です。
+* Run のフォークには、単調増加するステップが必要です。[`define_metric()`](/models/ref/python/experiments/run#define_metric) で定義された非単調なステップを使用している Run からはフォークできません。非単調なステップは、Run の履歴やシステム メトリクス の時系列順序を損なうためです。
 </Note>
 
-## フォークされた run を開始する
+既存の Run からフォークするには、[`wandb.init()`](/models/ref/python/functions/init) の `fork_from` パラメータ を使用します。ソースとなる Run の一意な `run ID` と、フォークを開始したい `step` を指定してください。
 
-run をフォークするには、[`wandb.init()`](/ja/models/ref/python/init)で `fork_from` 引数を使用し、フォーク元としてのソース `run ID` と `step` を指定します:
+<Note>
+Run ID の詳細や確認方法については、[Unique run identifiers](/models/runs/run-identifiers#unique-run-identifiers) を参照してください。
+</Note>
+
+## 以前にログを記録した Run からのフォーク
+
+以下の コードスニペット は、以前に W&B にログを記録した Run からフォークする方法を示しています。別の スクリプト や ノートブック の Run、または別の ユーザー やサービスアカウントによってログ記録された Run からフォークする場合にこの方法を使用します。
+
+`<source-run-id>`、`<project>`、および `<entity>` を自身の 値 に置き換えてください。
 
 ```python
 import wandb
 
-# 後でフォークするための run を初期化
-original_run = wandb.init(project="your_project_name", entity="your_entity_name")
-# ... トレーニングやログを実行 ...
-original_run.finish()
+# フォーク元のソース Run の一意な ID
+source_run_id = "<source-run-id>"
 
-# 特定のステップから run をフォーク
-forked_run = wandb.init(
-    project="your_project_name",
-    entity="your_entity_name",
-    fork_from=f"{original_run.id}?_step=200",
-)
+# フォークするステップを指定
+fork_step = 200
+
+# Run をフォークする
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{source_run_id}?_step={fork_step}",
+) as forked_run:
+    pass
 ```
 
-### 不変の run ID を使用する
+## 同じスクリプト内の Run からのフォーク
 
-不変の run ID を使用して、特定の run への一貫性のある変更不可能な参照を保証します。ユーザーインターフェースから不変の run ID を取得するには、次の手順に従います:
+以下の コードスニペット は、同じ スクリプト 内の Run からフォークする方法を示しています。これは、同じ スクリプト や ノートブック 内の特定のポイントから、異なる パラメータ や モデル を探索したい場合に便利です。
 
-1. **Overview タブにアクセスする:** ソース run のページで [**Overview タブ**](/ja/./#overview-tab) に移動します。
+```python
+import wandb
 
-2. **不変の Run ID をコピーする:** **Overview** タブの右上隅にある `...` メニュー（三点ドット）をクリックします。ドロップダウンメニューから `Copy Immutable Run ID` オプションを選択します。
+# Run を初期化
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as original_run:
+    # ...トレーニングロジックをここに記述...
+    pass
 
-これらの手順を追うことで、フォークされた run に使用できる安定した変更不可能な run への参照を得ることができます。
+# フォークするステップを指定
+fork_step = 200
 
-## フォークされた run から続行する
-フォークされた run を初期化した後、新しい run にログを続行することができます。同じメトリクスをログすることで連続性を持たせ、新しいメトリクスを導入することも可能です。
+# オリジナルの Run ID を使用し、フォークするステップを指定
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{original_run.id}?_step={fork_step}",
+) as forked_run:
+    # ...トレーニングロジックをここに記述...
+    pass
+```
 
-例えば、次のコード例では、最初に run をフォークし、次にトレーニングステップ 200 からフォークされた run にメトリクスをログする方法を示しています:
+オリジナルの Run の一意な Run ID を取得するには、`original_run.id` プロパティを使用します。
+
+### スクリプトの例
+
+例えば、以下のコード例では、まず Run をフォークし、次にトレーニングステップ 200 からフォークされた Run に メトリクス を ログ 記録する方法を示しています。
+
+以下の コード を Python スクリプト または ノートブック のセルにコピー＆ペーストしてください。`<project>` と `<entity>` は自身の 値 に置き換えてください。
 
 ```python
 import wandb
 import math
 
-# 最初の run を初期化し、いくつかのメトリクスをログ
-run1 = wandb.init("your_project_name", entity="your_entity_name")
-for i in range(300):
-    run1.log({"metric": i})
-run1.finish()
+# 最初の Run を初期化してメトリクスをログ記録する
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as run1:
+    for i in range(300):
+        run1.log({"metric": i})
 
-# 特定のステップから最初の run をフォークし、ステップ 200 からメトリクスをログ
-run2 = wandb.init(
-    "your_project_name", entity="your_entity_name", fork_from=f"{run1.id}?_step=200"
-)
+# 最初の Run の特定のステップからフォークし、
+# ステップ 200 からメトリクスをログ記録する
+with wandb.init(
+    project="<project>", 
+    entity="<entity>", 
+    fork_from=f"{run1.id}?_step=200"
+) as run2:
+    # 新しい Run でログ記録を継続する
+    # 最初の数ステップは、run1 と同じメトリクスをログ記録する
+    # ステップ 250 以降は、スパイクのあるパターンでログ記録を開始する
+    for i in range(200, 300):
+        if i < 250:
+            # スパイクなしで run1 から継続してログ記録
+            metric_value = i
+        else:
+            # ステップ 250 からスパイクのある振る舞いを導入
+            metric_value = i + (2 * math.sin(i / 3.0))  # わずかなスパイクパターンを適用
 
-# 新しい run でログを続行
-# 最初のいくつかのステップで、run1 からそのままメトリクスをログ
-# ステップ 250 以降、スパイキーなパターンをログする
-for i in range(200, 300):
-    if i < 250:
-        run2.log({"metric": i})  # スパイクなしで run1 からログを続行
-    else:
-        # ステップ 250 からスパイキーな振る舞いを導入
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # 微細なスパイキーパターンを適用
-        run2.log({"metric": subtle_spike})
-    # さらに、すべてのステップで新しいメトリクスをログ
-    run2.log({"additional_metric": i * 1.1})
-run2.finish()
+        # 両方のメトリクスを1回でログ記録し、
+        # 同じステップで記録されるようにする
+        run2.log({
+            "metric": metric_value,
+            "additional_metric": i * 1.1
+        })
 ```
 
 <Note>
-**巻き戻しとフォークの互換性**
+**Rewind とフォークの互換性**
 
-フォークは、あなたの run を管理し実験する上でより多くの柔軟性を提供することにより、[`巻き戻し`](/ja/models/runs/rewind/)を補完します。
+フォークは、Run の管理と試行に柔軟性を持たせることで [`rewind`](/models/runs/rewind/) を補完します。
 
-run をフォークする際、W&B は特定のポイントで run から新しいブランチを作成し、異なるパラメータやモデルを試みることができます。
+Run をフォークする場合、W&B は特定のポイントで Run から新しいブランチを作成し、異なる パラメータ や モデル を試せるようにします。
 
-run を巻き戻す際、W&B は run 履歴自体を修正または変更することができます。
+Run を rewind する場合、W&B は Run の履歴そのものを修正または変更できるようにします。
 </Note>

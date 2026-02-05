@@ -1,34 +1,49 @@
 ---
-title: W&B マルチテナント SaaS を使用する
+title: マルチテナント クラウド
+description: プロダクション環境でマルチテナント型の クラウド をデプロイする
 ---
 
-W&B マルチテナントクラウドは、W&B の Google Cloud Platform (GCP) アカウントに展開されている完全管理型のプラットフォームで、[GCP の北米リージョン](https://cloud.google.com/compute/docs/regions-zones)で利用可能です。W&B マルチテナントクラウドは、GCP の自動スケーリングを利用しており、トラフィックの増減に応じて適切にプラットフォームがスケールします。
+W&B Multi-tenant Cloud は、W&B の Google Cloud アカウント内の [Google Cloud 北米リージョン](https://cloud.google.com/compute/docs/regions-zones) にデプロイされたフルマネージドのプラットフォームです。W&B Multi-tenant Cloud は Google Cloud のオートスケーリングを活用しており、トラフィックの増減に応じてプラットフォームが適切にスケールすることを保証します。
 
 <Frame>
-    <img src="/images/hosting/multi_tenant_cloud_arch.png"  />
+    <img src="/images/hosting/multi_tenant_cloud_arch.png" alt="Multi-tenant Cloud architecture diagram"  />
 </Frame>
 
-## データのセキュリティ
-
-非エンタープライズプランのユーザーの場合、すべてのデータは共有クラウドストレージにのみ保存され、共有クラウドコンピューティングサービスで処理されます。料金プランによっては、保存容量制限が適用される場合があります。
-
-エンタープライズプランのユーザーは、[セキュアストレージコネクタを使用して独自のバケット（BYOB）をチームレベルで使用する](/ja/platform/hosting/data-security/secure-storage-connector)ことができ、モデルやデータセットなどのファイルを保存できます。複数のチームに対して単一のバケットを設定することも、W&B Teams の異なるために個別のバケットを使用することも可能です。チームにセキュアストレージコネクタを設定しない場合、データは共有クラウドストレージに保存されます。
-
-## アイデンティティとアクセス管理 (IAM)
-エンタープライズプランの場合、W&B Organization における安全な認証と効果的な権限付与のためのアイデンティティとアクセス管理機能を使用できます。マルチテナントクラウドで利用可能な IAM の機能は以下の通りです：
-
-* OIDC または SAML を使用した SSO 認証。組織で SSO を設定したい場合は、W&B チームまたはサポートにお問い合わせください。
-* 組織の範囲およびチーム内で[適切なユーザーロールを設定](/ja/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role)します。
-* プロジェクトを制限されたプロジェクトとして定義し、誰がそのプロジェクトを見る、編集する、または W&B Runs を送信できるかを制限します。[制限付きプロジェクト](/ja/platform/hosting/iam/access-management/restricted-projects)を参照。
-
-## モニター
-組織の管理者は、アカウントビューの `Billing` タブから使用状況と請求を管理できます。マルチテナントクラウドで共有クラウドストレージを使用している場合、管理者は組織内の異なるチーム間でストレージの使用を最適化することができます。
-
-## メンテナンス
-W&B マルチテナントクラウドはマルチテナントの完全管理型プラットフォームです。W&B によって管理されているため、W&B プラットフォームのプロビジョニングや維持にかかるオーバーヘッドやコストは発生しません。
+W&B Multi-tenant Cloud は組織のニーズに合わせて拡張可能で、1 プロジェクトあたり最大 250,000 個のメトリクス、1 メトリクスあたり最大 100 万個のデータポイントのログ記録をサポートします。より大規模なデプロイメントについては、[サポート](mailto:support@wandb.com) までお問い合わせください。
 
 ## コンプライアンス
-マルチテナントクラウドのセキュリティ管理は、定期的に内部および外部の監査を受けています。[W&B セキュリティポータル](https://security.wandb.ai/)を参照して、SOC2 レポートやその他のセキュリティおよびコンプライアンスに関する文書をリクエストしてください。
+W&B Multi-tenant Cloud のホスティングプラットフォームは、[米国公認会計士協会 (AICPA)](https://www.aicpa-cima.com/home) の [監査基準委員会 (ASB)](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) が発行する **Service and Organization Controls (SOC) 2 Type 2** の要件を満たしています。SOC 2 レポートは、セキュリティ、可用性、処理の整合性、機密保持、およびプライバシーに関するサービス組織のコントロールを評価するものです。W&B Multi-tenant Cloud は、継続的なコンプライアンスを確認するために、定期的な内部および外部監査を受けています。SOC 2 レポートやその他のセキュリティ・コンプライアンス文書の請求については、[W&B Security Portal](https://security.wandb.ai/) を参照してください。
+
+<Tip>W&B Multi-tenant Cloud は、[1996 年の医療保険の相互運用性と責任に関する法律 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) の要件を満たしていません。組織が HIPAA の対象となる場合は、代わりに [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) を検討してください。</Tip>
+
+## データセキュリティ
+
+Free または Pro プランの Users の場合、すべてのデータは共有クラウドストレージにのみ保存され、共有クラウドコンピューティングサービスで処理されます。料金プランによっては、ストレージ制限が適用される場合があります。
+
+Enterprise プランの Users は、[チームレベル](/platform/hosting/data-security/secure-storage-connector#configuration-options) で [セキュアストレージコネクタを使用して独自のバケットを持ち込む (BYOB)](/platform/hosting/data-security/secure-storage-connector) ことができ、Models や Datasets などのファイルを保存できます。複数の Teams に対して単一のバケットを設定することも、異なる W&B Teams ごとに別々のバケットを使用することも可能です。チームに対して BYOB を設定しない場合、そのチームのデータは共有クラウドストレージに保存されます。
+
+お客様のデプロイメントが、組織のポリシーおよび適用される場合は [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に準拠していることを確認する責任はお客様にあります。
+
+## データ保持ポリシー
+Multi-tenant Cloud では、削除後 7 日間、以下のアイテムを保持します。
+- Runs および履歴
+- メディア、設定ファイル、ログファイルなどの Artifacts 以外の Run ファイル
+- Artifacts および Artifacts の参照
+
+この期間が経過するまでは、これらのアイテムを復元できます。サポートが必要な場合は、[サポート](mailto:support@wandb.ai) または担当の AISE までご連絡ください。
+
+## アイデンティティおよびアクセス管理 (IAM)
+Enterprise プランをご利用の場合、強化されたアイデンティティおよびアクセス管理機能により、W&B デプロイメントに対する安全な認証と効果的な認可が可能になります。
+
+* OIDC または SAML による SSO 認証。組織に SSO を設定したい場合は、W&B チームまたはサポートにお問い合わせください。
+* 組織のスコープ内およびチーム内で、[適切なユーザーロールを設定](/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) します。
+* [制限付きプロジェクト (restricted projects)](/platform/hosting/iam/access-management/restricted-projects) を使用して W&B プロジェクトのスコープを定義し、誰が閲覧、編集、および W&B Runs の送信を行えるかを制限します。
+
+## モニタリング
+組織の管理者は、アカウントビューの `Billing` タブからアカウントの使用状況と請求を管理できます。Multi-tenant Cloud で共有クラウドストレージを使用している場合、管理者は組織内の異なるチーム間でストレージの使用状況を最適化できます。
+
+## メンテナンス
+W&B Multi-tenant Cloud は、マルチテナント方式のフルマネージドプラットフォームです。W&B Multi-tenant Cloud は W&B によって管理されるため、W&B プラットフォームのプロビジョニングや維持にかかるオーバーヘッドやコストは発生しません。
 
 ## 次のステップ
-非エンタープライズ機能を探している場合は、[マルチテナントクラウドに直接アクセス](https://wandb.ai)してください。エンタープライズプランを開始するには、[このフォーム](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial)を提出してください。
+[Multi-tenant Cloud に直接アクセス](https://wandb.ai) して、ほとんどの機能を無料で使い始めることができます。強化されたデータセキュリティや IAM 機能を試すには、[Enterprise トライアルをリクエスト](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial) してください。

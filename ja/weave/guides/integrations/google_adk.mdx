@@ -1,0 +1,325 @@
+---
+title: Google Agent Development Kit (ADK)
+description: OpenTelemetry を使用して、Google Agent Development Kit (ADK) の エージェント と ツール
+  の呼び出しを Weave でトレースする
+---
+
+[OpenTelemetry (OTEL)](https://opentelemetry.io/) を使用して、Weave で [Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/) のエージェントやツールの呼び出しをトレースできます。ADK は、AI エージェントの開発とデプロイのための柔軟でモジュール化されたフレームワークです。Gemini や Google のエコシステムに最適化されていますが、ADK はモデルやデプロイメントに依存しません。単純なタスクから複雑なワークフローまで、エージェント アーキテクチャーの作成、デプロイ、オーケストレーションのためのツールを提供します。
+
+このガイドでは、OTEL を使用して ADK エージェントとツールの呼び出しをトレースし、それらのトレースを Weave で可視化する方法を説明します。必要な依存関係のインストール、Weave にデータを送信するための OTEL トレーサーの設定、および ADK エージェントとツールの計装方法について学びます。
+
+<Tip>
+Weave における OTEL トレッシングの詳細については、[Send OTEL Traces to Weave](../tracking/otel) を参照してください。
+</Tip>
+
+## 事前準備
+
+1. 必要な依存関係をインストールします。
+
+    ```bash
+    pip install google-adk opentelemetry-sdk opentelemetry-exporter-otlp-proto-http
+    ```
+
+2. [Google APIキー](https://cloud.google.com/docs/authentication/api-keys)を環境変数として設定します。
+
+    ```bash
+    export GOOGLE_API_KEY=your_api_key_here
+    ```
+
+3. [Weave での OTEL トレッシングの設定](#configure-otel-tracing-in-weave)を行います。
+
+### Weave での OTEL トレッシングの設定
+
+ADK から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使用して OTEL を設定します。エクスポーターには、[認証とプロジェクト識別のための正しいエンドポイントと HTTP ヘッダー](#required-configuration)を設定してください。
+
+<Warning>
+API キーやプロジェクト情報などの機密性の高い環境変数は、環境ファイル（例： `.env`）に保存し、 `os.environ` を使用してロードすることをお勧めします。これにより、認証情報を安全に保ち、コードベースから排除できます。
+</Warning>
+
+### 必要な設定
+
+- **エンドポイント:** `https://trace.wandb.ai/otel/v1/traces`。専用の Weave インスタンスを使用している場合、URL は次のパターンに従います： `{YOUR_WEAVE_HOST}/traces/otel/v1/traces`
+- **ヘッダー:**
+  - `Authorization`: W&B APIキーを使用した基本認証（Basic auth）
+  - `project_id`: W&B の Entity/Project 名（例： `myteam/myproject`）
+
+## ADK から Weave への OTEL トレースの送信
+
+以下のコードスニペットは、ADK アプリケーションから Weave に OTEL トレースを送信するために、OTLP スパンエクスポーターとトレーサープロバイダーを設定する方法を示しています。
+
+<Warning>
+Weave が ADK を正しくトレースできるように、コード内で ADK コンポーネントを使用する *前* にグローバルトレーサープロバイダーを設定してください。
+</Warning>
+
+```python lines
+import base64
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry import trace
+
+# 環境変数から機密性の高い値をロードする
+WANDB_BASE_URL = "https://trace.wandb.ai"
+# W&B の entity/project 名（例: "myteam/myproject"）
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
+# https://wandb.ai/settings で W&B APIキーを作成してください
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# エンドポイントとヘッダーを指定して OTLP スパンエクスポーターを作成
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# トレーサープロバイダーを作成し、エクスポーターを追加
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+
+# ADK をインポート/使用する「前」に、グローバルトレーサープロバイダーをセット
+trace.set_tracer_provider(tracer_provider)
+```
+
+## OTEL を使用した ADK エージェントのトレース
+
+トレーサープロバイダーを設定した後、自動トレース機能を備えた ADK エージェントを作成して実行できます。次の例は、ツールを備えたシンプルな LLM エージェントを作成し、インメモリランナーで実行する方法を示しています。
+
+```python lines
+from google.adk.agents import LlmAgent
+from google.adk.runners import InMemoryRunner
+from google.adk.tools import FunctionTool
+from google.genai import types
+import asyncio
+
+# デモ用のシンプルなツールを定義
+def calculator(a: float, b: float) -> str:
+    """2つの数値を足して結果を返します。
+
+    Args:
+        a: 1つ目の数値
+        b: 2つ目の数値
+
+    Returns:
+        a と b の合計
+    """
+    return str(a + b)
+
+calculator_tool = FunctionTool(func=calculator)
+
+async def run_agent():
+    # LLM エージェントを作成
+    agent = LlmAgent(
+        name="MathAgent",
+        model="gemini-2.0-flash",  # 必要に応じて他のモデルに変更可能
+        instruction=(
+            "あなたは計算ができる役立つアシスタントです。 "
+            "算数の問題を尋ねられたら、calculator ツールを使用して解決してください。"
+        ),
+        tools=[calculator_tool],
+    )
+
+    # ランナーの設定
+    runner = InMemoryRunner(agent=agent, app_name="math_assistant")
+    session_service = runner.session_service
+
+    # セッションの作成
+    user_id = "example_user"
+    session_id = "example_session"
+    await session_service.create_session(
+        app_name="math_assistant",
+        user_id=user_id,
+        session_id=session_id,
+    )
+
+    # ツールの使用をトリガーするメッセージでエージェントを実行
+    async for event in runner.run_async(
+        user_id=user_id,
+        session_id=session_id,
+        new_message=types.Content(
+            role="user", parts=[types.Part(text="5 + 7 は何？")]
+        ),
+    ):
+        if event.is_final_response() and event.content:
+            print(f"Final response: {event.content.parts[0].text.strip()}")
+
+# 非同期関数の実行
+asyncio.run(run_agent())
+```
+
+すべてのエージェント操作は自動的にトレースされ Weave に送信されるため、実行フローを可視化できます。モデルの呼び出し、推論ステップ、ツールの呼び出しを確認できます。
+
+<Frame>
+![ADK エージェントのトレース可視化](/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png)
+</Frame>
+
+## OTEL を使用した ADK ツールのトレース
+
+ADK でツールを定義して使用すると、これらのツール呼び出しもトレースに記録されます。OTEL インテグレーションは、エージェントの推論プロセスと個々のツール実行の両方を自動的に計装し、エージェントの振る舞いを包括的に把握できるようにします。
+
+以下は、複数のツールを使用した例です。
+
+```python lines
+from google.adk.agents import LlmAgent
+from google.adk.runners import InMemoryRunner
+from google.adk.tools import FunctionTool
+from google.genai import types
+import asyncio
+
+# 複数のツールを定義
+def add(a: float, b: float) -> str:
+    """2つの数値を足します。
+    
+    Args:
+        a: 1つ目の数値
+        b: 2つ目の数値
+        
+    Returns:
+        a と b の合計
+    """
+    return str(a + b)
+
+def multiply(a: float, b: float) -> str:
+    """2つの数値を掛けます。
+    
+    Args:
+        a: 1つ目の数値
+        b: 2つ目の数値
+        
+    Returns:
+        a と b の積
+    """
+    return str(a * b)
+
+# 関数ツールの作成
+add_tool = FunctionTool(func=add)
+multiply_tool = FunctionTool(func=multiply)
+
+async def run_agent():
+    # 複数のツールを持つ LLM エージェントを作成
+    agent = LlmAgent(
+        name="MathAgent",
+        model="gemini-2.0-flash",
+        instruction=(
+            "あなたは計算操作ができる役立つアシスタントです。 "
+            "足し算を頼まれたら add ツールを、 "
+            "掛け算を頼まれたら multiply ツールを使用してください。"
+        ),
+        tools=[add_tool, multiply_tool],
+    )
+
+    # ランナーの設定
+    runner = InMemoryRunner(agent=agent, app_name="math_assistant")
+    session_service = runner.session_service
+
+    # セッションの作成
+    user_id = "example_user"
+    session_id = "example_session"
+    await session_service.create_session(
+        app_name="math_assistant",
+        user_id=user_id,
+        session_id=session_id,
+    )
+
+    # ツール使用をトリガーするメッセージでエージェントを実行
+    async for event in runner.run_async(
+        user_id=user_id,
+        session_id=session_id,
+        new_message=types.Content(
+            role="user", parts=[types.Part(text="最初に 5 と 7 を足して、その結果に 2 を掛けてください。")]
+        ),
+    ):
+        if event.is_final_response() and event.content:
+            print(f"Final response: {event.content.parts[0].text.strip()}")
+
+# 非同期関数の実行
+asyncio.run(run_agent())
+```
+
+<Frame>
+![ADK ツール呼び出しのトレース可視化](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)
+</Frame>
+
+## ワークフローエージェントの使用
+
+ADK は、より複雑なシナリオ向けにさまざまな [_ワークフローエージェント_](https://google.github.io/adk-docs/agents/workflow-agents/) を提供しています。通常の LLM エージェントと同じようにワークフローエージェントをトレースできます。以下は、[`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/) を使用した例です。
+
+```python lines
+from google.adk.agents import LlmAgent, SequentialAgent
+from google.adk.runners import InMemoryRunner
+from google.genai import types
+import asyncio
+
+async def run_workflow():
+    # 2つの LLM エージェントを作成
+    summarizer = LlmAgent(
+        name="Summarizer",
+        model="gemini-2.0-flash",
+        instruction="与えられたテキストを1文で要約してください。",
+        description="テキストを1文で要約します",
+        output_key="summary"  # 出力を state['summary'] に保存
+    )
+    
+    analyzer = LlmAgent(
+        name="Analyzer",
+        model="gemini-2.0-flash",
+        instruction="与えられたテキストのセンチメントを positive、negative、または neutral として分析してください。分析対象のテキスト: {summary}",
+        description="テキストのセンチメントを分析します",
+        output_key="sentiment"  # 出力を state['sentiment'] に保存
+    )
+    
+    # シーケンシャルワークフローを作成
+    workflow = SequentialAgent(
+        name="TextProcessor",
+        sub_agents=[summarizer, analyzer],
+        description="要約の後にセンチメント分析を行うシーケンスを実行します。",
+    )
+    
+    # ランナーの設定
+    runner = InMemoryRunner(agent=workflow, app_name="text_processor")
+    session_service = runner.session_service
+    
+    # セッションの作成
+    user_id = "example_user"
+    session_id = "example_session"
+    await session_service.create_session(
+        app_name="text_processor",
+        user_id=user_id,
+        session_id=session_id,
+    )
+    
+    # ワークフローの実行
+    async for event in runner.run_async(
+        user_id=user_id,
+        session_id=session_id,
+        new_message=types.Content(
+            role="user", 
+            parts=[types.Part(text="この製品は期待以上でした。箱から出してすぐに完璧に動作し、セットアップに関する質問をした際のカスタマーサービスも素晴らしかったです。")]
+        ),
+    ):
+        if event.is_final_response() and event.content:
+            print(f"Final response: {event.content.parts[0].text.strip()}")
+
+# 非同期関数の実行
+asyncio.run(run_workflow())
+```
+
+このワークフローエージェントのトレースは、両方のエージェントの順次実行を Weave で表示し、マルチエージェントシステム内をデータがどのように流れるかの公開範囲を提供します。
+
+<Frame>
+![Sequential ワークフローエージェントのトレース可視化](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)
+</Frame>
+
+## 詳細情報
+
+- [Weave ドキュメント: Weave への OTEL トレース送信](../tracking/otel)
+- [ADK 公式ドキュメント](https://google.github.io/adk-docs/)
+- [OTEL 公式ドキュメント](https://opentelemetry.io/)
+- [ADK GitHub リポジトリ](https://github.com/google/adk-python)
