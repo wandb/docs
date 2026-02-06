@@ -5,6 +5,15 @@ rss: true
 ---
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
+<Update label="0.24.2" description="February 4, 2026">
+## Added
+
+- `wandb.Api()` now supports Federated Auth (JWT based authentication).
+
+## Fixed
+
+- The presigned download URL is now refreshed if it expires during artifact file downloads.
+</Update>
 
 <Update label="0.24.1" description="January 29, 2026">
 ## Notable Changes
