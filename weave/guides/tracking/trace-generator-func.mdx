@@ -1,0 +1,102 @@
+---
+title: "Trace generator functions"
+description: "Track sync and async generator functions with Weave tracing"
+---
+    #### Trace sync & async generator functions
+
+    Weave supports tracing both sync and async generator functions, including deeply nested patterns.
+
+    <Warning>
+    Since generators yield values lazily, the outputs are only logged when the generator is fully consumed (e.g., by converting it to a list).
+    To ensure outputs are captured in the trace, fully consume the generator (e.g., by using `list()`).
+    </Warning>
+
+    ```python lines lines
+    from typing import Generator
+    import weave
+
+    weave.init("my-project")
+
+    # This function uses a simple sync generator.
+    # Weave will trace the call and its input (`x`), 
+    # but output values are only captured once the generator is consumed (e.g., via `list()`).
+    @weave.op
+    def basic_gen(x: int) -> Generator[int, None, None]:
+        yield from range(x)
+
+    # A normal sync function used within the generator pipeline.
+    # Its calls are also traced independently by Weave.
+    @weave.op
+    def inner(x: int) -> int:
+        return x + 1
+
+    # A sync generator that calls another traced function (`inner`).
+    # Each yielded value comes from a separate traced call to `inner`.
+    @weave.op
+    def nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            yield inner(i)
+
+    # A more complex generator that composes the above generator.
+    # Tracing here produces a hierarchical call tree:
+    # - `deeply_nested_generator` (parent)
+    #   - `nested_generator` (child)
+    #     - `inner` (grandchild)
+    @weave.op
+    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            for j in nested_generator(i):
+                yield j
+
+    # The generator must be *consumed* for Weave to capture outputs.
+    # This is true for both sync and async generators.
+    res = deeply_nested_generator(4)
+    list(res)  # Triggers tracing of all nested calls and yields
+    ```
+    
+
+  </Tab>
+  <Tab title="TypeScript">
+    Weave allows you to manually track these calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/functions/op). For example:
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    await weave.init('intro-example')
+
+    function myFunction(name: string) {
+        return `Hello, ${name}!`
+    }
+
+    const myFunctionOp = weave.op(myFunction)
+    ```
+
+    You can also define the wrapping inline:
+
+    ```typescript
+    const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
+    ```
+
+    This works for both functions as well as methods on classes:
+
+    ```typescript
+    class MyClass {
+        constructor() {
+            this.myMethod = weave.op(this.myMethod)
+        }
+
+        myMethod(name: string) {
+            return `Hello, ${name}!`
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+![Tracing generator functions in Weave.](/weave/guides/tracking/imgs/generators.png)
+
+## Consuming generators
+
+Weave captures generator outputs only after the generator is fully consumed. Consume the generator by iterating over it (for example, with `list()`, a `for` loop, or `next()` until exhaustion). The same applies to async generators when using `async for` or equivalent consumption.
+
+For more on decorating functions and methods with `@weave.op`, see [Tracing Basics](/weave/guides/tracking/tracing#2-decorating-and-wrapping-functions).

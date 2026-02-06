@@ -1,0 +1,73 @@
+---
+title: "Get a handle to the call object during execution"
+description: "Access the Call object at runtime for feedback, display names, and other metadata"
+---
+
+
+
+<Tabs>
+  <Tab title="Python">
+    Sometimes it is useful to get a handle to the `Call` object itself. You can do this by calling the `op.call` method, which returns both the result and the `Call` object. For example:
+
+    ```python lines lines
+    result, call = my_function.call("World")
+    ```
+
+    Then you can use `call` to set, update, or fetch additional properties (most commonly used to get the ID of the call to be used for feedback).
+
+    <Note>
+    If your op is a method on a class, you need to pass the instance as the first argument to the op (see example below).
+    </Note>
+    ```python lines lines
+    # Notice that we pass the `instance` as the first argument.
+    print(instance.my_method.call(instance, "World"))
+    ```
+
+    ```python lines lines
+    import weave
+
+    # Initialize Weave Tracing
+    weave.init("intro-example")
+
+    class MyClass:
+        # Decorate your method
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # Call your method -- Weave will automatically track inputs and outputs
+    instance.my_method.call(instance, "World")
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+  </Tab>
+</Tabs>
+
+### How do I capture information about a Call?
+
+Typically you would call an op directly:
+
+```python lines
+@weave.op
+def my_op():
+    ...
+
+my_op()
+```
+
+However, you can also get access to the call object directly by invoking the `call` method on the op:
+
+```python lines
+@weave.op
+def my_op():
+    ...
+
+output, call = my_op.call()
+```
+
+From here, the `call` object contains all the information about the call, including the inputs, outputs, and other metadata.

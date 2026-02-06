@@ -1,0 +1,153 @@
+---
+title: "Update and delete calls"
+description: "Modify display names, add feedback, and delete calls in Weave"
+---
+
+
+## Updating Calls
+
+Calls are mostly immutable once created, however, there are a few mutations which are supported:
+* [Set Display Name](#set-display-name)
+* [Add Feedback](#add-feedback)
+* [Delete a Call](#delete-a-call)
+
+You can perform all of these mutations from the UI by navigating to the call detail page:
+
+<Frame>
+![Update Call in Web App](/images/call_edit_screenshot.png)
+</Frame>
+
+### Set display name
+
+<Tabs>
+<Tab title="Python">
+In order to set the display name of a call, you can use the [`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
+
+```python lines lines
+import weave
+
+# Initialize the client
+client = weave.init("your-project-name")
+
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
+
+# Set the display name of the call
+call.set_display_name("My Custom Display Name")
+```
+</Tab>
+<Tab title="TypeScript">
+To set the display name of a call, use [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) to update by call ID directly:
+
+```typescript lines
+import * as weave from 'weave'
+
+// Initialize the client
+const client = await weave.init('your-project-name')
+
+// Update the display name of a call by its ID
+await client.updateCall('call-uuid-here', 'My Custom Display Name')
+```
+
+</Tab>
+<Tab title="HTTP API">
+To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
+
+```bash
+curl -L 'https://trace.wandb.ai/call/update' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "call_id": "string",
+    "display_name": "string",
+}'
+```
+    </Tab>
+</Tabs>
+
+You can also [set a call's display name at execution](#set-call-display-name-at-execution).
+
+### Add feedback 
+
+Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for more details.
+
+### Delete a Call
+
+<Tabs>
+<Tab title="Python">
+To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
+
+```python lines lines
+import weave
+
+# Initialize the client
+client = weave.init("your-project-name")
+
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
+
+# Delete the call
+call.delete()
+```
+
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+</Tab>
+<Tab title="HTTP API">
+To delete a call using the Service API, you can make a request to the [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) endpoint.
+
+```bash
+curl -L 'https://trace.wandb.ai/calls/delete' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "call_ids": [
+        "string"
+    ],
+}'
+```
+</Tab>
+</Tabs>
+
+### Delete multiple Calls
+
+<Tabs>
+    <Tab title="Python">
+    To delete batches of Calls using the Python API, pass a list of Call IDs to `delete_calls()`.
+
+    <Important>
+    - The maximum amount of Calls that can be deleted is `1000`.
+    - Deleting a Call also deletes all of its children.
+    </Important>
+
+    ```python lines lines
+    import weave
+
+    # Initialize the client
+    client = weave.init("my-project")
+
+    # Get all calls from client 
+    all_calls = client.get_calls()
+
+    # Get list of first 1000 Call objects
+    first_1000_calls = all_calls[:1000]
+
+    # Get list of first 1000 Call IDs
+    first_1000_calls_ids = [c.id for c in first_1000_calls]
+
+    # Delete first 1000 Call objects by ID
+    client.delete_calls(call_ids=first_1000_calls_ids)
+    ```
+
+    </Tab>
+    <Tab title="TypeScript">
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+    </Tab>
+</Tabs>

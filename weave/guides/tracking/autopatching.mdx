@@ -1,0 +1,91 @@
+---
+title: "Configure automatic LLM call tracking"
+description: "Control how Weave automatically records calls to OpenAI, Anthropic, and other LLM libraries"
+---
+
+## Why automatic tracking?
+
+If you use LLM provider libraries (such as OpenAI, Anthropic, Cohere, or Mistral) in your application, you want those API calls to show up in Weave as traced calls: inputs, outputs, latency, token usage, and cost. Without help, you would have to wrap every `client.chat.completions.create()` (or equivalent) in `@weave.op` or manual instrumentation, which is tedious and easy to miss.
+
+**Autopatching** is Weave’s way of doing that for you. When you call `weave.init()`, Weave automatically intercepts (patches) supported LLM client libraries. Your application code stays unchanged: you use the provider SDK as usual, and each request is recorded as a Weave call. You get full tracing with minimal setup.
+
+This page describes when and how to change that behavior: turning automatic tracking off, limiting it to specific providers, or post-processing inputs and outputs (for example, to redact PII).
+
+## Default behavior
+
+By default, Weave automatically patches and tracks calls to common LLM libraries such as `openai`, `anthropic`, `cohere`, and `mistral`. Call `weave.init('your-project')` at the start of your program and use those libraries normally; their calls will appear in your project’s Traces.
+
+## Configure autopatching
+
+<Tabs>
+<Tab title="Python">
+<Warning>
+The `autopatch_settings` argument is deprecated. Use `implicitly_patch_integrations=False` to disable implicit patching, or call specific patch functions like `patch_openai(settings={...})` to configure settings per integration.
+</Warning>
+
+### Disable all autopatching
+
+Use this when you do not want any automatic tracking of LLM libraries (for example, you only trace your own code with `@weave.op`, or you need to avoid patching in a particular environment).
+
+```python lines
+weave.init(..., implicitly_patch_integrations=False)
+```
+
+### Enable specific integrations
+
+Use this when you want to trace only certain providers. Disable implicit patching, then patch only the integrations you need.
+
+```python lines
+import weave
+
+weave.init(..., implicitly_patch_integrations=False)
+
+# Then manually patch only the integrations you want
+weave.integrations.patch_anthropic()
+weave.integrations.patch_cohere()
+```
+
+### Post-process inputs and outputs
+
+You can customize how inputs and outputs are recorded (for example, to redact PII or secrets) by passing settings to the patch function:
+
+```python lines
+import weave.integrations
+
+def redact_inputs(inputs: dict) -> dict:
+    if "email" in inputs:
+        inputs["email"] = "[REDACTED]"
+    return inputs
+
+weave.init(...)
+weave.integrations.patch_openai(
+    settings={
+        "op_settings": {"postprocess_inputs": redact_inputs}
+    }
+)
+```
+</Tab>
+<Tab title="TypeScript">
+
+The TypeScript SDK only supports autopatching for OpenAI and Anthropic. OpenAI is automatically patched when you import Weave and does not require any additional configuration.
+
+Additionally, the TypeScript SDK does not support:
+- Configuring or disabling autopatching
+- Input/output post-processing
+
+For edge cases where automatic patching does not work (ESM, bundlers like Next.js), use explicit wrapping:
+
+```typescript
+import OpenAI from 'openai'
+import * as weave from 'weave'
+import { wrapOpenAI } from 'weave'
+
+const client = wrapOpenAI(new OpenAI())
+await weave.init('your-team/my-project')
+```
+
+For more details on ESM setup and troubleshooting, see the [TypeScript SDK Integration Guide](/weave/guides/integrations/js).
+</Tab>
+</Tabs>
+
+For more on handling sensitive data, see [How to use Weave with PII data](/weave/cookbooks/pii).
