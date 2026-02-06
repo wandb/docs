@@ -3,16 +3,11 @@ title: "Set up monitors"
 description: "Passively score production traffic to surface trends and issues"
 ---
 
-Monitors passively score production traffic to surface trends and issues without requiring code changes. They run asynchronously in the background and have no impact on your application's control flow.
+Monitors use LLM judges to passively score production traffic to surface trends and issues in your LLM applications. For example, you can monitor your application's responses for correctness or helpfulness, or you can monitor user input to identify trends in what they're asking your agents about.
 
-**When to use monitors:**
+Monitors automatically store all scoring results in Weave's database, allowing you to analyze historical trends and patterns.
 
-- You want to observe and analyze production traffic without modifying your code
-- You need to surface trends and issues over time
-- You want configurable sampling (for example, score 10% of calls to reduce costs)
-- You're evaluating both text and audio outputs
-
-Monitors are ideal for ongoing observation and analysis. You can set them up entirely in the W&B UI without changing your code. All scorer results are automatically stored in Weave's database, allowing you to analyze historical trends and patterns.
+Monitors require no code changes to your application and you set them up using the W&B Weave UI.
 
 If you need to actively intervene in your application's behavior based on scores, use [guardrails](/weave/guides/evaluation/guardrails) instead.
 
@@ -39,9 +34,11 @@ To create a monitor in Weave:
         - **Configuration name**: A name for this model configuration.
         - **System prompt**: Defines the judging model's role and persona, for example, "You are an impartial AI judge."
         - **Response format**: The format the judge should output its response in, such as a `json_object` or plain `text`.
-        - **Scoring prompt**: The evaluation task used to score your ops. You can reference variables from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`." See [Prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts).
+        - **Scoring prompt**: The evaluation task used to score your ops. You can reference [prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`."
 
-Once you have configured the monitor's fields, click **Create monitor**. This adds the monitor to your Weave project. When your code starts generating traces, you can review the scores in the **Traces** tab by selecting the monitor's name and reviewing the data in the resulting panel.
+Once you have configured the monitor's fields, click **Create monitor**. This adds the monitor to your Weave project. When your code starts generating traces, you can review the scores in the **Traces** tab by selecting the monitor's name and reviewing the data in the resulting panel. 
+
+You can also [compare](/weave/guides/tools/comparison) and [visualize](/weave/guides/tools/comparison) the monitor's trace data in the Weave UI, or download it in various formats (such as CSV and JSON) using the download button (<Icon icon="download" iconType="regular" />) in the Traces tab. 
 
 Weave automatically stores all scorer results in the [Call](/weave/concepts/fundamental-components#calls) object's `feedback` field.
 
