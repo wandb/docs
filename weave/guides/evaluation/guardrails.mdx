@@ -1,0 +1,223 @@
+---
+title: "Set up guardrails"
+description: "Ensure LLM safety and measure output quality in production applications"
+---
+
+Guardrails actively intervene in your application's behavior based on scores. They run in real time before outputs reach users and can block or modify responses when scores exceed thresholds.
+
+**When to use guardrails:**
+
+- You need to actively prevent issues (for example, block toxic content or filter sensitive information)
+- You must modify or block outputs based on scores
+- You require real-time intervention before responses reach users
+- You need to enforce safety policies or content guidelines
+
+Weave guardrails use inline Weave Scorers to assess the input from a user or the output from an LLM and adjust the LLM's responses in real time. You can configure custom scorers or use built-in scorers to assess content for a variety of purposes. The examples in this article show you how to use a built-in scorer and a custom scorer to adjust output from an LLM.
+
+Unlike monitors, guardrails require code changes because they affect your application's control flow. However, every scorer result from guardrails is automatically stored in Weave's database, so your guardrails also function as monitors without any extra configuration. You can analyze historical scorer results regardless of how they were originally used.
+
+If you want to passively score production traffic without modifying your application's control flow, use [monitors](/weave/guides/evaluation/monitors) instead.
+
+### Example: Create a guardrail using a built-in moderation scorer
+
+The following example sends user prompts to OpenAI's GPT-4o mini model. The model's response is then passed to Weave's built-in access to [OpenAI's moderation API](https://platform.openai.com/docs/guides/moderation) to assess whether the LLM's response contains harmful or toxic content.
+
+```python
+import weave
+import openai
+from weave.scorers import OpenAIModerationScorer
+import asyncio
+
+# Initialize Weave
+weave.init("your-team-name/your-project-name")
+
+# Initialize OpenAI client
+client = openai.OpenAI()  # Uses OPENAI_API_KEY env var
+
+# Initialize the moderation scorer
+moderation_scorer = OpenAIModerationScorer()
+
+# Send prompts to OpenAI
+@weave.op
+def generate_response(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+# Guardrail function checks responses for toxicity
+async def generate_safe_response(prompt: str) -> str:
+    """Generate a response with content moderation guardrail."""
+    # Get both the result and Call object
+    result, call = generate_response.call(prompt)
+    
+    # Apply the moderation scorer before returning to user
+    score = await call.apply_scorer(moderation_scorer)
+    print("This is the score object:", score)
+    
+    # Check if content was flagged
+    if not score.result.get("passed", True): 
+        categories = score.result.get("categories", {})
+        flagged_categories = list(categories.keys()) if categories else []
+        print(f"Content blocked. Flagged categories: {flagged_categories}")
+        return "I'm sorry, I can't provide that response due to content policy restrictions."
+    
+    return result
+
+# Run the examples
+if __name__ == "__main__":
+    
+    prompts = [
+        "What's the capital of France?",
+        "Tell me a funny fact about dogs.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+You can reference variables from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`." See [prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) for more information.
+
+### Example: Create a guardrail using a custom scorer
+
+The following example creates a custom guardrail that detects personally identifiable information (PII) in LLM responses, such as email addresses, phone numbers, or social security numbers. This prevents sensitive information from being exposed in generated content.
+
+```python
+import weave
+import openai
+import re
+import asyncio
+from weave import Scorer
+
+weave.init("your-team-name/your-project-name")
+
+client = openai.OpenAI()
+
+class PIIDetectionScorer(Scorer):
+    """Detects PII in LLM outputs to prevent data leaks."""
+    
+    @weave.op
+    def score(self, output: str) -> dict:
+        """
+        Check for common PII patterns in the output.
+        
+        Returns:
+            dict: Contains 'passed' (bool) and 'detected_types' (list)
+        """
+        detected_types = []
+        
+        # Email pattern
+        if re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', output):
+            detected_types.append("email")
+        
+        # Phone number pattern (US format)
+        if re.search(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', output):
+            detected_types.append("phone")
+        
+        # SSN pattern
+        if re.search(r'\b\d{3}-\d{2}-\d{4}\b', output):
+            detected_types.append("ssn")
+        
+        return {
+            "passed": len(detected_types) == 0,
+            "detected_types": detected_types
+        }
+
+# Initialize scorer outside the function for optimal performance
+pii_scorer = PIIDetectionScorer()
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """Generate a response using an LLM."""
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+async def generate_safe_response(prompt: str) -> str:
+    """Generate a response with PII detection guardrail."""
+    result, call = generate_response.call(prompt)
+    
+    # Apply PII detection scorer
+    score = await call.apply_scorer(pii_scorer)
+    
+    # Block response if PII detected
+    if not score.result.get("passed", True):
+        detected_types = score.result.get("detected_types", [])
+        return f"I cannot provide a response that may contain sensitive information (detected: {', '.join(detected_types)})."
+    
+    return result
+
+# Example usage
+if __name__ == "__main__":
+    prompts = [
+        "What's the weather like today?",
+        "Can you help me contact someone at john.doe@example.com?",
+        "Tell me about machine learning.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+This guardrail blocks any response that contains email addresses, phone numbers, or SSNs, preventing accidental exposure of sensitive information.
+
+### Integrate Weave with AWS Bedrock's guardrail
+
+The `BedrockGuardrailScorer` uses AWS Bedrock's guardrail feature to detect and filter content based on configured policies.
+
+**Prerequisites:**
+- An AWS account with Bedrock access
+- A configured guardrail in the AWS Bedrock console
+- The `boto3` Python package
+
+<Tip>
+You don't need to create your own Bedrock client. Weave creates it for you. To specify a region, pass the `bedrock_runtime_kwargs` parameter to the scorer.
+</Tip>
+
+For details on creating a guardrail in AWS, see the [Bedrock guardrails notebook](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb).
+
+```python
+import weave
+from weave.scorers.bedrock_guardrails import BedrockGuardrailScorer
+
+weave.init("my_app")
+
+guardrail_scorer = BedrockGuardrailScorer(
+    guardrail_id="your-guardrail-id",
+    guardrail_version="DRAFT",
+    source="INPUT",
+    bedrock_runtime_kwargs={"region_name": "us-east-1"}
+)
+
+@weave.op
+def generate_text(prompt: str) -> str:
+    # Your text generation logic here
+    return "Generated text..."
+
+async def generate_safe_text(prompt: str) -> str:
+    result, call = generate_text.call(prompt)
+
+    score = await call.apply_scorer(guardrail_scorer)
+
+    if not score.result.passed:
+        if score.result.metadata.get("modified_output"):
+            return score.result.metadata["modified_output"]
+        return "I cannot generate that content due to content policy restrictions."
+
+    return result
+```
