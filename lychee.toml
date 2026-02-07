@@ -49,7 +49,14 @@ exclude = [
   '(http|https)://0\.0\.0\.0',
   '(http|https)://localhost',
   '(http|https)://127\.0\.0\.1',
-  '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
+  # Image file extensions (with or without trailing slash)
+  '\.(png|jpg|jpeg|gif|svg|webp|ico)(/)?$',
+  # Image paths - Mintlify rewrites /images/ paths during build
+  # Exclude both absolute paths and full URLs to image directories
+  # Match any URL containing /images/ (works for both relative and absolute paths)
+  '/images/',
+  # Match full URLs to image directories on any domain (including preview sites)
+  '(http|https)://[^/]+/images/',
   '(http|https)://kubeflow\.mysite\.com',
   '(http|https)://my-fake-url\.com',
   '(http|https)://my\.domain\.net',
@@ -66,6 +73,8 @@ exclude = [
   '(http|https)://([^/]+\.)?github\.com/wandb',
   '(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
   '(http|https)://wandb\.(ai|com)',
+  # DSPy documentation - redirects from vercel.app to dspy.ai
+  '(http|https)://dspy-docs\.vercel\.app',
 ]
 
 # File/directory paths to exclude from checking
