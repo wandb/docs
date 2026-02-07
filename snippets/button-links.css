@@ -75,3 +75,35 @@
   background-color: rgba(39, 39, 42, 0.8);
   border-color: rgba(63, 63, 70, 1);
 }
+
+/* Style MCP Server navbar link as a button */
+nav a[href="https://docs.wandb.ai/platform/mcp-server"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 182, 51, 0.3);
+  border-radius: 6px;
+  font-weight: 500;
+  background-color: rgba(255, 182, 51, 0.1);
+  color: rgb(255, 182, 51);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+nav a[href="https://docs.wandb.ai/platform/mcp-server"]:hover {
+  background-color: rgba(255, 182, 51, 0.2);
+  border-color: rgba(255, 182, 51, 0.5);
+  text-decoration: none;
+}
+
+.dark nav a[href="https://docs.wandb.ai/platform/mcp-server"] {
+  border-color: rgba(255, 182, 51, 0.4);
+  background-color: rgba(255, 182, 51, 0.15);
+  color: rgb(255, 182, 51);
+}
+
+.dark nav a[href="https://docs.wandb.ai/platform/mcp-server"]:hover {
+  background-color: rgba(255, 182, 51, 0.25);
+  border-color: rgba(255, 182, 51, 0.6);
+}
