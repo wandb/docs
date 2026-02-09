@@ -5,7 +5,7 @@ description: "Create annotation queues, route traces to domain experts, and expo
 
 ## Overview
 
-Annotation queues let you route selected traces to domain experts for structured review without requiring them to navigate the full Weave UI. As an engineer, you define what feedback is collected, select which traces require review, and later can export completed annotations for analysis or dataset creation.
+Annotation queues let you route selected traces to domain experts for structured review without requiring them to navigate the full Weave UI. You define what feedback is collected, select which traces require review, and later can export completed annotations for analysis or dataset creation.
 
 - **Manual trace scoring**: Have SMEs rate model outputs on correctness, quality, or style.
 - **Failure analysis**: Annotate failure modes (hallucinations, refusals, loops) to understand where your model breaks.
@@ -15,12 +15,13 @@ Annotation queues let you route selected traces to domain experts for structured
 
 ## End-to-end workflow
 
-As the engineer, you are responsible for the following lifecycle:
+The following workflow summarizes how to use annotation queues to obtain reviews:
 
-1. Define annotation fields and create an annotation queue.
-2. Load traces into the queue for review.
-3. Monitor progress while domain experts complete reviews.
-4. Filter and export completed annotations.
+1. Define annotation fields.
+2. Create an annotation queue.
+3. Load traces into the queue for review.
+4. Monitor progress while domain experts complete reviews.
+5. Filter and export completed annotations.
 
 
 ## Define annotation fields
@@ -32,12 +33,13 @@ Field types include:
 - Numeric or integer values such as quality or confidence.
 - Categorical labels such as failure mode or intent.
 - Free-form text for qualitative feedback.
-
+<Note>
 Define all fields before creating a queue so they can be selected during queue setup.
+</Note>
 
 To create an annotation field:
 1. Navigate to [wandb.ai](https://wandb.ai).
-2. In the Weave sidebar menu, click **Annotate**.
+2. In the Weave sidebar menu, click **Annotate**.  If you don't see **Annotate**, it might be nested in the menu under **More**.
 3. In the tab bar, click the **Fields** tab.
 4. In the Fields table toolbar, click **New Field**.
 5. In the **Create annotation field** modal dialog, configure:
@@ -107,6 +109,8 @@ To share a direct link to the annotation queue with an annotator:
 2. In the tab bar, click the **Queues** tab.
 3. In the Annotation Queues table, click the name of your queue to open the queue items.
 4. In the Queue header bar, click the link button to copy a direct link to this queue.  You can also copy the URL from the browser address bar.
+
+  ![Copy link to the annotation queue in the Annotation Queue header bar](./imgs/AnnotationLinkToQueue.png)
 
 In the Annotation Queues table, the **State** column indicates reviewing progress:
 - **Not started**: Queue has items but no annotations have been submitted.
