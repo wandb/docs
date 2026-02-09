@@ -369,22 +369,22 @@ The asset is materialized with useful metadata on both sides of the integration:
     * W&B Entity
     * W&B Project
 
-The proceeding image demonstrates the metadata from W&B that was added to the Dagster asset. This information would not be available without the integration.
+The following image demonstrates the metadata from W&B that was added to the Dagster asset. This information is propagated to Dagster by the integration.
 
 <Frame>
-    <img src="/images/integrations/dagster_wb_metadata.png" alt="Screenshot showing W&B metadata added to Dagster asset" />
+    <img src="/images/integrations/dagster_wb_metadata.png" alt="Dagster's UI with an asset details view with attached W&B metadata, including references to a W&B project and run" />
 </Frame>
 
 The following image demonstrates how  the provided configuration was enriched with useful metadata on the W&B Artifact. This information should help for reproducibility and maintenance. It would not be available without the integration.
 
 <Frame>
-    <img src="/images/integrations/dagster_inte_1.png" alt="Screenshot showing enriched configuration metadata on W&B Artifact" />
+    <img src="/images/integrations/dagster_inte_1.png" alt="W&B Artifact page with enriched configuration metadata from Dagster" />
 </Frame>
 <Frame>
-    <img src="/images/integrations/dagster_inte_2.png" alt="Screenshot showing additional enriched configuration metadata on W&B Artifact" />
+    <img src="/images/integrations/dagster_inte_2.png" alt="W&B Artifact metadata panel with additional configuration details from Dagster" />
 </Frame>
 <Frame>
-    <img src="/images/integrations/dagster_inte_3.png" alt="Screenshot showing further enriched configuration metadata on W&B Artifact" />
+    <img src="/images/integrations/dagster_inte_3.png" alt="W&B Artifact view with further enriched configuration metadata fields from Dagster" />
 </Frame>
 
 
@@ -423,7 +423,7 @@ This code will produce one W&B Artifact for each partition. View artifacts in th
 The integration does not allow for the materialization of multiple partitions within one run. You will need to carry out multiple runs to materialize your assets. This can be executed in Dagit when you're materializing your assets.
 
 <Frame>
-    <img src="/images/integrations/dagster_multiple_runs.png" alt="Screenshot showing multiple runs for partitioned assets in Dagster" />
+    <img src="/images/integrations/dagster_multiple_runs.png" alt="Dagster UI with multiple runs for partitioned assets, each partition as a separate run" />
 </Frame>
 </Warning>
 
@@ -852,7 +852,7 @@ Refer to the [Launch page](/platform/launch).
 You can also view useful descriptions for all properties in Launchpad.
 
 <Frame>
-    <img src="/images/integrations/dagster_launch_agents.png" alt="Screenshot showing Launchpad with agent descriptions for Dagster integration" />
+    <img src="/images/integrations/dagster_launch_agents.png" alt="W&B Launchpad interface with agent configuration options and descriptions for Dagster integration" />
 </Frame>
 
 Simple example
@@ -902,7 +902,7 @@ Refer to the [Launch page](/platform/launch).
 You can also view useful descriptions for all properties in Launchpad.
 
 <Frame>
-    <img src="/images/integrations/dagster_launch_jobs.png" alt="Screenshot showing Launchpad with job descriptions for Dagster integration" />
+    <img src="/images/integrations/dagster_launch_jobs.png" alt="W&B Launchpad interface with job configuration options and descriptions for Dagster integration" />
 </Frame>
 
 
