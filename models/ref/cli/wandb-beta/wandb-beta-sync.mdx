@@ -58,6 +58,8 @@ wandb beta sync [PATHS] [OPTIONS]
 | `-e`, `--entity` | An entity override to use for all runs being synced. (default: ) |
 | `-p`, `--project` | A project override to use for all runs being synced. (default: ) |
 | `--id` | A run ID override to use for all runs being synced. If setting this and syncing multiple files (with the same entity and project), the files will be synced in order of start time. This is intended to work with syncing multiple resumed fragments of the same run. (default: ) |
+| `--job-type` | A job type override for all runs being synced. (default: ) |
+| `--replace-tags` | Rename tags using the format 'old1=new1,old2=new2'. (default: ) |
 | `--skip-synced` | Skip runs that have already been synced with this command. (default: True) |
 | `--dry-run` | Print what would happen without uploading anything. (default: False) |
 | `-v`, `--verbose` | Print more information. (default: False) |

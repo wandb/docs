@@ -3,6 +3,9 @@ name: Update Service API Documentation
 on:
   workflow_dispatch:
   workflow_call:
+  schedule:
+    # Run monthly on the 1st at 00:00 UTC
+    - cron: '0 0 1 * *'
 
 jobs:
   update-service-api:
@@ -102,6 +105,15 @@ jobs:
           automated
           service-api
           weave
+    
+    - name: Request review
+      if: steps.create-pr.outputs.pull-request-number
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh pr edit ${{ steps.create-pr.outputs.pull-request-number }} \
+          --add-reviewer dbrian57
+        echo "Review requested from dbrian57"
     
     - name: Display Result
       run: |

@@ -5,6 +5,36 @@ rss: true
 ---
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
+<Update label="0.24.2" description="February 4, 2026">
+## Added
+
+- `wandb.Api()` now supports Federated Auth (JWT based authentication).
+
+## Fixed
+
+- The presigned download URL is now refreshed if it expires during artifact file downloads.
+</Update>
+
+<Update label="0.24.1" description="January 29, 2026">
+## Notable Changes
+
+- Runs created with `wandb==0.24.0` may fail to upload some data, which this release fixes. Missing data is stored in the run's `.wandb` file and can be reuploaded with `wandb sync`.
+
+## Added
+
+- `download_history_exports` in `api.Run` class to download exported run history in parquet file format.
+
+## Changed
+
+- When a settings file (such as `./wandb/settings` or `~/.config/wandb/settings`) contains an invalid setting, all settings files are ignored and an error is printed.
+
+## Fixed
+- After `wandb login --host <invalid-url>`, using `wandb login --host <valid-url>` works as usual.
+- Fixed a bug where `wandb beta sync` can get stuck on `Syncing...` and fail to load credentials.
+- Fixed a bug that could occasionally lead to unuploaded data. Now, all data is stored in the run's `.wandb` file and can be reuploaded with `wandb sync`.
+
+These regressions were introduced in 0.24.0.
+</Update>
 
 <Update label="0.24.0" description="January 13, 2026">
 ## Notable Changes

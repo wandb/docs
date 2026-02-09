@@ -14,7 +14,7 @@ This is an interactive notebook. You can run it locally or use the links below:
 Summarizing complex technical documents while preserving crucial details is a challenging task. The Chain of Density (CoD) summarization technique offers a solution by iteratively refining summaries to be more concise and information-dense. This guide demonstrates how to implement CoD using Weave for tracking and evaluating the application. 
 
 <Frame>
-![](/media/summarization/eval_dash.png)
+![Weave evaluation dashboard with Chain of Density summarization results, metrics, and performance comparisons](/media/summarization/eval_dash.png)
 </Frame>
 
 ## What is Chain of Density Summarization?
@@ -132,7 +132,7 @@ def load_pdf(pdf_url: str) -> str:
 Now, let's implement the core CoD summarization logic using Weave operations:
 
 <Frame>
-![](/media/summarization/summarization_trace.png)
+![Weave trace visualization with Chain of Density summarization pipeline execution](/media/summarization/summarization_trace.png)
 </Frame>
 
 ```python lines
@@ -223,7 +223,7 @@ By using `@weave.op()` decorators, we ensure that Weave tracks the inputs, outpu
 Now, let's wrap our summarization pipeline in a Weave Model:
 
 <Frame>
-![](/media/summarization/model.png)
+![Weave Model configuration interface for Chain of Density summarization with model settings and parameters](/media/summarization/model.png)
 </Frame>
 
 ```python lines
@@ -313,7 +313,7 @@ These evaluation functions use the Claude model to assess the quality of the gen
 To evaluate our pipeline, we'll create a Weave Dataset and run an evaluation:
 
 <Frame>
-![](/media/summarization/dataset.png)
+![Weave Dataset configuration interface for evaluation with dataset selection and configuration options](/media/summarization/dataset.png)
 </Frame>
 
 ```python lines
@@ -336,7 +336,7 @@ For our evaluation, we'll use an LLM-as-a-judge approach. This technique involve
 [![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
 
 <Frame>
-![](/media/summarization/eval_dash.png)
+![Weave evaluation dashboard with Chain of Density summarization results, metrics, and performance comparisons](/media/summarization/eval_dash.png)
 </Frame>
 
 ```python lines

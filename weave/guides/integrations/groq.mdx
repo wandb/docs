@@ -3,7 +3,7 @@ title: Groq
 description: "Track and monitor Groq's ultra-fast LPU™ inference with Weave, capturing model calls, performance metrics, and function chains for high-speed LLM applications using Groq's specialized hardware acceleration."
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_groq.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_groq.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -40,7 +40,7 @@ chat_completion = client.chat.completions.create(
 )
 ```
 
-| ![](./imgs/groq/groq_weave_dasboard.png) |
+| ![Groq Weave dashboard with tracked LLM calls, performance metrics, and trace information](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
 |---|
 | Weave will now track and log all LLM calls made through the Groq library. You can view the traces in the Weave web interface. |
 
@@ -87,7 +87,7 @@ recommend_places_to_visit("Paris")
 recommend_places_to_visit("Kolkata")
 ```
 
-| ![](./imgs/groq/groq_weave_tracing.png) |
+| ![Groq Weave tracing interface with op decoration and function call hierarchy and trace details](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
 |---|
 | Decorating the `recommend_places_to_visit` function with `@weave.op` traces its inputs, outputs, and all internal LM calls made inside the function.  |
 
@@ -134,15 +134,15 @@ print(city_recommender.predict("San Francisco"))
 print(city_recommender.predict("Los Angeles"))
 ```
 
-| ![](./imgs/groq/groq_weave_model.png) |
+| ![Groq Weave Model tracing and versioning interface with model versions, trace history, and performance metrics](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
 |---|
 | Tracing and versioning your calls using a [`Model`](../core-types/models) |
 
 ### Serving a Weave Model
 
-Given a weave reference to any `weave.Model` object, you can spin up a fastapi server and [serve](https://wandb.github.io/weave/guides/tools/serve) it.
+Given a weave reference to any `weave.Model` object, you can spin up a fastapi server and [serve](https://docs.wandb.ai/weave/guides/tools/serve) it.
 
-| [![dspy_weave_model_serve.png](./imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
+| [![dspy_weave_model_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
 |---|
 | You can find the weave reference of any WeaveModel by navigating to the model and copying it from the UI. |
 
