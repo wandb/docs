@@ -7,7 +7,7 @@ Monitors use LLM judges to passively score production traffic to surface trends 
 
 Monitors automatically store all scoring results in Weave's database, allowing you to analyze historical trends and patterns.
 
-Monitors require no code changes to your application and you set them up using the W&B Weave UI.
+Monitors require no code changes to your application. Set them up using the W&B Weave UI.
 
 If you need to actively intervene in your application's behavior based on scores, use [guardrails](/weave/guides/evaluation/guardrails) instead.
 
@@ -30,15 +30,18 @@ To create a monitor in Weave:
        </Tip>
    - **LLM-as-a-judge configuration**:
      - **Scorer name**: Must start with a letter or number. Can contain letters, numbers, hyphens, and underscores.
-     - **Judge model**: Select the model to score your ops. The menu contains any commercial LLM models you have configured in your W&B account and [W&B Inference models](/inference/models). Audio-enabled models have an **Audio Input** label beside their names. For the selected model, configure the following settings:
+     - **Score Audio**: Filters the available LLM models to display only audio-enabled models, and opens the Media Scoring JSON Paths field.
+     - **Score Images**: Filters the available LLM models to display only image-enabled models, and opens the Media Scoring JSON Paths field.
+     - **Judge model**: Select the model to score your ops. The menu contains commercial LLM models you have configured in your W&B account, as well as [W&B Inference models](/inference/models). Audio-enabled models have an **Audio Input** label beside their names. For the selected model, configure the following settings:
         - **Configuration name**: A name for this model configuration.
         - **System prompt**: Defines the judging model's role and persona, for example, "You are an impartial AI judge."
         - **Response format**: The format the judge should output its response in, such as a `json_object` or plain `text`.
         - **Scoring prompt**: The evaluation task used to score your ops. You can reference [prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`."
+     - **Media Scoring JSON Paths**: Specify JSONPath expressions (RFC 9535) to extract media from your trace data. If no paths are specified, all scorable media from user messages will be included. This field appears when you enable **Score Audio** or **Score Images**.
 
 Once you have configured the monitor's fields, click **Create monitor**. This adds the monitor to your Weave project. When your code starts generating traces, you can review the scores in the **Traces** tab by selecting the monitor's name and reviewing the data in the resulting panel. 
 
-You can also [compare](/weave/guides/tools/comparison) and [visualize](/weave/guides/tools/comparison) the monitor's trace data in the Weave UI, or download it in various formats (such as CSV and JSON) using the download button (<Icon icon="download" iconType="regular" />) in the Traces tab. 
+You can also [compare](/weave/guides/tools/comparison) and visualize the monitor's trace data in the Weave UI, or download it in various formats (such as CSV and JSON) using the download button (<Icon icon="download" iconType="regular" />) in the Traces tab. 
 
 Weave automatically stores all scorer results in the [Call](/weave/concepts/fundamental-components#calls) object's `feedback` field.
 
@@ -46,7 +49,7 @@ Weave automatically stores all scorer results in the [Call](/weave/concepts/fund
 
 The following example creates a monitor that evaluates the truthfulness of generated statements.
 
-1. Define a function that generates statements. Some are truthful, others are not:
+1. Define a function that generates statements. Some statements are truthful, others are not:
 
 ```python
 import weave
@@ -74,7 +77,7 @@ def generate_statement(ground_truth: str) -> str:
         return ground_truth
 ```
 
-2. Run the function at least once to log a trace in your project. This allows you to set up a monitor in the W&B UI:
+2. Run the function at least once to log a trace in your project. This makes the op available for monitoring in the W&B UI:
 
 ```python
 generate_statement("The Earth revolves around the Sun.")
@@ -115,7 +118,7 @@ generate_statement("The Earth revolves around the Sun.")
 5. Click **Create Monitor**. This adds the monitor to your Weave project.
 
 
-6. Back in your Python script, invoke your function using statements of varying degrees of truthfulness to test the scoring function:
+6. In your Python script, invoke your function using statements of varying degrees of truthfulness to test the scoring function:
 
 ```python
 generate_statement("The Earth revolves around the Sun.")
