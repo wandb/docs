@@ -18,20 +18,73 @@ From here, you can compare plans or talk to Sales.
 ## Plan usage
 This section visually summarizes current usage and displays upcoming usage charges. For detailed insights into usage by month, click **View usage** on an individual tile. To export usage by calendar month, team, or project, click **Export CSV**.
 
+For questions about usage or billing, contact your AISE or [Support](mailto:support@wandb.com).
+
 ### Usage alerts
 
 <Note>
-Usage alerts are not available on the [Enterprise plan](https://wandb.ai/site/pricing/).
+Customizing usage alerts is not yet available in **Multi-tenant Cloud**. For questions, contact [Sales](mailto:sales@wandb.com).
 </Note>
 
-For organizations on paid plans, admins receive alerts via email **once per billing period** when certain thresholds are met, along with details about how to increase your organization's limits if you are a [billing admin](#billing-admin) and how to contact a billing admin otherwise. On the [Pro plan](https://wandb.ai/site/pricing/), only the billing admin receives usage alerts.
+Usage alerts notify organization and billing admins by email when your organization reaches 85% and 100% of your monthly usage limit for the current billing period in a given category:
+- Storage
+- Tracked hours
+- Weave
+- Inference
+- Training
 
-These alerts are not configurable, and are sent when:
+For organizations on the **Enterprise** plan, all **Organization admins** and **Billing admins** receive usage alerts. On the [Pro plan](https://wandb.ai/site/pricing/), only the **Billing admin** receives usage alerts.
 
-- Your organization is approaching a monthly limit of a category of usage (85% of hours used) and when it reaches 100% of the limit, according to your plan.
-- Your organization's accumulated average charges for a billing period exceed these thresholds: $200, $450, $700, and $1000. These overage charges are incurred when your organization accumulates more usage than your plan includes for tracked hours, storage, or W&B Weave data ingestion.
+Messages are sent from `support@wandb.com`. The thresholds are not configurable, but you can selectively turn off one or both alerts per category.
 
-For questions about usage or billing, contact your account team or Support.
+An **Organization admin** or **Billing admin** can configure usage alerts for your organization:
+
+1. Click your user profile icon in the top right corner.
+1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
+1. From the sidebar, select a category.
+1. Click **Usage** tab to view your organization's usage and alert settings for that category.
+1. If desired, turn on or off the **85% usage alert** or **100% usage alert** for that category. <Warning>If you turn off both usage alerts, no alerts will be sent for that category of usage.</Warning>
+
+### Spending alerts
+
+<Note>
+Customizing spending alerts is not yet available in **Multi-tenant Cloud**. For questions, contact [Sales](mailto:sales@wandb.com).
+</Note>
+
+In a given billing period, spending alerts notify organization and billing admins by email when your organization reaches one or more customizable spending thesholds expressed in USD. You can configure up to 5 unique spending alerts per category:
+- Storage
+- Tracked hours
+- Weave
+- Inference
+- Training
+
+Messages are sent from `support@wandb.com`.
+
+For organizations on the **Enterprise** plan:
+- All **Organization admins** and **Billing admins** receive spending alerts.
+- No spending alerts are configured by default.
+
+On the [Pro plan](https://wandb.ai/site/pricing/):
+- Only the **Billing admin** receives usage alerts.
+- By default, spending alerts are configured at $200, $450, $700, and $1000.
+
+#### View spending alerts
+To view your organization's spending alerts:
+
+1. Click your user profile icon in the top right corner.
+1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
+1. From the sidebar, select a category.
+1. Initially, the **Usage** tab displays. To view spending alerts, click **Spend alerts**. All configured spending alerts for the category display.
+
+#### Add or delete a spending alert
+To manage spending alerts:
+1. Click your user profile icon in the top right corner.
+1. In the **Account** section, click **Usage & Alerts**. Alternatively, click **Settings**, then click the **Usage & Alerts** tab.
+1. From the sidebar, select a category, such as **Storage**.
+1. To add an alert, click **Add alert**.
+    1. Enter a threshold amount in USD.
+    1. Click **Create alert**.
+1. To delete a spending alert, click the trash icon next to it.
 
 ## Payment methods
 This section shows the payment methods on file for your organization. If you have not added a payment method, you will be prompted to do so when you upgrade your plan or add paid storage.
