@@ -3,13 +3,13 @@ title: MistralAI
 description: "Track and monitor MistralAI model calls with Weave's automatic tracing, capturing chat completions, function calling, and model interactions for open-weight and commercial Mistral models."
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
 Weave automatically tracks and logs LLM calls made via the [MistralAI Python library](https://github.com/mistralai/client-python). 
 
-> We support the new Mistral v1.0 SDK, check the migration guide [here](https://github.com/mistralai/client-python/blob/main/MIGRATION.mdx)
+> We support the new Mistral v1.0 SDK, check the migration guide [here](https://github.com/mistralai/client-python/blob/main/MIGRATION.md)
 
 ## Traces
 
@@ -49,7 +49,7 @@ Weave will now track and log all LLM calls made through the MistralAI library. Y
 
 ## Wrapping with your own ops
 
-Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion/) and Weave will track the inputs and outputs for you. Let's see how we can do this for our cheese recommender:
+Weave ops make results *reproducible* by automatically versioning code as you experiment, and they capture their inputs and outputs. Simply create a function decorated with [`@weave.op()`](/weave/guides/tracking/ops) that calls into [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion) and Weave will track the inputs and outputs for you. Let's see how we can do this for our cheese recommender:
 
 ```python lines {1}
 @weave.op()
