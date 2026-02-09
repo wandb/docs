@@ -66,7 +66,7 @@ def page_exists(page: str, repo_root: Path) -> bool:
 
 
 def page_from_file(path: Path) -> str | None:
-    if path.suffix not in {".mdx", ".md", ".ipynb"}:
+    if path.suffix not in {".mdx", ".md"}:
         return None
     if path.stem == "index":
         return str(path.parent.as_posix())
