@@ -7,14 +7,17 @@ W&B Weave is an observability and evaluation platform for building reliable LLM 
 
 Building LLM applications is fundamentally different from traditional software development. LLM outputs are non-deterministic, making debugging harder. Quality is subjective and context-dependent. Small prompt changes can cause unexpected behavior changes. Traditional testing approaches fall short.
 
-Weave addresses these challenges by providing:
-
-- **Visibility** into every LLM call, input, and output in your application
-- **Systematic evaluation** to measure performance against curated test cases
-- **Version tracking** for prompts, models, and data so you can understand what changed
-- **Feedback collection** to capture human judgments and production signals
-
 ## The main threads of Weave
+Weave provides the following core functionality:
+
+- **Visibility** into every LLM call, input, and output in your application.
+- **Systematic evaluation** to measure performance against curated test cases.
+- **Version tracking** for prompts, models, and data so you can understand what changed.
+- **Experimentation** with different prompt and model comparisons.
+- **Feedback collection** to capture human judgments and annotations.
+- **Monitoring** in production using guardrails and scorers for LLM safety and quality.
+
+
 ### Traces
 Track end-to-end how data flows through your LLM application.
 
@@ -28,7 +31,7 @@ Track end-to-end how data flows through your LLM application.
 [Get started with tracing](/weave/quickstart)
 
 ### Evaluations
-Systematically benchmark your LLM application's performance to ensure confidence when deploying to production."
+Systematically benchmark your LLM application's performance to gain confidence when deploying to production.
 
 - Easily track which versions of model/prompt resulted in what performance.
 - Define metrics to evaluate responses using one or more scoring functions.
@@ -90,18 +93,28 @@ import * as weave from 'weave';
 const client = await weave.init('your-team/your-project-name');
 ```
 </CodeGroup>
-You're now ready to start using Weave!
+You're now ready to use Weave.
+Weave integrates with popular LLM providers and frameworks.  When you use a [supported integration](/weave/guides/integrations/), Weave automatically traces LLM calls without additional code changes.
 
-4. Weave integrates with popular LLM providers and frameworks.  When you use a [supported integration](/weave/guides/integrations/), Weave automatically traces LLM calls without additional code changes.
-However, you can still use Weave log traces for unsupported LLM providers by adding a one-line decorator (`weave.op`) to your call function. You can also use the decorator on any function in your app to track its input, output, and code.
+4. Beyond relying on the supported integrations, you can also use Weave to log traces for custom functions by adding one line to your call function. 
 
-
-    ```python lines
-    # Decorate your function
+When you decorate a function with `@weave.op()` (in Python), or wrap it with `weave.op()` (in TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata. 
+<CodeGroup>
+```python Python
     @weave.op
     async def my_function(){
       ...  }
-    ```
+```
+
+```typescript Typescript
+function myFunction() {
+    ...
+}
+
+const myFunctionOp = weave.op(myFunction)
+```
+</CodeGroup>
+
 To try it out with a guided tutorial, see [Get started with tracing](/weave/quickstart).
 
 

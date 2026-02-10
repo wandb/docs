@@ -19,18 +19,23 @@ description: "Track and monitor your AI application's execution with Weave traci
 
 ## Ops
 
-An **Op** is a versioned, tracked function. When you decorate a function with `@weave.op()` (Python) or wrap it with `weave.op()` (TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata.
-
-```python
-import weave
-
-@weave.op()
-def generate_response(prompt: str) -> str:
-    # Your LLM logic here
-    return response
+An **Op** is a versioned, tracked function. When you decorate a function with `@weave.op()` (Python) or wrap it with `weave.op()` (TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata. Ops are the building blocks of tracing, evaluation scorers, and any tracked computation.
+<CodeGroup>
+```python Python
+    @weave.op
+    async def my_function(){
+      ...  }
 ```
 
-Ops are the building blocks of tracing, evaluation scorers, and any tracked computation.
+```typescript Typescript
+function myFunction() {
+    ...
+}
+
+const myFunctionOp = weave.op(myFunction)
+```
+</CodeGroup>
+
 
 
 

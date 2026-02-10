@@ -3950,6 +3950,14 @@
     {
       "source": "/weave/guides/tools/limits",
       "destination": "/weave/details/limits"
+    },
+    {
+      "source": "weave/concepts/fundamental-components",
+      "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "weave/guides/tracking",
+      "destination": "weave/concepts/what-is-weave"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
