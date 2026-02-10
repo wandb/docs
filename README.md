@@ -54,7 +54,7 @@ After cloning this repo:
     ```shell
     git checkout -b my_working_branch origin/main
     ```
-3. Build and and serve the docs locally:
+3. Build and serve the docs locally:
     ```shell
     mint dev
     ```
