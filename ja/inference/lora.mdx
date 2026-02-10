@@ -1,0 +1,124 @@
+---
+title: サーバーレス LoRA 推論を使用する
+description: W&B Inference で ファインチューン された モデル をサービングするために、独自のカスタム LoRA を持ち込むことができます。
+linkTitle: Use Serverless LoRA Inference
+---
+
+LoRA (Low-Rank Adaptation) は、モデル全体を再学習する代わりに、軽量な「アドオン」のみをトレーニングして保存することで、大規模言語モデルをパーソナライズできる手法です。これにより、カスタマイズをより速く、安価に、そして容易にデプロイできるようになります。
+
+LoRA をトレーニングまたはアップロードすることで、ベースモデルに新しい機能を追加できます。例えば、カスタマーサポート、クリエイティブライティング、または特定の技術分野に特化させることが可能です。これにより、モデル全体を再学習したり再デプロイしたりすることなく、モデルの振る舞いを適応させることができます。
+
+## LoRA に W&B Inference を使用する理由
+
+- 一度アップロードすれば即座にデプロイ可能 — サーバー管理は不要です。
+- アーティファクトの バージョン管理 により、どのバージョンが稼働中かを正確に追跡できます。
+- モデル全体の重みではなく、小さな LoRA ファイルを入れ替えるだけで、数秒でモデルを更新できます。
+
+## ワークフロー
+
+1. LoRA の重みを W&B アーティファクトとしてアップロードします。
+2. API 内でアーティファクトの URI をモデル名として参照します。
+3. W&B が推論のために重みを動的にロードします。
+
+以下は、W&B Inference を使用してカスタム LoRA モデルを呼び出す例です：
+
+```python
+from openai import OpenAI
+
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/qwen_lora:latest"
+
+client = OpenAI(
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key=API_KEY,
+    project=f"{WB_TEAM}/{WB_PROJECT}",
+)
+
+resp = client.chat.completions.create(
+    model=model_name,
+    messages=[{"role": "user", "content": "Say 'Hello World!'"}] # 「Hello World!」と言ってください
+)
+print(resp.choices[0].message.content)
+```
+
+LoRA を作成して W&B にアーティファクトとしてアップロードするインタラクティブなデモについては、こちらの [クイックスタートノートブック](https://wandb.me/lora_nb) をご確認ください。
+
+## 前提条件
+
+以下が必要になります：
+
+* [W&B APIキー](/models/integrations/add-wandb-to-any-library#create-an-api-key)
+* [W&B プロジェクト](/models/track/project-page)
+* `openai` と `wandb` パッケージがインストールされた **Python 3.8+**:
+  `pip install wandb openai`
+
+
+## LoRA の追加と使用方法
+
+LoRA を W&B アカウントに追加して使用を開始するには、2つの方法があります。
+
+<Tabs>
+<Tab title="他でトレーニングした LoRA をアップロードする">
+独自のカスタム LoRA ディレクトリーを W&B アーティファクトとしてアップロードします。これは、ローカル環境、クラウドプロバイダー、またはパートナーサービスなど、他の場所で LoRA をトレーニングした場合に最適です。
+
+この Python コードは、ローカルに保存された LoRA の重みを、バージョン管理されたアーティファクトとして W&B にアップロードします。必要な メタデータ (ベースモデルとストレージリージョン) を含む `lora` タイプのアーティファクトを作成し、ローカルディレクトリーから LoRA ファイルを追加して、推論で使用するために W&B プロジェクト に ログ を記録します。
+
+```python
+import wandb
+
+# Run を初期化
+run = wandb.init(entity=WB_TEAM, project=WB_PROJECT)
+
+# アーティファクトを作成
+artifact = wandb.Artifact(
+    "qwen_lora",
+    type="lora",
+    metadata={"wandb.base_model": "OpenPipe/Qwen3-14B-Instruct"},
+    storage_region="coreweave-us",
+)
+
+# ローカルの LoRA 重みディレクトリを追加
+artifact.add_dir("<path-to-lora-weights>")
+# アーティファクトをログに記録
+run.log_artifact(artifact)
+```
+
+### 主な要件
+
+独自の LoRA を Inference で使用する場合：
+
+* LoRA は [サポートされているベースモデルセクション](#supported-base-models) に記載されているモデルのいずれかを使用してトレーニングされている必要があります。
+* W&B アカウントに `lora` タイプのアーティファクトとして PEFT 形式で保存されている必要があります。
+* 低レイテンシを実現するため、LoRA は `storage_region="coreweave-us"` に保存されている必要があります。
+* アップロード時に、トレーニングに使用したベースモデルの名前 (例: `meta-llama/Llama-3.1-8B-Instruct`) を含めてください。これにより、W&B は正しいモデルでロードできるようになります。
+</Tab>
+<Tab title="W&B で新しい LoRA をトレーニングする">
+[W&B Training (サーバーレス RL)](/training) で新しい LoRA をトレーニングします。トレーニングされた LoRA は自動的に W&B アーティファクトとなり、そのまま直接使用できます。
+
+独自の LoRA をトレーニングする方法の詳細については、[OpenPipe の ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start) を参照してください。
+
+トレーニングが完了すると、LoRA は自動的にアーティファクトとして利用可能になります。
+</Tab>
+</Tabs>
+
+LoRA がアーティファクトとしてプロジェクトに追加されたら、以下のように推論コールでアーティファクトの URI を使用します：
+
+```python
+# トレーニング完了後、アーティファクトを直接使用します
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
+```
+
+## サポートされているベースモデル
+
+現在、Inference は以下の LLM に対して構成されています (`wandb.base_model` には正確な文字列を使用する必要があります)。対応モデルは今後追加される予定です：
+
+- `OpenPipe/Qwen3-14B-Instruct`
+- `Qwen/Qwen2.5-14B-Instruct`
+- `meta-llama/Llama-3.1-70B-Instruct`
+- `meta-llama/Llama-3.1-8B-Instruct`
+
+## 料金
+
+サーバーレス LoRA Inference はシンプルでコスト効率に優れています。常時稼働のサーバーや専用の GPU インスタンスではなく、ストレージと実際に実行した推論に対してのみ料金が発生します。
+
+- [**Storage**](https://wandb.ai/site/pricing/) - LoRA の重みの保存は、独自の GPU インフラストラクチャーを維持するのに比べて非常に安価です。
+- **Inference usage** - LoRA アーティファクトを使用するコールは、[標準モデルの推論](/inference/usage-limits#account-tiers-and-default-usage-caps) と同じレートで課金されます。カスタム LoRA のサービングに追加料金はかかりません。

@@ -1,0 +1,16 @@
+---
+title: API 에러
+description: 일반적인 API 오류 및 해결 방법
+---
+
+다음 표는 발생할 수 있는 일반적인 API 오류 목록입니다:
+
+| 오류 코드 | 메시지 | 원인 | 해결 방법 |
+| ---------- | ------- | ----- | -------- |
+| 401 | Authentication failed | 인증 자격 증명이 올바르지 않거나 W&B Project Entity 또는 이름이 잘못되었습니다. | 올바른 API 키 를 사용하고 있는지, W&B Project 이름과 Entity가 정확한지 확인하세요. |
+| 402 | You exceeded your current quota, please check your plan and billing details | 크레딧이 부족하거나 월간 지출 한도에 도달했습니다. | 크레딧을 추가하거나 한도를 상향하세요. 자세한 내용은 [Usage information and limits](/inference/usage-limits/)를 참조하세요. |
+| 403 | Country, region, or territory not supported | 지원되지 않는 지역에서 API에 엑세스하고 있습니다. | [Geographic restrictions](/inference/usage-limits/#geographic-restrictions)를 확인하세요. |
+| 403 | The inference gateway is not enabled for your organization | 조직에 W&B Inference 사용에 필요한 inference gateway가 활성화되어 있지 않습니다. | 조직의 W&B 관리자에게 연락하여 inference gateway를 활성화하거나 [W&B support](mailto:support@wandb.com)에 지원을 요청하세요. |
+| 429 | Concurrency limit reached for requests | 동시 요청 수가 너무 많습니다. | 동시 요청 수를 줄이거나 한도를 늘리세요. 자세한 내용은 [Usage information and limits](/inference/usage-limits/)를 참조하세요. |
+| 500 | The server had an error while processing your request | 내부 서버 오류입니다. | 잠시 기다린 후 다시 시도하고, 문제가 지속되면 고객 지원팀에 문의하세요. |
+| 503 | The engine is currently overloaded, please try again later | 서버 에 트래픽이 집중되고 있습니다. | 잠시 후 요청을 다시 시도하세요. |

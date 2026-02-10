@@ -1,0 +1,1037 @@
+---
+title: Run
+namespace: python_sdk_actions
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+## <kbd>class</kbd> `Run`
+W&B によってログを記録される計算の単位です。通常、これは 1 つの ML 実験（Experiment）を指します。
+
+新しい run を作成するには [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) を呼び出します。`wandb.init()` は新しい run を開始し、`wandb.Run` オブジェクトを返します。各 run は固有の ID（run ID）に関連付けられています。W&B では、run を自動的に終了させるためにコンテキストマネージャ（`with` 文）の使用を推奨しています。
+
+分散トレーニングの実験では、プロセスごとに 1 つの run を使用して各プロセスを個別に追跡するか、すべてのプロセスを 1 つの run で追跡することができます。詳細は [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) を参照してください。
+
+`wandb.Run.log()` を使用して run にデータをログ出力できます。`wandb.Run.log()` を使用してログに記録されたものはすべてその run に送信されます。詳細は [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) または [`wandb.init`](https://docs.wandb.ai/ref/python/init/) の API リファレンスページを参照してください。
+
+[`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) ネームスペースにも別の `Run` オブジェクトがあります。このオブジェクトは、すでに作成された run を操作するために使用します。
+
+**Attributes:**
+
+ - `summary`: (Summary) 辞書形式のオブジェクトである run のサマリーです。詳細については以下を参照してください。
+ - `[Log summary metrics](https`: //docs.wandb.ai/guides/track/log/log-summary/)。
+
+**Examples:**
+ `wandb.init()` で run を作成する：
+
+```python
+import wandb
+
+# 新しい run を開始し、いくつかのデータをログに記録します
+# コンテキストマネージャ（`with` 文）を使用して、run を自動的に終了させます
+with wandb.init(entity="entity", project="project") as run:
+    run.log({"accuracy": acc, "loss": loss})
+```
+
+### <kbd>property</kbd> Run.config
+
+この run に関連付けられた Config オブジェクト。
+
+**Returns:**
+ - `wandb_config.Config`: config プロパティの値。
+---
+
+### <kbd>property</kbd> Run.config_static
+
+この run に関連付けられた静的な Config オブジェクト。
+
+**Returns:**
+ - `wandb_config.ConfigStatic`: config_static プロパティの値。
+---
+
+### <kbd>property</kbd> Run.dir
+
+run に関連付けられたファイルが保存されるディレクトリー。
+
+**Returns:**
+ - `str`: dir プロパティの値。
+---
+
+### <kbd>property</kbd> Run.disabled
+
+run が無効な場合は True、それ以外の場合は False。
+
+**Returns:**
+ - `bool`: disabled プロパティの値。
+---
+
+### <kbd>property</kbd> Run.entity
+
+run に関連付けられた W&B Entity の名前。
+
+Entity はユーザー名、またはチームや組織の名前です。
+
+**Returns:**
+ - `str`: entity プロパティの値。
+---
+
+### <kbd>property</kbd> Run.group
+
+この run に関連付けられたグループの名前を返します。
+
+複数の run をグループ化することで、関連する実験を W&B UI 上でまとめて整理し、可視化することができます。これは、複数の run を統合された実験として表示・管理すべき分散トレーニングやクロスバリデーションなどのシナリオで特に便利です。
+
+すべてのプロセスが同じ run オブジェクトを共有する共有モードでは、run は 1 つしかなくグループ化の必要がないため、通常グループの設定は不要です。
+
+**Returns:**
+ - `str`: group プロパティの値。
+---
+
+### <kbd>property</kbd> Run.id
+
+この run の識別子。
+
+**Returns:**
+ - `str`: id プロパティの値。
+---
+
+### <kbd>property</kbd> Run.job_type
+
+run に関連付けられたジョブタイプの名前。
+
+run のジョブタイプは、W&B App の run の Overview ページで確認できます。
+
+これを使用して、"training"、"evaluation"、"inference" などのジョブタイプごとに run を分類できます。これは、同じプロジェクト内に異なるジョブタイプの run が複数ある場合に、W&B UI で run を整理したりフィルタリングしたりするのに役立ちます。詳細は [Organize runs](https://docs.wandb.ai/guides/runs/#organize-runs) を参照してください。
+
+**Returns:**
+ - `str`: job_type プロパティの値。
+---
+
+### <kbd>property</kbd> Run.name
+
+run の表示名。
+
+表示名は一意であるとは限らず、説明的な名前になる場合があります。デフォルトではランダムに生成されます。
+
+**Returns:**
+ - `str | None`: name プロパティの値。
+---
+
+### <kbd>property</kbd> Run.notes
+
+run に関連付けられたメモ（ある場合）。
+
+メモは複数行の文字列にすることができ、`$$` 内で Markdown や LaTeX 数式（例: `$x + 3$`）を使用することも可能です。
+
+**Returns:**
+ - `str | None`: notes プロパティの値。
+---
+
+### <kbd>property</kbd> Run.offline
+
+run がオフラインの場合は True、それ以外の場合は False。
+
+**Returns:**
+ - `bool`: offline プロパティの値。
+---
+
+### <kbd>property</kbd> Run.path
+
+run へのパス。
+
+run パスには、`entity/project/run_id` の形式で entity、project、run ID が含まれます。
+
+**Returns:**
+ - `str`: path プロパティの値。
+---
+
+### <kbd>property</kbd> Run.project
+
+run に関連付けられた W&B Project の名前。
+
+**Returns:**
+ - `str`: project プロパティの値。
+---
+
+### <kbd>property</kbd> Run.project_url
+
+run に関連付けられた W&B Project の URL（存在する場合）。
+
+オフラインの run にはプロジェクト URL はありません。
+
+**Returns:**
+ - `str | None`: project_url プロパティの値。
+---
+
+### <kbd>property</kbd> Run.resumed
+
+run が再開（resume）された場合は True、それ以外の場合は False。
+
+**Returns:**
+ - `bool`: resumed プロパティの値。
+---
+
+### <kbd>property</kbd> Run.settings
+
+run の Settings オブジェクトのフリーズされたコピー。
+
+**Returns:**
+ - `Settings`: settings プロパティの値。
+---
+
+### <kbd>property</kbd> Run.start_time
+
+run が開始された時の Unix タイムスタンプ（秒単位）。
+
+**Returns:**
+ - `float`: start_time プロパティの値。
+---
+
+### <kbd>property</kbd> Run.sweep_id
+
+run に関連付けられた Sweep の識別子（存在する場合）。
+
+**Returns:**
+ - `str | None`: sweep_id プロパティの値。
+---
+
+### <kbd>property</kbd> Run.sweep_url
+
+run に関連付けられた Sweep の URL（存在する場合）。
+
+オフラインの run には Sweep URL はありません。
+
+**Returns:**
+ - `str | None`: sweep_url プロパティの値。
+---
+
+### <kbd>property</kbd> Run.tags
+
+run に関連付けられたタグ（ある場合）。
+
+**Returns:**
+ - `tuple | None`: tags プロパティの値。
+---
+
+### <kbd>property</kbd> Run.url
+
+W&B run の URL（存在する場合）。
+
+オフラインの run には URL はありません。
+
+**Returns:**
+ - `str | None`: url プロパティの値。
+---
+
+### <kbd>method</kbd> `Run.alert`
+
+```python
+alert(
+    title: 'str',
+    text: 'str',
+    level: 'str | AlertLevel | None' = None,
+    wait_duration: 'int | float | timedelta | None' = None
+) → None
+```
+
+指定されたタイトルとテキストでアラートを作成します。
+
+**Args:**
+
+ - `title`: アラートのタイトル。64 文字未満である必要があります。
+ - `text`: アラートの本文。
+ - `level`: 使用するアラートレベル。`INFO`、`WARN`、または `ERROR` のいずれか。
+ - `wait_duration`: このタイトルの別のアラートを送信するまでの待機時間（秒単位）。
+
+---
+
+### <kbd>method</kbd> `Run.define_metric`
+
+```python
+define_metric(
+    name: 'str',
+    step_metric: 'str | wandb_metric.Metric | None' = None,
+    step_sync: 'bool | None' = None,
+    hidden: 'bool | None' = None,
+    summary: 'str | None' = None,
+    goal: 'str | None' = None,
+    overwrite: 'bool | None' = None
+) → wandb_metric.Metric
+```
+
+`wandb.Run.log()` で記録されるメトリクスをカスタマイズします。
+
+**Args:**
+
+ - `name`: カスタマイズするメトリクスの名前。
+ - `step_metric`: 自動生成されたチャートで、このメトリクスの X 軸として機能する別のメトリクスの名前。
+ - `step_sync`: `step_metric` が明示的に指定されていない場合、その最後の値を自動的に `wandb.Run.log()` に挿入します。`step_metric` が指定されている場合はデフォルトで True です。
+ - `hidden`: このメトリクスを自動プロットから非表示にします。
+ - `summary`: サマリーに追加される集計メトリクスを指定します。サポートされている集計には、"min", "max", "mean", "last", "first", "best", "copy", "none" があります。"none" はサマリーの生成を停止します。"best" は goal パラメータと共に使用されますが、"best" は非推奨であり、代わりに "min" または "max" を使用する必要があります。"copy" も非推奨であり使用すべきではありません。
+ - `goal`: "best" サマリータイプの解釈方法を指定します。サポートされているオプションは "minimize" と "maximize" です。"goal" は非推奨であり、代わりに "min" または "max" を使用してください。
+ - `overwrite`: False の場合、この呼び出しは同じメトリクスに対する以前の `define_metric` 呼び出しとマージされ、指定されていないパラメータには以前の値が使用されます。True の場合、指定されていないパラメータは以前の呼び出しで指定された値を上書きします。
+
+**Returns:**
+ この呼び出しを表すオブジェクト（通常は破棄して問題ありません）。
+
+---
+
+### <kbd>method</kbd> `Run.display`
+
+```python
+display(height: 'int' = 420, hidden: 'bool' = False) → bool
+```
+
+この run を Jupyter 内で表示します。
+
+---
+
+### <kbd>method</kbd> `Run.finish`
+
+```python
+finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+```
+
+run を終了し、残りのデータをすべてアップロードします。
+
+W&B run の完了をマークし、すべてのデータがサーバーに同期されることを保証します。run の最終的な状態は、終了条件と同期ステータスによって決まります。
+
+Run の状態: 
+- Running: データをログに記録中、またはハートビートを送信中のアクティブな run。
+- Crashed: 予期せずハートビートの送信が停止した run。
+- Finished: すべてのデータが同期され、正常に終了した run (`exit_code=0`)。
+- Failed: エラーで終了した run (`exit_code!=0`)。
+- Killed: 終了前に強制停止された run。
+
+**Args:**
+
+ - `exit_code`: run の終了ステータスを示す整数。成功の場合は 0 を使用し、それ以外の値は run が失敗したことを示します。
+ - `quiet`: 非推奨です。`wandb.Settings(quiet=...)` を使用してログの冗長性を設定してください。
+
+---
+
+### <kbd>method</kbd> `Run.finish_artifact`
+
+```python
+finish_artifact(
+    artifact_or_path: 'Artifact | str',
+    name: 'str | None' = None,
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    distributed_id: 'str | None' = None
+) → Artifact
+```
+
+run の出力として、未完了のアーティファクトを完成させます。
+
+同じ distributed ID を持つその後の "upsert" は、新しいバージョンを作成します。
+
+**Args:**
+
+ - `artifact_or_path`: このアーティファクトの内容へのパス。以下の形式が可能です：
+            - `/local/directory` 
+            - `/local/directory/file.txt` 
+            - `s3://bucket/path` 
+            また、`wandb.Artifact` を呼び出して作成された Artifact オブジェクトを渡すこともできます。
+ - `name`: アーティファクト名。entity/project をプレフィックスとして付けることができます。有効な名前の形式は以下の通りです：
+            - name:version 
+            - name:alias 
+            - digest 
+            指定しない場合、デフォルトで現在の run ID が先頭に付加されたパスのベース名になります。
+ - `type`: ログに記録するアーティファクトのタイプ。例として `dataset` や `model` などがあります。
+ - `aliases`: このアーティファクトに適用するエイリアス。デフォルトは `["latest"]` です。
+ - `distributed_id`: すべての分散ジョブで共有される一意の文字列。None の場合、デフォルトで run のグループ名になります。
+
+**Returns:**
+ `Artifact` オブジェクト。
+
+---
+
+### <kbd>method</kbd> `Run.link_artifact`
+
+```python
+link_artifact(
+    artifact: 'Artifact',
+    target_path: 'str',
+    aliases: 'list[str] | None' = None
+) → Artifact
+```
+
+アーティファクトをコレクションにリンクします。
+
+「リンク」という用語は、W&B がアーティファクトを保存する場所と、レジストリ内でアーティファクトにアクセスできる場所を接続するポインタを指します。アーティファクトをコレクションにリンクしても、W&B はアーティファクトを複製しません。
+
+リンクされたアーティファクトは、指定されたコレクションの Registry UI で確認できます。
+
+**Args:**
+
+ - `artifact`: コレクションにリンクするアーティファクトオブジェクト。
+ - `target_path`: コレクションのパス。パスはプレフィックス "wandb-registry-" とレジストリ名、コレクション名で構成されます：`wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}`。
+ - `aliases`: リンクされたアーティファクトに 1 つ以上のエイリアスを追加します。"latest" エイリアスは、リンクされた最新のアーティファクトに自動的に適用されます。
+
+**Returns:**
+ リンクされたアーティファクト。
+
+---
+
+### <kbd>method</kbd> `Run.link_model`
+
+```python
+link_model(
+    path: 'StrPath',
+    registered_model_name: 'str',
+    name: 'str | None' = None,
+    aliases: 'list[str] | None' = None
+) → Artifact | None
+```
+
+モデルアーティファクトのバージョンをログに記録し、モデルレジストリ内の Registered Models にリンクします。
+
+リンクされたモデルバージョンは、指定された登録済みモデルの UI で確認できます。
+
+このメソッドは以下の動作を行います：
+- 'name' というモデルアーティファクトがすでにログ記録されているか確認します。記録されている場合は、'path' にあるファイルと一致するアーティファクトバージョンを使用するか、新しいバージョンをログに記録します。記録されていない場合は、'path' 下のファイルを新しいモデルアーティファクト（タイプ 'model' の 'name'）としてログに記録します。
+- 'model-registry' プロジェクト内に 'registered_model_name' という名前の Registered Models が存在するか確認します。存在しない場合は、新しく作成します。
+- モデルアーティファクト 'name' のバージョンを Registered Models 'registered_model_name' にリンクします。
+- 'aliases' リストのエイリアスを、新しくリンクされたモデルアーティファクトバージョンに付加します。
+
+**Args:**
+
+ - `path`: (str) このモデルの内容へのパス。以下の形式が可能です：
+    - `/local/directory` 
+    - `/local/directory/file.txt` 
+    - `s3://bucket/path` 
+ - `registered_model_name`: モデルのリンク先となる Registered Models の名前。Registered Models はモデルレジストリにリンクされたモデルバージョンのコレクションであり、通常はチームの特定の ML タスクを表します。この登録済みモデルが属する Entity は run から導出されます。
+ - `name`: 'path' 内のファイルがログ記録されるモデルアーティファクトの名前。指定しない場合、デフォルトで現在の run ID が先頭に付加されたパスのベース名になります。
+ - `aliases`: 登録済みモデル内のこのリンクされたアーティファクトにのみ適用されるエイリアス。エイリアス "latest" は、リンクされたアーティファクトの最新バージョンに常に適用されます。
+
+**Raises:**
+
+ - `AssertionError`: registered_model_name がパスである場合、またはモデルアーティファクト 'name' のタイプに 'model' という文字列が含まれていない場合。
+ - `ValueError`: name に無効な特殊文字が含まれている場合。
+
+**Returns:**
+ リンクに成功した場合はリンクされたアーティファクト、それ以外の場合は `None`。
+
+---
+
+### <kbd>method</kbd> `Run.log`
+
+```python
+log(
+    data: 'dict[str, Any]',
+    step: 'int | None' = None,
+    commit: 'bool | None' = None
+) → None
+```
+
+run データをアップロードします。
+
+スカラー、画像、ビデオ、ヒストグラム、プロット、テーブルなどのデータを run からログに記録するには `log` を使用します。コードスニペット、ベストプラクティスなどは、[Log objects and media](https://docs.wandb.ai/guides/track/log) を参照してください。
+
+基本的な使い方：
+
+```python
+import wandb
+
+with wandb.init() as run:
+     run.log({"train-loss": 0.5, "accuracy": 0.9})
+``` 
+
+上記のコードスニペットは、loss と accuracy を run の history に保存し、これらのメトリクスの summary の値を更新します。
+
+ログに記録されたデータは、[wandb.ai](https://wandb.ai) の Workspace、または W&B アプリの [セルフホストインスタンス](https://docs.wandb.ai/guides/hosting) で視覚化できます。また、[Public API](https://docs.wandb.ai/guides/track/public-api-guide) を使用して、Jupyter ノートブックなどでローカルにデータをエクスポートして探索することも可能です。
+
+ログに記録する値はスカラーである必要はありません。画像、オーディオ、ビデオなど、[W&B がサポートする任意のデータ型](https://docs.wandb.ai/ref/python/data-types/)をログに記録できます。例えば、`wandb.Table` を使用して構造化データをログに記録できます。詳細は [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) チュートリアルを参照してください。
+
+W&B は、名前にスラッシュ（`/`）が含まれるメトリクスを、最後のスラッシュの前のテキストを使用したセクションに整理します。例えば、以下は "train" と "validate" という 2 つのセクションを作成します：
+
+```python
+with wandb.init() as run:
+     # "train" セクションにメトリクスを記録
+     run.log(
+         {
+             "train/accuracy": 0.9,
+             "train/loss": 30,
+             "validate/accuracy": 0.8,
+             "validate/loss": 20,
+         }
+     )
+``` 
+
+ネスティングは 1 レベルのみサポートされています。`run.log({"a/b/c": 1})` は "a" という名前のセクションを作成します。
+
+`run.log()` は 1 秒間に数回以上呼び出されることを想定していません。最適なパフォーマンスを得るには、N 回のイテレーションごとに 1 回ログを記録するか、複数のイテレーションにわたってデータを収集し、単一のステップでログを記録するように制限してください。
+
+デフォルトでは、`log` を呼び出すたびに新しい「ステップ」が作成されます。ステップは常に増加する必要があり、過去のステップにログを記録することはできません。チャートでは任意のメトリクスを X 軸として使用できます。詳細は [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) を参照してください。
+
+多くの場合、W&B のステップをトレーニングステップとしてではなく、タイムスタンプのように扱うのがより適切です。
+
+```python
+with wandb.init() as run:
+     # 例：X 軸として使用するために "epoch" メトリクスをログに記録
+     run.log({"epoch": 40, "train-loss": 0.5})
+``` 
+
+`step` と `commit` パラメータを使用することで、複数の `wandb.Run.log()` 呼び出しで同じステップにログを記録することが可能です。以下はすべて同等です：
+
+```python
+with wandb.init() as run:
+     # 通常の使用法：
+     run.log({"train-loss": 0.5, "accuracy": 0.8})
+     run.log({"train-loss": 0.4, "accuracy": 0.9})
+
+     # 自動インクリメントなしの暗黙的なステップ：
+     run.log({"train-loss": 0.5}, commit=False)
+     run.log({"accuracy": 0.8})
+     run.log({"train-loss": 0.4}, commit=False)
+     run.log({"accuracy": 0.9})
+
+     # 明示的なステップ：
+     run.log({"train-loss": 0.5}, step=current_step)
+     run.log({"accuracy": 0.8}, step=current_step)
+     current_step += 1
+     run.log({"train-loss": 0.4}, step=current_step)
+     run.log({"accuracy": 0.9}, step=current_step, commit=True)
+``` 
+
+**Args:**
+
+ - `data`: 文字列のキーとシリアライズ可能な値を保持する `dict`。
+ - `シリアライズ可能な Python オブジェクト`: `int`、`float`、`string`、任意の `wandb.data_types`、シリアライズ可能な Python オブジェクトのリスト、タプル、NumPy 配列、およびこの構造を持つ他の `dict`。
+ - `step`: ログを記録するステップ番号。`None` の場合、暗黙的な自動インクリメントステップが使用されます。説明文の注記を参照してください。
+ - `commit`: True の場合、ステップを確定してアップロードします。False の場合、そのステップのデータを蓄積します。説明文の注記を参照してください。`step` が `None` の場合、デフォルトは `commit=True` です。それ以外の場合、デフォルトは `commit=False` です。
+
+**Examples:**
+ より詳細な例については、[logging ガイド](https://docs.wandb.com/guides/track/log)を参照してください。
+
+基本的な使い方
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"train-loss": 0.5, "accuracy": 0.9})
+``` 
+
+インクリメンタルなログ記録
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"loss": 0.2}, commit=False)
+    # 準備が整った別の場所でこのステップを報告：
+    run.log({"accuracy": 0.8})
+``` 
+
+ヒストグラム
+
+```python
+import numpy as np
+import wandb
+
+# 正規分布からランダムに勾配をサンプリング
+gradients = np.random.randn(100, 100)
+with wandb.init() as run:
+    run.log({"gradients": wandb.Histogram(gradients)})
+``` 
+
+NumPy から画像
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+``` 
+
+PIL から画像
+
+```python
+import numpy as np
+from PIL import Image as PILImage
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(
+             low=0,
+             high=256,
+             size=(100, 100, 3),
+             dtype=np.uint8,
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+``` 
+
+NumPy からビデオ
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # 軸は (時間, チャンネル, 高さ, 幅)
+    frames = np.random.randint(
+         low=0,
+         high=256,
+         size=(10, 3, 100, 100),
+         dtype=np.uint8,
+    )
+    run.log({"video": wandb.Video(frames, fps=4)})
+``` 
+
+Matplotlib プロット
+
+```python
+from matplotlib import pyplot as plt
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 10)
+    y = x * x
+    ax.plot(x, y)  # plot y = x^2
+    run.log({"chart": fig})
+``` 
+
+PR 曲線
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"pr": wandb.plot.pr_curve(y_test, y_probas, labels)})
+``` 
+
+3D オブジェクト
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log(
+         {
+             "generated_samples": [
+                 wandb.Object3D(open("sample.obj")),
+                 wandb.Object3D(open("sample.gltf")),
+                 wandb.Object3D(open("sample.glb")),
+             ]
+         }
+    )
+``` 
+
+**Raises:**
+
+ - `wandb.Error`: `wandb.init()` の前に呼び出された場合。
+ - `ValueError`: 無効なデータが渡された場合。
+
+---
+
+### <kbd>method</kbd> `Run.log_artifact`
+
+```python
+log_artifact(
+    artifact_or_path: 'Artifact | StrPath',
+    name: 'str | None' = None,
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    tags: 'list[str] | None' = None
+) → Artifact
+```
+
+アーティファクトを run の出力として宣言します。
+
+**Args:**
+
+ - `artifact_or_path`: (str または Artifact) このアーティファクトの内容へのパス。以下の形式が可能です：
+            - `/local/directory` 
+            - `/local/directory/file.txt` 
+            - `s3://bucket/path` 
+            また、`wandb.Artifact` を呼び出して作成された Artifact オブジェクトを渡すこともできます。
+ - `name`: (str, optional) アーティファクト名。有効な名前の形式は以下の通りです：
+            - name:version 
+            - name:alias 
+            - digest 
+            指定しない場合、デフォルトで現在の run ID が先頭に付加されたパスのベース名になります。
+ - `type`: (str) ログに記録するアーティファクトのタイプ。例として `dataset` や `model` などがあります。
+ - `aliases`: (list, optional) このアーティファクトに適用するエイリアス。デフォルトは `["latest"]` です。
+ - `tags`: (list, optional) このアーティファクトに適用するタグ（ある場合）。
+
+**Returns:**
+ `Artifact` オブジェクト。
+
+---
+
+### <kbd>method</kbd> `Run.log_code`
+
+```python
+log_code(
+    root: 'str | None' = '.',
+    name: 'str | None' = None,
+    include_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function _is_py_requirements_or_dockerfile at 0x104911ab0>,
+    exclude_fn: 'Callable[[str, str], bool] | Callable[[str], bool]' = <function exclude_wandb_fn at 0x10ff604c0>
+) → Artifact | None
+```
+
+コードの現在の状態を W&B Artifact として保存します。
+
+デフォルトでは、現在のディレクトリーをスキャンし、`.py` で終わるすべてのファイルをログに記録します。
+
+**Args:**
+
+ - `root`: コードを再帰的に検索するための相対パス（`os.getcwd()` からの相対）または絶対パス。
+ - `name`: (str, optional) コードアーティファクトの名前。デフォルトでは、アーティファクト名は `source-$PROJECT_ID-$ENTRYPOINT_RELPATH` になります。多くの run で同じアーティファクトを共有したいシナリオがあるかもしれません。name を指定することでそれを実現できます。
+ - `include_fn`: ファイルパスと（オプションで）ルートパスを受け取り、含めるべき場合に True を、そうでない場合に False を返す呼び出し可能オブジェクト。
+ - `デフォルト`: `lambda path, root: path.endswith(".py")`。
+ - `exclude_fn`: ファイルパスと（オプションで）ルートパスを受け取り、除外すべき場合に `True` を、そうでない場合に `False` を返す呼び出し可能オブジェクト。デフォルトでは、`<root>/.wandb/` および `<root>/wandb/` ディレクトリー内のすべてのファイルを除外する関数になります。
+
+**Examples:**
+ 基本的な使い方
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log_code()
+``` 
+
+高度な使い方
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log_code(
+         root="../",
+         include_fn=lambda path: path.endswith(".py") or path.endswith(".ipynb"),
+         exclude_fn=lambda path, root: os.path.relpath(path, root).startswith(
+             "cache/"
+         ),
+    )
+``` 
+
+**Returns:**
+ コードがログに記録された場合は `Artifact` オブジェクト。
+
+---
+
+### <kbd>method</kbd> `Run.log_model`
+
+```python
+log_model(
+    path: 'StrPath',
+    name: 'str | None' = None,
+    aliases: 'list[str] | None' = None
+) → None
+```
+
+'path' 内のコンテンツを含むモデルアーティファクトを run にログ記録し、この run の出力としてマークします。
+
+モデルアーティファクトの名前には、英数字、アンダースコア、ハイフンのみを使用できます。
+
+**Args:**
+
+ - `path`: (str) このモデルの内容へのパス。以下の形式が可能です：
+            - `/local/directory` 
+            - `/local/directory/file.txt` 
+            - `s3://bucket/path` 
+ - `name`: ファイルの内容が追加されるモデルアーティファクトに割り当てる名前。指定しない場合、デフォルトで現在の run ID が先頭に付加されたパスのベース名になります。
+ - `aliases`: 作成されたモデルアーティファクトに適用するエイリアス。デフォルトは `["latest"]` です。
+
+**Raises:**
+
+ - `ValueError`: name に無効な特殊文字が含まれている場合。
+
+**Returns:**
+ None
+
+---
+
+### <kbd>method</kbd> `Run.mark_preempting`
+
+```python
+mark_preempting() → None
+```
+
+この run をプリエンプト（preempting）中としてマークします。
+
+また、内部プロセスに対し、これを直ちにサーバーに報告するよう指示します。
+
+---
+
+### <kbd>method</kbd> `Run.restore`
+
+```python
+restore(
+    name: 'str',
+    run_path: 'str | None' = None,
+    replace: 'bool' = False,
+    root: 'str | None' = None
+) → None | TextIO
+```
+
+クラウドストレージから指定されたファイルをダウンロードします。
+
+ファイルは現在のディレクトリーまたは run ディレクトリーに配置されます。デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
+
+**Args:**
+
+ - `name`: ファイルの名前。
+ - `run_path`: ファイルを取得する run へのオプションのパス（例: `username/project_name/run_id`）。`wandb.init` が呼び出されていない場合は必須です。
+ - `replace`: ローカルにすでに存在する場合でもファイルをダウンロードするかどうか。
+ - `root`: ファイルをダウンロードするディレクトリー。デフォルトは、現在のディレクトリー、または `wandb.init` が呼び出されている場合は run ディレクトリーです。
+
+**Returns:**
+ ファイルが見つからない場合は None、それ以外の場合は読み取り用に開かれたファイルオブジェクト。
+
+**Raises:**
+
+ - `CommError`: W&B バックエンドに接続できない場合。
+ - `ValueError`: ファイルが見つからない、または run_path が見つからない場合。
+
+---
+
+### <kbd>method</kbd> `Run.save`
+
+```python
+save(
+    glob_str: 'str | os.PathLike',
+    base_path: 'str | os.PathLike | None' = None,
+    policy: 'PolicyName' = 'live'
+) → bool | list[str]
+```
+
+1 つ以上のファイルを W&B に同期します。
+
+相対パスは、現在の作業ディレクトリーからの相対パスです。
+
+"myfiles/*" などの Unix glob は、`policy` に関係なく `save` が呼び出された時点で展開されます。特に、新しいファイルが自動的に取得されることはありません。
+
+アップロードされたファイルのディレクトリー構造を制御するために、`base_path` を指定できます。これは `glob_str` のプレフィックスである必要があり、その下のディレクトリー構造が保持されます。
+
+絶対パスまたは glob が指定され、`base_path` が指定されていない場合、上記の例のように 1 つのディレクトリーレベルが保持されます。
+
+ファイルは自動的に重複排除されます。変更なしで同じファイルに対して `save()` を複数回呼び出しても、再アップロードは行われません。
+
+**Args:**
+
+ - `glob_str`: 相対パス、絶対パス、または Unix glob。
+ - `base_path`: ディレクトリー構造を推論するために使用するパス。例を参照してください。
+ - `policy`: `live`、`now`、`end` のいずれか。
+    - live: ファイルが変更されるたびにアップロードし、以前のバージョンを上書きします。
+    - now: 今すぐ一度だけファイルをアップロードします。
+    - end: run が終了したときにファイルをアップロードします。
+
+**Returns:**
+ 一致したファイルに対して作成されたシンボリックリンクへのパス。
+
+歴史的な理由により、レガシーコードではブール値を返す場合があります。
+
+```python
+import wandb
+
+run = wandb.init()
+
+run.save("these/are/myfiles/*")
+# => run 内の "these/are/myfiles/" フォルダにファイルを保存します。
+
+run.save("these/are/myfiles/*", base_path="these")
+# => run 内の "are/myfiles/" フォルダにファイルを保存します。
+
+run.save("/Users/username/Documents/run123/*.txt")
+# => run 内の "run123/" フォルダにファイルを保存します。以下の注意を参照。
+
+run.save("/Users/username/Documents/run123/*.txt", base_path="/Users")
+# => run 内の "username/Documents/run123/" フォルダにファイルを保存します。
+
+run.save("files/*/saveme.txt")
+# => 各 "saveme.txt" ファイルを "files/" の適切なサブディレクトリーに保存します。
+
+# コンテキストマネージャを使用していないため、明示的に run を終了します。
+run.finish()
+``` 
+
+---
+
+### <kbd>method</kbd> `Run.status`
+
+```python
+status() → RunStatus
+```
+
+内部バックエンドから、現在の run の同期ステータスに関する同期情報を取得します。
+
+---
+
+### <kbd>method</kbd> `Run.unwatch`
+
+```python
+unwatch(
+    models: 'torch.nn.Module | Sequence[torch.nn.Module] | None' = None
+) → None
+```
+
+PyTorch モデルのトポロジー、勾配、およびパラメータのフックを削除します。
+
+**Args:**
+
+ - `models`: `watch` が呼び出された PyTorch モデルのオプションのリスト。
+
+---
+
+### <kbd>method</kbd> `Run.upsert_artifact`
+
+```python
+upsert_artifact(
+    artifact_or_path: 'Artifact | str',
+    name: 'str | None' = None,
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    distributed_id: 'str | None' = None
+) → Artifact
+```
+
+run の出力として、未完了のアーティファクトを宣言（または追加）します。
+
+アーティファクトを完成させるには `run.finish_artifact()` を呼び出す必要があることに注意してください。これは、分散ジョブがすべて同じアーティファクトに貢献する必要がある場合に便利です。
+
+**Args:**
+
+ - `artifact_or_path`: このアーティファクトの内容へのパス。以下の形式が可能です：
+    - `/local/directory` 
+    - `/local/directory/file.txt` 
+    - `s3://bucket/path` 
+ - `name`: アーティファクト名。"entity/project" をプレフィックスとして付けることができます。指定しない場合、デフォルトで現在の run ID が先頭に付加されたパスのベース名になります。有効な名前の形式は以下の通りです：
+    - name:version 
+    - name:alias 
+    - digest 
+ - `type`: ログに記録するアーティファクトのタイプ。一般的な例として `dataset` や `model` があります。
+ - `aliases`: このアーティファクトに適用するエイリアス。デフォルトは `["latest"]` です。
+ - `distributed_id`: すべての分散ジョブで共有される一意の文字列。None の場合、デフォルトで run のグループ名になります。
+
+**Returns:**
+ `Artifact` オブジェクト。
+
+---
+
+### <kbd>method</kbd> `Run.use_artifact`
+
+```python
+use_artifact(
+    artifact_or_name: 'str | Artifact',
+    type: 'str | None' = None,
+    aliases: 'list[str] | None' = None,
+    use_as: 'str | None' = None
+) → Artifact
+```
+
+アーティファクトを run の入力として宣言します。
+
+返されたオブジェクトに対して `download` または `file` を呼び出すことで、内容をローカルに取得できます。
+
+**Args:**
+
+ - `artifact_or_name`: 使用するアーティファクトの名前。アーティファクトがログ記録されたプロジェクト名（"entity" または "entity/project"）をプレフィックスとして付けることができます。名前に entity が指定されていない場合、Run または API 設定の entity が使用されます。有効な名前の形式は以下の通りです：
+    - name:version 
+    - name:alias 
+ - `type`: 使用するアーティファクトのタイプ。
+ - `aliases`: このアーティファクトに適用するエイリアス。
+ - `use_as`: この引数は非推奨であり、何もしません。
+
+**Returns:**
+ `Artifact` オブジェクト。
+
+**Examples:**
+ ```python
+import wandb
+
+run = wandb.init(project="<example>")
+
+# 名前とエイリアスでアーティファクトを使用
+artifact_a = run.use_artifact(artifact_or_name="<name>:<alias>")
+
+# 名前とバージョンでアーティファクトを使用
+artifact_b = run.use_artifact(artifact_or_name="<name>:v<version>")
+
+# entity/project/name:alias でアーティファクトを使用
+artifact_c = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:<alias>"
+)
+
+# entity/project/name:version でアーティファクトを使用
+artifact_d = run.use_artifact(
+    artifact_or_name="<entity>/<project>/<name>:v<version>"
+)
+
+# コンテキストマネージャを使用していないため、明示的に run を終了します。
+run.finish()
+``` 
+
+---
+
+### <kbd>method</kbd> `Run.use_model`
+
+```python
+use_model(name: 'str') → FilePathStr
+```
+
+モデルアーティファクト 'name' にログ記録されたファイルをダウンロードします。
+
+**Args:**
+
+ - `name`: モデルアーティファクト名。'name' は既存のログ記録されたモデルアーティファクトの名前と一致する必要があります。`entity/project/` をプレフィックスとして付けることができます。有効な名前の形式は以下の通りです：
+    - model_artifact_name:version 
+    - model_artifact_name:alias 
+
+**Returns:**
+
+ - `path` (str): ダウンロードされたモデルアーティファクトファイルへのパス。
+
+**Raises:**
+
+ - `AssertionError`: モデルアーティファクト 'name' のタイプに 'model' という文字列が含まれていない場合。
+
+---
+
+### <kbd>method</kbd> `Run.watch`
+
+```python
+watch(
+    models: 'torch.nn.Module | Sequence[torch.nn.Module]',
+    criterion: 'torch.F | None' = None,
+    log: "Literal['gradients', 'parameters', 'all'] | None" = 'gradients',
+    log_freq: 'int' = 1000,
+    idx: 'int | None' = None,
+    log_graph: 'bool' = False
+) → None
+```
+
+指定された PyTorch モデルにフックして、勾配とモデルの計算グラフを監視します。
+
+この関数は、トレーニング中のパラメータ、勾配、またはその両方を追跡できます。
+
+**Args:**
+
+ - `models`: 監視対象となる単一のモデルまたはモデルのシーケンス。
+ - `criterion`: 最適化される損失関数（オプション）。
+ - `log`: "gradients"、"parameters"、または "all" のどれをログに記録するかを指定します。ログ記録を無効にするには None を設定します。（デフォルト="gradients"）。
+ - `log_freq`: 勾配とパラメータをログに記録する頻度（バッチ単位）。（デフォルト=1000）
+ - `idx`: `wandb.watch` で複数のモデルを追跡する際に使用されるインデックス。（デフォルト=None）
+ - `log_graph`: モデルの計算グラフをログに記録するかどうか。（デフォルト=False）
+
+**Raises:**
+ ValueError: `wandb.init()` が呼び出されていない場合、またはモデルのいずれかが `torch.nn.Module` のインスタンスではない場合。

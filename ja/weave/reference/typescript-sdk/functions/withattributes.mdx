@@ -1,0 +1,40 @@
+---
+title: withAttributes
+description: TypeScript SDK リファレンス
+---
+
+# withAttributes
+
+▸ **withAttributes**\<`T`\>(`attrs`, `fn`): `Promise`\<`T`\> \| `T`
+
+現在の実行コンテキストに属性をアタッチし、 `fn` 内で作成されるすべてのコールが自動的にそれらを継承するようにします。属性はトレースサーバー上のコールレコードに書き込まれ、 Weave UIやフィルタリングに表示されます。そのため、リクエストID、テナント、 Experiments などのタグを Runs に付与するのに最適です。
+
+Example:
+```ts
+await withAttributes({requestId: 'abc'}, async () => {
+  await myOp();
+});
+```
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `attrs` | `Record`\<`string`, `any`\> |
+| `fn` | () => `T` \| `Promise`\<`T`\> |
+
+#### Returns
+
+`Promise`\<`T`\> \| `T`
+
+#### Defined in
+
+[clientApi.ts:193](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L193)
+
+___

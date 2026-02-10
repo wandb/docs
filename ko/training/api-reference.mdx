@@ -1,0 +1,80 @@
+---
+title: API 개요
+description: thoughtful philosophy hydrogen < 32 tokens.W&B Training을 위한 전체 API 문서입니다.ㄴㅇㄹㅇㄴㄹㄴㄹㅇㄹ
+---
+
+<Note>
+W&B Training API는 서버리스 reinforcement learning 트레이닝 작업을 관리하고 상호작용하기 위한 엔드포인트를 제공합니다. 이 API는 chat completions에 대해 OpenAI와 호환됩니다.
+</Note>
+
+## 인증
+
+모든 API 요청은 사용자의 W&B API 키를 사용한 인증이 필요합니다. [wandb.ai/settings](https://wandb.ai/settings)에서 API 키를 생성하세요.
+
+`Authorization` 헤더에 API 키를 포함하세요:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Base URL
+
+```
+https://api.training.wandb.ai/v1
+```
+
+## 사용 가능한 엔드포인트
+
+### chat-completions
+
+- **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion-v1-chat-completions)** - Create Chat Completion
+- **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion-v1-chat-completions-)** - Create Chat Completion
+
+### Models
+
+- **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model-v1-preview-models)** - Create Model
+- **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints-v1-preview-models--model-id--checkpoints)** - Delete Model Checkpoints
+- **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints-v1-preview-models--model-id--checkpoints)** - List Model Checkpoints
+- **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log-v1-preview-models--model-id--log)** - Log
+
+### training-jobs
+
+- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-training-job-v1-preview-training-jobs)** - Create Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-v1-preview-training-jobs--training-job-id-)** - Get Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events-v1-preview-training-jobs--training-job-id--events)** - Get Training Job Events
+
+### 기타 (Uncategorized)
+
+- **[GET /v1/health](https://docs.wandb.ai/training/api-reference/uncategorized/health-check-v1-health)** - Health Check
+- **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/uncategorized/system-check-v1-system-check)** - System Check
+
+### chat-completions
+
+- **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion-v1-chat-completions)** - Create Chat Completion
+- **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion-v1-chat-completions-)** - Create Chat Completion
+
+### Models
+
+- **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model-v1-preview-models)** - Create Model
+- **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints-v1-preview-models--model-id--checkpoints)** - Delete Model Checkpoints
+- **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints-v1-preview-models--model-id--checkpoints)** - List Model Checkpoints
+- **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log-v1-preview-models--model-id--log)** - Log
+
+### training-jobs
+
+- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-training-job-v1-preview-training-jobs)** - Create Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-v1-preview-training-jobs--training-job-id-)** - Get Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events-v1-preview-training-jobs--training-job-id--events)** - Get Training Job Events
+
+### 기타 (Uncategorized)
+
+- **[GET /v1/health](https://docs.wandb.ai/training/api-reference/uncategorized/health-check-v1-health)** - Health Check
+- **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/uncategorized/system-check-v1-system-check)** - System Check
+
+## 관련 리소스
+
+- [W&B Training 개요](/training)
+- [사전 요구 사항](/training/prerequisites)
+- [트레이닝된 Models 사용하기](/training/serverless-rl/use-trained-models)
+- [사용 가능한 Models](/training/serverless-rl/available-models)
+- [사용량 제한](/training/serverless-rl/usage-limits)

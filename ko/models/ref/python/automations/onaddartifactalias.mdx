@@ -1,0 +1,46 @@
+---
+title: OnAddArtifactAlias
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+## <kbd>class</kbd> `OnAddArtifactAlias`
+아티팩트에 새로운 에일리어스가 할당되었습니다.
+
+예시:
+"my-collection" 컬렉션의 아티팩트에 "prod" 에일리어스가 할당될 때마다 트리거되는 이벤트를 정의합니다:
+
+```python
+from wandb import Api
+from wandb.automations import OnAddArtifactAlias, ArtifactEvent
+
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
+
+event = OnAddArtifactAlias(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
+
+### <kbd>method</kbd> `OnAddArtifactAlias.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[ADD_ARTIFACT_ALIAS]' = ADD_ARTIFACT_ALIAS,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**Args:**
+
+ - `event_type` (Literal[ADD_ARTIFACT_ALIAS]): 
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): 이벤트의 범위(scope).
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트가 트리거되기 위해 필요한 추가 조건(들).
+
+**Returns:**
+ `OnAddArtifactAlias` 오브젝트.

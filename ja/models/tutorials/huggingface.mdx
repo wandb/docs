@@ -1,0 +1,114 @@
+---
+title: Hugging Face
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb" />
+シームレスな [W&B](https://wandb.ai/site) インテグレーションにより、 [Hugging Face](https://github.com/huggingface/transformers) モデルのパフォーマンスを素早く可視化できます。
+
+ハイパーパラメーター、出力メトリクス、そして GPU 使用率などのシステム統計をモデル間で比較しましょう。
+
+## なぜ W&B を使うべきなのか？
+
+<Frame>
+    <img src="/images/tutorials/huggingface-why.png" alt="Benefits of using W&B"  />
+</Frame>
+
+- **統合されたダッシュボード**: すべてのモデルメトリクスと予測を保存する中央リポジトリ
+- **軽量**: Hugging Face と統合するためにコードを変更する必要はありません
+- **アクセシビリティ**: 個人やアカデミックチームは無料で利用可能
+- **セキュア**: すべてのプロジェクトはデフォルトでプライベート設定
+- **信頼性**: OpenAI、Toyota、Lyft などの機械学習チームによって使用されています
+
+W&B は機械学習モデルのための GitHub のようなものだと考えてください。機械学習の実験を、ホストされたプライベートなダッシュボードに保存できます。スクリプトを実行する場所を問わず、すべてのバージョンのモデルが保存されているという安心感を持って、迅速に実験を行うことができます。
+
+W&B の軽量なインテグレーションはあらゆる Python スクリプトで動作します。無料の W&B アカウントに登録するだけで、モデルのトラッキングと可視化を開始できます。
+
+Hugging Face Transformers リポジトリでは、各ロギングステップでトレーニングおよび評価メトリクスを自動的に W&B にログするように Trainer が組み込まれています。
+
+インテグレーションの詳細についてはこちらをご覧ください: [Hugging Face + W&B Report](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/Train-a-model-with-Hugging-Face-and-Weights-%26-Biases--VmlldzoxMDE2MTU)
+
+## インストール、インポート、ログイン
+
+このチュートリアルのために、Hugging Face と W&B のライブラリ、GLUE データセット、およびトレーニングスクリプトをインストールします。
+- [Hugging Face Transformers](https://github.com/huggingface/transformers): 自然言語モデルとデータセット
+- [W&B](/): 実験管理と可視化
+- [GLUE データセット](https://gluebenchmark.com/): 言語理解のベンチマークデータセット
+- [GLUE スクリプト](https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py): シーケンス分類のためのモデルトレーニングスクリプト
+
+```notebook
+!pip install datasets wandb evaluate accelerate -qU
+!wget https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py
+```
+
+```notebook
+# run_glue.py スクリプトには transformers の dev 版が必要です
+!pip install -q git+https://github.com/huggingface/transformers
+```
+
+続行する前に、 [無料アカウントに登録](https://app.wandb.ai/login?signup=true) してください。
+
+## APIキーの設定
+
+登録が完了したら、次のセルを実行し、リンクをクリックして API キーを取得し、このノートブックを認証します。
+
+```python
+import wandb
+wandb.login()
+```
+
+オプションとして、環境変数を設定して W&B のロギングをカスタマイズできます。詳細は [Hugging Face インテグレーションガイド](/models/integrations/huggingface/) を参照してください。
+
+```python
+# オプション: 勾配(gradients)とパラメータ(parameters)の両方をログする
+%env WANDB_WATCH=all
+```
+
+## モデルのトレーニング
+次に、ダウンロードしたトレーニングスクリプト [run_glue.py](https://huggingface.co/transformers/examples.html#glue) を呼び出します。トレーニングが自動的に W&B ダッシュボードにトラッキングされるのが確認できます。このスクリプトは、Microsoft Research Paraphrase Corpus（意味的に同等かどうかを示す人間によるアノテーションが付いた文のペア）で BERT をファインチューンします。
+
+```python
+%env WANDB_PROJECT=huggingface-demo
+%env TASK_NAME=MRPC
+
+!python run_glue.py \
+  --model_name_or_path bert-base-uncased \
+  --task_name $TASK_NAME \
+  --do_train \
+  --do_eval \
+  --max_seq_length 256 \
+  --per_device_train_batch_size 32 \
+  --learning_rate 2e-4 \
+  --num_train_epochs 3 \
+  --output_dir /tmp/$TASK_NAME/ \
+  --overwrite_output_dir \
+  --logging_steps 50
+```
+
+## ダッシュボードで結果を可視化
+上に表示されたリンクをクリックするか、 [wandb.ai](https://app.wandb.ai) にアクセスして、結果がライブでストリーミングされるのを確認してください。ブラウザで run を表示するためのリンクは、すべての依存関係がロードされた後に表示されます。次の出力を探してください: "**wandb**: View run at [URL to your unique run]"
+
+**モデルパフォーマンスの可視化**
+数十もの実験を見渡し、興味深い発見をズームアップし、高次元データを可視化することが簡単にできます。
+
+<Frame>
+    <img src="/images/tutorials/huggingface-visualize.gif" alt="Model metrics dashboard"  />
+</Frame>
+
+**アーキテクチャーの比較**
+こちらは [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU) を比較した例です。自動的な折れ線グラフの可視化により、トレーニングを通じて異なるアーキテクチャーが評価精度にどのように影響するかを簡単に確認できます。
+
+<Frame>
+    <img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="BERT vs DistilBERT comparison"  />
+</Frame>
+
+## 重要な情報をデフォルトで手間なくトラッキング
+W&B は実験ごとに新しい run を保存します。デフォルトで保存される情報は以下の通りです。
+- **ハイパーパラメーター**: モデルの設定は Config に保存されます
+- **モデルメトリクス**: ストリーミングされるメトリクスの時系列データは Log に保存されます
+- **ターミナルログ**: コマンドラインの出力が保存され、タブから確認できます
+- **システムメトリクス**: GPU および CPU の使用率、メモリ、温度など
+
+## 詳細を見る
+- [Hugging Face インテグレーションガイド](/models/integrations/huggingface)
+- [YouTube の動画ガイド](http://wandb.me/youtube)

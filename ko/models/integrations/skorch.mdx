@@ -1,0 +1,53 @@
+---
+title: Skorch
+description: W&B를 Skorch와 통합하는 방법.
+---
+
+Skorch와 함께 W&B를 사용하면 매 에포크(epoch)가 끝날 때마다 최적의 성능을 보이는 모델을 자동으로 저장하고, 모든 모델 성능 메트릭, 모델 구조(topology) 및 컴퓨팅 리소스를 로그할 수 있습니다. `wandb_run.dir`에 저장된 모든 파일은 W&B에 자동으로 업로드됩니다.
+
+[실행 예시](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13)를 확인해 보세요.
+
+## 파라미터
+
+| 파라미터 | 타입 | 설명 |
+| :--- | :--- | :--- |
+| `wandb_run` | `wandb.wandb_run`. Run | 데이터 로그에 사용되는 wandb run. |
+|`save_model` | bool (기본값=True)| 최적 모델의 체크포인트를 저장하고 W&B의 Run에 업로드할지 여부.|
+|`keys_ignored`| str 또는 list of str (기본값=None) | 로그에 기록하지 않을 키 또는 키 리스트. 사용자가 제공한 키 외에도 `event_`로 시작하거나 `_best`로 끝나는 키는 기본적으로 무시됩니다.|
+
+## 예제 코드
+
+인테그레이션 작동 방식을 확인할 수 있는 몇 가지 예제를 준비했습니다:
+
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): 인테그레이션을 시도해 볼 수 있는 간단한 데모
+* [단계별 가이드](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): Skorch 모델 성능을 추적하기 위한 가이드
+
+```python
+# wandb 설치
+... pip install wandb
+
+import wandb
+from skorch.callbacks import WandbLogger
+
+# wandb Run 생성
+wandb_run = wandb.init()
+
+# 하이퍼파라미터 로그 (선택 사항)
+wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
+
+net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
+net.fit(X, y)
+```
+
+## 메소드 레퍼런스
+
+| 메소드 | 설명 |
+| :--- | :--- |
+| `initialize`\(\) | 콜백의 초기 상태를 (재)설정합니다. |
+| `on_batch_begin`\(net\[, X, y, training\]\) | 각 배치가 시작될 때 호출됩니다. |
+| `on_batch_end`\(net\[, X, y, training\]\) | 각 배치가 끝날 때 호출됩니다. |
+| `on_epoch_begin`\(net\[, dataset_train, …\]\) | 각 에포크가 시작될 때 호출됩니다. |
+| `on_epoch_end`\(net, \*\*kwargs\) | 마지막 히스토리 단계의 값을 로그하고 최적의 모델을 저장합니다. |
+| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | 그레이디언트 계산 후, 업데이트 단계 수행 전 배치당 한 번 호출됩니다. |
+| `on_train_begin`\(net, \*\*kwargs\) | 모델 구조를 로그하고 그레이디언트 추적을 위한 훅을 추가합니다. |
+| `on_train_end`\(net\[, X, y\]\) | 트레이닝이 끝날 때 호출됩니다. |

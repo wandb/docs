@@ -1,0 +1,63 @@
+---
+title: ArtifactType
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+## <kbd>class</kbd> `ArtifactType`
+指定されたタイプに基づいてクエリ条件を満たす Artifacts オブジェクト。
+
+**Args:**
+
+ - `client`: W&B へのクエリに使用するクライアントインスタンス。
+ - `entity`: Projects を所有する Entity（Users または Teams）。
+ - `project`: アーティファクトタイプをクエリする Projects の名前。
+ - `type_name`: アーティファクトタイプの名前。
+ - `attrs`: ArtifactType を初期化するためのオプションの属性。省略された場合、オブジェクトは初期化時に W&B から属性を読み込みます。
+
+### <kbd>property</kbd> ArtifactType.id
+
+アーティファクトタイプのユニークな識別子。
+
+**Returns:**
+ - `str`: id プロパティの値。
+---
+
+### <kbd>property</kbd> ArtifactType.name
+
+アーティファクトタイプの名前。
+
+**Returns:**
+ - `str`: name プロパティの値。
+---
+
+### <kbd>method</kbd> `ArtifactType.collection`
+
+```python
+collection(name: 'str') → ArtifactCollection
+```
+
+名前を指定して特定のアーティファクトコレクションを取得します。
+
+**Args:**
+
+ - `name` (str): 取得するアーティファクトコレクションの名前。
+
+---
+
+### <kbd>method</kbd> `ArtifactType.collections`
+
+```python
+collections(per_page: 'int' = 50) → ArtifactCollections
+```
+
+このアーティファクトタイプに関連付けられているすべてのアーティファクトコレクションを取得します。
+
+**Args:**
+
+ - `per_page` (int): 1ページあたりに取得するアーティファクトコレクションの数。デフォルトは 50 です。
+
+---

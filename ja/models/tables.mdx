@@ -1,47 +1,52 @@
 ---
-title: テーブル
-description: データセットを繰り返し、モデルの予測を理解する
+title: テーブルの概要
+description: Datasets の反復開発とモデルの予測結果の理解
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
 
-<CardGroup cols={2}>
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" icon="python"/>
-<Card title="Try in W&B" href="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" icon="sliders-up"/>
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" />
+<TryProductLink url="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" />
 </CardGroup>
 
-W&B Tables を使用して、表形式のデータを視覚化し、クエリを実行します。 例:
+W&B Tables を使用して、テーブル形式のデータを可視化およびクエリします。例えば、以下のようなことが可能です。
 
-* 同じテストセットで異なるモデルがどのように機能するかを比較する
-* データのパターンを特定する
-* サンプルモデルの予測を視覚的に確認する
-* よく誤分類される例を見つけるためにクエリを実行する
+* 同じ テストセット に対して、異なる モデル がどのようにパフォーマンスを発揮するかを比較する
+* データ 内のパターンを特定する
+* モデル の 予測 サンプルを視覚的に確認する
+* クエリを実行して、よく誤分類される例を見つけ出す
 
 <Frame>
-    <img src="/images/data_vis/tables_sample_predictions.png"  />
+    <img src="/images/data_vis/tables_sample_predictions.png" alt="Semantic segmentation predictions table"  />
 </Frame>
-上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含むテーブルを示しています。このテーブルはこちらの [W&B ML Course のサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001) で見ることができます。
+上の画像は、セマンティックセグメンテーション とカスタム メトリクス を含む テーブル を示しています。このテーブルは、[W&B ML コースのサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001) で確認できます。
 
 ## 仕組み
 
-Table は、各列が単一のデータ型を持つデータの 2 次元グリッドです。Tables はプリミティブ型と数値型、さらに入れ子リスト、辞書、およびリッチメディア型をサポートします。
+Table は、各列が単一のデータ型を持つデータの2次元グリッドです。Tables は、プリミティブ型や数値型だけでなく、ネストされたリスト、辞書、およびリッチメディア型をサポートしています。
 
-## Table をログする
+## Table をログに記録する
 
-数行のコードでテーブルをログします:
+数行の コード で テーブル を ログ に記録できます。
 
-- [`wandb.init()`](/ja/models/ref/python/init):  [run](/ja/models/runs/) を作成して結果を追跡します。
-- [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しいテーブルオブジェクトを作成します。
-  - `columns`: 列の名前を設定します。
-  - `data`: テーブルの内容を設定します。
-- [`run.log()`](/ja/models/ref/python/log): テーブルをログして W&B に保存します。
+- [`wandb.init()`](/models/ref/python/functions/init): 結果を追跡するための [run](/models/runs/) を作成します。
+- [`wandb.Table()`](/models/ref/python/data-types/table): 新しい テーブル オブジェクト を作成します。
+  - `columns`: カラム名を設定します。
+  - `data`: テーブル の内容を設定します。
+- [`run.log()`](/models/ref/python/experiments/run.md/#method-runlog): テーブル を W&B に保存するために ログ を記録します。
 
 ```python
 import wandb
 
-run = wandb.init(project="table-test")
-my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-run.log({"Table Name": my_table})
+# プロジェクト "table-test" でランを初期化
+with wandb.init(project="table-test") as run:
+    # カラム名とデータを指定してテーブルを作成
+    my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
+    # 作成したテーブルをW&Bにログ
+    run.log({"Table Name": my_table})
 ```
 
 ## 開始方法
-* [クイックスタート](/ja/models/tables/tables-walkthrough/): データテーブルのログ、データの視覚化、データのクエリについて学びます。
-* [Tables Gallery](/ja/models/tables/tables-gallery/): Tables のユースケース例を参照します。
+* [クイックスタート](/models/tables/tables-walkthrough/): データ テーブル の ログ 記録、データの可視化、およびデータのクエリ方法を学びます。
+* [Tables ギャラリー](/models/tables/tables-gallery/): Tables の ユースケース の例を確認します。

@@ -1,89 +1,113 @@
 ---
-title: アーティファクトグラフの探索
-description: W&B アーティファクト の自動生成された有向非巡回グラフを トラバース します。
+title: Artifact のリネージグラフを探索する
+description: 直接非巡回な W&B Artifact グラフを トラバース します。
 ---
 
-W&B は、特定の run がログしたアーティファクトや、その run が利用したアーティファクトを自動で追跡します。これらのアーティファクトには、データセットやモデル、評価結果、その他が含まれることがあります。機械学習ライフサイクル全体で生成されたさまざまなアーティファクトを追跡および管理するために、アーティファクトのリネージを探索できます。
+W&B は、有向非巡回グラフ（DAG）である _リネージグラフ_ を使用して、 Runs の入力と出力を追跡します。リネージグラフは、 ML 実験における Artifacts と Runs の関係を視覚的に表現したものです。これらは、生データの取り込みから モデルトレーニング 、評価に至るまで、 ML ライフサイクルのさまざまな段階を通じて データ と モデル がどのように流れるかを示します。
 
-## リネージ
-アーティファクトのリネージを追跡することには、いくつかの主要な利点があります：
+Artifacts の リネージ を追跡することには、いくつかの大きな利点があります。
 
-- 再現性: すべてのアーティファクトのリネージを追跡することで、チームは実験やモデル、結果を再現でき、デバッグ、実験、および機械学習モデルの検証に不可欠です。
+* **再現性**: デバッグ、実験、検証のために、チームが実験、 モデル 、 結果 を再現することを可能にします。
+* **バージョン管理**: 時間の経過に伴う Artifacts の変更を追跡し、必要に応じてチームが以前の データ や モデル の バージョン に戻れるようにします。
+* **監査**: コンプライアンスとガバナンスをサポートするために、 Artifacts と変換の際の詳細な記録を保持します。
+* **コラボレーション**: 実験履歴を透明化し、作業の重複を減らし、開発を加速させることで、チームワークの向上に役立ちます。
 
-- バージョン管理: アーティファクトのリネージには、アーティファクトのバージョン管理とその変更の追跡が含まれます。必要に応じて、チームはデータやモデルの以前のバージョンに戻すことができます。
 
-- 監査: アーティファクトとその変換の詳細な履歴を持つことで、組織は規制やガバナンスの要件に準拠できます。
+## Artifacts のリネージグラフを表示する
 
-- コラボレーションと知識共有: アーティファクトのリネージは、試行された記録が明確に示されており、何がうまくいって何がうまくいかなかったかを提供することで、チームメンバー間のより良いコラボレーションを促進します。これにより、努力の重複を避け、開発プロセスを加速させます。
+Artifacts のリネージグラフを表示するには：
 
-### アーティファクトのリネージを見つける
-**Artifacts** タブでアーティファクトを選択すると、アーティファクトのリネージを見ることができます。このグラフビューは、パイプラインの全体的な概要を示します。
-
-アーティファクトグラフを見るには：
-
-1. W&B App UI でプロジェクトに移動します。
-2. 左のパネルでアーティファクトアイコンを選びます。
-3. **Lineage** を選択します。
+1. W&B App に移動します。
+2. 探索したい Run または Artifact が含まれる Project を選択します。
+3. 左サイドバーの **Artifacts** タブをクリックします。
+4. **Lineage** タブを選択します。
 
 <Frame>
     <img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab"  />
 </Frame>
 
-### リネージグラフのナビゲート
 
-指定したアーティファクトやジョブタイプは、その名前の前に表示され、アーティファクトは青のアイコン、Runs は緑のアイコンで表されます。矢印は、グラフ上での run またはアーティファクトの入力と出力を示します。
+## リネージグラフのトラッキングを有効にする 
+
+リネージグラフのトラッキングを有効にするには、 W&B Python SDK を使用して、 Artifacts を Run の [入力](/models/artifacts/explore-and-traverse-an-artifact-graph) または [出力](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) としてマークする必要があります。
+
+### Run の入力を追跡する
+
+[`wandb.Run.use_artifact()`](/ref/python/experiments/run/#method-runuse_artifact) メソッドを使用して、 Artifact を Run の入力（または依存関係）としてマークします。 Artifact の名前と、その Artifact の特定の バージョン を参照するためのオプションの エイリアス を指定します。 Artifact の名前は `<artifact_name>:<version>` または `<artifact_name>:<alias>` の形式です。
+
+山括弧（ `< >` ）で囲まれた 値 を自分の 値 に置き換えてください：
+
+```python
+import wandb
+
+# run を初期化
+with wandb.init(entity="<entity>", project="<project>") as run:
+  # アーティファクトを取得し、依存関係としてマーク
+  artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
+```
+
+
+### Run の出力を追跡する
+
+[`wandb.Run.log_artifact()`](/ref/python/experiments/run#log_artifact) を使用して、 Artifact を Run の出力として宣言します。まず、 [`wandb.Artifact()`](/ref/python/experiments/artifact/#wandb.Artifact) コンストラクタで Artifact を作成します。次に、 `wandb.Run.log_artifact()` を使用して、その Artifact を Run の出力として ログ 記録します。
+
+山括弧（ `< >` ）で囲まれた 値 を自分の 値 に置き換えてください：
+
+```python
+import wandb
+
+# run を初期化
+with wandb.init(entity="<entity>", project="<project>") as run:
+  
+  # アーティファクトを作成
+  artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+  artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
+
+  # アーティファクトを run の出力としてログ記録
+  run.log_artifact(artifact_or_path = artifact)
+```
+
+
+## リネージグラフを操作する
+
+指定した Artifact または ジョブタイプ が名前の前に表示され、 Artifacts は青いアイコンで、 Runs は緑のアイコンで表されます。矢印は、グラフ上の Run または Artifact の入力と出力の詳細を示します。
 
 <Frame>
     <img src="/images/artifacts/lineage2.png" alt="Run and artifact nodes"  />
 </Frame>
 
 <Note>
-アーティファクトのタイプと名前は、左のサイドバーと **Lineage** タブの両方で確認できます。
+Artifact のタイプと名前は、左サイドバーと **Lineage** タブの両方で確認できます。
 </Note>
 
 <Frame>
     <img src="/images/artifacts/lineage2a.gif" alt="Inputs and outputs"  />
 </Frame>
 
-より詳細なビューを得るために、個別のアーティファクトまたは run をクリックして、特定のオブジェクトに関する詳細情報を取得します。
+より詳細なビューを表示するには、個々の Artifact または Run をクリックして、特定の オブジェクト に関する詳細情報を取得します。
 
 <Frame>
     <img src="/images/artifacts/lineage3a.gif" alt="Previewing a run"  />
 </Frame>
 
-### アーティファクトクラスター
+## Artifact クラスター
 
-グラフのあるレベルに run またはアーティファクトが5つ以上ある場合、クラスターが作成されます。クラスターには、特定のバージョンの run またはアーティファクトを見つけるための検索バーがあり、クラスター内のノードを個別にプルしてそのリネージを調査することができます。
+グラフの特定のレベルに 5 つ以上の Runs または Artifacts がある場合、 クラスター が作成されます。 クラスター には特定の バージョン の Runs または Artifacts を見つけるための検索バーがあり、 クラスター 内の特定の ノード を引き出して、その ノード の リネージ の調査を続けることができます。
 
-ノードをクリックすると、そのノードのプレビューが表示され、概要が示されます。矢印をクリックすると、個別の run またはアーティファクトが抽出され、抽出されたノードのリネージを調べることができます。
+ノード をクリックすると、その ノード の概要を示すプレビューが開きます。矢印をクリックすると、個々の Run または Artifact が抽出され、抽出された ノード の リネージ を詳細に調べることができます。
 
 <Frame>
     <img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster"  />
 </Frame>
 
-## API を使用してリネージを追跡する
-[W&B API](/ja/models/ref/python/public-api/api) を使用してグラフをナビゲートすることもできます。
-
-まず run を `wandb.init` で作成します。次に、`wandb.Artifact` で新しいアーティファクトを作成するか、既存のアーティファクトを取得します。次に、`.add_file` を使用してアーティファクトにファイルを追加します。最後に、`.log_artifact` でアーティファクトを run にログします。完成したコードは次のようになります：
+## プログラムによる Artifact グラフの操作
+W&B Python SDK を使用してプログラムでグラフを トラバース します。 Artifact オブジェクト の [`logged_by()`](/models/ref/python/experiments/artifact#method-artifact-logged-by) および [`used_by()`](/models/ref/python/experiments/artifact#method-artifact-used-by) メソッドを使用して、グラフを辿ります。
 
 ```python
 with wandb.init() as run:
-    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact = run.use_artifact("artifact_name:latest")
 
-    # `.add`, `.add_file`, `.add_dir`, `.add_reference` を使用して
-    # アーティファクトにファイルやアセットを追加します
-    artifact.add_file("image1.png")
-    run.log_artifact(artifact)
+    # アーティファクトからグラフを上下に辿る:
+    producer_run = artifact.logged_by()
+    consumer_runs = artifact.used_by()
 ```
-
-アーティファクトオブジェクトの [`logged_by`](/ja/models/ref/python/artifact#logged_by) と [`used_by`](/ja/models/ref/python/artifact#used_by) メソッドを使用して、アーティファクトからグラフをたどります：
-
-```python
-# アーティファクトからグラフを上下にたどります：
-producer_run = artifact.logged_by()
-consumer_runs = artifact.used_by()
-```
-## 次のステップ
-- [アーティファクトをさらに詳しく探索する](/ja/models/artifacts/artifacts-walkthrough/)
-- [アーティファクトストレージを管理する](/ja/models/artifacts/delete-artifacts/)
-- [アーティファクトプロジェクトを探索する](https://wandb.ai/wandb-smle/artifact_workflow/artifacts/raw_dataset/raw_data/v0/lineage)

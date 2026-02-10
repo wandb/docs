@@ -1,0 +1,155 @@
+---
+title: Groq
+description: Groq の超高速 LPU™ 推論を Weave で追跡およびモニタリングし、Groq の専用ハードウェアアクセラレーションを使用した高速
+  LLM アプリケーションの モデル 呼び出し、パフォーマンス メトリクス、関数チェーンをキャプチャします。
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_groq.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+<Note>
+セットアップなしで Weave 上の Groq モデルを試してみたいですか？ [LLM Playground](../tools/playground) をお試しください。
+</Note>
+
+[Groq](https://groq.com/) は、高速な AI 推論を提供する AI インフラストラクチャー企業です。 Groq の LPU™ 推論エンジンは、並外れた計算速度、品質、エネルギー効率を実現するハードウェアおよびソフトウェアプラットフォームです。 Weave は、 Groq のチャットコンプリーション（chat completion）呼び出しを使用して行われた呼び出しを自動的に追跡し、ログを記録します。
+
+## Tracing
+
+開発中および プロダクション の両方において、言語モデル アプリケーション の トレース を中央の場所に保存することは重要です。これらの トレース はデバッグに役立ち、 アプリケーション を改善するための データセット としても活用できます。
+
+Weave は [Groq](https://groq.com/) の トレース を自動的にキャプチャします。追跡を開始するには、 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、通常通り ライブラリ を使用してください。
+
+```python lines
+import os
+import weave
+from groq import Groq
+
+# Weaveを初期化
+weave.init(project_name="groq-project")
+
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain the importance of fast language models",
+        }
+    ],
+    model="llama3-8b-8192",
+)
+```
+
+| ![](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
+|---|
+| Weave は、 Groq ライブラリ を介して行われたすべての LLM 呼び出しを追跡し、ログを記録します。 Weave のウェブインターフェースで トレース を確認できます。 |
+
+## 独自の op を追跡する
+
+関数を `@weave.op` でラップすると、入力、出力、 アプリケーション ロジックのキャプチャが開始され、 アプリケーション 内でどのように データ が流れているかをデバッグできるようになります。 op を深くネストして、追跡したい関数の ツリー を構築できます。これにより、実験中に git にコミットされていないアドホックな詳細をキャプチャするために、コードの バージョン管理 も自動的に開始されます。
+
+[`@weave.op`](/weave/guides/tracking/ops) でデコレートされた関数を作成するだけです。
+
+以下の例では、 `recommend_places_to_visit` という関数があります。これは、都市の観光スポットを推薦する `@weave.op` でラップされた関数です。
+
+```python lines
+import os
+import weave
+from groq import Groq
+
+# プロジェクトの初期化
+weave.init(project_name="groq-test")
+
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
+
+@weave.op()
+def recommend_places_to_visit(city: str, model: str="llama3-8b-8192"):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant meant to suggest places to visit in a city",
+            },
+            {
+                "role": "user",
+                "content": city,
+            }
+        ],
+        model="llama3-8b-8192",
+    )
+    return chat_completion.choices[0].message.content
+
+# 関数の呼び出し
+recommend_places_to_visit("New York")
+recommend_places_to_visit("Paris")
+recommend_places_to_visit("Kolkata")
+```
+
+| ![](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
+|---|
+| `recommend_places_to_visit` 関数を `@weave.op` でデコレートすることで、その入力、出力、および関数内で行われたすべての内部 LM 呼び出しが トレース されます。 |
+
+## 実験を容易にするための `Models` の作成
+
+多くの要素が動いている場合、実験の整理は困難になります。 [`Models`](../core-types/models) クラスを使用すると、システムプロンプトや使用している モデル など、 アプリケーション の実験的な詳細をキャプチャして整理できます。これにより、 アプリケーション の異なるイテレーションの整理や比較が容易になります。
+
+コードの バージョン管理 や入力/出力のキャプチャに加えて、 [`Models`](../core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャし、どの パラメータ が最適であったかを簡単に見つけられるようにします。また、 Weave Models は `serve` や [`Evaluations`](../core-types/evaluations) と併用することもできます。
+
+以下の例では、 `GroqCityVisitRecommender` を使って実験ができます。これらを変更するたびに、 `GroqCityVisitRecommender` の新しい「バージョン」が作成されます。
+
+```python lines
+import os
+from groq import Groq
+import weave
+
+
+class GroqCityVisitRecommender(weave.Model):
+    model: str
+    groq_client: Groq
+
+    @weave.op()
+    def predict(self, city: str) -> str:
+        system_message = {
+            "role": "system",
+            "content": """
+You are a helpful assistant meant to suggest places to visit in a city
+""",
+        }
+        user_message = {"role": "user", "content": city}
+        chat_completion = self.groq_client.chat.completions.create(
+            messages=[system_message, user_message],
+            model=self.model,
+        )
+        return chat_completion.choices[0].message.content
+
+
+weave.init(project_name="groq-test")
+city_recommender = GroqCityVisitRecommender(
+    model="llama3-8b-8192", groq_client=Groq(api_key=os.environ.get("GROQ_API_KEY"))
+)
+print(city_recommender.predict("New York"))
+print(city_recommender.predict("San Francisco"))
+print(city_recommender.predict("Los Angeles"))
+```
+
+| ![](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
+|---|
+| [`Models`](../core-types/models) を使用した呼び出しの トレース と バージョン管理 |
+
+### Weave モデルのサービング
+
+任意の `weave.Model` オブジェクトへの Weave リファレンスがあれば、 FastAPI サーバーを立ち上げて [serve](https://wandb.github.io/weave/guides/tools/serve) することができます。
+
+| [![dspy_weave_model_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
+|---|
+| WeaveModel の Weave リファレンスは、 UI で モデル に移動してコピーすることで取得できます。 |
+
+ターミナル で以下の コマンド を使用して モデル をサービングできます。
+
+```shell
+weave serve weave://your_entity/project-name/YourModel:<hash>
+```

@@ -1,30 +1,47 @@
 ---
-title: I'm sorry, it seems like there is no text to translate. Please provide the
-  content you want to be translated.
+title: Html
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/html.py#L18-L107" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py" />
 
-任意の HTML 用の Wandb クラス。
+## <kbd>class</kbd> `Html`
+HTML コンテンツを W&B にログ記録するための W&B クラスです。
 
-```python
-Html(
-    data: Union[str, 'TextIO'],
-    inject: bool = (True)
-) -> None
-```
-
-| Args | Description |
-| :--- | :--- |
-|  `data` |  (string または io オブジェクト) wandb に表示する HTML |
-|  `inject` |  (boolean) HTML オブジェクトにスタイルシートを追加します。False に設定すると、HTML は変更されずに通過します。 |
-
-## メソッド
-
-### `inject_head`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/html.py#L59-L74)
+### <kbd>method</kbd> `Html.__init__`
 
 ```python
-inject_head() -> None
+__init__(
+    data: Union[str, pathlib.Path, ForwardRef('TextIO')],
+    inject: bool = True,
+    data_is_not_path: bool = False
+) → None
 ```
+
+W&B HTML オブジェクトを作成します。
+
+**Args:**
+  data: 拡張子が ".html" のファイルへのパスである文字列、またはリテラル HTML を含む文字列、あるいは IO オブジェクト。
+ - `inject`: HTML オブジェクトにスタイルシートを追加します。False に設定すると、HTML は変更されずにそのまま渡されます。
+ - `data_is_not_path`: False に設定されている場合、data はファイルへのパスとして扱われます。
+
+**Examples:**
+ファイルへのパスを指定して初期化することができます：
+
+```python
+with wandb.init() as run:
+    # ファイルパスを使用してログを記録
+    run.log({"html": wandb.Html("./index.html")})
+``` 
+
+あるいは、文字列または IO オブジェクト内のリテラル HTML を指定して初期化することもできます：
+
+```python
+with wandb.init() as run:
+    # 文字列の HTML を使用してログを記録
+    run.log({"html": wandb.Html("<h1>Hello, world!</h1>")})
+``` 
+
+---

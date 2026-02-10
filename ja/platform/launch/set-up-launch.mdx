@@ -1,0 +1,109 @@
+---
+title: Launch のセットアップ
+---
+
+このページでは、 W&B Launch をセットアップするために必要なハイレベルな手順について説明します。
+
+1. **キューのセットアップ**: キューは FIFO （先入れ先出し）方式で、キュー設定を保持します。キューの設定は、ターゲットリソース上でジョブがどこでどのように実行されるかを制御します。
+2. **エージェントのセットアップ**: エージェントは、お客様のマシンやインフラストラクチャー上で実行され、1つ以上のキューをポーリングして Launch ジョブを確認します。ジョブが取得されると、エージェントはイメージがビルドされ、利用可能であることを確認します。その後、エージェントはターゲットリソースにジョブを送信します。
+
+
+## キューのセットアップ
+Launch キューは、特定のリソースに固有の追加設定とともに、特定のターゲットリソースを指すように設定する必要があります。例えば、 Kubernetes クラスターを指す Launch キューでは、そのキュー設定に環境変数を含めたり、カスタム名前空間を設定したりすることがあります。キューを作成する際は、使用するターゲットリソースとそのリソースで使用する設定の両方を指定します。
+
+エージェントがキューからジョブを受け取ると、キュー設定も同時に受け取ります。エージェントがターゲットリソースにジョブを送信する際、キュー設定と、ジョブ自体からのオーバーライド設定を併せて送信します。例えば、ジョブ設定を使用して、そのジョブインスタンスのみに Amazon SageMaker インスタンスタイプを指定することができます。この場合、エンドユーザーインターフェースとして [キュー設定テンプレート](/platform/launch/setup-queue-advanced/#configure-queue-template) を使用するのが一般的です。
+
+### キューの作成
+1. [wandb.ai/launch](https://wandb.ai/launch) の Launch アプリに移動します。
+2. 画面右上の **create queue** ボタンをクリックします。
+
+<Frame>
+    <img src="/images/launch/create-queue.gif" alt="Creating a Launch queue"  />
+</Frame>
+
+3. **Entity** ドロップダウンメニューから、キューが属する Entity を選択します。
+4. **Queue** フィールドにキューの名前を入力します。
+5. **Resource** ドロップダウンから、このキューに追加されたジョブが使用する計算リソースを選択します。
+6. このキューで **Prioritization** （優先順位付け）を許可するかどうかを選択します。優先順位付けが有効な場合、チームのユーザーはジョブをエンキューする際に Launch ジョブの優先度を定義できます。優先度の高いジョブは、優先度の低いジョブより先に実行されます。
+7. **Configuration** フィールドに、 JSON または YAML 形式でリソース設定を入力します。設定ドキュメントの構造と意味論は、キューが指しているリソースタイプによって異なります。詳細については、ターゲットリソース専用のセットアップページを参照してください。
+
+## Launch エージェントのセットアップ
+Launch エージェントは、1つ以上の Launch キューをポーリングしてジョブを探す、長時間実行されるプロセスです。 Launch エージェントは、プル先のキューに応じて、先入れ先出し（ FIFO ）順、または優先順位に従ってジョブをデキューします。エージェントがキューからジョブをデキューすると、オプションでそのジョブのイメージをビルドします。その後、エージェントはキュー設定で指定されたオプションとともに、ターゲットリソースにジョブを送信します。
+
+<Note>
+エージェントは非常に柔軟で、幅広いユースケースをサポートするように設定できます。エージェントに必要な設定は、具体的なユースケースによって異なります。 [Docker](/platform/launch/setup-launch-docker/) 、 [Amazon SageMaker](/platform/launch/setup-launch-sagemaker/) 、 [Kubernetes](/platform/launch/setup-launch-kubernetes/) 、または [Vertex AI](/platform/launch/setup-vertex/) の専用ページを参照してください。
+</Note>
+
+<Note>
+W&B では、特定のユーザーの APIキーではなく、サービスアカウントの APIキーでエージェントを起動することをお勧めします。サービスアカウントの APIキーを使用することには2つの利点があります。
+1. エージェントが個々のユーザーに依存しなくなります。
+2. Launch を通じて作成された Run に関連付けられる作成者は、エージェントに関連付けられたユーザーではなく、 Launch ジョブを送信したユーザーとして Launch に認識されます。
+</Note>
+
+### エージェントの設定
+Launch エージェントの設定は、 `launch-config.yaml` という名前の YAML ファイルで行います。デフォルトでは、 W&B は `~/.config/wandb/launch-config.yaml` にある設定ファイルをチェックします。 Launch エージェントをアクティブ化する際に、オプションで別のディレクトリーを指定することも可能です。
+
+Launch エージェントの設定ファイルの内容は、 Launch エージェントの環境、 Launch キューのターゲットリソース、 Docker ビルダーの要件、クラウドレジストリの要件などによって異なります。
+
+ユースケースに関係なく、 Launch エージェントには以下のコア設定オプションがあります。
+* `max_jobs`: エージェントが並列で実行できる最大ジョブ数
+* `entity`: キューが属する Entity
+* `queues`: エージェントが監視する1つ以上のキューの名前
+
+<Note>
+（設定 YAML ファイルの代わりに） W&B CLI を使用して、 Launch エージェントの共通設定オプション（最大ジョブ数、 W&B Entity 、 Launch キュー）を指定することもできます。詳細は [`wandb launch-agent`](/models/ref/cli/wandb-launch-agent) コマンドを参照してください。
+</Note>
+
+
+次の YAML スニペットは、主要な Launch エージェント設定キーの指定方法を示しています。
+
+```yaml title="launch-config.yaml"
+# 並列実行する最大 Run 数。 -1 = 無制限
+max_jobs: -1
+
+entity: <entity-name>
+
+# ポーリングするキューのリスト。
+queues:
+  - <queue-name>
+```
+
+### コンテナビルダーの設定
+Launch エージェントはイメージをビルドするように設定できます。 Git リポジトリやコードの Artifacts から作成された Launch ジョブを使用する場合は、コンテナビルダーを使用するようにエージェントを設定する必要があります。 Launch ジョブの作成方法については、 [Create a launch job](/platform/launch/create-launch-job/) を参照してください。
+
+W&B Launch は3つのビルダーオプションをサポートしています。
+
+* Docker: Docker ビルダーは、ローカルの Docker デーモンを使用してイメージをビルドします。
+* [Kaniko](https://github.com/GoogleContainerTools/kaniko): Kaniko は、 Docker デーモンが利用できない環境でのイメージビルドを可能にする Google のプロジェクトです。
+* Noop: エージェントはジョブのビルドを試みず、事前にビルドされたイメージのプルのみを行います。
+
+<Note>
+エージェントが Docker デーモンの利用できない環境（例： Kubernetes クラスター）でポーリングを行っている場合は、 Kaniko ビルダーを使用してください。
+
+Kaniko ビルダーの詳細については、 [Set up Kubernetes](/platform/launch/setup-launch-kubernetes/) を参照してください。
+</Note>
+
+イメージビルダーを指定するには、エージェント設定に `builder` キーを含めます。例えば、次のコードスニペットは、 Docker または Kaniko の使用を指定する Launch 設定（ `launch-config.yaml` ）の一部を示しています。
+
+```yaml title="launch-config.yaml"
+builder:
+  type: docker | kaniko | noop
+```
+
+### コンテナレジストリの設定
+場合によっては、 Launch エージェントをクラウドレジストリに接続したいことがあります。 Launch エージェントをクラウドレジストリに接続する一般的なシナリオには以下が含まれます。
+
+* 強力なワークステーションやクラスターなど、ビルドした場所とは異なる環境でジョブを実行したい。
+* エージェントを使用してイメージをビルドし、それらのイメージを Amazon SageMaker や VertexAI で実行したい。
+* Launch エージェントがイメージリポジトリからプルするための資格情報を提供する必要がある。
+
+コンテナレジストリとやり取りするためのエージェント設定の詳細については、 [Advanced agent set up](/platform/launch/setup-agent-advanced/) ページを参照してください。
+
+## Launch エージェントのアクティブ化
+W&B CLI の `launch-agent` コマンドを使用して、 Launch エージェントをアクティブ化します。
+
+```bash
+wandb launch-agent -q <queue-1> -q <queue-2> --max-jobs 5
+```
+
+一部のユースケースでは、 Kubernetes クラスター内からキューをポーリングする Launch エージェントを配置したい場合があります。詳細については、 [Advanced queue set up page](/platform/launch/setup-queue-advanced/) を参照してください。

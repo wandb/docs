@@ -1,0 +1,90 @@
+---
+title: チャットコンプリーション
+description: OpenAI 互換エンドポイントを使用して chat completions を作成する
+---
+
+`/chat/completions` エンドポイントを使用してチャットの補完（chat completion）を作成します。このエンドポイントは、メッセージの送信とレスポンスの受信に OpenAI フォーマットを採用しています。
+
+## 要件
+
+チャットの補完を作成するには、以下を提供してください：
+- Inference サービスのベース URL: `https://api.inference.wandb.ai/v1`
+- W&B APIキー: `<your-api-key>`
+- オプション: W&B の Teams と Projects: `<your-team>/<your-project>`
+- [利用可能な Models](/inference/models) リストにあるモデル ID
+
+## リクエストの例
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    # カスタムベース URL は W&B Inference を指します
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings で APIキーを作成してください
+    # 安全のため、環境変数 OPENAI_API_KEY に設定することを検討してください
+    api_key="<your-api-key>",
+
+    # オプション: 使用状況を追跡するための Team と Project
+    project="<your-team>/<your-project>",
+)
+
+# <model-id> を利用可能なモデルリストの任意のモデル ID に置き換えてください
+response = client.chat.completions.create(
+    model="<model-id>",
+    messages=[
+        {"role": "system", "content": "<your-system-prompt>"},
+        {"role": "user", "content": "<your-prompt>"}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>" \
+  -d '{
+    "model": "<model-id>",
+    "messages": [
+      { "role": "system", "content": "You are a helpful assistant." },
+      { "role": "user", "content": "Tell me a joke." }
+    ]
+  }'
+```
+</Tab>
+</Tabs>
+
+## レスポンス形式
+
+API は OpenAI 互換の形式でレスポンスを返します：
+
+```json
+{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here's a joke for you..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 50,
+    "total_tokens": 75
+  }
+}
+```

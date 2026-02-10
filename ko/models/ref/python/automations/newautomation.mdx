@@ -1,0 +1,41 @@
+---
+title: 새 자동화 (NewAutomation)
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+## <kbd>class</kbd> `NewAutomation`
+새로 생성할 automation입니다.
+
+### <kbd>method</kbd> `NewAutomation.__init__`
+
+```python
+__init__(
+    name: 'str | None' = None,
+    description: 'str | None' = None,
+    enabled: 'bool | None' = None,
+    event: 'Annotated | None' = None,
+    action: 'Annotated | None' = None
+) → None
+```
+
+**Args:**
+
+ - `name` (Optional[str]): 이 automation의 이름입니다.
+ - `description` (Optional[str]): 이 automation에 대한 선택적 설명입니다.
+ - `enabled` (Optional[bool]): 이 automation의 활성화 여부입니다. 활성화된 automation만 트리거됩니다.
+ - `event` (Optional[Annotated]): 이 automation을 트리거할 이벤트입니다.
+ - `action` (Optional[Annotated]): 이 automation이 트리거되었을 때 실행될 액션입니다.
+
+**Returns:**
+ `NewAutomation` 오브젝트 .
+
+### <kbd>property</kbd> `NewAutomation.scope`
+
+트리거 이벤트가 발생해야 하는 범위(scope)입니다.
+
+**Returns:**
+ - `Optional[AutomationScope]`: scope 속성 값 .

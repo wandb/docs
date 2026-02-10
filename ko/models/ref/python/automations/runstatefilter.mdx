@@ -1,0 +1,28 @@
+---
+title: RunStateFilter
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+## <kbd>class</kbd> `RunStateFilter`
+Run 의 상태 변화를 기반으로 이벤트를 트리거하기 위한 필터를 나타냅니다.
+
+### <kbd>method</kbd> `RunStateFilter.__init__`
+
+```python
+__init__(
+    run: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(()),
+    state: 'StateFilter'
+) → None
+```
+
+**Args:**
+ 
+ - `run` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트를 트리거할 모든 Runs 와 일치해야 하는 필터입니다.
+ - `state` (StateFilter): 이 이벤트가 트리거되기 위해 충족되어야 하는 Run 상태 조건입니다.
+
+**Returns:**
+ `RunStateFilter` 오브젝트.
