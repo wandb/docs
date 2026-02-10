@@ -143,12 +143,9 @@ Supported values inside `[[ ]]`:
 
 ## Expressions
 
-Add custom calculated expressions to create derived metrics. Expressions are evaluated per step and can reference logged metrics, config values, and summary statistics to produce a new line plot.
+Form math expressions to create new line plots derived from your logged metrics, config values, and summary statistics. This is useful for rescaling axes, creating custom metrics, and comparing metrics to each other. Expressions can be used for both the x and y axes.
 
-This is useful when you want to:
-
-* Transform a metric (scale, normalize, log-transform)
-* Combine multiple metrics into a single signal
+{/* Expressions are evaluated per step. */}
 
 The next section describes how to reference values in expressions, followed by available operators and functions you can use to create custom expressions.
 
@@ -177,9 +174,13 @@ Useful variables:
 | Config parameter | `${config:param_name}`                | Reference config values using the `${config:}` prefix. | `${config:lr}`, `${config:batch_size}` |
 | Summary statistic | `${summary:stat_name}`               | Reference summary fields using the `summary: prefix`   | `${summary:final_accuracy}`, `${summary:best_loss}` |
 
-If your metric name includes special characters or spaces that could be misinterpreted as part of the expression (such as `/`, `-`, or spaces), escape it using `${...}`.
 
-For example, if you log a metric named `val/accuracy`, reference it as `${val/accuracy}` or `${"val/accuracy"}`.
+<Tip>
+Use `${...}` to escape any metric name, config parameter, or summary field that includes special characters or spaces such as `/`, `-`, or spaces. 
+
+For example, if you log a metric named `val/accuracy`, reference it as `${val/accuracy}` to avoid confusion with the division operator. If you log a config parameter named `dropout-rate`, reference it as `${config:dropout-rate}`. If you log a summary field named `best loss`, reference it as `${summary:best loss}`.
+
+</Tip>
 
 #### Nested configs
 
@@ -229,7 +230,7 @@ Reference the learning rate with `${config:optimizer.value.lr}`, the model's hid
 
 ### Available operators
 
-Binary operators:
+The following operators are supported for use in line plot expressions.
   
 |  Category        |            Operators                  |
 | ---------------- |------------------------------------------|
@@ -238,6 +239,17 @@ Binary operators:
 | Bitwise          | `\|`, `^`, `&`, `<<`, `>>`, `>>>`       |
 | Logical          | `\|\|` , `&&`                           |
 
+For example, you can calculate the difference between two metrics with:
+
+```javascript
+${metric-a} - ${metric-b}
+```
+
+And you can compute the percentage change of a metric with:
+
+```javascript
+(${metric} - ${summary:initial_metric}) / ${summary:initial_metric} * 100
+```
 
 ### Math constants and functions
 
