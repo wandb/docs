@@ -143,9 +143,16 @@ Supported values inside `[[ ]]`:
 
 ## Expressions
 
-Add custom calculated expressions to create derived metrics.
+Add custom calculated expressions to create derived metrics. Expressions are evaluated per step and can reference logged metrics, config values, and summary statistics to produce a new line plot.
 
-### Y-axis expressions
+This is useful when you want to:
+
+* Transform a metric (scale, normalize, log-transform)
+* Combine multiple metrics into a single signal
+
+The next section describes how to reference values in expressions, followed by available operators and functions you can use to create custom expressions.
+
+{/* ### Y-axis expressions
 
 Plot values derived from metrics. For example, calculate `1-accuracy` or other arithmetic expressions. Currently only works when plotting a single metric.
 
@@ -159,7 +166,163 @@ Rescale the x-axis using calculated values with custom expressions.
 
 Useful variables:
 * `_step`: The default x-axis value.
-* `${summary:value}`: Reference summary values.
+* `${summary:value}`: Reference summary values. */}
+
+
+### Referencing values
+
+| Type             | Syntax                                | Description                            | Examples                               |
+| ---------------- |---------------------------------------|----------------------------------------| -------------------------------------- |
+| Metric           | `${metric_name}`                      | Reference a logged metric by name.                     | `${val/accuracy}`, `${"accuracy"}` |
+| Config parameter | `${config:param_name}`                | Reference config values using the `${config:}` prefix. | `${config:lr}`, `${config:batch_size}` |
+| Summary statistic | `${summary:stat_name}`               | Reference summary fields using the `summary: prefix`   | `${summary:final_accuracy}`, `${summary:best_loss}` |
+
+If your metric name includes special characters or spaces that could be misinterpreted as part of the expression (such as `/`, `-`, or spaces), escape it using `${...}`.
+
+For example, if you log a metric named `val/accuracy`, reference it as `${val/accuracy}` or `${"val/accuracy"}`.
+
+#### Nested configs
+
+Acccess nested config values using dot notation and the following syntax: 
+
+```javascript
+${config:parent.child.grandchild}
+```
+
+Where `parent`, `child`, and `grandchild` are the keys in the nested config dictionary.
+
+For example, suppose you log the following config with nested dictionaries:
+
+
+```python
+config = {
+    "model": {
+        "type": "resnet",
+        "layers": 50
+    },
+    "training": {
+        "batch_size": 32,
+        "learning_rate": 0.001
+    }
+}
+
+with wandb.init(project="my-project", config=config) as run:
+    ...
+```
+
+You can reference the model type with: `${config:model.type}`. Reference the batch size with: `${config:training.batch_size}`.
+
+As another example, suppose you view your config in the W&B App and see the following nested structure:
+
+```text
+config:
+  optimizer:
+    value:
+      lr: 0.001
+      weight_decay: 0.01
+  model:
+    value:
+      hidden_size: 768
+```
+
+Reference the learning rate with `${config:optimizer.value.lr}`, the model's hidden size with `${config:model.value.hidden_size}`, or the weight decay with `${config:optimizer.value.weight_decay}`.
+
+### Available operators
+
+Binary operators:
+  
+|  Category        |            Operators                  |
+| ---------------- |------------------------------------------|
+| Arithmetic       | `+`, `-`, `*`, `/`, `%` (modulo), `**` (exponent) |
+| Comparison       | `==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=` |
+| Bitwise          | `\|`, `^`, `&`, `<<`, `>>`, `>>>`       |
+| Logical          | `\|\|` , `&&`                           |
+
+
+### Math constants and functions
+
+All JavaScript math functions and constants are supported. For more details, see the [MDN Math documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math). The following tables summarize the most commonly used functions and constants for line plot expressions.
+
+#### Math constants
+
+| Constant | Description |
+| -------- | ----------- |
+| `e` | Euler's number |
+| `pi` | Pi |
+| `ln2` | Natural logarithm of 2 |
+| `ln10` | Natural logarithm of 10 |
+| `log2e` | Base-2 logarithm of e |
+| `log10e` | Base-10 logarithm of e |
+| `sqrt2` | Square root of 2 |
+| `sqrt1_2` | Square root of 1/2 |
+
+
+#### Arithmetic and statistical functions
+
+| Function | Description |
+| -------- | ----------- |
+| abs(x) | Absolute value |
+| ceil(x) | Ceiling function (round up to nearest integer) |
+| floor(x) | Floor function (round down to nearest integer) |
+| round(x) | Round to nearest integer |
+| min(x, y, ...) | Minimum value |
+| max(x, y, ...) | Maximum value |
+| sqrt(x) | Square root |
+
+#### Logarithmic and exponential functions
+
+| Function | Description |
+| -------- | ----------- |
+| log(x) | Natural logarithm (base e) |
+| log10(x) | Base-10 logarithm |
+| log2(x) | Base-2 logarithm |
+| exp(x) | Exponential function (e^x) |
+| pow(x, y) | Power function (x^y) |
+
+#### Trigonometric functions
+
+| Function | Description |
+| -------- | ----------- |
+| sin(x) | Sine |
+| cos(x) | Cosine |
+| tan(x) | Tangent |
+| asin(x) | Arc sine (inverse sine) |
+| acos(x) | Arc cosine (inverse cosine) |
+| atan(x) | Arc tangent (inverse tangent) |
+| atan2(y, x) | Two-argument arc tangent |
+
+#### Hyperbolic functions
+| Function | Description |
+| -------- | ----------- |
+| sinh(x) | Hyperbolic sine |
+| cosh(x) | Hyperbolic cosine |
+| tanh(x) | Hyperbolic tangent |
+
+### Examples
+
+Compute the minimum of two metrics:
+
+```javascript
+min(loss, accuracy)
+```
+
+Compute the maximum of two metrics:
+
+```javascript
+max(${metric-a}, ${metric-b})
+```
+
+Compute the square root of the sum of squares of two metrics:
+
+```javascript
+sqrt(loss ** 2 + accuracy ** 2)
+```
+
+Compute the logarithm of a metric:
+
+```javascript
+log(${config:lr})
+```
 
 ### Multi-metric panel expressions
 Use a regular expression to create a single line plot that shows multiple metrics together (including matching metrics logged in the future). For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-line-plot).
