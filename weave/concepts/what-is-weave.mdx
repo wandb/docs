@@ -93,7 +93,7 @@ const client = await weave.init('your-team/your-project-name');
 You're now ready to start using Weave!
 
 4. Weave integrates with popular LLM providers and frameworks.  When you use a [supported integration](/weave/guides/integrations/), Weave automatically traces LLM calls without additional code changes.
-However, to log traces to custom methods, add a one line decorator `weave.op` to any function. Works in development or production.
+However, you can still use Weave log traces for unsupported LLM providers by adding a one-line decorator (`weave.op`) to your call function. You can also use the decorator on any function in your app to track its input, output, and code.
 
 
     ```python lines
