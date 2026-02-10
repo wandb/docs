@@ -28,7 +28,7 @@ This section shows how to edit a page or report a bug from within your browser w
 
 ### Report a bug
 
-If you work for Weights & Biases, file a doc JIRA, using this template: https://wandb.atlassian.net/secure/CreateIssueDetails!init.jspa?priority=3&pid=10026&issuetype=10047.
+If you work for Weights & Biases, file a doc JIRA, using this template: https://wandb.atlassian.net/secure/CreateIssue!default.jspa?project=DOCS.
 
 {/*
 To report a bug on a page you're reading on docs.wandb.com:
@@ -54,7 +54,7 @@ After cloning this repo:
     ```shell
     git checkout -b my_working_branch origin/main
     ```
-3. Build and build and serve the docs locally:
+3. Build and and serve the docs locally:
     ```shell
     mint dev
     ```
@@ -71,13 +71,6 @@ After cloning this repo:
 7. When you are satisfied with your PR and all tests pass, click **Ready for review** to convert the draft PR to a reviewable PR. A member of the W&B docs team will review your changes and give feedback.
 8. When all feedback is addressed and the PR is approved, the reviewer will merge the PR.
 
-
-## Running the website locally
-
-Build and build and serve the docs locally:
-    ```shell
-    mint dev
-    ```
 
 ## Exiting `mint dev`
 
