@@ -88,14 +88,8 @@ generate_statement("The Earth revolves around the Sun.")
    - **Name**: `truthfulness-monitor`
    - **Description**: `Evaluates the truthfulness of generated statements.`
    - **Active monitor**: Toggle **on**.
-
-   ![Creating a monitor part 1](/weave/guides/evaluation/img/monitors-ui-1.png)
-
    - **Operations**: Select `generate_statement`.
    - **Sampling rate**: Set to `100%` to score every call.
-
-   ![Creating a monitor part 2](/weave/guides/evaluation/img/monitors-ui-2.png)
-
    - **Scorer name**: `truthfulness-scorer`
    - **Judge model**: `o3-mini-2025-01-31`
    - **System prompt**: `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
@@ -112,8 +106,6 @@ generate_statement("The Earth revolves around the Sun.")
      - is_true: a boolean stating whether the output statement is true or false based on the input statement.
      - reasoning: your reasoning as to why the statement is true or false.
      ```
-
-   ![Creating a monitor part 3](/weave/guides/evaluation/img/monitors-ui-3.png)
 
 5. Click **Create Monitor**. This adds the monitor to your Weave project.
 
