@@ -51,6 +51,8 @@ The following example creates a monitor that evaluates the truthfulness of gener
 
 1. Define a function that generates statements. Some statements are truthful, others are not:
 
+<Tabs>
+  <Tab title="Python">
 ```python
 import weave
 import random
@@ -75,13 +77,41 @@ def generate_statement(ground_truth: str) -> str:
         return response.choices[0].message.content
     else:
         return ground_truth
-```
 
-2. Run the function at least once to log a trace in your project. This makes the op available for monitoring in the W&B UI:
-
-```python
 generate_statement("The Earth revolves around the Sun.")
 ```
+  </Tab>
+  <Tab title="TypeScript">
+```typescript
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+await weave.init('my-team/my-weave-project');
+
+const client = new OpenAI();
+
+const generateStatement = weave.op(async (ground_truth: string): Promise<string> => {
+  if (Math.random() < 0.5) {
+    const response = await client.chat.completions.create({
+      model: 'gpt-4.1',
+      messages: [
+        {
+          role: 'user',
+          content: `Generate a statement that is incorrect based on this fact: ${ground_truth}`,
+        },
+      ],
+    });
+    return response.choices[0]?.message?.content ?? '';
+  }
+  return ground_truth;
+});
+
+await generateStatement("The Earth revolves around the Sun.");
+```
+  </Tab>
+</Tabs>
+
+2. Run the function at least once to log a trace in your project. This makes the op available for monitoring in the W&B UI.
 
 3. Open your Weave project in the W&B UI and select **Monitors** from the side-nav. Then select **New Monitor**.
 4. In the Create new monitor menu, configure the fields using the following values:
@@ -110,13 +140,24 @@ generate_statement("The Earth revolves around the Sun.")
 5. Click **Create Monitor**. This adds the monitor to your Weave project.
 
 
-6. In your Python script, invoke your function using statements of varying degrees of truthfulness to test the scoring function:
+6. In your script, invoke your function using statements of varying degrees of truthfulness to test the scoring function:
 
+<Tabs>
+  <Tab title="Python">
 ```python
 generate_statement("The Earth revolves around the Sun.")
 generate_statement("Water freezes at 0 degrees Celsius.")
 generate_statement("The Great Wall of China was built over several centuries.")
 ```
+  </Tab>
+  <Tab title="TypeScript">
+```typescript
+await generateStatement("The Earth revolves around the Sun.");
+await generateStatement("Water freezes at 0 degrees Celsius.");
+await generateStatement("The Great Wall of China was built over several centuries.");
+```
+  </Tab>
+</Tabs>
 
 7. After running the script using several different statements, open the W&B UI and navigate to the **Traces** tab. Select any **LLMAsAJudgeScorer.score** trace to see the results.
 

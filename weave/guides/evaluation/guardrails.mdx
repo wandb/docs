@@ -13,6 +13,10 @@ Unlike monitors, guardrails require code changes because they affect your applic
 
 If you want to passively score production traffic without modifying your application's control flow, use [monitors](/weave/guides/evaluation/monitors) instead.
 
+<Note>
+The Weave TypeScript SDK does not support the tools required to set up inline guardrails.
+</Note>
+
 ### Optimize your Weave guardrail performance
 
 Because guardrails can interrupt your application's control flow and change the course of its responses, they can negatively impact its performance if written too complexly. For optimal performance, we recommend:
@@ -95,8 +99,6 @@ if __name__ == "__main__":
 ```
 
 When using LLM-as-a-judge scorers, you can reference variables from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`." See [prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) for more information.
-
-Weave automatically stores all scorer results in the [Call](/weave/concepts/fundamental-components#calls) object's `feedback` field.
 
 ### Example: Create a guardrail using a custom scorer
 
