@@ -772,20 +772,14 @@
                   "weave/tutorial-rag"
                 ]
               },
-              {
-                "group": "Concepts",
-                "pages": [
-                  "weave/concepts/what-is-weave",
-                  "weave/concepts/fundamental-components"
-                ]
-              },
+
               {
                 "group": "Guides",
                 "pages": [
+                  "weave/concepts/what-is-weave",
                   {
                     "group": "Track your application",
                     "pages": [
-                      "weave/guides/tracking",
                       "weave/guides/tracking/tracing",
                       "weave/tutorial-tracing_2",
                       "weave/guides/tracking/costs",
@@ -949,12 +943,6 @@
                       "weave/cookbooks/custom_model_cost",
                       "weave/cookbooks/pii"
                     ]
-                  },
-                  {
-                    "group": "API & Integration",
-                    "pages": [
-                      "weave/cookbooks/weave_via_service_api"
-                    ]
                   }
                 ]
               },
@@ -1042,6 +1030,7 @@
                   {
                     "group": "Service API",
                     "pages": [
+                      "weave/cookbooks/weave_via_service_api",
                       "weave/reference/service-api"
                     ],
                     "openapi": {
@@ -3961,6 +3950,14 @@
     {
       "source": "/weave/guides/tools/limits",
       "destination": "/weave/details/limits"
+    },
+    {
+      "source": "weave/concepts/fundamental-components",
+      "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "weave/guides/tracking",
+      "destination": "weave/concepts/what-is-weave"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
