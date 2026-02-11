@@ -4088,7 +4088,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Schema"
+                    "$ref": "#/components/schemas/EvaluationRunReadRes"
                   }
                 }
               }
@@ -4478,7 +4478,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Schema"
+                    "$ref": "#/components/schemas/PredictionReadRes"
                   }
                 }
               }
@@ -4858,7 +4858,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Schema"
+                    "$ref": "#/components/schemas/ScoreReadRes"
                   }
                 }
               }
@@ -8991,6 +8991,21 @@
               "weave:///entity/project/object/name:digest"
             ]
           },
+          "queue_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Queue Id",
+            "description": "The annotation queue ID this feedback was created from. References annotation_queues.id. NULL when feedback is created outside of queues.",
+            "examples": [
+              "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
+            ]
+          },
           "wb_user_id": {
             "anyOf": [
               {
@@ -9293,6 +9308,21 @@
             "title": "Trigger Ref",
             "examples": [
               "weave:///entity/project/object/name:digest"
+            ]
+          },
+          "queue_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Queue Id",
+            "description": "The annotation queue ID this feedback was created from. References annotation_queues.id. NULL when feedback is created outside of queues.",
+            "examples": [
+              "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
           },
           "wb_user_id": {
