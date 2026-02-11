@@ -16,8 +16,8 @@ import requests
 import sys
 from typing import Optional, Tuple
 
-# Remote OpenAPI spec URL (using raw.githubusercontent.com for direct JSON access)
-REMOTE_SPEC_URL = "https://raw.githubusercontent.com/wandb/core/master/services/weave-trace/openapi.json"
+# Remote OpenAPI spec URL (from the live Weave trace service)
+REMOTE_SPEC_URL = "https://trace.wandb.ai/openapi.json"
 
 
 def fetch_remote_spec(url: str = REMOTE_SPEC_URL) -> dict:
