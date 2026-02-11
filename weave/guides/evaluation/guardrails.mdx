@@ -9,22 +9,22 @@ Guardrails actively intervene in your LLM application's behavior based on scores
 
 Weave guardrails use inline [Weave Scorers](/weave/guides/evaluation/scorers) to assess the input from a user or the output from an LLM and adjust the LLM's responses in real time. You can configure custom scorers or use [built-in scorers](/weave/guides/evaluation/builtin_scorers) to assess content for a variety of purposes. This guide demonstrates how to use both types of scorers as guardrails.
 
-Unlike monitors, guardrails require code changes because they affect your application's control flow. However, every scorer result from guardrails is automatically stored in Weave's database, so your guardrails also function as monitors without any extra configuration. You can analyze historical scorer results regardless of how they were originally used.
-
 If you want to passively score production traffic without modifying your application's control flow, use [monitors](/weave/guides/evaluation/monitors) instead.
 
+Unlike monitors, guardrails require code changes because they affect your application's control flow. However, every scorer result from guardrails is automatically stored in Weave's database, so your guardrails also function as monitors without any extra configuration. You can analyze historical scorer results regardless of how they were originally used.
+
 <Note>
-The Weave TypeScript SDK does not support the tools required to set up inline guardrails.
+The Weave TypeScript SDK does not support the tools required to set up guardrails.
 </Note>
 
 ### Optimize your Weave guardrail performance
 
-Because guardrails can interrupt your application's control flow and change the course of its responses, they can negatively impact its performance if written too complexly. For optimal performance, we recommend:
+Because guardrails can interrupt your application's control flow and change the course of its responses, they can negatively impact performance if they’re too complex. For optimal performance, we recommend:
 
 * Keeping guardrail logic simple and fast
 * Caching common results
 * Avoiding heavy external API calls
-* Initializing guards outside of your main functions to avoid repeated initialization costs
+* Initializing guardrails outside of your main functions to avoid repeated initialization costs
 
 Initializing your guardrails outside of the main function is particularly important when:
 
@@ -35,9 +35,9 @@ Initializing your guardrails outside of the main function is particularly import
 
 ### Example: Create a guardrail using a built-in moderation scorer
 
-The following example sends user prompts to OpenAI's GPT-4o mini model. The model's response is then passed to Weave's [OpenAI's moderation API](https://platform.openai.com/docs/guides/moderation) integration to assess whether the LLM's response contains harmful or toxic content.
+The following example sends user prompts to OpenAI's GPT-4o mini model. The model's response is then passed to Weave's [OpenAI's moderation API](https://platform.openai.com/docs/guides/moderation) to assess whether the LLM's response contains harmful or toxic content. The model's response is passed to the guardrail function (`generate_safe_response()`) where uses the `OpenAIModerationScorer` to check the LLM's original response. The function's logic then checks OpenAI's assessment response for a boolean in the `passed` field, which determines how the application responds.
 
-```python
+```python lines {28-45}
 import weave
 import openai
 from weave.scorers import OpenAIModerationScorer
@@ -102,9 +102,9 @@ When using LLM-as-a-judge scorers, you can reference variables from your ops in 
 
 ### Example: Create a guardrail using a custom scorer
 
-The following example creates a custom guardrail that detects personally identifiable information (PII) in LLM responses, such as email addresses, phone numbers, or social security numbers. This prevents sensitive information from being exposed in generated content.
+The following example creates a custom guardrail that detects personally identifiable information (PII) in LLM responses, such as email addresses, phone numbers, or social security numbers. This prevents sensitive information from being exposed in generated content. The function generate_safe_response applies the custom PIIDetectionScorer.
 
-```python
+```python lines {14-39, 57-69}
 import weave
 import openai
 import re
@@ -189,7 +189,6 @@ if __name__ == "__main__":
         print(f"Response: {response}")
 ```
 
-This guardrail blocks any response that contains email addresses, phone numbers, or SSNs, preventing accidental exposure of sensitive information.
 
 ### Integrate Weave with AWS Bedrock Guardrails
 
@@ -200,7 +199,7 @@ Before setting up a Bedrock Guardrails integration, you need:
 - A [configured guardrail in the AWS Bedrock console](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html)
 - The `boto3` [Python package](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
 
-You don't need to create your own Bedrock client. Weave creates it for you. To specify a region, pass the `bedrock_runtime_kwargs` parameter to the scorer.
+You don't need to create your own Bedrock client. Weave creates it for you. To specify a region, pass the region value in the scorer's `bedrock_runtime_kwargs` parameter.
 
 For an example of how to create a guardrail in AWS Bedrock, see the [Bedrock guardrails notebook](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb).
 

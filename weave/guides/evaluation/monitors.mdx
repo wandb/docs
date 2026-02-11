@@ -16,14 +16,14 @@ If you need to actively intervene in your application's behavior based on scores
 To create a monitor in Weave:
 
 1. Open the [W&B UI](https://wandb.ai/home) and then open your Weave project.
-2. From the Weave side-nav, select **Monitors** and then select the **+ New Monitor** button. This opens the Create new monitor menu.
+2. From the Weave side-nav, select **Monitors** and then select the **+ New Monitor** button. This opens the **Create new monitor** modal dialog.
 3. In the Create new monitor menu, configure the following fields:
    - **Name**: Must start with a letter or number. Can contain letters, numbers, hyphens, and underscores.
-   - **Description** (optional): Explain what the monitor does.
+   - **Description** (Optional): Explain what the monitor does.
    - **Active monitor** toggle: Turn the monitor on or off.
    - **Calls to monitor**:
      - **Operations**: Choose one or more `@weave.op`s to monitor. You must log at least one trace that uses the op before it appears in the list of available ops.
-     - **Filter** (optional): Narrow down which calls are eligible (for example, by `max_tokens` or `top_p`).
+     - **Filter** (Optional): Narrow down which calls are eligible (for example, by `max_tokens` or `top_p`).
      - **Sampling rate**: The percentage of calls to score (0% to 100%).
        <Tip>
        A lower sampling rate reduces costs, since each scoring call has an associated cost.
@@ -39,7 +39,7 @@ To create a monitor in Weave:
         - **Scoring prompt**: The evaluation task used to score your ops. You can reference [prompt variables](/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) from your ops in your scoring prompts. For example, "Evaluate whether `{output}` is accurate based on `{ground_truth}`."
      - **Media Scoring JSON Paths**: Specify JSONPath expressions (RFC 9535) to extract media from your trace data. If no paths are specified, all scorable media from user messages will be included. This field appears when you enable **Score Audio** or **Score Images**.
 
-Once you have configured the monitor's fields, click **Create monitor**. This adds the monitor to your Weave project. When your code starts generating traces, you can review the scores in the **Traces** tab by selecting the monitor's name and reviewing the data in the resulting panel. 
+4. Once you have configured the monitor's fields, click **Create monitor**. This adds the monitor to your Weave project. When your code starts generating traces, you can review the scores in the **Traces** tab by selecting the monitor's name and reviewing the data in the resulting panel. 
 
 You can also [compare](/weave/guides/tools/comparison) and visualize the monitor's trace data in the Weave UI, or download it in various formats (such as CSV and JSON) using the download button (<Icon icon="download" iconType="regular" />) in the Traces tab. 
 
