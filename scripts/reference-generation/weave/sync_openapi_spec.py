@@ -16,8 +16,8 @@ import requests
 import sys
 from typing import Optional, Tuple
 
-# Remote OpenAPI spec URL
-REMOTE_SPEC_URL = "https://github.com/wandb/core/blob/master/services/weave-trace/openapi.json"
+# Remote OpenAPI spec URL (using raw.githubusercontent.com for direct JSON access)
+REMOTE_SPEC_URL = "https://raw.githubusercontent.com/wandb/core/master/services/weave-trace/openapi.json"
 
 
 def fetch_remote_spec(url: str = REMOTE_SPEC_URL) -> dict:
@@ -146,26 +146,41 @@ def update_docs_json(use_local: bool = False):
         docs_config = json.load(f)
     
     # Find the Service API openapi configuration
-    for nav_item in docs_config.get("navigation", []):
-        if nav_item.get("group") == "Weave":
-            for page in nav_item.get("pages", []):
-                if isinstance(page, dict) and "Weave Reference" in page.get("group", ""):
-                    for ref_page in page.get("pages", []):
-                        if isinstance(ref_page, dict) and ref_page.get("group") == "Service API":
-                            if "openapi" in ref_page:
-                                if use_local:
-                                    # Use local spec
-                                    ref_page["openapi"] = "weave/reference/service-api/openapi.json"
-                                    print("  ✓ Updated docs.json to use local OpenAPI spec")
-                                else:
-                                    # Use remote spec
-                                    ref_page["openapi"] = {"source": REMOTE_SPEC_URL}
-                                    print("  ✓ Updated docs.json to use remote OpenAPI spec")
-                                
-                                with open(docs_json_path, 'w') as f:
-                                    json.dump(docs_config, f, indent=2)
-                                    f.write('\n')
-                                return True
+    # Structure: navigation.languages[].tabs[] -> find "W&B Weave" tab -> pages[] -> find "Reference" group -> pages[] -> find "Service API" group
+    navigation = docs_config.get("navigation", {})
+    languages = navigation.get("languages", [])
+    
+    for language in languages:
+        tabs = language.get("tabs", [])
+        for tab in tabs:
+            # Look for the "W&B Weave" tab
+            if tab.get("tab") == "W&B Weave":
+                pages = tab.get("pages", [])
+                for page in pages:
+                    # Look for the "Reference" group (not "Weave Reference")
+                    if isinstance(page, dict) and page.get("group") == "Reference":
+                        ref_pages = page.get("pages", [])
+                        for ref_page in ref_pages:
+                            # Look for the "Service API" group
+                            if isinstance(ref_page, dict) and ref_page.get("group") == "Service API":
+                                if "openapi" in ref_page:
+                                    if use_local:
+                                        # Use local spec (preserve directory field if it exists)
+                                        directory = ref_page.get("openapi", {}).get("directory") if isinstance(ref_page.get("openapi"), dict) else "weave/reference/service-api"
+                                        ref_page["openapi"] = {
+                                            "source": "weave/reference/service-api/openapi.json",
+                                            "directory": directory
+                                        }
+                                        print("  ✓ Updated docs.json to use local OpenAPI spec")
+                                    else:
+                                        # Use remote spec
+                                        ref_page["openapi"] = {"source": REMOTE_SPEC_URL}
+                                        print("  ✓ Updated docs.json to use remote OpenAPI spec")
+                                    
+                                    with open(docs_json_path, 'w') as f:
+                                        json.dump(docs_config, f, indent=2)
+                                        f.write('\n')
+                                    return True
     
     print("  ✗ Could not find Service API configuration in docs.json")
     return False
