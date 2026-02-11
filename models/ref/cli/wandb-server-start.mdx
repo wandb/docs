@@ -1,0 +1,78 @@
+---
+title: wandb server-start
+---
+
+
+Start a local W&B server
+
+## Usage
+
+```shell
+wandb server start [OPTIONS]
+```
+
+
+## Options
+
+### `port`
+
+The host port to bind W&B server on                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --port` | 8080 | STRING |
+
+### `env`
+
+Env vars to pass to wandb/local                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --env` | [] | STRING |
+
+### `daemon`
+
+Run or don't run in daemon mode                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--daemon` | True | BOOL |
+
+### `upgrade`
+
+Upgrade to the most recent version                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--upgrade` | False | BOOL |
+
+### `edge`
+
+Run the bleeding edge                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--edge` | False | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: server start [OPTIONS]
+
+  Start a local W&B server
+
+Options:
+  -p, --port TEXT         The host port to bind W&B server on
+  -e, --env TEXT          Env vars to pass to wandb/local
+  --daemon / --no-daemon  Run or don't run in daemon mode
+  --help                  Show this message and exit.
+```
+

@@ -1,20 +1,45 @@
 ---
-title: "wandb artifact"
+title: wandb artifact
 ---
+
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2648" />
+
 
 Commands for interacting with artifacts
 
 ## Usage
 
-```bash
-wandb artifact COMMAND [ARGS]...
+```shell
+wandb artifact [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Commands
 
-| Command | Description |
-| :--- | :--- |
-| [cache](/models/ref/cli/wandb-artifact/wandb-artifact-cache) | Commands for interacting with the artifact cache |
-| [get](/models/ref/cli/wandb-artifact/wandb-artifact-get) | Download an artifact from wandb |
-| [ls](/models/ref/cli/wandb-artifact/wandb-artifact-ls) | List all artifacts in a wandb project |
-| [put](/models/ref/cli/wandb-artifact/wandb-artifact-put) | Upload an artifact to wandb |
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact [OPTIONS] COMMAND [ARGS]...
+
+  Commands for interacting with artifacts
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  cache  Commands for interacting with the artifact cache
+  get    Download an artifact from wandb
+  ls     List all artifacts in a wandb project
+  put    Upload an artifact to wandb
+```
+

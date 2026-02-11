@@ -1,23 +1,39 @@
 ---
-title: "wandb online"
+title: wandb online
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-online.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbOnline from "/snippets/en/_includes/cli/wandb-online.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbOnline/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3085" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Undo `wandb offline`.
 
 ## Usage
 
-```bash
-wandb online
+```shell
+wandb online [OPTIONS]
 ```
+
+
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: online [OPTIONS]
+
+  Undo `wandb offline`.
+
+Options:
+  --help  Show this message and exit.
+```
+

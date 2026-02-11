@@ -1,0 +1,53 @@
+---
+title: wandb artifact-get
+---
+
+
+Download an artifact from wandb
+
+## Usage
+
+```shell
+wandb artifact get [OPTIONS] PATH
+```
+
+
+## Options
+
+### `root`
+
+The directory you want to download the artifact to                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--root` | None | STRING |
+
+### `type`
+
+The type of artifact you are downloading                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--type` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact get [OPTIONS] PATH
+
+  Download an artifact from wandb
+
+Options:
+  --root TEXT  The directory you want to download the artifact to
+  --type TEXT  The type of artifact you are downloading
+  --help       Show this message and exit.
+```
+

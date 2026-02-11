@@ -1,45 +1,312 @@
 ---
-title: "wandb launch"
+title: wandb launch
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbLaunch from "/snippets/en/_includes/cli/wandb-launch.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbLaunch/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1494" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Launch or queue a W&B Job. See https://wandb.me/launch
 
 ## Usage
 
-```bash
+```shell
 wandb launch [OPTIONS]
 ```
 
+
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--uri`, `-u` | Local path or git repo uri to launch. If provided this command will create a job from the specified uri. |
-| `--job`, `-j` | Name of the job to launch. If passed in, launch does not require a uri. |
-| `--entry-point`, `-E` | Entry point within project. [default: main]. If the entry point is not found, attempts to run the project file with the specified name as a script, using 'python' to run .py files and the default shell (specified by environment variable $SHELL) to run .sh files. If passed in, will override the entrypoint value passed in using a config file. |
-| `--build-context` | Path to the build context within the source code. Defaults to the root of the source code. Compatible only with -u. |
-| `--name` | Name of the run under which to launch the run. If not specified, a random run name will be used to launch run. If passed in, will override the name passed in using a config file. |
-| `--entity`, `-e` | Name of the target entity which the new run will be sent to. Defaults to using the entity set by local wandb/settings folder. If passed in, will override the entity value passed in using a config file. |
-| `--project`, `-p` | Name of the target project which the new run will be sent to. Defaults to using the project name given by the source uri or for github runs, the git repo name. If passed in, will override the project value passed in using a config file. |
-| `--resource`, `-r` | Execution resource to use for run. Supported values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'. This is now a required parameter if pushing to a queue with no resource configuration. If passed in, will override the resource value passed in using a config file. |
-| `--docker-image`, `-d` | Specific docker image you'd like to use. In the form name:tag. If passed in, will override the docker image value passed in using a config file. |
-| `--base-image`, `-B` | Docker image to run job code in. Incompatible with --docker-image. |
-| `--config`, `-c` | Path to JSON file (must end in '.json') or JSON string which will be passed as a launch config. Dictation how the launched run will be configured. |
-| `--set-var`, `-v` | Set template variable values for queues with allow listing enabled, as key-value pairs e.g. `--set-var key1=value1 --set-var key2=value2` |
-| `--queue`, `-q` | Name of run queue to push to. If none, launches single run directly. If supplied without an argument (`--queue`), defaults to queue 'default'. Else, if name supplied, specified run queue must exist under the project and entity supplied. |
-| `--async` | Flag to run the job asynchronously. Defaults to false, i.e. unless --async is set, wandb launch will wait for the job to finish. This option is incompatible with --queue; asynchronous options when running with an agent should be set on wandb launch-agent. (default: False) |
-| `--resource-args`, `-R` | Path to JSON file (must end in '.json') or JSON string which will be passed as resource args to the compute resource. The exact content which should be provided is different for each execution backend. See documentation for layout of this file. |
-| `--dockerfile`, `-D` | Path to the Dockerfile used to build the job, relative to the job's root |
-| `--priority`, `-P` | When --queue is passed, set the priority of the job. Launch jobs with higher priority are served first. The order, from highest to lowest priority, is: critical, high, medium, low |
+### `uri`
+
+Local path or git repo uri to launch. If provided this command will create a job from the specified uri.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-u, --uri` | None | STRING |
+
+### `job`
+
+Name of the job to launch. If passed in, launch does not require a uri.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-j, --job` | None | STRING |
+
+### `entry_point`
+
+Entry point within project. [default: main]. If the entry point is not found,
+attempts to run the project file with the specified name as a script,
+using 'python' to run .py files and the default shell (specified by
+environment variable $SHELL) to run .sh files. If passed in, will override the entrypoint value passed in using a config file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-E, --entry-point` | None | STRING |
+
+### `git_version`
+
+Version of the project to run, as a Git commit reference for Git projects.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-g, --git-version` | None | STRING |
+
+### `build_context`
+
+Path to the build context within the source code. Defaults to the root of the source code. Compatible only with -u.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--build-context` | None | STRING |
+
+### `job_name`
+
+Name for the job created if the -u,--uri flag is passed in.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-J, --job-name` | None | STRING |
+
+### `name`
+
+Name of the run under which to launch the run. If not
+specified, a random run name will be used to launch run. If passed in, will override the name passed in using a config file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--name` | None | STRING |
+
+### `entity`
+
+Name of the target entity which the new run will be sent to. Defaults to using the entity set by local wandb/settings folder.
+If passed in, will override the entity value passed in using a config file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | None | STRING |
+
+### `project`
+
+Name of the target project which the new run will be sent to. Defaults to using the project name given by the source uri
+or for github runs, the git repo name. If passed in, will override the project value passed in using a config file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `resource`
+
+Execution resource to use for run. Supported values: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'.
+This is now a required parameter if pushing to a queue with no resource configuration.
+If passed in, will override the resource value passed in using a config file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-r, --resource` | None | STRING |
+
+### `docker_image`
+
+Specific docker image you'd like to use. In the form name:tag.
+If passed in, will override the docker image value passed in using a config file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-d, --docker-image` | None | STRING |
+
+### `base_image`
+
+Docker image to run job code in. Incompatible with --docker-image.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-B, --base-image` | None | STRING |
+
+### `config`
+
+Path to JSON file (must end in '.json') or JSON string which will be passed
+as a launch config. Dictation how the launched run will be configured.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-c, --config` | None | STRING |
+
+### `cli_template_vars`
+
+No description available.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-v, --set-var` | None | STRING |
+
+### `queue`
+
+), defaults to queue 'default'. Else, if name supplied, specified run queue must exist under the
+project and entity supplied.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-q, --queue` | None | STRING |
+
+### `run_async`
+
+Flag to run the job asynchronously. Defaults to false, i.e. unless --async is set, wandb launch will wait for
+the job to finish. This option is incompatible with --queue; asynchronous options when running with an agent should be
+set on wandb launch-agent.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--async` | False | BOOL |
+
+### `resource_args`
+
+Path to JSON file (must end in '.json') or JSON string which will be passed
+as resource args to the compute resource. The exact content which should be
+provided is different for each execution backend. See documentation for layout of this file.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-R, --resource-args` | None | STRING |
+
+### `build`
+
+Flag to build an associated job and push to queue as an image job.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-b, --build` | False | BOOL |
+
+### `repository`
+
+Name of a remote repository. Will be used to push a built image to.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-rg, --repository` | None | STRING |
+
+### `project_queue`
+
+Name of the project containing the queue to push to. If none, defaults to entity level queues.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-pq, --project-queue` | None | STRING |
+
+### `dockerfile`
+
+Path to the Dockerfile used to build the job, relative to the job's root                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-D, --dockerfile` | None | STRING |
+
+### `priority`
+
+When --queue is passed, set the priority of the job. Launch jobs with higher priority
+are served first.  The order, from highest to lowest priority, is: critical, high, medium, low                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-P, --priority` | None | Choice(['critical', 'high', 'medium', 'low']) |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: launch [OPTIONS]
+
+  Launch or queue a W&B Job. See https://wandb.me/launch
+
+Options:
+  -u, --uri (str)                 Local path or git repo uri to launch. If
+                                  provided this command will create a job from
+                                  the specified uri.
+  -j, --job (str)                 Name of the job to launch. If passed in,
+                                  launch does not require a uri.
+  -E, --entry-point NAME          Entry point within project. [default: main].
+                                  If the entry point is not found, attempts to
+                                  run the project file with the specified name
+                                  as a script, using 'python' to run .py files
+                                  and the default shell (specified by
+                                  environment variable $SHELL) to run .sh
+                                  files. If passed in, will override the
+                                  entrypoint value passed in using a config
+                                  file.
+  --build-context (str)           Path to the build context within the source
+                                  code. Defaults to the root of the source
+                                  code. Compatible only with -u.
+  --name TEXT                     Name of the run under which to launch the
+                                  run. If not specified, a random run name
+                                  will be used to launch run. If passed in,
+                                  will override the name passed in using a
+                                  config file.
+  -e, --entity (str)              Name of the target entity which the new run
+                                  will be sent to. Defaults to using the
+                                  entity set by local wandb/settings folder.
+                                  If passed in, will override the entity value
+                                  passed in using a config file.
+  -p, --project (str)             Name of the target project which the new run
+                                  will be sent to. Defaults to using the
+                                  project name given by the source uri or for
+                                  github runs, the git repo name. If passed
+                                  in, will override the project value passed
+                                  in using a config file.
+  -r, --resource BACKEND          Execution resource to use for run. Supported
+                                  values: 'local-process', 'local-container',
+                                  'kubernetes', 'sagemaker', 'gcp-vertex'.
+                                  This is now a required parameter if pushing
+                                  to a queue with no resource configuration.
+                                  If passed in, will override the resource
+                                  value passed in using a config file.
+  -d, --docker-image DOCKER IMAGE
+                                  Specific docker image you'd like to use. In
+                                  the form name:tag. If passed in, will
+                                  override the docker image value passed in
+                                  using a config file.
+  -B, --base-image BASE IMAGE     Docker image to run job code in.
+                                  Incompatible with --docker-image.
+  -c, --config FILE               Path to JSON file (must end in '.json') or
+                                  JSON string which will be passed as a launch
+                                  config. Dictation how the launched run will
+                                  be configured.
+  -v, --set-var TEXT              Set template variable values for queues with
+                                  allow listing enabled, as key-value pairs
+                                  e.g. `--set-var key1=value1 --set-var
+                                  key2=value2`
+  -q, --queue TEXT                Name of run queue to push to. If none,
+                                  launches single run directly. If supplied
+                                  without an argument (`--queue`), defaults to
+                                  queue 'default'. Else, if name supplied,
+                                  specified run queue must exist under the
+                                  project and entity supplied.
+  --async                         Flag to run the job asynchronously. Defaults
+                                  to false, i.e. unless --async is set, wandb
+                                  launch will wait for the job to finish. This
+                                  option is incompatible with --queue;
+                                  asynchronous options when running with an
+                                  agent should be set on wandb launch-agent.
+  -R, --resource-args FILE        Path to JSON file (must end in '.json') or
+                                  JSON string which will be passed as resource
+                                  args to the compute resource. The exact
+                                  content which should be provided is
+                                  different for each execution backend. See
+                                  documentation for layout of this file.
+  -D, --dockerfile TEXT           Path to the Dockerfile used to build the
+                                  job, relative to the job's root
+  -P, --priority [critical|high|medium|low]
+                                  When --queue is passed, set the priority of
+                                  the job. Launch jobs with higher priority
+                                  are served first.  The order, from highest
+                                  to lowest priority, is: critical, high,
+                                  medium, low
+  --help                          Show this message and exit.
+```
+

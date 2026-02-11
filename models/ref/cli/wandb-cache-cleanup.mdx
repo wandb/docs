@@ -1,0 +1,45 @@
+---
+title: wandb cache-cleanup
+---
+
+
+Clean up less frequently used files from the artifacts cache
+
+## Usage
+
+```shell
+wandb artifact cache cleanup [OPTIONS] TARGET_SIZE
+```
+
+
+## Options
+
+### `remove_temp`
+
+Remove temp files                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--remove-temp` | False | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact cache cleanup [OPTIONS] TARGET_SIZE
+
+  Clean up less frequently used files from the artifacts cache
+
+Options:
+  --remove-temp / --no-remove-temp
+                                  Remove temp files
+  --help                          Show this message and exit.
+```
+

@@ -652,45 +652,25 @@
                     "pages": [
                       "models/ref/cli",
                       "models/ref/cli/wandb-agent",
-                      {
-                        "group": "wandb artifact",
-                        "pages": [
-                          "models/ref/cli/wandb-artifact",
-                          {
-                            "group": "artifact cache",
-                            "pages": [
-                              "models/ref/cli/wandb-artifact/wandb-artifact-cache",
-                              "models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
-                            ]
-                          },
-                          "models/ref/cli/wandb-artifact/wandb-artifact-get",
-                          "models/ref/cli/wandb-artifact/wandb-artifact-ls",
-                          "models/ref/cli/wandb-artifact/wandb-artifact-put"
-                        ]
-                      },
-                      {
-                        "group": "wandb beta",
-                        "pages": [
-                          "models/ref/cli/wandb-beta",
-                          "models/ref/cli/wandb-beta/wandb-beta-leet",
-                          "models/ref/cli/wandb-beta/wandb-beta-sync"
-                        ]
-                      },
+                      "models/ref/cli/wandb-artifact",
+                      "models/ref/cli/wandb-artifact-cache",
+                      "models/ref/cli/wandb-artifact-cache-cleanup",
+                      "models/ref/cli/wandb-artifact-get",
+                      "models/ref/cli/wandb-artifact-ls",
+                      "models/ref/cli/wandb-artifact-put",
+                      "models/ref/cli/wandb-beta",                   
+                      "models/ref/cli/wandb-beta-leet",
+                      "models/ref/cli/wandb-beta-sync",
                       "models/ref/cli/wandb-controller",
                       "models/ref/cli/wandb-disabled",
                       "models/ref/cli/wandb-docker",
                       "models/ref/cli/wandb-docker-run",
                       "models/ref/cli/wandb-enabled",
                       "models/ref/cli/wandb-init",
-                      {
-                        "group": "wandb job",
-                        "pages": [
-                          "models/ref/cli/wandb-job",
-                          "models/ref/cli/wandb-job/wandb-job-create",
-                          "models/ref/cli/wandb-job/wandb-job-describe",
-                          "models/ref/cli/wandb-job/wandb-job-list"
-                        ]
-                      },
+                      "models/ref/cli/wandb-job",
+                      "models/ref/cli/wandb-job-create",
+                      "models/ref/cli/wandb-job-describe",
+                      "models/ref/cli/wandb-job-list",
                       "models/ref/cli/wandb-local",
                       "models/ref/cli/wandb-login",
                       "models/ref/cli/wandb-off",
@@ -700,14 +680,9 @@
                       "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
                       "models/ref/cli/wandb-restore",
-                      {
-                        "group": "wandb server",
-                        "pages": [
-                          "models/ref/cli/wandb-server",
-                          "models/ref/cli/wandb-server/wandb-server-start",
-                          "models/ref/cli/wandb-server/wandb-server-stop"
-                        ]
-                      },
+                      "models/ref/cli/wandb-server",
+                      "models/ref/cli/wandb-server-start",
+                      "models/ref/cli/wandb-server-stop",                      
                       "models/ref/cli/wandb-status",
                       "models/ref/cli/wandb-sweep",
                       "models/ref/cli/wandb-sync",

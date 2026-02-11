@@ -1,29 +1,48 @@
 ---
-title: "wandb enabled"
+title: wandb enabled
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-enabled.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbEnabled/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3176" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Enable W&B.
 
 ## Usage
 
-```bash
+```shell
 wandb enabled [OPTIONS]
 ```
 
+
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--service` | Enable W&B service (default: True) |
+### `service`
+
+Enable W&B service                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--service` | True | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: enabled [OPTIONS]
+
+  Enable W&B.
+
+Options:
+  --service  Enable W&B service  [default: True]
+  --help     Show this message and exit.
+```
+

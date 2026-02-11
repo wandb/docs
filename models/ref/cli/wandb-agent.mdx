@@ -1,38 +1,84 @@
 ---
-title: "wandb agent"
+title: wandb agent
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-agent.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbAgent from "/snippets/en/_includes/cli/wandb-agent.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbAgent/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1968" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Run the W&B agent
 
 ## Usage
 
-```bash
-wandb agent SWEEP_ID [OPTIONS]
+```shell
+wandb agent [OPTIONS] SWEEP_ID
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'. |
-| `--entity`, `-e` | The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. |
-| `--count` | The max number of runs for this agent. |
-| `--forward-signals`, `-f` | Forward signals delivered to the agent (e.g. SIGINT/SIGTERM) to its child runs so they can shut down cleanly. (default: False) |
+### `project`
+
+The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | None | STRING |
+
+### `count`
+
+The max number of runs for this agent.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--count` | None | INT |
+
+### `forward_signals`
+
+Forward signals delivered to the agent (e.g. SIGINT/SIGTERM) to its child runs so they can shut down cleanly.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-f, --forward-signals` | False | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: agent [OPTIONS] SWEEP_ID
+
+  Run the W&B agent
+
+Options:
+  -p, --project TEXT     The name of the project where W&B runs created from
+                         the sweep are sent to. If the project is not
+                         specified, the run is sent to a project labeled
+                         'Uncategorized'.
+  -e, --entity TEXT      The username or team name where you want to send W&B
+                         runs created by the sweep to. Ensure that the entity
+                         you specify already exists. If you don't specify an
+                         entity, the run will be sent to your default entity,
+                         which is usually your username.
+  --count INTEGER        The max number of runs for this agent.
+  -f, --forward-signals  Forward signals delivered to the agent (e.g.
+                         SIGINT/SIGTERM) to its child runs so they can shut
+                         down cleanly.
+  --help                 Show this message and exit.
+```
+

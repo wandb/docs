@@ -1,0 +1,53 @@
+---
+title: wandb job-list
+---
+
+
+List jobs in a project
+
+## Usage
+
+```shell
+wandb job list [OPTIONS]
+```
+
+
+## Options
+
+### `project`
+
+The project you want to list jobs from.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+The entity the jobs belong to                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | models | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: job list [OPTIONS]
+
+  List jobs in a project
+
+Options:
+  -p, --project TEXT  The project you want to list jobs from.
+  -e, --entity TEXT   The entity the jobs belong to
+  --help              Show this message and exit.
+```
+

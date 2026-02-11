@@ -1,18 +1,43 @@
 ---
-title: "wandb server"
+title: wandb server
 ---
+
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2531" />
+
 
 Commands for operating a local W&B server
 
 ## Usage
 
-```bash
-wandb server COMMAND [ARGS]...
+```shell
+wandb server [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Commands
 
-| Command | Description |
-| :--- | :--- |
-| [start](/models/ref/cli/wandb-server/wandb-server-start) | Start a local W&B server |
-| [stop](/models/ref/cli/wandb-server/wandb-server-stop) | Stop a local W&B server |
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: server [OPTIONS] COMMAND [ARGS]...
+
+  Commands for operating a local W&B server
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  start  Start a local W&B server
+  stop   Stop a local W&B server
+```
+

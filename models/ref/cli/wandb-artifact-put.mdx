@@ -1,0 +1,110 @@
+---
+title: wandb artifact-put
+---
+
+
+Upload an artifact to wandb
+
+## Usage
+
+```shell
+wandb artifact put [OPTIONS] PATH
+```
+
+
+## Options
+
+### `name`
+
+The name of the artifact to push: project/artifact_name                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-n, --name` | None | STRING |
+
+### `description`
+
+A description of this artifact                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-d, --description` | None | STRING |
+
+### `type`
+
+The type of the artifact                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-t, --type` | dataset | STRING |
+
+### `alias`
+
+An alias to apply to this artifact                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-a, --alias` | ['latest'] | STRING |
+
+### `run_id`
+
+The run you want to upload to.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--id` | None | STRING |
+
+### `resume`
+
+Resume the last run from your current directory.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--resume` | None | BOOL |
+
+### `skip_cache`
+
+Skip caching while uploading artifact files.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--skip_cache` | False | BOOL |
+
+### `policy`
+
+Set the storage policy while uploading artifact files.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--policy` | mutable | Choice(['mutable', 'immutable']) |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact put [OPTIONS] PATH
+
+  Upload an artifact to wandb
+
+Options:
+  -n, --name TEXT               The name of the artifact to push:
+                                project/artifact_name
+  -d, --description TEXT        A description of this artifact
+  -t, --type TEXT               The type of the artifact
+  -a, --alias TEXT              An alias to apply to this artifact
+  --id TEXT                     The run you want to upload to.
+  --resume                      Resume the last run from your current
+                                directory.
+  --skip_cache                  Skip caching while uploading artifact files.
+  --policy [mutable|immutable]  Set the storage policy while uploading
+                                artifact files.
+  --help                        Show this message and exit.
+```
+

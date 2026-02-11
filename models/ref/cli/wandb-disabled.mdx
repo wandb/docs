@@ -1,29 +1,48 @@
 ---
-title: "wandb disabled"
+title: wandb disabled
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-disabled.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbDisabled from "/snippets/en/_includes/cli/wandb-disabled.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbDisabled/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3160" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Disable W&B.
 
 ## Usage
 
-```bash
+```shell
 wandb disabled [OPTIONS]
 ```
 
+
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--service` | Disable W&B service (default: True) |
+### `service`
+
+Disable W&B service                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--service` | True | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: disabled [OPTIONS]
+
+  Disable W&B.
+
+Options:
+  --service  Disable W&B service  [default: True]
+  --help     Show this message and exit.
+```
+

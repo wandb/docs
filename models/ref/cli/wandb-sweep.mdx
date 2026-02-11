@@ -1,46 +1,266 @@
 ---
-title: "wandb sweep"
+title: wandb sweep
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbSweep from "/snippets/en/_includes/cli/wandb-sweep.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbSweep/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L909" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
-Initialize a hyperparameter sweep. Search for hyperparameters that optimizes a cost function of a machine learning model by testing various combinations.
+Create, update, or manage a hyperparameter sweep.
+    
+    Provide a YAML config file to create a sweep. Define the search
+    strategy, parameters, and metric to optimize in the config.
+    Register the sweep with the W&B server and print the sweep ID
+    and a command to start an agent.
+    
+    Provide a sweep ID (or full path entity/project/sweep_id) with a
+    state flag (--stop, --cancel, --pause, or --resume) to manage
+    an existing sweep.
+
+    Examples:
+
+    Create a new sweep from a YAML config file
+
+    ```bash
+    wandb sweep sweep_config.yaml
+    ```
+
+    Create a sweep in a specific project and team
+
+    ```bash
+    wandb sweep -p PROJECT_NAME -e ENTITY sweep_config.yaml
+    ```
+
+    Update an existing sweep's configuration
+
+    ```bash
+    wandb sweep --update SWEEP_ID sweep_config.yaml
+    ```
+
+    Stop a sweep
+
+    ```bash
+    wandb sweep --stop ENTITY/PROJECT_NAME/SWEEP_ID
+    ```
+
+    Cancel a sweep
+
+    ```bash
+    wandb sweep --cancel SWEEP_ID
+    ```
+
+    Pause and later resume a sweep
+
+    ```bash
+    wandb sweep --pause SWEEP_ID
+    wandb sweep --resume SWEEP_ID
+    ```
+
+    Create a sweep with a local controller
+
+    ```bash
+    wandb sweep --controller sweep_config.yaml
+    ```
+
+    Attach existing runs to a new sweep
+
+    ```bash
+    wandb sweep -R RUN_ID_1 -R RUN_ID_2 sweep_config.yaml
+    ```
+    
 
 ## Usage
 
-```bash
-wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+```shell
+wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `CONFIG_YAML_OR_SWEEP_ID` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled Uncategorized. |
-| `--entity`, `-e` | The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username. |
-| `--controller` | Run local controller (default: False) |
-| `--verbose` | Display verbose output (default: False) |
-| `--name` | The name of the sweep. The sweep ID is used if no name is specified. |
-| `--program` | Set sweep program |
-| `--update` | Update pending sweep |
-| `--stop` | Finish a sweep to stop running new runs and let currently running runs finish. (default: False) |
-| `--cancel` | Cancel a sweep to kill all running runs and stop running new runs. (default: False) |
-| `--pause` | Pause a sweep to temporarily stop running new runs. (default: False) |
-| `--resume` | Resume a sweep to continue running new runs. (default: False) |
-| `--prior_run`, `-R` | ID of an existing run to add to this sweep |
+### `project`
+
+Set the project for sweep runs. Use 'Uncategorized' if not set.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+Set the entity for sweep. Use the current user's default entity if not set.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | None | STRING |
+
+### `controller`
+
+Start a local sweep controller after creating the sweep.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--controller` | False | BOOL |
+
+### `verbose`
+
+Display verbose output.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--verbose` | False | BOOL |
+
+### `name`
+
+Set a display name for the sweep. Use the sweep ID if not specified.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--name` | None | STRING |
+
+### `program`
+
+Override the training program specified in the sweep config.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--program` | None | STRING |
+
+### `settings`
+
+Set sweep settings                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--settings` | None | STRING |
+
+### `update`
+
+Update an existing sweep configuration. Pass the sweep ID.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--update` | None | STRING |
+
+### `stop`
+
+Stop a sweep. Let active runs finish but do not start new runs.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--stop` | False | BOOL |
+
+### `cancel`
+
+Cancel a sweep. Kill active runs and stop starting new ones.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--cancel` | False | BOOL |
+
+### `pause`
+
+Pause a sweep. Temporarily stop starting new runs.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--pause` | False | BOOL |
+
+### `resume`
+
+Resume a paused sweep.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--resume` | False | BOOL |
+
+### `prior_runs`
+
+Attach an existing run to this sweep by ID. Specify multiple times to attach multiple runs.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-R, --prior_run` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
+
+  Create, update, or manage a hyperparameter sweep.
+
+  Provide a YAML config file to create a sweep. Define the search strategy,
+  parameters, and metric to optimize in the config. Register the sweep with
+  the W&B server and print the sweep ID and a command to start an agent.
+
+  Provide a sweep ID (or full path entity/project/sweep_id) with a state flag
+  (--stop, --cancel, --pause, or --resume) to manage an existing sweep.
+
+  Examples:
+
+  Create a new sweep from a YAML config file
+
+  ```bash wandb sweep sweep_config.yaml ```
+
+  Create a sweep in a specific project and team
+
+  ```bash wandb sweep -p PROJECT_NAME -e ENTITY sweep_config.yaml ```
+
+  Update an existing sweep's configuration
+
+  ```bash wandb sweep --update SWEEP_ID sweep_config.yaml ```
+
+  Stop a sweep
+
+  ```bash wandb sweep --stop ENTITY/PROJECT_NAME/SWEEP_ID ```
+
+  Cancel a sweep
+
+  ```bash wandb sweep --cancel SWEEP_ID ```
+
+  Pause and later resume a sweep
+
+  ```bash wandb sweep --pause SWEEP_ID wandb sweep --resume SWEEP_ID ```
+
+  Create a sweep with a local controller
+
+  ```bash wandb sweep --controller sweep_config.yaml ```
+
+  Attach existing runs to a new sweep
+
+  ```bash wandb sweep -R RUN_ID_1 -R RUN_ID_2 sweep_config.yaml ```
+
+Options:
+  -p, --project TEXT    Set the project for sweep runs. Use 'Uncategorized' if
+                        not set.
+  -e, --entity TEXT     Set the entity for sweep. Use the current user's
+                        default entity if not set.
+  --controller          Start a local sweep controller after creating the
+                        sweep.
+  --verbose             Display verbose output.
+  --name TEXT           Set a display name for the sweep. Use the sweep ID if
+                        not specified.
+  --program TEXT        Override the training program specified in the sweep
+                        config.
+  --update TEXT         Update an existing sweep configuration. Pass the sweep
+                        ID.
+  --stop                Stop a sweep. Let active runs finish but do not start
+                        new runs.
+  --cancel              Cancel a sweep. Kill active runs and stop starting new
+                        ones.
+  --pause               Pause a sweep. Temporarily stop starting new runs.
+  --resume              Resume a paused sweep.
+  -R, --prior_run TEXT  Attach an existing run to this sweep by ID. Specify
+                        multiple times to attach multiple runs.
+  --help                Show this message and exit.
+```
+

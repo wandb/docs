@@ -1,36 +1,57 @@
 ---
-title: "wandb pull"
+title: wandb pull
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbPull/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2833" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
-Pull files from Weights & Biases
+Pull files from W&B
 
 ## Usage
 
-```bash
-wandb pull RUN [OPTIONS]
+```shell
+wandb pull [OPTIONS] RUN
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `RUN` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project you want to download. |
-| `--entity`, `-e` | The entity to scope the listing to. (default: models) |
+### `project`
+
+The project you want to download.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+The entity to scope the listing to.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | models | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: pull [OPTIONS] RUN
+
+  Pull files from W&B
+
+Options:
+  -p, --project TEXT  The project you want to download.
+  -e, --entity TEXT   The entity to scope the listing to.
+  --help              Show this message and exit.
+```
+

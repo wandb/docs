@@ -1,29 +1,39 @@
 ---
-title: "wandb scheduler"
+title: wandb scheduler
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-scheduler.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbScheduler from "/snippets/en/_includes/cli/wandb-scheduler.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbScheduler/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2020" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Run a W&B launch sweep scheduler (Experimental)
 
 ## Usage
 
-```bash
-wandb scheduler SWEEP_ID
+```shell
+wandb scheduler [OPTIONS] SWEEP_ID
 ```
 
-## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | No description available | Yes |
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: scheduler [OPTIONS] SWEEP_ID
+
+  Run a W&B launch sweep scheduler (Experimental)
+
+Options:
+  --help  Show this message and exit.
+```
+

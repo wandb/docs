@@ -1,35 +1,48 @@
 ---
-title: "wandb controller"
+title: wandb controller
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-controller.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbController from "/snippets/en/_includes/cli/wandb-controller.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbController/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2316" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Run the W&B local sweep controller
 
 ## Usage
 
-```bash
-wandb controller SWEEP_ID [OPTIONS]
+```shell
+wandb controller [OPTIONS] SWEEP_ID
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--verbose` | Display verbose output (default: False) |
+### `verbose`
+
+Display verbose output                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--verbose` | False | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: controller [OPTIONS] SWEEP_ID
+
+  Run the W&B local sweep controller
+
+Options:
+  --verbose  Display verbose output
+  --help     Show this message and exit.
+```
+
