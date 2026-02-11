@@ -34,9 +34,15 @@ In the Comparison view, you have multiple actions available, depending on how ma
 
 By default, **Diff only** is set to off. To filter the table rows so that only changed rows are displayed, toggle **Diff only** on. 
 
-### Display side-by-side 
+### Display summary
 
-This option is only available when comparing two objects, or a [pair from a multi-object comparison](#compare-a-pair-from-a-multi-object-comparison).
+The default view for a selected object comparison is a summary.  This summary includes a preview of the LLM input and output, as well as tokens, cost, and latency.
+
+<Frame>
+![Comparison Summary view of two objects](/weave/guides/tools/imgs/comparison-2objs-summary.png)
+</Frame>
+
+### Display side-by-side 
 
 To compare each object side-by-side in separate columns, select **Side-by-side**. 
 
@@ -45,8 +51,6 @@ To compare each object side-by-side in separate columns, select **Side-by-side**
 </Frame>
 
 ### Display in a unified view
-
-This option is only available when comparing two objects, or a [pair from a multi-object comparison](#compare-a-pair-from-a-multi-object-comparison).
 
 To compare each object in a unified view, select **Unified**. 
 
@@ -78,10 +82,9 @@ To remove an object as baseline, do the following:
 To change the comparison order, do the following:
 
 1. In the Comparison view topbar, mouse over the ID that you want to reorder. 
-2. Click the six dots to the left of the ID.
+2. Click and hold the six dots to the left of the ID and drag it to the left or the right as needed.
    ![Setting the order.](/weave/guides/tools/imgs/comparison-2objs-reorder.png)
-3. Drag the ID to the left or the right, depending on which object was selected. 
-4. Place the ID in the desired ordering. The UI refreshes with an updated comparison ordering.
+3. Place the ID in the desired ordering. The UI refreshes with an updated comparison ordering.
 
 ### Change numeric diff display format 
 
@@ -98,7 +101,7 @@ This option is only available when comparing 3 or more objects. You can also [se
 
 To perform a baseline comparison with 3 or more objects, do the following:
 
-1. In the right hand corner of the Comparison view, click the dropdown. Depending on your current view configuration, the dropdown is either titled **Compare with previous** or **Compare with baseline**.
+1. In the right hand corner of either the Side-by-side or Unified Comparison view, click the dropdown. Depending on your current view configuration, the dropdown is either titled **Compare with previous** or **Compare with baseline**.
 2. Depending on your current view configuration, select either **Compare with previous** or **Compare with baseline**.
    - **Compare with baseline**: Sets the leftmost object as the baseline. The table updates so that the leftmost column is the baseline.
    -  **Compare with previous**: No object is set as baseline.
@@ -107,9 +110,9 @@ To perform a baseline comparison with 3 or more objects, do the following:
 
 This option is only available when comparing 3 or more objects.
 
-When comparing 3 or more objects, you can compare a single object to a previous object or baseline. This changes the Comparison table view so that the view is identical to a two-object comparison. To compare a pair of objects from a multi-object comparison, do the following:
+When comparing 3 or more objects, you can compare a single object to its adjacent object or a baseline. This changes the Comparison table view so that the view is identical to a two-object comparison. To compare a pair of objects from a multi-object comparison, do the following:
 
-1. In the Comparison view topbar, find the ID that you want to compare to previous or baseline. 
+1. In the Comparison view topbar, find the ID that you want to compare.  If you have a baseline set, the comparison will be made to that object. Otherwise, it will compare to the prior ID (the ID to the left) in the list of selected IDs.
 2. To select the item, click the ID. The UI refreshes with a two-way comparison table.
     ![Comparing a pair from a multi-object comparison.](/weave/guides/tools/imgs/comparsion-7objs-diffonly-subset.png)
 
