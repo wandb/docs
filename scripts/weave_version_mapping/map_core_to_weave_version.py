@@ -115,20 +115,25 @@ def github_api_request(url: str, token: Optional[str] = None) -> Dict[str, Any]:
     return response.json()
 
 
-def get_core_release_branch(version: str) -> str:
-    """Convert version string to release branch name."""
+def get_core_release_branch(version: str) -> Tuple[str, bool]:
+    """
+    Convert version string to release branch name.
+    Returns: (branch_name, is_version_format)
+    - is_version_format: True if input was a version (v0.XX.Y), False if it was a branch name
+    """
     # Handle v0.XX.Y format
     match = re.match(r'^v?0\.(\d+)\.(\d+)$', version)
     if match:
         major = match.group(1)
-        return f"server-release-0.{major}.x"
+        return (f"server-release-0.{major}.x", True)
     
     # Handle server-release-0.XX.x format
     if version.startswith("server-release-"):
-        return version
+        return (version, False)
     
-    error(f"Invalid Core version format: {version}\n"
-          f"Expected format: v0.XX.Y or server-release-0.XX.x")
+    # Handle arbitrary branch names (master, feature branches, etc.)
+    # Pass through as-is - let GitHub API validate if it exists
+    return (version, False)
 
 
 def get_submodule_commit(release_branch: str, verbose: bool = False) -> str:
@@ -144,7 +149,7 @@ def get_submodule_commit(release_branch: str, verbose: bool = False) -> str:
         commit_sha = branch_data["commit"]["sha"]
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 404:
-            error(f"Release branch {release_branch} not found")
+            error(f"Branch {release_branch} not found")
         raise
     
     # Get the tree with recursive option to include submodules
@@ -157,18 +162,20 @@ def get_submodule_commit(release_branch: str, verbose: bool = False) -> str:
         if item.get("path") == submodule_path and item.get("type") == "commit":
             submodule_commit = item.get("sha")
             if submodule_commit:
-                success(f"Found Weave submodule commit: {submodule_commit}")
+                if verbose:
+                    success(f"Found Weave submodule commit: {submodule_commit}")
                 return submodule_commit
     
     error(f"Could not find weave-public submodule in {release_branch}")
 
 
-def get_weave_version(commit: str) -> Tuple[str, str]:
+def get_weave_version(commit: str, quiet: bool = False) -> Tuple[str, str]:
     """
     Get Weave version from version.py file using GitHub API.
     Returns: (version_from_file, pypi_version)
     """
-    info(f"Fetching Weave version from commit: {commit}")
+    if not quiet:
+        info(f"Fetching Weave version from commit: {commit}")
     
     # Get the file content from GitHub API
     file_url = f"https://api.github.com/repos/{WEAVE_REPO}/contents/weave/version.py?ref={commit}"
@@ -392,19 +399,25 @@ def list_release_branches() -> None:
 def main():
     # Parse arguments
     verbose = False
+    short_output = False
     args = []
     for arg in sys.argv[1:]:
         if arg in ["--verbose", "-v"]:
             verbose = True
+        elif arg in ["--short", "-s"]:
+            short_output = True
         elif arg in ["--help", "-h"]:
-            print("Usage: python map_core_to_weave_version.py <core-version> [--verbose]")
+            print("Usage: python map_core_to_weave_version.py <core-version> [--verbose] [--short]")
             print("\nExamples:")
             print("  python map_core_to_weave_version.py v0.77.0")
             print("  python map_core_to_weave_version.py v0.77.1")
             print("  python map_core_to_weave_version.py server-release-0.77.x")
+            print("  python map_core_to_weave_version.py master")
             print("  python map_core_to_weave_version.py v0.77.0 --verbose")
+            print("  python map_core_to_weave_version.py v0.77.0 --short")
             print("\nOptions:")
             print("  --verbose, -v    Show detailed information")
+            print("  --short, -s      Output only the Weave version number (for scripting)")
             print("  --list, -l       List all available release branches")
             print("  --help, -h       Show this help message")
             print("\nNote: Requires GitHub CLI (gh) or GITHUB_TOKEN environment variable")
@@ -421,11 +434,14 @@ def main():
         list_release_branches()
         return
     
-    core_version = args[0]
-    release_branch = get_core_release_branch(core_version)
+    core_version_or_branch = args[0]
+    release_branch, is_version_format = get_core_release_branch(core_version_or_branch)
     
-    if verbose:
-        info(f"Core version {core_version} maps to release branch: {release_branch}")
+    if verbose and not short_output:
+        if is_version_format:
+            info(f"Core version {core_version_or_branch} maps to release branch: {release_branch}")
+        else:
+            info(f"Checking branch: {release_branch}")
     
     # Check authentication
     token = get_github_token()
@@ -433,15 +449,21 @@ def main():
         error("GitHub authentication required. Set GITHUB_TOKEN or run 'gh auth login'")
     
     # Get submodule commit
-    submodule_commit = get_submodule_commit(release_branch, verbose=verbose)
+    submodule_commit = get_submodule_commit(release_branch, verbose=verbose and not short_output)
     
     # Get Weave version info
-    if verbose:
+    if verbose and not short_output:
         info(f"Fetching Weave version from commit: {submodule_commit}")
-    else:
+    elif not short_output:
         info("Fetching Weave version information (this may take 10-20 seconds)...")
     
-    weave_version_file, weave_version_pypi = get_weave_version(submodule_commit)
+    weave_version_file, weave_version_pypi = get_weave_version(submodule_commit, quiet=short_output)
+    
+    # If short output, print only the version and exit
+    if short_output:
+        print(weave_version_pypi)
+        return
+    
     git_describe = get_git_describe(submodule_commit)
     commit_info = get_commit_info(submodule_commit)
     tags = get_tags_containing(submodule_commit)
@@ -450,7 +472,10 @@ def main():
     # Print results
     if verbose:
         print("\n" + "=" * 42)
-        print(f"Core Release: {core_version}")
+        if is_version_format:
+            print(f"Core Release: {core_version_or_branch}")
+        else:
+            print(f"Branch: {core_version_or_branch}")
         print(f"Release Branch: {release_branch}")
         print("=" * 42)
         print()
@@ -490,7 +515,10 @@ def main():
     # Always show summary
     print("=" * 42)
     print("Summary:")
-    print(f"  Core {core_version} includes Weave version: {weave_version_pypi}")
+    if is_version_format:
+        print(f"  Core {core_version_or_branch} includes Weave version: {weave_version_pypi}")
+    else:
+        print(f"  Branch {core_version_or_branch} includes Weave version: {weave_version_pypi}")
     if version_range != "unknown":
         print(f"  (Based on Weave commit at: {version_range})")
     print("=" * 42)

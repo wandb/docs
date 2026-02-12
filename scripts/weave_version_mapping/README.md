@@ -39,6 +39,14 @@ python scripts/map_core_to_weave_version.py v0.77.1
 # Use release branch name directly
 python scripts/map_core_to_weave_version.py server-release-0.77.x
 
+# Check in-development Server versions
+python scripts/map_core_to_weave_version.py master
+python scripts/map_core_to_weave_version.py server-release-0.78.x
+
+# Short output (only version number, for scripting)
+python scripts/map_core_to_weave_version.py v0.77.0 --short
+WEAVE_VERSION=$(python scripts/map_core_to_weave_version.py v0.77.0 --short)
+
 # List all available release branches
 python scripts/map_core_to_weave_version.py --list
 
@@ -48,7 +56,7 @@ python scripts/map_core_to_weave_version.py --verbose
 
 ## How It Works
 
-1. **Version Normalization**: Converts version strings like `v0.77.0` to release branch names like `server-release-0.77.x`
+1. **Version Normalization**: Converts version strings like `v0.77.0` to release branch names like `server-release-0.77.x`. You can also pass branch names directly (e.g., `master` or `server-release-0.78.x`) to check in-development versions.
 
 2. **Submodule Lookup**: Uses `git ls-tree` to find the commit hash that the `weave-public` submodule points to in the specified release branch
 
@@ -63,7 +71,24 @@ python scripts/map_core_to_weave_version.py --verbose
    - A certain number of commits after a release tag
    - Between two release tags
 
-## Example Output
+## Output Modes
+
+### Short Output (`--short` or `-s`)
+
+For scripting and automation, use the `--short` flag to output only the Weave version number:
+
+```bash
+$ python scripts/map_core_to_weave_version.py v0.77.0 --short
+0.52.23
+```
+
+This makes it easy to use in scripts:
+```bash
+WEAVE_VERSION=$(python scripts/map_core_to_weave_version.py v0.77.0 --short)
+echo "Using Weave version: $WEAVE_VERSION"
+```
+
+### Default Output
 
 Default output:
 ```text
@@ -129,6 +154,11 @@ Summary:
 3. **Multiple Tags**: If a commit appears in multiple release tags, it means those tags are all descendants of this commit. The "latest" tag is the most recent one.
 
 4. **Patch Versions**: Core patch releases (e.g., v0.77.1) may update the Weave submodule to a newer commit, so you should check each patch version separately.
+
+5. **In-Development Versions**: You can check the Weave version in development branches by passing the branch name directly:
+   - Early in development: `python scripts/map_core_to_weave_version.py master`
+   - After release branch is cut: `python scripts/map_core_to_weave_version.py server-release-0.78.x`
+   - The script will show the branch name in the summary instead of a version number
 
 ## Authentication
 
