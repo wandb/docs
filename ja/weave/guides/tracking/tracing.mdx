@@ -1,0 +1,1179 @@
+---
+title: トレースの基本
+description: Weave のトレース機能を使用して、 AI アプリケーション の実行を追跡・モニタリングします
+---
+
+<Frame>
+![Weave Calls Screenshot](/images/screenshots/calls_macro.png)
+</Frame>
+
+<Frame>
+![Weave Calls Screenshot](/images/screenshots/basic_call.png)
+</Frame>
+
+<Frame>
+![Weave Calls Screenshot](/images/screenshots/calls_filter.png)
+</Frame>
+
+
+Call は Weave における基本的な構成要素です。これらは関数の単一の実行を表し、以下を含みます。
+- Inputs (引数)
+- Outputs (戻り値) 
+- Metadata (実行時間、例外、LLM 使用量など)
+
+Call は [OpenTelemetry](https://opentelemetry.io) データモデルにおける span に似ています。ひとつの Call は以下のことが可能です。
+- Trace (同一の実行コンテキスト内での Call の集合) に属する
+- 親および子の Call を持ち、ツリー構造を形成する
+
+
+## Creating Calls
+
+Weave で Call を作成するには、主に3つの方法があります。
+
+### 1. LLM ライブラリの自動トラッキング
+
+<Tabs>
+  <Tab title="Python">
+    Weave は、`openai`、`anthropic`、`cohere`、`mistral` などの [一般的な LLM ライブラリへの呼び出しを自動的にトラッキング](/weave/guides/integrations) します。プログラムの開始時に [`weave.init('project_name')`](/weave/reference/python-sdk#function-init) を呼び出すだけです。
+
+    <Tip>
+    `weave.init` の `autopatch_settings` 引数を使用して、Weave のデフォルトのトラッキング動作を [制御](#configure-autopatching) できます。
+    </Tip>
+
+    ```python lines
+    import weave
+
+    from openai import OpenAI
+    client = OpenAI()
+
+    # Weave Tracing を初期化
+    weave.init('intro-example')
+
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "user",
+                "content": "How are you?"
+            }
+        ],
+        temperature=0.8,
+        max_tokens=64,
+        top_p=1,
+    )
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    Weave は `openai` などの [一般的な LLM ライブラリへの呼び出しを自動的にトラッキング](/weave/guides/integrations) します。
+
+    ```typescript lines
+    import OpenAI from 'openai'
+    import * as weave from 'weave'
+
+    const client = new OpenAI()
+
+    # Weave Tracing を初期化
+    await weave.init('intro-example')
+
+    const response = await client.chat.completions.create({
+      model: 'gpt-4',
+      messages: [
+        {
+          role: 'user',
+          content: 'How are you?',
+        },
+      ],
+      temperature: 0.8,
+      max_tokens: 64,
+      top_p: 1,
+    });
+    ```
+
+    JS / TS プロジェクトの完全なセットアップガイドについては、[TypeScript SDK: サードパーティインテグレーションガイド](/weave/guides/integrations/js) を参照してください。
+
+  </Tab>
+</Tabs>
+
+Call の `summary` 辞書にメトリクスやその他の実行後の値を保存できます。実行中に `call.summary` を変更すると、追加した値は Call 終了時に Weave が計算したサマリーデータとマージされます。
+
+### 2. 関数のデコレートとラッピング
+
+しかし、LLM アプリケーションには、トラッキングしたい追加のロジック（前処理/後処理、プロンプトなど）が含まれていることがよくあります。
+
+<Tabs>
+  <Tab title="Python">
+    Weave では [`@weave.op`](/weave/reference/python-sdk/#function-op) デコレータを使用して、これらの呼び出しを手動でトラッキングできます。例：
+
+    ```python lines lines
+    import weave
+
+    # Weave Tracing を初期化
+    weave.init('intro-example')
+
+    # 関数をデコレートする
+    @weave.op
+    def my_function(name: str):
+        return f"Hello, {name}!"
+
+    # 関数を呼び出す -- Weave が自動的に入力と出力をトラッキングします
+    print(my_function("World"))
+    ```
+
+    [クラスのメソッド](#4-track-class-and-object-methods) をトラッキングすることも可能です。
+
+    #### 同期および非同期ジェネレータ関数の Trace
+
+    Weave は、深くネストされたパターンを含む同期および非同期ジェネレータ関数の両方のトレースをサポートしています。
+
+    <Warning>
+    ジェネレータは値を遅延評価（レイジー）で生成するため、出力はジェネレータが完全に消費されたとき（例：リストに変換されたとき）にのみログに記録されます。
+    トレースに出力を確実に含めるには、ジェネレータを完全に消費（例：`list()` を使用）してください。
+    </Warning>
+
+    ```python lines lines
+    from typing import Generator
+    import weave
+
+    weave.init("my-project")
+
+    # この関数はシンプルな同期ジェネレータを使用しています。
+    # Weave はこの呼び出しと入力 (`x`) をトレースしますが、
+    # 出力値はジェネレータが消費された（例：`list()` 経由）後にのみ取得されます。
+    @weave.op
+    def basic_gen(x: int) -> Generator[int, None, None]:
+        yield from range(x)
+
+    # ジェネレータパイプライン内で使用される通常の同期関数。
+    # この呼び出しも Weave によって独立してトレースされます。
+    @weave.op
+    def inner(x: int) -> int:
+        return x + 1
+
+    # 別のトレース対象関数 (`inner`) を呼び出す同期ジェネレータ。
+    # 生成される各値は、`inner` への個別のトレースされた呼び出しから取得されます。
+    @weave.op
+    def nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            yield inner(i)
+
+    # 上記のジェネレータを構成するより複雑なジェネレータ。
+    # ここでのトレースは階層的な呼び出しツリーを生成します：
+    # - `deeply_nested_generator` (親)
+    #   - `nested_generator` (子)
+    #     - `inner` (孫)
+    @weave.op
+    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            for j in nested_generator(i):
+                yield j
+
+    # Weave が出力を取得するにはジェネレータが *消費* される必要があります。
+    # これは同期ジェネレータと非同期ジェネレータの両方に当てはまります。
+    res = deeply_nested_generator(4)
+    list(res)  # すべてのネストされた呼び出しと yield のトレースをトリガーします
+    ```
+    
+    ![Weave でのジェネレータ関数のトレース](/weave/guides/tracking/imgs/generators.png)
+
+  </Tab>
+  <Tab title="TypeScript">
+    Weave では、関数を [`weave.op`](/weave/reference/typescript-sdk/functions/op) でラップすることで、これらの呼び出しを手動でトラッキングできます。例：
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    await weave.init('intro-example')
+
+    function myFunction(name: string) {
+        return `Hello, ${name}!`
+    }
+
+    const myFunctionOp = weave.op(myFunction)
+    ```
+
+    インラインでラッピングを定義することも可能です。
+
+    ```typescript
+    const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
+    ```
+
+    これは関数だけでなく、クラスのメソッドにも有効です。
+
+    ```typescript
+    class MyClass {
+        constructor() {
+            this.myMethod = weave.op(this.myMethod)
+        }
+
+        myMethod(name: string) {
+            return `Hello, ${name}!`
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+#### 実行中の Call オブジェクトのハンドルの取得
+
+<Tabs>
+  <Tab title="Python">
+    `Call` オブジェクト自体のハンドルを取得すると便利な場合があります。これを行うには `op.call` メソッドを呼び出します。このメソッドは結果と `Call` オブジェクトの両方を返します。例：
+
+    ```python lines lines
+    result, call = my_function.call("World")
+    ```
+
+    その後、`call` を使用して追加のプロパティを設定、更新、または取得できます（最も一般的なのは、フィードバックに使用する Call の ID の取得です）。
+
+    <Note>
+    op がクラスのメソッドである場合、最初の引数としてインスタンスを op に渡す必要があります（以下の例を参照）。
+    </Note>
+    ```python lines lines
+    # インスタンスを最初の引数として渡していることに注意してください。
+    print(instance.my_method.call(instance, "World"))
+    ```
+
+    ```python lines lines
+    import weave
+
+    # Weave Tracing を初期化
+    weave.init("intro-example")
+
+    class MyClass:
+        # メソッドをデコレートする
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # メソッドを呼び出す -- Weave が自動的に入力と出力をトラッキングします
+    instance.my_method.call(instance, "World")
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+#### 実行時の Call 表示名の設定
+
+<Tabs>
+  <Tab title="Python">
+    Call の表示名を上書きしたい場合があります。これは以下の4つの方法のいずれかで実現できます。
+
+    1. op 呼び出し時に表示名を変更する：
+
+    ```python lines lines
+    result = my_function("World", __weave={"display_name": "My Custom Display Name"})
+    ```
+
+    <Note>
+    `__weave` 辞書を使用すると、Op の表示名よりも優先される Call 表示名が設定されます。
+    </Note>
+
+    2. Call ごとに表示名を変更する。これには [`Op.call`](/weave/reference/python-sdk/trace/op#function-call) メソッドを使用して `Call` オブジェクトを取得し、[`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set_display_name) を使用して表示名を設定します。
+    ```python lines lines
+    result, call = my_function.call("World")
+    call.set_display_name("My Custom Display Name")
+    ```
+
+    3. 特定の Op のすべての Call に対して表示名を変更する：
+
+    ```python lines lines
+    @weave.op(call_display_name="My Custom Display Name")
+    def my_function(name: str):
+        return f"Hello, {name}!"
+    ```
+
+    4. `call_display_name` には、`Call` オブジェクトを受け取り文字列を返す関数を指定することもできます。関数が呼び出されると `Call` オブジェクトが自動的に渡されるため、関数名、Call の入力、フィールドなどに基づいて動的に名前を生成できます。
+
+    1. 一般的なユースケースの一つは、関数名にタイムスタンプを追加することです。
+
+        ```py
+        from datetime import datetime
+
+        @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
+        def func():
+            return ...
+        ```
+
+    2. `.attributes` を使用してカスタムメタデータをログに記録することもできます。
+
+        ```py
+        def custom_attribute_name(call):
+            model = call.attributes["model"]
+            revision = call.attributes["revision"]
+            now = call.attributes["date"]
+
+            return f"{model}__{revision}__{now}"
+
+        @weave.op(call_display_name=custom_attribute_name)
+        def func():
+            return ...
+
+        with weave.attributes(
+            {
+                "model": "finetuned-llama-3.1-8b",
+                "revision": "v0.1.2",
+                "date": "2024-08-01",
+            }
+        ):
+            func()  # 表示名は "finetuned-llama-3.1-8b__v0.1.2__2024-08-01" になります
+
+            with weave.attributes(
+                {
+                    "model": "finetuned-gpt-4o",
+                    "revision": "v0.1.3",
+                    "date": "2024-08-02",
+                }
+            ):
+                func()  # 表示名は "finetuned-gpt-4o__v0.1.3__2024-08-02" になります
+        ```
+
+    **テクニカルノート：** "Call" は "Op" によって生成されます。Op とは `@weave.op` でデコレートされた関数またはメソッドのことです。
+    デフォルトでは、Op の名前は関数名であり、関連付けられた Call も同じ表示名を持ちます。上の例は、特定の Op のすべての Call に対して表示名を上書きする方法を示しています。Op 自体の名前を上書きしたい場合もあります。これは以下の2つの方法のいずれかで実現できます。
+
+    1. Call がログに記録される前に Op の `name` プロパティを設定する
+    ```python lines lines
+    my_function.name = "My Custom Op Name"
+    ```
+
+    2. op デコレータの `name` オプションを設定する
+    ```python lines lines
+    @weave.op(name="My Custom Op Name)
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+  Call のデフォルト名を上書きするには、`weave.op()` を呼び出す際に `callDisplayName` オプションを使用します。
+
+    ```typescript lines {2}
+    const extractDinosOp = weave.op(extractDinos, {
+    callDisplayName: (input: string) => `Your New Display Name`
+    });
+    ```
+
+    実行後に [Call の表示名を更新](/weave/guides/tracking/tracing#set-display-name) することも可能です。
+  </Tab>
+</Tabs>
+
+#### 並列（マルチスレッド）関数呼び出しのトレース
+
+<Tabs>
+  <Tab title="Python">
+    デフォルトでは、並列呼び出しはすべて個別のルート Call として Weave に表示されます。同じ親 `op` の下で正しくネストさせるには、[`ThreadPoolExecutor`](/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor) を使用します。
+
+    以下のコードサンプルは `ThreadPoolExecutor` の使用例を示しています。
+    最初の関数 `func` は `x` を受け取り `x+1` を返すシンプルな `op` です。2番目の関数 `outer` は入力リストを受け取る別の `op` です。
+    `outer` の内部で `ThreadPoolExecutor` と `exc.map(func, inputs)` を使用することで、`func` への各呼び出しが同じ親トレースコンテキストを保持します。
+
+    ```python lines
+    import weave
+
+    @weave.op
+    def func(x):
+        return x+1
+
+    @weave.op
+    def outer(inputs):
+        with weave.ThreadPoolExecutor() as exc:
+            exc.map(func, inputs)
+
+    # Weave プロジェクト名を更新
+    client = weave.init('my-weave-project')
+    outer([1,2,3,4,5])
+    ```
+
+    Weave UI では、インクリメント処理が並列に実行されていても、1つの親 Call と5つのネストされた子 Call として表示され、完全な階層的トレースが得られます。
+
+    ![outer の1つの親 Call と5つのネストされた子 Call を示す Trace UI](/weave/guides/tracking/imgs/threadpoolexecutor.png)
+  </Tab>
+  <Tab title="TypeScript">
+  ```plaintext
+  この機能は TypeScript SDK ではまだ利用できません。
+  ```
+  </Tab>
+</Tabs>
+
+### 3. 手動での Call トラッキング
+
+API を直接使用して手動で Call を作成することもできます。
+
+<Tabs>
+    <Tab title="Python">
+
+        ```python lines lines
+        import weave
+
+        # Weave Tracing を初期化
+        client = weave.init('intro-example')
+
+        def my_function(name: str):
+            # Call を開始
+            call = client.create_call(op="my_function", inputs={"name": name})
+
+            # ... 関数コード ...
+
+            # Call を終了
+            client.finish_call(call, output="Hello, World!")
+
+        # 関数を呼び出す
+        print(my_function("World"))
+        ```
+
+    </Tab>
+    <Tab title="TypeScript">
+
+    ```plaintext
+    この機能は TypeScript SDK ではまだ利用できません。
+    ```
+
+    </Tab>
+
+    <Tab title="HTTP API">
+    * Call の開始: [POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)
+    * Call の終了: [POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)
+    ```bash
+    curl -L 'https://trace.wandb.ai/call/start' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "start": {
+            "project_id": "string",
+            "id": "string",
+            "op_name": "string",
+            "display_name": "string",
+            "trace_id": "string",
+            "parent_id": "string",
+            "started_at": "2024-09-08T20:07:34.849Z",
+            "attributes": {},
+            "inputs": {},
+            "wb_run_id": "string"
+        }
+    }
+    ```
+    </Tab>
+</Tabs>
+
+### 4. クラスおよびオブジェクトメソッドのトラッキング
+
+クラスおよびオブジェクトメソッドをトラッキングすることもできます。
+
+<Tabs>
+    <Tab title="Python">
+    `weave.op` を使用して、クラスの任意のメソッドをトラッキングします。
+
+    ```python lines lines
+    import weave
+
+    # Weave Tracing を初期化
+    weave.init("intro-example")
+
+    class MyClass:
+        # メソッドをデコレートする
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # メソッドを呼び出す -- Weave が自動的に入力と出力をトラッキングします
+    print(instance.my_method("World"))
+    ```
+
+    </Tab>
+    <Tab title="TypeScript">
+
+    <Important>
+    **TypeScript でのデコレータの使用**
+
+    TypeScript コードで `@weave.op` デコレータを使用するには、環境が正しく設定されていることを確認してください。
+
+    - **TypeScript v5.0 以降**: デコレータは標準でサポートされており、追加の設定は不要です。
+    - **TypeScript v5.0 未満**: デコレータの実験的サポートを有効にする必要があります。詳細は [TypeScript 公式ドキュメントのデコレータに関するセクション](https://www.typescriptlang.org/docs/handbook/decorators.html) を参照してください。
+    </Important>
+    #### クラスメソッドのデコレート
+
+    インスタンスメソッドをトレースするには `@weave.op` を使用します。
+
+    ```typescript
+    class Foo {
+        @weave.op
+        async predict(prompt: string) {
+            return "bar"
+        }
+    }
+    ```
+
+    #### 静的クラスメソッドのデコレート
+
+    クラス内のユーティリティ関数を監視するには、静的メソッドに `@weave.op` を適用します。
+
+    ```typescript
+    class MathOps {
+        @weave.op
+        static square(n: number): number {
+            return n * n;
+        }
+    }
+    ```
+
+    </Tab>
+</Tabs>
+
+## Viewing Calls
+
+<Tabs>
+<Tab title="Web App">
+ウェブアプリで Call を表示するには：
+1. プロジェクトの **Traces** タブに移動します。
+2. リストから表示したい Call を探します。
+3. Call をクリックして詳細ページを開きます。
+
+詳細ページには、Call の入力、出力、実行時間、および追加のメタデータが表示されます。
+
+![ウェブアプリでの Call 表示](/images/screenshots/basic_call.png)
+</Tab>
+<Tab title="Python">
+Weave Python SDK を使用して Call を表示するには、[`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) メソッドを使用できます。
+
+```python lines
+import weave
+
+# クライアントを初期化
+client = weave.init("your-project-name")
+
+# ID で特定の Call を取得
+call = client.get_call("call-uuid-here")
+
+print(call)
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave'
+
+// クライアントを初期化
+const client = await weave.init('intro-example')
+
+// ID で特定の Call を取得
+const call = await client.getCall('call-uuid-here')
+
+console.log(call)
+```
+</Tab>
+
+<Tab title="HTTP API">
+Service API を使用して Call を表示するには、[`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) エンドポイントにリクエストを送信します。
+
+```bash
+curl -L 'https://trace.wandb.ai/call/read' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "id": "string",
+}'
+```
+</Tab>
+</Tabs>
+
+### `weave.Markdown` によるレンダリングされたトレースのカスタマイズ
+
+`weave.Markdown` を使用すると、元のデータを失うことなく、トレース情報の表示方法をカスタマイズできます。これにより、基盤となるデータ構造を維持したまま、入力と出力を読みやすいフォーマットされたコンテンツブロックとしてレンダリングできます。
+
+<Tabs>
+<Tab title="Python">
+トレースデータをフォーマットするには、`@weave.op` デコレータ内で `postprocess_inputs` および `postprocess_output` 関数を使用します。以下のコードサンプルは、ポストプロセッサを使用して Weave で絵文字や読みやすいフォーマットで Call をレンダリングします。
+    
+```python lines
+import weave
+
+def postprocess_inputs(query) -> weave.Markdown:
+    search_box = f"""
+**Search Query:**
+``+`
+{query}
+``+`
+"""
+    return {"search_box": weave.Markdown(search_box),
+            "query": query}
+
+def postprocess_output(docs) -> weave.Markdown:
+    formatted_docs = f"""
+# {docs[0]["title"]}
+
+{docs[0]["content"]}
+
+[Read more]({docs[0]["url"]})
+
+---
+
+# {docs[1]["title"]}
+
+{docs[1]["content"]}
+
+[Read more]({docs[1]["url"]})
+"""
+    return weave.Markdown(formatted_docs)
+
+@weave.op(
+    postprocess_inputs=postprocess_inputs,
+    postprocess_output=postprocess_output,
+)
+def rag_step(query):
+    # S&P 500 企業の新聞記事の例
+    docs = [
+        {
+            "title": "OpenAI",
+            "content": "OpenAI is a company that makes AI models.",
+            "url": "https://www.openai.com",
+        },
+        {
+            "title": "Google",
+            "content": "Google is a company that makes search engines.",
+            "url": "https://www.google.com",
+        },
+    ]
+    return docs
+
+if __name__ == "__main__":
+    weave.init('markdown_renderers')
+    rag_step("Tell me about OpenAI")
+```
+</Tab>
+<Tab title="Typescript">
+```plaintext
+この機能は TypeScript SDK ではまだ利用できません。
+```
+</Tab>
+</Tabs>
+以下のスクリーンショットでは、フォーマットされていない出力とフォーマットされた出力のそれぞれの違いを確認できます。
+
+![コードサンプルを使用して Weave UI でレンダリングされた Call](/weave/guides/tracking/imgs/md-call-render.png)
+
+## Updating Calls
+
+Call は作成後にほぼ不変（イミュータブル）ですが、以下の変更はサポートされています。
+* [表示名の設定](#set-display-name)
+* [フィードバックの追加](#add-feedback)
+* [Call の削除](#delete-a-call)
+
+これらの変更はすべて、UI の Call 詳細ページから実行できます。
+
+<Frame>
+![ウェブアプリでの Call 更新](/images/call_edit_screenshot.png)
+</Frame>
+
+### 表示名の設定
+
+<Tabs>
+<Tab title="Python">
+Call の表示名を設定するには、[`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) メソッドを使用できます。
+
+```python lines lines
+import weave
+
+# クライアントを初期化
+client = weave.init("your-project-name")
+
+# ID で特定の Call を取得
+call = client.get_call("call-uuid-here")
+
+# Call の表示名を設定
+call.set_display_name("My Custom Display Name")
+```
+</Tab>
+<Tab title="TypeScript">
+Call の表示名を設定するには、[`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) を使用して Call ID で直接更新します。
+
+```typescript lines
+import * as weave from 'weave'
+
+// クライアントを初期化
+const client = await weave.init('your-project-name')
+
+// ID で Call の表示名を更新
+await client.updateCall('call-uuid-here', 'My Custom Display Name')
+```
+
+</Tab>
+<Tab title="HTTP API">
+Service API を使用して Call の表示名を設定するには、[`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) エンドポイントにリクエストを送信します。
+
+```bash
+curl -L 'https://trace.wandb.ai/call/update' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "call_id": "string",
+    "display_name": "string",
+}'
+```
+    </Tab>
+</Tabs>
+
+[実行時に Call の表示名を設定](#set-call-display-name-at-execution) することも可能です。
+
+### フィードバックの追加 
+
+詳細は [フィードバックドキュメント](/weave/guides/tracking/feedback) を参照してください。
+
+### Call の削除
+
+<Tabs>
+<Tab title="Python">
+Python API を使用して Call を削除するには、[`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) メソッドを使用できます。
+
+```python lines lines
+import weave
+
+# クライアントを初期化
+client = weave.init("your-project-name")
+
+# ID で特定の Call を取得
+call = client.get_call("call-uuid-here")
+
+# Call を削除
+call.delete()
+```
+
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+この機能は TypeScript SDK ではまだ利用できません。
+```
+</Tab>
+<Tab title="HTTP API">
+Service API を使用して Call を削除するには、[`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) エンドポイントにリクエストを送信します。
+
+```bash
+curl -L 'https://trace.wandb.ai/calls/delete' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "call_ids": [
+        "string"
+    ],
+}'
+```
+</Tab>
+</Tabs>
+
+### 複数の Call の削除
+
+<Tabs>
+    <Tab title="Python">
+    Python API を使用して Call を一括削除するには、Call ID のリストを `delete_calls()` に渡します。
+
+    <Important>
+    - 一度に削除できる Call の最大数は `1000` です。
+    - Call を削除すると、そのすべての子 Call も削除されます。
+    </Important>
+
+    ```python lines lines
+    import weave
+
+    # クライアントを初期化
+    client = weave.init("my-project")
+
+    # クライアントからすべての Call を取得
+    all_calls = client.get_calls()
+
+    # 最初の 1000 個の Call オブジェクトのリストを取得
+    first_1000_calls = all_calls[:1000]
+
+    # 最初の 1000 個の Call ID のリストを取得
+    first_1000_calls_ids = [c.id for c in first_1000_calls]
+
+    # ID を指定して最初の 1000 個の Call オブジェクトを削除
+    client.delete_calls(call_ids=first_1000_calls_ids)
+    ```
+
+    </Tab>
+    <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript SDK ではまだ利用できません。
+    ```
+    </Tab>
+</Tabs>
+
+## Querying and exporting Calls
+
+<Frame>
+![多くの Call のスクリーンショット](/images/screenshots/calls_filter.png)
+</Frame>
+
+プロジェクトの `/calls` ページ ("Traces" タブ) には、プロジェクト内のすべての Call のテーブルビューが表示されます。そこでは以下のことが可能です。
+* ソート
+* フィルタリング
+* エクスポート
+
+<Frame>
+![Calls テーブルビュー](/images/export_modal.png)
+</Frame>
+
+エクスポートモーダル（上記）では、データをさまざまな形式でエクスポートできるほか、選択した Call に対応する Python および CURL のコードスニペットも表示されます。
+UI でビューを作成してから、生成されたコードスニペットを通じてエクスポート API について学ぶのが最も簡単な方法です。
+
+<Tabs>
+    <Tab title="Python">
+    Python API を使用して Call を取得するには、[`client.get_calls`](/weave/reference/python-sdk/trace/weave_client#method-get_calls) メソッドを使用できます。
+
+    ```python lines
+    import weave
+
+    # クライアントを初期化
+    client = weave.init("your-project-name")
+
+    # Call を取得
+    calls = client.get_calls(filter=...)
+    ```
+
+    </Tab>
+    <Tab title="TypeScript">
+    TypeScript API を使用して Call を取得するには、[`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用できます。
+    ```typescript
+    import * as weave from 'weave'
+
+    // クライアントを初期化
+    const client = await weave.init('intro-example')
+
+    // Call を取得
+    const calls = await client.getCalls(filter=...)
+    ```
+    </Tab>
+    <Tab title="HTTP API">
+    最も強力なクエリレイヤーは Service API です。Service API を使用して Call を取得するには、[`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/calls/stream_query' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+    "project_id": "string",
+    "filter": {
+        "op_names": [
+            "string"
+        ],
+        "input_refs": [
+            "string"
+        ],
+        "output_refs": [
+            "string"
+        ],
+        "parent_ids": [
+            "string"
+        ],
+        "trace_ids": [
+            "string"
+        ],
+        "call_ids": [
+            "string"
+        ],
+        "trace_roots_only": true,
+        "wb_user_ids": [
+            "string"
+        ],
+        "wb_run_ids": [
+            "string"
+        ]
+    },
+    "limit": 100,
+    "offset": 0,
+    "sort_by": [
+        {
+        "field": "string",
+        "direction": "asc"
+        }
+    ],
+    "query": {
+        "$expr": {}
+    },
+    "include_costs": true,
+    "include_feedback": true,
+    "columns": [
+        "string"
+    ],
+    "expand_columns": [
+        "string"
+    ]
+    }'
+    ```
+    </Tab>
+</Tabs>
+
+### Call スキーマ
+
+フィールドの完全なリストについては [スキーマ](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) を参照してください。
+
+| プロパティ | 型 | 説明 |
+|----------|------|-------------|
+| `id` | string (uuid) | Call の一意の識別子 |
+| `project_id` | string (オプション) | 関連付けられた Project の識別子 |
+| `op_name` | string | 操作の名前 (参照である場合もあります) |
+| `display_name` | string (オプション) | Call のわかりやすい表示名 |
+| `trace_id` | string (uuid) | この Call が属する Trace の識別子 |
+| `parent_id` | string (uuid) | 親 Call の識別子 |
+| `started_at` | datetime | Call が開始されたタイムスタンプ |
+| `attributes` | Dict[str, Any] | ユーザー定義の Call に関するメタデータ *(実行中は読み取り専用)* |
+| `inputs` | Dict[str, Any] | Call の入力引数 |
+| `ended_at` | datetime (オプション) | Call が終了したタイムスタンプ |
+| `exception` | string (オプション) | Call が失敗した場合のエラーメッセージ |
+| `output` | Any (オプション) | Call の結果 |
+| `summary` | Optional[SummaryMap] | 実行後のサマリー情報。実行中にこれを変更してカスタムメトリクスを記録できます。 |
+| `wb_user_id` | Optional[str] | 関連付けられた Weights & Biases の User ID |
+| `wb_run_id` | Optional[str] | 関連付けられた Weights & Biases の Run ID |
+| `deleted_at` | datetime (オプション) | Call が削除されたタイムスタンプ（該当する場合） |
+
+上の表は、Weave における Call の主要なプロパティをまとめたものです。各プロパティは、関数呼び出しのトラッキングと管理において重要な役割を果たします。
+
+- `id`、`trace_id`、および `parent_id` フィールドは、システム内での Call の整理と関連付けに役立ちます。
+- タイミング情報 (`started_at`, `ended_at`) により、パフォーマンス分析が可能になります。
+- `attributes` と `inputs` フィールドは Call のコンテキストを提供します。属性は Call 開始時に固定されるため、呼び出し前に `weave.attributes` で設定してください。`output` と `summary` は結果を取得し、実行中に `summary` を更新して追加のメトリクスを記録できます。
+- Weights & Biases とのインテグレーションは `wb_user_id` および `wb_run_id` を通じて行われます。
+
+これらの包括的なプロパティセットにより、プロジェクト全体の関数呼び出しの詳細なトラッキングと分析が可能になります。
+
+計算フィールド:
+    * Cost (コスト)
+    * Duration (期間)
+    * Status (ステータス)
+
+## Saved views 
+
+Trace テーブルの設定、フィルタ、ソートを _saved views_ として保存し、好みのセットアップに素早くアクセスできます。UI および Python SDK を通じて saved views を構成・アクセスできます。詳細については、[Saved Views](/weave/guides/tools/saved-views) を参照してください。
+
+## Traces テーブルでの W&B run の表示
+
+Weave を使用すると、コード内の関数呼び出しをトレースし、それらが実行された [W&B Runs](https://docs.wandb.ai/models/runs/) に直接リンクできます。
+@weave.op() で関数をトレースし、wandb.init() コンテキスト内で呼び出すと、Weave は自動的にそのトレースを W&B Run と関連付けます。
+関連付けられた Run へのリンクは Traces テーブルに表示されます。
+
+<Tabs>
+<Tab title="Python">
+以下の Python コードは、`wandb.init()` コンテキスト内で実行されたときに、トレースされた操作が W&B Runs にどのようにリンクされるかを示しています。これらのトレースは Weave UI に表示され、対応する Run と関連付けられます。
+
+```python lines 
+import wandb
+import weave
+
+def example_wandb(projname):
+    # projname を entity と project に分割
+    entity, project = projname.split("/", 1)
+
+    # トレース用の Weave コンテキストを初期化
+    weave.init(projname)
+
+    # トレース可能な操作を定義
+    @weave.op()
+    def say(message: str) -> str:
+        return f"I said: {message}"
+
+    # 1つ目の W&B run
+    with wandb.init(
+        entity=entity,
+        project=project,
+        notes="Experiment 1",
+        tags=["baseline", "paper1"],
+    ) as run:
+        say("Hello, world!")
+        say("How are you!")
+        run.log({"messages": 2})
+
+    # 2つ目の W&B run
+    with wandb.init(
+        entity=entity,
+        project=project,
+        notes="Experiment 2",
+        tags=["baseline", "paper1"],
+    ) as run:
+        say("Hello, world from experiment 2!")
+        say("How are you!")
+        run.log({"messages": 2})
+
+if __name__ == "__main__":
+    # 実際の W&B ユーザー名/プロジェクトに置き換えてください
+    example_wandb("your-username/your-project")
+```
+
+コードサンプルの使用方法：
+
+1. ターミナルで依存関係をインストールします。
+
+```bash
+pip install wandb weave
+```
+
+2. W&B にログインします。
+
+```bash
+wandb login
+```
+
+3. スクリプト内で `your-username/your-project` を実際の W&B エンティティ/プロジェクトに置き換えます。
+4. スクリプトを実行します。
+
+```bash
+python weave_trace_with_wandb.py
+```
+5. [https://weave.wandb.ai](https://weave.wandb.ai) にアクセスし、プロジェクトを選択します。
+6. **Traces** タブでトレース出力を確認します。関連付けられた Run へのリンクが Traces テーブルに表示されます。
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+この機能は TypeScript SDK ではまだ利用できません。
+```
+</Tab>
+</Tabs>
+
+## オートパッチの設定
+
+デフォルトでは、Weave は `openai`、`anthropic`、`cohere`、`mistral` などの一般的な LLM ライブラリへの呼び出しを自動的にパッチし、トラッキングします。
+
+<Tabs>
+<Tab title="Python">
+<Warning>
+`autopatch_settings` 引数は非推奨です。暗黙的なパッチを無効にするには `implicitly_patch_integrations=False` を使用するか、インテグレーションごとに設定を行うには `patch_openai(settings={...})` のような特定のパッチ関数を呼び出してください。
+</Warning>
+
+### すべてのオートパッチを無効にする
+
+```python lines
+weave.init(..., implicitly_patch_integrations=False)
+```
+
+### 特定のインテグレーションを有効にする
+
+```python lines
+import weave
+
+weave.init(..., implicitly_patch_integrations=False)
+
+# その後、必要なインテグレーションのみを手動でパッチします
+weave.integrations.patch_anthropic()
+weave.integrations.patch_cohere()
+```
+
+### 入力と出力のポストプロセス
+
+パッチ関数に設定を渡すことで、入力と出力の処理方法（PII データなど）をカスタマイズできます。
+
+```python lines
+import weave.integrations
+
+def redact_inputs(inputs: dict) -> dict:
+    if "email" in inputs:
+        inputs["email"] = "[REDACTED]"
+    return inputs
+
+weave.init(...)
+weave.integrations.patch_openai(
+    settings={
+        "op_settings": {"postprocess_inputs": redact_inputs}
+    }
+)
+```
+</Tab>
+<Tab title="TypeScript">
+
+TypeScript SDK は OpenAI と Anthropic のオートパッチのみをサポートしています。OpenAI は Weave をインポートしたときに自動的にパッチが適用され、追加の設定は不要です。
+
+また、TypeScript SDK は以下の機能をサポートしていません。
+- オートパッチの設定または無効化
+- 入出力のポストプロセス
+
+自動パッチが機能しないエッジケース（ESM、Next.js などのバンドラー）では、明示的なラッピングを使用してください。
+
+```typescript
+import OpenAI from 'openai'
+import * as weave from 'weave'
+import { wrapOpenAI } from 'weave'
+
+const client = wrapOpenAI(new OpenAI())
+await weave.init('your-team/my-project')
+```
+
+ESM のセットアップとトラブルシューティングの詳細については、[TypeScript SDK インテグレーションガイド](/weave/guides/integrations/js) を参照してください。
+</Tab>
+</Tabs>
+詳細については、[PII データでの Weave の使用方法](/weave/cookbooks/pii) を参照してください。
+
+## FAQs
+
+### 大きなトレースが切り捨てられないようにするにはどうすればよいですか？
+
+詳細については、[トラブルシューティングガイド](/weave/guides/troubleshooting) の [トレースデータが切り捨てられる](/weave/guides/troubleshooting#trace-data-is-truncated) を参照してください。
+
+### トレースを無効にするにはどうすればよいですか？
+
+#### 環境変数
+
+プログラム全体で無条件にトレースを無効にしたい場合は、環境変数 `WEAVE_DISABLED=true` を設定できます。
+
+#### クライアントの初期化
+
+特定の条件に基づいて初期化時にトレースを無効にしたい場合があります。その場合は、init 設定で `disabled` フラグを指定してクライアントを初期化できます。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+# クライアントを初期化
+client = weave.init(..., settings={"disabled": True})
+```
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+この機能は TypeScript SDK ではまだ利用できません。
+```
+</Tab>
+</Tabs>
+
+#### コンテキストマネージャ
+
+最後に、アプリケーションロジックに基づいて特定の関数のみトレースを無効にしたい場合があります。その場合は、`weave.trace.context.call_context` からインポートできるコンテキストマネージャ `with set_tracing_enabled(False)` を使用できます。
+
+```python lines
+import weave
+from weave.trace.context.call_context import set_tracing_enabled
+
+client = weave.init(...)
+
+@weave.op
+def my_op():
+    ...
+
+with set_tracing_enabled(False):
+    my_op()
+```
+
+### Call に関する情報を取得するにはどうすればよいですか？
+
+通常は op を直接呼び出します。
+
+```python lines
+@weave.op
+def my_op():
+    ...
+
+my_op()
+```
+
+しかし、op の `call` メソッドを呼び出すことで、Call オブジェクトに直接アクセスすることもできます。
+
+```python lines
+@weave.op
+def my_op():
+    ...
+
+output, call = my_op.call()
+```
+
+ここから、`call` オブジェクトには入力、出力、その他のメタデータを含む、Call に関するすべての情報が含まれています。

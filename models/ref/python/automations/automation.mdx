@@ -17,7 +17,7 @@ A local instance of a saved W&B automation that supports editing.
 
 ```python
 __init__(
-    typename__: 'Literal' = 'Trigger',
+    typename__: 'Literal['Trigger']' = 'Trigger',
     id: 'str',
     created_at: 'datetime',
     updated_at: 'datetime | None' = None,
@@ -32,7 +32,7 @@ __init__(
 
 **Args:**
  
- - `typename__` (Literal): 
+ - `typename__` (Literal['Trigger']): 
  - `id` (str): 
  - `created_at` (datetime): The date and time when this automation was created.
  - `updated_at` (Optional[datetime]): The date and time when this automation was last updated, if applicable.

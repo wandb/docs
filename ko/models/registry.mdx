@@ -1,0 +1,113 @@
+---
+title: Registry 개요
+description: 조직 전체에서 Artifact 버전들을 관리하고 공유하기 위한 W&B Registry
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb" />
+
+W&B Registry는 조직 내의 [W&B Artifact versions](/models/artifacts/create-a-new-artifact-version) 를 선별하여 관리하는 중앙 저장소입니다. 조직 내에서 [권한이 있는](/models/registry/configure_registry/) Users 는 해당 사용자가 속한 팀에 관계없이 [아티팩트를 다운로드하고 사용](/models/registry/download_use_artifact/) 하며, 공유하고, 모든 아티팩트의 라이프사이클을 공동으로 관리할 수 있습니다.
+
+Registry를 사용하여 아티팩트 버전을 추적하고, 아티팩트의 사용 및 변경 이력을 감사하며, 아티팩트의 거버넌스와 규정 준수를 보장하고, [모델 CI/CD와 같은 다운스트림 프로세스를 자동화](/models/automations/) 하세요.
+
+요약하자면, W&B Registry를 다음과 같이 활용할 수 있습니다:
+
+- 기계학습 태스크를 충족하는 아티팩트 버전을 조직의 다른 사용자들에게 [Promote](/models/registry/link_version/) 합니다.
+- 특정 아티팩트를 쉽게 찾거나 참조할 수 있도록 [태그로 아티팩트를 정리](/models/registry/organize-with-tags/) 합니다.
+- 아티팩트의 [계보(lineage)](/models/registry/lineage/) 를 추적하고 변경 이력을 감사하며 관리합니다.
+- 모델 CI/CD와 같은 다운스트림 프로세스를 [자동화](/models/automations/) 합니다.
+- 각 Registry의 아티팩트에 엑세스할 수 있는 [조직 내 사용자 권한을 관리](/models/registry/configure_registry/) 합니다.
+
+{/* - 에일리어스(aliases)라고 불리는 고유 식별자를 사용하여 중요한 아티팩트를 빠르게 찾거나 참조합니다. */}
+
+다음 이미지는 W&B Registry 랜딩 페이지를 보여줍니다. `Model` 이라는 이름의 Registry가 별표 표시되어 있습니다. `DemoModels` 와 `Zoo_Classifier_Models` 라는 두 개의 컬렉션이 표시됩니다.
+
+<Frame>
+    <img src="/images/registry/registry_landing_page.png" alt="W&B Registry"  />
+</Frame>
+
+## 기본 사항 익히기
+각 조직에는 처음에 모델과 데이터셋 아티팩트를 정리하는 데 사용할 수 있는 **Models** 와 **Datasets** 라는 두 개의 Registry가 기본적으로 포함되어 있습니다. [조직의 필요에 따라 다른 아티팩트 유형을 정리하기 위한 추가 Registry를 생성](/models/registry/create_registry) 할 수 있습니다. 
+
+각 [*registry*](/models/registry/configure_registry/) 는 하나 이상의 [*collections*](/models/registry/create_collection/) 로 구성됩니다. 각 컬렉션은 고유한 태스크나 유스 케이스를 나타냅니다.
+
+{/* <Frame>
+    <img src="/images/registry/homepage_registry.png" alt="W&B Registry"  />
+</Frame> */}
+
+Registry에 아티팩트를 추가하려면, 먼저 [특정 아티팩트 버전을 W&B에 로그](/models/artifacts/create-a-new-artifact-version/) 해야 합니다. 아티팩트를 로그할 때마다 W&B는 해당 아티팩트에 자동으로 버전을 할당합니다. 아티팩트 버전은 0부터 시작하므로 첫 번째 버전은 `v0`, 두 번째 버전은 `v1` 과 같은 식입니다. 
+
+W&B에 아티팩트를 로그한 후에는 해당 특정 아티팩트 버전을 Registry의 컬렉션에 링크할 수 있습니다. 
+
+<Note>
+"링크(link)"라는 용어는 W&B가 아티팩트를 저장하는 위치와 Registry에서 아티팩트에 엑세스할 수 있는 위치를 연결하는 포인터를 의미합니다. 아티팩트를 컬렉션에 링크할 때 W&B는 아티팩트를 복제하지 않습니다.
+</Note>
+
+예를 들어, 다음 코드 예제는 `"my_model.txt"` 라는 모델 아티팩트를 로그하고 `"model"` 이라는 Registry 내의 `"first-collection"` 이라는 컬렉션에 링크합니다.
+
+1. `wandb.init()` 으로 W&B Run 을 초기화합니다.
+2. `wandb.Run.log()` 로 아티팩트를 W&B에 로그합니다.
+3. 아티팩트 버전을 링크할 컬렉션과 Registry의 이름을 지정합니다.
+4. `wandb.Run.link_artifact()` 를 사용하여 아티팩트를 컬렉션에 링크합니다.
+
+이 Python 코드를 스크립트로 저장하고 실행하세요. W&B Python SDK 버전 0.18.6 이상이 필요합니다.
+
+```python title="hello_collection.py"
+import wandb
+import random
+
+# 아티팩트 추적을 위한 W&B Run 초기화
+with wandb.init(project="registry_quickstart") as run:
+    # 로그할 수 있도록 시뮬레이션된 모델 파일 생성
+    with open("my_model.txt", "w") as f:
+        f.write("Model: " + str(random.random()))
+
+    # W&B에 아티팩트 로그
+    logged_artifact = run.log_artifact(
+        artifact_or_path="./my_model.txt", 
+        name="gemma-finetuned", 
+        type="model" # 아티팩트 유형 지정
+    )
+
+    # 게시할 컬렉션 및 Registry 이름 지정
+    COLLECTION_NAME = "first-collection"
+    REGISTRY_NAME = "model"
+
+    # Registry에 아티팩트 링크
+    run.link_artifact(
+        artifact=logged_artifact, 
+        target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+    )
+```
+
+반환된 run 오브젝트의 `wandb.Run.link_artifact(target_path = "")` 메소드에 지정한 컬렉션이 지정된 Registry 내에 존재하지 않는 경우, W&B가 자동으로 컬렉션을 생성합니다.
+
+이전 예제에 이어, 스크립트를 실행한 후 W&B Registry로 이동하여 귀하와 조직의 다른 멤버들이 게시한 아티팩트 버전을 확인하세요. **Applications** 아래 왼쪽 사이드바에서 **Registry** 를 선택합니다. `"Model"` Registry를 선택하세요. Registry 내부에서 링크된 아티팩트 버전이 포함된 `"first-collection"` 컬렉션을 확인할 수 있습니다.
+
+아티팩트 버전을 Registry 내의 컬렉션에 링크하면, 적절한 권한이 있는 경우 조직의 멤버들이 아티팩트 버전을 [조회](/models/registry/lineage), [다운로드](/models/registry/search_registry), [정리](/models/registry/organize-with-tags) 및 관리하고, 다운스트림 자동화를 생성하는 등의 작업을 수행할 수 있습니다.
+
+<Note>
+아티팩트 버전이 메트릭을 로그하는 경우(예: `wandb.Run.log_artifact()` 사용), 해당 버전의 상세 페이지에서 메트릭을 볼 수 있으며, 컬렉션 페이지에서 아티팩트 버전 간의 메트릭을 비교할 수 있습니다. [Registry에서 링크된 아티팩트 보기](/models/registry/link_version/#view-linked-artifacts-in-a-registry) 를 참조하세요.
+</Note>
+
+## W&B Registry 활성화하기
+
+배포 유형에 따라 W&B Registry를 활성화하기 위해 다음 조건을 충족해야 합니다:
+
+| 배포 유형 | 활성화 방법 |
+| ----- | ----- |
+| Multi-tenant Cloud | 별도의 조치가 필요하지 않습니다. W&B App에서 W&B Registry를 사용할 수 있습니다. |
+| 전용 클라우드 (Dedicated Cloud) | 배포 환경에 W&B Registry를 활성화하려면 담당 어카운트 팀에 문의하세요. |
+| Self-Managed | Server v0.70.0 이상의 경우 별도의 조치가 필요하지 않습니다. 이전 지원 서버 버전의 경우, 환경 변수 `ENABLE_REGISTRY_UI` 를 `true` 로 설정하세요. [환경 변수 구성](/platform/hosting/env-vars) 을 참조하세요. |
+
+
+## 시작하기 위한 리소스
+
+유스 케이스에 따라 W&B Registry를 시작하기 위해 다음 리소스를 탐색해 보세요:
+
+* 튜토리얼 비디오 확인하기:
+    * [W&B Registry 시작하기](https://www.youtube.com/watch?v=p4XkVOsjIeM)
+* W&B [Model CI/CD](https://www.wandb.courses/courses/enterprise-model-management) 코스를 수강하고 다음 사항을 배워보세요:
+    * W&B Registry를 사용하여 아티팩트를 관리 및 버전화하고, 계보를 추적하며, 라이프사이클 단계에 따라 모델을 promote 하는 방법.
+    * 웹훅을 사용하여 모델 관리 워크플로우를 자동화하는 방법.
+    * 모델 평가, 모니터링 및 배포를 위해 Registry를 외부 기계학습 시스템 및 툴과 통합하는 방법.

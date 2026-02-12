@@ -19,11 +19,10 @@ It’s important to store traces of LLM applications in a central database, both
 
     Start capturing by calling `weave.init(<project-name>)` with a project name your choice.
 
-    ```python lines
+    ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import weave
     client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.8, max_tokens=64, top_p=1)
-    # highlight-next-line
     weave.init('emoji-bot')
 
     messages=[
@@ -57,8 +56,7 @@ Simply create a function decorated with [`@weave.op`](/weave/guides/tracking/ops
 
 In the example below, we have 2 functions wrapped with op. This helps us see how intermediate steps, like the retrieval step in a RAG app, are affecting how our app behaves.
 
-    ```python lines
-    # highlight-next-line
+    ```python lines {1,9,11,29,31,33}
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import requests, random
@@ -67,10 +65,8 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
     POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'meowth', 'eevee']
     client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.7, max_tokens=100, top_p=1)
 
-    # highlight-next-line
     @weave.op
     def get_pokemon_data(pokemon_name):
-        # highlight-next-line
         # This is a step within your application, like the retrieval step within a RAG app
         url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
         response = requests.get(url)
@@ -89,12 +85,9 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
         else:
             return None
 
-    # highlight-next-line
     @weave.op
     def pokedex(name: str, prompt: str) -> str:
-        # highlight-next-line
         # This is your root op that calls out to other ops
-        # highlight-next-line
         data = get_pokemon_data(name)
         if not data: return "Error: Unable to fetch data"
 
@@ -106,7 +99,6 @@ In the example below, we have 2 functions wrapped with op. This helps us see how
         response = client.invoke(messages)
         return response.content
 
-    # highlight-next-line
     weave.init('pokedex-nvidia')
     # Get data for a specific Pokémon
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)

@@ -2,17 +2,35 @@
 title: wandb artifact ls
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb artifact ls [OPTIONS] PATH`
+import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
 
-**요약**
+<WandbArtifactLs/>
 
-wandb 프로젝트의 모든 아티팩트 나열
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
+W&B 프로젝트의 모든 Artifacts 목록을 출력합니다.
 
-**옵션**
+## Usage
 
-| **옵션** | **설명** |
+```bash
+wandb artifact ls PATH [OPTIONS]
+```
+
+## Arguments
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `PATH` | 설명 없음 | 예 |
+
+## Options
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `-t, --type` | 나열할 아티팩트의 유형 |
+| `--type`, `-t` | 나열할 Artifacts의 타입 |

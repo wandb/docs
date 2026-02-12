@@ -2,17 +2,36 @@
 title: wandb pull
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb pull [OPTIONS] RUN`
+import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
 
-**概要**
+<WandbPull/>
 
-Weights & Biases からファイルを取得します
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+Weights & Biases からファイルをプルします。
 
-| **オプション** | **説明** |
+## Usage（使用法）
+
+```bash
+wandb pull RUN [OPTIONS]
+```
+
+## Arguments（引数）
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `RUN` | 説明なし | はい |
+
+## Options（オプション）
+
+| オプション | 説明 |
 | :--- | :--- |
-| `-p, --project` | ダウンロードしたいプロジェクトです。 |
-| `-e, --entity` | リストを絞り込むためのエンティティです。 |
+| `--project`, `-p` | ダウンロードしたい Projects。 |
+| `--entity`, `-e` | リストのスコープを制限する Entities。（デフォルト: models） |

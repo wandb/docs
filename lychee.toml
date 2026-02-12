@@ -1,0 +1,86 @@
+# Lychee link checker configuration
+# See https://lychee.cli.rs/guides/config/ for full documentation
+
+# Base URL for resolving relative links
+# This will be overridden at runtime by the workflows
+base_url = 'https://docs.wandb.ai'
+
+# Don't check heading anchors (fragments) - Mintlify generates these dynamically
+include_fragments = false
+
+# Suppress progress bars in CI for cleaner logs
+no_progress = true
+
+# Exclude private/internal network links
+exclude_all_private = true
+
+# Retry configuration for handling transient failures
+max_retries = 5
+retry_wait_time = 2
+
+# Accept these HTTP status codes as valid
+# 200 = OK
+# 403 = Forbidden (can be a false positive - treat as success)
+# 429 = Too Many Requests (rate limit - treat as success)
+accept = [200, 403, 429]
+
+# Only check HTTP/HTTPS URLs
+scheme = [
+  "http",
+  "https",
+]
+
+# Only check URLs matching these patterns (required when checking URL lists)
+include = [
+  '^https?://',  # Match all http:// and https:// URLs
+]
+
+# Logging verbosity
+verbose = "error"
+
+# URL patterns to exclude from checking
+# Local / private URLs
+# Example URLs
+# Images - Mintlify rewrites paths during build
+# Social media URLs that timeout or rate-limit
+# Third party URLs that timeout or rate-limit
+# W&B production URLs that timeout or rate-limit
+exclude = [
+  '(http|https)://0\.0\.0\.0',
+  '(http|https)://localhost',
+  '(http|https)://127\.0\.0\.1',
+  # Image file extensions (with or without trailing slash)
+  '\.(png|jpg|jpeg|gif|svg|webp|ico)(/)?$',
+  # Image paths - Mintlify rewrites /images/ paths during build
+  # Exclude both absolute paths and full URLs to image directories
+  # Match any URL containing /images/ (works for both relative and absolute paths)
+  '/images/',
+  # Match full URLs to image directories on any domain (including preview sites)
+  '(http|https)://[^/]+/images/',
+  '(http|https)://kubeflow\.mysite\.com',
+  '(http|https)://my-fake-url\.com',
+  '(http|https)://my\.domain\.net',
+  'https://wiki.python.org/moin/UsingPickle',
+  '(http|https)://.*\.?discord\.com',
+  '(http|https)://x\.com',
+  '(http|https)://twitter\.com',
+  '(http|https)://.*\.?auth0\.com',
+  'https://cognito-idp.us-east-1.amazonaws.com',
+  '(http|https)://.*\.?netapp\.com',
+  '(http|https)://netflixtechblog\.com',
+  '(http|https)://.*\.?portal\.azure\.com',
+  '(http|https)://.*\.?hhs\.gov',
+  '(http|https)://([^/]+\.)?github\.com/wandb',
+  '(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+  '(http|https)://wandb\.(ai|com)',
+  # DSPy documentation - redirects from vercel.app to dspy.ai
+  '(http|https)://dspy-docs\.vercel\.app',
+]
+
+# File/directory paths to exclude from checking
+exclude_path = [
+  # Exclude non-documentation directories
+  ".github",
+  "node_modules",
+  "scripts",
+]

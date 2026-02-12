@@ -1,11 +1,7 @@
 ---
-title: How can I save the git commit associated with my run?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 내 Run 과 연관된 git commit 을 어떻게 저장할 수 있나요?
 ---
 
-`wandb.init` 가 호출되면 시스템은 원격 저장소 링크와 최신 커밋의 SHA를 포함한 git 정보를 자동으로 수집합니다. 이 정보는 [run 페이지](/ko/models/runs/#view-logged-runs)에 나타납니다. 이 정보를 보려면 스크립트를 실행할 때 현재 작업 디렉토리가 git으로 관리되는 폴더 내에 있는지 확인하세요.
+`wandb.init` 이 호출되면 시스템은 원격 저장소 링크와 최신 커밋의 SHA를 포함한 git 정보를 자동으로 수집합니다. 이 정보는 [run page](/models/runs/#view-logged-runs) 에 표시됩니다. 이 정보를 확인하려면 스크립트를 실행할 때의 현재 작업 디렉토리가 git으로 관리되는 폴더 내에 있어야 합니다.
 
-git 커밋과 실험을 실행하는 데 사용된 코맨드는 사용자에게는 계속 표시되지만 외부 사용자에게는 숨겨집니다. 공개 Projects에서는 이러한 세부 정보가 비공개로 유지됩니다.
+git 커밋과 Experiments 를 실행하는 데 사용된 코맨드는 사용자에게는 계속 보이지만, 외부 사용자에게는 숨겨집니다. 공개 Projects 에서도 이러한 세부 정보는 비공개로 유지됩니다.

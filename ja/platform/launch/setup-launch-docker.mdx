@@ -1,0 +1,140 @@
+---
+title: チュートリアル： Docker を使用した W&B Launch のセットアップ
+---
+
+以下のガイドでは、エージェント環境とキューのターゲットリソースの両方にローカルマシンの Docker を使用するように W&B Launch を設定する方法について説明します。
+
+ジョブの実行と Launch エージェント環境の両方に同じローカルマシンの Docker を使用する方法は、Kubernetes などのクラスター管理システムがインストールされていないマシンで計算リソースを運用している場合に特に便利です。
+
+また、Docker キューを使用して、パワフルなワークステーション上でワークロードを実行することも可能です。
+
+<Note>
+このセットアップは、ローカルマシンで Experiments を実行するユーザーや、SSH で接続したリモートマシンから Launch ジョブを送信するユーザーによく利用されます。
+</Note>
+
+W&B Launch で Docker を使用する場合、W&B はまずイメージをビルドし、次にそのイメージからコンテナをビルドして実行します。イメージは Docker の `docker run <image-uri>` コマンドでビルドされます。キューの設定は、`docker run` コマンドに渡される追加の引数として解釈されます。
+
+{/* Future: Insert diagram */}
+
+## Docker キューの設定
+
+Launch キューの設定（Docker ターゲットリソース用）では、[`docker run`](/models/ref/cli/wandb-docker-run) CLI コマンドで定義されているものと同じオプションを使用できます。
+
+エージェントはキューの設定で定義されたオプションを受け取ります。次に、エージェントは受け取ったオプションと Launch ジョブの設定によるオーバーライドをマージし、ターゲットリソース（この場合はローカルマシン）で実行される最終的な `docker run` コマンドを生成します。
+
+以下の 2 つの構文変換が行われます：
+
+1. 繰り返されるオプションは、キューの設定内でリストとして定義されます。
+2. フラグオプションは、キューの設定内で値が `true` の Boolean として定義されます。
+
+例えば、次のようなキューの設定の場合：
+
+```json
+{
+  "env": ["MY_ENV_VAR=value", "MY_EXISTING_ENV_VAR"],
+  "volume": "/mnt/datasets:/mnt/datasets",
+  "rm": true,
+  "gpus": "all"
+}
+```
+
+結果として、以下の `docker run` コマンドが実行されます：
+
+```bash
+docker run \
+  --env MY_ENV_VAR=value \
+  --env MY_EXISTING_ENV_VAR \
+  --volume "/mnt/datasets:/mnt/datasets" \
+  --rm <image-uri> \
+  --gpus all
+```
+
+ボリュームは、文字列のリストまたは単一の文字列として指定できます。複数のボリュームを指定する場合はリストを使用してください。
+
+Docker は、値が割り当てられていない環境変数を Launch エージェント環境から自動的に引き継ぎます。つまり、Launch エージェントに `MY_EXISTING_ENV_VAR` という環境変数が存在する場合、その環境変数はコンテナ内でも利用可能です。これは、キューの設定に公開せずに他の設定キーを使用したい場合に便利です。
+
+`docker run` コマンドの `--gpus` フラグを使用すると、Docker コンテナで使用可能な GPU を指定できます。`gpus` フラグの使用方法の詳細については、[Docker ドキュメント](https://docs.docker.com/config/containers/resource_constraints/#gpu)を参照してください。
+
+
+<Note>
+* Docker コンテナ内で GPU を使用するには、[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) をインストールしてください。
+* コードや Artifacts をソースとするジョブからイメージをビルドする場合、[エージェント](#configure-a-launch-agent-on-a-local-machine)が使用するベースイメージをオーバーライドして NVIDIA Container Toolkit を含めることができます。
+  例えば、Launch キュー内でベースイメージを `tensorflow/tensorflow:latest-gpu` にオーバーライドできます：
+
+  ```json
+  {
+    "builder": {
+      "accelerator": {
+        "base_image": "tensorflow/tensorflow:latest-gpu"
+      }
+    }
+  }
+  ```
+</Note>
+
+
+
+
+## キューの作成
+
+W&B CLI を使用して、計算リソースとして Docker を使用するキューを作成します：
+
+1. [Launch ページ](https://wandb.ai/launch)に移動します。
+2. **Create Queue** ボタンをクリックします。
+3. キューを作成する **Entity** を選択します。
+4. **Name** フィールドにキューの名前を入力します。
+5. **Resource** として **Docker** を選択します。
+6. **Configuration** フィールドで Docker キューの設定を定義します。
+7. **Create Queue** ボタンをクリックしてキューを作成します。
+
+## ローカルマシンでの Launch エージェントの設定
+
+Launch エージェントの設定は、`launch-config.yaml` という名前の YAML 設定ファイルで行います。デフォルトでは、W&B は `~/.config/wandb/launch-config.yaml` にある設定ファイルをチェックします。Launch エージェントを起動する際に、オプションで別のディレクトリーを指定することもできます。
+
+<Note>
+W&B CLI を使用して、Launch エージェントの主要な設定オプション（最大ジョブ数、W&B Entity、Launch キューなど）を指定することもできます（設定 YAML ファイルの代わりとして）。詳細は [`wandb launch-agent`](/models/ref/cli/wandb-launch-agent) コマンドを参照してください。
+</Note>
+
+
+## エージェントの主要な設定オプション
+
+以下のタブでは、W&B CLI および YAML 設定ファイルを使用して、エージェントの主要な設定オプションを指定する方法を示します：
+
+<Tabs>
+<Tab title="W&B CLI">
+```bash
+wandb launch-agent -q <queue-name> --max-jobs <n>
+```
+</Tab>
+<Tab title="設定ファイル">
+```yaml title="launch-config.yaml"
+max_jobs: <n concurrent jobs>
+queues:
+	- <queue-name>
+```
+</Tab>
+</Tabs>
+
+## Docker イメージビルダー
+
+マシンの Launch エージェントは、Docker イメージをビルドするように設定できます。デフォルトでは、これらのイメージはマシンのローカルイメージリポジトリに保存されます。Launch エージェントで Docker イメージのビルドを有効にするには、Launch エージェント設定の `builder` キーを `docker` に設定します：
+
+```yaml title="launch-config.yaml"
+builder:
+	type: docker
+```
+
+エージェントに Docker イメージをビルドさせず、代わりにレジストリからのビルド済みイメージを使用する場合は、Launch エージェント設定の `builder` キーを `noop` に設定します。
+
+```yaml title="launch-config.yaml"
+builder:
+  type: noop
+```
+
+## コンテナレジストリ
+
+Launch は、Dockerhub、Google Container Registry、Azure Container Registry、Amazon ECR などの外部コンテナレジストリを使用します。
+ビルドした環境とは異なる環境でジョブを実行したい場合は、コンテナレジストリからプルできるようにエージェントを設定してください。
+
+
+Launch エージェントをクラウドレジストリと接続する方法の詳細については、[高度なエージェントセットアップ](./setup-agent-advanced#agent-configuration)ページを参照してください。

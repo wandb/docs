@@ -3,6 +3,9 @@ title: Support
 ---
 
 import {Banner} from "/snippets/Banner.jsx";
+import ApiKeyFind from "/snippets/en/_includes/api-key-find.mdx";
+import OrgServiceAccountCreate from "/snippets/en/_includes/org-service-account-create.mdx";
+import TeamServiceAccountCreate from "/snippets/en/_includes/team-service-account-create.mdx";
 
 <Banner title="How can we help?" background="/images/support/support_banner.png">
   Search for help from support articles, product documentation,<br/>
@@ -770,14 +773,7 @@ Use the search bar to filter the reports list. Select an unwanted report to dele
 <Update tags={["Security", "User Management"]}>
 <Accordion title="How do I find my API key?">
 
-To find your API key for Weights and Biases (W&B):
-
-- Navigate to the [W&B authorization page](https://wandb.ai/authorize). Log in if necessary.
-- Alternatively, access your profile:
-  1. Click your user profile in the upper right corner.
-  2. Select "User Settings."
-  3. Scroll to the "Danger Zone" section.
-  4. Click "Reveal" next to "API Keys."
+<ApiKeyFind/>
 </Accordion>
 </Update>
 
@@ -1043,9 +1039,8 @@ A 401 Invalid Authentication error means your API key is invalid or your W&B pro
 
 ## Verify your API key
 
-1. Get a new API key at [https://wandb.ai/authorize](https://wandb.ai/authorize)
-2. Check for extra spaces or missing characters when copying
-3. Store your API key securely
+1. Create a new API key at [User Settings](https://wandb.ai/settings).
+2. Store your API key securely.
 
 ## Check your project configuration
 
@@ -1546,7 +1541,7 @@ with wandb.init(reinit="create_new") as tracking_run:
             tracking_run.log({"x": x})
 ```
 
-See [Multiple runs per process](/models/runs/multiple-runs-per-process)
+See [Multiple runs per process](/models/runs/initialize-run)
 for more information about `reinit="create_new"`, including caveats about W&B
 integrations.
 </Accordion>
@@ -1700,7 +1695,7 @@ Personal Entities are unavailable for accounts created after May 21, 2024. W&B e
 
 When using a shared machine, ensure that runs log to the correct WandB account by setting the `WANDB_API_KEY` environment variable for authentication. If sourced in the environment, this variable provides the correct credentials upon login. Alternatively, set the environment variable directly in the script.
 
-Execute the command `export WANDB_API_KEY=X`, replacing X with your API key. Logged-in users can find their API key at [wandb.ai/authorize](https://app.wandb.ai/authorize).
+Execute the command `export WANDB_API_KEY=X`, replacing X with your API key. Create an API key at [wandb.ai/settings](https://wandb.ai/settings).
 </Accordion>
 </Update>
 
@@ -2338,7 +2333,7 @@ By default, `wandb.init` starts a process that syncs metrics in real time to the
 
 Set the following environment variables:
 
-1. `WANDB_API_KEY=$KEY`, where `$KEY` is the API Key from your [settings page](https://app.wandb.ai/settings).
+1. `WANDB_API_KEY=$KEY`, where `$KEY` is an API key created at [User Settings](https://wandb.ai/settings).
 2. `WANDB_MODE="offline"`.
 
 Here is an example of implementing this in a script:
@@ -2458,14 +2453,7 @@ Among other things, service accounts are useful for tracking automated jobs logg
 
 For comprehensive information about service accounts, including best practices and detailed setup instructions, refer to [Use service accounts to automate workflows](/platform/hosting/iam/service-accounts). For information about how service accounts behave in team contexts, refer to [Team Service Account Behavior](/platform/app/settings-page/teams#team-service-account-behavior).
 
-You can get the API key for a service account in your team at `<WANDB_HOST_URL>/<your-team-name>/service-accounts`. Alternatively you can go to the **Team settings** for your team and then refer to the **Service Accounts** tab. 
-
-To create a new service account for your team:
-* Press the **+ New service account** button in the **Service Accounts** tab of your team
-* Provide a name in the **Name** field
-* Select **Generate API key (Built-in)** as the authentication method
-* Press the **Create** button
-* Click the **Copy API key** button for the newly created service account and store it in a secret manager or another safe but accessible location
+<TeamServiceAccountCreate/>
 
 <Note>
 Apart from the **Built-in** service accounts, W&B also supports **External service accounts** using [identity federation for SDK and CLI](/platform/hosting/iam/identity_federation#external-service-accounts). Use external service accounts if you are looking to automate W&B tasks using service identities managed in your identity provider that can issue JSON Web Tokens (JWT).
@@ -2698,7 +2686,7 @@ Key engineers and support staff at W&B access logged values for debugging purpos
 <Update tags={["Connectivity", "Outage"]}>
 <Accordion title="Is there a W&B outage?">
 
-Check if the W&B Multi-tenant Cloud at wandb.ai is experiencing an outage by visiting the W&B status page at https://status.wandb.com.
+Check if the W&B Multi-tenant Cloud at wandb.ai is experiencing an outage by visiting the [W&B status page](https://status.wandb.com).
 </Accordion>
 </Update>
 

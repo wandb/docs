@@ -33,8 +33,7 @@ Use these optional environment variables to do things like set up authentication
 
 | Variable name | Usage |
 | --------------------------- | ---------- |
-| `WANDB_ANONYMOUS` | Set this to `allow`, `never`, or `must` to let users create anonymous runs with secret urls. |
-| `WANDB_API_KEY` | Sets the authentication key associated with your account. You can find your key on [your settings page](https://app.wandb.ai/settings).  This must be set if `wandb login` hasn't been run on the remote machine.               |
+| `WANDB_API_KEY` | Sets the authentication key associated with your account. Create an API key at [User Settings](https://wandb.ai/settings). This must be set if `wandb login` hasn't been run on the remote machine. |
 | `WANDB_BASE_URL` | If you're using [wandb/local](/platform/hosting/) you should set this environment variable to `http://YOUR_IP:YOUR_PORT` |
 | `WANDB_CACHE_DIR` | This defaults to \~/.cache/wandb, you can override this location with this environment variable |
 | `WANDB_CONFIG_DIR` | This defaults to \~/.config/wandb, you can override this location with this environment variable |
@@ -74,4 +73,4 @@ If you're running containers in [Singularity](https://singularity.lbl.gov/index.
 
 ## Running on AWS
 
-If you're running batch jobs in AWS, it's easy to authenticate your machines with your W&B credentials. Get your API key from your [settings page](https://app.wandb.ai/settings), and set the `WANDB_API_KEY` environment variable in the [AWS batch job spec](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters).
+If you're running batch jobs in AWS, it's easy to authenticate your machines with your W&B credentials. Create an API key at [User Settings](https://wandb.ai/settings), and set the `WANDB_API_KEY` environment variable in the [AWS batch job spec](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters).

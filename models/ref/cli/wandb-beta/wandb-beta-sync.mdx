@@ -22,20 +22,26 @@ PATHS can include .wandb files, run directories containing .wandb files, and "wa
 
 For example, to sync all runs in a directory:
 
+```bash
 wandb beta sync ./wandb
+```
 
 To sync a specific run:
 
+```bash
 wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
 
 Or equivalently:
 
+```bash
 wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
 
 ## Usage
 
 ```bash
-wandb sync [PATHS] [OPTIONS]
+wandb beta sync [PATHS] [OPTIONS]
 ```
 
 ## Arguments
@@ -48,7 +54,13 @@ wandb sync [PATHS] [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
+| `--live` | Sync a run while it's still being logged. This may hang if the process generating the run crashes uncleanly. (default: False) |
+| `-e`, `--entity` | An entity override to use for all runs being synced. (default: ) |
+| `-p`, `--project` | A project override to use for all runs being synced. (default: ) |
+| `--id` | A run ID override to use for all runs being synced. If setting this and syncing multiple files (with the same entity and project), the files will be synced in order of start time. This is intended to work with syncing multiple resumed fragments of the same run. (default: ) |
+| `--job-type` | A job type override for all runs being synced. (default: ) |
+| `--replace-tags` | Rename tags using the format 'old1=new1,old2=new2'. (default: ) |
 | `--skip-synced` | Skip runs that have already been synced with this command. (default: True) |
 | `--dry-run` | Print what would happen without uploading anything. (default: False) |
 | `-v`, `--verbose` | Print more information. (default: False) |
-| `-n` | Max number of runs to sync at a time. (default: 5) |
+| `-n` | Max number of runs to sync at a time. When syncing multiple files that are part of the same run, the files are synced sequentially in order of start time regardless of this setting. This happens for resumed runs or when using the --id parameter. (default: 5) |

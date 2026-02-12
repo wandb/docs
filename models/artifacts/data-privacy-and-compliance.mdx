@@ -4,18 +4,20 @@ description: Learn where W&B files are stored by default. Explore how to save, s
 title: Artifact data privacy and compliance
 ---
 
-Files are uploaded to Google Cloud bucket managed by W&B when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
+Files are uploaded to a Google Cloud bucket managed by W&B when you log artifacts. The contents of the bucket are encrypted both at rest and in transit. Artifact files are only visible to users who have access to the corresponding project.
 
 <Frame>
     <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B Client Server diagram"  />
 </Frame>
 
-When you delete a version of an artifact, it is marked for soft deletion in our database and removed from your storage cost. When you delete an entire artifact, it is queued for permanently deletion and all of its contents are removed from the W&B bucket. If you have specific needs around file deletion please reach out to [Customer Support](mailto:support@wandb.com).
+When you delete a version of an artifact, it is marked for soft deletion in our database and removed from your storage cost. When you delete an entire artifact, it is queued for permanent deletion and all of its contents are removed from the W&B bucket. If you have specific needs around file deletion, reach out to [Customer Support](mailto:support@wandb.com).
 
-For sensitive datasets that cannot reside in a multi-tenant environment, you can use either a private W&B server connected to your cloud bucket or [reference artifacts](/models/artifacts/track-external-files). Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. In other words, W&B only keeps track of the metadata associated with the files and not the files themselves.
+By default, deleted artifacts are retained for 7 days and can be restored during this period, which is configurable for Dedicated Cloud. Learn more about data retention in [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud#data-retention-policy).
+
+For sensitive datasets that cannot reside in a multi-tenant environment, you can use [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [reference artifacts](/models/artifacts/track-external-files). Reference artifacts track references to private buckets without sending file contents to W&B. Reference artifacts maintain links to files on your buckets or servers. W&B only keeps track of the metadata associated with the files, not the files themselves.
 
 <Frame>
     <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B Client Server Cloud diagram"  />
 </Frame>
 
-For alternatives, contact us at [contact@wandb.com](mailto:contact@wandb.com) to talk about private cloud and on-premises installations.
+For more information about deployment options, see [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed). To discuss your specific requirements, contact [contact@wandb.com](mailto:contact@wandb.com).

@@ -1,57 +1,81 @@
 #!/bin/bash
 set -e
 
-LOGFILE="/tmp/mint-dev-$$.log"
-PARSE_TIME=45  # Give Mintlify time to log parsing errors
-PID=""
-
-# Cleanup function
-cleanup() {
-  if [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null; then
-    kill "$PID" 2>/dev/null || true
-    sleep 0.5
-    kill -9 "$PID" 2>/dev/null || true
+# Check if there are any MDX files in the changeset
+if [ -n "$GITHUB_BASE_REF" ]; then
+  # In a PR context, check changed files
+  echo "Checking for changed MDX files in PR..."
+  
+  # Get the list of changed files
+  CHANGED_MDX=$(git diff --name-only "origin/$GITHUB_BASE_REF"...HEAD -- '*.mdx' 2>/dev/null | grep -E '\.mdx$' || true)
+  
+  if [ -z "$CHANGED_MDX" ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "NO MDX FILES CHANGED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "No MDX files found in this PR. Skipping validation."
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    exit 0
   fi
-  rm -f "$LOGFILE"
-}
+  
+  echo "Found changed MDX files:"
+  echo "$CHANGED_MDX" | sed 's/^/  /'
+  echo ""
+fi
 
-# Trap to ensure cleanup
-trap cleanup EXIT INT TERM
-
-echo "Starting Mintlify validation..."
-echo ""
-echo "Running: mint dev --no-open (will run for ${PARSE_TIME}s to parse all files)"
-echo ""
-
-# Run mint dev with tee to force output writing, timeout after PARSE_TIME seconds
-timeout --preserve-status ${PARSE_TIME}s mint dev --no-open 2>&1 | tee "$LOGFILE" > /dev/null || true
-
-echo ""
-echo "✓ Mintlify finished parsing"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "VALIDATING DOCUMENTATION BUILD"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Running: mint validate"
 echo ""
 
-# Check for parsing errors
-if grep -q "parsing error" "$LOGFILE"; then
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "❌ MINTLIFY PARSING ERRORS DETECTED"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+# Run mint validate - exits with non-zero if there are any errors or warnings
+if mint validate; then
   echo ""
-  echo "Parsing errors found:"
-  echo ""
-  grep "parsing error" "$LOGFILE" | sed 's/^/  /'
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "💡 These are Mintlify parsing errors. Please fix them or"
-  echo "   file an issue if you believe they are incorrect:"
-  echo "   https://github.com/wandb/docs/issues/new"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  exit 1
-else
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "✅ MINTLIFY VALIDATION PASSED"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "No parsing errors detected by Mintlify"
-  exit 0
+  echo "No errors or warnings detected"
+else
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "❌ MINTLIFY VALIDATION FAILED"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Errors or warnings were detected. Please fix them or"
+  echo "file an issue if you believe they are incorrect:"
+  echo "https://github.com/wandb/docs/issues/new"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 1
 fi
 
+echo ""
+
+# Run broken links check
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "CHECKING FOR BROKEN LINKS"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Running: mint broken-links"
+echo ""
+
+# Run mint broken-links - it will exit with non-zero if broken links are found
+if mint broken-links; then
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "✅ NO BROKEN LINKS FOUND"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+else
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "❌ BROKEN LINKS DETECTED"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Please fix the broken links reported above"
+  exit 1
+fi
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ ALL VALIDATION CHECKS PASSED"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "- No validation errors or warnings"
+echo "- No broken links"
+exit 0

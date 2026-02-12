@@ -1,0 +1,28 @@
+---
+title: 使用情報と制限事項
+description: W&B Serverless の料金体系、使用制限、およびアカウントの制限事項について理解する
+---
+
+## 料金
+
+料金体系は、推論 (inference)、トレーニング (training)、ストレージ (storage) の 3 つの要素で構成されています。具体的な請求単価については、[料金ページ](https://wandb.ai/site/pricing/reinforcement-learning) をご確認ください。
+
+### 推論 (Inference)
+
+Serverless RL の推論リクエストの料金は、W&B Inference の料金に準じます。詳細は [モデルごとのコスト](https://site.wandb.ai/pricing/reinforcement-learning) を参照してください。クレジットの購入、アカウントティア、および使用制限の詳細については、[W&B Inference ドキュメント](/inference/usage-limits#purchase-more-credits) をご覧ください。
+
+### トレーニング (Training)
+
+各トレーニングステップにおいて、Serverless RL は agent の出力と（報酬関数によって計算された）関連する報酬を含む軌跡 (trajectories) のバッチを収集します。収集されたバッチは、タスクに合わせてベースモデルを特化させる LoRA アダプターの重みを更新するために使用されます。これらの LoRA を更新するためのトレーニングジョブは、Serverless RL が管理する専用の GPU クラスター上で実行されます。
+
+パブリックプレビュー期間中、トレーニングは無料です。
+
+### モデルストレージ
+
+Serverless RL は、トレーニングされた LoRA の チェックポイント を保存するため、いつでも評価、サービング、またはトレーニングの続行が可能です。ストレージ料金は、チェックポイント の合計サイズと、お客様の [料金プラン](https://wandb.ai/site/pricing) に基づいて月単位で請求されます。すべてのプランには少なくとも 5GB の無料ストレージが含まれており、これは約 30 個の LoRA を保存するのに十分な容量です。スペースを節約するために、パフォーマンスの低い LoRA は削除することをお勧めします。削除方法については、[ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) の手順を参照してください。
+
+## 制限事項
+
+* **推論の同時実行制限**: デフォルトでは、Serverless RL は現在、1 Users あたり最大 2000、1 Projects あたり最大 6000 の同時リクエストをサポートしています。レート制限を超えると、Inference API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを回避するには、トレーニングジョブまたは production ワークロードが一度に行う同時リクエストの数を減らしてください。より高いレート制限が必要な場合は、support@wandb.com までリクエストしてください。
+
+* **地理的制限**: Serverless RL は、サポートされている地理的な場所でのみ利用可能です。詳細については、[サービス利用規約](https://site.wandb.ai/terms/) を参照してください。

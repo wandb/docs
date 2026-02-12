@@ -1,0 +1,80 @@
+---
+title: NVIDIA NeMo Inference Microservice Deploy Job
+---
+
+W&B の モデル Artifacts を NVIDIA NeMo Inference Microservice (NIM) にデプロイします。これを行うには、W&B Launch を使用します。W&B Launch は、モデル Artifacts を NVIDIA NeMo Model に変換し、実行中の NIM/Triton サーバーにデプロイします。
+
+W&B Launch は現在、以下の互換性のあるモデルタイプを受け入れています。
+
+1. [Llama2](https://llama.meta.com/llama2/)
+2. [StarCoder](https://github.com/bigcode-project/starcoder)
+3. NV-GPT (近日公開予定)
+
+<Note>
+デプロイ時間は、モデルやマシンのタイプによって異なります。ベースの Llama2-7b 設定では、Google Cloud の `a2-ultragpu-1g` で約1分かかります。
+</Note>
+
+## Quickstart
+
+1. まだ作成していない場合は、 [Launch キューを作成](/platform/launch/add-job-to-queue/) してください。以下にキュー設定の例を示します。
+
+   ```yaml
+   net: host
+   gpus: all # 特定の GPU セット、または `all` を指定してすべてを使用できます
+   runtime: nvidia # nvidia container runtime も必要です
+   volume:
+     - model-store:/model-store/
+   ```
+
+   <Frame>
+    <img src="/images/integrations/nim1.png" alt="image"  />
+   </Frame>
+
+2. プロジェクト 内にこのジョブを作成します。
+
+   ```bash
+   wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
+      -e $ENTITY \
+      -p $PROJECT \
+      -E jobs/deploy_to_nvidia_nemo_inference_microservice/job.py \
+      -g andrew/nim-updates \
+      git https://github.com/wandb/launch-jobs
+   ```
+
+3. GPU マシンで エージェント を起動します。
+   ```bash
+   wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
+   ```
+4. [Launch UI](https://wandb.ai/launch) から、希望の設定でデプロイ用の Launch ジョブを送信します。
+   1. CLI から送信することも可能です。
+      ```bash
+      wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
+        -e $ENTITY \
+        -p $PROJECT \
+        -q $QUEUE \
+        -c $CONFIG_JSON_FNAME
+      ```
+      <Frame>
+      <img src="/images/integrations/nim2.png" alt="image"  />
+      </Frame>
+5. Launch UI でデプロイ プロセスの進行状況を追跡できます。
+   <Frame>
+    <img src="/images/integrations/nim3.png" alt="image"  />
+   </Frame>
+6. 完了したら、すぐにエンドポイントに curl を実行して モデル をテストできます。モデル 名は常に `ensemble` になります。
+   ```bash
+    #!/bin/bash
+    curl -X POST "http://0.0.0.0:9999/v1/completions" \
+        -H "accept: application/json" \
+        -H "Content-Type: application/json" \
+        -d '{
+            "model": "ensemble",
+            "prompt": "Tell me a joke",
+            "max_tokens": 256,
+            "temperature": 0.5,
+            "n": 1,
+            "stream": false,
+            "stop": "string",
+            "frequency_penalty": 0.0
+            }'
+   ```

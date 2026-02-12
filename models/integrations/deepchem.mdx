@@ -2,6 +2,9 @@
 description: How to integrate W&B with DeepChem library.
 title: DeepChem
 ---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
 The [DeepChem library](https://github.com/deepchem/deepchem) provides open source tools that democratize the use of deep-learning in drug discovery, materials science, chemistry, and biology. This W&B integration adds simple and easy-to-use experiment tracking and model checkpointing while training models using DeepChem.
 
 ## DeepChem logging in 3 lines of code
@@ -30,13 +33,10 @@ Set up W&B for DeepChem models of type [KerasModel](https://deepchem.readthedocs
 
 An API key authenticates your machine to W&B. You can generate an API key from your user profile.
 
-<Note>
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
-</Note>
+<ApiKeyCreateStreamlined/>
 
 1. Click your user profile icon in the upper right corner.
 1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
 
 ### Install the `wandb` library and log in
 

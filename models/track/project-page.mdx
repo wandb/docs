@@ -19,7 +19,7 @@ Each project contains the following tabs:
 * [Workspace](/models/track/project-page/#workspace-tab): personal visualization sandbox
 * [Runs](#runs-tab): A table that lists all the runs in your project
 * [Automations](#automations-tab): Automations configured in your project
-* [Sweeps](/models/sweeps/): automated exploration and optimization
+* [Sweeps](/models/sweeps): automated exploration and optimization
 * [Reports](/models/track/project-page/#reports-tab): saved snapshots of notes, runs, and graphs
 * [Artifacts](#artifacts-tab): Contains all runs and the artifacts associated with that run
 
@@ -44,7 +44,7 @@ Details about the project include:
 
 The **Details** tab also includes instructions for accessing and exporting the project's data and metrics, downloading the best model from a sweep, and more. 
 
-[View a live example project](https://app.wandb.ai/example-team/sweep-demo/overview)
+[View a live example project](https://wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
     <img src="/images/track/overview_tab_image.png" alt="Project overview tab"  />
@@ -78,7 +78,7 @@ If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), t
 
 **Panels layout**: use this scratch space to explore results, add and remove charts, and compare versions of your models based on different metrics
 
-[View a live example](https://app.wandb.ai/example-team/sweep-demo)
+[View a live example](https://wandb.ai/example-team/sweep-demo)
 
 <Frame>
     <img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace"  />
@@ -174,11 +174,7 @@ From left to right they are: column name, operator, and the filter value.
 
 </Tab>
 <Tab title="Group">
-Click the **Group** button above the table to group all rows by the value in a particular column. 
-
-<Frame>
-    <img src="/images/data_vis/group.png" alt="Error distribution analysis"  />
-</Frame>
+Click the **Group** button above the table to group all rows by the value in a particular column. For more information on how to group runs, see [Organize runs into groups](/models/runs/grouping).
 
 </Tab>
 </Tabs>
@@ -187,15 +183,11 @@ Click the **Group** button above the table to group all rows by the value in a p
 {/* ## Automations tab */}
 
 ## Automations tab
-Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations](/models/automations/).
-
-<Frame>
-    <img src="/images/automations/project_automations_tab.png" alt="Automation tab"  />
-</Frame>
+Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations](/models/automations).
 
 ## Sweeps tab
 
-Start a new [sweep](/models/sweeps/) from your project.
+Start a new [sweep](/models/sweeps) from your project.
 
 <Frame>
     <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab"  />
@@ -213,7 +205,7 @@ To view a report, select the **Reports** tab from the project sidebar, then sele
 
 ## Artifacts tab
 
-View all [artifacts](/models/artifacts/) associated with a project, from training datasets and [fine-tuned models](/models/registry/) to [tables of metrics and media](/models/tables/tables-walkthrough/).
+View all [artifacts](/models/artifacts) associated with a project, from training datasets and [fine-tuned models](/models/registry) to [tables of metrics and media](/models/tables/tables-walkthrough).
 
 
 ### Metadata panel
@@ -331,7 +323,7 @@ Refer to the [`wandb.init()` API reference](/models/ref/python/functions/init/#e
 Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's homepage.
 
 
-For example, the proceeding image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
+For example, the following image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
 <Frame>
     <img src="/images/track/star-projects.png" alt="Starred projects section"  />
 </Frame>
@@ -379,7 +371,7 @@ You can delete your project by clicking the three dots on the right of the overv
 
 
 <Frame>
-    <img src="/images/app_ui/delete_project.png"  />
+    <img src="/images/app_ui/delete_project.png" alt="Project overview menu with delete project option in the dropdown" />
 </Frame>
 
 <Warning>

@@ -85,6 +85,7 @@ You can add LoRAs to your W&B account and start using them with two methods:
 
     * The LoRA must have been trained using one of the models listed in the [Supported Base Models section](#supported-base-models).
     * A LoRA saved in PEFT format as a `lora` type artifact in your W&B account.
+    * The maximum supported rank is 16.
     * The LoRA must be stored in the `storage_region="coreweave-us"` for low latency.
     * When uploading, include the name of the base model you trained it on (for example, `meta-llama/Llama-3.1-8B-Instruct`). This ensures W&B can load it with the correct model.
   </Tab>
@@ -109,6 +110,7 @@ model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest
 Inference is currently configured for the following LLMs (exact strings must be used in `wandb.base_model`). More models coming soon:
 
 - `OpenPipe/Qwen3-14B-Instruct`
+- `Qwen/Qwen3-30B-A3B-Instruct-2507`
 - `Qwen/Qwen2.5-14B-Instruct`
 - `meta-llama/Llama-3.1-70B-Instruct`
 - `meta-llama/Llama-3.1-8B-Instruct`

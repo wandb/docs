@@ -40,7 +40,7 @@ with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
     download_path = fetched_artifact.download()  
 ```
 
-The `wandb.Run.use_artifact()` method both creates a [run](/models/runs/) and marks the artifact you download as the input to that run. 
+The `wandb.Run.use_artifact()` method both creates a [run](/models/runs) and marks the artifact you download as the input to that run. 
 Marking an artifact as the input to a run enables W&B to track the lineage of that artifact. 
 
 If you do not want to create a run, you can use the `wandb.Api()` object to access the artifact:
@@ -106,13 +106,12 @@ api = wandb.Api(overrides={"entity": "<team-entity>"})
 artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
 artifact = api.artifact(name = artifact_name)
 
-# Use org display name or org entity in the path
+# Construct the path
 api = wandb.Api()
-artifact_name = f"{ORG_NAME}/wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
 artifact = api.artifact(name = artifact_name)
 ```
 
-Where the `ORG_NAME` is the display name of your organization. Multi-tenant SaaS users can find the name of their organization in the organization's settings page at `https://wandb.ai/account-settings/`. Dedicated Cloud and Self-Managed users, contact your account administrator to confirm your organization's display name.
 </Note>
 
 ## Copy and paste pre-generated code snippet
@@ -128,5 +127,5 @@ W&B creates a code snippet that you can copy and paste into your Python script, 
 7. Paste the code snippet into your Python script, notebook, or terminal.
 
 <Frame>
-    <img src="/images/registry/find_usage_in_registry_ui.gif"  />
+    <img src="/images/registry/find_usage_in_registry_ui.gif" alt="Step-by-step process to locate and copy usage code snippet from the registry UI" />
 </Frame>

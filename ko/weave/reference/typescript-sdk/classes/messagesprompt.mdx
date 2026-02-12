@@ -1,0 +1,177 @@
+---
+title: 'Class: MessagesPrompt'
+description: TypeScript SDK 레퍼런스
+---
+
+[weave](../) / MessagesPrompt
+
+## Hierarchy
+
+- `Prompt`
+
+  ↳ `MessagesPrompt`
+
+## Table of contents
+
+### Constructors
+
+- [constructor](./messagesprompt#constructor)
+
+### Properties
+
+- [\_\_savedRef](./messagesprompt#__savedref)
+- [messages](./messagesprompt#messages)
+
+### Accessors
+
+- [description](./messagesprompt#description)
+- [name](./messagesprompt#name)
+
+### Methods
+
+- [format](./messagesprompt#format)
+- [saveAttrs](./messagesprompt#saveattrs)
+- [get](./messagesprompt#get)
+
+## Constructors
+
+### constructor
+
+• **new MessagesPrompt**(`parameters`): [`MessagesPrompt`](./messagesprompt)
+
+#### 파라미터
+
+| Name | Type |
+| :------ | :------ |
+| `parameters` | `MessagesPromptParameters` |
+
+#### Returns
+
+[`MessagesPrompt`](./messagesprompt)
+
+#### Overrides
+
+Prompt.constructor
+
+#### Defined in
+
+[prompt.ts:40](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L40)
+
+## Properties
+
+### \_\_savedRef
+
+• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+
+#### Inherited from
+
+Prompt.\_\_savedRef
+
+#### Defined in
+
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
+
+___
+
+### messages
+
+• **messages**: `Record`\<`string`, `any`\>[]
+
+#### Defined in
+
+[prompt.ts:38](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L38)
+
+## Accessors
+
+### description
+
+• `get` **description**(): `undefined` \| `string`
+
+#### Returns
+
+`undefined` \| `string`
+
+#### Inherited from
+
+Prompt.description
+
+#### Defined in
+
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
+
+___
+
+### name
+
+• `get` **name**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+Prompt.name
+
+#### Defined in
+
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+
+## 메소드
+
+### format
+
+▸ **format**(`values?`): `Record`\<`string`, `any`\>[]
+
+#### 파라미터
+
+| Name | Type |
+| :------ | :------ |
+| `values` | `Record`\<`string`, `any`\> |
+
+#### Returns
+
+`Record`\<`string`, `any`\>[]
+
+#### Defined in
+
+[prompt.ts:67](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L67)
+
+___
+
+### saveAttrs
+
+▸ **saveAttrs**(): `Object`
+
+#### Returns
+
+`Object`
+
+#### Inherited from
+
+Prompt.saveAttrs
+
+#### Defined in
+
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+
+___
+
+### get
+
+▸ **get**(`client`, `uri`): `Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+#### 파라미터
+
+| Name | Type |
+| :------ | :------ |
+| `client` | [`WeaveClient`](./weaveclient) |
+| `uri` | `string` |
+
+#### Returns
+
+`Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+#### Defined in
+
+[prompt.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L73)

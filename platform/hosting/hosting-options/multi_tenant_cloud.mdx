@@ -24,6 +24,14 @@ Users on an Enterprise plan can [bring their own bucket (BYOB) using the secure 
 
 You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
 
+## Data retention policy
+Multi-tenant Cloud retains the following items for 7 days after deletion:
+- Runs and history
+- Non-artifact run files, such as media, configuration files, and log files
+- Artifacts and artifact references
+
+Until this period elapses, these items can be restored. Contact [support](mailto:support@wandb.ai) or your AISE for assistance.
+
 ## Identity and access management (IAM)
 If you are on an Enterprise plan, enhanced identity and access managements capabilities allow for secure authentication and effective authorization for your W&B deployment:
 

@@ -16,8 +16,11 @@ import requests
 import sys
 from typing import Optional, Tuple
 
+# Remote OpenAPI spec URL
+REMOTE_SPEC_URL = "https://github.com/wandb/core/blob/master/services/weave-trace/openapi.json"
 
-def fetch_remote_spec(url: str = "https://trace.wandb.ai/openapi.json") -> dict:
+
+def fetch_remote_spec(url: str = REMOTE_SPEC_URL) -> dict:
     """Fetch the OpenAPI spec from the remote service."""
     print(f"  Fetching remote spec from {url}...")
     try:
@@ -42,6 +45,62 @@ def spec_hash(spec: dict) -> str:
     # Sort keys for consistent hashing
     spec_str = json.dumps(spec, sort_keys=True)
     return hashlib.sha256(spec_str.encode()).hexdigest()
+
+
+def validate_spec(spec: dict) -> list:
+    """
+    Validate the OpenAPI spec for potential issues.
+    Returns list of warning messages about spec issues.
+    """
+    warnings = []
+    
+    paths = spec.get("paths", {})
+    
+    # Track endpoint definitions to detect duplicates
+    endpoint_map = {}  # (method, path) -> [operation_ids]
+    tag_endpoint_map = {}  # tag -> [(method, path)]
+    
+    for path, path_item in paths.items():
+        for method in ["get", "post", "put", "delete", "patch"]:
+            if method not in path_item:
+                continue
+                
+            operation = path_item[method]
+            operation_id = operation.get("operationId", "")
+            tags = operation.get("tags", [])
+            
+            # Check for duplicate endpoint definitions
+            endpoint_key = (method.upper(), path)
+            if endpoint_key not in endpoint_map:
+                endpoint_map[endpoint_key] = []
+            endpoint_map[endpoint_key].append(operation_id)
+            
+            # Track endpoints by tag to detect if endpoints appear in multiple tags
+            for tag in tags:
+                if tag not in tag_endpoint_map:
+                    tag_endpoint_map[tag] = []
+                tag_endpoint_map[tag].append(endpoint_key)
+    
+    # Check for actual duplicates (same endpoint with different operation IDs)
+    for endpoint_key, operation_ids in endpoint_map.items():
+        if len(operation_ids) > 1:
+            method, path = endpoint_key
+            warnings.append(f"  ⚠ Duplicate endpoint: {method} {path} defined {len(operation_ids)} times with operation IDs: {operation_ids}")
+    
+    # Check for endpoints appearing in multiple categories (tags)
+    endpoint_tag_count = {}
+    for tag, endpoints in tag_endpoint_map.items():
+        for endpoint in endpoints:
+            if endpoint not in endpoint_tag_count:
+                endpoint_tag_count[endpoint] = []
+            endpoint_tag_count[endpoint].append(tag)
+    
+    for endpoint, tags in endpoint_tag_count.items():
+        if len(tags) > 1:
+            method, path = endpoint
+            warnings.append(f"  ℹ Endpoint {method} {path} appears in multiple categories: {tags}")
+    
+    return warnings
 
 
 def compare_specs(local_spec: dict, remote_spec: dict) -> Tuple[bool, list]:
@@ -100,7 +159,7 @@ def update_docs_json(use_local: bool = False):
                                     print("  ✓ Updated docs.json to use local OpenAPI spec")
                                 else:
                                     # Use remote spec
-                                    ref_page["openapi"] = {"source": "https://trace.wandb.ai/openapi.json"}
+                                    ref_page["openapi"] = {"source": REMOTE_SPEC_URL}
                                     print("  ✓ Updated docs.json to use remote OpenAPI spec")
                                 
                                 with open(docs_json_path, 'w') as f:
@@ -117,10 +176,9 @@ def main():
     print("Syncing OpenAPI specification...")
     
     local_spec_path = Path("weave/reference/service-api/openapi.json")
-    remote_url = "https://trace.wandb.ai/openapi.json"
     
     # Fetch remote spec
-    remote_spec = fetch_remote_spec(remote_url)
+    remote_spec = fetch_remote_spec(REMOTE_SPEC_URL)
     if not remote_spec:
         # If can't fetch remote, ensure we're using local
         if local_spec_path.exists():
@@ -130,6 +188,20 @@ def main():
         else:
             print("  ✗ No local spec and couldn't fetch remote spec")
             return 1
+    
+    # Validate the remote spec for issues
+    print("\n  Validating OpenAPI spec...")
+    spec_warnings = validate_spec(remote_spec)
+    if spec_warnings:
+        print("  ⚠ OpenAPI spec validation warnings:")
+        for warning in spec_warnings:
+            print(warning)
+        if any("Duplicate endpoint" in w for w in spec_warnings):
+            print("\n  ⚠ CRITICAL: Duplicate endpoint definitions found!")
+            print("     This may indicate an issue in the upstream OpenAPI spec.")
+            print("     Consider reporting this to the Weave team: https://github.com/wandb/weave/issues")
+    else:
+        print("  ✓ OpenAPI spec validation passed")
     
     # Load local spec
     local_spec = load_local_spec(local_spec_path)
@@ -183,7 +255,7 @@ def main():
         if using_local:
             print(f"\n  ℹ Currently using local OpenAPI spec ({local_spec_path})")
         else:
-            print("\n  ℹ Currently using remote OpenAPI spec (https://trace.wandb.ai/openapi.json)")
+            print(f"\n  ℹ Currently using remote OpenAPI spec ({REMOTE_SPEC_URL})")
         
         print("\n  Tip: Use --use-local to configure docs.json to use the local spec")
         print("       Use --use-remote to configure docs.json to use the remote spec")

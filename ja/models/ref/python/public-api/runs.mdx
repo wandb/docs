@@ -1,109 +1,87 @@
 ---
-title: run
+title: Runs
+namespace: public_apis_namespace
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L64-L273" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
 
-プロジェクトに関連付けられた runs の反復可能なコレクションとオプションフィルター。
+## <kbd>class</kbd> `Runs`
+プロジェクトに関連付けられ、オプションでフィルタリングされた `Run` オブジェクトのレイジーイテレータです。
+
+Runs は、必要に応じて W&B サーバーからページ単位で取得されます。
+
+通常、これは `Api.runs` ネームスペースを介して間接的に使用されます。
+
+### <kbd>method</kbd> `Runs.__init__`
 
 ```python
-Runs(
-    client: "RetryingClient",
-    entity: str,
-    project: str,
-    filters: Optional[Dict[str, Any]] = None,
-    order: Optional[str] = None,
-    per_page: int = 50,
-    include_sweeps: bool = (True)
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
 )
 ```
 
-これは通常、`Api`.runs メソッドを介して間接的に使用されます。
+**Args:**
 
-| 属性 | Description |
-| :--- | :--- |
+ - `client`: (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。
+ - `entity`: (str) プロジェクトを所有する Entities（ユーザー名またはチーム）。
+ - `project`: (str) Runs を取得する Projects の名前。
+ - `filters`: (Optional[Dict[str, Any]]) Runs クエリに適用するフィルタの辞書。
+ - `order`: (str) ソート順。`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` が指定可能です。先頭に `+` を付けると昇順（デフォルト）、`-` を付けると降順になります。デフォルトの順序は `run.created_at` で、古いものから新しい順です。
+ - `per_page`: (int) 1回のリクエストで取得する Runs の数（デフォルトは 50）。
+ - `include_sweeps`: (bool) Runs に Sweeps の情報を含めるかどうか。デフォルトは True です。
 
-## メソッド
+---
 
-### `convert_objects`
+### <kbd>property</kbd> Runs.length
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L141-L173)
+---
 
-```python
-convert_objects()
-```
-
-### `histories`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/runs.py#L175-L270)
+### <kbd>method</kbd> `Runs.histories`
 
 ```python
 histories(
-    samples: int = 500,
-    keys: Optional[List[str]] = None,
-    x_axis: str = "_step",
-    format: Literal['default', 'pandas', 'polars'] = "default",
-    stream: Literal['default', 'system'] = "default"
-)
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    format: "Literal['default', 'pandas', 'polars']" = 'default',
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
 ```
 
-フィルター条件に適合するすべての runs のサンプル履歴メトリクスを返します。
+フィルタ条件に一致するすべての Runs について、サンプリングされた履歴メトリクスを返します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `samples` |  (int, オプション) 各 run に対して返されるサンプルの数 |
-|  `keys` |  (list[str], オプション) 特定のキーのメトリクスのみを返します |
-|  `x_axis` |  (str, オプション) このメトリクスを x 軸として使用します。デフォルトは _step |
-|  `format` |  (Literal, オプション) データを返すフォーマット、オプションは "default", "pandas", "polars" |
-|  `stream` |  (Literal, オプション) メトリクスの "default", マシンメトリクスの "system" |
+**Args:**
 
-| 戻り値 | Description |
-| :--- | :--- |
-|  `pandas.DataFrame` |  format="pandas" の場合、履歴メトリクスの `pandas.DataFrame` を返します。 |
-|  `polars.DataFrame` |  format="polars" の場合、履歴メトリクスの `polars.DataFrame` を返します。リスト of dicts: format="default" の場合、履歴メトリクスを含む dicts のリストを run_id キー付きで返します。 |
+ - `samples`: 各 Run ごとに返されるサンプル数。
+ - `keys`: 特定のキーのメトリクスのみを返します。
+ - `x_axis`: X軸として使用するメトリクス。デフォルトは `_step` です。
+ - `format`: データを返す形式。オプションは "default"、"pandas"、"polars" です。
+ - `stream`: メトリクスの場合は "default"、マシンメトリクスの場合は "system" を指定します。
 
-### `next`
+**Returns:**
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
+ - `pandas.DataFrame`: `format="pandas"` の場合、履歴メトリクスの `pandas.DataFrame` を返します。
+ - `polars.DataFrame`: `format="polars"` の場合、履歴メトリクスの `polars.DataFrame` を返します。
+ - `list of dicts`: `format="default"` の場合、`run_id` キーを含む履歴メトリクスの辞書のリストを返します。
+
+---
+
+### <kbd>method</kbd> `Runs.upgrade_to_full`
 
 ```python
-next()
+upgrade_to_full() → None
 ```
 
-### `update_variables`
+この Runs コレクションを lazy モードから full モードにアップグレードします。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L52-L53)
-
-```python
-update_variables()
-```
-
-### `__getitem__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
-
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `QUERY`<a id="QUERY"></a> |   |
+これにより、完全な Run データの取得に切り替わり、すでにロードされている Run オブジェクトも完全なデータを持つようにアップグレードされます。複数の Runs をアップグレードする際のパフォーマンスを向上させるために、並列ロードを使用します。

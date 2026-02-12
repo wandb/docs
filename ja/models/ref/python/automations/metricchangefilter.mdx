@@ -1,0 +1,46 @@
+---
+title: MetricChangeFilter
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+
+## <kbd>class</kbd> `MetricChangeFilter`
+メトリクス の 値 の **変化** を ユーザー 定義のしきい値と比較するフィルタです。
+
+変化は「タンブリング」ウィンドウ、つまり現在のウィンドウと重複しない直前のウィンドウとの差分として計算されます。
+
+
+### <kbd>method</kbd> `MetricChangeFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'None' = None,
+    threshold: 'Annotated | Annotated',
+    prior_window: 'int' = None,
+    change_type: 'ChangeType',
+    change_dir: 'ChangeDir'
+) → None
+```
+
+**Args:**
+ 
+ - `name` (str): 
+ - `agg` (Optional[Agg]): 
+ - `window` (int): 
+ - `cmp` (None): 無視されます。
+ - `threshold` (Union[Annotated, Annotated]): 
+ - `prior_window` (int): 「直前」の メトリクス 集計ウィンドウのサイズ（`agg` が `None` の場合は無視されます）。
+   省略された場合、デフォルトで現在のウィンドウと同じサイズになります。
+ - `change_type` (ChangeType): 
+ - `change_dir` (ChangeDir): 
+
+**Returns:**
+ `MetricChangeFilter` オブジェクト。

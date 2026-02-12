@@ -2,44 +2,27 @@
 title: Automation events and scopes
 ---
 import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+import MultiTenantCloudOnly from "/snippets/en/_includes/multi-tenant-cloud-only.mdx";
 
 <Info>
 <EnterpriseCloudOnly/>
 </Info>
 
-An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview](/models/automations/) or [Create an automation](/models/automations/create-automations/).
+An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
 ## Registry
-This section describes the scopes and events for an automation in a [Registry](/models/registry/).
-
-1. Navigate to the W&B Registry at `https://wandb.ai/registry/`.
-1. Click the name of a registry, then view and create automations in the **Automations** tab.
-
-<Frame>
-![Screenshot of the Registry Automations tab with an automation](/images/automations/registry_automations_tab.png)
-</Frame>
-
-Learn more about [creating automations](/models/automations/create-automations/).
+This section describes the scopes and events for an automation in a [Registry](/models/registry).
 
 ### Scopes
-A [Registry](/models/registry/) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
+A [Registry](/models/registry) automation watches for the event taking place on any collection within a specific registry, including collections added in the future.
 
-### Events <a id="registry-events"></a>
+### Events <a id="registry-events" aria-label="Registry events"></a>
 A Registry automation can watch for these events:
 - **A new version is linked to a collection**: Test and validate new models or datasets when they are added to a registry.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version has a specific alias applied. For example, deploy a model when it has the `production` alias applied.
 
 ## Project
-This section describes the scopes and events for an automation in a [project](/models/track/project-page/).
-
-1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
-1. View and create automations in the **Automations** tab.
-
-<Frame>
-![Screenshot of the Project Automations tab with an automation](/images/automations/project_automations_tab.png)
-</Frame>
-
-Learn more about [creating automations](/models/automations/create-automations/).
+This section describes the scopes and events for an automation in a [project](/models/track/project-page).
 
 ### Scopes
 A project-level automation watches for the event taking place on any collection in the project. Depending on the event you specify, you can further limit the scope of the automation.
@@ -47,20 +30,20 @@ A project-level automation watches for the event taking place on any collection 
 ### Artifact events
 This section describes the events related to an artifact that can trigger an automation.
 
-- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created. To limit the automation's scope, select a specific artifact in the **Artifact filter** field.
+- **A new version is added to an artifact**: Apply recurring actions to each version of an artifact. For example, start a training job when a new dataset artifact version is created.
 - **An artifact alias is added**: Trigger a specific step of your workflow when a new artifact version in a project has an alias applied that matches the **Alias regex** you specify. For example, run a series of downstream processing steps when an artifact has the `test-set-quality-check` alias applied, or run a workflow each time a new artifact version has the `latest` alias. Only one artifact version can have a given alias at a point in time.
 - **An artifact tag is added**: Trigger a specific step of your workflow when an artifact version in a project has a tag applied that matches the **Tag regex** you specify. For example, specify `^europe.*` to trigger a geo-specific workflow when a tag beginning with the string `europe` is added to an artifact version. Artifact tags are used for grouping and filtering, and a given tag can be assigned to multiple artifact versions simultaneously.
 
 ### Run events
-An automation can be triggered by a change in a [run's status](/models/#run-states) or a change in a [metric value](/models/track/log/#what-data-is-logged-with-specific-wb-api-calls).
+An automation can be triggered by a change in a [run's status](/models/runs/run-states) or a change in a [metric value](/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
 
 #### Run status change
 <Note>
-- Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+- <MultiTenantCloudOnly/>
 - A run with **Killed** status cannot trigger an automation. This status indicates that the run was stopped forcibly by an admin user.
 </Note>
 
-Trigger a workflow when a run changes its [status](/models/runs/#run-states) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
+Trigger a workflow when a run changes its [status](/models/runs/run-states) to **Running**, **Finished**, or **Failed**. Optionally, you can further limit the runs that can trigger an automation by specifying a user or run name filter.
 
 <Frame>
 ![Screenshot showing a run status change automation](/images/automations/run_status_change.png)
@@ -70,7 +53,7 @@ Because run status is a property of the entire run, you can create a run status 
 
 #### Run metrics change
 <Note>
-Currently available only in [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud).
+<MultiTenantCloudOnly/>
 </Note>
 
 Trigger a workflow based on a logged value for a metric, either a metric in a run's history or a [system metric](/models/ref/python/experiments/system-metrics) such as `cpu`, which tracks the percentage of CPU utilization. W&B logs system metrics automatically every 15 seconds.
@@ -122,6 +105,36 @@ For example, trigger an automation when average `loss` decreases by at least `.2
 ![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
 </Frame>
 
+#### Run metrics z-score change
+<Note>
+<MultiTenantCloudOnly/>
+</Note>
+
+W&B can trigger an automation when a metric’s z-score (standard score) exceeds a specified threshold. A z-score measures how many standard deviations the value is from the mean for that metric across a configurable window of runs in the project (defaults to 30 runs).
+
+To use a z-score as an event trigger, select the **Run metrics z-score threshold met** event.
+
+Automations based on z-score keep your team informed about unusual performance without checking absolute thresholds, which may vary as your model or training process evolves.
+
+You can create a run metrics z-score automation from the project's **Automations** tab or directly from a line plot panel in a workspace.
+
+To create a z-score automation, you configure:
+1. The target z-score threshold, expressed as a positive float value (for example, 2.0).
+1. The window of logged values that determine the mean value (defaults to 30).
+1. The comparison to make:
+   - Above (trigger when performance is unusually high)
+   - Below (trigger when performance is unusually low)
+   - Either above or below
+
+For example, trigger an automation when `accuracy` has a z-score above 2, which means the run is performing significantly better than other runs in the project.
+
+**Understanding z-score values:**
+- A z-score of 0 means the metric is at the average.
+- A z-score of +2.0 means the metric is 2 standard deviations above average.
+- A z-score of -2.0 means the metric is 2 standard deviations below average.
+- Values beyond ±2 are often considered statistically significant outliers.
+
+
 #### Run filters
 This section describes how the automation selects runs to evaluate.
 
@@ -129,11 +142,11 @@ This section describes how the automation selects runs to evaluate.
   - **Filter to one user's runs**: Include only runs created by the specified user.
   - **Filter on run name**: Include only runs whose names match the given regular expression.
 
-  For details, see [Create automations](/models/automations/create-automations/).
+  For details, see [Create automations](/models/automations/create-automations).
 - Each run is considered individually and can potentially trigger the automation.
 - Each run's values are put into a separate window and compared to the threshold separately.
 - In a 24 hour period, a particular automation can fire at most once per run.
 
 ## Next steps
-- [Create a Slack automation](/models/automations/create-automations/slack/)
-- [Create a webhook automation](/models/automations/create-automations/webhook/)
+- [Create a Slack automation](/models/automations/create-automations/slack)
+- [Create a webhook automation](/models/automations/create-automations/webhook)

@@ -34,71 +34,127 @@ import sys
 import argparse
 import shutil
 import json
+import inspect
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Union
 import click
 from click.core import Command, Group
 
 def clean_text(text: str) -> str:
-    """Clean and format text for markdown."""
+    """Clean and format text for markdown.
+    
+    Uses inspect.cleandoc() to handle dedenting docstrings, then detects and converts
+    indented code blocks to fenced code blocks for Mintlify compatibility.
+    
+    Mintlify doesn't support implicit indented code blocks, so we convert them to
+    triple-backtick fenced blocks. Regular paragraphs are collapsed into single lines.
+    """
     if not text:
         return ""
     
-    # First, normalize line endings and strip the whole text
-    text = text.strip()
+    # Use inspect.cleandoc() to clean and dedent the docstring
+    # This handles common leading whitespace removal like most doc generators
+    text = inspect.cleandoc(text)
     
     # Split into paragraphs (separated by blank lines)
     paragraphs = re.split(r'\n\s*\n', text)
     
-    # Clean each paragraph: remove extra spaces within lines, but keep paragraph structure
     cleaned_paragraphs = []
     for paragraph in paragraphs:
-        # Replace multiple spaces/tabs with single space, but keep newlines
+        if not paragraph.strip():
+            continue
+        
         lines = paragraph.split('\n')
-        cleaned_lines = []
-        for line in lines:
-            # Clean up spaces within the line
-            cleaned_line = re.sub(r'[ \t]+', ' ', line.strip())
-            if cleaned_line:  # Only add non-empty lines
-                cleaned_lines.append(cleaned_line)
-        if cleaned_lines:
-            cleaned_paragraphs.append(' '.join(cleaned_lines))
+        
+        # Detect if this paragraph is a code block
+        # After cleandoc(), code blocks still have relative indentation (4+ spaces)
+        is_code_block = _is_code_block(lines)
+        
+        if is_code_block:
+            # Convert indented code block to fenced code block for Mintlify
+            code_lines = [line.strip() for line in lines if line.strip()]
+            if code_lines:
+                fenced_block = '```bash\n' + '\n'.join(code_lines) + '\n```'
+                cleaned_paragraphs.append(fenced_block)
+        else:
+            # Regular paragraph: collapse into single line
+            cleaned_text = ' '.join(line.strip() for line in lines if line.strip())
+            # Normalize whitespace
+            cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
+            if cleaned_text:
+                cleaned_paragraphs.append(cleaned_text)
     
     # Join paragraphs with double newlines for markdown
-    text = '\n\n'.join(cleaned_paragraphs)
+    result = '\n\n'.join(cleaned_paragraphs)
+    
+    # Escape pipe characters for markdown tables
+    result = result.replace('|', '\\|')
+    return result
+
+
+def _is_code_block(lines: List[str]) -> bool:
+    """Detect if a paragraph is a code block based on indentation.
+    
+    After inspect.cleandoc(), code blocks still have relative indentation.
+    Code blocks typically have 4+ spaces of indentation for all lines.
+    """
+    if not lines:
+        return False
+    
+    non_empty_lines = [line for line in lines if line.strip()]
+    if not non_empty_lines:
+        return False
+    
+    # Check if all non-empty lines start with significant indentation (4+ spaces)
+    min_indent = min(len(line) - len(line.lstrip()) for line in non_empty_lines)
+    
+    # Code blocks have at least 4 spaces of indentation
+    # Regular text paragraphs have 0 spaces after cleandoc()
+    return min_indent >= 4
+
+def clean_text_for_table(text: str) -> str:
+    """Clean text for use in markdown table cells.
+    
+    Uses inspect.cleandoc() then collapses all whitespace into single spaces,
+    suitable for inline table cell content.
+    """
+    if not text:
+        return ""
+    
+    # Clean and dedent the text
+    text = inspect.cleandoc(text)
+    
+    # Collapse all whitespace (spaces, tabs, newlines) into single spaces
+    text = re.sub(r'\s+', ' ', text)
     
     # Escape pipe characters for markdown tables
     text = text.replace('|', '\\|')
+    
     return text
 
 def get_brief_description(text: str) -> str:
-    """Get just the first sentence or line for table display."""
+    """Get just the first sentence for table display.
+    
+    Extracts and returns the first sentence from the text, suitable for
+    brief descriptions in command tables.
+    """
     if not text:
         return "No description available"
     
-    # First clean the text but without escaping pipes yet
-    text = text.strip()
+    # Clean and dedent the text
+    text = inspect.cleandoc(text)
     
-    # Split into paragraphs
+    # Split into paragraphs and get the first one
     paragraphs = re.split(r'\n\s*\n', text)
-    if not paragraphs:
+    if not paragraphs or not paragraphs[0].strip():
         return "No description available"
     
-    # Get the first paragraph
-    first_para = paragraphs[0]
+    # Collapse the first paragraph into a single line
+    first_para = re.sub(r'\s+', ' ', paragraphs[0].strip())
     
-    # Clean up spaces in the first paragraph
-    first_para = re.sub(r'[ \t\n]+', ' ', first_para.strip())
-    
-    # Try to get just the first sentence
-    # Look for sentence endings
+    # Extract the first sentence
     sentence_match = re.match(r'^(.*?[.!?])\s', first_para + ' ')
-    if sentence_match:
-        first_sentence = sentence_match.group(1)
-    else:
-        # If no sentence ending found, take the whole first paragraph
-        # but limit to reasonable length
-        first_sentence = first_para
+    first_sentence = sentence_match.group(1) if sentence_match else first_para
     
     # Limit length for table display
     max_length = 150
@@ -163,6 +219,10 @@ def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:
     
     # Extract parameters
     for param in cmd.params:
+        # Skip hidden parameters (they don't show in --help)
+        if isinstance(param, click.Option) and getattr(param, 'hidden', False):
+            continue
+            
         param_info = get_param_info(param)
         if isinstance(param, click.Option):
             info['options'].append(param_info)
@@ -222,7 +282,8 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append("*/}")
         lines.append("")
         
-        # Command description from CLI (only if no snippet)
+        # Only add CLI help text when there's no snippet file
+        # (When a snippet exists, it should contain any necessary intro content)
         if cmd_info['help']:
             lines.append(cmd_info['help'])
             lines.append("")
@@ -236,7 +297,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
     if cmd_info['name'] in ['wandb', 'cli']:
         usage = "wandb"
     else:
-        usage = f"wandb {cmd_info['name']}"
+        usage = cmd_info['full_name'].replace('cli', 'wandb')
     
     # Add arguments to usage
     for arg in cmd_info['arguments']:
@@ -265,7 +326,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append("| :--- | :--- | :--- |")
         for arg in cmd_info['arguments']:
             required = "Yes" if arg['required'] else "No"
-            desc = arg['help'] or "No description available"
+            desc = clean_text_for_table(arg['help']) if arg['help'] else "No description available"
             lines.append(f"| `{arg['name'].upper()}` | {desc} | {required} |")
         lines.append("")
     
@@ -276,7 +337,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append("| Option | Description |")
         lines.append("| :--- | :--- |")
         for opt in cmd_info['options']:
-            desc = opt['help'] or "No description available"
+            desc = clean_text_for_table(opt['help']) if opt['help'] else "No description available"
             if opt['default_str']:
                 desc += opt['default_str']
             lines.append(f"| {opt['opts_str']} | {desc} |")
@@ -313,15 +374,14 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
     
     return "\n".join(lines)
 
-def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = False, content_before: str = None, content_after: str = None, file_dir_path: str = "", wandb_version: str = None) -> str:
+def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = False, file_dir_path: str = "", project_root: Path = None, wandb_version: str = None) -> str:
     """Generate index markdown for a command group.
     
     Args:
         cmd_info: Command information dictionary
         subcommands_only: Whether this is a subcommand index page
-        content_before: Manual content to preserve before auto-generated content
-        content_after: Manual content to preserve after auto-generated content
         file_dir_path: Directory path where this file will be located (e.g., "wandb-artifact" for files in that dir)
+        project_root: Project root path for finding snippets
         wandb_version: W&B SDK version string (e.g., "0.23.0")
     """
     lines = []
@@ -342,24 +402,45 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
     lines.append("---")
     lines.append("")
     
-    # Insert preserved manual content before auto-generated content
-    if content_before:
-        lines.append(content_before)
+    # Check if there's a snippet file for this command/index
+    command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
+    snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
+    
+    # Add snippet or template for manual content
+    has_snippet = snippet_path and snippet_path.exists()
+    if has_snippet:
+        # Add import and include the snippet
+        # Convert command name to PascalCase for the component name
+        component_name = ''.join(word.capitalize() for word in command_name.split('-'))
+        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append("")
+        lines.append(f"<{component_name}/>")
+        lines.append("")
+    elif not subcommands_only:
+        # For main CLI page only, show commented template when no snippet exists
+        lines.append("{/*")
+        lines.append(f"  To add introductory content for this command:")
+        lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
+        lines.append(f"  2. Add your intro content to that file")
+        lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
+        lines.append("")
+        component_name = ''.join(word.capitalize() for word in command_name.split('-'))
+        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append("")
+        lines.append(f"<{component_name}/>")
+        lines.append("")
+        lines.append(f"  The snippet will be auto-detected on the next regeneration.")
+        lines.append("*/}")
         lines.append("")
     
-    # Auto-generated marker start (for main CLI page only)
-    if not subcommands_only:
-        lines.append("{/* AUTO-GENERATED CONTENT STARTS HERE */}")
-        lines.append("{/* WARNING: Do not edit below this line. This content is auto-generated by scripts/cli-docs-generator.py */}")
-        lines.append("")
-    
-    # Description (only if no preserved content)
-    if not content_before and cmd_info['help']:
+    # Only add CLI help text when there's no snippet file
+    # (When a snippet exists, it should contain any necessary intro content)
+    if not has_snippet and cmd_info['help']:
         lines.append(cmd_info['help'])
         lines.append("")
     
     # Usage section
-    lines.append("## Basic Usage" if content_before else "## Usage")
+    lines.append("## Usage")
     lines.append("")
     lines.append("```bash")
     # Always use 'wandb' as the base command
@@ -382,7 +463,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append("| Option | Description |")
         lines.append("| :--- | :--- |")
         for opt in cmd_info['options']:
-            desc = opt['help'] or "No description available"
+            desc = clean_text_for_table(opt['help']) if opt['help'] else "No description available"
             if opt['default_str']:
                 desc += opt['default_str']
             lines.append(f"| {opt['opts_str']} | {desc} |")
@@ -414,78 +495,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
                 lines.append(f"| [{name}](/models/ref/cli/wandb-{name}) | {desc} |")
         lines.append("")
     
-    # Auto-generated marker end and preserved content after
-    if not subcommands_only:
-        lines.append("{/* AUTO-GENERATED CONTENT ENDS HERE */}")
-        if content_after:
-            lines.append("{/* Manual content continues below */}")
-            lines.append("")
-            lines.append(content_after)
-    
     return "\n".join(lines)
-
-def extract_manual_content(file_path: Path) -> tuple[Optional[str], Optional[str]]:
-    """Extract manually written content from existing cli.mdx file.
-    
-    Returns a tuple of (content_before, content_after) where:
-    - content_before: Content between front matter and auto-generated marker
-    - content_after: Content after the auto-generated section ends
-    Both can be None if the file doesn't exist or has no manual content.
-    """
-    if not file_path.exists():
-        return (None, None)
-    
-    with open(file_path, 'r') as f:
-        content = f.read()
-    
-    # Find the end of front matter
-    if not content.startswith('---'):
-        return (None, None)
-    
-    # Find the second '---' that ends the front matter
-    front_matter_end = content.find('---', 3)
-    if front_matter_end == -1:
-        return (None, None)
-    
-    # Move past the closing --- and newline
-    content_start = front_matter_end + 3
-    while content_start < len(content) and content[content_start] in ['\n', '\r']:
-        content_start += 1
-    
-    # Find the auto-generated markers (JSX-style comments for MDX)
-    auto_gen_start_marker = "{/* AUTO-GENERATED CONTENT STARTS HERE */}"
-    auto_gen_end_marker = "{/* AUTO-GENERATED CONTENT ENDS HERE */}"
-    
-    auto_gen_start = content.find(auto_gen_start_marker)
-    auto_gen_end = content.find(auto_gen_end_marker)
-    
-    content_before = None
-    content_after = None
-    
-    if auto_gen_start == -1:
-        # No marker found, check if there's a "## Usage" or "## Basic Usage" section
-        usage_match = re.search(r'\n## (?:Basic )?Usage\n', content)
-        if usage_match:
-            # Content before Usage section is likely manual
-            content_before = content[content_start:usage_match.start()].strip()
-    else:
-        # Extract content between front matter and auto-generated marker
-        content_before = content[content_start:auto_gen_start].strip()
-        
-        # If we have an end marker, extract content after it
-        if auto_gen_end != -1:
-            # Find content after the end marker and following comment line
-            content_after_start = content.find('\n', auto_gen_end) + 1
-            # Skip the "Manual content continues below" comment if present
-            manual_comment = "{/* Manual content continues below */}"
-            if content[content_after_start:].strip().startswith(manual_comment):
-                content_after_start = content.find('\n', content_after_start + len(manual_comment)) + 1
-            
-            remaining = content[content_after_start:].strip()
-            if remaining:
-                content_after = remaining
-    
-    return (content_before, content_after)
 
 def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: str = "", file_dir_path: str = "", project_root: Path = None, wandb_version: str = None):
     """Write documentation files for a command and its subcommands.
@@ -513,15 +523,10 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
         # Main CLI index - Mintlify wants cli.mdx in models/ref/
         index_path = output_dir.parent / "cli.mdx"
         
-        # Extract any existing manual content before regenerating
-        content_before, content_after = extract_manual_content(index_path)
-        
         index_path.parent.mkdir(parents=True, exist_ok=True)
         with open(index_path, 'w') as f:
-            f.write(generate_index_markdown(cmd_info, content_before=content_before, content_after=content_after, file_dir_path="", wandb_version=wandb_version))
+            f.write(generate_index_markdown(cmd_info, subcommands_only=False, file_dir_path="", project_root=project_root, wandb_version=wandb_version))
         print(f"Generated: {index_path}")
-        if content_before or content_after:
-            print(f"  ✓ Preserved manual content")
         
         # Process top-level commands (alphabetically sorted)
         for name, subcmd_info in sorted(cmd_info['subcommands'].items()):
@@ -536,7 +541,7 @@ def write_command_docs(cmd_info: Dict[str, Any], output_dir: Path, parent_path: 
             cmd_file_name = f"wandb-{parent_path}{cmd_name}"
             cmd_file_path = output_dir / f"{cmd_file_name}.mdx"
             with open(cmd_file_path, 'w') as f:
-                f.write(generate_index_markdown(cmd_info, subcommands_only=True, file_dir_path=file_dir_path))
+                f.write(generate_index_markdown(cmd_info, subcommands_only=True, file_dir_path=file_dir_path, project_root=project_root))
             print(f"Generated: {cmd_file_path}")
             
             # Create the directory for subcommands
@@ -721,15 +726,9 @@ def main():
     
     # Warning about overwriting existing documentation (only in interactive mode)
     if output_dir.exists() and any(output_dir.iterdir()):
-        # Check if cli.mdx has manual content (Mintlify structure)
-        index_path = output_dir.parent / "cli.mdx"
-        content_before, content_after = extract_manual_content(index_path)
-        has_manual_content = content_before is not None or content_after is not None
-        
         if args.interactive:
             print(f"⚠️  Warning: This will regenerate documentation in {output_dir}")
-            if has_manual_content:
-                print("   Note: Manual content in cli.mdx will be preserved.")
+            print("   Note: Manual content should be in snippet files (/snippets/en/_includes/cli/*.mdx)")
             response = input("Continue? (y/N): ")
             if response.lower() != 'y':
                 print("Aborted.")

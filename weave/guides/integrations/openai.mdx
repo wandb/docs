@@ -3,7 +3,7 @@ title: "OpenAI"
 description: "Integrate OpenAI with Weave for tracing, evaluation, and monitoring"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -26,11 +26,10 @@ If you don't specify a W&B team when you call `weave.init()`, your default entit
 Weave automatically patches OpenAI whether imported before or after `weave.init()`:
 
 <CodeGroup>
-```python Python
+```python Python lines {4}
 from openai import OpenAI
 import weave
 
-# highlight-next-line
 weave.init('emoji-bot')  # OpenAI is automatically patched!
 
 client = OpenAI()
@@ -78,12 +77,10 @@ openai.chat.completions.create(
 
 You can still explicitly patch if you want fine-grained control:
 
-```python lines
+```python lines {3,4}
 import weave
 
-# highlight-next-line
 weave.init('emoji-bot')
-# highlight-next-line
 weave.integrations.patch_openai()  # Enable OpenAI tracing
 
 from openai import OpenAI

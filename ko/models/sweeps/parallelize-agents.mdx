@@ -1,30 +1,30 @@
 ---
-title: Parallelize agents
-description: 멀티 코어 또는 멀티 GPU 머신에서 W&B 스윕 에이전트를 병렬화하세요.
+title: 에이전트 병렬화
+description: 멀티 코어 또는 멀티 GPU 머신에서 W&B Sweep 에이전트를 병렬화하세요.
 ---
 
-멀티 코어 또는 멀티 GPU 머신에서 W&B 스윕 에이전트를 병렬화하세요. 시작하기 전에 W&B 스윕을 초기화했는지 확인하세요. W&B 스윕을 초기화하는 방법에 대한 자세한 내용은 [스윕 초기화](/ko/models/sweeps/initialize-sweeps/)를 참조하세요.
+멀티 코어 또는 멀티 GPU 머신에서 W&B Sweep 에이전트를 병렬화하세요. 시작하기 전에 W&B Sweep 이 초기화되었는지 확인하세요. W&B Sweep 을 초기화하는 방법에 대한 자세한 내용은 [Initialize sweeps](./initialize-sweeps) 를 참조하세요.
 
-### 멀티 CPU 머신에서 병렬화
+### 멀티 CPU 머신에서 병렬화하기
 
-유스 케이스에 따라 다음 탭을 살펴보고 CLI 또는 Jupyter Notebook 내에서 W&B 스윕 에이전트를 병렬화하는 방법을 알아보세요.
+사용자의 유스 케이스에 따라 다음 탭을 탐색하여 CLI 또는 Jupyter 노트북 내에서 W&B Sweep 에이전트를 병렬화하는 방법을 알아보세요.
 
 <Tabs>
 <Tab title="CLI">
-[`wandb agent`](/ko/models/ref/cli/wandb-agent) 코맨드를 사용하여 터미널에서 여러 CPU에 걸쳐 W&B 스윕 에이전트를 병렬화하세요. [스윕을 초기화](/ko/models/sweeps/initialize-sweeps/)할 때 반환된 스윕 ID를 제공하세요.
+터미널에서 [`wandb agent`](/models/ref/cli/wandb-agent) 코맨드를 사용하여 여러 CPU에 걸쳐 sweep 에이전트를 병렬화하세요. [sweep 을 초기화](./initialize-sweeps) 했을 때 반환된 sweep ID를 제공해야 합니다.
 
-1. 로컬 머신에서 둘 이상의 터미널 창을 여세요.
-2. 아래 코드 조각을 복사하여 붙여넣고 `sweep_id`를 스윕 ID로 바꾸세요.
+1. 로컬 머신에서 두 개 이상의 터미널 창을 엽니다.
+2. 아래의 코드조각을 복사하여 붙여넣고 `sweep_id` 를 사용자의 sweep ID로 바꿉니다.
 
 ```bash
 wandb agent sweep_id
 ```
 </Tab>
 <Tab title="Jupyter Notebook">
-W&B Python SDK 라이브러리를 사용하여 Jupyter Notebook 내에서 여러 CPU에 걸쳐 W&B 스윕 에이전트를 병렬화하세요. [스윕을 초기화](/ko/models/sweeps/initialize-sweeps/)할 때 반환된 스윕 ID가 있는지 확인하세요. 또한 스윕이 실행할 함수의 이름을 `function` 파라미터에 제공하세요.
+Jupyter 노트북 내에서 W&B Python SDK 라이브러리를 사용하여 여러 CPU에 걸쳐 W&B Sweep 에이전트를 병렬화하세요. [sweep 을 초기화](./initialize-sweeps) 했을 때 반환된 sweep ID가 있는지 확인하세요. 또한 `function` 파라미터에 sweep 이 실행할 함수 이름을 입력합니다.
 
-1. 둘 이상의 Jupyter Notebook을 여세요.
-2. 여러 Jupyter Notebook에 W&B 스윕 ID를 복사하여 붙여넣어 W&B 스윕을 병렬화하세요. 예를 들어, 스윕 ID가 `sweep_id`라는 변수에 저장되어 있고 함수의 이름이 `function_name`인 경우 다음 코드 조각을 여러 Jupyter Notebook에 붙여넣어 스윕을 병렬화할 수 있습니다.
+1. 두 개 이상의 Jupyter 노트북을 엽니다.
+2. W&B Sweep 을 병렬화하기 위해 여러 Jupyter 노트북에 W&B Sweep ID를 복사하여 붙여넣습니다. 예를 들어, sweep ID가 `sweep_id` 라는 변수에 저장되어 있고 함수의 이름이 `function_name` 인 경우, 다음 코드조각을 여러 노트북에 붙여넣어 sweep 을 병렬화할 수 있습니다.
 
 ```python
 wandb.agent(sweep_id=sweep_id, function=function_name)
@@ -32,14 +32,14 @@ wandb.agent(sweep_id=sweep_id, function=function_name)
 </Tab>
 </Tabs>
 
-### 멀티 GPU 머신에서 병렬화
+### 멀티 GPU 머신에서 병렬화하기
 
-CUDA 툴킷을 사용하여 터미널에서 여러 GPU에 걸쳐 W&B 스윕 에이전트를 병렬화하려면 다음 절차를 따르세요.
+CUDA Toolkit을 사용하여 터미널에서 여러 GPU에 걸쳐 W&B Sweep 에이전트를 병렬화하려면 다음 절차를 따르세요.
 
-1. 로컬 머신에서 둘 이상의 터미널 창을 여세요.
-2. W&B 스윕 작업을 시작할 때 `CUDA_VISIBLE_DEVICES`를 사용하여 사용할 GPU 인스턴스를 지정하세요([`wandb agent`](/ko/models/ref/cli/wandb-agent)). 사용할 GPU 인스턴스에 해당하는 정수 값을 `CUDA_VISIBLE_DEVICES`에 할당하세요.
+1. 로컬 머신에서 두 개 이상의 터미널 창을 엽니다.
+2. W&B Sweep 작업([`wandb agent`](/models/ref/cli/wandb-agent))을 시작할 때 `CUDA_VISIBLE_DEVICES` 로 사용할 GPU 인스턴스를 지정합니다. `CUDA_VISIBLE_DEVICES` 에 사용할 GPU 인스턴스에 해당하는 정수 값(value)을 할당합니다.
 
-예를 들어, 로컬 머신에 두 개의 NVIDIA GPU가 있다고 가정해 보겠습니다. 터미널 창을 열고 `CUDA_VISIBLE_DEVICES`를 `0`으로 설정하세요(`CUDA_VISIBLE_DEVICES=0`). 다음 예제에서 `sweep_ID`를 W&B 스윕을 초기화할 때 반환되는 W&B 스윕 ID로 바꾸세요.
+예를 들어, 로컬 머신에 두 개의 NVIDIA GPU가 있다고 가정해 보겠습니다. 터미널 창을 열고 `CUDA_VISIBLE_DEVICES` 를 `0` 으로 설정합니다 (`CUDA_VISIBLE_DEVICES=0`). 다음 예시의 `sweep_ID` 를 W&B Sweep 을 초기화할 때 반환된 W&B Sweep ID로 바꿉니다.
 
 터미널 1
 
@@ -47,7 +47,7 @@ CUDA 툴킷을 사용하여 터미널에서 여러 GPU에 걸쳐 W&B 스윕 에�
 CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
 ```
 
-두 번째 터미널 창을 여세요. `CUDA_VISIBLE_DEVICES`를 `1`로 설정하세요(`CUDA_VISIBLE_DEVICES=1`). 이전 코드 조각에 언급된 `sweep_ID`에 대해 동일한 W&B 스윕 ID를 붙여넣으세요.
+두 번째 터미널 창을 엽니다. `CUDA_VISIBLE_DEVICES` 를 `1` 로 설정합니다 (`CUDA_VISIBLE_DEVICES=1`). 다음 코드조각에 언급된 `sweep_ID` 에 동일한 W&B Sweep ID를 붙여넣습니다.
 
 터미널 2
 

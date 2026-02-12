@@ -18,13 +18,11 @@ When you publish one of these objects with `weave.publish`, it appears in your W
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {4,5,15}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     system_prompt = weave.StringPrompt("You speak like a pirate")
-    # highlight-next-line
     weave.publish(system_prompt, name="pirate_prompt")
 
     from openai import OpenAI
@@ -35,7 +33,6 @@ When you publish one of these objects with `weave.publish`, it appears in your W
       messages=[
         {
           "role": "system",
-          # highlight-next-line
           "content": system_prompt.format()
         },
         {
@@ -93,11 +90,10 @@ When you publish one of these objects with `weave.publish`, it appears in your W
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {4,21}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     prompt = weave.MessagesPrompt([
         {
             "role": "system",
@@ -115,7 +111,6 @@ When you publish one of these objects with `weave.publish`, it appears in your W
 
     response = client.chat.completions.create(
       model="gpt-4o",
-      # highlight-next-line
       messages=prompt.format(),
     )
     ```
@@ -165,11 +160,10 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {4,15}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     prompt = weave.StringPrompt("Solve the equation {equation}")
     weave.publish(prompt, name="calculator_prompt")
 
@@ -181,7 +175,6 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
       messages=[
         {
           "role": "user",
-          # highlight-next-line
           "content": prompt.format(equation="1 + 1 = ?")
         }
       ],
@@ -189,7 +182,7 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines {8,23}
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -197,7 +190,6 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
       // weave.init returns a client instance
       const weaveClient = await weave.init('wandb/prompt-examples');
 
-      // highlight-next-line
       const prompt = new weave.StringPrompt({
         content: 'Solve the equation {equation}',
       });
@@ -213,7 +205,6 @@ Both `StringPrompt` and `MessagesPrompt` support dynamic content through paramet
         messages: [
           {
             role: "user",
-            // highlight-next-line
             content: prompt.format({ equation: "1 + 1 = ?" })
           }
         ],
@@ -229,11 +220,10 @@ This also works with `MessagesPrompt`.
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {4,21}
     import weave
     weave.init('intro-example')
 
-    # highlight-next-line
     prompt = weave.MessagesPrompt([
     {
         "role": "system",
@@ -251,13 +241,12 @@ This also works with `MessagesPrompt`.
 
     response = client.chat.completions.create(
       model="gpt-4o",
-      # highlight-next-line
       messages=prompt.format(scene="A dog is lying on a dock next to a fisherman."),
     )
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```typescript lines
+    ```typescript lines {8,29}
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
@@ -265,7 +254,6 @@ This also works with `MessagesPrompt`.
       // weave.init returns a client instance
       const weaveClient = await weave.init('wandb/prompt-examples');
 
-      // highlight-next-line
       const prompt = new weave.MessagesPrompt({
         messages: [
           {
@@ -287,7 +275,6 @@ This also works with `MessagesPrompt`.
 
       const response = await client.chat.completions.create({
         model: "gpt-4o",
-        // highlight-next-line
         messages: prompt.format({ scene: "A dog is lying on a dock next to a fisherman." }),
       });
     }
@@ -297,7 +284,7 @@ This also works with `MessagesPrompt`.
   </Tab>
 </Tabs>
 
-## <a id="view-prompts"></a>View and Compare Prompt Versions
+## <a id="view-prompts" aria-label="View and Compare Prompt Versions"></a>View and Compare Prompt Versions
 
 Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions. 
 

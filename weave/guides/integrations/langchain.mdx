@@ -3,7 +3,7 @@ title: "LangChain"
 description: "Use Weave to track and log all calls made through the LangChain Python library"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_langchain.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_langchain.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -11,20 +11,19 @@ Weave is designed to make tracking and logging all calls made through the [LangC
 
 When working with LLMs, debugging is inevitable. Whether a model call fails, an output is misformatted, or nested model calls create confusion, pinpointing issues can be challenging. LangChain applications often consist of multiple steps and LLM call invocations, making it crucial to understand the inner workings of your chains and agents.
 
-Weave simplifies this process by automatically capturing traces for your [LangChain](https://python.langchain.com/v0.2/docs/introduction/) applications. This enables you to monitor and analyze your application's performance, making it easier to debug and optimize your LLM workflows.
+Weave simplifies this process by automatically capturing traces for your [LangChain](https://docs.langchain.com/oss/python/langchain/overview) applications. This enables you to monitor and analyze your application's performance, making it easier to debug and optimize your LLM workflows.
 
 
 ## Getting Started
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name that will help you organize your traces.
 
-```python lines
+```python lines {6}
 import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("langchain_demo")
 
 llm = ChatOpenAI()
@@ -41,13 +40,12 @@ print(output)
 
 To track metadata from your LangChain calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a chain or a single request.
 
-```python lines
+```python lines {6,13}
 import weave
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("langchain_demo")
 
 llm = ChatOpenAI()
@@ -55,7 +53,6 @@ prompt = PromptTemplate.from_template("1 + {number} = ")
 
 llm_chain = prompt | llm
 
-# highlight-next-line
 with weave.attributes({"my_awesome_attribute": "value"}):
     output = llm_chain.invoke()
 
@@ -83,7 +80,7 @@ In addition to automatic tracing, you can manually trace calls using the `WeaveT
 
 You can pass the `WeaveTracer` callback to individual LangChain components to trace specific requests.
 
-```python lines
+```python lines {11,13,15,22}
 import os
 
 os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
@@ -94,13 +91,10 @@ from langchain_openai import ChatOpenAI
 import weave
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("langchain_demo")  # <-- we don't enable tracing here because the env var is explicitly set to `false`
 
-# highlight-next-line
 weave_tracer = WeaveTracer()
 
-# highlight-next-line
 config = {"callbacks": [weave_tracer]}
 
 llm = ChatOpenAI()
@@ -108,7 +102,6 @@ prompt = PromptTemplate.from_template("1 + {number} = ")
 
 llm_chain = prompt | llm
 
-# highlight-next-line
 output = llm_chain.invoke({"number": 2}, config=config) # <-- this enables tracing only for this chain invoke.
 
 llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for langchain calls but openai calls will still be traced
@@ -118,7 +111,7 @@ llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for la
 
 Alternatively, you can use the `weave_tracing_enabled` context manager to enable tracing for specific blocks of code.
 
-```python lines
+```python lines {11,18}
 import os
 
 os.environ["WEAVE_TRACE_LANGCHAIN"] = "false" # <- explicitly disable global tracing.
@@ -129,7 +122,6 @@ from langchain_openai import ChatOpenAI
 import weave
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("langchain_demo")  # <-- we don't enable tracing here because the env var is explicitly set to `false`
 
 llm = ChatOpenAI()
@@ -137,7 +129,6 @@ prompt = PromptTemplate.from_template("1 + {number} = ")
 
 llm_chain = prompt | llm
 
-# highlight-next-line
 with weave_tracing_enabled():  # <-- this enables tracing only for this chain invoke.
     output = llm_chain.invoke({"number": 2})
 
@@ -172,7 +163,7 @@ Organizing and evaluating LLMs in applications for various use cases is challeng
 
 The following example demonstrates wrapping a Langchain chain in a `WeaveModel`:
 
-```python lines
+```python lines {10,12,16}
 import json
 import asyncio
 
@@ -182,15 +173,12 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("langchain_demo")
 
-# highlight-next-line
 class ExtractFruitsModel(weave.Model):
     model_name: str
     prompt_template: str
 
-# highlight-next-line
     @weave.op()
     async def predict(self, sentence: str) -> dict:
         llm = ChatOpenAI(model=self.model_name, temperature=0.0)

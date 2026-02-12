@@ -13,14 +13,14 @@ This is an interactive notebook. You can run it locally or use the links below:
 
 The [BIG-bench (Beyond the Imitation Game Benchmark)](https://github.com/google/BIG-bench) is a collaborative benchmark intended to probe large language models and extrapolate their future capabilities consisting of more than 200 tasks. The [BIG-Bench Hard (BBH)](https://github.com/suzgunmirac/BIG-Bench-Hard) is a suite of 23 most challenging BIG-Bench tasks that can be quite difficult to be solved using the current generation of language models.
 
-This tutorial demonstrates how we can improve the performance of our LLM workflow implemented  on the **causal judgement task** from the BIG-bench Hard benchmark and evaluate our prompting strategies. We will use [DSPy](https://dspy-docs.vercel.app/) for implementing our LLM workflow and optimizing our prompting strategy. We will also use [Weave](/weave) to track our LLM workflow and evaluate our prompting strategies.
+This tutorial demonstrates how we can improve the performance of our LLM workflow implemented  on the **causal judgement task** from the BIG-bench Hard benchmark and evaluate our prompting strategies. We will use [DSPy](https://dspy.ai) for implementing our LLM workflow and optimizing our prompting strategy. We will also use [Weave](/weave) to track our LLM workflow and evaluate our prompting strategies.
 
 ## Installing the Dependencies
 
 We need the following libraries for this tutorial:
 
-- [DSPy](https://dspy-docs.vercel.app/) for building the LLM workflow and optimizing it.
-- [Weave](/weave/quickstart) to track our LLM workflow and evaluate our prompting strategies.
+- [DSPy](https://dspy.ai) for building the LLM workflow and optimizing it.
+- [Weave](/weave) to track our LLM workflow and evaluate our prompting strategies.
 - [datasets](https://huggingface.co/docs/datasets/index) to access the Big-Bench Hard dataset from HuggingFace Hub.
 
 ```python lines
@@ -110,14 +110,14 @@ dspy_train_examples, dspy_val_examples = get_dataset(metadata)
 ```
 
 <Frame>
-![](/media/dspy_optimization/1.png)
+![DSPy dataset loading interface with dataset preparation steps and data structure](/media/dspy_optimization/1.png)
 </Frame>
 
 ## The DSPy Program
 
-[DSPy](https://dspy-docs.vercel.app) is a framework that pushes building new LM pipelines away from manipulating free-form strings and closer to programming (composing modular operators to build text transformation graphs) where a compiler automatically generates optimized LM invocation strategies and prompts from a program.
+[DSPy](https://dspy.ai) is a framework that pushes building new LM pipelines away from manipulating free-form strings and closer to programming (composing modular operators to build text transformation graphs) where a compiler automatically generates optimized LM invocation strategies and prompts from a program.
 
-We will use the [`dspy.OpenAI`](https://dspy-docs.vercel.app/api/language_model_clients/OpenAI) abstraction to make LLM calls to [GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3-5-turbo).
+We will use the [`dspy.OpenAI`](https://dspy.ai/learn/programming/language_models/#__tabbed_1_1) abstraction to make LLM calls to [GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo).
 
 ```python lines
 system_prompt = """
@@ -131,7 +131,7 @@ dspy.settings.configure(lm=llm)
 
 ### Writing the Causal Reasoning Signature
 
-A [signature](https://dspy-docs.vercel.app/docs/building-blocks/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy-docs.vercel.app/docs/building-blocks/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
+A [signature](https://dspy.ai/learn/programming/signatures) is a declarative specification of input/output behavior of a [DSPy module](https://dspy.ai/learn/programming/modules) which are task-adaptive components—akin to neural network layers—that abstract any particular text transformation.
 
 ```python lines
 from pydantic import BaseModel, Field
@@ -171,7 +171,7 @@ rich.print(prediction)
 ```
 
 <Frame>
-![](/media/dspy_optimization/2.png)
+![Baseline DSPy program evaluation results with performance metrics and output examples](/media/dspy_optimization/2.png)
 ## Evaluating our DSPy Program
 </Frame>
 
@@ -202,7 +202,7 @@ await evaluation.evaluate(baseline_module.forward)
 ```
 
 <Frame>
-![](/media/dspy_optimization/3.png)
+![Weave evaluation dashboard with DSPy program performance metrics, traces, and comparison results](/media/dspy_optimization/3.png)
 </Frame>
 
 <Note>
@@ -220,7 +220,7 @@ Running the evaluation causal reasoning dataset will cost approximately $0.24 in
 
 ## Optimizing our DSPy Program
 
-Now, that we have a baseline DSPy program, let us try to improve its performance for causal reasoning using a [DSPy teleprompter](https://dspy-docs.vercel.app/docs/building-blocks/optimizers) that can tune the parameters of a DSPy program to maximize the specified metrics. In this tutorial, we use the [BootstrapFewShot](https://dspy-docs.vercel.app/api/category/optimizers) teleprompter.
+Now, that we have a baseline DSPy program, let us try to improve its performance for causal reasoning using the [BootstrapFewShot](https://dspy.ai/api/optimizers/BootstrapFewShot/) teleprompter, which can tune the parameters of a DSPy program to maximize the specified metrics.
 
 ```python lines
 from dspy.teleprompt import BootstrapFewShot
@@ -242,7 +242,7 @@ optimized_module = get_optimized_program(baseline_module, metadata)
 ```
 
 <Frame>
-![](/media/dspy_optimization/4.png)
+![DSPy program optimization process interface with teleprompter configuration and optimization progress](/media/dspy_optimization/4.png)
 </Frame>
 
 <Warning>
@@ -262,7 +262,7 @@ await evaluation.evaluate(optimized_module.forward)
 ```
 
 <Frame>
-![](/media/dspy_optimization/5.png)
+![Optimized DSPy program evaluation results with improved performance metrics and output quality](/media/dspy_optimization/5.png)
 </Frame>
 
 When coomparing the evalution of the baseline program with the optimized one shows that the optimized program answers the causal reasoning questions with siginificantly more accuracy.

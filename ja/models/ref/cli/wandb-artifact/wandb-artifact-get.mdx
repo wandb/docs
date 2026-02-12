@@ -1,18 +1,39 @@
 ---
-title: wandb アーティファクト get
+title: ' thoughtful
+
+  wandb artifact get'
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-get.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb artifact get [OPTIONS] PATH`
+import WandbArtifactGet from "/snippets/en/_includes/cli/wandb-artifact-get.mdx";
 
-**概要**
+<WandbArtifactGet/>
 
-wandb からアーティファクトをダウンロードします
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+W&B から Artifacts をダウンロードします。
 
-| **オプション** | **説明** |
+## Usage
+
+```bash
+wandb artifact get PATH [OPTIONS]
+```
+
+## Arguments
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `PATH` | 説明はありません | はい |
+
+## Options
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--root` | アーティファクトをダウンロードしたいディレクトリー |
-| `--type` | ダウンロードするアーティファクトのタイプ |
+| `--root` | Artifacts をダウンロードする先の ディレクトリー |
+| `--type` | ダウンロードする Artifacts のタイプ |

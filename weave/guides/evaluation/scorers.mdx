@@ -88,14 +88,13 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Example:
 
-    ```python lines
+    ```python lines {7}
     import weave
     from openai import OpenAI
     from weave import Scorer
 
     llm_client = OpenAI()
 
-    #highlight-next-line
     class SummarizationScorer(Scorer):
         model_id: str = "gpt-4o"
         system_prompt: str = "Evaluate whether the summary is good."
@@ -261,6 +260,45 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
   </Tab>
 </Tabs>
+
+### Access variables from your ops in scoring prompts
+
+In scoring prompts for LLM-as-a-judge scorers, you can reference variables from your op. These values are automatically extracted when the scorer runs.
+
+For a function like:
+
+```python
+@weave.op
+def summarize_article(article: str, max_length: int) -> str:
+    # Your summarization logic here
+    return summary
+```
+
+The following variables are available:
+
+| Variable | Description |
+|----------|-------------|
+| `{article}` | The value of the input argument `article` |
+| `{max_length}` | The value of the input argument `max_length` |
+| `{inputs}` | A JSON dictionary of all input arguments |
+| `{output}` | The result returned by your op |
+
+Example scoring prompt:
+
+```text
+Evaluate the quality of this summary.
+
+Original article: {article}
+Summary: {output}
+Maximum length requested: {max_length}
+
+Rate the summary on a scale of 1-10 based on:
+- Accuracy: Does it accurately represent the article?
+- Completeness: Does it cover the key points?
+- Conciseness: Is it appropriately brief?
+
+Return a JSON object with your rating and reasoning.
+```
 
 ### Final summarization of the scorer
 

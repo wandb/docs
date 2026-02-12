@@ -1,0 +1,159 @@
+---
+title: 'クラス: EvaluationLogger'
+description: TypeScript SDK リファレンス
+---
+
+[weave](../) / EvaluationLogger
+
+
+
+EvaluationLogger は、予測（ prediction ）とスコアのインクリメンタルなログ記録を可能にします。
+
+事前の Datasets 定義やバッチ処理を必要とする従来の Evaluation クラスとは異なり、EvaluationLogger を使用すると、予測が発生した時点で柔軟なスコアリングと共にログを記録できます。
+
+`Example`
+
+```ts
+const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
+
+for (const example of streamingData) {
+  const output = await myModel.predict(example);
+  const pred = ev.logPrediction(example, output);
+
+  if (shouldScore(output)) {
+    pred.logScore("accuracy", calculateAccuracy(output));
+  }
+  pred.finish();
+}
+
+await ev.logSummary();
+```
+
+## 目次
+
+### コンストラクタ
+
+- [constructor](./evaluationlogger#constructor)
+
+### メソッド
+
+- [logPrediction](./evaluationlogger#logprediction)
+- [logPredictionAsync](./evaluationlogger#logpredictionasync)
+- [logSummary](./evaluationlogger#logsummary)
+
+## コンストラクタ
+
+### constructor
+
+• **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `options` | `EvaluationLoggerOptions` |
+
+#### 戻り値
+
+[`EvaluationLogger`](./evaluationlogger)
+
+#### 定義箇所
+
+[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L554)
+
+## メソッド
+
+### logPrediction
+
+▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+
+予測をその入力および出力と共にログに記録します（同期バージョン）。
+predict_and_score コール（子要素に predict コールを含む）を作成します。
+スコアを追加するための ScoreLogger を即座に返します。
+
+このメソッドは ScoreLogger を同期的に返します。ScoreLogger に対する操作（ logScore, finish ）はキューに入れられ、初期化が完了したときに実行されます。
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+#### 戻り値
+
+[`ScoreLogger`](./scorelogger)
+
+`Example`
+
+```ts
+// Fire-and-forget スタイル（投げっぱなし）
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // すべての完了を待機
+```
+
+#### 定義箇所
+
+[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L641)
+
+___
+
+### logPredictionAsync
+
+▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
+
+予測をその入力および出力と共にログに記録します（非同期バージョン）。
+logPrediction() と同様ですが、予測コールの初期化が完全に完了したときに解決される Promise を返します。
+
+処理を進める前に初期化を await する必要がある場合に使用してください。
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+#### 戻り値
+
+`Promise`\<[`ScoreLogger`](./scorelogger)\>
+
+`Example`
+
+```ts
+// Awaitable スタイル
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
+#### 定義箇所
+
+[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L666)
+
+___
+
+### logSummary
+
+▸ **logSummary**(`summary?`): `Promise`\<`void`\>
+
+サマリーをログに記録し、評価を終了します。
+summarize コールを作成し、evaluate コールを終了させます。
+
+このメソッドは await なしで呼び出す（ fire-and-forget ）ことも可能ですが、内部的には保留中のすべての操作が完了するまで待機します。
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `summary?` | `Record`\<`string`, `any`\> |
+
+#### 戻り値
+
+`Promise`\<`void`\>
+
+#### 定義箇所
+
+[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L767)

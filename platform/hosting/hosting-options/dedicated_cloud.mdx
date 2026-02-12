@@ -9,7 +9,7 @@ W&B Dedicated Cloud is available in [multiple global regions for each cloud prov
 
 ## Compliance
 - **SOC 2**: W&B Dedicated Cloud's hosting platform meets the requirements of the [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), published by the [Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). A SOC 2 report evaluates a service organization’s controls for security, availability, processing integrity, confidentiality, and privacy. W&B Dedicated Cloud is subject to periodic internal and external audits to verify continued compliance. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC 2 report and other security and compliance documents.
-- **HIPAA**: When configured appropriately, W&B Dedicated Cloud meets the requirements of the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). Compliance with HIPAA is a shared responsibility that involves W&B, the customer, and any third-party services involved in the deployment. Organizations subhect to HIPAA must have a **Business Associate Agreement** on file with W&B. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request more information.
+- **HIPAA**: When configured appropriately, W&B Dedicated Cloud meets the requirements of the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). Compliance with HIPAA is a shared responsibility that involves W&B, the customer, and any third-party services involved in the deployment. Organizations subject to HIPAA must have a **Business Associate Agreement** on file with W&B. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request more information.
 
 ## Data security 
 
@@ -49,6 +49,31 @@ To understand how W&B manages updates on Dedicated Cloud, refer to the [server r
 ## Compliance
 
 Security controls for W&B Dedicated Cloud are periodically audited internally and externally. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the security and compliance documents for your product assessment exercise.
+
+## Data retention policy
+By default, a Dedicated Cloud instance retains the following items for 7 days after deletion:
+- Runs and history
+- Non-artifact run files, such as media, configuration files, and log files
+- Artifacts and artifact references
+
+Until this period elapses, these items can be restored. Contact [support](mailto:support@wandb.ai) or your AISE for assistance.
+
+To meet your data retention requirements, you can change the data retention period for your Dedicated Cloud instance. Depending on your use case, select the **Environment variable** or **Helm** tab for details.
+
+<Tabs>
+<Tab title="Environment variable">
+To change the data retention policy, set the environment variable `GORILLA_DATA_RETENTION_PERIOD` to a number of hours. For example, to retain deleted data for 14 days (336 hours):
+```bash
+export GORILLA_DATA_RETENTION_PERIOD="336h"
+```
+</Tab>
+<Tab title="Helm">
+To change the data retention policy, set the Helm value `env.dataRetentionPeriod` to a number of hours. For example, to retain deleted data for 14 days (336 hours):
+```helm
+env: dataRetentionPeriod: "336h"
+```
+</Tab>
+</Tabs>
 
 ## Migration options
 

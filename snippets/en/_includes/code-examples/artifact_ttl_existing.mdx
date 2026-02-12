@@ -1,0 +1,19 @@
+```python
+"""
+Update the TTL policy of an existing artifact in W&B.
+"""
+import wandb
+from datetime import timedelta
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Retrieve the existing artifact
+artifact = api.artifact("<entity/project/artifact:alias>")
+
+# Add or update the TTL policy. Specify the desired duration.
+artifact.ttl = timedelta(days=365)  # Delete in one year
+
+# Save the updated artifact
+artifact.save()
+```

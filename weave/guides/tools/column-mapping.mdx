@@ -1,0 +1,51 @@
+---
+title: "Map columns in datasets"
+description: "Map columns in datasets to different names. This helps you align the column names in your dataset with the column names expected by the scorer."
+---
+
+
+<Tabs>
+  <Tab title="Python">
+    In the Weave Python SDK, use the `column_map` attribute on a scorer to map its expected parameter names to your dataset's column names. The mapping format is `{scorer_parameter: dataset_column}`.
+
+    The following example maps the `output` and `target` parameters to a dataset's `model_output` and `answer` columns:
+
+    ```python
+    from weave.scorers import EmbeddingSimilarityScorer
+
+    similarity_scorer = EmbeddingSimilarityScorer()
+
+    similarity_scorer.column_map = {
+        "output": "model_output",  # The model's generated text
+        "target": "answer"         # The expected or reference response
+    }
+    ```
+
+    For more details on scorer column mapping, see [Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
+  </Tab>
+  <Tab title="TypeScript">
+    In the Weave TypeScript SDK, column mapping is configured on the `Evaluation` object using the `columnMapping` option, not on individual scorers. The mapping format is `{scorer_key: dataset_column}`.
+
+    The following example maps `expectedOutputTimesTwo` (used by the scorer) to the `expected` column in the dataset:
+
+    ```typescript
+    import * as weave from 'weave';
+
+    const myScorer = weave.op(
+      ({modelOutput, datasetRow}) => {
+        return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+      },
+      {name: 'myScorer'}
+    );
+
+    const myEval = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: [{expected: 2}],
+      scorers: [myScorer],
+      columnMapping: {expectedOutputTimesTwo: 'expected'},
+    });
+    ```
+
+    For more details on TypeScript scorer arguments, see [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments).
+  </Tab>
+</Tabs>

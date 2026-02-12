@@ -1,5 +1,5 @@
 ---
-title: "Tracing Quickstart"
+title: "Tracing Basics"
 description: "Track and monitor your AI application's execution with Weave tracing"
 ---
 
@@ -16,17 +16,46 @@ description: "Track and monitor your AI application's execution with Weave traci
 ![Weave Calls Screenshot](/images/screenshots/calls_filter.png)
 </Frame>
 
-<Info>
-**Calls**
-Calls are the fundamental building block in Weave. They represent a single execution of a function, including:
-- Inputs (arguments)
-- Outputs (return value) 
-- Metadata (duration, exceptions, LLM usage, etc.)
+
+## Ops
+
+An **Op** is a versioned, tracked function. When you decorate a function with `@weave.op()` (Python) or wrap it with `weave.op()` (TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata. Ops are the building blocks of tracing, evaluation scorers, and any tracked computation.
+<CodeGroup>
+```python Python
+    @weave.op
+    async def my_function(){
+      ...  }
+```
+
+```typescript Typescript
+function myFunction() {
+    ...
+}
+
+const myFunctionOp = weave.op(myFunction)
+```
+</CodeGroup>
+
+
+
+
+## Calls
+
+A **Call** is a logged execution of an Op. Every time an Op runs, Weave creates a Call that captures:
+
+- Input arguments
+- Output value
+- Timing and latency
+- Parent-child relationships (for nested calls)
+- Any errors that occurred
+
+Calls form the backbone of Weave's tracing system and provide the data for debugging, analysis, and evaluation.
+
 
 Calls are similar to spans in the [OpenTelemetry](https://opentelemetry.io) data model. A Call can:
 - Belong to a Trace (a collection of calls in the same execution context)
 - Have parent and child Calls, forming a tree structure
-</Info>
+
 
 ## Creating Calls
 
@@ -97,12 +126,7 @@ There are three main ways to create Calls in Weave:
   </Tab>
 </Tabs>
 
-#### Summary
-
-You can store metrics or other post-call values in the `summary`
-dictionary of a Call. Modify `call.summary` during execution and any
-values you add will be merged with Weave's computed summary data when
-the call finishes.
+You can store metrics or other post-call values in the `summary` dictionary of a Call. Modify `call.summary` during execution and any values you add will be merged with Weave's computed summary data when the call finishes.
 
 ### 2. Decorating and wrapping functions
 
@@ -124,7 +148,7 @@ However, often LLM applications have additional logic (such as pre/post processi
         return f"Hello, {name}!"
 
     # Call your function -- Weave will automatically track inputs and outputs
-    print(my_function("World")
+    print(my_function("World"))
     ```
 
     You can also track [methods on classes](#4-track-class-and-object-methods).
@@ -238,7 +262,7 @@ However, often LLM applications have additional logic (such as pre/post processi
     </Note>
     ```python lines lines
     # Notice that we pass the `instance` as the first argument.
-    print(instance.my_method.call(instance, "World")
+    print(instance.my_method.call(instance, "World"))
     ```
 
     ```python lines lines
@@ -261,12 +285,12 @@ However, often LLM applications have additional logic (such as pre/post processi
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
   </Tab>
 </Tabs>
 
-#### Call display name
+#### Set call display name at execution
 
 <Tabs>
   <Tab title="Python">
@@ -355,9 +379,15 @@ However, often LLM applications have additional logic (such as pre/post processi
     ```
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+  To override the default name of a call, use the `callDisplayName` option when calling `weave.op()`.
+
+    ```typescript lines {2}
+    const extractDinosOp = weave.op(extractDinos, {
+    callDisplayName: (input: string) => `Your New Display Name`
+    });
     ```
+
+    You can also [update a call's display name](/weave/guides/tracking/tracing#set-display-name) after execution.
   </Tab>
 </Tabs>
 
@@ -392,6 +422,11 @@ However, often LLM applications have additional logic (such as pre/post processi
 
     ![The Trace UI, showing a single parent call for `outer`, with five nested child calls.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
   </Tab>
+  <Tab title="TypeScript">
+  ```plaintext
+  This feature is not available in the TypeScript SDK yet.
+  ```
+  </Tab>
 </Tabs>
 
 ### 3. Manual Call tracking
@@ -417,14 +452,14 @@ You can also manually create Calls using the API directly.
             client.finish_call(call, output="Hello, World!")
 
         # Call your function
-        print(my_function("World")
+        print(my_function("World"))
         ```
 
     </Tab>
     <Tab title="TypeScript">
 
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
 
     </Tab>
@@ -477,7 +512,7 @@ You can also track class and object methods.
     instance = MyClass()
 
     # Call your method -- Weave will automatically track inputs and outputs
-    print(instance.my_method("World")
+    print(instance.my_method("World"))
     ```
 
     </Tab>
@@ -521,65 +556,68 @@ You can also track class and object methods.
 </Tabs>
 
 ## Viewing Calls
+
 <Tabs>
-    <Tab title="Web App">
-    To view a call in the web app:
-    1. Navigate to your project's "Traces" tab
-    2. Find the call you want to view in the list
-    3. Click on the call to open its details page
-    
-    The details page will show the call's inputs, outputs, runtime, and any additional metadata.
-    
-    ![View Call in Web App](/images/screenshots/basic_call.png)
-    </Tab>
-    <Tab title="Python">
-    To view a call using the Python API, you can use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
+<Tab title="Web App">
+To view a call in the web app:
+1. Navigate to your project's **Traces** tab.
+2. Find the call you want to view in the list
+3. Click on the call to open its details page
 
-    ```python lines
-    import weave
+The details page will show the call's inputs, outputs, runtime, and any additional metadata.
 
-    # Initialize the client
-    client = weave.init("your-project-name")
+![View Call in Web App](/images/screenshots/basic_call.png)
+</Tab>
+<Tab title="Python">
+To view a call using the Weave Python SDK, you can use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
 
-    # Get a specific call by its ID
-    call = client.get_call("call-uuid-here")
+```python lines
+import weave
 
-    print(call)
-    ```
-    </Tab>
-    <Tab title="TypeScript">
-    ```typescript lines
-    import * as weave from 'weave'
+# Initialize the client
+client = weave.init("your-project-name")
 
-    // Initialize the client
-    const client = await weave.init('intro-example')
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
 
-    // Get a specific call by its ID
-    const call = await client.getCall('call-uuid-here')
+print(call)
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave'
 
-    console.log(call)
-    ```
-    </Tab>
+// Initialize the client
+const client = await weave.init('intro-example')
 
-    <Tab title="HTTP API">
-    To view a call using the Service API, you can make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
+// Get a specific call by its ID
+const call = await client.getCall('call-uuid-here')
 
-    ```bash
-    curl -L 'https://trace.wandb.ai/call/read' \
-    -H 'Content-Type: application/json' \
-    -H 'Accept: application/json' \
-    -d '{
-        "project_id": "string",
-        "id": "string",
-    }'
-    ```
-    </Tab>
+console.log(call)
+```
+</Tab>
+
+<Tab title="HTTP API">
+To view a call using the Service API, you can make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
+
+```bash
+curl -L 'https://trace.wandb.ai/call/read' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "id": "string",
+}'
+```
+</Tab>
 </Tabs>
 
 ### Customize rendered traces with `weave.Markdown`
 
 You can use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
 
+<Tabs>
+<Tab title="Python">
 Use `postprocess_inputs` and `postprocess_output` functions in your `@weave.op` decorator to format your trace data. The following code sample uses postprocessors to render a call in Weave with emojis and more readable formatting:
     
 ```python lines
@@ -637,7 +675,13 @@ if __name__ == "__main__":
     weave.init('markdown_renderers')
     rag_step("Tell me about OpenAI")
 ```
-
+</Tab>
+<Tab title="Typescript">
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+</Tab>
+</Tabs>
 In the following screenshot, you can view the difference between the unformatted and formatted outputs, respectively.
 
 ![A call rendered in the Weave UI using the code sample.](/weave/guides/tracking/imgs/md-call-render.png)
@@ -658,42 +702,53 @@ You can perform all of these mutations from the UI by navigating to the call det
 ### Set display name
 
 <Tabs>
-    <Tab title="Python">
-    In order to set the display name of a call, you can use the [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
+<Tab title="Python">
+In order to set the display name of a call, you can use the [`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
 
-    ```python lines lines
-    import weave
+```python lines lines
+import weave
 
-    # Initialize the client
-    client = weave.init("your-project-name")
+# Initialize the client
+client = weave.init("your-project-name")
 
-    # Get a specific call by its ID
-    call = client.get_call("call-uuid-here")
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
 
-    # Set the display name of the call
-    call.set_display_name("My Custom Display Name")
-    ```
-    </Tab>
-    <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
-    ```
-    </Tab>
-    <Tab title="HTTP API">
-    To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
+# Set the display name of the call
+call.set_display_name("My Custom Display Name")
+```
+</Tab>
+<Tab title="TypeScript">
+To set the display name of a call, use [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) to update by call ID directly:
 
-    ```bash
-    curl -L 'https://trace.wandb.ai/call/update' \
-    -H 'Content-Type: application/json' \
-    -H 'Accept: application/json' \
-    -d '{
-        "project_id": "string",
-        "call_id": "string",
-        "display_name": "string",
-    }'
-    ```
+```typescript lines
+import * as weave from 'weave'
+
+// Initialize the client
+const client = await weave.init('your-project-name')
+
+// Update the display name of a call by its ID
+await client.updateCall('call-uuid-here', 'My Custom Display Name')
+```
+
+</Tab>
+<Tab title="HTTP API">
+To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
+
+```bash
+curl -L 'https://trace.wandb.ai/call/update' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "call_id": "string",
+    "display_name": "string",
+}'
+```
     </Tab>
 </Tabs>
+
+You can also [set a call's display name at execution](#set-call-display-name-at-execution).
 
 ### Add feedback 
 
@@ -702,43 +757,43 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
 ### Delete a Call
 
 <Tabs>
-    <Tab title="Python">
-    To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
+<Tab title="Python">
+To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
 
-    ```python lines lines
-    import weave
+```python lines lines
+import weave
 
-    # Initialize the client
-    client = weave.init("your-project-name")
+# Initialize the client
+client = weave.init("your-project-name")
 
-    # Get a specific call by its ID
-    call = client.get_call("call-uuid-here")
-    
-    # Delete the call
-    call.delete()
-    ```
+# Get a specific call by its ID
+call = client.get_call("call-uuid-here")
 
-    </Tab>
-    <Tab title="TypeScript">
-    ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
-    ```
-    </Tab>
-    <Tab title="HTTP API">
-    To delete a call using the Service API, you can make a request to the [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) endpoint.
+# Delete the call
+call.delete()
+```
 
-    ```bash
-    curl -L 'https://trace.wandb.ai/calls/delete' \
-    -H 'Content-Type: application/json' \
-    -H 'Accept: application/json' \
-    -d '{
-        "project_id": "string",
-        "call_ids": [
-            "string"
-        ],
-    }'
-    ```
-    </Tab>
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available in the TypeScript SDK yet.
+```
+</Tab>
+<Tab title="HTTP API">
+To delete a call using the Service API, you can make a request to the [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) endpoint.
+
+```bash
+curl -L 'https://trace.wandb.ai/calls/delete' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-d '{
+    "project_id": "string",
+    "call_ids": [
+        "string"
+    ],
+}'
+```
+</Tab>
 </Tabs>
 
 ### Delete multiple Calls
@@ -774,7 +829,7 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
     </Tab>
     <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in the TypeScript SDK yet.
     ```
     </Tab>
 </Tabs>
@@ -813,7 +868,7 @@ The easiest way to get started is to construct a view in the UI, then learn more
 
     </Tab>
     <Tab title="TypeScript">
-    To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/WeaveClient#getcalls) method.
+    To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method.
     ```typescript
     import * as weave from 'weave'
 
@@ -931,8 +986,8 @@ With Weave, you can trace function calls in your code and link them directly to 
 When you trace a function with @weave.op() and call it inside a wandb.init() context, Weave automatically associates the trace with the W&B run. 
 Links to any associated runs are shown in the Traces table.
 
-### Python example
-
+<Tabs>
+<Tab title="Python">
 The following Python code shows how traced operations are linked to W&B
 runs when executed inside a `wandb.init()` context. These traces appear in the
 Weave UI and are associated with the corresponding run.
@@ -984,29 +1039,38 @@ To use the code sample:
 
 1. In the terminal, install dependencies:
 
-   ```bash
-   pip install wandb weave
-   ```
+```bash
+pip install wandb weave
+```
 
 2. Log in to W&B:
 
-   ```bash
-   wandb login
-   ```
+```bash
+wandb login
+```
 
 3. In the script, replace `your-username/your-project` with your actual W&B entity/project.
 4. Run the script:
 
-   ```bash
-   python weave_trace_with_wandb.py
-   ```
+```bash
+python weave_trace_with_wandb.py
+```
 5. Visit [https://weave.wandb.ai](https://weave.wandb.ai) and select your project.
 6. In the **Traces** tab, view the trace output. Links to any associated runs are shown in the Traces table.
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available for the TypeScript SDK yet.
+```
+</Tab>
+</Tabs>
 
 ## Configure autopatching
 
 By default, Weave automatically patches and tracks calls to common LLM libraries like `openai`, `anthropic`, `cohere`, and `mistral`.
 
+<Tabs>
+<Tab title="Python">
 <Warning>
 The `autopatch_settings` argument is deprecated. Use `implicitly_patch_integrations=False` to disable implicit patching, or call specific patch functions like `patch_openai(settings={...})` to configure settings per integration.
 </Warning>
@@ -1048,7 +1112,29 @@ weave.integrations.patch_openai(
     }
 )
 ```
+</Tab>
+<Tab title="TypeScript">
 
+The TypeScript SDK only supports autopatching for OpenAI and Anthropic. OpenAI is automatically patched when you import Weave and doesn't require any additional configuration.
+
+Additionally, the TypeScript SDK doesn't support:
+- Configuring or disabling autopatching
+- Input/output post-processing
+
+For edge cases where automatic patching doesn't work (ESM, bundlers like Next.js), use explicit wrapping:
+
+```typescript
+import OpenAI from 'openai'
+import * as weave from 'weave'
+import { wrapOpenAI } from 'weave'
+
+const client = wrapOpenAI(new OpenAI())
+await weave.init('your-team/my-project')
+```
+
+For more details on ESM setup and troubleshooting, see the [TypeScript SDK Integration Guide](/weave/guides/integrations/js).
+</Tab>
+</Tabs>
 For more details, see [How to use Weave with PII data](/weave/cookbooks/pii).
 
 ## FAQs
@@ -1063,33 +1149,54 @@ For more information, see [Trace data is truncated](/weave/guides/troubleshootin
 
 In situations where you want to unconditionally disable tracing for the entire program, you can set the environment variable `WEAVE_DISABLED=true`.
 
+`WEAVE_DISABLED` is read only once, at function-defintion time. This variable cannot be used to toggle tracing at runtime.
+
 #### Client initialization
 
 Sometimes, you may want to conditionally enable tracing for a specific initialization based on some condition. In this case, you can initialize the client with the `disabled` flag in init settings.
 
+<Tabs>
+<Tab title="Python">
 ```python lines
 import weave
 
 # Initialize the client
 client = weave.init(..., settings={"disabled": True})
 ```
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+This feature is not available for the TypeScript SDK yet.
+```
+</Tab>
+</Tabs>
 
 #### Context manager
 
-Finally, you may want to conditionally disable tracing for a single function based on some application logic. In this case, you can use the context manager `with set_tracing_enabled(False)` which can be imported from `weave.trace.context.call_context`.
+To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. It is intended to be used in application code to scope which calls should not be logged.
 
 ```python lines
 import weave
-from weave.trace.context.call_context import set_tracing_enabled
+from weave.trace.context.call_context import tracing_disabled
 
-client = weave.init(...)
+client = weave.init('your-team/your-project-name')
 
 @weave.op
 def my_op():
     ...
 
-with set_tracing_enabled(False):
+with tracing_disabled():
     my_op()
+```
+
+Although tracing behavior is fixed when functions are defined, this can be used for runtime control when combined with application logic. For example, you can wrap the context manager in a conditional to dynamically enable or disable tracing based on a runtime value:
+
+```python lines
+if should_trace:
+    my_op()
+else:
+    with tracing_disabled():
+        my_op()
 ```
 
 ### How do I capture information about a Call?

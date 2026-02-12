@@ -10,7 +10,10 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
 ## <kbd>class</kbd> `MetricThresholdFilter`
-Filter that compares a metric value against a user-defined threshold.
+Filter that compares an **absolute** metric value against a user-defined threshold.
+
+The value may be a single value or an aggregated result over a window of
+multiple values.
 
 
 ### <kbd>method</kbd> `MetricThresholdFilter.__init__`

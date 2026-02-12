@@ -1,30 +1,44 @@
-name: Lychee production link checker
+name: Link checker - production site
+
 on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "5 0 1 * *" # In UTC, currently 12:05 AM on the 1st of each month
+    - cron: "5 0 1 * *" # Monthly on the 1st at 12:05 AM UTC
 
 jobs:
   linkChecker:
     runs-on: ubuntu-latest
     permissions:
-      issues: write # required for peter-evans/create-issue-from-file
+      issues: write # Required for creating issues
     steps:
-      # check URLs with Lychee
       - uses: actions/checkout@v6
+
+      - name: Download and parse sitemap
+        run: |
+          echo "Fetching sitemap from https://docs.wandb.ai/sitemap.xml..."
+          curl -s https://docs.wandb.ai/sitemap.xml | \
+          grep -o '<loc>[^<]*</loc>' | \
+          sed 's/<loc>//g; s/<\/loc>//g' > urls.txt
+          
+          URL_COUNT=$(wc -l < urls.txt | tr -d ' ')
+          echo "Found ${URL_COUNT} URLs in sitemap"
+          
+          # Show first few URLs for verification
+          echo "Sample URLs:"
+          head -5 urls.txt
 
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          args: "--threads 5 --max-retries 5 --retry-wait-time 2 --include '^https?://' --include '^http?://' --base-url='http://docs.wandb.ai' 'http://docs.wandb.ai'"
+          # Configuration is in lychee.toml
+          # Check all URLs from sitemap
+          args: "--config lychee.toml urls.txt"
           output: ./lychee-report.md
           format: markdown
           fail: false
-        env:
-          # to be used in case rate limits are surpassed
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0
