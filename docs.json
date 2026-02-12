@@ -830,7 +830,8 @@
                     "pages": [
                       "weave/guides/tracking/feedback",
                       "weave/guides/tracking/redact-pii",
-                      "weave/guides/evaluation/guardrails_and_monitors",
+                      "weave/guides/evaluation/monitors",
+                      "weave/guides/evaluation/guardrails",
                       "weave/guides/tracking/otel"
                     ]
                   },
@@ -3949,6 +3950,10 @@
     {
       "source": "/weave/guides/tools/limits",
       "destination": "/weave/details/limits"
+    },
+    {
+      "source": "/weave/guides/evaluation/guardrails_and_monitors",
+      "destination": "/weave/guides/evaluation/monitors"
     },
     {
       "source": "weave/concepts/fundamental-components",
