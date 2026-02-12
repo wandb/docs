@@ -250,7 +250,6 @@ Scorer를 적용할 때:
         - **Filter** *(선택 사항)*: 이 예제에서는 적용하지 않지만, `temperature`나 `max_tokens` 같은 인수로 모니터링 범위를 좁히는 데 사용할 수 있습니다.
         - **Sampling rate**:  
         모든 호출을 스코어링하도록 `100%`로 설정합니다.
-        ![Creating a monitor part 2](/weave/guides/evaluation/img/monitors-ui-2.png)
     - **LLM-as-a-Judge Configuration**:
         - **Scorer name**: `truthfulness-scorer`  
         - **Judge model**:  
@@ -273,7 +272,6 @@ Scorer를 적용할 때:
             - is_true: 입력 문장을 바탕으로 출력 문장이 참인지 거짓인지를 나타내는 불리언 값.
             - reasoning: 문장이 참 또는 거짓인 이유에 대한 당신의 추론.
             ```
-            ![Creating a monitor part 3](/weave/guides/evaluation/img/monitors-ui-3.png)
 5. **Create Monitor**를 클릭합니다. `truthfulness-monitor`가 모니터링을 시작할 준비가 되었습니다.
 6. `"물은 섭씨 0도에서 언다."`와 같이 참이며 쉽게 검증 가능한 `ground_truth` 문장을 사용하여 모니터가 평가할 문장들을 생성합니다.
     ```python lines

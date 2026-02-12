@@ -2,6 +2,24 @@
 title: "Track and version objects"
 description: "Track and version any JSON-serializable object in Weave"
 ---
+## Objects
+
+An **Object** is versioned, serializable data. Weave automatically versions objects when they change, creating an immutable history. Objects include:
+
+- **Datasets**: Collections of examples for evaluation
+- **Models**: Configurations and parameters for your LLM logic
+- **Prompts**: Versioned prompt templates
+
+```python
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
 
 ## Publishing an object
 

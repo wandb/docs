@@ -17,10 +17,40 @@ description: "Track and monitor your AI application's execution with Weave traci
 </Frame>
 
 
-Calls are the fundamental building block in Weave. They represent a single execution of a function, including:
-- Inputs (arguments)
-- Outputs (return value) 
-- Metadata (duration, exceptions, LLM usage, etc.)
+## Ops
+
+An **Op** is a versioned, tracked function. When you decorate a function with `@weave.op()` (Python) or wrap it with `weave.op()` (TypeScript), Weave automatically captures its code, inputs, outputs, and execution metadata. Ops are the building blocks of tracing, evaluation scorers, and any tracked computation.
+<CodeGroup>
+```python Python
+    @weave.op
+    async def my_function(){
+      ...  }
+```
+
+```typescript Typescript
+function myFunction() {
+    ...
+}
+
+const myFunctionOp = weave.op(myFunction)
+```
+</CodeGroup>
+
+
+
+
+## Calls
+
+A **Call** is a logged execution of an Op. Every time an Op runs, Weave creates a Call that captures:
+
+- Input arguments
+- Output value
+- Timing and latency
+- Parent-child relationships (for nested calls)
+- Any errors that occurred
+
+Calls form the backbone of Weave's tracing system and provide the data for debugging, analysis, and evaluation.
+
 
 Calls are similar to spans in the [OpenTelemetry](https://opentelemetry.io) data model. A Call can:
 - Belong to a Trace (a collection of calls in the same execution context)
