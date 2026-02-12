@@ -895,8 +895,8 @@
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
-                  "weave/guides/core-types/env-vars",
-                  "weave/guides/platform/weave-projects"
+                  "weave/guides/platform/weave-projects",
+                  "weave/guides/core-types/env-vars"
                 ]
               },
               {
