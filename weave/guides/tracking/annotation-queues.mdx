@@ -38,8 +38,8 @@ Define all fields before creating a queue so they can be selected during queue s
 </Note>
 
 To create an annotation field:
-1. Navigate to [wandb.ai](https://wandb.ai).
-2. In the Weave sidebar menu, click **Annotate**.  If you don't see **Annotate**, it might be nested in the menu under **More**.
+1. Navigate to [wandb.ai](https://wandb.ai) and select your project.
+2. In the Weave project sidebar, click **Annotate**.  If you don't see **Annotate**, it might be nested in the menu under **More**.
 3. In the tab bar, click the **Fields** tab.
 4. In the Fields table toolbar, click **New Field**.
 5. In the **Create annotation field** modal dialog, configure:
@@ -61,7 +61,7 @@ An annotation queue consists of:
 - A collection of trace items awaiting review.
 
 To create an annotation queue:
-1. In the Weave sidebar menu, click **Annotate**.
+1. In the Weave project sidebar, click **Annotate**.
 2. In the tab bar, click the **Queues** tab.
 3. In the Queues table toolbar, click **Create Queue**.
 4. In the **Create Annotation Queue** modal dialog, configure:
@@ -82,7 +82,7 @@ Creating an annotation queue defines the fields and guidelines for evaluation, b
 ### Add traces to a queue
 
 Traces can be added to an annotation queue directly from the **Traces** page:
-1. In the Weave sidebar menu, click **Traces**.
+1. In the Weave project sidebar, click **Traces**.
 2. In the Traces table toolbar, filter traces as needed (such as by hallucination scores, failure modes, or specific ops).
 3. In the table, select the traces you want annotated.
 4. In the table's action bar, click **Add to queue** to add the selected rows to an annotation queue.
@@ -105,7 +105,7 @@ When adding traces, you control which trace inputs and which outputs or model re
 Once the annotation queue has been created, and traces added, share the queue name with your annotator for them to begin their review. See [Review items in an annotation queue](/weave/guides/tracking/annotation-review) for details on the review process.
 
 To share a direct link to the annotation queue with an annotator:
-1. In the Weave sidebar menu, click **Annotate**.
+1. In the Weave project sidebar, click **Annotate**.
 2. In the tab bar, click the **Queues** tab.
 3. In the Annotation Queues table, click the name of your queue to open the queue items.
 4. In the Queue header bar, click the link button to copy a direct link to this queue.  You can also copy the URL from the browser address bar.
@@ -132,7 +132,7 @@ This connects expert human feedback directly to model evaluation and iteration.
 
 ### Filter annotated traces
 
-1. In the Weave sidebar menu, click **Traces**.
+1. In the Weave project sidebar, click **Traces**.
 2. In the Traces table toolbar, click **Filter**.
 3. Add three values to a filter row:
     - For **Column**, type "Queue", then press **Enter**.
@@ -155,7 +155,7 @@ You can export annotated traces either through the UI or programmatically, depen
 
 Select annotated traces and click **Add to Dataset** to include expert labels in your eval or training data.
 
-1. In the Weave sidebar menu, click **Traces**.
+1. In the Weave project sidebar, click **Traces**.
 2. In the Traces table, select the traces that you want to export.
 3. In the table toolbar, click **Add to dataset**. Follow the on-screen prompts to complete the addition.
 
