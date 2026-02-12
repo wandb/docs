@@ -1,11 +1,9 @@
 ---
-title: "Weave projects overview"
-description: "Weave projects are collections of traces, evaluations, models, and other Weave assets"
+title: "Work with Weave Projects"
+description: "Use Weave projects to organize related assets like traces, prompts, evaluations, models, and dashboards."
 ---
 
 Weave projects are organizational containers that group related traces, evaluations, models, datasets, and other Weave assets together. Projects help you organize your work, collaborate with team members, and track the evolution of your LLM applications over time.
-
-All Weave data is organized within projects, making it easy to find related work and maintain context across your development workflow.
 
 Projects store the following information and resources:
 
@@ -22,48 +20,88 @@ Projects store the following information and resources:
     - **[Ops](/weave/guides/tracking/ops)**: Automatically versioned and tracked functions decorated with `@weave.op()` that produce calls and maintain a record of function modifications.
     - **Other objects and metadata**: Additional Weave objects, custom types, and associated metadata stored within the project.
 
+## Project paths
+
+A Weave project is owned and managed by a [team](/platform/hosting/iam/org_team_struct#team) (also called an entity) in your W&B organization. Your team name and project name make up the path to your project in the W&B UI. You use also use this path in your code to associate your Weave resources with the project.
+
+For example, if your team's name is `my-team` and your project's name is `my-project`, the path to your project is:
+
+```
+my-team/my-project
+```
+
+Use this path when you initialize Weave in your code to associate your app's data with the project:
+
+```
+weave.init('my-team/my-project')
+```
+
 ## Creating and using projects
 
-A Weave project is owned and managed by a [team](/platform/hosting/iam/org_team_struct#team) (also called an entity) in your W&B organization. The full project path follows this format:
-
-```
-team-name/project-name
-```
-
-For example, a team called `my-team` with a project called `llm-chatbot` has the project path `my-team/llm-chatbot`.
-
-To associate traces, evaluations, and other resources with a project, pass the project's path as a string when you initialize Weave in your code:
+You can create a Weave project using the W&B UI or by setting a new project path in your code.
 
 <Tabs>
-    <Tab title="Python">
-    ```python
-    import weave
 
-    weave.init('my-team/my-llm-app')
-    ```
-    </Tab>
-    <Tab title="TypeScript">
-    ```typescript
-    import * as weave from 'weave';
+<Tab title="Using the UI">
+To create a new project using the W&B UI:
 
-    await weave.init('my-team/my-llm-app');
-    ```
-    </Tab>
+1. Navigate to [wandb.ai](https://wandb.ai).
+2. Select **New project**. This opens the **Create a new project** modal dialog.
+3. In the modal, configure the following fields:
+    * **Team**: The existing team to associate the project with.
+    * **Name**: A name for your project.
+    * **Project visibility**: The scope of who can view and edit the project.
+    * **Description**: (Optional) A short description of the project to help you track and organize its purpose.
+4. After configuring the necessary fields, select **Create project**. The project is created and added to the top of the **Projects** list in the left sidebar. 
+
+When you open the new project, you see quickstarts for both W&B Models and W&B Weave. The sidenav contains tools for each product. After you associate Weave data with your project through your code, the sidenav shows only Weave tools and the Weave dashboard becomes available.
+</Tab>
+
+<Tab title="Using code">
+
+You can create new Weave projects directly from your code. To do this, add a new project path as an argument to `weave.init()`:
+
+<CodeGroup>
+```python
+import weave
+
+weave.init('my-team/my-llm-app')
+```
+
+```typescript
+import * as weave from 'weave';
+
+await weave.init('my-team/my-llm-app');
+```
+</CodeGroup>
+
+When you run the code, Weave creates the new project in your W&B account and uploads any applicable data from the run to the project. Weave also configures the project as a Weave project (not a W&B Models project), and the UI sidenav shows only Weave tools.
+
+</Tab>
+
 </Tabs>
-
-If you don't specify a team name, Weave uses your [default entity](/platform/app/settings-page/user-settings#default-team) (your personal account or default team).
 
 ## Viewing projects in the UI
 
-Access a project in the Weave UI:
+To access a project in the Weave UI:
 
 1. Navigate to [wandb.ai](https://wandb.ai).
-2. Select your project from the **Projects** sidebar. This opens the project's overview page.
+2. Select your project from the **Projects** sidebar. This opens the project's overview page, or **Traces** page if you have already logged traces to the project.
 3. From the overview page, you can: 
-    * Review your projects's statistics, such as the total number of traces logged to the project and how much storage the project is using.
+    * Review your project's statistics, such as the number of traces logged to the project and how much storage the project is using.
     * Navigate to traces, evaluations, and other resources using the sidebar.
     * Navigate to recently logged traces, evaluations, models, and datasets.
 
 <Frame>
 ![Weave project](/weave/guides/platform/imgs/weave-project.png)
 </Frame>
+
+## Delete a project
+
+To delete a project from your W&B account:
+
+1. Navigate to [wandb.ai](https://wandb.ai).
+2. Select your project from the **Projects** sidebar. This opens the project's overview page, or **Traces** page if you have already logged traces to the project.
+3. Select the **Project** (<Icon icon="circle-info" size={16} />) button in the sidenav to open the project's overview page if it is not already open.
+4. Select the three-dots menu (<Icon icon="ellipsis" size={16} />) and choose **Delete Project** from the list. This opens the **Delete project** modal dialog.
+5. In the modal, enter the project name in the confirmation field and click **Delete**. The project is permanently deleted from your W&B account.
