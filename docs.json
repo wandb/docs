@@ -777,6 +777,7 @@
                 "group": "Guides",
                 "pages": [
                   "weave/concepts/what-is-weave",
+                  "weave/guides/platform/weave-projects",
                   {
                     "group": "Track your application",
                     "pages": [
@@ -895,7 +896,6 @@
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
-                  "weave/guides/platform/weave-projects",
                   "weave/guides/core-types/env-vars"
                 ]
               },
