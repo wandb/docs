@@ -3,7 +3,42 @@ title: wandb artifact-put
 ---
 
 
-Upload an artifact to wandb
+Upload an artifact to W&B.
+
+    Upload a file, directory, or URL reference as a versioned artifact.
+    The PATH can be a local file, a local directory, or a URL
+    (containing ://) to log as a reference artifact.
+
+    If --name is not specified, the artifact name defaults to the
+    basename of the path. If the project cannot be parsed from the
+    name, you are prompted to enter one.
+
+    Examples:
+
+    Upload a directory as a dataset artifact
+
+    ```bash
+    wandb artifact put ./my-dataset
+    ```
+
+    Upload a file with a specific name and type
+
+    ```bash
+    wandb artifact put --name my-project/my-model --type model ./model.pt
+    ```
+
+    Upload with multiple aliases
+
+    ```bash
+    wandb artifact put -a latest -a v1.0 ./my-dataset
+    ```
+
+    Log a URL as a reference artifact
+
+    ```bash
+    wandb artifact put --type dataset s3://my-bucket/data
+    ```
+    
 
 ## Usage
 
@@ -16,7 +51,7 @@ wandb artifact put [OPTIONS] PATH
 
 ### `name`
 
-The name of the artifact to push: project/artifact_name                
+Artifact name in project/artifact_name format. Defaults to the basename of the path.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -24,7 +59,7 @@ The name of the artifact to push: project/artifact_name
 
 ### `description`
 
-A description of this artifact                
+A description of this artifact.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -32,7 +67,7 @@ A description of this artifact
 
 ### `type`
 
-The type of the artifact                
+The type of the artifact. Defaults to 'dataset'.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -40,7 +75,7 @@ The type of the artifact
 
 ### `alias`
 
-An alias to apply to this artifact                
+An alias to apply to this artifact. Can be specified multiple times. Defaults to 'latest'.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -48,7 +83,7 @@ An alias to apply to this artifact
 
 ### `run_id`
 
-The run you want to upload to.                
+Upload to an existing run with this ID.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -72,7 +107,7 @@ Skip caching while uploading artifact files.
 
 ### `policy`
 
-Set the storage policy while uploading artifact files.                
+Set the storage policy for artifact files. Either 'mutable' (default) or 'immutable'.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -91,20 +126,50 @@ Show this message and exit.
 ```
 Usage: artifact put [OPTIONS] PATH
 
-  Upload an artifact to wandb
+  Upload an artifact to W&B.
+
+  Upload a file, directory, or URL reference as a versioned artifact. The PATH
+  can be a local file, a local directory, or a URL (containing ://) to log as
+  a reference artifact.
+
+  If --name is not specified, the artifact name defaults to the basename of
+  the path. If the project cannot be parsed from the name, you are prompted to
+  enter one.
+
+  Examples:
+
+  Upload a directory as a dataset artifact
+
+  ```bash wandb artifact put ./my-dataset ```
+
+  Upload a file with a specific name and type
+
+  ```bash wandb artifact put --name my-project/my-model --type model
+  ./model.pt ```
+
+  Upload with multiple aliases
+
+  ```bash wandb artifact put -a latest -a v1.0 ./my-dataset ```
+
+  Log a URL as a reference artifact
+
+  ```bash wandb artifact put --type dataset s3://my-bucket/data ```
 
 Options:
-  -n, --name TEXT               The name of the artifact to push:
-                                project/artifact_name
-  -d, --description TEXT        A description of this artifact
-  -t, --type TEXT               The type of the artifact
-  -a, --alias TEXT              An alias to apply to this artifact
-  --id TEXT                     The run you want to upload to.
+  -n, --name TEXT               Artifact name in project/artifact_name format.
+                                Defaults to the basename of the path.
+  -d, --description TEXT        A description of this artifact.
+  -t, --type TEXT               The type of the artifact. Defaults to
+                                'dataset'.
+  -a, --alias TEXT              An alias to apply to this artifact. Can be
+                                specified multiple times. Defaults to
+                                'latest'.
+  --id TEXT                     Upload to an existing run with this ID.
   --resume                      Resume the last run from your current
                                 directory.
   --skip_cache                  Skip caching while uploading artifact files.
-  --policy [mutable|immutable]  Set the storage policy while uploading
-                                artifact files.
+  --policy [mutable|immutable]  Set the storage policy for artifact files.
+                                Either 'mutable' (default) or 'immutable'.
   --help                        Show this message and exit.
 ```
 

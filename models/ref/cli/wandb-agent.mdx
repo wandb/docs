@@ -7,7 +7,44 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1968" />
 
 
-Run the W&B agent
+Start a sweep agent.
+
+    Poll the W&B server for hyperparameter configurations from
+    the sweep and launch a run for each configuration.
+    
+    The agent exits when the sweep completes, the sweep
+    is stopped/cancelled, or the --count limit is reached.
+
+    SWEEP_ID is printed by `wandb sweep` when a sweep is created.
+    It can include the entity and project path
+    (`entity/project/sweep_id`).
+
+    Examples:
+
+    Start an agent for a sweep
+
+    ```bash
+    wandb agent SWEEP_ID
+    ```
+
+    Start an agent with a run limit
+
+    ```bash
+    wandb agent --count 10 SWEEP_ID
+    ```
+
+    Start an agent for a sweep in a specific project
+
+    ```bash
+    wandb agent -p PROJECT_NAME -e ENTITY SWEEP_ID
+    ```
+
+    Forward signals to child runs for clean shutdown
+
+    ```bash
+    wandb agent --forward-signals SWEEP_ID
+    ```
+    
 
 ## Usage
 
@@ -20,7 +57,7 @@ wandb agent [OPTIONS] SWEEP_ID
 
 ### `project`
 
-The name of the project where W&B runs created from the sweep are sent to. If the project is not specified, the run is sent to a project labeled 'Uncategorized'.                
+Set the project to upload runs to.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -28,7 +65,7 @@ The name of the project where W&B runs created from the sweep are sent to. If th
 
 ### `entity`
 
-The username or team name where you want to send W&B runs created by the sweep to. Ensure that the entity you specify already exists. If you don't specify an entity, the run will be sent to your default entity, which is usually your username.                
+Set the entity to scope the project to.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -36,7 +73,7 @@ The username or team name where you want to send W&B runs created by the sweep t
 
 ### `count`
 
-The max number of runs for this agent.                
+Maximum number of runs this agent will execute. Runs until the sweep completes if not set.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -44,7 +81,7 @@ The max number of runs for this agent.
 
 ### `forward_signals`
 
-Forward signals delivered to the agent (e.g. SIGINT/SIGTERM) to its child runs so they can shut down cleanly.                
+Forward signals (e.g. SIGINT/SIGTERM) to child runs so they can shut down cleanly.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -63,22 +100,42 @@ Show this message and exit.
 ```
 Usage: agent [OPTIONS] SWEEP_ID
 
-  Run the W&B agent
+  Start a sweep agent.
+
+  Poll the W&B server for hyperparameter configurations from the sweep and
+  launch a run for each configuration.
+
+  The agent exits when the sweep completes, the sweep is stopped/cancelled, or
+  the --count limit is reached.
+
+  SWEEP_ID is printed by `wandb sweep` when a sweep is created. It can include
+  the entity and project path (`entity/project/sweep_id`).
+
+  Examples:
+
+  Start an agent for a sweep
+
+  ```bash wandb agent SWEEP_ID ```
+
+  Start an agent with a run limit
+
+  ```bash wandb agent --count 10 SWEEP_ID ```
+
+  Start an agent for a sweep in a specific project
+
+  ```bash wandb agent -p PROJECT_NAME -e ENTITY SWEEP_ID ```
+
+  Forward signals to child runs for clean shutdown
+
+  ```bash wandb agent --forward-signals SWEEP_ID ```
 
 Options:
-  -p, --project TEXT     The name of the project where W&B runs created from
-                         the sweep are sent to. If the project is not
-                         specified, the run is sent to a project labeled
-                         'Uncategorized'.
-  -e, --entity TEXT      The username or team name where you want to send W&B
-                         runs created by the sweep to. Ensure that the entity
-                         you specify already exists. If you don't specify an
-                         entity, the run will be sent to your default entity,
-                         which is usually your username.
-  --count INTEGER        The max number of runs for this agent.
-  -f, --forward-signals  Forward signals delivered to the agent (e.g.
-                         SIGINT/SIGTERM) to its child runs so they can shut
-                         down cleanly.
+  -p, --project TEXT     Set the project to upload runs to.
+  -e, --entity TEXT      Set the entity to scope the project to.
+  --count INTEGER        Maximum number of runs this agent will execute. Runs
+                         until the sweep completes if not set.
+  -f, --forward-signals  Forward signals (e.g. SIGINT/SIGTERM) to child runs
+                         so they can shut down cleanly.
   --help                 Show this message and exit.
 ```
 

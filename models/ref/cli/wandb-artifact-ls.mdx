@@ -3,7 +3,27 @@ title: wandb artifact-ls
 ---
 
 
-List all artifacts in a wandb project
+List all artifacts in a W&B project.
+
+    Display the latest version of each artifact collection in a
+    project, showing type, last updated time, size, and name.
+
+    The PATH is an entity/project string.
+
+    Examples:
+
+    List all artifacts in a project
+
+    ```bash
+    wandb artifact ls my-team/my-project
+    ```
+
+    List only artifacts of a specific type
+
+    ```bash
+    wandb artifact ls --type model my-team/my-project
+    ```
+    
 
 ## Usage
 
@@ -16,7 +36,7 @@ wandb artifact ls [OPTIONS] PATH
 
 ### `type`
 
-The type of artifacts to list                
+Filter artifacts by type.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -35,10 +55,25 @@ Show this message and exit.
 ```
 Usage: artifact ls [OPTIONS] PATH
 
-  List all artifacts in a wandb project
+  List all artifacts in a W&B project.
+
+  Display the latest version of each artifact collection in a project, showing
+  type, last updated time, size, and name.
+
+  The PATH is an entity/project string.
+
+  Examples:
+
+  List all artifacts in a project
+
+  ```bash wandb artifact ls my-team/my-project ```
+
+  List only artifacts of a specific type
+
+  ```bash wandb artifact ls --type model my-team/my-project ```
 
 Options:
-  -t, --type TEXT  The type of artifacts to list
+  -t, --type TEXT  Filter artifacts by type.
   --help           Show this message and exit.
 ```
 

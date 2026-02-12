@@ -3,7 +3,26 @@ title: wandb artifact-get
 ---
 
 
-Download an artifact from wandb
+Download an artifact from W&B.
+
+    Download an artifact by its path. The PATH format is
+    entity/project/artifact_name:version. If the version is omitted,
+    use the 'latest' alias.
+
+    Examples:
+
+    Download the latest version of an artifact
+
+    ```bash
+    wandb artifact get my-team/my-project/my-dataset:latest
+    ```
+
+    Download a specific version to a custom directory
+
+    ```bash
+    wandb artifact get --root ./data my-team/my-project/my-dataset:v2
+    ```
+    
 
 ## Usage
 
@@ -16,7 +35,7 @@ wandb artifact get [OPTIONS] PATH
 
 ### `root`
 
-The directory you want to download the artifact to                
+Directory to download the artifact to. Uses the default artifact cache if not set.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -24,7 +43,7 @@ The directory you want to download the artifact to
 
 ### `type`
 
-The type of artifact you are downloading                
+Expected artifact type. Fails if the artifact does not match.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -43,11 +62,27 @@ Show this message and exit.
 ```
 Usage: artifact get [OPTIONS] PATH
 
-  Download an artifact from wandb
+  Download an artifact from W&B.
+
+  Download an artifact by its path. The PATH format is
+  entity/project/artifact_name:version. If the version is omitted, use the
+  'latest' alias.
+
+  Examples:
+
+  Download the latest version of an artifact
+
+  ```bash wandb artifact get my-team/my-project/my-dataset:latest ```
+
+  Download a specific version to a custom directory
+
+  ```bash wandb artifact get --root ./data my-team/my-project/my-dataset:v2
+  ```
 
 Options:
-  --root TEXT  The directory you want to download the artifact to
-  --type TEXT  The type of artifact you are downloading
+  --root TEXT  Directory to download the artifact to. Uses the default
+               artifact cache if not set.
+  --type TEXT  Expected artifact type. Fails if the artifact does not match.
   --help       Show this message and exit.
 ```
 
