@@ -1,13 +1,13 @@
 ---
 title: "Trace generator functions"
-description: "Track sync and async generator functions with Weave tracing"
+description: "Track sync and async generator functions with W&B Weave tracing"
 ---
 
 W&B Weave supports tracing both sync and async generator functions, including deeply nested patterns.
 
 <Warning>
-Since generators yield values lazily, the outputs are only logged when the generator is fully consumed (such as by converting it to a list).
-To ensure outputs are captured in the trace, fully consume the generator (for example, by using `list()`).
+Because generators yield values lazily, the outputs are only logged when the generator is fully consumed (such as by converting it to a list).
+To ensure that outputs are captured in the trace, fully consume the generator (for example, by using `list()`).
 </Warning>
 
 <Tabs>
@@ -70,4 +70,4 @@ To ensure outputs are captured in the trace, fully consume the generator (for ex
 
 Weave captures generator outputs only after the generator is fully consumed. Consume the generator by iterating over it (for example, with `list()`, a `for` loop, or `next()` until exhaustion). The same applies to async generators when using `async for` or equivalent consumption.
 
-For more on decorating functions and methods with `@weave.op`, see [Tracing Basics](/weave/guides/tracking/tracing#2-decorating-and-wrapping-functions).
+For more on decorating functions and methods with `@weave.op`, see [Create calls](/weave/guides/tracking/create-call).

@@ -3,7 +3,7 @@ title: "Create calls"
 description: "Create and track calls in W&B Weave"
 ---
 
-## Creating calls
+## Create calls
 
 There are three main ways to create calls in W&B Weave:
 
@@ -72,9 +72,9 @@ There are three main ways to create calls in W&B Weave:
   </Tab>
 </Tabs>
 
-You can store metrics or other post-call values in the `summary` dictionary of a call. Modify `call.summary` during execution and any values you add will be merged with Weave's computed summary data when the call finishes.
+You can store metrics or other post-call values in the `summary` dictionary of a call. Modify `call.summary` during execution. Any values you add will be merged with Weave's computed summary data when the call finishes.
 
-### 2. Decorating and wrapping functions
+### 2. Decorate and wrap functions
 
 However, often LLM applications have additional logic (such as pre/post processing, prompts, and more) that you want to track.
 

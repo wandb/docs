@@ -1,11 +1,11 @@
 ---
 title: "Configure automatic LLM call tracking"
-description: "Control how Weave automatically records calls to OpenAI, Anthropic, and other LLM libraries"
+description: "Control how W&B Weave automatically records calls to OpenAI, Anthropic, and other LLM libraries"
 ---
 
 ## Why automatic tracking?
 
-If you use LLM provider libraries (such as OpenAI, Anthropic, Cohere, or Mistral) in your application, you want those API calls to show up in Weave as traced calls: inputs, outputs, latency, token usage, and cost. Without help, you would have to wrap every `client.chat.completions.create()` (or equivalent) in `@weave.op` or manual instrumentation, which is tedious and easy to miss.
+If you use LLM provider libraries (such as OpenAI, Anthropic, Cohere, or Mistral) in your application, you want those API calls to show up in W&B Weave as traced calls: inputs, outputs, latency, token usage, and cost. Without help, you would have to wrap every `client.chat.completions.create()` (or equivalent) in `@weave.op` or manual instrumentation, which is tedious and easy to miss.
 
 **Autopatching** is Weave’s way of doing that for you. When you call `weave.init()`, Weave automatically intercepts (patches) supported LLM client libraries. Your application code stays unchanged: you use the provider SDK as usual, and each request is recorded as a Weave call. You get full tracing with minimal setup.
 
@@ -13,7 +13,7 @@ This page describes when and how to change that behavior: turning automatic trac
 
 ## Default behavior
 
-By default, Weave automatically patches and tracks calls to common LLM libraries such as `openai`, `anthropic`, `cohere`, and `mistral`. Call `weave.init('your-project')` at the start of your program and use those libraries normally; their calls will appear in your project’s Traces.
+By default, Weave automatically patches and tracks calls to common LLM libraries such as `openai`, `anthropic`, `cohere`, and `mistral`. Call `weave.init('your-project')` at the start of your program and use those libraries normally. Their calls will appear in your project’s Traces.
 
 ## Configure autopatching
 
@@ -70,8 +70,8 @@ weave.integrations.patch_openai(
 The TypeScript SDK only supports autopatching for OpenAI and Anthropic. OpenAI is automatically patched when you import Weave and does not require any additional configuration.
 
 Additionally, the TypeScript SDK does not support:
-- Configuring or disabling autopatching
-- Input/output post-processing
+- Configuring or disabling autopatching.
+- Input/output post-processing.
 
 For edge cases where automatic patching does not work (ESM, bundlers like Next.js), use explicit wrapping:
 
