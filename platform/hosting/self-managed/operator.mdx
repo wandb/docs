@@ -607,21 +607,23 @@ W&B recommends using the [W&B Server Google Cloud Terraform Module](https://regi
 
 The module documentation is extensive and contains all available options that can be used.
 
+Before you start, W&B recommends that you choose one of the [remote backends](https://developer.hashicorp.com/terraform/language/backend/remote) available for Terraform to store the [State File](https://developer.hashicorp.com/terraform/language/state). The State File is the necessary resource to roll out upgrades or make changes in your deployment without recreating all components.
+
 The Terraform Module deploys the following mandatory components:
 
 - VPC
 - Cloud SQL for MySQL
 - Cloud Storage Bucket
 - Google Kubernetes Engine
+- Memorystore for Redis
 - KMS Crypto Key
 - Load Balancer
 
 Optional components include:
 
-- Memory store for Redis
 - Pub/Sub messages system
 
-### Pre-requisite permissions
+### Prerequisite permissions
 
 The account that will run Terraform needs to have the role `roles/owner` in the Google Cloud project used.
 
@@ -630,11 +632,10 @@ The account that will run Terraform needs to have the role `roles/owner` in the 
 The steps in this section are common for any deployment option.
 
 1. Prepare the development environment.
-   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+   - Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
    - W&B recommends creating a Git repository with the code that will be used, but you can keep your files locally.
-   - Create a project in [Google Cloud Console](https://console.cloud.google.com/welcome/new)
-   - Authenticate with Google Cloud (make sure to [install gcloud](https://docs.cloud.google.com/sdk/docs/install-sdk) before):
-     `gcloud auth application-default login`
+   - Create a project in [Google Cloud Console](https://console.cloud.google.com/).
+   - Authenticate with Google Cloud (make sure to [install gcloud](https://cloud.google.com/sdk/docs/install) before) using `gcloud auth application-default login`.
 2. Create the `terraform.tfvars` file.
 
    The `tvfars` file content can be customized according to the installation type, but the minimum recommended will look like the example below.
@@ -651,9 +652,9 @@ The steps in this section are common for any deployment option.
 
    The variables defined here need to be decided before the deployment. The `namespace` variable will be a string that will prefix all resources created by Terraform.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-gcp.wandb.ml`
+   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-gcp.wandb.ml`.
 
-3. Create the file `variables.tf`
+3. Create the file `variables.tf`.
 
    For every option configured in the `terraform.tfvars` Terraform requires a correspondent variable declaration.
 
@@ -726,7 +727,7 @@ This is the most straightforward deployment option configuration that creates al
    # Spin up all required services
    module "wandb" {
      source  = "wandb/wandb/google"
-     version = "~> 5.0"
+     version = "~> 10.0"
 
      namespace   = var.namespace
      license     = var.license
@@ -748,7 +749,7 @@ This is the most straightforward deployment option configuration that creates al
    }
    ```
 
-2. Deploy W&B
+2. Deploy W&B.
 
    To deploy W&B, execute the following commands:
 
@@ -766,7 +767,7 @@ To use Redis to cache SQL queries and speed up the application response when loa
 
 module "wandb" {
   source  = "wandb/wandb/google"
-  version = "~> 5.0"
+  version = "~> 10.0"
 
   namespace    = var.namespace
   license      = var.license
@@ -790,7 +791,7 @@ This is optional because W&B includes an embedded broker. This option does not b
 
 module "wandb" {
   source  = "wandb/wandb/google"
-  version = "~> 5.0"
+  version = "~> 10.0"
 
   namespace          = var.namespace
   license            = var.license
