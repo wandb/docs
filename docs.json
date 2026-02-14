@@ -411,18 +411,10 @@
                       {
                         "group": "ML Frameworks",
                         "pages": [
-                          "models/integrations/catalyst",
-                          "models/integrations/deepchem",
-                          "models/integrations/dspy",
                           "models/integrations/keras",
-                          "models/integrations/lightgbm",
-                          "models/integrations/mmengine",
-                          "models/integrations/mmf",
-                          "models/integrations/paddledetection",
-                          "models/integrations/paddleocr",
+                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
-                          "models/integrations/skorch",
                           "models/integrations/tensorflow",
                           "models/integrations/xgboost"
                         ]
@@ -430,22 +422,14 @@
                       {
                         "group": "ML Libraries",
                         "pages": [
-                          "models/integrations/deepchecks",
-                          "models/integrations/huggingface",
+                          "models/tutorials/huggingface",
+                          "models/integrations/accelerate",
                           "models/integrations/diffusers",
-                          "models/integrations/autotrain",
-                          "models/integrations/fastai",
-                          "models/integrations/fastai/v1",
-                          "models/integrations/composer",
-                          "models/integrations/openai-gym",
-                          "models/integrations/prodigy",
-                          "models/integrations/pytorch-geometric",
-                          "models/integrations/torchtune",
-                          "models/integrations/scikit",
                           "models/integrations/simpletransformers",
-                          "models/integrations/spacy",
-                          "models/integrations/stable-baselines-3",
-                          "models/integrations/ultralytics"
+                          "models/integrations/huggingface",
+                          "models/integrations/openai-gym",
+                          "models/integrations/pytorch-geometric",
+                          "models/integrations/torchtune"
                         ]
                       }
                     ]
@@ -453,30 +437,15 @@
                   {
                     "group": "Cloud Platforms",
                     "pages": [
-                      "models/integrations/sagemaker",
-                      "models/integrations/databricks",
                       "models/integrations/azure-openai-fine-tuning",
                       "models/integrations/openai-fine-tuning",
-                      "models/integrations/cohere-fine-tuning",
-                      "models/integrations/openai-api",
-                      "models/integrations/nim"
-                    ]
-                  },
-                  {
-                    "group": "Workflow Orchestration",
-                    "pages": [
-                      "models/integrations/kubeflow-pipelines-kfp",
-                      "models/integrations/metaflow",
-                      "models/integrations/dagster",
-                      "models/integrations/hydra"
+                      "models/integrations/openai-api"
                     ]
                   },
                   {
                     "group": "Other",
                     "pages": [
-                      "models/integrations/docker",
-                      "models/integrations/tensorboard",
-                      "models/integrations/w-and-b-for-julia",
+                      "models/integrations/hydra",
                       "models/integrations/yolox",
                       "models/integrations/yolov5"
                     ]
@@ -490,11 +459,6 @@
                   {
                     "group": "Fundamentals",
                     "pages": [
-                      "models/tutorials/experiments",
-                      "models/tutorials/tables",
-                      "models/tutorials/sweeps",
-                      "models/tutorials/artifacts",
-                      "models/tutorials/workspaces",
                       "models/tutorials/weave_models_registry",
                       "models/evaluate-models"
                     ]
@@ -502,15 +466,8 @@
                   {
                     "group": "Framework Tutorials",
                     "pages": [
-                      "models/tutorials/keras",
-                      "models/tutorials/keras_models",
-                      "models/tutorials/keras_tables",
-                      "models/tutorials/pytorch",
-                      "models/tutorials/lightning",
-                      "models/tutorials/tensorflow",
                       "models/tutorials/tensorflow_sweeps",
-                      "models/tutorials/xgboost_sweeps",
-                      "models/tutorials/huggingface"
+                      "models/tutorials/xgboost_sweeps"
                     ]
                   },
                   {
@@ -3800,8 +3757,40 @@
       "destination": "/models"
     },
     {
-      "source": "/models/integrations/openai",
-      "destination": "/models/integrations/openai-api"
+      "source": "/models/tutorials/pytorch",
+      "destination": "/models/integrations/pytorch"
+    },
+    {
+      "source": "/models/tutorials/artifacts",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/experiments",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras_models",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras_tables",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/sweeps",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/tables",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/workspaces",
+      "destination": "/models/tutorials"
     },
     {
       "source": "/models/ref/python/init",
