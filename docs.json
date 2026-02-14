@@ -81,8 +81,6 @@
                       "platform/hosting/self-managed/ref-arch",
                       "platform/hosting/self-managed/requirements",
                       "platform/hosting/self-managed/operator",
-                      "platform/hosting/self-managed/cloud-deployments/terraform",
-                      "platform/hosting/self-managed/on-premises-deployments/kubernetes",
                       "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "platform/hosting/server-upgrade-process",
                       "platform/hosting/self-managed/disable-automatic-app-version-updates"
@@ -3946,23 +3944,31 @@
     },
     {
       "source": "/platform/hosting/self-managed/bare-metal",
-      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/platform/hosting/self-managed/operator-airgapped",
       "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
     },
     {
+      "source": "/platform/hosting/self-managed/cloud-deployments/terraform",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/on-premises-deployments/kubernetes",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
       "source": "/platform/hosting/self-managed/aws-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/platform/hosting/self-managed/gcp-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/platform/hosting/self-managed/azure-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ja/platform/hosting/operator",
@@ -3970,7 +3976,7 @@
     },
     {
       "source": "/ja/platform/hosting/self-managed/bare-metal",
-      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ja/platform/hosting/self-managed/operator-airgapped",
@@ -3978,15 +3984,15 @@
     },
     {
       "source": "/ja/platform/hosting/self-managed/aws-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ja/platform/hosting/self-managed/gcp-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ja/platform/hosting/self-managed/azure-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ko/platform/hosting/operator",
@@ -3994,7 +4000,7 @@
     },
     {
       "source": "/ko/platform/hosting/self-managed/bare-metal",
-      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ko/platform/hosting/self-managed/operator-airgapped",
@@ -4002,15 +4008,15 @@
     },
     {
       "source": "/ko/platform/hosting/self-managed/aws-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ko/platform/hosting/self-managed/gcp-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/ko/platform/hosting/self-managed/azure-tf",
-      "destination": "/platform/hosting/self-managed/cloud-deployments/terraform"
+      "destination": "/platform/hosting/self-managed/operator"
     },
     {
       "source": "/weave/guides/evaluation/guardrails_and_monitors",

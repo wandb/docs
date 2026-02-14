@@ -12,6 +12,7 @@ import SelfManagedObjectStorageRequirements from "/snippets/en/_includes/self-ma
 import ByobProvisioningLink from "/snippets/en/_includes/byob-provisioning-link.mdx";
 import SelfManagedNetworkingRequirements from "/snippets/en/_includes/self-managed-networking-requirements.mdx";
 import SelfManagedSslTlsRequirements from "/snippets/en/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedObtainLicense from "/snippets/en/_includes/self-managed-obtain-license.mdx";
 
 This page provides a comprehensive overview of the infrastructure and software requirements for deploying W&B Self-Managed. Review these requirements before beginning your deployment.
 
@@ -115,13 +116,14 @@ For detailed load balancer options, ingress controller requirements, and configu
 
 ## License
 
-A valid W&B Server license is required for all Self-Managed deployments. See [Obtain your W&B Server license](/platform/hosting/hosting-options/self-managed#obtain-your-wb-server-license) for instructions.
+A valid W&B Server license is required for all Self-Managed deployments.
+
+<SelfManagedObtainLicense/>
 
 ## Next steps
 
 After ensuring your infrastructure meets these requirements:
 
-- **Cloud deployments**: See [Deploy with Terraform on public cloud](/platform/hosting/self-managed/cloud-deployments/terraform) for AWS, Google Cloud, or Azure deployments using Terraform modules
-- **On-premises deployments**: See [Deploy on Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes) for standard on-premises deployments
-- **Air-gapped deployments**: See [Deploy in air-gapped environment](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) for disconnected environments
+- **Cloud and on-premises deployments**: See [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator) for Helm and Terraform deployment options.
+- **Air-gapped deployments**: See [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) for disconnected environments.
 - **All deployment methods**: See [Deploy with Kubernetes Operator](/platform/hosting/self-managed/operator) for the core operator deployment guide
