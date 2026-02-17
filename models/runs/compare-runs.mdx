@@ -2,20 +2,18 @@
 description: Learn how to use pinned and baseline runs to keep track of important runs and efficiently evaluate model experiments.
 title: Pin and compare runs
 ---
-import CloudOnly from '/snippets/en/_includes/pinned-and-baseline-runs/cloud-only.mdx';
 import PinRunsCondensed from '/snippets/en/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
 
 In a workspace with many runs, it can be difficult to keep track of your best performers, production models, failed experiments, or important reference points. The W&B App provides features to help organize and compare runs:
 
 - **Pinned runs**: Pin up to 6 runs to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
-- **Baseline run**: Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list. In line plots, the baseline appears with visually distinct styling to help with comparison.
+- **Baseline run**: Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list. In the runs table, summary metric deltas show how each run compares to the baseline. In line plots, the baseline appears with visually distinct styling to help with comparison.
 
 These features are particularly useful for:
 - Comparing new experiments against your production model.
 - Tracking multiple candidate models during experimentation.
 - Evaluating whether new runs improve on your best results.
 
-<CloudOnly/>
 See [Limitations](#limitations).
 
 ## Pin runs
@@ -84,6 +82,24 @@ The baseline run is always visible in line plots for metrics the run has logged.
   <Frame>
   ![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
   </Frame>
+
+### Summary metric deltas
+When a run is set as the baseline, every other run that logs a summary metric that is also logged by the baseline run shows the delta between the baseline value and that run's value. The delta appears to the right of the metric's value in the run's row in the runs table.
+
+By default, the delta is shown with dark gray text on a dark gray background. You can set the **Metric directionality** for a column so that deltas are colored for quick visual reference:
+
+- If the other run **outperforms** the baseline, the delta is shown in dark red text with a light red background.
+- If the other run **underperforms** the baseline, the delta is shown in dark teal text with a light teal background.
+
+To set the directionality for a metric:
+
+1. In the runs table, hover over the column heading for the metric.
+2. Click the `...` action menu that appears.
+3. Set **Metric directionality** to **Higher values are best** or **Lower values are best**.
+
+The following screenshot shows how the runs `nanochat-train-base` and `nanochat-train-mid` compare with the baseline run `nanochat-train`. Delta metrics are shown for `TOTAL_TRAINING_TIME`, `TRAIN/DT`, AND `TRAIN/GRAD_NORM`.
+![Screenshot comparing summary metric deltas from the baseline run](/images/models/pinned-and-baseline-runs/baseline_run_deltas.png)
+
 
 ## Use cases
 This section describes some scenarios where pinned and baseline runs can help guide your experiments.
@@ -163,13 +179,12 @@ This section illustrates how pinned and baseline runs can help you to compare ru
     After running this code, your workspace has three runs.
 2. Set `baseline-config` as your baseline run.
 3. Pin `baseline-config` to keep it visible.
-4. Compare the experiment runs against the baseline using the line plots in the workspace.
+4. Compare the experiment runs against the baseline: in the runs table, use the summary metric deltas next to each run's values; in the workspace, use the line plots.
 5. Pin promising experiments for further investigation. In this example, after 50 epochs, `lr-experiment-0.003` has the highest accuracy (`~0.64`) and the lowest loss (`~0.86`).
 
 {/* TODO screenshot */}
 
 ## Limitations
-<CloudOnly/>
 
 The following features are not yet supported for pinned and baseline runs:
 
