@@ -45,7 +45,7 @@ jobs:
       - name: Early exit if no docs changed (fork PRs only)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true
         id: fork-docs-check
-        uses: tj-actions/changed-files@v47.0.1
+        uses: tj-actions/changed-files@v47.0.3
         with:
           files: |
             **/*.md
@@ -119,7 +119,7 @@ jobs:
           (github.event_name == 'deployment_status' && 
            steps.pr-context.outputs.pr_number != '') ||
           github.event_name == 'workflow_dispatch'
-        uses: tj-actions/changed-files@v47.0.1
+        uses: tj-actions/changed-files@v47.0.3
         with:
           base_sha: ${{ steps.pr-context.outputs.base_sha || github.event.pull_request.base.sha }}
           sha: ${{ steps.pr-context.outputs.head_sha || github.event.pull_request.head.sha }}
