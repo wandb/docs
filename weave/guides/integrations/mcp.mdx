@@ -3,7 +3,7 @@ title: "Model Context Protocol (MCP) and Weave"
 description: "Trace activity between your MCP client and MCP server with Weave"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/drive/174VzXlU5Qcgvjt4OoIWN-guTxJcOefAh?usp=sharing">
+<a target="_blank" href="https://colab.research.google.com/drive/174VzXlU5Qcgvjt4OoIWN-guTxJcOefAh?usp=sharing" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -21,9 +21,9 @@ The Weave integration automatically traces key components of the Model Context P
 
 Through this integration, Weave traces the following MCP components:
 
-- [Tools](https://modelcontextprotocol.io/docs/concepts/tools)
-- [Resources](https://modelcontextprotocol.io/docs/concepts/resources)
-- [Prompts](https://modelcontextprotocol.io/docs/concepts/prompts)
+- [Tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)
+- [Resources](https://modelcontextprotocol.io/specification/2025-06-18/server/resources)
+- [Prompts](https://modelcontextprotocol.io/specification/2025-06-18/server/prompts)
 
 [![mcp_trace_timeline.png](/weave/guides/integrations/imgs/mcp/mcp_trace_timeline.png)](https://wandb.ai/ayut/mcp_example/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fmcp_example%2Fop%2Frun_client%3A*%22%5D%7D&peekPath=%2Fayut%2Fmcp_example%2Fcalls%2F01966bbe-cc5e-7012-b45f-bf10617d8c1e%3FhideTraceTree%3D0)
 
@@ -114,15 +114,15 @@ async with stdio_client(server_params) as (read, write):
 
 ## Tutorial: `mcp_demo` example
 
-The [`mcp_example`](https://github.com/wandb/weave/tree/master/examples/mcp_demo) demonstrates an integration between the Model Context Protocol (MCP) and Weave for tracing. It showcases how to instrument both the client and server components to capture detailed traces of their interactions. 
+The `mcp_demo` example demonstrates an integration between the Model Context Protocol (MCP) and Weave for tracing. It showcases how to instrument both the client and server components to capture detailed traces of their interactions. 
 
 ### Run the example
 
-1. Clone the `weave` repository and navigate to the `mcp_demo` example:
+1. Clone the docs repository and navigate to the `mcp_demo` example:
 
    ```bash
-   git clone https://github.com/wandb/weave
-   cd weave/examples/mcp_demo
+   git clone https://github.com/wandb/docs
+   cd docs/weave/examples/mcp_demo
    ```
 
    The example includes two main files:
@@ -206,4 +206,3 @@ In any case, an observability layer allows you to:
 - Quickly iterate through your application
 - Audit the workflow or execution logic
 - Identify bottlenecks
-
