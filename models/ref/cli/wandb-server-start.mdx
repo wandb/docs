@@ -3,7 +3,22 @@ title: wandb server-start
 ---
 
 
-Start a local W&B server
+Start a local W&B server in a Docker container.
+
+    Pull and run the `wandb/local` Docker image (local instance
+    of the W&B server).
+
+    Map the specified port on the host to port `8080` in the container and
+    mount a persistent Docker volume named `wandb` to store data.
+
+    If a newer image is available, notify the user to upgrade to the latest version (`wandb server start --upgrade`).
+
+    If a container named `wandb-local` is already running, notify the user to stop it before starting a new one.
+
+    Set the `base_url` setting to the local server URL so that W&B client calls use the local server. If no API key is found, prompt the user to log in.
+
+    Requires Docker to be installed and running on the host machine.
+    
 
 ## Usage
 
@@ -16,7 +31,7 @@ wandb server start [OPTIONS]
 
 ### `port`
 
-The host port to bind W&B server on                
+The host port to bind W&B server on.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -24,7 +39,7 @@ The host port to bind W&B server on
 
 ### `env`
 
-Env vars to pass to wandb/local                
+Environment variables to pass to wandb/local Docker image.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -32,7 +47,7 @@ Env vars to pass to wandb/local
 
 ### `daemon`
 
-Run or don't run in daemon mode                
+Run the server in the background. Use --no-daemon to run in the foreground.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -40,7 +55,7 @@ Run or don't run in daemon mode
 
 ### `upgrade`
 
-Upgrade to the most recent version                
+Docker image before starting. Stop any existing container.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -48,7 +63,7 @@ Upgrade to the most recent version
 
 ### `edge`
 
-Run the bleeding edge                
+Use the bleeding edge                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -67,12 +82,31 @@ Show this message and exit.
 ```
 Usage: server start [OPTIONS]
 
-  Start a local W&B server
+  Start a local W&B server in a Docker container.
+
+  Pull and run the `wandb/local` Docker image (local instance of the W&B
+  server).
+
+  Map the specified port on the host to port `8080` in the container and mount
+  a persistent Docker volume named `wandb` to store data.
+
+  If a newer image is available, notify the user to upgrade to the latest
+  version (`wandb server start --upgrade`).
+
+  If a container named `wandb-local` is already running, notify the user to
+  stop it before starting a new one.
+
+  Set the `base_url` setting to the local server URL so that W&B client calls
+  use the local server. If no API key is found, prompt the user to log in.
+
+  Requires Docker to be installed and running on the host machine.
 
 Options:
-  -p, --port TEXT         The host port to bind W&B server on
-  -e, --env TEXT          Env vars to pass to wandb/local
-  --daemon / --no-daemon  Run or don't run in daemon mode
+  -p, --port TEXT         The host port to bind W&B server on.
+  -e, --env TEXT          Environment variables to pass to wandb/local Docker
+                          image.
+  --daemon / --no-daemon  Run the server in the background. Use --no-daemon to
+                          run in the foreground.
   --help                  Show this message and exit.
 ```
 

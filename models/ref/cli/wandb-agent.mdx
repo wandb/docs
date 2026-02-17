@@ -4,16 +4,16 @@ title: wandb agent
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1968" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1974" />
 
 
 Start a sweep agent.
 
     Poll the W&B server for hyperparameter configurations from
-    the sweep and launch a run for each configuration.
+    the sweep and start a run for each configuration.
     
     The agent exits when the sweep completes, the sweep
-    is stopped/cancelled, or the --count limit is reached.
+    is stopped/cancelled, or the `--count` limit is reached.
 
     SWEEP_ID is printed by `wandb sweep` when a sweep is created.
     It can include the entity and project path
@@ -73,7 +73,7 @@ Set the entity to scope the project to.
 
 ### `count`
 
-Maximum number of runs this agent will execute. Runs until the sweep completes if not set.                
+Maximum number of runs this agent will execute. Continues until the sweep completes if not set.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -103,10 +103,10 @@ Usage: agent [OPTIONS] SWEEP_ID
   Start a sweep agent.
 
   Poll the W&B server for hyperparameter configurations from the sweep and
-  launch a run for each configuration.
+  start a run for each configuration.
 
   The agent exits when the sweep completes, the sweep is stopped/cancelled, or
-  the --count limit is reached.
+  the `--count` limit is reached.
 
   SWEEP_ID is printed by `wandb sweep` when a sweep is created. It can include
   the entity and project path (`entity/project/sweep_id`).
@@ -132,8 +132,8 @@ Usage: agent [OPTIONS] SWEEP_ID
 Options:
   -p, --project TEXT     Set the project to upload runs to.
   -e, --entity TEXT      Set the entity to scope the project to.
-  --count INTEGER        Maximum number of runs this agent will execute. Runs
-                         until the sweep completes if not set.
+  --count INTEGER        Maximum number of runs this agent will execute.
+                         Continues until the sweep completes if not set.
   -f, --forward-signals  Forward signals (e.g. SIGINT/SIGTERM) to child runs
                          so they can shut down cleanly.
   --help                 Show this message and exit.

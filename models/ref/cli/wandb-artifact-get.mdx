@@ -6,7 +6,7 @@ title: wandb artifact-get
 Download an artifact from W&B.
 
     Download an artifact by its path. The PATH format is
-    entity/project/artifact_name:version. If the version is omitted,
+    `entity/project/artifact_name:version`. If the version is omitted,
     use the 'latest' alias.
 
     Examples:
@@ -14,13 +14,13 @@ Download an artifact from W&B.
     Download the latest version of an artifact
 
     ```bash
-    wandb artifact get my-team/my-project/my-dataset:latest
+    wandb artifact get entity/project/artifact_name:latest
     ```
 
-    Download a specific version to a custom directory
+    Download a specific version to a custom directory ("./data" in this example)
 
     ```bash
-    wandb artifact get --root ./data my-team/my-project/my-dataset:v2
+    wandb artifact get --root ./data entity/project/artifact_name:v2
     ```
     
 
@@ -65,19 +65,18 @@ Usage: artifact get [OPTIONS] PATH
   Download an artifact from W&B.
 
   Download an artifact by its path. The PATH format is
-  entity/project/artifact_name:version. If the version is omitted, use the
+  `entity/project/artifact_name:version`. If the version is omitted, use the
   'latest' alias.
 
   Examples:
 
   Download the latest version of an artifact
 
-  ```bash wandb artifact get my-team/my-project/my-dataset:latest ```
+  ```bash wandb artifact get entity/project/artifact_name:latest ```
 
-  Download a specific version to a custom directory
+  Download a specific version to a custom directory ("./data" in this example)
 
-  ```bash wandb artifact get --root ./data my-team/my-project/my-dataset:v2
-  ```
+  ```bash wandb artifact get --root ./data entity/project/artifact_name:v2 ```
 
 Options:
   --root TEXT  Directory to download the artifact to. Uses the default

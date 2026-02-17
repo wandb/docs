@@ -4,10 +4,27 @@ title: wandb pull
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2833" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3011" />
 
 
-Pull files from W&B
+Download files from a W&B run.
+
+    Fetch all files assoicated with the specified run. Skip files that already exist locally with the same content. Create subdirectories as needed to mirror the structure of the files in W&B.
+             
+    Examples:
+             
+    Download files from a run by ID (in this example, run ID is `abcd1234`)
+             
+    ```bash
+    wandb pull abcd1234
+    ```
+             
+    Download files from a run in a specific project and entity (in this example, project is `project` and entity is `entity`)
+  
+    ```bash
+    wandb pull -p project -e entity abcd1234
+    ```
+
 
 ## Usage
 
@@ -20,7 +37,7 @@ wandb pull [OPTIONS] RUN
 
 ### `project`
 
-The project you want to download.                
+The project containing the run to pull files from.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -28,7 +45,7 @@ The project you want to download.
 
 ### `entity`
 
-The entity to scope the listing to.                
+The entity that owns the project. Defaults to the value of the WANDB_ENTITY environment variable or the default entity if not set.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -47,11 +64,23 @@ Show this message and exit.
 ```
 Usage: pull [OPTIONS] RUN
 
-  Pull files from W&B
+  Download files from a W&B run.
+
+  Fetch all files assoicated with the specified run. Skip files that already
+  exist locally with the same content. Create subdirectories as needed to
+  mirror the structure of the files in W&B.           Examples:
+  Download files from a run by ID (in this example, run ID is `abcd1234`)
+  ```bash wandb pull abcd1234 ```           Download files from a run in a
+  specific project and entity (in this example, project is `project` and
+  entity is `entity`)
+
+  ```bash wandb pull -p project -e entity abcd1234 ```
 
 Options:
-  -p, --project TEXT  The project you want to download.
-  -e, --entity TEXT   The entity to scope the listing to.
+  -p, --project TEXT  The project containing the run to pull files from.
+  -e, --entity TEXT   The entity that owns the project. Defaults to the value
+                      of the WANDB_ENTITY environment variable or the default
+                      entity if not set.
   --help              Show this message and exit.
 ```
 

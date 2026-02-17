@@ -8,20 +8,20 @@ List all artifacts in a W&B project.
     Display the latest version of each artifact collection in a
     project, showing type, last updated time, size, and name.
 
-    The PATH is an entity/project string.
+    The PATH is an `entity/project` string.
 
     Examples:
 
     List all artifacts in a project
 
     ```bash
-    wandb artifact ls my-team/my-project
+    wandb artifact ls entity/project
     ```
 
     List only artifacts of a specific type
 
     ```bash
-    wandb artifact ls --type model my-team/my-project
+    wandb artifact ls --type model entity/project
     ```
     
 
@@ -60,17 +60,17 @@ Usage: artifact ls [OPTIONS] PATH
   Display the latest version of each artifact collection in a project, showing
   type, last updated time, size, and name.
 
-  The PATH is an entity/project string.
+  The PATH is an `entity/project` string.
 
   Examples:
 
   List all artifacts in a project
 
-  ```bash wandb artifact ls my-team/my-project ```
+  ```bash wandb artifact ls entity/project ```
 
   List only artifacts of a specific type
 
-  ```bash wandb artifact ls --type model my-team/my-project ```
+  ```bash wandb artifact ls --type model entity/project ```
 
 Options:
   -t, --type TEXT  Filter artifacts by type.

@@ -4,10 +4,16 @@ title: wandb online
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3085" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3280" />
 
 
-Undo `wandb offline`.
+Re-enable cloud syncing for W&B runs.
+    
+    Clear the offline mode setting so subsequent runs in this directory
+    sync data to the W&B cloud.
+
+    Undo a previous call to ``wandb offline``.
+    
 
 ## Usage
 
@@ -31,7 +37,12 @@ Show this message and exit.
 ```
 Usage: online [OPTIONS]
 
-  Undo `wandb offline`.
+  Re-enable cloud syncing for W&B runs.
+
+  Clear the offline mode setting so subsequent runs in this directory sync
+  data to the W&B cloud.
+
+  Undo a previous call to ``wandb offline``.
 
 Options:
   --help  Show this message and exit.

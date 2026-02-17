@@ -7,9 +7,9 @@ Upload an artifact to W&B.
 
     Upload a file, directory, or URL reference as a versioned artifact.
     The PATH can be a local file, a local directory, or a URL
-    (containing ://) to log as a reference artifact.
+    (containing `://`) to log as a reference artifact.
 
-    If --name is not specified, the artifact name defaults to the
+    If `--name` is not specified, the artifact name defaults to the
     basename of the path. If the project cannot be parsed from the
     name, you are prompted to enter one.
 
@@ -18,19 +18,19 @@ Upload an artifact to W&B.
     Upload a directory as a dataset artifact
 
     ```bash
-    wandb artifact put ./my-dataset
+    wandb artifact put ./project/artifact_name --type dataset
     ```
 
     Upload a file with a specific name and type
 
     ```bash
-    wandb artifact put --name my-project/my-model --type model ./model.pt
+    wandb artifact put --name project/artifact_name --type model ./model.pt
     ```
 
-    Upload with multiple aliases
+    Upload with multiple aliases (`latest` and `v1.0` in this example)
 
     ```bash
-    wandb artifact put -a latest -a v1.0 ./my-dataset
+    wandb artifact put --alias latest --alias v1.0 ./project/artifact_name
     ```
 
     Log a URL as a reference artifact
@@ -51,7 +51,7 @@ wandb artifact put [OPTIONS] PATH
 
 ### `name`
 
-Artifact name in project/artifact_name format. Defaults to the basename of the path.                
+format. Defaults to the basename of the path.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -129,10 +129,10 @@ Usage: artifact put [OPTIONS] PATH
   Upload an artifact to W&B.
 
   Upload a file, directory, or URL reference as a versioned artifact. The PATH
-  can be a local file, a local directory, or a URL (containing ://) to log as
-  a reference artifact.
+  can be a local file, a local directory, or a URL (containing `://`) to log
+  as a reference artifact.
 
-  If --name is not specified, the artifact name defaults to the basename of
+  If `--name` is not specified, the artifact name defaults to the basename of
   the path. If the project cannot be parsed from the name, you are prompted to
   enter one.
 
@@ -140,24 +140,25 @@ Usage: artifact put [OPTIONS] PATH
 
   Upload a directory as a dataset artifact
 
-  ```bash wandb artifact put ./my-dataset ```
+  ```bash wandb artifact put ./project/artifact_name --type dataset ```
 
   Upload a file with a specific name and type
 
-  ```bash wandb artifact put --name my-project/my-model --type model
+  ```bash wandb artifact put --name project/artifact_name --type model
   ./model.pt ```
 
-  Upload with multiple aliases
+  Upload with multiple aliases (`latest` and `v1.0` in this example)
 
-  ```bash wandb artifact put -a latest -a v1.0 ./my-dataset ```
+  ```bash wandb artifact put --alias latest --alias v1.0
+  ./project/artifact_name ```
 
   Log a URL as a reference artifact
 
   ```bash wandb artifact put --type dataset s3://my-bucket/data ```
 
 Options:
-  -n, --name TEXT               Artifact name in project/artifact_name format.
-                                Defaults to the basename of the path.
+  -n, --name TEXT               Artifact name in `project/artifact_name`
+                                format. Defaults to the basename of the path.
   -d, --description TEXT        A description of this artifact.
   -t, --type TEXT               The type of the artifact. Defaults to
                                 'dataset'.

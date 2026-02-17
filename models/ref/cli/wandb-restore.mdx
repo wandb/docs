@@ -4,55 +4,55 @@ title: wandb restore
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2875" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3070" />
 
 
 Restore the code, config, and Docker state from a previous run.
 
     Recreate the environment of a previous W&B run so you can
     reproduce it. Run this command from the same git repository
-    as the original run, unless you pass the --no-git flag.
+    as the original run, unless you pass the `--no-git` flag.
 
     Restore in three steps:
 
-    1. Git — Check out the original commit on a new branch (wandb/RUN_ID),
+    1. Git — Check out the original commit on a new branch (`wandb/run_id`),
        fetch and apply any saved diff patch, and fall back to an upstream
        commit if the original commit cannot be found.
-    2. Config — Write the run config to wandb/config.yaml.
+    2. Config — Write the run config to `wandb/config.yaml`.
     3. Docker — If the run used Docker, start the same image with the
        original command.
 
     Accept run in any of these formats:
 
-    - RUN_ID
-    - PROJECT:RUN_ID
-    - ENTITY/PROJECT:RUN_ID
-    - ENTITY/PROJECT/RUN_ID
+    - `run_id`
+    - `project:run_id`
+    - `entity/project:run_id`
+    - `entity/project/run_id`
 
     Examples:
 
     Restore a run by ID
 
     ```bash
-    wandb restore RUN_ID
+    wandb restore abcd1234
     ```
 
     Restore a run from a specific project and entity
 
     ```bash
-    wandb restore ENTITY/PROJECT:RUN_ID
+    wandb restore entity/project:abcd1234
     ```
 
     Restore only config and Docker state, skip git checkout
 
     ```bash
-    wandb restore --no-git RUN_ID
+    wandb restore --no-git abcd1234
     ```
 
     Restore in detached HEAD mode instead of creating a branch
 
     ```bash
-    wandb restore --no-branch RUN_ID
+    wandb restore --no-branch abcd1234
     ```
     
 
@@ -75,7 +75,7 @@ Skip git restoration. Only restore config and Docker state.
 
 ### `branch`
 
-Create a wandb/RUN_ID branch or check out the commit in detached HEAD mode.                
+Create a wandb/run_id branch or check out the commit in detached HEAD mode.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -114,42 +114,43 @@ Usage: restore [OPTIONS] RUN
 
   Recreate the environment of a previous W&B run so you can reproduce it. Run
   this command from the same git repository as the original run, unless you
-  pass the --no-git flag.
+  pass the `--no-git` flag.
 
   Restore in three steps:
 
-  1. Git — Check out the original commit on a new branch (wandb/RUN_ID),
+  1. Git — Check out the original commit on a new branch (`wandb/run_id`),
   fetch and apply any saved diff patch, and fall back to an upstream    commit
   if the original commit cannot be found. 2. Config — Write the run config to
-  wandb/config.yaml. 3. Docker — If the run used Docker, start the same image
-  with the    original command.
+  `wandb/config.yaml`. 3. Docker — If the run used Docker, start the same
+  image with the    original command.
 
   Accept run in any of these formats:
 
-  - RUN_ID - PROJECT:RUN_ID - ENTITY/PROJECT:RUN_ID - ENTITY/PROJECT/RUN_ID
+  - `run_id` - `project:run_id` - `entity/project:run_id` -
+  `entity/project/run_id`
 
   Examples:
 
   Restore a run by ID
 
-  ```bash wandb restore RUN_ID ```
+  ```bash wandb restore abcd1234 ```
 
   Restore a run from a specific project and entity
 
-  ```bash wandb restore ENTITY/PROJECT:RUN_ID ```
+  ```bash wandb restore entity/project:abcd1234 ```
 
   Restore only config and Docker state, skip git checkout
 
-  ```bash wandb restore --no-git RUN_ID ```
+  ```bash wandb restore --no-git abcd1234 ```
 
   Restore in detached HEAD mode instead of creating a branch
 
-  ```bash wandb restore --no-branch RUN_ID ```
+  ```bash wandb restore --no-branch abcd1234 ```
 
 Options:
   --no-git                Skip git restoration. Only restore config and Docker
                           state.
-  --branch / --no-branch  Create a wandb/RUN_ID branch or check out the commit
+  --branch / --no-branch  Create a wandb/run_id branch or check out the commit
                           in detached HEAD mode.
   -p, --project TEXT      Specify the project to look up the run in.
   -e, --entity TEXT       Specify the entity to scope the run lookup to.
