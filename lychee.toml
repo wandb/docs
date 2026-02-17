@@ -24,15 +24,13 @@ retry_wait_time = 2
 # 429 = Too Many Requests (rate limit - treat as success)
 accept = [200, 403, 429]
 
-# Only check HTTP/HTTPS URLs
+# Only check HTTP/HTTPS URLs (mailto and other schemes are skipped)
+# Do not use include: when include is set, exclude patterns are not applied.
+# Relying on scheme + exclude keeps the intent: check external http(s) only,
+# exclude internal (localhost, docs, preview) and W&B production URLs.
 scheme = [
   "http",
   "https",
-]
-
-# Only check URLs matching these patterns (required when checking URL lists)
-include = [
-  '^https?://',  # Match all http:// and https:// URLs
 ]
 
 # Logging verbosity
@@ -49,6 +47,7 @@ exclude = [
   '(http|https)://0\.0\.0\.0',
   '(http|https)://localhost',
   '(http|https)://127\.0\.0\.1',
+  '(http|https)://[^/]+\.mintlify\.app',
   # Image file extensions (with or without trailing slash)
   '\.(png|jpg|jpeg|gif|svg|webp|ico)(/)?$',
   # Image paths - Mintlify rewrites /images/ paths during build
@@ -71,9 +70,8 @@ exclude = [
   '(http|https)://.*\.?portal\.azure\.com',
   '(http|https)://.*\.?hhs\.gov',
   '(http|https)://([^/]+\.)?github\.com/wandb',
-  '(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
-  '(http|https)://wandb\.(ai|com)',
-  # DSPy documentation - redirects from vercel.app to dspy.ai
+  '^(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+  '^(http|https)://wandb\.(ai|com)',
   '(http|https)://dspy-docs\.vercel\.app',
 ]
 
