@@ -26,16 +26,14 @@ The following workflow summarizes how to use annotation queues to obtain reviews
 
 ## Define annotation fields
 
-Annotation fields define the feedback that the annotator provides for each trace item. Fields are reusable across queues and projects.
+To start creating an annotation queue, you must define your annotation fields first so that they can be selected during queue setup. Annotation fields define the feedback that the annotator provides for each trace item. Fields are reusable across queues and projects.
 
 Field types include:
 - Boolean judgments such as correctness or acceptability.
 - Numeric or integer values such as quality or confidence.
 - Categorical labels such as failure mode or intent.
 - Free-form text for qualitative feedback.
-<Note>
-Define all fields before creating a queue so they can be selected during queue setup.
-</Note>
+
 
 To create an annotation field:
 1. Navigate to [wandb.ai](https://wandb.ai) and select your project.
@@ -43,15 +41,16 @@ To create an annotation field:
 3. In the tab bar, click the **Fields** tab.
 4. In the Fields table toolbar, click **New Field**.
 5. In the **Create annotation field** modal dialog, configure:
-    - **Type**: Boolean, Integer, Number, String, or categorical options
-    - **Name** 
-    - **Description** (Optional)
+    - **Type**: Boolean, Integer, Number, String, or categorical options.
+    - **Name**: Name of field to be displayed to the annotator. 
+    - **Description** (Optional): Details for evaluating this field to be displayed to the annotator.
 6. Click **Create annotation field** to save the field.
 
 <Frame>
   ![Annotation field creation dialog with inputs for name, description, and field type, used to define the schema annotators complete when reviewing trace items.](./imgs/AnnotationCreateField.png)
 </Frame>
 
+Fields cannot be edited after creation to ensure annotation consistency.
 
 ## Create an annotation queue
 
@@ -65,10 +64,10 @@ To create an annotation queue:
 2. In the tab bar, click the **Queues** tab.
 3. In the Queues table toolbar, click **Create Queue**.
 4. In the **Create Annotation Queue** modal dialog, configure:
-    - **Queue name**: This is the queue name the annotator will select to complete their work.
+    - **Queue name**: This is the queue name the annotator selects to complete their work.
     - **Guidelines** (Optional): Any additional instructions for the annotator.
 5. Click **Next**.
-6. Click **Manage fields** and choose what Annotation Fields should be included in this review work. All existing Annotation Fields for the Project are available for selection.
+6. Click **Manage fields** and choose what Annotation Fields to include in this review work. All existing Annotation Fields for the Project are available for selection.
 7. After you have selected all the Fields for the queue, click **Create Queue** to save the queue.
 
 All annotation queues for the project are listed in the Annotation Queues page.
@@ -81,7 +80,9 @@ Creating an annotation queue defines the fields and guidelines for evaluation, b
 
 ### Add traces to a queue
 
-Traces can be added to an annotation queue directly from the **Traces** page:
+Traces can be added to an annotation queue directly from the **Traces** page.
+
+To add traces to an annotation queue:
 1. In the Weave project sidebar, click **Traces**.
 2. In the Traces table toolbar, filter traces as needed (such as by hallucination scores, failure modes, or specific ops).
 3. In the table, select the traces you want annotated.
@@ -90,7 +91,7 @@ Traces can be added to an annotation queue directly from the **Traces** page:
   ![Traces table with multiple rows selected and a bulk action bar showing actions that apply to the selected rows, such as Add to queue and Add to dataset.](./imgs/AnnotationAddTraces.png)
 </Frame>
 5. In the **Add to annotation queue** modal dialog, configure:
-    - **Queue Name**: In the dropdown, select the name of the existing queue to add these traces to.
+    - **Queue Name**: In the list, select the name of the existing queue to add these traces to.
     - **Select trace data to display**: Select the Weave trace data elements to display to the annotator as they are evaluating the results.
         - **Inputs**: Select which trace input fields to show during annotation.
         - **Outputs**: Select which trace output fields to show during annoation.
@@ -102,7 +103,7 @@ When adding traces, you control which trace inputs and which outputs or model re
 
 ## Monitor review progress
 
-Once the annotation queue has been created, and traces added, share the queue name with your annotator for them to begin their review. See [Review items in an annotation queue](/weave/guides/tracking/annotation-review) for details on the review process.
+Once you have created the annotation queue and added traces to it, share the queue name with your annotator for them to begin their review. See [Review items in an annotation queue](/weave/guides/tracking/annotation-review) for details on the review process.
 
 To share a direct link to the annotation queue with an annotator:
 1. In the Weave project sidebar, click **Annotate**.
@@ -121,7 +122,7 @@ In the Annotation Queues table, the **Calls with responses** column indicates th
 
 ## Filter and export annotations
 
-Completed annotations are stored as structured metadata on traces.
+Weave stores completed annotations as structured metadata on traces.
 
 You can:
 - Filter traces by queue assignment and annotation completion.
@@ -131,16 +132,18 @@ You can:
 This connects expert human feedback directly to model evaluation and iteration.
 
 ### Filter annotated traces
+You can use the filter controls of the **Traces** page to display only traces with annotations.
 
+To view only traces with annotations:
 1. In the Weave project sidebar, click **Traces**.
 2. In the Traces table toolbar, click **Filter**.
 3. Add three values to a filter row:
     - For **Column**, type "Queue", then press **Enter**.
-    - For the second dropdown, choose **Text: "is"**.
+    - For the second list, choose **Text: "is"**.
     - For **Select a queue**, choose your annotation queue name.
 4. To also filter on 'completed' queue items only, click **+ Add Filter**:
-    - For **Column**, type "feedback".  A popup will populate with Annotations and include your Annotation Field names.  Choose a required Field from your queue.
-    - For the second dropdown, choose **Other: "is not empty"**.
+    - For **Column**, type "feedback".  A dialog will populate with Annotations and includes your Annotation Field names.  Choose a required Field from your queue.
+    - For the second list, choose **Other: "is not empty"**.
 <Frame>
   ![Traces table configuring a filter to select traces belonging to specific annotation queue.](./imgs/AnnotationTracesFilter.png)
 </Frame>
@@ -155,17 +158,18 @@ You can export annotated traces either through the UI or programmatically, depen
 
 Select annotated traces and click **Add to Dataset** to include expert labels in your eval or training data.
 
+To add annotated traces to a dataset:
 1. In the Weave project sidebar, click **Traces**.
 2. In the Traces table, select the traces that you want to export.
 3. In the table toolbar, click **Add to dataset**. Follow the on-screen prompts to complete the addition.
 
 To learn more about using datasets, see [Collect and track datasets](/weave/guides/core-types/datasets).
 
-#### Access annotations programmatically
+## Access annotations programmatically
 
 If you want to integrate annotations programmatically, you must know your project name and queue ID:
  - **Project**: The W&B project name (can be project or team/project). If you don’t specify a W&B team (such as "team/project"), your default team is used.
- - **Queue ID**: The queue ID is the unique identifier for an annotation queue.
+ - **Queue ID**: The annotation queue's unique identifier.
 
 To find the queue ID:
 1. In the **Annotation Queues** table, select the name of the queue to open its items.
@@ -182,7 +186,7 @@ In this example, the queue ID is:
 
 You can iterate through the traces (calls) in your queue using the following code.
 
-```python
+```python lines
 import weave
 from weave.trace_server.trace_server_interface import AnnotationQueueItemsQueryReq
 
@@ -194,14 +198,31 @@ QUEUE_ID = "019c0f63-7acb-7497-8f87-08873368fcd4"
 client = weave.init(PROJECT)
 
 # Get call IDs from calls in a queue.
-res = client.server.annotation_queue_items_query(
+calls = client.server.annotation_queue_items_query(
     AnnotationQueueItemsQueryReq(
         project_id=PROJECT,
         queue_id=QUEUE_ID,
     )
 )
 
-# Get feedback for first item.
-call = client.get_call(call_id=res.items[0].call_id, include_feedback=True) 
-call.feedback
+# Iterate through calls and get feedback.
+for i, item in enumerate(calls.items):
+    call = client.get_call(call_id=item.call_id, include_feedback=True)
+    feedback = call.feedback or {}
+
+    # Count total feedback items for call.
+    total_feedback_items = len(feedback)
+
+    print(f"\nItem {i} — call_id: {item.call_id} — total feedback items: {total_feedback_items}")
+
+    if not feedback:
+        print("No feedback for item")
+        continue
+
+    # Get the first annotation value. 
+    # Field annotations are not added in repeatable order - thus the first field will vary.
+    field_name = next(iter(feedback))
+    field_value = feedback[0]
+
+    print(f"  {field_name}: {field_value}")
 ```

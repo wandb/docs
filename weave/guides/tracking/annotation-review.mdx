@@ -6,18 +6,19 @@ description: "Evaluate trace items and submit structured feedback using a simpli
 
 Annotation queues provide a focused review interface for domain experts. You review one item at a time, examine the provided context, and submit structured feedback using predefined fields.
 
-You do not need to understand the underlying model or tracing system to complete reviews.
+You do not need to understand the underlying model or tracing system to complete reviews. This allows external experts to review the data only without needing larger project awareness.
 
 
 ## Annotation workflow
 
-As an annotator, your task consists of:
+As an annotator, your task consists of reviewing the accuracy of the LLM responses.  Your feedback is saved as annotations to the data.
 
-1. Open the shared annotation queue.
+To review an annotation queue:
+1. Open the shared annotation queue using a queue link provided by your team.
 2. Review each item. You can move forward and backward through items in the queue at any time.
 3. Submit feedback using the provided annotation fields.
 
-Your progress is saved automatically after you submit an item. If you need to pause and resume your work later, the review automatically resumes at the first incomplete item. Once all items have been reviewed, the Annotation Queue table reflects completion of the work.
+Weave saves your progress automatically after you submit an item. If you need to pause and resume your work later, the review automatically resumes at the first incomplete item. Once all items have been reviewed, the Annotation Queue table reflects completion of the work.
 
 
 
@@ -34,12 +35,11 @@ Complete each annotation field according to the instructions provided for the qu
 </Frame>
 
 <Tip>
-In the trace pane header, you can click the Trace ID suffix (for example, "b3ea") to open a panel showing the full trace details for the call.
+In the trace pane header, you can click the Trace ID suffix (for example, "b3ea") to open a panel showing the full trace details for the call, where you can inspect the trace and view or compare the feedback provided.
 </Tip>
 
 If any annotator has already reviewed an item in the queue, both pane headers of the review interface are decorated with "Has feedback" and "Response submitted" indicators.
 
-You can still provide feedback for an item even if it has already been reviewed by someone else.  In this case, although the feedback submission button will still say **Edit feedback**, it will create a new feedback entry with your responses.
-<Note>
-If you submit feedback to an item already reviewed by someone else, your feedback will be stored **in addition to** the original annotator's feedback.
-</Note>
+You can still provide feedback for an item that someone else has already reviewed. In this case, the feedback submission button still displays **Edit feedback**, but submitting creates a new feedback entry with your responses.
+
+<Note> If you submit feedback for an item that someone else has already reviewed, your feedback is stored **in addition to** the original annotator’s feedback. </Note>
