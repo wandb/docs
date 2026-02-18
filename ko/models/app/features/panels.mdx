@@ -15,7 +15,7 @@ W&B Projects는 두 가지 Workspace 모드를 지원합니다. Workspace 이름
 | <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px"  /> | **Automated workspaces**는 Project에 로그된 모든 키에 대해 패널을 자동으로 생성합니다. 다음과 같은 경우 자동 Workspace를 선택하세요:<ul><li>Project에서 사용 가능한 모든 데이터를 시각화하여 빠르게 시작하고 싶을 때.</li><li>로그된 키의 수가 적은 소규모 Project일 때.</li><li>더 광범위한 분석을 수행할 때.</li></ul>자동 Workspace에서 패널을 삭제한 경우, [Quick add](#quick-add)를 사용하여 다시 생성할 수 있습니다. |
 | <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px"  /> | **Manual workspaces**는 빈 상태로 시작하며 사용자가 직접 추가한 패널만 표시합니다. 다음과 같은 경우 수동 Workspace를 선택하세요:<ul><li>Project에 로그된 키 중 일부에만 주로 관심이 있을 때.</li><li>더 집중적인 분석을 수행할 때.</li><li>덜 유용한 패널의 로딩을 방지하여 Workspace의 성능을 개선하고 싶을 때.</li></ul>[Quick add](#quick-add)를 사용하면 유용한 시각화로 수동 Workspace와 섹션을 신속하게 채울 수 있습니다. |
 
-Workspace가 패널을 생성하는 방식을 변경하려면, [Workspace를 초기화](#reset-a-workspace)하세요.
+Workspace가 패널을 생성하는 방식을 변경하려면, [Workspace를 초기화](#workspace-초기화)하세요.
 
 <Note>
 **Workspace 변경 사항 실행 취소**
@@ -61,7 +61,7 @@ Workspace의 라인 플롯에 대한 기본값을 구성하려면 [Line plots](/
     <Frame>
     <img src="/images/app_ui/panel_fullscreen.png" alt="Full-screen panel"  />
     </Frame>
-3. 전체 화면 모드에서 [패널 공유](#share-a-panel)를 하면, 생성된 링크는 자동으로 전체 화면 모드로 열립니다.
+3. 전체 화면 모드에서 [패널 공유](#패널-공유)를 하면, 생성된 링크는 자동으로 전체 화면 모드로 열립니다.
 
 전체 화면 모드에서 패널의 Workspace로 돌아가려면 페이지 상단의 왼쪽 화살표를 클릭하세요. 전체 화면 모드를 종료하지 않고 섹션의 패널들을 탐색하려면 패널 아래의 **Previous** 및 **Next** 버튼을 사용하거나 왼쪽/오른쪽 화살표 키를 사용하세요.
 
@@ -107,7 +107,7 @@ Workspace에 패널을 하나씩 글로벌 수준 또는 섹션 수준에서 추
 - 패널을 전체 화면 모드로 보는 동안 브라우저에서 URL을 복사합니다.
 - 액션 메뉴 `...`를 클릭하고 **Copy panel URL**을 선택합니다.
 
-해당 링크를 Users 또는 Teams와 공유하세요. 링크를 엑세스하면 패널이 [전체 화면 모드](#view-a-panel-in-full-screen-mode)로 열립니다.
+해당 링크를 Users 또는 Teams와 공유하세요. 링크를 엑세스하면 패널이 [전체 화면 모드](#패널-전체-화면-모드로-보기)로 열립니다.
 
 전체 화면 모드에서 패널의 Workspace로 돌아가려면 페이지 상단의 왼쪽 화살표를 클릭하세요.
 
@@ -139,7 +139,7 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 5. 필요한 경우 **can view**를 **can edit**로 변경합니다.
 6. **Invite**를 클릭합니다. W&B는 공유 중인 패널만 포함된 리포트 링크가 담긴 이메일을 사용자에게 전송합니다.
 
-[패널 공유](#share-a-panel)와 달리, 수신자는 이 리포트에서 Workspace로 이동할 수 없습니다.
+[패널 공유](#패널-공유)와 달리, 수신자는 이 리포트에서 Workspace로 이동할 수 없습니다.
 
 ## 패널 관리
 
@@ -169,7 +169,7 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 1. 패널 상단에서 액션 `...` 메뉴를 클릭합니다.
 2. **Duplicate**를 클릭합니다.
 
-필요한 경우 복제된 패널을 [사용자 정의](#edit-a-panel)하거나 [이동](#move-a-panel)할 수 있습니다.
+필요한 경우 복제된 패널을 [사용자 정의](#패널-편집)하거나 [이동](#패널-이동)할 수 있습니다.
 
 ### 패널 제거
 
@@ -181,7 +181,7 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 
 수동 Workspace에서 모든 패널을 제거하려면 액션 `...` 메뉴를 클릭한 다음 **Clear all panels**를 클릭합니다.
 
-자동 또는 수동 Workspace에서 모든 패널을 제거하려면 [Workspace를 초기화](#reset-a-workspace)할 수 있습니다. 기본 패널 세트로 시작하려면 **Automatic**을 선택하고, 패널이 없는 빈 Workspace로 시작하려면 **Manual**을 선택하세요.
+자동 또는 수동 Workspace에서 모든 패널을 제거하려면 [Workspace를 초기화](#workspace-초기화)할 수 있습니다. 기본 패널 세트로 시작하려면 **Automatic**을 선택하고, 패널이 없는 빈 Workspace로 시작하려면 **Manual**을 선택하세요.
 
 ## 섹션 관리
 

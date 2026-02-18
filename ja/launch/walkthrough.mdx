@@ -13,7 +13,7 @@ W&B Launch を使用して、トレーニング [Runs](/ja/models/runs/) をデ�
 
 Launch は、**launch jobs**、**queues**、**agents** の3つの基本的なコンポーネントで構成されています。
 
-[*launch job*](/ja/launch/launch-terminology#launch-job)は、ML ワークフローでタスクを設定および実行するためのブループリントです。Launch Job を作成したら、[*launch queue*](/ja/launch/launch-terminology#launch-queue) に追加できます。Launch Queue は、Amazon SageMaker や Kubernetes クラスターなどの特定のコンピュートターゲットリソースに Jobs を構成して送信できる先入れ先出し (FIFO) のキューです。
+[*launch job*](/ja/launch/launch-terminology#ローンンチジョブ)は、ML ワークフローでタスクを設定および実行するためのブループリントです。Launch Job を作成したら、[*launch queue*](/ja/launch/launch-terminology#launch-queue) に追加できます。Launch Queue は、Amazon SageMaker や Kubernetes クラスターなどの特定のコンピュートターゲットリソースに Jobs を構成して送信できる先入れ先出し (FIFO) のキューです。
 
 ジョブがキューに追加されると、[*launch agents*](/ja/launch/launch-terminology#launch-agent) がそのキューをポーリングし、キューによってターゲットとされたシステムでジョブを実行します。
 
@@ -73,7 +73,7 @@ W&B Launch は、コンテナ内で機械学習ワークロードを実行しま
 </Tabs>
 
 ## Create a launch job
-Docker イメージ、git リポジトリから、またはローカルソースコードから3つの方法のいずれかで [Launch Job](/ja/launch/launch-terminology#launch-job) を作成します。
+Docker イメージ、git リポジトリから、またはローカルソースコードから3つの方法のいずれかで [Launch Job](/ja/launch/launch-terminology#ローンンチジョブ) を作成します。
 
 <Tabs>
 <Tab title="With a Docker image">

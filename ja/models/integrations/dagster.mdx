@@ -161,7 +161,7 @@ W&B Artifact を書き込むには、Python 関数からオブジェクトを返
 
 <Tabs>
 <Tab title="Python オブジェクト">
-[pickle](https://docs.python.org/3/library/pickle.html) モジュールでシリアライズできるものはすべて pickle 化され、インテグレーションによって作成された Artifact に追加されます。Dagster 内でその Artifact を読み込む際に内容はアンピクルされます（詳細は [Artifacts の読み込み](#read-wb-artifacts) を参照）。
+[pickle](https://docs.python.org/3/library/pickle.html) モジュールでシリアライズできるものはすべて pickle 化され、インテグレーションによって作成された Artifact に追加されます。Dagster 内でその Artifact を読み込む際に内容はアンピクルされます（詳細は [Artifacts の読み込み](#wb-artifacts-の読み込み) を参照）。
 
 ```python
 @asset(
@@ -178,7 +178,7 @@ def create_dataset():
 ```
 
 
-W&B は、複数の Pickle ベースのシリアライゼーションモジュール ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)) をサポートしています。また、[ONNX](https://onnx.ai/) や [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language) のようなより高度なシリアライゼーションも使用できます。詳細については、[Serialization](#serialization-configuration) セクションを参照してください。
+W&B は、複数の Pickle ベースのシリアライゼーションモジュール ([pickle](https://docs.python.org/3/library/pickle.html), [dill](https://github.com/uqfoundation/dill), [cloudpickle](https://github.com/cloudpipe/cloudpickle), [joblib](https://github.com/joblib/joblib)) をサポートしています。また、[ONNX](https://onnx.ai/) や [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language) のようなより高度なシリアライゼーションも使用できます。詳細については、[Serialization](#serialization-configuration-シリアライゼーション設定) セクションを参照してください。
 </Tab>
 <Tab title="W&B オブジェクト">
 [Table](/models/ref/python/data-types/table) や [Image](/models/ref/python/data-types/image) などの W&B オブジェクトは、インテグレーションによって作成された Artifact に追加されます。この例では、Table を Artifact に追加します。
