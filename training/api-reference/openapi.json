@@ -399,7 +399,7 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "Create Training Job",
+        "summary": "Create RL Training Job",
         "operationId": "create_training_job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
