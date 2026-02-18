@@ -18,10 +18,10 @@ Sometimes, you may want to conditionally enable tracing for a specific initializ
 <Tabs>
   <Tab title="Python">
     ```python
- import weave
+import weave
 
- # Initialize the client
- client = weave.init(..., settings={"disabled": True})
+# Initialize the client
+client = weave.init(..., settings={"disabled": True})
     ```
   </Tab>
   <Tab title="TypeScript">
@@ -33,7 +33,7 @@ Sometimes, you may want to conditionally enable tracing for a specific initializ
 
 #### Context manager
 
-To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. It is intended to be used in application code to scope which calls should not be logged.
+To conditionally disable tracing for a specific block of code, you can use a tracing context manager. Use `with tracing_disabled()` to suppress tracing **only for the function calls executed inside the `with` block**. Use it in application code to scope which calls should not be logged.
 
 ```python
 import weave

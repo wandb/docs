@@ -1,43 +1,43 @@
 ---
-title: "Update and delete calls"
-description: "Modify display names, add feedback, and delete calls in Weave"
+title: "Update and delete Calls"
+description: "Modify display names, add feedback, and delete Calls in W&B Weave"
 ---
 
 
-## Updating Calls
+## Update Calls
 
-Calls are mostly immutable once created, however, there are a few mutations which are supported:
-* [Set Display Name](#set-display-name)
-* [Add Feedback](#add-feedback)
+Calls are mostly immutable once created. A few mutations are supported:
+* [Set display name](#set-display-name)
+* [Add feedback](#add-feedback)
 * [Delete a Call](#delete-a-call)
 
-You can perform all of these mutations from the UI by navigating to the call detail page:
+You can perform all of these mutations from the UI by navigating to the Call detail page:
 
 <Frame>
-![Update Call in Web App](/images/call_edit_screenshot.png)
+![Update Call in web app](/images/call_edit_screenshot.png)
 </Frame>
 
 ### Set display name
 
 <Tabs>
 <Tab title="Python">
-In order to set the display name of a call, you can use the [`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
+To set the display name of a Call, use the [`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) method.
 
-```python lines lines
+```python lines
 import weave
 
 # Initialize the client
 client = weave.init("your-project-name")
 
-# Get a specific call by its ID
+# Get a specific Call by its ID
 call = client.get_call("call-uuid-here")
 
-# Set the display name of the call
+# Set the display name of the Call
 call.set_display_name("My Custom Display Name")
 ```
 </Tab>
 <Tab title="TypeScript">
-To set the display name of a call, use [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) to update by call ID directly:
+To set the display name of a Call, use [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall) to update by call ID directly:
 
 ```typescript lines
 import * as weave from 'weave'
@@ -45,15 +45,15 @@ import * as weave from 'weave'
 // Initialize the client
 const client = await weave.init('your-project-name')
 
-// Update the display name of a call by its ID
+// Update the display name of a Call by its ID
 await client.updateCall('call-uuid-here', 'My Custom Display Name')
 ```
 
 </Tab>
 <Tab title="HTTP API">
-To set the display name of a call using the Service API, you can make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
+To set the display name of a Call using the Service API, make a request to the [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) endpoint.
 
-```bash
+```bash lines
 curl -L 'https://trace.wandb.ai/call/update' \
 -H 'Content-Type: application/json' \
 -H 'Accept: application/json' \
@@ -66,9 +66,9 @@ curl -L 'https://trace.wandb.ai/call/update' \
     </Tab>
 </Tabs>
 
-You can also [set a call's display name at execution](#set-call-display-name-at-execution).
+You can also [set a Call's display name at execution](#set-call-display-name-at-execution).
 
-### Add feedback 
+### Add feedback
 
 Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for more details.
 
@@ -76,31 +76,31 @@ Please see the [Feedback Documentation](/weave/guides/tracking/feedback) for mor
 
 <Tabs>
 <Tab title="Python">
-To delete a Call using the Python API, you can use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
+To delete a Call using the Python API, use the [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) method.
 
-```python lines lines
+```python lines
 import weave
 
 # Initialize the client
 client = weave.init("your-project-name")
 
-# Get a specific call by its ID
+# Get a specific Call by its ID
 call = client.get_call("call-uuid-here")
 
-# Delete the call
+# Delete the Call
 call.delete()
 ```
 
 </Tab>
 <Tab title="TypeScript">
-```plaintext
+```plaintext lines
 This feature is not available in the TypeScript SDK yet.
 ```
 </Tab>
 <Tab title="HTTP API">
-To delete a call using the Service API, you can make a request to the [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) endpoint.
+To delete a Call using the Service API, make a request to the [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) endpoint.
 
-```bash
+```bash lines
 curl -L 'https://trace.wandb.ai/calls/delete' \
 -H 'Content-Type: application/json' \
 -H 'Accept: application/json' \
@@ -125,13 +125,13 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
     - Deleting a Call also deletes all of its children.
     </Important>
 
-    ```python lines lines
+    ```python lines
     import weave
 
     # Initialize the client
     client = weave.init("my-project")
 
-    # Get all calls from client 
+    # Get all Calls from client
     all_calls = client.get_calls()
 
     # Get list of first 1000 Call objects
@@ -140,13 +140,13 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
     # Get list of first 1000 Call IDs
     first_1000_calls_ids = [c.id for c in first_1000_calls]
 
-    # Delete first 1000 Call objects by ID
+    # Delete first 1000 Calls by ID
     client.delete_calls(call_ids=first_1000_calls_ids)
     ```
 
     </Tab>
     <Tab title="TypeScript">
-    ```plaintext
+    ```plaintext lines
     This feature is not available in the TypeScript SDK yet.
     ```
     </Tab>

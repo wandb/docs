@@ -3,21 +3,21 @@ title: "View and customize trace display"
 description: "View calls in the UI and customize how trace data is displayed"
 ---
 
-## Viewing Calls
+## Viewing calls
 
 <Tabs>
 <Tab title="Web App">
 To view a call in the web app:
 1. Navigate to your project's **Traces** tab.
-2. Find the call you want to view in the list
-3. Click on the call to open its details page
+2. Find the call you want to view in the list.
+3. Click on the call to open its details page.
 
 The details page will show the call's inputs, outputs, runtime, and any additional metadata.
 
 ![View Call in Web App](/images/screenshots/basic_call.png)
 </Tab>
 <Tab title="Python">
-To view a call using the Weave Python SDK, you can use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
+To view a call using the W&B Weave Python SDK, use the [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) method:
 
 ```python lines
 import weave
@@ -46,7 +46,7 @@ console.log(call)
 </Tab>
 
 <Tab title="HTTP API">
-To view a call using the Service API, you can make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
+To view a call using the Service API, make a request to the [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) endpoint.
 
 ```bash
 curl -L 'https://trace.wandb.ai/call/read' \
@@ -62,7 +62,7 @@ curl -L 'https://trace.wandb.ai/call/read' \
 
 ### Customize rendered traces with `weave.Markdown`
 
-You can use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
+Use `weave.Markdown` to customize how your trace information is displayed without losing the original data. This allows you to render your inputs and outputs as readable blocks of formatted content while preserving the underlying data structure.
 
 <Tabs>
 <Tab title="Python">
@@ -130,8 +130,6 @@ This feature is not available in the TypeScript SDK yet.
 ```
 </Tab>
 </Tabs>
-In the following screenshot, you can view the difference between the unformatted and formatted outputs, respectively.
+In the following screenshot, you can see the unformatted and formatted outputs side by side.
 
 ![A call rendered in the Weave UI using the code sample.](/weave/guides/tracking/imgs/md-call-render.png)
-
-

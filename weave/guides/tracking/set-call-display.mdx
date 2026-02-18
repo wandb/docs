@@ -1,6 +1,6 @@
 ---
 title: "Set call display name"
-description: "Set or override the display name for a call in Weave tracing"
+description: "Set or override the display name for a call in W&B Weave tracing"
 ---
 
 
@@ -10,9 +10,9 @@ description: "Set or override the display name for a call in Weave tracing"
   <Tab title="Python">
     Sometimes you may want to override the display name of a call. You can achieve this in one of four ways:
 
-    1. Change the display name at the time of calling the op:
+    1. Change the display name at the time of calling the Op:
 
-    ```python lines lines
+    ```python lines
     result = my_function("World", __weave={"display_name": "My Custom Display Name"})
     ```
 
@@ -21,24 +21,24 @@ description: "Set or override the display name for a call in Weave tracing"
 
     </Note>
     2. Change the display name on a per-call basis. This uses the [`Op.call`](/weave/reference/python-sdk/trace/op#function-call) method to return a `Call` object, which you can then use to set the display name using [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set_display_name).
-    ```python lines lines
+    ```python lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
     ```
 
     3. Change the display name for all Calls of a given Op:
 
-    ```python lines lines
+    ```python lines
     @weave.op(call_display_name="My Custom Display Name")
     def my_function(name: str):
         return f"Hello, {name}!"
     ```
 
-    4. The `call_display_name` can also be a function that takes in a `Call` object and returns a string.  The `Call` object will be passed automatically when the function is called, so you can use it to dynamically generate names based on the function's name, call inputs, fields, etc.
+    4. The `call_display_name` can also be a function that takes in a `Call` object and returns a string. The `Call` object will be passed automatically when the function is called, so you can use it to dynamically generate names based on the function's name, call inputs, fields, and so on.
 
     1. One common use case is just appending a timestamp to the function's name.
 
-        ```py
+        ```python lines
         from datetime import datetime
 
         @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
@@ -46,9 +46,9 @@ description: "Set or override the display name for a call in Weave tracing"
             return ...
         ```
 
-    2. You can also log custom metadata using `.attributes`
+    2. You can also log custom metadata using `.attributes`.
 
-        ```py
+        ```python lines
         def custom_attribute_name(call):
             model = call.attributes["model"]
             revision = call.attributes["revision"]
@@ -79,17 +79,17 @@ description: "Set or override the display name for a call in Weave tracing"
                 func()  # the display name will be "finetuned-gpt-4o__v0.1.3__2024-08-02"
         ```
 
-    **Technical Note:** "Calls" are produced by "Ops". An Op is a function or method that is decorated with `@weave.op`. 
-    By default, the Op's name is the function name, and the associated calls will have the same display name. The above example shows how to override the display name for all Calls of a given Op.  Sometimes, users wish to override the name of the Op itself. This can be achieved in one of two ways:
+    **Technical Note:** Calls are produced by Ops. An Op is a function or method that is decorated with `@weave.op`.
+    By default, the Op's name is the function name, and the associated Calls will have the same display name. The above example shows how to override the display name for all Calls of a given Op. Sometimes, users wish to override the name of the Op itself. This can be achieved in one of two ways:
 
-    1. Set the `name` property of the Op before any calls are logged
-    ```python lines lines
+    1. Set the `name` property of the Op before any calls are logged.
+    ```python lines
     my_function.name = "My Custom Op Name"
     ```
 
-    2. Set the `name` option on the op decorator
-    ```python lines lines
-    @weave.op(name="My Custom Op Name)
+    2. Set the `name` option on the Op decorator.
+    ```python lines
+    @weave.op(name="My Custom Op Name")
     ```
   </Tab>
   <Tab title="TypeScript">

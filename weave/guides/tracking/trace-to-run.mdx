@@ -5,17 +5,17 @@ description: "Associate Weave traces with W&B runs for experiment tracking"
 
 ## View a W&B run in the Traces table
 
-With Weave, you can trace function calls in your code and link them directly to the [W&B runs](https://docs.wandb.ai/models/runs/) in which they were executed. 
-When you trace a function with @weave.op() and call it inside a wandb.init() context, Weave automatically associates the trace with the W&B run. 
+With W&B Weave, you can trace function calls in your code and link them directly to the [W&B runs](https://docs.wandb.ai/models/runs/) in which they were executed. 
+When you trace a function with `@weave.op()` and call it inside a `wandb.init()` context, Weave automatically associates the trace with the W&B run. 
 Links to any associated runs are shown in the Traces table.
 
 <Tabs>
 <Tab title="Python">
-The following Python code shows how traced operations are linked to W&B
+The following Python code shows how traced Ops are linked to W&B
 runs when executed inside a `wandb.init()` context. These traces appear in the
 Weave UI and are associated with the corresponding run.
 
-```python lines 
+```python lines
 import wandb
 import weave
 
@@ -26,7 +26,7 @@ def example_wandb(projname):
     # Initialize Weave context for tracing
     weave.init(projname)
 
-    # Define a traceable operation
+    # Define a traceable Op
     @weave.op()
     def say(message: str) -> str:
         return f"I said: {message}"
@@ -60,24 +60,25 @@ if __name__ == "__main__":
 
 To use the code sample:
 
-1. In the terminal, install dependencies:
+1. In the terminal, install dependencies.
 
-```bash
+```bash lines
 pip install wandb weave
 ```
 
-2. Log in to W&B:
+2. Log in to W&B.
 
-```bash
+```bash lines
 wandb login
 ```
 
 3. In the script, replace `your-username/your-project` with your actual W&B entity/project.
-4. Run the script:
+4. Run the script.
 
-```bash
+```bash lines
 python weave_trace_with_wandb.py
 ```
+
 5. Visit [https://weave.wandb.ai](https://weave.wandb.ai) and select your project.
 6. In the **Traces** tab, view the trace output. Links to any associated runs are shown in the Traces table.
 </Tab>

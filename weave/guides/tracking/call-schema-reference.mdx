@@ -32,9 +32,10 @@ The table below outlines the key properties of a Call in Weave. Please see the [
 
 Each property plays a crucial role in tracking and managing function calls:
 
-- The `id`, `trace_id`, and `parent_id` fields help organize and relate calls within the system.
+- The `id`, `trace_id`, and `parent_id` properties help organize and relate calls within the system.
 - Timing information (`started_at`, `ended_at`) allows for performance analysis.
-- The `attributes` and `inputs` fields provide context for the call. Attributes are frozen once the call starts, so set them before invocation with `weave.attributes`. `output` and `summary` capture the results, and you can update `summary` during execution to log additional metrics.
+- The `attributes` and `inputs` properties provide context for the call. Attributes are frozen once the call starts, so set them before invocation with `weave.attributes`. `output` and `summary` capture the results.
+-You can store metrics or other post-call values in the `summary` property. Modify `call.summary` during execution. Any values you add will be merged with Weave's computed summary data when the Call finishes.
 - Integration with W&B is facilitated through `wb_user_id` and `wb_run_id`.
 
 This comprehensive set of properties enables detailed tracking and analysis of function calls throughout your project.
