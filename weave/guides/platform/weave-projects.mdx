@@ -1,20 +1,22 @@
 ---
-title: "Work with Weave Projects"
+title: "Manage Weave Projects"
 description: "Use Weave projects to organize related assets like traces, prompts, evaluations, models, and dashboards."
 ---
 
 Weave projects keep related assets organized, including traces, evaluations, models, datasets, and other Weave assets. Projects keep your team organized, streamline collaboration and sharing, and help you track the evolution of your LLM applications over time.
 
+## Project Resources
+
 Projects store the following resources:
 
 | Resource | Description |
 | --- | --- |
-| [Traces](/weave/guides/tracking/tracing) | Individual LLM calls, function executions, and application flows that capture inputs, outputs, latency, and token usage for debugging and analysis. |
-| [Evaluations](/weave/guides/core-types/evaluations) | Test results that compare model performance against datasets using scoring functions to measure quality, accuracy, and other metrics. |
-| [Monitors](/weave/guides/evaluation/guardrails_and_monitors) | Background processes that automatically score a subset of function calls using LLM-as-a-judge scorers to track quality metrics over time in production. |
-| [Leaderboards](/weave/guides/core-types/leaderboards) | Ranked comparisons of model performance across different evaluation runs, helping you identify the best-performing configurations. |
-| [Threads](/weave/guides/tracking/threads) | Multi-turn conversations and session-based workflows that group related calls under a shared thread ID for analyzing complete user interactions. |
-| [Assets](#assets) | Stored and versioned objects in your project. See the following table for details. |
+| **Traces** | Individual LLM calls, function executions, and application flows that capture inputs, outputs, latency, and token usage for debugging and analysis. See [Traces](/weave/guides/tracking/tracing).|
+| **Evaluations** | Test results that compare model performance against datasets using scoring functions to measure quality, accuracy, and other metrics. See [Evaluations](/weave/guides/core-types/evaluations). |
+| **Monitors** | Background processes that automatically score a subset of function calls using LLM-as-a-judge scorers to track quality metrics over time in production. See [Monitors](/weave/guides/evaluation/guardrails_and_monitors). |
+| **Leaderboards** | Ranked comparisons of model performance across different evaluation runs, helping you identify the best-performing configurations. See [Leaderboards](/weave/guides/core-types/leaderboards). |
+| **Threads** | Multi-turn conversations and session-based workflows that group related calls under a shared thread ID for analyzing complete user interactions. See [Threads](/weave/guides/tracking/threads). |
+| **Assets** | Stored and versioned objects in your project. See the following table for details. |
 
 ### Assets
 
@@ -22,11 +24,11 @@ The **Assets** tab in the Weave UI stores and organizes the following resources 
 
 | Asset | Description |
 | --- | --- |
-| [Models](/weave/guides/core-types/models) | Versioned model definitions that capture prompts, parameters, and configuration, automatically tracking changes for reproducibility and comparison. |
-| [Datasets](/weave/guides/core-types/datasets) | Collections of test examples stored as Weave objects that can be downloaded, browsed, and used for running evaluations. |
-| [Prompts](/weave/guides/core-types/prompts) | Versioned system prompts that you can test and reuse in your model configurations. |
-| [Scorers](/weave/guides/evaluation/scorers) | Functions that evaluate model inputs and outputs to measure quality, safety, or custom metrics. |
-| [Ops](/weave/guides/tracking/ops) | Automatically versioned and tracked functions decorated with `@weave.op()` that produce calls and maintain a record of function modifications. |
+| **Models** | Versioned model definitions that capture prompts, parameters, and configuration, automatically tracking changes for reproducibility and comparison. See [Models](/weave/guides/core-types/models). |
+| **Datasets** | Collections of test examples stored as Weave objects that can be downloaded, browsed, and used for running evaluations. See [Datasets](/weave/guides/core-types/datasets). |
+| **Prompts** | Versioned system prompts that you can test and reuse in your model configurations. See [Prompts](/weave/guides/core-types/prompts). |
+| **Scorers** | Functions that evaluate model inputs and outputs to measure quality, safety, or custom metrics. See [Scorers](/weave/guides/evaluation/scorers).|
+| **Ops** | Automatically versioned and tracked functions decorated with `@weave.op()` that produce calls and maintain a record of function modifications. See [Ops](/weave/guides/tracking/ops). |
 | Other objects and metadata | Additional Weave objects, custom types, and associated metadata stored within the project. |
 
 ## Project paths
@@ -62,8 +64,6 @@ To create a new project using the W&B UI:
     * **Project visibility**: The scope of who can view and edit the project.
     * **Description**: (Optional) A short description of the project to help you track and organize its purpose.
 4. After configuring the necessary fields, select **Create project**. The project creates the project.
-
-### Find a project
 
 To locate your newly created project, select the **Weights & Biases logo** in the upper-left corner to open the **Global navigation** menu. The menu lists your most recent projects and the teams you belong to, allowing you to quickly switch context. Select your project to open the project's workspace.
 
