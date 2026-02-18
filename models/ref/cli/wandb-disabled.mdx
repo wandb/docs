@@ -4,23 +4,23 @@ title: wandb disabled
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3386" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3434" />
 
 
 Completely disable W&B.
-    
+
     Set the mode to `disable` to prevent all W&B functionality. Do not log
     or sync data while disabled.
 
     Use `wandb enable` to restore W&B functionality.
-    
+
     Use `wandb offline` to stop cloud syncing while continuning to log data
     locally.
 
     Examples:
 
     Turn off W&B for scripts that don't need tracking
-    
+
     ```bash
     wandb disabled
     python train.py  # Does not log or sync data to W&B
