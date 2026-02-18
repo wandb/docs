@@ -4,13 +4,13 @@ title: wandb docker-run
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2403" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2408" />
 
 
 Wrap `docker run` and inject W&B environment variables automatically.
 
     Pass all arguments through to ``docker run`` while injecting:
-    
+
     - ``WANDB_API_KEY`` — Use the current API key so the container can
     authenticate with W&B without manual configuration.
     - ``WANDB_DOCKER`` — Record the resolved image ID so W&B can track
