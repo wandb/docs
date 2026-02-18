@@ -16,20 +16,7 @@ Projects store the following resources:
 | **Monitors** | Background processes that automatically score a subset of function calls using LLM-as-a-judge scorers to track quality metrics over time in production. See [Monitors](/weave/guides/evaluation/guardrails_and_monitors). |
 | **Leaderboards** | Ranked comparisons of model performance across different evaluation runs, helping you identify the best-performing configurations. See [Leaderboards](/weave/guides/core-types/leaderboards). |
 | **Threads** | Multi-turn conversations and session-based workflows that group related calls under a shared thread ID for analyzing complete user interactions. See [Threads](/weave/guides/tracking/threads). |
-| **Assets** | Stored and versioned objects in your project. See the following table for details. |
-
-### Assets
-
-The **Assets** tab in the Weave UI stores and organizes the following resources in your project:
-
-| Asset | Description |
-| --- | --- |
-| **Models** | Versioned model definitions that capture prompts, parameters, and configuration, automatically tracking changes for reproducibility and comparison. See [Models](/weave/guides/core-types/models). |
-| **Datasets** | Collections of test examples stored as Weave objects that can be downloaded, browsed, and used for running evaluations. See [Datasets](/weave/guides/core-types/datasets). |
-| **Prompts** | Versioned system prompts that you can test and reuse in your model configurations. See [Prompts](/weave/guides/core-types/prompts). |
-| **Scorers** | Functions that evaluate model inputs and outputs to measure quality, safety, or custom metrics. See [Scorers](/weave/guides/evaluation/scorers).|
-| **Ops** | Automatically versioned and tracked functions decorated with `@weave.op()` that produce calls and maintain a record of function modifications. See [Ops](/weave/guides/tracking/ops). |
-| Other objects and metadata | Additional Weave objects, custom types, and associated metadata stored within the project. |
+| **Assets** | The **Assets** tab stores and organizes versioned objects in your project: <ul><li>**Models**: Versioned model definitions that capture prompts, parameters, and configuration, automatically tracking changes for reproducibility and comparison. See [Models](/weave/guides/core-types/models).</li><li>**Datasets**: Collections of test examples stored as Weave objects that can be downloaded, browsed, and used for running evaluations. See [Datasets](/weave/guides/core-types/datasets).</li><li>**Prompts**: Versioned system prompts that you can test and reuse in your model configurations. See [Prompts](/weave/guides/core-types/prompts).</li><li>**Scorers**: Functions that evaluate model inputs and outputs to measure quality, safety, or custom metrics. See [Scorers](/weave/guides/evaluation/scorers).</li><li>**Ops**: Automatically versioned and tracked functions decorated with `@weave.op()` that produce calls and maintain a record of function modifications. See [Ops](/weave/guides/tracking/ops).</li><li>**Other objects and metadata**: Additional Weave objects, custom types, and associated metadata stored within the project.</li></ul> |
 
 ## Project paths
 
