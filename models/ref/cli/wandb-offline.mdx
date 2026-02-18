@@ -4,12 +4,30 @@ title: wandb offline
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3299" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3300" />
 
 
 Save data logged to W&B locally without uploading it to the cloud.
 
     Use `wandb online` or `wandb sync` to upload offline runs.
+
+    Examples:
+
+    Run a script in offline mode to log data locally without syncing to the cloud
+    
+    ```bash
+    wandb offline
+    python train.py  # Logs data locally, does not sync to W&B cloud
+    ```
+
+    Run a script in offline mode, then sync the run to the cloud when ready
+
+    ```bash
+    wandb offline
+    python train.py
+    wandb sync --sync-all  # Sync all offline runs to the cloud
+    ```
+
     
 
 ## Usage
@@ -37,6 +55,19 @@ Usage: offline [OPTIONS]
   Save data logged to W&B locally without uploading it to the cloud.
 
   Use `wandb online` or `wandb sync` to upload offline runs.
+
+  Examples:
+
+  Run a script in offline mode to log data locally without syncing to the
+  cloud
+
+  ```bash wandb offline python train.py  # Logs data locally, does not sync to
+  W&B cloud ```
+
+  Run a script in offline mode, then sync the run to the cloud when ready
+
+  ```bash wandb offline python train.py wandb sync --sync-all  # Sync all
+  offline runs to the cloud ```
 
 Options:
   --help  Show this message and exit.
