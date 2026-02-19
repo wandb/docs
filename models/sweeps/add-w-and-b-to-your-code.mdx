@@ -19,7 +19,7 @@ Next you define a function called `main` that mimics a typical training loop. Fo
 This code is a mock training script. It does not train a model, but simulates the training process by generating random accuracy and loss values. The purpose of this code is to demonstrate how to integrate W&B into your training script.
 </Note>
 
-```python
+```python lines title="train.py"
 import random
 import numpy as np
 
@@ -64,13 +64,19 @@ To use the W&B Python SDK to start, stop, and manage sweeps, follow the instruct
 
 <Tabs>
 <Tab title="CLI">
-Create a YAML configuration file with your sweep configuration. The
-configuration file contains the hyperparameters you want the sweep to explore. In
-the following example, the batch size (`batch_size`), epochs (`epochs`), and
-the learning rate (`lr`) hyperparameters are varied during each sweep.
+Create a YAML files with the hyperparameters you want to optimize and the metric you want to optimize for. W&B uses the YAML file to know which hyperparameters to vary during the sweep and which metric to optimize for.
 
-```yaml
-# config.yaml
+Add the name of your Python script to the `program` key in the YAML file (Line 1).
+
+<Info>
+The sweep agent picks a value from the values list and passes it to `wandb.config` in the training script. For example, if you define the `batch_size` parameter with the values `[16, 32, 64]`, the sweep agent picks one of those values and passes it to the training script with `wandb.config.batch_size`.
+</Info>
+
+The following YAML file maps to the original training script shown above. The original training script varied the `batch_size`, `lr`, and `epochs` hyperparameters. The YAML file defines those same hyperparameters and specifies the values to try for each hyperparameter (Lines 8-14).
+
+The previous training script also computes the validation accuracy (`val_acc`) metric. The YAML file specifies that the sweep should maximize the `val_acc` metric (Line 5).
+
+```yaml lines title="config.yaml"
 program: train.py
 method: random
 name: sweep
@@ -89,38 +95,45 @@ parameters:
 
 For more information on how to create a W&B Sweep configuration, see [Define sweep configuration](/models/sweeps/define-sweep-configuration/).
 
-You must provide the name of your Python script for the `program` key
-in your YAML file.
+After you define your sweep configuration in a YAML file, you need to add W&B to your training script to read in the YAML file and log the metric you want to optimize for.
 
-Next, add the following to the code example:
+Within your training script, add the following code snippets to integrate W&B:
 
-1. Import the W&B Python SDK (`wandb`) and PyYAML (`yaml`). PyYAML is used to read in our YAML configuration file.
-2. Read in the configuration file.
-3. Use [`wandb.init()`](/models/ref/python/functions/init) to start a background process to sync and log data as a [W&B Run](/models/ref/python/experiments/run). Pass the config object to the config parameter.
-4. Define hyperparameter values from `wandb.Run.config` instead of using hard coded values.
-5. Log the metric you want to optimize with [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog). You must log the metric defined in your configuration. Within the configuration dictionary (`sweep_configuration` in this example) you define the sweep to maximize the `val_acc` value.
+1. Import the W&B Python SDK (`wandb`).
+2. Initialize a [run](/models/runs) with `wandb.init()`.
+3. Read in the YAML configuration file with a Python package such as `yaml` and pass the configuration file as a parameter to the `wandb.init()` method.
+4. Pass the configuration object to the config parameter in `wandb.init()` (`wandb.init(config=)`) method.
+5. Fetch the hyperparameter values from the `wandb.Run.config` object to use the hyperparameter values defined in the YAML file instead of hard coded values. W&B flattens the configuration values, so you access nested values with dot notation or bracket notation as if they were top-level keys.
+6. Log the metric you are optimizing for with `wandb.Run.log()`. 
 
-```python
+<Important>
+You must log the metric defined in your configuration.
+</Important>
+
+The following code snippet shows how to integrate W&B into your training script. Lines 4-7 show how to read in the YAML configuration file and pass the configuration to `wandb.init()`.
+
+Lines 9-10 show how to fetch the hyperparameter values from the `wandb.Run.config` object. Line 17 shows how to log the metric you are optimizing for (`val_acc`) to W&B.
+
+```python lines title="train.py"
 import wandb
 import yaml
 import random
 import numpy as np
 
-
 def train_one_epoch(epoch, lr, batch_size):
+    """Simulates training for one epoch and returns the training accuracy and loss."""
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
     return acc, loss
 
-
 def evaluate_one_epoch(epoch):
+    """Simulates evaluation for one epoch and returns the validation accuracy and loss."""
     acc = 0.1 + ((epoch / 20) + (random.random() / 10))
     loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
 
-
 def main():
-    # Set up your default hyperparameters
+    # Read in the configuration file
     with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
@@ -142,9 +155,60 @@ def main():
 main()
 ```
 
-In your CLI, set a maximum number of runs for the sweep
-agent to try. This is optional. This example we set the
-maximum number to 5.
+<Note>
+**W&B flattens configuration values passed to `wandb.init(config=)`**
+
+Normally you access nested values in the configuration object using dot notation or bracket notaion. For example, if you have a nested configuration like:
+
+```yaml sample.yaml
+key1: value1
+key2:
+    nested_key1: nested_value1
+    nested_key2: nested_value2
+```
+
+You then read in the file with `yaml` and pass the configuration to `wandb.init(config=)`:
+
+```python
+import yaml
+
+with open("sample.yaml") as file:
+    yaml_sample = yaml.load(file, Loader=yaml.FullLoader)
+```
+
+You access `nested_value1` with `yaml_sample["key2"]["nested_key1"]` or `yaml_sample.key2.nested_key1`.
+
+With W&B, the configuration values are flattened if you pass the configuration file to `wandb.init(config=)`. This means that you access nested values with dot notation or bracket notation as if they were top-level keys. For example, if you have the following YAML file:
+
+```yaml config.yaml
+program: train.py
+method: random
+name: sweep
+metric:
+    goal: maximize
+    name: val_acc
+parameters:
+epochs:
+    values: [10, 20, 30]
+learning_rate:
+    min: 0.001
+    max: 0.1
+```
+
+After you read in the file and pass the configuration to `wandb.init(config=)`, you access the `goal` value with `run.config["goal"]` instead of `run.config["metric"]["goal"]` or `run.config.metric.goal`.
+
+```python
+import yaml
+with open("config.yaml") as file:
+    config = yaml.load(file, Loader=yaml.FullLoader)
+with wandb.init(config=config) as run:
+    # Access the metric goal
+    metric_goal = run.config["goal"] # "maximize"
+```
+
+</Note>
+
+In your shell, set a maximum number of runs for the sweep agent to try. This is optional. This example we set the maximum number to 5.
 
 ```bash
 NUM=5
@@ -153,7 +217,7 @@ NUM=5
 Next, initialize the sweep with the [`wandb sweep`](/models/ref/cli/wandb-sweep) command. Provide the name of the YAML file. Optionally provide the name of the project for the project flag (`--project`):
 
 ```bash
-wandb sweep --project sweep-demo-cli config.yaml
+wandb sweep --project project_name config.yaml
 ```
 
 This returns a sweep ID. For more information on how to initialize sweeps, see
@@ -164,7 +228,7 @@ the sweep job with the [`wandb agent`](/models/ref/cli/wandb-agent)
 command:
 
 ```bash
-wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
+wandb agent --count $NUM your-entity/project_name/sweepID
 ```
 
 For more information, see [Start sweep jobs](./start-sweep-agents).
