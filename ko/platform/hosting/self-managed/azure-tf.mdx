@@ -174,7 +174,7 @@ AzureRM 프로바이더를 설정하는 가장 간단한 방법은 [Azure CLI](h
 
 또 다른 배포 옵션은 `Redis`를 사용하여 SQL 쿼리를 캐싱하고 Experiments의 메트릭을 로드할 때 애플리케이션의 응답 속도를 높이는 것입니다.
 
-캐시를 활성화하려면 [권장 배포 방식](#recommended-deployment)에서 사용한 것과 동일한 `main.tf` 파일에 `create_redis = true` 옵션을 추가해야 합니다.
+캐시를 활성화하려면 [권장 배포 방식](#권장-배포-방식)에서 사용한 것과 동일한 `main.tf` 파일에 `create_redis = true` 옵션을 추가해야 합니다.
 
 ```bash
 # 필요한 모든 서비스 실행
@@ -197,7 +197,7 @@ module "wandb" {
 
 세 번째 배포 옵션은 외부 `메시지 브로커(message broker)`를 활성화하는 것입니다. W&B에 브로커가 내장되어 있으므로 이는 선택 사항입니다. 이 옵션이 반드시 성능 향상을 가져오는 것은 아닙니다.
 
-메시지 브로커를 제공하는 Azure 리소스는 `Azure Event Grid`이며, 이를 활성화하려면 [권장 배포 방식](#recommended-deployment)에서 사용한 것과 동일한 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가해야 합니다.
+메시지 브로커를 제공하는 Azure 리소스는 `Azure Event Grid`이며, 이를 활성화하려면 [권장 배포 방식](#권장-배포-방식)에서 사용한 것과 동일한 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가해야 합니다.
 ```bash
 # 필요한 모든 서비스 실행
 module "wandb" {
@@ -219,4 +219,4 @@ module "wandb" {
 ## 기타 배포 옵션
 
 모든 설정을 하나의 파일에 추가하여 세 가지 배포 옵션을 모두 조합할 수 있습니다.
-[Terraform 모듈](https://github.com/wandb/terraform-azure-wandb)은 [권장 배포 방식](#recommended-deployment)에 있는 표준 옵션 및 최소 설정과 함께 조합하여 사용할 수 있는 다양한 옵션을 제공합니다.
+[Terraform 모듈](https://github.com/wandb/terraform-azure-wandb)은 [권장 배포 방식](#권장-배포-방식)에 있는 표준 옵션 및 최소 설정과 함께 조합하여 사용할 수 있는 다양한 옵션을 제공합니다.

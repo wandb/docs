@@ -47,7 +47,7 @@ metadata:
 
 `controller-manager`는 사용자 정의 리소스의 spec, 릴리스 채널 및 사용자 정의 설정을 기반으로 [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)를 설치합니다. 설정 사양 계층 구조는 사용자 측에서 최대의 설정 유연성을 제공하며 W&B가 새로운 이미지, 설정, 기능 및 Helm 업데이트를 자동으로 릴리스할 수 있도록 합니다.
 
-설정 옵션은 [설정 사양 계층 구조](#configuration-specification-hierarchy) 및 [W&B 에이전트 설정 레퍼런스](#configuration-reference-for-wb-operator)를 참조하십시오.
+설정 옵션은 [설정 사양 계층 구조](#설정-사양-계층-구조) 및 [W&B 에이전트 설정 레퍼런스](#사용자-정의-보안-컨텍스트)를 참조하십시오.
 
 배포는 서비스당 하나씩 여러 개의 pod로 구성됩니다. 각 pod의 이름 앞에는 `wandb-`가 붙습니다.
 
@@ -56,7 +56,7 @@ metadata:
 
 - **릴리스 채널 값 (Release Channel Values)**: 이 기본 레벨 설정은 배포를 위해 W&B에서 설정한 릴리스 채널을 기반으로 기본값과 설정을 지정합니다.
 - **사용자 입력 값 (User Input Values)**: 사용자는 시스템 콘솔을 통해 릴리스 채널 spec에서 제공하는 기본 설정을 재정의할 수 있습니다.
-- **사용자 정의 리소스 값 (Custom Resource Values)**: 사용자로부터 오는 최고 수준의 사양입니다. 여기에 지정된 모든 값은 사용자 입력 및 릴리스 채널 사양을 모두 덮어씁니다. 설정 옵션에 대한 자세한 설명은 [설정 레퍼런스](#configuration-reference-for-wb-operator)를 참조하십시오.
+- **사용자 정의 리소스 값 (Custom Resource Values)**: 사용자로부터 오는 최고 수준의 사양입니다. 여기에 지정된 모든 값은 사용자 입력 및 릴리스 채널 사양을 모두 덮어씁니다. 설정 옵션에 대한 자세한 설명은 [설정 레퍼런스](#사용자-정의-보안-컨텍스트)를 참조하십시오.
 
 이 계층적 모델은 설정이 유연하고 다양한 요구 사항을 충족하도록 사용자 정의될 수 있도록 보장하는 동시에 업그레이드 및 변경에 대해 관리 가능하고 체계적인 접근 방식을 유지합니다.
 
@@ -74,12 +74,12 @@ metadata:
 ### Redis
 <SelfManagedRedisRequirements/>
 
-외부 Redis 인스턴스를 구성하는 방법에 대한 자세한 내용은 [외부 Redis 설정 섹션](#external-redis)을 참조하십시오.
+외부 Redis 인스턴스를 구성하는 방법에 대한 자세한 내용은 [외부 Redis 설정 섹션](#사용자-정의-kubernetes-serviceaccounts)을 참조하십시오.
 
 ### 오브젝트 스토리지
 <SelfManagedObjectStorageRequirements/>
 
-Helm 값에서 오브젝트 스토리지를 구성하는 방법에 대한 자세한 내용은 [오브젝트 스토리지 버킷 설정 섹션](#object-storage-bucket)을 참조하십시오.
+Helm 값에서 오브젝트 스토리지를 구성하는 방법에 대한 자세한 내용은 [오브젝트 스토리지 버킷 설정 섹션](#호스트-host)을 참조하십시오.
 
 ### 네트워킹 요구 사항
 <SelfManagedNetworkingRequirements/>
@@ -135,7 +135,7 @@ api:
       readOnlyRootFilesystem: false
 ```
 
-필요한 경우 `app` 또는 `console`과 같은 다른 구성 요소에 대해 사용자 정의 보안 컨텍스트를 구성하십시오. 자세한 내용은 [사용자 정의 보안 컨텍스트](#custom-security-context)를 참조하십시오.
+필요한 경우 `app` 또는 `console`과 같은 다른 구성 요소에 대해 사용자 정의 보안 컨텍스트를 구성하십시오. 자세한 내용은 [사용자 정의 보안 컨텍스트](#사용자-정의-인증-기관-custom-ca)를 참조하십시오.
 
 ## W&B 서버 애플리케이션 배포
 
@@ -166,7 +166,7 @@ Helm CLI로 W&B Kubernetes Operator를 설치하려면 다음 단계를 따르�
     ```shell
     helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
     ```
-3. W&B 서버 설치를 트리거하도록 W&B 에이전트 사용자 정의 리소스를 설정합니다. W&B 배포 설정이 포함된 `operator.yaml`이라는 파일을 생성합니다. 모든 가용 옵션은 [설정 레퍼런스](#configuration-reference-for-wb-server)를 참조하십시오.
+3. W&B 서버 설치를 트리거하도록 W&B 에이전트 사용자 정의 리소스를 설정합니다. W&B 배포 설정이 포함된 `operator.yaml`이라는 파일을 생성합니다. 모든 가용 옵션은 [설정 레퍼런스](#wb-서버-설정-레퍼런스)를 참조하십시오.
 
     다음은 최소 설정 예시입니다:
 
@@ -201,7 +201,7 @@ Helm CLI로 W&B Kubernetes Operator를 설치하려면 다음 단계를 따르�
 
     배포가 완료될 때까지 기다립니다. 몇 분 정도 소요됩니다.
 
-5. 웹 UI를 사용하여 설치를 확인하려면 첫 번째 관리자 사용자 계정을 생성한 다음 [설치 확인](#verify-the-installation)에 설명된 확인 단계를 따르십시오.
+5. 웹 UI를 사용하여 설치를 확인하려면 첫 번째 관리자 사용자 계정을 생성한 다음 [설치 확인](#설치-확인)에 설명된 확인 단계를 따르십시오.
 
 
 ### Helm Terraform 모듈로 W&B 배포
@@ -240,7 +240,7 @@ module "wandb" {
 }
 ```
 
-설정 옵션은 [설정 레퍼런스](#configuration-reference-for-wb-operator)에 설명된 것과 동일하지만 구문은 HCL(HashiCorp Configuration Language)을 따라야 합니다. Terraform 모듈은 W&B 사용자 정의 리소스 정의(CRD)를 생성합니다.
+설정 옵션은 [설정 레퍼런스](#사용자-정의-보안-컨텍스트)에 설명된 것과 동일하지만 구문은 HCL(HashiCorp Configuration Language)을 따라야 합니다. Terraform 모듈은 W&B 사용자 정의 리소스 정의(CRD)를 생성합니다.
 
 W&B가 고객을 위해 "전용 클라우드 (Dedicated Cloud)" 설치를 배포하기 위해 Helm Terraform 모듈을 어떻게 사용하는지 보려면 다음 링크를 참조하십시오:
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
@@ -331,12 +331,12 @@ W&B 에이전트는 W&B 서버를 위한 기본이자 권장되는 설치 방법
 </Note>
 
 - 공식 W&B 클라우드 Terraform 모듈을 사용한 경우 해당 문서로 이동하여 단계를 따르십시오:
-  - [AWS](#migrate-to-operator-based-aws-terraform-modules)
-  - [Google Cloud](#migrate-to-operator-based-google-cloud-terraform-modules)
-  - [Azure](#migrate-to-operator-based-azure-terraform-modules)
-- [W&B Non-Operator Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/wandb)를 사용한 경우 [여기](#migrate-to-operator-based-helm-chart)에서 계속하십시오.
-- [Terraform과 함께 W&B Non-Operator Helm 차트](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest)를 사용한 경우 [여기](#migrate-to-operator-based-terraform-helm-chart)에서 계속하십시오.
-- manifest로 Kubernetes 리소스를 생성한 경우 [여기](#migrate-to-operator-based-helm-chart)에서 계속하십시오.
+  - [AWS](#에이전트-기반-aws-terraform-모듈로-마이그레이션)
+  - [Google Cloud](#에이전트-기반-google-cloud-terraform-모듈로-마이그레이션)
+  - [Azure](#에이전트-기반-azure-terraform-모듈로-마이그레이션)
+- [W&B Non-Operator Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/wandb)를 사용한 경우 [여기](#에이전트-기반-helm-차트로-마이그레이션)에서 계속하십시오.
+- [Terraform과 함께 W&B Non-Operator Helm 차트](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest)를 사용한 경우 [여기](#에이전트-기반-terraform-helm-차트로-마이그레이션)에서 계속하십시오.
+- manifest로 Kubernetes 리소스를 생성한 경우 [여기](#에이전트-기반-helm-차트로-마이그레이션)에서 계속하십시오.
 
 
 ### 에이전트 기반 AWS Terraform 모듈로 마이그레이션
@@ -366,7 +366,7 @@ W&B 에이전트는 W&B 서버를 위한 기본이자 권장되는 설치 방법
     ```
     이제 다음 단계에 필요한 모든 설정 값을 확보했습니다.
 
-2. `operator.yaml`이라는 파일을 생성합니다. [설정 레퍼런스](#configuration-reference-for-wb-operator)에 설명된 형식을 따릅니다. 1단계의 값을 사용합니다.
+2. `operator.yaml`이라는 파일을 생성합니다. [설정 레퍼런스](#사용자-정의-보안-컨텍스트)에 설명된 형식을 따릅니다. 1단계의 값을 사용합니다.
 
 3. 현재 배포의 pod 수를 0으로 확장합니다. 이 단계는 현재 배포를 중지합니다.
     ```shell
@@ -386,7 +386,7 @@ W&B 에이전트는 W&B 서버를 위한 기본이자 권장되는 설치 방법
     ```
     배포가 완료되는 데 몇 분 정도 걸립니다.
 
-7. 설치를 확인합니다. [설치 확인](#verify-the-installation)의 단계를 따라 모든 것이 작동하는지 확인하십시오.
+7. 설치를 확인합니다. [설치 확인](#설치-확인)의 단계를 따라 모든 것이 작동하는지 확인하십시오.
 
 8. 이전 설치를 제거합니다. 이전 Helm 차트를 제거하거나 manifest로 생성된 리소스를 삭제합니다.
 
@@ -395,16 +395,16 @@ W&B 에이전트는 W&B 서버를 위한 기본이자 권장되는 설치 방법
 에이전트 기반 Helm 차트로 마이그레이션하려면 다음 단계를 따르십시오:
 
 
-1. Terraform 설정을 준비합니다. Terraform 설정에서 이전 배포의 Terraform 코드를 [여기](#deploy-wb-with-helm-terraform-module)에 설명된 코드로 교체합니다. 이전과 동일한 변수를 설정합니다. .tfvars 파일이 있는 경우 변경하지 마십시오.
+1. Terraform 설정을 준비합니다. Terraform 설정에서 이전 배포의 Terraform 코드를 [여기](#helm-terraform-모듈로-wb-배포)에 설명된 코드로 교체합니다. 이전과 동일한 변수를 설정합니다. .tfvars 파일이 있는 경우 변경하지 마십시오.
 2. Terraform을 실행합니다. terraform init, plan 및 apply를 실행합니다.
-3. 설치를 확인합니다. [설치 확인](#verify-the-installation)의 단계를 따라 모든 것이 작동하는지 확인하십시오.
+3. 설치를 확인합니다. [설치 확인](#설치-확인)의 단계를 따라 모든 것이 작동하는지 확인하십시오.
 4. 이전 설치를 제거합니다. 이전 Helm 차트를 제거하거나 manifest로 생성된 리소스를 삭제합니다.
 
 
 
 ## W&B 서버 설정 레퍼런스
 
-이 섹션에서는 W&B 서버 애플리케이션의 설정 옵션을 설명합니다. 애플리케이션은 [WeightsAndBiases](#how-it-works)라는 사용자 정의 리소스 정의로 설정을 받습니다. 일부 설정 옵션은 아래 설정을 통해 노출되며, 일부는 환경 변수로 설정해야 합니다.
+이 섹션에서는 W&B 서버 애플리케이션의 설정 옵션을 설명합니다. 애플리케이션은 [WeightsAndBiases](#작동-방식)라는 사용자 정의 리소스 정의로 설정을 받습니다. 일부 설정 옵션은 아래 설정을 통해 노출되며, 일부는 환경 변수로 설정해야 합니다.
 
 문서에는 두 가지 환경 변수 목록이 있습니다: [기본](/platform/hosting/env-vars/) 및 [고급](/platform/hosting/iam/advanced_env_vars/). 필요한 설정 옵션이 Helm 차트를 통해 노출되지 않는 경우에만 환경 변수를 사용하십시오.
 
@@ -598,7 +598,7 @@ global:
 
 ### 인그레스 (Ingress)
 
-인그레스 클래스를 확인하려면 이 FAQ [항목](#how-to-identify-the-kubernetes-ingress-class)을 참조하십시오.
+인그레스 클래스를 확인하려면 이 FAQ [항목](#wb-서버-로그는-어떻게-보나요)을 참조하십시오.
 
 **TLS 미사용 시**
 
@@ -1045,7 +1045,7 @@ ConfigMap의 각 키는 `.crt`로 끝나야 합니다 (예: `my-cert.crt` 또는
 * **`wandb-weave-trace`**: LLM 기반 애플리케이션의 추적, 실험, 평가, 배포 및 개선을 위한 프레임워크입니다. 이 프레임워크는 `wandb-app` pod를 통해 엑세스됩니다.
 
 ### W&B 에이전트 콘솔 비밀번호를 어떻게 얻나요?
-[W&B Kubernetes 에이전트 관리 콘솔 엑세스](#access-the-wb-management-console)를 참조하십시오.
+[W&B Kubernetes 에이전트 관리 콘솔 엑세스](#wb-관리-콘솔-엑세스)를 참조하십시오.
 
 
 ### 인그레스가 작동하지 않을 때 W&B 에이전트 콘솔에 어떻게 엑세스하나요?
@@ -1058,7 +1058,7 @@ kubectl port-forward svc/wandb-console 8082
 
 브라우저에서 `https://localhost:8082/` console로 콘솔에 엑세스합니다.
 
-비밀번호를 얻는 방법은 [W&B Kubernetes 에이전트 관리 콘솔 엑세스](#access-the-wb-management-console)를 참조하십시오 (옵션 2).
+비밀번호를 얻는 방법은 [W&B Kubernetes 에이전트 관리 콘솔 엑세스](#wb-관리-콘솔-엑세스)를 참조하십시오 (옵션 2).
 
 ### W&B 서버 로그는 어떻게 보나요?
 

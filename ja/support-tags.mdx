@@ -399,7 +399,7 @@ W&B クライアントライブラリは、バージョン 0.11 まで Python 3.
 <Update tags={["Team Management"]}>
 <Accordion title="誰がチームを作成できますか？誰がチームメンバーの追加や削除を行えますか？誰がプロジェクトを削除できますか？">
 
-役割と権限の詳細については、こちらのリンクを参照してください： [チームの役割と権限](/platform/app/settings-page/teams#team-roles-and-permissions) 。
+役割と権限の詳細については、こちらのリンクを参照してください： [チームの役割と権限](/platform/app/settings-page/teams#チームのロールと権限) 。
 </Accordion>
 </Update>
 
@@ -479,7 +479,7 @@ command:
 SSL エラーや、 `wandb: Network error (ConnectionError), entering retry loop` などのネットワークエラーが発生した場合は、以下の解決策を試してください。
 
 1. SSL 証明書をアップグレードします。 Ubuntu サーバーの場合は、 `update-ca-certificates` を実行します。セキュリティリスクを軽減しつつトレーニングログを同期するには、有効な SSL 証明書が不可欠です。
-2. ネットワーク接続が不安定な場合は、 [任意の環境変数](/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` を `offline` に設定してオフラインモードで実行し、後でインターネット接続のあるデバイスからファイルを同期してください。
+2. ネットワーク接続が不安定な場合は、 [任意の環境変数](/models/track/environment-variables#オプションの環境変数) `WANDB_MODE` を `offline` に設定してオフラインモードで実行し、後でインターネット接続のあるデバイスからファイルを同期してください。
 3. クラウドサーバーへの同期を避け、ローカルで動作する [W&B Private Hosting](/platform/hosting/) の利用を検討してください。
 
 `SSL CERTIFICATE_VERIFY_FAILED` エラーについては、会社のファイアウォールが原因である可能性があります。ローカルの CA を設定し、以下を実行してください：
@@ -861,7 +861,7 @@ consumer_runs = produced_artifacts[0].used_by()
 <Update tags={["Runs"]}>
 <Accordion title="Run をタグでグループ化できますか？">
 
-1つの Run が複数のタグを持つことができるため、タグによるグループ化はサポートされていません。代わりに、これらの Run の [`config`](/models/track/config) オブジェクトに値を追加し、その config 値でグループ化してください。これは [API](/models/track/config#set-the-configuration-after-your-run-has-finished) を使用して行えます。
+1つの Run が複数のタグを持つことができるため、タグによるグループ化はサポートされていません。代わりに、これらの Run の [`config`](/models/track/config) オブジェクトに値を追加し、その config 値でグループ化してください。これは [API](/models/track/config#run-終了後に設定を行う) を使用して行えます。
 </Accordion>
 </Update>
 
@@ -1534,7 +1534,7 @@ W&B インテグレーションに関する注意事項など、 `reinit="create
 
 実験を管理する方法はいくつかあります。
 
-複雑なワークフローの場合は、複数の Runs を使用し、 [`wandb.init()`](/models/track/create-an-experiment) の group パラメーターに、単一の実験内のすべてのプロセスで共通の一意の値を設定します。 [**Runs** タブ](/models/track/project-page#runs-tab) ではテーブルがグループ ID ごとにグループ化され、可視化が適切に機能します。このアプローチにより、結果を1か所にログ記録しながら、並行して実験やトレーニング Run を行うことが可能になります。
+複雑なワークフローの場合は、複数の Runs を使用し、 [`wandb.init()`](/models/track/create-an-experiment) の group パラメーターに、単一の実験内のすべてのプロセスで共通の一意の値を設定します。 [**Runs** タブ](/models/track/project-page#runsタブ) ではテーブルがグループ ID ごとにグループ化され、可視化が適切に機能します。このアプローチにより、結果を1か所にログ記録しながら、並行して実験やトレーニング Run を行うことが可能になります。
 
 よりシンプルなワークフローの場合は、 `resume=True` と `id=UNIQUE_ID` を指定して `wandb.init()` を呼び出し、再度同じ `id=UNIQUE_ID` で `wandb.init()` を呼び出します。通常通り [`run.log()`](/models/track/log/) または `run.summary()` でログを記録すれば、 Run の値が適宜更新されます。
 </Accordion>
@@ -1731,7 +1731,7 @@ with wandb.init() as run:
 - `"loss-train"` の代わりに `"loss_train"` を使用
 - `"acc,val"` の代わりに `"acc_val"` を使用
 
-詳細については、 [メトリクス命名の制約](/models/track/log/#metric-naming-constraints) を参照してください。
+詳細については、 [メトリクス命名の制約](/models/track/log/#メトリクス命名の制約) を参照してください。
 </Accordion>
 </Update>
 
@@ -1881,7 +1881,7 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-[Workspace](/models/track/project-page#workspace-tab) 設定で、最初のセグメントに基づいたグループ化、または `/` で区切られたすべてのセグメントに基づいたグループ化に調整できます。
+[Workspace](/models/track/project-page#workspaceタブ) 設定で、最初のセグメントに基づいたグループ化、または `/` で区切られたすべてのセグメントに基づいたグループ化に調整できます。
 </Accordion>
 </Update>
 
@@ -1924,7 +1924,7 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-マルチラインプロットの詳細は、 [こちら](/models/track/log/plots#basic-charts) の **Multi-line** タブを参照してください。
+マルチラインプロットの詳細は、 [こちら](/models/track/log/plots#基本的なグラフ) の **Multi-line** タブを参照してください。
 </Accordion>
 </Update>
 
@@ -1958,7 +1958,7 @@ with wandb.init() as run:
     - **Public**: 誰でもプロジェクトを表示できますが、編集できるのは自分のチームだけです。
 
         <Note>
-        W&B 管理者が **Public** の可視性をオフに設定している場合、これを選択することはできません。代わりに、閲覧専用の [W&B レポート](/models/reports/collaborate-on-reports#share-a-report) を共有するか、 W&B 組織の管理者に相談してください。
+        W&B 管理者が **Public** の可視性をオフに設定している場合、これを選択することはできません。代わりに、閲覧専用の [W&B レポート](/models/reports/collaborate-on-reports#report-を共有する) を共有するか、 W&B 組織の管理者に相談してください。
         </Note>
 1. **Save** をクリックします。
 
@@ -2419,14 +2419,14 @@ Teams で W&B アラートを受け取るには、以下の手順に従ってく
 
 特に、サービスアカウントは、定期的な再トレーニングやナイトリービルドなど、 wandb にログ記録される自動ジョブの追跡に役立ちます。必要であれば、 [環境変数](/models/track/environment-variables) `WANDB_USERNAME` または `WANDB_USER_EMAIL` を使用して、これらのマシンから起動された Run にユーザー名を関連付けることができます。
 
-ベストプラクティスや詳細な設定手順を含むサービスアカウントの包括的な情報については、 [サービスアカウントを使用してワークフローを自動化する](/platform/hosting/iam/service-accounts) を参照してください。チーム内でのサービスアカウントの振る舞いについては、 [チームのサービスアカウントの振る舞い](/platform/app/settings-page/teams#team-service-account-behavior) を参照してください。
+ベストプラクティスや詳細な設定手順を含むサービスアカウントの包括的な情報については、 [サービスアカウントを使用してワークフローを自動化する](/platform/hosting/iam/service-accounts) を参照してください。チーム内でのサービスアカウントの振る舞いについては、 [チームのサービスアカウントの振る舞い](/platform/app/settings-page/teams#チームサービスアカウントの振る舞い) を参照してください。
 
 <TeamServiceAccountCreate/>
 
 完全な API キーは作成時に一度だけ表示されます。ダイアログを閉じると、二度と確認することはできません。
 
 <Note>
-**組み込み（Built-in）** のサービスアカウント以外にも、 W&B は [SDK および CLI 用のアイデンティティ連携](/platform/hosting/iam/identity_federation#external-service-accounts) を使用した **外部サービスアカウント（External service accounts）** もサポートしています。 JSON Web Token (JWT) を発行できる ID プロバイダーで管理されているサービスアイデンティティを使用して、 W&B のタスクを自動化したい場合は、外部サービスアカウントを使用してください。
+**組み込み（Built-in）** のサービスアカウント以外にも、 W&B は [SDK および CLI 用のアイデンティティ連携](/platform/hosting/iam/identity_federation#外部サービスアカウント) を使用した **外部サービスアカウント（External service accounts）** もサポートしています。 JSON Web Token (JWT) を発行できる ID プロバイダーで管理されているサービスアイデンティティを使用して、 W&B のタスクを自動化したい場合は、外部サービスアカウントを使用してください。
 </Note>
 </Accordion>
 </Update>
@@ -2608,7 +2608,7 @@ if os.path.exists("~/keys.json"):
 <Update tags={["User Management", "Team Management"]}>
 <Accordion title="どのような役割（ロール）があり、それぞれの違いは何ですか？">
 
-利用可能な役割と権限の概要については、 [チームの役割と権限](/platform/app/settings-page/teams#team-roles-and-permissions) ページをご覧ください。
+利用可能な役割と権限の概要については、 [チームの役割と権限](/platform/app/settings-page/teams#チームのロールと権限) ページをご覧ください。
 </Accordion>
 </Update>
 

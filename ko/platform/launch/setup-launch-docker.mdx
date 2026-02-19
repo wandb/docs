@@ -59,7 +59,7 @@ Docker는 값이 할당되지 않은 환경 변수를 에이전트 환경에서 
 
 <Note>
 * Docker 컨테이너 내에서 GPU 를 사용하려면 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)을 설치하세요.
-* 코드 또는 아티팩트 소스 작업에서 이미지를 빌드하는 경우, [에이전트](#configure-a-launch-agent-on-a-local-machine)가 사용하는 베이스 이미지를 NVIDIA Container Toolkit이 포함된 이미지로 오버라이드할 수 있습니다.
+* 코드 또는 아티팩트 소스 작업에서 이미지를 빌드하는 경우, [에이전트](#로컬-머신에서-에이전트-설정하기)가 사용하는 베이스 이미지를 NVIDIA Container Toolkit이 포함된 이미지로 오버라이드할 수 있습니다.
   예를 들어, Launch 큐 내에서 베이스 이미지를 `tensorflow/tensorflow:latest-gpu`로 오버라이드할 수 있습니다:
 
   ```json
@@ -135,4 +135,4 @@ Launch 는 Dockerhub, Google Container Registry, Azure Container Registry, Amazo
 이미지를 빌드한 환경과 다른 환경에서 작업을 실행하려면, 에이전트가 컨테이너 레지스트리에서 이미지를 풀(pull)할 수 있도록 설정하세요. 
 
 
-에이전트를 클라우드 레지스트리와 연결하는 방법에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced#agent-configuration) 페이지를 참조하세요.
+에이전트를 클라우드 레지스트리와 연결하는 방법에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced#에이전트-설정) 페이지를 참조하세요.

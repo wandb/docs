@@ -16,9 +16,9 @@ Amazon SageMaker는 [트레이닝 작업을 실행하기 위해 Docker 이미지
 
 시작하기 전에 다음 사전 요구 사항을 충족하는지 확인하세요.
 
-* [Launch agent가 Docker 이미지를 빌드하도록 할지 결정합니다.](#decide-if-you-want-the-launch-agent-to-build-a-docker-images)
-* [AWS 리소스를 설정하고 S3, ECR 및 SageMaker IAM 역할에 대한 정보를 수집합니다.](#set-up-aws-resources)
-* [Launch agent를 위한 IAM 역할을 생성합니다](#create-an-iam-role-for-launch-agent).
+* [Launch agent가 Docker 이미지를 빌드하도록 할지 결정합니다.](#launch-agent가-docker-이미지를-빌드하도록-할지-결정)
+* [AWS 리소스를 설정하고 S3, ECR 및 SageMaker IAM 역할에 대한 정보를 수집합니다.](#aws-리소스-설정)
+* [Launch agent를 위한 IAM 역할을 생성합니다](#launch-agent를-위한-iam-역할-생성).
 
 ### Launch agent가 Docker 이미지를 빌드하도록 할지 결정
 
@@ -35,7 +35,7 @@ W&B Launch agent가 Docker 이미지를 대신 빌드하도록 할지 결정하�
 2. SageMaker Training 작업의 입력 및 출력을 저장할 하나 이상의 [S3 버킷](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html).
 3. SageMaker가 트레이닝 작업을 실행하고 Amazon ECR 및 Amazon S3와 상호 작용할 수 있도록 허용하는 Amazon SageMaker용 IAM 역할.
 
-이 리소스들의 ARN을 메모해 두세요. [Launch 큐 설정](#configure-launch-queue-for-sagemaker)을 정의할 때 이 ARN들이 필요합니다.
+이 리소스들의 ARN을 메모해 두세요. [Launch 큐 설정](#sagemaker를-위한-launch-큐-설정)을 정의할 때 이 ARN들이 필요합니다.
 
 ### Launch agent를 위한 IAM 정책 생성
 
@@ -185,7 +185,7 @@ IAM 역할 생성에 대한 자세한 내용은 [AWS Identity and Access Managem
    ```
 최소한 다음 사항을 지정해야 합니다.
 
-- `RoleArn`: SageMaker 실행 IAM 역할의 ARN([사전 요구 사항](#prerequisites) 참조). Launch **agent** IAM 역할과 혼동하지 마세요.
+- `RoleArn`: SageMaker 실행 IAM 역할의 ARN([사전 요구 사항](#사전-요구-사항) 참조). Launch **agent** IAM 역할과 혼동하지 마세요.
 - `OutputDataConfig.S3OutputPath`: SageMaker 출력물이 저장될 Amazon S3 URI.
 - `ResourceConfig`: 리소스 설정의 필수 사양. 리소스 설정 옵션은 [여기](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html)에 설명되어 있습니다.
 - `StoppingCondition`: 트레이닝 작업의 중지 조건에 대한 필수 사양. 옵션은 [여기](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StoppingCondition.html)에 설명되어 있습니다.
@@ -195,7 +195,7 @@ IAM 역할 생성에 대한 자세한 내용은 [AWS Identity and Access Managem
 
 다음 섹션에서는 에이전트를 배포할 수 있는 위치와 배포 위치에 따라 에이전트를 설정하는 방법을 설명합니다.
 
-Amazon SageMaker 큐를 위한 Launch agent 배포에는 [여러 가지 옵션](#decide-where-to-run-the-launch-agent)이 있습니다: 로컬 머신, EC2 인스턴스 또는 EKS 클러스터. 에이전트를 배포하는 위치에 따라 [Launch agent를 적절하게 설정](#configure-a-launch-agent)하세요.
+Amazon SageMaker 큐를 위한 Launch agent 배포에는 [여러 가지 옵션](#launch-agent를-실행할-위치-결정)이 있습니다: 로컬 머신, EC2 인스턴스 또는 EKS 클러스터. 에이전트를 배포하는 위치에 따라 [Launch agent를 적절하게 설정](#launch-agent-설정-2)하세요.
 
 ### Launch agent를 실행할 위치 결정
 
@@ -289,7 +289,7 @@ builder:
 ## (선택 사항) Launch job Docker 이미지를 Amazon ECR에 푸시
 
 <Note>
-이 섹션은 Launch agent가 트레이닝 또는 추론 로직이 포함된 기존 Docker 이미지를 사용하는 경우에만 적용됩니다. [Launch agent의 작동 방식에는 두 가지 옵션이 있습니다.](#decide-if-you-want-the-launch-agent-to-build-a-docker-images)
+이 섹션은 Launch agent가 트레이닝 또는 추론 로직이 포함된 기존 Docker 이미지를 사용하는 경우에만 적용됩니다. [Launch agent의 작동 방식에는 두 가지 옵션이 있습니다.](#launch-agent가-docker-이미지를-빌드하도록-할지-결정)
 </Note>
 
 Launch job이 포함된 Docker 이미지를 Amazon ECR 리포지토리에 업로드하세요. 이미지 기반 작업을 사용하는 경우, 새로운 Launch jobs를 제출하기 전에 Docker 이미지가 ECR 레지스트리에 있어야 합니다.
