@@ -4037,10 +4037,6 @@
     {
       "source": "/ko/platform/hosting/self-managed/azure-tf",
       "destination": "/platform/hosting/self-managed/operator"
-    },
-    {
-      "source": "/weave/guides/evaluation/guardrails_and_monitors",
-      "destination": "/weave/guides/evaluation/monitors"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
