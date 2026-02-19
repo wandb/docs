@@ -3,7 +3,7 @@ title: 엔터프라이즈 라이선스
 description: start_thought W&B Enterprise 라이선스, 포함된 기능, 라이선스를 취득하고 구성하는 방법에 대해 알아보세요.
 ---
 
-Enterprise 라이선스는 보안, 컴플라이언스 또는 관리 영역에서 향상된 기능이 필요한 조직을 위해 설계된 W&B 기능들을 활성화합니다. [Enterprise 기능](#enterprise-features) 목록을 확인하세요.
+Enterprise 라이선스는 보안, 컴플라이언스 또는 관리 영역에서 향상된 기능이 필요한 조직을 위해 설계된 W&B 기능들을 활성화합니다. [Enterprise 기능](#enterprise-기능) 목록을 확인하세요.
 
 - **보안**: 강화된 인증, 암호화 및 access 제어.
 - **컴플라이언스**: 감사 log 기록, HIPAA 준수 옵션 및 data 거버넌스 제어.
@@ -15,7 +15,7 @@ Enterprise 라이선스는 보안, 컴플라이언스 또는 관리 영역에서
 Enterprise 라이선스는 W&B 전용 클라우드 및 Self-Managed 배포에서 사용할 수 있습니다.
 
 - [W&B 전용 클라우드](/platform/hosting/hosting-options/dedicated_cloud)는 Google Cloud에 배포되고 W&B가 관리하는 싱글 테넌트 인프라를 제공합니다. 전용 클라우드 배포에는 Enterprise 라이선스가 자동으로 포함됩니다. 별도의 설정이 필요하지 않으며, 프로비저닝 즉시 모든 Enterprise 기능을 사용할 수 있습니다.
-- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed)는 귀하의 자체 인프라에 배포되어 배포 환경과 data에 대한 완전한 제어권을 제공합니다. 에어갭(Air-gapped) 배포가 지원됩니다. Enterprise 라이선스가 없으면 [Enterprise 기능](#enterprise-features)을 사용할 수 없습니다.
+- [W&B Self-Managed](/platform/hosting/hosting-options/self-managed)는 귀하의 자체 인프라에 배포되어 배포 환경과 data에 대한 완전한 제어권을 제공합니다. 에어갭(Air-gapped) 배포가 지원됩니다. Enterprise 라이선스가 없으면 [Enterprise 기능](#enterprise-기능)을 사용할 수 없습니다.
 
 ## Enterprise 라이선스 획득
 이 섹션은 Enterprise 라이선스를 획득하는 방법을 설명합니다. 유스 케이스에 따라 탭을 선택하여 계속 진행하세요.
@@ -40,7 +40,7 @@ Enterprise 라이선스 요청:
 
 <Info>이 섹션은 W&B Self-Managed에만 해당됩니다.</Info>
 
-[Enterprise 라이선스를 획득](#obtain-an-enterprise-license)한 후, 프로그래밍 방식으로 설정하거나 배포 후 W&B 앱에서 설정할 수 있습니다. 안내를 보려면 탭을 선택하세요.
+[Enterprise 라이선스를 획득](#enterprise-라이선스-획득)한 후, 프로그래밍 방식으로 설정하거나 배포 후 W&B 앱에서 설정할 수 있습니다. 안내를 보려면 탭을 선택하세요.
 
 <Tabs>
 <Tab title="Helm">
@@ -101,7 +101,7 @@ docker run -d \
 
 인스턴스 또는 조직 관리자로서 다음 단계에 따라 Enterprise 라이선스를 확인하고 관리하세요:
 1. W&B 앱에서 오른쪽 상단의 사용자 프로필 아이콘을 클릭한 다음 **System Console**을 클릭합니다.
-1. **License** 탭으로 이동합니다. 대시보드에서 라이선스의 권한, 만료일 및 시간 경과에 따른 사용량 요약을 확인할 수 있습니다. 오류가 발생하면 [일반적인 문제](#common-issues)를 참조하세요.
+1. **License** 탭으로 이동합니다. 대시보드에서 라이선스의 권한, 만료일 및 시간 경과에 따른 사용량 요약을 확인할 수 있습니다. 오류가 발생하면 [일반적인 문제](#일반적인-문제)를 참조하세요.
 1. 라이선스 및 해당 권한에 대한 자세한 정보를 보려면 **View license online**을 클릭합니다.
 
     이 페이지에서 새로운 트라이얼 또는 프로덕션 라이선스를 주문할 수도 있습니다. 페이지 상단에서 **New license order**를 클릭하고 양식을 제출하세요.

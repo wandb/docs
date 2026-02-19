@@ -399,7 +399,7 @@ W&B 클라이언트 라이브러리는 버전 0.11까지 Python 3.5를 지원했
 <Update tags={["Team Management"]}>
 <Accordion title="누가 팀을 생성할 수 있나요? 누가 팀에서 사람을 추가하거나 삭제할 수 있나요? 누가 프로젝트를 삭제할 수 있나요?">
 
-역할 및 권한에 대한 자세한 내용은 다음 링크를 참조하세요: [팀 역할 및 권한](/platform/app/settings-page/teams#team-roles-and-permissions).
+역할 및 권한에 대한 자세한 내용은 다음 링크를 참조하세요: [팀 역할 및 권한](/platform/app/settings-page/teams#팀-역할-및-권한).
 </Accordion>
 </Update>
 
@@ -479,7 +479,7 @@ command:
 `wandb: Network error (ConnectionError), entering retry loop`와 같은 SSL 또는 네트워크 오류가 발생하면 다음 해결 방법을 사용하세요:
 
 1. SSL 인증서를 업그레이드하세요. Ubuntu 서버에서는 `update-ca-certificates`를 실행합니다. 보안 위험을 완화하면서 트레이닝 로그를 동기화하려면 유효한 SSL 인증서가 필수적입니다.
-2. 네트워크 연결이 불안정하다면 [선택적 환경 변수](/models/track/environment-variables#optional-environment-variables) `WANDB_MODE`를 `offline`으로 설정하여 오프라인 모드에서 작동시킨 후, 나중에 인터넷 연결이 가능한 기기에서 파일을 동기화하세요.
+2. 네트워크 연결이 불안정하다면 [선택적 환경 변수](/models/track/environment-variables#선택적-환경-변수) `WANDB_MODE`를 `offline`으로 설정하여 오프라인 모드에서 작동시킨 후, 나중에 인터넷 연결이 가능한 기기에서 파일을 동기화하세요.
 3. 로컬에서 실행되어 클라우드 서버와의 동기화가 필요 없는 [W&B Private Hosting](/platform/hosting/) 사용을 고려해 보세요.
 
 `SSL CERTIFICATE_VERIFY_FAILED` 오류의 경우, 회사 방화벽 문제일 수 있습니다. 로컬 CA를 구성하고 다음을 실행하세요:
@@ -861,7 +861,7 @@ consumer_runs = produced_artifacts[0].used_by()
 <Update tags={["Runs"]}>
 <Accordion title="태그별로 Runs를 그룹화할 수 있나요?">
 
-하나의 run이 여러 태그를 가질 수 있으므로 태그별 그룹화는 지원되지 않습니다. 대신 이 Runs에 대해 [`config`](/models/track/config) 오브젝트에 값을 추가하고 이 config 값으로 그룹화하세요. 이는 [API](/models/track/config#set-the-configuration-after-your-run-has-finished)를 사용하여 수행할 수 있습니다.
+하나의 run이 여러 태그를 가질 수 있으므로 태그별 그룹화는 지원되지 않습니다. 대신 이 Runs에 대해 [`config`](/models/track/config) 오브젝트에 값을 추가하고 이 config 값으로 그룹화하세요. 이는 [API](/models/track/config#run-이-종료된-후-설정하기)를 사용하여 수행할 수 있습니다.
 </Accordion>
 </Update>
 
@@ -910,7 +910,7 @@ for run in runs:
 <Update tags={["User Management"]}>
 <Accordion title="사용자 계정을 어떻게 삭제하나요?">
 
-[사용자 설정](/platform/app/settings-page/user-settings#delete-your-account)에서 **Delete account**를 클릭하여 사용자 계정을 삭제하세요. 이 작업은 되돌릴 수 없으며 즉시 적용됩니다.
+[사용자 설정](/platform/app/settings-page/user-settings#계정-삭제)에서 **Delete account**를 클릭하여 사용자 계정을 삭제하세요. 이 작업은 되돌릴 수 없으며 즉시 적용됩니다.
 </Accordion>
 </Update>
 
@@ -1731,7 +1731,7 @@ with wandb.init() as run:
 - `"loss-train"` 대신 `"loss_train"` 사용
 - `"acc,val"` 대신 `"acc_val"` 사용
 
-자세한 내용은 [메트릭 명명 제한](/models/track/log/#metric-naming-constraints)을 참조하세요.
+자세한 내용은 [메트릭 명명 제한](/models/track/log/#메트릭-명명-규칙)을 참조하세요.
 </Accordion>
 </Update>
 
@@ -1924,7 +1924,7 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-멀티 라인 플롯에 대한 추가 상세 정보는 [여기](/models/track/log/plots#basic-charts)의 **Multi-line** 탭에서 확인하세요.
+멀티 라인 플롯에 대한 추가 상세 정보는 [여기](/models/track/log/plots#기본-차트)의 **Multi-line** 탭에서 확인하세요.
 </Accordion>
 </Update>
 
@@ -1958,7 +1958,7 @@ with wandb.init() as run:
     - **Public**: 누구나 프로젝트를 볼 수 있지만, 편집은 소속 팀원만 가능합니다.
 
         <Note>
-        W&B 관리자가 **Public** 설정을 비활성화한 경우 선택할 수 없습니다. 대신 뷰 전용 [W&B Report](/models/reports/collaborate-on-reports#share-a-report)를 공유하거나 W&B 조직 관리자에게 도움을 요청하세요.
+        W&B 관리자가 **Public** 설정을 비활성화한 경우 선택할 수 없습니다. 대신 뷰 전용 [W&B Report](/models/reports/collaborate-on-reports#report-공유하기)를 공유하거나 W&B 조직 관리자에게 도움을 요청하세요.
         </Note>
 1. **Save**를 클릭합니다.
     
@@ -2419,14 +2419,14 @@ Teams에서 W&B 알림을 받으려면 다음 단계를 따르세요:
 
 무엇보다도 서비스 계정은 정기적인 재학습, 나이틀리 빌드(nightly builds) 등 wandb에 로깅되는 자동화된 작업을 추적하는 데 유용합니다. 원한다면 [환경 변수](/models/track/environment-variables) `WANDB_USERNAME` 또는 `WANDB_USER_EMAIL`을 사용하여 이러한 머신 실행 run에 사용자 이름을 연결할 수 있습니다.
 
-모범 사례 및 상세 설정 안내를 포함한 서비스 계정에 대한 포괄적인 정보는 [서비스 계정을 사용한 워크플로우 자동화](/platform/hosting/iam/service-accounts)를 참조하세요. 팀 컨텍스트에서의 서비스 계정 동작에 대해서는 [팀 서비스 계정 동작](/platform/app/settings-page/teams#team-service-account-behavior)을 참조하세요.
+모범 사례 및 상세 설정 안내를 포함한 서비스 계정에 대한 포괄적인 정보는 [서비스 계정을 사용한 워크플로우 자동화](/platform/hosting/iam/service-accounts)를 참조하세요. 팀 컨텍스트에서의 서비스 계정 동작에 대해서는 [팀 서비스 계정 동작](/platform/app/settings-page/teams#팀-서비스-계정-동작)을 참조하세요.
 
 <TeamServiceAccountCreate/>
 
 전체 API 키는 생성 시점에 단 한 번만 표시됩니다. 대화 상자를 닫은 후에는 다시 볼 수 없습니다.
 
 <Note>
-**기본(Built-in)** 서비스 계정 외에도 W&B는 [SDK 및 CLI를 위한 ID 페더레이션](/platform/hosting/iam/identity_federation#external-service-accounts)을 사용하여 **외부 서비스 계정**을 지원합니다. JSON Web Token(JWT)을 발급할 수 있는 ID 제공자에서 관리되는 서비스 ID를 사용하여 W&B 작업을 자동화하려는 경우 외부 서비스 계정을 사용하세요.
+**기본(Built-in)** 서비스 계정 외에도 W&B는 [SDK 및 CLI를 위한 ID 페더레이션](/platform/hosting/iam/identity_federation#외부-서비스-계정)을 사용하여 **외부 서비스 계정**을 지원합니다. JSON Web Token(JWT)을 발급할 수 있는 ID 제공자에서 관리되는 서비스 ID를 사용하여 W&B 작업을 자동화하려는 경우 외부 서비스 계정을 사용하세요.
 </Note>
 </Accordion>
 </Update>
@@ -2608,7 +2608,7 @@ if os.path.exists("~/keys.json"):
 <Update tags={["User Management", "Team Management"]}>
 <Accordion title="어떤 유형의 역할이 있으며 그 차이점은 무엇인가요?">
 
-사용 가능한 역할 및 권한에 대한 개요는 [팀 역할 및 권한](/platform/app/settings-page/teams#team-roles-and-permissions) 페이지를 방문하세요.
+사용 가능한 역할 및 권한에 대한 개요는 [팀 역할 및 권한](/platform/app/settings-page/teams#팀-역할-및-권한) 페이지를 방문하세요.
 </Accordion>
 </Update>
 
