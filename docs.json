@@ -894,6 +894,7 @@
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
+                  "weave/guides/platform/weave-projects",
                   "weave/guides/core-types/env-vars"
                 ]
               },
@@ -1115,6 +1116,13 @@
                   "training/serverless-rl/available-models",
                   "training/serverless-rl/usage-limits",
                   "training/serverless-rl/use-trained-models"
+                ]
+              },
+              {
+                "group": "Serverless SFT",
+                "pages": [
+                  "training/sft-training",
+                  "training/sft-training/sft-training"
                 ]
               },
               {
