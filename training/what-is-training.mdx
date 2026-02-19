@@ -1,0 +1,59 @@
+---
+title: What is W&B Training?
+description: Serverless post-training for LLMs using reinforcement learning and supervised fine-tuning.
+---
+
+W&B Training is a serverless post-training service for large language models (LLMs). W&B provisions the training infrastructure ([on CoreWeave](https://docs.coreweave.com/docs/platform)) for you while allowing full flexibility in your environment's setup, giving you instant access to a managed training cluster that elastically auto-scales to dozens of GPUs.
+
+W&B Training trains low-rank adapters (LoRAs) to specialize a foundation model for your specific task. The LoRAs you train are automatically stored as [artifacts](/models/artifacts) in your W&B account, and can be saved locally or to a third party for backup. Trained models are also automatically hosted on [W&B Inference](/inference).
+
+W&B Training offers two post-training methods:
+
+* **[Serverless RL](/training/guides/serverless-rl)**: Post-train models with reinforcement learning to learn new behaviors and improve reliability, speed, and costs when performing multi-turn agentic tasks.
+* **[Serverless SFT](/training/guides/sft-training)**: Fine-tune models with supervised learning on curated datasets for distillation, teaching output style and format, or warming up before RL.
+
+<Note>
+W&B Training is in public preview. During the preview, you are charged only for the use of inference and the storage of artifacts. W&B does not charge for adapter training during the preview period. See [Usage information and limits](/training/details/usage-limits) for details.
+</Note>
+
+## Why W&B Training?
+
+Setting up your own training infrastructure requires provisioning GPUs, configuring clusters, and managing deployment pipelines. W&B Training eliminates this overhead by providing a fully managed backend. Both Serverless RL and Serverless SFT share the following advantages:
+
+* **Lower training costs**: By multiplexing shared infrastructure across many users, skipping the setup process for each job, and scaling your GPU costs down to zero when you're not actively training, W&B Training reduces training costs significantly.
+* **Faster training time**: By immediately provisioning training infrastructure when you need it, W&B Training speeds up your training jobs and lets you iterate faster. Serverless RL further optimizes throughput by splitting inference requests across many GPUs.
+* **Automatic deployment**: W&B Training automatically deploys every checkpoint you train, eliminating the need to manually set up hosting infrastructure. Trained models can be accessed and tested immediately in local, staging, or production environments.
+
+## Serverless RL
+
+Reinforcement learning (RL) is a training technique where models learn to improve their behavior through feedback on their outputs. Serverless RL splits RL workflows into inference and training phases and multiplexes them across jobs, increasing GPU utilization and reducing your training time and costs.
+
+Serverless RL is ideal for tasks like:
+
+* Voice agents
+* Deep research assistants
+* On-prem models
+* Content marketing analysis agents
+
+To get started with Serverless RL, see the [How to use Serverless RL](/training/guides/serverless-rl) guide, the ART [quickstart](https://art.openpipe.ai/getting-started/quick-start), or the [Google Colab notebook](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb).
+
+## Serverless SFT
+
+Supervised fine-tuning (SFT) is a training technique where a model learns from curated input-output examples. Serverless SFT gives you instant access to a managed training cluster that elastically auto-scales to handle your training workloads.
+
+Serverless SFT is ideal for tasks like:
+
+* **Distillation**: Transferring knowledge from a larger, more capable model into a smaller, faster one.
+* **Teaching output style and format**: Training a model to follow specific response formats, tone, or structure.
+* **Warmup before RL**: Pre-training a model with supervised examples before applying reinforcement learning for further refinement.
+
+To get started with Serverless SFT, see the [How to use Serverless SFT](/training/guides/sft-training) guide or the ART [Serverless SFT docs](https://art.openpipe.ai/fundamentals/sft-training).
+
+## How W&B Training uses W&B services
+
+W&B Training uses a combination of the following W&B components to operate:
+
+* [Inference](/inference): To run your models.
+* [Models](/models): To track performance metrics during the LoRA adapter's training.
+* [Artifacts](/models/artifacts): To store and version the LoRA adapters.
+* [Weave (optional)](/weave): To gain observability into how the model responds at each step of the training loop.

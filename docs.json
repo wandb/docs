@@ -1107,21 +1107,27 @@
             "icon": "/icons/cropped-training.svg",
             "pages": [
               "training",
-              "training/prerequisites",
               {
-                "group": "Serverless RL",
+                "group": "Getting Started",
                 "pages": [
-                  "training/serverless-rl",
-                  "training/serverless-rl/available-models",
-                  "training/serverless-rl/usage-limits",
-                  "training/serverless-rl/use-trained-models"
+                  "training/what-is-training",
+                  "training/getting-started/prerequisites"
                 ]
               },
               {
-                "group": "Serverless SFT",
+                "group": "Guides",
                 "pages": [
-                  "training/sft-training",
-                  "training/sft-training/sft-training"
+                  "training/guides/serverless-rl",
+                  "training/guides/sft-training",
+                  "training/guides/use-trained-models"
+                ]
+              },
+              {
+                "group": "Details",
+                "pages": [
+                  "training/details/pricing",
+                  "training/details/available-models",
+                  "training/details/usage-limits"
                 ]
               },
               {
