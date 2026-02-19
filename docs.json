@@ -466,9 +466,7 @@
                   {
                     "group": "Advanced Tutorials",
                     "pages": [
-                      "models/tutorials/monai_3d_segmentation",
-                      "models/tutorials/volcano",
-                      "models/tutorials/minikube_gpu"
+                      "models/tutorials/monai_3d_segmentation"
                     ]
                   }
                 ]
@@ -3728,6 +3726,14 @@
     {
       "source" : "/models/tutorials/xgboost_sweeps",
       "destination": "/models/sweeps"
+    },
+    {
+      "source":"models/tutorials/volcano",
+      "destination": "models/integrations"
+    },
+    {
+      "source": "models/tutorials/minikube_gpu",
+      "destination" : "models/integrations"
     },
     {
       "source": "/guides/:slug*",
