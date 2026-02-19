@@ -3729,6 +3729,14 @@
       "destination": "/training/:slug*"
     },
     {
+      "source" : "/models/tutorials/tensorflow_sweeps",
+      "destination": "/models/sweeps"
+    },    
+    {
+      "source" : "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
       "source": "/guides/:slug*",
       "destination": "/models/:slug*"
     },
