@@ -57,7 +57,7 @@ collection.save()
 
 `tags` 속성을 재할당하거나 변경하여 프로그래밍 방식으로 태그를 업데이트합니다. W&B는 인플레이스(in-place) 수정 대신 `tags` 속성을 재할당하는 것을 권장하며, 이는 좋은 Python 관행이기도 합니다.
 
-예를 들어, 다음 코드 조각은 재할당을 통해 리스트를 업데이트하는 일반적인 방법을 보여줍니다. 간결함을 위해 [컬렉션에 태그 추가하기](#add-a-tag-to-a-collection) 섹션의 코드 예시를 이어서 사용합니다:
+예를 들어, 다음 코드 조각은 재할당을 통해 리스트를 업데이트하는 일반적인 방법을 보여줍니다. 간결함을 위해 [컬렉션에 태그 추가하기](#컬렉션에-태그-추가하기) 섹션의 코드 예시를 이어서 사용합니다:
 
 ```python
 collection.tags = [*collection.tags, "new-tag", "other-tag"]
@@ -178,7 +178,7 @@ with wandb.init(entity = "<entity>", project="<project>") as run:
 
 `tags` 속성을 재할당하거나 변경하여 프로그래밍 방식으로 태그를 업데이트합니다. W&B는 인플레이스 수정 대신 `tags` 속성을 재할당하는 것을 권장하며, 이는 좋은 Python 관행입니다.
 
-예를 들어, 다음 코드 조각은 재할당을 통해 리스트를 업데이트하는 일반적인 방법을 보여줍니다. 간결함을 위해 [artifact 버전에 태그 추가하기](#add-a-tag-to-an-artifact-version) 섹션의 코드 예시를 이어서 사용합니다:
+예를 들어, 다음 코드 조각은 재할당을 통해 리스트를 업데이트하는 일반적인 방법을 보여줍니다. 간결함을 위해 [artifact 버전에 태그 추가하기](#artifact-버전에-태그-추가하기) 섹션의 코드 예시를 이어서 사용합니다:
 
 ```python
 artifact.tags = [*artifact.tags, "new-tag", "other-tag"]

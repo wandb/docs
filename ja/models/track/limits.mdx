@@ -169,7 +169,7 @@ with open("large_config.json", "r") as f:
 - SaaS Cloud の場合：100,000 未満
 - 専用クラウド または セルフマネージドの場合：10,000 未満
 
-これらのしきい値を超えると、プロジェクトの Workspace や Runs テーブルに関連する操作（特に Runs のグループ化や、Run 実行中の多数の個別メトリクスの収集など）が遅くなる可能性があります。[メトリクス数](#metric-count) のセクションも参照してください。
+これらのしきい値を超えると、プロジェクトの Workspace や Runs テーブルに関連する操作（特に Runs のグループ化や、Run 実行中の多数の個別メトリクスの収集など）が遅くなる可能性があります。[メトリクス数](#メトリクス数) のセクションも参照してください。
 
 チームが同じ Runs のセット（最近の Runs など）に頻繁にアクセスする場合は、使用頻度の低い Runs をまとめて [新しい "アーカイブ" プロジェクトに移動](/models/runs/manage-runs/) し、作業中のプロジェクト内の Runs セットを小さく保つことを検討してください。
 
@@ -236,7 +236,7 @@ W&B SaaS Cloud API は、システムの整合性を維持し、可用性を確�
 レート制限は変更される可能性があります。
 </Note>
 
-レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが発生し、レスポンスには [レート制限 HTTP ヘッダー](#rate-limit-http-headers) が含まれます。
+レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが発生し、レスポンスには [レート制限 HTTP ヘッダー](#レート制限-http-ヘッダー) が含まれます。
 
 ### レート制限 HTTP ヘッダー
 
@@ -254,7 +254,7 @@ W&B SaaS Cloud API は、システムの整合性を維持し、可用性を確�
 
 W&B は、W&B プロジェクトごとにレート制限を適用します。したがって、チーム内に 3 つのプロジェクトがある場合、各プロジェクトに独自のレート制限クォータがあります。[有料プラン](https://wandb.ai/site/pricing) のユーザーは、無料プランよりも高いレート制限が設定されています。
 
-レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが発生し、レスポンスには [レート制限 HTTP ヘッダー](#rate-limit-http-headers) が含まれます。
+レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが発生し、レスポンスには [レート制限 HTTP ヘッダー](#レート制限-http-ヘッダー) が含まれます。
 
 ### メトリクスログ記録 API のレート制限内に収めるための提案
 
@@ -288,7 +288,7 @@ W&B Models UI および SDK の [Public API](/models/ref/python/public-api/api) 
 [Teams および Enterprise プラン](https://wandb.ai/site/pricing) のユーザーは、無料プランよりも高いレート制限が適用されます。
 W&B Models SDK の Public API の使用中にレート制限に達すると、標準出力にエラーを示す関連メッセージが表示されます。
 
-レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが発生し、レスポンスには [レート制限 HTTP ヘッダー](#rate-limit-http-headers) が含まれます。
+レート制限に達すると、HTTP `429` `Rate limit exceeded` エラーが発生し、レスポンスには [レート制限 HTTP ヘッダー](#レート制限-http-ヘッダー) が含まれます。
 
 #### GraphQL API のレート制限内に収めるための提案
 

@@ -1,15 +1,18 @@
 ---
 title: W&B Training
-description: Post-train your models using reinforcement learning
+description: Post-train your models using reinforcement learning and supervised fine-tuning
 mode: wide
 ---
 
-Now in public preview, W&B Training offers serverless reinforcement learning (RL) for post-training large language models (LLMs) to improve their reliability performing multi-turn, agentic tasks while also increasing speed and reducing costs. RL is a training technique where models learn to improve their behavior through feedback on their outputs. 
+Now in public preview, W&B Training offers serverless post-training for large language models (LLMs), including both reinforcement learning (RL) and supervised fine-tuning (SFT).
+
+* **[Serverless RL](/training/serverless-rl)**: Improve model reliability performing multi-turn, agentic tasks while increasing speed and reducing costs. RL is a training technique where models learn to improve their behavior through feedback on their outputs.
+* **[Serverless SFT](/training/sft-training)**: Fine-tune models using curated datasets for distillation, teaching output style and format, or warming up before RL.
 
 W&B Training includes integration with:
 
-* [ART](https://art.openpipe.ai/getting-started/about), a flexible RL fine-tuning framework.
-* [RULER](https://openpipe.ai/blog/ruler), a universal verifier. 
+* [ART](https://art.openpipe.ai/getting-started/about), a flexible fine-tuning framework.
+* [RULER](https://openpipe.ai/blog/ruler), a universal verifier.
 * A fully-managed backend on [CoreWeave Cloud](https://docs.coreweave.com/docs/platform).
 
-To get started, satisfy the [prerequisites](/training/prerequisites) to start using the service and then see [OpenPipe's Serverless RL quickstart](https://art.openpipe.ai/getting-started/quick-start) to learn how to post-train your models.
+To get started, satisfy the [prerequisites](/training/prerequisites) to start using the service and then see the [Serverless RL quickstart](https://art.openpipe.ai/getting-started/quick-start) or the [Serverless SFT docs](https://art.openpipe.ai/fundamentals/sft-training) to learn how to post-train your models.
