@@ -464,13 +464,6 @@
                     ]
                   },
                   {
-                    "group": "Framework Tutorials",
-                    "pages": [
-                      "models/tutorials/tensorflow_sweeps",
-                      "models/tutorials/xgboost_sweeps"
-                    ]
-                  },
-                  {
                     "group": "Advanced Tutorials",
                     "pages": [
                       "models/tutorials/monai_3d_segmentation",
