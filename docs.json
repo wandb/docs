@@ -1119,6 +1119,13 @@
                 ]
               },
               {
+                "group": "Serverless SFT",
+                "pages": [
+                  "training/sft-training",
+                  "training/sft-training/sft-training"
+                ]
+              },
+              {
                 "group": "API Reference",
                 "pages": [
                   "training/api-reference"
