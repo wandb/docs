@@ -3720,6 +3720,14 @@
       "destination": "/training/:slug*"
     },
     {
+      "source": "models/tutorials/minikube_gpu",
+      "destination" : "models/integrations"
+    },    
+    {
+      "source": "models/tutorials/monai_3d_segmentation",
+      "destination": "/models/integrations"
+    },
+    {
       "source" : "/models/tutorials/tensorflow_sweeps",
       "destination": "/models/sweeps"
     },    
@@ -3730,10 +3738,6 @@
     {
       "source":"models/tutorials/volcano",
       "destination": "models/integrations"
-    },
-    {
-      "source": "models/tutorials/minikube_gpu",
-      "destination" : "models/integrations"
     },
     {
       "source": "/guides/:slug*",
