@@ -87,12 +87,12 @@ The baseline run is always visible in line plots for metrics the run has logged.
   </Frame>
 
 ### Summary metric deltas
-When a run is set as the baseline, every other run that logs a summary metric that is also logged by the baseline run shows the delta between the baseline value and that run's value. The delta appears to the right of the metric's value in the run's row in the runs table.
+When a run is set as the baseline, every other run that logs the same summary metric as the baseline run shows the delta (amount of change) of that metric from the baseline. The delta appears to the right of the metric's value in the run's row in the runs table.
 
-By default, the delta is shown with dark gray text on a dark gray background. You can set the **Metric directionality** for a column so that deltas are colored for quick visual reference:
+By default, the delta is shown with dark gray text on a dark gray background. To turn on semantic coloring for quick visual reference, you can set the **Metric directionality** for a column. With directionality set:
 
-- If the other run **outperforms** the baseline, the delta is shown in dark red text with a light red background.
-- If the other run **underperforms** the baseline, the delta is shown in dark teal text with a light teal background.
+- If the other run **outperforms** (is directionally better than) the baseline, the delta is shown in dark red text with a light red background.
+- If the other run **underperforms** (is directionally better than) the baseline, the delta is shown in dark teal text with a light teal background.
 
 To set the directionality for a metric:
 
@@ -102,7 +102,6 @@ To set the directionality for a metric:
 
 The following screenshot shows how the runs `nanochat-train-base` and `nanochat-train-mid` compare with the baseline run `nanochat-train`. Delta metrics are shown for `TOTAL_TRAINING_TIME`, `TRAIN/DT`, AND `TRAIN/GRAD_NORM`.
 ![Screenshot comparing summary metric deltas from the baseline run](/images/models/pinned-and-baseline-runs/baseline_run_deltas.png)
-
 
 ## Use cases
 This section describes some scenarios where pinned and baseline runs can help guide your experiments.
@@ -182,7 +181,9 @@ This section illustrates how pinned and baseline runs can help you to compare ru
     After running this code, your workspace has three runs.
 2. Set `baseline-config` as your baseline run.
 3. Pin `baseline-config` to keep it visible.
-4. Compare the experiment runs against the baseline: in the runs table, use the summary metric deltas next to each run's values; in the workspace, use the line plots.
+4. Compare the experiment runs against the baseline.
+  - In the runs table, review the summary metric deltas next to each run's values to compare the run to the baseline.
+  - In line plots, compare the performance of one or more runs to the baseline, which is always visible.
 5. Pin promising experiments for further investigation. In this example, after 50 epochs, `lr-experiment-0.003` has the highest accuracy (`~0.64`) and the lowest loss (`~0.86`).
 
 {/* TODO screenshot */}
