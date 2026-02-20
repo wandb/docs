@@ -773,19 +773,12 @@
                 ]
               },
               {
-                "group": "Concepts",
-                "pages": [
-                  "weave/concepts/what-is-weave",
-                  "weave/concepts/fundamental-components"
-                ]
-              },
-              {
                 "group": "Guides",
                 "pages": [
+                  "weave/concepts/what-is-weave",
                   {
                     "group": "Track your application",
                     "pages": [
-                      "weave/guides/tracking",
                       "weave/guides/tracking/tracing",
                       "weave/tutorial-tracing_2",
                       "weave/guides/tracking/costs",
@@ -837,7 +830,8 @@
                     "pages": [
                       "weave/guides/tracking/feedback",
                       "weave/guides/tracking/redact-pii",
-                      "weave/guides/evaluation/guardrails_and_monitors",
+                      "weave/guides/evaluation/monitors",
+                      "weave/guides/evaluation/guardrails",
                       "weave/guides/tracking/otel"
                     ]
                   },
@@ -900,6 +894,7 @@
                       "weave/guides/platform/weave-self-managed"
                     ]
                   },
+                  "weave/guides/platform/weave-projects",
                   "weave/guides/core-types/env-vars"
                 ]
               },
@@ -948,12 +943,6 @@
                       "weave/cookbooks/scorers_as_guardrails",
                       "weave/cookbooks/custom_model_cost",
                       "weave/cookbooks/pii"
-                    ]
-                  },
-                  {
-                    "group": "API & Integration",
-                    "pages": [
-                      "weave/cookbooks/weave_via_service_api"
                     ]
                   }
                 ]
@@ -1042,6 +1031,7 @@
                   {
                     "group": "Service API",
                     "pages": [
+                      "weave/cookbooks/weave_via_service_api",
                       "weave/reference/service-api"
                     ],
                     "openapi": {
@@ -1126,6 +1116,13 @@
                   "training/serverless-rl/available-models",
                   "training/serverless-rl/usage-limits",
                   "training/serverless-rl/use-trained-models"
+                ]
+              },
+              {
+                "group": "Serverless SFT",
+                "pages": [
+                  "training/sft-training",
+                  "training/sft-training/sft-training"
                 ]
               },
               {
@@ -3961,6 +3958,18 @@
     {
       "source": "/weave/guides/tools/limits",
       "destination": "/weave/details/limits"
+    },
+    {
+      "source": "/weave/guides/evaluation/guardrails_and_monitors",
+      "destination": "/weave/guides/evaluation/monitors"
+    },
+    {
+      "source": "weave/concepts/fundamental-components",
+      "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "weave/guides/tracking",
+      "destination": "weave/concepts/what-is-weave"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"

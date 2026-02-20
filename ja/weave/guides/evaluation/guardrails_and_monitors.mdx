@@ -191,7 +191,7 @@ Scorer を適用する際：
    - **LLM-as-a-Judge configuration**: 
         - **Scorer name**: 有効な Scorer 名は、文字または数字で始まり、文字、数字、ハイフン、アンダースコアのみを含めることができます。
         - **Judge model**: ops をスコアリングするモデルを選択します。3 種類のモデルが利用可能です。
-            - [Saved models](../tools/playground#saved-models)
+            - [Saved models](../tools/playground#メッセージの再試行編集削除)
             - W&B 管理者によって設定されたプロバイダーのモデル
             - [W&B Inference models](../integrations/inference)
         
@@ -250,7 +250,6 @@ Scorer を適用する際：
         - **Filter** *(任意)*: この例では適用しませんが、`temperature` や `max_tokens` などの引数でモニタリング範囲を絞り込むのに使用できます。
         - **Sampling rate**:  
         すべてのコールをスコアリングするために `100%` に設定します。
-        ![モニターの作成 パート 2](/weave/guides/evaluation/img/monitors-ui-2.png)
     - **LLM-as-a-Judge Configuration**:
         - **Scorer name**: `truthfulness-scorer`
         - **Judge model**:  
@@ -273,7 +272,7 @@ Scorer を適用する際：
             - is_true: a boolean stating whether the output statement is true or false based on the input statement.
             - reasoning: your reasoning as to why the statement is true or false.
             ```
-            ![モニターの作成 パート 3](/weave/guides/evaluation/img/monitors-ui-3.png)
+            
 6. **Create Monitor** をクリックします。`truthfulness-monitor` のモニタリング準備が整いました。
 7. `"Water freezes at 0 degrees Celsius."` のような、真実で検証が容易な `ground_truth` ステートメントを使用して、モニターによる評価用のステートメントを生成します。
     ```python lines
@@ -501,7 +500,7 @@ score = scorer.score(output="some text")
 ### スコア分析
 
 
-コールのクエリとその Scorer 結果の詳細については、[Score 分析ガイド](./scorers#score-analysis) および [データアクセスガイド](/weave/guides/tracking/tracing#querying--exporting-calls) を参照してください。
+コールのクエリとその Scorer 結果の詳細については、[Score 分析ガイド](./scorers#スコア分析) および [データアクセスガイド](/weave/guides/tracking/tracing#querying--exporting-calls) を参照してください。
 
 
 ## プロダクションのベストプラクティス
