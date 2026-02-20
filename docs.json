@@ -3714,26 +3714,6 @@
       "destination": "/training/:slug*"
     },
     {
-      "source": "models/tutorials/minikube_gpu",
-      "destination" : "models/integrations"
-    },    
-    {
-      "source": "models/tutorials/monai_3d_segmentation",
-      "destination": "/models/integrations"
-    },
-    {
-      "source" : "/models/tutorials/tensorflow_sweeps",
-      "destination": "/models/sweeps"
-    },    
-    {
-      "source" : "/models/tutorials/xgboost_sweeps",
-      "destination": "/models/sweeps"
-    },
-    {
-      "source":"models/tutorials/volcano",
-      "destination": "models/integrations"
-    },
-    {
       "source": "/guides/:slug*",
       "destination": "/models/:slug*"
     },
@@ -3756,7 +3736,7 @@
     {
       "source": "/library/init",
       "destination": "/models/ref/python/functions/init"
-    },
+    },    
     {
       "source": "/models/app/pages/workspaces",
       "destination": "/models/app/features/cascade-settings"
@@ -3769,6 +3749,42 @@
       "source": "/models/core",
       "destination": "/models"
     },
+    {
+      "source": "/models/integrations/huggingface",
+      "destination": "/models/integrations/huggingface_transformers"
+    },    
+    {
+      "source": "/models/tutorials/huggingface",
+      "destination": "/models/integrations/huggingface"
+    },
+    {
+      "source": "/models/tutorials/minikube_gpu",
+      "destination" : "/models/integrations"
+    },    
+    {
+      "source": "/models/tutorials/monai_3d_segmentation",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/lightning",
+      "destination": "/models/integrations/lightning"
+    },
+    {
+      "source": "/models/tutorials/tensorflow",
+      "destination": "/models/integrations/tensorflow"
+    },
+    {
+      "source" : "/models/tutorials/tensorflow_sweeps",
+      "destination": "/models/sweeps"
+    },    
+    {
+      "source" : "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source":"models/tutorials/volcano",
+      "destination": "models/integrations"
+    },    
     {
       "source": "/models/tutorials/pytorch",
       "destination": "/models/integrations/pytorch"
@@ -3824,6 +3840,10 @@
     {
       "source": "models/support/rotate_revoke_access",
       "destination": "/models/support/find_api_key"
+    },
+    {
+      "source": "/models/evaluate-models",
+      "destination": "/models/tables/evaluate-models"
     },
     {
       "source": "/models/track/launch/*",
