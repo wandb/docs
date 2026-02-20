@@ -455,12 +455,10 @@
               {
                 "group": "Tutorials",
                 "pages": [
-                  "models/tutorials",
                   {
                     "group": "Fundamentals",
                     "pages": [
-                      "models/tutorials/weave_models_registry",
-                      "models/evaluate-models"
+                      "models/tutorials/weave_models_registry"
                     ]
                   }
                 ]
@@ -3752,7 +3750,11 @@
     {
       "source": "/models/integrations/huggingface",
       "destination": "/models/integrations/huggingface_transformers"
-    },    
+    },
+    {
+      "source": "/models/tutorials",
+      "destination": "/models/integrations"
+    },
     {
       "source": "/models/tutorials/huggingface",
       "destination": "/models/integrations/huggingface"
@@ -3782,9 +3784,13 @@
       "destination": "/models/sweeps"
     },
     {
-      "source":"models/tutorials/volcano",
-      "destination": "models/integrations"
-    },    
+      "source":"/models/tutorials/volcano",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/weave_models_registry",
+      "destination": "/models/integrations"
+    },
     {
       "source": "/models/tutorials/pytorch",
       "destination": "/models/integrations/pytorch"
