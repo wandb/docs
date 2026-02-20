@@ -462,12 +462,6 @@
                       "models/tutorials/weave_models_registry",
                       "models/evaluate-models"
                     ]
-                  },
-                  {
-                    "group": "Advanced Tutorials",
-                    "pages": [
-                      "models/tutorials/monai_3d_segmentation"
-                    ]
                   }
                 ]
               },
