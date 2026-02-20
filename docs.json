@@ -453,17 +453,6 @@
                 ]
               },
               {
-                "group": "Tutorials",
-                "pages": [
-                  {
-                    "group": "Fundamentals",
-                    "pages": [
-                      "models/tutorials/weave_models_registry"
-                    ]
-                  }
-                ]
-              },
-              {
                 "group": "Reference",
                 "pages": [
                   "models/ref",
@@ -3750,6 +3739,11 @@
     {
       "source": "/models/integrations/huggingface",
       "destination": "/models/integrations/huggingface_transformers"
+    },
+    {
+      "source": "/models/integrations/openai",
+      "destination": "/models/integrations/openai-api"
+
     },
     {
       "source": "/models/tutorials",
