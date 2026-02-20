@@ -786,7 +786,7 @@
                       "weave/guides/tracking/view-call",
                       "weave/guides/tracking/update-call",
                       "weave/guides/tracking/querying-calls",
-                      "weave/guides/tracking/autopatching",
+
                       "weave/guides/tracking/call-schema-reference",
 
                       "weave/guides/tracking/get-call-object",
@@ -856,6 +856,7 @@
                     "group": "Integrate with your LLM provider and frameworks",
                     "pages": [
                       "weave/guides/integrations",
+                      "weave/guides/integrations/autopatching",
                       {
                         "group": "LLM Providers",
                         "pages": [

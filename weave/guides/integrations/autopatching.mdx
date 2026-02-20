@@ -1,0 +1,110 @@
+---
+title: "Control automatic LLM call tracking"
+description: "Control how W&B Weave automatically records calls to OpenAI, Anthropic, and other LLM libraries"
+---
+
+
+
+If you use LLM provider libraries (such as OpenAI, Anthropic, Cohere, or Mistral) in your application, autopatching is Weave’s way of taking care of tracing all your LLM calls for you. When you call `weave.init()`, Weave automatically intercepts (patches) supported LLM client libraries. Your application code stays unchanged: you use the provider SDK as usual, and each request is recorded as a Weave Call. You get full tracing with minimal setup.
+
+This page describes when and how to change that behavior: turning automatic tracking off, limiting it to specific providers, or post-processing inputs and outputs (for example, to redact PII).
+
+## Default behavior
+
+By default, Weave automatically patches and tracks calls to common LLM libraries such as `openai` and `anthropic`. Call `weave.init(...)` at the start of your program and use those libraries normally. Their calls will appear in your project’s Traces.
+
+## Configure autopatching
+
+<Tabs>
+<Tab title="Python">
+<Warning>
+The `autopatch_settings` argument is deprecated. Use `implicitly_patch_integrations=False` to disable implicit patching, or call specific patch functions like `patch_openai(settings={...})` to configure settings per integration.
+</Warning>
+
+Weave provides **automatic implicit patching** for all supported integrations by default:
+
+**Implicit Patching (Automatic):** Libraries are automatically patched regardless of when they are imported.
+
+```python lines
+# Option 1: Import before weave.init()
+import openai
+import weave
+weave.init('your-team-name/your-project-name')  # OpenAI is automatically patched!
+
+# Option 2: Import after weave.init()
+import weave
+weave.init('your-team-name/your-project-name')
+import anthropic  # Automatically patched via import hook!
+```
+
+**Disabling Implicit Patching:** You can disable automatic patching if you prefer explicit control.
+
+```python lines
+import weave
+
+# Option 1: Via settings parameter
+weave.init('your-team-name/your-project-name', settings={'implicitly_patch_integrations': False})
+
+# Option 2: Via environment variable
+# Set WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false before running your script
+
+# With implicit patching disabled, you must explicitly patch integrations
+import openai
+weave.patch_openai()  # Now required for OpenAI tracing
+```
+
+**Explicit Patching (Manual):** You can explicitly patch integrations for fine-grained control.
+
+```python lines
+import weave
+weave.init('your-team-name/your-project-name')
+weave.integrations.patch_openai()  # Enable OpenAI tracing
+weave.integrations.patch_anthropic()  # Enable Anthropic tracing
+```
+
+
+### Post-process inputs and outputs
+
+You can customize how inputs and outputs are recorded (for example, to redact PII or secrets) by passing settings to the patch function:
+
+```python lines
+import weave.integrations
+
+def redact_inputs(inputs: dict) -> dict:
+    if "email" in inputs:
+        inputs["email"] = "[REDACTED]"
+    return inputs
+
+weave.init(...)
+weave.integrations.patch_openai(
+    settings={
+        "op_settings": {"postprocess_inputs": redact_inputs}
+    }
+)
+```
+For more on handling sensitive data, see [How to use Weave with PII data](/weave/cookbooks/pii).
+</Tab>
+<Tab title="TypeScript">
+
+The TypeScript SDK only supports autopatching for OpenAI and Anthropic. OpenAI is automatically patched when you import Weave and does not require any additional configuration.
+
+Additionally, the TypeScript SDK does not support:
+- Configuring or disabling autopatching.
+- Input/output post-processing.
+
+For edge cases where automatic patching does not work (ESM, bundlers like Next.js), use explicit wrapping:
+
+```typescript
+import OpenAI from 'openai'
+import * as weave from 'weave'
+import { wrapOpenAI } from 'weave'
+
+const client = wrapOpenAI(new OpenAI())
+await weave.init('your-team-name/your-project-name')
+```
+
+For more details on ESM setup and troubleshooting, see the [TypeScript SDK Integration Guide](/weave/guides/integrations/js).
+</Tab>
+</Tabs>
+
+
