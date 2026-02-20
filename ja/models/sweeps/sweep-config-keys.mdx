@@ -51,7 +51,7 @@ YAML ファイルまたは Python スクリプトで、`parameters` をトップ
 | --------------- | ------------------------------------------------------------------------------ |
 | `values`        | このハイパーパラメーターのすべての有効な値を指定します。`grid` と互換性があります。 |
 | `value`         | このハイパーパラメーターの単一の有効な値を指定します。`grid` と互換性があります。 |
-| `distribution`  | 確率 [分布](#distribution-options-for-random-and-bayesian-search) を指定します。デフォルト値については、この表に続く注記を参照してください。 |
+| `distribution`  | 確率 [分布](#ランダム検索とベイズ探索の分布オプション) を指定します。デフォルト値については、この表に続く注記を参照してください。 |
 | `probabilities` | `random` を使用する際に、`values` の各要素を選択する確率を指定します。 |
 | `min`, `max`    | (`int` または `float`) 最大値と最小値。`int` の場合は `int_uniform` 分布、`float` の場合は `uniform` 分布のハイパーパラメーターに使用されます。 |
 | `mu`            | (`float`) `normal` または `lognormal` 分布の平均パラメータ。 |
@@ -60,7 +60,7 @@ YAML ファイルまたは Python スクリプトで、`parameters` をトップ
 | `parameters`    | ルートレベルのパラメータの中に他のパラメータをネストします。 |
 
 <Note>
-[分布](#distribution-options-for-random-and-bayesian-search) が指定されていない場合、W&B は以下の条件に基づいて分布を設定します。
+[分布](#ランダム検索とベイズ探索の分布オプション) が指定されていない場合、W&B は以下の条件に基づいて分布を設定します。
 * `values` を指定した場合は `categorical`
 * `max` と `min` を整数で指定した場合は `int_uniform`
 * `max` と `min` を浮動小数点数で指定した場合は `uniform`

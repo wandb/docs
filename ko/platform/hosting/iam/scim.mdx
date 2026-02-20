@@ -379,7 +379,7 @@ DELETE /scim/Users/abc
 </Tabs>
 
 <Note>
-사용자를 일시적으로 비활성화하려면 `PATCH` 엔드포인트를 사용하는 [사용자 비활성화](#deactivate-user) API를 참조하세요.
+사용자를 일시적으로 비활성화하려면 `PATCH` 엔드포인트를 사용하는 [사용자 비활성화](#사용자-비활성화) API를 참조하세요.
 </Note>
 
 ### 사용자 이메일 업데이트
@@ -528,7 +528,7 @@ PATCH /scim/Users/abc
 
 조직에서 사용자를 비활성화합니다. 실제 결과는 배포 유형에 따라 다릅니다:
 
-- **Dedicated Cloud** / **Self-Managed**: 사용자의 `active` 필드를 `false`로 설정합니다. 비활성화된 사용자의 조직 엑세스를 복구하려면 [사용자 활성화](#reactivate-user)를 참조하세요.
+- **Dedicated Cloud** / **Self-Managed**: 사용자의 `active` 필드를 `false`로 설정합니다. 비활성화된 사용자의 조직 엑세스를 복구하려면 [사용자 활성화](#사용자-활성화)를 참조하세요.
 - **Multi-tenant Cloud**: 조직에서 사용자를 제거합니다. 사용자의 엑세스를 복구하려면 조직에 다시 추가해야 합니다. [사용자 생성](#create-user-request-multi-tenant)을 참조하세요. Multi-tenant Cloud에서는 사용자의 계정이 조직에 의해 관리되지 않습니다.
 
 <Note>이 작업은 사용자에게만 적용되며 서비스 계정에는 적용되지 않습니다. 서비스 계정 비활성화는 지원되지 않습니다. 팀 서비스 계정은 W&B Team 설정에서 관리하세요.</Note>
