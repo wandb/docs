@@ -781,23 +781,28 @@
                     "group": "Track your application",
                     "pages": [
                       "weave/guides/tracking/tracing",
+                      "weave/guides/tracking/create-call",
+                      "weave/guides/tracking/trace-tree",
+                      "weave/guides/tracking/view-call",
+                      "weave/guides/tracking/update-call",
+                      "weave/guides/tracking/querying-calls",
                       "weave/guides/tracking/autopatching",
                       "weave/guides/tracking/call-schema-reference",
-                      "weave/guides/tracking/create-call",
+
                       "weave/guides/tracking/get-call-object",
-                      "weave/guides/tracking/querying-calls",
+
                       "weave/guides/tracking/set-call-display",
                       "weave/guides/tracking/trace-disable",
                       "weave/guides/tracking/trace-generator-func",
                       "weave/guides/tracking/trace-to-run",
-                      "weave/guides/tracking/update-call",
-                      "weave/guides/tracking/view-call",
+
+
                       "weave/tutorial-tracing_2",
                       "weave/guides/tracking/costs",
                       "weave/guides/core-types/media",
                       "weave/guides/tools/saved-views",
                       "weave/guides/tools/comparison",
-                      "weave/guides/tracking/trace-tree",
+
                       "weave/guides/tracking/threads",
                       "weave/guides/tracking/trace-plots",
                       "weave/guides/tools/attributes",

@@ -4,17 +4,22 @@ description: "Modify display names, add feedback, and delete Calls in W&B Weave"
 ---
 
 
-## Update Calls
-
 Calls are mostly immutable once created. A few mutations are supported:
 * [Set display name](#set-display-name)
 * [Add feedback](#add-feedback)
 * [Delete a Call](#delete-a-call)
 
 You can perform all of these mutations from the UI by navigating to the Call detail page:
+To update a Call in the web app:
+1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
+1. In the Weave project sidebar, click **Traces**.
+1. Find the Call you want to view in the table.
+1. Click on the Call to open its details page.
+1. Click the `Feedback` tab in the Call detail's tab bar.
 
+Here you can edit the display name of the Call, add feedback, or delete the Call.
 <Frame>
-![Update Call in web app](/images/call_edit_screenshot.png)
+![Call detail page](/images/call_edit_screenshot.png)
 </Frame>
 
 ### Set display name
@@ -66,7 +71,7 @@ curl -L 'https://trace.wandb.ai/call/update' \
     </Tab>
 </Tabs>
 
-You can also [set a Call's display name at execution](#set-call-display-name-at-execution).
+You can also [set a Call's display name at execution](/weave/guides/tracking/get-call-object).
 
 ### Add feedback
 

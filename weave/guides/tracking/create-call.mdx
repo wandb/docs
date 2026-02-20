@@ -3,11 +3,9 @@ title: "Create calls"
 description: "Create and track Calls in W&B Weave"
 ---
 
-## Create calls
-
 There are three main ways to create Calls in W&B Weave:
 
-### 1. Automatic tracking of LLM library calls
+## 1. Automatic tracking of LLM library calls
 Weave integrates automatically with many common integrations and frameworks, such as `openai`, `anthropic`, `cohere`, `mistral`, and `LangChain`.  
 Import the LLM or framework library, initialize your Weave project, and then Weave automatically traces all of Calls made to the LLM or platform to your project
  without any additional code changes.  For a complete list of supported library integrations, see [Integrations overview](/weave/guides/integrations/).
@@ -72,7 +70,7 @@ Import the LLM or framework library, initialize your Weave project, and then Wea
 
 If you want more control over automatic behavior, see [Configure automatic LLM call tracking](/weave/guides/tracking/autopatching).
 
-### 2. Tracking of custom functions
+## 2. Tracking of custom functions
 
 Often LLM applications have additional logic (such as pre/post processing, prompts, and more) that you want to track.
 
@@ -95,7 +93,7 @@ Often LLM applications have additional logic (such as pre/post processing, promp
     print(my_function("World"))
     ```
 
-    You can also track [methods on classes](#4-track-class-and-object-methods).
+    You can also track [methods on classes](#track-class-and-object-methods).
   </Tab>
   <Tab title="TypeScript">
     Weave allows you to manually track these Calls by wrapping your function with [`weave.op`](/weave/reference/typescript-sdk/functions/op). For example:
@@ -135,7 +133,7 @@ Often LLM applications have additional logic (such as pre/post processing, promp
   </Tabs>
 
 
-#### Track class and object methods
+### Track class and object methods
 
 You can also track class and object methods. You can track any method in a class by decorating the method with `weave.op`.
 
@@ -196,7 +194,7 @@ You can also track class and object methods. You can track any method in a class
 </Tabs>
 
 
-#### Trace parallel (multi-threaded) function calls
+### Trace parallel (multi-threaded) function calls
 By default, parallel Calls all show up in Weave as separate root Calls. To get correct nesting under the same parent Op, use a `ThreadPoolExecutor`.
 <Tabs>
   <Tab title="Python">
@@ -235,7 +233,7 @@ In the Weave UI, this produces a single parent Call with five nested child Calls
 
 ![The Trace UI, showing a single parent Call for `outer`, with five nested child Calls.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
-### 3. Manual Call tracking
+## 3. Manual Call tracking
 
 You can also manually create Calls using the API directly.
 

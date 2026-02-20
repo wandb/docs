@@ -4,29 +4,32 @@ description: "Set or override the display name for a call in W&B Weave tracing"
 ---
 
 
-#### Set call display name at execution
+Calls are produced by Ops. An Op is a function or method that is decorated with `@weave.op`. By default, the Op's name is the function name, and the associated Calls will have the same display name. 
+
+You can override the display name for all Calls of a given Op in several ways.
 
 <Tabs>
   <Tab title="Python">
-    Sometimes you may want to override the display name of a call. You can achieve this in one of four ways:
+    
 
-    1. Change the display name at the time of calling the Op:
-
+    1. Change the display name at the time of calling the Op.
+    The following example uses the `__weave` dictionary to set the call display name that will take precedence over the Op display name:
     ```python lines
     result = my_function("World", __weave={"display_name": "My Custom Display Name"})
     ```
 
-    <Note>
-    Using the `__weave` dictionary sets the call display name which will take precedence over the Op display name.
+   
 
-    </Note>
-    2. Change the display name on a per-call basis. This uses the [`Op.call`](/weave/reference/python-sdk/trace/op#function-call) method to return a `Call` object, which you can then use to set the display name using [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set_display_name).
+    
+    2. Change the display name on a per-call basis. 
+    The following examples uses the [`Op.call`](/weave/reference/python-sdk/trace/op#function-call) method to return a `Call` object, which you can then use to set the display name using [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set_display_name):
     ```python lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
     ```
 
-    3. Change the display name for all Calls of a given Op:
+    3. Change the display name for all Calls of a given Op.
+    The following example set the new display name in the `@weave.op` function decorator itself to affect all Calls for the Op:
 
     ```python lines
     @weave.op(call_display_name="My Custom Display Name")
@@ -34,9 +37,9 @@ description: "Set or override the display name for a call in W&B Weave tracing"
         return f"Hello, {name}!"
     ```
 
-    4. The `call_display_name` can also be a function that takes in a `Call` object and returns a string. The `Call` object will be passed automatically when the function is called, so you can use it to dynamically generate names based on the function's name, call inputs, fields, and so on.
+    The `call_display_name` can also be a function that takes in a `Call` object and returns a string. The `Call` object will be passed automatically when the function is called, so you can use it to dynamically generate names based on the function's name, call inputs, fields, and so on.
 
-    1. One common use case is just appending a timestamp to the function's name.
+    One common use case is appending a timestamp to the function's name.
 
         ```python lines
         from datetime import datetime
@@ -46,7 +49,7 @@ description: "Set or override the display name for a call in W&B Weave tracing"
             return ...
         ```
 
-    2. You can also log custom metadata using `.attributes`.
+    You can also log custom metadata using `.attributes`.
 
         ```python lines
         def custom_attribute_name(call):
@@ -79,15 +82,16 @@ description: "Set or override the display name for a call in W&B Weave tracing"
                 func()  # the display name will be "finetuned-gpt-4o__v0.1.3__2024-08-02"
         ```
 
-    **Technical Note:** Calls are produced by Ops. An Op is a function or method that is decorated with `@weave.op`.
-    By default, the Op's name is the function name, and the associated Calls will have the same display name. The above example shows how to override the display name for all Calls of a given Op. Sometimes, users wish to override the name of the Op itself. This can be achieved in one of two ways:
+   
+    4. Change the display name of the Op itself.
+    Calls associated with an Op will have the same display name.  If you override the name of the Op itself, the display name of the Call also changes. This can be done in two ways:
 
-    1. Set the `name` property of the Op before any calls are logged.
+    - Set the `name` property of the Op before any Calls are logged:
     ```python lines
     my_function.name = "My Custom Op Name"
     ```
 
-    2. Set the `name` option on the Op decorator.
+    - Set the `name` option on the Op decorator:
     ```python lines
     @weave.op(name="My Custom Op Name")
     ```
@@ -101,7 +105,8 @@ description: "Set or override the display name for a call in W&B Weave tracing"
     });
     ```
 
-    You can also [update a call's display name](/weave/guides/tracking/tracing#set-display-name) after execution.
+    
   </Tab>
 </Tabs>
 
+You can also [update a call's display name](/weave/guides/tracking/update-call) after execution.
