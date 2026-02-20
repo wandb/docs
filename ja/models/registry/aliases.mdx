@@ -48,7 +48,7 @@ W&B は、同じ名前でリンクされた各 artifact version に対して、�
 4. **Aliases** フィールドの隣にある **+** ボタンをクリックして、1つ以上のエイリアスを追加します。
 </Tab>
 <Tab title="Python SDK">
-Python SDK を使用して artifact version をコレクションにリンクする場合、[`link_artifact()`](/models/ref/python/experiments/run.md/#link_artifact) の `alias` 引数に1つ以上のエイリアスのリストをオプションで渡すことができます。提供したエイリアスがまだ存在しない場合、W&B は新しいエイリアス（[保護されていないエイリアス](#custom-aliases)）を作成します。
+Python SDK を使用して artifact version をコレクションにリンクする場合、[`link_artifact()`](/models/ref/python/experiments/run.md/#link_artifact) の `alias` 引数に1つ以上のエイリアスのリストをオプションで渡すことができます。提供したエイリアスがまだ存在しない場合、W&B は新しいエイリアス（[保護されていないエイリアス](#カスタムエイリアス)）を作成します。
 
 以下の コードスニペット は、Python SDK を使用して artifact version をコレクションにリンクし、その artifact version にエイリアスを追加する方法を示しています。`<>` 内の 値 は適宜置き換えてください。
 
@@ -115,7 +115,7 @@ with wandb.init(entity = "<team_entity>", project = "<project_name>") as run:
 3. **Versions** セクション内で、特定の artifact version の **View** ボタンを選択します。
 4. **Aliases** フィールドの隣にある **+** ボタンをクリックして、1つ以上の保護されたエイリアスを追加します。
 
-保護されたエイリアスが作成された後は、Admin が Python SDK を使用してプログラムから artifact version に追加できます。artifact version に保護されたエイリアスを追加する例については、上記の [カスタムエイリアスの作成](#custom-aliases) セクションの W&B Registry および Python SDK タブを参照してください。
+保護されたエイリアスが作成された後は、Admin が Python SDK を使用してプログラムから artifact version に追加できます。artifact version に保護されたエイリアスを追加する例については、上記の [カスタムエイリアスの作成](#カスタムエイリアス) セクションの W&B Registry および Python SDK タブを参照してください。
 
 ## 既存のエイリアスの検索
 [W&B Registry のグローバル検索バー](/models/registry/search_registry/#search-for-registry-items) を使用して、既存のエイリアスを検索できます。保護されたエイリアスを検索するには：

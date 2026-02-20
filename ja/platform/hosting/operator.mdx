@@ -47,7 +47,7 @@ metadata:
 
 `controller-manager` は、カスタムリソースの spec、リリースチャンネル、およびユーザー定義の設定に基づいて [charts/operator-wandb](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb) をインストールします。この設定仕様の階層構造により、ユーザー側での最大限の設定柔軟性が得られ、W&B は新しいイメージ、設定、機能、および Helm のアップデートを自動的にリリースできるようになります。
 
-設定オプションについては、[設定仕様の階層構造](#configuration-specification-hierarchy) および [W&B Operator の設定リファレンス](#configuration-reference-for-wb-operator) を参照してください。
+設定オプションについては、[設定仕様の階層構造](#設定仕様の階層構造) および [W&B Operator の設定リファレンス](#カスタムセキュリティコンテキスト) を参照してください。
 
 デプロイメントは複数の Pod で構成され、サービスごとに 1 つずつ配置されます。各 Pod の名前には `wandb-` というプレフィックスが付きます。
 
@@ -56,7 +56,7 @@ metadata:
 
 - **Release Channel Values（リリースチャンネル値）**: この基本レベルの設定は、W&B がデプロイメント用に設定したリリースチャンネルに基づいてデフォルト値と設定を決定します。
 - **User Input Values（ユーザー入力値）**: ユーザーはシステムコンソールを通じて、リリースチャンネル仕様によって提供されたデフォルト設定を上書きできます。
-- **Custom Resource Values（カスタムリソース値）**: ユーザーから提供される最高レベルの仕様です。ここで指定された値は、ユーザー入力およびリリースチャンネルの両方の仕様を上書きします。設定オプションの詳細は、[設定リファレンス](#configuration-reference-for-wb-operator) を参照してください。
+- **Custom Resource Values（カスタムリソース値）**: ユーザーから提供される最高レベルの仕様です。ここで指定された値は、ユーザー入力およびリリースチャンネルの両方の仕様を上書きします。設定オプションの詳細は、[設定リファレンス](#カスタムセキュリティコンテキスト) を参照してください。
 
 この階層モデルにより、アップグレードや変更に対して管理可能かつ系統的なアプローチを維持しつつ、多様なニーズを満たすための柔軟でカスタマイズ可能な設定が可能になります。
 
@@ -74,12 +74,12 @@ metadata:
 ### Redis
 <SelfManagedRedisRequirements/>
 
-外部 Redis インスタンスの設定方法の詳細については、[外部 Redis 設定セクション](#external-redis) を参照してください。
+外部 Redis インスタンスの設定方法の詳細については、[外部 Redis 設定セクション](#カスタム-kubernetes-serviceaccounts) を参照してください。
 
 ### オブジェクトストレージ
 <SelfManagedObjectStorageRequirements/>
 
-Helm 値でのオブジェクトストレージの設定方法の詳細については、[オブジェクトストレージバケット設定セクション](#object-storage-bucket) を参照してください。
+Helm 値でのオブジェクトストレージの設定方法の詳細については、[オブジェクトストレージバケット設定セクション](#host) を参照してください。
 
 ### ネットワーク要件
 <SelfManagedNetworkingRequirements/>
@@ -135,7 +135,7 @@ api:
       readOnlyRootFilesystem: false
 ```
 
-必要に応じて、`app` や `console` などの他のコンポーネントに対してカスタムセキュリティコンテキストを設定してください。詳細については、[カスタムセキュリティコンテキスト](#custom-security-context) を参照してください。
+必要に応じて、`app` や `console` などの他のコンポーネントに対してカスタムセキュリティコンテキストを設定してください。詳細については、[カスタムセキュリティコンテキスト](#カスタム認証局-ca) を参照してください。
 
 ## W&B Server アプリケーションのデプロイ
 
@@ -166,7 +166,7 @@ Helm CLI で W&B Kubernetes Operator をインストールするには、以下�
     ```shell
     helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
     ```
-3. W&B Server のインストールをトリガーするように W&B Operator カスタムリソースを設定します。W&B デプロイ設定を含む `operator.yaml` という名前のファイルを作成します。利用可能なすべてのオプションについては、[設定リファレンス](#configuration-reference-for-wb-server) を参照してください。
+3. W&B Server のインストールをトリガーするように W&B Operator カスタムリソースを設定します。W&B デプロイ設定を含む `operator.yaml` という名前のファイルを作成します。利用可能なすべてのオプションについては、[設定リファレンス](#wb-server-の設定リファレンス) を参照してください。
 
     最小限の設定例は以下の通りです：
 
@@ -201,7 +201,7 @@ Helm CLI で W&B Kubernetes Operator をインストールするには、以下�
 
     デプロイが完了するまで待ちます。これには数分かかります。
 
-5. Web UI を使用してインストールを確認するには、最初の管理者ユーザーアカウントを作成し、[インストールの確認](#verify-the-installation) に記載されている確認手順に従ってください。
+5. Web UI を使用してインストールを確認するには、最初の管理者ユーザーアカウントを作成し、[インストールの確認](#インストールの確認) に記載されている確認手順に従ってください。
 
 
 ### Helm Terraform モジュールによる W&B のデプロイ
@@ -240,7 +240,7 @@ module "wandb" {
 }
 ```
 
-設定オプションは [設定リファレンス](#configuration-reference-for-wb-operator) で説明されているものと同じですが、構文は HashiCorp Configuration Language (HCL) に従う必要があることに注意してください。Terraform モジュールは W&B カスタムリソース定義 (CRD) を作成します。
+設定オプションは [設定リファレンス](#カスタムセキュリティコンテキスト) で説明されているものと同じですが、構文は HashiCorp Configuration Language (HCL) に従う必要があることに注意してください。Terraform モジュールは W&B カスタムリソース定義 (CRD) を作成します。
 
 W&B 自身が顧客向けに「Dedicated Cloud」インスタンスをデプロイするために Helm Terraform モジュールをどのように使用しているかを確認するには、以下のリンクを参照してください：
 - [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
@@ -331,12 +331,12 @@ W&B Operator は W&B Server のデフォルトで推奨されるインストー�
 </Note>
 
 - 公式の W&B Cloud Terraform モジュールを使用していた場合は、該当するドキュメントに移動し、そこにある手順に従ってください：
-  - [AWS](#migrate-to-operator-based-aws-terraform-modules)
-  - [Google Cloud](#migrate-to-operator-based-google-cloud-terraform-modules)
-  - [Azure](#migrate-to-operator-based-azure-terraform-modules)
-- [W&B Non-Operator Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/wandb) を使用していた場合は、[こちら](#migrate-to-operator-based-helm-chart) に進んでください。
-- [Terraform を使用した W&B Non-Operator Helm チャート](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest) を使用していた場合は、[こちら](#migrate-to-operator-based-terraform-helm-chart) に進んでください。
-- マニフェストを使用して Kubernetes リソースを作成した場合は、[こちら](#migrate-to-operator-based-helm-chart) に進んでください。
+  - [AWS](#operator-ベースの-aws-terraform-モジュールへの移行)
+  - [Google Cloud](#operator-ベースの-google-cloud-terraform-モジュールへの移行)
+  - [Azure](#operator-ベースの-azure-terraform-モジュールへの移行)
+- [W&B Non-Operator Helm チャート](https://github.com/wandb/helm-charts/tree/main/charts/wandb) を使用していた場合は、[こちら](#operator-ベースの-helm-チャートへの移行) に進んでください。
+- [Terraform を使用した W&B Non-Operator Helm チャート](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest) を使用していた場合は、[こちら](#operator-ベースの-terraform-helm-チャートへの移行) に進んでください。
+- マニフェストを使用して Kubernetes リソースを作成した場合は、[こちら](#operator-ベースの-helm-チャートへの移行) に進んでください。
 
 
 ### Operator ベースの AWS Terraform モジュールへの移行
@@ -366,7 +366,7 @@ W&B Operator は W&B Server のデフォルトで推奨されるインストー�
     ```
     これで、次のステップに必要なすべての設定値が揃いました。
 
-2. `operator.yaml` というファイルを作成します。[設定リファレンス](#configuration-reference-for-wb-operator) に記載されている形式に従い、ステップ 1 の値を使用してください。
+2. `operator.yaml` というファイルを作成します。[設定リファレンス](#カスタムセキュリティコンテキスト) に記載されている形式に従い、ステップ 1 の値を使用してください。
 
 3. 現在のデプロイメントを 0 Pod にスケールします。このステップで現在のデプロイメントを停止します。
     ```shell
@@ -386,7 +386,7 @@ W&B Operator は W&B Server のデフォルトで推奨されるインストー�
     ```
     デプロイが完了するまで数分かかります。
 
-7. インストールを確認します。[インストールの確認](#verify-the-installation) の手順に従い、すべてが動作していることを確認してください。
+7. インストールを確認します。[インストールの確認](#インストールの確認) の手順に従い、すべてが動作していることを確認してください。
 
 8. 旧いインストールを削除します。旧い Helm チャートをアンインストールするか、マニフェストで作成されたリソースを削除します。
 
@@ -395,16 +395,16 @@ W&B Operator は W&B Server のデフォルトで推奨されるインストー�
 以下の手順に従って、Operator ベースの Helm チャートに移行します：
 
 
-1. Terraform 設定の準備。Terraform 設定内の旧いデプロイメントの Terraform コードを、[こちら](#deploy-wb-with-helm-terraform-module) で説明されているものに置き換えます。以前と同じ変数を設定してください。.tfvars ファイルがある場合は変更しないでください。
+1. Terraform 設定の準備。Terraform 設定内の旧いデプロイメントの Terraform コードを、[こちら](#helm-terraform-モジュールによる-wb-のデプロイ) で説明されているものに置き換えます。以前と同じ変数を設定してください。.tfvars ファイルがある場合は変更しないでください。
 2. Terraform 実行。terraform init, plan, apply を実行します。
-3. インストールを確認します。[インストールの確認](#verify-the-installation) の手順に従い、すべてが動作していることを確認してください。
+3. インストールを確認します。[インストールの確認](#インストールの確認) の手順に従い、すべてが動作していることを確認してください。
 4. 旧いインストールを削除します。旧い Helm チャートをアンインストールするか、マニフェストで作成されたリソースを削除します。
 
 
 
 ## W&B Server の設定リファレンス
 
-このセクションでは、W&B Server アプリケーションの設定オプションについて説明します。アプリケーションは、[WeightsAndBiases](#how-it-works) という名前のカスタムリソース定義として設定を受け取ります。一部の設定オプションは以下の設定で公開されており、一部は環境変数として設定する必要があります。
+このセクションでは、W&B Server アプリケーションの設定オプションについて説明します。アプリケーションは、[WeightsAndBiases](#仕組み) という名前のカスタムリソース定義として設定を受け取ります。一部の設定オプションは以下の設定で公開されており、一部は環境変数として設定する必要があります。
 
 ドキュメントには [基本](/platform/hosting/env-vars/) と [詳細](/platform/hosting/iam/advanced_env_vars/) の 2 つの環境変数リストがあります。必要な設定オプションが Helm チャートで公開されていない場合にのみ、環境変数を使用してください。
 
@@ -598,7 +598,7 @@ global:
 
 ### Ingress
 
-Ingress クラスを特定するには、こちらの FAQ [エントリ](#how-to-identify-the-kubernetes-ingress-class) を参照してください。
+Ingress クラスを特定するには、こちらの FAQ [エントリ](#wb-server-のログを表示する方法) を参照してください。
 
 **TLS なし**
 
@@ -1045,7 +1045,7 @@ ConfigMap 内の各キーは `.crt` で終わる必要があります（例: `my
 * **`wandb-weave-trace`**: LLM ベースのアプリケーションを追跡、実験、評価、デプロイ、および改善するためのフレームワーク。`wandb-app` Pod を通じてアクセスされます。
 
 ### W&B Operator コンソールのパスワードを取得する方法
-[W&B Kubernetes Operator 管理コンソールへのアクセス](#access-the-wb-management-console) を参照してください。
+[W&B Kubernetes Operator 管理コンソールへのアクセス](#wb-管理コンソールへのアクセス) を参照してください。
 
 
 ### Ingress が機能しない場合に W&B Operator コンソールにアクセスする方法
@@ -1058,7 +1058,7 @@ kubectl port-forward svc/wandb-console 8082
 
 ブラウザで `https://localhost:8082/console` にアクセスします。
 
-パスワードの取得方法については、[W&B Kubernetes Operator 管理コンソールへのアクセス](#access-the-wb-management-console)（オプション 2）を参照してください。
+パスワードの取得方法については、[W&B Kubernetes Operator 管理コンソールへのアクセス](#wb-管理コンソールへのアクセス)（オプション 2）を参照してください。
 
 ### W&B Server のログを表示する方法
 
