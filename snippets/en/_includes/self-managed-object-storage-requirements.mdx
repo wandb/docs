@@ -1,15 +1,16 @@
 W&B requires object storage with pre-signed URL and CORS support.
 
-For production deployments, W&B recommends using managed object storage services:
+**Recommended storage providers:**
 - [Amazon S3](https://aws.amazon.com/s3/): Object storage service offering industry-leading scalability, data availability, security, and performance.
 - [Google Cloud Storage](https://cloud.google.com/storage): Managed service for storing unstructured data at scale.
 - [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs): Cloud-based object storage solution for storing massive amounts of unstructured data.
 - [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage): High-performance, S3-compatible object storage service optimized for AI workloads.
-
-For self-hosted object storage options, see the [bare-metal guide object storage section](/platform/hosting/self-managed/bare-metal/#object-storage) for detailed setup instructions including CORS configuration and enterprise alternatives.
+- Enterprise S3-compatible storage: [MinIO Enterprise (AIStor)](https://min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/), or other enterprise-grade solutions
 
 <Note>
-MinIO Open Source is in [maintenance mode](https://github.com/minio/minio) with no active development or pre-compiled binaries. For production deployments, W&B recommends using managed object storage services or enterprise-grade S3-compatible solutions.
+MinIO Open Source is in [maintenance mode](https://github.com/minio/minio) with no active development or pre-compiled binaries. For production deployments, W&B recommends using managed object storage services or enterprise S3-compatible solutions such as MinIO Enterprise (AIStor).
 </Note>
+
+For detailed bucket provisioning instructions including IAM policies, CORS configuration, and access setup, see the [Bring Your Own Bucket (BYOB) guide](/platform/hosting/data-security/secure-storage-connector).
 
 See the [reference architecture object storage section](/platform/hosting/self-managed/ref-arch/#object-storage) for complete requirements.
