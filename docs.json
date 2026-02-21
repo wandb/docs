@@ -3737,10 +3737,6 @@
       "destination": "/models"
     },
     {
-      "source": "/models/integrations/huggingface",
-      "destination": "/models/integrations/huggingface_transformers"
-    },
-    {
       "source": "/models/integrations/openai",
       "destination": "/models/integrations/openai-api"
 
