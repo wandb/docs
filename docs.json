@@ -426,7 +426,7 @@
                           "models/integrations/accelerate",
                           "models/integrations/diffusers",
                           "models/integrations/simpletransformers",
-                          "models/integrations/huggingface",
+                          "models/integrations/huggingface_transformers",
                           "models/integrations/openai-gym",
                           "models/integrations/pytorch-geometric",
                           "models/integrations/torchtune"
