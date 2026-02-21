@@ -2,25 +2,28 @@
 title: Python SDK 0.24.2
 module:
 ---
+
 The W&B Python SDK, accessible at `wandb`, enables you to train and fine-tune models, and manage models from experimentation to production. 
 
 > After performing your training and fine-tuning operations with this SDK, you can use [the Public API](/models/ref/python/public-api) to query and analyze the data that was logged, and [the Reports and Workspaces API](/models/ref/wandb_workspaces) to generate a web-publishable [report](/models/reports/) summarizing your work.
 
-## Installation and setup
 
-### Sign up and create an API key
+
+## Sign up and create an API key
 
 To authenticate your machine with W&B, you must first generate an API key at [User Settings](https://wandb.ai/settings).
 
-### Install and import packages
+## Install and import packages
 
-Install the W&B library.
+Install the W&B Python SDK using `pip`:
 
-```
+```shell
 pip install wandb
 ```
 
-### Import W&B Python SDK:
+## Import W&B Python SDK
+
+The following code snippet demonstrates how to import the W&B Python SDK and initialize a run. Replace `<team_entity>` with your team entity name.
 
 ```python
 import wandb
@@ -33,4 +36,190 @@ project = "my-awesome-project"
 
 with wandb.init(entity=entity, project=project) as run:
    run.log({"accuracy": 0.9, "loss": 0.1})
-````
+```
+
+## Python SDK extras
+
+Install optional Python extras to extend the functionality of the W&B Python SDK. 
+
+Specify the name of the extra you want to install within square brackets after `wandb`. The syntax is:
+
+```shell
+pip install wandb[extra]
+```
+
+For example, to install W&B with Google Cloud Storage support, run:
+
+```shell
+pip install wandb[gcp]
+```
+
+Install more than one optional dependency by separating them with commas:
+
+```shell
+pip install wandb[gcp,aws,media]
+```
+
+The following table lists Python SDK extras and their suggested use cases.
+
+{/* python-extras-start */}
+| Extra | Packages included | Install if you |
+|---------|---------|---------|
+| `gcp` | [google-cloud-storage](https://pypi.org/project/google-cloud-storage/) | Use `gs://` artifact references. |
+| `aws` | [boto3](https://pypi.org/project/boto3/), [botocore](https://pypi.org/project/botocore/) | Use `s3://` artifact references. |
+| `azure` | [azure-identity](https://pypi.org/project/azure-identity/), [azure-storage-blob](https://pypi.org/project/azure-storage-blob/) | Use Azure Blob Storage artifact references. |
+| `media` | [numpy](https://pypi.org/project/numpy/), [moviepy](https://pypi.org/project/moviepy/), [imageio](https://pypi.org/project/imageio/), [pillow](https://pypi.org/project/pillow/), [bokeh](https://pypi.org/project/bokeh/), [soundfile](https://pypi.org/project/soundfile/), [plotly](https://pypi.org/project/plotly/), [rdkit](https://pypi.org/project/rdkit/) | Log images, video, audio, or plots from raw data (numpy arrays, tensors). |
+| `sweeps` | [sweeps](https://pypi.org/project/sweeps/) | Run local sweep controller (`wandb.controller()`). |
+| `workspaces` | [wandb-workspaces](https://pypi.org/project/wandb-workspaces/) | Programmatically manage workspaces. |
+{/* python-extras-end */}
+
+The following tabs provide more details about each extra, including installation instructions, dependencies, and code examples.
+
+<Tabs>
+<Tab title="GCP">
+
+Use the `gcp` extra if you add reference artifacts that start with `gs://` URIs.
+
+Installation: 
+
+```shell
+pip install wandb[gcp]
+```
+
+Dependencies:
+
+- `google-cloud-storage`
+
+Example:
+
+```python
+import wandb
+
+artifact = wandb.Artifact("my-artifact", type="dataset")
+artifact.add_reference("gs://bucket/path/to/file")
+
+with wandb.init() as run:
+    run.log_artifact(artifact)
+```
+
+</Tab>
+<Tab title="AWS">
+
+Use the `aws` extra if you add reference artifacts that start with `s3://` URIs.
+
+Installation: 
+
+```shell
+pip install wandb[aws]
+```
+
+Dependencies: 
+- `boto3`
+- `botocore>=1.5.76`
+
+Example:
+
+```python
+import wandb
+
+artifact = wandb.Artifact("my-artifact", type="dataset")
+artifact.add_reference("s3://bucket/path/to/file")
+
+with wandb.init() as run:
+    run.log_artifact(artifact)
+```
+
+</Tab>
+<Tab title="Azure">
+
+Use the `azure` extra if you add artifact references to Azure Blob Storage (URLs ending in `.blob.core.windows.net`). 
+
+Installation: 
+
+```shell
+pip install wandb[azure]
+```   
+
+Dependencies:
+- `azure-identity`
+- `azure-storage-blob`
+
+Example:
+
+```python
+import wandb
+
+artifact = wandb.Artifact("my-artifact", type="dataset")
+artifact.add_reference("https://<account>.blob.core.windows.net/container/blob")
+
+with wandb.init() as run:
+    run.log_artifact(artifact)
+```
+
+</Tab>
+<Tab title="Media">
+
+Use the `media` extra if you log images, video, audio, or plots from raw data (numpy arrays, tensors).
+
+Installation: 
+
+```shell
+pip install wandb[media]
+```
+
+Dependencies:
+- `numpy`
+- `moviepy>=1.0.0`
+- `imageio>=2.28.1`
+- `pillow`
+- `bokeh`
+- `soundfile`
+- `plotly>=5.18.0`
+- `rdkit`
+
+The following table lists the dependencies included in the `media` extra and their use cases:
+
+| Dependency       | Use Case                                                                                              |
+|------------------|-------------------------------------------------------------------------------------------------------|
+| pillow           | Logging images with `wandb.Image()` with numpy arrays or tensors (wandb/sdk/data_types/image.py) |
+| moviepy, imageio | Logging videos with `wandb.Video()` with numpy arrays (wandb/sdk/data_types/video.py)              |
+| soundfile        | Logging audio with `wandb.Audio()` with raw numpy data (wandb/sdk/data_types/audio.py)             |
+| plotly           | Logging interactive charts with `wandb.Plotly()` (wandb/sdk/data_types/plotly.py)                     |
+| bokeh            | Logging Bokeh plots with `wandb.Bokeh()` (wandb/sdk/data_types/bokeh.py)                              |
+| rdkit            | Logging molecular structures with `wandb.Molecule.from_rdkit()` (wandb/sdk/data_types/molecule.py)    |
+</Tab>
+<Tab title="Sweeps">
+
+Use the `sweeps` extra if you run a local sweep controller with `wandb.controller()`.
+
+Installation: 
+
+```shell
+pip install wandb[sweeps]
+```
+
+Dependencies:
+- `sweeps>=0.2.0`
+
+<Note>
+The cloud-based sweep agent (`wandb agent`) does NOT require this extra.
+</Note>
+
+</Tab>
+<Tab title="Workspaces">
+
+Use the `workspaces` extra if you programmatically create or edit W&B workspaces with `wandb.apis.workspaces`.
+
+Installation: 
+
+```shell
+pip install wandb[workspaces]
+```
+
+Dependencies:
+- `wandb-workspaces`
+
+
+
+</Tab>
+</Tabs>
