@@ -1,0 +1,13 @@
+---
+title: W&B는 멀티 테넌트에 대해 SSO를 지원하나요?
+---
+
+W&B는 Auth0를 통해 멀티 테넌트 플랜에서 Single Sign-On(SSO)을 지원합니다. SSO 통합은 Okta나 Azure AD와 같이 OIDC를 준수하는 모든 ID 제공자와 호환됩니다. OIDC 제공자를 구성하려면 다음 단계를 따르세요:
+
+* ID 제공자에서 Single Page Application(SPA)을 생성합니다.
+* `grant_type`을 `implicit` 플로우로 설정합니다.
+* callback URI를 `https://wandb.auth0.com/login/callback`으로 설정합니다.
+
+**W&B에 대한 요구 사항**
+
+설정을 완료한 후 애플리케이션의 `Client ID`와 `Issuer URL`을 Customer Success Manager(CSM)에게 전달하세요. W&B는 이 정보를 사용해 Auth0 연결을 설정하고 SSO를 활성화합니다.

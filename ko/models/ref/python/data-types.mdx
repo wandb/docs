@@ -1,0 +1,63 @@
+---
+title: 데이터 타입 개요
+description: 실행에 미디어와 구조화된 데이터를 로깅하기 위한 W&B Python SDK의 데이터 타입
+module: wandb.sdk.data_types
+no_list: true
+---
+
+W&amp;B의 데이터 타입은 실행에 로깅할 미디어와 구조화된 데이터를 래핑하는 클래스입니다. 이들은 W&amp;B UI에서 시각화 컴포넌트를 제공하고, 데이터 직렬화, 저장, 검색 및 불러오기를 처리합니다.
+
+<div id="available-data-types">
+  ## 사용 가능한 데이터 유형
+</div>
+
+| 데이터 유형 | 설명 |
+|-----------|-------------|
+| [`Image`](/ko/models/ref/python/data-types/image) | 마스크, 바운딩 박스, 세그멘테이션을 포함하여 이미지를 로그로 기록합니다. |
+| [`Video`](/ko/models/ref/python/data-types/video) | 모델 출력 또는 데이터셋 샘플에 대한 비디오 데이터를 로그로 기록합니다. |
+| [`Audio`](/ko/models/ref/python/data-types/audio) | 오디오 처리 작업을 위한 오디오 샘플을 로그로 기록합니다. |
+| [`Table`](/ko/models/ref/python/data-types/table) | 여러 종류의 미디어를 포함할 수 있는 테이블을 생성합니다. |
+| [`Plotly`](/ko/models/ref/python/data-types/plotly) | 데이터 시각화를 위한 Plotly 차트를 로그로 기록합니다. |
+| [`Html`](/ko/models/ref/python/data-types/html) | 사용자 정의 HTML 콘텐츠를 삽입합니다. |
+| [`Object3D`](/ko/models/ref/python/data-types/object3d) | 3D 포인트 클라우드와 메시를 시각화합니다. |
+| [`Molecule`](/ko/models/ref/python/data-types/molecule) | 계산화학을 위한 분자 구조를 로그로 기록합니다. |
+
+<div id="examples">
+  ## 예제
+</div>
+
+이 예제에서는 `Image`를 사용합니다:
+
+```python
+import wandb
+import matplotlib.pyplot as plt
+
+# 데모 목적으로 이미지 생성
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
+
+# 새 실행 초기화
+with wandb.init(project="awesome-project") as run:
+
+    # 이미지 로깅
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
+```
+
+이 예제에서는 `Table`을 사용해 텍스트와 레이블이 섞인 테이블을 로그합니다:
+
+```python
+import wandb
+
+# 새 실행 초기화
+with wandb.init(project="visualize-predictions", name="tables") as run:
+
+    # 리스트의 리스트를 사용하여 표 형식 데이터 생성
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
+
+    # `wandb.Table.add_data()` 메서드를 사용하여 표 형식 데이터 생성
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```

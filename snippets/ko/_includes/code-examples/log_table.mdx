@@ -1,0 +1,22 @@
+---
+title: 테이블 로깅
+---
+
+```python
+"""
+W&B에 테이블을 기록합니다.
+"""
+import wandb
+
+# 두 개의 열과 두 개의 행 데이터로 테이블 객체 생성
+my_table = wandb.Table(
+    columns=["a", "b"],
+    data=[["a1", "b1"], ["a2", "b2"]],
+    log_mode="<log_mode>"
+    )
+
+# 새 실행 시작
+with wandb.init(project="<project>") as run:
+    # W&B에 테이블 기록
+    run.log({"<table_name>": my_table})
+```

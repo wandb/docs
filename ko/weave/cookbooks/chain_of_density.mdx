@@ -1,0 +1,406 @@
+---
+title: "Chain of Density"
+description: "W&B Weave에서 Chain of Density를 사용하는 방법을 알아보세요"
+---
+
+<Note>
+이것은 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+- [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
+- [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
+</Note>
+
+<div id="summarization-using-chain-of-density">
+  # Chain of Density를 활용한 요약
+</div>
+
+복잡한 기술 문서를 핵심 세부 정보를 그대로 유지하면서 요약하는 것은 까다로운 작업입니다. Chain of Density(CoD) 요약 기법은 요약을 반복적으로 다듬어 더 간결하면서도 정보 밀도를 높이는 방식으로 이 문제를 해결합니다. 이 가이드는 Weave를 사용해 애플리케이션을 추적하고 평가할 수 있도록 CoD를 구현하는 방법을 설명합니다. 
+
+<Frame>
+![Chain of Density 요약 결과, 메트릭 및 성능 비교가 표시된 Weave Evaluation 대시보드](/media/summarization/eval_dash.png)
+</Frame>
+
+<div id="what-is-chain-of-density-summarization">
+  ## Chain of Density 요약이란?
+</div>
+
+[![arXiv](https://img.shields.io/badge/arXiv-2309.04269-b31b1b.svg)](https://arxiv.org/abs/2309.04269)
+
+Chain of Density(CoD)는 반복적으로 수행되는 요약 기법으로, 점점 더 간결하면서도 정보 밀도가 높은 요약을 생성합니다. 이 기법은 다음과 같이 동작합니다.
+
+1. 초기 요약을 생성합니다
+2. 핵심 정보를 유지하면서 요약을 반복적으로 다듬어 더 간결하게 만듭니다
+3. 각 반복마다 엔티티와 기술적 세부 정보의 밀도를 높입니다
+
+이 접근법은 특히 세부 정보를 보존하는 것이 중요한 과학 논문이나 기술 문서를 요약할 때 유용합니다.
+
+<div id="why-use-weave">
+  ## 왜 Weave를 사용하나요?
+</div>
+
+이 튜토리얼에서는 Weave를 사용해 ArXiv 논문에 대한 Chain of Density 요약 파이프라인을 구현하고 평가합니다. 이 과정을 통해 다음 내용을 배우게 됩니다:
+
+1. **LLM 파이프라인 추적**: Weave를 사용해 요약 과정의 입력, 출력, 중간 단계를 자동으로 기록합니다.
+2. **LLM 출력 평가**: Weave의 내장 도구를 사용해 요약 결과를 동일 조건에서 엄밀하고 공정하게 평가합니다.
+3. **조합 가능한 연산 구성**: 요약 파이프라인의 다양한 부분에서 재사용할 수 있는 Weave 연산을 결합해 구성합니다.
+4. **원활한 통합**: 최소한의 오버헤드로 기존 Python 코드에 Weave를 추가합니다.
+
+이 튜토리얼을 마치면, 모델 서빙, 평가, 결과 추적을 위해 Weave의 기능을 활용하는 CoD 요약 파이프라인을 구축하게 됩니다.
+
+<div id="set-up-the-environment">
+  ## 환경 설정
+</div>
+
+먼저, 환경을 설정하고 필요한 라이브러리를 불러옵니다:
+
+```python lines
+!pip install -qU anthropic weave pydantic requests PyPDF2 set-env-colab-kaggle-dotenv
+```
+
+> Anthropic API 키를 발급받으려면:
+>
+> 1. https://www.anthropic.com에서 계정을 생성합니다.
+> 2. 계정 설정에서 API 섹션으로 이동합니다.
+> 3. 새 API 키를 생성합니다.
+> 4. .env 파일에 API 키를 안전하게 저장합니다.
+
+```python lines
+import io
+import os
+from datetime import datetime, timezone
+
+import anthropic
+import requests
+from pydantic import BaseModel
+from PyPDF2 import PdfReader
+from set_env import set_env
+
+import weave
+
+set_env("WANDB_API_KEY")
+set_env("ANTHROPIC_API_KEY")
+
+weave.init("summarization-chain-of-density-cookbook")
+anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+```
+
+Weave를 사용하여 실험을 추적하고 텍스트 생성을 위해 Anthropic의 Claude 모델을 사용합니다. `weave.init(<project name>)` 호출은 요약 작업을 위한 새로운 Weave 프로젝트를 초기화합니다.
+
+
+<div id="define-the-arxivpaper-model">
+  ## ArxivPaper 모델 정의
+</div>
+
+데이터를 표현하기 위해 간단한 `ArxivPaper` 클래스를 정의하겠습니다:
+
+```python lines
+# ArxivPaper 모델 정의
+class ArxivPaper(BaseModel):
+    entry_id: str
+    updated: datetime
+    published: datetime
+    title: str
+    authors: list[str]
+    summary: str
+    pdf_url: str
+
+# 샘플 ArxivPaper 생성
+arxiv_paper = ArxivPaper(
+    entry_id="http://arxiv.org/abs/2406.04744v1",
+    updated=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
+    published=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
+    title="CRAG -- Comprehensive RAG Benchmark",
+    authors=["Xiao Yang", "Kai Sun", "Hao Xin"],  # 간략화를 위해 생략
+    summary="Retrieval-Augmented Generation (RAG) has recently emerged as a promising solution...",  # 생략
+    pdf_url="https://arxiv.org/pdf/2406.04744",
+)
+```
+
+이 클래스는 요약 파이프라인의 입력으로 사용될 arXiv 논문의 메타데이터와 본문을 캡슐화합니다.
+
+
+<div id="load-pdf-content">
+  ## PDF 콘텐츠 불러오기
+</div>
+
+전체 논문 내용을 다루기 위해, PDF에서 텍스트를 로드하고 추출하는 함수를 추가합니다:
+
+```python lines
+@weave.op()
+def load_pdf(pdf_url: str) -> str:
+    # PDF 다운로드
+    response = requests.get(pdf_url)
+    pdf_file = io.BytesIO(response.content)
+
+    # PDF 읽기
+    pdf_reader = PdfReader(pdf_file)
+
+    # 모든 페이지에서 텍스트 추출
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+
+    return text
+```
+
+
+<div id="implement-chain-of-density-summarization">
+  ## Chain of Density 요약 구현
+</div>
+
+이제 Weave 연산을 사용하여 핵심 CoD 요약 로직을 구현해 보겠습니다:
+
+<Frame>
+  ![Chain of Density 요약 파이프라인 실행이 포함된 Weave trace 시각화](/media/summarization/summarization_trace.png)
+</Frame>
+
+```python lines
+# Chain of Density Summarization
+@weave.op()
+def summarize_current_summary(
+    document: str,
+    instruction: str,
+    current_summary: str = "",
+    iteration: int = 1,
+    model: str = "claude-3-sonnet-20240229",
+):
+    prompt = f"""
+    Document: {document}
+    Current summary: {current_summary}
+    Instruction to focus on: {instruction}
+    Iteration: {iteration}
+
+    Generate an increasingly concise, entity-dense, and highly technical summary from the provided document that specifically addresses the given instruction.
+    """
+    response = anthropic_client.messages.create(
+        model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text
+
+@weave.op()
+def iterative_density_summarization(
+    document: str,
+    instruction: str,
+    current_summary: str,
+    density_iterations: int,
+    model: str = "claude-3-sonnet-20240229",
+):
+    iteration_summaries = []
+    for iteration in range(1, density_iterations + 1):
+        current_summary = summarize_current_summary(
+            document, instruction, current_summary, iteration, model
+        )
+        iteration_summaries.append(current_summary)
+    return current_summary, iteration_summaries
+
+@weave.op()
+def final_summary(
+    instruction: str, current_summary: str, model: str = "claude-3-sonnet-20240229"
+):
+    prompt = f"""
+    Given this summary: {current_summary}
+    And this instruction to focus on: {instruction}
+    Create an extremely dense, final summary that captures all key technical information in the most concise form possible, while specifically addressing the given instruction.
+    """
+    return (
+        anthropic_client.messages.create(
+            model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}]
+        )
+        .content[0]
+        .text
+    )
+
+@weave.op()
+def chain_of_density_summarization(
+    document: str,
+    instruction: str,
+    current_summary: str = "",
+    model: str = "claude-3-sonnet-20240229",
+    density_iterations: int = 2,
+):
+    current_summary, iteration_summaries = iterative_density_summarization(
+        document, instruction, current_summary, density_iterations, model
+    )
+    final_summary_text = final_summary(instruction, current_summary, model)
+    return {
+        "final_summary": final_summary_text,
+        "accumulated_summary": current_summary,
+        "iteration_summaries": iteration_summaries,
+    }
+```
+
+각 함수의 역할은 다음과 같습니다:
+
+* `summarize_current_summary`: 현재 상태를 기반으로 한 번의 요약 단계를 생성합니다.
+* `iterative_density_summarization`: `summarize_current_summary`를 여러 번 호출하여 CoD 기법을 적용합니다.
+* `chain_of_density_summarization`: 전체 요약 프로세스를 조율하고 결과를 반환합니다.
+
+`@weave.op()` 데코레이터를 사용하면 Weave가 이 함수들의 입력, 출력, 실행을 추적합니다.
+
+
+<div id="create-a-weave-model">
+  ## Weave Model 생성
+</div>
+
+이제 요약 파이프라인을 Weave Model로 감싸 보겠습니다:
+
+<Frame>
+  ![모델 설정 및 파라미터와 함께 Chain of Density 요약을 위한 Weave Model 구성 인터페이스](/media/summarization/model.png)
+</Frame>
+
+```python lines
+# Weave Model
+class ArxivChainOfDensityPipeline(weave.Model):
+    model: str = "claude-3-sonnet-20240229"
+    density_iterations: int = 3
+
+    @weave.op()
+    def predict(self, paper: ArxivPaper, instruction: str) -> dict:
+        text = load_pdf(paper.pdf_url)
+        result = chain_of_density_summarization(
+            text,
+            instruction,
+            model=self.model,
+            density_iterations=self.density_iterations,
+        )
+        return result
+```
+
+이 `ArxivChainOfDensityPipeline` 클래스는 요약 로직을 Weave Model로 캡슐화하여 다음과 같은 주요 이점을 제공합니다:
+
+1. 자동 실험 추적: Weave는 모델의 각 실행에 대한 입력, 출력, 파라미터를 자동으로 기록합니다.
+2. 버전 관리: 모델의 속성이나 코드 변경 사항이 자동으로 버전 관리되어, 요약 파이프라인이 시간이 지남에 따라 어떻게 발전해 왔는지에 대한 명확한 이력을 제공합니다.
+3. 재현성: 버전 관리와 추적 기능 덕분에 이전의 어떤 결과나 요약 파이프라인 구성도 쉽게 재현할 수 있습니다.
+4. 하이퍼파라미터 관리: `model` 및 `density_iterations`와 같은 모델 속성이 명확하게 정의되고 서로 다른 실행 전반에 걸쳐 일관되게 추적되므로, 실험을 수월하게 진행할 수 있습니다.
+5. Weave 생태계 통합: `weave.Model`을 사용하면 Evaluation, 서빙 기능 등 다른 Weave 도구와 원활하게 통합할 수 있습니다.
+
+
+<div id="implement-evaluation-metrics">
+  ## 평가 지표 구현
+</div>
+
+요약문의 품질을 평가하기 위해 간단한 평가 지표를 구현하겠습니다:
+
+```python lines
+import json
+
+@weave.op()
+def evaluate_summary(
+    summary: str, instruction: str, model: str = "claude-3-sonnet-20240229"
+) -> dict:
+    prompt = f"""
+    Summary: {summary}
+    Instruction: {instruction}
+
+    Evaluate the summary based on the following criteria:
+    1. Relevance (1-5): How well does the summary address the given instruction?
+    2. Conciseness (1-5): How concise is the summary while retaining key information?
+    3. Technical Accuracy (1-5): How accurately does the summary convey technical details?
+
+    Your response MUST be in the following JSON format:
+    {{
+        "relevance": {{
+            "score": <int>,
+            "explanation": "<string>"
+        }},
+        "conciseness": {{
+            "score": <int>,
+            "explanation": "<string>"
+        }},
+        "technical_accuracy": {{
+            "score": <int>,
+            "explanation": "<string>"
+        }}
+    }}
+
+    Ensure that the scores are integers between 1 and 5, and that the explanations are concise.
+    """
+    response = anthropic_client.messages.create(
+        model=model, max_tokens=1000, messages=[{"role": "user", "content": prompt}]
+    )
+    print(response.content[0].text)
+
+    eval_dict = json.loads(response.content[0].text)
+
+    return {
+        "relevance": eval_dict["relevance"]["score"],
+        "conciseness": eval_dict["conciseness"]["score"],
+        "technical_accuracy": eval_dict["technical_accuracy"]["score"],
+        "average_score": sum(eval_dict[k]["score"] for k in eval_dict) / 3,
+        "evaluation_text": response.content[0].text,
+    }
+```
+
+이러한 Evaluation 함수는 Claude 모델을 사용하여 생성된 요약의 관련성, 간결성, 기술적 정확성을 기준으로 품질을 평가합니다.
+
+
+<div id="create-a-weave-dataset-and-run-evaluation">
+  ## Weave Dataset를 생성하고 평가 실행하기
+</div>
+
+파이프라인을 평가하기 위해 Weave Dataset을 생성하고 평가를 실행합니다:
+
+<Frame>
+  ![데이터셋 선택 및 구성 옵션이 포함된 평가용 Weave Dataset 구성 인터페이스](/media/summarization/dataset.png)
+</Frame>
+
+```python lines
+# Weave Dataset 생성
+dataset = weave.Dataset(
+    name="arxiv_papers",
+    rows=[
+        {
+            "paper": arxiv_paper,
+            "instruction": "What was the approach to experimenting with different data mixtures?",
+        },
+    ],
+)
+
+weave.publish(dataset)
+```
+
+우리의 평가에서는 LLM-as-a-judge 접근 방식을 사용합니다. 이 기법은 한 언어 모델을 활용해 다른 모델이나 시스템이 생성한 출력 결과의 품질을 평가하는 방식입니다. LLM의 이해 및 추론 능력을 활용하여, 특히 기존 지표만으로는 한계가 있는 작업에서 더 정교한 평가를 제공할 수 있습니다.
+
+[![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
+
+<Frame>
+  ![Weave Evaluation 대시보드로, Chain of Density 요약 결과, 지표, 성능 비교를 보여주는 화면](/media/summarization/eval_dash.png)
+</Frame>
+
+```python lines
+# 스코어러 함수 정의
+@weave.op()
+def quality_scorer(instruction: str, output: dict) -> dict:
+    result = evaluate_summary(output["final_summary"], instruction)
+    return result
+python
+# 평가 실행
+evaluation = weave.Evaluation(dataset=dataset, scorers=[quality_scorer])
+arxiv_chain_of_density_pipeline = ArxivChainOfDensityPipeline()
+results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
+```
+
+이 코드는 샘플 ArXiv 논문으로 데이터셋을 생성하고, 품질 스코어러를 정의한 다음, 요약 파이프라인에 대한 Evaluation을 실행합니다.
+
+
+<div id="conclusion">
+  ## 결론
+</div>
+
+이 예제에서는 Weave를 사용하여 ArXiv 논문에 대한 Chain of Density 요약 파이프라인을 구현하는 방법을 보여주었습니다. 다음 내용을 살펴보았습니다:
+
+1. 요약 과정의 각 단계를 위한 Weave 오퍼레이션 생성하기  
+2. 파이프라인을 Weave Model로 래핑하여 손쉽게 추적하고 평가할 수 있도록 하기  
+3. Weave 오퍼레이션을 사용하여 사용자 정의 평가 지표 구현하기  
+4. 데이터셋을 생성하고 파이프라인에 대한 평가를 실행하기  
+
+Weave의 원활한 통합을 통해 요약 과정 전반에 걸쳐 입력, 출력, 중간 단계를 추적할 수 있으므로, 우리의 LLM 애플리케이션을 디버깅하고 최적화하며 평가하기가 더 쉬워집니다.
+이 예제를 확장하여 더 큰 데이터셋을 처리하거나, 더 정교한 평가 지표를 구현하거나, 다른 LLM 워크플로우와 통합할 수 있습니다.
+
+<a 
+  href="https://wandb.ai/wandb_fc/arxiv-reader/reports/Building-a-bot-to-summarize-arXiv-papers-as-PDFs-using-Anthrophic-and-W-B-Weave--Vmlldzo4Nzg0ODI4"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="button button--primary button--lg"
+>
+  W&B에서 전체 보고서 보기
+</a>

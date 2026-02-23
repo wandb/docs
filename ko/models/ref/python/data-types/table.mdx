@@ -1,0 +1,172 @@
+---
+title: Table
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py" />
+
+
+## <kbd>class</kbd> `Table`
+
+`Table` 클래스는 표 형식 데이터를 표시하고 분석하는 데 사용됩니다. 
+
+기존 스프레드시트와 달리, `Table`은 스칼라 값, 문자열, numpy 배열, 그리고 대부분의 `wandb.data_types.Media` 하위 클래스를 포함한 다양한 데이터 타입을 지원합니다. 이는 `Images`, `Video`, `Audio` 및 기타 다양한 형태의 풍부한 주석이 포함된 미디어를 다른 일반적인 스칼라 값과 함께 `Table`에 직접 포함할 수 있음을 의미합니다. 
+
+이 클래스는 W&B Table을 생성하는 데 사용되는 기본 클래스입니다. 자세한 내용은 https://docs.wandb.ai/guides/models/tables/ 를 참고하세요. 
+
+### <kbd>메서드</kbd> `Table.__init__`
+
+```python
+__init__(
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=True,
+    allow_mixed_types=False,
+    log_mode: Optional[Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL']] = 'IMMUTABLE'
+)
+```
+
+Table 객체를 초기화합니다.
+
+`rows`는 하위 호환성 유지를 위한 매개변수로, 사용하지 않는 것을 권장합니다. `Table` 클래스는 pandas API를 모방하기 위해 `data`를 사용합니다.
+
+**Args:**
+
+* `columns`:  (List[str]) 테이블의 열 이름입니다. 기본값은 [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;]입니다.
+* `data`:  (List[List[any]]) 행 기준 2차원 배열입니다.
+* `dataframe`:  (pandas.DataFrame) 테이블을 생성하는 데 사용되는 DataFrame 객체입니다. 이 값이 설정되면 `data`와 `columns` 인수는 무시됩니다.
+* `rows`:  (List[List[any]]) 행 기준 2차원 배열입니다.
+* `optional`:  (Union[bool,List[bool]]) `None` 값을 허용할지 여부를 결정합니다. 기본값은 True입니다.
+  * 단일 bool 값인 경우, 생성 시 지정한 모든 열에 동일한 optional 규칙이 적용됩니다.
+  * bool 값 리스트인 경우, 각 열에 대해 개별적으로 optional 규칙이 적용됩니다. `columns`와 길이가 같아야 하며, 각 열에 각각 대응하여 적용됩니다.
+* `allow_mixed_types`:  (bool) 열에 서로 다른 타입이 섞이는 것을 허용할지 여부를 결정합니다(타입 검증 비활성화). 기본값은 False입니다.
+* `log_mode`:  Optional[str] Table에 변경(mutation)이 발생했을 때 어떻게 로깅할지 제어합니다. 옵션:
+  * &quot;IMMUTABLE&quot; (기본값): Table은 한 번만 로깅할 수 있으며, 이후 테이블이 변경된 뒤의 추가 로깅 시도는 아무 작업도 수행하지 않습니다.
+  * &quot;MUTABLE&quot;: 변경 후에도 Table을 다시 로깅할 수 있으며, 로깅할 때마다 새로운 Artifact 버전이 생성됩니다.
+  * &quot;INCREMENTAL&quot;: Table 데이터를 증분 방식으로 로깅하며, 각 로그는 마지막 로그 이후 새로 추가된 데이터만 포함하는 새로운 Artifact 엔트리를 생성합니다.
+
+***
+
+
+### <kbd>method</kbd> `Table.add_column`
+
+```python
+add_column(name, data, optional=False)
+```
+
+테이블에 데이터 열을 추가합니다.
+
+**인자:**
+
+* `name`:  (str) - 열의 고유 이름
+* `data`:  (list | np.array) - 동일한 타입의 데이터로 구성된 열
+* `optional`:  (bool) - null과 유사한 값을 허용할지 여부
+
+***
+
+
+### <kbd>메서드</kbd> `Table.add_computed_columns`
+
+```python
+add_computed_columns(fn)
+```
+
+기존 데이터를 기반으로 하나 이상의 계산 열을 추가합니다.
+
+**인수:**
+
+* `fn`: 하나 또는 두 개의 매개변수 `ndx`(int)와 `row`(dict)를 인자로 받는 함수로, 해당 행에 대해 새 열 이름을 키로 갖는 새 열들을 나타내는 dict를 반환해야 합니다.
+  * `ndx`는 행의 인덱스를 나타내는 정수입니다. `include_ndx`가 `True`로 설정된 경우에만 포함됩니다.
+  * `row`는 기존 열을 키로 하는 딕셔너리(dict)입니다.
+
+***
+
+
+### <kbd>method</kbd> `Table.add_data`
+
+```python
+add_data(*data)
+```
+
+테이블에 새 데이터 행을 추가합니다.
+
+테이블에 포함될 수 있는 최대 행 수는 `wandb.Table.MAX_ARTIFACT_ROWS`로 결정됩니다.
+
+데이터의 길이는 테이블 열 수와 일치해야 합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Table.add_row`
+
+```python
+add_row(*row)
+```
+
+더 이상 사용되지 않습니다. 대신 `Table.add_data` 메서드를 사용하세요.
+
+***
+
+
+### <kbd>메서드</kbd> `Table.cast`
+
+```python
+cast(col_name, dtype, optional=False)
+```
+
+열을 특정 데이터 타입으로 변환합니다.
+
+이는 일반적인 Python 클래스, 내부 W&amp;B 타입, 또는 wandb.Image나 wandb.Classes 인스턴스와 같은 예제 객체일 수 있습니다.
+
+**Args:**
+
+* `col_name` (str):  변환할 열의 이름.
+* `dtype` (class, wandb.wandb&#95;sdk.interface.&#95;dtypes.Type, any):  대상 dtype.
+* `optional` (bool):  열에서 None 값을 허용할지 여부.
+
+***
+
+
+### <kbd>메서드</kbd> `Table.get_column`
+
+```python
+get_column(name, convert_to=None)
+```
+
+테이블에서 열을 가져오고, 필요에 따라 NumPy 객체로 변환합니다.
+
+**Args:**
+
+* `name`:  (str) - 열 이름
+* `convert_to`:  (str, optional)
+  * &quot;numpy&quot;: 내부 데이터를 NumPy 객체로 변환합니다
+
+***
+
+
+### <kbd>메서드</kbd> `Table.get_dataframe`
+
+```python
+get_dataframe()
+```
+
+테이블을 `pandas.DataFrame` 형태로 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Table.get_index`
+
+```python
+get_index()
+```
+
+다른 테이블에서 링크를 만들 때 사용할 수 있도록 행 인덱스 배열을 반환합니다.
+
+***

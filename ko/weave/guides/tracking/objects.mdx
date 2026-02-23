@@ -1,0 +1,130 @@
+---
+title: "객체 추적 및 버전 관리"
+description: "Weave에서 JSON으로 직렬화할 수 있는 모든 객체를 추적하고 버전 관리합니다"
+---
+
+<div id="objects">
+  ## 객체
+</div>
+
+**객체(Object)**는 버전 관리되는 직렬화 가능한 데이터입니다. Weave는 객체가 변경될 때마다 이를 자동으로 버전 관리하여, 변경 불가능한 이력을 남깁니다. 객체에는 다음이 포함됩니다:
+
+* **Datasets**: Evaluation을 위한 예제들의 컬렉션
+* **Models**: LLM 로직을 위한 구성 및 파라미터
+* **Prompts**: 버전 관리되는 프롬프트 템플릿
+
+```python
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+
+<div id="publishing-an-object">
+  ## 객체 게시하기
+</div>
+
+Weave의 직렬화 계층은 객체를 저장하고 버전 관리합니다.
+
+<Tabs>
+  <Tab title="Python">
+
+    ```python lines
+    import weave
+    # Initialize tracking to the project 'intro-example'
+    weave.init('intro-example')
+    # Save a list, giving it the name 'cat-names'
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    TypeScript에서의 게시 기능은 아직 초기 단계라 모든 객체가 완전히 지원되는 것은 아닙니다.
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // Initialize tracking to the project 'intro-example'
+    const client = await weave.init('intro-example')
+
+    // Save an array, giving it the name 'cat-names'
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+
+  </Tab>
+</Tabs>
+
+이름을 지정해 객체를 저장하면 해당 이름의 객체가 아직 존재하지 않는 경우 그 객체의 첫 번째 버전을 생성합니다.
+
+<div id="getting-an-object-back">
+  ## 객체 다시 가져오기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    `weave.publish`는 Ref를 반환합니다. 어떤 Ref에서든 `.get()`을 호출해 객체를 다시 가져올 수 있습니다.
+
+    Ref를 생성해 두었다가 그 Ref로부터 객체를 다시 가져올 수도 있습니다.
+
+    ```python lines
+    weave.init('intro-example')
+    cat_names = weave.ref('cat-names').get()
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="deleting-an-object">
+  ## 객체 삭제하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    객체의 특정 버전을 삭제하려면 해당 객체 참조(ref)에서 `.delete()`를 호출합니다.
+
+    ```python lines
+    weave.init('intro-example')
+    cat_names_ref = weave.ref('cat-names:v1')
+    cat_names_ref.delete()
+    ```
+
+    삭제된 객체에 접근하려고 하면 오류가 발생합니다. 삭제된 객체에 대한 참조를 포함하는 객체를 resolve하면, 삭제된 객체 대신 `DeletedRef` 객체가 반환됩니다.
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="ref-styles">
+  ## 참조 스타일
+</div>
+
+전체 경로가 포함된 Weave 객체 참조 URI는 다음과 같습니다:
+
+```
+weave://<entity>/<project>/object/<object_name>:<object_version>
+```
+
+* *entity*: wandb 엔터티(사용자 이름 또는 팀)
+* *project*: wandb 프로젝트
+* *object&#95;name*: 객체 이름
+* *object&#95;version*: 버전 해시, v0, v1...과 같은 문자열, 또는 &quot;:latest&quot;와 같은 별칭. 모든 객체에는 &quot;:latest&quot; 별칭이 있습니다.
+
+Ref는 몇 가지 서로 다른 스타일로 작성할 수 있습니다
+
+* `weave.ref(<name>)`: `weave.init(<project>)`이(가) 먼저 호출되어 있어야 합니다. &quot;:latest&quot; 버전을 참조합니다
+* `weave.ref(<name>:<version>)`: `weave.init(<project>)`이(가) 먼저 호출되어 있어야 합니다.
+* `weave.ref(<fully_qualified_ref_uri>)`: weave.init을 호출하지 않고도 작성할 수 있습니다

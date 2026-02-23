@@ -1,0 +1,7 @@
+---
+title: "Do \"Run Finished\" alerts work in notebooks?"
+---
+
+아니요. **Run Finished** 알림 (User Settings의 **Run Finished** 설정으로 활성화)은 Python 스크립트에서만 작동하며 Jupyter Notebook 환경에서는 각 셀 실행마다 알림이 발생하지 않도록 비활성화되어 있습니다. 
+
+노트북 환경에서는 대신 `run.alert()`를 사용하십시오.

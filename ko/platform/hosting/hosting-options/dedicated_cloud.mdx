@@ -1,0 +1,106 @@
+---
+description: 프로덕션 환경에서 W&B Dedicated Cloud 배포
+title: Dedicated Cloud
+---
+
+W&amp;B Dedicated Cloud는 W&amp;B가 운영하는 AWS, Google Cloud, 또는 Azure 클라우드 계정에 배포되는 단일 테넌트형 완전 관리형 플랫폼입니다. 각 Dedicated Cloud 인스턴스는 다른 W&amp;B Dedicated Cloud 인스턴스와 분리된 고유한 네트워크, 컴퓨트, 스토리지 리소스를 가집니다. 사용자의 W&amp;B 관련 메타데이터와 데이터는 격리된 클라우드 스토리지에 저장되며, 격리된 클라우드 컴퓨트 서비스를 사용하여 처리됩니다.
+
+W&amp;B Dedicated Cloud는 [각 클라우드 제공업체별 여러 글로벌 리전](./dedicated_regions)에서 사용할 수 있습니다.
+
+<div id="compliance">
+  ## 컴플라이언스
+</div>
+
+* **SOC 2**: W&amp;B Dedicated Cloud의 호스팅 플랫폼은 [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) 요건을 충족하며, 이는 [American Institute of Certified Public Accountants (AICPA)의 Auditing Standards Board](https://www.aicpa-cima.com/home)가 발행한 기준입니다. SOC 2 보고서는 서비스 조직의 보안, 가용성, 처리 무결성, 기밀성, 프라이버시에 대한 통제를 평가합니다. W&amp;B Dedicated Cloud는 규정 준수의 지속성을 검증하기 위해 정기적인 내부 및 외부 감사를 받습니다. SOC 2 보고서 및 기타 보안·컴플라이언스 문서를 요청하려면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참조하세요.
+* **HIPAA**: 적절하게 구성된 경우, W&amp;B Dedicated Cloud는 [1996년 Health Insurance Portability and Accountability Act (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)의 요건을 충족합니다. HIPAA 컴플라이언스는 W&amp;B, 고객, 그리고 배포에 관여하는 모든 타사 서비스가 함께 부담하는 공동 책임입니다. HIPAA 적용 대상 기관은 W&amp;B와 **Business Associate Agreement**를 체결해 두어야 합니다. 추가 정보를 요청하려면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참조하세요.
+
+<div id="data-security">
+  ## 데이터 보안
+</div>
+
+[보안 스토리지 커넥터](/ko/platform/hosting/data-security/secure-storage-connector)를 사용해 [인스턴스 및 팀 수준](/ko/platform/hosting/data-security/secure-storage-connector#configuration-options)에서 BYOB(Bring Your Own Bucket)를 구성하여 모델, 데이터셋 등의 파일을 저장할 수 있습니다.
+
+W&amp;B 멀티 테넌트 클라우드와 마찬가지로, 여러 팀이 하나의 버킷을 공유하도록 구성할 수도 있고 팀별로 별도 버킷을 사용할 수도 있습니다. 특정 팀에 대해 보안 스토리지 커넥터를 구성하지 않으면 해당 팀의 데이터는 인스턴스 수준 버킷에 저장됩니다.
+
+<Frame>
+  <img src="/images/hosting/dedicated_cloud_arch.png" alt="Dedicated Cloud 아키텍처 다이어그램" />
+</Frame>
+
+보안 스토리지 커넥터를 사용한 BYOB 외에도, [IP 허용 목록](/ko/platform/hosting/data-security/ip-allowlisting)을 사용해 신뢰할 수 있는 네트워크 위치에서만 Dedicated Cloud 인스턴스에 접근하도록 제한할 수 있습니다.
+
+[클라우드 제공업체의 보안 연결 솔루션](/ko/platform/hosting/data-security/private-connectivity)을 사용해 Dedicated Cloud 인스턴스에 비공개로 연결할 수 있습니다.
+
+배포 환경이 조직의 정책 및 (해당하는 경우) [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)을 준수하도록 보장할 책임은 사용자에게 있습니다.
+
+<div id="identity-and-access-management-iam">
+  ## Identity and access management (IAM)
+</div>
+
+W&amp;B Organization에서 안전한 인증과 효과적인 권한 부여를 위해 Identity and Access Management 기능을 사용하세요. Dedicated Cloud 인스턴스에서 IAM을 위해 사용할 수 있는 기능은 다음과 같습니다:
+
+* [OpenID Connect (OIDC)](/ko/platform/hosting/iam/sso)를 사용한 SSO 또는 [LDAP](/ko/platform/hosting/iam/ldap)을 통해 인증합니다.
+* 조직 범위 및 팀 내에서 [적절한 사용자 역할을 구성](/ko/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role)합니다.
+* [제한된 프로젝트](/ko/platform/hosting/iam/access-management/restricted-projects)를 사용하여 W&amp;B 프로젝트의 범위를 정의하고, 누가 해당 프로젝트에 대해 W&amp;B 실행을 조회, 편집, 제출할 수 있을지 제한합니다.
+* [identity federation](/ko/platform/hosting/iam/identity_federation)과 JSON Web Token을 함께 활용하여 W&amp;B API에 액세스합니다.
+
+<div id="monitor">
+  ## 모니터링
+</div>
+
+[Audit logs](/ko/platform/hosting/monitoring-usage/audit-logging)를 사용하여 팀 내 사용자 활동을 추적하고 엔터프라이즈 거버넌스 요구 사항을 준수할 수 있습니다. 또한 Dedicated Cloud 인스턴스에서는 [W&amp;B Organization Dashboard](/ko/platform/hosting/monitoring-usage/org_dashboard)를 통해 조직 사용량을 확인할 수 있습니다.
+
+<div id="maintenance">
+  ## 유지관리
+</div>
+
+W&amp;B Multi-tenant Cloud와 마찬가지로, Dedicated Cloud를 사용하면 W&amp;B 플랫폼을 프로비저닝하고 유지관리하는 데 따르는 추가적인 부담과 비용이 발생하지 않습니다.
+
+Dedicated Cloud에서 업데이트가 어떻게 관리되는지 이해하려면 [서버 릴리스 프로세스](/ko/platform/hosting/server-upgrade-process)를 참고하세요.
+
+## 규정 준수
+
+W&amp;B Dedicated Cloud의 보안 통제는 정기적으로 내부 및 외부 감사를 받고 있습니다. 제품 평가를 위해 필요한 보안 및 규정 준수 문서를 요청하려면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참조하세요.
+
+<div id="data-retention-policy">
+  ## 데이터 보존 정책
+</div>
+
+기본적으로 Dedicated Cloud 인스턴스는 삭제 후 7일 동안 다음 항목을 보존합니다.
+
+* 실행 및 실행 이력
+* 미디어, 구성 파일, 로그 파일과 같은 아티팩트가 아닌 실행 관련 파일
+* Artifact 및 아티팩트 참조
+
+이 기간이 지나기 전까지는 이러한 항목을 복원할 수 있습니다. 복원이 필요하면 [support](mailto:support@wandb.ai) 또는 담당 AISE에게 문의하십시오.
+
+데이터 보존 요구 사항을 충족하기 위해 Dedicated Cloud 인스턴스의 데이터 보존 기간을 변경할 수 있습니다. 사용 사례에 따라 **환경 변수** 또는 **Helm** 탭을 선택해 자세한 내용을 확인하십시오.
+
+<Tabs>
+  <Tab title="환경 변수">
+    데이터 보존 정책을 변경하려면 환경 변수 `GORILLA_DATA_RETENTION_PERIOD`를 시간 단위 값으로 설정하십시오. 예를 들어 삭제된 데이터를 14일(336시간) 동안 보존하려면 다음을 실행합니다:
+
+    ```bash
+    export GORILLA_DATA_RETENTION_PERIOD="336h"
+    ```
+  </Tab>
+
+  <Tab title="Helm">
+    데이터 보존 정책을 변경하려면 Helm 값 `env.dataRetentionPeriod`를 시간 단위 값으로 설정하십시오. 예를 들어 삭제된 데이터를 14일(336시간) 동안 보존하려면 다음과 같이 설정합니다:
+
+    ```helm
+    env: dataRetentionPeriod: "336h"
+    ```
+  </Tab>
+</Tabs>
+
+<div id="migration-options">
+  ## 마이그레이션 옵션
+</div>
+
+[Self-Managed 인스턴스](/ko/platform/hosting/hosting-options/self-managed) 또는 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에서 Dedicated Cloud로의 마이그레이션이 지원되지만, 특정 제한 및 마이그레이션 관련 제약 사항이 적용됩니다.
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+Dedicated Cloud 사용에 관심이 있으시면 [이 양식](https://wandb.ai/site/for-enterprise/dedicated-saas-trial)을 제출하세요.

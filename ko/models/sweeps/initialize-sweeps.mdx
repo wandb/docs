@@ -1,0 +1,51 @@
+---
+description: W&B Sweep 초기화
+title: Sweep 초기화
+---
+
+W&amp;B는 클라우드(standard)나 하나 이상의 머신에 걸친 로컬(local) 환경에서 sweep을 관리하기 위해 &#95;Sweep Controller&#95;를 사용합니다. 하나의 실행이 완료되면 sweep controller는 실행할 새로운 실행을 정의하는 지시 사항 집합을 발급합니다. 이 지시는 실제로 실행을 수행하는 *에이전트(agents)* 가 가져갑니다. 일반적인 W&amp;B Sweep에서는 controller가 W&amp;B 서버에서 동작하고, 에이전트는 *사용자의* 머신에서 동작합니다.
+
+다음 코드 스니펫은 CLI와 Jupyter Notebook 또는 Python 스크립트에서 sweep을 초기화하는 방법을 보여줍니다.
+
+<Warning>
+  1. Sweep을 초기화하기 전에, YAML 파일 또는 스크립트 내의 중첩된 Python 딕셔너리 객체로 sweep 설정을 정의해 두었는지 확인하십시오. 자세한 내용은 [Sweep 설정 정의](/ko/models/sweeps/define-sweep-configuration/)를 참조하십시오.
+  2. W&amp;B Sweep과 W&amp;B 실행은 모두 동일한 프로젝트에 있어야 합니다. 따라서 W&amp;B를 초기화할 때 전달하는 프로젝트 이름([`wandb.init()`](/ko/models/ref/python/functions/init))은 W&amp;B Sweep을 초기화할 때 전달하는 프로젝트 이름([`wandb.sweep()`](/ko/models/ref/python/functions/sweep))과 일치해야 합니다.
+</Warning>
+
+<Tabs>
+  <Tab title="Python 스크립트 또는 노트북">
+    W&amp;B SDK를 사용하여 sweep을 초기화합니다. Sweep 설정 딕셔너리를 `sweep` 파라미터에 전달합니다. 선택적으로, W&amp;B 실행의 출력이 저장되기를 원하는 프로젝트의 이름을 `project` 파라미터에 제공할 수 있습니다. 프로젝트가 지정되지 않으면 실행은 &quot;Uncategorized&quot; 프로젝트에 배치됩니다.
+
+    ```python
+    import wandb
+
+    # 예시 sweep 설정
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {"goal": "maximize", "name": "val_acc"},
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
+    ```
+
+    [`wandb.sweep()`](/ko/models/ref/python/functions/sweep) 함수는 sweep ID를 반환합니다. Sweep ID에는 엔터티 이름과 프로젝트 이름이 포함됩니다. Sweep ID를 기록해 두십시오.
+  </Tab>
+
+  <Tab title="CLI">
+    W&amp;B CLI를 사용하여 sweep을 초기화합니다. 설정 파일의 이름을 지정하십시오. 선택적으로 `project` 플래그에 프로젝트 이름을 지정할 수 있습니다. 프로젝트가 지정되지 않으면 W&amp;B 실행은 &quot;Uncategorized&quot; 프로젝트에 배치됩니다.
+
+    [`wandb sweep`](/ko/models/ref/cli/wandb-sweep) 명령을 사용하여 sweep을 초기화합니다. 다음 코드 예시는 `sweeps_demo` 프로젝트에 대해 sweep을 초기화하고, 설정에 `config.yaml` 파일을 사용합니다.
+
+    ```bash
+    wandb sweep --project sweeps_demo config.yaml
+    ```
+
+    이 명령은 sweep ID를 출력합니다. Sweep ID에는 엔터티 이름과 프로젝트 이름이 포함됩니다. Sweep ID를 기록해 두십시오.
+  </Tab>
+</Tabs>

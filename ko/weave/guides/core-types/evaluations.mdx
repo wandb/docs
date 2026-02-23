@@ -1,0 +1,566 @@
+---
+title: "Evaluations 개요"
+description: "Evaluation 중심 LLM 애플리케이션 개발로 애플리케이션을 체계적으로 개선하기"
+---
+
+&#95;Evaluation 중심 LLM 애플리케이션 개발&#95;은 일관되고 선별된 예제를 사용해 LLM 애플리케이션의 동작을 체계적으로 측정함으로써 애플리케이션을 체계적으로 개선할 수 있도록 도와줍니다.
+
+<Tabs>
+  <Tab title="Python">
+    Weave에서 워크플로의 핵심은 &#95;`Evaluation` 객체&#95;이며, 다음을 정의합니다:
+
+    * 테스트 예제를 위한 [`Dataset`](../core-types/datasets) 또는 딕셔너리 리스트
+    * 하나 이상의 [스코어링 함수](../evaluation/scorers)
+    * [입력 전처리](#format-dataset-rows-before-evaluating)와 같은 선택적 구성 옵션
+
+    `Evaluation`을 정의한 후에는 [`Model`](../core-types/models) 객체나 LLM 애플리케이션 로직을 포함하는 임의의 커스텀 함수에 대해 실행할 수 있습니다. `.evaluate()`를 호출할 때마다 &#95;평가 실행&#95;이 트리거됩니다. `Evaluation` 객체를 설계도(blueprint)라고 생각하고, 각 실행은 해당 설정에서 애플리케이션이 어떻게 동작하는지를 측정하는 것이라고 보면 됩니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave에서 워크플로의 핵심은 &#95;`Evaluation` 객체&#95;이며, 다음을 정의합니다:
+
+    * 테스트 예제를 위한 [`Dataset`](../core-types/datasets) 또는 객체 배열
+    * 하나 이상의 [스코어링 함수](../evaluation/scorers)
+
+    `Evaluation`을 정의한 후에는 `weave.op`으로 래핑된 임의의 함수에 대해 실행할 수 있습니다. `.evaluate()`를 호출할 때마다 &#95;평가 실행&#95;이 트리거됩니다. `Evaluation` 객체를 설계도(blueprint)라고 생각하고, 각 실행은 해당 설정에서 애플리케이션이 어떻게 동작하는지를 측정하는 것이라고 보면 됩니다.
+
+    <Note>
+      TypeScript SDK는 함수 기반 모델과 스코어러를 사용합니다. 클래스 기반 `Model` 및 `Scorer` 타입은 아직 TypeScript에서 사용할 수 없습니다.
+    </Note>
+  </Tab>
+</Tabs>
+
+Evaluation을 시작하려면 다음 단계를 수행하십시오:
+
+1. [`Evaluation` 객체 생성](#1-create-an-evaluation-object)
+2. [테스트 예제용 데이터셋 정의](#2-define-a-dataset-of-test-examples)
+3. [스코어링 함수 정의](#3-define-scoring-functions)
+4. [평가할 모델 또는 함수 정의](#4-define-a-model-or-function-to-evaluate)
+5. [Evaluation 실행](#5-run-the-evaluation)
+
+전체 Evaluation 코드 예제는 [여기](#full-evaluation-code-sample)에서 확인할 수 있습니다. 또한 [Saved views](#saved-views)와 [Imperative evaluations](#imperative-evaluations-evaluationlogger)와 같은 [고급 Evaluation 기능](#advanced-evaluation-usage)에 대해서도 더 자세히 알아볼 수 있습니다.
+
+<div id="1-create-an-evaluation-object">
+  ## 1. `Evaluation` 객체 생성
+</div>
+
+`Evaluation` 객체를 생성하는 것은 평가 설정을 구성하는 첫 번째 단계입니다. 하나의 `Evaluation`은 예제 데이터, 스코어링 로직, 그리고 선택적인 전처리 단계로 구성됩니다. 이후 이 객체를 사용해 하나 이상의 평가를 실행합니다.
+
+Weave는 각 예제를 받아 애플리케이션을 거쳐 처리한 뒤, 결과 출력에 대해 여러 개의 사용자 지정 스코어링 함수를 사용해 점수를 계산합니다. 이렇게 하면 애플리케이션의 성능을 한눈에 파악할 수 있고, 개별 출력과 점수를 자세히 살펴볼 수 있는 풍부한 UI를 활용할 수 있습니다.
+
+<div id="optional-custom-naming">
+  ### (선택 사항) 사용자 정의 이름 지정
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Evaluation 흐름에서 사용자 정의할 수 있는 이름 유형은 두 가지입니다:
+
+    * [*Evaluation 객체 이름* (`evaluation_name`)](#name-the-evaluation-object): 구성한 `Evaluation` 객체에 대한 지속적인 레이블입니다.
+    * [*Evaluation 실행 표시 이름* (`__weave["display_name"]`)](#name-individual-evaluation-runs): UI에 표시되는, 특정 Evaluation 실행에 대한 레이블입니다.
+
+    #### `Evaluation` 객체 이름 지정
+
+    `Evaluation` 객체 자체에 이름을 지정하려면 `Evaluation` 클래스에 `evaluation_name` 파라미터를 전달합니다. 이 이름은 코드와 UI 목록에서 Evaluation을 식별하는 데 도움이 됩니다.
+
+    ```python lines
+    evaluation = Evaluation(
+        dataset=examples, scorers=[match_score1], evaluation_name="My Evaluation"
+    )
+    ```
+
+    #### 개별 Evaluation 실행 이름 지정
+
+    특정 Evaluation 실행(`evaluate()` 호출)에 이름을 지정하려면 `display_name`을 포함한 `__weave` 딕셔너리를 사용합니다. 이는 해당 실행에 대해 UI에 표시되는 이름에 영향을 줍니다.
+
+    ```python lines
+    evaluation = Evaluation(
+        dataset=examples, scorers=[match_score1]
+    )
+    evaluation.evaluate(model, __weave={"display_name": "My Evaluation Run"})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    `Evaluation` 객체에 이름을 지정하려면 `Evaluation` 생성자에 `id` 파라미터를 전달합니다. 이 이름은 코드와 UI 목록에서 Evaluation을 식별하는 데 도움이 됩니다.
+
+    ```typescript lines
+    const evaluation = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: dataset,
+      scorers: [matchScore],
+    });
+    ```
+  </Tab>
+</Tabs>
+
+<div id="2-define-a-dataset-of-test-examples">
+  ## 2. 테스트 예제 데이터셋 정의하기
+</div>
+
+먼저 평가할 예제 모음으로 구성된 [Dataset](../core-types/datasets) 객체 또는 예제 리스트를 정의합니다. 이러한 예제들은 보통 테스트하고 싶은 실패 사례들로, 테스트 주도 개발(TDD)의 단위 테스트와 유사한 역할을 합니다.
+
+<Tabs>
+  <Tab title="Python">
+    다음 예제는 딕셔너리 리스트로 정의된 데이터셋을 보여줍니다.
+
+    ```python lines
+    examples = [
+        {"question": "What is the capital of France?", "expected": "Paris"},
+        {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+        {"question": "What is the square root of 64?", "expected": "8"},
+    ]
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    다음 예제는 행 배열로 구성된 `Dataset` 객체로 정의된 데이터셋을 보여줍니다.
+
+    ```typescript lines
+    const dataset = new weave.Dataset({
+      id: 'my-dataset',
+      rows: [
+        {question: 'What is the capital of France?', expected: 'Paris'},
+        {question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee'},
+        {question: 'What is the square root of 64?', expected: '8'},
+      ],
+    });
+    ```
+  </Tab>
+</Tabs>
+
+<div id="3-define-scoring-functions">
+  ## 3. 점수 함수 정의
+</div>
+
+그런 다음 하나 이상의 [scoring functions](../evaluation/scorers)를 만듭니다. 이 함수들은 `Dataset` 의 각 예제를 점수화하는 데 사용됩니다.
+
+<Tabs>
+  <Tab title="Python">
+    각 점수 함수는 `output` 매개변수를 가져야 하며, 점수가 담긴 딕셔너리를 반환해야 합니다. 필요하다면 예제에서 온 다른 입력들을 추가로 받을 수도 있습니다.
+
+    점수 함수는 반드시 `output` 키워드 인자를 가져야 하지만, 그 외 인자들은 사용자가 정의하며 데이터셋 예제에서 가져옵니다. 인자 이름을 딕셔너리 키로 사용해 필요한 키만 가져옵니다.
+
+    <Tip>
+      scorer가 `output` 인자를 기대하지만 전달받지 못하고 있다면, 이전의 `model_output` 키를 사용하고 있는지 확인하세요. 이를 수정하려면 scorer 함수를 `output` 을 키워드 인자로 사용하도록 업데이트하세요.
+    </Tip>
+
+    다음 예시 scorer 함수 `match_score1` 는 점수화를 위해 `examples` 딕셔너리의 `expected` 값을 사용합니다.
+
+    ```python lines
+    import weave
+
+    # 예제를 수집합니다
+    examples = [
+        {"question": "What is the capital of France?", "expected": "Paris"},
+        {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+        {"question": "What is the square root of 64?", "expected": "8"},
+    ]
+
+    # 원하는 사용자 정의 점수 함수를 정의합니다
+    @weave.op()
+    def match_score1(expected: str, output: dict) -> dict:
+        # 여기에서 모델 출력에 점수를 매기는 로직을 정의합니다
+        return {'match': expected == output['generated_text']}
+    ```
+
+    ### (선택) 사용자 정의 `Scorer` 클래스 정의
+
+    일부 애플리케이션에서는 사용자 정의 `Scorer` 클래스를 만들고자 할 수 있습니다. 예를 들어, 특정 파라미터(예: 챗 모델, 프롬프트), 각 행에 대한 특정 점수 방식, 그리고 집계 점수 계산 방식을 가진 표준화된 `LLMJudge` 클래스를 생성해야 할 수 있습니다.
+
+    더 자세한 내용은 [Model-Based Evaluation of RAG applications](/ko/weave/tutorial-rag#optional-defining-a-scorer-class) 튜토리얼의 `Scorer` 클래스 정의 섹션을 참고하세요.
+  </Tab>
+
+  <Tab title="TypeScript">
+    각 점수 함수는 `weave.op` 으로 래핑되며, `modelOutput` 과 `datasetRow` 프로퍼티를 가진 객체를 입력으로 받습니다.
+
+    다음 예시 scorer 함수 `matchScore` 는 모델 출력을 데이터셋 행의 `expected` 값과 비교합니다.
+
+    ```typescript lines
+    import * as weave from 'weave';
+
+    // 예제를 데이터셋으로 수집합니다
+    const dataset = new weave.Dataset({
+      id: 'my-dataset',
+      rows: [
+        {question: 'What is the capital of France?', expected: 'Paris'},
+        {question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee'},
+        {question: 'What is the square root of 64?', expected: '8'},
+      ],
+    });
+
+    // 원하는 사용자 정의 점수 함수를 정의합니다
+    const matchScore = weave.op(
+      ({modelOutput, datasetRow}) => {
+        return {match: modelOutput === datasetRow.expected};
+      },
+      {name: 'matchScore'}
+    );
+    ```
+
+    <Note>
+      클래스 기반 `Scorer` 타입은 아직 TypeScript에서 지원되지 않습니다. `weave.op` 으로 래핑된 함수 기반 scorer를 사용하세요.
+    </Note>
+  </Tab>
+</Tabs>
+
+<div id="4-define-a-model-or-function-to-evaluate">
+  ## 4. 평가할 모델 또는 함수 정의하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    `Model`을 평가하려면 `Evaluation`을 사용해 `evaluate`를 호출합니다. `Model`은 실험해 보고 Weave에 기록하고 싶은 파라미터가 있을 때 사용합니다.
+
+    ```python lines
+    from weave import Model, Evaluation
+    import asyncio
+
+    class MyModel(Model):
+        prompt: str
+
+        @weave.op()
+        def predict(self, question: str):
+            # 여기에서 LLM 호출을 추가하고 출력값을 반환합니다
+            return {'generated_text': 'Hello, ' + self.prompt}
+
+    model = MyModel(prompt='World')
+
+    evaluation = Evaluation(
+        dataset=examples, scorers=[match_score1]
+    )
+    weave.init('intro-example') # Weave에서 결과 추적 시작
+    asyncio.run(evaluation.evaluate(model))
+    ```
+
+    이 코드는 각 예시에 대해 `predict`를 실행하고, 각 스코어링 함수로 출력 결과를 평가합니다.
+
+    ### (선택 사항) 평가할 함수 정의하기
+
+    또는 `@weave.op()`으로 추적되는 사용자 정의 함수를 평가할 수도 있습니다.
+
+    ```python lines
+    @weave.op
+    def function_to_evaluate(question: str):
+        # 여기에서 LLM 호출을 추가하고 출력값을 반환합니다
+        return  {'generated_text': 'some response'}
+
+    asyncio.run(evaluation.evaluate(function_to_evaluate))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript에서는 `weave.op`으로 래핑한 함수를 평가합니다. 이 함수는 데이터셋의 각 행을 입력으로 받아 모델 출력을 반환합니다.
+
+    ```typescript lines
+    import * as weave from 'weave';
+
+    // Weave 초기화
+    await weave.init('intro-example');
+
+    // 평가할 함수 정의
+    const myModel = weave.op(
+      async ({question}) => {
+        // 여기에서 LLM 호출을 추가하고 출력값을 반환합니다
+        return 'Paris';
+      },
+      {name: 'myModel'}
+    );
+
+    // Evaluation 생성
+    const evaluation = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: dataset,
+      scorers: [matchScore],
+    });
+
+    // Evaluation 실행
+    const results = await evaluation.evaluate({model: myModel});
+    ```
+
+    이 코드는 각 예시에 대해 `myModel`을 실행하고, 각 스코어링 함수로 출력 결과를 평가합니다.
+  </Tab>
+</Tabs>
+
+<div id="5-run-the-evaluation">
+  ## 5. 평가 실행하기
+</div>
+
+평가를 실행하려면 `Evaluation` 객체에서 `.evaluate()`를 호출합니다.
+
+<Tabs>
+  <Tab title="Python">
+    `evaluation`이라는 `Evaluation` 객체와 평가할 `model`이라는 `Model` 객체가 있다고 가정하면, 아래 코드는 평가 실행을 수행합니다.
+
+    ```python lines
+    asyncio.run(evaluation.evaluate(model))
+    ```
+
+    ### (선택 사항) 여러 번 반복 실행하기
+
+    각 예제를 여러 번 실행하려면 `Evaluation` 객체의 `trials` 파라미터를 설정하면 됩니다.
+
+    ```python lines
+    evaluation = Evaluation(
+        dataset=examples,
+        scorers=[match_score],
+        trials=3
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    `evaluation`이라는 `Evaluation` 객체와 `myModel`이라는 모델 함수가 있다고 가정하면, 아래 코드는 평가를 실행합니다.
+
+    ```typescript lines
+    const results = await evaluation.evaluate({model: myModel});
+    ```
+
+    ### (선택 사항) 여러 번 반복 실행하기
+
+    각 예제를 여러 번 실행하려면 `evaluate()`를 호출할 때 `nTrials` 파라미터를 설정하면 됩니다.
+
+    ```typescript lines
+    const results = await evaluation.evaluate({
+      model: myModel,
+      nTrials: 3,
+    });
+    ```
+  </Tab>
+</Tabs>
+
+이 실행에서는 각 예제를 모델에 세 번 전달하며, 각 실행은 Weave에서 개별적으로 점수가 매겨지고 표시됩니다.
+
+<div id="full-evaluation-code-example">
+  ## 전체 평가 코드 예시
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    다음 코드 예시는 처음부터 끝까지 하나의 전체 평가 실행을 보여줍니다. `examples` 딕셔너리는 `match_score1` 및 `match_score2` 스코어링 함수가 `prompt` 값에 따라 `MyModel`을 평가할 때와, 사용자 정의 함수 `function_to_evaluate`를 평가할 때 사용됩니다. `Model`과 함수에 대한 평가 실행은 모두 `asyncio.run(evaluation.evaluate())`로 호출됩니다.
+
+    ```python lines
+    from weave import Evaluation, Model
+    import weave
+    import asyncio
+    weave.init('intro-example')
+    examples = [
+        {"question": "What is the capital of France?", "expected": "Paris"},
+        {"question": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+        {"question": "What is the square root of 64?", "expected": "8"},
+    ]
+
+    @weave.op()
+    def match_score1(expected: str, output: dict) -> dict:
+        return {'match': expected == output['generated_text']}
+
+    @weave.op()
+    def match_score2(expected: dict, output: dict) -> dict:
+        return {'match': expected == output['generated_text']}
+
+    class MyModel(Model):
+        prompt: str
+
+        @weave.op()
+        def predict(self, question: str):
+            # 여기에서 LLM 호출을 추가하고 출력을 반환합니다.
+            return {'generated_text': 'Hello, ' + question + self.prompt}
+
+    model = MyModel(prompt='World')
+    evaluation = Evaluation(dataset=examples, scorers=[match_score1, match_score2])
+
+    asyncio.run(evaluation.evaluate(model))
+
+    @weave.op()
+    def function_to_evaluate(question: str):
+        # 여기에서 LLM 호출을 추가하고 출력을 반환합니다.
+        return  {'generated_text': 'some response' + question}
+
+    asyncio.run(evaluation.evaluate(function_to_evaluate("What is the capitol of France?")))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    다음 코드 예시는 처음부터 끝까지 하나의 전체 평가 실행을 보여줍니다. 데이터셋의 각 행은 `matchScore` 스코어링 함수가 `myModel`을 평가할 때 사용됩니다.
+
+    ```typescript lines
+    import * as weave from 'weave';
+
+    // Weave 초기화
+    await weave.init('intro-example');
+
+    // 예제를 하나의 데이터셋으로 모읍니다.
+    const dataset = new weave.Dataset({
+      id: 'my-dataset',
+      rows: [
+        {question: 'What is the capital of France?', expected: 'Paris'},
+        {question: 'Who wrote "To Kill a Mockingbird"?', expected: 'Harper Lee'},
+        {question: 'What is the square root of 64?', expected: '8'},
+      ],
+    });
+
+    // 스코어링 함수 정의
+    const matchScore = weave.op(
+      ({modelOutput, datasetRow}) => {
+        return {match: modelOutput === datasetRow.expected};
+      },
+      {name: 'matchScore'}
+    );
+
+    // 평가할 함수 정의
+    const myModel = weave.op(
+      async ({question}) => {
+        // 여기에서 LLM 호출을 추가하고 출력을 반환합니다.
+        return 'Paris';
+      },
+      {name: 'myModel'}
+    );
+
+    // Evaluation 생성 및 실행
+    const evaluation = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: dataset,
+      scorers: [matchScore],
+    });
+
+    const results = await evaluation.evaluate({model: myModel});
+    console.log('Evaluation results:', results);
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  ![Evals 대표 이미지](/images/evals-hero.png)
+</Frame>
+
+<div id="advanced-evaluation-usage">
+  ## 고급 Evaluation 활용
+</div>
+
+<div id="format-dataset-rows-before-evaluating">
+  ### 평가 전에 데이터셋 행 형식 지정하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    <Warning>
+      `preprocess_model_input` 함수는 입력을 모델의 예측 함수에 전달하기 전 단계에만 적용됩니다. 스코어러 함수는 항상 전처리가 적용되지 않은 원본 데이터셋 예제를 그대로 전달받습니다.
+    </Warning>
+
+    `preprocess_model_input` 파라미터를 사용하면 데이터셋 예제를 평가 함수에 전달하기 전에 변환할 수 있습니다. 이는 다음과 같은 작업이 필요할 때 유용합니다:
+
+    * 필드 이름을 모델이 기대하는 입력 이름으로 변경
+    * 데이터를 올바른 형식으로 변환
+    * 필드를 추가하거나 제거
+    * 각 예제에 대해 추가 데이터를 로드
+
+    다음은 `preprocess_model_input`을 사용해 필드 이름을 변경하는 간단한 예제입니다:
+
+    ```python lines
+    import weave
+    from weave import Evaluation
+    import asyncio
+
+    # Our dataset has "input_text" but our model expects "question"
+    examples = [
+        {"input_text": "What is the capital of France?", "expected": "Paris"},
+        {"input_text": "Who wrote 'To Kill a Mockingbird'?", "expected": "Harper Lee"},
+        {"input_text": "What is the square root of 64?", "expected": "8"},
+    ]
+
+    @weave.op()
+    def preprocess_example(example):
+        # Rename input_text to question
+        return {
+            "question": example["input_text"]
+        }
+
+    @weave.op()
+    def match_score(expected: str, output: dict) -> dict:
+        return {'match': expected == output['generated_text']}
+
+    @weave.op()
+    def function_to_evaluate(question: str):
+        return {'generated_text': f'Answer to: {question}'}
+
+    # Create evaluation with preprocessing
+    evaluation = Evaluation(
+        dataset=examples,
+        scorers=[match_score],
+        preprocess_model_input=preprocess_example
+    )
+
+    # Run the evaluation
+    weave.init('preprocessing-example')
+    asyncio.run(evaluation.evaluate(function_to_evaluate))
+    ```
+
+    이 예제에서 데이터셋 예제는 `input_text` 필드를 포함하지만, 평가 함수는 `question` 파라미터를 기대합니다. `preprocess_example` 함수는 각 예제의 필드 이름을 변경해 Evaluation이 올바르게 동작하도록 변환합니다.
+
+    전처리 함수는 다음과 같이 동작합니다:
+
+    1. 데이터셋에서 원본 예제를 입력으로 받습니다.
+    2. 모델이 기대하는 필드들을 포함하는 딕셔너리를 반환합니다.
+    3. 평가 함수에 전달되기 전에 각 예제에 대해 적용됩니다.
+
+    이는 모델이 기대하는 필드 이름이나 구조와 다른 외부 데이터셋을 사용할 때 특히 유용합니다.
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript에서는 `Evaluation` 객체의 `columnMapping`을 사용해 데이터셋 컬럼 이름을 스코어러가 기대하는 이름으로 매핑할 수 있습니다. 데이터셋의 필드 이름이 스코어러 함수에서 기대하는 필드 이름과 다를 때 유용합니다.
+
+    다음 예제는 `expectedOutputTimesTwo` 컬럼을 `expected` 컬럼에 매핑합니다:
+
+    ```typescript lines
+    const myScorer = weave.op(
+      ({modelOutput, datasetRow}) => {
+        return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+      },
+      {name: 'myScorer'}
+    );
+
+    const evaluation = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: [{expected: 2}],
+      scorers: [myScorer],
+      columnMapping: {expectedOutputTimesTwo: 'expected'},
+    });
+    ```
+
+    <Note>
+      `preprocess_model_input` 파라미터는 아직 TypeScript에서는 사용할 수 없습니다. 데이터셋 필드를 스코어러가 기대하는 필드에 매핑하려면 `columnMapping`을 사용하세요.
+    </Note>
+  </Tab>
+</Tabs>
+
+<div id="use-huggingface-datasets-with-evaluations">
+  ### HuggingFace 데이터셋을 Evaluation에서 사용하기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    저희는 서드파티 서비스 및 라이브러리와의 연동을 지속적으로 개선하고 있습니다.
+
+    더 매끄러운 통합 기능을 개발하는 동안, 임시 방편으로 `preprocess_model_input`을 사용해 Weave Evaluation에서 HuggingFace Datasets를 사용할 수 있습니다.
+
+    현재 권장 방식은 [Using HuggingFace datasets in evaluations cookbook](/ko/weave/cookbooks/hf_dataset_evals)을 참고하세요.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 현재 TypeScript에서는 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="saved-views">
+  ### 저장된 뷰
+</div>
+
+Evals 테이블의 설정, 필터, 정렬을 *저장된 뷰(saved view)* 로 저장해 두면, 선호하는 구성을 빠르게 다시 불러올 수 있습니다. UI와 Python SDK에서 저장된 뷰를 구성하고 사용할 수 있습니다. 자세한 내용은 [Saved Views](/ko/weave/guides/tools/saved-views)를 참조하세요.
+
+<div id="imperative-evaluations-evaluationlogger">
+  ### 명령형 Evaluation (`EvaluationLogger`)
+</div>
+
+더 유연한 평가 프레임워크가 필요하다면 Weave의 [`EvaluationLogger`](../evaluation/evaluation_logger)를 사용해 보세요. `EvaluationLogger`는 Python과 TypeScript 모두에서 사용할 수 있으며, 복잡한 워크플로우를 보다 유연하게 구성할 수 있는 반면, 표준 평가 프레임워크는 더 많은 구조와 가이드를 제공합니다.

@@ -1,0 +1,37 @@
+---
+title: 개인정보 보호 설정 구성
+---
+
+조직 관리자와 팀 관리자는 각각 조직 및 팀 범위에서 일련의 개인정보 보호 설정을 구성할 수 있습니다. 조직 범위에서 설정을 구성하면 조직 관리자는 해당 조직의 모든 팀에 이 설정을 강제 적용할 수 있습니다.
+
+<Note>
+W&B는 조직 관리자가 조직 내 모든 팀 관리자와 사용자에게 이를 사전에 알린 뒤에만 개인정보 보호 설정을 강제 적용할 것을 권장합니다. 이는 워크플로우에 예기치 않은 변경이 발생하는 것을 방지하기 위한 것입니다.
+</Note>
+
+<div id="configure-privacy-settings-for-a-team">
+  ## 팀 개인정보 보호 설정 구성
+</div>
+
+팀 관리자는 팀 **Settings** 탭의 `Privacy` 섹션에서 각 팀에 대한 개인정보 보호 설정을 구성할 수 있습니다. 각 설정은 조직 범위에서 강제 적용되지 않은 경우에만 개별적으로 설정할 수 있습니다:
+
+* **Hide this team from all non-members** - 팀에 속하지 않은 사용자에게 팀이 표시되지 않도록 합니다.
+* **Make all future team projects private** - 팀에서 생성되는 모든 향후 새 프로젝트를 비공개로 설정합니다(공개 공유 불가).
+* **Allow any team member to invite other members** - 관리자뿐 아니라 모든 팀 구성원이 새 구성원을 초대할 수 있도록 허용합니다.
+* **Turn off public sharing for reports in private projects** - 비공개 프로젝트의 리포트에 대해 공개 공유를 비활성화하고, 기존 매직 링크를 비활성화합니다.
+* **Allow users with matching organization email domain to join this team** - 조직 이메일 도메인과 동일한 이메일 도메인을 사용하는 사용자가 이 팀에 자동으로 가입할 수 있도록 허용합니다.
+  <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) 배포에서만 사용할 수 있습니다.</Note>
+* **Enable code saving by default** - 팀의 모든 실행에 대해 코드를 자동으로 저장합니다.
+
+<div id="enforce-privacy-settings-for-all-teams">
+  ## 모든 팀에 개인정보 보호 설정 적용
+</div>
+
+조직 관리자는 계정 또는 조직 대시보드의 **Settings** 탭에 있는 `Privacy` 섹션에서 조직 내 모든 팀에 대한 개인정보 보호 설정을 강제 적용할 수 있습니다. 조직 관리자가 설정을 강제하는 경우, 팀 관리자는 해당 팀 내에서 그 설정을 변경할 수 없습니다.
+
+* **팀 가시성 제한 강제** - 조직 전체에서 비구성원에게 모든 팀을 숨깁니다
+* **향후 프로젝트에 대한 개인정보 보호 강제** - 모든 팀에서 새로 생성되는 모든 프로젝트가 비공개 또는 [제한됨](./iam/access-management/restricted-projects) 상태가 되도록 요구합니다
+* **초대 제어 강제** - 관리자가 아닌 사용자가 어느 팀에도 구성원을 초대하지 못하도록 합니다
+* **리포트 공유 제어 강제** - 비공개 프로젝트에서 리포트의 공개 공유를 중지하고 기존 매직 링크를 비활성화합니다
+* **팀 자동 가입 제한 강제** - 조직 이메일 도메인이 일치하는 사용자가 어느 팀에도 자동으로 가입하지 못하도록 제한합니다
+  <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) 배포에서만 사용할 수 있습니다.</Note>
+* **기본 코드 저장 제한 강제** - 모든 팀에서 기본값으로 코드 저장을 비활성화합니다

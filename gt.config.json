@@ -2,7 +2,13 @@
   "options": {
     "experimentalClearLocaleDirs": true,
     "mintlify": {
-      "inferTitleFromFilename": true
+      "inferTitleFromFilename": true,
+      "openapi": {
+        "files": [
+          "./training/api-reference/openapi.json",
+          "./weave/reference/service-api/openapi.json"
+        ]
+      }
     },
     "jsonSchema": {
       "./docs.json": {
@@ -30,6 +36,12 @@
             }
           }
         }
+      },
+      "./training/api-reference/openapi.json": {
+        "preset": "openapi"
+      },
+      "./weave/reference/service-api/openapi.json": {
+        "preset": "openapi"
       }
     },
     "docsUrlPattern": "/[locale]",
@@ -45,7 +57,19 @@
   "files": {
     "json": {
       "include": [
-        "./docs.json"
+        "./docs.json",
+        "./training/api-reference/openapi.json",
+        "./weave/reference/service-api/openapi.json"
+      ],
+      "transform": [
+        {
+          "match": "^training/api-reference/openapi.json$",
+          "replace": "{locale}/training/api-reference/openapi.json"
+        },
+        {
+          "match": "^weave/reference/service-api/openapi.json$",
+          "replace": "{locale}/weave/reference/service-api/openapi.json"
+        }
       ]
     },
     "mdx": {

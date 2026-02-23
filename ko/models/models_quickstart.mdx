@@ -1,0 +1,270 @@
+---
+title: W&B Models 시작하기
+---
+
+머신러닝 워크플로우에서 W&amp;B를 사용하여 모델 아티팩트를 추적, 공유 및 관리해야 하는 시점과 방법을 알아보세요. 이 페이지에서는 실험을 기록하고 리포트를 생성하는 방법과, 각 작업에 적합한 W&amp;B API를 사용해 기록된 데이터에 접근하는 방법을 다룹니다.
+
+이 튜토리얼에서는 다음을 사용합니다:
+
+* [W&amp;B Python SDK](/ko/models/ref/python) (`wandb.sdk`): 학습 중 실험을 기록하고 모니터링합니다.
+* [W&amp;B Public API](/ko/models/ref/python/public-api) (`wandb.apis.public`): 기록된 실험 데이터를 쿼리하고 분석합니다.
+* [W&amp;B Reports and Workspaces API](/ko/models/ref/wandb_workspaces) (`wandb.wandb-workspaces`): 결과를 요약하는 리포트를 생성합니다.
+
+<div id="sign-up-and-create-an-api-key">
+  ## 가입하고 API 키 만들기
+</div>
+
+사용 중인 머신을 W&amp;B에 인증하려면 먼저 [wandb.ai/settings](https://wandb.ai/settings)에서 API 키를 생성해야 합니다. API 키를 복사해 안전한 곳에 보관하세요.
+
+<div id="install-and-import-packages">
+  ## 패키지 설치 및 임포트
+</div>
+
+이 튜토리얼에서 사용할 W&amp;B 라이브러리와 기타 필요한 패키지를 설치하세요.
+
+```python
+pip install wandb
+```
+
+W&amp;B Python SDK를 가져옵니다:
+
+```python
+import wandb
+```
+
+다음 코드 블록에서 팀의 엔터티를 지정하세요.
+
+```python
+TEAM_ENTITY = "<Team_Entity>" # 팀 엔터티를 입력하세요
+PROJECT = "my-awesome-project"
+```
+
+<div id="train-a-model">
+  ## 모델 학습하기
+</div>
+
+아래 코드는 기본적인 머신러닝 워크플로를 시뮬레이션합니다. 모델을 학습하고, 메트릭을 기록하며, 모델을 아티팩트로 저장합니다.
+
+학습 중에 W&amp;B와 상호작용하려면 W&amp;B Python SDK(`wandb.sdk`)를 사용하세요. [`wandb.Run.log()`](/ko/models/ref/python/experiments/run/#method-runlog)로 loss를 기록한 다음, [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact)를 사용해 학습된 모델을 아티팩트로 저장하고, 마지막으로 [`Artifact.add_file`](/ko/models/ref/python/experiments/artifact#add_file)를 사용해 모델 파일을 추가합니다.
+
+```python
+import random # 데이터 시뮬레이션용
+
+def model(training_data: int) -> int:
+    """데모 목적의 모델 시뮬레이션."""
+    return training_data * 2 + random.randint(-1, 1)  
+
+# 가중치 및 노이즈 시뮬레이션
+weights = random.random() # 랜덤 가중치 초기화
+noise = random.random() / 5  # 노이즈 시뮬레이션을 위한 소규모 랜덤 노이즈
+
+# 하이퍼파라미터 및 설정
+config = {
+    "epochs": 10,  # 학습할 에포크 수
+    "learning_rate": 0.01,  # 옵티마이저의 학습률
+}
+
+# 컨텍스트 매니저를 사용하여 W&B 실행 초기화 및 종료
+with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
+    # 학습 루프 시뮬레이션
+    for epoch in range(config["epochs"]):
+        xb = weights + noise  # 시뮬레이션된 입력 학습 데이터
+        yb = weights + noise * 2  # 시뮬레이션된 목표 출력 (입력 노이즈의 두 배)
+        
+        y_pred = model(xb)  # 모델 예측
+        loss = (yb - y_pred) ** 2  # 평균 제곱 오차 손실
+
+        print(f"epoch={epoch}, loss={loss}")
+        # W&B에 에포크 및 손실 기록
+        run.log({
+            "epoch": epoch,
+            "loss": loss,
+        })
+
+    # 모델 아티팩트의 고유 이름
+    model_artifact_name = f"model-demo"  
+
+    # 시뮬레이션된 모델 파일을 저장할 로컬 경로
+    PATH = "model.txt" 
+
+    # 모델을 로컬에 저장
+    with open(PATH, "w") as f:
+        f.write(str(weights)) # 모델 가중치를 파일에 저장
+
+    # 아티팩트 객체 생성
+    # 로컬에 저장된 모델을 아티팩트 객체에 추가
+    artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
+    artifact.add_file(local_path=PATH)
+    artifact.save()
+```
+
+이전 코드 블록에서 알아두어야 할 핵심 사항은 다음과 같습니다:
+
+* 학습 중 메트릭을 기록하려면 `wandb.Run.log()`를 사용합니다.
+* 모델(데이터세트 등)을 W&amp;B 프로젝트의 아티팩트로 저장하려면 `wandb.Artifact`를 사용합니다.
+
+이제 모델을 학습하고 이를 아티팩트로 저장했으므로, W&amp;B의 레지스트리에 게시할 수 있습니다. [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run/#method-runuse_artifact)를 사용하여 프로젝트에서 아티팩트를 가져오고 Model Registry에 게시할 수 있도록 준비합니다. `wandb.Run.use_artifact()`는 두 가지 주요 역할을 합니다:
+
+* 프로젝트에서 아티팩트 객체를 가져옵니다.
+* 해당 아티팩트를 실행의 입력으로 표시하여 재현성과 추적 가능성을 보장합니다. 자세한 내용은 [계보 맵 생성 및 보기](/ko/models/registry/lineage)를 참조하세요.
+
+<div id="view-the-training-data-in-the-dashboard">
+  ## 대시보드에서 학습 데이터 확인하기
+</div>
+
+https://wandb.ai/login 에 접속해 계정에 로그인하세요.
+
+**Projects** 아래에서 `my-awesome-project`(또는 위에서 사용한 프로젝트 이름)를 볼 수 있습니다. 이 항목을 클릭해 해당 프로젝트의 워크스페이스로 들어가세요.
+
+여기에서 지금까지 수행한 각 실행에 대한 세부 정보를 확인할 수 있습니다. 이 스크린샷에서는 코드를 여러 번 다시 실행해 여러 개의 실행이 생성되었고, 각 실행에는 무작위로 생성된 이름이 지정됩니다.
+
+<Frame>
+  <img src="/images/quickstart/quickstart_image.png" alt="여러 실행이 테이블 뷰로 표시된 W&B 프로젝트 페이지. 실행 이름, 메트릭, 상태 정보 등이 포함되어 있음" />
+</Frame>
+
+<div id="publish-the-model-to-the-wb-registry">
+  ## 모델을 W&amp;B Registry에 게시하기
+</div>
+
+조직 내 다른 사람들과 모델을 공유하려면 `wandb.Run.link_artifact()`를 사용해 모델을 [컬렉션](/ko/models/registry/create_collection)에 게시하세요. 다음 코드는 아티팩트를 [Registry](/ko/models/registry)에 연결하여 팀이 사용할 수 있도록 합니다.
+
+```python
+# 아티팩트 이름은 팀 프로젝트 내의 특정 아티팩트 버전을 지정합니다
+artifact_name = f'{TEAM_ENTITY}/{PROJECT}/{model_artifact_name}:v0'
+print("Artifact name: ", artifact_name)
+
+REGISTRY_NAME = "Model" # W&B의 레지스트리 이름
+COLLECTION_NAME = "DemoModels"  # 레지스트리의 컬렉션 이름
+
+# 레지스트리에서 아티팩트의 대상 경로를 생성합니다
+target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+print("Target path: ", target_path)
+
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
+    model_artifact = run.use_artifact(artifact_or_name=artifact_name, type="model")
+    run.link_artifact(artifact=model_artifact, target_path=target_path)
+```
+
+`wandb.Run.link_artifact()`를 실행하면 모델 Artifact가 레지스트리의 `DemoModels` 컬렉션에 추가됩니다. 여기에서 버전 이력, [lineage 맵](/ko/models/registry/lineage), 기타 [메타데이터](/ko/models/registry/registry_cards) 등의 세부 정보를 확인할 수 있습니다.
+
+Artifact를 레지스트리에 연결하는 방법에 대한 자세한 내용은 [레지스트리에 Artifact 연결](/ko/models/registry/link_version)을 참조하세요.
+
+<div id="retrieve-model-artifact-from-registry-for-inference">
+  ## 레지스트리에서 모델 아티팩트를 가져와 추론에 사용하기
+</div>
+
+모델을 추론에 사용하려면 `wandb.Run.use_artifact()`을 사용해 레지스트리에서 게시된 아티팩트를 가져옵니다. 이 메서드는 아티팩트 객체를 반환하므로, 이후 [`wandb.Artifact.download()`](/ko/models/ref/python/experiments/artifact/#method-artifactdownload)를 사용해 해당 아티팩트를 로컬 파일로 다운로드할 수 있습니다.
+
+```python
+REGISTRY_NAME = "Model"  # W&B의 레지스트리 이름
+COLLECTION_NAME = "DemoModels"  # 레지스트리의 컬렉션 이름
+VERSION = 0 # 가져올 아티팩트의 버전
+
+model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+print(f"모델 아티팩트 이름: {model_artifact_name}")
+
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
+    registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
+    local_model_path = registry_model.download()
+```
+
+레지스트리에서 아티팩트를 가져오는 방법에 대한 자세한 내용은 [레지스트리에서 아티팩트 다운로드](/ko/models/registry/download_use_artifact)를 참조하세요.
+
+사용 중인 머신 러닝 프레임워크에 따라 가중치를 로드하기 전에 모델 아키텍처를 다시 구성해야 할 수 있습니다. 이는 사용 중인 프레임워크와 모델에 따라 달라지므로, 독자가 직접 수행해 보시기 바랍니다.
+
+<div id="share-your-finds-with-a-report">
+  ## 리포트로 결과 공유하기
+</div>
+
+<Note>
+  W&amp;B Report 및 Workspace API는 Public Preview 단계입니다.
+</Note>
+
+작업 내용을 요약하는 [리포트](/ko/models/reports)를 생성해 공유하세요. 리포트를 프로그램으로 생성하려면 [W&amp;B Report and Workspace API](/ko/models/ref/wandb_workspaces/reports)를 사용하세요.
+
+먼저 W&amp;B Reports API를 설치하세요:
+
+```python
+pip install wandb wandb-workspaces -qqq
+```
+
+다음 코드 블록은 마크다운, 패널 그리드 등을 포함한 여러 블록으로 구성된 보고서를 생성합니다. 더 많은 블록을 추가하거나 기존 블록의 내용을 변경하여 보고서를 사용자 정의할 수 있습니다.
+
+코드 블록의 출력으로 생성된 보고서의 URL 링크가 표시됩니다. 이 링크를 브라우저에서 열어 보고서를 확인할 수 있습니다.
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+experiment_summary = """This is a summary of the experiment conducted to train a simple model using W&B."""
+dataset_info = """The dataset used for training consists of synthetic data generated by a simple model."""
+model_info = """The model is a simple linear regression model that predicts output based on input data with some noise."""
+
+report = wr.Report(
+    project=PROJECT,
+    entity=TEAM_ENTITY,
+    title="My Awesome Model Training Report",
+    description=experiment_summary,
+    blocks= [
+        wr.TableOfContents(),
+        wr.H2("Experiment Summary"),
+        wr.MarkdownBlock(text=experiment_summary),
+        wr.H2("Dataset Information"),
+        wr.MarkdownBlock(text=dataset_info),
+        wr.H2("Model Information"),
+        wr.MarkdownBlock(text = model_info),
+        wr.PanelGrid(
+            panels=[
+                wr.LinePlot(title="Train Loss", x="Step", y=["loss"], title_x="Step", title_y="Loss")
+                ],
+            ),  
+    ]
+
+)
+
+# W&B에 리포트 저장
+report.save()
+```
+
+보고서를 프로그래밍 방식으로 생성하는 방법이나 W&amp;B 앱에서 대화형으로 보고서를 만드는 방법에 대한 자세한 내용은 W&amp;B Docs의 Developer 가이드에 있는 [보고서 생성](/ko/models/reports/create-a-report)을 참조하세요.
+
+<div id="query-the-registry">
+  ## 레지스트리 조회하기
+</div>
+
+[W&amp;B Public APIs](/ko/models/ref/python/public-api)를 사용해 W&amp;B의 이력 데이터를 조회, 분석, 관리할 수 있습니다. 이는 아티팩트의 계보를 추적하고, 서로 다른 버전을 비교하며, 시간에 따른 모델 성능을 분석하는 데 유용합니다.
+
+다음 코드 블록은 특정 컬렉션에 포함된 모든 아티팩트를 조회하기 위해 Model 레지스트리를 쿼리하는 방법을 보여 줍니다. 컬렉션을 가져온 후 그 버전들을 순회해 각 아티팩트의 이름과 버전을 출력합니다.
+
+```python
+import wandb
+
+# wandb API 초기화
+api = wandb.Api()
+
+# 문자열 `model`을 포함하고 
+# `text-classification` 태그 또는 `latest` 별칭을 가진 모든 아티팩트 버전 검색
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# 논리 $or 연산자를 사용하여 아티팩트 버전 필터링
+version_filters = {
+    "$or": [
+        {"tag": "text-classification"},
+        {"alias": "latest"}
+    ]
+}
+
+# 필터 조건에 일치하는 모든 아티팩트 버전의 이터러블 반환
+artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
+
+# 검색된 각 아티팩트의 이름, 컬렉션, 별칭, 태그, 생성일 출력
+for art in artifacts:
+    print(f"아티팩트 이름: {art.name}")
+    print(f"아티팩트가 속한 컬렉션: { art.collection.name}")
+    print(f"아티팩트 별칭: {art.aliases}")
+    print(f"아티팩트에 연결된 태그: {art.tags}")
+    print(f"아티팩트 생성일: {art.created_at}\n")
+```
+
+레지스트리 조회에 대한 자세한 내용은 [레지스트리 항목 쿼리](/ko/models/registry/search_registry/#query-registry-items-with-mongodb-style-queries)를 참조하세요.

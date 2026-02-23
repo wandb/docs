@@ -1,0 +1,40 @@
+---
+title: Member
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+
+## <kbd>class</kbd> `Member`
+
+팀의 구성원입니다.
+
+### <kbd>메서드</kbd> `Member.__init__`
+
+```python
+__init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
+```
+
+**인자:**
+
+* `client` (`wandb.apis.internal.Api`):  사용할 클라이언트 인스턴스
+* `team` (str):  이 멤버가 속한 팀 이름
+* `attrs` (dict):  멤버 속성 딕셔너리
+
+***
+
+
+### <kbd>method</kbd> `Member.delete`
+
+```python
+delete()
+```
+
+팀에서 구성원을 제거합니다.
+
+**반환값:**
+성공 여부를 나타내는 불리언 값

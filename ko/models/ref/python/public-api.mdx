@@ -1,0 +1,159 @@
+---
+title: Public API 개요
+description: W&B Public API를 사용하여 프로그래밍 방식으로 W&B 데이터에 액세스하고 관리할 수 있습니다
+module: wandb.apis.public
+no_list: true
+---
+
+import PublicApiUse from "/snippets/ko/_includes/public-api-use.mdx";
+
+W&amp;B Public API는 W&amp;B에 저장된 데이터를 쿼리하고, 내보내고, 업데이트하기 위해 프로그래밍 방식으로 액세스할 수 있게 해줍니다. 이 API를 사후 분석, 데이터 내보내기, 실행·아티팩트·스윕의 프로그래밍 방식 관리를 위해 사용하세요. 기본 SDK가 학습 중 실시간 로깅을 처리하는 반면, Public API를 사용하면 과거 데이터를 조회하고 메타데이터를 업데이트하며 아티팩트를 관리하고 완료된 실험을 분석할 수 있습니다. 기본 `Api` 클래스는 대부분의 기능에 대한 진입점 역할을 합니다.
+
+<PublicApiUse />
+
+<div id="available-components">
+  ## 사용 가능한 컴포넌트
+</div>
+
+| Component | 설명 |
+|-----------|-------------|
+| [`Api`](/ko/models/ref/python/public-api/api/) | Public API의 주요 진입점입니다. 조직 전체의 실행, 프로젝트, 아티팩트를 조회할 수 있습니다. |
+| [`Runs`](/ko/models/ref/python/public-api/runs/) | 개별 학습 실행에 접근하고, 히스토리, 로그, 지표를 관리합니다. |
+| [`Artifacts`](/ko/models/artifacts/) | 모델 아티팩트, 데이터셋 및 기타 버전 관리되는 파일을 조회하고 다운로드합니다. |
+| [`Sweeps`](/ko/models/sweeps/) | 하이퍼파라미터 스윕 데이터를 조회하고 최적화 결과를 분석합니다. |
+| [`Projects`](/ko/models/ref/python/public-api/projects/) | 프로젝트를 관리하고 프로젝트 수준 메타데이터와 설정에 접근합니다. |
+| [`Reports`](/ko/models/reports/create-a-report/) | W&amp;B Reports에 프로그래밍 방식으로 접근하고 관리합니다. |
+| [`Team`](/ko/models/ref/python/public-api/team) | 팀 정보를 조회하고 팀 수준 리소스를 관리합니다. |
+| [`User`](/ko/models/ref/python/public-api/user) | 사용자 프로필과 사용자별 데이터에 접근합니다. |
+| [`Files`](/ko/models/ref/python/public-api/files/) | 실행과 연결된 파일을 다운로드하고 관리합니다. |
+| `History` | 학습 중에 기록된 상세 시계열 지표에 접근합니다( Run.history 참조). |
+| [`Automations`](./automations/) | 자동화된 워크플로우와 작업을 관리합니다. |
+| [`Integrations`](/ko/models/integrations) | 서드 파티 통합을 구성하고 관리합니다. |
+
+<div id="common-use-cases">
+  ## 주요 사용 사례
+</div>
+
+<div id="data-export-and-analysis">
+  ### 데이터 내보내기 및 분석
+</div>
+
+* Jupyter 노트북에서 분석할 수 있도록 실행 기록을 DataFrame 형식으로 내보내기
+* 사용자 지정 시각화 또는 보고서 작성을 위해 메트릭 다운로드하기
+* 여러 실험에 대한 결과를 집계하기
+
+<div id="post-hoc-updates">
+  ### 사후 업데이트
+</div>
+
+* 완료된 실행의 메타데이터를 업데이트
+* 완료된 실행에 태그 또는 노트를 추가
+* 실행 구성이나 요약 정보를 수정
+
+<div id="artifact-management">
+  ### 아티팩트 관리
+</div>
+
+* 버전 또는 별칭으로 아티팩트 조회
+* 모델 체크포인트를 코드로 다운로드
+* 아티팩트 이력 및 의존성 추적
+
+<div id="sweep-analysis">
+  ### 스윕 분석
+</div>
+
+* 스윕 결과와 최고 성능을 보인 실행에 액세스
+* 하이퍼파라미터 탐색 결과 내보내기
+* 파라미터 중요도 분석
+
+<div id="authentication">
+  ## 인증
+</div>
+
+Public API는 Python SDK와 동일한 인증 메커니즘을 사용합니다. 여러 방법으로 인증할 수 있습니다:
+
+`WANDB_API_KEY` 환경 변수를 사용해 API 키를 설정하세요:
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+`Api` 클래스를 초기화할 때 API 키를 직접 전달하세요:
+
+```python
+api = Api(api_key="your_api_key")
+```
+
+또는 현재 세션을 인증하려면 `wandb.login()`을 호출하세요:
+
+```python
+import wandb
+
+wandb.login()
+api = Api()
+```
+
+<div id="example-usage">
+  ## 사용 예
+</div>
+
+<div id="download-an-artifact-by-name-and-alias">
+  ### 이름과 별칭으로 Artifact 다운로드
+</div>
+
+다음 예제는 이름과 별칭을 사용해 W&amp;B에 로깅된 아티팩트를 가져와 그 내용을 다운로드하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
+```
+
+<div id="download-an-artifact-from-a-registry">
+  ### 레지스트리에서 Artifact 다운로드
+</div>
+
+다음 예제는 W&amp;B Registry에서 링크된 아티팩트를 가져오는 방법을 보여줍니다.
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# 아티팩트 가져오기
+fetched_artifact = api.artifact(name = artifact_name)
+
+# 아티팩트 다운로드. 다운로드된 콘텐츠의 경로를 반환
+downloaded_path = fetched_artifact.download()
+```
+
+<div id="query-wb-registry">
+  ### W&amp;B Registry 조회
+</div>
+
+MongoDB와 유사한 필터를 사용해서 W&amp;B Registry, Collection, 그리고 아티팩트를 조회할 수 있습니다. 다음 예시는 정규식을 사용해 이름으로 컬렉션을 필터링하는 방법을 보여줍니다.
+
+```python
+import wandb
+
+# wandb API 초기화
+api = wandb.Api()
+
+# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이
+# 포함된 모든 컬렉션 필터링
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# 필터 조건에 일치하는 모든 컬렉션의 이터러블 반환
+collections = api.registries().collections(filter=collection_filters)
+```
+
+레지스트리, 컬렉션 또는 아티팩트를 쿼리하는 방법에 대한 자세한 내용은 [레지스트리 항목 찾기](/ko/models/registry/search_registry) 문서를 참조하세요.

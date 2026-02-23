@@ -1,0 +1,60 @@
+---
+title: "Weights & Biases 문서"
+description: "모든 Weights & Biases 제품 문서를 확인하세요"
+sidebarTitle: "홈"
+mode: wide
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/ko/models" subtitle="AI 모델 개발">
+      W&amp;B Models를 사용해 AI 모델 개발을 체계적으로 관리하세요. 주요 기능으로는 학습, 파인튜닝, 보고서 작성, 하이퍼파라미터 스윕 자동화, 버전 관리와 재현성을 위한 모델 레지스트리 활용 등이 있습니다.
+
+      <br />
+
+      <br />
+
+      • <a href="/ko/models">소개</a><br />
+      • <a href="/ko/models/quickstart">빠른 시작</a><br />
+      • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube 튜토리얼</a><br />
+    </ProductCard>
+
+    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/ko/weave" subtitle="앱에서 AI 모델 활용">
+      W&amp;B Weave를 사용해 코드에서 AI 모델을 관리하세요. 추적(tracing), 출력 평가, 비용 추정, 그리고 다양한 대형 언어 모델(LLM)과 설정을 비교할 수 있는 호스팅형 추론 서비스 및 플레이그라운드를 제공합니다.
+
+      <br />
+
+      <br />
+
+      • <a href="/ko/weave">소개</a><br />
+      • <a href="/ko/weave/quickstart">빠른 시작</a><br />
+      • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube 데모</a><br />
+    </ProductCard>
+
+    <ProductCard title="W&B Inference" iconSrc="icons/cropped-inference.svg" href="/ko/inference" subtitle="파운데이션 모델에 접근">
+      W&amp;B Inference를 사용해 OpenAI 호환 API를 통해 주요 오픈 소스 파운데이션 모델에 접근하세요. 여러 모델 옵션, 사용량 추적, Weave와의 통합을 통한 추적 및 평가 기능을 제공합니다.
+
+      <br />
+
+      <br />
+
+      • <a href="/ko/inference">소개</a><br />
+      • <a href="https://wandb.ai/inference">Playground에서 체험하기</a>
+    </ProductCard>
+
+    <ProductCard title="W&B Training" iconSrc="icons/cropped-training.svg" href="/ko/training" subtitle="모델 사후 학습">
+      현재 퍼블릭 프리뷰 단계인 W&amp;B Training을 사용해 서버리스 강화 학습(RL)을 통해 대형 언어 모델을 사후 학습(post-train)할 수 있습니다. 완전 관리형 GPU 인프라, ART 및 RULER와의 통합, 멀티턴 에이전트 작업을 위한 자동 확장 기능을 제공합니다.
+
+      <br />
+
+      <br />
+
+      • <a href="/ko/training">소개</a><br />
+      • <a href="/ko/training/prerequisites">빠른 시작</a><br />
+    </ProductCard>
+  </div>
+</HomeWrapper>

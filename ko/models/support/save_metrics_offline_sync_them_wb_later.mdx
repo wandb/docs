@@ -1,0 +1,48 @@
+---
+title: 메트릭을 오프라인으로 저장했다가 나중에 W&B에 동기화할 수 있나요?
+---
+
+기본적으로 `wandb.init`은 메트릭을 실시간으로 클라우드에 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 환경 변수를 설정해 오프라인 모드를 활성화한 뒤, 나중에 동기화하면 됩니다.
+
+다음 환경 변수를 설정하세요:
+
+1. `WANDB_API_KEY=$KEY` (`$KEY`는 [User Settings](https://wandb.ai/settings)에서 생성한 API 키입니다).
+2. `WANDB_MODE="offline"`.
+
+스크립트에서 이를 구현하는 예시는 다음과 같습니다:
+
+```python
+import wandb
+import os
+
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
+os.environ["WANDB_MODE"] = "offline"
+
+config = {
+    "dataset": "CIFAR10",
+    "machine": "offline cluster",
+    "model": "CNN",
+    "learning_rate": 0.01,
+    "batch_size": 128,
+}
+
+with wandb.init(project="offline-demo") as run:
+    for i in range(100):
+        run.log({"accuracy": i})
+```
+
+예시 터미널 출력은 아래와 같습니다:
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output.png" alt="오프라인 모드에서의 터미널 출력" />
+</Frame>
+
+작업을 완료한 후, 데이터를 클라우드와 동기화하려면 다음 명령을 실행하세요:
+
+```shell
+wandb sync wandb/dryrun-folder-name
+```
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output_cloud.png" alt="클라우드 동기화 시 터미널 출력" />
+</Frame>

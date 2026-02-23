@@ -1,0 +1,48 @@
+---
+title: 실행에서 기록하거나 사용한 아티팩트를 어떻게 찾을 수 있나요? 아티팩트를 생성하거나 사용한 실행은 어떻게 찾을 수 있나요?
+---
+
+W&B는 각 실행이 기록한 아티팩트와 각 실행에서 사용한 아티팩트를 추적하여 아티팩트 그래프를 구성합니다. 이 그래프는 실행과 아티팩트를 노드로 갖는 이분 방향 비순환 그래프입니다. 예시는 [여기](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph)에서 볼 수 있습니다(그래프를 확장하려면 "Explode"를 클릭하세요).
+
+Public API를 사용하여 아티팩트 또는 실행에서 시작해 코드로 그래프를 탐색할 수 있습니다.
+
+<Tabs>
+<Tab title="Artifact에서 시작">
+
+```python
+api = wandb.Api()
+
+artifact = api.artifact("project/artifact:alias")
+
+# 아티팩트에서 그래프를 위쪽으로 탐색:
+producer_run = artifact.logged_by()
+# 아티팩트에서 그래프를 아래쪽으로 탐색:
+consumer_runs = artifact.used_by()
+
+# 실행에서 그래프를 아래쪽으로 탐색:
+next_artifacts = consumer_runs[0].logged_artifacts()
+# 실행에서 그래프를 위쪽으로 탐색:
+previous_artifacts = producer_run.used_artifacts()
+```
+
+</Tab>
+<Tab title="Run에서 시작">
+
+```python
+api = wandb.Api()
+
+run = api.run("entity/project/run_id")
+
+# 실행에서 그래프를 아래쪽으로 탐색:
+produced_artifacts = run.logged_artifacts()
+# 실행에서 그래프를 위쪽으로 탐색:
+consumed_artifacts = run.used_artifacts()
+
+# 아티팩트에서 그래프를 위쪽으로 탐색:
+earlier_run = consumed_artifacts[0].logged_by()
+# 아티팩트에서 그래프를 아래쪽으로 탐색:
+consumer_runs = produced_artifacts[0].used_by()
+```
+
+</Tab>
+</Tabs>

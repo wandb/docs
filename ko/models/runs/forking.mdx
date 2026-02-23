@@ -1,0 +1,136 @@
+---
+description: 원본 실행에 영향을 주지 않고, 실험의 특정 시점에서 다양한 파라미터나 모델을 탐색합니다.
+title: 실행 포크하기
+---
+
+<Warning>
+  실행을 포크하는 기능은 현재 프라이빗 프리뷰 단계입니다. 이 기능에 대한 액세스를 요청하려면 support@wandb.com으로 W&amp;B Support에 문의하세요.
+</Warning>
+
+실험의 특정 시점에서 원본 실행에 영향을 주지 않고 다양한 파라미터나 모델을 탐색할 수 있습니다. 이를 위해 기존 W&amp;B 실행을 포크하면 됩니다.
+
+실행을 포크하면, W&amp;B는 소스 실행의 run ID와 지정한 step을 사용해 새 실행을 생성합니다. 포크된 실행에는 해당 step까지의 소스 실행의 모든 데이터가 포함됩니다. 포크 step 이후에는 원본 실행과 독립적으로 포크된 실행에 새 데이터를 로그할 수 있습니다.
+
+<Note>
+  * 실행 포크는 [`wandb`](https://pypi.org/project/wandb/) SDK 버전 0.16.5 이상에서만 사용할 수 있습니다.
+  * 실행을 포크하려면 step이 단조 증가(monotonically increasing)해야 합니다. [`define_metric()`](/ko/models/ref/python/experiments/run#define_metric)으로 정의된 비단조(non-monotonic) step을 사용하는 실행에서는 포크할 수 없습니다. 비단조 step은 실행 기록과 시스템 메트릭의 시간 순서를 어긋나게 합니다.
+</Note>
+
+기존 실행에서 포크하려면 [`wandb.init()`](/ko/models/ref/python/functions/init)의 `fork_from` 파라미터를 사용하세요. 소스 실행의 고유한 `run ID`와 포크된 실행을 시작하려는 `step`을 지정합니다.
+
+<Note>
+  run ID와 이를 찾는 방법에 대한 자세한 내용은 [고유 실행 식별자(Unique run identifiers)](/ko/models/runs/run-identifiers#unique-run-identifiers)를 참고하세요.
+</Note>
+
+<div id="fork-from-a-previously-logged-run">
+  ## 이전에 로깅된 실행에서 포크하기
+</div>
+
+다음 코드 스니펫은 이전에 W&amp;B에 로깅된 실행에서 포크하는 방법을 보여줍니다. 이 방법을 사용하면 다른 스크립트나 노트북에서의 실행이거나, 다른 사용자나 서비스 계정이 로깅한 실행에서도 포크할 수 있습니다.
+
+`<source-run-id>`, `<project>`, `<entity>`를 본인의 값으로 바꾸세요.
+
+```python
+import wandb
+
+# 포크할 소스 실행의 고유 ID
+source_run_id = "<source-run-id>"
+
+# 포크할 스텝 지정
+fork_step = 200
+
+# 실행 포크
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{source_run_id}?_step={fork_step}",
+) as forked_run:
+    pass
+```
+
+<div id="fork-from-a-run-in-the-same-script">
+  ## 동일한 스크립트에서 실행을 포크하기
+</div>
+
+다음 코드 스니펫은 동일한 스크립트 내에서 실행을 어떻게 포크하는지 보여줍니다. 이는 동일한 스크립트나 노트북의 특정 지점에서 서로 다른 파라미터나 모델을 탐색하고 싶을 때 유용합니다.
+
+```python
+import wandb
+
+# 실행 초기화
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as original_run:
+    # ...여기에 학습 로직을 작성하세요 ...
+    pass
+
+# 포크 시작 스텝 지정
+fork_step = 200
+
+# 원본 실행의 ID를 사용하여 포크 시작 스텝 지정
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{original_run.id}?_step={fork_step}",
+) as forked_run:
+    # ...여기에 학습 로직을 작성하세요 ...
+    pass
+```
+
+`original_run.id` 속성을 사용하여 원본 실행의 고유 ID를 가져옵니다.
+
+<div id="example-script">
+  ### 예시 스크립트
+</div>
+
+예를 들어, 다음 코드 예시는 먼저 실행을 포크한 뒤, 훈련 단계 200부터 포크된 실행에 메트릭을 기록하는 방법을 보여줍니다.
+
+다음 코드를 Python 스크립트나 노트북 셀에 복사해 붙여넣은 후 `<project>`와 `<entity>`를 자신의 값으로 바꾸십시오.
+
+```python
+import wandb
+import math
+
+# 첫 번째 실행을 초기화하고 일부 메트릭을 기록합니다
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as run1:
+    for i in range(300):
+        run1.log({"metric": i})
+
+# 특정 스텝에서 첫 번째 실행을 포크하고
+# 스텝 200부터 메트릭을 기록합니다
+with wandb.init(
+    project="<project>", 
+    entity="<entity>", 
+    fork_from=f"{run1.id}?_step=200"
+) as run2:
+    # 새 실행에서 계속 기록합니다
+    # 처음 몇 스텝 동안은 run1의 메트릭을 그대로 기록합니다
+    # 스텝 250 이후부터 스파이크 패턴을 기록하기 시작합니다
+    for i in range(200, 300):
+        if i < 250:
+            # 스파이크 없이 run1에서 계속 기록합니다
+            metric_value = i
+        else:
+            # 스텝 250부터 스파이크 동작을 도입합니다
+            metric_value = i + (2 * math.sin(i / 3.0))  # 완만한 스파이크 패턴 적용
+
+        # 동일한 스텝에 기록되도록 단일 호출로 두 메트릭을 모두 기록합니다
+        run2.log({
+            "metric": metric_value,
+            "additional_metric": i * 1.1
+        })
+```
+
+<Note>
+  **Rewind 및 포크 호환성**
+
+  포크는 실행을 관리하고 실험하는 데 더 많은 유연성을 제공함으로써 [`rewind`](/ko/models/runs/rewind/) 기능을 보완합니다.
+
+  어떤 실행에서 포크를 수행하면, W&amp;B는 해당 실행의 특정 시점을 기준으로 새 브랜치를 생성해 다른 파라미터나 모델을 시도할 수 있게 합니다.
+
+  실행을 `rewind`할 때, W&amp;B는 실행 기록 자체를 정정하거나 수정할 수 있도록 해 줍니다.
+</Note>

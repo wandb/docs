@@ -1,0 +1,307 @@
+---
+title: "프롬프트 저장 및 버전 관리"
+description: "LLM 애플리케이션용 프롬프트를 저장, 구성하고 버전을 관리하기"
+---
+
+프롬프트를 생성하고, 평가하고, 개선하는 일은 AI 엔지니어의 핵심 작업입니다.
+프롬프트의 작은 변경이 애플리케이션 동작에 큰 영향을 줄 수 있습니다.
+W&B Weave를 사용하면 프롬프트를 생성하고 저장·조회하며, 시간에 따라 발전시킬 수 있습니다.
+
+Weave는 Prompt 구성 방식에 대해 특정한 패턴을 강제하지 않습니다. 요구 사항이 단순하다면, 내장된 `weave.StringPrompt` 또는 `weave.MessagesPrompt` 클래스를 사용할 수 있습니다. 요구 사항이 더 복잡하다면, 이 클래스들이나 기본 클래스인 `weave.Prompt`를 상속하고
+`format` 메서드를 오버라이드하면 됩니다.
+
+이 객체 중 하나를 `weave.publish`로 게시하면, Weave 프로젝트의 [Prompts 페이지](#view-prompts)에 표시됩니다.
+
+<div id="stringprompt">
+  ## StringPrompt
+</div>
+
+`StringPrompt`는 시스템 메시지, 사용자 질의, 또는 LLM에 대한 단독 텍스트 입력 등 단일 문자열 프롬프트를 로깅하는 데 사용됩니다. 복잡한 다중 메시지 대화가 필요하지 않은 개별 프롬프트 문자열을 관리할 때는 `StringPrompt` 사용을 권장합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {4,5,15}
+    import weave
+    weave.init('intro-example')
+
+    system_prompt = weave.StringPrompt("You speak like a pirate")
+    weave.publish(system_prompt, name="pirate_prompt")
+
+    from openai import OpenAI
+    client = OpenAI()
+
+    response = client.chat.completions.create(
+      model="gpt-4o",
+      messages=[
+        {
+          "role": "system",
+          "content": system_prompt.format()
+        },
+        {
+          "role": "user",
+          "content": "Explain general relativity in one paragraph."
+        }
+      ],
+    )
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init는 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const systemPrompt = new weave.StringPrompt({
+        content: 'You speak like a pirate',
+        name: 'your-prompt',
+        description: 'A helpful description of your prompt',
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(systemPrompt, 'pirate_prompt');
+
+      // Weave에서 호출을 추적할 수 있도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt.content
+          },
+          {
+            role: "user",
+            content: "Explain general relativity in one paragraph."
+          }
+        ],
+      });
+    }
+
+    main();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="messagesprompt">
+  ## MessagesPrompt
+</div>
+
+`MessagesPrompt`를 사용하면 멀티턴 대화와 챗 기반 프롬프트를 로깅할 수 있습니다. 이는 전체 대화 흐름을 표현하는 메시지 객체 배열( "system", "user", "assistant" 같은 역할 포함)을 저장합니다. 여러 메시지에 걸쳐 컨텍스트를 유지해야 하거나, 특정 대화 패턴을 정의하거나, 재사용 가능한 대화 템플릿을 만들고자 하는 챗 기반 LLM에서는 이 방식을 사용할 것을 권장합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {4,21}
+    import weave
+    weave.init('intro-example')
+
+    prompt = weave.MessagesPrompt([
+        {
+            "role": "system",
+            "content": "You are a stegosaurus, but don't be too obvious about it."
+        },
+        {
+            "role": "user",
+            "content": "What's good to eat around here?"
+        }
+    ])
+    weave.publish(prompt, name="dino_prompt")
+
+    from openai import OpenAI
+    client = OpenAI()
+
+    response = client.chat.completions.create(
+      model="gpt-4o",
+      messages=prompt.format(),
+    )
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init은 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.MessagesPrompt({
+        messages: [
+          {
+            "role": "system",
+            "content": "You are a stegosaurus, but don't be too obvious about it."
+          },
+          {
+            "role": "user",
+            "content": "What's good to eat around here?"
+          }
+        ],
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(prompt, 'dino_prompt');
+
+      // Weave에서 호출을 추적할 수 있도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: prompt.messages,
+      });
+    }
+
+    main();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="parameterizing-prompts">
+  ## 프롬프트 매개변수화
+</div>
+
+`StringPrompt`와 `MessagesPrompt`는 모두 매개변수화를 통해 동적으로 내용을 구성할 수 있습니다. 이를 사용하면 런타임에 서로 다른 값으로 채울 수 있는 플레이스홀더(`{variable}` 구문 사용)를 포함한, 유연하고 재사용 가능한 프롬프트 템플릿을 만들 수 있습니다. 이는 서로 다른 입력, 사용자 데이터 또는 컨텍스트에 맞게 프롬프트를 조정하면서도 일관된 구조를 유지해야 하는 확장 가능한 애플리케이션을 구축할 때 유용합니다. `format()` 메서드는 키-값 쌍을 받아 이러한 플레이스홀더를 실제 값으로 대체합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {4,15}
+    import weave
+    weave.init('intro-example')
+
+    prompt = weave.StringPrompt("Solve the equation {equation}")
+    weave.publish(prompt, name="calculator_prompt")
+
+    from openai import OpenAI
+    client = OpenAI()
+
+    response = client.chat.completions.create(
+      model="gpt-4o",
+      messages=[
+        {
+          "role": "user",
+          "content": prompt.format(equation="1 + 1 = ?")
+        }
+      ],
+    )
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines {8,23}
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init은 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.StringPrompt({
+        content: 'Solve the equation {equation}',
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(prompt, 'calculator_prompt');
+
+      // Weave에서 호출을 추적하도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "user",
+            content: prompt.format({ equation: "1 + 1 = ?" })
+          }
+        ],
+      });
+    }
+
+    main();
+    ```
+  </Tab>
+</Tabs>
+
+이는 `MessagesPrompt`에도 동일하게 적용됩니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {4,21}
+    import weave
+    weave.init('intro-example')
+
+    prompt = weave.MessagesPrompt([
+    {
+        "role": "system",
+        "content": "You will be provided with a description of a scene and your task is to provide a single word that best describes an associated emotion."
+    },
+    {
+        "role": "user",
+        "content": "{scene}"
+    }
+    ])
+    weave.publish(prompt, name="emotion_prompt")
+
+    from openai import OpenAI
+    client = OpenAI()
+
+    response = client.chat.completions.create(
+      model="gpt-4o",
+      messages=prompt.format(scene="A dog is lying on a dock next to a fisherman."),
+    )
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines {8,29}
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    async function main() {
+      // weave.init은 클라이언트 인스턴스를 반환합니다
+      const weaveClient = await weave.init('wandb/prompt-examples');
+
+      const prompt = new weave.MessagesPrompt({
+        messages: [
+          {
+            "role": "system",
+            "content": "You will be provided with a description of a scene and your task is to provide a single word that best describes an associated emotion."
+          },
+          {
+            "role": "user",
+            "content": "{scene}"
+          }
+        ]
+      });
+      
+      // init에서 반환된 클라이언트를 사용합니다
+      await weaveClient.publish(prompt, 'emotion_prompt');
+
+      // Weave에서 호출을 추적하도록 OpenAI 클라이언트를 래핑합니다
+      const client = weave.wrapOpenAI(new OpenAI());
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: prompt.format({ scene: "A dog is lying on a dock next to a fisherman." }),
+      });
+    }
+
+    main();
+    ```
+  </Tab>
+</Tabs>
+
+## <a id="view-prompts" aria-label="프롬프트 버전 보기 및 비교"></a>프롬프트 버전 보기 및 비교
+
+Weave는 프롬프트의 모든 버전을 자동으로 추적하여, 프롬프트가 어떻게 변화·발전했는지에 대한 완전한 이력을 만듭니다. 이 버전 관리 시스템은 프롬프트 엔지니어링 워크플로우에서 매우 중요하며, 안전하게 실험하고, 어떤 변경이 성능을 향상시켰는지 혹은 저하시켰는지 추적하며, 필요할 때 이전 버전으로 쉽게 되돌릴 수 있도록 해 줍니다. 동일한 이름이지만 내용이 다른 프롬프트를 게시할 때마다 Weave는 이전 모든 버전을 그대로 유지한 채 새 버전을 생성합니다. 
+
+UI에서 프롬프트 버전을 보려면:
+
+1. UI에서 프로젝트를 열고 왼쪽 메뉴의 **Assets** 버튼을 클릭합니다. 그러면 Assets 페이지가 열립니다.
+2. Assets 페이지에서 **Prompts**를 클릭합니다. 그러면 해당 프로젝트의 프롬프트가 나열된 Prompts 페이지가 열립니다.
+3. **Versions** 열에서, 확인하려는 프롬프트의 **(x) Versions**를 클릭합니다. 그러면 프롬프트 버전 목록이 열립니다.
+
+![Screenshot of viewing a prompt object](/weave/guides/core-types/imgs/prompt-object.png)
+
+4. (선택 사항) 나열된 프롬프트 옆의 체크박스를 클릭한 다음 **Compare** 버튼을 클릭하면 프롬프트 버전들을 비교할 수 있습니다. 이를 통해 프롬프트 간의 diff를 확인할 수 있습니다.
+
+![Screenshot of prompt comparison](/weave/guides/core-types/imgs/prompt-comparison.png)

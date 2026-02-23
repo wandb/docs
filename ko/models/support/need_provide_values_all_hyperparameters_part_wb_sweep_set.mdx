@@ -1,0 +1,38 @@
+---
+title: W&amp;B Sweep에서 모든 하이퍼파라미터 값을 지정해야 하나요?
+  기본값을 설정할 수 있나요?
+---
+
+`run.config()`를 사용해 Sweep 구성에서 하이퍼파라미터 이름과 값을 가져올 수 있으며, 이는 딕셔너리처럼 동작합니다.
+
+Sweep 외부의 실행에서는 `wandb.init()`의 `config` 인수에 딕셔너리를 전달해서 `wandb.Run.config()` 값을 설정합니다. Sweep 안에서는 `wandb.init()`에 제공한 구성값이 기본값으로 사용되며, Sweep이 이를 덮어쓸 수 있습니다.
+
+보다 명시적인 동작을 원하면 `wandb.Run.config.setdefaults()`를 사용할 수 있습니다. 아래 코드 스니펫은 두 가지 방법을 모두 보여 줍니다:
+
+<Tabs>
+<Tab title="wandb.init()">
+```python
+# 하이퍼파라미터의 기본값 설정
+config_defaults = {"lr": 0.1, "batch_size": 256}
+
+# 실행을 시작하고 기본값 제공
+# Sweep이 이 기본값을 덮어쓸 수 있음
+with wandb.init(config=config_defaults) as run:
+    # 여기에 학습 코드를 추가
+    ...
+```
+</Tab>
+<Tab title="config.setdefaults()">
+```python
+# 하이퍼파라미터의 기본값 설정
+config_defaults = {"lr": 0.1, "batch_size": 256}
+
+# 실행 시작
+with wandb.init() as run:
+    # Sweep에서 설정되지 않은 값을 기본값으로 업데이트
+    run.config.setdefaults(config_defaults)
+
+    # 여기에 학습 코드를 추가
+```
+</Tab>
+</Tabs>

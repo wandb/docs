@@ -1,0 +1,15 @@
+---
+title: "기존 태그를 Artifact에 추가"
+---
+
+```python
+"""
+기존 W&B 아티팩트에 태그를 추가합니다.
+"""
+import wandb
+
+# 기존 아티팩트를 가져와 태그를 추가합니다
+artifact = wandb.Api().artifact("entity/project/artifact:version")
+artifact.tags = ["new-tag"]
+artifact.save()
+```

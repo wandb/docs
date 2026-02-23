@@ -1160,6 +1160,1115 @@
             ]
           }
         ]
+      },
+      {
+        "language": "ko",
+        "tabs": [
+          {
+            "tab": "플랫폼",
+            "icon": "/icons/cropped-artifacts.svg",
+            "pages": [
+              "ko/index",
+              "ko/get-started",
+              {
+                "group": "배포 옵션",
+                "pages": [
+                  "ko/platform/hosting",
+                  "ko/platform/hosting/hosting-options/multi_tenant_cloud",
+                  {
+                    "group": "전용 클라우드",
+                    "pages": [
+                      "ko/platform/hosting/hosting-options/dedicated_cloud",
+                      "ko/platform/hosting/hosting-options/dedicated_regions",
+                      "ko/platform/hosting/export-data-from-dedicated-cloud"
+                    ]
+                  },
+                  {
+                    "group": "자가 관리형",
+                    "pages": [
+                      "ko/platform/hosting/hosting-options/self-managed",
+                      "ko/platform/hosting/self-managed/ref-arch",
+                      {
+                        "group": "Kubernetes에서 W&B 서버 실행",
+                        "pages": [
+                          "ko/platform/hosting/operator",
+                          "ko/platform/hosting/self-managed/operator-airgapped"
+                        ]
+                      },
+                      {
+                        "group": "퍼블릭 클라우드에 배포",
+                        "pages": [
+                          "ko/platform/hosting/self-managed/aws-tf",
+                          "ko/platform/hosting/self-managed/gcp-tf",
+                          "ko/platform/hosting/self-managed/azure-tf"
+                        ]
+                      },
+                      "ko/platform/hosting/self-managed/bare-metal",
+                      "ko/platform/hosting/server-upgrade-process",
+                      "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "W&B 구성",
+                "pages": [
+                  {
+                    "group": "설정",
+                    "pages": [
+                      "ko/platform/app/settings-page",
+                      "ko/platform/app/settings-page/user-settings",
+                      "ko/platform/app/settings-page/billing-settings",
+                      "ko/platform/app/settings-page/emails",
+                      "ko/platform/app/settings-page/teams",
+                      "ko/platform/secrets",
+                      "ko/platform/app/settings-page/storage"
+                    ]
+                  },
+                  {
+                    "group": "ID 및 액세스 관리(IAM)",
+                    "pages": [
+                      "ko/platform/hosting/iam/org_team_struct",
+                      {
+                        "group": "인증",
+                        "pages": [
+                          "ko/platform/hosting/iam/ldap",
+                          "ko/platform/hosting/iam/sso",
+                          "ko/platform/hosting/iam/identity_federation",
+                          "ko/platform/hosting/iam/service-accounts"
+                        ]
+                      },
+                      {
+                        "group": "액세스 관리",
+                        "pages": [
+                          "ko/platform/hosting/iam/access-management-intro",
+                          "ko/platform/hosting/iam/access-management/manage-organization",
+                          "ko/platform/hosting/iam/access-management/restricted-projects"
+                        ]
+                      },
+                      "ko/platform/hosting/iam/automate_iam",
+                      "ko/platform/hosting/iam/scim",
+                      "ko/platform/hosting/iam/advanced_env_vars"
+                    ]
+                  },
+                  {
+                    "group": "데이터 보안",
+                    "pages": [
+                      "ko/platform/hosting/data-security/secure-storage-connector",
+                      "ko/platform/hosting/data-security/presigned-urls",
+                      "ko/platform/hosting/data-security/ip-allowlisting",
+                      "ko/platform/hosting/data-security/private-connectivity",
+                      "ko/platform/hosting/data-security/data-encryption"
+                    ]
+                  },
+                  "ko/platform/hosting/env-vars"
+                ]
+              },
+              {
+                "group": "모니터링 및 사용 현황",
+                "pages": [
+                  "ko/platform/hosting/monitoring-usage/audit-logging",
+                  "ko/platform/hosting/monitoring-usage/prometheus-logging",
+                  "ko/platform/hosting/monitoring-usage/slack-alerts",
+                  "ko/platform/hosting/monitoring-usage/org_dashboard"
+                ]
+              },
+              {
+                "group": "리소스",
+                "pages": [
+                  "ko/pricing",
+                  "ko/blog",
+                  "ko/courses",
+                  "ko/security"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "W&B Models",
+            "icon": "/icons/cropped-models.svg",
+            "pages": [
+              "ko/models",
+              "ko/models/quickstart",
+              "ko/models/models_quickstart",
+              {
+                "group": "가이드",
+                "pages": [
+                  {
+                    "group": "실험",
+                    "pages": [
+                      "ko/models/track",
+                      "ko/models/track/create-an-experiment",
+                      "ko/models/track/config",
+                      "ko/models/track/project-page",
+                      "ko/models/track/workspaces",
+                      {
+                        "group": "실행이란 무엇인가요?",
+                        "pages": [
+                          "ko/models/runs",
+                          "ko/models/runs/run-identifiers",
+                          "ko/models/runs/initialize-run",
+                          "ko/models/runs/run-states",
+                          "ko/models/runs/view-logged-runs",
+                          "ko/models/runs/customize-run-display",
+                          "ko/models/runs/forking",
+                          "ko/models/runs/resuming",
+                          "ko/models/runs/rewind",
+                          "ko/models/runs/compare-runs",
+                          "ko/models/runs/grouping",
+                          "ko/models/runs/filter-runs",
+                          "ko/models/runs/search-runs",
+                          "ko/models/runs/stop-runs",
+                          "ko/models/runs/delete-runs",
+                          "ko/models/runs/tags",
+                          "ko/models/runs/manage-runs",
+                          "ko/models/runs/run-colors",
+                          "ko/models/runs/color-code-runs",
+                          "ko/models/runs/alert",
+                          "ko/models/runs/infrastructure-alerts"
+                        ]
+                      },
+                      {
+                        "group": "객체 및 미디어 로깅",
+                        "pages": [
+                          "ko/models/track/log",
+                          "ko/models/track/log/plots",
+                          "ko/models/track/log/customize-logging-axes",
+                          "ko/models/track/log/distributed-training",
+                          "ko/models/track/log/media",
+                          "ko/models/track/log/log-models",
+                          "ko/models/track/log/log-summary",
+                          "ko/models/track/log/log-tables",
+                          "ko/models/track/log/working-with-csv"
+                        ]
+                      },
+                      "ko/models/track/jupyter",
+                      "ko/models/track/limits",
+                      "ko/models/track/reproduce_experiments",
+                      "ko/models/track/public-api-guide",
+                      "ko/models/track/environment-variables"
+                    ]
+                  },
+                  {
+                    "group": "Sweeps",
+                    "pages": [
+                      "ko/models/sweeps",
+                      "ko/models/sweeps/walkthrough",
+                      "ko/models/sweeps/add-w-and-b-to-your-code",
+                      {
+                        "group": "Sweep 구성 정의하기",
+                        "pages": [
+                          "ko/models/sweeps/define-sweep-configuration",
+                          "ko/models/sweeps/sweep-config-keys"
+                        ]
+                      },
+                      "ko/models/sweeps/initialize-sweeps",
+                      "ko/models/sweeps/start-sweep-agents",
+                      "ko/models/sweeps/parallelize-agents",
+                      "ko/models/sweeps/visualize-sweep-results",
+                      "ko/models/sweeps/pause-resume-and-cancel-sweeps",
+                      "ko/models/sweeps/useful-resources",
+                      "ko/models/sweeps/local-controller",
+                      "ko/models/sweeps/troubleshoot-sweeps",
+                      "ko/models/sweeps/sweeps-ui",
+                      "ko/models/sweeps/existing-project"
+                    ]
+                  },
+                  {
+                    "group": "Tables",
+                    "pages": [
+                      "ko/models/tables",
+                      "ko/models/tables/tables-walkthrough",
+                      "ko/models/tables/log_tables",
+                      "ko/models/tables/visualize-tables",
+                      "ko/models/tables/tables-gallery",
+                      "ko/models/tables/tables-download"
+                    ]
+                  },
+                  {
+                    "group": "Artifacts",
+                    "pages": [
+                      "ko/models/artifacts",
+                      "ko/models/artifacts/construct-an-artifact",
+                      "ko/models/artifacts/download-and-use-an-artifact",
+                      "ko/models/artifacts/update-an-artifact",
+                      "ko/models/artifacts/create-a-custom-alias",
+                      "ko/models/artifacts/create-a-new-artifact-version",
+                      "ko/models/artifacts/track-external-files",
+                      {
+                        "group": "데이터 관리",
+                        "pages": [
+                          "ko/models/artifacts/delete-artifacts",
+                          "ko/models/artifacts/ttl",
+                          "ko/models/artifacts/storage"
+                        ]
+                      },
+                      "ko/models/artifacts/explore-and-traverse-an-artifact-graph",
+                      "ko/models/artifacts/data-privacy-and-compliance",
+                      "ko/models/artifacts/artifacts-walkthrough"
+                    ]
+                  },
+                  {
+                    "group": "레지스트리",
+                    "pages": [
+                      "ko/models/registry",
+                      "ko/models/registry/create_registry",
+                      "ko/models/registry/configure_registry",
+                      "ko/models/registry/create_collection",
+                      "ko/models/registry/link_version",
+                      "ko/models/registry/aliases",
+                      "ko/models/registry/download_use_artifact",
+                      "ko/models/registry/search_registry",
+                      "ko/models/registry/organize-with-tags",
+                      "ko/models/registry/registry_cards",
+                      "ko/models/registry/lineage",
+                      "ko/models/registry/delete_registry"
+                    ]
+                  },
+                  {
+                    "group": "리포트",
+                    "pages": [
+                      "ko/models/reports",
+                      "ko/models/reports/create-a-report",
+                      "ko/models/reports/edit-a-report",
+                      "ko/models/reports/collaborate-on-reports",
+                      "ko/models/reports/clone-and-export-reports",
+                      "ko/models/reports/embed-reports",
+                      "ko/models/reports/cross-project-reports",
+                      "ko/models/reports/reports-gallery"
+                    ]
+                  },
+                  {
+                    "group": "자동화",
+                    "pages": [
+                      "ko/models/automations",
+                      {
+                        "group": "자동화 생성",
+                        "pages": [
+                          "ko/models/automations/create-automations",
+                          "ko/models/automations/create-automations/slack",
+                          "ko/models/automations/create-automations/webhook"
+                        ]
+                      },
+                      "ko/models/automations/view-automation-history",
+                      "ko/models/automations/automation-events"
+                    ]
+                  },
+                  {
+                    "group": "LLM Evaluation 작업",
+                    "pages": [
+                      "ko/models/launch",
+                      "ko/models/launch/evaluate-model-checkpoint",
+                      "ko/models/launch/evaluate-hosted-model",
+                      "ko/models/launch/evaluations"
+                    ]
+                  },
+                  {
+                    "group": "W&B 앱 UI",
+                    "pages": [
+                      "ko/models/app/features/cascade-settings",
+                      {
+                        "group": "패널",
+                        "pages": [
+                          "ko/models/app/features/panels",
+                          {
+                            "group": "선 그래프",
+                            "pages": [
+                              "ko/models/app/features/panels/line-plot",
+                              "ko/models/app/features/panels/line-plot/reference",
+                              "ko/models/app/features/panels/line-plot/sampling",
+                              "ko/models/app/features/panels/line-plot/smoothing"
+                            ]
+                          },
+                          "ko/models/app/features/panels/bar-plot",
+                          "ko/models/app/features/panels/parallel-coordinates",
+                          "ko/models/app/features/panels/scatter-plot",
+                          "ko/models/app/features/panels/media",
+                          "ko/models/app/features/panels/code",
+                          "ko/models/app/features/panels/parameter-importance",
+                          "ko/models/app/features/panels/run-comparer",
+                          {
+                            "group": "쿼리 패널",
+                            "pages": [
+                              "ko/models/app/features/panels/query-panels",
+                              "ko/models/app/features/panels/query-panels/embedding-projector"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "커스텀 차트",
+                        "pages": [
+                          "ko/models/app/features/custom-charts",
+                          "ko/models/app/features/custom-charts/walkthrough"
+                        ]
+                      },
+                      "ko/models/app/console-logs",
+                      "ko/models/app/keyboard-shortcuts"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "통합",
+                "pages": [
+                  "ko/models/integrations",
+                  "ko/models/integrations/add-wandb-to-any-library",
+                  {
+                    "group": "ML 프레임워크 및 라이브러리",
+                    "pages": [
+                      {
+                        "group": "ML 프레임워크",
+                        "pages": [
+                          "ko/models/integrations/keras",
+                          "ko/models/integrations/pytorch",
+                          "ko/models/integrations/lightning",
+                          "ko/models/integrations/ignite",
+                          "ko/models/integrations/tensorflow",
+                          "ko/models/integrations/xgboost"
+                        ]
+                      },
+                      {
+                        "group": "ML 라이브러리",
+                        "pages": [
+                          "ko/models/integrations/huggingface",
+                          "ko/models/integrations/accelerate",
+                          "ko/models/integrations/diffusers",
+                          "ko/models/integrations/simpletransformers",
+                          "ko/models/integrations/huggingface_transformers",
+                          "ko/models/integrations/openai-gym",
+                          "ko/models/integrations/pytorch-geometric",
+                          "ko/models/integrations/torchtune"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "클라우드 플랫폼",
+                    "pages": [
+                      "ko/models/integrations/azure-openai-fine-tuning",
+                      "ko/models/integrations/openai-fine-tuning",
+                      "ko/models/integrations/openai-api"
+                    ]
+                  },
+                  {
+                    "group": "기타",
+                    "pages": [
+                      "ko/models/integrations/hydra",
+                      "ko/models/integrations/yolox",
+                      "ko/models/integrations/yolov5"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "레퍼런스",
+                "pages": [
+                  "ko/models/ref",
+                  {
+                    "group": "Python",
+                    "pages": [
+                      {
+                        "group": "SDK 코딩 치트 시트",
+                        "pages": [
+                          "ko/models/ref/sdk-coding-cheat-sheet",
+                          "ko/models/ref/sdk-coding-cheat-sheet/runs",
+                          "ko/models/ref/sdk-coding-cheat-sheet/logging",
+                          "ko/models/ref/sdk-coding-cheat-sheet/artifacts",
+                          "ko/models/ref/sdk-coding-cheat-sheet/registry"
+                        ]
+                      },
+                      "ko/models/ref/python",
+                      {
+                        "group": "전역 함수",
+                        "pages": [
+                          "ko/models/ref/python/functions",
+                          "ko/models/ref/python/functions/agent",
+                          "ko/models/ref/python/functions/controller",
+                          "ko/models/ref/python/functions/finish",
+                          "ko/models/ref/python/functions/init",
+                          "ko/models/ref/python/functions/login",
+                          "ko/models/ref/python/functions/restore",
+                          "ko/models/ref/python/functions/setup",
+                          "ko/models/ref/python/functions/sweep",
+                          "ko/models/ref/python/functions/teardown"
+                        ]
+                      },
+                      {
+                        "group": "데이터 타입",
+                        "pages": [
+                          "ko/models/ref/python/data-types",
+                          "ko/models/ref/python/data-types/audio",
+                          "ko/models/ref/python/data-types/box3d",
+                          "ko/models/ref/python/data-types/histogram",
+                          "ko/models/ref/python/data-types/html",
+                          "ko/models/ref/python/data-types/image",
+                          "ko/models/ref/python/data-types/molecule",
+                          "ko/models/ref/python/data-types/object3d",
+                          "ko/models/ref/python/data-types/plotly",
+                          "ko/models/ref/python/data-types/table",
+                          "ko/models/ref/python/data-types/video"
+                        ]
+                      },
+                      {
+                        "group": "실험",
+                        "pages": [
+                          "ko/models/ref/python/experiments",
+                          "ko/models/ref/python/experiments/artifact",
+                          "ko/models/ref/python/experiments/run",
+                          "ko/models/ref/python/experiments/settings",
+                          "ko/models/ref/python/experiments/system-metrics"
+                        ]
+                      },
+                      {
+                        "group": "자동화",
+                        "pages": [
+                          "ko/models/ref/python/automations",
+                          "ko/models/ref/python/automations/automation",
+                          "ko/models/ref/python/automations/donothing",
+                          "ko/models/ref/python/public-api/downloadhistoryresult",
+                          "ko/models/ref/python/public-api/incompleterunhistoryerror",
+                          "ko/models/ref/python/automations/metricchangefilter",
+                          "ko/models/ref/python/automations/metriczscorefilter",
+                          "ko/models/ref/python/automations/metricthresholdfilter",
+                          "ko/models/ref/python/automations/newautomation",
+                          "ko/models/ref/python/automations/onaddartifactalias",
+                          "ko/models/ref/python/automations/oncreateartifact",
+                          "ko/models/ref/python/automations/onlinkartifact",
+                          "ko/models/ref/python/automations/onrunmetric",
+                          "ko/models/ref/python/automations/onrunstate",
+                          "ko/models/ref/python/automations/runstatefilter",
+                          "ko/models/ref/python/automations/sendnotification",
+                          "ko/models/ref/python/automations/sendwebhook"
+                        ]
+                      },
+                      {
+                        "group": "사용자 정의 차트",
+                        "pages": [
+                          "ko/models/ref/python/custom-charts",
+                          "ko/models/ref/python/custom-charts/bar",
+                          "ko/models/ref/python/custom-charts/confusion_matrix",
+                          "ko/models/ref/python/custom-charts/histogram",
+                          "ko/models/ref/python/custom-charts/line_series",
+                          "ko/models/ref/python/custom-charts/line",
+                          "ko/models/ref/python/custom-charts/plot_table",
+                          "ko/models/ref/python/custom-charts/pr_curve",
+                          "ko/models/ref/python/custom-charts/roc_curve",
+                          "ko/models/ref/python/custom-charts/scatter"
+                        ]
+                      },
+                      {
+                        "group": "Public API",
+                        "pages": [
+                          "ko/models/ref/python/public-api",
+                          "ko/models/ref/python/public-api/api",
+                          "ko/models/ref/python/public-api/artifactcollection",
+                          "ko/models/ref/python/public-api/artifactcollections",
+                          "ko/models/ref/python/public-api/artifactfiles",
+                          "ko/models/ref/python/public-api/artifacts",
+                          "ko/models/ref/python/public-api/artifacttype",
+                          "ko/models/ref/python/public-api/artifacttypes",
+                          "ko/models/ref/python/public-api/automations",
+                          "ko/models/ref/python/public-api/betareport",
+                          "ko/models/ref/python/public-api/file",
+                          "ko/models/ref/python/public-api/files",
+                          "ko/models/ref/python/public-api/member",
+                          "ko/models/ref/python/public-api/project",
+                          "ko/models/ref/python/public-api/projects",
+                          "ko/models/ref/python/public-api/registry",
+                          "ko/models/ref/python/public-api/reports",
+                          "ko/models/ref/python/public-api/run",
+                          "ko/models/ref/python/public-api/runartifacts",
+                          "ko/models/ref/python/public-api/runs",
+                          "ko/models/ref/python/public-api/sweep",
+                          "ko/models/ref/python/public-api/sweeps",
+                          "ko/models/ref/python/public-api/team",
+                          "ko/models/ref/python/public-api/user"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "명령줄 인터페이스(CLI)",
+                    "pages": [
+                      "ko/models/ref/cli",
+                      "ko/models/ref/cli/wandb-agent",
+                      {
+                        "group": "wandb 아티팩트",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-artifact",
+                          {
+                            "group": "아티팩트 캐시",
+                            "pages": [
+                              "ko/models/ref/cli/wandb-artifact/wandb-artifact-cache",
+                              "ko/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
+                            ]
+                          },
+                          "ko/models/ref/cli/wandb-artifact/wandb-artifact-get",
+                          "ko/models/ref/cli/wandb-artifact/wandb-artifact-ls",
+                          "ko/models/ref/cli/wandb-artifact/wandb-artifact-put"
+                        ]
+                      },
+                      {
+                        "group": "wandb 베타",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-beta",
+                          "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
+                          "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
+                        ]
+                      },
+                      "ko/models/ref/cli/wandb-controller",
+                      "ko/models/ref/cli/wandb-disabled",
+                      "ko/models/ref/cli/wandb-docker",
+                      "ko/models/ref/cli/wandb-docker-run",
+                      "ko/models/ref/cli/wandb-enabled",
+                      "ko/models/ref/cli/wandb-init",
+                      {
+                        "group": "wandb Job",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-job",
+                          "ko/models/ref/cli/wandb-job/wandb-job-create",
+                          "ko/models/ref/cli/wandb-job/wandb-job-describe",
+                          "ko/models/ref/cli/wandb-job/wandb-job-list"
+                        ]
+                      },
+                      "ko/models/ref/cli/wandb-local",
+                      "ko/models/ref/cli/wandb-login",
+                      "ko/models/ref/cli/wandb-off",
+                      "ko/models/ref/cli/wandb-offline",
+                      "ko/models/ref/cli/wandb-on",
+                      "ko/models/ref/cli/wandb-online",
+                      "ko/models/ref/cli/wandb-projects",
+                      "ko/models/ref/cli/wandb-pull",
+                      "ko/models/ref/cli/wandb-restore",
+                      {
+                        "group": "wandb 서버",
+                        "pages": [
+                          "ko/models/ref/cli/wandb-server",
+                          "ko/models/ref/cli/wandb-server/wandb-server-start",
+                          "ko/models/ref/cli/wandb-server/wandb-server-stop"
+                        ]
+                      },
+                      "ko/models/ref/cli/wandb-status",
+                      "ko/models/ref/cli/wandb-sweep",
+                      "ko/models/ref/cli/wandb-sync",
+                      "ko/models/ref/cli/wandb-verify"
+                    ]
+                  },
+                  {
+                    "group": "쿼리 표현식 언어",
+                    "pages": [
+                      "ko/models/ref/query-panel",
+                      "ko/models/ref/query-panel/artifact",
+                      "ko/models/ref/query-panel/artifact-type",
+                      "ko/models/ref/query-panel/artifact-version",
+                      "ko/models/ref/query-panel/audio-file",
+                      "ko/models/ref/query-panel/bokeh-file",
+                      "ko/models/ref/query-panel/boolean",
+                      "ko/models/ref/query-panel/entity",
+                      "ko/models/ref/query-panel/file",
+                      "ko/models/ref/query-panel/float",
+                      "ko/models/ref/query-panel/html-file",
+                      "ko/models/ref/query-panel/image-file",
+                      "ko/models/ref/query-panel/int",
+                      "ko/models/ref/query-panel/joined-table",
+                      "ko/models/ref/query-panel/molecule-file",
+                      "ko/models/ref/query-panel/number",
+                      "ko/models/ref/query-panel/object-3-d-file",
+                      "ko/models/ref/query-panel/partitioned-table",
+                      "ko/models/ref/query-panel/project",
+                      "ko/models/ref/query-panel/pytorch-model-file",
+                      "ko/models/ref/query-panel/run",
+                      "ko/models/ref/query-panel/string",
+                      "ko/models/ref/query-panel/table",
+                      "ko/models/ref/query-panel/user",
+                      "ko/models/ref/query-panel/video-file"
+                    ]
+                  },
+                  {
+                    "group": "Reports 및 Workspaces API",
+                    "pages": [
+                      "ko/models/ref/wandb_workspaces/reports",
+                      "ko/models/ref/wandb_workspaces/workspaces"
+                    ]
+                  }
+                ]
+              },
+              "ko/models/support"
+            ]
+          },
+          {
+            "tab": "W&B Weave",
+            "icon": "/icons/cropped-weave.svg",
+            "pages": [
+              "ko/weave",
+              {
+                "group": "시작하기",
+                "pages": [
+                  "ko/weave/quickstart",
+                  "ko/weave/tutorial-eval",
+                  "ko/weave/tutorial-rag"
+                ]
+              },
+              {
+                "group": "가이드",
+                "pages": [
+                  "ko/weave/concepts/what-is-weave",
+                  {
+                    "group": "애플리케이션 트레이싱",
+                    "pages": [
+                      "ko/weave/guides/tracking/tracing",
+                      "ko/weave/tutorial-tracing_2",
+                      "ko/weave/guides/tracking/costs",
+                      "ko/weave/guides/core-types/media",
+                      "ko/weave/guides/tools/saved-views",
+                      "ko/weave/guides/tools/comparison",
+                      "ko/weave/guides/tracking/trace-tree",
+                      "ko/weave/guides/tracking/threads",
+                      "ko/weave/guides/tracking/trace-plots",
+                      "ko/weave/guides/tools/attributes",
+                      "ko/weave/guides/tools/weave-in-workspaces"
+                    ]
+                  },
+                  {
+                    "group": "애플리케이션 평가",
+                    "pages": [
+                      "ko/weave/guides/core-types/evaluations",
+                      "ko/weave/guides/core-types/datasets",
+                      "ko/weave/guides/evaluation/scorers",
+                      "ko/weave/guides/evaluation/builtin_scorers",
+                      "ko/weave/guides/evaluation/weave_local_scorers",
+                      "ko/weave/guides/evaluation/evaluation_logger",
+                      "ko/weave/guides/core-types/leaderboards",
+                      "ko/weave/guides/tools/attributes",
+                      "ko/weave/guides/tools/column-mapping",
+                      "ko/weave/guides/evaluation/dynamic_leaderboards"
+                    ]
+                  },
+                  {
+                    "group": "프롬프트 및 모델 실험",
+                    "pages": [
+                      "ko/weave/guides/tools/playground",
+                      "ko/weave/guides/tools/evaluation_playground",
+                      "ko/weave/quickstart-inference"
+                    ]
+                  },
+                  {
+                    "group": "작업 버전 관리",
+                    "pages": [
+                      "ko/weave/tutorial-weave_models",
+                      "ko/weave/guides/core-types/models",
+                      "ko/weave/guides/core-types/prompts",
+                      "ko/weave/guides/tracking/objects",
+                      "ko/weave/guides/tracking/ops"
+                    ]
+                  },
+                  {
+                    "group": "모니터링 및 피드백 수집",
+                    "pages": [
+                      "ko/weave/guides/tracking/feedback",
+                      "ko/weave/guides/tracking/redact-pii",
+                      "ko/weave/guides/evaluation/monitors",
+                      "ko/weave/guides/evaluation/guardrails",
+                      "ko/weave/guides/tracking/otel"
+                    ]
+                  },
+                  {
+                    "group": "LLM 프로바이더 및 프레임워크 통합",
+                    "pages": [
+                      "ko/weave/guides/integrations",
+                      {
+                        "group": "LLM 프로바이더",
+                        "pages": [
+                          "ko/weave/guides/integrations/bedrock",
+                          "ko/weave/guides/integrations/anthropic",
+                          "ko/weave/guides/integrations/cerebras",
+                          "ko/weave/guides/integrations/cohere",
+                          "ko/weave/guides/integrations/google",
+                          "ko/weave/guides/integrations/groq",
+                          "ko/weave/guides/integrations/huggingface",
+                          "ko/weave/guides/integrations/litellm",
+                          "ko/weave/guides/integrations/azure",
+                          "ko/weave/guides/integrations/mistral",
+                          "ko/weave/guides/integrations/nvidia_nim",
+                          "ko/weave/guides/integrations/openai",
+                          "ko/weave/guides/integrations/openrouter",
+                          "ko/weave/guides/integrations/together_ai"
+                        ]
+                      },
+                      "ko/weave/guides/integrations/local_models",
+                      {
+                        "group": "프레임워크",
+                        "pages": [
+                          "ko/weave/guides/integrations/openai_agents",
+                          "ko/weave/guides/integrations/langchain",
+                          "ko/weave/guides/integrations/llamaindex",
+                          "ko/weave/guides/integrations/dspy",
+                          "ko/weave/guides/integrations/instructor",
+                          "ko/weave/guides/integrations/crewai",
+                          "ko/weave/guides/integrations/smolagents",
+                          "ko/weave/guides/integrations/pydantic_ai",
+                          "ko/weave/guides/integrations/google_adk",
+                          "ko/weave/guides/integrations/agno",
+                          "ko/weave/guides/integrations/koog",
+                          "ko/weave/guides/integrations/autogen",
+                          "ko/weave/guides/integrations/verdict",
+                          "ko/weave/guides/integrations/verifiers",
+                          "ko/weave/guides/integrations/js"
+                        ]
+                      },
+                      {
+                        "group": "프로토콜",
+                        "pages": [
+                          "ko/weave/guides/integrations/mcp"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "배포 및 스케일링",
+                    "pages": [
+                      "ko/weave/guides/platform",
+                      "ko/weave/guides/platform/weave-self-managed"
+                    ]
+                  },
+                  "ko/weave/guides/platform/weave-projects",
+                  "ko/weave/guides/core-types/env-vars"
+                ]
+              },
+              {
+                "group": "쿡북",
+                "pages": [
+                  "ko/weave/cookbooks",
+                  {
+                    "group": "Weave 기본 사항",
+                    "pages": [
+                      "ko/weave/cookbooks/Intro_to_Weave_Hello_Trace",
+                      "ko/weave/cookbooks/Intro_to_Weave_Hello_Eval"
+                    ]
+                  },
+                  {
+                    "group": "Evaluation 및 데이터셋",
+                    "pages": [
+                      "ko/weave/cookbooks/leaderboard_quickstart",
+                      "ko/weave/cookbooks/hf_dataset_evals",
+                      "ko/weave/cookbooks/import_from_csv"
+                    ]
+                  },
+                  {
+                    "group": "모델 및 프롬프트",
+                    "pages": [
+                      "ko/weave/cookbooks/Models_and_Weave_Integration_Demo",
+                      "ko/weave/cookbooks/chain_of_density",
+                      "ko/weave/cookbooks/dspy_prompt_optimization",
+                      "ko/weave/cookbooks/notdiamond_custom_routing"
+                    ]
+                  },
+                  {
+                    "group": "고급 주제",
+                    "pages": [
+                      "ko/weave/cookbooks/multi-agent-structured-output",
+                      "ko/weave/cookbooks/codegen",
+                      "ko/weave/cookbooks/ocr-pipeline",
+                      "ko/weave/cookbooks/audio_with_weave"
+                    ]
+                  },
+                  {
+                    "group": "운영 환경 및 모니터링",
+                    "pages": [
+                      "ko/weave/cookbooks/online_monitoring",
+                      "ko/weave/cookbooks/feedback_prod",
+                      "ko/weave/cookbooks/scorers_as_guardrails",
+                      "ko/weave/cookbooks/custom_model_cost",
+                      "ko/weave/cookbooks/pii"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "레퍼런스",
+                "pages": [
+                  "ko/weave/reference",
+                  {
+                    "group": "Python SDK",
+                    "pages": [
+                      "ko/weave/reference/python-sdk",
+                      {
+                        "group": "코어",
+                        "pages": [
+                          "ko/weave/reference/python-sdk/trace/feedback",
+                          "ko/weave/reference/python-sdk/trace/op",
+                          "ko/weave/reference/python-sdk/trace/util",
+                          "ko/weave/reference/python-sdk/trace/weave_client"
+                        ]
+                      },
+                      {
+                        "group": "트레이스 서버",
+                        "pages": [
+                          "ko/weave/reference/python-sdk/trace_server/trace_server_interface"
+                        ]
+                      },
+                      {
+                        "group": "트레이스 서버 바인딩",
+                        "pages": [
+                          "ko/weave/reference/python-sdk/trace_server_bindings/remote_http_trace_server"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "TypeScript SDK",
+                    "pages": [
+                      "ko/weave/reference/typescript-sdk",
+                      {
+                        "group": "클래스",
+                        "pages": [
+                          "ko/weave/reference/typescript-sdk/classes/dataset",
+                          "ko/weave/reference/typescript-sdk/classes/evaluation",
+                          "ko/weave/reference/typescript-sdk/classes/evaluationlogger",
+                          "ko/weave/reference/typescript-sdk/classes/messagesprompt",
+                          "ko/weave/reference/typescript-sdk/classes/objectref",
+                          "ko/weave/reference/typescript-sdk/classes/scorelogger",
+                          "ko/weave/reference/typescript-sdk/classes/stringprompt",
+                          "ko/weave/reference/typescript-sdk/classes/weaveclient",
+                          "ko/weave/reference/typescript-sdk/classes/weaveobject"
+                        ]
+                      },
+                      {
+                        "group": "함수",
+                        "pages": [
+                          "ko/weave/reference/typescript-sdk/functions/init",
+                          "ko/weave/reference/typescript-sdk/functions/login",
+                          "ko/weave/reference/typescript-sdk/functions/op",
+                          "ko/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
+                          "ko/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
+                          "ko/weave/reference/typescript-sdk/functions/weaveaudio",
+                          "ko/weave/reference/typescript-sdk/functions/weaveimage",
+                          "ko/weave/reference/typescript-sdk/functions/withattributes",
+                          "ko/weave/reference/typescript-sdk/functions/wrapopenai"
+                        ]
+                      },
+                      {
+                        "group": "인터페이스",
+                        "pages": [
+                          "ko/weave/reference/typescript-sdk/interfaces/callschema",
+                          "ko/weave/reference/typescript-sdk/interfaces/callsfilter",
+                          "ko/weave/reference/typescript-sdk/interfaces/weaveaudio",
+                          "ko/weave/reference/typescript-sdk/interfaces/weaveimage"
+                        ]
+                      },
+                      {
+                        "group": "타입 별칭",
+                        "pages": [
+                          "ko/weave/reference/typescript-sdk/type-aliases/op",
+                          "ko/weave/reference/typescript-sdk/type-aliases/opdecorator"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "서비스 API",
+                    "pages": [
+                      "ko/weave/cookbooks/weave_via_service_api",
+                      "ko/weave/reference/service-api"
+                    ],
+                    "openapi": {
+                      "source": "ko/weave/reference/service-api/openapi.json",
+                      "directory": "weave/reference/service-api"
+                    }
+                  }
+                ]
+              },
+              {
+                "group": "자세한 내용 및 지원",
+                "pages": [
+                  "ko/pricing",
+                  "ko/weave/details/limits",
+                  "ko/weave/guides/troubleshooting",
+                  "ko/weave/details/faqs"
+                ]
+              },
+              {
+                "group": "오픈 소스",
+                "pages": [
+                  "ko/weave/open-source"
+                ]
+              },
+              {
+                "group": "커뮤니티",
+                "pages": [
+                  "ko/weave/community"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "W&B Inference",
+            "icon": "/icons/cropped-inference.svg",
+            "pages": [
+              "ko/inference",
+              "ko/inference/prerequisites",
+              "ko/inference/models",
+              "ko/inference/lifecycle",
+              "ko/inference/lora",
+              {
+                "group": "응답 설정",
+                "pages": [
+                  "ko/inference/response-settings/json-mode",
+                  "ko/inference/response-settings/reasoning",
+                  "ko/inference/response-settings/streaming",
+                  "ko/inference/response-settings/structured-output",
+                  "ko/inference/response-settings/tool-calling"
+                ]
+              },
+              "ko/inference/usage-limits",
+              {
+                "group": "튜토리얼",
+                "pages": [
+                  "ko/inference/tutorials/creating-lora"
+                ]
+              },
+              {
+                "group": "API 참조",
+                "pages": [
+                  "ko/inference/api-reference",
+                  "ko/inference/api-reference/chat-completions",
+                  "ko/inference/api-reference/list-models",
+                  "ko/inference/api-reference/errors"
+                ]
+              },
+              "ko/inference/examples",
+              "ko/inference/ui-guide"
+            ]
+          },
+          {
+            "tab": "W&B Training",
+            "icon": "/icons/cropped-training.svg",
+            "pages": [
+              "ko/training",
+              "ko/training/prerequisites",
+              {
+                "group": "서버리스 RL",
+                "pages": [
+                  "ko/training/serverless-rl",
+                  "ko/training/serverless-rl/available-models",
+                  "ko/training/serverless-rl/usage-limits",
+                  "ko/training/serverless-rl/use-trained-models"
+                ]
+              },
+              {
+                "group": "서버리스 SFT",
+                "pages": [
+                  "ko/training/sft-training",
+                  "ko/training/sft-training/sft-training"
+                ]
+              },
+              {
+                "group": "API 참조",
+                "pages": [
+                  "ko/training/api-reference"
+                ],
+                "openapi": "ko/training/api-reference/openapi.json"
+              }
+            ]
+          },
+          {
+            "tab": "릴리스 노트",
+            "icon": "/icons/cropped-reports.svg",
+            "pages": [
+              "ko/release-notes",
+              {
+                "group": "W&B Server",
+                "pages": [
+                  "ko/release-notes/server-releases",
+                  "ko/release-notes/server-releases-archived"
+                ]
+              },
+              {
+                "group": "W&B SDK",
+                "pages": [
+                  "ko/release-notes/sdk-releases"
+                ]
+              },
+              "ko/release-notes/release-policies"
+            ]
+          },
+          {
+            "tab": "W&B Launch",
+            "icon": "/icons/cropped-launch.svg",
+            "hidden": true,
+            "pages": [
+              "ko/platform/launch",
+              "ko/platform/launch/walkthrough",
+              "ko/platform/launch/launch-terminology",
+              {
+                "group": "Launch 설정하기",
+                "pages": [
+                  "ko/platform/launch/set-up-launch",
+                  {
+                    "group": "컴퓨팅 리소스 구성하기",
+                    "pages": [
+                      "ko/platform/launch/setup-launch-docker",
+                      "ko/platform/launch/setup-launch-kubernetes",
+                      "ko/platform/launch/setup-launch-sagemaker",
+                      "ko/platform/launch/setup-vertex"
+                    ]
+                  },
+                  "ko/platform/launch/setup-queue-advanced",
+                  "ko/platform/launch/setup-agent-advanced"
+                ]
+              },
+              {
+                "group": "잡 생성 및 배포하기",
+                "pages": [
+                  "ko/platform/launch/create-and-deploy-jobs",
+                  "ko/platform/launch/create-launch-job",
+                  "ko/platform/launch/add-job-to-queue",
+                  "ko/platform/launch/job-inputs",
+                  "ko/platform/launch/launch-view-jobs"
+                ]
+              },
+              {
+                "group": "고급",
+                "pages": [
+                  "ko/platform/launch/sweeps-on-launch",
+                  "ko/platform/launch/launch-queue-observability",
+                  "ko/platform/launch/integration-guides"
+                ]
+              },
+              {
+                "group": "Launch FAQ",
+                "pages": [
+                  "ko/platform/launch/launch-faq",
+                  "ko/platform/launch/launch-faq/best_practices_launch_effectively",
+                  "ko/platform/launch/launch-faq/build_container_launch",
+                  "ko/platform/launch/launch-faq/clicking_launch_without_going_ui",
+                  "ko/platform/launch/launch-faq/control_push_queue",
+                  "ko/platform/launch/launch-faq/docker_queues_run_multiple_jobs_download_same_artifact_useartifact",
+                  "ko/platform/launch/launch-faq/dockerfile_let_wb_build_docker_image_me",
+                  "ko/platform/launch/launch-faq/launch_automatically_provision_spin_compute_resources_target_environment",
+                  "ko/platform/launch/launch-faq/launch_build_images",
+                  "ko/platform/launch/launch-faq/launch_d_wandb_job_create_image_uploading_whole_docker",
+                  "ko/platform/launch/launch-faq/launch_support_parallelization_limit_resources_consumed_job",
+                  "ko/platform/launch/launch-faq/launch_tensorflow_gpu",
+                  "ko/platform/launch/launch-faq/launcherror_permission_denied",
+                  "ko/platform/launch/launch-faq/permissions_agent_require_kubernetes",
+                  "ko/platform/launch/launch-faq/requirements_accelerator_base_image",
+                  "ko/platform/launch/launch-faq/restrict_access_modify_example",
+                  "ko/platform/launch/launch-faq/secrets_jobsautomations_instance_api_key_wish_directly_visible"
+                ]
+              },
+              {
+                "group": "Launch 라이브러리 API 레퍼런스",
+                "pages": [
+                  "ko/platform/launch/launch-library/launch",
+                  "ko/platform/launch/launch-library/launch_add",
+                  "ko/platform/launch/launch-library/launchagent"
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   },

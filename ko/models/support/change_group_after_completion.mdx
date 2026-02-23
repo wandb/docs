@@ -1,0 +1,14 @@
+---
+title: 완료된 실행에 할당된 그룹을 변경할 수 있나요?
+---
+
+API를 사용해 완료된 실행에 할당된 그룹을 변경할 수 있습니다. 이 기능은 웹 UI에서는 제공되지 않습니다. 그룹을 업데이트하려면 다음 코드를 사용하세요:
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<ENTITY>/<PROJECT>/<RUN_ID>")
+run.group = "NEW-GROUP-NAME"
+run.update()
+```

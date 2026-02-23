@@ -1,0 +1,15 @@
+---
+title: CSV 지표 내보내기에 스텝이 누락되는 이유는 무엇인가요?
+---
+
+내보내기 제한으로 인해 전체 실행 기록을 CSV로 내보내거나 `run.history` API로 가져오지 못할 수 있습니다. 전체 실행 기록에 접근하려면 Parquet 형식으로 실행 기록 아티팩트를 다운로드하세요:
+
+```python
+import wandb
+import pandas as pd
+
+with wandb.init() as run:
+    artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
+    artifact_dir = artifact.download()
+    df = pd.read_parquet('<path to .parquet file>')
+```

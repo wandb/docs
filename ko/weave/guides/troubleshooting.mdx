@@ -1,0 +1,230 @@
+---
+title: "Weave 문제 해결"
+description: "Weave 사용 중 발생할 수 있는 일반적인 문제에 대한 해결 방법과 안내"
+---
+
+이 페이지에서는 자주 발생할 수 있는 문제에 대한 해결 방법과 안내를 제공합니다. 이 가이드를 계속 확장해 나가면서 더 다양한 상황을 다루기 위한 문제 해결 항목을 계속해서 추가할 예정입니다.
+
+<Tip>
+커뮤니티와 공유하고 싶은 Weave 문제 해결 팁이 있나요? 이 가이드 하단의 **Edit this page** 버튼을 클릭해 pull request를 제출하여 직접 기여해 주세요.
+</Tip>
+
+<div id="trace-pages-load-slowly">
+  ## Trace 페이지가 느리게 로드됨
+</div>
+
+Trace 페이지가 느리게 로드되는 경우, 표시되는 행 수를 줄여 로드 시간을 개선하세요. 기본값은 `50`입니다. UI에서 행 수를 줄이거나 쿼리 매개변수를 사용해 조정할 수 있습니다.
+
+<div id="adjust-via-the-ui-recommended">
+  ### UI에서 조정하기 (권장)
+</div>
+
+Traces 페이지 오른쪽 아래에 있는 **Per page** 컨트롤을 사용해 표시되는 행의 개수를 조정하세요. 기본값인 `50` 외에도 `10`, `25`, `100`으로 설정할 수 있습니다.
+
+<div id="use-query-parameters">
+  ### 쿼리 매개변수 사용
+</div>
+
+수동으로 설정하는 방식을 선호한다면, 쿼리 URL에서 `pageSize` 쿼리 매개변수를 최대값인 `100`보다 작은 값으로 수정할 수 있습니다.
+
+<div id="server-response-caching">
+  ## 서버 응답 캐싱
+</div>
+
+Weave는 반복적인 쿼리를 실행하거나 제한된 네트워크 대역폭 환경에서 작업할 때 성능을 향상시키기 위해 서버 응답 캐싱을 제공합니다. 현재는 기본적으로 비활성화되어 있으나, 향후 릴리스에서는 이 기능이 기본 동작으로 전환될 예정입니다.
+
+<div id="when-to-use-caching">
+  ### 캐싱을 언제 사용해야 하는지
+</div>
+
+서버 응답 캐싱은 다음과 같은 경우에 특히 유용합니다:
+
+- 동일한 쿼리를 자주 실행하는 경우
+- 네트워크 대역폭이 제한적인 경우
+- 지연 시간이 높은 환경에서 작업하는 경우
+- 오프라인 환경에서 개발하면서, 나중에 사용할 수 있도록 응답을 미리 캐시해 두고 싶은 경우
+
+이 기능은 데이터셋에 대해 Evaluation을 반복적으로 실행할 때 특히 유용하며, 실행 간에 데이터셋을 캐시할 수 있게 해줍니다.
+
+<div id="how-to-enable-caching">
+  ### 캐싱을 활성화하는 방법
+</div>
+
+캐싱을 활성화하려면 다음 환경 변수를 설정하세요:
+
+```bash
+# 서버 응답 캐싱 활성화
+export WEAVE_USE_SERVER_CACHE=true
+
+# 캐시 크기 제한 설정 (기본값: 1GB)
+export WEAVE_SERVER_CACHE_SIZE_LIMIT=1000000000
+
+# 캐시 디렉터리 설정 (선택 사항, 기본값: 임시 디렉터리)
+export WEAVE_SERVER_CACHE_DIR=/path/to/cache
+```
+
+
+<div id="caching-behavior">
+  ### 캐싱 동작
+</div>
+
+기술적으로 이 기능은 서버로 보내는 멱등(idempotent) 요청을 캐시합니다. 구체적으로 다음 요청을 캐싱합니다.
+
+- `obj_read`
+- `table_query`
+- `table_query_stats`
+- `refs_read_batch`
+- `file_content_read`
+
+<div id="cache-size-and-storage-details">
+  ### 캐시 크기 및 스토리지 세부 정보
+</div>
+
+캐시 크기는 `WEAVE_SERVER_CACHE_SIZE_LIMIT`(바이트 단위)로 제어됩니다. 실제로 사용되는 디스크 공간은 다음 세 가지 구성 요소로 구성됩니다:
+
+1. 크기가 32KB로 고정된 체크섬 파일
+2. 실행 중인 각 클라이언트당 최대 약 4MB까지 커지는 Write-Ahead Log(WAL) 파일 (프로그램 종료 시 자동 제거됨)
+3. 최소 32KB에서 최대 `WEAVE_SERVER_CACHE_SIZE_LIMIT`까지의 메인 데이터베이스 파일
+
+총 디스크 사용량:
+
+- 실행 중: >= 32KB + 약 4MB + 캐시 크기
+- 종료 후: >= 32KB + 캐시 크기
+
+예를 들어, 캐시 크기 제한이 5MB인 경우:
+
+- 실행 중: 최대 약 9MB
+- 종료 후: 최대 약 5MB
+
+<div id="trace-data-is-truncated">
+  ## 추적 데이터가 잘립니다
+</div>
+
+때때로 대용량 추적 데이터가 Weave UI에서 일부만 잘려 보일 수 있습니다. 이 문제는 기본 추적 출력이 Weave가 직렬화하는 방법을 알지 못하는 원시 형태의 사용자 정의 Python 객체이기 때문에 발생합니다.
+
+대용량 추적 데이터가 잘리지 않도록, 모든 추적 데이터를 반환하는 문자열로만 구성된 딕셔너리를 정의하세요.
+
+```python lines
+import weave
+
+class MyObj:
+    def __init__(self, x: int):
+        self.x = x
+
+    def __repr__(self):
+        return f"MyObj(x={self.x})"
+
+    def to_dict(self):
+        return {"x": self.x}
+
+@weave.op()
+def make_my_obj():
+    x = "s" * 10_000
+    return MyObj(x)
+```
+
+
+<div id="long-eval-clean-up-times">
+  ## Evaluation 정리 시간이 오래 걸리는 경우
+</div>
+
+대규모 데이터셋으로 Evaluation을 실행할 때 성능을 향상시키려면 다음 두 가지 방법을 함께 사용하는 것이 좋습니다.
+
+<div id="flushing">
+  ### 플러싱(Flushing)
+</div>
+
+대용량 데이터셋으로 Evaluation을 실행할 때, 데이터셋이 백그라운드 스레드에서 업로드되는 동안 프로그램이 다음 단계로 진행되기까지 긴 지연 시간이 발생할 수 있습니다. 이는 일반적으로 메인 스레드의 실행이 백그라운드 정리 작업이 끝나기 전에 종료될 때 발생합니다. `client.flush()`를 호출하면 모든 백그라운드 작업을 메인 스레드에서 처리하도록 강제하여, 메인 스레드 실행 중에도 병렬 처리가 보장됩니다. 이는 사용자 코드 실행이 서버로의 데이터 업로드보다 먼저 끝나는 경우 성능을 향상시킬 수 있습니다.
+
+예시:
+
+```python lines
+client = weave.init("fast-upload")
+
+# ... 평가 설정
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
+
+<div id="increasing-client-parallelism">
+  ### 클라이언트 병렬성 증가
+</div>
+
+클라이언트 병렬성은 환경을 기반으로 자동으로 결정되지만, 다음 환경 변수를 사용해 수동으로 설정할 수도 있습니다:
+
+* `WEAVE_CLIENT_PARALLELISM`: 병렬 처리에 사용할 수 있는 스레드 수입니다. 이 값을 늘리면 병렬 처리를 위해 사용 가능한 스레드 수가 증가하여, 데이터셋 업로드와 같은 백그라운드 작업의 성능이 향상될 수 있습니다.
+
+이 값은 `weave.init()`에 전달하는 `settings` 인자를 사용해 코드에서 설정할 수도 있습니다:
+
+```python lines
+client = weave.init("fast-upload", settings={"client_parallelism": 100})
+```
+
+
+<div id="os-errors">
+  ## OS 오류
+</div>
+
+<div id="errno-24-too-many-open-files">
+  ### `[Errno 24]: Too many open files`
+</div>
+
+이 오류는 열려 있는 파일 수가 운영체제에서 설정한 한도를 초과했을 때 발생합니다. Weave에서는 대용량 이미지 데이터셋을 다룰 때 이런 문제가 발생할 수 있습니다. Weave는 이미지 처리를 위해 `PIL`을 사용하며, 프로그램이 실행되는 동안 파일 디스크립터를 열린 상태로 유지합니다.
+
+이 문제를 해결하려면 `ulimit`을 사용해 열려 있는 파일에 대한 시스템 한도를 `65,536`으로 늘리십시오:
+
+```bash
+ulimit -n 65536
+```
+
+
+<div id="trace-data-loss-in-worker-processes">
+  ## 워커 프로세스에서의 trace 데이터 손실
+</div>
+
+Weave는 애플리케이션 성능에 미치는 영향을 최소화하기 위해 백그라운드 스레드에서 trace 데이터를 업로드합니다. 그러나 멀티프로세싱이나 태스크 큐 시스템(예: Celery 워커 프로세스)을 사용할 때, 워커 프로세스가 백그라운드 스레드의 trace 업로드가 완료되기 전에 종료되면 trace 데이터가 손실됩니다.
+
+워커 프로세스에서 데이터 손실을 방지하려면, 워커 작업이 완료되기 전에 `client.flush()` 또는 `client.finish()`를 호출해 백그라운드 업로드가 완료되도록 해야 합니다.
+
+이 메서드들은 목적이 다릅니다:
+
+* `weave.flush()`: 단순히 조용하게 flush 합니다. Weave가 워커 프로세스나 CI 환경에 통합된 경우에 권장됩니다.
+* `weave.finish()`: 진행률 바나 상태 콜백과 같은 진행 상황 피드백을 제공합니다. 대화형 스크립트나 노트북에서 사용하는 경우에 권장됩니다.
+
+두 메서드 모두 모든 백그라운드 업로드가 완료될 때까지 호출이 블로킹되므로, 워커 프로세스가 종료될 때 trace 데이터가 손실되지 않도록 보장합니다.
+다음 예시는 `client.finish()` 사용 방법을 보여줍니다:
+
+```python lines {15}
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+    
+    try:
+        # 트레이스를 생성하는 태스크 로직
+        result = your_processing_function(input_data)
+        
+        # 태스크 완료 전에 모든 트레이스가 업로드되었는지 확인
+        weave.finish()
+        
+        return result
+    finally:
+        pass
+```
+
+`with` 컨텍스트 매니저를 사용해 종료 시점에 `weave.finish()`가 자동으로 호출되도록 할 수도 있습니다:
+
+```python lines {1}
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+`weave.flush()`를 사용해 애플리케이션 성능을 개선할 수도 있습니다. 자세한 내용은 [Flushing](#flushing)을 참고하세요.

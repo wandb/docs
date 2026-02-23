@@ -1,0 +1,69 @@
+---
+description: W&B App 또는 프로그래밍 방식으로 W&B Report를 생성합니다.
+title: 보고서 만들기
+---
+
+<Note>
+  W&amp;B Report 및 Workspace API는 Public Preview 단계입니다.
+</Note>
+
+아래 탭을 선택해 W&amp;B App에서 또는 W&amp;B Report 및 Workspace API를 사용해 프로그래밍 방식으로 보고서를 생성하는 방법을 확인하세요.
+
+프로그래밍 방식으로 보고서를 생성하는 예시는 이 [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)을 참고하세요.
+
+<Tabs>
+  <Tab title="W&B App">
+    1. W&amp;B App에서 프로젝트 workspace로 이동합니다.
+
+    2. workspace 오른쪽 상단에서 **Create report**를 클릭합니다.
+
+       <Frame>
+         <img src="/images/reports/create_a_report_button.png" alt="보고서 생성 버튼" />
+       </Frame>
+
+    3. 모달이 나타납니다. 시작할 차트를 선택합니다. 이후에도 보고서 인터페이스에서 차트를 추가하거나 삭제할 수 있습니다.
+
+       <Frame>
+         <img src="/images/reports/create_a_report_modal.png" alt="보고서 생성 모달" />
+       </Frame>
+
+    4. **Filter run sets** 옵션을 선택해 새로운 실행이 보고서에 추가되지 않도록 할 수 있습니다. 이 옵션은 켜거나 끌 수 있습니다. **Create report**를 클릭하면, 계속 작업할 수 있는 초안 보고서가 report 탭에 생성됩니다.
+  </Tab>
+
+  <Tab title="Report 탭">
+    1. W&amp;B App에서 프로젝트 workspace로 이동합니다.
+    2. 프로젝트에서 **Reports** 탭(클립보드 아이콘)을 선택합니다.
+    3. report 페이지에서 **Create Report** 버튼을 선택합니다.
+
+       <Frame>
+         <img src="/images/reports/create_report_button.png" alt="보고서 생성 버튼" />
+       </Frame>
+  </Tab>
+
+  <Tab title="Report 및 Workspace API">
+    프로그래밍 방식으로 보고서를 생성하려면 다음을 수행하세요:
+
+    1. W&amp;B SDK(`wandb`)와 Report 및 Workspace API(`wandb-workspaces`)를 설치합니다:
+       ```bash
+       pip install wandb wandb-workspaces
+       ```
+
+    2. 다음으로 workspaces를 임포트합니다.
+       ```python
+       import wandb
+       import wandb_workspaces.reports.v2 as wr
+       ```
+
+    3. `wandb_workspaces.reports.v2.Report`로 보고서를 생성합니다. Report 클래스 퍼블릭 API([`wandb.apis.reports`](/ko/models/ref/python/public-api/api#reports))를 사용해 Report 인스턴스를 생성합니다. 프로젝트 이름을 지정합니다.
+       ```python
+       report = wr.Report(project="report_standard")
+       ```
+
+    4. 보고서를 저장합니다. `.save()` 메서드를 호출하기 전까지는 보고서가 W&amp;B 서버에 업로드되지 않습니다:
+       ```python
+       report.save()
+       ```
+
+    App UI를 사용해 대화형으로 또는 프로그래밍 방식으로 보고서를 편집하는 방법은 [보고서 편집](/ko/models/reports/edit-a-report/)을 참고하세요.
+  </Tab>
+</Tabs>

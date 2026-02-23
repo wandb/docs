@@ -1,0 +1,241 @@
+---
+description: 이 페이지의 일부 기능은 베타 상태이며 기능 플래그 뒤에 숨겨져 있습니다.
+  프로필 페이지의 bio(소개)에 `weave-plot`을 추가해 관련된 모든 기능을 잠금 해제하세요.
+title: 쿼리 패널 개요
+---
+
+<Note>
+  W&amp;B Weave를 찾고 있나요? 생성형 AI 애플리케이션 구축을 위한 W&amp;B의 도구 제품군을 찾고 있나요? Weave 문서는 여기에서 확인하세요: [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs\&utm_medium=docs\&utm_campaign=weave-nudge).
+</Note>
+
+쿼리 패널을 사용해 데이터를 쿼리하고 대화형으로 시각화하세요.
+
+<Frame>
+  <img src="/images/weave/pretty_panel.png" alt="쿼리 패널" />
+</Frame>
+
+{/* <Note>
+  [케라스 XLA 벤치마크 리포트](http://wandb.me/keras-xla-benchmark)를 참고하여 이 팀이 쿼리 패널을 사용해 벤치마크를 어떻게 시각화했는지 확인하세요.
+  </Note> */}
+
+<div id="create-a-query-panel">
+  ## 쿼리 패널 생성
+</div>
+
+워크스페이스나 리포트에 쿼리를 추가합니다.
+
+<Tabs>
+  <Tab title="프로젝트 워크스페이스">
+    1. 프로젝트의 워크스페이스로 이동합니다.
+    2. 오른쪽 상단에서 `Add panel`을 클릭합니다.
+    3. 드롭다운 메뉴에서 `Query panel`을 선택합니다.
+  </Tab>
+
+  <Tab title="W&B 리포트">
+    `/Query panel`을 입력하고 선택합니다.
+
+    <Frame>
+      <img src="/images/weave/add_weave_panel_report_1.png" alt="Query panel 옵션" />
+    </Frame>
+
+    또는 쿼리를 실행 집합에 연결할 수도 있습니다:
+
+    1. 리포트 내에서 `/Panel grid`를 입력하고 선택합니다.
+    2. `Add panel` 버튼을 클릭합니다.
+    3. 드롭다운 메뉴에서 `Query panel`을 선택합니다.
+  </Tab>
+</Tabs>
+
+<div id="query-components">
+  ## 쿼리 구성 요소
+</div>
+
+<div id="expressions">
+  ### Expressions
+</div>
+
+Query 표현식을 사용해 W&amp;B에 저장된 실행, 아티팩트, 모델, 테이블 등의 데이터를 조회하세요.
+
+<div id="example-query-a-table">
+  #### 예시: 테이블 쿼리하기
+</div>
+
+W&amp;B Table을 쿼리한다고 가정해 보겠습니다. 학습 코드에서 `"cifar10_sample_table"`이라는 이름의 테이블을 로깅합니다:
+
+```python
+import wandb
+with wandb.init() as run:
+  run.log({"cifar10_sample_table":<MY_TABLE>})
+```
+
+쿼리 패널에서 테이블을 다음을 사용해 조회할 수 있습니다:
+
+```python
+runs.summary["cifar10_sample_table"]
+```
+
+<Frame>
+  <img src="/images/weave/basic_weave_expression.png" alt="테이블 쿼리 식" />
+</Frame>
+
+이를 단계별로 살펴보면 다음과 같습니다:
+
+* `runs`는 Query Panel이 Workspace 안에 있을 때 Query Panel Expressions에 자동으로 주입되는 변수입니다. 이 변수의 &quot;값&quot;은 해당 Workspace에서 보이는 실행들의 목록입니다. 실행 내에서 사용할 수 있는 다양한 속성에 대해서는 [여기에서 확인하세요](/ko/models/track/public-api-guide/#understanding-the-different-attributes).
+* `summary`는 특정 실행의 Summary 객체를 반환하는 op입니다. op는 *매핑*되므로, 이 op는 목록에 있는 각 실행에 개별적으로 적용되어 Summary 객체들의 리스트를 생성합니다.
+* `["cifar10_sample_table"]`는 대괄호로 표시되는 Pick op로, 매개변수는 `predictions`입니다. Summary 객체는 딕셔너리 또는 맵처럼 동작하므로, 이 연산은 각 Summary 객체에서 `predictions` 필드를 선택합니다.
+
+대화형으로 쿼리를 직접 작성하는 방법을 알아보려면 [Query panel 데모](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr)를 참고하세요.
+
+<div id="configurations">
+  ### 설정
+</div>
+
+패널의 왼쪽 상단에 있는 톱니바퀴 아이콘을 선택해 쿼리 설정을 펼칩니다. 여기에서 패널 유형과 결과 패널의 매개변수를 구성할 수 있습니다.
+
+<Frame>
+  <img src="/images/weave/weave_panel_config.png" alt="패널 설정 메뉴" />
+</Frame>
+
+<div id="result-panels">
+  ### 결과 패널
+</div>
+
+마지막으로, 쿼리 결과 패널은 선택한 쿼리 패널과 해당 패널의 구성 설정을 사용해 쿼리 표현식의 결과를 렌더링하고, 데이터를 대화형으로 표시합니다. 아래 이미지는 동일한 데이터를 Table과 Plot으로 각각 표시한 예시입니다.
+
+<Frame>
+  <img src="/images/weave/result_panel_table.png" alt="Table result panel" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/result_panel_plot.png" alt="Plot result panel" />
+</Frame>
+
+<div id="basic-operations">
+  ## 기본 작업
+</div>
+
+다음은 쿼리 패널에서 수행할 수 있는 기본 작업입니다.
+
+<div id="sort">
+  ### 정렬
+</div>
+
+열 옵션에서 정렬을 선택합니다:
+
+<Frame>
+  <img src="/images/weave/weave_sort.png" alt="열 정렬 옵션" />
+</Frame>
+
+<div id="filter">
+  ### 필터
+</div>
+
+쿼리에서 직접 필터를 사용하거나 왼쪽 상단의 필터 버튼(두 번째 이미지)을 사용해 필터링할 수 있습니다.
+
+<Frame>
+  <img src="/images/weave/weave_filter_1.png" alt="쿼리 필터 구문" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/weave_filter_2.png" alt="필터 버튼" />
+</Frame>
+
+<div id="map">
+  ### 맵
+</div>
+
+맵 연산은 리스트를 순회하면서 데이터의 각 요소에 함수를 적용합니다. 패널 쿼리에서 직접 사용하거나, 컬럼 옵션에서 새 컬럼을 추가하여 사용할 수 있습니다.
+
+<Frame>
+  <img src="/images/weave/weave_map.png" alt="맵 연산 쿼리" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/weave_map.gif" alt="맵 컬럼 추가" />
+</Frame>
+
+<div id="groupby">
+  ### Groupby
+</div>
+
+쿼리 또는 열 옵션을 사용해 groupby 연산을 수행할 수 있습니다.
+
+<Frame>
+  <img src="/images/weave/weave_groupby.png" alt="쿼리로 그룹화" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/weave_groupby.gif" alt="열 옵션으로 그룹화" />
+</Frame>
+
+<div id="concat">
+  ### Concat
+</div>
+
+concat 연산을 사용하면 두 개의 테이블을 이어 붙일 수 있으며, 패널 설정에서 테이블을 concat 하거나 join 할 수도 있습니다.
+
+<div id="join">
+  ### 조인
+</div>
+
+쿼리에서 테이블을 직접 조인할 수도 있습니다. 다음 쿼리식을 살펴보세요:
+
+```python
+project("luis_team_test", "weave_example_queries").runs.summary["short_table_0"].table.rows.concat.join(\
+project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"].table.rows.concat,\
+(row) => row["Label"],(row) => row["Label"], "Table1", "Table2",\
+"false", "false")
+```
+
+<Frame>
+  <img src="/images/weave/weave_join.png" alt="테이블 조인 연산" />
+</Frame>
+
+왼쪽에 있는 테이블은 다음에서 생성됩니다:
+
+```python
+project("luis_team_test", "weave_example_queries").\
+runs.summary["short_table_0"].table.rows.concat.join
+```
+
+오른쪽 표는 다음을 기반으로 생성됩니다:
+
+```python
+project("luis_team_test", "weave_example_queries").\
+runs.summary["short_table_1"].table.rows.concat
+```
+
+Where:
+
+* `(row) => row["Label"]` 은(는) 각 테이블에서 어떤 열을 기준으로 조인할지 결정하는 셀렉터입니다.
+* `"Table1"` 과 `"Table2"` 은(는) 조인 후 각 테이블을 가리키는 이름입니다.
+* `true` 와 `false` 은(는) 왼쪽/오른쪽 내부/외부 조인 방식을 설정하는 값입니다.
+
+<div id="runs-object">
+  ## 실행 객체
+</div>
+
+`runs` 객체에 액세스하려면 쿼리 패널을 사용한다. 실행 객체는 실험의 기록을 저장한다. 자세한 내용은 [runs 객체에 액세스하기](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object)를 참조하되, 간단히 말해 `runs` 객체에는 다음이 포함된다:
+
+* `summary`: 실행 결과를 요약한 정보를 담은 딕셔너리. 정확도나 손실 같은 스칼라 값, 또는 큰 파일이 될 수 있다. 기본적으로 `wandb.Run.log()`는 기록된 시계열의 마지막 값을 summary에 설정한다. summary의 내용을 직접 설정할 수도 있다. summary는 실행의 출력이라고 생각하면 된다.
+* `history`: 손실처럼 모델 학습 중에 변하는 값을 저장하기 위한 딕셔너리 목록. `wandb.Run.log()` 명령은 이 객체에 값을 계속 추가한다.
+* `config`: 학습 실행의 하이퍼파라미터나 데이터셋 Artifact를 생성하는 실행을 위한 전처리 방법 등, 실행의 구성 정보를 담은 딕셔너리. 실행의 &quot;입력&quot;이라고 생각하면 된다.
+
+<Frame>
+  <img src="/images/weave/weave_runs_object.png" alt="실행 객체 구조" />
+</Frame>
+
+<div id="access-artifacts">
+  ## 아티팩트 액세스
+</div>
+
+Artifact는 W&amp;B의 핵심 개념입니다. Artifact는 버전 관리가 되는, 이름이 있는 파일 및 디렉터리의 모음입니다. 모델 가중치, 데이터셋 및 기타 모든 파일이나 디렉터리를 추적하는 데 Artifact를 사용합니다. Artifact는 W&amp;B에 저장되며, 다른 실행에서 다운로드하거나 사용할 수 있습니다. 더 자세한 내용과 예시는 [아티팩트 액세스](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts)에서 확인할 수 있습니다. Artifact는 일반적으로 `project` 객체를 통해 액세스합니다:
+
+* `project.artifactVersion()`: 프로젝트 내에서 주어진 이름과 버전에 해당하는 특정 아티팩트 버전을 반환합니다
+* `project.artifact("")`: 프로젝트 내에서 주어진 이름에 해당하는 아티팩트를 반환합니다. 그런 다음 `.versions`를 사용해 이 아티팩트의 모든 버전 목록을 가져올 수 있습니다
+* `project.artifactType()`: 프로젝트 내에서 주어진 이름에 해당하는 `artifactType`을 반환합니다. 그런 다음 `.artifacts`를 사용해 이 타입의 모든 아티팩트 목록을 가져올 수 있습니다
+* `project.artifactTypes`: 프로젝트에 속한 모든 아티팩트 타입 목록을 반환합니다
+
+<Frame>
+  <img src="/images/weave/weave_artifacts.png" alt="아티팩트 액세스 메서드" />
+</Frame>

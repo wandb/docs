@@ -1,0 +1,13 @@
+---
+title: 실행을 한 프로젝트에서 다른 프로젝트로 이동할 수 있나요?
+---
+
+다음 단계에 따라 실행을 한 프로젝트에서 다른 프로젝트로 이동할 수 있습니다:
+
+* 이동하려는 실행이 있는 프로젝트 페이지로 이동합니다.
+* **Runs** 탭을 클릭해 실행 테이블을 엽니다.
+* 이동할 실행을 선택합니다.
+* **Move** 버튼을 클릭합니다.
+* 대상 프로젝트를 선택하고 작업을 확인합니다.
+
+W&amp;B는 UI에서는 실행 이동은 지원하지만, 실행 복사는 지원하지 않습니다. 실행에 로깅된 아티팩트는 새 프로젝트로 자동으로 이동되지 않습니다. 아티팩트를 실행의 새 위치로 수동으로 이동하려면 [`wandb artifact get`](/ko/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK 명령 또는 [`Api.artifact` API](/ko/models/ref/python/public-api/api/#artifact)를 사용해 아티팩트를 다운로드한 후, [wandb artifact put](/ko/models/ref/cli/wandb-artifact/wandb-artifact-put/) 또는 `Api.artifact` API를 사용해 실행의 새 위치로 업로드하면 됩니다.

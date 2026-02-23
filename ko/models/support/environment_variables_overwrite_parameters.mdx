@@ -1,0 +1,5 @@
+---
+title: 환경 변수가 wandb.init()에 전달된 파라미터를 덮어쓰나요?
+---
+
+`wandb.init`에 전달된 인수가 환경 변수보다 우선합니다. 환경 변수가 설정되어 있지 않을 때 시스템 기본값이 아닌 다른 기본 디렉터리를 기본값으로 사용하려면 `wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))`를 사용하세요.

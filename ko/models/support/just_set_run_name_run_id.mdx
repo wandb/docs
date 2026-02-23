@@ -1,0 +1,13 @@
+---
+title: 그냥 실행 이름을 실행 ID로 설정해도 되나요?
+---
+
+네. 실행 이름을 실행 ID로 대체하려면 다음 코드 스니펫을 사용하세요:
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
+```

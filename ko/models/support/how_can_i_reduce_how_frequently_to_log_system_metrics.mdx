@@ -1,0 +1,9 @@
+---
+title: 시스템 메트릭 로깅 빈도를 변경하려면 어떻게 하나요?
+---
+
+[시스템 메트릭](/ko/models/ref/python/experiments/system-metrics/)의 로깅 빈도를 설정하려면 `_stats_sampling_interval`을(를) 초 단위의 `float` 값으로 설정하세요. 기본값: `10.0`.
+
+```python
+wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
+```

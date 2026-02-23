@@ -1,0 +1,145 @@
+---
+title: 요약 메트릭 기록하기
+---
+
+훈련 중에 시간에 따라 변하는 값들뿐 아니라, 모델이나 전처리 단계를 요약하는 단일 값을 추적하는 것도 중요한 경우가 많습니다. 이 정보는 W&amp;B 실행의 `summary` 딕셔너리에 기록하십시오. 실행의 `summary` 딕셔너리는 numpy array, PyTorch tensor 또는 TensorFlow tensor를 처리할 수 있습니다. 값이 이러한 타입 중 하나이면 전체 tensor를 이진 파일로 저장하고, 최소값, 평균, 분산, 백분위수 등의 상위 수준 통계 메트릭을 summary 객체에 저장합니다.
+
+`wandb.Run.log()`로 마지막에 기록된 값은 W&amp;B 실행에서 자동으로 summary 딕셔너리에 설정됩니다. summary 딕셔너리의 메트릭을 수정하면, 이전 값은 사라집니다.
+
+다음 코드 스니펫은 W&amp;B에 사용자 정의 요약 메트릭을 제공하는 방법을 보여 줍니다:
+
+```python
+import wandb
+import argparse
+
+with wandb.init(config=args) as run:
+  best_accuracy = 0
+  for epoch in range(1, args.epochs + 1):
+      test_loss, test_accuracy = test()
+      if test_accuracy > best_accuracy:
+          run.summary["best_accuracy"] = test_accuracy
+          best_accuracy = test_accuracy
+```
+
+학습이 완료된 후에도 기존 W&amp;B 실행의 summary 속성을 업데이트할 수 있습니다. [W&amp;B Public API](/ko/models/ref/python/public-api/)를 사용하여 summary 속성을 업데이트하십시오.
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+run.summary["tensor"] = np.random.random(1000)
+run.summary.update()
+```
+
+<div id="customize-summary-metrics">
+  ## 요약 지표 사용자 정의하기
+</div>
+
+사용자 정의 요약 지표는 `run.summary`에서 학습 과정 중 최고 성능을 보였던 스텝의 모델 성능을 기록할 때 유용합니다. 예를 들어, 최종 값 대신 정확도의 최대값이나 손실의 최소값을 기록하고 싶을 수 있습니다.
+
+기본적으로 요약은 history에서 마지막 값을 사용합니다. 요약 지표를 사용자 정의하려면 `define_metric`에 `summary` 인수를 전달하세요. 이 인수는 다음 값을 받을 수 있습니다:
+
+* `"min"`
+* `"max"`
+* `"mean"`
+* `"best"`
+* `"last"`
+* `"none"`
+
+`"best"`는 선택적 인수인 `objective`를 `"minimize"` 또는 `"maximize"`로 설정한 경우에만 사용할 수 있습니다.
+
+다음 예시는 손실과 정확도의 최소값과 최대값을 요약에 추가합니다:
+
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # loss의 최솟값 및 최댓값 요약
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # accuracy의 최솟값 및 최댓값 요약
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
+<div id="view-summary-metrics">
+  ## 요약 지표 보기
+</div>
+
+실행의 **Overview** 페이지나 프로젝트 실행 테이블에서 요약값을 확인할 수 있습니다.
+
+<Tabs>
+  <Tab title="Run Overview">
+    1. W&amp;B App으로 이동합니다.
+    2. **Workspace** 탭을 선택합니다.
+    3. 실행 목록에서 요약값을 로깅한 실행의 이름을 클릭합니다.
+    4. **Overview** 탭을 선택합니다.
+    5. **Summary** 섹션에서 요약값을 확인합니다.
+
+    <Frame>
+      <img src="/images/track/customize_summary.png" alt="실행 개요" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Run Table">
+    1. W&amp;B App으로 이동합니다.
+    2. **Runs** 탭을 선택합니다.
+    3. 실행 테이블에서 요약값 이름에 해당하는 열(컬럼)에서 요약값을 확인할 수 있습니다.
+  </Tab>
+
+  <Tab title="W&B Public API">
+    W&amp;B Public API를 사용하여 실행의 요약값을 가져올 수 있습니다.
+
+    다음 코드 예시는 W&amp;B Public API와 pandas를 사용하여 특정 실행에 로깅된 요약값을 가져오는 한 가지 방법을 보여줍니다:
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # 요약값을 포함한 실행의 이름
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # DataFrame으로 변환  
+    df = pd.DataFrame(all_runs)
+
+    # 열 이름(name)을 기준으로 행을 가져오고 딕셔너리로 변환
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
+  </Tab>
+</Tabs>

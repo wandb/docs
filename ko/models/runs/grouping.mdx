@@ -1,0 +1,147 @@
+---
+description: 실행을 그룹과 기타 속성으로 정리합니다.
+title: 실행 정리
+---
+
+실행을 *그룹*으로 정리합니다. 그룹은 특정 모델에 대한 학습 실행이나 특정 데이터셋에 대한 평가 실행처럼, 공통된 목적을 가진 실행들의 모음입니다.
+
+또한 실행을 *작업 유형*과 같은 다른 속성으로도 정리할 수 있습니다. [작업 유형](/ko/models/runs/grouping#organize-runs-by-job-type)은 `preprocessing`, `training`, `evaluation`과 같이 실행이 수행하는 작업의 종류를 나타냅니다.
+
+{/* 
+  ### 환경 변수를 사용해 그룹 정의하기
+
+  `WANDB_RUN_GROUP`를 사용해 실행을 위한 그룹을 환경 변수로 지정하세요. 자세한 내용은 [Environment Variables](/models/track/environment-variables/) 문서를 참고하세요. **Group** 값은 프로젝트 내에서 고유해야 하며, 해당 그룹에 속한 모든 실행에서 동일하게 사용되어야 합니다. 모든 프로세스에서 사용할 고유한 8자 문자열을 생성하려면 `wandb.util.generate_id()`를 사용할 수 있습니다. 예를 들어, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`처럼 설정할 수 있습니다. */}
+
+<div id="organize-runs-into-groups">
+  ## 실행을 그룹으로 구성하기
+</div>
+
+W&amp;B Python SDK를 사용해 프로그래밍 방식으로 실행을 그룹에 추가하거나, W&amp;B App에서 대화형으로 실행을 그룹에 추가할 수 있습니다.
+
+<Note>
+  W&amp;B는 그룹 이름을 실행의 [`wandb.Run.group`](/ko/models/ref/python/experiments/run#property-run-group) 속성으로 저장합니다.
+</Note>
+
+<Tabs>
+  <Tab title="Python SDK">
+    W&amp;B Python SDK를 사용해 프로그래밍 방식으로 하나 이상의 실행을 그룹에 추가할 수 있습니다. `wandb.init(group="")`으로 실행을 초기화할 때 `group` 파라미터에 그룹 이름을 인자로 전달합니다. 그룹 이름을 사용하여 W&amp;B App에서 실행을 구성하고 필터링할 수 있습니다.
+
+    다음 예시는 `A`, `B`, `C`라는 이름의 세 개 그룹을 생성합니다. 각 그룹에는 세 개의 실행이 포함됩니다.
+
+    ```python
+    import wandb
+
+    entity = "<entity>"
+    project = "<project>"
+
+    for group in ["A", "B", "C"]:
+        for i in range(3):
+            with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
+                # 학습을 일부 시뮬레이션
+                for step in range(100):
+                    run.log({
+                        "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                        "loss": 1.0 - (step / 100) * 0.5
+                    })
+    ```
+
+    프로젝트의 워크스페이스에서 그룹별로 구성된 실행을 볼 수 있습니다. 다음 이미지는 그룹 이름별로 실행 테이블을 구성하는 방법을 보여줍니다. 실행 테이블에는 `A`, `B`, `C`라는 세 개의 그룹이 표시되며, 각 그룹에는 세 개의 실행이 포함되어 있습니다.
+
+    <Frame>
+      <img src="/images/runs/group_name_3_groups.png" alt="그룹 이름별로 그룹화된 실행 테이블" />
+    </Frame>
+  </Tab>
+
+  <Tab title="W&B App">
+    1. W&amp;B 프로젝트로 이동합니다.
+    2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+    3. 실행 목록 위에서 **Group** 버튼을 클릭합니다.
+    4. 그룹화하려는 하나 이상의 실행 옆의 체크박스를 클릭합니다.
+    5. **Move to group**을 선택합니다.
+    6. 드로어에서 기존 그룹을 선택하거나 새 그룹을 생성합니다.
+  </Tab>
+</Tabs>
+
+<div id="view-groups">
+  ### 그룹 보기
+</div>
+
+W&amp;B App에서 그룹별로 정리된 실행을 확인하려면 다음을 수행합니다:
+
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭합니다.
+2. 실행 목록 상단에서 **Group** 버튼을 클릭합니다.
+3. 드롭다운 메뉴에서 원하는 **Group**을 선택합니다.
+
+<div id="move-runs-between-groups">
+  ### 그룹 간 실행 이동
+</div>
+
+실행을 한 그룹에서 다른 그룹으로 이동하려면 다음 단계를 따르세요:
+
+1. W&amp;B 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+3. 체크박스를 클릭해 하나 이상의 실행을 선택합니다.
+4. 테이블 위에서 **Move to group**을 클릭합니다.
+5. 드로어에서 대상 그룹을 선택하거나 새 그룹을 만듭니다.
+6. **Move**를 클릭합니다.
+
+<div id="remove-runs-from-a-group">
+  ### 그룹에서 실행 제거
+</div>
+
+1. W&amp;B 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+3. 실행 목록 위에 있는 **Group** 버튼을 클릭합니다.
+4. 드롭다운 메뉴에서 제거하려는 그룹 이름 옆의 **X**를 클릭합니다.
+
+<div id="delete-a-group">
+  ### 그룹 삭제하기
+</div>
+
+그룹을 삭제하려면 해당 그룹에 속한 모든 실행을 삭제하세요. 그러면 그룹이 자동으로 삭제됩니다.
+
+<div id="organize-runs-by-job-type">
+  ## 작업 유형별로 실행 정리
+</div>
+
+실행을 *작업 유형*별로 정리합니다. 작업 유형은 `preprocessing`, `training`, `evaluation`처럼 실행의 역할을 나타냅니다.
+
+<Note>
+  실행의 작업 유형은 실행의 [`wandb.Run.job_type`](/ko/models/ref/python/experiments/run#property-run-job-type) 속성을 참조하여 확인할 수 있습니다.
+</Note>
+
+`job_type` 매개변수를 `wandb.init(job_type="")`에 전달해서 실행에 작업 유형을 추가할 수 있습니다. 예를 들어, 다음 코드 조각은 `training` 또는 `evaluation` 작업 유형을 가진 실행을 생성합니다:
+
+```python
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+for job_type in ["training", "evaluation"]:
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # 일부 프로세스 시뮬레이션
+            for step in range(50):
+                run.log({
+                    "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
+                    "metric2": 0.8 - (step / 50) * 0.3
+                })
+
+```
+
+다음 이미지는 작업 유형별로 정리된 실행들을 보여줍니다:
+
+<Frame>
+  <img src="/images/runs/group_job_type.png" alt="그룹 해제된 실행 표" />
+</Frame>
+
+<div id="view-runs-organized-by-job-type">
+  ### 잡 유형별로 정리된 실행 보기
+</div>
+
+W&amp;B App에서 그룹별로 정리된 실행을 보려면 다음을 수행하세요:
+
+1. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
+2. 실행 목록 위쪽에서 **Group** 버튼을 클릭합니다.
+3. 드롭다운에서 **Job Type**을 선택합니다.

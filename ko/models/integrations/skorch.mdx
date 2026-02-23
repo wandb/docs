@@ -1,0 +1,60 @@
+---
+description: W&B를 Skorch와 통합하는 방법입니다.
+title: Skorch
+---
+
+W&B를 Skorch와 함께 사용하면 각 epoch 이후에 가장 성능이 좋은 모델뿐만 아니라 모든 모델 성능 지표, 모델 토폴로지, 그리고 사용된 컴퓨팅 리소스를 자동으로 로깅할 수 있습니다. `wandb_run.dir`에 저장되는 모든 파일은 자동으로 W&B에 로깅됩니다.
+
+[실행 예시](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13)를 확인하세요.
+
+<div id="parameters">
+  ## 매개변수
+</div>
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `wandb_run` | `wandb.wandb_run`. Run | 데이터를 로깅하는 데 사용되는 wandb 실행입니다. |
+|`save_model` | bool (default=True)| 최고 성능의 모델 체크포인트를 저장하고 이를 W&B의 실행에 업로드할지 여부입니다.|
+|`keys_ignored`| str or list of str (default=None) | TensorBoard에 로깅하지 말아야 하는 키 또는 키 목록입니다. 사용자가 제공한 키 외에도 `event_`로 시작하거나 `_best`로 끝나는 키 등은 기본적으로 무시됩니다.|
+
+<div id="example-code">
+  ## 예제 코드
+</div>
+
+통합이 어떻게 동작하는지 살펴볼 수 있도록 몇 가지 예제를 준비했습니다:
+
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): 통합을 직접 체험해 볼 수 있는 간단한 데모
+* [단계별 가이드](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): Skorch 모델 성능을 추적하는 단계별 가이드
+
+```python
+# wandb 설치
+... pip install wandb
+
+import wandb
+from skorch.callbacks import WandbLogger
+
+# wandb 실행 생성
+wandb_run = wandb.init()
+
+# 하이퍼파라미터 기록 (선택 사항)
+wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
+
+net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
+net.fit(X, y)
+```
+
+
+<div id="method-reference">
+  ## 메서드 참조
+</div>
+
+| Method | 설명 |
+| :--- | :--- |
+| `initialize`\(\) | 콜백의 초기 상태를 \(재\)설정합니다. |
+| `on_batch_begin`\(net\[, X, y, training\]\) | 각 배치가 시작될 때 호출됩니다. |
+| `on_batch_end`\(net\[, X, y, training\]\) | 각 배치가 끝날 때 호출됩니다. |
+| `on_epoch_begin`\(net\[, dataset_train, …\]\) | 각 에포크가 시작될 때 호출됩니다. |
+| `on_epoch_end`\(net, \*\*kwargs\) | 히스토리의 마지막 스텝 값을 로깅하고 최고 성능 모델을 저장합니다. |
+| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | 기울기가 계산된 후, 업데이트 스텝이 수행되기 전에 배치당 한 번 호출됩니다. |
+| `on_train_begin`\(net, \*\*kwargs\) | 모델 토폴로지를 로깅하고 기울기용 훅을 추가합니다. |
+| `on_train_end`\(net\[, X, y\]\) | 학습이 종료될 때 호출됩니다. |

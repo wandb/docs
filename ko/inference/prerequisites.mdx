@@ -1,0 +1,62 @@
+---
+title: "사전 준비 사항"
+linkTitle: "사전 준비 사항"
+description: >
+  W&B Inference를 사용하기 위한 환경을 설정합니다
+---
+
+import ApiKeyCreate from "/snippets/ko/_includes/api-key-create.mdx";
+
+API 또는 UI를 통해 W&amp;B Inference 서비스를 사용하기 전에 다음 단계를 완료해야 합니다.
+
+<Tip>
+  시작하기 전에 비용과 제한 사항을 파악하기 위해 [사용량 및 제한 정보](/ko/inference/usage-limits/)를 검토하세요.
+</Tip>
+
+<div id="set-up-your-wb-account-and-project">
+  ## W&amp;B 계정과 프로젝트 설정
+</div>
+
+W&amp;B Inference를 사용하려면 다음 항목이 필요합니다.
+
+1. **W&amp;B 계정**\
+   [W&amp;B](https://app.wandb.ai/login?signup=true)에서 가입합니다.
+
+2. **W&amp;B API 키**
+
+   <ApiKeyCreate />
+
+3. **W&amp;B 프로젝트**\
+   사용량을 추적하기 위해 W&amp;B 계정에서 프로젝트를 생성합니다.
+
+<div id="set-up-your-environment-python">
+  ## 환경 설정하기 (Python)
+</div>
+
+Python에서 Inference API를 사용하려면 다음 작업도 필요합니다:
+
+1. 위의 일반 요구사항을 완료합니다.
+
+2. 필요한 라이브러리를 설치합니다:
+
+   ```bash
+   pip install openai weave
+   ```
+
+<Note>
+  **참고**
+
+  `weave` 라이브러리는 선택 사항이지만 사용하는 것을 권장합니다. 이 라이브러리를 사용하면 LLM 애플리케이션을 트레이싱할 수 있습니다. 자세한 내용은 [Weave 빠른 시작](/ko/models/quickstart/)을 참고하세요.
+
+  Weave와 함께 W&amp;B Inference를 사용하는 코드 예시는 [사용 예시](/ko/inference/examples/)에서 확인할 수 있습니다.
+</Note>
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+사전 준비를 완료한 후에는 다음을 수행하세요.
+
+* [API reference](/ko/inference/api-reference/)에서 확인해 사용 가능한 엔드포인트를 살펴보세요
+* [usage examples](/ko/inference/examples/)를 실행해 서비스를 실제로 사용해 보세요
+* [UI guide](/ko/inference/ui-guide/)를 참고해 웹 인터페이스에서 모델에 액세스하세요

@@ -1,0 +1,106 @@
+---
+title: Artifacts
+description: 데이터 버전 관리를 위해 W&B Artifacts를 생성, 업데이트, 다운로드 및 관리합니다.
+---
+
+import ArtifactCreate from '/snippets/ko/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from '/snippets/ko/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from '/snippets/ko/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from '/snippets/ko/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from '/snippets/ko/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactsDownload from '/snippets/ko/_includes/code-examples/artifacts_download.mdx';
+import ArtifactAddAlias from '/snippets/ko/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from '/snippets/ko/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from '/snippets/ko/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from '/snippets/ko/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactTtl from '/snippets/ko/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from '/snippets/ko/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from '/snippets/ko/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from '/snippets/ko/_includes/code-examples/artifact_update_existing.mdx';
+
+데이터 버전 관리를 위해 W&amp;B Artifacts를 생성, 업데이트, 다운로드 및 관리합니다.
+
+
+<div id="create-and-log-an-artifact">
+  ## 아티팩트 생성 및 기록
+</div>
+
+<ArtifactCreate />
+
+<div id="track-an-external-artifact-by-adding-a-reference-to-a-cloud-storage-bucket-path">
+  ## 클라우드 스토리지 버킷 경로를 참조로 추가하여 외부 아티팩트 추적하기
+</div>
+
+<ArtifactCreateTrackExternal />
+
+<div id="delete-specific-artifact-version-from-a-run">
+  ## 실행에서 특정 아티팩트 버전 삭제
+</div>
+
+<ArtifactDelete />
+
+<div id="delete-an-artifact-collection">
+  ## 아티팩트 컬렉션 삭제
+</div>
+
+<ArtifactDeleteCollection />
+
+<div id="download-specific-files-or-sub-folders-from-artifacts">
+  ## 아티팩트에서 특정 파일이나 하위 폴더만 다운로드하기
+</div>
+
+<ArtifactDownloadPartial />
+
+<div id="download-files-or-entire-artifacts">
+  ## 파일 또는 전체 아티팩트 다운로드
+</div>
+
+<ArtifactsDownload />
+
+<div id="add-one-or-more-aliases-to-an-artifact-when-logging-it">
+  ## 아티팩트를 로깅할 때 별칭 하나 이상 추가하기
+</div>
+
+<ArtifactAddAlias />
+
+<div id="add-an-alias-to-an-existing-artifact">
+  ## 기존 아티팩트에 별칭 추가하기
+</div>
+
+<ArtifactAddAliasExisting />
+
+<div id="add-a-tag-to-an-artifact-when-logging-it">
+  ## 아티팩트를 로깅하면서 태그를 추가하기
+</div>
+
+<ArtifactAddTag />
+
+<div id="add-a-tag-to-an-existing-artifact">
+  ## 기존 아티팩트에 태그를 추가하기
+</div>
+
+<ArtifactAddTagExisting />
+
+<div id="create-and-log-an-artifact-with-a-ttl-policy">
+  ## TTL 정책이 설정된 아티팩트 생성 및 로깅
+</div>
+
+<ArtifactTtl />
+
+<div id="update-the-ttl-policy-of-an-existing-artifact">
+  ## 기존 아티팩트의 TTL 정책 업데이트
+</div>
+
+<ArtifactTtlExisting />
+
+<div id="update-an-existing-artifacts-description-within-a-run">
+  ## 실행 중 기존 Artifact의 설명 업데이트하기
+</div>
+
+<ArtifactUpdate />
+
+<div id="given-an-existing-artifact-update-its-description-metadata-and-aliases-without-creating-a-new-run">
+  ## 기존 아티팩트에 대해 새 실행을 생성하지 않고 설명, 메타데이터, 별칭을 업데이트하기
+</div>
+
+<ArtifactUpdateExisting />

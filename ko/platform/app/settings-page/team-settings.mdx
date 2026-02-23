@@ -1,0 +1,88 @@
+---
+description: Team Settings 페이지에서 팀 구성원, 아바타, 알림 및 개인정보 보호 설정을 관리합니다.
+title: 팀 설정 관리
+---
+
+import EnterpriseOnly from "/snippets/ko/_includes/enterprise-only.mdx";
+
+<div id="team-settings">
+  # 팀 설정
+</div>
+
+팀 구성원, 아바타, 알림, 개인정보 보호 및 사용량 등 팀 설정을 변경할 수 있습니다. 조직 관리자와 팀 관리자는 팀 설정을 조회하고 수정할 수 있습니다.
+
+<Note>
+  관리자(Administration) 계정 유형만 팀 설정을 변경하거나 팀에서 팀원을 제거할 수 있습니다.
+</Note>
+
+<div id="members">
+  ## 멤버
+</div>
+
+멤버 섹션에는 아직 수락되지 않은 보류 중 초대와, 팀 합류 초대를 수락한 멤버들이 모두 표시됩니다. 각 멤버 항목에는 멤버 이름, 사용자 이름, 이메일, 팀 역할과 함께 Models 및 W&amp;B Weave 에 대한 액세스 권한이 표시되며, 이 권한은 상위 Organization 의 설정을 상속합니다. 사용할 수 있는 기본 팀 역할은 **Admin**, **Member**, **View-only** 입니다. 조직에서 [custom roles](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles)를 만들어 둔 경우, 기본 역할 대신 해당 custom role 을 할당할 수 있습니다.
+
+팀을 생성하고, 팀을 관리하며, 팀 멤버십과 역할을 관리하는 방법은 [Add and Manage teams](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참고하세요. 누가 새 멤버를 초대할 수 있는지와 팀의 기타 개인정보 보호 설정을 구성하려면 [Privacy](#privacy)를 참조하세요.
+
+<div id="avatar">
+  ## 아바타
+</div>
+
+**Avatar** 섹션으로 이동한 다음 이미지를 업로드하여 아바타를 설정합니다.
+
+1. 파일 선택 대화 상자를 열려면 **Update Avatar**를 선택합니다.
+2. 파일 선택 대화 상자에서 사용할 이미지를 선택합니다.
+
+<div id="alerts">
+  ## 알림
+</div>
+
+실행이 중단되거나 완료되었을 때, 또는 사용자 지정 알림을 설정했을 때 팀에 알림을 보냅니다. 팀은 이메일이나 Slack을 통해 알림을 받을 수 있습니다.
+
+알림을 받고 싶은 이벤트 유형 옆에 있는 스위치를 켭니다. Weights and Biases는 기본적으로 다음과 같은 이벤트 유형 옵션을 제공합니다:
+
+* **Runs finished**: Weights and Biases 실행이 성공적으로 완료되었는지 여부.
+* **Run crashed**: 실행이 완료되지 못하고 실패했는지 여부.
+
+알림 설정 및 관리 방법에 대한 자세한 내용은 [`wandb.Run.alert()`로 알림 보내기](/ko/models/evaluate-models/)를 참조하세요.
+
+<div id="slack-notifications">
+  ## Slack 알림
+</div>
+
+팀의 [자동화](/ko/models/automations/)가 Registry 또는 프로젝트에서 이벤트가 발생했을 때 알림을 보낼 Slack 대상을 설정합니다. 예를 들어, 새로운 아티팩트가 생성되었을 때나 실행 메트릭이 정의된 임계값에 도달했을 때 알림을 보낼 수 있습니다. 자세한 내용은 [Slack 자동화 만들기](/ko/models/automations/create-automations/slack/)를 참조하세요.
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="webhooks">
+  ## Webhooks
+</div>
+
+팀의 [automations](/ko/models/automations/)이 Registry 또는 프로젝트에서 이벤트가 발생했을 때 실행되도록 웹훅을 구성합니다. 예를 들어 새 아티팩트가 생성되었거나 실행 지표가 정의된 임계값에 도달했을 때 실행되게 할 수 있습니다. 자세한 내용은 [웹훅 자동화 생성](/ko/models/automations/create-automations/slack/)을 참조하세요.
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="privacy">
+  ## 개인정보 보호
+</div>
+
+개인정보 보호 설정을 변경하려면 **Privacy** 섹션으로 이동하세요. 조직 관리자만 개인정보 보호 설정을 수정할 수 있습니다.
+
+* 향후 프로젝트를 공개로 설정하거나 리포트를 공개적으로 공유할 수 있는 기능을 끕니다.
+* 팀 관리자뿐만 아니라 모든 팀 구성원이 다른 구성원을 초대할 수 있도록 허용합니다.
+* 코드 저장을 기본적으로 활성화할지 여부를 설정합니다.
+
+<div id="usage">
+  ## 사용량
+</div>
+
+**사용량** 섹션에서는 팀이 Weights &amp; Biases 서버에서 사용한 총 메모리 사용량을 보여줍니다. 기본 스토리지 플랜은 100GB입니다. 스토리지 및 요금에 대한 자세한 내용은 [요금제](https://wandb.ai/site/pricing) 페이지를 참조하세요.
+
+<div id="storage">
+  ## 스토리지
+</div>
+
+**스토리지** 섹션에서는 팀 데이터에 사용되는 클라우드 스토리지 버킷 구성을 설명합니다. 자세한 내용은 [Secure Storage Connector](/ko/platform/app/settings-page/teams/#secure-storage-connector)를 참고하거나, 셀프 호스팅 환경이라면 [W&amp;B Server](/ko/platform/hosting/data-security/secure-storage-connector) 문서를 확인하세요.

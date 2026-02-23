@@ -1,0 +1,63 @@
+---
+description: W&B 리포트를 Notion에 직접 임베드하거나 HTML iframe 요소로 임베드합니다.
+title: 리포트 임베드하기
+---
+
+<div id="html-iframe-element">
+  ## HTML iframe 요소
+</div>
+
+리포트의 오른쪽 상단에 있는 **Share** 버튼을 선택합니다. 모달 창이 나타나면 모달 창에서 **Copy embed code**를 선택합니다. 복사된 코드는 인라인 프레임(IFrame) HTML 요소 안에서 렌더링됩니다. 원하는 iframe HTML 요소에 복사한 코드를 붙여넣습니다.
+
+<Note>
+임베드된 경우에는 **public** 리포트만 조회할 수 있습니다.
+</Note>
+
+<Frame>
+    <img src="/images/reports/get_embed_url.gif" alt="임베드 코드 가져오기"  />
+</Frame>
+
+<div id="confluence">
+  ## Confluence
+</div>
+
+다음 애니메이션에서는 Confluence의 IFrame 셀에 리포트의 직접 링크를 삽입하는 방법을 보여줍니다.
+
+<Frame>
+    <img src="/images/reports/embed_iframe_confluence.gif" alt="Embedding in Confluence"  />
+</Frame>
+
+<div id="notion">
+  ## Notion
+</div>
+
+아래 애니메이션은 Notion에서 Embed 블록과 리포트의 임베드 코드를 사용해 리포트를 Notion 페이지에 삽입하는 방법을 보여줍니다.
+
+<Frame>
+    <img src="/images/reports/embed_iframe_notion.gif" alt="Notion에 임베딩"  />
+</Frame>
+
+<div id="gradio">
+  ## Gradio
+</div>
+
+`gr.HTML` 요소를 사용해 Gradio 앱에 W&amp;B 리포트를 삽입하고, 이를 Hugging Face Spaces에서 사용할 수 있습니다.
+
+```python
+import gradio as gr
+
+
+def wandb_report(url):
+    iframe = f'<iframe src={url} style="border:none;height:1024px;width:100%">'
+    return gr.HTML(iframe)
+
+
+with gr.Blocks() as demo:
+    report = wandb_report(
+        "https://wandb.ai/_scott/pytorch-sweeps-demo/reports/loss-22-10-07-16-00-17---VmlldzoyNzU2NzAx"
+    )
+demo.launch()
+```
+
+
+##

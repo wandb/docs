@@ -1,0 +1,23 @@
+---
+title: 기존 Artifact TTL
+---
+
+```python
+"""
+W&B에서 기존 아티팩트의 TTL 정책을 업데이트합니다.
+"""
+import wandb
+from datetime import timedelta
+
+# W&B API 초기화
+api = wandb.Api()
+
+# 기존 아티팩트 가져오기
+artifact = api.artifact("<entity/project/artifact:alias>")
+
+# TTL 정책을 추가하거나 업데이트합니다. 원하는 기간을 지정하세요.
+artifact.ttl = timedelta(days=365)  # 1년 후 삭제
+
+# 업데이트된 아티팩트 저장
+artifact.save()
+```

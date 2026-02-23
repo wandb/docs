@@ -1,0 +1,137 @@
+---
+title: "Serverless LoRA 추론 사용하기"
+linkTitle: "Serverless LoRA 추론 사용하기"
+description: >
+  W&B Inference에서 미세 조정된 모델 서빙을 위해 사용자 정의 LoRA를 가져와 사용합니다.
+---
+
+LoRA(Low-Rank Adaptation)는 전체 새로운 모델 대신 가벼운 ‘애드온(add-on)’만 학습하고 저장함으로써 대규모 언어 모델을 개인화할 수 있게 합니다. 이를 통해 커스터마이징을 더 빠르고 비용 효율적으로 수행하고, 배포도 더 쉽게 할 수 있습니다.
+
+LoRA를 학습하거나 업로드하여 기본(base) 모델에 새로운 능력을 부여할 수 있습니다. 예를 들어 고객 지원, 창의적 글쓰기, 특정 기술 분야에 특화되도록 만들 수 있습니다. 이렇게 하면 전체 모델을 다시 학습하거나 재배포하지 않고도 모델의 동작을 원하는 방향으로 조정할 수 있습니다.
+
+<div id="why-use-wb-inference-for-loras">
+  ## 왜 LoRA에 W&amp;B Inference를 사용해야 할까요?
+</div>
+
+* 한 번 업로드하면 즉시 배포 — 서버를 직접 관리할 필요가 없습니다.
+* 아티팩트 버저닝으로 어떤 버전이 라이브 상태인지 정확히 추적합니다.
+* 전체 모델 가중치 대신 작은 LoRA 파일만 교체해 몇 초 만에 모델을 업데이트합니다.
+
+<div id="workflow">
+  ## 워크플로
+</div>
+
+1. LoRA 가중치를 W&amp;B 아티팩트로 업로드합니다
+2. API에서 모델 이름에 사용할 아티팩트 URI를 지정합니다
+3. W&amp;B가 추론 시 사용할 수 있도록 가중치를 동적으로 로드합니다
+
+다음은 W&amp;B Inference를 사용해 사용자 정의 LoRA 모델을 호출하는 예시입니다:
+
+```python
+from openai import OpenAI
+
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/qwen_lora:latest"
+
+client = OpenAI(
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key=API_KEY,
+    project=f"{WB_TEAM}/{WB_PROJECT}",
+)
+
+resp = client.chat.completions.create(
+    model=model_name,
+    messages=[{"role": "user", "content": "Say 'Hello World!'"}],
+)
+print(resp.choices[0].message.content)
+```
+
+LoRA를 생성하고 W&amp;B 아티팩트로 업로드하는 방법을 대화형으로 보여주는 [시작하기 노트북](https://wandb.me/lora_nb)을 확인하세요.
+
+<div id="prerequisites">
+  ## 사전 준비 사항
+</div>
+
+다음이 필요합니다:
+
+* [W&amp;B API key](/ko/models/integrations/add-wandb-to-any-library#create-an-api-key)
+* [W&amp;B 프로젝트](/ko/models/track/project-page)
+* `openai` 및 `wandb` 패키지가 설치된 **Python 3.8+**:
+  `pip install wandb openai`
+
+<div id="how-to-add-loras-and-use-them">
+  ## LoRA를 추가하고 사용하는 방법
+</div>
+
+LoRA를 W&amp;B 계정에 추가하고 사용하는 방법은 두 가지입니다.
+
+<Tabs>
+  <Tab title="다른 곳에서 학습한 LoRA 업로드">
+    다른 곳에서 학습한 사용자 정의 LoRA 디렉터리를 W&amp;B 아티팩트로 업로드합니다. 로컬 환경, 클라우드 제공업체, 파트너 서비스 등에서 LoRA를 학습한 경우에 적합합니다.
+
+    아래 Python 코드는 로컬에 저장된 LoRA 가중치를 버전 관리되는 아티팩트로 W&amp;B에 업로드합니다. 필요한 메타데이터(베이스 모델 및 스토리지 리전)를 포함한 `lora` 타입 아티팩트를 생성하고, 로컬 디렉터리에서 LoRA 파일을 추가한 다음, 추론에 사용하기 위해 해당 아티팩트를 W&amp;B 프로젝트에 로그합니다.
+
+    ```python
+    import wandb
+
+    run = wandb.init(entity=WB_TEAM, project=WB_PROJECT)
+
+    artifact = wandb.Artifact(
+        "qwen_lora",
+        type="lora",
+        metadata={"wandb.base_model": "OpenPipe/Qwen3-14B-Instruct"},
+        storage_region="coreweave-us",
+    )
+
+    artifact.add_dir("<path-to-lora-weights>")
+    run.log_artifact(artifact)
+    ```
+
+    ### 핵심 요구 사항
+
+    Inference에서 자체 LoRA를 사용하려면 다음 조건을 충족해야 합니다:
+
+    * LoRA는 [지원되는 기본 모델 섹션](#supported-base-models)에 나열된 모델 중 하나를 사용해 학습되어야 합니다.
+    * W&amp;B 계정에 `lora` 타입 아티팩트로, PEFT 포맷으로 저장된 LoRA여야 합니다.
+    * 지원되는 최대 랭크(rank)는 16입니다.
+    * 지연 시간을 줄이기 위해 LoRA는 `storage_region="coreweave-us"`에 저장되어야 합니다.
+    * 업로드할 때, 학습에 사용한 베이스 모델의 이름(예: `meta-llama/Llama-3.1-8B-Instruct`)을 포함해야 합니다. 이렇게 하면 W&amp;B가 올바른 모델과 함께 LoRA를 로드할 수 있습니다.
+  </Tab>
+
+  <Tab title="W&B로 새 LoRA 학습하기">
+    [W&amp;B Training (serverless RL)](/ko/training)을 사용해 새 LoRA를 학습합니다. 이렇게 학습된 LoRA는 자동으로 W&amp;B 아티팩트가 되어 바로 사용할 수 있습니다.
+
+    자체 LoRA를 학습하는 방법에 대한 자세한 내용은 [OpenPipe의 ART 퀵스타트](https://art.openpipe.ai/getting-started/quick-start)를 참고하세요.
+
+    학습이 완료되면 LoRA는 자동으로 아티팩트로 제공됩니다.
+  </Tab>
+</Tabs>
+
+LoRA가 프로젝트에 아티팩트로 추가되면, 아래와 같이 추론 요청에서 아티팩트의 URI를 사용하세요:
+
+```python
+# 학습이 완료되면 아티팩트를 직접 사용하세요
+model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
+```
+
+<div id="supported-base-models">
+  ## 지원되는 기본 모델
+</div>
+
+현재 Inference는 다음 LLM들을 지원합니다 (`wandb.base_model`에는 정확한 문자열을 사용해야 합니다). 더 많은 모델이 곧 추가될 예정입니다:
+
+{/* takeru lora-base-models - 이 목록은 자동으로 생성되므로 수동으로 수정하지 마세요. */}
+
+* `meta-llama/Llama-3.1-70B-Instruct`
+* `meta-llama/Llama-3.1-8B-Instruct`
+* `OpenPipe/Qwen3-14B-Instruct`
+* `Qwen/Qwen3-30B-A3B-Instruct-2507`
+* `Qwen/Qwen2.5-14B-Instruct`
+
+<div id="pricing">
+  ## 가격
+</div>
+
+Serverless LoRA Inference는 단순하면서 비용 효율적입니다. 상시 가동 서버나 전용 GPU 인스턴스 비용이 아니라, 스토리지와 실제로 수행한 추론에 대해서만 비용을 지불하면 됩니다.
+
+* [**Storage**](https://wandb.ai/site/pricing/) - LoRA 가중치를 저장하는 비용은 자체 GPU 인프라를 유지하는 것과 비교했을 때 매우 저렴합니다.
+* **Inference usage** - LoRA 아티팩트를 사용하는 호출은 [표준 모델 추론](/ko/inference/usage-limits#account-tiers-and-default-usage-caps)과 동일한 요율로 과금됩니다. 사용자 정의 LoRA를 서빙하는 데 추가 비용은 없습니다.

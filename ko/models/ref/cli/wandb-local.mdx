@@ -1,0 +1,39 @@
+---
+title: "wandb local"
+---
+
+{/*
+  이 명령어에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-local.mdx
+  2. 해당 파일에 소개 내용을 추가합니다
+  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨 둡니다:
+
+  import WandbLocal from "/snippets/_includes/cli/wandb-local.mdx";
+
+  <WandbLocal/>
+
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
+  */}
+
+로컬 W&amp;B 컨테이너 시작(사용 중단됨, wandb server --help 참조)
+
+
+<div id="usage">
+  ## 사용법
+</div>
+
+```bash
+wandb local [OPTIONS]
+```
+
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `--port`, `-p` | W&B Local을 바인딩할 호스트 포트 (기본값: 8080) |
+| `--env`, `-e` | wandb/local에 전달할 환경 변수 (기본값: []) |
+| `--daemon` | 데몬 모드로 실행할지 여부 (기본값: True) |
+| `--upgrade` | 최신 버전으로 업그레이드 (기본값: False) |

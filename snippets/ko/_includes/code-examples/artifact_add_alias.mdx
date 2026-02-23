@@ -1,0 +1,19 @@
+---
+title: Artifact에 별칭 추가
+---
+
+```python
+"""
+W&B에 아티팩트를 로깅할 때 하나 이상의 별칭을 추가합니다.
+"""
+import wandb
+
+# 아티팩트 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+# 아티팩트에 파일 추가
+artifact.add_file("<file_path>")
+
+with wandb.init(project="<project>") as run:
+    # 별칭과 함께 아티팩트 로깅
+    run.log_artifact(artifact, aliases=["<alias1>", "<alias2>"])
+```

@@ -1,0 +1,24 @@
+---
+title: "Google Cloud에 배포하기"
+description: "Weave 모델을 클라우드 플랫폼에 배포하기"
+---
+
+<div id="deploy-to-google-cloud">
+  ## Google Cloud에 배포하기
+</div>
+
+<Note>
+  `weave deploy`를 사용하려면 로컬 머신에 `gcloud`가 설치 및 설정되어 있어야 합니다. 명령줄 인수로 직접 지정하지 않으면 `weave deploy gcp`는 미리 구성된 설정을 사용합니다.
+</Note>
+
+Weave 모델을 Google Cloud에 배포하려면 다음 명령을 실행합니다:
+
+```
+weave deploy gcp <ref>
+```
+
+배포가 완료되면 터미널에 다음 스키마의 URL이 출력됩니다:
+
+```
+Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!
+```

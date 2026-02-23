@@ -1,0 +1,23 @@
+---
+title: "외부 Artifact 생성 및 추적"
+---
+
+```python
+"""
+클라우드 스토리지 버킷 경로에 대한 참조를 추가하여 외부 아티팩트를 추적합니다.
+"""
+
+import wandb
+
+# 아티팩트 객체 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# 버킷 경로에 대한 참조 추가
+artifact.add_reference(uri = "uri/to/your/bucket/path")
+
+# W&B 실행 초기화
+with wandb.init(project="<project>") as run:
+
+  # 아티팩트 메타데이터 로깅
+  run.log_artifact(artifact)
+```

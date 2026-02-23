@@ -1,0 +1,44 @@
+---
+title: "wandb artifact ls"
+---
+
+{/*
+  이 명령에 대한 소개 문구를 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
+  2. 해당 파일에 소개 문구를 추가합니다
+  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
+
+  import WandbArtifactLs from "/snippets/_includes/cli/wandb-artifact-ls.mdx";
+
+  <WandbArtifactLs/>
+
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
+  */}
+
+wandb 프로젝트의 모든 아티팩트 목록 조회
+
+
+<div id="usage">
+  ## 사용 방법
+</div>
+
+```bash
+wandb artifact ls PATH [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## 인자
+</div>
+
+| 인자 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `PATH` | 사용할 수 있는 설명이 없습니다 | 예 |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `--type`, `-t` | 나열할 아티팩트 유형 |

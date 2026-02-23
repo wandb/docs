@@ -1,0 +1,553 @@
+---
+title: 숫자
+---
+
+<div id="chainable-ops">
+  ## 체이닝 가능한 연산
+</div>
+
+### <a id="number-notEqual" />`number-notEqual`
+
+두 값이 서로 다른지 판별합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 값이 서로 다른지 여부입니다.
+
+### <a id="number-modulo" />`number-modulo`
+
+[숫자](/ko/models/ref/query-panel/number/)를 다른 [숫자](/ko/models/ref/query-panel/number/)로 나누었을 때의 나머지를 반환합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 나눌 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 나눌 때 사용할 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 [숫자](/ko/models/ref/query-panel/number/)의 나머지값
+
+### <a id="number-mult" />`number-mult`
+
+두 개의 [number](/ko/models/ref/query-panel/number/) 값을 곱합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 첫 번째 [number](/ko/models/ref/query-panel/number/) |
+| `rhs` | 두 번째 [number](/ko/models/ref/query-panel/number/) |
+
+#### 반환값
+
+두 개의 [숫자](/ko/models/ref/query-panel/number/)의 곱
+
+### <a id="number-powBinary" />`number-powBinary`
+
+[숫자](/ko/models/ref/query-panel/number/)를 지수로 거듭제곱합니다
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `lhs` | 밑 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 지수 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+입력 [숫자](/ko/models/ref/query-panel/number/)의 n제곱 값
+
+### <a id="number-add" />`number-add`
+
+두 개의 [number](/ko/models/ref/query-panel/number/) 값을 더합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 첫 번째 [number](/ko/models/ref/query-panel/number/) 값 |
+| `rhs` | 두 번째 [number](/ko/models/ref/query-panel/number/) 값 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 개의 [숫자](/ko/models/ref/query-panel/number/)의 합
+
+### <a id="number-sub" />`number-sub`
+
+한 [number](/ko/models/ref/query-panel/number/) 값에서 다른 [number](/ko/models/ref/query-panel/number/) 값을 뺍니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 뺄셈에서 기준이 되는 [number](/ko/models/ref/query-panel/number/) 값 |
+| `rhs` | `lhs`에서 빼는 [number](/ko/models/ref/query-panel/number/) 값 |
+
+#### 반환값
+
+두 개의 [숫자](/ko/models/ref/query-panel/number/)의 차이
+
+### <a id="number-div" />`number-div`
+
+[숫자](/ko/models/ref/query-panel/number/)를 다른 [숫자](/ko/models/ref/query-panel/number/)로 나눕니다
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `lhs` | 나눌 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 나누는 수로 사용할 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 [숫자](/ko/models/ref/query-panel/number/)의 몫
+
+### <a id="number-less" />`number-less`
+
+[숫자](/ko/models/ref/query-panel/number/)가 다른 숫자보다 작은지 확인합니다.
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `lhs` | 비교할 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째보다 작은지 여부를 나타냅니다.
+
+### <a id="number-lessEqual" />`number-lessEqual`
+
+[number](/ko/models/ref/query-panel/number/)가 다른 [number](/ko/models/ref/query-panel/number/)보다 작거나 같은지 확인합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 [number](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상 [number](/ko/models/ref/query-panel/number/) |
+
+#### 반환값
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째보다 작거나 같은지 여부
+
+### <a id="number-equal" />`number-equal`
+
+두 값이 같은지 판정합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 값이 같은지 나타냅니다.
+
+### <a id="number-greater" />`number-greater`
+
+한 [숫자](/ko/models/ref/query-panel/number/)가 다른 [숫자](/ko/models/ref/query-panel/number/)보다 큰지 확인합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상이 되는 [숫자](/ko/models/ref/query-panel/number/) |
+
+#### 반환값
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째보다 큰지 여부
+
+### <a id="number-greaterEqual" />`number-greaterEqual`
+
+[숫자](/ko/models/ref/query-panel/number/)가 다른 숫자보다 크거나 같은지 확인합니다.
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `lhs` | 비교할 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째 값보다 크거나 같은지를 나타내는 값
+
+### <a id="number-negate" />`number-negate`
+
+[숫자](/ko/models/ref/query-panel/number/)의 부호를 반전합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `val` | 부호를 반전할 숫자 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[숫자](/ko/models/ref/query-panel/number/)
+
+### <a id="number-toString" />`number-toString`
+
+[number](/ko/models/ref/query-panel/number/) 값을 문자열로 변환합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `in` | 변환할 숫자 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[number](/ko/models/ref/query-panel/number/)의 문자열 형태
+
+### <a id="number-toTimestamp" />`number-toTimestamp`
+
+[숫자](/ko/models/ref/query-panel/number/)를 &#95;타임스탬프&#95;로 변환합니다. 31536000000보다 작은 값은 초 단위로, 31536000000000보다 작은 값은 밀리초 단위로, 31536000000000000보다 작은 값은 마이크로초 단위로, 31536000000000000000보다 작은 값은 나노초 단위로 변환됩니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `val` | 타임스탬프로 변환할 숫자 |
+
+#### 반환값
+
+타임스탬프
+
+### <a id="number-abs" />`number-abs`
+
+[number](/ko/models/ref/query-panel/number/)의 절댓값을 계산합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `n` | [number](/ko/models/ref/query-panel/number/) 값 |
+
+#### 반환값
+
+[number](/ko/models/ref/query-panel/number/)의 절대값입니다.
+
+<div id="list-ops">
+  ## 리스트 연산
+</div>
+
+### <a id="number-notEqual" />`number-notEqual`
+
+두 값이 서로 다른지 판별합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 값이 서로 다른지 여부를 나타냅니다.
+
+### <a id="number-modulo" />`number-modulo`
+
+[숫자](/ko/models/ref/query-panel/number/)를 다른 숫자로 나누고 나머지를 반환합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 나눌 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 나눌 때 사용하는 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 [숫자](/ko/models/ref/query-panel/number/)의 나머지 값
+
+### <a id="number-mult" />`number-mult`
+
+두 개의 [number](/ko/models/ref/query-panel/number/)를 곱합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 첫 번째 [number](/ko/models/ref/query-panel/number/) |
+| `rhs` | 두 번째 [number](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 개의 [number](/ko/models/ref/query-panel/number/) 값의 곱
+
+### <a id="number-powBinary" />`number-powBinary`
+
+[숫자](/ko/models/ref/query-panel/number/)를 지수로 거듭제곱합니다.
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `lhs` | 밑이 되는 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 지수가 되는 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+각 [numbers](/ko/models/ref/query-panel/number/) 값을 n제곱한 결과
+
+### <a id="number-add" />`number-add`
+
+두 개의 [number](/ko/models/ref/query-panel/number/) 값을 더합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 첫 번째 [number](/ko/models/ref/query-panel/number/) 값 |
+| `rhs` | 두 번째 [number](/ko/models/ref/query-panel/number/) 값 |
+
+#### 반환값
+
+두 [숫자](/ko/models/ref/query-panel/number/)의 합
+
+### <a id="number-sub" />`number-sub`
+
+한 [number](/ko/models/ref/query-panel/number/) 값에서 다른 [number](/ko/models/ref/query-panel/number/) 값을 뺍니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 뺄셈에서 기준이 되는 [number](/ko/models/ref/query-panel/number/) 값 |
+| `rhs` | `lhs`에서 뺄 [number](/ko/models/ref/query-panel/number/) 값 |
+
+#### 반환값
+
+두 [숫자](/ko/models/ref/query-panel/number/)의 차이
+
+### <a id="number-div" />`number-div`
+
+한 [숫자](/ko/models/ref/query-panel/number/)를 다른 [숫자](/ko/models/ref/query-panel/number/)로 나눕니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 나눌 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 나누는 데 사용할 [숫자](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 개의 [숫자](/ko/models/ref/query-panel/number/)의 몫
+
+### <a id="number-less" />`number-less`
+
+[숫자](/ko/models/ref/query-panel/number/)가 다른 숫자보다 작은지 확인합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상으로 사용할 [숫자](/ko/models/ref/query-panel/number/) |
+
+#### 반환값
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째보다 작은지 여부
+
+### <a id="number-lessEqual" />`number-lessEqual`
+
+한 [숫자](/ko/models/ref/query-panel/number/)가 다른 [숫자](/ko/models/ref/query-panel/number/)보다 작거나 같은지 확인합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상 [숫자](/ko/models/ref/query-panel/number/) |
+
+#### 반환값
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째보다 작거나 같은지 여부
+
+### <a id="number-equal" />`number-equal`
+
+두 값이 서로 같은지 판별합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 첫 번째 값입니다. |
+| `rhs` | 비교할 두 번째 값입니다. |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+두 값이 동일한지 여부입니다.
+
+### <a id="number-greater" />`number-greater`
+
+[number](/ko/models/ref/query-panel/number/)가 다른 값보다 큰지 확인합니다
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 [number](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 기준이 되는 [number](/ko/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째 것보다 큰지 여부
+
+### <a id="number-greaterEqual" />`number-greaterEqual`
+
+[숫자](/ko/models/ref/query-panel/number/)가 다른 숫자보다 크거나 같은지 확인합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 비교할 [숫자](/ko/models/ref/query-panel/number/) |
+| `rhs` | 비교 대상 [숫자](/ko/models/ref/query-panel/number/) |
+
+#### 반환값
+
+첫 번째 [number](/ko/models/ref/query-panel/number/)가 두 번째 숫자보다 크거나 같은지 여부
+
+### <a id="number-negate" />`number-negate`
+
+[숫자](/ko/models/ref/query-panel/number/)의 부호를 반전합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `val` | 부호를 반전할 숫자 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[숫자](/ko/models/ref/query-panel/number/) 하나
+
+### <a id="numbers-argmax" />`numbers-argmax`
+
+최댓값인 [number](/ko/models/ref/query-panel/number/)의 인덱스를 찾습니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 최댓값 [number](/ko/models/ref/query-panel/number/)의 인덱스를 찾을 [numbers](/ko/models/ref/query-panel/number/)의 *목록* |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+가장 큰 [number](/ko/models/ref/query-panel/number/)의 인덱스
+
+### <a id="numbers-argmin" />`numbers-argmin`
+
+최소 [number](/ko/models/ref/query-panel/number/)의 인덱스를 찾습니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 최소 [number](/ko/models/ref/query-panel/number/)의 인덱스를 찾을 [numbers](/ko/models/ref/query-panel/number/) *list* |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+최소 [number](/ko/models/ref/query-panel/number/)의 인덱스
+
+### <a id="numbers-avg" />`numbers-avg`
+
+[숫자](/ko/models/ref/query-panel/number/)의 평균값
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 평균을 계산할 [숫자](/ko/models/ref/query-panel/number/)들의 *list* |
+
+#### 반환값
+
+[numbers](/ko/models/ref/query-panel/number/)의 평균값입니다.
+
+### <a id="numbers-max" />`numbers-max`
+
+최댓값
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 이들 중에서 최대 [number](/ko/models/ref/query-panel/number/)를 찾기 위한 [numbers](/ko/models/ref/query-panel/number/)의 *list* |
+
+#### 반환값
+
+최대 [number](/ko/models/ref/query-panel/number/)
+
+### <a id="numbers-min" />`numbers-min`
+
+최소값
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 최소 [number](/ko/models/ref/query-panel/number/)를 찾을 [numbers](/ko/models/ref/query-panel/number/)의 *list* |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+최소 [number](/ko/models/ref/query-panel/number/)
+
+### <a id="numbers-stddev" />`numbers-stddev`
+
+[숫자](/ko/models/ref/query-panel/number/)의 표준편차
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 표준편차를 계산할 [숫자](/ko/models/ref/query-panel/number/)의 *목록* |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[numbers](/ko/models/ref/query-panel/number/)의 표준 편차
+
+### <a id="numbers-sum" />`numbers-sum`
+
+[숫자](/ko/models/ref/query-panel/number/)의 합
+
+| Argument | Description |
+| :--- | :--- |
+| `numbers` | 합산할 [숫자](/ko/models/ref/query-panel/number/)의 *list* |
+
+#### 반환값
+
+[숫자](/ko/models/ref/query-panel/number/)의 합계
+
+### <a id="number-toString" />`number-toString`
+
+[number](/ko/models/ref/query-panel/number/)를 문자열로 변환합니다
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `in` | 변환할 숫자 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[number](/ko/models/ref/query-panel/number/)의 문자열 형태
+
+### <a id="number-toTimestamp" />`number-toTimestamp`
+
+[숫자](/ko/models/ref/query-panel/number/)를 &#95;timestamp&#95;로 변환합니다. 값이 31536000000 미만이면 초 단위로, 31536000000000 미만이면 밀리초 단위로, 31536000000000000 미만이면 마이크로초 단위로, 31536000000000000000 미만이면 나노초 단위로 변환됩니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `val` | timestamp로 변환할 숫자 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+타임스탬프
+
+### <a id="number-abs" />`number-abs`
+
+[number](/ko/models/ref/query-panel/number/)의 절댓값을 계산합니다.
+
+| 인수 | 설명 |
+| :--- | :--- |
+| `n` | [number](/ko/models/ref/query-panel/number/) 값 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[number](/ko/models/ref/query-panel/number/)의 절대값입니다.

@@ -1,0 +1,24 @@
+---
+title: 실행을 로깅할 때 발생하는 권한 오류는 어떻게 해결하나요?
+---
+
+W&B 엔터티에 실행을 로깅할 때 발생하는 권한 오류를 해결하려면 다음 단계를 따르세요:
+
+- **엔터티 및 프로젝트 이름 확인**: 코드에서 사용한 W&B 엔터티와 프로젝트 이름의 철자 및 대소문자가 정확한지 확인하세요.
+- **권한 확인**: 관리자에게 필요한 권한이 부여되어 있는지 확인하세요.
+- **로그인 정보 확인**: 올바른 W&B 계정으로 로그인되어 있는지 확인하세요. 다음 코드를 사용해 실행을 하나 생성해 보며 테스트할 수 있습니다:
+  ```python
+  import wandb
+
+  with wandb.init(entity="your_entity", project="your_project") as run:
+      run.log({'example_metric': 1})
+  ```
+- **API 키 설정**: `WANDB_API_KEY` 환경 변수를 사용하세요:
+  ```bash
+  export WANDB_API_KEY='your_api_key'
+  ```
+- **호스트 정보 확인**: 커스텀 배포를 사용하는 경우 호스트 URL을 설정하세요:
+  ```bash
+  wandb login --relogin --host=<host-url>
+  export WANDB_BASE_URL=<host-url>
+  ```

@@ -1,0 +1,62 @@
+---
+title: 실행 삭제
+description: W&B App을 사용하여 W&B 프로젝트에서 실행을 삭제하는 방법을 알아보세요.
+---
+
+W&B App을 사용하여 프로젝트에서 하나 이상의 실행을 삭제할 수 있습니다.
+
+1. 삭제하려는 실행이 포함된 프로젝트로 이동합니다.
+2. **Runs** 탭을 선택합니다.
+3. 삭제하려는 실행 옆의 체크박스를 선택합니다.
+4. 테이블 위에 있는 **Delete** 버튼(휴지통 아이콘)을 선택합니다.
+5. 나타나는 드로어에서 **Delete**를 선택합니다.
+
+<Note>
+실행이 삭제된 이후에도 실행 ID는 다시 사용할 수 없습니다. 해당 ID를 사용해 실행을 시작하려고 하면 오류가 발생하며 실행이 실패합니다.
+</Note>
+
+<Note>
+실행 수가 많은 프로젝트의 경우, 검색 창에서 정규식(Regex)을 사용해 삭제하려는 실행을 필터링하거나, 필터 버튼을 사용해 상태, 태그 또는 기타 속성에 따라 실행을 필터링할 수 있습니다.
+</Note>
+
+<div id="run-deletion-flowchart">
+  ### 실행 삭제 흐름도
+</div>
+
+다음 다이어그램은 관련 아티팩트와 Registry 링크의 처리를 포함한 전체 실행 삭제 과정을 보여줍니다.
+
+```mermaid
+graph TB
+    Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
+    
+    RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
+    
+    DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
+    
+    DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
+    
+    CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
+    
+    HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
+    HasRegistry -->|No| DirectDelete
+    
+    RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
+    
+    ConfirmRegistry -->|No| DeleteRunOnly
+    ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
+    
+    DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
+    
+    style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style RegistryWarning fill:#ffecb3,stroke:#333,stroke-width:2px,color:#000
+    style DirectDelete fill:#ffebee,stroke:#333,stroke-width:2px,color:#000
+    style DeleteRunOnly fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#000
+    style PartialEnd fill:#c8e6c9,stroke:#333,stroke-width:2px,color:#000
+    style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
+```
+
+<Warning>
+  실행을 삭제할 때 연결된 아티팩트를 함께 삭제하도록 선택하면, 해당 아티팩트는 영구적으로 삭제되며 나중에 실행을 복원하더라도 복구할 수 없습니다. 여기에는 Registry에 연결된 아티팩트도 포함됩니다.
+</Warning>

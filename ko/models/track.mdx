@@ -1,0 +1,76 @@
+---
+description: W&B로 머신러닝 실험을 추적하세요.
+title: 실험 개요
+---
+
+import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/ko/_includes/try-product-link.mdx';
+
+<CardGroup cols={4}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" />
+
+  <TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
+</CardGroup>
+
+몇 줄의 코드만으로 머신러닝 실험을 추적할 수 있습니다. 그런 다음 [대화형 대시보드](/ko/models/track/workspaces/)에서 결과를 검토하거나 [Public API](/ko/models/ref/python/public-api/)를 사용해 데이터를 Python으로 내보내 프로그램으로 접근할 수 있습니다.
+
+[Keras](/ko/models/integrations/keras) 같은 인기 있는 프레임워크를 사용하는 경우 W&amp;B Integrations를 활용하세요. 전체 통합 목록과 코드에 W&amp;B를 추가하는 방법에 대한 정보는 [W&amp;B Integrations](/ko/models/integrations)를 참고하세요.
+
+<Frame>
+  <img src="/images/experiments/experiments_landing_page.png" alt="Experiments 대시보드" />
+</Frame>
+
+위 이미지는 여러 [실행](/ko/models/runs/)의 메트릭을 확인하고 비교할 수 있는 예시 대시보드를 보여 줍니다.
+
+<div id="how-it-works">
+  ## 작동 방식
+</div>
+
+몇 줄의 코드만으로 머신러닝 실험을 추적할 수 있습니다:
+
+1. [W&amp;B 실행](/ko/models/runs/)을 생성합니다.
+2. 학습률이나 모델 타입과 같은 하이퍼파라미터 딕셔너리를 구성 정보([`wandb.Run.config`](/ko/models/track/config/))에 저장합니다.
+3. 정확도와 손실처럼 시간에 따라 변화하는 지표를 학습 루프에서 [`wandb.Run.log()`](/ko/models/track/log/)로 기록합니다.
+4. 모델 가중치나 예측 결과 테이블과 같은 실행의 결과물을 저장합니다.
+
+다음 코드는 일반적인 W&amp;B 실험 추적 워크플로를 보여줍니다:
+
+```python
+# 실행을 시작합니다.
+#
+# 이 블록이 종료되면 로깅된 데이터가 업로드 완료될 때까지 기다립니다.
+# 예외가 발생하면 실행이 실패로 표시됩니다.
+with wandb.init(entity="", project="my-project-name") as run:
+  # 모델 입력값과 하이퍼파라미터를 저장합니다.
+  run.config.learning_rate = 0.01
+
+  # 실험 코드를 실행합니다.
+  for epoch in range(num_epochs):
+    # 학습을 수행합니다...
+
+    # 모델 성능을 시각화하기 위해 시간 경과에 따른 메트릭을 로깅합니다.
+    run.log({"loss": loss})
+
+  # 모델 출력물을 아티팩트로 업로드합니다.
+  run.log_artifact(model)
+```
+
+<div id="get-started">
+  ## 시작하기
+</div>
+
+사용 사례에 따라 다음 리소스를 참고하여 W&amp;B Experiments 사용을 시작하세요:
+
+* 데이터셋 아티팩트를 생성, 추적, 활용하는 데 사용할 수 있는 W&amp;B Python SDK 명령을 단계별로 정리한 [W&amp;B 퀵스타트](/ko/models/quickstart/)를 읽습니다.
+* 이 장을 통해 다음 내용을 학습합니다:
+  * 실험 생성하기
+  * 실험 구성하기
+  * 실험에서 데이터 로깅하기
+  * 실험 결과 보기
+* [W&amp;B API Reference Guide](/ko/models/ref/python/) 내의 [W&amp;B Python Library](/ko/models/ref/python/)를 살펴봅니다.
+
+<div id="best-practices-and-tips">
+  ## 모범 사례와 팁
+</div>
+
+실험 및 로깅에 대한 모범 사례와 팁은 [모범 사례: 실험 및 로깅](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging)을 참고하세요.

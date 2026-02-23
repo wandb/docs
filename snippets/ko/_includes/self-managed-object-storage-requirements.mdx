@@ -1,0 +1,20 @@
+---
+title: 셀프 매니지드 오브젝트 스토리지 요구 사항
+---
+
+W&amp;B는 프리사인드 URL 및 CORS를 지원하는 오브젝트 스토리지가 필요합니다.
+
+프로덕션 배포의 경우 W&amp;B는 다음과 같은 매니지드 오브젝트 스토리지 서비스를 사용할 것을 권장합니다:
+
+* [Amazon S3](https://aws.amazon.com/s3/): 업계 최고 수준의 확장성, 데이터 가용성, 보안 및 성능을 제공하는 오브젝트 스토리지 서비스입니다.
+* [Google Cloud Storage](https://cloud.google.com/storage): 대규모 비정형 데이터를 저장하기 위한 매니지드 서비스입니다.
+* [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs): 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage): AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스입니다.
+
+셀프 호스티드 오브젝트 스토리지 옵션에 대해서는 CORS 구성 및 엔터프라이즈 대안을 포함한 자세한 설정 방법을 [베어메탈 가이드의 오브젝트 스토리지 섹션](/ko/platform/hosting/self-managed/bare-metal/#object-storage)에서 확인하세요.
+
+<Note>
+  MinIO Open Source는 활성 개발 및 사전 컴파일된 바이너리가 없는 [유지보수 모드](https://github.com/minio/minio)에 있습니다. 프로덕션 배포의 경우 W&amp;B는 매니지드 오브젝트 스토리지 서비스 또는 엔터프라이즈급 S3 호환 솔루션을 사용할 것을 권장합니다.
+</Note>
+
+전체 요구 사항은 [레퍼런스 아키텍처의 오브젝트 스토리지 섹션](/ko/platform/hosting/self-managed/ref-arch/#object-storage)을 참고하세요.

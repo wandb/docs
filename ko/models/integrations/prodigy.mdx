@@ -1,0 +1,38 @@
+---
+description: W&amp;B를 Prodigy와 통합하는 방법.
+title: Prodigy
+---
+
+[Prodigy](https://prodi.gy/)는 머신 러닝 모델을 위한 학습 및 평가 데이터 생성, 오류 분석, 데이터 점검 및 정제를 위한 어노테이션 도구입니다. [W&amp;B Tables](/ko/models/tables/tables-walkthrough/)를 사용하면 W&amp;B 내에서 데이터셋(및 그 이상)을 로깅하고, 시각화하고, 분석하고, 공유할 수 있습니다.
+
+[Prodigy용 W&amp;B 통합](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py)은 Prodigy로 어노테이션한 데이터셋을 Tables에서 사용하기 위해 직접 W&amp;B로 업로드할 수 있는 간단하고 사용하기 쉬운 기능을 추가합니다.
+
+다음과 같은 몇 줄의 코드를 실행하세요:
+
+```python
+import wandb
+from wandb.integration.prodigy import upload_dataset
+
+with wandb.init(project="prodigy"):
+    upload_dataset("news_headlines_ner")
+```
+
+그리고 아래와 같은 시각적이고 대화형이며 공유 가능한 테이블을 얻을 수 있습니다:
+
+<Frame>
+  <img src="/images/integrations/prodigy_interactive_visual.png" alt="Prodigy annotation table" />
+</Frame>
+
+<div id="quickstart">
+  ## 빠른 시작
+</div>
+
+`wandb.integration.prodigy.upload_dataset`를 사용하여 로컬 Prodigy 데이터베이스에 있는 주석된 Prodigy 데이터셋을 W&amp;B의 [Table](/ko/models/ref/python/data-types/table) 포맷으로 바로 업로드할 수 있습니다. Prodigy 설치 및 설정을 포함한 더 자세한 정보는 [Prodigy 문서](https://prodi.gy/docs/)를 참고하세요.
+
+W&amp;B는 이미지와 개체명 필드를 각각 [`wandb.Image`](/ko/models/ref/python/data-types/image) 및 [`wandb.Html`](/ko/models/ref/python/data-types/html)로 자동 변환하려고 시도합니다. 이러한 시각화를 포함하기 위해 결과 테이블에 추가 열이 더해질 수 있습니다.
+
+<div id="read-through-a-detailed-example">
+  ## 자세한 예제 살펴보기
+</div>
+
+W&amp;B Prodigy 통합을 통해 생성된 시각화 예제를 보려면 [W&amp;B Tables를 사용한 Prodigy 데이터세트 시각화](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc)를 확인하세요.

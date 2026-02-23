@@ -1,0 +1,56 @@
+---
+title: Deployment options overview
+sidebarTitle: Overview
+no_list: true
+---
+
+W&amp;B는 조직의 인프라 및 보안 요구 사항을 충족하기 위해 다양한 방식으로 배포할 수 있습니다.
+
+<Tip title="시작하기">
+  빠르게 시작하려면 W&amp;B에서 [Multi-tenant Cloud](https://wandb.ai/home)를 사용할 것을 권장합니다.
+
+  일부 기능은 [Enterprise](https://wandb.ai/site/pricing/) 라이선스가 필요합니다. 이러한 기능을 사용해 보려면 [Enterprise 체험판](https://wandb.ai/site/enterprise-trial/)을 신청하고 배포 유형을 선택하세요.
+</Tip>
+
+<CardGroup cols={1}>
+  <a id="wb-multi-tenant-cloud" aria-label="W&B Multi-tenant Cloud" />
+
+  <Card title="W&B Multi-tenant Cloud">
+    W&amp;B의 클라우드 인프라에 배포되는 완전 관리형 서비스로, 원하는 규모에서 비용 효율적인 가격 옵션과 함께 W&amp;B 제품에 원활하게 액세스하고, 최신 기능을 위한 지속적인 업데이트를 받을 수 있습니다. W&amp;B는 제품 체험용으로, 또는 프라이빗 배포 수준의 보안이 필요하지 않고 셀프 서비스 온보딩이 중요하며 비용 효율성이 핵심인 경우 프로덕션 AI 워크플로를 운영하는 용도로 Multi-tenant Cloud 사용을 권장합니다.
+
+    자세한 내용은 **[W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)**를 참조하세요.
+  </Card>
+
+  <a id="wb-dedicated-cloud" aria-label="W&B Dedicated Cloud" />
+
+  <Card title="W&B Dedicated Cloud">
+    W&amp;B의 클라우드 인프라에 배포되는 단일 테넌트 완전 관리형 서비스입니다. 데이터 레지던시를 포함한 엄격한 거버넌스 통제를 준수해야 하고, 고급 보안 기능이 필요하며, 보안·확장성·성능 요구 사항을 충족하는 인프라를 직접 구축·운영하지 않고 AI 운영 비용을 최적화하려는 조직이 W&amp;B를 도입하기에 가장 적합한 옵션입니다.
+
+    자세한 내용은 **[W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)**를 참조하세요.
+  </Card>
+
+  <a id="wb-Self-Managed" aria-label="W&B Self-Managed" />
+
+  <Card title="W&B Self-Managed">
+    직접 관리하는 인프라에 W&amp;B Server를 배포하고 운영합니다. W&amp;B Server는 W&amp;B Platform과 지원되는 W&amp;B 제품을 실행하기 위한 독립형 패키지 방식의 구성 요소입니다. 기존 인프라가 모두 온프레미스이거나, W&amp;B Dedicated Cloud로는 충족되지 않는 엄격한 규제 요구 사항이 있는 경우 이 옵션을 사용할 것을 W&amp;B에서 권장합니다. 이 옵션을 선택하면 W&amp;B Server를 지원하는 인프라에 대한 프로비저닝과 지속적인 유지 관리 및 업그레이드를 전적으로 직접 책임져야 합니다.
+
+    자세한 내용은 **[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)**를 참조하세요.
+  </Card>
+</CardGroup>
+
+<div id="key-differences">
+  ## 주요 차이점
+</div>
+
+이 표는 배포 유형 간의 주요 차이점을 보여줍니다.
+
+|                                      | 멀티 테넌트 클라우드                | 전용 클라우드                                                     | 셀프 매니지드 |
+|--------------------------------------|-----------------------------------|---------------------------------------------------------------------|------------------|
+| MySQL / DB 관리                | W&amp;B가 전적으로 호스팅 및 관리 | 고객이 선택한 클라우드 또는 리전에서 W&amp;B가 전적으로 호스팅 및 관리 | 고객이 전적으로 호스팅 및 관리 |
+| 오브젝트 스토리지 (S3/GCS/Blob storage) | **옵션 1**: W&amp;B가 전적으로 호스팅<br />**옵션 2**: 고객이 [Secure Storage Connector](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하여 팀별로 자체 버킷을 구성할 수 있음  | **옵션 1**: W&amp;B가 전적으로 호스팅<br />**옵션 2**: 고객이 [Secure Storage Connector](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하여 인스턴스별 또는 팀별로 자체 버킷을 구성할 수 있음 | 고객이 전적으로 호스팅 및 관리 |
+| SSO 지원                          | Auth0를 통해 W&amp;B가 관리             | **옵션 1**: 고객이 직접 관리<br />**옵션 2**: Auth0를 통해 W&amp;B가 관리 | 고객이 전적으로 관리   |
+| W&amp;B 서비스 (App)                    | W&amp;B가 전적으로 관리              | W&amp;B가 전적으로 관리                                                | 고객이 전적으로 관리          |
+| 앱 보안                         | W&amp;B가 전적으로 관리              | W&amp;B와 고객의 공동 책임                           | 고객이 전적으로 관리         |
+| 유지 관리 (업그레이드, 백업 등)| W&amp;B 관리 | W&amp;B 관리 | 고객 관리 |
+| 지원                              | Support SLA                       | Support SLA                                                         | Support SLA |
+| 지원되는 클라우드 인프라       | Google Cloud                               | AWS, Google Cloud, Azure                                                     | AWS, Google Cloud, Azure, 온프레미스 베어메탈 |

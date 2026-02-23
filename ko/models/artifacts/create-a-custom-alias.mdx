@@ -1,0 +1,27 @@
+---
+description: W&amp;B Artifact에 대한 사용자 지정 별칭을 생성합니다.
+title: Artifact 별칭 생성하기
+---
+
+별칭은 특정 버전의 포인터 역할을 합니다. 기본적으로 `wandb.Run.log_artifact()`는 기록된 버전에 `latest` 별칭을 추가합니다.
+
+처음 해당 Artifact를 로깅하면 W&amp;B는 Artifact 버전 `v0`를 생성하고 해당 Artifact에 연결합니다. 동일한 Artifact를 다시 로깅할 때 W&amp;B는 내용에 대해 체크섬을 계산합니다. Artifact가 변경된 경우 W&amp;B는 새 버전 `v1`을 저장합니다.
+
+예를 들어, 학습 스크립트에서 데이터셋의 최신 버전을 가져오려면 해당 Artifact를 사용할 때 `latest`를 지정합니다. 다음 코드 예시는 `latest`라는 별칭을 가진 `bike-dataset`이라는 이름의 최신 데이터셋 Artifact를 다운로드하는 방법을 보여 줍니다:
+
+```python
+import wandb
+
+with wandb.init(project="<project>") as run:
+    artifact = run.use_artifact("bike-dataset:latest")
+    artifact.download()
+```
+
+아티팩트 버전에 사용자 지정 별칭을 적용할 수도 있습니다. 예를 들어, 특정 모델 체크포인트가 AP-50 지표에서 최고 성능을 낸 것임을 표시하고 싶다면, 모델 아티팩트를 로깅할 때 문자열 `'best-ap50'`을 별칭으로 추가할 수 있습니다.
+
+```python
+with wandb.init(project="<project>") as run:
+    artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")
+    artifact.add_file("model.h5")
+    run.log_artifact(artifact, aliases=["latest", "best-ap50"])
+```

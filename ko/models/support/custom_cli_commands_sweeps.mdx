@@ -1,0 +1,57 @@
+---
+title: 사용자 지정 CLI 명령을 스윕에서 사용하려면 어떻게 하나요?
+---
+
+학습 설정에서 명령줄 인자를 전달하도록 되어 있다면, W&amp;B 스윕에서 사용자 지정 CLI 명령을 사용할 수 있습니다.
+
+아래 예시의 코드 스니펫은 사용자가 `train.py`라는 Python 스크립트를 실행하면서, 스크립트가 파싱할 값을 인자로 전달하는 bash 터미널을 보여줍니다:
+
+```bash
+/usr/bin/env python train.py -b \
+    your-training-config \
+    --batchsize 8 \
+    --lr 0.00001
+```
+
+사용자 지정 명령을 구현하려면 YAML 파일의 `command` 키를 수정하세요. 앞선 예제를 기준으로 한 구성은 다음과 같습니다:
+
+```yaml
+program:
+  train.py
+method: grid
+parameters:
+  batch_size:
+    value: 8
+  lr:
+    value: 0.0001
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "-b"
+  - your-training-config
+  - ${args}
+```
+
+`${args}` 키는 sweep 설정에 있는 모든 파라미터를 `--param1 value1 --param2 value2` 형식의 `argparse` 인자로 확장합니다.
+
+`argparse` 외의 추가 인자를 사용하려면 다음을 구현하십시오:
+
+```python
+parser = argparse.ArgumentParser()
+args, unknown = parser.parse_known_args()
+```
+
+<Note>
+  환경에 따라 `python`이 Python 2를 가리킬 수 있습니다. Python 3이 실행되도록 하려면 명령 구성에서 `python3`를 다음과 같이 사용하세요:
+
+  ```yaml
+  program:
+    script.py
+  command:
+    - ${env}
+    - python3
+    - ${program}
+    - ${args}
+  ```
+</Note>

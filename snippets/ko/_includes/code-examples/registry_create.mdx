@@ -1,0 +1,19 @@
+---
+title: Registry 생성
+---
+
+```python
+"""
+W&B에 새 레지스트리를 생성합니다. 레지스트리가 존재하지 않으면 W&B가 생성합니다.
+"""
+import wandb
+
+# W&B API 초기화
+api = wandb.Api()
+
+# 새 레지스트리 생성
+registry = api.create_registry(
+    name="<registry_name>",
+    visibility="<visibility>",  # 예: "public" 또는 "private"
+)
+```

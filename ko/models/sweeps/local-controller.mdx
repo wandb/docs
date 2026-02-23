@@ -1,0 +1,108 @@
+---
+description: W&amp;B에서 호스팅하는 클라우드 서비스를 사용하지 않고 로컬에서 탐색 및 중지 알고리즘을 실행합니다.
+title: 알고리즘을 로컬에서 관리
+---
+
+하이퍼파라미터 컨트롤러는 기본적으로 Weights &amp; Biases에서 클라우드 서비스 형태로 호스팅됩니다. W&amp;B 에이전트는 학습에 사용할 다음 파라미터 집합을 결정하기 위해 컨트롤러와 통신합니다. 컨트롤러는 또한 어떤 실행을 중지할 수 있는지 결정하기 위해 조기 종료 알고리즘을 실행하는 역할도 담당합니다.
+
+로컬 컨트롤러 기능을 사용하면 탐색 및 중지 알고리즘을 로컬에서 실행할 수 있습니다. 로컬 컨트롤러를 사용하면 문제를 디버깅하고 클라우드 서비스에 통합할 수 있는 새로운 기능을 개발할 수 있도록 코드를 검사하고 계측할 수 있습니다.
+
+<Warning>
+  이 기능은 Sweeps 도구용 새로운 알고리즘을 더 빠르게 개발하고 디버깅하는 것을 지원하기 위해 제공됩니다. 실제 하이퍼파라미터 최적화 워크로드에 사용하기 위한 것은 아닙니다.
+</Warning>
+
+시작하기 전에 W&amp;B SDK(`wandb`)를 설치해야 합니다. 다음 코드 스니펫을 명령줄에 입력하세요:
+
+```
+pip install wandb sweeps 
+```
+
+다음 예제에서는 Python 스크립트 또는 Jupyter Notebook에서 이미 설정 파일과 훈련 루프를 정의해 두었다고 가정합니다. 설정 파일을 정의하는 방법은 [Define sweep configuration](/ko/models/sweeps/define-sweep-configuration/) 문서를 참고하세요.
+
+<div id="run-the-local-controller-from-the-command-line">
+  ### 명령줄에서 로컬 컨트롤러 실행하기
+</div>
+
+W&amp;B에서 클라우드 서비스로 호스팅되는 하이퍼파라미터 컨트롤러를 사용할 때와 비슷한 방식으로 sweep을 초기화합니다. W&amp;B sweep 작업에 로컬 컨트롤러를 사용하려면 `controller` 플래그를 지정하십시오.
+
+```bash
+wandb sweep --controller config.yaml
+```
+
+또는 스윕을 초기화하는 작업과 로컬 컨트롤러를 사용하도록 지정하는 작업을 두 단계로 분리할 수 있습니다.
+
+단계를 분리하려면 먼저 스윕의 YAML 구성 파일에 다음 키-값 쌍을 추가합니다:
+
+```yaml
+controller:
+  type: local
+```
+
+다음으로 스윕을 초기화하세요:
+
+```bash
+wandb sweep config.yaml
+```
+
+`wandb sweep`는 sweep ID를 생성합니다. sweep을 초기화한 다음 [`wandb controller`](/ko/models/ref/python/functions/controller)로 컨트롤러를 시작합니다:
+
+```bash
+wandb controller {user}/{entity}/{sweep_id}
+```
+
+로컬 컨트롤러를 사용하도록 설정했다면, 스윕을 실행하기 위해 하나 이상의 스윕 에이전트를 시작합니다. 평소와 동일한 방식으로 W&amp;B 스윕을 시작하면 됩니다. 자세한 내용은 [Start sweep agents](/ko/models/sweeps/start-sweep-agents/)를 참고하세요.
+
+```bash
+wandb sweep sweep_ID
+```
+
+<div id="run-a-local-controller-with-wb-python-sdk">
+  ### W&amp;B Python SDK로 로컬 컨트롤러 실행하기
+</div>
+
+다음 코드 스니펫은 W&amp;B Python SDK에서 로컬 컨트롤러를 지정하고 사용하는 방법을 보여 줍니다.
+
+Python SDK에서 컨트롤러를 사용하는 가장 간단한 방법은 [`wandb.controller`](/ko/models/ref/python/functions/controller) 메서드에 스윕 ID를 전달하는 것입니다. 그런 다음 반환 객체의 `run` 메서드를 사용해 스윕 작업을 시작합니다:
+
+```python
+sweep = wandb.controller(sweep_id)
+sweep.run()
+```
+
+컨트롤러 루프를 보다 세밀하게 제어하고 싶다면:
+
+```python
+import wandb
+
+sweep = wandb.controller(sweep_id)
+while not sweep.done():
+    sweep.print_status()
+    sweep.step()
+    time.sleep(5)
+```
+
+또는 제공되는 파라미터를 더욱 세밀하게 제어하려면:
+
+```python
+import wandb
+
+sweep = wandb.controller(sweep_id)
+while not sweep.done():
+    params = sweep.search()
+    sweep.schedule(params)
+    sweep.print_status()
+```
+
+스윕 구성을 전부 코드로만 지정하려면 다음과 같이 하면 됩니다:
+
+```python
+import wandb
+
+sweep = wandb.controller()
+sweep.configure_search("grid")
+sweep.configure_program("train-dummy.py")
+sweep.configure_controller(type="local")
+sweep.configure_parameter("param1", value=3)
+sweep.create()
+sweep.run()
+```

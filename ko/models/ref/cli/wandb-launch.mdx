@@ -1,0 +1,52 @@
+---
+title: "wandb launch"
+---
+
+{/*
+  이 명령어에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-launch.mdx
+  2. 해당 파일에 소개 내용을 추가하세요
+  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨두세요:
+
+  import WandbLaunch from "/snippets/_includes/cli/wandb-launch.mdx";
+
+  <WandbLaunch/>
+
+  스니펫은 다음 재생성 시 자동으로 인식됩니다.
+  */}
+
+W&amp;B Job을 실행하거나 큐에 등록합니다. https://wandb.me/launch를 참고하세요.
+
+
+<div id="usage">
+  ## 사용법
+</div>
+
+```bash
+wandb launch [OPTIONS]
+```
+
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `--uri`, `-u` | 실행할 로컬 경로 또는 Git 저장소 URI입니다. 이 옵션을 제공하면 지정된 URI로부터 Job을 생성합니다. |
+| `--job`, `-j` | 실행할 Job의 이름입니다. 이 옵션을 사용하면 wandb launch는 URI가 필요 없습니다. |
+| `--entry-point`, `-E` | 프로젝트 내 엔트리 포인트입니다. [기본값: main]. 엔트리 포인트를 찾을 수 없으면, 지정된 이름의 프로젝트 파일을 스크립트로 실행하려고 시도하며, .py 파일은 `python`으로, .sh 파일은 기본 셸(환경 변수 `$SHELL`로 지정됨)로 실행합니다. 이 옵션을 사용하면 설정 파일에서 전달된 entrypoint 값을 덮어씁니다. |
+| `--build-context` | 소스 코드 내 빌드 컨텍스트의 경로입니다. 기본값은 소스 코드 루트입니다. -u와만 호환됩니다. |
+| `--name` | 실행을 시작할 실행 이름입니다. 지정하지 않으면 무작위 실행 이름이 사용됩니다. 이 옵션을 사용하면 설정 파일에서 전달된 name 값을 덮어씁니다. |
+| `--entity`, `-e` | 새 실행이 전송될 대상 엔터티의 이름입니다. 기본값은 로컬 wandb/settings 폴더에 설정된 엔터티입니다. 이 옵션을 사용하면 설정 파일에서 전달된 entity 값을 덮어씁니다. |
+| `--project`, `-p` | 새 실행이 전송될 대상 프로젝트의 이름입니다. 기본값은 소스 URI에서 지정된 프로젝트 이름이거나, GitHub 실행의 경우 Git 저장소 이름입니다. 이 옵션을 사용하면 설정 파일에서 전달된 project 값을 덮어씁니다. |
+| `--resource`, `-r` | 실행에 사용할 실행 리소스입니다. 지원되는 값: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'. 리소스 설정이 없는 큐로 전송하는 경우, 이제 필수 파라미터입니다. 이 옵션을 사용하면 설정 파일에서 전달된 resource 값을 덮어씁니다. |
+| `--docker-image`, `-d` | 사용하려는 특정 Docker 이미지입니다. `name:tag` 형식입니다. 이 옵션을 사용하면 설정 파일에서 전달된 Docker 이미지 값을 덮어씁니다. |
+| `--base-image`, `-B` | Job 코드를 실행할 Docker 이미지입니다. --docker-image와는 함께 사용할 수 없습니다. |
+| `--config`, `-c` | Launch 설정으로 전달될 JSON 파일 경로('.json'으로 끝나야 함) 또는 JSON 문자열입니다. 실행이 어떻게 설정될지 정의합니다. |
+| `--set-var`, `-v` | 허용 목록(allow listing)이 활성화된 큐에 대해 템플릿 변수 값을 key-value 쌍으로 설정합니다. 예: `--set-var key1=value1 --set-var key2=value2` |
+| `--queue`, `-q` | 전송할 실행 큐의 이름입니다. 지정하지 않으면 단일 실행을 직접 시작합니다. 인자 없이(`--queue`) 지정하면 'default' 큐를 기본값으로 사용합니다. 이름을 제공한 경우, 지정된 실행 큐는 제공된 프로젝트와 엔터티 아래에 존재해야 합니다. |
+| `--async` | Job을 비동기적으로 실행하기 위한 플래그입니다. 기본값은 false입니다. 즉, --async를 설정하지 않으면 wandb launch는 Job이 완료될 때까지 대기합니다. 이 옵션은 --queue와 호환되지 않습니다. 에이전트와 함께 실행할 때 비동기 옵션은 wandb launch-agent에서 설정해야 합니다. (기본값: False) |
+| `--resource-args`, `-R` | 컴퓨트 리소스에 resource args로 전달될 JSON 파일 경로('.json'으로 끝나야 함) 또는 JSON 문자열입니다. 제공해야 하는 정확한 내용은 각 실행 백엔드마다 다릅니다. 이 파일의 구조는 문서를 참조하세요. |
+| `--dockerfile`, `-D` | Job을 빌드하는 데 사용되는 Dockerfile의 경로입니다. Job의 루트를 기준으로 하는 상대 경로입니다. |
+| `--priority`, `-P` | --queue를 사용하는 경우 Job의 우선순위를 설정합니다. 우선순위가 높은 Launch Job이 먼저 처리됩니다. 우선순위는 높은 것부터 낮은 것까지 순서대로 critical, high, medium, low입니다. |

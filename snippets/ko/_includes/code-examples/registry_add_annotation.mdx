@@ -1,0 +1,33 @@
+---
+title: "레지스트리 주석 추가"
+---
+
+```python
+"""
+레지스트리의 컬렉션에 설명을 추가합니다.
+"""
+import wandb
+
+# 레지스트리 및 컬렉션 세부 정보 정의
+collection_type = "<collection_type>"
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+
+# 전체 레지스트리 경로 구성
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# W&B API 초기화
+api = wandb.Api()
+
+# 아티팩트 컬렉션 가져오기
+collection = api.artifact_collection(
+  type_name = collection_type, 
+  name = registry_path
+  )
+
+# 컬렉션 객체에 설명 추가
+collection.description = "<description>"
+
+# 업데이트된 컬렉션 저장
+collection.save()
+```

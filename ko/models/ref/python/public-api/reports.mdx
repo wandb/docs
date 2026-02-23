@@ -1,0 +1,60 @@
+---
+title: 리포트
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+
+## <kbd>class</kbd> `Reports`
+
+Reports는 `BetaReport` 객체들의 지연(lazy) 이터레이터입니다.
+
+### <kbd>메서드</kbd> `Reports.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    project: 'Project',
+    name: 'str | None' = None,
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+)
+```
+
+**매개변수:**
+
+* `client` (`wandb.apis.internal.Api`):  사용할 API 클라이언트 인스턴스입니다.
+* `project` (`wandb.sdk.internal.Project`):  리포트를 가져올 프로젝트입니다.
+* `name` (str, 선택적):  필터링할 리포트 이름입니다. `None`인 경우 모든 리포트를 가져옵니다.
+* `entity` (str, 선택적):  프로젝트의 엔터티 이름입니다. 지정하지 않으면 해당 프로젝트의 엔터티가 사용됩니다.
+* `per_page` (int):  페이지당 가져올 리포트 개수입니다(기본값은 50).
+
+***
+
+
+### <kbd>속성</kbd> Reports.length
+
+---
+
+### <kbd>메서드</kbd> `Reports.convert_objects`
+
+```python
+convert_objects() → list[BetaReport]
+```
+
+GraphQL 엣지를 File 객체로 변환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Reports.update_variables`
+
+```python
+update_variables() → None
+```
+
+페이지네이션용 GraphQL 쿼리 변수를 업데이트합니다.

@@ -1,0 +1,9 @@
+---
+title: "wandb 파일의 로컬 위치는 어떻게 지정하나요?"
+---
+
+- `WANDB_DIR=<path>` 또는 `wandb.init(dir=<path>)`: 학습 스크립트에 대해 생성되는 `wandb` 폴더의 위치를 제어합니다. 기본값은 `./wandb`입니다. 이 폴더에는 실행 데이터와 로그가 저장됩니다.
+- `WANDB_ARTIFACT_DIR=<path>` 또는 `wandb.Artifact().download(root="<path>")`: 아티팩트가 다운로드되는 위치를 제어합니다. 기본값은 `./artifacts`입니다.
+- `WANDB_CACHE_DIR=<path>`: `wandb.Artifact`를 호출할 때 아티팩트가 생성되고 저장되는 위치입니다. 기본값은 `~/.cache/wandb`입니다.
+- `WANDB_CONFIG_DIR=<path>`: config 파일이 저장되는 위치입니다. 기본값은 `~/.config/wandb`입니다.
+- `WANDB_DATA_DIR=<PATH>`: 업로드 중 아티팩트를 스테이징하는 데 사용되는 위치를 제어합니다. 기본값은 `~/.cache/wandb-data/`입니다.

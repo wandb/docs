@@ -1,0 +1,65 @@
+---
+description: "CoreWeave가 관리하는 인프라를 사용해 호스팅된 API 모델을 평가합니다"
+title: "호스팅된 API 모델 평가"
+---
+
+import ReviewEvaluationResults from "/snippets/ko/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/ko/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/ko/_includes/llm-eval-jobs/export-evaluation.mdx";
+import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+이 페이지에서는 CoreWeave에서 관리하는 인프라를 사용해 공개 URL로 제공되는 호스팅 API 모델에 대해 일련의 평가 벤치마크를 실행하는 방법을 [LLM Evaluation Jobs](/ko/models/launch)를 통해 보여줍니다. W&amp;B Models에 Artifact로 저장된 모델 체크포인트를 평가하려면 [모델 체크포인트 평가하기](/ko/models/launch/evaluate-model-checkpoint)를 참고하세요.
+
+<div id="prerequisites">
+  ## 전제 조건
+</div>
+
+1. LLM Evaluation Job에 대한 [요구 사항과 제한 사항](/ko/models/launch#more-details)을 검토합니다.
+2. 일부 벤치마크를 실행하려면 팀 관리자(team admin)가 필요한 API 키를 팀 범위 시크릿(team-scoped secret)으로 추가해야 합니다. 팀 구성원이라면 누구나 평가 Job을 구성할 때 해당 시크릿을 지정할 수 있습니다.
+   * **OpenAPI API key**: OpenAI 모델을 사용해 점수를 매기는 벤치마크에서 사용됩니다. 벤치마크를 선택한 이후 **Scorer API key** 필드가 나타나는 경우에 필요합니다. 시크릿 이름은 `OPENAI_API_KEY`여야 합니다.
+   * **Hugging Face user access token**: 하나 이상의 gated Hugging Face 데이터셋에 접근해야 하는 `lingoly`, `lingoly2` 같은 일부 벤치마크에 필요합니다. 벤치마크를 선택한 이후 **Hugging Face Token** 필드가 나타나는 경우에 필요합니다. 이 API 키에는 해당 데이터셋에 대한 접근 권한이 있어야 합니다. Hugging Face 문서의 [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) 및 [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)를 참조하세요.
+   * [W&amp;B Inference](/ko/inference)가 제공하는 모델을 평가하려면 조직 또는 팀 관리자가 `WANDB_API_KEY`를 임의의 값으로 생성해야 합니다. 이 시크릿은 실제 인증에는 사용되지 않습니다.
+3. 평가할 모델은 공개적으로 접근할 수 있는 URL에서 제공되어야 합니다. 조직 또는 팀 관리자가 인증용 API 키를 포함하는 팀 범위 시크릿을 생성해야 합니다.
+4. 평가 결과를 위한 새로운 [W&amp;B 프로젝트](/ko/models/track/project-page)를 만듭니다. 왼쪽 내비게이션에서 **Create new project**를 클릭합니다.
+5. 특정 벤치마크의 동작 방식과 구체적인 요구 사항을 이해하려면 해당 벤치마크에 대한 문서를 검토합니다. 편의를 위해 [사용 가능한 평가 벤치마크](/ko/models/launch/evaluations) 레퍼런스에 관련 링크가 정리되어 있습니다.
+
+<div id="evaluate-your-model">
+  ## 모델 평가하기
+</div>
+
+다음 단계를 따라 Evaluation 작업을 설정하고 실행한다:
+
+1. W&amp;B에 로그인한 다음, 왼쪽 내비게이션에서 **Launch**를 클릭한다. **LLM Evaluation Jobs** 페이지가 표시된다.
+2. **Evaluate hosted API model**을 클릭해 평가를 설정한다.
+3. 평가 결과를 저장할 대상 프로젝트를 선택한다.
+4. **Model** 섹션에서 평가할 기본 URL과 모델 이름을 지정하고, 인증에 사용할 API 키를 선택한다. [AI Security Institute](https://inspect.aisi.org.uk/providers.html#openai-api)에서 정의한 OpenAI 호환 형식으로 모델 이름을 제공한다. 예를 들어, OpenAI 모델은 `openai/<model-name>` 형식으로 지정한다. 호스팅된 모델 제공자와 모델의 전체 목록은 [AI Security Institute의 모델 제공자 레퍼런스](https://inspect.aisi.org.uk/providers.html)를 참고한다.
+   * [W&amp;B Inference](/ko/inference)가 제공하는 모델을 평가하려면, 기본 URL을 `https://api.inference.wandb.ai/v1`로 설정하고, 모델 이름을 `openai-api/wandb/<model_id>` 형식으로 지정한다. 자세한 내용은 [Inference model catalog](/ko/inference/models)를 참고한다.
+   * [OpenRouter](https://inspect.aisi.org.uk/providers.html#openrouter) 제공자를 사용하려면, 모델 이름 앞에 `openrouter`를 붙여 `openrouter/<model-name>` 형식으로 지정한다.
+   * OpenAPI 규격을 준수하는 커스텀 모델을 평가하려면, 모델 이름을 `openai-api/wandb/<model-name>` 형식으로 지정한다.
+5. **Select evaluations**를 클릭한 다음, 실행할 벤치마크를 최대 네 개까지 선택한다.
+6. 채점에 OpenAI 모델을 사용하는 벤치마크를 선택하면 **Scorer API key** 필드가 표시된다. 필드를 클릭하고 `OPENAI_API_KEY` secret을 선택한다. 편의를 위해 팀 관리자는 **Create secret**을 클릭해 이 드로어에서 바로 secret을 생성할 수 있다.
+7. Hugging Face의 게이트된 데이터셋 접근이 필요한 벤치마크를 선택하면 **Hugging Face token** 필드가 표시된다. [관련 데이터셋에 대한 접근을 요청](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)한 후, Hugging Face 사용자 액세스 토큰이 저장된 secret을 선택한다.
+8. 선택적으로 **Sample limit**을 양의 정수로 설정해 평가할 벤치마크 샘플의 최대 개수를 제한한다. 설정하지 않으면 작업에 포함된 모든 샘플이 평가된다.
+9. 리더보드를 자동으로 생성하려면 **Publish results to leaderboard**를 클릭한다. 리더보드는 모든 Evaluation을 하나의 워크스페이스 패널에 함께 표시하며, 리포트에서 공유할 수도 있다.
+10. **Launch**를 클릭해 Evaluation 작업을 실행한다.
+11. 페이지 상단의 원형 화살표 아이콘을 클릭해 최근 실행 모달(recent run modal)을 연다. Evaluation 작업은 다른 최근 실행과 함께 표시된다. 완료된 실행 이름을 클릭하면 단일 실행(single-run) 보기로 열리고, **Leaderboard** 링크를 클릭하면 리더보드를 바로 열 수 있다. 자세한 내용은 [결과 보기](#view-the-results)를 참고한다.
+
+다음 예시 작업은 OpenAI 모델 `o4-mini`에 대해 `simpleqa` 벤치마크를 실행한다:
+
+<Frame>
+  ![예시 호스팅 모델 Evaluation 작업](/images/models/llm-evaluation-jobs/hosted-model-job-example.png)
+</Frame>
+
+다음 예시 리더보드는 여러 OpenAI 모델의 성능을 함께 시각화한다:
+
+<Frame>
+  ![여러 호스팅 모델의 성능을 시각화한 예시 리더보드](/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png)
+</Frame>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />

@@ -1,0 +1,197 @@
+---
+title: 실행 초기화
+---
+
+[`wandb.init()`](/ko/models/ref/python/functions/init)으로 W&amp;B 실행을 초기화합니다.
+
+기본적으로 W&amp;B는 `wandb.init()`을 호출할 때 각 Python 프로세스에 한 번에 하나의 활성 실행만 존재한다고 가정합니다. `wandb.init()`을 다시 호출하면, W&amp;B는 동일한 실행을 반환하거나 새 실행을 시작하기 전에 이전 실행을 종료합니다. 동일한 프로세스에서 `wandb.init()`을 여러 번 호출했을 때 W&amp;B가 이를 처리하는 방식은 환경(노트북 vs. 일반 환경)과 `reinit` 설정에 따라 달라집니다.
+
+동일한 프로세스에서 여러 활성 실행을 관리하려면 [하나의 프로세스에서 여러 실행](/ko/models/runs/initialize-run#multiple-runs-in-one-process)을 참고하세요.
+
+<Note>
+  W&amp;B는 `wandb.init()`을 호출할 때 `with` 블록 사용을 권장합니다. 이렇게 하면 블록이 종료될 때 W&amp;B가 실행을 올바르게 종료하고 모든 데이터를 업로드하도록 보장합니다.
+</Note>
+
+<div id="single-run-per-process">
+  ## 프로세스당 단일 실행
+</div>
+
+다음 예제 코드는 W&amp;B Python SDK를 import한 뒤 실행을 초기화하는 방법을 보여줍니다.
+
+```python title="basic.py"
+import wandb
+
+with wandb.init(entity="nico", project="awesome-project") as run:
+    # 여기에 학습 로직을 작성하세요
+```
+
+다음 코드 스니펫은 다음과 같은 출력을 생성합니다:
+
+```bash
+🚀 View run exalted-darkness-6 at: 
+https://wandb.ai/nico/awesome-project/runs/pgbn9y21
+Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
+```
+
+출력 결과를 보면, W&amp;B는 실행 `exalted-darkness-6`을 엔터티 `nico`의 프로젝트 `awesome-project`에 기록합니다. `pgbn9y21`은 W&amp;B가 이 실행에 대해 생성한 고유 실행 ID입니다.
+
+<div id="multiple-runs-in-one-process">
+  ## 하나의 프로세스에서 여러 실행 관리
+</div>
+
+하나의 Python 프로세스에서 여러 실행을 관리합니다. 이는 기본 프로세스를 계속 활성 상태로 유지하면서, 하위 작업을 위한 단기 보조 프로세스를 생성하려는 워크플로에 유용합니다. 사용 사례 예시는 다음과 같습니다:
+
+* 스크립트 전체에서 하나의 “기본(primary)” 실행을 계속 활성 상태로 두면서, Evaluation 또는 하위 작업을 위해 단기 “보조(secondary)” 실행을 생성하는 경우
+* 하나의 파일 안에서 하위 실험을 오케스트레이션하는 경우
+* 하나의 “메인(main)” 프로세스에서 서로 다른 작업이나 기간을 나타내는 여러 실행으로 로깅하는 경우
+
+기본적으로 W&amp;B는 `wandb.init()`을 호출할 때 각 Python 프로세스에 동시에 하나의 활성 실행만 존재한다고 가정합니다. `wandb.init()`을 다시 호출하면, 설정에 따라 W&amp;B는 동일한 실행을 반환하거나, 이전 실행을 종료한 후 새 실행을 시작합니다.
+
+이 가이드는 하나의 Python 프로세스에서 여러 실행을 사용할 수 있도록 `reinit`을 사용해 `wandb.init()` 동작을 수정하는 방법을 설명합니다.
+
+<Note>
+  **요구 사항**
+
+  하나의 Python 프로세스에서 여러 실행을 관리하려면 W&amp;B Python SDK 버전 `v0.19.10` 이상이 필요합니다.
+</Note>
+
+<div id="reinit-options">
+  ### `reinit` 옵션
+</div>
+
+`reinit` 매개변수를 사용해 W&amp;B가 `wandb.init()`를 여러 번 호출할 때 어떻게 처리할지 설정합니다. 다음 표는 사용할 수 있는 인자와 그 효과를 설명합니다:
+
+| | 설명 | 실행을 생성하나요? | 예시 사용 사례 |
+|----------------|----------------|----------------| -----------------|
+| `create_new` | 종료되지 않고 활성 상태인 기존 실행은 그대로 두고 `wandb.init()`로 새 실행을 생성합니다. W&amp;B는 전역 `wandb.Run`을 새 실행으로 자동 전환하지 않습니다. 각 실행 객체를 직접 관리해야 합니다. 자세한 내용은 아래의 [하나의 프로세스에서 여러 실행 예제](/ko/models/runs/initialize-run/#example-multiple-runs-in-one-process)를 참고하세요.  | 예 |  동시에 실행되는 프로세스를 생성하고 관리할 때 적합합니다. 예를 들어, “기본” 실행은 계속 활성 상태로 유지하면서 “보조” 실행들을 시작하거나 종료하는 경우에 사용할 수 있습니다.|
+| `finish_previous` | `wandb.init()`로 새 실행을 생성하기 전에 `run.finish()`로 모든 활성 실행을 종료합니다. 노트북이 아닌 환경에서의 기본 동작입니다. | 예 | 순차적인 하위 프로세스를 각각 별도의 실행으로 분리하고 싶을 때 적합합니다. |
+| `return_previous` |  가장 최근의, 아직 종료되지 않은 실행을 반환합니다. 노트북 환경에서의 기본 동작입니다. | 아니요 | |
+
+<Note>
+  W&amp;B는 Hugging Face Trainer, Keras callbacks, PyTorch Lightning과 같이 단일 전역 실행을 가정하는 [W&amp;B Integrations](/ko/models/integrations)에 대해 `create_new` 모드를 지원하지 않습니다. 이러한 통합을 사용하는 경우, 각 하위 실험을 별도의 프로세스에서 실행해야 합니다.
+</Note>
+
+<div id="specifying-reinit">
+  ### `reinit` 설정하기
+</div>
+
+{/* 하나의 Python 프로세스에서 여러 실행을 생성하고 관리하는 방법은 다음과 같습니다. */}
+
+* `reinit` 인수를 직접 지정하여 `wandb.init()`을 호출합니다:
+  ```python
+  import wandb
+  with wandb.init(reinit="<create_new|finish_previous|return_previous>") as run:
+      # 여기에 코드를 작성하세요
+  ```
+
+* `wandb.init()`를 사용할 때 `settings` 매개변수에 `wandb.Settings` 객체를 전달하고, 해당 `Settings` 객체에서 `reinit` 값을 지정합니다:
+
+  ```python
+  import wandb
+  with wandb.init(settings=wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
+      # 여기에 코드를 작성하세요
+  ```
+
+* 현재 프로세스의 모든 실행에 대해 전역적으로 `reinit` 옵션을 설정하려면 `wandb.setup()`을 사용합니다. 동작을 한 번만 설정하고, 이후 해당 프로세스에서 호출되는 모든 `wandb.init()`에 동일하게 적용되도록 할 때 유용합니다.
+
+  ```python
+  import wandb
+  with wandb.setup(wandb.Settings(reinit="<create_new|finish_previous|return_previous>")) as run:
+       # 여기에 코드를 작성하세요
+  ```
+
+* 환경 변수 `WANDB_REINIT`에 원하는 `reinit` 값을 지정합니다. 환경 변수를 정의하면 `wandb.init()` 호출에 `reinit` 옵션이 적용됩니다.
+
+  ```bash
+  export WANDB_REINIT="<create_new|finish_previous|return_previous>"
+  ```
+
+다음 코드 스니펫은 `wandb.init()`를 호출할 때마다 새로운 실행을 생성하도록 W&amp;B를 설정하는 방법을 고수준에서 보여줍니다:
+
+```python
+import wandb
+
+wandb.setup(wandb.Settings(reinit="create_new"))
+
+with wandb.init() as experiment_results_run:
+    # 이 실행은 각 실험의 결과를 기록하는 데 사용됩니다.
+    # 결과를 수집하는 상위 실행으로 생각할 수 있습니다.
+      with wandb.init() as run:
+         # do_experiment() 함수는 세분화된 메트릭을 지정된 실행에 기록하고
+         # 별도로 추적하려는 결과 메트릭을 반환합니다.
+         experiment_results = do_experiment(run)
+
+         # 각 실험이 끝난 후, 결과를 상위 실행에 기록합니다.
+         # 상위 실행의 차트에서 각 점은 하나의 실험 결과에 해당합니다.
+         experiment_results_run.log(experiment_results)
+```
+
+<div id="example-concurrent-processes">
+  ### 예시: 동시 실행 프로세스
+</div>
+
+스크립트가 실행되는 전체 기간 동안 열려 있는 기본(primary) 프로세스를 하나 두고, 기본 프로세스를 종료하지 않은 채 주기적으로 수명이 짧은 보조(secondary) 프로세스를 생성하고 싶다고 가정해 보자. 예를 들어, 이 패턴은 기본 실행에서 모델을 학습하면서, 평가를 수행하거나 기타 작업을 별도의 실행에서 처리하고 싶을 때 유용하다.
+
+이를 위해 `reinit="create_new"`를 사용해 여러 실행을 초기화한다. 이 예시에서는 스크립트 전체 동안 열려 있는 기본 프로세스를 &quot;실행 A&quot;라고 하고, &quot;실행 B1&quot;, &quot;실행 B2&quot;는 평가와 같은 작업을 위한 수명이 짧은 보조 실행이라고 가정한다.
+
+전체적인 워크플로는 다음과 같을 수 있다:
+
+1. `wandb.init()`으로 기본 프로세스인 실행 A를 초기화하고 학습 지표를 로깅한다.
+2. 실행 B1을 초기화(`wandb.init()` 사용)하고 데이터를 로깅한 뒤 종료한다.
+3. 실행 A에 더 많은 데이터를 로깅한다.
+4. 실행 B2를 초기화하고 데이터를 로깅한 뒤 종료한다.
+5. 실행 A에 계속 로깅한다.
+6. 마지막에 실행 A를 종료한다.
+
+다음 Python 코드 예시는 이 워크플로를 보여준다:
+
+```python
+import wandb
+
+def train(name: str) -> None:
+    """자체 W&B 실행에서 하나의 학습 반복을 수행합니다.
+
+    `reinit="create_new"`와 함께 'with wandb.init()' 블록을 사용하면
+    다른 실행(기본 추적 실행 등)이 이미 활성 상태인 경우에도
+    이 학습 하위 실행을 생성할 수 있습니다.
+    """
+    with wandb.init(
+        project="my_project",
+        name=name,
+        reinit="create_new"
+    ) as run:
+        # 실제 스크립트에서는 이 블록 안에서 학습 단계를 실행합니다.
+        run.log({"train_loss": 0.42})  # 실제 메트릭으로 교체하세요
+
+def evaluate_loss_accuracy() -> (float, float):
+    """현재 모델의 손실 및 정확도를 반환합니다.
+    
+    이 플레이스홀더를 실제 평가 로직으로 교체하세요.
+    """
+    return 0.27, 0.91  # 예시 메트릭 값
+
+# 여러 학습/평가 단계 동안 활성 상태를 유지하는 '기본' 실행을 생성합니다.
+with wandb.init(
+    project="my_project",
+    name="tracking_run",
+    reinit="create_new"
+) as tracking_run:
+    # 1) 'training_1'이라는 하위 실행에서 한 번 학습합니다
+    train("training_1")
+    loss, accuracy = evaluate_loss_accuracy()
+    tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
+
+    # 2) 'training_2'라는 하위 실행에서 다시 학습합니다
+    train("training_2")
+    loss, accuracy = evaluate_loss_accuracy()
+    tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
+    
+    # 이 'with' 블록이 종료되면 'tracking_run'이 자동으로 완료됩니다.
+```
+
+이전 예제에서 다음 세 가지 핵심 사항을 기억하세요:
+
+1. `reinit="create_new"`는 `wandb.init()`를 호출할 때마다 새로운 실행을 생성합니다.
+2. 각 실행에 대한 참조를 유지해야 합니다. `wandb.run`은 `reinit="create_new"`로 생성된 새로운 실행을 자동으로 가리키지 않습니다. `run_a`, `run_b1` 등과 같은 변수에 새 실행을 저장하고, 필요할 때 해당 객체에 대해 `.log()` 또는 `.finish()`를 호출하세요.
+3. 기본 실행은 계속 열어 둔 상태에서, 원하는 시점에 서브 실행들을 종료할 수 있습니다.
+4. 더 이상 실행에 로그를 남기지 않을 때는 `run.finish()`로 실행을 종료하세요. 이렇게 하면 모든 데이터가 업로드되고 실행이 올바르게 종료됩니다.

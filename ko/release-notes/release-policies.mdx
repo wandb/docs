@@ -1,0 +1,80 @@
+---
+description: W&amp;B Server의 릴리스 프로세스
+title: 릴리스 정책 및 프로세스
+date: 2025-05-01
+---
+
+이 페이지에서는 W&amp;B Server 릴리스와 W&amp;B의 릴리스 정책에 대해 설명합니다. 이 페이지는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud/) 및 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed/) 배포에 해당합니다. 개별 W&amp;B Server 릴리스에 대해 더 알아보려면 [W&amp;B 릴리스 노트](/ko/release-notes/)를 참조하세요.
+
+W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 완전 관리형으로 제공하며, 이 페이지에 설명된 내용은 해당 옵션에는 적용되지 않습니다.
+
+<div id="release-support-and-end-of-life-policy">
+  ## 릴리스 지원 및 지원 종료 정책
+</div>
+
+W&amp;B는 주요 W&amp;B Server 릴리스를 최초 출시일로부터 12개월 동안 지원합니다.
+
+* **Dedicated Cloud** 인스턴스는 지원을 유지하기 위해 자동으로 업데이트됩니다.
+* **Self-Managed** 인스턴스를 사용하는 고객은 지원을 유지할 수 있도록 제때 업그레이드할 책임이 있습니다. 지원이 종료된 버전을 계속 사용하지 마십시오.
+
+  <Note>
+    W&amp;B는 **Self-Managed** 인스턴스를 사용하는 고객에게 분기마다 최소 한 번은 최신 릴리스로 배포를 업데이트하여 지원을 유지하고 최신 기능, 성능 개선 및 수정 사항을 받을 것을 강력히 권장합니다.
+  </Note>
+
+<div id="release-types-and-frequencies">
+  ## 릴리스 유형 및 빈도
+</div>
+
+* **메이저 릴리스**는 매월 한 번씩 제공되며, 새로운 기능, 개선 사항, 성능 향상, 중·저 심각도 버그 수정, 사용 중단 예정 기능(deprecation)을 포함할 수 있습니다. 메이저 릴리스 예시는 `0.68.0`입니다.
+* **패치 릴리스**는 메이저 버전 내에서 필요에 따라 제공되며, 치명적 및 높은 심각도의 버그 수정을 포함합니다. 패치 릴리스 예시는 `0.67.1`입니다.
+
+<div id="release-rollout">
+  ## 릴리스 배포
+</div>
+
+1. 테스트와 검증이 완료되면, 먼저 모든 **Dedicated Cloud** 인스턴스에 릴리스를 배포하여 항상 최신 상태를 유지합니다.
+2. 추가 모니터링을 거친 뒤 릴리스를 공개하며, **Self-Managed** 배포 환경은 자체 일정에 따라 업그레이드할 수 있지만, [릴리스 지원 및 수명 종료(EOL) 정책](#release-support-and-end-of-life-policy)을 준수할 수 있도록 정해진 기한 내에 업그레이드할 책임이 있습니다. [W&amp;B Server 업그레이드](/ko/platform/hosting/server-upgrade-process/)에 대해 더 알아보세요.
+
+<div id="downtime-during-upgrades">
+  ## 업그레이드 중 다운타임
+</div>
+
+* **Dedicated Cloud** 인스턴스를 업그레이드할 때는 일반적으로 다운타임이 발생하지 않지만, 다음과 같은 특정 상황에서는 발생할 수 있습니다.
+  * 새로운 기능이나 개선 사항으로 인해 컴퓨트, 스토리지 또는 네트워크와 같은 기본 인프라 변경이 필요한 경우
+  * 보안 수정과 같은 중대한 인프라 변경 사항을 롤아웃해야 하는 경우
+  * 인스턴스의 현재 버전이 [End of Life (EOL)](/ko/platform/hosting/server-upgrade-process/)에 도달하여, 지원 유지를 위해 W&amp;B에서 업그레이드를 수행하는 경우
+* **Self-Managed** 배포의 경우, 고객은 [Kubernetes에서 W&amp;B Server 실행](/ko/platform/hosting/self-managed/operator-airgapped/)과 같이 서비스 수준 목표(SLO)를 충족하는 롤링 업데이트 프로세스를 구현할 책임이 있습니다.
+
+<div id="feature-availability">
+  ## 기능 제공 여부
+</div>
+
+설치 또는 업그레이드 후 일부 기능은 즉시 사용할 수 없을 수도 있습니다.
+
+<div id="enterprise-features">
+  ### 엔터프라이즈 기능
+</div>
+
+엔터프라이즈 라이선스에는 중요한 보안 기능과 기타 엔터프라이즈 환경에 적합한 기능에 대한 지원이 포함됩니다. 일부 고급 기능은 엔터프라이즈 라이선스가 필요합니다.
+
+* **Dedicated Cloud**에는 엔터프라이즈 라이선스가 포함되어 있으며, 별도의 조치는 필요하지 않습니다.
+* **Self-Managed** 배포의 경우, 엔터프라이즈 라이선스가 적용되기 전까지는 해당 라이선스가 필요한 기능을 사용할 수 없습니다. 자세한 내용 또는 엔터프라이즈 라이선스를 발급받는 방법은 [W&amp;B Server 라이선스 발급받기](/ko/platform/hosting/hosting-options/self-managed#obtain-your-wb-server-license)를 참조하세요.
+
+<div id="private-preview-and-opt-in-features">
+  ### Private preview 및 옵트인 기능
+</div>
+
+대부분의 기능은 W&amp;B Server를 설치하거나 업그레이드한 직후 바로 사용할 수 있습니다. 일부 기능은 인스턴스에서 사용하기 전에 W&amp;B 팀에서 활성화해야 합니다.
+
+<Warning>
+  프리뷰 단계의 기능은 변경될 수 있습니다. 프리뷰 기능이 일반 공급(GA) 단계에 도달한다는 보장은 없습니다.
+</Warning>
+
+* **Private preview**: W&amp;B는 디자인 파트너와 초기 도입자를 초대해 이러한 기능을 테스트하고 피드백을 제공하도록 합니다. Private preview 기능은 프로덕션 환경에서 사용하는 것을 권장하지 않습니다.
+
+  Private preview 기능을 사용하려면 W&amp;B 팀이 먼저 해당 기능을 인스턴스에서 활성화해야 합니다. 공개 문서는 제공되지 않으며, 사용 방법은 개별적으로 안내됩니다. 인터페이스 및 API가 변경될 수 있으며, 기능이 완전히 구현되지 않았을 수 있습니다.
+* **Public preview**: 일반 공급(GA) 전에 미리 사용해 보려면 W&amp;B에 연락해 Public preview 참여를 신청하십시오.
+
+  Public preview 기능을 사용하려면 W&amp;B 팀이 먼저 해당 기능을 인스턴스에서 활성화해야 합니다. 문서는 완전하지 않을 수 있고, 인터페이스 및 API가 변경될 수 있으며, 기능이 완전히 구현되지 않았을 수 있습니다.
+
+각 W&amp;B Server 릴리스와 해당 제한 사항에 대한 자세한 내용은 [W&amp;B 릴리스 노트](/ko/release-notes/)를 참조하십시오.

@@ -1,0 +1,53 @@
+---
+title: 셀프 매니지드 설치 검증
+---
+
+설치를 검증하려면 [W&amp;B CLI](/ko/models/ref/cli/)를 사용할 것을 권장합니다. verify 명령은 모든 구성 요소와 설정을 검증하는 여러 테스트를 실행합니다.
+
+<Note>
+  이 단계는 첫 번째 관리자 사용자 계정이 브라우저에서 생성되어 있다고 가정합니다.
+</Note>
+
+다음 단계를 따라 설치를 검증합니다:
+
+1. W&amp;B CLI를 설치합니다:
+
+```bash
+pip install wandb
+```
+
+2. W&amp;B에 로그인하세요:
+
+```bash
+wandb login --host=https://YOUR_DNS_DOMAIN
+```
+
+예를 들어:
+
+```bash
+wandb login --host=https://wandb.company-name.com
+```
+
+3. 설치를 확인합니다:
+
+```bash
+wandb verify
+```
+
+설치가 성공적으로 완료되고 W&amp;B 배포가 정상적으로 동작하면 다음과 같은 출력이 표시됩니다:
+
+```console
+Default host selected:  https://wandb.company-name.com
+Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+Checking if logged in...................................................✅
+Checking signed URL upload..............................................✅
+Checking ability to send large payloads through proxy...................✅
+Checking requests to base url...........................................✅
+Checking requests made over signed URLs.................................✅
+Checking CORs configuration of the bucket...............................✅
+Checking wandb package version is up to date............................✅
+Checking logged metrics, saving and downloading a file..................✅
+Checking artifact save and download workflows...........................✅
+```
+
+오류가 발생하면 W&amp;B 지원팀에 문의하세요.

@@ -1,0 +1,695 @@
+---
+title: 실행
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+
+## <kbd>class</kbd> `Run`
+
+특정 엔터티와 프로젝트에 연결된 단일 실행입니다.
+
+### <kbd>method</kbd> `Run.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    run_id: 'str',
+    attrs: 'Mapping | None' = None,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
+)
+```
+
+**인자:**
+
+* `client`:  W&amp;B API 클라이언트.
+* `entity`:  실행과 연결된 엔터티.
+* `project`:  실행과 연결된 프로젝트.
+* `run_id`:  실행의 고유 식별자.
+* `attrs`:  실행의 속성.
+* `include_sweeps`:  실행에 스윕을 포함할지 여부.
+
+**속성:**
+
+* `tags` ([str]):  실행과 연결된 태그 목록
+* `url` (str):  이 실행의 URL
+* `id` (str):  실행의 고유 식별자(기본값은 8자)
+* `name` (str):  실행의 이름
+* `state` (str):  다음 중 하나: running, finished, crashed, killed, preempting, preempted
+* `config` (dict):  실행과 연결된 하이퍼파라미터 딕셔너리
+* `created_at` (str):  실행이 시작된 시점의 ISO 타임스탬프
+* `system_metrics` (dict):  실행에 대해 기록된 최신 시스템 메트릭
+* `summary` (dict):  현재 요약 정보를 보관하는 변경 가능한 딕셔너리 유사 속성. update를 호출하면 변경 사항이 영구 저장됩니다.
+* `project` (str):  실행과 연결된 프로젝트
+* `entity` (str):  실행과 연결된 엔터티 이름
+* `project_internal_id` (int):  프로젝트의 내부 ID
+* `user` (str):  실행을 생성한 사용자 이름
+* `path` (str):  고유 식별자 [entity]/[project]/[run&#95;id]
+* `notes` (str):  실행에 대한 노트
+* `read_only` (boolean):  실행이 편집 가능한지 여부
+* `history_keys` (str):  `wandb.Run.log({"key": "value"})`로 로깅된 히스토리 메트릭 키
+* `metadata` (str):  wandb-metadata.json에 포함된 실행 메타데이터
+
+Run 객체를 초기화합니다.
+
+Run은 항상 wandb.Api의 인스턴스인 api에서 api.runs()를 호출하여 초기화됩니다.
+
+***
+
+
+### <kbd>property</kbd> Run.config
+
+실행 설정(config)을 가져옵니다. 지연(lazy) 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+
+**반환값:**
+
+- `dict[str, Any]`: config 속성 값.
+---
+
+### <kbd>property</kbd> Run.entity
+
+실행에 연결된 엔터티입니다. 
+
+**반환:**
+
+- `str`: `entity` 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.id
+
+이 실행의 고유 식별자입니다. 
+
+**반환값:**
+
+- `str`: id 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.lastHistoryStep
+
+실행 히스토리에 기록된 마지막 스텝을 반환합니다. 
+
+**반환값:**
+
+- `int`: lastHistoryStep 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.metadata
+
+wandb-metadata.json에서 가져온 실행 메타데이터입니다. 
+
+메타데이터에는 실행 설명, 태그, 시작 시간, 메모리 사용량 등의 정보가 포함됩니다. 
+
+**반환 값:**
+
+- `dict[str, Any] | None`: 이 메타데이터 속성의 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.name
+
+실행 이름입니다. 
+
+**반환값:**
+
+- `str | None`: name 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.path
+
+실행의 경로입니다. 경로는 엔터티, 프로젝트, run_id로 구성된 리스트입니다. 
+
+**Returns:**
+
+- `list[str]`: path 속성의 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.rawconfig
+
+내부 키를 포함한 실행의 원시 config를 가져옵니다. 지연(lazy) 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+
+**반환값:**
+
+- `dict[str, Any]`: rawconfig 프로퍼티의 값.
+---
+
+### <kbd>property</kbd> Run.state
+
+실행의 상태입니다. Finished, Failed, Crashed, 또는 Running 중 하나입니다. 
+
+**반환값:**
+
+- `str`: state 속성의 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.storage_id
+
+실행의 고유한 스토리지 식별자입니다. 
+
+**반환값:**
+
+- `str`: storage_id 속성의 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.summary
+
+실행 요약 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+
+**반환값:**
+
+- `HTTPSummary`: summary 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.summary_metrics
+
+실행의 요약 지표(summary metrics)를 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+
+**반환값:**
+
+- `dict[str, Any]`: summary_metrics 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.sweep_name
+
+스윕 이름을 가져옵니다. `sweepName`은 lightweight fragment에 포함되어 있어 항상 사용할 수 있습니다. 
+
+**Returns:**
+
+- `str | None`: `sweep_name` 속성 값.
+
+---
+
+### <kbd>property</kbd> Run.system_metrics
+
+실행의 시스템 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+
+**반환값:**
+
+- `dict[str, Any]`: system_metrics 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.url
+
+실행의 URL입니다. 
+
+실행 URL은 엔터티, 프로젝트, run_id를 기반으로 생성됩니다. SaaS 사용자의 경우 `https://wandb.ai/entity/project/run_id` 형태입니다. 
+
+**반환값:**
+
+- `str`: url 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> Run.username
+
+이 API는 더 이상 사용되지 않습니다. 대신 `entity`를 사용하세요. 
+
+**반환값:**
+
+- `str`: username 속성의 값입니다.
+
+---
+
+### <kbd>method</kbd> `Run.beta_scan_history`
+
+```python
+beta_scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.BetaHistoryScan
+```
+
+실행에 대한 모든 history 레코드의 iterable 컬렉션을 반환합니다.
+
+이 함수는 아직 개발 중인 기능이며, 예상대로 동작하지 않을 수 있습니다. 이 함수는 wandb-core를 사용해 실행에서 내보낸 Parquet 형식의 history를 로컬에서 읽어옵니다.
+
+**Args:**
+
+* `keys`:  실행 history에서 읽을 메트릭 목록입니다.  `keys`를 제공하지 않으면 모든 메트릭이 반환됩니다.
+* `page_size`:  한 번에 읽을 history 레코드 개수입니다.
+* `min_step`:  history를 읽기 시작할 최소 step입니다(포함).
+* `max_step`:  history를 읽을 최대 step입니다(미포함).
+* `use_cache`:  True로 설정하면 WANDB&#95;CACHE&#95;DIR에서 실행 history가 있는지 확인합니다.  캐시에 실행 history가 없으면 서버에서 다운로드합니다.  False로 설정하면 실행 history를 매번 서버에서 다운로드합니다.
+
+**Returns:**
+history 레코드를 얻기 위해 iterator로 사용할 수 있는 BetaHistoryScan 객체를 반환합니다.
+
+***
+
+
+### <kbd>classmethod</kbd> `Run.create`
+
+```python
+create(
+    api: 'public.Api',
+    run_id: 'str | None' = None,
+    project: 'str | None' = None,
+    entity: 'str | None' = None,
+    state: "Literal['running', 'pending']" = 'running'
+) → Self
+```
+
+지정된 프로젝트에 대한 실행을 생성합니다.
+
+대부분의 경우에는 `wandb.init()`을 사용하십시오. `wandb.init()`은 실행을 생성하고 업데이트하기 위한 더 견고한 로직을 제공합니다. `wandb.apis.public.Run.create`는 (예: GPU가 부족하거나 경합이 심한 Kubernetes 클러스터에서) 스케줄링되지 못할 수 있는 작업을 위해 실행을 &quot;pending&quot; 상태로 생성하는 것과 같은 특정 시나리오를 위한 것입니다. 이렇게 보류 중인 실행은 나중에 재개하여 W&amp;B에서 추적할 수 있습니다.
+
+이 메서드로 생성된 실행은 기능이 제한적입니다. 이 방식으로 생성된 실행에서 `update()`를 호출하면 예상과 다르게 동작할 수 있습니다.
+
+**Args:**
+
+* `api`:  W&amp;B API 인스턴스.
+* `run_id`:  선택적 실행 ID. 제공하지 않으면 임의의 ID가 생성됩니다.
+* `project`:  선택적 프로젝트 이름. API 설정의 프로젝트 또는 &quot;uncategorized&quot;가 기본값입니다.
+* `entity`:  선택적 엔터티(사용자 또는 팀) 이름.
+* `state`:  실행의 초기 상태입니다. 나중에 재개할 실행에는 &quot;pending&quot;을, 즉시 실행할 경우에는 &quot;running&quot;을 사용하십시오.
+
+**Returns:**
+생성된 실행을 나타내는 Run 객체.
+
+**Example:**
+나중에 실행하기 위해 보류 중인 실행 생성
+
+```python
+import wandb
+
+api = wandb.Api()
+
+run_name = "my-pending-run"
+
+run = Run.create(
+    api=api,
+    project="project",
+    entity="entity",
+    state="pending",
+    run_id=run_name,
+)
+```
+
+***
+
+
+### <kbd>메서드</kbd> `Run.delete`
+
+```python
+delete(delete_artifacts: 'bool' = False) → None
+```
+
+wandb 백엔드에서 해당 실행을 삭제합니다.
+
+**인자:**
+
+* `delete_artifacts` (bool, optional):  실행과 연결된 아티팩트를 삭제할지 여부입니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.download_history_exports`
+
+```python
+download_history_exports(
+    download_dir: 'pathlib.Path | str',
+    require_complete_history: 'bool' = True
+) → DownloadHistoryResult
+```
+
+실행의 parquet 히스토리 파일을 제공된 디렉터리로 다운로드합니다.
+
+**인수:**
+
+* `download_dir`: 히스토리 파일을 다운로드할 디렉터리입니다.
+* `require_complete_history`: 전체 히스토리를 반드시 다운로드해야 하는지 여부입니다. true이고 실행에 아직 parquet 파일로 내보내지 않은 데이터가 포함된 경우 IncompleteRunHistoryError가 발생합니다.
+
+**반환값:**
+DownloadHistoryResult를 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.file`
+
+```python
+file(name: 'str') → public.File
+```
+
+아티팩트에서 지정된 이름을 가진 파일의 경로를 반환합니다.
+
+**인자:**
+
+* `name` (str):  요청한 파일의 이름.
+
+**반환값:**
+`name` 인자와 일치하는 `File`.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.files`
+
+```python
+files(
+    names: 'list[str] | None' = None,
+    pattern: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.Files
+```
+
+지정된 조건과 일치하는 해당 실행의 모든 파일에 대한 `Files` 객체를 반환합니다.
+
+정확하게 일치시킬 파일 이름 목록이나, 일치시킬 패턴을 지정할 수 있습니다. 둘 다 제공된 경우 패턴은 무시됩니다.
+
+**Args:**
+
+* `names` (list):  요청한 파일 이름 목록입니다. 비어 있으면 모든 파일을 반환합니다.
+* `pattern` (str, optional):  W&amp;B에서 파일을 반환할 때 사용할 패턴입니다. 이 패턴은 MySQL의 LIKE 문법을 사용하므로, .json으로 끝나는 모든 파일과 일치시키려면 &quot;%.json&quot;을 사용합니다. names와 pattern이 모두 제공되면 ValueError 예외가 발생합니다.
+* `per_page` (int):  페이지당 결과 수입니다.
+
+**Returns:**
+`File` 객체를 순회(iterate)하는 이터레이터인 `Files` 객체입니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.history`
+
+```python
+history(
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    pandas: 'bool' = True,
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame
+```
+
+실행의 히스토리 지표를 샘플링하여 반환합니다.
+
+히스토리 레코드가 샘플링되어도 괜찮다면 이 방식이 더 단순하고 빠릅니다.
+
+**Args:**
+
+* `samples `:  (int, 선택 사항) 반환할 샘플 개수
+* `pandas `:  (bool, 선택 사항) pandas DataFrame을 반환할지 여부
+* `keys `:  (list, 선택 사항) 지정된 키에 대한 지표만 반환
+* `x_axis `:  (str, 선택 사항) 이 지표를 x축으로 사용합니다. 기본값은 &#95;step입니다.
+* `stream `:  (str, 선택 사항) 지표용에는 &quot;default&quot;, 머신 지표용에는 &quot;system&quot;을 사용합니다.
+
+**Returns:**
+
+* `pandas.DataFrame`:  pandas=True인 경우 히스토리 지표를 담은 `pandas.DataFrame`을 반환합니다.
+* `list of dicts`:  pandas=False인 경우 히스토리 지표의 딕셔너리 목록을 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.load`
+
+```python
+load(force: 'bool' = False) → dict[str, Any]
+```
+
+지연 모드 설정에 따라 알맞은 프래그먼트를 사용해 실행 데이터를 로드합니다.
+
+
+### <kbd>메서드</kbd> `Run.load_full_data`
+
+```python
+load_full_data(force: 'bool' = False) → dict[str, Any]
+```
+
+`config`, `systemMetrics`, `summaryMetrics` 같은 용량이 큰 필드를 포함해 전체 실행 데이터를 로드합니다.
+
+이 메서드는 처음에 실행 목록을 가져올 때 `lazy=True`를 사용했지만, 특정 실행에 대해 전체 데이터가 필요할 때 유용합니다.
+
+**인자(Args):**
+
+* `force`:  데이터가 이미 로드되어 있어도 강제로 다시 로드할지 여부
+
+**반환값(Returns):**
+로드된 실행의 속성
+
+***
+
+
+### <kbd>메서드</kbd> `Run.log_artifact`
+
+```python
+log_artifact(
+    artifact: 'wandb.Artifact',
+    aliases: 'Collection[str] | None' = None,
+    tags: 'Collection[str] | None' = None
+) → wandb.Artifact
+```
+
+실행의 출력으로 아티팩트를 선언합니다.
+
+**Args:**
+
+* `artifact` (`Artifact`):  `wandb.Api().artifact(name)`에서 반환된 Artifact입니다.
+* `aliases` (list, optional):  이 아티팩트에 적용할 별칭 목록입니다.
+* `tags`:  (list, optional) 이 아티팩트에 적용할 태그 목록입니다(있는 경우).
+
+**Returns:**
+`Artifact` 객체를 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.logged_artifacts`
+
+```python
+logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
+```
+
+이 실행에서 기록된 모든 아티팩트를 가져옵니다.
+
+실행 동안 기록된 모든 출력 아티팩트를 가져옵니다. 페이지네이션된 결과를 반환하며, 순회(iteration)하거나 하나의 리스트로 모을 수 있습니다.
+
+**인자:**
+
+* `per_page`:  API 요청당 가져올 아티팩트 개수입니다.
+
+**반환값:**
+이 실행 동안 출력으로 기록된 모든 Artifact 객체의 이터러블 컬렉션입니다.
+
+**예시:**
+
+```python
+import wandb
+import tempfile
+
+with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as tmp:
+    tmp.write("This is a test artifact")
+    tmp_path = tmp.name
+run = wandb.init(project="artifact-example")
+artifact = wandb.Artifact("test_artifact", type="dataset")
+artifact.add_file(tmp_path)
+run.log_artifact(artifact)
+run.finish()
+
+api = wandb.Api()
+
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+
+for logged_artifact in finished_run.logged_artifacts():
+    print(logged_artifact.name)
+```
+
+***
+
+
+### <kbd>메서드</kbd> `Run.save`
+
+```python
+save() → None
+```
+
+Run 객체의 변경 사항을 W&amp;B 백엔드에 저장합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.scan_history`
+
+```python
+scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int | None' = None,
+    max_step: 'int | None' = None
+) → Iterator[dict[str, Any]]
+```
+
+실행의 모든 히스토리 레코드를 반복 가능한 컬렉션으로 반환합니다.
+
+**Args:**
+
+* `keys` ([str], optional):  이 키들만 조회하며, 모든 키가 정의된 행만 가져옵니다.
+* `page_size` (int, optional):  API에서 가져올 페이지 크기입니다.
+* `min_step` (int, optional):  한 번에 스캔할 최소 페이지 수입니다.
+* `max_step` (int, optional):  한 번에 스캔할 최대 페이지 수입니다.
+
+**Returns:**
+히스토리 레코드(딕셔너리)에 대한 반복 가능한 컬렉션입니다.
+
+**Example:**
+예제 실행의 모든 loss 값을 내보냅니다.
+
+```python
+run = api.run("entity/project-name/run-id")
+history = run.scan_history(keys=["Loss"])
+losses = [row["Loss"] for row in history]
+```
+
+***
+
+
+### <kbd>메서드</kbd> `Run.to_html`
+
+```python
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+```
+
+이 실행을 표시하는 iframe을 포함한 HTML을 생성합니다.
+
+***
+
+
+### <kbd>method</kbd> `Run.update`
+
+```python
+update() → None
+```
+
+실행 객체의 변경 사항을 wandb 백엔드에 반영합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.update_state`
+
+```python
+update_state(state: "Literal['pending']") → bool
+```
+
+실행의 상태를 업데이트합니다.
+
+실행 상태를 &#39;failed&#39; 또는 &#39;crashed&#39;에서 &#39;pending&#39;으로 변경할 수 있습니다.
+
+**인자:**
+
+* `state`:  대상 실행 상태입니다. `"pending"`만 지원됩니다.
+
+**반환값:**
+상태가 성공적으로 업데이트되면 `True`를 반환합니다.
+
+**예외:**
+
+* `wandb.Error`:  요청한 상태 전환이 허용되지 않거나, 서버가 이 작업을 지원하지 않는 경우 발생합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.upload_file`
+
+```python
+upload_file(path: 'str', root: 'str' = '.') → public.File
+```
+
+로컬 파일을 이 실행과 연결해 W&amp;B에 업로드합니다.
+
+**인자:**
+
+* `path` (str):  업로드할 파일의 경로입니다. 절대 경로나 상대 경로를 사용할 수 있습니다.
+* `root` (str):  파일을 저장할 기준이 되는 루트 경로입니다. 예를 들어, 실행에서 파일이 &quot;my&#95;dir/file.txt&quot; 로 저장되도록 하고, 현재 디렉터리가 &quot;my&#95;dir&quot; 이라면 root를 &quot;../&quot; 로 설정합니다. 기본값은 현재 디렉터리(&quot;.&quot;)입니다.
+
+**반환값:**
+업로드된 파일을 나타내는 `File` 객체.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.use_artifact`
+
+```python
+use_artifact(
+    artifact: 'wandb.Artifact',
+    use_as: 'str | None' = None
+) → wandb.Artifact
+```
+
+실행의 입력으로 사용할 Artifact를 선언합니다.
+
+**Args:**
+
+* `artifact` (`Artifact`):  `wandb.Api().artifact(name)`에서 반환된 `Artifact`
+* `use_as` (string, optional):  스크립트에서 아티팩트가 어떻게 사용되는지를 식별하는 문자열입니다. beta wandb Launch 기능의 아티팩트 교체 기능을 사용할 때, 실행에서 사용된 아티팩트를 쉽게 구분하기 위해 사용됩니다.
+
+**Returns:**
+`Artifact` 객체.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.used_artifacts`
+
+```python
+used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
+```
+
+이 실행에서 명시적으로 사용된 아티팩트를 가져옵니다.
+
+실행 중에 일반적으로 `run.use_artifact()`를 통해 명시적으로 사용되었다고 선언된 입력 아티팩트만 가져옵니다. 페이지네이션된 결과를 반환하며, 이는 반복(iteration)에 사용하거나 하나의 리스트로 모을 수 있습니다.
+
+**Args:**
+
+* `per_page`:  API 요청당 가져올 아티팩트 개수.
+
+**Returns:**
+이 실행에서 입력으로 명시적으로 사용된 Artifact 객체의 반복(iteration)에 사용할 수 있는 컬렉션.
+
+**Example:**
+
+```python
+import wandb
+
+run = wandb.init(project="artifact-example")
+run.use_artifact("test_artifact:latest")
+run.finish()
+
+api = wandb.Api()
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+for used_artifact in finished_run.used_artifacts():
+    print(used_artifact.name)
+test_artifact
+```
+
+***
+
+
+### <kbd>method</kbd> `Run.wait_until_finished`
+
+```python
+wait_until_finished() → None
+```
+
+실행이 완료될 때까지 실행 상태를 확인합니다.

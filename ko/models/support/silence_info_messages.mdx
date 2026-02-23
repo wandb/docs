@@ -1,0 +1,36 @@
+---
+title: W&B 정보 메시지를 숨기려면 어떻게 하나요?
+---
+
+노트북에서 아래와 같은 로그 메시지를 숨기려면:
+
+```
+INFO SenderThread:11484 [sender.py:finish():979]
+```
+
+로그 레벨을 `logging.ERROR`로 설정하여 오류만 표시하고, INFO 수준 로그 출력은 숨깁니다.
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.ERROR)
+```
+
+로그 출력량을 크게 줄이려면 `WANDB_QUIET` 환경 변수 값을 `True`로 설정하세요. 로그 출력을 완전히 비활성화하려면 `WANDB_SILENT` 환경 변수 값을 `True`로 설정하세요. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정하세요:
+
+<Tabs>
+  <Tab title="Notebook">
+    ```python
+    %env WANDB_SILENT=True
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_SILENT"] = "True"
+    ```
+  </Tab>
+</Tabs>

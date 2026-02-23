@@ -1,0 +1,126 @@
+---
+title: 사용자
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+
+
+## <kbd>class</kbd> `User`
+
+인증 및 관리 기능을 가진 W&B 사용자를 나타내는 클래스입니다. 
+
+이 클래스는 사용자 생성, API 키 관리, 팀 멤버십 정보 조회 등을 포함해 W&B 사용자를 관리하기 위한 메서드를 제공합니다. 또한 사용자 속성을 처리하기 위해 Attrs를 상속합니다.
+
+### <kbd>메서드</kbd> `User.__init__`
+
+```python
+__init__(client: 'RetryingClient', attrs: 'MutableMapping[str, Any]')
+```
+
+**매개변수:**
+
+* `client`:  (`wandb.apis.internal.Api`) 사용할 클라이언트 인스턴스
+* `attrs`:  (dict) 사용자 속성
+
+**참고:**
+
+> 일부 작업에는 관리자 권한이 필요합니다
+
+***
+
+
+### <kbd>property</kbd> User.api_keys
+
+사용자와 연관된 API 키 이름 목록입니다. 
+
+**Returns:**
+  사용자와 연관된 API 키 이름입니다. 사용자가 API 키를 가지고 있지 않거나 API 키 데이터가 로드되지 않은 경우 빈 리스트를 반환합니다. 
+
+**Returns:**
+
+- `list[str]`: api_keys 속성 값입니다.
+
+---
+
+### <kbd>property</kbd> User.teams
+
+사용자가 속한 팀 이름의 목록입니다. 
+
+**Returns:**
+  사용자가 속한 팀의 이름입니다. 사용자가 어떤 팀에도 속해 있지 않거나 teams 데이터가 로드되지 않은 경우 빈 리스트를 반환합니다. 
+
+**Returns:**
+
+- `list[str]`: teams 프로퍼티 값입니다.
+
+---
+
+### <kbd>property</kbd> User.user_api
+
+사용자의 자격 증명을 사용하는 API 인스턴스입니다. 
+
+**반환값:**
+
+- `Api | None`: user_api 속성 값입니다.
+
+---
+
+### <kbd>classmethod</kbd> `User.create`
+
+```python
+create(api: 'Api', email: 'str', admin: 'bool' = False) → Self
+```
+
+새 사용자를 생성합니다.
+
+**인자:**
+
+* `api` (`Api`):  사용할 API 인스턴스
+* `email` (str):  팀 이름
+* `admin` (bool):  이 사용자를 전역 인스턴스 관리자로 지정할지 여부
+
+**반환값:**
+`User` 객체
+
+***
+
+
+### <kbd>메서드</kbd> `User.delete_api_key`
+
+```python
+delete_api_key(api_key: 'str') → bool
+```
+
+사용자의 API 키를 삭제합니다.
+
+**Args:**
+
+* `api_key` (str):  삭제할 API 키의 이름입니다. `api_keys` 속성에서 반환된 이름 중 하나여야 합니다.
+
+**Returns:**
+성공 여부를 나타내는 Boolean 값
+
+**Raises:**
+api&#95;key를 찾을 수 없으면 ValueError를 발생시킵니다.
+
+***
+
+
+### <kbd>method</kbd> `User.generate_api_key`
+
+```python
+generate_api_key(description: 'str | None' = None) → str | None
+```
+
+새 API 키를 생성합니다.
+
+**인수(Args):**
+
+* `description` (str, optional): 새 API 키에 대한 설명입니다. API 키의 용도를 식별하는 데 사용할 수 있습니다.
+
+**반환값(Returns):**
+새 API 키를 반환하며, 실패 시 None

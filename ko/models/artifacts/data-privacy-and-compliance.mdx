@@ -1,0 +1,22 @@
+---
+description: W&B 파일이 기본적으로 어디에 저장되는지 알아보고, 민감한 정보를 저장·보관하는 방법을 살펴보세요.
+title: Artifact 데이터 프라이버시 및 컴플라이언스
+---
+
+파일은 아티팩트를 기록할 때 W&amp;B에서 관리하는 Google Cloud 버킷으로 업로드됩니다. 버킷의 내용은 저장 상태와 전송 중 모두 암호화됩니다. 아티팩트 파일은 해당 프로젝트에 대한 액세스 권한이 있는 사용자만 볼 수 있습니다.
+
+<Frame>
+  <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B 클라이언트-서버 다이어그램" />
+</Frame>
+
+아티팩트 버전을 삭제하면 데이터베이스에서 소프트 삭제(soft delete)로 표시되며, 스토리지 비용 계산에서 제외됩니다. 전체 아티팩트를 삭제하면 영구 삭제 대기열에 추가되고, 그 안의 모든 콘텐츠가 W&amp;B 버킷에서 제거됩니다. 파일 삭제와 관련해 구체적인 요구 사항이 있는 경우 [Customer Support](mailto:support@wandb.com)에 문의하세요.
+
+기본적으로 삭제된 아티팩트는 7일 동안 보존되며, 이 기간 동안 복원할 수 있습니다. 이 보존 기간은 Dedicated Cloud에서 구성 가능합니다. 데이터 보존에 대해 자세히 알아보려면 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud#data-retention-policy)를 참조하세요.
+
+멀티 테넌트 환경에 둘 수 없는 민감한 데이터셋의 경우 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [reference artifacts](/ko/models/artifacts/track-external-files)를 사용할 수 있습니다. Reference 아티팩트는 파일 내용을 W&amp;B로 전송하지 않고 프라이빗 버킷에 대한 참조만 추적합니다. Reference 아티팩트는 사용자의 버킷이나 서버에 있는 파일에 대한 링크를 유지합니다. W&amp;B는 파일 자체가 아니라 파일과 연관된 메타데이터만 추적합니다.
+
+<Frame>
+  <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B 클라이언트-서버 클라우드 다이어그램" />
+</Frame>
+
+배포 옵션에 대한 자세한 내용은 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed)를 참조하세요. 구체적인 요구 사항을 논의하려면 [contact@wandb.com](mailto:contact@wandb.com)으로 연락하세요.

@@ -1,0 +1,98 @@
+---
+description: W&B를 YOLOX와 연동하는 방법
+title: YOLOX
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-streamlined.mdx";
+
+[YOLOX](https://github.com/Megvii-BaseDetection/YOLOX)는 객체 탐지에서 뛰어난 성능을 제공하는 anchor-free 버전의 YOLO입니다. YOLOX W&amp;B 통합 기능을 사용하면 학습, 검증, 시스템과 관련된 메트릭 로깅을 활성화하고, 단일 명령줄 인자만으로 예측 결과를 대화형으로 검증할 수 있습니다.
+
+<div id="sign-up-and-create-an-api-key">
+  ## 가입하고 API 키 생성하기
+</div>
+
+API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+
+<ApiKeyCreateStreamlined />
+
+1. 오른쪽 상단에 있는 사용자 프로필 아이콘을 클릭합니다.
+2. **User Settings**를 선택한 다음 아래로 스크롤하여 **API Keys** 섹션으로 이동합니다.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` 라이브러리를 설치하고 로그인하기
+</div>
+
+로컬에 `wandb` 라이브러리를 설치하고 로그인하려면:
+
+<Tabs>
+  <Tab title="명령줄">
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 본인의 API 키로 설정하세요.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` 라이브러리를 설치하고 로그인하세요.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python 노트북">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-metrics">
+  ## 메트릭 로깅
+</div>
+
+명령줄 인수 `--logger wandb`를 사용해 wandb 로깅을 활성화합니다. 필요하다면 [`wandb.init()`](/ko/models/ref/python/functions/init)가 받는 모든 인수를 함께 전달할 수도 있으며, 각 인수 이름 앞에 `wandb-`를 붙입니다.
+
+`num_eval_imges`는 모델 평가를 위해 검증 세트에서 W&amp;B 테이블에 로깅되는 이미지와 예측값의 개수를 제어합니다.
+
+```shell
+# wandb에 로그인
+wandb login
+
+# `wandb` 로거 인수를 사용하여 yolox 학습 스크립트 호출
+python tools/train.py .... --logger wandb \
+                wandb-project <project-name> \
+                wandb-entity <entity>
+                wandb-name <run-name> \
+                wandb-id <run-id> \
+                wandb-save_dir <save-dir> \
+                wandb-num_eval_imges <num-images> \
+                wandb-log_checkpoints <bool>
+```
+
+<div id="example">
+  ## 예제
+</div>
+
+[YOLOX 학습 및 검증 지표가 포함된 예제 대시보드 -&gt;](https://wandb.ai/manan-goel/yolox-nano/runs/3pzfeom)
+
+<Frame>
+  <img src="/images/integrations/yolox_example_dashboard.png" alt="YOLOX 학습 대시보드" />
+</Frame>
+
+이 W&amp;B 연동과 관련해 질문이나 문제가 있다면 [YOLOX 저장소](https://github.com/Megvii-BaseDetection/YOLOX)에 이슈를 등록해 주세요.

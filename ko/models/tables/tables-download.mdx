@@ -1,0 +1,58 @@
+---
+description: 테이블 데이터 내보내기 방법
+title: 테이블 데이터 내보내기
+---
+
+모든 W&amp;B Artifact와 마찬가지로, Table은 데이터를 쉽게 내보낼 수 있도록 pandas DataFrame으로 변환할 수 있습니다.
+
+<div id="convert-table-to-artifact">
+  ## `table`을(를) `artifact`로 변환
+</div>
+
+먼저 테이블을 아티팩트로 변환해야 합니다. 가장 쉬운 방법은 `artifact.get(table, "table_name")`을(를) 다음과 같이 사용하는 것입니다:
+
+```python
+# 새 테이블을 생성하고 로그합니다.
+with wandb.init() as r:
+    artifact = wandb.Artifact("my_dataset", type="dataset")
+    table = wandb.Table(
+        columns=["a", "b", "c"], data=[(i, i * 2, 2**i) for i in range(10)]
+    )
+    artifact.add(table, "my_table")
+    wandb.log_artifact(artifact)
+
+# 생성한 아티팩트를 사용하여 테이블을 가져옵니다.
+with wandb.init() as r:
+    artifact = r.use_artifact("my_dataset:latest")
+    table = artifact.get("my_table")
+```
+
+<div id="convert-artifact-to-dataframe">
+  ## `artifact`를 DataFrame으로 변환하기
+</div>
+
+그런 다음 테이블을 DataFrame으로 변환합니다.
+
+```python
+# 이전 코드 예제에서 이어서:
+df = table.get_dataframe()
+```
+
+<div id="export-data">
+  ## 데이터 내보내기
+</div>
+
+이제 `dataframe`이 지원하는 어떤 방식이든 사용해 데이터를 내보낼 수 있습니다:
+
+```python
+# 테이블 데이터를 .csv로 변환
+df.to_csv("example.csv", encoding="utf-8")
+```
+
+<div id="next-steps">
+  # 다음 단계
+</div>
+
+* `아티팩트`에 대한 [참고 문서](/ko/models/artifacts/construct-an-artifact/)를 확인하세요.
+* [Tables Walkthrough](/ko/models/tables/tables-walkthrough/) 가이드를 살펴보세요.
+* [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 참고 문서를 확인하세요.

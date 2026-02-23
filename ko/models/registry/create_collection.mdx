@@ -1,0 +1,169 @@
+---
+title: 컬렉션 생성
+---
+
+*컬렉션*은 레지스트리 내에서 서로 연결된 아티팩트 버전들의 집합입니다. 각 컬렉션은 고유한 작업이나 사용 사례를 나타냅니다. 
+
+예를 들어, 하나의 레지스트리 안에 여러 개의 컬렉션이 있을 수 있습니다. 각 컬렉션에는 MNIST, CIFAR-10, ImageNet과 같은 서로 다른 데이터셋이 포함될 수 있습니다.
+
+또 다른 예로, "chatbot"이라는 이름의 레지스트리가 있고, 이 안에 모델 아티팩트용 컬렉션, 데이터셋 아티팩트용 컬렉션, 그리고 파인튜닝된 모델 아티팩트용 컬렉션이 있을 수 있습니다.
+
+레지스트리와 그 안의 컬렉션을 어떻게 구성할지는 전적으로 여러분에게 달려 있습니다.
+
+<Note>
+W&B Model Registry에 익숙하다면 등록된 모델(registered models)에 대해 알고 있을 것입니다. Model Registry의 등록된 모델은 이제 W&B Registry에서 컬렉션이라고 부릅니다.
+</Note>
+
+<div id="collection-types">
+  ## 컬렉션 유형
+</div>
+
+각 컬렉션은 오직 한 가지 *유형*의 아티팩트만 허용합니다. 지정한 유형에 따라 해당 컬렉션에 여러분과 조직의 다른 구성원이 어떤 종류의 아티팩트를 연결할 수 있는지가 제한됩니다.
+
+<Note>
+아티팩트 유형은 Python과 같은 프로그래밍 언어의 데이터 타입과 비슷하다고 생각할 수 있습니다. 이 비유에서 하나의 컬렉션은 문자열, 정수, 실수 중 하나의 데이터 타입만 저장할 수 있고, 서로 다른 데이터 타입을 섞어서 저장할 수는 없습니다.
+</Note>
+
+예를 들어 "dataset" 아티팩트 유형을 허용하는 컬렉션을 생성한다고 가정해 봅시다. 이는 앞으로 이 컬렉션에는 유형이 "dataset"인 아티팩트 버전만 연결할 수 있음을 의미합니다. 마찬가지로 모델 아티팩트 유형만 허용하는 컬렉션에는 유형이 "model"인 아티팩트만 연결할 수 있습니다.
+
+<Note>
+아티팩트 객체를 생성할 때 해당 아티팩트의 유형을 지정합니다. `wandb.Artifact()`의 `type` 필드를 확인하십시오:
+
+```python
+import wandb
+
+# Initialize a run
+with wandb.init(
+  entity = "<team_entity>",
+  project = "<project>"
+  ) as run:
+
+  # Create an artifact object
+  artifact = wandb.Artifact(
+      name="<artifact_name>", 
+      type="<artifact_type>"
+      )
+```
+</Note>
+
+컬렉션을 생성할 때는 미리 정의된 아티팩트 유형 목록에서 선택할 수 있습니다. 사용 가능한 아티팩트 유형은 컬렉션이 속한 레지스트리에 따라 달라집니다.
+
+아티팩트를 컬렉션에 연결하거나 새 컬렉션을 생성하기 전에, [해당 컬렉션이 허용하는 아티팩트 유형을 확인](#check-the-types-of-artifact-that-a-collection-accepts)하십시오.
+
+<div id="check-the-types-of-artifact-that-a-collection-accepts">
+  ### 컬렉션에서 허용하는 아티팩트 유형 확인하기
+</div>
+
+컬렉션에 링크하기 전에, 해당 컬렉션이 어떤 아티팩트 유형을 허용하는지 확인하세요. 컬렉션이 허용하는 아티팩트 유형은 W&B Python SDK를 사용해 프로그래밍 방식으로 확인하거나 W&B App에서 인터랙티브하게 확인할 수 있습니다.
+
+<Note>
+해당 아티팩트 유형을 허용하지 않는 컬렉션에 아티팩트를 링크하려고 하면 오류 메시지가 표시됩니다.
+</Note>
+
+<Tabs>
+<Tab title="W&B App">
+허용되는 아티팩트 유형은 홈페이지의 레지스트리 카드나 레지스트리 설정 페이지에서 확인할 수 있습니다.
+
+두 방법 모두 먼저 W&B Registry로 이동합니다.
+
+W&B Registry 홈페이지에서, 해당 레지스트리의 카드까지 스크롤하면 그 레지스트리가 허용하는 아티팩트 유형을 볼 수 있습니다. 레지스트리 카드 안의 회색 가로 타원 안에 이 레지스트리가 허용하는 아티팩트 유형이 나열됩니다.
+
+<Frame>
+    <img src="/images/registry/artifact_types_model_card.png" alt="Artifact types selection"  />
+</Frame>
+
+예를 들어, 아래 이미지는 W&B Registry 홈페이지의 여러 레지스트리 카드를 보여줍니다. **Model** 레지스트리 카드 안에서 두 가지 아티팩트 유형인 **model**과 **model-new**를 확인할 수 있습니다. 
+
+
+레지스트리 설정 페이지에서 허용되는 아티팩트 유형을 보려면:
+
+1. 설정을 확인하려는 레지스트리 카드를 클릭합니다.
+2. 오른쪽 상단의 톱니바퀴 아이콘을 클릭합니다.
+3. **Accepted artifact types** 필드까지 스크롤합니다.
+</Tab>
+<Tab title="Python SDK (Beta)">
+W&B Python SDK를 사용해 프로그래밍 방식으로 레지스트리가 허용하는 아티팩트 유형을 확인할 수 있습니다:
+
+```python
+import wandb
+
+registry_name = "<registry_name>"
+artifact_types = wandb.Api().project(name=f"wandb-registry-{registry_name}").artifact_types()
+print(artifact_type.name for artifact_type in artifact_types)
+```
+
+<Note>
+아래 코드 스니펫에서는 실행을 초기화하지 않는다는 점에 유의하세요. 이는 W&B API에 질의만 하고 실험, 아티팩트 등을 추적하지 않을 경우에는 실행을 생성할 필요가 없기 때문입니다.
+</Note>
+</Tab>
+</Tabs>
+
+컬렉션이 어떤 유형의 아티팩트를 허용하는지 확인했으면, [컬렉션을 생성](#create-a-collection)할 수 있습니다.
+
+<div id="create-a-collection">
+  ## 컬렉션 생성
+</div>
+
+Registry 내에서 대화형으로 또는 프로그래밍 방식으로 컬렉션을 생성할 수 있습니다. 컬렉션을 생성한 후에는 해당 컬렉션이 허용하는 아티팩트 유형을 변경할 수 없습니다.
+
+<div id="programmatically-create-a-collection">
+  ### 프로그래밍 방식으로 컬렉션 생성
+</div>
+
+`wandb.Run.link_artifact()` 메서드를 사용해 아티팩트를 컬렉션에 연결합니다. `target_path` 필드에 컬렉션과 레지스트리를 함께 다음 형식의 경로로 지정합니다:
+
+```python
+f"wandb-registry-{registry_name}/{collection_name}"
+```
+
+여기서 `registry_name`은 레지스트리 이름이고 `collection_name`은 컬렉션 이름입니다. 레지스트리 이름 앞에는 반드시 `wandb-registry-` 접두사를 붙이세요.
+
+<Note>
+  존재하지 않는 컬렉션에 아티팩트를 연결하려고 하면, W&amp;B가 자동으로 컬렉션을 생성합니다. 이미 존재하는 컬렉션을 지정하면, W&amp;B는 아티팩트를 해당 기존 컬렉션에 연결합니다.
+</Note>
+
+다음 코드 스니펫은 프로그래밍 방식으로 컬렉션을 생성하는 방법을 보여줍니다. `<>`로 둘러싸인 값을 모두 사용자 값으로 교체하세요:
+
+```python
+import wandb
+
+# 실행 초기화
+with wandb.init(entity = "<team_entity>", project = "<project>") as run:
+
+  # 아티팩트 객체 생성
+  artifact = wandb.Artifact(
+    name = "<artifact_name>",
+    type = "<artifact_type>"
+    )
+
+  registry_name = "<registry_name>"
+  collection_name = "<collection_name>"
+  target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+  # 아티팩트를 컬렉션에 연결
+  run.link_artifact(artifact = artifact, target_path = target_path)
+```
+
+
+<div id="interactively-create-a-collection">
+  ### 대화형으로 컬렉션 생성하기
+</div>
+
+다음 단계에서는 W&amp;B Registry를 사용하여 대화형으로 컬렉션을 생성하는 방법을 설명합니다:
+
+1. https://wandb.ai/registry/ 에 접속하여 W&amp;B Registry로 이동합니다.
+2. 레지스트리를 선택합니다.
+3. 오른쪽 상단에 있는 **Create collection** 버튼을 클릭합니다.
+4. **Name** 필드에 컬렉션 이름을 입력합니다.
+5. **Type** 드롭다운에서 타입을 선택합니다. 또는 레지스트리에서 커스텀 아티팩트 타입을 허용하는 경우, 이 컬렉션에서 허용할 하나 이상의 아티팩트 타입을 입력합니다.
+6. 필요하다면 **Description** 필드에 컬렉션에 대한 설명을 입력합니다.
+7. 필요하다면 **Tags** 필드에 하나 이상의 태그를 추가합니다.
+8. **Link version**을 클릭합니다.
+9. **Project** 드롭다운에서 아티팩트가 저장된 프로젝트를 선택합니다.
+10. **Artifact** 컬렉션 드롭다운에서 아티팩트를 선택합니다.
+11. **Version** 드롭다운에서 컬렉션에 연결할 아티팩트 버전을 선택합니다.
+12. **Create collection** 버튼을 클릭합니다.
+
+<Frame>
+    <img src="/images/registry/create_collection.gif" alt="새 컬렉션 생성하기"  />
+</Frame>

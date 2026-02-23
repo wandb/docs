@@ -1,0 +1,40 @@
+---
+title: sweep()
+namespace: python_sdk_actions
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+
+
+### <kbd>function</kbd> `sweep`
+
+```python
+sweep(
+    sweep: Union[dict, Callable],
+    entity: Optional[str] = None,
+    project: Optional[str] = None,
+    prior_runs: Optional[List[str]] = None
+) → str
+```
+
+하이퍼파라미터 스윕을 초기화합니다.
+
+머신러닝 모델의 코스트 함수(cost function)를 최적화하는 하이퍼파라미터를 찾기 위해 다양한 조합을 테스트합니다.
+
+반환된 고유 식별자인 `sweep_id` 를 메모해 두세요. 이후 단계에서 스윕 에이전트에 `sweep_id` 를 제공해야 합니다.
+
+스윕을 정의하는 방법은 [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)를 참고하세요.
+
+**Args:**
+
+* `sweep`:  하이퍼파라미터 검색 설정(또는 설정 생성기)입니다.  `callable`을 제공하는 경우, 해당 `callable`이 인자를 받지 않고  W&amp;B 스윕 설정 사양을 따르는 딕셔너리를 반환해야 합니다.
+* `entity`:  스윕으로 생성된 W&amp;B 실행을 전송할 사용자 이름 또는 팀 이름입니다.  지정한 엔터티가 이미 존재하는지 확인하세요. `entity`를 지정하지 않으면  실행은 기본 엔터티(보통은 본인 사용자 이름)로 전송됩니다.
+* `project`:  스윕으로 생성된 W&amp;B 실행이 전송될 프로젝트 이름입니다.  프로젝트를 지정하지 않으면 실행은 &#39;Uncategorized&#39; 레이블이 붙은 프로젝트로 전송됩니다.
+* `prior_runs`:  이 스윕에 추가할 기존 실행의 실행 ID 목록입니다.
+
+**Returns:**
+
+* `str`:  이 스윕에 대한 고유 식별자입니다.

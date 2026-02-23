@@ -1,0 +1,5 @@
+---
+title: 시간에 따라 변하지 않는 최종 평가 정확도 같은 메트릭은 어떻게 기록할 수 있나요?
+---
+
+`run.log({'final_accuracy': 0.9})`를 사용하면 최종 정확도가 올바르게 업데이트됩니다. 기본적으로 `run.log({'final_accuracy': &lt;value&gt;})`는 `run.settings['final_accuracy']`를 업데이트하며, 이는 실행 테이블에 해당 값이 반영되도록 합니다.

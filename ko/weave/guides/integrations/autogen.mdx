@@ -1,0 +1,742 @@
+---
+title: "AutoGen"
+description: "Weave를 사용하여 AutoGen 에이전트와 다중 에이전트 시스템을 추적 및 모니터링"
+---
+
+{/* TODO: 이 가이드용 Colab 노트북을 추가하고, 여기에 배지 링크를 추가하기. */}
+
+AutoGen은 Microsoft에서 개발한 AI 에이전트 및 애플리케이션 구축을 위한 프레임워크입니다. 이 프레임워크는 대화형 AI(`AgentChat`), 핵심 멀티 에이전트 기능(`Core`), 외부 서비스와의 통합(`Extensions`)을 위한 컴포넌트를 제공하여 복잡한 멀티 에이전트 시스템 생성을 단순화합니다. 또한 AutoGen은 코드 없이 에이전트를 프로토타이핑할 수 있는 `Studio`도 제공합니다. 자세한 내용은 [공식 AutoGen 문서](https://microsoft.github.io/autogen/stable//index.html)를 참조하세요.
+
+<Note>
+  이 가이드는 독자가 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)에 대해 기본적인 이해를 가지고 있다고 가정합니다.
+</Note>
+
+Weave는 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)과 통합되어 멀티 에이전트 애플리케이션의 실행을 추적하고 시각화하는 데 도움을 줍니다. Weave를 초기화하기만 하면 `autogen_agentchat`, `autogen_core`, `autogen_ext` 내 상호작용을 자동으로 추적할 수 있습니다. 이 가이드는 AutoGen과 함께 Weave를 사용하는 다양한 예제를 소개합니다.
+
+<div id="prerequisites">
+  ## 사전 준비 사항
+</div>
+
+시작하기 전에 AutoGen과 Weave가 설치되어 있는지 확인하세요. 또한 사용하려는 LLM 제공업체용 SDK(예: OpenAI, Anthropic)도 필요합니다.
+
+```bash
+pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave 
+```
+
+API 키를 환경 변수로 설정하세요:
+
+```python lines
+import os
+
+os.environ["OPENAI_API_KEY"] = "<your-openai-api-key>"
+os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
+```
+
+<div id="basic-setup">
+  ## 기본 설정
+</div>
+
+트레이스 캡처를 시작하려면 스크립트 시작 부분에서 Weave를 초기화하세요.
+
+```python lines {2}
+import weave
+weave.init("autogen-demo")
+```
+
+<div id="tracing-a-simple-model-client">
+  ## 간단한 모델 클라이언트 트레이싱
+</div>
+
+Weave는 AutoGen 내에서 모델 클라이언트에 대한 직접 호출을 추적할 수 있습니다.
+
+<div id="tracing-a-client-create-call">
+  ### 클라이언트 생성 호출 추적하기
+</div>
+
+이 예제는 `OpenAIChatCompletionClient`에 대한 단일 호출을 추적하는 방법을 보여 줍니다.
+
+```python lines
+import asyncio
+from autogen_core.models import UserMessage
+from autogen_ext.models.openai import OpenAIChatCompletionClient
+# from autogen_ext.models.anthropic import AnthropicChatCompletionClient
+
+async def simple_client_call(model_name = "gpt-4o"):
+    model_client = OpenAIChatCompletionClient(
+        model=model_name,
+    )
+    # 또는 Anthropic이나 다른 모델 클라이언트를 사용할 수 있습니다
+    # model_client = AnthropicChatCompletionClient(
+        # model="claude-3-haiku-20240307"
+    # )
+    response = await model_client.create(
+        [UserMessage(content="Hello, how are you?", source="user")]
+    )
+    print(response)
+
+asyncio.run(simple_client_call())
+
+```
+
+[![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
+
+<div id="tracing-a-client-create-call-with-streaming">
+  ### 스트리밍이 포함된 클라이언트 생성 호출 추적
+</div>
+
+Weave는 스트리밍 응답에 대한 추적도 지원합니다.
+
+```python lines
+
+async def simple_client_call_stream(model_name = "gpt-4o"):
+    openai_model_client = OpenAIChatCompletionClient(model=model_name)
+    async for item in openai_model_client.create_stream(
+        [UserMessage(content="Hello, how are you?", source="user")]
+    ):
+      print(item, flush=True, end="")
+
+asyncio.run(simple_client_call_stream())
+
+```
+
+[![autogen-streaming-client.png](/weave/guides/integrations/imgs/autogen/autogen-streaming-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee0e-24be-7523-b15e-04f87c03ac68%3FhideTraceTree%3D0)
+
+<div id="weave-records-cached-calls">
+  ### Weave는 캐시된 호출을 기록합니다
+</div>
+
+AutoGen의 `ChatCompletionCache`를 사용할 수 있으며, Weave는 이러한 상호작용을 추적하여 응답이 캐시에서 반환된 것인지, 아니면 새로운 호출에서 생성된 것인지 보여줍니다.
+
+```python lines
+
+from autogen_ext.models.cache import ChatCompletionCache
+
+async def run_cache_client(model_name = "gpt-4o"):
+      openai_model_client = OpenAIChatCompletionClient(model=model_name)
+      cache_client = ChatCompletionCache(openai_model_client,)
+
+      response = await cache_client.create(
+          [UserMessage(content="Hello, how are you?", source="user")]
+      )
+      print(response)  # OpenAI의 응답을 출력해야 함
+      response = await cache_client.create(
+          [UserMessage(content="Hello, how are you?", source="user")]
+      )
+      print(response)  # 캐시된 응답을 출력해야 함
+
+asyncio.run(run_cache_client())
+
+```
+
+[![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
+
+<div id="tracing-an-agent-with-tool-calls">
+  ## 도구 호출이 포함된 에이전트 추적
+</div>
+
+Weave는 에이전트와 그들의 도구 사용을 추적하여, 에이전트가 도구를 어떻게 선택하고 실행하는지 파악할 수 있도록 해 줍니다.
+
+```python lines
+from autogen_agentchat.agents import AssistantAgent
+
+async def get_weather(city: str) -> str:
+    return f"The weather in {city} is 73 degrees and Sunny."
+
+async def run_agent_with_tools(model_name = "gpt-4o"):
+    model_client = OpenAIChatCompletionClient(model=model_name)
+
+    agent = AssistantAgent(
+        name="weather_agent",
+        model_client=model_client,
+        tools=[get_weather],
+        system_message="You are a helpful assistant.",
+        reflect_on_tool_use=True,
+    )
+    # 콘솔에 스트리밍 출력하려면:
+    # await Console(agent.run_stream(task="What is the weather in New York?"))
+    res = await agent.run(task="What is the weather in New York?")
+    print(res)
+    await model_client.close()
+
+asyncio.run(run_agent_with_tools())
+
+```
+
+[![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
+
+<div id="tracing-a-groupchat-roundrobin">
+  ## GroupChat 추적 - RoundRobin
+</div>
+
+`RoundRobinGroupChat`과 같은 그룹 채팅 내 상호작용은 Weave에서 추적되므로, 에이전트 간 대화 흐름을 따라갈 수 있습니다.
+
+```python lines
+
+from autogen_agentchat.conditions import TextMentionTermination
+from autogen_agentchat.teams import RoundRobinGroupChat
+
+# 전체 그룹 채팅을 추적하기 위해 여기에 weave op를 추가합니다
+# 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다
+
+@weave.op
+async def run_round_robin_group_chat(model_name="gpt-4o"):
+    model_client = OpenAIChatCompletionClient(model=model_name)
+
+    primary_agent = AssistantAgent(
+        "primary",
+        model_client=model_client,
+        system_message="You are a helpful AI assistant.",
+    )
+
+    critic_agent = AssistantAgent(
+        "critic",
+        model_client=model_client,
+        system_message="Provide constructive feedback. Respond with 'APPROVE' to when your feedbacks are addressed.",
+    )
+
+    text_termination = TextMentionTermination("APPROVE")
+
+    team = RoundRobinGroupChat(
+        [primary_agent, critic_agent], termination_condition=text_termination
+    )
+    await team.reset()
+    # 콘솔에 스트리밍 출력하려면:
+    # await Console(team.run_stream(task="Write a short poem about the fall season."))
+    result = await team.run(task="Write a short poem about the fall season.")
+    print(result)
+    await model_client.close()
+
+
+asyncio.run(run_round_robin_group_chat())
+
+```
+
+[![round\_robin\_group\_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
+
+<div id="tracing-memory">
+  ## 메모리 트레이싱
+</div>
+
+AutoGen의 메모리 컴포넌트는 Weave로 트레이싱할 수 있습니다. `@weave.op()`을 사용해 메모리 연산을 하나의 트레이스 안에 그룹화하면 가독성을 높일 수 있습니다.
+
+```python lines
+
+from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
+
+# 메모리 추가 호출과 메모리 조회 호출을 단일 트레이스로 추적하기 위해
+# 여기에 weave op를 추가합니다
+# 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다
+
+@weave.op
+async def run_memory_agent(model_name="gpt-4o"):
+    user_memory = ListMemory()
+
+    await user_memory.add(
+        MemoryContent(
+            content="The weather should be in metric units",
+            mime_type=MemoryMimeType.TEXT,
+        )
+    )
+
+    await user_memory.add(
+        MemoryContent(
+            content="Meal recipe must be vegan", mime_type=MemoryMimeType.TEXT
+        )
+    )
+
+    async def get_weather(city: str, units: str = "imperial") -> str:
+        if units == "imperial":
+            return f"The weather in {city} is 73 °F and Sunny."
+        elif units == "metric":
+            return f"The weather in {city} is 23 °C and Sunny."
+        else:
+            return f"Sorry, I don't know the weather in {city}."
+
+    model_client = OpenAIChatCompletionClient(model=model_name)
+    assistant_agent = AssistantAgent(
+        name="assistant_agent",
+        model_client=model_client,
+        tools=[get_weather],
+        memory=[user_memory],
+    )
+
+    # 콘솔에 스트리밍 출력하려면:
+    # stream = assistant_agent.run_stream(task="What is the weather in New York?")
+    # await Console(stream)
+    result = await assistant_agent.run(task="What is the weather in New York?")
+    print(result)
+    await model_client.close()
+
+
+asyncio.run(run_memory_agent())
+
+```
+
+[![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
+
+<div id="tracing-rag-workflows">
+  ## RAG 워크플로 추적하기
+</div>
+
+`ChromaDBVectorMemory`와 같은 메모리 시스템을 활용한 문서 색인 및 검색을 포함한 Retrieval-Augmented Generation(RAG) 워크플로는 추적 가능합니다. RAG 프로세스에 `@weave.op()` 데코레이터를 사용하면 전체 흐름을 시각화하는 데 도움이 됩니다.
+
+<Note>
+  이 RAG 예제는 `chromadb` 패키지가 필요합니다. `pip install chromadb` 명령으로 설치하세요.
+</Note>
+
+```python lines {1,65}
+# !pip install -q chromadb 
+# 환경에 chromadb가 설치되어 있는지 확인하세요: `pip install chromadb`
+
+import re
+from typing import List
+import os
+from pathlib import Path
+
+import aiofiles
+import aiohttp
+
+from autogen_core.memory import Memory, MemoryContent, MemoryMimeType
+from autogen_ext.memory.chromadb import (
+    ChromaDBVectorMemory,
+    PersistentChromaDBVectorMemoryConfig,
+)
+
+class SimpleDocumentIndexer:
+    def __init__(self, memory: Memory, chunk_size: int = 1500) -> None:
+        self.memory = memory
+        self.chunk_size = chunk_size
+
+    async def _fetch_content(self, source: str) -> str:
+        if source.startswith(("http://", "https://")):
+            async with aiohttp.ClientSession() as session:
+                async with session.get(source) as response:
+                    return await response.text()
+        else:
+            async with aiofiles.open(source, "r", encoding="utf-8") as f:
+                return await f.read()
+
+    def _strip_html(self, text: str) -> str:
+        text = re.sub(r"<[^>]*>", " ", text)
+        text = re.sub(r"\\s+", " ", text)
+        return text.strip()
+
+    def _split_text(self, text: str) -> List[str]:
+        chunks: list[str] = []
+        for i in range(0, len(text), self.chunk_size):
+            chunk = text[i : i + self.chunk_size]
+            chunks.append(chunk.strip())
+        return chunks
+
+    async def index_documents(self, sources: List[str]) -> int:
+        total_chunks = 0
+        for source in sources:
+            try:
+                content = await self._fetch_content(source)
+                if "<" in content and ">" in content:
+                    content = self._strip_html(content)
+                chunks = self._split_text(content)
+                for i, chunk in enumerate(chunks):
+                    await self.memory.add(
+                        MemoryContent(
+                            content=chunk,
+                            mime_type=MemoryMimeType.TEXT,
+                            metadata={"source": source, "chunk_index": i},
+                        )
+                    )
+                total_chunks += len(chunks)
+            except Exception as e:
+                print(f"{source} 인덱싱 오류: {str(e)}")
+        return total_chunks
+
+@weave.op
+async def run_rag_agent(model_name="gpt-4o"):
+    rag_memory = ChromaDBVectorMemory(
+        config=PersistentChromaDBVectorMemoryConfig(
+            collection_name="autogen_docs",
+            persistence_path=os.path.join(str(Path.home()), ".chromadb_autogen_weave"),
+            k=3,
+            score_threshold=0.4,
+        )
+    )
+    # await rag_memory.clear() # 기존 메모리를 초기화하려면 주석을 해제하세요
+
+    async def index_autogen_docs() -> None:
+        indexer = SimpleDocumentIndexer(memory=rag_memory)
+        sources = [
+            "https://raw.githubusercontent.com/microsoft/autogen/main/README.md",
+            "https://microsoft.github.io/autogen/dev/user-guide/agentchat-user-guide/tutorial/agents.html",
+        ]
+        chunks: int = await indexer.index_documents(sources)
+        print(f"{len(sources)}개의 AutoGen 문서에서 {chunks}개의 청크를 인덱싱했습니다")
+    
+    # 컬렉션이 비어 있거나 재인덱싱이 필요한 경우에만 인덱싱하세요
+    # 데모 목적으로 매번 인덱싱하거나 이미 인덱싱되었는지 확인할 수 있습니다.
+    # 이 예제는 실행할 때마다 인덱싱을 시도합니다. 확인 로직 추가를 고려하세요.
+    await index_autogen_docs()
+
+    model_client = OpenAIChatCompletionClient(model=model_name)
+    rag_assistant = AssistantAgent(
+        name="rag_assistant",
+        model_client=model_client,
+        memory=[rag_memory],
+    )
+    
+    # 콘솔에 스트리밍 출력하려면:
+    # stream = rag_assistant.run_stream(task="What is AgentChat?")
+    # await Console(stream)
+    result = await rag_assistant.run(task="What is AgentChat?")
+    print(result)
+
+    await rag_memory.close()
+    await model_client.close()
+
+asyncio.run(run_rag_agent())
+```
+
+[![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
+
+<div id="tracing-agent-runtimes">
+  ## 에이전트 런타임 추적
+</div>
+
+Weave는 `SingleThreadedAgentRuntime`과 같은 AutoGen의 에이전트 런타임 내에서 수행되는 작업을 추적할 수 있습니다. 런타임 실행 함수에 `@weave.op()`을 적용하면 관련 트레이스를 하나의 그룹으로 묶을 수 있습니다.
+
+```python lines {50}
+from dataclasses import dataclass
+from typing import Callable
+
+from autogen_core import (
+    DefaultTopicId,
+    MessageContext,
+    RoutedAgent,
+    default_subscription,
+    message_handler,
+    AgentId,
+    SingleThreadedAgentRuntime
+)
+
+@dataclass
+class Message:
+    content: int
+
+@default_subscription
+class Modifier(RoutedAgent):
+    def __init__(self, modify_val: Callable[[int], int]) -> None:
+        super().__init__("A modifier agent.")
+        self._modify_val = modify_val
+
+    @message_handler
+    async def handle_message(self, message: Message, ctx: MessageContext) -> None:
+        val = self._modify_val(message.content)
+        print(f"{'-'*80}\\nModifier:\\nModified {message.content} to {val}")
+        await self.publish_message(Message(content=val), DefaultTopicId())
+
+@default_subscription
+class Checker(RoutedAgent):
+    def __init__(self, run_until: Callable[[int], bool]) -> None:
+        super().__init__("A checker agent.")
+        self._run_until = run_until
+
+    @message_handler
+    async def handle_message(self, message: Message, ctx: MessageContext) -> None:
+        if not self._run_until(message.content):
+            print(f"{'-'*80}\\nChecker:\\n{message.content} passed the check, continue.")
+            await self.publish_message(
+                Message(content=message.content), DefaultTopicId()
+            )
+        else:
+            print(f"{'-'*80}\\nChecker:\\n{message.content} failed the check, stopping.")
+
+# 전체 에이전트 런타임 호출을 단일 트레이스로 추적하기 위해
+# 여기에 weave op를 추가합니다
+# 선택 사항이지만 사용을 강력히 권장합니다
+
+@weave.op
+async def run_agent_runtime() -> None:
+    runtime = SingleThreadedAgentRuntime()
+
+    await Modifier.register(
+        runtime,
+        "modifier",
+        lambda: Modifier(modify_val=lambda x: x - 1),
+    )
+
+    await Checker.register(
+        runtime,
+        "checker",
+        lambda: Checker(run_until=lambda x: x <= 1),
+    )
+
+    runtime.start()
+    await runtime.send_message(Message(content=3), AgentId("checker", "default"))
+    await runtime.stop_when_idle()
+
+asyncio.run(run_agent_runtime())
+
+```
+
+[![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
+
+<div id="tracing-workflows-sequential">
+  ## 트레이싱 워크플로(순차형)
+</div>
+
+에이전트 상호작용의 순서를 정의하는 복잡한 에이전트 워크플로도 트레이싱할 수 있습니다. 전체 워크플로에 대한 상위 수준 트레이스를 제공하기 위해 `@weave.op()`을 사용할 수 있습니다.
+
+```python lines {108}
+from autogen_core import TopicId, type_subscription
+from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
+
+@dataclass
+class WorkflowMessage:
+    content: str
+
+concept_extractor_topic_type = "ConceptExtractorAgent"
+writer_topic_type = "WriterAgent"
+format_proof_topic_type = "FormatProofAgent"
+user_topic_type = "User"
+
+@type_subscription(topic_type=concept_extractor_topic_type)
+class ConceptExtractorAgent(RoutedAgent):
+    def __init__(self, model_client: ChatCompletionClient) -> None:
+        super().__init__("개념 추출 에이전트.")
+        self._system_message = SystemMessage(
+            content=(
+                "당신은 마케팅 분석가입니다. 제품 설명을 바탕으로 다음을 파악하세요:\n"
+                "- 주요 기능\n"
+                "- 타겟 고객\n"
+                "- 차별화된 판매 포인트\n\n"
+            )
+        )
+        self._model_client = model_client
+
+    @message_handler
+    async def handle_user_description(self, message: WorkflowMessage, ctx: MessageContext) -> None:
+        prompt = f"제품 설명: {message.content}"
+        llm_result = await self._model_client.create(
+            messages=[self._system_message, UserMessage(content=prompt, source=self.id.key)],
+            cancellation_token=ctx.cancellation_token,
+        )
+        response = llm_result.content
+        assert isinstance(response, str)
+        print(f"{'-'*80}\\n{self.id.type}:\\n{response}")
+        await self.publish_message(
+            WorkflowMessage(response), topic_id=TopicId(writer_topic_type, source=self.id.key)
+        )
+
+@type_subscription(topic_type=writer_topic_type)
+class WriterAgent(RoutedAgent):
+    def __init__(self, model_client: ChatCompletionClient) -> None:
+        super().__init__("작성 에이전트.")
+        self._system_message = SystemMessage(
+            content=(
+                "당신은 마케팅 카피라이터입니다. 기능, 타겟 고객, 차별화된 판매 포인트를 설명하는 텍스트를 바탕으로 "
+                "이러한 내용을 부각하는 설득력 있는 마케팅 카피(뉴스레터 섹션 형식)를 작성하세요. "
+                "출력은 짧게(약 150단어) 하고, 단일 텍스트 블록으로만 카피를 출력하세요."
+            )
+        )
+        self._model_client = model_client
+    
+    @message_handler
+    async def handle_intermediate_text(self, message: WorkflowMessage, ctx: MessageContext) -> None:
+        prompt = f"아래는 제품에 대한 정보입니다:\\n\\n{message.content}"
+        llm_result = await self._model_client.create(
+            messages=[self._system_message, UserMessage(content=prompt, source=self.id.key)],
+            cancellation_token=ctx.cancellation_token,
+        )
+        response = llm_result.content
+        assert isinstance(response, str)
+        print(f"{'-'*80}\\n{self.id.type}:\\n{response}")
+        await self.publish_message(
+            WorkflowMessage(response), topic_id=TopicId(format_proof_topic_type, source=self.id.key)
+        )
+
+@type_subscription(topic_type=format_proof_topic_type)
+class FormatProofAgent(RoutedAgent):
+    def __init__(self, model_client: ChatCompletionClient) -> None:
+        super().__init__("형식 교정 에이전트.")
+        self._system_message = SystemMessage(
+            content=(
+                "당신은 편집자입니다. 초안 카피를 바탕으로 문법을 교정하고, 명확성을 높이며, 일관된 어조를 유지하고, "
+                "형식을 갖추어 완성도 있게 다듬으세요. 최종적으로 개선된 카피를 단일 텍스트 블록으로 출력하세요."
+            )
+        )
+        self._model_client = model_client
+
+    @message_handler
+    async def handle_intermediate_text(self, message: WorkflowMessage, ctx: MessageContext) -> None:
+        prompt = f"초안 카피:\\n{message.content}."
+        llm_result = await self._model_client.create(
+            messages=[self._system_message, UserMessage(content=prompt, source=self.id.key)],
+            cancellation_token=ctx.cancellation_token,
+        )
+        response = llm_result.content
+        assert isinstance(response, str)
+        print(f"{'-'*80}\\n{self.id.type}:\\n{response}")
+        await self.publish_message(
+            WorkflowMessage(response), topic_id=TopicId(user_topic_type, source=self.id.key)
+        )
+
+@type_subscription(topic_type=user_topic_type)
+class UserAgent(RoutedAgent):
+    def __init__(self) -> None:
+        super().__init__("최종 카피를 사용자에게 출력하는 사용자 에이전트.")
+
+    @message_handler
+    async def handle_final_copy(self, message: WorkflowMessage, ctx: MessageContext) -> None:
+        print(f"\\n{'-'*80}\\n{self.id.type} 최종 카피 수신:\\n{message.content}")
+
+# 전체 에이전트 워크플로우를 단일 추적으로 기록하기 위해
+# 여기에 weave op를 추가합니다.
+# 선택 사항이지만 사용을 강력히 권장합니다.
+
+@weave.op(call_display_name="Sequential Agent Workflow")
+async def run_agent_workflow(model_name="gpt-4o"):
+    model_client = OpenAIChatCompletionClient(model=model_name)
+    runtime = SingleThreadedAgentRuntime()
+
+    await ConceptExtractorAgent.register(runtime, type=concept_extractor_topic_type, factory=lambda: ConceptExtractorAgent(model_client=model_client))
+    await WriterAgent.register(runtime, type=writer_topic_type, factory=lambda: WriterAgent(model_client=model_client))
+    await FormatProofAgent.register(runtime, type=format_proof_topic_type, factory=lambda: FormatProofAgent(model_client=model_client))
+    await UserAgent.register(runtime, type=user_topic_type, factory=lambda: UserAgent())
+
+    runtime.start()
+    await runtime.publish_message(
+        WorkflowMessage(
+            content="음료를 24시간 차갑게 유지하는 친환경 스테인리스 스틸 물병"
+        ),
+        topic_id=TopicId(concept_extractor_topic_type, source="default"),
+    )
+    await runtime.stop_when_idle()
+    await model_client.close()
+
+asyncio.run(run_agent_workflow())
+```
+
+[![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
+
+<div id="tracing-code-executor">
+  ## 코드 실행 추적
+</div>
+
+<Warning>
+  **Docker 필수**
+  이 예제는 Docker를 사용해 코드를 실행하므로, 모든 환경(예: Colab에서 직접 실행)에서 동작하지 않을 수 있습니다. 이 예제를 시도하려면 로컬에서 Docker가 실행 중인지 확인하세요.
+</Warning>
+
+Weave는 AutoGen 에이전트가 생성하고 실행하는 코드를 추적합니다.
+
+````python lines {69}
+
+import tempfile
+from autogen_core import DefaultTopicId
+from autogen_core.code_executor import CodeBlock, CodeExecutor
+from autogen_core.models import (
+    AssistantMessage,
+    ChatCompletionClient,
+    LLMMessage,
+    SystemMessage,
+    UserMessage,
+)
+from autogen_ext.code_executors.docker import DockerCommandLineCodeExecutor
+
+
+@dataclass
+class CodeGenMessage:
+    content: str
+
+@default_subscription
+class Assistant(RoutedAgent):
+    def __init__(self, model_client: ChatCompletionClient) -> None:
+        super().__init__("An assistant agent.")
+        self._model_client = model_client
+        self._chat_history: List[LLMMessage] = [
+           SystemMessage(
+                content="""Write Python script in markdown block, and it will be executed.
+Always save figures to file in the current directory. Do not use plt.show(). All code required to complete this task must be contained within a single response.""",
+            )
+        ]
+
+    @message_handler
+    async def handle_message(self, message: CodeGenMessage, ctx: MessageContext) -> None:
+        self._chat_history.append(UserMessage(content=message.content, source="user"))
+        result = await self._model_client.create(self._chat_history)
+        print(f"\\n{'-'*80}\\nAssistant:\\n{result.content}")
+        self._chat_history.append(AssistantMessage(content=result.content, source="assistant"))
+        await self.publish_message(CodeGenMessage(content=result.content), DefaultTopicId())
+
+def extract_markdown_code_blocks(markdown_text: str) -> List[CodeBlock]:
+    pattern = re.compile(r"```(?:\\s*([\\w\\+\\-]+))?\\n([\\s\\S]*?)```")
+    matches = pattern.findall(markdown_text)
+    code_blocks: List[CodeBlock] = []
+    for match in matches:
+        language = match[0].strip() if match[0] else ""
+        code_content = match[1]
+        code_blocks.append(CodeBlock(code=code_content, language=language))
+    return code_blocks
+
+@default_subscription
+class Executor(RoutedAgent):
+    def __init__(self, code_executor: CodeExecutor) -> None:
+        super().__init__("An executor agent.")
+        self._code_executor = code_executor
+
+    @message_handler
+    async def handle_message(self, message: CodeGenMessage, ctx: MessageContext) -> None:
+        code_blocks = extract_markdown_code_blocks(message.content)
+        if code_blocks:
+            result = await self._code_executor.execute_code_blocks(
+                code_blocks, cancellation_token=ctx.cancellation_token
+            )
+            print(f"\\n{'-'*80}\\nExecutor:\\n{result.output}")
+            await self.publish_message(CodeGenMessage(content=result.output), DefaultTopicId())
+
+# 전체 코드 생성 워크플로우를 단일 트레이스로 추적하기 위해
+# 여기에 weave op를 추가합니다
+# 선택 사항이지만 사용하는 것을 강력히 권장합니다
+
+@weave.op(call_display_name="CodeGen Agent Workflow")
+async def run_codegen(model_name="gpt-4o"): # Updated model
+    work_dir = tempfile.mkdtemp()
+    runtime = SingleThreadedAgentRuntime()
+
+    # 이 예제를 실행하려면 Docker가 실행 중이어야 합니다
+    try:
+        async with DockerCommandLineCodeExecutor(work_dir=work_dir) as executor:
+            model_client = OpenAIChatCompletionClient(model=model_name)
+            await Assistant.register(runtime, "assistant", lambda: Assistant(model_client=model_client))
+            await Executor.register(runtime, "executor", lambda: Executor(executor))
+
+            runtime.start()
+            await runtime.publish_message(
+                CodeGenMessage(content="Create a plot of NVDA vs TSLA stock returns YTD from 2024-01-01."),
+                DefaultTopicId(),
+            )
+            await runtime.stop_when_idle()
+            await model_client.close()
+    except Exception as e:
+        print(f"Could not run Docker code executor example: {e}")
+        print("Please ensure Docker is installed and running.")
+    finally:
+        import shutil
+        shutil.rmtree(work_dir)
+
+
+asyncio.run(run_codegen())
+````
+
+[![autogen-codegen.png](/weave/guides/integrations/imgs/autogen/autogen-codegen.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f173-21c2-7540-9dc7-fbab0b94ce0e%3FhideTraceTree%3D0)
+
+<div id="learn-more">
+  ## 더 알아보기
+</div>
+
+* **Weave**:
+  * [Tracing 가이드](/ko/weave/guides/tracking/tracing)
+  * [Op 데코레이터](/ko/weave/guides/tracking/ops)
+* **AutoGen**:
+  * [공식 문서](https://microsoft.github.io/autogen/stable//index.html)
+  * [AutoGen GitHub](https://github.com/microsoft/autogen)
+
+이 가이드는 Weave를 AutoGen과 통합하기 위한 출발점을 제공합니다. Weave UI를 살펴보며 에이전트 상호작용, 모델 호출, 도구 사용 내역에 대한 자세한 추적 기록을 확인하세요.

@@ -1,0 +1,95 @@
+---
+title: 프로젝트
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+
+## <kbd>class</kbd> `Project`
+
+프로젝트는 실행을 위한 네임스페이스입니다.
+
+### <kbd>method</kbd> `Project.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    attrs: 'Mapping[str, Any]'
+) → Project
+```
+
+**Args:**
+
+* `client`:  W&amp;B API 클라이언트 인스턴스.
+* `name` (str):  프로젝트 이름.
+* `entity` (str):  프로젝트를 소유하는 엔터티의 이름.
+
+엔터티에 연결된 단일 프로젝트.
+
+**Args:**
+
+* `client`:  W&amp;B를 쿼리하는 데 사용되는 API 클라이언트.
+* `entity`:  프로젝트를 소유하는 엔터티.
+* `project`:  쿼리할 프로젝트 이름.
+* `attrs`:  프로젝트의 속성.
+
+***
+
+
+### <kbd>property</kbd> Project.id
+
+---
+
+### <kbd>property</kbd> Project.path
+
+프로젝트의 경로를 반환합니다. 경로는 엔터티와 프로젝트 이름이 들어 있는 리스트입니다. 
+
+**반환 값:**
+
+- `list[str]`: `path` 속성 값.
+
+---
+
+### <kbd>property</kbd> Project.url
+
+프로젝트의 URL을 반환합니다. 
+
+**반환값:**
+
+- `str`: url 속성의 값입니다.
+
+---
+
+### <kbd>메서드</kbd> `Project.artifacts_types`
+
+```python
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+```
+
+이 프로젝트와 연관된 모든 아티팩트 유형을 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Project.sweeps`
+
+```python
+sweeps(per_page: 'int' = 50) → Sweeps
+```
+
+이 프로젝트에 있는 sweep의 페이지 단위 컬렉션을 반환합니다.
+
+**Args:**
+
+* `per_page`:  API에 대한 각 요청마다 가져올 sweep 수입니다.
+
+**Returns:**
+`Sweep` 객체의 이터러블 컬렉션인 `Sweeps` 객체를 반환합니다.
+
+***

@@ -1,0 +1,80 @@
+---
+description: 일반적인 W&B Sweep 관련 문제를 해결합니다.
+title: Sweeps 문제 해결
+---
+
+이 문서의 안내를 따라 일반적인 오류 메시지를 진단하고 해결하세요.
+
+<div id="commerror-run-does-not-exist-and-error-error-uploading">
+  ### `CommError, Run does not exist` 및 `ERROR Error uploading`
+</div>
+
+이 두 오류 메시지가 모두 반환된다면 W&amp;B 실행 ID가 설정되어 있을 수 있습니다. 예를 들어, Jupyter Notebook 또는 Python 스크립트 어딘가에 다음과 비슷한 코드 스니펫이 정의되어 있을 수 있습니다:
+
+```python
+wandb.init(id="some-string")
+```
+
+W&amp;B Sweeps에 대해서는 실행 ID를 설정할 수 없습니다. 이는 W&amp;B Sweeps로 생성된 실행에 대해 W&amp;B가 무작위이며 고유한 ID를 자동으로 생성하기 때문입니다.
+
+W&amp;B 실행 ID는 하나의 프로젝트 내에서 고유해야 합니다.
+
+테이블과 그래프에 표시될 사용자 지정 이름을 지정하려면, W&amp;B를 초기화할 때 `name` 매개변수에 원하는 이름을 전달하는 방식을 권장합니다. 예를 들어:
+
+```python
+wandb.init(name="a helpful readable run name")
+```
+
+<div id="cuda-out-of-memory">
+  ### `Cuda out of memory`
+</div>
+
+이 오류 메시지가 표시되면 코드를 프로세스 기반으로 실행되도록 리팩터링하세요. 보다 구체적으로는, 코드를 Python 스크립트로 다시 작성하세요. 그리고 W&amp;B Python SDK에서 직접 실행하는 대신 CLI에서 W&amp;B Sweep Agent를 호출하세요.
+
+예를 들어, 코드를 `train.py`라는 Python 스크립트로 다시 작성했다고 가정해 보겠습니다. 그런 경우 YAML Sweep 구성 파일(이 예시에서는 `config.yaml`)에 학습 스크립트 이름(`train.py`)을 추가하세요:
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  name: validation_loss
+  goal: maximize
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+  optimizer:
+    values: ["adam", "sgd"]
+```
+
+다음으로, 다음 코드를 `train.py` Python 스크립트에 추가하세요:
+
+```python
+if _name_ == "_main_":
+    train()
+```
+
+CLI로 이동한 다음 wandb sweep 명령으로 W&amp;B Sweep을 초기화합니다:
+
+```shell
+wandb sweep config.yaml
+```
+
+반환된 W&amp;B Sweep ID를 메모해 두세요. 다음으로, Python SDK([`wandb.agent`](/ko/models/ref/python/functions/agent)) 대신 CLI에서 [`wandb agent`](/ko/models/ref/cli/wandb-agent)를 사용해 Sweep 작업을 시작하세요. 아래 코드 스니펫의 `sweep_ID`를 이전 단계에서 반환된 Sweep ID로 바꾸세요:
+
+```shell
+wandb agent sweep_ID
+```
+
+<div id="anaconda-400-error">
+  ### `anaconda 400 error`
+</div>
+
+다음 오류는 일반적으로 최적화 대상인 메트릭을 로깅하지 않았을 때 발생합니다.
+
+```shell
+wandb: ERROR Error while calling W&B API: anaconda 400 error: 
+{"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
+```
+
+YAML 파일 또는 중첩된 딕셔너리에서 최적화할 키인 &quot;metric&quot;을 지정합니다. 이 metric을 `wandb.log`를 사용해 반드시 기록해야 합니다. 또한 Python 스크립트나 Jupyter Notebook에서 스위프의 최적화 대상으로 정의한 metric 이름과 *정확히* 동일한 이름을 사용해야 합니다. 구성 파일에 대한 자세한 내용은 [스위프 구성 정의](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.

@@ -1,0 +1,61 @@
+---
+description: 멀티코어 또는 멀티 GPU 머신에서 W&B Sweep 에이전트를 병렬로 실행합니다.
+title: 에이전트 병렬 실행
+---
+
+멀티코어 또는 멀티 GPU 머신에서 W&amp;B Sweep 에이전트를 병렬로 실행할 수 있습니다. 시작하기 전에 먼저 W&amp;B Sweep을 초기화했는지 확인하세요. W&amp;B Sweep을 초기화하는 방법에 대한 자세한 내용은 [스윕 초기화](./initialize-sweeps)를 참조하세요.
+
+<div id="parallelize-on-a-multi-cpu-machine">
+  ### 다중 CPU 머신에서 병렬화하기
+</div>
+
+사용 사례에 따라, 다음 탭을 확인하여 CLI 또는 Jupyter Notebook 내에서 W&amp;B Sweep 에이전트를 병렬화하는 방법을 알아보세요.
+
+<Tabs>
+  <Tab title="CLI">
+    터미널에서 [`wandb agent`](/ko/models/ref/cli/wandb-agent) 명령을 사용하여 Sweep 에이전트를 여러 CPU에 걸쳐 병렬화할 수 있습니다. [스윕을 초기화](./initialize-sweeps)할 때 반환된 스윕 ID를 제공해야 합니다.
+
+    1. 로컬 머신에서 두 개 이상의 터미널 창을 엽니다.
+    2. 아래 코드 스니펫을 복사해 붙여넣고 `sweep_id`를 자신의 스윕 ID로 바꿉니다:
+
+    ```bash
+    wandb agent sweep_id
+    ```
+  </Tab>
+
+  <Tab title="Jupyter Notebook">
+    W&amp;B Python SDK 라이브러리를 사용하여 Jupyter Notebook 내에서 W&amp;B Sweep 에이전트를 여러 CPU에 걸쳐 병렬화할 수 있습니다. [스윕을 초기화](./initialize-sweeps)할 때 반환된 스윕 ID가 있어야 합니다. 추가로, `function` 파라미터에는 스윕이 실행할 함수 이름을 제공해야 합니다:
+
+    1. Jupyter Notebook을 두 개 이상 엽니다.
+    2. 여러 Jupyter Notebook에 W&amp;B Sweep ID를 복사해 붙여넣어 W&amp;B Sweep을 병렬화합니다. 예를 들어, 스윕 ID를 `sweep_id`라는 변수에 저장해 두었고 함수 이름이 `function_name`이라면, 다음 코드 스니펫을 여러 Jupyter Notebook에 붙여넣어 스윕을 병렬화할 수 있습니다:
+
+    ```python
+    wandb.agent(sweep_id=sweep_id, function=function_name)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="parallelize-on-a-multi-gpu-machine">
+  ### 여러 GPU 머신에서 병렬화하기
+</div>
+
+CUDA Toolkit이 설치된 환경에서 터미널을 사용해 여러 GPU에서 W&amp;B Sweep agent를 병렬로 실행하려면 다음 절차를 따르세요:
+
+1. 로컬 머신에서 두 개 이상의 터미널 창을 엽니다.
+2. W&amp;B Sweep 작업([`wandb agent`](/ko/models/ref/cli/wandb-agent))을 시작할 때 `CUDA_VISIBLE_DEVICES`로 사용할 GPU 인스턴스를 지정합니다. 사용하려는 GPU 인스턴스에 해당하는 정수 값을 `CUDA_VISIBLE_DEVICES`에 할당합니다.
+
+예를 들어, 로컬 머신에 NVIDIA GPU가 두 개 있다고 가정해 봅시다. 터미널 창을 하나 열고 `CUDA_VISIBLE_DEVICES`를 `0`(`CUDA_VISIBLE_DEVICES=0`)으로 설정합니다. 다음 예시에서 `sweep_ID`를 W&amp;B Sweep을 초기화할 때 반환된 W&amp;B Sweep ID로 바꾸세요:
+
+터미널 1
+
+```bash
+CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
+```
+
+두 번째 터미널 창을 엽니다. `CUDA_VISIBLE_DEVICES`를 `1`로 설정합니다 (`CUDA_VISIBLE_DEVICES=1`). 다음 코드 스니펫에 나오는 `sweep_ID`에 동일한 W&amp;B Sweep ID를 붙여넣습니다:
+
+Terminal 2
+
+```bash
+CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID
+```

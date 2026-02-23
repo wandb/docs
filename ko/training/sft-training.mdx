@@ -1,0 +1,39 @@
+---
+title: 서버리스 SFT
+description: W&B에서 감독 학습 기반 미세 튜닝(SFT)으로 모델을 파인튜닝하는 방법을 알아보세요
+---
+
+현재 퍼블릭 프리뷰 단계인 Serverless SFT는 개발자가 선별된(큐레이션된) 데이터셋에 대해 감독 학습을 사용해 LLM을 파인튜닝할 수 있도록 도와줍니다. W&amp;B는 환경 설정에 대한 유연성을 그대로 유지하면서 학습 인프라를 대신 프로비저닝합니다([CoreWeave 기반](https://docs.coreweave.com/docs/platform)). Serverless SFT를 사용하면 학습 워크로드에 맞춰 탄력적으로 자동 확장되는 관리형 학습 클러스터에 즉시 액세스할 수 있습니다.
+
+Serverless SFT는 다음과 같은 작업에 적합합니다:
+
+* **디스틸레이션(Distillation)**: 더 크고 성능이 좋은 모델의 지식을 더 작고 빠른 모델로 전이
+* **출력 스타일 및 포맷 학습**: 특정 응답 형식, 톤, 구조를 따르도록 모델을 학습
+* **강화 학습(RL) 전 웜업**: 추가 정제를 위해 강화 학습을 적용하기 전에 감독 예제로 모델을 사전 학습
+
+Serverless SFT는 로우랭크 어댑터(LoRA)를 학습해 모델을 특정 작업에 특화합니다. 학습한 LoRA는 자동으로 W&amp;B 계정의 아티팩트로 저장되며, 로컬이나 서드파티 스토리지에 백업 용도로 저장할 수도 있습니다. Serverless SFT로 학습한 모델은 자동으로 W&amp;B Inference에 호스팅됩니다.
+
+시작하려면 ART의 [Serverless SFT 문서](https://art.openpipe.ai/fundamentals/sft-training)를 참고하세요.
+
+<div id="why-serverless-sft">
+  ## 왜 Serverless SFT인가?
+</div>
+
+Supervised fine-tuning(SFT)은 정제된 입출력 예제로부터 모델을 학습시키는 훈련 기법입니다. W&amp;B의 Serverless SFT는 다음과 같은 장점을 제공합니다:
+
+* **더 낮은 훈련 비용**: 여러 사용자가 인프라를 공유해서 사용하고, 각 작업마다 별도의 설정 과정을 생략하며, 학습을 수행하지 않을 때 GPU 비용을 0까지 줄일 수 있기 때문에, Serverless SFT는 훈련 비용을 크게 절감합니다.
+* **더 짧은 훈련 시간**: 필요한 시점에 즉시 훈련 인프라를 프로비저닝하므로, Serverless SFT는 훈련 작업을 가속화하고 더 빠르게 반복할 수 있게 해 줍니다.
+* **자동 배포**: Serverless SFT는 학습한 모든 체크포인트를 자동으로 배포하여, 호스팅 인프라를 수동으로 설정할 필요를 없애 줍니다. 학습된 모델은 로컬, 스테이징, 프로덕션 환경에서 즉시 사용하고 테스트할 수 있습니다.
+
+<div id="how-serverless-sft-uses-wb-services">
+  ## Serverless SFT가 W&amp;B 서비스를 사용하는 방법
+</div>
+
+Serverless SFT는 다음 W&amp;B 컴포넌트를 조합해 동작합니다:
+
+* [Inference](/ko/inference): 모델을 실행하는 데 사용합니다
+* [Models](/ko/models): LoRA 어댑터 학습 중 성능 지표를 추적하는 데 사용합니다
+* [Artifacts](/ko/models/artifacts): LoRA 어댑터를 저장하고 버전 관리하는 데 사용합니다
+* [Weave (optional)](/ko/weave): 학습 루프의 각 단계에서 모델 응답에 대한 가시성을 확보하는 데 사용합니다
+
+Serverless SFT는 현재 퍼블릭 프리뷰 단계입니다. 프리뷰 기간 동안에는 추론 사용량과 아티팩트 저장에 대해서만 과금되며, 어댑터 학습에 대해서는 W&amp;B에서 비용을 청구하지 않습니다.

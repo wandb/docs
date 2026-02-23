@@ -1,0 +1,18 @@
+---
+title: W&B Training
+description: 강화 학습과 지도 미세 조정을 사용해 모델을 후속 학습하기
+mode: wide
+---
+
+현재 퍼블릭 프리뷰 단계인 W&amp;B Training은 대규모 언어 모델(LLM)에 대해 강화 학습(RL)과 지도 미세 조정(SFT)을 모두 지원하는 서버리스 후속 학습을 제공합니다.
+
+* **[Serverless RL](/ko/training/serverless-rl)**: 다중 턴 에이전트형 작업을 수행하면서 속도를 높이고 비용을 절감해 모델의 신뢰성을 향상시킵니다. RL은 모델이 출력에 대한 피드백을 통해 스스로 행동을 개선하도록 학습하는 훈련 기법입니다.
+* **[Serverless SFT](/ko/training/sft-training)**: 증류, 출력 스타일과 포맷 학습, RL 이전 워밍업 등을 위해 큐레이션된 데이터셋을 사용해 모델을 미세 조정합니다.
+
+W&amp;B Training은 다음과 통합됩니다.
+
+* 유연한 미세 조정 프레임워크인 [ART](https://art.openpipe.ai/getting-started/about)
+* 범용 검증기인 [RULER](https://openpipe.ai/blog/ruler)
+* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform) 기반의 완전 관리형 백엔드
+
+시작하려면 먼저 서비스를 사용하기 위한 [사전 필수 조건](/ko/training/prerequisites)을 충족한 다음, [Serverless RL 빠른 시작](https://art.openpipe.ai/getting-started/quick-start) 또는 [Serverless SFT 문서](https://art.openpipe.ai/fundamentals/sft-training)를 참고해 모델을 후속 학습하는 방법을 알아보세요.

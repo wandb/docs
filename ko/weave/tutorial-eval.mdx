@@ -1,0 +1,471 @@
+---
+title: "Evaluation 만들기"
+description: "Weave Models와 Evaluations를 사용해 Evaluation 파이프라인을 구축하는 방법을 알아봅니다"
+---
+
+import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
+</div>
+
+평가는 변경 사항을 적용한 뒤 예제 집합을 대상으로 애플리케이션을 테스트함으로써, 애플리케이션을 반복적으로 개선하는 데 도움을 줍니다. Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용해 평가를 추적하는 기능을 일급으로 지원합니다. 이 API들은 가정을 최소화하여 설계되어, 매우 다양한 사용 사례를 유연하게 지원할 수 있습니다.
+
+![Evals hero](/images/evals-hero.png)
+
+<div id="what-youll-learn">
+  ## 이 문서에서 다루는 내용:
+</div>
+
+이 가이드에서는 다음을 수행하는 방법을 설명합니다:
+
+* `Model`을 설정합니다
+* LLM의 응답을 검증할 데이터셋을 생성합니다
+* 모델 출력과 기대되는 출력을 비교하는 스코어링 함수를 정의합니다
+* 스코어링 함수와 추가 내장 스코어러를 사용해, 데이터셋을 기준으로 모델을 테스트하는 평가를 실행합니다
+* Weave UI에서 평가 결과를 확인합니다
+
+<WeaveQuickstartPrereqs />
+
+<div id="import-the-necessary-libraries-and-functions">
+  ## 필요한 라이브러리와 함수 불러오기
+</div>
+
+다음 라이브러리를 스크립트에 불러옵니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import json
+    import openai
+    import asyncio
+    import weave
+    from weave.scorers import MultiTaskBinaryClassificationF1
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+    ```
+  </Tab>
+</Tabs>
+
+<div id="build-a-model">
+  ## `Model` 빌드하기
+</div>
+
+Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/에이전트의 동작(로직, 프롬프트, 파라미터)과 버전 관리되는 메타데이터(파라미터, 코드, 마이크로 설정(micro-config))를 함께 캡처하여, 신뢰할 수 있게 추적·비교·평가·반복할 수 있게 해 줍니다.
+
+`Model`을 인스턴스화하면 Weave가 해당 구성과 동작을 자동으로 캡처하고, 변경이 있을 때마다 버전을 업데이트합니다. 이렇게 하면 반복하면서 시간에 따른 성능을 추적할 수 있습니다.
+
+`Model`은 `Model`을 서브클래싱(subclassing)하고, 하나의 예제를 입력으로 받아 응답을 반환하는 `predict` 함수 정의를 구현해서 선언합니다.
+
+다음 예제 모델은 OpenAI를 사용하여 전달된 문장에서 외계 과일의 이름, 색상, 맛을 추출합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {1,5}
+    class ExtractFruitsModel(weave.Model):
+        model_name: str
+        prompt_template: str
+
+        @weave.op()
+        async def predict(self, sentence: str) -> dict:
+            client = openai.AsyncClient()
+
+            response = await client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "user", "content": self.prompt_template.format(sentence=sentence)}
+                ],
+            )
+            result = response.choices[0].message.content
+            if result is None:
+                raise ValueError("No response from model")
+            parsed = json.loads(result)
+            return parsed
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {9}
+    // 참고: weave.Model은 아직 TypeScript에서 지원되지 않습니다.
+    // 대신, 모델과 유사한 함수를 weave.op으로 래핑하세요.
+
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    const openaiClient = new OpenAI();
+
+    const model = weave.op(async function myModel({datasetRow}) {
+      const prompt = `Extract fields ("fruit": <str>, "color": <str>, "flavor") from the following text, as json: ${datasetRow.sentence}`;
+      const response = await openaiClient.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
+      });
+      return JSON.parse(response.choices[0].message.content);
+    });
+    ```
+  </Tab>
+</Tabs>
+
+`ExtractFruitsModel` 클래스는 `weave.Model`을 상속(서브클래싱)하여 Weave가 인스턴스화된 객체를 추적할 수 있게 합니다. `@weave.op`는 predict 함수를 데코레이터로 지정해 입력과 출력을 추적합니다.
+
+`Model` 객체는 다음과 같이 인스턴스화할 수 있습니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    # 팀 이름과 프로젝트 이름을 설정하세요.
+    weave.init('<team-name>/eval_pipeline_quickstart')
+
+    model = ExtractFruitsModel(
+        model_name='gpt-3.5-turbo-1106',
+        prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}'
+    )
+
+    sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
+
+    print(asyncio.run(model.predict(sentence)))
+    # Jupyter Notebook에서 실행 중이라면 다음을 실행하세요:
+    # await model.predict(sentence)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    await weave.init('eval_pipeline_quickstart');
+
+    const sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.";
+
+    const result = await model({ datasetRow: { sentence } });
+
+    console.log(result);
+    ```
+  </Tab>
+</Tabs>
+
+<div id="create-a-dataset">
+  ## 데이터세트 생성하기
+</div>
+
+다음으로, 모델을 평가할 때 사용할 데이터세트가 필요합니다. [`Dataset`은 Weave 객체로 저장된 예제들의 모음입니다](/ko/weave/guides/core-types/datasets).
+
+다음 예제 데이터세트는 세 개의 입력 문장 예제와 그에 대한 정답(`labels`)을 정의한 후, 스코어링 함수가 읽을 수 있는 JSON 테이블 형식으로 변환합니다.
+
+이 예제에서는 코드에서 예제 목록을 구성하지만, 실행 중인 애플리케이션에서 예제를 하나씩 로깅할 수도 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+    "Pounits are a bright green color and are more savory than sweet.",
+    "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."]
+    labels = [
+        {'fruit': 'neoskizzles', 'color': 'purple', 'flavor': 'candy'},
+        {'fruit': 'pounits', 'color': 'bright green', 'flavor': 'savory'},
+        {'fruit': 'glowls', 'color': 'pale orange', 'flavor': 'sour and bitter'}
+    ]
+    examples = [
+        {'id': '0', 'sentence': sentences[0], 'target': labels[0]},
+        {'id': '1', 'sentence': sentences[1], 'target': labels[1]},
+        {'id': '2', 'sentence': sentences[2], 'target': labels[2]}
+    ]
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    const sentences = [
+      "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+      "Pounits are a bright green color and are more savory than sweet.",
+      "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."
+    ];
+    const labels = [
+      { fruit: 'neoskizzles', color: 'purple', flavor: 'candy' },
+      { fruit: 'pounits', color: 'bright green', flavor: 'savory' },
+      { fruit: 'glowls', color: 'pale orange', flavor: 'sour and bitter' }
+    ];
+    const examples = sentences.map((sentence, i) => ({
+      id: i.toString(),
+      sentence,
+      target: labels[i]
+    }));
+    ```
+  </Tab>
+</Tabs>
+
+이제 `weave.Dataset()` 클래스를 사용해 데이터세트를 생성하고 게시합니다:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {2}
+    weave.init('eval_pipeline_quickstart')
+    dataset = weave.Dataset(name='fruits', rows=examples)
+    weave.publish(dataset)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {3-6}
+    import * as weave from 'weave';
+    await weave.init('eval_pipeline_quickstart');
+    const dataset = new weave.Dataset({
+      name: 'fruits',
+      rows: examples
+    });
+    await dataset.save();
+    ```
+  </Tab>
+</Tabs>
+
+<div id="define-custom-scoring-functions">
+  ## 사용자 정의 스코어링 함수 정의하기
+</div>
+
+Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 있다고 가정합니다. 아래 스코어링 함수는 두 개의 딕셔너리(`target`과 `output`)를 입력으로 받아, output이 target과 일치하는지를 나타내는 불리언 값 딕셔너리를 반환합니다. `@weave.op()` 데코레이터는 Weave가 이 스코어링 함수의 실행을 추적할 수 있도록 해줍니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    @weave.op()
+    def fruit_name_score(target: dict, output: dict) -> dict:
+        return {'correct': target['fruit'] == output['fruit']}
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript
+    import * as weave from 'weave';
+
+    const fruitNameScorer = weave.op(
+      function fruitNameScore({target, output}) {
+        return { correct: target.fruit === output.fruit };
+      }
+    );
+    ```
+  </Tab>
+</Tabs>
+
+직접 스코어링 함수를 만드는 방법은 [Scorers](/ko/weave/guides/evaluation/scorers) 가이드를 참고하세요.
+
+일부 애플리케이션에서는 사용자 정의 `Scorer` 클래스를 만들어야 할 수도 있습니다. 예를 들어, 특정 파라미터(챗 모델이나 프롬프트 등), 행 단위 채점 방식, 집계 점수 계산 방식을 포함하는 표준화된 `LLMJudge` 클래스를 만들 수 있습니다. `Scorer` 클래스를 정의하는 방법은 다음 장의 [RAG 애플리케이션의 모델 기반 Evaluation](/ko/weave/tutorial-rag#optional-defining-a-scorer-class) 튜토리얼을 참고하세요.
+
+<div id="use-a-built-in-scorer-and-run-the-evaluation">
+  ## 기본 제공 스코어러를 사용해 평가 실행하기
+</div>
+
+사용자 정의 점수 계산 함수와 함께 [Weave의 기본 제공 스코어러](/ko/weave/guides/evaluation/builtin_scorers)도 사용할 수 있습니다. 다음 Evaluation에서는 `weave.Evaluation()`이 이전 섹션에서 정의한 `fruit_name_score` 함수와 [F1 점수](https://en.wikipedia.org/wiki/F-score)를 계산하는 기본 제공 `MultiTaskBinaryClassificationF1` 스코어러를 사용합니다.
+
+다음 예시는 `fruits` 데이터셋에 대해 `ExtractFruitsModel`의 Evaluation을 실행하고, 이 두 함수를 사용해 점수를 계산한 뒤 결과를 Weave에 로깅합니다.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {3-10}
+    weave.init('eval_pipeline_quickstart')
+
+    evaluation = weave.Evaluation(
+        name='fruit_eval',
+        dataset=dataset, 
+        scorers=[
+            MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]), 
+            fruit_name_score
+        ],
+    )
+    print(asyncio.run(evaluation.evaluate(model)))
+    # Jupyter Notebook에서 실행 중이라면 다음을 실행하세요:
+    # await evaluation.evaluate(model)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {5-9}
+    import * as weave from 'weave';
+
+    await weave.init('eval_pipeline_quickstart');
+
+    const evaluation = new weave.Evaluation({
+      name: 'fruit_eval',
+      dataset: dataset,
+      scorers: [fruitNameScorer],
+    });
+    const results = await evaluation.evaluate(model);
+    console.log(results);
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Python 스크립트에서 실행하는 경우 `asyncio.run`을 사용해야 합니다. Jupyter Notebook에서 실행하는 경우에는 `await`를 직접 사용할 수 있습니다.
+</Note>
+
+<div id="complete-example">
+  ### 전체 예시
+</div>
+
+<Accordion title="하나의 스크립트에 담은 전체 평가 파이프라인:">
+  <Tabs>
+    <Tab title="Python">
+      ```python lines
+      import json
+      import asyncio
+      import openai
+      import weave
+      from weave.scorers import MultiTaskBinaryClassificationF1
+
+      # Weave 초기화 (한 번만)
+      weave.init('eval_pipeline_quickstart')
+
+      # 1. 모델 정의
+      class ExtractFruitsModel(weave.Model):
+          model_name: str
+          prompt_template: str
+
+          @weave.op()
+          async def predict(self, sentence: str) -> dict:
+              client = openai.AsyncClient()
+              response = await client.chat.completions.create(
+                  model=self.model_name,
+                  messages=[{"role": "user", "content": self.prompt_template.format(sentence=sentence)}],
+              )
+              result = response.choices[0].message.content
+              if result is None:
+                  raise ValueError("No response from model")
+              return json.loads(result)
+
+      # 2. 모델 인스턴스 생성
+      model = ExtractFruitsModel(
+          model_name='gpt-3.5-turbo-1106',
+          prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}'
+      )
+
+      # 3. 데이터셋 생성
+      sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+      "Pounits are a bright green color and are more savory than sweet.",
+      "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."]
+      labels = [
+          {'fruit': 'neoskizzles', 'color': 'purple', 'flavor': 'candy'},
+          {'fruit': 'pounits', 'color': 'bright green', 'flavor': 'savory'},
+          {'fruit': 'glowls', 'color': 'pale orange', 'flavor': 'sour and bitter'}
+      ]
+      examples = [
+          {'id': '0', 'sentence': sentences[0], 'target': labels[0]},
+          {'id': '1', 'sentence': sentences[1], 'target': labels[1]},
+          {'id': '2', 'sentence': sentences[2], 'target': labels[2]}
+      ]
+
+      dataset = weave.Dataset(name='fruits', rows=examples)
+      weave.publish(dataset)
+
+      # 4. 채점 함수 정의
+      @weave.op()
+      def fruit_name_score(target: dict, output: dict) -> dict:
+          return {'correct': target['fruit'] == output['fruit']}
+
+      # 5. 평가 실행
+      evaluation = weave.Evaluation(
+          name='fruit_eval',
+          dataset=dataset,
+          scorers=[
+              MultiTaskBinaryClassificationF1(class_names=["fruit", "color", "flavor"]),
+              fruit_name_score
+          ],
+      )
+      print(asyncio.run(evaluation.evaluate(model)))
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      import * as weave from 'weave';
+      import OpenAI from 'openai';
+
+      // Weave 초기화 (한 번만)
+      await weave.init('eval_pipeline_quickstart');
+
+      // 1. 모델 정의
+      // 참고: weave.Model은 아직 TypeScript에서 지원되지 않습니다.
+      // 대신, 모델과 유사한 함수를 weave.op으로 래핑하세요.
+      const openaiClient = new OpenAI();
+
+      const model = weave.op(async function myModel({datasetRow}) {
+        const prompt = `Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: ${datasetRow.sentence}`;
+        const response = await openaiClient.chat.completions.create({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: prompt }],
+          response_format: { type: 'json_object' }
+        });
+        return JSON.parse(response.choices[0].message.content);
+      });
+
+      // 2. 데이터셋 생성
+      const sentences = [
+        "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+        "Pounits are a bright green color and are more savory than sweet.",
+        "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them."
+      ];
+      const labels = [
+        { fruit: 'neoskizzles', color: 'purple', flavor: 'candy' },
+        { fruit: 'pounits', color: 'bright green', flavor: 'savory' },
+        { fruit: 'glowls', color: 'pale orange', flavor: 'sour and bitter' }
+      ];
+      const examples = sentences.map((sentence, i) => ({
+        id: i.toString(),
+        sentence,
+        target: labels[i]
+      }));
+
+      const dataset = new weave.Dataset({
+        name: 'fruits',
+        rows: examples
+      });
+      await dataset.save();
+
+      // 3. 채점 함수 정의
+      const fruitNameScorer = weave.op(
+        function fruitNameScore({target, output}) {
+          return { correct: target.fruit === output.fruit };
+        }
+      );
+
+      // 4. 평가 실행
+      const evaluation = new weave.Evaluation({
+        name: 'fruit_eval',
+        dataset: dataset,
+        scorers: [fruitNameScorer],
+      });
+      const results = await evaluation.evaluate(model);
+      console.log(results);
+      ```
+    </Tab>
+  </Tabs>
+</Accordion>
+
+<div id="view-your-evaluation-results">
+  ## Evaluation 결과 보기
+</div>
+
+Weave는 각 예측과 점수에 대한 trace를 자동으로 캡처합니다. Evaluation 실행 시 출력되는 링크를 클릭하여 Weave UI에서 결과를 확인하세요.
+
+![Evaluation 결과](/images/evals-hero.png)
+
+<div id="learn-more-about-weave-evaluations">
+  ## Weave Evaluation 자세히 알아보기
+</div>
+
+* [scorer를 구성하고 사용하는 방법](/ko/weave/guides/evaluation/scorers)에 대해 더 알아보세요.
+* Weave의 [내장 스코어링 함수](/ko/weave/guides/evaluation/builtin_scorers)를 확인해 보세요.
+* LLM을 판정자로 사용하는 [Model-Based Evaluation](/ko/weave/guides/evaluation/scorers#model-based-evaluation)에 대해 알아보세요.
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+검색 증강 생성(retrieval-augmented generation)을 평가하는 방법을 알아보려면 [RAG 애플리케이션을 구축](/ko/weave/tutorial-rag)해 보세요.

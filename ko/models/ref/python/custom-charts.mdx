@@ -1,0 +1,104 @@
+---
+title: Custom Charts 개요
+description: W&B Python SDK에서 프로젝트 대시보드의 대화형 시각화를 위해 커스텀 차트를 사용합니다
+module: wandb.plot
+no_list: true
+---
+
+W&amp;B의 커스텀 차트는 `wandb.plot` 네임스페이스에 있는 일련의 함수들을 통해 프로그램으로 생성할 수 있습니다. 이러한 함수들은 W&amp;B 프로젝트 대시보드에 대화형 시각화를 생성하며, 혼동 행렬(confusion matrix), ROC 곡선, 분포 그래프와 같은 일반적인 ML 시각화를 지원합니다.
+
+<div id="available-chart-functions">
+  ## 사용 가능한 차트 함수
+</div>
+
+| Function | Description |
+|----------|-------------|
+| [`confusion_matrix()`](/ko/models/ref/python/custom-charts/confusion_matrix/) | 분류 성능 시각화를 위한 혼동 행렬(confusion matrix)을 생성합니다. |
+| [`roc_curve()`](/ko/models/ref/python/custom-charts/roc_curve/) | 이진 및 다중 클래스 분류기를 위한 ROC(Receiver Operating Characteristic) 곡선을 생성합니다. |
+| [`pr_curve()`](/ko/models/ref/python/custom-charts/pr_curve/) | 분류기 평가를 위한 정밀도-재현율(Precision-Recall) 곡선을 생성합니다. |
+| [`line()`](/ko/models/ref/python/custom-charts/line/) | 테이블형 데이터에서 선 그래프를 생성합니다. |
+| [`scatter()`](/ko/models/ref/python/custom-charts/scatter/) | 변수 간 관계를 시각화하기 위한 산점도를 생성합니다. |
+| [`bar()`](/ko/models/ref/python/custom-charts/bar/) | 범주형 데이터를 위한 막대 차트를 생성합니다. |
+| [`histogram()`](/ko/models/ref/python/custom-charts/histogram/) | 데이터 분포 분석을 위한 히스토그램을 생성합니다. |
+| [`line_series()`](/ko/models/ref/python/custom-charts/line_series/) | 하나의 차트에 여러 개의 선 시리즈를 표시합니다. |
+| [`plot_table()`](/ko/models/ref/python/custom-charts/plot_table/) | Vega-Lite 사양을 사용하여 사용자 정의 차트를 생성합니다. |
+
+<div id="common-use-cases">
+  ## 주요 사용 사례
+</div>
+
+<div id="model-evaluation">
+  ### 모델 평가
+</div>
+
+* **분류**: `confusion_matrix()`, `roc_curve()`, `pr_curve()`를 사용한 분류기 평가
+* **회귀**: 예측값과 실제값 비교 플롯을 위한 `scatter()` 및 잔차 분석을 위한 `histogram()`
+* **Vega-Lite 차트**: 도메인 특화 시각화를 위한 `plot_table()`
+
+<div id="training-monitoring">
+  ### 학습 모니터링
+</div>
+
+* **학습 곡선**: 에포크별 지표를 추적할 때 `line()` 또는 `line_series()` 사용
+* **하이퍼파라미터 비교**: 구성 간 비교를 위한 `bar()` 차트 사용
+
+<div id="data-analysis">
+  ### 데이터 분석
+</div>
+
+* **분포 분석**: 특성 분포를 위한 `histogram()`
+* **상관 분석**: 변수 간 관계를 위한 `scatter()` 산점도
+
+<div id="getting-started">
+  ## 시작하기
+</div>
+
+<div id="log-a-confusion-matrix">
+  ### 혼동 행렬 기록하기
+</div>
+
+```python
+import wandb
+
+y_true = [0, 1, 2, 0, 1, 2]
+y_pred = [0, 2, 2, 0, 1, 1]
+class_names = ["class_0", "class_1", "class_2"]
+
+# 실행 초기화
+with wandb.init(project="custom-charts-demo") as run:
+    run.log({
+        "conf_mat": wandb.plot.confusion_matrix(
+            y_true=y_true, 
+            preds=y_pred,
+            class_names=class_names
+        )
+    })
+```
+
+<div id="build-a-scatter-plot-for-feature-analysis">
+  ### 특성 분석을 위한 산점도 생성하기
+</div>
+
+```python
+import numpy as np
+
+# 합성 데이터 생성
+data_table = wandb.Table(columns=["feature_1", "feature_2", "label"])
+
+with wandb.init(project="custom-charts-demo") as run:
+
+    for _ in range(100):
+        data_table.add_data(
+            np.random.randn(), 
+            np.random.randn(), 
+            np.random.choice(["A", "B"])
+        )
+
+    run.log({
+        "feature_scatter": wandb.plot.scatter(
+            data_table, x="feature_1", y="feature_2",
+            title="Feature Distribution"
+        )
+    })
+
+```

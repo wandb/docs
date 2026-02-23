@@ -1,0 +1,45 @@
+---
+title: SendWebhook
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+
+
+## <kbd>class</kbd> `SendWebhook`
+
+웹훅 요청을 전송하는 자동화 작업을 정의합니다.
+
+### <kbd>method</kbd> `SendWebhook.__init__`
+
+```python
+__init__(
+    integration_id: 'str',
+    request_payload: 'Annotated | None' = None,
+    action_type: 'Literal[GENERIC_WEBHOOK]' = GENERIC_WEBHOOK
+) → None
+```
+
+**매개변수:**
+
+* `integration_id` (str): 요청을 보내는 데 사용할 웹훅 통합의 ID입니다.
+* `request_payload` (Optional[Annotated]): 웹훅 요청에 포함하여 전송할 페이로드로, 템플릿 변수를 포함할 수 있습니다.
+* `action_type` (Literal[GENERIC&#95;WEBHOOK]):
+
+**반환값:**
+`SendWebhook` 객체입니다.
+
+
+### <kbd>classmethod</kbd> `SendWebhook.from_integration`
+
+```python
+from_integration(
+    integration: 'WebhookIntegration',
+    payload: 'Optional[JsonEncoded[dict[str, Any]]]' = None
+) → Self
+```
+
+지정된 웹훅(webhook) 통합으로 전송하는 webhook 액션을 정의합니다.

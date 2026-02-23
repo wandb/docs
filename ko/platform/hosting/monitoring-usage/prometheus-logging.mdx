@@ -1,0 +1,35 @@
+---
+title: Prometheus 모니터링 사용
+---
+
+[Prometheus](https://prometheus.io/docs/introduction/overview/)를 W&amp;B Server와 함께 사용하세요. Prometheus 배포는 [Kubernetes ClusterIP service](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225)로 노출됩니다.
+
+<Warning>
+  Prometheus 모니터링은 [Self-Managed 인스턴스](/ko/platform/hosting/hosting-options/self-managed)에서만 사용할 수 있습니다.
+</Warning>
+
+다음 절차를 따라 Prometheus 메트릭 엔드포인트(`/metrics`)에 액세스합니다.
+
+1. Kubernetes CLI 도구인 [kubectl](https://kubernetes.io/docs/reference/kubectl/)로 클러스터에 연결합니다. 자세한 내용은 Kubernetes의 [Accessing Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) 문서를 참조하세요.
+
+2. 다음 명령으로 클러스터의 내부 주소를 확인합니다.
+
+   ```bash
+   kubectl describe svc prometheus
+   ```
+
+3. Kubernetes 클러스터에서 실행 중인 컨테이너 안에서 [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)로 셸 세션을 시작한 후 `<internal address>/metrics` 엔드포인트를 호출합니다.
+
+   아래 명령을 복사해 터미널에서 실행하고, `<internal address>`를 내부 주소로 교체합니다.
+
+   ```bash
+   kubectl exec <internal address>/metrics
+   ```
+
+네트워크 내의 리소스에 액세스할 수 있도록 exec로 접속 가능한 테스트 Pod가 시작됩니다.
+
+```bash
+kubectl run -it testpod --image=alpine bin/ash --restart=Never --rm
+```
+
+여기에서 액세스를 네트워크 내부로만 제한할지, 아니면 직접 Kubernetes NodePort 서비스로 외부에 노출할지 선택할 수 있습니다.

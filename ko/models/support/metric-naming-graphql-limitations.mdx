@@ -1,0 +1,34 @@
+---
+title: 왜 특정 문자가 포함된 메트릭은 정렬하거나 필터링할 수 없나요?
+---
+
+import Text from "/snippets/ko/_includes/metric-naming-rules.mdx";
+import Text2 from "/snippets/ko/_includes/metric-naming-examples.mdx";
+
+W&amp;B의 메트릭 이름은 UI에서 올바르게 정렬되고 필터링될 수 있도록 GraphQL 네이밍 규칙을 준수해야 합니다.
+
+<div id="valid-metric-names">
+  ## 유효한 메트릭 이름
+</div>
+
+<Text />
+
+이 규칙을 따르지 않는 메트릭은 W&amp;B UI에서 정렬하거나 필터링되지 않을 수 있습니다.
+
+<div id="examples">
+  ## 예제
+</div>
+
+<Text2 />
+
+<div id="recommended-solution">
+  ## 권장 해결 방법
+</div>
+
+잘못된 문자는 밑줄 문자(`_`)와 같은 유효한 문자로 바꾸세요:
+
+* `"test acc"` 대신 `"test_acc"` 사용
+* `"loss-train"` 대신 `"loss_train"` 사용
+* `"acc,val"` 대신 `"acc_val"` 사용
+
+자세한 내용은 [Metric naming constraints](/ko/models/track/log/#metric-naming-constraints)를 참조하세요.

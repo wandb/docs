@@ -1,0 +1,71 @@
+---
+title: "API 키 보안"
+---
+
+<div id="store-and-handle-api-keys-securely">
+  ## API 키를 안전하게 저장하고 관리하기
+</div>
+
+API 키는 W&B 계정에 접근할 수 있게 해주므로 비밀번호처럼 보호해야 합니다. 다음 모범 사례를 따르세요:
+
+<div id="recommended-storage-methods">
+  ### 권장 저장 방법
+</div>
+
+- **시크릿 매니저**: [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [HashiCorp Vault](https://www.vaultproject.io/), [Azure Key Vault](https://azure.microsoft.com/en-us/products/key-vault), [Google Secret Manager](https://cloud.google.com/security/products/secret-manager)와 같은 전용 시크릿 관리 시스템을 사용하세요.
+- **비밀번호 관리자**: 신뢰할 수 있는 비밀번호 관리 애플리케이션을 사용하세요.
+- **OS 수준 키체인**: macOS Keychain, Windows Credential Manager, Linux secret service에 키를 저장하세요. 운영(프로덕션) 환경에서는 권장하지 않습니다.
+
+<div id="what-to-avoid">
+  ### 피해야 할 사항
+</div>
+
+- Git과 같은 버전 관리 시스템에 API 키를 절대 커밋하지 마세요.
+- API 키를 암호화되지 않은 설정 파일(평문 파일)에 저장하지 마세요.
+- `ps`와 같은 OS 명령의 출력에 노출되므로, 명령줄 인수로 API 키를 전달하지 마세요.
+- 이메일, 채팅, 기타 암호화되지 않은 채널을 통해 API 키를 공유하지 마세요.
+- 소스 코드에 API 키를 하드코딩하지 마세요.
+
+API 키가 노출되었으면, 즉시 W&B 계정에서 해당 API 키를 삭제하고 [support](mailto:support@wandb.ai)에 연락하거나 담당 AISE에게 문의하세요.
+
+<div id="environment-variables">
+  ### 환경 변수
+</div>
+
+코드에서 API 키를 사용할 때는 환경 변수를 통해 전달하세요:
+
+```bash
+export WANDB_API_KEY="your-api-key-here"
+```
+
+이 방법을 사용하면 API 키를 소스 코드에 포함하지 않을 수 있고, 필요할 때 키를 더 쉽게 교체할 수 있습니다.
+
+<Warning>
+  명령어와 같은 한 줄에서 환경 변수를 설정하는 방식은 피하세요. 이렇게 하면 `ps`와 같은 운영 체제 명령어의 출력에 값이 노출될 수 있습니다:
+
+  ```bash
+  # 프로세스 관리자에 API 키가 노출될 수 있으므로 이 패턴은 피하세요
+  export WANDB_API_KEY="your-api-key-here" ./my-script.sh
+  ```
+</Warning>
+
+
+<div id="sdk-version-compatibility">
+  ### SDK 버전 호환성
+</div>
+
+새 API 키는 기존(레거시) 키보다 더 깁니다. 이전 버전의 `wandb` 또는 `weave` SDK로 인증할 때 API 키 길이 관련 오류가 발생할 수 있습니다.
+
+**해결 방법**: SDK를 최신 버전으로 업데이트하세요:
+
+- `wandb` SDK v0.22.3+
+
+    ```bash
+    pip install --upgrade wandb==0.22.3
+    ```
+- `weave` SDK v0.52.17+
+    ```bash
+    pip install --upgrade weave==0.52.17
+    ```
+
+SDK를 즉시 업그레이드할 수 없는 경우, 임시 우회 방법으로 `WANDB_API_KEY` 환경 변수를 사용해 API 키를 설정하세요.

@@ -1,0 +1,11 @@
+---
+title: 실행에 로깅된 데이터에 직접 프로그래밍 방식으로 접근하려면 어떻게 하나요?
+---
+
+history 객체는 `wandb.log`로 로깅된 metrics를 추적합니다. API를 사용해 history 객체에 접근할 수 있습니다:
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```

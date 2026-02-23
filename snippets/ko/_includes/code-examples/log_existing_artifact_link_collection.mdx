@@ -1,0 +1,26 @@
+---
+title: 기존 Artifact 링크 컬렉션 기록하기
+---
+
+```python
+"""
+W&B 레지스트리 컬렉션에서 기존 아티팩트를 다운로드하고 기록합니다.
+플레이스홀더를 실제 레지스트리, 컬렉션 이름, 엔터티,
+프로젝트, 버전으로 교체하세요.
+"""
+import wandb
+
+# 버전을 포함한 전체 아티팩트 이름 구성
+registry_name = "<registry_name>"  # 레지스트리 이름 지정
+collection_name = "<collection_name>" # 컬렉션 이름 지정
+version = 0 # 사용할 아티팩트 버전 지정
+artifact_name_registry = f"wandb-registry-{registry_name}/{collection_name}:v{version}"
+
+# 다른 팀 및 프로젝트에서 W&B 실행 초기화
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # 레지스트리에서 모델 아티팩트 사용
+    registry_model = run.use_artifact(artifact_or_name=artifact_name_registry)
+
+    # 모델을 로컬 디렉터리에 다운로드
+    local_model_path = registry_model.download()
+```

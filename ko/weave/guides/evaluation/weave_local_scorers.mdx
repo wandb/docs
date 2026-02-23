@@ -1,0 +1,354 @@
+---
+title: "로컬 스코어러를 사용해 평가하기"
+description: "AI 시스템의 안전성과 품질을 평가하기 위해 로컬에서 실행되는 소형 언어 모델"
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb" aria-label="Open in Google Colab">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab에서 열기" />
+</a>
+
+Weave의 로컬 스코어러는 지연 시간을 최소화한 채 사용자의 로컬 머신에서 실행되는 소형 언어 모델 모음입니다. 이 모델들은 AI 시스템의 입력, 컨텍스트, 출력의 안전성과 품질을 평가합니다.
+
+이들 모델 중 일부는 Weights &amp; Biases에서 파인튜닝했으며, 다른 일부는 커뮤니티에서 학습한 최신 오픈 소스 모델입니다. 학습과 평가에는 Weights &amp; Biases (W&amp;B) Reports가 사용되었습니다. 자세한 내용은 이 [W&amp;B Reports 목록](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA)에서 확인할 수 있습니다.
+
+모델 가중치는 W&amp;B Artifacts에 공개되어 있으며, 스코어러 클래스를 인스턴스화할 때 자동으로 다운로드됩니다. 직접 다운로드하려면 여기에서 아티팩트 경로를 확인할 수 있습니다: `weave.scorers.default_models`
+
+이 스코어러들이 반환하는 객체에는 입력 텍스트가 안전하거나 높은 품질인지 여부를 나타내는 `passed` 불리언 속성과, 모델의 원시 점수와 같은 더 자세한 정보를 담은 `metadata` 속성이 포함되어 있습니다.
+
+로컬 스코어러는 CPU에서도 실행할 수 있지만, 최상의 성능을 위해 GPU 사용을 권장합니다.
+
+<Note>
+  로컬 스코어러는 Weave Python SDK에서만 사용할 수 있습니다. 아직 Weave TypeScript SDK에서는 사용할 수 없습니다.
+
+  TypeScript에서 Weave 스코어러를 사용하려면 [함수 기반 스코어러](/ko/weave/guides/evaluation/scorers#function-based-scorers)를 참조하세요.
+</Note>
+
+<div id="prerequisites">
+  ## 전제 조건
+</div>
+
+Weave 로컬 스코어러를 사용하려면 먼저 추가 종속성을 설치해야 합니다.
+
+```bash
+    pip install weave[scorers]
+```
+
+<div id="select-a-scorer">
+  ## 스코어러 선택
+</div>
+
+다음 로컬 스코어러를 사용할 수 있습니다. 사용 사례에 따라 스코어러를 선택하세요.
+
+| Scorer                           | Scenario                                                                                                                                                                      |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [WeaveToxicityScorerV1](#weavetoxicityscorerv1)                  | 증오 발언이나 협박 등을 포함하여, AI 시스템의 입력과 출력에서 독성 또는 유해한 콘텐츠를 식별합니다.                                                       |
+| [WeaveBiasScorerV1](#weavebiasscorerv1)                          | AI 시스템의 입력과 출력에서 편향적이거나 고정관념적인 콘텐츠를 탐지합니다. 생성된 텍스트의 유해한 편향을 줄이는 데 적합합니다.                               |
+| [WeaveHallucinationScorerV1](#weavehallucinationscorerv1)       | 제공된 입력과 컨텍스트를 기준으로, RAG 시스템의 출력에 환각(hallucination)이 포함되는지 여부를 식별합니다.                                                  |
+| [WeaveContextRelevanceScorerV1](#weavecontextrelevancescorerv1) | AI 시스템의 출력이 제공된 입력 및 컨텍스트와 얼마나 관련성이 있는지 측정합니다.                                                                             |
+| [WeaveCoherenceScorerV1](#weavecoherencescorerv1)                | AI 시스템 출력의 일관성과 논리적 구조를 평가합니다.                                                                                           |
+| [WeaveFluencyScorerV1](#weavefluencyscorerv1)                    | AI 시스템 출력의 유창성(문장의 자연스러움)을 측정합니다.                                                                                                                  |
+| [WeaveTrustScorerV1](#weavetrustscorerv1)                        | 유해성, 환각, 컨텍스트 관련성, 유창성, 일관성 스코어러를 모두 활용하는 통합 스코어러입니다.                                                |
+| [PresidioScorer](#presidioscorer)                                | Microsoft의 Presidio 라이브러리를 사용해, AI 시스템의 입력과 출력에서 개인 식별 정보(PII)를 탐지합니다.                                |
+
+<div id="weavebiasscorerv1">
+  ## `WeaveBiasScorerV1`
+</div>
+
+이 스코어러는 두 가지 차원에서 성별 및 인종/출신 배경과 관련된 편향을 평가합니다:
+
+* 인종 및 출신 배경: 인종차별과 특정 국가 또는 지역 출신, 이민 신분, 민족성 등에 대한 편견
+  * 성별 및 성적 지향: 성차별, 여성 혐오, 동성애 혐오, 트랜스젠더 혐오, 성희롱 등
+
+`WeaveBiasScorerV1`는 파인튜닝된 [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) 모델을 사용합니다. 모델, 데이터셋 및 보정 과정에 대한 자세한 내용은 [WeaveBiasScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw)를 참고하세요.
+
+### 사용 시 참고 사항
+
+* `score` 메서드는 문자열을 `output` 매개변수로 전달받습니다.
+  * 점수가 높을수록 텍스트에 편향이 있을 가능성이 더 강하다는 뜻입니다.
+  * `threshold` 매개변수는 값이 설정되어 있지만, 초기화 시에 이를 재정의할 수도 있습니다.
+
+### 사용 예
+
+```python lines
+    import weave
+    from weave.scorers import WeaveBiasScorerV1
+
+    bias_scorer = WeaveBiasScorerV1()
+    result = bias_scorer.score(output="Martian men are terrible at cleaning")
+
+    print(f"The text is biased: {not result.passed}")
+    print(result)
+```
+
+***
+
+<div id="weavetoxicityscorerv1">
+  ## `WeaveToxicityScorerV1`
+</div>
+
+이 스코어러는 입력 텍스트의 유해성을 다음 다섯 가지 차원에서 평가합니다:
+
+* 인종 및 출신 배경: 특정 국가나 지역 출신, 이민자 신분, 민족성 등에 대한 인종차별과 편견.
+  * 성별 및 성적 지향: 성차별, 여성혐오, 동성애혐오, 트랜스혐오, 성희롱 등.
+  * 종교: 타인의 종교에 대한 편견이나 고정관념.
+  * 능력: 타인의 신체적, 정신적, 지적 능력 또는 장애와 관련된 편견.
+  * 폭력 및 학대: 지나치게 상세한 폭력 묘사, 폭력 위협, 폭력 선동 등.
+
+`WeaveToxicityScorerV1`은 PleIAs의 오픈 소스 모델인 [Celadon](https://huggingface.co/PleIAs/celadon)을 사용합니다. 자세한 내용은 [WeaveToxicityScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ)를 참고하세요.
+
+### 사용 시 참고 사항
+
+* `score` 메서드는 `output` 파라미터에 문자열이 전달되기를 기대합니다.
+  * 이 모델은 다섯 개의 서로 다른 카테고리에 대해 `0`에서 `3` 사이의 점수를 반환합니다.
+    * 이 점수들의 합이 `total_threshold`(기본값 `5`)를 초과하면, 해당 입력은 유해한(toxic) 것으로 플래그됩니다.
+    * 단일 카테고리 중 하나라도 점수가 `category_threshold`(기본값 `2`)를 초과하면, 해당 입력은 유해한 것으로 플래그됩니다.
+  * 필터링을 더 강하게 하고 싶다면, 초기화 시 `category_threshold` 또는 `total_threshold` 값을 재정의하십시오.
+
+### 사용 예
+
+```python lines
+    import weave
+    from weave.scorers import WeaveToxicityScorerV1
+
+    toxicity_scorer = WeaveToxicityScorerV1()
+    result = toxicity_scorer.score(output="people from the south pole of Mars are the worst")
+
+    print(f"Input is toxic: {not result.passed}")
+    print(result)
+```
+
+***
+
+<div id="weavehallucinationscorerv1">
+  ## `WeaveHallucinationScorerV1`
+</div>
+
+이 스코어러는 입력 데이터를 기반으로 AI 시스템의 출력에 할루시네이션(hallucination)이 포함되어 있는지 확인합니다.
+
+`WeaveHallucinationScorerV1`는 Vectara의 오픈 소스 [HHEM 2.1 모델](https://huggingface.co/vectara/hallucination_evaluation_model)을 사용합니다. 자세한 내용은 [WeaveHallucinationScorerV1 W&amp;B 리포트](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA)를 참조하세요.
+
+<div id="usage-notes">
+  ### 사용 관련 참고 사항
+</div>
+
+* `score` 메서드는 `query`와 `output` 파라미터에 값이 전달될 것을 기대합니다.
+  * 컨텍스트는 문자열 또는 문자열 리스트 형식으로 `output` 파라미터에 전달해야 합니다.
+  * 출력 점수가 높을수록 출력에서 환각(hallucination)이 발생했을 가능성이 더 높다고 예측한다는 의미입니다.
+  * `threshold` 파라미터에는 기본값이 설정되어 있지만, 초기화 시 이를 재정의할 수 있습니다.
+
+<div id="usage-example">
+  ### 사용 예제
+</div>
+
+```python lines
+    import weave
+    from weave.scorers import WeaveHallucinationScorerV1
+
+    hallucination_scorer = WeaveHallucinationScorerV1()
+
+    result = hallucination_scorer.score(
+        query="What is the capital of Antarctica?",
+        context="People in Antarctica love the penguins.",
+        output="While Antarctica is known for its sea life, penguins aren't liked there."
+    )
+
+    print(f"Output is hallucinated: {not result.passed}")
+    print(result)
+```
+
+***
+
+<div id="weavecontextrelevancescorerv1">
+  ## `WeaveContextRelevanceScorerV1`
+</div>
+
+이 스코어러는 RAG 시스템을 평가할 때 사용하도록 설계되었습니다. 쿼리와 컨텍스트가 얼마나 관련 있는지 점수화합니다.
+
+`WeaveContextRelevanceScorerV1`는 tasksource에서 제공하는 [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) 모델을 파인튜닝한 것을 사용합니다. 더 자세한 내용은 [WeaveContextRelevanceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA)를 참고하세요.
+
+### 사용 시 참고 사항
+
+* `score` 메서드는 `query`와 `output` 값이 필요합니다.
+  * 컨텍스트는 `output` 매개변수로 전달해야 합니다(문자열 또는 문자열 목록).
+  * 점수가 높을수록 해당 컨텍스트가 쿼리와 더 관련 있다고 예측한다는 뜻입니다.
+  * 청크별 점수를 확인하려면 `score` 메서드에 `verbose=True`를 전달할 수 있습니다.
+
+<div id="usage-example">
+  ### 사용 예제
+</div>
+
+```python lines
+    import weave
+    from weave.scorers import WeaveContextRelevanceScorerV1
+
+    context_relevance_scorer = WeaveContextRelevanceScorerV1()
+
+    result = context_relevance_scorer.score(
+        query="What is the capital of Antarctica?",
+        output="The Antarctic has the happiest penguins."  # context는 output 매개변수로 전달됩니다
+    )
+
+    print(f"Output is relevant: {result.passed}")
+    print(result)
+```
+
+<div id="weavecoherencescorerv1">
+  ## `WeaveCoherenceScorerV1`
+</div>
+
+이 스코어러는 입력 텍스트에 일관성이 있는지 확인합니다.
+
+`WeaveCoherenceScorerV1`는 tasksource의 파인튜닝된 [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) 모델을 사용합니다. 자세한 내용은 [WeaveCoherenceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA)를 참고하세요.
+
+### 사용 시 참고 사항
+
+* `score` 메서드는 텍스트가 `query`와 `output` 매개변수로 전달될 것을 기대합니다.
+  * 출력 점수가 높을수록 일관성이 더 높다고 강하게 예측한다는 의미입니다.
+
+### 사용 예
+
+```python lines
+    import weave
+    from weave.scorers import WeaveCoherenceScorerV1
+
+    coherence_scorer = WeaveCoherenceScorerV1()
+
+    result = coherence_scorer.score(
+        query="What is the capital of Antarctica?",
+        output="but why not monkey up day"
+    )
+
+    print(f"Output is coherent: {result.passed}")
+    print(result)
+```
+
+***
+
+<div id="weavefluencyscorerv1">
+  ## `WeaveFluencyScorerV1`
+</div>
+
+이 스코어러는 입력 텍스트가 유창한지, 즉 자연스러운 인간 언어처럼 읽고 이해하기 쉬운지를 확인합니다. 문법, 구문, 전반적인 가독성을 평가합니다.
+
+`WeaveFluencyScorerV1`는 AnswerDotAI의 [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) 모델을 파인 튜닝한 모델을 사용합니다. 자세한 내용은 [WeaveFluencyScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng)를 참고하세요.
+
+### 사용 시 참고 사항
+
+* `score` 메서드는 텍스트를 `output` 파라미터로 전달받습니다.
+  * 출력 점수가 높을수록 유창성이 더 높다는 것을 의미합니다.
+
+<div id="usage-example">
+  ### 사용 예제
+</div>
+
+```python lines
+    import weave
+    from weave.scorers import WeaveFluencyScorerV1
+
+    fluency_scorer = WeaveFluencyScorerV1()
+
+    result = fluency_scorer.score(
+        output="The cat did stretching lazily into warmth of sunlight."
+    )
+
+    print(f"Output is fluent: {result.passed}")
+    print(result)
+```
+
+***
+
+<div id="weavetrustscorerv1">
+  ## `WeaveTrustScorerV1`
+</div>
+
+`WeaveTrustScorerV1`는 다른 scorer들을 Critical과 Advisory 두 가지 범주로 그룹화하여, RAG 시스템에서 모델 출력의 신뢰도를 평가하는 복합 scorer입니다. 이 종합 점수를 기반으로 다음과 같은 신뢰 수준을 반환합니다:
+
+* `high`: 문제가 감지되지 않음
+  * `medium`: Advisory 수준의 문제만 감지됨
+  * `low`: Critical 수준의 문제가 감지되었거나 입력이 비어 있음
+
+Any input that fails a Critical scorer results in a `low` trust level. Failing an Advisory scorer results in `medium`.
+
+* **Critical:**
+  * `WeaveToxicityScorerV1`
+
+  * `WeaveHallucinationScorerV1`
+
+  * `WeaveContextRelevanceScorerV1`
+
+  * **Advisory:**
+    * `WeaveFluencyScorerV1`
+    * `WeaveCoherenceScorerV1`
+
+### 사용 시 참고 사항
+
+* 이 스코어러는 RAG 파이프라인을 평가하기 위해 설계되었습니다.
+  * 정확한 스코어링을 위해 `query`, `context`, `output` 키가 필요합니다.
+
+<div id="usage-example">
+  ### 사용 예제
+</div>
+
+```python lines
+    import weave
+    from weave.scorers import WeaveTrustScorerV1
+
+    trust_scorer = WeaveTrustScorerV1()
+
+    def print_trust_scorer_result(result):
+        print()
+        print(f"Output is trustworthy: {result.passed}")
+        print(f"Trust level: {result.metadata['trust_level']}")
+        if not result.passed:
+            print("Triggered scorers:")
+            for scorer_name, scorer_data in result.metadata['raw_outputs'].items():
+                if not scorer_data.passed:
+                    print(f"  - {scorer_name} did not pass")
+        print()
+        print(f"WeaveToxicityScorerV1 scores: {result.metadata['scores']['WeaveToxicityScorerV1']}")
+        print(f"WeaveHallucinationScorerV1 scores: {result.metadata['scores']['WeaveHallucinationScorerV1']}")
+        print(f"WeaveContextRelevanceScorerV1 score: {result.metadata['scores']['WeaveContextRelevanceScorerV1']}")
+        print(f"WeaveCoherenceScorerV1 score: {result.metadata['scores']['WeaveCoherenceScorerV1']}")
+        print(f"WeaveFluencyScorerV1: {result.metadata['scores']['WeaveFluencyScorerV1']}")
+        print()
+
+    result = trust_scorer.score(
+        query="What is the capital of Antarctica?",
+        context="People in Antarctica love the penguins.",
+        output="The cat stretched lazily in the warm sunlight."
+    )
+
+    print_trust_scorer_result(result)
+    print(result)
+```
+
+***
+
+<div id="presidioscorer">
+  ## `PresidioScorer`
+</div>
+
+이 스코어러는 [Presidio 라이브러리](https://github.com/microsoft/presidio)를 사용하여 AI 시스템의 입력과 출력에 포함된 개인식별정보(PII, Personally Identifiable Information)를 탐지합니다.
+
+### 사용 시 참고 사항
+
+* 이메일이나 전화번호와 같은 특정 엔터티 유형을 지정하려면 `selected_entities` 파라미터에 Presidio 엔터티 목록을 전달하세요. 그렇지 않으면 Presidio는 기본 엔터티 목록에 있는 모든 엔터티 유형을 감지합니다.
+  * 이메일이나 전화번호와 같은 특정 엔터티 유형만 감지하려면 엔터티 목록을 `selected_entities` 파라미터에 전달하세요.
+  * `presidio.EntityRecognizer` 인스턴스 목록을 `custom_recognizers` 파라미터로 전달하여 사용자 정의 recognizer를 사용할 수 있습니다.
+  * 영어가 아닌 입력을 처리하려면 `language` 파라미터를 사용해 언어를 지정하세요.
+
+### 사용 예
+
+```python lines
+    import weave
+    from weave.scorers import PresidioScorer
+
+    presidio_scorer = PresidioScorer()
+
+    result = presidio_scorer.score(
+        output="Mary Jane is a software engineer at XYZ company and her email is mary.jane@xyz.com."
+    )
+
+    print(f"Output contains PII: {not result.passed}")
+    print(result)
+```

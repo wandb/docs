@@ -1,0 +1,77 @@
+---
+title: launch_add
+---
+
+<Card title="소스 코드 보기" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131" icon="github" />
+
+소스 URI, job 또는 docker&#95;image 중 하나를 사용해 W&amp;B Launch 실험을 대기열에 추가합니다.
+
+```python
+launch_add(
+    uri: Optional[str] = None,
+    job: Optional[str] = None,
+    config: Optional[Dict[str, Any]] = None,
+    template_variables: Optional[Dict[str, Union[float, int, str]]] = None,
+    project: Optional[str] = None,
+    entity: Optional[str] = None,
+    queue_name: Optional[str] = None,
+    resource: Optional[str] = None,
+    entry_point: Optional[List[str]] = None,
+    name: Optional[str] = None,
+    version: Optional[str] = None,
+    docker_image: Optional[str] = None,
+    project_queue: Optional[str] = None,
+    resource_args: Optional[Dict[str, Any]] = None,
+    run_id: Optional[str] = None,
+    build: Optional[bool] = (False),
+    repository: Optional[str] = None,
+    sweep_id: Optional[str] = None,
+    author: Optional[str] = None,
+    priority: Optional[int] = None
+) -> "public.QueuedRun"
+```
+
+| Arguments            | Description                                                                                                                |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `uri`                | 실행할 실험의 URI. wandb 실행 URI 또는 Git 리포지토리 URI.                                                                                |
+| `job`                | wandb.Job에 대한 문자열 참조. 예: wandb/test/my-job:latest                                                                          |
+| `config`             | 실행 설정을 담고 있는 딕셔너리. 리소스 관련 인자는 &quot;resource&#95;args&quot; 키 아래에 포함할 수도 있음                                                |
+| `template_variables` | 실행 큐에서 사용할 템플릿 변수 값들을 담고 있는 딕셔너리. 예상 형식: `{"VAR_NAME": VAR_VALUE}`                                                         |
+| `project`            | 실행을 전송할 대상 프로젝트                                                                                                            |
+| `entity`             | 실행을 전송할 대상 엔터티                                                                                                             |
+| `queue`              | 실행을 대기열에 넣을 큐 이름                                                                                                           |
+| `priority`           | 작업의 우선순위 수준으로, 1이 가장 높은 우선순위                                                                                               |
+| `resource`           | 실행에 사용할 실행 백엔드. W&amp;B는 &quot;local-container&quot; 백엔드를 기본으로 지원함                                                         |
+| `entry_point`        | 프로젝트 내에서 실행할 entry point. wandb URI의 경우 원래 실행에 사용되었던 entry point를, Git 리포지토리 URI의 경우 main.py를 기본값으로 사용                     |
+| `name`               | 실행을 시작할 때 사용할 실행 이름                                                                                                        |
+| `version`            | Git 기반 프로젝트의 경우 커밋 해시 또는 브랜치 이름                                                                                            |
+| `docker_image`       | 실행에 사용할 Docker 이미지 이름                                                                                                      |
+| `resource_args`      | 원격 백엔드에서 실행을 시작하기 위한 리소스 관련 인자. 생성된 Launch 구성의 `resource_args` 아래에 저장됨                                                     |
+| `run_id`             | 시작된 실행의 ID를 나타내는 선택적 문자열                                                                                                   |
+| `build`              | 기본값이 false인 선택적 플래그. build가 설정되면 queue가 반드시 설정되어 있어야 하며, 이미지가 생성되고, job Artifact가 생성되며, 해당 job Artifact에 대한 참조가 queue에 푸시됨 |
+| `repository`         | 레지스트리에 이미지를 푸시할 때 사용되는 원격 리포지토리 이름을 제어하기 위한 선택적 문자열                                                                        |
+| `project_queue`      | 큐에 사용할 프로젝트 이름을 제어하기 위한 선택적 문자열. 주로 프로젝트 범위 큐와의 하위 호환성을 위해 사용                                                              |
+
+
+<div id="example">
+  #### 예:
+</div>
+
+```python
+from wandb.sdk.launch import launch_add
+
+project_uri = "https://github.com/wandb/examples"
+params = {"alpha": 0.5, "l1_ratio": 0.01}
+# W&B 프로젝트를 실행하고 로컬 호스트에서
+# 재현 가능한 docker 환경을 생성합니다
+api = wandb.apis.internal.Api()
+launch_add(uri=project_uri, parameters=params)
+```
+
+| Returns                                                                                                                                                                                                  | Description                                                                                                                                                   |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| an instance of`wandb.api.public.QueuedRun` which gives information about the queued run, or if `wait_until_started` or `wait_until_finished` are called, gives access to the underlying Run information. | 대기 중인 실행에 대한 정보를 제공하는 `wandb.api.public.QueuedRun` 인스턴스를 반환합니다. `wait_until_started` 또는 `wait_until_finished`를 호출한 경우, 해당 인스턴스를 통해 기본 실행(Run) 정보에 접근할 수 있습니다. |
+
+| Raises                                         | Description                                                |
+| :--------------------------------------------- | :--------------------------------------------------------- |
+| `wandb.exceptions.LaunchError` if unsuccessful | 실행이 성공적으로 수행되지 않으면 `wandb.exceptions.LaunchError`를 발생시킵니다. |

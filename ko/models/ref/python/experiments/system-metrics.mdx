@@ -1,0 +1,540 @@
+---
+description: W&B에서 자동으로 로깅하는 시스템 메트릭입니다.
+title: "시스템 메트릭 레퍼런스"
+aliases:
+- /platform/app/settings-page/system-metrics/
+- /guides/ref/system-metrics
+---
+
+이 페이지에서는 W&amp;B SDK가 추적하는 시스템 메트릭에 대해 자세한 정보를 제공합니다.
+
+<Note>
+  `wandb`는 15초마다 시스템 메트릭을 자동으로 로깅합니다.
+</Note>
+
+<div id="view-system-metrics">
+  ## 시스템 메트릭 보기
+</div>
+
+W&amp;B App 또는 `wandb beta leet` 터미널 UI를 사용해서 시스템 메트릭을 확인하고 모니터링할 수 있습니다.
+
+<Tabs>
+  <Tab title="App">
+    W&amp;B App에서 시스템 메트릭을 보려면:
+
+    1. W&amp;B App에서 해당 프로젝트로 이동합니다.
+    2. **Runs** 테이블에서 실행 하나를 선택합니다.
+    3. 워크스페이스에서 다음 차트를 보여주는 **System** 섹션을 찾습니다:
+       * GPU 사용률 및 메모리
+       * CPU 사용량
+       * 메모리 사용량
+       * 디스크 I/O
+       * 네트워크 트래픽
+
+    워크스페이스에 패널을 추가해서 표시할 시스템 메트릭을 원하는 대로 구성할 수 있습니다. 시각화를 생성하고 커스터마이즈하는 방법은 [Panels](/ko/models/app/features/panels/)를 참고하세요.
+  </Tab>
+
+  <Tab title="LEET">
+    `wandb beta leet` 터미널 UI를 사용해 터미널에서 실행의 시스템 메트릭을 보려면:
+
+    1. 스크립트에서 로컬로 실행을 시작했다면, 코드를 실행한 디렉터리로 이동합니다. 이 디렉터리에는 실행마다 하나의 하위 디렉터리를 가진 `wandb/` 디렉터리와 `latest-run/` 심볼릭 링크가 있습니다. 각 실행 디렉터리에는 `run-<run-ID>.wandb` 형식의 이름을 가진 트랜잭션 로그가 있습니다.
+
+       실행을 로컬에서 시작하지 않고 대신 `.wandb` 트랜잭션 로그 파일을 다운로드했다면, 해당 파일의 위치를 기억해 두세요.
+    2. 다음 명령 중 하나를 사용해 `wandb beta leet`를 시작합니다:
+
+       ```bash
+       # 최신 실행 보기, ./wandb/latest-run/에 저장된 실행
+       wandb beta leet
+
+       # 실행 디렉터리 지정
+       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+
+       # .wandb 파일 지정
+       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       ```
+
+    ![LEET 터미널 UI에서 실행을 조회하는 예시 스크린샷](/images/leet/leet-tui.png)
+
+    LEET는 **오른쪽 사이드바**에 다음과 같은 시스템 메트릭을 표시합니다:
+
+    * GPU 사용률(%) 및 메모리 사용량(GB)
+    * CPU 사용량
+    * RAM 사용량(GB)
+    * 디스크 I/O
+    * 네트워크 트래픽
+
+    다음 키보드 단축키로 시작해 보세요:
+
+    * `h` 또는 `?` - 모든 키보드 단축키 보기
+    * `/` - 패턴으로 메트릭을 필터링
+    * `[` / `]` - 좌/우 사이드바 토글
+    * `n` / `N` - 메트릭 페이지 간 이동
+    * `q` / `CMD+C` - 종료
+
+    자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet)를 참고하세요.
+  </Tab>
+</Tabs>
+
+<div id="cpu">
+  ## CPU
+</div>
+
+<div id="process-cpu-percent-cpu">
+  ### 프로세스 CPU 퍼센트 (CPU)
+</div>
+
+사용 가능한 CPU 개수로 정규화한 프로세스의 CPU 사용률입니다.
+
+W&amp;B는 이 메트릭에 `cpu` 태그를 할당합니다.
+
+<div id="process-cpu-threads">
+  ### 프로세스 CPU 스레드
+</div>
+
+프로세스에서 사용하는 스레드 수입니다.
+
+W&amp;B는 이 메트릭에 `proc.cpu.threads` 태그를 할당합니다.
+
+{/* 새 섹션 */}
+
+<div id="disk">
+  ## 디스크
+</div>
+
+기본적으로 `/` 경로에 대한 사용량 지표가 수집됩니다. 모니터링할 경로를 설정하려면 다음 설정을 사용하세요:
+
+```python
+run = wandb.init(
+    settings=wandb.Settings(
+        x_stats_disk_paths=("/System/Volumes/Data", "/home", "/mnt/data"),
+    ),
+)
+```
+
+<div id="disk-usage-percent">
+  ### 디스크 사용률(%)
+</div>
+
+지정된 경로의 전체 시스템 디스크 사용률(%)을 나타냅니다.
+
+W&amp;B는 이 메트릭에 `disk.{path}.usagePercent` 태그를 지정합니다.
+
+<div id="disk-usage">
+  ### 디스크 사용량
+</div>
+
+지정된 경로에 대한 전체 시스템 디스크 사용량을 기가바이트(GB) 단위로 나타냅니다.
+액세스 가능한 경로를 샘플링하고, 각 경로의 디스크 사용량(GB)을 샘플에 추가합니다.
+
+W&amp;B는 이 메트릭에 `disk.{path}.usageGB` 태그를 할당합니다.
+
+<div id="disk-in">
+  ### Disk In
+</div>
+
+시스템 전체 디스크 읽기량을 메가바이트(MB) 단위로 나타냅니다.\
+첫 번째 샘플이 수집될 때 초기 디스크 읽기 바이트가 기록됩니다. 이후 샘플에서는 현재 읽기 바이트에서 초기 값을 뺀 값을 계산합니다.
+
+W&amp;B는 이 메트릭에 `disk.in` 태그를 할당합니다.
+
+<div id="disk-out">
+  ### Disk Out
+</div>
+
+시스템 전체 디스크 쓰기량을 메가바이트(MB) 단위로 나타냅니다.
+[Disk In]()과 유사하게, 첫 번째 샘플이 수집될 때 초기 디스크 쓰기 바이트 값이 기록됩니다. 이후 샘플에서는 현재 쓰기 바이트에서 초기 값을 뺀 차이를 계산합니다.
+
+W&amp;B는 이 메트릭에 `disk.out` 태그를 지정합니다.
+
+{/* 새 섹션 */}
+
+<div id="memory">
+  ## 메모리
+</div>
+
+<div id="process-memory-rss">
+  ### 프로세스 메모리 RSS
+</div>
+
+프로세스의 메모리 상주 집합 크기(Resident Set Size, RSS)를 메가바이트(MB) 단위로 표시합니다. RSS는 프로세스가 사용 중이며 주 메모리(RAM) 내에서 프로세스가 차지하고 있는 메모리 영역을 의미합니다.
+
+W&amp;B는 이 메트릭에 `proc.memory.rssMB` 태그를 할당합니다.
+
+<div id="process-memory-percent">
+  ### 프로세스 메모리 사용률
+</div>
+
+프로세스가 전체 사용 가능한 메모리 중 얼마나 사용하고 있는지를 백분율로 나타냅니다.
+
+W&amp;B는 이 메트릭에 `proc.memory.percent` 태그를 할당합니다.
+
+<div id="memory-percent">
+  ### 메모리 사용률(퍼센트)
+</div>
+
+시스템 전체 메모리 사용량을 사용 가능한 전체 메모리 대비 백분율(%)로 나타냅니다.
+
+W&amp;B는 이 메트릭에 `memory_percent` 태그를 할당합니다.
+
+<div id="memory-available">
+  ### 사용 가능한 메모리
+</div>
+
+시스템에서 사용 가능한 전체 메모리를 메가바이트(MB) 단위로 나타냅니다.
+
+W&amp;B는 이 메트릭에는 `proc.memory.availableMB` 태그를 할당합니다.
+
+{/* 새 섹션 */}
+
+<div id="network">
+  ## 네트워크
+</div>
+
+<div id="network-sent">
+  ### Network Sent
+</div>
+
+네트워크를 통해 전송된 총 바이트 수를 나타냅니다.
+이 메트릭이 처음 초기화될 때 초기 전송 바이트 수가 기록됩니다. 이후 샘플에서는 현재 전송된 바이트 수와 초기값의 차이를 계산합니다.
+
+W&amp;B는 이 메트릭에 `network.sent` 태그를 할당합니다.
+
+<div id="network-received">
+  ### Network Received
+</div>
+
+네트워크를 통해 수신된 총 바이트 수를 나타냅니다.
+[Network Sent]()와 유사하게, 해당 메트릭이 처음 초기화될 때 초기에 수신된 바이트 수가 기록됩니다. 이후 샘플에서는 현재 수신 바이트 수와 초기 값의 차이를 계산합니다.
+
+W&amp;B는 이 메트릭에 `network.recv` 태그를 할당합니다.
+
+{/* 새 섹션 */}
+
+<div id="nvidia-gpu">
+  ## NVIDIA GPU
+</div>
+
+아래에 설명된 메트릭에 더해, 프로세스 및/또는 그 하위 프로세스가 특정 GPU를 사용하면 W&amp;B는 해당 메트릭을 `gpu.process.{gpu_index}.{metric_name}` 형태로 수집합니다.
+
+<div id="gpu-memory-utilization">
+  ### GPU 메모리 사용률
+</div>
+
+각 GPU의 메모리 사용률을 백분율(%)로 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.memory` 태그를 할당합니다.
+
+<div id="gpu-memory-allocated">
+  ### 할당된 GPU 메모리
+</div>
+
+각 GPU에 대해 전체 사용 가능 메모리 대비 할당된 GPU 메모리의 비율을 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.memoryAllocated` 태그를 할당합니다.
+
+<div id="gpu-memory-allocated-bytes">
+  ### GPU 메모리 할당 바이트
+</div>
+
+각 GPU에 대해 바이트 단위로 할당된 GPU 메모리 양을 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.memoryAllocatedBytes` 태그를 지정합니다.
+
+<div id="gpu-utilization">
+  ### GPU Utilization
+</div>
+
+각 GPU의 사용률을 백분율(%)로 표시합니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.gpu` 태그를 할당합니다.
+
+<div id="gpu-temperature">
+  ### GPU 온도
+</div>
+
+각 GPU의 섭씨 기준 GPU 온도입니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.temp` 태그를 할당합니다.
+
+<div id="gpu-power-usage-watts">
+  ### GPU 전력 사용량(와트)
+</div>
+
+각 GPU의 전력 사용량을 와트 단위로 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.powerWatts` 태그를 지정합니다.
+
+<div id="gpu-power-usage-percent">
+  ### GPU 전력 사용률
+</div>
+
+각 GPU의 전력 용량 대비 현재 전력 사용량을 백분율로 표시합니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.powerPercent` 태그를 할당합니다.
+
+<div id="gpu-sm-clock-speed">
+  ### GPU SM 클록 속도
+</div>
+
+GPU의 Streaming Multiprocessor(SM)의 클록 속도를 MHz 단위로 나타냅니다. 이 메트릭은 연산 작업을 담당하는 GPU 코어 내부의 처리 속도를 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.smClock` 태그를 부여합니다.
+
+<div id="gpu-memory-clock-speed">
+  ### GPU 메모리 클럭 속도
+</div>
+
+GPU 메모리의 클럭 속도를 MHz 단위로 나타내며, GPU 메모리와 처리 코어 간의 데이터 전송 속도에 영향을 줍니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.memoryClock` 태그를 부여합니다.
+
+<div id="gpu-graphics-clock-speed">
+  ### GPU 그래픽 클럭 속도
+</div>
+
+GPU에서 그래픽 렌더링 작업을 수행할 때의 기본 클럭 속도를 나타내며, MHz 단위로 표현됩니다. 이 메트릭은 시각화나 렌더링 작업 중의 성능을 잘 반영합니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.graphicsClock` 태그를 할당합니다.
+
+<div id="gpu-corrected-memory-errors">
+  ### GPU 수정된 메모리 오류
+</div>
+
+GPU에서 발생하는 메모리 오류 중 W&amp;B가 오류 검사 프로토콜을 통해 자동으로 수정한 횟수를 추적하며, 이는 복구 가능한 하드웨어 문제를 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.correctedMemoryErrors` 태그를 할당합니다.
+
+<div id="gpu-uncorrected-memory-errors">
+  ### GPU 수정 불가능 메모리 오류
+</div>
+
+GPU에서 수정되지 않은 메모리 오류의 개수를 추적하며, 이는 처리 신뢰성에 영향을 줄 수 있는 복구 불가능한 오류를 의미합니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.unCorrectedMemoryErrors` 태그를 할당합니다.
+
+<div id="gpu-encoder-utilization">
+  ### GPU 인코더 사용률
+</div>
+
+GPU의 비디오 인코더 사용률(%)을 나타내며, 인코딩 작업(예: 비디오 렌더링)이 실행 중일 때 인코더에 걸리는 부하를 의미합니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.encoderUtilization` 태그를 할당합니다.
+
+{/* 새로운 섹션 */}
+
+<div id="amd-gpu">
+  ## AMD GPU
+</div>
+
+W&amp;B는 AMD에서 제공하는 `rocm-smi` 도구(`rocm-smi -a --json`)의 출력에서 메트릭을 추출합니다.
+
+ROCm [6.x (latest)](https://rocm.docs.amd.com/en/latest/) 및 [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) 형식을 지원합니다. ROCm 형식에 대한 자세한 내용은 [AMD ROCm 문서](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)를 참고하세요. 최신 형식에는 더 많은 세부 정보가 포함되어 있습니다.
+
+<div id="amd-gpu-utilization">
+  ### AMD GPU Utilization
+</div>
+
+각 AMD GPU 장치의 GPU 사용률(%)을 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.gpu` 태그를 할당합니다.
+
+<div id="amd-gpu-memory-allocated">
+  ### AMD GPU 메모리 할당량
+</div>
+
+각 AMD GPU 디바이스에 대해 사용 가능한 전체 메모리 대비 할당된 GPU 메모리의 백분율을 나타냅니다.
+
+W&amp;B는 이 지표에 `gpu.{gpu_index}.memoryAllocated` 태그를 할당합니다.
+
+<div id="amd-gpu-temperature">
+  ### AMD GPU 온도
+</div>
+
+각 AMD GPU 장치의 GPU 온도(섭씨)입니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.temp` 태그를 할당합니다.
+
+<div id="amd-gpu-power-usage-watts">
+  ### AMD GPU 전력 사용량(와트)
+</div>
+
+각 AMD GPU 장치의 전력 사용량(와트)입니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.powerWatts` 태그를 할당합니다.
+
+<div id="amd-gpu-power-usage-percent">
+  ### AMD GPU 전력 사용률(percent)
+</div>
+
+각 AMD GPU 디바이스의 전력 용량 대비 현재 사용 중인 전력의 비율(%)을 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.{gpu_index}.powerPercent`를 할당합니다.
+
+{/* 새로운 섹션 */}
+
+<div id="apple-arm-mac-gpu">
+  ## Apple ARM Mac의 GPU
+</div>
+
+<div id="apple-gpu-utilization">
+  ### Apple GPU 사용률
+</div>
+
+ARM Mac에서 Apple GPU 장치의 GPU 사용률(백분율)을 나타냅니다.
+
+W&amp;B는 이 메트릭에 `gpu.0.gpu` 태그를 할당합니다.
+
+<div id="apple-gpu-memory-allocated">
+  ### Apple GPU 할당 메모리
+</div>
+
+ARM Mac의 Apple GPU 장치에서 총 사용 가능한 메모리 대비 할당된 GPU 메모리의 비율입니다.
+
+W&amp;B는 이 메트릭에 `gpu.0.memoryAllocated` 태그를 지정합니다.
+
+<div id="apple-gpu-temperature">
+  ### Apple GPU 온도
+</div>
+
+ARM Mac의 Apple GPU 장치에 대한 GPU 온도(섭씨 단위)입니다.
+
+W&amp;B는 이 메트릭에 `gpu.0.temp` 태그를 할당합니다.
+
+<div id="apple-gpu-power-usage-watts">
+  ### Apple GPU 전력 사용량(와트)
+</div>
+
+ARM Mac에서 Apple GPU 디바이스의 전력 사용량(와트)입니다.
+
+W&amp;B는 이 메트릭에 `gpu.0.powerWatts` 태그를 할당합니다.
+
+<div id="apple-gpu-power-usage-percent">
+  ### Apple GPU 전력 사용 비율
+</div>
+
+ARM Mac에서 Apple GPU 디바이스의 전력 용량 대비 실제 사용 전력을 백분율로 나타낸 값입니다.
+
+W&amp;B는 이 메트릭에 `gpu.0.powerPercent` 태그를 부여합니다.
+
+{{/* 새 섹션 */}}
+
+<div id="graphcore-ipu">
+  ## Graphcore IPU
+</div>
+
+Graphcore IPU(Intelligence Processing Unit)는 기계 지능 작업용으로 특별히 설계된 전용 하드웨어 가속기입니다.
+
+<div id="ipu-device-metrics">
+  ### IPU 디바이스 메트릭
+</div>
+
+이 메트릭은 특정 IPU 디바이스에 대한 다양한 통계를 나타냅니다. 각 메트릭은 디바이스 ID(`device_id`)와 메트릭 키(`metric_key`)로 식별됩니다. W&amp;B는 각 메트릭에 `ipu.{device_id}.{metric_key}` 태그를 부여합니다.
+
+메트릭은 Graphcore의 `gcipuinfo` 바이너리와 상호작용하는 독점 라이브러리 `gcipuinfo`를 사용해 추출됩니다. `sample` 메서드는 프로세스 ID(`pid`)와 연관된 각 IPU 디바이스에 대해 이러한 메트릭을 조회합니다. 시간에 따라 값이 변하는 메트릭이거나, 특정 디바이스의 메트릭을 처음 조회하는 경우에만 로깅하여 중복 데이터를 기록하지 않도록 합니다.
+
+각 메트릭에 대해 `parse_metric` 메서드를 사용하여 원시 문자열 표현에서 메트릭 값을 추출합니다. 그런 다음 `aggregate` 메서드를 사용해 여러 샘플에 걸쳐 메트릭을 집계합니다.
+
+다음은 사용 가능한 메트릭과 그 단위입니다:
+
+* **평균 보드 온도** (`average board temp (C)`): IPU 보드의 온도(섭씨).
+* **평균 다이 온도** (`average die temp (C)`): IPU 다이의 온도(섭씨).
+* **클럭 속도** (`clock (MHz)`): IPU의 클럭 속도(MHz 단위).
+* **IPU 전력** (`ipu power (W)`): IPU의 전력 소비량(와트 단위).
+* **IPU 활용률** (`ipu utilisation (%)`): IPU 활용률(%).
+* **IPU 세션 활용률** (`ipu utilisation (session) (%)`): 현재 세션에 한정된 IPU 활용률(%).
+* **데이터 링크 속도** (`speed (GT/s)`): 초당 기가 트랜스퍼(GT/s) 기준의 데이터 전송 속도.
+
+{/* 새 섹션 */}
+
+<div id="google-cloud-tpu">
+  ## Google Cloud TPU
+</div>
+
+Tensor Processing Unit(TPU)는 머신 러닝 워크로드를 가속하기 위해 Google이 맞춤 설계한 ASIC(Application Specific Integrated Circuit)입니다.
+
+<div id="tpu-memory-usage">
+  ### TPU 메모리 사용량
+</div>
+
+현재 TPU 코어당 사용 중인 High Bandwidth Memory 양(바이트 단위)입니다.
+
+W&amp;B는 이 메트릭에 `tpu.{tpu_index}.memoryUsageBytes` 태그를 지정합니다.
+
+<div id="tpu-memory-usage-percentage">
+  ### TPU 메모리 사용률(퍼센트)
+</div>
+
+TPU 코어당 현재 High Bandwidth Memory의 사용 비율(%)입니다.
+
+W&amp;B는 이 메트릭에 `tpu.{tpu_index}.memoryUsageBytes` 태그를 할당합니다.
+
+<div id="tpu-duty-cycle">
+  ### TPU 듀티 사이클
+</div>
+
+TPU 장치별 TensorCore 듀티 사이클 백분율입니다. 샘플 기간 동안 가속기 TensorCore가 실제로 연산을 수행한 시간의 비율(%)을 추적합니다. 값이 클수록 TensorCore 활용도가 더 높다는 뜻입니다.
+
+W&amp;B는 이 메트릭에 `tpu.{tpu_index}.dutyCycle` 태그를 할당합니다.
+
+{/* 새 섹션 */}
+
+<div id="aws-trainium">
+  ## AWS Trainium
+</div>
+
+[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/)은 머신 러닝 워크로드를 가속화하는 데 최적화된 AWS의 특수 하드웨어 플랫폼입니다. AWS에서 제공하는 `neuron-monitor` 도구는 AWS Trainium 메트릭을 수집하는 데 사용됩니다.
+
+<div id="trainium-neuron-core-utilization">
+  ### Trainium Neuron Core 활용률
+</div>
+
+각 Neuron Core의 활용률(%)로, 코어별로 보고됩니다.
+
+W&amp;B는 이 메트릭에 `trn.{core_index}.neuroncore_utilization` 태그를 지정합니다.
+
+<div id="trainium-host-memory-usage-total">
+  ### Trainium 호스트 총 메모리 사용량
+</div>
+
+호스트의 총 메모리 사용량(바이트 단위)입니다.
+
+W&amp;B는 이 메트릭에 `trn.host_total_memory_usage` 태그를 할당합니다.
+
+<div id="trainium-neuron-device-total-memory-usage">
+  ### Trainium Neuron 디바이스 전체 메모리 사용량
+</div>
+
+Neuron 디바이스의 전체 메모리 사용량(바이트 단위)입니다.
+
+W&amp;B는 이 메트릭에 `trn.neuron_device_total_memory_usage)` 태그를 지정합니다.
+
+<div id="trainium-host-memory-usage-breakdown">
+  ### Trainium 호스트 메모리 사용량 세부 내역:
+</div>
+
+다음은 호스트에서의 메모리 사용량 세부 내역입니다:
+
+* **Application Memory** (`trn.host_total_memory_usage.application_memory`): 애플리케이션이 사용하는 메모리.
+* **Constants** (`trn.host_total_memory_usage.constants`): 상수 데이터를 저장하는 데 사용하는 메모리.
+* **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): Direct Memory Access(DMA) 버퍼에 사용하는 메모리.
+* **Tensors** (`trn.host_total_memory_usage.tensors`): 텐서에 사용하는 메모리.
+
+<div id="trainium-neuron-core-memory-usage-breakdown">
+  ### Trainium NeuronCore 메모리 사용량 세부 항목
+</div>
+
+각 NeuronCore별 상세 메모리 사용량 정보:
+
+* **상수** (`trn.{core_index}.neuroncore_memory_usage.constants`)
+* **모델 코드** (`trn.{core_index}.neuroncore_memory_usage.model_code`)
+* **모델 공유 스크래치패드** (`trn.{core_index}.neuroncore_memory_usage.model_shared_scratchpad`)
+* **런타임 메모리** (`trn.{core_index}.neuroncore_memory_usage.runtime_memory`)
+* **텐서** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
+
+<div id="openmetrics">
+  ## OpenMetrics
+</div>
+
+OpenMetrics / Prometheus와 호환되는 데이터를 노출하는 외부 엔드포인트에서 메트릭을 수집하여 로깅할 수 있으며, 수집 대상 엔드포인트에 적용할 수 있는 사용자 정의 정규식 기반 메트릭 필터를 지원합니다.
+
+W&amp;B에서 [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html)를 사용해 GPU 클러스터 성능을 모니터링하는 구체적인 사례와 함께 이 기능을 사용하는 방법에 대한 자세한 예시는 [Monitoring GPU cluster performance in W&amp;B](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1)를 참고하세요.

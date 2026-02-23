@@ -1,0 +1,5 @@
+---
+title: boolean 변수를 하이퍼파라미터 플래그로 사용할 수 있나요?
+---
+
+설정의 command 섹션에서 `${args_no_boolean_flags}` 매크로를 사용하여 하이퍼파라미터를 boolean 플래그로 전달하세요. 이 매크로는 boolean 파라미터를 자동으로 플래그로 포함합니다. `param`이 `True`이면 명령어에 `--param`이 전달되고, `param`이 `False`이면 해당 플래그는 생략됩니다.

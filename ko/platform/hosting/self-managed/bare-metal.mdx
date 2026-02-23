@@ -1,0 +1,200 @@
+---
+description: 온프레미스 인프라에서 W&B Server를 호스팅
+title: 온프레미스 환경에 W&B Platform을 배포
+---
+
+import SelfManagedVersionRequirements from "/snippets/ko/_includes/self-managed-version-requirements.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/ko/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/ko/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/ko/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/ko/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/ko/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/ko/_includes/self-managed-object-storage-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/ko/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedVerifyInstallation from "/snippets/ko/_includes/self-managed-verify-installation.mdx";
+
+<Note>
+  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud/)와 같은 완전 관리형 배포 옵션을 권장합니다. W&amp;B 완전 관리형 서비스는 구성이 거의 필요 없거나 전혀 필요 없으며, 간편하고 안전하게 사용할 수 있습니다.
+</Note>
+
+관련 문의가 있으면 W&amp;B 영업팀으로 연락하세요: [contact@wandb.com](mailto:contact@wandb.com).
+
+<div id="infrastructure-guidelines">
+  ## 인프라 지침
+</div>
+
+W&amp;B를 배포하기 전에, 하드웨어 규모 산정 권장 사항을 포함한 전체 인프라 요구 사항은 [참조 아키텍처](/ko/platform/hosting/self-managed/ref-arch/#infrastructure-requirements)에 정리되어 있으니 참고하십시오.
+
+<div id="version-requirements">
+  ### 버전 요구사항
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="hardware-requirements">
+  ### 하드웨어 요구 사항
+</div>
+
+<SelfManagedHardwareRequirements />
+
+<div id="mysql-database">
+  ## MySQL 데이터베이스
+</div>
+
+<SelfManagedMysqlRequirements />
+
+MySQL 버전 요구 사항은 위의 [버전 요구 사항](#version-requirements) 섹션을 참조하세요.
+
+자가 관리형 인스턴스용 MySQL 구성 파라미터는 [레퍼런스 아키텍처 MySQL 구성 섹션](/ko/platform/hosting/self-managed/ref-arch/#mysql-configuration-parameters)을 참조하세요.
+
+<div id="database-creation">
+  ### 데이터베이스 생성
+</div>
+
+<SelfManagedMysqlDatabaseCreation />
+
+<Note>
+  SSL/TLS 인증서 요구 사항은 아래 [SSL/TLS 섹션](#ssl-tls)을 참조하세요.
+</Note>
+
+<div id="redis">
+  ## Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+<div id="object-storage">
+  ## 객체 스토리지
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+<div id="self-hosted-object-storage-setup">
+  ### 셀프 호스팅 오브젝트 스토리지 설정
+</div>
+
+오브젝트 스토리지는 서명된 URL을 지원하는 Amazon S3 호환 오브젝트 스토리지를 외부 서비스로 사용해도 됩니다. 오브젝트 스토어가 서명된 URL을 지원하는지 확인하려면 [다음 스크립트](https://gist.github.com/vanpelt/2e018f7313dabf7cca15ad66c2dd9c5b)를 실행하세요. MinIO 오픈 소스의 상태와 관련된 중요한 정보는 아래의 [MinIO 설정 섹션](#minio-setup)을 참고하세요.
+
+추가로, 다음 CORS 정책을 오브젝트 스토어에 적용해야 합니다.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>http://YOUR-W&B-SERVER-IP</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>HEAD</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
+
+[System Console](/ko/platform/hosting/iam/sso#system-console)에서 또는 W&amp;B Custom Resource(CR) 명세에서 직접 오브젝트 스토리지를 구성합니다.
+
+<div id="aws-s3-configuration">
+  #### AWS S3 구성
+</div>
+
+AWS S3 버킷의 경우 W&amp;B CR에서 다음 항목을 구성하세요:
+
+```yaml
+bucket:
+  kmsKey: <kms key arn>  # 암호화를 위한 선택적 KMS 키
+  name: <bucket name>    # 예시: wandb
+  path: ""               # 빈 문자열로 유지
+  provider: s3
+  region: <region>       # 예시: us-east-1
+```
+
+AWS S3 연결에서는 TLS가 기본적으로 활성화됩니다.
+
+<div id="s3-compatible-storage-configuration">
+  #### S3 호환 스토리지 구성
+</div>
+
+MinIO와 같은 S3 호환 스토리지의 경우 다음 구성을 사용하세요:
+
+```yaml
+bucket:
+  kmsKey: null
+  name: <s3 endpoint>    # 예시: s3.example.com:9000
+  path: <bucket name>    # 예시: wandb
+  provider: s3
+  region: <region>       # 예시: us-east-1
+```
+
+S3 호환 스토리지에 TLS를 사용하려면 버킷 경로에 `?tls=true`를 추가하세요:
+
+```yaml
+bucket:
+  kmsKey: null
+  name: "s3.example.com:9000"
+  path: "wandb?tls=true"
+  provider: "s3"
+  region: "us-east-1"
+```
+
+<Warning>
+  인증서 요구 사항은 아래 [SSL/TLS 섹션](#ssl-tls)을 참조하세요. 인증서는 신뢰할 수 있는 인증서여야 합니다. 자체 서명(self-signed) 인증서를 사용하는 경우 추가 구성이 필요합니다.
+</Warning>
+
+자체 오브젝트 스토어를 운영할 때 가장 중요하게 고려해야 할 사항은 다음과 같습니다:
+
+1. **스토리지 용량과 성능**. HDD(자기 디스크)를 사용하는 것은 괜찮지만, 해당 디스크의 용량을 반드시 모니터링해야 합니다. 평균적인 W&amp;B 사용량은 수십에서 수백 기가바이트(GB) 수준입니다. 사용량이 많은 경우 페타바이트(PB) 단위의 스토리지 사용량이 발생할 수 있습니다.
+2. **장애 허용(fault tolerance).** 최소한 객체를 저장하는 물리 디스크는 RAID 어레이로 구성해야 합니다. S3 호환 스토리지를 사용하는 경우, 분산 구성 또는 고가용성 구성을 고려하세요.
+3. **가용성.** 스토리지가 항상 사용 가능한 상태인지 모니터링하도록 설정해야 합니다.
+
+자체 오브젝트 스토리지 서비스를 운영하는 것 외에도 다음과 같은 여러 엔터프라이즈 대안이 있습니다:
+
+1. [Amazon S3 on Outposts](https://aws.amazon.com/s3/outposts/)
+2. [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)
+
+<div id="minio-setup">
+  ### MinIO 설정
+</div>
+
+<Warning>
+  MinIO Open Source는 현재 [유지 관리 모드(maintenance mode)](https://github.com/minio/minio)에 있어 활발한 신규 개발이 이루어지지 않습니다. 사전 컴파일된 바이너리는 더 이상 제공되지 않으며, 치명적인 보안 취약점 수정만 개별적으로 검토되어 반영됩니다. 프로덕션 배포의 경우 W&amp;B는 관리형 오브젝트 스토리지 서비스 또는 [MinIO Enterprise (AIStor)](https://min.io/product/aistor) 사용을 권장합니다.
+</Warning>
+
+기존 MinIO 배포 환경이나 MinIO Enterprise를 사용 중이라면 MinIO 클라이언트를 사용해 버킷을 생성할 수 있습니다:
+
+```bash
+mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
+mc mb --region=us-east1 local/local-files
+```
+
+신규 배포 시에는 위에 나열된 엔터프라이즈급 대안이나 관리형 클라우드 오브젝트 스토리지 서비스를 고려하세요.
+
+<div id="deploy-wb-server-application-to-kubernetes">
+  ## Kubernetes에 W&amp;B Server 애플리케이션 배포
+</div>
+
+권장되는 설치 방법은 Helm을 통해 배포하는 **W&amp;B Kubernetes Operator**를 사용하는 것입니다.
+
+전체 설치 방법은 [Run W&amp;B Server on Kubernetes (Operator)](/ko/platform/hosting/operator/)를 참고하세요. 이 문서에서는 다음 내용을 다룹니다:
+
+* Helm CLI 배포
+* Helm Terraform Module 배포
+* W&amp;B Cloud Terraform 모듈
+
+아래 섹션에서는 온프레미스/데이터센터 환경에 특화된 고려 사항을 설명합니다.
+
+<div id="openshift">
+  ### OpenShift
+</div>
+
+W&amp;B는 온프레미스 환경의 OpenShift Kubernetes 클러스터에 대한 배포를 지원합니다. 자세한 내용은 [참조 아키텍처](/ko/platform/hosting/self-managed/ref-arch/#kubernetes)와, 온프레미스 OpenShift 배포에 맞게 조정할 수 있는 구체적인 구성 지침은 [Operator 가이드의 OpenShift 섹션](/ko/platform/hosting/operator/#openshift-kubernetes-clusters)을 참조하세요.
+
+<div id="networking">
+  ## 네트워크
+</div>
+
+네트워크 관련 요구 사항, 로드 밸런서 옵션, nginx를 포함한 구성 예시는 [참조 아키텍처의 네트워크 섹션](/ko/platform/hosting/self-managed/ref-arch/#networking)을 참고하세요.
+
+<div id="verify-your-installation">
+  ## 설치 확인
+</div>
+
+<SelfManagedVerifyInstallation />

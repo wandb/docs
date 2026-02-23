@@ -1,0 +1,9 @@
+---
+title: Launch에서 "permission denied" 오류를 어떻게 해결하나요?
+---
+
+`Launch Error: Permission denied`라는 오류 메시지가 표시되면, 원하는 프로젝트에 로그를 기록할 수 있는 권한이 부족하다는 의미입니다. 가능한 원인은 다음과 같습니다.
+
+1. 이 머신에 로그인되어 있지 않습니다. 명령줄에서 [`wandb login`](/ko/models/ref/cli/wandb-login)을 실행하세요.
+2. 지정한 엔터티가 존재하지 않습니다. 엔터티는 본인의 사용자 이름이거나 기존 팀의 이름이어야 합니다. 필요하다면 [Subscriptions 페이지](https://app.wandb.ai/billing)에서 팀을 생성하세요.
+3. 프로젝트 권한이 부족합니다. 프로젝트 생성자에게 프로젝트의 공개 설정을 **Open**으로 변경해, 해당 프로젝트에 실행을 로깅할 수 있도록 요청하세요.
