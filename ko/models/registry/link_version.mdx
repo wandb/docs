@@ -29,8 +29,8 @@ title: 아티팩트 버전을 컬렉션에 연결하기
             [버전을 연결하는 방법을 시연하는 동영상](https://www.youtube.com/watch?v=2i_n1ExgO0A)을 시청하세요(8분).
             </Note> */}
 
-    [`wandb.Run.link_artifact()`](/ko/ref/python/experiments/run#link_artifact") 또는
-    [`wandb.Artifact.link()`](/ko/ref/python/experiments/artifact#method-artifactlink")를 사용하여 프로그래밍 방식으로 아티팩트 버전을 컬렉션에 연결합니다.
+    [`wandb.Run.link_artifact()`](/ko/models/ref/python/experiments/run#link_artifact) 또는
+    [`wandb.Artifact.link()`](/ko/models/ref/python/experiments/artifact#method-artifactlink)를 사용하여 프로그래밍 방식으로 아티팩트 버전을 컬렉션에 연결합니다.
 
     <Note>
       `wandb.Run.link_artifact()`를 사용하여 실행 컨텍스트 내에서 [아티팩트 버전을 연결](#link-an-artifact-version-within-the-context-of-a-run)합니다. `wandb.Artifact.link()`를 사용하여 실행 컨텍스트 외부에서 *기존 아티팩트 버전*을 [연결](#link-an-artifact-version-outside-the-context-of-a-run)합니다.
@@ -44,7 +44,7 @@ title: 아티팩트 버전을 컬렉션에 연결하기
 
     대상 경로는 접두사 `"wandb-registry"`, 레지스트리 이름, 컬렉션 이름을 슬래시(`/`)로 구분하여 구성됩니다:
 
-    {/* `target_path` 매개변수를 사용하여 아티팩트 버전을 연결할 컬렉션과 레지스트리를 지정합니다. target_path는 접두사 "wandb-registry", 레지스트리 이름, 컬렉션 이름을 이 순서대로 슬래시(/)로 구분해 이어 붙인 값입니다: */}
+    {/* `target_path` 매개변수를 사용하여 아티팩트 버전을 연결할 컬렉션과 레지스트리를 지정합니다. 대상 경로는 접두사 "wandb-registry", 레지스트리 이름, 컬렉션 이름을 이 순서대로 슬래시(/)로 구분해 이어 붙인 값입니다: */}
 
     ```text
     wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
@@ -143,7 +143,7 @@ title: 아티팩트 버전을 컬렉션에 연결하기
     7. (선택 사항) **Aliases** 드롭다운에서 별칭을 선택합니다.
     8. **Link to registry**를 클릭합니다.
 
-    {/* 이 GIF를 업데이트합니다 */}
+    {/* 이 GIF를 업데이트 */}
 
     {/* <Frame>
               <img src="/images/models/manual_linking.gif"  />
