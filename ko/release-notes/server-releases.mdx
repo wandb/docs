@@ -668,28 +668,28 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## 기능
 
-  * Registry 관리자는 개발 파이프라인의 주요 단계를 나타내기 위해 [*protected aliases*](/ko/models/registry/model_registry/access_controls/#add-protected-aliases)를 정의하고 할당할 수 있습니다. protected alias는 Registry 관리자만 할당할 수 있습니다. W&amp;B는 다른 사용자가 API나 UI를 사용하여 Registry의 버전에 protected alias를 추가하거나 제거하지 못하도록 차단합니다.
-  * 이제 실행의 `x_label` 값을 기준으로 콘솔 로그를 필터링할 수 있습니다. [분산 학습](/ko/models/track/log/distributed-training/#track-all-processes-to-a-single-run) 시 이 선택적 매개변수는 해당 실행을 로깅한 노드를 추적합니다.
+  * Registry 관리자는 개발 파이프라인의 주요 단계를 나타내기 위해 [*protected aliases*](/ko/models/registry/aliases#protected-aliases)를 정의하고 할당할 수 있습니다. protected alias는 Registry 관리자만 할당할 수 있습니다. W&amp;B는 다른 사용자가 API나 UI를 사용하여 Registry의 버전에 protected alias를 추가하거나 제거하지 못하도록 차단합니다.
+  * 이제 실행의 `x_label` 값을 기준으로 콘솔 로그를 필터링할 수 있습니다. [분산 학습](/ko/models/track/log/distributed-training/#track-all-processes-to-a-single-run) 시 이 선택적 매개변수는 해당 실행을 기록한 노드를 추적합니다.
   * 이제 실행을 `Groups` 간에 개별적으로 또는 일괄로 이동할 수 있습니다. 또한 초기 로깅 시점 이후에도 새로운 `Groups`를 생성할 수 있습니다.
-  * 라인 플롯에서 이제 **동기화된 확대/축소** 모드를 지원합니다. 이 모드에서는 하나의 플롯에서 특정 구간으로 확대/축소하면, 동일한 x축을 공유하는 다른 모든 라인 플롯에서도 자동으로 동일한 구간으로 확대/축소가 적용됩니다. 워크스페이스의 [라인 플롯 디스플레이 설정](/ko/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)에서 이 기능을 활성화할 수 있습니다.
+  * 라인 플롯에서 이제 **동기화된 확대/축소** 모드를 지원합니다. 이 모드에서는 하나의 플롯에서 특정 구간으로 확대/축소하면, 동일한 x축을 공유하는 다른 모든 라인 플롯에서도 자동으로 동일한 구간으로 확대/축소됩니다. 워크스페이스의 [라인 플롯 디스플레이 설정](/ko/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)에서 이 기능을 활성화할 수 있습니다.
   * 이제 라인 플롯에서 사용자 지정 지표를 타임스탬프 형식으로 표시할 수 있습니다. 이는 다른 시스템에서 실행을 동기화하거나 업로드할 때 유용합니다.
-  * 이제 `epoch`나 `train/global_step` (또는 다른 값)과 같은 `_step` 필드가 아닌 필드를 사용해 [미디어 패널](/ko/models/app/features/panels/media)을 슬라이드하며 탐색할 수 있습니다.
-  * `runs` 또는 `runs.history` 표현식을 사용하는 [Query Panels](/ko/models/app/features/panels/query-panels)의 테이블 및 플롯에서, 스텝 슬라이더를 사용해 실행 전체에 걸쳐 메트릭, 텍스트, 미디어의 진행 상황을 단계별로 살펴볼 수 있습니다. 이 슬라이더는 `_step`이 아닌 메트릭을 단계별로 탐색하는 것도 지원합니다.
-  * 이제 글꼴 크기 설정을 통해 [막대 차트](/ko/models/app/features/panels/bar-plot) 레이블을 사용자 지정할 수 있습니다.
+  * 이제 `epoch`나 `train/global_step`(또는 다른 값)과 같은 `_step`이 아닌 필드를 사용해 [미디어 패널](/ko/models/app/features/panels/media)을 슬라이드하며 탐색할 수 있습니다.
+  * `runs` 또는 `runs.history` 표현식을 사용하는 [Query Panels](/ko/models/app/features/panels/query-panels)의 테이블과 플롯에서 스텝 슬라이더를 사용해 실행 전체에 걸쳐 메트릭, 텍스트, 미디어의 진행 상황을 단계별로 살펴볼 수 있습니다. 이 슬라이더를 사용하면 `_step`이 아닌 메트릭도 단계별로 탐색할 수 있습니다.
+  * 이제 글꼴 크기 조절 기능으로 [막대 차트](/ko/models/app/features/panels/bar-plot) 레이블을 사용자 지정할 수 있습니다.
 
   ### 비공개 미리보기
 
   비공개 미리 보기 기능은 초대받은 사용자만 이용할 수 있습니다. 비공개 미리 보기 등록을 요청하려면 [support](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
 
   * **개인 워크스페이스 템플릿**을 사용하면 워크스페이스 설정을 저장해 두고, 새 [프로젝트](/ko/models/track/project-page)에 자동으로 적용되도록 할 수 있습니다. 초기에는 기본 X축 지표, 스무딩 알고리즘, 스무딩 계수 등 일부 라인 플롯 설정만 구성할 수 있습니다.
-  * **개선된 지수가중 이동 평균(EMA) 스무딩**은 완전한, 빈닝되지 않은 데이터에 대해 연산할 때 보다 신뢰도 높은 [스무딩된 선](/ko/models/app/features/panels/line-plot/smoothing)을 제공합니다. 대부분의 경우 성능 향상을 위해 스무딩은 백엔드에서 처리됩니다.
+  * **개선된 지수가중 이동 평균(EMA) 스무딩**은 완전한 비닝되지 않은 데이터에 대해 연산할 때 더 신뢰할 수 있는 [스무딩된 선](/ko/models/app/features/panels/line-plot/smoothing)을 제공합니다. 대부분의 경우 성능 향상을 위해 스무딩은 백엔드에서 처리됩니다.
 
   ### Weave
 
-  * W&amp;B 인스턴스 내에서 파인튜닝된 모델과 대화할 수 있습니다. [Playground](/ko/weave/guides/tools/playground)는 이제 Dedicated Cloud에서 지원됩니다. Playground는 과거 트레이스에서 서로 다른 LLM을 비교하기 위한 채팅 인터페이스입니다. 관리자는 다양한 모델 제공자에 대한 API 키를 추가하거나 [커스텀 호스팅 LLM 제공자](/ko/weave/guides/tools/playground/#add-a-custom-provider)를 연결해, 팀이 Weave 내에서 이들 모델과 상호작용할 수 있도록 할 수 있습니다.
-  * OpenTelemetry 지원. 이제 OpenTelemetry(OTel)을 통해 트레이스를 기록할 수 있습니다. [OpenTelemetry 트레이싱](/ko/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)을(를) 참고하세요.
-  * Weave [tracing](/ko/weave/guides/tracking)에 새로운 프레임워크 통합이 추가되었습니다: CrewAI, OpenAI Agent SDK, DSPy 2.x 및 Google genai Python SDK.
-  * Playground에서는 새로운 [OpenAI 모델](/ko/weave/guides/tools/playground/#openai)인 GPT‑4.1, GPT‑4.1 mini 및 GPT‑4.1 nano를 지원합니다.
+  * W&amp;B 인스턴스 내에서 파인튜닝된 모델과 대화할 수 있습니다. [Playground](/ko/weave/guides/tools/playground)는 이제 Dedicated Cloud에서 지원됩니다. Playground는 기존 트레이스에서 서로 다른 LLM을 비교하기 위한 채팅 인터페이스입니다. 관리자는 다양한 모델 제공자에 대한 API 키를 추가하거나 [커스텀 호스티드 LLM 제공자](/ko/weave/guides/tools/playground/#add-a-custom-provider)를 연결해 팀이 Weave 내에서 이들 모델과 상호작용할 수 있도록 할 수 있습니다.
+  * OpenTelemetry 지원. 이제 OpenTelemetry(OTel)를 통해 트레이스를 로깅할 수 있습니다. [OpenTelemetry 트레이싱](/ko/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)을 참조하세요.
+  * Weave [tracing](/ko/weave/guides/tracking)에 새로운 프레임워크 통합이 추가되었습니다: CrewAI, OpenAI의 Agent SDK, DSPy 2.x 및 Google의 genai Python SDK.
+  * Playground에서는 GPT‑4.1, GPT‑4.1 mini, GPT‑4.1 nano 등의 새로운 [OpenAI 모델](/ko/weave/guides/tools/playground/#openai)을 지원합니다.
   * 트레이스에서 직접 레이블이 지정된 데이터셋을 생성하면, 어노테이션이 자동으로 데이터셋 열로 변환됩니다. 자세한 내용은 [트레이스에서 데이터셋 생성](/ko/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui)을 참조하세요.
 
   ## 보안
@@ -699,23 +699,23 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   ## 성능
 
   * 특히 대규모 워크스페이스에서 여러 워크스페이스 내 상호작용의 성능이 개선되었습니다. 예를 들어, 섹션을 펼치거나 실행 선택기를 사용할 때 반응 속도가 눈에 띄게 빨라졌습니다.
-  * Fork 및 Rewind 성능이 향상되었습니다.
+  * Fork 및 Rewind 작업 성능이 개선되었습니다.
 
     [Forking](/ko/models/runs/forking)을 수행하면 기존 실행과 동일한 구성을 사용하는 새 실행이 생성됩니다. 포크된 실행에 대한 변경 사항은 부모 실행에 영향을 주지 않으며, 그 반대도 마찬가지입니다. 포크된 실행과 부모 실행 사이에는 포인터가 유지됩니다. [Rewinding](/ko/models/runs/rewind)을 사용하면 기존 데이터를 잃지 않고 해당 시점부터 새 데이터를 기록할 수 있습니다.
 
-    포크가 여러 단계로 중첩된 프로젝트에서 캐싱 기능이 개선되어 새 실행을 포크하는 작업이 이제 훨씬 더 효율적입니다.
+    포크가 여러 단계로 중첩된 프로젝트에서는 캐싱이 개선되어 새 실행을 포크하는 것이 이제 훨씬 더 효율적입니다.
 
   ## 수정 사항
 
-  * 조직 서비스 계정을 새 팀에 추가하지 못하게 만들던 버그를 수정했습니다.
-  * 그룹화된 선에서 호버 마커가 표시되지 않을 수 있던 버그를 수정했습니다.
+  * 조직 서비스 계정이 새 팀에 추가되지 못할 수 있던 버그를 수정했습니다.
+  * 그룹화된 선에서 호버 마커가 표시되지 않던 버그를 수정했습니다.
   * 리포트 패널의 **Import** 드롭다운에 유효하지 않은 프로젝트 이름이 포함되던 버그를 수정했습니다.
   * 실행 선택기에서 필터 정렬이 올바르게 표시되지 않던 버그를 수정했습니다.
-  * 타임스탬프 **Within Last** 필터를 추가하면 페이지가 중단되던 문제를 수정했습니다
+  * 타임스탬프 **Within Last** 필터를 추가할 때 페이지가 충돌하던 문제를 수정했습니다.
   * 전역 선 그래프 설정에서 X축을 **Wall Time**으로 설정하지 못하던 버그를 수정했습니다.
-  * Table에 이미지를 로깅할 때 이미지 캡션이 표시되지 않던 버그를 수정했습니다.
+  * Table에 이미지를 로깅할 때 이미지 캡션이 표시되지 않을 수 있던 버그를 수정했습니다.
   * 패널에서 희소 메트릭이 표시되지 않던 버그를 수정했습니다.
-  * **Run Overview** 페이지에서 **Description** 필드는 이제 **Notes**로 표시됩니다.
+  * **Run Overview** 페이지에서 **Description** 필드 이름이 이제 **Notes**로 변경되었습니다.
 </Update>
 
 <Update label="v0.67.0" description="2025년 3월 28일">
