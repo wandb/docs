@@ -315,6 +315,6 @@ Run `npx gtx-cli translate` to create translation files for your project. You mu
 
 ## Documentation
 
-https://generaltranslation.com/llms.txt
+[https://generaltranslation.com/llms.txt](https://generaltranslation.com/llms.txt)
 
 {/* GT I18N RULES END */}
