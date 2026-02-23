@@ -307,7 +307,7 @@ The General Translation configuration file is called `gt.config.json`. It is usu
 }
 ```
 
-The API reference for the config file can be found at <https://generaltranslation.com/docs/cli/reference/config.md>.
+The API reference for the config file can be found at [https://generaltranslation.com/docs/cli/reference/config.md](https://generaltranslation.com/docs/cli/reference/config.md).
 
 ## Translation
 
