@@ -3723,7 +3723,7 @@
     {
       "source": "/library/init",
       "destination": "/models/ref/python/functions/init"
-    },    
+    },
     {
       "source": "/models/app/pages/workspaces",
       "destination": "/models/app/features/cascade-settings"
@@ -3739,7 +3739,6 @@
     {
       "source": "/models/integrations/openai",
       "destination": "/models/integrations/openai-api"
-
     },
     {
       "source": "/models/tutorials",
@@ -3751,8 +3750,8 @@
     },
     {
       "source": "/models/tutorials/minikube_gpu",
-      "destination" : "/models/integrations"
-    },    
+      "destination": "/models/integrations"
+    },
     {
       "source": "/models/tutorials/monai_3d_segmentation",
       "destination": "/models/integrations"
@@ -3766,15 +3765,15 @@
       "destination": "/models/integrations/tensorflow"
     },
     {
-      "source" : "/models/tutorials/tensorflow_sweeps",
-      "destination": "/models/sweeps"
-    },    
-    {
-      "source" : "/models/tutorials/xgboost_sweeps",
+      "source": "/models/tutorials/tensorflow_sweeps",
       "destination": "/models/sweeps"
     },
     {
-      "source":"/models/tutorials/volcano",
+      "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/tutorials/volcano",
       "destination": "/models/integrations"
     },
     {
