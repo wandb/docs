@@ -283,7 +283,7 @@ When editing `wandb/docs` content:
 
 Your contributions maintain W&B's reputation for exceptional documentation. Take pride in crafting documentation that is technically accurate, clear and elegant, and genuinely helpful.
 
-{/* GT I18N RULES START */}
+<!-- GT I18N RULES START -->
 
 - **gtx-cli**: v2.6.24
 
@@ -317,4 +317,4 @@ Run `npx gtx-cli translate` to create translation files for your project. You mu
 
 <https://generaltranslation.com/llms.txt>
 
-{/* GT I18N RULES END */}
+<!-- GT I18N RULES END -->
