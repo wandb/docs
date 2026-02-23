@@ -195,7 +195,7 @@ saved view를 열려면 사이드바에서 **Workspaces**를 클릭한 다음 �
    * `x_label`에 사용할 고유한 라벨을 지정합니다. W&amp;B App UI의 로그 및 시스템 메트릭에서 어떤 노드에서 데이터가 오는지 식별하기 위해 `x_label`에 지정한 값을 사용합니다. 지정하지 않으면 W&amp;B가 호스트명과 랜덤 해시를 사용해 라벨을 자동으로 생성합니다.
    * 이 노드가 워커 노드임을 나타내기 위해 `x_primary` 파라미터를 `False`로 설정합니다.
 2. 기본 노드에서 사용한 실행 ID를 `id` 파라미터에 전달합니다.
-3. 선택적으로 [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772)를 `False`로 설정합니다. 이렇게 하면 비기본 노드가 [실행 상태](/ko/models/evaluate-models/#run-states)를 `finished`로 너무 일찍 변경하는 것을 방지하여, 실행 상태가 일관되게 유지되고 기본 노드에서만 관리되도록 합니다.
+3. 선택적으로 [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772)를 `False`로 설정합니다. 이렇게 하면 비기본 노드가 [실행 상태](/ko/models/runs/run-states#run-states)를 `finished`로 너무 일찍 변경하는 것을 방지하여, 실행 상태가 일관되게 유지되고 기본 노드에서만 관리되도록 합니다.
 
 <Note>
   * 모든 노드에 대해 동일한 엔터티와 프로젝트를 사용하세요. 이렇게 하면 올바른 실행 ID를 찾는 데 도움이 됩니다.

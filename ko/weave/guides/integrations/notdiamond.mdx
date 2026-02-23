@@ -11,13 +11,13 @@ description: "Not Diamond을 사용해 정확도를 극대화하고 비용을 �
 
 먼저 [계정을 생성][account]하고 [API 키를 발급][keys]받은 다음, 발급받은 API 키를 환경 변수 `NOTDIAMOND_API_KEY`로 설정하세요.
 
-![[API 키 생성](/ko/weave/guides/integrations/imgs/notdiamond/api-keys.png)]
+![API 키 생성](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
 
 이제 다음을 수행할 수 있습니다.
 
-* [빠른 시작 가이드][quickstart guide]를 따라 보거나
-* W&amp;B Weave와 Not Diamond를 사용해 [커스텀 라우터를 빌드][custom router]하거나
-* [Not Diamond와 대화][chat]하여 라우팅이 실제로 어떻게 동작하는지 확인하세요
+- [빠른 시작 가이드][quickstart guide]를 따라 보거나
+- W&B Weave와 Not Diamond를 사용해 [커스텀 라우터를 빌드][custom router]하거나
+- [Not Diamond와 대화][chat]하여 라우팅이 실제로 어떻게 동작하는지 확인하세요
 
 <div id="tracing">
   ## 트레이싱
@@ -45,6 +45,7 @@ session_id, provider = client.chat.completions.model_select(
 print("LLM called: ", provider.provider)  # openai, anthropic 등
 print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 등
 ```
+
 
 <div id="custom-routing">
   ## 사용자 지정 라우팅
@@ -100,6 +101,7 @@ session_id, provider = client.chat.completions.model_select(
 print("LLM called: ", provider.provider)  # openai, anthropic 등
 print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 등
 ```
+
 
 <div id="additional-support">
   ## 추가 지원
