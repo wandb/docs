@@ -261,7 +261,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -274,7 +274,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
         lines.append("")
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -412,7 +412,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -425,7 +425,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
         lines.append("")
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
