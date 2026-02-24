@@ -37,13 +37,13 @@ For detailed sizing recommendations based on your use case (Models only, Weave o
 W&B Server is deployed as a [Kubernetes Operator](/platform/hosting/self-managed/operator/) that manages multiple pods. Your Kubernetes cluster must meet these requirements:
 
 - **Version**: See [Software version requirements](#software-version-requirements) above
-- **Ingress controller**: A fully configured and functioning ingress controller (Nginx, Istio, Traefik, or cloud provider ingress)
+- **Ingress controller**: A fully-configured and functioning ingress controller (Nginx, Istio, Traefik, or cloud provider ingress)
 - **Persistent volumes**: Capability to provision persistent volumes
 - **CPU architecture**: Intel or AMD 64-bit (ARM is not supported)
 
 W&B supports deployment on [OpenShift Kubernetes clusters](https://www.redhat.com/en/technologies/cloud-computing/openshift) in cloud, on-premises, and air-gapped environments. For specific configuration instructions, see the [OpenShift section](/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) in the Operator guide.
 
-For complete Kubernetes requirements including load balancer and ingress configuration, see the [reference architecture Kubernetes section](/platform/hosting/self-managed/ref-arch/#kubernetes).
+For complete Kubernetes requirements, including load balancer and ingress configuration, see the [reference architecture Kubernetes section](/platform/hosting/self-managed/ref-arch/#kubernetes).
 
 ## MySQL database
 
@@ -73,7 +73,7 @@ For instructions to manually create the MySQL database and user:
 
 <SelfManagedMysqlDatabaseCreation/>
 
-For additional considerations including backups, performance, monitoring, and availability, see the [reference architecture MySQL section](/platform/hosting/self-managed/ref-arch/#mysql).
+For additional considerations, including backups, performance, monitoring, and availability, see the [reference architecture MySQL section](/platform/hosting/self-managed/ref-arch/#mysql).
 
 ## Redis
 
@@ -94,7 +94,7 @@ W&B can connect to a Redis instance in the following environments:
 
 ### Configure W&B to use your bucket
 
-After provisioning your bucket, you will configure W&B to use it through the Operator's Helm values. See the [Operator object storage configuration section](/platform/hosting/self-managed/operator/#object-storage-bucket) for details.
+After provisioning your bucket, configure W&B to use it through the Operator's Helm values. See the [Operator object storage configuration section](/platform/hosting/self-managed/operator/#object-storage-bucket) for details.
 
 ## Networking
 
@@ -102,7 +102,7 @@ After provisioning your bucket, you will configure W&B to use it through the Ope
 
 ### DNS
 
-The fully qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
+The fully-qualified domain name (FQDN) of the W&B deployment must resolve to the IP address of the ingress/load balancer using an A record.
 
 ### Load balancer and ingress
 
