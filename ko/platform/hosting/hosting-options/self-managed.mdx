@@ -1,5 +1,5 @@
 ---
-description: 프로덕션 환경에서 W&B Self-Managed 배포
+description: 프로덕션 환경에 W&B Self-Managed 배포하기
 title: Self-Managed
 ---
 
@@ -8,74 +8,74 @@ title: Self-Managed
 </div>
 
 <Note>
-  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 배포 방식과 같은 완전 관리형 배포 옵션을 권장합니다. W&amp;B 완전 관리형 서비스는 최소한의 설정만으로(또는 설정 없이도) 간편하고 안전하게 사용할 수 있습니다.
+  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)와 같은 완전 관리형 배포 옵션을 사용할 것을 권장합니다. W&amp;B 완전 관리형 서비스는 별도의 설정이 거의 또는 전혀 필요 없어 간단하고 안전하게 사용할 수 있습니다.
 </Note>
 
-[AWS, Google Cloud, 또는 Azure 클라우드 계정](#deploy-wb-server-within-Self-Managed-cloud-accounts)이나 [온프레미스 인프라](#deploy-wb-server-in-on-prem-infrastructure) 내에 W&amp;B Server를 배포하십시오.
+[AWS, Google Cloud, 또는 Azure 클라우드 계정](#deploy-wb-server-within-Self-Managed-cloud-accounts)이나 [온프레미스 인프라](#deploy-wb-server-in-on-prem-infrastructure) 내에 W&amp;B Server를 배포하세요.
 
-조직의 IT/DevOps/MLOps 팀은 다음에 대한 책임이 있습니다:
+귀하의 IT/DevOps/MLOps 팀은 다음 업무를 담당합니다.
 
 * 배포 환경 프로비저닝.
-* 조직 정책 및 (해당하는 경우) [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)에 따른 인프라 보안.
-* [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) 등 조직의 규제 요구사항 준수 상태 유지.
+* 조직의 정책 및 (해당되는 경우) [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)에 따른 인프라 보안 확보.
+* [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) 및 [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)와 같은 조직의 규제 요구 사항 준수 유지.
 * 업그레이드 관리 및 패치 적용.
-* Self-Managed W&amp;B 배포 환경을 지속적으로 유지 관리.
+* W&amp;B Self-Managed 배포의 지속적인 유지 관리.
 
 <Tip>
-  조직이 규제 요구사항을 준수해야 하는 경우, W&amp;B에서 유지 관리하는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud.mdx)로 배포하는 것을 고려하십시오.
+  조직이 규제 요구 사항을 준수해야 하는 경우, W&amp;B에서 유지 관리하는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud.mdx)에 배포하는 것을 고려하십시오.
 
-  * W&amp;B Dedicated Cloud의 호스팅 플랫폼은 SOC 2 Type 2 요구사항을 충족합니다.
-  * 적절히 구성된 W&amp;B Dedicated Cloud 배포는 HIPAA를 준수합니다.
+  * W&amp;B Dedicated Cloud의 호스팅 플랫폼은 SOC 2 Type 2 요구 사항을 충족합니다.
+  * 적절히 설정된 경우, W&amp;B Dedicated Cloud 배포는 HIPAA를 준수합니다.
 
-  추가 정보를 요청하려면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참조하십시오.
+  자세한 정보를 요청하려면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참조하십시오.
 </Tip>
 
-{/* 설정을 완료하려면 [W&B Server 라이선스 받기](#obtain-your-wb-server-license)를 확인하세요. */}
+{/* 설치를 완료하려면 [Obtain your W&B Server license](#obtain-your-wb-server-license)를 확인하세요. */}
 
 <div id="deploy-wb-server-within-self-managed-cloud-accounts">
-  ## 셀프 매니지드 클라우드 계정에 W&amp;B Server 배포
+  ## 셀프 관리형 클라우드 계정 내 W&amp;B Server 배포
 </div>
 
-W&amp;B는 공식 W&amp;B Terraform 스크립트를 사용하여 AWS, Google Cloud, 또는 Azure 클라우드 계정에 W&amp;B Server를 배포할 것을 권장합니다.
+W&amp;B는 공식 W&amp;B Terraform 스크립트를 사용해 AWS, Google Cloud, 또는 Azure 클라우드 계정에 W&amp;B Server를 배포할 것을 권장합니다.
 
-[AWS](/ko/platform/hosting/self-managed/aws-tf), [Google Cloud](/ko/platform/hosting/self-managed/gcp-tf), 또는 [Azure](/ko/platform/hosting/self-managed/azure-tf)에서 W&amp;B Server를 설정하는 방법에 대한 자세한 내용은 각 클라우드 제공자별 문서를 참조하세요.
+[AWS](/ko/platform/hosting/self-managed/aws-tf), [Google Cloud](/ko/platform/hosting/self-managed/gcp-tf), 또는 [Azure](/ko/platform/hosting/self-managed/azure-tf)에서 W&amp;B Server를 설정하는 방법에 대한 자세한 내용은 각 클라우드 제공업체별 문서를 참조하세요.
 
 <div id="deploy-wb-server-in-on-prem-infrastructure">
   ## 온프레미스 인프라에 W&amp;B Server 배포
 </div>
 
-온프레미스 인프라에서 W&amp;B Server를 구성하려면 여러 인프라 구성 요소를 준비해야 합니다. 이러한 구성 요소에는 다음이 포함되지만 이에 국한되지는 않습니다:
+온프레미스 인프라에 W&amp;B Server를 배포하려면 여러 인프라 구성 요소를 먼저 준비하고 구성해야 합니다. 이러한 구성 요소에는 다음이 포함되지만, 이에 한정되지는 않습니다:
 
 * (강력 권장) Kubernetes 클러스터
 * MySQL 8 데이터베이스 클러스터
 * Amazon S3 호환 오브젝트 스토리지
 * Redis 캐시 클러스터
 
-온프레미스 인프라에 W&amp;B Server를 설치하는 자세한 방법은 [온프레미스 인프라에 설치](/ko/platform/hosting/self-managed/bare-metal)를 참조하세요. W&amp;B는 각 구성 요소에 대한 권장 사항을 제공하고 설치 과정을 전반적으로 안내할 수 있습니다.
+온프레미스 인프라에 W&amp;B Server를 설치하는 자세한 방법은 [온프레미스 인프라에 설치](/ko/platform/hosting/self-managed/bare-metal)를 참조하십시오. W&amp;B는 각 구성 요소에 대한 권장 사항을 제공하고 설치 과정 전반을 안내해 드릴 수 있습니다.
 
 <div id="deploy-wb-server-on-a-custom-cloud-platform">
-  ## 사용자 지정 클라우드 플랫폼에 W&amp;B Server 배포
+  ## 사용자 지정 클라우드 플랫폼에 W&amp;B Server 배포하기
 </div>
 
-AWS, Google Cloud, Azure가 아닌 클라우드 플랫폼에 W&amp;B Server를 배포할 수 있습니다. 이 경우 요구 사항은 [온프레미스 인프라](#deploy-wb-server-in-on-prem-infrastructure)에 배포할 때와 유사합니다.
+AWS, Google Cloud, Azure가 아닌 클라우드 플랫폼에도 W&amp;B Server를 배포할 수 있습니다. 이때 요구 사항은 [온프렘 인프라](#deploy-wb-server-in-on-prem-infrastructure)에 배포할 때와 유사합니다.
 
 <div id="obtain-your-wb-server-license">
-  ## W&amp;B Server 라이선스 받기
+  ## W&amp;B Server 라이선스 발급받기
 </div>
 
-W&amp;B Server 구성을 완료하려면 W&amp;B 평가판 라이선스가 필요합니다. 무료 평가판 라이선스를 생성하려면 [Deploy Manager](https://deploy.wandb.ai/deploy)를 여십시오.
+W&amp;B Server 설정을 완료하려면 W&amp;B 체험 라이선스가 필요합니다. 무료 체험 라이선스를 생성하려면 [Deploy Manager](https://deploy.wandb.ai/deploy)를 엽니다.
 
 <Note>
-  아직 W&amp;B 계정이 없다면, 무료 라이선스를 생성하기 위해 계정을 만드십시오.
+  아직 W&amp;B 계정이 없다면, 무료 라이선스를 생성하기 위해 먼저 계정을 만드세요.
 
-  중요한 보안 기능 및 기타 엔터프라이즈 환경에 적합한 기능에 대한 지원이 포함된 W&amp;B Server 엔터프라이즈 라이선스가 필요한 경우, [이 양식을 제출](https://wandb.ai/site/for-enterprise/self-hosted-trial)하거나 담당 W&amp;B 팀에 문의하십시오.
+  중요한 보안 기능 및 기타 엔터프라이즈 친화적인 기능에 대한 지원이 포함된 W&amp;B Server 엔터프라이즈 라이선스가 필요하다면, [이 양식을 제출](https://wandb.ai/site/for-enterprise/self-hosted-trial)하거나 담당 W&amp;B 팀에 문의하세요.
 </Note>
 
-이 URL은 **Get a License for W&amp;B Local** 양식으로 리디렉션됩니다. 다음 정보를 입력하십시오:
+URL은 **Get a License for W&amp;B Local** 양식으로 리디렉션됩니다. 다음 정보를 입력합니다:
 
 1. **Choose Platform** 단계에서 배포 유형을 선택합니다.
 2. **Basic Information** 단계에서 라이선스 소유자를 선택하거나 새 조직을 추가합니다.
-3. **Get a License** 단계에서 **Name of Instance** 필드에 인스턴스 이름을 입력하고, 필요에 따라 **Description** 필드에 설명을 입력합니다.
+3. **Get a License** 단계에서 **Name of Instance** 필드에 인스턴스 이름을 입력하고, 필요하다면 **Description** 필드에 설명을 입력합니다.
 4. **Generate License Key** 버튼을 선택합니다.
 
-인스턴스와 연결된 라이선스와 함께 배포 개요가 표시된 페이지가 나타납니다.
+배포 개요와 해당 인스턴스에 연결된 라이선스가 표시된 페이지가 나타납니다.

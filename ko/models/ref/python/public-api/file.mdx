@@ -13,37 +13,37 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 W&B에 저장된 파일입니다. 
 
-W&B에 저장된 단일 파일을 나타냅니다. 파일 메타데이터에 대한 액세스를 제공합니다. 파일은 특정 실행에 연결되며, 텍스트 파일, 모델 가중치, 데이터셋, 시각화, 기타 아티팩트를 포함할 수 있습니다. 파일을 다운로드하거나 삭제하고 파일 속성에 접근할 수 있습니다. 
+W&B에 저장된 단일 파일을 나타냅니다. 파일 메타데이터에 대한 액세스를 제공합니다. 파일은 특정 run에 연결되며, 텍스트 파일, 모델 가중치, 데이터셋, 시각화, 기타 아티팩트를 포함할 수 있습니다. 파일을 다운로드하고 삭제할 수 있으며, 파일 속성에 접근할 수도 있습니다. 
 
-딕셔너리에 하나 이상의 속성을 지정하여 특정 실행에 로깅된 특정 파일을 찾을 수 있습니다. 다음 키를 사용해 검색할 수 있습니다: 
+특정 run에 로깅된 특정 파일을 찾으려면 하나 이상의 속성을 사전에 지정합니다. 다음 키를 사용해 검색할 수 있습니다: 
 
-- id (str): 파일을 포함하는 실행의 ID 
+- id (str): 파일을 포함하는 run의 ID 
 - name (str): 파일 이름 
 - url (str): 파일 경로 
 - direct_url (str): 버킷 내 파일 경로 
 - sizeBytes (int): 파일 크기(바이트 단위) 
-- md5 (str): 파일의 MD5 
-- mimetype (str): 파일의 MIME 타입 
+- md5 (str): 파일의 md5 
+- mimetype (str): 파일의 mimetype 
 - updated_at (str): 마지막 업데이트 타임스탬프 
-- path_uri (str): 버킷 내 파일 경로, 현재는 S3 객체 및 참조 파일에만 사용 가능 
+- path_uri (str): 버킷 내 파일 경로로, 현재는 S3 객체 및 reference 파일에만 사용 가능 
 
 **Args:**
 
-- `client`:  파일을 포함하는 실행 객체 
- - `attrs` (dict):  파일을 정의하는 속성 딕셔너리 
- - `run`:  파일을 포함하는 실행 객체 
+- `client`:  파일을 포함하는 run 객체 
+ - `attrs` (dict):  파일을 정의하는 속성 사전 
+ - `run`:  파일을 포함하는 run 객체 
 
 ### <kbd>property</kbd> File.path_uri
 
-스토리지 버킷에 있는 파일의 URI 경로를 반환합니다. 
+스토리지 버킷 내 파일에 대한 URI 경로를 반환합니다. 
 
-**반환값:**
+**Returns:**
 
-- `str`:  파일이 S3에 저장된 경우 S3 URI(예: 's3://bucket/path/to/file'), 참조 파일인 경우 해당 파일의 직접 URL, 값을 사용할 수 없는 경우 빈 문자열. 
+- `str`: 파일이 S3에 저장된 경우 S3 URI(예: 's3://bucket/path/to/file'), 참조 파일인 경우 직접 URL, 사용할 수 없는 경우 빈 문자열을 반환합니다. 
 
-**반환값:**
+**Returns:**
 
-- `str`: path_uri 속성 값.
+- `str`: path_uri 프로퍼티의 값.
 ---
 
 ### <kbd>property</kbd> File.size
@@ -52,7 +52,7 @@ W&B에 저장된 단일 파일을 나타냅니다. 파일 메타데이터에 대
 
 **반환값:**
 
-- `int`: size 속성 값.
+- `int`: size 속성 값입니다.
 
 ---
 
@@ -67,7 +67,7 @@ W&amp;B 서버에서 파일을 삭제합니다.
 ***
 
 
-### <kbd>메서드</kbd> `File.download`
+### <kbd>method</kbd> `File.download`
 
 ```python
 download(
@@ -78,14 +78,14 @@ download(
 ) → io.TextIOWrapper
 ```
 
-이전에 실행에서 저장한 파일을 wandb 서버에서 다운로드합니다.
+이전에 run이 wandb 서버에 저장한 파일을 다운로드합니다.
 
-**인자:**
+**인자(Args):**
 
-* `root`:  파일을 저장할 로컬 디렉터리입니다. 기본값은 현재 작업 디렉터리(&quot; . &quot;)입니다.
-* `replace`:  `True`이면, 다운로드 시 동일한 로컬 파일이 존재할 경우 덮어씁니다. 기본값은 `False`입니다.
-* `exist_ok`:  `True`이면, 파일이 이미 존재하더라도 `ValueError`를 발생시키지 않으며, `replace=True`가 아닌 한 다시 다운로드하지 않습니다. 기본값은 `False`입니다.
-* `api`:  지정된 경우, 파일 다운로드에 사용할 `Api` 인스턴스입니다.
+* `root`:  파일을 저장할 로컬 디렉터리. 기본값은 현재 작업 디렉터리(&quot;.&quot;)입니다.
+* `replace`:  `True`이면, 다운로드 시 같은 이름의 로컬 파일이 있을 경우 이를 덮어씁니다. 기본값은 `False`입니다.
+* `exist_ok`:  `True`이면, 파일이 이미 존재하더라도 `ValueError`를 발생시키지 않고, `replace=True`가 아닌 한 다시 다운로드하지 않습니다. 기본값은 `False`입니다.
+* `api`:  지정된 경우, 파일 다운로드에 사용되는 `Api` 인스턴스입니다.
 
-**예외:**
-파일이 이미 존재하고 `replace=False`이며 `exist_ok=False`인 경우 `ValueError`를 발생시킵니다.
+**예외(Raises):**
+파일이 이미 존재하고, `replace=False`이며 `exist_ok=False`인 경우 `ValueError`를 발생시킵니다.

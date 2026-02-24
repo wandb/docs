@@ -1,10 +1,10 @@
 ---
-title: "wandb job list"
+title: "wandb job 목록"
 ---
 
 {/*
   이 명령어에 대한 소개 내용을 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-job-list.mdx
+  1. 다음 위치에 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-job-list.mdx
   2. 해당 파일에 소개 내용을 추가합니다.
   3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
@@ -12,14 +12,14 @@ title: "wandb job list"
 
   <WandbJobList/>
 
-  스니펫은 다음 번 재생성 시 자동으로 감지됩니다.
+  스니펫은 다음에 재생성할 때 자동으로 감지됩니다.
   */}
 
-프로젝트의 Job 나열
+프로젝트의 작업 목록 보기
 
 
 <div id="usage">
-  ## 사용 방법
+  ## 사용
 </div>
 
 ```bash
@@ -33,5 +33,5 @@ wandb job list [OPTIONS]
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--project`, `-p` | 작업을 나열할 작업이 포함된 프로젝트입니다. |
-| `--entity`, `-e` | 작업이 속한 엔터티입니다(기본값: models). |
+| `--project`, `-p` | 잡 목록을 표시할 프로젝트입니다. |
+| `--entity`, `-e` | 잡이 속하는 엔터티입니다(기본값: Models). |

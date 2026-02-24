@@ -9,15 +9,15 @@ description: "Weave와 Verdict 평가 프레임워크를 함께 사용하여 LLM
 
 Weave는 [Verdict Python 라이브러리](https://verdict.haizelabs.com/docs/)를 통해 이루어지는 모든 호출을 손쉽게 추적하고 로깅할 수 있도록 설계되었습니다.
 
-AI 평가 파이프라인을 다룰 때는 디버깅이 매우 중요합니다. 파이프라인 단계가 실패하거나, 출력이 예상과 다르거나, 중첩된 연산 때문에 혼란이 생기는 경우 문제 지점을 정확히 찾기 어렵습니다. Verdict 애플리케이션은 보통 여러 파이프라인 단계, judge, 변환으로 구성되므로, 평가 워크플로의 내부 동작을 이해하는 것이 필수적입니다.
+AI 평가 파이프라인을 다룰 때는 디버깅이 매우 중요합니다. 파이프라인 단계가 실패하거나, 출력이 예상과 다르거나, 중첩된 연산으로 인해 혼란이 생기는 경우 문제의 정확한 지점을 찾기 어렵습니다. Verdict 애플리케이션은 보통 여러 파이프라인 단계, judge(평가자), 변환 단계로 구성되므로, 평가 워크플로의 내부 동작을 이해하는 것이 필수적입니다.
 
-Weave는 [Verdict](https://verdict.readthedocs.io/) 애플리케이션에 대한 트레이스를 자동으로 캡처하여 이 과정을 단순화합니다. 이를 통해 파이프라인 성능을 모니터링하고 분석할 수 있으며, AI 평가 워크플로를 더 쉽게 디버깅하고 최적화할 수 있습니다.
+Weave는 [Verdict](https://verdict.readthedocs.io/) 애플리케이션에 대한 트레이스를 자동으로 캡처하여 이 과정을 단순화합니다. 이를 통해 파이프라인의 성능을 모니터링하고 분석할 수 있으며, AI 평가 워크플로를 더 쉽게 디버깅하고 최적화할 수 있습니다.
 
 <div id="getting-started">
   ## 시작하기
 </div>
 
-시작하려면 스크립트 맨 앞에서 `weave.init(project=...)`를 호출하면 됩니다. `project` 인자를 사용해 `team-name/project-name` 형식으로 특정 W&amp;B 팀 이름으로 로깅하거나, `project-name`만 지정해 기본 팀/엔터티로 로깅할 수 있습니다.
+시작하려면 스크립트의 시작 부분에서 `weave.init(project=...)`를 호출하면 됩니다. `project` 인수를 사용해 `team-name/project-name` 형식으로 특정 W&amp;B Team 이름으로 로그를 남기거나, `project-name`만 지정해 기본 팀/엔티티에 로그를 남길 수 있습니다.
 
 ```python lines {7}
 import weave
@@ -45,7 +45,7 @@ print(output)
   ## 호출 메타데이터 추적
 </div>
 
-Verdict 파이프라인 호출의 메타데이터를 추적하려면 [`weave.attributes`](/ko/weave/reference/python-sdk#function-attributes) 컨텍스트 매니저를 사용할 수 있습니다. 이 컨텍스트 매니저를 사용하면 파이프라인 실행이나 평가 배치와 같은 특정 코드 블록에 대해 사용자 지정 메타데이터를 설정할 수 있습니다.
+Verdict 파이프라인 호출의 메타데이터를 추적하려면 [`weave.attributes`](/ko/weave/reference/python-sdk#function-attributes) 컨텍스트 매니저를 사용할 수 있습니다. 이 컨텍스트 매니저를 사용하면 파이프라인 run 또는 평가 배치와 같은 특정 코드 블록에 대해 사용자 지정 메타데이터를 설정할 수 있습니다.
 
 ```python lines {7,14}
 import weave
@@ -67,29 +67,29 @@ with weave.attributes({"evaluation_type": "sentiment", "batch_id": "batch_001"})
 print(output)
 ```
 
-Weave는 Verdict 파이프라인 호출 트레이스의 메타데이터를 자동으로 추적합니다. Weave 웹 인터페이스에서 해당 메타데이터를 볼 수 있습니다.
+Weave는 Verdict 파이프라인 호출의 트레이스와 함께 메타데이터를 자동으로 추적합니다. Weave 웹 인터페이스에서 해당 메타데이터를 확인할 수 있습니다.
 
 <div id="traces">
   ## 트레이스
 </div>
 
-AI 평가 파이프라인 트레이스를 중앙 데이터베이스에 저장하는 것은 개발과 프로덕션 단계 모두에서 매우 중요합니다. 이러한 트레이스는 유용한 데이터셋을 제공하므로 평가 워크플로를 디버깅하고 개선하는 데 필수적입니다.
+AI 평가 파이프라인의 트레이스를 중앙 데이터베이스에 저장하는 것은 개발 및 프로덕션 환경 모두에서 매우 중요합니다. 이러한 트레이스는 유용한 데이터셋을 제공하여 평가 워크플로우를 디버깅하고 개선하는 데 필수적입니다.
 
-Weave는 Verdict 애플리케이션에 대한 트레이스를 자동으로 캡처합니다. Verdict 라이브러리를 통해 수행되는 모든 호출을 추적해 로그로 남기며, 여기에는 다음이 포함됩니다:
+Weave는 Verdict 애플리케이션에 대한 트레이스를 자동으로 캡처합니다. Verdict 라이브러리를 통해 수행되는 모든 호출을 추적하고 로깅하며, 여기에는 다음이 포함됩니다:
 
 * 파이프라인 실행 단계
-* Judge 유닛 평가
-* 레이어 변환
+* Judge 유닛의 평가
+* 레이어 변환 작업
 * 풀링 연산
-* 커스텀 유닛 및 변환
+* 사용자 정의 유닛 및 변환
 
-Weave 웹 인터페이스에서 트레이스를 확인할 수 있으며, 파이프라인 실행의 계층적 구조가 표시됩니다.
+Weave 웹 인터페이스에서 트레이스를 확인할 수 있으며, 이를 통해 파이프라인 실행의 계층적 구조를 파악할 수 있습니다.
 
 <div id="pipeline-tracing-example">
   ## 파이프라인 트레이싱 예시
 </div>
 
-다음은 Weave가 중첩된 파이프라인 연산을 어떻게 추적하는지 보여 주는 좀 더 복잡한 예시입니다.
+다음은 Weave가 중첩된 파이프라인 연산을 추적하는 방식을 보여 주는 좀 더 복잡한 예시입니다.
 
 ```python lines {8}
 import weave
@@ -113,32 +113,32 @@ pipeline = pipeline >> MeanPoolUnit()
 # 샘플 데이터
 data = Schema.of(text="This is a comprehensive evaluation of text quality across multiple dimensions.")
 
-# 파이프라인 실행 - 모든 작업이 추적됨
+# 파이프라인 실행 - 모든 작업이 추적됩니다
 result = pipeline.run(data)
 
 print(f"Average score: {result}")
 ```
 
-이렇게 하면 다음을 보여주는 자세한 트레이스를 생성합니다:
+이 설정은 다음과 같은 상세 추적을 생성합니다:
 
 * 주요 Pipeline 실행
-* Layer 내 각 JudgeUnit의 평가
-* MeanPoolUnit 집계 단계
-* 각 연산에 대한 소요 시간 정보
+* Layer 내 각 JudgeUnit 평가
+* MeanPoolUnit의 집계 단계
+* 각 연산의 타이밍 정보
 
 <div id="configuration">
-  ## 구성
+  ## 설정
 </div>
 
-`weave.init()`을 호출하면 Verdict 파이프라인에 대한 트레이싱이 자동으로 활성화됩니다. 이 통합은 `Pipeline.__init__` 메서드를 패치하여, 모든 트레이스 데이터를 Weave로 전달하는 `VerdictTracer`를 주입하는 방식으로 동작합니다.
+`weave.init()`을 호출하면 Verdict 파이프라인에 대한 트레이싱이 자동으로 활성화됩니다. 이 인테그레이션은 `Pipeline.__init__` 메서드를 패치하여, 모든 트레이스 데이터를 Weave로 전달하는 `VerdictTracer`를 주입하는 방식으로 동작합니다.
 
-추가 구성은 필요하지 않습니다. Weave는 자동으로 다음을 수행합니다:
+추가 설정은 필요하지 않습니다. Weave는 자동으로 다음을 수행합니다:
 
-* 모든 파이프라인 연산 캡처
-* 실행 타이밍 추적
-* 입력 및 출력 로깅
-* 트레이스 계층 구조 유지
-* 동시 파이프라인 실행 처리
+* 모든 파이프라인 연산을 캡처
+* 실행 시간을 추적
+* 입력 및 출력을 로깅
+* 트레이스 계층 구조를 유지
+* 동시 파이프라인 실행을 처리
 
 <div id="custom-tracers-and-weave">
   ## 커스텀 트레이서와 Weave
@@ -159,8 +159,8 @@ weave.init("verdict_demo")
 # Verdict의 내장 트레이서를 계속 사용할 수 있습니다
 console_tracer = ConsoleTracer()
 
-# Weave(자동) 및 콘솔 트레이싱을 모두 사용하는 파이프라인 생성
-pipeline = Pipeline(tracer=[console_tracer])  # Weave 트레이서가 자동으로 추가됨
+# Weave(자동) 및 Console 트레이싱을 모두 사용하는 파이프라인 생성
+pipeline = Pipeline(tracer=[console_tracer])  # Weave 트레이서가 자동으로 추가됩니다
 pipeline = pipeline >> JudgeUnit().prompt("Evaluate: {source.text}")
 
 data = Schema.of(text="Sample evaluation text")
@@ -170,12 +170,12 @@ result = pipeline.run(data)
 ```
 
 <div id="models-and-evaluations">
-  ## 모델과 Evaluation
+  ## 모델 및 평가
 </div>
 
-여러 파이프라인 컴포넌트로 이루어진 AI 시스템을 구성하고 평가하는 일은 까다로울 수 있습니다. [`weave.Model`](/ko/weave/guides/core-types/models)을 사용하면 프롬프트, 파이프라인 설정, 평가 매개변수와 같은 실험 세부 정보를 기록하고 정리할 수 있어, 서로 다른 반복 실험을 쉽게 비교할 수 있습니다.
+여러 파이프라인 구성 요소로 이루어진 AI 시스템을 체계적으로 구성하고 평가하는 일은 쉽지 않을 수 있습니다. [`weave.Model`](/ko/weave/guides/core-types/models)을 사용하면 프롬프트, 파이프라인 설정, 평가 파라미터와 같은 실험 세부 정보를 기록하고 정리할 수 있어 서로 다른 반복 실험을 더 쉽게 비교할 수 있습니다.
 
-다음 예제는 Verdict 파이프라인을 `WeaveModel`로 래핑하는 방법을 보여줍니다:
+다음 예시는 Verdict 파이프라인을 `WeaveModel`로 래핑하는 방법을 보여줍니다.
 
 ```python lines {8,10,14}
 import asyncio
@@ -220,13 +220,13 @@ prediction = asyncio.run(model.predict(text))
 print(prediction)
 ```
 
-이 코드는 Weave UI에서 파이프라인 구조와 Evaluation 결과를 모두 시각화할 수 있는 모델을 생성합니다.
+이 코드는 Weave UI에서 파이프라인 구조와 평가 결과를 함께 시각화할 수 있는 모델을 생성합니다.
 
 <div id="evaluations">
-  ### Evaluations
+  ### 평가
 </div>
 
-Evaluations은 평가 파이프라인 자체의 성능을 측정하는 데 도움이 됩니다. [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용하면 특정 태스크나 데이터셋에서 Verdict 파이프라인이 얼마나 잘 동작하는지 기록할 수 있습니다:
+평가는 평가 파이프라인 자체의 성능을 측정하는 데 사용됩니다. [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용하면 Verdict 파이프라인이 특정 작업이나 데이터셋에서 얼마나 잘 수행되는지 기록할 수 있습니다:
 
 ```python lines {8}
 import asyncio
@@ -285,7 +285,7 @@ scores = asyncio.run(evaluation.evaluate(model))
 print(scores)
 ```
 
-이렇게 하면 다양한 테스트 케이스 전반에서 Verdict 파이프라인이 어떻게 동작하는지 보여주는 evaluation trace가 생성됩니다.
+이렇게 하면 다양한 테스트 케이스에서 Verdict 파이프라인이 어떻게 동작하는지를 보여주는 평가 트레이스를 생성합니다.
 
 <div id="best-practices">
   ## 모범 사례
@@ -295,7 +295,7 @@ print(scores)
   ### 성능 모니터링
 </div>
 
-Weave는 모든 파이프라인 작업에 대한 타이밍 정보를 자동으로 캡처합니다. 이를 통해 성능 병목 구간을 식별할 수 있습니다:
+Weave는 모든 파이프라인 연산에 대한 타이밍 정보를 자동으로 수집합니다. 이를 활용해 성능 병목 구간을 식별할 수 있습니다.
 
 ```python lines {6}
 import weave
@@ -324,7 +324,7 @@ for i in range(3):
   ### 오류 처리
 </div>
 
-Weave는 파이프라인 실행 중에 발생하는 예외를 자동으로 포착합니다.
+Weave는 파이프라인 실행 중에 발생하는 예외를 자동으로 포착합니다:
 
 ```python lines {6}
 import weave
@@ -343,7 +343,7 @@ try:
     result = pipeline.run(data)
 except Exception as e:
     print(f"Pipeline failed: {e}")
-    # 오류 세부 정보는 Weave 추적에 캡처됩니다
+    # 오류 세부 정보는 Weave 트레이스에 캡처됩니다
 ```
 
-Weave를 Verdict와 통합하면 AI 평가 파이프라인에 대한 포괄적인 가시성을 확보할 수 있어, 평가 워크플로를 디버깅하고 최적화하며 이해하기가 더 쉬워집니다.
+Weave를 Verdict와 통합하면 AI 평가 파이프라인에 대한 포괄적인 옵저버빌리티를 확보할 수 있어, 평가 워크플로우를 디버깅하고 최적화하며 이해하기가 한결 쉬워집니다.

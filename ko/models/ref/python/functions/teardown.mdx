@@ -15,8 +15,8 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 teardown(exit_code: 'int | None' = None) → None
 ```
 
-W&amp;B가 모든 작업을 마칠 때까지 기다린 다음 리소스를 해제합니다.
+W&amp;B가 작업을 마칠 때까지 기다린 뒤, 사용한 리소스를 정리합니다.
 
-`run.finish()`로 명시적으로 종료되지 않은 실행을 모두 완료 처리하고, 모든 데이터가 업로드될 때까지 대기합니다.
+`run.finish()`를 사용해 명시적으로 종료하지 않은 run을 완료하고, 모든 데이터가 업로드될 때까지 기다립니다.
 
-`wandb.setup()`을 사용한 세션의 끝에서 이 함수를 호출하는 것을 권장합니다. 이 함수는 `atexit` 훅에서 자동으로 호출되지만, Python의 `multiprocessing` 모듈을 사용할 때와 같은 특정 환경에서는 신뢰할 수 없습니다.
+`wandb.setup()`을 사용한 세션의 끝에서 이 함수를 호출하는 것이 좋습니다. 이 함수는 `atexit` 훅에서 자동으로 호출되지만, Python의 `multiprocessing` 모듈을 사용하는 경우와 같은 일부 환경에서는 신뢰하기 어렵습니다.

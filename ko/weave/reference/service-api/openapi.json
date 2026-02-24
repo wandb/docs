@@ -48,8 +48,8 @@
         "tags": [
           "Service"
         ],
-        "summary": "호출자 위치 조회",
-        "description": "IP 주소를 기준으로 사용자의 지리적 위치를 조회합니다.\n\n이 API는 디버깅용으로 제공되며, 향후 제공되지 않을 수 있습니다.",
+        "summary": "호출자 위치 가져오기",
+        "description": "IP 주소를 기준으로 사용자의 지리적 위치를 조회합니다.\n\n이 API는 디버깅 목적을 위해 제공되며, 향후 제공이 중단될 수 있습니다.",
         "operationId": "get_caller_location_geolocate_get",
         "parameters": [
           {
@@ -65,13 +65,13 @@
                   "type": "null"
                 }
               ],
-              "description": "지리적 위치 조회에 사용할 IP 주소입니다. 기본값은 클라이언트 IP 주소입니다.",
+              "description": "지리적 위치 확인에 사용할 IP 주소입니다. 기본값은 클라이언트 IP 주소입니다.",
               "examples": [
                 "1.2.3.4"
               ],
               "title": "Ip"
             },
-            "description": "지리적 위치를 조회할 IP 주소입니다. 지정하지 않으면 클라이언트 IP 주소가 기본값으로 사용됩니다."
+            "description": "지리적 위치를 조회할 IP 주소입니다. 지정하지 않으면 클라이언트의 IP 주소가 사용됩니다."
           }
         ],
         "responses": {
@@ -86,7 +86,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -124,7 +124,7 @@
         "tags": [
           "OpenTelemetry"
         ],
-        "summary": "추적 내보내기",
+        "summary": "트레이스 내보내기",
         "operationId": "export_trace_otel_v1_traces_post",
         "responses": {
           "200": {
@@ -167,7 +167,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -213,7 +213,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -235,7 +235,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "일괄 호출 시작",
+        "summary": "호출 배치 시작",
         "operationId": "call_start_batch_call_upsert_batch_post",
         "requestBody": {
           "content": {
@@ -259,7 +259,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -295,7 +295,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -305,7 +305,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -341,7 +341,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -351,7 +351,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -373,7 +373,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "호출 조회",
+        "summary": "콜 쿼리",
         "operationId": "call_read_call_read_post",
         "requestBody": {
           "content": {
@@ -387,7 +387,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -397,7 +397,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -419,12 +419,12 @@
         "tags": [
           "Inference"
         ],
-        "summary": "추론 라우터 OpenRouter 모델",
+        "summary": "Inference Router OpenRouter 모델",
         "description": "OpenRouter에서 사용할 수 있는 모델 목록을 반환합니다.\n\n이 API는 인증 없이 호출할 수 있습니다.",
         "operationId": "inference_router_openrouter_models_inference_router_openrouter_models_get",
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -462,7 +462,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {}
@@ -470,7 +470,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -486,7 +486,7 @@
           "Inference"
         ],
         "summary": "추론 POST",
-        "description": "OpenAI와 호환되는 API입니다.",
+        "description": "OpenAI와 호환되는 API",
         "operationId": "inference_post_inference_v1_path__post",
         "security": [
           {
@@ -516,7 +516,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {}
@@ -524,7 +524,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -541,7 +541,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "호출 쿼리 통계",
+        "summary": "콜 쿼리 통계",
         "operationId": "calls_query_stats_calls_query_stats_post",
         "requestBody": {
           "content": {
@@ -555,7 +555,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -565,7 +565,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -587,8 +587,8 @@
         "tags": [
           "Calls"
         ],
-        "summary": "Trace 사용량",
-        "description": "트레이스에 대해 하위 항목 롤업을 포함하여 호출당 사용량을 계산합니다.",
+        "summary": "트레이스 사용량",
+        "description": "트레이스의 하위 항목을 롤업하여 호출당 사용량을 계산합니다.",
         "operationId": "trace_usage_trace_usage_post",
         "requestBody": {
           "content": {
@@ -602,7 +602,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -612,7 +612,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -634,8 +634,8 @@
         "tags": [
           "Calls"
         ],
-        "summary": "호출 사용량",
-        "description": "여러 루트 호출에 대해 하위 항목 롤업을 포함한 집계된 사용량을 계산합니다.",
+        "summary": "콜 사용량",
+        "description": "여러 루트 호출과 해당 하위 호출을 합산해 집계된 사용량을 계산합니다.",
         "operationId": "calls_usage_calls_usage_post",
         "requestBody": {
           "content": {
@@ -681,7 +681,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "호출 쿼리 스트리밍",
+        "summary": "콜 쿼리 스트림",
         "operationId": "calls_query_stream_calls_stream_query_post",
         "security": [
           {
@@ -853,7 +853,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -899,7 +899,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -945,7 +945,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -991,7 +991,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1013,7 +1013,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "다이제스트에서 테이블 생성",
+        "summary": "다이제스트로부터 테이블 생성",
         "operationId": "table_create_from_digests_table_create_from_digests_post",
         "requestBody": {
           "content": {
@@ -1037,7 +1037,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1059,7 +1059,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "테이블 쿼리",
+        "summary": "테이블 조회",
         "operationId": "table_query_table_query_post",
         "requestBody": {
           "content": {
@@ -1119,7 +1119,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -1165,7 +1165,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -1197,7 +1197,7 @@
         "tags": [
           "Refs"
         ],
-        "summary": "참조 일괄 읽기",
+        "summary": "참조 일괄 조회",
         "operationId": "refs_read_batch_refs_read_batch_post",
         "requestBody": {
           "content": {
@@ -1211,7 +1211,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -1257,7 +1257,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -1303,7 +1303,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1311,7 +1311,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1357,7 +1357,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1403,7 +1403,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1425,7 +1425,7 @@
         "tags": [
           "Costs"
         ],
-        "summary": "쿼리 비용",
+        "summary": "조회 비용",
         "operationId": "cost_query_cost_query_post",
         "requestBody": {
           "content": {
@@ -1449,7 +1449,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1471,7 +1471,7 @@
         "tags": [
           "Costs"
         ],
-        "summary": "삭제 비용",
+        "summary": "영구 삭제 비용",
         "operationId": "cost_purge_cost_purge_post",
         "requestBody": {
           "content": {
@@ -1495,7 +1495,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1518,7 +1518,7 @@
           "Feedback"
         ],
         "summary": "피드백 생성",
-        "description": "API 호출 또는 객체에 피드백을 추가합니다.",
+        "description": "호출 또는 객체에 피드백을 추가합니다.",
         "operationId": "feedback_create_feedback_create_post",
         "requestBody": {
           "content": {
@@ -1542,7 +1542,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1565,7 +1565,7 @@
           "Feedback"
         ],
         "summary": "피드백 일괄 생성",
-        "description": "콜 또는 객체에 여러 피드백 항목을 추가합니다.",
+        "description": "호출이나 객체에 여러 개의 피드백 항목을 추가합니다.",
         "operationId": "feedback_create_batch_feedback_batch_create_post",
         "requestBody": {
           "content": {
@@ -1589,7 +1589,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1612,7 +1612,7 @@
           "Feedback"
         ],
         "summary": "피드백 조회",
-        "description": "피드백을 가져옵니다.",
+        "description": "피드백을 조회합니다.",
         "operationId": "feedback_query_feedback_query_post",
         "requestBody": {
           "content": {
@@ -1636,7 +1636,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1658,7 +1658,7 @@
         "tags": [
           "Feedback"
         ],
-        "summary": "피드백 삭제",
+        "summary": "피드백 영구 삭제",
         "description": "피드백을 영구적으로 삭제합니다.",
         "operationId": "feedback_purge_feedback_purge_post",
         "requestBody": {
@@ -1683,7 +1683,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1729,7 +1729,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1751,7 +1751,7 @@
         "tags": [
           "Threads"
         ],
-        "summary": "스레드 쿼리 스트리밍",
+        "summary": "스레드 쿼리 스트림",
         "operationId": "threads_query_stream_threads_stream_query_post",
         "requestBody": {
           "content": {
@@ -1773,7 +1773,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1796,7 +1796,7 @@
           "Annotation Queues"
         ],
         "summary": "어노테이션 큐 생성",
-        "description": "새 주석 큐를 생성합니다.",
+        "description": "새 어노테이션 큐를 생성합니다.",
         "operationId": "annotation_queue_create_annotation_queues_post",
         "requestBody": {
           "content": {
@@ -1820,7 +1820,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -1842,8 +1842,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "어노테이션 큐 쿼리 스트리밍",
-        "description": "프로젝트의 주석 큐를 조회합니다(스트리밍 NDJSON 응답).",
+        "summary": "어노테이션 큐 쿼리 스트림",
+        "description": "프로젝트의 어노테이션 큐를 조회합니다 (스트리밍 NDJSON 응답).",
         "operationId": "annotation_queues_query_stream_annotation_queues_query_post",
         "requestBody": {
           "content": {
@@ -1888,7 +1888,7 @@
           "Annotation Queues"
         ],
         "summary": "어노테이션 큐 읽기",
-        "description": "지정된 어노테이션 큐를 조회합니다.",
+        "description": "특정 어노테이션 큐를 읽습니다.",
         "operationId": "annotation_queue_read_annotation_queues__queue_id__get",
         "security": [
           {
@@ -1945,7 +1945,7 @@
           "Annotation Queues"
         ],
         "summary": "어노테이션 큐에 호출 추가",
-        "description": "호출을 어노테이션 큐에 추가합니다.",
+        "description": "어노테이션 큐에 호출을 추가합니다.",
         "operationId": "annotation_queue_add_calls_annotation_queues__queue_id__items_post",
         "security": [
           {
@@ -2003,7 +2003,7 @@
           "Annotation Queues"
         ],
         "summary": "어노테이션 큐 항목 조회",
-        "description": "페이지네이션과 정렬을 사용하여 어노테이션 큐의 항목을 조회합니다.",
+        "description": "페이지네이션과 정렬을 사용하여 어노테이션 큐 항목을 쿼리합니다.",
         "operationId": "annotation_queue_items_query_annotation_queues__queue_id__items_query_post",
         "security": [
           {
@@ -2061,7 +2061,7 @@
           "Annotation Queues"
         ],
         "summary": "어노테이션 큐 통계",
-        "description": "여러 개의 어노테이션 큐 통계를 조회합니다.",
+        "description": "여러 어노테이션 큐의 통계를 조회합니다.",
         "operationId": "annotation_queues_stats_annotation_queues_stats_post",
         "requestBody": {
           "content": {
@@ -2085,7 +2085,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2108,7 +2108,7 @@
           "Annotation Queues"
         ],
         "summary": "어노테이션 큐 항목 진행 상태 업데이트",
-        "description": "현재 어노테이터의 큐 항목들에 대한 어노테이션 상태를 업데이트합니다.",
+        "description": "현재 어노테이터의 큐 항목 어노테이션 상태를 업데이트합니다.",
         "operationId": "annotation_queue_item_progress_update_annotation_queues__queue_id__items__item_id__progress_post",
         "security": [
           {
@@ -2157,7 +2157,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2198,7 +2198,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2244,7 +2244,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2266,7 +2266,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Evaluation 상태",
+        "summary": "평가 상태",
         "operationId": "evaluation_status_evaluations_status_post",
         "requestBody": {
           "content": {
@@ -2359,7 +2359,7 @@
           "Ops"
         ],
         "summary": "Op 생성",
-        "description": "op 객체를 생성합니다.",
+        "description": "op 객체 생성",
         "operationId": "op_create_v2__entity___project__ops_post",
         "security": [
           {
@@ -2423,8 +2423,8 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Op 목록 조회",
-        "description": "op 객체를 나열합니다.",
+        "summary": "Op 목록",
+        "description": "op 객체 나열",
         "operationId": "op_list_v2__entity___project__ops_get",
         "security": [
           {
@@ -2481,15 +2481,15 @@
                   "type": "null"
                 }
               ],
-              "description": "건너뛸 op 수",
+              "description": "건너뛸 op의 개수",
               "title": "Offset"
             },
-            "description": "건너뛸 op 수"
+            "description": "건너뛸 op의 개수"
           }
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {}
@@ -2497,7 +2497,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2514,8 +2514,8 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Op 조회",
-        "description": "op 객체를 가져옵니다.",
+        "summary": "Op 읽기",
+        "description": "op 객체를 반환합니다.",
         "operationId": "op_read_v2__entity___project__ops__object_id__versions__digest__get",
         "security": [
           {
@@ -2574,7 +2574,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -2584,7 +2584,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2602,7 +2602,7 @@
           "Ops"
         ],
         "summary": "Op 삭제",
-        "description": "op 객체를 삭제합니다. digest가 제공된 경우 해당 버전만 삭제하고, 제공되지 않으면 모든 버전을 삭제합니다.",
+        "description": "op 객체를 삭제합니다. 다이제스트가 제공된 경우 해당 버전만 삭제되고, 제공되지 않으면 모든 버전이 삭제됩니다.",
         "operationId": "op_delete_v2__entity___project__ops__object_id__delete",
         "security": [
           {
@@ -2653,10 +2653,10 @@
                   "type": "null"
                 }
               ],
-              "description": "삭제할 다이제스트의 목록입니다. 값을 지정하지 않으면 해당 op와 관련된 모든 다이제스트가 삭제됩니다.",
+              "description": "삭제할 다이제스트의 목록입니다. 값을 지정하지 않으면 이 연산과 관련된 모든 다이제스트가 삭제됩니다.",
               "title": "Digests"
             },
-            "description": "삭제할 다이제스트의 목록입니다. 값을 지정하지 않으면 해당 op와 관련된 모든 다이제스트가 삭제됩니다."
+            "description": "삭제할 다이제스트의 목록입니다. 값을 지정하지 않으면 이 연산과 관련된 모든 다이제스트가 삭제됩니다."
           }
         ],
         "responses": {
@@ -2671,7 +2671,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2738,7 +2738,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2753,8 +2753,8 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "데이터셋 목록 조회",
-        "description": "데이터셋 객체를 나열합니다.",
+        "summary": "데이터셋 목록",
+        "description": "데이터셋 객체 목록을 조회합니다.",
         "operationId": "dataset_list_v2__entity___project__datasets_get",
         "security": [
           {
@@ -2827,7 +2827,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2844,7 +2844,7 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "데이터셋 조회",
+        "summary": "데이터셋 읽기",
         "description": "데이터셋 객체를 조회합니다.",
         "operationId": "dataset_read_v2__entity___project__datasets__object_id__versions__digest__get",
         "security": [
@@ -2902,7 +2902,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -2920,7 +2920,7 @@
           "Datasets"
         ],
         "summary": "데이터셋 삭제",
-        "description": "데이터셋 객체를 삭제합니다. digest가 제공되면 해당 버전만 삭제합니다. 제공되지 않으면 모든 버전을 삭제합니다.",
+        "description": "데이터셋 객체를 삭제합니다. 다이제스트를 지정하면 해당 버전만 삭제되고, 지정하지 않으면 모든 버전이 삭제됩니다.",
         "operationId": "dataset_delete_v2__entity___project__datasets__object_id__delete",
         "security": [
           {
@@ -2971,15 +2971,15 @@
                   "type": "null"
                 }
               ],
-              "description": "삭제할 digest 목록입니다. 제공하지 않으면 이 데이터셋의 모든 digest가 삭제됩니다.",
+              "description": "삭제할 다이제스트 목록입니다. 값을 지정하지 않으면 해당 데이터셋의 모든 다이제스트가 삭제됩니다.",
               "title": "Digests"
             },
-            "description": "삭제할 digest 목록입니다. 제공하지 않으면 이 데이터셋의 모든 digest가 삭제됩니다."
+            "description": "삭제할 다이제스트 목록입니다. 값을 지정하지 않으면 해당 데이터셋의 모든 다이제스트가 삭제됩니다."
           }
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -2989,7 +2989,7 @@
             }
           },
           "422": {
-            "description": "유효성 검증 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3006,7 +3006,7 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Scorer 생성",
+        "summary": "스코어러 생성",
         "description": "스코어러 객체를 생성합니다.",
         "operationId": "scorer_create_v2__entity___project__scorers_post",
         "security": [
@@ -3046,7 +3046,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -3056,7 +3056,7 @@
             }
           },
           "422": {
-            "description": "유효성 검증 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3071,7 +3071,7 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Scorer 목록",
+        "summary": "스코어러 목록 조회",
         "description": "스코어러 객체 목록을 조회합니다.",
         "operationId": "scorer_list_v2__entity___project__scorers_get",
         "security": [
@@ -3101,7 +3101,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {}
@@ -3109,7 +3109,7 @@
             }
           },
           "422": {
-            "description": "유효성 검증 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3126,7 +3126,7 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Scorer 조회",
+        "summary": "스코어러 조회",
         "description": "스코어러 객체를 가져옵니다.",
         "operationId": "scorer_read_v2__entity___project__scorers__object_id__versions__digest__get",
         "security": [
@@ -3174,7 +3174,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -3184,7 +3184,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3201,8 +3201,8 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Scorer 삭제",
-        "description": "scorer 객체를 삭제합니다.",
+        "summary": "스코어러 삭제",
+        "description": "스코어러 객체를 삭제합니다.",
         "operationId": "scorer_delete_v2__entity___project__scorers__object_id__delete",
         "security": [
           {
@@ -3253,10 +3253,10 @@
                   "type": "null"
                 }
               ],
-              "description": "삭제할 다이제스트의 목록입니다. 이 값을 지정하지 않으면 해당 scorer의 모든 다이제스트가 삭제됩니다.",
+              "description": "삭제할 다이제스트의 목록입니다. 제공하지 않으면 해당 스코어러의 모든 다이제스트가 삭제됩니다.",
               "title": "Digests"
             },
-            "description": "삭제할 다이제스트의 목록입니다. 이 값을 지정하지 않으면 해당 scorer의 모든 다이제스트가 삭제됩니다."
+            "description": "삭제할 다이제스트의 목록입니다. 제공하지 않으면 해당 스코어러의 모든 다이제스트가 삭제됩니다."
           }
         ],
         "responses": {
@@ -3271,7 +3271,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3288,8 +3288,8 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Evaluation 생성",
-        "description": "Evaluation 객체를 생성합니다.",
+        "summary": "평가 생성",
+        "description": "평가 객체를 생성합니다.",
         "operationId": "evaluation_create_v2__entity___project__evaluations_post",
         "security": [
           {
@@ -3338,7 +3338,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3353,8 +3353,8 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Evaluation 목록",
-        "description": "Evaluation 객체 목록을 조회합니다.",
+        "summary": "평가 목록 조회",
+        "description": "평가 객체 목록을 나열합니다.",
         "operationId": "evaluation_list_v2__entity___project__evaluations_get",
         "security": [
           {
@@ -3391,7 +3391,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3408,8 +3408,8 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Evaluation 조회",
-        "description": "Evaluation 객체를 조회합니다.",
+        "summary": "평가 조회",
+        "description": "evaluation 객체를 조회합니다.",
         "operationId": "evaluation_read_v2__entity___project__evaluations__object_id__versions__digest__get",
         "security": [
           {
@@ -3466,7 +3466,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3483,8 +3483,8 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Evaluation 삭제",
-        "description": "Evaluation 객체를 삭제합니다.",
+        "summary": "평가 삭제",
+        "description": "evaluation 객체를 삭제합니다.",
         "operationId": "evaluation_delete_v2__entity___project__evaluations__object_id__delete",
         "security": [
           {
@@ -3535,10 +3535,10 @@
                   "type": "null"
                 }
               ],
-              "description": "삭제할 다이제스트 목록입니다. 지정하지 않으면 해당 Evaluation에 대한 모든 다이제스트가 삭제됩니다.",
+              "description": "삭제할 다이제스트 목록입니다. 제공하지 않으면 해당 evaluation의 모든 다이제스트를 삭제합니다.",
               "title": "Digests"
             },
-            "description": "삭제할 다이제스트 목록입니다. 지정하지 않으면 해당 Evaluation에 대한 모든 다이제스트가 삭제됩니다."
+            "description": "삭제할 다이제스트 목록입니다. 제공하지 않으면 해당 evaluation의 모든 다이제스트를 삭제합니다."
           }
         ],
         "responses": {
@@ -3553,7 +3553,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3620,7 +3620,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3635,7 +3635,7 @@
         "tags": [
           "Models"
         ],
-        "summary": "모델 목록",
+        "summary": "모델 목록 조회",
         "description": "모델 객체 목록을 조회합니다.",
         "operationId": "model_list_v2__entity___project__models_get",
         "security": [
@@ -3693,10 +3693,10 @@
                   "type": "null"
                 }
               ],
-              "description": "건너뛸 모델의 개수",
+              "description": "건너뛸 모델 수",
               "title": "Offset"
             },
-            "description": "건너뛸 모델의 개수"
+            "description": "건너뛸 모델 수"
           }
         ],
         "responses": {
@@ -3709,7 +3709,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3727,7 +3727,7 @@
           "Models"
         ],
         "summary": "모델 조회",
-        "description": "모델 객체를 가져옵니다.",
+        "description": "모델 객체를 조회합니다.",
         "operationId": "model_read_v2__entity___project__models__object_id__versions__digest__get",
         "security": [
           {
@@ -3784,7 +3784,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3853,10 +3853,10 @@
                   "type": "null"
                 }
               ],
-              "description": "삭제할 다이제스트 목록입니다. 제공되지 않으면 이 모델의 모든 다이제스트가 삭제됩니다.",
+              "description": "삭제할 다이제스트 목록입니다. 제공되지 않으면 해당 모델의 모든 다이제스트가 삭제됩니다.",
               "title": "Digests"
             },
-            "description": "삭제할 다이제스트 목록입니다. 제공되지 않으면 이 모델의 모든 다이제스트가 삭제됩니다."
+            "description": "삭제할 다이제스트 목록입니다. 제공되지 않으면 해당 모델의 모든 다이제스트가 삭제됩니다."
           }
         ],
         "responses": {
@@ -3871,7 +3871,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -3888,8 +3888,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Evaluation 실행 생성",
-        "description": "평가 실행을 생성합니다.",
+        "summary": "평가 run 생성",
+        "description": "evaluation run을 생성합니다.",
         "operationId": "evaluation_run_create_v2__entity___project__evaluation_runs_post",
         "security": [
           {
@@ -3953,8 +3953,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Evaluation 실행 목록 조회",
-        "description": "Evaluation 실행을 나열합니다.",
+        "summary": "평가 run 목록 조회",
+        "description": "evaluation run을 나열합니다.",
         "operationId": "evaluation_run_list_v2__entity___project__evaluation_runs_get",
         "security": [
           {
@@ -3996,10 +3996,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Evaluation 참조로 필터링",
+              "description": "evaluation 참조를 기준으로 필터링",
               "title": "Evaluations"
             },
-            "description": "Evaluation 참조로 필터링"
+            "description": "evaluation 참조를 기준으로 필터링"
           },
           {
             "name": "models",
@@ -4017,10 +4017,10 @@
                   "type": "null"
                 }
               ],
-              "description": "모델 참조로 필터링",
+              "description": "모델 참조를 기준으로 필터링",
               "title": "Models"
             },
-            "description": "모델 참조로 필터링"
+            "description": "모델 참조를 기준으로 필터링"
           },
           {
             "name": "evaluation_run_ids",
@@ -4038,10 +4038,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Evaluation 실행 ID로 필터링",
+              "description": "evaluation run ID를 기준으로 필터링",
               "title": "Evaluation Run Ids"
             },
-            "description": "Evaluation 실행 ID로 필터링"
+            "description": "evaluation run ID를 기준으로 필터링"
           },
           {
             "name": "limit",
@@ -4056,10 +4056,10 @@
                   "type": "null"
                 }
               ],
-              "description": "반환할 Evaluation 실행의 최대 개수",
+              "description": "반환할 evaluation run의 최대 개수",
               "title": "Limit"
             },
-            "description": "반환할 Evaluation 실행의 최대 개수"
+            "description": "반환할 evaluation run의 최대 개수"
           },
           {
             "name": "offset",
@@ -4074,10 +4074,10 @@
                   "type": "null"
                 }
               ],
-              "description": "건너뛸 평가 실행 수",
+              "description": "건너뛸 평가 run의 개수",
               "title": "Offset"
             },
-            "description": "건너뛸 평가 실행 수"
+            "description": "건너뛸 평가 run의 개수"
           }
         ],
         "responses": {
@@ -4095,7 +4095,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4110,8 +4110,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Evaluation 실행 삭제",
-        "description": "평가 실행을 삭제합니다.",
+        "summary": "평가 run 삭제",
+        "description": "평가 run을 삭제합니다.",
         "operationId": "evaluation_run_delete_v2__entity___project__evaluation_runs_delete",
         "security": [
           {
@@ -4146,10 +4146,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "삭제할 평가 실행 ID 목록",
+              "description": "삭제할 평가 run ID 목록",
               "title": "Evaluation Run Ids"
             },
-            "description": "삭제할 평가 실행 ID 목록"
+            "description": "삭제할 평가 run ID 목록"
           }
         ],
         "responses": {
@@ -4164,7 +4164,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4181,8 +4181,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Evaluation 실행 조회",
-        "description": "평가 실행을 조회합니다.",
+        "summary": "평가 run 조회",
+        "description": "평가 run을 조회합니다.",
         "operationId": "evaluation_run_read_v2__entity___project__evaluation_runs__evaluation_run_id__get",
         "security": [
           {
@@ -4230,7 +4230,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4247,8 +4247,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Evaluation 실행 완료 처리",
-        "description": "평가 실행을 완료합니다.",
+        "summary": "평가 run 종료",
+        "description": "평가 run을 종료합니다.",
         "operationId": "evaluation_run_finish_v2__entity___project__evaluation_runs__evaluation_run_id__finish_post",
         "security": [
           {
@@ -4306,7 +4306,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4373,7 +4373,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4428,10 +4428,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Evaluation 실행 ID로 필터링",
+              "description": "evaluation run ID로 필터링",
               "title": "Evaluation Run Id"
             },
-            "description": "평가 실행 ID로 필터링합니다."
+            "description": "평가 run ID로 필터합니다."
           },
           {
             "name": "limit",
@@ -4446,10 +4446,10 @@
                   "type": "null"
                 }
               ],
-              "description": "반환할 예측값의 최대 개수",
+              "description": "반환할 예측의 최대 개수",
               "title": "Limit"
             },
-            "description": "반환할 예측값의 최대 개수"
+            "description": "반환할 예측의 최대 개수"
           },
           {
             "name": "offset",
@@ -4464,10 +4464,10 @@
                   "type": "null"
                 }
               ],
-              "description": "건너뛸 예측값의 개수",
+              "description": "건너뛸 예측 개수",
               "title": "Offset"
             },
-            "description": "건너뛸 예측값의 개수"
+            "description": "건너뛸 예측 개수"
           }
         ],
         "responses": {
@@ -4501,7 +4501,7 @@
           "Predictions"
         ],
         "summary": "예측 삭제",
-        "description": "예측값을 삭제합니다.",
+        "description": "예측을 삭제합니다.",
         "operationId": "prediction_delete_v2__entity___project__predictions_delete",
         "security": [
           {
@@ -4544,7 +4544,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -4554,7 +4554,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4610,7 +4610,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -4620,7 +4620,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4676,7 +4676,7 @@
         ],
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -4686,7 +4686,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4743,7 +4743,7 @@
         },
         "responses": {
           "200": {
-            "description": "성공 응답",
+            "description": "성공적인 응답",
             "content": {
               "application/json": {
                 "schema": {
@@ -4753,7 +4753,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4768,8 +4768,8 @@
         "tags": [
           "Scores"
         ],
-        "summary": "점수 목록",
-        "description": "점수 목록을 조회합니다.",
+        "summary": "점수 목록 조회",
+        "description": "점수 목록을 반환합니다.",
         "operationId": "score_list_v2__entity___project__scores_get",
         "security": [
           {
@@ -4808,10 +4808,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Evaluation 실행 ID로 필터링",
+              "description": "평가 run ID로 필터링합니다.",
               "title": "Evaluation Run Id"
             },
-            "description": "Evaluation 실행 ID로 필터링"
+            "description": "평가 run ID로 필터링합니다."
           },
           {
             "name": "limit",
@@ -4826,10 +4826,10 @@
                   "type": "null"
                 }
               ],
-              "description": "반환할 최대 점수 개수",
+              "description": "반환할 점수의 최대 개수",
               "title": "Limit"
             },
-            "description": "반환할 최대 점수 개수"
+            "description": "반환할 점수의 최대 개수"
           },
           {
             "name": "offset",
@@ -4844,15 +4844,15 @@
                   "type": "null"
                 }
               ],
-              "description": "건너뛸 점수 개수",
+              "description": "건너뛸 점수의 개수",
               "title": "Offset"
             },
-            "description": "건너뛸 점수 개수"
+            "description": "건너뛸 점수의 개수"
           }
         ],
         "responses": {
           "200": {
-            "description": "JSONL 형식 데이터 스트림",
+            "description": "JSONL 형식의 데이터 스트림",
             "content": {
               "application/jsonl": {
                 "schema": {
@@ -4865,7 +4865,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -4934,7 +4934,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -5000,7 +5000,7 @@
             }
           },
           "422": {
-            "description": "유효성 검사 오류",
+            "description": "검증 오류",
             "content": {
               "application/json": {
                 "schema": {
@@ -5025,7 +5025,7 @@
           "count"
         ],
         "title": "AggregationType",
-        "description": "메트릭에 대한 기본 집계 함수입니다."
+        "description": "메트릭에 사용되는 기본 집계 함수입니다."
       },
       "AndOperation": {
         "properties": {
@@ -5082,7 +5082,7 @@
           "$and"
         ],
         "title": "AndOperation",
-        "description": "논리 AND 연산자입니다. 모든 조건이 true로 평가되어야 합니다.\n\n예시:\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
+        "description": "논리 AND 연산자로, 모든 조건이 true로 평가되어야 합니다.\n\n예시:\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
       },
       "AnnotationQueueAddCallsBody": {
         "properties": {
@@ -5113,7 +5113,7 @@
             },
             "type": "array",
             "title": "Display Fields",
-            "description": "어노테이터에게 표시할 JSON 경로 목록",
+            "description": "애노테이터에게 표시할 JSON 경로입니다.",
             "examples": [
               [
                 "input.prompt",
@@ -5130,7 +5130,7 @@
           "display_fields"
         ],
         "title": "AnnotationQueueAddCallsBody",
-        "description": "annotation 큐에 콜(call)을 추가하기 위한 요청 본문입니다( queue_id는 경로에서 전달됩니다)."
+        "description": "애노테이션 큐에 콜을 추가하기 위한 요청 본문입니다(queue_id는 경로에서 전달됩니다)."
       },
       "AnnotationQueueAddCallsRes": {
         "properties": {
@@ -5149,7 +5149,7 @@
           "duplicates"
         ],
         "title": "AnnotationQueueAddCallsRes",
-        "description": "큐에 호출을 추가하는 요청에 대한 응답입니다."
+        "description": "큐에 콜을 추가한 후의 응답입니다."
       },
       "AnnotationQueueCreateReq": {
         "properties": {
@@ -5198,7 +5198,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마세요. 이 필드는 서버에서 자동으로 설정됩니다."
+            "description": "직접 설정하지 마십시오. 서버가 이 필드를 자동으로 채웁니다."
           }
         },
         "additionalProperties": false,
@@ -5209,7 +5209,7 @@
           "scorer_refs"
         ],
         "title": "AnnotationQueueCreateReq",
-        "description": "새 annotation 큐를 생성하기 위한 요청입니다."
+        "description": "새 애노테이션 큐를 생성하기 위한 요청입니다."
       },
       "AnnotationQueueCreateRes": {
         "properties": {
@@ -5223,7 +5223,7 @@
           "id"
         ],
         "title": "AnnotationQueueCreateRes",
-        "description": "annotation 큐를 생성한 결과에 대한 응답입니다."
+        "description": "애노테이션 큐를 생성한 후의 응답입니다."
       },
       "AnnotationQueueItemProgressUpdateBody": {
         "properties": {
@@ -5237,7 +5237,7 @@
           "annotation_state": {
             "type": "string",
             "title": "Annotation State",
-            "description": "새 상태: 'in_progress', 'completed', 또는 'skipped' 중 하나입니다.",
+            "description": "새 상태 값: 'in_progress', 'completed', 또는 'skipped'",
             "examples": [
               "in_progress",
               "completed",
@@ -5252,7 +5252,7 @@
           "annotation_state"
         ],
         "title": "AnnotationQueueItemProgressUpdateBody",
-        "description": "annotation 진행 상태를 업데이트하기 위한 요청 본문입니다(queue_id와 item_id는 URL 경로로 전달됩니다).\n\n참고: wb_user_id는 본문에 포함되지 않으며, 서버 측에서 인증된 세션 정보로부터 설정됩니다."
+        "description": "애노테이션 진행 상황을 업데이트하기 위한 요청 본문입니다(queue_id와 item_id는 경로에서 전달됩니다).\n\n참고: wb_user_id는 본문에 포함되지 않습니다. 인증된 세션을 기준으로 서버 측에서 설정됩니다."
       },
       "AnnotationQueueItemSchema": {
         "properties": {
@@ -5390,7 +5390,7 @@
           "updated_at"
         ],
         "title": "AnnotationQueueItemSchema",
-        "description": "annotation 큐 항목 응답의 스키마입니다."
+        "description": "애노테이션 큐 항목 응답에 대한 스키마입니다."
       },
       "AnnotationQueueItemsFilter": {
         "properties": {
@@ -5404,7 +5404,7 @@
               }
             ],
             "title": "Id",
-            "description": "정확히 일치하는 큐 항목 ID로 필터링"
+            "description": "큐 아이템 ID와 정확히 일치하도록 필터링"
           },
           "call_id": {
             "anyOf": [
@@ -5416,7 +5416,7 @@
               }
             ],
             "title": "Call Id",
-            "description": "정확히 일치하는 호출 ID로 필터링"
+            "description": "콜 ID와 정확히 일치하도록 필터링"
           },
           "call_op_name": {
             "anyOf": [
@@ -5428,7 +5428,7 @@
               }
             ],
             "title": "Call Op Name",
-            "description": "정확히 일치하는 operation 이름으로 필터링"
+            "description": "operation 이름과 정확히 일치하도록 필터링"
           },
           "call_trace_id": {
             "anyOf": [
@@ -5440,7 +5440,7 @@
               }
             ],
             "title": "Call Trace Id",
-            "description": "정확히 일치하는 trace ID로 필터링"
+            "description": "trace ID와 정확히 일치하도록 필터링"
           },
           "added_by": {
             "anyOf": [
@@ -5452,7 +5452,7 @@
               }
             ],
             "title": "Added By",
-            "description": "해당 호출을 추가한 W&B 사용자 ID로 필터링"
+            "description": "콜을 추가한 W&B 사용자 ID와 정확히 일치하도록 필터링"
           },
           "annotation_states": {
             "anyOf": [
@@ -5473,7 +5473,7 @@
               }
             ],
             "title": "Annotation States",
-            "description": "annotation 상태(unstarted, in_progress, completed, skipped)로 필터링",
+            "description": "annotation 상태를 기준으로 필터링 (unstarted, in_progress, completed, skipped)",
             "examples": [
               [
                 "unstarted",
@@ -5484,7 +5484,7 @@
         },
         "type": "object",
         "title": "AnnotationQueueItemsFilter",
-        "description": "Annotation 큐 항목에 대한 간단한 필터.\n\n호출 메타데이터 필드에 대한 동등(equality) 필터링과 annotation 상태에 대한 IN 필터링을 지원합니다."
+        "description": "애노테이션 큐 항목에 대한 단순 필터입니다.\n\n콜 메타데이터 필드에 대한 동등(equality) 필터링과 애노테이션 상태에 대한 IN 필터링을 지원합니다."
       },
       "AnnotationQueueItemsQueryBody": {
         "properties": {
@@ -5504,7 +5504,7 @@
                 "type": "null"
               }
             ],
-            "description": "호출 메타데이터와 annotation 상태로 큐 항목 필터링"
+            "description": "콜 메타데이터와 annotation 상태로 큐 아이템 필터링"
           },
           "sort_by": {
             "anyOf": [
@@ -5519,7 +5519,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "여러 필드(예: created_at, updated_at)로 정렬합니다."
+            "description": "여러 필드를 기준으로 정렬 (예: created_at, updated_at)"
           },
           "limit": {
             "anyOf": [
@@ -5552,7 +5552,7 @@
           "include_position": {
             "type": "boolean",
             "title": "Include Position",
-            "description": "position_in_queue 필드를 포함합니다(전체 큐에서 1부터 시작하는 인덱스입니다).",
+            "description": "position_in_queue 필드를 포함 (전체 큐에서 1부터 시작하는 인덱스)",
             "default": false
           }
         },
@@ -5562,7 +5562,7 @@
           "project_id"
         ],
         "title": "AnnotationQueueItemsQueryBody",
-        "description": "annotation 큐의 항목을 조회하기 위한 요청 본문(queue_id는 경로로 전달됨)."
+        "description": "annotation 큐의 아이템을 조회하기 위한 요청 본문입니다(queue_id는 경로에서 가져옵니다)."
       },
       "AnnotationQueueItemsQueryRes": {
         "properties": {
@@ -5579,7 +5579,7 @@
           "items"
         ],
         "title": "AnnotationQueueItemsQueryRes",
-        "description": "annotation 큐 아이템을 조회했을 때의 응답입니다."
+        "description": "어노테이션 큐 항목 조회에 대한 응답"
       },
       "AnnotationQueueReadRes": {
         "properties": {
@@ -5592,7 +5592,7 @@
           "queue"
         ],
         "title": "AnnotationQueueReadRes",
-        "description": "annotation 큐를 읽었을 때의 응답입니다."
+        "description": "어노테이션 큐 읽기 응답"
       },
       "AnnotationQueueSchema": {
         "properties": {
@@ -5658,14 +5658,14 @@
           "updated_at"
         ],
         "title": "AnnotationQueueSchema",
-        "description": "annotation 큐 응답의 스키마입니다."
+        "description": "어노테이션 큐 응답 스키마"
       },
       "AnnotationQueueStatsSchema": {
         "properties": {
           "queue_id": {
             "type": "string",
             "title": "Queue Id",
-            "description": "큐 ID입니다.",
+            "description": "큐 ID",
             "examples": [
               "550e8400-e29b-41d4-a716-446655440000"
             ]
@@ -5673,12 +5673,12 @@
           "total_items": {
             "type": "integer",
             "title": "Total Items",
-            "description": "큐에 있는 아이템의 총 개수입니다."
+            "description": "큐에 있는 항목의 총 개수"
           },
           "completed_items": {
             "type": "integer",
             "title": "Completed Items",
-            "description": "최소 한 명의 annotator가 완료했거나 건너뛴 아이템 수입니다."
+            "description": "하나 이상의 어노테이터가 완료했거나 건너뛴 항목 수"
           }
         },
         "type": "object",
@@ -5688,7 +5688,7 @@
           "completed_items"
         ],
         "title": "AnnotationQueueStatsSchema",
-        "description": "단일 annotation 큐에 대한 통계 정보입니다."
+        "description": "단일 어노테이션 큐에 대한 통계"
       },
       "AnnotationQueuesQueryReq": {
         "properties": {
@@ -5709,7 +5709,7 @@
               }
             ],
             "title": "Name",
-            "description": "큐 이름을 기준으로 필터링합니다(대소문자 구분 없이 부분 일치 검색).",
+            "description": "큐 이름으로 필터링합니다(대소문자 구분 없는 부분 일치)",
             "examples": [
               "Error"
             ]
@@ -5727,7 +5727,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "여러 필드를 기준으로 정렬합니다(예: created_at, updated_at, name)."
+            "description": "여러 필드로 정렬합니다(예: created_at, updated_at, name)"
           },
           "limit": {
             "anyOf": [
@@ -5764,7 +5764,7 @@
           "project_id"
         ],
         "title": "AnnotationQueuesQueryReq",
-        "description": "프로젝트에 대한 annotation 큐를 조회하는 요청입니다."
+        "description": "프로젝트의 어노테이션 큐를 조회하는 요청"
       },
       "AnnotationQueuesStatsReq": {
         "properties": {
@@ -5781,7 +5781,7 @@
             },
             "type": "array",
             "title": "Queue Ids",
-            "description": "통계를 조회할 큐 ID 목록입니다.",
+            "description": "통계 정보를 가져올 큐 ID 목록입니다.",
             "examples": [
               [
                 "550e8400-e29b-41d4-a716-446655440000",
@@ -5797,7 +5797,7 @@
           "queue_ids"
         ],
         "title": "AnnotationQueuesStatsReq",
-        "description": "여러 annotation 큐의 통계를 조회하기 위한 요청입니다."
+        "description": "여러 annotation 큐의 통계 정보를 가져오기 위한 요청입니다."
       },
       "AnnotationQueuesStatsRes": {
         "properties": {
@@ -5814,7 +5814,7 @@
           "stats"
         ],
         "title": "AnnotationQueuesStatsRes",
-        "description": "여러 annotation 큐의 통계를 포함하는 응답입니다."
+        "description": "여러 annotation 큐에 대한 통계 정보를 포함하는 응답입니다."
       },
       "AnnotatorQueueItemsProgressUpdateRes": {
         "properties": {
@@ -5827,7 +5827,7 @@
           "item"
         ],
         "title": "AnnotatorQueueItemsProgressUpdateRes",
-        "description": "annotation 상태를 업데이트한 결과에 대한 응답입니다."
+        "description": "annotation 상태 업데이트 요청에 대한 응답입니다."
       },
       "BaseModel": {
         "properties": {},
@@ -5980,7 +5980,7 @@
             },
             "type": "array",
             "title": "Percentiles",
-            "description": "퍼센타일로 계산할 값(0-100). 예: p50, p95, p99의 경우 [50, 95, 99]",
+            "description": "계산할 퍼센타일 값(0–100)입니다. 예: p50, p95, p99의 경우 [50, 95, 99]",
             "default": []
           }
         },
@@ -5990,7 +5990,7 @@
           "metric"
         ],
         "title": "CallMetricSpec",
-        "description": "호출 단위(call-level) 메트릭에 대한 집계 사양입니다(모델별로 그룹화하지 않음)."
+        "description": "호출 단위 메트릭 집계 사양입니다(모델별로 그룹화하지 않음)."
       },
       "CallReadReq": {
         "properties": {
@@ -6311,7 +6311,7 @@
             "type": "string",
             "format": "date-time",
             "title": "Start",
-            "description": "포함 범위의 시작 시각(UTC, ISO 8601)."
+            "description": "포함 범위의 시작 시간입니다(UTC, ISO 8601)."
           },
           "end": {
             "anyOf": [
@@ -6324,7 +6324,7 @@
               }
             ],
             "title": "End",
-            "description": "배타적 범위의 종료 시각(UTC, ISO 8601). 생략하면 현재 시각이 기본값입니다."
+            "description": "종료 시간의 상한값(UTC, ISO 8601). 생략하면 현재 시각이 기본값입니다."
           },
           "granularity": {
             "anyOf": [
@@ -6336,7 +6336,7 @@
               }
             ],
             "title": "Granularity",
-            "description": "버킷 크기를 초 단위로 지정합니다(예: 1시간은 3600초). 생략하면 선택한 시간 범위에 따라 자동으로 결정됩니다. 버킷 수가 10,000개를 초과하는 경우 자동으로 조정됩니다."
+            "description": "버킷 크기(초 단위, 예: 1시간은 3600). 생략하면 시간 범위에 따라 자동 선택됩니다. 버킷 수가 10,000개를 초과하지 않도록 자동으로 조정됩니다."
           },
           "usage_metrics": {
             "anyOf": [
@@ -6351,7 +6351,7 @@
               }
             ],
             "title": "Usage Metrics",
-            "description": "계산할 사용량 메트릭(토큰, 비용)입니다. 타임스탬프와 모델별로 그룹화됩니다."
+            "description": "계산할 사용량 메트릭(토큰 수, 비용). 타임스탬프와 모델별로 그룹화됩니다."
           },
           "call_metrics": {
             "anyOf": [
@@ -6366,7 +6366,7 @@
               }
             ],
             "title": "Call Metrics",
-            "description": "계산할 호출 단위 메트릭(지연 시간, 호출 수)입니다. 타임스탬프 기준으로만 그룹화됩니다."
+            "description": "계산할 호출 단위 메트릭(지연 시간, 개수). 타임스탬프 기준으로만 그룹화됩니다."
           },
           "filter": {
             "anyOf": [
@@ -6381,7 +6381,7 @@
           "timezone": {
             "type": "string",
             "title": "Timezone",
-            "description": "버킷 정렬에 사용할 IANA 타임존입니다(예: 'America/New_York').",
+            "description": "버킷 정렬에 사용할 IANA 타임존(예: 'America/New_York').",
             "default": "UTC"
           }
         },
@@ -6392,7 +6392,7 @@
           "start"
         ],
         "title": "CallStatsReq",
-        "description": "지정된 시간 범위에 대한 호출 통계 집계를 요청합니다."
+        "description": "특정 시간 범위에 대한 호출 통계 집계 요청입니다."
       },
       "CallStatsRes": {
         "properties": {
@@ -6400,23 +6400,23 @@
             "type": "string",
             "format": "date-time",
             "title": "Start",
-            "description": "확정된 시작 시각(UTC)"
+            "description": "해석된 시작 시간(UTC)."
           },
           "end": {
             "type": "string",
             "format": "date-time",
             "title": "End",
-            "description": "확정된 종료 시각(UTC)"
+            "description": "해석된 종료 시간(UTC)."
           },
           "granularity": {
             "type": "integer",
             "title": "Granularity",
-            "description": "사용된 버킷 크기(초 단위)"
+            "description": "사용된 버킷 크기(초 단위)."
           },
           "timezone": {
             "type": "string",
             "title": "Timezone",
-            "description": "버킷 정렬에 사용된 시간대(타임존)"
+            "description": "버킷 정렬에 사용된 타임존."
           },
           "usage_buckets": {
             "items": {
@@ -6425,7 +6425,7 @@
             },
             "type": "array",
             "title": "Usage Buckets",
-            "description": "모델 단위 사용량 메트릭입니다. 각 버킷에는 `timestamp`, `model`, 집계된 메트릭 값이 포함됩니다.",
+            "description": "모델별 사용량 메트릭입니다. 각 버킷에는 'timestamp', 'model', 그리고 집계된 메트릭 값이 포함됩니다.",
             "default": []
           },
           "call_buckets": {
@@ -6435,7 +6435,7 @@
             },
             "type": "array",
             "title": "Call Buckets",
-            "description": "호출 단위 메트릭입니다. 각 버킷에는 `timestamp`와 집계된 메트릭 값이 포함됩니다.",
+            "description": "호출 단위 메트릭입니다. 각 버킷에는 'timestamp'와 집계된 메트릭 값이 포함됩니다.",
             "default": []
           }
         },
@@ -6447,7 +6447,7 @@
           "timezone"
         ],
         "title": "CallStatsRes",
-        "description": "시간 순으로 정렬된 호출 통계를 포함하는 응답입니다."
+        "description": "호출에 대한 시계열 통계를 포함하는 응답입니다."
       },
       "CallUpdateReq": {
         "properties": {
@@ -6480,7 +6480,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "이 값을 직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 서버가 이 필드를 자동으로 채웁니다."
           }
         },
         "additionalProperties": false,
@@ -6519,7 +6519,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "이 값을 직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 서버가 이 필드를 자동으로 채웁니다."
           }
         },
         "additionalProperties": false,
@@ -6774,7 +6774,7 @@
               }
             ],
             "title": "Include Costs",
-            "description": "베타 기능이며 변경될 수 있습니다. 이 옵션이 true이면 응답에 각 호출에 대한 모델 비용이 포함됩니다.",
+            "description": "베타 기능이며, 변경될 수 있습니다. true인 경우 응답에 각 호출에 대한 모델 비용이 포함됩니다.",
             "default": false
           },
           "include_feedback": {
@@ -6787,7 +6787,7 @@
               }
             ],
             "title": "Include Feedback",
-            "description": "베타 기능이며 변경될 수 있습니다. 이 옵션이 true이면 응답에 각 호출에 대한 피드백이 포함됩니다.",
+            "description": "베타 기능이며, 변경될 수 있습니다. true인 경우 응답에 각 호출에 대한 피드백이 포함됩니다.",
             "default": false
           },
           "include_storage_size": {
@@ -6800,7 +6800,7 @@
               }
             ],
             "title": "Include Storage Size",
-            "description": "베타 기능이며 변경될 수 있습니다. 이 옵션이 true이면 응답에 각 호출에 대한 저장소 사용량이 포함됩니다.",
+            "description": "베타 기능이며, 변경될 수 있습니다. true인 경우 응답에 각 호출의 스토리지 크기가 포함됩니다.",
             "default": false
           },
           "include_total_storage_size": {
@@ -6813,7 +6813,7 @@
               }
             ],
             "title": "Include Total Storage Size",
-            "description": "베타 기능이며 변경될 수 있습니다. 이 옵션이 true이면 응답에 트레이스 전체의 저장소 사용량이 포함됩니다.",
+            "description": "베타 기능이며, 변경될 수 있습니다. true인 경우 응답에 전체 트레이스의 총 스토리지 크기가 포함됩니다.",
             "default": false
           },
           "columns": {
@@ -6843,7 +6843,7 @@
               }
             ],
             "title": "Expand Columns",
-            "description": "펼쳐서 표시할 열로, 다른 객체에 대한 참조입니다.",
+            "description": "확장할 열, 즉 다른 객체를 참조하는 컬럼입니다.",
             "examples": [
               [
                 "inputs.self.message",
@@ -6861,7 +6861,7 @@
               }
             ],
             "title": "Return Expanded Column Values",
-            "description": "true인 경우 응답에 확장된 컬럼의 원시 값(raw value)이 포함됩니다. false인 경우 응답의 expand_columns는 필터링과 정렬에만 사용됩니다. 이는 예를 들어 성능상의 이유로 참조(ref)를 서버가 아니라 클라이언트에서 직접 해석(resolve)하려는 경우에 유용합니다.",
+            "description": "true이면 응답에 확장된 컬럼의 원시 값(raw value)이 포함됩니다. false이면 응답에서 expand_columns는 필터링과 정렬에만 사용됩니다. 이는 예를 들어 성능상의 이유로 클라이언트가 참조(ref)를 직접 해석(resolve)하려는 경우에 유용합니다.",
             "default": true
           }
         },
@@ -6934,7 +6934,7 @@
               }
             ],
             "title": "Expand Columns",
-            "description": "필터링이나 정렬 시 확장이 필요한 객체 또는 테이블 행을 가리키는 참조(ref)를 포함하는 컬럼입니다.",
+            "description": "필터링 또는 정렬 시 확장이 필요한 객체나 테이블 행에 대한 참조(ref)를 가진 컬럼들입니다.",
             "examples": [
               [
                 "inputs.self.message",
@@ -6986,18 +6986,18 @@
             },
             "type": "array",
             "title": "Call Ids",
-            "description": "집계할 루트 호출 ID 목록입니다. 각 결과의 키는 하나의 입력 호출 ID에 대응합니다."
+            "description": "집계할 루트 호출 ID입니다. 각 결과 키는 하나의 입력 호출 ID에 대응합니다."
           },
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "true인 경우 사용량을 비용 계산에 포함합니다.",
+            "description": "true이면 사용량에 비용 계산을 포함합니다.",
             "default": false
           },
           "limit": {
             "type": "integer",
             "title": "Limit",
-            "description": "모든 트레이스에 걸쳐 처리할 호출의 최대 개수입니다. 메모리가 무제한으로 사용되는 것을 방지하기 위한 안전장치 역할을 합니다.",
+            "description": "전체 트레이스에서 처리할 최대 호출 수입니다. 무제한 메모리 사용을 방지하기 위한 안전 상한으로 동작합니다.",
             "default": 10000
           }
         },
@@ -7008,7 +7008,7 @@
           "call_ids"
         ],
         "title": "CallsUsageReq",
-        "description": "여러 루트 호출에 대한 집계 사용량을 계산합니다.\n\n이 엔드포인트는 요청된 각 루트 호출에 대한 사용량 메트릭을 반환합니다. 각 루트의 메트릭에는 해당 루트 자체의 사용량과 모든 하위 호출의 사용량 합계가 포함됩니다.\n\n참고: 집계를 위해 조건에 맞는 모든 호출이 메모리에 로드됩니다. 결과 집합이 매우 큰 경우(호출 수가 10k를 초과할 때), 루트 호출 ID를 여러 번에 나누어 배치 처리하거나 애플리케이션 레이어에서 더 좁은 필터를 사용하는 것을 고려하십시오."
+        "description": "여러 루트 호출(root call)에 대한 집계 사용량을 계산하기 위한 요청입니다.\n\n이 엔드포인트는 요청된 각 루트 호출에 대한 사용 메트릭을 반환하며, 각 루트의 메트릭에는 해당 루트 자체의 사용량과 모든 하위(자손) 호출의 사용량 합계가 포함됩니다.\n\n참고: 집계를 위해 일치하는 모든 호출이 메모리로 로드됩니다. 결과 집합이 매우 큰 경우(>10k calls), 루트 호출 ID를 배치로 나누거나 애플리케이션 레이어에서 더 좁은 필터를 사용하는 것을 고려하십시오."
       },
       "CallsUsageRes": {
         "properties": {
@@ -7025,7 +7025,7 @@
         },
         "type": "object",
         "title": "CallsUsageRes",
-        "description": "각 루트 호출 단위로 집계한 사용량 메트릭을 포함하는 응답입니다."
+        "description": "루트 호출별 집계 사용 메트릭이 포함된 응답입니다."
       },
       "CompletionsCreateRequestInputs": {
         "properties": {
@@ -7331,7 +7331,7 @@
               }
             ],
             "title": "Prompt",
-            "description": "Weave Prompt 객체에 대한 참조입니다(예: 'weave:///entity/project/object/prompt_name:version'). 이 값을 지정하면 해당 프롬프트의 메시지가 이 요청의 메시지 앞에 추가됩니다. 프롬프트 메시지에 포함된 템플릿 변수는 template_vars 매개변수를 사용해 치환할 수 있습니다."
+            "description": "Weave Prompt 객체에 대한 참조(예: `weave:///entity/project/object/prompt_name:version`). 이 값을 제공하면, 해당 Prompt에서 온 메시지들이 이 요청의 메시지들 앞에 추가됩니다. Prompt 메시지에 포함된 템플릿 변수는 `template_vars` 매개변수를 사용해 치환할 수 있습니다."
           },
           "template_vars": {
             "anyOf": [
@@ -7344,7 +7344,7 @@
               }
             ],
             "title": "Template Vars",
-            "description": "프롬프트 메시지에서 사용할 템플릿 변수들의 딕셔너리입니다. 메시지에 포함된 '{variable_name}' 형태의 변수는 해당 변수에 대응하는 값으로 치환됩니다. 프롬프트가 있는 경우 이 딕셔너리는 프롬프트 메시지와 일반 메시지 모두에 적용됩니다."
+            "description": "Prompt 메시지에서 치환할 템플릿 변수들의 사전입니다. 메시지에 포함된 `'{variable_name}'` 형태의 변수들은 해당 키에 대응하는 값으로 대체됩니다. Prompt가 제공된 경우, Prompt 메시지와 일반 메시지 모두에 적용됩니다."
           }
         },
         "type": "object",
@@ -7364,7 +7364,7 @@
           "$contains"
         ],
         "title": "ContainsOperation",
-        "description": "대소문자를 구분하지 않는 부분 문자열 일치입니다.\n\nMongoDB의 기본 기능이 아니며, Weave에서 추가로 제공하는 기능입니다.\n\n예시:\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```"
+        "description": "대소문자를 구분하지 않는 부분 문자열 매칭입니다.\n\nMongoDB의 기본 연산자가 아니며, Weave 전용으로 추가된 기능입니다.\n\n예시:\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```"
       },
       "ContainsSpec": {
         "properties": {
@@ -7475,7 +7475,7 @@
           "substr"
         ],
         "title": "ContainsSpec",
-        "description": "`$contains` 연산자에 대한 사양입니다.\n\n- `input`: 검색할 문자열입니다.\n- `substr`: 검색할 부분 문자열입니다.\n- `case_insensitive`: true인 경우 대소문자를 구분하지 않고 일치 여부를 검사합니다."
+        "description": "`$contains` 연산자에 대한 사양입니다.\n\n- `input`: 검색할 문자열.\n- `substr`: 검색할 하위 문자열.\n- `case_insensitive`: true이면 대소문자를 구분하지 않고 매칭합니다."
       },
       "ConvertOperation": {
         "properties": {
@@ -7488,7 +7488,7 @@
           "$convert"
         ],
         "title": "ConvertOperation",
-        "description": "입력값을 특정 타입(예: `int`, `bool`, `string`)으로 변환합니다.\n\n예시:\n``` \n{\n    \"$convert\": {\n        \"input\": {\"$getField\": \"inputs.value\"},\n        \"to\": \"int\"\n    }\n}\n```"
+        "description": "입력값을 특정 타입(예: `int`, `bool`, `string`)으로 변환합니다.\n\n예시:\n    ```\n    {\n        \"$convert\": {\n            \"input\": {\"$getField\": \"inputs.value\"},\n            \"to\": \"int\"\n        }\n    }\n    ```"
       },
       "ConvertSpec": {
         "properties": {
@@ -7554,7 +7554,7 @@
           "to"
         ],
         "title": "ConvertSpec",
-        "description": "`$convert`에 사용할 세부 변환 옵션을 지정합니다.\n\n- `input`: 변환할 피연산자입니다.\n- `to`: 변환 결과 타입입니다."
+        "description": "`$convert`에 대한 변환 세부 정보를 지정합니다.\n\n- `input`: 변환할 피연산자.\n- `to`: 변환 대상 타입."
       },
       "CostCreateInput": {
         "properties": {
@@ -7576,7 +7576,7 @@
               }
             ],
             "title": "Prompt Token Cost Unit",
-            "description": "프롬프트 토큰 비용 단위",
+            "description": "프롬프트 토큰 비용 단가",
             "default": "USD"
           },
           "completion_token_cost_unit": {
@@ -7589,7 +7589,7 @@
               }
             ],
             "title": "Completion Token Cost Unit",
-            "description": "completion 토큰 비용 단위",
+            "description": "컴플리션 토큰 비용 단가",
             "default": "USD"
           },
           "effective_date": {
@@ -7603,7 +7603,7 @@
               }
             ],
             "title": "Effective Date",
-            "description": "비용이 적용되는 기준 날짜입니다. 값을 제공하지 않으면 현재 날짜가 기본값으로 사용됩니다."
+            "description": "이 날짜부터 비용이 적용되는 기준 날짜입니다. 제공되지 않으면 기본값은 현재 날짜입니다."
           },
           "provider_id": {
             "anyOf": [
@@ -7615,7 +7615,7 @@
               }
             ],
             "title": "Provider Id",
-            "description": "LLM 제공자입니다. 예: 'openai', 'mistral'. 제공하지 않으면 provider_id가 'default'로 설정됩니다."
+            "description": "LLM의 제공자입니다. 예: 'openai' 또는 'mistral'. 지정하지 않으면 `provider_id`는 'default'로 설정됩니다."
           }
         },
         "additionalProperties": false,
@@ -7652,7 +7652,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
           }
         },
         "additionalProperties": false,
@@ -7970,7 +7970,7 @@
               }
             ],
             "title": "Name",
-            "description": "이 데이터셋의 이름입니다. 같은 이름의 데이터셋은 하나의 버전 체계로 함께 관리됩니다."
+            "description": "이 데이터셋의 이름입니다. 동일한 이름의 데이터셋은 함께 버전으로 관리됩니다."
           },
           "description": {
             "anyOf": [
@@ -7982,7 +7982,7 @@
               }
             ],
             "title": "Description",
-            "description": "이 데이터셋에 대한 설명입니다."
+            "description": "이 데이터셋에 대한 설명"
           },
           "rows": {
             "items": {
@@ -7991,7 +7991,7 @@
             },
             "type": "array",
             "title": "Rows",
-            "description": "데이터셋의 행(row)"
+            "description": "데이터셋 행"
           }
         },
         "type": "object",
@@ -8031,7 +8031,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 데이터셋 버전 수"
+            "description": "삭제된 데이터셋 버전의 수"
           }
         },
         "type": "object",
@@ -8050,7 +8050,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "데이터셋 객체의 다이제스트 값"
+            "description": "데이터셋 객체 다이제스트"
           },
           "version_index": {
             "type": "integer",
@@ -8083,7 +8083,7 @@
           "rows": {
             "type": "string",
             "title": "Rows",
-            "description": "데이터셋의 행(row) 데이터에 대한 참조"
+            "description": "데이터셋 행 데이터에 대한 참조"
           }
         },
         "type": "object",
@@ -8258,7 +8258,7 @@
           "$eq"
         ],
         "title": "EqOperation",
-        "description": "두 피연산자의 동등성(equality)을 검사합니다.\n\n예:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
+        "description": "두 피연산자가 동일한지(equality) 검사합니다.\n\n예시:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
       },
       "EvaluateModelReq": {
         "properties": {
@@ -8284,7 +8284,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 서버가 이 필드를 자동으로 채웁니다."
           }
         },
         "additionalProperties": false,
@@ -8314,7 +8314,7 @@
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "이 Evaluation의 이름입니다. 동일한 이름을 가진 Evaluation들은 함께 버전이 관리됩니다."
+            "description": "이 평가의 이름입니다. 같은 이름을 가진 평가는 함께 버전 관리됩니다."
           },
           "description": {
             "anyOf": [
@@ -8326,12 +8326,12 @@
               }
             ],
             "title": "Description",
-            "description": "이 Evaluation에 대한 설명"
+            "description": "이 평가에 대한 설명"
           },
           "dataset": {
             "type": "string",
             "title": "Dataset",
-            "description": "데이터셋에 대한 참조 (weave:// URI)"
+            "description": "데이터셋에 대한 참조(weave:// URI)"
           },
           "scorers": {
             "anyOf": [
@@ -8346,12 +8346,12 @@
               }
             ],
             "title": "Scorers",
-            "description": "Scorer 참조 목록 (weave:// URI들)"
+            "description": "스코어러 레퍼런스 목록(weave:// URI)"
           },
           "trials": {
             "type": "integer",
             "title": "Trials",
-            "description": "실행할 트라이얼 수",
+            "description": "실행할 trial 수",
             "default": 1
           },
           "evaluation_name": {
@@ -8364,7 +8364,7 @@
               }
             ],
             "title": "Evaluation Name",
-            "description": "Evaluation 실행 이름"
+            "description": "evaluation run의 이름"
           },
           "eval_attributes": {
             "anyOf": [
@@ -8377,7 +8377,7 @@
               }
             ],
             "title": "Eval Attributes",
-            "description": "Evaluation에 대한 선택적 속성들"
+            "description": "evaluation에 대한 선택적 속성"
           }
         },
         "type": "object",
@@ -8392,22 +8392,22 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "생성된 Evaluation의 다이제스트"
+            "description": "생성된 evaluation의 다이제스트"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "생성된 Evaluation의 ID"
+            "description": "생성된 evaluation의 ID"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "생성된 Evaluation의 버전 인덱스"
+            "description": "생성된 evaluation의 버전 인덱스"
           },
           "evaluation_ref": {
             "type": "string",
             "title": "Evaluation Ref",
-            "description": "생성된 Evaluation에 대한 전체 참조"
+            "description": "생성된 evaluation에 대한 전체 레퍼런스"
           }
         },
         "type": "object",
@@ -8424,7 +8424,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 Evaluation 버전의 수"
+            "description": "삭제된 evaluation 버전 수"
           }
         },
         "type": "object",
@@ -8438,28 +8438,28 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "Evaluation ID"
+            "description": "evaluation ID"
           },
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "Evaluation의 다이제스트"
+            "description": "평가 다이제스트"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "Evaluation의 버전 인덱스"
+            "description": "평가 버전 인덱스"
           },
           "created_at": {
             "type": "string",
             "format": "date-time",
             "title": "Created At",
-            "description": "Evaluation 생성 시간"
+            "description": "평가 생성 시각"
           },
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "Evaluation 이름"
+            "description": "평가 이름"
           },
           "description": {
             "anyOf": [
@@ -8471,12 +8471,12 @@
               }
             ],
             "title": "Description",
-            "description": "Evaluation 설명"
+            "description": "평가 설명"
           },
           "dataset": {
             "type": "string",
             "title": "Dataset",
-            "description": "데이터셋 참조(weave:// URI)"
+            "description": "데이터셋 참조 (weave:// URI)"
           },
           "scorers": {
             "items": {
@@ -8484,12 +8484,12 @@
             },
             "type": "array",
             "title": "Scorers",
-            "description": "스코어러 참조 목록(weave:// URI 목록)"
+            "description": "스코어러 참조 목록 (weave:// URI)"
           },
           "trials": {
             "type": "integer",
             "title": "Trials",
-            "description": "시도(trial) 수"
+            "description": "시도 횟수"
           },
           "evaluation_name": {
             "anyOf": [
@@ -8501,7 +8501,7 @@
               }
             ],
             "title": "Evaluation Name",
-            "description": "Evaluation 실행 이름"
+            "description": "evaluation run 이름"
           },
           "evaluate_op": {
             "anyOf": [
@@ -8513,7 +8513,7 @@
               }
             ],
             "title": "Evaluate Op",
-            "description": "Evaluate op 참조(weave:// URI)"
+            "description": "Evaluate op 참조 (weave:// URI)"
           },
           "predict_and_score_op": {
             "anyOf": [
@@ -8525,7 +8525,7 @@
               }
             ],
             "title": "Predict And Score Op",
-            "description": "Predict and score op 참조(weave:// URI)"
+            "description": "Predict 및 score op에 대한 참조(weave:// URI)"
           },
           "summarize_op": {
             "anyOf": [
@@ -8558,7 +8558,7 @@
           "evaluation": {
             "type": "string",
             "title": "Evaluation",
-            "description": "Evaluation에 대한 참조(weave:// URI)"
+            "description": "evaluation에 대한 참조(weave:// URI)"
           },
           "model": {
             "type": "string",
@@ -8578,7 +8578,7 @@
           "evaluation_run_id": {
             "type": "string",
             "title": "Evaluation Run Id",
-            "description": "생성된 평가 실행의 ID"
+            "description": "생성된 evaluation run의 ID"
           }
         },
         "type": "object",
@@ -8592,7 +8592,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 평가 실행의 개수"
+            "description": "삭제된 evaluation run의 개수"
           }
         },
         "type": "object",
@@ -8614,19 +8614,19 @@
               }
             ],
             "title": "Summary",
-            "description": "평가 실행을 위한 선택적 summary 딕셔너리"
+            "description": "evaluation run에 대한 선택적인 요약 사전"
           }
         },
         "type": "object",
         "title": "EvaluationRunFinishBody",
-        "description": "REST API를 통해 평가 실행을 종료할 때 사용하는 요청 본문입니다.\n\n이 모델에는 RESTful 엔드포인트에서 URL 경로로 전달되는 project_id와 evaluation_run_id가 포함되지 않습니다."
+        "description": "REST API를 통해 evaluation run을 종료하기 위한 요청 본문.\n\nRESTful 엔드포인트에서는 URL 경로에서 project_id와 evaluation_run_id가 제공되므로, 이 모델에는 둘 다 포함되지 않습니다."
       },
       "EvaluationRunFinishRes": {
         "properties": {
           "success": {
             "type": "boolean",
             "title": "Success",
-            "description": "평가 실행이 성공적으로 종료되었는지 여부"
+            "description": "evaluation run이 성공적으로 종료되었는지 여부"
           }
         },
         "type": "object",
@@ -8640,17 +8640,17 @@
           "evaluation_run_id": {
             "type": "string",
             "title": "Evaluation Run Id",
-            "description": "평가 실행 ID"
+            "description": "evaluation run의 ID"
           },
           "evaluation": {
             "type": "string",
             "title": "Evaluation",
-            "description": "Evaluation에 대한 참조 (weave:// URI)"
+            "description": "평가를 가리키는 참조(weave:// URI)"
           },
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "모델에 대한 참조 (weave:// URI)"
+            "description": "모델을 가리키는 참조(weave:// URI)"
           },
           "status": {
             "anyOf": [
@@ -8662,7 +8662,7 @@
               }
             ],
             "title": "Status",
-            "description": "Evaluation 실행 상태"
+            "description": "evaluation run의 상태"
           },
           "started_at": {
             "anyOf": [
@@ -8675,7 +8675,7 @@
               }
             ],
             "title": "Started At",
-            "description": "Evaluation 실행이 시작된 시각"
+            "description": "evaluation run이 시작된 시각"
           },
           "finished_at": {
             "anyOf": [
@@ -8688,7 +8688,7 @@
               }
             ],
             "title": "Finished At",
-            "description": "Evaluation 실행이 완료된 시각"
+            "description": "evaluation run이 종료된 시각"
           },
           "summary": {
             "anyOf": [
@@ -8701,7 +8701,7 @@
               }
             ],
             "title": "Summary",
-            "description": "Evaluation 실행에 대한 요약 데이터"
+            "description": "evaluation run에 대한 요약 데이터"
           }
         },
         "type": "object",
@@ -8885,7 +8885,7 @@
               }
             ],
             "title": "Id",
-            "description": "클라이언트에서 제공한 경우, 서버가 생성한 ID 대신 이 ID가 피드백 행의 ID로 사용됩니다.",
+            "description": "클라이언트에서 제공한 경우, 이 ID가 서버에서 생성한 ID 대신 피드백 행(row)에 사용됩니다.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9001,7 +9001,7 @@
               }
             ],
             "title": "Queue Id",
-            "description": "이 피드백이 생성된 주석 대기열의 ID입니다. annotation_queues.id를 참조합니다. 대기열 외부에서 생성된 피드백인 경우 NULL입니다.",
+            "description": "이 피드백이 생성된 annotation queue의 ID입니다. annotation_queues.id를 참조합니다. 큐 외부에서 피드백이 생성된 경우 NULL입니다.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9016,7 +9016,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마세요. 이 필드는 서버가 자동으로 채웁니다."
+            "description": "직접 설정하지 마세요. 이 필드는 서버에서 자동으로 채워집니다."
           }
         },
         "additionalProperties": false,
@@ -9204,7 +9204,7 @@
               }
             ],
             "title": "Id",
-            "description": "클라이언트가 제공한 경우, 서버에서 생성한 ID 대신 이 ID가 피드백 행의 ID로 사용됩니다.",
+            "description": "클라이언트에서 제공한 경우, 이 ID가 서버에서 생성한 ID 대신 피드백 행(row)에 사용됩니다.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9320,7 +9320,7 @@
               }
             ],
             "title": "Queue Id",
-            "description": "이 피드백이 생성된 annotation queue의 ID입니다. annotation_queues.id를 참조합니다. 큐 외부에서 피드백이 생성된 경우에는 NULL입니다.",
+            "description": "이 피드백이 생성된 annotation queue의 ID입니다. annotation_queues.id를 참조합니다. 큐 밖에서 피드백이 생성된 경우 NULL입니다.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9335,7 +9335,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
           },
           "feedback_id": {
             "type": "string",
@@ -9447,32 +9447,32 @@
           "file_index": {
             "type": "integer",
             "title": "File Index",
-            "description": "CSV 파일의 한 행"
+            "description": "CSV 파일의 행"
           },
           "range_start_int": {
             "type": "integer",
             "title": "Range Start Int",
-            "description": "정수 형태의 IP 범위 시작값"
+            "description": "정수형 IP 범위 시작값"
           },
           "range_end_int": {
             "type": "integer",
             "title": "Range End Int",
-            "description": "정수 형태의 IP 범위 끝값"
+            "description": "정수형 IP 범위 끝값"
           },
           "range_start_ip": {
             "type": "string",
             "title": "Range Start Ip",
-            "description": "점으로 구분된 10진수 표기법의 IP 범위 시작값"
+            "description": "점 표기 10진수(dotted decimal) 형식의 IP 범위 시작값"
           },
           "range_end_ip": {
             "type": "string",
             "title": "Range End Ip",
-            "description": "점으로 구분된 10진수 표기법의 IP 범위 끝값"
+            "description": "점 표기 10진수(dotted decimal) 형식의 IP 범위 끝값"
           },
           "country_code": {
             "type": "string",
             "title": "Country Code",
-            "description": "ISO 3166-1 alpha-2 형식의 두 글자 국가 코드"
+            "description": "ISO 3166-1 Alpha-2 형식의 2글자 국가 코드"
           },
           "country_name": {
             "anyOf": [
@@ -9484,7 +9484,7 @@
               }
             ],
             "title": "Country Name",
-            "description": "국가 이름, 판별할 수 없으면 None"
+            "description": "국가 이름, 판별할 수 없는 경우 None"
           }
         },
         "type": "object",
@@ -9503,7 +9503,7 @@
           "ip": {
             "type": "string",
             "title": "Ip",
-            "description": "확인된 IP 주소(디버깅에 유용)"
+            "description": "해석된 IP 주소로, 디버깅에 유용합니다."
           },
           "location": {
             "anyOf": [
@@ -9514,12 +9514,12 @@
                 "type": "null"
               }
             ],
-            "description": "IP 주소의 위치 정보, 판별할 수 없으면 None"
+            "description": "IP 주소 위치에 대한 정보입니다. 위치를 확인할 수 없는 경우 None입니다."
           },
           "allowed": {
             "type": "boolean",
             "title": "Allowed",
-            "description": "해당 IP 주소를 추론에 사용할 수 있는지 여부",
+            "description": "이 IP 주소를 추론(inference)에 사용할 수 있는지 여부입니다.",
             "default": false
           }
         },
@@ -9541,7 +9541,7 @@
           "$getField"
         ],
         "title": "GetFieldOperator",
-        "description": "추적된 호출(traced call)의 필드를 조회합니다.\n\n중첩 필드에 접근하기 위해 점(dot) 표기법을 지원합니다. 예: `summary.usage.tokens`\n\n`CallSchema`에 정의된 필드에서만 동작하며, 다음을 포함합니다:\n- `op_name`, `trace_id`, `started_at` 같은 최상위 필드\n- `inputs.input_name`, `summary.usage.tokens` 등의 중첩 필드\n\n예시:\n``` \n{\"$getField\": \"op_name\"}\n```"
+        "description": "추적된 호출(traced call)의 필드에 접근합니다.\n\n중첩 필드 접근을 위해 점 표기법(dot notation)을 지원합니다. 예: `summary.usage.tokens`.\n\n`CallSchema`에 포함된 필드에서만 동작하며, 예시는 다음과 같습니다.\n- `op_name`, `trace_id`, `started_at`와 같은 최상위 필드\n- `inputs.input_name`, `summary.usage.tokens` 등의 중첩 필드\n\n예시:\n    ```\n    {\"$getField\": \"op_name\"}\n    ```"
       },
       "GtOperation": {
         "properties": {
@@ -9645,7 +9645,7 @@
           "$gt"
         ],
         "title": "GtOperation",
-        "description": "보다 큰지 비교하는 연산자입니다.\n\n예시:\n    ```\n    {\n        \"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "크다(greater than) 비교 연산입니다.\n\n예시:\n    ```\n    {\n        \"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "GteOperation": {
         "properties": {
@@ -9749,7 +9749,7 @@
           "$gte"
         ],
         "title": "GteOperation",
-        "description": "크거나 같은지 비교하는 연산자입니다.\n\n예시:\n    ```\n    {\n        \"$gte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "크거나 같다(greater than or equal) 비교 연산입니다.\n\n예시:\n    ```\n    {\n        \"$gte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "HTTPValidationError": {
         "properties": {
@@ -9783,7 +9783,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 이 필드는 서버에서 자동으로 채워집니다."
           },
           "track_llm_call": {
             "anyOf": [
@@ -9795,7 +9795,7 @@
               }
             ],
             "title": "Track Llm Call",
-            "description": "이 이미지 생성 호출을 trace 서버에서 추적할지 여부입니다.",
+            "description": "이 이미지 생성 호출을 Trace 서버에서 추적할지 여부",
             "default": true
           }
         },
@@ -9965,7 +9965,7 @@
           "$in"
         ],
         "title": "InOperation",
-        "description": "포함 여부 검사.\n\n왼쪽 피연산자가 두 번째 피연산자로 주어진 리스트에 포함되어 있으면 true를 반환합니다.\n\n예시:\n``` \n{\n    \"$in\": [\n        {\"$getField\": \"op_name\"},\n        [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n    ]\n}\n```"
+        "description": "멤버십 테스트.\n\n왼쪽 피연산자가 두 번째 피연산자로 제공된 리스트에 포함되어 있으면 true를 반환합니다.\n\n예시:\n    ```\n    {\n        \"$in\": [\n            {\"$getField\": \"op_name\"},\n            [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n        ]\n    }\n    ```"
       },
       "LLMAggregatedUsage": {
         "properties": {
@@ -10014,7 +10014,7 @@
         },
         "type": "object",
         "title": "LLMAggregatedUsage",
-        "description": "특정 LLM에 대한 집계된 사용량 메트릭입니다."
+        "description": "특정 LLM에 대한 집계된 사용 메트릭."
       },
       "LLMUsageSchema": {
         "properties": {
@@ -10129,7 +10129,7 @@
           "$literal"
         ],
         "title": "LiteralOperation",
-        "description": "쿼리 언어에서 상수 값을 나타냅니다.\n\n표준 JSON으로 직렬화할 수 있는 모든 값을 사용할 수 있습니다.\n\n예시:\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
+        "description": "쿼리 언어에서 상수 값을 나타냅니다.\n\nJSON으로 직렬화할 수 있는 표준 값이라면 어떤 것이든 사용할 수 있습니다.\n\n예시:\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
       },
       "LtOperation": {
         "properties": {
@@ -10233,7 +10233,7 @@
           "$lt"
         ],
         "title": "LtOperation",
-        "description": "더 작은 값인지 비교합니다.\n\n예시:\n    ```\n    {\n        \"$lt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "보다 작음(less than) 비교.\n\n예시:\n    ```\n    {\n        \"$lt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "LteOperation": {
         "properties": {
@@ -10337,14 +10337,14 @@
           "$lte"
         ],
         "title": "LteOperation",
-        "description": "작거나 같음(≤) 비교 연산.\n\n예시:\n    ```\n    {\n        \"$lte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "작거나 같음(less than or equal) 비교.\n\n예시:\n    ```\n    {\n        \"$lte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "ModelCreateBody": {
         "properties": {
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "이 모델의 이름입니다. 동일한 이름을 가진 모델은 함께 버전이 관리됩니다."
+            "description": "이 모델의 이름입니다. 동일한 이름을 가진 모델들은 함께 버전 관리됩니다."
           },
           "description": {
             "anyOf": [
@@ -10361,7 +10361,7 @@
           "source_code": {
             "type": "string",
             "title": "Source Code",
-            "description": "import 문을 포함한 Model 클래스의 전체 소스 코드입니다."
+            "description": "import를 포함한 Model 클래스의 전체 소스 코드입니다."
           },
           "attributes": {
             "anyOf": [
@@ -10389,7 +10389,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "생성된 모델의 다이제스트(digest) 값입니다."
+            "description": "생성된 모델의 다이제스트입니다."
           },
           "object_id": {
             "type": "string",
@@ -10404,7 +10404,7 @@
           "model_ref": {
             "type": "string",
             "title": "Model Ref",
-            "description": "생성된 모델에 대한 전체 참조"
+            "description": "생성된 모델에 대한 전체 참조입니다."
           }
         },
         "type": "object",
@@ -10421,7 +10421,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 모델 버전의 수"
+            "description": "삭제된 모델 버전의 수입니다."
           }
         },
         "type": "object",
@@ -10435,12 +10435,12 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "모델 ID"
+            "description": "모델 ID입니다."
           },
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "모델 다이제스트"
+            "description": "모델의 다이제스트"
           },
           "version_index": {
             "type": "integer",
@@ -10451,7 +10451,7 @@
             "type": "string",
             "format": "date-time",
             "title": "Created At",
-            "description": "모델이 생성된 시간"
+            "description": "모델 생성 시각"
           },
           "name": {
             "type": "string",
@@ -10468,12 +10468,12 @@
               }
             ],
             "title": "Description",
-            "description": "모델에 대한 설명"
+            "description": "모델 설명"
           },
           "source_code": {
             "type": "string",
             "title": "Source Code",
-            "description": "모델의 소스 코드"
+            "description": "모델 소스 코드"
           },
           "attributes": {
             "anyOf": [
@@ -10559,7 +10559,7 @@
           "$not"
         ],
         "title": "NotOperation",
-        "description": "논리 NOT 연산자입니다. 조건을 반전합니다.\n\n예시:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
+        "description": "논리 NOT 연산자. 조건을 반전합니다.\n\n예시:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
       },
       "ObjCreateReq": {
         "properties": {
@@ -10621,7 +10621,7 @@
               }
             ],
             "title": "Digests",
-            "description": "삭제할 다이제스트의 목록입니다. 값을 제공하지 않으면 해당 객체의 모든 다이제스트가 삭제됩니다."
+            "description": "삭제할 다이제스트 목록입니다. 이 값을 제공하지 않으면 객체의 모든 다이제스트가 삭제됩니다."
           }
         },
         "additionalProperties": false,
@@ -10650,7 +10650,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "쿼리할 프로젝트의 ID입니다.",
+            "description": "조회할 프로젝트 ID",
             "examples": [
               "user/project"
             ]
@@ -10684,7 +10684,7 @@
               }
             ],
             "title": "Limit",
-            "description": "반환할 최대 결과 수입니다.",
+            "description": "반환할 최대 결과 개수입니다.",
             "examples": [
               100
             ]
@@ -10699,7 +10699,7 @@
               }
             ],
             "title": "Offset",
-            "description": "반환을 시작하기 전에 건너뛸 결과 개수입니다.",
+            "description": "결과를 반환하기 전에 건너뛸 결과 개수입니다.",
             "examples": [
               0
             ]
@@ -10717,7 +10717,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "쿼리 결과를 정렬할 기준입니다. 현재는 `object_id`와 `created_at`만 지원합니다.",
+            "description": "쿼리 결과의 정렬 기준입니다. 현재 'object_id'와 'created_at'만 지원합니다.",
             "examples": [
               [
                 {
@@ -10737,7 +10737,7 @@
               }
             ],
             "title": "Metadata Only",
-            "description": "true이면 `val` 열은 데이터베이스에서 읽지 않으며, 결과에서 비어 있는 상태로 반환됩니다. 다른 필드는 모두 반환됩니다.",
+            "description": "true인 경우 데이터베이스에서 `val` 컬럼을 읽지 않아 비어 있게 됩니다. 나머지 모든 필드는 반환됩니다.",
             "default": false
           },
           "include_storage_size": {
@@ -10750,7 +10750,7 @@
               }
             ],
             "title": "Include Storage Size",
-            "description": "true이면 `size_bytes` 열이 반환됩니다.",
+            "description": "true인 경우 `size_bytes` 컬럼이 반환됩니다.",
             "default": false
           }
         },
@@ -10801,7 +10801,7 @@
               }
             ],
             "title": "Metadata Only",
-            "description": "true이면 `val` 열은 데이터베이스에서 읽지 않으며, 결과에서 비어 있는 상태로 반환됩니다. 다른 필드는 모두 반환됩니다.",
+            "description": "true인 경우 데이터베이스에서 `val` 컬럼을 읽지 않아 비어 있게 됩니다. 나머지 모든 필드는 반환됩니다.",
             "default": false
           }
         },
@@ -10904,7 +10904,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다."
           },
           "size_bytes": {
             "anyOf": [
@@ -11004,7 +11004,7 @@
               }
             ],
             "title": "Base Object Classes",
-            "description": "객체를 해당 기본 클래스를 기준으로 필터링합니다.",
+            "description": "기본(base) 클래스로 객체를 필터링합니다.",
             "examples": [
               [
                 "Model"
@@ -11027,7 +11027,7 @@
               }
             ],
             "title": "Exclude Base Object Classes",
-            "description": "객체를 해당 기본 클래스를 기준으로 제외합니다.",
+            "description": "기본 클래스(베이스 클래스)를 기준으로 객체를 제외합니다",
             "examples": [
               [
                 "Model"
@@ -11050,7 +11050,7 @@
               }
             ],
             "title": "Leaf Object Classes",
-            "description": "객체를 해당 리프(leaf) 클래스를 기준으로 필터링합니다.",
+            "description": "리프 클래스(leaf class)를 기준으로 객체를 필터링합니다",
             "examples": [
               [
                 "Model"
@@ -11076,7 +11076,7 @@
               }
             ],
             "title": "Object Ids",
-            "description": "객체를 해당 ID를 기준으로 필터링합니다.",
+            "description": "ID를 기준으로 객체를 필터링합니다",
             "examples": [
               "my_favorite_model",
               "my_favorite_dataset"
@@ -11092,7 +11092,7 @@
               }
             ],
             "title": "Is Op",
-            "description": "객체가 `weave.ops` 객체인지 여부를 기준으로 필터링합니다. `True`이면 op만 반환하고, `False`이면 op가 아닌 것만 반환하며, `None`이면 모든 객체를 반환합니다.",
+            "description": "객체가 weave.ops인지 여부를 기준으로 필터링합니다. `True`이면 op만 반환하고, `False`이면 op가 아닌 것만 반환하며, `None`이면 모든 객체를 반환합니다",
             "examples": [
               true,
               false,
@@ -11109,7 +11109,7 @@
               }
             ],
             "title": "Latest Only",
-            "description": "`True`인 경우 각 객체의 최신 버전만 반환합니다. `False` 또는 `None`인 경우 모든 버전을 반환합니다.",
+            "description": "`True`이면 각 객체의 최신 버전만 반환합니다. `False`와 `None`인 경우 모든 버전을 반환합니다",
             "examples": [
               true,
               false
@@ -11132,7 +11132,7 @@
               }
             ],
             "title": "Name",
-            "description": "이 Op의 이름입니다. 같은 이름을 가진 Op들은 함께 버전으로 관리됩니다."
+            "description": "이 op의 이름입니다. 동일한 이름을 가진 op들은 함께 버전이 관리됩니다."
           },
           "source_code": {
             "anyOf": [
@@ -11144,29 +11144,29 @@
               }
             ],
             "title": "Source Code",
-            "description": "이 Op의 전체 소스 코드(모든 import 포함)입니다."
+            "description": "이 op의 import를 포함한 전체 소스 코드입니다"
           }
         },
         "type": "object",
         "title": "OpCreateBody",
-        "description": "REST API를 통해 Op 객체를 생성할 때 사용하는 요청 본문입니다.\n\n이 모델에서는 RESTful 엔드포인트의 URL 경로에서 전달되기 때문에 project_id를 포함하지 않습니다."
+        "description": "REST API를 통해 Op 객체를 생성하기 위한 요청 본문입니다.\n\n이 모델에는 RESTful 엔드포인트에서 URL 경로로 전달되는 project_id가 포함되지 않습니다."
       },
       "OpCreateRes": {
         "properties": {
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "생성된 Op의 다이제스트(digest)입니다."
+            "description": "생성된 op의 다이제스트입니다"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "생성된 Op의 ID입니다."
+            "description": "생성된 op ID"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "생성된 Op의 버전 인덱스입니다."
+            "description": "생성된 op의 버전 인덱스"
           }
         },
         "type": "object",
@@ -11183,7 +11183,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "이 Op에서 삭제된 Op 버전 개수입니다."
+            "description": "이 op에 대해 삭제된 op 버전의 개수"
           }
         },
         "type": "object",
@@ -11202,7 +11202,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "해당 op의 다이제스트 값"
+            "description": "op의 다이제스트"
           },
           "version_index": {
             "type": "integer",
@@ -11218,7 +11218,7 @@
           "code": {
             "type": "string",
             "title": "Code",
-            "description": "이 op의 실제 소스 코드"
+            "description": "실제 op 소스 코드"
           }
         },
         "type": "object",
@@ -11230,7 +11230,7 @@
           "code"
         ],
         "title": "OpReadRes",
-        "description": "Op 객체를 조회하기 위한 응답 모델입니다.\n\ncode 필드에는 해당 op의 실제 소스 코드가 포함됩니다."
+        "description": "Op 객체를 조회할 때 사용하는 응답 모델입니다.\n\ncode 필드에는 op의 실제 소스 코드가 포함됩니다."
       },
       "OrOperation": {
         "properties": {
@@ -11287,14 +11287,14 @@
           "$or"
         ],
         "title": "OrOperation",
-        "description": "논리 OR 연산자입니다. 최소 하나의 조건이 참이면 전체 표현식이 참이 됩니다.\n\n예시:\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
+        "description": "논리 OR 연산자입니다. 조건 중 하나 이상이 참이어야 합니다.\n\n예시:\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
       },
       "PredictionCreateBody": {
         "properties": {
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "모델 참조(weave:// URI)"
+            "description": "모델 참조값(weave:// URI)"
           },
           "inputs": {
             "additionalProperties": true,
@@ -11316,7 +11316,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "이 예측을 하위 호출로 연결하기 위한 선택적 Evaluation 실행 ID"
+            "description": "이 예측을 하위 호출로 연결하기 위해 사용하는 선택적 평가 run ID"
           }
         },
         "type": "object",
@@ -11326,7 +11326,7 @@
           "output"
         ],
         "title": "PredictionCreateBody",
-        "description": "REST API를 통해 Prediction을 생성할 때 사용하는 요청 본문입니다.\n\n이 모델에는 RESTful 엔드포인트의 URL 경로로 전달되는 project_id는 포함되지 않습니다."
+        "description": "REST API를 통해 예측을 생성할 때 사용하는 요청 본문입니다.\n\n이 모델에서는 RESTful 엔드포인트의 URL 경로로 전달되는 project_id는 포함하지 않습니다."
       },
       "PredictionCreateRes": {
         "properties": {
@@ -11347,7 +11347,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 예측 수"
+            "description": "삭제된 예측 개수"
           }
         },
         "type": "object",
@@ -11380,17 +11380,17 @@
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "모델 참조(weave:// URI)"
+            "description": "모델 참조값(weave:// URI)"
           },
           "inputs": {
             "additionalProperties": true,
             "type": "object",
             "title": "Inputs",
-            "description": "예측 입력값"
+            "description": "예측 입력"
           },
           "output": {
             "title": "Output",
-            "description": "예측 출력값"
+            "description": "예측 출력"
           },
           "evaluation_run_id": {
             "anyOf": [
@@ -11402,7 +11402,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "이 예측이 Evaluation과 연결된 경우, 해당 Evaluation 실행 ID"
+            "description": "이 예측이 특정 evaluation run에 연결된 경우의 evaluation run ID입니다."
           },
           "wb_user_id": {
             "anyOf": [
@@ -11414,7 +11414,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "이 필드는 직접 설정하지 마세요. 서버에서 자동으로 채웁니다."
+            "description": "직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다."
           }
         },
         "type": "object",
@@ -11463,7 +11463,7 @@
           "input_cache_writes"
         ],
         "title": "Pricing",
-        "description": "모든 요금은 토큰 1개당 미화(USD) 기준입니다.\n\n부동소수점 정밀도 문제를 피하기 위해 요금 필드는 문자열 형식으로 제공됩니다."
+        "description": "모든 요금 값은 토큰 1개당 미화(USD) 기준입니다.\n\n부동 소수점 정밀도 문제를 피하기 위해 요금 필드는 문자열 형식으로 제공됩니다."
       },
       "Query": {
         "properties": {
@@ -11693,7 +11693,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "이 점수를 하위 호출에 연결하기 위한 선택적 Evaluation 실행 ID"
+            "description": "이 점수를 하위 호출로서 연결하기 위한 선택적 evaluation run ID입니다."
           }
         },
         "type": "object",
@@ -11703,7 +11703,7 @@
           "value"
         ],
         "title": "ScoreCreateBody",
-        "description": "REST API를 통해 Score를 생성할 때 사용하는 요청 본문입니다.\n\n이 모델은 RESTful 엔드포인트의 URL 경로에서 전달되므로 project_id를 포함하지 않습니다."
+        "description": "REST API를 통해 점수를 생성하기 위한 요청 본문입니다.\n\n이 모델은 RESTful 엔드포인트에서 URL 경로를 통해 전달되므로 project_id를 포함하지 않습니다."
       },
       "ScoreCreateRes": {
         "properties": {
@@ -11724,7 +11724,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 점수 개수"
+            "description": "삭제된 점수의 개수"
           }
         },
         "type": "object",
@@ -11743,7 +11743,7 @@
           "scorer": {
             "type": "string",
             "title": "Scorer",
-            "description": "Scorer 참조(weave:// URI)"
+            "description": "Scorer에 대한 참조(weave:// URI)"
           },
           "value": {
             "type": "number",
@@ -11760,7 +11760,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "이 점수가 연결된 Evaluation 실행 ID"
+            "description": "이 점수가 연결된 Evaluation run이 있는 경우, 해당 run ID"
           },
           "wb_user_id": {
             "anyOf": [
@@ -11772,7 +11772,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마십시오. 서버가 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마세요. 이 필드는 서버에서 자동으로 채웁니다."
           }
         },
         "type": "object",
@@ -11820,22 +11820,22 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "생성된 scorer의 다이제스트"
+            "description": "생성된 스코어러의 다이제스트"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "생성된 scorer의 ID"
+            "description": "생성된 스코어러의 ID"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "생성된 scorer의 버전 인덱스"
+            "description": "생성된 스코어러의 버전 인덱스"
           },
           "scorer": {
             "type": "string",
             "title": "Scorer",
-            "description": "생성된 scorer에 대한 전체 참조값"
+            "description": "생성된 스코어러에 대한 전체 참조"
           }
         },
         "type": "object",
@@ -11852,7 +11852,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "삭제된 scorer 버전의 개수"
+            "description": "삭제된 스코어러 버전의 개수"
           }
         },
         "type": "object",
@@ -11866,28 +11866,28 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "scorer ID"
+            "description": "스코어러 ID"
           },
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "scorer의 다이제스트"
+            "description": "스코어러의 다이제스트"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "객체의 버전 인덱스"
+            "description": "해당 객체의 버전 인덱스"
           },
           "created_at": {
             "type": "string",
             "format": "date-time",
             "title": "Created At",
-            "description": "scorer가 생성된 시간"
+            "description": "스코어러가 생성된 시간"
           },
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "스코어러 이름"
+            "description": "스코어러의 이름"
           },
           "description": {
             "anyOf": [
@@ -11899,12 +11899,12 @@
               }
             ],
             "title": "Description",
-            "description": "스코어러에 대한 설명"
+            "description": "Scorer에 대한 설명"
           },
           "score_op": {
             "type": "string",
             "title": "Score Op",
-            "description": "Scorer.score 연산(op) 레퍼런스"
+            "description": "Scorer.score op에 대한 레퍼런스"
           }
         },
         "type": "object",
@@ -12072,7 +12072,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "직접 설정하지 마세요. 서버에서 이 필드를 자동으로 채웁니다."
+            "description": "직접 설정하지 마십시오. 서버에서 이 필드를 자동으로 채웁니다."
           },
           "wb_run_id": {
             "anyOf": [
@@ -12217,7 +12217,7 @@
             },
             "type": "array",
             "title": "Row Digests",
-            "description": "생성된 행 다이제스트"
+            "description": "생성된 행의 다이제스트"
           }
         },
         "type": "object",
@@ -12295,7 +12295,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "쿼리할 테이블 다이제스트",
+            "description": "쿼리할 테이블의 다이제스트",
             "examples": [
               "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims"
             ]
@@ -12329,7 +12329,7 @@
               }
             ],
             "title": "Limit",
-            "description": "반환할 최대 행 개수",
+            "description": "반환할 최대 행 수",
             "examples": [
               100
             ]
@@ -12344,7 +12344,7 @@
               }
             ],
             "title": "Offset",
-            "description": "행을 반환하기 시작하기 전에 건너뛸 행 개수",
+            "description": "행을 반환하기 시작하기 전에 건너뛸 행의 개수",
             "examples": [
               10
             ]
@@ -12362,7 +12362,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "정렬에 사용할 필드 목록입니다. 딕셔너리 값을 참조하려면 필드를 점(dot)으로 구분해 지정할 수 있습니다. 정렬을 지정하지 않으면 기본 테이블 순서(삽입 순서)가 사용됩니다.",
+            "description": "정렬에 사용할 필드 목록입니다. 필드는 점(.) 표기법으로 구분하여 사전 값에 접근할 수 있습니다. 정렬 기준을 지정하지 않으면 기본 테이블 순서(삽입 순서)가 사용됩니다.",
             "examples": [
               [
                 {
@@ -12420,7 +12420,7 @@
               }
             ],
             "title": "Digests",
-            "description": "쿼리할 테이블 다이제스트 목록",
+            "description": "쿼리할 테이블의 다이제스트 목록",
             "default": [],
             "examples": [
               "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
@@ -12437,7 +12437,7 @@
               }
             ],
             "title": "Include Storage Size",
-            "description": "true이면 `storage_size_bytes` 열이 반환됩니다.",
+            "description": "true인 경우 `storage_size_bytes` 열이 반환됩니다.",
             "default": false
           }
         },
@@ -12516,7 +12516,7 @@
               }
             ],
             "title": "Row Digests",
-            "description": "필터링에 사용할 행 다이제스트 목록",
+            "description": "필터링할 행 다이제스트 목록",
             "examples": [
               [
                 "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
@@ -12657,7 +12657,7 @@
             },
             "type": "array",
             "title": "Updated Row Digests",
-            "description": "업데이트된 행의 다이제스트 목록"
+            "description": "업데이트된 행의 다이제스트"
           }
         },
         "type": "object",
@@ -12679,7 +12679,7 @@
               }
             ],
             "title": "After Datetime",
-            "description": "이 타임스탬프 이후에 시작된 스레드만 포함합니다.",
+            "description": "이 타임스탬프 이후의 start_time을 가진 스레드만 포함",
             "examples": [
               "2024-01-01T00:00:00Z"
             ]
@@ -12695,7 +12695,7 @@
               }
             ],
             "title": "Before Datetime",
-            "description": "last_updated가 이 타임스탬프 이전인 스레드만을 포함합니다",
+            "description": "이 타임스탬프 이전의 last_updated를 가진 스레드만 포함",
             "examples": [
               "2024-12-31T23:59:59Z"
             ]
@@ -12713,7 +12713,7 @@
               }
             ],
             "title": "Thread Ids",
-            "description": "thread_ids가 이 목록에 포함된 스레드만을 포함합니다",
+            "description": "이 목록에 포함된 thread_ids를 가진 스레드만 포함",
             "examples": [
               [
                 "thread_1",
@@ -12732,7 +12732,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "프로젝트 ID",
+            "description": "프로젝트의 ID",
             "examples": [
               "my_entity/my_project"
             ]
@@ -12758,7 +12758,7 @@
               }
             ],
             "title": "Limit",
-            "description": "반환할 스레드의 최대 개수"
+            "description": "반환할 최대 스레드 개수"
           },
           "offset": {
             "anyOf": [
@@ -12785,7 +12785,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "스레드를 정렬할 기준입니다. 지원되는 필드는 다음과 같습니다: 'thread_id', 'turn_count', 'start_time', 'last_updated', 'p50_turn_duration_ms', 'p99_turn_duration_ms'.",
+            "description": "스레드를 정렬할 기준입니다. 지원되는 필드: 'thread_id', 'turn_count', 'start_time', 'last_updated', 'p50_turn_duration_ms', 'p99_turn_duration_ms'.",
             "examples": [
               [
                 {
@@ -12802,7 +12802,7 @@
           "project_id"
         ],
         "title": "ThreadsQueryReq",
-        "description": "턴 호출(turn calls)에만 기반한 집계 통계를 사용하여 스레드를 조회합니다.\n\n턴 호출은 스레드 컨텍스트에서의 직계 자식(여기서 call.id == turn_id인 호출)입니다.\n이는 모든 중첩된 구현 세부정보를 포함하는 대신, 대화 단위로 의미 있는 통계를 제공합니다."
+        "description": "턴 호출 기준으로만 집계한 통계를 사용해 스레드를 쿼리합니다.\n\n턴 호출은 스레드 컨텍스트의 직계 자식(여기서 call.id == turn_id)으로, 전체 중첩 구현 세부정보를 모두 포함하는 대신 대화 단위에서 의미 있는 통계를 제공합니다."
       },
       "TraceStatus": {
         "type": "string",
@@ -12829,7 +12829,7 @@
                 "type": "null"
               }
             ],
-            "description": "선택할 호출을 지정하는 필터입니다. 일반적으로 trace_ids를 사용해 하나의 트레이스에 포함된 모든 호출을 가져옵니다."
+            "description": "호출을 선택하기 위한 필터입니다. 일반적으로 trace_ids를 사용하여 트레이스 내 모든 호출을 가져옵니다."
           },
           "query": {
             "anyOf": [
@@ -12845,13 +12845,13 @@
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "true인 경우 사용량에 비용 계산을 포함합니다.",
+            "description": "true인 경우, 사용량에 비용 계산을 포함합니다.",
             "default": false
           },
           "limit": {
             "type": "integer",
             "title": "Limit",
-            "description": "처리할 호출의 최대 개수입니다. 무제한 메모리 사용을 방지하기 위한 안전 상한으로 동작합니다.",
+            "description": "처리할 최대 호출 수입니다. 무제한 메모리 사용을 방지하기 위한 안전 상한으로 동작합니다.",
             "default": 10000
           }
         },
@@ -12861,7 +12861,7 @@
           "project_id"
         ],
         "title": "TraceUsageReq",
-        "description": "하위 호출 롤업(descendant rollup)을 포함하여, 하나의 트레이스에 대해 호출(call) 단위의 사용량을 계산합니다.\n\n이 엔드포인트는 트레이스 내 각 호출(call)에 대한 사용량 메트릭을 반환합니다. 각 호출의 메트릭에는 해당 호출 자체의 사용량과 모든 하위 호출(descendants)의 사용량 합계가 포함됩니다. 이는 트레이스 뷰에서 호출별 롤업 메트릭을 보고자 할 때 사용하십시오.\n\n참고: 집계를 위해 조건과 일치하는 모든 호출이 메모리로 로드됩니다. 결과 집합이 매우 큰 경우(호출 1만 개 초과)에는 더 구체적인 필터를 사용하거나 애플리케이션 레벨에서 페이지네이션을 적용하는 것을 권장합니다."
+        "description": "트레이스에 대해 호출별 사용량을 계산하고, 하위 호출까지 집계(롤업)하는 요청입니다.\n\n이 엔드포인트는 트레이스 내 각 호출에 대한 사용량 메트릭을 반환하며,\n각 호출의 메트릭에는 해당 호출 자체 사용량과 모든 하위 호출의 사용량 합계가 포함됩니다.\n호출별로 집계된 메트릭을 확인해야 하는 트레이스 뷰에서 이 엔드포인트를 사용하십시오.\n\n참고: 집계를 위해 조건과 일치하는 모든 호출이 메모리에 로드됩니다. 매우 큰 결과 집합(호출 1만 건 초과)의 경우,\n더 구체적인 필터를 사용하거나 애플리케이션 레벨에서 페이지네이션을 구현하는 것을 고려하십시오."
       },
       "TraceUsageRes": {
         "properties": {
@@ -12878,7 +12878,7 @@
         },
         "type": "object",
         "title": "TraceUsageRes",
-        "description": "호출별 사용량 메트릭이 포함된 응답입니다(각 항목에는 하위 호출의 기여분도 포함됩니다)."
+        "description": "호출별 사용량 메트릭에 대한 응답입니다(각 항목에는 하위 호출의 기여분이 포함됩니다)."
       },
       "UsageMetricSpec": {
         "properties": {
@@ -12893,7 +12893,7 @@
               "total_cost"
             ],
             "title": "Metric",
-            "description": "집계할 메트릭입니다. 토큰 메트릭은 프로바이더 간에 정규화됩니다."
+            "description": "집계할 메트릭입니다. 토큰 메트릭은 공급자 간에 정규화됩니다."
           },
           "aggregations": {
             "items": {
@@ -12912,7 +12912,7 @@
             },
             "type": "array",
             "title": "Percentiles",
-            "description": "계산할 백분위수 값(0–100)입니다. 예: p50, p95, p99에 대해서는 [50, 95, 99]",
+            "description": "계산할 백분위수 값(0–100)입니다. 예를 들어 p50, p95, p99를 계산하려면 [50, 95, 99]처럼 지정합니다.",
             "default": []
           }
         },
@@ -12922,7 +12922,7 @@
           "metric"
         ],
         "title": "UsageMetricSpec",
-        "description": "집계할 사용량 메트릭에 대한 정의입니다(모델별로 그룹화됨)."
+        "description": "집계할 사용량 메트릭의 명세입니다(모델별로 그룹화됨)."
       },
       "ValidationError": {
         "properties": {

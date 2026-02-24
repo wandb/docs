@@ -1,10 +1,10 @@
 ---
-title: "사용자 정의 모델 비용"
-description: "W&B Weave에서 사용자 정의 모델 비용을 사용하는 방법을 알아봅니다"
+title: "커스텀 모델 비용"
+description: "W&B Weave에서 커스텀 모델 비용을 사용하는 방법을 알아보세요"
 ---
 
 <Note>
-이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 통해 열 수 있습니다:
+이 노트북은 상호작용형입니다. 로컬에서 실행하거나 아래 링크를 통해 이용할 수 있습니다:
 - [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 - [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 </Note>
@@ -13,23 +13,23 @@ description: "W&B Weave에서 사용자 정의 모델 비용을 사용하는 방
   # 커스텀 비용 모델 설정하기
 </div>
 
-Weave는 사용한 토큰 수와 사용한 모델을 기반으로 비용을 계산합니다.
-Weave는 출력 결과에서 이 사용량과 모델 정보를 가져와 호출과 연결합니다.
+Weave는 사용된 토큰 수와 사용된 모델을 기준으로 비용을 계산합니다.
+Weave는 이 사용량과 모델 정보를 출력에서 가져와 호출과 연결합니다.
 
-토큰 사용량을 직접 계산해 그 값을 Weave에 저장하는 간단한 커스텀 모델을 설정해 보겠습니다.
+이제 토큰 사용량을 스스로 계산하고 그 값을 Weave에 저장하는 간단한 커스텀 모델을 설정해 보겠습니다.
 
 <div id="set-up-the-environment">
   ## 환경 설정
 </div>
 
-필요한 모든 패키지를 설치하고 임포트합니다.
-`wandb.login()`으로 쉽게 로그인할 수 있도록 환경 변수에 `WANDB_API_KEY`를 설정합니다(이는 Colab에 시크릿으로 전달되어야 합니다).
+필요한 모든 패키지를 설치하고 import 합니다.
+`WANDB_API_KEY`를 환경 변수에 설정하여 `wandb.login()`으로 쉽게 로그인할 수 있도록 합니다(이 값은 Colab에 secret으로 제공되어야 합니다).
 
-`name_of_wandb_project`에 이 로그를 기록할 W&amp;B 프로젝트를 설정합니다.
+로그를 남길 W&amp;B 프로젝트를 `name_of_wandb_project`에 설정합니다.
 
-***참고:*** `name_of_wandb_project`는 트레이스를 기록할 팀을 지정하기 위해 `{team_name}/{project_name}` 형식으로도 설정할 수 있습니다.
+***NOTE:*** `name_of_wandb_project`는 트레이스를 기록할 팀을 지정하기 위해 `{team_name}/{project_name}` 형식으로도 사용할 수 있습니다.
 
-그 다음 `weave.init()`을 호출하여 Weave 클라이언트를 가져옵니다.
+그런 다음 `weave.init()`을 호출해서 Weave 클라이언트를 가져옵니다.
 
 ```python lines
 %pip install wandb weave datetime --quiet
@@ -65,18 +65,18 @@ class YourModel(Model):
         return len(text) // 3
 
     # 이것은 우리가 정의하는 커스텀 op입니다
-    # 문자열을 입력받아 사용량 카운트, 모델 이름, 출력이 포함된 dict를 반환합니다
+    # 문자열을 입력받아 사용량 카운트, 모델 이름, 출력이 담긴 사전을 반환합니다
     @weave.op()
     def custom_model_generate(self, input_data: str) -> dict:
         # 모델 로직이 여기에 들어갑니다
-        # 여기에 커스텀 생성 함수를 작성하면 됩니다
+        # 여기에 커스텀 generate 함수를 작성하면 됩니다
         prediction = self.attribute1 + " " + input_data
 
         # 사용량 카운트
         prompt_tokens = self.simple_token_count(input_data)
         completion_tokens = self.simple_token_count(prediction)
 
-        # 사용량 카운트, 모델 이름, 출력이 포함된 딕셔너리를 반환합니다
+        # 사용량 카운트, 모델 이름, 출력이 담긴 사전을 반환합니다
         # Weave가 자동으로 이를 트레이스와 연결합니다
         # 이 객체 {usage, model, output}는 OpenAI 호출의 출력과 일치합니다
         return {
@@ -89,20 +89,20 @@ class YourModel(Model):
             "output": prediction,
         }
 
-    # predict 함수에서 커스텀 생성 함수를 호출하고 출력을 반환합니다.
+    # predict 함수에서 커스텀 generate 함수를 호출하고 출력을 반환합니다.
     @weave.op()
     def predict(self, input_data: str) -> dict:
-        # 여기에서 데이터 후처리를 수행하면 됩니다
+        # 여기에서 데이터의 후처리를 수행하면 됩니다
         outputs = self.custom_model_generate(input_data)
         return outputs["output"]
 ```
 
 
 <div id="add-a-custom-cost">
-  ## 사용자 정의 비용 추가
+  ## 사용자 지정 비용 추가
 </div>
 
-여기서는 사용자 정의 비용을 추가합니다. 이제 사용자 정의 비용이 있고 호출에 사용량이 기록되면, `include_cost`를 사용해 호출을 가져올 수 있으며, 각 호출의 비용은 `summary.weave.costs` 아래에 포함됩니다.
+여기서는 사용자 지정 비용을 추가합니다. 이제 사용자 지정 비용이 설정되었고 호출에 usage 정보가 있으므로, `include_cost`로 호출을 가져올 수 있고, 이때 각 호출의 비용은 `summary.weave.costs` 아래에 포함됩니다.
 
 ```python lines
 model = YourModel(attribute1="Hello", attribute2=1)
@@ -114,7 +114,7 @@ weave_client.add_cost(
 )
 
 # 그런 다음 호출을 조회할 수 있으며, include_costs=True를 사용하면
-# 호출에 연결된 비용을 반환받습니다
+# 호출에 비용 정보가 포함되어 반환됩니다
 calls = weave_client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
 
 list(calls)

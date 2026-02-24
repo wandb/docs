@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Video`
 
-W&B에 비디오를 로깅하는 클래스입니다. 
+W&B에 동영상을 로깅하는 클래스입니다. 
 
-### <kbd>method</kbd> `Video.__init__`
+### <kbd>메서드</kbd> `Video.__init__`
 
 ```python
 __init__(
@@ -28,10 +28,10 @@ W&amp;B Video 객체를 초기화합니다.
 
 **Args:**
 
-* `data_or_path`:  Video 객체는 파일 경로나 IO 객체로 초기화할 수 있습니다.  또한 numpy 텐서로 초기화할 수도 있습니다. numpy 텐서는  4차원 또는 5차원이어야 합니다.  차원 형태는 (프레임 수, 채널, 높이, 너비) 또는  (배치, 프레임 수, 채널, 높이, 너비)여야 합니다.  numpy 배열 또는 IO 객체로 초기화할 때는  `format` 인자를 통해 포맷을 반드시 지정해야 합니다.
+* `data_or_path`:  Video는 파일 경로 또는 io 객체로 초기화할 수 있습니다. 또한 numpy 텐서로도 초기화할 수 있습니다. numpy 텐서는 4차원 또는 5차원이어야 합니다. 차원은 (프레임 수, 채널, 높이, 너비) 또는 (배치, 프레임 수, 채널, 높이, 너비) 형식이어야 합니다. numpy 배열 또는 io 객체로 초기화할 때는 `format` 인자를 사용해 포맷을 반드시 지정해야 합니다.
 * `caption`:  비디오 표시 시 함께 보여줄 캡션입니다.
-* `fps`:  원시 비디오 프레임을 인코딩할 때 사용할 초당 프레임 수(FPS)입니다.  기본값은 4입니다.  이 파라미터는 `data_or_path`가 문자열 또는 바이트인 경우에는 영향을 주지 않습니다.
-* `format`:  numpy 배열 또는 IO 객체로 초기화할 때 필요한 비디오 포맷입니다.  이 파라미터는 비디오 데이터를 인코딩할 때 사용할 포맷을 결정하는 데 사용됩니다.  허용되는 값은 &quot;gif&quot;, &quot;mp4&quot;, &quot;webm&quot;, &quot;ogg&quot;입니다.  값이 지정되지 않으면 기본 포맷은 &quot;gif&quot;입니다.
+* `fps`:  원시 비디오 프레임을 인코딩할 때 사용할 프레임 레이트입니다. 기본값은 4입니다. 이 파라미터는 `data_or_path`가 문자열 또는 bytes인 경우에는 영향을 미치지 않습니다.
+* `format`:  numpy 배열 또는 io 객체로 초기화할 때 필요한 비디오 포맷입니다. 이 파라미터는 비디오 데이터를 인코딩할 때 사용할 포맷을 결정하는 데 사용됩니다. 허용되는 값은 &quot;gif&quot;, &quot;mp4&quot;, &quot;webm&quot;, &quot;ogg&quot;입니다. 값을 지정하지 않으면 기본 포맷은 &quot;gif&quot;입니다.
 
 **Examples:**
 numpy 배열을 비디오로 로깅하기
@@ -41,7 +41,7 @@ import numpy as np
 import wandb
 
 with wandb.init() as run:
-    # 축은 (프레임 수, 채널, 높이, 너비) 순서입니다
+    # 축 순서: (프레임 수, 채널, 높이, 너비)
     frames = np.random.randint(
          low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
     )

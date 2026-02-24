@@ -1,5 +1,5 @@
 ---
-description: "CoreWeave에서 관리하는 인프라를 사용해 VLLM 호환 모델 체크포인트를 평가합니다"
+description: "CoreWeave에서 관리하는 인프라를 사용하여 VLLM 호환 모델 체크포인트를 평가합니다"
 title: "모델 체크포인트 평가"
 ---
 
@@ -10,19 +10,19 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-이 페이지에서는 CoreWeave에서 관리하는 인프라를 사용하여 W&amp;B Models에서 모델 체크포인트에 대해 여러 평가 벤치마크를 실행하기 위해 [LLM Evaluation Jobs](/ko/models/launch)를 사용하는 방법을 설명합니다. 공개적으로 액세스할 수 있는 URL에서 제공되는 API 호스팅 모델을 평가하려면 대신 [API-호스팅 모델 평가](/ko/models/launch/evaluate-hosted-model)를 참조하세요.
+이 페이지에서는 CoreWeave에서 관리하는 인프라를 사용하여 W&amp;B Models의 파인튜닝된 모델에 대해 일련의 벤치마크 평가를 실행하기 위해 [LLM Evaluation Jobs](/ko/models/launch)를 사용하는 방법을 설명합니다. 공개적으로 접근 가능한 URL에서 제공되는 API 호스팅 모델을 평가하려면 [API로 호스팅된 모델 평가하기](/ko/models/launch/evaluate-hosted-model)를 대신 참고하거나, 간소화된 [퀵스타트](/ko/models/launch#quickstart)를 사용하여 공개 OpenAI 모델 엔드포인트에 대해 소규모 벤치마크를 실행하세요.
 
 <div id="prerequisites">
   ## 사전 준비 사항
 </div>
 
-1. LLM Evaluation 작업에 대한 [요구 사항과 한계](/ko/models/launch#more-details)를 검토합니다.
-2. 특정 벤치마크를 실행하려면 팀 관리자가 필요한 API 키를 [팀 범위 시크릿](/ko/platform/secrets#add-a-secret)으로 추가해야 합니다. 팀 구성원이라면 누구나 평가 작업을 구성할 때 해당 시크릿을 지정할 수 있습니다. 요구 사항은 [Evaluation model catalog](/ko/models/launch/evaluations)를 참고하세요.
-   * **OpenAI API key**: 점수 계산에 OpenAI 모델을 사용하는 벤치마크에서 사용됩니다. 벤치마크를 선택한 후 **Scorer API key** 필드가 나타나는 경우 필요합니다. 시크릿 이름은 `OPENAI_API_KEY`여야 합니다.
-   * **Hugging Face user access token**: 하나 이상의 제한된(gated) Hugging Face 데이터셋에 대한 액세스가 필요한 `lingoly` 및 `lingoly2`와 같은 특정 벤치마크에 필요합니다. 벤치마크를 선택한 후 **Hugging Face Token** 필드가 나타나는 경우 필요합니다. 이 API 키는 관련 데이터셋에 대한 액세스 권한을 가지고 있어야 합니다. [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) 및 [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)에 대한 Hugging Face 문서를 참고하세요.
-3. 평가 결과를 위한 새로운 [W&amp;B 프로젝트](/ko/models/track/project-page)를 만듭니다. 왼쪽 내비게이션에서 **Create new project**를 클릭합니다.
-4. 모델을 VLLM과 호환되는 형식으로 패키징하고, W&amp;B Models에 아티팩트로 저장합니다. 다른 유형의 아티팩트를 벤치마크하려고 하면 실패합니다. 한 가지 방법은 이 페이지 끝에 있는 [예시: 모델 준비하기](#example-prepare-your-model)를 참고하세요.
-5. 각 벤치마크에 대한 문서를 검토해 작동 방식과 구체적인 요구 사항을 이해하세요. 편의를 위해 [사용 가능한 평가 벤치마크](/ko/models/launch/evaluations) 참고 문서에 관련 링크가 정리되어 있습니다.
+1. LLM Evaluation Job에 대한 [요구 사항 및 제한 사항](/ko/models/launch#more-details)을 검토합니다.
+2. 일부 벤치마크를 실행하려면 팀 관리자가 필요한 API 키를 [team-scoped secrets](/ko/platform/secrets#add-a-secret)로 추가해야 합니다. 팀 구성원이라면 누구나 평가 job을 구성할 때 해당 시크릿을 지정할 수 있습니다. 요구 사항은 [Evaluation model catalog](/ko/models/launch/evaluations)를 참고하세요.
+   * **OpenAPI API key**: 점수 산출에 OpenAI 모델을 사용하는 벤치마크에서 사용됩니다. 벤치마크를 선택한 후 **Scorer API key** 필드가 나타나는 경우 필요합니다. 시크릿 이름은 `OPENAI_API_KEY`여야 합니다.
+   * **Hugging Face user access token**: 하나 이상의 gated Hugging Face 데이터셋에 대한 접근이 필요한 `lingoly` 및 `lingoly2`와 같은 일부 벤치마크에 필요합니다. 벤치마크를 선택한 후 **Hugging Face Token** 필드가 나타나는 경우 필요합니다. 이 API 키에는 관련 데이터셋에 대한 접근 권한이 있어야 합니다. 자세한 내용은 Hugging Face 문서의 [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) 및 [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)를 참고하세요.
+3. 평가 결과를 위한 새로운 [W&amp;B project](/ko/models/track/project-page)를 생성합니다. 프로젝트 사이드바에서 **Create new project**를 클릭합니다.
+4. 모델을 VLLM과 호환되는 형식으로 패키징한 후, 이를 W&amp;B Models에 아티팩트로 저장합니다. 다른 유형의 아티팩트를 벤치마크하려는 시도는 실패합니다. 한 가지 방법은 이 문서 맨 아래의 [예시: 모델 준비하기](#example-prepare-your-model)를 참고하세요.
+5. 특정 벤치마크에 대한 문서를 검토하여 동작 방식과 구체적인 요구 사항을 파악합니다. 편의를 위해 [Available evaluation benchmarks](/ko/models/launch/evaluations) 참고 문서에 관련 링크가 정리되어 있습니다.
 
 <div id="evaluate-your-model">
   ## 모델 평가하기
@@ -30,32 +30,32 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 
 다음 단계를 따라 평가 작업을 설정하고 실행합니다:
 
-1. W&amp;B에 로그인한 다음 왼쪽 내비게이션에서 **Launch**를 클릭합니다. **LLM Evaluation Jobs** 페이지가 표시됩니다.
+1. W&amp;B에 로그인한 다음 프로젝트 사이드바에서 **Launch**를 클릭합니다. **LLM Evaluation Jobs** 페이지가 표시됩니다.
 2. 평가 작업을 설정하려면 **Evaluate model checkpoint**를 클릭합니다.
 3. 평가 결과를 저장할 대상 프로젝트를 선택합니다.
-4. **Model artifact** 섹션에서 평가할 준비된 모델이 있는 프로젝트, 아티팩트, 버전을 지정합니다.
-5. **Evaluations**를 클릭한 다음, 최대 네 개의 벤치마크를 선택합니다.
-6. 점수 계산에 OpenAI 모델을 사용하는 벤치마크를 선택하면 **Scorer API key** 필드가 표시됩니다. 이 필드를 클릭한 다음 `OPENAI_API_KEY` 시크릿을 선택합니다. 편의를 위해 팀 관리자는 **Create secret**을 클릭해 이 드로어에서 바로 시크릿을 생성할 수 있습니다.
-7. Hugging Face에서 게이트된 데이터셋에 대한 액세스가 필요한 벤치마크를 선택하면 **Hugging Face token** 필드가 표시됩니다. [관련 데이터셋에 대한 액세스를 요청](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)한 후, Hugging Face 사용자 액세스 토큰을 포함하는 시크릿을 선택합니다.
-8. 필요하다면 **Sample limit**을 양의 정수로 설정해 평가할 벤치마크 샘플 수의 최대값을 지정합니다. 설정하지 않으면 태스크의 모든 샘플이 포함됩니다.
-9. 리더보드를 자동으로 생성하려면 **Publish results to leaderboard**를 클릭합니다. 리더보드는 워크스페이스 패널에서 모든 평가 결과를 함께 표시하며, 리포트에서 공유할 수도 있습니다.
-10. **Launch**를 클릭하여 평가 작업을 실행합니다.
-11. 페이지 상단의 원형 화살표 아이콘을 클릭해 최근 실행 모달을 엽니다. 평가 작업은 다른 최근 실행과 함께 표시됩니다. 완료된 실행 이름을 클릭하면 단일 실행 보기로 열리고, **Leaderboard** 링크를 클릭하면 리더보드를 바로 열 수 있습니다. 자세한 내용은 [결과 보기](#view-the-results)를 참조하세요.
+4. **Model artifact** 섹션에서 평가할 준비된 모델의 프로젝트, 아티팩트, 버전을 지정합니다.
+5. **Evaluations**를 클릭한 다음 최대 네 개의 벤치마크를 선택합니다.
+6. 채점에 OpenAI 모델을 사용하는 벤치마크를 선택하면 **Scorer API key** 필드가 표시됩니다. 이 필드를 클릭한 다음 `OPENAI_API_KEY` 시크릿을 선택합니다. 편의를 위해 팀 관리자는 이 드로어에서 **Create secret**을 클릭해 시크릿을 새로 만들 수 있습니다.
+7. Hugging Face에서 gated 데이터셋에 대한 액세스가 필요한 벤치마크를 선택하면 **Hugging Face token** 필드가 표시됩니다. [관련 데이터셋에 대한 액세스를 요청](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)한 후, Hugging Face 사용자 액세스 토큰이 포함된 시크릿을 선택합니다.
+8. 필요에 따라 **Sample limit**를 양의 정수로 설정해 평가할 벤치마크 샘플의 최대 개수를 제한합니다. 설정하지 않으면 태스크의 모든 샘플이 포함됩니다.
+9. 리더보드를 자동으로 생성하려면 **Publish results to leaderboard**를 클릭합니다. 리더보드는 워크스페이스 패널에 모든 평가를 함께 표시하며, 리포트에서 공유할 수도 있습니다.
+10. 평가 작업을 실행하려면 **Launch**를 클릭합니다.
+11. 페이지 상단의 원형 화살표 아이콘을 클릭해 최근 run 모달을 엽니다. 평가 작업은 다른 최근 run과 함께 표시됩니다. 완료된 run의 이름을 클릭하면 단일 run 보기로 열리고, **Leaderboard** 링크를 클릭하면 리더보드를 바로 열 수 있습니다. 자세한 내용은 [결과 보기](#view-the-results)를 참조하세요.
 
 <Tip>
-  첫 번째 모델을 평가한 후에는, 다음 평가 작업을 구성할 때 많은 필드가 가장 최근 값으로 자동으로 채워집니다.
+  첫 번째 모델을 평가한 후에는 다음 평가 작업을 구성할 때 많은 필드가 가장 최근 값으로 미리 채워집니다.
 </Tip>
 
 이 예시 평가 작업은 하나의 아티팩트에 대해 두 개의 벤치마크를 실행합니다:
 
 <Frame>
-  ![모델 체크포인트 평가 작업 예시](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)
+  ![예시 모델 체크포인트 평가 작업](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)
 </Frame>
 
 이 예시 리더보드는 여러 모델의 성능을 함께 시각화합니다:
 
 <Frame>
-  ![여러 벤치마크 태스크에서 여러 모델의 성능을 시각화한 리더보드 예시](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+  ![여러 벤치마크 태스크에 대해 여러 모델의 성능을 시각화한 예시 리더보드](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
 </Frame>
 
 <ReviewEvaluationResults />
@@ -68,7 +68,7 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
   ## 예시: 모델 준비하기
 </div>
 
-모델을 준비하려면 W&amp;B Models에서 모델을 불러온 다음, 모델 가중치를 VLLM과 호환되는 형식으로 패키징하고 결과를 저장하면 됩니다. 이 예시는 이를 수행하는 한 가지 방법을 보여줍니다:
+모델을 준비하려면 W&amp;B Models에서 모델을 로드하고, 모델 가중치를 VLLM과 호환되는 형식으로 패키징한 다음 결과를 저장합니다. 이 예제에서는 이를 수행하는 한 가지 방법을 보여줍니다.
 
 ```python lines
 import os

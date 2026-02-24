@@ -2,12 +2,12 @@
 title: Hugging Face AutoTrain
 ---
 
-[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index)는 자연어 처리(NLP), 컴퓨터 비전(CV), 음성, 그리고 표 형식(Tabular) 작업을 위한 최첨단 모델을 코드 없이 학습할 수 있는 도구입니다.
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index)은(는) 자연어 처리(NLP), 컴퓨터 비전(CV), 음성, 그리고 표(Tabular) 데이터 작업을 위한 최첨단 모델을 코드 작성 없이 트레이닝할 수 있는 노코드 도구입니다.
 
-[W&amp;B](https://wandb.com/)는 Hugging Face AutoTrain에 직접 통합되어 실험 추적과 구성 관리를 제공합니다. 실험을 위한 CLI 명령어에 파라미터 하나만 추가하면 될 정도로 간단합니다.
+[W&amp;B](https://wandb.com/)는 Hugging Face AutoTrain에 직접 인테그레이션되어 실험 추적과 설정(config) 관리 기능을 제공합니다. 실험용 CLI 명령에 파라미터 하나만 추가하면 될 정도로 간단합니다.
 
 <Frame>
-  <img src="/images/integrations/hf-autotrain-1.png" alt="실험 지표 로깅" />
+  <img src="/images/integrations/hf-autotrain-1.png" alt="실험 메트릭 로깅" />
 </Frame>
 
 <div id="install-prerequisites">
@@ -17,39 +17,39 @@ title: Hugging Face AutoTrain
 `autotrain-advanced`와 `wandb`를 설치합니다.
 
 <Tabs>
-  <Tab title="명령줄">
+  <Tab title="Command Line">
     ```shell
     pip install --upgrade autotrain-advanced wandb
     ```
   </Tab>
 
-  <Tab title="노트북">
+  <Tab title="Notebook">
     ```notebook
     !pip install --upgrade autotrain-advanced wandb
     ```
   </Tab>
 </Tabs>
 
-이 변경 사항을 보여주기 위해 이 페이지에서는 수학 데이터셋에 대해 LLM을 파인튜닝하여 [GSM8k 벤치마크](https://github.com/openai/grade-school-math)의 `pass@1` 지표에서 SoTA 성능을 달성하는 방법을 설명합니다.
+이 변경 내용을 시연하기 위해, 이 페이지에서는 수학 데이터셋으로 LLM을 파인튜닝하여 [GSM8k Benchmarks](https://github.com/openai/grade-school-math)의 `pass@1`에서 SoTA 성능을 달성하는 방법을 설명합니다.
 
 <div id="prepare-the-dataset">
-  ## 데이터셋 준비
+  ## 데이터셋 준비하기
 </div>
 
-Hugging Face AutoTrain에서 사용자 정의 CSV 데이터셋이 정상적으로 동작하려면 특정 형식을 따라야 합니다.
+Hugging Face AutoTrain은 CSV 커스텀 데이터셋이 제대로 동작하려면 특정 형식을 갖추고 있어야 합니다.
 
-* 학습 파일에는 학습에 사용되는 `text` 열이 반드시 있어야 합니다. 최상의 결과를 얻으려면 `text` 열의 데이터가 `### Human: Question?### Assistant: Answer.` 형식을 따라야 합니다. 좋은 예시는 [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco)에서 확인할 수 있습니다.
+* 트레이닝에 사용할 파일에는 반드시 트레이닝에 사용되는 `text` 열이 포함되어야 합니다. 가장 좋은 결과를 얻으려면 `text` 열의 데이터는 `### Human: Question?### Assistant: Answer.` 형식을 따라야 합니다. 훌륭한 예시는 [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco)에서 확인할 수 있습니다.
 
-  다만, [MetaMathQA 데이터셋](https://huggingface.co/datasets/meta-math/MetaMathQA)에는 `query`, `response`, `type` 열이 포함되어 있습니다. 먼저 이 데이터셋을 전처리해야 합니다. `type` 열을 제거하고, `query`와 `response` 열의 내용을 결합하여 `### Human: Query?### Assistant: Response.` 형식의 새로운 `text` 열을 생성합니다. 이렇게 생성한 데이터셋인 [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath)를 학습에 사용합니다.
+  하지만 [MetaMathQA 데이터셋](https://huggingface.co/datasets/meta-math/MetaMathQA)에는 `query`, `response`, `type` 열이 포함되어 있습니다. 먼저 이 데이터셋을 전처리해야 합니다. `type` 열을 제거하고, `query`와 `response` 열의 내용을 `### Human: Query?### Assistant: Response.` 형식의 새로운 `text` 열로 결합합니다. 트레이닝에는 이렇게 생성된 데이터셋인 [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath)를 사용합니다.
 
 <div id="train-using-autotrain">
-  ## `autotrain`을 사용해 학습하기
+  ## `autotrain`을 사용해 트레이닝하기
 </div>
 
-명령줄 또는 노트북에서 `autotrain`을 사용해 학습을 시작할 수 있습니다. `--log` 인수를 사용하거나, `--log wandb`를 사용해 결과를 [W&amp;B 실행](/ko/models/runs/)에 기록하세요.
+커맨드 라인 또는 노트북에서 `autotrain` 고급 기능을 사용해 트레이닝을 시작할 수 있습니다. `--log` 인자를 사용하거나, 결과를 [W&amp;B Run](/ko/models/runs/)에 로깅하려면 `--log wandb`를 사용하세요.
 
 <Tabs>
-  <Tab title="명령줄">
+  <Tab title="Command Line">
     ```shell
     autotrain llm \
         --train \
@@ -79,7 +79,7 @@ Hugging Face AutoTrain에서 사용자 정의 CSV 데이터셋이 정상적으�
     ```
   </Tab>
 
-  <Tab title="노트북">
+  <Tab title="Notebook">
     ```notebook
     # 하이퍼파라미터 설정
     learning_rate = 2e-5
@@ -95,7 +95,7 @@ Hugging Face AutoTrain에서 사용자 정의 CSV 데이터셋이 정상적으�
     lora_dropout = 0.05
     logging_steps = 10
 
-    # 학습 실행
+    # 트레이닝 실행
     !autotrain llm \
         --train \
         --model "HuggingFaceH4/zephyr-7b-alpha" \
@@ -133,5 +133,5 @@ Hugging Face AutoTrain에서 사용자 정의 CSV 데이터셋이 정상적으�
   ## 추가 자료
 </div>
 
-* [AutoTrain Advanced에서 이제 Experiment Tracking을 지원합니다](https://huggingface.co/blog/rishiraj/log-autotrain) (작성자: [Rishiraj Acharya](https://huggingface.co/rishiraj)).
+* [이제 실험 추적을 지원하는 AutoTrain Advanced](https://huggingface.co/blog/rishiraj/log-autotrain), 작성자: [Rishiraj Acharya](https://huggingface.co/rishiraj).
 * [Hugging Face AutoTrain 문서](https://huggingface.co/docs/autotrain/index)

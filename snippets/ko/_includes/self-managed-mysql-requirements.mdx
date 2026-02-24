@@ -1,15 +1,15 @@
 ---
-title: 자가 관리형 MySQL 요구 사항
+title: Self-managed MySQL 요구 사항
 ---
 
-W&amp;B는 외부 MySQL 데이터베이스가 필요합니다.
+W&amp;B는 외부 MySQL 데이터베이스를 필요로 합니다.
 
-운영 환경에서는 관리형 데이터베이스 서비스 사용을 W&amp;B에서 강력히 권장합니다:
+프로덕션 환경에서는 관리형 데이터베이스 서비스를 사용할 것을 W&amp;B가 강력히 권장합니다:
 
 * [AWS RDS Aurora MySQL](https://aws.amazon.com/rds/aurora/)
 * [Google Cloud SQL for MySQL](https://cloud.google.com/sql/mysql)
 * [Azure Database for MySQL](https://azure.microsoft.com/products/mysql/)
 
-관리형 데이터베이스 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하고 운영 부담을 줄여 줍니다.
+관리형 데이터베이스 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하며 운영 부담을 줄여 줍니다.
 
-용량 권장 사항과 구성 매개변수를 포함한 전체 MySQL 요구 사항은 [참조 아키텍처](/ko/platform/hosting/self-managed/ref-arch/#mysql)를 참조하세요. 데이터베이스 생성 SQL은 [베어메탈 가이드](/ko/platform/hosting/self-managed/bare-metal/#mysql-database)를 참고하세요. 배포 환경의 데이터베이스 구성에 대한 문의 사항이 있으면 [지원팀](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
+사이징 권장 사항과 설정 파라미터를 포함한 전체 MySQL 요구 사항은 [reference architecture](/ko/platform/hosting/self-managed/ref-arch/#mysql)를 참고하세요. 데이터베이스 생성 SQL은 [bare-metal guide](/ko/platform/hosting/self-managed/bare-metal/#mysql-database)를 참고하세요. 배포 환경의 데이터베이스 설정 관련 문의는 [support](mailto:support@wandb.com) 또는 담당 AISE에게 연락하세요.

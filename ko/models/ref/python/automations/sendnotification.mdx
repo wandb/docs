@@ -25,12 +25,12 @@ __init__(
 ) → None
 ```
 
-**인수:**
+**인자:**
 
-* `integration_id` (str): 알림을 전송하는 데 사용할 Slack 통합의 ID입니다.
+* `integration_id` (str): 알림을 보내는 데 사용할 Slack 인테그레이션의 ID입니다.
 * `title` (str): 전송되는 알림의 제목입니다.
 * `message` (str): 전송되는 알림의 메시지 본문입니다.
-* `severity` (AlertSeverity): 전송되는 알림의 심각도 (`INFO`, `WARN`, `ERROR`)입니다.
+* `severity` (AlertSeverity): 전송되는 알림의 심각도 수준(`INFO`, `WARN`, `ERROR`)입니다.
 * `action_type` (Literal[NOTIFICATION]):
 
 **반환값:**
@@ -48,4 +48,4 @@ from_integration(
 ) → Self
 ```
 
-지정된 Slack 통합으로 알림을 보내는 액션을 정의합니다.
+지정된 Slack 인테그레이션으로 알림을 전송하는 작업을 정의합니다.

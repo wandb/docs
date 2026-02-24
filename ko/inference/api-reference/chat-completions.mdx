@@ -1,20 +1,20 @@
 ---
 title: "Chat Completions"
-description: "OpenAI 호환 엔드포인트를 사용해 채팅 completion 생성하기"
+description: "OpenAI 호환 엔드포인트를 사용해 chat completion 생성하기"
 ---
 
-`/chat/completions` 엔드포인트로 채팅 completion을 생성합니다. 이 엔드포인트는 메시지를 보내고 응답을 받기 위한 OpenAI 형식을 따릅니다.
+`/chat/completions` 엔드포인트를 사용해 chat completion을 생성합니다. 이 엔드포인트는 메시지를 전송하고 응답을 받을 때 OpenAI 형식을 따릅니다.
 
 <div id="requirements">
   ## 요구 사항
 </div>
 
-chat completion을 생성하려면 다음을 제공해야 합니다:
+채팅 컴플리션을 생성하려면 다음 정보를 제공해야 합니다:
 
 * Inference 서비스 기본 URL: `https://api.inference.wandb.ai/v1`
 * W&amp;B API 키: `<your-api-key>`
 * 선택 사항: W&amp;B 팀과 프로젝트: `<your-team>/<your-project>`
-* [사용 가능한 모델](/ko/inference/models) 중 하나의 모델 ID
+* [사용 가능한 모델](/ko/inference/models)의 모델 ID
 
 <div id="request-examples">
   ## 요청 예시
@@ -26,18 +26,18 @@ chat completion을 생성하려면 다음을 제공해야 합니다:
     import openai
 
     client = openai.OpenAI(
-        # 사용자 지정 base URL은 W&B Inference를 가리킵니다
+        # 커스텀 기본 URL은 W&B Inference를 가리킵니다
         base_url='https://api.inference.wandb.ai/v1',
 
         # https://wandb.ai/settings 에서 API 키를 생성하세요
-        # 보안을 위해 환경 변수 OPENAI_API_KEY에 설정하는 것을 권장합니다
+        # 보안을 위해 환경 변수 OPENAI_API_KEY로 설정하는 것을 권장합니다
         api_key="<your-api-key>",
 
         # 선택 사항: 사용량 추적을 위한 팀과 프로젝트
         project="<your-team>/<your-project>",
     )
 
-    # 사용 가능한 모델 목록에서 <model-id>를 원하는 모델 ID로 바꾸세요
+    # 사용 가능한 모델 목록에서 원하는 모델 ID로 <model-id>를 교체하세요
     response = client.chat.completions.create(
         model="<model-id>",
         messages=[
@@ -71,7 +71,7 @@ chat completion을 생성하려면 다음을 제공해야 합니다:
   ## 응답 형식
 </div>
 
-이 API는 OpenAI 호환 형식으로 응답을 반환합니다:
+API는 OpenAI와 호환되는 형식으로 응답을 반환합니다.
 
 ```json
 {

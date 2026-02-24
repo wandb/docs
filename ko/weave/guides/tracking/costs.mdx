@@ -1,5 +1,5 @@
 ---
-title: "비용 추적"
+title: "비용 추적하기"
 description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
 ---
 
@@ -9,10 +9,10 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
 
 <Tabs>
   <Tab title="Python">
-    [`add_cost`](/ko/weave/reference/python-sdk/trace/weave_client#method-add-cost) 메서드를 사용해 사용자 정의 비용을 추가할 수 있습니다.
+    [`add_cost`](/ko/weave/reference/python-sdk/trace/weave_client#method-add-cost) 메서드를 사용하여 사용자 정의 비용을 추가할 수 있습니다.
     필수 필드는 `llm_id`, `prompt_token_cost`, `completion_token_cost` 세 가지입니다.
-    `llm_id`는 LLM의 이름입니다(예: `gpt-4o`). `prompt_token_cost`와 `completion_token_cost`는 LLM의 토큰당 비용입니다(LLM 가격이 100만 토큰당 가격으로 주어진 경우, 토큰당 가격으로 변환해서 사용해야 합니다).
-    또한 `effective_date`를 datetime 값으로 설정해 특정 날짜부터 비용이 적용되도록 할 수 있으며, 기본값은 현재 날짜입니다.
+    `llm_id`는 LLM의 이름입니다(예: `gpt-4o`). `prompt_token_cost`와 `completion_token_cost`는 LLM의 토큰당 비용입니다(LLM 가격이 100만 토큰 기준으로 제공되는 경우, 해당 값으로 변환해서 지정해야 합니다).
+    또한 `effective_date`를 datetime으로 설정하여 특정 날짜부터 비용이 적용되도록 할 수 있습니다. 기본값은 현재 날짜입니다.
 
     ```python lines
     import weave
@@ -30,7 +30,7 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
         llm_id="your_model_name",
         prompt_token_cost=10,
         completion_token_cost=20,
-        # 예를 들어 특정 날짜 이후에 모델 가격을 올리고 싶은 경우
+        # 예를 들어, 특정 날짜 이후에 모델의 가격을 인상하려는 경우
         effective_date=datetime(2025, 4, 22),
     )
     ```
@@ -38,7 +38,7 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 앞으로의 업데이트를 기대해 주세요!
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 추후 업데이트를 기대해 주세요.
     ```
   </Tab>
 </Tabs>
@@ -48,9 +48,9 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
 </div>
 
 <Tabs>
-  <Tab title="파이썬">
-    [`query_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-query-costs) 메서드를 사용해 비용을 조회할 수 있습니다.
-    비용을 조회하는 방법은 여러 가지가 있으며, 단일 비용 ID를 전달하거나 LLM 모델 이름 목록을 전달할 수 있습니다.
+  <Tab title="Python">
+    [`query_costs`](/ko/weave/reference/python-sdk/trace/weave_client#method-query-costs) 메서드를 사용해서 비용을 쿼리할 수 있습니다.
+    비용을 쿼리하는 방법은 여러 가지가 있으며, 단일 비용 ID를 전달하거나 LLM 모델 이름 목록을 전달할 수 있습니다.
 
     ```python lines
     import weave
@@ -65,7 +65,7 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 계속 지켜봐 주세요!
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 추후 지원을 기다려 주세요.
     ```
   </Tab>
 </Tabs>
@@ -90,18 +90,18 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 다음 업데이트를 기대해 주세요!
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 추후 업데이트를 기대해 주세요!
     ```
   </Tab>
 </Tabs>
 
 <div id="calculating-costs-for-a-project">
-  ## 프로젝트 비용 계산하기
+  ## 프로젝트 비용 계산
 </div>
 
 <Tabs>
   <Tab title="Python">
-    약간의 설정만으로 `calls_query`를 사용하고 `include_costs=True`를 추가해 프로젝트 비용을 계산할 수 있습니다.
+    약간의 설정만 하면 `calls_query`를 사용하고 `include_costs=True`를 추가해 프로젝트의 비용을 계산할 수 있습니다.
 
     ```python lines
     import weave
@@ -119,7 +119,7 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
         )
 
         for call in calls:
-            # 호출에 비용 정보가 있으면 총 비용에 더합니다
+            # 호출에 비용 정보가 있다면 총 비용에 더합니다
             if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
                 for k, cost in call.summary["weave"]["costs"].items():
                     requests += cost["requests"]
@@ -133,15 +133,15 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
             "calls": len(calls),
         }
 
-    # 함수를 @weave.op()으로 데코레이션했기 때문에
-    # 총합 값은 과거 비용 합계를 계산할 수 있도록 Weave에 저장됩니다
+    # 함수를 @weave.op()으로 데코레이트했기 때문에,
+    # 총합이 과거 비용 총액 계산을 위해 weave에 저장됩니다
     get_costs_for_project("my_custom_cost_model")
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 추후 업데이트를 기대해 주세요!
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 계속 지켜봐 주세요!
     ```
   </Tab>
 </Tabs>
@@ -150,6 +150,6 @@ description: "Weave에서 LLM 운영 비용을 추적하고 관리하기"
   ## 커스텀 비용이 적용된 커스텀 모델 설정하기
 </div>
 
-[커스텀 모델에서 비용 설정하기](/ko/weave/cookbooks/custom_model_cost) cookbook 가이드를 참고하세요.
+커스텀 모델에 비용을 설정하는 방법은 [커스텀 모델로 비용 설정하기](/ko/weave/cookbooks/custom_model_cost) 쿡북을 참고하세요.
 
-<Card title="Colab에서 실행해 보기" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />
+<Card title="Colab에서 실행하기" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />

@@ -1,68 +1,68 @@
 ---
 title: "모델 비교 및 순위 매기기"
-description: "평가 지표를 기반으로 서로 다른 모델 버전을 비교하고 순위를 매깁니다"
+description: "평가 메트릭을 기반으로 서로 다른 모델 버전을 비교하고 순위를 매깁니다"
 ---
 
-Weave _Leaderboards_를 사용하면 여러 지표에 대해 여러 모델을 평가·비교하고, 정확도, 생성 품질, 지연 시간 또는 사용자 정의 평가 로직을 측정할 수 있습니다. 리더보드를 사용하면 한 곳에서 모델 성능을 시각화하고, 시간 경과에 따른 변화를 추적하며, 팀 전체가 공통된 기준을 맞출 수 있습니다.
+Weave _Leaderboards_를 사용하면 여러 메트릭 전반에서 여러 모델을 평가하고 비교하여 정확도, 생성 품질, 지연 시간 또는 사용자 정의 평가 로직을 측정할 수 있습니다. 리더보드는 단일 위치에서 모델 성능을 시각화하고, 시간에 따른 변화를 추적하며, 팀 전체에서 공통 벤치마크를 설정하는 데 도움을 줍니다.
 
 리더보드는 다음과 같은 경우에 적합합니다:
 
-- 모델 성능 저하(regression) 추적
-- 공유 평가 워크플로 조율
+- 모델 성능 회귀(성능 저하) 추적
+- 공유 평가 워크플로우 조율
 
 <Note>
-리더보드 생성은 Weave UI와 Weave Python SDK에서만 사용할 수 있습니다. TypeScript 사용자는 [Weave UI](#using-the-ui)를 사용하여 리더보드를 생성하고 관리할 수 있습니다.
+리더보드 생성은 Weave UI 및 Weave Python SDK에서만 사용할 수 있습니다. TypeScript 사용자는 [Weave UI](#using-the-ui)를 사용하여 리더보드를 생성하고 관리할 수 있습니다.
 </Note>
 
 <div id="create-a-leaderboard">
   ## 리더보드 생성
 </div>
 
-[Weave UI](#ui) 또는 [Python 코드를 통해](#python) 리더보드를 생성할 수 있습니다.
+[Weave UI](#ui) 또는 [프로그래밍 방식](#python)으로 리더보드를 생성할 수 있습니다.
 
 <div id="using-the-ui">
   ### UI 사용하기
 </div>
 
-Weave UI에서 직접 리더보드를 생성하고 사용자 지정하려면:
+Weave UI에서 바로 리더보드를 생성하고 사용자 지정하려면:
 
 1. Weave UI에서 **Leaders** 섹션으로 이동합니다. 보이지 않으면 **More** → **Leaders**를 클릭합니다.
 2. **+ New Leaderboard**를 클릭합니다.
 3. **Leaderboard Title** 필드에 설명적인 이름을 입력합니다(예: `summarization-benchmark-v1`).
-4. 원한다면, 이 리더보드가 무엇을 비교하는지 설명하는 문구를 추가합니다.
-5. 표시할 Evaluation과 메트릭을 정의하기 위해 [열을 추가](#add-columns)합니다.
-6. 레이아웃이 원하는 대로 구성되면 리더보드를 저장하고 게시하여 다른 사람과 공유합니다.
+4. 필요하다면, 이 리더보드가 무엇을 비교하는지 설명을 추가합니다.
+5. 표시할 평가와 메트릭을 정의하기 위해 [열을 추가](#add-columns)합니다.
+6. 레이아웃이 마음에 들면 리더보드를 저장하고 게시하여 다른 사람과 공유합니다.
 
 <div id="add-columns">
   #### 열 추가
 </div>
 
-리더보드의 각 열은 특정 Evaluation에서 나온 메트릭을 나타냅니다. 열을 구성하려면 다음을 설정합니다:
+리더보드의 각 열은 특정 평가에서 나온 메트릭을 나타냅니다. 열을 설정하려면 다음을 지정합니다:
 
-- **Evaluation**: 드롭다운에서 Evaluation 실행을 선택합니다(미리 생성되어 있어야 합니다).
-- **Scorer**: 해당 Evaluation에서 사용된 채점 함수(예: `jaccard_similarity`, `simple_accuracy`)를 선택합니다.
+- **Evaluation**: 드롭다운에서 평가 run을 선택합니다(먼저 생성되어 있어야 합니다).
+- **Scorer**: 해당 평가에서 사용된 스코어링 함수(예: `jaccard_similarity`, `simple_accuracy`)를 선택합니다.
 - **Metric**: 표시할 요약 메트릭(예: `mean`, `true_fraction` 등)을 선택합니다.
 
 열을 더 추가하려면 **Add Column**을 클릭합니다.
 
-열을 편집하려면 오른쪽의 세 점 메뉴(`⋯`)를 클릭합니다. 다음 작업을 할 수 있습니다:
+열을 편집하려면 오른쪽의 점 3개 메뉴(`⋯`)를 클릭합니다. 다음 작업을 수행할 수 있습니다:
 
 - **Move before / after** – 열 순서 변경
 - **Duplicate** – 열 정의 복사
 - **Delete** – 열 삭제
-- **Sort ascending** – 리더보드의 기본 정렬을 오름차순으로 설정(다시 클릭하면 내림차순으로 전환)
+- **Sort ascending** – 리더보드의 기본 정렬 순서 설정(다시 클릭하면 내림차순으로 전환됩니다)
 
 <div id="python">
   ### Python
 </div>
 
 <Tip>
-완전하게 실행 가능한 코드 예제가 필요하신가요? [End-to-end Python example](#end-to-end-python-example)를 참고하세요.
+바로 실행해볼 수 있는 전체 코드 예제가 필요하신가요? [엔드 투 엔드 Python 예제](#end-to-end-python-example)를 확인하세요.
 </Tip>
 
-리더보드를 생성하고 게시하려면:
+리더보드를 생성하고 게시하려면 다음 단계를 따르세요.
 
-1. 테스트 데이터셋을 정의합니다. 기본 제공 [`Dataset`](./datasets)을 사용하거나, 입력과 타깃 목록을 직접 정의할 수 있습니다:
+1. 테스트 데이터셋을 정의합니다. 내장된 [`Dataset`](./datasets)을 사용하거나, 입력과 타깃 목록을 수동으로 정의할 수 있습니다:
 
    ```python lines
    dataset = [
@@ -97,7 +97,7 @@ Weave UI에서 직접 리더보드를 생성하고 사용자 지정하려면:
        ...
    ```
 
-5. Evaluation을 실행합니다:
+5. 평가를 실행합니다:
 
    ```python lines
     async def run_all():
@@ -113,7 +113,7 @@ Weave UI에서 직접 리더보드를 생성하고 사용자 지정하려면:
    ```python lines
    spec = leaderboard.Leaderboard(
        name="My Leaderboard",
-       description="X 작업에서 모델을 평가합니다",
+       description="Evaluating models on X task",
        columns=[
            leaderboard.LeaderboardColumn(
                evaluation_object_ref=get_ref(evaluation).uri(),
@@ -138,10 +138,10 @@ Weave UI에서 직접 리더보드를 생성하고 사용자 지정하려면:
    ```
 
 <div id="end-to-end-python-example">
-  ## 엔드 투 엔드 Python 예제
+  ## End-to-End Python 예제
 </div>
 
-다음 예제에서는 Weave Evaluations를 사용하여 커스텀 메트릭으로 공유 데이터셋에서 세 개의 요약 모델을 비교하는 리더보드를 생성합니다. 이 예제는 간단한 벤치마크를 만들고, 각 모델을 평가한 다음, [Jaccard similarity](https://www.learndatasci.com/glossary/jaccard-similarity/)로 각 모델의 점수를 계산하고, 결과를 Weave 리더보드에 게시합니다.
+다음 예제는 Weave Evaluations를 사용해 커스텀 메트릭으로 공유 데이터셋에서 세 개의 요약 모델을 비교하는 리더보드를 생성합니다. 이 예제에서는 작은 벤치마크를 만들고, 각 모델을 평가한 뒤 [Jaccard similarity](https://www.learndatasci.com/glossary/jaccard-similarity/)로 각 모델에 점수를 매기고, 결과를 Weave 리더보드에 게시합니다.
 
 ```python lines
 import weave
@@ -227,19 +227,19 @@ print(results)
   ### 리더보드 보기 및 해석하기
 </div>
 
-스크립트 실행이 완료되면 리더보드를 확인합니다.
+스크립트 실행이 완료되면 리더보드를 확인합니다:
 
 1. **Weave UI**에서 **Leaders** 탭으로 이동합니다. 보이지 않으면 **More**를 클릭한 다음 **Leaders**를 선택합니다.
 2. 리더보드 이름(예: `Summarization Model Comparison`)을 클릭합니다.
 
-리더보드 테이블에서 각 행은 하나의 모델(`model_humanlike`, `model_vanilla`, `model_messy`)을 나타냅니다. `mean` 열은 모델 출력과 기준 요약(reference summaries) 간의 평균 Jaccard 유사도를 보여 줍니다.
+리더보드 테이블에서 각 행은 하나의 모델(`model_humanlike`, `model_vanilla`, `model_messy`)을 나타냅니다. `mean` 열에는 해당 모델의 출력과 기준 요약(reference summaries) 간의 평균 Jaccard similarity가 표시됩니다.
 
 <Frame>
 ![Weave UI의 리더보드 예시](/weave/guides/core-types/imgs/leaderboard-example.png)
 </Frame>
 
-이 예시에서:
+이 예시에서는:
 
-- `model_humanlike`이 가장 성능이 좋으며, 약 46%의 겹치는 비율을 보입니다.
-- `model_vanilla`(단순한 잘라내기 방식)는 약 21%입니다.
-- `model_messy`는 의도적으로 성능을 낮게 만든 모델로, 약 2% 점수를 기록합니다.
+- `model_humanlike`이(가) 약 46%의 겹치는 비율(overlap)로 가장 좋은 성능을 보입니다.
+- `model_vanilla`(단순 잘라내기 방식, naive truncation)는 약 21%를 기록합니다.
+- `model_messy`는 의도적으로 성능이 낮게 설계한 모델로, 약 2%에 그칩니다.

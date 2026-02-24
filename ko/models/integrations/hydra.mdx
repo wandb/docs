@@ -1,17 +1,17 @@
 ---
-description: W&B를 Hydra와 통합하는 방법.
+description: W&B를 Hydra와 통합하는 방법입니다.
 title: Hydra
 ---
 
-> [Hydra](https://hydra.cc)는 연구 및 기타 복잡한 애플리케이션 개발을 단순화하는 오픈 소스 Python 프레임워크입니다. 핵심 기능은 설정 파일과 명령줄을 통해 컴포지션과 오버라이드를 사용해 계층적 설정을 동적으로 생성하고 관리할 수 있는 능력입니다.
+> [Hydra](https://hydra.cc)는 연구용 및 기타 복잡한 애플리케이션 개발을 단순화하는 오픈 소스 Python 프레임워크입니다. 핵심 기능은 구성을 조합해 계층적 설정을 동적으로 생성하고, 설정 파일과 커맨드 라인을 통해 이를 덮어쓸 수 있는 능력입니다.
 
-설정 관리를 위해 Hydra를 계속 사용하면서도 W&amp;B의 강력한 기능을 함께 활용할 수 있습니다.
+W&amp;B의 강력한 기능을 활용하면서도 설정 관리를 위해 계속 Hydra를 사용할 수 있습니다.
 
 <div id="track-metrics">
   ## 메트릭 추적
 </div>
 
-평소와 같이 `wandb.init()` 및 `wandb.Run.log()`를 사용해 메트릭을 추적합니다. 여기서 `wandb.entity`와 `wandb.project`는 hydra 구성 파일에서 정의됩니다.
+`wandb.init()`과 `wandb.Run.log()`을 사용해 평소와 같이 메트릭을 추적합니다. 여기서는 `wandb.entity`와 `wandb.project`가 Hydra 설정 파일 안에서 정의됩니다.
 
 ```python
 import wandb
@@ -25,10 +25,10 @@ def run_experiment(cfg):
 ```
 
 <div id="track-hyperparameters">
-  ## 하이퍼파라미터 추적하기
+  ## 하이퍼파라미터 추적
 </div>
 
-Hydra는 구성 딕셔너리와 상호작용하기 위한 기본 방식으로 [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/)를 사용합니다. `OmegaConf`에서 사용하는 딕셔너리는 기본(primitive) 파이썬 딕셔너리의 서브클래스가 아니므로, Hydra의 `Config`를 그대로 `wandb.Run.config`에 전달하면 대시보드에서 예기치 않은 결과가 나타날 수 있습니다. 따라서 `wandb.Run.config`에 전달하기 전에 `omegaconf.DictConfig`를 기본 `dict` 타입으로 변환해야 합니다.
+Hydra는 설정 사전과 상호작용하기 위한 기본 인터페이스로 [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/)를 사용합니다. `OmegaConf`의 사전 객체는 기본 사전의 서브클래스가 아니므로 Hydra의 `Config`를 그대로 `wandb.Run.config`에 전달하면 대시보드에서 예기치 않은 결과가 발생할 수 있습니다. `wandb.Run.config`에 전달하기 전에 `omegaconf.DictConfig`를 파이썬의 기본 `dict` 타입으로 변환해야 합니다.
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
@@ -46,13 +46,13 @@ def run_experiment(cfg):
   ## 멀티프로세싱 문제 해결
 </div>
 
-프로세스를 시작할 때 바로 멈춘다면, [알려진 문제](/ko/models/track/log/distributed-training) 때문일 수 있습니다. 이를 해결하려면, 다음과 같이 `wandb.init()`에 설정 파라미터를 하나 더 추가하여 wandb의 멀티프로세싱 프로토콜을 변경해 보세요.
+프로세스가 시작될 때 멈춰 버린다면 [알려진 이 문제](/ko/models/track/log/distributed-training) 때문에 발생했을 수 있습니다. 이를 해결하려면 `wandb.init()`에 추가 설정 파라미터를 넣어서 wandb의 멀티프로세싱 프로토콜을 다음과 같이 변경해 보세요:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
-또는 셸에서 전역 환경 변수를 설정하여 구성할 수도 있습니다:
+또는 셸에서 전역 환경 변수를 설정하여:
 
 ```bash
 $ export WANDB_START_METHOD=thread
@@ -62,9 +62,9 @@ $ export WANDB_START_METHOD=thread
   ## 하이퍼파라미터 최적화
 </div>
 
-[W&amp;B Sweeps](/ko/models/sweeps)는 매우 확장 가능한 하이퍼파라미터 탐색 플랫폼으로, 최소한의 코드만으로도 W&amp;B 실험에 대한 유용한 인사이트와 시각화를 제공합니다. Sweeps는 Hydra 프로젝트와 추가 코딩 없이 자연스럽게 통합됩니다. 필요한 것은, 평소처럼 스위프할 다양한 파라미터를 정의한 구성 파일 하나뿐입니다.
+[W&amp;B Sweeps](/ko/models/sweeps)는 매우 확장 가능한 하이퍼파라미터 탐색 플랫폼으로, 최소한의 코드만으로 W&amp;B 실험에 대한 유용한 인사이트와 시각화를 제공합니다. Sweeps는 Hydra 프로젝트와 별도 코드 작성 없이 자연스럽게 통합됩니다. 필요한 것은 평소와 동일한 방식으로 스윕할 여러 파라미터를 정의한 설정 파일 하나뿐입니다.
 
-간단한 예시인 `sweep.yaml` 파일은 다음과 같습니다:
+간단한 예시 `sweep.yaml` 파일은 다음과 같습니다:
 
 ```yaml
 program: main.py
@@ -89,18 +89,18 @@ command:
 wandb sweep sweep.yaml
 ```
 
-W&amp;B는 프로젝트 내에 자동으로 sweep을 생성하고, sweep을 실행하려는 각 머신에서 실행할 수 있는 `wandb agent` 명령어를 반환합니다.
+W&amp;B는 프로젝트 내에 스윕을 자동으로 생성하고, 스윕을 실행하려는 각 머신에서 실행할 수 있는 `wandb agent` 명령을 반환합니다.
 
 <div id="pass-parameters-not-present-in-hydra-defaults">
-  ### Hydra 기본값에 없는 매개변수 전달하기
+  ### Hydra 기본값에 없는 파라미터 전달하기
 </div>
 
-<a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Hydra 기본값에 없는 매개변수 전달하기" />
+<a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Hydra 기본값에 없는 파라미터 전달하기" />
 
-Hydra는 기본 설정 파일에 존재하지 않는 추가 매개변수도 명령줄을 통해 전달할 수 있으며, 이때는 매개변수 앞에 `+`를 붙입니다. 예를 들어, 다음과 같이 호출해서 특정 값을 가진 추가 매개변수를 간단히 전달할 수 있습니다:
+Hydra는 기본 설정 파일에 존재하지 않는 추가 파라미터도 명령줄을 통해 전달하는 것을 지원하며, 이때 명령어 앞에 `+`를 붙이면 됩니다. 예를 들어, 다음과 같이 호출해 값이 지정된 추가 파라미터를 전달할 수 있습니다:
 
 ```bash
 $ python program.py +experiment=some_experiment
 ```
 
-[Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/)를 구성할 때처럼 이러한 `+` 설정에 대해 Sweep을 수행할 수는 없습니다. 이를 우회하려면 실험 매개변수를 기본값으로 빈 파일로 초기화해 두고, 매 호출마다 W&amp;B Sweep을 사용해 그 빈 설정을 덮어쓰면 됩니다. 자세한 내용은 [이 W&amp;B 리포트](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra)를 참고하세요.
+Hydra Experiments를 [설정](https://hydra.cc/docs/patterns/configuring_experiments/)할 때 하는 것과 비슷하게, 이런 `+` 설정에 대해서는 스윕을 수행할 수 없습니다. 이를 우회하려면 실험 파라미터를 기본값으로 빈 파일로 초기화한 다음, 각 호출 시 W&amp;B Sweep을 사용해 그 빈 설정을 덮어쓰면 됩니다. 더 자세한 내용은 [이 W&amp;B Report](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra)를 참고하세요.

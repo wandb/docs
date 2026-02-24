@@ -1,14 +1,14 @@
 ---
 title: "클래스: ScoreLogger"
-description: "TypeScript SDK 참조"
+description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / ScoreLogger
 
-ScoreLogger는 하나의 예측에 대한 점수 계산을 관리합니다.
+ScoreLogger는 하나의 예측에 대한 점수(스코어) 기록을 관리합니다.
 EvaluationLogger.logPrediction()에서 반환됩니다.
 
-`예제`
+`예시`
 
 ```ts
 const pred = await ev.logPrediction(example, output);
@@ -53,7 +53,7 @@ await pred.finish(); // 예측을 완료합니다
   #### 매개변수
 </div>
 
-| 이름 | 타입 |
+| 이름 | 유형 |
 | :------ | :------ |
 | `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
 
@@ -77,8 +77,8 @@ await pred.finish(); // 예측을 완료합니다
 
 • `get` **isFinishCalled**(): `boolean`
 
-finish()가 호출되었는지 확인합니다.
-완료되지 않은 예측을 감지하기 위해 EvaluationLogger에서 사용됩니다.
+finish()가 호출되었는지 여부를 확인합니다.
+미완료된 예측을 감지하기 위해 EvaluationLogger에서 사용됩니다.
 
 <div id="returns">
   #### 반환값
@@ -86,7 +86,9 @@ finish()가 호출되었는지 확인합니다.
 
 `boolean`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [evaluationLogger.ts:349](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L349)
 
@@ -98,9 +100,9 @@ finish()가 호출되었는지 확인합니다.
 
 ▸ **finish**(): `Promise`\<`void`\>
 
-예측 스코어링 프로세스를 완료합니다.
-누적된 스코어를 사용해 `predict_and_score` 호출을 최종 확정합니다.
-증분 집계값을 업데이트하고 메모리를 해제합니다.
+예측 스코어링 프로세스를 마무리합니다.
+누적된 점수로 predict_and_score 호출을 최종 확정합니다.
+증분 집계를 업데이트하고 메모리를 해제합니다.
 
 <div id="returns">
   #### 반환값
@@ -122,8 +124,8 @@ ___
 
 ▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
 
-이 예측값에 대한 점수를 기록합니다.
-`predict_and_score`의 하위 scorer 호출을 생성합니다.
+이 예측에 대한 점수를 로그합니다.
+`predict_and_score`의 자식으로 scorer 호출을 생성합니다.
 
 <div id="parameters">
   #### 매개변수

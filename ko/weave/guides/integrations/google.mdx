@@ -1,6 +1,6 @@
 ---
 title: "Google"
-description: "Weave를 사용해 Google GenAI 모델 호출을 추적하고 로그를 기록하기"
+description: "Weave를 사용해 Google GenAI 모델 호출 추적 및 로깅"
 ---
 
 <a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_google.ipynb">
@@ -8,25 +8,25 @@ description: "Weave를 사용해 Google GenAI 모델 호출을 추적하고 로�
 </a>
 
 <Note>
-  [LLM Playground](../tools/playground)을 사용하면 별도의 설정 없이도 Weave에서 Google AI 모델을 실험해 볼 수 있습니다.
+  [LLM Playground](../tools/playground)을 사용하면 별도 설정 없이도 Weave에서 Google AI 모델을 실험해 볼 수 있습니다.
 </Note>
 
-이 페이지에서는 Google Vertex AI API 및 Google Gemini API와 함께 W&amp;B Weave를 사용하는 방법을 설명합니다.
+이 페이지에서는 W&amp;B Weave를 Google Vertex AI API 및 Google Gemini API와 함께 사용하는 방법을 설명합니다.
 
-Weave를 사용하면 Google GenAI 애플리케이션을 평가하고, 모니터링하며, 반복적으로 개선할 수 있습니다. Weave는 다음에 대해 자동으로 트레이스를 수집합니다.
+Weave를 사용하면 Google GenAI 애플리케이션을 평가, 모니터링하고 반복 개선할 수 있습니다. Weave는 다음 항목에 대해 트레이스를 자동으로 기록합니다.
 
-1. Python SDK, Node.js SDK, Go SDK, REST를 통해 사용할 수 있는 [Google GenAI SDK](https://github.com/googleapis/python-genai)
+1. Python SDK, Node.js SDK, Go SDK, 그리고 REST를 통해 접근할 수 있는 [Google GenAI SDK](https://github.com/googleapis/python-genai)
 2. Google의 Gemini 모델과 [다양한 파트너 모델](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models)에 대한 액세스를 제공하는 [Google Vertex AI API](https://cloud.google.com/vertex-ai/docs)
 
 <Note>
-  사용 중단된 [Google AI Python SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-python)에 대해서도 지원합니다. 이 지원 또한 사용 중단 상태이며, 향후 버전에서 제거될 예정입니다.
+  사용이 중단된(deprecated) [Google AI Python SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-python)도 지원합니다. 이 지원 또한 사용 중단 상태이며, 향후 버전에서 제거될 예정입니다.
 </Note>
 
 <div id="get-started">
   ## 시작하기
 </div>
 
-Weave는 [Google GenAI SDK](https://github.com/googleapis/python-genai)에 대한 트레이스를 자동으로 수집합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`를 호출한 다음 평소처럼 라이브러리를 사용하세요.
+Weave는 [Google GenAI SDK](https://github.com/googleapis/python-genai)의 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`를 호출한 다음 라이브러리를 평소처럼 사용하면 됩니다.
 
 ```python lines
 import os
@@ -44,7 +44,7 @@ response = google_client.models.generate_content(
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-trace.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-Weave는 [Vertex APIs](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models)에 대한 트레이스도 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`를 호출하고, 이후에는 라이브러리를 평소처럼 사용하면 됩니다.
+Weave는 또한 [Vertex APIs](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models)에 대한 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`를 호출한 후 평소처럼 라이브러리를 사용하면 됩니다.
 
 ```python lines
 import vertexai
@@ -63,11 +63,11 @@ response = model.generate_content(
   ## 나만의 op 추적하기
 </div>
 
-함수를 `@weave.op`으로 래핑하면 입력, 출력, 그리고 애플리케이션 로직이 캡처되기 시작하므로 데이터가 애플리케이션을 통해 어떻게 흐르는지 디버깅할 수 있습니다. op를 깊게 중첩해서 추적하려는 함수들의 트리를 만들 수 있습니다. 또한 실험을 진행하면서 git에 커밋되지 않은 임시 세부 내용까지 캡처할 수 있도록 코드를 자동으로 버전 관리하기 시작합니다.
+함수를 `@weave.op`으로 래핑하면 입력, 출력 그리고 애플리케이션 로직 캡처를 시작하여, 데이터가 애플리케이션을 통해 어떻게 흐르는지 디버깅할 수 있습니다. op를 깊게 중첩해 추적하고 싶은 함수들의 트리를 만들 수 있습니다. 또한 이렇게 하면 실험하는 동안 git에 커밋되지 않은 임시 변경 사항까지도 캡처할 수 있도록 코드를 자동으로 버전 관리하기 시작합니다.
 
 [`@weave.op`](/ko/weave/guides/tracking/ops)으로 데코레이트된 함수를 하나 만들기만 하면 됩니다.
 
-아래 예시에서는 `recommend_places_to_visit`라는 함수가 있는데, 이는 도시에 방문할 만한 장소를 추천하는, `@weave.op`으로 래핑된 함수입니다.
+아래 예시에서는 `recommend_places_to_visit`라는 함수를 정의합니다. 이 함수는 `@weave.op`으로 래핑된 함수로, 특정 도시에서 방문할 만한 장소를 추천합니다.
 
 ```python lines
 import os
@@ -95,14 +95,14 @@ recommend_places_to_visit("Kolkata")
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 실험을 더 쉽게 하기 위한 `Model` 만들기
+  ## 더 쉽게 실험하기 위해 `Model` 만들기
 </div>
 
-여러 요소가 동시에 바뀌는 상황에서는 실험을 체계적으로 관리하기가 어렵습니다. [`Model`](../core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 다양한 반복 버전을 구성하고 비교하기가 쉬워집니다.
+실험을 체계적으로 구성하는 일은 많은 요소가 얽혀 있을 때 특히 어렵습니다. [`Model`](../core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 다양한 반복 버전을 체계적으로 관리하고 비교하는 데 도움이 됩니다.
 
-코드 버전 관리와 입력/출력 캡처에 더해, [`Model`](../core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터까지 함께 기록하므로 어떤 파라미터 조합이 가장 잘 작동했는지 찾기 쉽습니다. 또한 Weave Model을 `serve` 및 [`Evaluation`](../core-types/evaluations)과 함께 사용할 수도 있습니다.
+코드 버전 관리와 입력/출력 캡처에 더해, [`Model`](../core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터를 함께 캡처하여 어떤 파라미터 조합이 가장 잘 작동했는지 쉽게 찾을 수 있게 해줍니다. 또한 Weave Models를 `serve` 및 [`Evaluation`](../core-types/evaluations)s와 함께 사용할 수도 있습니다.
 
-아래 예시에서는 `CityVisitRecommender`로 실험할 수 있습니다. 이 중 하나라도 변경할 때마다 `CityVisitRecommender`의 새로운 *버전*이 생성됩니다.
+아래 예시에서는 `CityVisitRecommender`로 실험해 볼 수 있습니다. 이 중 하나를 변경할 때마다 `CityVisitRecommender`의 새로운 *버전*이 생성됩니다.
 
 ```python lines
 import os

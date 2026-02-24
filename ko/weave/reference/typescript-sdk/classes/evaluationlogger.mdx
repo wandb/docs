@@ -1,14 +1,14 @@
 ---
 title: "클래스: EvaluationLogger"
-description: "TypeScript SDK 참조"
+description: "TypeScript SDK 레퍼런스"
 ---
 
-[Weave](../) / EvaluationLogger
+[weave](../) / EvaluationLogger
 
-EvaluationLogger는 예측값과 점수를 점진적으로 로깅할 수 있게 해줍니다.
+EvaluationLogger는 예측값과 점수를 순차적으로 로깅할 수 있게 해 줍니다.
 
-데이터셋 전체를 미리 준비하고 배치 처리해야 하는 기존 Evaluation 클래스와 달리,
-EvaluationLogger를 사용하면 예측이 발생하는 즉시 유연하게 점수를 계산하여 로깅할 수 있습니다.
+사전에 데이터셋과 배치 처리가 필요한 기존 Evaluation 클래스와 달리,
+EvaluationLogger를 사용하면 예측이 발생하는 즉시, 유연하게 스코어를 기록할 수 있습니다.
 
 `Example`
 
@@ -59,13 +59,11 @@ await ev.logSummary();
   #### 매개변수
 </div>
 
-| 이름 | 타입 |
+| 이름 | 유형 |
 | :------ | :------ |
 | `options` | `EvaluationLoggerOptions` |
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환
 
 [`EvaluationLogger`](./evaluationlogger)
 
@@ -81,12 +79,12 @@ await ev.logSummary();
 
 ▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
 
-입력과 출력을 함께 예측 결과로 기록합니다(동기 버전).
-`predict_and_score` 호출을 생성합니다(자식 `predict` 호출 포함).
+입력과 출력을 함께 포함한 예측을 기록합니다(동기 버전).
+자식 `predict` 호출을 포함하는 `predict_and_score` 호출을 생성합니다.
 점수를 추가할 수 있도록 `ScoreLogger`를 즉시 반환합니다.
 
-이 메서드는 `ScoreLogger`를 동기적으로 반환합니다.
-`ScoreLogger`에 대한 작업(`logScore`, `finish`)은 대기열에 추가되며, 초기화가 완료된 후 실행됩니다.
+이 메서드는 `ScoreLogger`를 동기적으로 반환합니다. 
+`ScoreLogger`에서 수행하는 작업(`logScore`, `finish`)은 초기화가 완료된 후 실행되도록 큐에 저장됩니다.
 
 <div id="parameters">
   #### 매개변수
@@ -103,7 +101,7 @@ await ev.logSummary();
 
 [`ScoreLogger`](./scorelogger)
 
-`예제`
+`예시`
 
 ```ts
 // Fire-and-forget 방식
@@ -128,11 +126,10 @@ ___
 
 ▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
 
-입력과 출력을 포함한 예측을 기록합니다(비동기 버전).
-logPrediction()과 유사하지만,
-예측 호출이 완전히 초기화된 후 resolve되는 Promise를 반환합니다.
+입력과 출력과 함께 예측을 기록합니다(비동기 버전).
+logPrediction()과 같지만, 예측 호출이 완전히 초기화되었을 때 resolve되는 Promise를 반환합니다.
 
-다음 단계로 진행하기 전에 초기화가 완료되기를 기다려야 할 때 이 메서드를 사용하세요.
+진행하기 전에 초기화가 완료될 때까지 대기해야 할 경우 이 메서드를 사용하세요.
 
 <div id="parameters">
   #### 매개변수
@@ -150,7 +147,7 @@ logPrediction()과 유사하지만,
 `예제`
 
 ```ts
-// 비동기 대기 스타일
+// Awaitable 방식
 const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
 await scoreLogger.logScore('accuracy', 0.95);
 await scoreLogger.finish();
@@ -169,11 +166,11 @@ ___
 
 ▸ **logSummary**(`summary?`): `Promise`\<`void`\>
 
-요약을 기록하고 Evaluation을 마무리합니다.
-요약(summarize) 호출을 생성하고 Evaluation 호출을 종료합니다.
+요약을 기록하고 평가를 마무리합니다.
+요약 호출을 생성하고 evaluate 호출을 종료합니다.
 
-이 메서드는 `await` 없이(fire-and-forget 방식으로) 호출할 수 있지만,
-내부적으로는 모든 보류 중인 작업이 완료될 때까지 대기합니다.
+이 메서드는 `await` 없이 호출할 수 있는 fire-and-forget 방식이지만,
+내부적으로는 보류 중인 모든 작업이 완료될 때까지 대기합니다.
 
 <div id="parameters">
   #### 매개변수
@@ -183,7 +180,9 @@ ___
 | :------ | :------ |
 | `summary?` | `Record`\<`string`, `any`\> |
 
-#### 반환
+<div id="returns">
+  #### 반환값
+</div>
 
 `Promise`\<`void`\>
 

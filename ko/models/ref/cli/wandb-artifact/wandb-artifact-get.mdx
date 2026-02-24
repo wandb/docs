@@ -3,16 +3,16 @@ title: "wandb artifact get"
 ---
 
 {/*
-  이 명령어에 대한 소개 내용을 추가하려면:
+  이 명령어의 소개 내용을 추가하려면:
   1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-artifact-get.mdx
   2. 해당 파일에 소개 내용을 추가합니다.
-  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨 둡니다:
+  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
   import WandbArtifactGet from "/snippets/_includes/cli/wandb-artifact-get.mdx";
 
   <WandbArtifactGet/>
 
-  스니펫은 다음 번 재생성 시 자동으로 감지됩니다.
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
   */}
 
 wandb에서 아티팩트 다운로드하기
@@ -31,7 +31,7 @@ wandb artifact get PATH [OPTIONS]
   ## 인수
 </div>
 
-| 인수 | 설명 | 필수 여부 |
+| Argument | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
 | `PATH` | 설명이 제공되지 않습니다 | 예 |
 
@@ -41,5 +41,5 @@ wandb artifact get PATH [OPTIONS]
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--root` | 다운로드할 아티팩트가 저장될 디렉터리 |
-| `--type` | 다운로드할 아티팩트의 유형 |
+| `--root` | 아티팩트를 다운로드할 디렉터리 |
+| `--type` | 다운로드하려는 아티팩트의 유형 |

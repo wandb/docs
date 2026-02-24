@@ -1,5 +1,5 @@
 ---
-title: "RAG 애플리케이션 평가하기"
+title: "RAG 애플리케이션 평가"
 description: "Weave와 LLM 평가자를 사용하여 RAG 애플리케이션을 구축하고 평가합니다"
 ---
 
@@ -13,29 +13,29 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
 </div>
 
-Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접근할 수 있는 생성형 AI 애플리케이션을 구축하는 데 널리 사용되는 방법입니다.
+Retrieval Augmented Generation (RAG)는 맞춤형 지식 베이스에 접근할 수 있는 생성형 AI 애플리케이션을 구축할 때 널리 사용하는 방법입니다.
 
 ![Evals 대표 이미지](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## 이 가이드에서 배우는 내용
+  ## 배우게 될 내용:
 </div>
 
-이 가이드는 다음과 같은 방법을 다룹니다:
+이 가이드에서는 다음 작업을 수행하는 방법을 설명합니다:
 
 * 지식 베이스를 구축하는 방법
-* 관련 문서를 찾는 retrieval(검색) 단계가 포함된 RAG 애플리케이션을 만드는 방법
-* Weave로 retrieval 단계를 추적하는 방법
-* LLM judge를 사용해 context precision(컨텍스트 정밀도)을 측정하여 RAG 애플리케이션을 평가하는 방법
-* 사용자 정의 scoring(점수 산정) 함수를 정의하는 방법
+* 관련 문서를 찾는 검색 단계를 포함한 RAG 애플리케이션을 만드는 방법
+* Weave로 검색 단계를 추적하는 방법
+* LLM 판정자를 사용해 컨텍스트 정밀도를 측정하여 RAG 애플리케이션을 평가하는 방법
+* 사용자 정의 스코어링 함수를 정의하는 방법
 
 <WeaveQuickstartPrereqs />
 
 <div id="build-a-knowledge-base">
-  ## 지식 베이스 구축
+  ## 지식 베이스 구축하기
 </div>
 
-먼저 문서에 대한 임베딩을 계산합니다. 일반적으로는 문서에 대해 한 번만 이 작업을 수행한 다음 임베딩과 메타데이터를 데이터베이스에 저장하지만, 여기서는 예제를 단순화하기 위해 스크립트가 실행될 때마다 수행합니다.
+먼저 문서에 대한 임베딩을 계산합니다. 일반적으로는 문서에 대해 이 작업을 한 번만 수행한 뒤 임베딩과 메타데이터를 데이터베이스에 저장하지만, 여기서는 단순화를 위해 스크립트가 실행될 때마다 매번 다시 계산합니다.
 
 <Tabs>
   <Tab title="Python">
@@ -69,7 +69,7 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
             document_embeddings.append(response)
         return document_embeddings
 
-    article_embeddings = docs_to_embeddings(articles) # 참고: 일반적으로 이 작업은 기사에 대해 한 번만 수행하고 임베딩 및 메타데이터를 데이터베이스에 저장합니다
+    article_embeddings = docs_to_embeddings(articles) # 참고: 일반적으로 이 작업은 아티클에 대해 한 번만 수행하고 임베딩 및 메타데이터를 데이터베이스에 저장합니다
     ```
   </Tab>
 
@@ -125,7 +125,7 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
   ## RAG 앱 만들기
 </div>
 
-다음으로, 검색 함수 `get_most_relevant_document`를 `weave.op()` 데코레이터로 감싸고 `Model` 클래스를 생성합니다. 그런 다음 `weave.init('<team-name>/rag-quickstart')`를 호출해서, 나중에 분석할 수 있도록 함수의 모든 입력과 출력을 추적하기 시작합니다. 팀 이름을 지정하지 않으면, 결과는 [W&amp;B 기본 팀 또는 엔터티](/ko/platform/app/settings-page/user-settings#default-team)에 기록됩니다.
+다음으로, 검색 함수 `get_most_relevant_document`에 `weave.op()` 데코레이터를 씌우고 `Model` 클래스를 만듭니다. `weave.init('<team-name>/rag-quickstart')`를 호출해 이후에 살펴볼 수 있도록 함수의 모든 입력과 출력을 추적합니다. Team 이름을 지정하지 않으면, 출력은 [W&amp;B 기본 Team 또는 Entity](/ko/platform/app/settings-page/user-settings#default-team)에 기록됩니다.
 
 <Tabs>
   <Tab title="Python">
@@ -158,7 +158,7 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
         model_name: str = "gpt-3.5-turbo-1106"
 
         @weave.op()
-        def predict(self, question: str) -> dict: # 참고: `question`은 나중에 Evaluation 행에서 데이터를 선택하는 데 사용됩니다
+        def predict(self, question: str) -> dict: # 참고: 이후 평가 행에서 데이터를 선택할 때 `question`이 사용됩니다
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
@@ -180,7 +180,7 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
 
-    # 팀 이름과 프로젝트 이름을 설정합니다
+    # Team과 프로젝트 이름을 설정합니다
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
@@ -243,13 +243,13 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
   ## LLM Judge로 평가하기
 </div>
 
-애플리케이션을 평가할 간단한 방법이 없을 때 사용할 수 있는 한 가지 방법은 LLM을 이용해 애플리케이션의 특정 측면을 평가하는 것입니다. 아래 예시는 LLM Judge에게 컨텍스트가 주어진 답변을 도출하는 데 얼마나 유용했는지 검증하도록 프롬프트를 구성해, 컨텍스트 정밀도를 측정하려는 방식입니다. 이 프롬프트는 널리 사용되는 [RAGAS framework](https://docs.ragas.io/)를 기반으로 확장한 것입니다.
+애플리케이션을 평가할 간단한 방법이 없을 때는 LLM을 사용해 애플리케이션의 여러 측면을 평가할 수 있습니다. 아래는 LLM Judge를 활용해, 컨텍스트가 주어진 답변을 도출하는 데 얼마나 유용했는지를 검증하도록 프롬프트를 구성함으로써 컨텍스트 정밀도를 측정하려는 예시입니다. 이 프롬프트는 널리 사용되는 [RAGAS 프레임워크](https://docs.ragas.io/)를 바탕으로 확장한 것입니다.
 
 <div id="defining-a-scoring-function">
   ### 스코어링 함수 정의하기
 </div>
 
-[Evaluation 파이프라인 구축 튜토리얼](/ko/weave/tutorial-eval)에서와 마찬가지로, 앱을 테스트할 예제 행(row) 집합과 스코어링 함수를 정의합니다. 스코어링 함수는 하나의 행을 받아 이를 평가합니다. 입력 인수는 해당 행의 키와 일치해야 하므로, 여기에서 `question`은 행 딕셔너리에서 가져옵니다. `output`은 모델의 출력입니다. 모델의 입력은 그 입력 인수에 따라 예제에서 가져오므로, 여기에서도 `question`이 사용됩니다. 이 예제는 `async` 함수를 사용하여 여러 평가가 병렬로 빠르게 실행되도록 합니다. `async`에 대한 간단한 소개가 필요하다면 [여기](https://docs.python.org/3/library/asyncio.html)에서 확인할 수 있습니다.
+[Build an Evaluation pipeline 튜토리얼](/ko/weave/tutorial-eval)에서와 마찬가지로, 앱을 테스트할 예시 행들의 집합과 스코어링 함수를 정의한다. 스코어링 함수는 하나의 행을 입력으로 받아 이를 평가한다. 입력 인자는 해당 행의 키와 일치해야 하므로, 여기서 `question`은 행 사전에서 가져온 값이다. `output`은 모델의 출력이다. 모델의 입력은 함수의 입력 인자에 따라 예시에서 가져오므로, 여기서도 `question`이 사용된다. 이 예제는 `async` 함수를 사용해 여러 호출을 병렬로 빠르게 실행한다. async에 대한 간단한 소개가 필요하다면 [여기](https://docs.python.org/3/library/asyncio.html)에서 확인할 수 있다.
 
 <Tabs>
   <Tab title="Python">
@@ -296,7 +296,7 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
         {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
     ]
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    asyncio.run(evaluation.evaluate(model)) # 참고: 평가할 모델을 먼저 정의해야 합니다
+    asyncio.run(evaluation.evaluate(model)) # 참고: 평가할 모델을 정의해야 합니다
     ```
   </Tab>
 
@@ -337,19 +337,19 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
 </Tabs>
 
 <div id="optional-defining-a-scorer-class">
-  ### 선택 사항: `Scorer` 클래스 정의
+  ### 선택 사항: `Scorer` 클래스 정의하기
 </div>
 
-일부 애플리케이션에서는 사용자 정의 평가 클래스를 만들고 싶을 수 있습니다. 예를 들어, 표준화된 `LLMJudge` 클래스를 특정 파라미터(예: 채팅 모델, 프롬프트), 각 행에 대한 특정 점수 계산 방식, 그리고 집계 점수의 특정 계산 방식과 함께 만들고자 할 수 있습니다. Weave는 바로 사용할 수 있는 `Scorer` 클래스 목록을 제공하며, 동시에 사용자 정의 `Scorer`를 쉽게 만들 수 있게 합니다. 아래 예시는 사용자 정의 `class CorrectnessLLMJudge(Scorer)`를 만드는 방법을 보여 줍니다.
+일부 애플리케이션에서는 커스텀 평가 클래스를 만들고 싶을 수 있습니다. 예를 들어, 특정 파라미터(예: 채팅 모델, 프롬프트), 각 행에 대한 특정 채점 방식, 집계 점수 계산 방식을 포함하는 표준화된 `LLMJudge` 클래스를 만들고자 할 수 있습니다. Weave는 바로 사용할 수 있는 `Scorer` 클래스 목록을 미리 정의해 두었으며, 커스텀 `Scorer`를 쉽게 만들 수 있도록 지원합니다. 다음 예시는 커스텀 `class CorrectnessLLMJudge(Scorer)`를 만드는 방법을 보여 줍니다.
 
-개략적으로 사용자 정의 Scorer를 만드는 단계는 다음과 같이 간단합니다:
+개략적으로 보면, 커스텀 Scorer를 만드는 단계는 비교적 단순합니다:
 
-1. `weave.flow.scorer.Scorer`를 상속하는 사용자 정의 클래스를 정의합니다.
-2. `score` 함수를 오버라이드하고, 함수 호출 하나하나를 추적하려면 `@weave.op()`를 추가합니다.
-   * 이 함수는 모델의 예측 값이 전달될 `output` 인자를 정의해야 합니다. 모델이 &quot;None&quot;을 반환할 수 있는 경우를 대비해 타입을 `Optional[dict]`로 정의합니다.
-   * 나머지 인자는 일반적인 `Any` 또는 `dict`로 정의할 수도 있고, 또는 `weave.Evaluate` 클래스를 사용해 모델을 평가할 때 사용하는 데이터셋에서 특정 컬럼을 선택하도록 정의할 수도 있습니다. 이 경우 이름은 컬럼 이름이나, `preprocess_model_input`이 사용되었다면 그 처리 이후의 단일 행의 키와 정확히 일치해야 합니다.
-3. *선택 사항:* 집계 점수 계산을 커스터마이즈하려면 `summarize` 함수를 오버라이드합니다. 기본적으로는 사용자 정의 함수를 정의하지 않으면 Weave가 `weave.flow.scorer.auto_summarize` 함수를 사용합니다.
-   * 이 함수에는 `@weave.op()` 데코레이터가 필요합니다.
+1. `weave.flow.scorer.Scorer`를 상속하는 커스텀 클래스를 정의합니다.
+2. `score` 함수를 오버라이드하고, 함수 호출 하나하나를 추적하고 싶다면 `@weave.op()`을 추가합니다.
+   * 이 함수는 모델의 예측 결과가 전달될 `output` 인자를 정의해야 합니다. 모델이 &quot;None&quot;을 반환할 가능성이 있다면 타입을 `Optional[dict]`로 정의합니다.
+   * 나머지 인자들은 일반적인 `Any` 또는 `dict`로 정의할 수도 있고, 모델을 평가하는 데 사용되는 데이터셋의 특정 컬럼을 선택할 수도 있습니다. 이 경우 `weave.Evaluate` 클래스를 사용할 수 있으며, (사용 중이라면) `preprocess_model_input`을 거친 뒤 단일 행의 컬럼 이름 또는 키와 정확히 동일한 이름을 사용해야 합니다.
+3. *선택 사항:* 집계 점수 계산 방식을 커스터마이즈하려면 `summarize` 함수를 오버라이드합니다. 기본적으로 Weave는 사용자 정의 함수를 정의하지 않으면 `weave.flow.scorer.auto_summarize` 함수를 사용합니다.
+   * 이 함수에는 `@weave.op()` 데코레이터가 있어야 합니다.
 
 <Tabs>
   <Tab title="Python">
@@ -363,21 +363,21 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
 
         @weave.op()
         async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
-            """Score the correctness of the predictions by comparing the pred, query, target.
+            """pred, query, target을 비교해서 예측의 정답 여부를 채점합니다.
             Args:
-                - output: the dict that will be provided by the model that is evaluated
-                - query: the question asked - as defined in the dataset
-                - answer: the target answer - as defined in the dataset
+                - output: 평가 대상 모델이 제공하는 dict
+                - query: 데이터셋에 정의된 질문
+                - answer: 데이터셋에 정의된 정답
             Returns:
-                - single dict {metric name: single evaluation value}"""
+                - 단일 dict {메트릭 이름: 단일 평가 값}"""
 
-            # get_model은 제공된 파라미터(OpenAI,HF 등)에 따라 일반적으로 모델을 가져오는 함수입니다.
+            # get_model은 제공된 파라미터(OpenAI, HF 등)를 기반으로 모델을 가져오는 일반적인 헬퍼입니다.
             eval_model = get_model(
                 model_name = self.model_name,
                 prompt = self.prompt
                 device = self.device,
             )
-            # 평가 속도를 높이기 위한 비동기 평가 - 반드시 비동기일 필요는 없습니다.
+            # 비동기 평가를 통해 평가 속도를 높입니다 - 비동기로 구현할 필요는 없습니다.
             grade = await eval_model.async_predict(
                 {
                     "query": query,
@@ -388,18 +388,18 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
             # 출력 파싱 - pydantic을 사용하면 더 견고하게 구현할 수 있습니다.
             evaluation = "incorrect" not in grade["text"].strip().lower()
 
-            # Weave에 표시되는 컬럼 이름
+            # Weave에 표시될 컬럼 이름
             return {"correct": evaluation}
 
         @weave.op()
         def summarize(self, score_rows: list) -> Optional[dict]:
-            """Aggregate all the scores that are calculated for each row by the scoring function.
+            """채점 함수가 각 행마다 계산한 점수를 집계합니다.
             Args:
-                - score_rows: a list of dicts. Each dict has metrics and scores
+                - score_rows: dict 리스트. 각 dict는 메트릭과 점수를 포함합니다.
             Returns:
-                - nested dict with the same structure as the input"""
+                - 입력과 동일한 구조의 중첩 dict"""
 
-            # 별도로 정의하지 않으면 weave.flow.scorer.auto_summarize 함수가 사용됩니다.
+            # 아무 것도 제공하지 않으면 weave.flow.scorer.auto_summarize 함수가 사용됩니다.
             # return auto_summarize(score_rows)
 
             valid_data = [x.get("correct") for x in score_rows if x.get("correct") is not None]
@@ -410,7 +410,7 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
             sample_variance = np.var(int_data) if int_data else 0
             sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
 
-            # 추가 "correct" 계층은 필수는 아니지만 UI에 구조를 더해 줍니다.
+            # 추가적인 "correct" 계층은 필수는 아니지만 UI 구조를 더해 줍니다.
             return {
                 "correct": {
                     "true_count": count_true,
@@ -423,12 +423,12 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
 
-이를 scorer로 사용하려면, 먼저 이를 초기화한 뒤 `Evaluation`의 `scorers` 인자에 다음과 같이 전달합니다:
+이를 Scorer로 사용하려면, 다음과 같이 초기화한 후 `Evaluation`에서 `scorers` 인자로 전달합니다:
 
 <Tabs>
   <Tab title="Python">
@@ -439,26 +439,26 @@ Retrieval Augmented Generation (RAG)은 사용자 지정 지식 베이스에 접
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 TypeScript에서는 아직 사용할 수 없습니다.
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
 
 <div id="pulling-it-all-together">
-  ## 모두 종합하기
+  ## 전체 흐름 정리하기
 </div>
 
-RAG 앱에서 동일한 결과를 얻으려면:
+RAG 앱에서도 동일한 결과를 얻으려면:
 
-* LLM 호출과 검색 단계 함수를 `weave.op()`으로 감싸십시오
-* (선택 사항) `predict` 함수와 앱 세부 정보를 포함하는 `Model` 서브클래스를 만드십시오
-* 평가할 예제를 수집하십시오
-* 한 예제씩 점수화하는 스코어링 함수를 만드십시오
-* `Evaluation` 클래스를 사용해 예제에 대한 Evaluation을 실행하십시오
+* LLM 호출과 검색 단계 함수를 `weave.op()`으로 감쌉니다
+* (선택) `predict` 함수와 앱 세부 정보를 포함한 `Model` 서브클래스를 생성합니다
+* 평가할 예제를 수집합니다
+* 각 예제를 점수화하는 채점 함수를 만듭니다
+* `Evaluation` 클래스를 사용해 예제들에 대해 평가를 실행합니다
 
-**참고:** 때때로 Evaluation을 비동기 실행하면 OpenAI, Anthropic 등의 모델에서 rate limit이 걸릴 수 있습니다. 이를 방지하려면 예를 들어 `WEAVE_PARALLELISM=3`처럼 환경 변수를 설정해 병렬 worker 수를 제한할 수 있습니다.
+**참고:** Evaluations를 비동기 실행할 때 OpenAI, Anthropic 등의 모델에서 요청 제한이 걸릴 수 있습니다. 이를 방지하려면 예를 들어 `WEAVE_PARALLELISM=3`과 같이 환경 변수를 설정해 동시에 실행되는 worker 수를 제한할 수 있습니다.
 
-전체 코드는 아래와 같습니다.
+다음은 전체 코드입니다.
 
 <Tabs>
   <Tab title="Python">
@@ -493,7 +493,7 @@ RAG 앱에서 동일한 결과를 얻으려면:
             document_embeddings.append(response)
         return document_embeddings
 
-    article_embeddings = docs_to_embeddings(articles) # 참고: 일반적으로 이 작업은 기사에 대해 한 번만 수행하고 임베딩 및 메타데이터를 데이터베이스에 저장합니다
+    article_embeddings = docs_to_embeddings(articles) # 참고: 일반적으로 이 작업은 아티클에 대해 한 번만 수행하고, 임베딩 및 메타데이터를 데이터베이스에 저장합니다
 
     # 검색 단계에 데코레이터 추가
     @weave.op()
@@ -513,7 +513,7 @@ RAG 앱에서 동일한 결과를 얻으려면:
         most_relevant_doc_index = np.argmax(similarities)
         return articles[most_relevant_doc_index]
 
-    # 앱 세부 정보와 응답을 생성하는 predict 함수를 포함한 Model 서브클래스 생성
+    # 앱에 대한 세부 정보와 응답을 생성하는 predict 함수를 포함한 Model 서브클래스 생성
     class RAGModel(Model):
         system_message: str
         model_name: str = "gpt-3.5-turbo-1106"
@@ -523,12 +523,12 @@ RAG 앱에서 동일한 결과를 얻으려면:
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
-            query = f"""다음 정보를 사용하여 아래 질문에 답하세요. 답을 찾을 수 없는 경우 "모르겠습니다."라고 작성하세요.
-            컨텍스트:
+            query = f"""다음 정보를 사용하여 아래 질문에 답하세요. 답을 찾을 수 없는 경우 "모르겠습니다"라고 작성하세요.
+            Context:
             \"\"\"
             {context}
             \"\"\"
-            질문: {question}"""
+            Question: {question}"""
             response = client.chat.completions.create(
                 model=self.model_name,
                 messages=[
@@ -550,7 +550,7 @@ RAG 앱에서 동일한 결과를 얻으려면:
     # 질문과 출력을 사용하여 점수를 산출하는 채점 함수
     @weave.op()
     async def context_precision_score(question, output):
-        context_precision_prompt = """주어진 질문, 답변, 컨텍스트를 바탕으로 컨텍스트가 해당 답변을 도출하는 데 유용했는지 확인하세요. 유용한 경우 "1", 그렇지 않은 경우 "0"을 JSON 형식으로 출력하세요.
+        context_precision_prompt = """주어진 질문, 답변, 컨텍스트를 바탕으로 해당 컨텍스트가 답변 도출에 유용했는지 확인하세요. 유용한 경우 "1", 그렇지 않은 경우 "0"을 JSON 출력으로 제공하세요.
         유효한 JSON 형식으로만 출력하세요.
 
         question: {question}
@@ -712,9 +712,9 @@ RAG 앱에서 동일한 결과를 얻으려면:
         return new weave.Dataset<QuestionRow>({
             id: 'rag-questions',
             rows: [
-                { question: "What significant result was reported about Zealand Pharma's obesity trial?" },
-                { question: "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?" },
-                { question: "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?" }
+                { question: "Zealand Pharma의 비만 임상시험에 대해 보고된 주요 결과는 무엇인가요?" },
+                { question: "Berkshire Hathaway의 4분기 현금 보유액은 얼마나 증가했나요?" },
+                { question: "Highmark Health의 Google Cloud 및 Epic Systems 기술 통합의 목표는 무엇인가요?" }
             ]
         });
     }
@@ -781,10 +781,10 @@ RAG 앱에서 동일한 결과를 얻으려면:
   ## 결론
 </div>
 
-이 튜토리얼에서는 이 예시의 retrieval 단계처럼 애플리케이션의 다양한 단계에 옵저버빌리티를 구축하는 방법을 살펴보았습니다. 또한 애플리케이션 응답을 자동으로 평가하기 위해 LLM judge와 같은 더 복잡한 스코어링 함수를 구현하는 방법도 배웠습니다.
+이 튜토리얼에서는 이 예제에서 살펴본 검색 단계처럼 애플리케이션의 여러 단계에 관측 가능성을 어떻게 구축하는지 다루었습니다. 또한 애플리케이션 응답을 자동으로 평가하기 위해 LLM judge와 같은 더 복잡한 스코어링 함수를 구현하는 방법도 배웠습니다.
 
 <div id="next-steps">
   ## 다음 단계
 </div>
 
-엔지니어를 위한 실무 RAG 기법을 한층 더 깊이 있게 다루는 [RAG++ 코스](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs)를 살펴보세요. 이 코스에서는 Weights &amp; Biases, Cohere, Weaviate가 제공하는 프로덕션 환경에 바로 적용 가능한 솔루션을 통해 성능을 최적화하고 비용을 절감하며, 애플리케이션의 정확도와 관련성을 높이는 방법을 배웁니다.
+엔지니어를 위한 실전 RAG 기법을 더 심화해서 다루는 [RAG++ 강좌](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs)를 확인하세요. 이 과정에서는 Weights &amp; Biases, Cohere, Weaviate가 제공하는 프로덕션 환경에 바로 적용할 수 있는 솔루션을 통해 성능을 최적화하고 비용을 절감하며 애플리케이션의 정확도와 관련성을 향상시키는 방법을 배웁니다.

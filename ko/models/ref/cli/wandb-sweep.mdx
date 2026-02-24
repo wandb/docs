@@ -5,21 +5,21 @@ title: "wandb sweep"
 {/*
   이 명령어에 대한 소개 내용을 추가하려면:
   1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-sweep.mdx
-  2. 해당 파일에 소개 내용을 추가합니다
+  2. 해당 파일에 소개 내용을 추가합니다.
   3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
   import WandbSweep from "/snippets/_includes/cli/wandb-sweep.mdx";
 
   <WandbSweep/>
 
-  스니펫은 다음에 다시 생성할 때 자동으로 감지됩니다.
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
   */}
 
-하이퍼파라미터 스윕을 초기화합니다. 머신러닝 모델의 비용 함수를 최적화하는 하이퍼파라미터를 찾기 위해 다양한 조합을 테스트합니다.
+하이퍼파라미터 스윕을 초기화합니다. 다양한 조합을 테스트하여 머신러닝 모델의 비용 함수를 최적화하는 하이퍼파라미터를 탐색합니다.
 
 
 <div id="usage">
-  ## 사용법
+  ## 사용 방법
 </div>
 
 ```bash
@@ -31,25 +31,25 @@ wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
   ## 인수
 </div>
 
-| Argument | 설명 | 필수 여부 |
+| 인수 | 설명 | 필수 |
 | :--- | :--- | :--- |
-| `CONFIG_YAML_OR_SWEEP_ID` | 설명이 제공되지 않습니다 | 예 |
+| `CONFIG_YAML_OR_SWEEP_ID` | 설명이 없습니다 | 예 |
 
 <div id="options">
-  ## Options
+  ## 옵션
 </div>
 
 | Option | Description |
 | :--- | :--- |
-| `--project`, `-p` | 스윕에서 생성된 W&B 실행이 전송될 프로젝트 이름입니다. 프로젝트를 지정하지 않으면 실행은 Uncategorized라는 레이블이 붙은 프로젝트로 전송됩니다. |
-| `--entity`, `-e` | 스윕에서 생성된 W&B 실행을 전송하려는 사용자 이름 또는 팀 이름입니다. 지정한 엔터티가 이미 존재하는지 확인하세요. 엔터티를 지정하지 않으면 실행은 기본 엔터티(보통은 본인 사용자 이름)로 전송됩니다. |
-| `--controller` | 로컬 컨트롤러를 실행합니다 (기본값: False). |
-| `--verbose` | 자세한 출력을 표시합니다 (기본값: False). |
-| `--name` | 스윕의 이름입니다. 이름을 지정하지 않으면 스윕 ID가 사용됩니다. |
-| `--program` | 스윕 프로그램을 설정합니다. |
-| `--update` | 대기 중인 스윕을 업데이트합니다. |
-| `--stop` | 새 실행 시작을 중지하고, 현재 실행 중인 실행이 완료되도록 하여 스윕을 종료합니다 (기본값: False). |
-| `--cancel` | 실행 중인 모든 실행을 중단하고 새 실행 시작을 중지하여 스윕을 취소합니다 (기본값: False). |
-| `--pause` | 새 실행 시작을 일시적으로 중지하여 스윕을 일시 중지합니다 (기본값: False). |
-| `--resume` | 새 실행을 다시 시작하여 스윕을 재개합니다 (기본값: False). |
-| `--prior_run`, `-R` | 이 스윕에 추가할 기존 실행의 ID입니다. |
+| `--project`, `-p` | sweep에서 생성된 W&B run이 보내질 프로젝트 이름입니다. 프로젝트를 지정하지 않으면 run은 Uncategorized라는 라벨이 붙은 프로젝트로 보내집니다. |
+| `--entity`, `-e` | sweep에서 생성된 W&B run을 보낼 사용자 이름 또는 팀 이름입니다. 지정한 entity가 이미 존재하는지 확인하십시오. entity를 지정하지 않으면 run은 기본 entity(일반적으로 본인의 사용자 이름)로 보내집니다. |
+| `--controller` | 로컬 컨트롤러 실행 (기본값: False) |
+| `--verbose` | 자세한 출력 표시 (기본값: False) |
+| `--name` | sweep의 이름입니다. 이름을 지정하지 않으면 sweep ID가 사용됩니다. |
+| `--program` | sweep 프로그램 설정 |
+| `--update` | 대기 중인 sweep 업데이트 |
+| `--stop` | 새로운 run 실행을 중지하고 현재 실행 중인 run이 완료되도록 하여 sweep을 종료합니다. (기본값: False) |
+| `--cancel` | 실행 중인 모든 run을 종료하고 새로운 run 실행을 중지하여 sweep을 취소합니다. (기본값: False) |
+| `--pause` | 새로운 run 실행을 일시적으로 중지하여 sweep을 일시 중지합니다. (기본값: False) |
+| `--resume` | 새로운 run 실행을 다시 시작하도록 sweep을 재개합니다. (기본값: False) |
+| `--prior_run`, `-R` | 이 sweep에 추가할 기존 run의 ID |

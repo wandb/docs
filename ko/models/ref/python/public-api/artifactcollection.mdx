@@ -11,25 +11,25 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactCollection`
 
-관련된 아티팩트들의 집합을 나타내는 아티팩트 컬렉션입니다. 
+서로 관련된 아티팩트 그룹을 나타내는 아티팩트 컬렉션입니다. 
 
 **Args:**
 
 - `client`:  W&B에 쿼리할 때 사용할 클라이언트 인스턴스입니다. 
- - `entity`:  프로젝트를 소유하는 엔터티(사용자 또는 팀)입니다. 
- - `project`:  아티팩트 컬렉션을 조회할 프로젝트 이름입니다. 
- - `name`:  아티팩트 컬렉션의 이름입니다. 
- - `type`:  아티팩트 컬렉션의 유형입니다(예: "dataset", "model"). 
- - `organization`:  해당되는 경우의 선택적 조직 이름입니다. 
- - `attrs`:  아티팩트 컬렉션을 초기화하기 위한 선택적 속성 매핑입니다. 제공되지 않은 경우 객체는 초기화 시점에 W&B에서 속성을 로드합니다. 
+- `entity`:  프로젝트를 소유한 엔터티(사용자 또는 팀)입니다. 
+- `project`:  아티팩트 컬렉션을 쿼리할 프로젝트 이름입니다. 
+- `name`:  아티팩트 컬렉션의 이름입니다. 
+- `type`:  아티팩트 컬렉션의 유형입니다(예: "dataset", "model"). 
+- `organization`:  해당되는 경우 사용할 선택적인 organization 이름입니다. 
+- `attrs`:  아티팩트 컬렉션을 초기화하기 위한 속성 매핑(선택 사항)입니다. 제공되지 않은 경우, 객체는 초기화 시점에 W&B에서 속성을 로드합니다. 
 
 ### <kbd>property</kbd> ArtifactCollection.aliases
 
-이 컬렉션에 포함된 모든 아티팩트 버전의 별칭(alias)입니다. 
+이 컬렉션에 포함된 모든 아티팩트 버전의 별칭입니다. 
 
 **반환값:**
 
-- `list[str]`: `aliases` 프로퍼티 값입니다.
+- `list[str]`: aliases 속성의 값입니다.
 
 ---
 
@@ -37,19 +37,19 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 아티팩트 컬렉션이 생성된 날짜입니다. 
 
-**반환값:**
+**Returns:**
 
-- `str`: created_at 속성 값.
+- `str`: created_at 속성의 값입니다.
 
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.description
 
-아티팩트 컬렉션의 설명입니다. 
+아티팩트 컬렉션에 대한 설명입니다. 
 
 **반환값:**
 
-- `str | None`: description 속성 값입니다.
+- `str | None`: `description` 프로퍼티의 값입니다.
 
 ---
 
@@ -57,18 +57,19 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 프로젝트를 소유하는 엔터티(사용자 또는 팀)입니다. 
 
-**반환 값:**
+**반환값:**
 
-- `str`: entity 속성의 값.
+- `str`: entity 프로퍼티 값입니다.
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.id
 
-아티팩트 컬렉션의 고유 ID입니다. 
+아티팩트 컬렉션의 고유 식별자입니다. 
 
 **반환값:**
 
-- `str`: id 속성 값입니다.
+- `str`: id 속성 값.
 
 ---
 
@@ -76,9 +77,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 아티팩트 컬렉션의 이름입니다. 
 
-**반환:**
+**Returns:**
 
-- `str`: name 프로퍼티의 값입니다.
+- `str`: name 속성 값입니다.
 
 ---
 
@@ -86,19 +87,19 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 아티팩트 컬렉션을 포함하는 프로젝트입니다. 
 
-**Returns:**
+**반환값:**
 
-- `str`: project 속성 값입니다.
+- `str`: 프로젝트 속성 값입니다.
 
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.tags
 
-아티팩트 컬렉션과 연관된 태그입니다. 
+아티팩트 컬렉션과 관련된 태그입니다. 
 
 **반환값:**
 
-- `list[str]`: `tags` 속성 값입니다.
+- `list[str]`: 태그 프로퍼티의 값입니다.
 
 ---
 
@@ -125,18 +126,18 @@ artifacts(per_page: 'int' = 50) → Artifacts
 change_type(new_type: 'str') → None
 ```
 
-사용 중단(deprecated)되었습니다. 대신 `save`를 사용해 타입을 직접 변경하세요.
+더 이상 사용되지 않습니다. 대신 `save`로 타입을 직접 변경하세요.
 
 ***
 
 
-### <kbd>method</kbd> `ArtifactCollection.delete`
+### <kbd>메서드</kbd> `ArtifactCollection.delete`
 
 ```python
 delete() → None
 ```
 
-전체 아티팩트 컬렉션을 삭제합니다.
+아티팩트 컬렉션 전체를 삭제합니다.
 
 ***
 
@@ -147,7 +148,7 @@ delete() → None
 is_sequence() → bool
 ```
 
-아티팩트 컬렉션이 시퀀스인지 여부를 반환합니다.
+아티팩트 컬렉션이 시퀀스인지 나타내는 값을 반환합니다.
 
 ***
 
@@ -158,4 +159,4 @@ is_sequence() → bool
 save() → None
 ```
 
-아티팩트 컬렉션에 대한 변경 내용을 저장합니다.
+아티팩트 컬렉션에 적용된 변경 내용을 저장합니다.

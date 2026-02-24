@@ -17,19 +17,19 @@ setup(settings: 'Settings | None' = None) → _WandbSetup
 
 현재 프로세스와 그 하위 프로세스에서 W&amp;B를 사용할 수 있도록 준비합니다.
 
-대부분의 경우 `wandb.init()`에서 암묵적으로 호출되므로 별도로 호출할 필요는 없습니다.
+일반적으로는 `wandb.init()`에서 암묵적으로 호출되므로 별도로 호출할 필요는 없습니다.
 
-여러 프로세스에서 wandb를 사용할 때, 자식 프로세스를 시작하기 전에 부모 프로세스에서 `wandb.setup()`을 호출하면 성능과 리소스 활용이 향상될 수 있습니다.
+여러 프로세스에서 wandb를 사용할 때는, 자식 프로세스를 시작하기 전에 부모 프로세스에서 `wandb.setup()`을 호출하면 성능과 리소스 활용이 개선될 수 있습니다.
 
-`wandb.setup()`은 `os.environ`을 수정하며, 수정된 환경 변수를 자식 프로세스가 반드시 상속받는 것이 중요합니다.
+`wandb.setup()`은 `os.environ`을 수정하며, 수정된 환경 변수를 자식 프로세스가 상속받는 것이 중요합니다.
 
-`wandb.teardown()`도 함께 참고하세요.
+`wandb.teardown()`도 참고하세요.
 
-**인자(Args):**
+**Args:**
 
-* `settings`: 전역적으로 적용할 설정입니다. 이후 `wandb.init()` 호출에서 이 설정을 덮어쓸 수 있습니다.
+* `settings`: 전역적으로 적용할 설정. 이후에 호출되는 `wandb.init()`에서 재정의될 수 있습니다.
 
-**예시(Example):**
+**Example:**
 
 ```python
 import multiprocessing

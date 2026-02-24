@@ -1,6 +1,6 @@
 ---
 title: "op"
-description: "weave.trace.op에 대한 Python SDK 참조"
+description: "Python SDK에서 weave.trace.op에 대한 참조 문서"
 ---
 
 import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
@@ -28,7 +28,7 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `OpKwargs`
 
-op() 함수의 키워드 인수를 위한 TypedDict입니다. 
+op() 함수의 키워드 인자를 위한 TypedDict입니다. 
 
 ---
 
@@ -57,20 +57,20 @@ __init__(package: 'str', path: 'str', name: 'str') → None
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1388" />
 
-### <kbd>function</kbd> `as_op`
+### <kbd>함수</kbd> `as_op`
 
 ```python
 as_op(fn: 'Callable[P, R]') → Op[P, R]
 ```
 
-@weave.op 데코레이터가 적용된 함수가 주어지면, 해당 함수의 Op를 반환합니다.
+@weave.op 데코레이터가 적용된 함수를 받아 해당 Op를 반환합니다.
 
-@weave.op 데코레이터가 적용된 함수는 이미 Op의 인스턴스이므로, 이 함수는 런타임에서는 실제로 아무 작업도 하지 않는 no-op이어야 합니다. 다만 OpDef 속성에 타입 안전하게 접근해야 할 때 타입 체커를 만족시키기 위해 이 함수를 사용할 수 있습니다.
+@weave.op 데코레이터가 적용된 함수는 이미 Op의 인스턴스이므로, 이 함수는 런타임에서는 실질적으로 아무 동작도 하지 않습니다(no-op). 하지만 타입 안전한 방식으로 OpDef 속성에 접근해야 할 때, 타입 체커를 통과시키는 용도로 사용할 수 있습니다.
 
-**인자:**
+**Args:**
 
-* <b>`fn`</b>: weave.op 데코레이터가 적용된 함수.
-  **반환값:**
+* <b>`fn`</b>: `weave.op` 데코레이터가 적용된 함수.
+  **Returns:**
   함수의 Op.
 
 ***
@@ -91,11 +91,11 @@ call(
 ) → tuple[Any, Call] | Coroutine[Any, Any, tuple[Any, Call]]
 ```
 
-op을 실행하고, 결과와 실행을 나타내는 Call 둘 다를 반환합니다.
+op을 실행하고, 결과와 해당 실행을 나타내는 Call 둘 다를 반환합니다.
 
-이 함수는 예외를 발생시키지 않습니다. 모든 오류는 Call 객체에 캡처됩니다.
+이 함수는 예외를 발생시키지 않습니다. 발생한 모든 오류는 Call 객체에 캡처됩니다.
 
-이 메서드는 `@weave.op` 데코레이터가 적용된 모든 함수에 자동으로 바인딩되므로, 다음과 같이 사용할 수 있습니다:
+이 메서드는 `@weave.op`으로 데코레이션된 모든 함수에 자동으로 바인딩되므로, 다음과 같이 사용할 수 있습니다:
 
 ```python
 @weave.op
@@ -116,9 +116,9 @@ result, call = add.call(1, 2)
 calls(op: 'Op') → CallsIter
 ```
 
-이 op에 대한 모든 호출을 순회할 수 있는 이터레이터를 반환합니다.
+이 op에 대한 모든 호출을 순회하는 이터레이터를 반환합니다.
 
-이 메서드는 `@weave.op` 데코레이터가 적용된 모든 함수에 자동으로 바인딩되며, 다음과 같이 사용할 수 있습니다:
+이 메서드는 `@weave.op` 데코레이터가 적용된 모든 함수에 자동으로 바인딩되며, 다음과 같은 방식으로 사용할 수 있습니다:
 
 ```python
 @weave.op
@@ -141,9 +141,9 @@ for call in calls:
 get_captured_code(op: 'Op') → str
 ```
 
-op에서 캡처된 코드를 가져옵니다.
+op에 대해 캡처된 코드를 가져옵니다.
 
-이는 ref로부터 op를 다시 가져왔을 때만 동작합니다. 패턴은 다음과 같습니다:
+이는 ref에서 op를 다시 가져온 경우에만 동작합니다. 패턴은 다음과 같습니다:
 
 ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured&#95;code()
 
@@ -152,13 +152,13 @@ ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1380" />
 
 
-### <kbd>함수</kbd> `is_op`
+### <kbd>function</kbd> `is_op`
 
 ```python
 is_op(obj: 'Any') → TypeIs[Op]
 ```
 
-객체가 Op인지 여부를 확인합니다.
+주어진 객체가 Op인지 확인합니다.
 
 ***
 
@@ -187,15 +187,15 @@ is_tracing_setting_disabled() → bool
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1351" />
 
 
-### <kbd>함수</kbd> `maybe_bind_method`
+### <kbd>function</kbd> `maybe_bind_method`
 
 ```python
 maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
 ```
 
-함수를 (클래스가 아니어도) 임의의 객체에 바인딩합니다.
+클래스가 아니더라도 임의의 객체에 함수를 바인딩합니다.
 
-self가 None이면, 함수를 원본 그대로 반환합니다.
+self가 None이면 함수를 그대로 반환합니다.
 
 ***
 
@@ -208,19 +208,19 @@ self가 None이면, 함수를 원본 그대로 반환합니다.
 maybe_unbind_method(oplike: 'Op | MethodType | partial') → Op
 ```
 
-Op와 유사한 메서드 또는 partial을 일반 Op 함수로 바인딩 해제합니다.
+Op 유사 메서드나 partial의 바인딩을 해제하여 일반 Op 함수로 만듭니다.
 
-다음의 경우:
+다음 대상에 대해:
 
-* 메서드의 경우, 설정된 `self` 매개변수를 제거합니다.
-* partial의 경우, 미리 설정된 매개변수를 제거합니다.
+* 메서드: 설정된 `self` 파라미터 제거
+* partial: 미리 설정된 모든 파라미터 제거
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1202" />
 
 
-### <kbd>함수</kbd> `op`
+### <kbd>function</kbd> `op`
 
 ```python
 op(
@@ -237,7 +237,7 @@ op(
 ) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
 ```
 
-함수나 메서드를 Weave op로 변환(op-ify)하기 위한 데코레이터입니다. 동기와 비동기 모두에서 동작합니다. iterator 함수도 자동으로 감지하여 적절하게 처리합니다.
+함수나 메서드를 Weave op로 변환(op-ify)하는 데코레이터입니다. 동기 및 비동기 함수 모두에서 동작합니다. 이터레이터(반복자) 함수인지 자동으로 감지하고, 이에 맞는 동작을 적용합니다.
 
 ***
 
@@ -263,12 +263,13 @@ setup_dunder_weave_dict(op: 'Op', d: 'WeaveKwargs | None' = None) → WeaveKwarg
 
 WeaveKwargs를 ops에 전달하는 데 사용되는 &#95;&#95;weave dict를 설정합니다.
 
-**Args:**
+**인자:**
 
-* <b>`d`</b>: 업데이트할 수 있는 기존 WeaveKwargs dict (선택 사항).
-* <b>`op`</b>: kind와 color를 추출할 Op.
-  **Returns:**
-  attributes, display&#95;name 및 선택적으로 kind/color가 설정된 WeaveKwargs dict를 반환합니다.
+* <b>`d`</b>: 선택적으로 업데이트할 기존 WeaveKwargs dict.
+* <b>`op`</b>: kind와 color를 추출할 Op 객체.
+
+**반환값:**
+attributes, display&#95;name, 그리고 선택적으로 kind/color가 설정된 WeaveKwargs dict를 반환합니다.
 
 ***
 

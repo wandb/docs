@@ -1,26 +1,26 @@
 ---
-title: PyTorch torchtune
+title: Pytorch torchtune
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" />
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html)은 대규모 언어 모델(LLM)의 작성, 파인튜닝, 실험 과정을 간소화하도록 설계된 PyTorch 기반 라이브러리입니다. 또한 torchtune은 [W&amp;B 로깅](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html)을 기본으로 지원하여 학습 과정의 추적과 시각화를 더욱 강화합니다.
+[torchtune](https://pytorch.org/torchtune/stable/index.html)은 대규모 언어 모델(LLM)의 작성, 파인튜닝, 실험 과정을 간소화하도록 설계된 PyTorch 기반 라이브러리입니다. 또한 torchtune은 [W&amp;B로 로깅](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html)을 기본 지원하여 트레이닝 과정을 더 효율적으로 추적하고 시각화할 수 있게 해줍니다.
 
 <Frame>
-  <img src="/images/integrations/torchtune_dashboard.png" alt="TorchTune 학습 대시보드" />
+  <img src="/images/integrations/torchtune_dashboard.png" alt="TorchTune 트레이닝 대시보드" />
 </Frame>
 
-[torchtune으로 Mistral 7B를 파인튜닝](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0)하는 방법에 대한 W&amp;B 블로그 글을 확인하세요.
+[torchtune를 사용한 Mistral 7B 파인튜닝](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0)에 대한 W&amp;B 블로그 게시글을 확인하세요.
 
 <div id="wb-logging-at-your-fingertips">
-  ## 손쉽게 사용하는 W&amp;B 로깅
+  ## 손쉽게 W&amp;B 로깅 활용하기
 </div>
 
 <Tabs>
   <Tab title="명령줄">
-    실행 시 명령줄 인수를 오버라이드합니다:
+    실행 시 사용할 명령줄 인수를 다음과 같이 재정의합니다:
 
     ```bash
     tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -30,11 +30,11 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
     ```
   </Tab>
 
-  <Tab title="레시피">
-    레시피의 설정(config)에서 W&amp;B 로깅을 활성화합니다:
+  <Tab title="Recipe">
+    레시피의 config에서 W&amp;B 로깅을 활성화합니다:
 
     ```yaml
-    # llama3/8B_lora_single_device.yaml 파일 내부
+    # inside llama3/8B_lora_single_device.yaml
     metric_logger:
       _component_: torchtune.utils.metric_logging.WandBLogger
       project: llama3_lora
@@ -47,9 +47,9 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
   ## W&amp;B 메트릭 로거 사용하기
 </div>
 
-레시피 구성 파일의 `metric_logger` 섹션을 수정해 W&amp;B 로깅을 활성화합니다. `_component_`를 `torchtune.utils.metric_logging.WandBLogger` 클래스로 변경하세요. 또한 로깅 동작을 조정하기 위해 `project` 이름과 `log_every_n_steps`를 전달할 수 있습니다.
+레시피의 구성 파일에서 `metric_logger` 섹션을 수정하여 W&amp;B 로깅을 활성화합니다. `_component_`를 `torchtune.utils.metric_logging.WandBLogger` 클래스로 변경하세요. 로깅 동작을 사용자 지정하기 위해 `project` 이름과 `log_every_n_steps`를 전달할 수도 있습니다.
 
-[wandb.init()](/ko/models/ref/python/functions/init) 메서드에 전달할 수 있는 다른 `kwargs`도 같은 방식으로 전달할 수 있습니다. 예를 들어 팀에서 작업 중이라면, 팀 이름을 지정하기 위해 `entity` 인자(엔터티)를 `WandBLogger` 클래스에 전달할 수 있습니다.
+또한 [wandb.init()](/ko/models/ref/python/functions/init) 메서드에 전달하듯이 다른 `kwargs`도 모두 전달할 수 있습니다. 예를 들어 팀에서 작업 중이라면, 팀 이름을 지정하기 위해 `entity` 인자를 `WandBLogger` 클래스에 전달할 수 있습니다.
 
 <Tabs>
   <Tab title="Recipe">
@@ -79,36 +79,36 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 </Tabs>
 
 <div id="what-is-logged">
-  ## 어떤 값들이 로그로 기록되나요?
+  ## 무엇이 기록되나요?
 </div>
 
-W&amp;B 대시보드에서 기록된 지표들을 확인할 수 있습니다. 기본적으로 W&amp;B는 config 파일과 launch override에 있는 모든 하이퍼파라미터를 로그로 기록합니다.
+W&amp;B 대시보드를 탐색하여 기록된 메트릭을 확인할 수 있습니다. 기본적으로 W&amp;B는 설정 파일의 모든 하이퍼파라미터와 Launch 오버라이드 값을 기록합니다.
 
-W&amp;B는 최종적으로 결정된 config를 **Overview** 탭에 표시합니다. 또한 config를 YAML 형식으로 [Files 탭](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files)에 저장합니다.
+W&amp;B는 **Overview** 탭에 최종 확정된 config를 기록합니다. 또한 [Files 탭](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files)에 YAML 형식의 config를 저장합니다.
 
 <Frame>
-  <img src="/images/integrations/torchtune_config.png" alt="TorchTune 구성" />
+  <img src="/images/integrations/torchtune_config.png" alt="TorchTune 설정" />
 </Frame>
 
 <div id="logged-metrics">
   ### 기록된 메트릭
 </div>
 
-각 recipe는 자체적인 학습 루프를 갖습니다. 각 개별 recipe에서 기본으로 기록되는 메트릭은 다음과 같습니다:
+각 레시피는 자체 트레이닝 루프를 갖습니다. 각 레시피별로 기록되는 메트릭을 확인하면, 기본적으로 아래 항목들이 포함됩니다:
 
-| Metric              | Description                                                                                                                                                      |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `loss`              | 모델의 loss                                                                                                                                                         |
-| `lr`                | learning rate                                                                                                                                                    |
-| `tokens_per_second` | 모델의 초당 tokens 수                                                                                                                                                  |
-| `grad_norm`         | 모델의 gradient norm                                                                                                                                                |
-| `global_step`       | 학습 루프에서의 현재 step에 해당합니다. gradient accumulation을 고려하며, 기본적으로 optimizer step이 수행될 때마다 gradient가 누적되고 모델이 업데이트되며, 모델은 `gradient_accumulation_steps`마다 한 번씩 업데이트됩니다. |
+| Metric              | Description                                                                                                                         |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `loss`              | 모델의 loss 값                                                                                                                          |
+| `lr`                | learning rate 값                                                                                                                     |
+| `tokens_per_second` | 모델의 초당 토큰 수                                                                                                                         |
+| `grad_norm`         | 모델의 gradient norm                                                                                                                   |
+| `global_step`       | 현재 트레이닝 루프에서의 스텝에 해당합니다. 그래디언트 누적을 고려하며, 기본적으로 옵티마이저 스텝이 한 번 수행될 때마다 그래디언트가 누적되고, `gradient_accumulation_steps`마다 한 번씩 모델이 업데이트됩니다. |
 
 <Note>
-  `global_step`은 training step의 개수와 동일하지 않습니다. 이는 학습 루프의 현재 step에 해당합니다. gradient accumulation을 고려하며, 기본적으로 optimizer step이 수행될 때마다 `global_step`이 1씩 증가합니다. 예를 들어 dataloader에 batch가 10개 있고, gradient accumulation steps가 2이며 3 epoch 동안 실행되는 경우, optimizer는 총 15번 step을 수행하고, 이때 `global_step`은 1에서 15까지의 값을 갖습니다.
+  `global_step`은 트레이닝 스텝 수 자체와 동일하지 않습니다. 트레이닝 루프에서의 현재 스텝에 해당하며, 그래디언트 누적을 고려합니다. 기본적으로 옵티마이저 스텝이 수행될 때마다 `global_step`이 1씩 증가합니다. 예를 들어, 데이터로더에 배치가 10개 있고, gradient accumulation steps가 2이며 3 에포크를 실행하면, 옵티마이저는 총 15번 스텝을 수행합니다. 이 경우 `global_step`은 1에서 15까지의 값을 갖습니다.
 </Note>
 
-torchtune의 단순화된 설계 덕분에 사용자 정의 메트릭을 쉽게 추가하거나 기존 메트릭을 수정할 수 있습니다. 해당 [recipe 파일](https://github.com/pytorch/torchtune/tree/main/recipes)만 수정하면 되며, 예를 들어 전체 epoch 수에 대한 비율(%)로 `current_epoch`를 다음과 같이 기록할 수 있습니다:
+torchtune의 간결한 설계 덕분에 사용자 정의 메트릭을 손쉽게 추가하거나 기존 메트릭을 수정할 수 있습니다. 해당 [recipe 파일](https://github.com/pytorch/torchtune/tree/main/recipes)만 수정하면 되며, 예를 들어 전체 에포크 수에 대한 비율(%)로 `current_epoch`을 계산한 뒤, 다음과 같이 로깅할 수 있습니다:
 
 ```python
 # 레시피 파일의 `train.py` 함수 내부
@@ -119,18 +119,18 @@ self._metric_logger.log_dict(
 ```
 
 <Note>
-  이 라이브러리는 빠르게 발전하고 있는 라이브러리로, 현재 메트릭은 변경될 수 있습니다. 사용자 정의 메트릭을 추가하려면 레시피를 수정한 후 해당 `self._metric_logger.*` 함수를 호출해야 합니다.
+  이 라이브러리는 빠르게 발전 중인 라이브러리로, 현재 제공되는 메트릭은 향후 변경될 수 있습니다. 커스텀 메트릭을 추가하려면 레시피를 수정한 뒤 해당 `self._metric_logger.*` 함수를 호출해야 합니다.
 </Note>
 
 <div id="save-and-load-checkpoints">
-  ## 체크포인트 저장 및 불러오기
+  ## 체크포인트 저장 및 로드
 </div>
 
-torchtune 라이브러리는 다양한 [체크포인트 형식](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)을 지원합니다. 사용하는 모델의 출처에 따라 적절한 [checkpointer 클래스](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)로 전환해야 합니다.
+torchtune 라이브러리는 다양한 [체크포인트 형식](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)을 지원합니다. 사용 중인 모델의 출처에 따라 적절한 [checkpointer 클래스](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)를 사용해야 합니다.
 
-모델 체크포인트를 [W&amp;B Artifacts](/ko/models/artifacts/)에 저장하려면 가장 단순한 방법은 해당 레시피 안의 `save_checkpoint` 함수를 오버라이드하는 것입니다.
+모델 체크포인트를 [W&amp;B Artifacts](/ko/models/artifacts/)에 저장하려면, 가장 간단한 방법은 해당 레시피 내부의 `save_checkpoint` 함수를 오버라이드하는 것입니다.
 
-다음은 `save_checkpoint` 함수를 오버라이드하여 모델 체크포인트를 W&amp;B Artifacts에 저장하는 예제입니다.
+다음은 `save_checkpoint` 함수를 오버라이드하여 모델 체크포인트를 W&amp;B Artifacts에 저장하는 예시입니다.
 
 ```python
 def save_checkpoint(self, epoch: int) -> None:

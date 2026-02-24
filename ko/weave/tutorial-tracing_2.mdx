@@ -1,22 +1,22 @@
 ---
 title: "애플리케이션 로직 추적"
-description: "LLM 애플리케이션에서 데이터 흐름과 메타데이터를 추적하는 방법을 알아봅니다"
+description: "LLM 애플리케이션에서 데이터 흐름과 메타데이터를 추적하는 방법을 알아보세요"
 ---
 
-[Track LLM inputs &amp; outputs](/ko/weave/quickstart) 튜토리얼에서는 LLM의 입력과 출력을 추적하는 기본 개념을 다뤘습니다.
+[Track LLM inputs &amp; outputs](/ko/weave/quickstart) 튜토리얼에서는 LLM의 입력과 출력을 추적하는 기본 내용을 다루었습니다.
 
-이 튜토리얼에서는 다음 내용을 배우게 됩니다:
+이 튜토리얼에서는 다음을 학습합니다:
 
 * 애플리케이션을 통해 흐르는 **데이터를 추적**하는 방법
-* 호출 시점에 **메타데이터를 추적**하는 방법
+* 호출 시점의 **메타데이터를 추적**하는 방법
 
 <div id="tracking-nested-function-calls">
   ## 중첩 함수 호출 추적
 </div>
 
-LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 중요한 추가 데이터 처리 및 검증 로직이 포함될 수 있습니다. 많은 앱에서 흔한 깊은 중첩 호출 구조에서도 추적하려는 모든 함수에 `weave.op()`만 추가하면 Weave가 중첩 함수 간의 부모-자식 관계를 계속 추적합니다.
+LLM 기반 애플리케이션에는 여러 차례의 LLM 호출과, 모니터링이 중요한 추가 데이터 처리 및 검증 로직이 포함되는 경우가 많습니다. 이처럼 많은 앱에서 흔한 깊게 중첩된 호출 구조에서도, 추적하려는 모든 함수에 `weave.op()`만 추가하면 Weave가 중첩 함수의 부모-자식 관계를 계속 추적합니다.
 
-[퀵스타트 예제](/ko/weave/quickstart)를 기반으로, 아래 코드는 LLM에서 반환된 항목의 개수를 세고 이를 상위 수준 함수로 래핑하는 추가 로직을 더합니다. 또한 이 예제는 `weave.op()`을 사용해 모든 함수와 그 호출 순서, 그리고 부모-자식 관계를 추적합니다:
+[퀵스타트 예제](/ko/weave/quickstart)를 기반으로, 아래 코드는 LLM에서 반환된 항목의 개수를 세고 이를 상위 수준 함수로 감싸는 추가 로직을 포함합니다. 또한 이 예제에서는 `weave.op()`을 사용하여 각 함수, 그 호출 순서, 그리고 부모-자식 관계를 모두 추적합니다:
 
 <Tabs>
   <Tab title="Python">
@@ -48,16 +48,16 @@ LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 
 
     @weave.op()
     def count_dinos(dino_data: dict) -> int:
-        # 반환된 리스트에 포함된 항목 수를 셉니다.
+        # 반환된 리스트의 항목 수를 셉니다
         k = list(dino_data.keys())[0]
         return len(dino_data[k])
 
     @weave.op()
     def dino_tracker(sentence: str) -> dict:
-        # LLM을 사용해 공룡 정보를 추출합니다.
+        # LLM을 사용하여 공룡을 추출합니다
         dino_data = extract_dinos(sentence)
 
-        # 반환된 공룡의 수를 셉니다.
+        # 반환된 공룡의 수를 셉니다
         dino_data = json.loads(dino_data)
         n_dinos = count_dinos(dino_data)
         return {"n_dinosaurs": n_dinos, "dinosaurs": dino_data}
@@ -74,9 +74,9 @@ LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 
 
     **중첩 함수**
 
-    위 코드를 실행하면 두 개의 중첩 함수(`extract_dinos`와 `count_dinos`)의 입력과 출력은 물론, 자동으로 기록된 OpenAI 추적 로그도 확인할 수 있습니다.
+    위 코드를 실행하면 중첩된 두 함수(`extract_dinos` 및 `count_dinos`)의 입력과 출력, 그리고 자동으로 기록된 OpenAI 트레이스를 확인할 수 있습니다.
 
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![중첩 Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
   </Tab>
 
   <Tab title="TypeScript">
@@ -130,11 +130,11 @@ LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 
 
     **중첩 함수**
 
-    위 코드를 실행하면 두 개의 중첩 함수(`extractDinos`와 `countDinos`)의 입력과 출력은 물론, 자동으로 기록된 OpenAI 추적 로그도 확인할 수 있습니다.
+    위 코드를 실행하면 중첩된 두 함수(`extractDinos` 및 `countDinos`)의 입력과 출력, 그리고 자동으로 기록된 OpenAI 트레이스를 확인할 수 있습니다.
 
     {/* TODO: Update to TS screenshot */}
 
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![중첩 Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
   </Tab>
 </Tabs>
 
@@ -142,9 +142,9 @@ LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 
   ## 메타데이터 추적
 </div>
 
-`weave.attributes` 컨텍스트 매니저를 사용하고, 호출 시 추적할 메타데이터를 딕셔너리 형태로 전달하여 메타데이터를 추적할 수 있습니다.
+`weave.attributes` 컨텍스트 매니저를 사용하고, 호출 시점에 추적할 메타데이터가 담긴 사전을 전달해서 메타데이터를 추적할 수 있습니다.
 
-위의 예제를 이어서 사용해 보겠습니다:
+위의 예제를 이어서 살펴보겠습니다:
 
 <Tabs>
   <Tab title="Python">
@@ -157,7 +157,7 @@ LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
     Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
 
-    # 앞서 정의한 함수 실행과 함께 메타데이터를 추적
+    # track metadata alongside our previously defined function
     with weave.attributes({'user_id': 'lukas', 'env': 'production'}):
         result = dino_tracker(sentence)
     ```
@@ -165,19 +165,19 @@ LLM 기반 애플리케이션에는 여러 번의 LLM 호출과 모니터링이 
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 업데이트를 기다려 주세요!
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 계속 지켜봐 주세요!
     ```
   </Tab>
 </Tabs>
 
 <Note>
-  실행 시 사용자 ID, 코드의 환경 상태(개발, 스테이징, 프로덕션 등)와 같은 메타데이터를 추적할 것을 권장합니다.
+  실행 시점에 사용자 ID, 코드가 실행되는 환경 상태(개발, 스테이징, 프로덕션 등)와 같은 메타데이터를 추적할 것을 권장합니다.
 
-  system prompt와 같은 시스템 설정을 추적하려면 [Weave Models](/ko/weave/guides/core-types/models)를 사용하는 것을 권장합니다.
+  시스템 프롬프트와 같은 시스템 설정을 추적하려면 [Weave Models](/ko/weave/guides/core-types/models)를 사용할 것을 권장합니다.
 </Note>
 
 <div id="whats-next">
   ## 다음 단계
 </div>
 
-* [App Versioning 튜토리얼](/ko/weave/tutorial-weave_models)을(를) 따라 수시로 변경되는 프롬프트, 모델, 애플리케이션 변경 사항을 캡처하고 버전 관리하며 체계화하세요.
+* [App Versioning 튜토리얼](/ko/weave/tutorial-weave_models)을 따라 임시 프롬프트, 모델, 애플리케이션 변경 사항을 캡처하고 버전 관리하며 체계적으로 정리하세요.

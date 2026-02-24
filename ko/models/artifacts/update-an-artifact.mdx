@@ -1,26 +1,26 @@
 ---
-description: W&amp;B 실행 내부와 외부에서 기존 Artifact를 업데이트합니다.
+description: W&amp;B run 내부 및 외부에서 기존 아티팩트를 업데이트합니다.
 title: 아티팩트 업데이트
 ---
 
-원하는 값을 전달하여 아티팩트의 `description`, `metadata`, `alias`를 업데이트합니다. `save()` 메서드를 호출해 W&amp;B 서버의 아티팩트를 업데이트합니다. 아티팩트는 W&amp;B 실행 중에도, 실행 외부에서도 업데이트할 수 있습니다.
+원하는 값을 전달하여 아티팩트의 `description`, `metadata`, `alias`를 업데이트합니다. `save()` 메서드를 호출해 W&amp;B 서버의 아티팩트를 업데이트합니다. 아티팩트는 W&amp;B run 중이거나 run 외부에서 모두 업데이트할 수 있습니다.
 
 <Note>
   **Artifact.save() 또는 wandb.Run.log&#95;artifact()를 언제 사용할지**
 
-  * 새 실행을 생성하지 않고 기존 아티팩트를 업데이트하려면 `Artifact.save()`를 사용합니다.
-  * 새 아티팩트를 생성하고 특정 실행과 연결하려면 `wandb.Run.log_artifact()`를 사용합니다.
+  * 새 run을 생성하지 않고 기존 아티팩트를 업데이트하려면 `Artifact.save()`를 사용합니다.
+  * 새 아티팩트를 생성하고 특정 run과 연결하려면 `wandb.Run.log_artifact()`를 사용합니다.
 </Note>
 
-실행 외부에서 아티팩트를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용합니다. 실행 중에 아티팩트를 업데이트하려면 Artifact API([`wandb.Artifact`](/ko/models/ref/python/experiments/artifact))를 사용합니다.
+run 외부에서 아티팩트를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용합니다. run 중에 아티팩트를 업데이트하려면 Artifact API([`wandb.Artifact`](/ko/models/ref/python/experiments/artifact))를 사용합니다.
 
 <Warning>
-  Model Registry에 연결된 아티팩트의 alias는 업데이트할 수 없습니다.
+  Model Registry에서 모델에 연결된 아티팩트의 alias는 업데이트할 수 없습니다.
 </Warning>
 
 <Tabs>
-  <Tab title="실행 중">
-    다음 코드 예시는 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) API를 사용해 아티팩트의 description을 업데이트하는 방법을 보여줍니다:
+  <Tab title="run 중에">
+    다음 코드 예제는 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) API를 사용해 아티팩트의 description을 업데이트하는 방법을 보여줍니다:
 
     ```python
     import wandb
@@ -32,8 +32,8 @@ title: 아티팩트 업데이트
     ```
   </Tab>
 
-  <Tab title="실행 외부">
-    다음 코드 예시는 `wandb.Api` API를 사용해 아티팩트의 description을 업데이트하는 방법을 보여줍니다:
+  <Tab title="run 외부에서">
+    다음 코드 예제는 `wandb.Api` API를 사용해 아티팩트의 description을 업데이트하는 방법을 보여줍니다:
 
     ```python
     import wandb
@@ -45,10 +45,10 @@ title: 아티팩트 업데이트
     # description 업데이트
     artifact.description = "My new description"
 
-    # 특정 metadata 키만 선택적으로 업데이트
+    # metadata 키를 선택적으로 업데이트
     artifact.metadata["oldKey"] = "new value"
 
-    # metadata 전체를 완전히 교체
+    # metadata 전체를 교체
     artifact.metadata = {"newKey": "new value"}
 
     # alias 추가
@@ -57,17 +57,17 @@ title: 아티팩트 업데이트
     # alias 제거
     artifact.aliases.remove("latest")
 
-    # alias를 완전히 교체
+    # alias 전체를 교체
     artifact.aliases = ["replaced"]
 
-    # 모든 아티팩트 수정 사항을 반영
+    # 아티팩트 수정 내용 모두 저장
     artifact.save()
     ```
 
-    자세한 내용은 Weights &amp; Biases [Artifact API](/ko/models/ref/python/experiments/artifact)를 참조하십시오.
+    자세한 내용은 Weights &amp; Biases [Artifact API](/ko/models/ref/python/experiments/artifact)를 참조하세요.
   </Tab>
 
-  <Tab title="컬렉션 사용">
+  <Tab title="컬렉션과 함께 사용하기">
     단일 아티팩트와 동일한 방식으로 Artifact 컬렉션도 업데이트할 수 있습니다:
 
     ```python
@@ -80,6 +80,6 @@ title: 아티팩트 업데이트
         artifact.save()
     ```
 
-    자세한 내용은 [Artifacts Collection](/ko/models/ref/python/public-api/api) 레퍼런스를 참조하십시오.
+    자세한 내용은 [Artifacts Collection](/ko/models/ref/python/public-api/api) 레퍼런스를 참조하세요.
   </Tab>
 </Tabs>

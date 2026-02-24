@@ -2,26 +2,26 @@
 title: '튜토리얼: Kubernetes에서 W&B Launch 설정하기'
 ---
 
-W&amp;B Launch를 사용하면 ML 워크로드를 Kubernetes 클러스터에서 실행하도록 제출할 수 있으며, ML 엔지니어는 W&amp;B 내의 간단한 인터페이스를 통해 이미 Kubernetes로 관리 중인 리소스를 활용할 수 있습니다.
+W&amp;B Launch를 사용하면 ML 워크로드를 Kubernetes 클러스터에 제출하여, ML 엔지니어가 이미 Kubernetes로 관리 중인 리소스를 W&amp;B 내에서 바로 활용할 수 있는 간단한 인터페이스를 제공할 수 있습니다.
 
-W&amp;B는 클러스터에 배포할 수 있는 [공식 Launch agent 이미지](https://hub.docker.com/r/wandb/launch-agent)와 이를 배포하기 위한 [Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 유지 관리합니다.
+W&amp;B는 클러스터에 배포할 수 있는 [공식 Launch 에이전트 이미지](https://hub.docker.com/r/wandb/launch-agent)와 W&amp;B에서 관리하는 [Helm 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 제공합니다.
 
-W&amp;B는 Launch agent가 Kubernetes 클러스터에서 Docker 이미지를 빌드할 수 있도록 [Kaniko](https://github.com/GoogleContainerTools/kaniko) 빌더를 사용합니다. Launch agent에서 Kaniko를 설정하는 방법이나, job 빌드를 비활성화하고 미리 빌드된 Docker 이미지만 사용하는 방법에 대해 자세히 알아보려면 [고급 agent 설정](./setup-agent-advanced)을 참고하세요.
+W&amp;B는 [Kaniko](https://github.com/GoogleContainerTools/kaniko) 빌더를 사용해 Launch 에이전트가 Kubernetes 클러스터 내에서 Docker 이미지를 빌드할 수 있도록 합니다. Launch 에이전트용 Kaniko 설정 방법이나 잡 빌드를 비활성화하고 미리 빌드된 Docker 이미지만 사용하는 방법에 대해서는 [고급 에이전트 설정](./setup-agent-advanced)을 참고하세요.
 
 <Note>
-  Helm을 설치하고 W&amp;B의 Launch agent Helm 차트를 적용하거나 업그레이드하려면, Kubernetes 리소스를 생성·업데이트·삭제할 수 있을 만큼 충분한 권한으로 `kubectl`을 통해 클러스터에 접근할 수 있어야 합니다. 일반적으로 cluster-admin 권한을 가진 사용자이거나, 동등한 권한을 가진 커스텀 역할이 필요합니다.
+  Helm을 설치하고 W&amp;B의 Launch 에이전트 Helm 차트를 적용하거나 업그레이드하려면, Kubernetes 리소스를 생성, 업데이트, 삭제할 수 있을 만큼 충분한 권한으로 클러스터에 `kubectl` 액세스 권한이 필요합니다. 일반적으로 cluster-admin 권한을 가진 사용자 또는 그에 상응하는 권한을 가진 커스텀 역할이 필요합니다.
 </Note>
 
-{/* 추후: 여기 다이어그램 추가 예정 */}
+{/* 추후 다이어그램 추가 예정 */}
 
 
 <div id="configure-a-queue-for-kubernetes">
-  ## Kubernetes용 큐 구성
+  ## Kubernetes용 큐 설정
 </div>
 
-Kubernetes 대상 리소스를 위한 Launch 큐 설정은 [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 또는 [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 중 하나와 유사합니다.
+Kubernetes 대상 리소스에 대한 Launch 큐 설정은 [Kubernetes Job spec](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 또는 [Kubernetes Custom Resource spec](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 중 하나와 유사합니다.
 
-Launch 큐를 생성할 때 Kubernetes 워크로드 리소스 spec의 모든 측면을 제어할 수 있습니다.
+Launch 큐를 생성할 때 Kubernetes 워크로드 리소스 스펙의 모든 측면을 제어할 수 있습니다.
 
 <Tabs>
   <Tab title="Kubernetes job spec">
@@ -45,9 +45,9 @@ Launch 큐를 생성할 때 Kubernetes 워크로드 리소스 spec의 모든 측
   </Tab>
 
   <Tab title="Custom resource spec">
-    일부 사용 사례에서는 `CustomResource` 정의를 사용해야 할 수도 있습니다. 예를 들어 멀티 노드 분산 학습을 수행하려는 경우 `CustomResource` 정의가 유용합니다. Volcano를 사용해 멀티 노드 Job과 함께 Launch를 사용하는 튜토리얼에서 예제 애플리케이션을 확인할 수 있습니다. 또 다른 사용 사례로는 W&amp;B Launch를 Kubeflow와 함께 사용하려는 경우가 있습니다.
+    일부 사용 사례에서는 `CustomResource` 정의를 사용해야 할 수도 있습니다. 예를 들어 멀티 노드 분산 트레이닝을 수행하려는 경우 `CustomResource` 정의가 유용합니다. 예시 애플리케이션으로는 Volcano를 사용해 멀티 노드 잡에서 Launch를 사용하는 튜토리얼을 참고하십시오. 또 다른 사용 사례로는 Kubeflow와 함께 W&amp;B Launch를 사용하고 싶은 경우가 있습니다.
 
-    다음 YAML 스니펫은 Kubeflow를 사용하는 샘플 Launch 큐 설정을 보여줍니다:
+    다음 YAML 스니펫은 Kubeflow를 사용하는 예시 Launch 큐 설정을 보여줍니다:
 
     ```yaml
     kubernetes:
@@ -80,13 +80,13 @@ Launch 큐를 생성할 때 Kubernetes 워크로드 리소스 spec의 모든 측
   </Tab>
 </Tabs>
 
-보안상의 이유로 아래 리소스들이 명시되지 않은 경우 W&amp;B는 Launch 큐에 다음 리소스를 자동으로 추가합니다:
+보안상의 이유로, W&amp;B는 다음 리소스들이 지정되어 있지 않은 경우 Launch 큐에 자동으로 주입합니다:
 
 * `securityContext`
 * `backOffLimit`
 * `ttlSecondsAfterFinished`
 
-다음 YAML 스니펫은 이러한 값들이 Launch 큐에 어떻게 포함되는지 보여줍니다:
+다음 YAML 스니펫은 이러한 값들이 Launch 큐에 어떻게 표시되는지 보여줍니다:
 
 ```yaml title="example-spec.yaml"
 spec:
@@ -107,24 +107,24 @@ spec:
   ## 큐 생성
 </div>
 
-W&B App에서 Kubernetes를 컴퓨트 리소스로 사용하는 큐를 생성하려면 다음 단계를 따르세요:
+Kubernetes를 컴퓨트 리소스로 사용하는 큐를 W&B App에서 생성합니다.
 
 1. [Launch 페이지](https://wandb.ai/launch)로 이동합니다.
 2. **Create Queue** 버튼을 클릭합니다.
-3. 큐를 생성할 **Entity**(엔터티)를 선택합니다.
+3. 큐를 생성할 **Entity**를 선택합니다.
 4. **Name** 필드에 큐 이름을 입력합니다.
 5. **Resource**로 **Kubernetes**를 선택합니다.
-6. **Configuration** 필드에 [이전 섹션에서 구성한](#configure-a-queue-for-kubernetes) Kubernetes Job 워크플로 사양(spec) 또는 Custom Resource 사양(spec)을 입력합니다.
+6. **Configuration** 필드에 [이전 섹션에서 설정한](#configure-a-queue-for-kubernetes) Kubernetes Job workflow spec 또는 Custom Resource spec을 입력합니다.
 
 <div id="configure-a-launch-agent-with-helm">
   ## Helm으로 Launch agent 구성하기
 </div>
 
-W&amp;B에서 제공하는 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 Kubernetes 클러스터에 Launch agent를 배포한다. `values.yaml` [파일](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)을 사용해 Launch agent의 동작을 제어한다.
+W&amp;B에서 제공하는 [Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 Kubernetes 클러스터에 Launch agent를 배포합니다. `values.yaml` [파일](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml)을 사용해 Launch agent의 동작을 제어합니다.
 
-일반적으로 Launch agent 설정 파일(`~/.config/wandb/launch-config.yaml`)에 정의하는 내용을 `values.yaml` 파일의 `launchConfig` 키에 작성한다.
+일반적으로 launch agent 설정 파일(`~/.config/wandb/launch-config.yaml`)에 정의하는 내용을 `values.yaml` 파일의 `launchConfig` 키 아래에 지정합니다.
 
-예를 들어, Kaniko Docker 이미지 빌더를 사용하는 Launch agent를 EKS에서 실행할 수 있도록 해 주는 Launch agent 설정이 있다고 가정해 보자:
+예를 들어, Kaniko Docker 이미지 빌더를 사용하는 Launch agent를 EKS에서 실행하도록 구성하는 Launch agent 설정이 있다고 가정해 봅시다.
 
 ```yaml title="launch-config.yaml"
 queues:
@@ -141,7 +141,7 @@ builder:
 	build-context-store: <s3-bucket-uri>
 ```
 
-`values.yaml` 파일에서는 다음과 같이 구성할 수 있습니다:`
+`values.yaml` 파일에서는 구성 예시는 다음과 같습니다:
 
 ```yaml title="values.yaml"
 agent:
@@ -161,7 +161,7 @@ agent:
 # Launch 에이전트를 배포할 네임스페이스
 namespace: wandb
 
-# W&B API URL (여기에 입력하세요)
+# W&B api url (여기에 입력하세요)
 baseUrl: https://api.wandb.ai
 
 # Launch 에이전트가 배포할 수 있는 추가 대상 네임스페이스
@@ -169,7 +169,7 @@ additionalTargetNamespaces:
   - default
   - wandb
 
-# Launch 에이전트 설정 파일의 내용을 그대로 입력하세요.
+# Launch 에이전트 설정 파일의 내용을 그대로 입력해야 합니다.
 launchConfig: |
   queues:
     - <queue name>
@@ -189,14 +189,14 @@ launchConfig: |
 # 이 값을 설정하세요.
 gitCreds: |
 
-# wandb 서비스 계정의 어노테이션. GCP에서 워크로드 아이덴티티를 설정할 때 유용합니다.
+# wandb 서비스 계정의 어노테이션. gcp에서 워크로드 아이덴티티를 설정할 때 유용합니다.
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account:
     azure.workload.identity/client-id:
 
-# Azure에서 Kaniko를 사용하는 경우 Azure 스토리지 액세스 키를 설정하세요.
+# azure에서 kaniko를 사용하는 경우 azure 스토리지 액세스 키를 설정하세요.
 azureStorageAccessKey: ''
 ```
 
-레지스트리, 환경, 그리고 에이전트에 필요한 권한에 대한 자세한 내용은 [고급 에이전트 설정](./setup-agent-advanced)을 참고하세요.
+레지스트리, 환경, 에이전트에 필요한 권한에 대한 자세한 내용은 [에이전트 고급 설정](./setup-agent-advanced)을 참조하세요.

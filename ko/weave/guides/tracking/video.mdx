@@ -1,16 +1,16 @@
 ---
 title: "비디오 로깅"
-description: "Weave에서 moviepy를 사용해 비디오를 자동으로 로깅하기"
+description: "Weave에서 moviepy로 비디오를 자동으로 로깅하기"
 ---
 
-Weave는 [`moviepy`](https://zulko.github.io/moviepy/)를 사용해 비디오를 자동으로 로깅합니다. 이 기능을 사용하면 트레이스된 함수에 비디오 입력과 출력을 전달할 수 있고, Weave가 비디오 데이터의 업로드와 저장을 자동으로 처리합니다.
+Weave는 [`moviepy`](https://zulko.github.io/moviepy/)를 사용해 비디오를 자동으로 로깅합니다. 이를 통해 추적된 함수에 비디오 입력과 출력을 전달할 수 있으며, Weave가 비디오 데이터의 업로드와 저장을 자동으로 처리합니다.
 
 <Note>
 비디오 지원은 현재 Python에서만 사용할 수 있습니다.
 </Note>
 
 <div id="usage-prerequisites">
-  ## 사용 전 요구 사항
+  ## 사용을 위한 사전 준비 사항
 </div>
 
 1. `weave`와 `moviepy==1.0.3`를 설치합니다.
@@ -20,16 +20,16 @@ Weave는 [`moviepy`](https://zulko.github.io/moviepy/)를 사용해 비디오를
   ## 지원되는 비디오 유형
 </div>
 
-Weave는 `moviepy`의 다음 비디오 클립 객체를 인식합니다.
+Weave는 다음과 같은 `moviepy` 비디오 클립 객체를 인식합니다:
 
 - 비디오 파일에서 로드한 `VideoFileClip`
-- `ImageClip`, `ColorClip`, `TextClip`과 같은 메모리 상(in-memory) 클립
+- `ImageClip`, `ColorClip`, `TextClip` 같은 메모리 기반 클립
 
 <div id="direct-upload-of-file-based-clips">
   ### 파일 기반 클립 직접 업로드
 </div>
 
-클립이 `VideoFileClip`이고 지원되는 확장자의 유효한 파일 이름을 가진 경우, Weave가 파일을 직접 업로드합니다.
+클립이 `VideoFileClip`이고 지원되는 확장자의 유효한 파일 이름을 가진 경우, Weave는 파일을 직접 업로드합니다.
 
 **지원되는 파일 확장자:**
 
@@ -41,28 +41,28 @@ Weave는 `moviepy`의 다음 비디오 클립 객체를 인식합니다.
   ### 메모리 내 클립 지원
 </div>
 
-비디오 객체가 메모리에만 존재하고(디스크에 파일이 없는 경우) Weave는 이를 `.mp4` 파일로 인코딩한 뒤 업로드를 자동으로 처리합니다. 이는 다음 유형의 클립에 적용됩니다:
+비디오 객체가 메모리에만 있고(디스크에 파일이 없는 경우) Weave가 이를 `.mp4` 파일로 인코딩하고 업로드를 자동으로 처리합니다. 이는 다음 종류의 클립에 적용됩니다:
 
 - `ImageClip`
 - `ColorClip`
 - `TextClip`
 
 <div id="example-trace-a-video-function">
-  ## 예시: 비디오 함수 추적하기
+  ## 예시: 비디오 함수 트레이싱
 </div>
 
-다음 코드 예시는 Weave에서 비디오 처리 함수를 추적하는 방법을 보여줍니다. 이 코드 예시는:
+다음 코드 예시는 Weave에서 비디오 처리 함수를 트레이싱(추적)하는 방법을 보여준다. 이 코드 예시는 다음 작업을 수행한다:
 
-1. Weave 프로젝트 `video-test`를 초기화합니다.
-2. 로드된 `VideoFileClip`에서 1초 길이의 서브클립을 추출해 `VideoClip`으로 만드는 `weave.op`으로 추적되는 `get_video` 함수를 정의합니다.
-3. 클립을 Weave에 업로드하고 추적합니다.
-4. 비디오가 없는 경우 자동으로 더미 MP4 비디오를 생성합니다.
+1. Weave 프로젝트 `video-test`를 초기화한다.
+2. 로드된 `VideoFileClip`에서 1초 길이의 서브클립을 추출해 `VideoClip`으로 만드는 함수 `get_video`를 정의하고, 이를 `weave.op`으로 추적한다.
+3. 해당 클립을 Weave에 업로드하고 추적한다.
+4. 비디오를 찾을 수 없을 경우, 더미 MP4 비디오를 자동으로 생성한다.
 
 <Warning>
-  스레드 안전성 문제를 피하려면 Weave `op` 외부에서 `VideoFileClip` 객체를 직접 생성하지 말고, 항상 해당 파일 경로만 전달하세요.
+  스레드 안전성 문제를 피하려면 Weave `op` 외부에서 `VideoFileClip` 객체를 생성하지 말고, 항상 `VideoFileClip` 객체에 경로만 전달하라.
 </Warning>
 
-아래 코드 스니펫을 사용하기 전에 [사용 전제 조건](#usage-prerequisites)을 완료하세요.
+다음 코드 스니펫을 사용하기 전에, [사용 사전 요구 사항](#usage-prerequisites)을 먼저 완료하라.
 
 ```python lines
 import os
@@ -99,12 +99,12 @@ if __name__ == "__main__":
     get_video(clip) 
 ```
 
-코드 예시가 성공적으로 실행되면, 프로젝트의 **Traces** 테이블에서 링크를 클릭하여 비디오를 확인할 수 있습니다.
+코드 예시가 성공적으로 실행되면, 프로젝트의 **Traces** 테이블에서 링크를 클릭해 동영상을 확인할 수 있습니다.
 
 <Frame>
   ![Traces 테이블의 비디오 처리 함수 트레이스.](/weave/guides/tracking/imgs/video-trace.png)
 </Frame>
 
 <Frame>
-  ![Traces 팝업에서 보는 Weave 업로드 MP4 비디오.](/weave/guides/tracking/imgs/video-trace-popout.png)
+  ![Traces 팝업에서 보는 Weave에 업로드된 MP4 동영상.](/weave/guides/tracking/imgs/video-trace-popout.png)
 </Frame>

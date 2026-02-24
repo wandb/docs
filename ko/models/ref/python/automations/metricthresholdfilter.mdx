@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `MetricThresholdFilter`
 
-사용자가 정의한 임계값과 **절대값 기준** metric 값을 비교하는 필터입니다.
+**절대** 메트릭 값을 사용자 정의 임곗값과 비교하는 필터입니다.
 
-이 값은 단일 값일 수도 있고, 여러 값에 대한 윈도우 구간에서 집계된 결과일 수도 있습니다.
+값은 단일 값일 수도 있고, 여러 값에 대한 윈도우 구간에서 집계된 결과일 수도 있습니다.
 
 ### <kbd>메서드</kbd> `MetricThresholdFilter.__init__`
 
@@ -32,7 +32,7 @@ __init__(
 * `name` (str):
 * `agg` (Optional[Agg]):
 * `window` (int):
-* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]): 메트릭 값(왼쪽)과 임계값(오른쪽)을 비교하는 연산자.
+* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]): 메트릭 값(왼쪽)을 임계값(오른쪽)과 비교하는 연산자입니다.
 * `threshold` (Union[Annotated, Annotated]):
 
 **반환값:**

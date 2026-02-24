@@ -11,10 +11,10 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnCreateArtifact`
 
-새로운 아티팩트가 생성됩니다.
+새 아티팩트가 생성됩니다.
 
 예시:
-컬렉션 &quot;my-collection&quot;에서 새로운 아티팩트가 생성될 때 트리거되는 이벤트를 정의합니다:
+컬렉션 &quot;my-collection&quot;에서 새 아티팩트가 생성될 때 발생하는 이벤트를 정의합니다:
 
 ```python
 from wandb import Api
@@ -40,8 +40,8 @@ __init__(
 **인자:**
 
 * `event_type` (Literal[CREATE&#95;ARTIFACT]):
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope]): 이벤트의 scope로, 반드시 아티팩트 컬렉션이어야 합니다.
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트가 트리거되기 위해 (있다면) 추가로 필요한 추가 조건입니다.
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope]): 이벤트의 범위입니다. 반드시 아티팩트 컬렉션이어야 합니다.
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트가 트리거되기 위해 추가로 필요한 조건이 있다면 지정합니다.
 
 **반환값:**
-`OnCreateArtifact` 객체를 반환합니다.
+`OnCreateArtifact` 객체입니다.

@@ -3,27 +3,27 @@ title: "wandb job create"
 ---
 
 {/*
-  이 명령에 대한 소개 내용을 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-job-create.mdx
-  2. 해당 파일에 소개 내용을 추가하세요
-  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제하세요:
+  이 명령어에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-job-create.mdx
+  2. 해당 파일에 소개 내용을 추가합니다
+  3. 아래 두 줄만 남기고 이 주석 블록 전체를 삭제합니다:
 
   import WandbJobCreate from "/snippets/_includes/cli/wandb-job-create.mdx";
 
   <WandbJobCreate/>
 
-  스니펫은 다음 번 재생성 시 자동으로 감지됩니다.
+  이 스니펫은 다음 재생성 시 자동으로 감지됩니다.
   */}
 
-wandb 실행 없이 소스에서 Job을 생성합니다.
+wandb run 없이 소스를 기반으로 job을 생성합니다.
 
-Job은 git, code, image 세 가지 유형일 수 있습니다.
+job은 git, code, image의 세 가지 유형일 수 있습니다.
 
-git: 엔트리포인트가 경로에 있거나 명시적으로 지정되어 메인 Python 실행 스크립트를 가리키는 git 소스입니다. code: requirements.txt 파일을 포함하는 코드 경로입니다. image: Docker 이미지입니다.
+git: 메인 Python 실행 파일을 가리키는 엔트리 포인트가 경로에 포함되어 있거나 명시적으로 제공되는 git 소스입니다. code: `requirements.txt` 파일을 포함하는 코드 경로입니다. image: Docker 이미지입니다.
 
 
 <div id="usage">
-  ## 사용 방법
+  ## 사용법
 </div>
 
 ```bash
@@ -35,25 +35,25 @@ wandb job create JOB_TYPE PATH [OPTIONS]
   ## 인수
 </div>
 
-| 인수 | 설명 | 필수 여부 |
+| Argument | Description | Required |
 | :--- | :--- | :--- |
-| `JOB_TYPE` | 설명이 제공되지 않습니다 | 예 |
-| `PATH` | 설명이 제공되지 않습니다 | 예 |
+| `JOB_TYPE` | 설명이 제공되지 않습니다 | Yes |
+| `PATH` | 설명이 제공되지 않습니다 | Yes |
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션 | 설명 |
+| Option | Description |
 | :--- | :--- |
-| `--project`, `-p` | 작업을 나열할 프로젝트입니다. |
-| `--entity`, `-e` | 작업이 속한 엔터티입니다. |
-| `--name`, `-n` | 작업의 이름입니다. |
-| `--description`, `-d` | 작업의 설명입니다. |
-| `--alias`, `-a` | 작업의 별칭입니다. |
-| `--entry-point`, `-E` | 실행 파일과 엔트리포인트 파일을 포함하는 스크립트의 엔트리포인트입니다. 코드 또는 리포지토리 작업에는 필수입니다. `--build-context`가 제공되면 엔트리포인트 명령의 경로는 빌드 컨텍스트를 기준으로 합니다. |
-| `--git-hash`, `-g` | Git 작업의 소스로 사용할 커밋 참조입니다. |
-| `--runtime`, `-r` | 작업을 실행할 Python 런타임입니다. |
-| `--build-context`, `-b` | 작업 소스 코드 루트에서의 빌드 컨텍스트 경로입니다. 제공된 경우 Dockerfile과 엔트리포인트의 기준 경로로 사용됩니다. |
-| `--base-image`, `-B` | 작업에 사용할 베이스 이미지입니다. 이미지 작업과는 호환되지 않습니다. |
-| `--dockerfile`, `-D` | 작업에 사용할 Dockerfile 경로입니다. `--build-context`가 제공되면 Dockerfile 경로는 빌드 컨텍스트를 기준으로 합니다. |
+| `--project`, `-p` | 작업을 나열할 프로젝트 |
+| `--entity`, `-e` | 작업이 속한 entity |
+| `--name`, `-n` | job의 이름 |
+| `--description`, `-d` | job의 설명 |
+| `--alias`, `-a` | job의 별칭 |
+| `--entry-point`, `-E` | 실행 파일과 엔트리포인트 파일을 포함하는 스크립트의 엔트리포인트. 코드 또는 레포지토리 job에 필수입니다. `--build-context`가 제공되면 엔트리포인트 명령의 경로는 build context를 기준으로 합니다. |
+| `--git-hash`, `-g` | git job의 소스로 사용할 커밋 참조 |
+| `--runtime`, `-r` | job을 실행할 Python 런타임 |
+| `--build-context`, `-b` | job 소스 코드 루트로부터의 build context 경로. 제공된 경우 이 경로가 Dockerfile과 엔트리포인트의 기준 경로로 사용됩니다. |
+| `--base-image`, `-B` | job에 사용할 기본 이미지. image job과는 호환되지 않습니다. |
+| `--dockerfile`, `-D` | job에 사용할 Dockerfile 경로. `--build-context`가 제공되면 Dockerfile 경로는 build context를 기준으로 합니다. |

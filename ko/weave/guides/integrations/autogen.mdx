@@ -1,23 +1,23 @@
 ---
 title: "AutoGen"
-description: "Weave를 사용하여 AutoGen 에이전트와 다중 에이전트 시스템을 추적 및 모니터링"
+description: "Weave를 사용하여 AutoGen 에이전트와 멀티 에이전트 시스템을 추적 및 모니터링하세요"
 ---
 
-{/* TODO: 이 가이드용 Colab 노트북을 추가하고, 여기에 배지 링크를 추가하기. */}
+{/* TODO: 이 가이드용 Colab 노트북을 추가하고 여기에 배지 링크를 달 것. */}
 
-AutoGen은 Microsoft에서 개발한 AI 에이전트 및 애플리케이션 구축을 위한 프레임워크입니다. 이 프레임워크는 대화형 AI(`AgentChat`), 핵심 멀티 에이전트 기능(`Core`), 외부 서비스와의 통합(`Extensions`)을 위한 컴포넌트를 제공하여 복잡한 멀티 에이전트 시스템 생성을 단순화합니다. 또한 AutoGen은 코드 없이 에이전트를 프로토타이핑할 수 있는 `Studio`도 제공합니다. 자세한 내용은 [공식 AutoGen 문서](https://microsoft.github.io/autogen/stable//index.html)를 참조하세요.
+AutoGen은 Microsoft에서 제공하는 AI 에이전트와 애플리케이션을 구축하기 위한 프레임워크입니다. 이 프레임워크는 복잡한 멀티 에이전트 시스템의 구성을 단순화하고, 대화형 AI(`AgentChat`), 핵심 멀티 에이전트 기능(`Core`), 외부 서비스와의 인테그레이션(`Extensions`)을 위한 컴포넌트를 제공합니다. AutoGen은 또한 코드 작성 없이 에이전트를 프로토타이핑할 수 있는 `Studio`를 제공합니다. 자세한 내용은 [공식 AutoGen 문서](https://microsoft.github.io/autogen/stable//index.html)를 참조하세요.
 
 <Note>
-  이 가이드는 독자가 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)에 대해 기본적인 이해를 가지고 있다고 가정합니다.
+  이 가이드는 독자가 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)에 대해 기본적인 이해를 갖추고 있다고 가정합니다.
 </Note>
 
-Weave는 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)과 통합되어 멀티 에이전트 애플리케이션의 실행을 추적하고 시각화하는 데 도움을 줍니다. Weave를 초기화하기만 하면 `autogen_agentchat`, `autogen_core`, `autogen_ext` 내 상호작용을 자동으로 추적할 수 있습니다. 이 가이드는 AutoGen과 함께 Weave를 사용하는 다양한 예제를 소개합니다.
+Weave는 [AutoGen](https://microsoft.github.io/autogen/stable/index.html)과 인테그레이션되어 멀티 에이전트 애플리케이션의 실행 과정을 추적하고 시각화할 수 있도록 도와줍니다. Weave를 간단히 초기화하기만 하면 `autogen_agentchat`, `autogen_core`, `autogen_ext` 내의 상호작용을 자동으로 추적할 수 있습니다. 이 가이드는 AutoGen과 함께 Weave를 사용하는 다양한 예제를 통해 이를 단계별로 안내합니다.
 
 <div id="prerequisites">
   ## 사전 준비 사항
 </div>
 
-시작하기 전에 AutoGen과 Weave가 설치되어 있는지 확인하세요. 또한 사용하려는 LLM 제공업체용 SDK(예: OpenAI, Anthropic)도 필요합니다.
+시작하기 전에 AutoGen과 Weave가 설치되어 있는지 확인하세요. 또한 사용하려는 LLM 제공 업체(OpenAI, Anthropic 등)의 SDK도 준비해야 합니다.
 
 ```bash
 pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave 
@@ -36,7 +36,7 @@ os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
   ## 기본 설정
 </div>
 
-트레이스 캡처를 시작하려면 스크립트 시작 부분에서 Weave를 초기화하세요.
+트레이스 수집을 시작하려면 스크립트 맨 앞에서 Weave를 초기화하세요.
 
 ```python lines {2}
 import weave
@@ -47,13 +47,13 @@ weave.init("autogen-demo")
   ## 간단한 모델 클라이언트 트레이싱
 </div>
 
-Weave는 AutoGen 내에서 모델 클라이언트에 대한 직접 호출을 추적할 수 있습니다.
+Weave는 AutoGen 내에서 모델 클라이언트에 직접 수행되는 호출을 트레이싱할 수 있습니다.
 
 <div id="tracing-a-client-create-call">
-  ### 클라이언트 생성 호출 추적하기
+  ### 클라이언트 생성 호출 트레이싱
 </div>
 
-이 예제는 `OpenAIChatCompletionClient`에 대한 단일 호출을 추적하는 방법을 보여 줍니다.
+이 예제는 `OpenAIChatCompletionClient`에 대한 한 번의 호출을 트레이싱하는 방법을 보여줍니다.
 
 ```python lines
 import asyncio
@@ -81,10 +81,10 @@ asyncio.run(simple_client_call())
 [![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
 
 <div id="tracing-a-client-create-call-with-streaming">
-  ### 스트리밍이 포함된 클라이언트 생성 호출 추적
+  ### 스트리밍을 사용하는 클라이언트 생성 호출 트레이싱
 </div>
 
-Weave는 스트리밍 응답에 대한 추적도 지원합니다.
+Weave는 스트리밍된 응답에 대한 트레이싱도 지원합니다.
 
 ```python lines
 
@@ -105,7 +105,7 @@ asyncio.run(simple_client_call_stream())
   ### Weave는 캐시된 호출을 기록합니다
 </div>
 
-AutoGen의 `ChatCompletionCache`를 사용할 수 있으며, Weave는 이러한 상호작용을 추적하여 응답이 캐시에서 반환된 것인지, 아니면 새로운 호출에서 생성된 것인지 보여줍니다.
+AutoGen의 `ChatCompletionCache`를 사용할 수 있으며, Weave는 이러한 상호작용을 추적하여 응답이 캐시에서 반환된 것인지 새 호출에서 생성된 것인지 보여줍니다.
 
 ```python lines
 
@@ -131,10 +131,10 @@ asyncio.run(run_cache_client())
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
 <div id="tracing-an-agent-with-tool-calls">
-  ## 도구 호출이 포함된 에이전트 추적
+  ## 도구 호출이 있는 에이전트 추적
 </div>
 
-Weave는 에이전트와 그들의 도구 사용을 추적하여, 에이전트가 도구를 어떻게 선택하고 실행하는지 파악할 수 있도록 해 줍니다.
+Weave는 에이전트와 그 도구 사용을 추적하여, 에이전트가 어떤 도구를 선택해 어떻게 실행하는지에 대한 가시성을 제공합니다.
 
 ```python lines
 from autogen_agentchat.agents import AssistantAgent
@@ -168,7 +168,7 @@ asyncio.run(run_agent_with_tools())
   ## GroupChat 추적 - RoundRobin
 </div>
 
-`RoundRobinGroupChat`과 같은 그룹 채팅 내 상호작용은 Weave에서 추적되므로, 에이전트 간 대화 흐름을 따라갈 수 있습니다.
+`RoundRobinGroupChat`와 같은 그룹 채팅 내 상호작용은 Weave에서 트레이싱되므로, 에이전트 간 대화 흐름을 추적할 수 있습니다.
 
 ```python lines
 
@@ -217,13 +217,13 @@ asyncio.run(run_round_robin_group_chat())
   ## 메모리 트레이싱
 </div>
 
-AutoGen의 메모리 컴포넌트는 Weave로 트레이싱할 수 있습니다. `@weave.op()`을 사용해 메모리 연산을 하나의 트레이스 안에 그룹화하면 가독성을 높일 수 있습니다.
+AutoGen의 메모리 컴포넌트는 Weave로 트레이싱할 수 있습니다. `@weave.op()`을 사용해 메모리 연산을 하나의 트레이스로 묶어서 가독성을 높일 수 있습니다.
 
 ```python lines
 
 from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
 
-# 메모리 추가 호출과 메모리 조회 호출을 단일 트레이스로 추적하기 위해
+# 단일 트레이스 아래에서 memory add 호출과 memory get 호출을 함께 추적하기 위해
 # 여기에 weave op를 추가합니다
 # 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다
 
@@ -275,13 +275,13 @@ asyncio.run(run_memory_agent())
 [![autogen-memory.png](/weave/guides/integrations/imgs/autogen/autogen-memory.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee18-28b6-7063-90df-77aaedf88dc9%3FhideTraceTree%3D0)
 
 <div id="tracing-rag-workflows">
-  ## RAG 워크플로 추적하기
+  ## RAG 워크플로 추적
 </div>
 
-`ChromaDBVectorMemory`와 같은 메모리 시스템을 활용한 문서 색인 및 검색을 포함한 Retrieval-Augmented Generation(RAG) 워크플로는 추적 가능합니다. RAG 프로세스에 `@weave.op()` 데코레이터를 사용하면 전체 흐름을 시각화하는 데 도움이 됩니다.
+Retrieval-Augmented Generation(RAG) 워크플로(문서 인덱싱 및 `ChromaDBVectorMemory` 같은 메모리 시스템을 활용한 검색 포함)는 추적 가능합니다. RAG 프로세스에 `@weave.op()` 데코레이터를 적용하면 전체 흐름을 시각화하는 데 도움이 됩니다.
 
 <Note>
-  이 RAG 예제는 `chromadb` 패키지가 필요합니다. `pip install chromadb` 명령으로 설치하세요.
+  이 RAG 예시는 `chromadb`가 필요합니다. `pip install chromadb`로 설치하세요.
 </Note>
 
 ```python lines {1,65}
@@ -372,7 +372,7 @@ async def run_rag_agent(model_name="gpt-4o"):
     
     # 컬렉션이 비어 있거나 재인덱싱이 필요한 경우에만 인덱싱하세요
     # 데모 목적으로 매번 인덱싱하거나 이미 인덱싱되었는지 확인할 수 있습니다.
-    # 이 예제는 실행할 때마다 인덱싱을 시도합니다. 확인 로직 추가를 고려하세요.
+    # 이 예제는 매 run마다 인덱싱을 시도합니다. 확인 로직 추가를 고려하세요.
     await index_autogen_docs()
 
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -397,10 +397,10 @@ asyncio.run(run_rag_agent())
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
 <div id="tracing-agent-runtimes">
-  ## 에이전트 런타임 추적
+  ## 에이전트 런타임 트레이싱
 </div>
 
-Weave는 `SingleThreadedAgentRuntime`과 같은 AutoGen의 에이전트 런타임 내에서 수행되는 작업을 추적할 수 있습니다. 런타임 실행 함수에 `@weave.op()`을 적용하면 관련 트레이스를 하나의 그룹으로 묶을 수 있습니다.
+Weave는 `SingleThreadedAgentRuntime`와 같은 AutoGen 에이전트 런타임 내에서 수행되는 작업을 트레이싱할 수 있습니다. 런타임 실행 함수를 `@weave.op()`으로 감싸면 관련 트레이스를 하나로 묶을 수 있습니다.
 
 ```python lines {50}
 from dataclasses import dataclass
@@ -450,7 +450,7 @@ class Checker(RoutedAgent):
 
 # 전체 에이전트 런타임 호출을 단일 트레이스로 추적하기 위해
 # 여기에 weave op를 추가합니다
-# 선택 사항이지만 사용을 강력히 권장합니다
+# 선택 사항이지만 사용하는 것을 강력히 권장합니다
 
 @weave.op
 async def run_agent_runtime() -> None:
@@ -482,7 +482,7 @@ asyncio.run(run_agent_runtime())
   ## 트레이싱 워크플로(순차형)
 </div>
 
-에이전트 상호작용의 순서를 정의하는 복잡한 에이전트 워크플로도 트레이싱할 수 있습니다. 전체 워크플로에 대한 상위 수준 트레이스를 제공하기 위해 `@weave.op()`을 사용할 수 있습니다.
+에이전트 간 상호작용의 순서를 정의하는 복잡한 에이전트 워크플로도 트레이싱할 수 있습니다. 전체 워크플로에 대한 상위 수준 트레이스를 남기려면 `@weave.op()`을(를) 사용할 수 있습니다.
 
 ```python lines {108}
 from autogen_core import TopicId, type_subscription
@@ -500,13 +500,13 @@ user_topic_type = "User"
 @type_subscription(topic_type=concept_extractor_topic_type)
 class ConceptExtractorAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
-        super().__init__("개념 추출 에이전트.")
+        super().__init__("개념 추출 에이전트입니다.")
         self._system_message = SystemMessage(
             content=(
-                "당신은 마케팅 분석가입니다. 제품 설명을 바탕으로 다음을 파악하세요:\n"
+                "You are a marketing analyst. Given a product description, identify:\n"
                 "- 주요 기능\n"
                 "- 타겟 고객\n"
-                "- 차별화된 판매 포인트\n\n"
+                "- 고유한 판매 포인트\n\n"
             )
         )
         self._model_client = model_client
@@ -528,12 +528,12 @@ class ConceptExtractorAgent(RoutedAgent):
 @type_subscription(topic_type=writer_topic_type)
 class WriterAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
-        super().__init__("작성 에이전트.")
+        super().__init__("작성 에이전트입니다.")
         self._system_message = SystemMessage(
             content=(
-                "당신은 마케팅 카피라이터입니다. 기능, 타겟 고객, 차별화된 판매 포인트를 설명하는 텍스트를 바탕으로 "
-                "이러한 내용을 부각하는 설득력 있는 마케팅 카피(뉴스레터 섹션 형식)를 작성하세요. "
-                "출력은 짧게(약 150단어) 하고, 단일 텍스트 블록으로만 카피를 출력하세요."
+                "You are a marketing copywriter. Given a block of text describing features, audience, and USPs, "
+                "이러한 포인트를 강조하는 설득력 있는 마케팅 카피(뉴스레터 섹션 형식)를 작성하세요. "
+                "출력은 짧아야 하며(약 150단어), 단일 텍스트 블록으로 카피만 출력하세요."
             )
         )
         self._model_client = model_client
@@ -555,11 +555,11 @@ class WriterAgent(RoutedAgent):
 @type_subscription(topic_type=format_proof_topic_type)
 class FormatProofAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
-        super().__init__("형식 교정 에이전트.")
+        super().__init__("형식 교정 에이전트입니다.")
         self._system_message = SystemMessage(
             content=(
-                "당신은 편집자입니다. 초안 카피를 바탕으로 문법을 교정하고, 명확성을 높이며, 일관된 어조를 유지하고, "
-                "형식을 갖추어 완성도 있게 다듬으세요. 최종적으로 개선된 카피를 단일 텍스트 블록으로 출력하세요."
+                "You are an editor. Given the draft copy, correct grammar, improve clarity, ensure consistent tone, "
+                "형식을 갖추고 완성도 있게 다듬으세요. 최종적으로 개선된 카피를 단일 텍스트 블록으로 출력하세요."
             )
         )
         self._model_client = model_client
@@ -581,15 +581,15 @@ class FormatProofAgent(RoutedAgent):
 @type_subscription(topic_type=user_topic_type)
 class UserAgent(RoutedAgent):
     def __init__(self) -> None:
-        super().__init__("최종 카피를 사용자에게 출력하는 사용자 에이전트.")
+        super().__init__("최종 카피를 사용자에게 출력하는 사용자 에이전트입니다.")
 
     @message_handler
     async def handle_final_copy(self, message: WorkflowMessage, ctx: MessageContext) -> None:
         print(f"\\n{'-'*80}\\n{self.id.type} 최종 카피 수신:\\n{message.content}")
 
-# 전체 에이전트 워크플로우를 단일 추적으로 기록하기 위해
+# 전체 에이전트 워크플로우를 단일 트레이스로 추적하기 위해
 # 여기에 weave op를 추가합니다.
-# 선택 사항이지만 사용을 강력히 권장합니다.
+# 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다.
 
 @weave.op(call_display_name="Sequential Agent Workflow")
 async def run_agent_workflow(model_name="gpt-4o"):
@@ -617,12 +617,12 @@ asyncio.run(run_agent_workflow())
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
 <div id="tracing-code-executor">
-  ## 코드 실행 추적
+  ## 코드 실행 추적기
 </div>
 
 <Warning>
-  **Docker 필수**
-  이 예제는 Docker를 사용해 코드를 실행하므로, 모든 환경(예: Colab에서 직접 실행)에서 동작하지 않을 수 있습니다. 이 예제를 시도하려면 로컬에서 Docker가 실행 중인지 확인하세요.
+  **Docker 필요**
+  이 예제는 Docker를 사용해 코드를 실행하며, 모든 환경(예: Colab에서 직접 실행)에서 동작하지 않을 수 있습니다. 이 예제를 시도하려면 로컬에서 Docker가 실행 중인지 확인하세요.
 </Warning>
 
 Weave는 AutoGen 에이전트가 생성하고 실행하는 코드를 추적합니다.
@@ -694,14 +694,14 @@ class Executor(RoutedAgent):
 
 # 전체 코드 생성 워크플로우를 단일 트레이스로 추적하기 위해
 # 여기에 weave op를 추가합니다
-# 선택 사항이지만 사용하는 것을 강력히 권장합니다
+# 완전히 선택 사항이지만 사용하는 것을 강력히 권장합니다
 
 @weave.op(call_display_name="CodeGen Agent Workflow")
-async def run_codegen(model_name="gpt-4o"): # Updated model
+async def run_codegen(model_name="gpt-4o"): # 업데이트된 모델
     work_dir = tempfile.mkdtemp()
     runtime = SingleThreadedAgentRuntime()
 
-    # 이 예제를 실행하려면 Docker가 실행 중이어야 합니다
+    # 이 예제를 실행하려면 Docker가 실행 중인지 확인하세요
     try:
         async with DockerCommandLineCodeExecutor(work_dir=work_dir) as executor:
             model_client = OpenAIChatCompletionClient(model=model_name)
@@ -733,10 +733,10 @@ asyncio.run(run_codegen())
 </div>
 
 * **Weave**:
-  * [Tracing 가이드](/ko/weave/guides/tracking/tracing)
+  * [트레이싱 가이드](/ko/weave/guides/tracking/tracing)
   * [Op 데코레이터](/ko/weave/guides/tracking/ops)
 * **AutoGen**:
   * [공식 문서](https://microsoft.github.io/autogen/stable//index.html)
   * [AutoGen GitHub](https://github.com/microsoft/autogen)
 
-이 가이드는 Weave를 AutoGen과 통합하기 위한 출발점을 제공합니다. Weave UI를 살펴보며 에이전트 상호작용, 모델 호출, 도구 사용 내역에 대한 자세한 추적 기록을 확인하세요.
+이 가이드는 Weave를 AutoGen과 통합하기 위한 출발점입니다. Weave UI에서 에이전트 상호작용, 모델 호출, 도구 사용 내역에 대한 상세 트레이스를 확인해 보세요.

@@ -1,6 +1,6 @@
 ---
-title: "Evaluation 만들기"
-description: "Weave Models와 Evaluations를 사용해 Evaluation 파이프라인을 구축하는 방법을 알아봅니다"
+title: "평가 파이프라인 구축하기"
+description: "Weave Models와 Evaluations를 사용해 평가 파이프라인을 구축하는 방법을 알아보세요"
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
@@ -13,29 +13,29 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
 </div>
 
-평가는 변경 사항을 적용한 뒤 예제 집합을 대상으로 애플리케이션을 테스트함으로써, 애플리케이션을 반복적으로 개선하는 데 도움을 줍니다. Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용해 평가를 추적하는 기능을 일급으로 지원합니다. 이 API들은 가정을 최소화하여 설계되어, 매우 다양한 사용 사례를 유연하게 지원할 수 있습니다.
+평가는 애플리케이션에 변경을 가한 뒤 일련의 예제를 대상으로 테스트하여 애플리케이션을 반복적으로 개선할 수 있도록 도와줍니다. Weave는 [`Model`](/ko/weave/guides/core-types/models) 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 통해 평가를 추적하기 위한 일급 지원을 제공합니다. 이 API는 전제를 최소화하도록 설계되어, 매우 다양한 사용 사례에 유연하게 대응할 수 있습니다.
 
 ![Evals hero](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## 이 문서에서 다루는 내용:
+  ## 이 가이드에서 배우게 될 내용:
 </div>
 
-이 가이드에서는 다음을 수행하는 방법을 설명합니다:
+이 가이드는 다음 방법을 보여줍니다:
 
-* `Model`을 설정합니다
-* LLM의 응답을 검증할 데이터셋을 생성합니다
-* 모델 출력과 기대되는 출력을 비교하는 스코어링 함수를 정의합니다
-* 스코어링 함수와 추가 내장 스코어러를 사용해, 데이터셋을 기준으로 모델을 테스트하는 평가를 실행합니다
-* Weave UI에서 평가 결과를 확인합니다
+* `Model`을 설정하는 방법
+* LLM의 응답을 검증할 데이터셋을 생성하는 방법
+* 모델 출력과 기대 출력값을 비교하기 위한 스코어링 함수를 정의하는 방법
+* 스코어링 함수와 추가 기본 제공 스코어러를 사용해 데이터셋에 대해 모델을 테스트하는 평가를 실행하는 방법
+* Weave UI에서 평가 결과를 확인하는 방법
 
 <WeaveQuickstartPrereqs />
 
 <div id="import-the-necessary-libraries-and-functions">
-  ## 필요한 라이브러리와 함수 불러오기
+  ## 필요한 라이브러리와 함수 임포트하기
 </div>
 
-다음 라이브러리를 스크립트에 불러옵니다:
+다음 라이브러리를 스크립트에 임포트합니다.
 
 <Tabs>
   <Tab title="Python">
@@ -60,13 +60,13 @@ import WeaveQuickstartPrereqs from "/snippets/ko/_includes/weave-quickstart-prer
   ## `Model` 빌드하기
 </div>
 
-Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/에이전트의 동작(로직, 프롬프트, 파라미터)과 버전 관리되는 메타데이터(파라미터, 코드, 마이크로 설정(micro-config))를 함께 캡처하여, 신뢰할 수 있게 추적·비교·평가·반복할 수 있게 해 줍니다.
+Weave에서 [`Models`는 객체](/ko/weave/guides/core-types/models)로, 모델/에이전트의 동작(로직, 프롬프트, 파라미터)과 버전 관리되는 메타데이터(파라미터, 코드, 마이크로 설정)를 함께 캡처하여, 신뢰성 있게 추적·비교·평가·반복할 수 있도록 해 줍니다.
 
-`Model`을 인스턴스화하면 Weave가 해당 구성과 동작을 자동으로 캡처하고, 변경이 있을 때마다 버전을 업데이트합니다. 이렇게 하면 반복하면서 시간에 따른 성능을 추적할 수 있습니다.
+`Model`을 인스턴스화하면 Weave가 해당 `Model`의 설정과 동작을 자동으로 캡처하고, 변경 사항이 있을 때마다 버전을 업데이트합니다. 이를 통해 반복적으로 개선해 나가면서 시간에 따른 성능을 추적할 수 있습니다.
 
-`Model`은 `Model`을 서브클래싱(subclassing)하고, 하나의 예제를 입력으로 받아 응답을 반환하는 `predict` 함수 정의를 구현해서 선언합니다.
+`Model`은 `Model`을 서브클래싱(subclassing)하고, 하나의 예제를 입력으로 받아 응답을 반환하는 `predict` 함수 정의를 구현하여 선언합니다.
 
-다음 예제 모델은 OpenAI를 사용하여 전달된 문장에서 외계 과일의 이름, 색상, 맛을 추출합니다.
+다음 예시 모델은 OpenAI를 사용해, 전달된 문장에서 외계 과일의 이름, 색깔, 풍미를 추출합니다.
 
 <Tabs>
   <Tab title="Python">
@@ -116,14 +116,14 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
   </Tab>
 </Tabs>
 
-`ExtractFruitsModel` 클래스는 `weave.Model`을 상속(서브클래싱)하여 Weave가 인스턴스화된 객체를 추적할 수 있게 합니다. `@weave.op`는 predict 함수를 데코레이터로 지정해 입력과 출력을 추적합니다.
+`ExtractFruitsModel` 클래스는 Weave가 인스턴스화된 객체를 추적할 수 있도록 `weave.Model`을 상속(서브클래싱)합니다. `@weave.op`은 predict 함수를 데코레이터로 감싸 입력과 출력을 추적합니다.
 
 `Model` 객체는 다음과 같이 인스턴스화할 수 있습니다:
 
 <Tabs>
   <Tab title="Python">
     ```python lines
-    # 팀 이름과 프로젝트 이름을 설정하세요.
+    # 팀과 프로젝트 이름을 설정합니다.
     weave.init('<team-name>/eval_pipeline_quickstart')
 
     model = ExtractFruitsModel(
@@ -134,7 +134,7 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
     sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
 
     print(asyncio.run(model.predict(sentence)))
-    # Jupyter Notebook에서 실행 중이라면 다음을 실행하세요:
+    # Jupyter Notebook 환경이라면 다음을 실행하세요:
     # await model.predict(sentence)
     ```
   </Tab>
@@ -153,17 +153,17 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
 </Tabs>
 
 <div id="create-a-dataset">
-  ## 데이터세트 생성하기
+  ## 데이터셋 생성하기
 </div>
 
-다음으로, 모델을 평가할 때 사용할 데이터세트가 필요합니다. [`Dataset`은 Weave 객체로 저장된 예제들의 모음입니다](/ko/weave/guides/core-types/datasets).
+다음으로, 모델을 평가할 때 사용할 데이터셋이 필요합니다. [`Dataset`은 Weave 객체로 저장된 예시들의 모음입니다.](/ko/weave/guides/core-types/datasets)
 
-다음 예제 데이터세트는 세 개의 입력 문장 예제와 그에 대한 정답(`labels`)을 정의한 후, 스코어링 함수가 읽을 수 있는 JSON 테이블 형식으로 변환합니다.
+아래 예시 데이터셋은 세 개의 입력 문장과 그에 해당하는 정답(`labels`)을 정의한 뒤, 스코어링 함수가 읽을 수 있도록 JSON 테이블 형식으로 포맷합니다.
 
-이 예제에서는 코드에서 예제 목록을 구성하지만, 실행 중인 애플리케이션에서 예제를 하나씩 로깅할 수도 있습니다.
+이 예제에서는 코드에서 예시 목록을 만드는 방식이지만, 실행 중인 애플리케이션에서 예시를 하나씩 로그하는 것도 가능합니다.
 
 <Tabs>
-  <Tab title="Python">
+  <Tab title="파이썬">
     ```python lines
     sentences = ["There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
     "Pounits are a bright green color and are more savory than sweet.",
@@ -181,7 +181,7 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
     ```
   </Tab>
 
-  <Tab title="TypeScript">
+  <Tab title="타입스크립트">
     ```typescript
     const sentences = [
       "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
@@ -202,10 +202,10 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
   </Tab>
 </Tabs>
 
-이제 `weave.Dataset()` 클래스를 사용해 데이터세트를 생성하고 게시합니다:
+그런 다음 `weave.Dataset()` 클래스를 사용해 데이터셋을 생성하고 공개합니다:
 
 <Tabs>
-  <Tab title="Python">
+  <Tab title="파이썬">
     ```python lines {2}
     weave.init('eval_pipeline_quickstart')
     dataset = weave.Dataset(name='fruits', rows=examples)
@@ -213,7 +213,7 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
     ```
   </Tab>
 
-  <Tab title="TypeScript">
+  <Tab title="타입스크립트">
     ```typescript lines {3-6}
     import * as weave from 'weave';
     await weave.init('eval_pipeline_quickstart');
@@ -230,7 +230,7 @@ Weave에서 [`Model`은 객체](/ko/weave/guides/core-types/models)로, 모델/�
   ## 사용자 정의 스코어링 함수 정의하기
 </div>
 
-Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 있다고 가정합니다. 아래 스코어링 함수는 두 개의 딕셔너리(`target`과 `output`)를 입력으로 받아, output이 target과 일치하는지를 나타내는 불리언 값 딕셔너리를 반환합니다. `@weave.op()` 데코레이터는 Weave가 이 스코어링 함수의 실행을 추적할 수 있도록 해줍니다.
+Weave evaluation을 사용할 때 Weave는 `output`과 비교할 `target`이 필요합니다. 아래 스코어링 함수는 두 개의 사전(`target`과 `output`)을 받아서, output이 target과 일치하는지를 나타내는 불리언 값의 사전을 반환합니다. `@weave.op()` 데코레이터는 Weave가 스코어링 함수의 실행을 추적할 수 있도록 해 줍니다.
 
 <Tabs>
   <Tab title="Python">
@@ -254,17 +254,17 @@ Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 �
   </Tab>
 </Tabs>
 
-직접 스코어링 함수를 만드는 방법은 [Scorers](/ko/weave/guides/evaluation/scorers) 가이드를 참고하세요.
+직접 스코어링 함수를 작성하려면 [Scorers](/ko/weave/guides/evaluation/scorers) 가이드를 참고하세요.
 
-일부 애플리케이션에서는 사용자 정의 `Scorer` 클래스를 만들어야 할 수도 있습니다. 예를 들어, 특정 파라미터(챗 모델이나 프롬프트 등), 행 단위 채점 방식, 집계 점수 계산 방식을 포함하는 표준화된 `LLMJudge` 클래스를 만들 수 있습니다. `Scorer` 클래스를 정의하는 방법은 다음 장의 [RAG 애플리케이션의 모델 기반 Evaluation](/ko/weave/tutorial-rag#optional-defining-a-scorer-class) 튜토리얼을 참고하세요.
+일부 애플리케이션에서는 사용자 정의 `Scorer` 클래스를 만들고 싶을 수 있습니다. 예를 들어, 특정 파라미터(예: 채팅 모델 또는 프롬프트), 개별 행 스코어링 방식, 그리고 집계 점수 계산을 포함하는 표준화된 `LLMJudge` 클래스를 만들 수 있습니다. RAG 애플리케이션의 모델 기반 평가에 대한 다음 장의 [튜토리얼](/ko/weave/tutorial-rag#optional-defining-a-scorer-class)에서 `Scorer` 클래스를 정의하는 방법을 확인하세요.
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
   ## 기본 제공 스코어러를 사용해 평가 실행하기
 </div>
 
-사용자 정의 점수 계산 함수와 함께 [Weave의 기본 제공 스코어러](/ko/weave/guides/evaluation/builtin_scorers)도 사용할 수 있습니다. 다음 Evaluation에서는 `weave.Evaluation()`이 이전 섹션에서 정의한 `fruit_name_score` 함수와 [F1 점수](https://en.wikipedia.org/wiki/F-score)를 계산하는 기본 제공 `MultiTaskBinaryClassificationF1` 스코어러를 사용합니다.
+사용자 정의 스코어링 함수와 함께 [Weave의 기본 제공 스코어러](/ko/weave/guides/evaluation/builtin_scorers)도 사용할 수 있습니다. 다음 예제에서 `weave.Evaluation()`은 이전 섹션에서 정의한 `fruit_name_score` 함수와 [F1 점수](https://en.wikipedia.org/wiki/F-score)를 계산하는 기본 제공 스코어러인 `MultiTaskBinaryClassificationF1`을 함께 사용합니다.
 
-다음 예시는 `fruits` 데이터셋에 대해 `ExtractFruitsModel`의 Evaluation을 실행하고, 이 두 함수를 사용해 점수를 계산한 뒤 결과를 Weave에 로깅합니다.
+다음 예제에서는 `fruits` 데이터셋에 대해 `ExtractFruitsModel`을 두 가지 스코어링 함수를 사용해 평가하고, 그 결과를 Weave에 로깅합니다.
 
 <Tabs>
   <Tab title="Python">
@@ -280,7 +280,7 @@ Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 �
         ],
     )
     print(asyncio.run(evaluation.evaluate(model)))
-    # Jupyter Notebook에서 실행 중이라면 다음을 실행하세요:
+    # Jupyter Notebook 환경이라면, 다음을 실행하세요:
     # await evaluation.evaluate(model)
     ```
   </Tab>
@@ -303,14 +303,14 @@ Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 �
 </Tabs>
 
 <Note>
-  Python 스크립트에서 실행하는 경우 `asyncio.run`을 사용해야 합니다. Jupyter Notebook에서 실행하는 경우에는 `await`를 직접 사용할 수 있습니다.
+  Python 스크립트에서 실행하는 경우에는 `asyncio.run`을 사용해야 합니다. 반면 Jupyter Notebook에서 실행하는 경우에는 `await`를 바로 사용할 수 있습니다.
 </Note>
 
 <div id="complete-example">
-  ### 전체 예시
+  ### 완전한 예제
 </div>
 
-<Accordion title="하나의 스크립트에 담은 전체 평가 파이프라인:">
+<Accordion title="하나의 스크립트로 전체 평가 파이프라인 구현:">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -340,7 +340,7 @@ Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 �
                   raise ValueError("No response from model")
               return json.loads(result)
 
-      # 2. 모델 인스턴스 생성
+      # 2. 모델 인스턴스화
       model = ExtractFruitsModel(
           model_name='gpt-3.5-turbo-1106',
           prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) from the following text, as json: {sentence}'
@@ -449,23 +449,23 @@ Weave Evaluation을 사용할 때, Weave는 `output`을 비교할 `target`이 �
 </Accordion>
 
 <div id="view-your-evaluation-results">
-  ## Evaluation 결과 보기
+  ## 평가 결과 보기
 </div>
 
-Weave는 각 예측과 점수에 대한 trace를 자동으로 캡처합니다. Evaluation 실행 시 출력되는 링크를 클릭하여 Weave UI에서 결과를 확인하세요.
+Weave는 각 예측과 점수에 대한 트레이스를 자동으로 캡처합니다. 평가 시 출력되는 링크를 클릭해서 Weave UI에서 평가 결과를 확인하세요.
 
-![Evaluation 결과](/images/evals-hero.png)
+![평가 결과](/images/evals-hero.png)
 
 <div id="learn-more-about-weave-evaluations">
-  ## Weave Evaluation 자세히 알아보기
+  ## Weave 평가 더 알아보기
 </div>
 
-* [scorer를 구성하고 사용하는 방법](/ko/weave/guides/evaluation/scorers)에 대해 더 알아보세요.
-* Weave의 [내장 스코어링 함수](/ko/weave/guides/evaluation/builtin_scorers)를 확인해 보세요.
-* LLM을 판정자로 사용하는 [Model-Based Evaluation](/ko/weave/guides/evaluation/scorers#model-based-evaluation)에 대해 알아보세요.
+* [스코어러를 구성하고 사용하는 방법](/ko/weave/guides/evaluation/scorers)에 대해 더 알아보세요.
+* Weave의 [내장 스코어링 함수](/ko/weave/guides/evaluation/builtin_scorers)를 확인하세요.
+* LLM을 평가자로 사용하는 [모델 기반 평가(Model-Based Evaluation)](/ko/weave/guides/evaluation/scorers#model-based-evaluation)에 대해 알아보세요.
 
 <div id="next-steps">
   ## 다음 단계
 </div>
 
-검색 증강 생성(retrieval-augmented generation)을 평가하는 방법을 알아보려면 [RAG 애플리케이션을 구축](/ko/weave/tutorial-rag)해 보세요.
+[RAG 애플리케이션 구축하기](/ko/weave/tutorial-rag)를 통해 retrieval-augmented generation(RAG)을 평가하는 방법을 알아보세요.

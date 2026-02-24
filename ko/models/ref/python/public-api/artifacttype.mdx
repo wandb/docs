@@ -11,15 +11,15 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactType`
 
-지정된 타입을 기준으로 하는 쿼리 조건을 만족하는 아티팩트 객체입니다. 
+지정된 타입을 기준으로 하는 쿼리에 의해 반환되는 아티팩트 객체입니다. 
 
-**Args:**
+**인자:**
 
-- `client`:  W&B에 대해 쿼리할 때 사용할 클라이언트 인스턴스. 
- - `entity`:  프로젝트를 소유한 엔터티(사용자 또는 팀). 
- - `project`:  아티팩트 타입을 쿼리할 프로젝트 이름. 
- - `type_name`:  아티팩트 타입 이름. 
- - `attrs`:  ArtifactType을 초기화할 때 사용할 선택적 속성 값입니다. 생략하면 객체는 초기화 시 W&B에서 해당 속성을 로드합니다. 
+- `client`:  W&B에 쿼리를 실행할 때 사용할 클라이언트 인스턴스입니다. 
+ - `entity`:  프로젝트를 소유한 엔티티(사용자 또는 팀)입니다. 
+ - `project`:  아티팩트 타입을 조회할 프로젝트의 이름입니다. 
+ - `type_name`:  아티팩트 타입의 이름입니다. 
+ - `attrs`:  ArtifactType을 초기화할 때 사용할 선택적 속성입니다. 생략하면, 객체는 초기화 시점에 W&B에서 해당 속성을 로드합니다. 
 
 ### <kbd>property</kbd> ArtifactType.id
 
@@ -27,45 +27,45 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 **반환값:**
 
-- `str`: id 속성 값입니다.
+- `str`: id 속성의 값입니다.
 
 ---
 
 ### <kbd>property</kbd> ArtifactType.name
 
-Artifact 타입의 이름입니다. 
+아티팩트 타입의 이름입니다. 
 
-**Returns:**
+**반환값:**
 
-- `str`: name 속성 값입니다.
+- `str`: name 프로퍼티의 값입니다.
 
 ---
 
-### <kbd>메서드</kbd> `ArtifactType.collection`
+### <kbd>method</kbd> `ArtifactType.collection`
 
 ```python
 collection(name: 'str') → ArtifactCollection
 ```
 
-이름을 기준으로 특정 아티팩트 컬렉션을 가져옵니다.
+이름으로 특정 아티팩트 컬렉션을 가져옵니다.
 
-**Args:**
+**매개변수(Args):**
 
 * `name` (str):  가져올 아티팩트 컬렉션의 이름입니다.
 
 ***
 
 
-### <kbd>메서드</kbd> `ArtifactType.collections`
+### <kbd>method</kbd> `ArtifactType.collections`
 
 ```python
 collections(per_page: 'int' = 50) → ArtifactCollections
 ```
 
-이 Artifact 타입과 관련된 모든 아티팩트 컬렉션을 가져옵니다.
+이 아티팩트 타입과 관련된 모든 아티팩트 컬렉션을 가져옵니다.
 
-**인수:**
+**Args:**
 
-* `per_page` (int):  페이지당 가져올 아티팩트 컬렉션의 개수입니다. 기본값은 50입니다.
+* `per_page` (int):  페이지당 가져올 아티팩트 컬렉션 개수입니다.  기본값은 50입니다.
 
 ***

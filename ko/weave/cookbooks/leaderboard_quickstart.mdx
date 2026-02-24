@@ -1,30 +1,30 @@
 ---
-title: "리더보드 빠른 시작"
-description: "W&B Weave에서 리더보드 빠른 시작을 사용하는 방법을 알아봅니다"
+title: "리더보드 퀵스타트"
+description: "W&B Weave로 리더보드 퀵스타트를 사용하는 방법을 알아보세요"
 ---
 
 <Note>
-이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 사용해 보세요:
+이 문서는 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
 - [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 - [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
 <div id="leaderboard-quickstart">
-  # 리더보드 빠른 시작
+  # Leaderboard 퀵스타트
 </div>
 
-이 노트북에서는 Weave 리더보드를 사용하여 서로 다른 데이터셋과 스코어링 함수에서 모델 성능을 비교하는 방법을 알아봅니다. 구체적으로 다음 작업을 수행합니다:
+이 노트북에서는 Weave의 Leaderboard를 사용하여 서로 다른 데이터셋과 스코어링 함수에서 모델 성능을 비교하는 방법을 알아봅니다. 구체적으로 다음을 수행합니다.
 
-1. 가짜 우편번호 데이터셋을 생성합니다.
-2. 몇 가지 스코어링 함수를 작성하고 기준(baseline) 모델을 평가합니다.
-3. 이러한 기법을 사용해 모델과 Evaluation 조합의 매트릭스를 평가합니다.
-4. Weave UI에서 리더보드를 확인합니다.
+1. 가상의 우편번호 데이터셋을 생성합니다.
+2. 여러 스코어링 함수를 정의하고 베이스라인 모델을 평가합니다.
+3. 이 기법들을 사용해 여러 모델과 평가 조합으로 이루어진 매트릭스를 평가합니다.
+4. Weave UI에서 Leaderboard를 확인합니다.
 
 <div id="step-1-generate-a-dataset-of-fake-zip-code-data">
-  ## 1단계: 가짜 우편번호 데이터셋 생성
+  ## 1단계: 가짜 우편번호 데이터셋 생성하기
 </div>
 
-먼저 가짜 우편번호 데이터셋의 행 목록을 생성하는 함수 `generate_dataset_rows`를 정의합니다.
+먼저 가짜 우편번호 데이터 목록을 생성하는 `generate_dataset_rows` 함수를 만듭니다.
 
 ```python lines
 import json
@@ -79,11 +79,11 @@ weave.init("leaderboard-demo")
   ## 2단계: 스코어링 함수 작성
 </div>
 
-다음으로 세 가지 스코어링 함수를 작성합니다:
+이제 3개의 스코어링 함수를 작성합니다:
 
-1. `check_concrete_fields`: 모델 출력이 예상된 도시와 주와 일치하는지 확인합니다.
-2. `check_value_fields`: 모델 출력이 예상 인구와 중위 소득의 10% 이내인지 확인합니다.
-3. `check_subjective_fields`: LLM을 사용해 모델 출력이 예상된 &quot;known for&quot; 필드와 일치하는지 확인합니다.
+1. `check_concrete_fields`: 모델 출력의 도시와 주가 예상 값과 일치하는지 확인합니다.
+2. `check_value_fields`: 모델 출력이 예상 인구와 중위 소득 값의 ±10% 이내인지 확인합니다.
+3. `check_subjective_fields`: LLM(대규모 언어 모델)을 사용하여 모델 출력이 예상 &quot;known for&quot; 필드와 일치하는지 확인합니다.
 
 ```python lines
 @weave.op
@@ -134,10 +134,10 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
 
 
 <div id="step-3-create-a-simple-evaluation">
-  ## 3단계: 간단한 Evaluation 생성
+  ## 3단계: 간단한 Evaluation 만들기
 </div>
 
-다음으로, 예시 데이터와 스코어링 함수들을 사용해 간단한 Evaluation을 정의합니다.
+이제 가짜 데이터와 스코어링 함수를 사용해 간단한 Evaluation을 정의합니다.
 
 ```python lines
 rows = generate_dataset_rows()
@@ -157,7 +157,7 @@ evaluation = weave.Evaluation(
   ## 4단계: 베이스라인 모델 평가하기
 </div>
 
-이제 항상 동일한 응답을 반환하는 베이스라인 모델을 평가합니다.
+이제 정적인 응답을 반환하는 베이스라인 모델을 평가합니다.
 
 ```python lines
 @weave.op
@@ -176,10 +176,10 @@ await evaluation.evaluate(baseline_model)
 
 
 <div id="step-5-create-more-models">
-  ## 5단계: 추가 모델 생성
+  ## Step 5: 더 많은 모델 만들기
 </div>
 
-이제 베이스라인과 비교하기 위해 모델 두 개를 더 생성합니다.
+이제 베이스라인과 비교하기 위해 모델 2개를 더 생성하겠습니다.
 
 ```python lines
 @weave.op
@@ -237,10 +237,10 @@ await evaluation.evaluate(gpt_4o_mini_with_context)
 
 
 <div id="step-6-create-more-evaluations">
-  ## 6단계: Evaluation 더 생성하기
+  ## 6단계: 더 많은 Evaluation 생성
 </div>
 
-이제 모델과 Evaluation의 조합(매트릭스)을 평가해 보겠습니다.
+이제 모델과 Evaluation 조합으로 이루어진 매트릭스를 평가합니다.
 
 ```python lines
 scorers = [
@@ -288,12 +288,12 @@ for evaluation in evaluations:
 
 
 <div id="step-7-review-the-leaderboard">
-  ## 7단계: 리더보드 검토
+  ## 7단계: Leaderboard 검토
 </div>
 
-UI의 리더보드 탭으로 이동하여 &quot;Create Leaderboard&quot;를 클릭하면 새 리더보드를 만들 수 있습니다.
+UI에서 Leaderboard 탭으로 이동한 다음 &quot;Create Leaderboard&quot;를 클릭하여 새 Leaderboard를 만들 수 있습니다.
 
-Python 코드에서 바로 리더보드를 생성할 수도 있습니다:
+Python에서 바로 Leaderboard를 생성할 수도 있습니다:
 
 ```python lines
 from weave.flow import leaderboard

@@ -1,8 +1,8 @@
 ---
-title: W&B 조직의 사용자 목록은 어떻게 내보내나요?
+title: 내 W&amp;B Organization에서 사용자 목록을 어떻게 내보내나요?
 ---
 
-W&amp;B 조직에서 사용자 목록을 내보내려면 관리자 권한으로 SCIM API를 다음 코드와 함께 사용하면 됩니다:
+W&amp;B 조직에서 사용자 목록을 내보내려면 관리자 권한을 가진 사용자가 아래 코드와 함께 SCIM API를 사용합니다:
 
 ```python
 import base64
@@ -27,4 +27,4 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-필요에 따라 출력 결과를 저장하도록 스크립트를 수정하세요.
+필요에 따라 스크립트를 수정해 출력을 저장하세요.

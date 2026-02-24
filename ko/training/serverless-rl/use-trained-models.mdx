@@ -1,36 +1,36 @@
 ---
-title: 학습한 모델 사용하기
+title: 학습된 모델 사용하기
 description: 학습한 모델에 추론 요청 보내기
 ---
 
-Serverless RL로 모델을 학습하면, 해당 모델은 자동으로 추론에 사용할 수 있게 됩니다.
+Serverless RL로 모델을 트레이닝하면, 해당 모델은 자동으로 추론에 사용할 수 있게 됩니다.
 
-학습한 모델에 요청을 보내려면 다음이 필요합니다:
+학습된 모델로 요청을 보내려면 다음이 필요합니다:
 
-* [W&amp;B API key](https://wandb.ai/settings)
-* [Training API](/ko/training/api-reference) 기본 URL, `https://api.training.wandb.ai/v1/`
+* [W&amp;B API 키](https://wandb.ai/settings)
+* [Training API&#39;s](/ko/training/api-reference) 기본 URL, `https://api.training.wandb.ai/v1/`
 * 모델의 엔드포인트
 
-모델의 엔드포인트는 다음 스키마를 따릅니다:
+모델의 엔드포인트는 다음 스키마를 사용합니다:
 
 ```
 wandb-artifact:///<entity>/<project>/<model-name>:<step>
 ```
 
-스키마는 다음으로 구성됩니다:
+스키마는 다음과 같은 항목으로 구성됩니다:
 
-* 사용 중인 W&amp;B 엔터티(팀) 이름
+* W&amp;B entity(팀) 이름
 * 모델과 연결된 프로젝트 이름
-* 학습된 모델 이름
-* 배포하려는 모델의 학습 스텝(보통 각종 평가에서 모델의 성능이 가장 좋았던 스텝)
+* 트레이닝된 모델 이름
+* 배포하려는 모델의 트레이닝 스텝(일반적으로 평가에서 가장 좋은 성능을 보인 스텝)
 
-예를 들어, W&amp;B 팀 이름이 `email-specialists`이고, 프로젝트 이름이 `mail-search`, 학습된 모델 이름이 `agent-001`, 그리고 25 스텝에서 이를 배포하려 한다면 엔드포인트는 다음과 같습니다:
+예를 들어, W&amp;B 팀 이름이 `email-specialists`이고, 프로젝트 이름이 `mail-search`, 트레이닝된 모델 이름이 `agent-001`이며, 25번째 스텝에서 이를 배포하려는 경우 엔드포인트는 다음과 같습니다:
 
 ```
 wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
-엔드포인트가 준비되면 일반적인 추론 워크플로에 통합해 사용할 수 있습니다. 다음 예제에서는 cURL 요청 또는 [Python OpenAI SDK](https://github.com/openai/openai-python)를 사용해 학습된 모델에 추론 요청을 보내는 방법을 보여줍니다.
+엔드포인트가 준비되면 기존 추론 워크플로에 통합할 수 있습니다. 다음 예제에서는 cURL 요청 또는 [Python OpenAI SDK](https://github.com/openai/openai-python)를 사용해 학습된 모델에 추론 요청을 보내는 방법을 보여줍니다.
 
 <div id="curl">
   ### cURL

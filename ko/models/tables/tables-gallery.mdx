@@ -1,79 +1,79 @@
 ---
-description: W&B Tables 예시
-title: 테이블 예시
+description: W&B Tables 예제
+title: 테이블 예제
 ---
 
-다음 섹션에서는 테이블을 활용하는 몇 가지 방법을 보여 줍니다:
+다음 섹션에서는 W&amp;B Tables를 활용할 수 있는 몇 가지 방법을 소개합니다:
 
 <div id="view-your-data">
   ### 데이터 보기
 </div>
 
-모델 학습이나 평가 중에 메트릭과 리치 미디어를 로깅한 다음, 결과를 클라우드와 동기화되는 지속형 데이터베이스 또는 [호스팅 인스턴스](/ko/platform/hosting)에서 시각화합니다.
+모델 트레이닝이나 평가 중에 메트릭과 리치 미디어를 로깅한 다음, 결과를 클라우드와 동기화되는 영구 저장 데이터베이스나 [호스팅 인스턴스](/ko/platform/hosting)에서 시각화하세요.
 
 <Frame>
-  <img src="/images/data_vis/tables_see_data.png" alt="Data browsing table" max-width="90%" />
+  <img src="/images/data_vis/tables_see_data.png" alt="데이터 탐색 테이블" max-width="90%" />
 </Frame>
 
-예를 들어, [사진 데이터셋의 균형 잡힌 분할](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json)을 보여 주는 이 테이블을 확인해 보세요.
+예를 들어, [사진 데이터셋의 균형 잡힌 분할](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json)을 보여주는 이 테이블을 확인해 보세요.
 
 <div id="interactively-explore-your-data">
-  ### 대화형으로 데이터 탐색하기
+  ### 데이터를 대화형으로 탐색하기
 </div>
 
-정적 파일을 일일이 살펴보거나 분석 스크립트를 다시 실행할 필요 없이, 테이블을 조회, 정렬, 필터링, 그룹화, 조인, 쿼리하며 데이터와 모델 성능을 파악할 수 있습니다.
+정적 파일을 하나씩 살펴보거나 분석 스크립트를 다시 실행할 필요 없이, 테이블을 조회하고 정렬·필터링·그룹화·조인·쿼리해서 데이터와 모델 성능을 파악할 수 있습니다.
 
 <Frame>
-  <img src="/images/data_vis/explore_data.png" alt="Audio comparison" max-width="90%" />
+  <img src="/images/data_vis/explore_data.png" alt="오디오 비교" max-width="90%" />
 </Frame>
 
-예를 들어, [스타일 변환된 오디오](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)에 대한 이 리포트를 확인해 보세요.
+예를 들어, [스타일이 변환된 오디오](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)에 대한 이 리포트를 참고하세요.
 
 <div id="compare-model-versions">
   ### 모델 버전 비교
 </div>
 
-여러 학습 에폭, 데이터셋, 하이퍼파라미터 설정, 모델 아키텍처 등 전반에 걸쳐 결과를 빠르게 비교하세요.
+서로 다른 트레이닝 에포크, 데이터셋, 하이퍼파라미터 설정, 모델 아키텍처 등에서의 결과를 빠르게 비교할 수 있습니다.
 
 <Frame>
-  <img src="/images/data_vis/compare_model_versions.png" alt="Model comparison" max-width="90%" />
+  <img src="/images/data_vis/compare_model_versions.png" alt="모델 비교" max-width="90%" />
 </Frame>
 
-예를 들어, [동일한 테스트 이미지에서 두 모델을 비교](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob)하는 다음 테이블을 볼 수 있습니다.
+예를 들어, [동일한 테스트 이미지에서 두 모델을 비교한](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob) 테이블을 확인해 보세요.
 
 <div id="track-every-detail-and-see-the-bigger-picture">
-  ### 모든 세부 사항을 추적하고 전체 그림까지 파악하기
+  ### 모든 세부사항을 추적하고 큰 그림을 파악하세요
 </div>
 
-확대해서 특정 스텝에서의 개별 예측을 시각화할 수 있습니다. 축소해서는 집계 통계를 확인하고, 오류 패턴을 식별하며, 개선 기회를 파악할 수 있습니다. 이 도구는 단일 모델 학습 과정 내에서 스텝을 비교할 때나 서로 다른 모델 버전 간 결과를 비교할 때 모두 사용할 수 있습니다.
+특정 스텝에서의 개별 예측을 확대해 시각화하세요. 축소해 전체 통계를 살펴보고, 오류 패턴을 파악하며, 개선 가능성을 이해하세요. 이 도구는 하나의 모델 트레이닝 내에서 스텝을 비교할 때도, 서로 다른 모델 버전 간의 결과를 비교할 때도 사용할 수 있습니다.
 
 <Frame>
-  <img src="/images/data_vis/track_details.png" alt="실험 세부 사항 추적" />
+  <img src="/images/data_vis/track_details.png" alt="Tracking experiment details" />
 </Frame>
 
-예를 들어, [MNIST 데이터셋에서 1 에포크와 5 에포크 이후의 결과](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)를 분석한 예시 테이블을 확인할 수 있습니다.
+예를 들어, [MNIST 데이터셋에서 하나의 에포크 이후와 다섯 개의 에포크 이후 결과](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)를 분석한 예제 테이블을 확인해 보세요.
 
 <div id="example-projects-with-wb-tables">
   ## W&amp;B Tables를 사용하는 예제 프로젝트
 </div>
 
-다음은 W&amp;B Tables를 활용한 실제 W&amp;B 프로젝트 사례들입니다.
+다음은 W&amp;B Tables를 사용하는 실제 W&amp;B Projects의 일부입니다.
 
 <div id="image-classification">
   ### 이미지 분류
 </div>
 
-[Visualize Data for Image Classification](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)를 읽고, [data visualization nature Colab](https://wandb.me/dsviz-nature-colab)을 따라 실행하거나, [아티팩트 컨텍스트](https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json)를 살펴보면서 CNN이 [iNaturalist](https://www.inaturalist.org/pages/developers) 사진에서 열 가지 종류의 생물(식물, 새, 곤충 등)을 어떻게 식별하는지 확인하세요.
+[Visualize Data for Image Classification](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)를 읽고, [data visualization nature Colab](https://wandb.me/dsviz-nature-colab)을 따라 하거나, [artifacts context](https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json)를 탐색해 보세요. CNN이 [iNaturalist](https://www.inaturalist.org/pages/developers) 사진에서 열 가지 종류의 생물(식물, 새, 곤충 등)을 어떻게 식별하는지 확인할 수 있습니다.
 
 <Frame>
-  <img src="/images/data_vis/image_classification.png" alt="두 개의 서로 다른 모델이 예측한 값에서 실제 레이블 분포를 비교한 모습." max-width="90%" />
+  <img src="/images/data_vis/image_classification.png" alt="두 개의 서로 다른 모델 예측 간 실제 레이블 분포를 비교합니다." max-width="90%" />
 </Frame>
 
 <div id="audio">
   ### 오디오
 </div>
 
-timbre transfer를 다루는 [Whale2Song - W&amp;B Tables for Audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)에서 오디오 테이블을 직접 살펴보세요. 녹음된 고래의 노랫소리와 같은 멜로디를 바이올린이나 트럼펫 같은 악기로 합성해 연주한 버전과 비교할 수 있습니다. 또한 직접 노래를 녹음한 뒤 [audio transfer Colab](http://wandb.me/audio-transfer)을 사용해, W&amp;B에서 합성된 버전을 탐색해 볼 수도 있습니다.
+[timbre transfer에 대한 Whale2Song - W&amp;B Tables for Audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)에서 오디오 테이블을 탐색해 보세요. 녹음된 고래 소리를 바이올린이나 트럼펫 같은 악기로 같은 멜로디를 합성한 버전과 비교할 수 있습니다. 또한 직접 소리를 녹음한 뒤, [audio transfer Colab](http://wandb.me/audio-transfer)을 사용해 W&amp;B에서 합성된 버전을 살펴볼 수도 있습니다.
 
 <Frame>
   <img src="/images/data_vis/audio.png" alt="오디오 테이블 예시" max-width="90%" />
@@ -83,44 +83,44 @@ timbre transfer를 다루는 [Whale2Song - W&amp;B Tables for Audio](https://wan
   ### 텍스트
 </div>
 
-학습 데이터나 생성된 출력에서 텍스트 샘플을 살펴보고, 관련 필드로 동적으로 그룹화하며, 서로 다른 모델 버전이나 실험 설정 간에 평가를 일관되게 맞출 수 있습니다. 텍스트를 Markdown으로 표시하거나 시각적 diff 모드를 사용해 텍스트를 비교할 수 있습니다. 문자 기반 RNN의 예시는 [Shakespeare text generation report](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY)를 참고하세요.
+트레이닝 데이터나 생성된 출력에서 텍스트 샘플을 탐색하고, 관련 필드로 동적으로 그룹화하며, 다양한 모델 변형이나 실험 설정 간에 평가를 일관되게 적용하세요. 텍스트를 Markdown으로 렌더링하거나 시각적 diff 모드를 사용해 텍스트를 비교할 수 있습니다. 문자 기반 RNN 예시는 [Shakespeare 텍스트 생성 리포트](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY)를 참고하세요.
 
 <Frame>
-  <img src="/images/data_vis/shakesamples.png" alt="히든 레이어의 크기를 두 배로 늘리면 프롬프트 완성 결과가 더 창의적으로 변합니다." max-width="90%" />
+  <img src="/images/data_vis/shakesamples.png" alt="히든 레이어 크기를 두 배로 키우면 더 창의적인 프롬프트 완성이 생성됩니다." max-width="90%" />
 </Frame>
 
 <div id="video">
   ### 비디오
 </div>
 
-학습 중에 로깅된 비디오를 탐색하고 모아 보면서 모델을 이해하세요. 다음은 RL 에이전트가 [부작용을 최소화](https://wandb.ai/stacey/saferlife/artifacts/video/videos_append-spawn/c1f92c6e27fa0725c154/files/video_examples.table.json)하도록 하는 [SafeLife 벤치마크](https://wandb.ai/safelife/v1dot2/benchmark)를 사용한 초기 예시입니다.
+트레이닝 중에 로깅된 비디오를 탐색하고 집계하여 모델을 더 잘 이해할 수 있습니다. 다음은 RL 에이전트가 [부작용을 최소화](https://wandb.ai/stacey/saferlife/artifacts/video/videos_append-spawn/c1f92c6e27fa0725c154/files/video_examples.table.json)하도록 학습하는 데 [SafeLife 벤치마크](https://wandb.ai/safelife/v1dot2/benchmark)를 사용한 초기 예입니다.
 
 <Frame>
-  <img src="/images/data_vis/video.png" alt="소수의 성공적인 에이전트를 손쉽게 탐색" max-width="90%" />
+  <img src="/images/data_vis/video.png" alt="소수의 성공한 에이전트를 손쉽게 살펴보기" max-width="90%" />
 </Frame>
 
 <div id="tabular-data">
   ### 표 형식 데이터
 </div>
 
-버전 관리와 중복 제거를 사용해 [표 형식 데이터를 분할하고 전처리하는 방법](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1)에 대한 리포트를 살펴보세요.
+버전 관리 및 중복 제거를 적용해 [표 형식 데이터를 분할하고 전처리하는 방법](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1)에 대한 리포트를 확인하세요.
 
 <Frame>
-  <img src="/images/data_vis/tabs.png" alt="Tables 및 Artifact 워크플로" max-width="90%" />
+  <img src="/images/data_vis/tabs.png" alt="Tables 및 Artifacts 워크플로" max-width="90%" />
 </Frame>
 
 <div id="comparing-model-variants-semantic-segmentation">
   ### 모델 변형 비교 (semantic segmentation)
 </div>
 
-시맨틱 세그멘테이션을 위해 Tables를 로깅하고 서로 다른 모델을 비교하는 [대화형 노트북](https://wandb.me/dsviz-cars-demo)과 [라이브 예시](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#a57f8e412329727038c2$eval_Ada)가 있습니다. 이 [Table](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json)에서 직접 쿼리를 실행해 보세요.
+semantic segmentation용으로 Tables를 로깅하고 서로 다른 모델을 비교하는 방법을 보여주는 [대화형 노트북](https://wandb.me/dsviz-cars-demo)과 [라이브 예시](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#a57f8e412329727038c2$eval_Ada)가 있습니다. [이 Table](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json)에서 직접 쿼리를 실행해 보세요.
 
 <Frame>
-  <img src="/images/data_vis/comparing_model_variants.png" alt="동일한 테스트 세트에서 두 모델의 예측을 비교해 가장 좋은 예측을 찾는 모습" max-width="90%" />
+  <img src="/images/data_vis/comparing_model_variants.png" alt="동일한 테스트 세트에서 두 모델의 예측 결과 중 최적의 것 찾기" max-width="90%" />
 </Frame>
 
 <div id="analyzing-improvement-over-training-time">
-  ### 학습 시간에 따른 개선 분석
+  ### 트레이닝 시간에 따른 성능 향상 분석
 </div>
 
-[시간 경과에 따른 예측 시각화](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) 방법과 이에 대한 [대화형 노트북](https://wandb.me/dsviz-mnist-colab)을 자세히 다루는 상세 리포트입니다.
+[시간에 따른 예측을 시각화](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)하는 방법을 자세히 설명한 리포트와, 함께 사용할 수 있는 [인터랙티브 노트북](https://wandb.me/dsviz-mnist-colab)입니다.

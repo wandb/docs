@@ -9,24 +9,24 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
 
 
-### <kbd>함수</kbd> `finish`
+### <kbd>function</kbd> `finish`
 
 ```python
 finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
 ```
 
-실행을 종료하고 남아 있는 모든 데이터를 업로드합니다.
+run을 종료하고 남은 데이터를 업로드합니다.
 
-W&amp;B 실행의 완료를 표시하고 모든 데이터가 서버에 동기화되었는지 확인합니다. 실행의 최종 상태는 종료 조건과 동기화 상태에 따라 결정됩니다.
+W&amp;B run이 완료되었음을 표시하고 모든 데이터가 서버에 동기화되었는지 보장합니다. run의 최종 상태는 종료 조건과 동기화 상태에 따라 결정됩니다.
 
-실행 상태:
+run 상태:
 
-* Running: 데이터를 로깅하고/하거나 하트비트(heartbeat)를 전송 중인 활성 실행.
-* Crashed: 예기치 않게 하트비트 전송이 중단된 실행.
-* Finished: 모든 데이터가 동기화된 상태에서 (`exit_code=0`) 정상적으로 완료된 실행.
-* Failed: 오류가 발생하여 종료된 실행 (`exit_code!=0`).
+* Running: 데이터를 로깅하거나 하트비트를 전송하고 있는 활성 run입니다.
+* Crashed: 예기치 않게 하트비트 전송이 중단된 run입니다.
+* Finished: 모든 데이터가 동기화된 상태에서 정상적으로 완료된 (`exit_code=0`) run입니다.
+* Failed: 오류와 함께 종료된 (`exit_code!=0`) run입니다.
 
-**Args:**
+**인수(Args):**
 
-* `exit_code`: 실행의 종료 상태를 나타내는 정수입니다. 성공 시에는 0을 사용하고, 그 밖의 값은 실행이 실패했음을 의미합니다.
-* `quiet`: 사용 중단(Deprecated)되었습니다. 로깅 상세 수준은 `wandb.Settings(quiet=...)`를 사용해 설정하세요.
+* `exit_code`: run의 종료 상태를 나타내는 정수입니다. 성공 시 0을 사용하고, 그 외의 값은 run이 실패했음을 의미합니다.
+* `quiet`: 더 이상 사용되지 않는 옵션입니다(Deprecated). 로깅 상세 수준은 `wandb.Settings(quiet=...)`을 사용해 설정하세요.

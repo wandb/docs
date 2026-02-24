@@ -21,21 +21,21 @@ scatter(
 ) → CustomChart
 ```
 
-wandb.Table 데이터를 기반으로 산점도를 생성합니다.
+wandb.Table 데이터를 기반으로 산점도 차트를 생성합니다.
 
-**인자:**
+**Args:**
 
 * `table`:  시각화할 데이터를 포함하는 W&amp;B Table.
-* `x`:  x축에 사용할 열 이름.
-* `y`:  y축에 사용할 열 이름.
-* `title`:  산점도 제목.
-* `split_table`:  테이블을 W&amp;B UI에서 별도의 섹션으로 분리할지 여부. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+* `x`:  x축에 사용할 열의 이름.
+* `y`:  y축에 사용할 열의 이름.
+* `title`:  산점도 차트의 제목.
+* `split_table`:  테이블을 W&amp;B UI에서 별도의 섹션으로 분리할지 여부. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
 
-**반환값:**
+**Returns:**
 
-* `CustomChart`:  W&amp;B에 로그할 수 있는 커스텀 차트 객체. 차트를 로그하려면 `wandb.log()`에 전달합니다.
+* `CustomChart`:  W&amp;B에 로깅할 수 있는 커스텀 차트 객체. 차트를 로깅하려면 이를 `wandb.log()`에 전달합니다.
 
-**예시:**
+**Example:**
 
 ```python
 import math
@@ -51,9 +51,9 @@ data = [
 # 고도(m) 및 온도(°C) 열이 포함된 W&B 테이블 생성
 table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
 
-# W&B 실행을 초기화하고 산점도 기록
+# W&B run 초기화 및 산점도 로깅
 with wandb.init(project="temperature-altitude-scatter") as run:
-    # 산점도 생성 및 기록
+    # 산점도 생성 및 로깅
     scatter_plot = wandb.plot.scatter(
          table=table,
          x="altitude (m)",

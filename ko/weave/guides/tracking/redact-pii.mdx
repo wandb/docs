@@ -1,27 +1,27 @@
 ---
 title: "트레이스에서 PII 마스킹하기"
-description: "트레이스에서 개인식별정보를 자동으로 마스킹하기"
+description: "트레이스에서 개인 식별 정보(PII)를 자동으로 마스킹하기"
 ---
 
 <Warning>
-  이 기능은 Python SDK에서만 사용할 수 있습니다.
+  이 기능은 Python SDK를 통해서만 사용할 수 있습니다.
 </Warning>
 
-일부 조직은 Large Language Model(LLM) 워크플로에서 이름, 전화번호, 이메일 주소와 같은 개인식별정보(PII)를 처리합니다. 이 데이터를 Weights &amp; Biases(W&amp;B) Weave에 저장하면 컴플라이언스 및 보안 위험이 발생할 수 있습니다.
+일부 조직은 Large Language Model(LLM) 워크플로에서 이름, 전화번호, 이메일 주소와 같은 개인 식별 정보(PII)를 처리합니다. 이 데이터를 Weights &amp; Biases (W&amp;B) Weave에 저장하면 규정 준수 및 보안 측면에서 위험이 발생할 수 있습니다.
 
-*Sensitive Data Protection* 기능을 사용하면 [trace](/ko/weave/guides/tracking)가 Weave 서버로 전송되기 전에 개인식별정보(PII)를 자동으로 마스킹할 수 있습니다. 이 기능은 [Microsoft Presidio](https://microsoft.github.io/presidio/)를 Weave Python SDK에 통합하며, 이를 통해 SDK 수준에서 마스킹 설정을 제어할 수 있습니다.
+*Sensitive Data Protection* 기능을 사용하면 [trace](/ko/weave/guides/tracking)가 Weave 서버로 전송되기 전에 개인 식별 정보(PII)를 자동으로 마스킹할 수 있습니다. 이 기능은 [Microsoft Presidio](https://microsoft.github.io/presidio/)를 Weave Python SDK에 통합하며, 이를 통해 SDK 수준에서 마스킹 설정을 제어할 수 있습니다.
 
 Sensitive Data Protection 기능은 Python SDK에 다음과 같은 기능을 제공합니다:
 
-* `weave.init` 호출에서 PII 마스킹을 활성화하거나 비활성화할 수 있는 `redact_pii` 설정.
-* `redact_pii = True`일 때 [일반 엔터티](#entities-redacted-by-default)의 자동 마스킹.
-* 설정 가능한 `redact_pii_fields` 설정을 통한 마스킹 필드 커스터마이징.
+* `weave.init` 호출에서 PII 마스킹을 활성화하거나 비활성화할 수 있는 `redact_pii` 설정
+* `redact_pii = True`일 때 [일반적인 엔터티](#entities-redacted-by-default)를 자동으로 마스킹
+* 설정 가능한 `redact_pii_fields` 설정을 사용해 마스킹할 필드를 사용자 정의
 
 <div id="enable-pii-redaction">
-  ## PII 마스킹 활성화
+  ## PII 비식별화 활성화
 </div>
 
-Weave에서 민감한 데이터 보호 기능을 사용하려면 다음 단계를 수행하세요:
+Weave에서 Sensitive Data Protection 기능을 사용하려면 다음 단계를 완료하세요:
 
 1. 필요한 종속 패키지를 설치합니다:
 
@@ -29,7 +29,7 @@ Weave에서 민감한 데이터 보호 기능을 사용하려면 다음 단계�
    pip install presidio-analyzer presidio-anonymizer
    ```
 
-2. `weave.init` 호출을 수정하여 마스킹을 활성화합니다. `redact_pii=True`인 경우 [일반적인 엔티티는 기본적으로 마스킹됩니다](#entities-redacted-by-default):
+2. `weave.init` 호출을 수정하여 비식별화를 활성화합니다. `redact_pii=True`로 설정하면, [일반 엔티티가 기본적으로 비식별화됩니다](#entities-redacted-by-default):
 
    ```python lines
    import weave
@@ -37,19 +37,19 @@ Weave에서 민감한 데이터 보호 기능을 사용하려면 다음 단계�
    weave.init("my-project", settings={"redact_pii": True})
    ```
 
-3. (선택 사항) `redact_pii_fields` 파라미터를 사용해 마스킹할 필드를 사용자 정의합니다:
+3. (선택 사항) `redact_pii_fields` 매개변수를 사용하여 비식별화할 필드를 사용자 지정합니다:
 
    ```python lines
    weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
    ```
 
-   감지 및 마스킹이 가능한 엔티티 전체 목록은 [Presidio에서 지원하는 PII 엔티티](https://microsoft.github.io/presidio/supported_entities/)를 참고하세요.
+   감지 및 비식별화가 가능한 엔티티의 전체 목록은 [Presidio에서 지원하는 PII 엔티티](https://microsoft.github.io/presidio/supported_entities/)를 참조하세요.
 
 <div id="entities-redacted-by-default">
-  ## 기본적으로 마스킹되는 엔터티
+  ## 기본적으로 마스킹되는 Entities
 </div>
 
-PII 마스킹을 활성화하면 다음 엔터티가 자동으로 마스킹됩니다:
+PII 마스킹이 활성화되면 다음 Entities가 자동으로 마스킹됩니다:
 
 * `CREDIT_CARD`
 * `CRYPTO`
@@ -74,19 +74,19 @@ PII 마스킹을 활성화하면 다음 엔터티가 자동으로 마스킹됩�
   ## `REDACT_KEYS`로 민감한 키 마스킹하기
 </div>
 
-PII 마스킹 외에도 Weave SDK는 `REDACT_KEYS`를 사용해 사용자 지정 키를 마스킹하는 기능을 제공합니다. 이는 PII 범주에는 속하지 않지만 비공개로 유지되어야 하는 추가 민감 정보를 보호하려는 경우에 유용합니다. 예를 들면 다음과 같습니다:
+PII 마스킹에 더해, Weave SDK는 `REDACT_KEYS`를 사용하여 커스텀 키를 마스킹하는 기능도 제공합니다. 이는 PII 범주에는 속하지 않지만 비공개로 유지해야 하는 추가 민감 데이터를 보호해야 할 때 유용합니다. 예를 들면 다음과 같습니다:
 
 * API 키
 * 인증 헤더
 * 토큰
 * 내부 ID
-* 구성 값
+* 설정 값
 
 <div id="pre-defined-redact_keys">
-  ### 미리 정의된 `REDACT_KEYS`
+  ### 사전 정의된 `REDACT_KEYS`
 </div>
 
-Weave는 기본적으로 다음 민감한 키를 자동으로 마스킹합니다.
+Weave에서는 기본적으로 다음 민감한 키들을 자동으로 마스킹합니다:
 
 ```json
 [
@@ -100,7 +100,7 @@ Weave는 기본적으로 다음 민감한 키를 자동으로 마스킹합니다
   ### 사용자 정의 키 추가
 </div>
 
-트레이스에서 마스킹(비공개 처리)하려는 사용자 정의 키를 이 목록에 추가해 확장할 수 있습니다:
+트레이스에서 마스킹(제거)하려는 사용자 정의 키를 이 목록에 추가하여 확장할 수 있습니다:
 
 ```python lines
 import weave
@@ -108,7 +108,7 @@ from weave.utils import sanitize
 
 client = weave.init("my-project", settings={"redact_pii": True})
 
-# 삭제할 사용자 정의 키 추가
+# 리댁션할 커스텀 키 추가
 sanitize.add_redact_key("client_id")
 sanitize.add_redact_key("token")
 
@@ -122,7 +122,7 @@ def test(client_id, token):
 test(client_id, token)
 ```
 
-Weave UI에서 확인하면 `client_id`와 `token`의 값은 `"REDACTED"`로 표시됩니다:
+Weave UI에서 보면 `client_id`와 `token` 값은 `"REDACTED"`로 표시됩니다:
 
 ```python lines
 client_id = "REDACTED"
@@ -130,8 +130,8 @@ token = "REDACTED"
 ```
 
 <div id="usage-information">
-  ## 사용 정보
+  ## 사용 관련 정보
 </div>
 
 * 이 기능은 Python SDK에서만 사용할 수 있습니다.
-* Presidio 종속성으로 인해 마스킹을 활성화하면 처리 시간이 늘어납니다.
+* Presidio 의존성으로 인해 마스킹을 활성화하면 처리 시간이 증가합니다.

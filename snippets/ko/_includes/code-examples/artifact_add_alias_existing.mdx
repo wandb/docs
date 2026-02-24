@@ -1,5 +1,5 @@
 ---
-title: 기존 Artifact에 별칭 추가
+title: 기존 아티팩트에 별칭 추가
 ---
 
 ```python
@@ -8,7 +8,7 @@ title: 기존 Artifact에 별칭 추가
 """
 import wandb
 
-# 기존 아티팩트를 가져와 별칭을 추가합니다
+# 기존 아티팩트를 검색하고 별칭을 추가합니다
 artifact = wandb.Api().artifact("entity/project/artifact:version")
 artifact.aliases = ["<new-alias>"]
 artifact.save()

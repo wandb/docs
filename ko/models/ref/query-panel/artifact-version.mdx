@@ -3,7 +3,7 @@ title: artifactVersion
 ---
 
 <div id="chainable-ops">
-  ## 체인 가능한 Ops
+  ## 체이닝 가능한 Op
 </div>
 
 ### <a id="artifactVersion-aliases" />`artifactVersion-aliases`
@@ -26,50 +26,50 @@ title: artifactVersion
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | 하나의 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)입니다. |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)이(가) 생성된 시점을 나타내는 datetime
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)이 생성된 날짜와 시간
 
 ### <a id="artifactVersion-file" />`artifactVersion-file`
 
-지정된 경로에 있는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 &#95;file&#95;을 반환합니다.
+지정된 경로에 해당하는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* 을 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
-| `path` | &#95;file&#95;의 경로 |
+| `path` | *파일* 의 경로 |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-지정된 경로에 해당하는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일*
+지정된 경로에 해당하는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *file*
 
 ### <a id="artifactVersion-files" />`artifactVersion-files`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)에 포함된 *파일* &#95;목록&#95;을 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* 목록을 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | 대상 [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 인스턴스 |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* 목록
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)에 포함된 &#95;파일&#95;의 *목록*
 
 ### <a id="artifactVersion-link" />`artifactVersion-link`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 URL을 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)에 대한 URL을 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 인스턴스 |
 
 <div id="return-value">
   #### 반환 값
@@ -79,7 +79,7 @@ title: artifactVersion
 
 ### <a id="artifactVersion-metadata" />`artifactVersion-metadata`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 딕셔너리를 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 사전을 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
@@ -89,25 +89,37 @@ title: artifactVersion
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 딕셔너리입니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 사전
 
 ### <a id="artifactVersion-name" />`artifactVersion-name`
 
 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 이름을 반환합니다.
 
-| 인수 | 설명 |
+| Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 하나 |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 이름을 반환합니다
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 이름입니다.
 
 ### <a id="artifactVersion-size" />`artifactVersion-size`
 
 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 크기를 반환합니다.
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
+
+#### 반환값
+
+반환되는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 크기입니다.
+
+### <a id="artifactVersion-usedBy" />`artifactVersion-usedBy`
+
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)를 사용하는 [runs](/ko/models/ref/query-panel/run/)를 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
@@ -117,33 +129,19 @@ title: artifactVersion
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 크기
-
-### <a id="artifactVersion-usedBy" />`artifactVersion-usedBy`
-
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)를 사용하는 [실행들](/ko/models/ref/query-panel/run/)을 반환합니다.
-
-| Argument | Description |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
-
-<div id="return-value">
-  #### 반환 값
-</div>
-
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)를 사용하는 [실행](/ko/models/ref/query-panel/run/)들
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)을 사용하는 [runs](/ko/models/ref/query-panel/run/)
 
 ### <a id="artifactVersion-versionId" />`artifactVersion-versionId`
 
 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 versionId를 반환합니다.
 
-| 인수 | 설명 |
+| Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | 아티팩트 버전([artifactVersion](/ko/models/ref/query-panel/artifact-version/)) |
+| `artifactVersion` | 하나의 [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
 
 #### 반환값
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 versionId
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 versionId입니다.
 
 <div id="list-ops">
   ## 목록 작업
@@ -161,50 +159,50 @@ title: artifactVersion
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 별칭들
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 별칭 목록
 
 ### <a id="artifactVersion-createdAt" />`artifactVersion-createdAt`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)이(가) 생성된 날짜와 시간을 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)가 생성된 일시를 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 객체 |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/)입니다. |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)가 생성된 날짜 및 시간입니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)가 생성된 날짜와 시간
 
 ### <a id="artifactVersion-file" />`artifactVersion-file`
 
-지정된 경로에 대한 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *file* (파일)을 반환합니다.
+지정된 경로에 있는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* 을 반환합니다.
 
 | Argument | Description |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
-| `path` | *file* (파일)의 경로 |
+| `path` | *파일* 의 경로 |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-주어진 경로에 해당하는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일*
+지정한 경로에 있는 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일*
 
 ### <a id="artifactVersion-files" />`artifactVersion-files`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* &#95;목록&#95;을 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* &#95;목록&#95;을 반환합니다
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 객체 |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
 
 <div id="return-value">
   #### 반환 값
 </div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 *파일* *목록*
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)에 포함된 *파일* *목록*
 
 ### <a id="artifactVersion-link" />`artifactVersion-link`
 
@@ -214,21 +212,25 @@ title: artifactVersion
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
 
-#### 반환값
+<div id="return-value">
+  #### 반환 값
+</div>
 
 [artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 URL
 
 ### <a id="artifactVersion-metadata" />`artifactVersion-metadata`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 딕셔너리를 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 사전을 반환합니다.
 
-| Argument | Description |
+| 인수 | 설명 |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
 
-#### 반환값
+<div id="return-value">
+  #### 반환 값
+</div>
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 딕셔너리
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/) 메타데이터 사전입니다.
 
 ### <a id="artifactVersion-name" />`artifactVersion-name`
 
@@ -236,7 +238,7 @@ title: artifactVersion
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 객체 |
+| `artifactVersion` | 하나의 [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
 
 #### 반환값
 
@@ -248,7 +250,7 @@ title: artifactVersion
 
 | Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | 하나의 [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
 
 <div id="return-value">
   #### 반환 값
@@ -258,24 +260,26 @@ title: artifactVersion
 
 ### <a id="artifactVersion-usedBy" />`artifactVersion-usedBy`
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)을(를) 사용하는 [실행](/ko/models/ref/query-panel/run/)을 반환합니다.
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)를 사용하는 [runs](/ko/models/ref/query-panel/run/)를 반환합니다.
 
-| 인수 | 설명 |
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/) 하나 |
+
+<div id="return-value">
+  #### 반환 값
+</div>
+
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)을 사용하는 [runs](/ko/models/ref/query-panel/run/)
+
+### <a id="artifactVersion-versionId" />`artifactVersion-versionId`
+
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 versionId를 반환합니다.
+
+| Argument | Description |
 | :--- | :--- |
 | `artifactVersion` | [artifactVersion](/ko/models/ref/query-panel/artifact-version/)입니다. |
 
 #### 반환값
 
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)을 사용하는 [실행](/ko/models/ref/query-panel/run/)들
-
-### <a id="artifactVersion-versionId" />`artifactVersion-versionId`
-
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 `versionId`를 반환합니다.
-
-| Argument | Description |
-| :--- | :--- |
-| `artifactVersion` | 하나의 [artifactVersion](/ko/models/ref/query-panel/artifact-version/) |
-
-#### 반환값
-
-[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 versionId
+[artifactVersion](/ko/models/ref/query-panel/artifact-version/)의 versionId입니다.

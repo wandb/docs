@@ -1,9 +1,9 @@
 ---
 title: "클래스: Dataset<R>"
-description: "TypeScript SDK 참조"
+description: "TypeScript SDK 레퍼런스"
 ---
 
-[weave](../) / Dataset
+[Weave](../) / Dataset
 
 손쉬운 저장과 자동 버전 관리를 지원하는 Dataset 객체
 
@@ -20,7 +20,7 @@ const dataset = new Dataset({
   ]
 })
 
-// 특정 예시 접근
+// 특정 예시에 접근
 const exampleLabel = dataset.getRow(2).sentence;
 
 // 데이터셋 저장
@@ -50,7 +50,7 @@ const ref = await dataset.save()
   ### 생성자
 </div>
 
-- [constructor](./dataset#constructor)
+- [생성자](./dataset#constructor)
 
 <div id="properties">
   ### 속성
@@ -100,7 +100,7 @@ const ref = await dataset.save()
 | :------ | :------ |
 | `parameters` | `DatasetParameters`\<`R`\> |
 
-#### 반환
+#### 반환값
 
 [`Dataset`](./dataset)\<`R`\>
 
@@ -110,7 +110,9 @@ const ref = await dataset.save()
 
 [WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [dataset.ts:51](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L51)
 
@@ -120,15 +122,11 @@ const ref = await dataset.save()
 
 • `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-<div id="inherited-from">
-  #### 다음으로부터 상속됨
-</div>
+#### 상속
 
 [WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
 
@@ -149,16 +147,20 @@ ___
 ## 접근자
 
 <div id="description">
-  ### description
+  ### 설명
 </div>
 
 • `get` **description**(): `undefined` \| `string`
 
-#### 반환값
+<div id="returns">
+  #### 반환 값
+</div>
 
 `undefined` \| `string`
 
-#### 다음에서 상속됨
+<div id="inherited-from">
+  #### 다음으로부터 상속됨
+</div>
 
 WeaveObject.description
 
@@ -176,7 +178,7 @@ ___
 
 • `get` **length**(): `number`
 
-#### 반환
+#### 반환값
 
 `number`
 
@@ -194,17 +196,17 @@ ___
 
 • `get` **name**(): `string`
 
-<div id="returns">
-  #### 반환 값
-</div>
+#### 반환
 
 `string`
 
 #### 상속
 
-WeaveObject.name에서 상속됨
+WeaveObject.name
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
 
@@ -238,7 +240,7 @@ ___
   #### 매개변수
 </div>
 
-| 이름 | 유형 |
+| 이름 | 타입 |
 | :------ | :------ |
 | `index` | `number` |
 
@@ -260,13 +262,11 @@ ___
 
 ▸ **save**(): `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### 반환값
+#### 반환
 
 `Promise`\<[`ObjectRef`](./objectref)\>
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [dataset.ts:60](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L60)
 
@@ -278,15 +278,11 @@ ___
 
 ▸ **saveAttrs**(): `Object`
 
-<div id="returns">
-  #### 반환 값
-</div>
+#### 반환값
 
 `Object`
 
-<div id="inherited-from">
-  #### 다음으로부터 상속됨
-</div>
+#### 상속됨
 
 [WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
 

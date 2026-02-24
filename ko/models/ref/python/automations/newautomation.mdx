@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `NewAutomation`
 
-새로 생성할 자동화입니다.
+새로 생성되는 자동화입니다.
 
-### <kbd>메서드</kbd> `NewAutomation.__init__`
+### <kbd>method</kbd> `NewAutomation.__init__`
 
 ```python
 __init__(
@@ -27,14 +27,14 @@ __init__(
 
 **인자:**
 
-* `name` (Optional[str]): 이 자동화의 이름입니다.
-* `description` (Optional[str]): 이 자동화에 대한 선택적 설명입니다.
-* `enabled` (Optional[bool]): 이 자동화가 활성화되어 있는지 여부입니다. 활성화된 자동화만 트리거됩니다.
-* `event` (Optional[Annotated]): 이 자동화를 트리거하는 이벤트입니다.
-* `action` (Optional[Annotated]): 이 자동화가 트리거되었을 때 실행될 동작입니다.
+* `name` (Optional[str]): 이 automation의 이름.
+* `description` (Optional[str]): 이 automation에 대한 선택적 설명.
+* `enabled` (Optional[bool]): 이 automation이 활성화되어 있는지 여부. 활성화된 automation만 트리거된다.
+* `event` (Optional[Annotated]): 이 automation을 트리거하는 이벤트.
+* `action` (Optional[Annotated]): 이 automation이 트리거될 때 실행될 동작.
 
 **반환값:**
-`NewAutomation` 객체를 반환합니다.
+`NewAutomation` 객체.
 
 
 ### <kbd>property</kbd> `NewAutomation.scope`
@@ -43,4 +43,4 @@ __init__(
 
 **반환값:**
 
-- `Optional[AutomationScope]`: scope 프로퍼티의 값입니다.
+- `Optional[AutomationScope]`: scope 속성의 값입니다.

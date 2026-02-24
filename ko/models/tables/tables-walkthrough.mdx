@@ -1,41 +1,41 @@
 ---
-description: 5분 만에 완료하는 Quickstart로 W&B Tables 사용 방법을 살펴보세요.
+description: 5분 퀵스타트로 W&B Tables 사용 방법을 알아보세요.
 title: '튜토리얼: 테이블 로깅, 데이터 시각화 및 쿼리'
 ---
 
-다음 Quickstart에서는 데이터 테이블을 로깅하고, 시각화하고, 쿼리하는 방법을 보여줍니다.
+다음 퀵스타트에서는 데이터 테이블을 로깅하고, 데이터를 시각화하고, 데이터를 쿼리하는 방법을 보여줍니다.
 
-아래 버튼을 클릭해 MNIST 데이터로 PyTorch Quickstart 예제 프로젝트를 실행해 보세요.
+아래 버튼을 눌러 MNIST 데이터로 PyTorch 퀵스타트 예제 프로젝트를 실행해 보세요.
 
 <div id="1-log-a-table">
-  ## 1. 테이블 기록하기
+  ## 1. 테이블 로깅하기
 </div>
 
-W&amp;B에 테이블을 기록할 수 있습니다. 새 테이블을 직접 생성하거나 Pandas DataFrame을 전달할 수 있습니다.
+W&amp;B로 테이블을 로깅할 수 있습니다. 새 테이블을 구성하거나 Pandas DataFrame을 전달할 수 있습니다.
 
 <Tabs>
-  <Tab title="테이블 생성하기">
-    새 Table을 생성하고 기록하려면 다음을 사용합니다:
+  <Tab title="테이블 구성하기">
+    새로운 Table을 구성하고 로깅하려면 다음을 사용하세요:
 
-    * [`wandb.init()`](/ko/models/ref/python/functions/init): 결과를 추적할 [실행](/ko/models/runs/)을 생성합니다.
+    * [`wandb.init()`](/ko/models/ref/python/functions/init): 결과를 추적할 [run](/ko/models/runs/)을 생성합니다.
     * [`wandb.Table()`](/ko/models/ref/python/data-types/table): 새 테이블 객체를 생성합니다.
       * `columns`: 열 이름을 설정합니다.
       * `data`: 각 행의 내용을 설정합니다.
-    * [`wandb.Run.log()`](/ko/models/ref/python/experiments/run.md/#method-runlog): 테이블을 기록하여 W&amp;B에 저장합니다.
+    * [`wandb.Run.log()`](/ko/models/ref/python/experiments/run.md/#method-runlog): 테이블을 로깅하여 W&amp;B에 저장합니다.
 
-    예시는 다음과 같습니다.
+    예시는 다음과 같습니다:
 
     ```python
     import wandb
 
     with wandb.init(project="table-test") as run:
-        # 새 테이블을 생성하고 기록합니다.
+        # 새 테이블을 생성하고 로깅합니다.
         my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
         run.log({"Table Name": my_table})
     ```
   </Tab>
 
-  <Tab title="Pandas Dataframe">
+  <Tab title="Pandas DataFrame">
     Pandas DataFrame을 `wandb.Table()`에 전달하여 새 테이블을 생성합니다.
 
     ```python
@@ -46,12 +46,12 @@ W&amp;B에 테이블을 기록할 수 있습니다. 새 테이블을 직접 생�
 
     with wandb.init(project="df-table") as run:
         # DataFrame으로부터 새 테이블을 생성하고
-        # 이를 W&B에 기록합니다.
+        # 이를 W&B에 로깅합니다.
       my_table = wandb.Table(dataframe=df)
       run.log({"Table Name": my_table})
     ```
 
-    지원되는 데이터 유형에 대한 자세한 내용은 W&amp;B API Reference Guide의 [`wandb.Table`](/ko/models/ref/python/data-types/table)를 참조하세요.
+    지원되는 데이터 타입에 대한 자세한 내용은 W&amp;B API 레퍼런스 가이드의 [`wandb.Table`](/ko/models/ref/python/data-types/table)를 참조하세요.
   </Tab>
 </Tabs>
 
@@ -59,28 +59,28 @@ W&amp;B에 테이블을 기록할 수 있습니다. 새 테이블을 직접 생�
   ## 2. 프로젝트 워크스페이스에서 테이블 시각화하기
 </div>
 
-워크스페이스에서 결과 테이블을 확인합니다.
+워크스페이스에서 생성된 테이블을 확인합니다.
 
 1. W&amp;B App에서 자신의 프로젝트로 이동합니다.
-2. 프로젝트 워크스페이스에서 실행 이름을 선택합니다. 고유한 각 테이블 키마다 새 패널이 추가됩니다.
+2. 프로젝트 워크스페이스에서 run 이름을 선택합니다. 각 고유한 테이블 키마다 새 패널이 추가됩니다.
 
 <Frame>
-  <img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="로그된 샘플 테이블 예시" />
+  <img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="로그된 샘플 테이블" />
 </Frame>
 
-이 예시에서 `my_table`은 `"Table Name"` 키로 로깅됩니다.
+이 예시에서 `my_table`은 `"Table Name"` 키로 기록됩니다.
 
 <div id="3-compare-across-model-versions">
-  ## 3. 여러 모델 버전 간 비교
+  ## 3. 여러 모델 버전 간 비교하기
 </div>
 
-여러 W&amp;B 실행에서 샘플 테이블을 로깅하고, 프로젝트 워크스페이스에서 결과를 비교하세요. 이 [예시 워크스페이스](https://wandb.ai/carey/table-test?workspace=user-carey)에서는 서로 다른 여러 버전에서 나온 행들을 하나의 테이블로 결합하는 방법을 보여줍니다.
+여러 W&amp;B Runs에서 샘플 테이블을 로깅한 다음 프로젝트 Workspace에서 결과를 비교합니다. 이 [예시 Workspace](https://wandb.ai/carey/table-test?workspace=user-carey)에서는 서로 다른 여러 버전에서 생성된 행을 하나의 테이블로 결합하는 방법을 보여줍니다.
 
 <Frame>
-  <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="실행 간 테이블 비교" />
+  <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="run 간 테이블 비교" />
 </Frame>
 
-테이블 필터, 정렬, 그룹화 기능을 사용해 모델 결과를 탐색하고 평가하세요.
+테이블의 필터, 정렬, 그룹화 기능을 사용해 모델 결과를 탐색하고 평가합니다.
 
 <Frame>
   <img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="테이블 필터링" />

@@ -5,19 +5,18 @@ title: PyTorch Lightning
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-streamlined.mdx";
 
-{/* Colab 링크가 깨져 있어, 당분간 제거합니다. */}
+{/* Colab 링크가 깨져 있어 일시적으로 제거합니다 */}
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_PyTorch_Lightning_models_with_Weights_%26_Biases.ipynb" /> */}
 
-PyTorch Lightning은 PyTorch 코드를 체계적으로 구성하고, 분산 학습이나 16비트 정밀도와 같은 고급 기능을 손쉽게 추가할 수 있도록 하는 경량 래퍼를 제공합니다. W&amp;B는 ML 실험을 로깅하기 위한 경량 래퍼를 제공합니다. 하지만 이 둘을 직접 통합할 필요는 없습니다. W&amp;B는 [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)를 통해 PyTorch Lightning 라이브러리에 직접 통합되어 있습니다.
-
+PyTorch Lightning은 PyTorch 코드를 구성하고 분산 트레이닝, 16비트 정밀도와 같은 고급 기능을 쉽게 추가할 수 있도록 하는 가벼운 래퍼를 제공합니다. W&amp;B는 ML 실험을 기록하기 위한 가벼운 래퍼를 제공합니다. 하지만 두 가지를 직접 결합할 필요는 없습니다. W&amp;B는 [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)를 통해 PyTorch Lightning 라이브러리에 이미 통합되어 있습니다.
 
 <div id="integrate-with-lightning">
-  ## Lightning과 통합하기
+  ## Lightning과 연동하기
 </div>
 
 <Tabs>
-  <Tab title="PyTorch 로거">
+  <Tab title="PyTorch Logger">
     ```python
     from lightning.pytorch.loggers import WandbLogger
     from lightning.pytorch import Trainer
@@ -27,9 +26,9 @@ PyTorch Lightning은 PyTorch 코드를 체계적으로 구성하고, 분산 학�
     ```
 
     <Note>
-      **wandb.log() 사용:** `WandbLogger`는 Trainer의 `global_step`을 사용해 W&amp;B에 로그합니다. 코드에서 `wandb.log`를 직접 추가로 호출하는 경우, `wandb.log()`에서 `step` 인자를 **사용하지 마세요**.
+      **`wandb.log()` 사용 시:** `WandbLogger`는 Trainer의 `global_step`을 사용해 W&amp;B에 로그를 기록합니다. 코드에서 `wandb.log`를 직접 추가로 호출하는 경우, `wandb.log()`에서 `step` 인자를 **사용하지 마세요**.
 
-      대신, 다른 지표와 마찬가지로 Trainer의 `global_step`을 다음과 같이 로그하세요:
+      대신, 다른 메트릭과 마찬가지로 Trainer의 `global_step` 값을 로그로 기록하세요:
 
       ```python
       wandb.log({"accuracy":0.99, "trainer/global_step": step})
@@ -37,7 +36,7 @@ PyTorch Lightning은 PyTorch 코드를 체계적으로 구성하고, 분산 학�
     </Note>
   </Tab>
 
-  <Tab title="Fabric 로거">
+  <Tab title="Fabric Logger">
     ```python
     import lightning as L
     from wandb.integration.lightning.fabric import WandbLogger
@@ -55,25 +54,25 @@ PyTorch Lightning은 PyTorch 코드를 체계적으로 구성하고, 분산 학�
 </Frame>
 
 <div id="sign-up-and-create-an-api-key">
-  ### 가입 및 API 키 생성
+  ### 가입 및 API 키 생성하기
 </div>
 
-API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. API 키는 사용자 프로필에서 생성할 수 있습니다.
+API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
 
 <ApiKeyCreateStreamlined />
 
 1. 오른쪽 상단에서 사용자 프로필 아이콘을 클릭합니다.
-2. **User Settings**를 선택한 다음, 아래로 스크롤하여 **API Keys** 섹션까지 이동합니다.
+2. **User Settings**를 선택한 다음 **API Keys** 섹션까지 스크롤합니다.
 
 <div id="install-the-wandb-library-and-log-in">
-  ### `wandb` 라이브러리를 설치하고 로그인하기
+  ### `wandb` 라이브러리 설치 및 로그인
 </div>
 
-로컬 환경에 `wandb` 라이브러리를 설치하고 로그인하려면:
+로컬에 `wandb` 라이브러리를 설치하고 로그인하려면 다음을 수행하세요.
 
 <Tabs>
   <Tab title="명령줄">
-    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 본인의 API 키 값으로 설정합니다.
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 API 키 값으로 설정합니다.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -99,7 +98,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
     ```
   </Tab>
 
-  <Tab title="Python notebook">
+  <Tab title="Python 노트북">
     ```notebook
     !pip install wandb
 
@@ -113,21 +112,21 @@ API 키는 사용 중인 머신을 W&amp;B에 인증하는 데 사용됩니다. 
   ## PyTorch Lightning의 `WandbLogger` 사용
 </div>
 
-PyTorch Lightning에는 메트릭, 모델 가중치, 미디어 등 다양한 정보를 로깅하기 위한 여러 `WandbLogger` 클래스가 있습니다.
+PyTorch Lightning은 메트릭과 모델 가중치, 미디어 등을 로깅하기 위한 여러 종류의 `WandbLogger` 클래스를 제공합니다.
 
 * [`PyTorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 * [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 
-Lightning과 통합하려면 `WandbLogger`를 생성한 다음 Lightning의 `Trainer` 또는 `Fabric`에 전달합니다.
+Lightning과 통합하려면 `WandbLogger`를 인스턴스화하고 이를 Lightning의 `Trainer` 또는 `Fabric`에 전달하세요.
 
 <Tabs>
-  <Tab title="PyTorch 로거">
+  <Tab title="PyTorch Logger">
     ```python
     trainer = Trainer(logger=wandb_logger)
     ```
   </Tab>
 
-  <Tab title="Fabric 로거">
+  <Tab title="Fabric Logger">
     ```python
     fabric = L.Fabric(loggers=[wandb_logger])
     fabric.launch()
@@ -139,23 +138,23 @@ Lightning과 통합하려면 `WandbLogger`를 생성한 다음 Lightning의 `Tra
 </Tabs>
 
 <div id="common-logger-arguments">
-  ### 일반적인 logger 인자
+  ### 공통 로거 인자
 </div>
 
-아래는 `WandbLogger`에서 가장 많이 사용하는 매개변수들입니다. 모든 logger 인자에 대한 자세한 내용은 PyTorch Lightning 문서를 참고하세요.
+아래는 `WandbLogger`에서 가장 많이 사용되는 파라미터입니다. 모든 로거 인자에 대한 자세한 내용은 PyTorch Lightning 문서를 참고하세요.
 
 * [`PyTorch`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 * [`Fabric`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb)
 
-| Parameter   | Description                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------------- |
-| `project`   | 로그를 남길 wandb 프로젝트를 정의합니다                                                     |
-| `name`      | wandb 실행에 이름을 지정합니다                                                              |
-| `log_model` | `log_model="all"`이면 모든 모델을, `log_model=True`이면 학습이 끝날 때 모델을 기록합니다   |
-| `save_dir`  | 데이터가 저장되는 경로입니다                                                                |
+| Parameter   | Description                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------------ |
+| `project`   | 로그를 남길 wandb Project를 정의합니다                                                           |
+| `name`      | wandb run에 사용할 이름을 지정합니다                                                             |
+| `log_model` | `log_model="all"`이면 모든 모델을 로그하고, `log_model=True`이면 트레이닝 종료 시 모델을 로그합니다 |
+| `save_dir`  | 데이터가 저장될 경로를 지정합니다                                                                |
 
 <div id="log-your-hyperparameters">
-  ## 하이퍼파라미터 기록하기
+  ## 하이퍼파라미터 로깅
 </div>
 
 <Tabs>
@@ -180,7 +179,7 @@ Lightning과 통합하려면 `WandbLogger`를 생성한 다음 Lightning의 `Tra
 </Tabs>
 
 <div id="log-additional-config-parameters">
-  ## 추가 설정 매개변수 로깅
+  ## 추가 설정 파라미터 기록
 </div>
 
 ```python
@@ -196,20 +195,20 @@ wandb.config.update()
 ```
 
 <div id="log-gradients-parameter-histogram-and-model-topology">
-  ## 그래디언트, 파라미터 히스토그램 및 모델 토폴로지 기록하기
+  ## 그래디언트, 파라미터 히스토그램 및 모델 토폴로지 로깅
 </div>
 
-학습 중에 모델의 그래디언트와 파라미터를 모니터링하려면 모델 객체를 `wandblogger.watch()`에 전달하세요. 자세한 내용은 PyTorch Lightning의 `WandbLogger` 문서를 참조하세요.
+학습하는 동안 모델의 그래디언트와 파라미터를 모니터링하려면 `wandblogger.watch()`에 모델 객체를 전달하세요. 자세한 내용은 PyTorch Lightning `WandbLogger` 문서를 참조하세요.
 
 <div id="log-metrics">
-  ## 메트릭 기록하기
+  ## 메트릭 로깅
 </div>
 
 <Tabs>
   <Tab title="PyTorch 로거">
-    `LightningModule`의 `training_step`이나 `validation_step` 메서드 안에서 `self.log('my_metric_name', metric_vale)`를 호출하면, `WandbLogger`를 사용할 때 메트릭을 W&amp;B에 기록할 수 있습니다.
+    `WandbLogger`를 사용할 때는 `LightningModule`의 `training_step`이나 `validation_step` 메서드 안에서 `self.log('my_metric_name', metric_vale)`를 호출하여 메트릭을 W&amp;B에 로깅할 수 있습니다.
 
-    아래 코드 스니펫은 메트릭과 `LightningModule` 하이퍼파라미터를 기록하도록 `LightningModule`을 정의하는 방법을 보여 줍니다. 이 예제에서는 메트릭을 계산하기 위해 [`torchmetrics`](https://github.com/PyTorchLightning/metrics) 라이브러리를 사용합니다.
+    아래 코드 스니펫은 메트릭과 `LightningModule` 하이퍼파라미터를 로깅하도록 `LightningModule`을 정의하는 방법을 보여줍니다. 이 예제는 메트릭을 계산하기 위해 [`torchmetrics`](https://github.com/PyTorchLightning/metrics) 라이브러리를 사용합니다.
 
     ```python
     import torch
@@ -221,10 +220,10 @@ wandb.config.update()
 
     class My_LitModule(LightningModule):
         def __init__(self, n_classes=10, n_layer_1=128, n_layer_2=256, lr=1e-3):
-            """모델 파라미터를 정의하는 메서드"""
+            """method used to define the model parameters"""
             super().__init__()
 
-            # mnist 이미지는 (1, 28, 28) (채널, 가로, 세로)입니다.
+            # MNIST 이미지는 (1, 28, 28) (채널, 너비, 높이)입니다
             self.layer_1 = Linear(28 * 28, n_layer_1)
             self.layer_2 = Linear(n_layer_1, n_layer_2)
             self.layer_3 = Linear(n_layer_2, n_classes)
@@ -232,46 +231,46 @@ wandb.config.update()
             self.loss = CrossEntropyLoss()
             self.lr = lr
 
-            # 하이퍼파라미터를 self.hparams에 저장합니다 (W&B에서 자동으로 기록됨)
+            # 하이퍼파라미터를 self.hparams에 저장합니다 (W&B가 자동으로 로깅)
             self.save_hyperparameters()
 
         def forward(self, x):
-            """추론 입력 -> 출력에 사용되는 메서드"""
+            """method used for inference input -> output"""
 
             # (b, 1, 28, 28) -> (b, 1*28*28)
             batch_size, channels, width, height = x.size()
             x = x.view(batch_size, -1)
 
-            # (linear + relu)를 3번 수행합니다.
+            # (linear + relu)를 3번 수행합니다
             x = F.relu(self.layer_1(x))
             x = F.relu(self.layer_2(x))
             x = self.layer_3(x)
             return x
 
         def training_step(self, batch, batch_idx):
-            """단일 배치에서 loss를 반환해야 합니다."""
+            """needs to return a loss from a single batch"""
             _, loss, acc = self._get_preds_loss_accuracy(batch)
 
-            # loss와 메트릭을 기록합니다.
+            # 손실과 메트릭 로깅
             self.log("train_loss", loss)
             self.log("train_accuracy", acc)
             return loss
 
         def validation_step(self, batch, batch_idx):
-            """메트릭 기록에 사용됩니다."""
+            """used for logging metrics"""
             preds, loss, acc = self._get_preds_loss_accuracy(batch)
 
-            # loss와 메트릭을 기록합니다.
+            # 손실과 메트릭 로깅
             self.log("val_loss", loss)
             self.log("val_accuracy", acc)
             return preds
 
         def configure_optimizers(self):
-            """모델 옵티마이저를 정의합니다."""
+            """defines model optimizer"""
             return Adam(self.parameters(), lr=self.lr)
 
         def _get_preds_loss_accuracy(self, batch):
-            """train/valid/test 스텝이 유사하므로 편의를 위한 함수입니다."""
+            """convenience function since train/valid/test steps are similar"""
             x, y = batch
             logits = self(x)
             preds = torch.argmax(logits, dim=1)
@@ -313,15 +312,15 @@ wandb.config.update()
 </Tabs>
 
 <div id="log-the-minmax-of-a-metric">
-  ## 메트릭의 최소/최대값 로깅하기
+  ## 메트릭의 최소/최대값 로그하기
 </div>
 
-wandb의 [`define_metric`](/ko/models/ref/python/experiments/run#define_metric) 함수를 사용하면 W&amp;B summary 메트릭에 해당 메트릭의 최소값, 최대값, 평균값 또는 최고(best) 값 중 무엇을 표시할지 정의할 수 있습니다. `define_metric`을 사용하지 않으면 마지막으로 로깅된 값이 summary 메트릭에 표시됩니다. 자세한 내용은 `define_metric` [레퍼런스 문서](/ko/models/ref/python/experiments/run#define_metric)와 [가이드](/ko/models/track/log/customize-logging-axes/)를 참조하세요.
+wandb의 [`define_metric`](/ko/models/ref/python/experiments/run#define_metric) 함수를 사용하면 W&amp;B summary 메트릭에 대해 해당 메트릭의 최소값, 최대값, 평균값 또는 베스트값 중 무엇을 표시할지 정의할 수 있습니다. `define`&#95;`metric` &#95; 를 사용하지 않으면 마지막으로 로깅된 값이 summary 메트릭에 표시됩니다. 자세한 내용은 `define_metric` [레퍼런스 문서](/ko/models/ref/python/experiments/run#define_metric)와 [가이드](/ko/models/track/log/customize-logging-axes/)를 참고하세요.
 
-W&amp;B summary 메트릭에서 최대 검증 정확도를 추적하도록 하려면 학습 시작 시점에 한 번만 `wandb.define_metric`을 호출하세요:
+W&amp;B summary 메트릭에서 최대 검증 정확도를 추적하려면, 트레이닝 시작 시 한 번만 `wandb.define_metric` 을 호출하세요:
 
 <Tabs>
-  <Tab title="PyTorch 로거">
+  <Tab title="PyTorch Logger">
     ```python
     class My_LitModule(LightningModule):
         ...
@@ -339,7 +338,7 @@ W&amp;B summary 메트릭에서 최대 검증 정확도를 추적하도록 하�
     ```
   </Tab>
 
-  <Tab title="Fabric 로거">
+  <Tab title="Fabric Logger">
     ```python
     wandb.define_metric("val_accuracy", summary="max")
     fabric = L.Fabric(loggers=[wandb_logger])
@@ -350,45 +349,44 @@ W&amp;B summary 메트릭에서 최대 검증 정확도를 추적하도록 하�
 </Tabs>
 
 <div id="checkpoint-a-model">
-  ## 모델 체크포인트 생성하기
+  ## 모델 체크포인트 저장하기
 </div>
 
-모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)로 저장하려면,
-Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) 콜백을 사용하고 `WandbLogger`에서 `log_model` 인수를 설정하세요.
+모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)로 저장하려면 Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) 콜백을 사용하고, `WandbLogger`의 `log_model` 매개변수를 설정하세요.
 
 <Tabs>
-  <Tab title="PyTorch 로거">
+  <Tab title="PyTorch Logger">
     ```python
     trainer = Trainer(logger=wandb_logger, callbacks=[checkpoint_callback])
     ```
   </Tab>
 
-  <Tab title="Fabric 로거">
+  <Tab title="Fabric Logger">
     ```python
     fabric = L.Fabric(loggers=[wandb_logger], callbacks=[checkpoint_callback])
     ```
   </Tab>
 </Tabs>
 
-*latest* 및 *best* 별칭은 W&amp;B [Artifact](/ko/models/artifacts/)에서 모델 체크포인트를 쉽게 가져올 수 있도록 자동으로 설정됩니다:
+*latest* 및 *best* 별칭은 W&amp;B [Artifact](/ko/models/artifacts/)에서 모델 체크포인트를 쉽게 가져올 수 있도록 자동으로 설정됩니다.
 
 ```python
-# 아티팩트 패널에서 참조를 가져올 수 있습니다
+# artifacts 패널에서 참조를 가져올 수 있습니다
 # "VERSION"은 버전(예: "v2") 또는 별칭("latest" 또는 "best")일 수 있습니다
 checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 ```
 
 <Tabs>
-  <Tab title="Logger를 통해">
+  <Tab title="Logger 사용">
     ```python
-    # 체크포인트를 로컬로 다운로드합니다 (이미 캐시되어 있지 않은 경우)
+    # 체크포인트를 로컬로 다운로드합니다 (아직 캐시되지 않은 경우)
     wandb_logger.download_artifact(checkpoint_reference, artifact_type="model")
     ```
   </Tab>
 
-  <Tab title="wandb를 통해">
+  <Tab title="wandb 사용">
     ```python
-    # 체크포인트를 로컬로 다운로드합니다 (이미 캐시되어 있지 않은 경우)
+    # 체크포인트를 로컬로 다운로드합니다 (아직 캐시되지 않은 경우)
     run = wandb.init(project="MNIST")
     artifact = run.use_artifact(checkpoint_reference, type="model")
     artifact_dir = artifact.download()
@@ -397,16 +395,16 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 </Tabs>
 
 <Tabs>
-  <Tab title="PyTorch 로거">
+  <Tab title="PyTorch Logger">
     ```python
     # 체크포인트를 로드합니다
     model = LitModule.load_from_checkpoint(Path(artifact_dir) / "model.ckpt")
     ```
   </Tab>
 
-  <Tab title="Fabric 로거">
+  <Tab title="Fabric Logger">
     ```python
-    # 원본 체크포인트를 가져옵니다
+    # 원본 체크포인트를 로드합니다
     full_checkpoint = fabric.load(Path(artifact_dir) / "model.ckpt")
 
     model.load_state_dict(full_checkpoint["model"])
@@ -415,24 +413,24 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
   </Tab>
 </Tabs>
 
-로그한 모델 체크포인트는 [W&amp;B Artifacts](/ko/models/artifacts/) UI에서 확인할 수 있으며, 전체 모델 계보(lineage) 정보를 포함합니다 (UI에서의 예시 모델 체크포인트는 [여기](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)를 참고하세요).
+기록한 모델 체크포인트는 [W&amp;B Artifacts](/ko/models/artifacts/) UI에서 확인할 수 있으며, 전체 모델 계보(lineage) 정보를 포함합니다(UI에서 모델 체크포인트 예시는 [여기](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)에서 볼 수 있습니다).
 
-최고의 모델 체크포인트를 북마크하고 팀 전체에서 일원화하여 관리하려면, 이를 [W&amp;B Model Registry](/ko/models)에 연결할 수 있습니다.
+팀 전체에서 최고의 모델 체크포인트를 북마크하고 중앙에서 관리하려면, 이를 [W&amp;B Model Registry](/ko/models)에 연결할 수 있습니다.
 
-여기에서 태스크별로 최고의 모델을 구성하고, 모델 라이프사이클을 관리하며, ML 라이프사이클 전반에 걸친 손쉬운 추적 및 감사를 지원하고, 웹훅 또는 잡(job)을 사용해 후속 작업을 [자동화](/ko/models/automations/)할 수 있습니다.
+여기에서 작업별로 최고의 모델을 구성하고, 모델 라이프사이클을 관리하며, ML 라이프사이클 전반에 걸쳐 손쉬운 추적과 감사를 수행하고, 웹훅이나 잡(jobs)으로 후속 작업을 [자동화](/ko/models/automations/)할 수 있습니다.
 
 <div id="log-images-text-and-more">
-  ## 이미지, 텍스트 등 로깅하기
+  ## 이미지, 텍스트 등 다양한 미디어 로깅하기
 </div>
 
 `WandbLogger`에는 미디어를 로깅하기 위한 `log_image`, `log_text`, `log_table` 메서드가 있습니다.
 
-또한 `wandb.log` 또는 `trainer.logger.experiment.log`를 직접 호출해서 Audio, Molecules, Point Clouds, 3D Objects 등 다른 미디어 타입도 로깅할 수 있습니다.
+또한 `wandb.log` 또는 `trainer.logger.experiment.log`를 직접 호출해 오디오, 분자(Molecules), 포인트 클라우드(Point Clouds), 3D 오브젝트(3D Objects) 등의 다른 미디어 타입도 로깅할 수 있습니다.
 
 <Tabs>
   <Tab title="이미지 로깅">
     ```python
-    # 텐서, numpy 배열 또는 PIL 이미지를 사용
+    # tensors, numpy 배열 또는 PIL 이미지를 사용
     wandb_logger.log_image(key="samples", images=[img1, img2])
 
     # 캡션 추가
@@ -480,7 +478,7 @@ checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
   </Tab>
 </Tabs>
 
-Lightning의 Callbacks 시스템을 사용해서 `WandbLogger`를 통해 W&amp;B에 언제 로깅할지 제어할 수 있습니다. 이 예시에서는 검증 이미지와 예측값의 샘플을 로깅합니다.
+Lightning의 Callbacks 시스템을 사용해 `WandbLogger`를 통해 W&amp;B에 언제 로깅할지 제어할 수 있으며, 이 예시에서는 검증 이미지와 예측 결과 샘플을 로깅합니다:
 
 ```python
 import torch
@@ -498,8 +496,8 @@ class LogPredictionSamplesCallback(Callback):
     ):
         """검증 배치가 끝날 때 호출됩니다."""
 
-        # `outputs`는 `LightningModule.validation_step`에서 반환됩니다.
-        # 이 경우 모델의 예측값에 해당합니다.
+        # `outputs`는 `LightningModule.validation_step`에서 옵니다.
+        # 이 경우 모델 예측값에 해당합니다.
 
         # 첫 번째 배치에서 샘플 이미지 예측값 20개를 로깅합니다.
         if batch_idx == 0:
@@ -528,14 +526,14 @@ trainer = pl.Trainer(callbacks=[LogPredictionSamplesCallback()])
 ```
 
 <div id="use-multiple-gpus-with-lightning-and-wb">
-  ## Lightning과 W&amp;B로 여러 GPU 사용하기
+  ## Lightning과 W&amp;B로 여러 개의 GPU 사용하기
 </div>
 
-PyTorch Lightning은 DDP 인터페이스를 통해 멀티 GPU를 지원합니다. 다만 PyTorch Lightning의 설계 특성상 GPU를 어떻게 초기화하는지에 특히 주의해야 합니다.
+PyTorch Lightning은 DDP 인터페이스를 통해 멀티 GPU를 지원합니다. 하지만 PyTorch Lightning의 설계 때문에 GPU를 어떻게 생성/초기화하는지에 주의해야 합니다.
 
-Lightning은 학습 루프에서 각 GPU(또는 rank)가 정확히 동일한 방식, 즉 동일한 초기 조건으로 초기화된다고 가정합니다. 그러나 rank 0 프로세스만 `wandb.run` 객체에 접근할 수 있고, 0이 아닌 rank 프로세스에서는 `wandb.run = None`입니다. 이로 인해 0이 아닌 rank 프로세스가 실패할 수 있습니다. 이런 상황에서는 rank 0 프로세스가 이미 크래시된 0이 아닌 rank 프로세스가 조인하기를 계속 기다리기 때문에 **데드락(교착 상태)** 에 빠질 수 있습니다.
+Lightning은 트레이닝 루프에서 각 GPU(또는 rank)가 정확히 동일한 방식, 즉 동일한 초기 조건으로 인스턴스화된다고 가정합니다. 그러나 rank 0 프로세스만 `wandb.run` 객체에 접근할 수 있고, 0이 아닌 rank 프로세스에서는 `wandb.run = None`입니다. 이로 인해 0이 아닌 rank 프로세스가 실패할 수 있습니다. 이런 상황에서는 rank 0 프로세스가 이미 크래시된 0이 아닌 rank 프로세스가 조인하기를 기다리게 되므로, **교착 상태(데드락)**에 빠질 수 있습니다.
 
-이러한 이유로 학습 코드를 구성하는 방식에 주의해야 합니다. 권장되는 설정 방식은 코드가 `wandb.run` 객체에 의존하지 않도록 작성하는 것입니다.
+이러한 이유로 트레이닝 코드를 구성하는 방식에 주의해야 합니다. 권장되는 방식은 코드가 `wandb.run` 객체에 의존하지 않도록 작성하는 것입니다.
 
 ```python
 class MNISTClassifier(pl.LightningModule):
@@ -576,10 +574,10 @@ class MNISTClassifier(pl.LightningModule):
 
 def main():
     # 모든 랜덤 시드를 동일한 값으로 설정합니다.
-    # 분산 학습 환경에서 중요한 설정입니다.
-    # 각 랭크는 자체적인 초기 가중치 세트를 갖게 됩니다.
-    # 값이 일치하지 않으면 그래디언트도 일치하지 않아,
-    # 학습이 수렴하지 않을 수 있습니다.
+    # 이는 분산 트레이닝 환경에서 중요합니다.
+    # 각 rank는 고유한 초기 가중치 세트를 갖게 됩니다.
+    # 이 값들이 일치하지 않으면 그래디언트도 일치하지 않아,
+    # 트레이닝이 수렴하지 않을 수 있습니다.
     pl.seed_everything(1)
 
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
@@ -600,36 +598,36 @@ def main():
 ```
 
 <div id="examples">
-  ## 예제
+  ## 예시
 </div>
 
-[Colab 노트북이 포함된 동영상 튜토리얼](https://wandb.me/lit-colab)을 보면서 따라 할 수 있습니다.
+[Colab 노트북이 포함된 동영상 튜토리얼](https://wandb.me/lit-colab)을 보면서 함께 따라할 수 있습니다.
 
 <div id="frequently-asked-questions">
   ## 자주 묻는 질문
 </div>
 
 <div id="how-does-wb-integrate-with-lightning">
-  ### W&amp;B는 Lightning과 어떻게 통합되나요?
+  ### W&amp;B는 Lightning과 어떻게 인테그레이션되나요?
 </div>
 
-핵심 통합 방식은 [Lightning `loggers` API](https://pytorch-lightning.readthedocs.io/en/stable/extensions/logging.html)를 기반으로 하며, 이를 통해 로깅 코드를 대부분 프레임워크에 구애받지 않는 방식으로 작성할 수 있습니다. `Logger`는 [Lightning `Trainer`](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html)에 전달되고, 해당 API의 풍부한 [hook 및 callback 시스템](https://pytorch-lightning.readthedocs.io/en/stable/extensions/callbacks.html)에 따라 호출됩니다. 이를 통해 연구 코드를 엔지니어링 및 로깅 코드와 잘 분리된 상태로 유지할 수 있습니다.
+핵심 인테그레이션은 [Lightning `loggers` API](https://pytorch-lightning.readthedocs.io/en/stable/extensions/logging.html)를 기반으로 하며, 이를 통해 로그를 남기는 코드를 특정 프레임워크에 의존하지 않는 방식으로 대부분 작성할 수 있습니다. `Logger`는 [Lightning `Trainer`](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html)에 전달되며, 해당 API의 풍부한 [hook-and-callback 시스템](https://pytorch-lightning.readthedocs.io/en/stable/extensions/callbacks.html)에 따라 호출됩니다. 이를 통해 연구 코드를 엔지니어링 및 로깅 코드와 깔끔하게 분리할 수 있습니다.
 
 <div id="what-does-the-integration-log-without-any-additional-code">
-  ### 추가 코드를 전혀 작성하지 않아도 통합 기능이 기록하는 내용은 무엇인가요?
+  ### 추가 코드를 작성하지 않아도 이 인테그레이션은 무엇을 기록하나요?
 </div>
 
-모델 체크포인트를 W&amp;B에 저장하며, 여기에서 확인하거나 향후 실행에서 사용하기 위해 다운로드할 수 있습니다. 또한 GPU 사용량과 네트워크 I/O 같은 [시스템 메트릭](/ko/models/ref/python/experiments/system-metrics), 하드웨어 및 OS 정보와 같은 환경 정보, git 커밋과 diff 패치, 노트북 내용 및 세션 기록을 포함한 [코드 상태](/ko/models/app/features/panels/code/), 그리고 표준 출력(stdout)에 출력되는 모든 내용을 수집합니다.
+W&amp;B에 모델 체크포인트를 저장하므로, 이후에 이를 확인하거나 다운로드해서 향후 run에서 사용할 수 있습니다. 또한 GPU 사용량과 네트워크 I/O 같은 [시스템 메트릭](/ko/models/ref/python/experiments/system-metrics), 하드웨어 및 OS 정보와 같은 환경 정보, git 커밋과 diff 패치, 노트북 내용 및 세션 기록을 포함한 [코드 상태](/ko/models/app/features/panels/code/), 그리고 표준 출력으로 나가는 모든 내용을 수집합니다.
 
 <div id="what-if-i-need-to-use-wandbrun-in-my-training-setup">
-  ### 내 학습 설정에서 `wandb.run`을 사용해야 하면 어떻게 하나요?
+  ### 트레이닝 설정에서 `wandb.run`을 사용해야 하면 어떻게 하나요?
 </div>
 
-직접 접근해야 하는 변수의 스코프(범위)를 더 넓게 지정해야 합니다. 다시 말해, 모든 프로세스에서 초기 조건이 동일하도록 설정해야 합니다.
+직접 접근해야 하는 변수의 스코프를 더 넓게 잡아야 합니다. 다시 말해, 모든 프로세스에서 초기 조건이 동일하도록 설정해야 합니다.
 
 ```python
 if os.environ.get("LOCAL_RANK", None) is None:
     os.environ["WANDB_DIR"] = wandb.run.dir
 ```
 
-그런 경우 `os.environ["WANDB_DIR"]`를 사용하여 모델 체크포인트 디렉터리를 설정할 수 있습니다. 이렇게 하면 rank가 0이 아닌 모든 프로세스가 `wandb.run.dir`에 접근할 수 있습니다.
+그 경우에는 `os.environ["WANDB_DIR"]`를 사용해 모델 체크포인트 디렉터리를 설정할 수 있습니다. 이렇게 하면 rank가 0이 아닌 프로세스도 `wandb.run.dir`에 접근할 수 있습니다.

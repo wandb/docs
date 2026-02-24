@@ -1,113 +1,114 @@
 ---
-description: 원본 데이터를 잃지 않고 실행의 히스토리를 수정하거나 변경할 수 있도록 실행을 되감습니다.
-title: 실행 되감기
+description: 원본 데이터를 잃지 않고 run의 이력을 수정하거나 바로잡기 위해 run을 되감습니다.
+title: run 되감기
 ---
 
-실행을 되감기하여 원본 데이터를 잃지 않고 해당 실행의 히스토리를 수정하거나 변경할 수 있습니다. 또한 실행을 되감기하면, 그 시점부터 새로운 데이터를 기록할 수 있습니다. W&amp;B는 새로 기록된 히스토리를 기반으로 되감기한 실행의 요약 지표를 다시 계산합니다. 이는 다음과 같은 동작을 의미합니다:
+run의 원본 데이터를 잃지 않고 이력을 수정하거나 바로잡으려면 run을 되감으십시오. 추가로,
+run을 되감으면 해당 시점부터 새로운 데이터를 로깅할 수 있습니다. W&amp;B는 새로 로깅된 이력을 기반으로 되감은 run의 요약 메트릭을 다시 계산합니다. 이는 다음과 같은 동작을 의미합니다:
 
-* **히스토리 잘라내기**: W&amp;B는 되감기 지점 이후의 히스토리를 잘라내고, 그 지점부터 새로운 데이터 로깅을 허용합니다.
-* **요약 지표**: 새로 기록된 히스토리를 기준으로 다시 계산됩니다.
-* **설정 보존**: W&amp;B는 원본 설정을 보존하며, 여기에 새로운 설정을 병합할 수 있습니다.
+* **이력 잘라내기(History truncation)**: W&amp;B는 되감기 지점까지의 이력을 잘라내어, 이후 새로운 데이터 로깅을 허용합니다.
+* **요약 메트릭(Summary metrics)**: 새로 로깅된 이력을 기반으로 다시 계산됩니다.
+* **설정 유지(Configuration preservation)**: W&amp;B는 기존 설정을 유지하며, 새로운 설정을 병합할 수 있습니다.
 
 <Warning>
-  실행 되감기 옵션은 현재 비공개 프리뷰 단계입니다. 이 기능에 대한 액세스를 요청하려면 support@wandb.com으로 W&amp;B Support에 문의하세요.
+  run 되감기 옵션은 현재 비공개 프리뷰 단계입니다. 이 기능에 대한 액세스 권한을 요청하려면 support@wandb.com으로 W&amp;B Support에 문의하십시오.
 
   현재 W&amp;B는 다음을 지원하지 않습니다:
 
-  * **로그 되감기**: 새 실행 구간에서는 로그가 초기화됩니다.
-  * **시스템 메트릭 되감기**: 되감기 지점 이후의 새로운 시스템 메트릭만 W&amp;B가 기록합니다.
-  * **Artifact 연결**: W&amp;B는 Artifact를 이를 생성한 소스 실행에 연결합니다.
+  * **로그 되감기(Log rewind)**: 새 run 구간에서는 로그가 초기화됩니다.
+  * **시스템 메트릭 되감기(System metrics rewind)**: W&amp;B는 되감기 지점 이후의 새로운 시스템 메트릭만 로깅합니다.
+  * **아티팩트 연결(Artifact association)**: W&amp;B는 아티팩트를 이를 생성한 소스 run에만 연결합니다.
 </Warning>
 
-{/* #### 실행 관리 */}
+{/* #### run 관리 */}
 
-실행을 rewind하면 W&amp;B는 원본 데이터를 보존하고 일관된 실행 ID를 유지한 채, 실행 상태를 지정한 스텝으로 되돌립니다. 이는 다음을 의미합니다:
+run을 되감기하면, W&amp;B는 원본 데이터를 보존하고 일관된 run ID를 유지하면서 run의 상태를 지정한 스텝으로 재설정합니다. 이는 다음을 의미합니다.
 
-* **Run archiving**: W&amp;B는 원본 실행을 보관(archive)합니다. 실행은 [Run Overview](./#overview-tab) 탭에서 액세스할 수 있습니다.
-* **Artifact association**: 실행과 해당 실행이 생성한 아티팩트를 연결합니다.
+* **Run archiving**: W&amp;B가 원본 Runs를 아카이브합니다. Runs는 [Run Overview](./#overview-tab) 탭에서 확인할 수 있습니다.
+* **Artifact association**: run이 생성한 아티팩트를 해당 run과 연결합니다.
 
 <Note>
-  **Rewind and forking compatibility**
+  **Rewind 및 forking 호환성**
 
-  Forking은 rewind를 보완합니다.
+  Forking은 rewind 기능을 보완합니다.
 
-  실행에서 fork를 수행하면, W&amp;B는 특정 시점의 실행으로부터 새 브랜치를 만들어 다른 파라미터나 모델을 시도할 수 있게 합니다.
+  run에서 fork를 수행하면, W&amp;B는 특정 시점의 run에서 새로운 분기(branch)를 만들어 다른 파라미터나 모델을 시험할 수 있게 합니다.
 
-  실행을 rewind하면, W&amp;B는 실행 이력 자체를 수정하거나 바로잡을 수 있도록 해 줍니다.
+  run을 되감기(rewind)하면, W&amp;B를 통해 run 히스토리 자체를 수정하거나 바로잡을 수 있습니다.
 </Note>
 
 <div id="prerequisites">
   ## 사전 준비 사항
 </div>
 
-실행을 되감기 전에 다음 요구 사항을 충족하는지 확인하세요:
+run을 되감기하기 전에 다음 사전 준비 사항을 충족하는지 확인하세요:
 
-* 실행을 되감기 위해서는 [W&amp;B Python SDK](https://pypi.org/project/wandb/) 버전이 `0.17.1` 이상이어야 합니다.
-* 단조 증가하는 step을 사용해야 합니다. [`define_metric()`](/ko/models/ref/python/experiments/run#define_metric)으로 단조 증가가 아닌 step을 정의한 경우에는 실행 기록과 시스템 메트릭의 필수 시간 순서를 깨뜨리므로 되감기 기능을 사용할 수 없습니다.
+* run을 되감기하려면 [W&amp;B Python SDK](https://pypi.org/project/wandb/) 버전이 `0.17.1` 이상이어야 합니다.
+* step은 단조 증가하도록 사용해야 합니다. run 히스토리와 시스템 메트릭에 필요한 시간 순서를 깨뜨리므로, [`define_metric()`](/ko/models/ref/python/experiments/run#define_metric)으로 정의한 비단조(증가하지 않는 구간이 있는) step과는 함께 사용할 수 없습니다.
 
 <div id="rewind-a-run">
-  ## 실행 기록 되감기
+  ## run 되돌리기
 </div>
 
-`resume_from`을 [`wandb.init()`](/ko/models/ref/python/functions/init)과 함께 사용하면 실행의 기록을 특정 스텝으로 &quot;되감기&quot;할 수 있습니다. 되감기를 수행할 실행의 이름과, 되감기를 시작할 스텝을 지정하세요:
+`resume_from`과 [`wandb.init()`](/ko/models/ref/python/functions/init)을 함께 사용하면 run의 기록을 특정 스텝으로 되돌릴 수 있습니다. 되돌릴 run의 이름과, 어느 스텝부터 되돌릴지 지정하세요:
 
 ```python
 import wandb
 import math
 
-# 첫 번째 실행을 초기화하고 일부 메트릭을 기록합니다
+# 첫 번째 run을 초기화하고 일부 메트릭을 기록합니다
 # your_project_name과 your_entity_name을 실제 값으로 교체하세요!
 run1 = wandb.init(project="your_project_name", entity="your_entity_name")
 for i in range(300):
     run1.log({"metric": i})
 run1.finish()
 
-# 첫 번째 실행의 특정 스텝으로 되감고 스텝 200부터 메트릭을 기록합니다
+# 첫 번째 run의 특정 스텝으로 되감고 스텝 200부터 메트릭을 기록합니다
 run2 = wandb.init(project="your_project_name", entity="your_entity_name", resume_from=f"{run1.id}?_step=200")
 
-# 새 실행에서 계속 기록합니다
-# 처음 몇 스텝은 run1의 메트릭을 그대로 기록합니다
+# 새 run에서 계속 기록합니다
+# 처음 몇 스텝은 run1과 동일하게 메트릭을 기록합니다
 # 스텝 250 이후부터 스파이크 패턴을 기록하기 시작합니다
 for i in range(200, 300):
     if i < 250:
-        run2.log({"metric": i, "step": i})  # 스파이크 없이 run1에서 계속 기록합니다
+        run2.log({"metric": i, "step": i})  # 스파이크 없이 run1에서 이어서 기록합니다
     else:
-        # 스텝 250부터 스파이크 동작을 도입합니다
+        # 스텝 250부터 스파이크 동작을 적용합니다
         subtle_spike = i + (2 * math.sin(i / 3.0))  # 미묘한 스파이크 패턴을 적용합니다
         run2.log({"metric": subtle_spike, "step": i})
-    # 모든 스텝에서 새 메트릭도 추가로 기록합니다
+    # 모든 스텝에서 새 메트릭을 추가로 기록합니다
     run2.log({"additional_metric": i * 1.1, "step": i})
 run2.finish()
 ```
 
 <div id="view-an-archived-run">
-  ## 아카이브된 실행 보기
+  ## 보관된 run 보기
 </div>
 
-실행을 되감은 후에는 W&amp;B App에서 원본으로 아카이브된 실행을 살펴볼 수 있습니다. 아카이브된 실행을 보려면 다음 단계를 따르십시오:
+run을 되감은 후에는 W&amp;B App에서 원래 보관된 run을 살펴볼 수 있습니다. 보관된 run을 보려면 다음 단계를 따르세요:
 
-1. **Overview 탭으로 이동:** 실행 페이지에서 [**Overview** 탭](./#overview-tab)으로 이동합니다. 이 탭에서는 실행의 세부 정보와 이력을 한눈에 확인할 수 있습니다.
-2. **Forked From 필드 찾기:** **Overview** 탭에서 `Forked From` 필드를 찾습니다. 이 필드는 되감기(재개) 이력을 기록합니다. **Forked From** 필드에는 소스 실행으로 이동하는 링크가 포함되어 있어, 원본 실행으로 거슬러 올라가 전체 되감기 이력을 파악할 수 있습니다.
+1. **Overview 탭 열기:** run 페이지에서 [**Overview** 탭](./#overview-tab)으로 이동합니다. 이 탭에서는 run의 세부 정보와 이력을 종합적으로 확인할 수 있습니다.
+2. **Forked From 필드 찾기:** **Overview** 탭에서 `Forked From` 필드를 찾습니다. 이 필드는 재개 이력을 기록합니다. **Forked From** 필드에는 소스 run에 대한 링크가 포함되어 있어, 원래 run으로 추적해 올라가 전체 되감기 이력을 이해할 수 있습니다.
 
-`Forked From` 필드를 사용하면 아카이브된 되감기 실행들의 트리 구조를 손쉽게 탐색하고, 각 되감기의 순서와 출처를 쉽게 파악할 수 있습니다.
+`Forked From` 필드를 사용하면 보관된 재개들의 트리를 손쉽게 탐색하고, 각 되감기의 순서와 출처에 대한 인사이트를 얻을 수 있습니다.
 
 <div id="fork-from-a-run-that-you-rewind">
-  ## 되감은 실행에서 포크하기
+  ## 되감은 run에서 포크하기
 </div>
 
-되감은 실행에서 포크하려면 `wandb.init()`의 [`fork_from`](/ko/models/runs/forking/) 인자를 사용하고, 포크를 시작할 원본 실행 ID와 원본 실행의 스텝을 지정한다:
+되감은 run에서 포크하려면 `wandb.init()`에서 [`fork_from`](/ko/models/runs/forking/) 인수를 사용하고, 소스 run ID와 포크를 시작할 소스 run의 step을 지정합니다:
 
 ```python
 import wandb
 
-# 특정 스텝에서 실행을 포크합니다
+# 특정 스텝에서 run을 포크합니다
 forked_run = wandb.init(
     project="your_project_name",
     entity="your_entity_name",
     fork_from=f"{rewind_run.id}?_step=500",
 )
 
-# 새 실행에서 계속 로깅합니다
+# 새 run에서 계속 로깅합니다
 for i in range(500, 1000):
     forked_run.log({"metric": i*3})
 forked_run.finish()

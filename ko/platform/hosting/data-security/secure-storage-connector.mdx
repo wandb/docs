@@ -1,31 +1,31 @@
 ---
-title: 사용자 소유 버킷 사용 (BYOB)
+title: 사용자 소유 버킷(BYOB) 사용
 ---
 
 <div id="overview">
   ## 개요
 </div>
 
-Bring Your Own Bucket(BYOB)를 사용하면 W&amp;B 아티팩트 및 기타 민감한 데이터를 자신의 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 사용하는 경우, 사용자가 버킷에 저장한 데이터는 W&amp;B에서 관리하는 인프라로 복사되지 않습니다.
+BYOB(Bring your own bucket)를 사용하면 W&amp;B Artifacts 및 기타 관련 민감한 데이터를 자체 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 사용하는 경우, 버킷에 저장된 데이터는 W&amp;B에서 관리하는 인프라로 복사되지 않습니다.
 
 <Note>
-  * W&amp;B SDK/CLI/UI와 사용자의 버킷 간 통신은 [프리사인드 URL(pre-signed URL)](./presigned-urls)을 사용해 이루어집니다.
-  * W&amp;B는 W&amp;B Artifacts를 삭제하기 위해 가비지 컬렉션 프로세스를 사용합니다. 자세한 내용은 [Deleting Artifacts](/ko/models/artifacts/delete-artifacts)를 참조하십시오.
-  * 버킷을 구성할 때 하위 경로(sub-path)를 지정하여, W&amp;B가 버킷 루트 경로의 폴더에 파일을 저장하지 않도록 할 수 있습니다. 이렇게 하면 조직의 버킷 거버넌스 정책을 보다 잘 준수하는 데 도움이 될 수 있습니다.
+  * W&amp;B SDK / CLI / UI와 버킷 간 통신은 [pre-signed URLs](./presigned-urls)를 통해 이루어집니다.
+  * W&amp;B는 W&amp;B Artifacts를 삭제하기 위해 가비지 컬렉션 프로세스를 사용합니다. 자세한 내용은 [Deleting Artifacts](/ko/models/artifacts/delete-artifacts)를 참조하세요.
+  * 버킷을 구성할 때 하위 경로(sub-path)를 지정하여, 버킷 최상위 경로에 있는 폴더에 W&amp;B가 파일을 저장하지 않도록 할 수 있습니다. 이는 조직의 버킷 거버넌스 정책을 더 잘 준수하는 데 도움이 될 수 있습니다.
 </Note>
 
 <div id="data-stored-in-the-central-database-vs-buckets">
-  ### 중앙 데이터베이스에 저장되는 데이터 vs 버킷에 저장되는 데이터
+  ### 중앙 데이터베이스와 버킷에 저장되는 데이터
 </div>
 
-BYOB 기능을 사용할 때, 일부 유형의 데이터는 W&amp;B 중앙 데이터베이스에 저장되고, 다른 유형의 데이터는 사용자의 버킷에 저장됩니다.
+BYOB 기능을 사용하면 일부 데이터 유형은 W&amp;B 중앙 데이터베이스에 저장되고, 다른 데이터 유형은 사용자 버킷에 저장됩니다.
 
 <div id="database">
   #### 데이터베이스
 </div>
 
-* 사용자, 팀, 아티팩트, 실험, 프로젝트에 대한 메타데이터
-* 리포트
+* 사용자, 팀, 아티팩트, 실험, 프로젝트 메타데이터
+* Reports
 * 실험 로그
 * 시스템 메트릭
 * 콘솔 로그
@@ -37,57 +37,57 @@ BYOB 기능을 사용할 때, 일부 유형의 데이터는 W&amp;B 중앙 데�
 * 실험 파일 및 메트릭
 * 아티팩트 파일
 * 미디어 파일
-* 실행 관련 파일
+* Run 파일
 * Parquet 형식으로 내보낸 히스토리 메트릭 및 시스템 이벤트
 
 <div id="bucket-scopes">
   ### 버킷 범위
 </div>
 
-스토리지 버킷은 다음 두 가지 범위로 설정할 수 있습니다:
+스토리지 버킷은 다음 두 가지 범위로 구성할 수 있습니다:
 
 | Scope          | Description |
 |----------------|-------------|
-| Instance level | [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 및 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 환경에서는, 조직 또는 인스턴스 내에서 필요한 권한을 가진 모든 사용자가 인스턴스 스토리지 버킷에 저장된 파일에 액세스할 수 있습니다. [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에는 적용되지 않습니다. |
-| Team level     | W&amp;B 팀이 팀 수준 스토리지 버킷을 사용하도록 구성된 경우, 팀 구성원은 해당 버킷에 저장된 파일에 액세스할 수 있습니다. 팀 수준 스토리지 버킷은 보안 요구 사항이 매우 높거나 규제 준수 요건이 엄격한 팀을 위해 더 높은 수준의 데이터 액세스 제어와 데이터 격리를 제공합니다.<br /><br />팀 수준 스토리지는 동일한 인스턴스를 공유하는 서로 다른 비즈니스 유닛 또는 부서가 인프라와 관리 리소스를 효율적으로 활용할 수 있도록 도와줍니다. 또한 개별 프로젝트 팀이 서로 다른 고객 프로젝트에 대한 AI 워크플로를 각각 관리할 수 있도록 해줍니다. 모든 배포 유형에서 사용할 수 있습니다. 팀을 설정할 때 팀 수준 BYOB를 구성합니다. |
+| Instance level | [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 및 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 환경에서는 조직 또는 인스턴스 내에서 필요한 권한을 가진 모든 사용자가 인스턴스 스토리지 버킷에 저장된 파일에 접근할 수 있습니다. [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)에는 적용되지 않습니다. |
+| Team level     | W&amp;B Team이 Team level 스토리지 버킷을 사용하도록 구성된 경우, 팀 구성원은 해당 버킷에 저장된 파일에 접근할 수 있습니다. Team level 스토리지 버킷은 고도의 민감한 데이터나 엄격한 규제·컴플라이언스 요구 사항이 있는 팀에 대해 더 강력한 데이터 접근 제어와 데이터 격리를 제공합니다.<br /><br />Team level 스토리지는 하나의 인스턴스를 공유하는 서로 다른 비즈니스 유닛 또는 부서가 인프라와 관리 리소스를 효율적으로 활용하도록 돕습니다. 또한 서로 다른 고객 프로젝트를 위한 AI 워크플로를 각기 별도의 프로젝트 팀이 관리할 수 있게 해 줍니다. 모든 배포 유형에서 사용 가능합니다. Team level BYOB는 팀을 설정할 때 구성합니다. |
 
-이러한 유연한 설계를 통해 조직의 요구 사항에 따라 다양한 스토리지 토폴로지를 구성할 수 있습니다. 예를 들어:
+이와 같은 유연한 설계는 조직의 요구 사항에 따라 다양한 스토리지 토폴로지를 구성할 수 있게 해 줍니다. 예를 들면 다음과 같습니다:
 
 * 동일한 버킷을 인스턴스와 하나 이상의 팀에서 함께 사용할 수 있습니다.
-* 각 팀이 별도 버킷을 사용할 수도 있고, 일부 팀은 인스턴스 버킷에 쓰도록 선택하거나, 여러 팀이 하위 경로에 쓰는 방식으로 하나의 버킷을 공유할 수도 있습니다.
-* 서로 다른 팀의 버킷을 서로 다른 클라우드 인프라 환경이나 리전에서 호스팅할 수 있으며, 서로 다른 스토리지 관리자 팀이 관리할 수도 있습니다.
+* 각 팀이 별도의 버킷을 사용할 수도 있고, 일부 팀은 인스턴스 버킷에 기록하도록 선택할 수도 있으며, 여러 팀이 서브패스에 쓰는 방식으로 하나의 버킷을 공유할 수도 있습니다.
+* 서로 다른 팀의 버킷을 서로 다른 클라우드 인프라 환경이나 리전에서 호스팅할 수 있으며, 서로 다른 스토리지 관리자 팀이 관리할 수 있습니다.
 
-예를 들어, 조직에 Kappa라는 팀이 있다고 가정해 보겠습니다. 조직(및 Team Kappa)은 기본적으로 instance level 스토리지 버킷을 사용합니다. 다음으로 Omega라는 팀을 생성합니다. Team Omega를 생성할 때, 해당 팀에 대해 team level 스토리지 버킷을 구성합니다. Team Omega에서 생성한 파일은 Team Kappa에서 액세스할 수 없습니다. 그러나 Team Kappa가 생성한 파일은 Team Omega에서 액세스할 수 있습니다. Team Kappa의 데이터를 격리하려면, Team Kappa에 대해서도 team level 스토리지 버킷을 구성해야 합니다.
+예를 들어, 조직 내에 Kappa라는 Team이 있다고 가정해 봅시다. 조직(및 Team Kappa)은 기본적으로 Instance level 스토리지 버킷을 사용합니다. 다음으로 Omega라는 Team을 생성합니다. Team Omega를 생성할 때 해당 팀에 대해 Team level 스토리지 버킷을 구성합니다. Team Omega에서 생성한 파일은 Team Kappa에서 접근할 수 없습니다. 그러나 Team Kappa에서 생성한 파일은 Team Omega에서 접근할 수 있습니다. Team Kappa의 데이터를 격리하려면 해당 팀에 대해서도 Team level 스토리지 버킷을 구성해야 합니다.
 
 <div id="availability-matrix">
   ### 가용성 매트릭스
 </div>
 
-W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다.
+W&amp;B는 다음 스토리지 제공자에 연결할 수 있습니다:
 
 * [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage): AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스입니다.
 * [Amazon S3](https://aws.amazon.com/s3/): 업계 최고 수준의 확장성, 데이터 가용성, 보안, 성능을 제공하는 오브젝트 스토리지 서비스입니다.
-* [Google Cloud Storage](https://cloud.google.com/storage): 비정형 데이터를 대규모로 저장하기 위한 관리형 서비스입니다.
-* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): 텍스트, 바이너리 데이터, 이미지, 비디오, 로그와 같은 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
-* [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같은 S3 호환 스토리지 또는 사용자의 클라우드나 온프레미스 인프라에 호스팅된 기타 엔터프라이즈급 솔루션입니다.
+* [Google Cloud Storage](https://cloud.google.com/storage): 대규모 비정형 데이터를 저장하기 위한 관리형 서비스입니다.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): 텍스트, 이진 데이터, 이미지, 비디오, 로그와 같은 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
+* [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor) 등, 사용자의 클라우드나 온프레미스 인프라에 호스팅되는 S3 호환 스토리지 기반의 엔터프라이즈급 솔루션.
 
-다음 표는 각 W&amp;B 배포 유형에서 범위별 BYOB 지원 여부를 보여줍니다.
+다음 표는 W&amp;B 배포 유형별로 각 범위에서 BYOB를 사용할 수 있는지 여부를 보여 줍니다.
 
-| W&amp;B 배포 유형              | 인스턴스 수준    | 팀 수준    | 추가 정보 |
-|----------------------------|------------------|------------|-----------|
-| 전용 클라우드 (Dedicated Cloud) | ✓          | ✓    | 인스턴스 및 팀 수준 BYOB는 CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, 그리고 사용자의 클라우드나 온프레미스 인프라에 호스팅된 [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같은 S3 호환 스토리지에서 지원됩니다. |
-| 멀티 테넌트 클라우드 (Multi-tenant Cloud) | 해당 없음       | ✓<sup><a href="#footnote_1">1</a></sup> | 팀 수준 BYOB는 CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage에서 지원됩니다. |
-| 셀프 매니지드 (Self-Managed)   | ✓          | ✓    | 인스턴스 및 팀 수준 BYOB는 CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, 그리고 사용자의 클라우드나 온프레미스 인프라에 호스팅된 [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같은 S3 호환 스토리지에서 지원됩니다. |
+| W&amp;B 배포 유형              | 인스턴스 수준    | 팀 수준     | 추가 정보                 |
+|----------------------------|------------------|------------|--------------------------|
+| Dedicated Cloud            | ✓          | ✓    | CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, 그리고 사용자의 클라우드 또는 온프레미스 인프라에 호스팅되는 [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같은 S3 호환 스토리지에 대해 인스턴스 수준 및 팀 수준 BYOB가 지원됩니다. |
+| Multi-tenant Cloud         | 해당 없음        | ✓<sup><a href="#footnote_1">1</a></sup> | CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage에 대해 팀 수준 BYOB가 지원됩니다. |
+| Self-Managed               | ✓          | ✓    | CoreWeave AI Object Storage, Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, 그리고 사용자의 클라우드 또는 온프레미스 인프라에 호스팅되는 [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같은 S3 호환 스토리지에 대해 인스턴스 수준 및 팀 수준 BYOB가 지원됩니다. |
 
-<sup><a id="footnote_1" aria-label="각주 1">1</a>.</sup>Azure Blob Storage는 멀티 테넌트 클라우드에서 팀 수준 BYOB를 지원하지 않습니다.
+<sup><a id="footnote_1" aria-label="Footnote 1">1</a>.</sup>Multi-tenant Cloud에서 팀 수준 BYOB에는 Azure Blob Storage가 지원되지 않습니다.
 
-다음 섹션에서는 BYOB 설정 방법을 안내합니다.
+다음 섹션에서는 BYOB 설정 절차를 안내합니다.
 
 <div id="provision-your-bucket">
   ## 버킷 프로비저닝하기
 </div>
 
-[가용성을 확인](#availability-matrix)했다면 이제 액세스 정책과 CORS를 포함해 스토리지 버킷을 프로비저닝할 차례입니다. 계속하려면 탭을 선택하세요.
+[가용성을 확인](#availability-matrix)한 후에는 스토리지 버킷을 프로비저닝할 수 있습니다. 여기에는 액세스 정책과 CORS 설정이 포함됩니다. 계속하려면 탭을 선택하세요.
 
 <Tabs>
   <Tab title="CoreWeave">
@@ -95,29 +95,29 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
 
     **요구 사항**:
 
-    * **멀티 테넌트 클라우드** 또는
-    * **Dedicated Cloud** v0.73.0 이상 또는
-    * **Self-Managed** v0.73.0 이상 버전을 Helm 차트 v0.33.14+로 배포한 환경
+    * **멀티 테넌트 클라우드**, 또는
+    * **Dedicated Cloud** v0.73.0 이상 버전 또는
+    * **Self-Managed** v0.73.0 이상 버전을 Helm 차트 v0.33.14+로 배포한 경우
     * AI Object Storage가 활성화되어 있고 버킷, API 액세스 키 및 시크릿 키를 생성할 수 있는 권한이 있는 CoreWeave 계정.
-    * W&amp;B 인스턴스는 CoreWeave의 네트워크 엔드포인트에 연결할 수 있어야 합니다.
+    * W&amp;B 인스턴스는 CoreWeave 네트워크 엔드포인트에 연결 가능해야 합니다.
 
     자세한 내용은 CoreWeave 문서의 [Create a CoreWeave AI Object Storage bucket](https://docs.coreweave.com/products/storage/object-storage/buckets/create-bucket)을 참조하세요.
 
-    1. <a id="coreweave-org-id" aria-label="CoreWeave 조직 ID" />**멀티 테넌트 클라우드**: 버킷 정책에 필요한 조직 ID를 확인하세요.
+    1. <a id="coreweave-org-id" aria-label="CoreWeave 조직 ID" />**멀티테넌트 클라우드**: 버킷 정책에 필요한 조직 ID를 확인합니다.
        1. [W&amp;B App](https://wandb.ai/site)에 로그인합니다.
-       2. 왼쪽 탐색 영역에서 **Create a new team**을 클릭합니다.
-       3. 열리는 드로어에서 **Invite team members** 위에 있는 W&amp;B 조직 ID를 복사합니다.
-       4. 이 페이지는 닫지 말고 그대로 열어 둡니다. 이후 [W&amp;B를 구성](#configure-byob)할 때 사용합니다.
+       2. 왼쪽 탐색 메뉴에서 **Create a new team**을 클릭합니다.
+       3. 열리는 드로어에서 **Invite team members** 위에 표시된 W&amp;B organization ID를 복사합니다.
+       4. 이 페이지는 그대로 열어 두십시오. 이후 [W&amp;B를 구성](#configure-byob)할 때 사용합니다.
 
-    2. <a id="coreweave-customer-namespace" aria-label="CoreWeave customer namespace" />**Dedicated Cloud** / **Self-Managed**: 버킷 정책에 필요한 customer namespace를 발급받으세요.
+    2. <a id="coreweave-customer-namespace" aria-label="CoreWeave customer namespace" />**Dedicated Cloud** / **Self-Managed**: 버킷 정책에 필요한 고객 네임스페이스를 발급받으십시오.
        1. W&amp;B App에서 사용자 프로필 아이콘을 클릭한 다음 **System Console**을 클릭합니다.
        2. **Authentication** 탭을 클릭합니다.
-       3. 페이지 하단에서 **Customer Namespace** 값을 복사합니다. 이 값은 버킷 정책을 구성할 때 필요하므로 보관해 두세요.
+       3. 페이지 맨 아래에서 **Customer Namespace** 값을 복사합니다. 이 값은 버킷 정책을 구성할 때 사용할 것이므로 잘 보관해 두십시오.
        4. 이제 System Console을 닫아도 됩니다.
 
-    3. CoreWeave에서 원하는 CoreWeave 가용 영역에 원하는 이름으로 bucket을 생성합니다. 필요하다면 모든 W&amp;B 파일의 하위 경로로 사용할 폴더를 W&amp;B용으로 생성합니다. bucket 이름, 가용 영역, API 액세스 키, 시크릿 키, 하위 경로를 기록해 두세요.
+    3. CoreWeave에서 원하는 CoreWeave 가용 영역에 원하는 이름으로 버킷을 생성합니다. 선택적으로, 모든 W&amp;B 파일의 하위 경로로 사용할 폴더를 W&amp;B용으로 생성합니다. 버킷 이름, 가용 영역, API 액세스 키, 시크릿 키, 하위 경로를 메모해 두세요.
 
-    4. 버킷에 다음 CORS(Cross-Origin Resource Sharing) 정책을 설정하세요:
+    4. 버킷에 다음 Cross-Origin Resource Sharing(CORS) 정책을 설정합니다:
        ```json
        [
          {
@@ -139,9 +139,9 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
          }
        ]
        ```
-       CoreWeave 스토리지는 S3 호환 스토리지입니다. CORS에 대한 자세한 내용은 AWS 문서의 [교차 출처 리소스 공유(CORS) 구성](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html)을 참고하세요.
+       CoreWeave 스토리지는 S3 호환 스토리지입니다. CORS에 대한 자세한 내용은 AWS 설명서의 [교차 출처 리소스 공유(CORS) 구성](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html)을 참조하세요.
 
-    5. W&amp;B 배포 환경이 버킷에 액세스하고, 클라우드 인프라의 AI 워크로드나 사용자 브라우저에서 버킷에 액세스하는 데 사용할 [pre-signed URL(사전 서명된 URL)](./presigned-urls)을 생성할 수 있도록 필요한 권한을 부여하는 버킷 정책을 구성하세요. 자세한 내용은 CoreWeave 문서의 [Bucket Policy Reference](https://docs.coreweave.com/products/storage/object-storage/auth-access/bucket-access/bucket-policies)를 참조하세요.
+    5. 버킷 정책을 구성하여 W&amp;B 배포가 해당 버킷에 액세스하고, 클라우드 인프라의 AI 워크로드나 사용자 브라우저가 버킷에 액세스하는 데 사용하는 [사전 서명된 URL](./presigned-urls)을 생성할 수 있도록 필요한 권한을 부여합니다. CoreWeave 문서에 있는 [Bucket Policy Reference](https://docs.coreweave.com/products/storage/object-storage/auth-access/bucket-access/bucket-policies)를 참조하세요.
 
        ```json
        {
@@ -193,22 +193,22 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
        }
        ```
 
-       `"Sid": "AllowUsersInOrg"`로 시작하는 구문은 조직의 사용자에게 버킷에 직접 액세스할 수 있는 권한을 부여합니다. 이 권한이 필요하지 않다면 정책에서 이 구문을 생략해도 됩니다.
+       `"Sid": "AllowUsersInOrg"`로 시작하는 절은 조직의 사용자에게 버킷에 직접 액세스할 수 있는 권한을 부여합니다. 이 기능이 필요하지 않다면 정책에서 해당 절을 생략해도 됩니다.
 
-    6. 버킷 정책에서 다음 플레이스홀더를 실제 값으로 바꾸세요:
+    6. 버킷 정책에서 플레이스홀더를 다음 값으로 대체합니다:
        * `<cw-bucket>`: 사용자의 버킷 이름.
        * `<cw-wandb-principal>`:
          * **Multi-tenant Cloud**: `arn:aws:iam::wandb:static/wandb-integration-public`
          * **Dedicated Cloud** 또는 **Self-Managed**: `arn:aws:iam::wandb:static/wandb-integration`
        * `<wb-org-id>`:
-         * **Multi-tenant Cloud**: [Provision your bucket](#coreweave-org-id)에서 확인할 수 있는 조직 ID.
-         * **Dedicated Cloud** 또는 **Self-Managed**: [Provision your bucket](#coreweave-customer-namespace)에서 확인할 수 있는 고객 네임스페이스.
+         * **Multi-tenant Cloud**: [Provision your bucket](#coreweave-org-id)에서 가져온 organization ID.
+         * **Dedicated Cloud** 또는 **Self-Managed**: [Provision your bucket](#coreweave-customer-namespace)에서 가져온 customer namespace.
 
     7. **Dedicated Cloud**: 추가 단계를 진행하려면 [support](mailto:support@wandb.ai)에 문의하세요.
 
-    8. <a id="set-environment-variable" aria-label="Set environment variable" />**Self-Managed**: Self-Managed W&amp;B 배포에서 환경 변수 `GORILLA_SUPPORTED_FILE_STORES`를 문자열 `cw://`로 정확히 설정한 뒤 W&amp;B를 재시작하십시오. 그렇게 하지 않으면 팀 스토리지를 구성할 때 CoreWeave가 옵션으로 나타나지 않습니다.
+    8. <a id="set-environment-variable" aria-label="Set environment variable" />**셀프 매니지드**: W&amp;B 배포 환경에서 환경 변수 `GORILLA_SUPPORTED_FILE_STORES`를 `cw://`라는 문자열로 정확히 설정한 후 W&amp;B를 재시작하십시오. 그렇지 않으면 팀 스토리지를 구성할 때 CoreWeave가 옵션으로 표시되지 않습니다.
 
-    다음으로, [W&amp;B를 구성](#configure-byob)합니다.
+    다음으로, [W&amp;B를 구성](#configure-byob)하세요.
   </Tab>
 
   <Tab title="AWS">
@@ -216,7 +216,7 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
 
     1. KMS 키를 프로비저닝합니다.
 
-       W&amp;B에서는 S3 버킷의 데이터를 암호화 및 복호화하기 위해 KMS 키를 프로비저닝해야 합니다. 키 사용 유형은 반드시 `ENCRYPT_DECRYPT`여야 합니다. 다음 정책을 키에 설정합니다:
+       W&amp;B는 S3 버킷의 데이터를 암호화하고 복호화하기 위해 KMS 키를 프로비저닝해야 합니다. 키 사용 유형은 반드시 `ENCRYPT_DECRYPT`로 설정해야 합니다. 다음 정책을 키에 할당하십시오:
 
        ```json
        {
@@ -246,22 +246,22 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
        }
        ```
 
-       `<Your_Account_Id>`와 `<aws_kms_key.key.arn>`을 각각 알맞은 값으로 교체합니다.
+       `<Your_Account_Id>`와 `<aws_kms_key.key.arn>`를 각각 해당 값으로 교체합니다.
 
-       [Multi-tenant Cloud](/ko/platform/hosting/hosting-options#w%26b-multi-tenant-cloud) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options#w%26b-dedicated-cloud)를 사용 중이라면 `<aws_principal_and_role_arn>`를 해당 값으로 교체하세요:
+       [Multi-tenant Cloud](/ko/platform/hosting/hosting-options#w%26b-multi-tenant-cloud) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options#w%26b-dedicated-cloud)를 사용 중이라면 `<aws_principal_and_role_arn>`을(를) 해당하는 값으로 바꾸십시오.
 
        * **멀티 테넌트 클라우드**: `arn:aws:iam::725579432336:role/WandbIntegration`
        * **전용 클라우드**: `arn:aws:iam::830241207209:root`
 
-       이 정책은 귀하의 AWS 계정에 해당 키에 대한 전체 액세스 권한을 부여하고, 또한 W&amp;B Platform을 호스팅하는 AWS 계정에 필요한 권한을 부여합니다. KMS 키 ARN을 기록해 두세요.
+       이 정책은 사용자의 AWS 계정에 해당 키에 대한 전체 접근 권한을 부여하며, W&amp;B Platform을 호스팅하는 AWS 계정에 필요한 권한도 할당합니다. KMS 키 ARN을 따로 기록해 두십시오.
 
     2. S3 버킷을 프로비저닝합니다.
 
-       AWS 계정에 S3 버킷을 프로비저닝하려면 다음 단계를 따르세요:
+       AWS 계정에서 S3 버킷을 프로비저닝하려면 다음 단계를 따르세요.
 
-       1. 원하는 이름으로 S3 버킷을 생성합니다. 필요하다면 모든 W&amp;B 파일을 저장할 하위 경로로 사용할 폴더를 생성합니다.
-       2. 이전 단계에서 만든 KMS 키를 사용하여 서버 측 암호화를 활성화합니다.
-       3. 다음 정책으로 CORS를 구성합니다:
+       1. 원하는 이름으로 S3 버킷을 생성합니다. 선택적으로 폴더를 만든 뒤, 모든 W&amp;B 파일을 저장할 하위 경로로 설정할 수 있습니다.
+       2. 이전 단계에서 생성한 KMS 키를 사용해 서버 측 암호화를 활성화합니다.
+       3. 다음 정책으로 CORS를 설정합니다:
 
           ```json
           [
@@ -286,9 +286,9 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
           ```
 
           <Note>
-            버킷의 데이터가 [object lifecycle management policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html)로 인해 만료되면, 일부 실행의 기록을 읽지 못할 수 있습니다.
+            버킷의 데이터가 [object lifecycle management policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html)에 따라 만료되면, 일부 run의 이력을 조회하지 못할 수 있습니다.
           </Note>
-       4. W&amp;B Platform을 호스팅하는 AWS 계정에 필요한 S3 권한을 부여합니다. 이 권한은 클라우드 인프라의 AI 워크로드나 사용자 브라우저가 버킷에 접근하는 데 사용하는 [사전 서명된 URL](./presigned-urls)을 생성하는 데 필요합니다.
+       4. W&amp;B Platform을 호스팅하는 AWS 계정에 필요한 S3 권한을 부여합니다. 이 계정에는 클라우드 인프라의 AI 워크로드나 사용자 브라우저가 버킷에 접근할 때 사용하는 [pre-signed URL](./presigned-urls)을 생성하기 위해 다음 권한이 필요합니다.
 
           ```json
           {
@@ -321,33 +321,33 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
           }
           ```
 
-          `<wandb_bucket>`을(를) 알맞게 교체하고, 버킷 이름을 기록해 둡니다. 다음으로 [W&amp;B를 구성](#configure-byob)합니다.
+          `<wandb_bucket>`을 실제 버킷 이름으로 교체하고, 해당 버킷 이름을 기록해 두십시오. 다음으로 [W&amp;B를 설정](#configure-byob)합니다.
 
-          [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)를 사용하는 경우, `<aws_principal_and_role_arn>`을(를) 해당 값으로 교체합니다.
+          [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)를 사용하는 경우, `<aws_principal_and_role_arn>`을 해당 값으로 교체하십시오.
 
           * [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우: `arn:aws:iam::725579432336:role/WandbIntegration`
           * [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우: `arn:aws:iam::830241207209:root`
 
-    자세한 내용은 [AWS 자체 관리형 호스팅 가이드](/ko/platform/hosting/hosting-options)를 참조하세요.
+    자세한 내용은 [AWS 자체 관리 호스팅 가이드](/ko/platform/hosting/hosting-options)를 참조하세요.
   </Tab>
 
   <Tab title="Google Cloud">
-    자세한 내용은 Google Cloud 문서의 [Create a bucket](https://docs.cloud.google.com/storage/docs/creating-buckets)를 참조하세요.
+    자세한 내용은 Google Cloud 문서의 [Create a bucket](https://docs.cloud.google.com/storage/docs/creating-buckets)을 참고합니다.
 
     1. GCS 버킷을 프로비저닝합니다.
 
-       Google Cloud 프로젝트에서 GCS 버킷을 프로비저닝하려면 다음 단계를 따르세요.
+       다음 단계를 따라 Google Cloud 프로젝트에서 GCS 버킷을 프로비저닝합니다:
 
-       1. 원하는 이름으로 GCS 버킷을 생성합니다. 선택적으로, 모든 W&amp;B 파일을 저장할 하위 경로로 사용할 폴더를 생성할 수 있습니다.
+       1. 원하는 이름으로 GCS 버킷을 생성합니다. 필요하다면 폴더를 생성한 다음, 모든 W&amp;B 파일을 저장할 하위 경로로 설정할 수 있습니다.
 
        2. 암호화 유형을 `Google-managed`로 설정합니다.
 
-       3. 소프트 삭제(soft deletion)를 활성화합니다. 자세한 내용은 [Edit a bucket&#39;s soft delete policy](https://docs.cloud.google.com/storage/docs/use-soft-delete)를 참조하세요.
+       3. 소프트 삭제(soft deletion)를 활성화합니다. [Edit a bucket&#39;s soft delete policy](https://docs.cloud.google.com/storage/docs/use-soft-delete)를 참고합니다.
 
-       4. `gsutil`을 사용해 CORS 정책을 설정합니다. 이 작업은 UI에서는 할 수 없습니다.
+       4. `gsutil`로 CORS 정책을 설정합니다. UI에서는 설정할 수 없습니다.
 
           1. 로컬에 `cors-policy.json`이라는 파일을 생성합니다.
-          2. 다음 CORS 정책을 파일에 복사한 뒤 저장합니다.
+          2. 다음 CORS 정책을 파일에 복사한 후 저장합니다.
 
              ```json
              [
@@ -362,10 +362,10 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
              ```
 
              <Note>
-               버킷의 데이터가 [object lifecycle management policy](https://cloud.google.com/storage/docs/lifecycle)에 따라 만료되면, 일부 실행(run)의 이력을 읽지 못할 수 있습니다.
+               버킷의 데이터가 [object lifecycle management policy](https://cloud.google.com/storage/docs/lifecycle)로 인해 만료되면, 일부 run의 이력을 읽지 못할 수 있습니다.
              </Note>
 
-       5. `<bucket_name>`을 올바른 버킷 이름으로 바꾼 뒤 `gsutil`을 실행합니다.
+       5. `<bucket_name>`을 올바른 버킷 이름으로 바꾸고 `gsutil`을 실행합니다.
 
           ```bash
           gsutil cors set cors-policy.json gs://<bucket_name>
@@ -377,12 +377,12 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
           gsutil cors get gs://<bucket_name>
           ```
 
-    2. [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)를 사용하는 경우, W&amp;B 플랫폼에 연결된 Google Cloud 서비스 계정에 `storage.admin` 역할을 부여하세요. W&amp;B는 버킷의 CORS 구성과, 객체 버저닝 활성화 여부와 같은 속성을 확인하기 위해 이 역할이 필요합니다. 서비스 계정에 `storage.admin` 역할이 없는 경우 이러한 검사에서 HTTP 403 오류가 발생합니다.
+    2. [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)를 사용하는 경우, W&amp;B Platform에 연결된 Google Cloud 서비스 계정에 `storage.admin` 역할을 부여합니다. W&amp;B는 버킷의 CORS 설정과 객체 버저닝 활성화 여부 같은 속성을 확인하기 위해 이 역할이 필요합니다. 서비스 계정에 `storage.admin` 역할이 없으면 이러한 확인 작업이 HTTP 403 오류를 발생시킵니다.
 
        * [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)의 경우 계정은 `wandb-integration@wandb-production.iam.gserviceaccount.com`입니다.
        * [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)의 경우 계정은 `deploy@wandb-production.iam.gserviceaccount.com`입니다.
 
-       버킷 이름을 기록해 두세요. 다음 단계로, [W&amp;B에서 BYOB를 구성](#configure-byob)합니다.
+       버킷 이름을 기록해 둡니다. 다음으로 [BYOB용 W&amp;B를 설정](#configure-byob)합니다.
   </Tab>
 
   <Tab title="Azure">
@@ -392,12 +392,12 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
 
     1. Azure Blob Storage 컨테이너를 프로비저닝합니다.
 
-       Self-Managed 배포와 [이 Terraform 모듈](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob)을 사용하지 않는 Dedicated Cloud 배포의 경우, 아래 단계에 따라 Azure 구독 내에 Azure Blob Storage 컨테이너를 프로비저닝하세요:
+       Self-Managed 배포와 [이 Terraform 모듈](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/byob)을 사용하지 않는 Dedicated Cloud 배포의 경우, 아래 단계를 따라 Azure 구독에 Azure Blob Storage 컨테이너를 프로비저닝하세요:
 
-       1. 원하는 이름으로 컨테이너를 생성합니다. 필요에 따라 폴더를 생성한 후 이를 서브 경로로 설정해 모든 W&amp;B 파일을 저장할 수 있습니다.
-       2. 컨테이너에 CORS 정책을 구성합니다.
+       1. 원하는 이름으로 컨테이너를 만듭니다. 선택적으로, 모든 W&amp;B 파일을 저장할 하위 경로로 설정할 수 있는 폴더를 생성합니다.
+       2. 컨테이너에서 CORS 정책을 구성합니다.
 
-          UI를 통해 CORS 정책을 설정하려면 Blob Storage로 이동한 후 `Settings/Resource Sharing (CORS)`로 스크롤해 내려가서 다음과 같이 설정합니다:
+          UI를 통해 CORS 정책을 설정하려면 Blob Storage로 이동한 뒤, `Settings/Resource Sharing (CORS)`로 스크롤한 다음 다음 값을 설정합니다:
 
           | Parameter       | Value                |
           | --------------- | -------------------- |
@@ -408,14 +408,14 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
           | Max Age         | `3000`               |
 
           <Note>
-            버킷의 데이터가 [object lifecycle management policy(개체 수명 주기 관리 정책)](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal)로 인해 만료되면, 일부 실행의 히스토리를 읽지 못할 수 있습니다.
+            버킷의 데이터가 [object lifecycle management policy](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal)로 인해 만료되면, 일부 run의 기록을 읽지 못할 수 있습니다.
           </Note>
 
-    2. Storage account access key를 생성하고, 해당 키 이름과 storage account 이름을 기록해 두세요. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)를 사용하는 경우, 보안이 보장되는 공유 방식으로 storage account 이름과 access key를 W&amp;B 팀과 공유하세요.
+    2. Storage account access key를 생성하고, 해당 키 이름과 storage account 이름을 기록해 둡니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud)를 사용하는 경우, 보안성이 확보된 공유 메커니즘을 사용해 storage account 이름과 access key를 W&amp;B 팀과 공유하세요.
 
     **팀 수준 BYOB**:
 
-    Dedicated Cloud 배포의 경우, 필요한 액세스 메커니즘과 권한이 구성된 Azure Blob Storage 컨테이너를 프로비저닝하기 위해 [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) 사용을 W&amp;B에서 권장합니다. Terraform을 사용하지 않는 Dedicated Cloud 배포 또는 Self-Managed 배포의 경우, 인스턴스 수준 스토리지를 프로비저닝하는 단계에 따라 버킷을 프로비저닝하세요. 인스턴스의 OIDC issuer URL을 제공해야 합니다. 다음 정보를 기록해 두세요:
+    Dedicated Cloud 배포의 경우, 필요한 액세스 메커니즘과 권한이 설정된 Azure Blob Storage 컨테이너를 프로비저닝하기 위해 [Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/examples/secure-storage-connector) 사용을 W&amp;B에서 권장합니다. Terraform을 사용하지 않는 Dedicated Cloud 배포 또는 Self-Managed 배포의 경우, 인스턴스 수준 스토리지를 프로비저닝하는 단계를 따라 버킷을 프로비저닝하세요. 인스턴스에 대한 OIDC issuer URL을 제공합니다. 다음 정보를 기록해 둡니다:
 
     * Storage account name
     * Storage container name
@@ -424,31 +424,31 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
   </Tab>
 
   <Tab title="S3 호환">
-    S3 호환 버킷을 생성합니다. 다음 정보를 기록해 두세요:
+    S3 호환 버킷을 생성합니다. 다음 정보를 메모해 두세요:
 
     * 액세스 키 (Access key)
     * 비밀 액세스 키 (Secret access key)
     * URL 엔드포인트
     * 버킷 이름
-    * 해당되는 경우, 폴더 경로
+    * 폴더 경로 (해당하는 경우)
     * 리전
   </Tab>
 </Tabs>
 
-다음으로 [스토리지 주소를 확인합니다](#determine-the-storage-address).
+다음으로, [스토리지 주소를 파악](#determine-the-storage-address)합니다.
 
 <div id="determine-the-storage-address">
-  ## 스토리지 주소 확인하기
+  ## 스토리지 주소 결정하기
 </div>
 
-이 섹션에서는 W&amp;B 팀을 BYOB 스토리지 버킷에 연결할 때 사용할 주소 형식을 설명합니다. 예시에서 꺾쇠 괄호(`<>`) 사이에 있는 플레이스홀더 값을 사용자의 버킷 정보로 바꾸십시오.
-자세한 지침은 아래 탭에서 확인하십시오.
+이 섹션에서는 W&amp;B Team을 BYOB 스토리지 버킷에 연결할 때 사용하는 구문을 설명합니다. 예시에서 꺾쇠 괄호(`<>`) 안의 플레이스홀더 값은 사용자의 버킷 정보로 바꾸세요.
+자세한 안내는 탭을 선택해서 확인하세요.
 
 <Tabs>
   <Tab title="CoreWeave">
-    이 섹션은 **Dedicated Cloud** 또는 **Self-Managed** 환경에서 팀 단위 BYOB에만 해당합니다. 인스턴스 단위 BYOB 또는 Multi-tenant Cloud의 경우에는 이미 [W&amp;B 구성](#configure-byob)을 진행할 준비가 된 상태입니다.
+    이 섹션은 **Dedicated Cloud** 또는 **Self-Managed** 환경에서 팀 수준 BYOB를 설정하는 경우에만 해당합니다. 인스턴스 수준 BYOB 또는 Multi-tenant Cloud의 경우 이미 [W&amp;B 구성](#configure-byob)을 진행할 준비가 된 상태입니다.
 
-    다음 형식을 사용하여 전체 버킷 경로를 확인하십시오. 꺾쇠 괄호(`<>`) 사이의 플레이스홀더를 버킷의 값으로 바꾸십시오.
+    다음 형식을 사용해 전체 버킷 경로를 지정합니다. 꺾쇠 괄호(`<>`) 안의 플레이스홀더는 버킷의 값으로 바꾸세요.
 
     **버킷 형식**:
 
@@ -456,7 +456,7 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
     cw://<accessKey>:<secretAccessKey>@cwobject.com/<bucketName>?tls=true
     ```
 
-    `cwobject.com` HTTPS 엔드포인트가 지원됩니다. TLS 1.3이 필요합니다. 다른 CoreWeave 엔드포인트에 관심이 있다면 [support](mailto:support@wandb.com)에 문의하십시오.
+    `cwobject.com` HTTPS 엔드포인트가 지원됩니다. TLS 1.3이 필요합니다. 다른 CoreWeave 엔드포인트 사용을 원한다면 [support](mailto:support@wandb.com)로 연락하세요.
   </Tab>
 
   <Tab title="AWS">
@@ -466,7 +466,7 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
     s3://<accessKey>:<secretAccessKey>@<s3_regional_url_endpoint>/<bucketName>?region=<region>
     ```
 
-    이 주소에서 `region` 파라미터는 필수입니다. 단, W&amp;B 인스턴스와 스토리지 버킷이 모두 AWS에 배포되어 있고 W&amp;B 인스턴스의 `AWS_REGION` 값이 버킷의 AWS S3 리전과 일치하는 경우는 예외입니다.
+    주소에서 `region` 파라미터는 필수입니다. 단, W&amp;B 인스턴스와 스토리지 버킷이 모두 AWS에 배포되어 있고, W&amp;B 인스턴스의 `AWS_REGION` 값이 버킷의 AWS S3 리전과 일치하는 경우는 예외입니다.
   </Tab>
 
   <Tab title="Google Cloud">
@@ -492,28 +492,28 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
     s3://<accessKey>:<secretAccessKey>@<url_endpoint>/<bucketName>?region=<region>&tls=true
     ```
 
-    이 주소에서 `region` 파라미터는 필수입니다.
+    주소에서 `region` 파라미터는 필수입니다.
 
     <Note>
-      이 섹션은 [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같이 S3에 호스팅되지 않은 S3 호환 스토리지 버킷이나, 온프레미스에 호스팅된 기타 엔터프라이즈급 S3 호환 솔루션에 대한 것입니다. AWS S3에 호스팅된 스토리지 버킷의 경우 **AWS** 탭을 참조하십시오.
+      이 섹션은 [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)와 같이 S3에 호스팅되지 않은 S3 호환 스토리지 버킷이나, 온프레미스에 호스팅된 다른 엔터프라이즈급 S3 호환 솔루션에 해당합니다. AWS S3에 호스팅된 스토리지 버킷의 경우 **AWS** 탭을 참조하세요.
 
-      MinIO Open Source는 현재 [유지 관리 모드(maintenance mode)](https://github.com/minio/minio)이며, 활성 개발이나 사전 컴파일된 바이너리가 제공되지 않습니다. 프로덕션 배포에서는 엔터프라이즈급 S3 호환 솔루션을 사용하십시오.
+      MinIO Open Source는 현재 [maintenance mode](https://github.com/minio/minio) (유지보수 모드) 상태이며, 활성 개발이나 사전 컴파일된 바이너리가 제공되지 않습니다. 프로덕션 배포에는 엔터프라이즈급 S3 호환 솔루션을 사용하세요.
 
-      선택적으로 S3 호환 모드를 제공하는 클라우드 네이티브(Cloud-native) 스토리지 버킷의 경우, 가능하다면 클라우드 네이티브 프로토콜 지정자를 사용하십시오. 예를 들어 CoreWeave 버킷에는 `s3://` 대신 `cw://`를 사용하십시오.
+      선택적으로 S3 호환 모드를 제공하는 클라우드 네이티브 스토리지 버킷의 경우, 가능하면 클라우드 네이티브 프로토콜 지정자를 사용하세요. 예를 들어 CoreWeave 버킷에는 `s3://` 대신 `cw://`를 사용합니다.
     </Note>
   </Tab>
 </Tabs>
 
-스토리지 주소를 확인했으면 이제 [팀 단위 BYOB를 구성](#configure-team-level-byob)할 준비가 되었습니다.
+스토리지 주소를 결정했으면, 이제 [팀 수준 BYOB를 구성](#configure-team-level-byob)할 준비가 되었습니다.
 
 <div id="configure-wb">
-  ## W&amp;B 구성
+  ## W&amp;B 구성하기
 </div>
 
-[버킷을 프로비저닝](#provision-your-bucket)하고 [주소를 확인](#determine-the-storage-address)했다면, 이제 [인스턴스 수준](#instance-level-byob) 또는 [팀 수준](#team-level-byob)에서 BYOB를 구성할 준비가 완료되었습니다.
+[bucket을 프로비저닝](#provision-your-bucket)하고 [주소를 확인](#determine-the-storage-address)했다면, 이제 [인스턴스 수준](#instance-level-byob) 또는 [팀 수준](#team-level-byob)에서 BYOB를 구성할 수 있습니다.
 
 <Warning>
-  스토리지 버킷 구조를 신중하게 계획하세요. W&amp;B용 스토리지 버킷을 구성한 이후에 그 데이터를 다른 버킷으로 마이그레이션하는 작업은 복잡하며 W&amp;B의 지원이 필요합니다. 이는 Dedicated Cloud 및 Self-Managed의 스토리지뿐만 아니라 Multi-tenant Cloud의 팀 수준 스토리지에도 모두 적용됩니다. 문의가 있으면 [support](mailto:support@wandb.com)로 연락하세요.
+  스토리지 버킷 구조를 신중하게 계획하세요. W&amp;B용 스토리지 버킷을 한 번 구성한 이후에는, 그 데이터를 다른 버킷으로 마이그레이션하는 작업이 복잡하며 W&amp;B의 지원이 필요합니다. 이 내용은 Dedicated Cloud와 Self-Managed의 스토리지뿐 아니라 Multi-tenant Cloud의 팀 수준 스토리지에도 모두 해당합니다. 문의 사항이 있으면 [support](mailto:support@wandb.com)로 연락하세요.
 </Warning>
 
 <div id="instance-level-byob">
@@ -521,81 +521,81 @@ W&amp;B는 다음과 같은 스토리지 제공자에 연결할 수 있습니다
 </div>
 
 <Note>
-  인스턴스 수준에서 CoreWeave AI Object Storage를 사용하는 경우, 아래 안내를 따르지 말고 [W&amp;B support](mailto:support@wandb.com)에 문의하세요. 셀프서비스 구성은 아직 지원되지 않습니다.
+  인스턴스 수준에서 CoreWeave AI Object Storage를 사용하는 경우, 아래 지침을 따르지 말고 대신 [W&amp;B support](mailto:support@wandb.com)에 문의하십시오. 셀프서비스 설정은 아직 지원되지 않습니다.
 </Note>
 
-**Dedicated Cloud**의 경우: 버킷 세부 정보를 W&amp;B 팀과 공유하면, W&amp;B 팀이 Dedicated Cloud 인스턴스를 구성합니다.
+**Dedicated Cloud**의 경우: 버킷 정보를 W&amp;B 팀과 공유하면, 팀에서 Dedicated Cloud 인스턴스를 구성해 줍니다.
 
-**Self-Managed**의 경우, W&amp;B App을 사용하여 인스턴스 수준 BYOB를 구성할 수 있습니다:
+**Self-Managed**의 경우, W&amp;B App을 사용하여 인스턴스 수준 BYOB를 설정할 수 있습니다:
 
 1. `admin` 역할을 가진 사용자로 W&amp;B에 로그인합니다.
 2. 상단의 사용자 아이콘을 클릭한 다음 **System Console**을 클릭합니다.
 3. **Settings** &gt; **System Connections**로 이동합니다.
-4. **Bucket Storage** 섹션에서, **Identity** 필드에 지정된 identity가 새 버킷에 대한 액세스 권한을 가지고 있는지 확인합니다.
+4. **Bucket Storage** 섹션에서, **Identity** 필드에 지정된 주체가 새 버킷에 대한 액세스 권한을 가지고 있는지 확인합니다.
 5. **Provider**를 선택합니다.
 6. **Bucket Name**을 입력합니다.
-7. 필요하다면 새 버킷에서 사용할 **Path**를 입력합니다.
+7. 선택적으로 새 버킷에서 사용할 **Path**를 입력합니다.
 8. **Save**를 클릭합니다.
 
 <div id="team-level-byob">
-  ### 팀 단위 BYOB
+  ### 팀 수준 BYOB
 </div>
 
-W&amp;B 앱에서 팀을 생성할 때 팀 단위 BYOB를 설정할 수 있습니다. 다음 두 가지 옵션이 있습니다:
+W&amp;B App에서 팀을 생성할 때 팀 수준 BYOB를 설정할 수 있습니다. 다음 두 가지 옵션 중에서 선택할 수 있습니다:
 
 * **기존 버킷 사용**: 먼저 버킷의 [스토리지 위치를 확인](#determine-the-storage-address)해야 합니다.
-* **새 버킷 생성** (Multi-tenant Cloud 한정): 팀을 생성할 때 W&amp;B가 사용 중인 클라우드 제공업체에 버킷을 자동으로 생성할 수 있습니다. CoreWeave, AWS, Google Cloud에서 지원됩니다.
+* **새 버킷 생성** (멀티 테넌트 클라우드에서만 사용 가능): 팀을 생성할 때 W&amp;B가 클라우드 제공자에 버킷을 자동으로 생성할 수 있습니다. 이는 CoreWeave, AWS, Google Cloud에서 지원됩니다.
 
 <Note>
-  - 팀이 한 번 생성되면 해당 팀의 스토리지는 변경할 수 없습니다.
-  - Instance 단위 BYOB에 대해서는 [Instance level BYOB](#instance-level-byob)를 참조하세요.
-  - 팀에 대해 CoreWeave 스토리지를 구성할 계획이라면, [CoreWeave 요구 사항](#coreweave-requirements)을 검토한 후 [지원팀](mailto:support@wandb.com)에 문의하여 CoreWeave에서 버킷이 올바르게 구성되었는지와 팀 구성이 유효한지 확인하세요. 팀이 생성된 이후에는 스토리지 세부 정보를 변경할 수 없기 때문입니다.
+  - 팀이 생성된 후에는 스토리지를 변경할 수 없습니다.
+  - 인스턴스 수준 BYOB의 경우 [Instance level BYOB](#instance-level-byob)를 참조하세요.
+  - 팀에 대해 CoreWeave 스토리지를 설정할 계획이라면, [CoreWeave 요구사항](#coreweave-requirements)을 검토하고 [support](mailto:support@wandb.com)로 연락하여 버킷이 CoreWeave에서 올바르게 설정되었는지와 팀 설정이 유효한지 확인하세요. 팀이 생성된 후에는 스토리지 세부 정보는 변경할 수 없습니다.
 </Note>
 
 계속하려면 배포 유형을 선택하세요.
 
 <Tabs>
   <Tab title="Dedicated Cloud / Self-Hosted">
-    1. **Dedicated Cloud**: 팀에서 스토리지 버킷을 사용하려면, 나머지 단계들을 진행하기 전에 **반드시** 버킷 경로를 W&amp;B 계정 팀에 제공하여, 해당 버킷을 인스턴스의 지원되는 파일 저장소에 추가하도록 해야 합니다.
+    1. **Dedicated Cloud**: 팀에서 스토리지 버킷을 사용하려면, 이후 단계로 진행하기 전에 버킷 경로를 계정 팀에 제공하여 해당 인스턴스의 지원 파일 스토어에 추가해 달라고 **반드시** 요청해야 합니다.
 
-    2. **Self-Managed**: 팀에서 스토리지 버킷을 사용하려면, 나머지 단계들을 진행하기 전에 **반드시** 버킷 경로를 `GORILLA_SUPPORTED_FILE_STORES` 환경 변수에 추가한 뒤 W&amp;B를 재시작해야 합니다.
+    2. **Self-Managed**: 팀에서 스토리지 버킷을 사용하려면, 이후 단계로 진행하기 전에 버킷 경로를 `GORILLA_SUPPORTED_FILE_STORES` 환경 변수에 **반드시** 추가한 뒤 W&amp;B를 재시작해야 합니다.
 
-    3. `admin` 역할을 가진 사용자로 W&amp;B에 로그인한 다음, 왼쪽 상단 아이콘을 클릭해 왼쪽 내비게이션을 열고 **Create a team to collaborate**를 클릭합니다.
+    3. `admin` 역할을 가진 사용자로 W&amp;B에 로그인하고, 왼쪽 상단의 아이콘을 클릭해 왼쪽 내비게이션을 연 다음 **Create a team to collaborate**를 클릭합니다.
 
     4. 팀 이름을 입력합니다.
 
     5. **Storage Type**을 **External storage**로 설정합니다.
 
        <Note>
-         인스턴스 수준 스토리지를 팀 스토리지로 사용하려면(내부 또는 외부 여부와 상관없이), 인스턴스 수준 버킷이 BYOB로 구성되어 있더라도 **Storage Type**을 **Internal**로 유지합니다. 팀에서 별도의 외부 스토리지를 사용하려면, 팀의 **Storage Type**을 **External**로 설정하고 다음 단계에서 버킷 세부 정보를 구성합니다.
+         인스턴스 수준 스토리지를 팀 스토리지로 사용하려면(내부 또는 외부 여부와 관계없이), 인스턴스 수준 버킷이 BYOB로 설정되어 있더라도 **Storage Type**을 **Internal**로 그대로 두십시오. 팀에 별도의 외부 스토리지를 사용하려면, 팀의 **Storage Type**을 **External**로 설정한 뒤, 다음 단계에서 버킷 세부 정보를 구성하십시오.
        </Note>
 
     6. **Bucket location**을 클릭합니다.
 
-    7. 기존 버킷을 사용하려면 목록에서 선택합니다. 새 버킷을 추가하려면 맨 아래의 **Add bucket**을 클릭한 다음 버킷의 세부 정보를 입력합니다.
+    7. 기존 버킷을 사용하려면 목록에서 선택합니다. 새 버킷을 추가하려면 하단의 **Add bucket**을 클릭한 다음 버킷 세부 정보를 입력합니다.
 
-       **Cloud provider**를 클릭하고 **CoreWeave**, **AWS**, **Google Cloud** 또는 **Azure**를 선택합니다.
+       **Cloud provider**를 클릭하고 **CoreWeave**, **AWS**, **Google Cloud**, 또는 **Azure**를 선택합니다.
 
-       클라우드 제공자가 목록에 없다면, 인스턴스에 대해 지원되는 파일 저장소에 버킷 경로를 추가하기 위해 [Provision your bucket](#set-environment-variable)의 지침을 모두 따랐는지 확인합니다. 스토리지 제공자가 여전히 표시되지 않으면, 지원을 받기 위해 [contact support](mailto:support@wandb.ai)로 문의하십시오.
+       클라우드 제공자가 목록에 없다면, 인스턴스의 지원 파일 스토어에 버킷 경로를 추가하기 위해 [Provision your bucket](#set-environment-variable)의 지침을 모두 따랐는지 확인하십시오. 스토리지 제공자가 여전히 표시되지 않으면, [지원팀에 문의](mailto:support@wandb.ai)하여 도움을 받으십시오.
 
     8. 버킷 세부 정보를 지정합니다.
-       * **CoreWeave**의 경우 버킷 이름만 제공합니다.
+       * **CoreWeave**의 경우, 버킷 이름만 제공합니다.
        * Amazon S3, Google Cloud 또는 S3 호환 스토리지의 경우, [앞에서 확인한](#determine-the-storage-address) 전체 버킷 경로를 제공합니다.
-       * W&amp;B Dedicated 또는 Self-Managed 환경에서 Azure를 사용하는 경우, **Account name**에는 Azure 계정을, **Container name**에는 Azure blob storage 컨테이너를 설정합니다.
-       * 선택적으로 추가 연결 설정을 제공합니다:
-         * 필요한 경우 **Path**를 버킷 서브 경로로 설정합니다.
-         * **CoreWeave**: 추가 연결 설정이 필요 없습니다.
+       * Azure(W&amp;B Dedicated 또는 Self-Managed 환경)의 경우, **Account name**에 Azure 계정을, **Container name**에 Azure Blob 스토리지 컨테이너를 설정합니다.
+       * 선택적으로 추가 연결 설정을 제공합니다.
+         * 필요한 경우 **Path**를 버킷 하위 경로로 설정합니다.
+         * **CoreWeave**: 추가 연결 설정이 필요하지 않습니다.
          * **AWS**: **KMS key ARN**을 KMS 암호화 키의 ARN으로 설정합니다.
-         * **Google Cloud**: 추가 연결 설정이 필요 없습니다.
-         * **Azure**: **Tenant ID**와 **Managed Identity Client ID** 값을 지정합니다. 이 필드는 `GORILLA_SUPPORTED_FILE_STORES`로 연결 문자열을 구성한 경우를 제외하고 필수입니다.
+         * **Google Cloud**: 추가 연결 설정이 필요하지 않습니다.
+         * **Azure**: **Tenant ID**와 **Managed Identity Client ID** 값을 지정합니다. `GORILLA_SUPPORTED_FILE_STORES`로 연결 문자열을 구성하지 않았다면 이 필드는 필수입니다.
 
     9. **Create team**을 클릭합니다.
 
-    W&amp;B가 버킷에 액세스하는 동안 오류가 발생하거나 잘못된 설정을 감지하면 페이지 하단에 오류 또는 경고가 표시됩니다. 그렇지 않으면 팀이 생성됩니다.
+    W&amp;B가 버킷에 접근하는 동안 오류가 발생하거나 잘못된 설정을 감지하면 페이지 하단에 오류 또는 경고가 표시됩니다. 그렇지 않으면 팀이 생성됩니다.
   </Tab>
 
   <Tab title="Multi-tenant Cloud">
-    1. 새 팀 생성을 시작했던 브라우저 창으로 돌아가, 이전에 확인했던 W&amp;B 조직 ID를 찾습니다. 그렇지 않은 경우, `admin` 역할을 가진 사용자로 W&amp;B에 로그인하고 왼쪽 상단 아이콘을 클릭해 왼쪽 내비게이션을 연 뒤 **Create a team to collaborate**를 클릭합니다.
+    1. 앞에서 새 팀 생성을 시작할 때 사용했던 브라우저 창으로 전환하여 이전에 확인한 W&amp;B 조직 ID를 찾습니다. 그렇지 않은 경우, `admin` 역할을 가진 사용자로 W&amp;B에 로그인하고, 왼쪽 상단의 아이콘을 클릭해 왼쪽 내비게이션을 연 다음 **Create a team to collaborate**를 클릭합니다.
 
     2. 팀 이름을 입력합니다.
 
@@ -605,26 +605,26 @@ W&amp;B 앱에서 팀을 생성할 때 팀 단위 BYOB를 설정할 수 있습�
 
     5. 기존 버킷을 사용하려면 목록에서 선택합니다.
 
-    6. 새 버킷을 생성하려면 맨 아래에서 **Add bucket**을 클릭한 다음:
+    6. 새 버킷을 생성하려면 하단의 **Add bucket**을 클릭한 다음 다음을 수행합니다.
 
-       1. **Cloud provider**를 클릭하고 **CoreWeave**, **AWS** 또는 **Google Cloud**를 선택합니다.
-       2. 버킷 세부 정보를 입력합니다:
+       1. **Cloud provider**를 클릭하고 **CoreWeave**, **AWS**, 또는 **Google Cloud**를 선택합니다.
+       2. 버킷 세부 정보를 입력합니다.
           * **Name**: 버킷 이름을 입력합니다.
-          * **Path** (선택 사항): 버킷 내에서 사용할 서브 경로를 입력합니다.
-       3. 선택한 클라우드 제공자에 대해 추가 연결 설정을 제공합니다:
-          * CoreWeave: 추가 설정이 필요 없습니다.
-          * AWS: 선택적으로 암호화를 위한 **KMS key ARN**을 제공합니다.
-          * Google Cloud: 추가 설정이 필요 없습니다.
+          * **Path**(선택 사항): 버킷 내에서 사용할 하위 경로를 입력합니다.
+       3. 선택한 클라우드 제공자에 대한 추가 연결 설정을 제공합니다.
+          * CoreWeave: 추가 설정이 필요하지 않습니다.
+          * AWS: 암호화를 위해 선택적으로 **KMS key ARN**을 제공합니다.
+          * Google Cloud: 추가 설정이 필요하지 않습니다.
 
        <Note>
-         **Create team**을 클릭하면, W&amp;B가 지정한 구성으로 사용자의 클라우드 제공자에 버킷을 자동으로 생성합니다.
+         **Create team**을 클릭하면, W&amp;B가 지정된 설정으로 클라우드 제공자에 버킷을 자동으로 생성합니다.
        </Note>
 
-    7. 팀 구성원을 초대합니다. **Invite team members**에서 쉼표로 구분된 이메일 주소 목록을 입력합니다. 그렇지 않으면 팀이 생성된 후에 팀 구성원을 초대할 수 있습니다.
+    7. 팀 구성원을 초대합니다. **Invite team members**에서 쉼표로 구분된 이메일 주소 목록을 입력합니다. 그렇지 않으면, 팀이 생성된 후에 구성원을 초대할 수 있습니다.
 
     8. **Create team**을 클릭합니다.
 
-    W&amp;B가 버킷에 액세스하는 동안 오류가 발생하거나 잘못된 설정을 감지하면 페이지 하단에 오류 또는 경고가 표시됩니다. 그렇지 않으면 팀이 생성됩니다.
+    W&amp;B가 버킷에 접근하는 동안 오류가 발생하거나 잘못된 설정을 감지하면 페이지 하단에 오류 또는 경고가 표시됩니다. 그렇지 않으면 팀이 생성됩니다.
   </Tab>
 </Tabs>
 
@@ -636,30 +636,30 @@ W&amp;B 앱에서 팀을 생성할 때 팀 단위 BYOB를 설정할 수 있습�
   ### CoreWeave
 </div>
 
-이 섹션에서는 CoreWeave AI Object Storage에 연결하는 과정에서 발생하는 문제를 해결하는 방법을 설명합니다.
+이 섹션에서는 CoreWeave AI Object Storage에 연결할 때 발생하는 문제를 해결하는 방법을 설명합니다.
 
 * **연결 오류**
-  * W&amp;B 인스턴스가 CoreWeave 네트워크 엔드포인트에 연결할 수 있는지 확인합니다.
-  * CoreWeave는 버킷 이름이 경로의 시작 부분에 서브도메인으로 포함되는 virtual-hosted 스타일 경로를 사용합니다. 예를 들어 `cw://bucket-name.cwobject.com` 은 올바른 주소이고, `cw://cwobject.com/bucket-name/` 은 올바르지 않습니다.
-  * 버킷 이름에는 밑줄 문자(`_`)나 DNS 규칙과 호환되지 않는 다른 문자가 포함되면 안 됩니다.
-  * 버킷 이름은 CoreWeave의 모든 위치에서 전역적으로 고유해야 합니다.
-  * 버킷 이름은 예약된 접두사인 `cw-` 또는 `vip-` 로 시작하면 안 됩니다.
-* **CORS 유효성 검사 실패**
-  * CORS 정책이 필요합니다. CoreWeave는 S3와 호환됩니다. CORS에 대한 자세한 내용은 AWS 문서의 [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html)를 참고하세요.
-  * `AllowedMethods` 에는 `GET`, `PUT`, `HEAD` 메서드가 포함되어야 합니다.
-  * `ExposeHeaders` 에는 `ETag` 가 포함되어야 합니다.
-  * W&amp;B 프런트엔드 도메인은 CORS 정책의 `AllowedOrigins` 에 포함되어야 합니다. 이 페이지에 제공된 예제 CORS 정책은 `*` 를 사용해 모든 도메인을 포함합니다.
-* **LOTA 엔드포인트 관련 문제**
-  * 현재 W&amp;B에서 LOTA 엔드포인트로의 연결은 지원되지 않습니다. 관심이 있다면 [지원팀에 문의](mailto:support@wandb.com)해 주세요.
+  * W&amp;B 인스턴스가 CoreWeave 네트워크 엔드포인트에 연결할 수 있는지 확인하세요.
+  * CoreWeave는 버킷 이름이 경로의 시작 부분에 서브도메인으로 포함되는 virtual-hosted 스타일 경로 형식을 사용합니다. 예를 들어 `cw://bucket-name.cwobject.com`은 올바르지만, `cw://cwobject.com/bucket-name/`은 올바르지 않습니다.
+  * 버킷 이름에는 밑줄(`_`) 또는 DNS 규칙과 호환되지 않는 다른 문자가 포함되면 안 됩니다.
+  * 버킷 이름은 모든 CoreWeave 위치에서 전역적으로 고유해야 합니다.
+  * 버킷 이름은 예약된 접두사인 `cw-` 또는 `vip-`로 시작해서는 안 됩니다.
+* **CORS 검증 실패**
+  * CORS 정책이 필요합니다. CoreWeave는 S3와 호환됩니다. CORS에 대한 자세한 내용은 AWS 문서의 [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html)를 참조하세요.
+  * `AllowedMethods`에는 `GET`, `PUT`, `HEAD` 메서드가 포함되어야 합니다.
+  * `ExposeHeaders`에는 `ETag`이 포함되어야 합니다.
+  * W&amp;B 프런트엔드 도메인은 CORS 정책의 `AllowedOrigins`에 포함되어야 합니다. 이 페이지에 제공된 예시 CORS 정책은 `*`를 사용하여 모든 도메인을 포함합니다.
+* **LOTA 엔드포인트 문제**
+  * 현재 W&amp;B에서 LOTA 엔드포인트로의 연결은 지원되지 않습니다. 관심이 있다면 [지원팀에 문의](mailto:support@wandb.com)하세요.
 * **액세스 키 및 권한 오류**
-  * CoreWeave API Access Key가 만료되지 않았는지 확인합니다.
-  * CoreWeave API Access Key와 Secret Key에 `GetObject`, `PutObject`, `DeleteObject`, `ListBucket` 권한이 충분히 부여되어 있는지 확인합니다. 이 페이지의 예제는 이 요구 사항을 충족합니다. 자세한 내용은 CoreWeave 문서의 [Create and Manage Access Keys](https://docs.coreweave.com/products/storage/object-storage/auth-access/manage-access-keys/about)를 참고하세요.
+  * CoreWeave API Access Key가 만료되지 않았는지 확인하세요.
+  * CoreWeave API Access Key와 Secret Key에 `GetObject`, `PutObject`, `DeleteObject`, `ListBucket` 권한이 충분히 부여되어 있는지 확인하세요. 이 페이지의 예시는 이 요구 사항을 충족합니다. 자세한 내용은 CoreWeave 문서의 [Create and Manage Access Keys](https://docs.coreweave.com/products/storage/object-storage/auth-access/manage-access-keys/about)를 참조하세요.
 
 <div id="google-cloud">
   ### Google Cloud
 </div>
 
-이 섹션에서는 Google Cloud Storage에 연결할 때 발생하는 문제를 해결하는 방법을 다룹니다.
+이 섹션에서는 Google Cloud Storage 연결 문제를 해결하는 방법을 안내합니다.
 
 * `Bucket does not have soft deletion enabled`
-  Google Cloud Storage 버킷에서 소프트 삭제(soft deletion)가 활성화되어 있는지 확인하세요. 자세한 내용은 [버킷의 소프트 삭제 정책 수정](https://docs.cloud.google.com/storage/docs/use-soft-delete)을 참조하세요.
+  Google Cloud Storage 버킷에 소프트 삭제가 활성화되어 있는지 확인하세요. 자세한 내용은 [버킷의 소프트 삭제 정책 편집](https://docs.cloud.google.com/storage/docs/use-soft-delete)을 참고하세요.
