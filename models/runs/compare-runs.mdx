@@ -87,7 +87,7 @@ The baseline run is always visible in line plots for metrics the run has logged.
   </Frame>
 
 ### Summary metric deltas
-When a run is set as the baseline, every other run that logs the same summary metric as the baseline run shows the delta (amount of change) of that metric from the baseline. The delta appears to the right of the metric's value in the run's row in the runs table.
+When a run is set as the baseline, by default every other run that logs the same summary metric as the baseline run shows the delta (amount of change) of that metric from the baseline. The delta appears to the right of the metric's value in the run's row in the runs table.
 
 By default, the delta is shown with dark gray text on a dark gray background. To turn on semantic coloring for quick visual reference, you can set the **Metric directionality** for a column. With directionality set:
 
@@ -102,6 +102,15 @@ To set the directionality for a metric:
 
 The following screenshot shows how the runs `nanochat-train-base` and `nanochat-train-mid` compare with the baseline run `nanochat-train`. Delta metrics are shown for `TOTAL_TRAINING_TIME`, `TRAIN/DT`, AND `TRAIN/GRAD_NORM`.
 ![Screenshot comparing summary metric deltas from the baseline run](/images/models/pinned-and-baseline-runs/baseline_run_deltas.png)
+
+## Hide summary metric deltas in a workspace
+By default, a workspace with a baseline run always displays summary metric deltas. To hide them for a workspace:
+
+1. In the workspace, click **Settings**.
+1. In the drawer that appears, click **Runs**.
+1. In the **Baseline** tab, toggle **Show value deltas in the runs table**.
+1. Close the workspace settings drawer.
+
 
 ## Use cases
 This section describes some scenarios where pinned and baseline runs can help guide your experiments.
