@@ -9,21 +9,21 @@ import PreviewLink from '/snippets/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-This page shows how to use [LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a model checkpoint in W&B Models, using infrastructure managed by CoreWeave. To evaluate a hosted API model served at a publicly-accessible URL, see [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model) instead.
+This page shows how to use [LLM Evaluation Jobs](/models/launch) to run a series of evaluation benchmarks on a fine-tuned model in W&B Models, using infrastructure managed by CoreWeave. To evaluate a hosted API model served at a publicly-accessible URL, see [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model) instead, or run a small benchmark against a public OpenAI model endpoint with a streamlined [Quickstart](/models/launch#quickstart).
 
 ## Prerequisites
 1. Review the [requirements and limitations](/models/launch#more-details) for LLM Evaluation Jobs.
 1. To run certain benchmarks, a team admin must add the required API keys as [team-scoped secrets](/platform/secrets#add-a-secret). Any team member can specify the secret when configuring an evaluation job. See [Evaluation model catalog](/models/launch/evaluations) for requirements.
     - An **OpenAPI API key**: Used by benchmarks that use OpenAI models for scoring. Required if the field **Scorer API key** appears after you select a benchmark. The secret must be named `OPENAI_API_KEY`.
     - A **Hugging Face user access token**: Required for certain benchmarks like `lingoly` and `lingoly2` that require access to one or more gated Hugging Face datasets. Required if the field **Hugging Face Token** appears after selecting a benchmark. The API key must have access to the relevant dataset. See the Hugging Face documentation for [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) and [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user).
-1. Create a new [W&B project](/models/track/project-page) for the evaluation results. From the left navigation, click **Create new project**.
+1. Create a new [W&B project](/models/track/project-page) for the evaluation results. From the project sidebar, click **Create new project**.
 1. Package the model in VLLM-compatible format and save it as an artifact in W&B Models. An attempt to benchmark any other type of artifact will fail. For one approach, see [Example: Prepare a model](#example-prepare-your-model) at the end of this page.
 1. Review the documentation for a given benchmark to understand how it works and learn about specific requirements. For convenience, the [Available evaluation benchmarks](/models/launch/evaluations) reference includes relevant links.
 
 ## Evaluate your model
 Follow these steps to set up and launch an evaluation job:
 
-1. Log in to W&B, then click **Launch** in the left navigation. The **LLM Evaluation Jobs** page displays.
+1. Log in to W&B, then click **Launch** in the project sidebar. The **LLM Evaluation Jobs** page displays.
 1. Click **Evaluate model checkpoint** to set up the evaluation job.
 1. Select a destination project to save the evaluation results to.
 1. In the **Model artifact** section, specify the project, artifact, and version of the prepared model to evaluate.
