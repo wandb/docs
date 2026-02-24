@@ -64,6 +64,7 @@ So the convention was: **product/feature names (often capitalized or in UI/list 
   - **Do-not-translate terms**: One row per term; Definition optional; `ko` (or “Translation (ko)”) = same as Term.
   - **Translated terms**: One row per term; Definition optional; `ko` = desired Korean equivalent.
 - Confirm the exact column names expected by the Locadex “Upload Context CSV” (e.g. `Term`, `Definition`, `ko` or `Translation (ko)`). Adjust CSV headers if the console expects different names.
+- **CSV format (for valid parsing)**: Use standard CSV quoting so the file parses correctly. The comma is the field separator; any field that contains a comma, double quote, or newline **must** be wrapped in double quotes. Within a quoted field, escape internal double quotes by doubling them (`""`). One term per row (do not put multiple variants like “run, Run” in one cell). When generating or editing the CSV programmatically, use a CSV library or explicitly quote such fields; unquoted commas in Term or Definition will be treated as column boundaries and break the row.
 
 ### 3. Configure the Locadex project in the console
 
@@ -150,6 +151,16 @@ A starter Korean glossary is provided in this repo: **runbooks/locadex-glossary-
 - **ko**: Korean translation. Use the same string as Term for “do not translate”; use the desired Korean string for “translate as.”
 
 To add more terms from `configs/language_dicts/ko.yaml` (or from manual KO pages on main), append rows with the same columns. If the Locadex console expects different column names for locale translations (e.g. “Translation (ko)”), rename the `ko` column when uploading or in the CSV before upload.
+
+### CSV formatting for future generation
+
+When creating or appending to the glossary CSV (by hand or by script), follow these rules so the file remains valid:
+
+- **Delimiter**: Comma (`,`). Do not use comma inside a field unless the field is quoted.
+- **Quoting**: Wrap any field in double quotes (`"`) if it contains a comma, a double quote, or a newline. Optionally quote all fields for consistency.
+- **Escaping**: Inside a quoted field, represent a literal double quote as two double quotes (`""`).
+- **One term per row**: Each row is one term. Do not list multiple variants in one cell (e.g. use separate rows for “run” and “artifact”, not “run, artifact” in the Term column).
+- **Tools**: When generating CSV programmatically, use a proper CSV library (e.g. Python `csv` module with `quoting=csv.QUOTE_MINIMAL` or `QUOTE_NONNUMERIC`) so commas and quotes in Term or Definition are handled correctly.
 
 ## Notes
 
