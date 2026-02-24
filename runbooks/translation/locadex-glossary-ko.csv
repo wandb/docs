@@ -1,0 +1,45 @@
+Term,Definition,ko
+W&B,Weights & Biases company and product branding. Do not translate.,W&B
+Weights & Biases,Company and product name. Do not translate.,Weights & Biases
+Artifacts,W&B product/feature name (artifact system). Do not translate when referring to the product.,Artifacts
+Entities,W&B product term. Do not translate.,Entities
+Projects,W&B product term. Do not translate.,Projects
+Runs,W&B product term (experiment runs). Do not translate.,Runs
+Experiments,W&B product term. Do not translate.,Experiments
+Datasets,W&B product term. Do not translate.,Datasets
+Reports,W&B product term. Do not translate.,Reports
+Sweeps,W&B product term (hyperparameter sweeps). Do not translate.,Sweeps
+Weave,W&B product name (Weave). Do not translate.,Weave
+Launch,W&B product name (Launch). Do not translate.,Launch
+Models,W&B product name (Models). Do not translate.,Models
+Teams,W&B product term. Do not translate.,Teams
+Users,W&B product term. Do not translate.,Users
+Workspace,W&B product term. Do not translate when used as UI/feature name.,Workspace
+Registered Models,W&B product term. Do not translate.,Registered Models
+run,W&B run (single experiment). Keep in English when used as product term.,run
+artifact,W&B artifact (versioned data/log). Use this translation for common noun usage.,아티팩트
+sweep,Hyperparameter sweep. Use this translation when not the product name.,스윕
+project,Project (general or W&B project). Use this translation for common noun.,프로젝트
+workspace,Workspace (general or W&B). Use this translation for common noun.,워크스페이스
+user,User. Use this translation for common noun.,사용자
+dashboard,Dashboard.,대시보드
+metrics,Metrics (ML).,메트릭
+hyperparameter,Hyperparameter.,하이퍼파라미터
+configuration,Configuration.,설정
+checkpoint,Checkpoint.,체크포인트
+dataset,Dataset (general).,데이터셋
+model,Model (ML).,모델
+training,Training.,트레이닝
+validation,Validation.,검증
+epoch,Epoch.,에포크
+batch size,Batch size.,배치 크기
+framework,Framework.,프레임워크
+integration,Integration.,인테그레이션
+API key,API key.,API 키
+Quickstart,Quickstart heading/label.,퀵스타트
+wandb,The wandb library/CLI name. Do not translate.,wandb
+Weave expression,Weave product term. Do not translate.,Weave expression
+Data Visualization,Product/feature label. Do not translate.,Data Visualization
+Model Management,Product/feature label. Do not translate.,Model Management
+report,Report (general). Use this translation for common noun.,리포트
+dictionary,Data structure (e.g. Python dict). Use this translation in code/docs context.,사전
