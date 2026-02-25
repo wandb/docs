@@ -6,7 +6,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" />
 
-[torchtune](https://pytorch.org/torchtune/stable/index.html)은 대규모 언어 모델(LLM)의 작성, 파인튜닝, 실험 과정을 간소화하도록 설계된 PyTorch 기반 라이브러리입니다. 또한 torchtune은 [W&amp;B로 로깅](https://pytorch.org/torchtune/stable/deep_dives/wandb_logging.html)을 기본 지원하여 트레이닝 과정을 더 효율적으로 추적하고 시각화할 수 있게 해줍니다.
+[torchtune](https://meta-pytorch.org/torchtune/stable/index.html)은 대규모 언어 모델(LLM)의 작성, 파인튜닝, 실험 과정을 간소화하도록 설계된 PyTorch 기반 라이브러리입니다. 또한 torchtune은 [W&amp;B로 로깅](https://meta-pytorch.org/torchtune/stable/deep_dives/wandb_logging.html)을 기본 지원하여 트레이닝 과정을 더 효율적으로 추적하고 시각화할 수 있게 해줍니다.
 
 <Frame>
   <img src="/images/integrations/torchtune_dashboard.png" alt="TorchTune 트레이닝 대시보드" />
@@ -108,7 +108,7 @@ W&amp;B는 **Overview** 탭에 최종 확정된 config를 기록합니다. 또�
   `global_step`은 트레이닝 스텝 수 자체와 동일하지 않습니다. 트레이닝 루프에서의 현재 스텝에 해당하며, 그래디언트 누적을 고려합니다. 기본적으로 옵티마이저 스텝이 수행될 때마다 `global_step`이 1씩 증가합니다. 예를 들어, 데이터로더에 배치가 10개 있고, gradient accumulation steps가 2이며 3 에포크를 실행하면, 옵티마이저는 총 15번 스텝을 수행합니다. 이 경우 `global_step`은 1에서 15까지의 값을 갖습니다.
 </Note>
 
-torchtune의 간결한 설계 덕분에 사용자 정의 메트릭을 손쉽게 추가하거나 기존 메트릭을 수정할 수 있습니다. 해당 [recipe 파일](https://github.com/pytorch/torchtune/tree/main/recipes)만 수정하면 되며, 예를 들어 전체 에포크 수에 대한 비율(%)로 `current_epoch`을 계산한 뒤, 다음과 같이 로깅할 수 있습니다:
+torchtune의 간결한 설계 덕분에 사용자 정의 메트릭을 손쉽게 추가하거나 기존 메트릭을 수정할 수 있습니다. 해당 [recipe 파일](https://github.com/meta-pytorch/torchtune/tree/main/recipes)만 수정하면 되며, 예를 들어 전체 에포크 수에 대한 비율(%)로 `current_epoch`을 계산한 뒤, 다음과 같이 로깅할 수 있습니다:
 
 ```python
 # 레시피 파일의 `train.py` 함수 내부
@@ -126,7 +126,7 @@ self._metric_logger.log_dict(
   ## 체크포인트 저장 및 로드
 </div>
 
-torchtune 라이브러리는 다양한 [체크포인트 형식](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)을 지원합니다. 사용 중인 모델의 출처에 따라 적절한 [checkpointer 클래스](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html)를 사용해야 합니다.
+torchtune 라이브러리는 다양한 [체크포인트 형식](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html)을 지원합니다. 사용 중인 모델의 출처에 따라 적절한 [checkpointer 클래스](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html)를 사용해야 합니다.
 
 모델 체크포인트를 [W&amp;B Artifacts](/ko/models/artifacts/)에 저장하려면, 가장 간단한 방법은 해당 레시피 내부의 `save_checkpoint` 함수를 오버라이드하는 것입니다.
 

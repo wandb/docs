@@ -1,0 +1,1983 @@
+---
+description: 클라우드 또는 온프레미스 환경에서 Kubernetes Operator를 사용하여 W&B 플랫폼 배포
+title: Kubernetes Operator를 사용하여 W&B 배포
+---
+
+import SelfManagedMysqlRequirements from "/snippets/ko/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedRedisRequirements from "/snippets/ko/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/ko/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/ko/_includes/byob-provisioning-link.mdx";
+import SelfManagedVerifyInstallation from "/snippets/ko/_includes/self-managed-verify-installation.mdx";
+
+<div id="overview">
+  ## 개요
+</div>
+
+W&amp;B Kubernetes Operator는 클라우드 또는 온프레미스 환경의 Kubernetes에서 W&amp;B Server를 배포하는 데 권장되는 방식입니다. Operator에 대한 개요, W&amp;B가 이를 사용하는 이유, 그리고 설정 계층 구조가 어떻게 작동하는지에 대해서는 [셀프 매니지드](/ko/platform/hosting/hosting-options/self-managed#about-the-wb-kubernetes-operator)를 참고하세요.
+
+<div id="before-you-begin">
+  ## 시작하기 전에
+</div>
+
+Kubernetes Operator를 사용해 W&amp;B를 배포하기 전에 인프라가 모든 요구 사항을 충족하는지 확인하세요:
+
+1. **인프라 요구 사항 검토**: 다음 항목에 대한 자세한 내용을 확인하려면 [Self-Managed 인프라 요구 사항](/ko/platform/hosting/self-managed/requirements/) 페이지를 참조하세요:
+
+* 소프트웨어 버전 요구 사항 (Kubernetes, MySQL, Redis, Helm)
+  * 하드웨어 요구 사항 (CPU 아키텍처, 용량 권장 사항)
+  * Kubernetes 클러스터 설정
+  * 네트워킹, SSL/TLS, 및 DNS 요구 사항
+
+2. **W&amp;B Server 라이선스 발급받기**: Requirements 페이지의 [License](/ko/platform/hosting/self-managed/requirements#license) 섹션을 참조하세요.
+3. **외부 서비스 프로비저닝**: 배포 전에 MySQL, Redis, 및 오브젝트 스토리지를 미리 준비하세요.
+
+추가적인 내용은 [참조 아키텍처](/ko/platform/hosting/self-managed/ref-arch/) 페이지를 참조하세요.
+
+<div id="mysql-database">
+  ### MySQL 데이터베이스
+</div>
+
+<SelfManagedMysqlRequirements />
+
+설정 파라미터와 데이터베이스 생성을 포함한 MySQL 전체 설정 방법은 [요구 사항 페이지의 MySQL 섹션](/ko/platform/hosting/self-managed/requirements/#mysql-database)을 참고하세요.
+
+<div id="redis">
+  ### Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+Helm values에서 외부 Redis 인스턴트를 설정하는 방법에 대한 자세한 내용은 [외부 Redis 설정 섹션](#external-redis)을 참조하세요.
+
+<div id="object-storage">
+  ### 오브젝트 스토리지
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+<ByobProvisioningLink />
+
+Helm values에서 오브젝트 스토리지를 설정하는 방법은 [오브젝트 스토리지 설정 섹션](#object-storage-bucket)을 참조하세요.
+
+<div id="openshift-kubernetes-clusters">
+  ### OpenShift Kubernetes 클러스터
+</div>
+
+W&amp;B는 클라우드, 온프레미스, 에어갭 환경의 [OpenShift Kubernetes 클러스터](https://www.redhat.com/en/technologies/cloud-computing/openshift)에서 배포를 지원합니다.
+
+<Note>
+  W&amp;B는 공식 W&amp;B Helm 차트를 사용해 설치할 것을 권장합니다.
+</Note>
+
+<div id="run-the-container-as-an-un-privileged-user">
+  #### 비특권 사용자로 컨테이너 실행
+</div>
+
+기본적으로 컨테이너의 `$UID`는 999입니다. 오케스트레이터에서 컨테이너를 루트가 아닌 사용자로 실행해야 하는 경우 `$UID`를 100000 이상으로, `$GID`를 0으로 지정합니다.
+
+<Note>
+  파일 시스템 권한이 올바르게 동작하려면 W&amp;B는 루트 그룹(`$GID=0`)으로 시작해야 합니다.
+</Note>
+
+각 W&amp;B 구성 요소에 대해 security context를 구성합니다. 예를 들어 API 구성 요소를 설정하려면 다음과 같이 구성합니다:
+
+```yaml
+api:
+  install: true
+  image:
+    repository: wandb/megabinary
+    tag: 0.74.1  # 실제 버전으로 교체하세요
+  pod:
+    securityContext:
+      fsGroup: 10001
+      fsGroupChangePolicy: Always
+      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 10001
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
+```
+
+필요한 경우 `app`이나 `console` 등의 다른 컴포넌트에 대해 사용자 지정 보안 컨텍스트를 구성하세요. 자세한 내용은 [사용자 지정 보안 컨텍스트](#custom-security-context)를 참조하세요.
+
+<div id="deploy-wb-server-application">
+  ## W&amp;B Server 애플리케이션 배포
+</div>
+
+<Note>
+  **Helm과 함께 사용하는 W&amp;B Kubernetes Operator가** 클라우드, 온프레미스, 에어갭 환경을 포함한 모든 W&amp;B Self-Managed 배포에 권장되는 설치 방법입니다.
+</Note>
+
+배포 방법을 선택하세요:
+
+<Tabs>
+  <Tab title="Helm CLI">
+    W&amp;B는 Kubernetes 클러스터에 W&amp;B Kubernetes operator를 배포하기 위한 Helm 차트를 제공합니다. 이 방식은 Helm CLI 또는 ArgoCD와 같은 지속적 배포 도구를 사용해 W&amp;B Server를 배포할 수 있게 해줍니다.
+
+    배포 관련 고려 사항은 [환경별 고려 사항](#environment-specific-considerations) 및 [퍼블릭 클라우드에서 Terraform으로 배포](#deploy-with-terraform-on-public-cloud)를 참조하세요. 외부 네트워크와 분리된(disconnected) 환경의 경우 [Air-Gapped Kubernetes에 배포](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/)를 참조하세요.
+
+    Helm CLI로 W&amp;B Kubernetes Operator를 설치하려면 다음 단계를 따르세요:
+
+    1. W&amp;B Helm 리포지토리를 추가합니다. W&amp;B Helm 차트는 W&amp;B Helm 리포지토리에서 사용할 수 있습니다:
+       ```shell
+       helm repo add wandb https://charts.wandb.ai
+       helm repo update
+       ```
+
+    2. Kubernetes 클러스터에 Operator를 설치합니다:
+       ```shell
+       helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+       ```
+
+    3. W&amp;B operator 커스텀 리소스를 설정해 W&amp;B Server 설치를 트리거합니다. W&amp;B 배포 설정이 포함된 `operator.yaml` 파일을 생성하세요. 사용 가능한 모든 옵션은 [설정 레퍼런스](#configuration-reference-for-wb-server)를 참조하세요.
+
+       최소 구성 예시는 다음과 같습니다:
+
+       ```yaml
+       apiVersion: apps.wandb.com/v1
+       kind: WeightsAndBiases
+       metadata:
+         labels:
+           app.kubernetes.io/name: weightsandbiases
+           app.kubernetes.io/instance: wandb
+         name: wandb
+         namespace: default
+       spec:
+         values:
+           global:
+             host: https://<HOST_URI>
+             license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
+             bucket:
+               <details depend on the provider>
+             mysql:
+               <redacted>
+           ingress:
+             annotations:
+               <redacted>
+       ```
+
+    4. 사용자 정의 설정으로 Operator를 시작하여 W&amp;B Server 애플리케이션을 설치, 설정 및 관리할 수 있도록 합니다:
+
+       ```shell
+       kubectl apply -f operator.yaml
+       ```
+
+       배포가 완료될 때까지 기다리세요. 몇 분 정도 소요됩니다.
+
+    5. 웹 UI에서 설치를 확인하려면, 먼저 관리자 사용자 계정을 생성한 다음 [설치 확인](#verify-the-installation)에 설명된 검증 단계를 따르세요.
+  </Tab>
+
+  <Tab title="Terraform">
+    Terraform를 사용해 인프라를 코드로 관리하는 방식으로 W&amp;B를 배포합니다. 다음 두 가지 중에서 선택할 수 있습니다:
+
+    * **Helm Terraform Module**: 기존 Kubernetes 인프라에 operator를 배포
+    * **Cloud Terraform Modules**: AWS, Google Cloud, Azure용 전체 인프라 + 애플리케이션 배포
+
+    배포 시 고려 사항은 [환경별 고려 사항](#environment-specific-considerations)과 [공용 클라우드에서 Terraform으로 배포](#deploy-with-terraform-on-public-cloud)를 참고하세요. 외부 네트워크와 분리된(disconnected) 환경의 경우, [Air-Gapped Kubernetes에 배포](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/)를 참고하세요.
+
+    #### Helm Terraform Module
+
+    이 방법은 Terraform의 infrastructure-as-code 접근 방식을 활용해, 일관성과 반복 가능성을 유지하면서 특정 요구 사항에 맞게 배포를 커스터마이즈할 수 있게 해 줍니다. 공식 W&amp;B Helm 기반 Terraform Module은 [여기](https://registry.terraform.io/modules/wandb/wandb/helm/latest)에 있습니다.
+
+    아래 코드는 시작점으로 사용할 수 있으며, 프로덕션급 배포에 필요한 모든 설정 옵션을 포함합니다:
+
+    ```hcl
+    module "wandb" {
+      source  = "wandb/wandb/helm"
+
+      spec = {
+        values = {
+          global = {
+            host    = "https://<HOST_URI>"
+            license = "eyJhbGnUzaH...j9ZieKQ2x5GGfw"
+
+            bucket = {
+              <details depend on the provider>
+            }
+
+            mysql = {
+              <redacted>
+            }
+          }
+
+          ingress = {
+            annotations = {
+              "a" = "b"
+              "x" = "y"
+            }
+          }
+        }
+      }
+    }
+    ```
+
+    설정 옵션은 [설정 참조](#configuration-reference-for-wb-server)에 설명된 것과 동일하지만, 구문은 HashiCorp Configuration Language(HCL)을 따라야 합니다. Terraform 모듈은 W&amp;B 커스텀 리소스 정의(CRD)를 생성합니다.
+
+    W&amp;B가 고객을 위한 Dedicated Cloud 설치를 배포할 때 Helm Terraform 모듈을 어떻게 활용하는지 확인하려면 다음 링크를 참조하세요:
+
+    * [AWS](https://github.com/wandb/terraform-aws-wandb/blob/45e1d746f53e78e73e68f911a1f8cad5408e74b6/main.tf#L225)
+    * [Azure](https://github.com/wandb/terraform-azurerm-wandb/blob/170e03136b6b6fc758102d59dacda99768854045/main.tf#L155)
+    * [Google Cloud](https://github.com/wandb/terraform-google-wandb/blob/49ddc3383df4cefc04337a2ae784f57ce2a2c699/main.tf#L189)
+
+    #### Cloud Terraform 모듈
+
+    W&amp;B는 AWS, Google Cloud, Azure용 Terraform 모듈 세트를 제공합니다. 이 모듈들은 Kubernetes 클러스터, 로드 밸런서, MySQL 데이터베이스 등을 포함한 전체 인프라와 W&amp;B Server 애플리케이션을 함께 배포합니다. W&amp;B Kubernetes Operator는 다음 버전의 공식 W&amp;B 클라우드별 Terraform 모듈에 이미 사전 탑재되어 있습니다:
+
+    | Terraform Registry                                                  | 소스 코드                                            | 버전      |
+    | ------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+    | [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest) | https://github.com/wandb/terraform-aws-wandb     | v4.0.0+ |
+    | [Azure](https://github.com/wandb/terraform-azurerm-wandb)           | https://github.com/wandb/terraform-azurerm-wandb | v2.0.0+ |
+    | [Google Cloud](https://github.com/wandb/terraform-google-wandb)     | https://github.com/wandb/terraform-google-wandb  | v2.0.0+ |
+
+    이 인테그레이션을 통해 W&amp;B Kubernetes Operator를 최소한의 설정만으로 인스턴스에서 바로 사용할 수 있으며, 클라우드 환경에서 W&amp;B Server를 배포하고 관리하는 간소화된 경로를 제공합니다.
+
+    이러한 클라우드별 모듈 사용에 대한 자세한 지침은 아래의 [퍼블릭 클라우드에서 Terraform으로 배포](#deploy-with-terraform-on-public-cloud)를 참조하세요.
+  </Tab>
+</Tabs>
+
+<div id="verify-the-installation">
+  ### 설치 확인
+</div>
+
+<SelfManagedVerifyInstallation />
+
+<div id="environment-specific-considerations">
+  ## 환경별 고려 사항
+</div>
+
+Kubernetes는 온프레미스에서 실행되든 클라우드에서 실행되든 동일합니다. 주요 차이점은 이름과 매니지드 서비스에 있습니다(예: MySQL vs RDS, 또는 S3 vs 온프레미스 오브젝트 스토리지). 이 섹션에서는 환경별로 달라지는 고려 사항을 다룹니다.
+
+<div id="on-premises-and-bare-metal">
+  ### 온프레미스 및 베어 메탈
+</div>
+
+온프레미스 또는 베어 메탈 Kubernetes에 배포할 때는 다음 사항에 유의하십시오.
+
+<div id="load-balancer-configuration">
+  #### 로드 밸런서 설정
+</div>
+
+온프레미스 Kubernetes 클러스터에서는 보통 로드 밸런서를 수동으로 설정해야 합니다. 옵션은 다음과 같습니다:
+
+* **외부 로드 밸런서**: 기존 하드웨어 또는 소프트웨어 로드 밸런서(F5, HAProxy 등)를 설정합니다.
+* **Nginx Ingress Controller**: NodePort 또는 호스트 네트워킹과 함께 nginx-ingress-controller를 배포합니다.
+* **MetalLB**: 베어 메탈 Kubernetes 클러스터의 경우 MetalLB가 로드 밸런서 서비스를 제공합니다.
+
+로드 밸런서 설정 예시에 대한 자세한 내용은 [Reference Architecture 네트워킹 섹션](/ko/platform/hosting/self-managed/ref-arch#networking)을 참조하세요.
+
+<div id="persistent-storage">
+  #### 영구 스토리지
+</div>
+
+Kubernetes 클러스터에 영구 볼륨용 StorageClass가 구성되어 있는지 확인하세요. W&amp;B 컴포넌트는 캐시 및 임시 데이터 저장을 위해 영구 스토리지가 필요할 수 있습니다.
+
+온프레미스 환경에서 일반적으로 사용하는 스토리지 옵션:
+
+* NFS 기반 스토리지 클래스
+* Ceph/Rook 스토리지
+* 로컬 영구 볼륨
+* 엔터프라이즈 스토리지 솔루션(NetApp, Pure Storage 등)
+
+<div id="dns-and-certificate-management">
+  #### DNS 및 인증서 관리
+</div>
+
+온프레미스 배포의 경우:
+
+* 내부 DNS 레코드를 구성하여 W&amp;B 호스트 이름을 가리키도록 합니다
+* 내부 인증 기관(CA)에서 SSL/TLS 인증서를 프로비저닝합니다
+* 자체 서명 인증서를 사용하는 경우, 오퍼레이터가 CA 인증서를 신뢰하도록 설정합니다
+
+인증서 설정에 대한 자세한 내용은 [SSL/TLS requirements](/ko/platform/hosting/self-managed/requirements#ssl-tls)를 참조하세요.
+
+<div id="openshift-deployments">
+  #### OpenShift 배포
+</div>
+
+W&amp;B는 OpenShift Kubernetes 클러스터에서의 배포를 완전히 지원합니다. OpenShift의 더 엄격한 보안 정책으로 인해 OpenShift 배포에는 추가 보안 컨텍스트 설정이 필요합니다.
+
+OpenShift 전용 설정에 대한 자세한 내용은 위의 [OpenShift Kubernetes clusters](#openshift-kubernetes-clusters)를 참조하세요. 에어갭 환경에서의 OpenShift 예시 전체는 [Deploy on Air-Gapped Kubernetes](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped#openshift-configuration)를 참조하세요.
+
+<div id="object-storage-for-on-premises-and-s3-compatible">
+  #### 온프레미스 및 S3 호환 오브젝트 스토리지
+</div>
+
+오브젝트 스토리지 버킷을 프로비저닝한 후([Object storage provisioning](/ko/platform/hosting/data-security/secure-storage-connector) 참고), 이를 W&amp;B Custom Resource에 설정합니다.
+
+**AWS S3 (온프레미스)**
+
+온프레미스 환경에서 AWS S3(Outposts 또는 S3 호환 스토리지를 통해 사용)를 사용하는 경우:
+
+```yaml
+bucket:
+  kmsKey: <kms key arn>  # 선택 사항: 암호화용 KMS 키
+  name: <bucket name>    # 예시: wandb
+  path: ""               # 빈 문자열로 유지
+  provider: s3
+  region: <region>       # 예시: us-east-1
+```
+
+**S3 호환 스토리지(MinIO, Ceph, NetApp 등)**
+
+S3 호환 스토리지 시스템의 경우:
+
+```yaml
+bucket:
+  kmsKey: null
+  name: <s3 endpoint>    # 예시: s3.example.com:9000
+  path: <bucket name>    # 예시: wandb
+  provider: s3
+  region: <region>       # 예시: us-east-1
+```
+
+S3 호환 스토리지에서 TLS를 사용 설정하려면 버킷 경로 끝에 `?tls=true`를 추가하세요:
+
+```yaml
+bucket:
+  path: "wandb?tls=true"
+```
+
+<Warning>
+  인증서는 신뢰할 수 있는 인증서여야 합니다. 자체 서명 인증서(self-signed certificate)를 사용하는 경우 추가 설정이 필요합니다. 자세한 내용은 [SSL/TLS 요구 사항](/ko/platform/hosting/self-managed/requirements#ssl-tls)을 참조하세요.
+</Warning>
+
+**온프레미스 오브젝트 스토리지 사용 시 중요한 고려 사항**
+
+직접 오브젝트 스토리지를 운영하는 경우 다음 사항을 고려하세요:
+
+1. **스토리지 용량 및 성능**: 디스크 용량을 면밀히 모니터링하세요. 평균적인 W&amp;B 사용량은 수십에서 수백 GB에 이릅니다. 사용량이 많을 경우 페타바이트(PB) 단위의 스토리지 사용량으로 늘어날 수 있습니다.
+2. **장애 허용(fault tolerance)**: 최소한 물리 디스크에는 RAID 구성을 사용하세요. S3 호환 스토리지의 경우 분산 또는 고가용성 구성을 사용하세요.
+3. **가용성**: 스토리지가 항상 사용 가능한 상태인지 확인할 수 있도록 모니터링을 구성하세요.
+
+**MinIO 관련 고려 사항**
+
+<Warning>
+  MinIO Open Source는 현재 [maintenance mode](https://github.com/minio/minio)에 있으며, 활발한 신규 개발이 진행되지 않습니다. 사전 컴파일된 바이너리는 더 이상 제공되지 않으며, 중요한 보안 패치만 개별 사례별로 검토됩니다. 프로덕션 배포 환경에서는 관리형 오브젝트 스토리지 서비스 또는 [MinIO Enterprise (AIStor)](https://min.io/product/aistor) 사용을 W&amp;B에서 권장합니다.
+</Warning>
+
+온프레미스 오브젝트 스토리지의 엔터프라이즈 대안으로는 다음이 있습니다:
+
+* [Amazon S3 on Outposts](https://aws.amazon.com/s3/outposts/)
+* [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)
+* MinIO Enterprise (AIStor)
+* [Dell ObjectScale](https://www.dell.com/en-us/shop/cty/sf/objectscale)
+
+기존 MinIO 또는 MinIO Enterprise 배포를 사용 중인 경우 MinIO 클라이언트를 사용해 버킷을 생성할 수 있습니다:
+
+```bash
+mc config host add local http://$MINIO_HOST:$MINIO_PORT "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" --api s3v4
+mc mb --region=us-east-1 local/wandb-files
+```
+
+<div id="public-cloud-with-terraform">
+  ### 퍼블릭 클라우드에서 Terraform으로 배포
+</div>
+
+AWS, Google Cloud, Azure에서 인프라와 애플리케이션을 모두 포함한 전체 배포 방법은 아래의 [퍼블릭 클라우드에서 Terraform으로 배포](#deploy-with-terraform-on-public-cloud) 섹션을 참조하세요.
+
+<div id="deploy-with-terraform-on-public-cloud">
+  ## 퍼블릭 클라우드에서 Terraform으로 배포
+</div>
+
+<Note>
+  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud/)와 같은 완전 관리형 배포 옵션을 권장합니다. W&amp;B 완전 관리형 서비스는 최소한의 설정만 필요하거나 설정 없이도 사용할 수 있을 정도로 간편하고 안전합니다.
+</Note>
+
+W&amp;B는 퍼블릭 클라우드 제공업체에 플랫폼을 배포하기 위한 Terraform 모듈을 제공합니다. 이러한 모듈은 인프라 프로비저닝과 W&amp;B Server 설치를 자동화합니다.
+
+시작하기 전에, W&amp;B는 Terraform에서 [State File](https://developer.hashicorp.com/terraform/language/state)을 저장하기 위해 사용 가능한 [remote backends](https://developer.hashicorp.com/terraform/language/backend) 중 하나를 선택할 것을 권장합니다. State File은 모든 컴포넌트를 다시 생성하지 않고도 배포를 업그레이드하거나 변경 사항을 적용하는 데 필요한 리소스입니다.
+
+클라우드 제공업체를 선택하세요:
+
+<Tabs>
+  <Tab title="AWS">
+    W&amp;B는 AWS에 플랫폼을 배포할 때 [W&amp;B Server AWS Terraform Module](https://registry.terraform.io/modules/wandb/wandb/aws/latest) 사용을 권장합니다.
+
+    Terraform Module은 다음과 같은 필수 구성 요소를 배포합니다:
+
+    * 로드 밸런서
+    * AWS Identity &amp; Access Management (IAM)
+    * AWS Key Management Service (KMS)
+    * Amazon Aurora MySQL
+    * Amazon VPC
+    * Amazon S3
+    * Amazon Route53
+    * Amazon Certificate Manager (ACM)
+    * Amazon Elastic Load Balancing (ALB)
+    * Amazon Secrets Manager
+
+    선택적 구성 요소는 다음과 같습니다:
+
+    * Elastic Cache for Redis
+    * SQS
+
+    ### 사전 필요 권한
+
+    Terraform를 실행하는 계정은 위에서 설명한 모든 구성 요소를 생성할 수 있어야 하며, **IAM Policies** 및 **IAM Roles**를 생성하고 리소스에 역할을 할당할 수 있는 권한이 있어야 합니다.
+
+    ### 일반 단계
+
+    이 섹션의 단계는 모든 배포 옵션에 공통으로 적용됩니다.
+
+    1. 개발 환경을 준비하세요.
+       * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)를 설치합니다.
+       * W&amp;B에서는 버전 관리를 위해 Git 저장소를 만드는 것을 권장합니다.
+
+    2. `terraform.tfvars` 파일을 생성합니다.
+
+       `tvfars` 파일 내용은 설치 유형에 따라 변경할 수 있지만, 최소 권장 설정은 아래 예시와 같습니다.
+
+       ```bash
+       namespace                  = "wandb"
+       license                    = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+       subdomain                  = "wandb-aws"
+       domain_name                = "wandb.ml"
+       zone_id                    = "xxxxxxxxxxxxxxxx"
+       allowed_inbound_cidr       = ["0.0.0.0/0"]
+       allowed_inbound_ipv6_cidr  = ["::/0"]
+       eks_cluster_version        = "1.29"
+       ```
+
+       `namespace` 변수는 Terraform이 생성하는 모든 리소스 이름에 접두사로 붙는 문자열이므로, 배포하기 전에 `tvfars` 파일에서 변수를 반드시 정의해 두세요.
+
+       `subdomain`과 `domain`의 조합으로 W&amp;B가 설정될 FQDN이 형성됩니다. 위 예시에서 W&amp;B FQDN은 `wandb-aws.wandb.ml`이며, 이 FQDN 레코드는 DNS `zone_id`에 생성됩니다.
+
+       `allowed_inbound_cidr`와 `allowed_inbound_ipv6_cidr`도 설정해야 합니다. 모듈에서는 이 둘이 필수 입력입니다. 다음 예시는 모든 소스에서 W&amp;B 설치에 접근하는 것을 허용합니다.
+
+    3. `versions.tf` 파일을 생성하세요
+
+       이 파일에는 AWS에 W&amp;B를 배포하는 데 필요한 Terraform 및 Terraform provider의 버전이 지정됩니다:
+
+       ```bash
+       provider "aws" {
+         region = "eu-central-1"
+
+         default_tags {
+           tags = {
+             GithubRepo = "terraform-aws-wandb"
+             GithubOrg  = "wandb"
+             Enviroment = "Example"
+             Example    = "PublicDnsExternal"
+           }
+         }
+       }
+       ```
+
+       [AWS provider를 설정](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration)하려면 Terraform 공식 문서를 참조하세요.
+
+       선택 사항이긴 하지만, 이 문서의 시작 부분에서 언급한 [원격 백엔드 설정](https://developer.hashicorp.com/terraform/language/backend)을 추가하는 것을 강력히 권장합니다.
+
+    4. `variables.tf` 파일을 생성합니다.
+
+       `terraform.tfvars`에 설정된 각 옵션마다 Terraform에서는 이에 대응하는 변수 선언이 있어야 합니다.
+
+       ```
+       variable "namespace" {
+         type        = string
+         description = "Name prefix used for resources"
+       }
+
+       variable "domain_name" {
+         type        = string
+         description = "Domain name used to access instance."
+       }
+
+       variable "subdomain" {
+         type        = string
+         default     = null
+         description = "Subdomain for accessing the Weights & Biases UI."
+       }
+
+       variable "license" {
+         type = string
+       }
+
+       variable "zone_id" {
+         type        = string
+         description = "Domain for creating the Weights & Biases subdomain on."
+       }
+
+       variable "allowed_inbound_cidr" {
+        description = "CIDRs allowed to access wandb-server."
+        nullable    = false
+        type        = list(string)
+       }
+
+       variable "allowed_inbound_ipv6_cidr" {
+        description = "CIDRs allowed to access wandb-server."
+        nullable    = false
+        type        = list(string)
+       }
+
+       variable "eks_cluster_version" {
+        description = "EKS cluster kubernetes version"
+        nullable    = false
+        type        = string
+       }
+       ```
+
+    ### 권장 배포 방식
+
+    이것은 모든 필수 구성 요소를 생성하고 Kubernetes 클러스터에 최신 버전의 W&amp;B를 설치하는 가장 간단한 배포 옵션 설정입니다.
+
+    1. `main.tf` 파일을 생성합니다
+
+       General Steps에서 파일을 만들었던 것과 같은 디렉터리에서, 다음 내용을 포함하는 `main.tf` 파일을 생성합니다:
+
+       ```
+       module "wandb_infra" {
+         source  = "wandb/wandb/aws"
+         version = "~>7.0"
+
+         namespace   = var.namespace
+         domain_name = var.domain_name
+         subdomain   = var.subdomain
+         zone_id     = var.zone_id
+
+         allowed_inbound_cidr           = var.allowed_inbound_cidr
+         allowed_inbound_ipv6_cidr      = var.allowed_inbound_ipv6_cidr
+
+         public_access                  = true
+         external_dns                   = true
+         kubernetes_public_access       = true
+         kubernetes_public_access_cidrs = ["0.0.0.0/0"]
+         eks_cluster_version            = var.eks_cluster_version
+       }
+
+        data "aws_eks_cluster" "eks_cluster_id" {
+          name = module.wandb_infra.cluster_name
+        }
+
+        data "aws_eks_cluster_auth" "eks_cluster_auth" {
+          name = module.wandb_infra.cluster_name
+        }
+
+        provider "kubernetes" {
+          host                   = data.aws_eks_cluster.eks_cluster_id.endpoint
+          cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_id.certificate_authority.0.data)
+          token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+        }
+
+
+        provider "helm" {
+          kubernetes {
+            host                   = data.aws_eks_cluster.eks_cluster_id.endpoint
+            cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_id.certificate_authority.0.data)
+            token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+          }
+        }
+
+        output "url" {
+          value = module.wandb_infra.url
+        }
+
+        output "bucket" {
+          value = module.wandb_infra.bucket_name
+        }
+       ```
+
+    2. W&amp;B 배포하기
+
+       W&amp;B를 배포하려면 다음 명령을 실행합니다:
+
+       ```
+       terraform init
+       terraform apply -var-file=terraform.tfvars
+       ```
+
+    ### Redis 활성화
+
+    Redis를 사용하여 SQL 쿼리를 캐시하고 메트릭 로딩 시 애플리케이션 응답 속도를 높이려면 `main.tf` 파일에 `create_elasticache_subnet = true` 옵션을 추가하세요:
+
+    ```
+    module "wandb_infra" {
+      source  = "wandb/wandb/aws"
+      version = "~>7.0"
+
+      namespace   = var.namespace
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+      zone_id     = var.zone_id
+      create_elasticache_subnet = true
+    }
+    [...]
+    ```
+
+    ### 메시지 브로커(큐) 활성화
+
+    SQS를 사용하여 외부 메시지 브로커를 활성화하려면 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요:
+
+    <Note>
+      W&amp;B에는 임베디드 브로커가 포함되어 있으므로 이 설정은 선택 사항입니다. 이 옵션을 사용해도 성능이 향상되지는 않습니다.
+    </Note>
+
+    ```
+    module "wandb_infra" {
+      source  = "wandb/wandb/aws"
+      version = "~>7.0"
+
+      namespace   = var.namespace
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+      zone_id     = var.zone_id
+      use_internal_queue = false
+
+    [...]
+    }
+    ```
+
+    ### 추가 리소스
+
+    * [AWS Terraform 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
+    * [AWS Terraform 모듈 소스 코드](https://github.com/wandb/terraform-aws-wandb)
+    * [오퍼레이터 기반 AWS용 Terraform 모듈로 마이그레이션](#migrate-to-operator-based-aws-terraform-modules)
+  </Tab>
+
+  <Tab title="Google Cloud">
+    W&amp;B는 Google Cloud에 플랫폼을 배포하려면 [W&amp;B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest)을 사용할 것을 권장합니다.
+
+    모듈 문서는 방대하며 사용 가능한 모든 옵션을 담고 있습니다.
+
+    시작하기 전에, W&amp;B는 [State File](https://developer.hashicorp.com/terraform/language/state)을 저장하기 위해 Terraform에서 사용 가능한 [원격 백엔드](https://developer.hashicorp.com/terraform/language/backend/remote) 중 하나를 선택할 것을 권장합니다. State File은 모든 구성 요소를 재생성하지 않고도 배포 환경에서 업그레이드를 적용하거나 변경 사항을 반영하는 데 필요한 리소스입니다.
+
+    Terraform Module은 다음과 같은 필수 구성 요소를 배포합니다:
+
+    * VPC
+    * Cloud SQL for MySQL
+    * 클라우드 스토리지 버킷
+    * Google Kubernetes Engine
+    * Memorystore for Redis
+    * KMS 암호화 키
+    * 로드 밸런서
+
+    선택적 구성 요소는 다음과 같습니다:
+
+    * Pub/Sub 메시징 시스템
+
+    ### 사전 필요 권한
+
+    Terraform를 실행할 계정은 사용하는 Google Cloud 프로젝트에서 `roles/owner` 역할이 있어야 합니다.
+
+    ### 일반 단계
+
+    이 섹션의 단계는 모든 배포 옵션에 공통으로 적용됩니다.
+
+    1. 개발 환경을 준비하세요.
+       * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)를 설치합니다.
+       * W&amp;B에서는 사용할 코드를 포함하는 Git 저장소를 만드는 것을 권장하지만, 파일을 로컬에만 보관해도 됩니다.
+       * [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트를 생성합니다.
+       * 먼저 [gcloud를 설치](https://cloud.google.com/sdk/docs/install)한 후, `gcloud auth application-default login` 명령으로 Google Cloud에 인증합니다.
+
+    2. `terraform.tfvars` 파일을 생성합니다.
+
+       `tvfars` 파일 내용은 설치 유형에 따라 수정할 수 있지만, 최소 권장 설정은 아래 예시와 같습니다.
+
+       ```bash
+       project_id  = "wandb-project"
+       region      = "europe-west2"
+       zone        = "europe-west2-a"
+       namespace   = "wandb"
+       license     = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+       subdomain   = "wandb-gcp"
+       domain_name = "wandb.ml"
+       ```
+
+       여기에서 정의하는 변수들은 배포 전에 결정해야 합니다. `namespace` 변수는 Terraform이 생성하는 모든 리소스 이름에 접두사로 붙는 문자열입니다.
+
+       `subdomain`과 `domain`의 조합은 W&amp;B를 구성할 FQDN을 이룹니다. 위의 예시에서 W&amp;B FQDN은 `wandb-gcp.wandb.ml`입니다.
+
+    3. `variables.tf`라는 파일을 생성합니다.
+
+       `terraform.tfvars`에 설정한 각 옵션에 대해 Terraform에서는 대응하는 변수 선언이 필요합니다.
+
+       ```
+       variable "project_id" {
+         type        = string
+         description = "Project ID"
+       }
+
+       variable "region" {
+         type        = string
+         description = "Google region"
+       }
+
+       variable "zone" {
+         type        = string
+         description = "Google zone"
+       }
+
+       variable "namespace" {
+         type        = string
+         description = "Namespace prefix used for resources"
+       }
+
+       variable "domain_name" {
+         type        = string
+         description = "Domain name for accessing the Weights & Biases UI."
+       }
+
+       variable "subdomain" {
+         type        = string
+         description = "Subdomain for access the Weights & Biases UI."
+       }
+
+       variable "license" {
+         type        = string
+         description = "W&B License"
+       }
+       ```
+
+    ### 권장 배포 방식
+
+    이것은 모든 필수 구성 요소를 생성하고 Kubernetes 클러스터에 최신 버전의 W&amp;B를 설치하는 가장 간단한 배포 옵션 설정입니다.
+
+    1. `main.tf` 파일을 생성합니다
+
+       General Steps에서 파일을 생성했던 것과 동일한 디렉터리에서 다음 내용을 포함한 `main.tf` 파일을 생성합니다.
+
+       ```
+       provider "google" {
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+       }
+
+       provider "google-beta" {
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+       }
+
+       data "google_client_config" "current" {}
+
+       provider "kubernetes" {
+         host                   = "https://${module.wandb.cluster_endpoint}"
+         cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+         token                  = data.google_client_config.current.access_token
+       }
+
+       # 필요한 모든 서비스를 시작합니다
+       module "wandb" {
+         source  = "wandb/wandb/google"
+         version = "~> 10.0"
+
+         namespace   = var.namespace
+         license     = var.license
+         domain_name = var.domain_name
+         subdomain   = var.subdomain
+       }
+
+       # 프로비저닝된 IP 주소로 DNS를 업데이트하세요
+       output "url" {
+         value = module.wandb.url
+       }
+
+       output "address" {
+         value = module.wandb.address
+       }
+
+       output "bucket_name" {
+         value = module.wandb.bucket_name
+       }
+       ```
+
+    2. W&amp;B 배포
+
+       W&amp;B를 배포하려면 다음 명령어를 실행하세요:
+
+       ```
+       terraform init
+       terraform apply -var-file=terraform.tfvars
+       ```
+
+    ### Redis 활성화
+
+    Redis를 사용하여 SQL 쿼리를 캐시하고 메트릭 로딩 시 애플리케이션 응답 속도를 높이려면 `main.tf` 파일에 `create_redis = true` 옵션을 추가하세요:
+
+    ```
+    [...]
+
+    module "wandb" {
+      source  = "wandb/wandb/google"
+      version = "~> 10.0"
+
+      namespace    = var.namespace
+      license      = var.license
+      domain_name  = var.domain_name
+      subdomain    = var.subdomain
+      create_redis = true
+    }
+    [...]
+    ```
+
+    ### 메시지 브로커(큐) 활성화
+
+    Pub/Sub를 사용하여 외부 메시지 브로커를 활성화하려면 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요:
+
+    <Note>
+      필수는 아닙니다. W&amp;B에는 이미 내장 브로커가 포함되어 있습니다. 이 옵션을 사용해도 성능이 향상되지는 않습니다.
+    </Note>
+
+    ```
+    [...]
+
+    module "wandb" {
+      source  = "wandb/wandb/google"
+      version = "~> 10.0"
+
+      namespace          = var.namespace
+      license            = var.license
+      domain_name        = var.domain_name
+      subdomain          = var.subdomain
+      use_internal_queue = false
+    }
+
+    [...]
+    ```
+
+    ### 추가 리소스
+
+    * [Google Cloud Terraform 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/google/latest)
+    * [Google Cloud Terraform Module 소스 코드](https://github.com/wandb/terraform-google-wandb)
+  </Tab>
+
+  <Tab title="Azure">
+    W&amp;B는 Azure에 플랫폼을 배포할 때 [W&amp;B Server Azure Terraform Module](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)을 사용할 것을 권장합니다.
+
+    모듈 문서는 방대하며 사용 가능한 모든 옵션을 포함하고 있습니다.
+
+    Terraform Module은 다음과 같은 필수 구성 요소를 배포합니다:
+
+    * Azure 리소스 그룹
+    * Azure Virtual Network(VPC)
+    * Azure MySQL Flexible Server
+    * Azure Storage 계정 및 Blob 스토리지
+    * Azure Kubernetes Service
+    * Azure Application Gateway
+
+    선택적 구성 요소는 다음과 같습니다:
+
+    * Azure Cache for Redis
+    * Azure Event Grid
+
+    ### 사전 필요 권한
+
+    AzureRM 공급자를 구성하는 가장 간단한 방법은 [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli)를 사용하는 것이지만, 자동화가 필요한 경우 [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret)을 활용하는 것도 유용합니다.
+
+    사용하는 인증 방법에 관계없이, Terraform을 실행하는 계정은 위에서 설명한 모든 구성 요소를 생성할 수 있는 권한이 있어야 합니다.
+
+    ### 일반 단계
+
+    이 섹션의 단계는 모든 배포 옵션에 공통으로 적용됩니다.
+
+    1. 개발 환경을 준비하세요.
+       * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)를 설치합니다.
+       * 사용하려는 코드를 포함한 Git 리포지토리를 생성할 것을 W&amp;B에서 권장하지만, 파일을 로컬에만 두어도 됩니다.
+
+    2. `terraform.tfvars` 파일을 생성합니다.
+
+       `tvfars` 파일 내용은 설치 유형에 따라 사용자 정의할 수 있지만, 최소 권장 설정은 아래 예제와 같습니다.
+
+       ```bash
+        namespace     = "wandb"
+        wandb_license = "xxxxxxxxxxyyyyyyyyyyyzzzzzzz"
+        subdomain     = "wandb-azure"
+        domain_name   = "wandb.ml"
+        location      = "westeurope"
+       ```
+
+       여기에서 정의하는 변수들은 배포 전에 미리 결정해야 합니다. `namespace` 변수는 Terraform이 생성하는 모든 리소스 이름에 접두사로 붙는 문자열입니다.
+
+       `subdomain`과 `domain`의 조합으로 W&amp;B에서 사용할 FQDN이 결정됩니다. 위 예시에서 W&amp;B FQDN은 `wandb-azure.wandb.ml`입니다.
+
+    3. `versions.tf` 파일을 생성하세요
+
+       이 파일에는 Azure에 W&amp;B를 배포하는 데 필요한 Terraform 및 Terraform 프로바이더의 버전이 지정됩니다.
+
+       ```bash
+         terraform {
+        required_version = "~> 1.3"
+
+        required_providers {
+          azurerm = {
+            source  = "hashicorp/azurerm"
+            version = "~> 3.17"
+          }
+        }
+         }
+       ```
+
+       Azure 프로바이더를 구성하려면 [Terraform 공식 문서](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)를 참고하세요.
+
+       선택 사항이지만, 이 문서의 앞부분에서 언급한 [원격 백엔드 설정](https://developer.hashicorp.com/terraform/language/backend)을 추가할 것을 강력히 권장합니다.
+
+    4. `variables.tf` 파일을 생성하세요
+
+       `terraform.tfvars`에서 설정한 각 옵션에 대해 Terraform에서는 이에 대응하는 변수 선언이 필요합니다.
+
+       ```bash
+           variable "namespace" {
+             type        = string
+             description = "String used for prefix resources."
+           }
+
+           variable "location" {
+             type        = string
+             description = "Azure Resource Group location"
+           }
+
+           variable "domain_name" {
+             type        = string
+             description = "Domain for accessing the Weights & Biases UI."
+           }
+
+           variable "subdomain" {
+             type        = string
+             default     = null
+             description = "Subdomain for accessing the Weights & Biases UI. Default creates record at Route53 Route."
+           }
+
+           variable "license" {
+             type        = string
+             description = "Your wandb/local license"
+           }
+       ```
+
+    ### 권장 배포 방식
+
+    이것은 모든 필수 구성 요소를 생성하고 Kubernetes 클러스터에 최신 버전의 W&amp;B를 설치하는 가장 간단한 배포 옵션 설정입니다.
+
+    1. `main.tf`를 생성합니다
+
+       General Steps에서 파일을 만들었던 것과 같은 디렉터리에 다음 내용을 포함하는 `main.tf` 파일을 생성합니다.
+
+       ```bash
+         provider "azurerm" {
+        features {}
+         }
+
+         provider "kubernetes" {
+        host                   = module.wandb.cluster_host
+        cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+        client_key             = base64decode(module.wandb.cluster_client_key)
+        client_certificate     = base64decode(module.wandb.cluster_client_certificate)
+         }
+
+         provider "helm" {
+        kubernetes {
+          host                   = module.wandb.cluster_host
+          cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+          client_key             = base64decode(module.wandb.cluster_client_key)
+          client_certificate     = base64decode(module.wandb.cluster_client_certificate)
+        }
+         }
+
+         # 필요한 모든 서비스 시작
+         module "wandb" {
+        source  = "wandb/wandb/azurerm"
+        version = "~> 1.2"
+
+        namespace   = var.namespace
+        location    = var.location
+        license     = var.license
+        domain_name = var.domain_name
+        subdomain   = var.subdomain
+
+        deletion_protection = false
+
+        tags = {
+          "Example" : "PublicDns"
+        }
+         }
+
+         output "address" {
+        value = module.wandb.address
+         }
+
+         output "url" {
+        value = module.wandb.url
+         }
+       ```
+
+    2. W&amp;B 배포
+
+       W&amp;B를 배포하려면 아래 명령을 실행하세요:
+
+       ```
+       terraform init
+       terraform apply -var-file=terraform.tfvars
+       ```
+
+    ### Redis 활성화
+
+    Redis를 사용하여 SQL 쿼리를 캐시하고 메트릭 로딩 시 애플리케이션 응답 속도를 높이려면 `main.tf` 파일에 `create_redis = true` 옵션을 추가하세요:
+
+    ```bash
+    # 필요한 모든 서비스 시작
+    module "wandb" {
+      source  = "wandb/wandb/azurerm"
+      version = "~> 1.2"
+
+      namespace   = var.namespace
+      location    = var.location
+      license     = var.license
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+
+      create_redis = true
+      [...]
+    }
+    ```
+
+    ### 메시지 브로커(큐) 활성화
+
+    Azure Event Grid를 사용하여 외부 메시지 브로커를 활성화하려면 `main.tf` 파일에 `use_internal_queue = false` 옵션을 추가하세요:
+
+    <Note>
+      W&amp;B에는 내장 브로커가 포함되어 있으므로 이 단계는 선택 사항입니다. 이 옵션을 사용해도 성능이 향상되지는 않습니다.
+    </Note>
+
+    ```bash
+    # 필요한 모든 서비스 시작
+    module "wandb" {
+      source  = "wandb/wandb/azurerm"
+      version = "~> 1.2"
+
+      namespace   = var.namespace
+      location    = var.location
+      license     = var.license
+      domain_name = var.domain_name
+      subdomain   = var.subdomain
+
+      use_internal_queue = false
+      [...]
+    }
+    ```
+
+    ### 추가 리소스
+
+    * [Azure Terraform 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
+    * [Azure Terraform 모듈 소스 코드](https://github.com/wandb/terraform-azurerm-wandb)
+  </Tab>
+</Tabs>
+
+<div id="other-deployment-options">
+  ### 기타 배포 옵션
+</div>
+
+여러 배포 옵션의 설정을 하나의 파일에 모두 추가해 조합해서 사용할 수 있습니다. 각 Terraform 모듈은 여러 옵션을 제공하며, 권장 배포 섹션에 있는 표준 옵션 및 최소 설정과 함께 조합해서 사용할 수 있습니다.
+
+사용 중인 클라우드 제공업체에 대한 사용 가능한 옵션의 전체 목록은 모듈 문서를 참조하세요:
+
+* [AWS 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/aws/latest)
+* [Google Cloud 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/google/latest)
+* [Azure 모듈 문서](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)
+
+<div id="access-the-wb-management-console">
+  ## W&amp;B Management Console에 접속하기
+</div>
+
+W&amp;B Kubernetes operator에는 관리 콘솔이 포함되어 있습니다. 위치는 `${HOST_URI}/console`이며, 예를 들어 `https://wandb.company-name.com/console`입니다.
+
+관리 콘솔에 로그인하는 방법은 두 가지입니다.
+
+<Tabs>
+  <Tab title="옵션 1 (권장)">
+    1. 브라우저에서 W&amp;B 애플리케이션을 열고 `${HOST_URI}/`로 로그인합니다. 예를 들어 `https://wandb.company-name.com/`입니다.
+    2. 콘솔에 접속합니다. 오른쪽 상단 모서리의 아이콘을 클릭한 다음 **System console**을 클릭합니다. 관리자 권한이 있는 사용자만 **System console** 항목을 볼 수 있습니다.
+
+       <Frame>
+         <img src="/images/hosting/access_system_console_via_main_app.png" alt="System console 액세스" />
+       </Frame>
+  </Tab>
+
+  <Tab title="옵션 2">
+    <Note>
+      W&amp;B는 옵션 1이 작동하지 않을 때만 아래 단계를 사용하여 콘솔에 액세스할 것을 권장합니다.
+    </Note>
+
+    1. 브라우저에서 콘솔 애플리케이션을 엽니다. 위에서 설명한 URL을 열면 로그인 화면으로 리디렉션됩니다.
+       <Frame>
+         <img src="/images/hosting/access_system_console_directly.png" alt="System console에 직접 액세스" />
+       </Frame>
+    2. 설치에서 생성한 Kubernetes secret에서 비밀번호를 조회합니다:
+       ```shell
+       kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
+       ```
+       비밀번호를 복사합니다.
+    3. 콘솔에 로그인합니다. 복사한 비밀번호를 붙여넣고 **Login**을 클릭합니다.
+  </Tab>
+</Tabs>
+
+<div id="update-the-wb-kubernetes-operator">
+  ## W&amp;B Kubernetes operator 업데이트
+</div>
+
+이 섹션에서는 W&amp;B Kubernetes operator를 업데이트하는 방법을 설명합니다.
+
+<Note>
+  * W&amp;B Kubernetes operator를 업데이트해도 W&amp;B 서버 애플리케이션은 업데이트되지 않습니다.
+  * W&amp;B Kubernetes operator를 사용하지 않는 Helm 차트를 사용 중이라면, W&amp;B operator를 업데이트하기 위한 아래 지침을 따르기 전에 [여기](#migrate-Self-Managed-instances-to-wb-operator)의 안내를 먼저 확인하세요.
+</Note>
+
+아래 코드 스니펫을 복사해 터미널에 붙여넣으세요.
+
+1. 먼저, [`helm repo update`](https://helm.sh/docs/helm/helm_repo_update/)로 레포지토리를 업데이트합니다:
+   ```shell
+   helm repo update
+   ```
+
+2. 다음으로, [`helm upgrade`](https://helm.sh/docs/helm/helm_upgrade/)를 사용해 Helm 차트를 업데이트합니다:
+   ```shell
+   helm upgrade operator wandb/operator -n wandb-cr --reuse-values
+   ```
+
+<div id="update-the-wb-server-application">
+  ## W&amp;B Server 애플리케이션 업데이트
+</div>
+
+W&amp;B Kubernetes 오퍼레이터를 사용하는 경우에는 더 이상 W&amp;B Server 애플리케이션을 직접 업데이트할 필요가 없습니다.
+
+이 오퍼레이터는 W&amp;B 소프트웨어의 새 버전이 릴리스될 때마다 W&amp;B Server 애플리케이션을 자동으로 업데이트합니다.
+
+<div id="migrate-self-managed-instances-to-wb-operator">
+  ## Self-Managed 인스턴스를 W&amp;B Operator로 마이그레이션하기
+</div>
+
+다음 섹션에서는 직접 관리하던 W&amp;B Server 설치를 W&amp;B Operator를 사용해 관리하도록 마이그레이션하는 방법을 설명합니다. 마이그레이션 과정은 W&amp;B Server를 어떤 방식으로 설치했는지에 따라 달라집니다:
+
+<Note>
+  W&amp;B Operator는 W&amp;B Server의 기본이자 권장되는 설치 방법입니다. 궁금한 점이 있으면 [Customer Support](mailto:support@wandb.com)나 담당 W&amp;B 팀에 문의하세요.
+</Note>
+
+* 공식 W&amp;B Cloud Terraform Modules를 사용했다면, 해당 문서로 이동해 안내된 단계를 따르세요:
+  * [AWS](#migrate-to-operator-based-aws-terraform-modules)
+  * [Google Cloud](#migrate-to-operator-based-google-cloud-terraform-modules)
+  * [Azure](#migrate-to-operator-based-azure-terraform-modules)
+* [W&amp;B Non-Operator Helm chart](https://github.com/wandb/helm-charts/tree/main/charts/wandb)를 사용했다면, [여기](#migrate-to-operator-based-helm-chart)로 이동해 계속 진행하세요.
+* [W&amp;B Non-Operator Helm chart with Terraform](https://registry.terraform.io/modules/wandb/wandb/kubernetes/latest)를 사용했다면, [여기](#migrate-to-operator-based-terraform-helm-chart)로 이동해 계속 진행하세요.
+* Kubernetes 리소스를 매니페스트를 사용해 직접 생성했다면, [여기](#migrate-to-operator-based-helm-chart)로 이동해 계속 진행하세요.
+
+<div id="migrate-to-operator-based-aws-terraform-modules">
+  ### Operator 기반 AWS Terraform 모듈로 마이그레이션
+</div>
+
+마이그레이션 프로세스에 대한 자세한 설명은 [여기](https://github.com/wandb/helm-charts/tree/main/charts/operator-wandb)를 참조하세요.
+
+<div id="migrate-to-operator-based-google-cloud-terraform-modules">
+  ### Operator 기반의 Google Cloud Terraform 모듈로 마이그레이션
+</div>
+
+궁금한 점이 있거나 도움이 필요하시면 [Customer Support](mailto:support@wandb.com) 또는 담당 W&amp;B 팀에 문의하세요.
+
+<div id="migrate-to-operator-based-azure-terraform-modules">
+  ### Operator 기반 Azure Terraform 모듈로 마이그레이션
+</div>
+
+질문이 있거나 도움이 필요하시면 [Customer Support](mailto:support@wandb.com) 또는 W&amp;B 팀에 문의하세요.
+
+<div id="migrate-to-operator-based-helm-chart">
+  ### Operator 기반 Helm 차트로 마이그레이션
+</div>
+
+다음 단계를 따라 Operator 기반 Helm 차트로 마이그레이션합니다.
+
+1. 현재 W&amp;B 설정을 가져옵니다. W&amp;B가 non-operator 기반 버전의 Helm 차트로 배포된 경우, 다음과 같이 values를 내보냅니다:
+   ```shell
+   helm get values wandb
+   ```
+   W&amp;B가 Kubernetes 매니페스트로 배포된 경우, 다음과 같이 values를 내보냅니다:
+   ```shell
+   kubectl get deployment wandb -o yaml
+   ```
+   이제 다음 단계에 필요한 모든 설정 값을 확보했습니다.
+
+2. `operator.yaml`이라는 파일을 생성합니다. [Configuration Reference](#configuration-reference-for-wb-operator)에 설명된 형식을 따릅니다. 1단계에서 가져온 값을 사용합니다.
+
+3. 현재 디플로이먼트를 파드 0개로 스케일링합니다. 이 단계에서 현재 디플로이먼트가 중지됩니다.
+   ```shell
+   kubectl scale --replicas=0 deployment wandb
+   ```
+
+4. Helm 차트 리포지터리를 업데이트합니다:
+   ```shell
+   helm repo update
+   ```
+
+5. 새 Helm 차트를 설치합니다:
+   ```shell
+   helm upgrade --install operator wandb/operator -n wandb-cr --create-namespace
+   ```
+
+6. 새 Helm 차트를 설정하고 W&amp;B 애플리케이션 디플로이먼트를 트리거합니다. 새 설정을 적용합니다.
+   ```shell
+   kubectl apply -f operator.yaml
+   ```
+   디플로이먼트가 완료되는 데 몇 분 정도 걸릴 수 있습니다.
+
+7. 설치를 확인합니다. [Verify the installation](#verify-the-installation)의 단계를 따라 모든 것이 정상적으로 동작하는지 확인합니다.
+
+8. 기존 설치를 제거합니다. 이전 Helm 차트를 제거하거나 매니페스트로 생성된 리소스를 삭제합니다.
+
+<div id="migrate-to-operator-based-terraform-helm-chart">
+  ### Operator 기반 Terraform Helm 차트로 마이그레이션
+</div>
+
+다음 단계를 따라 Operator 기반 Helm 차트로 마이그레이션합니다:
+
+1. Terraform 구성을 준비합니다. 기존 배포에서 사용하던 Terraform 코드를 Terraform 구성에서 제거하고, [여기](#deploy-wb-with-helm-terraform-module)에 설명된 코드로 교체합니다. 이전과 동일한 변수들을 설정합니다. .tfvars 파일이 있다면 변경하지 마십시오.
+2. Terraform 실행을 수행합니다. `terraform init`, `terraform plan`, `terraform apply`를 차례로 실행합니다.
+3. 설치를 검증합니다. [설치 검증](#verify-the-installation)에 있는 단계를 따라 모든 것이 정상 동작하는지 확인합니다.
+4. 기존 설치를 제거합니다. 기존 Helm 차트를 제거하거나 매니페스트로 생성된 리소스를 삭제합니다.
+
+<div id="configuration-reference-for-wb-server">
+  ## W&amp;B Server 설정 레퍼런스
+</div>
+
+이 섹션에서는 W&amp;B Server 애플리케이션의 설정 옵션을 설명합니다. 애플리케이션은 [WeightsAndBiases](#how-it-works)라는 커스텀 리소스 정의를 통해 설정을 전달받습니다. 일부 설정 옵션은 아래 설정으로 노출되며, 일부는 환경 변수로 설정해야 합니다.
+
+문서에서는 환경 변수를 [기본](/ko/platform/hosting/env-vars/)과 [고급](/ko/platform/hosting/iam/advanced_env_vars/) 두 가지 목록으로 제공합니다. 필요한 설정 옵션이 Helm Chart에서 노출되지 않은 경우에만 환경 변수를 사용하십시오.
+
+<div id="basic-example">
+  ### 기본 예시
+</div>
+
+이 예시는 W&amp;B에 필요한 최소한의 값 집합을 정의합니다. 보다 현실적인 프로덕션 환경 예시는 [전체 예시](#complete-example)를 참조하세요.
+
+이 YAML 파일은 버전, 환경 변수, 데이터베이스와 같은 외부 리소스, 기타 필요한 설정을 포함하여 W&amp;B 배포의 의도한 상태를 정의합니다.
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/name: weightsandbiases
+    app.kubernetes.io/instance: wandb
+  name: wandb
+  namespace: default
+spec:
+  values:
+    global:
+      host: https://<HOST_URI>
+      license: eyJhbGnUzaH...j9ZieKQ2x5GGfw
+      bucket:
+        <details depend on the provider>
+      mysql:
+        <redacted>
+    ingress:
+      annotations:
+        <redacted>
+```
+
+전체 값 목록은 [W&amp;B Helm 저장소](https://github.com/wandb/helm-charts/blob/main/charts/operator-wandb/values.yaml)에서 확인할 수 있습니다. **재정의해야 하는 값만 변경하세요**.
+
+<div id="complete-example">
+  ### 전체 예시
+</div>
+
+다음 예시 설정은 Google Cloud Storage를 사용하여 Google Cloud Anthos에 W&amp;B를 배포합니다.
+
+```yaml
+apiVersion: apps.wandb.com/v1
+kind: WeightsAndBiases
+metadata:
+  labels:
+    app.kubernetes.io/name: weightsandbiases
+    app.kubernetes.io/instance: wandb
+  name: wandb
+  namespace: default
+spec:
+  values:
+    global:
+      host: https://abc-wandb.sandbox-gcp.wandb.ml
+      bucket:
+        name: abc-wandb-moving-pipefish
+        provider: gcs
+      mysql:
+        database: wandb_local
+        host: 10.218.0.2
+        name: wandb_local
+        password: 8wtX6cJHizAZvYScjDzZcUarK4zZGjpV
+        port: 3306
+        user: wandb
+      redis:
+        host: redis.example.com
+        port: 6379
+        password: password
+      api:
+        enabled: true
+      glue:
+        enabled: true
+      executor:
+        enabled: true
+      license: eyJhbGnUzaHgyQjQyQWhEU3...ZieKQ2x5GGfw
+    ingress:
+      annotations:
+        ingress.gcp.kubernetes.io/pre-shared-cert: abc-wandb-cert-creative-puma
+        kubernetes.io/ingress.class: gce
+        kubernetes.io/ingress.global-static-ip-name: abc-wandb-operator-address
+```
+
+<div id="host">
+  ### 호스트
+</div>
+
+```yaml
+ # 프로토콜을 포함한 FQDN을 입력하세요
+global:
+  # 예시 호스트 이름, 실제 호스트 이름으로 교체하세요
+  host: https://wandb.example.com
+```
+
+<div id="object-storage-bucket">
+  ### 오브젝트 스토리지 (버킷)
+</div>
+
+**AWS**
+
+```yaml
+global:
+  bucket:
+    provider: "s3"
+    name: ""
+    kmsKey: ""
+    region: ""
+```
+
+**Google Cloud**
+
+```yaml
+global:
+  bucket:
+    provider: "gcs"
+    name: ""
+```
+
+**Azure**
+
+```yaml
+global:
+  bucket:
+    provider: "az"
+    name: ""
+    secretKey: ""
+```
+
+**기타 제공자(Minio, Ceph 및 기타 S3 호환 스토리지)**
+
+다른 S3 호환 제공자의 경우, 버킷 설정을 다음과 같이 설정합니다:
+
+```yaml
+global:
+  bucket:
+    # 예시 값입니다. 실제 값으로 교체하세요
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    accessKey: 5WOA500...P5DK7I
+    secretKey: HDKYe4Q...JAp1YyjysnX
+```
+
+AWS 외부에서 호스팅되는 S3 호환 스토리지를 사용하는 경우 `kmsKey`는 `null`이어야 합니다.
+
+시크릿에서 `accessKey`와 `secretKey`를 참조하려면:
+
+```yaml
+global:
+  bucket:
+    # 예시 값입니다. 실제 값으로 교체하세요
+    provider: s3
+    name: storage.example.com
+    kmsKey: null
+    path: wandb
+    region: default
+    secret:
+      secretName: bucket-secret
+      accessKeyName: ACCESS_KEY
+      secretKeyName: SECRET_KEY
+```
+
+<div id="mysql">
+  ### MySQL
+</div>
+
+```yaml
+global:
+   mysql:
+     # 예시 값입니다. 실제 값으로 교체하세요
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     password: 8wtX6cJH...ZcUarK4zZGjpV 
+```
+
+시크릿의 `password`를 참조하려면:
+
+```yaml
+global:
+   mysql:
+     # 예시 값입니다. 실제 값으로 교체하세요
+     host: db.example.com
+     port: 3306
+     database: wandb_local
+     user: wandb
+     passwordSecret:
+       name: database-secret
+       passwordKey: MYSQL_WANDB_PASSWORD
+```
+
+<div id="license">
+  ### 라이선스
+</div>
+
+```yaml
+global:
+  # 예시 라이선스입니다. 본인의 라이선스로 교체하세요.
+  license: eyJhbGnUzaHgyQjQy...VFnPS_KETXg1hi
+```
+
+시크릿에서 `license` 값을 참조하려면:
+
+```yaml
+global:
+  licenseSecret:
+    name: license-secret
+    key: CUSTOMER_WANDB_LICENSE
+```
+
+<div id="ingress">
+  ### 인그레스
+</div>
+
+인그레스 클래스를 확인하려면 이 FAQ [항목](#how-to-identify-the-kubernetes-ingress-class)을 참조하세요.
+
+**TLS 없이**
+
+```yaml
+global:
+# 중요: Ingress는 YAML에서 'global'과 동일한 수준에 있습니다 (하위 항목이 아님)
+ingress:
+  class: ""
+```
+
+**TLS 사용 시**
+
+인증서를 포함하는 시크릿을 생성합니다
+
+```console
+kubectl create secret tls wandb-ingress-tls --key wandb-ingress-tls.key --cert wandb-ingress-tls.crt
+```
+
+Ingress 설정에서 Secret을 참조하세요
+
+```yaml
+global:
+# 중요: Ingress는 YAML에서 'global'과 동일한 수준에 있습니다 (하위 항목이 아님)
+ingress:
+  class: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls: 
+    - secretName: wandb-ingress-tls
+      hosts:
+        - <HOST_URI>
+```
+
+Nginx를 사용하는 경우 다음 애노테이션을 추가해야 할 수 있습니다:
+
+```
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 0
+```
+
+<div id="custom-kubernetes-serviceaccounts">
+  ### 커스텀 Kubernetes ServiceAccount
+</div>
+
+W&amp;B 파드를 실행할 커스텀 Kubernetes ServiceAccount를 지정합니다.
+
+다음 스니펫은 지정한 이름으로 배포의 일부로 ServiceAccount를 생성합니다:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+하위 시스템 &quot;app&quot;과 &quot;parquet&quot;은 지정된 서비스 계정으로 실행됩니다. 다른 하위 시스템은 기본 서비스 계정으로 실행됩니다.
+
+클러스터에 서비스 계정이 이미 존재하는 경우 `create: false`로 설정합니다:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+parquet:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+    
+global:
+  ...
+```
+
+app, parquet, console 등의 서로 다른 서브시스템별로 서비스 계정을 지정할 수 있습니다:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+console:
+  serviceAccount:
+    name: custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+서브시스템마다 사용되는 서비스 계정이 서로 다를 수 있습니다:
+
+```yaml
+app:
+  serviceAccount:
+    name: custom-service-account
+    create: false
+
+console:
+  serviceAccount:
+    name: another-custom-service-account
+    create: true
+
+global:
+  ...
+```
+
+<div id="external-redis">
+  ### 외부 Redis
+</div>
+
+```yaml
+redis:
+  install: false
+
+global:
+  redis:
+    host: ""
+    port: 6379
+    password: ""
+    parameters: {}
+    caCert: ""
+```
+
+시크릿에 있는 `password`를 참조하려면:
+
+```console
+kubectl create secret generic redis-secret --from-literal=redis-password=supersecret
+```
+
+아래 설정에서 이를 참조하세요:
+
+```yaml
+redis:
+  install: false
+
+global:
+  redis:
+    host: redis.example
+    port: 9001
+    auth:
+      enabled: true
+      secret: redis-secret
+      key: redis-password
+```
+
+<div id="ldap">
+  ### LDAP
+</div>
+
+<Warning>
+  현재 Helm 차트에서 LDAP 설정 지원은 제한적입니다. LDAP 설정을 위해 도움이 필요하면 W&amp;B Support 또는 담당 AISE에 문의하세요.
+</Warning>
+
+`global.extraEnv`에 환경 변수를 설정하여 LDAP를 구성합니다.
+
+```yaml
+global:
+  extraEnv:
+    LDAP_ADDRESS: ldaps://ldap.company.example.com
+    LDAP_BASE_DN: cn=accounts,dc=company,dc=example,dc=com
+    LDAP_USER_BASE_DN: cn=users,cn=accounts,dc=company,dc=example,dc=com
+    LDAP_GROUP_BASE_DN: cn=groups,cn=accounts,dc=company,dc=example,dc=com
+    LDAP_BIND_DN: uid=ldapbind,cn=sysaccounts,cn=etc,dc=company,dc=example,dc=com
+    LDAP_BIND_PW: ********************
+    LDAP_ATTRIBUTES: email=mail,name=cn
+    LDAP_TLS_ENABLE: "true"
+    LDAP_LOGIN: "true"
+    LDAP_USER_OBJECT_CLASS: user
+    LDAP_GROUP_OBJECT_CLASS: group
+```
+
+<accordion title="레거시 LDAP 설정">
+  이 레거시 방식은 더 이상 권장되지 않습니다. 이 섹션은 참고용으로만 제공됩니다.
+
+  **TLS 없이**
+
+  ```yaml
+  global:
+    ldap:
+      enabled: true
+      # "ldap://" 또는 "ldaps://"를 포함하는 LDAP 서버 주소
+      host:
+      # 사용자를 찾기 위해 사용할 LDAP 검색 baseDN
+      baseDN:
+      # (익명 바인드를 사용하지 않는 경우) 바인드에 사용할 LDAP 사용자
+      bindDN:
+      # (익명 바인드를 사용하지 않는 경우) 바인드에 사용할 LDAP 비밀번호를 담은 시크릿 이름 및 키
+      bindPW:
+      # 이메일 및 그룹 ID 속성 이름을 나타내는 LDAP 속성, 콤마로 구분된 문자열 값
+      attributes:
+      # LDAP 그룹 허용 목록
+      groupAllowList:
+      # LDAP TLS 활성화
+      tls: false
+  ```
+
+  **TLS 사용**
+
+  LDAP TLS 인증서 설정을 사용하려면 인증서 내용을 포함한 config map을 미리 생성해야 합니다.
+
+  config map을 생성하려면 다음 명령어를 사용할 수 있습니다:
+
+  ```console
+  kubectl create configmap ldap-tls-cert --from-file=certificate.crt
+  ```
+
+  그런 다음 아래 예시와 같이 YAML에서 config map을 사용합니다.
+
+  ```yaml
+  global:
+    ldap:
+      enabled: true
+      # "ldap://" 또는 "ldaps://"를 포함하는 LDAP 서버 주소
+      host:
+      # 사용자를 찾기 위해 사용할 LDAP 검색 baseDN
+      baseDN:
+      # (익명 바인드를 사용하지 않는 경우) 바인드에 사용할 LDAP 사용자
+      bindDN:
+      # (익명 바인드를 사용하지 않는 경우) 바인드에 사용할 LDAP 비밀번호를 담은 시크릿 이름 및 키
+      bindPW:
+      # 이메일 및 그룹 ID 속성 이름을 나타내는 LDAP 속성, 콤마로 구분된 문자열 값
+      attributes:
+      # LDAP 그룹 허용 목록
+      groupAllowList:
+      # LDAP TLS 활성화
+      tls: true
+      # LDAP 서버용 CA 인증서를 담은 ConfigMap 이름 및 키
+      tlsCert:
+        configMap:
+          name: "ldap-tls-cert"
+          key: "certificate.crt"
+  ```
+</accordion>
+
+<div id="oidc-sso">
+  ### OIDC SSO
+</div>
+
+```yaml
+global: 
+  auth:
+    sessionLengthHours: 720
+    oidc:
+      clientId: ""
+      secret: ""
+      # IdP에서 필요한 경우에만 포함하세요.
+      authMethod: ""
+      issuer: ""
+```
+
+`authMethod`는 선택적입니다.
+
+<div id="smtp">
+  ### SMTP
+</div>
+
+```yaml
+global:
+  email:
+    smtp:
+      host: ""
+      port: 587
+      user: ""
+      password: ""
+```
+
+<div id="environment-variables">
+  ### 환경 변수
+</div>
+
+```yaml
+global:
+  extraEnv:
+    GLOBAL_ENV: "example"
+```
+
+<div id="custom-certificate-authority">
+  ### 사용자 지정 인증 기관
+</div>
+
+`customCACerts`는 목록이며 여러 개의 인증서를 포함할 수 있습니다. `customCACerts`에 지정된 인증 기관은 W&amp;B Server 애플리케이션에만 적용됩니다.
+
+```yaml
+global:
+  customCACerts:
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
+    MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
+    SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
+    P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
+    -----END CERTIFICATE-----
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
+    MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
+    MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
+    SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
+    aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
+    -----END CERTIFICATE-----
+```
+
+CA 인증서는 또한 ConfigMap에 저장할 수도 있습니다:
+
+```yaml
+global:
+  caCertsConfigMap: custom-ca-certs
+```
+
+`ConfigMap`은 다음과 같아야 합니다:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+<Note>
+  ConfigMap을 사용하는 경우, ConfigMap의 각 키는 반드시 `.crt`로 끝나야 합니다(예: `my-cert.crt` 또는 `ca-cert1.crt`). 이러한 이름 지정 규칙은 `update-ca-certificates`가 각 인증서를 파싱하여 시스템 CA 저장소에 추가할 수 있도록 하기 위해 필요합니다.
+</Note>
+
+<div id="custom-security-context">
+  ### 사용자 지정 보안 컨텍스트
+</div>
+
+각 W&amp;B 컴포넌트는 다음 형식의 사용자 지정 보안 컨텍스트 설정을 지원합니다:
+
+```yaml
+pod:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 0
+    fsGroup: 1001
+    fsGroupChangePolicy: Always
+    seccompProfile:
+      type: RuntimeDefault
+container:
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false 
+```
+
+<Note>
+  `runAsGroup:`에 유효한 값은 `0` 하나뿐입니다. 다른 값을 사용하면 오류가 발생합니다.
+</Note>
+
+예를 들어 애플리케이션 파드를 설정하려면 설정에 `app` 섹션을 추가합니다.
+
+```yaml
+global:
+  ...
+app:
+  pod:
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 0
+      fsGroup: 1001
+      fsGroupChangePolicy: Always
+      seccompProfile:
+        type: RuntimeDefault
+  container:
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false 
+```
+
+동일한 개념이 `console`, `weave`, `weave-trace`, `parquet`에도 마찬가지로 적용됩니다.
+
+<div id="configuration-reference-for-wb-operator">
+  ## W&amp;B Operator 설정 참조
+</div>
+
+이 섹션에서는 W&amp;B Kubernetes operator (`wandb-controller-manager`)에 대한 설정 옵션을 설명합니다. Operator는 YAML 파일로 설정을 전달받습니다.
+
+기본적으로 W&amp;B Kubernetes operator는 설정 파일이 필요하지 않습니다. 필요한 경우에만 설정 파일을 생성하십시오. 예를 들어, 커스텀 인증 기관(certificate authority)을 지정하거나 에어갭 환경에 배포하는 등의 상황에서 설정 파일이 필요할 수 있습니다.
+
+사양(spec) 사용자 지정 항목의 전체 목록은 [Helm 리포지토리](https://github.com/wandb/helm-charts/blob/main/charts/operator/values.yaml)에서 확인할 수 있습니다.
+
+<div id="custom-ca">
+  ### 커스텀 CA
+</div>
+
+커스텀 인증 기관 목록(`customCACerts`)은 여러 인증서를 포함할 수 있습니다. 이렇게 추가된 인증 기관들은 W&amp;B Kubernetes operator(`wandb-controller-manager`)에만 적용됩니다.
+
+```yaml
+customCACerts:
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIBnDCCAUKgAwIBAg.....................fucMwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9tZU.....................tZUxhYiBSb290IENBMB4XDTI0
+  MDQwMTA4MjgzMFoXDT.....................oNWYggsMo8O+0mWLYMAoGCCqG
+  SM49BAMCA0gAMEUCIQ.....................hwuJgyQRaqMI149div72V2QIg
+  P5GD+5I+02yEp58Cwxd5Bj2CvyQwTjTO4hiVl1Xd0M0=
+  -----END CERTIFICATE-----
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIBxTCCAWugAwIB.......................qaJcwCgYIKoZIzj0EAwIwLDEQ
+  MA4GA1UEChMHSG9t.......................tZUxhYiBSb290IENBMB4XDTI0
+  MDQwMTA4MjgzMVoX.......................UK+moK4nZYvpNpqfvz/7m5wKU
+  SAAwRQIhAIzXZMW4.......................E8UFqsCcILdXjAiA7iTluM0IU
+  aIgJYVqKxXt25blH/VyBRzvNhViesfkNUQ==
+  -----END CERTIFICATE-----
+```
+
+CA 인증서는 또한 ConfigMap에 저장할 수도 있습니다:
+
+```yaml
+caCertsConfigMap: custom-ca-certs
+```
+
+`ConfigMap`은 다음과 같은 형태여야 합니다:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-ca-certs
+data:
+  ca-cert1.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+  ca-cert2.crt: |
+    -----BEGIN CERTIFICATE-----
+    ...
+    -----END CERTIFICATE-----
+```
+
+<Note>
+  ConfigMap의 각 키 이름은 반드시 `.crt`로 끝나야 합니다(예: `my-cert.crt` 또는 `ca-cert1.crt`). 이 네이밍 규칙은 `update-ca-certificates`가 각 인증서를 파싱하여 시스템 CA 저장소에 추가할 수 있도록 하기 위해 필수입니다.
+</Note>
+
+<div id="faq">
+  ## 자주 묻는 질문
+</div>
+
+<div id="what-is-the-purposerole-of-each-individual-pod">
+  ### 각 개별 파드의 목적/역할은 무엇인가요?
+</div>
+
+* **`wandb-app`**: GraphQL API와 프론트엔드 애플리케이션을 포함하는 W&amp;B의 핵심 구성 요소입니다. 플랫폼 기능의 대부분을 제공합니다.
+* **`wandb-console`**: `/console` 경로를 통해 액세스하는 관리 콘솔입니다.
+* **`wandb-otel`**: OpenTelemetry 에이전트로, Kubernetes 계층의 리소스에서 메트릭과 로그를 수집해 관리 콘솔에 표시합니다.
+* **`wandb-prometheus`**: Prometheus 서버로, 여러 컴포넌트에서 메트릭을 수집해 관리 콘솔에 표시합니다.
+* **`wandb-parquet`**: 데이터베이스 데이터를 Parquet 형식으로 객체 스토리지에 내보내는, `wandb-app` 파드와 분리된 백엔드 마이크로서비스입니다.
+* **`wandb-weave`**: UI에서 쿼리 테이블을 로드하고 다양한 핵심 앱 기능을 지원하는 또 다른 백엔드 마이크로서비스입니다.
+* **`wandb-weave-trace`**: LLM 기반 애플리케이션을 추적, 실험, 평가, 배포 및 개선하기 위한 프레임워크입니다. 이 프레임워크는 `wandb-app` 파드를 통해 액세스합니다.
+
+<div id="how-to-get-the-wb-operator-console-password">
+  ### W&amp;B Operator Console 비밀번호를 확인하는 방법
+</div>
+
+[W&amp;B Kubernetes Operator 관리 콘솔에 접근하기](#access-the-wb-management-console)를 참조하세요.
+
+<div id="how-to-access-the-wb-operator-console-if-ingress-doesnt-work">
+  ### Ingress가 작동하지 않을 때 W&amp;B Operator Console에 접속하는 방법
+</div>
+
+Kubernetes 클러스터에 연결할 수 있는 호스트에서 다음 명령을 실행합니다:
+
+```console
+kubectl port-forward svc/wandb-console 8082
+```
+
+브라우저에서 `https://localhost:8082/`에 접속해 콘솔을 엽니다.
+
+비밀번호를 확인하는 방법(옵션 2)은 [Accessing the W&amp;B Kubernetes Operator Management Console](#access-the-wb-management-console)을 참조하세요.
+
+<div id="how-to-view-wb-server-logs">
+  ### W&amp;B Server 로그를 확인하는 방법
+</div>
+
+애플리케이션 파드 이름은 **wandb-app-xxx**입니다.
+
+```console
+kubectl get pods
+kubectl logs wandb-XXXXX-XXXXX
+```
+
+<div id="how-to-identify-the-kubernetes-ingress-class">
+  ### Kubernetes 인그레스 클래스를 확인하는 방법
+</div>
+
+클러스터에 설치된 인그레스 클래스를 확인하려면 다음을 실행하세요.
+
+```console
+kubectl get ingressclass
+```

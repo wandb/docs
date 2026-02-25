@@ -105,7 +105,7 @@ W&amp;B는 작업 큐잉과 데이터 캐싱을 위해 W&amp;B 컴포넌트에�
 
 W&amp;B는 다음과 같은 환경에 있는 Redis 인스턴스에 연결할 수 있습니다:
 
-* [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
+* [AWS Elasticache](https://aws.amazon.com/elasticache/)
 * [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
 * 자체 클라우드 또는 온프레미스 인프라에 호스팅된 Redis 배포
@@ -116,11 +116,11 @@ W&amp;B는 다음과 같은 환경에 있는 Redis 인스턴스에 연결할 수
 
 W&amp;B에는 사전 서명된 URL과 CORS를 지원하는 오브젝트 스토리지가 필요하며, 다음 중 하나로 구성해야 합니다:
 
-* [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage)는 AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스입니다.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage)는 AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스입니다.
 * [Amazon S3](https://aws.amazon.com/s3/)는 업계 최고 수준의 확장성, 데이터 가용성, 보안 및 성능을 제공하는 오브젝트 스토리지 서비스입니다.
 * [Google Cloud Storage](https://cloud.google.com/storage)는 대규모 비정형 데이터를 저장하기 위한 매니지드 서비스입니다.
-* [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs)는 텍스트, 바이너리 데이터, 이미지, 비디오, 로그 등 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
-* [MinIO Enterprise (AIStor)](https://min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)와 같은 S3 호환 스토리지 또는 귀사의 클라우드나 온프레미스 인프라에 호스팅되는 기타 엔터프라이즈급 솔루션.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs)는 텍스트, 바이너리 데이터, 이미지, 비디오, 로그 등 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
+* [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)와 같은 S3 호환 스토리지 또는 귀사의 클라우드나 온프레미스 인프라에 호스팅되는 기타 엔터프라이즈급 솔루션.
 
 <div id="versions">
   ### 버전
@@ -326,10 +326,10 @@ Terraform은 W&amp;B 프로덕션 환경 배포를 위한 인프라를 프로비
   #### MySQL
 </div>
 
-| 환경              | CPU                | 메모리             | 디스크             |
+| 환경             | CPU                | 메모리             | 디스크             |
 | ---------------- | ------------------ | ------------------ | ------------------ |
-| 테스트/개발       | 2코어              | 16 GB              | 100 GB             |
-| 프로덕션          | 8코어              | 64 GB              | 500 GB             |
+| 테스트/개발      | 2 cores            | 16 GB              | 100 GB             |
+| 운영             | 8 cores            | 64 GB              | 500 GB             |
 
 위 사양은 MySQL 노드 1개 기준입니다.
 

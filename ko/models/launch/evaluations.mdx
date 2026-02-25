@@ -39,10 +39,10 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 | [MMLU-Pro](https://arxiv.org/abs/2406.01574) | `mmlu_pro` | | | MMLU의 더 난이도 높은 버전 |
 | [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6` | | | 직업 지식 벤치마크 |
 | [PAWS](https://github.com/google-research-datasets/paws) | `paws` | | | 패러프레이즈를 위한 적대적 단어 치환 |
-| [SevenLLM MCQ (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_en` | | | 영어 객관식 질문 |
-| [SevenLLM MCQ (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_zh` | | | 중국어 객관식 질문 |
-| [SevenLLM QA (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_en` | | | 영어 질의응답 |
-| [SevenLLM QA (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_zh` | | | 중국어 질의응답 |
+| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446) | `sevenllm_mcq_en` | | | 영어 객관식 질문 |
+| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446) | `sevenllm_mcq_zh` | | | 중국어 객관식 질문 |
+| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446) | `sevenllm_qa_en` | | | 영어 질의응답 |
+| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446) | `sevenllm_qa_zh` | | | 중국어 질의응답 |
 | [SimpleQA](https://openai.com/index/introducing-simpleqa/) | `simpleqa` | Yes | | 단순한 사실 질의응답 |
 | [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/) | `simpleqa_verified` | | | 정답을 검증한 SimpleQA의 하위 집합 |
 | [WorldSense](https://github.com/facebookresearch/worldsense) | `worldsense` | | | 세계 지식과 상식에 대한 이해를 평가 |
@@ -59,11 +59,11 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 | [AGIE LogiQA (English)](https://arxiv.org/abs/2007.08124) | `agie_logiqa_en` | | | 영어 논리 추론 문제 |
 | [AGIE LSAT Analytical Reasoning](https://www.lsac.org/) | `agie_lsat_ar` | | | LSAT 분석적 추론(논리 게임) 문제 |
 | [AGIE LSAT Logical Reasoning](https://www.lsac.org/) | `agie_lsat_lr` | | | LSAT 논리 추론 문제 |
-| [ARC Challenge](https://allenai.org/data/arc) | `arc_challenge` | | | 추론이 필요한 고난도 과학 문제(AI2 Reasoning Challenge) |
-| [ARC Easy](https://allenai.org/data/arc) | `arc_easy` | | | ARC 데이터셋에서 난이도가 더 낮은 과학 문제 모음 |
+| [ARC Challenge](https://huggingface.co/datasets/allenai/ai2_arc) | `arc_challenge` | | | 추론이 필요한 고난도 과학 문제(AI2 Reasoning Challenge) |
+| [ARC Easy](https://huggingface.co/datasets/allenai/ai2_arc) | `arc_easy` | | | ARC 데이터셋에서 난이도가 더 낮은 과학 문제 모음 |
 | [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard) | `bbh` | | | BIG-Bench Hard: BIG-Bench에서 선별한 고난도 태스크 |
 | [CoCoNot](https://arxiv.org/abs/2310.03697) | `coconot` | | | 반사실적 상식 추론 벤치마크 |
-| [CommonsenseQA](https://www.tau-nlp.sites.tau.ac.il/commonsenseqa) | `commonsense_qa` | | | 상식 추론 문제 |
+| [CommonsenseQA](https://huggingface.co/datasets/tau/commonsense_qa) | `commonsense_qa` | | | 상식 추론 문제 |
 | [HellaSwag](https://arxiv.org/abs/1905.07830) | `hellaswag` | | | 상식 기반 자연어 추론 |
 | [MUSR](https://arxiv.org/abs/2310.16049) | `musr` | | | 다단계 추론 벤치마크 |
 | [PIQA](https://yonatanbisk.com/piqa/) | `piqa` | | | 물리 상식 추론 |
@@ -78,7 +78,7 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
 | [AGIE Math](https://arxiv.org/abs/2410.12211) | `agie_math` | | | AGIE 벤치마크 모음에 포함된 고급 수학 추론 문제 |
-| [AGIE SAT Math](https://collegereadiness.collegeboard.org/sat) | `agie_sat_math` | | | SAT 수학 문제 |
+| [AGIE SAT Math](https://satsuite.collegeboard.org/sat) | `agie_sat_math` | | | SAT 수학 문제 |
 | [AIME 2024](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2024` | | | 2024년 American Invitational Mathematics Examination 문제 |
 | [AIME 2025](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2025` | | | 2025년 American Invitational Mathematics Examination 문제 |
 | [GSM8K](https://github.com/openai/grade-school-math) | `gsm8k` | | | 초등 수학 8K: 여러 단계를 거치는 수학 서술형 문제 |
@@ -108,9 +108,9 @@ import PreviewLink from '/snippets/ko/_includes/llm-eval-jobs/preview.mdx';
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
 | [AGIE LSAT Reading Comprehension](https://www.lsac.org/) | `agie_lsat_rc` | | | LSAT 독해 지문과 문항 |
-| [AGIE SAT English](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en` | | | 지문이 포함된 SAT 읽기 및 쓰기 문항 |
-| [AGIE SAT English (No Passage)](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en_without_passage` | | | 지문이 제공되지 않는 SAT English 문항 |
-| [DROP](https://allenai.org/data/drop) | `drop` | | | Discrete Reasoning Over Paragraphs: 수치적 추론이 필요한 문단 단위 독해 과제 |
+| [AGIE SAT English](https://satsuite.collegeboard.org/sat) | `agie_sat_en` | | | 지문이 포함된 SAT 읽기 및 쓰기 문항 |
+| [AGIE SAT English (No Passage)](https://satsuite.collegeboard.org/sat) | `agie_sat_en_without_passage` | | | 지문이 제공되지 않는 SAT English 문항 |
+| [DROP](https://github.com/allenai/allennlp-reading-comprehension/blob/master/allennlp_rc/eval/drop_eval.py) | `drop` | | | Discrete Reasoning Over Paragraphs: 수치적 추론이 필요한 문단 단위 독해 과제 |
 | [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/) | `race_h` | | | 영어 시험에서 발췌한 고난도 독해 문항 |
 | [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/) | `squad` | | | Stanford Question Answering Dataset: 위키피디아 문서를 대상으로 하는 추출형 질의응답 데이터셋 |
 

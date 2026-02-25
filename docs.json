@@ -1175,22 +1175,9 @@
                     "pages": [
                       "ko/platform/hosting/hosting-options/self-managed",
                       "ko/platform/hosting/self-managed/ref-arch",
-                      {
-                        "group": "Kubernetes에서 W&B 서버 실행",
-                        "pages": [
-                          "ko/platform/hosting/operator",
-                          "ko/platform/hosting/self-managed/operator-airgapped"
-                        ]
-                      },
-                      {
-                        "group": "퍼블릭 클라우드에 설치",
-                        "pages": [
-                          "ko/platform/hosting/self-managed/aws-tf",
-                          "ko/platform/hosting/self-managed/gcp-tf",
-                          "ko/platform/hosting/self-managed/azure-tf"
-                        ]
-                      },
-                      "ko/platform/hosting/self-managed/bare-metal",
+                      "ko/platform/hosting/self-managed/requirements",
+                      "ko/platform/hosting/self-managed/operator",
+                      "ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "ko/platform/hosting/server-upgrade-process",
                       "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]

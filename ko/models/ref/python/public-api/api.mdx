@@ -1063,7 +1063,7 @@ runs(
 
 또한 run config나 summary 메트릭의 항목으로도 필터링할 수 있습니다. 예를 들어 `config.experiment_name`, `summary_metrics.loss` 등을 사용할 수 있습니다.
 
-더 복잡한 필터링을 위해 MongoDB 쿼리 연산자를 사용할 수 있습니다. 자세한 내용은 https://docs.mongodb.com/manual/reference/operator/query 를 참조하세요. 다음 연산이 지원됩니다:
+더 복잡한 필터링을 위해 MongoDB 쿼리 연산자를 사용할 수 있습니다. 자세한 내용은 https://www.mongodb.com/docs/manual/reference/mql/query-predicates/ 를 참조하세요. 다음 연산이 지원됩니다:
 
 * `$and`
 * `$or`
@@ -1098,7 +1098,7 @@ runs(
 import wandb
 from wandb.apis.public import Api
 
-# config.experiment_name이 "foo"로 설정된 프로젝트의 runs 찾기
+# 프로젝트에서 config.experiment_name이 "foo"로 설정된 run 찾기
 Api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
 ```
 

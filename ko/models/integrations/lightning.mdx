@@ -208,7 +208,7 @@ wandb.config.update()
   <Tab title="PyTorch 로거">
     `WandbLogger`를 사용할 때는 `LightningModule`의 `training_step`이나 `validation_step` 메서드 안에서 `self.log('my_metric_name', metric_vale)`를 호출하여 메트릭을 W&amp;B에 로깅할 수 있습니다.
 
-    아래 코드 스니펫은 메트릭과 `LightningModule` 하이퍼파라미터를 로깅하도록 `LightningModule`을 정의하는 방법을 보여줍니다. 이 예제는 메트릭을 계산하기 위해 [`torchmetrics`](https://github.com/PyTorchLightning/metrics) 라이브러리를 사용합니다.
+    아래 코드 스니펫은 메트릭과 `LightningModule` 하이퍼파라미터를 로깅하도록 `LightningModule`을 정의하는 방법을 보여줍니다. 이 예제는 메트릭을 계산하기 위해 [`torchmetrics`](https://github.com/Lightning-AI/torchmetrics) 라이브러리를 사용합니다.
 
     ```python
     import torch
@@ -352,7 +352,7 @@ W&amp;B summary 메트릭에서 최대 검증 정확도를 추적하려면, 트�
   ## 모델 체크포인트 저장하기
 </div>
 
-모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)로 저장하려면 Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) 콜백을 사용하고, `WandbLogger`의 `log_model` 매개변수를 설정하세요.
+모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)로 저장하려면 Lightning [`ModelCheckpoint`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html) 콜백을 사용하고, `WandbLogger`의 `log_model` 매개변수를 설정하세요.
 
 <Tabs>
   <Tab title="PyTorch Logger">
@@ -371,7 +371,7 @@ W&amp;B summary 메트릭에서 최대 검증 정확도를 추적하려면, 트�
 *latest* 및 *best* 별칭은 W&amp;B [Artifact](/ko/models/artifacts/)에서 모델 체크포인트를 쉽게 가져올 수 있도록 자동으로 설정됩니다.
 
 ```python
-# artifacts 패널에서 참조를 가져올 수 있습니다
+# 참조(reference)는 Artifacts 패널에서 가져올 수 있습니다
 # "VERSION"은 버전(예: "v2") 또는 별칭("latest" 또는 "best")일 수 있습니다
 checkpoint_reference = "USER/PROJECT/MODEL-RUN_ID:VERSION"
 ```
@@ -611,7 +611,7 @@ def main():
   ### W&amp;B는 Lightning과 어떻게 인테그레이션되나요?
 </div>
 
-핵심 인테그레이션은 [Lightning `loggers` API](https://pytorch-lightning.readthedocs.io/en/stable/extensions/logging.html)를 기반으로 하며, 이를 통해 로그를 남기는 코드를 특정 프레임워크에 의존하지 않는 방식으로 대부분 작성할 수 있습니다. `Logger`는 [Lightning `Trainer`](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html)에 전달되며, 해당 API의 풍부한 [hook-and-callback 시스템](https://pytorch-lightning.readthedocs.io/en/stable/extensions/callbacks.html)에 따라 호출됩니다. 이를 통해 연구 코드를 엔지니어링 및 로깅 코드와 깔끔하게 분리할 수 있습니다.
+핵심 인테그레이션은 [Lightning `loggers` API](https://lightning.ai/docs/pytorch/stable/extensions/logging.html)를 기반으로 하며, 이를 통해 로그를 남기는 코드를 특정 프레임워크에 의존하지 않는 방식으로 대부분 작성할 수 있습니다. `Logger`는 [Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html)에 전달되며, 해당 API의 풍부한 [hook-and-callback 시스템](https://lightning.ai/docs/pytorch/stable/extensions/callbacks.html)에 따라 호출됩니다. 이를 통해 연구 코드를 엔지니어링 및 로깅 코드와 깔끔하게 분리할 수 있습니다.
 
 <div id="what-does-the-integration-log-without-any-additional-code">
   ### 추가 코드를 작성하지 않아도 이 인테그레이션은 무엇을 기록하나요?

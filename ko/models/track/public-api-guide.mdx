@@ -293,7 +293,7 @@ with wandb.init(project="public-api-example") as run:
   </Tab>
 
   <Tab title="MongoDB 스타일">
-    W&amp;B API는 또한 `api.runs()`를 사용해서 프로젝트의 여러 run을 대상으로 쿼리할 수 있는 방법을 제공합니다. 가장 일반적인 사용 사례는 사용자 지정 분석을 위해 run 데이터를 내보내는 것입니다. 쿼리 인터페이스는 [MongoDB에서 사용하는 것](https://docs.mongodb.com/manual/reference/operator/query)과 동일합니다.
+    W&amp;B API는 또한 `api.runs()`를 사용해서 프로젝트의 여러 run을 대상으로 쿼리할 수 있는 방법을 제공합니다. 가장 일반적인 사용 사례는 사용자 지정 분석을 위해 run 데이터를 내보내는 것입니다. 쿼리 인터페이스는 [MongoDB에서 사용하는 것](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/)과 동일합니다.
 
     ```python
     runs = api.runs(
