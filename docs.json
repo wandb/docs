@@ -79,22 +79,9 @@
                     "pages": [
                       "platform/hosting/hosting-options/self-managed",
                       "platform/hosting/self-managed/ref-arch",
-                      {
-                        "group": "Run W&B Server on Kubernetes",
-                        "pages": [
-                          "platform/hosting/operator",
-                          "platform/hosting/self-managed/operator-airgapped"
-                        ]
-                      },
-                      {
-                        "group": "Install on public cloud",
-                        "pages": [
-                          "platform/hosting/self-managed/aws-tf",
-                          "platform/hosting/self-managed/gcp-tf",
-                          "platform/hosting/self-managed/azure-tf"
-                        ]
-                      },
-                      "platform/hosting/self-managed/bare-metal",
+                      "platform/hosting/self-managed/requirements",
+                      "platform/hosting/self-managed/operator",
+                      "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "platform/hosting/server-upgrade-process",
                       "platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]
@@ -3723,7 +3710,7 @@
     {
       "source": "/library/init",
       "destination": "/models/ref/python/functions/init"
-    },    
+    },
     {
       "source": "/models/app/pages/workspaces",
       "destination": "/models/app/features/cascade-settings"
@@ -3739,7 +3726,6 @@
     {
       "source": "/models/integrations/openai",
       "destination": "/models/integrations/openai-api"
-
     },
     {
       "source": "/models/tutorials",
@@ -3751,8 +3737,8 @@
     },
     {
       "source": "/models/tutorials/minikube_gpu",
-      "destination" : "/models/integrations"
-    },    
+      "destination": "/models/integrations"
+    },
     {
       "source": "/models/tutorials/monai_3d_segmentation",
       "destination": "/models/integrations"
@@ -3766,15 +3752,15 @@
       "destination": "/models/integrations/tensorflow"
     },
     {
-      "source" : "/models/tutorials/tensorflow_sweeps",
-      "destination": "/models/sweeps"
-    },    
-    {
-      "source" : "/models/tutorials/xgboost_sweeps",
+      "source": "/models/tutorials/tensorflow_sweeps",
       "destination": "/models/sweeps"
     },
     {
-      "source":"/models/tutorials/volcano",
+      "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/tutorials/volcano",
       "destination": "/models/integrations"
     },
     {
@@ -3980,6 +3966,86 @@
     {
       "source": "weave/guides/tracking",
       "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/platform/hosting/self-managed/cloud-deployments/terraform",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/on-premises-deployments/kubernetes",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
