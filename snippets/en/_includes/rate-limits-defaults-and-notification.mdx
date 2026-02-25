@@ -1,0 +1,14 @@
+The following default limits help maintain platform stability:
+
+| Limit | Default | Scope |
+|-------|---------|-------|
+| Filestream requests per second | 500 | Project |
+| Filestream size | 120 MB per second | Project |
+| Filestream requests per run per second | 2 | Run |
+| Run creation requests per second | 80 | Project |
+
+When a limit is exceeded, the W&B SDK returns HTTP 429. You may see a message such as the following in your SDK logs:
+
+```
+HTTP 429: rate limit exceeded
+```

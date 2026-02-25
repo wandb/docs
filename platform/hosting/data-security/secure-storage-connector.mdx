@@ -7,7 +7,7 @@ import ByobContextNote from "/snippets/en/_includes/byob-context-note.mdx";
 <ByobContextNote/>
 
 ## Overview
-Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), data that you store in your bucket is not copied to the W&B managed infrastructure.
+Bring your own bucket (BYOB) allows you to store W&B artifacts and other related sensitive data in your own cloud or on-prem infrastructure. In case of [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), data that you store in your bucket is not copied to the W&B managed infrastructure.
 
 <Note>
 * Communication between W&B SDK / CLI / UI and your buckets occurs using [pre-signed URLs](./presigned-urls).
@@ -37,7 +37,7 @@ There are two scopes you can configure your storage bucket to:
 
 | Scope          | Description |
 |----------------|-------------|
-| Instance level | In [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed), any user with the required permissions within your organization or instance can access files stored in your instance's storage bucket. Not applicable to [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). |
+| Instance level | In [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) and [Self-Managed](/platform/hosting/hosting-options/self-managed), any user with the required permissions within your organization or instance can access files stored in your instance's storage bucket. Not applicable to [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud). |
 | Team level     | If a W&B Team is configured to use a Team level storage bucket, team members can access files stored in it. Team level storage buckets allow greater data access control and data isolation for teams with highly sensitive data or strict compliance requirements.<br/><br/>Team level storage can help different business units or departments sharing an instance to efficiently use the infrastructure and administrative resources. It can also allow separate project teams to manage AI workflows for separate customer engagements. Available for all deployment types. You configure team level BYOB when setting up the team. |
 
 This flexible design allows for many different storage topologies, depending on your organization's needs. For example:
@@ -293,10 +293,10 @@ For details, see [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/late
 
         Replace `<wandb_bucket>` accordingly and keep a record of the bucket name. Next, [configure W&B](#configure-byob).
 
-        If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), replace `<aws_principal_and_role_arn>` with the corresponding value.
+        If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), replace `<aws_principal_and_role_arn>` with the corresponding value.
 
         * For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud): `arn:aws:iam::725579432336:role/WandbIntegration`
-        * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud): `arn:aws:iam::830241207209:root`
+        * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud): `arn:aws:iam::830241207209:root`
   
 For more details, see the [AWS Self-Managed hosting guide](/platform/hosting/hosting-options).
 </Tab>
@@ -342,10 +342,10 @@ For details, see [Create a bucket](https://docs.cloud.google.com/storage/docs/cr
           gsutil cors get gs://<bucket_name>
           ```
 
-1. If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), grant the `storage.admin` role to the Google Cloud service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
+1. If you are using [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), grant the `storage.admin` role to the Google Cloud service account linked to the W&B Platform. W&B requires this role to check the bucket's CORS configuration and attributes, such as whether object versioning is enabled. If the service account does not have the `storage.admin` role, these checks result in a HTTP 403 error.
 
     * For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the account is: `wandb-integration@wandb-production.iam.gserviceaccount.com`
-    * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
+    * For [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) the account is: `deploy@wandb-production.iam.gserviceaccount.com`
 
     Keep a record of the bucket name. Next, [configure W&B for BYOB](#configure-byob).
 </Tab>
@@ -375,7 +375,7 @@ For details, see [Create a blob storage container](https://learn.microsoft.com/e
         If data in your bucket expires due to an [object lifecycle management policy](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure?tabs=azure-portal), you may lose the ability to read the history of some runs.
         </Note>
 
-1. Generate a storage account access key and make a note of its name and the storage account name. If you are using [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), share the storage account name and access key with your W&B team using a secure sharing mechanism.
+1. Generate a storage account access key and make a note of its name and the storage account name. If you are using [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), share the storage account name and access key with your W&B team using a secure sharing mechanism.
 
 **Team level BYOB**:
 

@@ -6,7 +6,7 @@ sidebarTitle: Deployment overview
 
 
 <Tip>
-W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
+W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
 </Tip>
 
 Deploy W&B Server on your [AWS, Google Cloud, or Azure cloud account](#deploy-wb-server-within-Self-Managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure). 
@@ -19,7 +19,7 @@ Your IT/DevOps/MLOps team is responsible for:
 - Continuously maintaining your W&B Self-Managed W&B deployment.
 
 <Info>
-If your organization is subject to regulatory requirements, consider deploying on [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud.mdx), which is maintained by W&B.
+If your organization is subject to regulatory requirements, consider deploying on [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), which is maintained by W&B.
 - W&B Dedicated Cloud's hosting platform meets the requirements of SOC 2 Type 2.
 - When configured appropriately, a W&B Dedicated Cloud deployment complies with HIPAA.
 
@@ -37,6 +37,8 @@ Configuration follows a hierarchy: **Release Channel Values** (defaults from W&B
 - To deploy W&B Self-Managed in public cloud or on-premises infrastructure, see [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator).
 - To deploy W&B Self-Managed to a custom cloud platform that is not AWS, the requirements are similar to the requirements for deploying in [on-prem infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
 - To deploy W&B Self-Managed in air-gapped environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped).
+
+You can optionally [configure rate limits](/platform/hosting/self-managed/rate-limits) on your instance to maintain stability. See [Rate limits](/platform/hosting/self-managed/rate-limits) for default values and notification behavior.
 
 ## Required infrastructure
 
