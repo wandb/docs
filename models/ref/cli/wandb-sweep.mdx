@@ -24,54 +24,61 @@ Create, update, or manage a hyperparameter sweep.
 
     Examples:
 
-    Create a new sweep from a YAML config file
+    Create a sweep using the configuration defined in `sweep_config.yaml`. Use
+    the current user's default entity and project.
 
     ```bash
     wandb sweep sweep_config.yaml
     ```
 
-    Create a sweep in a specific project and team.
+    Create a sweep and store the results under the "team-awesome" entity
+    and "foobar-project" project.
 
     ```bash
-    wandb sweep -p project -e entity sweep_config.yaml
+    wandb sweep -p foobar-project -e team-awesome sweep_config.yaml
     ```
 
-    Update an existing sweep's configuration.
+    Update sweep `abcd1234` with a new configuration from `sweep_config.yaml`.
+    This is useful for changing the parameters or search strategy of an
+    active sweep.
 
     ```bash
     wandb sweep --update abcd1234 sweep_config.yaml
     ```
 
-    Stop a sweep
+    Stop sweep `abcd1234` under the "team-awesome" entity and "foobar-project" project.
 
     ```bash
-    wandb sweep --stop entity/project/abcd1234
+    wandb sweep --stop team-awesome/foobar-project/abcd1234
     ```
 
-    Cancel a sweep
+    Cancel sweep `abcd1234` in the current user's default entity and project.
 
     ```bash
     wandb sweep --cancel abcd1234
     ```
 
-    Pause and later resume a sweep
+    Pause sweep `abcd1234` in the current user's default entity and
+    project. Later, resume the sweep.
 
     ```bash
     wandb sweep --pause abcd1234
     wandb sweep --resume abcd1234
     ```
 
-    Create a sweep with a local controller
+    Create a sweep with a local controller that uses the configuration
+    in `sweep_config.yaml`.
 
     ```bash
     wandb sweep --controller sweep_config.yaml
     ```
     
-    Attach one or more runs to a sweep. In the following example, replace
-    `run_ID_1` and `run_ID_2` with the run's unique ID.
+    Create a new sweep and include two previously completed runs
+    (run ID `abcd1234` and run ID `efgh5678`) so their results are incorporated
+    into the sweep's hyperparameter search.
 
     ```bash
-    wandb sweep -R run_ID_1 -R run_ID_2 sweep_config.yaml
+    wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml
     ```
     
 
@@ -217,38 +224,46 @@ Usage: sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
 
   Examples:
 
-  Create a new sweep from a YAML config file
+  Create a sweep using the configuration defined in `sweep_config.yaml`. Use
+  the current user's default entity and project.
 
   ```bash wandb sweep sweep_config.yaml ```
 
-  Create a sweep in a specific project and team.
+  Create a sweep and store the results under the "team-awesome" entity and
+  "foobar-project" project.
 
-  ```bash wandb sweep -p project -e entity sweep_config.yaml ```
+  ```bash wandb sweep -p foobar-project -e team-awesome sweep_config.yaml ```
 
-  Update an existing sweep's configuration.
+  Update sweep `abcd1234` with a new configuration from `sweep_config.yaml`.
+  This is useful for changing the parameters or search strategy of an active
+  sweep.
 
   ```bash wandb sweep --update abcd1234 sweep_config.yaml ```
 
-  Stop a sweep
+  Stop sweep `abcd1234` under the "team-awesome" entity and "foobar-project"
+  project.
 
-  ```bash wandb sweep --stop entity/project/abcd1234 ```
+  ```bash wandb sweep --stop team-awesome/foobar-project/abcd1234 ```
 
-  Cancel a sweep
+  Cancel sweep `abcd1234` in the current user's default entity and project.
 
   ```bash wandb sweep --cancel abcd1234 ```
 
-  Pause and later resume a sweep
+  Pause sweep `abcd1234` in the current user's default entity and project.
+  Later, resume the sweep.
 
   ```bash wandb sweep --pause abcd1234 wandb sweep --resume abcd1234 ```
 
-  Create a sweep with a local controller
+  Create a sweep with a local controller that uses the configuration in
+  `sweep_config.yaml`.
 
   ```bash wandb sweep --controller sweep_config.yaml ```
 
-  Attach one or more runs to a sweep. In the following example, replace
-  `run_ID_1` and `run_ID_2` with the run's unique ID.
+  Create a new sweep and include two previously completed runs (run ID
+  `abcd1234` and run ID `efgh5678`) so their results are incorporated into the
+  sweep's hyperparameter search.
 
-  ```bash wandb sweep -R run_ID_1 -R run_ID_2 sweep_config.yaml ```
+  ```bash wandb sweep -R abcd1234 -R efgh5678 sweep_config.yaml ```
 
 Options:
   -p, --project TEXT    Set the project for sweep runs. Use 'Uncategorized' if

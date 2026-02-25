@@ -37,7 +37,7 @@ Upload existing local W&B run data to the cloud.
     wandb sync
     ```
 
-    Sync a specific run by its directory
+    Sync a run that is locally saved at `./wandb/run-20170617_000000-abcd1234`
 
     ```bash
     wandb sync ./wandb/run-20170617_000000-abcd1234
@@ -55,10 +55,10 @@ Upload existing local W&B run data to the cloud.
     wandb sync --sync-all
     ```
 
-    Sync a run to a specific project and entity
+    Sync a run in the "foobar-project" project and "team-awesome" entity by its `.wandb` filepath
 
     ```bash
-    wandb sync --project project --entity entity ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
+    wandb sync --project foobar-project --entity team-awesome ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
     ```
 
     Delete local data for runs that have already been synced
@@ -304,7 +304,7 @@ Usage: sync [OPTIONS] [PATH]...
 
   ```bash wandb sync ```
 
-  Sync a specific run by its directory
+  Sync a run that is locally saved at `./wandb/run-20170617_000000-abcd1234`
 
   ```bash wandb sync ./wandb/run-20170617_000000-abcd1234 ```
 
@@ -317,9 +317,10 @@ Usage: sync [OPTIONS] [PATH]...
 
   ```bash wandb sync --sync-all ```
 
-  Sync a run to a specific project and entity
+  Sync a run in the "foobar-project" project and "team-awesome" entity by its
+  `.wandb` filepath
 
-  ```bash wandb sync --project project --entity entity
+  ```bash wandb sync --project foobar-project --entity team-awesome
   ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb ```
 
   Delete local data for runs that have already been synced
