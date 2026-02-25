@@ -4,7 +4,7 @@ title: wandb restore
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3155" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3189" />
 
 
 Restore the code, config, and Docker state from a previous run.
@@ -31,25 +31,27 @@ Restore the code, config, and Docker state from a previous run.
 
     Examples:
 
-    Restore a run by ID
+    Restore a run with run ID "abcd1234" in the default project and entity
 
     ```bash
     wandb restore abcd1234
     ```
 
-    Restore a run from a specific project and entity
+    Restore a run from the "foobar" project and "team-awesome" entity with
+    run ID "abcd1234"
 
     ```bash
-    wandb restore entity/project:abcd1234
+    wandb restore team-awesome/foobar-project:abcd1234
     ```
 
-    Restore only config and Docker state, skip git checkout
+    Restore run "abcd1234" without restoring git state. Only restore config
+    and Docker state.
 
     ```bash
     wandb restore --no-git abcd1234
     ```
 
-    Restore in detached HEAD mode instead of creating a branch
+    Restore run "abcd1234" in detached HEAD mode instead of creating a branch
 
     ```bash
     wandb restore --no-branch abcd1234
@@ -131,19 +133,21 @@ Usage: restore [OPTIONS] RUN
 
   Examples:
 
-  Restore a run by ID
+  Restore a run with run ID "abcd1234" in the default project and entity
 
   ```bash wandb restore abcd1234 ```
 
-  Restore a run from a specific project and entity
+  Restore a run from the "foobar" project and "team-awesome" entity with run
+  ID "abcd1234"
 
-  ```bash wandb restore entity/project:abcd1234 ```
+  ```bash wandb restore team-awesome/foobar-project:abcd1234 ```
 
-  Restore only config and Docker state, skip git checkout
+  Restore run "abcd1234" without restoring git state. Only restore config and
+  Docker state.
 
   ```bash wandb restore --no-git abcd1234 ```
 
-  Restore in detached HEAD mode instead of creating a branch
+  Restore run "abcd1234" in detached HEAD mode instead of creating a branch
 
   ```bash wandb restore --no-branch abcd1234 ```
 

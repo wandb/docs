@@ -3,7 +3,17 @@ title: wandb server-stop
 ---
 
 
-Stop a local W&B server
+Stop a running local W&B server.
+
+    Stops the Docker container named ``wandb-local`` that was started
+    by ``wandb server start``. Requires Docker to be installed.
+
+    Examples:
+
+    ```bash
+    wandb server stop
+    ```
+    
 
 ## Usage
 
@@ -27,7 +37,14 @@ Show this message and exit.
 ```
 Usage: server stop [OPTIONS]
 
-  Stop a local W&B server
+  Stop a running local W&B server.
+
+  Stops the Docker container named ``wandb-local`` that was started by ``wandb
+  server start``. Requires Docker to be installed.
+
+  Examples:
+
+  ```bash wandb server stop ```
 
 Options:
   --help  Show this message and exit.

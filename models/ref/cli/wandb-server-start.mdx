@@ -11,13 +11,36 @@ Start a local W&B server in a Docker container.
     Map the specified port on the host to port `8080` in the container and
     mount a persistent Docker volume named `wandb` to store data.
 
-    If a newer image is available, notify the user to upgrade to the latest version (`wandb server start --upgrade`).
+    If a newer image is available, notify the user to upgrade to the latest
+    version (`wandb server start --upgrade`).
 
-    If a container named `wandb-local` is already running, notify the user to stop it before starting a new one.
+    If a container named `wandb-local` is already running, notify the user
+    to stop it before starting a new one.
 
-    Set the `base_url` setting to the local server URL so that W&B client calls use the local server. If no API key is found, prompt the user to log in.
+    Set the `base_url` setting to the local server URL so that W&B client
+    calls use the local server. If no API key is found, prompt the user to log in.
 
     Requires Docker to be installed and running on the host machine.
+
+    Examples:
+
+    Launch a local W&B server on port 8080 in the background.
+
+    ```bash
+    wandb server start
+    ```
+
+    Run the server on port 9090 instead of the default 8080.
+
+    ```bash
+    wandb server start -p 9090
+    ```
+
+    Run the server in the foreground so logs stream directly to the terminal
+
+    ```bash
+    wandb server start --no-daemon
+    ```
     
 
 ## Usage
@@ -55,7 +78,7 @@ Run the server in the background. Use --no-daemon to run in the foreground.
 
 ### `upgrade`
 
-Docker image before starting. Stop any existing container.                
+Pull the latest wandb/local Docker image before starting. Stop any existing container.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -100,6 +123,20 @@ Usage: server start [OPTIONS]
   use the local server. If no API key is found, prompt the user to log in.
 
   Requires Docker to be installed and running on the host machine.
+
+  Examples:
+
+  Launch a local W&B server on port 8080 in the background.
+
+  ```bash wandb server start ```
+
+  Run the server on port 9090 instead of the default 8080.
+
+  ```bash wandb server start -p 9090 ```
+
+  Run the server in the foreground so logs stream directly to the terminal
+
+  ```bash wandb server start --no-daemon ```
 
 Options:
   -p, --port TEXT         The host port to bind W&B server on.
