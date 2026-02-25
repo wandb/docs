@@ -79,22 +79,9 @@
                     "pages": [
                       "platform/hosting/hosting-options/self-managed",
                       "platform/hosting/self-managed/ref-arch",
-                      {
-                        "group": "Run W&B Server on Kubernetes",
-                        "pages": [
-                          "platform/hosting/operator",
-                          "platform/hosting/self-managed/operator-airgapped"
-                        ]
-                      },
-                      {
-                        "group": "Install on public cloud",
-                        "pages": [
-                          "platform/hosting/self-managed/aws-tf",
-                          "platform/hosting/self-managed/gcp-tf",
-                          "platform/hosting/self-managed/azure-tf"
-                        ]
-                      },
-                      "platform/hosting/self-managed/bare-metal",
+                      "platform/hosting/self-managed/requirements",
+                      "platform/hosting/self-managed/operator",
+                      "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "platform/hosting/server-upgrade-process",
                       "platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]
@@ -411,18 +398,10 @@
                       {
                         "group": "ML Frameworks",
                         "pages": [
-                          "models/integrations/catalyst",
-                          "models/integrations/deepchem",
-                          "models/integrations/dspy",
                           "models/integrations/keras",
-                          "models/integrations/lightgbm",
-                          "models/integrations/mmengine",
-                          "models/integrations/mmf",
-                          "models/integrations/paddledetection",
-                          "models/integrations/paddleocr",
+                          "models/integrations/pytorch",
                           "models/integrations/lightning",
                           "models/integrations/ignite",
-                          "models/integrations/skorch",
                           "models/integrations/tensorflow",
                           "models/integrations/xgboost"
                         ]
@@ -430,22 +409,14 @@
                       {
                         "group": "ML Libraries",
                         "pages": [
-                          "models/integrations/deepchecks",
                           "models/integrations/huggingface",
+                          "models/integrations/accelerate",
                           "models/integrations/diffusers",
-                          "models/integrations/autotrain",
-                          "models/integrations/fastai",
-                          "models/integrations/fastai/v1",
-                          "models/integrations/composer",
-                          "models/integrations/openai-gym",
-                          "models/integrations/prodigy",
-                          "models/integrations/pytorch-geometric",
-                          "models/integrations/torchtune",
-                          "models/integrations/scikit",
                           "models/integrations/simpletransformers",
-                          "models/integrations/spacy",
-                          "models/integrations/stable-baselines-3",
-                          "models/integrations/ultralytics"
+                          "models/integrations/huggingface_transformers",
+                          "models/integrations/openai-gym",
+                          "models/integrations/pytorch-geometric",
+                          "models/integrations/torchtune"
                         ]
                       }
                     ]
@@ -453,72 +424,17 @@
                   {
                     "group": "Cloud Platforms",
                     "pages": [
-                      "models/integrations/sagemaker",
-                      "models/integrations/databricks",
                       "models/integrations/azure-openai-fine-tuning",
                       "models/integrations/openai-fine-tuning",
-                      "models/integrations/cohere-fine-tuning",
-                      "models/integrations/openai-api",
-                      "models/integrations/nim"
-                    ]
-                  },
-                  {
-                    "group": "Workflow Orchestration",
-                    "pages": [
-                      "models/integrations/kubeflow-pipelines-kfp",
-                      "models/integrations/metaflow",
-                      "models/integrations/dagster",
-                      "models/integrations/hydra"
+                      "models/integrations/openai-api"
                     ]
                   },
                   {
                     "group": "Other",
                     "pages": [
-                      "models/integrations/docker",
-                      "models/integrations/tensorboard",
-                      "models/integrations/w-and-b-for-julia",
+                      "models/integrations/hydra",
                       "models/integrations/yolox",
                       "models/integrations/yolov5"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Tutorials",
-                "pages": [
-                  "models/tutorials",
-                  {
-                    "group": "Fundamentals",
-                    "pages": [
-                      "models/tutorials/experiments",
-                      "models/tutorials/tables",
-                      "models/tutorials/sweeps",
-                      "models/tutorials/artifacts",
-                      "models/tutorials/workspaces",
-                      "models/tutorials/weave_models_registry",
-                      "models/evaluate-models"
-                    ]
-                  },
-                  {
-                    "group": "Framework Tutorials",
-                    "pages": [
-                      "models/tutorials/keras",
-                      "models/tutorials/keras_models",
-                      "models/tutorials/keras_tables",
-                      "models/tutorials/pytorch",
-                      "models/tutorials/lightning",
-                      "models/tutorials/tensorflow",
-                      "models/tutorials/tensorflow_sweeps",
-                      "models/tutorials/xgboost_sweeps",
-                      "models/tutorials/huggingface"
-                    ]
-                  },
-                  {
-                    "group": "Advanced Tutorials",
-                    "pages": [
-                      "models/tutorials/monai_3d_segmentation",
-                      "models/tutorials/volcano",
-                      "models/tutorials/minikube_gpu"
                     ]
                   }
                 ]
@@ -3812,6 +3728,82 @@
       "destination": "/models/integrations/openai-api"
     },
     {
+      "source": "/models/tutorials",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/huggingface",
+      "destination": "/models/integrations/huggingface"
+    },
+    {
+      "source": "/models/tutorials/minikube_gpu",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/monai_3d_segmentation",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/lightning",
+      "destination": "/models/integrations/lightning"
+    },
+    {
+      "source": "/models/tutorials/tensorflow",
+      "destination": "/models/integrations/tensorflow"
+    },
+    {
+      "source": "/models/tutorials/tensorflow_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/tutorials/volcano",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/weave_models_registry",
+      "destination": "/models/integrations"
+    },
+    {
+      "source": "/models/tutorials/pytorch",
+      "destination": "/models/integrations/pytorch"
+    },
+    {
+      "source": "/models/tutorials/artifacts",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/experiments",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras_models",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/keras_tables",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/sweeps",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/tables",
+      "destination": "/models/tutorials"
+    },
+    {
+      "source": "/models/tutorials/workspaces",
+      "destination": "/models/tutorials"
+    },
+    {
       "source": "/models/ref/python/init",
       "destination": "/models/ref/python/functions/init"
     },
@@ -3830,6 +3822,10 @@
     {
       "source": "models/support/rotate_revoke_access",
       "destination": "/models/support/find_api_key"
+    },
+    {
+      "source": "/models/evaluate-models",
+      "destination": "/models/tables/evaluate-models"
     },
     {
       "source": "/models/track/launch/*",
@@ -3970,6 +3966,86 @@
     {
       "source": "weave/guides/tracking",
       "destination": "weave/concepts/what-is-weave"
+    },
+    {
+      "source": "/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/platform/hosting/self-managed/cloud-deployments/terraform",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/on-premises-deployments/kubernetes",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ja/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/operator",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/bare-metal",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/operator-airgapped",
+      "destination": "/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/aws-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/gcp-tf",
+      "destination": "/platform/hosting/self-managed/operator"
+    },
+    {
+      "source": "/ko/platform/hosting/self-managed/azure-tf",
+      "destination": "/platform/hosting/self-managed/operator"
     }
   ],
   "baseUrl": "https://docs.wandb.ai"
