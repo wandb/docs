@@ -146,3 +146,50 @@ To resolve this issue, increase the system limit for open files to `65,536` usin
 ```bash
 ulimit -n 65536
 ```
+
+## Trace data loss in worker processes
+
+Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using a multiprocessing or task queue system or a worker processes like Celery, trace data will be lost if the worker process exits before background threads finish uploading traces.
+
+To prevent data loss in worker processes, you must ensure that background uploads complete by calling `client.flush()` or `client.finish()` before the worker task completes.
+
+These methods have different purposes:
+
+- `weave.flush()`: Simple, silent flushing. Recommended when Weave is integrated into worker processes or CI environments.
+- `weave.finish()`: Includes progress feedback with a progress bar or status callbacks. Recommended for interactive scripts or notebooks.
+
+Both methods block until all background uploads complete, ensuring no trace data is lost when the worker process exits.
+The following example demonstrates `client.finish()`:
+
+```python lines {15}
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+    
+    try:
+        # Your task logic that creates traces
+        result = your_processing_function(input_data)
+        
+        # Ensure all traces are uploaded before task completes
+        weave.finish()
+        
+        return result
+    finally:
+        pass
+```
+
+You can also use the `with` context manager to automatically call `weave.finish()` on exit:
+
+```python lines {1}
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+You can also improve the performance of your application using `weave.flush()`. See [Flushing](#flushing) for more information.

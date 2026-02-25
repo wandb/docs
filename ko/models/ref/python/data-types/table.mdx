@@ -1,134 +1,146 @@
 ---
 title: Table
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L183-L909" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py" />
 
+## <kbd>class</kbd> `Table`
 표 형식의 데이터를 표시하고 분석하는 데 사용되는 Table 클래스입니다.
 
+기존의 스프레드시트와 달리 Table은 스칼라 값, 문자열, numpy 배열 및 `wandb.data_types.Media`의 대부분의 서브클래스 등 수많은 유형의 데이터를 지원합니다. 즉, `Images`, `Video`, `Audio` 및 기타 다양한 주석이 달린 풍부한 미디어를 기존의 스칼라 값과 함께 Table에 직접 임베드할 수 있습니다.
+
+이 클래스는 W&B Tables를 생성하는 데 사용되는 주요 클래스입니다. https://docs.wandb.ai/guides/models/tables/.
+
+### <kbd>method</kbd> `Table.__init__`
+
 ```python
-Table(
-    columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
-    allow_mixed_types=(False)
+__init__(
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=True,
+    allow_mixed_types=False,
+    log_mode: Optional[Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL']] = 'IMMUTABLE'
 )
 ```
 
-기존 스프레드시트와 달리 Tables는 다양한 유형의 데이터를 지원합니다. 스칼라 값, 문자열, numpy 배열 및 `wandb.data_types.Media`의 대부분의 서브클래스가 해당됩니다.
-즉, 다른 기존 스칼라 값과 함께 `Images`, `Video`, `Audio` 및 기타 종류의 풍부하고 주석이 달린 미디어를 Tables에 직접 포함할 수 있습니다.
+Table 오브젝트를 초기화합니다.
 
-이 클래스는 UI에서 Table Visualizer를 생성하는 데 사용되는 기본 클래스입니다. [https://docs.wandb.ai/models/tables/](/models/tables/) 를 참조하세요.
+rows는 레거시 이유로 제공되며 사용해서는 안 됩니다. Table 클래스는 Pandas API를 모방하기 위해 data를 사용합니다.
 
-| 인수 | Description |
-| :--- | :--- |
-|  `columns` |  (List[str]) 테이블의 열 이름입니다. 기본값은 ["Input", "Output", "Expected"]입니다. |
-|  `data` |  (List[List[any]]) 값의 2D 행 중심 배열입니다. |
-|  `dataframe` |  (pandas.DataFrame) 테이블을 만드는 데 사용되는 DataFrame 오브젝트입니다. 설정되면 `data` 및 `columns` 인수는 무시됩니다. |
-|  `optional` |  (Union[bool,List[bool]]) `None` 값이 허용되는지 여부를 결정합니다. 기본값은 True입니다. 단일 bool 값인 경우 구성 시 지정된 모든 열에 대해 선택 사항이 적용됩니다. bool 값 목록인 경우 각 열에 선택 사항이 적용됩니다. `columns`와 길이가 같아야 합니다. 모든 열에 적용됩니다. bool 값 목록은 각 해당 열에 적용됩니다. |
-|  `allow_mixed_types` |  (bool) 열에 혼합된 유형을 허용할지 여부를 결정합니다(유형 유효성 검사 비활성화). 기본값은 False입니다. |
+**인수:**
 
-## Methods
+ - `columns`: (List[str]) 테이블의 컬럼 이름. 기본값은 ["Input", "Output", "Expected"] 입니다.
+ - `data`: (List[List[any]]) 2D 행 중심의 값 배열입니다.
+ - `dataframe`: (pandas.DataFrame) 테이블을 생성하는 데 사용되는 DataFrame 오브젝트입니다. 이 인수가 설정되면 `data` 및 `columns` 인수는 무시됩니다.
+ - `rows`: (List[List[any]]) 2D 행 중심의 값 배열입니다.
+ - `optional`: (Union[bool,List[bool]]) `None` 값을 허용할지 여부를 결정합니다. 기본값은 True 입니다.
+        - 단일 bool 값인 경우, 생성 시 지정된 모든 컬럼에 대해 옵션 여부가 강제됩니다.
+        - bool 값의 리스트인 경우, 각 컬럼에 옵션 여부가 적용됩니다. `columns`와 동일한 길이여야 합니다.
+ - `allow_mixed_types`: (bool) 컬럼에 혼합된 유형을 허용할지 여부를 결정합니다 (유형 검증 비활성화). 기본값은 False 입니다.
+ - `log_mode`: Optional[str] 변경 사항이 발생했을 때 Table이 로그되는 방식을 제어합니다. 옵션:
+        - "IMMUTABLE" (기본값): Table은 한 번만 로그될 수 있습니다. 테이블이 변경된 후의 후속 로그 시도는 무시됩니다.
+        - "MUTABLE": 변경 후 Table을 다시 로그할 수 있으며, 로그될 때마다 새로운 아티팩트 버전이 생성됩니다.
+        - "INCREMENTAL": Table 데이터가 점진적으로 로그되며, 각 로그는 마지막 로그 이후의 새로운 데이터를 포함하는 새로운 아티팩트 항목을 생성합니다.
 
-### `add_column`
+---
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L797-L836)
-
-```python
-add_column(
-    name, data, optional=(False)
-)
-```
-
-테이블에 데이터 열을 추가합니다.
-
-| 인수 | Description |
-| :--- | :--- |
-|  `name` |  (str) - 열의 고유한 이름 |
-|  `data` |  (list | np.array) - 동종 데이터 열 |
-|  `optional` |  (bool) - null과 유사한 값이 허용되는지 여부 |
-
-### `add_computed_columns`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L887-L909)
+### <kbd>method</kbd> `Table.add_column`
 
 ```python
-add_computed_columns(
-    fn
-)
+add_column(name, data, optional=False)
 ```
 
-기존 데이터를 기반으로 하나 이상의 계산된 열을 추가합니다.
+테이블에 데이터 컬럼을 추가합니다.
 
-| 인수 | Description |
-| :--- | :--- |
-|  `fn` |  하나 또는 두 개의 파라미터, ndx (int) 및 row (dict)를 허용하는 함수입니다. 여기서 ndx는 행의 인덱스를 나타내는 정수입니다. `include_ndx`가 `True`로 설정된 경우에만 포함됩니다. `row`는 기존 열을 키로 사용하는 사전입니다. 이 함수는 해당 행에 대한 새 열을 나타내는 사전을 반환해야 합니다(새 열 이름을 키로 사용). |
+**인수:**
 
-### `add_data`
+ - `name`: (str) - 컬럼의 고유 이름
+ - `data`: (list | np.array) - 동일한 유형의 데이터 컬럼
+ - `optional`: (bool) - null 스타일의 값을 허용할지 여부
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L423-L456)
+---
+
+### <kbd>method</kbd> `Table.add_computed_columns`
 
 ```python
-add_data(
-    *data
-)
+add_computed_columns(fn)
 ```
 
-테이블에 새 데이터 행을 추가합니다. 테이블의 최대 행 수는 `wandb.Table.MAX_ARTIFACT_ROWS`에 의해 결정됩니다.
+기존 데이터를 기반으로 하나 이상의 계산된 컬럼을 추가합니다.
 
-데이터 길이는 테이블 열의 길이와 일치해야 합니다.
+**인수:**
 
-### `add_row`
+ - `fn`: 하나 또는 두 개의 파라미터 ndx (int)와 row (dict)를 받는 함수로, 해당 행에 대한 새 컬럼을 나타내는 사전(새 컬럼 이름을 키로 함)을 반환해야 합니다.
+    - `ndx`는 행의 인덱스를 나타내는 정수입니다. `include_ndx`가 `True`로 설정된 경우에만 포함됩니다.
+    - `row`는 기존 컬럼을 키로 하는 사전입니다.
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L418-L421)
+---
+
+### <kbd>method</kbd> `Table.add_data`
 
 ```python
-add_row(
-    *row
-)
+add_data(*data)
 ```
 
-더 이상 사용되지 않습니다. 대신 add_data를 사용하세요.
+테이블에 새로운 데이터 행을 추가합니다.
 
-### `cast`
+테이블의 최대 행 수는 `wandb.Table.MAX_ARTIFACT_ROWS`에 의해 결정됩니다.
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L315-L371)
+데이터의 길이는 테이블 컬럼의 길이와 일치해야 합니다.
+
+---
+
+### <kbd>method</kbd> `Table.add_row`
 
 ```python
-cast(
-    col_name, dtype, optional=(False)
-)
+add_row(*row)
 ```
 
-열을 특정 데이터 유형으로 캐스팅합니다.
+더 이상 사용되지 않습니다 (Deprecated). 대신 `Table.add_data` 메소드를 사용하세요.
 
-이는 일반 Python 클래스, 내부 W&B 유형 또는
-wandb.Image 또는 wandb.Classes의 인스턴스와 같은 예제 오브젝트 중 하나일 수 있습니다.
+---
 
-| 인수 | Description |
-| :--- | :--- |
-|  `col_name` |  (str) - 캐스팅할 열의 이름입니다. |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 대상 dtype입니다. |
-|  `optional` |  (bool) - 열에서 None을 허용해야 하는지 여부입니다. |
-
-### `get_column`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L838-L861)
+### <kbd>method</kbd> `Table.cast`
 
 ```python
-get_column(
-    name, convert_to=None
-)
+cast(col_name, dtype, optional=False)
 ```
 
-테이블에서 열을 검색하고 선택적으로 NumPy 오브젝트로 변환합니다.
+컬럼을 특정 데이터 유형으로 캐스팅합니다.
 
-| 인수 | Description |
-| :--- | :--- |
-|  `name` |  (str) - 열의 이름 |
-|  `convert_to` |  (str, optional) - "numpy": 기본 데이터를 numpy 오브젝트로 변환합니다. |
+이는 일반적인 파이썬 클래스, 내부 W&B 유형 또는 wandb.Image나 wandb.Classes의 인스턴스와 같은 예시 오브젝트일 수 있습니다.
 
-### `get_dataframe`
+**인수:**
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L872-L878)
+ - `col_name` (str): 캐스팅할 컬럼의 이름.
+ - `dtype` (class, wandb.wandb_sdk.interface._dtypes.Type, any): 대상 dtype.
+ - `optional` (bool): 컬럼에 None을 허용할지 여부.
+
+---
+
+### <kbd>method</kbd> `Table.get_column`
+
+```python
+get_column(name, convert_to=None)
+```
+
+테이블에서 컬럼을 가져오고 선택적으로 NumPy 오브젝트로 변환합니다.
+
+**인수:**
+
+ - `name`: (str) - 컬럼의 이름
+ - `convert_to`: (str, optional)
+        - "numpy": 기본 데이터를 numpy 오브젝트로 변환합니다.
+
+---
+
+### <kbd>method</kbd> `Table.get_dataframe`
 
 ```python
 get_dataframe()
@@ -136,70 +148,14 @@ get_dataframe()
 
 테이블의 `pandas.DataFrame`을 반환합니다.
 
-### `get_index`
+---
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L863-L870)
+### <kbd>method</kbd> `Table.get_index`
 
 ```python
 get_index()
 ```
 
-다른 테이블에서 링크를 만드는 데 사용할 행 인덱스 배열을 반환합니다.
+링크를 생성하기 위해 다른 테이블에서 사용할 행 인덱스 배열을 반환합니다.
 
-### `index_ref`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L880-L885)
-
-```python
-index_ref(
-    index
-)
-```
-
-테이블에서 행의 인덱스에 대한 참조를 가져옵니다.
-
-### `iterrows`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L674-L688)
-
-```python
-iterrows()
-```
-
-행의 인덱스 및 관련 데이터를 표시하여 테이블 데이터를 행별로 반환합니다.
-
-| Yields | Description |
-| :--- | :--- |
-
-***
-
-index : int
-행의 인덱스입니다. 다른 W&B 테이블에서 이 값을 사용하면
-테이블 간에 관계가 자동으로 구축됩니다.
-row : List[any]
-행의 데이터입니다.
-
-### `set_fk`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L695-L699)
-
-```python
-set_fk(
-    col_name, table, table_col
-)
-```
-
-### `set_pk`
-
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L690-L693)
-
-```python
-set_pk(
-    col_name
-)
-```
-
-| Class Variables |  |
-| :--- | :--- |
-|  `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> |  `200000` |
-|  `MAX_ROWS`<a id="MAX_ROWS"></a> |  `10000` |
+---

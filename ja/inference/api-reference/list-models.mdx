@@ -1,0 +1,63 @@
+---
+title: Models を一覧表示
+description: thoughtful 利用可能なすべての Models とその ID を取得する
+---
+
+利用可能なすべての Models とその ID を取得します。これを使用して、動的にモデルを選択したり、利用可能なモデルを確認したりできます。
+
+## リクエスト例
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    base_url="https://api.inference.wandb.ai/v1",
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>"  # オプション、使用状況の追跡用
+)
+
+# モデルの一覧を取得
+response = client.models.list()
+
+for model in response.data:
+    print(model.id)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/models \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
+```
+</Tab>
+</Tabs>
+
+## レスポンス形式
+
+API は OpenAI 互換の形式でレスポンスを返します。
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "deepseek-ai/DeepSeek-V3.1",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "deepseek-ai/DeepSeek-V3.1"
+    },
+    {
+      "id": "openai/gpt-oss-20b",
+      "object": "model",
+      "created": 0,
+      "owned_by": "system",
+      "root": "openai/gpt-oss-20b"
+    }
+    // ... さらに多くのモデルが続きます
+  ]
+}
+```

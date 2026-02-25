@@ -1,0 +1,39 @@
+---
+title: restore()
+namespace: python_sdk_actions
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+### <kbd>function</kbd> `restore`
+
+```python
+restore(
+    name: 'str',
+    run_path: 'str | None' = None,
+    replace: 'bool' = False,
+    root: 'str | None' = None
+) → None | TextIO
+```
+
+クラウド ストレージから指定されたファイルをダウンロードします。
+
+ファイルは現在の ディレクトリー または Run ディレクトリー に配置されます。デフォルトでは、ファイルがまだ存在しない場合にのみダウンロードされます。
+
+**Args:**
+
+- `name`: ファイルの名前。
+- `run_path`: ファイルを取得する Run へのオプションのパス（例：`username/project_name/run_id`）。`wandb.init` が呼び出されていない場合は、この指定が必須です。
+- `replace`: ローカルに既に存在する場合でもファイルをダウンロードするかどうか。
+- `root`: ファイルをダウンロードする ディレクトリー。デフォルトは、現在の ディレクトリー または `wandb.init` が呼び出された場合は Run ディレクトリー です。
+
+**Returns:**
+
+ファイルが見つからない場合は `None`。それ以外の場合は、読み取り用に開かれたファイル オブジェクト。
+
+**Raises:**
+
+- `CommError`: W&B が W&B バックエンドに接続できない場合。
+- `ValueError`: ファイルが見つからない、または `run_path` が見つからない場合。

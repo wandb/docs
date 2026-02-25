@@ -16,29 +16,24 @@ Use W&B Sweeps to automate hyperparameter search and visualize rich, interactive
     <img src="/images/sweeps/intro_what_it_is.png" alt="Hyperparameter tuning insights"  />
 </Frame>
 
-### How it works
+## How it works
 Create a sweep with two [W&B CLI](/models/ref/cli/) commands:
 
 
-1. Initialize a sweep
-
-```bash
-wandb sweep --project <project-name> <path-to-config file>
-```
-
-2. Start the sweep agent
-
-```bash
-wandb agent <sweep-ID>
-```
+1. Initialize a sweep.
+  ```bash
+  wandb sweep --project <project-name> <path-to-config file>
+  ```
+2. Start the sweep agent.
+  ```bash
+  wandb agent <sweep-ID>
+  ```
 
 <Note>
-The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with wht W&B CLI. See the [Sweeps walkthrough](/models/sweeps/walkthrough/) for a step-by-step outline of the W&B Python SDK commands to use to define a sweep configuration, initialize a sweep, and start a sweep.
+The preceding code snippet, and the colab linked on this page, show how to initialize and create a sweep with the W&B CLI. See the [Sweeps walkthrough](/models/sweeps/walkthrough/) to use the Python SDK to configure, initialize, and run a sweep.
 </Note>
 
-
-
-### How to get started
+## How to get started
 
 Depending on your use case, explore the following resources to get started with W&B Sweeps:
 
@@ -54,3 +49,10 @@ Depending on your use case, explore the following resources to get started with 
 For a step-by-step video, see: [Tune Hyperparameters Easily with W&B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
 
 {/* {% embed url="https://wandb.me/sweeps-video" %} */}
+
+### Notebook examples
+
+The following notebook examples explore how to use W&B Sweeps for hyperparameter optimization across a variety of frameworks and use cases:
+
+* [Hyperparameter optimzation with Sweeps](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W&B_Sweeps.ipynb)
+* [Using XGBoost with W&B Sweeps](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W&B_Sweeps_with_XGBoost.ipynb)

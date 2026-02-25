@@ -1,94 +1,90 @@
 ---
-title: Add labels to runs with tags
+title: 태그를 사용하여 Run에 레이블 추가하기
 ---
 
-로그된 메트릭 또는 아티팩트 데이터에서 명확하지 않을 수 있는 특정 기능으로 Runs에 레이블을 지정하려면 태그를 추가하세요.
+로그된 메트릭이나 아티팩트 데이터만으로는 명확하지 않은 특정 특징을 표시하기 위해 Runs 에 태그를 추가하세요. 
 
-예를 들어, Run의 모델이 `in_production`임을 나타내거나, 해당 Run이 `preemptible`인지, 이 Run이 `baseline`을 나타내는지 등을 나타내는 태그를 Run에 추가할 수 있습니다.
+예를 들어, 해당 Run 의 모델이 `in_production` 상태이거나, 해당 Run 이 `preemptible` 임을 나타내거나, 또는 이 Run 이 `baseline` 임을 나타내는 태그 등을 추가할 수 있습니다.
 
-## 하나 이상의 Runs에 태그 추가
+## 하나 이상의 Runs 에 태그 추가하기
 
-프로그래밍 방식으로 또는 대화형으로 Runs에 태그를 추가합니다.
+프로그래밍 방식이나 대화형 방식으로 Runs 에 태그를 추가할 수 있습니다.
 
-사용 사례에 따라 필요에 가장 적합한 아래 탭을 선택하세요.
+사용자의 유스 케이스에 따라 아래 탭 중 가장 적합한 방법을 선택하세요:
 
 <Tabs>
 <Tab title="W&B Python SDK">
-Run이 생성될 때 태그를 추가할 수 있습니다.
+Run 이 생성될 때 태그를 추가할 수 있습니다: 
 
 ```python
 import wandb
 
-run = wandb.init(
+with wandb.init(
   entity="entity",
   project="<project-name>",
   tags=["tag1", "tag2"]
-)
+) as run:
+    # 여기에 트레이닝 코드를 작성하세요
 ```
 
-Run을 초기화한 후 태그를 업데이트할 수도 있습니다. 예를 들어, 다음 코드 조각은 특정 메트릭이 미리 정의된 임계값을 넘는 경우 태그를 업데이트하는 방법을 보여줍니다.
+Run 을 초기화한 후에도 태그를 업데이트할 수 있습니다. 예를 들어, 다음 코드 조각은 특정 메트릭이 미리 정의된 임계값을 초과할 때 태그를 업데이트하는 방법을 보여줍니다:
 
 ```python
 import wandb
 
-run = wandb.init(
-  entity="entity", 
-  project="capsules", 
-  tags=["debug"]
-  )
+with wandb.init(entity="entity", project="capsules", tags=["debug"]) as run:
 
-# 모델을 훈련하는 파이썬 로직
-
-if current_loss < threshold:
-    run.tags = run.tags + ("release_candidate",)
+  # 모델 트레이닝을 위한 파이썬 로직
+  if current_loss < threshold:
+      run.tags = run.tags + ("release_candidate",)
 ```
 </Tab>
 <Tab title="Public API">
-Run을 생성한 후에는 [Public API](/ko/models/track/public-api-guide/)를 사용하여 태그를 업데이트할 수 있습니다. 예를 들면 다음과 같습니다.
+Run 을 생성한 후 [Public API](/models/track/public-api-guide/)를 사용하여 태그를 업데이트할 수 있습니다. 예시:
 
 ```python
-run = wandb.Api().run("{entity}/{project}/{run-id}")
-run.tags.append("tag1")  # 여기에서 Run 데이터를 기반으로 태그를 선택할 수 있습니다.
-run.update()
+with wandb.Api().run("{entity}/{project}/{run-id}") as run:
+  run.tags.append("tag1")  # 여기에서 run 데이터를 기반으로 태그를 선택할 수 있습니다
+  run.update()
 ```
 </Tab>
 <Tab title="Project page">
-이 방법은 동일한 태그를 사용하여 많은 수의 Runs에 태그를 지정하는 데 가장 적합합니다.
+이 방법은 대량의 Runs 에 동일한 태그를 추가할 때 가장 적합합니다.
 
-1. 프로젝트 워크스페이스로 이동합니다.
-2. 프로젝트 사이드바에서 **Runs**를 선택합니다.
-3. 테이블에서 하나 이상의 Runs를 선택합니다.
-4. 하나 이상의 Runs를 선택했으면 테이블 위의 **Tag** 버튼을 선택합니다.
-5. 추가할 태그를 입력하고 **Create new tag** 확인란을 선택하여 태그를 추가합니다.
+1. 프로젝트 Workspace 로 이동합니다.
+2. 프로젝트 사이드바에서 **Runs** 를 선택합니다.
+3. 테이블에서 하나 이상의 Runs 를 선택합니다.
+4. 하나 이상의 Runs 를 선택하면 테이블 위에 있는 **Tag** 버튼을 클릭합니다.
+5. 추가하려는 태그를 입력하고 **Create new tag** 체크박스를 선택하여 태그를 추가합니다.
 </Tab>
 <Tab title="Run page">
-이 방법은 단일 Run에 수동으로 태그를 적용하는 데 가장 적합합니다.
+이 방법은 단일 Run 에 수동으로 태그를 적용할 때 가장 적합합니다.
 
-1. 프로젝트 워크스페이스로 이동합니다.
-2. 프로젝트 워크스페이스 내 Runs 목록에서 Run을 선택합니다.
-3. 프로젝트 사이드바에서 **Overview**를 선택합니다.
-4. **Tags** 옆에 있는 회색 더하기 아이콘(**+**) 버튼을 선택합니다.
-5. 추가할 태그를 입력하고 텍스트 상자 아래의 **Add**를 선택하여 새 태그를 추가합니다.
+1. 프로젝트 Workspace 로 이동합니다.
+2. 프로젝트 Workspace 내의 Runs 리스트에서 특정 Run 을 선택합니다.
+1. 프로젝트 사이드바에서 **Overview** 를 선택합니다.
+2. **Tags** 옆의 회색 플러스 아이콘 (**+**) 버튼을 선택합니다.
+3. 추가하려는 태그를 입력하고 텍스트 상자 아래의 **Add** 를 선택하여 새 태그를 추가합니다.
 </Tab>
 </Tabs>
 
-## 하나 이상의 Runs에서 태그 제거
+## 하나 이상의 Runs 에서 태그 제거하기
 
-태그는 W&B App UI를 사용하여 Runs에서 제거할 수도 있습니다.
+W&B 앱에서 Run 의 태그를 제거하려면 다음 단계를 따르세요.
 
 <Tabs>
 <Tab title="Project page">
-이 방법은 많은 수의 Runs에서 태그를 제거하는 데 가장 적합합니다.
+이 방법은 대량의 Runs 에서 태그를 제거할 때 가장 적합합니다.
 
-1. 프로젝트의 Run 사이드바에서 오른쪽 상단의 테이블 아이콘을 선택합니다. 이렇게 하면 사이드바가 전체 Runs 테이블로 확장됩니다.
-2. 테이블에서 Run 위로 마우스를 가져가면 왼쪽에 확인란이 표시되거나 헤더 행에서 모든 Runs를 선택하는 확인란을 찾습니다.
-3. 확인란을 선택하여 대량 작업을 활성화합니다.
-4. 태그를 제거할 Runs를 선택합니다.
-5. Runs 행 위의 **Tag** 버튼을 선택합니다.
-6. 태그 옆에 있는 확인란을 선택하여 Run에서 제거합니다.
+1. 프로젝트의 Run 사이드바에서 오른쪽 상단의 테이블 아이콘을 선택합니다. 그러면 사이드바가 전체 Runs 테이블로 확장됩니다.
+2. 테이블의 Run 위에 마우스를 올리면 왼쪽에 나타나는 체크박스를 확인하거나, 헤더 행에서 모든 Runs 를 선택하는 체크박스를 찾습니다.
+3. 체크박스를 선택하여 일괄 작업(bulk actions)을 활성화합니다. 
+4. 태그를 제거하려는 Runs 를 선택합니다.
+5. Runs 행 위에 있는 **Tag** 버튼을 선택합니다.
+6. 태그 옆의 체크박스를 해제하여 해당 Run 에서 태그를 제거합니다.
 </Tab>
 <Tab title="Run page">
-1. Run 페이지의 왼쪽 사이드바에서 맨 위 **Overview** 탭을 선택합니다. Run의 태그가 여기에 표시됩니다.
-2. 태그 위로 마우스를 가져간 다음 "x"를 선택하여 Run에서 제거합니다.
+1. Run 페이지의 왼쪽 사이드바에서 상단의 **Overview** 탭을 선택합니다. 여기에서 Run 에 지정된 태그들을 볼 수 있습니다.
+2. 태그 위에 마우스를 올리고 "x"를 선택하여 Run 에서 해당 태그를 제거합니다.
 </Tab>
 </Tabs>

@@ -1,0 +1,77 @@
+---
+title: アーティファクト
+description: データの バージョン管理 のための W&B Artifacts の作成、更新、ダウンロード、管理を行います。
+---
+
+import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
+import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
+
+データ バージョン管理 のための W&B Artifacts の作成、更新、ダウンロード、管理を行います。
+
+## アーティファクト の作成と ログ
+
+<ArtifactCreate />
+
+## クラウド ストレージ バケット パスへの参照を追加して、外部 アーティファクト を追跡する
+
+<ArtifactCreateTrackExternal />
+
+## run から特定の アーティファクト バージョン を削除する
+
+<ArtifactDelete />
+
+## アーティファクト コレクションを削除する
+
+<ArtifactDeleteCollection />
+
+## アーティファクト から特定のファイルまたはサブフォルダをダウンロードする
+
+<ArtifactDownloadPartial />
+
+## ファイルまたは アーティファクト 全体をダウンロードする
+
+<ArtifactsDownload />
+
+## アーティファクト の ログ 時に 1 つ以上の エイリアス を追加する
+
+<ArtifactAddAlias />
+
+## 既存の アーティファクト に エイリアス を追加する
+
+<ArtifactAddAliasExisting />
+
+## アーティファクト の ログ 時にタグを追加する
+
+<ArtifactAddTag />
+
+## 既存の アーティファクト にタグを追加する
+
+<ArtifactAddTagExisting />
+
+## TTL ポリシーを設定して アーティファクト を作成し、ログ を記録する
+
+<ArtifactTtl />
+
+## 既存の アーティファクト の TTL ポリシーを更新する
+
+<ArtifactTtlExisting />
+
+## run 内で既存の アーティファクト の説明を更新する
+
+<ArtifactUpdate />
+
+## 新しい run を作成せずに、既存の アーティファクト の説明、メタデータ、エイリアス を更新する
+
+<ArtifactUpdateExisting />

@@ -1,0 +1,78 @@
+---
+title: '`wandb.init()` を呼び出して、新しい Run を開始します。
+
+
+  これは、W&B Python SDK を使用する際に最初に呼び出す関数です。この関数は、W&B プロセスとの接続を作成し、データを同期するためのバックグラウンドプロセスをスポーンします。
+
+
+  ### 使用方法
+
+
+  ```python
+
+  import wandb
+
+
+  # プロジェクト内で新しい Run を開始します
+
+  wandb.init(project="my-project", entity="my-team")
+
+
+  # ... トレーニングループ ...
+
+
+  # オプションで Run を明示的に終了します（Jupyter ノートブックで役立ちます）
+
+  wandb.finish()
+
+  ```
+
+
+  ### よく使われる引数
+
+
+  - **project**: Run を送信する Projects の名前。
+
+  - **entity**: Run を送信する Teams または Users の名前。
+
+  - **config**: ハイパーパラメータや設定値を保存するための辞書。
+
+  - **name**: W&B ダッシュボードに表示される Run の表示名。
+
+  - **notes**: Run に関する詳細な説明。
+
+  - **tags**: Run を分類するための文字列のリスト。
+
+
+  詳細については、[wandb.init API リファレンス](https://docs.wandb.ai/ref/python/init)を参照してください。'
+description: TypeScript SDK リファレンス
+---
+
+# init
+
+▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+
+Weave tracing を機能させるために必要な Weave クライアントを初期化します。
+
+#### パラメータ
+
+| 名前 | 型 | 説明 |
+| :------ | :------ | :------ |
+| `project` | `string` | W&B の Projects 名（「project」または「entity/project」の形式）。W&B の Teams を指定しない場合（例：'team/project'）、デフォルトの Entities が使用されます。デフォルトの Entities を確認または更新するには、https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team の User Settings を参照してください。 |
+| `settings?` | `SettingsInit` | （オプション）Weave tracing の設定 |
+
+#### 戻り値
+
+`Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+
+初期化された Weave クライアントを解決する Promise。
+
+`Throws`
+
+初期化に失敗した場合
+
+#### 定義箇所
+
+[clientApi.ts:83](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L83)
+
+___

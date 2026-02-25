@@ -1,0 +1,69 @@
+---
+title: コレクションのアノテーション
+---
+
+コレクションに人間が読みやすいテキストを追加することで、その目的や含まれる Artifacts についての理解を深めることができます。
+
+コレクションの内容に応じて、トレーニングデータ、モデルの architecture、タスク、ライセンス、参考文献、およびデプロイメントに関する情報を含めるとよいでしょう。以下に、コレクションでドキュメント化すべきトピックの例を挙げます。
+
+W&B では、少なくとも以下の詳細を含めることを推奨しています。
+* **Summary**: コレクションの目的。機械学習の実験で使用された機械学習フレームワーク。
+* **License**: 機械学習モデルの使用に関連する法的条件と許可。これにより、Users はどのような法的枠組みの下でモデルを利用できるかを理解できます。一般的なライセンスには、Apache 2.0、MIT、GPL などがあります。
+* **References**: 関連する研究論文、Datasets、または外部リソースへの引用や参照。
+
+コレクションにトレーニングデータが含まれている場合は、以下の詳細を追加することを検討してください。
+* **Training data**: 使用されたトレーニングデータの概要。
+* **Processing**: トレーニングデータセットに対して行われたプロセッシング。
+* **Data storage**: データがどこに保存され、どのようにアクセスするか。
+
+コレクションに機械学習モデルが含まれている場合は、以下の詳細を追加することを検討してください。
+* **Architecture**: モデルの architecture、レイヤー、および特定の設計上の選択に関する情報。
+* **Task**: そのコレクション内のモデルが実行するように設計されている特定のタスクまたは問題の種類。これは、モデルが意図する機能の分類です。
+* **Deserialize the model**: チームのメンバーがモデルをメモリにロードする方法に関する情報。
+* **Deployment**: モデルがどこでどのようにデプロイされるかの詳細、およびワークフローのオーケストレーションプラットフォームなどの他の企業システムにモデルを統合する方法に関するガイド。
+
+## コレクションに説明を追加する
+
+W&B Registry UI または Python SDK を使用して、対話的またはプログラム的にコレクションに説明を追加できます。
+
+<Tabs>
+<Tab title="W&B Registry UI">
+1. [W&B Registry](https://wandb.ai/registry/) に移動します。
+2. コレクションをクリックします。
+3. コレクション名の横にある **View details** を選択します。
+4. **Description** フィールドに、コレクションに関する情報を入力します。テキストのフォーマットには [Markdown マークアップ言語](https://www.markdownguide.org/) を使用できます。
+</Tab>
+<Tab title="Python SDK">
+[`wandb.Api().artifact_collection()`](/models/ref/python/public-api/api#artifact_collection) メソッドを使用して、コレクションの説明にアクセスします。返されたオブジェクトの `description` プロパティを使用して、コレクションに説明を追加または更新します。
+
+`type_name` パラメータにはコレクションのタイプを指定し、`name` パラメータにはコレクションのフルネームを指定します。コレクションの名前は、プレフィックス "wandb-registry"、レジストリ名、およびコレクション名をスラッシュで区切った形式になります。
+
+```text
+wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+```
+
+以下のコードスニペットをコピーして、Python スクリプトまたはノートブックに貼り付けてください。山括弧 (`<>`) で囲まれた値は、ご自身の値に置き換えてください。
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# コレクションを取得
+collection = api.artifact_collection(
+  type_name = "<collection_type>", 
+  name = "<collection_name>"
+  )
+
+# 説明を設定して保存
+collection.description = "This is a description."
+collection.save()  
+```
+</Tab>
+</Tabs>
+
+例えば、以下の画像は、モデルの architecture、意図された用途、パフォーマンス情報などが記載されたコレクションの例です。
+
+<Frame>
+    <img src="/images/registry/registry_card.png" alt="Collection card"  />
+</Frame>

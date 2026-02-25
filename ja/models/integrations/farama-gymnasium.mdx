@@ -1,0 +1,14 @@
+---
+title: Farama Gymnasium
+description: W&B を Farama Gymnasium と統合する方法。
+---
+
+[Farama Gymnasium](https://gymnasium.farama.org/#) を使用している場合、 `gymnasium.wrappers.Monitor` によって生成された環境のビデオを自動的に ログ 記録します。 [`wandb.init`](/models/ref/python/functions/init) のキーワード 引数 である `monitor_gym` を `True` に設定するだけです。
+
+W&B の Gymnasium インテグレーション は非常に軽量です。 `gymnasium` から ログ 記録される [ビデオファイルの名前を確認し](https://github.com/wandb/wandb/blob/c5fe3d56b155655980611d32ef09df35cd336872/wandb/integration/gym/__init__.py#LL69C67-L69C67) 、その名前に基づいて命名します。一致するものがない場合はデフォルトで `"videos"` という名前になります。より細かく制御したい場合は、いつでも手動で [ビデオを ログ 記録](/models/track/log/media/) することができます。
+
+Gymnasium と CleanRL ライブラリ を併用する方法の詳細については、こちらの [Reports](https://wandb.ai/raph-test/cleanrltest/reports/Mario-Bros-but-with-AI-Gymnasium-and-CleanRL---Vmlldzo0NTcxNTcw) をご覧ください。
+
+<Frame>
+    <img src="/images/integrations/gymnasium.png" alt="Gymnasium RL environment"  />
+</Frame>

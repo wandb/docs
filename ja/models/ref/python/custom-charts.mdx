@@ -1,0 +1,84 @@
+---
+title: カスタムチャートの概要
+description: プロジェクト ダッシュボード でインタラクティブな 可視化 を行うために、W&B Python SDK でカスタムチャートを使用する
+module: wandb.plot
+no_list: true
+---
+
+W&B のカスタムチャートは、 `wandb.plot` 名前空間にある一連の関数を通じてプログラム可能です。これらの関数を使用することで、 W&B プロジェクトのダッシュボードにインタラクティブな可視化を作成でき、混同行列、 ROC 曲線、分布プロットなどの一般的な ML の可視化をサポートしています。
+
+## 利用可能なチャート関数
+
+| 関数 | 説明 |
+|----------|-------------|
+| [`confusion_matrix()`](/models/ref/python/custom-charts/confusion_matrix/) | 分類パフォーマンスの可視化のための混同行列を生成します。 |
+| [`roc_curve()`](/models/ref/python/custom-charts/roc_curve/) | 二値および多クラス分類器の受信者操作特性（ROC）曲線を作成します。 |
+| [`pr_curve()`](/models/ref/python/custom-charts/pr_curve/) | 分類器の評価のための PR曲線 を構築します。 |
+| [`line()`](/models/ref/python/custom-charts/line/) | テーブル形式のデータから折れ線グラフを作成します。 |
+| [`scatter()`](/models/ref/python/custom-charts/scatter/) | 変数間の関係を示す散布図を作成します |
+| [`bar()`](/models/ref/python/custom-charts/bar/) | カテゴリデータ用の棒グラフを生成します。 |
+| [`histogram()`](/models/ref/python/custom-charts/histogram/) | データの分布分析のためのヒストグラムを構築します。 |
+| [`line_series()`](/models/ref/python/custom-charts/line_series/) | 1 つのチャートに複数の系列の折れ線プロットを表示します。 |
+| [`plot_table()`](/models/ref/python/custom-charts/plot_table/) | Vega-Lite 仕様を使用してカスタムチャートを作成します。 |
+
+## 一般的なユースケース
+
+### モデルの評価
+- **分類**: 分類器の評価のための `confusion_matrix()` 、 `roc_curve()` 、 `pr_curve()`
+- **回帰**: 予測 vs. 実測値プロットのための `scatter()` や、残差分析のための `histogram()`
+- **Vega-Lite チャート**: ドメイン固有の可視化のための `plot_table()`
+
+### トレーニングのモニタリング
+- **学習曲線**: エポック ごとの メトリクス を追跡するための `line()` または `line_series()`
+- **ハイパーパラメーター の比較**: 設定 を比較するための `bar()` チャート
+
+### データ分析
+- **分布分析**: 特徴量の分布を確認するための `histogram()`
+- **相関分析**: 変数間の関係を調査するための `scatter()` プロット
+
+## はじめに
+
+### 混同行列をログに記録する
+
+```python
+import wandb
+
+y_true = [0, 1, 2, 0, 1, 2]
+y_pred = [0, 2, 2, 0, 1, 1]
+class_names = ["class_0", "class_1", "class_2"]
+
+# run を初期化
+with wandb.init(project="custom-charts-demo") as run:
+    run.log({
+        "conf_mat": wandb.plot.confusion_matrix(
+            y_true=y_true, 
+            preds=y_pred,
+            class_names=class_names
+        )
+    })
+```
+
+
+### 特徴量分析のための散布図を構築する
+```python
+import numpy as np
+
+# 合成データを生成
+data_table = wandb.Table(columns=["feature_1", "feature_2", "label"])
+
+with wandb.init(project="custom-charts-demo") as run:
+
+    for _ in range(100):
+        data_table.add_data(
+            np.random.randn(), 
+            np.random.randn(), 
+            np.random.choice(["A", "B"])
+        )
+
+    run.log({
+        "feature_scatter": wandb.plot.scatter(
+            data_table, x="feature_1", y="feature_2",
+            title="Feature Distribution"
+        )
+    })
+```

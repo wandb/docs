@@ -1,0 +1,79 @@
+---
+title: ツールを呼び出す
+description: W&B Inference で ツール を呼び出す方法
+---
+
+Tool calling（ツール呼び出し）を使用すると、モデルのレスポンスの一部としてツールを実行する機能をモデルに追加し、その能力を拡張できます。W&B Inference は、現時点では関数の呼び出しのみをサポートしています。
+
+関数を呼び出すには、モデルへのリクエストの一部として関数とその 引数 を指定します。モデルは、リクエストを処理するために関数を実行する必要があるかどうかを判断し、必要に応じて関数の 引数 の 値 を指定します。
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",  # https://wandb.ai/settings でAPIキーを作成してください
+)
+
+response = client.chat.completions.create(
+    model="openai/gpt-oss-20b",
+    messages=[
+        {"role": "user", "content": "What is the weather like in San Francisco? Use Fahrenheit."},
+    ],
+    tool_choice="auto",
+    tools=[
+        {
+            "type": "function",
+            "function": {
+                "name": "get_weather",
+                "description": "Get the current weather in a given location",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "location": {"type": "string", "description": "City and state, e.g., 'San Francisco, CA'"},
+                        "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                    },
+                    "required": ["location", "unit"],
+                },
+            },
+        }
+    ],
+)
+
+print(response.choices[0].message.tool_calls)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -d '{
+    "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "user", "content": "What is the weather like in San Francisco? Use Fahrenheit."},
+        ],
+        "tool_choice": "auto",
+        "tools": [
+            {
+                "type": "function",
+                "function": {
+                    "name": "get_weather",
+                    "description": "Get the current weather in a given location",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "location": {"type": "string", "description": "City and state, e.g., 'San Francisco, CA'"},
+                            "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                        },
+                        "required": ["location", "unit"],
+                    },
+                },
+            }
+        ],
+  }'
+```
+</Tab>
+</Tabs>

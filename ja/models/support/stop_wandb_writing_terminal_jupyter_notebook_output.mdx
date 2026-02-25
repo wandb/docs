@@ -1,26 +1,24 @@
 ---
-title: 私のターミナルまたは Jupyter ノートブック出力に書き込むのを wandb にやめさせるにはどうすればいいですか？
-support:
-  - environment variables
-toc_hide: true
-type: docs
+title: wandb が ターミナル や Jupyter ノートブック の出力に書き込むのを停止するにはどうすればよいですか？
 ---
-環境変数 [`WANDB_SILENT`](/ja/models/support/environment_variables/) を `true` に設定します。
+
+環境変数 [`WANDB_SILENT`](/models/track/environment-variables/) を `true` に設定してください。
 
 <Tabs>
-<Tab title="Python">
+  <Tab title="Python">
 ```python
+import os
 os.environ["WANDB_SILENT"] = "true"
 ```
-</Tab>
-<Tab title="Notebook">
+  </Tab>
+  <Tab title="Notebook">
 ```python
 %env WANDB_SILENT=true
 ```
-</Tab>
-<Tab title="Command-Line">
+  </Tab>
+  <Tab title="Command-Line">
 ```shell
 WANDB_SILENT=true
 ```
-</Tab>
+  </Tab>
 </Tabs>

@@ -65,9 +65,27 @@ Share your customized workspace with your team by sharing the workspace URL dire
 This feature requires an [Enterprise](https://wandb.ai/site/pricing/) license.
 </Note>
 
-Use _workspace templates_ to quickly create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces](#default-workspace-settings). Currently, a workspace template can define custom [line plot settings](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace).
+Use _workspace templates_ to create workspaces using the same settings as an existing workspace instead of the [default settings for new workspaces](#default-workspace-settings).
+
 
 ### Default workspace settings
+
+W&B uses the following default settings for workspaces:
+
+#### Hide empty sections during search
+
+By default, W&B does not show empty sections in the workspace. You can change this setting to show empty sections in the workspace.
+
+#### Sort panels alphabetically
+
+By default, W&B does not sort panels by plot title alphabetically. You can change this setting to sort panels alphabetically by their plot title.
+
+#### Section organization
+By default, W&B organizes panels into sections based on the first prefix of the metric name. For example, if your workspace includes the metrics `a/b/c/d` and `a/e/f`, W&B organizes these metrics into a section called `a`. If your workspace includes the metrics `a/b/c/d` and `e/f/g`, W&B organizes these metrics into sections called `a` and `e`.
+
+You can change the default section organization to group by the last prefix. For example, if your workspace includes the metrics `a/b/c/d` and `a/e/f`, W&B organizes these metrics into sections called `d` and `f`. If your workspace includes the metrics `a/b/c/d` and `e/f/g`, W&B organizes these metrics into sections called `d` and `g`.
+
+#### Line plot settings
 By default, new workspaces use these default settings for line plots:
 
 | X axis       | Default      |
@@ -109,12 +127,17 @@ By default, new workspaces use these default settings for line plots:
 
 
 ### Configure your workspace template
+
 1. Open any workspace or create a new one.
-1. Configure the workspace's [line plot settings](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace) according to your preferences.
-1. Save the settings to your workspace template:
-    1. At the top of the workspace, click the action menu `...` near the **Undo** and **Redo** arrow icons.
-    1. Click **Save personal workspace template**.
-    1. Review the line plot settings for the template, then click **Save**.
+1. Click on the **Settings** button at the top right corner of the workspace.
+1. Select **Workspace layout** from the panel.
+1. Configure the workspace's settings according to your preferences.
+
+### Save your workspace template
+
+1. At the top of the workspace, click the action menu `...` near the **Undo** and **Redo** arrow icons.
+1. Click **Save personal workspace template**.
+1. Review the settings for the template, then click **Save**.
 
 New workspaces will use these settings instead of the defaults.
 
@@ -143,6 +166,10 @@ For Dedicated Cloud and Self-Managed, deleting your workspace template is suppor
 </Note>
 
 ## Programmatically create workspaces
+
+<Tip>
+For an end-to-end example, see [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) notebook.
+</Tip>
 
 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) is a Python library for programmatically working with [W&B](https://wandb.ai/) workspaces and reports.
 
@@ -211,4 +238,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. For an end to end tutorial, see [Programmatic Workspaces](/models/tutorials/workspaces) tutorial.
+See [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) for comprehensive workspace API examples. 

@@ -399,13 +399,60 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "Create Training Job",
+        "summary": "Create RL Training Job",
         "operationId": "create_training_job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateTrainingJob"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/sft-training-jobs": {
+      "post": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "Create SFT Training Job",
+        "description": "Create a new SFT (Supervised Fine-Tuning) training job.",
+        "operationId": "create_sft_training_job_v1_preview_sft_training_jobs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSFTTrainingJob"
               }
             }
           },
@@ -563,6 +610,9 @@
     },
     "/v1/health": {
       "get": {
+        "tags": [
+          "health"
+        ],
         "summary": "Health Check",
         "operationId": "health_check_v1_health_get",
         "responses": {
@@ -579,6 +629,9 @@
     },
     "/v1/system-check": {
       "get": {
+        "tags": [
+          "health"
+        ],
         "summary": "System Check",
         "description": "Check health of all system components.\n\nReturns:\n    JSON with status of:\n    - api: Always true (if endpoint is reachable)\n    - database: Whether DB connection works\n    - cpu_queue: Success, duration, and any errors\n    - gpu_queue: Success, duration, and any errors\n\nReturns HTTP 503 if any checks fail.",
         "operationId": "system_check_v1_system_check_get",
@@ -2665,6 +2718,49 @@
         "type": "object",
         "title": "Content"
       },
+      "CreateSFTTrainingJob": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "training_data_url": {
+            "type": "string",
+            "title": "Training Data Url",
+            "description": "W&B artifact path for training data (e.g., 'wandb-artifact:///entity/project/artifact-name:version')"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SFTTrainingConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "experimental_config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experimental Config"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "training_data_url"
+        ],
+        "title": "CreateSFTTrainingJob",
+        "description": "Schema for creating a new SFT (Supervised Fine-Tuning) TrainingJob.\n\nThe client should upload the training data (trajectories.jsonl and metadata.json)\nto W&B Artifacts and provide the artifact URL."
+      },
       "CreateTrainingJob": {
         "properties": {
           "model_id": {
@@ -3728,6 +3824,17 @@
           "base_model": {
             "type": "string",
             "title": "Base Model"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Id"
           }
         },
         "type": "object",
@@ -3881,6 +3988,45 @@
         ],
         "title": "Role",
         "description": "The role of a message author (mirrors ``chat::Role``)."
+      },
+      "SFTTrainingConfig": {
+        "properties": {
+          "batch_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string",
+                "const": "auto"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batch Size"
+          },
+          "learning_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learning Rate"
+          }
+        },
+        "type": "object",
+        "title": "SFTTrainingConfig",
+        "description": "Schema for SFT training config."
       },
       "StreamOptions": {
         "properties": {
@@ -4216,6 +4362,28 @@
           "reward": {
             "type": "number",
             "title": "Reward"
+          },
+          "initial_policy_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Initial Policy Version"
+          },
+          "final_policy_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Policy Version"
           },
           "metrics": {
             "additionalProperties": {

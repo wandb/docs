@@ -1,36 +1,36 @@
 ---
-title: Why am I seeing fewer data points than I logged?
-support:
-- experiments
-- metrics
-toc_hide: true
-type: docs
+title: 로그한 것보다 데이터 포인트가 적게 보이는 이유는 무엇인가요?
 ---
 
-`Step` 이외의 X축에 대해 메트릭을 시각화할 때는 표시되는 데이터 포인트 수가 더 적을 것으로 예상됩니다. 메트릭은 동기화를 유지하기 위해 동일한 `Step` 에 로그되어야 합니다. 동일한 `Step` 에 로그된 메트릭만 샘플 간 보간 중에 샘플링됩니다.
+`Step` 이외의 다른 X축을 기준으로 메트릭을 시각화할 때는 데이터 포인트가 더 적게 나타날 수 있습니다. 메트릭이 서로 동기화된 상태를 유지하려면 동일한 `Step`에서 로그를 남겨야 합니다. 샘플 사이를 보간(interpolate)하는 동안에는 동일한 `Step`에서 기록된 메트릭만 샘플링됩니다.
 
 **가이드라인**
 
-메트릭을 단일 `log()` 호출로 묶습니다. 예를 들어, 다음과 같이 하지 말고:
+메트릭을 하나의 `log()` 호출로 묶으세요. 예를 들어, 다음과 같이 작성하는 대신:
 
 ```python
-wandb.log({"Precision": precision})
-...
-wandb.log({"Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
 ```
 
-다음과 같이 사용합니다:
+다음과 같이 사용하세요:
 
 ```python
-wandb.log({"Precision": precision, "Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
 ```
 
-step 파라미터를 수동으로 제어하려면 다음과 같이 코드에서 메트릭을 동기화합니다:
+step 파라미터를 수동으로 제어하려면, 코드에서 다음과 같이 메트릭을 동기화하십시오:
 
 ```python
-wandb.log({"Precision": precision}, step=step)
-...
-wandb.log({"Recall": recall}, step=step)
+with wandb.init() as run:
+    step = 100  # 예시 step 값
+    # Precision과 Recall을 동일한 step에 로그합니다
+    run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-메트릭이 동일한 단계로 로그되고 함께 샘플링되도록 하려면 `log()` 호출에서 `step` 값이 동일하게 유지되는지 확인합니다. `step` 값은 각 호출에서 단조롭게 증가해야 합니다. 그렇지 않으면 `step` 값은 무시됩니다.
+메트릭이 동일한 step 하에 기록되고 함께 샘플링되도록 하려면, 두 `log()` 호출에서 `step` 값이 동일하게 유지되어야 합니다. `step` 값은 각 호출마다 단조 증가(monotonically increase)해야 합니다. 그렇지 않으면 `step` 값은 무시됩니다.

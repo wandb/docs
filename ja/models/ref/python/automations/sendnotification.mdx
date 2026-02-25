@@ -1,0 +1,50 @@
+---
+title: 通知の送信
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
+
+
+
+## <kbd>class</kbd> `SendNotification`
+（Slack）通知を送信する オートメーション アクションを定義します。
+
+
+### <kbd>method</kbd> `SendNotification.__init__`
+
+```python
+__init__(
+    integration_id: 'str',
+    title: 'str' = '',
+    message: 'str' = '',
+    severity: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>,
+    action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
+) → None
+```
+
+**Args:**
+ 
+ - `integration_id` (str): 通知の送信に使用される Slack インテグレーション の ID。
+ - `title` (str): 送信される通知のタイトル。
+ - `message` (str): 送信される通知のメッセージ本文。
+ - `severity` (AlertSeverity): 送信される通知の重要度（`INFO`, `WARN`, `ERROR`）。
+ - `action_type` (Literal[NOTIFICATION]): 
+
+**Returns:**
+ `SendNotification` オブジェクト。
+
+### <kbd>classmethod</kbd> `SendNotification.from_integration`
+
+```python
+from_integration(
+    integration: 'SlackIntegration',
+    title: 'str' = '',
+    text: 'str' = '',
+    level: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>
+) → Self
+```
+
+指定された（Slack） インテグレーション に送信する通知アクションを定義します。

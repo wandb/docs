@@ -1,49 +1,49 @@
 ---
-title: >-
-  run によってログされた、または使用された Artifacts をどのように見つけることができますか？Artifacts を生成または使用した run
-  をどのように見つけられますか？
-support:
-  - artifacts
-toc_hide: true
-type: docs
+title: ある Run によってログ記録または使用された Artifacts を見つけるにはどうすればよいですか？また、特定の Artifact を作成または使用した
+  Runs を見つけるにはどうすればよいですか？
 ---
-W&B は、各 run によってログされた Artifacts と、artifact graph を構築するために各 run で使用された Artifacts を追跡します。このグラフは、run と Artifacts を表すノードを持つ二部グラフで、有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deebdd5/graph) で見ることができます（グラフを展開するには「Explode」をクリックしてください）。
 
-Public API を使用して、Artifacts または run からプログラム的にグラフをナビゲートします。
+W&B は各 run によってログ記録された Artifacts と、各 run で使用された Artifacts を追跡し、アーティファクトグラフを構築します。このグラフは、run と Artifacts をノードとする二部有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) で確認できます（「Explode」をクリックするとグラフが展開されます）。
+
+Public API を使用すると、Artifacts または run のいずれかを起点として、プログラムでグラフをたどることができます。
 
 <Tabs>
 <Tab title="Artifacts から">
+
 ```python
 api = wandb.Api()
 
 artifact = api.artifact("project/artifact:alias")
 
-# アーティファクトからグラフを上方向にたどる:
+# Artifacts からグラフを遡る (上流へ):
 producer_run = artifact.logged_by()
-# アーティファクトからグラフを下方向にたどる:
+# Artifacts からグラフを下る (下流へ):
 consumer_runs = artifact.used_by()
 
-# run からグラフを下方向にたどる:
+# Run からグラフを下る (下流へ):
 next_artifacts = consumer_runs[0].logged_artifacts()
-# run からグラフを上方向にたどる:
+# Run からグラフを遡る (上流へ):
 previous_artifacts = producer_run.used_artifacts()
 ```
+
 </Tab>
 <Tab title="Run から">
+
 ```python
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
 
-# run からグラフを下方向にたどる:
+# Run からグラフを下る (下流へ):
 produced_artifacts = run.logged_artifacts()
-# run からグラフを上方向にたどる:
+# Run からグラフを遡る (上流へ):
 consumed_artifacts = run.used_artifacts()
 
-# アーティファクトからグラフを上方向にたどる:
+# Artifacts からグラフを遡る (上流へ):
 earlier_run = consumed_artifacts[0].logged_by()
-# アーティファクトからグラフを下方向にたどる:
+# Artifacts からグラフを下る (下流へ):
 consumer_runs = produced_artifacts[0].used_by()
 ```
+
 </Tab>
 </Tabs>

@@ -1,0 +1,321 @@
+---
+title: util
+description: thought weave.trace.util 에 대한 Python SDK 레퍼런스
+---
+
+import { SourceLink } from '/snippets/en/_includes/source-link.mdx';
+
+
+# API 개요
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L100" />
+
+## <kbd>class</kbd> `ContextAwareThread`
+호출자의 컨텍스트를 사용하여 함수를 실행하는 Thread입니다. 
+
+이 클래스는 `threading.Thread`를 대체하여 사용할 수 있으며, thread 내부에서 호출이 예상대로 작동하도록 보장합니다. Weave 는 특정 `contextvars`가 설정되어 있어야 하지만(call_context.py 참조), 새 thread는 부모의 컨텍스트를 자동으로 복사하지 않으므로 호출 컨텍스트가 손실될 수 있습니다. 이 클래스는 `contextvar` 복사를 자동화하여 사용자가 예상하는 대로 thread가 "그냥 작동"하도록 합니다. 
+
+이 클래스를 사용하지 않고 다음과 같이 작성하여 동일한 효과를 얻을 수도 있습니다. 
+
+```python
+def run_with_context(func, *args, **kwargs):
+     context = copy_context()
+     def wrapper():
+         context.run(func, *args, **kwargs)
+     return wrapper
+
+thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
+thread.start()
+```
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L124" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(*args: 'Any', **kwargs: 'Any') → None
+```
+
+---
+
+#### <kbd>property</kbd> daemon
+
+이 thread가 데몬 thread인지 여부를 나타내는 불리언(boolean) 값입니다. 
+
+이 값은 `start()`가 호출되기 전에 설정되어야 하며, 그렇지 않으면 `RuntimeError`가 발생합니다. 초기 값은 생성한 thread로부터 상속받습니다. 메인 thread는 데몬 thread가 아니므로 메인 thread에서 생성된 모든 thread의 기본값은 `daemon = False`입니다. 
+
+데몬 thread만 남게 되면 전체 Python 프로그램이 종료됩니다. 
+
+---
+
+#### <kbd>property</kbd> ident
+
+이 thread의 thread 식별자입니다. 시작되지 않은 경우 `None`입니다. 
+
+이 값은 0이 아닌 정수입니다. `get_ident()` 함수를 참조하십시오. thread가 종료되고 다른 thread가 생성될 때 thread 식별자가 재활용될 수 있습니다. 식별자는 thread가 종료된 후에도 사용 가능합니다. 
+
+---
+
+#### <kbd>property</kbd> name
+
+식별 목적으로만 사용되는 문자열입니다. 
+
+특별한 의미는 없습니다. 여러 thread에 동일한 이름을 부여할 수 있습니다. 초기 이름은 생성자에 의해 설정됩니다. 
+
+---
+
+#### <kbd>property</kbd> native_id
+
+이 thread의 네이티브 정수 thread ID입니다. 시작되지 않은 경우 `None`입니다. 
+
+이 값은 음수가 아닌 정수입니다. `get_native_id()` 함수를 참조하십시오. 이것은 커널에 의해 보고된 Thread ID를 나타냅니다. 
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L128" />
+
+### <kbd>method</kbd> `run`
+
+```python
+run() → None
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L40" />
+
+## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+호출자의 컨텍스트를 사용하여 함수를 실행하는 `ThreadPoolExecutor`입니다. 
+
+이 클래스는 `concurrent.futures.ThreadPoolExecutor`를 대체하여 사용할 수 있으며, executor 내부에서 Weave 호출이 예상대로 작동하도록 보장합니다. Weave 는 특정 `contextvars`가 설정되어 있어야 하지만(call_context.py 참조), 새 thread는 부모의 컨텍스트를 자동으로 복사하지 않으므로 호출 컨텍스트가 손실될 수 있습니다. 이 클래스는 `contextvar` 복사를 자동화하여 사용자가 예상하는 대로 executor가 "그냥 작동"하도록 합니다. 
+
+이 클래스를 사용하지 않고 다음과 같이 작성하여 동일한 효과를 얻을 수도 있습니다. 
+
+```python
+with concurrent.futures.ThreadPoolExecutor() as executor:
+     contexts = [copy_context() for _ in range(len(vals))]
+
+     def _wrapped_fn(*args):
+         return contexts.pop().run(fn, *args)
+
+     executor.map(_wrapped_fn, vals)
+```
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L63" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(*args: 'Any', **kwargs: 'Any') → None
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L72" />
+
+### <kbd>method</kbd> `map`
+
+```python
+map(
+    fn: 'Callable',
+    *iterables: 'Iterable[Any]',
+    timeout: 'float | None' = None,
+    chunksize: 'int' = 1
+) → Iterator
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L68" />
+
+### <kbd>method</kbd> `submit`
+
+```python
+submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L100" />
+
+## <kbd>class</kbd> `ContextAwareThread`
+호출자의 컨텍스트를 사용하여 함수를 실행하는 Thread입니다. 
+
+이 클래스는 `threading.Thread`를 대체하여 사용할 수 있으며, thread 내부에서 호출이 예상대로 작동하도록 보장합니다. Weave 는 특정 `contextvars`가 설정되어 있어야 하지만(call_context.py 참조), 새 thread는 부모의 컨텍스트를 자동으로 복사하지 않으므로 호출 컨텍스트가 손실될 수 있습니다. 이 클래스는 `contextvar` 복사를 자동화하여 사용자가 예상하는 대로 thread가 "그냥 작동"하도록 합니다. 
+
+이 클래스를 사용하지 않고 다음과 같이 작성하여 동일한 효과를 얻을 수도 있습니다. 
+
+```python
+def run_with_context(func, *args, **kwargs):
+     context = copy_context()
+     def wrapper():
+         context.run(func, *args, **kwargs)
+     return wrapper
+
+thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
+thread.start()
+```
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L124" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(*args: 'Any', **kwargs: 'Any') → None
+```
+
+---
+
+#### <kbd>property</kbd> daemon
+
+이 thread가 데몬 thread인지 여부를 나타내는 불리언(boolean) 값입니다. 
+
+이 값은 `start()`가 호출되기 전에 설정되어야 하며, 그렇지 않으면 `RuntimeError`가 발생합니다. 초기 값은 생성한 thread로부터 상속받습니다. 메인 thread는 데몬 thread가 아니므로 메인 thread에서 생성된 모든 thread의 기본값은 `daemon = False`입니다. 
+
+데몬 thread만 남게 되면 전체 Python 프로그램이 종료됩니다. 
+
+---
+
+#### <kbd>property</kbd> ident
+
+이 thread의 thread 식별자입니다. 시작되지 않은 경우 `None`입니다. 
+
+이 값은 0이 아닌 정수입니다. `get_ident()` 함수를 참조하십시오. thread가 종료되고 다른 thread가 생성될 때 thread 식별자가 재활용될 수 있습니다. 식별자는 thread가 종료된 후에도 사용 가능합니다. 
+
+---
+
+#### <kbd>property</kbd> name
+
+식별 목적으로만 사용되는 문자열입니다. 
+
+특별한 의미는 없습니다. 여러 thread에 동일한 이름을 부여할 수 있습니다. 초기 이름은 생성자에 의해 설정됩니다. 
+
+---
+
+#### <kbd>property</kbd> native_id
+
+이 thread의 네이티브 정수 thread ID입니다. 시작되지 않은 경우 `None`입니다. 
+
+이 값은 음수가 아닌 정수입니다. `get_native_id()` 함수를 참조하십시오. 이것은 커널에 의해 보고된 Thread ID를 나타냅니다. 
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L128" />
+
+### <kbd>method</kbd> `run`
+
+```python
+run() → None
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L40" />
+
+## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
+호출자의 컨텍스트를 사용하여 함수를 실행하는 `ThreadPoolExecutor`입니다. 
+
+이 클래스는 `concurrent.futures.ThreadPoolExecutor`를 대체하여 사용할 수 있으며, executor 내부에서 Weave 호출이 예상대로 작동하도록 보장합니다. Weave 는 특정 `contextvars`가 설정되어 있어야 하지만(call_context.py 참조), 새 thread는 부모의 컨텍스트를 자동으로 복사하지 않으므로 호출 컨텍스트가 손실될 수 있습니다. 이 클래스는 `contextvar` 복사를 자동화하여 사용자가 예상하는 대로 executor가 "그냥 작동"하도록 합니다. 
+
+이 클래스를 사용하지 않고 다음과 같이 작성하여 동일한 효과를 얻을 수도 있습니다. 
+
+```python
+with concurrent.futures.ThreadPoolExecutor() as executor:
+     contexts = [copy_context() for _ in range(len(vals))]
+
+     def _wrapped_fn(*args):
+         return contexts.pop().run(fn, *args)
+
+     executor.map(_wrapped_fn, vals)
+```
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L63" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(*args: 'Any', **kwargs: 'Any') → None
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L72" />
+
+### <kbd>method</kbd> `map`
+
+```python
+map(
+    fn: 'Callable',
+    *iterables: 'Iterable[Any]',
+    timeout: 'float | None' = None,
+    chunksize: 'int' = 1
+) → Iterator
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L68" />
+
+### <kbd>method</kbd> `submit`
+
+```python
+submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L159" />
+
+### <kbd>function</kbd> `deprecated`
+
+```python
+deprecated(new_name: 'str') → Callable[[Callable[, Any]], Callable[, Any]]
+```
+
+함수를 더 이상 사용되지 않음(deprecated)으로 표시하고 사용자를 `new_name`으로 안내하는 데코레이터입니다. 
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L132" />
+
+### <kbd>function</kbd> `is_colab`
+
+```python
+is_colab()
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L141" />
+
+### <kbd>function</kbd> `is_notebook`
+
+```python
+is_notebook() → bool
+```
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L16" />
+
+### <kbd>function</kbd> `log_once`
+
+```python
+log_once(log_method: 'Callable[[str], None]', message: 'str') → None
+```
+
+메시지를 한 번 로그하고, 동일한 유형의 후속 메시지는 숨깁니다. 이는 로그 스팸 없이 에러에 대해 안내하는 데 유용합니다. 
+
+이 기능은 동일한 에러 메시지가 여러 번 발생할 수 있는 경우에 매우 유용합니다. 예를 들어, op 저장에 실패하면 해당 op가 호출될 때마다 발생할 가능성이 큽니다. 또는 패치된 이터레이터에 에러가 있으면 결과를 이터레이션할 때마다 발생할 가능성이 큽니다. 이 함수를 사용하면 로그를 가득 채우지 않고도 에러에 대해 사용자에게 알릴 수 있습니다. 
+
+**인수(Args):**
+ 
+
+ - <b>`log_method`</b>: 메시지를 로그하는 데 사용할 메소드입니다. 이 메소드는 문자열 인수를 받아야 합니다.
+ - <b>`message`</b>: 로그할 메시지입니다.
+**예시:**
+```python
+log_once(logger.error, "Failed to save op")
+```
