@@ -76,6 +76,10 @@ exclude = [
   '^(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
   '^(http|https)://wandb\.(ai|com|me)',
   '(http|https)://dspy-docs\.vercel\.app',
+  # W&B Inference API base URL - returns 400 for GET without auth (expected)
+  'https://api\.inference\.wandb\.ai/v1',
+  # WMDP site - connection closed / blocks crawlers
+  '(http|https)://www\.wmdp\.ai',
 ]
 
 # File/directory paths to exclude from checking
