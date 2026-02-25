@@ -65,7 +65,7 @@ Workspace の URL を直接共有することで、カスタマイズした Work
 この機能には [Enterprise](https://wandb.ai/site/pricing/) ライセンスが必要です。
 </Note>
 
-_Workspace templates_ を使用すると、新しい Workspace の [デフォルト設定](#default-workspace-settings) を使う代わりに、既存の Workspace と同じ設定を使用して素早く Workspace を作成できます。現在、Workspace template ではカスタムの [折れ線グラフ（line plot）設定](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace) を定義できます。
+_Workspace templates_ を使用すると、新しい Workspace の [デフォルト設定](#workspace-templates) を使う代わりに、既存の Workspace と同じ設定を使用して素早く Workspace を作成できます。現在、Workspace template ではカスタムの [折れ線グラフ（line plot）設定](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace) を定義できます。
 
 ### デフォルトの Workspace 設定
 デフォルトでは、新しい Workspace は折れ線グラフに対して以下の設定を使用します。
@@ -139,7 +139,7 @@ Workspace template を削除してデフォルト設定に戻すには：
 1. **Settings** の横にあるゴミ箱アイコンをクリックします。
 
 <Note>
-Dedicated Cloud およびセルフマネージド（Self-Managed）の場合、Workspace template の削除は v0.70 以上でサポートされています。古いバージョンの Server では、Workspace template を [デフォルト設定](#default-workspace-settings) を使用するように更新してください。
+Dedicated Cloud およびセルフマネージド（Self-Managed）の場合、Workspace template の削除は v0.70 以上でサポートされています。古いバージョンの Server では、Workspace template を [デフォルト設定](#workspace-templates) を使用するように更新してください。
 </Note>
 
 ## プログラムによる Workspace の作成
@@ -199,4 +199,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-包括的な Workspace API の例については、[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) を参照してください。エンドツーエンドのチュートリアルについては、[Programmatic Workspaces](/models/tutorials/workspaces) チュートリアルをご覧ください。
+包括的な Workspace API の例については、[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) を参照してください。エンドツーエンドのチュートリアルについては、[Programmatic Workspaces](/ja/models/tutorials/workspaces) チュートリアルをご覧ください。

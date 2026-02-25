@@ -26,7 +26,7 @@ Weave での OTEL トレースに関する詳細については、[Send OTEL Tra
     export OPENAI_API_KEY=your_api_key_here
     ```
 
-3. [Weave での OTEL トレースの設定](#configure-otel-tracing-in-weave) を行います。
+3. [Weave での OTEL トレースの設定](#weave-での-otel-トレースの設定) を行います。
 
 ### Weave での OTEL トレースの設定
 
@@ -45,7 +45,7 @@ APIキーやプロジェクト情報などの機密性の高い環境変数は�
 
 ## Agno から Weave へ OTEL トレースを送信する
 
-[事前準備](#prerequisites) が完了したら、Agno から Weave に OTEL トレースを送信できます。以下のコードスニペットは、Agno アプリケーションから Weave に OTEL トレースを送信するための OTLP スパンエクスポーターとトレーサープロバイダーの設定方法を示しています。
+[事前準備](#事前準備) が完了したら、Agno から Weave に OTEL トレースを送信できます。以下のコードスニペットは、Agno アプリケーションから Weave に OTEL トレースを送信するための OTLP スパンエクスポーターとトレーサープロバイダーの設定方法を示しています。
 
 <Warning>
 Weave が Agno を正しくトレースできるように、コード内で Agno コンポーネントを使用する _前_ にグローバルトレーサープロバイダーを設定してください。

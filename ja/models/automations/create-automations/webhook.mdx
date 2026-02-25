@@ -11,8 +11,8 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 
 ハイレベルな手順として、webhook オートメーションを作成するには以下のステップを踏みます：
 1. 必要に応じて、アクセストークン、パスワード、SSH キーなど、オートメーションで必要となる機密文字列ごとに [W&B secret を作成](/platform/secrets/) します。Secrets は **Team Settings** で定義されます。
-2. [webhook を作成](#create-a-webhook) して、エンドポイントと認証の詳細を定義し、インテグレーションが必要な secrets へのアクセスを許可します。
-3. [オートメーションを作成](#create-an-automation) して、監視する [event](/models/automations/automation-events/) と W&B が送信するペイロードを定義します。オートメーションに、ペイロードに必要な secrets へのアクセスを許可します。
+2. [webhook を作成](#webhook-を作成する) して、エンドポイントと認証の詳細を定義し、インテグレーションが必要な secrets へのアクセスを許可します。
+3. [オートメーションを作成](#オートメーションを作成する) して、監視する [event](/models/automations/automation-events/) と W&B が送信するペイロードを定義します。オートメーションに、ペイロードに必要な secrets へのアクセスを許可します。
 
 ## webhook を作成する
 チーム管理者は、チームに webhook を追加できます。
@@ -25,15 +25,15 @@ webhook が Bearer トークンを必要とする場合、またはそのペイ�
 1. **Webhooks** セクションで、**New webhook** をクリックします。
 1. webhook の名前を入力します。 
 1. webhook のエンドポイント URL を入力します。
-1. webhook が Bearer トークンを必要とする場合は、**Access token** をそのトークンを含む [secret](/platform/secrets/) に設定します。webhook オートメーションを使用すると、W&B は `Authorization: Bearer` HTTP ヘッダーにアクセストークンを設定し、`${ACCESS_TOKEN}` [ペイロード変数](#payload-variables) でトークンにアクセスできます。W&B が webhook サービスに送信する `POST` リクエストの構造の詳細については、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
-1. webhook がペイロード内でパスワードやその他の機密文字列を必要とする場合は、**Secret** をその文字列を含む secret に設定します。その webhook を使用するオートメーションを設定する際、名前の前に `$` を付けることで、その secret に [ペイロード変数](#payload-variables) としてアクセスできます。
+1. webhook が Bearer トークンを必要とする場合は、**Access token** をそのトークンを含む [secret](/platform/secrets/) に設定します。webhook オートメーションを使用すると、W&B は `Authorization: Bearer` HTTP ヘッダーにアクセストークンを設定し、`${ACCESS_TOKEN}` [ペイロード変数](#ペイロード変数) でトークンにアクセスできます。W&B が webhook サービスに送信する `POST` リクエストの構造の詳細については、[webhook のトラブルシューティング](#webhook-のトラブルシューティング) を参照してください。
+1. webhook がペイロード内でパスワードやその他の機密文字列を必要とする場合は、**Secret** をその文字列を含む secret に設定します。その webhook を使用するオートメーションを設定する際、名前の前に `$` を付けることで、その secret に [ペイロード変数](#ペイロード変数) としてアクセスできます。
 
     webhook のアクセストークンが secret に保存されている場合は、次のステップも完了して secret をアクセストークンとして指定する必要があります。
 1. W&B がエンドポイントに接続し、認証できることを確認します：
-    1. オプションで、テスト用のペイロードを提供します。ペイロード内で webhook がアクセス権を持つ secret を参照するには、その名前の前に `$` を付けます。このペイロードはテスト目的でのみ使用され、保存されません。オートメーションのペイロードは、[オートメーションを作成](#create-a-webhook-automation) する際に設定します。`POST` リクエスト内で secret とアクセストークンがどこに指定されているかについては、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+    1. オプションで、テスト用のペイロードを提供します。ペイロード内で webhook がアクセス権を持つ secret を参照するには、その名前の前に `$` を付けます。このペイロードはテスト目的でのみ使用され、保存されません。オートメーションのペイロードは、[オートメーションを作成](#create-a-webhook-automation) する際に設定します。`POST` リクエスト内で secret とアクセストークンがどこに指定されているかについては、[webhook のトラブルシューティング](#webhook-のトラブルシューティング) を参照してください。
     1. **Test** をクリックします。W&B は、設定した資格情報を使用して webhook のエンドポイントへの接続を試みます。ペイロードが提供されている場合、W&B はそれを送信します。
 
-    テストが成功しない場合は、webhook の設定を確認して再試行してください。必要に応じて、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+    テストが成功しない場合は、webhook の設定を確認して再試行してください。必要に応じて、[webhook のトラブルシューティング](#webhook-のトラブルシューティング) を参照してください。
 
 <Frame>
 ![チーム内の2つのwebhookを示すスクリーンショット](/images/automations/webhooks.png)
@@ -42,7 +42,7 @@ webhook が Bearer トークンを必要とする場合、またはそのペイ�
 これで、その webhook を使用する [オートメーションを作成](#create-a-webhook-automation) できるようになりました。
 
 ## オートメーションを作成する
-[webhook を設定](#create-a-webhook) した後、**Registry** または **Project** を選択し、以下の手順に従って webhook をトリガーするオートメーションを作成します。
+[webhook を設定](#webhook-を作成する) した後、**Registry** または **Project** を選択し、以下の手順に従って webhook をトリガーするオートメーションを作成します。
 
 <Tabs>
 <Tab title="Registry">
@@ -57,9 +57,9 @@ Registry の管理者は、そのレジストリ内にオートメーション�
     表示される追加フィールドに入力します。例えば、**An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
 
     **Next step** をクリックします。
-1. [webhook](#create-a-webhook) を所有するチームを選択します。
-1. **Action type** を **Webhooks** に設定し、使用する [webhook](#create-a-webhook) を選択します。
-1. webhook にアクセストークンを設定した場合、`${ACCESS_TOKEN}` [ペイロード変数](#payload-variables) でそのトークンにアクセスできます。webhook に secret を設定した場合、名前の前に `$` を付けることでペイロード内でその secret にアクセスできます。webhook の要件は、webhook のサービスによって決定されます。
+1. [webhook](#webhook-を作成する) を所有するチームを選択します。
+1. **Action type** を **Webhooks** に設定し、使用する [webhook](#webhook-を作成する) を選択します。
+1. webhook にアクセストークンを設定した場合、`${ACCESS_TOKEN}` [ペイロード変数](#ペイロード変数) でそのトークンにアクセスできます。webhook に secret を設定した場合、名前の前に `$` を付けることでペイロード内でその secret にアクセスできます。webhook の要件は、webhook のサービスによって決定されます。
 1. **Next step** をクリックします。
 1. オートメーションの名前を入力します。オプションで説明を入力します。**Create automation** をクリックします。
 </Tab>
@@ -84,9 +84,9 @@ W&B の管理者は、プロジェクト内にオートメーションを作成�
 
           オートメーションは、将来追加されるものも含め、プロジェクト内のすべてのコレクションに適用されます。
     1. **Next step** をクリックします。
-1. [webhook](#create-a-webhook) を所有するチームを選択します。
-1. **Action type** を **Webhooks** に設定し、使用する [webhook](#create-a-webhook) を選択します。 
-1. webhook がペイロードを必要とする場合は、ペイロードを作成して **Payload** フィールドに貼り付けます。webhook にアクセストークンを設定した場合、`${ACCESS_TOKEN}` [ペイロード変数](#payload-variables) でそのトークンにアクセスできます。webhook に secret を設定した場合、名前の前に `$` を付けることでペイロード内でその secret にアクセスできます。webhook の要件は、webhook のサービスによって決定されます。
+1. [webhook](#webhook-を作成する) を所有するチームを選択します。
+1. **Action type** を **Webhooks** に設定し、使用する [webhook](#webhook-を作成する) を選択します。 
+1. webhook がペイロードを必要とする場合は、ペイロードを作成して **Payload** フィールドに貼り付けます。webhook にアクセストークンを設定した場合、`${ACCESS_TOKEN}` [ペイロード変数](#ペイロード変数) でそのトークンにアクセスできます。webhook に secret を設定した場合、名前の前に `$` を付けることでペイロード内でその secret にアクセスできます。webhook の要件は、webhook のサービスによって決定されます。
 1. **Next step** をクリックします。
 1. オートメーションの名前を入力します。オプションで説明を入力します。**Create automation** をクリックします。
 </Tab>
@@ -111,7 +111,7 @@ W&B の管理者は、プロジェクトの **Automations** タブからプロ�
 </Tabs>
 
 ## ペイロードリファレンス
-これらのセクションを使用して、webhook のペイロードを作成してください。webhook とそのペイロードのテストに関する詳細は、[webhook のトラブルシューティング](#troubleshoot-your-webhook) を参照してください。
+これらのセクションを使用して、webhook のペイロードを作成してください。webhook とそのペイロードのテストに関する詳細は、[webhook のトラブルシューティング](#webhook-のトラブルシューティング) を参照してください。
 
 ### ペイロード変数
 このセクションでは、webhook のペイロードを作成するために使用できる変数について説明します。
@@ -128,11 +128,11 @@ W&B の管理者は、プロジェクトの **Automations** タブからプロ�
 | `${artifact_metadata.<KEY>}`  | アクションをトリガーしたアーティファクトバージョンからの任意のトップレベルメタデータキーの値。 `<KEY>` をトップレベルメタデータキーの名前に置き換えてください。webhook のペイロードでは、トップレベルのメタデータキーのみが使用可能です。 |
 | `${artifact_version}`         | アクションをトリガーしたアーティファクトバージョンの [`Wandb.Artifact`](/models/ref/python/experiments/artifact.md/) 表現。 |
 | `${artifact_version_string}` | アクションをトリガーしたアーティファクトバージョンの `string` 表現。 |
-| `${ACCESS_TOKEN}` | [webhook](#create-a-webhook) で設定されている場合、アクセストークンの値。アクセストークンは自動的に `Authorization: Bearer` HTTP ヘッダーで渡されます。 |
-| `${SECRET_NAME}` | 設定されている場合、[webhook](#create-a-webhook) で設定された secret の値。 `SECRET_NAME` を secret の名前に置き換えてください。 |
+| `${ACCESS_TOKEN}` | [webhook](#webhook-を作成する) で設定されている場合、アクセストークンの値。アクセストークンは自動的に `Authorization: Bearer` HTTP ヘッダーで渡されます。 |
+| `${SECRET_NAME}` | 設定されている場合、[webhook](#webhook-を作成する) で設定された secret の値。 `SECRET_NAME` を secret の名前に置き換えてください。 |
 
 ### ペイロードの例
-このセクションでは、いくつかの一般的なユースケースにおける webhook ペイロードの例を示します。これらの例では、[ペイロード変数](#payload-variables) の使用方法を実演しています。
+このセクションでは、いくつかの一般的なユースケースにおける webhook ペイロードの例を示します。これらの例では、[ペイロード変数](#ペイロード変数) の使用方法を実演しています。
 
 <Tabs>
 <Tab title="GitHub repository dispatch">

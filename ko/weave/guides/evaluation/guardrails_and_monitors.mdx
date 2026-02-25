@@ -191,7 +191,7 @@ Scorer를 적용할 때:
    - **LLM-as-a-Judge configuration**: 
         - **Scorer name**: 유효한 Scorer 이름은 문자나 숫자로 시작해야 하며 문자, 숫자, 하이픈 및 언더스코어만 포함할 수 있습니다.
         - **Judge model**: ops의 점수를 매길 모델을 선택합니다. 세 가지 유형의 모델을 사용할 수 있습니다:
-            - [Saved models](../tools/playground#saved-models)
+            - [Saved models](../tools/playground#메시지-재시도-편집-및-삭제)
             - W&B 관리자가 구성한 공급자의 모델
             - [W&B Inference models](../integrations/inference)
         
@@ -498,7 +498,7 @@ score = scorer.score(output="some text")
 ### 점수 분석
 
 
-호출 및 Scorer 결과를 쿼리하는 방법에 대한 자세한 내용은 [점수 분석 가이드](./scorers#score-analysis)와 [데이터 엑세스 가이드](/weave/guides/tracking/tracing#querying--exporting-calls)를 참조하세요.
+호출 및 Scorer 결과를 쿼리하는 방법에 대한 자세한 내용은 [점수 분석 가이드](./scorers#점수-분석)와 [데이터 엑세스 가이드](/weave/guides/tracking/tracing#querying--exporting-calls)를 참조하세요.
 
 
 ## 프로덕션 모범 사례

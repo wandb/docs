@@ -16,15 +16,15 @@ W&B の実装には、ロールの割り当て、カスタムロールの作成�
 
 ### User SCIM API
 
-[User SCIM API](./scim#user-resource) を使用すると、 W&B 組織内での Users の作成、無効化、取得、一覧表示、および定義済みロールまたはカスタムロールの割り当てが可能になります。リクエストとレスポンスの完全な例については、詳細な [SCIM リファレンス](./scim#user-management) を参照してください。
+[User SCIM API](./scim#user-resource) を使用すると、 W&B 組織内での Users の作成、無効化、取得、一覧表示、および定義済みロールまたはカスタムロールの割り当てが可能になります。リクエストとレスポンスの完全な例については、詳細な [SCIM リファレンス](./scim#ユーザー管理) を参照してください。
 
 <Note>
-User を無効化するには、 `PATCH /scim/Users/{id}` を使用して `{"active": false}` を設定します。結果はホスティングオプションによって異なります。専用クラウド およびセルフマネージドの デプロイメント では User レコードが保持されますが、マルチテナント クラウド では組織から User が削除されます。マルチテナント クラウド では再有効化は利用できません。代わりに User を再度追加してください。[User の無効化](./scim#deactivate-user) および [User の再有効化](./scim#reactivate-user) を参照してください。
+User を無効化するには、 `PATCH /scim/Users/{id}` を使用して `{"active": false}` を設定します。結果はホスティングオプションによって異なります。専用クラウド およびセルフマネージドの デプロイメント では User レコードが保持されますが、マルチテナント クラウド では組織から User が削除されます。マルチテナント クラウド では再有効化は利用できません。代わりに User を再度追加してください。[User の無効化](./scim#ユーザーの無効化) および [User の再有効化](./scim#ユーザーの再有効化) を参照してください。
 </Note>
 
 ### Group SCIM API
 
-[Group SCIM API](./scim#group-resource) を使用すると、組織内での Teams の作成や削除を含む W&B Teams の管理が可能です。既存の Team に Users を追加または削除するには、 `PATCH Group` を使用します。
+[Group SCIM API](./scim#group-リソース) を使用すると、組織内での Teams の作成や削除を含む W&B Teams の管理が可能です。既存の Team に Users を追加または削除するには、 `PATCH Group` を使用します。
 
 <Note>
 W&B 内には「同じロールを持つユーザーのグループ」という概念はありません。 W&B の Team はグループに非常に似ており、異なるロールを持つ多様なペルソナが、関連する一連の Projects で共同作業を行うことを可能にします。 Teams は異なるユーザーグループで構成される場合があります。 Team 内の各 User には、 team admin 、 member 、 viewer 、またはカスタムロールを割り当てます。
@@ -34,7 +34,7 @@ W&B は、グループと W&B Teams の類似性から、 Group SCIM API エン�
 
 ### カスタムロール API
 
-[Custom Role SCIM API](./scim#role-resource) を使用すると、組織内でのカスタムロールの作成、一覧表示、更新などの管理が可能になります。
+[Custom Role SCIM API](./scim#ロールリソース) を使用すると、組織内でのカスタムロールの作成、一覧表示、更新などの管理が可能になります。
 
 <Warning>
 カスタムロールの削除は慎重に行ってください。
