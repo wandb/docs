@@ -1,20 +1,8 @@
 ---
-title: "What is W&B Tracing?"
-description: "Track and monitor your AI application's execution with Weave tracing"
+title: "Ops and Calls"
+description: "Learn how Ops and Calls create the foundation of W&B Weave's tracing system."
 ---
 
-
-<Frame>
-![Weave Calls Screenshot](/images/screenshots/calls_macro.png)
-</Frame>
-
-<Frame>
-![Weave Calls Screenshot](/images/screenshots/basic_call.png)
-</Frame>
-
-<Frame>
-![Weave Calls Screenshot](/images/screenshots/calls_filter.png)
-</Frame>
 
 
 ## Ops
@@ -49,7 +37,7 @@ A **Call** is a logged execution of an Op. Every time an Op runs, Weave creates 
 - Parent-child relationships (for nested calls)
 - Any errors that occurred
 
-Calls form the backbone of Weave's tracing system and provide the data for debugging, analysis, and evaluation.
+Calls show up as **Traces** in the Weave UI and provide the data for debugging, analysis, and evaluation.
 
 
 Calls are similar to spans in the [OpenTelemetry](https://opentelemetry.io) data model. A Call can:

@@ -15,6 +15,22 @@ The following Python code shows how traced Ops are linked to W&B
 runs when executed inside a `wandb.init()` context. These traces appear in the
 Weave UI and are associated with the corresponding run.
 
+
+To view a W&B run as a Weave trace:
+
+1. In the terminal, install dependencies.
+
+```bash lines
+pip install wandb weave
+```
+
+2. Log in to W&B.
+
+```bash lines
+wandb login
+```
+
+3. In the following script, replace `your-team-name/your-project-name` with your actual W&B entity/project:
 ```python lines
 import wandb
 import weave
@@ -55,32 +71,17 @@ def example_wandb(projname):
 
 if __name__ == "__main__":
     # Replace this with your actual W&B username/project
-    example_wandb("your-username/your-project")
+    example_wandb("your-team-name/your-project-name")
 ```
 
-To use the code sample:
-
-1. In the terminal, install dependencies.
-
-```bash lines
-pip install wandb weave
-```
-
-2. Log in to W&B.
-
-```bash lines
-wandb login
-```
-
-3. In the script, replace `your-username/your-project` with your actual W&B entity/project.
 4. Run the script.
 
 ```bash lines
 python weave_trace_with_wandb.py
 ```
 
-5. Visit [https://weave.wandb.ai](https://weave.wandb.ai) and select your project.
-6. In the **Traces** tab, view the trace output. Links to any associated runs are shown in the Traces table.
+5. Navigate to [https://weave.wandb.ai](https://weave.wandb.ai) and select your project.
+6. In the **Weave project sidebar**, click **Traces**.  Links to any associated runs are displayed in the Traces table.
 </Tab>
 <Tab title="TypeScript">
 ```plaintext

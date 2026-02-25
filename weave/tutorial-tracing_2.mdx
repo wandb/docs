@@ -1,20 +1,11 @@
 ---
-title: "Track Application Logic"
-description: "Learn how to track data flow and metadata in your LLM applications"
+title: "Trace nested functions"
+description: "Learn how to track deeply nested Call structures with W&B tracing"
 ---
 
-In the [Track LLM inputs & outputs](/weave/quickstart) tutorial, the basics of tracking the inputs and outputs of your LLMs was covered.
+LLM-powered applications can contain multiple LLMs calls and additional data processing and validation logic that is important to monitor. Even in deeply nested call structures common in many applications, Weave tracks parent-child relationships across nested functions, as long as `weave.op()` is added to each function you want to trace.
 
-In this tutorial you will learn how to:
-
-- **Track data** as it flows through your application
-- **Track metadata** at call time
-
-## Tracking nested function calls
-
-LLM-powered applications can contain multiple LLMs calls and additional data processing and validation logic that is important to monitor. Even deep nested call structures common in many apps, Weave will keep track of the parent-child relationships in nested functions as long as `weave.op()` is added to every function you'd like to track.
-
-Building on the [quickstart example](/weave/quickstart), the following code adds additional logic to count the returned items from the LLM and wrap them all in a higher level function. Additionally, the example uses `weave.op()` to trace every function, its call order, and its parent-child relationship:
+The following code builds on the [quickstart example](/weave/quickstart) and adds logic to count the returned items from the LLM and wrap them in a higher-level function. Additionally, the example uses `weave.op()` to trace every function, its call order, and its parent-child relationship:
 
 <Tabs>
   <Tab title="Python">
@@ -72,9 +63,9 @@ Building on the [quickstart example](/weave/quickstart), the following code adds
     ```
     **Nested functions**
 
-    When you run the above code, you see the the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
+    When you run the preceding code, the **Traces** page shows the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
 
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![Nested Weave Traces page showing center trace tree panel and the details panel for the selected Call](/images/tutorial_tracing_2_nested_dinos.png)
 
   </Tab>
   <Tab title="TypeScript">
@@ -129,10 +120,10 @@ Building on the [quickstart example](/weave/quickstart), the following code adds
 
     **Nested functions**
 
-    When you run the above code, you see the the inputs and outputs from the two nested functions (`extractDinos` and `countDinos`), as well as the automatically-logged OpenAI trace.
 
+    When you run the preceding code, the **Traces** page shows the inputs and outputs from the two nested functions (`extract_dinos` and `count_dinos`), as well as the automatically-logged OpenAI trace.
     {/* TODO: Update to TS screenshot */}
-    ![Nested Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![Nested Weave Traces page showing center trace tree panel and the details panel for the selected Call](/images/tutorial_tracing_2_nested_dinos.png)
 
   </Tab>
 </Tabs>
@@ -162,16 +153,18 @@ Continuing our example from above:
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    This feature is not available in TypeScript yet.  Stay tuned!
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
 <Note>
-We recommend tracking metadata at run time, such as your user IDs and your code's environment status (development, staging, or production).
+We recommend that you track metadata at run time, such as your user IDs and your code's environment status (development, staging, or production).
 
-To track system settings, such as a system prompt, we recommend using [Weave Models](/weave/guides/core-types/models)
+We recommennd that to track system settings, such as a system prompt, use [Weave Models](/weave/guides/core-types/models).
 </Note>
+
+For more information on using attributes, see [Define and log attributes](/weave/guides/tools/attributes).
 
 ## What's next?
 

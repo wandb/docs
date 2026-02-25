@@ -1,5 +1,5 @@
 ---
-title: "Create calls"
+title: "Create Calls"
 description: "Create and track Calls in W&B Weave"
 ---
 
@@ -68,7 +68,7 @@ Import the LLM or framework library, initialize your Weave project, and then Wea
   </Tab>
 </Tabs>
 
-If you want more control over automatic behavior, see [Configure automatic LLM call tracking](/weave/guides/tracking/autopatching).
+If you want more control over automatic behavior, see [Configure automatic LLM call tracking](/weave/guides/integrations/autopatching).
 
 ## 2. Tracking of custom functions
 
@@ -169,7 +169,7 @@ You can also track class and object methods. You can track any method in a class
     - **TypeScript older than v5.0**: Enable experimental support for decorators. For more details, see the [official TypeScript documentation on decorators](https://www.typescriptlang.org/docs/handbook/decorators.html).
     </Important>
 
-    You can apply `@weave.op` to trace instance methods.
+    You can apply `@weave.op` to instance methods for tracing.
 
     ```typescript lines
     class Foo {

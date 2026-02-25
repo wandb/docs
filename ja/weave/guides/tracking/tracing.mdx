@@ -3,18 +3,7 @@ title: トレースの基本
 description: Weave のトレース機能を使用して、 AI アプリケーション の実行を追跡・モニタリングします
 ---
 
-<Frame>
-![Weave Calls Screenshot](/images/screenshots/calls_macro.png)
-</Frame>
-
-<Frame>
-![Weave Calls Screenshot](/images/screenshots/basic_call.png)
-</Frame>
-
-<Frame>
-![Weave Calls Screenshot](/images/screenshots/calls_filter.png)
-</Frame>
-
+---
 
 Call は Weave における基本的な構成要素です。これらは関数の単一の実行を表し、以下を含みます。
 - Inputs (引数)
@@ -535,7 +524,6 @@ API を直接使用して手動で Call を作成することもできます。
 
 詳細ページには、Call の入力、出力、実行時間、および追加のメタデータが表示されます。
 
-![ウェブアプリでの Call 表示](/images/screenshots/basic_call.png)
 </Tab>
 <Tab title="Python">
 Weave Python SDK を使用して Call を表示するには、[`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) メソッドを使用できます。
@@ -805,18 +793,10 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
 
 ## Querying and exporting Calls
 
-<Frame>
-![多くの Call のスクリーンショット](/images/screenshots/calls_filter.png)
-</Frame>
-
 プロジェクトの `/calls` ページ ("Traces" タブ) には、プロジェクト内のすべての Call のテーブルビューが表示されます。そこでは以下のことが可能です。
 * ソート
 * フィルタリング
 * エクスポート
-
-<Frame>
-![Calls テーブルビュー](/images/export_modal.png)
-</Frame>
 
 エクスポートモーダル（上記）では、データをさまざまな形式でエクスポートできるほか、選択した Call に対応する Python および CURL のコードスニペットも表示されます。
 UI でビューを作成してから、生成されたコードスニペットを通じてエクスポート API について学ぶのが最も簡単な方法です。

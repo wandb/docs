@@ -6,8 +6,8 @@ description: "Track sync and async generator functions with W&B Weave tracing"
 W&B Weave supports tracing both sync and async generator functions, including deeply nested patterns.
 
 <Warning>
-Because generators yield values lazily, the outputs are only logged when the generator is fully consumed (such as by converting it to a list).
-To ensure that outputs are captured in the trace, fully consume the generator (for example, by using `list()`).
+Because generators yield values lazily, Weave logs outputs only when the generator is fully consumed (for example, when you convert it to a list).
+To ensure Weave captures outputs in the trace, fully consume the generator (for example, with `list()`).
 </Warning>
 
 <Tabs>
@@ -63,11 +63,11 @@ To ensure that outputs are captured in the trace, fully consume the generator (f
     ```
   </Tab>
 </Tabs>
-
-![Tracing generator functions in Weave.](/weave/guides/tracking/imgs/generators.png)
+The following screenshot shows the **Traces** page with a selected trace of the preceding code.  The center panel shows the trace tree for the selected trace. The trace tree shows the `deeply_nested_generator`, `nested_generator`, and `inner` Ops in the trace tree hierarchy.
+![Weave Traces page showing a selected trace tree illustrating deeply nested Ops](/weave/guides/tracking/imgs/generators.png)
 
 ## Consuming generators
 
-Weave captures generator outputs only after the generator is fully consumed. Consume the generator by iterating over it (for example, with `list()`, a `for` loop, or `next()` until exhaustion). The same applies to async generators when using `async for` or equivalent consumption.
+Weave captures generator outputs only after you fully consume the generator. Consume the generator by iterating over it (for example, with `list()`, a `for` loop, or `next()` until exhaustion). The same applies to async generators when you use `async for` or equivalent consumption.
 
 For more on decorating functions and methods with `@weave.op`, see [Create calls](/weave/guides/tracking/create-call).
