@@ -4,7 +4,7 @@ title: wandb controller
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2370" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2383" />
 
 
 Start a local sweep controller for a W&B hyperparameter sweep.
@@ -19,17 +19,16 @@ Start a local sweep controller for a W&B hyperparameter sweep.
     can use this command to debug behavior or operate in environments with
     limited connectivity.
 
-    'sweep_id' is printed by `wandb sweep` when you create a sweep. It
+    ``sweep_id`` is printed by `wandb sweep` when you create a sweep. It
     consists of a unique identifier for the sweep and may include the
     entity and project path (`entity/project/sweep_id`).
 
     Examples:
 
-    Start a local sweep controller for a sweep. In this example, `abcd1234`
-    is the sweep ID.
+    Start a local sweep controller for a sweep with sweep ID "wbyz9876"
 
     ```bash
-    wandb controller abcd1234
+    wandb controller wbyz9876
     ```
     
 
@@ -75,16 +74,15 @@ Usage: controller [OPTIONS] SWEEP_ID
   this command to debug behavior or operate in environments with limited
   connectivity.
 
-  'sweep_id' is printed by `wandb sweep` when you create a sweep. It consists
-  of a unique identifier for the sweep and may include the entity and project
-  path (`entity/project/sweep_id`).
+  ``sweep_id`` is printed by `wandb sweep` when you create a sweep. It
+  consists of a unique identifier for the sweep and may include the entity and
+  project path (`entity/project/sweep_id`).
 
   Examples:
 
-  Start a local sweep controller for a sweep. In this example, `abcd1234` is
-  the sweep ID.
+  Start a local sweep controller for a sweep with sweep ID "wbyz9876"
 
-  ```bash wandb controller abcd1234 ```
+  ```bash wandb controller wbyz9876 ```
 
 Options:
   --verbose  Display verbose output from controller.

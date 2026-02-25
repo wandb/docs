@@ -4,7 +4,7 @@ title: wandb agent
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1979" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1987" />
 
 
 Start a sweep agent.
@@ -13,36 +13,41 @@ Start a sweep agent.
     the sweep and start a run for each configuration.
     
     The agent exits when the sweep completes, the sweep
-    is stopped/cancelled, or the `--count` limit is reached.
+    is stopped, cancelled, or the `--count` limit is reached.
 
-    SWEEP_ID is printed by `wandb sweep` when a sweep is created.
-    It can include the entity and project path
-    (`entity/project/sweep_id`).
+    Find the sweep ID in:
+      * The W&B App at `https://wandb.ai/entity/project/sweeps`. Replace
+        `entity` and `project` with your entity and project names.
+      * The output of the `wandb sweep` command when you create a new sweep.
+    
+    The sweep ID can include the entity and project path
+    (`entity/project/sweep_id`) or the eight character sweep ID alone.
 
     Examples:
 
-    Start an agent for a sweep
+    Start an agent for a sweep with a sweep ID of "wbyz9876"
 
     ```bash
-    wandb agent SWEEP_ID
+    wandb agent wbyz9876
     ```
 
-    Start an agent with a run limit
+    Start an agent with a run limit of 10 runs for the sweep
 
     ```bash
-    wandb agent --count 10 SWEEP_ID
+    wandb agent --count 10 wbyz9876
     ```
 
-    Start an agent for a sweep in a specific project
+    Start an agent for a sweep and save it to a project
+    called "sweeps-project" that belongs to the "team-awesome" entity
 
     ```bash
-    wandb agent -p PROJECT_NAME -e ENTITY SWEEP_ID
+    wandb agent -p sweeps-project -e team-awesome wbyz9876
     ```
 
     Forward signals to child runs for clean shutdown
 
     ```bash
-    wandb agent --forward-signals SWEEP_ID
+    wandb agent --forward-signals wbyz9876
     ```
     
 
@@ -105,29 +110,35 @@ Usage: agent [OPTIONS] SWEEP_ID
   Poll the W&B server for hyperparameter configurations from the sweep and
   start a run for each configuration.
 
-  The agent exits when the sweep completes, the sweep is stopped/cancelled, or
-  the `--count` limit is reached.
+  The agent exits when the sweep completes, the sweep is stopped, cancelled,
+  or the `--count` limit is reached.
 
-  SWEEP_ID is printed by `wandb sweep` when a sweep is created. It can include
-  the entity and project path (`entity/project/sweep_id`).
+  Find the sweep ID in:   * The W&B App at
+  `https://wandb.ai/entity/project/sweeps`. Replace     `entity` and `project`
+  with your entity and project names.   * The output of the `wandb sweep`
+  command when you create a new sweep.
+
+  The sweep ID can include the entity and project path
+  (`entity/project/sweep_id`) or the eight character sweep ID alone.
 
   Examples:
 
-  Start an agent for a sweep
+  Start an agent for a sweep with a sweep ID of "wbyz9876"
 
-  ```bash wandb agent SWEEP_ID ```
+  ```bash wandb agent wbyz9876 ```
 
-  Start an agent with a run limit
+  Start an agent with a run limit of 10 runs for the sweep
 
-  ```bash wandb agent --count 10 SWEEP_ID ```
+  ```bash wandb agent --count 10 wbyz9876 ```
 
-  Start an agent for a sweep in a specific project
+  Start an agent for a sweep and save it to a project called "sweeps-project"
+  that belongs to the "team-awesome" entity
 
-  ```bash wandb agent -p PROJECT_NAME -e ENTITY SWEEP_ID ```
+  ```bash wandb agent -p sweeps-project -e team-awesome wbyz9876 ```
 
   Forward signals to child runs for clean shutdown
 
-  ```bash wandb agent --forward-signals SWEEP_ID ```
+  ```bash wandb agent --forward-signals wbyz9876 ```
 
 Options:
   -p, --project TEXT     Set the project to upload runs to.

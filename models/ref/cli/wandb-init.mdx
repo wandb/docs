@@ -14,10 +14,18 @@ Initialize or update W&B configuration for the current directory.
 
     Examples:
 
-    Initialize W&B configuration for the current directory
+    Set up W&B for the current directory with guided prompts for team and
+    project selection. 
 
     ```bash
-    wandb init --project PROJECT_NAME --entity TEAM_ENTITY
+    wandb init
+    ```
+
+    Set the default project to "foobar-project" and the default entity to
+    "team-awesome" without prompts.
+
+    ```bash
+    wandb init --project foobar-project --entity team-awesome
     ```
 
     Set the W&B mode to offline
@@ -94,9 +102,15 @@ Usage: init [OPTIONS]
 
   Examples:
 
-  Initialize W&B configuration for the current directory
+  Set up W&B for the current directory with guided prompts for team and
+  project selection.
 
-  ```bash wandb init --project PROJECT_NAME --entity TEAM_ENTITY ```
+  ```bash wandb init ```
+
+  Set the default project to "foobar-project" and the default entity to "team-
+  awesome" without prompts.
+
+  ```bash wandb init --project foobar-project --entity team-awesome ```
 
   Set the W&B mode to offline
 

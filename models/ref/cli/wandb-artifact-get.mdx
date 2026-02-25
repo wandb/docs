@@ -3,24 +3,25 @@ title: wandb artifact-get
 ---
 
 
-Download an artifact from W&B.
+Download an artifact from W&B by its path.
 
-    Download an artifact by its path. The PATH format is
-    `entity/project/artifact_name:version`. If the version is omitted,
-    use the 'latest' alias.
+    The `PATH` format is `entity/project/artifact_name:version`. If
+    the version is omitted, use the `latest` alias.
 
     Examples:
 
-    Download the latest version of an artifact
+    Download the latest version of an artifact called "processed-training-set"
+    from the "foobar-project" project under the "team-awesome" entity.
 
     ```bash
-    wandb artifact get entity/project/artifact_name:latest
+    wandb artifact get team-awesome/foobar-project/processed-training-set:latest
     ```
 
-    Download a specific version to a custom directory ("./data" in this example)
+    Download a specific version (v2) of the "processed-training-set" artifact
+    to a local directory (./data).
 
     ```bash
-    wandb artifact get --root ./data entity/project/artifact_name:v2
+    wandb artifact get --root ./data team-awesome/foobar-project/processed-training-set:v2
     ```
     
 
@@ -62,21 +63,24 @@ Show this message and exit.
 ```
 Usage: artifact get [OPTIONS] PATH
 
-  Download an artifact from W&B.
+  Download an artifact from W&B by its path.
 
-  Download an artifact by its path. The PATH format is
-  `entity/project/artifact_name:version`. If the version is omitted, use the
-  'latest' alias.
+  The `PATH` format is `entity/project/artifact_name:version`. If the version
+  is omitted, use the `latest` alias.
 
   Examples:
 
-  Download the latest version of an artifact
+  Download the latest version of an artifact called "processed-training-set"
+  from the "foobar-project" project under the "team-awesome" entity.
 
-  ```bash wandb artifact get entity/project/artifact_name:latest ```
+  ```bash wandb artifact get team-awesome/foobar-project/processed-training-
+  set:latest ```
 
-  Download a specific version to a custom directory ("./data" in this example)
+  Download a specific version (v2) of the "processed-training-set" artifact to
+  a local directory (./data).
 
-  ```bash wandb artifact get --root ./data entity/project/artifact_name:v2 ```
+  ```bash wandb artifact get --root ./data team-awesome/foobar-
+  project/processed-training-set:v2 ```
 
 Options:
   --root TEXT  Directory to download the artifact to. Uses the default

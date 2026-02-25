@@ -4,7 +4,7 @@ title: wandb docker-run
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2408" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2420" />
 
 
 Wrap `docker run` and inject W&B environment variables automatically.
@@ -22,9 +22,8 @@ Wrap `docker run` and inject W&B environment variables automatically.
 
     Examples:
 
-    Run ``python train.py`` inside ``my-image`` Docker container. Inject your
-    W&B API key and the resolved Docker image ID as environment variables in
-    the container so W&B can track your runs and associate them with the image. 
+    Run `python train.py` inside the "my-image" container. W&B automatically
+    injects your API key and the resolved image ID.
 
     ```
     wandb docker-run my-image python train.py
@@ -75,9 +74,8 @@ Usage: docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
 
   Examples:
 
-  Run ``python train.py`` inside ``my-image`` Docker container. Inject your
-  W&B API key and the resolved Docker image ID as environment variables in the
-  container so W&B can track your runs and associate them with the image.
+  Run `python train.py` inside the "my-image" container. W&B automatically
+  injects your API key and the resolved image ID.
 
   ``` wandb docker-run my-image python train.py ```
 

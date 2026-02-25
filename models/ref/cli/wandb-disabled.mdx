@@ -4,7 +4,7 @@ title: wandb disabled
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3439" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3464" />
 
 
 Completely disable W&B.
@@ -19,7 +19,8 @@ Completely disable W&B.
 
     Examples:
 
-    Turn off W&B for scripts that don't need tracking
+    Turn off W&B so that the train.py script executes without logging or
+    syncing data to W&B.
 
     ```bash
     wandb disabled
@@ -75,7 +76,8 @@ Usage: disabled [OPTIONS]
 
   Examples:
 
-  Turn off W&B for scripts that don't need tracking
+  Turn off W&B so that the train.py script executes without logging or syncing
+  data to W&B.
 
   ```bash wandb disabled python train.py  # Does not log or sync data to W&B
   ```

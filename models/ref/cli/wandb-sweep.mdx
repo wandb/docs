@@ -4,7 +4,7 @@ title: wandb sweep
 
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L915" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L923" />
 
 
 Create, update, or manage a hyperparameter sweep.
@@ -66,9 +66,9 @@ Create, update, or manage a hyperparameter sweep.
     ```bash
     wandb sweep --controller sweep_config.yaml
     ```
-
-    Attach existing runs to a new sweep. Replace run_ID_1 and run_ID_2 with
-    the unique IDs (not sweep IDs) of the runs you want to attach.
+    
+    Attach one or more runs to a sweep. In the following example, replace
+    `run_ID_1` and `run_ID_2` with the run's unique ID.
 
     ```bash
     wandb sweep -R run_ID_1 -R run_ID_2 sweep_config.yaml
@@ -245,8 +245,8 @@ Usage: sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID
 
   ```bash wandb sweep --controller sweep_config.yaml ```
 
-  Attach existing runs to a new sweep. Replace run_ID_1 and run_ID_2 with the
-  unique IDs (not sweep IDs) of the runs you want to attach.
+  Attach one or more runs to a sweep. In the following example, replace
+  `run_ID_1` and `run_ID_2` with the run's unique ID.
 
   ```bash wandb sweep -R run_ID_1 -R run_ID_2 sweep_config.yaml ```
 

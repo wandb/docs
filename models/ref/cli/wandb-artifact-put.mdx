@@ -6,7 +6,8 @@ title: wandb artifact-put
 Upload an artifact to W&B.
 
     Upload a file, directory, or URL reference as a versioned artifact.
-    The PATH can be a local file, a local directory, or a URL
+
+    The `PATH` can be a local file, a local directory, or a URL
     (containing `://`) to log as a reference artifact.
 
     If `--name` is not specified, the artifact name defaults to the
@@ -15,28 +16,34 @@ Upload an artifact to W&B.
 
     Examples:
 
-    Upload a directory as a dataset artifact
+    Upload all files in a local directory ./data/training as a dataset artifact in W&B.
 
     ```bash
-    wandb artifact put ./project/artifact_name --type dataset
+    wandb artifact put --type dataset ./data/training
     ```
 
-    Upload a file with a specific name and type
+    Upload "model.pt" to the "foobar" project and assign "trained-model" as the artifact name.
 
     ```bash
-    wandb artifact put --name project/artifact_name --type model ./model.pt
+    wandb artifact put --name foobar/trained-model --type model ./model.pt
     ```
 
-    Upload with multiple aliases (`latest` and `v1.0` in this example)
+    Tag the artifact with both "latest" and "v2.0" so it can be referenced by either alias.
 
     ```bash
-    wandb artifact put --alias latest --alias v1.0 ./project/artifact_name
+    wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
+    ``` 
+
+    Record an Amazon S3 path as a reference without downloading or re-uploading the data.
+
+    ```bash
+    wandb artifact put --type dataset s3://my-bucket/datasets/training
     ```
-
-    Log a URL as a reference artifact
+    
+    Attach a human-readable description to a dataset artifact for documentation.
 
     ```bash
-    wandb artifact put --type dataset s3://my-bucket/data
+    wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training
     ```
     
 
@@ -51,7 +58,7 @@ wandb artifact put [OPTIONS] PATH
 
 ### `name`
 
-format. Defaults to the basename of the path.                
+Artifact name in project/artifact_name format. Defaults to the basename of the path.                
 
 | Flag | Default | Type | 
 |------|---------|------|
@@ -128,9 +135,10 @@ Usage: artifact put [OPTIONS] PATH
 
   Upload an artifact to W&B.
 
-  Upload a file, directory, or URL reference as a versioned artifact. The PATH
-  can be a local file, a local directory, or a URL (containing `://`) to log
-  as a reference artifact.
+  Upload a file, directory, or URL reference as a versioned artifact.
+
+  The `PATH` can be a local file, a local directory, or a URL (containing
+  `://`) to log as a reference artifact.
 
   If `--name` is not specified, the artifact name defaults to the basename of
   the path. If the project cannot be parsed from the name, you are prompted to
@@ -138,27 +146,37 @@ Usage: artifact put [OPTIONS] PATH
 
   Examples:
 
-  Upload a directory as a dataset artifact
+  Upload all files in a local directory ./data/training as a dataset artifact
+  in W&B.
 
-  ```bash wandb artifact put ./project/artifact_name --type dataset ```
+  ```bash wandb artifact put --type dataset ./data/training ```
 
-  Upload a file with a specific name and type
+  Upload "model.pt" to the "foobar" project and assign "trained-model" as the
+  artifact name.
 
-  ```bash wandb artifact put --name project/artifact_name --type model
+  ```bash wandb artifact put --name foobar/trained-model --type model
   ./model.pt ```
 
-  Upload with multiple aliases (`latest` and `v1.0` in this example)
+  Tag the artifact with both "latest" and "v2.0" so it can be referenced by
+  either alias.
 
-  ```bash wandb artifact put --alias latest --alias v1.0
-  ./project/artifact_name ```
+  ```bash wandb artifact put --alias latest --alias v2.0 --type model
+  ./model.pt ```
 
-  Log a URL as a reference artifact
+  Record an Amazon S3 path as a reference without downloading or re-uploading
+  the data.
 
-  ```bash wandb artifact put --type dataset s3://my-bucket/data ```
+  ```bash wandb artifact put --type dataset s3://my-bucket/datasets/training
+  ```
+
+  Attach a human-readable description to a dataset artifact for documentation.
+
+  ```bash wandb artifact put --type dataset --description "Training data, Jan
+  2025" ./data/training ```
 
 Options:
-  -n, --name TEXT               Artifact name in `project/artifact_name`
-                                format. Defaults to the basename of the path.
+  -n, --name TEXT               Artifact name in project/artifact_name format.
+                                Defaults to the basename of the path.
   -d, --description TEXT        A description of this artifact.
   -t, --type TEXT               The type of the artifact. Defaults to
                                 'dataset'.
