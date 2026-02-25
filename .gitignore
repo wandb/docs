@@ -43,3 +43,7 @@ package-lock.json
 
 # Link checker output
 lychee/
+
+# Python
+__pycache__/
+*.pyc
