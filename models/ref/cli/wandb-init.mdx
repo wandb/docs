@@ -1,32 +1,131 @@
 ---
-title: "wandb init"
+title: wandb init
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-init.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbInit from "/snippets/en/_includes/cli/wandb-init.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbInit/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L384" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
-Configure a directory with Weights & Biases
+Initialize or update W&B configuration for the current directory.
+    
+    Set a project and entity, create local W&B settings, and
+    prepare the directory for experiment tracking.
+
+    Examples:
+
+    Set up W&B for the current directory with guided prompts for team and
+    project selection. 
+
+    ```bash
+    wandb init
+    ```
+
+    Set the default project to "foobar-project" and the default entity to
+    "team-awesome" without prompts.
+
+    ```bash
+    wandb init --project foobar-project --entity team-awesome
+    ```
+
+    Set the W&B mode to offline
+
+    ```bash
+    wandb init --mode offline
+    ```
+
+    Reset existing W&B configuration for the current directory
+
+    ```bash
+    wandb init --reset
+    ```
+    
 
 ## Usage
 
-```bash
+```shell
 wandb init [OPTIONS]
 ```
 
+
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project to use. |
-| `--entity`, `-e` | The entity to scope the project to. |
-| `--reset` | Reset settings (default: False) |
-| `--mode`, `-m` | Can be "online", "offline" or "disabled". Defaults to online. |
+### `project`
+
+Set the project to upload runs to.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+Set the entity to scope the project to.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | None | STRING |
+
+### `reset`
+
+Reset existing W&B configuration for the directory.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--reset` | False | BOOL |
+
+### `mode`
+
+Set the W&B mode. One of 'online', 'offline', or 'disabled'.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-m, --mode` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: init [OPTIONS]
+
+  Initialize or update W&B configuration for the current directory.
+
+  Set a project and entity, create local W&B settings, and prepare the
+  directory for experiment tracking.
+
+  Examples:
+
+  Set up W&B for the current directory with guided prompts for team and
+  project selection.
+
+  ```bash wandb init ```
+
+  Set the default project to "foobar-project" and the default entity to "team-
+  awesome" without prompts.
+
+  ```bash wandb init --project foobar-project --entity team-awesome ```
+
+  Set the W&B mode to offline
+
+  ```bash wandb init --mode offline ```
+
+  Reset existing W&B configuration for the current directory
+
+  ```bash wandb init --reset ```
+
+Options:
+  -p, --project TEXT  Set the project to upload runs to.
+  -e, --entity TEXT   Set the entity to scope the project to.
+  --reset             Reset existing W&B configuration for the directory.
+  -m, --mode TEXT     Set the W&B mode. One of 'online', 'offline', or
+                      'disabled'.
+  --help              Show this message and exit.
+```
+

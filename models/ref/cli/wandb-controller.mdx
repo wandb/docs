@@ -1,35 +1,91 @@
 ---
-title: "wandb controller"
+title: wandb controller
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-controller.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbController from "/snippets/en/_includes/cli/wandb-controller.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbController/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2390" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
-Run the W&B local sweep controller
+Start a local sweep controller for a W&B hyperparameter sweep.
+    
+    Start a local process that orchestrates the specified sweep. Read the
+    sweep configuration from W&B, select hyperparameter combinations based
+    on the configured search strategy (grid, random, Bayesian, and so on),
+    and dispatch runs to sweep agents.
+
+    By default, W&B runs sweep controllers on its managed infrastructure.
+    Use this command to run the controller locally instead. For example, you
+    can use this command to debug behavior or operate in environments with
+    limited connectivity.
+
+    ``sweep_id`` is printed by `wandb sweep` when you create a sweep. It
+    consists of a unique identifier for the sweep and may include the
+    entity and project path (`entity/project/sweep_id`).
+
+    Examples:
+
+    Start a local sweep controller for a sweep with sweep ID "wbyz9876"
+
+    ```bash
+    wandb controller wbyz9876
+    ```
+    
 
 ## Usage
 
-```bash
-wandb controller SWEEP_ID [OPTIONS]
+```shell
+wandb controller [OPTIONS] SWEEP_ID
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `SWEEP_ID` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--verbose` | Display verbose output (default: False) |
+### `verbose`
+
+Display verbose output from controller.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--verbose` | False | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: controller [OPTIONS] SWEEP_ID
+
+  Start a local sweep controller for a W&B hyperparameter sweep.
+
+  Start a local process that orchestrates the specified sweep. Read the sweep
+  configuration from W&B, select hyperparameter combinations based on the
+  configured search strategy (grid, random, Bayesian, and so on), and dispatch
+  runs to sweep agents.
+
+  By default, W&B runs sweep controllers on its managed infrastructure. Use
+  this command to run the controller locally instead. For example, you can use
+  this command to debug behavior or operate in environments with limited
+  connectivity.
+
+  ``sweep_id`` is printed by `wandb sweep` when you create a sweep. It
+  consists of a unique identifier for the sweep and may include the entity and
+  project path (`entity/project/sweep_id`).
+
+  Examples:
+
+  Start a local sweep controller for a sweep with sweep ID "wbyz9876"
+
+  ```bash wandb controller wbyz9876 ```
+
+Options:
+  --verbose  Display verbose output from controller.
+  --help     Show this message and exit.
+```
+

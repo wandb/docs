@@ -1,17 +1,47 @@
 ---
-title: "wandb artifact cache"
+title: wandb artifact-cache
 ---
 
-Commands for interacting with the artifact cache
+
+Manage the local artifact cache.
+
+    Cache downloaded artifact files locally to avoid redundant downloads.
+
+    Use subcommands to inspect and reclaim disk space used by the cache.
+    
 
 ## Usage
 
-```bash
-wandb artifact cache COMMAND [ARGS]...
+```shell
+wandb artifact cache [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Commands
 
-| Command | Description |
-| :--- | :--- |
-| [cleanup](/models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup) | Clean up less frequently used files from the artifacts cache |
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact cache [OPTIONS] COMMAND [ARGS]...
+
+  Manage the local artifact cache.
+
+  Cache downloaded artifact files locally to avoid redundant downloads.
+
+  Use subcommands to inspect and reclaim disk space used by the cache.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  cleanup  Reduce the local artifact cache size.
+```
+

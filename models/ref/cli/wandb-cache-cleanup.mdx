@@ -1,0 +1,78 @@
+---
+title: wandb cache-cleanup
+---
+
+
+Reduce the local artifact cache size.
+
+    Remove less frequently used files until the cache is at or below
+    the `TARGET_SIZE`. `TARGET_SIZE` accepts human-readable formats (for example,
+    10GB or 500MB).
+
+    Examples:
+
+    Reduce the artifact cache to 10 GB
+
+    ```bash
+    wandb artifact cache cleanup 10GB
+    ```
+    
+    Remove temporary files and reduce the artifact cache to 5 GB
+
+    ```bash
+    wandb artifact cache cleanup --remove-temp 5GB
+    ```
+    
+
+## Usage
+
+```shell
+wandb artifact cache cleanup [OPTIONS] TARGET_SIZE
+```
+
+
+## Options
+
+### `remove_temp`
+
+Also remove temporary files from the cache.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--remove-temp` | False | BOOL |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact cache cleanup [OPTIONS] TARGET_SIZE
+
+  Reduce the local artifact cache size.
+
+  Remove less frequently used files until the cache is at or below the
+  `TARGET_SIZE`. `TARGET_SIZE` accepts human-readable formats (for example,
+  10GB or 500MB).
+
+  Examples:
+
+  Reduce the artifact cache to 10 GB
+
+  ```bash wandb artifact cache cleanup 10GB ```
+
+  Remove temporary files and reduce the artifact cache to 5 GB
+
+  ```bash wandb artifact cache cleanup --remove-temp 5GB ```
+
+Options:
+  --remove-temp / --no-remove-temp
+                                  Also remove temporary files from the cache.
+  --help                          Show this message and exit.
+```
+

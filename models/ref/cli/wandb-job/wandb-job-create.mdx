@@ -1,50 +1,172 @@
 ---
-title: "wandb job create"
+title: wandb job-create
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-job-create.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbJobCreate from "/snippets/en/_includes/cli/wandb-job-create.mdx";
-
-<WandbJobCreate/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Create a job from a source, without a wandb run.
 
-Jobs can be of three types, git, code, or image.
+    Jobs can be of three types, git, code, or image.
 
-git: A git source, with an entrypoint either in the path or provided explicitly pointing to the main python executable. code: A code path, containing a requirements.txt file. image: A docker image.
+    git: A git source, with an entrypoint either in the path or provided explicitly pointing to the main python executable.
+    code: A code path, containing a requirements.txt file.
+    image: A docker image.
+    
 
 ## Usage
 
-```bash
-wandb job create JOB_TYPE PATH [OPTIONS]
+```shell
+wandb job create [OPTIONS] {git|code|image} PATH
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `JOB_TYPE` | No description available | Yes |
-| `PATH` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project you want to list jobs from. |
-| `--entity`, `-e` | The entity the jobs belong to |
-| `--name`, `-n` | Name for the job |
-| `--description`, `-d` | Description for the job |
-| `--alias`, `-a` | Alias for the job |
-| `--entry-point`, `-E` | Entrypoint to the script, including an executable and an entrypoint file. Required for code or repo jobs. If --build-context is provided, paths in the entrypoint command will be relative to the build context. |
-| `--git-hash`, `-g` | Commit reference to use as the source for git jobs |
-| `--runtime`, `-r` | Python runtime to execute the job |
-| `--build-context`, `-b` | Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint. |
-| `--base-image`, `-B` | Base image to use for the job. Incompatible with image jobs. |
-| `--dockerfile`, `-D` | Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context. |
+### `project`
+
+The project you want to list jobs from.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+The entity the jobs belong to                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | None | STRING |
+
+### `name`
+
+Name for the job                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-n, --name` | None | STRING |
+
+### `description`
+
+Description for the job                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-d, --description` | None | STRING |
+
+### `aliases`
+
+Alias for the job                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-a, --alias` | () | STRING |
+
+### `entrypoint`
+
+Entrypoint to the script, including an executable and an entrypoint file. Required for code or repo jobs. If --build-context is provided, paths in the entrypoint command will be relative to the build context.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-E, --entry-point` | None | STRING |
+
+### `git_hash`
+
+Commit reference to use as the source for git jobs                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-g, --git-hash` | None | STRING |
+
+### `runtime`
+
+Python runtime to execute the job                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-r, --runtime` | None | STRING |
+
+### `build_context`
+
+Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-b, --build-context` | None | STRING |
+
+### `base_image`
+
+Base image to use for the job. Incompatible with image jobs.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-B, --base-image` | None | STRING |
+
+### `dockerfile`
+
+Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-D, --dockerfile` | None | STRING |
+
+### `services`
+
+Service configurations in format serviceName=policy. Valid policies: always, never                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-s, --service` | None | STRING |
+
+### `schema`
+
+Path to the schema file for the job.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--schema` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: job create [OPTIONS] {git|code|image} PATH
+
+  Create a job from a source, without a wandb run.
+
+  Jobs can be of three types, git, code, or image.
+
+  git: A git source, with an entrypoint either in the path or provided
+  explicitly pointing to the main python executable. code: A code path,
+  containing a requirements.txt file. image: A docker image.
+
+Options:
+  -p, --project TEXT        The project you want to list jobs from.
+  -e, --entity TEXT         The entity the jobs belong to
+  -n, --name TEXT           Name for the job
+  -d, --description TEXT    Description for the job
+  -a, --alias TEXT          Alias for the job
+  -E, --entry-point TEXT    Entrypoint to the script, including an executable
+                            and an entrypoint file. Required for code or repo
+                            jobs. If --build-context is provided, paths in the
+                            entrypoint command will be relative to the build
+                            context.
+  -g, --git-hash TEXT       Commit reference to use as the source for git jobs
+  -r, --runtime TEXT        Python runtime to execute the job
+  -b, --build-context TEXT  Path to the build context from the root of the job
+                            source code. If provided, this is used as the base
+                            path for the Dockerfile and entrypoint.
+  -B, --base-image TEXT     Base image to use for the job. Incompatible with
+                            image jobs.
+  -D, --dockerfile TEXT     Path to the Dockerfile for the job. If --build-
+                            context is provided, the Dockerfile path will be
+                            relative to the build context.
+  --help                    Show this message and exit.
+```
+

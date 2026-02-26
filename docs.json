@@ -575,13 +575,7 @@
                         "group": "wandb artifact",
                         "pages": [
                           "models/ref/cli/wandb-artifact",
-                          {
-                            "group": "artifact cache",
-                            "pages": [
-                              "models/ref/cli/wandb-artifact/wandb-artifact-cache",
-                              "models/ref/cli/wandb-artifact/wandb-artifact-cache/wandb-artifact-cache-cleanup"
-                            ]
-                          },
+                          "models/ref/cli/wandb-artifact/wandb-artifact-cache",
                           "models/ref/cli/wandb-artifact/wandb-artifact-get",
                           "models/ref/cli/wandb-artifact/wandb-artifact-ls",
                           "models/ref/cli/wandb-artifact/wandb-artifact-put"
@@ -610,13 +604,9 @@
                           "models/ref/cli/wandb-job/wandb-job-list"
                         ]
                       },
-                      "models/ref/cli/wandb-local",
                       "models/ref/cli/wandb-login",
-                      "models/ref/cli/wandb-off",
                       "models/ref/cli/wandb-offline",
-                      "models/ref/cli/wandb-on",
                       "models/ref/cli/wandb-online",
-                      "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
                       "models/ref/cli/wandb-restore",
                       {

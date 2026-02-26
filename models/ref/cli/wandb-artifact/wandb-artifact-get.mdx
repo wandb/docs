@@ -1,36 +1,91 @@
 ---
-title: "wandb artifact get"
+title: wandb artifact-get
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-get.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbArtifactGet from "/snippets/en/_includes/cli/wandb-artifact-get.mdx";
 
-<WandbArtifactGet/>
+Download an artifact from W&B by its path.
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+    The `PATH` format is `entity/project/artifact_name:version`. If
+    the version is omitted, use the `latest` alias.
 
-Download an artifact from wandb
+    Examples:
+
+    Download the latest version of an artifact called "processed-training-set"
+    from the "foobar-project" project under the "team-awesome" entity.
+
+    ```bash
+    wandb artifact get team-awesome/foobar-project/processed-training-set:latest
+    ```
+
+    Download a specific version (v2) of the "processed-training-set" artifact
+    to a local directory (./data).
+
+    ```bash
+    wandb artifact get --root ./data team-awesome/foobar-project/processed-training-set:v2
+    ```
+    
 
 ## Usage
 
-```bash
-wandb artifact get PATH [OPTIONS]
+```shell
+wandb artifact get [OPTIONS] PATH
 ```
 
-## Arguments
-
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `PATH` | No description available | Yes |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--root` | The directory you want to download the artifact to |
-| `--type` | The type of artifact you are downloading |
+### `root`
+
+Directory to download the artifact to. Uses the default artifact cache if not set.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--root` | None | STRING |
+
+### `type`
+
+Expected artifact type. Fails if the artifact does not match.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--type` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact get [OPTIONS] PATH
+
+  Download an artifact from W&B by its path.
+
+  The `PATH` format is `entity/project/artifact_name:version`. If the version
+  is omitted, use the `latest` alias.
+
+  Examples:
+
+  Download the latest version of an artifact called "processed-training-set"
+  from the "foobar-project" project under the "team-awesome" entity.
+
+  ```bash wandb artifact get team-awesome/foobar-project/processed-training-
+  set:latest ```
+
+  Download a specific version (v2) of the "processed-training-set" artifact to
+  a local directory (./data).
+
+  ```bash wandb artifact get --root ./data team-awesome/foobar-
+  project/processed-training-set:v2 ```
+
+Options:
+  --root TEXT  Directory to download the artifact to. Uses the default
+               artifact cache if not set.
+  --type TEXT  Expected artifact type. Fails if the artifact does not match.
+  --help       Show this message and exit.
+```
+

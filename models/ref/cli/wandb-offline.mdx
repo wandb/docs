@@ -1,25 +1,75 @@
 ---
-title: "wandb offline"
+title: wandb offline
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-offline.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbOffline from "/snippets/en/_includes/cli/wandb-offline.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbOffline/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3427" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Save data logged to W&B locally without uploading it to the cloud.
 
-Use `wandb online` or `wandb sync` to upload offline runs.
+    Use `wandb online` or `wandb sync` to upload offline runs.
+
+    Examples:
+
+    Run a script in offline mode to log data locally without syncing to the cloud
+
+    ```bash
+    wandb offline
+    python train.py  # Logs data locally, does not sync to W&B cloud
+    ```
+
+    Run a script in offline mode, then sync the run to the cloud when ready
+
+    ```bash
+    wandb offline
+    python train.py
+    wandb sync --sync-all  # Sync all offline runs to the cloud
+    ```
+
+    
 
 ## Usage
 
-```bash
-wandb offline
+```shell
+wandb offline [OPTIONS]
 ```
+
+
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: offline [OPTIONS]
+
+  Save data logged to W&B locally without uploading it to the cloud.
+
+  Use `wandb online` or `wandb sync` to upload offline runs.
+
+  Examples:
+
+  Run a script in offline mode to log data locally without syncing to the
+  cloud
+
+  ```bash wandb offline python train.py  # Logs data locally, does not sync to
+  W&B cloud ```
+
+  Run a script in offline mode, then sync the run to the cloud when ready
+
+  ```bash wandb offline python train.py wandb sync --sync-all  # Sync all
+  offline runs to the cloud ```
+
+Options:
+  --help  Show this message and exit.
+```
+
