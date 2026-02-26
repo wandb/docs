@@ -21,12 +21,68 @@ Weave supports ingestion of OpenTelemetry compatible trace data through a dedica
 
 Replace `<your-subdomain>` with your organization's unique W&B domain, e.g., `acme.wandb.io`.
 
-## Authentication
-Standard W&B authentication is used. You must have write permissions to the project where you're sending trace data.
+## Authentication and routing
 
-## Required Headers
-- `project_id: <your_entity>/<your_project_name>`
-- `Authorization=Basic <Base64 Encoding of api:$WANDB_API_KEY>`
+Pass your W&B API key in the `wandb-api-key` header, then specify the following keys as OpenTelemetry Resource attributes in your `TracerProvider` class:
+
+- `wandb.entity`: Your W&B team or user name.
+- `wandb.project`: The project name to send traces to.
+
+The following example shows how to configure authentication and project routing:
+
+<CodeGroup>
+```python Python lines {7,8}
+import os
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.resources import Resource
+
+WANDB_BASE_URL = "https://trace.wandb.ai"
+ENTITY = "<your-team-name>"
+PROJECT = "<your-project-name>"
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+# Create an API key at https://wandb.ai/settings
+WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers={"wandb-api-key": WANDB_API_KEY},
+)
+
+tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+}))
+```
+```typescript TypeScript lines
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { Resource } from "@opentelemetry/resources";
+
+const WANDB_BASE_URL = "https://trace.wandb.ai";
+const ENTITY = "<your-team-name>";
+const PROJECT = "<your-project-name>";
+
+const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+// Create an API key at https://wandb.ai/settings
+const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+const exporter = new OTLPTraceExporter({
+  url: OTEL_EXPORTER_OTLP_ENDPOINT,
+  headers: { "wandb-api-key": WANDB_API_KEY },
+});
+
+const provider = new NodeTracerProvider({
+  resource: new Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+  }),
+});
+```
+</CodeGroup>
 
 ## Examples
 
@@ -56,7 +112,7 @@ pip install openai openinference-instrumentation-openai opentelemetry-exporter-o
 <Tab title="TypeScript">
 
 ```bash
-npm install openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-proto @arizeai/openinference-instrumentation-openai @opentelemetry/api
+npm install openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/resources @opentelemetry/exporter-trace-otlp-proto @arizeai/openinference-instrumentation-openai @opentelemetry/api
 ```
 
 </Tab>
@@ -72,37 +128,33 @@ npm install openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @
 Paste the following code into a Python file such as `openinference_example.py`:
 
 ```python lines
-import base64
+import os
 import openai
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 from openinference.instrumentation.openai import OpenAIInstrumentor
 
-OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
+OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
 WANDB_BASE_URL = "https://trace.wandb.ai"
-PROJECT_ID = "<your-entity>/<your-project>"
+ENTITY = "<your-team-name>"
+PROJECT = "<your-project-name>"
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
-WANDB_API_KEY = "<your-wandb-api-key>"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-OTEL_EXPORTER_OTLP_HEADERS = {
-    "Authorization": f"Basic {AUTH}",
-    "project_id": PROJECT_ID,
-}
-
-tracer_provider = trace_sdk.TracerProvider()
-
-# Configure the OTLP exporter
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
-    headers=OTEL_EXPORTER_OTLP_HEADERS,
+    headers={"wandb-api-key": WANDB_API_KEY},
 )
 
-# Add the exporter to the tracer provider
+tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+}))
 tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console.
@@ -143,37 +195,35 @@ The TypeScript implementation of this example contains the following key differe
 
 Paste the following code into a TypeScript file such as `openinference_example.ts`:
 
-```typescript lines
+```typescript lines {11,12}
 // IMPORTANT: Import OpenAI FIRST so instrumentation can patch it
 import OpenAI from "openai";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { OpenAIInstrumentation, isPatched } from "@arizeai/openinference-instrumentation-openai";
-import { trace } from "@opentelemetry/api";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const WANDB_BASE_URL = "https://trace.wandb.ai";
-const PROJECT_ID = "dans-test-team/otel-test-python";
+const ENTITY = "<your-team-name>";
+const PROJECT = "<your-project-name>";
 
 const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
-const AUTH = Buffer.from(`api:${WANDB_API_KEY}`).toString("base64");
 
-const OTEL_EXPORTER_OTLP_HEADERS = {
-  Authorization: `Basic ${AUTH}`,
-  project_id: PROJECT_ID,
-};
-
-// Configure the OTLP exporter
 const exporter = new OTLPTraceExporter({
   url: OTEL_EXPORTER_OTLP_ENDPOINT,
-  headers: OTEL_EXPORTER_OTLP_HEADERS,
+  headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
 const provider = new NodeTracerProvider({
+  resource: resourceFromAttributes({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+  }),
   spanProcessors: [
     new BatchSpanProcessor(exporter)
   ],
@@ -190,10 +240,9 @@ openAIInstrumentation.manuallyInstrument(OpenAI);
 
 async function main() {
   console.log("OpenAI is patched?", isPatched());
-  
+
   const client = new OpenAI({ apiKey: OPENAI_API_KEY });
-  
-  // Using non-streaming first to test instrumentation
+
   console.log("Making OpenAI API call...");
   const response = await client.chat.completions.create({
     model: "gpt-3.5-turbo",
@@ -243,7 +292,7 @@ pip install openai opentelemetry-instrumentation-openai opentelemetry-exporter-o
 <Tab title="TypeScript">
 
 ```bash
-npm install openai @traceloop/instrumentation-openai @opentelemetry/sdk-trace-node @opentelemetry/exporter-trace-otlp-http
+npm install openai @traceloop/instrumentation-openai @opentelemetry/sdk-trace-node @opentelemetry/resources @opentelemetry/exporter-trace-otlp-http
 ```
 
 </Tab>
@@ -255,37 +304,33 @@ npm install openai @traceloop/instrumentation-openai @opentelemetry/sdk-trace-no
 Paste the following code into a Python file such as `openllmetry_example.py`. Note that this is the same code as above, except the `OpenAIInstrumentor` is imported from `opentelemetry.instrumentation.openai` instead of `openinference.instrumentation.openai`:
 
 ```python lines
-import base64
+import os
 import openai
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 from opentelemetry.instrumentation.openai import OpenAIInstrumentor
 
-OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
+OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
 WANDB_BASE_URL = "https://trace.wandb.ai"
-PROJECT_ID = "<your-entity>/<your-project>"
+ENTITY = "<your-team-name>"
+PROJECT = "<your-project-name>"
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
-WANDB_API_KEY = "<your-wandb-api-key>"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-OTEL_EXPORTER_OTLP_HEADERS = {
-    "Authorization": f"Basic {AUTH}",
-    "project_id": PROJECT_ID,
-}
-
-tracer_provider = trace_sdk.TracerProvider()
-
-# Configure the OTLP exporter
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
-    headers=OTEL_EXPORTER_OTLP_HEADERS,
+    headers={"wandb-api-key": WANDB_API_KEY},
 )
 
-# Add the exporter to the tracer provider
+tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+}))
 tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console.
@@ -326,31 +371,30 @@ import OpenAI from "openai";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { Resource } from "@opentelemetry/resources";
 import { OpenAIInstrumentation } from "@traceloop/instrumentation-openai";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const WANDB_BASE_URL = "https://trace.wandb.ai";
-const PROJECT_ID = "dans-test-team/otel-test-python";
+const ENTITY = "<your-team-name>";
+const PROJECT = "<your-project-name>";
 
 const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
 const WANDB_API_KEY = process.env.WANDB_API_KEY!;
-const AUTH = Buffer.from(`api:${WANDB_API_KEY}`).toString("base64");
 
-const OTEL_EXPORTER_OTLP_HEADERS = {
-  Authorization: `Basic ${AUTH}`,
-  project_id: PROJECT_ID,
-};
-
-// Configure the OTLP exporter
 const exporter = new OTLPTraceExporter({
   url: OTEL_EXPORTER_OTLP_ENDPOINT,
-  headers: OTEL_EXPORTER_OTLP_HEADERS,
+  headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
 const provider = new NodeTracerProvider({
+  resource: new Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+  }),
   spanProcessors: [
     new BatchSpanProcessor(exporter),
     // Optionally, print the spans to the console.
@@ -424,7 +468,7 @@ pip install openai opentelemetry-sdk opentelemetry-api opentelemetry-exporter-ot
 <Tab title="TypeScript">
 
 ```bash
-npm install openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/exporter-trace-otlp-http
+npm install openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/resources @opentelemetry/exporter-trace-otlp-http
 ```
 
 </Tab>
@@ -437,55 +481,51 @@ Paste the following code into a Python file such as `opentelemetry_example.py`:
 
 ```python lines
 import json
-import base64
+import os
 import openai
 from opentelemetry import trace
 from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.resources import Resource
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 
 OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
 WANDB_BASE_URL = "https://trace.wandb.ai"
-PROJECT_ID = "<your-entity>/<your-project>"
+ENTITY = "<your-team-name>"
+PROJECT = "<your-project-name>"
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 
 # Create an API key at https://wandb.ai/settings
-WANDB_API_KEY = "<your-wandb-api-key>"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
-
-OTEL_EXPORTER_OTLP_HEADERS = {
-    "Authorization": f"Basic {AUTH}",
-    "project_id": PROJECT_ID,
-}
-
-tracer_provider = trace_sdk.TracerProvider()
+WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
 # Configure the OTLP exporter
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
-    headers=OTEL_EXPORTER_OTLP_HEADERS,
+    headers={"wandb-api-key": WANDB_API_KEY},
 )
 
-# Add the exporter to the tracer provider
+tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+}))
 tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console.
 tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
+# Set the tracer provider
 trace.set_tracer_provider(tracer_provider)
-# Creates a tracer from the global tracer provider
+
+# Create a tracer from the global tracer provider
 tracer = trace.get_tracer(__name__)
-tracer.start_span('name=standard-span')
 
 def my_function():
     with tracer.start_as_current_span("outer_span") as outer_span:
         client = openai.OpenAI()
-        input_messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}]
-        # This will only appear in the side panel
+        input_messages = [{"role": "user", "content": "Describe OTEL in a single sentence."}]
         outer_span.set_attribute("input.value", json.dumps(input_messages))
-        # This follows conventions and will appear in the dashboard
-        outer_span.set_attribute("gen_ai.system", 'openai')
+        outer_span.set_attribute("gen_ai.system", "openai")
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=input_messages,
@@ -497,7 +537,6 @@ def my_function():
         for chunk in response:
             if chunk.choices and (content := chunk.choices[0].delta.content):
                 out += content
-        # This will only appear in the side panel
         outer_span.set_attribute("output.value", json.dumps({"content": out}))
 
 if __name__ == "__main__":
@@ -521,35 +560,34 @@ import { trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { Resource } from "@opentelemetry/resources";
 
 const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY";
 const WANDB_BASE_URL = "https://trace.wandb.ai";
-const PROJECT_ID = "<your-entity>/<your-project>";
+const ENTITY = "<your-team-name>";
+const PROJECT = "<your-project-name>";
 
 const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
 
 // Create an API key at https://wandb.ai/settings
-const WANDB_API_KEY = "<your-wandb-api-key>";
-const AUTH = Buffer.from(`api:${WANDB_API_KEY}`).toString("base64");
+const WANDB_API_KEY = process.env.WANDB_API_KEY!;
 
-const OTEL_EXPORTER_OTLP_HEADERS = {
-  Authorization: `Basic ${AUTH}`,
-  project_id: PROJECT_ID,
-};
-
-const provider = new NodeTracerProvider();
-
-// Configure the OTLP exporter
 const exporter = new OTLPTraceExporter({
   url: OTEL_EXPORTER_OTLP_ENDPOINT,
-  headers: OTEL_EXPORTER_OTLP_HEADERS,
+  headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
-// Add the exporter to the tracer provider
-provider.addSpanProcessor(new BatchSpanProcessor(exporter));
-
-// Optionally, print the spans to the console.
-provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
+const provider = new NodeTracerProvider({
+  resource: new Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+  }),
+  spanProcessors: [
+    new BatchSpanProcessor(exporter),
+    // Optionally, print the spans to the console.
+    new BatchSpanProcessor(new ConsoleSpanExporter()),
+  ],
+});
 
 provider.register();
 
@@ -567,6 +605,7 @@ async function myFunction() {
 
     // This will only appear in the side panel
     span.setAttribute("input.value", JSON.stringify(inputMessages));
+    
     // This follows conventions and will appear in the dashboard
     span.setAttribute("gen_ai.system", "openai");
 
@@ -583,7 +622,7 @@ async function myFunction() {
       if (content) {
         output += content;
       }
-    }
+      }
 
     // This will only appear in the side panel
     span.setAttribute("output.value", JSON.stringify({ content: output }));
@@ -606,6 +645,168 @@ npx ts-node opentelemetry_example.ts
 
 The span attribute prefixes `gen_ai` and `openinference` are used to determine which convention to use, if any, when interpreting the trace. If neither key is detected, then all span attributes are visible in the trace view. The full span is available in the side panel when you select a trace.
 
+## Use an OpenTelemetry Collector
+
+The examples above export traces directly from your application to Weave. In production, you can use an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as an intermediary between your application and Weave. The collector receives traces from your app, then forwards them to one or more backends.
+
+### Set up a collector
+
+The following example shows how to:
+- Set up a Docker configuration file that deploys a local server (collector) that listens for OTLP traces, batches them, and forwards them to Weave.
+- Locally run the collector using Docker.
+- Send a basic call to OpenAI that forwards traces to the collector running in the Docker container.
+
+To use a collector, first create a `collector-config.yaml` file that configures the collector to receive OTLP traces and export them to Weave:
+
+```yaml lines {23,26} collector-config.yaml title="collector-config.yaml" 
+extensions:
+  basicauth/weave:
+    client_auth:
+      username: "api"
+      password: "${env:WANDB_API_KEY}"
+
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: "0.0.0.0:4318"
+      grpc:
+        endpoint: "0.0.0.0:4317"
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+
+  resource:
+    attributes:
+      - key: wandb.entity
+        value: "<your-team-name>"
+        action: upsert
+      - key: wandb.project
+        value: "<your-project-name>"
+        action: upsert
+
+exporters:
+  otlphttp/weave:
+    endpoint: "https://trace.wandb.ai/otel"
+    auth:
+      authenticator: basicauth/weave
+    headers:
+      project_id: "<your-team-name>/<your-project-name>"
+
+service:
+  extensions: [basicauth/weave]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, resource]
+      exporters: [otlphttp/weave]
+```
+
+This configuration file:
+
+- Adds authentication to the collector using the `basicauth` extension. This allows the collector to authenticate with Weave using your W&B API key.
+- Sets up the container to listens for OTLP traces on ports `4318` (HTTP) and `4317` (gRPC).
+- Batches spans before exporting them to reduce network overhead.
+- Sets `wandb.entity` and `wandb.project` as resource attributes using the `resource` processor, so your application code does not need to specify them.
+- Exports traces to Weave's OTLP endpoint with the `wandb-api-key` header, reading the API key from the `WANDB_API_KEY` environment variable.
+
+After configuring the collector's settings, run it using Docker:
+
+```bash
+docker run \
+  -e WANDB_API_KEY \
+  -p 4317:4317 \
+  -p 4318:4318 \
+  -v $(pwd)/collector-config.yaml:/etc/otelcol-contrib/config.yaml \
+  otel/opentelemetry-collector-contrib:latest
+```
+
+Once the collector is running, send the following request to OpenAI:
+
+<CodeGroup>
+```python Python lines
+import os
+import openai
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from openinference.instrumentation.openai import OpenAIInstrumentor
+
+OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+
+exporter = OTLPSpanExporter(
+    endpoint="http://localhost:4318/v1/traces",
+)
+
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+def main():
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}],
+        max_tokens=20,
+    )
+    print(response.choices[0].message.content)
+
+if __name__ == "__main__":
+    main()
+```
+```typescript TypeScript lines {}
+import OpenAI from "openai";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { OpenAIInstrumentation, isPatched } from "@arizeai/openinference-instrumentation-openai";
+
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+const exporter = new OTLPTraceExporter({
+  url: "http://localhost:4318/v1/traces",
+});
+
+const provider = new NodeTracerProvider({
+  spanProcessors: [new BatchSpanProcessor(exporter)],
+});
+
+provider.register();
+
+const openAIInstrumentation = new OpenAIInstrumentation();
+openAIInstrumentation.setTracerProvider(provider);
+openAIInstrumentation.manuallyInstrument(OpenAI);
+
+async function main() {
+  console.log("OpenAI is patched?", isPatched());
+
+  const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+  const response = await client.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: "Describe OTEL in a single sentence." }],
+    max_tokens: 20,
+  });
+
+  console.log("Response:", response.choices[0]?.message?.content);
+}
+
+(async () => {
+  await main();
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  await provider.shutdown();
+})();
+```
+</CodeGroup>
+
+The script uses `OpenAIInstrumentor` to automatically wrap OpenAI calls, create traces, and export them to the collector (`localhost`). The collector handles authentication and routing to Weave.
+
+After running the script, you can [view the traces](/weave/guides/tracking/trace-tree) in the Weave UI.
+
+To send traces to additional backends, add more exporters and include them in the `service.pipelines.traces.exporters` list. For example, you can export to both Weave and Jaeger from the same Collector instance.
+
 ## Organize OTEL traces into threads
 
 Add specific span attributes to organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads), then use Weave's Thread UI to analyze related operations like multi-turn conversations or user sessions in Weave's thread UI.
@@ -626,47 +827,38 @@ Use this configuration to run these examples:
 <Tab title="Python">
 
 ```python lines
-import base64
 import json
 import os
 from opentelemetry import trace
 from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.resources import Resource
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
 
 # Configuration
-ENTITY = "YOUR_ENTITY"
-PROJECT = "YOUR_PROJECT"
-PROJECT_ID = f"{ENTITY}/{PROJECT}"
+ENTITY = "<your-team-name>"
+PROJECT = "<your-project-name>"
 WANDB_API_KEY = os.environ["WANDB_API_KEY"]
 
-# Set up OTLP endpoint and headers
-OTEL_EXPORTER_OTLP_ENDPOINT="https://trace.wandb.ai/otel/v1/traces"
-AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
-OTEL_EXPORTER_OTLP_HEADERS = {
-    "Authorization": f"Basic {AUTH}",
-    "project_id": PROJECT_ID,
-}
+OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
 
-# Initialize tracer provider
-tracer_provider = trace_sdk.TracerProvider()
-
-# Configure the OTLP exporter
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
-    headers=OTEL_EXPORTER_OTLP_HEADERS,
+    headers={"wandb-api-key": WANDB_API_KEY},
 )
 
-# Add the exporter to the tracer provider
+tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+}))
 tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
 # Optionally, print the spans to the console
 tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
-# Set the tracer provider
 trace.set_tracer_provider(tracer_provider)
 
-# Create a tracer from the global tracer provider
+# Creates a tracer from the global tracer provider
 tracer = trace.get_tracer(__name__)
 ```
 
@@ -681,12 +873,11 @@ import {
   ConsoleSpanExporter,
 } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { Resource } from "@opentelemetry/resources";
 
-
-// Configuration - Update these values to your own W&B entity and project name
-const ENTITY = "dans-test-team";
-const PROJECT = "otel-test-typescript";
-const PROJECT_ID = `${ENTITY}/${PROJECT}`;
+// Configuration
+const ENTITY = "<your-team-name>";
+const PROJECT = "<your-project-name>";
 const WANDB_API_KEY = process.env.WANDB_API_KEY;
 
 if (!WANDB_API_KEY) {
@@ -697,20 +888,18 @@ if (!WANDB_API_KEY) {
 
 // OTEL Setup
 const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
-const AUTH = Buffer.from(`api:${WANDB_API_KEY}`).toString("base64");
-const OTEL_EXPORTER_OTLP_HEADERS = {
-  Authorization: `Basic ${AUTH}`,
-  project_id: PROJECT_ID,
-};
 
-// Configure the OTLP exporter
 const exporter = new OTLPTraceExporter({
   url: OTEL_EXPORTER_OTLP_ENDPOINT,
-  headers: OTEL_EXPORTER_OTLP_HEADERS,
+  headers: { "wandb-api-key": WANDB_API_KEY },
 });
 
 // Initialize tracer provider with span processors
 const provider = new NodeTracerProvider({
+  resource: new Resource({
+    "wandb.entity": ENTITY,
+    "wandb.project": PROJECT,
+  }),
   spanProcessors: [
     new BatchSpanProcessor(exporter),
     new BatchSpanProcessor(new ConsoleSpanExporter()),
