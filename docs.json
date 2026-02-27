@@ -671,8 +671,7 @@
                     ]
                   }
                 ]
-              },
-              "models/support"
+              }
             ]
           },
           {
@@ -1917,8 +1916,7 @@
                     ]
                   }
                 ]
-              },
-              "ja/models/support"
+              }
             ]
           },
           {
@@ -3105,8 +3103,7 @@
                     ]
                   }
                 ]
-              },
-              "ko/models/support"
+              }
             ]
           },
           {
@@ -3703,7 +3700,7 @@
     },
     {
       "source": "/guides/reports/reports-faq/",
-      "destination": "/models/support/"
+      "destination": "/support/index"
     },
     {
       "source": "/guides/runs/:slug*",
@@ -3723,7 +3720,7 @@
     },
     {
       "source": "/guides/sweeps/faq/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/guides/tables/:slug*",
@@ -3731,23 +3728,23 @@
     },
     {
       "source": "/guides/technical-faq/admin/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/guides/technical-faq/general/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/guides/technical-faq/metrics-and-performance/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/guides/technical-faq/setup/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/guides/technical-faq/troubleshooting/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/guides/track/:slug*",
@@ -3891,7 +3888,7 @@
     },
     {
       "source": "models/support/rotate_revoke_access",
-      "destination": "/models/support/find_api_key"
+      "destination": "/support/models/articles/how-do-i-find-my-api-key"
     },
     {
       "source": "/models/evaluate-models",
@@ -3994,12 +3991,8 @@
       "destination": "/platform/hosting/hosting-options/self-managed"
     },
     {
-      "source": "/support/*",
-      "destination": "/models/support"
-    },
-    {
       "source": "/sweeps/faq/",
-      "destination": "/models/support/"
+      "destination": "/support/"
     },
     {
       "source": "/tutorials/:slug*",
