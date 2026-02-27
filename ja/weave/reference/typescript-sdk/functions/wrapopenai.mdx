@@ -1,0 +1,40 @@
+---
+title: wrapOpenAI
+description: TypeScript SDK リファレンス
+---
+
+# wrapOpenAI
+
+▸ **wrapOpenAI**\<`T`\>(`openai`): `T`
+
+OpenAI API をラップし、OpenAI 呼び出しの関数トレーシングを有効にします。
+
+#### 型パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | `OpenAIAPI` を継承 |
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `openai` | `T` |
+
+#### 戻り値
+
+`T`
+
+`Example`
+
+```ts
+const openai = wrapOpenAI(new OpenAI());
+const result = await openai.chat.completions.create({
+  model: 'gpt-3.5-turbo',
+  messages: [{ role: 'user', content: 'Hello, world!' }]
+});
+```
+
+#### 定義箇所
+
+[integrations/openai.ts:469](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/integrations/openai.ts#L469)

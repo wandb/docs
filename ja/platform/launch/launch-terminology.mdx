@@ -1,0 +1,53 @@
+---
+title: Launch の用語と概念
+---
+
+W&B Launch を使用すると、 [jobs](#launch-job) を [queues](#launch-queue) にエンキューして run を作成できます。 Jobs は W&B が組み込まれた Python スクリプトです。 Queues は [target resource](#target-resources) 上で実行される jobs のリストを保持します。 [Agents](#launch-agent) は queues から jobs を取得し、 target resources 上で実行します。 W&B は、 [runs](/models/runs/) を追跡するのと同様に、 Launch jobs を追跡します。
+
+### Launch job
+Launch job は、完了すべきタスクを表す特定のタイプの [W&B Artifact](/models/artifacts/) です。 例えば、一般的な Launch jobs には、モデルのトレーニングやモデルの評価（ model evaluation ）のトリガーなどがあります。 Job の定義には以下が含まれます：
+
+- Python コードおよびその他のファイルアセット（少なくとも1つの実行可能なエントリポイントを含む）。
+- 入力（設定（ configuration ）パラメータ）および出力（ログ記録されたメトリクス）に関する情報。
+- 環境に関する情報（例： `requirements.txt` 、ベースの `Dockerfile` ）。
+
+Job の定義には主に3つの種類があります：
+
+| Job タイプ | 定義 | この job タイプの実行方法 | 
+| ---------- | --------- | -------------- |
+| Artifact ベース（またはコードベース）の jobs | コードとその他のアセットが W&B Artifact として保存されます。 | Artifact ベースの jobs を実行するには、 Launch agent にビルダーが設定されている必要があります。 |
+| Git ベースの jobs | コードとその他のアセットが Git リポジトリの特定のコミット、ブランチ、またはタグからクローンされます。 | Git ベースの jobs を実行するには、 Launch agent にビルダーと Git リポジトリの認証情報が設定されている必要があります。 |
+| イメージベースの jobs | コードとその他のアセットが Docker イメージに組み込まれています。 | イメージベースの jobs を実行するには、 Launch agent にイメージリポジトリの認証情報の設定が必要な場合があります。 | 
+
+<Note>
+Launch jobs は、モデルを Triton 推論サーバーにデプロイするなど、モデルトレーニングに関連しないアクティビティを実行することもできますが、すべての jobs は正常に完了するために `wandb.init` を呼び出す必要があります。 これにより、 W&B Workspace 内で追跡用の run が作成されます。
+</Note>
+
+作成した jobs は、 W&B App のプロジェクト Workspace にある `Jobs` タブで確認できます。 そこから jobs を設定し、 [launch queue](#launch-queue) に送信して、さまざまな [target resources](#target-resources) で実行できます。
+
+### Launch queue
+Launch *queues* は、特定の target resource で実行される jobs の順序付きリストです。 Launch queues は先入れ先出し（ FIFO ）方式です。 作成できる queues の数に実質的な制限はありませんが、1つの target resource につき1つの queue を作成するのが良い目安です。 Jobs は、 W&B App UI、 W&B CLI、または Python SDK を使用してエンキューできます。 その後、1つ以上の Launch agents を設定して queue からアイテムを取得し、その queue の target resource で実行することができます。
+
+### Target resources
+Launch queue が jobs を実行するように設定されている計算環境を *target resource* と呼びます。
+
+W&B Launch は以下の target resources をサポートしています：
+
+- [Docker](/platform/launch/setup-launch-docker/)
+- [Kubernetes](/platform/launch/setup-launch-kubernetes/)
+- [AWS SageMaker](/platform/launch/setup-launch-sagemaker/)
+- [Google Cloud Vertex AI](/platform/launch/setup-vertex/)
+
+各 target resource は、 *resource configurations* と呼ばれる異なる設定パラメータセットを受け取ります。 Resource configurations は各 Launch queue で定義されたデフォルト値を取りますが、各 job によって個別に上書きすることも可能です。 詳細については、各 target resource のドキュメントを参照してください。
+
+### Launch agent
+Launch agents は、 Launch queues を定期的にチェックして実行すべき jobs がないかを確認する、軽量で常駐型のプログラムです。 Launch agent は job を受け取ると、まず job の定義からイメージをビルドまたはプルし、それを target resource 上で実行します。
+
+1つのエージェントで複数の queues をポーリングできますが、そのエージェントはポーリングしている各 queue の基盤となるすべての target resources をサポートするように適切に設定されている必要があります。
+
+### Launch agent environment
+Agent 環境（ environment ）とは、 Launch agent が動作し、 jobs をポーリングしている環境のことです。
+
+<Note>
+エージェントの実行環境は、 queue の target resource とは独立しています。 つまり、必要な target resources にアクセスするための設定が十分になされていれば、エージェントはどこにでもデプロイできます。
+</Note>

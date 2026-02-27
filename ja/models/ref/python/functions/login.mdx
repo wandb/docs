@@ -1,0 +1,61 @@
+---
+title: ' start_thought
+
+  login()'
+namespace: python_sdk_actions
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py" />
+
+### <kbd>function</kbd> `login`
+
+```python
+login(
+    key: 'str | None' = None,
+    relogin: 'bool | None' = None,
+    host: 'str | None' = None,
+    force: 'bool | None' = None,
+    timeout: 'int | None' = None,
+    verify: 'bool' = False,
+    referrer: 'str | None' = None,
+    anonymous: 'DoNotSet' = <object object at 0x100745f80>
+) → bool
+```
+
+W&B にログインします。
+
+認証を必要とするほとんどの W&B メソッドは暗黙的にログインを実行できるため、通常このメソッドを直接使用する必要はありません。これは CLI の `wandb login` に対応するプログラム用のメソッドです。
+
+このメソッドはセッションのグローバルな認証情報を更新し（この呼び出し以降、現在の Python プロセス内のすべての wandb の使用に影響します）、必要に応じて .netrc ファイルも更新します。
+
+`WANDB_IDENTITY_TOKEN_FILE` 環境変数などを通じて `identity_token_file` 設定が指定されている場合、このメソッドは何もしません。
+
+それ以外の場合で、明示的な APIキー が提供されたときは、そのキーが使用され、システムの .netrc ファイルに書き込まれます。キーが提供されず、すでにセッションが認証済みである場合は、そのセッションのキーが検証に使用され（`verify` が True の場合）、.netrc ファイルは更新されません。
+
+上記のいずれにも当てはまらない場合、以下の優先順位で APIキー を取得します：
+
+- `WANDB_API_KEY` 環境変数
+- システムまたは Workspace 設定ファイルの `api_key` 設定
+- .netrc ファイル（`~/.netrc`、`~/_netrc`、または `NETRC` 環境変数で指定されたパス）
+- インタラクティブなプロンプト（利用可能な場合）
+
+**Args:**
+
+- `key`: 使用する APIキー。
+- `relogin`: True の場合、.netrc や 環境変数などの読み取りをスキップし、インタラクティブなプロンプトから APIキー を取得します。
+- `host`: 接続する W&B サーバー の URL。
+- `force`: True の場合、インタラクティブなプロンプトでオフラインモードを選択できないようにします。
+- `timeout`: インタラクティブなプロンプトでユーザーの入力を待機する秒数。非インタラクティブな 環境 で誤ってプロンプトが表示された場合のフェイルセーフとして使用できます。
+- `verify`: W&B サーバー で認証情報を検証し、失敗した場合は `AuthenticationError` を発生させます。
+- `referrer`: 分析用の URL ログインリクエストで使用するリファラー。
+
+**Returns:**
+
+- `bool`: `key` が設定されているかどうか。
+
+**Raises:**
+
+- `AuthenticationError`: `api_key` の サーバー での検証に失敗した場合。
+- `UsageError`: `api_key` が設定できず、かつ tty が利用できない場合。

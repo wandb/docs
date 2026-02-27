@@ -22,7 +22,7 @@ To run certain benchmarks, a team admin must add the required API keys as [team-
 
 Evaluate factual knowledge across various domains like science, language, and general reasoning.
 
-| Evaluation | Task ID | OpenAI Model Scorer | Gated Hugging Face Dataset | Description |
+| Evaluation | Task ID | <div className='!w-[100px]'>OpenAI Scorer</div> | Gated Hugging Face Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
 | [BoolQ](https://github.com/google-research-datasets/boolean-questions) | `boolq` | | | Boolean yes/no questions from natural language queries |
 | [GPQA Diamond](https://arxiv.org/abs/2311.12022) | `gpqa_diamond` | | | Graduate-level science questions (highest quality subset) |
@@ -35,10 +35,10 @@ Evaluate factual knowledge across various domains like science, language, and ge
 | [MMLU-Pro](https://arxiv.org/abs/2406.01574) | `mmlu_pro` | | | More challenging version of MMLU |
 | [ONET M6](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/onet) | `onet_m6` | | | Occupational knowledge benchmark |
 | [PAWS](https://github.com/google-research-datasets/paws) | `paws` | | | Paraphrase adversarial word substitution |
-| [SevenLLM MCQ (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_en` | | | Multiple choice questions in English |
-| [SevenLLM MCQ (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_mcq_zh` | | | Multiple choice questions in Chinese |
-| [SevenLLM QA (English)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_en` | | | Question answering in English |
-| [SevenLLM QA (Chinese)](https://github.com/wangclnlp/SevenLLM-Benchmark) | `sevenllm_qa_zh` | | | Question answering in Chinese |
+| [SevenLLM MCQ (English)](https://arxiv.org/abs/2405.03446) | `sevenllm_mcq_en` | | | Multiple choice questions in English |
+| [SevenLLM MCQ (Chinese)](https://arxiv.org/abs/2405.03446) | `sevenllm_mcq_zh` | | | Multiple choice questions in Chinese |
+| [SevenLLM QA (English)](https://arxiv.org/abs/2405.03446) | `sevenllm_qa_en` | | | Question answering in English |
+| [SevenLLM QA (Chinese)](https://arxiv.org/abs/2405.03446) | `sevenllm_qa_zh` | | | Question answering in Chinese |
 | [SimpleQA](https://openai.com/index/introducing-simpleqa/) | `simpleqa` | Yes | | Straightforward factual question answering |
 | [SimpleQA Verified](https://openai.com/index/introducing-simpleqa/) | `simpleqa_verified` | | | Verified subset of SimpleQA with validated answers |
 | [WorldSense](https://github.com/facebookresearch/worldsense) | `worldsense` | | | Evaluates understanding of world knowledge and common sense |
@@ -53,11 +53,11 @@ Evaluate logical thinking, problem-solving, and common-sense reasoning capabilit
 | [AGIE LogiQA (English)](https://arxiv.org/abs/2007.08124) | `agie_logiqa_en` | | | Logical reasoning questions in English |
 | [AGIE LSAT Analytical Reasoning](https://www.lsac.org/) | `agie_lsat_ar` | | | LSAT analytical reasoning (logic games) problems |
 | [AGIE LSAT Logical Reasoning](https://www.lsac.org/) | `agie_lsat_lr` | | | LSAT logical reasoning questions |
-| [ARC Challenge](https://allenai.org/data/arc) | `arc_challenge` | | | Challenging science questions requiring reasoning (AI2 Reasoning Challenge) |
-| [ARC Easy](https://allenai.org/data/arc) | `arc_easy` | | | Easier set of science questions from the ARC dataset |
+| [ARC Challenge](https://huggingface.co/datasets/allenai/ai2_arc) | `arc_challenge` | | | Challenging science questions requiring reasoning (AI2 Reasoning Challenge) |
+| [ARC Easy](https://huggingface.co/datasets/allenai/ai2_arc) | `arc_easy` | | | Easier set of science questions from the ARC dataset |
 | [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard) | `bbh` | | | BIG-Bench Hard: challenging tasks from BIG-Bench |
 | [CoCoNot](https://arxiv.org/abs/2310.03697) | `coconot` | | | Counterfactual commonsense reasoning benchmark |
-| [CommonsenseQA](https://www.tau-nlp.sites.tau.ac.il/commonsenseqa) | `commonsense_qa` | | | Commonsense reasoning questions |
+| [CommonsenseQA](https://huggingface.co/datasets/tau/commonsense_qa) | `commonsense_qa` | | | Commonsense reasoning questions |
 | [HellaSwag](https://arxiv.org/abs/1905.07830) | `hellaswag` | | | Commonsense natural language inference |
 | [MUSR](https://arxiv.org/abs/2310.16049) | `musr` | | | Multi-step reasoning benchmark |
 | [PIQA](https://yonatanbisk.com/piqa/) | `piqa` | | | Physical commonsense reasoning |
@@ -70,7 +70,7 @@ Evaluate mathematical problem-solving at various difficulty levels, from grade s
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
 | [AGIE Math](https://arxiv.org/abs/2410.12211) | `agie_math` | | | Advanced mathematical reasoning from AGIE benchmark suite |
-| [AGIE SAT Math](https://collegereadiness.collegeboard.org/sat) | `agie_sat_math` | | | SAT mathematics questions |
+| [AGIE SAT Math](https://satsuite.collegeboard.org/sat) | `agie_sat_math` | | | SAT mathematics questions |
 | [AIME 2024](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2024` | | | American Invitational Mathematics Examination problems from 2024 |
 | [AIME 2025](https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions) | `aime2025` | | | American Invitational Mathematics Examination problems from 2025 |
 | [GSM8K](https://github.com/openai/grade-school-math) | `gsm8k` | | | Grade School Math 8K: multi-step math word problems |
@@ -96,9 +96,9 @@ Evaluate reading comprehension and information extraction from complex texts.
 | Evaluation | Task ID | OpenAI Scorer | Gated HF Dataset | Description |
 |------------|---------|---------------|------------------|-------------|
 | [AGIE LSAT Reading Comprehension](https://www.lsac.org/) | `agie_lsat_rc` | | | LSAT reading comprehension passages and questions |
-| [AGIE SAT English](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en` | | | SAT reading and writing questions with passages |
-| [AGIE SAT English (No Passage)](https://collegereadiness.collegeboard.org/sat) | `agie_sat_en_without_passage` | | | SAT English questions without accompanying passages |
-| [DROP](https://allenai.org/data/drop) | `drop` | | | Discrete Reasoning Over Paragraphs: reading comprehension requiring numerical reasoning |
+| [AGIE SAT English](https://satsuite.collegeboard.org/sat) | `agie_sat_en` | | | SAT reading and writing questions with passages |
+| [AGIE SAT English (No Passage)](https://satsuite.collegeboard.org/sat) | `agie_sat_en_without_passage` | | | SAT English questions without accompanying passages |
+| [DROP](https://github.com/allenai/allennlp-reading-comprehension/blob/master/allennlp_rc/eval/drop_eval.py) | `drop` | | | Discrete Reasoning Over Paragraphs: reading comprehension requiring numerical reasoning |
 | [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/) | `race_h` | | | Reading comprehension from English exams (high difficulty) |
 | [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/) | `squad` | | | Stanford Question Answering Dataset: extractive question answering on Wikipedia articles |
 
@@ -136,7 +136,7 @@ Evaluate alignment, bias detection, harmful content resistance, and truthfulness
 | [Personality BFI](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/personality) | `personality_BFI` | | | Big Five personality trait assessment |
 | [Personality TRAIT](https://arxiv.org/abs/2406.14703) | `personality_TRAIT` | | Yes | Comprehensive personality trait evaluation |
 | SOSBench | `sosbench` | Yes | | Safety and oversight stress test |
-| [StereoSet](https://stereoset.mit.edu/) | `stereoset` | | | Measures stereotypical biases in language models |
+| [StereoSet](https://github.com/moinnadeem/StereoSet) | `stereoset` | | | Measures stereotypical biases in language models |
 | [StrongREJECT](https://arxiv.org/abs/2402.10260) | `strong_reject` | | | Tests model's ability to reject harmful requests |
 | [Sycophancy](https://arxiv.org/abs/2310.13548) | `sycophancy` | | | Evaluates tendency toward sycophantic behavior |
 | [TruthfulQA](https://github.com/sylinrl/TruthfulQA) | `truthfulqa` | | | Tests model truthfulness and resistance to falsehoods |

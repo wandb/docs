@@ -3,52 +3,66 @@ title: Keras
 ---
 import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
-<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" />
+{/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" /> */}
 
-## Keras callbacks
+Use Keras callbacks to track experiments, log model checkpoints, and visualize model predictions. Keras callbacks are available in the `wandb.integration.keras` module with Pyhon SDK versions `0.13.4` and above.
 
-W&B has three callbacks for Keras, available from `wandb` v0.13.4. For the legacy `WandbCallback` scroll down.
-
+W&B Keras integration provides the following callbacks:
 
 - **`WandbMetricsLogger`** : Use this callback for [Experiment Tracking](/models/track/). It logs your training and validation metrics along with system metrics to W&B.
-
 - **`WandbModelCheckpoint`** : Use this callback to log your model checkpoints to W&B [Artifacts](/models/artifacts/).
-
 - **`WandbEvalCallback`**: This base callback logs model predictions to W&B [Tables](/models/tables/) for interactive visualization.
 
-These new callbacks:
+## Install and import Keras integration
 
-* Adhere to Keras design philosophy.
-* Reduce the cognitive load of using a single callback (`WandbCallback`) for everything.
-* Make it easy for Keras users to modify the callback by subclassing it to support their niche use case.
+Install the latest version of W&B.
+
+```bash
+pip install -U wandb
+```
+
+To use the Keras integration, import required classes from `wandb.integration.keras`:
+
+
+```python
+import wandb
+from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint, WandbEvalCallback
+```
+
+The following sections describe each callback in detail with code examples.
 
 ## Track experiments with `WandbMetricsLogger`
 
-<ColabLink url="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" />
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbMetricLogger_in_your_Keras_workflow.ipynb" />
 
-`WandbMetricsLogger` automatically logs Keras' `logs` dictionary that callback methods such as `on_epoch_end`, `on_batch_end` etc, take as an argument.
+`wandb.integration.keras.WandbMetricsLogger()` automatically logs Keras' `logs` dictionary that callback methods such as `on_epoch_end`, `on_batch_end` etc, take as an argument.
 
-This tracks:
-
-* Training and validation metrics defined in `model.compile`.
-* System (CPU/GPU/TPU) metrics.
-* Learning rate (both for a fixed value or a learning rate scheduler.
+The partial example below shows how to use `WandbMetricsLogger()` in a Keras workflow. First, compile the model with desired optimizer, loss function, and metrics. Then, initialize a W&B run using `wandb.init()`. Finally, pass the `WandbMetricsLogger()` callback to `model.fit()`.
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger
+import tensorflow as tf
+
+model.compile(
+    optimizer = "adam",
+    loss = "categorical_crossentropy",
+    metrics = ["accuracy", tf.keras.metrics.TopKCategoricalAccuracy(k=5, name='top@5_accuracy')]
+)
 
 # Initialize a new W&B Run
-wandb.init(config={"bs": 12})
+with wandb.init(config={"batch_size": 64}) as run:
 
-# Pass the WandbMetricsLogger to model.fit
-model.fit(
-    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
-)
+    # Pass the WandbMetricsLogger to model.fit
+    model.fit(
+        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbMetricsLogger()]
+    )
 ```
 
-### `WandbMetricsLogger` reference
+The previous example logs training and validation metrics such as `loss`, `accuracy`, and `top@5_accuracy` to W&B at the end of each epoch. It also logs:
 
+
+### `WandbMetricsLogger` reference
 
 | Parameter | Description | 
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -57,11 +71,11 @@ model.fit(
 
 ## Checkpoint a model using `WandbModelCheckpoint`
 
-<ColabLink url="https://github.com/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
 Use `WandbModelCheckpoint` callback to save the Keras model (`SavedModel` format) or model weights periodically and uploads them to W&B as a `wandb.Artifact` for model versioning. 
 
-This callback is subclassed from [`tf.keras.callbacks.ModelCheckpoint`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) ,thus the checkpointing logic is taken care of by the parent callback.
+This callback is subclassed from [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) ,thus the checkpointing logic is taken care of by the parent callback.
 
 This callback saves:
 
@@ -71,25 +85,25 @@ This callback saves:
 * Only model weights or the whole model.
 * The model either in `SavedModel` format or in `.h5` format.
 
-Use this callback in conjunction with `WandbMetricsLogger`.
+Use this callback in conjunction with `WandbMetricsLogger()`.
 
 ```python
 import wandb
 from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
 # Initialize a new W&B Run
-wandb.init(config={"bs": 12})
+with wandb.init(config={"bs": 12}) as run:
 
-# Pass the WandbModelCheckpoint to model.fit
-model.fit(
-    X_train,
-    y_train,
-    validation_data=(X_test, y_test),
-    callbacks=[
-        WandbMetricsLogger(),
-        WandbModelCheckpoint("models"),
-    ],
-)
+    # Pass the WandbModelCheckpoint to model.fit
+    model.fit(
+        X_train,
+        y_train,
+        validation_data=(X_test, y_test),
+        callbacks=[
+            WandbMetricsLogger(),
+            WandbModelCheckpoint("models"),
+        ],
+    )
 ```
 
 ### `WandbModelCheckpoint` reference
@@ -119,7 +133,7 @@ WandbModelCheckpoint(
 
 ### Efficiently log checkpoints on a TPU architecture
 
-While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. We can however, use the local path for checkpointing which in turn is uploaded as an Artifacts.
+While checkpointing on TPUs you might encounter `UnimplementedError: File system scheme '[local]' not implemented` error message. This happens because the model directory (`filepath`) must use a cloud storage bucket path (`gs://bucket-name/...`), and this bucket must be accessible from the TPU server. Instead, W&B uses the local path for checkpointing which in turn is uploaded as an artifact.
 
 ```python
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
@@ -132,16 +146,16 @@ WandbModelCheckpoint(
 
 ## Visualize model predictions using `WandbEvalCallback`
 
-<ColabLink url="https://github.com/wandb/examples/blob/e66f16fbe7ae7a2e636d59350a50059d3f7e5494/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" />
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbEvalCallback_in_your_Keras_workflow.ipynb" />
 
-The `WandbEvalCallback` is an abstract base class to build Keras callbacks primarily for model prediction and, secondarily, dataset visualization.
+The `WandbEvalCallback()` is an abstract base class to build Keras callbacks primarily for model prediction and, secondarily, dataset visualization.
 
-This abstract callback is agnostic with respect to the dataset and the task. To use this, inherit from this base `WandbEvalCallback` callback class and implement the `add_ground_truth` and `add_model_prediction` methods.
+This abstract callback is agnostic with respect to the dataset and the task. To use this, inherit from this base `WandbEvalCallback()` callback class and implement the `add_ground_truth` and `add_model_prediction` methods.
 
-The `WandbEvalCallback` is a utility class that provides methods to:
+The `WandbEvalCallback()` is a utility class that provides methods to:
 
-* Create data and prediction `wandb.Table` instances.
-* Log data and prediction Tables as `wandb.Artifact`.
+* Create data and prediction `wandb.Table()` instances.
+* Log data and prediction Tables as `wandb.Artifact()`.
 * Log the data table `on_train_begin`.
 * log the prediction table `on_epoch_end`.
 
@@ -186,27 +200,23 @@ class WandbClfEvalCallback(WandbEvalCallback):
 # ...
 
 # Initialize a new W&B Run
-wandb.init(config={"hyper": "parameter"})
+with wandb.init(config={"hyper": "parameter"}) as run:
 
-# Add the Callbacks to Model.fit
-model.fit(
-    X_train,
-    y_train,
-    validation_data=(X_test, y_test),
-    callbacks=[
-        WandbMetricsLogger(),
-        WandbClfEvalCallback(
-            validation_data=(X_test, y_test),
-            data_table_columns=["idx", "image", "label"],
-            pred_table_columns=["epoch", "idx", "image", "label", "pred"],
-        ),
-    ],
-)
+    # Add the Callbacks to Model.fit
+    model.fit(
+        X_train,
+        y_train,
+        validation_data=(X_test, y_test),
+        callbacks=[
+            WandbMetricsLogger(),
+            WandbClfEvalCallback(
+                validation_data=(X_test, y_test),
+                data_table_columns=["idx", "image", "label"],
+                pred_table_columns=["epoch", "idx", "image", "label", "pred"],
+            ),
+        ],
+    )
 ```
-
-<Note>
-The W&B [Artifact page](/models/artifacts/explore-and-traverse-an-artifact-graph/) includes Table logs by default, rather than the **Workspace** page.
-</Note>
 
 ### `WandbEvalCallback` reference
 
@@ -229,20 +239,20 @@ If you are implementing a callback for model prediction visualization by inherit
 
 ## `WandbCallback` [legacy]
 
-Use the W&B library `WandbCallback` Class to automatically save all the metrics and the loss values tracked in `model.fit`.
+Use the W&B library `WandbCallback()` Class to automatically save all the metrics and the loss values tracked in `model.fit()`.
 
 ```python
 import wandb
 from wandb.integration.keras import WandbCallback
 
-wandb.init(config={"hyper": "parameter"})
+with wandb.init(config={"hyper": "parameter"}) as run:
 
-...  # code to set up your model in Keras
+    # code to set up your model in Keras
 
-# Pass the callback to model.fit
-model.fit(
-    X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
-)
+    # Pass the callback to model.fit
+    model.fit(
+        X_train, y_train, validation_data=(X_test, y_test), callbacks=[WandbCallback()]
+    )
 ```
 
 You can watch the short video [Get Started with Keras and W&B in Less Than a Minute](https://www.youtube.com/watch?ab_channel=Weights&Biases&v=4FjDIJ-vO_M).

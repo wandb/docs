@@ -1,0 +1,40 @@
+---
+title: Prodigy
+description: W&B を Prodigy と統合する方法。
+---
+
+[Prodigy](https://prodi.gy/) は、機械学習 モデル のトレーニングおよび評価用の データ 作成、エラー 分析 、データの検査とクリーニングのためのアノテーション ツール です。[W&B Tables](/models/tables/tables-walkthrough/) を使用すると、W&B 内で Datasets の ログ 記録、可視化 、分析 、共有などを行うことができます。
+
+[W&B と Prodigy のインテグレーション](https://github.com/wandb/wandb/blob/master/wandb/integration/prodigy/prodigy.py) を使用すると、Prodigy でアノテーションした データセット を W&B に直接アップロードして Tables で利用するための、シンプルで使いやすい機能が追加されます。
+
+次のような数行の コード を実行するだけで：
+
+```python
+import wandb
+from wandb.integration.prodigy import upload_dataset
+
+# "prodigy" という名前のプロジェクトで run を初期化
+with wandb.init(project="prodigy"):
+    # Prodigy のデータセット "news_headlines_ner" をアップロード
+    upload_dataset("news_headlines_ner")
+```
+
+次のような、視覚的でインタラクティブな共有可能な テーブル を作成できます：
+
+<Frame>
+    <img src="/images/integrations/prodigy_interactive_visual.png" alt="Prodigy annotation table"  />
+</Frame>
+
+## クイックスタート
+
+`wandb.integration.prodigy.upload_dataset` を使用して、アノテーション済みの Prodigy データセットをローカルの Prodigy データベースから W&B の [Table](/models/ref/python/data-types/table) 形式で直接アップロードします。インストールやセットアップを含む Prodigy の詳細については、[Prodigy documentation](https://prodi.gy/docs/) を参照してください。
+
+W&B は、画像や名前付きエンティティ（NER）フィールドを、それぞれ [`wandb.Image`](/models/ref/python/data-types/image) と [`wandb.Html`](/models/ref/python/data-types/html) に自動的に変換しようと試みます。これらの 可視化 を含めるために、生成される テーブル に追加の列が加わることがあります。
+
+## 詳細な例を確認する
+
+W&B と Prodigy の インテグレーション によって生成された 可視化 の例については、[Visualizing Prodigy Datasets Using W&B Tables](https://wandb.ai/kshen/prodigy/reports/Visualizing-Prodigy-Datasets-Using-W-B-Tables--Vmlldzo5NDE2MTc) をご覧ください。
+
+## spaCy もお使いですか？
+
+W&B は spaCy との インテグレーション も提供しています。 [ドキュメントはこちら](/models/integrations/spacy) をご覧ください。

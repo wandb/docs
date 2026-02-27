@@ -2,16 +2,26 @@
 title: wandb offline
 ---
 
-**使用方法**
+ start_thought
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-offline.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb offline [OPTIONS]`
+import WandbOffline from "/snippets/en/_includes/cli/wandb-offline.mdx";
 
-**概要**
+<WandbOffline/>
 
-W&B の同期を無効にする
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
+W&B にログ記録されたデータを クラウド にアップロードせず、ローカルに保存します。
 
-**オプション**
+オフラインの Runs をアップロードするには、`wandb online` または `wandb sync` を使用してください。
 
-| **オプション** | **説明** |
-| :--- | :--- |
+## 使用方法
+
+```bash
+wandb offline
+```

@@ -10,6 +10,16 @@ During a distributed training experiment, you train a model using multiple machi
    * Track each process separately using one run per process. You can optionally group them together in the W&B App UI.
    * Track all processes to a single run.
 
+<Tip>
+**Concurrent connections**
+
+Each concurrent connection takes compute, memory, and network resources. Even empty client connections that don't log metrics regularly push system metric updates, leading to slower performance when loading charts.
+
+W&B recommends that you limit the maximum number of concurrent client connections as appropriate for your workload and that you monitor resource usage over time. W&B has tested with a hard limit of 300 concurrent client connections in **Dedicated Cloud**.
+
+In **Multi-tenant Cloud** organizations, client connections for distributed training are subject to the same [rate limits](/models/track/limits#rate-limits) as regular training runs. Users on [Teams and Enterprise plans](https://wandb.ai/site/pricing) receive higher rate limits than those on the Free plan.
+</Tip>
+
 {/* The proceeding examples demonstrate how to track metrics with W&B using PyTorch DDP on two GPUs on a single machine. [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`DistributedDataParallel` in`torch.nn`) is a popular library for distributed training. The basic principles apply to any distributed training setup, but the details of implementation may differ.
 
 <Note>
@@ -132,7 +142,7 @@ For example, you could create the following saved views:
      - No filter
      - Useful for comprehensive monitoring
 
-To open a saved view, click **Workspaces** in the sidebar, then click the menu. Workspaces appear at the top of the list and saved views appear at the bottom.
+To open a saved view, click **Workspaces** in the project sidebar, then click the menu. Workspaces appear at the top of the list and saved views appear at the bottom.
 
 ### Track all processes to a single run
 
@@ -227,9 +237,9 @@ See the [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple
 View console logs from multi node processes in the project that the run logs to:
 
 1. Navigate to the project that contains the run.
-2. Click on the **Runs** tab in the left sidebar.
+2. Click on the **Runs** tab in the project sidebar.
 3. Click on the run you want to view.
-4. Click on the **Logs** tab in the left sidebar.
+4. Click on the **Logs** tab in the project sidebar.
 
 You can filter console logs based on the labels you provide for `x_label` in the UI search bar located at the top of the console log page. For example, the following image shows which options are available to filter the console log by if values  `rank0`, `rank1`, `rank2`, `rank3`, `rank4`, `rank5`, and `rank6` are provided to `x_label`.` 
 

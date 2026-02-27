@@ -1,42 +1,49 @@
 ---
 title: アラートを送信する
-description: Python コードからトリガーされたアラートを Slack またはメールに送信する
+description: Python コードからトリガーされるアラートを、Slack またはメールに送信します。
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
-<Card title="Try in Colab" href="http://wandb.me/alerts-colab" icon="python"/>
+<ColabLink url="https://wandb.me/alerts-colab" />
 
-run がクラッシュしたり、カスタムトリガーで Slack やメールでアラートを作成します。例えば、トレーニングループの勾配が膨らみ始めた場合（NaNを報告）や、ML パイプライン内のステップが完了した場合などです。アラートは、個人およびチームプロジェクトの両方を含む、run を初期化するすべての Projects に適用されます。
+Runs がクラッシュした場合や、カスタムトリガーが発生した場合に、Slack またはメールでアラートを作成できます。例えば、トレーニングループの gradient (勾配) が爆発し始めた（NaN を報告した）場合や、ML パイプラインのステップが完了したときにアラートを作成できます。アラートは、個人 プロジェクト と チーム プロジェクト の両方を含む、Runs を初期化するすべての プロジェクト に適用されます。
 
-その後、Slack（またはメール）で W&B Alerts メッセージを確認します。
+そして、Slack（またはメール）で W&B Alerts のメッセージを確認できます：
 
 <Frame>
-    <img src="/images/track/send_alerts_slack.png"  />
+    <img src="/images/track/send_alerts_slack.png" alt="Slack alert setup"  />
 </Frame>
 
-## アラートの作成方法
-
 <Note>
-以下のガイドは、マルチテナントクラウドでのアラートにのみ適用されます。
+W&B Alerts を使用するには、コードに `run.alert()` を追加する必要があります。コードを変更せずに Slack に通知する別の方法として [Automations](/models/automations/) があります。これは、[Artifacts](/models/artifacts/) の バージョン が作成されたときや、[run metric](/models/runs/) がしきい値に達した、あるいは変化したときなど、W&B 上のイベントに基づいて通知を行います。
 
-プライベートクラウドまたは W&B 専用クラウドで [W&B Server](/ja/platform/hosting/) を使用している場合は、Slack アラートの設定については[こちらのドキュメント](/ja/platform/hosting/monitoring-usage/slack-alerts)を参照してください。
+例えば、オートメーションを使用して、新しい バージョン が作成されたときに Slack チャンネルに通知したり、アーティファクトに `production` エイリアス が追加されたときに自動テストの webhook を実行したり、Run の `loss` が許容範囲内の場合にのみバリデーションジョブを開始したりできます。
+
+[Automations の概要](/models/automations/) を読むか、[オートメーションを作成](/models/automations/create-automations/) してください。
 </Note>
 
-アラートを設定するための主なステップは2つあります。
+<Note>
+以下のガイドは、マルチテナント・クラウドのアラートにのみ適用されます。
 
-1. W&B の [User Settings](https://wandb.ai/settings) で Alerts をオンにする
-2. コードに `run.alert()` を追加する
-3. アラートが正しく設定されているか確認する
+プライベートクラウド または W&B 専用クラウド で [W&B Server](/platform/hosting/) を使用している場合は、[W&B Server での Slack アラートの設定](/platform/hosting/monitoring-usage/slack-alerts) を参照して Slack アラートを設定してください。
+</Note>
+
+アラートを設定するには、以下のセクションで詳しく説明する手順を実行してください：
+
+1. W&B の [User Settings](https://wandb.ai/settings) でアラートをオンにする。
+2. コードに `run.alert()` を追加する。
+3. 設定をテストする。
 
 ### 1. W&B User Settings でアラートをオンにする
 
-[User Settings](https://wandb.ai/settings) の中で：
+[User Settings](https://wandb.ai/settings) において：
 
-* **Alerts** セクションまでスクロールします
-* **Scriptable run alerts** をオンにして `run.alert()` からのアラートを受け取ります
-* **Connect Slack** を使用して、アラートを投稿する Slack チャンネルを選択します。アラートを非公開に保持するため、**Slackbot** チャンネルをお勧めします。
-* **Email** は W&B にサインアップしたときに使用したメールアドレスに送られます。これらのアラートがフォルダに入り、受信トレイを埋めないようにメールにフィルターを設定することをお勧めします。
+* **Alerts** セクションまでスクロールします。
+* `run.alert()` からのアラートを受け取るために **Scriptable run alerts** をオンにします。
+* **Connect Slack** を使用して、アラートを投稿する Slack チャンネルを選択します。アラートのプライバシーを保つため、**Slackbot** チャンネルを推奨します。
+* **Email** は、W&B にサインアップしたときに使用したメール アドレス 宛に送信されます。これらのアラートがすべて 1 つのフォルダに入り、受信トレイを埋め尽くさないように、メールソフトでフィルタを設定することをお勧めします。
 
-W&B Alerts を初めて設定する際、またはアラートの受け取り方を変更したい場合にのみ、これを行う必要があります。
+これは、最初に W&B Alerts を設定するとき、またはアラートの受信方法を変更したいときにのみ行う必要があります。
 
 <Frame>
     <img src="/images/track/demo_connect_slack.png" alt="Alerts settings in W&B User Settings"  />
@@ -44,52 +51,54 @@ W&B Alerts を初めて設定する際、またはアラートの受け取り方
 
 ### 2. コードに `run.alert()` を追加する
 
-ノートブックや Python スクリプトのどこでトリガーしたいかに `run.alert()` をコードに追加します。
+ノートブックまたは Python スクリプトの、トリガーしたい場所に `run.alert()` を追加します。
 
 ```python
 import wandb
 
-run = wandb.init()
-run.alert(title="High Loss", text="Loss is increasing rapidly")
+# run を初期化
+with wandb.init() as run:
+    # タイトルとテキストを指定してアラートを送信
+    run.alert(title="High Loss", text="Loss is increasing rapidly")
 ```
 
-### 3. Slack またはメールを確認する
+### 3. 設定をテストする
 
-アラートメッセージのために Slack またはメールをチェックします。受信していない場合は、[User Settings](https://wandb.ai/settings) で **Scriptable Alerts** 用のメールまたは Slack がオンになっていることを確認してください
+Slack またはメールでアラートメッセージが届いているか確認してください。届いていない場合は、[User Settings](https://wandb.ai/settings) で **Scriptable Alerts** のメールまたは Slack がオンになっているか確認してください。
 
-### 例
+## 例
 
-このシンプルなアラートは、精度が閾値を下回ると警告を送信します。この例では、少なくとも 5 分おきにアラートを送信します。
+このシンプルなアラートは、精度（accuracy）がしきい値を下回ったときに警告を送信します。この例では、アラートの送信間隔を少なくとも 5 分間空けるように設定しています。
 
 ```python
 import wandb
 from wandb import AlertLevel
 
-run = wandb.init()
+with wandb.init() as run:
 
-if acc < threshold:
-    run.alert(
-        title="Low accuracy",
-        text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
-        level=AlertLevel.WARN,
-        wait_duration=300,
-    )
+    if acc < threshold:
+        run.alert(
+            title="Low accuracy",
+            text=f"Accuracy {acc} is below the acceptable threshold {threshold}",
+            level=AlertLevel.WARN,
+            wait_duration=300, # 次のアラートまで 300 秒（5 分）待機
+        )
 ```
 
-## ユーザーをタグ付けまたはメンションする方法
+## ユーザーのタグ付けまたはメンション
 
-アットマーク `@` に続けて Slack ユーザー ID を使用して、アラートのタイトルまたはテキストで自身または同僚をタグ付けします。Slack ユーザー ID は、彼らの Slack プロフィールページから見つけることができます。
+アットマーク `@` の後に Slack ユーザー ID を続けることで、アラートのタイトルまたはテキスト内で自分自身や同僚をタグ付けできます。Slack ユーザー ID は、Slack のプロフィールページから確認できます。
 
 ```python
 run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
 ```
 
-## チームアラート
+## チームアラートの設定
 
-チーム管理者は、チームの設定ページでチーム用のアラートを設定できます：`wandb.ai/teams/your-team`。
+チーム管理者は、チーム設定ページ（`wandb.ai/teams/your-team`）でチーム用のアラートを設定できます。
 
-チームアラートは、チームの全員に適用されます。W&B は、アラートを非公開に保持するために **Slackbot** チャンネルを使用することをお勧めします。
+チームアラートは、チームの全員に適用されます。アラートのプライバシーを保つため、W&B では **Slackbot** チャンネルの使用を推奨しています。
 
 ## アラート送信先の Slack チャンネルを変更する
 
-アラートの送信先を変更するには、**Disconnect Slack** をクリックして、再接続してください。再接続後、別の Slack チャンネルを選択します。
+アラートの送信先チャンネルを変更するには、**Disconnect Slack** をクリックしてから再接続してください。再接続後、別の Slack チャンネルを選択します。

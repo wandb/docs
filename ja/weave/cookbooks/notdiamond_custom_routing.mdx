@@ -1,0 +1,206 @@
+---
+title: NotDiamond カスタムルーティング
+description: notdiamond のカスタムルーティングを W&B Weave で使用する方法について学びます
+---
+
+<Note>
+これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください：
+- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/notdiamond_custom_routing.ipynb)
+- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/notdiamond_custom_routing.ipynb)
+</Note>
+
+# Not Diamond を使用した LLM プロンプトのカスタムルーティング
+
+このノートブックでは、Weave と [Not Diamond のカスタムルーティング](https://docs.notdiamond.ai/docs/router-training-quickstart) を使用して、評価結果に基づき LLM プロンプトを最も適切なモデルにルーティングする方法を説明します。
+
+## プロンプトのルーティング
+
+複雑な LLM ワークフローを構築する際、ユーザーは精度、コスト、または呼び出しのレイテンシに応じて、異なるモデルにプロンプトを送信する必要がある場合があります。
+ユーザーは [Not Diamond](https://www.notdiamond.ai/) を使用して、これらのワークフロー内のプロンプトをニーズに合った適切なモデルにルーティングし、精度を最大化しながらモデルコストを節約できます。
+
+どのようなデータの分布においても、単一のモデルがすべてのクエリに対して他のすべてのモデルを上回ることは稀です。各 LLM をいつ呼び出すべきかを学習する「メタモデル」に複数のモデルを組み合わせることで、個々のモデルのパフォーマンスを上回り、その過程でコストやレイテンシを削減することも可能です。
+
+## カスタムルーティング
+
+プロンプト用のカスタムルーターをトレーニングするには、次の3つが必要です。
+
+1. LLM プロンプトのセット：プロンプトは文字列である必要があり、アプリケーションで使用されるプロンプトを代表するものである必要があります。
+1. LLM のレスポンス：各入力に対する候補 LLM からのレスポンス。候補 LLM には、サポートされている LLM と独自のカスタムモデルの両方を含めることができます。
+1. 候補 LLM からの入力に対するレスポンスの評価スコア：スコアは数値であり、ニーズに合った任意のメトリクスを使用できます。
+
+これらを Not Diamond API に送信することで、各ワークフローに合わせてチューニングされたカスタムルーターをトレーニングできます。
+
+## トレーニングデータのセットアップ
+
+実際には、独自の Evaluations を使用してカスタムルーターをトレーニングします。ただし、この例のノートブックでは、コーディングタスク用のカスタムルーターをトレーニングするために、[HumanEval データセット](https://github.com/openai/human-eval) に対する LLM のレスポンスを使用します。
+
+まず、この例のために用意したデータセットをダウンロードし、LLM のレスポンスを各モデルの `EvaluationResults` にパースすることから始めます。
+
+```python lines
+!curl -L "https://drive.google.com/uc?export=download&id=1q1zNZHioy9B7M-WRjsJPkfvFosfaHX38" -o humaneval.csv
+
+import random
+
+import weave
+from weave.flow.dataset import Dataset
+from weave.flow.eval import EvaluationResults
+from weave.integrations.notdiamond.util import get_model_evals
+
+pct_train = 0.8
+pct_test = 1 - pct_train
+
+# 実際には、データセットに対して Evaluation を構築し、
+# `evaluation.get_eval_results(model)` を呼び出します
+model_evals = get_model_evals("./humaneval.csv")
+model_train = {}
+model_test = {}
+for model, evaluation_results in model_evals.items():
+    n_results = len(evaluation_results.rows)
+    all_idxs = list(range(n_results))
+    train_idxs = random.sample(all_idxs, k=int(n_results * pct_train))
+    test_idxs = [idx for idx in all_idxs if idx not in train_idxs]
+
+    model_train[model] = EvaluationResults(
+        rows=weave.Table([evaluation_results.rows[idx] for idx in train_idxs])
+    )
+    model_test[model] = Dataset(
+        rows=weave.Table([evaluation_results.rows[idx] for idx in test_idxs])
+    )
+    print(
+        f"Found {len(train_idxs)} train rows and {len(test_idxs)} test rows for {model}."
+    )
+```
+
+## カスタムルーターのトレーニング
+
+EvaluationResults が用意できたので、カスタムルーターをトレーニングできます。[アカウントを作成](https://app.notdiamond.ai/keys) し、[APIキーを生成](https://app.notdiamond.ai/keys) したことを確認してから、以下に API キーを挿入してください。
+
+<Frame>
+![APIキーの作成](/weave/guides/integrations/imgs/notdiamond/api-keys.png)
+</Frame>
+
+```python lines
+import os
+
+from weave.integrations.notdiamond.custom_router import train_router
+
+api_key = os.getenv("NOTDIAMOND_API_KEY", "<YOUR_API_KEY>")
+
+preference_id = train_router(
+    model_evals=model_train,
+    prompt_column="prompt",
+    response_column="actual",
+    language="en",
+    maximize=True,
+    api_key=api_key,
+    # 最初のカスタムルーターをトレーニングするには、ここをコメントアウトしたままにします
+    # カスタムルーターをその場で再トレーニングするには、ここのコメントを解除します
+    # preference_id=preference_id,
+)
+```
+
+その後、Not Diamond アプリを介してカスタムルーターのトレーニングプロセスを確認できます。
+
+<Frame>
+![ルーターのトレーニング進捗を確認](/weave/guides/integrations/imgs/notdiamond/router-preferences.png)
+</Frame>
+
+カスタムルーターのトレーニングが完了したら、それを使用してプロンプトをルーティングできます。
+
+```python lines
+from notdiamond import NotDiamond
+
+import weave
+
+weave.init("notdiamond-quickstart")
+
+llm_configs = [
+    "anthropic/claude-3-5-sonnet-20240620",
+    "openai/gpt-4o-2024-05-13",
+    "google/gemini-1.5-pro-latest",
+    "openai/gpt-4-turbo-2024-04-09",
+    "anthropic/claude-3-opus-20240229",
+]
+client = NotDiamond(api_key=api_key, llm_configs=llm_configs)
+
+new_prompt = (
+    """
+You are a helpful coding assistant. Using the provided function signature, write the implementation for the function
+in Python. Write only the function. Do not include any other text.
+
+from typing import List
+
+def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    """
+    """ Check if in given list of numbers, are any two numbers closer to each other than
+    given threshold.
+    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)
+    False
+    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)
+    True
+    """
+    """
+"""
+)
+session_id, routing_target_model = client.model_select(
+    messages=[{"role": "user", "content": new_prompt}],
+    preference_id=preference_id,
+)
+
+print(f"Session ID: {session_id}")
+print(f"Target Model: {routing_target_model}")
+```
+
+この例では、Not Diamond と Weave の自動トレース機能の互換性も利用しています。結果は Weave UI で確認できます。
+
+![カスタムルーティングの Weave UI](/weave/guides/integrations/imgs/notdiamond/weave-trace.png)
+
+## カスタムルーターの評価
+
+カスタムルーターのトレーニングが完了したら、以下のいずれかのパフォーマンスを評価できます。
+
+- インサンプルのパフォーマンス（トレーニングプロンプトを送信）
+- アウトオブサンプルのパフォーマンス（新規またはホールドアウトされたプロンプトを送信）
+
+以下では、テストセットをカスタムルーターに送信して、そのパフォーマンスを評価します。
+
+```python lines
+from weave.integrations.notdiamond.custom_router import evaluate_router
+
+eval_prompt_column = "prompt"
+eval_response_column = "actual"
+
+best_provider_model, nd_model = evaluate_router(
+    model_datasets=model_test,
+    prompt_column=eval_prompt_column,
+    response_column=eval_response_column,
+    api_key=api_key,
+    preference_id=preference_id,
+)
+
+@weave.op()
+def is_correct(score: int, output: dict) -> dict:
+    # 既にモデルのレスポンスがあるため、スコアを調整します
+    return {"correct": score}
+
+best_provider_eval = weave.Evaluation(
+    dataset=best_provider_model.model_results.to_dict(orient="records"),
+    scorers=[is_correct],
+)
+await best_provider_eval.evaluate(best_provider_model)
+
+nd_eval = weave.Evaluation(
+    dataset=nd_model.model_results.to_dict(orient="records"), scorers=[is_correct]
+)
+await nd_eval.evaluate(nd_model)
+```
+
+この例では、Not Diamond の「メタモデル」が、複数の異なるモデルにわたってプロンプトをルーティングしています。
+
+Weave を介してカスタムルーターをトレーニングすると、評価も実行され、結果が Weave UI にアップロードされます。カスタムルーターのプロセスが完了したら、Weave UI で結果を確認できます。
+
+UI を見ると、Not Diamond の「メタモデル」が、プロンプトに正確に回答する可能性がより高い他のモデルにルーティングすることで、最もパフォーマンスの高い単一モデルを上回っていることがわかります。
+
+<Frame>
+![Not Diamond の評価](/weave/guides/integrations/imgs/notdiamond/evaluations.png)
+</Frame>

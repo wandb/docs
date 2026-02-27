@@ -1,0 +1,103 @@
+---
+title: W&B Inference 오류를 처리하기 위한 모범 사례는 무엇인가요?
+---
+
+W&B Inference 에러를 원활하게 처리하고 신뢰할 수 있는 애플리케이션을 유지하려면 다음 모범 사례를 따르세요.
+
+## 1. 항상 에러 처리 구현하기
+
+API 호출을 try-except 블록으로 감싸세요:
+
+```python
+import openai
+
+try:
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=messages
+    )
+except Exception as e:
+    print(f"Error: {e}")
+    # 에러를 적절하게 처리합니다
+```
+
+## 2. 지수 백오프(exponential backoff)를 포함한 재시도 로직 사용하기
+
+```python
+import time
+from typing import Optional
+
+def call_inference_with_retry(
+    client, 
+    messages, 
+    model: str,
+    max_retries: int = 3,
+    base_delay: float = 1.0
+) -> Optional[str]:
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            
+            # 지수 백오프를 사용하여 지연 시간 계산
+            delay = base_delay * (2 ** attempt)
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
+            time.sleep(delay)
+    
+    return None
+```
+
+## 3. 사용량 모니터링하기
+
+- W&B Billing 페이지에서 크레딧 사용량을 추적하세요.
+- 한도에 도달하기 전에 알림을 설정하세요.
+- 애플리케이션에서 API 사용량을 로그로 남기세요.
+
+## 4. 특정 에러 코드 처리하기
+
+```python
+def handle_inference_error(error):
+    error_str = str(error)
+    
+    if "401" in error_str:
+        # 인증 실패
+        raise ValueError("API 키 및 프로젝트 설정을 확인하세요")
+    elif "402" in error_str:
+        # 크레딧 부족
+        raise ValueError("잔여 크레딧이 부족합니다")
+    elif "429" in error_str:
+        # 속도 제한(Rate limited)
+        return "retry"
+    elif "500" in error_str or "503" in error_str:
+        # 서버 에러
+        return "retry"
+    else:
+        # 알 수 없는 에러
+        raise
+```
+
+## 5. 적절한 타임아웃 설정하기
+
+사용자의 유스 케이스에 맞게 합리적인 타임아웃을 구성하세요:
+
+```python
+# 응답 시간이 긴 경우
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="your-api-key",
+    timeout=60.0  # 60초 타임아웃
+)
+```
+
+## 추가 팁
+
+- 디버깅을 위해 에러 발생 시 타임스탬프와 함께 로그를 남기세요.
+- 더 나은 동시성 처리를 위해 비동기(async) 작업을 사용하세요.
+- 프로덕션 시스템을 위해 서킷 브레이커(circuit breaker)를 구현하세요.
+- API 호출을 줄이기 위해 적절한 경우 응답을 캐싱하세요.

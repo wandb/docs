@@ -1,17 +1,13 @@
 ---
-title: Can I just set the run name to the run ID?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: run name을 run ID로 설정할 수 있나요?
 ---
 
-예: run 이름을 run ID로 덮어쓰려면 다음 코드 조각을 사용하세요.
+네. Run ID로 Run 이름을 덮어쓰려면 다음 코드 조각을 사용하세요:
 
 ```python
 import wandb
 
-wandb.init()
-wandb.run.name = wandb.run.id
-wandb.run.save()
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
 ```

@@ -1,26 +1,59 @@
 ---
-title: wandb ベータ 同期
+title: wandb beta sync
 ---
 
-**使用法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-sync.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb beta sync [OPTIONS] WANDB_DIR`
+import WandbBetaSync from "/snippets/en/_includes/cli/wandb-beta-sync.mdx";
 
-**概要**
+<WandbBetaSync/>
 
-トレーニング run を W&B にアップロードします
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+PATHS で指定された .wandb ファイルをアップロードします。
 
-| **オプション** | **説明** |
+これは `wandb sync` のベータ版再実装です。機能が完全ではなく、動作が保証されているわけでもありません。また、今後の wandb のリリースにおいて、後方互換性のない形で変更される可能性があります。
+
+PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリー、および run ディレクトリーを含む "wandb" ディレクトリーを指定できます。
+
+例えば、ディレクトリー内のすべての Runs を同期するには：
+
+wandb beta sync ./wandb
+
+特定の run を同期するには：
+
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+
+または同等の方法として：
+
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+
+## 使用法
+
+```bash
+wandb beta sync [PATHS] [OPTIONS]
+```
+
+## 引数
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `PATHS` | 説明なし | いいえ |
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--id` | アップロードしたい run です。 |
-| `-p, --project` | アップロードしたい project です。 |
-| `-e, --entity` | スコープにする entity です。 |
-| `--skip-console` | コンソールログをスキップします |
-| `--append` | run を追加します |
-| `-i, --include` | 含めるためのグロブ。複数回使用可能です。 |
-| `-e, --exclude` | 除外するためのグロブ。複数回使用可能です。 |
-| `--mark-synced / --no-mark-synced` | run を同期済みとしてマークします |
-| `--skip-synced / --no-skip-synced` | 同期済みの run をスキップします |
-| `--dry-run` | 何もアップロードせずにドライ run を実行します。 |
+| `--live` | ログが記録されている最中の run を同期します。run を生成しているプロセスが正常に終了せずにクラッシュした場合、この処理はハングする可能性があります。(デフォルト: False) |
+| `-e`, `--entity` | 同期されるすべての Runs に使用する Entity の上書き設定。(デフォルト: ) |
+| `-p`, `--project` | 同期されるすべての Runs に使用する Project の上書き設定。(デフォルト: ) |
+| `--id` | 同期されるすべての Runs に使用する run ID の上書き設定。これを設定して複数のファイル（同じ Entity および Project）を同期する場合、ファイルは開始時間の順に同期されます。これは、同じ run の再開された複数のフラグメントを同期することを目的としています。(デフォルト: ) |
+| `--skip-synced` | このコマンドですでに同期済みの Runs をスキップします。(デフォルト: True) |
+| `--dry-run` | 何もアップロードせずに、実行される内容を表示します。(デフォルト: False) |
+| `-v`, `--verbose` | より詳細な情報を表示します。(デフォルト: False) |
+| `-n` | 一度に同期する Runs の最大数。同じ run の一部である複数のファイルを同期する場合、この設定に関係なく、ファイルは開始時間の順に逐次同期されます。これは、レジュームされた Runs や --id パラメータを使用した場合に発生します。(デフォルト: 5) |

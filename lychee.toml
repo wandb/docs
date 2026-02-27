@@ -19,49 +19,67 @@ max_retries = 5
 retry_wait_time = 2
 
 # Accept these HTTP status codes as valid
-accept = [
-  200, # OK
-  429, # Too Many Requests (rate limit - treat as success)
-]
+# 200 = OK
+# 403 = Forbidden (can be a false positive - treat as success)
+# 429 = Too Many Requests (rate limit - treat as success)
+accept = [200, 403, 429]
 
-# Only check HTTP/HTTPS URLs
+# Only check HTTP/HTTPS URLs (mailto and other schemes are skipped)
+# Do not use include: when include is set, exclude patterns are not applied.
+# Relying on scheme + exclude keeps the intent: check external http(s) only,
+# exclude internal (localhost, docs, preview) and W&B production URLs.
 scheme = [
   "http",
   "https",
 ]
 
-# Only check URLs matching these patterns (required when checking URL lists)
-include = [
-  '^https?://',  # Match all http:// and https:// URLs
-]
-
 # Logging verbosity
-verbose = "info"
+verbose = "error"
 
 # URL patterns to exclude from checking
+# Local / private URLs
+# Example URLs
+# Images - Mintlify rewrites paths during build
+# Social media URLs that timeout or rate-limit
+# Third party URLs that timeout or rate-limit
+# W&B production URLs that timeout or rate-limit
 exclude = [
-  # Exclude images - Mintlify rewrites paths during build
-  '\.(png|jpg|jpeg|gif|svg|webp|ico)$',
-
-  # Example URLs used in generated docs
-  'https://kubeflow.mysite.com',
-  'https://my-fake-url.com',
-  'https://my.domain.net',
+  '(http|https)://0\.0\.0\.0',
+  '(http|https)://localhost',
+  '(http|https)://127\.0\.0\.1',
+  '(http|https)://[^/]+\.mintlify\.app',
+  # Image file extensions (with or without trailing slash)
+  '\.(png|jpg|jpeg|gif|svg|webp|ico)(/)?$',
+  # Image paths - Mintlify rewrites /images/ paths during build
+  # Exclude both absolute paths and full URLs to image directories
+  # Match any URL containing /images/ (works for both relative and absolute paths)
+  '/images/',
+  # Match full URLs to image directories on any domain (including preview sites)
+  '(http|https)://[^/]+/images/',
+  '(http|https)://kubeflow\.mysite\.com',
+  '(http|https)://my-fake-url\.com',
+  '(http|https)://my\.domain\.net',
   'https://wiki.python.org/moin/UsingPickle',
-
-  # Social media
-  'https://discord.com',
-  'https://x.com',
-
-  # Third party URLs
-  'https://auth0.com/docs',
+  '(http|https)://.*\.?discord\.com',
+  '(http|https)://drive\.google\.com',
+  '(http|https)://.*\.?slack\.com',
+  '(http|https)://x\.com',
+  '(http|https)://twitter\.com',
+  '(http|https)://.*\.?auth0\.com',
   'https://cognito-idp.us-east-1.amazonaws.com',
-  'https://hhs.gov',
-
-  # W&B production URLs
-  '^https://github\.com/wandb',
-  '^https://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
-  '^https://wandb\.(ai|com)',
+  '(http|https)://.*\.?netapp\.com',
+  '(http|https)://netflixtechblog\.com',
+  '(http|https)://.*\.?opentelemetry\.io',
+  '(http|https)://.*\.?portal\.azure\.com',
+  '(http|https)://.*\.?hhs\.gov',
+  '(http|https)://([^/]+\.)?github\.com/wandb',
+  '^(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+  '^(http|https)://wandb\.(ai|com|me)',
+  '(http|https)://dspy-docs\.vercel\.app',
+  # W&B Inference API base URL - returns 400 for GET without auth (expected)
+  'https://api\.inference\.wandb\.ai/v1',
+  # WMDP site - connection closed / blocks crawlers
+  '(http|https)://www\.wmdp\.ai',
 ]
 
 # File/directory paths to exclude from checking

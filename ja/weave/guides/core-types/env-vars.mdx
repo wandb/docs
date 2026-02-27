@@ -1,0 +1,46 @@
+---
+title: Weave の 環境 変数を 設定 する
+description: 環境変数を使用して、 Weave の実行時の 振る舞い を 設定 する
+---
+
+Weave は、その振る舞いを設定および最適化するための一連の環境変数を提供しています。これらの変数は、シェルやスクリプト内で設定して、特定の機能を制御できます。
+
+```bash
+# シェルでの環境変数設定の例
+export WEAVE_PARALLELISM=10  # 並列ワーカーの数を制御します
+export WEAVE_PRINT_CALL_LINK=false  # call リンクの出力を無効にします
+```
+
+```python lines
+# Python での環境変数設定の例
+import os
+
+os.environ["WEAVE_PARALLELISM"] = "10"
+os.environ["WEAVE_PRINT_CALL_LINK"] = "false"
+```
+
+## 利用可能な環境変数
+
+| 変数名 | 型 | デフォルト値 | 説明 |
+|----------|------|---------|-------------|
+| `WANDB_API_KEY` | `string` | `None` | 設定されている場合、APIキー の入力を求められることなく、自動的に W&B Weave にログインします。 APIキー を生成するには、W&B アカウントにログインして [ユーザー設定 (User Settings)](https://wandb.ai/settings) に移動してください。 |
+| `WEAVE_DISABLED` | `bool` | `false` | `true` に設定すると、すべての Weave トレースを無効にします。Weave の op は通常の関数のように動作します。 |
+| `WEAVE_PRINT_CALL_LINK` | `bool` | `true` | Weave op を呼び出す際に Weave UI へのリンクを表示するかどうかを制御します。この設定は、`weave.init("your-project-name", settings={"print_call_link": False})` のように `weave.init()` の `settings` 引数を設定することで、コード内で直接指定することも可能です。 |
+| `WEAVE_LOG_LEVEL` | `str` | `INFO` | weave ロガーの ログ レベルを制御します。
+| `WEAVE_CAPTURE_CODE` | `bool` | `true` | 後で再利用できるように、op の コード を保存するかどうかを制御します。 |
+| `WEAVE_DEBUG_HTTP` | `bool` | `false` | `true` に設定すると、デバッグ用に HTTP リクエストとレスポンスの ログ 出力を有効にします。 |
+| `WEAVE_PARALLELISM` | `int` | `20` | Evaluations において、並列で 評価 する例の数を制御します。例を逐次実行するには `1` に設定してください。 |
+| `WEAVE_TRACE_LANGCHAIN` | `bool` | `true` | LangChain のグローバルトレースを制御します。LangChain のトレースを明示的に無効にするには `false` に設定してください。 |
+| `WEAVE_USE_SERVER_CACHE` | `bool` | `true` | サーバーレスポンスのキャッシュを有効にします。有効にすると、サーバーからのレスポンスがディスクにキャッシュされ、繰り返しのクエリのパフォーマンスが向上します。 |
+| `WEAVE_SERVER_CACHE_SIZE_LIMIT` | `int` | `1000000000` | サーバーキャッシュの最大サイズ制限をバイト単位で設定します。キャッシュがこのサイズに達すると、新しいエントリのためのスペースを確保するために古いエントリが自動的に削除されます。重要：基礎となる実装には SQLite が使用されており、この 設定 に関係なく 4MB まで増大する Write Ahead Log (WAL) が生成されます。この WAL はプログラム終了時に削除されます。 |
+| `WEAVE_SERVER_CACHE_DIR` | `str` | `None` | キャッシュファイルを保存する ディレクトリー を指定します。設定されていない場合は、一時 ディレクトリー が使用されます。 |
+| `WEAVE_MAX_CALLS_QUEUE_SIZE` | `int` | `100000` | call キューの最大サイズを設定します。デフォルトは 100,000 です。値を 0 に設定すると、キューは無制限に増大できます。 |
+| `WEAVE_RETRY_MAX_ATTEMPTS` | `int` | `3` | 失敗したリクエストの最大再試行回数を設定します。 |
+| `WEAVE_RETRY_MAX_INTERVAL` | `float` | `300.0` | 再試行間の最大間隔を秒単位で設定します。 |
+| `WANDB_BASE_URL` | `string` | `None` | Weave ホストの URL を設定します。`wandb.login()` でプロンプトが表示された際にホスト URL を入力するのと同等です。`weave.init()` を使用する前に `WANDB_BASE_URL` と `WANDB_API_KEY` を指定することで、Weave へのログインと認証を自動的に行うことができます。 |
+
+<Note>
+すべての boolean 型の環境変数は、以下の値を受け入れます（大文字小文字を区別しません）。
+- True の場合: `true`, `1`, `yes`, `on`
+- False の場合: `false`, `0`, `no`, `off`
+</Note>

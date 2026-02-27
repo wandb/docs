@@ -1,0 +1,105 @@
+---
+title: DeepChem
+description: W&B를 DeepChem 라이브러리 와 통합하는 방법.
+---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
+[DeepChem 라이브러리](https://github.com/deepchem/deepchem) 는 신약 개발, 재료 과학, 화학 및 생물학 분야에서 딥러닝 활용을 대중화하는 오픈 소스 툴을 제공합니다. 이 W&B 인테그레이션은 DeepChem을 사용하여 모델을 트레이닝하는 동안 간단하고 사용하기 쉬운 experiment 트래킹과 모델 체크포인트 기능을 추가합니다.
+
+## 3줄의 코드로 DeepChem 로깅하기
+
+```python
+logger = WandbLogger(…)
+model = TorchModel(…, wandb_logger=logger)
+model.fit(…)
+```
+
+<Frame>
+    <img src="/images/integrations/cd.png" alt="DeepChem molecular analysis"  />
+</Frame>
+
+## Report 및 Google Colab
+
+W&B DeepChem 인테그레이션을 사용하여 생성된 차트 예시는 [Using W&B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) 아티클을 확인해 보세요.
+
+실제 작동하는 코드를 바로 확인하려면 [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb) 을 참고하세요.
+
+## 실험(Experiments) 트래킹
+
+[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) 또는 [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) 유형의 DeepChem 모델에 대해 W&B를 설정합니다.
+
+### 가입 및 API 키 생성
+
+API 키는 W&B에서 사용자의 머신을 인증합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+
+<ApiKeyCreateStreamlined/>
+
+1. 오른쪽 상단의 사용자 프로필 아이콘을 클릭합니다.
+1. **User Settings** 를 선택한 다음 **API Keys** 섹션으로 스크롤합니다.
+
+### `wandb` 라이브러리 설치 및 로그인
+
+로컬에 `wandb` 라이브러리를 설치하고 로그인하려면:
+
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/) 를 사용자의 API 키로 설정합니다.
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. `wandb` 라이브러리를 설치하고 로그인합니다.
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+### 트레이닝 및 평가 데이터를 W&B에 로그
+
+트레이닝 손실(loss)과 평가 메트릭을 W&B에 자동으로 로그할 수 있습니다. DeepChem의 [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) 을 사용하여 선택적으로 평가를 활성화할 수 있으며, `WandbLogger` 는 ValidationCallback 콜백을 감지하고 생성된 메트릭을 로그합니다.
+
+<Tabs>
+<Tab title="TorchModel">
+```python
+from deepchem.models import TorchModel, ValidationCallback
+
+vc = ValidationCallback(…)  # 선택 사항
+model = TorchModel(…, wandb_logger=logger)
+model.fit(…, callbacks=[vc])
+logger.finish()
+```
+</Tab>
+<Tab title="KerasModel">
+```python
+from deepchem.models import KerasModel, ValidationCallback
+
+vc = ValidationCallback(…)  # 선택 사항
+model = KerasModel(…, wandb_logger=logger)
+model.fit(…, callbacks=[vc])
+logger.finish()
+```
+</Tab>
+</Tabs>
