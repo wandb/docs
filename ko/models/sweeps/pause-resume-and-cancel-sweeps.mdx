@@ -1,0 +1,91 @@
+---
+description: CLI를 사용하여 W&B Sweep을 일시 중지, 재개 및 취소합니다.
+title: 스윕 관리
+---
+
+[W&amp;B CLI](/ko/models/ref/cli/wandb-sweep)를 사용하여 스윕을 일시 중지(pause), 재개(resume) 및 취소(cancel)할 수 있습니다. CLI의 `sweep` 명령은 `--pause`, `--resume`와 같은 플래그를 사용하여 새 W&amp;B run을 생성하는 스윕의 동작을 제어하며, 기존 run에는 서로 다른 영향을 미칩니다:
+
+* `--pause`: 스윕을 일시 중지하면, 스윕을 다시 재개할 때까지 에이전트는 새로운 run을 생성하지 않습니다. 기존 run은 정상적으로 계속 실행됩니다.
+* `--resume`: 스윕을 재개하면, 에이전트는 검색 전략에 따라 계속해서 새로운 run을 생성합니다.
+* `--stop`: 스윕을 중지하면, 에이전트는 새로운 run 생성을 중단합니다. 기존 run은 완료될 때까지 계속됩니다.
+* `--cancel`: 스윕을 취소하면, 에이전트는 현재 실행 중인 모든 run을 즉시 종료하고 새로운 run 생성을 중단합니다.
+
+다음 안내를 참고하여 스윕을 일시 중지, 재개 및 취소하십시오. 각 경우마다 스윕을 초기화할 때 생성된 스윕 ID를 제공해야 합니다.
+
+<div id="pause-a-sweep">
+  ### 스윕 일시 중지
+</div>
+
+스윕을 일시 중지하면 새로운 run 생성을 일시적으로 중단합니다. 이미 실행 중인 run은 완료될 때까지 계속 실행됩니다. [`wandb sweep --pause`](/ko/models/ref/cli/wandb-sweep) 명령을 사용해 스윕을 일시 중지하세요. 일시 중지할 스윕 ID를 함께 지정합니다.
+
+```bash
+wandb sweep --pause entity/project/sweep_ID
+```
+
+<div id="resume-a-sweep">
+  ### 스윕 다시 시작하기
+</div>
+
+[`wandb sweep --resume`](/ko/models/ref/cli/wandb-sweep) 명령으로 일시 중지된 스윕을 다시 시작합니다. 스윕은 검색 전략에 따라 다시 새로운 run을 생성하기 시작합니다. 다시 시작하려는 스윕 ID를 지정합니다:
+
+```bash
+wandb sweep --resume entity/project/sweep_ID
+```
+
+<div id="stop-a-sweep">
+  ### 스윕 중지
+</div>
+
+새로운 run 생성을 중단하되 현재 실행 중인 run은 정상적으로 완료되도록 하려면 스윕을 종료하세요. [`wandb sweep --stop`](/ko/models/ref/cli/wandb-sweep) 명령을 사용하세요:
+
+```bash
+wandb sweep --stop entity/project/sweep_ID
+```
+
+<Warning>
+  프로젝트를 삭제하더라도 W&amp;B는 활성 [sweeps](/ko/models/sweeps) 또는 에이전트를 종료하지 않습니다.
+</Warning>
+
+<div id="cancel-a-sweep">
+  ### 스윕 취소하기
+</div>
+
+스윕을 취소하면 실행 중인 모든 run을 즉시 종료하고 새로운 run 생성을 중단합니다. 이 명령은 기존 run을 강제로 종료할 수 있는 유일한 스윕 명령입니다. 스윕을 취소하려면 [`wandb sweep --cancel`](/ko/models/ref/cli/wandb-sweep) 명령을 사용하세요. 취소하려는 스윕 ID를 지정하세요.
+
+```bash
+wandb sweep --cancel entity/project/sweep_ID
+```
+
+전체 CLI 명령 옵션 목록은 [wandb sweep](/ko/models/ref/cli/wandb-sweep) CLI 참조 가이드를 참조하세요.
+
+<Warning>
+  W&amp;B는 프로젝트를 삭제하더라도 진행 중인 [Sweeps](/ko/models/sweeps)나 에이전트를 종료하지 않습니다.
+</Warning>
+
+<div id="understanding-sweep-and-run-statuses">
+  ## 스윕과 run 상태 이해하기
+</div>
+
+스윕은 여러 run을 조율하여 하이퍼파라미터 조합을 탐색합니다. 스윕 상태와 run 상태가 어떻게 상호작용하는지 파악하는 것은 하이퍼파라미터 최적화를 효과적으로 관리하는 데 매우 중요합니다.
+
+<div id="key-differences">
+  ### 주요 차이점
+</div>
+
+* **Sweep status**는 새로운 run을 생성할지 여부를 제어합니다 (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed)
+* **Run status**는 개별 run의 실행 상태를 나타냅니다 (Pending, Running, Finished, Failed, Crashed, Killed)
+
+<div id="stop-an-individual-run">
+  ### 개별 run 중지하기
+</div>
+
+스윕에서 [run을 중지](/ko/models/runs/stop-runs)하면 스윕 에이전트는 자동으로 스윕의 다음 run을 시작합니다. 이렇게 하면 스윕의 전반적인 진행을 방해하지 않고 성능이 좋지 않은 설정을 건너뛸 수 있습니다.
+
+<div id="best-practices">
+  ### 모범 사례
+</div>
+
+* 실행 중인 실험을 잃지 않고 탐색을 일시적으로 중단하려면 cancel 대신 `--pause`를 사용하세요
+* 반복적으로 발생하는 실패를 파악하기 위해 개별 run 상태를 모니터링하세요
+* 만족스러운 하이퍼파라미터를 찾았을 때는 정상적으로 종료하기 위해 `--stop`을 사용하세요
+* run이 과도한 리소스를 사용하거나 오류를 발생시키는 등의 비상 상황에서는 `--cancel`을 사용하세요

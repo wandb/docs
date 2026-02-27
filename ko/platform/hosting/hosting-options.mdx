@@ -1,0 +1,42 @@
+---
+title: 배포 옵션
+---
+
+이 섹션에서는 W&amp;B를 배포하는 다양한 방법을 설명합니다.
+
+<div id="wb-multi-tenant-cloud">
+  ## W&amp;B 멀티 테넌트 클라우드
+</div>
+
+[W&amp;B 멀티 테넌트 클라우드](/ko/platform/hosting/#wb-multi-tenant-cloud)는 업그레이드, 유지 관리, 플랫폼 보안, 용량 계획을 포함해 W&amp;B에서 완전 관리형 서비스로 제공합니다. 멀티 테넌트 클라우드는 [Google Cloud의 북미 리전](https://cloud.google.com/compute/docs/regions-zones)에 있는 W&amp;B의 Google Cloud 계정에 배포됩니다. 옵션으로 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)를 사용해 W&amp;B Artifacts 및 기타 관련 민감한 데이터를 자신의 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다.
+
+[W&amp;B 멀티 테넌트 클라우드](/ko/platform/hosting/#wb-multi-tenant-cloud)를 참고하거나 [무료로 시작](https://app.wandb.ai/login?signup=true)하세요.
+
+<div id="wb-dedicated-cloud">
+  ## W&amp;B Dedicated Cloud
+</div>
+
+[W&amp;B Dedicated Cloud](/ko/platform/hosting/#wb-dedicated-cloud)는 엔터프라이즈 조직을 위해 설계된 단일 테넌트, 완전 관리형 플랫폼입니다. W&amp;B Dedicated Cloud는 W&amp;B의 AWS, Google Cloud 또는 Azure 계정에 배포됩니다. Dedicated Cloud는 Multi-tenant Cloud보다 더 높은 유연성을 제공하지만 W&amp;B Self-Managed보다는 복잡도가 낮습니다. 업그레이드, 유지 관리, 플랫폼 보안, 용량 계획은 W&amp;B에서 관리합니다. 각 Dedicated Cloud 인스턴스는 다른 W&amp;B Dedicated Cloud 인스턴스와 분리된 자체 독립 네트워크, 컴퓨트, 스토리지를 가집니다.
+
+귀사의 W&amp;B 관련 메타데이터와 데이터는 격리된 클라우드 스토리지에 저장되며, 격리된 클라우드 컴퓨트 서비스에서 처리됩니다. 옵션인 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하면 아티팩트 및 기타 관련 민감 데이터를 귀사의 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다.
+
+W&amp;B Dedicated Cloud에는 중요한 보안 기능과 기타 엔터프라이즈 친화적인 기능을 지원하는 [엔터프라이즈 라이선스](/ko/platform/hosting/hosting-options/self-managed/)가 포함됩니다.
+
+보안 또는 컴플라이언스 요구 사항이 높은 조직의 경우, HIPAA 규정 준수, Single Sign-On, Customer Managed Encryption Keys (CMEK)와 같은 기능을 **Enterprise** 지원과 함께 사용할 수 있습니다. [자세한 정보 요청](https://wandb.ai/site/contact).
+
+자세한 내용은 [W&amp;B Dedicated Cloud](/ko/platform/hosting/#wb-dedicated-cloud)를 참조하거나, [무료로 시작](https://app.wandb.ai/login?signup=true)해 보세요.
+
+<div id="wb-self-managed">
+  ## W&amp;B Self-Managed
+</div>
+
+[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed/)는 온프레미스 또는 사용자가 관리하는 클라우드 인프라에서 전적으로 직접 운영하는 방식입니다. IT/DevOps/MLOps 팀은 다음을 책임집니다:
+
+* 배포 프로비저닝
+* (해당되는 경우) 조직의 정책 및 [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)에 따른 인프라 보안 설정
+* 업그레이드 관리 및 패치 적용
+* Self-Managed W&amp;B Server 인스턴스의 지속적인 운영 및 유지 관리
+
+옵션으로 W&amp;B Self-Managed에 대한 엔터프라이즈 라이선스를 취득할 수 있습니다. 엔터프라이즈 라이선스에는 주요 보안 기능 및 기타 엔터프라이즈 환경에 적합한 기능에 대한 지원이 포함됩니다.
+
+[W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed/)를 참조하거나 [reference architecture](/ko/platform/hosting/self-managed/ref-arch/) 가이드를 검토하세요.

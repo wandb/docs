@@ -1,0 +1,14 @@
+---
+title: 로깅을 끄려면 어떻게 하나요?
+---
+
+`wandb offline` 명령은 환경 변수 `WANDB_MODE=offline`을 설정하여 데이터가 원격 W&amp;B 서버로 동기화되지 않도록 합니다. 이 설정은 모든 프로젝트에 적용되며 W&amp;B 서버로의 데이터 로깅을 중단합니다.
+
+경고 메시지를 숨기려면 다음 코드를 사용하세요:
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```

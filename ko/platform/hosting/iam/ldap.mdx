@@ -1,0 +1,62 @@
+---
+title: LDAP로 SSO 구성하기
+---
+
+W&amp;B Server의 LDAP 서버를 통해 자격 증명을 인증합니다. 이 가이드는 W&amp;B Server에 대한 설정을 구성하는 방법을 설명합니다. 필수 및 선택 설정은 물론, 시스템 설정 UI에서 LDAP 연결을 구성하는 방법에 대한 안내를 포함합니다. 또한 주소, base distinguished name(베이스 DN), 속성 등 LDAP 설정에 필요한 다양한 입력값에 대한 정보도 제공합니다. 이러한 속성은 W&amp;B App UI에서 또는 환경 변수를 사용해 지정할 수 있습니다. 익명 바인드를 설정하거나, 관리자 DN과 비밀번호를 사용하여 바인드하도록 설정할 수 있습니다.
+
+{/* <Note>
+  W&B 팀 관리자라면 익명 바인드를 사용하도록 설정하거나, 관리자 DN과 비밀번호로 바인드하도록 설정할 수 있습니다.
+  </Note> */}
+
+<Note>
+  LDAP 인증은 W&amp;B Admin 역할만 활성화하고 구성할 수 있습니다.
+</Note>
+
+
+<div id="configure-ldap-connection">
+  ## LDAP 연결 구성
+</div>
+
+<Tabs>
+<Tab title="W&B App">
+1. W&B App으로 이동합니다. 
+2. 오른쪽 상단에서 프로필 아이콘을 선택한 다음 드롭다운에서 **System Settings**를 선택합니다. 
+3. **Configure LDAP Client** 옵션을 활성화합니다.
+4. 양식에 세부 정보를 입력합니다. 각 입력값에 대한 자세한 내용은 **Configuring Parameters** 섹션을 참조하세요.
+5. 설정을 테스트하려면 **Update Settings**를 클릭합니다. 이렇게 하면 W&B 서버와의 테스트 클라이언트/연결이 생성됩니다.
+6. 연결이 확인되면 **Enable LDAP Authentication** 옵션을 활성화하고 **Update Settings** 버튼을 클릭합니다.
+</Tab>
+<Tab title="환경 변수">
+다음 환경 변수를 사용하여 LDAP 연결을 설정합니다:
+
+| Environment variable          | Required | Example                         |
+| ----------------------------- | -------- | ------------------------------- |
+| `LOCAL_LDAP_ADDRESS`          | Yes      | `ldaps://ldap.example.com:636`  |
+| `LOCAL_LDAP_BASE_DN`          | Yes      | `email=mail,group=gidNumber`    |
+| `LOCAL_LDAP_BIND_DN`          | No       | `cn=admin`, `dc=example,dc=org` |
+| `LOCAL_LDAP_BIND_PW`          | No       |                                 |
+| `LOCAL_LDAP_ATTRIBUTES`       | Yes      | `email=mail`, `group=gidNumber` |
+| `LOCAL_LDAP_TLS_ENABLE`       | No       |                                 |
+| `LOCAL_LDAP_GROUP_ALLOW_LIST` | No       |                                 |
+| `LOCAL_LDAP_LOGIN`            | No       |                                 |
+
+각 환경 변수의 정의는 [설정 매개변수](#configuration-parameters) 섹션을 참조하세요. 참고로, 정의 이름을 명확히 하기 위해 환경 변수 접두사 `LOCAL_LDAP`는 생략되었습니다.
+</Tab>
+</Tabs>
+
+<div id="configuration-parameters">
+  ## 설정 매개변수
+</div>
+
+다음 표는 필수 및 선택 항목인 LDAP 설정을 나열하고 설명합니다.
+
+| Environment variable | Definition              | Required |
+| -------------------- | ----------------------- | -------- |
+| `ADDRESS`            | W&B Server를 호스팅하는 VPC 내 LDAP 서버의 주소입니다.      | 예      |
+| `BASE_DN`            | 이 디렉터리에 대한 쿼리를 수행할 때 검색이 시작되는 루트 경로입니다.             | 예      |
+| `BIND_DN`            | LDAP 서버에 등록된 관리자 사용자의 경로입니다. LDAP 서버가 인증되지 않은 바인딩을 지원하지 않는 경우 필수입니다. 지정된 경우 W&B Server는 이 사용자로 LDAP 서버에 연결합니다. 지정하지 않으면 W&B Server는 익명 바인딩을 사용해 연결합니다. | 아니오       |
+| `BIND_PW`            | 관리자 사용자의 비밀번호로, 바인딩을 인증하는 데 사용됩니다. 비워 두면 W&B Server는 익명 바인딩을 사용해 연결합니다.   | 아니오       |
+| `ATTRIBUTES`         | 이메일 및 그룹 ID 속성 이름을 쉼표로 구분한 문자열 값으로 제공합니다.    | 예      |
+| `TLS_ENABLE`         | TLS를 활성화합니다.                | 아니오       |
+| `GROUP_ALLOW_LIST`   | 그룹 허용 목록입니다.           | 아니오       |
+| `LOGIN`              | W&B Server가 LDAP을 사용해 인증하도록 지정합니다. `True` 또는 `False`로 설정합니다. 필요에 따라 LDAP 설정을 테스트하려면 이를 `False`로 설정하고, LDAP 인증을 시작하려면 `True`로 설정합니다. | 아니오       |

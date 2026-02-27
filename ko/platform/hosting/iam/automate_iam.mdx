@@ -1,0 +1,63 @@
+---
+title: 사용자 및 팀 관리 자동화
+---
+
+이 페이지에서는 [SCIM API](/ko/platform/hosting/iam/scim)와 [Python SDK API](/ko/models/ref/python/public-api)를 사용해 사용자와 팀 관리를 자동화하는 방법을 설명합니다.
+
+<div id="scim-api">
+  ## SCIM API
+</div>
+
+W&amp;B SCIM API를 사용하면 Okta나 Microsoft Entra와 같은 IdP(Identity Provider)를 통해 W&amp;B 조직의 사용자와 팀을 대규모로 관리할 수 있습니다.
+
+<Tip>
+  W&amp;B 구현에는 역할을 부여하는 엔드포인트뿐만 아니라 커스텀 역할을 생성하고 관리하는 엔드포인트, 기본 제공 역할 및 커스텀 역할을 할당하는 엔드포인트가 포함됩니다. 역할 엔드포인트는 공식 SCIM 스키마의 일부가 아닙니다. W&amp;B는 커스텀 역할의 자동 관리를 지원하기 위해 이러한 역할 엔드포인트를 추가로 제공합니다.
+</Tip>
+
+다음 섹션에서는 SCIM API의 각 카테고리에 대해 설명합니다.
+
+<div id="user-scim-api">
+  ### User SCIM API
+</div>
+
+[User SCIM API](./scim#user-resource)를 사용하면 W&amp;B 조직에서 사용자를 생성, 비활성화, 조회 및 목록을 가져오고, 미리 정의된 역할이나 사용자 지정 역할을 할당할 수 있습니다. 전체 요청/응답 예시는 상세한 [SCIM 레퍼런스](./scim#user-management)를 참고하십시오.
+
+<Note>
+  `PATCH /scim/Users/{id}` 요청으로 사용자를 비활성화하고 `{"active": false}`로 설정하십시오. 호스팅 옵션에 따라 결과가 달라집니다. Dedicated Cloud 및 Self-Managed 배포에서는 사용자 레코드가 유지되지만, Multi-tenant Cloud에서는 조직에서 사용자가 제거됩니다. Multi-tenant Cloud에서는 재활성화가 불가능하므로, 대신 사용자를 다시 추가해야 합니다. [사용자 비활성화](./scim#deactivate-user) 및 [사용자 재활성화](./scim#reactivate-user)를 참조하십시오.
+</Note>
+
+<div id="group-scim-api">
+  ### Group SCIM API
+</div>
+
+[Group SCIM API](./scim#group-resource)를 사용하면 조직 내에서 팀을 생성하거나 제거하는 등 W&amp;B 팀을 관리할 수 있습니다. 기존 팀에 사용자를 추가하거나 제거하려면 `PATCH Group`을 사용하세요.
+
+<Note>
+  W&amp;B 내에는 `동일한 역할을 가진 사용자 그룹`이라는 개념이 없습니다. W&amp;B 팀은 그룹과 매우 유사하며, 서로 다른 역할을 가진 다양한 유형의 사용자들이 관련된 프로젝트 집합에서 함께 협업할 수 있도록 해줍니다. 하나의 팀은 서로 다른 사용자 그룹들로 구성될 수 있습니다. 팀의 각 사용자에게 팀 관리자, 멤버, 뷰어 또는 사용자 지정 역할과 같은 역할을 할당하세요.
+
+  W&amp;B는 그룹과 W&amp;B 팀 간의 유사성이 크기 때문에 Group SCIM API 엔드포인트를 W&amp;B 팀에 매핑합니다.
+</Note>
+
+<div id="custom-role-api">
+  ### 커스텀 역할 API
+</div>
+
+[Custom Role SCIM API](./scim#role-resource)를 사용하면 조직 내 커스텀 역할을 생성, 나열, 업데이트하는 등 커스텀 역할을 관리할 수 있습니다.
+
+<Warning>
+  커스텀 역할을 삭제할 때는 주의하십시오.
+
+  `DELETE Role` 엔드포인트를 사용해 W&amp;B 조직 내의 커스텀 역할을 삭제합니다. 삭제 작업을 수행하기 전에, 해당 커스텀 역할이 할당된 모든 사용자에게는 그 커스텀 역할이 상속하는 사전 정의된 역할이 대신 할당됩니다.
+
+  `PUT Role` 엔드포인트를 사용해 커스텀 역할이 상속하는 역할을 업데이트할 수 있습니다. 이 작업은 기존의, 즉 상속되지 않은 커스텀 권한에는 아무런 영향을 미치지 않습니다.
+</Warning>
+
+<div id="wb-python-sdk-api">
+  ## W&amp;B Python SDK API
+</div>
+
+[W&amp;B Python SDK API](/ko/models/ref/python/public-api/api)를 사용하여 조직의 사용자, 팀, 팀 멤버십을 관리합니다.
+
+* [`User`](/ko/models/ref/python/public-api/user)
+* [`Team`](/ko/models/ref/python/public-api/team)
+* [`Member`](/ko/models/ref/python/public-api/member)

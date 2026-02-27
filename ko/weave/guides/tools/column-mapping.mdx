@@ -1,0 +1,50 @@
+---
+title: "데이터셋에서 열 이름 매핑하기"
+description: "데이터셋의 열을 다른 이름으로 매핑합니다. 이를 통해 데이터셋의 열 이름을 채점기가 기대하는 열 이름과 맞출 수 있습니다."
+---
+
+<Tabs>
+  <Tab title="Python">
+    Weave Python SDK에서는 채점기의 `column_map` 속성을 사용해 채점기가 기대하는 매개변수 이름을 데이터셋의 열 이름에 매핑합니다. 매핑 형식은 `{scorer_parameter: dataset_column}`입니다.
+
+    다음 예시는 `output` 및 `target` 매개변수를 데이터셋의 `model_output` 및 `answer` 열에 매핑합니다:
+
+    ```python
+    from weave.scorers import EmbeddingSimilarityScorer
+
+    similarity_scorer = EmbeddingSimilarityScorer()
+
+    similarity_scorer.column_map = {
+        "output": "model_output",  # 모델이 생성한 텍스트
+        "target": "answer"         # 기대하거나 기준이 되는 응답
+    }
+    ```
+
+    채점기 열 매핑에 대한 자세한 내용은 [열 이름을 `column_map`으로 매핑하기](../evaluation/scorers#mapping-column-names-with-column_map)를 참고하세요.
+  </Tab>
+  <Tab title="TypeScript">
+    Weave TypeScript SDK에서는 열 매핑을 개별 채점기가 아닌 `Evaluation` 객체의 `columnMapping` 옵션에서 설정합니다. 매핑 형식은 `{scorer_key: dataset_column}`입니다.
+
+    다음 예시는 채점기에서 사용하는 `expectedOutputTimesTwo`를 데이터셋의 `expected` 열에 매핑합니다:
+
+    ```typescript
+    import * as weave from 'weave';
+
+    const myScorer = weave.op(
+      ({modelOutput, datasetRow}) => {
+        return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+      },
+      {name: 'myScorer'}
+    );
+
+    const myEval = new weave.Evaluation({
+      id: 'my-evaluation',
+      dataset: [{expected: 2}],
+      scorers: [myScorer],
+      columnMapping: {expectedOutputTimesTwo: 'expected'},
+    });
+    ```
+
+    TypeScript 채점기 인자에 대한 자세한 내용은 [Scorer 키워드 인자](../evaluation/scorers#scorer-keyword-arguments)를 참고하세요.
+  </Tab>
+</Tabs>

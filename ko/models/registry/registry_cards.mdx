@@ -1,0 +1,74 @@
+---
+title: 컬렉션에 주석 달기
+---
+
+컬렉션에 사람이 읽기 쉬운 텍스트를 추가하여, 사용자들이 컬렉션의 목적과 그 안에 포함된 아티팩트를 이해할 수 있도록 하십시오.
+
+컬렉션의 특성에 따라 트레이닝 데이터, 모델 아키텍처, 태스크, 라이선스, 참고 자료, 배포 정보 등을 포함하고 싶을 수 있습니다. 다음은 컬렉션에 문서화할 만한 주제들입니다:
+
+W&amp;B에서는 최소한 다음과 같은 내용을 포함할 것을 권장합니다:
+
+* **Summary**: 컬렉션의 목적과 해당 머신러닝 실험에 사용된 머신러닝 프레임워크.
+* **License**: 머신러닝 모델 사용과 관련된 법적 조건 및 권한. 이를 통해 모델 사용자가 어떤 법적 틀 아래에서 모델을 활용할 수 있는지 이해할 수 있습니다. 일반적인 라이선스로는 Apache 2.0, MIT, GPL 등이 있습니다.
+* **References**: 관련 연구 논문, 데이터셋 또는 외부 리소스에 대한 인용 또는 참고 자료.
+
+컬렉션에 트레이닝 데이터가 포함되어 있다면, 다음과 같은 추가 정보를 포함하는 것을 고려하십시오:
+
+* **Training data**: 사용된 트레이닝 데이터를 설명합니다.
+* **Processing**: 트레이닝 데이터셋에 수행된 전처리/가공 작업.
+* **Data storage**: 해당 데이터가 어디에 저장되어 있는지와 어떻게 접근할 수 있는지.
+
+컬렉션에 머신러닝 모델이 포함되어 있다면, 다음과 같은 추가 정보를 포함하는 것을 고려하십시오:
+
+* **Architecture**: 모델 아키텍처, 레이어 구성, 그리고 특정 설계 선택 사항에 대한 정보.
+* **Task**: 컬렉션의 모델이 수행하도록 설계된 구체적인 태스크 또는 문제 유형. 이는 모델이 의도한 기능을 분류한 것입니다.
+* **Deserialize the model**: 팀원이 모델을 메모리에 로드하는 방법에 대한 정보.
+* **Deployment**: 모델이 어떻게, 어디에 배포되어 있는지, 그리고 워크플로 오케스트레이션 플랫폼과 같은 다른 엔터프라이즈 시스템에 모델을 어떻게 통합하는지에 대한 가이드.
+
+<div id="add-a-description-to-a-collection">
+  ## 컬렉션에 설명 추가하기
+</div>
+
+W&amp;B Registry UI 또는 Python SDK를 사용하여 컬렉션에 대한 설명을 인터랙티브하게 또는 프로그래밍 방식으로 추가할 수 있습니다.
+
+<Tabs>
+  <Tab title="W&B Registry UI">
+    1. [W&amp;B Registry](https://wandb.ai/registry/)로 이동합니다.
+    2. 컬렉션을 클릭합니다.
+    3. 컬렉션 이름 옆의 **View details**를 선택합니다.
+    4. **Description** 필드에 컬렉션에 대한 정보를 입력합니다. 필드 내 텍스트는 [Markdown 마크업 언어](https://www.markdownguide.org/)로 서식을 지정할 수 있습니다.
+  </Tab>
+
+  <Tab title="Python SDK">
+    [`wandb.Api().artifact_collection()`](/ko/models/ref/python/public-api/api#artifact_collection) 메서드를 사용하여 컬렉션의 설명에 접근합니다. 반환된 객체의 `description` 프로퍼티를 사용해 컬렉션 설명을 추가하거나 업데이트합니다.
+
+    `type_name` 파라미터에는 컬렉션 타입을, `name` 파라미터에는 컬렉션의 전체 이름을 지정합니다. 컬렉션 이름은 접두사 “wandb-registry”, 레지스트리 이름, 컬렉션 이름이 슬래시로 구분되어 구성됩니다:
+
+    ```text
+    wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+    ```
+
+    아래 코드 스니펫을 Python 스크립트나 노트북에 복사해 붙여넣습니다. 꺾쇠 괄호(`< >`)로 둘러싸인 값들을 자신의 값으로 바꾸십시오.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    collection = api.artifact_collection(
+      type_name = "<collection_type>", 
+      name = "<collection_name>"
+      )
+
+
+    collection.description = "This is a description."
+    collection.save()  
+    ```
+  </Tab>
+</Tabs>
+
+예를 들어, 다음 이미지는 모델의 아키텍처, 의도된 사용 방법, 성능 정보 등을 문서화하는 컬렉션을 보여줍니다.
+
+<Frame>
+  <img src="/images/registry/registry_card.png" alt="컬렉션 카드" />
+</Frame>

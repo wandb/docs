@@ -1,0 +1,56 @@
+---
+title: Audio
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+
+
+## <kbd>class</kbd> `Audio`
+
+오디오 클립용 W&B 클래스입니다. 
+
+### <kbd>method</kbd> `Audio.__init__`
+
+```python
+__init__(
+    data_or_path: Union[str, pathlib.Path, list, ForwardRef('np.ndarray')],
+    sample_rate: Optional[int] = None,
+    caption: Optional[str] = None
+)
+```
+
+오디오 파일의 경로 또는 오디오 데이터가 담긴 NumPy 배열을 인수로 받습니다.
+
+**인자:**
+
+* `data_or_path`:  오디오 파일 경로 또는 오디오 데이터가 담긴 NumPy 배열.
+* `sample_rate`:  원시 NumPy 배열 형태의 오디오 데이터를 전달할 때 필요한 샘플 레이트.
+* `caption`:  오디오와 함께 표시할 캡션.
+
+***
+
+
+### <kbd>classmethod</kbd> `Audio.durations`
+
+```python
+durations(audio_list)
+```
+
+오디오 파일의 지속 시간을 계산합니다.
+
+***
+
+
+### <kbd>classmethod</kbd> `Audio.sample_rates`
+
+```python
+sample_rates(audio_list)
+```
+
+오디오 파일의 샘플링 레이트를 가져옵니다.
+
+***

@@ -1,0 +1,270 @@
+---
+title: 작업 입력 관리
+---
+
+Launch의 핵심 기능은 하이퍼파라미터와 데이터셋 같은 다양한 작업 입력을 손쉽게 바꾸어 가며 실험하고, 이러한 작업들을 적절한 하드웨어로 라우팅할 수 있게 해 주는 것입니다. 작업이 한 번 생성되면, 원 작성자뿐만 아니라 다른 사용자들도 W&amp;B GUI 또는 CLI를 통해 이 입력값들을 조정할 수 있습니다. CLI 또는 UI에서 작업을 시작할 때 작업 입력을 설정하는 방법은 [작업 대기열에 추가](./add-job-to-queue) 가이드를 참고하십시오.
+
+이 섹션에서는 작업에 대해 조정 가능한 입력을 프로그래밍 방식으로 제어하는 방법을 설명합니다.
+
+기본적으로 W&amp;B 작업은 전체 `Run.config`를 캡처하여 작업 입력으로 사용하지만, Launch SDK는 run 설정에서 선택한 키들만 제어하거나 JSON 또는 YAML 파일을 입력으로 지정할 수 있는 기능을 제공합니다.
+
+<Note>
+  Launch SDK 함수는 `wandb-core`를 필요로 합니다. 자세한 내용은 [`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README)를 참고하십시오.
+</Note>
+
+<div id="reconfigure-the-run-object">
+  ## `Run` 객체 재구성하기
+</div>
+
+잡에서 `wandb.init`이 반환하는 `Run` 객체는 기본적으로 재구성할 수 있도록 되어 있습니다. Launch SDK를 사용하면 잡을 실행할 때 `Run.config` 객체의 어떤 부분을 재구성할 수 있을지 사용자 지정할 수 있습니다.
+
+```python
+import wandb
+from wandb.sdk import launch
+
+# launch sdk 사용에 필요합니다.
+wandb.require("core")
+
+config = {
+    "trainer": {
+        "learning_rate": 0.01,
+        "batch_size": 32,
+        "model": "resnet",
+        "dataset": "cifar10",
+        "private": {
+            "key": "value",
+        },
+    },
+    "seed": 42,
+}
+
+
+with wandb.init(config=config):
+    launch.manage_wandb_config(
+        include=["trainer"], 
+        exclude=["trainer.private"],
+    )
+    # 기타.
+```
+
+함수 `launch.manage_wandb_config`는 job이 `Run.config` 객체에 대한 입력값을 받을 수 있도록 구성합니다. 선택적인 `include` 및 `exclude` 옵션은 중첩된 config 객체 내에서 경로 접두사를 받습니다. 예를 들어, job에서 특정 라이브러리를 사용하지만 그 라이브러리의 옵션은 최종 사용자에게 노출하고 싶지 않을 때 유용합니다.
+
+`include` 접두사가 제공되면, config에서 `include` 접두사와 일치하는 경로만 입력값을 받을 수 있습니다. `exclude` 접두사가 제공되면, `exclude` 목록과 일치하는 경로는 모두 입력값에서 필터링됩니다. 하나의 경로가 `include`와 `exclude` 접두사 모두와 일치하는 경우에는 `exclude` 접두사가 우선합니다.
+
+앞선 예시에서 경로 `["trainer.private"]`는 `trainer` 객체에서 `private` 키를 필터링하고, 경로 `["trainer"]`는 `trainer` 객체 하위가 아닌 모든 키를 필터링합니다.
+
+<Note>
+  이름에 `.`이 포함된 키를 필터링하려면 `\`로 이스케이프된 `.`을 사용하십시오.
+
+  예를 들어, `r"trainer\.private"`는 `trainer` 객체의 `private` 키가 아니라 `trainer.private` 키를 필터링합니다.
+
+  위의 `r` 접두사는 raw string을 나타냅니다.
+</Note>
+
+위 코드가 패키징되어 job으로 실행되면, 해당 job의 입력 타입은 다음과 같습니다:
+
+```json
+{
+    "trainer": {
+        "learning_rate": "float",
+        "batch_size": "int",
+        "model": "str",
+        "dataset": "str",
+    },
+}
+```
+
+W&amp;B CLI 또는 UI에서 작업을 실행할 때, 사용자는 네 가지 `trainer` 파라미터만 오버라이드할 수 있습니다.
+
+<div id="access-run-config-inputs">
+  ### run config 입력값에 접근하기
+</div>
+
+run config 입력값과 함께 실행된 Job은 `Run.config`를 통해 해당 입력값에 접근할 수 있습니다. Job 코드에서 `wandb.init`이 반환하는 `Run`에는 입력값이 자동으로 설정됩니다. 다음과 같이 사용합니다:
+
+```python
+from wandb.sdk import launch
+
+run_config_overrides = launch.load_wandb_config()
+```
+
+job 코드 어디에서든 run 구성 입력값을 로드할 수 있습니다.
+
+<div id="reconfigure-a-file">
+  ## 파일 재구성하기
+</div>
+
+Launch SDK는 잡 코드에서 config 파일에 저장된 입력값을 관리하는 방법도 제공합니다. 이는 많은 딥러닝 및 대규모 언어 모델 사용 사례에서 흔히 사용하는 패턴입니다. 예를 들어 [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) 예제나 [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) 예제가 있습니다.
+
+<Note>
+  [Sweeps on Launch](/ko/platform/launch/sweeps-on-launch/)는 config 파일 입력을 스윕 파라미터로 사용하는 것을 지원하지 않습니다. 스윕 파라미터는 반드시 `Run.config` 객체를 통해 제어해야 합니다.
+</Note>
+
+`launch.manage_config_file` 함수는 Launch 잡의 입력으로 config 파일을 추가하는 데 사용할 수 있으며, 이를 통해 잡을 실행할 때 config 파일 내의 값을 편집할 수 있습니다.
+
+기본적으로 `launch.manage_config_file`이 사용되면 run config 입력값은 캡처되지 않습니다. `launch.manage_wandb_config`를 호출하면 이 동작을 덮어씁니다.
+
+다음 예제를 살펴보십시오:
+
+```python
+import yaml
+import wandb
+from wandb.sdk import launch
+
+# launch sdk 사용에 필요합니다.
+wandb.require("core")
+
+launch.manage_config_file("config.yaml")
+
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+
+with wandb.init(config=config):
+    # 기타.
+    pass
+```
+
+코드가 같은 디렉터리에 있는 `config.yaml` 파일과 함께 실행된다고 가정해 보겠습니다:
+
+```yaml
+learning_rate: 0.01
+batch_size: 32
+model: resnet
+dataset: cifar10
+```
+
+`launch.manage_config_file` 호출은 `config.yaml` 파일을 잡의 입력으로 추가하여, W&amp;B CLI 또는 UI에서 실행할 때 다시 구성할 수 있도록 만듭니다.
+
+`include` 및 `exclude` 키워드 인자는 `launch.manage_wandb_config`와 동일한 방식으로, 구성 파일에 대해 허용되는 입력 키를 필터링하는 데 사용할 수 있습니다.
+
+<div id="access-config-file-inputs">
+  ### 구성 파일 입력값에 접근하기
+</div>
+
+Launch에서 생성된 run에서 `launch.manage_config_file`이(가) 호출되면, `launch`는 구성 파일의 내용을 입력값으로 패치합니다. 패치된 구성 파일은 잡 환경에서 사용할 수 있습니다.
+
+<Warning>
+  입력값이 적용되도록 하려면, 잡 코드에서 구성 파일을 읽기 전에 `launch.manage_config_file`을(를) 호출하세요.
+</Warning>
+
+<div id="customize-a-jobs-launch-drawer-ui">
+  ### 잡의 launch drawer UI 사용자 지정
+</div>
+
+잡의 입력을 위한 스키마를 정의하면 잡을 실행하기 위한 사용자 지정 UI를 만들 수 있습니다. 잡의 스키마를 정의하려면 `launch.manage_wandb_config` 또는 `launch.manage_config_file` 호출에 스키마를 포함하면 됩니다. 스키마는 [JSON Schema](https://json-schema.org/understanding-json-schema/reference) 형태의 파이썬 사전이거나 Pydantic 모델 클래스가 될 수 있습니다.
+
+<Warning>
+  잡 입력 스키마는 입력 값을 검증하는 데 사용되지 않습니다. launch drawer의 UI를 정의하는 데만 사용됩니다.
+</Warning>
+
+<Tabs>
+  <Tab title="JSON 스키마">
+    다음 예시는 아래와 같은 속성을 가진 스키마를 보여줍니다:
+
+    * `seed`: 정수
+    * `trainer`: 일부 키가 지정된 사전:
+      * `trainer.learning_rate`: 0보다 커야 하는 float
+      * `trainer.batch_size`: 16, 64, 256 중 하나여야 하는 정수
+      * `trainer.dataset`: `cifar10` 또는 `cifar100` 중 하나여야 하는 문자열
+
+    ```python
+    schema = {
+        "type": "object",
+        "properties": {
+            "seed": {
+              "type": "integer"
+            }
+            "trainer": {
+                "type": "object",
+                "properties": {
+                    "learning_rate": {
+                        "type": "number",
+                        "description": "Learning rate of the model",
+                        "exclusiveMinimum": 0,
+                    },
+                    "batch_size": {
+                        "type": "integer",
+                        "description": "Number of samples per batch",
+                        "enum": [16, 64, 256]
+                    },
+                    "dataset": {
+                        "type": "string",
+                        "description": "Name of the dataset to use",
+                        "enum": ["cifar10", "cifar100"]
+                    }
+                }
+            }
+        }
+    }
+
+    launch.manage_wandb_config(
+        include=["seed", "trainer"], 
+        exclude=["trainer.private"],
+        schema=schema,
+    )
+    ```
+
+    일반적으로 다음 JSON Schema 속성을 지원합니다:
+
+    | Attribute | Required |  Notes |
+    | --- | --- | --- |
+    | `type` | Yes | `number`, `integer`, `string`, `object` 중 하나여야 합니다 |
+    | `title` | No | 속성의 표시 이름을 재정의합니다 |
+    | `description` | No | 속성에 대한 도움말 텍스트를 제공합니다 |
+    | `enum` | No | 자유 형식 텍스트 입력 대신 드롭다운 선택 메뉴를 생성합니다 |
+    | `minimum` | No | `type`이 `number` 또는 `integer`인 경우에만 허용됩니다 |
+    | `maximum` | No | `type`이 `number` 또는 `integer`인 경우에만 허용됩니다 |
+    | `exclusiveMinimum` | No | `type`이 `number` 또는 `integer`인 경우에만 허용됩니다 |
+    | `exclusiveMaximum` | No | `type`이 `number` 또는 `integer`인 경우에만 허용됩니다 |
+    | `properties` | No | `type`이 `object`인 경우, 중첩된 설정을 정의하는 데 사용됩니다 |
+  </Tab>
+
+  <Tab title="Pydantic 모델">
+    다음 예시는 아래와 같은 속성을 가진 스키마를 보여줍니다:
+
+    * `seed`: 정수
+    * `trainer`: 일부 하위 속성이 지정된 스키마:
+      * `trainer.learning_rate`: 0보다 커야 하는 float
+      * `trainer.batch_size`: 1 이상 256 이하(포함)여야 하는 정수
+      * `trainer.dataset`: `cifar10` 또는 `cifar100` 중 하나여야 하는 문자열
+
+    ```python
+    class DatasetEnum(str, Enum):
+        cifar10 = "cifar10"
+        cifar100 = "cifar100"
+
+    class Trainer(BaseModel):
+        learning_rate: float = Field(gt=0, description="Learning rate of the model")
+        batch_size: int = Field(ge=1, le=256, description="Number of samples per batch")
+        dataset: DatasetEnum = Field(title="Dataset", description="Name of the dataset to use")
+
+    class Schema(BaseModel):
+        seed: int
+        trainer: Trainer
+
+    launch.manage_wandb_config(
+        include=["seed", "trainer"],
+        exclude=["trainer.private"],
+        schema=Schema,
+    )
+    ```
+
+    클래스의 인스턴스를 사용할 수도 있습니다:
+
+    ```python
+    t = Trainer(learning_rate=0.01, batch_size=32, dataset=DatasetEnum.cifar10)
+    s = Schema(seed=42, trainer=t)
+    launch.manage_wandb_config(
+        include=["seed", "trainer"],
+        exclude=["trainer.private"],
+        input_schema=s,
+    )
+    ```
+  </Tab>
+</Tabs>
+
+잡 입력 스키마를 추가하면 launch drawer에 구조화된 양식이 생성되어 잡을 더 쉽게 실행할 수 있습니다.
+
+<Frame>
+  <img src="/images/launch/schema_overrides.png" alt="잡 입력 스키마 양식" />
+</Frame>

@@ -1,0 +1,110 @@
+---
+description:
+  W&B로 데이터셋 아티팩트를 생성하고, 추적하고, 활용합니다.
+title: "튜토리얼: 데이터셋 아티팩트를 생성, 추적, 사용하기"
+---
+
+이 튜토리얼에서는 데이터셋 아티팩트를 생성하고, 추적하고, 활용하는 방법을 보여줍니다.
+
+<div id="1-log-into-wb">
+  ## 1. W&amp;B에 로그인하기
+</div>
+
+W&amp;B 라이브러리를 import한 뒤 W&amp;B에 로그인합니다. 아직 W&amp;B 계정이 없다면, 먼저 무료 W&amp;B 계정에 가입해야 합니다.
+
+```python
+import wandb
+
+wandb.login()
+```
+
+<div id="2-initialize-a-run">
+  ## 2. run 초기화하기
+</div>
+
+[`wandb.init()`](/ko/models/ref/python/functions/init)를 사용해 run을 초기화합니다. 이 함수는 백그라운드에서 데이터 동기화와 로깅을 수행하는 프로세스를 생성합니다. 프로젝트 이름과 job 타입을 지정합니다:
+
+```python
+# W&B Run을 생성합니다. 이 예제는 데이터셋 아티팩트를 생성하는 방법을 보여주므로
+# job type으로 'dataset'을 지정합니다.
+with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
+    # 여기에 코드를 작성하세요
+```
+
+<div id="3-create-an-artifact-object">
+  ## 3. 아티팩트 객체 생성
+</div>
+
+[`wandb.Artifact()`](/ko/models/ref/python/experiments/artifact)를 사용해 아티팩트 객체를 생성합니다. `name`과 `type` 매개변수에 각각 아티팩트의 이름과 파일 유형에 대한 설명을 지정합니다.
+
+예를 들어, 다음 코드 예시는 `‘bicycle-dataset’`이라는 이름과 `‘dataset’` 레이블을 가진 아티팩트를 생성하는 방법을 보여줍니다:
+
+```python
+artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
+```
+
+아티팩트를 구성하는 방법에 대한 더 자세한 내용은 [Construct artifacts](./construct-an-artifact)를 참고하세요.
+
+<div id="4-add-the-dataset-to-the-artifact">
+  ## 4. 아티팩트에 데이터셋 추가하기
+</div>
+
+아티팩트에 파일을 추가합니다. 일반적인 파일 유형으로는 모델과 데이터셋이 있습니다. 다음 예제에서는 로컬 머신에 저장된 `dataset.h5` 데이터셋을 아티팩트에 추가합니다:
+
+```python
+# 아티팩트 콘텐츠에 파일 추가
+artifact.add_file(local_path="dataset.h5")
+```
+
+이전 코드 스니펫에서 파일명 `dataset.h5`를 아티팩트에 추가하려는 파일의 경로로 바꾸세요.
+
+<div id="5-log-the-dataset">
+  ## 5. 데이터셋 로깅하기
+</div>
+
+W&amp;B run 객체의 `wandb.Run.log_artifact()` 메서드를 사용하여 아티팩트 버전을 저장함과 동시에, 해당 아티팩트를 [run의 출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph)으로 선언합니다.
+
+```python
+# 아티팩트 버전을 W&B에 저장하고
+# 이 run의 출력으로 표시합니다
+run.log_artifact(artifact)
+```
+
+아티팩트를 로깅하면 기본적으로 `'latest'` [별칭](/ko/models/artifacts/create-a-custom-alias)이 생성됩니다. 아티팩트 별칭과 버전에 대한 자세한 내용은 각각 [사용자 지정 별칭 생성](./create-a-custom-alias) 및 [새 아티팩트 버전 생성](./create-a-new-artifact-version)을 참조하세요.
+
+지금까지 작성한 스크립트는 다음과 같습니다:
+
+```python
+import wandb
+
+wandb.login()
+
+with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
+    artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
+    artifact.add_file(local_path="dataset.h5")
+    run.log_artifact(artifact)
+```
+
+<div id="6-download-and-use-the-artifact">
+  ## 6. 아티팩트 다운로드 및 사용
+</div>
+
+다음 코드 예제는 W&amp;B 서버에 로깅하고 저장해 둔 아티팩트를 사용하는 데 필요한 단계를 보여 줍니다.
+
+1. 먼저 **`wandb.init()`** 를 사용해 새 run 객체를 초기화합니다.
+2. 다음으로 run 객체의 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 메서드를 사용해 W&amp;B에 어떤 아티팩트를 사용할지 지정합니다. 이 메서드는 아티팩트 객체를 반환합니다.
+3. 마지막으로 아티팩트의 [`wandb.Artifact.download()`](/ko/models/ref/python/experiments/artifact#download) 메서드를 사용해 아티팩트의 내용을 다운로드합니다.
+
+```python
+# W&B Run을 생성합니다. 트레이닝을 추적하는 데 이 run을 사용할 것이므로
+# 'type'에 'training'을 지정합니다.
+with wandb.init(project="artifacts-example", job_type="training") as run:
+
+  # W&B에서 아티팩트를 조회하고 이 run의 입력으로 표시합니다
+  artifact = run.use_artifact("bicycle-dataset:latest")
+
+  # 아티팩트의 내용을 다운로드합니다
+  artifact_dir = artifact.download()
+```
+
+또는 Public API(`wandb.Api`)를 사용해서 Run 외부에서 W&amp;B에 이미 저장된 데이터를 내보내거나(또는 업데이트할) 수 있습니다. 자세한 내용은 [외부 파일 추적](./track-external-files)을 참고하세요.

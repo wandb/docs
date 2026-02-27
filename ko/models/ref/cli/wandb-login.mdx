@@ -1,0 +1,36 @@
+---
+title: "wandb login"
+---
+
+import WandbLogin from "/snippets/ko/_includes/cli/wandb-login.mdx";
+
+<WandbLogin />
+
+
+<div id="usage">
+  ## 사용법
+</div>
+
+```bash
+wandb login [KEY] [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## 인수
+</div>
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `KEY` | 설명이 제공되지 않습니다 | 아니오 |
+
+<div id="options">
+  ## 옵션
+</div>
+
+| 옵션 | 설명 |
+| :--- | :--- |
+| `--cloud` | 로컬 대신 클라우드에 로그인합니다 (기본값: False). |
+| `--host`, `--base-url` | 특정 W&B 인스턴스에 로그인합니다. |
+| `--relogin` | 이미 로그인된 경우에도 다시 로그인을 강제합니다. |
+| `--verify` | 로그인 자격 증명을 확인합니다 (기본값: False). |

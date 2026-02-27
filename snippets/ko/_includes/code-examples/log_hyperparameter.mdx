@@ -1,0 +1,18 @@
+---
+title: "하이퍼파라미터 기록하기"
+---
+
+```python
+"""W&B run을 초기화하고 하이퍼파라미터를 기록합니다."""
+import wandb
+
+config = {
+    "learning_rate": 0.01,
+    "batch_size": 32,
+    "optimizer": "adam",
+}
+
+with wandb.init(project="<project>", config=config) as run:
+    # 트레이닝 및 로깅 코드를 여기에 작성하세요
+    pass
+```

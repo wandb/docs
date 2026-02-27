@@ -1,0 +1,65 @@
+---
+title: Projects
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+
+## <kbd>class</kbd> `Projects`
+
+`Project` 객체의 지연(lazy) 이터레이터입니다. 
+
+엔티티가 생성하고 저장한 프로젝트에 접근하기 위한 이터러블 인터페이스입니다.
+
+### <kbd>메서드</kbd> `Projects.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    per_page: 'int' = 50
+) → Projects
+```
+
+**인자:**
+
+* `client` (`wandb.apis.internal.Api`):  사용할 API 클라이언트 인스턴스입니다.
+* `entity` (str):  프로젝트를 가져올 엔티티 이름(사용자 이름 또는 팀)입니다.
+* `per_page` (int):  요청당 가져올 프로젝트 수입니다(기본값: 50).
+
+**예제:**
+
+```python
+from wandb.apis.public.api import Api
+
+# 이 엔티티에 속한 프로젝트 찾기
+projects = Api().projects(entity="entity")
+
+# 프로젝트 순회
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+```
+
+반복 가능한 `Project` 객체 컬렉션입니다.
+
+**Args:**
+
+* `client`:  W&amp;B에 쿼리를 보내는 데 사용되는 API 클라이언트입니다.
+* `entity`:  프로젝트를 소유한 엔터티입니다.
+* `per_page`:  각 API 요청마다 가져올 프로젝트 수입니다.
+
+***
+
+
+### <kbd>property</kbd> Projects.cursor
+
+---
+
+### <kbd>속성</kbd> Projects.more

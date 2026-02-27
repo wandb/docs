@@ -1,0 +1,130 @@
+---
+description: Hugging Face의 Transformers 라이브러리와 W&B를 연동하는 방법입니다.
+title: Hugging Face Simple Transformers
+---
+
+이 라이브러리는 Hugging Face의 Transformers 라이브러리를 기반으로 합니다. Simple Transformers를 사용하면 Transformer 모델을 빠르게 트레이닝하고 평가할 수 있습니다. 모델을 초기화하고, 트레이닝하고, 평가하는 데에는 단 3줄의 코드만 필요합니다. Sequence Classification, Token Classification (NER), Question Answering, Language Model Fine-Tuning, Language Model Training, Language Generation, T5 Model, Seq2Seq Tasks, Multi-Modal Classification, Conversational AI를 지원합니다.
+
+모델 트레이닝을 시각화하기 위해 W&amp;B를 사용하려면 `args` 사전의 `wandb_project` 속성에 W&amp;B 프로젝트 이름을 설정하십시오. 그러면 모든 하이퍼파라미터 값, 트레이닝 손실, 평가 메트릭이 지정한 프로젝트에 기록됩니다.
+
+```python
+model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
+```
+
+`wandb.init`에 추가로 전달할 인자는 `wandb_kwargs`로 넘길 수 있습니다.
+
+
+<div id="structure">
+  ## 구조
+</div>
+
+이 라이브러리는 각 NLP 태스크에 대해 별도의 클래스를 두도록 설계되어 있습니다. 유사한 기능을 제공하는 클래스들은 함께 그룹화되어 있습니다.
+
+* `simpletransformers.classification` - 모든 분류 모델을 포함합니다.
+  * `ClassificationModel`
+  * `MultiLabelClassificationModel`
+* `simpletransformers.ner` - 모든 개체명 인식 모델을 포함합니다.
+  * `NERModel`
+* `simpletransformers.question_answering` - 모든 질의응답 모델을 포함합니다.
+  * `QuestionAnsweringModel`
+
+다음은 몇 가지 최소 예제입니다
+
+<div id="multilabel-classification">
+  ## 다중 레이블 분류
+</div>
+
+```text
+  model = MultiLabelClassificationModel("distilbert","distilbert-base-uncased",num_labels=6,
+    args={"reprocess_input_data": True, "overwrite_output_dir": True, "num_train_epochs":epochs,'learning_rate':learning_rate,
+                'wandb_project': "simpletransformers"},
+  )
+   # 모델 학습
+  model.train_model(train_df)
+
+  # 모델 평가
+  result, model_outputs, wrong_predictions = model.eval_model(eval_df)
+```
+
+
+<div id="question-answering">
+  ## 질의응답
+</div>
+
+```text
+  train_args = {
+    'learning_rate': wandb.config.learning_rate,
+    'num_train_epochs': 2,
+    'max_seq_length': 128,
+    'doc_stride': 64,
+    'overwrite_output_dir': True,
+    'reprocess_input_data': False,
+    'train_batch_size': 2,
+    'fp16': False,
+    'wandb_project': "simpletransformers"
+}
+
+model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train_args)
+model.train_model(train_data)
+```
+
+SimpleTransformers는 모든 일반적인 자연어 처리 작업을 위한 클래스와 트레이닝 스크립트를 제공합니다. 다음은 라이브러리에서 지원하는 전역 매개변수의 전체 목록과 각 매개변수의 기본값입니다.
+
+```text
+global_args = {
+  "adam_epsilon": 1e-8,
+  "best_model_dir": "outputs/best_model",
+  "cache_dir": "cache_dir/",
+  "config": {},
+  "do_lower_case": False,
+  "early_stopping_consider_epochs": False,
+  "early_stopping_delta": 0,
+  "early_stopping_metric": "eval_loss",
+  "early_stopping_metric_minimize": True,
+  "early_stopping_patience": 3,
+  "encoding": None,
+  "eval_batch_size": 8,
+  "evaluate_during_training": False,
+  "evaluate_during_training_silent": True,
+  "evaluate_during_training_steps": 2000,
+  "evaluate_during_training_verbose": False,
+  "fp16": True,
+  "fp16_opt_level": "O1",
+  "gradient_accumulation_steps": 1,
+  "learning_rate": 4e-5,
+  "local_rank": -1,
+  "logging_steps": 50,
+  "manual_seed": None,
+  "max_grad_norm": 1.0,
+  "max_seq_length": 128,
+  "multiprocessing_chunksize": 500,
+  "n_gpu": 1,
+  "no_cache": False,
+  "no_save": False,
+  "num_train_epochs": 1,
+  "output_dir": "outputs/",
+  "overwrite_output_dir": False,
+  "process_count": cpu_count() - 2 if cpu_count() > 2 else 1,
+  "reprocess_input_data": True,
+  "save_best_model": True,
+  "save_eval_checkpoints": True,
+  "save_model_every_epoch": True,
+  "save_steps": 2000,
+  "save_optimizer_and_scheduler": True,
+  "silent": False,
+  "tensorboard_dir": None,
+  "train_batch_size": 8,
+  "use_cached_eval_features": False,
+  "use_early_stopping": False,
+  "use_multiprocessing": True,
+  "wandb_kwargs": {},
+  "wandb_project": None,
+  "warmup_ratio": 0.06,
+  "warmup_steps": 0,
+  "weight_decay": 0,
+}
+```
+
+자세한 문서는 [github의 simpletransformers](https://github.com/ThilinaRajapakse/simpletransformers)를 참고하세요.
+
+가장 인기 있는 GLUE 벤치마크 데이터셋 일부를 대상으로 트랜스포머를 트레이닝하는 과정을 다룬 [이 W&amp;B 리포트](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA)를 살펴보세요. [Colab에서 직접 시도해 보세요](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).

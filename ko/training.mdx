@@ -1,0 +1,18 @@
+---
+title: W&B Training
+description: 강화 학습과 지도 파인튜닝을 사용해 모델을 포스트 트레이닝하기
+mode: wide
+---
+
+현재 퍼블릭 프리뷰로 제공되는 W&amp;B Training은 대규모 언어 모델(LLM)에 대해 서버리스 포스트 트레이닝을 제공하며, 강화 학습(RL)과 지도 파인튜닝(SFT)을 모두 지원합니다.
+
+* **[Serverless RL](/ko/training/serverless-rl)**: 멀티턴 에이전트형 작업을 수행할 때 속도를 높이고 비용을 줄이면서 모델의 신뢰성을 향상합니다. RL은 모델이 출력에 대한 피드백을 통해 동작을 개선하도록 학습하는 트레이닝 기법입니다.
+* **[Serverless SFT](/ko/training/sft-training)**: 지식 증류, 출력 스타일 및 형식 학습, 또는 RL 전 워밍업을 위해 선별된 데이터셋을 사용해 모델을 파인튜닝합니다.
+
+W&amp;B Training에는 다음과 같은 인테그레이션이 포함됩니다:
+
+* 유연한 파인튜닝 프레임워크인 [ART](https://art.openpipe.ai/getting-started/about)
+* 범용 검증기인 [RULER](https://openpipe.ai/blog/ruler)
+* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform)에서 제공되는 완전 관리형 백엔드
+
+시작하려면 먼저 서비스 사용을 위한 [사전 필수 조건](/ko/training/prerequisites)을 충족한 다음, 모델을 포스트 트레이닝하는 방법을 알아보기 위해 [Serverless RL 퀵스타트](https://art.openpipe.ai/getting-started/quick-start) 또는 [Serverless SFT 문서](https://art.openpipe.ai/fundamentals/sft-training)를 참조하세요.

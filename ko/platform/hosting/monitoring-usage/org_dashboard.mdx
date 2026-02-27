@@ -1,0 +1,124 @@
+---
+title: 조직 활동 보기
+---
+
+이 페이지에서는 W&amp;B 조직 내 활동을 조회하는 방법을 설명합니다. 계속하려면 배포 유형을 선택하세요.
+
+<div id="view-user-status-and-activity">
+  ## 사용자 상태 및 활동 보기
+</div>
+
+<Tabs>
+  <Tab title="전용 클라우드 / 셀프 매니지드">
+    1. **Organization Dashboard**(조직 대시보드)로 이동합니다:
+
+       * **Dedicated Cloud**: `https://<org-name>.io/org/dashboard/`. `<org-name>`을 조직 이름으로 바꿉니다.
+       * **Self-Managed**: `https://<YOUR-W&B-SERVER-IP>/org/dashboard`. `<YOUR-W&B-SERVER-IP>`를 배포 환경의 IP 주소로 바꿉니다.
+
+       기본적으로 **Users** 탭이 열리며 조직의 모든 사용자가 표시됩니다.
+    2. 사용자 상태별로 목록을 정렬하려면 **Last Active** 열 헤더를 클릭합니다. 각 사용자의 상태는 다음 중 하나입니다:
+       * **Invite pending**: 초대가 전송되었지만 사용자가 아직 수락하지 않았습니다.
+       * **타임스탬프**: 사용자가 초대를 수락하고 한 번 이상 로그인했습니다. 타임스탬프는 가장 최근 활동 시점을 나타냅니다.
+       * **Deactivated**: 관리자가 사용자의 액세스를 취소했습니다.
+       * **상태 없음**: 하이픈으로 표시됩니다. 사용자가 이전에는 활성 상태였지만, 지난 6개월 동안 활동이 없었습니다.
+    3. 사용자의 **Last Active** 필드에 마우스를 올리면 사용자가 추가된 날짜와 총 활성 일수를 확인할 수 있습니다.
+
+    사용자는 다음 작업을 수행하면 *활성* 으로 간주됩니다:
+
+    * W&amp;B에 로그인합니다.
+    * W&amp;B 앱의 어떤 페이지든 엽니다.
+    * run을 로깅합니다.
+    * SDK를 사용해 실험을 추적합니다.
+    * 어떤 방식으로든 W&amp;B 서버와 상호작용합니다.
+  </Tab>
+
+  <Tab title="멀티 테넌트 클라우드">
+    1. [**Members** 페이지](https://wandb.ai/account-settings/wandb/members/)를 엽니다. 이 테이블에는 조직의 모든 사용자가 나열됩니다.
+    2. 사용자 상태별로 정렬하려면 **Last Active** 열 헤더를 클릭합니다. 각 사용자의 상태는 다음 중 하나입니다:
+       * **타임스탬프**: 사용자가 최소 한 번 이상 로그인했습니다. 타임스탬프는 가장 최근 활동 시점을 나타냅니다.
+       * **상태 없음**: 하이픈으로 표시됩니다. 사용자는 아직 조직 내에서 활동한 적이 없습니다.
+
+    사용자는 2025년 5월 8일 이후 조직 범위로 기록되는 감사 대상 작업을 수행하면 *활성* 으로 간주됩니다. 전체 목록은 **Audit logging**의 [Actions](/ko/platform/hosting/monitoring-usage/audit-logging#actions)를 참조하십시오.
+  </Tab>
+</Tabs>
+
+<div id="view-activity-over-time">
+  ## 시간 경과에 따른 활동 보기
+</div>
+
+<Tabs>
+  <Tab title="Dedicated Cloud / Self-Managed">
+    지정한 기간 동안 얼마나 많은 사용자가 활동했는지 확인하려면 **Activity** 탭을 사용합니다.
+
+    1. **Organization Dashboard**를 엽니다. [사용자 활동 보기](#view-user-activity)를 참조하세요.
+    2. **Activity**를 클릭합니다.
+    3. 다음 차트를 확인합니다:
+       * **Total active users**: 선택한 기간 동안의 고유 활성 사용자 수(기본값 3개월).
+       * **Users active over time**: 기간 동안 활성 사용자 수의 변동(기본값 6개월). 점 위에 마우스를 올리면 해당 날짜의 정확한 수를 확인할 수 있습니다.
+
+    집계 기간을 변경하려면 차트 위의 드롭다운을 사용합니다. 옵션은 Last 30 days, Last 3 months, Last 6 months, Last 12 months, All time입니다.
+  </Tab>
+
+  <Tab title="Multi-tenant Cloud">
+    집계된 활동을 보려면 **Activity Dashboard**를 사용합니다.
+
+    1. W&amp;B App의 오른쪽 상단에서 사용자 아이콘을 클릭합니다.
+
+    2. **Account** 아래에서 **Users**를 클릭합니다.
+
+    3. 사용자 테이블 위의 Activity Panel을 확인합니다:
+       * **Active user count**: 선택한 기간 동안의 고유 활성 사용자 수(기본값 3개월).
+       * **Weekly active users**: 주당 활성 사용자 수.
+       * **Most active user**: 활성 일수와 마지막 활동 날짜를 기준으로 순위가 매겨진 상위 10명 사용자.
+
+    4. 날짜 범위를 변경하려면 오른쪽 상단의 날짜 선택기를 클릭하고 새 기간을 선택합니다: 7 days, 30 days(기본값), 90 days, 6 months, 12 months. 모든 차트는 자동으로 업데이트됩니다.
+  </Tab>
+</Tabs>
+
+<div id="export-user-details">
+  ## 사용자 세부 정보 내보내기
+</div>
+
+**Users** 탭에서 각 사용자의 세부 정보(사용자 이름, 이메일 주소, 마지막 활동 시간, 역할 등)가 포함된 CSV를 다운로드할 수 있습니다.
+
+<Tabs>
+  <Tab title="전용 클라우드 / 셀프 매니지드">
+    1. **Users** 탭에서 **Invite new user** 옆의 **…** 액션 메뉴를 클릭합니다.
+    2. **Export as CSV**를 클릭합니다.
+
+    ### CSV 내보내기 스키마
+
+    CSV 내보내기 기능은 쉼표 (`,`)를 구분자로 사용하고, 문자열은 큰따옴표로 감싸며, 다음 열을 정의하는 헤더 행을 포함합니다:
+
+    * `"Name"`
+    * `"Username"`
+    * `"Org Role"`
+    * `"Models Seat"`
+    * `"Weave Access"`
+    * `"Email"`
+    * `"Teams"`
+    * `"Last Active"`
+  </Tab>
+
+  <Tab title="멀티 테넌트 클라우드">
+    1. **Users** 탭에서 오른쪽 상단의 **…** 액션 메뉴를 클릭합니다.
+    2. 파일을 다운로드하려면 **Export as CSV**를 선택합니다.
+
+    ### CSV 내보내기 스키마
+
+    CSV 내보내기 기능은 쉼표 (`,`)를 구분자로 사용하고, 문자열은 큰따옴표로 감싸며, 다음 열을 정의하는 헤더 행을 포함합니다:
+
+    * `"Name"`
+    * `"Username"`
+    * `"Last Active"`
+    * `"Role"`
+    * `"Email"`
+    * `"Teams"`
+    * `"Status"`
+    * `"Number of Reports"`
+    * `"Number of Runs"`
+    * `"Number of active days"`
+    * `"Models Seat"`
+    * `"Weave Access"`
+  </Tab>
+</Tabs>

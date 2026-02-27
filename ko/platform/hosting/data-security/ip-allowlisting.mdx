@@ -1,0 +1,13 @@
+---
+title: Dedicated Cloud용 IP 허용 목록 구성
+---
+
+승인된 IP 주소 목록에서만 [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 인스턴스에 대한 액세스를 허용하도록 제한할 수 있습니다. 이는 AI 워크로드에서 W&amp;B API에 대한 액세스와, 사용자 브라우저에서 W&amp;B 앱 UI에 대한 액세스 모두에 적용됩니다. Dedicated Cloud 인스턴스에 대해 IP 허용 목록을 설정하면, W&amp;B는 승인되지 않은 기타 위치에서 발생하는 모든 요청을 거부합니다. Dedicated Cloud 인스턴스에 대한 IP 허용 목록 구성을 위해서는 W&amp;B 팀에 문의하십시오.
+
+IP 허용 목록은 AWS, Google Cloud, Azure의 Dedicated Cloud 인스턴스에서 사용할 수 있습니다.
+
+IP 허용 목록은 [보안 프라이빗 연결](./private-connectivity)과 함께 사용할 수 있습니다. IP 허용 목록을 보안 프라이빗 연결과 함께 사용하는 경우, 가능하다면 AI 워크로드에서 발생하는 모든 트래픽과 사용자 브라우저에서 발생하는 트래픽의 대부분에는 보안 프라이빗 연결을 사용하고, IP 허용 목록은 권한이 있는 위치에서 인스턴스를 관리하기 위한 용도로 사용할 것을 W&amp;B는 권장합니다.
+
+<Warning>
+  W&amp;B는 개별 `/32` IP 주소 대신, 회사 또는 비즈니스 이그레스 게이트웨이에 할당된 [CIDR 블록](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)을 사용할 것을 강력히 권장합니다. 개별 IP 주소를 사용할 경우 확장성이 떨어지며, 클라우드별로 엄격한 제한이 존재합니다.
+</Warning>

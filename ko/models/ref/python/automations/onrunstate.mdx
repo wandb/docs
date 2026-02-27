@@ -1,0 +1,51 @@
+---
+title: OnRunState
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+## <kbd>class</kbd> `OnRunState`
+
+run의 상태 변경을 나타냅니다.
+
+예시:
+프로젝트 &quot;my-project&quot; 내의 모든 run에 대해,
+상태가 &quot;finished&quot;(즉, 성공) 또는 &quot;failed&quot;로 변경될 때 트리거되는 이벤트를 정의합니다:
+
+```python
+from wandb import Api
+from wandb.automations import OnRunState
+
+api = Api()
+project = api.project(name="my-project")
+
+event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["finished", "failed"]),
+)
+```
+
+
+### <kbd>method</kbd> `OnRunState.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[RUN_STATE]' = RUN_STATE,
+    scope: 'ProjectScope',
+    filter: 'RunStateFilter'
+) → None
+```
+
+**인자:**
+
+* `event_type` (Literal[RUN&#95;STATE]):
+* `scope` (ProjectScope): 이벤트의 범위입니다. 반드시 프로젝트여야 합니다.
+* `filter` (RunStateFilter): 이 이벤트가 트리거되기 위해 만족해야 하는 run 상태 조건입니다.
+
+**반환값:**
+`OnRunState` 객체입니다.

@@ -1,0 +1,793 @@
+---
+title: "지원되는 W&B Server 릴리스"
+sidebarTitle: "지원되는 릴리스"
+rss: true
+---
+
+import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-reminder.mdx';
+
+이 페이지에서는 지원 중인 W&amp;B Server 릴리스의 릴리스 노트를 제공합니다.
+
+* 더 이상 지원되지 않는 릴리스는 [Archived Server releases](/ko/release-notes/server-releases-archived)를 참고하세요.
+* W&amp;B Server 릴리스 일정 및 지원에 대한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참고하세요.
+
+<EolReminder />
+
+<Update label="v0.77.1" description="2026년 1월 28일">
+  **2026년 1월 28일**
+
+  ## 변경 사항
+
+  * **Self-Managed** 환경에서 이제 W&amp;B Workspace에 Weave 패널을 추가하고 Weave trace에서 W&amp;B Artifacts를 참조할 수 있습니다. 이 기능은 이전에는 **Dedicated Cloud** 에서만 사용할 수 있었습니다. 자세한 내용은 [Use Weave with W&amp;B training runs](/ko/weave/guides/tools/weave-in-workspaces)를 참고하세요.
+
+  ## 수정 사항
+
+  * alias 필터가 있을 때 Registry 버전 쿼리가 중복된 결과를 반환하던 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.77.0" description="2026년 1월 21일">
+  **2026년 1월 21일**
+
+  W&amp;B 0.77은 조직의 보안과 생산성을 강화하기 위한 보안 및 사용성 개선 사항을 도입합니다.
+
+  이번 릴리스에는 API 키 보안 강화, 단일 run 및 다중 run 워크스페이스 간 공유 설정을 통한 간소화된 탐색, 새로운 선 그래프 음영 옵션, 미디어 패널 동기화 및 루핑의 정식 출시(GA), 그리고 주요 편의성 개선 및 버그 수정이 포함되어 있습니다.
+
+  ## 지원 및 서비스 종료
+
+  * W&amp;B Server v0.65 이하 버전은 2026년 1월 30일부로 지원이 종료됩니다.
+
+  [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참조하세요. 도움이 필요하거나 문의 사항이 있으시면 [support](mailto:support@wandb.com)로 문의하세요.
+
+  ## 예정된 변경 사항
+
+  * 곧 Registry UI를 더 빠르게 탐색하고, 내용을 한눈에 훑어보기 쉬워집니다.
+
+    * 향상된 자동 완성 검색, 새로 디자인된 Registry 및 컬렉션 카드, 그리고 새로운 Registry 아이콘을 통해 자산을 시각적으로 더 잘 구분할 수 있습니다. 처음에는 스마트 랭킹을 사용하고, 곧 AI 기반 랭킹이 추가될 예정입니다.
+    * Registry 아이콘은 처음에는 자동으로 생성되며, Registry 관리자는 언제든지 이를 사용자 지정할 수 있습니다.
+
+    이러한 업데이트는 다음 릴리스에 포함될 예정입니다. 자세한 내용은 [지원팀](mailto:support@wandb.com)이나 AISE 담당자에게 문의하세요.
+
+    <Frame>
+      ![Registry UI 개선을 보여주는 애니메이션](/images/release-notes/v0-77-0/registry-ui-improvements.gif)
+    </Frame>
+
+  ## 보안
+
+  * W&amp;B 전반에 걸쳐 API 키를 업데이트하여 개인 계정과 서비스 계정 모두의 보안과 키 관리를 개선했습니다. 이러한 변경 사항은 최신 보안 모범 사례에 부합하면서도 Teams가 더 큰 유연성과 더 안전한 자동화를 활용할 수 있도록 해 줍니다.
+
+    **알아둘 중요한 사항**
+
+    * API 키는 한 번만 표시되며, 생성 직후 바로 복사해 저장해야 합니다.
+    * 기존 키는 더 이상 복사할 수 없으며, 새 키를 생성해야 합니다.
+    * 언제든지 키 이름을 변경하거나 삭제할 수 있습니다.
+    * 서비스 계정은 이제 여러 개의 API 키를 지원합니다.
+
+    [회원가입 및 API 키 생성](/ko/models/quickstart#sign-up-and-create-an-api-key)을 참고하세요.
+
+  ## 기능
+
+  * **워크스페이스 내비게이션이 업데이트되었습니다.** 멀티-run 및 단일-run 워크스페이스 뷰를 서로 일치하도록 정돈했습니다. 이제 단일 run의 세부 화면으로 들어가면, 멀티-run 뷰에 대해 설정해 둔 것과 동일한 레이아웃과 패널 설정(사용자 지정 차트, 레이아웃, 설정 포함)을 그대로 볼 수 있습니다. 이를 통해 맥락을 유지하고, 뷰 설정을 다시 하는 수고를 줄일 수 있습니다. 내비게이션 버튼 위치 변경을 포함한 변경 사항은 이 [영상](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)에서 확인할 수 있습니다.
+    <Frame>
+      ![업데이트된 Workspace 내비게이션을 보여 주는 스크린샷](/images/release-notes/v0-77-0/workspace-navigation-update.png)
+    </Frame>
+  * 섹션 수준의 [비디오 재생 동기화 및 루프](/ko/models/app/features/panels/media#sync) 기능이 정식으로 제공됩니다. 기본적으로 섹션 내 비디오는 서로 동기화된 상태로 재생됩니다.
+  * 그룹화된 run에 대한 full-fidelity 선 그래프에서 이제 음영 영역에 표시할 내용을 **Min/Max**, **Standard Deviation**, **Standard Error**, **None** 중에서 설정할 수 있습니다. [Sampling](/ko/models/app/features/panels/line-plot/sampling)을 참조하세요.
+  * 평행좌표 플롯에서 이제 **Cmd+Click**(macOS) 또는 **Ctrl+Click**(Linux / Windows)으로 선을 클릭하면, 해당 run의 상세 페이지를 새 탭에서 열어 자세히 확인할 수 있습니다. 그룹화된 플롯에서는 아직 지원되지 않습니다.
+    <Frame>
+      ![평행 좌표 플롯에서 선을 클릭해 run 세부 정보를 여는 애니메이션](/images/release-notes/v0-77-0/pcp-click-to-run-detail.gif)
+    </Frame>
+  * 자동화 설정을 더 효율적으로 할 수 있도록, 이제 앱이 자동화의 기준이 될 메트릭을 제안합니다.
+
+  ### Registry
+
+  * Registry의 [Artifact 계통 그래프](/ko/models/artifacts/explore-and-traverse-an-artifact-graph)에서 이제 항목을 드래그 앤 드롭으로 재배치하거나 숨길 수 있습니다.
+  * 아티팩트 버전을 조회할 때, 이제 한 번에 새로운 레지스트리를 생성하고 해당 아티팩트 버전을 레지스트리에 연결할 수 있습니다.
+
+  ### Weave
+
+  * 이제 W&amp;B App에서 빈 상태일 때 표시되는 Weave 온보딩 페이지에 Python 예제 코드와 함께 TypeScript 예제 코드도 포함됩니다.
+  * Weave 호출 로그가 이제 기본 설정으로 무한 스크롤을 지원합니다. 이전에는 가장 최근 로그 10,000줄만 볼 수 있었습니다.
+  * [Evaluation](/ko/weave/guides/core-types/evaluations) 비교 페이지의 막대 차트와 레이더 차트에서 이제 크기 조정 및 전체 화면 보기 기능을 지원하며, 차트 영역에 마우스를 올리면 툴팁에 자세한 정보가 표시됩니다.
+  * [Weave Playground](https://wandb.ai/site/playground/)에는 새로운 모델이 포함되어 있습니다:
+    * GPT 5.2
+    * Grok 4.1
+    * Opus 4.5
+  * 이제 [Weave Playground](https://wandb.ai/site/playground/)에서 새 프롬프트를 만들고 저장할 수 있습니다.
+
+  ## 수정 사항
+
+  * run의 **Notes** 텍스트 필드를 편집할 때 필드 너비가 너무 좁게 표시되던 버그를 수정했습니다. 이제 텍스트 상자는 보기와 편집 시 동일한 너비로 표시됩니다.
+  * W&amp;B Report의 PDF 내보내기에서 이미지의 해상도가 너무 낮게 출력되던 버그를 수정했습니다.
+  * Report의 라인 차트가 run 선택기 변경에 맞춰 동기화되어 업데이트되지 못하는 버그를 수정했습니다.
+  * 리포트에서 이상치를 숨길 수 있는 옵션이 없는 선형 플롯에 이상치가 표시되던 버그를 수정했습니다.
+  * 여러 runset을 포함한 Report의 선 그래프에서, 서로 다른 runset에 속하지만 이름이 같은 run에 대해 잘못된 데이터가 표시되던 버그를 수정했습니다. 이제 Runs는 runset과 이름의 조합으로 고유하게 식별됩니다.
+
+  ### Weave
+
+  * Dedicated Cloud의 Weave UI에 Dedicated Cloud에서는 사용할 수 없는 W&amp;B Inference에 대한 링크가 표시되던 버그를 수정했습니다.
+  * [Evaluation](/ko/weave/guides/core-types/evaluations) 비교 페이지에서 세부 정보 패널이 열려 있을 때 막대 차트의 크기가 너무 좁게 조정되던 문제를 수정했습니다.
+  * [Weave Playground](https://wandb.ai/site/playground/)에서 텍스트를 입력할 때 커서가 화면에 보이는 영역에서 사라질 수 있던 UI 버그를 수정했습니다.
+  * [Weave Playground](https://wandb.ai/site/playground/)에서 호출을 로드할 때 템플릿 변수를 편집할 수 없던 문제를 수정했습니다.
+  * [Evaluation](/ko/weave/guides/core-types/evaluations) 개요 페이지에서 하위 트레이스의 상세 보기로 이동할 때 operation 선택기가 설정되지 않던 버그를 수정했습니다. 이로 인해 어떤 트레이스가 선택되었는지 파악하기 어려웠고, 일부 열이 비어 보이는 문제가 발생했습니다.
+  * [Evaluation](/ko/weave/guides/core-types/evaluations) 비교 보기 페이지에서 **Delete**를 클릭해도 비교 보기가 실제로 삭제되지 않던 버그를 수정했습니다.
+  * 커스텀 타입을 사용하는 [Evaluation](/ko/weave/guides/core-types/evaluations) 결과에서 커스텀 타입 대신 `CellValue` 필드가 비어 있는 상태로 표시될 수 있던 버그를 수정했습니다.
+  * 좌측에 고정된 셀이 **runs as rows** 표시 모드에서 투명하게 표시될 수 있던 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.76.3" description="2025년 12월 17일">
+  **2025년 12월 17일**
+
+  ## 수정사항
+
+  * macOS에서 스크롤 막대를 항상 표시하도록 설정한 경우 발생할 수 있던 화면 표시 버그를 수정했습니다. 워크스페이스에 [Query panel](/ko/models/app/features/panels/query-panels)이 있는 경우, 워크스페이스에서 축소(zoom out)하면 Query panel 테이블 크기가 1초에 여러 번 요동치는 리사이즈 루프가 발생할 수 있었습니다.
+  * Dedicated Cloud UI에 W&amp;B Inference가 잘못 표시되던 버그를 수정했습니다. Inference는 Dedicated Cloud에서 사용할 수 없습니다.
+</Update>
+
+<Update label="v0.76.2" description="2025년 12월 10일">
+  **2025년 12월 10일**
+
+  ## 수정사항
+
+  * **Organization Dashboard** 페이지의 부정확한 사용량 카드를 **Usage** 페이지 링크로 교체했습니다. 이는 UI 버그에 한정되며, 과금에는 영향이 없었습니다.
+  * Parquet 읽기는 꺼져 있지만 내보내기는 켜져 있는 상태가 될 수 있던 버그를 수정했습니다.
+  * 보류(pending) 상태에서 run config 없이 run을 수동으로 upsert할 때 nil 포인터 역참조 오류가 발생하던 문제를 수정했습니다.
+</Update>
+
+<Update label="v0.76.1" description="2025년 12월 4일">
+  **2025년 12월 4일**
+
+  ## 수정사항
+
+  * 워크스페이스에서 선형 플롯(line plot)을 리포트로 가져올 때, 플롯에서 극단적인 이상치를 숨긴 경우 가져오기가 멈출 수 있던 버그를 수정했습니다.
+  * 테이블 패널의 높이를 줄였을 때, 패널이 올바르게 리사이즈되지 않을 수 있던 버그를 수정했습니다.
+  * 마스크 오버레이가 캡션이 있는 이미지의 경계를 넘어가던 버그를 수정했습니다.
+  * run 노트의 편집 상자 크기가 편집하기에 너무 좁던 버그를 수정했습니다. 이제 편집 상자는 표시 모드에서의 텍스트와 동일한 크기를 사용합니다.
+  * Organization Dashboard에서 **Service Accounts** 탭을 클릭하면 페이지가 다운될 수 있던 버그를 수정했습니다.
+  * run 로그를 보고 있을 때 한 run에서 다른 run으로 전환하면 잘못된 run의 로그가 표시될 수 있던 캐싱 버그를 수정했습니다.
+  * 클라이언트가 GraphQL 연산을 취소하는 경우, 이제 이를 `5xx` HTTP 서버 오류가 아닌 `4xx` HTTP 클라이언트 오류로 올바르게 보고합니다.
+</Update>
+
+<Update label="v0.76.0" description="2025년 11월 20일">
+  **2025년 11월 20일**
+
+  W&amp;B v0.76은 더 스마트한 미디어 도구, 원활한 워크플로우, 강력한 새 인터페이스를 도입하여 실험 인사이트와 생산성을 크게 향상시킵니다. 자동 재생 및 반복 재생을 지원하는 멀티 비디오 동기화로 나란히 빠르게 비교 평가할 수 있으며, 간소화된 워크스페이스 탐색으로 뷰 간 전환이 더욱 편리해졌습니다. 또한, 새로운 LEET 터미널 UI를 통해 커맨드 라인에서 바로 실시간 run 인사이트를 빠르게 확인할 수 있습니다.
+
+  ## 지원 및 서비스 종료
+
+  * W&amp;B Server v0.63 이하 버전은 2025년 11월 20일부로 지원이 종료되었습니다.
+  * W&amp;B Server v0.65는 2026년 1월 30일에 제품 수명 종료(EOL)에 도달할 예정입니다.
+
+  ## 기능
+
+  * **Multi-video Sync**: 여러 비디오 패널을 동기화해 동시에 재생·제어하여 트레이닝 run의 정성적 평가 및 비교, 다양한 실험에서의 모델 동작 분석, 멀티모달 모델 체크포인트 평가에 활용할 수 있습니다.
+
+    동기화된 비디오 재생을 사용하면 여러 비디오를 동시에 재생·일시 정지하고, 타임라인을 이동하며, 속도를 조절할 수 있어 스타일, 타이밍, 모션 등을 빠르게 시각적으로 검수할 수 있는 실제 나란히 비교가 가능합니다.
+
+    <Frame>
+      ![비디오 재생 동기화 기능을 보여주는 애니메이션](/images/release-notes/v0-76-0/video_playback_sync_demo.gif)
+    </Frame>
+
+    사용해 보려면 **Settings** → **Media**로 이동하세요. 현재 Dedicated Cloud에서만 제공됩니다.
+
+  * 워크스페이스 또는 섹션의 비디오 패널에서 미디어를 **자동 재생 및 반복 재생**합니다. 현재 Dedicated Cloud에서만 사용할 수 있습니다.
+
+  * 이제 Dedicated Cloud에서는 Workspace 내 탐색이 개선되어 멀티-run Workspace와 단일 run Workspace 간 이동이 더 쉬워졌고, 두 Workspace 간에 뷰 변경 내용이 계속 유지되도록 했습니다 ([간단한 데모 영상](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)).
+
+    * 단일 run 및 다중 run 저장된 뷰는 이제 공통 설정 정보를 사용하여 반복적인 설정 작업을 줄입니다.
+    * 기존 단일 run 저장된 뷰는 제거되며, 계속 필요한 뷰는 다시 생성해야 합니다.
+
+    <Frame>![단일 run 보기의 내비게이션 업데이트를 보여주는 스크린샷](/images/release-notes/v0-76-0/workspace-navigation-single-run-view.png)</Frame>
+
+    이러한 업데이트는 2026년 1월에 W&amp;B Self-Managed에 적용될 예정입니다.
+
+  * 이제 run 선택 메뉴에서 run의 이름이나 경로를 복사할 수 있습니다. 이 업데이트에서는 복사한 run 이름에 run 이름이 중복되어 포함되던 버그도 수정했습니다.
+
+    <Frame>![run의 이름 또는 경로를 복사하는 예시를 보여주는 스크린샷](/images/release-notes/v0-76-0/copy_runs.gif)</Frame>
+
+  * [W&amp;B Lightweight Experiment Exploration Tool (LEET)](/ko/models/ref/cli/wandb-beta/wandb-beta-leet) (베타)는 stats, 메트릭, 시스템 상태를 포함해 ML 트레이닝 run을 관찰하기 위한 고속 터미널 UI입니다. 이 도구는 라이브 로그 파일을 실시간으로 읽고 시각화하여, 빠르고 사용자 지정 가능하며 브라우저가 필요 없는 실시간 환경을 제공합니다.
+
+    LEET는 run 진행 상황에 따라 실시간으로 업데이트되는 대화형 3-분할 대시보드를 제공합니다.
+
+    <Frame>
+      <iframe src="https://www.loom.com/embed/ad07286ea6ae480b8f06e931bffa5a44" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{width: "100%", height: "300px"}} />
+    </Frame>
+
+    사용해 보려면 [W&amp;B SDK 버전 0.23.0](/ko/models/ref/python) 이상을 설치하세요.
+
+  * 최근 [Workspaces and Reports SDK v0.20.0](/ko/models/ref/wandb_workspaces)을 출시했으며, 이 버전에는 섹션과 열을 프로그래밍 방식으로 고정할 수 있는 기능이 포함되어 있습니다. 자세한 내용은 [Workspaces 및 Reports API 설치](/ko/models/ref/wandb_workspaces#installation-and-setup)를 참고하세요.
+
+  ## 수정 사항
+
+  * 이제 그룹화된 선형 차트에 최소값과 최대값이 표시되어 값을 비교하기가 더 쉬워졌습니다.
+  * Reports에서는 이제 더 깔끔한 표시를 위해 긴 미디어 패널 제목을 잘라서 보여줍니다.
+  * 이제 [시맨틱 범례](/ko/models/runs/color-code-runs#set-a-configuration-key)에서 버킷의 상한값을 편집할 수 있습니다.
+  * 시맨틱 색상을 이산 값에서 연속 값으로 전환할 때 발생하던 버그를 수정했습니다.
+  * 전체 화면 모드에서 차트 크기를 조정할 때 화면이 깜박일 수 있었던 버그를 수정했습니다.
+  * y축이 `_step`으로 설정되었을 때 렌더링 문제가 발생할 수 있던 버그를 수정했습니다.
+  * 미디어 단계 슬라이더가 최대값으로 설정되어 있을 때, 들어오는 최신 데이터를 반영하여 업데이트되지 않던 버그를 수정했습니다.
+  * 이미지 스무딩이 활성화된 이미지 패널에 스무딩 설정이 항상 적용되지 않던 버그를 수정했습니다.
+  * 그리드 보기에서 미디어 패널이 세로 공간을 과도하게 차지해 스크롤을 지나치게 많이 해야 했던 문제를 수정했습니다.
+  * 자동화를 렌더링하거나 새로 고침할 때 발생하던 사소한 표시 문제를 수정했습니다.
+  * 아티팩트를 연결할 때 스크롤 및 개수 표시 문제를 포함한 사소한 UI 버그를 수정했습니다.
+  * HTML 테이블 미디어 패널에서 ASCII가 아닌 문자가 표시되지 않던 버그를 수정했습니다.
+  * **Edit run name** 액션을 업데이트해, 워크스페이스에서 run 표시 이름만 변경하는 것인지, 아니면 프로젝트 전체에서 사용되는 기본 run 이름을 변경하는 것인지가 더 명확하게 구분되도록 했습니다.
+</Update>
+
+<Update label="v0.75.2" description="2025년 11월 5일">
+  * 팀 서비스 계정의 API 키가 조직 Admin이기도 한 팀 Admin 사용자에게 표시되지 않던 버그를 수정했습니다.
+  * 여러 run 그룹이 있는 플롯의 툴팁에 표시되는 (min, max) 범위가 모든 그룹에서 동일한 값으로 표시될 수 있던 버그를 수정했습니다.
+  * 삭제된 run의 Parquet 파일이 완전히 가비지 수집되지 않고 `delete parquet history does not currently support partial deletes` 오류가 반복해서 로그에 기록되던 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.75.0" description="2025년 10월 28일">
+  W&amp;B v0.75는 새로운 Restricted Viewer 역할, 레지스트리 즐겨찾기 기능, SCIM을 통한 프로그래밍 방식의 Registry 접근 제어로 Registry를 강화합니다. 새로운 자동화 실행 기록 보기를 통해 자동화를 이해하고 디버그할 수 있습니다. 하이퍼파라미터 등 config 속성별 시맨틱 색상으로 config 기반 효과를 시각화하고, 시스템 메트릭에 대한 고해상도 플롯을 확인하는 등 다양한 기능을 제공합니다.
+
+  ## 지원 및 서비스 종료
+
+  * W&amp;B Server v0.61 이하 버전은 2025년 10월 28일부로 지원이 종료되었습니다.
+  * W&amp;B Server v0.63의 지원 종료(EOL) 예정일은 2025년 11월 26일입니다.
+
+  [릴리스 정책 및 프로세스](/ko/release-notes/release-policies)를 참조하세요. 도움이 필요하거나 문의 사항이 있으시면 [support](mailto:support@wandb.com)로 문의하세요.
+
+  ## 예정된 변경 사항
+
+  다음 W&amp;B Server 릴리스에서는 multi-run 및 single-run 워크스페이스 간 이동을 더 쉽게 해주는 워크스페이스 탐색 업데이트를 출시할 예정입니다. 자세한 내용은 이 [미리보기 동영상](https://www.loom.com/share/df232057aa2d4ee78026a4f9cf400499?sid=da3661eb-e8cd-4aa5-a666-db2c4091b02b)을 참조하세요.
+
+  이 변경 사항의 일부는 Server v0.75에 포함되어 있습니다. 왼쪽 사이드바에서 현재 **Project**를 보고 있는지, 단일 **Run**을 보고 있는지 확인할 수 있습니다. 이 탐색 구조 변경은 단일 run 및 다중 run 저장된 뷰의 통합과 함께 진행되며, 한쪽에서 플롯 및 레이아웃을 변경하면 반복적인 설정 작업을 줄이기 위해 다른 쪽에도 자동으로 반영됩니다. 이 변경의 일환으로 기존 단일 run 저장된 뷰는 삭제되므로, 계속 사용해야 하는 뷰는 다시 생성해야 합니다.
+
+  ![탐색 사이드바 업데이트 예정](/images/release-notes/v0-75-0/navigation-sidebar-upcoming-update.png)
+
+  ## 보안
+
+  * [federated identity](/ko/platform/hosting/iam/identity_federation) 오디언스는 환경 변수 `FEDERATED_AUTH_AUDIENCES`를 쉼표로 구분된 오디언스 목록으로 설정해 구성할 수 있습니다. 오디언스는 해당 ID 토큰을 수신할 수 있는 허용 대상자를 지정합니다.
+
+  ## 기능
+
+  * **레지스트리 액세스 제어 업데이트:**
+    * **프로그래밍 방식 Registry 액세스 제어:** [Registry 역할](/ko/models/registry/configure_registry#details-about-registry-roles)이 이제 SCIM 스키마에 포함되었습니다. [사용자를 생성](/ko/platform/hosting/iam/scim#create-user)하거나 업데이트할 때 해당 사용자의 Registry 역할을 설정할 수 있으며, [사용자를 조회](/ko/platform/hosting/iam/scim#get-user)하면 Registry 역할이 함께 반환됩니다.
+    * **Registry 액세스 제한:** Registry에 대한 전체 액세스를 부여하고 싶지 않은 경우, 이제 새로운 Registry 역할인 [Restricted Viewer](/ko/models/registry/configure_registry)를 부여할 수 있습니다. 이 역할은 컬렉션, 자동화 또는 기타 Registry 리소스를 생성·업데이트·삭제할 수 있는 권한 없이 Registry 아티팩트에 대한 읽기 전용 액세스를 제공합니다. 이는 민감하거나 규제가 적용되는 Registry 콘텐츠에 유용합니다.
+    * [**확장된 Registry 액세스:**](https://wandb.ai/wandb_fc/product-announcements-fc/reports/Registry-for-W-B-Models-viewers-Faster-discovery-cleaner-handoffs--VmlldzoxNDc4MzM5Mg) 이제 Models **Viewer** 역할을 가진 모든 사용자는 기본적으로 전체 Registry **Member**이기도 하므로, 별도 설정 없이도 모델과 아티팩트를 탐색하고, 비교하고, 사용할 수 있습니다. Models **Viewer**는 **Restricted Viewer**, **Viewer**, **Admin**과 같은 다른 Registry 역할로 지정할 수 있습니다. 이를 통해 조직 내 모든 사람이 Registry의 모든 가치를 활용할 수 있습니다.
+
+  * **즐겨찾는 레지스트리:** Registry를 더 크게 확장해 사용할 때 쉽게 탐색할 수 있도록, 이제 레지스트리를 즐겨찾기에 추가할 수 있습니다. Registry 랜딩 페이지에서 레지스트리 카드 위에 마우스를 올린 다음 별 윤곽선 아이콘을 클릭하세요. 개별 레지스트리 페이지에서는 페이지 상단의 별 윤곽선 아이콘을 클릭하세요. 즐겨찾는 레지스트리는 Registry 랜딩 페이지 상단에 알파벳순으로 표시됩니다.
+
+    ![즐겨찾는 레지스트리](/images/release-notes/v0-75-0/starred-registries.png)
+
+  * **자동화 실행 기록:** **Automation history** 탭에서 프로젝트 또는 레지스트리 [Automations](/ko/models/automations/automation-events)의 실행 기록을 확인할 수 있습니다. 모든 자동화 실행은 상태와 주요 세부 정보를 한눈에 볼 수 있도록 최신순으로 표시됩니다. 자동화를 이해하고 디버깅할 수 있도록, 상세 보기에서 해당 실행의 조건, 작업, 결과를 확인할 수 있습니다.
+
+  * **Organization 대시보드**에서 이제 쉼표로 구분된 이메일 주소 목록을 입력해 여러 사용자를 한 번에 조직에 초대할 수 있으며, 초대한 사용자들을 동시에 Teams에 추가할 수도 있습니다.
+
+  * **시맨틱 범례 변경 사항:**
+    * run에 대한 시맨틱 범례에서 이제 하이퍼파라미터와 같은 config 값에 따라 플롯 색상을 지정할 수 있습니다. 학습률, 배치 크기, 모델 패밀리와 같이 선택한 하이퍼파라미터를 기준으로 run의 색상을 설정해, config 기반 효과를 시각적으로 파악할 수 있습니다.
+
+      ![시맨틱 범례 config 색상 지정](/images/release-notes/v0-75-0/semantic-legend-config-coloring.gif)
+
+    * 이제 다른 사용자의 워크스페이스를 볼 때도 시맨틱 범례를 구성할 수 있습니다.
+
+  * 새로운 전체 화면 이미지 브라우저를 사용하면 로깅된 이미지를 살펴보고 비교하는 작업을 더 쉽게 할 수 있습니다. 이전에는 **Dedicated Cloud**에서만 사용할 수 있었지만 이제는 **Self-Managed**에서도 사용할 수 있습니다.
+    * **진정한 전체 화면 보기:** 화면 가장자리까지 꽉 차는 전체 화면 보기로 이미지의 세부 정보를 더 쉽게 확인할 수 있습니다. 더 이상 비좁은 패널은 없습니다.
+    * **전체 화면 보기에서의 단계 슬라이더:** 전체 화면에 내장된 슬라이더로 단계를 효율적으로 이동하며 출력이 어떻게 변하는지 확인할 수 있습니다.
+    * **run 또는 단계 간 빠른 이동:** 전체 화면 보기에서 키보드의 **왼쪽 / 오른쪽 화살표** 키를 사용해 run 간을 이동하고, **Cmd + 왼쪽 / 오른쪽 화살표**(macOS) 또는 **Ctrl + 왼쪽 / 오른쪽 화살표**(Windows / Linux)를 사용해 같은 이미지의 단계 간을 이동합니다.
+
+  * **시스템 메트릭을 위한 고충실도 렌더링:** GPU, CPU, 메모리와 같은 시스템 메트릭 차트에 대한 새로운 고충실도 렌더링 모드가 추가되어, 미세한 신호를 그대로 보존한 채 심층적인 검사와 분석을 수행할 수 있습니다.
+
+  * run 히스토리의 Parquet 내보내기 기능이 개선되었습니다. 이제 모든 배포 환경에서 run 히스토리 내보내기는 기본적으로 비동기식으로 동작합니다. 또한 run 히스토리를 내보낼 때 해당 run이 7일 이상 동안 로그가 기록되지 않았고 그 run에 대한 히스토리가 완전히 내보내진 후에는 MySQL에서 해당 run의 히스토리가 자동으로 삭제됩니다.
+
+  ## 수정 사항
+
+  * 이제 워크스페이스 전체 또는 섹션에 있는 모든 플롯에 대해 **Show original** 선형 플롯 설정을 켜거나 끌 수 있습니다.
+  * Reports의 run 선택기에서 모든 열을 고정하면 리포트의 레이아웃이 깨지던 버그를 수정했습니다.
+  * 고정된 열이 run 선택기 경계를 벗어나 확장되던 문제를 수정했습니다.
+  * `run` 이름을 변경하는 동시에 **Notes** 필드를 편집하면, 변경한 `run` 이름이 원래대로 되돌아가던 버그를 수정했습니다.
+  * X축을 **Relative Wall Time**으로 설정한 상태에서 그룹화된 Runs를 플로팅할 때 잘못된 값이 표시되던 버그를 수정했습니다.
+  * 그룹 페이지네이션 컨트롤이 표시되지 않던 문제를 수정했습니다.
+  * BYOB 스토리지가 버킷 서브패스를 사용하도록 구성된 S3 호환 스토리지로 설정된 경우 리포트를 게시할 수 없던 버그를 수정했습니다. 이는 CoreWeave AI Object Storage, Amazon S3 스토리지, MinIO와 같은 S3 호환 스토리지에 영향을 줍니다.
+  * 스무딩을 켰을 때 시스템 메트릭 차트가 로드되지 않을 수 있는 버그를 수정했습니다.
+  * 여러 개의 Y축을 사용하는 차트에서 스무딩이 켜져 있을 때 차트가 로드되지 못하는 문제를 수정했습니다.
+  * 풀 피델리티 모드에서는 라인 플롯 툴팁에 이제 최소 및 최대 경계가 표시됩니다.
+  * 그룹화된 run 플롯에서 마우스 호버 시 하이라이트 동작이 개선되었습니다.
+  * X축 이름이 Y축 이름의 부분 문자열인 경우 그룹화된 플롯이 렌더링되지 않을 수 있던 버그를 수정했습니다.
+  * 숨김 처리되었거나 선택 해제된 runs가 숨겨지지 않고 회색 점으로 표시되던 버그를 수정했습니다.
+  * 스크롤해야 볼 수 있는 경우 전체 화면으로 미디어 패널이 열리지 않던 버그를 수정했습니다.
+  * 비교 항목이 촘촘한 선 그래프에서 스파이크를 더 명확하게 확인할 수 있도록, 선 그래프의 최소 및 최대 값 음영 표시가 개선되었습니다.
+  * 심층적인 조정이나 실험에서 효율적으로 복구할 수 있도록 이제 선 플롯 편집기에서 X축 방향을 반전할 수 있습니다.
+  * 아티팩트 연결 중에 레지스트리가 생성된 경우 코어 레지스트리의 액세스 유형이 잘못 설정될 수 있는 버그를 수정했습니다. 이 버그로 인해 멤버십 관리에 문제가 발생하고 레지스트리가 올바르게 동작하지 않을 수 있었습니다.
+</Update>
+
+<Update label="v0.74.1" description="2025년 10월 2일">
+  * 조직 관리자가 Organization Dashboard에 액세스하지 못하는 문제를 수정했습니다.
+  * 0.73.0에서 도입되어 이전에 내보낸 Parquet 파일을 삭제할 수 있었던 버그를 수정했습니다.
+  * 커밋이 성공한 후에도 Parquet 아티팩트 파일을 삭제할 수 있었던 버그를 수정했습니다.
+  * MySQL에서 시스템 메트릭을 조회할 때 v0.73에서 발생한 성능 회귀 문제를 수정했습니다.
+  * 소유자가 없는 프로젝트를 편집하지 못하는 문제를 수정했습니다.
+  * 이제 과거 메트릭 히스토그램은 기본적으로 요약 페이지에 표시되지 않습니다. 대신 각 메트릭의 세부 정보가 요약 페이지에 표시되며, 히스토그램은 워크스페이스 패널에서 확인할 수 있습니다.
+</Update>
+
+<Update label="v0.74.0" description="2025년 10월 8일">
+  W&amp;B v0.74는 Okta와의 자동화된 그룹 동기화, 간소화된 사용자 역할 설정 등 엔터프라이즈 ID 관리를 위한 SCIM API 개선 사항을 제공합니다. Dedicated Cloud에서는 강력한 새 전체 화면 이미지 브라우저를 통해 run 내부 및 run 간 이미지를 검사하고 비교할 수 있습니다. Weave 개선 사항으로는 Playground 내 LLM 판정 평가, 멀티턴 Thread 도구 호출에 대한 향상된 가시성, DSPy 개선, 그리고 강화 학습 워크플로를 위한 Verifiers 라이브러리와의 새로운 인테그레이션이 포함됩니다. W&amp;B Inference는 [Z.AI](https://z.ai/) GLM v4.5 하이브리드 추론 모델에 대한 지원을 추가합니다.
+
+  ## 지원 및 서비스 종료
+
+  * W&amp;B Server v0.60 및 이하 버전은 2025년 10월 2일부로 제품 수명 종료(EOL)에 도달했습니다.
+  * W&amp;B Server v0.61은 2025년 10월 28일에 지원이 종료될 예정입니다.
+
+  ## 기능
+
+  * SCIM API가 개선되었습니다:
+    * 프로비저닝 및 프로비저닝 해제 작업이 이제 Okta와의 호환성이 향상되었습니다.
+    * Multi-tenant Cloud 배포에서 이제 [사용자를 생성할 때](/ko/platform/hosting/iam/scim#create-user) 조직 역할과 팀을 설정할 수 있습니다. 이는 Dedicated Cloud 및 Self-Managed에서 해당 엔드포인트의 동작과 일치합니다.
+    * Dedicated Cloud 및 Self-Managed 배포에서 이제 사용자의 사용자 이름 또는 이메일 주소를 업데이트할 수 있습니다. [Update user email](/ko/platform/hosting/iam/scim#update-user-email) 및 [Update user display name](/ko/platform/hosting/iam/scim#update-user-display-name)을 참조하세요. Multi-tenant Cloud 배포에는 적용되지 않습니다.
+    * 이제 이메일과 사용자 이름으로 [사용자를 검색하고 조회할 수 있습니다](/ko/platform/hosting/iam/scim#get-user).
+    * Okta 그룹이 이제 [ETags](/ko/platform/hosting/iam/scim#etag-support)를 사용하여 자동으로 동기화됩니다. SCIM 그룹에 대한 자세한 내용은 [Group resource](/ko/platform/hosting/iam/scim#group-resource)를 참조하세요.
+  * 조직에서 [사용자 목록을 내보낼 때](/ko/platform/hosting/monitoring-usage/org_dashboard#export-user-details), 이제 CSV 파일에 **Models 시트 수**와 **Weave 액세스** 열이 포함됩니다.
+  * **W&amp;B Dedicated Cloud**에서는 새 전체 화면 이미지 브라우저로 로그된 이미지를 더 쉽게 확인하고 비교할 수 있습니다.
+    * **진정한 전체 화면 보기.** 테두리까지 꽉 차는 전체 화면으로 이미지를 띄워 세부 정보를 더 쉽게 확인하세요. 답답한 패널은 이제 그만입니다.
+    * **전체 화면 보기에서의 스텝 슬라이더.** 내장된 슬라이더로 스텝을 효율적으로 이동하며 출력이 어떻게 변화하는지 확인하세요.
+    * **키보드로 run 간 빠르게 전환.** 전체 화면 보기에서 키보드 **왼쪽 / 오른쪽 화살표** 키를 사용해 run 간 이동하고, **Cmd + 왼쪽 / 오른쪽 화살표**(macOS) 또는 **Ctrl + 왼쪽 / 오른쪽 화살표**(Windows / Linux)를 사용해 동일한 이미지의 스텝 간을 이동하세요.
+
+  ### Weave
+
+  * 사이드바의 **Evaluations** 탭에서 프롬프트 값을 수정하고 LLM judge 평가를 실행하여 변경 사항을 테스트할 수 있습니다. [Playground](/ko/weave/guides/tools/playground)에서 시도해 보세요.
+  * 이제 Weave를 강화 학습(RL) 트레이닝 워크플로우에 통합하고, 트레이닝 중에 캡처된 [트레이스와 평가](/ko/weave/guides/tools/weave-in-workspaces)를 W&amp;B Workspace에서 run 메트릭 패널과 함께 확인할 수 있습니다.
+  * Weave에는 이제 강화 학습(RL) 환경을 생성하고 LLM 에이전트를 트레이닝하기 위한 모듈식 컴포넌트 라이브러리인 [Verifiers](https://verifiers.readthedocs.io/en/latest/)와의 인테그레이션이 포함되어 있습니다. Verifiers로 구축된 환경은 LLM 평가, 합성 데이터 파이프라인, OpenAI 호환 엔드포인트용 에이전트 하네스, 그리고 RL 트레이닝에 활용할 수 있습니다. [자세히 알아보기](/ko/weave/guides/integrations/verifiers).
+  * 이제 **Threads** 사이드바 탭에서 멀티턴 Thread의 메시지 히스토리와 함께 도구 호출을 확인할 수 있습니다.
+  * 팀의 **Project** 페이지에는 이제 각 프로젝트별 Weave 트레이스 개수와 해당 프로젝트의 run 관련 데이터가 함께 표시됩니다.
+  * [DSPy 인테그레이션](/ko/weave/guides/integrations/dspy)이 개선되었습니다. 자세한 내용은 [`wandb/weave` #5184](https://github.com/wandb/weave/pull/5184)를 참고하세요.
+  * Weave 코드에서 `wandb.init()`를 호출하면 더 이상 `weave.init()`를 별도로 호출할 필요가 없습니다.
+  * 새 편의 메서드 [`delete_all_object_versions`](/ko/weave/reference/python-sdk/trace/weave_client).
+  * 이제 OpenAI 스트리밍 엔드포인트 호출의 출력에 밀리초 단위의 새로운 필드 `time_to_first_token`이 포함됩니다.
+
+  ### Inference
+
+  * [W&amp;B Inference](/ko/inference)에 [Z.AI GLM](https://z.ai/blog/glm-4.5) 하이브리드 추론 모델에 대한 지원이 추가되었습니다. v4.5 버전을 지원합니다.
+
+  ## 수정 사항
+
+  * 캡션이 있는 바운딩 박스에서 발생하던 표시 문제를 수정했습니다.
+  * Runs Table에서 run들을 그룹화할 때, 이제 `null` 그룹을 펼쳐서 그룹화 키에 null 값을 가진 run들을 볼 수 있습니다.
+  * 이동 평균 스무딩 매개변수의 최대값을 **1000**으로 늘렸습니다.
+  * 여러 프로젝트의 run을 포함한 runset에서 run 이름을 클릭하면 잘못된 URL이 열리는 문제를 수정했습니다.
+  * 다크 모드에서 텍스트 표시 문제를 수정했습니다.
+  * Query Panels가 포함된 공개 리포트를 볼 때 발생하던 권한 관련 버그를 수정했습니다.
+  * 리포트에서 코드를 복사하지 못하는 경우가 생기던 UI 버그를 수정했습니다.
+  * 라인 플롯 툴팁에서 최소값과 최대값의 표시 순서가 잘못되던 버그를 수정했습니다.
+  * X축 키가 Y축 키의 부분 문자열인 경우 그룹화된 플롯이 표시되지 않을 수 있던 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.73.1" description="2025년 9월 10일">
+  ## 수정 사항
+
+  * v0.73.0에서 발생한 버그를 수정하여, Workspace 패널의 크기 조정 또는 순서 변경이 저장된 뷰에 항상 반영되지 않던 문제를 해결했습니다.
+  * Registry UI에서 조직에 수백 개의 레지스트리가 있는 경우 레지스트리 목록을 페이지를 넘기며 탐색할 때 실패할 수 있던 버그를 수정했습니다.
+  * 바운딩 박스가 포함되어 로깅된 미디어에 대해 바운딩 박스가 항상 표시되지 않던 버그를 수정했습니다.
+  * 내보내기 작업이 보류 상태에 머무르고 실행되지 않던 버그를 수정했습니다.
+  * 이름에 특수 문자가 포함된 파일을 다운로드할 때 `wandb verify`가 실패할 수 있던 버그를 수정했습니다.
+  * 시스템 이벤트를 가져올 때, 특히 차트에서 많은 수의 시스템 이벤트를 그릴 때 성능이 저하되던 성능 회귀(regression)를 수정했습니다. 이 회귀는 v0.73.0에서 발생했습니다.
+</Update>
+
+<Update label="v0.73.0" description="2025년 9월 10일">
+  W&amp;B v0.73은 팀 수준 Model Registry에서 W&amp;B Registry로의 마이그레이션에서 중요한 이정표입니다. 대부분의 조직은 업그레이드 중 자동으로 마이그레이션됩니다. UI 개선 사항으로는 색각 이상자를 위한 run 색상 팔레트, 메트릭 기반 run 색상 지정을 위한 연속 색상 옵션, 더 원활한 패널 재배치가 포함됩니다. 이번 릴리스에서는 CoreWeave AI Object Storage를 사용하는 BYOB(Bring Your Own Bucket) 설정에 대한 서비스 주체 인증도 제공하며, 콘솔 로그 처리 개선 및 기타 기능 향상도 포함됩니다.
+
+  ## 예정된 변경 사항
+
+  * 다가오는 릴리스에서는 멀티 run 및 단일 run Workspace 뷰를 서로 일치시키려 합니다. 따라서 단일 run 상세 화면으로 들어가면, 멀티 run 뷰에 대해 설정해 둔 패널 레이아웃과 구성(사용자 정의 차트, 레이아웃, 설정 포함)을 그대로 보게 됩니다. 목적은 사용자가 항상 동일한 컨텍스트를 유지하고, 뷰 설정을 다시 하는 작업을 피할 수 있도록 돕는 것입니다. 다만, 이로 인해 Workspace의 다른 부분과 분리된, 고유한 단일 run 뷰를 개별적으로 커스터마이즈하는 기능은 사라집니다. 마이그레이션과 관련해 궁금한 점이 있으면 W&amp;B 팀 또는 [support](mailto:support@wandb.ai)로 문의하세요.
+  * 앞으로 여러 차례의 릴리스를 거치며 기존 팀 단위 Model Registry를 순차적으로 W&amp;B Registry로 마이그레이션할 예정입니다. 자세한 내용과 일정에 대한 안내는 아래의 [W&amp;B Registry GA 발표](#registry_ga_announcement)를 참조하세요.
+
+  ## 알려진 문제
+
+  v0.73.0에서는 워크스페이스 패널의 크기 조정 또는 순서 변경이 저장된 뷰에 반영되지 않을 수 있습니다. 이 버그는 v0.73.1에서 수정되었습니다. 이 문제가 발생하면 수정 사항이 포함된 v0.73.1로 업그레이드하세요. 업그레이드할 수 없는 경우 해결 방법은 [support](mailto:support@wandb.ai)에 문의하세요.
+
+  ## 기능
+
+  * <a id="registry_ga_announcement" aria-label="W&B Registry GA 공지" />앞으로 여러 차례의 릴리스에 걸쳐 기존 팀 단위 Model Registry를 단계적으로 W&amp;B Registry로 마이그레이션할 예정입니다. **사용자 측에서 별도의 조치는 필요하지 않습니다. W&amp;B가 각 팀의 Model Registry 자산을 자동으로 생성되는 해당 팀 단위 프라이빗 레지스트리로 복사합니다.** 기존 팀 단위 Model Registry의 모델 컬렉션에 대한 참조는 계속 유효합니다.
+
+    1. Server v0.73(이번 릴리스)에는 업그레이드 중 팀의 Model Registry를 자동으로 마이그레이션할지 여부를 제어하는 옵트아웃용 환경 변수가 포함되어 있습니다. 대부분의 조직에서는 마이그레이션에 5~30분이 소요됩니다. 마이그레이션 중에는 이전 Model Registry나 새로운 Registry에 아티팩트를 연결하려는 시도가 오류와 함께 실패합니다. **아티팩트 로깅 및 조회에는 영향이 없습니다**.
+    2. Server v0.74(9월 말)에서는 이 옵트아웃 플래그를 제거하고, 업그레이드 중에 자동으로 마이그레이션이 수행됩니다.
+
+    현재 더욱 강력한 새로운 환경으로의 원활한 업그레이드를 위해 최적화를 진행하고 있습니다. 마이그레이션과 관련하여 궁금한 점이 있으시면 W&amp;B 계정 담당 팀이나 [지원팀](mailto:support@wandb.ai)으로 문의해 주세요.
+  * [Run Logs 콘솔 페이지](/ko/models/app/console-logs)에 복사 버튼을 추가하고 붙여넣기 동작 방식을 개선했습니다.
+  * W&amp;B에서 이제 run에 사용할 색각 이상 사용자를 위한 새로운 색상 팔레트 두 가지를 제공합니다. 이를 [Workspace settings](/ko/models/app/features/cascade-settings/#workspace-settings)의 **Runs** 섹션에서 설정하세요.
+  * [메트릭이나 숫자형 config별로 run에 색상을 지정할 때](/ko/models/runs/color-code-runs), 이제 새로운 연속형 색상 팔레트 다섯 가지 중에서 선택할 수 있습니다.
+  * [W&amp;B run](/ko/models/runs) 실행 중에는 [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 사용자의 컴퓨트 인프라를 모니터링합니다. 이 인테그레이션은 이제 Dedicated Cloud에서도 사용할 수 있습니다.
+  * 이제 CoreWeave AI Object Storage를 사용하는 BYOB는 Multi-tenant Cloud, Dedicated Cloud, Self-Managed 배포 환경에서 서비스 프린시펄을 통한 인증을 지원합니다. 이를 통해 배포 환경에서 정적 자격 증명을 사용하지 않아도 됩니다. 자세한 내용은 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)을 참고하세요.
+
+  ### Weave
+
+  * 이제 여러 트레이스에 걸쳐 있는 세션이나 대화를 [Weave Threads](/ko/weave/guides/tracking/threads)로 묶어서 관리할 수 있습니다.
+  * **Trace view**의 새로운 [Graph view](/ko/weave/guides/tracking/trace-tree#graph-view)는 호출 트리 구조를 그래프 형태로 시각화합니다.
+  * **Trace view**에는 ChromaDB와 Langchain으로 가져온 [문서](/ko/weave/guides/core-types/media#documents)에 대한 새로운 전용 뷰가 추가되어, 채팅과 같은 스키마를 더 잘 처리할 수 있습니다. **Trace view**에서 문서를 클릭하면 오른쪽에 표시되는 드로어에서 상세 뷰가 열립니다. 자세한 내용은 [Trace view 탐색하기](/ko/weave/guides/tracking/trace-tree)를 참고하세요.
+  * 이제 [HTML](/ko/weave/guides/core-types/media#html)을 미디어 유형으로 트레이스에 첨부할 수 있습니다.
+  * 이제 **Assets** 탭에서 프롬프트를 생성하고 편집할 수 있습니다. **Assets**를 클릭한 다음, 탐색 메뉴에서 **Prompts**를 클릭합니다. **New prompt**를 클릭하거나 기존 프롬프트 이름을 클릭해 세부 정보를 확인합니다. 여기에서 연필 아이콘을 클릭해 프롬프트를 편집한 뒤 다시 게시할 수 있습니다.
+
+  ## 수정 사항
+
+  * 섹션 내 및 섹션 간 [패널 드래그 앤 드롭](/ko/models/app/features/panels/#move-a-panel) 동작의 자연스러움과 정확도가 개선되었습니다.
+  * [전체 화면 패널 보기](/ko/models/app/features/panels/#view-a-panel-in-full-screen-mode)에서 이제 **Esc** 키를 누르면 워크스페이스 화면으로 돌아갑니다.
+  * 전체 화면 모드에서 돌아온 뒤 워크스페이스의 패널이 예기치 않게 확대될 수 있던 버그를 수정했습니다.
+  * [plot settings](/ko/models/app/features/panels/line-plot/#edit-line-plot-settings)에서 차트 및 범례 설정이 하나의 탭으로 통합되었습니다.
+  * 폴링 업데이트 후 패널 범례 순서가 잘못 표시되던 버그를 수정했습니다.
+  * 지수 표기법으로 표시되는 Y축 값이 길거나 유효 숫자 자릿수가 많은 패널의 표시 형식을 개선했습니다.
+  * 해당 run이 없는 [Overlays for panels](/ko/models/app/features/panels/media/#overlays)는 이제 표시되지 않습니다.
+  * 워크스페이스의 **Runs** 탭이나 **Runs** 목록에서 run의 태그를 클릭했을 때 해당 태그를 기준으로 필터링되지 않던 버그를 수정했습니다.
+  * 사용자가 최대 Runs 수 제한을 우회할 수 있게 하던 버그를 수정했습니다.
+  * Runs를 켜거나 끌 때, W&amp;B는 패널의 다른 run에 대한 미디어를 더 이상 다시 로드하지 않습니다.
+  * **Tab** 키를 누른 후 섹션을 펼치거나 접을 때 리포트가 충돌할 수 있던 버그를 수정했습니다.
+  * 모바일 화면에서 스크롤할 때 로그된 비디오가 자동으로 전체 화면으로 재생되던 버그를 수정했습니다.
+
+  ## 기타 변경 사항
+
+  * 사용자 지정 그리드 레이아웃은 Server v0.73.0 릴리스에서 W&amp;B Workspaces에서 제거되었습니다. 이전에는 사용자 지정 그리드 레이아웃을 사용하여 섹션 내 개별 패널의 크기를 조정할 수 있었습니다. 이제 워크스페이스 섹션에서 패널 하나의 크기를 조정하면 해당 섹션의 모든 패널 크기가 함께 변경됩니다. 이는 [W&amp;B App](/ko/models/app/features/panels/#manage-a-sections-panels) 또는 [Workspace API](/ko/models/ref/wandb_workspaces/workspaces#class-sectionlayoutsettings)를 사용해 워크스페이스를 구성하는 경우 모두 동일하게 적용됩니다. 사용자 지정 그리드 레이아웃은 여전히 [W&amp;B Reports](/ko/models/reports) 및 [Reports API](/ko/models/ref/wandb_workspaces/reports)에서는 사용할 수 있습니다.
+</Update>
+
+<Update label="v0.72.0" description="2025년 8월 6일">
+  W&amp;B 0.72에는 선형 플롯(line plot)과 미디어 패널 관련 수정 사항과 함께, OpenTelemetry 및 Google Agent Development Kit에 대한 Weave 인테그레이션 개선 사항이 포함되어 있습니다.
+
+  ## 예정된 변경 사항
+
+  * 패널이 많은 Workspace에서 더 빠른 로딩 속도와 Workspace 내 패널 드래그 앤 드롭 동작의 반응성과 정확도를 높이기 위해 렌더링 동작을 최적화하고 있습니다. **이 작업의 일환으로, 다음(0.73) 버전에서 Workspace 섹션의 “Custom grid” 레이아웃을 제거할 예정입니다.** Custom grid는 계속해서 Reports에서는 사용할 수 있습니다. 질문이나 우려 사항이 있으면 W&amp;B 팀이나 [support](mailto:support@wandb.ai)로 연락하세요.
+  * 향후 릴리스에서는 멀티-run Workspace 뷰와 단일-run Workspace 뷰를 일치시켜, 단일 run으로 드릴다운했을 때도 멀티-run 뷰에서 구성한 것과 동일한 패널 레이아웃과 설정(사용자 정의 차트, 레이아웃, 설정 포함)을 볼 수 있도록 할 예정입니다. 목표는 맥락을 유지하면서 뷰 설정을 반복해서 구성해야 하는 일을 줄이는 것입니다. 다만, 이로 인해 Workspace의 다른 부분과 분리된, 단일 run에만 고유하게 커스터마이징된 뷰는 더 이상 구성할 수 없게 됩니다. 마이그레이션과 관련해 질문이 있으면 W&amp;B 팀이나 [support](mailto:support@wandb.ai)로 연락하세요.
+  * 향후 여러 릴리스에 걸쳐, 기존 팀 단위 Model Registry를 W&amp;B Registry로 계속 마이그레이션할 예정입니다.
+
+  ## 수정 사항
+
+  * 0.71.0에서 안내했던 line plot 동작 변경을 되돌렸습니다. 각 선에 대해 포인트가 1개만 있는 line plot은 설정을 변경하더라도 막대 차트(bar chart)로 변환됩니다.
+  * 미디어 패널에서 바운딩 박스가 미디어 위에 오버레이되지 않고 미디어 영역 밖에 렌더링될 수 있던 버그를 수정했습니다.
+  * Google Agent Development Kit 인테그레이션이 Weave Threads를 지원하지 못하던 버그를 수정했습니다.
+  * OpenTelemetry를 통해 제출된 Weave trace에서 **Attributes** 열이 누락되던 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.71.0" description="2025년 7월 29일">
+  W&amp;B Server 0.71부터 Registry가 모든 조직에서 기본적으로 활성화됩니다. Registry 단계적 출시에 대한 자세한 내용은 Features의 관련 참고 사항을 확인하세요. 이번 릴리스는 워크스페이스에 대한 여러 개선 사항과 버그 수정을 제공합니다. 공통 스텝 슬라이더가 있는 미디어 패널을 동기화 상태로 유지하고, 전체 화면 패널을 더욱 효율적으로 탐색하며, Run Overview 페이지에서 run의 총 실행 시간 및 활성 실행 시간에 대한 자세한 정보를 확인할 수 있습니다. Automations 기능이 강화되어 이제 아티팩트 버전의 태그를 기반으로 자동화를 트리거할 수 있습니다. {/* more */}
+
+  ## 지원 및 서비스 종료
+
+  <ul>
+    <li>W&amp;B Server v0.57 및 그 이전 버전은 2025년 7월 29일부로 지원이 종료되었습니다.</li>
+    <li>W&amp;B Server v0.58의 지원 종료 예정일은 2025년 9월 2일입니다.</li>
+  </ul>
+
+  {/* 아래에 포함된 admonition이 두 번째 항목의 자식으로 표시되는 문제를 해결하기 위해 이 부분은 HTML로 작성되었습니다 */}
+
+  ## 예정된 변경 사항
+
+  * 우리는 패널이 많은 워크스페이스에서 더 빠르게 로드되고, 워크스페이스에서 패널을 드래그 앤 드롭할 때 더 빠르고 정확하게 동작하도록 렌더링 방식을 최적화하고 있습니다. **이 작업의 일환으로, 다음 0.72 릴리스에서 워크스페이스 섹션의 “Custom grid” 레이아웃을 제거할 예정입니다.** “Custom grid” 레이아웃은 계속해서 Reports에서 사용할 수 있습니다. 질문이나 우려 사항이 있다면 담당 W&amp;B 팀 또는 [support](mailto:support@wandb.ai)로 문의하세요.
+  * 다가오는 릴리스에서는 멀티-run 뷰와 단일 run 워크스페이스 뷰를 서로 일치하도록 통합할 예정입니다. 따라서 단일 run으로 들어가서 확인할 때, 멀티-run 뷰에서 설정해 둔 것과 동일한 레이아웃과 패널 설정(사용자 지정 차트, 레이아웃, 설정 포함)을 보게 됩니다. 이를 통해 항상 동일한 컨텍스트를 유지하고, 뷰 설정을 다시 손보는 작업을 줄이는 것이 목표입니다. 다만, 이로 인해 워크스페이스의 다른 부분과 분리된, 단일 run에만 고유한 뷰를 별도로 커스터마이즈하는 기능은 제공되지 않습니다. 마이그레이션과 관련해 궁금한 점이 있으면 언제든지 W&amp;B 팀이나 [support](mailto:support@wandb.ai)로 문의하세요.
+  * 향후 여러 차례의 릴리스를 거쳐 기존 팀 단위 Model Registry를 W&amp;B Registry로 계속 마이그레이션할 예정입니다. 상세 내용과 일정에 대한 안내는 아래의 [W&amp;B Registry GA 발표](#registry_ga_announcement)를 참고하세요.
+
+  ## 기능
+
+  * <a id="registry_ga_announcement" aria-label="W&B Registry GA announcement" /> 우리는 향후 몇 차례의 릴리스에 걸쳐 기존 팀 수준 Model Registry를 단계적으로 W&amp;B Registry로 마이그레이션할 예정입니다. **사용자 측에서 별도로 취할 조치는 없습니다. W&amp;B가 각 팀의 Model Registry 자산을 해당 팀에 대해 자동으로 생성되는 팀 수준 비공개 Registry로 복사합니다.** 기존 팀 수준 Model Registry에서 사용되던 모델 컬렉션 참조는 계속해서 정상적으로 동작합니다.
+
+    1. Server v0.71(이번 릴리스)에서는 이제 모든 조직에서 Registry가 기본적으로 활성화됩니다.
+    2. Server v0.73(8월)에서는 업그레이드 중 이 마이그레이션을 자동으로 실행하도록 하는 옵트아웃 환경 변수가 포함됩니다. 마이그레이션은 대부분의 조직에서 5분에서 30분 정도 소요됩니다. 마이그레이션 중에는 아티팩트를 이전 팀의 Model Registry나 새로운 Registry에 연결하는 작업이 오류와 함께 실패합니다. **아티팩트 로깅과 조회에는 영향이 없습니다**.
+    3. Server v0.74(9월)에서는 이 플래그를 제거하고, 마이그레이션은 업그레이드 중에 자동으로 수행됩니다.
+
+    더 강력한 새로운 경험으로 최대한 매끄럽고 불편을 최소화하는 업그레이드가 되도록 최적화하고 있습니다. 마이그레이션에 관해 궁금한 점이 있으면 W&amp;B 담당자에게 문의하세요.
+  * 이제 아티팩트에 태그를 추가하면 자동화를 트리거할 수 있습니다. [Artifact events](/ko/models/automations/automation-events/#artifact-events)를 참조하세요.
+  * 패널을 전체 화면 모드에서 볼 때 섹션 내의 다른 패널로 이동하려면 **Previous** 및 **Next** 버튼이나 왼쪽과 오른쪽 화살표 키를 사용하여 이전 또는 다음 패널을 볼 수 있습니다.
+  * 미디어 패널을 전체 화면으로 볼 때 단계 슬라이더를 이동하려면, macOS에서는 **CMD + 왼쪽 또는 오른쪽 화살표** 키를, Windows / Linux에서는 **Ctrl + 왼쪽 또는 오른쪽 화살표** 키를 사용하세요.
+  * 이제 동일한 step 슬라이더 키를 사용하는 미디어 패널을 서로 동기화할 수 있습니다. 한 미디어 패널에서 step 슬라이더를 이동하면 다른 패널의 step 슬라이더도 함께 이동합니다. 워크스페이스 또는 섹션 설정을 열고 **Media**로 이동한 다음 **Sync** 탭을 클릭하고 **키별 슬라이더 동기화 (Step)**를 켭니다.
+  * Run Comparer에 run의 명령, Python 버전, GPU 유형 등의 메타데이터를 포함하는 새로운 **Meta** 섹션이 추가되었습니다.
+
+  ### Weave
+
+  * **Trace plots** 도구를 사용하면 사용자 정의 대화형 차트를 통해 시간 경과에 따른 지연(latency), 비용(cost), 토큰 수와 같은 트레이스 수준 메트릭을 탐색하고 시각화하며 디버깅할 수 있습니다. [자세히 알아보기](/ko/weave/guides/tracking/trace-plots).
+  * **온라인 평가(Online Evaluations)**: Dedicated Cloud에서 수집되는 trace에 Monitors를 연결해 trace를 모니터링하세요. Monitors는 LLM 심사자 역할을 하며 백그라운드에서 동작하면서, 지정한 일부 호출에 대해 점수를 매깁니다. Monitors를 사용해 운영 환경 동작을 추적하고, 성능 회귀(regression)를 감지하며, 실제 운영 데이터를 수집하는 등 다양한 작업을 수행할 수 있습니다. [자세히 보기](/ko/weave/guides/tracking/trace-plots).
+  * [AutoGen](/ko/weave/guides/integrations/autogen) 및 [LlamaIndex](/ko/weave/guides/integrations/llamaindex) 인테그레이션이 추가되었습니다. *AutoGen*은 Microsoft에서 만든 AI 에이전트 및 애플리케이션 구축용 프레임워크로, 대화형 AI, 핵심 멀티 에이전트 기능, 외부 서비스 인테그레이션, 노코드 방식의 에이전트 프로토타이핑 도구 등의 컴포넌트를 제공합니다. *LlamaIndex*는 RAG 시스템, 챗봇, 에이전트와 같은 LLM 기반 애플리케이션을 구축하기 위한 강력한 프레임워크입니다.
+  * OpenAI, LangChain, ChromaDB, Verdict 등과의 인테그레이션 개선 사항:
+    * LangChain 및 ChromaDB용 문서 뷰.
+    * LangChain용 채팅 뷰 렌더링.
+    * OpenAI용 새로운 내보내기 형식.
+  * [W&amp;B Inference](https://wandb.ai/inference)에 새로운 호스티드 오픈 웨이트 모델을 추가했습니다:
+    * `Qwen3-235B-A22B-Thinking-2507`
+    * `Qwen/Qwen3-Coder-480B-A35B-Instruct`
+    * `Qwen/Qwen3-235B-A22B-Instruct-2507`
+    * `Kimi-K2-Instruct`
+  * TypeScript SDK에 프롬프트 생성 및 게시 기능이 추가되었습니다. [자세히 알아보기](/ko/weave/guides/core-types/prompts).
+  * 새로운 `Content` 클래스는 어떤 MIME 타입의 데이터든 안전하게 업로드할 수 있게 해주며, 자동 Base-64 인코딩, 자동 메타데이터 추출 등의 기능을 제공합니다.
+
+  ## 수정 사항
+
+  * run의 **Overview** 페이지에 이제 run의 실행 시간(uptime)과 추적된 시간(tracked hours)이 표시됩니다. run의 *uptime*은 시작부터 종료까지 run의 전체 실행 시간을 의미하고, run의 *tracked hours*는 run이 실제로 실험이나 연산을 수행하며 활성 상태였던 시간의 총합을 의미합니다.
+  * 선 그래프를 확대한 후 전체 화면 보기로 열면, 전체 화면에서도 동일한 확대 상태가 올바르게 유지됩니다.
+  * 플롯에 표시되는 그룹 수를 변경해도 플롯이 갱신되지 않던 버그를 수정했습니다.
+  * 선 그래프에서 **Show Original**을 선택하면 스무딩되지 않은 원본 선이 스무딩된 선보다 더 옅게 표시됩니다.
+  * 이제 전체 충실도 선 플롯에 포함된 Runs 수가 표시됩니다.
+  * 각 run마다 값이 하나만 있을 때, 명시적으로 선 그래프로 설정한 플롯이 예기치 않게 막대 그래프로 바뀌던 버그를 수정했습니다.
+  * X축 표현식이 이제 중첩 config 필드를 지원합니다.
+  * **Artifacts** 페이지의 사이드바에서 **Registry** 링크가 제거되었습니다. **Registry**에 액세스하려면 **Home**을 클릭한 다음 **Registry**를 클릭하세요.
+  * 워크스페이스나 섹션의 라인 플롯에서는 포인트 위에 마우스를 올렸을 때 툴팁에 빈(bin) 범위를 선택적으로 표시할 수 있습니다. 워크스페이스나 섹션 설정을 열고 **Line plots**를 클릭한 다음 **Display preferences** 탭으로 이동하여 **Show bin range in tooltip**을 켭니다.
+  * **Registry** 아티팩트 계보 페이지에서 링크를 클릭하면 브라우저의 URL과 매개변수는 업데이트되지만 페이지 내용은 업데이트되지 않던 버그를 수정했습니다. 이제 URL이 변경되면 UI도 함께 업데이트됩니다.
+  * 컬렉션 테이블이 float 값이 아닌 문자열로 정렬되던 **Registry**의 버그를 수정했습니다.
+  * **Registry**에서 선택한 아티팩트의 다른 버전을 선택해도 계보 정보 패널에 항상 최신 버전만 표시되던 버그를 수정했습니다.
+  * 패널 검색창이 표시되지 않던 모바일 디스플레이 버그를 수정했습니다.
+  * run 선택기를 어떤 속성 기준으로 정렬하고 색상을 key 기준으로 설정하면, 이제 플롯에서 상위 Runs에 색상이 올바르게 적용됩니다.
+  * 그룹화된 Runs를 사용할 때 이제 평행좌표 플롯에 그룹 이름이 올바르게 표시됩니다.
+  * 이제 Sweeps 테이블에서 **State**가 기본적으로 올바르게 표시됩니다.
+  * 이제 사용자 지정 표시 이름으로 그룹화할 때 Sweeps가 올바르게 표시됩니다.
+  * Sweeps와 Reports에서 긴 이름의 줄바꿈 처리를 수정했습니다.
+  * 콘솔 로그의 복사/붙여넣기 동작이 개선되었습니다. 이제 줄 번호는 더 이상 복사되지 않고, 타임스탬프는 새 줄이 아니라 같은 줄에 표시됩니다.
+</Update>
+
+<Update label="v0.70.1" description="2025년 7월 9일">
+  ## Fixes
+
+  * 업그레이드 이후에 크래시된 run의 상태가 **Crashed**로 업데이트되지 않던 버그를 수정했습니다.
+  * **Sweeps** Runs 테이블에서 **State** 열이 누락되어 있던 버그를 수정했습니다.
+  * Registry 컬렉션 브라우저에서 아티팩트 매니페스트 파일의 캐시된 경로가 해당 아티팩트의 버전 인덱스에만 의존해 잘못된 버전의 파일이 표시될 수 있던 Weave 버그를 수정했습니다.
+  * 유효한 문법을 가진 JSON이 올바르게 파싱되지 않을 수 있던 Weave 버그를 수정했습니다.
+
+  이러한 버그는 v0.70.0에서 도입되었습니다.
+</Update>
+
+<Update label="v0.70.0" description="2025년 7월 7일">
+  W&amp;B Server v0.70에는 인사이트를 더 효율적으로 얻고 공유할 수 있도록 지원하는 새로운 기능, 개선 사항 및 성능 향상이 포함되어 있습니다. 예를 들면 다음과 같습니다:
+
+  ## 예정된 변경 사항
+
+  * 다가오는 릴리스에서는 멀티-run 뷰와 단일 run Workspace 뷰를 일치시킬 예정입니다. 따라서 단일 run의 세부 보기로 들어가면, 멀티-run 뷰에서 구성해 둔 것과 동일한 레이아웃과 패널 설정(사용자 지정 차트, 레이아웃, 설정 포함)을 보게 됩니다. 이는 맥락을 유지하고, 뷰 설정과 관련된 반복 작업을 줄이는 데 목적이 있습니다. 다만, 이 변경으로 인해 Workspace의 다른 부분과 분리된, 고유한 단일 run 뷰를 개별적으로 커스터마이즈하는 기능은 제거됩니다. 마이그레이션과 관련해 궁금한 점이 있다면 귀하의 W&amp;B 담당 팀이나 [support](mailto:support@wandb.ai)로 문의해 주세요.
+  * 앞으로 몇 차례에 걸친 릴리스 동안 기존 팀 수준 Model Registry를 W&amp;B Registry로 마이그레이션할 예정입니다. 자세한 내용과 일정은 아래의 [W&amp;B Registry GA 발표](#registry_ga_announcement)를 참고하세요.
+
+  ## 기능
+
+  * <a id="registry_ga_announcement" aria-label="W&B Registry GA 발표" /> **W&amp;B Registry가 이제 정식 출시되었습니다**! Registry는 다양한 자산 유형, 액세스 관리, 확장성을 크게 향상하여, 규모가 크고 다양한 팀 전반에서 AI 이니셔티브에 협업하기 위한 진정한 허브 역할을 합니다.
+    * Registry는 `ENABLE_REGISTRY_UI` 환경 변수를 사용하거나 W&amp;B 지원 팀에 문의하면 오늘 바로 활성화할 수 있습니다.
+    * 기존 팀 단위 Model Registry 자산은 앞으로 몇 번의 릴리스에 걸쳐 단계적으로 W&amp;B Registry로 마이그레이션됩니다. **사용자 측에서 별도의 조치는 필요 없습니다. W&amp;B가 각 팀의 Model Registry 자산을 해당 팀에 대해 자동으로 생성되는 팀 단위 프라이빗 레지스트리로 자동 복사합니다.** 기존 팀 단위 Model Registry에서 모델 컬렉션에 대한 기존 참조는 계속 동작합니다.
+
+      1. Server v0.71에서는 모든 조직에 대해 Registry가 기본적으로 활성화됩니다.
+      2. Server v0.73(8월)에는 업그레이드 중에 이 마이그레이션을 자동으로 수행하는 옵트아웃 환경 변수가 포함됩니다. 대부분의 조직에서 마이그레이션에는 5~30분이 소요됩니다. 마이그레이션 중에는 이전 팀의 Model Registry나 새로운 Registry 어느 쪽으로든 아티팩트를 연결하려고 하면 오류가 발생합니다. **아티팩트 로깅 및 조회에는 영향이 없습니다.**
+      3. Server v0.74(9월)에서는 이 플래그가 제거되며, 업그레이드 중에 마이그레이션이 수행됩니다.
+
+      우리는 더 강력한 새로운 경험으로 매끄럽고 불편을 최소화하는 업그레이드를 목표로 하고 있습니다. 마이그레이션과 관련해 궁금한 사항이 있으면 W&amp;B 팀이나 [support](mailto:support@wandb.ai)로 문의하세요.
+  * **CoreWeave 인프라 모니터링**: CoreWeave 인프라에서 [W&amp;B Run](/ko/models/runs)을 실행하는 동안, [CoreWeave Mission Control](https://www.coreweave.com/mission-control)은 사용자의 컴퓨트 인프라를 모니터링하여 GPU 오류, 온도 초과 등의 인프라 알림을 확인할 수 있도록 합니다. 에러가 발생하면 CoreWeave는 해당 정보를 W&amp;B로 전송합니다. W&amp;B는 인프라 정보를 사용자의 run 플롯과 프로젝트의 Workspace에 표시합니다. CoreWeave는 일부 문제를 자동으로 해결하려 시도하며, W&amp;B는 해당 정보를 run 페이지에 표시합니다. W&amp;B는 run에 대한 시스템 수준 세부 정보를 제공하는 SLURM 잡의 Grafana 대시보드 링크를 제공합니다. 자세한 내용은 [CoreWeave 인프라 알림 시각화](/ko/models/app/features/panels/line-plot)를 참고하세요.
+  * **CoreWeave 외부 파일 추적**: 이제 CoreWeave AI Object Storage에 저장된 외부 파일을 참조용 아티팩트로 등록하여 추적할 수 있습니다. 자세한 내용은 [외부 파일 추적](/ko/models/artifacts/track-external-files)을 참고하세요.
+  * **CoreWeave BYOB 지원**: 이제 Dedicated Cloud 및 Self-Managed에서 인스턴스 및 팀 수준 BYOB를 위해 CoreWeave AI Object Storage를 지원합니다. Multi-tenant Cloud에서의 CoreWeave 팀 수준 BYOB 지원은 곧 제공될 예정입니다. 자세한 내용은 [Bring your own bucket (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)를 참고하세요.
+  * **일괄 미디어 설정**: 라인 플롯과 마찬가지로 이제 전체 워크스페이스나 특정 섹션에 걸쳐 모든 미디어 패널 설정을 한 번에 관리할 수 있습니다. 에포크별로 표시하거나 사용자가 지정한 그리드 패턴으로 배열하도록 미디어 패널을 손쉽게 구성할 수 있으며, 각 패널을 개별적으로 조정할 필요가 없습니다. 개별 패널 설정은 전역 설정보다 우선합니다.
+  * **Workspace 템플릿**을 사용하면 기존 워크스페이스와 동일한 설정으로 새 워크스페이스를 빠르게 생성할 수 있습니다. 현재 Workspace 템플릿에서는 사용자 지정 라인 플롯 설정을 정의할 수 있습니다. 자세한 내용은 [Workspace templates](/ko/models/track/workspaces/#workspace-templates)을 참고하세요.
+  * **증분 테이블 로깅**을 사용하면 머신 러닝 실험 중에 테이블에 행 배치를 여러 번에 걸쳐 기록할 수 있습니다. 이는 긴 시간 실행되는 작업을 모니터링하거나, 업데이트를 위해 run 중에 전체를 다시 기록하기에는 비효율적인 대용량 테이블을 다룰 때 이상적입니다. UI에서는 새 행이 기록될 때마다 테이블이 업데이트되므로, 전체 run 이 끝날 때까지 기다리지 않고도 최신 데이터를 볼 수 있습니다. 또한 각 증분 단계를 순차적으로 살펴보며 서로 다른 시점의 테이블 상태를 확인할 수 있습니다. 자세한 내용은 [Log tables](/ko/models/track/log/log-tables/#adding-data-incrementally)를 참조하세요.
+
+  ## 수정 사항
+
+  * 로그 뷰어에서 일부 줄만 표시되는 경우, 상단에 배너가 표시되도록 했습니다.
+  * 데이터 경계에서 이동 평균 계산과 관련된 버그를 수정했습니다.
+  * 상대 시간 플롯의 x축 단위 레이블을 더 분명하게 표시하도록 개선했습니다.
+  * 스무딩이 적용된 플롯에서 **원본 표시(Show Original)** 옵션을 꺼도 원래 선이 계속 표시되던 버그를 수정했습니다.
+  * 표현식이 포함된 그룹화된 full-fidelity 선형 플롯이 예기치 않게 막대 차트로 변환되던 버그를 수정했습니다.
+  * 히스토그램 위에 마우스를 올리면 이제 툴팁에 x축 스텝이 표시됩니다.
+  * 패널에서 내보낸 데이터가 잘못 정렬될 수 있던 버그를 수정했습니다. 이제 내보낸 데이터는 숫자 값 기준으로 정렬됩니다.
+  * run 선택기에서 이제 **updated at** 기준으로 필터링하거나 정렬할 수 있습니다.
+  * 점군 패널에 오른손 좌표계 설정 옵션을 추가했습니다.
+  * 이제 전체 화면 패널 URL 끝의 슬래시가 제거됩니다.
+  * 삭제된 저장된 뷰가 삭제 직후 새로고침 시 다시 나타나던 버그를 수정했습니다.
+  * 다크 모드가 켜진 상태에서 페이지를 다시 로드할 때 화면이 순간 깜빡이는 표시 버그를 수정했습니다.
+  * 단조롭지 않은 값(non-monotonic values)을 사용할 때 슬라이더 단계가 잘못 설정되던 버그를 수정했습니다.
+  * 그룹 간 run을 이동할 때 사용할 수 있는 편의용 체크박스와 알림을 추가했습니다.
+  * `wandb.define_metric()`에서 메트릭 이름에 와일드카드 문자 `*`를 사용할 때 이름에 `/`가 포함된 메트릭과 일치하지 않던 버그를 수정했습니다.
+  * 이제 컬렉션 포트폴리오가 가비지 컬렉션되더라도 W&amp;B는 소스 아티팩트를 삭제하지 않습니다.
+  * **Allowed types** 및 **Registry visibility** 선택 상자에서 잘못 입력이 가능하던 버그를 수정했습니다.
+  * 이제 컬렉션 카드에 아티팩트 유형 이름이 잘리지 않고 전체 이름이 표시됩니다.
+  * Registry 컬렉션에서 **Action History**를 클릭했을 때 **Versions** 뷰가 잘못 로드되던 버그를 수정했습니다.
+  * 이제 Registry에서 `job` 유형의 아티팩트를 추가할 수 있습니다.
+  * Lineage 타일이 이제 더 넓어져서, 텍스트가 잘려 나가기 전에 더 많은 내용을 표시합니다.
+  * 프로젝트 수준 자동화 설정 관련 문구가 Registry 용어인 &quot;collections&quot; 대신 &quot;artifacts&quot;를 가리키도록 명확히 했습니다.
+  * 이제 아티팩트 브라우저에서 이름으로 검색하면, 이전처럼 처음 500개의 아티팩트에만 한정되지 않고 모든 아티팩트를 대상으로 검색합니다.
+</Update>
+
+<Update label="v0.69.1" description="2025년 6월 10일">
+  ## 수정사항
+
+  * 이제 `Run.create()`로 run을 생성할 때 `state` 파라미터를 `pending` 또는 `running`으로 설정해 초기 run 상태를 지정할 수 있습니다.
+  * **Action History**를 클릭했을 때 잘못 **Version** 뷰가 로드되던 버그를 수정했습니다.
+  * Parquet 저장소 서비스의 메모리 성능을 개선했습니다.
+</Update>
+
+<Update label="v0.69.0" description="2025년 5월 28일">
+  ## 업그레이드
+
+  W&amp;B v0.69.x로 [업그레이드](/ko/platform/hosting/server-upgrade-process/#update-with-helm)하려면 `operator-wandb` Helm 차트 v0.31.4 이상을 사용해야 합니다. 그렇지 않으면 업그레이드 후 `weave-cache-clear` 컨테이너가 시작되지 않을 수 있습니다. 배포에서 다음 값을 사용하는지 확인하세요:
+
+  ```yaml
+  chart:
+    url: https://charts.wandb.ai
+    name: operator-wandb
+    version: 0.31.4
+  ```
+
+  업그레이드에 대한 질문이 있거나 문제가 발생한 경우 [지원팀](mailto:support@wandb.com)에 문의하세요.
+
+  ## 기능
+
+  * 이제 워크스페이스에서 run에 사용할 사용자 지정 표시 이름을 바로 설정할 수 있습니다. 이렇게 지정한 run 이름은 모든 플롯과 테이블에 표시되지만, 팀원의 화면에는 영향을 주지 않고 사용자의 워크스페이스에서만 보입니다. 이를 통해 워크스페이스에서 더 명확하고 깔끔한 화면을 제공하여, 모든 범례와 플롯마다 `*...v6-final-restart...`* 같은 레이블을 더 이상 보지 않아도 됩니다.
+  * run을 필터링하거나 그룹화할 때 색상이 서로 겹쳐 잘 구분되지 않을 수 있습니다. run 선택기의 새로운 **Randomize Colors** 옵션은 기본 팔레트에서 임의의 색상을 다시 할당하여 현재 선택한 run 또는 그룹의 색상을 더 잘 구분할 수 있도록 합니다.
+  * 라인 플롯에서 이제 선을 **Cmd+클릭**하면 새 탭에서 단일 run 보기를 열 수 있습니다.
+  * 이제 비디오 미디어 패널에서 재생, 일시 정지, 탐색, 전체 화면 보기, 재생 속도 조절 등 더 많은 재생 제어 기능을 사용할 수 있습니다.
+  * 모든 유형의 미디어 패널 설정을 재구성하고 개선했습니다.
+  * 이제 포인트 클라우드 패널에서 포인트 색상과 배경색을 사용자 지정할 수 있습니다.
+  * 팀 및 조직 레벨 서비스 계정은 이제 Registry와 상호 작용할 수 있습니다.
+  * 개선된 지수 가중 이동 평균(EMA) 스무딩은 완전한, 빈닝되지 않은 데이터에 적용될 때 더 신뢰할 수 있는 [스무딩된 선](/ko/models/app/features/panels/line-plot/smoothing)을 제공합니다. 대부분의 경우 성능 향상을 위해 스무딩은 백엔드에서 처리됩니다. 이 기능은 v0.68.x에서 비공개 프리뷰로 제공되었습니다.
+
+  ### 비공개 미리보기
+
+  비공개 미리보기 기능은 초대받은 사용자만 이용할 수 있습니다. 비공개 미리보기 등록을 요청하려면 [support](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
+
+  * 이제 loss나 커스텀 효율성 메트릭과 같은 보조 메트릭을 기준으로 모든 run의 색을 지정할 수 있습니다. 이렇게 하면 모든 플롯에서 run 전체에 걸쳐 뚜렷한 그라데이션 색상 스케일이 형성되어 패턴을 더 빠르게 파악할 수 있습니다. [동영상 데모 보기](https://www.loom.com/share/c6ed484899324de991ef7147fd73785d).
+  * [개인 Workspace 템플릿](/ko/models/track/workspaces/#workspace-templates){/* TODO change to a relref after workspace templates docs merge */}을(를) 사용하면 주요 라인 플롯 설정을 저장하고 새 뷰에 자동으로 다시 적용할 수 있습니다. 이 설정에는 x축 키, 스무딩 알고리즘, 스무딩 계수, 최대 라인 수, run 선택기의 그룹화를 사용할지 여부, 그리고 적용할 집계 방식이 포함됩니다.
+
+  ### Weave
+
+  * [Saved views](/ko/weave/guides/tools/saved-views)는 팀 협업을 더 쉽게 만들어 주고, 필터와 열 설정을 저장해 둘 수 있게 해 줍니다.
+  * PDF와 일반 파일도 이제 지원됩니다.
+  * 새로운 [`EvaluationLogger` API](/ko/weave/guides/evaluation/evaluation_logger)는 명령형 스타일의 유연한 평가 로깅 기능을 제공합니다.
+  * 이제 [휴먼 어노테이션](/ko/weave/guides/tracking/feedback#add-human-annotations)을 Weave 데이터셋에 가져올 수 있습니다
+  * 이제 [Playground](/ko/weave/guides/tools/playground)에서 설정과 프롬프트를 저장해 둘 수 있습니다.
+  * 이제 TypeScript에서 데코레이터가 지원됩니다.
+  * [제너레이터 함수 트레이싱](/ko/weave/guides/tracking/tracing#trace-sync-%26-async-generator-functions)에 대한 지원을 추가했습니다.
+  * 새로운 [`dataset.add_rows`](/ko/weave/reference/python-sdk/#method-add-rows) 헬퍼는 기존 데이터셋에 행을 추가하는 작업의 효율성을 높여 줍니다.
+  * 사용량을 파악하는 데 도움이 되도록 이제 UI에서 trace와 객체 크기를 확인할 수 있습니다.
+
+  ## 성능
+
+  * [`wandb` SDK](/ko/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11에서는 아티팩트 다운로드 속도가 평균 3~5배 빨라졌습니다. 예를 들어, 이전에는 약 100 MB/sec로 다운로드되던 아티팩트가 이제는 450 MB/sec 또는 그 이상으로 다운로드될 수 있습니다. 실제 다운로드 속도는 네트워크 및 스토리지 인프라 등의 환경에 따라 달라질 수 있습니다.
+  * [프로젝트](/ko/models/track/project-page) 및 [사용자 설정](/ko/platform/app/settings-page/user-settings) 페이지의 캐싱이 개선되었습니다.
+
+  ## 수정 사항
+
+  * Python 가상 환경과의 호환성을 보장하기 위해 `weave-cache-clear` 컨테이너의 시작 프로세스를 개선했습니다.
+  * 콘솔 로그를 더 촘촘하게 표시할 수 있는 옵션을 추가했습니다.
+  * Workspace 로딩 화면에 이제 더 많은 정보가 표시됩니다.
+  * 워크스페이스에서 리포트로 패널을 추가할 때 대상 리포트 목록에서 현재 프로젝트의 리포트가 먼저 표시됩니다.
+  * y축이 지나치게 반올림되어 값이 중복 표시되던 여러 경우를 수정했습니다.
+  * 유효하지 않은 스무딩 파라미터 입력 시 나타나던 혼란스러운 동작을 수정했습니다.
+  * 미디어 패널에서 **Partial Media** 경고를 제거했습니다. 이 변경은 미디어 패널의 동작에는 영향을 주지 않습니다.
+  * 태그 기반 [run 필터를 추가](/ko/models/runs/filter-runs/#filter-runs-with-tags)할 때 이제 다른 필드로 필터링할 때와 마찬가지로 해당 필터가 기본값으로 선택됩니다.
+  * run 선택기에서 활성 상태인 run에 표시될 수 있었던 녹색 종 모양 아이콘을 제거했습니다.
+  * 개별 run의 System 페이지를 제거했습니다.
+  * 프로젝트 설명 필드가 이제 줄바꿈을 인식합니다.
+  * 레거시 모델 레지스트리 컬렉션 URL을 수정했습니다.
+  * Netron 뷰어가 페이지의 사용 가능한 전체 공간을 채우도록 확장되지 않던 버그를 수정했습니다.
+  * 프로젝트에서 **Delete**를 클릭하면 이제 확인 모달에 해당 프로젝트 이름이 표시됩니다.
+</Update>
+
+<Update label="v0.68.2" description="2025년 5월 7일">
+  ## 수정 사항
+
+  * 이제 `Run.create()`로 run을 생성할 때 `state` 매개변수를 `pending` 또는 `running`으로 설정해 초기 run 상태를 지정할 수 있습니다.
+  * **Action History**를 클릭했을 때 잘못하여 **Version** 뷰가 로드되던 문제를 수정했습니다.
+  * Parquet 저장소 서비스의 메모리 성능을 개선했습니다.
+</Update>
+
+<Update label="v0.68.1" description="2025년 5월 2일">
+  ## 수정 사항
+
+  * v0.68.0에서 도입된 버그로 인해 미디어 패널에서 미디어가 로드되지 않을 수 있던 문제를 수정했습니다.
+</Update>
+
+<Update label="v0.68.0" description="2025년 4월 29일">
+  <Note>
+    v0.68.0에서 미디어 패널에서 미디어가 로드되지 않을 수 있는 버그가 발생했으며, 이 문제는 [v0.68.1](#0_68_1)에서 수정되었습니다. 이 버그를 피하려면 수정 사항이 포함된 패치 버전을 설치하거나 해당 버전으로 업그레이드하십시오. 도움이 필요하면 [지원팀](mailto:support@wandb.com)으로 문의하십시오.
+  </Note>
+
+  ## 기능
+
+  * Registry 관리자는 개발 파이프라인의 주요 단계를 나타내기 위해 [*protected aliases*](/ko/models/registry/aliases#protected-aliases)를 정의하고 할당할 수 있습니다. protected alias는 Registry 관리자만 할당할 수 있습니다. W&amp;B는 다른 사용자가 API 또는 UI를 사용해 Registry 버전의 protected alias를 추가하거나 제거하지 못하도록 막습니다.
+  * 이제 콘솔 로그를 run의 `x_label` 값을 기준으로 필터링할 수 있습니다. [분산 트레이닝](/ko/models/track/log/distributed-training/#track-all-processes-to-a-single-run) 중에는 이 선택적 파라미터가 run을 기록한 노드를 추적합니다.
+  * 이제 `Groups` 간에 run을 하나씩 또는 여러 개를 한꺼번에 이동할 수 있습니다. 또한 초기 로깅 이후에도 새로운 `Groups`를 생성할 수 있습니다.
+  * 라인 플롯에서 이제 **동기화된 줌** 모드를 지원합니다. 이 모드에서는 하나의 플롯에서 특정 구간으로 확대하면, 동일한 x축을 공유하는 다른 모든 라인 플롯도 자동으로 같은 구간으로 확대됩니다. 이 기능은 [라인 플롯용 Workspace 표시 설정](/ko/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)에서 켤 수 있습니다.
+  * 라인 플롯에서 사용자 정의 메트릭을 타임스탬프 형식으로 표시하는 기능을 이제 지원합니다. 이는 다른 시스템에서 가져온 run을 동기화하거나 업로드할 때 유용합니다.
+  * 이제 `epoch` 또는 `train/global_step` (또는 다른 필드)와 같은 `_step`이 아닌 필드를 사용해 [media panels](/ko/models/app/features/panels/media)을(를) 슬라이드하며 살펴볼 수 있습니다.
+  * `runs` 또는 `runs.history` 표현식을 사용하는 [Query Panels](/ko/models/app/features/panels/query-panels)의 테이블과 플롯에서는 스텝 슬라이더를 사용해 각 run의 전체 과정에 걸쳐 메트릭, 텍스트, 미디어의 변화를 단계별로 살펴볼 수 있습니다. 이 슬라이더는 `_step`이 아닌 메트릭에 대해서도 단계별 이동을 지원합니다.
+  * 이제 글꼴 크기 조절 기능을 사용하여 [막대 차트](/ko/models/app/features/panels/bar-plot) 레이블을 사용자 지정할 수 있습니다.
+
+  ### 비공개 미리보기
+
+  비공개 미리보기 기능은 초대받은 사용자만 이용할 수 있습니다. 비공개 미리보기 등록을 요청하려면 [support](mailto:support@wandb.com) 또는 담당 AISE에 문의하세요.
+
+  * **개인 워크스페이스 템플릿**을 사용하면 워크스페이스 구성을 저장해 두었다가 새 [프로젝트](/ko/models/track/project-page)에 자동으로 적용할 수 있습니다. 현재는 기본 X축 메트릭, 스무딩 알고리즘, 스무딩 계수와 같은 일부 라인 플롯 설정만 구성할 수 있습니다.
+  * **개선된 지수 가중 이동 평균(EMA) 스무딩**은 완전한, 빈닝(binning)되지 않은 데이터에서 작업할 때 더 신뢰할 수 있는 [스무딩된 선](/ko/models/app/features/panels/line-plot/smoothing)을 제공합니다. 대부분의 경우 성능 향상을 위해 스무딩은 백엔드에서 처리됩니다.
+
+  ### Weave
+
+  * W&amp;B 인스턴스 내에서 파인튜닝된 모델과 채팅할 수 있습니다. [Playground](/ko/weave/guides/tools/playground)는 이제 Dedicated Cloud에서도 지원됩니다. Playground는 기존 트레이스를 기반으로 서로 다른 LLM을 비교할 수 있는 채팅 인터페이스입니다. 관리자는 서로 다른 모델 제공자에 API 키를 추가하거나 [커스텀 호스팅 LLM 제공자](/ko/weave/guides/tools/playground/#add-a-custom-provider)를 연동하여, 팀이 Weave 내에서 이들과 상호작용할 수 있도록 할 수 있습니다.
+  * OpenTelemetry 지원. 이제 OpenTelemetry(OTel)를 통해 트레이스를 로깅할 수 있습니다. [OpenTelemetry tracing](/ko/weave/guides/tracking/otel?utm_source=beamer\&utm_medium=sidebar\&utm_campaign=OpenTelemetry-support-in-Weave\&utm_content=ctalink)을(를) 참조하세요.
+  * Weave [tracing](/ko/weave/guides/tracking)은 이제 CrewAI, OpenAI의 Agent SDK, DSPy 2.x, Google의 genai Python SDK와의 새로운 프레임워크 인테그레이션을 지원합니다.
+  * Playground는 새로운 [OpenAI 모델](/ko/weave/guides/tools/playground/#openai)인 GPT‑4.1, GPT‑4.1 mini 및 GPT‑4.1 nano를 지원합니다.
+  * 트레이스에서 직접 레이블이 지정된 데이터셋을 생성하면, 작성한 주석이 자동으로 데이터셋 열로 변환됩니다. [트레이스에서 데이터셋 생성](/ko/weave/guides/core-types/datasets/#create-edit-and-delete-a-dataset-in-the-ui)을 참조하세요.
+
+  ## 보안
+
+  * 이제 Registry 관리자는 레지스트리에서 [service account](/ko/platform/hosting/iam/service-accounts)를 Registry Admin 또는 Member로 지정할 수 있습니다. 이전에는 service account의 역할이 항상 Registry Admin이었습니다. 자세한 내용은 [Registry service account 설정](/ko/models/registry/configure_registry)을 참조하세요.
+
+  ## 성능
+
+  * 워크스페이스 내 다양한 상호작용의 성능을 개선했습니다. 특히 대규모 워크스페이스에서 효과가 큽니다. 예를 들어 섹션을 펼치거나 run 선택기를 사용할 때 반응 속도가 눈에 띄게 빨라졌습니다.
+  * Fork 및 Rewind 성능을 개선했습니다.
+
+    [포크](/ko/models/runs/forking)하면 기존 run과 동일한 설정을 사용하는 새 run이 생성됩니다. 포크된 run에 대한 변경 사항은 상위 run에 영향을 주지 않으며, 그 반대도 마찬가지입니다. 포크된 run과 상위 run 사이에는 포인터가 유지됩니다. run을 [되감기](/ko/models/runs/rewind)하면 기존 데이터를 잃지 않고 해당 시점부터 새로운 데이터를 로깅할 수 있습니다.
+
+    포크가 여러 단계로 중첩된 프로젝트에서 캐시가 개선되어, 이제 새로운 run을 포크하는 작업이 훨씬 더 효율적입니다.
+
+  ## 수정 사항
+
+  * 조직 서비스 계정을 새 Teams에 추가하지 못할 수 있던 버그를 수정했습니다.
+  * 그룹화된 선에서 마우스 오버 표시가 나타나지 않을 수 있었던 버그를 수정했습니다.
+  * Report 패널의 **Import** 드롭다운에 유효하지 않은 프로젝트 이름이 표시될 수 있던 버그를 수정했습니다.
+  * run 선택기에서 필터 정렬이 올바르게 표시되지 않던 버그를 수정했습니다.
+  * 타임스탬프 **Within Last** 필터를 추가할 때 페이지가 크래시되던 문제를 수정했습니다
+  * 글로벌 선형 플롯 설정에서 X축을 **Wall Time**으로 설정하지 못하던 버그를 수정했습니다.
+  * 이미지를 Table에 로깅할 때 캡션이 표시되지 않을 수 있었던 버그를 수정했습니다.
+  * 패널에 희소 메트릭이 표시되지 않던 버그를 수정했습니다.
+  * **Run Overview** 페이지에서 **Description** 필드가 이제 **Notes** 필드로 이름이 변경되었습니다.
+</Update>
+
+<Update label="v0.67.0" description="2025년 3월 28일">
+  ## 기능
+
+  * Reports에서는 이제 패널 그리드마다 run에 사용자 지정 표시 이름을 설정할 수 있습니다. 이를 통해 run의 (종종 길고 이해하기 어려운) 트레이닝 시 생성된 이름을, 독자에게 더 의미 있는 이름으로 바꿀 수 있습니다. 리포트는 모든 패널 그리드에서 이름을 업데이트하여, 여러분이 어렵게 얻은 실험 인사이트를 동료들에게 간결하고 읽기 쉬운 방식으로 설명하는 데 도움을 줍니다. 원래 run 이름은 프로젝트에서 그대로 유지되므로, 이렇게 하더라도 공동 작업자들에게는 영향을 주지 않습니다.
+  * 워크스페이스에서 패널을 확장하면 이제 더 넓은 공간을 제공하는 전체 화면 모드로 열립니다. 이 보기에서는 선형 플롯이 최대 10,000개의 빈을 사용해 더 세밀하게 렌더링됩니다. run 선택기는 패널 옆에 표시되어, 컨텍스트에서 run을 손쉽게 토글, 그룹화하거나 필터링할 수 있습니다.
+  * 이제 어떤 패널에서든 해당 패널의 전체 화면 보기에 바로 연결되는 고유 URL을 복사할 수 있습니다. 이렇게 하면 플롯에서 흥미롭거나 이상한 패턴을 자세히 살펴볼 수 있는 링크를 더욱 쉽게 공유할 수 있습니다.
+  * Run Comparer는 중요한 run의 설정과 핵심 메트릭, 손실 곡선을 나란히 비교할 수 있는 강력한 도구입니다. Run Comparer가 다음과 같이 업데이트되었습니다.
+    * **Add Panels**에서 확장 옵션으로 Run Comparer 패널을 더 빠르게 추가할 수 있습니다.
+    * 기본적으로 Run Comparer 패널은 더 넓은 공간을 차지해 값을 바로 확인할 수 있습니다.
+    * Run Comparer 패널의 가독성과 시인성을 개선했습니다. 새로운 컨트롤을 사용해 행과 열 크기를 빠르게 변경하여 길거나 중첩된 값을 읽을 수 있습니다.
+    * 패널의 모든 값을 한 번의 클릭으로 클립보드에 복사할 수 있습니다.
+    * 정규식을 사용해 키를 검색하여 비교하려는 메트릭의 부분집합을 빠르고 정확하게 찾을 수 있습니다. 검색 기록이 저장되어 뷰 간 전환을 효율적으로 반복할 수 있습니다.
+  * 세그멘테이션 마스크 제어 기능이 업데이트되었습니다:
+    * 이제 각 마스크 유형을 일괄로 켜거나 끌 수 있으며, 모든 마스크 또는 모든 이미지를 한 번에 켜거나 끌 수도 있습니다.
+    * 이제 각 클래스에 할당된 색상을 변경할 수 있어, 여러 클래스가 같은 색상을 사용하는 경우 혼동을 줄이는 데 도움이 됩니다.
+  * 전체 화면 모드로 미디어 패널을 열면 키보드의 왼쪽 및 오른쪽 화살표 키를 사용해 스텝 슬라이더를 먼저 클릭하지 *않고도* 이미지를 차례대로 넘겨볼 수 있습니다.
+  * 이제 미디어 패널에서 run 이름이 run 선택기와 동일한 색상으로 표시됩니다. 이를 통해 각 run의 미디어 값과 관련 메트릭 및 플롯을 더 쉽게 연결할 수 있습니다.
+  * run 선택기에서 이제 run에 특정 media key가 있는지 여부를 기준으로 필터링할 수 있습니다.
+  * 이제 W&amp;B App UI에서 그룹 간에 runs를 이동할 수 있고, run을 기록한 후에도 새 그룹을 생성할 수 있습니다.
+  * 이제 UI에서 Automations을 편집할 수 있습니다
+  * 이제 자동화를 사용해 아티팩트 이벤트를 Slack 채널로 알림을 보낼 수 있습니다. 자동화를 생성할 때 작업 유형(Action type)으로 &quot;Slack notification&quot;을 선택하세요.
+  * Registry는 이제 기본적으로 전역 검색을 지원하므로 registry 이름, collection 이름, alias, tag를 기준으로 모든 registry를 대상으로 검색할 수 있습니다.
+  * `runs` 표현식을 사용하는 Tables 및 Query 패널에서 새로운 Runs History 단계 슬라이더와 드롭다운 컨트롤을 사용하면 run의 각 단계별 메트릭 테이블을 확인할 수 있습니다.
+  * W&amp;B Weave Playground에서 OpenAI의 `gpt-4.5-preview` 및 Deepseek의 `deepseek-chat`, `deepseek-reasoner`와 같은 새로운 모델을 지원합니다.
+  * Weave 트레이싱에 CrewAI와 OpenAI의 Agent SDK라는 두 가지 새로운 에이전트 프레임워크 인테그레이션이 추가되었습니다.
+  * Weave UI에서 이제 트레이스에서 Datasets를 생성할 수 있습니다. [더 알아보기](/ko/weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui)
+  * 이제 Weave Python SDK를 사용하면 Weave 데이터의 입력과 출력을 필터링하여 민감한 데이터가 네트워크 경계 밖으로 유출되지 않도록 할 수 있습니다. 민감한 데이터를 마스킹하도록 설정할 수 있습니다. 자세한 내용: /weave/guides/tracking/redact-pii/
+  * 더 원활한 사용 경험을 제공하기 위해 향후 릴리스에서 개별 run 워크스페이스 보기의 System 탭이 제거될 예정입니다. 워크스페이스의 System 섹션에서 시스템 메트릭에 대한 전체 정보를 확인할 수 있습니다. 문의가 있으시면 [support@wandb.com](mailto:support@wandb.com)으로 연락하십시오.
+
+  ## 보안
+
+  * `golang crypto`가 버전 v0.36.0으로 업그레이드되었습니다.
+  * `golang oauth2`가 v0.28.0으로 업그레이드되었습니다.
+  * Weave에서는 이제 `pyarrow` 버전이 v17.0.0으로 고정되었습니다.
+
+  ## 성능
+
+  * 프론트엔드 업데이트로 방문 간에도 필수 데이터를 브라우저 캐시에 저장하여 워크스페이스 재로딩 시간을 크게 줄였습니다. 이번 업데이트는 저장된 뷰, 메트릭 이름, run 선택기, run 개수, W&amp;B의 설정 세부 정보 로딩과 워크스페이스 뷰 재계산을 최적화합니다.
+  * Registry 개요 페이지가 이제 훨씬 더 빠르게 로드됩니다.
+  * 수천 개의 run 또는 수백 개의 메트릭이 있는 워크스페이스에서 산점도의 X, Y, 또는 Z 축 값으로 사용할 메트릭을 선택할 때 성능을 개선했습니다.
+  * Weave 평가 로깅 성능을 개선했습니다.
+
+  ## 수정 사항
+
+  * Reports에서 리포트 내 특정 섹션으로 이동하는 링크를 클릭해도 해당 섹션이 열리지 않던 버그를 수정했습니다.
+  * Gaussian smoothing에서 인덱스 반사 처리 방식을 개선하여 SciPy의 기본 &quot;reflect&quot; 모드와 동일하게 동작하도록 했습니다.
+  * 이메일로 전송된 리포트 댓글 링크를 클릭하면 이제 해당 댓글이 바로 열립니다.
+  * 스윕 컴퓨트 시간이 20억 초를 초과할 경우 워크스페이스가 충돌할 수 있던 버그를 수정하기 위해, 스윕 컴퓨트 초의 변수 타입을 `int32`가 아니라 `int64`로 변경했습니다.
+  * 여러 run 세트가 포함된 리포트에서 발생할 수 있었던 표시 관련 버그를 수정했습니다.
+  * 알파벳순으로 정렬된 섹션에 패널을 빠른 추가(Quick Add) 기능으로 추가했을 때 잘못 정렬되던 버그를 수정했습니다.
+  * 잘못된 형식의 사용자 초대 링크가 생성되던 버그를 수정했습니다.
+</Update>
+
+<Update label="v0.66.0" description="2025년 3월 6일">
+  ## 기능
+
+  * 테이블과 쿼리 패널에서 다른 열에서 파생한 열이 이제 유지되므로, 필터링하거나 쿼리 패널 플롯에서 계속 사용할 수 있습니다.
+
+  ## 보안
+
+  * GraphQL 문서의 최대 깊이를 20으로 제한했습니다.
+  * pyarrow를 v17.0.0으로 업그레이드했습니다.
+</Update>
+
+<Update label="v0.65.0" description="2025년 1월 30일">
+  ## 기능
+
+  * 레지스트리의 **Settings**에서 이제 소유자를 Admin 역할을 가진 다른 사용자로 변경할 수 있습니다. 사용자의 **Role** 메뉴에서 **Owner**를 선택합니다.
+  * 이제 동일한 프로젝트 내에서 run을 다른 그룹으로 이동할 수 있습니다. run 목록에서 run 위에 마우스를 올리고 세로 점 세 개 아이콘을 클릭한 다음 **Move to another group**을 선택합니다.
+  * 이제 라인 플롯에 대한 **Log Scale setting**이 워크스페이스 또는 섹션 수준에서 기본으로 활성화될지 여부를 구성할 수 있습니다.
+    * 워크스페이스에 대한 동작을 구성하려면 워크스페이스의 작업 `...` 메뉴를 클릭하고 **Line plots**를 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 전환합니다.
+    * 섹션에 대한 동작을 구성하려면 섹션의 톱니바퀴 아이콘을 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 전환합니다.
+</Update>

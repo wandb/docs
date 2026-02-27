@@ -1,0 +1,11 @@
+---
+title: "How do I fix the error `resume='must' but run (<run_id>) doesn't exist`?"
+---
+
+`resume='must' but run (<run_id>) doesn't exist` 오류가 발생한다면, 다시 이어서 실행하려는 run이 해당 프로젝트 또는 엔티티 내에 존재하지 않는다는 의미입니다. 올바른 인스턴스에 로그인되어 있고, 프로젝트와 엔티티가 올바르게 설정되어 있는지 확인하세요:
+
+```python
+wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
+```
+
+인증되었는지 확인하려면 [`wandb login --relogin`](/ko/models/ref/cli/wandb-login) 명령을 실행하세요.

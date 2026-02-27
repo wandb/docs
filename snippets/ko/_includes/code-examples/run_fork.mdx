@@ -1,0 +1,19 @@
+---
+title: Run 포크
+---
+
+```python
+"""특정 스텝에서 기존 W&B run을 포크합니다."""
+
+import wandb
+
+# 나중에 포크할 run을 초기화합니다
+with wandb.init(project="<project>", entity="<entity>") as original_run:
+    # 트레이닝 및 로깅 코드를 여기에 작성합니다.
+    pass
+
+# 특정 스텝에서 run을 포크합니다
+with wandb.init(project="<project>",entity="<entity>", fork_from=f"{original_run.id}?_step=200") as forked_run:
+    # 트레이닝 및 로깅 코드를 여기에 작성합니다.
+    pass
+```

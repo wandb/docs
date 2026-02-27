@@ -1,0 +1,130 @@
+---
+title: 레지스트리에서 아티팩트 다운로드
+---
+
+W&amp;B Python SDK를 사용하여 레지스트리에 연결된 아티팩트를 다운로드합니다. 아티팩트를 다운로드해 사용하려면 레지스트리 이름, 컬렉션 이름, 그리고 다운로드할 아티팩트 버전의 별칭(alias) 또는 인덱스를 알고 있어야 합니다.
+
+아티팩트의 속성을 파악했다면 [연결된 아티팩트의 경로를 구성](#construct-path-to-linked-artifact)하여 아티팩트를 다운로드할 수 있습니다. 또는 W&amp;B App UI에서 [미리 생성된 코드 스니펫을 복사하여 붙여넣어](#copy-and-paste-pre-generated-code-snippet) 레지스트리에 연결된 아티팩트를 다운로드할 수도 있습니다.
+
+<div id="construct-path-to-linked-artifact">
+  ## 연결된 아티팩트의 경로 구성
+</div>
+
+레지스트리에 연결된 아티팩트를 다운로드하려면 해당 아티팩트의 경로를 알고 있어야 합니다. 이 경로는 레지스트리 이름, 컬렉션 이름, 그리고 접근하려는 아티팩트 버전의 별칭(alias) 또는 인덱스로 구성됩니다.
+
+레지스트리, 컬렉션, 그리고 아티팩트 버전의 별칭 또는 인덱스를 알게 되면, 다음 문자열 템플릿을 사용해 연결된 아티팩트의 경로를 구성할 수 있습니다:
+
+```python
+# 버전 인덱스가 지정된 아티팩트 이름
+f"wandb-registry-{REGISTRY}/{COLLECTION}:v{INDEX}"
+
+# 별칭이 지정된 아티팩트 이름
+f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
+```
+
+중괄호 `{}` 안의 값을, 접근하려는 레지스트리 이름, 컬렉션 이름, 그리고 아티팩트 버전의 별칭(alias) 또는 인덱스로 바꾸세요.
+
+연결된 아티팩트의 경로를 알게 되면 `wandb.Run.use_artifact()` 메서드를 사용해 아티팩트에 접근하고 그 내용을 다운로드할 수 있습니다. 다음 코드 스니펫은 W&amp;B Registry에 연결된 아티팩트를 사용하는 방법과 다운로드 방법을 보여줍니다. `<>` 안의 값은 사용자 환경에 맞게 변경하세요:
+
+```python
+import wandb
+
+REGISTRY = '<registry_name>'
+COLLECTION = '<collection_name>'
+ALIAS = '<artifact_alias>'
+
+with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
+    artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
+    # artifact_name = '<artifact_name>' # W&B Registry UI에 지정된 전체 이름을 복사하여 붙여넣기
+    fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
+    download_path = fetched_artifact.download()  
+```
+
+`wandb.Run.use_artifact()` 메서드는 [run](/ko/models/runs)을 생성하고, 다운로드한 아티팩트를 해당 run의 입력으로 표시합니다.
+아티팩트를 run의 입력으로 표시하면 W&amp;B가 해당 아티팩트의 계보(lineage)를 추적할 수 있습니다.
+
+run을 생성하고 싶지 않다면 `wandb.Api()` 객체를 사용해 아티팩트에 접근할 수 있습니다:
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+artifact = api.artifact(name = artifact_name)
+```
+
+<details>
+  <summary>예시: W&amp;B Registry에 연결된 아티팩트 사용 및 다운로드</summary>
+
+  다음 코드 예시는 **Fine-tuned Models** 레지스트리의 `phi3-finetuned` 컬렉션에 연결된 아티팩트를 사용자가 다운로드하는 방법을 보여줍니다. 아티팩트 버전의 별칭(alias)은 `production`으로 설정됩니다.
+
+  ```python
+  import wandb
+
+  TEAM_ENTITY = "product-team-applications"
+  PROJECT_NAME = "user-stories"
+
+  REGISTRY = "Fine-tuned Models"
+  COLLECTION = "phi3-finetuned"
+  ALIAS = 'production'
+
+  # 지정된 팀과 프로젝트에서 run을 초기화합니다
+  with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
+
+      artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
+
+      # 아티팩트에 액세스하고, 라인리지 추적을 위해 해당 run의 입력으로 표시합니다
+      fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
+
+      # 아티팩트를 다운로드합니다. 다운로드된 콘텐츠의 경로를 반환합니다
+      downloaded_path = fetched_artifact.download()  
+  ```
+</details>
+
+파라미터와 반환 타입에 대한 자세한 내용은 API Reference의 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 및 [`Artifact.download()`](/ko/models/ref/python/experiments/artifact#download)를 참조하세요.
+
+<Note>
+  **여러 조직에 속한 개인 entity를 가진 사용자**
+
+  여러 조직에 속한 개인 entity를 가진 사용자는 레지스트리에 연결된 아티팩트에 액세스할 때 조직 이름을 지정하거나 team entity를 사용해야 합니다.
+
+  ```python
+  import wandb
+
+  REGISTRY = "<registry_name>"
+  COLLECTION = "<collection_name>"
+  VERSION = "<version>"
+
+  # API를 인스턴스화할 때 team entity를 사용하고 있는지 확인합니다
+  api = wandb.Api(overrides={"entity": "<team-entity>"})
+  artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+  artifact = api.artifact(name = artifact_name)
+
+  # 경로를 구성합니다
+  api = wandb.Api()
+  artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+  artifact = api.artifact(name = artifact_name)
+  ```
+</Note>
+
+<div id="copy-and-paste-pre-generated-code-snippet">
+  ## 미리 생성된 코드 스니펫 복사 및 붙여넣기
+</div>
+
+W&amp;B는 레지스트리에 연결된 아티팩트를 다운로드할 수 있도록, Python 스크립트, 노트북 또는 터미널에 그대로 복사해 붙여넣을 수 있는 코드 스니펫을 생성합니다.
+
+1. W&amp;B Registry로 이동합니다.
+2. 아티팩트를 포함하는 레지스트리 이름을 선택합니다.
+3. 컬렉션 이름을 선택합니다.
+4. 아티팩트 버전 목록에서 사용하려는 버전을 선택합니다.
+5. **Usage** 탭을 선택합니다.
+6. **Usage API** 섹션에 표시된 코드 스니펫을 복사합니다.
+7. 코드 스니펫을 Python 스크립트, 노트북 또는 터미널에 붙여넣습니다.
+
+<Frame>
+  <img src="/images/registry/find_usage_in_registry_ui.gif" alt="Registry UI에서 Usage 코드 스니펫을 찾고 복사하는 단계별 과정" />
+</Frame>

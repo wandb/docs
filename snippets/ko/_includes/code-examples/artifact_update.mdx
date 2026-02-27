@@ -1,0 +1,21 @@
+---
+title: 아티팩트 업데이트
+---
+
+```python
+"""
+W&B run 내에서 기존 W&B 아티팩트의 설명을 업데이트합니다.
+
+이 코드는 W&B run을 초기화하고, 이름과 별칭으로 지정된 아티팩트를 가져온 후,
+설명을 업데이트하고 변경 사항을 저장합니다.
+"""
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # 이름과 별칭으로 아티팩트 가져오기
+    artifact = run.use_artifact(artifact_or_name="<artifact>:<alias>")
+    # 아티팩트 설명 업데이트
+    artifact.description = "<description>"
+    # 업데이트된 아티팩트 저장
+    artifact.save()
+```

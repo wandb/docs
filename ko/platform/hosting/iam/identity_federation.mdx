@@ -1,0 +1,75 @@
+---
+title: SDK에서 연합 ID 사용
+---
+
+연합 ID를 사용하면 조직 자격 증명으로 W&amp;B SDK에 로그인할 수 있습니다. W&amp;B 조직 관리자가 조직에 대해 SSO를 구성했다면 이미 조직 자격 증명으로 W&amp;B 앱 UI에 로그인하고 있을 것입니다. 이런 의미에서 연합 ID는 W&amp;B SDK를 위한 SSO와 비슷하지만, JSON Web Token (JWT)을 직접 사용한다는 점이 다릅니다. API 키의 대안으로 연합 ID를 사용할 수 있습니다.
+
+[RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523)은 SDK에서 연합 ID를 사용하는 기능의 기반이 됩니다.
+
+<Note>
+  연합 ID 기능은 모든 플랫폼 유형(SaaS Cloud, Dedicated Cloud, Self-Managed 인스턴스)의 `Enterprise` 플랜에서 `Preview` 단계로 제공됩니다. 궁금한 점이 있으면 W&amp;B 팀에 문의하십시오.
+</Note>
+
+<Note>
+  이 문서에서는 `identity provider`와 `JWT issuer`라는 용어를 동일한 의미로 사용합니다. 이 기능의 문맥에서 둘 다 같은 대상을 가리킵니다.
+</Note>
+
+<div id="jwt-issuer-setup">
+  ## JWT 발급자 설정
+</div>
+
+첫 번째 단계로, 조직 관리자는 W&amp;B 조직과 공개적으로 접근할 수 있는 JWT 발급자 간에 페더레이션을 설정해야 합니다.
+
+* 조직 대시보드의 **Settings** 탭으로 이동합니다.
+* **Authentication** 옵션에서 `Set up JWT Issuer`를 클릭합니다.
+* 텍스트 박스에 JWT 발급자 URL을 입력하고 `Create`를 클릭합니다.
+
+W&amp;B는 `${ISSUER_URL}/.well-known/openid-configuration` 경로에서 OIDC 디스커버리 문서를 자동으로 검색하고, 해당 디스커버리 문서에서 관련 URL에 위치한 JSON Web Key Set(JWKS)을 찾습니다. JWKS는 JWT가 해당 ID 공급자(IdP)에서 발급된 것인지 실시간으로 검증하는 데 사용됩니다.
+
+<div id="using-the-jwt-to-access-wb">
+  ## JWT를 사용하여 W&amp;B에 액세스하기
+</div>
+
+JWT 발급자가 W&amp;B 조직에 대해 설정되면, 사용자는 해당 ID 공급자가 발급한 JWT를 사용하여 관련 W&amp;B 프로젝트에 액세스할 수 있습니다. JWT를 사용하는 절차는 다음과 같습니다:
+
+* 조직에서 사용 가능한 방식 중 하나를 사용해 ID 공급자에 로그인해야 합니다. 일부 공급자는 API 또는 SDK를 사용해 자동화된 방식으로 액세스할 수 있는 반면, 일부는 관련 UI를 통해서만 액세스할 수 있습니다. 자세한 내용은 W&amp;B 조직 관리자 또는 JWT 발급자 소유자에게 문의하십시오.
+* ID 공급자에 로그인한 후 JWT를 가져오면, 이를 안전한 위치의 파일에 저장하고 해당 파일의 절대 경로를 환경 변수 `WANDB_IDENTITY_TOKEN_FILE`에 설정하십시오.
+* W&amp;B SDK 또는 CLI를 사용해 W&amp;B 프로젝트에 액세스하십시오. SDK 또는 CLI는 JWT를 자동으로 감지하고, JWT가 성공적으로 검증된 후 이를 W&amp;B 액세스 토큰으로 교환합니다. W&amp;B 액세스 토큰은 run, 메트릭, 아티팩트 등을 로깅하는 등 AI 워크플로를 활성화하기 위한 관련 API에 액세스하는 데 사용됩니다. 액세스 토큰은 기본적으로 `~/.config/wandb/credentials.json` 경로에 저장됩니다. 환경 변수 `WANDB_CREDENTIALS_FILE`을 지정하여 해당 경로를 변경할 수 있습니다.
+
+<Note>
+  JWT는 API 키, 비밀번호 등과 같은 장기 자격 증명의 한계를 보완하기 위해 설계된 단기 자격 증명입니다. ID 공급자에서 구성한 JWT 만료 시간에 따라 JWT를 지속적으로 갱신하고, 환경 변수 `WANDB_IDENTITY_TOKEN_FILE`이 참조하는 파일에 항상 최신 JWT가 저장되어 있도록 해야 합니다.
+
+  W&amp;B 액세스 토큰에도 기본 만료 시간이 있으며, 이 시간이 지나면 SDK 또는 CLI는 JWT를 사용해 이를 자동으로 갱신하려고 시도합니다. 그 시점에 사용자 JWT도 만료되어 갱신되지 않았다면 인증 실패가 발생할 수 있습니다. 가능하다면, JWT 획득 및 만료 후 갱신 메커니즘을 W&amp;B SDK 또는 CLI를 사용하는 AI 워크로드의 일부로 구현하는 것이 좋습니다.
+</Note>
+
+<div id="jwt-validation">
+  ### JWT 검증
+</div>
+
+JWT를 W&amp;B 액세스 토큰으로 교환하고 프로젝트에 접근하는 워크플로의 일부로, JWT에는 다음과 같은 검증이 수행됩니다:
+
+* JWT 서명은 W&amp;B 조직 수준의 JWKS를 사용해 검증됩니다. 이것이 1차 방어선이며, 이 검증이 실패하면 JWKS 자체에 문제가 있거나 JWT 서명 방식에 문제가 있다는 뜻입니다.
+* JWT의 `iss` 클레임은 조직 수준에서 구성한 issuer URL과 같아야 합니다.
+* JWT의 `sub` 클레임은 W&amp;B 조직에 설정된 사용자의 이메일 주소와 같아야 합니다.
+* JWT의 `aud` 클레임은 AI 워크플로의 일부로 접근하려는 프로젝트를 포함하는 W&amp;B 조직 이름과 같아야 합니다. [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed](/ko/platform/hosting/hosting-options/self-managed) 인스턴스의 경우, 인스턴스 수준 환경 변수 `SKIP_AUDIENCE_VALIDATION`을 `true`로 설정하여 audience 클레임 검증을 건너뛰거나 audience로 `wandb`를 사용할 수 있습니다.
+* JWT의 `exp` 클레임은 토큰이 여전히 유효한지, 아니면 만료되어 갱신이 필요한지를 확인하기 위해 검사됩니다.
+
+<div id="external-service-accounts">
+  ## 외부 서비스 계정
+</div>
+
+W&amp;B는 오랫동안 장기 유효한 API 키를 사용하는 기본 제공 서비스 계정을 지원해 왔습니다. SDK와 CLI에 대한 아이덴티티 페더레이션 기능을 사용하면, 조직 수준에서 구성된 것과 동일한 issuer가 발급한 경우 JWT를 인증에 사용할 수 있는 외부 서비스 계정도 가져올 수 있습니다. 팀 관리자는 기본 제공 서비스 계정과 마찬가지로 팀 범위 내에서 외부 서비스 계정을 구성할 수 있습니다.
+
+외부 서비스 계정을 구성하려면:
+
+* 팀의 **Service Accounts** 탭으로 이동합니다.
+* `New service account`를 클릭합니다.
+* 서비스 계정의 이름을 지정하고, `Authentication Method`로 `Federated Identity`를 선택한 다음, `Subject`를 입력하고 `Create`를 클릭합니다.
+
+외부 서비스 계정의 JWT에 있는 `sub` 클레임은 팀 관리자가 팀 수준 **Service Accounts** 탭에서 해당 계정의 subject로 구성한 값과 동일해야 합니다. 이 클레임은 [JWT 검증](#jwt-validation)의 일부로 검증됩니다. `aud` 클레임 요구 사항은 일반 사용자 JWT에 대한 요구 사항과 유사합니다.
+
+[외부 서비스 계정의 JWT를 사용해 W&amp;B에 액세스](#using-the-jwt-to-access-wb)할 때는 초기 JWT를 생성하고 지속적으로 갱신하는 워크플로를 자동화하는 것이 일반적으로 더 쉽습니다. 외부 서비스 계정을 사용해 로깅된 run을 특정 사용자에게 귀속시키고 싶다면, 기본 제공 서비스 계정에서와 마찬가지로 AI 워크플로에 `WANDB_USERNAME` 또는 `WANDB_USER_EMAIL` 환경 변수를 설정할 수 있습니다.
+
+<Note>
+  W&amp;B는 유연성과 단순성 사이의 균형을 맞추기 위해, 데이터 민감도 수준이 다른 AI 워크로드 전반에서 기본 제공 서비스 계정과 외부 서비스 계정을 혼합해서 사용할 것을 권장합니다.
+</Note>

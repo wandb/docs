@@ -1,0 +1,22 @@
+---
+title: 아티팩트 삭제 컬렉션
+---
+
+```python
+"""
+W&B에서 아티팩트 컬렉션을 삭제합니다.
+"""
+import wandb
+
+# W&B API 초기화
+api = wandb.Api()
+
+# 이름과 유형으로 아티팩트 컬렉션 삭제
+# 이름 형식: <entity>/<project>/<run_path>
+collection = api.artifact_collection(
+    name="<entity>/<project>/<run_path>",
+    type_name="<artifact_type>"
+)
+
+collection.delete()
+```

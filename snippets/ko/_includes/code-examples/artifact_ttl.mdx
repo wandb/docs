@@ -1,0 +1,20 @@
+---
+title: 아티팩트 TTL
+---
+
+```python
+"""
+W&B에서 TTL 정책을 사용하여 아티팩트를 생성하고 기록합니다.
+"""
+import wandb
+from datetime import timedelta
+
+# TTL 정책을 사용하여 아티팩트 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+artifact.add_file("<file_path>")
+artifact.ttl = timedelta(days=30)  # TTL 정책 설정
+
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # TTL을 사용하여 아티팩트 기록
+    run.log_artifact(artifact)
+```

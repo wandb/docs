@@ -1,0 +1,150 @@
+---
+title: Sweep
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+
+## <kbd>class</kbd> `Sweep`
+
+스윕과 연관된 run들의 집합입니다. 
+
+**속성:**
+
+- `runs` (Runs):  run 목록 
+ - `id` (str):  스윕 ID 
+ - `project` (str):  스윕이 속한 프로젝트의 이름 
+ - `config` (dict):  스윕 설정을 포함하는 사전 
+ - `state` (str):  스윕의 상태. "Finished", "Failed", "Crashed", "Running" 중 하나일 수 있습니다. 
+ - `expected_run_count` (int):  스윕에 대해 예상되는 run 수 
+
+### <kbd>method</kbd> `Sweep.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    sweep_id: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
+```
+
+***
+
+
+### <kbd>property</kbd> Sweep.config
+
+스윕에 사용되는 설정입니다. 
+
+---
+
+### <kbd>property</kbd> Sweep.entity
+
+스윕과 연결된 엔티티입니다. 
+
+**반환값:**
+
+- `str`: 엔티티 속성 값입니다.
+
+### <kbd>property</kbd> Sweep.expected_run_count
+
+스윕에서 예상되는 run 수를 반환하며, run 수가 무한대인 경우 None을 반환합니다. 
+
+**Returns:**
+
+- `int | None`: expected_run_count 프로퍼티의 값.
+
+### <kbd>property</kbd> Sweep.name
+
+스윕의 이름입니다. 
+
+다음 우선순위에 따라 존재하는 첫 번째 이름을 반환합니다: 
+
+1. 사용자가 편집한 표시 이름 2. 생성 시 설정된 이름 3. Sweep ID 
+
+---
+
+### <kbd>property</kbd> Sweep.order
+
+스윕의 순서를 나타내는 키를 반환합니다. 
+
+---
+
+### <kbd>property</kbd> Sweep.path
+
+프로젝트의 경로를 반환합니다. 
+
+이 경로는 entity, 프로젝트 이름, 스윕 ID로 구성된 목록입니다. 
+
+---
+
+### <kbd>property</kbd> Sweep.url
+
+스윕의 URL입니다. 
+
+스윕 URL은 entity, 프로젝트, "sweeps"라는 용어, 그리고 스윕 ID.run_id로부터 생성됩니다. SaaS 사용자의 경우 `https://wandb.ai/entity/project/sweeps/sweeps_ID` 형태가 됩니다. 
+
+---
+
+### <kbd>property</kbd> Sweep.username
+
+더 이상 사용되지 않습니다. 대신 `Sweep.entity`를 사용하세요. 
+
+**반환값:**
+
+- `str`: `username` 속성 값입니다.
+
+---
+
+### <kbd>method</kbd> `Sweep.best_run`
+
+```python
+best_run(order=None)
+```
+
+config에 정의된 메트릭 또는 전달된 순서에 따라 정렬된 run들 중에서 최상의 run을 반환합니다.
+
+***
+
+
+### <kbd>classmethod</kbd> `Sweep.get`
+
+```python
+get(
+    client: 'RetryingClient',
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    sid: 'str | None' = None,
+    order: 'str | None' = None,
+    query: 'Document | None' = None,
+    **kwargs
+)
+```
+
+클라우드 백엔드에 쿼리를 실행합니다.
+
+**Args:**
+
+* `client`:  쿼리를 실행하는 데 사용할 클라이언트.
+* `entity`:  프로젝트를 소유하는 엔티티(사용자 이름 또는 팀).
+* `project`:  스윕을 가져올 프로젝트의 이름.
+* `sid`:  쿼리할 스윕 ID.
+* `order`:  스윕에 포함된 run이 반환되는 순서.
+* `query`:  실행에 사용할 쿼리.
+* `**kwargs`:  쿼리에 전달할 추가 키워드 인자.
+
+***
+
+
+### <kbd>메서드</kbd> `Sweep.to_html`
+
+```python
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+```
+
+이 Sweep을 표시하는 iframe을 포함한 HTML을 생성합니다.
