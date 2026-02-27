@@ -11,7 +11,7 @@ Weave supports ingestion of OpenTelemetry compatible trace data through a dedica
 **Path**: `/otel/v1/traces`
 **Method**: POST
 **Content-Type**: `application/x-protobuf`
-**Base URL**: The base URL for the OTEL trace endpoint depends on your W&B deployment type:
+**Base URL**: The base URL for the OTel trace endpoint depends on your W&B deployment type:
 
 - Multi-tenant Cloud:  
   `https://trace.wandb.ai/otel/v1/traces`
@@ -166,7 +166,7 @@ def main():
     client = openai.OpenAI(api_key=OPENAI_API_KEY)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}],
+        messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
         max_tokens=20,
         stream=True,
         stream_options={"include_usage": True},
@@ -246,7 +246,7 @@ async function main() {
   console.log("Making OpenAI API call...");
   const response = await client.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: "Describe OTEL in a single sentence." }],
+    messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
     max_tokens: 50,
   });
 
@@ -342,7 +342,7 @@ def main():
     client = openai.OpenAI(api_key=OPENAI_API_KEY)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}],
+        messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
         max_tokens=20,
         stream=True,
         stream_options={"include_usage": True},
@@ -418,7 +418,7 @@ async function main() {
   const client = new OpenAI({ apiKey: OPENAI_API_KEY });
   const stream = await client.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: "Describe OTEL in a single sentence." }],
+    messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
     max_tokens: 20,
     stream: true,
   });
@@ -453,7 +453,7 @@ npx ts-node openllmetry_example.ts
 
 ### Without Instrumentation
 
-If you would prefer to use OTEL directly instead of an instrumentation package, you may do so. Span attributes will be parsed according to the OpenTelemetry semantic conventions described at [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
+If you would prefer to use OTel directly instead of an instrumentation package, you may do so. Span attributes will be parsed according to the OpenTelemetry semantic conventions described at [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
 
 First, install the required dependencies:
 
@@ -523,7 +523,7 @@ tracer = trace.get_tracer(__name__)
 def my_function():
     with tracer.start_as_current_span("outer_span") as outer_span:
         client = openai.OpenAI()
-        input_messages = [{"role": "user", "content": "Describe OTEL in a single sentence."}]
+        input_messages = [{"role": "user", "content": "Describe OTel in a single sentence."}]
         outer_span.set_attribute("input.value", json.dumps(input_messages))
         outer_span.set_attribute("gen_ai.system", "openai")
         response = client.chat.completions.create(
@@ -600,7 +600,7 @@ async function myFunction() {
   try {
     const client = new OpenAI({ apiKey: OPENAI_API_KEY });
     const inputMessages = [
-      { role: "user" as const, content: "Describe OTEL in a single sentence." },
+      { role: "user" as const, content: "Describe OTel in a single sentence." },
     ];
 
     // This will only appear in the side panel
@@ -659,71 +659,61 @@ The following example shows how to:
 To use a collector, first create a `collector-config.yaml` file that configures the collector to receive OTLP traces and export them to Weave:
 
 ```yaml lines {23,26} collector-config.yaml title="collector-config.yaml" 
-extensions:
-  basicauth/weave:
-    client_auth:
-      username: "api"
-      password: "${env:WANDB_API_KEY}"
-
 receivers:
   otlp:
     protocols:
       http:
-        endpoint: "0.0.0.0:4318"
-      grpc:
-        endpoint: "0.0.0.0:4317"
-
-processors:
-  batch:
-    timeout: 5s
-    send_batch_size: 1024
-
-  resource:
-    attributes:
-      - key: wandb.entity
-        value: "<your-team-name>"
-        action: upsert
-      - key: wandb.project
-        value: "<your-project-name>"
-        action: upsert
+        endpoint: 0.0.0.0:4318
 
 exporters:
   otlphttp/weave:
-    endpoint: "https://trace.wandb.ai/otel"
-    auth:
-      authenticator: basicauth/weave
+    endpoint: ${env:WANDB_OTLP_ENDPOINT}
     headers:
-      project_id: "<your-team-name>/<your-project-name>"
+      wandb-api-key: ${env:WANDB_API_KEY}
+    sending_queue:
+      batch:
+
+processors:
+  resource:
+    attributes:
+      - key: wandb.entity # Resource attributes field
+        value: ${env:DEFAULT_WANDB_ENTITY}  # Value to inject
+        action: insert # Inject only if not already present
+      - key: wandb.project
+        value: ${env:DEFAULT_WANDB_PROJECT}
+        action: insert 
 
 service:
-  extensions: [basicauth/weave]
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch, resource]
+      processors: [resource]
       exporters: [otlphttp/weave]
 ```
 
 This configuration file:
 
-- Adds authentication to the collector using the `basicauth` extension. This allows the collector to authenticate with Weave using your W&B API key.
-- Sets up the container to listens for OTLP traces on ports `4318` (HTTP) and `4317` (gRPC).
-- Batches spans before exporting them to reduce network overhead.
-- Sets `wandb.entity` and `wandb.project` as resource attributes using the `resource` processor, so your application code does not need to specify them.
-- Exports traces to Weave's OTLP endpoint with the `wandb-api-key` header, reading the API key from the `WANDB_API_KEY` environment variable.
+- Listens for OTLP traces on port `4318` (HTTP).
+- Exports traces to Weave's OTLP endpoint using the `wandb-api-key` header, reading the endpoint URL from `WANDB_OTLP_ENDPOINT` and the API key from `WANDB_API_KEY`.
+- Sets `wandb.entity` and `wandb.project` as resource attributes using the `resource` processor, reading values from `DEFAULT_WANDB_ENTITY` and `DEFAULT_WANDB_PROJECT`. The `insert` action injects these attributes only if your application code does not already set them.
+- Enables the exporter's built-in `sending_queue` with batching to reduce network overhead.
 
-After configuring the collector's settings, run it using Docker:
+After configuring the collector's settings, update the API and entity values in the following Docker command and run it:
 
-```bash
+```bash lines {3,5}
 docker run \
-  -e WANDB_API_KEY \
-  -p 4317:4317 \
+  -v ./config.yaml:/etc/otelcol-contrib/config.yaml \
+  -e WANDB_API_KEY="<your-wandb-api-key>" \
+  -e WANDB_OTLP_ENDPOINT="https://trace.wandb.ai/otel" \
+  -e DEFAULT_WANDB_ENTITY="<your-team-name>" \
+  -e DEFAULT_WANDB_PROJECT="YOUR_PROJECT" \
   -p 4318:4318 \
-  -v $(pwd)/collector-config.yaml:/etc/otelcol-contrib/config.yaml \
-  otel/opentelemetry-collector-contrib:latest
+  otel/opentelemetry-collector-contrib
 ```
 
-Once the collector is running, send the following request to OpenAI:
+Once the collector is running, configure your application to export traces to it by setting the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable. The OTel SDK reads this variable automatically, so you do not need to pass the endpoint to the exporter.
+
+If you set `wandb.entity` or `wandb.project` as resource attributes in your application's `TracerProvider`, they take precedence over the defaults defined in the collector config.
 
 <CodeGroup>
 ```python Python lines
@@ -734,14 +724,12 @@ from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from openinference.instrumentation.openai import OpenAIInstrumentor
 
+os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "http://localhost:4318"
+
 OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
 
-exporter = OTLPSpanExporter(
-    endpoint="http://localhost:4318/v1/traces",
-)
-
 tracer_provider = trace_sdk.TracerProvider()
-tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+tracer_provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
 
 OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
 
@@ -749,7 +737,7 @@ def main():
     client = openai.OpenAI(api_key=OPENAI_API_KEY)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Describe OTEL in a single sentence."}],
+        messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
         max_tokens=20,
     )
     print(response.choices[0].message.content)
@@ -757,21 +745,19 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-```typescript TypeScript lines {}
+```typescript TypeScript lines
 import OpenAI from "openai";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { OpenAIInstrumentation, isPatched } from "@arizeai/openinference-instrumentation-openai";
 
+process.env.OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318";
+
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-const exporter = new OTLPTraceExporter({
-  url: "http://localhost:4318/v1/traces",
-});
-
 const provider = new NodeTracerProvider({
-  spanProcessors: [new BatchSpanProcessor(exporter)],
+  spanProcessors: [new BatchSpanProcessor(new OTLPTraceExporter())],
 });
 
 provider.register();
@@ -786,7 +772,7 @@ async function main() {
   const client = new OpenAI({ apiKey: OPENAI_API_KEY });
   const response = await client.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: "Describe OTEL in a single sentence." }],
+    messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
     max_tokens: 20,
   });
 
@@ -801,22 +787,22 @@ async function main() {
 ```
 </CodeGroup>
 
-The script uses `OpenAIInstrumentor` to automatically wrap OpenAI calls, create traces, and export them to the collector (`localhost`). The collector handles authentication and routing to Weave.
+The `OpenAIInstrumentor` automatically wraps OpenAI calls, creates traces, and exports them to the collector. The collector handles authentication and routing to Weave.
 
 After running the script, you can [view the traces](/weave/guides/tracking/trace-tree) in the Weave UI.
 
 To send traces to additional backends, add more exporters and include them in the `service.pipelines.traces.exporters` list. For example, you can export to both Weave and Jaeger from the same Collector instance.
 
-## Organize OTEL traces into threads
+## Organize OTel traces into threads
 
 Add specific span attributes to organize your OpenTelemetry traces into [Weave threads](/weave/guides/tracking/threads), then use Weave's Thread UI to analyze related operations like multi-turn conversations or user sessions in Weave's thread UI.
 
-Add the following attributes to your OTEL spans to enable thread grouping:
+Add the following attributes to your OTel spans to enable thread grouping:
 
 - `wandb.thread_id`: Groups spans into a specific thread
 - `wandb.is_turn`: Marks a span as a conversation turn (appears as a row in the thread view)
 
-The following examples show how to organize OTEL traces into Weave threads. They use `wandb.thread_id` to group related operations and `wandb.is_turn` to mark high-level operations that appear as rows in the thread view. 
+The following examples show how to organize OTel traces into Weave threads. They use `wandb.thread_id` to group related operations and `wandb.is_turn` to mark high-level operations that appear as rows in the thread view. 
 
 
 <Accordion title="Initial set up">
@@ -886,7 +872,7 @@ if (!WANDB_API_KEY) {
   process.exit(1);
 }
 
-// OTEL Setup
+// OTel Setup
 const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
 
 const exporter = new OTLPTraceExporter({
@@ -1394,4 +1380,4 @@ Weave supports attribute conventions from the following observability frameworks
 
 ## Limitations
 
-* The Weave UI does not support rendering OTEL trace tool calls the Chat view. They appear as raw JSON, instead.
+* The Weave UI does not support rendering OTel trace tool calls the Chat view. They appear as raw JSON, instead.
