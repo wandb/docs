@@ -2,45 +2,45 @@
 title: Launch 작업 보기
 ---
 
-이 페이지에서는 큐에 추가된 Launch 작업의 정보를 확인하는 방법을 설명합니다.
+이 페이지에서는 큐에 추가된 Launch 작업 정보를 확인하는 방법을 설명합니다.
 
 <div id="view-jobs">
   ## 작업 보기
 </div>
 
-W&B App에서 큐에 추가된 작업을 확인할 수 있다.
+W&B App에서 큐에 추가된 작업을 확인합니다.
 
-1. https://wandb.ai/home 에서 W&B App으로 이동한다.
-2. 왼쪽 사이드바의 **Applications** 섹션에서 **Launch**를 선택한다.
-3. **All entities** 드롭다운을 선택하고, Launch 작업이 속한 엔터티를 선택한다.
-4. Launch Application 페이지에서 접이식 UI를 펼쳐 해당 큐에 추가된 작업 목록을 확인한다.
+1. https://wandb.ai/home 에서 W&B App으로 이동합니다.
+2. 왼쪽 사이드바의 **Applications** 섹션에서 **Launch**를 선택합니다.
+3. **All entities** 드롭다운을 클릭한 다음, launch 작업이 속한 entity를 선택합니다.
+4. Launch 애플리케이션 페이지에서 접기/펼치기 가능한 UI를 펼쳐 해당 큐에 추가된 작업 목록을 확인합니다.
 
 <Note>
-Launch 에이전트가 Launch 작업을 실행할 때 실행이 생성된다. 즉, 목록에 표시된 각 실행은 해당 큐에 추가된 특정 작업에 대응한다.
+launch agent가 launch 작업을 실행하면 run이 생성됩니다. 즉, 나열된 각 run은 해당 큐에 추가된 특정 작업에 대응합니다.
 </Note>
 
-예를 들어, 아래 이미지는 `job-source-launch_demo-canonical`이라는 작업에서 생성된 두 개의 실행을 보여준다. 이 작업은 `Start queue`라는 큐에 추가되었다. 큐에 표시된 첫 번째 실행 이름은 `resilient-snowball`이고, 두 번째 실행 이름은 `earthy-energy-165`이다.
+예를 들어, 아래 이미지는 `job-source-launch_demo-canonical`이라는 작업에서 생성된 두 개의 run을 보여줍니다. 이 작업은 `Start queue`라는 큐에 추가되었습니다. 큐에 나열된 첫 번째 run의 이름은 `resilient-snowball`이고 두 번째 run의 이름은 `earthy-energy-165`입니다.
 
 <Frame>
     <img src="/images/launch/launch_jobs_status.png" alt="Launch jobs status view"  />
 </Frame>
 
-W&B App UI에서 Launch 작업으로부터 생성된 실행에 대해 다음과 같은 추가 정보를 확인할 수 있다:
+W&B App UI에서 launch 작업으로부터 생성된 run에 대해 다음과 같은 추가 정보를 확인할 수 있습니다:
 
-- **Run**: 해당 작업에 할당된 W&B 실행 이름.
-   - **Job ID**: 작업 이름.
-   - **Project**: 실행이 속한 프로젝트 이름.
-   - **Status**: 대기열에 있는 실행의 상태.
-   - **Author**: 실행을 생성한 W&B 엔터티.
-   - **Creation date**: 큐가 생성된 시점의 타임스탬프.
-   - **Start time**: 작업이 시작된 시점의 타임스탬프.
-   - **Duration**: 작업 실행이 완료되는 데 걸린 시간(초 단위).
+- **Run**: 해당 작업에 할당된 W&B run 이름
+   - **Job ID**: 작업 이름 
+   - **Project**: run이 속한 프로젝트 이름
+   - **Status**: 큐에 있는 run의 상태 
+   - **Author**: run을 생성한 W&B entity
+   - **Creation date**: 큐가 생성된 시점의 타임스탬프
+   - **Start time**: 작업이 시작된 시점의 타임스탬프
+   - **Duration**: 작업의 run을 완료하는 데 걸린 시간(초 단위)
 
 <div id="list-jobs">
   ## 작업 목록 확인
 </div>
 
-W&amp;B CLI를 사용해 특정 프로젝트에 존재하는 작업 목록을 확인할 수 있습니다. W&amp;B `job list` 명령을 사용하고, Launch 작업이 속한 프로젝트와 엔터티 이름을 각각 `--project` 및 `--entity` 플래그로 지정합니다.
+W&amp;B CLI를 사용하여 프로젝트 내에 있는 작업 목록을 확인하세요. W&amp;B job list 명령을 사용하고, 해당 Launch 작업이 속한 프로젝트 이름과 엔티티 이름을 각각 `--project` 및 `--entity` 플래그에 지정하세요.
 
 ```bash
  wandb job list --entity your-entity --project project-name
@@ -51,15 +51,15 @@ W&amp;B CLI를 사용해 특정 프로젝트에 존재하는 작업 목록을 �
   ## 작업 상태 확인
 </div>
 
-다음 표는 대기열에 있는 실행이 가질 수 있는 상태를 정의합니다:
+다음 표는 대기 중인 run이 가질 수 있는 상태를 정의합니다:
 
 | Status | Description |
 | --- | --- |
-| **Idle** | 실행이 활성 에이전트 없이 대기열에 있습니다. |
-| **Queued** | 실행이 에이전트가 처리하기를 기다리며 대기열에 있습니다. |
-| **Pending** | 실행이 에이전트에 의해 선택되었지만 아직 시작되지 않았습니다. 이는 클러스터에서 사용할 수 있는 리소스가 없기 때문일 수 있습니다. |
-| **Running** | 실행이 현재 실행 중입니다. |
-| **Killed** | 작업이 사용자가 강제 종료한 상태입니다. |
-| **Crashed** | 실행이 데이터 전송을 중단했거나 정상적으로 시작하지 못했습니다. |
-| **Failed** | 실행이 0이 아닌 종료 코드로 종료되었거나 실행 시작에 실패했습니다. |
+| **Idle** | run이 활성 에이전트가 없는 대기열에 있습니다. |
+| **Queued** | run이 에이전트가 처리하기를 기다리며 대기열에 있습니다. |
+| **Pending** | run이 에이전트에 의해 할당되었지만 아직 시작되지 않았습니다. 이는 클러스터에서 사용할 수 있는 리소스가 없기 때문일 수 있습니다. |
+| **Running** | run이 현재 실행 중입니다. |
+| **Killed** | 작업이 사용자에 의해 강제로 종료되었습니다. |
+| **Crashed** | run이 데이터 전송을 중단했거나 정상적으로 시작되지 않았습니다. |
+| **Failed** | run이 0이 아닌 종료 코드로 종료되었거나 run이 시작하는 데 실패했습니다. |
 | **Finished** | 작업이 성공적으로 완료되었습니다. |

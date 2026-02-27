@@ -1,23 +1,23 @@
 ---
-description: 여러 프로젝트에서 Artifact를 다운로드하고 사용합니다.
+description: 여러 프로젝트에서 Artifacts를 다운로드하여 사용합니다.
 title: 아티팩트 다운로드 및 사용
 ---
 
-이미 W&amp;B 서버에 저장된 아티팩트를 다운로드해 사용하거나, 아티팩트 객체를 생성해 필요에 따라 중복 제거(de-duplication)를 위해 전달할 수 있습니다.
+이미 W&amp;B 서버에 저장된 아티팩트를 다운로드해 사용하거나, 아티팩트 객체를 생성해 필요에 따라 중복 제거를 위해 전달할 수 있습니다.
 
 <Note>
-  view-only seat를 가진 팀 구성원은 아티팩트를 다운로드할 수 없습니다.
+  보기 전용 시트가 할당된 팀 구성원은 아티팩트를 다운로드할 수 없습니다.
 </Note>
 
 <div id="download-and-use-an-artifact-stored-on-wb">
   ### W&amp;B에 저장된 아티팩트 다운로드 및 사용
 </div>
 
-W&amp;B에 저장된 아티팩트를 W&amp;B 실행 내부 또는 외부에서 다운로드해 사용할 수 있습니다. Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용해 이미 W&amp;B에 저장된 데이터를 내보내거나(또는 업데이트)할 수 있습니다.
+W&amp;B에 저장된 아티팩트를 W&amp;B run 내부 또는 외부에서 다운로드해 사용할 수 있습니다. Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용하여 W&amp;B에 이미 저장된 데이터를 내보내거나(export) 업데이트할 수 있습니다.
 
 <Tabs>
-  <Tab title="실행 중">
-    먼저 W&amp;B Python SDK를 import합니다. 그런 다음 W&amp;B [실행](/ko/models/ref/python/experiments/run)을 생성합니다:
+  <Tab title="run 중에 사용">
+    먼저 W&amp;B Python SDK를 import 합니다. 다음으로 W&amp;B [Run](/ko/models/ref/python/experiments/run)을 생성합니다:
 
     ```python
     import wandb
@@ -26,55 +26,55 @@ W&amp;B에 저장된 아티팩트를 W&amp;B 실행 내부 또는 외부에서 �
         # 다음 단계 참고
     ```
 
-    사용하려는 아티팩트를 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 메서드로 지정합니다. 이 메서드는 실행 객체를 반환합니다. 다음 코드 스니펫은 `'bike-dataset'`이라는 아티팩트를 별칭 `'latest'`와 함께 지정합니다:
+    [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 메서드를 사용하여 사용하려는 아티팩트를 지정합니다. 이 메서드는 run 객체를 반환합니다. 다음 코드 스니펫에서는 `'latest'` 별칭을 가진 `'bike-dataset'`라는 아티팩트를 지정합니다:
 
     ```python
-    # 사용할 아티팩트를 지정합니다. 형식은 "name:alias" 입니다
+    # 사용할 아티팩트를 지정합니다. 형식은 "name:alias"입니다.
     artifact = run.use_artifact("bike-dataset:latest")
     ```
 
-    반환된 객체를 사용해 아티팩트의 모든 내용을 다운로드합니다:
+    반환된 객체를 사용하여 아티팩트의 모든 내용을 다운로드합니다:
 
     ```python
-    # 전체 아티팩트를 다운로드합니다
+    # 전체 아티팩트를 다운로드합니다.
     datadir = artifact.download()
     ```
 
-    선택적으로 `root` 매개변수에 경로를 전달해 아티팩트의 내용을 특정 디렉터리로 다운로드할 수 있습니다.
+    선택적으로 `root` 파라미터에 경로를 전달하여 아티팩트의 내용을 특정 디렉터리로 다운로드할 수 있습니다.
 
-    [`wandb.Artifact.get_entry()`](/ko/models/ref/python/experiments/artifact#get_entry) 메서드를 사용해 파일의 일부만 다운로드할 수 있습니다:
+    [`wandb.Artifact.get_entry()`](/ko/models/ref/python/experiments/artifact#get_entry) 메서드를 사용하여 파일의 일부만 다운로드할 수 있습니다:
 
     ```python
-    # 특정 파일을 다운로드합니다
+    # 특정 파일을 다운로드합니다.
     entry = artifact.get_entry(name)
     ```
 
-    이 모든 것을 합치면 전체 코드 예시는 다음과 같습니다:
+    이를 모두 합치면 전체 코드 예시는 다음과 같습니다:
 
     ```python
     import wandb    
 
     with wandb.init(project="<example>", job_type="<job-type>") as run:
-        # 사용할 아티팩트를 지정합니다. 형식은 "name:alias" 입니다
+        # 사용할 아티팩트를 지정합니다. 형식은 "name:alias"입니다.
         artifact = run.use_artifact("bike-dataset:latest")
 
-        # 전체 아티팩트를 다운로드합니다
+        # 전체 아티팩트를 다운로드합니다.
         datadir = artifact.download()
 
-        # 특정 파일을 다운로드합니다
+        # 특정 파일을 다운로드합니다.
         entry = artifact.get_entry("bike.png")
     ```
 
     이는 경로 `name`에 있는 파일만 가져옵니다. `Entry` 객체를 반환하며, 다음 메서드를 제공합니다:
 
-    * `Entry.download`: 아티팩트에서 경로 `name`에 있는 파일을 다운로드합니다
-    * `Entry.ref`: `add_reference`가 엔트리를 참조로 저장했다면 URI를 반환합니다
+    * `Entry.download`: 경로 `name`에 있는 아티팩트의 파일을 다운로드합니다.
+    * `Entry.ref`: `add_reference`가 엔트리를 레퍼런스로 저장한 경우 해당 URI를 반환합니다.
 
-    {/* W&B가 처리 방법을 알고 있는 스킴을 가진 참조는 아티팩트 파일과 동일하게 다운로드됩니다. 자세한 내용은 [외부 파일 추적](/models/artifacts/track-external-files/)을 참조하세요. */}
+    {/* W&B가 처리 방법을 알고 있는 스킴을 가진 레퍼런스는 아티팩트 파일과 동일하게 다운로드됩니다. 자세한 내용은 [외부 파일 추적](/models/artifacts/track-external-files/)을 참고하세요. */}
   </Tab>
 
-  <Tab title="실행 외부">
-    먼저 W&amp;B SDK를 import합니다. 그런 다음 Public API 클래스에서 아티팩트 객체를 생성합니다. 해당 아티팩트와 연결된 엔터티, 프로젝트, 아티팩트, 별칭을 전달합니다:
+  <Tab title="run 외부에서 사용">
+    먼저 W&amp;B SDK를 import 합니다. 다음으로 Public API 클래스에서 아티팩트 객체를 생성합니다. 해당 아티팩트와 연결된 entity, project, artifact, alias를 지정합니다:
 
     ```python
     import wandb
@@ -83,17 +83,17 @@ W&amp;B에 저장된 아티팩트를 W&amp;B 실행 내부 또는 외부에서 �
     artifact = api.artifact("entity/project/artifact:alias")
     ```
 
-    반환된 객체를 사용해 아티팩트의 내용을 다운로드합니다:
+    반환된 객체를 사용하여 아티팩트의 내용을 다운로드합니다:
 
     ```python
     artifact.download()
     ```
 
-    선택적으로 `root` 매개변수에 경로를 전달해 아티팩트의 내용을 특정 디렉터리로 다운로드할 수 있습니다. 자세한 내용은 [Python SDK Reference Guide](/ko/models/ref/python/experiments/artifact#download)를 참조하세요.
+    선택적으로 `root` 파라미터에 경로를 전달하여 아티팩트의 내용을 특정 디렉터리로 다운로드할 수 있습니다. 자세한 내용은 [Python SDK Reference Guide](/ko/models/ref/python/experiments/artifact#download)를 참고하세요.
   </Tab>
 
   <Tab title="W&B CLI">
-    `wandb artifact get` 명령을 사용해 W&amp;B 서버에서 아티팩트를 다운로드합니다.
+    `wandb artifact get` 명령을 사용하여 W&amp;B 서버에서 아티팩트를 다운로드합니다.
 
     ```
     $ wandb artifact get project/artifact:alias --root mnist/
@@ -105,7 +105,7 @@ W&amp;B에 저장된 아티팩트를 W&amp;B 실행 내부 또는 외부에서 �
   ### 아티팩트를 부분적으로 다운로드하기
 </div>
 
-접두사를 기준으로 아티팩트의 일부만 선택적으로 다운로드할 수 있습니다. 단일 파일이나 하위 폴더의 내용을 다운로드하려면 `path_prefix=`(`wandb.Artifact.download(path_prefix=)`) 인자를 사용하세요.
+접두사(prefix)를 기준으로 아티팩트의 일부만 선택적으로 다운로드할 수 있습니다. 단일 파일이나 하위 폴더의 내용을 다운로드하려면 `path_prefix=` (`wandb.Artifact.download(path_prefix=)`) 파라미터를 사용하세요.
 
 ```python
 with wandb.init(project="<example>", job_type="<job-type>") as run:
@@ -116,7 +116,7 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     artifact.download(path_prefix="bike.png") # bike.png만 다운로드합니다.
 ```
 
-또는 특정 디렉터리에서 파일을 다운로드할 수도 있습니다. 그러려면 `path_prefix=` 매개변수에 해당 디렉터리를 지정하세요. 이전 코드 예시에 이어서:
+또는 특정 디렉터리에서 파일을 다운로드할 수도 있습니다. 그러려면 `path_prefix=` 파라미터에 해당 디렉터리를 지정하십시오. 이전 코드 스니펫에 이어서 작성하면 다음과 같습니다:
 
 ```python
 # images/bikes 디렉토리의 파일을 다운로드합니다
@@ -127,17 +127,17 @@ artifact.download(path_prefix="images/bikes/")
   ### 다른 프로젝트의 아티팩트를 사용하기
 </div>
 
-아티팩트를 참조하려면 프로젝트 이름과 함께 아티팩트 이름을 지정합니다. 엔터티 이름과 함께 아티팩트 이름을 지정하면 서로 다른 엔터티에 있는 아티팩트도 참조할 수 있습니다.
+아티팩트를 참조하려면 아티팩트 이름과 함께 해당 프로젝트 이름을 지정합니다. 다른 Entities의 아티팩트를 참조하려면 아티팩트 이름과 함께 Entity 이름을 지정할 수도 있습니다.
 
-다음 코드 예제는 다른 프로젝트의 아티팩트를 현재 W&amp;B 실행의 입력으로 가져오는 방법을 보여줍니다.
+다음 코드 예제는 현재 W&amp;B run의 입력으로 다른 프로젝트에서 아티팩트를 조회하는 방법을 보여줍니다.
 
 ```python
 with wandb.init(project="<example>", job_type="<job-type>") as run:
-    # 다른 프로젝트의 아티팩트를 W&B에서 조회하고 이 실행의
+    # 다른 프로젝트의 아티팩트를 W&B에서 쿼리하고 이 run의
     # 입력으로 표시합니다.
     artifact = run.use_artifact("my-project/artifact:alias")
 
-    # 다른 엔터티의 아티팩트를 사용하고 이 실행의 입력으로
+    # 다른 entity의 아티팩트를 사용하고 이 run의 입력으로
     # 표시합니다.
     artifact = run.use_artifact("my-entity/my-project/artifact:alias")
 
@@ -147,7 +147,7 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
   ### 아티팩트를 동시에 생성하고 사용하기
 </div>
 
-아티팩트를 동시에 생성하고 사용합니다. 아티팩트 객체를 생성한 다음 `use_artifact`에 전달하세요. 이렇게 하면 해당 아티팩트가 아직 존재하지 않을 경우 W&amp;B에 새로 생성됩니다. [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) API는 멱등성을 가지므로 원하는 만큼 여러 번 호출해도 됩니다.
+아티팩트를 동시에 생성하고 사용합니다. 아티팩트 객체를 생성한 뒤 `use_artifact`에 전달합니다. 이렇게 하면 해당 아티팩트가 아직 존재하지 않는 경우 W&amp;B에 새 아티팩트가 생성됩니다. [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) API는 멱등성이 있으므로, 원하는 만큼 여러 번 호출할 수 있습니다.
 
 ```python
 import wandb
@@ -158,4 +158,4 @@ with wandb.init(project="<example>", job_type="<job-type>") as run:
     run.use_artifact(artifact)
 ```
 
-아티팩트 생성에 대한 자세한 내용은 [아티팩트 생성](/ko/models/artifacts/construct-an-artifact/) 문서를 참고하세요.
+아티팩트를 구성하는 방법에 대한 자세한 내용은 [아티팩트 구성하기](/ko/models/artifacts/construct-an-artifact/)를 참고하세요.

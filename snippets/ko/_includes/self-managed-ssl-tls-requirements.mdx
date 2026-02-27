@@ -1,11 +1,11 @@
 ---
-title: 자가 관리형 SSL/TLS 요구 사항
+title: 셀프 매니지드 SSL/TLS 요구 사항
 ---
 
-W&B는 클라이언트와 서버 간의 보안 통신을 위해 유효한 서명된 SSL/TLS 인증서가 필요합니다. SSL/TLS 종료는 반드시 인그레스/로드 밸런서에서 이루어져야 합니다. W&B Server 애플리케이션은 SSL 또는 TLS 연결을 종료하지 않습니다.
+W&B는 클라이언트와 서버 간의 보안 통신을 위해 유효한 서명된 SSL/TLS 인증서가 필요합니다. SSL/TLS 종단은 반드시 인그레스/로드 밸런서에서 이루어져야 합니다. W&B Server 애플리케이션은 SSL 또는 TLS 연결을 종단하지 않습니다.
 
-**중요**: W&B는 자체 서명(self-signed) 인증서와 사용자 정의 CA를 지원하지 않습니다. 자체 서명 인증서를 사용하면 사용자에게 문제가 발생하므로 지원되지 않습니다.
+**중요**: W&B는 자체 서명(self-signed) 인증서와 사용자 정의 CA를 지원하지 않습니다. 자체 서명 인증서를 사용하면 사용자에게 여러 문제가 발생할 수 있으며, 이는 지원 대상이 아닙니다.
 
-가능하다면 [Let's Encrypt](https://letsencrypt.org)와 같은 서비스를 사용하는 것이 로드 밸런서에 신뢰할 수 있는 인증서를 제공하는 좋은 방법입니다. Caddy 및 Cloudflare와 같은 서비스는 SSL을 대신 관리해 줍니다.
+가능하다면 [Let's Encrypt](https://letsencrypt.org)와 같은 서비스를 사용하여 로드 밸런서에 신뢰할 수 있는 인증서를 제공하는 것이 좋습니다. Caddy 및 Cloudflare와 같은 서비스는 SSL을 대신 관리해 줍니다.
 
-보안 정책상 신뢰할 수 있는 네트워크 내에서도 SSL 통신이 필요하다면, Istio와 [사이드카 컨테이너](https://istio.io/latest/docs/reference/config/networking/sidecar/) 등의 도구 사용을 고려하십시오.
+보안 정책상 신뢰할 수 있는 네트워크 내에서도 SSL 통신이 필요하다면, Istio 및 [sidecar 컨테이너](https://istio.io/latest/docs/reference/config/networking/sidecar/)와 같은 도구 사용을 고려하십시오.

@@ -1,8 +1,8 @@
 ---
-title: '`wandb launch -d` 또는 `wandb job create image`가 레지스트리에서 pull 하지 않고 전체 Docker 아티팩트를 업로드하고 있나요?'
+title: "`wandb launch -d` 또는 `wandb job create image`가 레지스트리에서 이미지를 가져오지 않고 전체 Docker 아티팩트를 업로드하는 건가요?"
 ---
 
-아니요, `wandb launch -d` 명령은 이미지를 레지스트리에 업로드하지 않습니다. 이미지는 레지스트리에 별도로 업로드해야 합니다. 다음 단계를 따르세요:
+아니요, `wandb launch -d` 명령은 이미지를 레지스트리에 업로드하지 않습니다. 이미지는 별도로 레지스트리에 업로드해야 합니다. 다음 단계를 따르세요:
 
 1. 이미지를 빌드합니다.
 2. 이미지를 레지스트리에 푸시합니다.
@@ -15,6 +15,6 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-Launch agent는 이후 지정된 컨테이너를 대상으로 하는 job을 생성하여 실행합니다. 컨테이너 레지스트리에서 이미지를 가져올 수 있도록 에이전트 접근 권한을 구성하는 예시는 [고급 agent 설정](/ko/platform/launch/setup-agent-advanced/#agent-configuration)을 참고하세요.
+그 다음 Launch 에이전트가 지정된 컨테이너를 가리키는 job을 시작합니다. 컨테이너 레지스트리에서 이미지를 가져올 수 있도록 에이전트 액세스를 설정하는 예시는 [고급 에이전트 설정](/ko/platform/launch/setup-agent-advanced/#agent-configuration)을 참고하세요.
 
-Kubernetes의 경우, 이미지가 푸시된 레지스트리에 Kubernetes 클러스터의 Pod가 접근할 수 있도록 설정했는지 확인하세요.
+Kubernetes의 경우, Kubernetes 클러스터의 파드가 이미지가 푸시된 레지스트리에 접근할 수 있는지 확인하세요.

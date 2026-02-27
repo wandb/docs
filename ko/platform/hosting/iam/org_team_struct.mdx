@@ -2,34 +2,34 @@
 title: ID 및 액세스 관리(IAM)
 ---
 
-W&amp;B Platform에는 W&amp;B 내에서 사용하는 IAM 스코프가 세 가지 있습니다: [조직](#organization), [팀](#team), 그리고 [프로젝트](#project).
+W&amp;B Platform의 IAM은 W&amp;B 내에서 다음 세 가지 범위로 구성됩니다: [조직](#organization), [Teams](#team), [Projects](#project).
 
 <div id="organization">
-  ## 조직
+  ## Organization
 </div>
 
-*조직(Organization)*은 W&amp;B 계정 또는 인스턴스에서의 루트(최상위) 스코프입니다. 계정이나 인스턴스에서 수행되는 모든 작업은 이 루트 스코프를 기준으로 이루어지며, 여기에는 사용자 관리, 팀 관리, 팀 내 프로젝트 관리, 사용량 추적 등이 포함됩니다.
+*Organization*은 W&amp;B 계정 또는 인스턴스에서의 루트(최상위) 스코프입니다. 계정 또는 인스턴스에서 수행되는 모든 작업은 이 루트 스코프 내에서 이뤄지며, 여기에는 사용자 관리, 팀 관리, 팀 내 프로젝트 관리, 사용량 추적 등이 포함됩니다.
 
-[멀티 테넌트 클라우드](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 사용하는 경우, 둘 이상의 조직을 가질 수 있으며, 각 조직은 비즈니스 유닛, 개인 사용자, 다른 기업과의 합작 파트너십 등과 매핑될 수 있습니다.
+[Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud)를 사용하는 경우, 하나 이상의 Organization을 가질 수 있으며, 각각은 사업 부서, 개인 사용자, 다른 비즈니스와의 공동 파트너십 등과 대응될 수 있습니다.
 
-[전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed 인스턴스](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우에는 하나의 인스턴스가 하나의 조직에 대응됩니다. 회사에서 서로 다른 비즈니스 유닛이나 부서에 대응하도록 여러 개의 전용 클라우드 또는 Self-Managed 인스턴스를 둘 수 있지만, 이는 여러 사업부나 부서에 걸친 AI 실무자를 관리하기 위한 하나의 선택적 운영 방식일 뿐입니다.
+[Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud) 또는 [Self-Managed instance](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우에는 하나의 Organization에 해당합니다. 회사에서는 서로 다른 사업 부서나 조직에 매핑하기 위해 여러 개의 Dedicated Cloud 또는 Self-Managed 인스턴스를 운용할 수 있지만, 이는 여러 비즈니스 또는 부서에 걸친 AI 실무자를 관리하기 위한 선택적 방법일 뿐 필수는 아닙니다.
 
-자세한 내용은 [조직 관리](./access-management/manage-organization)를 참고하세요.
+자세한 내용은 [조직 관리](./access-management/manage-organization)를 참조하세요.
 
 <div id="team">
-  ## 팀
+  ## Team
 </div>
 
-*Team*은 조직 내의 하위 단위로, 회사의 사업부/기능 조직, 부서, 또는 프로젝트 팀에 대응될 수 있습니다. 배포 유형과 요금제에 따라 하나의 조직 안에 둘 이상의 팀을 구성할 수 있습니다.
+*Team*은 조직 내의 하위 단위로, 회사의 비즈니스 유닛/기능, 부서 또는 프로젝트 팀에 대응될 수 있습니다. 배포 유형과 요금제에 따라 하나의 조직 안에 둘 이상의 Team을 둘 수 있습니다.
 
-AI 프로젝트는 팀 단위로 구성됩니다. 팀 내의 접근 제어는 팀 관리자가 담당하며, 이들은 상위 조직 수준의 관리자일 수도 있고 아닐 수도 있습니다.
+AI 프로젝트는 Team 단위로 구성됩니다. Team 내 액세스 제어는 Team 관리자에 의해 관리되며, 이들은 상위 조직 수준의 관리자일 수도 있고 아닐 수도 있습니다.
 
-자세한 내용은 [팀 추가 및 관리](./access-management/manage-organization#add-and-manage-teams)를 참조하세요.
+자세한 내용은 [Team 추가 및 관리](./access-management/manage-organization#add-and-manage-teams)를 참조하세요.
 
 <div id="project">
-  ## Project
+  ## 프로젝트
 </div>
 
-*Project*는 팀 내의 하위 스코프로, 특정한 목표 결과를 가진 실제 AI 프로젝트에 해당합니다. 한 팀에는 여러 개의 프로젝트가 있을 수 있습니다. 각 프로젝트에는 누가 접근할 수 있는지를 결정하는 공개 범위 설정이 있습니다.
+*프로젝트*는 팀 내의 하위 단위로, 특정 목표를 가진 실제 AI 프로젝트에 대응합니다. 하나의 팀 안에 둘 이상의 프로젝트를 둘 수 있습니다. 각 프로젝트에는 누가 접근할 수 있는지를 결정하는 공개 범위 설정이 있습니다.
 
-모든 프로젝트는 [Workspaces](/ko/models/track/workspaces/)와 [Reports](/ko/models/reports/)로 구성되며, 관련된 [Artifacts](/ko/models/artifacts/), [Sweeps](/ko/models/sweeps/), 그리고 [Automations](/ko/models/automations/)와 연결됩니다.
+각 프로젝트는 [Workspaces](/ko/models/track/workspaces/)와 [Reports](/ko/models/reports/)로 구성되고, 관련된 [Artifacts](/ko/models/artifacts/), [Sweeps](/ko/models/sweeps/), [Automations](/ko/models/automations/)에 연결됩니다.

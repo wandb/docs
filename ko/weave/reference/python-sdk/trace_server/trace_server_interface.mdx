@@ -35,9 +35,9 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `AnnotationQueueAddCallsReq`
 
-주석 큐에 호출을 일괄 추가하기 위한 요청입니다. 
+애노테이션 큐에 콜을 배치로 추가하는 요청입니다. 
 
-내부 API에서 사용하기 위해 `queue_id` 필드를 추가하여 `AnnotationQueueAddCallsBody`를 확장한 것입니다. 
+내부 API에서 사용하기 위해 queue_id를 추가하여 AnnotationQueueAddCallsBody를 확장한 것입니다. 
 
 **Pydantic 필드:**
 
@@ -53,7 +53,7 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `AnnotationQueueAddCallsRes`
 
-큐에 호출을 추가했을 때의 응답입니다. 
+큐에 호출을 추가한 결과에 대한 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -66,7 +66,7 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `AnnotationQueueCreateReq`
 
-새 어노테이션 큐를 생성하는 요청입니다. 
+새 주석 큐를 생성하기 위한 요청입니다. 
 
 **Pydantic 필드:**
 
@@ -82,7 +82,7 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `AnnotationQueueCreateRes`
 
-annotation queue 생성 요청에 대한 응답입니다. 
+annotation queue 생성 결과에 대한 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -94,7 +94,7 @@ annotation queue 생성 요청에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotationQueueItemSchema`
 
-annotation 큐 항목 응답용 스키마입니다. 
+annotation 큐 항목 응답을 위한 스키마입니다. 
 
 **Pydantic 필드:**
 
@@ -122,9 +122,9 @@ annotation 큐 항목 응답용 스키마입니다.
 
 ## <kbd>class</kbd> `AnnotationQueueItemsQueryReq`
 
-annotation 큐의 항목을 조회하기 위한 요청입니다. 
+annotation queue의 항목을 조회하는 요청입니다. 
 
-내부 API에서 사용하기 위해 `queue_id`를 추가하여 `AnnotationQueueItemsQueryBody`를 확장한 것입니다. 
+내부 API에서 사용하기 위해 AnnotationQueueItemsQueryBody에 queue_id를 추가하여 확장한 것입니다. 
 
 **Pydantic 필드:**
 
@@ -142,7 +142,7 @@ annotation 큐의 항목을 조회하기 위한 요청입니다.
 
 ## <kbd>class</kbd> `AnnotationQueueItemsQueryRes`
 
-annotation queue 항목 조회 결과에 대한 응답입니다. 
+annotation 큐 항목 조회에 대한 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -154,7 +154,7 @@ annotation queue 항목 조회 결과에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotationQueueReadReq`
 
-특정 annotation queue를 조회하기 위한 요청입니다. 
+특정 annotation 큐를 읽기 위한 요청입니다. 
 
 **Pydantic 필드:**
 
@@ -167,7 +167,7 @@ annotation queue 항목 조회 결과에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotationQueueReadRes`
 
-annotation 큐를 읽은 결과에 대한 응답입니다. 
+annotation queue 읽기 요청에 대한 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -179,7 +179,7 @@ annotation 큐를 읽은 결과에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotationQueueSchema`
 
-annotation queue 응답에 대한 스키마입니다. 
+어노테이션 큐 응답 스키마입니다. 
 
 **Pydantic 필드:**
 
@@ -213,7 +213,7 @@ annotation queue 응답에 대한 스키마입니다.
 
 ## <kbd>class</kbd> `AnnotationQueuesQueryReq`
 
-프로젝트의 annotation queue를 조회하는 요청입니다. 
+프로젝트의 어노테이션 큐를 조회하기 위한 요청입니다. 
 
 **Pydantic 필드:**
 
@@ -229,7 +229,7 @@ annotation queue 응답에 대한 스키마입니다.
 
 ## <kbd>class</kbd> `AnnotationQueuesQueryRes`
 
-Annotation 큐 조회 요청에 대한 응답입니다. 
+Annotation queue 조회 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -241,7 +241,7 @@ Annotation 큐 조회 요청에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotationQueuesStatsReq`
 
-여러 annotation 큐에 대한 통계 정보를 가져오기 위한 요청입니다. 
+여러 annotation 큐의 통계를 가져오기 위한 요청입니다. 
 
 **Pydantic 필드:**
 
@@ -254,7 +254,7 @@ Annotation 큐 조회 요청에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotationQueuesStatsRes`
 
-여러 annotation queue의 통계 정보가 담긴 응답입니다. 
+여러 annotation queue에 대한 통계 정보를 담은 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -266,13 +266,13 @@ Annotation 큐 조회 요청에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotatorQueueItemsProgressUpdateReq`
 
-현재 annotator에 대해 큐 항목의 annotation 상태를 업데이트하기 위한 요청입니다. 
+현재 annotator의 큐 항목에 대한 어노테이션 상태를 업데이트하기 위한 요청입니다. 
 
-유효한 상태 전환은 다음과 같습니다. 
+유효한 상태 전이: 
 
-- (absence) -> 'in_progress': 항목을 진행 중으로 표시합니다 (레코드가 없을 때만) 
-- (absence) -> 'completed' 또는 'skipped': 항목을 바로 완료/건너뜁니다 
-- 'in_progress' 또는 'unstarted' -> 'completed' 또는 'skipped': 시작된 항목을 완료/건너뜁니다 
+- (없음) -> 'in_progress': 레코드가 없을 때에만 항목을 진행 중으로 표시 
+- (없음) -> 'completed' 또는 'skipped': 항목을 바로 완료/건너뜀 처리 
+- 'in_progress' 또는 'unstarted' -> 'completed' 또는 'skipped': 진행 중이거나 시작되지 않은 항목을 완료/건너뜀 처리 
 
 **Pydantic 필드:**
 
@@ -288,7 +288,7 @@ Annotation 큐 조회 요청에 대한 응답입니다.
 
 ## <kbd>class</kbd> `AnnotatorQueueItemsProgressUpdateRes`
 
-주석 상태를 업데이트한 응답입니다. 
+어노테이션 상태 업데이트 요청에 대한 응답입니다. 
 
 **Pydantic 필드:**
 
@@ -409,7 +409,7 @@ Annotation 큐 조회 요청에 대한 응답입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L138" />
 
-### <kbd>메서드</kbd> `serialize_typed_dicts`
+### <kbd>method</kbd> `serialize_typed_dicts`
 
 ```python
 serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
@@ -1066,9 +1066,9 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>class</kbd> `EvaluationRunFinishBody`
 
-REST API를 통해 평가 실행을 종료할 때 사용하는 요청 본문입니다. 
+REST API를 통해 evaluation run을 종료하기 위한 요청 본문입니다. 
 
-이 모델은 RESTful 엔드포인트에서 URL 경로로 전달되는 project_id와 evaluation_run_id를 포함하지 않습니다. 
+이 모델에는 RESTful 엔드포인트에서 URL 경로로부터 전달되는 project_id와 evaluation_run_id가 포함되지 않습니다. 
 
 **Pydantic 필드:**
 
@@ -1444,9 +1444,9 @@ REST API를 통해 평가 실행을 종료할 때 사용하는 요청 본문입�
 
 ## <kbd>class</kbd> `FullTraceServerInterface`
 
-V1 및 Object API를 모두 지원하는 전체 트레이스 서버 인터페이스입니다. 
+V1와 Object API를 모두 지원하는 완전한 트레이스 서버 인터페이스입니다. 
 
-이 프로토콜은 레거시 V1 엔드포인트와 최신 Object 엔드포인트를 모두 포함한 전체 API 세트를 지원하는 트레이스 서버 구현을 나타냅니다. 두 API 버전을 모두 지원해야 하는 구현에는 이 타입을 사용하세요. 
+이 프로토콜은 레거시 V1 엔드포인트와 최신 Object 엔드포인트를 모두 포함한 전체 API 집합을 지원하는 트레이스 서버 구현을 나타냅니다. 두 API 버전을 모두 지원해야 하는 구현에서는 이 타입을 사용하십시오. 
 
 ---
 
@@ -1489,7 +1489,7 @@ annotation_queue_create(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2258" />
 
 
-### <kbd>method</kbd> `annotation_queue_items_query`
+### <kbd>메서드</kbd> `annotation_queue_items_query`
 
 ```python
 annotation_queue_items_query(
@@ -1502,7 +1502,7 @@ annotation_queue_items_query(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2246" />
 
 
-### <kbd>메서드</kbd> `annotation_queue_read`
+### <kbd>method</kbd> `annotation_queue_read`
 
 ```python
 annotation_queue_read(req: AnnotationQueueReadReq) → AnnotationQueueReadRes
@@ -1563,7 +1563,7 @@ call_end(req: CallEndReq) → CallEndRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2159" />
 
 
-### <kbd>메서드</kbd> `call_read`
+### <kbd>method</kbd> `call_read`
 
 ```python
 call_read(req: CallReadReq) → CallReadRes
@@ -1574,7 +1574,7 @@ call_read(req: CallReadReq) → CallReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2157" />
 
 
-### <kbd>메서드</kbd> `call_start`
+### <kbd>method</kbd> `call_start`
 
 ```python
 call_start(req: CallStartReq) → CallStartRes
@@ -1585,7 +1585,7 @@ call_start(req: CallStartReq) → CallStartRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2165" />
 
 
-### <kbd>메서드</kbd> `call_start_batch`
+### <kbd>method</kbd> `call_start_batch`
 
 ```python
 call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
@@ -1596,7 +1596,7 @@ call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2164" />
 
 
-### <kbd>메서드</kbd> `call_update`
+### <kbd>method</kbd> `call_update`
 
 ```python
 call_update(req: CallUpdateReq) → CallUpdateRes
@@ -1629,7 +1629,7 @@ calls_query(req: CallsQueryReq) → CallsQueryRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2163" />
 
 
-### <kbd>method</kbd> `calls_query_stats`
+### <kbd>메서드</kbd> `calls_query_stats`
 
 ```python
 calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
@@ -1651,7 +1651,7 @@ calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2216" />
 
 
-### <kbd>메서드</kbd> `completions_create`
+### <kbd>method</kbd> `completions_create`
 
 ```python
 completions_create(req: CompletionsCreateReq) → CompletionsCreateRes
@@ -1673,7 +1673,7 @@ completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2168" />
 
 
-### <kbd>메서드</kbd> `cost_create`
+### <kbd>method</kbd> `cost_create`
 
 ```python
 cost_create(req: CostCreateReq) → CostCreateRes
@@ -1728,7 +1728,7 @@ dataset_delete(req: DatasetDeleteReq) → DatasetDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2288" />
 
 
-### <kbd>메서드</kbd> `dataset_list`
+### <kbd>method</kbd> `dataset_list`
 
 ```python
 dataset_list(req: DatasetListReq) → Iterator[DatasetReadRes]
@@ -1750,7 +1750,7 @@ dataset_read(req: DatasetReadReq) → DatasetReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2148" />
 
 
-### <kbd>메서드</kbd> `ensure_project_exists`
+### <kbd>method</kbd> `ensure_project_exists`
 
 ```python
 ensure_project_exists(entity: str, project: str) → EnsureProjectExistsRes
@@ -1761,7 +1761,7 @@ ensure_project_exists(entity: str, project: str) → EnsureProjectExistsRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2267" />
 
 
-### <kbd>메서드</kbd> `evaluate_model`
+### <kbd>method</kbd> `evaluate_model`
 
 ```python
 evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
@@ -1772,7 +1772,7 @@ evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2298" />
 
 
-### <kbd>메서드</kbd> `evaluation_create`
+### <kbd>method</kbd> `evaluation_create`
 
 ```python
 evaluation_create(req: EvaluationCreateReq) → EvaluationCreateRes
@@ -1827,7 +1827,7 @@ evaluation_run_create(req: EvaluationRunCreateReq) → EvaluationRunCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2321" />
 
 
-### <kbd>메서드</kbd> `evaluation_run_delete`
+### <kbd>method</kbd> `evaluation_run_delete`
 
 ```python
 evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
@@ -1838,7 +1838,7 @@ evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2324" />
 
 
-### <kbd>메서드</kbd> `evaluation_run_finish`
+### <kbd>method</kbd> `evaluation_run_finish`
 
 ```python
 evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
@@ -1849,7 +1849,7 @@ evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2318" />
 
 
-### <kbd>메서드</kbd> `evaluation_run_list`
+### <kbd>method</kbd> `evaluation_run_list`
 
 ```python
 evaluation_run_list(req: EvaluationRunListReq) → Iterator[EvaluationRunReadRes]
@@ -1871,7 +1871,7 @@ evaluation_run_read(req: EvaluationRunReadReq) → EvaluationRunReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2268" />
 
 
-### <kbd>method</kbd> `evaluation_status`
+### <kbd>메서드</kbd> `evaluation_status`
 
 ```python
 evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
@@ -1915,7 +1915,7 @@ feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2206" />
 
 
-### <kbd>메서드</kbd> `feedback_query`
+### <kbd>method</kbd> `feedback_query`
 
 ```python
 feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
@@ -1926,7 +1926,7 @@ feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2208" />
 
 
-### <kbd>메서드</kbd> `feedback_replace`
+### <kbd>method</kbd> `feedback_replace`
 
 ```python
 feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
@@ -1948,7 +1948,7 @@ file_content_read(req: FileContentReadReq) → FileContentReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2196" />
 
 
-### <kbd>메서드</kbd> `file_create`
+### <kbd>method</kbd> `file_create`
 
 ```python
 file_create(req: FileCreateReq) → FileCreateRes
@@ -1959,7 +1959,7 @@ file_create(req: FileCreateReq) → FileCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2198" />
 
 
-### <kbd>메서드</kbd> `files_stats`
+### <kbd>method</kbd> `files_stats`
 
 ```python
 files_stats(req: FilesStatsReq) → FilesStatsRes
@@ -1970,7 +1970,7 @@ files_stats(req: FilesStatsReq) → FilesStatsRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2227" />
 
 
-### <kbd>메서드</kbd> `image_create`
+### <kbd>method</kbd> `image_create`
 
 ```python
 image_create(req: ImageGenerationCreateReq) → ImageGenerationCreateRes
@@ -2003,7 +2003,7 @@ model_delete(req: ModelDeleteReq) → ModelDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2308" />
 
 
-### <kbd>메서드</kbd> `model_list`
+### <kbd>method</kbd> `model_list`
 
 ```python
 model_list(req: ModelListReq) → Iterator[ModelReadRes]
@@ -2014,7 +2014,7 @@ model_list(req: ModelListReq) → Iterator[ModelReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2307" />
 
 
-### <kbd>메서드</kbd> `model_read`
+### <kbd>method</kbd> `model_read`
 
 ```python
 model_read(req: ModelReadReq) → ModelReadRes
@@ -2025,7 +2025,7 @@ model_read(req: ModelReadReq) → ModelReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2173" />
 
 
-### <kbd>method</kbd> `obj_create`
+### <kbd>메서드</kbd> `obj_create`
 
 ```python
 obj_create(req: ObjCreateReq) → ObjCreateRes
@@ -2036,7 +2036,7 @@ obj_create(req: ObjCreateReq) → ObjCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2176" />
 
 
-### <kbd>메서드</kbd> `obj_delete`
+### <kbd>method</kbd> `obj_delete`
 
 ```python
 obj_delete(req: ObjDeleteReq) → ObjDeleteRes
@@ -2047,7 +2047,7 @@ obj_delete(req: ObjDeleteReq) → ObjDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2174" />
 
 
-### <kbd>메서드</kbd> `obj_read`
+### <kbd>method</kbd> `obj_read`
 
 ```python
 obj_read(req: ObjReadReq) → ObjReadRes
@@ -2058,7 +2058,7 @@ obj_read(req: ObjReadReq) → ObjReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2175" />
 
 
-### <kbd>메서드</kbd> `objs_query`
+### <kbd>method</kbd> `objs_query`
 
 ```python
 objs_query(req: ObjQueryReq) → ObjQueryRes
@@ -2102,7 +2102,7 @@ op_list(req: OpListReq) → Iterator[OpReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2281" />
 
 
-### <kbd>메서드</kbd> `op_read`
+### <kbd>method</kbd> `op_read`
 
 ```python
 op_read(req: OpReadReq) → OpReadRes
@@ -2201,7 +2201,7 @@ refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2338" />
 
 
-### <kbd>메서드</kbd> `score_create`
+### <kbd>method</kbd> `score_create`
 
 ```python
 score_create(req: ScoreCreateReq) → ScoreCreateRes
@@ -2212,7 +2212,7 @@ score_create(req: ScoreCreateReq) → ScoreCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2341" />
 
 
-### <kbd>method</kbd> `score_delete`
+### <kbd>메서드</kbd> `score_delete`
 
 ```python
 score_delete(req: ScoreDeleteReq) → ScoreDeleteRes
@@ -2234,7 +2234,7 @@ score_list(req: ScoreListReq) → Iterator[ScoreReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2339" />
 
 
-### <kbd>method</kbd> `score_read`
+### <kbd>메서드</kbd> `score_read`
 
 ```python
 score_read(req: ScoreReadReq) → ScoreReadRes
@@ -2245,7 +2245,7 @@ score_read(req: ScoreReadReq) → ScoreReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2292" />
 
 
-### <kbd>메서드</kbd> `scorer_create`
+### <kbd>method</kbd> `scorer_create`
 
 ```python
 scorer_create(req: ScorerCreateReq) → ScorerCreateRes
@@ -2256,7 +2256,7 @@ scorer_create(req: ScorerCreateReq) → ScorerCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2295" />
 
 
-### <kbd>메서드</kbd> `scorer_delete`
+### <kbd>method</kbd> `scorer_delete`
 
 ```python
 scorer_delete(req: ScorerDeleteReq) → ScorerDeleteRes
@@ -2267,7 +2267,7 @@ scorer_delete(req: ScorerDeleteReq) → ScorerDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2294" />
 
 
-### <kbd>메서드</kbd> `scorer_list`
+### <kbd>method</kbd> `scorer_list`
 
 ```python
 scorer_list(req: ScorerListReq) → Iterator[ScorerReadRes]
@@ -2278,7 +2278,7 @@ scorer_list(req: ScorerListReq) → Iterator[ScorerReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2293" />
 
 
-### <kbd>메서드</kbd> `scorer_read`
+### <kbd>method</kbd> `scorer_read`
 
 ```python
 scorer_read(req: ScorerReadReq) → ScorerReadRes
@@ -2289,7 +2289,7 @@ scorer_read(req: ScorerReadReq) → ScorerReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2179" />
 
 
-### <kbd>메서드</kbd> `table_create`
+### <kbd>method</kbd> `table_create`
 
 ```python
 table_create(req: TableCreateReq) → TableCreateRes
@@ -2324,7 +2324,7 @@ table_query(req: TableQueryReq) → TableQueryRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2187" />
 
 
-### <kbd>method</kbd> `table_query_stats`
+### <kbd>메서드</kbd> `table_query_stats`
 
 ```python
 table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes
@@ -2674,7 +2674,7 @@ model_post_init(_ObjSchemaForInsert__context: Any) → None
 
 Trace Server용 Object API 엔드포인트입니다. 
 
-이 프로토콜에는 더 깔끔하고 RESTful한 인터페이스를 제공하는 객체 관리 API가 포함되어 있습니다. 구현은 하위 호환성을 유지하기 위해 이 프로토콜과 TraceServerInterface를 모두 지원해야 합니다. 
+이 프로토콜은 오브젝트 관리 API를 포함하며, 더 깔끔하고 RESTful한 인터페이스를 제공합니다. 구현은 하위 호환성을 유지하기 위해 이 프로토콜과 TraceServerInterface를 모두 지원해야 합니다. 
 
 ---
 
@@ -2691,7 +2691,7 @@ dataset_create(req: DatasetCreateReq) → DatasetCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2289" />
 
 
-### <kbd>method</kbd> `dataset_delete`
+### <kbd>메서드</kbd> `dataset_delete`
 
 ```python
 dataset_delete(req: DatasetDeleteReq) → DatasetDeleteRes
@@ -2713,7 +2713,7 @@ dataset_list(req: DatasetListReq) → Iterator[DatasetReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2287" />
 
 
-### <kbd>메서드</kbd> `dataset_read`
+### <kbd>method</kbd> `dataset_read`
 
 ```python
 dataset_read(req: DatasetReadReq) → DatasetReadRes
@@ -2746,7 +2746,7 @@ evaluation_delete(req: EvaluationDeleteReq) → EvaluationDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2300" />
 
 
-### <kbd>method</kbd> `evaluation_list`
+### <kbd>메서드</kbd> `evaluation_list`
 
 ```python
 evaluation_list(req: EvaluationListReq) → Iterator[EvaluationReadRes]
@@ -2790,7 +2790,7 @@ evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2324" />
 
 
-### <kbd>메서드</kbd> `evaluation_run_finish`
+### <kbd>method</kbd> `evaluation_run_finish`
 
 ```python
 evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
@@ -2856,7 +2856,7 @@ model_list(req: ModelListReq) → Iterator[ModelReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2307" />
 
 
-### <kbd>메서드</kbd> `model_read`
+### <kbd>method</kbd> `model_read`
 
 ```python
 model_read(req: ModelReadReq) → ModelReadRes
@@ -2867,7 +2867,7 @@ model_read(req: ModelReadReq) → ModelReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2280" />
 
 
-### <kbd>메서드</kbd> `op_create`
+### <kbd>method</kbd> `op_create`
 
 ```python
 op_create(req: OpCreateReq) → OpCreateRes
@@ -2900,7 +2900,7 @@ op_list(req: OpListReq) → Iterator[OpReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2281" />
 
 
-### <kbd>메서드</kbd> `op_read`
+### <kbd>method</kbd> `op_read`
 
 ```python
 op_read(req: OpReadReq) → OpReadRes
@@ -2911,7 +2911,7 @@ op_read(req: OpReadReq) → OpReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2329" />
 
 
-### <kbd>메서드</kbd> `prediction_create`
+### <kbd>method</kbd> `prediction_create`
 
 ```python
 prediction_create(req: PredictionCreateReq) → PredictionCreateRes
@@ -2955,7 +2955,7 @@ prediction_list(req: PredictionListReq) → Iterator[PredictionReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2330" />
 
 
-### <kbd>method</kbd> `prediction_read`
+### <kbd>메서드</kbd> `prediction_read`
 
 ```python
 prediction_read(req: PredictionReadReq) → PredictionReadRes
@@ -2966,7 +2966,7 @@ prediction_read(req: PredictionReadReq) → PredictionReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2338" />
 
 
-### <kbd>메서드</kbd> `score_create`
+### <kbd>method</kbd> `score_create`
 
 ```python
 score_create(req: ScoreCreateReq) → ScoreCreateRes
@@ -2977,7 +2977,7 @@ score_create(req: ScoreCreateReq) → ScoreCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2341" />
 
 
-### <kbd>method</kbd> `score_delete`
+### <kbd>메서드</kbd> `score_delete`
 
 ```python
 score_delete(req: ScoreDeleteReq) → ScoreDeleteRes
@@ -2999,7 +2999,7 @@ score_list(req: ScoreListReq) → Iterator[ScoreReadRes]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2339" />
 
 
-### <kbd>method</kbd> `score_read`
+### <kbd>메서드</kbd> `score_read`
 
 ```python
 score_read(req: ScoreReadReq) → ScoreReadRes
@@ -3071,9 +3071,9 @@ scorer_read(req: ScorerReadReq) → ScorerReadRes
 
 ## <kbd>class</kbd> `OpCreateBody`
 
-REST API를 통해 Op 객체를 생성할 때 사용하는 요청 본문입니다. 
+REST API를 통해 Op 객체를 생성하기 위한 요청 본문입니다. 
 
-이 모델에는 RESTful 엔드포인트의 URL 경로에서 전달되는 project_id가 포함되지 않습니다. 
+이 모델에는 `project_id`가 포함되지 않는데, RESTful 엔드포인트에서 URL 경로를 통해 전달되기 때문입니다. 
 
 **Pydantic 필드:**
 
@@ -3088,7 +3088,7 @@ REST API를 통해 Op 객체를 생성할 때 사용하는 요청 본문입니�
 
 Op 객체를 생성하기 위한 요청 모델입니다. 
 
-내부 API에서 사용하기 위해 `project_id`를 추가하여 `OpCreateBody`를 확장한 모델입니다. 
+내부 API에서 사용하기 위해 `project_id`를 추가하여 `OpCreateBody`를 확장한 것입니다. 
 
 **Pydantic 필드:**
 
@@ -3103,7 +3103,7 @@ Op 객체를 생성하기 위한 요청 모델입니다.
 
 ## <kbd>class</kbd> `OpCreateRes`
 
-Op 객체를 생성할 때 사용하는 응답 모델입니다. 
+Op 객체 생성에 대한 응답 모델입니다. 
 
 **Pydantic 필드:**
 
@@ -3166,9 +3166,9 @@ Op 객체를 생성할 때 사용하는 응답 모델입니다.
 
 ## <kbd>class</kbd> `OpReadRes`
 
-Op 객체를 읽을 때 사용하는 응답 모델입니다. 
+Op 객체를 읽을 때 사용되는 응답 모델입니다. 
 
-`code` 필드에는 해당 Op의 실제 소스 코드가 포함됩니다. 
+`code` 필드는 Op의 실제 소스 코드를 포함합니다. 
 
 **Pydantic 필드:**
 
@@ -3209,7 +3209,7 @@ Op 객체를 읽을 때 사용하는 응답 모델입니다.
 
 REST API를 통해 Prediction을 생성할 때 사용하는 요청 본문입니다. 
 
-이 모델에는 RESTful 엔드포인트에서 URL 경로로 전달되는 project_id가 포함되지 않습니다. 
+이 모델에는 RESTful 엔드포인트에서 URL 경로로 전달되는 `project_id`가 포함되지 않습니다. 
 
 **Pydantic 필드:**
 
@@ -3226,7 +3226,7 @@ REST API를 통해 Prediction을 생성할 때 사용하는 요청 본문입니�
 
 Prediction을 생성하기 위한 요청 모델입니다. 
 
-내부 API에서 사용하기 위해 project_id를 추가하여 PredictionCreateBody를 확장합니다. 
+내부 API에서 사용하기 위해 `project_id`를 추가한 `PredictionCreateBody` 확장 모델입니다. 
 
 **Pydantic 필드:**
 
@@ -3395,9 +3395,9 @@ Prediction을 생성하기 위한 요청 모델입니다.
 
 ## <kbd>class</kbd> `ScoreCreateBody`
 
-REST API를 통해 Score를 생성하기 위한 요청 본문입니다. 
+REST API를 통해 Score를 생성할 때 사용하는 요청 본문입니다. 
 
-RESTful 엔드포인트에서는 URL 경로에서 전달되므로 이 모델에는 `project_id`가 포함되지 않습니다. 
+RESTful 엔드포인트에서는 `project_id`가 URL 경로에서 제공되므로, 이 모델에는 포함되지 않습니다. 
 
 **Pydantic 필드:**
 
@@ -3412,9 +3412,9 @@ RESTful 엔드포인트에서는 URL 경로에서 전달되므로 이 모델에�
 
 ## <kbd>class</kbd> `ScoreCreateReq`
 
-Score를 생성하기 위한 요청 모델입니다. 
+Score 생성 요청 모델입니다. 
 
-내부 API에서 사용하기 위해 `project_id`를 추가해 `ScoreCreateBody`를 확장한 모델입니다. 
+내부 API에서 사용하기 위해 `project_id`를 추가하여 `ScoreCreateBody`를 확장한 모델입니다. 
 
 **Pydantic 필드:**
 
@@ -3911,9 +3911,9 @@ Score를 생성하기 위한 요청 모델입니다.
 
 ## <kbd>class</kbd> `ThreadsQueryReq`
 
-턴 호출(turn call)을 기준으로 집계된 통계를 사용해 thread를 조회합니다. 
+턴 호출만을 기준으로 집계된 통계를 사용해 스레드를 쿼리합니다. 
 
-턴 호출은 thread 컨텍스트의 직접적인 자식 호출이며(여기서 call.id == turn_id), 모든 중첩된 구현 세부 정보까지 포함하는 대신 보다 의미 있는 대화 단위 수준의 통계를 제공합니다. 
+턴 호출은 스레드 컨텍스트의 직접적인 자식 호출입니다(호출의 `call.id`가 `turn_id`와 같은 경우). 이렇게 하면 모든 중첩된 구현 세부 정보를 포함하는 대신, 보다 의미 있는 대화 수준의 통계를 제공할 수 있습니다. 
 
 **Pydantic 필드:**
 
@@ -3944,7 +3944,7 @@ actions_execute_batch(req: ActionsExecuteBatchReq) → ActionsExecuteBatchRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2250" />
 
 
-### <kbd>메서드</kbd> `annotation_queue_add_calls`
+### <kbd>method</kbd> `annotation_queue_add_calls`
 
 ```python
 annotation_queue_add_calls(
@@ -3970,7 +3970,7 @@ annotation_queue_create(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2258" />
 
 
-### <kbd>method</kbd> `annotation_queue_items_query`
+### <kbd>메서드</kbd> `annotation_queue_items_query`
 
 ```python
 annotation_queue_items_query(
@@ -4007,7 +4007,7 @@ annotation_queues_query_stream(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2254" />
 
 
-### <kbd>method</kbd> `annotation_queues_stats`
+### <kbd>메서드</kbd> `annotation_queues_stats`
 
 ```python
 annotation_queues_stats(
@@ -4033,7 +4033,7 @@ annotator_queue_items_progress_update(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2158" />
 
 
-### <kbd>메서드</kbd> `call_end`
+### <kbd>method</kbd> `call_end`
 
 ```python
 call_end(req: CallEndReq) → CallEndRes
@@ -4055,7 +4055,7 @@ call_read(req: CallReadReq) → CallReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2157" />
 
 
-### <kbd>메서드</kbd> `call_start`
+### <kbd>method</kbd> `call_start`
 
 ```python
 call_start(req: CallStartReq) → CallStartRes
@@ -4066,7 +4066,7 @@ call_start(req: CallStartReq) → CallStartRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2165" />
 
 
-### <kbd>메서드</kbd> `call_start_batch`
+### <kbd>method</kbd> `call_start_batch`
 
 ```python
 call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
@@ -4077,7 +4077,7 @@ call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2164" />
 
 
-### <kbd>메서드</kbd> `call_update`
+### <kbd>method</kbd> `call_update`
 
 ```python
 call_update(req: CallUpdateReq) → CallUpdateRes
@@ -4088,7 +4088,7 @@ call_update(req: CallUpdateReq) → CallUpdateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2162" />
 
 
-### <kbd>메서드</kbd> `calls_delete`
+### <kbd>method</kbd> `calls_delete`
 
 ```python
 calls_delete(req: CallsDeleteReq) → CallsDeleteRes
@@ -4099,7 +4099,7 @@ calls_delete(req: CallsDeleteReq) → CallsDeleteRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2160" />
 
 
-### <kbd>메서드</kbd> `calls_query`
+### <kbd>method</kbd> `calls_query`
 
 ```python
 calls_query(req: CallsQueryReq) → CallsQueryRes
@@ -4121,7 +4121,7 @@ calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2161" />
 
 
-### <kbd>method</kbd> `calls_query_stream`
+### <kbd>메서드</kbd> `calls_query_stream`
 
 ```python
 calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
@@ -4187,7 +4187,7 @@ cost_query(req: CostQueryReq) → CostQueryRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2148" />
 
 
-### <kbd>메서드</kbd> `ensure_project_exists`
+### <kbd>method</kbd> `ensure_project_exists`
 
 ```python
 ensure_project_exists(entity: str, project: str) → EnsureProjectExistsRes
@@ -4209,7 +4209,7 @@ evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2268" />
 
 
-### <kbd>method</kbd> `evaluation_status`
+### <kbd>메서드</kbd> `evaluation_status`
 
 ```python
 evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
@@ -4220,7 +4220,7 @@ evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2201" />
 
 
-### <kbd>메서드</kbd> `feedback_create`
+### <kbd>method</kbd> `feedback_create`
 
 ```python
 feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
@@ -4231,7 +4231,7 @@ feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2202" />
 
 
-### <kbd>메서드</kbd> `feedback_create_batch`
+### <kbd>method</kbd> `feedback_create_batch`
 
 ```python
 feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
@@ -4242,7 +4242,7 @@ feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2207" />
 
 
-### <kbd>method</kbd> `feedback_purge`
+### <kbd>메서드</kbd> `feedback_purge`
 
 ```python
 feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
@@ -4264,7 +4264,7 @@ feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2208" />
 
 
-### <kbd>메서드</kbd> `feedback_replace`
+### <kbd>method</kbd> `feedback_replace`
 
 ```python
 feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
@@ -4286,7 +4286,7 @@ file_content_read(req: FileContentReadReq) → FileContentReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2196" />
 
 
-### <kbd>메서드</kbd> `file_create`
+### <kbd>method</kbd> `file_create`
 
 ```python
 file_create(req: FileCreateReq) → FileCreateRes
@@ -4297,7 +4297,7 @@ file_create(req: FileCreateReq) → FileCreateRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2198" />
 
 
-### <kbd>메서드</kbd> `files_stats`
+### <kbd>method</kbd> `files_stats`
 
 ```python
 files_stats(req: FilesStatsReq) → FilesStatsRes
@@ -4352,7 +4352,7 @@ obj_read(req: ObjReadReq) → ObjReadRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2175" />
 
 
-### <kbd>method</kbd> `objs_query`
+### <kbd>메서드</kbd> `objs_query`
 
 ```python
 objs_query(req: ObjQueryReq) → ObjQueryRes
@@ -4396,7 +4396,7 @@ refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2179" />
 
 
-### <kbd>메서드</kbd> `table_create`
+### <kbd>method</kbd> `table_create`
 
 ```python
 table_create(req: TableCreateReq) → TableCreateRes
@@ -4420,7 +4420,7 @@ table_create_from_digests(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2185" />
 
 
-### <kbd>메서드</kbd> `table_query`
+### <kbd>method</kbd> `table_query`
 
 ```python
 table_query(req: TableQueryReq) → TableQueryRes
@@ -4431,7 +4431,7 @@ table_query(req: TableQueryReq) → TableQueryRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2187" />
 
 
-### <kbd>method</kbd> `table_query_stats`
+### <kbd>메서드</kbd> `table_query_stats`
 
 ```python
 table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes

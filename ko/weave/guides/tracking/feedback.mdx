@@ -3,45 +3,45 @@ title: "피드백 수집 및 주석 활용"
 description: "UI와 SDK를 통해 LLM 애플리케이션에 대한 피드백을 수집하고 분석하기"
 ---
 
-LLM 애플리케이션을 효율적으로 평가하려면 피드백을 수집하고 분석할 수 있는 강력한 도구가 필요합니다. Weave는 통합 피드백 시스템을 제공하여 사용자가 UI를 통해 호출에 대한 피드백을 직접 남기거나 SDK를 통해 코드로 피드백을 전달할 수 있도록 합니다. 이모지 반응, 텍스트 댓글, 구조화된 데이터 등 다양한 피드백 유형을 지원하여 팀이 다음을 수행할 수 있게 합니다:
+LLM 애플리케이션을 효율적으로 평가하려면 피드백을 수집하고 분석할 수 있는 강력한 도구가 필요합니다. Weave는 통합 피드백 시스템을 제공하여 사용자가 UI에서 직접 콜에 대한 피드백을 남기거나 SDK를 통해 프로그램 방식으로 제출할 수 있도록 합니다. 이모지 반응, 텍스트 댓글, 구조화된 데이터 등 다양한 피드백 유형을 지원하여 Teams가 다음을 수행할 수 있습니다:
 
-- 성능 모니터링을 위한 평가 데이터셋 구축
-- LLM 콘텐츠 문제를 효과적으로 식별 및 해결
-- 파인튜닝과 같은 고급 작업을 위한 예시 수집
+- 성능 모니터링을 위한 평가 데이터셋을 구축합니다.
+- LLM 콘텐츠 문제를 효과적으로 식별하고 해결합니다.
+- 파인튜닝과 같은 고급 작업을 위한 예제를 수집합니다.
 
-이 가이드는 UI와 SDK에서 Weave의 피드백 기능을 사용하는 방법, 피드백을 조회하고 관리하는 방법, 그리고 자세한 평가를 위해 사람 주석(human annotation)을 사용하는 방법을 다룹니다.
+이 가이드는 UI와 SDK에서 Weave의 피드백 기능을 사용하는 방법, 피드백을 쿼리하고 관리하는 방법, 그리고 자세한 평가를 위해 휴먼 어노테이션을 활용하는 방법을 다룹니다.
 
 - [UI에서 피드백 제공](#provide-feedback-in-the-ui)
 - [SDK를 통한 피드백 제공](#provide-feedback-via-the-sdk)
-- [사람 주석 추가](#add-human-annotations)
+- [휴먼 어노테이션 추가](#add-human-annotations)
 
 <div id="provide-feedback-in-the-ui">
   ## UI에서 피드백 제공하기
 </div>
 
-Weave UI에서 [콜 상세 페이지](#from-the-call-details-page)나 [아이콘을 사용](#use-the-icons)하여 피드백을 추가하고 조회할 수 있습니다.
+Weave UI의 [콜 상세 페이지](#from-the-call-details-page)나 [아이콘](#use-the-icons)에서 피드백을 추가하고 확인할 수 있습니다.
 
 <div id="from-the-call-details-page">
-  ### 통화 상세 페이지에서
+  ### 통화 세부정보 페이지에서
 </div>
 
 1. 사이드바에서 **Traces**로 이동합니다.
-2. 피드백을 추가하려는 통화에 해당하는 행을 찾습니다.
-3. 통화 상세 페이지를 엽니다.
+2. 피드백을 추가하려는 통화의 행을 찾습니다.
+3. 통화 세부정보 페이지를 엽니다.
 4. 해당 통화의 **Feedback** 열을 선택합니다.
-5. 피드백을 추가, 조회 또는 삭제합니다:
-   - 통화 상세 피드백 보기 오른쪽 상단에 있는 _[아이콘을 사용해 피드백을 추가하고 조회합니다](#use-the-icons)_.
-   - 통화 상세 피드백 테이블에서 피드백을 조회하고 삭제합니다. 오른쪽 끝 열의 휴지통 아이콘을 클릭해 해당 피드백 행을 삭제합니다.
+5. 피드백을 추가, 확인 또는 삭제합니다.
+   - 통화 세부정보 피드백 보기의 오른쪽 상단에 있는 _[아이콘을 사용해 피드백을 추가하고 확인](#use-the-icons)_ 합니다.
+   - _통화 세부정보 피드백 테이블에서 피드백을 확인하고 삭제합니다._ 해당 피드백 행의 맨 오른쪽 열에 있는 휴지통 아이콘을 클릭하여 피드백을 삭제합니다.
 
 <Frame>
-![통화 상세 페이지의 Feedback 탭 스크린샷](/weave/guides/tracking/imgs/feedback_tab.png)
+![통화 세부정보의 Feedback 탭 스크린샷](/weave/guides/tracking/imgs/feedback_tab.png)
 </Frame>
 
 <div id="use-the-icons">
   ### 아이콘 사용하기
 </div>
 
-콜 테이블과 개별 콜 상세 페이지에 있는 아이콘을 사용하여 리액션을 추가·제거하고 노트를 추가할 수 있습니다.
+콜 테이블과 개별 콜 상세 페이지에 있는 아이콘을 사용하여 리액션을 추가·제거하고, 노트를 추가할 수 있습니다.
 
 - _콜 테이블_: 콜 테이블에서 해당 행의 **Feedback** 열에 위치합니다.
 - _콜 상세 페이지_: 각 콜 상세 페이지의 오른쪽 상단에 위치합니다.
@@ -49,23 +49,23 @@ Weave UI에서 [콜 상세 페이지](#from-the-call-details-page)나 [아이콘
 리액션을 추가하려면:
 
 1. 이모지 아이콘을 클릭합니다.
-2. 엄지손가락 위/아래 이모지를 추가하거나, 더 많은 이모지를 보려면 **+** 아이콘을 클릭합니다.
+2. 엄지손가락 위(👍), 엄지손가락 아래(👎) 리액션을 추가하거나, 더 많은 이모지를 보려면 **+** 아이콘을 클릭합니다.
 
 리액션을 제거하려면:
 
 1. 제거하려는 이모지 리액션 위에 마우스를 올립니다.
-2. 제거할 리액션을 클릭합니다.
+2. 해당 리액션을 클릭하여 제거합니다.
 
-> 콜 상세 페이지의 [**Feedback** 열에서도 피드백을 삭제할 수 있습니다.](#from-the-call-details-page).
+> 콜 상세 페이지의 [**Feedback** 열에서 피드백을 삭제할 수도 있습니다.](#from-the-call-details-page).
 
-댓글을 추가하려면:
+코멘트를 추가하려면:
 
 1. 말풍선 아이콘을 클릭합니다.
-2. 텍스트 상자에 노트를 입력합니다.
-3. 노트를 저장하려면 **Enter** 키를 누릅니다. 노트는 여러 개 추가할 수 있습니다.
+2. 텍스트 박스에 노트를 입력합니다.
+3. 노트를 저장하려면 **Enter** 키를 누릅니다. 추가 노트도 계속해서 남길 수 있습니다.
 
 <Warning>
-피드백 노트의 최대 글자 수는 1024자입니다. 이 제한을 초과하면 노트가 생성되지 않습니다.
+피드백 노트의 최대 글자 수는 1024자입니다. 이 한도를 초과하는 노트는 생성되지 않습니다.
 </Warning>
 
 <Frame>
@@ -76,26 +76,26 @@ Weave UI에서 [콜 상세 페이지](#from-the-call-details-page)나 [아이콘
   ## SDK를 통해 피드백 제공
 </div>
 
-> UI의 호출 상세 페이지에서 **Use** 탭을 열면 피드백 관련 SDK 사용 예제를 확인할 수 있습니다.
+> UI의 콜 상세 페이지에서 **Use** 탭을 열어 피드백용 SDK 사용 예제를 확인할 수 있습니다.
 
-Weave SDK를 사용하면 호출에 대한 피드백을 프로그래밍 방식으로 추가, 제거 및 조회할 수 있습니다.
+Weave SDK를 사용하여 콜에 대한 피드백을 프로그램적으로 추가·삭제·조회할 수 있습니다.
 
 <div id="query-a-projects-feedback">
-  ### 프로젝트의 피드백 조회하기
+  ### 프로젝트의 피드백 쿼리하기
 </div>
 
-SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니다. SDK는 다음과 같은 피드백 조회 작업을 지원합니다:
+SDK를 사용해서 Weave 프로젝트의 피드백을 쿼리할 수 있습니다. SDK는 다음과 같은 피드백 쿼리 연산을 지원합니다:
 
 - `client.get_feedback()`: 프로젝트의 모든 피드백을 반환합니다.
-- `client.get_feedback("<feedback_uuid>")`: `<feedback_uuid>`로 지정된 특정 피드백 객체를 컬렉션으로 반환합니다.
+- `client.get_feedback("<feedback_uuid>")`: `<feedback_uuid>`로 지정한 특정 피드백 객체를 컬렉션으로 반환합니다.
 - `client.get_feedback(reaction="<reaction_type>")`: 특정 리액션 유형에 대한 모든 피드백 객체를 반환합니다.
 
-또한 `client.get_feedback()`으로 가져온 각 피드백 객체에 대해 다음과 같은 추가 정보도 조회할 수 있습니다:
+또한 `client.get_feedback()`으로 가져온 각 피드백 객체에 대해 다음과 같은 추가 정보를 확인할 수 있습니다:
 
-- `id`: 피드백 객체 ID.
-- `created_at`: 피드백 객체의 생성 시각 정보.
-- `feedback_type`: 피드백 유형(reaction, note, custom).
-- `payload`: 피드백 페이로드.
+- `id`: 피드백 객체 ID입니다.
+- `created_at`: 피드백 객체 생성 시각 정보입니다.
+- `feedback_type`: 피드백 유형(reaction, note, custom)입니다.
+- `payload`: 피드백 페이로드입니다.
 
 <Tabs>
   <Tab title="Python">
@@ -107,13 +107,13 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
     all_feedback = client.get_feedback()
 
     # id로 특정 피드백 객체 가져오기.
-    # API는 컬렉션을 반환하며, 이 컬렉션에는 최대 하나의 항목만 포함되는 것이 예상됩니다.
+    # API는 최대 하나의 항목만 포함하는 것이 예상되는 컬렉션을 반환합니다.
     one_feedback = client.get_feedback("<feedback_uuid>")[0]
 
     # 특정 리액션을 가진 모든 피드백 객체 찾기. offset과 limit을 지정할 수 있습니다.
     thumbs_up = client.get_feedback(reaction="👍", limit=10)
 
-    # 조회 후, 개별 피드백 객체의 세부 정보를 확인합니다.
+    # 가져온 후, 개별 피드백 객체의 세부 정보를 확인합니다.
     for f in client.get_feedback():
         print(f.id)
         print(f.created_at)
@@ -124,7 +124,7 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
+    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
@@ -133,14 +133,14 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
   ### 호출에 피드백 추가하기
 </div>
 
-호출의 UUID를 사용해 해당 호출에 피드백을 추가할 수 있습니다. UUID를 사용해 특정 호출을 가져오려면 [호출 실행 중 또는 실행 후에 UUID를 조회](#retrieve-the-call-uuid)하세요. SDK는 호출에 피드백을 추가하기 위한 다음 연산을 지원합니다:
+호출 UUID를 사용해 호출에 피드백을 추가할 수 있습니다. 특정 호출을 가져오려면 [호출 실행 중 또는 실행 후에 UUID를 조회](#retrieve-the-call-uuid)하세요. SDK는 호출에 피드백을 추가하기 위해 다음 작업을 지원합니다:
 
 - `call.feedback.add_reaction("<reaction_type>")`: 👍 같은 지원되는 `<reaction_types>`(이모지) 중 하나를 추가합니다.
 - `call.feedback.add_note("<note>")`: 메모를 추가합니다.
-- `call.feedback.add("<label>", <object>)`: `<label>`로 지정한 사용자 정의 피드백 `<object>`를 추가합니다.
+- `call.feedback.add("<label>", <object>)`: `<label>`로 지정한 커스텀 피드백 `<object>`를 추가합니다.
 
 <Warning>
-피드백 메모의 최대 길이는 1024자입니다. 메모가 이 제한을 초과하면 생성되지 않습니다.
+피드백 메모에 사용할 수 있는 최대 길이는 1024자입니다. 메모가 이 제한을 초과하면 생성되지 않습니다.
 </Warning>
 
 <Tabs>
@@ -151,22 +151,22 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
 
     call = client.get_call("<call_uuid>")
 
-    # 이모지 반응 추가
+    # Adding an emoji reaction
     call.feedback.add_reaction("👍")
 
-    # 메모 추가
+    # Adding a note
     call.feedback.add_note("this is a note")
 
-    # 사용자 정의 키/값 쌍 추가.
-    # 첫 번째 인수는 사용자가 정의한 "type" 문자열입니다.
-    # 피드백은 JSON 직렬화 가능해야 하며, 직렬화 시 크기가 1 KB 미만이어야 합니다.
+    # Adding custom key/value pairs.
+    # The first argument is a user-defined "type" string.
+    # Feedback must be JSON serializable and less than 1 KB when serialized.
     call.feedback.add("correctness", { "value": 5 })
     ```
 
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
@@ -175,7 +175,7 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
   #### 호출 UUID 가져오기
 </div>
 
-호출 직후 피드백을 바로 추가해야 하는 경우, 호출이 실행되는 동안이나 실행이 완료된 후에 코드에서 호출 UUID를 가져올 수 있습니다.
+호출 직후에 피드백을 추가해야 하는 경우, 호출 실행 중이거나 실행 직후에 프로그램 코드로 호출 UUID를 가져올 수 있습니다.
 
 - [호출 실행 중](#during-call-execution)
 - [호출 실행 후](#after-call-execution)
@@ -184,7 +184,7 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
   ##### 호출 실행 중
 </div>
 
-호출 실행 중에 UUID를 가져오려면 현재 호출을 가져와 ID를 반환하면 됩니다.
+호출이 실행되는 동안 UUID를 가져오려면, 현재 호출을 가져와 해당 ID를 반환합니다.
 
 <Tabs>
   <Tab title="Python">
@@ -206,7 +206,7 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서 사용할 수 없습니다.
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
@@ -215,7 +215,7 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
   ##### 호출 실행 후
 </div>
 
-또는 `call()` 메서드를 사용하여 연산을 실행하고, 호출이 완료된 후 ID를 가져올 수도 있습니다:
+또는 `call()` 메서드를 사용해 연산을 실행한 다음 ID를 가져올 수도 있습니다:
 
 <Tabs>
   <Tab title="Python">
@@ -231,6 +231,7 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
     result, call = simple_operation.call("example input")
     call_id = call.id
     ```
+
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
@@ -240,10 +241,10 @@ SDK를 사용하여 Weave 프로젝트의 피드백을 조회할 수 있습니�
 </Tabs>
 
 <div id="delete-feedback-from-a-call">
-  ### 콜에서 피드백 삭제
+  ### 호출에서 피드백 삭제하기
 </div>
 
-UUID를 지정하여 특정 콜의 피드백을 삭제할 수 있습니다.
+UUID를 지정하여 특정 호출에서 피드백을 삭제할 수 있습니다.
 
 <Tabs>
   <Tab title="Python">
@@ -253,22 +254,22 @@ UUID를 지정하여 특정 콜의 피드백을 삭제할 수 있습니다.
   </Tab>
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
+    이 기능은 아직 TypeScript에서 지원되지 않습니다.
     ```
   </Tab>
 </Tabs>
 
 <div id="add-human-annotations">
-  ## 휴먼 어노테이션 추가
+  ## 휴먼 애노테이션 추가
 </div>
 
-휴먼 어노테이션은 Weave UI에서 지원됩니다. 휴먼 어노테이션을 추가하려면 먼저 [UI](#create-a-human-annotation-scorer-in-the-ui) 또는 [API](#create-a-human-annotation-scorer-using-the-api)를 사용해 Human Annotation 스코어러를 생성해야 합니다. 그런 다음 [UI에서 스코어러를 사용해 어노테이션을 추가](#use-the-human-annotation-scorer-in-the-ui)하고, [API를 사용해 어노테이션 스코어러를 수정](#modify-a-human-annotation-scorer-using-the-api)할 수 있습니다.
+휴먼 애노테이션은 Weave UI에서 지원됩니다. 휴먼 애노테이션을 사용하려면 먼저 [UI](#create-a-human-annotation-scorer-in-the-ui) 또는 [API](#create-a-human-annotation-scorer-using-the-api)를 사용해 Human Annotation 스코어러를 생성해야 합니다. 그런 다음 [UI에서 이 스코어러를 사용해 애노테이션을 추가](#use-the-human-annotation-scorer-in-the-ui)하고, [API를 사용해 애노테이션 스코어러를 수정](#modify-a-human-annotation-scorer-using-the-api)할 수 있습니다.
 
 <div id="create-a-human-annotation-scorer-in-the-ui">
-  ### UI에서 human annotation scorer 생성하기
+  ### UI에서 휴먼 애노테이션 스코어러 생성하기
 </div>
 
-UI에서 human annotation scorer를 생성하려면 다음을 수행하세요:
+UI에서 휴먼 애노테이션 스코어러를 생성하려면 다음을 수행하세요:
 
 1. 사이드바에서 **Scorers**로 이동합니다.
 2. 오른쪽 상단에서 **+ Create scorer**를 클릭합니다.
@@ -276,23 +277,23 @@ UI에서 human annotation scorer를 생성하려면 다음을 수행하세요:
    - `Scorer type`을 `Human annotation`으로 설정
    - `Name`
    - `Description`
-   - `Type` (수집할 피드백의 유형을 결정하며, `boolean`, `integer` 등)
-4. **Create scorer**를 클릭합니다. 이제 [scorer를 사용해 annotation을 추가](#use-the-human-annotation-scorer-in-the-ui)할 수 있습니다.
+   - `Type`: 수집할 피드백 유형(예: `boolean` 또는 `integer`)을 결정합니다.
+4. **Create scorer**를 클릭합니다. 이제 [스코어러를 사용해 주석을 추가](#use-the-human-annotation-scorer-in-the-ui)할 수 있습니다.
 
-다음 예시에서는 human annotator에게 LLM이 어떤 유형의 문서를 처리했는지 선택하도록 요청합니다. 따라서 점수 구성을 위한 `Type`은 가능한 문서 유형들을 포함하는 `enum`으로 설정됩니다.
+다음 예시에서는 휴먼 애노테이터에게 LLM이 어떤 유형의 문서를 입력으로 사용했는지 선택하도록 요청합니다. 따라서 스코어러 설정에서 선택된 `Type`은 가능한 문서 유형을 포함하는 `enum`입니다.
 
 <Frame>
-![Human Annotation scorer form](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
+![휴먼 애노테이션 스코어러 폼](/weave/guides/tracking/imgs/human-annotation-scorer-form.png)
 </Frame>
 
 <div id="use-the-human-annotation-scorer-in-the-ui">
   ### UI에서 human annotation scorer 사용하기
 </div>
 
-[human annotation scorer를 생성](#create-a-human-annotation-scorer-in-the-ui)하면, 설정한 옵션과 함께 호출 상세 페이지의 **Feedback** 사이드바에 자동으로 표시됩니다. scorer를 사용하려면 다음을 수행합니다:
+[human annotation scorer를 생성](#create-a-human-annotation-scorer-in-the-ui)하면, 설정한 옵션과 함께 호출 상세 페이지의 **Feedback** 사이드바에 자동으로 표시됩니다. scorer를 사용하려면 다음을 수행하세요:
 
 1. 사이드바에서 **Traces**로 이동합니다.
-2. human annotation을 추가하려는 호출에 해당하는 행을 찾습니다.
+2. human annotation을 추가하려는 호출의 행을 찾습니다.
 3. 호출 상세 페이지를 엽니다.
 4. 오른쪽 상단에서 **Show feedback** 버튼을 클릭합니다.
 
@@ -304,24 +305,24 @@ UI에서 human annotation scorer를 생성하려면 다음을 수행하세요:
 
 5. annotation을 작성합니다.
 6. **Save**를 클릭합니다.
-7. 호출 상세 페이지에서 **Feedback**을 클릭해 호출 테이블을 확인합니다. 새 annotation이 테이블에 표시됩니다. **Traces**의 호출 테이블에서 **Annotations** 열에서도 annotation을 볼 수 있습니다.
+7. 호출 상세 페이지에서 **Feedback**을 클릭하여 호출 테이블을 봅니다. 새 annotation이 테이블에 표시됩니다. **Traces**의 호출 테이블에서 **Annotations** 열에서도 annotation을 확인할 수 있습니다.
 
-   > 최신 정보를 보려면 호출 테이블을 새로고침하세요.
+   > 최신 정보를 확인하려면 호출 테이블을 새로 고치세요.
 
 <Frame>
 ![Human Annotation scorer feedback in calls table](/weave/guides/tracking/imgs/feedback-in-the-table.png)
 </Frame>
 
 <div id="create-a-human-annotation-scorer-using-the-api">
-  ### API를 사용하여 휴먼 어노테이션 스코어러 생성하기
+  ### API를 사용하여 인간 어노테이션 스코어러 생성하기
 </div>
 
-휴먼 어노테이션 스코어러는 API를 통해서도 생성할 수 있습니다. 각 스코어러는 독립적으로 생성 및 업데이트되는 고유한 객체입니다. 프로그래밍 방식으로 휴먼 어노테이션 스코어러를 생성하려면 다음을 따르세요:
+인간 어노테이션 스코어러는 API를 통해서도 생성할 수 있습니다. 각 스코어러는 독립적으로 생성 및 업데이트되는 개별 객체입니다. 프로그래밍 방식으로 인간 어노테이션 스코어러를 생성하려면 다음을 수행합니다:
 
-1. `weave.flow.annotation_spec`에서 `AnnotationSpec` 클래스를 import합니다.
+1. `weave.flow.annotation_spec`에서 `AnnotationSpec` 클래스를 임포트합니다.
 2. `weave`의 `publish` 메서드를 사용해 스코어러를 생성합니다.
 
-다음 예시에서는 두 개의 스코어러가 생성됩니다. 첫 번째 스코어러 `Temperature`는 LLM 호출에 대한 체감 온도를 평가하는 데 사용됩니다. 두 번째 스코어러 `Tone`은 LLM 응답의 톤을 평가하는 데 사용됩니다. 각 스코어러는 연결된 객체 ID(`temperature-scorer` 및 `tone-scorer`)와 함께 `save`를 사용해 생성됩니다.
+다음 예시에서는 두 개의 스코어러를 생성합니다. 첫 번째 스코어러 `Temperature`는 LLM 호출의 체감 온도를 스코어링하는 데 사용됩니다. 두 번째 스코어러 `Tone`은 LLM 응답의 톤을 스코어링하는 데 사용됩니다. 각 스코어러는 연결된 객체 ID(`temperature-scorer`와 `tone-scorer`)와 함께 `save`를 사용하여 생성됩니다.
 
 <Tabs>
   <Tab title="Python">
@@ -361,12 +362,12 @@ UI에서 human annotation scorer를 생성하려면 다음을 수행하세요:
 </Tabs>
 
 <div id="modify-a-human-annotation-scorer-using-the-api">
-  ### API를 사용해 휴먼 어노테이션 스코어러 수정하기
+  ### API를 사용하여 사람 주석 스코어러 수정하기
 </div>
 
-앞서 살펴본 [API를 사용해 휴먼 어노테이션 스코어러를 생성](#create-a-human-annotation-scorer-using-the-api)하는 예제를 확장해, 다음 예제에서는 `publish` 시 기존 객체 ID(`temperature-scorer`)를 사용해서 `Temperature` 스코어러의 새 버전을 만듭니다. 이렇게 하면 모든 버전 이력이 포함된 업데이트된 객체가 생성됩니다.
+[API를 사용하여 사람 주석 스코어러를 생성](#create-a-human-annotation-scorer-using-the-api)하는 예시를 확장하여, 다음 예시는 `publish`할 때 원래 객체 ID(`temperature-scorer`)를 사용해 `Temperature` 스코어러의 업데이트된 버전을 생성합니다. 결과로 모든 버전 이력이 포함된 업데이트된 객체가 생성됩니다.
 
-> **Human annotations** 섹션의 **Scorers** 탭에서 휴먼 어노테이션 스코어러 객체의 이력을 확인할 수 있습니다.
+> **Human annotations** 아래 **Scorers** 탭에서 사람 주석 스코어러 객체의 이력을 볼 수 있습니다.
 
 <Tabs>
   <Tab title="Python">
@@ -379,7 +380,7 @@ UI에서 human annotation scorer를 생성하려면 다음을 수행하세요:
     # 스코어러의 새 버전 생성
     spec1 = AnnotationSpec(
       name="Temperature",
-      description="llm 호출에 대한 체감 온도",
+      description="llm 호출의 체감 온도",
       field_schema={
         "type": "integer",  # <<- 타입을 integer로 변경
         "minimum": -1,
@@ -398,14 +399,14 @@ UI에서 human annotation scorer를 생성하려면 다음을 수행하세요:
 </Tabs>
 
 <Frame>
-![휴먼 어노테이션 스코어러 이력](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
+![사람 주석 스코어러 이력](/weave/guides/tracking/imgs/human-annotation-scorer-history.png)
 </Frame>
 
 <div id="use-a-human-annotation-scorer-using-the-api">
-  ### API를 사용해 휴먼 어노테이션 스코어러 활용하기
+  ### API를 사용해 사람 어노테이션 스코어러 사용하기
 </div>
 
-feedback API에서 특별히 구성된 이름과 `annotation_ref` 필드를 지정하면 휴먼 어노테이션 스코어러를 사용할 수 있습니다. `annotation_spec_ref`는 UI에서 해당 탭을 선택해 가져오거나, `AnnotationSpec`을 생성하는 과정에서 얻을 수 있습니다.
+feedback API를 사용하면 특정 형식의 이름과 `annotation_ref` 필드를 지정해 사람 어노테이션 스코어러를 사용할 수 있습니다. UI에서 해당 탭을 선택하거나 `AnnotationSpec`을 생성하는 과정에서 `annotation_spec_ref`를 얻을 수 있습니다.
 
 <Tabs>
   <Tab title="Python">

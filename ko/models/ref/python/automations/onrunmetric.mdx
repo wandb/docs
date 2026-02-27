@@ -11,10 +11,10 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnRunMetric`
 
-실행 메트릭은 사용자 정의 조건을 만족합니다.
+run 메트릭은 사용자 정의 조건을 충족합니다.
 
 예시:
-프로젝트 &quot;my-project&quot;의 모든 실행에서 메트릭 &quot;my-metric&quot;의 마지막 5개 값의 평균이 123.45를 초과할 때 트리거되는 이벤트를 정의합니다:
+프로젝트 &quot;my-project&quot;의 어떤 run에서든 메트릭 &quot;my-metric&quot;의 마지막 5개 값의 평균이 123.45를 초과할 때 트리거되는 이벤트를 정의합니다:
 
 ```python
 from wandb import Api
@@ -30,7 +30,7 @@ event = OnRunMetric(
 ```
 
 
-### <kbd>메서드</kbd> `OnRunMetric.__init__`
+### <kbd>method</kbd> `OnRunMetric.__init__`
 
 ```python
 __init__(
@@ -40,11 +40,11 @@ __init__(
 ) → None
 ```
 
-**매개변수:**
+**인수:**
 
 * `event_type` (Literal[RUN&#95;METRIC&#95;THRESHOLD, RUN&#95;METRIC&#95;CHANGE, RUN&#95;METRIC&#95;ZSCORE]):
-* `scope` (ProjectScope): 이벤트의 범위로, 반드시 프로젝트여야 합니다.
-* `filter` (RunMetricFilter): 이 이벤트가 트리거되기 위해 충족되어야 하는 실행 및/또는 메트릭 조건입니다.
+* `scope` (ProjectScope): 이벤트의 범위입니다. 반드시 프로젝트여야 합니다.
+* `filter` (RunMetricFilter): 이 이벤트가 트리거되기 위해 만족해야 하는 run 및/또는 메트릭 조건입니다.
 
 **반환값:**
 `OnRunMetric` 객체를 반환합니다.

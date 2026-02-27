@@ -1,20 +1,21 @@
 ---
-title: 셀프 매니지드 오브젝트 스토리지 요구 사항
+title: Self Managed Object Storage 요구 사항
 ---
 
-W&amp;B는 프리사인드 URL 및 CORS를 지원하는 오브젝트 스토리지가 필요합니다.
+W&amp;B는 사전 서명된 URL 및 CORS를 지원하는 오브젝트 스토리지를 필요로 합니다.
 
-프로덕션 배포의 경우 W&amp;B는 다음과 같은 매니지드 오브젝트 스토리지 서비스를 사용할 것을 권장합니다:
+**권장 스토리지 제공업체:**
 
-* [Amazon S3](https://aws.amazon.com/s3/): 업계 최고 수준의 확장성, 데이터 가용성, 보안 및 성능을 제공하는 오브젝트 스토리지 서비스입니다.
-* [Google Cloud Storage](https://cloud.google.com/storage): 대규모 비정형 데이터를 저장하기 위한 매니지드 서비스입니다.
-* [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs): 대량의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션입니다.
-* [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage): AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스입니다.
-
-셀프 호스티드 오브젝트 스토리지 옵션에 대해서는 CORS 구성 및 엔터프라이즈 대안을 포함한 자세한 설정 방법을 [베어메탈 가이드의 오브젝트 스토리지 섹션](/ko/platform/hosting/self-managed/bare-metal/#object-storage)에서 확인하세요.
+* [Amazon S3](https://aws.amazon.com/s3/): 업계 최고 수준의 확장성, 데이터 가용성, 보안, 성능을 제공하는 오브젝트 스토리지 서비스.
+* [Google Cloud Storage](https://cloud.google.com/storage): 대규모 비정형 데이터를 저장하기 위한 관리형 서비스.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): 방대한 양의 비정형 데이터를 저장하기 위한 클라우드 기반 오브젝트 스토리지 솔루션.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage): AI 워크로드에 최적화된 고성능 S3 호환 오브젝트 스토리지 서비스.
+* 엔터프라이즈 S3 호환 스토리지: [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) 또는 기타 엔터프라이즈급 솔루션
 
 <Note>
-  MinIO Open Source는 활성 개발 및 사전 컴파일된 바이너리가 없는 [유지보수 모드](https://github.com/minio/minio)에 있습니다. 프로덕션 배포의 경우 W&amp;B는 매니지드 오브젝트 스토리지 서비스 또는 엔터프라이즈급 S3 호환 솔루션을 사용할 것을 권장합니다.
+  MinIO Open Source는 현재 [유지 관리 모드](https://github.com/minio/minio)이며, 활성 개발이 진행되지 않고 사전 컴파일된 바이너리가 제공되지 않습니다. 프로덕션 배포의 경우, W&amp;B는 관리형 오브젝트 스토리지 서비스 또는 MinIO Enterprise (AIStor)와 같은 엔터프라이즈 S3 호환 솔루션 사용을 권장합니다.
 </Note>
 
-전체 요구 사항은 [레퍼런스 아키텍처의 오브젝트 스토리지 섹션](/ko/platform/hosting/self-managed/ref-arch/#object-storage)을 참고하세요.
+IAM 정책, CORS 설정 및 액세스 설정 등을 포함한 버킷 프로비저닝에 대한 자세한 지침은 [Bring Your Own Bucket (BYOB) 가이드](/ko/platform/hosting/data-security/secure-storage-connector)를 참조하세요.
+
+전체 요구 사항은 [reference architecture의 오브젝트 스토리지 섹션](/ko/platform/hosting/self-managed/ref-arch/#object-storage)을 참조하세요.

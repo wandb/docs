@@ -1,39 +1,39 @@
 ---
-description: 데이터 보존 기간(TTL, Time to Live) 정책
-title: Artifact 데이터 보존 기간 관리
+description: Time to live (TTL) 정책
+title: 아티팩트 데이터 보존 기간 관리
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" />
 
-W&amp;B Artifact time-to-live(TTL) 정책을 사용하면 W&amp;B에서 아티팩트가 삭제되는 시점을 예약할 수 있습니다. 아티팩트를 삭제하면, W&amp;B는 해당 아티팩트를 *소프트 삭제(soft-delete)* 상태로 표시합니다. 즉, 아티팩트는 삭제 대상으로 표시되지만 스토리지에서 파일이 즉시 삭제되지는 않습니다. W&amp;B가 아티팩트를 어떻게 삭제하는지에 대한 자세한 내용은 [아티팩트 삭제](./delete-artifacts) 페이지를 참고하세요.
+W&amp;B Artifact time-to-live (TTL) 정책을 사용해서 아티팩트가 W&amp;B에서 언제 삭제될지 일정을 지정할 수 있습니다. 아티팩트를 삭제하면 W&amp;B는 해당 아티팩트를 *소프트 삭제* 상태로 표시합니다. 즉, 아티팩트는 삭제 대상으로 표시되지만 스토리지에서 파일이 즉시 삭제되지는 않습니다. W&amp;B가 아티팩트를 어떻게 삭제하는지에 대한 자세한 내용은 [Delete artifacts](./delete-artifacts) 페이지를 참고하십시오.
 
-W&amp;B App에서 Artifacts TTL을 사용해 데이터 보존을 관리하는 방법을 배우려면 [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) 비디오 튜토리얼을 시청하세요.
+W&amp;B App에서 Artifacts TTL을 사용해 데이터 보존을 관리하는 방법을 알아보려면 [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) 동영상 튜토리얼을 시청하십시오.
 
 <Note>
-  W&amp;B는 Registry에 연결된 아티팩트에 대해 TTL 정책을 설정하는 옵션을 비활성화합니다. 이는 프로덕션 워크플로에서 사용되는 연결된 아티팩트가 실수로 만료되지 않도록 하기 위한 것입니다.
+  W&amp;B는 Registry에 연결된 아티팩트에 대해 TTL 정책을 설정하는 옵션을 비활성화합니다. 이는 프로덕션 워크플로우에서 사용 중인 연결된 아티팩트가 실수로 만료되지 않도록 하기 위한 것입니다.
 </Note>
 
 <Note>
-  * 팀 관리자만 [팀 설정](/ko/platform/app/settings-page/teams)을 확인하고, (1) 누가 TTL 정책을 설정하거나 수정할 수 있는지 정의하거나 (2) 팀 기본 TTL을 설정하는 등 팀 수준 TTL 설정에 접근할 수 있습니다.
-  * W&amp;B App UI에서 아티팩트 상세 정보에 TTL 정책을 설정하거나 수정하는 옵션이 보이지 않거나, 프로그램을 통해 TTL을 설정해도 아티팩트의 TTL 속성이 성공적으로 변경되지 않는다면, 팀 관리자가 해당 권한을 부여하지 않은 것입니다.
+  * Teams 관리자만 [팀 설정](/ko/platform/app/settings-page/teams)을 열람하고 (1) 누가 TTL 정책을 설정하거나 수정할 수 있는지 지정하거나 (2) 팀 기본 TTL을 설정하는 등 팀 수준 TTL 설정에 접근할 수 있습니다.
+  * W&amp;B App UI에서 아티팩트 세부 정보에 TTL 정책을 설정하거나 수정하는 옵션이 보이지 않거나, 프로그래밍 방식으로 TTL을 설정해도 아티팩트의 TTL 속성이 성공적으로 변경되지 않는다면 Teams 관리자가 해당 권한을 부여하지 않은 것입니다.
 </Note>
 
 <div id="auto-generated-artifacts">
-  ## 자동 생성된 Artifact
+  ## Auto-generated Artifacts
 </div>
 
-TTL 정책은 사용자 생성 아티팩트에만 사용할 수 있습니다. W&amp;B에서 자동으로 생성된 Artifact에는 TTL 정책을 설정할 수 없습니다.
+사용자가 생성한 아티팩트에만 TTL 정책을 적용할 수 있습니다. W&amp;B에서 자동으로 생성된 아티팩트에는 TTL 정책을 설정할 수 없습니다.
 
-다음 Artifact 유형은 자동 생성된 Artifact를 의미합니다:
+다음 Artifact 타입은 자동 생성된 Artifact임을 나타냅니다:
 
 * `run_table`
 * `code`
 * `job`
-* `wandb-*`로 시작하는 모든 Artifact 유형
+* `wandb-*`로 시작하는 모든 Artifact 타입
 
-[W&amp;B 플랫폼](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/) 또는 프로그래밍 방식으로 Artifact의 유형을 확인할 수 있습니다:
+[W&amp;B 플랫폼](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/) 또는 프로그래밍 방식으로 Artifact의 타입을 확인할 수 있습니다:
 
 ```python
 import wandb
@@ -43,53 +43,53 @@ with wandb.init(project="<my-project-name>") as run:
     print(artifact.type)
 ```
 
-`<>`로 둘러싸인 값을 자신의 값으로 바꾸세요.
+`<>`로 둘러싸인 부분을 여러분 환경에 맞는 값으로 바꾸십시오.
 
 <div id="define-who-can-edit-and-set-ttl-policies">
-  ## TTL 정책을 설정하고 수정할 수 있는 대상 정의
+  ## TTL 정책을 설정·편집할 수 있는 대상 정의하기
 </div>
 
-팀 내에서 누가 TTL 정책을 설정하고 수정할 수 있는지 정의합니다. TTL 권한을 팀 관리자에게만 부여하거나, 팀 관리자와 팀 구성원 모두에게 부여할 수 있습니다.
+팀 내에서 누가 TTL 정책을 설정하고 편집할 수 있는지 정의합니다. TTL 권한을 팀 관리자에게만 부여하거나, 팀 관리자와 팀 구성원 모두에게 TTL 권한을 부여할 수 있습니다.
 
 <Note>
-  TTL 정책을 설정하거나 수정할 수 있는 대상을 정의할 수 있는 사람은 팀 관리자뿐입니다.
+  TTL 정책을 누가 설정하거나 편집할 수 있는지 정의할 수 있는 사람은 팀 관리자뿐입니다.
 </Note>
 
 1. 팀 프로필 페이지로 이동합니다.
 2. **Settings** 탭을 선택합니다.
-3. **Artifacts time-to-live (TTL)** 섹션으로 이동합니다.
-4. **TTL permissions** 드롭다운에서 TTL 정책을 설정하고 수정할 수 있는 대상을 선택합니다.
+3. **Artifacts time-to-live (TTL) section**으로 이동합니다.
+4. **TTL permissions dropdown**에서 TTL 정책을 설정하고 편집할 수 있는 대상을 선택합니다.
 5. **Review and save settings**를 클릭합니다.
 6. 변경 사항을 확인한 후 **Save settings**를 선택합니다.
 
 <Frame>
-  <img src="/images/artifacts/define_who_sets_ttl.gif" alt="TTL 권한 설정" />
+  <img src="/images/artifacts/define_who_sets_ttl.gif" alt="Setting TTL permissions" />
 </Frame>
 
 <div id="create-a-ttl-policy">
   ## TTL 정책 생성
 </div>
 
-Artifact에 대한 TTL 정책은 Artifact를 생성할 때 설정하거나, Artifact가 생성된 이후에 소급해서 설정할 수 있습니다.
+아티팩트를 생성할 때나 생성된 이후에 TTL 정책을 설정할 수 있습니다.
 
-아래의 모든 코드 스니펫에서 `<>`로 둘러싸인 내용을 사용자 환경에 맞는 값으로 바꿔서 사용하세요.
+아래 모든 코드 스니펫에서 `<>`로 감싸진 내용을 사용자 정보에 맞게 바꾼 뒤 코드 스니펫을 사용하십시오.
 
 <div id="set-a-ttl-policy-when-you-create-an-artifact">
   ### 아티팩트를 생성할 때 TTL 정책 설정하기
 </div>
 
-W&amp;B Python SDK를 사용해서 아티팩트를 생성할 때 TTL 정책을 정의할 수 있습니다. TTL 정책은 일반적으로 일 단위로 정의합니다.
+W&amp;B Python SDK를 사용해서 아티팩트를 생성할 때 TTL 정책을 정의할 수 있습니다. TTL 정책은 보통 일(day) 단위로 정의합니다.
 
 <Note>
-  아티팩트를 생성할 때 TTL 정책을 정의하는 방식은 일반적으로 [아티팩트를 생성](/ko/models/artifacts/construct-an-artifact/)하는 과정과 유사합니다. 차이점은 아티팩트의 `ttl` 속성에 time delta 값을 전달한다는 점입니다.
+  아티팩트를 생성할 때 TTL 정책을 정의하는 과정은 일반적으로 [아티팩트를 생성](/ko/models/artifacts/construct-an-artifact/)하는 방법과 유사합니다. 차이점은 아티팩트의 `ttl` 속성에 시간 간격(time delta)을 전달한다는 점입니다.
 </Note>
 
-단계는 다음과 같습니다:
+단계는 다음과 같습니다.
 
 1. [아티팩트를 생성](/ko/models/artifacts/construct-an-artifact/)합니다.
-2. 파일, 디렉터리 또는 참조(reference)와 같은 [콘텐츠를 아티팩트에 추가](/ko/models/artifacts/construct-an-artifact/#add-files-to-an-artifact)합니다.
-3. Python 표준 라이브러리의 일부인 [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) 데이터 타입으로 TTL 시간 제한을 정의합니다.
-4. [아티팩트를 로그합니다](/ko/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server).
+2. 파일, 디렉터리, 참조와 같은 [콘텐츠를 아티팩트에 추가](/ko/models/artifacts/construct-an-artifact/#add-files-to-an-artifact)합니다.
+3. Python 표준 라이브러리의 일부인 [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) 데이터 타입으로 TTL 제한 시간을 정의합니다.
+4. [아티팩트를 로그로 기록합니다](/ko/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server).
 
 다음 코드 스니펫은 아티팩트를 생성하고 TTL 정책을 설정하는 방법을 보여줍니다.
 
@@ -105,25 +105,25 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
     run.log_artifact(artifact)
 ```
 
-앞선 코드 스니펫은 아티팩트의 TTL 정책을 30일로 설정합니다. 다시 말해, W&amp;B는 30일 후에 아티팩트를 삭제합니다.
+앞의 코드 스니펫은 아티팩트의 TTL 정책을 30일로 설정합니다. 즉, 30일 후에 W&amp;B는 해당 아티팩트를 삭제합니다.
 
 <div id="set-or-edit-a-ttl-policy-after-you-create-an-artifact">
-  ### 아티팩트를 생성한 후 TTL 정책 설정 또는 수정
+  ### 아티팩트를 생성한 후 TTL 정책 설정 또는 수정하기
 </div>
 
-이미 존재하는 아티팩트에 대해 TTL 정책을 정의하려면 W&amp;B App UI 또는 W&amp;B Python SDK를 사용하세요.
+이미 존재하는 아티팩트에 대해 TTL 정책을 정의하려면 W&amp;B App UI 또는 W&amp;B Python SDK를 사용합니다.
 
 <Note>
-  아티팩트의 TTL을 수정하더라도 만료까지의 시간은 여전히 아티팩트의 `createdAt` 타임스탬프를 기준으로 계산됩니다.
+  아티팩트의 TTL을 수정해도, 아티팩트가 만료되는 시간은 여전히 아티팩트의 `createdAt` 타임스탬프를 기준으로 계산됩니다.
 </Note>
 
 <Tabs>
   <Tab title="Python SDK">
     1. [아티팩트를 가져옵니다](/ko/models/artifacts/download-and-use-an-artifact/).
-    2. 시간 간격을 아티팩트의 `ttl` 속성에 전달합니다.
+    2. 아티팩트의 `ttl` 속성에 time delta(시간 간격)를 전달합니다.
     3. [`save`](/ko/models/ref/python/experiments/run#save) 메서드로 아티팩트를 업데이트합니다.
 
-    다음 코드 스니펫은 아티팩트에 TTL 정책을 설정하는 방법을 보여줍니다:
+    다음 코드 예시는 아티팩트에 TTL 정책을 설정하는 방법을 보여줍니다:
 
     ```python
     import wandb
@@ -139,17 +139,17 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
 
   <Tab title="W&B App">
     1. W&amp;B App UI에서 W&amp;B 프로젝트로 이동합니다.
-    2. 왼쪽 패널에서 아티팩트 아이콘을 선택합니다.
-    3. 아티팩트 목록에서 원하는 아티팩트 타입을 펼칩니다.
+    2. 프로젝트 사이드바에서 아티팩트 아이콘을 선택합니다.
+    3. 아티팩트 목록에서 확장하려는 아티팩트 타입을 선택합니다.
     4. TTL 정책을 편집하려는 아티팩트 버전을 선택합니다.
     5. **Version** 탭을 클릭합니다.
     6. 드롭다운에서 **Edit TTL policy**를 선택합니다.
-    7. 나타나는 모달에서 TTL 정책 드롭다운에서 **Custom**을 선택합니다.
-    8. **TTL duration** 필드에서 TTL 정책을 일(day) 단위로 설정합니다.
+    7. 표시되는 모달에서 TTL 정책 드롭다운에서 **Custom**을 선택합니다.
+    8. **TTL duration** 필드에서 TTL 정책을 일 단위로 설정합니다.
     9. 변경 사항을 저장하려면 **Update TTL** 버튼을 클릭합니다.
 
     <Frame>
-      <img src="/images/artifacts/edit_ttl_ui.gif" alt="TTL 정책 편집" />
+      <img src="/images/artifacts/edit_ttl_ui.gif" alt="TTL 정책 편집하기" />
     </Frame>
   </Tab>
 </Tabs>
@@ -159,14 +159,14 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
 </div>
 
 <Note>
-  팀 관리자만 팀의 기본 TTL 정책을 설정할 수 있습니다.
+  팀의 기본 TTL 정책은 팀 관리자만 설정할 수 있습니다.
 </Note>
 
-팀에 대한 기본 TTL 정책을 설정합니다. 기본 TTL 정책은 각 아티팩트의 생성 날짜를 기준으로 모든 기존 및 향후 아티팩트에 적용됩니다. 버전 단위 TTL 정책이 이미 설정된 아티팩트는 팀의 기본 TTL의 영향을 받지 않습니다.
+팀에 대한 기본 TTL 정책을 설정합니다. 기본 TTL 정책은 생성 일자를 기준으로 모든 기존 아티팩트와 앞으로 생성될 아티팩트에 적용됩니다. 버전 수준 TTL 정책이 이미 설정된 아티팩트는 팀의 기본 TTL 정책의 영향을 받지 않습니다.
 
 1. 팀 프로필 페이지로 이동합니다.
 2. **Settings** 탭을 선택합니다.
-3. **Artifacts time-to-live (TTL)** 섹션으로 이동합니다.
+3. **Artifacts time-to-live (TTL) section**으로 이동합니다.
 4. **Set team&#39;s default TTL policy**를 클릭합니다.
 5. **Duration** 필드에서 TTL 정책을 일 단위로 설정합니다.
 6. **Review and save settings**를 클릭합니다.
@@ -177,12 +177,12 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
 </Frame>
 
 <div id="set-a-ttl-policy-outside-of-a-run">
-  ### 실행 외부에서 TTL 정책 설정
+  ### run과 별개로 TTL 정책 설정하기
 </div>
 
-퍼블릭 API를 사용해 실행을 가져오지 않고 Artifact를 조회한 뒤 TTL 정책을 설정할 수 있습니다. TTL 정책은 보통 일 단위로 설정합니다.
+public API를 사용해 run을 불러오지 않고 아티팩트를 직접 가져온 뒤, TTL 정책을 설정할 수 있습니다. TTL 정책은 일반적으로 일 단위로 정의됩니다.
 
-다음 코드 예제는 퍼블릭 API를 사용해 Artifact를 조회하고 TTL 정책을 설정하는 방법을 보여줍니다.
+다음 코드 예제는 public API를 사용해 아티팩트를 가져와 TTL 정책을 설정하는 방법을 보여줍니다.
 
 ```python
 api = wandb.Api()
@@ -198,19 +198,19 @@ artifact.save()
   ## TTL 정책 비활성화
 </div>
 
-특정 아티팩트 버전에 대한 TTL 정책을 비활성화하려면 W&amp;B Python SDK 또는 W&amp;B App UI를 사용하십시오.
+특정 아티팩트 버전에 대한 TTL 정책을 비활성화하려면 W&amp;B Python SDK나 W&amp;B App UI를 사용하세요.
 
 {/* <Note>
-  TTL이 비활성화된 아티팩트는 아티팩트 컬렉션의 TTL을 상속하지 않습니다. 아티팩트의 TTL을 제거하고 컬렉션 수준 TTL을 상속하도록 설정하는 방법은 (## Inherit TTL Policy)를 참조하세요.
+  TTL이 비활성화된 Artifacts는 아티팩트 컬렉션의 TTL을 상속하지 않습니다. 아티팩트 TTL을 삭제하고 컬렉션 수준 TTL을 상속하도록 설정하는 방법은 (## Inherit TTL Policy)를 참고하세요.
   </Note> */}
 
 <Tabs>
   <Tab title="Python SDK">
-    1. [아티팩트를 가져옵니다](/ko/models/artifacts/download-and-use-an-artifact/).
+    1. [아티팩트 가져오기](/ko/models/artifacts/download-and-use-an-artifact/).
     2. 아티팩트의 `ttl` 속성을 `None`으로 설정합니다.
     3. [`save`](/ko/models/ref/python/experiments/run#save) 메서드를 사용해 아티팩트를 업데이트합니다.
 
-    다음 코드 스니펫은 아티팩트에 대한 TTL 정책을 비활성화하는 방법을 보여줍니다.
+    다음 코드 스니펫은 아티팩트에 설정된 TTL 정책을 해제하는 방법을 보여줍니다:
 
     ```python
     artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
@@ -219,15 +219,15 @@ artifact.save()
     ```
   </Tab>
 
-  <Tab title="W&B 앱">
-    1. W&amp;B 앱 UI에서 자신의 W&amp;B 프로젝트로 이동합니다.
-    2. 왼쪽 패널에서 아티팩트 아이콘을 선택합니다.
-    3. 아티팩트 목록에서 원하는 아티팩트 유형을 확장합니다.
+  <Tab title="W&B App">
+    1. W&amp;B App UI에서 사용 중인 W&amp;B 프로젝트로 이동합니다.
+    2. 프로젝트 사이드바에서 아티팩트 아이콘을 선택합니다.
+    3. 아티팩트 목록에서 확장하려는 아티팩트 타입을 펼칩니다.
     4. TTL 정책을 수정하려는 아티팩트 버전을 선택합니다.
-    5. **Version** 탭을 클릭합니다.
-    6. **Link to registry** 버튼 옆에 있는 미트볼(점 세 개) UI 아이콘을 클릭합니다.
-    7. 드롭다운 메뉴에서 **Edit TTL policy** 를 선택합니다.
-    8. 나타나는 모달 창의 TTL policy 드롭다운에서 **Deactivate** 를 선택합니다.
+    5. Version 탭을 클릭합니다.
+    6. **Link to registry** 버튼 옆의 미트볼 UI 아이콘(점 세 개 아이콘)을 클릭합니다.
+    7. 드롭다운에서 **Edit TTL policy**를 선택합니다.
+    8. 표시되는 모달 창에서 TTL 정책 드롭다운에서 **Deactivate**를 선택합니다.
     9. 변경 사항을 저장하려면 **Update TTL** 버튼을 클릭합니다.
 
     <Frame>
@@ -240,11 +240,11 @@ artifact.save()
   ## TTL 정책 보기
 </div>
 
-Python SDK 또는 W&amp;B App UI를 사용하여 아티팩트의 TTL 정책을 확인할 수 있습니다.
+Python SDK 또는 W&amp;B App UI를 사용해 아티팩트의 TTL 정책을 확인할 수 있습니다.
 
 <Tabs>
   <Tab title="Python SDK">
-    print 문을 사용하여 아티팩트의 TTL 정책을 확인할 수 있습니다. 다음 예시는 아티팩트를 가져와 해당 아티팩트의 TTL 정책을 확인하는 방법을 보여줍니다:
+    `print` 문을 사용해 아티팩트의 TTL 정책을 확인할 수 있습니다. 다음 예시는 아티팩트를 가져와 해당 TTL 정책을 출력하는 방법을 보여줍니다:
 
     ```python
     artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
@@ -253,17 +253,17 @@ Python SDK 또는 W&amp;B App UI를 사용하여 아티팩트의 TTL 정책을 �
   </Tab>
 
   <Tab title="W&B App">
-    W&amp;B App UI에서 아티팩트의 TTL 정책을 확인할 수 있습니다.
+    W&amp;B App UI에서 아티팩트의 TTL 정책을 확인하려면 다음 단계를 따르세요.
 
     1. [W&amp;B App](https://wandb.ai)으로 이동합니다.
-    2. 자신의 W&amp;B 프로젝트로 이동합니다.
-    3. 프로젝트 내 왼쪽 사이드바에서 Artifacts 탭을 선택합니다.
+    2. W&amp;B Project로 이동합니다.
+    3. 프로젝트 내에서 프로젝트 사이드바에서 Artifacts 탭을 선택합니다.
     4. 컬렉션을 클릭합니다.
 
-    컬렉션 화면에서는 선택한 컬렉션에 포함된 모든 아티팩트를 볼 수 있습니다. `Time to Live` 열에서 해당 아티팩트에 할당된 TTL 정책을 확인할 수 있습니다.
+    컬렉션 보기에서는 선택한 컬렉션에 포함된 모든 아티팩트를 볼 수 있습니다. `Time to Live` 열에서 해당 아티팩트에 할당된 TTL 정책을 확인할 수 있습니다.
 
     <Frame>
-      <img src="/images/artifacts/ttl_collection_panel_ui.png" alt="TTL collection view" />
+      <img src="/images/artifacts/ttl_collection_panel_ui.png" alt="TTL 컬렉션 보기" />
     </Frame>
   </Tab>
 </Tabs>

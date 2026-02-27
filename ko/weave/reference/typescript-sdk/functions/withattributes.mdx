@@ -9,10 +9,10 @@ description: "TypeScript SDK 레퍼런스"
 
 ▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
 
-현재 실행 컨텍스트에 속성을 연결해서, `fn` 내부에서 생성되는 모든 호출이
-자동으로 이 속성들을 상속받도록 합니다. 속성은 트레이스 서버의 호출
-레코드에 기록되며 Weave UI/필터링에 표시되므로, 요청 ID, 테넌트, 실험 등으로
-실행을 태깅하는 데 적합합니다.
+현재 실행 컨텍스트에 attributes를 연결하여, `fn` 내부에서 생성되는 모든 호출이
+자동으로 해당 attributes를 상속받도록 합니다. Attributes는 trace 서버의 call
+record에 기록되고 Weave UI/필터링에 노출되므로, 요청 ID, 테넌트, 실험 등으로
+runs를 태깅하는 데 이상적입니다.
 
 예시:
 

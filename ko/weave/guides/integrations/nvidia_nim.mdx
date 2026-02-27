@@ -1,25 +1,25 @@
 ---
 title: "NVIDIA NIM"
-description: "ChatNVIDIA 라이브러리를 통해 이루어지는 LLM 호출을 Weave로 트레이싱하고 로깅하기"
+description: "Weave를 사용하여 ChatNVIDIA 라이브러리를 통해 수행된 LLM 호출을 추적하고 로깅하기"
 ---
 
-Weave는 `weave.init()`이 호출된 후 [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) 라이브러리를 통해 이루어지는 LLM 호출을 자동으로 추적하고 로깅합니다.
+Weave는 `weave.init()`이 호출된 이후부터 [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) 라이브러리를 통해 수행된 LLM 호출을 자동으로 추적하고 로깅합니다.
 
 <Tip>
-  최신 튜토리얼은 [Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia) 페이지를 방문하세요.
+  최신 튜토리얼은 [Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia)에서 확인하세요.
 </Tip>
 
 <div id="tracing">
   ## 트레이싱
 </div>
 
-LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에서 중앙 데이터베이스에 저장하는 것은 중요합니다. 이렇게 저장한 트레이스는 디버깅에 활용하고, 애플리케이션을 개선해 나가면서 평가에 사용할 까다로운 예시들로 이루어진 데이터셋을 구축하는 데에도 사용합니다.
+LLM 애플리케이션의 트레이스를 개발 중과 프로덕션 환경 모두에서 중앙 데이터베이스에 저장하는 것은 중요합니다. 이러한 트레이스는 디버깅에 활용하고, 애플리케이션을 개선하는 과정에서 평가용 까다로운 예제들로 구성된 데이터셋을 구축하는 데 사용합니다.
 
 <Tabs>
   <Tab title="Python">
-    Weave는 [ChatNVIDIA Python 라이브러리](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/)의 트레이스를 자동으로 캡처할 수 있습니다.
+    Weave는 [ChatNVIDIA Python 라이브러리](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/)의 트레이스를 자동으로 수집할 수 있습니다.
 
-    `weave.init(<project-name>)`를 호출해서 원하는 프로젝트 이름으로 캡처를 시작하세요.
+    원하는 프로젝트 이름을 넣어 `weave.init(<project-name>)`를 호출해 캡처를 시작합니다.
 
     ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
@@ -39,7 +39,7 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 
   <Tab title="TypeScript">
     ```plaintext
-    이 라이브러리가 Python에만 제공되므로, 이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
+    이 라이브러리는 Python 전용이기 때문에 이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
@@ -49,16 +49,16 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 </Frame>
 
 <div id="track-your-own-ops">
-  ## 직접 op 추적하기
+  ## 나만의 op 추적하기
 </div>
 
 <Tabs>
   <Tab title="Python">
-    `@weave.op`으로 함수를 감싸면 입력, 출력, 애플리케이션 로직이 캡처되기 시작하므로, 앱 안에서 데이터가 어떻게 흐르는지 디버깅할 수 있습니다. op를 깊게 중첩해서 추적하고 싶은 함수 트리를 만들 수 있습니다. 또한 git에 커밋되지 않은 임시적인 실험 내용까지 캡처할 수 있도록, 실험하는 동안 코드가 자동으로 버전 관리됩니다.
+    `@weave.op`으로 함수를 래핑하면 입력, 출력, 앱 로직을 모두 캡처하기 시작하므로, 데이터가 앱을 통해 어떻게 흐르는지 디버깅할 수 있습니다. op를 깊게 중첩해서 추적하고 싶은 함수들의 트리를 만들 수 있습니다. 또한 실험하는 동안 git에 커밋되지 않은 즉흥적인 변경 사항까지 캡처할 수 있도록 코드를 자동으로 버전 관리하기 시작합니다.
 
-    [`@weave.op`](/ko/weave/guides/tracking/ops) 데코레이터를 사용한 함수를 하나 정의하고, 그 안에서 [ChatNVIDIA Python 라이브러리](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/)를 호출합니다.
+    [ChatNVIDIA Python 라이브러리](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/)를 호출하는 [`@weave.op`](/ko/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 하나 만들면 됩니다.
 
-    아래 예제에서는 op로 감싼 함수가 2개 있습니다. 이렇게 하면 RAG 앱의 retrieval 단계처럼 중간 단계가 앱 동작에 어떤 영향을 미치는지 확인할 수 있습니다.
+    아래 예시에서는 op로 래핑된 함수가 2개 있습니다. 이를 통해 RAG 앱의 검색 단계 같은 중간 단계가 앱 동작에 어떤 영향을 주는지 확인할 수 있습니다.
 
     ```python lines {1,9,11,29,31,33}
     import weave
@@ -71,7 +71,7 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 
     @weave.op
     def get_pokemon_data(pokemon_name):
-        # RAG 앱 안의 retrieval 단계처럼, 애플리케이션 내부의 한 단계입니다.
+        # 이것은 RAG 앱의 검색 단계처럼, 애플리케이션 내의 한 단계입니다
         url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
         response = requests.get(url)
         if response.status_code == 200:
@@ -91,7 +91,7 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 
     @weave.op
     def pokedex(name: str, prompt: str) -> str:
-        # 다른 op를 호출하는 루트 op입니다.
+        # 이것은 다른 op들을 호출하는 루트 op입니다
         data = get_pokemon_data(name)
         if not data: return "Error: Unable to fetch data"
 
@@ -104,16 +104,16 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
         return response.content
 
     weave.init('pokedex-nvidia')
-    # 특정 포켓몬에 대한 데이터를 가져옵니다.
+    # 특정 포켓몬에 대한 데이터를 가져옵니다
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
 
-    Weave로 이동해서 UI에서 `get_pokemon_data`를 클릭하면, 해당 단계의 입력과 출력을 확인할 수 있습니다.
+    Weave로 이동해서 UI에서 `get_pokemon_data`를 클릭하면 해당 단계의 입력과 출력을 확인할 수 있습니다.
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    이 라이브러리가 Python 전용이므로, 이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
+    이 기능은 현재 이 라이브러리가 Python에만 있기 때문에 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
@@ -123,16 +123,16 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 </Frame>
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 더 쉽게 실험하기 위한 `Model` 생성
+  ## 더 쉬운 실험을 위한 `Model` 생성
 </div>
 
 <Tabs>
   <Tab title="Python">
-    구성 요소가 많을수록 실험을 체계적으로 관리하기가 어렵습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 구성할 수 있습니다. 이를 통해 앱의 서로 다른 버전을 정리하고 비교할 수 있습니다.
+    많은 요소가 얽혀 있을 때 실험을 체계적으로 구성하기는 어렵습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 정리할 수 있습니다. 이를 통해 앱의 다양한 반복 버전을 체계적으로 관리하고 서로 비교할 수 있습니다.
 
-    코드 버전 관리 및 입력/출력 캡처에 더해 [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터를 캡처하므로, 어떤 파라미터 조합이 가장 잘 동작했는지 쉽게 찾을 수 있습니다. 또한 Weave `Model`을 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
+    코드 버전 관리와 입력/출력 캡처에 더해, [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터를 캡처하여 어떤 파라미터 조합이 가장 잘 동작했는지 쉽게 찾을 수 있게 해 줍니다. 또한 Weave Models를 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
 
-    아래 예제에서는 `model`과 `system_message`를 바꿔 보며 실험할 수 있습니다. 둘 중 하나를 변경할 때마다 `GrammarCorrectorModel`의 새로운 &#95;버전&#95;이 생성됩니다.
+    아래 예제에서는 `model`과 `system_message`를 바꿔가며 실험할 수 있습니다. 이들 중 하나를 변경할 때마다 `GrammarCorrectorModel`의 새로운 &#95;버전&#95;이 생성됩니다.
 
     ```python lines
     import weave
@@ -170,7 +170,7 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 현재 이 라이브러리가 Python에서만 제공되기 때문에 TypeScript에서는 사용할 수 없습니다.
+    이 라이브러리가 Python 전용이므로, 이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
@@ -180,8 +180,8 @@ LLM 애플리케이션의 트레이스를 개발 중과 운영 환경 모두에�
 </Frame>
 
 <div id="usage-info">
-  ## 사용 안내
+  ## 사용 정보
 </div>
 
-ChatNVIDIA 통합은 `invoke`, `stream` 및 해당 비동기(Async) 버전을 지원합니다. 또한 툴 사용도 지원합니다.
-ChatNVIDIA는 다양한 유형의 모델과 함께 사용되도록 설계되었기 때문에 함수 호출(function calling) 기능은 지원하지 않습니다.
+ChatNVIDIA 인테그레이션은 `invoke`, `stream` 및 각각의 비동기 버전을 지원합니다. 또한 도구 사용도 지원합니다.
+ChatNVIDIA는 다양한 유형의 모델과 함께 사용하도록 설계되었기 때문에, 함수 호출은 지원하지 않습니다.

@@ -1,25 +1,25 @@
 ---
-title: "트레이싱 기초"
-description: "Weave 트레이싱으로 AI 애플리케이션 실행을 추적하고 모니터링하세요"
+title: "Tracing 기초"
+description: "Weave tracing을 사용해 AI 애플리케이션의 실행을 추적하고 모니터링하기"
 ---
 
 <Frame>
-  ![Weave 호출 스크린샷](/images/screenshots/calls_macro.png)
+  ![Weave Calls 스크린샷](/images/screenshots/calls_macro.png)
 </Frame>
 
 <Frame>
-  ![Weave 호출 스크린샷](/images/screenshots/basic_call.png)
+  ![Weave Calls 스크린샷](/images/screenshots/basic_call.png)
 </Frame>
 
 <Frame>
-  ![Weave 호출 스크린샷](/images/screenshots/calls_filter.png)
+  ![Weave Calls 스크린샷](/images/screenshots/calls_filter.png)
 </Frame>
 
 <div id="ops">
   ## Ops
 </div>
 
-**Op**는 버전 관리되고 추적되는 함수입니다. 함수에 `@weave.op()`(Python) 데코레이터를 적용하거나 `weave.op()`(TypeScript)로 래핑하면 Weave가 해당 함수의 코드, 입력값, 출력값, 실행 메타데이터를 자동으로 기록합니다. Op는 tracing, Evaluation scorer, 그리고 추적되는 모든 계산의 기본 구성 요소입니다.
+**Op**는 버전 관리되고 추적되는 함수입니다. 함수에 `@weave.op()`(Python) 데코레이터를 사용하거나 `weave.op()`(TypeScript)로 래핑하면, Weave가 해당 함수의 코드, 입력, 출력, 실행 메타데이터를 자동으로 캡처합니다. Op는 트레이싱, 평가 스코어러, 그리고 추적되는 모든 계산의 기본 빌딩 블록입니다.
 
 <CodeGroup>
   ```python Python
@@ -41,26 +41,26 @@ description: "Weave 트레이싱으로 AI 애플리케이션 실행을 추적하
   ## Calls
 </div>
 
-**Call**은 Op의 실행이 기록된 단위입니다. Op가 실행될 때마다 Weave는 다음 정보를 캡처하는 Call을 생성합니다:
+**Call**은 Op 실행이 로그로 기록된 것입니다. Op가 실행될 때마다 Weave는 다음 내용을 캡처하는 Call을 생성합니다:
 
 * 입력 인자
 * 출력 값
 * 실행 시간과 지연 시간
-* 부모-자식 관계(중첩된 Call의 경우)
+* (중첩 호출의 경우) 부모-자식 관계
 * 발생한 모든 오류
 
-Call은 Weave 추적 시스템의 중추를 이루며 디버깅, 분석, 평가를 위한 데이터를 제공합니다.
+Call은 Weave의 트레이싱 시스템의 핵심을 이루며 디버깅, 분석, 평가를 위한 데이터를 제공합니다.
 
-Call은 [OpenTelemetry](https://opentelemetry.io) 데이터 모델의 span과 유사합니다. Call은 다음을 할 수 있습니다:
+Call은 [OpenTelemetry](https://opentelemetry.io) 데이터 모델의 span과 유사합니다. 하나의 Call은 다음과 같은 특성을 가질 수 있습니다:
 
-* Trace(동일한 실행 컨텍스트 내 Call들의 집합)에 속할 수 있습니다
-* 부모 및 자식 Call을 두어 트리 구조를 이룰 수 있습니다
+* Trace(동일한 실행 컨텍스트 내 호출들의 집합)에 속할 수 있습니다
+* 부모 및 자식 Call을 가질 수 있어 트리 구조를 이룹니다
 
 <div id="creating-calls">
-  ## Call 생성하기
+  ## Calls 만들기
 </div>
 
-Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
+Weave에서 Calls를 만드는 방법은 세 가지가 있습니다:
 
 <div id="1-automatic-tracking-of-llm-libraries">
   ### 1. LLM 라이브러리 자동 추적
@@ -68,7 +68,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
 
 <Tabs>
   <Tab title="Python">
-    Weave는 `openai`, `anthropic`, `cohere`, `mistral`과 같은 [주요 LLM 라이브러리에 대한 호출](/ko/weave/guides/integrations)을 자동으로 추적합니다. 프로그램 시작 시 [`weave.init('project_name')`](/ko/weave/reference/python-sdk#function-init)를 한 번만 호출하면 됩니다:
+    Weave는 `openai`, `anthropic`, `cohere`, `mistral` 같은 [대표적인 LLM 라이브러리에 대한 호출을 자동으로 추적](/ko/weave/guides/integrations)합니다. 프로그램 시작 시 [`weave.init('project_name')`](/ko/weave/reference/python-sdk#function-init)를 호출하기만 하면 됩니다:
 
     <Tip>
       Weave의 기본 추적 동작은 [`weave.init`의 `autopatch_settings` 인자](#configure-autopatching)를 사용해 제어할 수 있습니다.
@@ -80,7 +80,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
     from openai import OpenAI
     client = OpenAI()
 
-    # Weave Tracing 초기화
+    # Initialize Weave Tracing
     weave.init('intro-example')
 
     response = client.chat.completions.create(
@@ -99,7 +99,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
   </Tab>
 
   <Tab title="TypeScript">
-    Weave는 `openai`와 같은 [주요 LLM 라이브러리에 대한 호출](/ko/weave/guides/integrations)을 자동으로 추적합니다.
+    Weave는 `openai`와 같은 [대표적인 LLM 라이브러리에 대한 호출을 자동으로 추적](/ko/weave/guides/integrations)합니다.
 
     ```typescript lines
     import OpenAI from 'openai'
@@ -107,7 +107,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
 
     const client = new OpenAI()
 
-    // Weave Tracing 초기화
+    // Initialize Weave Tracing
     await weave.init('intro-example')
 
     const response = await client.chat.completions.create({
@@ -124,21 +124,21 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
     });
     ```
 
-    JS / TS 프로젝트에 대한 전체 설정 가이드는 [TypeScript SDK: 서드파티 통합 가이드](/ko/weave/guides/integrations/js)를 참고하세요.
+    JS / TS 프로젝트에 대한 전체 설정 가이드는 [TypeScript SDK: Third-Party Integration Guide](/ko/weave/guides/integrations/js)를 참조하세요.
   </Tab>
 </Tabs>
 
-호출 이후의 메트릭이나 기타 값을 Call의 `summary` 딕셔너리에 저장할 수 있습니다. 실행 중에 `call.summary`를 수정하면, 추가한 모든 값은 호출이 완료될 때 Weave에서 계산한 summary 데이터와 병합됩니다.
+Call 객체의 `summary` 사전에 메트릭이나 기타 호출 이후에 생성된 값을 저장할 수 있습니다. 실행 중에 `call.summary`를 수정하면, 호출이 완료될 때 추가한 값이 Weave가 계산한 요약 데이터와 병합됩니다.
 
 <div id="2-decorating-and-wrapping-functions">
-  ### 2. 함수 데코레이팅 및 래핑
+  ### 2. 함수 데코레이션 및 래핑
 </div>
 
-하지만 LLM 애플리케이션에는 추적하고 싶은 추가 로직(전/후처리, 프롬프트 등)이 포함되는 경우가 많습니다.
+하지만 LLM 애플리케이션에는 종종 추적하고 싶은 추가 로직(전/후처리, 프롬프트 등)이 포함되는 경우가 많습니다.
 
 <Tabs>
   <Tab title="Python">
-    Weave는 [`@weave.op`](/ko/weave/reference/python-sdk/#function-op) 데코레이터를 사용해 이러한 호출을 수동으로 추적할 수 있게 해줍니다. 예를 들어:
+    Weave에서는 [`@weave.op`](/ko/weave/reference/python-sdk/#function-op) 데코레이터를 사용해 이러한 호출을 수동으로 추적할 수 있습니다. 예를 들면 다음과 같습니다:
 
     ```python lines lines
     import weave
@@ -151,19 +151,19 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
     def my_function(name: str):
         return f"Hello, {name}!"
 
-    # 함수를 호출하면 Weave가 자동으로 입력과 출력을 추적합니다.
+    # 함수를 호출하면 Weave가 입력과 출력을 자동으로 추적합니다
     print(my_function("World"))
     ```
 
     [클래스의 메서드](#4-track-class-and-object-methods)도 추적할 수 있습니다.
 
-    #### 동기 &amp; 비동기 generator 함수 트레이스하기
+    #### 동기 및 비동기 제너레이터 함수 추적
 
-    Weave는 깊게 중첩된 패턴을 포함해 동기 및 비동기 generator 함수를 모두 트레이싱하는 것을 지원합니다.
+    Weave는 동기 및 비동기 제너레이터 함수 모두에 대해, 깊게 중첩된 패턴까지 트레이싱을 지원합니다.
 
     <Warning>
-      generator는 값을 지연 평가(lazy) 방식으로 `yield`하기 때문에, generator가 완전히 소비될 때만 출력이 로깅됩니다(예: 리스트로 변환).
-      출력이 트레이스에 캡처되도록 하려면, generator를 완전히 소비해야 합니다(예: `list()`를 사용).
+      제너레이터는 값을 지연 평가(lazy) 방식으로 생성하므로, 제너레이터가 완전히 소비될 때만 출력이 로깅됩니다(예: 리스트로 변환하는 경우).
+      트레이스에 출력이 모두 포함되도록 하려면 제너레이터를 완전히 소비해야 합니다(예: `list()`를 사용).
     </Warning>
 
     ```python lines lines
@@ -172,28 +172,28 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
 
     weave.init("my-project")
 
-    # 이 함수는 간단한 동기 generator를 사용합니다.
-    # Weave는 호출과 그 입력(`x`)을 트레이스하지만,
-    # 출력 값은 generator가 소비될 때만 캡처됩니다(예: `list()`를 통해).
+    # 이 함수는 간단한 동기 제너레이터를 사용합니다.
+    # Weave는 호출과 그 입력값(`x`)을 추적하지만, 
+    # 출력 값은 제너레이터가 소비될 때(예: `list()`를 통해)만 캡처됩니다.
     @weave.op
     def basic_gen(x: int) -> Generator[int, None, None]:
         yield from range(x)
 
-    # generator 파이프라인 내부에서 사용되는 일반 동기 함수입니다.
-    # 이 함수의 호출도 Weave에 의해 독립적으로 트레이스됩니다.
+    # 제너레이터 파이프라인에서 사용되는 일반 동기 함수입니다.
+    # 이 함수의 호출 또한 Weave에 의해 독립적으로 추적됩니다.
     @weave.op
     def inner(x: int) -> int:
         return x + 1
 
-    # 다른 트레이스된 함수(`inner`)를 호출하는 동기 generator입니다.
-    # 각 `yield`된 값은 `inner`에 대한 별도의 트레이스된 호출에서 나옵니다.
+    # 다른 추적 함수(`inner`)를 호출하는 동기 제너레이터입니다.
+    # 각 `yield`된 값은 `inner`에 대한 개별 추적 호출에서 나옵니다.
     @weave.op
     def nested_generator(x: int) -> Generator[int, None, None]:
         for i in range(x):
             yield inner(i)
 
-    # 위의 generator를 합성하는 더 복잡한 generator입니다.
-    # 여기에서의 트레이싱은 계층적인 호출 트리를 생성합니다:
+    # 위 제너레이터를 합성하는 더 복잡한 제너레이터입니다.
+    # 여기서의 트레이싱은 계층적인 호출 트리를 생성합니다:
     # - `deeply_nested_generator` (부모)
     #   - `nested_generator` (자식)
     #     - `inner` (손자)
@@ -203,17 +203,17 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
             for j in nested_generator(i):
                 yield j
 
-    # Weave가 출력을 캡처하려면 generator가 *소비*되어야 합니다.
-    # 이는 동기 및 비동기 generator 모두에 해당합니다.
+    # Weave가 출력을 캡처하려면 제너레이터가 *소비*되어야 합니다.
+    # 이는 동기 및 비동기 제너레이터 모두에 해당합니다.
     res = deeply_nested_generator(4)
-    list(res)  # 모든 중첩 호출과 yield에 대한 트레이스를 트리거합니다.
+    list(res)  # 모든 중첩 호출과 yield에 대한 트레이싱을 트리거합니다
     ```
 
-    ![Weave에서 generator 함수를 트레이싱하는 예시.](/weave/guides/tracking/imgs/generators.png)
+    ![Weave에서 제너레이터 함수를 추적하는 모습.](/weave/guides/tracking/imgs/generators.png)
   </Tab>
 
   <Tab title="TypeScript">
-    Weave는 함수를 [`weave.op`](/ko/weave/reference/typescript-sdk/functions/op)으로 래핑하여 이러한 호출을 수동으로 추적할 수 있게 해줍니다. 예를 들어:
+    Weave에서는 [`weave.op`](/ko/weave/reference/typescript-sdk/functions/op)으로 함수를 래핑해 이러한 호출을 수동으로 추적할 수 있습니다. 예를 들면 다음과 같습니다:
 
     ```typescript lines
     import * as weave from 'weave'
@@ -227,13 +227,13 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
     const myFunctionOp = weave.op(myFunction)
     ```
 
-    래핑을 인라인으로 정의할 수도 있습니다:
+    인라인으로 래핑을 정의할 수도 있습니다:
 
     ```typescript
     const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
     ```
 
-    이는 함수뿐만 아니라 클래스의 메서드에도 사용할 수 있습니다:
+    이는 함수뿐만 아니라 클래스의 메서드에도 동일하게 동작합니다:
 
     ```typescript
     class MyClass {
@@ -250,25 +250,25 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
 </Tabs>
 
 <div id="getting-a-handle-to-the-call-object-during-execution">
-  #### 실행 중 Call 객체 참조 가져오기
+  #### 실행 중에 Call 객체 핸들 가져오기
 </div>
 
 <Tabs>
   <Tab title="Python">
-    때로는 `Call` 객체 자체에 대한 참조를 얻는 것이 유용할 수 있습니다. 이를 위해 `op.call` 메서드를 호출하면 결과와 `Call` 객체를 함께 반환합니다. 예를 들어:
+    때때로 `Call` 객체 자체에 대한 핸들을 가져오는 것이 유용할 수 있습니다. `op.call` 메서드를 호출하면 결과와 `Call` 객체를 모두 반환합니다. 예를 들어:
 
     ```python lines lines
     result, call = my_function.call("World")
     ```
 
-    그런 다음 `call`을 사용해 추가 속성을 설정, 업데이트 또는 가져올 수 있습니다(가장 흔한 사용 사례는 피드백에 사용할 호출 ID를 가져오는 것입니다).
+    그런 다음 `call`을 사용해 추가 속성을 설정, 업데이트 또는 조회할 수 있습니다(가장 흔한 사용 예는 피드백에 사용할 호출 ID를 가져오는 것입니다).
 
     <Note>
-      op가 어떤 클래스의 메서드인 경우, 아래 예시처럼 인스턴스를 첫 번째 인자로 op에 전달해야 합니다.
+      op가 클래스의 메서드인 경우, 인스턴스를 op의 첫 번째 인수로 전달해야 합니다(아래 예시 참조).
     </Note>
 
     ```python lines lines
-    # `instance`를 첫 번째 인자로 전달하는 것에 주의하세요.
+    # 첫 번째 인수로 `instance`를 전달하는 것에 주의하세요.
     print(instance.my_method.call(instance, "World"))
     ```
 
@@ -293,7 +293,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript SDK에서는 사용할 수 없습니다.
+    이 기능은 아직 TypeScript SDK에서 지원되지 않습니다.
     ```
   </Tab>
 </Tabs>
@@ -304,26 +304,26 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
 
 <Tabs>
   <Tab title="Python">
-    때때로 호출의 표시 이름을 원하는 값으로 덮어쓰고 싶을 수 있습니다. 이는 다음 네 가지 방법으로 할 수 있습니다.
+    호출의 표시 이름을 재정의하고 싶을 때가 있습니다. 이는 네 가지 방법 중 하나로 수행할 수 있습니다:
 
-    1. op를 호출하는 시점에 표시 이름을 변경합니다.
+    1. Op를 호출할 때 표시 이름을 변경합니다:
 
     ```python lines lines
     result = my_function("World", __weave={"display_name": "My Custom Display Name"})
     ```
 
     <Note>
-      `__weave` 딕셔너리를 사용해 설정한 호출 표시 이름은 Op 표시 이름보다 우선합니다.
+      `__weave` 사전을 사용하면 호출 표시 이름이 설정되며, 이는 Op 표시 이름보다 우선합니다.
     </Note>
 
-    2. 호출마다 개별적으로 표시 이름을 변경합니다. [`Op.call`](/ko/weave/reference/python-sdk/trace/op#function-call) 메서드를 사용해 `Call` 객체를 반환한 뒤, [`Call.set_display_name`](/ko/weave/reference/python-sdk/trace/weave_client#method-set_display_name)으로 표시 이름을 설정합니다.
+    2. 호출마다 표시 이름을 변경합니다. 이는 [`Op.call`](/ko/weave/reference/python-sdk/trace/op#function-call) 메서드를 사용해 `Call` 객체를 반환한 뒤, [`Call.set_display_name`](/ko/weave/reference/python-sdk/trace/weave_client#method-set_display_name)를 사용해 표시 이름을 설정하는 방식입니다.
 
     ```python lines lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
     ```
 
-    3. 특정 Op에서 생성되는 모든 Call의 표시 이름을 변경합니다.
+    3. 특정 Op의 모든 Call에 대해 표시 이름을 변경합니다:
 
     ```python lines lines
     @weave.op(call_display_name="My Custom Display Name")
@@ -331,9 +331,9 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
         return f"Hello, {name}!"
     ```
 
-    4. `call_display_name`는 `Call` 객체를 입력으로 받아 문자열을 반환하는 함수가 될 수도 있습니다. 이 경우 함수가 호출될 때 `Call` 객체가 자동으로 전달되므로, 함수 이름, 호출 입력값, 필드 등의 정보를 기반으로 이름을 동적으로 생성할 수 있습니다.
+    4. `call_display_name`은 `Call` 객체를 입력으로 받아 문자열을 반환하는 함수가 될 수도 있습니다. 함수가 호출될 때 `Call` 객체가 자동으로 전달되므로, 함수 이름, 호출 입력값, 필드 등을 기반으로 동적으로 이름을 생성할 수 있습니다.
 
-    5. 자주 사용하는 예시는 함수 이름에 타임스탬프를 덧붙이는 것입니다.
+    5. 일반적인 사용 사례 중 하나는 함수 이름에 타임스탬프를 덧붙이는 것입니다.
 
        ```py
        from datetime import datetime
@@ -343,7 +343,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
            return ...
        ```
 
-    6. `.attributes`를 사용해 커스텀 메타데이터를 기록할 수도 있습니다.
+    6. `.attributes`를 사용해 커스텀 메타데이터를 로깅할 수도 있습니다.
 
        ```py
        def custom_attribute_name(call):
@@ -376,8 +376,8 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
                func()  # 표시 이름은 "finetuned-gpt-4o__v0.1.3__2024-08-02"가 됩니다.
        ```
 
-    **기술 노트:** &quot;Call&quot;은 &quot;Op&quot;에 의해 생성됩니다. Op는 `@weave.op`으로 데코레이트된 함수 또는 메서드입니다.\
-    기본적으로 Op의 이름은 함수 이름이며, 연결된 Call은 동일한 표시 이름을 갖습니다. 위 예시는 특정 Op에서 생성되는 모든 Call의 표시 이름을 재정의하는 방법을 보여줍니다. 때때로 사용자는 Op 자체의 이름을 재정의하고자 할 수 있습니다. 이는 다음 두 가지 방법으로 할 수 있습니다.
+    **기술 참고:** &quot;Call&quot;은 &quot;Op&quot;에 의해 생성됩니다. Op는 `@weave.op`으로 데코레이팅된 함수나 메서드입니다.
+    기본적으로 Op의 이름은 함수 이름이며, 연결된 Call들도 동일한 표시 이름을 갖게 됩니다. 위 예시는 주어진 Op의 모든 Call에 대해 표시 이름을 재정의하는 방법을 보여줍니다. 때때로 사용자는 Op 자체의 이름을 재정의하고 싶어 합니다. 이는 두 가지 방법 중 하나로 할 수 있습니다:
 
     1. 어떤 Call도 로깅되기 전에 Op의 `name` 속성을 설정합니다.
 
@@ -385,7 +385,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
     my_function.name = "My Custom Op Name"
     ```
 
-    2. op 데코레이터의 `name` 옵션을 설정합니다.
+    2. Op 데코레이터의 `name` 옵션을 설정합니다.
 
     ```python lines lines
     @weave.op(name="My Custom Op Name)
@@ -393,7 +393,7 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
   </Tab>
 
   <Tab title="TypeScript">
-    호출의 기본 이름을 재정의하려면 `weave.op()`를 호출할 때 `callDisplayName` 옵션을 사용하세요.
+    호출의 기본 이름을 재정의하려면 `weave.op()`을 호출할 때 `callDisplayName` 옵션을 사용하십시오.
 
     ```typescript lines {2}
     const extractDinosOp = weave.op(extractDinos, {
@@ -401,21 +401,21 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
     });
     ```
 
-    실행이 끝난 뒤에도 [호출 표시 이름을 업데이트](/ko/weave/guides/tracking/tracing#set-display-name)할 수 있습니다.
+    실행 후에 [호출의 표시 이름을 업데이트](/ko/weave/guides/tracking/tracing#set-display-name)할 수도 있습니다.
   </Tab>
 </Tabs>
 
 <div id="trace-parallel-multi-threaded-function-calls">
-  #### 병렬(멀티스레드) 함수 호출 추적
+  #### 병렬(멀티 스레드) 함수 호출 추적
 </div>
 
 <Tabs>
   <Tab title="Python">
-    기본적으로 병렬 호출은 Weave에서 각각 별개의 루트 호출로 표시됩니다. 동일한 부모 `op` 아래에 올바르게 중첩되게 하려면 [`ThreadPoolExecutor`](/ko/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor)를 사용하세요.
+    기본적으로 병렬 호출은 모두 Weave에서 각각 별도의 루트 호출로 표시됩니다. 동일한 부모 `op` 아래에 올바르게 중첩되도록 하려면 [`ThreadPoolExecutor`](/ko/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor)를 사용하세요.
 
-    아래 코드 예시는 `ThreadPoolExecutor` 사용 방법을 보여줍니다.
-    첫 번째 함수 `func`는 `x`를 받아 `x+1`을 반환하는 단순한 `op`입니다. 두 번째 함수 `outer`는 입력 리스트를 받는 또 다른 `op`입니다.
-    `outer` 내부에서 `ThreadPoolExecutor`와 `exc.map(func, inputs)`를 사용하면 각 `func` 호출이 동일한 부모 트레이스 컨텍스트를 유지합니다.
+    다음 코드 예제는 `ThreadPoolExecutor`의 사용법을 보여줍니다.
+    첫 번째 함수 `func`는 `x`를 받아 `x+1`을 반환하는 단순한 `op`입니다. 두 번째 함수 `outer`는 입력 목록을 받는 또 다른 `op`입니다.
+    `outer` 내부에서 `ThreadPoolExecutor`와 `exc.map(func, inputs)`를 사용하면, 각 `func` 호출이 동일한 상위 트레이스 컨텍스트를 유지하게 됩니다.
 
     ```python lines
     import weave
@@ -429,14 +429,14 @@ Weave에서 Call을 생성하는 방법은 크게 세 가지입니다:
         with weave.ThreadPoolExecutor() as exc:
             exc.map(func, inputs)
 
-    # Update your Weave project name  
+    # Weave 프로젝트 이름을 업데이트하세요  
     client = weave.init('my-weave-project')
     outer([1,2,3,4,5])
     ```
 
-    Weave UI에서는 부모 호출 하나 아래에 다섯 개의 중첩된 자식 호출이 생기므로, 증가 연산이 병렬로 실행되더라도 완전히 계층적인 트레이스를 확인할 수 있습니다.
+    Weave UI에서는 단일 부모 호출 아래에 다섯 개의 중첩된 자식 호출이 생성되며, 증가 연산이 병렬로 실행되더라도 완전한 계층형 트레이스를 확인할 수 있습니다.
 
-    ![Trace UI에서 outer에 대한 단일 부모 호출과, 그 아래 중첩된 다섯 개의 자식 호출이 표시된 모습.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
+    ![Trace UI에서 outer에 대한 단일 부모 호출과, 다섯 개의 중첩된 자식 호출이 표시된 모습.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
   </Tab>
 
   <Tab title="TypeScript">
@@ -476,7 +476,7 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript SDK에서는 사용할 수 없습니다.
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
     ```
   </Tab>
 
@@ -507,30 +507,30 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
 </Tabs>
 
 <div id="4-track-class-and-object-methods">
-  ### 4. 클래스와 객체 메서드 추적
+  ### 4. 클래스 및 객체 메서드 추적
 </div>
 
 클래스와 객체 메서드도 추적할 수 있습니다.
 
 <Tabs>
   <Tab title="Python">
-    `weave.op`을 사용해 클래스의 어떤 메서드든 추적할 수 있습니다.
+    `weave.op`을 사용해 클래스의 임의의 메서드를 추적할 수 있습니다.
 
     ```python lines lines
     import weave
 
-    # Weave 트레이싱 초기화
+    # Weave Tracing 초기화
     weave.init("intro-example")
 
     class MyClass:
-        # 메서드를 데코레이트합니다
+        # 메서드에 데코레이터 적용
         @weave.op
         def my_method(self, name: str):
             return f"Hello, {name}!"
 
     instance = MyClass()
 
-    # 메서드를 호출하면 Weave가 입력과 출력을 자동으로 추적합니다
+    # 메서드를 호출하면 Weave가 입력과 출력을 자동으로 추적합니다.
     print(instance.my_method("World"))
     ```
   </Tab>
@@ -539,13 +539,13 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
     <Important>
       **TypeScript에서 데코레이터 사용하기**
 
-      TypeScript 코드에서 `@weave.op` 데코레이터를 사용하려면 환경이 올바르게 구성되어 있는지 확인하세요:
+      TypeScript 코드에서 `@weave.op` 데코레이터를 사용하려면 환경이 올바르게 설정되어 있는지 확인하세요:
 
-      * **TypeScript v5.0 이상**: 데코레이터가 기본적으로 지원되며 추가 설정이 필요하지 않습니다.
-      * **TypeScript v5.0 미만**: 데코레이터에 대한 실험적 지원을 활성화해야 합니다. 자세한 내용은 [데코레이터에 대한 공식 TypeScript 문서](https://www.typescriptlang.org/docs/handbook/decorators.html)를 참고하세요.
+      * **TypeScript v5.0 이상**: 데코레이터가 기본으로 지원되며 추가 설정이 필요하지 않습니다.
+      * **TypeScript v5.0 미만**: 데코레이터에 대한 실험적 지원을 활성화해야 합니다. 자세한 내용은 [데코레이터에 대한 공식 TypeScript 문서](https://www.typescriptlang.org/docs/handbook/decorators.html)를 참조하세요.
     </Important>
 
-    #### 클래스 메서드 데코레이트하기
+    #### 클래스 메서드에 데코레이터 적용
 
     인스턴스 메서드를 추적하려면 `@weave.op`을 사용하세요.
 
@@ -558,7 +558,7 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
     }
     ```
 
-    #### 정적 클래스 메서드 데코레이트하기
+    #### 정적 클래스 메서드에 데코레이터 적용
 
     클래스 내 유틸리티 함수를 모니터링하려면 정적 메서드에 `@weave.op`을 적용하세요.
 
@@ -578,20 +578,20 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
 </div>
 
 <Tabs>
-  <Tab title="웹 앱">
-    웹 앱에서 호출을 보려면:
+  <Tab title="Web App">
+    웹 앱에서 호출을 보려면 다음을 수행하세요.
 
     1. 프로젝트의 **Traces** 탭으로 이동합니다.
     2. 목록에서 확인하려는 호출을 찾습니다.
-    3. 해당 호출을 클릭하여 상세 페이지를 엽니다.
+    3. 호출을 클릭하여 상세 페이지를 엽니다.
 
     상세 페이지에는 호출의 입력, 출력, 실행 시간, 그리고 추가 메타데이터가 표시됩니다.
 
-    ![웹 앱에서 호출 보기](/images/screenshots/basic_call.png)
+    ![View Call in Web App](/images/screenshots/basic_call.png)
   </Tab>
 
   <Tab title="Python">
-    Weave Python SDK를 사용하여 호출을 보려면 [`get_call`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_call) 메서드를 사용할 수 있습니다:
+    Weave Python SDK를 사용해서 호출을 보려면 [`get_call`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_call) 메서드를 사용할 수 있습니다.
 
     ```python lines
     import weave
@@ -621,7 +621,7 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
   </Tab>
 
   <Tab title="HTTP API">
-    Service API를 사용하여 호출을 보려면 [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) 엔드포인트로 요청을 보내면 됩니다.
+    Service API를 사용해 호출을 보려면 [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) 엔드포인트로 요청을 보내면 됩니다.
 
     ```bash
     curl -L 'https://trace.wandb.ai/call/read' \
@@ -636,14 +636,14 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
 </Tabs>
 
 <div id="customize-rendered-traces-with-weavemarkdown">
-  ### `weave.Markdown`으로 렌더링된 트레이스를 사용자 지정하기
+  ### `weave.Markdown`으로 렌더링된 트레이스 사용자 지정하기
 </div>
 
-`weave.Markdown`을 사용하면 원본 데이터를 유지하면서 트레이스 정보가 표시되는 방식을 사용자 지정할 수 있습니다. 이를 통해 입력과 출력을 사람이 읽기 쉬운 서식이 적용된 콘텐츠 블록으로 렌더링하면서도, 그 아래의 데이터 구조는 그대로 보존할 수 있습니다.
+`weave.Markdown`을 사용하면 원본 데이터를 유지하면서 트레이스 정보의 표시 방식을 사용자 지정할 수 있습니다. 이를 통해 입력과 출력을 읽기 쉬운 서식 있는 콘텐츠 블록으로 렌더링하면서도, 그 아래의 데이터 구조는 그대로 보존할 수 있습니다.
 
 <Tabs>
   <Tab title="Python">
-    `@weave.op` 데코레이터에서 `postprocess_inputs` 및 `postprocess_output` 함수를 사용해 트레이스 데이터를 포맷할 수 있습니다. 아래 코드 예제는 후처리 함수를 사용해 Weave에서 호출을 이모지와 더 읽기 쉬운 형식으로 렌더링하는 방법을 보여줍니다:
+    `@weave.op` 데코레이터에서 `postprocess_inputs` 및 `postprocess_output` 함수를 사용해 트레이스 데이터를 포맷하세요. 다음 코드 예제는 후처리 함수를 사용해 Weave에서 호출을 이모지와 더 읽기 쉬운 형식으로 렌더링하는 방법을 보여줍니다:
 
     ```python lines
     import weave
@@ -681,7 +681,7 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
         postprocess_output=postprocess_output,
     )
     def rag_step(query):
-        # S&P 500 기업에 대한 예시 신문 기사
+        # example newspaper articles of the companies on the S&P 500 
         docs = [
             {
                 "title": "OpenAI",
@@ -704,12 +704,12 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
 
   <Tab title="Typescript">
     ```plaintext
-    이 기능은 아직 TypeScript SDK에서는 사용할 수 없습니다.
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
 
-다음 스크린샷에서는 각각 포맷 적용 전 출력과 포맷 적용 후 출력의 차이를 확인할 수 있습니다.
+다음 스크린샷에서 각각 포맷되지 않은 출력과 포맷된 출력의 차이를 확인할 수 있습니다.
 
 ![코드 예제를 사용해 Weave UI에서 렌더링된 호출.](/weave/guides/tracking/imgs/md-call-render.png)
 
@@ -717,13 +717,13 @@ API를 직접 사용하여 Call을 수동으로 생성할 수도 있습니다.
   ## Call 업데이트
 </div>
 
-Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은 일부 수정은 지원됩니다:
+Call은 생성 후에는 대부분 수정할 수 없지만, 다음과 같은 몇 가지 변경 작업은 지원됩니다:
 
 * [표시 이름 설정](#set-display-name)
 * [피드백 추가](#add-feedback)
 * [Call 삭제](#delete-a-call)
 
-이러한 수정은 모두 UI에서 Call 세부 정보 페이지로 이동해 수행할 수 있습니다:
+UI에서 Call 세부 정보 페이지로 이동하면 이러한 모든 변경 작업을 수행할 수 있습니다:
 
 <Frame>
   ![웹 앱에서 Call 업데이트](/images/call_edit_screenshot.png)
@@ -735,7 +735,7 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
 
 <Tabs>
   <Tab title="Python">
-    호출의 표시 이름을 설정하려면 [`Call.set_display_name()`](/ko/weave/reference/python-sdk/trace/weave_client#method-set-display-name) 메서드를 사용할 수 있습니다.
+    콜의 표시 이름을 설정하려면 [`Call.set_display_name()`](/ko/weave/reference/python-sdk/trace/weave_client#method-set-display-name) 메서드를 사용할 수 있습니다.
 
     ```python lines lines
     import weave
@@ -743,16 +743,16 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
     # 클라이언트 초기화
     client = weave.init("your-project-name")
 
-    # ID로 특정 호출 가져오기
+    # ID로 특정 콜 가져오기
     call = client.get_call("call-uuid-here")
 
-    # 호출의 표시 이름 설정
+    # 콜의 표시 이름 설정
     call.set_display_name("My Custom Display Name")
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    호출의 표시 이름을 설정하려면 [`client.updateCall`](/ko/weave/reference/typescript-sdk/classes/weaveclient#updatecall)을 사용해 호출 ID로 직접 업데이트합니다:
+    콜의 표시 이름을 설정하려면 [`client.updateCall`](/ko/weave/reference/typescript-sdk/classes/weaveclient#updatecall)을 사용해 콜 ID로 직접 업데이트합니다:
 
     ```typescript lines
     import * as weave from 'weave'
@@ -760,13 +760,13 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
     // 클라이언트 초기화
     const client = await weave.init('your-project-name')
 
-    // 호출 ID로 표시 이름 업데이트
+    // ID로 콜의 표시 이름 업데이트
     await client.updateCall('call-uuid-here', 'My Custom Display Name')
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    Service API를 사용해 호출의 표시 이름을 설정하려면 [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) 엔드포인트로 요청을 보내면 됩니다.
+    Service API를 사용해 콜의 표시 이름을 설정하려면 [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) 엔드포인트로 요청을 보냅니다.
 
     ```bash
     curl -L 'https://trace.wandb.ai/call/update' \
@@ -781,13 +781,13 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
   </Tab>
 </Tabs>
 
-또한 [실행 시 호출의 표시 이름을 설정](#set-call-display-name-at-execution)할 수도 있습니다.
+또한 [실행 시 콜의 표시 이름을 설정](#set-call-display-name-at-execution)할 수도 있습니다.
 
 <div id="add-feedback">
   ### 피드백 추가
 </div>
 
-피드백에 대한 자세한 내용은 [피드백 문서](/ko/weave/guides/tracking/feedback)를 참조하세요.
+자세한 내용은 [피드백 문서](/ko/weave/guides/tracking/feedback)를 참조하세요.
 
 <div id="delete-a-call">
   ### Call 삭제
@@ -795,30 +795,30 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
 
 <Tabs>
   <Tab title="Python">
-    Python API를 사용하여 Call을 삭제하려면 [`Call.delete`](/ko/weave/reference/python-sdk/trace/weave_client#method-delete) 메서드를 사용할 수 있습니다.
+    Python API를 사용해 Call을 삭제하려면 [`Call.delete`](/ko/weave/reference/python-sdk/trace/weave_client#method-delete) 메서드를 사용하세요.
 
     ```python lines lines
     import weave
 
-    # 클라이언트 초기화
+    # Initialize the client
     client = weave.init("your-project-name")
 
-    # ID로 특정 Call 가져오기
+    # Get a specific call by its ID
     call = client.get_call("call-uuid-here")
 
-    # Call 삭제
+    # Delete the call
     call.delete()
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript SDK에서 지원되지 않습니다.
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    Service API를 사용하여 Call을 삭제하려면 [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) 엔드포인트로 요청을 보내십시오.
+    Service API를 사용해 Call을 삭제하려면 [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) 엔드포인트로 요청을 보내세요.
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/delete' \
@@ -840,7 +840,7 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
 
 <Tabs>
   <Tab title="Python">
-    Python API를 사용해 여러 Call을 삭제하려면 `delete_calls()`에 Call ID 목록을 전달합니다.
+    Python API를 사용해 여러 Call을 삭제하려면 `delete_calls()` 함수에 Call ID 목록을 전달합니다.
 
     <Important>
       * 한 번에 삭제할 수 있는 Call의 최대 개수는 `1000`개입니다.
@@ -856,33 +856,33 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
     # 클라이언트에서 모든 Call 가져오기
     all_calls = client.get_calls()
 
-    # 처음 1000개 Call 객체의 리스트 가져오기
+    # 처음 1000개의 Call 객체 목록 가져오기
     first_1000_calls = all_calls[:1000]
 
-    # 처음 1000개 Call ID의 리스트 가져오기
+    # 처음 1000개의 Call ID 목록 가져오기
     first_1000_calls_ids = [c.id for c in first_1000_calls]
 
-    # ID로 처음 1000개 Call 객체 삭제
+    # ID로 처음 1000개의 Call 객체 삭제
     client.delete_calls(call_ids=first_1000_calls_ids)
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    이 기능은 아직 TypeScript SDK에서 지원되지 않습니다.
     ```
   </Tab>
 </Tabs>
 
 <div id="querying-and-exporting-calls">
-  ## 호출 쿼리 및 내보내기
+  ## Calls 쿼리 및 내보내기
 </div>
 
 <Frame>
   ![Screenshot of many calls](/images/screenshots/calls_filter.png)
 </Frame>
 
-프로젝트의 `/calls` 페이지(“Traces” 탭)에는 프로젝트에 있는 모든 호출(Calls)을 표 형식으로 보여주는 테이블 뷰가 있습니다. 여기에서 다음 작업을 수행할 수 있습니다:
+프로젝트의 `/calls` 페이지(“Traces” 탭)에는 프로젝트의 모든 Call 이 테이블 뷰로 표시됩니다. 여기에서 다음 작업을 수행할 수 있습니다.
 
 * 정렬
 * 필터링
@@ -892,12 +892,12 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
   ![Calls Table View](/images/export_modal.png)
 </Frame>
 
-위에 표시된 Export Modal을 사용하면 데이터를 다양한 형식으로 내보낼 수 있으며, 선택한 호출에 대한 Python 및 cURL 동등 코드도 함께 확인할 수 있습니다.
-가장 간단한 시작 방법은 UI에서 먼저 원하는 뷰를 구성한 다음, 생성된 코드 스니펫을 통해 export API를 더 자세히 살펴보는 것입니다.
+위에 표시된 Export Modal을 사용하면 여러 형식으로 데이터를 내보낼 수 있으며, 선택한 Call에 대응하는 Python 및 cURL 예제 코드도 확인할 수 있습니다.
+가장 쉽게 시작하는 방법은 UI에서 원하는 뷰를 구성한 다음, 생성된 코드 스니펫을 보면서 export API를 더 자세히 살펴보는 것입니다.
 
 <Tabs>
   <Tab title="Python">
-    Python API를 사용해 호출을 가져오려면 [`client.get_calls`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_calls) 메서드를 사용할 수 있습니다:
+    Python API를 사용해 Call을 가져오려면 [`client.get_calls`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_calls) 메서드를 사용할 수 있습니다:
 
     ```python lines
     import weave
@@ -905,27 +905,27 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
     # 클라이언트 초기화
     client = weave.init("your-project-name")
 
-    # 호출 가져오기
+    # Call 가져오기
     calls = client.get_calls(filter=...)
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript API를 사용해 호출을 가져오려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메서드를 사용할 수 있습니다.
+    TypeScript API를 사용해 Call을 가져오려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메서드를 사용할 수 있습니다.
 
     ```typescript
     import * as weave from 'weave'
 
-    // 클라이언트 초기화
+    // Initialize the client
     const client = await weave.init('intro-example')
 
-    // 호출 가져오기
+    // Fetch calls
     const calls = await client.getCalls(filter=...)
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    가장 강력한 쿼리 계층은 Service API입니다. Service API를 사용해 호출을 가져오려면 [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) 엔드포인트로 요청을 보내면 됩니다.
+    가장 강력한 쿼리 계층은 Service API입니다. Service API를 사용해 Call을 가져오려면 [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) 엔드포인트로 요청을 보내면 됩니다.
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -985,82 +985,82 @@ Call은 한 번 생성되면 대부분 변경할 수 없지만, 다음과 같은
 </Tabs>
 
 <div id="call-schema">
-  ### Call 스키마
+  ### 호출 스키마
 </div>
 
-전체 필드 목록은 [schema](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)를 참고하세요.
+전체 필드 목록은 [스키마](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)를 참고하세요.
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `id` | string (uuid) | Call의 고유 식별자 |
+| `id` | string (uuid) | 호출에 대한 고유 식별자 |
 | `project_id` | string (optional) | 연결된 프로젝트 식별자 |
 | `op_name` | string | 연산 이름(참조일 수 있음) |
-| `display_name` | string (optional) | Call에 대한 사람이 읽기 좋은 이름 |
-| `trace_id` | string (uuid) | 이 Call이 속한 트레이스의 식별자 |
-| `parent_id` | string (uuid) | 상위 Call의 식별자 |
-| `started_at` | datetime | Call이 시작된 시각의 타임스탬프 |
-| `attributes` | Dict[str, Any] | Call에 대한 사용자 정의 메타데이터 *(실행 중에는 읽기 전용)* |
-| `inputs` | Dict[str, Any] | Call의 입력 파라미터 |
-| `ended_at` | datetime (optional) | Call이 종료된 시각의 타임스탬프 |
-| `exception` | string (optional) | Call이 실패한 경우의 에러 메시지 |
-| `output` | Any (optional) | Call의 결과 |
-| `summary` | Optional[SummaryMap] | 실행 후 요약 정보. 실행 중에 수정하여 커스텀 지표를 기록할 수 있습니다. |
+| `display_name` | string (optional) | 호출에 대한 사용자 친화적인 이름 |
+| `trace_id` | string (uuid) | 이 호출이 속한 trace의 식별자 |
+| `parent_id` | string (uuid) | 상위 호출의 식별자 |
+| `started_at` | datetime | 호출이 시작된 시각의 타임스탬프 |
+| `attributes` | Dict[str, Any] | 호출에 대한 사용자 정의 메타데이터 *(실행 중에는 읽기 전용)* |
+| `inputs` | Dict[str, Any] | 호출의 입력 파라미터 |
+| `ended_at` | datetime (optional) | 호출이 종료된 시각의 타임스탬프 |
+| `exception` | string (optional) | 호출이 실패한 경우의 에러 메시지 |
+| `output` | Any (optional) | 호출의 결과 |
+| `summary` | Optional[SummaryMap] | 실행 후 요약 정보. 실행 중에 이를 수정하여 커스텀 메트릭을 기록할 수 있습니다. |
 | `wb_user_id` | Optional[str] | 연결된 Weights &amp; Biases 사용자 ID |
-| `wb_run_id` | Optional[str] | 연결된 Weights &amp; Biases 실행 ID |
-| `deleted_at` | datetime (optional) | 해당되는 경우, Call이 삭제된 시각의 타임스탬프 |
+| `wb_run_id` | Optional[str] | 연결된 Weights &amp; Biases run ID |
+| `deleted_at` | datetime (optional) | 해당되는 경우, 호출이 삭제된 시각의 타임스탬프 |
 
-위 표는 Weave에서 Call의 핵심 속성을 개괄합니다. 각 속성은 함수 Call을 추적하고 관리하는 데 중요한 역할을 합니다.
+위 표는 Weave에서 Call의 핵심 속성을 요약한 것입니다. 각 속성은 함수 호출을 추적하고 관리하는 데 중요한 역할을 합니다.
 
-* `id`, `trace_id`, `parent_id` 필드는 시스템 내에서 Call을 구성하고 서로 연관 짓는 데 사용됩니다.
-* 타이밍 정보(`started_at`, `ended_at`)를 통해 성능 분석을 수행할 수 있습니다.
-* `attributes`와 `inputs` 필드는 Call에 대한 컨텍스트를 제공합니다. `attributes`는 Call이 시작되면 고정되므로, `weave.attributes`로 호출 전에 설정해야 합니다. `output`과 `summary`는 결과를 캡처하며, 실행 중에 `summary`를 업데이트하여 추가 지표를 기록할 수 있습니다.
-* Weights &amp; Biases와의 연동은 `wb_user_id` 및 `wb_run_id`를 통해 이루어집니다.
+* `id`, `trace_id`, `parent_id` 필드는 시스템 내에서 호출을 구성하고 서로 연관시키는 데 도움이 됩니다.
+* 시간 정보(`started_at`, `ended_at`)는 성능 분석을 가능하게 합니다.
+* `attributes` 및 `inputs` 필드는 호출에 대한 컨텍스트를 제공합니다. `attributes`는 호출이 시작되면 고정되므로, 호출 전에 `weave.attributes`로 설정해야 합니다. `output`과 `summary`는 결과를 저장하며, 실행 중에 `summary`를 업데이트하여 추가 메트릭을 기록할 수 있습니다.
+* Weights &amp; Biases와의 인테그레이션은 `wb_user_id` 및 `wb_run_id`를 통해 이뤄집니다.
 
-이와 같이 포괄적인 속성 집합을 통해 프로젝트 전반에 걸쳐 함수 Call을 세밀하게 추적하고 분석할 수 있습니다.
+이러한 포괄적인 속성 집합을 통해 프로젝트 전반에 걸쳐 함수 호출을 상세하게 추적하고 분석할 수 있습니다.
 
-Calculated Fields:
+계산된 필드:
 
-* Cost
-  * Duration
-  * Status
+* 비용
+  * 지속 시간
+  * 상태
 
 <div id="saved-views">
   ## 저장된 뷰
 </div>
 
-Traces 테이블 구성, 필터, 정렬 설정을 &#95;저장된 뷰&#95;로 저장해 두고, 선호하는 구성을 빠르게 다시 사용할 수 있습니다. 저장된 뷰는 UI와 Python SDK에서 모두 설정하고 사용할 수 있습니다. 자세한 내용은 [저장된 뷰](/ko/weave/guides/tools/saved-views)를 참조하세요.
+Trace 테이블 설정, 필터, 정렬을 *저장된 뷰* 로 저장해 두면 원하는 설정을 빠르게 다시 불러올 수 있습니다. UI와 Python SDK에서 저장된 뷰를 설정하고 액세스할 수 있습니다. 자세한 내용은 [Saved Views](/ko/weave/guides/tools/saved-views)를 참고하세요.
 
 <div id="view-a-wb-run-in-the-traces-table">
-  ## Traces 테이블에서 W&amp;B 실행 확인하기
+  ## Traces 테이블에서 W&amp;B run 확인하기
 </div>
 
-Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 실행된 [W&amp;B 실행](https://docs.wandb.ai/models/runs/)에 직접 연결할 수 있습니다.\
-@weave.op()으로 함수를 추적한 뒤 wandb.init() 컨텍스트 안에서 호출하면, Weave가 이 트레이스를 해당 W&amp;B 실행과 자동으로 연결합니다.\
-연결된 실행에 대한 링크는 Traces 테이블에 표시됩니다.
+Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 실행된 [W&amp;B runs](https://docs.wandb.ai/models/runs/)에 직접 연결할 수 있습니다.
+@weave.op()으로 함수를 트레이싱하고 이를 wandb.init() 컨텍스트 안에서 호출하면, Weave가 해당 트레이스를 자동으로 W&amp;B run과 연결합니다.
+연결된 run에 대한 링크는 Traces 테이블에 표시됩니다.
 
 <Tabs>
-  <Tab title="Python">
-    다음 Python 코드는 `wandb.init()` 컨텍스트 안에서 실행될 때, 추적된 연산이 W&amp;B
-    실행과 어떻게 연결되는지 보여줍니다. 이러한 트레이스는
-    Weave UI에 표시되며, 해당 실행과 연계됩니다.
+  <Tab title="파이썬">
+    다음 Python 코드는 `wandb.init()` 컨텍스트 안에서 실행될 때, 트레이싱된 연산들이 W&amp;B
+    runs와 어떻게 연결되는지 보여줍니다. 이러한 트레이스는
+    Weave UI에 표시되며, 해당 run과 연관됩니다.
 
     ```python lines 
     import wandb
     import weave
 
     def example_wandb(projname):
-        # projname을 entity와 project로 분리
+        # projname을 entity와 프로젝트로 분리
         entity, project = projname.split("/", 1)
 
-        # 추적을 위한 Weave 컨텍스트 초기화
+        # 트레이싱을 위한 Weave 컨텍스트 초기화
         weave.init(projname)
 
-        # 추적 가능한 연산 정의
+        # 트레이싱 가능한 연산 정의
         @weave.op()
         def say(message: str) -> str:
             return f"I said: {message}"
 
-        # 첫 번째 W&B 실행
+        # 첫 번째 W&B run
         with wandb.init(
             entity=entity,
             project=project,
@@ -1071,7 +1071,7 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
             say("How are you!")
             run.log({"messages": 2})
 
-        # 두 번째 W&B 실행
+        # 두 번째 W&B run
         with wandb.init(
             entity=entity,
             project=project,
@@ -1083,13 +1083,13 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
             run.log({"messages": 2})
 
     if __name__ == "__main__":
-        # 여기를 실제 W&B 사용자이름/프로젝트로 교체하세요
+        # 여기에 실제 W&B username/project를 입력
         example_wandb("your-username/your-project")
     ```
 
-    코드 예제를 사용하려면 다음 단계를 따르세요:
+    코드 예제를 사용하려면:
 
-    1. 터미널에서 종속성을 설치합니다:
+    1. 터미널에서 다음과 같이 종속성을 설치합니다:
 
     ```bash
     pip install wandb weave
@@ -1101,15 +1101,15 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
     wandb login
     ```
 
-    3. 스크립트에서 `your-username/your-project`를 실제 W&amp;B 엔터티/프로젝트로 교체합니다.
+    3. 스크립트에서 `your-username/your-project`를 실제 W&amp;B 엔티티/프로젝트로 바꿉니다.
     4. 스크립트를 실행합니다:
 
     ```bash
     python weave_trace_with_wandb.py
     ```
 
-    5. [https://weave.wandb.ai](https://weave.wandb.ai)에 접속한 후, 자신의 프로젝트를 선택합니다.
-    6. **Traces** 탭에서 트레이스 출력을 확인합니다. 연결된 실행에 대한 링크는 Traces 테이블에 표시됩니다.
+    5. [https://weave.wandb.ai](https://weave.wandb.ai)에 접속한 뒤, 자신의 프로젝트를 선택합니다.
+    6. **Traces** 탭에서 트레이스 출력을 확인합니다. 연결된 run에 대한 링크가 Traces 테이블에 표시됩니다.
   </Tab>
 
   <Tab title="TypeScript">
@@ -1120,38 +1120,38 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
 </Tabs>
 
 <div id="configure-autopatching">
-  ## 자동 패칭 구성
+  ## 자동 패치 설정
 </div>
 
-기본적으로 Weave는 `openai`, `anthropic`, `cohere`, `mistral`과 같은 일반적인 LLM 라이브러리에 대한 호출을 자동으로 패칭(autopatching)하고 추적합니다.
+기본적으로 Weave는 `openai`, `anthropic`, `cohere`, `mistral` 같은 자주 사용하는 LLM 라이브러리에 대한 호출을 자동으로 패치하고 추적합니다.
 
 <Tabs>
   <Tab title="Python">
     <Warning>
-      `autopatch_settings` 인수는 사용이 중단(deprecated)되었습니다. 암시적 패칭을 비활성화하려면 `implicitly_patch_integrations=False`를 사용하고, 통합별로 설정을 구성하려면 `patch_openai(settings={...})`와 같은 개별 패치 함수를 호출하세요.
+      `autopatch_settings` 인자는 더 이상 사용되지(deprecated) 않습니다. 암시적 패치를 비활성화하려면 `implicitly_patch_integrations=False`를 사용하고, 인테그레이션별로 설정을 구성하려면 `patch_openai(settings={...})` 같은 특정 패치 함수를 호출하세요.
     </Warning>
 
-    ### 모든 자동 패칭 비활성화
+    ### 모든 자동 패치 비활성화
 
     ```python lines
     weave.init(..., implicitly_patch_integrations=False)
     ```
 
-    ### 특정 통합만 활성화
+    ### 특정 인테그레이션만 활성화
 
     ```python lines
     import weave
 
     weave.init(..., implicitly_patch_integrations=False)
 
-    # 그런 다음 원하는 통합만 수동으로 패치합니다
+    # 그런 다음 원하는 인테그레이션만 수동으로 패치합니다
     weave.integrations.patch_anthropic()
     weave.integrations.patch_cohere()
     ```
 
     ### 입력 및 출력 후처리
 
-    패치 함수에 settings를 전달하여 입력과 출력(예: PII(개인 식별 정보) 데이터)에 대한 처리 방식을 커스터마이즈할 수 있습니다:
+    패치 함수에 설정을 전달해서 입력과 출력(예: PII 데이터)을 처리하는 방식을 사용자 정의할 수 있습니다:
 
     ```python lines
     import weave.integrations
@@ -1171,14 +1171,14 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript SDK는 OpenAI와 Anthropic에 대해서만 자동 패칭을 지원합니다. OpenAI는 Weave를 import할 때 자동으로 패칭되며 추가 설정이 필요하지 않습니다.
+    TypeScript SDK는 OpenAI와 Anthropic에 대해서만 자동 패치를 지원합니다. OpenAI는 Weave를 import하면 자동으로 패치되며 추가 설정이 필요하지 않습니다.
 
     또한 TypeScript SDK는 다음을 지원하지 않습니다:
 
-    * 자동 패칭 구성 또는 비활성화
+    * 자동 패치 구성 또는 비활성화
     * 입력/출력 후처리
 
-    자동 패칭이 동작하지 않는 예외적인 상황(ESM, Next.js와 같은 번들러)에는 명시적 래핑을 사용하세요:
+    자동 패치가 동작하지 않는 특수한 경우(ESM, Next.js 같은 번들러 사용 시)에는 명시적 래핑을 사용하세요:
 
     ```typescript
     import OpenAI from 'openai'
@@ -1189,24 +1189,24 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
     await weave.init('your-team/my-project')
     ```
 
-    ESM 설정 및 트러블슈팅에 대한 자세한 내용은 [TypeScript SDK 통합 가이드](/ko/weave/guides/integrations/js)를 참고하세요.
+    ESM 설정 및 트러블슈팅에 대한 자세한 내용은 [TypeScript SDK Integration Guide](/ko/weave/guides/integrations/js)를 참고하세요.
   </Tab>
 </Tabs>
 
-자세한 내용은 [Weave를 PII 데이터와 함께 사용하는 방법](/ko/weave/cookbooks/pii)을 참조하세요.
+자세한 내용은 [Weave에서 PII 데이터를 사용하는 방법](/ko/weave/cookbooks/pii)를 참고하세요.
 
 <div id="faqs">
-  ## 자주 묻는 질문
+  ## 자주 묻는 질문(FAQ)
 </div>
 
 <div id="how-do-i-stop-large-traces-from-being-truncated">
-  ### 대용량 트레이스가 잘리는 것을 어떻게 방지하나요?
+  ### 대용량 트레이스가 잘리지 않도록 하려면 어떻게 해야 하나요?
 </div>
 
-자세한 내용은 [문제 해결 가이드](/ko/weave/guides/troubleshooting)의 [트레이스 데이터가 잘립니다](/ko/weave/guides/troubleshooting#trace-data-is-truncated) 항목을 참고하세요.
+자세한 내용은 [Troubleshooting guide](/ko/weave/guides/troubleshooting)의 [Trace data is truncated](/ko/weave/guides/troubleshooting#trace-data-is-truncated) 섹션을 참고하세요.
 
 <div id="how-do-i-disable-tracing">
-  ### 트레이싱을 어떻게 비활성화하나요?
+  ### 트레이싱을 비활성화하려면 어떻게 해야 하나요?
 </div>
 
 <div id="environment-variable">
@@ -1215,13 +1215,13 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
 
 전체 프로그램에서 추적을 완전히 비활성화하려면 환경 변수 `WEAVE_DISABLED=true`를 설정하면 됩니다.
 
-`WEAVE_DISABLED`는 함수 정의 시점에 한 번만 읽힙니다. 이 변수는 런타임에 추적을 켰다가 끄는 용도로는 사용할 수 없습니다.
+`WEAVE_DISABLED`는 함수 정의 시점에 한 번만 읽힙니다. 이 변수는 런타임에 추적을 켜거나 끄는 용도로 사용할 수 없습니다.
 
 <div id="client-initialization">
   #### 클라이언트 초기화
 </div>
 
-특정 조건에 따라 트레이싱을 활성화하거나 비활성화하고 싶을 때가 있습니다. 이 경우 init 설정에서 `disabled` 플래그를 사용해 클라이언트를 초기화할 수 있습니다.
+때때로 특정 초기화 시 어떤 조건에 따라 트레이싱을 조건부로 활성화하고 싶을 수 있습니다. 이 경우 init 설정에서 `disabled` 플래그를 사용해 클라이언트를 초기화하면 됩니다.
 
 <Tabs>
   <Tab title="Python">
@@ -1241,10 +1241,10 @@ Weave를 사용하면 코드의 함수 호출을 추적하고, 해당 호출이 
 </Tabs>
 
 <div id="context-manager">
-  #### Context manager
+  #### 컨텍스트 매니저
 </div>
 
-특정 코드 블록에 대해서만 조건부로 tracing을 비활성화하려면 tracing 컨텍스트 매니저를 사용할 수 있습니다. `with tracing_disabled()`를 사용하면 **`with` 블록 내부에서 실행되는 함수 호출에 대해서만** tracing이 비활성화됩니다. 이는 애플리케이션 코드에서 로그로 남기지 않을 호출의 범위를 지정하는 데 사용하도록 설계되었습니다.
+특정 코드 블록에서만 조건부로 트레이싱을 비활성화하려면 트레이싱 컨텍스트 매니저를 사용할 수 있습니다. `with` 블록 안에서 실행되는 함수 호출에 대해서만 트레이싱을 중지하려면 `with tracing_disabled()`를 사용하세요. 이는 애플리케이션 코드에서 로깅되지 않아야 할 호출의 범위를 지정하는 용도로 사용하도록 설계되었습니다.
 
 ```python lines
 import weave
@@ -1260,7 +1260,7 @@ with tracing_disabled():
     my_op()
 ```
 
-함수가 정의될 때 추적 동작은 고정되지만, 애플리케이션 로직과 결합하면 실행 시점에서 제어할 수 있습니다. 예를 들어 컨텍스트 매니저를 조건문과 함께 사용해, 런타임 값에 따라 추적을 동적으로 활성화하거나 비활성화할 수 있습니다:
+함수가 정의될 때 트레이싱 동작은 결정되지만, 애플리케이션 로직과 결합하면 이를 런타임에 제어하는 데 사용할 수 있습니다. 예를 들어, 컨텍스트 매니저를 조건문으로 감싸서 런타임 값에 따라 트레이싱을 동적으로 활성화하거나 비활성화할 수 있습니다:
 
 ```python lines
 if should_trace:
@@ -1271,10 +1271,10 @@ else:
 ```
 
 <div id="how-do-i-capture-information-about-a-call">
-  ### Call 정보를 어떻게 캡처하나요?
+  ### Call에 대한 정보는 어떻게 기록하나요?
 </div>
 
-보통은 op를 직접 호출합니다:
+일반적으로는 op를 직접 호출합니다:
 
 ```python lines
 @weave.op
@@ -1284,7 +1284,7 @@ def my_op():
 my_op()
 ```
 
-하지만 `op`에서 `call` 메서드를 직접 호출하면 `call` 객체에 바로 접근할 수도 있습니다:
+하지만 op의 `call` 메서드를 직접 호출하여 call 객체에 곧바로 접근할 수도 있습니다.
 
 ```python lines
 @weave.op
@@ -1294,4 +1294,4 @@ def my_op():
 output, call = my_op.call()
 ```
 
-이제 `call` 객체에는 입력, 출력 및 기타 메타데이터를 포함해 해당 호출에 대한 모든 정보가 들어 있습니다.
+이제 `call` 객체에는 입력, 출력 및 기타 메타데이터를 포함해 해당 호출에 대한 모든 정보가 담겨 있습니다.

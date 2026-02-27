@@ -1,33 +1,33 @@
 ---
-title: W&B Weave와 W&B Tables로 모델 평가하기
-description: W&B Weave와 W&B Tables를 사용하여 머신러닝 모델을 평가하는 방법을 설명합니다.
+title: W&B Weave 및 W&B Tables로 모델 평가하기
+description: W&B Weave 및 W&B Tables를 사용하여 머신 러닝 모델을 평가하는 방법을 알아봅니다.
 ---
 
 <div id="evaluate-models-with-weave">
   ## Weave로 모델 평가하기
 </div>
 
-[W&amp;B Weave](/ko/weave)는 LLM과 생성형 AI 애플리케이션 평가를 위해 설계된 특화 도구 키트입니다. 스코어러(scorer), 저지(judge), 상세 트레이싱을 포함한 포괄적인 평가 기능을 제공하여 모델 성능을 이해하고 개선할 수 있도록 돕습니다. 또한 Weave는 W&amp;B Models와 통합되어 Model Registry에 저장된 모델을 평가할 수 있습니다.
+[W&amp;B Weave](/ko/weave)는 LLM 및 생성형 AI 애플리케이션 평가를 위해 특화된 툴킷입니다. 이 툴킷은 스코어러, 평가자, 세부 트레이싱 등을 포함한 포괄적인 평가 기능을 제공하여 모델 성능을 이해하고 개선할 수 있도록 도와줍니다. Weave는 W&amp;B Models와 통합되어, Model Registry에 저장된 모델을 평가할 수 있습니다.
 
 <Frame>
-  <img src="/images/weave/evals.png" alt="모델 성능 지표와 트레이스를 보여주는 Weave Evaluation 대시보드" />
+  <img src="/images/weave/evals.png" alt="모델 성능 메트릭과 트레이스를 표시하는 Weave 평가 대시보드" />
 </Frame>
 
 <div id="key-features-for-model-evaluation">
-  ### 모델 평가를 위한 핵심 기능
+  ### 모델 평가의 주요 기능
 </div>
 
-* **Scorers와 judges**: 정확도, 관련성, 일관성 등 다양한 기준을 위한 미리 제공된 및 사용자 정의 평가 지표
-* **평가용 데이터셋**: 체계적인 평가를 위해 정답이 포함된 구조화된 테스트 세트
-* **모델 버전 관리**: 서로 다른 모델 버전을 추적하고 비교합니다
-* **상세 트레이싱**: 전체 입력/출력 트레이스를 통해 모델 동작을 디버깅합니다
-* **비용 추적**: 여러 Evaluation 전반에 걸쳐 API 비용과 토큰 사용량을 모니터링합니다
+* **Scorers와 judges**: 정확도, 관련성, 일관성 등 다양한 지표를 위한 기본 제공 및 사용자 정의 평가 메트릭
+* **평가 데이터셋**: 체계적인 평가를 위한 정답 레이블이 있는 구조화된 테스트 세트
+* **모델 버전 관리**: 서로 다른 모델 버전의 추적 및 비교
+* **상세 트레이싱**: 전체 입력/출력 트레이스를 통한 모델 동작 분석
+* **비용 추적**: 평가 전반에 걸친 API 비용 및 토큰 사용량 모니터링
 
 <div id="getting-started-evaluate-a-model-from-wb-registry">
-  ### 시작하기: W&amp;B Registry의 모델 평가
+  ### 시작하기: W&amp;B Models Registry에서 모델 평가하기
 </div>
 
-W&amp;B Models Registry에서 모델을 다운로드한 다음 Weave를 사용하여 평가합니다:
+W&amp;B Models Registry에서 모델을 다운로드한 다음 Weave로 평가합니다.
 
 ```python
 import weave
@@ -77,17 +77,17 @@ results = await evaluation.evaluate(model)
   ### Weave 평가를 W&amp;B Models와 통합하기
 </div>
 
-[Models and Weave Integration Demo](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)는 다음에 대한 전체 워크플로를 보여줍니다:
+[Models and Weave Integration Demo](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)는 다음과 같은 전체 워크플로우를 보여줍니다:
 
-1. **Registry에서 모델 로드**: W&amp;B Models Registry에 저장된 미세 조정된 모델을 다운로드합니다
-2. **평가 파이프라인 생성**: 사용자 지정 스코어러로 포괄적인 평가를 구성합니다
-3. **결과를 W&amp;B로 다시 기록**: 평가 지표를 모델 실행과 연결합니다
-4. **평가된 모델 버전 관리**: 개선된 모델을 Registry에 다시 저장합니다
+1. **Registry에서 모델 로드**: W&amp;B Models Registry에 저장된 파인튜닝된 모델을 다운로드합니다.
+2. **평가 파이프라인 생성**: 커스텀 스코어러로 포괄적인 평가를 구성합니다.
+3. **결과를 W&amp;B로 다시 로깅**: 평가 메트릭을 모델 run과 연결합니다.
+4. **평가된 모델 버전 관리**: 향상된 모델을 Registry에 다시 저장합니다.
 
-평가 결과를 Weave와 W&amp;B Models 모두에 기록합니다:
+평가 결과를 Weave와 W&amp;B Models 모두에 로깅합니다:
 
 ```python
-# W&B 추적으로 Evaluation 실행
+# W&B 추적으로 평가 실행
 with weave.attributes({"wandb-run-id": wandb.run.id}):
     summary, call = await evaluation.evaluate.call(evaluation, model)
 
@@ -99,14 +99,14 @@ wandb.run.config.update({
 ```
 
 <div id="advanced-weave-features">
-  ### Weave의 고급 기능
+  ### Weave 고급 기능
 </div>
 
 <div id="custom-scorers-and-judges">
-  #### 커스텀 스코어러와 판정자
+  #### 사용자 정의 스코어러와 저지
 </div>
 
-사용 사례에 맞는 정교한 평가 지표를 만듭니다:
+사용 사례에 맞춰 최적화된 정교한 평가 메트릭을 정의하세요:
 
 ```python
 @weave.op()
@@ -120,7 +120,7 @@ def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
   #### 배치 평가
 </div>
 
-여러 모델 버전이나 구성을 한꺼번에 평가합니다:
+여러 모델 버전 또는 설정을 한꺼번에 평가합니다:
 
 ```python
 models = [
@@ -137,19 +137,19 @@ for model in models:
   ### 다음 단계
 </div>
 
-* [Weave Evaluation 튜토리얼 완료하기](/ko/weave/tutorial-eval/)
-* [Models와 Weave 통합 예제](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)
+* [Weave 평가 튜토리얼 마치기](/ko/weave/tutorial-eval/)
+* [Models와 Weave 인테그레이션 예제](/ko/weave/cookbooks/Models_and_Weave_Integration_Demo)
 
 <div id="evaluate-models-with-tables">
   ## 테이블로 모델 평가하기
 </div>
 
-W&amp;B Tables를 사용하면 다음을 수행할 수 있습니다:
+W&amp;B Tables를 사용하면 다음 작업을 수행할 수 있습니다:
 
-* **모델 예측 비교**: 서로 다른 모델이 동일한 테스트 세트에서 어떤 성능을 보이는지 나란히 비교해서 확인합니다.
-* **예측 변화 추적**: 학습 epoch 또는 모델 버전이 바뀌면서 예측이 어떻게 변하는지 모니터링합니다.
-* **오류 분석**: 필터링과 쿼리를 통해 자주 오분류되는 예시와 오류 패턴을 찾습니다.
-* **리치 미디어 시각화**: 예측 및 지표와 함께 이미지, 오디오, 텍스트 등 다양한 미디어 타입을 표시합니다.
+* **모델 예측 비교**: 서로 다른 모델이 동일한 테스트 세트에서 어떻게 동작하는지 나란히 비교해 볼 수 있습니다
+* **예측 변화 추적**: 에포크별 또는 모델 버전별로 예측이 어떻게 변화하는지 모니터링합니다
+* **에러 분석**: 자주 잘못 분류되는 예시와 에러 패턴을 필터링하고 쿼리하여 찾아냅니다
+* **리치 미디어 시각화**: 이미지, 오디오, 텍스트 등 다양한 미디어 타입을 예측값과 메트릭과 함께 표시합니다
 
 <Frame>
   ![모델 출력이 정답 라벨과 함께 표시된 예측 테이블 예시](/images/data_vis/tables_sample_predictions.png)
@@ -162,7 +162,7 @@ W&amp;B Tables를 사용하면 다음을 수행할 수 있습니다:
 ```python
 import wandb
 
-# 실행 초기화
+# run 초기화
 run = wandb.init(project="model-evaluation")
 
 # 평가 결과가 담긴 테이블 생성
@@ -193,10 +193,10 @@ run.log({"evaluation_results": eval_table})
 </div>
 
 <div id="compare-multiple-models">
-  #### 여러 모델 비교하기
+  #### 여러 모델 비교
 </div>
 
-서로 다른 모델에서 생성된 Evaluation 테이블을 동일한 키에 로깅해 직접 비교합니다:
+서로 다른 모델의 평가 테이블을 동일한 키로 로깅하여 직접 비교합니다:
 
 ```python
 # 모델 A 평가
@@ -211,20 +211,20 @@ with wandb.init(project="model-comparison", name="model_b") as run:
 ```
 
 <Frame>
-  ![훈련 에포크별 모델 예측을 나란히 배치해 비교한 이미지](/images/data_vis/table_comparison.png)
+  ![트레이닝 에포크별 모델 예측을 나란히 비교한 모습](/images/data_vis/table_comparison.png)
 </Frame>
 
 <div id="track-predictions-over-time">
-  #### 시간에 따른 예측 추적
+  #### 시간 경과에 따른 예측 추적
 </div>
 
-여러 학습 에포크에서 테이블을 로깅해 개선 정도를 시각화하세요:
+성능 향상을 시각화할 수 있도록 서로 다른 트레이닝 에포크마다 테이블을 로깅하세요:
 
 ```python
 for epoch in range(num_epochs):
     train_model(model, train_data)
     
-    # 이 에포크의 예측값 평가 및 로깅
+    # 이 에포크의 예측값을 평가하고 기록합니다
     eval_table = wandb.Table(columns=["image", "truth", "prediction"])
     for image, label in test_subset:
         pred = model(image)
@@ -237,19 +237,19 @@ for epoch in range(num_epochs):
   ### W&amp;B UI에서의 대화형 분석
 </div>
 
-로그를 남기면 다음 작업을 수행할 수 있습니다.
+로그를 기록하면 다음을 수행할 수 있습니다:
 
-1. **결과 필터링**: 열 헤더를 클릭해 예측 정확도, 신뢰도 임계값, 특정 클래스 기준으로 필터링합니다.
-2. **테이블 비교**: 여러 테이블 버전을 선택해 나란히 비교합니다.
-3. **데이터 쿼리**: 쿼리 바를 사용해 특정 패턴을 찾습니다 (예: `"correct" = false AND "confidence" > 0.8`).
-4. **그룹화 및 집계**: 예측된 클래스로 그룹화하여 클래스별 정확도 지표를 확인합니다.
+1. **결과 필터링**: 열 헤더를 클릭해 예측 정확도, 신뢰도 임계값, 특정 클래스 등으로 필터링합니다
+2. **테이블 비교**: 여러 테이블 버전을 선택해 나란히 비교합니다
+3. **데이터 쿼리**: 쿼리 바를 사용해 특정 패턴을 찾습니다(예: `"correct" = false AND "confidence" > 0.8`)
+4. **그룹 및 집계**: 예측된 클래스로 그룹화하여 클래스별 정확도 메트릭을 확인합니다
 
 <Frame>
-  ![W\&B Tables에서 평가 결과를 대화형으로 필터링하고 쿼리하는 모습](/images/data_vis/wandb_demo_filter_on_a_table.png)
+  ![W\&B Tables에서 평가 결과를 대화형으로 필터링하고 쿼리하는 예시](/images/data_vis/wandb_demo_filter_on_a_table.png)
 </Frame>
 
 <div id="example-error-analysis-with-enriched-tables">
-  ### 예시: 추가 정보가 포함된 테이블을 이용한 오류 분석
+  ### 예제: 풍부한 정보가 담긴 테이블을 활용한 오류 분석
 </div>
 
 ```python

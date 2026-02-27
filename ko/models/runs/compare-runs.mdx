@@ -1,131 +1,131 @@
 ---
-description: 중요한 실행을 추적하고 모델 실험을 효율적으로 평가하기 위해 실행 고정과 기준 실행을 사용하는 방법을 알아보세요.
-title: 실행 고정 및 비교
+description: pinned run과 baseline run을 사용하여 중요한 run을 추적하고 모델 실험을 효율적으로 평가하는 방법을 알아봅니다.
+title: run을 고정하고 비교하기
 ---
 
 import CloudOnly from '/snippets/ko/_includes/pinned-and-baseline-runs/cloud-only.mdx';
 import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pin-runs-condensed.mdx';
 
-실행이 많은 워크스페이스에서는 최고의 성능을 내는 모델, 프로덕션 모델, 실패한 실험, 중요한 기준점 등을 추적하기가 어려울 수 있습니다. W&amp;B App은 실행을 정리하고 비교할 수 있도록 다음과 같은 기능을 제공합니다:
+여러 개의 run이 있는 워크스페이스에서는 최고 성능 run, 프로덕션 모델, 실패한 실험, 중요한 기준점들을 일관되게 관리하기가 어려울 수 있습니다. W&amp;B App은 run을 정리하고 비교하는 데 도움이 되는 기능을 제공합니다:
 
-* **고정 실행(Pinned runs)**: 워크스페이스와 실행 목록 상단에 항상 표시되도록 최대 6개의 실행을 고정할 수 있습니다. 기준 실행(baseline run)이 있는 경우, 기준 실행은 자동으로 고정되므로 최대 5개의 실행만 별도로 고정할 수 있습니다.
-* **기준 실행(Baseline run)**: 비교를 위한 기준점으로 사용할 기준 실행을 지정할 수 있습니다. 기준 실행은 항상 워크스페이스와 실행 목록 상단에 표시됩니다. 선형 플롯(line plot)에서는 비교를 돕기 위해 기준 실행이 시각적으로 구분되는 스타일로 표시됩니다.
+* **고정 run(Pinned runs)**: 최대 6개의 run을 고정해 워크스페이스와 run 목록 상단에 항상 보이도록 유지할 수 있습니다. 베이스라인 run이 있는 경우, 베이스라인이 자동으로 고정되므로 최대 5개의 run만 직접 고정할 수 있습니다.
+* **Baseline run**: 비교를 위한 기준점으로 베이스라인 run을 지정합니다. 베이스라인 run은 항상 워크스페이스와 run 목록 상단에 표시됩니다. 라인 플롯에서는 비교를 돕기 위해 베이스라인이 시각적으로 구분되는 스타일로 표시됩니다.
 
-다음과 같은 경우에 특히 유용합니다:
+이 기능들은 특히 다음과 같은 경우에 유용합니다:
 
-* 새로운 실험을 프로덕션 모델과 비교할 때.
-* 실험 중 여러 후보 모델을 추적할 때.
-* 새로운 실행이 기존 최고 성능을 갱신했는지 평가할 때.
+* 새로운 실험을 프로덕션 모델과 비교할 때
+* 실험 과정에서 여러 후보 모델을 추적할 때
+* 새로운 run이 기존 최고 결과를 향상시키는지 평가할 때
 
 <CloudOnly />
 
 [제한 사항](#limitations)을 참조하세요.
 
 <div id="pin-runs">
-  ## 실행 고정하기
+  ## run 고정
 </div>
 
 <PinRunsCondensed />
 
 <Frame>
-  ![실행 테이블과 고정된 실행](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
+  ![고정된 run이 있는 Runs 테이블](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-runs.png)
 </Frame>
 
-실행 고정을 해제하려면 핀 아이콘을 다시 클릭하거나 실행을 고정하는 절차를 그대로 따르되 대신 **Unpin run**을 선택하세요.
+run 고정을 해제하려면 핀 아이콘을 클릭하거나 run을 고정하는 절차를 그대로 따르되, 대신 **Unpin run**을 선택합니다.
 
 <div id="manage-the-baseline-run">
-  ## 기준 실행 관리하기
+  ## 기준 run 관리하기
 </div>
 
-워크스페이스에서 하나의 실행을 기준 실행으로 지정해, 워크스페이스의 다른 실행을 평가할 때 기준점으로 사용할 수 있습니다.
+워크스페이스에서 하나의 run을 기준 run으로 지정하면, 워크스페이스에 있는 다른 run을 평가할 때 기준점으로 사용할 수 있습니다.
 
-실행 선택기와 실행 테이블에서 기준 실행은 고정된 실행과 함께 맨 위에 표시되며, 핀 아이콘 대신 북마크 아이콘이 표시됩니다.
+Runs 선택기와 Runs 테이블에서 기준 run은 상단에 고정된 run과 함께 표시되며, 핀 대신 북마크 아이콘이 나타납니다.
 
-선형 플롯에서는 기준 실행의 선이 다른 선보다 더 두껍게 표시됩니다. 플롯이나 범례 위에 마우스를 올리면 기준 실행의 선이 점선으로 표시됩니다.
+선형 플롯(line plot)에서는 기준 run의 선이 다른 선보다 더 두껍게 표시됩니다. 플롯 또는 범례 위에 마우스를 올리면 기준 run의 선이 점선으로 표시됩니다.
 
 <Frame>
-  ![기준 실행과 다른 실행을 비교하는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+  ![다른 run을 기준 run과 비교하는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
 </Frame>
 
 <div id="set-a-baseline-run">
-  ### 기준 실행 설정
+  ### 기준 run 설정
 </div>
 
-기준 실행을 설정하려면:
+기준 run을 설정하려면:
 
 1. 워크스페이스로 이동합니다.
-2. 실행 선택기 또는 실행 테이블에서 기준 실행으로 사용할 실행을 찾습니다.
-3. 작업 `...` 메뉴를 클릭한 다음 **Set as baseline**을 선택합니다.
+2. run 선택기 또는 Runs 테이블에서 기준으로 사용할 run을 찾습니다.
+3. `...` 액션 메뉴를 클릭한 다음 **Set as baseline**을 선택합니다.
 
-기준 실행은 다른 실행과 시각적으로 구분되는 구분선과 함께 실행 선택기 맨 위에 표시됩니다. 기준 실행에는 원 대신 북마크 아이콘이 표시됩니다.
+기준 run은 run 선택기 맨 위에, 다른 run들과 시각적 구분선으로 분리되어 표시됩니다. 기준 run에는 원 대신 북마크 아이콘이 표시됩니다.
 
 <Frame>
-  ![기준 실행과 고정된 실행이 있는 실행 테이블](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
+  ![Runs table with a baseline run and pinned runs](/images/models/pinned-and-baseline-runs/runs-table-with-pinned-and-baseline-runs.png)
 </Frame>
 
 <div id="change-the-baseline-run">
-  ### 기준 실행 변경
+  ### 기준 run 변경
 </div>
 
-기준 실행은 한 번에 하나만 지정할 수 있습니다. 기준 실행을 변경하려면:
+한 번에 하나의 run만 기준이 될 수 있습니다. 기준 run을 변경하려면:
 
 1. 워크스페이스로 이동합니다.
-2. 실행 선택기 또는 실행 테이블에서 새 기준으로 지정할 실행을 찾습니다.
-3. 동작 `...` 메뉴를 클릭한 다음 **Replace baseline**을 선택합니다. <Note>메뉴 항목이 비활성화되어 있다면, 사용 가능한 고정 슬롯이 최소 한 개 이상 남아 있는지 확인하세요. 필요한 경우, 이미 고정된 실행 옆의 원형 핀 아이콘을 클릭해 해당 실행의 고정을 해제하세요.</Note>
-4. 새 실행이 기준 실행이 되며, 이전 기준 실행은 나중에 쉽게 찾을 수 있도록 자동으로 고정됩니다. 필요하다면 핀 아이콘을 클릭해 고정을 해제하세요.
+2. run 선택기 또는 Runs 테이블에서 새 기준으로 사용할 run을 찾습니다.
+3. 작업 `...` 메뉴를 클릭한 다음 **Replace baseline**을 선택합니다. <Note>메뉴 항목이 비활성화되어 있다면, 사용 가능한 고정 슬롯이 최소 한 개 이상 있는지 확인하세요. 필요한 경우, 고정된 run 옆의 원형 핀 아이콘을 클릭하여 해당 run의 고정을 해제하세요.</Note>
+4. 새 run이 기준이 되고, 이전 기준은 나중에 쉽게 찾을 수 있도록 자동으로 고정됩니다. 필요하다면 핀 아이콘을 클릭해 고정을 해제하세요.
 
 <div id="remove-the-baseline-designation">
-  ### 기준 실행 지정 해제
+  ### 기준선 지정 해제
 </div>
 
-기준 실행 지정을 해제하려면 다음을 수행합니다:
+기준선 지정을 해제하려면:
 
 1. 워크스페이스로 이동합니다.
-2. 실행 선택기 또는 실행 테이블에서 현재 기준 실행을 찾습니다.
-3. 동작 `...` 메뉴를 클릭한 다음 **기준 실행 해제**를 선택합니다. <Note>메뉴 항목이 비활성화되어 있다면, 사용 가능한 고정 슬롯이 하나 이상 있는지 확인하세요. 필요한 경우, 고정된 실행 옆의 원형 핀 아이콘을 클릭해 해당 실행의 고정을 해제하세요.</Note>
-4. 이전 기준 실행은 나중에 쉽게 찾을 수 있도록 자동으로 고정됩니다. 필요하면 해당 실행의 핀 아이콘을 클릭해 고정을 해제하세요.
+2. run 선택기 또는 Runs 테이블에서 현재 기준선 run을 찾습니다.
+3. 작업 `...` 메뉴를 클릭한 다음 **Remove baseline**을 선택합니다. <Note>메뉴 항목이 비활성화되어 있다면, 사용 가능한 고정 슬롯이 최소 한 개 이상 남아 있는지 확인하세요. 필요한 경우 고정된 run 옆의 원형 핀 아이콘을 클릭해 해당 run의 고정을 해제합니다.</Note>
+4. 이전 기준선은 이후에 쉽게 찾을 수 있도록 자동으로 고정됩니다. 필요하다면 해당 run의 핀 아이콘을 클릭해 고정을 해제합니다.
 
 <div id="compare-runs-to-the-baseline">
-  ## 기준 실행과 다른 실행 비교
+  ## 베이스라인과 run 비교하기
 </div>
 
-기준 실행은 해당 실행에서 로깅한 지표의 선 그래프에 항상 표시됩니다. 선 그래프에서 기준 실행의 선은 다른 선보다 더 두껍게 표시됩니다.
+베이스라인 run은 해당 run이 로깅한 메트릭의 선형 플롯에서 항상 표시됩니다. 선형 플롯에서 베이스라인 run의 선은 다른 선보다 더 굵게 표시됩니다.
 
-* 플롯의 일부에 마우스를 올리면 기준 실행과 고정된 실행을 포함해 현재 표시된 모든 실행의 값이 툴팁으로 표시됩니다.
+* 플롯의 일부에 마우스를 올리면 베이스라인 run과 고정된 run을 포함해 표시된 모든 run의 값을 보여주는 툴팁이 나타납니다.
   <Frame>
-    ![특정 지점에서 보이는 모든 실행의 세부 정보를 보여주는 데모](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
+    ![Demo showing details for all visible runs at a given point](/images/models/pinned-and-baseline-runs/line-plot-point-details.png)
   </Frame>
-* 기준 실행의 범례 레이블 위에 마우스를 올리면 해당 선이 두드러지게 표시됩니다. 굵은 점선으로 나타납니다. 다른 표시된 실행의 선은 채도를 낮춰 표시됩니다.
+* 베이스라인 run의 범례 레이블에 마우스를 올리면 해당 선이 두드러지게 표시됩니다. 굵은 점선으로 나타납니다. 다른 표시된 run의 선은 채도가 낮게 표시됩니다.
   <Frame>
-    ![기준 실행의 세부 정보를 보여주는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
+    ![Demo showing details for the baseline run](/images/models/pinned-and-baseline-runs/line-plot-baseline-run-foreground.png)
   </Frame>
-* 다른 실행의 범례 레이블 위에 마우스를 올리면 해당 실행의 선이 두드러지게 표시되고, 굵은 점선으로 나타나는 기준 실행과 비교할 수 있습니다. 다른 표시된 실행의 선은 채도를 낮춰 표시됩니다.
+* 다른 run의 범례 레이블에 마우스를 올리면 해당 run의 선이 두드러지게 표시되고, 굵은 점선으로 표시되는 베이스라인과 비교할 수 있습니다. 다른 표시된 run의 선은 채도가 낮게 표시됩니다.
   <Frame>
-    ![다른 실행을 기준 실행과 비교하는 데모](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
+    ![Demo of comparing another run with the baseline](/images/models/pinned-and-baseline-runs/line-plot-baseline-comparison.png)
   </Frame>
 
 <div id="use-cases">
   ## 사용 사례
 </div>
 
-이 섹션에서는 고정 실행(pinned 실행)과 기준 실행(baseline 실행)이 실험을 진행하는 데 도움이 되는 몇 가지 시나리오를 설명합니다.
+이 섹션에서는 pinned run과 baseline run이 Experiments를 진행할 때 어떤 방식으로 도움이 되는지 몇 가지 시나리오를 통해 설명합니다.
 
 * **프로덕션 모델 추적**: 새 모델이 배포 전에 품질 기준을 충족하는지 확인합니다.
-  1. 프로덕션 모델을 기준 실행으로 설정합니다.
-  2. 프로덕션보다 성능이 뛰어난 후보를 식별하기 위해 모든 실험을 배포된 모델과 비교합니다.
-* **하이퍼파라미터 실험 비교**: 하이퍼파라미터 스윕 또는 수동 실험을 현재까지 파악된 최상의 설정과 비교해 평가합니다.
-  1. 현재까지 파악된 최상의 설정을 기준 실행으로 설정합니다.
-  2. 유망한 후보를 발견할 때마다 고정합니다.
-  3. 선 그래프(line plot)를 사용해 실행들을 기준 실행과 시각적으로 비교합니다.
-  4. 더 나은 설정을 찾을 때마다 기준 실행을 계속 업데이트합니다.
+  1. 프로덕션 모델을 baseline으로 설정합니다.
+  2. 모든 Experiments를 배포된 모델과 비교하여 프로덕션보다 성능이 뛰어난 후보를 식별합니다.
+* **하이퍼파라미터 실험 비교**: 하이퍼파라미터 스윕 또는 수동 Experiments를 현재까지 최선의 설정과 비교해 평가합니다.
+  1. 현재까지 최선의 설정을 baseline으로 설정합니다.
+  2. 유망한 후보를 발견할 때마다 pinned run으로 고정합니다.
+  3. 라인 플롯(line plot)을 사용해 baseline과 각 run을 시각적으로 비교합니다.
+  4. 더 나은 설정을 찾을 때마다 baseline을 계속 업데이트합니다.
 
 <div id="example-workflow">
-  ## 예시 워크플로우
+  ## 예시 워크플로
 </div>
 
-이 섹션에서는 고정 실행과 기준 실행이 다른 실행을 비교하는 데 어떻게 도움이 되는지 보여줍니다.
+이 섹션에서는 run 고정(pinning)과 기준선(baseline) run이 run을 비교하는 데 어떻게 도움이 되는지 보여 줍니다.
 
-1. 일련의 실행으로 하이퍼파라미터 튜닝 시나리오를 시뮬레이션하는 다음 예제 코드를 실행합니다. 꺾쇠 괄호(`<>`)로 둘러싸인 플레이스홀더를 자신의 값으로 바꾸세요.
+1. 일련의 run으로 하이퍼파라미터 튜닝 시나리오를 시뮬레이션하는 아래 예제 코드를 실행합니다. 꺾쇠 괄호(`<>`)로 둘러싸인 플레이스홀더를 자신의 값으로 바꿉니다.
 
    ```python
    import wandb
@@ -133,7 +133,7 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
    import math
 
    def train_model(learning_rate, batch_size, run_name, tags=None):
-       """주어진 하이퍼파라미터로 모델을 학습하는 것을 시뮬레이션합니다."""
+       """Simulate training a model with given hyperparameters."""
        config = {
            "learning_rate": learning_rate,
            "batch_size": batch_size,
@@ -142,16 +142,16 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
        }
        
        with wandb.init(
-         # 여기를 팀 및 프로젝트 이름으로 바꾸세요
+         # Replace with your team and project name
            project="hyperparameter-tuning",
            entity="<team>",
            name=run_name,
            config=config,
            tags=tags or []
        ) as run:
-           # 학습 루프 시뮬레이션
+           # Simulate training loop
            for epoch in range(50):
-               # 시뮬레이션된 지표
+               # Simulated metrics
                accuracy = 0.6 + 0.3 * (1 - math.exp(-learning_rate * epoch / 10))
                loss = 1.0 * math.exp(-learning_rate * epoch / 10)
                
@@ -161,7 +161,7 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
                    "loss": loss
                })
 
-   # 표준 설정으로 기준 실행 생성
+   # Create baseline run with standard configuration
    train_model(
        learning_rate=0.001,
        batch_size=64,
@@ -169,7 +169,7 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
        tags=["baseline", "production"]
    )
 
-   # 서로 다른 learning rate로 실험
+   # Experiment with different learning rates
    train_model(
        learning_rate=0.003,
        batch_size=64,
@@ -185,13 +185,13 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
    )
    ```
 
-   이 코드를 실행한 후 워크스페이스에는 세 개의 실행이 있게 됩니다.
-2. `baseline-config`를 기준 실행으로 설정합니다.
-3. `baseline-config`를 고정해서 항상 보이도록 합니다.
-4. 워크스페이스의 선 그래프를 사용해 실험 실행을 기준 실행과 비교합니다.
-5. 추가 분석이 필요한 유망한 실험을 고정합니다. 이 예제에서는 50 에포크 후에 `lr-experiment-0.003`이 가장 높은 정확도(`~0.64`)와 가장 낮은 손실(`~0.86`)을 보입니다.
+   이 코드를 실행하면 Workspace에 세 개의 run이 생성됩니다.
+2. `baseline-config`를 기준선(baseline) run으로 설정합니다.
+3. `baseline-config`를 고정(pinning)하여 항상 보이도록 합니다.
+4. Workspace의 선(line) 플롯을 사용해 실험 run을 기준선과 비교합니다.
+5. 추가 분석이 필요한 유망한 실험을 고정합니다. 이 예시에서는 50 에포크 후 `lr-experiment-0.003` run이 가장 높은 정확도(`~0.64`)와 가장 낮은 손실 값(`~0.86`)을 보입니다.
 
-{{/* TODO 스크린샷 */}}
+{/* TODO 스크린샷 */}
 
 <div id="limitations">
   ## 제한 사항
@@ -199,9 +199,9 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
 
 <CloudOnly />
 
-다음 기능은 아직 고정 실행과 기준 실행에 대해 지원되지 않습니다:
+다음 기능은 pinned run 및 baseline run에는 아직 지원되지 않습니다:
 
-* **그룹화**: 실행 선택기 또는 실행 테이블에서 [실행을 볼 때](/ko/models/runs#view-logged-runs) 실행이 열 기준으로 그룹화된 경우, 고정 실행과 기준 실행은 다른 실행과 시각적으로 구분되지 않습니다.
-* **리포트**: [W&amp;B Report](/ko/models/reports)의 실행 집합에서 고정 실행과 기준 실행은 다른 실행과 시각적으로 구분되지 않습니다.
-* **워크스페이스 보기에서만**: 단일 실행의 워크스페이스를 볼 때 기준 실행은 표시되지 않습니다.
-* **선형 플롯만 해당**: 기준 실행 비교는 선형 플롯에서만 사용할 수 있으며, 아직 막대 플롯이나 미디어 패널과 같은 다른 패널에서는 사용할 수 없습니다.
+* **그룹화**: [run 보기](/ko/models/runs#view-logged-runs) 화면의 run 선택기 또는 run 테이블에서 run을 열 기준으로 그룹화하면, pinned run 및 baseline run이 다른 run과 시각적으로 구분되지 않습니다.
+* **Reports**: [W&amp;B Report](/ko/models/reports) 내 run 세트에서 pinned run 및 baseline run이 다른 run과 시각적으로 구분되지 않습니다.
+* **Workspace 보기에는 표시되지 않음**: 단일 run의 Workspace를 볼 때 baseline은 표시되지 않습니다.
+* **선형 플롯만**: baseline 비교는 선형 플롯에서만 사용할 수 있으며, 막대 플롯이나 미디어 패널 등의 다른 패널에서는 아직 사용할 수 없습니다.

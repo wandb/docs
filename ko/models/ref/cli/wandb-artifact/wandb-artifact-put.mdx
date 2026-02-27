@@ -3,8 +3,8 @@ title: "wandb artifact put"
 ---
 
 {/*
-  이 명령어에 대한 소개 내용을 추가하려면:
-  1. 다음 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-artifact-put.mdx
+  이 명령에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-artifact-put.mdx
   2. 해당 파일에 소개 내용을 추가합니다.
   3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남깁니다:
 
@@ -12,10 +12,10 @@ title: "wandb artifact put"
 
   <WandbArtifactPut/>
 
-  이 스니펫은 다음 문서 재생성 시 자동으로 감지됩니다.
+  이 스니펫은 다음 재생성 시 자동으로 감지됩니다.
   */}
 
-아티팩트를 wandb에 업로드하기
+wandb에 아티팩트 업로드하기
 
 
 <div id="usage">
@@ -33,19 +33,19 @@ wandb artifact put PATH [OPTIONS]
 
 | 인수 | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
-| `PATH` | 제공된 설명이 없습니다 | 예 |
+| `PATH` | 설명이 없습니다 | 예 |
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션 | 설명 |
+| Option | Description |
 | :--- | :--- |
-| `--name`, `-n` | 푸시할 아티팩트 이름: project/artifact_name |
+| `--name`, `-n` | 푸시할 아티팩트의 이름: project/artifact_name |
 | `--description`, `-d` | 이 아티팩트에 대한 설명 |
-| `--type`, `-t` | 아티팩트의 유형 (기본값: dataset) |
-| `--alias`, `-a` | 이 아티팩트에 적용할 별칭(alias) (기본값: ['latest']) |
-| `--id` | 업로드할 실행의 ID |
-| `--resume` | 현재 디렉터리에서 마지막 실행을 재개합니다. |
-| `--skip_cache` | 아티팩트 파일을 업로드할 때 캐싱을 사용하지 않습니다. (기본값: False) |
-| `--policy` | 아티팩트 파일을 업로드할 때 저장 정책(storage policy)을 설정합니다. (기본값: mutable) |
+| `--type`, `-t` | 아티팩트의 유형 (기본값: 데이터셋) |
+| `--alias`, `-a` | 이 아티팩트에 적용할 별칭 (기본값: ['latest']) |
+| `--id` | 아티팩트를 업로드할 run입니다. |
+| `--resume` | 현재 디렉터리에서 마지막 run을 재개합니다. |
+| `--skip_cache` | 아티팩트 파일을 업로드하는 동안 캐싱을 건너뜁니다. (기본값: False) |
+| `--policy` | 아티팩트 파일을 업로드하는 동안 스토리지 정책을 설정합니다. (기본값: mutable) |

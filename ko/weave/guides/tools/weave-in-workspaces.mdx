@@ -1,29 +1,29 @@
 ---
-title: "W&B 학습 실행에서 Weave 사용하기"
-description: "Weave 추적을 W&B 학습 실행과 통합해 학습 중 모델 동작을 깊이 있게 파악하고, 함수 실행 세부 정보 및 진단 정보를 기존 ML 지표와 함께 사용자 정의 가능한 워크스페이스 대시보드에 캡처합니다."
+title: "W&B 트레이닝 run에서 Weave 사용하기"
+description: "Weave 트레이스를 W&B 트레이닝 run과 통합해 트레이닝 중 모델 동작에 대한 심층 가시성을 확보하고, 함수 실행 세부 정보와 진단 정보를 기존 ML 메트릭과 함께 사용자 정의가 가능한 Workspace 대시보드에 캡처합니다."
 ---
 
 <div id="log-traces-during-model-training-runs">
-  # 모델 학습 실행 중 트레이스 로깅하기
+  # 모델 트레이닝 run 중 트레이스 로깅
 </div>
 
 <Frame>
-  ![Weave Trace in Workspaces](/images/weave/traces-in-workspace.png)
+  ![Workspaces에서의 Weave Trace](/images/weave/traces-in-workspace.png)
 </Frame>
 
-이제 모델 학습 실행 중에 Weave 트레이스를 기록하고, 이를 개인 워크스페이스에서 확인할 수 있습니다.
+이제 모델 트레이닝 run 중에 Weave 트레이스를 로깅하고 개인 Workspace에서 확인할 수 있습니다.
 
-개인 워크스페이스는 UI에서 사용자 정의할 수 있는 대시보드로, 모델 학습 실행에 대한 심층 분석과 데이터 시각화를 제공하는 공간입니다. 워크스페이스에 Weave 패널을 추가하면, 모델 실행 중에 기록된 트레이스 데이터를 조회·탐색하면서 모델이 학습 중에 어떻게 동작하는지에 대한 더 나은 인사이트를 얻을 수 있습니다.
+개인 Workspace는 UI에서 사용자 지정 가능한 대시보드로, 모델 트레이닝 run에 대한 심층 분석과 데이터 시각화를 제공하는 기능입니다. Workspace에 Weave 패널을 추가하면, 모델 run 동안 로깅된 트레이스 데이터를 확인하고 활용하여 트레이닝 중 모델이 어떻게 동작하는지 더 잘 이해할 수 있습니다.
 
-예를 들어 LLM 모델을 파인튜닝하는 동안 W&amp;B 워크스페이스에서 스텝 500에서 정확도가 떨어지는 것을 발견했다면, 통합된 Weave 트레이스를 통해 어떤 일이 있었는지 정확히 확인할 수 있습니다. 예를 들어 모델이 지나치게 장황한 응답을 생성하기 시작했고, 그 결과 평가 기준을 통과하지 못했을 수 있습니다.
+예를 들어, LLM 모델을 파인튜닝하는 동안 W&amp;B Workspace에서 스텝 500에서 정확도가 떨어지는 것을 발견했다면, 통합된 Weave 트레이스는 모델이 평가 기준을 통과하지 못한 지나치게 장황한 응답을 생성하기 시작한 것처럼, 정확히 어떤 일이 발생했는지를 보여줄 수 있습니다.
 
 <div id="use-weave-panels">
   ## Weave 패널 사용하기
 </div>
 
-ML 파이프라인에서 [함수에 `@weave.op` 데코레이터를 추가](/ko/weave/quickstart)하면 실행 정보를 자동으로 수집하고, 개인 워크스페이스에서 이 정보를 확인할 수 있습니다.
+[ML 파이프라인에서 함수에 `@weave.op` 데코레이터를 추가하면](/ko/weave/quickstart), 함수 실행 정보를 자동으로 수집하고 개인 워크스페이스에서 이를 확인할 수 있습니다.
 
-예를 들어, 다음 스크립트는 Weave 트레이스가 W&amp;B 학습 실행과 어떻게 통합되는지 보여 줍니다. 이 스크립트는 각 학습 스텝에서 W&amp;B로 메트릭을 로그하는 동시에 상세한 Weave 트레이스를 생성하는 머신러닝 학습 루프를 시뮬레이션합니다. 함수에 있는 `@weave.op` 데코레이터는 입력, 출력, 실행 세부 정보를 자동으로 캡처합니다. 학습 루프에서 `wandb.log()`로 메트릭을 로그하면 Weave 트레이스 정보도 함께 프로젝트에 기록됩니다.
+예를 들어, 다음 스크립트는 Weave 트레이스가 W&amp;B 트레이닝 run과 어떻게 통합되는지 보여줍니다. 이 스크립트는 각 트레이닝 스텝마다 W&amp;B에 메트릭을 로깅하는 동시에, 상세한 Weave 트레이스를 생성하는 머신 러닝 트레이닝 루프를 시뮬레이션합니다. 함수에 있는 `@weave.op` 데코레이터는 입력, 출력, 실행 세부 정보를 자동으로 수집합니다. 트레이닝 루프에서 `wandb.log()`로 메트릭을 로깅하면 Weave 트레이스 정보도 함께 프로젝트에 로깅됩니다.
 
 ```python lines
 import wandb
@@ -36,7 +36,7 @@ weave.init(project)
 
 @weave.op
 def evaluate_model(model_state, epoch):
-    # 평가 지표 시뮬레이션
+    # 평가 메트릭 시뮬레이션
     accuracy = 0.7 + epoch * 0.02 + random.uniform(-0.05, 0.05)
     
     # 특정 모델 동작 추적
@@ -53,7 +53,7 @@ def evaluate_model(model_state, epoch):
 
 @weave.op
 def training_step(epoch, lr):
-    # 학습 로직 시뮬레이션
+    # 트레이닝 로직 시뮬레이션
     loss = 1.0 / (epoch + 1) + random.uniform(-0.1, 0.1)
     
     # 트레이스를 활용한 평가
@@ -65,13 +65,13 @@ def training_step(epoch, lr):
         "diagnostics": eval_results["diagnostic_results"]
     }
 
-# 학습 루프
+# 트레이닝 루프
 with wandb.init(project=project, config={"lr": 0.01}) as run:
     for epoch in range(5):
-        # Weave 트레이싱으로 학습 실행
+        # Weave 트레이싱으로 트레이닝 실행
         results = training_step(epoch, run.config.lr)
         
-        # W&B에 로그 기록 - 통합 지점 생성
+        # W&B에 로그 기록 - 인테그레이션 지점 생성
         run.log({
             "epoch": epoch,
             "loss": results["loss"],
@@ -79,27 +79,27 @@ with wandb.init(project=project, config={"lr": 0.01}) as run:
         })
 ```
 
-이 예제 스크립트를 실행해서 추적 정보가 다른 실행 정보와 함께 어떻게 기록되는지 확인할 수 있습니다.
+이 예제 스크립트를 실행해 트레이스가 다른 run 정보와 함께 어떻게 로그되는지 확인할 수 있습니다.
 
-실행 중이거나 실행이 끝난 후에 워크스페이스에서 추적 정보를 보려면, 실행 시작 시 터미널에 표시되는 링크(예: `wandb: 🚀 View run at https://wandb.ai/wandb/my-project/runs/<run-ID>`)를 열거나 UI에서 해당 워크스페이스로 이동하면 됩니다.
+run 중이거나 완료된 후에 워크스페이스에서 트레이스 정보를 보려면, run 시작 시 터미널에 표시되는 링크(다음과 같은 형태: `wandb: 🚀 View run at https://wandb.ai/wandb/my-project/runs/<run-ID>`)를 열거나 UI에서 워크스페이스로 이동하면 됩니다.
 
 UI에서 워크스페이스로 이동하려면:
 
-1. W&amp;B UI를 열고 **Projects** 탭을 클릭합니다. 프로젝트 목록이 표시됩니다.
-2. 프로젝트 목록에서 실행을 기록한 프로젝트를 클릭합니다. 그러면 **Workspaces** 페이지가 열립니다.
-3. 워크스페이스를 자동 워크스페이스로 설정한 경우, 워크스페이스에 실행과 관련된 데이터 시각화와 정보가 자동으로 채워집니다. 실행의 추적 데이터는 워크스페이스의 **Weave** 섹션에서 확인할 수 있습니다. 워크스페이스가 수동 워크스페이스인 경우 **Add panels**를 클릭한 다음 Add Panels 메뉴의 **Weave** 섹션에서 새 패널을 선택해 Weave 패널을 추가할 수 있습니다.
+1. W&amp;B UI를 열고 **Projects** 탭을 클릭합니다. 그러면 프로젝트 목록이 열립니다.
+2. 프로젝트 목록에서 run을 로깅한 프로젝트를 클릭합니다. 그러면 **Workspaces** 페이지가 열립니다.
+3. 워크스페이스를 자동 워크스페이스로 설정한 경우, 워크스페이스에는 run에 대한 데이터 시각화와 정보가 자동으로 채워집니다. run의 트레이스 데이터는 워크스페이스의 **Weave** 섹션에 있습니다. 워크스페이스를 수동 워크스페이스로 사용하는 경우, **Add panels**를 클릭하고 Add Panels 메뉴의 **Weave** 섹션에서 새 패널을 선택해 Weave 패널을 추가할 수 있습니다.
 
 워크스페이스에 대한 자세한 내용은 [실험 결과 보기](https://docs.wandb.ai/models/track/workspaces)를 참조하세요.
 
 <div id="reference-wb-artifacts-in-a-weave-trace">
-  ## Weave 트레이스에서 W&amp;B 아티팩트를 참조하기
+  ## Weave trace에서 W&amp;B artifacts 참조하기
 </div>
 
-Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(예: 모델, 데이터셋, 체크포인트)를 참조할 수 있습니다. 이렇게 하면 Weave UI에 아티팩트 상세 페이지로 바로 이동하는 클릭 가능한 링크가 생성되어, 특정 연산 중에 어떤 아티팩트 버전이 사용되었는지 추적할 수 있습니다.
+Weave trace에서 [W&amp;B artifacts](/ko/models/artifacts) (예: 모델, 데이터셋, 체크포인트 등)을 참조할 수 있습니다. 이렇게 하면 Weave UI에 클릭 가능한 링크가 생성되어 해당 아티팩트의 상세 페이지로 바로 이동할 수 있고, 특정 작업 동안 어떤 아티팩트 버전이 사용되었는지 추적하는 데 도움이 됩니다.
 
-예를 들어, 모델의 두 버전(`v1`과 `v2`)을 학습했다면, 해당 모델을 쿼리할 때 `v1` 아티팩트 참조를 트레이스의 속성으로 추가할 수 있습니다. 이를 통해 어떤 아티팩트 버전이 특정 출력 값을 생성했는지 정확하게 추적할 수 있습니다.
+예를 들어, 두 버전의 모델(`v1`과 `v2`)을 학습했다면, 해당 모델을 쿼리할 때 `v1` 아티팩트 참조를 trace의 속성으로 추가할 수 있습니다. 이를 통해 어떤 아티팩트 버전이 주어진 출력을 생성했는지 정확히 추적할 수 있습니다.
 
-트레이스에 아티팩트를 연결하려면, `wandb-artifact:///` 접두사에 아티팩트의 전체 이름을 이어붙여 아티팩트의 URL을 구성하십시오. 형식은 다음과 같습니다: `wandb-artifact:///<full-name-of-artifact>`. 그런 다음 다음 두 가지 방식 중 하나로 Weave에 전달합니다:
+trace와 아티팩트를 연결하려면, 다음 구문을 사용해 `wandb-artifact:///` 접두사(prefix)에 아티팩트의 전체 이름을 이어 붙여 아티팩트의 URL을 구성합니다: `wandb-artifact:///<full-name-of-artifact>`. 그런 다음 아래 두 가지 방법 중 하나로 Weave에 전달합니다:
 
 * 임의의 속성으로 전달
 * `Model`의 속성으로 전달
@@ -107,10 +107,10 @@ Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(예: 모�
 아티팩트의 전체 이름은 W&amp;B UI의 아티팩트 상세 페이지에서 찾을 수 있습니다. 형식은 다음과 같습니다: `<entity>/<project>/<artifact_name>:<version>`. 전체 이름은 W&amp;B UI의 아티팩트 상세 페이지에서 복사할 수 있습니다.
 
 <div id="add-it-as-an-attribute-of-a-trace">
-  ### 트레이스 속성으로 추가하기
+  ### trace의 속성으로 추가하기
 </div>
 
-트레이스의 속성으로 아티팩트를 추가하려면 `weave.attributes()` 컨텍스트 매니저에 키-값 쌍으로 전달하세요:
+trace의 속성으로 아티팩트를 추가하려면 `weave.attributes()` 컨텍스트 매니저에 키-값 쌍으로 전달하세요:
 
 <Tabs>
   <Tab title="Python">
@@ -123,7 +123,7 @@ Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(예: 모�
     def my_function(name: str):
         return f"Hello, {name}!"
 
-    # 임의의 키 이름을 지정하고 아티팩트의 URL을 값으로 추가합니다
+    # 임의의 키 이름과 아티팩트의 URL을 값으로 추가합니다
     with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
         result = my_function("World")
     ```
@@ -140,7 +140,7 @@ Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(예: 모�
         return `Hello, ${name}!`;
       });
 
-      // 임의의 키 이름을 지정하고 아티팩트의 URL을 값으로 추가합니다
+      // 임의의 키 이름과 아티팩트의 URL을 값으로 추가합니다
       const result = await withAttributes(
         {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
         async () => myFunction('World')
@@ -155,10 +155,10 @@ Weave 트레이스에서 [W&amp;B 아티팩트](/ko/models/artifacts)(예: 모�
 </Tabs>
 
 <div id="add-an-artifact-as-an-attribute-of-a-model">
-  ### `Model`의 속성으로 아티팩트 추가하기
+  ### `Model`의 속성으로 아티팩트를 추가하기
 </div>
 
-`Model`의 속성으로 아티팩트를 추가하려면 모델을 인스턴스화할 때 아티팩트 URL을 전달하면 됩니다:
+`Model`의 속성으로 아티팩트를 추가하려면 모델을 인스턴스화할 때 아티팩트 URL을 전달하세요:
 
 <Note>
   `Model` 클래스는 현재 Weave Python SDK에서만 지원됩니다.
@@ -179,7 +179,7 @@ class MyModel(weave.Model):
         # 모델 추론 로직을 여기에 작성
         return f"Response to: {query}"
 
-# 아티팩트의 URL을 모델 속성으로 전달
+# 아티팩트 URL을 모델 속성으로 전달
 model = MyModel(
     artifact_id="wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"
 )

@@ -1,5 +1,5 @@
 ---
-title: Artifacts 다운로드하기
+title: Artifacts 다운로드
 ---
 
 ```python
@@ -15,7 +15,7 @@ with wandb.init(project="<project>") as run:
     artifact = run.use_artifact("<artifact_name>:<alias>")
 
     # 경로 이름으로 아티팩트에서 파일을 다운로드합니다.
-    # artifact.add_reference()가 사용된 경우 참조 URL을 반환합니다.
+    # artifact.add_reference()를 사용한 경우 참조 URL을 반환합니다.
     entry = artifact.get_entry("<file_name>")
 
     # 전체 아티팩트를 다운로드합니다.

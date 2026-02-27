@@ -3,24 +3,24 @@ title: 제한 사항과 예상 동작
 description: Weave의 제한 사항, 알려진 이슈, 그리고 예상 동작 목록
 ---
 
-* 재시도 가능한 요청의 경우, Weave는 첫 번째 오류를 받은 후 1초 뒤에 재시도를 시작하고, 이후 시도 간 대기 시간을 최대 5분까지 두 배씩 늘립니다. 요청은 36시간이 지나면 타임아웃됩니다.
+* 재시도 가능한 요청의 경우, Weave는 첫 오류를 받은 후 1초 뒤에 재시도를 시작하고, 이후에는 시도 간 시간 간격을 최대 5분까지 두 배씩 늘립니다. 요청은 36시간이 지나면 타임아웃됩니다.
 
-* 예외를 발생시키는 대신 [`.call()`](/ko/weave/guides/tracking/tracing#creating-calls)은 예외를 캡처하고 이를 `call.exception`에 저장합니다. 실행 중에 예외를 실제로 발생시켜야 한다면, 다음과 같이 [`__should_raise` parameter](/ko/weave/reference/python-sdk/trace/op#function-call)를 설정하세요:
+* 예외를 발생시키는 대신, [`.call()`](/ko/weave/guides/tracking/tracing#creating-calls)은 예외를 캡처하여 `call.exception`에 저장합니다. 실행 중에 예외를 발생시켜야 한다면, 다음과 같이 [`__should_raise` 매개변수](/ko/weave/reference/python-sdk/trace/op#function-call)를 설정하십시오:
 
   ```python showLineNumbers
   # 이 코드는 예외를 발생시킵니다
   result, call = foo.call(__should_raise=True)
   ```
 
-* 전용 Weave 인스턴스는 별도의 OpenTelemetry ingress URL을 사용합니다. 공식 엔드포인트 정보는 [Send OpenTelemetry Traces](/ko/weave/guides/tracking/otel)를 참조하세요.
+* 전용 Weave 인스턴스는 다른 OpenTelemetry ingress URL을 사용합니다. 공식 엔드포인트 정보는 [Send OpenTelemetry Traces](/ko/weave/guides/tracking/otel)를 참조하십시오.
 
-* Weave는 때때로 큰 트레이스 데이터 객체를 잘라냅니다. 이는 기본 트레이스 출력이 Weave가 직렬화 방법을 알지 못하는 원시 사용자 정의 Python 객체이기 때문입니다. 전체 트레이스 데이터를 반환하려면 다음과 같이 문자열로 구성된 딕셔너리를 정의하세요:
+* Weave는 때때로 큰 트레이스 데이터 객체를 잘라냅니다. 이는 기본 트레이스 출력이 Weave가 직렬화 방법을 알지 못하는 raw 형식의 사용자 정의 Python 객체이기 때문에 발생합니다. 모든 트레이스 데이터를 반환하려면, 다음과 같이 문자열로 구성된 사전을 정의하십시오:
 
   ```python
   import weave
 
   class MyObj:
-      """큰 문자열 속성을 가진 객체."""
+      """큰 문자열 속성을 가진 객체입니다."""
       def __init__(self, x: int):
           self.x = x
 
@@ -38,7 +38,7 @@ description: Weave의 제한 사항, 알려진 이슈, 그리고 예상 동작 �
   def main():
       weave.init("<entity/project>")
 
-      # MyObj를 처리하는 추적 가능한 연산 정의
+      # MyObj를 처리하는 트레이스 가능 연산 정의
       @weave.op()
       def process_obj(obj: MyObj) -> int:
           return len(obj.x)

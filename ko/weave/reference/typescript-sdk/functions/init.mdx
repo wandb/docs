@@ -9,16 +9,16 @@ description: "TypeScript SDK 레퍼런스"
 
 ▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../classes/weaveclient)\>
 
-Weave tracing이 동작하는 데 필요한 Weave client를 초기화합니다.
+Weave 클라이언트를 초기화합니다. Weave 트레이싱이 작동하려면 이 과정이 필요합니다.
 
 <div id="parameters">
-  #### 파라미터
+  #### Parameters
 </div>
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `project` | `string` | W&B 프로젝트 이름입니다(프로젝트 또는 엔터티/project 형식 모두 가능). W&B 팀(예: `team/project`)을 지정하지 않으면 기본 엔터티가 사용됩니다. 기본 엔터티를 확인하거나 업데이트하려면 https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team 의 User Settings 페이지를 참고하세요. |
-| `settings?` | `SettingsInit` | (선택 사항) Weave 트레이싱 설정입니다. |
+| `project` | `string` | W&B 프로젝트 이름입니다(값으로는 `project` 또는 `entity/project` 형식을 사용할 수 있습니다). W&B 팀(예: `team/project`)을 지정하지 않으면 기본 엔터티가 사용됩니다. 기본 엔터티를 찾거나 업데이트하려면 https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team 의 사용자 설정(User Settings)을 참조하세요. |
+| `settings?` | `SettingsInit` | (옵션) Weave 트레이싱 설정입니다. |
 
 <div id="returns">
   #### 반환값
@@ -26,14 +26,14 @@ Weave tracing이 동작하는 데 필요한 Weave client를 초기화합니다.
 
 `Promise`\<[`WeaveClient`](../classes/weaveclient)\>
 
-초기화가 완료된 Weave 클라이언트로 resolve되는 Promise입니다.
+초기화된 Weave 클라이언트로 resolve되는 `Promise`입니다.
 
 `Throws`
 
-초기화에 실패하면 예외를 throw합니다.
+초기화가 실패하면 예외를 던집니다.
 
 <div id="defined-in">
-  #### 정의된 위치
+  #### 정의 위치
 </div>
 
 [clientApi.ts:83](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L83)

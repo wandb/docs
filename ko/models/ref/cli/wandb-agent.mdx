@@ -3,19 +3,19 @@ title: "wandb agent"
 ---
 
 {/*
-  이 명령에 대한 소개 내용을 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-agent.mdx
-  2. 해당 파일에 소개 내용을 추가합니다.
-  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남깁니다:
+  이 명령어에 대한 도입부 내용을 추가하려면:
+  1. 다음 경로에 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-agent.mdx
+  2. 해당 파일에 도입부 내용을 추가합니다.
+  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
   import WandbAgent from "/snippets/_includes/cli/wandb-agent.mdx";
 
   <WandbAgent/>
 
-  스니펫은 다음 재생성 시 자동으로 감지됩니다.
+  이 스니펫은 다음 문서 재생성 시 자동으로 감지됩니다.
   */}
 
-W&amp;B 에이전트 실행하기
+W&amp;B 에이전트를 실행하세요
 
 
 <div id="usage">
@@ -28,20 +28,20 @@ wandb agent SWEEP_ID [OPTIONS]
 
 
 <div id="arguments">
-  ## 인수
+  ## 인자
 </div>
 
-| 인수 | 설명 | 필수 여부 |
+| 인자 | 설명 | 필수 |
 | :--- | :--- | :--- |
-| `SWEEP_ID` | 사용 가능한 설명이 없습니다 | 예 |
+| `SWEEP_ID` | 설명이 제공되지 않습니다 | 예 |
 
 <div id="options">
   ## 옵션
 </div>
 
-| 옵션 | 설명 |
+| Option | Description |
 | :--- | :--- |
-| `--project`, `-p` | 스위프로 생성된 W&B 실행을 보낼 프로젝트 이름입니다. 프로젝트를 지정하지 않으면 실행은 'Uncategorized' 레이블이 지정된 프로젝트로 전송됩니다. |
-| `--entity`, `-e` | 스위프로 생성된 W&B 실행을 보낼 사용자 이름 또는 팀 이름입니다. 지정한 엔터티가 이미 존재하는지 확인하십시오. 엔터티를 지정하지 않으면 실행은 기본 엔터티(보통 사용자 이름)로 전송됩니다. |
-| `--count` | 이 에이전트에 대한 최대 실행 횟수입니다. |
-| `--forward-signals`, `-f` | 에이전트에 전달된 신호(예: SIGINT/SIGTERM)를 자식 실행에도 전달하여 자식 실행이 정상적으로 종료될 수 있도록 합니다. (기본값: False) |
+| `--project`, `-p` | 스윕에서 생성된 W&B run이 전송될 프로젝트 이름입니다. 프로젝트를 지정하지 않으면 run은 'Uncategorized' 라벨이 붙은 프로젝트로 전송됩니다. |
+| `--entity`, `-e` | 스윕에서 생성된 W&B run을 전송하려는 사용자 이름 또는 팀 이름입니다. 지정한 엔터티(entity)가 이미 존재하는지 확인하십시오. 엔터티를 지정하지 않으면 run은 기본 엔터티(일반적으로 사용자 이름)로 전송됩니다. |
+| `--count` | 이 에이전트가 실행할 최대 run 수입니다. |
+| `--forward-signals`, `-f` | 에이전트에 전달된 신호(예: SIGINT/SIGTERM)를 자식 run으로 전달하여 정상적으로 종료할 수 있도록 합니다. (기본값: False) |

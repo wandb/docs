@@ -8,7 +8,7 @@ import WandbDocker from "/snippets/ko/_includes/cli/wandb-docker.mdx";
 
 
 <div id="usage">
-  ## 사용법
+  ## 사용 방법
 </div>
 
 ```bash
@@ -20,10 +20,10 @@ wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
   ## 인수
 </div>
 
-| 인수 | 설명 | 필수 여부 |
+| Argument | Description | Required |
 | :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | 설명이 없습니다 | 아니요 |
-| `DOCKER_IMAGE` | 설명이 없습니다 | 아니요 |
+| `DOCKER_RUN_ARGS` | 설명이 제공되지 않습니다 | 아니요 |
+| `DOCKER_IMAGE` | 설명이 제공되지 않습니다 | 아니요 |
 
 <div id="options">
   ## 옵션
@@ -31,7 +31,7 @@ wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--nvidia` | NVIDIA 런타임을 사용합니다. nvidia-docker가 있으면 기본값은 NVIDIA입니다 (기본값: False) |
+| `--nvidia` | nvidia runtime을 사용합니다. nvidia-docker가 있으면 기본값은 nvidia입니다 (기본값: False) |
 | `--digest` | 이미지 다이제스트를 출력하고 종료합니다 (기본값: False) |
 | `--jupyter` | 컨테이너에서 JupyterLab을 실행합니다 (기본값: False) |
 | `--dir` | 컨테이너에서 코드를 마운트할 디렉터리입니다 (기본값: /app) |
@@ -39,4 +39,4 @@ wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
 | `--shell` | 컨테이너를 시작할 때 사용할 셸입니다 (기본값: /bin/bash) |
 | `--port` | Jupyter를 바인딩할 호스트 포트입니다 (기본값: 8888) |
 | `--cmd` | 컨테이너에서 실행할 명령입니다 |
-| `--no-tty` | TTY 없이 명령을 실행합니다 (기본값: False) |
+| `--no-tty` | tty 없이 명령을 실행합니다 (기본값: False) |

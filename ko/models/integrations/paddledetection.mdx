@@ -1,5 +1,5 @@
 ---
-description: W&B를 PaddleDetection과 통합하는 방법
+description: W&B를 PaddleDetection과 통합하는 방법.
 title: PaddleDetection
 ---
 
@@ -8,40 +8,40 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
 
 <ColabLink url="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" />
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)은 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle)을 기반으로 한 엔드 투 엔드 객체 탐지 개발 키트입니다. 네트워크 컴포넌트, 데이터 증강, 손실 함수 등의 모듈을 구성해 다양한 주요 객체를 탐지하고, 인스턴스 분할을 수행하며, 키포인트를 추적 및 탐지할 수 있습니다.
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)은 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle)을 기반으로 한 엔드투엔드 객체 탐지 개발 키트입니다. 네트워크 컴포넌트, 데이터 증강, 로스와 같은 구성 가능한 모듈을 사용해 다양한 주요 객체를 탐지하고, 인스턴스 세그멘테이션을 수행하며, 키포인트를 추적 및 감지할 수 있습니다.
 
-PaddleDetection에는 W&amp;B와의 내장 통합 기능이 포함되어 있어, 모든 학습 및 검증 지표는 물론 모델 체크포인트와 해당 메타데이터까지 로깅합니다.
+PaddleDetection에는 이제 기본 제공 W&amp;B 인테그레이션이 포함되어, 모든 트레이닝 및 검증 메트릭과 더불어 모델 체크포인트와 해당 메타데이터를 로깅합니다.
 
-PaddleDetection의 `WandbLogger`는 학습 및 평가 지표를 W&amp;B에 로깅하고, 학습 중 모델 체크포인트도 함께 기록합니다.
+PaddleDetection의 `WandbLogger`는 트레이닝 및 평가 메트릭을 W&amp;B에 로깅하고, 트레이닝 중 모델 체크포인트도 함께 기록합니다.
 
-`COCO2017` 데이터셋의 서브셋에서 PaddleDetection과 YOLOX 모델을 통합하는 방법을 보여 주는 [W&amp;B 블로그 글](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0)을 읽어 보세요.
+`COCO2017` 데이터셋의 일부 서브셋에서 YOLOX 모델을 PaddleDetection과 인테그레이션하는 방법을 보여주는 [W&amp;B 블로그 포스트를 읽어보세요](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0).
 
 <div id="sign-up-and-create-an-api-key">
-  ## 가입하고 API 키 생성하기
+  ## 회원 가입 및 API 키 생성
 </div>
 
-API 키는 사용 중인 머신을 W&amp;B에 인증합니다. 사용자 프로필에서 API 키를 생성할 수 있습니다.
+API 키는 사용 중인 머신을 W&amp;B에 인증합니다. API 키는 사용자 프로필에서 생성할 수 있습니다.
 
 <ApiKeyCreateStreamlined />
 
-1. 오른쪽 상단에 있는 사용자 프로필 아이콘을 클릭합니다.
-2. **User Settings**를 선택한 다음, 아래로 스크롤해 **API Keys** 섹션으로 이동합니다.
+1. 오른쪽 상단의 사용자 프로필 아이콘을 클릭합니다.
+2. **User Settings**를 선택한 다음, 아래로 스크롤하여 **API Keys** 섹션으로 이동합니다.
 
 <div id="install-the-wandb-library-and-log-in">
   ## `wandb` 라이브러리를 설치하고 로그인하기
 </div>
 
-로컬 환경에 `wandb` 라이브러리를 설치하고 로그인하려면 다음 단계를 따르세요:
+로컬에서 `wandb` 라이브러리를 설치하고 로그인하려면:
 
 <Tabs>
   <Tab title="Command Line">
-    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 자신의 API 키 값으로 설정합니다.
+    1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 자신의 API 키로 설정합니다.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
        ```
 
-    2. `wandb` 라이브러리를 설치한 뒤 로그인합니다.
+    2. `wandb` 라이브러리를 설치하고 로그인합니다.
 
        ```shell
        pip install wandb
@@ -72,16 +72,16 @@ API 키는 사용 중인 머신을 W&amp;B에 인증합니다. 사용자 프로�
 </Tabs>
 
 <div id="activate-the-wandblogger-in-your-training-script">
-  ## 학습 스크립트에서 `WandbLogger` 활성화하기
+  ## 트레이닝 스크립트에서 `WandbLogger` 활성화하기
 </div>
 
 <Tabs>
-  <Tab title="명령줄">
-    [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)에서 `train.py`에 전달하는 인자를 통해 wandb를 사용하려면:
+  <Tab title="Command Line">
+    [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)에서 `train.py`에 커맨드라인 인자를 통해 wandb를 사용하려면:
 
     * `--use_wandb` 플래그를 추가합니다.
-    * 첫 번째 wandb 인자는 반드시 `-o` 옵션 뒤에 위치해야 합니다(`-o`는 한 번만 지정하면 됩니다).
-    * 각 인자에는 `"wandb-"` 접두사를 포함해야 합니다. 예를 들어 [`wandb.init()`](/ko/models/ref/python/functions/init)에 전달할 인자는 모두 `wandb-` 접두사를 갖습니다.
+    * 첫 번째 wandb 인자 앞에는 `-o`를 붙여야 합니다(한 번만 지정하면 됩니다).
+    * 각 인자에는 `"wandb-"` 프리픽스를 포함해야 합니다. 예를 들어 [`wandb.init()`](/ko/models/ref/python/functions/init)에 전달할 어떤 인자든 `wandb-` 프리픽스를 붙이면 됩니다.
 
     ```shell
     python tools/train.py 
@@ -95,7 +95,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증합니다. 사용자 프로�
   </Tab>
 
   <Tab title="`config.yml`">
-    `wandb` 키 아래에 wandb 인자를 config.yml 파일에 추가합니다:
+    `wandb` 키 아래에 wandb 인자를 `config.yml` 파일에 추가합니다:
 
     ```
     wandb:
@@ -107,13 +107,13 @@ API 키는 사용 중인 머신을 W&amp;B에 인증합니다. 사용자 프로�
     `train.py` 파일을 실행하면 W&amp;B 대시보드로 연결되는 링크가 생성됩니다.
 
     <Frame>
-      <img src="/images/integrations/paddledetection_wb_dashboard.png" alt="W&B 대시보드" />
+      <img src="/images/integrations/paddledetection_wb_dashboard.png" alt="W&B 대시보드 예시" />
     </Frame>
   </Tab>
 </Tabs>
 
 <div id="feedback-or-issues">
-  ## 피드백 또는 문제 보고
+  ## 피드백 또는 문제
 </div>
 
-W&amp;B 통합에 대한 피드백이나 문제가 있으시면 [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection)에 이슈를 열거나 <a href="mailto:support@wandb.com">support@wandb.com</a>으로 이메일을 보내 주세요.
+W&amp;B 인테그레이션에 대한 피드백이나 문제가 있으시면 [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection)에 이슈를 생성하거나 <a href="mailto:support@wandb.com">support@wandb.com</a>으로 이메일을 보내주세요.

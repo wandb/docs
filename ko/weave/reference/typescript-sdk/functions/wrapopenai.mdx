@@ -9,7 +9,7 @@ description: "TypeScript SDK 참조"
 
 ▸ **wrapOpenAI**\<`T`\>(`openai`): `T`
 
-OpenAI 호출에 대한 함수 추적을 활성화하기 위해 OpenAI API를 래핑합니다.
+OpenAI 호출을 추적할 수 있도록 OpenAI API를 래핑합니다.
 
 <div id="type-parameters">
   #### 타입 매개변수
@@ -23,7 +23,7 @@ OpenAI 호출에 대한 함수 추적을 활성화하기 위해 OpenAI API를 �
   #### 매개변수
 </div>
 
-| 이름 | 유형 |
+| 이름 | 타입 |
 | :------ | :------ |
 | `openai` | `T` |
 
@@ -33,7 +33,7 @@ OpenAI 호출에 대한 함수 추적을 활성화하기 위해 OpenAI API를 �
 
 `T`
 
-`예제`
+`예시`
 
 ```ts
 const openai = wrapOpenAI(new OpenAI());

@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Automation`
 
-편집이 가능한 저장된 W&B automation의 로컬 인스턴스입니다.
+편집 가능한 저장된 W&B automation의 로컬 인스턴스입니다.
 
-### <kbd>메서드</kbd> `Automation.__init__`
+### <kbd>method</kbd> `Automation.__init__`
 
 ```python
 __init__(
@@ -34,14 +34,14 @@ __init__(
 
 * `typename__` (Literal[&#39;Trigger&#39;]):
 * `id` (str):
-* `created_at` (datetime): 이 automation이 생성된 날짜와 시간입니다.
-* `updated_at` (Optional[datetime]): 해당되는 경우, 이 automation이 마지막으로 업데이트된 날짜와 시간입니다.
-* `name` (str): 이 automation의 이름입니다.
-* `description` (Optional[str]): 이 automation에 대한 선택적 설명입니다.
-* `enabled` (bool): 이 automation이 활성화되어 있는지 여부입니다. 활성화된 automation만 트리거됩니다.
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): 트리거 이벤트가 발생해야 하는 범위입니다.
-* `event` (SavedEvent): 이 automation을 트리거하는 이벤트입니다.
-* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): 이 automation이 트리거될 때 실행되는 작업입니다.
+* `created_at` (datetime): 이 Automation이 생성된 날짜와 시간입니다.
+* `updated_at` (Optional[datetime]): 해당되는 경우, 이 Automation이 마지막으로 업데이트된 날짜와 시간입니다.
+* `name` (str): 이 Automation의 이름입니다.
+* `description` (Optional[str]): 이 Automation에 대한 선택적 설명입니다.
+* `enabled` (bool): 이 Automation이 활성화되어 있는지 여부입니다. 활성화된 Automation만 트리거됩니다.
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): 트리거 이벤트가 발생해야 하는 스코프입니다.
+* `event` (SavedEvent): 이 Automation을 트리거할 이벤트입니다.
+* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): 이 Automation이 트리거될 때 실행될 액션입니다.
 
 **반환값:**
-`Automation` 객체.
+`Automation` 객체를 반환합니다.

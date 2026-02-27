@@ -1,9 +1,9 @@
 ---
-description: W&B를 Databricks와 통합하는 방법
+description: W&amp;B를 Databricks와 통합하는 방법
 title: Databricks
 ---
 
-W&B는 Databricks 환경에서 W&B Jupyter 노트북 환경을 맞춤 설정하여 [Databricks](https://www.databricks.com/)와 통합할 수 있습니다.
+W&amp;B는 Databricks 환경에서 W&amp;B Jupyter 노트북 사용 경험을 사용자 정의하여 [Databricks](https://www.databricks.com/)와 통합됩니다.
 
 <div id="configure-databricks">
   ## Databricks 구성
@@ -11,11 +11,11 @@ W&B는 Databricks 환경에서 W&B Jupyter 노트북 환경을 맞춤 설정하�
 
 1. 클러스터에 wandb 설치
 
-    클러스터 구성으로 이동한 후 클러스터를 선택하고 **Libraries**를 클릭합니다. **Install New**를 클릭하고 **PyPI**를 선택한 다음 패키지 `wandb`를 추가합니다.
+    클러스터 설정으로 이동해 클러스터를 선택한 다음 **Libraries**를 클릭합니다. **Install New**를 클릭하고 **PyPI**를 선택한 후 패키지 `wandb`를 추가합니다.
 
 2. 인증 설정
 
-    노트북에서 조회할 수 있는 Databricks Secret을 추가해 W&B 계정을 인증할 수 있습니다.
+    W&B 계정을 인증하려면 노트북에서 조회할 수 있는 Databricks secret을 추가하면 됩니다.
 
     ```bash
     # Databricks CLI 설치
@@ -24,10 +24,10 @@ W&B는 Databricks 환경에서 W&B Jupyter 노트북 환경을 맞춤 설정하�
     # Databricks UI에서 토큰 생성
     databricks configure --token
 
-    # Databricks에서 보안 기능 활성화 여부에 따라 아래 두 명령 중 하나로 scope 생성:
-    # 보안 애드온이 있을 경우
+    # Databricks에서 보안 기능 활성화 여부에 따라 아래 두 명령어 중 하나로 scope 생성:
+    # 보안 애드온이 있는 경우
     databricks secrets create-scope --scope wandb
-    # 보안 애드온이 없을 경우
+    # 보안 애드온이 없는 경우
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
     # https://wandb.ai/settings 에서 API 키 생성
@@ -58,7 +58,7 @@ with wandb.init() as run:
   ### Sweeps
 </div>
 
-노트북에서 wandb.sweep() 또는 wandb.agent()를 사용하기 위해 (임시로) 필요한 설정입니다:
+노트북에서 wandb.sweep() 또는 wandb.agent()를 사용하려면 필요한 (임시) 설정:
 
 ```python
 import os

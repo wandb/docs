@@ -1,9 +1,9 @@
 ---
-title: 실행이 완료된 후 추가 메트릭을 기록하려면 어떻게 해야 하나요?
+title: run이 완료된 후에 추가 메트릭을 어떻게 로깅할 수 있나요?
 ---
 
 실험을 관리하는 방법에는 여러 가지가 있습니다.
 
-복잡한 워크플로우의 경우 여러 실행을 사용하고, 단일 실험 내 모든 프로세스에 대해 [`wandb.init()`](/ko/models/track/create-an-experiment)의 `group` 매개변수를 고유한 값으로 설정하세요. [**Runs** 탭](/ko/models/track/project-page/#runs-tab)은 group ID별로 테이블을 그룹화하여 시각화가 올바르게 동작하도록 보장합니다. 이 방식은 여러 실험과 학습 실행을 동시에 수행하면서도 결과를 한 위치에 기록할 수 있게 해줍니다.
+복잡한 워크플로우의 경우, 여러 개의 run을 사용하고 단일 실험 내의 모든 프로세스에 대해 [`wandb.init()`](/ko/models/track/create-an-experiment)의 group 파라미터를 고유한 값으로 설정하세요. [**Runs** 탭](/ko/models/track/project-page/#runs-tab)은 group ID별로 테이블을 그룹화하여 시각화가 올바르게 동작하도록 합니다. 이 방식은 결과를 한 곳에 로깅하면서 동시에 실험과 트레이닝 run을 실행할 수 있게 해줍니다.
 
-더 단순한 워크플로우의 경우, `resume=True`와 `id=UNIQUE_ID`로 `wandb.init()`을 호출한 다음 동일한 `id=UNIQUE_ID`로 다시 `wandb.init()`을 호출하세요. [`run.log()`](/ko/models/track/log/) 또는 `run.summary()`를 사용해 평소처럼 로그를 기록하면, 실행의 값이 그에 따라 업데이트됩니다.
+더 단순한 워크플로우의 경우, `resume=True`와 `id=UNIQUE_ID`로 `wandb.init()`을 호출한 다음, 동일한 `id=UNIQUE_ID`로 다시 `wandb.init()`을 호출하세요. [`run.log()`](/ko/models/track/log/) 또는 `run.summary()`로 평소처럼 로깅하면, 해당 run 값이 그에 맞게 업데이트됩니다.

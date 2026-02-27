@@ -3,11 +3,11 @@ title: fastai v1
 ---
 
 <Note>
-  이 문서는 fastai v1에 대한 문서입니다.
-  현재 버전의 fastai를 사용하는 경우에는 [fastai 페이지](../)를 참고하세요.
+  이 문서는 fastai v1용입니다.
+  현재 버전의 fastai를 사용 중이라면 [fastai 페이지](../)를 참고하세요.
 </Note>
 
-fastai v1을 사용하는 스크립트의 경우, 모델 구조, loss, metric, weight, gradient, 샘플 예측, 그리고 최적으로 학습된 모델을 자동으로 기록하는 콜백이 제공됩니다.
+fastai v1을 사용하는 스크립트에서는 모델 토폴로지, 손실, 메트릭, 가중치, 그래디언트, 샘플 예측 및 최적으로 학습된 모델을 자동으로 로깅하는 콜백을 제공합니다.
 
 ```python
 import wandb
@@ -19,7 +19,7 @@ learn = cnn_learner(data, model, callback_fns=WandbCallback)
 learn.fit(epochs)
 ```
 
-기록할 데이터는 콜백 생성자를 통해 설정할 수 있습니다.
+어떤 데이터를 로깅할지는 콜백 생성자에서 설정할 수 있습니다.
 
 ```python
 from functools import partial
@@ -29,13 +29,13 @@ learn = cnn_learner(
 )
 ```
 
-훈련을 시작할 때 WandbCallback만 사용하는 것도 가능합니다. 이 경우에는 인스턴스를 직접 생성해야 합니다.
+트레이닝을 시작할 때에만 WandbCallback을 사용할 수도 있습니다. 이 경우에는 WandbCallback을 인스턴스화해서 사용해야 합니다.
 
 ```python
 learn.fit(epochs, callbacks=WandbCallback(learn))
 ```
 
-이 단계에서 커스텀 매개변수를 전달할 수도 있습니다.
+해당 단계에서 사용자 정의 파라미터를 전달할 수도 있습니다.
 
 ```python
 learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
@@ -46,27 +46,27 @@ learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
   ## 예제 코드
 </div>
 
-통합이 어떻게 동작하는지 확인할 수 있도록 몇 가지 예제를 준비했습니다:
+인테그레이션이 어떻게 동작하는지 확인할 수 있도록 몇 가지 예제를 준비했습니다:
 
 **Fastai v1**
 
-* [심슨 캐릭터 분류하기](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)Fastai 모델을 추적하고 비교하는 간단한 데모
-* [Fastai를 사용한 시맨틱 세그멘테이션](https://github.com/borisdayma/semantic-segmentation): 자율주행 자동차용 신경망을 최적화
+* [심슨 캐릭터 분류](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)Fastai 모델을 추적하고 비교하는 간단한 데모입니다
+* [Fastai를 이용한 시맨틱 세그멘테이션](https://github.com/borisdayma/semantic-segmentation): 자율주행 자동차용 신경망 최적화
 
 <div id="options">
-  ## Options
+  ## 옵션
 </div>
 
 `WandbCallback()` 클래스는 여러 옵션을 지원합니다:
 
-| Keyword argument | Default   | Description                                                                                              |
+| 키워드 인자      | 기본값    | 설명                                                                                                      |
 | ---------------- | --------- | -------------------------------------------------------------------------------------------------------- |
-| learn            | N/A       | 연결할 fast.ai learner입니다.                                                                            |
-| save_model       | True      | 각 단계에서 모델이 개선되면 모델을 저장합니다. 학습이 끝날 때 최상의 모델을 로드합니다.                  |
-| mode             | auto      | `min`, `max`, 또는 `auto`: `monitor`에 지정된 학습 지표를 단계 간에 어떻게 비교할지 설정합니다.          |
-| monitor          | None      | 최적의 모델을 저장하기 위해 성능을 측정하는 데 사용하는 학습 지표입니다. None인 경우 기본적으로 검증 손실을 사용합니다. |
-| log              | gradients | `gradients`, `parameters`, `all`, 또는 None. 손실과 지표는 항상 로깅됩니다.                              |
-| input_type       | None      | `images` 또는 `None`. 샘플 예측을 표시하는 데 사용됩니다.                                                 |
-| validation_data  | None      | `input_type`가 설정된 경우 샘플 예측에 사용할 데이터입니다.                                               |
-| predictions      | 36        | `input_type`가 설정되어 있고 `validation_data`가 `None`인 경우 생성할 예측의 개수입니다.                 |
-| seed             | 12345     | `input_type`가 설정되어 있고 `validation_data`가 `None`인 경우 샘플 예측을 위한 난수 생성기를 초기화합니다. |
+| learn            | N/A       | 연결할 fast.ai learner 객체입니다.                                                                       |
+| save_model       | True      | 각 스텝에서 모델이 향상되면 모델을 저장합니다. 트레이닝이 끝나면 최상의 모델을 다시 로드합니다.           |
+| mode             | auto      | `min`, `max`, 또는 `auto`: 스텝 사이에서 `monitor`에 지정된 트레이닝 메트릭을 어떻게 비교할지 설정합니다.  |
+| monitor          | None      | 최상의 모델을 저장하기 위해 성능을 측정하는 데 사용하는 트레이닝 메트릭입니다. `None`이면 기본적으로 검증 손실이 사용됩니다. |
+| log              | gradients | `gradients`, `parameters`, `all`, 또는 `None`. 손실과 메트릭은 항상 로깅됩니다.                           |
+| input_type       | None      | `images` 또는 `None`. 샘플 예측을 표시하는 데 사용됩니다.                                                |
+| validation_data  | None      | `input_type`가 설정된 경우 샘플 예측에 사용되는 데이터입니다.                                             |
+| predictions      | 36        | `input_type`가 설정되어 있고 `validation_data`가 `None`일 때 생성할 예측 개수입니다.                        |
+| seed             | 12345     | `input_type`가 설정되어 있고 `validation_data`가 `None`일 때 샘플 예측을 위해 난수 생성기를 초기화합니다.      |

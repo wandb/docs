@@ -1,9 +1,9 @@
 ---
-title: 코드를 테스트할 때 wandb를 끌 수 있나요?
+title: 코드 테스트할 때 wandb를 비활성화할 수 있나요?
 ---
 
-테스트 목적을 위해 W&B를 동작하지 않는(no-operation, NOOP) 모드로 설정하려면 `wandb.init(mode="disabled")`를 사용하거나 `WANDB_MODE=disabled`를 설정하세요。
+테스트용으로 W&B를 no-operation(NOOP)으로 동작하도록 설정하려면 `wandb.init(mode="disabled")`를 사용하거나 `WANDB_MODE=disabled`를 설정하세요.
 
 <Note>
-`wandb.init(mode="disabled")`를 사용하더라도 W&B가 `WANDB_CACHE_DIR`에 아티팩트를 저장하는 것은 막지 못합니다.
+`wandb.init(mode="disabled")`를 사용해도 W&B가 `WANDB_CACHE_DIR`에 아티팩트를 저장하지 못하게 하지는 않습니다.
 </Note>

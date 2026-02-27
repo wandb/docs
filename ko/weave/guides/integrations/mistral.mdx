@@ -1,29 +1,29 @@
 ---
 title: MistralAI
-description: "Weave의 자동 트레이싱으로 MistralAI 모델 호출을 추적하고 모니터링하여, 오픈 웨이트 및 상용 Mistral 모델에 대한 채팅 응답, 함수 호출, 모델 상호작용을 캡처합니다."
+description: "Weave의 자동 트레이싱으로 MistralAI 모델 호출을 추적·모니터링하고, 오픈 웨이트 및 상용 Mistral 모델에 대한 챗 컴플리션, 함수 호출, 모델 상호작용을 캡처합니다."
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb" aria-label="Google Colab에서 열기">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab에서 열기" />
 </a>
 
-Weave는 [MistralAI Python 라이브러리](https://github.com/mistralai/client-python)를 통해 이루어지는 LLM 호출을 자동으로 추적하고 로그합니다.
+Weave는 [MistralAI Python library](https://github.com/mistralai/client-python)를 통해 수행되는 LLM 호출을 자동으로 추적하고 로깅합니다.
 
-> Weave는 새로운 Mistral v1.0 SDK를 지원합니다. 마이그레이션 가이드는 [여기](https://github.com/mistralai/client-python/blob/main/MIGRATION.md)에서 확인하세요.
+> 새로운 Mistral v1.0 SDK를 지원합니다. 마이그레이션 가이드는 [여기](https://github.com/mistralai/client-python/blob/main/MIGRATION.md)에서 확인하세요.
 
 <div id="traces">
   ## 트레이스
 </div>
 
-LLM 애플리케이션에서 생성되는 트레이스를 개발 중과 프로덕션 환경 모두에서 중앙화된 데이터베이스에 저장하는 것은 중요합니다. 이러한 트레이스는 디버깅에 사용하고, 애플리케이션을 개선하는 데 도움이 되는 데이터셋으로 활용합니다.
+LLM 애플리케이션의 트레이스를 개발 단계와 프로덕션 환경 모두에서 중앙 데이터베이스에 저장하는 것은 중요합니다. 이렇게 저장한 트레이스는 디버깅에 사용하고, 애플리케이션을 개선하는 데 도움이 되는 데이터셋으로 활용할 수 있습니다.
 
-Weave는 [mistralai](https://github.com/mistralai/client-python)에 대한 트레이스를 자동으로 캡처합니다. 이 라이브러리를 평소처럼 그대로 사용하되, 먼저 `weave.init()`을 호출해 시작하세요:
+Weave는 [mistralai](https://github.com/mistralai/client-python)에 대한 트레이스를 자동으로 캡처합니다. 라이브러리는 평소처럼 사용하면 되며, 먼저 `weave.init()`을 호출하면 됩니다:
 
 ```python lines
 import weave
 weave.init("cheese_recommender")
 
-# 이후 mistralai 라이브러리를 평소와 같이 사용합니다
+# 그런 다음 mistralai 라이브러리를 평소와 같이 사용합니다
 import os
 from mistralai import Mistral
 
@@ -45,15 +45,15 @@ chat_response = client.chat.complete(
 )
 ```
 
-이제 Weave는 MistralAI 라이브러리를 통해 이루어지는 모든 LLM 호출을 추적하고 로그로 남깁니다. Weave 웹 인터페이스에서 트레이스를 확인할 수 있습니다.
+이제 Weave는 MistralAI 라이브러리를 통해 수행되는 모든 LLM 호출을 추적하고 로그로 기록합니다. Weave 웹 인터페이스에서 해당 트레이스를 확인할 수 있습니다.
 
 [![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
 <div id="wrapping-with-your-own-ops">
-  ## 사용자 정의 op로 래핑하기
+  ## 직접 정의한 ops로 감싸기
 </div>
 
-Weave op는 실험하는 동안 코드를 자동으로 버전 관리하고, 입력과 출력을 캡처하여 결과를 *재현 가능하게* 만듭니다. [`@weave.op()`](/ko/weave/guides/tracking/ops) 데코레이터를 적용한 함수를 정의하고 그 안에서 [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion)을 호출하면, Weave가 입력과 출력을 자동으로 추적해 줍니다. 우리 치즈 추천기에 이를 어떻게 적용할 수 있는지 살펴보겠습니다.
+Weave ops는 실험하는 동안 코드를 자동으로 버저닝하고 입력과 출력을 캡처하여 결과를 *재현 가능하게* 만듭니다. [`@weave.op()`](/ko/weave/guides/tracking/ops) 데코레이터를 적용한 함수를 하나 만들고 그 안에서 [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion)을 호출하기만 하면, Weave가 해당 입력과 출력을 자동으로 추적합니다. 이제 이 방식을 우리 치즈 추천기(cheese recommender)에 어떻게 적용할 수 있는지 살펴보겠습니다:
 
 ```python lines {1}
 @weave.op()
@@ -81,14 +81,14 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 [![mistral\_ops.png](/weave/guides/integrations/imgs/mistral_ops.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 더 쉽게 실험하기 위해 `Model` 생성하기
+  ## 더 쉬운 실험을 위해 `Model` 만들기
 </div>
 
-여러 요소가 동시에 움직일 때 실험을 체계적으로 관리하는 것은 쉽지 않습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 세부 정보를 캡처하고 정리할 수 있습니다. 이를 통해 앱의 여러 반복 버전을 체계적으로 관리하고 비교할 수 있습니다.
+실험을 체계적으로 관리하는 일은 구성 요소가 많을수록 어려워집니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 정리할 수 있습니다. 이렇게 하면 앱의 다양한 반복 버전을 정리하고 비교하기가 더 쉬워집니다.
 
-코드 버전 관리와 입출력 캡처에 더해, [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터도 함께 저장하므로, 어떤 파라미터가 가장 잘 동작했는지 쉽게 찾을 수 있습니다. 또한 Weave `Model`은 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
+코드 버저닝과 입력/출력 캡처 외에도 [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터를 캡처하므로, 어떤 파라미터가 가장 잘 작동했는지 쉽게 찾을 수 있습니다. 또한 Weave Models를 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수 있습니다.
 
-아래 예시에서는 `model`과 `country`를 바꿔가며 실험할 수 있습니다. 이 둘 중 하나라도 변경할 때마다 `CheeseRecommender`의 새로운 *버전*이 생성됩니다.
+아래 예시에서는 `model`과 `country`를 변경하며 실험할 수 있습니다. 둘 중 하나를 변경할 때마다 `CheeseRecommender`의 새로운 *버전*이 생성됩니다.
 
 ```python lines
 import weave
@@ -102,7 +102,7 @@ class CheeseRecommender(weave.Model): # `weave.Model`로 변경
 
     @weave.op()
     def predict(self, region:str) -> str: # `predict`로 변경
-        "Recommend the best cheese in a given region"
+        "주어진 지역에서 최고의 치즈를 추천합니다"
         
         client = Mistral(api_key=api_key)
 

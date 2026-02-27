@@ -1,6 +1,6 @@
 ---
 title: "클래스: WeaveClient"
-description: "TypeScript SDK 참조 문서"
+description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / WeaveClient
@@ -64,13 +64,13 @@ description: "TypeScript SDK 참조 문서"
 | `projectId` | `string` |
 | `settings` | `Settings` |
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환
 
 [`WeaveClient`](./weaveclient)
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [weaveClient.ts:93](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L93)
 
@@ -108,9 +108,7 @@ ___
 
 • **traceServerApi**: `Api`\<`any`\>
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveClient.ts:94](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L94)
 
@@ -122,18 +120,18 @@ ___
 
 ▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
 
-호출에 scorer 결과(예: scorer 출력값)를 추가합니다.
-명령형 Evaluation에서 scorer 결과를 predict 호출에 연결할 때 사용합니다.
+호출에 스코어러 결과(예: 스코어러 출력)를 추가합니다.
+명령형 평가에서 predict 호출에 스코어러 결과를 첨부할 때 사용합니다.
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름 | 타입 | 설명 |
+| Name | Type | Description |
 | :------ | :------ | :------ |
-| `predictCallId` | `string` | 피드백을 연결할 predict 호출의 ID |
-| `scorerCallId` | `string` | 피드백을 생성한 scorer 호출의 ID |
-| `runnableRefUri` | `string` | scorer의 URI(Op 또는 Object ref) |
+| `predictCallId` | `string` | 피드백을 연결할 predict 호출 ID |
+| `scorerCallId` | `string` | 피드백을 생성한 scorer 호출 ID |
+| `runnableRefUri` | `string` | scorer(Op 또는 객체 ref)의 URI |
 | `scorerOutput` | `any` | scorer의 출력값 |
 
 <div id="returns">
@@ -177,9 +175,7 @@ ___
 
 `Promise`\<`void`\>
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveClient.ts:720](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L720)
 
@@ -238,13 +234,13 @@ ___
 | `endTime` | `Date` |
 | `startCallPromise` | `Promise`\<`void`\> |
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환
 
 `Promise`\<`void`\>
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [weaveClient.ts:812](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L812)
 
@@ -299,7 +295,9 @@ ___
 
 `Promise`\<`Call`\>
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [weaveClient.ts:213](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L213)
 
@@ -375,7 +373,9 @@ ___
 
 `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [weaveClient.ts:237](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L237)
 
@@ -448,9 +448,7 @@ ___
 | `newStack` | `CallStack` |
 | `parentCall?` | `CallStackEntry` |
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveClient.ts:644](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L644)
 
@@ -509,7 +507,7 @@ ___
   #### 매개변수
 </div>
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `callStack` | `CallStack` |
 | `fn` | () => `T` |

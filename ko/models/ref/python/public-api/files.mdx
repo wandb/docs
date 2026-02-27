@@ -13,7 +13,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 `File` 객체 컬렉션에 대한 지연(lazy) 이터레이터입니다.
 
-실행 중 W&amp;B에 업로드된 파일에 접근하고 관리할 수 있습니다. 대규모 파일 컬렉션을 순회할 때 페이지네이션을 자동으로 처리합니다.
+하나의 run 동안 W&amp;B에 업로드된 파일에 접근하고 이를 관리할 수 있습니다. 대규모 파일 컬렉션을 순회(iterate)할 때 페이지네이션을 자동으로 처리합니다.
 
 **예제:**
 
@@ -21,10 +21,10 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 from wandb.apis.public.files import Files
 from wandb.apis.public.api import Api
 
-# 예시 실행 객체
+# 예시 run 객체
 run = Api().run("entity/project/run-id")
 
-# 실행의 파일을 순회하기 위한 Files 객체 생성
+# run의 파일을 순회하기 위한 Files 객체 생성
 files = Files(api.client, run)
 
 # 파일 순회
@@ -51,18 +51,18 @@ __init__(
 )
 ```
 
-`File` 객체 컬렉션에 대한 지연(lazy) 이터레이터를 초기화합니다.
+`File` 객체 컬렉션에 대한 지연 이터레이터(lazy iterator)를 초기화합니다.
 
-필요할 때마다 W&amp;B 서버에서 페이지 단위로 파일을 가져옵니다.
+필요에 따라 W&amp;B 서버에서 파일을 페이지 단위로 가져옵니다.
 
 **Args:**
 
-* `client`:  파일을 포함하는 실행 객체
-* `run`:  파일을 포함하는 실행 객체
+* `client`:  파일을 포함하는 run 객체
+* `run`:  파일을 포함하는 run 객체
 * `names` (list, optional):  파일을 필터링하기 위한 파일 이름 목록
 * `per_page` (int, optional):  페이지당 가져올 파일 개수
-* `upload` (bool, optional):  `True`인 경우 각 파일의 업로드 URL을 가져옵니다.
-* `pattern` (str, optional):  W&amp;B에서 파일을 반환할 때 매칭에 사용할 패턴입니다. 이 패턴은 MySQL의 LIKE 문법을 사용하므로, `.json`으로 끝나는 모든 파일과 매칭하려면 &quot;%.json&quot;을 사용합니다. `names`와 `pattern`이 모두 제공되면 ValueError가 발생합니다.
+* `upload` (bool, optional):  `True`이면 각 파일에 대한 업로드 URL을 가져옵니다
+* `pattern` (str, optional):  W&amp;B에서 파일을 반환할 때 매칭에 사용할 패턴입니다. 이 패턴은 MySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일을 매칭하려면 &quot;%.json&quot;을 사용합니다. `names`와 `pattern`이 모두 제공되면 ValueError가 발생합니다.
 
 ***
 

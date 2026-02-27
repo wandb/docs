@@ -1175,22 +1175,9 @@
                     "pages": [
                       "ko/platform/hosting/hosting-options/self-managed",
                       "ko/platform/hosting/self-managed/ref-arch",
-                      {
-                        "group": "Kubernetes에서 W&B 서버 실행",
-                        "pages": [
-                          "ko/platform/hosting/operator",
-                          "ko/platform/hosting/self-managed/operator-airgapped"
-                        ]
-                      },
-                      {
-                        "group": "퍼블릭 클라우드에 배포",
-                        "pages": [
-                          "ko/platform/hosting/self-managed/aws-tf",
-                          "ko/platform/hosting/self-managed/gcp-tf",
-                          "ko/platform/hosting/self-managed/azure-tf"
-                        ]
-                      },
-                      "ko/platform/hosting/self-managed/bare-metal",
+                      "ko/platform/hosting/self-managed/requirements",
+                      "ko/platform/hosting/self-managed/operator",
+                      "ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "ko/platform/hosting/server-upgrade-process",
                       "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
                     ]
@@ -1213,7 +1200,7 @@
                     ]
                   },
                   {
-                    "group": "ID 및 액세스 관리(IAM)",
+                    "group": "Identity and Access Management (IAM)",
                     "pages": [
                       "ko/platform/hosting/iam/org_team_struct",
                       {
@@ -1226,7 +1213,7 @@
                         ]
                       },
                       {
-                        "group": "액세스 관리",
+                        "group": "접근 관리",
                         "pages": [
                           "ko/platform/hosting/iam/access-management-intro",
                           "ko/platform/hosting/iam/access-management/manage-organization",
@@ -1282,7 +1269,7 @@
                 "group": "가이드",
                 "pages": [
                   {
-                    "group": "실험",
+                    "group": "Experiments",
                     "pages": [
                       "ko/models/track",
                       "ko/models/track/create-an-experiment",
@@ -1290,7 +1277,7 @@
                       "ko/models/track/project-page",
                       "ko/models/track/workspaces",
                       {
-                        "group": "실행이란 무엇인가요?",
+                        "group": "run은 무엇인가요?",
                         "pages": [
                           "ko/models/runs",
                           "ko/models/runs/run-identifiers",
@@ -1343,7 +1330,7 @@
                       "ko/models/sweeps/walkthrough",
                       "ko/models/sweeps/add-w-and-b-to-your-code",
                       {
-                        "group": "Sweep 구성 정의하기",
+                        "group": "스윕 설정 정의하기",
                         "pages": [
                           "ko/models/sweeps/define-sweep-configuration",
                           "ko/models/sweeps/sweep-config-keys"
@@ -1362,7 +1349,7 @@
                     ]
                   },
                   {
-                    "group": "Tables",
+                    "group": "테이블",
                     "pages": [
                       "ko/models/tables",
                       "ko/models/tables/tables-walkthrough",
@@ -1396,7 +1383,7 @@
                     ]
                   },
                   {
-                    "group": "레지스트리",
+                    "group": "Registry",
                     "pages": [
                       "ko/models/registry",
                       "ko/models/registry/create_registry",
@@ -1413,7 +1400,7 @@
                     ]
                   },
                   {
-                    "group": "리포트",
+                    "group": "Reports",
                     "pages": [
                       "ko/models/reports",
                       "ko/models/reports/create-a-report",
@@ -1442,7 +1429,7 @@
                     ]
                   },
                   {
-                    "group": "LLM Evaluation 작업",
+                    "group": "LLM 평가 작업",
                     "pages": [
                       "ko/models/launch",
                       "ko/models/launch/evaluate-model-checkpoint",
@@ -1484,7 +1471,7 @@
                         ]
                       },
                       {
-                        "group": "커스텀 차트",
+                        "group": "사용자 정의 차트",
                         "pages": [
                           "ko/models/app/features/custom-charts",
                           "ko/models/app/features/custom-charts/walkthrough"
@@ -1497,7 +1484,7 @@
                 ]
               },
               {
-                "group": "통합",
+                "group": "인테그레이션",
                 "pages": [
                   "ko/models/integrations",
                   "ko/models/integrations/add-wandb-to-any-library",
@@ -1549,14 +1536,14 @@
                 ]
               },
               {
-                "group": "레퍼런스",
+                "group": "참고 자료",
                 "pages": [
                   "ko/models/ref",
                   {
                     "group": "Python",
                     "pages": [
                       {
-                        "group": "SDK 코딩 치트 시트",
+                        "group": "SDK 코드 치트시트",
                         "pages": [
                           "ko/models/ref/sdk-coding-cheat-sheet",
                           "ko/models/ref/sdk-coding-cheat-sheet/runs",
@@ -1598,7 +1585,7 @@
                         ]
                       },
                       {
-                        "group": "실험",
+                        "group": "Experiments",
                         "pages": [
                           "ko/models/ref/python/experiments",
                           "ko/models/ref/python/experiments/artifact",
@@ -1645,7 +1632,7 @@
                         ]
                       },
                       {
-                        "group": "Public API",
+                        "group": "퍼블릭 API",
                         "pages": [
                           "ko/models/ref/python/public-api",
                           "ko/models/ref/python/public-api/api",
@@ -1711,7 +1698,7 @@
                       "ko/models/ref/cli/wandb-enabled",
                       "ko/models/ref/cli/wandb-init",
                       {
-                        "group": "wandb Job",
+                        "group": "wandb 작업",
                         "pages": [
                           "ko/models/ref/cli/wandb-job",
                           "ko/models/ref/cli/wandb-job/wandb-job-create",
@@ -1773,7 +1760,7 @@
                     ]
                   },
                   {
-                    "group": "Reports 및 Workspaces API",
+                    "group": "Reports 및 Workspace API",
                     "pages": [
                       "ko/models/ref/wandb_workspaces/reports",
                       "ko/models/ref/wandb_workspaces/workspaces"
@@ -1802,7 +1789,7 @@
                 "pages": [
                   "ko/weave/concepts/what-is-weave",
                   {
-                    "group": "애플리케이션 트레이싱",
+                    "group": "애플리케이션 추적",
                     "pages": [
                       "ko/weave/guides/tracking/tracing",
                       "ko/weave/tutorial-tracing_2",
@@ -1861,11 +1848,11 @@
                     ]
                   },
                   {
-                    "group": "LLM 프로바이더 및 프레임워크 통합",
+                    "group": "LLM 제공업체 및 프레임워크 통합",
                     "pages": [
                       "ko/weave/guides/integrations",
                       {
-                        "group": "LLM 프로바이더",
+                        "group": "LLM 제공업체",
                         "pages": [
                           "ko/weave/guides/integrations/bedrock",
                           "ko/weave/guides/integrations/anthropic",
@@ -1913,7 +1900,7 @@
                     ]
                   },
                   {
-                    "group": "배포 및 스케일링",
+                    "group": "배포 및 확장",
                     "pages": [
                       "ko/weave/guides/platform",
                       "ko/weave/guides/platform/weave-self-managed"
@@ -1935,7 +1922,7 @@
                     ]
                   },
                   {
-                    "group": "Evaluation 및 데이터셋",
+                    "group": "평가 및 Datasets",
                     "pages": [
                       "ko/weave/cookbooks/leaderboard_quickstart",
                       "ko/weave/cookbooks/hf_dataset_evals",
@@ -1943,7 +1930,7 @@
                     ]
                   },
                   {
-                    "group": "모델 및 프롬프트",
+                    "group": "Models 및 프롬프트",
                     "pages": [
                       "ko/weave/cookbooks/Models_and_Weave_Integration_Demo",
                       "ko/weave/cookbooks/chain_of_density",
@@ -1961,7 +1948,7 @@
                     ]
                   },
                   {
-                    "group": "운영 환경 및 모니터링",
+                    "group": "프로덕션 운영 및 모니터링",
                     "pages": [
                       "ko/weave/cookbooks/online_monitoring",
                       "ko/weave/cookbooks/feedback_prod",
@@ -2067,7 +2054,7 @@
                 ]
               },
               {
-                "group": "자세한 내용 및 지원",
+                "group": "자세한 정보 및 지원",
                 "pages": [
                   "ko/pricing",
                   "ko/weave/details/limits",
@@ -2099,7 +2086,7 @@
               "ko/inference/lifecycle",
               "ko/inference/lora",
               {
-                "group": "응답 설정",
+                "group": "응답 구성",
                 "pages": [
                   "ko/inference/response-settings/json-mode",
                   "ko/inference/response-settings/reasoning",
@@ -2129,7 +2116,7 @@
             ]
           },
           {
-            "tab": "W&B Training",
+            "tab": "W&B 트레이닝",
             "icon": "/icons/cropped-training.svg",
             "pages": [
               "ko/training",
@@ -2151,7 +2138,7 @@
                 ]
               },
               {
-                "group": "API 참조",
+                "group": "API 레퍼런스",
                 "pages": [
                   "ko/training/api-reference"
                 ],
@@ -2165,7 +2152,7 @@
             "pages": [
               "ko/release-notes",
               {
-                "group": "W&B Server",
+                "group": "W&B 서버",
                 "pages": [
                   "ko/release-notes/server-releases",
                   "ko/release-notes/server-releases-archived"
@@ -2189,11 +2176,11 @@
               "ko/platform/launch/walkthrough",
               "ko/platform/launch/launch-terminology",
               {
-                "group": "Launch 설정하기",
+                "group": "Launch 설정",
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
-                    "group": "컴퓨팅 리소스 구성하기",
+                    "group": "컴퓨트 리소스 구성",
                     "pages": [
                       "ko/platform/launch/setup-launch-docker",
                       "ko/platform/launch/setup-launch-kubernetes",
@@ -2206,7 +2193,7 @@
                 ]
               },
               {
-                "group": "잡 생성 및 배포하기",
+                "group": "작업 생성 및 배포",
                 "pages": [
                   "ko/platform/launch/create-and-deploy-jobs",
                   "ko/platform/launch/create-launch-job",
@@ -2224,7 +2211,7 @@
                 ]
               },
               {
-                "group": "Launch FAQ",
+                "group": "Launch 자주 묻는 질문",
                 "pages": [
                   "ko/platform/launch/launch-faq",
                   "ko/platform/launch/launch-faq/best_practices_launch_effectively",
@@ -2246,7 +2233,7 @@
                 ]
               },
               {
-                "group": "Launch 라이브러리 API 레퍼런스",
+                "group": "Launch 라이브러리 API 참조",
                 "pages": [
                   "ko/platform/launch/launch-library/launch",
                   "ko/platform/launch/launch-library/launch_add",

@@ -3,23 +3,23 @@ title: "wandb 아티팩트 캐시 정리"
 ---
 
 {/*
-  이 명령어에 대한 도입부 내용을 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx
-  2. 해당 파일에 도입부 내용을 추가하세요
-  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제하세요:
+  이 명령에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx
+  2. 해당 파일에 소개 내용을 추가합니다.
+  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
   import WandbArtifactCacheCleanup from "/snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx";
 
   <WandbArtifactCacheCleanup/>
 
-  이 스니펫은 다음번 재생성 시 자동으로 감지됩니다.
+  이 스니펫은 다음 번 재생성 시 자동으로 감지됩니다.
   */}
 
-아티팩트 캐시에서 자주 사용하지 않는 파일 정리하기
+아티팩트 캐시에서 사용 빈도가 낮은 파일을 정리합니다
 
 
 <div id="usage">
-  ## 사용법
+  ## 사용 방법
 </div>
 
 ```bash
@@ -28,12 +28,12 @@ wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
 
 
 <div id="arguments">
-  ## Arguments
+  ## 인수
 </div>
 
-| Argument | Description | Required |
+| 인수 | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
-| `TARGET_SIZE` | 설명이 제공되지 않습니다 | 예 |
+| `TARGET_SIZE` | 제공된 설명이 없습니다 | 예 |
 
 <div id="options">
   ## 옵션
@@ -41,4 +41,4 @@ wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--remove-temp` | 임시 파일을 제거합니다 (기본값: False) |
+| `--remove-temp` | 임시 파일을 삭제합니다 (기본값: False) |

@@ -3,8 +3,8 @@ title: "wandb server start"
 ---
 
 {/*
-  이 명령에 대한 소개 내용을 추가하려면:
-  1. 스니펫 파일을 생성합니다: /snippets/en/_includes/cli/wandb-server-start.mdx
+  이 명령의 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-server-start.mdx
   2. 해당 파일에 소개 내용을 추가합니다.
   3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
@@ -12,10 +12,10 @@ title: "wandb server start"
 
   <WandbServerStart/>
 
-  스니펫은 다음 재생성 시 자동으로 인식됩니다.
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
   */}
 
-로컬 W&amp;B 서버 실행하기
+로컬 W&amp;B 서버 시작
 
 
 <div id="usage">
@@ -33,6 +33,6 @@ wandb server start [OPTIONS]
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--port`, `-p` | W&B 서버가 바인딩될 호스트 포트 (기본값: 8080) |
-| `--env`, `-e` | wandb/local에 전달할 환경 변수 (기본값: []) |
+| `--port`, `-p` | W&B 서버를 바인딩할 호스트 포트 번호 (기본값: 8080) |
+| `--env`, `-e` | wandb/local에 전달할 환경 변수들 (기본값: []) |
 | `--daemon` | 데몬 모드로 실행할지 여부 (기본값: True) |

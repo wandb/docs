@@ -1,7 +1,7 @@
 ---
-title: 공유 머신에서 올바른 wandb 사용자 계정으로 어떻게 로그하나요?
+title: 공유 머신에서 올바른 wandb 사용자로 로그인하려면?
 ---
 
-공유 머신을 사용할 때는 인증을 위해 `WANDB_API_KEY` 환경 변수를 설정하여 실행이 올바른 wandb 계정으로 로그되도록 하세요. 이 변수가 쉘 환경에 설정되어 있으면 로그인 시 올바른 자격 증명이 사용됩니다. 또는 스크립트 내에서 직접 환경 변수를 설정할 수도 있습니다.
+공유 머신을 사용할 때는 인증을 위해 `WANDB_API_KEY` 환경 변수를 설정하여 run이 올바른 wandb 계정으로 로그되도록 해야 합니다. 이 변수가 환경에 설정되어 있다면 로그인 시 올바른 자격 증명이 제공됩니다. 또는 스크립트 안에서 직접 환경 변수를 설정할 수도 있습니다.
 
-`export WANDB_API_KEY=X` 명령을 실행하고, X를 자신의 API 키로 바꾸세요. API 키는 [wandb.ai/settings](https://wandb.ai/settings)에서 생성할 수 있습니다.
+`export WANDB_API_KEY=X` 명령을 실행하고, X를 자신의 API 키로 바꾸세요. [wandb.ai/settings](https://wandb.ai/settings)에서 API 키를 생성할 수 있습니다.

@@ -8,85 +8,85 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-이 페이지에서는 Slack [자동화](/ko/models/automations/)를 생성하는 방법을 설명합니다. Webhook 자동화를 생성하려면 [Webhook 자동화 생성](/ko/models/automations/create-automations/webhook/)을 참조하세요.
+이 페이지에서는 Slack [automation](/ko/models/automations/)을 생성하는 방법을 설명합니다. 웹훅 automation을 생성하려면 [웹훅 automation 생성하기](/ko/models/automations/create-automations/webhook/)를 참조하세요.
 
-Slack 자동화를 생성하는 전체적인 순서는 다음과 같습니다.
+Slack automation을 생성하는 전체적인 단계는 다음과 같습니다.
 
-1. [Slack 통합 추가](#add-a-slack-integration): W&amp;B가 Slack 인스턴스와 채널에 메시지를 게시할 수 있도록 권한을 부여합니다.
-2. [자동화 생성](#create-an-automation): 모니터링할 [이벤트](/ko/models/automations/automation-events/)와 알림을 보낼 채널을 정의합니다.
+1. [Slack 인테그레이션 추가](#add-a-slack-integration)를 통해 W&amp;B가 Slack 인스턴스와 채널에 게시할 수 있도록 권한을 부여합니다.
+2. 모니터링할 [event](/ko/models/automations/automation-events/)와 알림을 보낼 채널을 정의하는 [automation 생성](#create-an-automation)을 수행합니다.
 
 <div id="add-a-slack-integration">
-  ## Slack 통합 추가
+  ## Slack 인테그레이션 추가
 </div>
 
-팀 관리자는 팀에 Slack 통합을 추가할 수 있습니다.
+팀 관리자는 팀에 Slack 인테그레이션을 추가할 수 있습니다.
 
 1. W&amp;B에 로그인한 다음 **Team Settings**로 이동합니다.
 2. **Slack channel integrations** 섹션에서 **Connect Slack**을 클릭하여 새 Slack 인스턴스를 추가합니다. 기존 Slack 인스턴스에 채널을 추가하려면 **New integration**을 클릭합니다.
 
-   ![팀에 두 개의 Slack 통합이 표시된 스크린샷](/images/automations/slack_integrations.png)
-3. 필요한 경우 브라우저에서 Slack에 로그인합니다. 요청이 표시되면 선택한 Slack 채널에 W&amp;B가 메시지를 게시할 수 있도록 권한을 부여합니다. 페이지 내용을 확인한 다음 **Search for a channel**을 클릭하고 채널 이름을 입력하기 시작합니다. 목록에서 채널을 선택한 후 **Allow**를 클릭합니다.
-4. Slack에서 선택한 채널로 이동합니다. `[Your Slack handle] added an integration to this channel: Weights & Biases`와 같은 게시물이 보이면 통합이 올바르게 구성된 것입니다.
+   ![팀에 두 개의 Slack 인테그레이션이 표시된 스크린샷](/images/automations/slack_integrations.png)
+3. 필요한 경우 브라우저에서 Slack에 로그인합니다. 요청이 표시되면 선택한 Slack 채널에 게시할 수 있도록 W&amp;B에 권한을 부여합니다. 페이지 내용을 확인한 다음 **Search for a channel**을 클릭하고 채널 이름을 입력하기 시작합니다. 목록에서 채널을 선택한 후 **Allow**를 클릭합니다.
+4. Slack에서 선택한 채널로 이동합니다. `[Your Slack handle] added an integration to this channel: Weights & Biases`와 같은 게시물이 보이면 인테그레이션이 올바르게 구성된 것입니다.
 
-이제 구성한 Slack 채널로 알림을 보내는 [자동화를 생성](#create-an-automation)할 수 있습니다.
+이제 구성한 Slack 채널에 알림을 보내는 [자동화를 생성](#create-an-automation)할 수 있습니다.
 
 <div id="view-and-manage-slack-integrations">
-  ## Slack 통합 보기 및 관리
+  ## Slack 인테그레이션 보기 및 관리
 </div>
 
-팀 관리자는 팀의 Slack 인스턴스와 채널을 보고 관리할 수 있습니다.
+팀 관리자는 팀의 Slack 워크스페이스와 채널을 확인하고 관리할 수 있습니다.
 
 1. W&amp;B에 로그인한 후 **Team Settings**로 이동합니다.
 2. **Slack channel integrations** 섹션에서 각 Slack 대상을 확인합니다.
-3. 휴지통 아이콘을 클릭하여 해당 대상을 삭제합니다.
+3. 휴지통 아이콘을 클릭하여 대상을 삭제합니다.
 
 <div id="create-an-automation">
   ## 자동화 생성
 </div>
 
-[Slack 통합을 추가](#add-a-slack-integreation)한 후 **Registry** 또는 **Project**를 선택하고, Slack 채널에 알림을 보내는 자동화를 생성하려면 다음 단계를 따르세요.
+[Slack 인테그레이션을 추가](#add-a-slack-integreation)한 다음 **Registry** 또는 **Project**를 선택하고, Slack 채널에 알림을 보내는 자동화를 생성하려면 다음 단계를 따르세요.
 
 <Tabs>
   <Tab title="Registry">
-    Registry 관리자(admin)는 해당 Registry에서 자동화를 생성할 수 있습니다.
+    Registry 관리자는 해당 레지스트리에서 자동화를 생성할 수 있습니다.
 
     1. W&amp;B에 로그인합니다.
-    2. 상세 정보를 보기 위해 Registry 이름을 클릭합니다.
-    3. Registry 범위의 자동화를 생성하려면 **Automations** 탭을 클릭한 후 **Create automation**을 클릭합니다. Registry에 범위가 지정된 자동화는 해당 Registry의 모든 컬렉션(앞으로 생성되는 컬렉션 포함)에 자동으로 적용됩니다.
+    2. 레지스트리 이름을 클릭하여 세부 정보를 확인합니다.
+    3. 레지스트리 범위의 자동화를 생성하려면 **Automations** 탭을 클릭한 다음 **Create automation**을 클릭합니다. 레지스트리에 범위가 지정된 자동화는 해당 레지스트리의 모든 컬렉션(앞으로 생성되는 컬렉션 포함)에 자동으로 적용됩니다.
     4. 모니터링할 [event](/ko/models/automations/automation-events/#registry-events)를 선택합니다.
 
-       이벤트에 따라 표시되는 추가 필드를 입력합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
+       선택한 event에 따라 표시되는 추가 필드를 모두 입력합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
 
        **Next step**을 클릭합니다.
-    5. [Slack 통합](#add-a-slack-integration)을 소유한 팀을 선택합니다.
+    5. [Slack 인테그레이션](#add-a-slack-integration)을 소유한 팀을 선택합니다.
     6. **Action type**을 **Slack notification**으로 설정합니다. Slack 채널을 선택한 다음 **Next step**을 클릭합니다.
-    7. 자동화 이름을 입력합니다. 선택적으로 설명을 입력할 수 있습니다.
+    7. 자동화 이름을 입력합니다. 필요하다면 설명도 입력합니다.
     8. **Create automation**을 클릭합니다.
   </Tab>
 
   <Tab title="Project">
-    W&amp;B 관리자(admin)는 프로젝트에서 자동화를 생성할 수 있습니다.
+    W&amp;B 관리자는 프로젝트에서 자동화를 생성할 수 있습니다.
 
     1. W&amp;B에 로그인합니다.
-    2. 프로젝트 페이지로 이동한 다음 **Automations** 탭을 클릭하고 **Create automation**을 클릭합니다.
+    2. 프로젝트 페이지로 이동하여 **Automations** 탭을 클릭한 다음 **Create automation**을 클릭합니다.
 
-       또는, 워크스페이스의 선 그래프(line plot)에서 해당 메트릭에 대한 [run metric automation](/ko/models/automations/automation-events/#run-events)을 빠르게 생성할 수 있습니다. 패널 위에 마우스를 올린 다음, 패널 상단의 종 모양 아이콘을 클릭합니다.
+       또는 워크스페이스의 선형 플롯(line plot)에서, 해당 플롯에 표시된 메트릭에 대한 [run 메트릭 자동화](/ko/models/automations/automation-events/#run-events)를 빠르게 생성할 수 있습니다. 패널 위에 마우스를 올린 다음 패널 상단의 종(bell) 아이콘을 클릭합니다.
 
        <Frame>
-         <img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation 종 아이콘 위치" />
+         <img src="/images/automations/run_metric_automation_from_panel.png" alt="Automation bell icon location" />
        </Frame>
     3. 모니터링할 [event](/ko/models/automations/automation-events/#project)를 선택합니다.
 
-       1. 표시되는 추가 필드를 입력합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
+       1. 표시되는 추가 필드를 모두 입력합니다. 예를 들어 **An artifact alias is added**를 선택한 경우 **Alias regex**를 지정해야 합니다.
 
-          1. 실행에 의해 트리거되는 자동화의 경우, 선택적으로 하나 이상의 실행 필터를 지정합니다.
+          1. run에 의해 트리거되는 자동화의 경우, 선택적으로 하나 이상의 run 필터를 지정할 수 있습니다.
 
-             * **Filter to one user&#39;s runs**: 지정한 사용자가 생성한 실행만 포함합니다. 토글을 클릭하여 필터를 켜고, 사용자 이름을 지정합니다.
-             * **Filter on run name**: 이름이 주어진 정규식과 일치하는 실행만 포함합니다. 토글을 클릭하여 필터를 켜고, 정규식을 지정합니다.
+             * **Filter to one user&#39;s runs**: 지정한 사용자가 생성한 runs만 포함합니다. 토글을 클릭해 필터를 켠 다음 사용자 이름을 지정합니다.
+             * **Filter on run name**: 이름이 지정한 정규식과 일치하는 runs만 포함합니다. 토글을 클릭해 필터를 켠 다음 정규식을 지정합니다.
        2. **Next step**을 클릭합니다.
-    4. [Slack 통합](#add-a-slack-integration)을 소유한 팀을 선택합니다.
+    4. [Slack 인테그레이션](#add-a-slack-integration)을 소유한 팀을 선택합니다.
     5. **Action type**을 **Slack notification**으로 설정합니다. Slack 채널을 선택한 다음 **Next step**을 클릭합니다.
-    6. 자동화 이름을 입력합니다. 선택적으로 설명을 입력할 수 있습니다.
+    6. 자동화 이름을 입력합니다. 필요하다면 설명도 입력합니다.
     7. **Create automation**을 클릭합니다.
   </Tab>
 </Tabs>
@@ -97,18 +97,18 @@ Slack 자동화를 생성하는 전체적인 순서는 다음과 같습니다.
 
 <Tabs>
   <Tab title="Registry">
-    Registry의 **Automations** 탭에서 Registry에 설정된 자동화를 관리합니다.
+    Registry의 **Automations** 탭에서 해당 Registry의 자동화를 관리합니다.
 
-    * 자동화의 세부 정보를 보려면 해당 자동화의 이름을 클릭합니다.
-    * 자동화를 편집하려면 해당 자동화의 동작 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
-    * 자동화를 삭제하려면 해당 자동화의 동작 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 삭제를 완료하려면 확인이 필요합니다.
+    * 자동화의 상세 정보를 보려면 이름을 클릭합니다.
+    * 자동화를 편집하려면 작업 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+    * 자동화를 삭제하려면 작업 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 삭제 확인이 필요합니다.
   </Tab>
 
   <Tab title="Project">
     W&amp;B 관리자는 프로젝트의 **Automations** 탭에서 해당 프로젝트의 자동화를 보고 관리할 수 있습니다.
 
-    * 자동화의 세부 정보를 보려면 해당 자동화의 이름을 클릭합니다.
-    * 자동화를 편집하려면 해당 자동화의 동작 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
-    * 자동화를 삭제하려면 해당 자동화의 동작 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 삭제를 완료하려면 확인이 필요합니다.
+    * 자동화의 상세 정보를 보려면 이름을 클릭합니다.
+    * 자동화를 편집하려면 작업 `...` 메뉴를 클릭한 다음 **Edit automation**을 클릭합니다.
+    * 자동화를 삭제하려면 작업 `...` 메뉴를 클릭한 다음 **Delete automation**을 클릭합니다. 삭제 확인이 필요합니다.
   </Tab>
 </Tabs>

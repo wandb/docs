@@ -1,19 +1,19 @@
 ---
-title: 사용 가능한 모델
-description: Serverless RL에서 학습에 사용할 수 있는 모델을 확인하세요
+title: 사용할 수 있는 모델
+description: Serverless RL로 트레이닝할 수 있는 모델을 확인하세요
 ---
 
-Serverless RL은 현재 다음과 같은 파운데이션 모델을 학습용으로 지원합니다.
+현재 Serverless RL에서는 다음 파운데이션 모델에 대한 트레이닝을 지원합니다.
 
-특정 모델에 관심이 있다면 [support](mailto:support@wandb.ai)로 연락하세요.
+특정 모델에 관심이 있다면 [support](mailto:support@wandb.ai)로 문의하세요.
 
 <div id="model-catalog">
   ## 모델 카탈로그
 </div>
 
-{/* takeru training-serverless-rl-catalog - 이 표는 자동으로 생성된 것이므로 수동으로 수정하지 마세요. */}
+{/* takeru training-serverless-rl-catalog - 이 표는 자동 생성되므로 직접 수정하지 마세요. */}
 
-| 모델                       | 모델 ID (API 사용용)           | 유형  | 컨텍스트 윈도우 | 파라미터 수             | 설명                                                                                                       |
-| --------------------------- | ---------------------------------- | --- | -------- | ------------------ | -------------------------------------------------------------------------------------------------------- |
-| OpenPipe Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct`      | 텍스트 | 32.8K    | 14.8B (총합)         | 효율적인 다국어 지원의 밀집(dense) 구조 지시문 최적화(instruction-tuned) 모델로, 에이전트를 파인튜닝해 구축할 수 있도록 OpenPipe가 최적화했습니다.       |
-| Qwen3 30B A3B               | `Qwen/Qwen3-30B-A3B-Instruct-2507` | 텍스트 | 262K     | 3.3B-30.5B (활성-총합) | Qwen3-30B-A3B-Instruct-2507은 향상된 추론, 코딩, 긴 컨텍스트 이해 능력을 갖춘 30.5B MoE 기반 지시문 최적화(instruction-tuned) 모델입니다. |
+| 모델                          | 모델 ID(API 사용 시)                    | 유형  | 컨텍스트 윈도우 | 파라미터                      | 설명                                                                                               |
+| --------------------------- | ---------------------------------- | --- | -------- | ------------------------- | ------------------------------------------------------------------------------------------------ |
+| OpenPipe Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct`      | 텍스트 | 32.8K    | 14.8B (Total)             | 효율적인 다국어 지원의 덴스(dense) instruction-tuned 모델로, 파인튜닝을 통한 에이전트 구축에 맞게 OpenPipe에서 최적화했습니다.           |
+| Qwen3 30B A3B               | `Qwen/Qwen3-30B-A3B-Instruct-2507` | 텍스트 | 262K     | 3.3B-30.5B (Active-Total) | Qwen3-30B-A3B-Instruct-2507은 추론, 코딩, 긴 컨텍스트 이해 능력이 향상된 30.5B 규모의 MoE 기반 instruction-tuned 모델입니다. |

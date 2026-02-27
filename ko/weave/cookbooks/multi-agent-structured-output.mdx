@@ -1,10 +1,10 @@
 ---
-title: "다중 에이전트 구조화된 출력"
-description: "W&B Weave에서 다중 에이전트 구조화된 출력을 사용하는 방법을 알아보세요"
+title: "멀티 에이전트 구조화된 출력"
+description: "W&B Weave로 멀티 에이전트 구조화된 출력을 사용하는 방법을 알아보세요"
 ---
 
 <Note>
-  이 노트북은 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+  이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
 
   * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
   * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
@@ -13,48 +13,48 @@ description: "W&B Weave에서 다중 에이전트 구조화된 출력을 사용�
 ##
 
 <div id="structured-outputs-for-multi-agent-systems">
-  # 다중 에이전트 시스템을 위한 Structured Outputs
+  # 다중 에이전트 시스템을 위한 구조화된 출력
 </div>
 
-OpenAI는 사용자가 강한 제약을 담은 프롬프트 없이도 모델이 제공된 JSON Schema를 항상 준수하는 응답을 생성하도록 보장하기 위해 [Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/) 기능을 출시했습니다. Structured Outputs를 사용하면 잘못된 형식의 응답을 검증하거나 재시도할 필요가 없습니다.
+OpenAI는 [Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/)를 출시하여, 사용자들이 강하게 표현된 프롬프트 없이도 제공한 JSON Schema를 항상 준수하는 응답을 모델이 생성하도록 할 수 있게 했습니다. Structured Outputs를 사용하면, 잘못 포맷된 응답에 대해 별도로 검증하거나 재시도할 필요가 없습니다.
 
-새 파라미터 `strict: true`를 사용하면 응답이 제공된 스키마를 반드시 따르도록 보장할 수 있습니다.
+새로운 파라미터인 `strict: true`를 사용하면, 응답이 제공된 스키마를 반드시 따르도록 보장할 수 있습니다.
 
-다중 에이전트 시스템에서 Structured Outputs를 사용하면 에이전트 간에 일관되고 쉽게 처리 가능한 데이터를 보장하여 통신을 개선할 수 있습니다. 또한 명시적인 거부를 가능하게 해 안전성을 높이고, 재시도나 검증이 필요 없도록 하여 성능을 향상시킵니다. 이는 상호작용을 단순화하고 전체 시스템 효율을 높여 줍니다.
+다중 에이전트 시스템에서 구조화된 출력을 사용하면, 에이전트 간에 일관되고 처리하기 쉬운 데이터를 보장하여 통신을 향상시킵니다. 또한 명시적인 거절을 허용해 안전성을 개선하고, 재시도나 검증이 필요 없도록 하여 성능을 향상시킵니다. 이는 상호작용을 단순화하고 전체 시스템 효율성을 높입니다.
 
-이 튜토리얼에서는 다중 에이전트 시스템에서 Structured Outputs를 활용하고, 이를 [Weave](/ko/weave)로 추적하는 방법을 보여줍니다.
+이 튜토리얼은 다중 에이전트 시스템에서 구조화된 출력을 활용하고, 이를 [Weave](/ko/weave)로 추적하는 방법을 보여줍니다.
 
 <Tip>
-  **출처**: 이 튜토리얼은 [OpenAI의 Structured Outputs 샘플 코드](https://cookbook.openai.com/examples/structured_outputs_multi_agent)를 기반으로 하며, Weave를 활용한 시각화를 개선하기 위해 일부 수정이 추가되었습니다.
+  **Source**: 이 쿡북은 [OpenAI의 구조화된 출력 샘플 코드](https://cookbook.openai.com/examples/structured_outputs_multi_agent)를 기반으로 하며, Weave를 사용한 시각화를 개선하기 위해 일부 수정이 추가되었습니다.
 </Tip>
 
 <div id="installing-the-dependencies">
-  ## 필요한 종속성 설치
+  ## 필요한 의존성 설치
 </div>
 
 이 튜토리얼에는 다음 라이브러리가 필요합니다:
 
-* 멀티 에이전트 시스템을 만들기 위한 [OpenAI](https://openai.com/index/openai-api/).
-* LLM 워크플로우를 추적하고 프롬프트 전략을 평가하기 위한 [Weave](/ko/weave).
+* 멀티 에이전트 시스템을 구축하기 위한 [OpenAI](https://openai.com/index/openai-api/)
+* LLM 워크플로우를 추적하고 프롬프트 전략을 평가하기 위한 [Weave](/ko/weave)
 
 ```python lines
 !pip install -qU openai weave wandb
 python
 %%capture
-# openai 버그 수정을 위한 임시 해결 방법:
+# openai의 버그를 수정하기 위한 임시 해결 방법:
 # TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
 # 참고: https://community.openai.com/t/error-with-openai-1-56-0-client-init-got-an-unexpected-keyword-argument-proxies/1040332/15
 !pip install "httpx<0.28"
 ```
 
-환경 변수에 `WANDB_API_KEY`를 설정해 두면 wandb.login()으로 쉽게 로그인할 수 있습니다(이 값은 Colab에서 secret으로 설정해야 합니다).
+환경 변수에 `WANDB_API_KEY`를 설정해 두면 wandb.login()으로 쉽게 로그인할 수 있습니다(이는 Colab에 secret으로 제공해야 합니다).
 
-`name_of_wandb_project`에는 이 로그를 기록할 W&amp;B 프로젝트를 설정합니다.
+`name_of_wandb_project`에는 이 로그를 기록할 W&amp;B의 프로젝트를 설정합니다.
 
-**NOTE**: `name_of_wandb_project`는 `{team_name}/{project_name}` 형식으로도 사용할 수 있으며, 이 형식을 사용하면 트레이스를 기록할 팀을 지정할 수 있습니다.
-그다음 weave.init()을 호출해서 Weave 클라이언트를 가져옵니다.
+**NOTE**: 트레이스를 기록할 팀을 지정하기 위해 `name_of_wandb_project`는 `{team_name}/{project_name}` 형식으로도 지정할 수 있습니다.
+그다음 weave.init()을 호출해 Weave 클라이언트를 가져옵니다.
 
-[OpenAI API](https://openai.com/index/openai-api/)를 사용할 것이므로 OpenAI API 키도 필요합니다. OpenAI 플랫폼에서 [가입](https://platform.openai.com/signup)하여 본인의 API 키를 발급받을 수 있습니다(이 키 역시 Colab에서 secret으로 설정해야 합니다).
+[OpenAI API](https://openai.com/index/openai-api/)를 사용할 것이므로 OpenAI API 키도 필요합니다. OpenAI 플랫폼에서 [가입](https://platform.openai.com/signup)하면 본인의 API 키를 받을 수 있습니다(이 역시 Colab에 secret으로 제공해야 합니다).
 
 ```python lines
 import base64
@@ -86,14 +86,15 @@ MODEL = "gpt-4o-2024-08-06"
   ## 에이전트 설정
 </div>
 
-우리가 다룰 사용 사례는 데이터 분석 작업입니다.
+이번에 다룰 사용 사례는 데이터 분석 작업입니다.
 먼저 4개의 에이전트로 구성된 시스템을 설정해 보겠습니다:
 
-* 분류 에이전트: 어떤 에이전트를 호출할지 결정합니다
-* 데이터 전처리 에이전트: 데이터를 정제하는 등 분석을 위한 데이터 준비를 수행합니다
-* 데이터 분석 에이전트: 데이터를 분석합니다
-* 데이터 시각화 에이전트: 분석 결과를 시각화하여 인사이트를 도출합니다
-  이제 각 에이전트에 대한 시스템 프롬프트를 정의하는 것부터 시작하겠습니다.
+* 트리아지 에이전트: 어떤 에이전트를 호출할지 결정합니다
+* 데이터 전처리 에이전트: 예를 들어 데이터를 정제해 분석에 적합한 형태로 준비합니다
+* 데이터 분석 에이전트: 데이터에 대한 분석을 수행합니다
+* Data Visualization 에이전트: 분석 결과를 시각화하여 인사이트를 도출합니다
+
+이제 각 에이전트에 대한 시스템 프롬프트를 정의하는 것부터 시작하겠습니다.
 
 ```python lines
 triaging_system_prompt = """You are a Triaging Agent. Your role is to assess the user's query and route it to the relevant agents. The agents available are:
@@ -119,15 +120,15 @@ visualization_system_prompt = """You are a Visualization Agent. Your role is to 
 - create_pie_chart"""
 ```
 
-그다음 각 에이전트에 사용할 도구를 정의합니다.
+이제 각 에이전트가 사용할 도구를 정의합니다.
 
-분류 에이전트를 제외한 각 에이전트에는 역할에 특화된 도구를 설정합니다:
+트리아지 에이전트를 제외한 각 에이전트는 역할에 특화된 도구를 갖추게 됩니다:
 
-**데이터 전처리 에이전트** : 1. 데이터 정제, 2. 데이터 변환, 3. 데이터 집계
+**데이터 전처리 에이전트**: 1. 데이터 정제, 2. 데이터 변환, 3. 데이터 집계
 
-**데이터 분석 에이전트** : 1. 통계 분석, 2. 상관관계 분석, 3. 회귀 분석
+**데이터 분석 에이전트**: 1. 통계 분석, 2. 상관관계 분석, 3. 회귀 분석
 
-**데이터 시각화 에이전트** : 1. 막대 차트 생성, 2. 꺾은선형 차트 생성, 3. 파이 차트 생성
+**데이터 시각화 에이전트**: 1. 막대 차트 생성, 2. 선 차트 생성, 3. 파이 차트 생성
 
 ```python lines
 triage_tools = [
@@ -161,7 +162,7 @@ preprocess_tools = [
         "type": "function",
         "function": {
             "name": "clean_data",
-            "description": "중복 항목을 제거하고 누락된 값을 처리하여 제공된 데이터를 정제합니다.",
+            "description": "중복을 제거하고 누락된 값을 처리하여 제공된 데이터를 정제합니다.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -316,8 +317,8 @@ visualization_tools = [
                         "type": "string",
                         "description": "막대 차트에 사용할 데이터입니다. JSON 또는 CSV와 같은 적절한 형식이어야 합니다.",
                     },
-                    "x": {"type": "string", "description": "x축에 사용할 열입니다."},
-                    "y": {"type": "string", "description": "y축에 사용할 열입니다."},
+                    "x": {"type": "string", "description": "x축 열입니다."},
+                    "y": {"type": "string", "description": "y축 열입니다."},
                 },
                 "required": ["data", "x", "y"],
                 "additionalProperties": False,
@@ -329,16 +330,16 @@ visualization_tools = [
         "type": "function",
         "function": {
             "name": "create_line_chart",
-            "description": "제공된 데이터로 꺾은선 차트를 생성합니다.",
+            "description": "제공된 데이터로 선 차트를 생성합니다.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "data": {
                         "type": "string",
-                        "description": "꺾은선 차트에 사용할 데이터입니다. JSON 또는 CSV와 같은 적절한 형식이어야 합니다.",
+                        "description": "선 차트에 사용할 데이터입니다. JSON 또는 CSV와 같은 적절한 형식이어야 합니다.",
                     },
-                    "x": {"type": "string", "description": "x축에 사용할 열입니다."},
-                    "y": {"type": "string", "description": "y축에 사용할 열입니다."},
+                    "x": {"type": "string", "description": "x축 열입니다."},
+                    "y": {"type": "string", "description": "y축 열입니다."},
                 },
                 "required": ["data", "x", "y"],
                 "additionalProperties": False,
@@ -360,11 +361,11 @@ visualization_tools = [
                     },
                     "labels": {
                         "type": "string",
-                        "description": "레이블에 사용할 열입니다.",
+                        "description": "레이블 열입니다.",
                     },
                     "values": {
                         "type": "string",
-                        "description": "값에 사용할 열입니다.",
+                        "description": "값 열입니다.",
                     },
                 },
                 "required": ["data", "labels", "values"],
@@ -377,14 +378,14 @@ visualization_tools = [
 ```
 
 <div id="enable-tracking-of-multi-agent-using-weave">
-  ## Weave를 사용하여 멀티 에이전트 추적을 활성화하기
+  ## Weave를 사용하여 멀티 에이전트 추적 활성화
 </div>
 
-다음 로직을 코드로 작성해야 합니다:
+다음을 처리하는 코드 로직을 작성해야 합니다:
 
-* 사용자 쿼리를 멀티 에이전트 시스템에 전달하기
-* 멀티 에이전트 시스템의 내부 동작을 처리하기
-* 도구 호출을 실행하기
+* 사용자 쿼리를 멀티 에이전트 시스템에 전달
+* 멀티 에이전트 시스템의 내부 동작 처리
+* 도구 호출 실행
 
 ```python lines
 # 예시 쿼리
@@ -400,13 +401,13 @@ house_size (m3), house_price ($)
 """
 ```
 
-사용자 쿼리를 보면, 우리가 호출해야 할 도구는 `clean_data`, `start_analysis`, `use_line_chart`라는 것을 알 수 있습니다.
+사용자 쿼리를 보면 호출해야 할 도구가 `clean_data`, `start_analysis`, `use_line_chart`임을 알 수 있습니다.
 
-도구 호출을 담당하는 실행 함수를 정의하는 것부터 시작하겠습니다.
+도구 호출 실행을 담당하는 함수를 정의하는 것부터 시작하겠습니다.
 
-Python 함수에 `@weave.op()` 데코레이터를 추가하면 언어 모델의 입력, 출력, 트레이스를 기록하고 디버깅할 수 있습니다.
+Python 함수에 `@weave.op()` 데코레이터를 추가하면, 언어 모델의 입력, 출력, 그리고 트레이스를 로깅하고 디버깅할 수 있습니다.
 
-멀티 에이전트 시스템을 만들다 보면 함수가 많이 생기지만, 각 함수 위에 `@weave.op()`만 추가해 주면 충분합니다.
+멀티 에이전트 시스템을 만들 때는 많은 함수가 정의되지만, 그 위에 `@weave.op()`만 간단히 추가해 주면 충분합니다.
 
 ```python lines
 @weave.op()
@@ -539,7 +540,7 @@ def execute_tool(tool_calls, messages):
     return messages
 ```
 
-다음으로 각 하위 에이전트에 대한 도구 핸들러를 생성합니다. 각 핸들러에는 모델에 전달할 고유한 프롬프트와 도구 집합이 있습니다. 그런 다음 이 출력이 도구 호출을 실행하는 실행 함수로 전달됩니다.
+다음으로, 각 하위 에이전트에 대한 도구 핸들러를 생성합니다. 이 핸들러에는 모델에 전달할 고유한 프롬프트와 도구 집합이 설정됩니다. 그런 다음 생성된 출력은 도구 호출을 실행하는 함수로 전달됩니다.
 
 ```python lines
 # 각 에이전트의 처리를 담당하는 함수 정의
@@ -595,7 +596,7 @@ def handle_visualization_agent(query, conversation_messages):
     execute_tool(response.choices[0].message.tool_calls, conversation_messages)
 ```
 
-마지막으로, 사용자 쿼리 처리를 담당하는 최상위 도구를 만듭니다. 이 함수는 사용자 쿼리를 입력으로 받아 모델의 응답을 얻고, 이를 다른 에이전트에 전달해 실행하도록 처리합니다.
+마지막으로, 사용자 쿼리 처리를 총괄하는 도구를 생성합니다. 이 함수는 사용자 쿼리를 입력으로 받아 모델의 응답을 얻은 뒤, 이를 다른 에이전트에 전달해 실행하도록 합니다.
 
 ```python lines
 # 사용자 입력 및 트리아지 처리 함수
@@ -683,25 +684,25 @@ def extract_tool_contents(data):
   ## Weave에서 멀티 에이전트 시스템 실행 및 시각화
 </div>
 
-마지막으로 사용자 입력을 받아 기본 `handle_user_message` 함수를 실행하고, 그 결과를 확인합니다.
+마지막으로 사용자의 입력을 사용해 주요 `handle_user_message` 함수를 실행하고 결과를 확인합니다.
 
 ```python lines
 handle_user_message(user_query)
 ```
 
-Weave URL을 클릭하면 실행이 다음과 같이 추적되고 있는 것을 확인할 수 있습니다. Traces 페이지에서 입력과 출력을 확인할 수 있습니다. 이해를 돕기 위해 각 출력을 클릭했을 때 표시되는 결과 화면의 스크린샷을 다이어그램에 추가했습니다. Weave는 OpenAI의 API와 통합되어 있어 비용이 자동으로 계산됩니다. 따라서 가장 오른쪽에 비용과 지연 시간도 함께 표시되는 것을 확인할 수 있습니다.
+Weave URL을 클릭하면 다음과 같이 실행이 추적되고 있는 것을 확인할 수 있습니다. Traces 페이지에서 입력과 출력을 확인할 수 있습니다. 이해를 돕기 위해, 각 출력을 클릭했을 때 표시되는 결과의 스크린샷을 도식에 추가했습니다. Weave는 OpenAI의 API와의 인테그레이션을 제공하며, 이를 통해 비용이 자동으로 계산됩니다. 따라서 맨 오른쪽에 비용과 지연 시간도 함께 표시되는 것을 확인할 수 있습니다.
 ![1-1.png](/media/multi-agent-structured-output/1-1.png)
 
-각 라인을 클릭하면 멀티 에이전트 시스템 내에서 실행된 중간 프로세스를 확인할 수 있습니다. 예를 들어 `analysis_agent`의 입력과 출력을 보면, 이것이 구조화된 출력(Structured Output) 형식임을 알 수 있습니다. OpenAI의 Structured Output은 에이전트 간 협업을 용이하게 하지만, 시스템이 복잡해질수록 이러한 상호작용이 어떤 형식으로 이루어지는지 파악하기 어려워집니다. Weave를 사용하면 이러한 중간 프로세스와 그 입력 및 출력을 마치 손에 들고 있는 것처럼 직관적으로 이해할 수 있습니다.
+각 항목을 클릭하면 멀티 에이전트 시스템 내에서 실행된 중간 프로세스를 확인할 수 있습니다. 예를 들어 `analysis_agent`의 입력과 출력을 살펴보면, 구조화된 출력 포맷을 사용하고 있음을 알 수 있습니다. OpenAI의 구조화된 출력은 에이전트 간 협업을 용이하게 하지만, 시스템이 복잡해질수록 이러한 상호작용이 어떤 포맷으로 이루어지는지 파악하기 어려워집니다. Weave를 사용하면 이러한 중간 프로세스와 그 입력 및 출력을 마치 손에 들고 보듯이 명확하게 이해할 수 있습니다.
 
 <Frame>
   ![3.png](/media/multi-agent-structured-output/3.png)
 </Frame>
 
-Weave에서 트레이싱이 어떻게 처리되는지 자세히 살펴보십시오!
+Weave에서 트레이싱이 어떻게 처리되는지 좀 더 자세히 살펴보세요!
 
 <div id="conclusion">
   ## 결론
 </div>
 
-이 튜토리얼에서는 OpenAI에서 제공하는 structured output과 Weave를 활용해 입력, 중간 출력 형식, 최종 출력을 추적하면서 멀티 에이전트 시스템을 편리하게 개발하는 방법을 살펴보았습니다.
+이 튜토리얼에서는 OpenAI에서 제공하는 구조화된 출력과 Weave를 사용해 입력, 최종 출력, 중간 출력 형식을 추적하면서 멀티 에이전트 시스템을 손쉽게 개발하는 방법을 알아보았습니다.

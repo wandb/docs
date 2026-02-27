@@ -1,6 +1,6 @@
 ---
 title: "OpenAI"
-description: "추적, 평가, 모니터링을 위해 Weave와 OpenAI를 통합하세요"
+description: "Weave와 OpenAI를 통합하여 트레이싱·평가·모니터링하기"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb" aria-label="Google Colab에서 열기">
@@ -8,24 +8,24 @@ description: "추적, 평가, 모니터링을 위해 Weave와 OpenAI를 통합�
 </a>
 
 <Note>
-별도 설정 없이 Weave에서 OpenAI 모델을 실험해 보고 싶나요? [LLM Playground](../tools/playground)를 사용해 보세요.
+별도의 설정 없이 Weave에서 OpenAI 모델을 실험해 보고 싶나요? [LLM Playground](../tools/playground)를 사용해 보세요.
 </Note>
 
 <div id="tracing">
-  ## Tracing
+  ## 트레이싱
 </div>
 
-LLM 애플리케이션의 트레이스를 개발 단계와 프로덕션 환경 모두에서 중앙 데이터베이스에 저장하는 것은 중요합니다. 이러한 트레이스는 디버깅에 사용되고, 애플리케이션을 개선하는 동안 평가에 사용할 까다로운 예시들로 이루어진 데이터셋을 구축하는 데 도움이 됩니다.
+LLM 애플리케이션의 트레이스를 개발 및 프로덕션 환경 모두에서 중앙 데이터베이스에 저장하는 것은 중요합니다. 이 트레이스는 디버깅에 사용하고, 애플리케이션을 개선할 때 평가에 사용할 까다로운 예시들로 구성된 데이터셋을 구축하는 데 활용할 수 있습니다.
 
-Weave는 [openai python library](https://platform.openai.com/docs/libraries/python-library)에 대한 트레이스를 자동으로 캡처할 수 있습니다.
+Weave는 [OpenAI Python 라이브러리](https://platform.openai.com/docs/libraries/python-library)에 대한 트레이스를 자동으로 캡처할 수 있습니다.
 
-원하는 프로젝트 이름으로 `weave.init(<project-name>)`을(를) 호출해 캡처를 시작하세요. OpenAI는 언제 임포트했는지와 관계없이 자동으로 패치됩니다.
+`weave.init(<project-name>)`을(를) 호출해 원하는 프로젝트 이름을 지정하면 캡처가 시작됩니다. OpenAI는 언제 임포트하더라도 자동으로 패치됩니다.
 
-`weave.init()`을(를) 호출할 때 W&amp;B 팀을 지정하지 않으면 기본 엔터티가 사용됩니다. 기본 엔터티를 찾거나 업데이트하려면 W&amp;B Models 문서의 [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team)를 참고하세요.
+`weave.init()`을(를) 호출할 때 W&amp;B 팀을 지정하지 않으면 기본 엔티티가 사용됩니다. 기본 엔티티를 찾거나 변경하려면 W&amp;B Models 문서의 [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team)를 참고하세요.
 
 **자동 패치**
 
-Weave는 `weave.init()` 이전이나 이후에 OpenAI를 임포트했는지와 상관없이 자동으로 패치합니다:
+Weave는 `weave.init()` 호출 전후에 OpenAI가 임포트되었는지 여부와 상관없이 자동으로 OpenAI를 패치합니다:
 
 <CodeGroup>
   ```python Python lines {4}
@@ -56,7 +56,7 @@ Weave는 `weave.init()` 이전이나 이후에 OpenAI를 임포트했는지와 �
 
   const openai = wrapOpenAI(new OpenAI());
 
-  // 이제 OpenAI에 대한 모든 호출이 트레이싱됩니다
+  // 이제 OpenAI에 대한 모든 호출이 트레이스됩니다.
   openai.chat.completions.create(
     {
       model: "gpt-4",
@@ -77,7 +77,7 @@ Weave는 `weave.init()` 이전이나 이후에 OpenAI를 임포트했는지와 �
 
 **명시적 패치 (선택 사항)**
 
-보다 세밀하게 제어하고 싶다면 여전히 명시적으로 패치할 수 있습니다:
+더 세밀하게 제어하고 싶다면, 여전히 명시적으로 패치할 수 있습니다:
 
 ```python lines {3,4}
 import weave
@@ -95,10 +95,10 @@ response = client.chat.completions.create(
 )
 ```
 
-[실시간 트레이스를 확인하세요](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
+[라이브 트레이스를 확인해 보세요](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
 
 <Tip>
-  [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) 및 [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview)의 함수 호출(function calling) 도구도 함께 캡처합니다.
+  [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) 및 [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview)에서 사용하는 함수 호출용 도구도 함께 캡처합니다.
 </Tip>
 
 
@@ -106,7 +106,7 @@ response = client.chat.completions.create(
   ## 구조화된 출력
 </div>
 
-Weave는 OpenAI와 함께 구조화된 출력을 지원합니다. 이는 LLM 응답이 특정 형식을 따르도록 보장하는 데 유용합니다.
+Weave는 OpenAI의 구조화된 출력도 지원합니다. 이는 LLM 응답이 특정 형식을 반드시 따르도록 할 때 유용합니다.
 
 <CodeGroup>
 ```python Python
@@ -139,7 +139,7 @@ print(user_detail)
   ## 비동기(Async) 지원
 </div>
 
-Weave는 OpenAI를 위한 비동기 함수도 지원합니다.
+Weave는 OpenAI와 함께 사용할 비동기 함수도 지원합니다.
 
 <CodeGroup>
 ```python Python
@@ -165,7 +165,7 @@ async def call_openai():
     )
     return response
 
-# 비동기 함수 호출
+# 비동기 함수를 호출합니다
 result = await call_openai()
 ```
 </CodeGroup>
@@ -208,7 +208,7 @@ for chunk in response:
   ## 함수 호출 추적
 </div>
 
-Weave는 도구를 사용할 때 OpenAI가 수행하는 함수 호출도 자동으로 추적합니다.
+Weave는 tools를 사용할 때 OpenAI에서 수행하는 함수 호출도 추적합니다.
 
 <CodeGroup>
 ```python Python
@@ -294,7 +294,7 @@ batch_input = [
     }
 ]
 
-# 배치 제출
+# 배치 전송
 batch = client.batches.create(
     input_file_id="your-file-id",
     endpoint="/v1/chat/completions",
@@ -310,7 +310,7 @@ completed_batch = client.batches.retrieve(batch.id)
   ## Assistants API
 </div>
 
-Weave는 대화형 AI 애플리케이션을 만들기 위한 OpenAI Assistants API도 지원합니다.
+Weave는 대화형 AI 애플리케이션을 구축하기 위한 OpenAI Assistants API도 지원합니다.
 
 <CodeGroup>
 ```python Python
@@ -320,30 +320,30 @@ import weave
 client = OpenAI()
 weave.init('assistant-bot')
 
-# 어시스턴트 생성
+# assistant 생성
 assistant = client.beta.assistants.create(
     name="Math Assistant",
     instructions="You are a personal math tutor. Answer questions about math.",
     model="gpt-4"
 )
 
-# 스레드 생성
+# thread 생성
 thread = client.beta.threads.create()
 
-# 스레드에 메시지 추가
+# thread에 메시지 추가
 message = client.beta.threads.messages.create(
     thread_id=thread.id,
     role="user",
     content="What is 2+2?"
 )
 
-# 어시스턴트 실행
+# assistant 실행
 run = client.beta.threads.runs.create(
     thread_id=thread.id,
     assistant_id=assistant.id
 )
 
-# 어시스턴트의 응답 가져오기
+# assistant의 응답 가져오기
 messages = client.beta.threads.messages.list(thread_id=thread.id)
 ```
 </CodeGroup>
@@ -352,17 +352,17 @@ messages = client.beta.threads.messages.list(thread_id=thread.id)
   ## 비용 추적
 </div>
 
-Weave는 OpenAI API 호출 비용을 자동으로 추적합니다. Weave UI에서 비용 세부 내역을 확인할 수 있습니다.
+Weave는 OpenAI API 호출에 대한 비용을 자동으로 추적합니다. Weave UI에서 비용 상세 내역을 확인할 수 있습니다.
 
 <Note>
-비용 추적은 모든 OpenAI 모델에서 지원되며, 최신 OpenAI 요금에 따라 계산됩니다.
+비용 추적은 모든 OpenAI 모델에 대해 제공되며, 최신 OpenAI 요금제를 기준으로 산정됩니다.
 </Note>
 
 <div id="tracing-custom-functions">
-  ## 사용자 정의 함수 추적
+  ## 커스텀 함수 트레이싱
 </div>
 
-`@weave.op` 데코레이터를 사용하면 OpenAI를 사용하는 사용자 정의 함수도 추적할 수 있습니다.
+`@weave.op` 데코레이터를 사용해 OpenAI를 사용하는 커스텀 함수도 트레이싱할 수 있습니다.
 
 <CodeGroup>
 ```python Python
@@ -385,7 +385,7 @@ def generate_response(prompt: str) -> str:
     )
     return response.choices[0].message.content
 
-# 이 함수 호출은 추적됩니다
+# 이 함수 호출은 트레이싱됩니다.
 result = generate_response("Hello, how are you?")
 ```
 </CodeGroup>
@@ -394,11 +394,11 @@ result = generate_response("Hello, how are you?")
   ## 다음 단계
 </div>
 
-이제 OpenAI 호출에 대한 트레이싱을 설정했으므로 다음을 수행할 수 있습니다:
+이제 OpenAI에 대한 트레이싱을 설정했으므로 다음 작업을 수행할 수 있습니다.
 
 1. **Weave UI에서 트레이스 보기**: Weave 프로젝트로 이동하여 OpenAI 호출 트레이스를 확인합니다.
-2. **평가 생성**: 트레이스를 사용해 평가용 데이터셋을 생성합니다.
+2. **평가 생성**: 트레이스를 사용해 평가용 데이터셋을 만듭니다.
 3. **성능 모니터링**: 지연 시간, 비용 및 기타 메트릭을 추적합니다.
-4. **문제 디버깅**: 트레이스를 사용해 LLM 애플리케이션에서 어떤 일이 일어나는지 파악합니다.
+4. **문제 디버깅**: 트레이스를 사용해 LLM 애플리케이션에서 어떤 일이 발생하는지 파악합니다.
 
-이러한 주제에 대한 자세한 내용은 [Evaluation 가이드](../evaluation/scorers) 및 [모니터링 가이드](../tracking)를 참조하세요.
+이러한 주제에 대한 자세한 내용은 [평가 가이드](../evaluation/scorers)와 [모니터링 가이드](../tracking)를 참조하세요.

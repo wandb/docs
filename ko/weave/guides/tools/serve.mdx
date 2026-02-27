@@ -1,15 +1,15 @@
 ---
-title: "서빙"
-description: "Weave op와 모델을 API 엔드포인트로 제공하기"
+title: "Serve"
+description: "Weave ops와 모델을 API 엔드포인트로 제공하기"
 ---
 
-임의의 Weave Model에 대한 Weave ref가 있으면 다음을 실행할 수 있습니다:
+어떤 Weave Model에 대한 Weave ref가 있으면 다음과 같이 실행할 수 있습니다:
 
 ```
 weave serve <ref>
 ```
 
-해당 모델용 FastAPI 서버를 실행합니다. 모델을 대화형으로 쿼리하려면 [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs)를 방문하세요.
+해당 모델용 FastAPI 서버를 실행합니다. [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs)에 접속하여 모델을 대화형으로 질의할 수 있습니다.
 
 
 <div id="install-fastapi">
@@ -22,7 +22,7 @@ pip install fastapi uvicorn
 
 
 <div id="serve-model">
-  ## 모델 서빙하기
+  ## 모델 서빙
 </div>
 
 터미널에서 다음 명령을 실행합니다:
@@ -31,7 +31,7 @@ pip install fastapi uvicorn
 weave serve <your model ref>
 ```
 
-모델 페이지로 이동해 UI에서 모델 ref(참조)를 복사하세요. 형식은 다음과 같습니다:
+모델 페이지로 이동해 UI에서 모델 ref를 복사하세요. 다음과 같은 형태입니다:
 `weave://your_entity/project-name/YourModel:<hash>`
 
-이를 사용하려면 Swagger UI 링크로 이동한 다음, predict 엔드포인트를 클릭하고 &quot;Try it out!&quot;을 클릭하세요.
+이를 사용하려면 Swagger UI 링크로 이동한 다음 predict 엔드포인트를 클릭하고 &quot;Try it out!&quot;을 클릭하세요.

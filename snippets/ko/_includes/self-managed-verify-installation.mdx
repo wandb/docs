@@ -1,14 +1,14 @@
 ---
-title: 셀프 매니지드 설치 검증
+title: 셀프 관리형 설치 검증
 ---
 
-설치를 검증하려면 [W&amp;B CLI](/ko/models/ref/cli/)를 사용할 것을 권장합니다. verify 명령은 모든 구성 요소와 설정을 검증하는 여러 테스트를 실행합니다.
+설치를 검증하려면 [W&amp;B CLI](/ko/models/ref/cli/) 사용을 권장합니다. `verify` 명령은 모든 컴포넌트와 설정을 검증하는 여러 테스트를 실행합니다.
 
 <Note>
-  이 단계는 첫 번째 관리자 사용자 계정이 브라우저에서 생성되어 있다고 가정합니다.
+  이 단계에서는 첫 번째 관리자 사용자 계정이 브라우저를 통해 생성되었다고 가정합니다.
 </Note>
 
-다음 단계를 따라 설치를 검증합니다:
+설치를 검증하려면 다음 단계를 따르세요:
 
 1. W&amp;B CLI를 설치합니다:
 
@@ -16,7 +16,7 @@ title: 셀프 매니지드 설치 검증
 pip install wandb
 ```
 
-2. W&amp;B에 로그인하세요:
+2. W&amp;B에 로그인합니다:
 
 ```bash
 wandb login --host=https://YOUR_DNS_DOMAIN
@@ -28,26 +28,26 @@ wandb login --host=https://YOUR_DNS_DOMAIN
 wandb login --host=https://wandb.company-name.com
 ```
 
-3. 설치를 확인합니다:
+3. 설치를 확인하세요:
 
 ```bash
 wandb verify
 ```
 
-설치가 성공적으로 완료되고 W&amp;B 배포가 정상적으로 동작하면 다음과 같은 출력이 표시됩니다:
+설치가 성공적으로 완료되고 W&amp;B 배포가 완전히 정상적으로 동작하면 다음과 같은 출력이 표시됩니다:
 
 ```console
-Default host selected:  https://wandb.company-name.com
-Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
-Checking if logged in...................................................✅
-Checking signed URL upload..............................................✅
-Checking ability to send large payloads through proxy...................✅
-Checking requests to base url...........................................✅
-Checking requests made over signed URLs.................................✅
-Checking CORs configuration of the bucket...............................✅
-Checking wandb package version is up to date............................✅
-Checking logged metrics, saving and downloading a file..................✅
-Checking artifact save and download workflows...........................✅
+기본 호스트 선택됨:  https://wandb.company-name.com
+이 테스트의 상세 로그 위치: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+로그인 여부 확인 중...................................................✅
+서명된 URL 업로드 확인 중..............................................✅
+프록시를 통한 대용량 페이로드 전송 가능 여부 확인 중...................✅
+기본 URL에 대한 요청 확인 중...........................................✅
+서명된 URL을 통한 요청 확인 중.................................✅
+버킷의 CORS 설정 확인 중...............................✅
+wandb 패키지 버전 최신 여부 확인 중............................✅
+기록된 메트릭 확인, 파일 저장 및 다운로드 중..................✅
+아티팩트 저장 및 다운로드 워크플로 확인 중...........................✅
 ```
 
-오류가 발생하면 W&amp;B 지원팀에 문의하세요.
+오류가 발생하면 W&amp;B Support 팀에 문의하세요.

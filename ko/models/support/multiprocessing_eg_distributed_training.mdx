@@ -1,14 +1,14 @@
 ---
-title: "wandb를 멀티프로세싱(예: 분산 학습)과 함께 사용하려면 어떻게 해야 하나요?"
+title: wandb를 multiprocessing, 예를 들어 분산 트레이닝과 함께 사용하려면 어떻게 해야 하나요?
 ---
 
-학습 프로그램이 여러 프로세스를 사용한다면, `wandb.init()`가 호출되지 않은 프로세스에서 wandb 메서드를 호출하지 않도록 프로그램 구조를 설계해야 합니다.
+트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()`가 호출되지 않은 프로세스에서는 wandb 메서드를 호출하지 않도록 프로그램 구조를 설계해야 합니다.
 
-다음과 같은 방식으로 멀티프로세스 학습을 관리할 수 있습니다:
+다음과 같은 방법으로 멀티프로세싱 트레이닝을 관리할 수 있습니다:
 
-1. 모든 프로세스에서 `wandb.init`을 호출하고 [group](/ko/models/runs/grouping/) 키워드 인자를 사용해 공유 그룹을 생성합니다. 각 프로세스는 자체 wandb 실행을 가지며, UI에서는 학습 프로세스들이 하나의 그룹으로 함께 표시됩니다.
-2. 하나의 프로세스에서만 `wandb.init`을 호출하고, [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes)를 통해 로깅할 데이터를 전달합니다.
+1. 모든 프로세스에서 `wandb.init`을 호출하고 [group](/ko/models/runs/grouping/) 키워드 인자를 사용해 공유 그룹을 만듭니다. 각 프로세스는 자체 wandb run을 가지게 되며, UI에서 트레이닝 프로세스들이 함께 그룹화됩니다.
+2. 하나의 프로세스에서만 `wandb.init`을 호출하고, 다른 프로세스에서 로깅할 데이터를 [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes)를 통해 전달합니다.
 
 <Note>
-  이러한 방식들에 대한 자세한 설명과 Torch DDP 코드 예시는 [Distributed Training Guide](/ko/models/track/log/distributed-training/)를 참고하세요.
+  이러한 방법에 대한 자세한 설명과 Torch DDP 코드 예시는 [Distributed Training Guide](/ko/models/track/log/distributed-training/)를 참고하세요.
 </Note>

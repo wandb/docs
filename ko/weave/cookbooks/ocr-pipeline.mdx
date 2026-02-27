@@ -1,17 +1,17 @@
 ---
 title: "Weave로 컴퓨터 비전 파이프라인 추적 및 평가하기"
-description: "W&B Weave를 사용해 컴퓨터 비전 파이프라인을 추적하고 평가하는 방법을 알아봅니다"
+description: "W&B Weave에서 Weave를 사용해 컴퓨터 비전 파이프라인을 추적하고 평가하는 방법을 알아보세요"
 ---
 
 <Note>
-  이 문서는 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 통해 열 수 있습니다:
+  이 노트북은 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
 
   * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
   * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
 </Note>
 
 <div id="prerequisites">
-  ## 사전 준비 사항
+  ## 전제 조건
 </div>
 
 시작하기 전에 필요한 라이브러리를 설치하고 임포트한 다음, W&amp;B API 키를 발급받고 Weave 프로젝트를 초기화하세요.
@@ -35,7 +35,7 @@ os.environ["OPENAI_API_KEY"] = userdata.get(
 os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")
 
 # 프로젝트 이름 설정
-# PROJECT 값을 프로젝트 이름으로 변경하세요
+# PROJECT 값을 프로젝트 이름으로 바꾸세요
 PROJECT = "vlm-handwritten-ner"
 
 # Weave 프로젝트 초기화
@@ -43,10 +43,10 @@ weave.init(PROJECT)
 ```
 
 <div id="1-create-and-iterate-on-prompts-with-weave">
-  ## 1. Weave로 프롬프트 생성 및 반복 개선
+  ## 1. Weave로 프롬프트 생성 및 반복적으로 개선하기
 </div>
 
-좋은 프롬프트 엔지니어링은 모델이 엔티티를 올바르게 추출하도록 유도하는 데 매우 중요합니다. 먼저, 이미지 데이터에서 무엇을 추출할지와 그 결과를 어떤 형식으로 출력할지를 모델에 지시하는 기본 프롬프트를 만듭니다. 그런 다음, 해당 프롬프트를 추적과 반복적인 개선을 위해 Weave에 저장합니다.
+좋은 프롬프트 엔지니어링은 모델이 엔티티를 올바르게 추출하도록 유도하는 데 매우 중요합니다. 먼저, 이미지 데이터에서 무엇을 추출해야 하는지와 그 결과를 어떤 형식으로 만들어야 하는지에 대한 지시를 모델에 제공하는 기본 프롬프트를 만듭니다. 그런 다음 이 프롬프트를 추적과 반복 개선을 위해 Weave에 저장합니다.
 
 ````python lines
 # Weave로 프롬프트 객체 생성
@@ -61,7 +61,7 @@ system_prompt = weave.StringPrompt(prompt)
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
-다음으로, 출력 오류를 줄일 수 있도록 프롬프트에 더 많은 지침과 검증 규칙을 추가해 개선합니다.
+다음으로, 출력 오류를 줄이기 위해 더 많은 지시와 검증 규칙을 추가해 프롬프트를 개선하세요.
 
 ````python lines
 better_prompt = """
@@ -93,9 +93,9 @@ weave.publish(system_prompt, name="NER-prompt")
   ## 2. 데이터셋 가져오기
 </div>
 
-다음으로, OCR 파이프라인의 입력으로 사용할 손글씨 메모 데이터셋을 가져옵니다.
+다음으로, OCR 파이프라인의 입력으로 사용할 손글씨 노트 데이터셋을 가져옵니다.
 
-데이터셋의 이미지는 이미 `base64`로 인코딩되어 있어, LLM이 별도의 전처리 없이 바로 사용할 수 있습니다.
+이 데이터셋의 이미지는 이미 `base64`로 인코딩되어 있으므로, LLM에서 별도의 전처리 없이 바로 사용할 수 있습니다.
 
 ```python lines
 # 다음 Weave 프로젝트에서 데이터셋을 가져옵니다
@@ -114,13 +114,13 @@ display(HTML(html))
 ```
 
 <div id="3-build-the-ner-pipeline">
-  ## 3. NER 파이프라인 구성하기
+  ## 3. NER 파이프라인 구성
 </div>
 
-다음으로 NER 파이프라인을 구성합니다. 이 파이프라인은 두 개의 함수로 이루어집니다:
+다음으로 NER 파이프라인을 구성한다. 이 파이프라인은 두 개의 함수로 구성된다:
 
-1. 데이터셋에서 PIL 이미지를 입력으로 받아, VLM에 전달할 수 있도록 해당 이미지를 `base64`로 인코딩한 문자열 표현으로 변환해 반환하는 `encode_image` 함수
-2. 이미지를 시스템 프롬프트와 함께 입력으로 받아, 시스템 프롬프트에서 지정한 방식에 따라 해당 이미지에서 추출한 엔티티를 반환하는 `extract_named_entities_from_image` 함수
+1. 데이터셋에서 가져온 PIL 이미지를 입력으로 받아, VLM에 전달할 수 있는 `base64`로 인코딩된 문자열 표현으로 변환해 반환하는 `encode_image` 함수
+2. 이미지와 시스템 프롬프트를 입력으로 받아, 시스템 프롬프트에서 설명한 대로 해당 이미지에서 추출된 엔티티를 반환하는 `extract_named_entities_from_image` 함수
 
 ```python lines
 # GPT-4-Vision을 사용하는 추적 가능한 함수
@@ -129,7 +129,7 @@ def extract_named_entities_from_image(image_base64) -> dict:
     client = OpenAI()
 
     # 지시 프롬프트 설정
-    # Weave에 저장된 프롬프트를 선택적으로 사용할 수 있습니다: weave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()
+    # 선택적으로 Weave에 저장된 프롬프트를 사용할 수 있습니다: weave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()
     prompt = better_prompt
 
     response = client.responses.create(
@@ -151,14 +151,14 @@ def extract_named_entities_from_image(image_base64) -> dict:
     return response.output_text
 ```
 
-이제 `named_entity_recognation`이라는 함수를 만들어서 다음을 수행합니다:
+이제 `named_entity_recognation`이라는 함수를 만들어서 다음을 수행하도록 하세요:
 
-* 이미지 데이터를 NER 파이프라인에 전달합니다.
-* 결과를 올바른 형식의 JSON으로 반환합니다.
+* 이미지 데이터를 NER 파이프라인에 전달하고
+* 결과를 올바르게 포맷된 JSON으로 반환합니다.
 
-W&amp;B UI에서 함수 실행을 자동으로 추적하고 기록하기 위해 [`@weave.op()` decorator](/ko/weave/reference/python-sdk/trace/op) 데코레이터를 사용합니다.
+W&amp;B UI에서 함수 실행을 자동으로 추적하고 트레이싱하려면 [`@weave.op()` decorator](/ko/weave/reference/python-sdk/trace/op) 데코레이터를 사용하세요.
 
-`named_entity_recognation`이 실행될 때마다 전체 트레이스 결과를 Weave UI에서 확인할 수 있습니다. 트레이스를 보려면 Weave 프로젝트의 **Traces** 탭으로 이동하세요.
+각 `named_entity_recognation` run이 실행될 때마다 전체 트레이스 결과를 Weave UI에서 확인할 수 있습니다. 트레이스를 보려면 Weave 프로젝트의 **Traces** 탭으로 이동하세요.
 
 ```python lines
 # 평가를 위한 NER 함수
@@ -178,9 +178,9 @@ def named_entity_recognation(image_base64, id):
     return result
 ```
 
-마지막으로 파이프라인을 데이터셋에 대해 실행한 다음, 결과를 확인합니다.
+마지막으로 파이프라인을 데이터셋에 대해 실행하고 결과를 확인합니다.
 
-다음 코드는 데이터셋을 순회하면서 결과를 로컬 파일 `processing_results.json`에 저장합니다. 결과는 Weave UI에서도 확인할 수 있습니다.
+다음 코드는 데이터셋을 순회하면서 결과를 로컬 파일 `processing_results.json`에 저장합니다. 이 결과는 Weave UI에서도 확인할 수 있습니다.
 
 ```python lines
 # 출력 결과
@@ -200,7 +200,7 @@ with open(output_file, "w") as f:
 print(f"Results saved to: {output_file}")
 ```
 
-Weave UI의 **Traces** 테이블에 다음과 비슷한 내용이 표시됩니다.
+Weave UI의 **Traces** 테이블에서 다음과 유사한 내용이 표시됩니다.
 
 <Frame>
   ![Screenshot 2025-05-02 at 12.03.00 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
@@ -210,25 +210,25 @@ Weave UI의 **Traces** 테이블에 다음과 비슷한 내용이 표시됩니�
   ## 4. Weave를 사용해 파이프라인 평가하기
 </div>
 
-이제 VLM을 사용해 NER 작업을 수행하는 파이프라인을 만들었으므로, Weave를 사용해 이를 체계적으로 평가하고 성능이 얼마나 좋은지 확인할 수 있습니다. Weave의 Evaluation에 대한 자세한 내용은 [Evaluations Overview](/ko/weave/guides/core-types/evaluations)에서 확인할 수 있습니다.
+이제 VLM을 사용해 NER을 수행하는 파이프라인을 만들었으므로, Weave를 사용하여 이를 체계적으로 평가하고 성능을 확인할 수 있습니다. Weave의 Evaluation에 대해 더 알고 싶다면 [Evaluations Overview](/ko/weave/guides/core-types/evaluations)를 참고하세요.
 
-Weave Evaluation의 핵심 구성 요소는 [Scorers](/ko/weave/guides/evaluation/scorers)입니다. Scorer는 AI 출력값을 평가하고 평가 지표를 반환하는 데 사용됩니다. Scorer는 AI의 출력을 받아 분석한 뒤, 결과를 담은 딕셔너리를 반환합니다. 필요하다면 입력 데이터를 참조용으로 사용할 수 있으며, 평가에서 나온 설명이나 추론과 같은 추가 정보도 함께 출력할 수 있습니다.
+Weave Evaluation의 핵심 구성 요소는 [Scorers](/ko/weave/guides/evaluation/scorers)입니다. Scorer는 AI 출력 결과를 평가하고 평가 메트릭을 반환하는 데 사용됩니다. Scorer는 AI의 출력을 받아 분석한 뒤, 결과를 사전 형태로 반환합니다. 필요하다면 입력 데이터를 참조용으로 사용할 수 있으며, 평가 과정에서 나온 설명이나 추론과 같은 추가 정보도 함께 출력할 수 있습니다.
 
-이 섹션에서는 파이프라인을 평가하기 위해 두 개의 Scorer를 생성합니다:
+이 섹션에서는 파이프라인을 평가하기 위해 두 가지 Scorer를 생성합니다:
 
 1. Programatic Scorer
 2. LLM-as-a-judge Scorer
 
 <div id="programatic-scorer">
-  ### 프로그래밍 방식 스코어러
+  ### 프로그래매틱 스코어러
 </div>
 
-프로그래밍 방식 스코어러인 `check_for_missing_fields_programatically`는 모델 출력(`named_entity_recognition` 함수의 결과)을 입력으로 받아, 결과에서 어떤 `keys`가 누락되었거나 비어 있는지 식별합니다.
+프로그래매틱 스코어러인 `check_for_missing_fields_programatically`는 모델 출력(`named_entity_recognition` 함수의 출력)을 받아 결과에서 어떤 `키`가 누락되었거나 비어 있는지 식별합니다.
 
-이 검사는 모델이 어떤 필드도 추출하지 못한 샘플을 식별하는 데 매우 유용합니다.
+이 검사는 모델이 필드를 하나도 추출하지 못한 샘플을 식별하는 데 매우 유용합니다.
 
 ```python lines
-# 스코어러의 실행을 추적하기 위해 weave.op()를 추가합니다
+# 스코어러 실행을 추적하기 위해 weave.op() 추가
 @weave.op()
 def check_for_missing_fields_programatically(model_output):
     # 모든 항목에 필요한 키
@@ -240,24 +240,24 @@ def check_for_missing_fields_programatically(model_output):
             or model_output[key] is None
             or str(model_output[key]).strip() == ""
         ):
-            return False  # 이 항목에 누락되거나 비어 있는 필드가 있습니다
+            return False  # 이 항목에 누락되거나 비어 있는 필드가 있음
 
-    return True  # 모든 필수 필드가 존재하며 비어 있지 않습니다
+    return True  # 모든 필수 필드가 존재하며 비어 있지 않음
 ```
 
 <div id="llm-as-a-judge-scorer">
   ### LLM-as-a-judge 스코어러
 </div>
 
-Evaluation의 다음 단계에서는 실제 NER 성능을 평가할 수 있도록 이미지 데이터와 모델 출력이 모두 제공됩니다. 평가 시에는 모델 출력만이 아니라 이미지의 실제 내용이 명시적으로 참조됩니다.
+평가의 다음 단계에서는 실제 NER 성능이 반영되도록 이미지 데이터와 모델 출력이 모두 제공됩니다. 여기서는 모델 출력만이 아니라 이미지 내용도 명시적으로 참조합니다.
 
-이 단계에 사용되는 Scorer인 `check_for_missing_fields_with_llm`은 LLM(구체적으로 OpenAI의 `gpt-4o`)을 사용해 점수를 산출합니다. `eval_prompt`의 내용에 따라 `check_for_missing_fields_with_llm`은 `Boolean` 값을 출력합니다. 모든 필드가 이미지의 정보와 일치하고 포맷이 올바르면 Scorer는 `true`를 반환합니다. 하나라도 필드가 누락되었거나 비어 있거나, 잘못되었거나, 일치하지 않는 경우 결과는 `false`가 되며, Scorer는 문제를 설명하는 메시지도 함께 반환합니다.
+이 단계에서 사용하는 스코어러 `check_for_missing_fields_with_llm`는 LLM(구체적으로 OpenAI의 `gpt-4o`)을 사용해 점수를 산출합니다. `eval_prompt`의 내용에 따라 `check_for_missing_fields_with_llm`는 `Boolean` 값을 출력합니다. 모든 필드가 이미지에 있는 정보와 일치하고 형식도 올바르면 스코어러는 `true`를 반환합니다. 어떤 필드든 누락되었거나 비어 있거나, 잘못되었거나 일치하지 않을 경우 결과는 `false`가 되고, 스코어러는 문제를 설명하는 메시지도 함께 반환합니다.
 
 ```python lines
 # LLM-as-a-judge의 시스템 프롬프트
 
 eval_prompt = """
-당신은 OCR 검증 시스템입니다. 당신의 역할은 이미지에서 추출된 구조화된 텍스트가 해당 이미지의 정보를 정확하게 반영하는지 평가하는 것입니다.
+당신은 OCR 검증 시스템입니다. 이미지에서 추출된 구조화된 텍스트가 해당 이미지의 정보를 정확하게 반영하는지 평가하는 것이 당신의 역할입니다.
 구조화된 텍스트만 검증하고, 이미지를 기준 정보로 사용하십시오.
 
 예상 입력 텍스트 형식:
@@ -270,11 +270,11 @@ eval_prompt = """
 
 채점:
 - 반환: {"Correct": true, "Reason": ""} **모든 필드**가 이미지의 정보와 일치하고 형식이 올바른 경우.
-- 반환: {"Correct": false, "Reason": "EXPLANATION"} **어느** 필드라도 누락되었거나, 비어 있거나, 잘못되었거나, 불일치하는 경우.
+- 반환: {"Correct": false, "Reason": "EXPLANATION"} **어떤** 필드라도 누락, 비어 있음, 잘못됨, 또는 불일치하는 경우.
 
 출력 요구사항:
 - 유효한 JSON 객체만 응답하십시오.
-- "Correct"는 JSON 불리언이어야 합니다: true 또는 false (문자열이나 숫자 불가).
+- "Correct"는 JSON 불리언이어야 합니다: true 또는 false (문자열이나 숫자 아님).
 - "Reason"은 모든 문제를 나타내는 짧고 구체적인 문자열이어야 합니다 — 예: "Patient Name mismatch", "Date not zero-padded", 또는 "Missing Group Number".
 - 추가적인 설명이나 형식을 반환하지 마십시오.
 
@@ -312,12 +312,12 @@ def check_for_missing_fields_with_llm(model_output, image_base64):
 ```
 
 <div id="5-run-the-evaluation">
-  ## 5. Evaluation 실행
+  ## 5. 평가 실행
 </div>
 
-마지막으로, 전달된 `dataset`을 자동으로 순회하며 결과를 Weave UI에 함께 로깅하는 Evaluation 호출을 정의합니다.
+마지막으로, 전달된 `dataset` 전체를 자동으로 순회하면서 결과를 Weave UI에 함께 로깅하는 평가 호출을 정의합니다.
 
-다음 코드는 Evaluation을 실행하고 두 개의 Scorer를 NER 파이프라인에서 나오는 모든 출력에 적용합니다. 결과는 Weave UI의 **Evals** 탭에서 확인할 수 있습니다.
+다음 코드는 평가를 시작하고 두 개의 스코어러를 NER 파이프라인의 모든 출력에 적용합니다. 결과는 Weave UI의 **Evals** 탭에서 확인할 수 있습니다.
 
 ```python lines
 evaluation = weave.Evaluation(
@@ -332,7 +332,7 @@ evaluation = weave.Evaluation(
 print(await evaluation.evaluate(named_entity_recognation))
 ```
 
-위의 코드가 실행되면 Weave UI의 Evaluation 테이블로 연결되는 링크가 생성됩니다. 이 링크를 클릭해 결과를 확인하고, 원하는 모델, 프롬프트, 데이터셋 전반에서 파이프라인의 서로 다른 이터레이션을 비교하세요. Weave UI는 아래에 표시된 것과 같은 시각화를 팀에서 확인할 수 있도록 자동으로 생성합니다.
+위 코드를 실행하면 Weave UI의 Evaluation 테이블로 연결되는 링크가 생성됩니다. 해당 링크를 클릭해 결과를 확인하고, 원하는 모델, 프롬프트, 데이터셋 전반에 걸친 파이프라인의 서로 다른 iteration을 비교하세요. Weave UI는 팀을 위해 아래 예시와 같은 시각화를 자동으로 생성합니다.
 
 <Frame>
   ![Screenshot 2025-05-02 at 12.26.15 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pm.png)

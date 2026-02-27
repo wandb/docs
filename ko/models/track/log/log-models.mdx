@@ -1,5 +1,5 @@
 ---
-title: 모델 로깅하기
+title: 모델 로깅
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
@@ -7,55 +7,55 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
 
 <div id="log-models">
-  # 모델 로깅
+  # 모델 로깅하기
 </div>
 
-이 가이드는 W&amp;B 실행에 모델을 로깅하고 활용하는 방법을 설명합니다.
+이 가이드는 W&amp;B run에 모델을 로깅하고 활용하는 방법을 설명합니다.
 
 <Note>
-  다음 API는 실험 추적 워크플로의 일부로 모델을 추적하는 데 유용합니다. 이 페이지에 나열된 API를 사용하여 모델을 실행에 로깅하고, 메트릭, 테이블, 미디어 및 기타 객체에 액세스하세요.
+  다음 API는 실험 추적 워크플로우의 일부로 모델을 추적할 때 유용합니다. 이 페이지에 나열된 API를 사용하여 모델을 run에 로깅하고, 메트릭, 테이블, 미디어 및 기타 객체에 접근할 수 있습니다.
 
   다음과 같은 작업을 하고 싶다면 [W&amp;B Artifacts](/ko/models/artifacts/) 사용을 권장합니다:
 
-  * 데이터세트, 프롬프트 등과 같은 모델 이외의 직렬화된 데이터에 대해 서로 다른 버전을 생성하고 추적하려는 경우
-  * W&amp;B에서 추적되는 모델 또는 기타 객체의 [계보 그래프](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/)를 탐색하려는 경우
-  * 이 메서드로 생성된 모델 아티팩트에 대해 [속성 업데이트](/ko/models/artifacts/update-an-artifact/) (메타데이터, 별칭, 설명 등)와 같은 상호작용을 하려는 경우
+  * 모델 외에도 데이터셋, 프롬프트 등과 같이 직렬화된 다양한 데이터의 버전을 생성하고 추적하려는 경우
+  * 모델 또는 W&amp;B에서 추적되는 다른 객체의 [lineage graphs](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/)를 탐색하려는 경우
+  * 이러한 메서드로 생성된 모델 아티팩트와 상호작용하려는 경우(예: [속성 업데이트](/ko/models/artifacts/update-an-artifact/) — 메타데이터, 별칭, 설명 등)
 
-  W&amp;B Artifacts 및 고급 버전 관리 사용 사례에 대한 자세한 내용은 [Artifacts](/ko/models/artifacts/) 문서를 참조하세요.
+  W&amp;B Artifacts 및 고급 버전 관리 사용 사례에 대한 자세한 내용은 [Artifacts](/ko/models/artifacts/) 문서를 참조하십시오.
 </Note>
 
 <div id="log-a-model-to-a-run">
-  ## 실행에 모델을 로그하기
+  ## run에 모델 로깅하기
 </div>
 
-[`log_model`](/ko/models/ref/python/experiments/run#log_model)을 사용해서, 지정한 디렉터리 안의 콘텐츠를 포함하는 모델 아티팩트를 로그합니다. [`log_model`](/ko/models/ref/python/experiments/run#log_model) 메서드는 이렇게 생성된 모델 아티팩트를 해당 W&amp;B 실행의 출력으로도 표시합니다.
+[`log_model`](/ko/models/ref/python/experiments/run#log_model)을 사용해서, 지정한 디렉터리 내의 콘텐츠를 포함하는 모델 아티팩트를 로깅합니다. [`log_model`](/ko/models/ref/python/experiments/run#log_model) 메서드는 생성된 모델 아티팩트를 W&amp;B run의 출력으로도 표시합니다.
 
-모델을 W&amp;B 실행의 입력 또는 출력으로 지정하면, 모델의 종속성과 모델의 연관 관계를 추적할 수 있습니다. W&amp;B 앱 UI에서 모델의 lineage를 확인할 수 있습니다. 자세한 내용은 [Artifacts](/ko/models/artifacts/) 챕터의 [Explore and traverse artifact graphs](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/) 페이지를 참고하세요.
+모델을 W&amp;B run의 입력 또는 출력으로 표시하면, 모델의 의존성과 연관 관계를 추적할 수 있습니다. W&amp;B App UI에서 모델의 계보(lineage)를 확인할 수 있습니다. 자세한 내용은 [Artifacts](/ko/models/artifacts/) 챕터의 [Explore and traverse artifact graphs](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/) 페이지를 참조하세요.
 
-모델 파일이 저장된 경로를 `path` 파라미터로 전달하세요. 이 경로는 로컬 파일, 디렉터리, 또는 `s3://bucket/path`와 같은 외부 버킷에 대한 [reference URI](/ko/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references)가 될 수 있습니다.
+`path` 매개변수에 모델 파일이 저장된 경로를 지정하세요. 이 경로는 로컬 파일, 디렉터리 또는 `s3://bucket/path`와 같은 외부 버킷에 대한 [reference URI](/ko/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references)가 될 수 있습니다.
 
-`<>`로 둘러싸인 플레이스홀더 값은 반드시 사용자 환경에 맞는 값으로 바꾸세요.
+반드시 `<>`로 둘러싸인 값을 사용자 값으로 바꾸세요.
 
 ```python
 import wandb
 
-# W&B 실행 초기화
+# W&B run 초기화
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
     # 모델 로깅
     run.log_model(path="<path-to-model>", name="<name>")
 ```
 
-원한다면 `name` 파라미터에 모델 아티팩트 이름을 지정할 수 있습니다. `name`이 지정되지 않으면, W&amp;B는 입력 경로의 기본 이름(basename)에 실행 ID를 앞에 붙인 값을 이름으로 사용합니다.
+선택적으로 `name` 파라미터에 모델 아티팩트 이름을 지정할 수 있습니다. `name`을 지정하지 않으면, W&amp;B는 입력 경로의 기본 이름(basename) 앞에 run ID를 붙여 이름으로 사용합니다.
 
 <Note>
-  여러분 또는 W&amp;B가 모델에 할당한 `name` 값을 기록해 두세요. [`wandb.Run.use_model()`](/ko/models/ref/python/experiments/run#use_model) 메서드로 모델 경로를 가져오려면 모델 이름이 필요합니다.
+  여러분 또는 W&amp;B가 모델에 할당한 `name`을 기록해 두세요. [`wandb.Run.use_model()`](/ko/models/ref/python/experiments/run#use_model) 메서드를 사용해 모델 경로를 가져오려면 모델 이름이 필요합니다.
 </Note>
 
-자세한 파라미터 설명은 API Reference의 [`log_model`](/ko/models/ref/python/experiments/run#log_model)을 참조하세요.
+파라미터에 대한 자세한 내용은 API Reference의 [`log_model`](/ko/models/ref/python/experiments/run#log_model)을 참고하세요.
 
 <details>
-  <summary>예시: 실행에 모델을 로그하기</summary>
+  <summary>예시: run에 모델 로그하기</summary>
 
   ```python
   import os
@@ -65,7 +65,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
   config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
-  # W&B 실행 초기화
+  # W&B run 초기화
   with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
 
       # 하이퍼파라미터
@@ -75,7 +75,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
       num_classes = 10
       input_shape = (28, 28, 1)
 
-      # 학습 알고리즘
+      # 트레이닝 알고리즘
       model = keras.Sequential(
           [
               layers.Input(shape=input_shape),
@@ -89,7 +89,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
           ]
       )
 
-      # 학습을 위해 모델 구성
+      # 트레이닝을 위한 모델 설정
       model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
       # 모델 저장
@@ -98,11 +98,11 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
       full_path = os.path.join(local_filepath, model_filename)
       model.save(filepath=full_path)
 
-      # W&B 실행에 모델 로그
+      # 모델을 W&B run에 로그
       run.log_model(path=full_path, name="MNIST")
   ```
 
-  사용자가 `log_model`을 호출하면 `MNIST`라는 이름의 모델 아티팩트가 생성되고, `model.h5` 파일이 해당 모델 아티팩트에 추가됩니다. 터미널 또는 노트북에는 모델이 로그된 실행과 해당 실행 정보를 어디에서 확인할 수 있는지가 출력됩니다.
+  사용자가 `log_model`을 호출했을 때 `MNIST`라는 이름의 모델 아티팩트가 생성되고, `model.h5` 파일이 해당 모델 아티팩트에 추가됩니다. 터미널 또는 노트북에는 모델이 로그된 run과 관련 정보를 어디에서 확인할 수 있는지에 대한 안내가 출력됩니다.
 
   ```python
   View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -112,33 +112,33 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 </details>
 
 <div id="download-and-use-a-logged-model">
-  ## 기록된 모델 다운로드 및 사용
+  ## 로깅된 모델 다운로드 및 사용
 </div>
 
-[`use_model`](/ko/models/ref/python/experiments/run#use_model) 함수를 사용하여 이전에 W&amp;B 실행에 기록된 모델 파일에 접근하고 다운로드합니다.
+[`use_model`](/ko/models/ref/python/experiments/run#use_model) 함수를 사용하여 W&amp;B run에 이전에 로깅된 모델 파일에 접근하고 다운로드할 수 있습니다.
 
-가져오려는 모델 파일이 저장된 모델 아티팩트의 이름을 인자로 전달합니다. 전달한 이름은 이미 기록된 모델 아티팩트의 이름과 일치해야 합니다.
+가져오려는 모델 파일이 저장된 모델 아티팩트의 이름을 지정합니다. 지정한 이름은 이미 로깅된 모델 아티팩트의 이름과 일치해야 합니다.
 
-처음에 `log_model`로 파일을 기록할 때 `name`을 지정하지 않았다면, 기본 이름은 입력 경로의 기본 이름(basename)에 실행 ID가 앞에 붙은 값으로 설정됩니다.
+처음에 `log_model`로 파일을 로깅할 때 `name`을 정의하지 않았다면, 기본 이름은 입력 경로의 베이스 이름 앞에 run ID를 붙인 값으로 지정됩니다.
 
-`<>`로 둘러싸인 나머지 값들을 모두 사용자의 값으로 바꾸어야 합니다:
+`<>`로 둘러싸인 값을 모두 자신의 값으로 바꾸었는지 확인하세요:
 
 ```python
 import wandb
 
-# 실행 초기화
+# run 초기화
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-    # 모델 접근 및 다운로드. 다운로드된 아티팩트 경로 반환
+    # 모델 접근 및 다운로드. 다운로드된 아티팩트 경로를 반환
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-The [use&#95;model](/ko/models/ref/python/experiments/run#use_model) 함수는 다운로드된 모델 파일의 경로를 반환합니다. 나중에 이 모델을 다시 사용하거나 연결하려면 이 경로를 잘 기억해 두거나 따로 저장해 두세요. 앞선 코드 스니펫에서는 반환된 경로를 `downloaded_model_path`라는 변수에 저장했습니다.
+The [use&#95;model](/ko/models/ref/python/experiments/run#use_model) 함수는 다운로드된 모델 파일의 경로를 반환합니다. 나중에 이 모델을 다시 사용하려면 이 경로를 따로 기록해 두세요. 앞의 코드 스니펫에서는 반환된 경로가 `downloaded_model_path`라는 변수에 저장됩니다.
 
 <details>
   <summary>예시: 기록된 모델 다운로드 및 사용</summary>
 
-  예를 들어, 다음 코드 스니펫에서 사용자는 `use_model` API를 호출합니다. 가져오려는 모델 아티팩트의 이름을 지정하고, 여기에 사용할 버전/별칭도 함께 제공합니다. 그런 다음 API에서 반환된 경로를 `downloaded_model_path` 변수에 저장합니다.
+  예를 들어, 다음 코드 스니펫에서 한 사용자가 `use_model` API를 호출합니다. 가져오려는 모델 아티팩트의 이름을 지정하고, 버전/별칭도 함께 제공합니다. 그런 다음 API가 반환한 경로를 `downloaded_model_path` 변수에 저장합니다.
 
   ```python
   import wandb
@@ -148,11 +148,11 @@ The [use&#95;model](/ko/models/ref/python/experiments/run#use_model) 함수는 �
   alias = "latest"  # 모델 버전에 대한 의미 있는 별칭 또는 식별자
   model_artifact_name = "fine-tuned-model"
 
-  # 실행 초기화
+  # run을 초기화합니다
   with wandb.init(project=project, entity=entity) as run:
-      # 모델에 접근하고 다운로드합니다. 다운로드된 아티팩트의 경로를 반환합니다.
+      # 모델에 접근하고 다운로드합니다. 다운로드된 아티팩트의 경로를 반환합니다
       downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
   ```
 </details>
 
-매개변수와 반환 유형에 대해서는 API 레퍼런스의 [`use_model`](/ko/models/ref/python/experiments/run#use_model)을 참조하세요.
+매개변수 및 반환 타입에 대한 자세한 내용은 API 레퍼런스의 [`use_model`](/ko/models/ref/python/experiments/run#use_model)을 참고하세요.

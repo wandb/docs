@@ -1,48 +1,48 @@
 ---
-description: 딕셔너리처럼 동작하는 객체를 사용해 실험 구성을 저장합니다
-title: 실험 구성하기
+description: 사전과 같은 객체를 사용하여 실험 설정을 저장합니다
+title: Experiments 구성하기
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Configs_in_W%26B.ipynb" />
 
-실행의 `config` 속성을 사용해 학습 설정을 저장하세요:
+run의 `config` 속성을 사용해서 트레이닝 설정을 저장하세요:
 
 * 하이퍼파라미터
-* 데이터셋 이름이나 모델 타입과 같은 입력 설정
-* 그 외 실험에 사용되는 독립 변수들
+* 데이터셋 이름이나 모델 유형 같은 입력 설정
+* 실험을 위한 그 외 모든 독립 변수
 
-`wandb.Run.config` 속성을 사용하면 실험을 분석하고, 나중에 작업을 재현하기가 쉬워집니다. W&amp;B 앱에서 설정 값으로 그룹화하고, 서로 다른 W&amp;B 실행의 설정을 비교하며, 각 학습 설정이 출력에 어떤 영향을 미치는지 평가할 수 있습니다. `config` 속성은 여러 개의 딕셔너리와 유사한 객체를 합쳐서 구성할 수 있는 딕셔너리 유사 객체입니다.
+`wandb.Run.config` 속성을 사용하면 실험을 쉽게 분석하고, 나중에 작업을 재현할 수 있습니다. W&amp;B App에서 설정 값으로 그룹화할 수 있고, 여러 W&amp;B run의 설정을 비교하며, 각 트레이닝 설정이 출력에 어떤 영향을 미치는지 평가할 수 있습니다. `config` 속성은 여러 사전과 유사한 객체를 조합해 만들 수 있는, 사전과 유사한 객체입니다.
 
 <Note>
-  loss, accuracy와 같은 출력 메트릭이나 종속 변수를 저장하려면 `wandb.Run.config` 대신 `wandb.Run.log()`를 사용하세요.
+  loss와 accuracy 같은 출력 메트릭이나 종속 변수를 저장하려면 `wandb.Run.log()`를 `wandb.Run.config` 대신 사용하세요.
 </Note>
 
 <div id="set-up-an-experiment-configuration">
-  ## 실험 구성 설정하기
+  ## 실험 설정 구성하기
 </div>
 
-구성은 일반적으로 학습 스크립트의 시작 부분에서 정의합니다. 다만 머신러닝 워크플로는 다양하기 때문에, 학습 스크립트의 시작 부분에서 구성을 반드시 정의해야 하는 것은 아닙니다.
+설정은 일반적으로 트레이닝 스크립트의 시작 부분에서 정의합니다. 하지만 머신러닝 워크플로는 다양하기 때문에, 트레이닝 스크립트의 시작 부분에서 설정을 정의해야만 하는 것은 아닙니다.
 
-config 변수 이름에서는 마침표(`.`) 대신 대시(`-`) 또는 밑줄(`_`)을 사용하십시오.
+config 변수 이름에서는 마침표(`.`) 대신 대시(`-`) 또는 밑줄(`_`)을 사용하세요.
 
-스크립트에서 루트 수준 이하의 `wandb.Run.config` 키에 접근하는 경우, 속성 접근 구문 `config.key.value` 대신 딕셔너리 접근 구문 `["key"]["value"]`를 사용하십시오.
+스크립트에서 루트 레벨 아래에 있는 `wandb.Run.config` 키에 접근하는 경우에는, 속성 접근 구문 `config.key.value` 대신 사전 접근 구문 `["key"]["value"]`를 사용하세요.
 
-다음 섹션에서는 실험 구성을 정의하는 여러 가지 일반적인 시나리오를 설명합니다.
+다음 섹션에서는 실험 설정을 정의하는 여러 가지 일반적인 시나리오를 설명합니다.
 
 <div id="set-the-configuration-at-initialization">
-  ### 초기화 시 설정 구성하기
+  ### 초기화 시 설정 지정하기
 </div>
 
-스크립트 시작 부분에서 `wandb.init()` API를 호출할 때 딕셔너리를 전달하여 백그라운드 프로세스를 생성하고, 데이터를 W&amp;B 실행으로 동기화하고 로그를 남기도록 합니다.
+스크립트의 시작 부분에서 `wandb.init()` API를 호출할 때 사전을 전달하여, 백그라운드 프로세스를 생성해 데이터를 W&amp;B Run에 동기화하고 로깅하도록 합니다.
 
-다음 코드 스니펫은 구성 값이 포함된 Python 딕셔너리를 정의하는 방법과, W&amp;B 실행을 초기화할 때 해당 딕셔너리를 인자로 전달하는 방법을 보여 줍니다.
+다음 코드 스니펫은 설정 값을 가진 Python 사전을 정의하는 방법과, W&amp;B Run을 초기화할 때 그 사전을 인수로 전달하는 방법을 보여 줍니다.
 
 ```python
 import wandb
 
-# config 딕셔너리 객체 정의
+# config 사전 객체 정의
 config = {
     "hidden_layer_sizes": [32, 64],
     "kernel_sizes": [3],
@@ -52,14 +52,14 @@ config = {
     "num_classes": 10,
 }
 
-# W&B 초기화 시 config 딕셔너리 전달
+# W&B 초기화 시 config 사전 전달
 with wandb.init(project="config_example", config=config) as run:
     ...
 ```
 
-중첩된 딕셔너리를 `config`로 전달하면, W&amp;B는 점(.) 구분자를 사용해 키 이름을 평탄화합니다.
+중첩된 사전을 `config`로 전달하면, W&amp;B는 점(.)을 사용해 키 이름을 평탄화합니다.
 
-딕셔너리의 값에는 Python에서 다른 딕셔너리에 접근할 때와 같은 방식으로 접근할 수 있습니다:
+Python에서 다른 사전에 접근하듯이 이 사전의 값에도 접근할 수 있습니다:
 
 ```python
 # 키를 인덱스 값으로 사용하여 값에 접근
@@ -67,25 +67,25 @@ hidden_layer_sizes = run.config["hidden_layer_sizes"]
 kernel_sizes = run.config["kernel_sizes"]
 activation = run.config["activation"]
 
-# Python 딕셔너리 get() 메서드
+# Python 사전 get() 메서드
 hidden_layer_sizes = run.config.get("hidden_layer_sizes")
 kernel_sizes = run.config.get("kernel_sizes")
 activation = run.config.get("activation")
 ```
 
 <Note>
-  Developer Guide와 예제 전반에서 구성 값을 별도의 변수로 복사합니다. 이 단계는 선택 사항이며, 가독성을 위해 수행합니다.
+  Developer Guide 전체와 예제에서 설정값을 별도의 변수에 복사합니다. 이 단계는 선택 사항이며, 가독성을 높이기 위한 것입니다.
 </Note>
 
 <div id="set-the-configuration-with-argparse">
-  ### argparse로 설정 구성하기
+  ### argparse로 설정 지정하기
 </div>
 
-`argparse` 객체로 설정을 구성할 수 있습니다. [argparse](https://docs.python.org/3/library/argparse.html)는 argument parser의 약자로, Python 3.2 이상에서 사용할 수 있는 표준 라이브러리 모듈이며, 커맨드 라인 인자의 유연함과 강력함을 손쉽게 활용하는 스크립트를 작성할 수 있도록 해 줍니다.
+`argparse` 객체를 사용해 설정을 지정할 수 있습니다. [argparse](https://docs.python.org/3/library/argparse.html)는 argument parser의 줄임말로, Python 3.2 이상에서 사용할 수 있는 표준 라이브러리 모듈이며, 커맨드 라인 인자의 유연함과 강력함을 손쉽게 활용하는 스크립트를 작성할 수 있게 해 줍니다.
 
-이는 커맨드 라인에서 실행되는 스크립트의 결과를 추적할 때 유용합니다.
+이는 커맨드 라인에서 실행되는 스크립트의 결과를 추적하는 데 유용합니다.
 
-아래 Python 스크립트는 parser 객체를 정의해서 실험 설정(config)을 정의하고 지정하는 방법을 보여 줍니다. `train_one_epoch`와 `evaluate_one_epoch` 함수는 이 데모를 위해 학습 루프를 시뮬레이션하는 용도로 제공됩니다:
+다음 Python 스크립트는 parser 객체를 정의해 실험 설정을 정의하고 적용하는 방법을 보여 줍니다. `train_one_epoch`와 `evaluate_one_epoch` 함수는 이 데모를 위해 트레이닝 루프를 시뮬레이션하는 목적으로 제공됩니다:
 
 ```python
 # config_experiment.py
@@ -96,7 +96,7 @@ import numpy as np
 import wandb
 
 
-# 훈련 및 평가 데모 코드
+# 트레이닝 및 평가 데모 코드
 def train_one_epoch(epoch, lr, bs):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
@@ -110,15 +110,15 @@ def evaluate_one_epoch(epoch):
 
 
 def main(args):
-    # W&B 실행 시작
+    # W&B Run 시작
     with wandb.init(project="config_example", config=args) as run:
-        # config 딕셔너리에서 값을 가져와 가독성을 위해
+        # config 사전에서 값을 가져와 가독성을 위해
         # 변수에 저장
         lr = run.config["learning_rate"]
         bs = run.config["batch_size"]
         epochs = run.config["epochs"]
 
-        # 훈련 시뮬레이션 및 W&B에 값 로깅
+        # 트레이닝 시뮬레이션 및 W&B에 값 로깅
         for epoch in np.arange(1, epochs):
             train_acc, train_loss = train_one_epoch(epoch, lr, bs)
             val_acc, val_loss = evaluate_one_epoch(epoch)
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-b", "--batch_size", type=int, default=32, help="배치 크기")
     parser.add_argument(
-        "-e", "--epochs", type=int, default=50, help="훈련 에포크 수"
+        "-e", "--epochs", type=int, default=50, help="트레이닝 에포크 수"
     )
     parser.add_argument(
         "-lr", "--learning_rate", type=int, default=0.001, help="학습률"
@@ -152,15 +152,15 @@ if __name__ == "__main__":
 ```
 
 <div id="set-the-configuration-throughout-your-script">
-  ### 스크립트 전체에서 구성 설정하기
+  ### 스크립트 전체에서 설정 정의하기
 </div>
 
-스크립트 전반에서 `config` 객체에 파라미터를 계속 추가할 수 있습니다. 다음 코드 스니펫은 `config` 객체에 새로운 키-값 쌍을 추가하는 방법을 보여줍니다.
+스크립트 전반에 걸쳐 `config` 객체에 추가 파라미터를 계속해서 넣을 수 있습니다. 다음 코드 스니펫은 `config` 객체에 새로운 키-값 쌍을 추가하는 방법을 보여 줍니다:
 
 ```python
 import wandb
 
-# config 딕셔너리 객체 정의
+# config 사전 객체 정의
 config = {
     "hidden_layer_sizes": [32, 64],
     "kernel_sizes": [3],
@@ -170,7 +170,7 @@ config = {
     "num_classes": 10,
 }
 
-# W&B를 초기화할 때 config 딕셔너리 전달
+# W&B를 초기화할 때 config 사전 전달
 with wandb.init(project="config_example", config=config) as run:
     # W&B 초기화 후 config 업데이트
     run.config["dropout"] = 0.2
@@ -178,25 +178,25 @@ with wandb.init(project="config_example", config=config) as run:
     run.config["batch_size"] = 32
 ```
 
-여러 값을 한꺼번에 업데이트할 수 있습니다:
+여러 값을 한 번에 업데이트할 수 있습니다:
 
 ```python
 run.config.update({"lr": 0.1, "channels": 16})
 ```
 
 <div id="set-the-configuration-after-your-run-has-finished">
-  ### 실행이 완료된 후 구성 설정하기
+  ### Run이 완료된 후 설정 설정하기
 </div>
 
-[W&amp;B Public API](/ko/models/ref/python/public-api/)를 사용하여 완료된 실행의 구성(config)을 업데이트합니다.
+[W&amp;B Public API](/ko/models/ref/python/public-api/)를 사용하여 완료된 run의 설정을 업데이트합니다.
 
-API에 엔터티, 프로젝트 이름, 그리고 실행 ID를 제공해야 합니다. 이 정보는 Run 객체 또는 [W&amp;B App](/ko/models/track/workspaces/)에서 확인할 수 있습니다:
+API에 entity, 프로젝트 이름, 그리고 run ID를 제공해야 합니다. 이러한 정보는 Run 객체 또는 [W&amp;B App](/ko/models/track/workspaces/)에서 확인할 수 있습니다:
 
 ```python
 with wandb.init() as run:
     ...
 
-# 현재 스크립트 또는 노트북에서 실행이 시작된 경우 Run 객체에서 다음 값을 찾거나,
+# 현재 스크립트 또는 노트북에서 run이 시작된 경우 Run 객체에서 다음 값을 찾거나,
 # W&B App UI에서 복사할 수 있습니다.
 username = run.entity
 project = run.project
@@ -213,49 +213,49 @@ api_run.update()
   ## `absl.FLAGS`
 </div>
 
-[`absl` 플래그](https://abseil.io/docs/python/guides/flags)를 함께 전달할 수도 있습니다.
+[`absl` 플래그](https://abseil.io/docs/python/guides/flags)를 인자로 넘길 수도 있습니다.
 
 ```python
 flags.DEFINE_string("model", None, "model to run")  # 이름, 기본값, 도움말
 
-run.config.update(flags.FLAGS)  # absl 플래그를 config에 추가
+run.config.update(flags.FLAGS)  # config에 absl 플래그 추가
 ```
 
 <div id="file-based-configs">
   ## 파일 기반 구성
 </div>
 
-`config-defaults.yaml`라는 파일을 실행 스크립트와 동일한 디렉터리에 두면, 해당 실행에서 파일에 정의된 키-값 쌍을 자동으로 읽어 `wandb.Run.config`에 전달합니다.
+run 스크립트와 같은 디렉터리에 `config-defaults.yaml`이라는 파일을 두면, run이 파일에 정의된 키-값 쌍을 자동으로 불러와 `wandb.Run.config`에 전달합니다.
 
-다음 코드 스니펫은 예시 `config-defaults.yaml` YAML 파일을 보여 줍니다:
+다음 코드 스니펫은 `config-defaults.yaml` YAML 파일의 예시를 보여 줍니다:
 
 ```yaml
 batch_size:
-  desc: 각 미니 배치의 크기
+  desc: 각 미니배치의 크기
   value: 32
 ```
 
-`config-defaults.yaml`에서 자동으로 로드되는 기본값은 `wandb.init`의 `config` 인수에 변경된 값을 설정해서 덮어쓸 수 있습니다. 예를 들어:
+`wandb.init`의 `config` 인수에 변경된 값을 설정하면 `config-defaults.yaml`에서 자동으로 로드되는 기본값을 재정의할 수 있습니다. 예를 들어:
 
 ```python
 import wandb
 
-# 사용자 정의 값을 전달하여 config-defaults.yaml 재정의
+# 사용자 정의 값을 전달하여 config-defaults.yaml 덮어쓰기
 with wandb.init(config={"epochs": 200, "batch_size": 64}) as run:
     ...
 ```
 
-`config-defaults.yaml`이 아닌 다른 구성 파일을 로드하려면 명령줄 인수 `--configs`를 사용하고 파일의 경로를 지정하세요:
+`config-defaults.yaml`이 아닌 다른 설정 파일을 로드하려면 `--configs` 커맨드라인 인자를 사용하고 파일 경로를 지정하세요.
 
 ```bash
 python train.py --configs other-config.yaml
 ```
 
 <div id="example-use-case-for-file-based-configs">
-  ### 파일 기반 설정의 사용 예
+  ### 파일 기반 설정 사용 예시
 </div>
 
-실행에 대한 메타데이터가 담긴 YAML 파일이 있고, Python 스크립트 안에 하이퍼파라미터 딕셔너리가 있다고 가정해 보겠습니다. 둘 모두를 중첩된 `config` 객체에 저장할 수 있습니다.
+run에 대한 메타데이터가 들어 있는 YAML 파일과 Python 스크립트 안에 하이퍼파라미터를 담은 사전이 있다고 가정해 보겠습니다. 이 둘 모두를 중첩된 `config` 객체에 저장할 수 있습니다.
 
 ```python
 hyperparameter_defaults = dict(
@@ -277,7 +277,7 @@ with wandb.init(config=config_dictionary) as run:
   ## TensorFlow v1 플래그
 </div>
 
-TensorFlow 플래그를 `wandb.Run.config` 객체에 직접 넘길 수 있습니다.
+TensorFlow 플래그를 `wandb.Run.config` 객체에 직접 전달할 수 있습니다.
 
 ```python
 with wandb.init() as run:

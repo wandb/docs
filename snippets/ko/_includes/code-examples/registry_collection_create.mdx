@@ -1,5 +1,5 @@
 ---
-title: "Registry 컬렉션 생성"
+title: Registry 컬렉션 생성
 ---
 
 ```python
@@ -15,7 +15,7 @@ registry_name = "<registry_name>"
 collection_name = "<collection_name>"
 registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-# 실행 초기화
+# run 초기화
 with wandb.init(entity = "<entity>", project = "<project>") as run:
 
   # 아티팩트를 컬렉션에 연결합니다. 컬렉션이 존재하지 않으면 W&B가 자동으로 생성합니다.

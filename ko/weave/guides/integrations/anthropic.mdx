@@ -1,27 +1,27 @@
 ---
 title: "Anthropic"
-description: "Weave를 사용하여 Anthropic SDK를 통해 이루어지는 LLM 호출을 자동으로 추적하고 기록하기"
+description: "Weave를 사용해 Anthropic SDK를 통해 이루어지는 LLM 호출을 자동으로 추적하고 로깅합니다"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_anthropic.ipynb" aria-label="Google Colab에서 열기">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab에서 열기" />
 </a>
 
-코드에 Weave를 통합하면 [Python](https://github.com/anthropics/anthropic-sdk-python)과 [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript)용 Anthropic SDK로 이루어지는 LLM 호출을 Weave가 자동으로 추적하고 기록합니다. Weave는 Anthropic의 `Messages.create` 메서드를 자동으로 호출하여 이를 수행합니다.
+코드에 Weave를 통합하면 [Python](https://github.com/anthropics/anthropic-sdk-python)과 [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript)용 Anthropic SDK로 수행되는 LLM 호출을 Weave가 자동으로 추적하고 로깅합니다. Weave는 Anthropic의 `Messages.create` 메서드를 자동으로 호출해 이를 처리합니다.
 
 <div id="traces">
   ## 트레이스
 </div>
 
-코드에 `weave.init("your-team-name/your-project-name")`를 추가하면 Weave가 Anthropic SDK 호출에 대한 트레이스를 자동으로 캡처합니다. `weave.init()`의 인자로 팀 이름을 지정하지 않으면, Weave는 출력 결과를 [기본 W&amp;B 엔터티](/ko/platform/app/settings-page/user-settings/#default-team)에 로깅합니다. 프로젝트 이름을 지정하지 않으면 Weave가 초기화되지 않습니다.
+코드에 `weave.init("your-team-name/your-project-name")`를 추가하면 Weave가 Anthropic SDK 호출에 대한 트레이스를 자동으로 캡처합니다. `weave.init()`의 인자로 팀 이름을 지정하지 않으면, Weave는 출력 내용을 [기본 W&amp;B entity](/ko/platform/app/settings-page/user-settings/#default-team)에 기록합니다. 프로젝트 이름을 지정하지 않으면 Weave 초기화에 실패합니다.
 
-아래 예시는 Anthropic에 대한 기본 호출에 Weave를 통합하는 방법을 보여줍니다:
+다음 예시는 Anthropic에 대한 기본 호출에 Weave를 연동하는 방법을 보여줍니다:
 
 <Tabs>
   <Tab title="Python">
     ```python lines {6}
     import weave    
-    # 평소처럼 anthropic 라이브러리를 사용합니다
+    # anthropic 라이브러리를 평소처럼 사용합니다
     import os
     from anthropic import Anthropic
 
@@ -36,7 +36,7 @@ description: "Weave를 사용하여 Anthropic SDK를 통해 이루어지는 LLM 
         messages=[
             {
                 "role": "user",
-                "content": "Tell me a joke about a dog",
+                "content": "개에 대한 농담을 하나 말해줘",
             }
         ],
         model="claude-3-opus-20240229",
@@ -61,7 +61,7 @@ description: "Weave를 사용하여 Anthropic SDK를 통해 이루어지는 LLM 
         messages: [
             {
                 role: 'user',
-                content: 'Tell me a joke about a dog',
+                content: '개에 대한 농담을 하나 말해줘',
             }
         ],
         model: 'claude-3-opus-20240229',
@@ -80,9 +80,9 @@ description: "Weave를 사용하여 Anthropic SDK를 통해 이루어지는 LLM 
   ## 사용자 정의 ops로 래핑하기
 </div>
 
-Weave ops는 실험을 진행하는 동안 코드에 버전을 자동으로 매기고, 해당 코드의 입력과 출력을 캡처합니다. [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) 데코레이터를 사용하거나 [`weave.op()`](/ko/weave/reference/typescript-sdk/functions/op) (TypeScript)로 [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)를 호출하는 함수를 래핑하면, Weave가 입력과 출력을 자동으로 추적합니다.
+Weave ops는 실험하는 동안 코드를 자동으로 버전 관리하고, 그 입력과 출력을 캡처합니다. [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python)으로 데코레이트하거나 [`weave.op()`](/ko/weave/reference/typescript-sdk/functions/op) (TypeScript)로 래핑한 뒤 [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)를 호출하면, Weave가 입력과 출력을 자동으로 추적합니다.
 
-다음 예제는 함수를 추적하는 방법을 보여 줍니다:
+다음 예시는 함수를 추적하는 방법을 보여줍니다:
 
 <Tabs>
   <Tab title="Python">
@@ -158,23 +158,23 @@ Weave ops는 실험을 진행하는 동안 코드에 버전을 자동으로 매�
   </Tab>
 </Tabs>
 
-함수에 `weave.op()` 데코레이터를 붙이거나 래핑하면, Weave가 함수의 코드와 입력, 출력을 모두 캡처합니다. ops를 사용해 중첩 함수를 포함해 원하는 어떤 함수든 추적할 수 있습니다.
+함수를 `weave.op()`으로 데코레이트하거나 래핑하면, Weave가 함수의 코드와 입력, 출력을 캡처합니다. ops는 중첩 함수를 포함해 원하는 어떤 함수에도 사용할 수 있습니다.
 
 [![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 더 쉽게 실험하기 위한 `Model` 생성
+  ## 실험을 더 쉽게 하기 위해 `Model` 생성하기
 </div>
 
 <Note>
-  `weave.Model` 클래스는 Weave Python SDK에서만 사용할 수 있습니다. TypeScript 환경에서는 `weave.op()` 래퍼를 사용해 구조화된 파라미터를 가진 함수를 추적하세요.
+  `weave.Model` 클래스는 Weave Python SDK에서만 사용할 수 있습니다. TypeScript에서는 `weave.op()` 래퍼를 사용해 구조화된 파라미터를 가진 함수를 추적하세요.
 </Note>
 
-실험을 체계적으로 관리하는 일은 구성 요소가 많을수록 어려워집니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델처럼 앱의 실험 관련 세부 정보를 캡처하고 정리할 수 있습니다. 이를 통해 앱의 다양한 이터레이션을 정리하고 비교할 수 있습니다.
+여러 요소가 복잡하게 얽혀 있을 때에는 실험을 체계적으로 정리하기가 어렵습니다. [`Model`](/ko/weave/guides/core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델과 같이 앱의 실험 세부 정보를 기록하고 구성할 수 있습니다. 이를 통해 앱의 다양한 이터레이션을 정리하고 비교하는 데 도움이 됩니다.
 
-코드를 버전 관리하고 입력/출력을 캡처하는 것 외에도, [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션의 동작을 제어하는 구조화된 파라미터를 캡처합니다. 이를 통해 어떤 파라미터 조합이 가장 잘 동작하는지 찾을 수 있습니다. 또한 Weave의 Model을 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
+코드 버전 관리와 입력/출력 기록뿐 아니라, [`Model`](/ko/weave/guides/core-types/models)은 애플리케이션 동작을 제어하는 구조화된 파라미터도 함께 캡처합니다. 이를 통해 어떤 파라미터가 가장 잘 동작하는지 찾을 수 있습니다. 또한 Weave Models를 `serve` 및 [`Evaluation`](/ko/weave/guides/core-types/evaluations)과 함께 사용할 수도 있습니다.
 
-다음 예시에서는 `model`과 `temperature`를 바꿔 가며 실험할 수 있습니다:
+다음 예시에서는 `model`과 `temperature`를 바꿔 가며 실험해 볼 수 있습니다:
 
 ```python lines
 import weave    
@@ -211,17 +211,17 @@ result = joker.predict("Chickens and Robots")
 print(result)
 ```
 
-이 값 중 하나를 변경할 때마다 Weave는 `JokerModel`의 새 버전을 생성하고 추적합니다. 이렇게 하면 추적 데이터를 코드 변경과 연결할 수 있어, 어떤 설정이 사용자의 사용 사례에 가장 잘 맞는지 판단하는 데 도움이 됩니다.
+이 값들 가운데 하나라도 변경할 때마다 Weave는 `JokerModel`의 새 버전을 생성하고 추적합니다. 이를 통해 트레이스 데이터를 코드 변경 사항과 연결할 수 있으며, 어떤 설정이 사용 사례에 가장 잘 맞는지 판단하는 데 도움이 됩니다.
 
 [![anthropic\_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 <div id="tools-function-calling">
-  ## 도구(함수 호출)
+  ## Tools (함수 호출)
 </div>
 
-Anthropic은 Claude가 함수 호출을 요청할 수 있게 해 주는 [도구](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) 인터페이스를 제공합니다. Weave는 대화 전반에 걸쳐 도구 정의, 도구 사용 요청, 도구 결과를 자동으로 추적합니다.
+Anthropic은 Claude가 함수 호출을 요청할 수 있는 [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) 인터페이스를 제공합니다. Weave는 대화 전체에 걸쳐 도구 정의, 도구 사용 요청, 도구 결과를 자동으로 추적합니다.
 
-다음은 Anthropic 도구 구성을 보여 주는 (일부 생략된) 예시입니다:
+다음은 Anthropic 도구 설정의 일부 예시입니다:
 
 <Tabs>
   <Tab title="Python">
@@ -291,6 +291,6 @@ Anthropic은 Claude가 함수 호출을 요청할 수 있게 해 주는 [도구]
   </Tab>
 </Tabs>
 
-Weave는 각 대화 단계에서 도구 정의, Claude의 도구 사용 요청, 도구 결과를 자동으로 기록합니다.
+Weave는 각 대화 단계마다 도구 정의, Claude의 도구 사용 요청, 도구 결과를 자동으로 수집합니다.
 
 [![anthropic\_tool.png](/weave/guides/integrations/imgs/anthropic_tool.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)

@@ -1,34 +1,34 @@
 ---
-title: 값 목록을 어떻게 로깅하나요?
+title: 값을 리스트로 어떻게 로깅하나요?
 ---
 
-다음 예제는 [`wandb.Run.log()`](/ko/models/ref/python/experiments/run/#method-runlog/)을 사용해 손실(loss) 값을 여러 가지 방식으로 로깅하는 방법을 보여줍니다.
+다음 예제에서는 [`wandb.Run.log()`](/ko/models/ref/python/experiments/run/#method-runlog/)을 사용해 손실값을 여러 가지 방식으로 로깅하는 방법을 보여줍니다.
 
 <Tabs>
-  <Tab title="딕셔너리 사용하기">
+  <Tab title="사전을 사용하는 방법">
     ```python
     import wandb
 
-    # 새 실행 초기화
+    # 새 run을 초기화합니다
     with wandb.init(project="log-list-values", name="log-dict") as run:
-        # 손실 값을 딕셔너리로 로깅
+        # 손실값을 사전으로 로깅합니다
         losses = [0.1, 0.2, 0.3, 0.4, 0.5]
         run.log({"losses": losses})
         run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
     ```
   </Tab>
 
-  <Tab title="히스토그램으로 로깅하기">
+  <Tab title="히스토그램으로 로깅">
     ```python
     import wandb
 
-    # 새 실행 초기화
+    # 새 run을 초기화합니다
     with wandb.init(project="log-list-values", name="log-hist") as run:
-        # 손실 값을 히스토그램으로 로깅
+        # 손실값을 히스토그램으로 로깅합니다
         losses = [0.1, 0.2, 0.3, 0.4, 0.5]
         run.log({"losses": wandb.Histogram(losses)})
     ```
   </Tab>
 </Tabs>
 
-자세한 내용은 [로깅에 대한 문서](/ko/models/track/log/)를 참조하세요.
+자세한 내용은 [로깅 문서](/ko/models/track/log/)를 참고하세요.

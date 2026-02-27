@@ -1,21 +1,21 @@
 ---
-title: "Scorer를 가드레일로 사용하기"
-description: "W&B Weave에서 Scorer를 가드레일로 사용하는 방법"
+title: "Guardrail로서의 Scorer"
+description: "W&B Weave에서 scorer를 guardrail로 사용하는 방법을 알아봅니다"
 ---
 
 <Note>
-이 문서는 대화형 노트북입니다. 로컬에서 실행하거나 아래 링크를 통해 사용할 수 있습니다:
+이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
 - [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
 - [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
 </Note>
 
 <div id="scorers-as-guardrails">
-  # 가드레일로서의 Scorers
+  # 가드레일로서의 Scorer
 </div>
 
-Weave Scorer는 호출 결과를 평가하는 `score` 메서드를 가진 특수 클래스입니다. 아주 단순한 규칙부터 판사 역할을 하는 복잡한 LLM까지 다양하게 구성할 수 있습니다.
+Weave Scorer는 호출의 성능을 평가하는 `score` 메서드를 가진 특수한 클래스입니다. 간단한 규칙부터 판사 역할을 하는 복잡한 LLM까지 다양할 수 있습니다.
 
-이 노트북에서는 LLM이 유해하거나 부적절한 내용을 생성하지 않도록 막기 위해 Scorer를 가드레일로 사용하는 방법을 살펴보겠습니다.
+이 노트북에서는 Scorer를 가드레일로 활용하여 LLM이 유해하거나 부적절한 콘텐츠를 생성하지 못하도록 하는 방법을 살펴보겠습니다.
 
 ```python lines
 %pip install weave --quiet
@@ -32,7 +32,7 @@ import weave
 weave.init("content-safety-guardrails")
 
 class ContentSafetyScorer(weave.Scorer):
-    """지정된 구문의 포함 여부를 기반으로 콘텐츠 안전성을 평가하는 스코어러입니다."""
+    """지정된 구문 포함 여부를 기반으로 콘텐츠 안전성을 평가하는 스코어러입니다."""
 
     unsafe_phrases: list[str]
     case_sensitive: bool = False
@@ -40,7 +40,7 @@ class ContentSafetyScorer(weave.Scorer):
     @weave.op
     def score(self, output: str) -> bool:
         """
-        안전하지 않은 구문의 포함 여부를 기반으로 출력 안전성을 평가합니다.
+        안전하지 않은 구문 포함 여부를 기반으로 출력 안전성을 평가합니다.
 
         Args:
             output: 평가할 텍스트 출력
@@ -68,7 +68,7 @@ def generate_response(prompt: str) -> str:
 
 async def process_with_guardrail(prompt: str) -> str:
     """
-    콘텐츠 안전 가드레일을 사용하여 사용자 입력을 처리합니다.
+    콘텐츠 안전 가드레일을 적용하여 사용자 입력을 처리합니다.
     안전한 경우 응답을 반환하고, 안전하지 않은 경우 대체 메시지를 반환합니다.
     """
     # 안전 스코어러 초기화
@@ -80,7 +80,7 @@ async def process_with_guardrail(prompt: str) -> str:
     # 응답 생성 및 Call 객체 가져오기
     response, call = generate_response.call(prompt)
 
-    # 안전 점수 적용
+    # 안전성 점수 적용
     evaluation = await call.apply_scorer(safety_scorer)
 
     # 안전 검사 결과에 따라 응답 또는 대체 메시지 반환
@@ -96,7 +96,7 @@ test_prompts = [
     "Tell me a joke",
 ]
 
-print("콘텐츠 안전 가드레일 테스트 중:\n")
+print("콘텐츠 안전 가드레일 테스트:\n")
 
 for prompt in test_prompts:
     print(f"Input: '{prompt}'")

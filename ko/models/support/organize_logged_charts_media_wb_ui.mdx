@@ -2,7 +2,7 @@
 title: W&B UI에서 기록된 차트와 미디어를 어떻게 구성할 수 있나요?
 ---
 
-`/` 문자는 W&amp;B UI에서 로그된 패널을 구분하는 데 사용됩니다. 기본적으로 기록된 항목 이름에서 `/` 앞에 오는 부분이 &quot;패널 섹션(Panel Section)&quot;이라고 하는 패널 그룹을 정의합니다.
+`/` 문자는 W&amp;B UI에서 기록된 패널을 구분합니다. 기본적으로 기록된 항목 이름에서 `/` 앞에 오는 부분이 &quot;Panel Section&quot;이라고 하는 패널 그룹을 정의합니다.
 
 ```python
 import wandb
@@ -13,4 +13,4 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-[Workspace](/ko/models/track/project-page/#workspace-tab) 설정에서 패널 그룹화 기준을 `/`로 구분된 세그먼트 중 첫 번째 세그먼트 또는 모든 세그먼트로 조정합니다.
+[Workspace](/ko/models/track/project-page/#workspace-tab) 설정에서 패널을 `/`로 구분된 첫 번째 세그먼트 기준으로 묶을지, 모든 세그먼트를 기준으로 묶을지 조정합니다.

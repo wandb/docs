@@ -11,14 +11,14 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `DownloadHistoryResult`
 
-실행 history 내보내기 파일들을 다운로드한 결과입니다. 
+run의 history 내보내기 결과를 나타냅니다. 
 
 **속성:**
 
 - `paths`:  다운로드된 history 파일들의 경로입니다. 
- - `errors`:  history 파일을 다운로드하는 동안 발생한 오류의 딕셔너리입니다. 
- - `contains_live_data`:  실행에 아직 Parquet 파일로 내보내지 않은 live 데이터가 포함되어 있는지 여부입니다. 
- - `not yet exported to parquet files`: 아직 Parquet 파일로 내보내지 않음: w. 
+ - `errors`:  history 파일을 다운로드하는 동안 발생한 오류를 담은 사전입니다. 
+ - `contains_live_data`:  run에 실시간 데이터가 포함되어 있는지 여부입니다. 
+ - `not yet exported to parquet files`: 아직 parquet 파일로 내보내지 않았습니다: w. 
 
 ### <kbd>method</kbd> `DownloadHistoryResult.__init__`
 

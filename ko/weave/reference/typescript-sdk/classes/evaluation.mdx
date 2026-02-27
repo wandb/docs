@@ -1,6 +1,6 @@
 ---
-title: "클래스: Evaluation&lt;R, E, M&gt;"
-description: "TypeScript SDK reference"
+title: "클래스: Evaluation<R, E, M>"
+description: "TypeScript SDK 레퍼런스"
 ---
 
 [weave](../) / Evaluation
@@ -8,11 +8,11 @@ description: "TypeScript SDK reference"
 스코어러 집합과 데이터셋을 포함하는 Evaluation을 설정합니다.
 
 evaluation.evaluate(model)을 호출하면 데이터셋의 각 행을 모델에 전달하면서,
-데이터셋의 열 이름을 model.predict의 인자 이름과 매칭합니다.
+데이터셋의 컬럼 이름을 model.predict의 인자 이름과 매칭합니다.
 
-그런 다음 모든 스코어러를 호출하고 결과를 weave에 저장합니다.
+그런 다음 모든 스코어러를 실행하고 결과를 Weave에 저장합니다.
 
-`Example`
+`예시`
 
 ```ts
 // 예시를 데이터셋으로 수집합니다
@@ -95,8 +95,8 @@ const results = await evaluation.evaluate({ model });
 
 ## 생성자
 
-<div id="constructors">
-  ### 생성자
+<div id="constructor">
+  ### constructor
 </div>
 
 • **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): [`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
@@ -141,15 +141,11 @@ const results = await evaluation.evaluate({ model });
 
 • `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-<div id="inherited-from">
-  #### 상속
-</div>
+#### 상속
 
 [WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
 
@@ -168,10 +164,10 @@ const results = await evaluation.evaluate({ model });
 `undefined` \| `string`
 
 <div id="inherited-from">
-  #### 상속
+  #### 다음으로부터 상속됨
 </div>
 
-WeaveObject.description에서 상속
+WeaveObject.description
 
 #### 정의 위치
 
@@ -191,15 +187,11 @@ ___
 
 `string`
 
-<div id="inherited-from">
-  #### 상속
-</div>
+#### 상속
 
 WeaveObject.name
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
 
@@ -222,13 +214,13 @@ WeaveObject.name
 | › `model` | `WeaveCallable`\<(...`args`: [\{ `datasetRow`: `R`  }]) => `Promise`\<`M`\>\> | `undefined` |
 | › `nTrials?` | `number` | `1` |
 
-<div id="returns">
-  #### 반환값
-</div>
+#### 반환
 
 `Promise`\<`Record`\<`string`, `any`\>\>
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [evaluation.ts:163](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluation.ts#L163)
 
@@ -257,9 +249,7 @@ ___
 
 `Promise`\<\{ `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: \{ `[key: string]`: `any`;  }  }\>
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [evaluation.ts:231](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluation.ts#L231)
 
@@ -278,13 +268,11 @@ ___
 `Object`
 
 <div id="inherited-from">
-  #### 상속
+  #### 다음으로부터 상속됨
 </div>
 
 [WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
