@@ -24,12 +24,14 @@ You can use the MCP server to analyze experiments, debug traces, create reports,
 
 The following example prompts demonstrate some of the types of tasks your agent can do when connected to the MCP server:
 
-* _Show me the top 5 runs by eval/accuracy in your-team-name/your-project-name?_
-* _How did the latency of my hiring agent predict traces evolve over the last few months?_
-* _Generate a wandb report comparing the decisions made by the hiring agent last month._
-* _How do I create a leaderboard in Weave - ask SupportBot?_
+* Show me the top 5 runs by eval/accuracy in your-team-name/your-project-name?
+* How did the latency of my hiring agent predict traces evolve over the last few months?
+* Generate a wandb report comparing the decisions made by the hiring agent last month.
+* How do I create a leaderboard in Weave - ask SupportBot?
 
 ### Available tools
+
+The W&B MCP server gives your agents access to the following tools:
 
 | Tool | Description | Example Query |
 |------|-------------|---------------|
@@ -47,15 +49,18 @@ W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no
 
 ### Prerequisites
 
-* Get your W&B API key from [wandb.ai/authorize](https://wandb.ai/authorize).
+* A W&B Dedicated Cloud deployment.
+* A W&B API key. You can create a new one at [wandb.ai/authorize](https://wandb.ai/authorize).
 * Set your key as an environment variable named `WANDB_API_KEY`.
 
 ### Configure your MCP client
 
+Select the tab containing your MCP client's instructions:
+
 <Tabs>
 <Tab title="Cursor">
 
-You can install the W&B server in Cursor automatically using [this one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually using the following instructions:
+You can install the W&B server in Cursor automatically using a [one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually using the following instructions:
 
 1. On macOS, open the **Cursor** menu, select **Settings**, and then select **Cursor Settings**. On Windows or Linux, open the **Preferences** menu, select **Settings**, and then select **Cursor Settings**.
 2. From the Cursor Settings menu, select **Tools and MCP**. This opens the Tools menu. 
@@ -81,22 +86,6 @@ You can install the W&B server in Cursor automatically using [this one-click ins
 6. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For more detailed information, see [Cursor's documentation](https://cursor.com/docs/context/mcp).
-
-</Tab>
-<Tab title="Claude Desktop">
-
-Claude Desktop does not currently support remote MCP servers. Use the [local installation](#set-up-a-local-version-of-the-w&b-mcp-server) instead.
-
-</Tab>
-<Tab title="VS Code">
-1. Open the Command Palette by pressing **Ctrl+Shift+P** (Windows/Linux) or **Cmd+Shift+P** (macOS).
-2. Type **"MCP: Open User Configuration"** and select it. This opens the MCP configuration file.
-3. Add the following configuration to the file:
-<McpConfig/>
-4. Save changes to the file and then restart VS Code.
-5. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
-
-For detailed instructions, see [VS Code's documentation](https://code.visualstudio.com/docs/copilot/customization/mcp-servers).
 
 </Tab>
 <Tab title="Claude Code">
@@ -147,11 +136,6 @@ resp = client.responses.create(
 
 print(resp.output_text)
 ```
-
-<Note>
-OpenAI uses server-side MCP integration and does not work with localhost URLs. We recommend using the hosted server URL.
-</Note>
-
 </Tab>
 <Tab title="Gemini CLI">
 To add the W&B MCP server to Gemini CLI:
@@ -190,28 +174,22 @@ For more detailed information, see [LeChat's documentation](https://mistral.ai/n
 
 ## Set up a local version of the W&B MCP server
 
-If you need to run the MCP server locally for development, testing, or air-gapped environments, you can install and run it on your machine.
+If you need to run the MCP server locally for W&B Self-Managed deployments, development, testing, or air-gapped environments, you can install and run it on your machine.
 
 ### Prerequisites
 
-* Get your W&B API key from [wandb.ai/authorize](https://wandb.ai/authorize).
+* A W&B API key. You can create a new one at [wandb.ai/authorize](https://wandb.ai/authorize).
 * Set your key as an environment variable named `WANDB_API_KEY`.
 * Set the `WANDB_BASE_URL` environment variable if you are using [W&B dedicated or on-prem instances](/platform/hosting/hosting-options/self-managed).
 * Python 3.10 or higher
 * [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
-To install uv, run the following curl command:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
+See uv's docs for [installation instructions](https://docs.astral.sh/uv/getting-started/installation/).
 
 ### Install and configure the MCP server
 
-To install the W&B MCP server on your local machine, choose `uv` or `pip`.
+To install the W&B MCP server on your local machine, use one of the following `uv` or `pip` commands:
  
-1. Run one of the following commands:
-
 <Tabs>
 <Tab title="uv">
 ```bash
@@ -230,7 +208,7 @@ pip install git+https://github.com/wandb/wandb-mcp-server
 </Tab>
 </Tabs>
 
-2. Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue.
+Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue.
 
 <Tabs>
 <Tab title="Cursor">
@@ -279,7 +257,6 @@ Add the following to your `.vscode/mcp.json` or global MCP configuration:
   }
 }
 ```
-
 </Tab>
 <Tab title="Claude Code">
 
@@ -306,16 +283,12 @@ codex mcp add wandb \
 
 </Tab>
 <Tab title="Claude Desktop">
+Open your Claude config file in a text editor. You can find the config file at the locations for your OS:
 
-Claude Desktop does not currently support remote MCP servers, so a local configuration is required. Add the following to your Claude config file. Use the full path to `uvx` because Claude Desktop may not find your `uvx` installation otherwise.
+* **macOS**: ~/Library/Application\ Support/Claude/claude_desktop_config.json
+* **Windows**: %APPDATA%\Claude\claude_desktop_config.json
 
-```bash
-# macOS
-open ~/Library/Application\ Support/Claude/claude_desktop_config.json
-
-# Windows
-notepad %APPDATA%\Claude\claude_desktop_config.json
-```
+Add the following to your JSON object to your Claude config file. Use the full path to `uvx` because Claude Desktop may not find your `uvx` installation otherwise.
 
 ```json
 {
@@ -340,10 +313,6 @@ Restart Claude Desktop to activate the new configuration.
 
 </Tab>
 </Tabs>
-
-<Note>
-The `WANDB_BASE_URL` environment variable is only required for dedicated cloud or on-premises W&B instances. Omit it if you use W&B's multi-tenant cloud at `api.wandb.ai`.
-</Note>
 
 3. For web-based clients or testing, run the server with HTTP transport:
 

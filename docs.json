@@ -32,7 +32,7 @@
     "options": [
       {
         "title": "Install W&B MCP in Cursor",
-        "description": "Automatically install W&B MCP server to Cursor. Requires API key.",
+        "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
         "icon": "plug",
         "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0="
       },
