@@ -1,0 +1,22 @@
+---
+title: "OS errors - Too many open files"
+sidebarTitle: "OS errors - Too many open files"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+### `[Errno 24]: Too many open files`
+
+This error occurs when the number of open files exceeds the limit set by your operating system. In Weave, this may happen because you're working with large image datasets. Weave uses `PIL` for image processing, which keeps file descriptors open for the duration of the program.
+
+To resolve this issue, increase the system limit for open files to `65,536` using `ulimit`:
+
+```bash
+ulimit -n 65536
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Troubleshooting](/support/weave/tags/troubleshooting)</Badge>

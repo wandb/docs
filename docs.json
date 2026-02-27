@@ -1145,6 +1145,76 @@
                 ]
               }
             ]
+          },
+          {
+            "tab": "Support",
+            "icon": "/icons/cropped-reports.svg",
+            "pages": [
+              "support/index",
+              "support/models_redirector",
+              "support/weave_redirector",
+              "support/inference_redirector"
+            ]
+          },
+          {
+            "tab": "Support: W&B Models",
+            "hidden": true,
+            "pages": [
+              "support/models/index",
+              "support/models/tags/academic",
+              "support/models/tags/administrator",
+              "support/models/tags/alerts",
+              "support/models/tags/anonymous",
+              "support/models/tags/artifacts",
+              "support/models/tags/aws",
+              "support/models/tags/billing",
+              "support/models/tags/charts",
+              "support/models/tags/connectivity",
+              "support/models/tags/crashing-and-hanging-runs",
+              "support/models/tags/environment-variables",
+              "support/models/tags/experiments",
+              "support/models/tags/hyperparameter",
+              "support/models/tags/inference",
+              "support/models/tags/logs",
+              "support/models/tags/metrics",
+              "support/models/tags/notebooks",
+              "support/models/tags/outage",
+              "support/models/tags/privacy",
+              "support/models/tags/projects",
+              "support/models/tags/python",
+              "support/models/tags/reports",
+              "support/models/tags/resuming",
+              "support/models/tags/runs",
+              "support/models/tags/security",
+              "support/models/tags/storage",
+              "support/models/tags/sweeps",
+              "support/models/tags/tables",
+              "support/models/tags/team-management",
+              "support/models/tags/tensorboard",
+              "support/models/tags/user-management",
+              "support/models/tags/workspaces",
+              "support/models/tags/wysiwyg"
+            ]
+          },
+          {
+            "tab": "Support: W&B Weave",
+            "hidden": true,
+            "pages": [
+              "support/weave/index",
+              "support/weave/tags/faqs",
+              "support/weave/tags/troubleshooting"
+            ]
+          },
+          {
+            "tab": "Support: W&B Inference",
+            "hidden": true,
+            "pages": [
+              "support/inference/index",
+              "support/inference/tags/administrator",
+              "support/inference/tags/api-errors",
+              "support/inference/tags/billing",
+              "support/inference/tags/inference"
+            ]
           }
         ]
       },

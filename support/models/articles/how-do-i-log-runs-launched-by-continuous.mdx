@@ -1,0 +1,18 @@
+---
+title: "How do I log runs launched by continuous integration or internal tools?"
+sidebarTitle: "How do I log runs launched by continuous integration or internal tools?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+To launch automated tests or internal tools that log to W&B, create a **Service Account** on the team settings page. This action allows the use of a service API key for automated jobs, including those running through continuous integration. To attribute service account jobs to a specific user, set the `WANDB_USERNAME` or `WANDB_USER_EMAIL` environment variables.
+
+<Frame>
+<img src="/images/track/common_questions_automate_runs.png" alt="Creating service account" />
+</Frame>
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Logs](/support/models/tags/logs)</Badge>

@@ -1,0 +1,35 @@
+---
+title: "API error code 401 - Authentication failed"
+sidebarTitle: "API error code 401 - Authentication failed"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+A 401 error with the message "Authentication failed" means your authentication credentials are incorrect or your W&B project entity and/or name are incorrect.
+
+## Why this happens
+
+The W&B Inference API requires valid authentication credentials to process requests. This error occurs when:
+
+- Your API key is invalid, expired, or revoked
+- Your W&B project entity name is incorrect
+- Your W&B project name is incorrect
+
+## What you can do
+
+1. **Verify your API key**
+   - Check that you're using the correct API key for your account
+   - Regenerate your API key if needed from your [W&B settings](https://wandb.ai/settings)
+
+2. **Check your project details**
+   - Ensure your W&B project entity (organization or username) is correct
+   - Verify that the project name matches an existing project
+
+3. **Contact support**
+   - If the issue persists after verifying your credentials, reach out to [W&B support](mailto:support@wandb.com)
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/support/inference/tags/inference)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Errors](/support/inference/tags/api-errors)</Badge>

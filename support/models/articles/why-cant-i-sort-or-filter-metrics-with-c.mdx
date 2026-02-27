@@ -1,0 +1,50 @@
+---
+title: "Why can't I sort or filter metrics with certain characters?"
+sidebarTitle: "Why can't I sort or filter metrics with certain characters?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+Metric names in W&B must follow GraphQL naming conventions to ensure they can be properly sorted and filtered in the UI.
+
+## Valid metric names
+
+* **Allowed characters**: Letters (A-Z, a-z), digits (0-9), and underscores (_)
+* **Starting character**: Names must start with a letter or underscore
+* **Pattern**: Metric names should match `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
+
+Metrics that don't follow these rules may not be sortable or filterable in the W&B UI.
+
+## Examples
+
+**Valid metric names:**
+```python
+with wandb.init() as run:
+  run.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+  run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+```
+
+**Invalid metric names (avoid these):**
+```python
+with wandb.init() as run:
+  run.log({"acc,val": 0.9})  # Contains comma
+  run.log({"loss-train": 0.1})  # Contains hyphen
+  run.log({"test acc": 0.95})  # Contains space
+  run.log({"5_fold_cv": 0.8})  # Starts with number
+```
+
+
+## Recommended solution
+
+Replace invalid characters with valid characters such as underscores:
+- Instead of `"test acc"`, use `"test_acc"`
+- Instead of `"loss-train"`, use `"loss_train"`
+- Instead of `"acc,val"`, use `"acc_val"`
+
+For more information, see [Metric naming constraints](/models/track/log/#metric-naming-constraints).
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>

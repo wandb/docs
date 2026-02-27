@@ -1,0 +1,16 @@
+---
+title: "Will Weave affect my function's execution speed?"
+sidebarTitle: "Will Weave affect my function's execution speed?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+The overhead of Weave logging is typically negligible compared to making a call to an LLM.
+To minimize Weave's impact on the speed of your Op's execution, its network activity happens on a background thread.
+When your program is exiting it may appear to pause while any remaining enqueued data is logged.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[FAQs](/support/weave/tags/faqs)</Badge>

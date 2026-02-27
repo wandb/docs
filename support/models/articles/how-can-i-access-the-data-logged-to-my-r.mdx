@@ -1,0 +1,20 @@
+---
+title: "How can I access the data logged to my runs directly and programmatically?"
+sidebarTitle: "How can I access the data logged to my runs directly and programmatically?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+The history object tracks metrics logged with `wandb.log`. Access the history object using the API:
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
