@@ -9,7 +9,7 @@ The W&B MCP (Model Context Protocol) server lets you query and analyze your W&B 
 
 It integrates natively with most IDEs, coding clients, and chat agents, including:
 * Cursor
-* Visual Studio Code (VScode)
+* Visual Studio Code (VS Code)
 * Claude Code
 * Codex
 * Gemini CLI
@@ -25,7 +25,7 @@ You can use the MCP server to analyze experiments, debug traces, create reports,
 The following example prompts demonstrate the types of tasks your agent can perform when connected to the server:
 
 * _Show me the top 5 runs by eval/accuracy in your-team-name/your-project-name?_
-* _How did the latency of my hiring agent predict traces evolve over the last months?_
+* _How did the latency of my hiring agent predict traces evolve over the last few months?_
 * _Generate a wandb report comparing the decisions made by the hiring agent last month._
 * _How do I create a leaderboard in Weave - ask SupportBot?_
 
@@ -55,9 +55,9 @@ W&B provides a hosted MCP server at `https://mcp.withwandb.com` that requires no
 <Tabs>
 <Tab title="Cursor">
 
-You can install the W&B server in Cursor automatically using [this one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually by using the following instructions:
+You can install the W&B server in Cursor automatically using [this one-click installation link](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (requires adding `Bearer <your-wandb-api-key>` in the `Authorization` field), or manually using the following instructions:
 
-1. On macOS, open the **Cursor** menu, select `Settings`, and then select **Cursor Settings**. On Windows or Linux, open the **Preferences** menu, select **Settings**, and then select **Cursor Settings**.
+1. On macOS, open the **Cursor** menu, select **Settings**, and then select **Cursor Settings**. On Windows or Linux, open the **Preferences** menu, select **Settings**, and then select **Cursor Settings**.
 2. From the Cursor Settings menu, select **Tools and MCP**. This opens the Tools menu. 
 3. In the Installed MCP Servers section, select **Add Custom MCP**. This opens the `mcp.json` configuration file.
 4. In the configuration file, in the `mcpServers` JSON object, add the following `wandb` object:
@@ -78,7 +78,7 @@ You can install the W&B server in Cursor automatically using [this one-click ins
 ```
 
 5. Restart Cursor to make the changes take effect.
-6. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
+6. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For more detailed information, see [Cursor's documentation](https://cursor.com/docs/context/mcp).
 
@@ -94,18 +94,17 @@ Claude Desktop does not currently support remote MCP servers. Use the [local ins
 3. Add the following configuration to the file:
 <McpConfig/>
 4. Save changes to the file and then restart VS Code.
-5. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
+5. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For detailed instructions, see [VS Code's documentation](https://code.visualstudio.com/docs/copilot/customization/mcp-servers).
 
 </Tab>
 <Tab title="Claude Code">
 
-Run the following command in your terminal:
+To add the W&B MCP server to Claude Code, update the following command's `Authorization` header with your W&B API key and run it in your terminal:
 
 ```bash
 claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
-  --scope user \
   --header "Authorization: Bearer <your-api-key-here>"
 ```
 
@@ -116,7 +115,7 @@ For more detailed information, see [Claude Code's documentation](https://docs.an
 </Tab>
 <Tab title="Codex">
 
-Run the following command in your terminal:
+To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
 
 ```bash
 export WANDB_API_KEY=<your-api-key>
@@ -125,7 +124,7 @@ codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var W
 
 </Tab>
 <Tab title="OpenAI">
-Add the MCP server in the `tools` field of your OpenAI responses configuration, like this:
+To add the W&B MCP server to your OpenAI calls, add the server's information to the `tools` field of your OpenAI responses configuration:
 
 ```python
 from openai import OpenAI
@@ -155,6 +154,8 @@ OpenAI uses server-side MCP integration and does not work with localhost URLs. W
 
 </Tab>
 <Tab title="Gemini CLI">
+To add the W&B MCP server to Gemini CLI, do the following:
+
 1. Install the W&B MCP extension with a single command:
 
   ```bash
@@ -162,11 +163,13 @@ OpenAI uses server-side MCP integration and does not work with localhost URLs. W
   gemini extensions install https://github.com/wandb/wandb-mcp-server
   ```
 2. Once installed, restart the Gemini CLI.
-3. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
+3. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For more detailed information, see [Gemini's documentation](https://geminicli.com/docs/tools/mcp-server/).
 </Tab>
 <Tab title="Mistral LeChat">
+To add the W&B MCP server to Mistral LeChat, do the following: 
+
 1. Open the **Intelligence** menu, then select **Add Connector**. This opens the Connector window.
 2. Select the **Custom MCP Connector** tab, and then configure the fields using the following values:
 
@@ -177,8 +180,8 @@ For more detailed information, see [Gemini's documentation](https://geminicli.co
     - **Header type**: Select **Bearer**.
     - **Header value**: Enter your W&B API token.
 
-3. Once you have configured all of the fields, select **Create**. LeChat adds the MCP server to your configuration.
-4. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
+3. Once you have configured all the fields, select **Create**. LeChat adds the MCP server to your configuration.
+4. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
 For more detailed information, see [LeChat's documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories).
 </Tab>
@@ -196,7 +199,7 @@ If you need to run the MCP server locally for development, testing, or air-gappe
 * Python 3.10 or higher
 * [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
-To install uv, run the following cURL command:
+To install uv, run the following curl command:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -303,7 +306,7 @@ codex mcp add wandb \
 </Tab>
 <Tab title="Claude Desktop">
 
-Claude Desktop does not currently support remote MCP servers, so a local configuration is required. Add the following to your Claude config file. Use the full path to `uv` because Claude Desktop may not find your `uv` installation otherwise.
+Claude Desktop does not currently support remote MCP servers, so a local configuration is required. Add the following to your Claude config file. Use the full path to `uvx` because Claude Desktop may not find your `uvx` installation otherwise.
 
 ```bash
 # macOS
