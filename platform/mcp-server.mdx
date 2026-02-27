@@ -7,6 +7,15 @@ import McpConfig from '/snippets/en/_includes/mcp-config.mdx';
 
 The W&B MCP (Model Context Protocol) server lets you query and analyze your W&B data from your IDE or MCP client. It also provides your client with programmatic access to W&B's documentation, giving it additional context and accuracy when generating responses to W&B-related queries.
 
+It integrates natively with most IDEs, coding clients, and chat agents, including:
+* Cursor
+* Visual Studio Code (VScode)
+* Claude Code
+* Codex
+* Gemini CLI
+* Mistral LeChat
+* Claude Desktop
+
 We offer both [hosted](#use-w&b’s-remote-mcp-server) and [local](#set-up-a-local-version-of-the-w&b-mcp-server) versions of the MCP server. The hosted version only supports [dedicated cloud deployments](/platform/hosting/hosting-options/dedicated_cloud). The local version supports both dedicated cloud and [on-premises deployments](/platform/hosting/hosting-options/self-managed).
 
 ## What can the W&B MCP server do?
@@ -51,9 +60,22 @@ You can install the W&B server in Cursor automatically using [this one-click ins
 1. On macOS, open the **Cursor** menu, select `Settings`, and then select **Cursor Settings**. On Windows or Linux, open the **Preferences** menu, select **Settings**, and then select **Cursor Settings**.
 2. From the Cursor Settings menu, select **Tools and MCP**. This opens the Tools menu. 
 3. In the Installed MCP Servers section, select **Add Custom MCP**. This opens the `mcp.json` configuration file.
-4. In the configuration file, in the `mcpServers` JSON object, add the following `wandb` object, like this:
+4. In the configuration file, in the `mcpServers` JSON object, add the following `wandb` object:
 
-<McpConfig/>
+```json
+{
+  "mcpServers": {
+    "wandb": {
+      "transport": "http",
+      "url": "https://mcp.withwandb.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_WANDB_API_KEY",
+        "Accept": "application/json, text/event-stream"
+      }
+    }
+  }
+}
+```
 
 5. Restart Cursor to make the changes take effect.
 6. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
@@ -63,17 +85,8 @@ For more detailed information, see [Cursor's documentation](https://cursor.com/d
 </Tab>
 <Tab title="Claude Desktop">
 
-1. Locate the Claude Desktop configuration file:
-  * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-  * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+Claude Desktop does not currently support remote MCP servers. Use the [local installation](#set-up-a-local-version-of-the-w&b-mcp-server) instead.
 
-2. Then open the file in a text editor and add the following JSON code to the file:
-  <McpConfig/>
-
-3. Save changes to the file and then restart Claude Desktop.
-4. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
-
-For more detailed instructions, see [Claude Desktop's documentation](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp).
 </Tab>
 <Tab title="VS Code">
 1. Open the Command Palette by pressing **Ctrl+Shift+P** (Windows/Linux) or **Cmd+Shift+P** (macOS).
@@ -84,6 +97,31 @@ For more detailed instructions, see [Claude Desktop's documentation](https://sup
 5. Verify that the chat agent has access to the W&B MCP server by telling it to, "List the projects in my W&B account."
 
 For detailed instructions, see [VS Code's documentation](https://code.visualstudio.com/docs/copilot/customization/mcp-servers).
+
+</Tab>
+<Tab title="Claude Code">
+
+Run the following command in your terminal:
+
+```bash
+claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
+  --scope user \
+  --header "Authorization: Bearer <your-api-key-here>"
+```
+
+Add `--scope user` for a global configuration, or omit it to configure for the current project only.
+
+For more detailed information, see [Claude Code's documentation](https://docs.anthropic.com/en/docs/claude-code/mcp).
+
+</Tab>
+<Tab title="Codex">
+
+Run the following command in your terminal:
+
+```bash
+export WANDB_API_KEY=<your-api-key>
+codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var WANDB_API_KEY
+```
 
 </Tab>
 <Tab title="OpenAI">
@@ -188,7 +226,12 @@ pip install git+https://github.com/wandb/wandb-mcp-server
 </Tab>
 </Tabs>
 
-2. Once you have successfully installed the server, add the following JSON object to your MCP client configuration:
+2. Once you have installed the server, configure your MCP client to use the local server instead of the hosted version at `https://mcp.withwandb.com/mcp`.
+
+<Tabs>
+<Tab title="Cursor">
+
+Add the following to your `mcp.json` configuration:
 
 ```json
 {
@@ -201,14 +244,102 @@ pip install git+https://github.com/wandb/wandb-mcp-server
         "wandb_mcp_server"
       ],
       "env": {
-        "WANDB_API_KEY": "YOUR_API_KEY"
+        "WANDB_API_KEY": "YOUR_API_KEY",
+        "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
       }
     }
   }
 }
 ```
 
-The code tells your MCP client, such as Cursor, to use the local W&B MCP server instead of the server hosted by W&B at `https://mcp.withwandb.com/mcp`.
+</Tab>
+<Tab title="VS Code">
+
+Add the following to your `.vscode/mcp.json` or global MCP configuration:
+
+```json
+{
+  "servers": {
+    "wandb": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/wandb/wandb-mcp-server",
+        "wandb_mcp_server"
+      ],
+      "env": {
+        "WANDB_API_KEY": "YOUR_API_KEY",
+        "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+<Tab title="Claude Code">
+
+Run the following command in your terminal. Add `--scope user` for a global configuration, or omit it to configure for the current project only.
+
+```bash
+claude mcp add wandb \
+  -e WANDB_API_KEY=your-api-key \
+  -e WANDB_BASE_URL=https://your-wandb-instance.example.com \
+  -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+```
+
+</Tab>
+<Tab title="Codex">
+
+Run the following command in your terminal:
+
+```bash
+codex mcp add wandb \
+  --env WANDB_API_KEY=your_api_key_here \
+  --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
+  -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+```
+
+</Tab>
+<Tab title="Claude Desktop">
+
+Claude Desktop does not currently support remote MCP servers, so a local configuration is required. Add the following to your Claude config file. Use the full path to `uv` because Claude Desktop may not find your `uv` installation otherwise.
+
+```bash
+# macOS
+open ~/Library/Application\ Support/Claude/claude_desktop_config.json
+
+# Windows
+notepad %APPDATA%\Claude\claude_desktop_config.json
+```
+
+```json
+{
+  "mcpServers": {
+    "wandb": {
+      "command": "/full/path/to/uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/wandb/wandb-mcp-server",
+        "wandb_mcp_server"
+      ],
+      "env": {
+        "WANDB_API_KEY": "YOUR_API_KEY",
+        "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop to activate.
+
+</Tab>
+</Tabs>
+
+<Note>
+The `WANDB_BASE_URL` environment variable is only required for dedicated cloud or on-premises W&B instances. Omit it if you use W&B's multi-tenant cloud at `api.wandb.ai`.
+</Note>
 
 3. For web-based clients or testing, run the server with HTTP transport:
 
@@ -219,8 +350,7 @@ uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 To expose the local server to external clients like OpenAI, use ngrok:
 
 ```bash
-# Start the HTTP server
-uvx wandb-mcp-server --transport http --port 8080
+uvx wandb_mcp_server --transport http --port 8080
 
 # In another terminal, expose with ngrok
 ngrok http 8080
