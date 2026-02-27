@@ -1,0 +1,95 @@
+---
+title: 팀
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+
+## <kbd>class</kbd> `Team`
+
+W&B 팀을 나타내는 클래스입니다. 
+
+이 클래스는 팀 생성, 구성원 초대, 서비스 계정 관리 등 W&B 팀 관리를 위한 메서드를 제공합니다. 팀 속성을 처리하기 위해 Attrs를 상속합니다.
+
+### <kbd>method</kbd> `Team.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    name: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
+```
+
+**인자:**
+
+* `client` (`wandb.apis.public.Api`):  사용할 API 인스턴스
+* `name` (str):  팀 이름
+* `attrs` (dict):  팀 속성을 담은 선택적 사전
+
+**참고:**
+
+> 팀 관리에는 적절한 권한이 필요합니다.
+
+***
+
+
+### <kbd>classmethod</kbd> `Team.create`
+
+```python
+create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
+```
+
+새 팀을 생성합니다.
+
+**Args:**
+
+* `api`:  (`Api`) 사용할 `Api` 인스턴스
+* `team`:  (str) 팀 이름
+* `admin_username`:  (str) 팀 관리자 사용자의 선택적 사용자 이름으로, 지정하지 않으면 현재 사용자가 사용됩니다.
+
+**Returns:**
+`Team` 객체
+
+***
+
+
+### <kbd>메서드</kbd> `Team.create_service_account`
+
+```python
+create_service_account(description: 'str') → Member | None
+```
+
+팀용 서비스 계정을 생성합니다.
+
+**인자:**
+
+* `description`:  (str) 이 서비스 계정에 대한 설명
+
+**반환값:**
+서비스 계정 `Member` 객체 또는 실패 시 None
+
+***
+
+
+### <kbd>메서드</kbd> `Team.invite`
+
+```python
+invite(username_or_email: 'str', admin: 'bool' = False) → bool
+```
+
+팀에 사용자를 초대합니다.
+
+**인자:**
+
+* `username_or_email`:  (str) 초대하려는 사용자의 사용자 이름 또는 이메일 주소.
+* `admin`:  (bool) 이 사용자를 팀 관리자(admin)로 지정할지 여부. 기본값은 `False`.
+
+**반환값:**
+성공하면 `True`, 사용자가 이미 초대되었거나 존재하지 않는 경우 `False`를 반환합니다.
+
+***

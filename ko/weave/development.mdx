@@ -1,0 +1,115 @@
+---
+title: '개발'
+description: '문서를 업데이트하기 전에 로컬에서 변경 사항 미리 보기'
+---
+
+<Info>
+  **사전 준비 사항**: 계속 진행하기 전에 Node.js(버전 19 이상)를 설치하세요. <br />
+  계속 진행하기 전에 `docs.json`으로 업그레이드하고, 이전 `mint.json` 파일을 삭제하세요.
+</Info>
+
+다음 단계를 따라 사용 중인 운영 체제에 Mintlify를 설치하고 실행하세요:
+
+**1단계**: Mintlify 설치:
+
+<CodeGroup>
+  ```bash npm
+  npm i -g mintlify
+  ```
+
+  ```bash yarn
+  yarn global add mintlify
+  ```
+</CodeGroup>
+
+**2단계**: docs 디렉터리(`docs.json` 파일이 위치한 경로)로 이동한 후 다음 명령을 실행하세요:
+
+```bash
+mintlify dev
+```
+
+문서의 로컬 미리보기는 `http://localhost:3000`에서 확인할 수 있습니다.
+
+
+<div id="custom-ports">
+  ### 사용자 지정 포트
+</div>
+
+기본적으로 Mintlify는 3000번 포트를 사용합니다. `--port` 플래그를 사용하면 Mintlify가 실행되는 포트를 사용자 지정할 수 있습니다. 예를 들어 Mintlify를 3333번 포트에서 실행하려면 다음 명령을 실행하세요:
+
+```bash
+mintlify dev --port 3333
+```
+
+이미 사용 중인 포트에서 Mintlify를 실행하려고 하면, 자동으로 다음 사용 가능한 포트를 사용합니다:
+
+```md
+포트 3000이 이미 사용 중입니다. 대신 3001을 시도합니다.
+```
+
+
+<div id="mintlify-versions">
+  ## Mintlify 버전
+</div>
+
+각 CLI 릴리스는 특정 Mintlify 버전에 대응된다는 점에 유의하세요. 로컬 웹사이트가 프로덕션 버전과 일치하지 않는 경우, 다음 명령으로 CLI를 업데이트하세요:
+
+<CodeGroup>
+
+```bash npm
+npm i -g mintlify@latest
+```
+
+```bash yarn
+yarn global upgrade mintlify
+```
+
+</CodeGroup>
+
+<div id="validating-links">
+  ## 링크 유효성 검사
+</div>
+
+CLI는 문서에 있는 참조 링크의 유효성을 검사하는 데 도움이 됩니다. 깨진 링크를 찾으려면 다음 명령을 사용하세요:
+
+```bash
+mintlify broken-links
+```
+
+
+<div id="deployment">
+  ## 배포
+</div>
+
+<Tip>
+  [Pro Plan](https://mintlify.com/pricing) 이상 요금제에서는 편집자를 무제한으로 사용할 수 있습니다.
+</Tip>
+
+배포에 성공하면 모든 검사를 통과했다는 확인 메시지가 표시됩니다.
+
+<div id="code-formatting">
+  ## 코드 포매팅
+</div>
+
+IDE에서 MDX를 인식하고 포매팅할 수 있도록 확장 기능을 사용하는 것을 권장합니다. VS Code를 사용하는 경우, 구문 강조를 위해 [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx), 코드 포매팅을 위해 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)를 사용해 보세요.
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+<AccordionGroup>
+  <Accordion title='오류: darwin-arm64 런타임을 사용해 "sharp" 모듈을 로드할 수 없습니다'>
+
+    이는 사용 중인 Node.js 버전이 오래되었기 때문일 수 있습니다. 다음을 시도하세요:
+    1. 현재 설치된 mintlify 버전을 제거합니다: `npm remove -g mintlify`
+    2. Node v19 이상으로 업그레이드합니다.
+    3. mintlify를 다시 설치합니다: `npm install -g mintlify`
+  </Accordion>
+
+  <Accordion title="문제: 알 수 없는 오류가 발생합니다">
+  
+    해결 방법: 장치의 루트 디렉터리로 이동한 후 \~/.mintlify 폴더를 삭제하세요. 그런 다음 `mintlify dev`를 다시 실행하세요.
+  </Accordion>
+</AccordionGroup>
+
+CLI 버전에서 어떤 점이 변경되었는지 궁금하신가요? [CLI 변경 내역을 확인하세요.](https://www.npmjs.com/package/mintlify?activeTab=versions)

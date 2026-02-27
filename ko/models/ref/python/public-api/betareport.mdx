@@ -1,0 +1,107 @@
+---
+title: BetaReport
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+
+## <kbd>class</kbd> `BetaReport`
+
+BetaReport는 W&B에서 생성된 리포트와 관련된 클래스입니다. 
+
+리포트 속성(이름, 설명, 사용자, spec, 타임스탬프)에 접근하고, 관련 run과 섹션을 조회하며, 리포트를 HTML로 렌더링하는 메서드를 제공합니다. 
+
+**Attributes:**
+
+- `id` (string):  리포트의 고유 식별자입니다. 
+ - `display_name` (string):  리포트의 사람이 읽기 쉬운 표시용 이름입니다. 
+ - `name` (string):  리포트의 이름입니다. 더 사용자 친화적인 이름에는 `display_name`을 사용하세요. 
+ - `description` (string):  리포트에 대한 설명입니다. 
+ - `user` (User):  리포트를 생성한 사용자의 정보(사용자명, 이메일)를 포함하는 사전입니다. 
+ - `spec` (dict):  리포트의 spec입니다. 
+ - `url` (string):  리포트의 URL입니다. 
+ - `updated_at` (string):  마지막으로 업데이트된 시점의 타임스탬프입니다. 
+ - `created_at` (string):  리포트가 생성된 시점의 타임스탬프입니다. 
+
+### <kbd>메서드</kbd> `BetaReport.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    attrs: 'dict',
+    entity: 'str | None' = None,
+    project: 'str | None' = None
+)
+```
+
+***
+
+
+### <kbd>property</kbd> BetaReport.created_at
+
+---
+
+### <kbd>property</kbd> BetaReport.description
+
+---
+
+### <kbd>property</kbd> BetaReport.display_name
+
+---
+
+### <kbd>property</kbd> BetaReport.id
+
+---
+
+### <kbd>property</kbd> BetaReport.name
+
+---
+
+### <kbd>property</kbd> BetaReport.sections
+
+리포트에서 패널 섹션(그룹)을 반환합니다. 
+
+---
+
+### <kbd>property</kbd> BetaReport.spec
+
+---
+
+### <kbd>property</kbd> BetaReport.updated_at
+
+---
+
+### <kbd>속성</kbd> BetaReport.url
+
+---
+
+### <kbd>property</kbd> BetaReport.user
+
+---
+
+### <kbd>method</kbd> `BetaReport.runs`
+
+```python
+runs(
+    section: 'dict[str, Any]',
+    per_page: 'int' = 50,
+    only_selected: 'bool' = True
+) → public.Runs
+```
+
+리포트의 특정 섹션과 연관된 runs를 가져옵니다.
+
+***
+
+
+### <kbd>메서드</kbd> `BetaReport.to_html`
+
+```python
+to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+```
+
+이 리포트를 표시하는 iframe을 포함한 HTML을 생성합니다.

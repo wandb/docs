@@ -1,0 +1,283 @@
+---
+title: "op"
+description: "Python SDK에서 weave.trace.op에 대한 참조 문서"
+---
+
+import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
+
+
+<div id="api-overview">
+  # API 개요
+</div>
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L80" />
+
+## <kbd>class</kbd> `DisplayNameFuncError`
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L83" />
+
+## <kbd>class</kbd> `OpCallError`
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L188" />
+
+## <kbd>class</kbd> `OpKwargs`
+
+op() 함수의 키워드 인자를 위한 TypedDict입니다. 
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L93" />
+
+## <kbd>class</kbd> `Sentinel`
+
+Sentinel(package: 'str', path: 'str', name: 'str') 
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/op/__init__" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(package: 'str', path: 'str', name: 'str') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L182" />
+
+
+## <kbd>class</kbd> `WeaveKwargs`
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1388" />
+
+### <kbd>함수</kbd> `as_op`
+
+```python
+as_op(fn: 'Callable[P, R]') → Op[P, R]
+```
+
+@weave.op 데코레이터가 적용된 함수를 받아 해당 Op를 반환합니다.
+
+@weave.op 데코레이터가 적용된 함수는 이미 Op의 인스턴스이므로, 이 함수는 런타임에서는 실질적으로 아무 동작도 하지 않습니다(no-op). 하지만 타입 안전한 방식으로 OpDef 속성에 접근해야 할 때, 타입 체커를 통과시키는 용도로 사용할 수 있습니다.
+
+**Args:**
+
+* <b>`fn`</b>: `weave.op` 데코레이터가 적용된 함수.
+  **Returns:**
+  함수의 Op.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1132" />
+
+
+### <kbd>function</kbd> `call`
+
+```python
+call(
+    op: 'Op',
+    *args: 'Any',
+    __weave: 'WeaveKwargs | None' = None,
+    __should_raise: 'bool' = False,
+    __require_explicit_finish: 'bool' = False,
+    **kwargs: 'Any'
+) → tuple[Any, Call] | Coroutine[Any, Any, tuple[Any, Call]]
+```
+
+op을 실행하고, 결과와 해당 실행을 나타내는 Call 둘 다를 반환합니다.
+
+이 함수는 예외를 발생시키지 않습니다. 발생한 모든 오류는 Call 객체에 캡처됩니다.
+
+이 메서드는 `@weave.op`으로 데코레이션된 모든 함수에 자동으로 바인딩되므로, 다음과 같이 사용할 수 있습니다:
+
+```python
+@weave.op
+def add(a: int, b: int) -> int:
+     return a + b
+
+result, call = add.call(1, 2)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1178" />
+
+
+### <kbd>function</kbd> `calls`
+
+```python
+calls(op: 'Op') → CallsIter
+```
+
+이 op에 대한 모든 호출을 순회하는 이터레이터를 반환합니다.
+
+이 메서드는 `@weave.op` 데코레이터가 적용된 모든 함수에 자동으로 바인딩되며, 다음과 같은 방식으로 사용할 수 있습니다:
+
+```python
+@weave.op
+def add(a: int, b: int) -> int:
+     return a + b
+
+calls = add.calls()
+for call in calls:
+     print(call)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1334" />
+
+
+### <kbd>함수</kbd> `get_captured_code`
+
+```python
+get_captured_code(op: 'Op') → str
+```
+
+op에 대해 캡처된 코드를 가져옵니다.
+
+이는 ref에서 op를 다시 가져온 경우에만 동작합니다. 패턴은 다음과 같습니다:
+
+ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured&#95;code()
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1380" />
+
+
+### <kbd>function</kbd> `is_op`
+
+```python
+is_op(obj: 'Any') → TypeIs[Op]
+```
+
+주어진 객체가 Op인지 확인합니다.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L406" />
+
+
+### <kbd>function</kbd> `is_placeholder_call`
+
+```python
+is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L374" />
+
+
+### <kbd>function</kbd> `is_tracing_setting_disabled`
+
+```python
+is_tracing_setting_disabled() → bool
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1351" />
+
+
+### <kbd>function</kbd> `maybe_bind_method`
+
+```python
+maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
+```
+
+클래스가 아니더라도 임의의 객체에 함수를 바인딩합니다.
+
+self가 None이면 함수를 그대로 반환합니다.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1363" />
+
+
+### <kbd>function</kbd> `maybe_unbind_method`
+
+```python
+maybe_unbind_method(oplike: 'Op | MethodType | partial') → Op
+```
+
+Op 유사 메서드나 partial의 바인딩을 해제하여 일반 Op 함수로 만듭니다.
+
+다음 대상에 대해:
+
+* 메서드: 설정된 `self` 파라미터 제거
+* partial: 미리 설정된 모든 파라미터 제거
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1202" />
+
+
+### <kbd>function</kbd> `op`
+
+```python
+op(
+    func: 'Callable[P, R] | None' = None,
+    name: 'str | None' = None,
+    call_display_name: 'str | CallDisplayNameFunc | None' = None,
+    postprocess_inputs: 'PostprocessInputsFunc | None' = None,
+    postprocess_output: 'PostprocessOutputFunc | None' = None,
+    tracing_sample_rate: 'float' = 1.0,
+    enable_code_capture: 'bool' = True,
+    accumulator: 'Callable[[Any | None, Any], Any] | None' = None,
+    kind: 'OpKind | None' = None,
+    color: 'OpColor | None' = None
+) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
+```
+
+함수나 메서드를 Weave op로 변환(op-ify)하는 데코레이터입니다. 동기 및 비동기 함수 모두에서 동작합니다. 이터레이터(반복자) 함수인지 자동으로 감지하고, 이에 맞는 동작을 적용합니다.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L399" />
+
+
+### <kbd>함수</kbd> `placeholder_call`
+
+```python
+placeholder_call() → Call
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L202" />
+
+
+### <kbd>function</kbd> `setup_dunder_weave_dict`
+
+```python
+setup_dunder_weave_dict(op: 'Op', d: 'WeaveKwargs | None' = None) → WeaveKwargs
+```
+
+WeaveKwargs를 ops에 전달하는 데 사용되는 &#95;&#95;weave dict를 설정합니다.
+
+**인자:**
+
+* <b>`d`</b>: 선택적으로 업데이트할 기존 WeaveKwargs dict.
+* <b>`op`</b>: kind와 color를 추출할 Op 객체.
+
+**반환값:**
+attributes, display&#95;name, 그리고 선택적으로 kind/color가 설정된 WeaveKwargs dict를 반환합니다.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L385" />
+
+
+### <kbd>함수</kbd> `should_skip_tracing_for_op`
+
+```python
+should_skip_tracing_for_op(op: 'Op') → bool
+```

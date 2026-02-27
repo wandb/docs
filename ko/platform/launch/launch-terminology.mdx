@@ -1,0 +1,68 @@
+---
+title: Launch 용어 및 개념
+---
+
+W&amp;B Launch를 사용하면 [jobs](#launch-job)를 [queues](#launch-queue)에 등록하여 run을 생성합니다. Job은 W&amp;B로 계측된 Python 스크립트입니다. Queue는 [target resource](#target-resources)에서 실행할 job 목록을 보관합니다. [Agents](#launch-agent)는 queue에서 job을 가져와 해당 target resource에서 실행합니다. W&amp;B는 Launch job을 [runs](/ko/models/runs/)를 추적할 때와 비슷한 방식으로 추적합니다.
+
+<div id="launch-job">
+  ### Launch job
+</div>
+
+Launch job은 완료해야 할 작업을 나타내는 특정 유형의 [W&amp;B Artifact](/ko/models/artifacts/)입니다. 예를 들어, 일반적인 Launch job에는 모델을 트레이닝하거나 모델 평가를 트리거하는 작업이 포함됩니다. Job 정의에는 다음이 포함됩니다:
+
+* 하나 이상의 실행 가능한 엔트리포인트를 포함한 Python 코드 및 기타 파일 에셋
+* 입력(구성 파라미터) 및 출력(로그된 메트릭)에 대한 정보
+* 환경에 대한 정보 (예: `requirements.txt`, 기본 `Dockerfile`)
+
+Job 정의는 세 가지 주요 유형으로 나뉩니다:
+
+| Job types | Definition | How to run this job type |
+| ---------- | --------- | -------------- |
+|Artifact-based (or code-based) jobs| 코드 및 기타 에셋이 W&amp;B 아티팩트로 저장됩니다.| Artifact-based job을 실행하려면 Launch agent를 빌더와 함께 구성해야 합니다. |
+|Git-based jobs|  코드 및 기타 에셋이 git 리포지토리의 특정 커밋, 브랜치 또는 태그에서 클론됩니다. | Git-based job을 실행하려면 Launch agent를 빌더 및 git 리포지토리 자격 증명과 함께 구성해야 합니다. |
+|Image-based jobs|코드 및 기타 에셋이 Docker 이미지에 포함됩니다. | Image-based job을 실행하려면 Launch agent를 이미지 리포지토리 자격 증명과 함께 구성해야 할 수 있습니다. |
+
+<Note>
+  Launch job은 모델 트레이닝과 관련 없는 작업(예: 모델을 Triton inference 서버에 배포)도 수행할 수 있지만, 모든 job은 성공적으로 완료되려면 `wandb.init`을 호출해야 합니다. 이는 W&amp;B 워크스페이스에서 추적용 run을 생성합니다.
+</Note>
+
+생성한 job은 W&amp;B App의 프로젝트 워크스페이스 `Jobs` 탭에서 찾을 수 있습니다. 그 화면에서 job을 구성한 후, 다양한 [target resources](#target-resources)에서 실행되도록 [launch queue](#launch-queue)로 전송할 수 있습니다.
+
+<div id="launch-queue">
+  ### Launch 큐
+</div>
+
+Launch *큐*는 특정 대상 리소스에서 실행할 작업들을 순서가 지정된 목록 형태로 관리하는 기능입니다. Launch 큐는 선입선출(FIFO, first-in, first-out) 방식으로 동작합니다. 생성할 수 있는 큐의 개수에는 실질적인 제한이 없지만, 일반적인 가이드라인은 대상 리소스마다 하나의 큐를 두는 것입니다. 작업은 W&amp;B App UI, W&amp;B CLI 또는 Python SDK를 사용해 큐에 추가할 수 있습니다. 그런 다음 하나 이상의 Launch 에이전트를 구성하여 큐에서 항목을 가져와 해당 큐의 대상 리소스에서 실행할 수 있습니다.
+
+<div id="target-resources">
+  ### 대상 리소스
+</div>
+
+Launch 큐가 작업을 실행하도록 설정된 컴퓨팅 환경을 *대상 리소스*라고 합니다.
+
+W&amp;B Launch는 다음과 같은 대상 리소스를 지원합니다:
+
+* [Docker](/ko/platform/launch/setup-launch-docker/)
+* [Kubernetes](/ko/platform/launch/setup-launch-kubernetes/)
+* [AWS SageMaker](/ko/platform/launch/setup-launch-sagemaker/)
+* [Google Cloud Vertex AI](/ko/platform/launch/setup-vertex/)
+
+각 대상 리소스는 *리소스 설정*이라고 불리는 서로 다른 설정 매개변수 집합을 사용합니다. 리소스 설정은 각 Launch 큐에서 정의한 기본값을 가지지만, 각 작업에서 개별적으로 재정의할 수 있습니다. 더 자세한 내용은 각 대상 리소스에 대한 문서를 참조하십시오.
+
+<div id="launch-agent">
+  ### Launch 에이전트
+</div>
+
+Launch 에이전트는 주기적으로 Launch 큐를 확인하여 실행할 작업이 있는지 검사하는, 상시 실행되는 경량 프로그램입니다. Launch 에이전트가 작업을 받으면 먼저 작업 정의에 따라 이미지를 빌드하거나 pull 한 다음, 대상 리소스에서 해당 이미지를 실행합니다.
+
+하나의 에이전트가 여러 큐를 폴링할 수 있지만, 에이전트가 폴링하는 각 큐가 사용 중인 모든 대상 리소스를 지원할 수 있도록 에이전트를 적절히 구성해야 합니다.
+
+<div id="launch-agent-environment">
+  ### Launch 에이전트 환경
+</div>
+
+에이전트 환경은 Launch 에이전트가 실행되면서 작업을 폴링하는 환경입니다.
+
+<Note>
+  에이전트의 런타임 환경은 큐의 대상 리소스와는 독립적입니다. 다시 말해, 에이전트는 필요한 대상 리소스에 접근할 수 있도록만 구성되어 있다면 어디에든 배포할 수 있습니다.
+</Note>

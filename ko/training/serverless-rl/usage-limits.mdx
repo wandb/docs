@@ -1,0 +1,38 @@
+---
+title: 사용량 정보 및 제한
+description: W&B Serverless RL의 가격, 사용 한도 및 계정 제한 사항 이해하기
+---
+
+<div id="pricing">
+  ## 가격 정책
+</div>
+
+요금은 추론(Inference), 트레이닝(Training), 스토리지의 세 가지 요소로 구성됩니다. 구체적인 요금은 [가격 페이지](https://wandb.ai/site/pricing/reinforcement-learning)를 방문해 확인하세요.
+
+<div id="inference">
+  ### 추론
+</div>
+
+Serverless RL 추론 요청에 대한 요금은 W&amp;B Inference 요금과 동일합니다. 자세한 내용은 [모델별 비용](https://site.wandb.ai/pricing/reinforcement-learning)을 참고하세요. 크레딧 구매, 계정 등급, 사용 한도에 대해 더 알아보려면 [W&amp;B Inference 문서](/ko/inference/usage-limits#purchase-more-credits)를 확인하세요.
+
+<div id="training">
+  ### 트레이닝
+</div>
+
+각 트레이닝 스텝마다 Serverless RL은 에이전트의 출력과 리워드 함수로 계산된 대응 리워드를 포함하는 trajectory 배치를 수집합니다. 이렇게 배치된 trajectory는 이후 LoRA 어댑터의 가중치를 업데이트하는 데 사용되며, 이 LoRA 어댑터는 기본 모델을 사용자의 작업에 특화하도록 만듭니다. 이러한 LoRA를 업데이트하는 트레이닝 작업은 Serverless RL이 관리하는 전용 GPU 클러스터에서 실행됩니다.
+
+공개 프리뷰 기간 동안 트레이닝은 무료입니다.
+
+<div id="model-storage">
+  ### 모델 저장소
+</div>
+
+Serverless RL은 트레이닝된 LoRA의 체크포인트를 저장해 두어, 언제든지 평가·서빙·추가 트레이닝을 계속할 수 있게 합니다. 저장 공간은 전체 체크포인트 크기와 사용 중인 [요금제](https://wandb.ai/site/pricing)에 따라 월 단위로 청구됩니다. 모든 요금제에는 최소 5GB의 무료 저장 공간이 포함되어 있으며, 이는 대략 LoRA 30개 정도에 해당합니다. 공간을 절약하려면 성능이 좋지 않은 LoRA는 삭제할 것을 권장합니다. 삭제 방법은 [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion)를 참고하세요.
+
+<div id="limits">
+  ## 제한 사항
+</div>
+
+* **Inference 동시 처리 한도**: 기본적으로 Serverless RL은 현재 사용자당 최대 2000개, 프로젝트당 최대 6000개의 동시 요청을 지원합니다. 한도(rate limit)를 초과하면 Inference API는 `429 Concurrency limit reached for requests` 응답을 반환합니다. 이 오류를 피하려면 트레이닝 작업 또는 프로덕션 워크로드에서 한 번에 보내는 동시 요청 수를 줄이십시오. 더 높은 한도가 필요하다면 support@wandb.com으로 요청할 수 있습니다.
+
+* **지리적 제한**: Serverless RL은 지원되는 지역에서만 사용할 수 있습니다. 자세한 내용은 [Terms of Service](https://site.wandb.ai/terms/)를 참조하십시오.

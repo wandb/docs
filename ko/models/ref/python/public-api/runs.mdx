@@ -1,0 +1,92 @@
+---
+title: Runs
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+
+## <kbd>class</kbd> `Runs`
+
+프로젝트와 선택적 필터에 연관된 `Run` 객체들의 지연(lazy) 이터레이터입니다. 
+
+필요할 때마다 W&B 서버에서 Runs가 페이지 단위로 순차적으로 가져와집니다. 
+
+일반적으로 `Api.runs` 네임스페이스를 통해 간접적으로 사용됩니다.
+
+### <kbd>method</kbd> `Runs.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
+)
+```
+
+**인자:**
+
+* `client`:  (`wandb.apis.public.RetryingClient`) 요청에 사용할 API 클라이언트.
+* `entity`:  (str) 프로젝트를 소유한 엔터티(사용자 이름 또는 팀).
+* `project`:  (str) run들을 가져올 프로젝트 이름.
+* `filters`:  (Optional[Dict[str, Any]]) run 쿼리에 적용할 필터 사전.
+* `order`:  (str) 정렬 기준은 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`가 될 수 있습니다.  정렬 기준 앞에 `+`를 붙이면 오름차순(기본값)이고,  `-`를 붙이면 내림차순입니다.  기본 정렬 기준은 가장 오래된 것부터 최신까지의 `run.created_at`입니다.
+* `per_page`:  (int) 요청당 가져올 run 개수(기본값은 50).
+* `include_sweeps`:  (bool) run에 스윕 정보를 포함할지 여부. 기본값은 True입니다.
+
+***
+
+
+### <kbd>property</kbd> Runs.length
+
+---
+
+### <kbd>메서드</kbd> `Runs.histories`
+
+```python
+histories(
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    format: "Literal['default', 'pandas', 'polars']" = 'default',
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
+```
+
+필터 조건을 충족하는 모든 run에 대해 샘플링된 히스토리 메트릭을 반환합니다.
+
+**Args:**
+
+* `samples`:  run당 반환할 샘플 수
+* `keys`:  지정한 키에 대한 메트릭만 반환
+* `x_axis`:  이 메트릭을 x축으로 사용하며, 기본값은 &#95;step입니다
+* `format`:  데이터를 반환할 형식으로, 선택지는 &quot;default&quot;, &quot;pandas&quot;, &quot;polars&quot;입니다
+* `stream`:  메트릭에는 &quot;default&quot;, 머신 메트릭에는 &quot;system&quot;을 사용
+
+**Returns:**
+
+* `pandas.DataFrame`:  `format="pandas"`인 경우, 히스토리 메트릭의 `pandas.DataFrame`을 반환합니다.
+* `polars.DataFrame`:  `format="polars"`인 경우, 히스토리 메트릭의 `polars.DataFrame`을 반환합니다.
+* `list of dicts`:  `format="default"`인 경우, `run_id` 키를 포함하는 히스토리 메트릭이 담긴 딕셔너리 목록을 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Runs.upgrade_to_full`
+
+```python
+upgrade_to_full() → None
+```
+
+이 Runs 컬렉션을 lazy 모드에서 full 모드로 업그레이드합니다.
+
+전체 run 데이터를 가져오도록 전환하고, 이미 로드된 Run 객체도 모두 전체 데이터를 포함하도록 업그레이드합니다. 여러 run을 업그레이드할 때는 더 나은 성능을 위해 병렬로 로딩합니다.

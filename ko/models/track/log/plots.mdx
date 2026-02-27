@@ -1,0 +1,383 @@
+---
+description: 머신러닝 실험에서 생성한 플롯을 만들고 추적합니다.
+title: 실험에서 플롯을 생성하고 추적하기
+---
+
+`wandb.plot`의 메서드를 사용하면 트레이닝 중 시간에 따라 변화하는 차트를 포함해 `wandb.Run.log()`으로 차트를 추적할 수 있습니다. 커스텀 차트 프레임워크에 대해 더 알아보려면 [커스텀 차트 워크스루](/ko/models/app/features/custom-charts/walkthrough/)를 확인하세요.
+
+<div id="basic-charts">
+  ### 기본 차트
+</div>
+
+이러한 간단한 차트는 메트릭과 결과를 기본적인 시각화로 손쉽게 표현할 수 있게 해줍니다.
+
+<Tabs>
+  <Tab title="꺾은선">
+    사용자 지정 선형 플롯을 로깅합니다. 선형 플롯은 임의의 축 위에서 순서가 있는 점들을 선으로 연결한 목록입니다.
+
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        data = [[x, y] for (x, y) in zip(x_values, y_values)]
+        table = wandb.Table(data=data, columns=["x", "y"])
+        run.log(
+            {
+                "my_custom_plot_id": wandb.plot.line(
+                    table, "x", "y", title="Custom Y vs X Line Plot"
+                )
+            }
+        )
+    ```
+
+    이 기능을 사용하면 임의의 두 차원에서 곡선을 로깅할 수 있습니다. 두 개의 값 리스트를 서로 대응시켜 플로팅하는 경우, 각 리스트의 값 개수가 정확히 일치해야 합니다. 예를 들어, 각 점에는 x와 y가 하나씩 있어야 합니다.
+
+    <Frame>
+      <img src="/images/track/line_plot.png" alt="사용자 지정 선 그래프" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA)
+
+    [코드 실행하기](https://tiny.cc/custom-charts)
+  </Tab>
+
+  <Tab title="산점도">
+    커스텀 산점도를 로그합니다. 이 산점도는 임의의 두 축 x, y 상의 점 (x, y) 목록으로 구성됩니다.
+
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        data = [[x, y] for (x, y) in zip(class_x_scores, class_y_scores)]
+        table = wandb.Table(data=data, columns=["class_x", "class_y"])
+        run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
+    ```
+
+    이 기능을 사용해 임의의 두 차원에서 산점도 점을 로깅할 수 있습니다. 두 개의 값 리스트를 서로 대응시켜 플로팅하려면, 두 리스트의 값 개수가 정확히 일치해야 합니다. 예를 들어, 각 점에는 x 값과 y 값이 모두 있어야 합니다.
+
+    <Frame>
+      <img src="/images/track/demo_scatter_plot.png" alt="커스텀 산점도" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ)
+
+    [코드 실행하기](https://tiny.cc/custom-charts)
+  </Tab>
+
+  <Tab title="막대 차트">
+    레이블이 있는 값 목록을 막대로 표현한 사용자 정의 막대 차트를 몇 줄의 코드만으로 바로 로깅합니다:
+
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        data = [[label, val] for (label, val) in zip(labels, values)]
+        table = wandb.Table(data=data, columns=["label", "value"])
+        run.log(
+            {
+            "my_bar_chart_id": wandb.plot.bar(
+                table, "label", "value", title="Custom Bar Chart"
+            )
+        }
+    )
+    ```
+
+    임의의 막대 차트를 로깅할 때 이 기능을 사용할 수 있습니다. 목록에 있는 레이블과 값의 개수는 정확히 일치해야 합니다. 각 데이터 포인트에는 두 값이 모두 있어야 합니다.
+
+    <Frame>
+      <img src="/images/track/basic_charts_bar.png" alt="커스텀 막대 차트" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk)
+
+    [코드 실행](https://tiny.cc/custom-charts)
+  </Tab>
+
+  <Tab title="히스토그램">
+    발생 횟수/빈도에 따라 값 리스트를 구간(bin)으로 나누는 사용자 정의 히스토그램을, 몇 줄의 코드만으로 바로 로깅할 수 있습니다. 예를 들어 예측 신뢰도 점수 리스트(`scores`)가 있고, 이들의 분포를 시각화하고 싶다고 해 봅시다:
+
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        data = [[s] for s in scores]
+        table = wandb.Table(data=data, columns=["scores"])
+        run.log({"my_histogram": wandb.plot.histogram(table, "scores", title="Histogram")})
+    ```
+
+    임의의 히스토그램을 로깅하는 데 이를 사용할 수 있습니다. `data`는 행과 열로 구성된 2D 배열을 지원하기 위한 리스트의 리스트라는 점에 유의하세요.
+
+    <Frame>
+      <img src="/images/track/demo_custom_chart_histogram.png" alt="사용자 지정 히스토그램" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM)
+
+    [코드 실행하기](https://tiny.cc/custom-charts)
+  </Tab>
+
+  <Tab title="멀티라인">
+    여러 개의 선 또는 서로 다른 x-y 좌표쌍 목록을 하나의 공통 x-y 축에 그립니다:
+
+    ```python
+    import wandb
+    with wandb.init() as run:
+        run.log(
+            {
+                "my_custom_id": wandb.plot.line_series(
+                    xs=[0, 1, 2, 3, 4],
+                    ys=[[10, 20, 30, 40, 50], [0.5, 11, 72, 3, 41]],
+                keys=["metric Y", "metric Z"],
+                title="Two Random Metrics",
+                xname="x units",
+            )
+        }
+    )
+    ```
+
+    x와 y 포인트의 개수는 반드시 정확히 일치해야 합니다. 하나의 x 값 리스트를 여러 개의 y 값 리스트와 함께 사용하거나, 각 y 값 리스트마다 별도의 x 값 리스트를 사용할 수 있습니다.
+
+    <Frame>
+      <img src="/images/track/basic_charts_histogram.png" alt="다중 선 플롯" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU)
+  </Tab>
+</Tabs>
+
+<div id="model-evaluation-charts">
+  ### 모델 평가 차트
+</div>
+
+이러한 프리셋 차트에는 `wandb.plot()` 메서드가 내장되어 있어, 스크립트에서 차트를 바로 로깅하고 UI에서 원하는 정보를 정확하고 빠르게 확인할 수 있습니다.
+
+<Tabs>
+  <Tab title="정밀도-재현율 곡선">
+    [Precision-Recall 곡선](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve)을 한 줄의 코드로 생성하세요:
+
+    ```python
+    import wandb
+    with wandb.init() as run:
+        # ground_truth는 실제 레이블 리스트이고, predictions는 예측 점수 리스트입니다
+        # 예: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
+        ground_truth = [0, 1, 1, 0]
+        predictions = [0.1, 0.4, 0.35, 0.8]
+        run.log({"pr": wandb.plot.pr_curve(ground_truth, predictions)})
+    ```
+
+    코드에서 다음 정보에 접근할 수 있게 되면 언제든지 이를 로깅할 수 있습니다:
+
+    * 예제 집합에 대한 모델의 예측 점수(`predictions`)
+    * 해당 예제들에 대한 정답 레이블(`ground_truth`)
+    * (선택 사항) 레이블 인덱스 0이 cat, 1이 dog, 2가 bird 등을 의미하는 경우의 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`)
+    * (선택 사항) 플롯에서 시각화할 레이블의 부분 집합(리스트 형식 유지)
+
+    <Frame>
+      <img src="/images/track/model_eval_charts_precision_recall.png" alt="정밀도-재현율 곡선" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY)
+
+    [코드 실행](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+  </Tab>
+
+  <Tab title="ROC 곡선">
+    다음과 같이 한 줄로 [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve)를 생성할 수 있습니다:
+
+    ```python
+    import wandb
+
+    with wandb.init() as run:
+        # ground_truth는 실제 레이블 목록이고, predictions는 예측 점수 목록입니다
+        # 예: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
+        ground_truth = [0, 1, 1, 0]
+        predictions = [0.1, 0.4, 0.35, 0.8]
+        run.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
+    ```
+
+    코드에서 다음 데이터에 접근할 수 있을 때마다 이를 로깅할 수 있습니다:
+
+    * 예제 집합에 대한 모델의 예측 점수(`predictions`)
+    * 해당 예제에 대한 정답 레이블(`ground_truth`)
+    * (선택 사항) 레이블 인덱스 0이 cat, 1이 dog, 2가 bird 등을 의미할 때 사용하는 레이블/클래스 이름 목록(`labels=["cat", "dog", "bird"...]`)
+    * (선택 사항) 플롯에서 시각화할 이 레이블들의 부분집합(리스트 형식 유지)
+
+    <Frame>
+      <img src="/images/track/demo_custom_chart_roc_curve.png" alt="ROC curve" />
+    </Frame>
+
+    [앱에서 보기](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE)
+
+    [코드 실행하기](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)
+  </Tab>
+
+  <Tab title="혼동 행렬">
+    한 줄의 코드로 다중 클래스 [confusion matrix](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html)를 생성합니다:
+
+    ```python
+    import wandb
+
+    cm = wandb.plot.confusion_matrix(
+        y_true=ground_truth, preds=predictions, class_names=class_names
+    )
+
+    with wandb.init() as run:
+        run.log({"conf_mat": cm})
+    ```
+
+    코드에서 아래 항목들에 접근할 수만 있다면, 어디서든 이를 로깅할 수 있습니다:
+
+    * 특정 예제 집합에 대해 모델이 예측한 레이블(`preds`) 또는 정규화된 확률 점수(`probs`). 확률 값의 형태는 (예제 개수, 클래스 개수)가 되어야 합니다. 확률 또는 예측값 중 하나만 제공할 수 있으며, 둘 다 동시에 제공할 수는 없습니다.
+    * 해당 예제들에 대한 정답 레이블(`y_true`)
+    * 전체 레이블/클래스 이름을 문자열 리스트로 담은 `class_names`. 예시: 인덱스 0이 `cat`, 1이 `dog`, 2가 `bird`라면 `class_names=["cat", "dog", "bird"]`.
+
+    <Frame>
+      <img src="/images/experiments/confusion_matrix.png" alt="혼동 행렬" />
+    </Frame>
+
+    ​[앱에서 보기](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM)​
+
+    ​[코드 실행하기](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)
+  </Tab>
+</Tabs>
+
+<div id="interactive-custom-charts">
+  ### 대화형 커스텀 차트
+</div>
+
+완전히 커스터마이징하려면 기본 제공 [Custom Chart 프리셋](/ko/models/app/features/custom-charts/walkthrough/)을 조정하거나 새 프리셋을 만든 뒤 차트를 저장하세요. 차트 ID를 사용하면 스크립트에서 해당 커스텀 프리셋으로 데이터를 곧바로 로깅할 수 있습니다.
+
+```python
+import wandb
+# 플롯할 열이 포함된 테이블 생성
+table = wandb.Table(data=data, columns=["step", "height"])
+
+# 테이블의 열을 차트의 필드에 매핑
+fields = {"x": "step", "value": "height"}
+
+# 테이블을 사용하여 새 커스텀 차트 프리셋 채우기
+# 저장된 차트 프리셋을 사용하려면 vega_spec_name을 변경하세요
+# 제목을 수정하려면 string_fields를 변경하세요
+my_custom_chart = wandb.plot_table(
+    vega_spec_name="carey/new_chart",
+    data_table=table,
+    fields=fields,
+    string_fields={"title": "Height Histogram"},
+)
+
+with wandb.init() as run:
+    # 커스텀 차트 로깅
+    run.log({"my_custom_chart": my_custom_chart})
+```
+
+[코드 실행하기](https://tiny.cc/custom-charts)
+
+<div id="matplotlib-and-plotly-plots">
+  ### Matplotlib 및 Plotly 플롯
+</div>
+
+`wandb.plot()`과 함께 W&amp;B [Custom Charts](/ko/models/app/features/custom-charts/walkthrough/)를 사용하는 대신 [matplotlib](https://matplotlib.org/) 및 [Plotly](https://plotly.com/)로 생성한 차트를 W&amp;B에 로깅할 수 있습니다.
+
+```python
+import wandb
+import matplotlib.pyplot as plt
+
+with wandb.init() as run:
+    # 간단한 matplotlib 플롯 생성
+    plt.figure()
+    plt.plot([1, 2, 3, 4])
+    plt.ylabel("some interesting numbers")
+    
+    # W&B에 플롯 기록
+    run.log({"chart": plt})
+```
+
+`matplotlib` 플롯 또는 figure 객체를 `wandb.Run.log()`에 전달하면 됩니다. 기본적으로 플롯은 [Plotly](https://plot.ly/) 플롯으로 변환됩니다. 플롯을 이미지로 로깅하고 싶다면, 플롯을 `wandb.Image`에 전달하면 됩니다. Plotly 차트도 직접 전달할 수 있습니다.
+
+<Note>
+  &quot;You attempted to log an empty plot&quot; 오류가 발생한다면, `fig = plt.figure()`로 플롯과 분리된 figure를 생성한 뒤, `wandb.Run.log()` 호출에서 `fig`를 로깅하면 됩니다.
+</Note>
+
+<div id="log-custom-html-to-wb-tables">
+  ### 커스텀 HTML을 W&amp;B Tables에 로깅하기
+</div>
+
+W&amp;B는 Plotly와 Bokeh에서 생성한 대화형 차트를 HTML로 로깅하고 Tables에 추가하는 기능을 지원합니다.
+
+<div id="log-plotly-figures-to-tables-as-html">
+  #### Plotly 차트를 HTML로 변환해 Tables에 로깅하기
+</div>
+
+Plotly의 대화형 차트를 HTML로 변환해 wandb Tables에 로깅할 수 있습니다.
+
+```python
+import wandb
+import plotly.express as px
+
+# 새 run 초기화
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
+
+    # 테이블 생성
+    table = wandb.Table(columns=["plotly_figure"])
+
+    # Plotly 그림 경로 생성
+    path_to_plotly_html = "./plotly_figure.html"
+
+    # Plotly 그림 예시
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+
+    # Plotly 그림을 HTML로 저장
+    # auto_play를 False로 설정하면 애니메이션 Plotly 차트가
+    # 테이블에서 자동으로 재생되지 않음
+    fig.write_html(path_to_plotly_html, auto_play=False)
+
+    # Plotly 그림을 HTML 파일로 테이블에 추가
+    table.add_data(wandb.Html(path_to_plotly_html))
+
+    # 테이블 로깅
+    run.log({"test_table": table})
+```
+
+<div id="log-bokeh-figures-to-tables-as-html">
+  #### Bokeh 피겨를 HTML로 Tables에 로깅하기
+</div>
+
+Bokeh의 대화형 차트를 HTML로 변환하여 wandb Tables에 로깅할 수 있습니다.
+
+```python
+from scipy.signal import spectrogram
+import holoviews as hv
+import panel as pn
+from scipy.io import wavfile
+import numpy as np
+from bokeh.resources import INLINE
+
+hv.extension("bokeh", logo=False)
+import wandb
+
+
+def save_audio_with_bokeh_plot_to_html(audio_path, html_file_name):
+    sr, wav_data = wavfile.read(audio_path)
+    duration = len(wav_data) / sr
+    f, t, sxx = spectrogram(wav_data, sr)
+    spec_gram = hv.Image((t, f, np.log10(sxx)), ["Time (s)", "Frequency (hz)"]).opts(
+        width=500, height=150, labelled=[]
+    )
+    audio = pn.pane.Audio(wav_data, sample_rate=sr, name="Audio", throttle=500)
+    slider = pn.widgets.FloatSlider(end=duration, visible=False)
+    line = hv.VLine(0).opts(color="white")
+    slider.jslink(audio, value="time", bidirectional=True)
+    slider.jslink(line, value="glyph.location")
+    combined = pn.Row(audio, spec_gram * line, slider).save(html_file_name)
+
+
+html_file_name = "audio_with_plot.html"
+audio_path = "hello.wav"
+save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
+
+wandb_html = wandb.Html(html_file_name)
+
+with wandb.init(project="audio_test") as run:
+    my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html]])
+    run.log({"audio_table": my_table})
+```

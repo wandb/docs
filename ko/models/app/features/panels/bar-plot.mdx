@@ -1,0 +1,31 @@
+---
+description: 메트릭을 시각화하고, 축을 사용자 지정하며, 범주형 데이터를 막대로 비교합니다.
+title: 막대 플롯
+---
+
+막대 플롯은 범주형 데이터를 직사각형 막대로 표현하며, 수직 또는 수평으로 그릴 수 있습니다. 로그한 값이 모두 길이 1일 때 `wandb.Run.log()`를 사용하면 기본적으로 막대 플롯이 표시됩니다.
+
+<Frame>
+    <img src="/images/app_ui/bar_plot.png" alt="W&B에서 상자 플롯과 가로 막대 플롯을 그리는 방법"  />
+</Frame>
+
+차트 설정을 사용해 표시할 run의 최대 개수를 제한하고, run들을 원하는 config 기준으로 그룹화하며, 레이블을 변경할 수 있습니다.
+
+<Frame>
+    <img src="/images/app_ui/bar_plot_custom.png" alt="사용자 지정한 막대 플롯"  />
+</Frame>
+
+<div id="customize-bar-plots">
+  ## 막대 플롯 사용자 지정
+</div>
+
+여러 요약 통계를 하나의 차트 유형으로 묶기 위해 **Box** 또는 **Violin** 플롯을 생성할 수도 있습니다**.**
+
+1. runs 테이블에서 run을 그룹화합니다.
+2. Workspace에서 'Add panel'을 클릭합니다.
+3. 표준 'Bar Chart'를 추가하고 표시할 메트릭을 선택합니다.
+4. 'Grouping' 탭에서 'box plot' 또는 'Violin' 등을 선택해 해당 스타일로 플롯합니다.
+
+<Frame>
+    <img src="/images/app_ui/bar_plots.gif" alt="막대 플롯 사용자 지정"  />
+</Frame>

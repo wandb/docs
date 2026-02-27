@@ -1,0 +1,30 @@
+---
+description: W&B Sweeps 결과를 W&B App UI에서 시각화합니다.
+title: 스윕 결과 시각화
+---
+
+W&amp;B Sweeps 결과를 W&amp;B App에서 시각화할 수 있습니다. [W&amp;B App](https://wandb.ai/home)으로 이동합니다. 스윕을 초기화할 때 지정했던 프로젝트를 선택합니다. 해당 프로젝트의 [Workspace](/ko/models/track/workspaces/)로 자동으로 이동됩니다. 프로젝트 사이드바에서 **Sweep 아이콘**(빗자루 아이콘)을 선택합니다. Sweep UI에서 목록에서 원하는 Sweep 이름을 선택합니다.
+
+기본적으로, W&amp;B는 W&amp;B Sweep job을 시작하면 병렬 좌표 플롯(parallel coordinates plot), 파라미터 중요도 플롯(parameter importance plot), 산점도(scatter plot)를 자동으로 생성합니다.
+
+<Frame>
+  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="프로젝트 사이드바의 Sweep UI" />
+</Frame>
+
+병렬 좌표 차트는 다수의 하이퍼파라미터와 모델 메트릭 간의 관계를 한눈에 요약해 보여줍니다. 병렬 좌표 플롯에 대한 자세한 내용은 [Parallel coordinates](/ko/models/app/features/panels/parallel-coordinates/)를 참조하세요.
+
+<Frame>
+  <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="병렬 좌표 플롯 예시." />
+</Frame>
+
+산점도(왼쪽)는 Sweep 동안 생성된 W&amp;B Runs를 비교합니다. 산점도에 대한 자세한 내용은 [Scatter Plots](/ko/models/app/features/panels/scatter-plot/)를 참조하세요.
+
+파라미터 중요도 플롯(오른쪽)은 메트릭의 바람직한 값과 높은 상관관계를 보이며, 가장 좋은 예측력을 보인 하이퍼파라미터들을 나열합니다. 파라미터 중요도 플롯에 대한 자세한 내용은 [Parameter Importance](/ko/models/app/features/panels/parameter-importance/)를 참조하세요.
+
+<Frame>
+  <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="산점도와 파라미터 중요도" />
+</Frame>
+
+자동으로 사용되는 종속 변수와 독립 변수(x축과 y축)를 변경할 수 있습니다. 각 패널 안에는 **Edit panel**이라는 연필 아이콘이 있습니다. **Edit panel**을 선택합니다. 모달 창이 나타납니다. 모달 창에서 그래프의 동작 방식을 변경할 수 있습니다.
+
+모든 기본 W&amp;B 시각화 옵션에 대한 자세한 내용은 [Panels](/ko/models/app/features/panels/)를 참조하세요. W&amp;B Sweep에 속하지 않는 W&amp;B Runs에서 플롯을 생성하는 방법은 [Data Visualization docs](/ko/models/tables/)를 참조하세요.

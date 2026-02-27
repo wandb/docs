@@ -1,0 +1,290 @@
+---
+title: "DSPy 프롬프트 최적화"
+description: "W&B Weave와 함께 DSPy 프롬프트 최적화를 사용하는 방법"
+---
+
+<Note>
+  이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 사용하세요:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/dspy_prompt_optimization.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/dspy_prompt_optimization.ipynb)
+</Note>
+
+<div id="optimizing-llm-workflows-using-dspy-and-weave">
+  # DSPy와 Weave를 사용한 LLM 워크플로 최적화
+</div>
+
+[BIG-bench (Beyond the Imitation Game Benchmark)](https://github.com/google/BIG-bench)는 200개가 넘는 태스크로 구성된 공동 벤치마크로, 대형 언어 모델을 분석하고 향후 역량을 추론하는 것을 목표로 합니다. [BIG-Bench Hard (BBH)](https://github.com/suzgunmirac/BIG-Bench-Hard)는 현재 세대의 언어 모델로는 풀기가 상당히 어려운 BIG-bench 태스크 중 가장 난이도가 높은 23개로 구성된 모음입니다.
+
+이 튜토리얼에서는 BIG-bench Hard 벤치마크의 **causal judgement task**(인과 판단 태스크)에 구현된 LLM 워크플로의 성능을 향상시키고, 프롬프트 전략을 평가하는 방법을 보여줍니다. LLM 워크플로 구현과 프롬프트 전략 최적화에는 [DSPy](https://dspy.ai)를 사용합니다. 또한 [Weave](/ko/weave)를 사용해 LLM 워크플로를 추적하고 프롬프트 전략을 평가합니다.
+
+<div id="installing-the-dependencies">
+  ## 의존성 설치하기
+</div>
+
+이 튜토리얼에서는 다음 라이브러리가 필요합니다.
+
+* LLM 워크플로를 구축하고 최적화하기 위한 [DSPy](https://dspy.ai)
+* LLM 워크플로를 추적하고 프롬프트 전략을 평가하기 위한 [Weave](/ko/weave)
+* Hugging Face Hub에서 Big-Bench Hard 데이터셋에 액세스하기 위한 [datasets](https://huggingface.co/docs/datasets/index)
+
+```python lines
+!pip install -qU dspy-ai weave datasets
+```
+
+LLM 공급자로 [OpenAI API](https://openai.com/index/openai-api/)를 사용할 예정이므로 OpenAI API 키도 필요합니다. OpenAI 플랫폼에서 [회원가입](https://platform.openai.com/signup)을 하면 본인의 API 키를 발급받을 수 있습니다.
+
+```python lines
+import os
+from getpass import getpass
+
+api_key = getpass("OpenAI API 키를 입력하세요: ")
+os.environ["OPENAI_API_KEY"] = api_key
+```
+
+<div id="enable-tracking-using-weave">
+  ## Weave를 사용하여 추적 활성화하기
+</div>
+
+Weave는 현재 DSPy와 인테그레이션되어 있으며, 코드의 시작 부분에 [`weave.init`](/ko/weave/reference/python-sdk/trace/weave_client#method-init)을 추가하면 DSPy 함수가 자동으로 트레이싱되고 Weave UI에서 살펴볼 수 있습니다. 자세한 내용은 [DSPy용 Weave 인테그레이션 문서](/ko/weave/guides/integrations/dspy)를 참고하세요.
+
+```python lines
+import weave
+
+weave.init(project_name="dspy-bigbench-hard")
+```
+
+이 튜토리얼에서는 메타데이터를 관리하기 위해 [`weave.Object`](/ko/weave/reference/python-sdk#class-object)를 상속한 메타데이터 클래스를 사용합니다.
+
+```python lines
+class Metadata(weave.Object):
+    dataset_address: str = "maveriq/bigbenchhard"
+    big_bench_hard_task: str = "causal_judgement"
+    num_train_examples: int = 50
+    openai_model: str = "gpt-3.5-turbo"
+    openai_max_tokens: int = 2048
+    max_bootstrapped_demos: int = 8
+    max_labeled_demos: int = 8
+
+metadata = Metadata()
+```
+
+<Tip>
+  **오브젝트 버저닝**: `Metadata` 오브젝트는 이를 사용하는 함수가 트레이싱될 때 자동으로 버전이 관리되고 기록됩니다
+</Tip>
+
+<div id="load-the-big-bench-hard-dataset">
+  ## BIG-Bench Hard 데이터셋 로드하기
+</div>
+
+이 데이터셋을 HuggingFace Hub에서 불러온 뒤 트레이닝 및 검증 세트로 나누고, Weave에 [게시](/ko/weave/guides/core-types/datasets)합니다. 이렇게 하면 데이터셋을 버전 관리할 수 있고, [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations)을 사용해 프롬프트 전략을 평가할 수 있습니다.
+
+```python lines
+import dspy
+from datasets import load_dataset
+
+@weave.op()
+def get_dataset(metadata: Metadata):
+    # Huggingface Hub에서 태스크에 해당하는 BIG-Bench Hard 데이터셋 로드
+    dataset = load_dataset(metadata.dataset_address, metadata.big_bench_hard_task)[
+        "train"
+    ]
+
+    # 트레이닝 및 검증 데이터셋 생성
+    rows = [{"question": data["input"], "answer": data["target"]} for data in dataset]
+    train_rows = rows[0 : metadata.num_train_examples]
+    val_rows = rows[metadata.num_train_examples :]
+
+    # `dspy.Example` 객체로 구성된 트레이닝 및 검증 예제 생성
+    dspy_train_examples = [
+        dspy.Example(row).with_inputs("question") for row in train_rows
+    ]
+    dspy_val_examples = [dspy.Example(row).with_inputs("question") for row in val_rows]
+
+    # Weave에 데이터셋 게시 - 데이터 버전 관리 및 평가에 활용 가능
+    weave.publish(
+        weave.Dataset(
+            name=f"bigbenchhard_{metadata.big_bench_hard_task}_train", rows=train_rows
+        )
+    )
+    weave.publish(
+        weave.Dataset(
+            name=f"bigbenchhard_{metadata.big_bench_hard_task}_val", rows=val_rows
+        )
+    )
+
+    return dspy_train_examples, dspy_val_examples
+
+dspy_train_examples, dspy_val_examples = get_dataset(metadata)
+```
+
+<Frame>
+  ![데이터셋 준비 단계와 데이터 구조가 표시된 DSPy 데이터셋 로딩 인터페이스](/media/dspy_optimization/1.png)
+</Frame>
+
+<div id="the-dspy-program">
+  ## DSPy 프로그램
+</div>
+
+[DSPy](https://dspy.ai)는 자유 형식 문자열을 직접 조작하는 방식에서 벗어나, 모듈식 연산자를 조합해 텍스트 변환 그래프를 구성하는 프로그래밍 방식에 더 가깝게 LM 파이프라인을 구축할 수 있게 해주는 프레임워크입니다. 이때 컴파일러는 프로그램을 기반으로 최적화된 LM 호출 전략과 프롬프트를 자동으로 생성합니다.
+
+우리는 [`dspy.OpenAI`](https://dspy.ai/learn/programming/language_models/#__tabbed_1_1) 추상화를 사용하여 [GPT-3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo)를 호출하는 LLM 호출을 수행합니다.
+
+```python lines
+system_prompt = """
+You are an expert in the field of causal reasoning. You are to analyze the a given question carefully and answer in `Yes` or `No`.
+You should also provide a detailed explanation justifying your answer.
+"""
+
+llm = dspy.OpenAI(model="gpt-3.5-turbo", system_prompt=system_prompt)
+dspy.settings.configure(lm=llm)
+```
+
+<div id="writing-the-causal-reasoning-signature">
+  ### 인과 추론 시그니처 정의하기
+</div>
+
+[시그니처](https://dspy.ai/learn/programming/signatures)는 [DSPy 모듈](https://dspy.ai/learn/programming/modules)의 입출력 동작을 선언적으로 정의한 것입니다. DSPy 모듈은 특정 텍스트 변환을 추상화하는, 태스크에 적응하는 컴포넌트로 신경망 레이어와 유사한 역할을 합니다.
+
+```python lines
+from pydantic import BaseModel, Field
+
+class Input(BaseModel):
+    query: str = Field(description="답변할 질문")
+
+class Output(BaseModel):
+    answer: str = Field(description="질문에 대한 답변")
+    confidence: float = Field(
+        ge=0, le=1, description="답변에 대한 신뢰도 점수"
+    )
+    explanation: str = Field(description="답변에 대한 설명")
+
+class QuestionAnswerSignature(dspy.Signature):
+    input: Input = dspy.InputField()
+    output: Output = dspy.OutputField()
+
+class CausalReasoningModule(dspy.Module):
+    def __init__(self):
+        self.prog = dspy.TypedPredictor(QuestionAnswerSignature)
+
+    @weave.op()
+    def forward(self, question) -> dict:
+        return self.prog(input=Input(query=question)).output.dict()
+```
+
+Big-Bench Hard의 인과 추론 서브셋에 있는 예제를 사용해 LLM 워크플로, 즉 `CausalReasoningModule`을 테스트해 보자.
+
+```python lines
+import rich
+
+baseline_module = CausalReasoningModule()
+
+prediction = baseline_module(dspy_train_examples[0]["question"])
+rich.print(prediction)
+```
+
+<Frame>
+  ![Baseline DSPy program evaluation results with performance metrics and output examples](/media/dspy_optimization/2.png)
+
+  ## 우리 DSPy 프로그램 평가하기
+</Frame>
+
+이제 베이스라인 프롬프트 전략이 준비되었으니, 검증 세트에서 예측된 답을 정답 레이블과 매칭하는 간단한 메트릭을 사용하여 [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations)으로 이를 평가해 보겠습니다. Weave는 각 예제를 가져와 애플리케이션을 통해 실행한 다음, 여러 개의 사용자 정의 스코어링 함수로 출력 결과에 점수를 매깁니다. 이렇게 하면 애플리케이션의 성능을 한눈에 파악할 수 있고, 각 개별 출력과 점수를 깊이 있게 탐색할 수 있는 풍부한 UI도 제공됩니다.
+
+먼저, 베이스라인 모듈의 출력에서 나온 답이 정답과 같은지 여부를 알려주는 간단한 weave 평가용 스코어링 함수를 만들어야 합니다. 스코어링 함수에는 `model_output` 키워드 인자가 반드시 필요하지만, 그 외 인자들은 사용자 정의이며 데이터셋 예제에서 가져옵니다. 이 함수는 인자 이름을 키로 사용하는 사전에서 필요한 키만 가져옵니다.
+
+```python lines
+@weave.op()
+def weave_evaluation_scorer(answer: str, output: Output) -> dict:
+    return {"match": int(answer.lower() == output["answer"].lower())}
+```
+
+이제 평가를 정의하고 실행하면 됩니다.
+
+```python lines
+validation_dataset = weave.ref(
+    f"bigbenchhard_{metadata.big_bench_hard_task}_val:v0"
+).get()
+
+evaluation = weave.Evaluation(
+    name="baseline_causal_reasoning_module",
+    dataset=validation_dataset,
+    scorers=[weave_evaluation_scorer],
+)
+
+await evaluation.evaluate(baseline_module.forward)
+```
+
+<Frame>
+  ![DSPy 프로그램의 성능 메트릭, 트레이스 및 비교 결과를 보여주는 Weave 평가 대시보드](/media/dspy_optimization/3.png)
+</Frame>
+
+<Note>
+  Python 스크립트에서 실행하는 경우 다음 코드를 사용해 평가를 실행할 수 있습니다:
+
+  ```python lines
+  import asyncio
+  asyncio.run(evaluation.evaluate(baseline_module.forward))
+  ```
+</Note>
+
+<Warning>
+  causal reasoning 데이터셋에 대한 평가를 실행하면 약 $0.24 상당의 OpenAI 크레딧 비용이 발생합니다.
+</Warning>
+
+<div id="optimizing-our-dspy-program">
+  ## DSPy 프로그램 최적화하기
+</div>
+
+이제 베이스라인 DSPy 프로그램이 준비되었으니, [BootstrapFewShot](https://dspy.ai/api/optimizers/BootstrapFewShot/) 텔레프롬프터를 사용해 인과 추론(causal reasoning) 성능을 향상시켜 보겠습니다. 이 텔레프롬프터는 지정한 메트릭을 최대화하도록 DSPy 프로그램의 파라미터를 조정할 수 있습니다.
+
+```python lines
+from dspy.teleprompt import BootstrapFewShot
+
+@weave.op()
+def get_optimized_program(model: dspy.Module, metadata: Metadata) -> dspy.Module:
+    @weave.op()
+    def dspy_evaluation_metric(true, prediction, trace=None):
+        return prediction["answer"].lower() == true.answer.lower()
+
+    teleprompter = BootstrapFewShot(
+        metric=dspy_evaluation_metric,
+        max_bootstrapped_demos=metadata.max_bootstrapped_demos,
+        max_labeled_demos=metadata.max_labeled_demos,
+    )
+    return teleprompter.compile(model, trainset=dspy_train_examples)
+
+optimized_module = get_optimized_program(baseline_module, metadata)
+```
+
+<Frame>
+  ![텔레프롬프터 설정 및 최적화 진행 상황이 포함된 DSPy 프로그램 최적화 프로세스 인터페이스](/media/dspy_optimization/4.png)
+</Frame>
+
+<Warning>
+  평가용 인과 추론 데이터셋을 실행하면 OpenAI 크레딧으로 약 $0.04의 비용이 발생합니다.
+</Warning>
+
+이제 최적화된 프로그램(최적화된 프롬프트 전략)이 준비되었으니, 이를 검증 세트에서 다시 한 번 평가하고 베이스라인 DSPy 프로그램과 비교해 보겠습니다.
+
+```python lines
+evaluation = weave.Evaluation(
+    name="optimized_causal_reasoning_module",
+    dataset=validation_dataset,
+    scorers=[weave_evaluation_scorer],
+)
+
+await evaluation.evaluate(optimized_module.forward)
+```
+
+<Frame>
+  ![성능 메트릭과 출력 품질이 향상된 최적화 DSPy 프로그램 평가 결과](/media/dspy_optimization/5.png)
+</Frame>
+
+베이스라인 프로그램과 최적화된 프로그램의 평가 결과를 비교해 보면, 최적화된 프로그램이 인과 추론 관련 질문에 현저히 더 높은 정확도로 답변하는 것을 확인할 수 있습니다.
+
+<div id="conclusion">
+  ## 결론
+</div>
+
+이 튜토리얼에서는 DSPy를 사용해 프롬프트를 최적화하고, Weave를 사용해 원본 프로그램과 최적화된 프로그램을 비교하기 위한 추적 및 평가를 수행하는 방법을 배웠습니다.

@@ -1,0 +1,43 @@
+---
+title: W&B Inference에서 내 국가 또는 지역이 지원되지 않는다고 표시되는 이유는 무엇인가요?
+---
+
+"Country, region, or territory not supported"라는 메시지와 함께 403 오류가 발생하는 경우, 지원되지 않는 위치에서 W&B Inference에 접속하고 있다는 뜻입니다.
+
+<div id="why-this-happens">
+  ## 이러한 일이 발생하는 이유
+</div>
+
+W&B Inference는 컴플라이언스 및 규제 요구사항으로 인해 지역 제한이 있습니다. 이 서비스는 지원되는 지역에서만 접근할 수 있습니다.
+
+<div id="what-you-can-do">
+  ## 할 수 있는 일
+</div>
+
+1. **서비스 약관 확인**
+   - 현재 지원되는 위치 목록은 [Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)를 검토하여 확인하세요
+
+2. **지원되는 위치에서 사용**
+   - 지원되는 국가나 지역에 있을 때 서비스를 이용하세요
+   - 지원되는 지역에 위치한 조직의 리소스를 활용하는 방안을 검토하세요
+
+3. **계정 담당 팀에 문의**
+   - 엔터프라이즈 고객은 담당 영업 담당자(account executive)와 가능한 옵션을 논의할 수 있습니다
+   - 일부 조직은 별도의 특별한 계약이나 합의가 있을 수 있습니다
+
+<div id="error-details">
+  ## 오류 상세 정보
+</div>
+
+다음과 같은 오류가 표시되면:
+
+```
+{
+  "error": {
+    "code": 403,
+    "message": "Country, region, or territory not supported"
+  }
+}
+```
+
+이는 API 요청을 보낸 시점의 IP 주소 위치에 따라 결정됩니다.

@@ -1,0 +1,5 @@
+---
+title: Kubernetes에서 에이전트에 필요한 권한은 무엇입니까?
+---
+
+다음 Kubernetes 매니페스트는 `wandb` 네임스페이스에 `wandb-launch-agent`라는 이름의 역할(role)을 생성합니다. 이 역할은 에이전트가 `wandb` 네임스페이스에서 Pod, ConfigMap, Secret을 생성하고 Pod 로그에 액세스할 수 있도록 허용합니다. `wandb-cluster-role`은 에이전트가 지정된 모든 네임스페이스에서 Pod를 생성하고 Pod 로그에 액세스하며, Secret과 Job을 생성하고 Job 상태를 확인할 수 있도록 합니다.

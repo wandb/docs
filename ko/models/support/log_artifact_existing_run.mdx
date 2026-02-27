@@ -1,0 +1,12 @@
+---
+title: 기존 run에 아티팩트를 로깅하려면 어떻게 하나요?
+---
+
+때때로, 이전에 로깅된 run의 출력으로 아티팩트를 지정해야 할 때가 있습니다. 이 경우, 해당 run을 다시 초기화한 뒤 다음과 같이 새 아티팩트를 로깅하세요:
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```

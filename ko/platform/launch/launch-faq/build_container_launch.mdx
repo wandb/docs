@@ -1,0 +1,17 @@
+---
+title: W&B가 컨테이너를 빌드하지 않도록 하고 싶습니다. 그래도 Launch를 사용할 수 있나요?
+---
+
+미리 빌드된 Docker 이미지로 Launch를 실행하려면 다음 명령을 실행하세요. `<>` 안의 플레이스홀더를 사용자 환경에 맞는 값으로 교체하세요.
+
+```bash
+wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
+```
+
+이 명령어는 job을 생성하고 run을 시작합니다.
+
+이미지에서 job을 생성하려면 다음 명령어를 사용하세요:
+
+```bash
+wandb job create image <image-name> -p <project> -e <entity>
+```

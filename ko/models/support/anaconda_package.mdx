@@ -1,0 +1,26 @@
+---
+title: Weights &amp; Biases용 Anaconda 패키지가 있나요?
+---
+
+`pip` 또는 `conda`를 사용해 설치할 수 있는 Anaconda 패키지가 있습니다. `conda`를 사용하는 경우, [conda-forge](https://conda-forge.org) 채널에서 패키지를 가져오세요.
+
+<Tabs>
+<Tab title="pip">
+```shell
+# conda 환경 생성
+conda create -n wandb-env python=3.8 anaconda
+# 환경 활성화
+conda activate wandb-env
+# pip을 사용하여 wandb 설치
+pip install wandb
+```
+</Tab>
+<Tab title="conda">
+```shell
+conda activate myenv
+conda install wandb --channel conda-forge
+```
+</Tab>
+</Tabs>
+
+설치와 관련해 문제가 발생하면, 도움을 받기 위해 Anaconda의 [패키지 관리 문서](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html)를 참고하세요.

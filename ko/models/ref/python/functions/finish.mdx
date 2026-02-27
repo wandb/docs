@@ -1,0 +1,32 @@
+---
+title: finish()
+namespace: python_sdk_actions
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+
+### <kbd>function</kbd> `finish`
+
+```python
+finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+```
+
+run을 종료하고 남은 데이터를 업로드합니다.
+
+W&amp;B run이 완료되었음을 표시하고 모든 데이터가 서버에 동기화되었는지 보장합니다. run의 최종 상태는 종료 조건과 동기화 상태에 따라 결정됩니다.
+
+run 상태:
+
+* Running: 데이터를 로깅하거나 하트비트를 전송하고 있는 활성 run입니다.
+* Crashed: 예기치 않게 하트비트 전송이 중단된 run입니다.
+* Finished: 모든 데이터가 동기화된 상태에서 정상적으로 완료된 (`exit_code=0`) run입니다.
+* Failed: 오류와 함께 종료된 (`exit_code!=0`) run입니다.
+
+**인수(Args):**
+
+* `exit_code`: run의 종료 상태를 나타내는 정수입니다. 성공 시 0을 사용하고, 그 외의 값은 run이 실패했음을 의미합니다.
+* `quiet`: 더 이상 사용되지 않는 옵션입니다(Deprecated). 로깅 상세 수준은 `wandb.Settings(quiet=...)`을 사용해 설정하세요.

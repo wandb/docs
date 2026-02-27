@@ -1,0 +1,46 @@
+---
+title: MetricChangeFilter
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+## <kbd>class</kbd> `MetricChangeFilter`
+
+메트릭 값의 **변화량**을 사용자가 설정한 임계값과 비교하는 필터입니다.
+
+변화량은 "tumbling" 윈도우, 즉 현재 윈도우와 겹치지 않는 바로 이전 윈도우와의 차이로 계산됩니다.
+
+### <kbd>method</kbd> `MetricChangeFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'None' = None,
+    threshold: 'Annotated | Annotated',
+    prior_window: 'int' = None,
+    change_type: 'ChangeType',
+    change_dir: 'ChangeDir'
+) → None
+```
+
+**인수:**
+
+* `name` (str):
+* `agg` (Optional[Agg]):
+* `window` (int):
+* `cmp` (None): 사용되지 않습니다.
+* `threshold` (Union[Annotated, Annotated]):
+* `prior_window` (int): &quot;prior&quot; 메트릭 집계 윈도우의 크기입니다 (`agg`가 `None`이면 사용되지 않음).
+  지정하지 않으면 현재 윈도우 크기가 기본값입니다.
+* `change_type` (ChangeType):
+* `change_dir` (ChangeDir):
+
+**반환값:**
+`MetricChangeFilter` 객체.

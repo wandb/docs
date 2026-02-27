@@ -1,0 +1,108 @@
+---
+title: Launch 큐 모니터링
+---
+
+대화형 **큐 모니터링 대시보드**를 사용해서 Launch 큐가 과부하 상태인지, 아니면 유휴 상태인지 확인하고, 실행 중인 워크로드를 시각화하며, 비효율적인 작업을 식별할 수 있습니다. Launch 큐 대시보드는 사용 중인 컴퓨트 하드웨어나 클라우드 리소스를 효과적으로 활용하고 있는지 여부를 판단하는 데 특히 유용합니다.
+
+더 심층적인 분석을 위해, 이 페이지에서는 W&B experiment tracking 워크스페이스와 Datadog, NVIDIA Base Command, 클라우드 콘솔과 같은 외부 인프라 모니터링 제공업체로 이동할 수 있는 링크를 제공합니다.
+
+<Note>
+큐 모니터링 대시보드는 현재 W&B Multi-tenant Cloud 배포 옵션에서만 사용할 수 있습니다.
+</Note>
+
+<div id="dashboard-and-plots">
+  ## 대시보드와 플롯
+</div>
+
+**Monitor** 탭을 사용하여 지난 7일 동안 큐에서 이루어진 활동을 확인할 수 있습니다. 왼쪽 패널을 사용해 시간 범위, 그룹화, 필터를 설정합니다.
+
+대시보드에는 성능과 효율성에 대한 일반적인 질문에 답하는 여러 플롯이 제공됩니다. 다음 섹션에서는 큐 대시보드의 UI 요소를 설명합니다.
+
+<div id="job-status">
+  ### Job status
+</div>
+
+**Job status** 플롯은 각 시간 구간마다 실행 중, 보류 중, 대기 중, 완료된 잡의 개수를 보여줍니다. 큐에 유휴 구간이 있는지를 파악할 때 **Job status** 플롯을 사용하십시오.
+
+<Frame>
+  <img src="/images/launch/launch_obs_jobstatus.png" alt="Job status 타임라인" />
+</Frame>
+
+예를 들어, 고정 리소스(예: DGX BasePod)를 가지고 있다고 가정해 봅시다. 해당 고정 리소스를 사용하는 큐에서 유휴 구간이 관찰된다면, Sweeps와 같은 저우선순위 선점 가능 Launch 잡을 실행할 수 있는 기회일 수 있습니다.
+
+반면에 클라우드 리소스를 사용하고 주기적인 활동 급증이 보인다고 가정해 봅시다. 활동이 주기적으로 급증한다면, 특정 시간대에 리소스를 예약하여 비용을 절감할 수 있는 기회일 수 있습니다.
+
+플롯 오른쪽에는 [Launch 잡의 상태](./launch-view-jobs#check-the-status-of-a-job)를 나타내는 색상 범례가 있습니다.
+
+<Note>
+  `Queued` 항목은 워크로드를 다른 큐로 옮길 수 있는 기회를 의미할 수 있습니다. 실패가 급증하는 경우 Launch 잡 설정에 도움이 필요할 수 있는 사용자를 식별할 수 있습니다.
+</Note>
+
+{/* 아래 플롯에서 더 자세한 내용을 보려면 범위를 선택하고, 전체 페이지를 필터링하려면 Zoom을 사용하세요. */}
+
+
+<div id="queued-time">
+  ### 대기 시간
+</div>
+
+**Queued time** 플롯은 특정 날짜 또는 시간 범위 동안 Launch 잡이 큐에 대기한 시간(초)을 보여줍니다. 
+
+<Frame>
+    <img src="/images/launch/launch_obs_queuedtime.png" alt="Queued time metrics"  />
+</Frame>
+
+x축에는 지정한 시간 범위가 표시되고, y축에는 Launch 잡이 Launch 큐에서 대기한 시간(초)이 표시됩니다. 예를 들어, 어떤 날에 Launch 잡 10개가 큐에 대기했다고 가정해 봅시다. 이때 10개의 Launch 잡이 각각 평균 60초씩 대기했다면 **Queued time** 플롯에는 600초가 표시됩니다.
+
+<Note>
+**Queued time** 플롯을 사용하여 긴 큐 대기 시간의 영향을 받는 사용자를 파악하세요.
+</Note>
+
+왼쪽 사이드바의 `Grouping` 컨트롤을 사용해 각 잡의 색상을 사용자 지정합니다.
+
+이는 큐 용량이 부족할 때 어떤 사용자와 잡이 가장 큰 불편을 겪고 있는지 파악하는 데 특히 유용합니다.
+
+<div id="job-runs">
+  ### Job runs
+</div>
+
+<Frame>
+    <img src="/images/launch/launch_obs_jobruns2.png" alt="Job runs timeline"  />
+</Frame>
+
+이 플롯에서는 특정 기간 동안 실행된 각 job의 시작과 종료 시점을 보여 주며, 각 run은 서로 다른 색으로 표시됩니다. 이를 통해 특정 시점에 큐가 어떤 워크로드를 처리하고 있었는지 한눈에 쉽게 파악할 수 있습니다.  
+
+패널 오른쪽 아래에 있는 Select 도구로 job을 드래그해 선택하면, 아래 표에 해당 job의 세부 정보가 채워집니다.
+
+<div id="cpu-and-gpu-usage">
+  ### CPU 및 GPU 사용량
+</div>
+
+**GPU use by a job**, **CPU use by a job**, **GPU memory by job**, **System memory by job**를 사용하여 Launch 작업의 효율성을 확인합니다. 
+
+<Frame>
+    <img src="/images/launch/launch_obs_gpu.png" alt="GPU usage metrics"  />
+</Frame>
+
+예를 들어 **GPU memory by job**을(를) 사용하여 W&B run이 완료되기까지 오래 걸렸는지, 그리고 CPU 코어를 낮은 비율로만 사용했는지를 확인할 수 있습니다.
+
+각 플롯의 x축은 Launch 작업에 의해 생성된 W&B run의 지속 시간을 초 단위로 표시합니다. 데이터 포인트 위에 마우스를 올리면 run ID, run이 속한 프로젝트, 해당 W&B run을 생성한 Launch 작업 등 W&B run에 대한 정보를 볼 수 있습니다.
+
+<div id="errors">
+  ### Errors
+</div>
+
+**Errors** 패널은 특정 Launch 큐에서 발생한 에러를 보여줍니다. 보다 구체적으로, Errors 패널에는 에러가 발생한 시점의 타임스탬프, 에러가 발생한 Launch 잡의 이름, 그리고 생성된 에러 메시지가 표시됩니다. 기본적으로 에러는 최신 순에서 오래된 순으로 정렬됩니다. 
+
+<Frame>
+    <img src="/images/launch/launch_obs_errors.png" alt="Error logs panel"  />
+</Frame>
+
+**Errors** 패널을 사용해 영향을 받은 사용자를 식별하고 문제를 해소할 수 있습니다. 
+
+<div id="external-links">
+  ## 외부 링크
+</div>
+
+큐 관측 대시보드의 화면은 모든 큐 유형에서 동일하지만, 많은 상황에서 환경별 모니터로 바로 이동할 수 있으면 유용합니다. 이를 위해 콘솔에서 큐 관측 대시보드에 직접 링크를 추가합니다.
+
+페이지 하단에서 `Manage Links`를 클릭해 패널을 엽니다. 원하는 페이지의 전체 URL을 추가합니다. 그다음 레이블을 추가합니다. 추가한 링크는 **External Links** 섹션에 표시됩니다.

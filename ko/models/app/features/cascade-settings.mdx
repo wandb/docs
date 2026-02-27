@@ -1,0 +1,144 @@
+---
+title: 워크스페이스, 섹션, 패널 설정 관리
+---
+
+특정 워크스페이스 페이지에는 워크스페이스, 섹션, 패널의 세 가지 서로 다른 설정 단계가 있습니다. [Workspace settings](#workspace-settings)은 워크스페이스 전체에 적용됩니다. [Section settings](#section-settings)은 섹션 내의 모든 패널에 적용됩니다. [Panel settings](#panel-settings)은 개별 패널에 적용됩니다.
+
+<div id="workspace-settings">
+  ## Workspace 설정
+</div>
+
+Workspace 설정은 모든 섹션과 각 섹션 안의 모든 패널에 적용됩니다. [Workspace layout](#workspace-layout-options)과 [Line plots](#line-plots-options), 두 가지 Workspace 설정을 수정할 수 있습니다. **Workspace layouts**는 워크스페이스의 구조를 결정하고, **Line plots** 설정은 워크스페이스에서 선형 플롯의 기본 설정을 제어합니다.
+
+이 워크스페이스의 전체 구조에 적용되는 설정을 편집하려면 다음을 수행하세요.
+
+1. 프로젝트 워크스페이스로 이동합니다.
+2. Workspace 설정을 보려면 **New report** 버튼 옆의 기어 아이콘을 클릭합니다.
+3. 워크스페이스 레이아웃을 변경하려면 **Workspace layout**을, 워크스페이스에서 선형 플롯의 기본 설정을 구성하려면 **Line plots**를 선택합니다.
+
+<Frame>
+  <img src="/images/app_ui/workspace_settings.png" alt="Workspace 설정 기어 아이콘" />
+</Frame>
+
+<Note>
+  워크스페이스를 원하는 대로 구성한 후에는 &#95;워크스페이스 템플릿(workspace templates)&#95;을 사용하여 동일한 설정으로 새 워크스페이스를 빠르게 만들 수 있습니다. [Workspace templates](/ko/models/track/workspaces/#workspace-templates)를 참고하세요.
+</Note>
+
+<div id="workspace-layout-options">
+  ### Workspace 레이아웃 옵션
+</div>
+
+워크스페이스 레이아웃을 구성하여 워크스페이스 전반의 구조를 정의합니다. 여기에는 섹션 구성 방식과 패널 배치가 포함됩니다.
+
+<Frame>
+  <img src="/images/app_ui/workspace_layout_settings.png" alt="Workspace layout options" />
+</Frame>
+
+Workspace 레이아웃 옵션 페이지에서는 워크스페이스가 패널을 자동으로 생성하는지, 수동으로 생성하는지를 확인할 수 있습니다. 워크스페이스의 패널 생성 모드를 조정하려면 [Panels](/ko/models/app/features/panels/)를 참조하세요.
+
+다음 표는 각 Workspace 레이아웃 옵션을 설명합니다.
+
+| Workspace setting | Description |
+| ----- | ----- |
+| **검색 중 빈 섹션 숨기기** | 패널을 검색할 때 패널이 하나도 포함되지 않은 섹션을 숨깁니다.|
+| **패널을 알파벳 순으로 정렬** | 워크스페이스의 패널을 알파벳 순으로 정렬합니다. |
+| **섹션 구성** | 기존 섹션과 패널을 모두 제거한 뒤 새로운 섹션 이름으로 다시 채웁니다. 새로 채워진 섹션은 첫 번째 접두사 또는 마지막 접두사를 기준으로 그룹화됩니다. |
+
+<Note>
+  W&amp;B는 마지막 접두사로 그룹화하는 것보다 첫 번째 접두사로 그룹화하여 섹션을 구성할 것을 권장합니다. 첫 번째 접두사로 그룹화하면 섹션 수를 줄이고 성능을 향상시킬 수 있습니다.
+</Note>
+
+<div id="line-plots-options">
+  ### 선 그래프 옵션
+</div>
+
+**Line plots** 워크스페이스 설정을 수정해서 워크스페이스의 선 그래프에 대한 전역 기본값과 사용자 지정 규칙을 설정할 수 있습니다.
+
+<Frame>
+  <img src="/images/app_ui/workspace_settings_line_plots.png" alt="선 그래프 설정" />
+</Frame>
+
+**Line plots** 설정에서 편집할 수 있는 주요 설정은 **Data**와 **Display preferences** 두 가지입니다. **Data** 탭에는 다음 설정이 포함됩니다:
+
+| Line plot setting | Description |
+| ----- | ----- |
+| **X axis** |  선 그래프에서 x축의 스케일입니다. 기본적으로 x축은 **Step**으로 설정됩니다. 사용 가능한 x축 옵션 목록은 다음 표를 참조하세요. |
+| **Range** |  x축에 표시할 최소 및 최대 값 설정입니다. |
+| **Smoothing** | 선 그래프의 스무딩 정도를 변경합니다. 스무딩에 대한 자세한 내용은 [Smooth line plots](/ko/models/app/features/panels/line-plot/smoothing/)를 참조하세요. |
+| **Outliers** | 기본 그래프 최소/최대 스케일에서 이상값을 제외하도록 스케일을 재조정합니다. |
+| **Point aggregation method** | 데이터 시각화 정확도와 성능을 향상합니다. 자세한 내용은 [Point aggregation](/ko/models/app/features/panels/line-plot/sampling/)을 참조하세요. |
+| **Max number of runs or groups** | 선 그래프에 표시되는 run 또는 그룹의 최대 개수를 제한합니다. |
+
+**Step** 외에도, x축에는 다음과 같은 옵션이 있습니다:
+
+| X axis option | Description |
+| ------------- | ----------- |
+| **Relative Time (Wall)**| 프로세스가 시작된 이후의 타임스탬프입니다. 예를 들어, run을 시작한 후 다음 날 그 run을 다시 이어서 실행한다고 가정해 봅시다. 그때 어떤 값을 로깅하면, 기록된 지점은 24시간이 됩니다.|
+| **Relative Time (Process)** | 실행 중인 프로세스 내부의 타임스탬프입니다. 예를 들어, run을 시작하고 10초 동안 실행되도록 둔다고 가정해 봅시다. 다음 날 그 run을 다시 이어서 실행하면, 해당 지점은 10초로 기록됩니다. |
+| **Wall Time** | 그래프에서 첫 번째 run이 시작된 이후 경과한 시간(분)입니다. |
+| **Step** | `wandb.Run.log()`를 호출할 때마다 1씩 증가합니다.|
+
+<Note>
+  개별 선 그래프를 편집하는 방법은 Line plots의 [Edit line panel settings](/ko/models/app/features/panels/line-plot/#edit-line-panel-settings)를 참조하세요.
+</Note>
+
+**Display preferences** 탭에서는 다음 설정을 토글할 수 있습니다:
+
+| Display preference | Description |
+| ----- | ----- |
+| **Remove legends from all panels** | 모든 패널에서 범례를 제거합니다. |
+| **Display colored run names in tooltips** | 툴팁에서 run 이름을 색상이 적용된 텍스트로 표시합니다. |
+| **Only show highlighted run in companion chart tooltip** | 보조 차트 툴팁에 하이라이트된 run만 표시합니다. |
+| **Number of runs shown in tooltips** | 툴팁에 표시되는 run 개수를 설정합니다. |
+| **Display full run names on the primary chart tooltip**| 기본 차트 툴팁에 run의 전체 이름을 표시합니다. |
+
+<div id="section-settings">
+  ## 섹션 설정
+</div>
+
+섹션 설정은 해당 섹션 내의 모든 패널에 적용됩니다. 워크스페이스 섹션에서 패널을 정렬하고 재배치하며, 섹션 이름을 변경할 수 있습니다.
+
+섹션 오른쪽 상단에 있는 가로 점 세 개(**...**)를 선택해 섹션 설정을 수정합니다.
+
+<Frame>
+  <img src="/images/app_ui/section_settings.png" alt="섹션 설정 메뉴" />
+</Frame>
+
+드롭다운 메뉴에서 전체 섹션에 적용되는 다음 설정을 편집할 수 있습니다:
+
+| Section setting | Description |
+| ----- | ----- |
+| **Rename a section** | 섹션 이름을 변경합니다 |
+| **Sort panels A-Z** | 섹션 내 패널을 알파벳 순으로 정렬합니다 |
+| **Rearrange panels** | 섹션 내 패널을 선택해 드래그하여 패널의 순서를 직접 지정합니다 |
+
+다음 애니메이션은 섹션 내에서 패널을 재배치하는 방법을 보여줍니다:
+
+<Frame>
+  <img src="/images/app_ui/rearrange_panels.gif" alt="패널 재배치" />
+</Frame>
+
+<Note>
+  위 표에 설명된 설정 외에도 **Add section below**, **Add section above**, **Delete section**, **Add section to report**와 같이 워크스페이스에서 섹션이 표시되는 방식을 편집할 수 있습니다.
+</Note>
+
+<div id="panel-settings">
+  ## 패널 설정
+</div>
+
+개별 패널의 설정을 사용자 지정하여 하나의 플롯에서 여러 선을 비교하고, 사용자 정의 축을 계산하고, 레이블 이름을 바꾸는 등의 작업을 할 수 있습니다. 패널 설정을 편집하려면:
+
+1. 편집하려는 패널 위에 마우스를 올립니다.
+2. 표시되는 연필 아이콘을 선택합니다.
+
+<Frame>
+  <img src="/images/app_ui/panel_settings.png" alt="패널 편집 아이콘" />
+</Frame>
+
+3. 표시되는 모달에서 패널의 데이터, 표시 설정 등과 관련된 옵션을 편집할 수 있습니다.
+
+<Frame>
+  <img src="/images/app_ui/panel_settings_modal.png" alt="패널 설정 모달" />
+</Frame>
+
+패널에 적용할 수 있는 설정의 전체 목록은 [선 패널 설정 편집](/ko/models/app/features/panels/line-plot/#edit-line-panel-settings)을 참조하세요.

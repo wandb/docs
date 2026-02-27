@@ -1,0 +1,51 @@
+---
+title: "wrapOpenAI"
+description: "TypeScript SDK 참조"
+---
+
+<div id="wrapopenai">
+  # wrapOpenAI
+</div>
+
+▸ **wrapOpenAI**\<`T`\>(`openai`): `T`
+
+OpenAI 호출을 추적할 수 있도록 OpenAI API를 래핑합니다.
+
+<div id="type-parameters">
+  #### 타입 매개변수
+</div>
+
+| 이름 | 타입 |
+| :------ | :------ |
+| `T` | extends `OpenAIAPI` |
+
+<div id="parameters">
+  #### 매개변수
+</div>
+
+| 이름 | 타입 |
+| :------ | :------ |
+| `openai` | `T` |
+
+<div id="returns">
+  #### 반환값
+</div>
+
+`T`
+
+`예시`
+
+```ts
+const openai = wrapOpenAI(new OpenAI());
+const result = await openai.chat.completions.create({
+  model: 'gpt-3.5-turbo',
+  messages: [{ role: 'user', content: 'Hello, world!' }]
+});
+```
+
+
+<div id="defined-in">
+  #### 정의된 위치
+</div>
+
+[integrations/openai.ts:469](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/integrations/openai.ts#L469)

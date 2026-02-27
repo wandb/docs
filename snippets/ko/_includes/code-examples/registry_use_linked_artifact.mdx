@@ -1,0 +1,25 @@
+---
+title: "Registry에서 링크된 아티팩트 사용하기"
+---
+
+```python
+"""
+레지스트리 컬렉션에서 특정 버전의 아티팩트를 가져옵니다.
+"""
+
+import wandb
+
+# 레지스트리, 컬렉션, 아티팩트 버전 세부 정보 정의
+registry = "<registry_name>"
+collection = "<collection_name>"
+version = "<version>"
+
+# 버전을 포함한 전체 아티팩트 이름 구성
+artifact_name = f"wandb-registry-{registry}/{collection}:{version}"
+
+# W&B API 초기화
+api = wandb.Api()
+
+# 지정된 레지스트리 컬렉션 및 버전에서 아티팩트 가져오기
+artifact = api.artifact(name = artifact_name)
+```

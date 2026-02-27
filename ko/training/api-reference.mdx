@@ -1,0 +1,76 @@
+---
+title: API 개요
+description: W&B Training을 위한 전체 API 문서
+---
+
+<Note>
+  W&amp;B Training API는 서버리스 강화학습(RL)과 지도 파인튜닝(SFT)을 포함한 트레이닝 작업을 관리하고 상호 작용할 수 있는 엔드포인트를 제공합니다. 이 API는 chat completion 기능에서 OpenAI와 호환됩니다.
+</Note>
+
+<div id="authentication">
+  ## 인증
+</div>
+
+모든 API 요청에는 W&amp;B API 키를 사용한 인증이 필요합니다. [wandb.ai/settings](https://wandb.ai/settings)에서 API 키를 생성하세요.
+
+`Authorization` 헤더에 API 키를 포함하세요:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+<div id="base-url">
+  ## 기본 URL
+</div>
+
+```
+https://api.training.wandb.ai/v1
+```
+
+<div id="available-endpoints">
+  ## 지원되는 엔드포인트
+</div>
+
+<div id="chat-completions">
+  ### chat-completions
+</div>
+
+* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Chat completion 생성
+* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Chat completion 생성
+
+<div id="models">
+  ### Models
+</div>
+
+* **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model)** - 모델 생성
+* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - 모델 삭제
+* **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints)** - 모델 체크포인트 삭제
+* **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - 모델 체크포인트 목록 조회
+* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - 로그 기록
+
+<div id="training-jobs">
+  ### training-jobs
+</div>
+
+* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - SFT 트레이닝 작업 생성
+* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - RL 트레이닝 작업 생성
+* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - 트레이닝 작업 조회
+* **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - 트레이닝 작업 이벤트 조회
+
+<div id="health">
+  ### 상태
+</div>
+
+* **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - 헬스 체크
+* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - 시스템 체크
+
+<div id="related-resources">
+  ## 관련 자료
+</div>
+
+* [W&amp;B Training 개요](/ko/training)
+* [사전 준비 사항](/ko/training/prerequisites)
+* [서버리스 SFT](/ko/training/sft-training)
+* [학습된 모델 사용하기](/ko/training/serverless-rl/use-trained-models)
+* [사용 가능한 모델](/ko/training/serverless-rl/available-models)
+* [사용량 한도](/ko/training/serverless-rl/usage-limits)

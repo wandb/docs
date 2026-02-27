@@ -1,0 +1,85 @@
+---
+description: W&amp;B run 내부 및 외부에서 기존 아티팩트를 업데이트합니다.
+title: 아티팩트 업데이트
+---
+
+원하는 값을 전달하여 아티팩트의 `description`, `metadata`, `alias`를 업데이트합니다. `save()` 메서드를 호출해 W&amp;B 서버의 아티팩트를 업데이트합니다. 아티팩트는 W&amp;B run 중이거나 run 외부에서 모두 업데이트할 수 있습니다.
+
+<Note>
+  **Artifact.save() 또는 wandb.Run.log&#95;artifact()를 언제 사용할지**
+
+  * 새 run을 생성하지 않고 기존 아티팩트를 업데이트하려면 `Artifact.save()`를 사용합니다.
+  * 새 아티팩트를 생성하고 특정 run과 연결하려면 `wandb.Run.log_artifact()`를 사용합니다.
+</Note>
+
+run 외부에서 아티팩트를 업데이트하려면 W&amp;B Public API([`wandb.Api`](/ko/models/ref/python/public-api/api))를 사용합니다. run 중에 아티팩트를 업데이트하려면 Artifact API([`wandb.Artifact`](/ko/models/ref/python/experiments/artifact))를 사용합니다.
+
+<Warning>
+  Model Registry에서 모델에 연결된 아티팩트의 alias는 업데이트할 수 없습니다.
+</Warning>
+
+<Tabs>
+  <Tab title="run 중에">
+    다음 코드 예제는 [`wandb.Artifact`](/ko/models/ref/python/experiments/artifact) API를 사용해 아티팩트의 description을 업데이트하는 방법을 보여줍니다:
+
+    ```python
+    import wandb
+
+    with wandb.init(project="<example>") as run:
+        artifact = run.use_artifact("<artifact-name>:<alias>")
+        artifact.description = "<description>"
+        artifact.save()
+    ```
+  </Tab>
+
+  <Tab title="run 외부에서">
+    다음 코드 예제는 `wandb.Api` API를 사용해 아티팩트의 description을 업데이트하는 방법을 보여줍니다:
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    artifact = api.artifact("entity/project/artifact:alias")
+
+    # description 업데이트
+    artifact.description = "My new description"
+
+    # metadata 키를 선택적으로 업데이트
+    artifact.metadata["oldKey"] = "new value"
+
+    # metadata 전체를 교체
+    artifact.metadata = {"newKey": "new value"}
+
+    # alias 추가
+    artifact.aliases.append("best")
+
+    # alias 제거
+    artifact.aliases.remove("latest")
+
+    # alias 전체를 교체
+    artifact.aliases = ["replaced"]
+
+    # 아티팩트 수정 내용 모두 저장
+    artifact.save()
+    ```
+
+    자세한 내용은 Weights &amp; Biases [Artifact API](/ko/models/ref/python/experiments/artifact)를 참조하세요.
+  </Tab>
+
+  <Tab title="컬렉션과 함께 사용하기">
+    단일 아티팩트와 동일한 방식으로 Artifact 컬렉션도 업데이트할 수 있습니다:
+
+    ```python
+    import wandb
+    with wandb.init(project="<example>") as run:
+        api = wandb.Api()
+        artifact = api.artifact_collection(type="<type-name>", collection="<collection-name>")
+        artifact.name = "<new-collection-name>"
+        artifact.description = "<This is where you'd describe the purpose of your collection.>"
+        artifact.save()
+    ```
+
+    자세한 내용은 [Artifacts Collection](/ko/models/ref/python/public-api/api) 레퍼런스를 참조하세요.
+  </Tab>
+</Tabs>

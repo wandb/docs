@@ -1,0 +1,16 @@
+---
+title: Launch에서 병렬 실행을 지원하나요? 잡이 사용하는 리소스는 어떻게 제한하나요?
+---
+
+Launch는 여러 GPU와 노드에 걸쳐 잡을 스케일링하는 것을 지원합니다. 자세한 내용은 [Volcano 인테그레이션 가이드](/ko/models/integrations)를 참고하세요.
+
+각 Launch 에이전트에는 `max_jobs` 파라미터가 설정되며, 이 값이 동시에 실행할 수 있는 최대 잡 수를 결정합니다. 여러 에이전트가 적절한 실행 인프라에 연결되어 있다면 하나의 큐를 함께 바라볼 수 있습니다.
+
+큐 또는 job run 수준에서 CPU, GPU, 메모리 및 기타 리소스에 대한 제한을 리소스 설정에서 구성할 수 있습니다. Kubernetes에서 리소스 한도가 있는 큐를 설정하는 방법은 [Kubernetes 설정 가이드](/ko/platform/launch/setup-launch-kubernetes/)를 참조하세요.
+
+스윕의 경우, 동시에 실행되는 run 수를 제한하려면 큐 설정에 다음 블록을 포함하세요:
+
+```yaml title="queue config"
+  scheduler:
+    num_workers: 4
+```

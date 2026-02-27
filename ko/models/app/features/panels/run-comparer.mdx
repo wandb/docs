@@ -1,0 +1,31 @@
+---
+description: 여러 run의 메트릭을 비교합니다
+title: run 메트릭 비교하기
+---
+
+프로젝트의 여러 run 간 차이점과 공통점을 확인하려면 Run Comparer를 사용하세요.
+
+<div id="add-a-run-comparer-panel">
+  ## Run Comparer 패널 추가
+</div>
+
+1. 페이지 오른쪽 상단에 있는 **Add panels** 버튼을 클릭합니다.
+2. **Evaluation** 섹션에서 **Run comparer**를 선택합니다.
+
+<div id="use-run-comparer">
+  ## Run Comparer 사용하기
+</div>
+
+Run Comparer는 프로젝트에서 처음 표시되는 10개의 run에 대해 설정과 기록된 메트릭을 보여주며, 각 run은 하나의 열에 표시됩니다.
+
+* 비교할 run을 변경하려면 왼쪽에 있는 run 목록에서 검색, 필터링, 그룹화 또는 정렬을 사용합니다. Run Comparer는 자동으로 업데이트됩니다.
+* Run Comparer 상단의 검색 필드를 사용해서 Python 버전이나 run 생성 시간과 같은 설정 키 또는 메타데이터 키를 검색하거나 필터링합니다.
+* 차이점만 빠르게 보고 동일한 값을 숨기려면 패널 상단에서 **Diff only** 토글을 사용합니다.
+* 열 너비나 행 높이를 조정하려면 패널 상단의 서식 버튼을 사용합니다.
+* 설정 값이나 메트릭 값을 복사하려면 값 위에 마우스를 올린 다음 복사 버튼을 클릭합니다. 값이 화면에 전부 표시되지 않더라도 전체 값이 복사됩니다.
+
+<Note>
+  기본적으로 Run Comparer는 [`job_type`](/ko/models/ref/python/functions/init)이 서로 다른 값을 가지는 run을 구분하지 않습니다. 즉, 하나의 프로젝트 안에서 서로 비교하기에 적합하지 않은 run을 비교할 수도 있습니다. 예를 들어, 트레이닝 run과 모델 평가 run을 비교할 수 있습니다. 트레이닝 run에는 run 로그, 하이퍼파라미터, 트레이닝 손실 메트릭, 그리고 모델 자체가 포함될 수 있습니다. 평가 run은 새로운 트레이닝 데이터에서 모델의 성능을 확인하기 위해 모델을 사용할 수 있습니다.
+
+  Runs Table에서 run 목록을 검색, 필터링, 그룹화 또는 정렬하면 Run Comparer는 자동으로 업데이트되어 처음 10개의 run을 비교합니다. `job_type`으로 목록을 필터링하거나 정렬하는 것처럼, Runs Table 내에서 필터링하거나 검색해서 비슷한 run을 비교할 수 있습니다. run 필터링에 대해 더 알아보려면 [filtering runs](/ko/models/runs/filter-runs/)를 참고하세요.
+</Note>

@@ -1,0 +1,208 @@
+---
+title: LlamaIndex
+description: "Weave를 사용해 LlamaIndex 애플리케이션의 모든 LLM 호출, RAG 파이프라인, 에이전트 단계, 그리고 평가를 자동으로 추적하고 디버깅하여 데이터와 연결된 AI 워크플로우에 대한 종합적인 가시성을 제공합니다."
+---
+
+Weave는 [LlamaIndex Python 라이브러리](https://github.com/run-llama/llama_index)를 통해 이루어지는 모든 호출의 추적과 로깅을 간소화하도록 설계되었습니다.
+
+LLM을 사용할 때 디버깅은 피할 수 없습니다. 모델 호출이 실패하거나, 출력 형식이 잘못되었거나, 중첩된 모델 호출이 혼란을 야기하는 경우 문제의 원인을 정확히 찾는 것은 쉽지 않습니다. [LlamaIndex](https://docs.llamaindex.ai/en/stable/) 애플리케이션은 여러 단계와 다수의 LLM 호출로 구성되는 경우가 많기 때문에, 체인과 에이전트의 내부 동작을 이해하는 것이 매우 중요합니다.
+
+Weave는 LlamaIndex 애플리케이션의 트레이스를 자동으로 캡처하여 이 과정을 단순화합니다. 이를 통해 애플리케이션의 성능을 모니터링하고 분석할 수 있으며, LLM 워크플로를 디버깅하고 최적화하기가 더 쉬워집니다. 또한 Weave는 평가 워크플로에도 도움을 줍니다.
+
+<div id="getting-started">
+  ## 시작하기
+</div>
+
+시작하려면 스크립트의 맨 처음에 `weave.init()`만 호출하면 됩니다. `weave.init()`에 전달하는 인수는 트레이스를 정리하는 데 도움이 되는 프로젝트 이름입니다.
+
+```python lines {5}
+import weave
+from llama_index.core.chat_engine import SimpleChatEngine
+
+# 프로젝트 이름으로 Weave 초기화
+weave.init("llamaindex_demo")
+
+chat_engine = SimpleChatEngine.from_defaults()
+response = chat_engine.chat(
+    "Say something profound and romantic about fourth of July"
+)
+print(response)
+```
+
+위 예시에서는 내부적으로 OpenAI 호출을 수행하는 간단한 LlamaIndex 챗 엔진을 생성합니다. 아래 트레이스를 확인해 보세요:
+
+[![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
+
+<div id="tracing">
+  ## 트레이싱
+</div>
+
+LlamaIndex는 데이터를 LLM과 쉽게 연결할 수 있는 라이브러리로 잘 알려져 있습니다. 간단한 RAG 애플리케이션은 임베딩 단계, 검색 단계, 그리고 응답 합성 단계를 거칩니다. 복잡성이 증가할수록 개발 및 프로덕션 환경 모두에서 각 단계의 트레이스를 중앙 데이터베이스에 저장하는 것이 중요해집니다.
+
+이러한 트레이스는 애플리케이션을 디버깅하고 개선하는 데 필수적입니다. Weave는 LlamaIndex 라이브러리를 통해 수행되는 모든 호출(프롬프트 템플릿, LLM 호출, 도구, 에이전트 단계 포함)을 자동으로 추적합니다. Weave 웹 인터페이스에서 이 트레이스를 확인할 수 있습니다.
+
+아래는 LlamaIndex의 [Starter Tutorial (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/)에 나오는 간단한 RAG 파이프라인 예시입니다:
+
+```python lines {5}
+import weave
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+# 프로젝트 이름으로 Weave를 초기화합니다
+weave.init("llamaindex_demo")
+
+# `data` 디렉토리에 `.txt` 파일이 있다고 가정합니다
+documents = SimpleDirectoryReader("data").load_data()
+index = VectorStoreIndex.from_documents(documents)
+
+query_engine = index.as_query_engine()
+response = query_engine.query("What did the author do growing up?")
+print(response)
+```
+
+트레이스 타임라인은 &quot;이벤트&quot;를 기록할 뿐만 아니라, 가능한 경우 실행 시간, 비용, 토큰 수까지 함께 캡처합니다. 트레이스를 드릴다운하여 각 단계의 입력과 출력을 확인하세요.
+
+[![llamaindex\_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
+
+<div id="one-click-observability">
+  ## 원클릭 observability 🔭
+</div>
+
+LlamaIndex는 프로덕션 환경에서 원칙에 기반한 LLM 애플리케이션을 구축할 수 있도록 [원클릭 observability 🔭](https://docs.llamaindex.ai/en/stable/module_guides/observability/)를 제공합니다.
+
+이 인테그레이션은 LlamaIndex의 이 기능을 활용해 [`WeaveCallbackHandler()`](https://github.com/wandb/weave/blob/master/weave/integrations/llamaindex/llamaindex.py)를 `llama_index.core.global_handler`로 자동 설정합니다. 따라서 LlamaIndex와 Weave를 함께 사용하는 경우, Weave run만 초기화하면 됩니다: `weave.init(<name-of-project>)`
+
+<div id="create-a-model-for-easier-experimentation">
+  ## 더 쉬운 실험을 위한 `Model` 생성
+</div>
+
+다양한 사용 사례에 맞는 애플리케이션에서 LLM을 구성하고 평가하는 작업은 프롬프트, 모델 설정, 추론 파라미터 등 여러 구성 요소가 얽혀 있어 어렵습니다. [`weave.Model`](/ko/weave/guides/core-types/models)을 사용하면 시스템 프롬프트나 사용하는 모델과 같은 실험 관련 세부 정보를 캡처하고 정리하여, 서로 다른 반복 버전을 더 쉽게 비교할 수 있습니다.
+
+다음 예시는 [weave/data](https://github.com/wandb/weave/tree/master/data) 폴더에 있는 데이터를 사용하여 `WeaveModel` 안에 LlamaIndex 쿼리 엔진을 빌드하는 방법을 보여줍니다:
+
+```python lines {16,52,61}
+import weave
+
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.llms.openai import OpenAI
+from llama_index.core import PromptTemplate
+
+
+PROMPT_TEMPLATE = """
+You are given with relevant information about Paul Graham. Answer the user query only based on the information provided. Don't make up stuff.
+
+User Query: {query_str}
+Context: {context_str}
+Answer:
+"""
+
+class SimpleRAGPipeline(weave.Model):
+    chat_llm: str = "gpt-4"
+    temperature: float = 0.1
+    similarity_top_k: int = 2
+    chunk_size: int = 256
+    chunk_overlap: int = 20
+    prompt_template: str = PROMPT_TEMPLATE
+
+    def get_llm(self):
+        return OpenAI(temperature=self.temperature, model=self.chat_llm)
+
+    def get_template(self):
+        return PromptTemplate(self.prompt_template)
+
+    def load_documents_and_chunk(self, data):
+        documents = SimpleDirectoryReader(data).load_data()
+        splitter = SentenceSplitter(
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap,
+        )
+        nodes = splitter.get_nodes_from_documents(documents)
+        return nodes
+
+    def get_query_engine(self, data):
+        nodes = self.load_documents_and_chunk(data)
+        index = VectorStoreIndex(nodes)
+
+        llm = self.get_llm()
+        prompt_template = self.get_template()
+
+        return index.as_query_engine(
+            similarity_top_k=self.similarity_top_k,
+            llm=llm,
+            text_qa_template=prompt_template,
+        )
+
+    @weave.op()
+    def predict(self, query: str):
+        query_engine = self.get_query_engine(
+            # 이 데이터는 weave 저장소의 data/paul_graham 경로에서 찾을 수 있습니다
+            "data/paul_graham",
+        )
+        response = query_engine.query(query)
+        return {"response": response.response}
+
+weave.init("test-llamaindex-weave")
+
+rag_pipeline = SimpleRAGPipeline()
+response = rag_pipeline.predict("What did the author do growing up?")
+print(response)
+```
+
+`weave.Model`에서 상속한 이 `SimpleRAGPipeline` 클래스는 이 RAG 파이프라인의 핵심 파라미터들을 한데 모아 관리합니다. `query` 메서드에 `weave.op()` 데코레이터를 적용하면 트레이싱을 수행할 수 있습니다.
+
+[![llamaindex\_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
+
+<div id="doing-evaluation-with-weaveevaluation">
+  ## `weave.Evaluation`으로 평가 수행하기
+</div>
+
+평가는 애플리케이션의 성능을 측정하는 데 도움이 됩니다. [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용하면 특정 작업이나 데이터셋에서 모델이 얼마나 잘 동작하는지 기록할 수 있어, 서로 다른 모델과 애플리케이션 이터레이션을 더 쉽게 비교할 수 있습니다. 다음 예제는 우리가 생성한 모델을 어떻게 평가하는지 보여줍니다:
+
+```python lines {25,32,36}
+import asyncio
+from llama_index.core.evaluation import CorrectnessEvaluator
+
+eval_examples = [
+    {
+        "id": "0",
+        "query": "What programming language did Paul Graham learn to teach himself AI when he was in college?",
+        "ground_truth": "Paul Graham learned Lisp to teach himself AI when he was in college.",
+    },
+    {
+        "id": "1",
+        "query": "What was the name of the startup Paul Graham co-founded that was eventually acquired by Yahoo?",
+        "ground_truth": "The startup Paul Graham co-founded that was eventually acquired by Yahoo was called Viaweb.",
+    },
+    {
+        "id": "2",
+        "query": "What is the capital city of France?",
+        "ground_truth": "I cannot answer this question because no information was provided in the text.",
+    },
+]
+
+llm_judge = OpenAI(model="gpt-4", temperature=0.0)
+evaluator = CorrectnessEvaluator(llm=llm_judge)
+
+@weave.op()
+def correctness_evaluator(query: str, ground_truth: str, output: dict):
+    result = evaluator.evaluate(
+        query=query, reference=ground_truth, response=output["response"]
+    )
+    return {"correctness": float(result.score)}
+
+evaluation = weave.Evaluation(dataset=eval_examples, scorers=[correctness_evaluator])
+
+rag_pipeline = SimpleRAGPipeline()
+
+asyncio.run(evaluation.evaluate(rag_pipeline))
+```
+
+이 평가는 이전 섹션의 예제를 기반으로 합니다. `weave.Evaluation`을 사용해 평가하려면 평가용 데이터셋, 스코어러 함수, 그리고 `weave.Model`이 필요합니다. 아래는 이 세 가지 핵심 컴포넌트에 대한 몇 가지 유의 사항입니다:
+
+* 평가 샘플 dict의 키가 스코어러 함수의 인자와 `weave.Model`의 `predict` 메서드 인자와 일치하는지 확인하세요.
+* `weave.Model`에는 `predict`, `infer`, `forward` 중 하나의 이름을 가진 메서드가 있어야 합니다. 이 메서드에는 트레이싱을 위해 `weave.op()` 데코레이터를 적용해야 합니다.
+* 스코어러 함수 역시 `weave.op()` 데코레이터를 적용해야 하며, `output`을 이름 있는 인자로 가져야 합니다.
+
+[![llamaindex\_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
+
+Weave를 LlamaIndex와 인테그레이션하면 LLM 애플리케이션에 대한 포괄적인 로깅과 모니터링을 구성할 수 있어, 평가를 통해 디버깅과 성능 최적화를 더 쉽게 수행할 수 있습니다.

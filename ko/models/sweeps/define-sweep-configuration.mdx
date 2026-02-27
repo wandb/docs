@@ -1,0 +1,503 @@
+---
+description: 스윕용 설정 파일을 만드는 방법을 알아봅니다.
+title: 개요
+---
+
+W&B Sweep은 하이퍼파라미터 값을 탐색하는 전략과 해당 값을 평가하는 코드를 결합합니다. 전략은 모든 옵션을 하나씩 시도하는 것처럼 단순할 수도 있고, Bayesian Optimization과 Hyperband ([BOHB](https://arxiv.org/abs/1807.01774))처럼 복잡할 수도 있습니다.
+
+[Python 사전](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) 또는 [YAML](https://yaml.org/) 파일로 스윕 설정을 정의합니다. 스윕 설정을 어떻게 정의할지는 스윕을 어떤 방식으로 관리하고 싶은지에 따라 달라집니다.
+
+<Note>
+명령줄에서 스윕을 초기화하고 스윕 에이전트를 시작하려면 YAML 파일에 스윕 설정을 정의하세요. 스윕을 전적으로 Python 스크립트나 노트북 내에서 초기화하고 시작하려면 Python 사전으로 스윕을 정의하세요.
+</Note>
+
+다음 가이드는 스윕 설정을 작성하는 방법을 설명합니다. 최상위 스윕 설정 키의 전체 목록은 [Sweep configuration options](./sweep-config-keys)를 참조하세요.
+
+<div id="basic-structure">
+  ## 기본 구조
+</div>
+
+두 가지 스윕 설정 형식(YAML 및 Python 사전)은 모두 키-값 쌍과 중첩 구조를 사용합니다. 
+
+스윕 설정의 최상위 키를 사용하여 스윕 검색의 이름([`name`](./sweep-config-keys) 키), 검색할 파라미터([`parameters`](./sweep-config-keys#parameters) 키), 파라미터 공간을 검색하는 방법론([`method`](./sweep-config-keys#method) 키) 등 스윕 검색의 특성을 정의합니다. 
+
+예를 들어, 다음 코드 스니펫은 동일한 스윕 설정을 YAML 파일과 Python 사전에 각각 정의한 예시입니다. 이 스윕 설정에는 `program`, `name`, `method`, `metric`, `parameters` 다섯 개의 최상위 키가 지정되어 있습니다. 
+
+<Tabs>
+<Tab title="CLI">
+명령줄(CLI)에서 스윕을 대화형으로 관리하려면 YAML 파일에서 스윕 설정을 정의합니다.
+
+```yaml title="config.yaml"
+program: train.py
+name: sweepdemo
+method: bayes
+metric:
+  goal: minimize
+  name: validation_loss
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+  batch_size:
+    values: [16, 32, 64]
+  epochs:
+    values: [5, 10, 15]
+  optimizer:
+    values: ["adam", "sgd"]
+```
+</Tab>
+<Tab title="Python 스크립트 또는 노트북">
+Python 스크립트나 노트북에서 트레이닝 알고리즘을 정의하는 경우, Python 사전 자료 구조에 스윕을 정의합니다. 
+
+다음 코드 스니펫은 `sweep_configuration`이라는 변수에 스윕 설정을 저장합니다:
+
+```python title="train.py"
+sweep_configuration = {
+    "name": "sweepdemo",
+    "method": "bayes",
+    "metric": {"goal": "minimize", "name": "validation_loss"},
+    "parameters": {
+        "learning_rate": {"min": 0.0001, "max": 0.1},
+        "batch_size": {"values": [16, 32, 64]},
+        "epochs": {"values": [5, 10, 15]},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
+```
+</Tab>
+</Tabs>
+
+최상위 `parameters` 키 내부에는 `learning_rate`, `batch_size`, `epoch`, `optimizer` 키가 중첩되어 있습니다. 지정하는 각 중첩 키에 대해 하나 이상의 값, 분포, 확률 등을 제공할 수 있습니다. 자세한 내용은 [Sweep configuration options](./sweep-config-keys)의 [parameters](./sweep-config-keys#parameters) 섹션을 참조하세요. 
+
+<div id="double-nested-parameters">
+  ## 이중 중첩 파라미터
+</div>
+
+스윕 설정에서는 중첩 파라미터를 지원합니다. 중첩 파라미터를 정의하려면 최상위 파라미터 이름 아래에 추가 `parameters` 키를 넣으면 됩니다.
+
+다음 예제는 세 개의 중첩 파라미터 `nested_category_1`, `nested_category_2`, `nested_category_3`가 있는 스윕 설정을 보여줍니다. 각 중첩 파라미터에는 `momentum`과 `weight_decay`라는 두 개의 추가 파라미터가 포함됩니다.
+
+<Note>  
+`nested_category_1`, `nested_category_2`, `nested_category_3`는 플레이스홀더입니다. 사용 사례에 맞는 이름으로 바꾸세요.  
+</Note>
+
+다음 코드 스니펫은 YAML 파일과 Python 사전에서 각각 중첩 파라미터를 정의하는 방법을 보여줍니다. 
+
+<Tabs>
+<Tab title="CLI">
+
+```yaml
+program: sweep_nest.py
+name: nested_sweep
+method: random
+metric:
+  name: loss
+  goal: minimize
+parameters:
+  optimizer:
+    values: ['adam', 'sgd']
+  fc_layer_size:
+    values: [128, 256, 512]
+  dropout:
+    values: [0.3, 0.4, 0.5]
+  epochs:
+    value: 1
+  learning_rate:
+    distribution: uniform
+    min: 0
+    max: 0.1
+  batch_size:
+    distribution: q_log_uniform_values
+    q: 8
+    min: 32
+    max: 256
+  nested_category_1:
+    parameters:
+      momentum:
+        distribution: uniform
+        min: 0.0
+        max: 0.9
+      weight_decay:
+        values: [0.0001, 0.0005, 0.001]
+  nested_category_2:
+    parameters:
+      momentum:
+        distribution: uniform
+        min: 0.0
+        max: 0.9
+      weight_decay:
+        values: [0.1, 0.2, 0.3]
+  nested_category_3:
+    parameters:
+      momentum:
+        distribution: uniform
+        min: 0.5
+        max: 0.7
+      weight_decay:
+        values: [0.2, 0.3, 0.4]
+```
+
+</Tab>
+<Tab title="Python 스크립트 또는 노트북">
+
+```python
+{
+  "program": "sweep_nest.py",
+  "name": "nested_sweep",
+  "method": "random",
+  "metric": {
+    "name": "loss",
+    "goal": "minimize"
+  },
+  "parameters": {
+    "optimizer": {
+      "values": ["adam", "sgd"]
+    },
+    "fc_layer_size": {
+      "values": [128, 256, 512]
+    },
+    "dropout": {
+      "values": [0.3, 0.4, 0.5]
+    },
+    "epochs": {
+      "value": 1
+    },
+    "learning_rate": {
+      "distribution": "uniform",
+      "min": 0,
+      "max": 0.1
+    },
+    "batch_size": {
+      "distribution": "q_log_uniform_values",
+      "q": 8,
+      "min": 32,
+      "max": 256
+    },
+    "nested_category_1": {
+      "parameters": {
+        "momentum": {
+          "distribution": "uniform",
+          "min": 0.0,
+          "max": 0.9
+        },
+        "weight_decay": {
+          "values": [0.0001, 0.0005, 0.001]
+        }
+      }
+    },
+    "nested_category_2": {
+      "parameters": {
+        "momentum": {
+          "distribution": "uniform",
+          "min": 0.0,
+          "max": 0.9
+        },
+        "weight_decay": {
+          "values": [0.1, 0.2, 0.3]
+        }
+      }
+    },
+    "nested_category_3": {
+      "parameters": {
+        "momentum": {
+          "distribution": "uniform",
+          "min": 0.5,
+          "max": 0.7
+        },
+        "weight_decay": {
+          "values": [0.2, 0.3, 0.4]
+        }
+      }
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+{/* Bayesian 또는 랜덤 하이퍼파라미터 검색을 사용하는 경우 각 랜덤 변수에 대한 확률 분포를 지정합니다. 각 하이퍼파라미터에 대해:
+
+  1. 스윕 설정에서 최상위 `parameters` 키를 생성합니다.
+  2. `parameters` 키 안에 다음 항목을 중첩합니다:
+   1. 최적화하려는 하이퍼파라미터의 이름을 지정합니다. 
+   2. `distribution` 키에 사용할 분포를 지정합니다. 하이퍼파라미터 이름 아래에 `distribution` 키-값 쌍을 중첩합니다.
+   3. 탐색할 하나 이상의 값을 지정합니다. 값(들)은 `distribution` 키와 동일한 레벨에 두어야 합니다.  
+      1. (선택 사항) 중첩된 파라미터를 구분하기 위해 최상위 파라미터 이름 아래에 추가 `parameters` 키를 사용합니다. */}
+
+{/* 예를 들어, 다음 코드 스니펫은 YAML 구성 파일과 Python 스크립트에서 스윕 구성이 어떻게 되는지 보여줍니다. */}
+
+<Warning>
+  스윕 설정에서 정의된 중첩 파라미터는 W&amp;B run 설정에서 지정한 키를 덮어씁니다.
+
+  예를 들어, 중첩된 기본값으로 run을 초기화하는 `train.py` 스크립트가 있다고 가정해 봅니다:
+
+  ```python
+  def main():
+      with  wandb.init(config={"nested_param": {"manual_key": 1}}) as run:
+          # 여기에 트레이닝 코드를 작성하세요
+  ```
+
+  스윕 설정은 최상위 `"parameters"` 키 아래에 중첩 파라미터를 정의합니다:
+
+  ```python
+  sweep_configuration = {
+      "method": "grid",
+      "metric": {"name": "score", "goal": "minimize"},
+      "parameters": {
+          "top_level_param": {"value": 0},
+          "nested_param": {
+              "parameters": {
+                  "learning_rate": {"value": 0.01},
+                  "double_nested_param": {
+                      "parameters": {"x": {"value": 0.9}, "y": {"value": 0.8}}
+                  },
+              }
+          },
+      },
+  }
+
+  sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+  wandb.agent(sweep_id, function=main, count=4)
+  ```
+
+  스윕 run을 실행하는 동안에는 `run.config["nested_param"]`이 스윕 설정(`learning_rate`, `double_nested_param`)으로 정의된 하위 트리를 반영하며, `wandb.init(config=...)`에서 정의한 `manual_key`는 포함하지 않습니다.
+</Warning>
+
+
+<div id="sweep-configuration-template">
+  ## 스윕 설정 템플릿
+</div>
+
+다음 템플릿은 파라미터를 어떻게 설정하고 검색 제약 조건을 어떻게 지정하는지 보여줍니다. `hyperparameter_name`은 사용하는 하이퍼파라미터의 이름으로 바꾸고, `<>`로 둘러싸인 값들도 각각 알맞은 값으로 대체하십시오.
+
+```yaml title="config.yaml"
+program: <insert>
+method: <insert>
+parameter:
+  hyperparameter_name0:
+    value: 0  
+  hyperparameter_name1: 
+    values: [0, 0, 0]
+  hyperparameter_name: 
+    distribution: <insert>
+    value: <insert>
+  hyperparameter_name2:  
+    distribution: <insert>
+    min: <insert>
+    max: <insert>
+    q: <insert>
+  hyperparameter_name3: 
+    distribution: <insert>
+    values:
+      - <list_of_values>
+      - <list_of_values>
+      - <list_of_values>
+early_terminate:
+  type: hyperband
+  s: 0
+  eta: 0
+  max_iter: 0
+command:
+- ${Command macro}
+- ${Command macro}
+- ${Command macro}
+- ${Command macro}      
+```
+
+숫자 값을 지수 표기법으로 표현하려면 YAML `!!float` 연산자를 추가해 값을 부동소수점 숫자로 형변환합니다. 예를 들어 `min: !!float 1e-5` 와 같습니다. 자세한 내용은 [명령 예시](#command-example)를 참고하세요.
+
+
+<div id="sweep-configuration-examples">
+  ## 스윕 설정 예시
+</div>
+
+<Tabs>
+<Tab title="CLI">
+```yaml title="config.yaml" 
+program: train.py
+method: random
+metric:
+  goal: minimize
+  name: loss
+parameters:
+  batch_size:
+    distribution: q_log_uniform_values
+    max: 256 
+    min: 32
+    q: 8
+  dropout: 
+    values: [0.3, 0.4, 0.5]
+  epochs:
+    value: 1
+  fc_layer_size: 
+    values: [128, 256, 512]
+  learning_rate:
+    distribution: uniform
+    max: 0.1
+    min: 0
+  optimizer:
+    values: ["adam", "sgd"]
+```
+</Tab>
+<Tab title="Python 스크립트 또는 노트북">
+```python title="train.py" 
+sweep_config = {
+    "method": "random",
+    "metric": {"goal": "minimize", "name": "loss"},
+    "parameters": {
+        "batch_size": {
+            "distribution": "q_log_uniform_values",
+            "max": 256,
+            "min": 32,
+            "q": 8,
+        },
+        "dropout": {"values": [0.3, 0.4, 0.5]},
+        "epochs": {"value": 1},
+        "fc_layer_size": {"values": [128, 256, 512]},
+        "learning_rate": {"distribution": "uniform", "max": 0.1, "min": 0},
+        "optimizer": {"values": ["adam", "sgd"]},
+    },
+}
+```
+</Tab>
+</Tabs>
+
+<div id="bayes-hyperband-example">
+  ### Bayes 하이퍼밴드 예제
+</div>
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  goal: minimize
+  name: val_loss
+parameters:
+  dropout:
+    values: [0.15, 0.2, 0.25, 0.3, 0.4]
+  hidden_layer_size:
+    values: [96, 128, 148]
+  layer_1_size:
+    values: [10, 12, 14, 16, 18, 20]
+  layer_2_size:
+    values: [24, 28, 32, 36, 40, 44]
+  learn_rate:
+    values: [0.001, 0.01, 0.003]
+  decay:
+    values: [1e-5, 1e-6, 1e-7]
+  momentum:
+    values: [0.8, 0.9, 0.95]
+  epochs:
+    value: 27
+early_terminate:
+  type: hyperband
+  s: 2
+  eta: 3
+  max_iter: 27
+```
+
+`early_terminate`에 대해 최소 또는 최대 반복 횟수를 지정하는 방법은 다음 탭에서 확인할 수 있습니다:
+
+<Tabs>
+  <Tab title="Maximum number of iterations">
+    이 예시의 브래킷은 `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`이며, 이는 `[3, 9, 27, 81]`와 같습니다.
+
+    ```yaml
+    early_terminate:
+      type: hyperband
+      min_iter: 3
+    ```
+  </Tab>
+
+  <Tab title="Minimum number of iterations">
+    이 예시의 브래킷은 `[27/eta, 27/eta/eta]`이며, 이는 `[9, 3]`와 같습니다.
+
+    ```yaml
+    early_terminate:
+      type: hyperband
+      max_iter: 27
+      s: 2
+    ```
+  </Tab>
+</Tabs>
+
+
+<div id="macro-and-custom-command-arguments-example">
+  ### 매크로와 커스텀 커맨드 인자 예제
+</div>
+
+더 복잡한 커맨드 라인 인자가 필요한 경우, 매크로를 사용해 환경 변수, Python 인터프리터, 추가 인자를 전달할 수 있습니다. [W&amp;B는 사전에 정의된 매크로](./sweep-config-keys#command-macros)와 스윕 설정에서 지정할 수 있는 커스텀 커맨드 라인 인자를 지원합니다.
+
+예를 들어, 다음 스윕 설정(`sweep.yaml`)은 Python 스크립트(`run.py`)를 실행하는 커맨드를 정의하며, 스윕이 실행될 때 `${env}`, `${interpreter}`, `${program}` 매크로가 각각 적절한 값으로 치환됩니다.
+
+`--batch_size=${batch_size}`, `--test=True`, `--optimizer=${optimizer}` 인자는 커스텀 매크로를 사용해 스윕 설정에 정의된 `batch_size`, `test`, `optimizer` 파라미터 값을 전달합니다.
+
+```yaml title="sweep.yaml"
+program: run.py
+method: random
+metric:
+  name: validation_loss
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - "--batch_size=${batch_size}"
+  - "--optimizer=${optimizer}"
+  - "--test=True"
+```
+
+해당 Python 스크립트(`run.py`)는 `argparse` 모듈을 사용해 이러한 명령줄 인자를 파싱할 수 있습니다.
+
+```python title="run.py"
+# run.py  
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--batch_size', type=int)
+parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
+parser.add_argument('--test', type=str2bool, default=False)
+args = parser.parse_args()
+
+# W&B Run 초기화
+with wandb.init('test-project') as run:
+    run.log({'validation_loss':1})
+```
+
+스윕 설정에서 사용할 수 있는 미리 정의된 매크로 목록은 [Sweep configuration options](./sweep-config-keys) 문서의 [Command macros](./sweep-config-keys#command-macros) 섹션을 참조하세요.
+
+
+<div id="boolean-arguments">
+  #### 불리언 인자
+</div>
+
+`argparse` 모듈은 기본적으로 불리언 인자를 직접 지원하지 않습니다. 불리언 인자를 정의하려면 [`action`](https://docs.python.org/3/library/argparse.html#action) 파라미터를 사용하거나, 불리언 값의 문자열 표현을 불리언 타입으로 변환하는 사용자 정의 함수를 사용할 수 있습니다.
+
+예를 들어, 다음 코드 예시를 사용해 불리언 인자를 정의할 수 있습니다. `ArgumentParser`에 `store_true` 또는 `store_false`를 인자로 전달하세요.
+
+```python
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--test', action='store_true')
+args = parser.parse_args()
+
+args.test  # --test가 전달되면 True, 그렇지 않으면 False
+```
+
+문자열 형태의 불리언 값을 불리언 타입으로 변환하는 사용자 정의 함수를 정의할 수도 있습니다. 예를 들어, 다음 코드 예시는 문자열을 불리언 값으로 변환하는 `str2bool` 함수를 정의합니다.
+
+```python
+def str2bool(v: str) -> bool:
+  """문자열을 불리언으로 변환합니다. argparse는 기본적으로
+  불리언 인수를 지원하지 않으므로 이 함수가 필요합니다.
+  """
+  if isinstance(v, bool):
+      return v
+  return v.lower() in ('yes', 'true', 't', '1')
+```

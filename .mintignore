@@ -1,0 +1,10 @@
+# Ignore .md and .txt files, Mintlify supports only .mdx
+*.md
+*.txt
+
+# Ignore other plaintext files
+LICENSE
+
+# Ignore non-content directories
+runbooks/*
+scripts/*

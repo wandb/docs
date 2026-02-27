@@ -1,0 +1,35 @@
+---
+title: 사전 준비사항
+description: W&B 트레이닝을 사용하기 위한 환경을 설정합니다
+---
+
+import ApiKeyCreate from "/snippets/ko/_includes/api-key-create.mdx";
+
+OpenPipe ART 프레임워크 또는 API를 통해 W&amp;B Training 기능을 사용하기 전에 다음 단계를 완료하세요.
+
+<Tip>
+  시작하기 전에 비용과 제한 사항을 파악하려면 [사용량 정보 및 제한](/ko/training/serverless-rl/usage-limits)을 검토하세요.
+</Tip>
+
+<div id="sign-up-and-create-an-api-key">
+  ## 회원가입 및 API 키 생성
+</div>
+
+W&amp;B에 사용할 머신을 인증하려면 먼저 API 키를 생성해야 합니다.
+
+<ApiKeyCreate />
+
+<div id="create-a-project-in-wb">
+  ## W&amp;B에서 프로젝트 만들기
+</div>
+
+사용량을 추적하고 트레이닝 메트릭을 기록하며 학습된 모델을 저장하기 위해 W&amp;B 계정에 프로젝트를 생성하세요. 자세한 내용은 [Projects 가이드](https://docs.wandb.ai/models/track/project-page)를 참고하세요.
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+사전 준비를 마친 후:
+
+* 사용 가능한 엔드포인트를 확인하려면 [API reference](/ko/training/api-reference)를 참고하세요
+* [ART 퀵스타트](https://art.openpipe.ai/getting-started/quick-start)를 시도해 보세요

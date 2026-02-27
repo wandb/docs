@@ -1,0 +1,129 @@
+---
+title: line_series()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py" />
+
+
+### <kbd>function</kbd> `line_series`
+
+```python
+line_series(
+    xs: 'Iterable[Iterable[Any]] | Iterable[Any]',
+    ys: 'Iterable[Iterable[Any]]',
+    keys: 'Iterable[str] | None' = None,
+    title: 'str' = '',
+    xname: 'str' = 'x',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+선형 시리즈 차트를 생성합니다.
+
+**Args:**
+
+* `xs`:  x 값 시퀀스입니다. 하나의 배열이 제공되면 모든 y 값이 그 x 배열에 대해 그려집니다. 배열의 배열이 제공되면 각 y 값은 해당하는 x 배열에 대해 그려집니다.
+* `ys`:  y 값 시퀀스로, 각 이터러블은 개별 선형 시리즈를 나타냅니다.
+* `keys`:  각 선형 시리즈에 레이블을 지정하기 위한 키 시퀀스입니다. 제공되지 않으면 키는 &quot;line&#95;1&quot;, &quot;line&#95;2&quot; 등으로 자동 생성됩니다.
+* `title`:  차트의 제목입니다.
+* `xname`:  x축의 레이블입니다.
+* `split_table`:  테이블을 W&amp;B UI에서 별도의 섹션으로 분리할지 여부입니다. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+
+**Returns:**
+
+* `CustomChart`:  W&amp;B에 로그할 수 있는 사용자 정의 차트 객체입니다. 차트를 로그하려면 해당 객체를 `wandb.log()`에 전달합니다.
+
+**Examples:**
+모든 y 시리즈가 동일한 x 값에 대해 그려지도록 단일 x 배열을 로깅하는 예시:
+
+```python
+import wandb
+
+# W&B run 초기화
+with wandb.init(project="line_series_example") as run:
+    # 모든 y 시리즈에서 공유되는 x 값
+    xs = list(range(10))
+
+    # 플롯할 여러 y 시리즈
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 라인 시리즈 차트 생성 및 로깅
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         title="title",
+         xname="step",
+    )
+    run.log({"line-series-single-x": line_series_chart})
+```
+
+이 예제에서는 모든 `ys` 시리즈에 대해 하나의 `xs` 시리즈(공유 x 값)가 사용됩니다. 그 결과 각 y 시리즈는 동일한 x 값(0-9)에 대해 그려집니다.
+
+각 y 시리즈를 해당하는 x 배열에 대해 그리도록 여러 x 배열을 로깅하는 경우:
+
+```python
+import wandb
+
+# W&B run 초기화
+with wandb.init(project="line_series_example") as run:
+    # 각 y 시리즈에 대한 별도의 x 값
+    xs = [
+         [i for i in range(10)],  # 첫 번째 시리즈의 x
+         [2 * i for i in range(10)],  # 두 번째 시리즈의 x (늘어남)
+         [3 * i for i in range(10)],  # 세 번째 시리즈의 x (더 늘어남)
+    ]
+
+    # 대응하는 y 시리즈
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 라인 시리즈 차트 생성 및 로깅
+    line_series_chart = wandb.plot.line_series(
+         xs, ys, title="Multiple X Arrays Example", xname="Step"
+    )
+    run.log({"line-series-multiple-x": line_series_chart})
+```
+
+이 예제에서는 각 y 시리즈를 각각의 고유한 x 시리즈에 대해 플로팅합니다. 이렇게 하면 데이터 시리즈마다 x 값이 일정하지 않을 때 더 유연하게 대응할 수 있습니다.
+
+`keys`를 사용하여 선 레이블 사용자 지정하기:
+
+
+```python
+import wandb
+
+# W&B run 초기화
+with wandb.init(project="line_series_example") as run:
+    xs = list(range(10))  # 단일 x 배열
+    ys = [
+         [i for i in range(10)],  # y = x
+         [i**2 for i in range(10)],  # y = x^2
+         [i**3 for i in range(10)],  # y = x^3
+    ]
+
+    # 각 선에 대한 커스텀 레이블
+    keys = ["Linear", "Quadratic", "Cubic"]
+
+    # 선 시리즈 차트 생성 및 로깅
+    line_series_chart = wandb.plot.line_series(
+         xs,
+         ys,
+         keys=keys,  # 커스텀 키 (선 레이블)
+         title="Custom Line Labels Example",
+         xname="Step",
+    )
+    run.log({"line-series-custom-keys": line_series_chart})
+```
+
+이 예제는 `keys` 인수를 사용해 선에 사용자 지정 레이블을 제공하는 방법을 보여줍니다. 지정한 키는 범례에 &quot;Linear&quot;, &quot;Quadratic&quot;, &quot;Cubic&quot;으로 표시됩니다.

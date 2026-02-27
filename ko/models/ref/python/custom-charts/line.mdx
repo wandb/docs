@@ -1,0 +1,70 @@
+---
+title: line()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py" />
+
+
+### <kbd>function</kbd> `line`
+
+```python
+line(
+    table: 'wandb.Table',
+    x: 'str',
+    y: 'str',
+    stroke: 'str | None' = None,
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+사용자 지정 가능한 선 차트를 생성합니다.
+
+**Args:**
+
+* `table`:   차트에 사용할 데이터를 포함하는 테이블입니다.
+* `x`:  x축 값에 사용할 열 이름입니다.
+* `y`:  y축 값에 사용할 열 이름입니다.
+* `stroke`:  선을 구분하기 위한 열 이름입니다(예: 여러 선을 그룹화할 때 사용).
+* `title`:  차트의 제목입니다.
+* `split_table`:  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+
+**Returns:**
+
+* `CustomChart`:  W&amp;B에 로그할 수 있는 커스텀 차트 객체입니다. 차트를 로그하려면 이를 `wandb.log()`에 전달합니다.
+
+**Example:**
+
+```python
+import math
+import random
+import wandb
+
+# 다양한 패턴의 여러 시리즈 데이터 생성
+data = []
+for i in range(100):
+     # 시리즈 1: 랜덤 노이즈가 포함된 사인파 패턴
+     data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
+     # 시리즈 2: 랜덤 노이즈가 포함된 코사인 패턴
+     data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
+     # 시리즈 3: 랜덤 노이즈가 포함된 선형 증가
+     data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
+
+# 테이블의 열 정의
+table = wandb.Table(data=data, columns=["step", "value", "series"])
+
+# wandb run 초기화 및 선 차트 로깅
+with wandb.init(project="line_chart_example") as run:
+     line_chart = wandb.plot.line(
+         table=table,
+         x="step",
+         y="value",
+         stroke="series",  # "series" 열 기준으로 그룹화
+         title="Multi-Series Line Plot",
+     )
+     run.log({"line-chart": line_chart})
+```
