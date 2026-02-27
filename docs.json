@@ -30,10 +30,6 @@
   },
   "contextual": {
     "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
       {
         "title": "Install W&B MCP in Cursor",
         "description": "Automatically install W&B MCP server to Cursor. Requires API key.",
@@ -45,7 +41,11 @@
         "description": "Set up the W&B MCP server in VS Code, Claude, and more.",
         "icon": "plug",
         "href": "/platform/mcp-server"
-      }
+      },
+      "chatgpt",
+      "claude",
+      "copy",
+      "view"
     ]
   },
   "navbar": {
