@@ -708,7 +708,7 @@ docker run \
   -e DEFAULT_WANDB_ENTITY="<your-team-name>" \
   -e DEFAULT_WANDB_PROJECT="YOUR_PROJECT" \
   -p 4318:4318 \
-  otel/opentelemetry-collector-contrib
+  otel/opentelemetry-collector-contrib:latest
 ```
 
 Once the collector is running, configure your application to export traces to it by setting the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable. The OTel SDK reads this variable automatically, so you do not need to pass the endpoint to the exporter.
