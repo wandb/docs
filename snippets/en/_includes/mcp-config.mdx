@@ -1,17 +1,11 @@
-```json
 {
-  "mcpServers": {
+  "servers": {
     "wandb": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/wandb/wandb-mcp-server",
-        "wandb_mcp_server"
-      ],
-      "env": {
-        "WANDB_API_KEY": "${WANDB_API_KEY}"
+      "type": "http",
+      "url": "https://mcp.withwandb.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_WANDB_API_KEY"
       }
     }
   }
 }
-```
