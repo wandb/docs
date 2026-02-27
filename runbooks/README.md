@@ -14,6 +14,14 @@ AI runbooks are detailed, step-by-step instructions designed to help AI agents p
 
 ## Available runbooks
 
+### [locadex-ai-context-setup.md](.translation/locadex-ai-context-setup.md)
+Configure Locadex/General Translation AI context (Glossary, Locale Context, Style Controls) for W&B docs so auto-translation uses consistent terminology and correct do-not-translate behavior. Includes mapping from the legacy wandb_docs_translation tooling and a starter Korean glossary CSV.
+
+**Use cases:**
+- Setting up or refining Locadex for Korean (and later Japanese) auto-translation
+- Migrating translation memory from wandb_docs_translation into the Locadex console
+- Bulk-uploading glossary terms and setting locale-specific translation rules
+
 ### [test-github-action-changes.md](./test-github-action-changes.md)
 Tests updates to a to GitHub Actions workflow using the default branch in a fork. These procedures are required because once a GitHub Action has been merged to a repository's default branch, it can only run from the default branch.
 
