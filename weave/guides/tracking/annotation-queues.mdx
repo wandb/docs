@@ -2,6 +2,8 @@
 title: "Set up annotation queues"
 description: "Create annotation queues, route traces to domain experts, and export structured feedback."
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 ## Overview
 
@@ -226,3 +228,11 @@ for i, item in enumerate(calls.items):
 
     print(f"  {field_name}: {field_value}")
 ```
+
+The following Google Colab notebook provides an in-depth example of programmatically accessing annotation data and collecting an analytics report:
+
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />
+<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />
+</div>
