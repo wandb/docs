@@ -5,7 +5,7 @@ description: Connect your IDE or LLM application to W&B's Model Context Protocol
 
 import McpConfig from '/snippets/en/_includes/mcp-config.mdx';
 
-The W&B MCP (Model Context Protocol) server lets you query and analyze your W&B data from your IDE or MCP client. It also provides your client with programmatic access to W&B's documentation, giving it additional context and accuracy when generating responses to W&B-related queries.
+Model Context Protocol (MCP) lets an LLM agent query and analyze data efficiently to minimize cost in tokens. This page shows how to use the W&B MCP server to query and analyze your W&B data from your IDE or MCP client and give your client programmatic access to W&B's documentation, so it can generate more accurate responses to W&B-related queries.
 
 It integrates natively with most IDEs, coding clients, and chat agents, including:
 * Cursor
@@ -16,13 +16,13 @@ It integrates natively with most IDEs, coding clients, and chat agents, includin
 * Mistral LeChat
 * Claude Desktop
 
-We offer both [hosted](#use-w&b’s-remote-mcp-server) and [local](#set-up-a-local-version-of-the-w&b-mcp-server) versions of the MCP server. The hosted version only supports [dedicated cloud deployments](/platform/hosting/hosting-options/dedicated_cloud). The local version supports both dedicated cloud and [on-premises deployments](/platform/hosting/hosting-options/self-managed).
+The W&B MCP server supports [hosted](#use-w&b’s-remote-mcp-server) and [local](#set-up-a-local-version-of-the-w&b-mcp-server) variants. The hosted version only supports [W&B Dedicated Cloud deployments](/platform/hosting/hosting-options/dedicated_cloud). The local version supports both Dedicated Cloud and [Self-Managed deployments](/platform/hosting/hosting-options/self-managed).
 
-## What can the W&B MCP server do?
+## W&B MCP Server capabilities
 
 You can use the MCP server to analyze experiments, debug traces, create reports, and get help with integrating your applications with W&B features.
 
-The following example prompts demonstrate the types of tasks your agent can perform when connected to the server:
+The following example prompts demonstrate some of the types of tasks your agent can do when connected to the MCP server:
 
 * _Show me the top 5 runs by eval/accuracy in your-team-name/your-project-name?_
 * _How did the latency of my hiring agent predict traces evolve over the last few months?_
@@ -154,7 +154,7 @@ OpenAI uses server-side MCP integration and does not work with localhost URLs. W
 
 </Tab>
 <Tab title="Gemini CLI">
-To add the W&B MCP server to Gemini CLI, do the following:
+To add the W&B MCP server to Gemini CLI:
 
 1. Install the W&B MCP extension with a single command:
 
@@ -168,10 +168,11 @@ To add the W&B MCP server to Gemini CLI, do the following:
 For more detailed information, see [Gemini's documentation](https://geminicli.com/docs/tools/mcp-server/).
 </Tab>
 <Tab title="Mistral LeChat">
-To add the W&B MCP server to Mistral LeChat, do the following: 
+To add the W&B MCP server to Mistral LeChat: 
 
-1. Open the **Intelligence** menu, then select **Add Connector**. This opens the Connector window.
-2. Select the **Custom MCP Connector** tab, and then configure the fields using the following values:
+1. From the **Intelligence** menu, select **Add Connector** to open the Connector window.
+2. Select the **Custom MCP Connector** tab.
+3. Configure the fields using the following values:
 
     - **Connector Server**: `https://mcp.withwandb.com/mcp`
     - **Description**: (Optional) A brief arbitrary description of the connection.
@@ -207,7 +208,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ### Install and configure the MCP server
 
-To install the W&B MCP server on your local machine:
+To install the W&B MCP server on your local machine, choose `uv` or `pip`.
  
 1. Run one of the following commands:
 
@@ -229,7 +230,7 @@ pip install git+https://github.com/wandb/wandb-mcp-server
 </Tab>
 </Tabs>
 
-2. Once you have installed the server, configure your MCP client to use the local server instead of the hosted version at `https://mcp.withwandb.com/mcp`.
+2. Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue.
 
 <Tabs>
 <Tab title="Cursor">
@@ -335,7 +336,7 @@ notepad %APPDATA%\Claude\claude_desktop_config.json
 }
 ```
 
-Restart Claude Desktop to activate.
+Restart Claude Desktop to activate the new configuration.
 
 </Tab>
 </Tabs>
